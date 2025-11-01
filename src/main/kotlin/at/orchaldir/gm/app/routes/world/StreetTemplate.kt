@@ -24,19 +24,12 @@ import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
 import at.orchaldir.gm.visualization.town.TILE_SIZE
 import at.orchaldir.gm.visualization.town.renderStreet
-import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
-import io.ktor.server.html.*
-import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
-import mu.KotlinLogging
-
-private val logger = KotlinLogging.logger {}
 
 @Resource("/$STREET_TEMPLATE_TYPE")
 class StreetTemplateRoutes : Routes<StreetTemplateId, SortStreetTemplate> {
@@ -69,6 +62,8 @@ class StreetTemplateRoutes : Routes<StreetTemplateId, SortStreetTemplate> {
     override fun delete(call: ApplicationCall, id: StreetTemplateId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: StreetTemplateId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())
+    override fun preview(call: ApplicationCall, id: StreetTemplateId) = call.application.href(Preview(id))
+    override fun update(call: ApplicationCall, id: StreetTemplateId) = call.application.href(Edit(id))
 }
 
 fun Application.configureStreetTemplateRouting() {
@@ -104,24 +99,21 @@ fun Application.configureStreetTemplateRouting() {
             handleDeleteElement(delete.id, StreetTemplateRoutes())
         }
         get<StreetTemplateRoutes.Edit> { edit ->
-            logger.info { "Get editor for street template ${edit.id.value}" }
-
-            val state = STORE.getState()
-            val street = state.getStreetTemplateStorage().getOrThrow(edit.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showStreetTemplateEditor(call, state, street)
-            }
+            handleEditElementSplit(
+                edit.id,
+                StreetTemplateRoutes(),
+                { state, template -> editStreetTemplate(call, state, template) },
+                HtmlBlockTag::showStreetTemplateEditorRight,
+            )
         }
         post<StreetTemplateRoutes.Preview> { preview ->
-            logger.info { "Preview street template ${preview.id.value}" }
-
-            val state = STORE.getState()
-            val type = parseStreetTemplate(state, call.receiveParameters(), preview.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showStreetTemplateEditor(call, state, type)
-            }
+            handlePreviewElementSplit(
+                preview.id,
+                StreetTemplateRoutes(),
+                ::parseStreetTemplate,
+                { state, template -> editStreetTemplate(call, state, template) },
+                HtmlBlockTag::showStreetTemplateEditorRight,
+            )
         }
         post<StreetTemplateRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseStreetTemplate)
@@ -129,25 +121,12 @@ fun Application.configureStreetTemplateRouting() {
     }
 }
 
-
-private fun HTML.showStreetTemplateEditor(
+private fun HtmlBlockTag.showStreetTemplateEditorRight(
     call: ApplicationCall,
     state: State,
     template: StreetTemplate,
 ) {
-    val backLink = href(call, template.id)
-    val previewLink = call.application.href(StreetTemplateRoutes.Preview(template.id))
-    val updateLink = call.application.href(StreetTemplateRoutes.Update(template.id))
-
-    simpleHtmlEditor(template) {
-        split({
-            formWithPreview(previewLink, updateLink, backLink) {
-                editStreetTemplate(call, state, template)
-            }
-        }, {
-            svg(visualizeStreetTemplate(template), 90)
-        })
-    }
+    svg(visualizeStreetTemplate(template), 90)
 }
 
 private fun visualizeStreetTemplate(

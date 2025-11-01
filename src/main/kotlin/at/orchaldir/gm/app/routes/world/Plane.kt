@@ -6,28 +6,20 @@ import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.world.*
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortPlane
 import at.orchaldir.gm.core.model.world.plane.IndependentPlane
 import at.orchaldir.gm.core.model.world.plane.PLANE_TYPE
-import at.orchaldir.gm.core.model.world.plane.Plane
 import at.orchaldir.gm.core.model.world.plane.PlaneId
 import at.orchaldir.gm.core.selector.time.getCurrentDate
 import at.orchaldir.gm.core.selector.util.sortPlanes
 import at.orchaldir.gm.core.selector.world.getPlanarAlignment
-import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
-import io.ktor.server.html.*
-import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
-import mu.KotlinLogging
 
-private val logger = KotlinLogging.logger {}
 
 @Resource("/$PLANE_TYPE")
 class PlaneRoutes : Routes<PlaneId, SortPlane> {
@@ -60,6 +52,8 @@ class PlaneRoutes : Routes<PlaneId, SortPlane> {
     override fun delete(call: ApplicationCall, id: PlaneId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: PlaneId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())
+    override fun preview(call: ApplicationCall, id: PlaneId) = call.application.href(Preview(id))
+    override fun update(call: ApplicationCall, id: PlaneId) = call.application.href(Edit(id))
 }
 
 fun Application.configurePlaneRouting() {
@@ -97,45 +91,13 @@ fun Application.configurePlaneRouting() {
             handleDeleteElement(delete.id, PlaneRoutes.All())
         }
         get<PlaneRoutes.Edit> { edit ->
-            logger.info { "Get editor for plane ${edit.id.value}" }
-
-            val state = STORE.getState()
-            val plane = state.getPlaneStorage().getOrThrow(edit.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showPlaneEditor(call, state, plane)
-            }
+            handleEditElement(edit.id, PlaneRoutes(), HtmlBlockTag::editPlane)
         }
         post<PlaneRoutes.Preview> { preview ->
-            logger.info { "Get preview for plane ${preview.id.value}" }
-
-            val formParameters = call.receiveParameters()
-            val state = STORE.getState()
-            val plane = parsePlane(state, formParameters, preview.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showPlaneEditor(call, state, plane)
-            }
+            handlePreviewElement(preview.id, PlaneRoutes(), ::parsePlane, HtmlBlockTag::editPlane)
         }
         post<PlaneRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parsePlane)
         }
     }
 }
-
-private fun HTML.showPlaneEditor(
-    call: ApplicationCall,
-    state: State,
-    plane: Plane,
-) {
-    val backLink = href(call, plane.id)
-    val previewLink = call.application.href(PlaneRoutes.Preview(plane.id))
-    val updateLink = call.application.href(PlaneRoutes.Update(plane.id))
-
-    simpleHtmlEditor(plane) {
-        formWithPreview(previewLink, updateLink, backLink) {
-            editPlane(state, plane)
-        }
-    }
-}
-
