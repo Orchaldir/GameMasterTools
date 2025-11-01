@@ -6,23 +6,17 @@ import at.orchaldir.gm.app.html.world.editArchitecturalStyle
 import at.orchaldir.gm.app.html.world.parseArchitecturalStyle
 import at.orchaldir.gm.app.html.world.showArchitecturalStyle
 import at.orchaldir.gm.app.routes.*
-import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortArchitecturalStyle
 import at.orchaldir.gm.core.model.util.SortArchitecturalStyle.Name
 import at.orchaldir.gm.core.model.world.building.ARCHITECTURAL_STYLE_TYPE
-import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
 import at.orchaldir.gm.core.selector.util.sortArchitecturalStyles
 import at.orchaldir.gm.core.selector.world.getBuildings
-import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
-import io.ktor.server.html.*
-import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
 import mu.KotlinLogging
 
@@ -59,6 +53,8 @@ class ArchitecturalStyleRoutes : Routes<ArchitecturalStyleId, SortArchitecturalS
     override fun delete(call: ApplicationCall, id: ArchitecturalStyleId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: ArchitecturalStyleId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())
+    override fun preview(call: ApplicationCall, id: ArchitecturalStyleId) = call.application.href(Preview(id))
+    override fun update(call: ApplicationCall, id: ArchitecturalStyleId) = call.application.href(Edit(id))
 }
 
 fun Application.configureArchitecturalStyleRouting() {
@@ -90,43 +86,13 @@ fun Application.configureArchitecturalStyleRouting() {
             handleDeleteElement(delete.id, ArchitecturalStyleRoutes.All())
         }
         get<ArchitecturalStyleRoutes.Edit> { edit ->
-            logger.info { "Get editor for architectural style ${edit.id.value}" }
-
-            val state = STORE.getState()
-            val style = state.getArchitecturalStyleStorage().getOrThrow(edit.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showArchitecturalStyleEditor(call, state, style)
-            }
+            handleEditElement(edit.id, ArchitecturalStyleRoutes(), HtmlBlockTag::editArchitecturalStyle)
         }
         post<ArchitecturalStyleRoutes.Preview> { preview ->
-            logger.info { "Get preview for architectural style ${preview.id.value}" }
-
-            val state = STORE.getState()
-            val style = parseArchitecturalStyle(state, call.receiveParameters(), preview.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showArchitecturalStyleEditor(call, state, style)
-            }
+            handlePreviewElement(preview.id, ArchitecturalStyleRoutes(), ::parseArchitecturalStyle, HtmlBlockTag::editArchitecturalStyle)
         }
         post<ArchitecturalStyleRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseArchitecturalStyle)
-        }
-    }
-}
-
-private fun HTML.showArchitecturalStyleEditor(
-    call: ApplicationCall,
-    state: State,
-    style: ArchitecturalStyle,
-) {
-    val backLink = href(call, style.id)
-    val previewLink = call.application.href(ArchitecturalStyleRoutes.Preview(style.id))
-    val updateLink = call.application.href(ArchitecturalStyleRoutes.Update(style.id))
-
-    simpleHtmlEditor(style) {
-        formWithPreview(previewLink, updateLink, backLink) {
-            editArchitecturalStyle(state, style)
         }
     }
 }
