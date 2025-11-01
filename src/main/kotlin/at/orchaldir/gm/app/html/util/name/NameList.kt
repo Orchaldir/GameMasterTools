@@ -29,7 +29,11 @@ fun HtmlBlockTag.showNameList(
 
 // edit
 
-fun HtmlBlockTag.editNameList(state: State, nameList: NameList) {
+fun HtmlBlockTag.editNameList(
+    call: ApplicationCall,
+    state: State,
+    nameList: NameList,
+) {
     selectName(nameList.name)
     h2 { +"Names" }
     editTextArea(

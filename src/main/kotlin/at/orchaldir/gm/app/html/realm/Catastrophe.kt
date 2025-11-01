@@ -44,6 +44,7 @@ fun HtmlBlockTag.showCatastrophe(
 // edit
 
 fun HtmlBlockTag.editCatastrophe(
+    call: ApplicationCall,
     state: State,
     catastrophe: Catastrophe,
 ) {

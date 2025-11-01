@@ -101,7 +101,7 @@ fun Application.configureStreetTemplateRouting() {
             handleEditElementSplit(
                 edit.id,
                 StreetTemplateRoutes(),
-                { state, template -> editStreetTemplate(call, state, template) },
+                HtmlBlockTag::editStreetTemplate,
                 HtmlBlockTag::showStreetTemplateEditorRight,
             )
         }
@@ -110,7 +110,7 @@ fun Application.configureStreetTemplateRouting() {
                 preview.id,
                 StreetTemplateRoutes(),
                 ::parseStreetTemplate,
-                { state, template -> editStreetTemplate(call, state, template) },
+                HtmlBlockTag::editStreetTemplate,
                 HtmlBlockTag::showStreetTemplateEditorRight,
             )
         }

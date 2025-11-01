@@ -75,7 +75,11 @@ fun HtmlBlockTag.showDataSources(
 
 // edit
 
-fun HtmlBlockTag.editDataSource(state: State, source: DataSource) {
+fun HtmlBlockTag.editDataSource(
+    call: ApplicationCall,
+    state: State,
+    source: DataSource,
+) {
     selectName(source.name)
     selectInt("Year", source.year, 1900, 3000, 1, DATE)
     selectOptionalInt("Edition", source.edition, 0, 100, 1, NUMBER)

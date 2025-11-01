@@ -37,6 +37,7 @@ fun HtmlBlockTag.showBuilding(
 // edit
 
 fun HtmlBlockTag.editBuilding(
+    call: ApplicationCall,
     state: State,
     building: Building,
 ) {

@@ -43,6 +43,7 @@ private fun HtmlBlockTag.showUsages(
 // edit
 
 fun HtmlBlockTag.editDamageType(
+    call: ApplicationCall,
     state: State,
     type: DamageType,
 ) {

@@ -39,6 +39,7 @@ fun HtmlBlockTag.showColorScheme(
 // edit
 
 fun HtmlBlockTag.editColorScheme(
+    call: ApplicationCall,
     state: State,
     scheme: ColorScheme,
 ) {

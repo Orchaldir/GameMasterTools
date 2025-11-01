@@ -50,6 +50,7 @@ private fun HtmlBlockTag.showRegionData(
 // edit
 
 fun HtmlBlockTag.editRegion(
+    call: ApplicationCall,
     state: State,
     region: Region,
 ) {

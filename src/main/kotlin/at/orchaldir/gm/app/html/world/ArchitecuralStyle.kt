@@ -38,6 +38,7 @@ fun HtmlBlockTag.showArchitecturalStyle(
 // edit
 
 fun HtmlBlockTag.editArchitecturalStyle(
+    call: ApplicationCall,
     state: State,
     style: ArchitecturalStyle,
 ) {

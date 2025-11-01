@@ -34,6 +34,7 @@ fun HtmlBlockTag.showHoliday(
 // edit
 
 fun HtmlBlockTag.editHoliday(
+    call: ApplicationCall,
     state: State,
     holiday: Holiday,
 ) {

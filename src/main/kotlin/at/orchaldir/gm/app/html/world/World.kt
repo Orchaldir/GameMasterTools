@@ -30,6 +30,7 @@ fun HtmlBlockTag.showWorld(
 // edit
 
 fun HtmlBlockTag.editWorld(
+    call: ApplicationCall,
     state: State,
     world: World,
 ) {

@@ -107,14 +107,10 @@ fun Application.configureGodRouting() {
             handleDeleteElement(delete.id, GodRoutes.All())
         }
         get<GodRoutes.Edit> { edit ->
-            handleEditElement<GodId, God, SortGod>(edit.id, GodRoutes()) { state, god ->
-                editGod(call, state, god)
-            }
+            handleEditElement(edit.id, GodRoutes(), HtmlBlockTag::editGod)
         }
         post<GodRoutes.Preview> { preview ->
-            handlePreviewElement(preview.id, GodRoutes(), ::parseGod) { state, god ->
-                editGod(call, state, god)
-            }
+            handlePreviewElement(preview.id, GodRoutes(), ::parseGod, HtmlBlockTag::editGod)
         }
         post<GodRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseGod)

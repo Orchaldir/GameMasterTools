@@ -97,6 +97,7 @@ private fun HtmlBlockTag.showCharactersOfTownMap(
 // edit
 
 fun HtmlBlockTag.editTownMap(
+    call: ApplicationCall,
     state: State,
     townMap: TownMap,
 ) {

@@ -53,6 +53,7 @@ private fun HtmlBlockTag.showBattleParticipant(
 // edit
 
 fun HtmlBlockTag.editBattle(
+    call: ApplicationCall,
     state: State,
     battle: Battle,
 ) {

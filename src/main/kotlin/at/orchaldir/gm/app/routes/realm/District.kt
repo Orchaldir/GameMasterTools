@@ -85,14 +85,10 @@ fun Application.configureDistrictRouting() {
             handleDeleteElement(delete.id, DistrictRoutes.All())
         }
         get<DistrictRoutes.Edit> { edit ->
-            handleEditElement<DistrictId, District, SortDistrict>(edit.id, DistrictRoutes(), { state, district ->
-                editDistrict(call, state, district)
-            })
+            handleEditElement(edit.id, DistrictRoutes(), HtmlBlockTag::editDistrict)
         }
         post<DistrictRoutes.Preview> { preview ->
-            handlePreviewElement(preview.id, DistrictRoutes(), ::parseDistrict, { state, district ->
-                editDistrict(call, state, district)
-            })
+            handlePreviewElement(preview.id, DistrictRoutes(), ::parseDistrict, HtmlBlockTag::editDistrict)
         }
         post<DistrictRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseDistrict)

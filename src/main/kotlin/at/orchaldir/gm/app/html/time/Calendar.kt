@@ -142,6 +142,7 @@ private fun HtmlBlockTag.showCurrentEra(calendar: Calendar) {
 // edit
 
 fun HtmlBlockTag.editCalendar(
+    call: ApplicationCall,
     state: State,
     calendar: Calendar,
 ) {

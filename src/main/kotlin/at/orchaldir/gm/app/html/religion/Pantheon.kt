@@ -28,6 +28,7 @@ fun HtmlBlockTag.showPantheon(
 // edit
 
 fun HtmlBlockTag.editPantheon(
+    call: ApplicationCall,
     state: State,
     pantheon: Pantheon,
 ) {

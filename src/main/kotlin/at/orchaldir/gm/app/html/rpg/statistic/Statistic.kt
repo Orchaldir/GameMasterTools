@@ -68,6 +68,7 @@ private fun HtmlBlockTag.showUsage(
 // edit
 
 fun HtmlBlockTag.editStatistic(
+    call: ApplicationCall,
     state: State,
     statistic: Statistic,
 ) {

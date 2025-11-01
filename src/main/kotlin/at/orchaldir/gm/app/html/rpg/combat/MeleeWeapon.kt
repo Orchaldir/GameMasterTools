@@ -27,6 +27,7 @@ fun HtmlBlockTag.showMeleeWeapon(
 // edit
 
 fun HtmlBlockTag.editMeleeWeapon(
+    call: ApplicationCall,
     state: State,
     weapon: MeleeWeapon,
 ) {

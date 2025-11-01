@@ -36,6 +36,7 @@ fun HtmlBlockTag.showFont(
 // edit
 
 fun HtmlBlockTag.editFont(
+    call: ApplicationCall,
     state: State,
     font: Font,
 ) {

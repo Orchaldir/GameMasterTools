@@ -25,6 +25,7 @@ fun HtmlBlockTag.showRiver(
 // edit
 
 fun HtmlBlockTag.editRiver(
+    call: ApplicationCall,
     state: State,
     river: River,
 ) {

@@ -134,7 +134,7 @@ suspend inline fun <reified T : Any, ID : Id<ID>> PipelineContext<Unit, Applicat
 suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>, T> PipelineContext<Unit, ApplicationCall>.handleEditElement(
     id: ID,
     routes: Routes<ID, T>,
-    noinline editDetails: HtmlBlockTag.(State, ELEMENT) -> Unit,
+    noinline editDetails: HtmlBlockTag.(ApplicationCall, State, ELEMENT) -> Unit,
 ) {
     logger.info { "Edit ${id.print()}" }
 
@@ -148,7 +148,7 @@ suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>, T> PipelineContext<Unit,
 suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>, T> PipelineContext<Unit, ApplicationCall>.handleEditElementSplit(
     id: ID,
     routes: Routes<ID, T>,
-    noinline editDetails: HtmlBlockTag.(State, ELEMENT) -> Unit,
+    noinline editDetails: HtmlBlockTag.(ApplicationCall, State, ELEMENT) -> Unit,
     noinline showRight: HtmlBlockTag.(ApplicationCall, State, ELEMENT) -> Unit,
 ) {
     logger.info { "Edit ${id.print()}" }
@@ -164,7 +164,7 @@ suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>, T> PipelineContext<Unit,
     id: ID,
     routes: Routes<ID, T>,
     parse: (State, Parameters, ID) -> ELEMENT,
-    noinline editDetails: HtmlBlockTag.(State, ELEMENT) -> Unit,
+    noinline editDetails: HtmlBlockTag.(ApplicationCall, State, ELEMENT) -> Unit,
 ) {
     logger.info { "Preview ${id.print()}" }
 
@@ -179,7 +179,7 @@ suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>, T> PipelineContext<Unit,
     id: ID,
     routes: Routes<ID, T>,
     parse: (State, Parameters, ID) -> ELEMENT,
-    noinline editDetails: HtmlBlockTag.(State, ELEMENT) -> Unit,
+    noinline editDetails: HtmlBlockTag.(ApplicationCall, State, ELEMENT) -> Unit,
     noinline showRight: HtmlBlockTag.(ApplicationCall, State, ELEMENT) -> Unit,
 ) {
     logger.info { "Preview ${id.print()}" }
@@ -302,7 +302,7 @@ suspend fun <ELEMENT : Element<ID>, ID : Id<ID>, T> PipelineContext<Unit, Applic
     routes: Routes<ID, T>,
     state: State,
     element: ELEMENT,
-    editDetails: HtmlBlockTag.(State, ELEMENT) -> Unit,
+    editDetails: HtmlBlockTag.(ApplicationCall, State, ELEMENT) -> Unit,
 ) {
     val backLink = href(call, element.id())
     val previewLink = routes.preview(call, element.id())
@@ -312,7 +312,7 @@ suspend fun <ELEMENT : Element<ID>, ID : Id<ID>, T> PipelineContext<Unit, Applic
         simpleHtml(state, element, "Edit ", true) {
             mainFrame {
                 formWithPreview(previewLink, updateLink, backLink) {
-                    editDetails(state, element)
+                    editDetails(call, state, element)
                 }
             }
         }
@@ -323,7 +323,7 @@ suspend fun <ELEMENT : Element<ID>, ID : Id<ID>, T> PipelineContext<Unit, Applic
     routes: Routes<ID, T>,
     state: State,
     element: ELEMENT,
-    editDetails: HtmlBlockTag.(State, ELEMENT) -> Unit,
+    editDetails: HtmlBlockTag.(ApplicationCall, State, ELEMENT) -> Unit,
     showRight: HtmlBlockTag.(ApplicationCall, State, ELEMENT) -> Unit,
 ) {
     val backLink = href(call, element.id())
@@ -334,7 +334,7 @@ suspend fun <ELEMENT : Element<ID>, ID : Id<ID>, T> PipelineContext<Unit, Applic
         simpleHtml(state, element, "Edit ", true) {
             split({
                 formWithPreview(previewLink, updateLink, backLink) {
-                    editDetails(state, element)
+                    editDetails(call, state, element)
                 }
             }, {
                 showRight(call, state, element)
