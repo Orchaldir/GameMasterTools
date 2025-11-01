@@ -1,6 +1,8 @@
 package at.orchaldir.gm.app.routes.world.town
 
 import at.orchaldir.gm.app.routes.Routes
+import at.orchaldir.gm.app.routes.world.StreetTemplateRoutes.Edit
+import at.orchaldir.gm.app.routes.world.StreetTemplateRoutes.Preview
 import at.orchaldir.gm.core.model.util.SortTownMap
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.street.StreetTemplateId
@@ -43,6 +45,8 @@ class TownMapRoutes : Routes<TownMapId, SortTownMap> {
     override fun delete(call: ApplicationCall, id: TownMapId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: TownMapId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())
+    override fun preview(call: ApplicationCall, id: TownMapId) = call.application.href(Preview(id))
+    override fun update(call: ApplicationCall, id: TownMapId) = call.application.href(Edit(id))
 
     @Resource("/abstract")
     class AbstractBuildingRoutes(val parent: TownMapRoutes = TownMapRoutes()) {

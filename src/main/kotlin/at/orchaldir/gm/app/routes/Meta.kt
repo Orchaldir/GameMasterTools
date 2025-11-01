@@ -332,11 +332,6 @@ suspend fun <ELEMENT : Element<ID>, ID : Id<ID>, T> PipelineContext<Unit, Applic
 
     call.respondHtml(HttpStatusCode.OK) {
         simpleHtml(state, element, "Edit ", true) {
-            mainFrame {
-                formWithPreview(previewLink, updateLink, backLink) {
-                    editDetails(state, element)
-                }
-            }
             split({
                 formWithPreview(previewLink, updateLink, backLink) {
                     editDetails(state, element)

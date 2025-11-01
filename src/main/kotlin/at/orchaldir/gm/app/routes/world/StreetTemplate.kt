@@ -85,10 +85,9 @@ fun Application.configureStreetTemplateRouting() {
             handleShowElementSplit(
                 details.id,
                 StreetTemplateRoutes(),
-                HtmlBlockTag::showStreetTemplate
-            ) { _, _, template ->
-                svg(visualizeStreetTemplate(template), 90)
-            }
+                HtmlBlockTag::showStreetTemplate,
+                HtmlBlockTag::showStreetTemplateEditorRight,
+            )
         }
         get<StreetTemplateRoutes.New> {
             handleCreateElement(STORE.getState().getStreetTemplateStorage()) { id ->
