@@ -1,32 +1,26 @@
 package at.orchaldir.gm.app.routes.rpg
 
 import at.orchaldir.gm.app.STORE
-import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.Column
+import at.orchaldir.gm.app.html.countCollectionColumn
+import at.orchaldir.gm.app.html.createNameColumn
 import at.orchaldir.gm.app.html.rpg.combat.editDamageType
 import at.orchaldir.gm.app.html.rpg.combat.parseDamageType
 import at.orchaldir.gm.app.html.rpg.combat.showDamageType
+import at.orchaldir.gm.app.html.tdString
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.combat.DAMAGE_TYPE_TYPE
-import at.orchaldir.gm.core.model.rpg.combat.DamageType
 import at.orchaldir.gm.core.model.rpg.combat.DamageTypeId
 import at.orchaldir.gm.core.model.util.SortDamageType
 import at.orchaldir.gm.core.selector.rpg.getMeleeWeapons
 import at.orchaldir.gm.core.selector.util.sortDamageTypes
-import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
-import io.ktor.server.html.*
-import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
-import mu.KotlinLogging
-
-private val logger = KotlinLogging.logger {}
 
 @Resource("/$DAMAGE_TYPE_TYPE")
 class DamageTypeRoutes : Routes<DamageTypeId, SortDamageType> {
@@ -100,22 +94,3 @@ fun Application.configureDamageTypeRouting() {
         }
     }
 }
-
-private fun HTML.showDamageTypeEditor(
-    call: ApplicationCall,
-    state: State,
-    type: DamageType,
-) {
-    val backLink = href(call, type.id)
-    val previewLink = call.application.href(DamageTypeRoutes.Preview(type.id))
-    val updateLink = call.application.href(DamageTypeRoutes.Update(type.id))
-
-    simpleHtmlEditor(type, true) {
-        mainFrame {
-            formWithPreview(previewLink, updateLink, backLink) {
-                editDamageType(state, type)
-            }
-        }
-    }
-}
-
