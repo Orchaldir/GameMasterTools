@@ -93,15 +93,7 @@ fun Application.configureDamageTypeRouting() {
             handleEditElement(edit.id, DamageTypeRoutes(), HtmlBlockTag::editDamageType)
         }
         post<DamageTypeRoutes.Preview> { preview ->
-            logger.info { "Get preview for type ${preview.id.value}" }
-
-            val formParameters = call.receiveParameters()
-            val state = STORE.getState()
-            val type = parseDamageType(state, formParameters, preview.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showDamageTypeEditor(call, state, type)
-            }
+            handlePreviewElement(preview.id, DamageTypeRoutes(), ::parseDamageType, HtmlBlockTag::editDamageType)
         }
         post<DamageTypeRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseDamageType)

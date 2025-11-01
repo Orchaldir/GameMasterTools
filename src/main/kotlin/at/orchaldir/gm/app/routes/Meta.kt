@@ -141,19 +141,23 @@ suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>, T> PipelineContext<Unit,
     val state = STORE.getState()
     val storage = state.getStorage<ID, ELEMENT>(id)
     val element = storage.getOrThrow(id)
-    val backLink = href(call, id)
-    val previewLink = routes.preview(call, id)
-    val updateLink = routes.update(call, id)
 
-    call.respondHtml(HttpStatusCode.OK) {
-        simpleHtml(state, element, "Edit ", true) {
-            mainFrame {
-                formWithPreview(previewLink, updateLink, backLink) {
-                    editDetails(state, element)
-                }
-            }
-        }
-    }
+    showEditor(routes, state, element, editDetails)
+}
+
+suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>, T> PipelineContext<Unit, ApplicationCall>.handlePreviewElement(
+    id: ID,
+    routes: Routes<ID, T>,
+    parse: (State, Parameters, ID) -> ELEMENT,
+    noinline editDetails: HtmlBlockTag.(State, ELEMENT) -> Unit,
+) {
+    logger.info { "Preview ${id.print()}" }
+
+    val state = STORE.getState()
+    val parameters = call.receiveParameters()
+    val element = parse(state, parameters, id)
+
+    showEditor(routes, state, element, editDetails)
 }
 
 suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>, T> PipelineContext<Unit, ApplicationCall>.handleShowElement(
@@ -161,7 +165,7 @@ suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>, T> PipelineContext<Unit,
     routes: Routes<ID, T>,
     noinline showDetails: HtmlBlockTag.(ApplicationCall, State, ELEMENT) -> Unit,
 ) {
-    logger.info { "Get details of ${id.print()}" }
+    logger.info { "Show ${id.print()}" }
 
     val state = STORE.getState()
     val storage = state.getStorage<ID, ELEMENT>(id)
@@ -178,7 +182,7 @@ suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>, T> PipelineContext<Unit,
     noinline showLeft: HtmlBlockTag.(ApplicationCall, State, ELEMENT) -> Unit,
     noinline showRight: HtmlBlockTag.(ApplicationCall, State, ELEMENT) -> Unit,
 ) {
-    logger.info { "Get details of ${id.print()}" }
+    logger.info { "Show ${id.print()}" }
 
     val state = STORE.getState()
     val storage = state.getStorage<ID, ELEMENT>(id)
@@ -261,4 +265,25 @@ suspend fun <ID : Id<ID>, ELEMENT : Element<ID>> PipelineContext<Unit, Applicati
     call.respondRedirect(href(call, id))
 
     STORE.getState().save()
+}
+
+suspend fun <ELEMENT : Element<ID>, ID : Id<ID>, T> PipelineContext<Unit, ApplicationCall>.showEditor(
+    routes: Routes<ID, T>,
+    state: State,
+    element: ELEMENT,
+    editDetails: HtmlBlockTag.(State, ELEMENT) -> Unit,
+) {
+    val backLink = href(call, element.id())
+    val previewLink = routes.preview(call, element.id())
+    val updateLink = routes.update(call, element.id())
+
+    call.respondHtml(HttpStatusCode.OK) {
+        simpleHtml(state, element, "Edit ", true) {
+            mainFrame {
+                formWithPreview(previewLink, updateLink, backLink) {
+                    editDetails(state, element)
+                }
+            }
+        }
+    }
 }
