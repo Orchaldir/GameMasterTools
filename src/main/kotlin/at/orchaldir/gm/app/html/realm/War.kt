@@ -42,6 +42,7 @@ fun HtmlBlockTag.showWar(
 // edit
 
 fun HtmlBlockTag.editWar(
+    call: ApplicationCall,
     state: State,
     war: War,
 ) {

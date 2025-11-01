@@ -56,6 +56,7 @@ private fun HtmlBlockTag.showTreatyParticipant(
 // edit
 
 fun HtmlBlockTag.editTreaty(
+    call: ApplicationCall,
     state: State,
     treaty: Treaty,
 ) {

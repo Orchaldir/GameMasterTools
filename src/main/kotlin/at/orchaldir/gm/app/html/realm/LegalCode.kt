@@ -37,6 +37,7 @@ fun HtmlBlockTag.showLegalCode(
 // edit
 
 fun HtmlBlockTag.editLegalCode(
+    call: ApplicationCall,
     state: State,
     code: LegalCode,
 ) {

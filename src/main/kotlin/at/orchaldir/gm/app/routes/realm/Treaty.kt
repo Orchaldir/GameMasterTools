@@ -1,31 +1,25 @@
 package at.orchaldir.gm.app.routes.realm
 
 import at.orchaldir.gm.app.STORE
-import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.countCollectionColumn
+import at.orchaldir.gm.app.html.createNameColumn
+import at.orchaldir.gm.app.html.createStartDateColumn
 import at.orchaldir.gm.app.html.realm.editTreaty
 import at.orchaldir.gm.app.html.realm.parseTreaty
 import at.orchaldir.gm.app.html.realm.showTreaty
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.TREATY_TYPE
 import at.orchaldir.gm.core.model.realm.Treaty
 import at.orchaldir.gm.core.model.realm.TreatyId
 import at.orchaldir.gm.core.model.util.SortTreaty
 import at.orchaldir.gm.core.selector.util.sortTreaties
-import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
-import io.ktor.server.html.*
-import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
-import mu.KotlinLogging
-
-private val logger = KotlinLogging.logger {}
 
 @Resource("/$TREATY_TYPE")
 class TreatyRoutes : Routes<TreatyId, SortTreaty> {
@@ -58,6 +52,8 @@ class TreatyRoutes : Routes<TreatyId, SortTreaty> {
     override fun delete(call: ApplicationCall, id: TreatyId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: TreatyId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())
+    override fun preview(call: ApplicationCall, id: TreatyId) = call.application.href(Preview(id))
+    override fun update(call: ApplicationCall, id: TreatyId) = call.application.href(Edit(id))
 }
 
 fun Application.configureTreatyRouting() {
@@ -87,44 +83,13 @@ fun Application.configureTreatyRouting() {
             handleDeleteElement(delete.id, TreatyRoutes.All())
         }
         get<TreatyRoutes.Edit> { edit ->
-            logger.info { "Get editor for treaty ${edit.id.value}" }
-
-            val state = STORE.getState()
-            val treaty = state.getTreatyStorage().getOrThrow(edit.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showTreatyEditor(call, state, treaty)
-            }
+            handleEditElement(edit.id, TreatyRoutes(), HtmlBlockTag::editTreaty)
         }
         post<TreatyRoutes.Preview> { preview ->
-            logger.info { "Get preview for treaty ${preview.id.value}" }
-
-            val formParameters = call.receiveParameters()
-            val state = STORE.getState()
-            val treaty = parseTreaty(state, formParameters, preview.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showTreatyEditor(call, state, treaty)
-            }
+            handlePreviewElement(preview.id, TreatyRoutes(), ::parseTreaty, HtmlBlockTag::editTreaty)
         }
         post<TreatyRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseTreaty)
-        }
-    }
-}
-
-private fun HTML.showTreatyEditor(
-    call: ApplicationCall,
-    state: State,
-    treaty: Treaty,
-) {
-    val backLink = href(call, treaty.id)
-    val previewLink = call.application.href(TreatyRoutes.Preview(treaty.id))
-    val updateLink = call.application.href(TreatyRoutes.Update(treaty.id))
-
-    simpleHtmlEditor(treaty) {
-        formWithPreview(previewLink, updateLink, backLink) {
-            editTreaty(state, treaty)
         }
     }
 }
