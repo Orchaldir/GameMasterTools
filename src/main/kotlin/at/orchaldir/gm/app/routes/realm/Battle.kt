@@ -1,31 +1,26 @@
 package at.orchaldir.gm.app.routes.realm
 
 import at.orchaldir.gm.app.STORE
-import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.countCollectionColumn
+import at.orchaldir.gm.app.html.createDestroyedColumns
+import at.orchaldir.gm.app.html.createNameColumn
+import at.orchaldir.gm.app.html.createStartDateColumn
 import at.orchaldir.gm.app.html.realm.editBattle
 import at.orchaldir.gm.app.html.realm.parseBattle
 import at.orchaldir.gm.app.html.realm.showBattle
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.BATTLE_TYPE
 import at.orchaldir.gm.core.model.realm.Battle
 import at.orchaldir.gm.core.model.realm.BattleId
 import at.orchaldir.gm.core.model.util.SortBattle
 import at.orchaldir.gm.core.selector.util.sortBattles
-import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
-import io.ktor.server.html.*
-import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
-import mu.KotlinLogging
-
-private val logger = KotlinLogging.logger {}
 
 @Resource("/$BATTLE_TYPE")
 class BattleRoutes : Routes<BattleId, SortBattle> {
@@ -58,6 +53,8 @@ class BattleRoutes : Routes<BattleId, SortBattle> {
     override fun delete(call: ApplicationCall, id: BattleId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: BattleId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())
+    override fun preview(call: ApplicationCall, id: BattleId) = call.application.href(Preview(id))
+    override fun update(call: ApplicationCall, id: BattleId) = call.application.href(Edit(id))
 }
 
 fun Application.configureBattleRouting() {
@@ -87,44 +84,13 @@ fun Application.configureBattleRouting() {
             handleDeleteElement(delete.id, BattleRoutes.All())
         }
         get<BattleRoutes.Edit> { edit ->
-            logger.info { "Get editor for battle ${edit.id.value}" }
-
-            val state = STORE.getState()
-            val battle = state.getBattleStorage().getOrThrow(edit.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showBattleEditor(call, state, battle)
-            }
+            handleEditElement(edit.id, BattleRoutes(), HtmlBlockTag::editBattle)
         }
         post<BattleRoutes.Preview> { preview ->
-            logger.info { "Get preview for battle ${preview.id.value}" }
-
-            val formParameters = call.receiveParameters()
-            val state = STORE.getState()
-            val battle = parseBattle(state, formParameters, preview.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showBattleEditor(call, state, battle)
-            }
+            handlePreviewElement(preview.id, BattleRoutes(), ::parseBattle, HtmlBlockTag::editBattle)
         }
         post<BattleRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseBattle)
-        }
-    }
-}
-
-private fun HTML.showBattleEditor(
-    call: ApplicationCall,
-    state: State,
-    battle: Battle,
-) {
-    val backLink = href(call, battle.id)
-    val previewLink = call.application.href(BattleRoutes.Preview(battle.id))
-    val updateLink = call.application.href(BattleRoutes.Update(battle.id))
-
-    simpleHtmlEditor(battle) {
-        formWithPreview(previewLink, updateLink, backLink) {
-            editBattle(state, battle)
         }
     }
 }
