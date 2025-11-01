@@ -86,7 +86,7 @@ fun Application.configureStatisticRouting() {
             handleDeleteElement(delete.id, StatisticRoutes.All())
         }
         get<StatisticRoutes.Edit> { edit ->
-            handleEditElement(edit.id, StatisticRoutes(), HtmlBlockTag::editDamageType)
+            handleEditElement(edit.id, StatisticRoutes(), HtmlBlockTag::editStatistic)
         }
         post<StatisticRoutes.Preview> { preview ->
             handlePreviewElement(preview.id, StatisticRoutes(), ::parseStatistic, HtmlBlockTag::editStatistic)
