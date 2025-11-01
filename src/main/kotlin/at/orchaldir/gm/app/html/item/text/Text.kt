@@ -46,6 +46,7 @@ fun HtmlBlockTag.showText(
 // edit
 
 fun HtmlBlockTag.editText(
+    call: ApplicationCall,
     state: State,
     text: Text,
 ) {

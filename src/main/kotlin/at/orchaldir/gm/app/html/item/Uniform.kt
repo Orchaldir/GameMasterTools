@@ -33,6 +33,7 @@ fun HtmlBlockTag.showUniform(
 // edit
 
 fun HtmlBlockTag.editUniform(
+    call: ApplicationCall,
     state: State,
     uniform: Uniform,
 ) {

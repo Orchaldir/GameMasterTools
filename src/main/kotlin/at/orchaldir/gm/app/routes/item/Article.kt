@@ -1,31 +1,25 @@
 package at.orchaldir.gm.app.routes.item
 
 import at.orchaldir.gm.app.STORE
-import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.Column
+import at.orchaldir.gm.app.html.createNameColumn
+import at.orchaldir.gm.app.html.createStartDateColumn
 import at.orchaldir.gm.app.html.item.periodical.editArticle
 import at.orchaldir.gm.app.html.item.periodical.parseArticle
 import at.orchaldir.gm.app.html.item.periodical.showArticle
+import at.orchaldir.gm.app.html.tdLink
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.periodical.ARTICLE_TYPE
-import at.orchaldir.gm.core.model.item.periodical.Article
 import at.orchaldir.gm.core.model.item.periodical.ArticleId
 import at.orchaldir.gm.core.model.util.SortArticle
 import at.orchaldir.gm.core.selector.util.sortArticles
-import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
-import io.ktor.server.html.*
-import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
-import mu.KotlinLogging
-
-private val logger = KotlinLogging.logger {}
 
 @Resource("/$ARTICLE_TYPE")
 class ArticleRoutes : Routes<ArticleId, SortArticle> {
@@ -58,6 +52,8 @@ class ArticleRoutes : Routes<ArticleId, SortArticle> {
     override fun delete(call: ApplicationCall, id: ArticleId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: ArticleId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())
+    override fun preview(call: ApplicationCall, id: ArticleId) = call.application.href(Preview(id))
+    override fun update(call: ApplicationCall, id: ArticleId) = call.application.href(Edit(id))
 }
 
 fun Application.configureArticleRouting() {
@@ -87,43 +83,13 @@ fun Application.configureArticleRouting() {
             handleDeleteElement(delete.id, ArticleRoutes.All())
         }
         get<ArticleRoutes.Edit> { edit ->
-            logger.info { "Get editor for periodical ${edit.id.value}" }
-
-            val state = STORE.getState()
-            val periodical = state.getArticleStorage().getOrThrow(edit.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showArticleEditor(call, state, periodical)
-            }
+            handleEditElement(edit.id, ArticleRoutes(), HtmlBlockTag::editArticle)
         }
         post<ArticleRoutes.Preview> { preview ->
-            logger.info { "Preview periodical ${preview.id.value}" }
-
-            val state = STORE.getState()
-            val periodical = parseArticle(state, call.receiveParameters(), preview.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showArticleEditor(call, state, periodical)
-            }
+            handlePreviewElement(preview.id, ArticleRoutes(), ::parseArticle, HtmlBlockTag::editArticle)
         }
         post<ArticleRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseArticle)
-        }
-    }
-}
-
-private fun HTML.showArticleEditor(
-    call: ApplicationCall,
-    state: State,
-    article: Article,
-) {
-    val backLink = href(call, article.id)
-    val previewLink = call.application.href(ArticleRoutes.Preview(article.id))
-    val updateLink = call.application.href(ArticleRoutes.Update(article.id))
-
-    simpleHtmlEditor(article) {
-        formWithPreview(previewLink, updateLink, backLink) {
-            editArticle(state, article)
         }
     }
 }

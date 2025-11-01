@@ -50,6 +50,7 @@ private fun HtmlBlockTag.showContent(
 // edit
 
 fun HtmlBlockTag.editArticle(
+    call: ApplicationCall,
     state: State,
     article: Article,
 ) {

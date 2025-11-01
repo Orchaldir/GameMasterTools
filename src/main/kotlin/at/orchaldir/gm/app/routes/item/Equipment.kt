@@ -79,7 +79,10 @@ class EquipmentRoutes : Routes<EquipmentId, SortEquipment> {
     override fun all(call: ApplicationCall, sort: SortEquipment) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: EquipmentId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: EquipmentId) = call.application.href(Edit(id))
+    override fun gallery(call: ApplicationCall) = call.application.href(Gallery())
     override fun new(call: ApplicationCall) = call.application.href(New())
+    override fun preview(call: ApplicationCall, id: EquipmentId) = call.application.href(Preview(id))
+    override fun update(call: ApplicationCall, id: EquipmentId) = call.application.href(Edit(id))
 }
 
 fun Application.configureEquipmentRouting() {
@@ -132,25 +135,24 @@ fun Application.configureEquipmentRouting() {
             handleDeleteElement(delete.id, EquipmentRoutes())
         }
         get<EquipmentRoutes.Edit> { edit ->
-            logger.info { "Get editor for equipment ${edit.id.value}" }
-
-            val state = STORE.getState()
-            val template = state.getEquipmentStorage().getOrThrow(edit.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showEquipmentEditor(call, state, template)
-            }
+            handleEditElementSplit(
+                edit.id,
+                EquipmentRoutes(),
+                HtmlBlockTag::editEquipment,
+                HtmlBlockTag::showEquipmentEditorRight,
+            )
         }
         post<EquipmentRoutes.Preview> { preview ->
-            logger.info { "Get preview for equipment ${preview.id.value}" }
-
-            val state = STORE.getState()
             val parameters = call.receiveParameters()
-            val equipment = parseEquipment(state, parameters, preview.id)
             val colorSchemeId = parseOptionalColorSchemeId(parameters, SCHEME)
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showEquipmentEditor(call, state, equipment, colorSchemeId)
+            handlePreviewElementSplit(
+                preview.id,
+                EquipmentRoutes(),
+                ::parseEquipment,
+                HtmlBlockTag::editEquipment,
+            ) {call, state, equipment ->
+                showEquipmentEditorRight(call, state, equipment, colorSchemeId)
             }
         }
         post<EquipmentRoutes.Update> { update ->
@@ -209,28 +211,16 @@ private fun HtmlBlockTag.showEquipmentDetails(
     fieldElements(call, state, "Part of Fashion", fashions)
 }
 
-private fun HTML.showEquipmentEditor(
+private fun HtmlBlockTag.showEquipmentEditorRight(
     call: ApplicationCall,
     state: State,
     equipment: Equipment,
     optionalColorSchemeId: ColorSchemeId? = null,
 ) {
-    val backLink = href(call, equipment.id)
-    val previewLink = call.application.href(EquipmentRoutes.Preview(equipment.id))
-    val updateLink = call.application.href(EquipmentRoutes.Update(equipment.id))
-
-    simpleHtmlEditor(equipment, true) {
-        split({
-            formWithPreview(previewLink, updateLink, backLink) {
-                editEquipment(state, equipment)
-            }
-        }, {
-            if (equipment.colorSchemes.isNotEmpty()) {
-                selectColorSchemeToVisualizeEquipment(state, equipment, optionalColorSchemeId, 60)
-            } else {
-                visualizeEquipment(state, equipment, UndefinedColors, 60)
-            }
-        })
+    if (equipment.colorSchemes.isNotEmpty()) {
+        selectColorSchemeToVisualizeEquipment(state, equipment, optionalColorSchemeId, 60)
+    } else {
+        visualizeEquipment(state, equipment, UndefinedColors, 60)
     }
 }
 

@@ -49,6 +49,7 @@ fun HtmlBlockTag.showPeriodical(
 // edit
 
 fun HtmlBlockTag.editPeriodical(
+    call: ApplicationCall,
     state: State,
     periodical: Periodical,
 ) {

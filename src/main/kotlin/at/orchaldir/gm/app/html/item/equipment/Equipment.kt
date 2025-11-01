@@ -70,6 +70,7 @@ private fun HtmlBlockTag.showEquipmentData(
 // edit
 
 fun HtmlBlockTag.editEquipment(
+    call: ApplicationCall,
     state: State,
     equipment: Equipment,
 ) {

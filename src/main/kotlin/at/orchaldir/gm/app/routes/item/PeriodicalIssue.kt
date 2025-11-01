@@ -1,32 +1,26 @@
 package at.orchaldir.gm.app.routes.item
 
 import at.orchaldir.gm.app.STORE
-import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.Column
 import at.orchaldir.gm.app.html.Column.Companion.tdColumn
+import at.orchaldir.gm.app.html.countCollectionColumn
 import at.orchaldir.gm.app.html.item.periodical.editPeriodicalIssue
 import at.orchaldir.gm.app.html.item.periodical.parsePeriodicalIssue
 import at.orchaldir.gm.app.html.item.periodical.showPeriodicalIssue
+import at.orchaldir.gm.app.html.link
+import at.orchaldir.gm.app.html.tdLink
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.periodical.PERIODICAL_ISSUE_TYPE
-import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssue
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssueId
 import at.orchaldir.gm.core.model.util.SortPeriodicalIssue
 import at.orchaldir.gm.core.selector.util.sortPeriodicalIssues
-import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
-import io.ktor.server.html.*
-import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
-import mu.KotlinLogging
-
-private val logger = KotlinLogging.logger {}
 
 @Resource("/$PERIODICAL_ISSUE_TYPE")
 class PeriodicalIssueRoutes : Routes<PeriodicalIssueId, SortPeriodicalIssue> {
@@ -59,6 +53,8 @@ class PeriodicalIssueRoutes : Routes<PeriodicalIssueId, SortPeriodicalIssue> {
     override fun delete(call: ApplicationCall, id: PeriodicalIssueId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: PeriodicalIssueId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())
+    override fun preview(call: ApplicationCall, id: PeriodicalIssueId) = call.application.href(Preview(id))
+    override fun update(call: ApplicationCall, id: PeriodicalIssueId) = call.application.href(Edit(id))
 }
 
 fun Application.configurePeriodicalIssueRouting() {
@@ -88,43 +84,13 @@ fun Application.configurePeriodicalIssueRouting() {
             handleDeleteElement(delete.id, PeriodicalIssueRoutes.All())
         }
         get<PeriodicalIssueRoutes.Edit> { edit ->
-            logger.info { "Get editor for periodical issues ${edit.id.value}" }
-
-            val state = STORE.getState()
-            val issue = state.getPeriodicalIssueStorage().getOrThrow(edit.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showPeriodicalIssueEditor(call, state, issue)
-            }
+            handleEditElement(edit.id, PeriodicalIssueRoutes(), HtmlBlockTag::editPeriodicalIssue)
         }
         post<PeriodicalIssueRoutes.Preview> { preview ->
-            logger.info { "Preview periodical issues ${preview.id.value}" }
-
-            val state = STORE.getState()
-            val issue = parsePeriodicalIssue(state, call.receiveParameters(), preview.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showPeriodicalIssueEditor(call, state, issue)
-            }
+            handlePreviewElement(preview.id, PeriodicalIssueRoutes(), ::parsePeriodicalIssue, HtmlBlockTag::editPeriodicalIssue)
         }
         post<PeriodicalIssueRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parsePeriodicalIssue)
-        }
-    }
-}
-
-private fun HTML.showPeriodicalIssueEditor(
-    call: ApplicationCall,
-    state: State,
-    periodical: PeriodicalIssue,
-) {
-    val backLink = href(call, periodical.id)
-    val previewLink = call.application.href(PeriodicalIssueRoutes.Preview(periodical.id))
-    val updateLink = call.application.href(PeriodicalIssueRoutes.Update(periodical.id))
-
-    simpleHtml("Edit PeriodicalIssue: ${periodical.name(state)}") {
-        formWithPreview(previewLink, updateLink, backLink) {
-            editPeriodicalIssue(state, periodical)
         }
     }
 }

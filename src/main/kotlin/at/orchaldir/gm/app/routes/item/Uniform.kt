@@ -24,11 +24,11 @@ import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
-import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
+import kotlinx.html.HtmlBlockTag
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
@@ -65,10 +65,12 @@ class UniformRoutes : Routes<UniformId, SortUniform> {
 
     override fun all(call: ApplicationCall) = call.application.href(All())
     override fun all(call: ApplicationCall, sort: SortUniform) = call.application.href(All(sort))
-    override fun gallery(call: ApplicationCall) = call.application.href(Gallery())
     override fun delete(call: ApplicationCall, id: UniformId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: UniformId) = call.application.href(Edit(id))
+    override fun gallery(call: ApplicationCall) = call.application.href(Gallery())
     override fun new(call: ApplicationCall) = call.application.href(New())
+    override fun preview(call: ApplicationCall, id:UniformId) = call.application.href(Preview(id))
+    override fun update(call: ApplicationCall, id: UniformId) = call.application.href(Edit(id))
 }
 
 fun Application.configureUniformRouting() {
@@ -109,25 +111,21 @@ fun Application.configureUniformRouting() {
             handleDeleteElement(delete.id, UniformRoutes.All())
         }
         get<UniformRoutes.Edit> { edit ->
-            logger.info { "Get editor for uniform ${edit.id.value}" }
-
-            val state = STORE.getState()
-            val uniform = state.getUniformStorage().getOrThrow(edit.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showUniformEditor(call, state, uniform)
-            }
+            handleEditElementSplit(
+                edit.id,
+                UniformRoutes(),
+                HtmlBlockTag::editUniform,
+                HtmlBlockTag::showUniformEditorRight,
+            )
         }
         post<UniformRoutes.Preview> { preview ->
-            logger.info { "Get preview for uniform ${preview.id.value}" }
-
-            val formParameters = call.receiveParameters()
-            val state = STORE.getState()
-            val uniform = parseUniform(state, formParameters, preview.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showUniformEditor(call, state, uniform)
-            }
+            handlePreviewElementSplit(
+                preview.id,
+                UniformRoutes(),
+                ::parseUniform,
+                HtmlBlockTag::editUniform,
+                HtmlBlockTag::showUniformEditorRight,
+            )
         }
         post<UniformRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseUniform)
@@ -152,24 +150,13 @@ private fun HTML.showGallery(
     }
 }
 
-private fun HTML.showUniformEditor(
+private fun HtmlBlockTag.showUniformEditorRight(
     call: ApplicationCall,
     state: State,
     uniform: Uniform,
 ) {
-    val backLink = href(call, uniform.id)
-    val previewLink = call.application.href(UniformRoutes.Preview(uniform.id))
-    val updateLink = call.application.href(UniformRoutes.Update(uniform.id))
     val equipped = state.getEquipment(uniform.equipmentMap)
     val svg = visualizeCharacter(state, CHARACTER_CONFIG, appearance, equipped)
 
-    simpleHtmlEditor(uniform, true) {
-        split({
-            formWithPreview(previewLink, updateLink, backLink) {
-                editUniform(state, uniform)
-            }
-        }, {
-            svg(svg, 50)
-        })
-    }
+    svg(svg, 50)
 }

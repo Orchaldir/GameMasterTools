@@ -33,6 +33,7 @@ fun HtmlBlockTag.showPeriodicalIssue(
 // edit
 
 fun HtmlBlockTag.editPeriodicalIssue(
+    call: ApplicationCall,
     state: State,
     issue: PeriodicalIssue,
 ) {
