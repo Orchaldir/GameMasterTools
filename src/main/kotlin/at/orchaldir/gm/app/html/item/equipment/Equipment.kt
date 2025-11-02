@@ -2,6 +2,8 @@ package at.orchaldir.gm.app.html.item.equipment
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.rpg.combat.editMeleeWeapon
+import at.orchaldir.gm.app.html.rpg.combat.showMeleeWeapon
 import at.orchaldir.gm.app.html.util.color.parseColorSchemeId
 import at.orchaldir.gm.app.html.util.fieldWeight
 import at.orchaldir.gm.app.html.util.parseWeight
@@ -28,6 +30,7 @@ fun HtmlBlockTag.showEquipment(
 ) {
     fieldWeight("Weight", equipment.weight)
     fieldIds(call, state, equipment.colorSchemes)
+    equipment.data.getMeleeWeapon()?.let { showMeleeWeapon(call, state, it) }
     showEquipmentData(call, state, equipment)
 }
 
@@ -76,12 +79,7 @@ fun HtmlBlockTag.editEquipment(
     selectName(equipment.name)
     selectWeight("Weight", WEIGHT, equipment.weight, MIN_EQUIPMENT_WEIGHT, 10000, SiPrefix.Base)
     selectColorSchemes(state, equipment)
-    selectValue(
-        "Equipment",
-        combine(EQUIPMENT, TYPE),
-        EquipmentDataType.entries,
-        equipment.data.getType(),
-    )
+    equipment.data.getMeleeWeapon()?.let { editMeleeWeapon(call, state, it) }
     editEquipmentData(state, equipment)
 }
 
@@ -109,6 +107,13 @@ private fun HtmlBlockTag.editEquipmentData(
     state: State,
     equipment: Equipment,
 ) {
+    selectValue(
+        "Equipment",
+        combine(EQUIPMENT, TYPE),
+        EquipmentDataType.entries,
+        equipment.data.getType(),
+    )
+
     when (val data = equipment.data) {
         is OneHandedAxe -> editOneHandedAxe(state, data)
         is TwoHandedAxe -> editTwoHandedAxe(state, data)
@@ -148,7 +153,7 @@ fun parseEquipment(
     parameters: Parameters,
     id: EquipmentId,
 ): Equipment {
-    val data = parseEquipmentData(parameters)
+    val data = parseEquipmentData(state, parameters)
 
     return Equipment(
         id,
@@ -173,10 +178,13 @@ private fun parseColorSchemes(
     return state.filterValidColorSchemes(data, colorSchemeIds)
 }
 
-fun parseEquipmentData(parameters: Parameters) =
+fun parseEquipmentData(
+    state: State,
+    parameters: Parameters,
+) =
     when (parse(parameters, combine(EQUIPMENT, TYPE), EquipmentDataType.Belt)) {
-        EquipmentDataType.OneHandedAxe -> parseOneHandedAxe(parameters)
-        EquipmentDataType.TwoHandedAxe -> parseTwoHandedAxe(parameters)
+        EquipmentDataType.OneHandedAxe -> parseOneHandedAxe(state, parameters)
+        EquipmentDataType.TwoHandedAxe -> parseTwoHandedAxe(state, parameters)
         EquipmentDataType.Belt -> parseBelt(parameters)
         EquipmentDataType.BodyArmour -> parseBodyArmour(parameters)
         EquipmentDataType.Coat -> parseCoat(parameters)
@@ -190,13 +198,13 @@ fun parseEquipmentData(parameters: Parameters) =
         EquipmentDataType.Helmet -> parseHelmet(parameters)
         EquipmentDataType.Necklace -> parseNecklace(parameters)
         EquipmentDataType.Pants -> parsePants(parameters)
-        EquipmentDataType.Polearm -> parsePolearm(parameters)
+        EquipmentDataType.Polearm -> parsePolearm(state, parameters)
         EquipmentDataType.Shield -> parseShield(parameters)
         EquipmentDataType.Shirt -> parseShirt(parameters)
         EquipmentDataType.Skirt -> parseSkirt(parameters)
         EquipmentDataType.Socks -> parseSocks(parameters)
         EquipmentDataType.SuitJacket -> parseSuitJacket(parameters)
-        EquipmentDataType.OneHandedSword -> parseOneHandedSword(parameters)
-        EquipmentDataType.TwoHandedSword -> parseTwoHandedSword(parameters)
+        EquipmentDataType.OneHandedSword -> parseOneHandedSword(state, parameters)
+        EquipmentDataType.TwoHandedSword -> parseTwoHandedSword(state, parameters)
         EquipmentDataType.Tie -> parseTie(parameters)
     }

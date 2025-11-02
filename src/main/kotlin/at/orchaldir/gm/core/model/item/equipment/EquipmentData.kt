@@ -2,6 +2,8 @@ package at.orchaldir.gm.core.model.item.equipment
 
 import at.orchaldir.gm.core.model.item.equipment.EquipmentSlot.*
 import at.orchaldir.gm.core.model.item.equipment.style.*
+import at.orchaldir.gm.core.model.rpg.combat.MeleeWeapon
+import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponType
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.part.ColorItemPart
 import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
@@ -114,6 +116,15 @@ sealed class EquipmentData : MadeFromParts {
         is Tie -> EquipmentDataType.Tie
     }
 
+    fun getMeleeWeapon() = when (this) {
+        is OneHandedAxe -> stats
+        is TwoHandedAxe -> stats
+        is Polearm -> stats
+        is OneHandedSword -> stats
+        is TwoHandedSword -> stats
+        else -> null
+    }
+
     fun isType(equipmentType: EquipmentDataType) = getType() == equipmentType
 
     fun slots() = getType().slots()
@@ -126,6 +137,7 @@ sealed class EquipmentData : MadeFromParts {
 data class OneHandedAxe(
     val head: AxeHead = SingleBitAxeHead(),
     val shaft: Shaft = SimpleShaft(),
+    val stats: MeleeWeapon = MeleeWeapon(),
 ) : EquipmentData() {
 
     override fun parts() = head.parts() + shaft.parts()
@@ -136,6 +148,7 @@ data class OneHandedAxe(
 data class TwoHandedAxe(
     val head: AxeHead = DoubleBitAxeHead(),
     val shaft: Shaft = SimpleShaft(),
+    val stats: MeleeWeapon = MeleeWeapon(),
 ) : EquipmentData() {
 
     override fun parts() = head.parts() + shaft.parts()
@@ -300,6 +313,7 @@ data class Pants(
 data class Polearm(
     val head: PolearmHead = NoPolearmHead,
     val shaft: Shaft = SimpleShaft(),
+    val stats: MeleeWeapon = MeleeWeapon(),
 ) : EquipmentData() {
 
     override fun parts() = head.parts() + shaft.parts()
@@ -378,6 +392,7 @@ data class SuitJacket(
 data class OneHandedSword(
     val blade: Blade = SimpleBlade(DEFAULT_1H_BLADE_LENGTH),
     val hilt: SwordHilt = SimpleSwordHilt(),
+    val stats: MeleeWeapon = MeleeWeapon(),
 ) : EquipmentData() {
 
     override fun parts() = blade.parts() + hilt.parts()
@@ -388,6 +403,7 @@ data class OneHandedSword(
 data class TwoHandedSword(
     val blade: Blade = SimpleBlade(DEFAULT_2H_BLADE_LENGTH),
     val hilt: SwordHilt = SimpleSwordHilt(),
+    val stats: MeleeWeapon = MeleeWeapon(),
 ) : EquipmentData() {
 
     override fun parts() = blade.parts() + hilt.parts()

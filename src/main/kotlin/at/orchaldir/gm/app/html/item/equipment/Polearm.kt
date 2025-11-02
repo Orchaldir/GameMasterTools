@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.html.item.equipment
 
 import at.orchaldir.gm.app.TOP
 import at.orchaldir.gm.app.html.item.equipment.style.*
+import at.orchaldir.gm.app.html.rpg.combat.parseMeleeWeapon
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.Polearm
 import io.ktor.http.*
@@ -31,7 +32,11 @@ fun HtmlBlockTag.editPolearm(
 
 // parse
 
-fun parsePolearm(parameters: Parameters) = Polearm(
+fun parsePolearm(
+    state: State,
+    parameters: Parameters,
+) = Polearm(
     parsePolearmHead(parameters, TOP),
     parseShaft(parameters),
+    parseMeleeWeapon(state, parameters),
 )
