@@ -3,24 +3,46 @@ package at.orchaldir.gm.app.html.rpg.combat
 import at.orchaldir.gm.app.ATTACK
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.rpg.combat.DamageTypeId
 import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponType
 import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponTypeId
+import at.orchaldir.gm.core.selector.item.getMeleeWeapons
+import at.orchaldir.gm.core.selector.rpg.getMeleeWeaponTypes
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
+import kotlinx.html.h2
 
 // show
 
 fun HtmlBlockTag.showMeleeWeaponType(
     call: ApplicationCall,
     state: State,
-    weapon: MeleeWeaponType,
+    type: MeleeWeaponType,
 ) {
     showDetails("Attacks", true) {
-        weapon.attacks.withIndex().forEach { (index, attack) ->
+        type.attacks.withIndex().forEach { (index, attack) ->
             showMeleeAttack(call, state, attack, "${index + 1}.Attack")
         }
     }
+
+    showUsages(call, state, type.id)
+}
+
+private fun HtmlBlockTag.showUsages(
+    call: ApplicationCall,
+    state: State,
+    type: MeleeWeaponTypeId,
+) {
+    val meleeWeapons = state.getMeleeWeapons(type)
+
+    if (meleeWeapons.isEmpty()) {
+        return
+    }
+
+    h2 { +"Usage" }
+
+    fieldElements(call, state, meleeWeapons)
 }
 
 // edit
