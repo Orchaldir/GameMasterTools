@@ -58,8 +58,8 @@ fun HtmlBlockTag.editContentEntries(
         )
 
         when (entry) {
-            is Paragraph -> editText(entryParam, entry.text)
-            is SimpleQuote -> editText(entryParam, entry.text)
+            is Paragraph -> editTextArea(entryParam, entry.text)
+            is SimpleQuote -> editTextArea(entryParam, entry.text)
             is LinkedQuote -> selectElement(
                 state,
                 QUOTE,
@@ -70,7 +70,7 @@ fun HtmlBlockTag.editContentEntries(
     }
 }
 
-private fun HtmlBlockTag.editText(
+private fun HtmlBlockTag.editTextArea(
     entryParam: String,
     string: NotEmptyString,
 ) {

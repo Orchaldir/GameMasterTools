@@ -23,7 +23,6 @@ import at.orchaldir.gm.core.selector.util.sortCharacters
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -111,7 +110,7 @@ fun HtmlBlockTag.showEmploymentStatus(
 
 // select
 
-fun FORM.selectEmploymentStatusHistory(
+fun HtmlBlockTag.selectEmploymentStatusHistory(
     state: State,
     ownership: History<EmploymentStatus>,
     startDate: Date,

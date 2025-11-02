@@ -6,7 +6,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.Polearm
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -22,7 +21,7 @@ fun HtmlBlockTag.showPolearm(
 
 // edit
 
-fun FORM.editPolearm(
+fun HtmlBlockTag.editPolearm(
     state: State,
     polearm: Polearm,
 ) {

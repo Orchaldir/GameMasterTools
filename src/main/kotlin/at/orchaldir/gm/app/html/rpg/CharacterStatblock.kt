@@ -11,7 +11,6 @@ import at.orchaldir.gm.core.model.rpg.*
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -34,7 +33,7 @@ fun HtmlBlockTag.showCharacterStatblock(
 
 // edit
 
-fun FORM.editCharacterStatblock(
+fun HtmlBlockTag.editCharacterStatblock(
     call: ApplicationCall,
     state: State,
     statblock: CharacterStatblock,

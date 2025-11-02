@@ -16,7 +16,6 @@ import at.orchaldir.gm.core.model.item.equipment.style.TieStyle
 import at.orchaldir.gm.core.model.util.Size
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -34,7 +33,7 @@ fun HtmlBlockTag.showTie(
 
 // edit
 
-fun FORM.editTie(
+fun HtmlBlockTag.editTie(
     state: State,
     tie: Tie,
 ) {

@@ -7,9 +7,7 @@ import at.orchaldir.gm.app.html.character.parsePersonalityTrait
 import at.orchaldir.gm.app.html.character.showPersonalityTrait
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.PERSONALITY_TRAIT_TYPE
-import at.orchaldir.gm.core.model.character.PersonalityTrait
 import at.orchaldir.gm.core.model.character.PersonalityTraitId
 import at.orchaldir.gm.core.model.util.SortPersonalityTrait
 import at.orchaldir.gm.core.selector.character.getCharacters
@@ -17,19 +15,12 @@ import at.orchaldir.gm.core.selector.character.getPersonalityTraitGroups
 import at.orchaldir.gm.core.selector.character.getPersonalityTraits
 import at.orchaldir.gm.core.selector.religion.getGodsWith
 import at.orchaldir.gm.core.selector.util.sortPersonalityTraits
-import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
-import io.ktor.server.html.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
-import kotlinx.html.form
-import mu.KotlinLogging
-
-private val logger = KotlinLogging.logger {}
 
 @Resource("/$PERSONALITY_TRAIT_TYPE")
 class PersonalityTraitRoutes : Routes<PersonalityTraitId, SortPersonalityTrait> {
@@ -51,6 +42,9 @@ class PersonalityTraitRoutes : Routes<PersonalityTraitId, SortPersonalityTrait> 
     @Resource("edit")
     class Edit(val id: PersonalityTraitId, val parent: PersonalityTraitRoutes = PersonalityTraitRoutes())
 
+    @Resource("preview")
+    class Preview(val id: PersonalityTraitId, val parent: PersonalityTraitRoutes = PersonalityTraitRoutes())
+
     @Resource("update")
     class Update(val id: PersonalityTraitId, val parent: PersonalityTraitRoutes = PersonalityTraitRoutes())
 
@@ -59,6 +53,8 @@ class PersonalityTraitRoutes : Routes<PersonalityTraitId, SortPersonalityTrait> 
     override fun delete(call: ApplicationCall, id: PersonalityTraitId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: PersonalityTraitId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())
+    override fun preview(call: ApplicationCall, id: PersonalityTraitId) = call.application.href(Preview(id))
+    override fun update(call: ApplicationCall, id: PersonalityTraitId) = call.application.href(Edit(id))
 }
 
 fun Application.configurePersonalityRouting() {
@@ -97,35 +93,18 @@ fun Application.configurePersonalityRouting() {
             handleDeleteElement(delete.id, PersonalityTraitRoutes())
         }
         get<PersonalityTraitRoutes.Edit> { edit ->
-            logger.info { "Get editor for personality trait ${edit.id.value}" }
-
-            val state = STORE.getState()
-            val trait = state.getPersonalityTraitStorage().getOrThrow(edit.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showPersonalityTraitEditor(call, state, trait)
-            }
+            handleEditElement(edit.id, PersonalityTraitRoutes(), HtmlBlockTag::editPersonalityTrait)
+        }
+        post<PersonalityTraitRoutes.Preview> { preview ->
+            handlePreviewElement(
+                preview.id,
+                PersonalityTraitRoutes(),
+                ::parsePersonalityTrait,
+                HtmlBlockTag::editPersonalityTrait
+            )
         }
         post<PersonalityTraitRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parsePersonalityTrait)
         }
-    }
-}
-
-private fun HTML.showPersonalityTraitEditor(
-    call: ApplicationCall,
-    state: State,
-    trait: PersonalityTrait,
-) {
-    val backLink = href(call, trait.id)
-    val updateLink = call.application.href(PersonalityTraitRoutes.Update(trait.id))
-
-    simpleHtmlEditor(trait) {
-        form {
-            editPersonalityTrait(call, state, trait)
-
-            button("Update", updateLink)
-        }
-        back(backLink)
     }
 }

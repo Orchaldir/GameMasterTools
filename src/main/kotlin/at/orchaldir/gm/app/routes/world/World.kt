@@ -7,27 +7,18 @@ import at.orchaldir.gm.app.html.world.parseWorld
 import at.orchaldir.gm.app.html.world.showWorld
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortWorld
 import at.orchaldir.gm.core.model.world.WORLD_TYPE
-import at.orchaldir.gm.core.model.world.World
 import at.orchaldir.gm.core.model.world.WorldId
 import at.orchaldir.gm.core.selector.util.getMoonsOf
 import at.orchaldir.gm.core.selector.util.getRegionsIn
 import at.orchaldir.gm.core.selector.util.sortWorlds
-import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
-import io.ktor.server.html.*
-import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
-import mu.KotlinLogging
-
-private val logger = KotlinLogging.logger {}
 
 @Resource("/$WORLD_TYPE")
 class WorldRoutes : Routes<WorldId, SortWorld> {
@@ -60,6 +51,8 @@ class WorldRoutes : Routes<WorldId, SortWorld> {
     override fun delete(call: ApplicationCall, id: WorldId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: WorldId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())
+    override fun preview(call: ApplicationCall, id: WorldId) = call.application.href(Preview(id))
+    override fun update(call: ApplicationCall, id: WorldId) = call.application.href(Edit(id))
 }
 
 fun Application.configureWorldRouting() {
@@ -91,44 +84,13 @@ fun Application.configureWorldRouting() {
             handleDeleteElement(delete.id, WorldRoutes.All())
         }
         get<WorldRoutes.Edit> { edit ->
-            logger.info { "Get editor for world ${edit.id.value}" }
-
-            val state = STORE.getState()
-            val world = state.getWorldStorage().getOrThrow(edit.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showWorldEditor(call, state, world)
-            }
+            handleEditElement(edit.id, WorldRoutes(), HtmlBlockTag::editWorld)
         }
         post<WorldRoutes.Preview> { preview ->
-            logger.info { "Get preview for ${preview.id.print()}" }
-
-            val formParameters = call.receiveParameters()
-            val state = STORE.getState()
-            val region = parseWorld(state, formParameters, preview.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showWorldEditor(call, state, region)
-            }
+            handlePreviewElement(preview.id, WorldRoutes(), ::parseWorld, HtmlBlockTag::editWorld)
         }
         post<WorldRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseWorld)
-        }
-    }
-}
-
-private fun HTML.showWorldEditor(
-    call: ApplicationCall,
-    state: State,
-    world: World,
-) {
-    val backLink = href(call, world.id)
-    val previewLink = call.application.href(WorldRoutes.Preview(world.id))
-    val updateLink = call.application.href(WorldRoutes.Update(world.id))
-
-    simpleHtmlEditor(world) {
-        formWithPreview(previewLink, updateLink, backLink) {
-            editWorld(state, world)
         }
     }
 }

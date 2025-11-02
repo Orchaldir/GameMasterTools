@@ -19,7 +19,6 @@ import at.orchaldir.gm.utils.math.unit.SiPrefix
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.DETAILS
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 
@@ -174,7 +173,7 @@ private fun HtmlBlockTag.showScrollFormat(
 
 // edit
 
-fun FORM.editTextFormat(
+fun HtmlBlockTag.editTextFormat(
     state: State,
     format: TextFormat,
     hasAuthor: Boolean,

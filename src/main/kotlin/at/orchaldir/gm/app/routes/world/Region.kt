@@ -7,25 +7,16 @@ import at.orchaldir.gm.app.html.world.parseRegion
 import at.orchaldir.gm.app.html.world.showRegion
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortRegion
 import at.orchaldir.gm.core.model.world.terrain.REGION_TYPE
-import at.orchaldir.gm.core.model.world.terrain.Region
 import at.orchaldir.gm.core.model.world.terrain.RegionId
 import at.orchaldir.gm.core.selector.util.sortRegions
-import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
-import io.ktor.server.html.*
-import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
-import mu.KotlinLogging
-
-private val logger = KotlinLogging.logger {}
 
 @Resource("/$REGION_TYPE")
 class RegionRoutes : Routes<RegionId, SortRegion> {
@@ -58,6 +49,8 @@ class RegionRoutes : Routes<RegionId, SortRegion> {
     override fun delete(call: ApplicationCall, id: RegionId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: RegionId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())
+    override fun preview(call: ApplicationCall, id: RegionId) = call.application.href(Preview(id))
+    override fun update(call: ApplicationCall, id: RegionId) = call.application.href(Edit(id))
 }
 
 fun Application.configureRegionRouting() {
@@ -86,44 +79,13 @@ fun Application.configureRegionRouting() {
             handleDeleteElement(delete.id, RegionRoutes.All())
         }
         get<RegionRoutes.Edit> { edit ->
-            logger.info { "Get editor for region ${edit.id.value}" }
-
-            val state = STORE.getState()
-            val region = state.getRegionStorage().getOrThrow(edit.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showRegionEditor(call, state, region)
-            }
+            handleEditElement(edit.id, RegionRoutes(), HtmlBlockTag::editRegion)
         }
         post<RegionRoutes.Preview> { preview ->
-            logger.info { "Get preview for region ${preview.id.value}" }
-
-            val formParameters = call.receiveParameters()
-            val state = STORE.getState()
-            val region = parseRegion(state, formParameters, preview.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showRegionEditor(call, state, region)
-            }
+            handlePreviewElement(preview.id, RegionRoutes(), ::parseRegion, HtmlBlockTag::editRegion)
         }
         post<RegionRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseRegion)
-        }
-    }
-}
-
-private fun HTML.showRegionEditor(
-    call: ApplicationCall,
-    state: State,
-    region: Region,
-) {
-    val backLink = href(call, region.id)
-    val previewLink = call.application.href(RegionRoutes.Preview(region.id))
-    val updateLink = call.application.href(RegionRoutes.Update(region.id))
-
-    simpleHtmlEditor(region) {
-        formWithPreview(previewLink, updateLink, backLink) {
-            editRegion(state, region)
         }
     }
 }

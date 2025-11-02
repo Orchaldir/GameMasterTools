@@ -15,7 +15,6 @@ import at.orchaldir.gm.core.selector.character.getCharacterTemplates
 import at.orchaldir.gm.core.selector.economy.getJobs
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -32,7 +31,8 @@ fun HtmlBlockTag.showUniform(
 
 // edit
 
-fun FORM.editUniform(
+fun HtmlBlockTag.editUniform(
+    call: ApplicationCall,
     state: State,
     uniform: Uniform,
 ) {

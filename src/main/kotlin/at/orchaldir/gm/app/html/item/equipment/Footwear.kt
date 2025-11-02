@@ -12,7 +12,6 @@ import at.orchaldir.gm.core.model.item.equipment.Footwear
 import at.orchaldir.gm.core.model.item.equipment.style.FootwearStyle
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -31,7 +30,7 @@ fun HtmlBlockTag.showFootwear(
 
 // edit
 
-fun FORM.editFootwear(
+fun HtmlBlockTag.editFootwear(
     state: State,
     footwear: Footwear,
 ) {

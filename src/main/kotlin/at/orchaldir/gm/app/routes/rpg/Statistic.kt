@@ -1,30 +1,24 @@
 package at.orchaldir.gm.app.routes.rpg
 
 import at.orchaldir.gm.app.STORE
-import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.Column
 import at.orchaldir.gm.app.html.Column.Companion.tdColumn
+import at.orchaldir.gm.app.html.createNameColumn
 import at.orchaldir.gm.app.html.rpg.statistic.*
+import at.orchaldir.gm.app.html.tdEnum
+import at.orchaldir.gm.app.html.tdString
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.statistic.STATISTIC_TYPE
-import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.model.util.SortStatistic
 import at.orchaldir.gm.core.selector.util.sortStatistics
-import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
-import io.ktor.server.html.*
-import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
-import mu.KotlinLogging
-
-private val logger = KotlinLogging.logger {}
 
 @Resource("/$STATISTIC_TYPE")
 class StatisticRoutes : Routes<StatisticId, SortStatistic> {
@@ -57,6 +51,8 @@ class StatisticRoutes : Routes<StatisticId, SortStatistic> {
     override fun delete(call: ApplicationCall, id: StatisticId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: StatisticId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())
+    override fun preview(call: ApplicationCall, id: StatisticId) = call.application.href(Preview(id))
+    override fun update(call: ApplicationCall, id: StatisticId) = call.application.href(Edit(id))
 }
 
 fun Application.configureStatisticRouting() {
@@ -89,47 +85,13 @@ fun Application.configureStatisticRouting() {
             handleDeleteElement(delete.id, StatisticRoutes.All())
         }
         get<StatisticRoutes.Edit> { edit ->
-            logger.info { "Get editor for statistic ${edit.id.value}" }
-
-            val state = STORE.getState()
-            val statistic = state.getStatisticStorage().getOrThrow(edit.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showStatisticEditor(call, state, statistic)
-            }
+            handleEditElement(edit.id, StatisticRoutes(), HtmlBlockTag::editStatistic)
         }
         post<StatisticRoutes.Preview> { preview ->
-            logger.info { "Get preview for statistic ${preview.id.value}" }
-
-            val formParameters = call.receiveParameters()
-            val state = STORE.getState()
-            val statistic = parseStatistic(state, formParameters, preview.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showStatisticEditor(call, state, statistic)
-            }
+            handlePreviewElement(preview.id, StatisticRoutes(), ::parseStatistic, HtmlBlockTag::editStatistic)
         }
         post<StatisticRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseStatistic)
         }
     }
 }
-
-private fun HTML.showStatisticEditor(
-    call: ApplicationCall,
-    state: State,
-    statistic: Statistic,
-) {
-    val backLink = href(call, statistic.id)
-    val previewLink = call.application.href(StatisticRoutes.Preview(statistic.id))
-    val updateLink = call.application.href(StatisticRoutes.Update(statistic.id))
-
-    simpleHtmlEditor(statistic, true) {
-        mainFrame {
-            formWithPreview(previewLink, updateLink, backLink) {
-                editStatistic(state, statistic)
-            }
-        }
-    }
-}
-

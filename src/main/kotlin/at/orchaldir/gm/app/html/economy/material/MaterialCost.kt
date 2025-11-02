@@ -12,7 +12,6 @@ import at.orchaldir.gm.core.model.economy.material.MaterialCost
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 fun HtmlBlockTag.showMaterialCost(
@@ -27,7 +26,7 @@ fun HtmlBlockTag.showMaterialCost(
 }
 
 
-fun FORM.selectMaterialCost(
+fun HtmlBlockTag.selectMaterialCost(
     call: ApplicationCall,
     state: State,
     materialCost: MaterialCost,

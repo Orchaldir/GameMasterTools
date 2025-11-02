@@ -27,7 +27,6 @@ import at.orchaldir.gm.visualization.currency.visualizeCurrencyUnit
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.DETAILS
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -116,7 +115,8 @@ fun HtmlBlockTag.showCurrencyFormat(
 
 // edit
 
-fun FORM.editCurrencyUnit(
+fun HtmlBlockTag.editCurrencyUnit(
+    call: ApplicationCall,
     state: State,
     unit: CurrencyUnit,
 ) {

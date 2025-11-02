@@ -20,7 +20,6 @@ import at.orchaldir.gm.core.model.item.equipment.style.NecklineStyle
 import at.orchaldir.gm.core.model.item.equipment.style.SkirtStyle
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -38,7 +37,7 @@ fun HtmlBlockTag.showDress(
 
 // edit
 
-fun FORM.editDress(
+fun HtmlBlockTag.editDress(
     state: State,
     dress: Dress,
 ) {

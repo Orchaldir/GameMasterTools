@@ -14,7 +14,6 @@ import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -52,7 +51,7 @@ private fun HtmlBlockTag.showButtons(
 
 // edit
 
-fun FORM.selectOpeningStyle(state: State, openingStyle: OpeningStyle) {
+fun HtmlBlockTag.selectOpeningStyle(state: State, openingStyle: OpeningStyle) {
     showDetails("Opening Style", true) {
         selectValue("Type", combine(OPENING, STYLE), OpeningType.entries, openingStyle.getType())
 
@@ -81,15 +80,15 @@ private fun HtmlBlockTag.selectButtons(state: State, buttonColumn: ButtonColumn)
 }
 
 
-fun FORM.selectNecklineStyle(options: Collection<NecklineStyle>, current: NecklineStyle) {
+fun HtmlBlockTag.selectNecklineStyle(options: Collection<NecklineStyle>, current: NecklineStyle) {
     selectValue("Neckline Style", combine(NECKLINE, STYLE), options, current)
 }
 
-fun FORM.selectSleeveStyle(options: Collection<SleeveStyle>, current: SleeveStyle) {
+fun HtmlBlockTag.selectSleeveStyle(options: Collection<SleeveStyle>, current: SleeveStyle) {
     selectValue("Sleeve Style", combine(SLEEVE, STYLE), options, current)
 }
 
-fun FORM.selectPocketStyle(options: Collection<PocketStyle>, current: PocketStyle) {
+fun HtmlBlockTag.selectPocketStyle(options: Collection<PocketStyle>, current: PocketStyle) {
     selectValue("Pocket Style", combine(POCKET, STYLE), options, current)
 }
 

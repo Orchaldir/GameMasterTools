@@ -141,7 +141,8 @@ private fun HtmlBlockTag.showCurrentEra(calendar: Calendar) {
 
 // edit
 
-fun FORM.editCalendar(
+fun HtmlBlockTag.editCalendar(
+    call: ApplicationCall,
     state: State,
     calendar: Calendar,
 ) {
@@ -163,7 +164,7 @@ fun FORM.editCalendar(
     editDateFormat(calendar.defaultFormat)
 }
 
-private fun FORM.editDays(
+private fun HtmlBlockTag.editDays(
     calendar: Calendar,
     holidays: List<Holiday>,
 ) {
@@ -189,7 +190,7 @@ private fun FORM.editDays(
     }
 }
 
-private fun FORM.editMonths(calendar: Calendar, holidays: List<Holiday>) {
+private fun HtmlBlockTag.editMonths(calendar: Calendar, holidays: List<Holiday>) {
     val minMonths = getMinNumberOfMonths(holidays)
 
     h2 { +"Months" }
@@ -284,7 +285,7 @@ private fun TR.selectDaysOfMonth(
     }
 }
 
-private fun FORM.editEras(
+private fun HtmlBlockTag.editEras(
     calendar: Calendar,
     state: State,
 ) {
@@ -297,7 +298,7 @@ private fun FORM.editEras(
     selectDate(state, "Start Date", calendar.getStartDateInDefaultCalendar(), CURRENT)
 }
 
-private fun FORM.editEra(
+private fun HtmlBlockTag.editEra(
     label: String,
     era: CalendarEra,
     param: String,

@@ -8,25 +8,16 @@ import at.orchaldir.gm.app.html.world.parseMoon
 import at.orchaldir.gm.app.html.world.showMoon
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortMoon
 import at.orchaldir.gm.core.model.world.moon.MOON_TYPE
-import at.orchaldir.gm.core.model.world.moon.Moon
 import at.orchaldir.gm.core.model.world.moon.MoonId
 import at.orchaldir.gm.core.selector.util.sortMoons
-import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
-import io.ktor.server.html.*
-import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
-import mu.KotlinLogging
-
-private val logger = KotlinLogging.logger {}
 
 @Resource("/$MOON_TYPE")
 class MoonRoutes : Routes<MoonId, SortMoon> {
@@ -59,6 +50,8 @@ class MoonRoutes : Routes<MoonId, SortMoon> {
     override fun delete(call: ApplicationCall, id: MoonId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: MoonId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())
+    override fun preview(call: ApplicationCall, id: MoonId) = call.application.href(Preview(id))
+    override fun update(call: ApplicationCall, id: MoonId) = call.application.href(Edit(id))
 }
 
 fun Application.configureMoonRouting() {
@@ -91,25 +84,10 @@ fun Application.configureMoonRouting() {
             handleDeleteElement(delete.id, MoonRoutes.All())
         }
         get<MoonRoutes.Edit> { edit ->
-            logger.info { "Get editor for moon ${edit.id.value}" }
-
-            val state = STORE.getState()
-            val moon = state.getMoonStorage().getOrThrow(edit.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showMoonEditor(call, state, moon)
-            }
+            handleEditElement(edit.id, MoonRoutes(), HtmlBlockTag::editMoon)
         }
         post<MoonRoutes.Preview> { preview ->
-            logger.info { "Get preview for moon ${preview.id.value}" }
-
-            val formParameters = call.receiveParameters()
-            val state = STORE.getState()
-            val moon = parseMoon(state, formParameters, preview.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showMoonEditor(call, state, moon)
-            }
+            handlePreviewElement(preview.id, MoonRoutes(), ::parseMoon, HtmlBlockTag::editMoon)
         }
         post<MoonRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseMoon)
@@ -117,18 +95,3 @@ fun Application.configureMoonRouting() {
     }
 }
 
-private fun HTML.showMoonEditor(
-    call: ApplicationCall,
-    state: State,
-    moon: Moon,
-) {
-    val backLink = href(call, moon.id)
-    val previewLink = call.application.href(MoonRoutes.Preview(moon.id))
-    val updateLink = call.application.href(MoonRoutes.Update(moon.id))
-
-    simpleHtmlEditor(moon) {
-        formWithPreview(previewLink, updateLink, backLink) {
-            editMoon(state, moon)
-        }
-    }
-}

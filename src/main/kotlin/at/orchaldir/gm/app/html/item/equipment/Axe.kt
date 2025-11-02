@@ -7,7 +7,6 @@ import at.orchaldir.gm.core.model.item.equipment.OneHandedAxe
 import at.orchaldir.gm.core.model.item.equipment.TwoHandedAxe
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -32,7 +31,7 @@ fun HtmlBlockTag.showTwoHandedAxe(
 
 // edit
 
-fun FORM.editOneHandedAxe(
+fun HtmlBlockTag.editOneHandedAxe(
     state: State,
     axe: OneHandedAxe,
 ) {
@@ -40,7 +39,7 @@ fun FORM.editOneHandedAxe(
     editShaft(state, axe.shaft)
 }
 
-fun FORM.editTwoHandedAxe(
+fun HtmlBlockTag.editTwoHandedAxe(
     state: State,
     axe: TwoHandedAxe,
 ) {

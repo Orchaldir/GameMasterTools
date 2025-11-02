@@ -1,32 +1,25 @@
 package at.orchaldir.gm.app.routes.world
 
 import at.orchaldir.gm.app.STORE
-import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.Column
+import at.orchaldir.gm.app.html.createNameColumn
+import at.orchaldir.gm.app.html.tdInlineElements
 import at.orchaldir.gm.app.html.world.editRiver
 import at.orchaldir.gm.app.html.world.parseRiver
 import at.orchaldir.gm.app.html.world.showRiver
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortRiver
 import at.orchaldir.gm.core.model.world.terrain.RIVER_TYPE
-import at.orchaldir.gm.core.model.world.terrain.River
 import at.orchaldir.gm.core.model.world.terrain.RiverId
 import at.orchaldir.gm.core.selector.util.sortRivers
 import at.orchaldir.gm.core.selector.world.getTowns
-import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
-import io.ktor.server.html.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
-import kotlinx.html.form
-import mu.KotlinLogging
-
-private val logger = KotlinLogging.logger {}
 
 @Resource("/$RIVER_TYPE")
 class RiverRoutes : Routes<RiverId, SortRiver> {
@@ -48,6 +41,9 @@ class RiverRoutes : Routes<RiverId, SortRiver> {
     @Resource("edit")
     class Edit(val id: RiverId, val parent: RiverRoutes = RiverRoutes())
 
+    @Resource("preview")
+    class Preview(val id: RiverId, val parent: RiverRoutes = RiverRoutes())
+
     @Resource("update")
     class Update(val id: RiverId, val parent: RiverRoutes = RiverRoutes())
 
@@ -56,6 +52,8 @@ class RiverRoutes : Routes<RiverId, SortRiver> {
     override fun delete(call: ApplicationCall, id: RiverId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: RiverId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())
+    override fun preview(call: ApplicationCall, id: RiverId) = call.application.href(Preview(id))
+    override fun update(call: ApplicationCall, id: RiverId) = call.application.href(Edit(id))
 }
 
 fun Application.configureRiverRouting() {
@@ -84,34 +82,13 @@ fun Application.configureRiverRouting() {
             handleDeleteElement(delete.id, RiverRoutes())
         }
         get<RiverRoutes.Edit> { edit ->
-            logger.info { "Get editor for river ${edit.id.value}" }
-
-            val state = STORE.getState()
-            val river = state.getRiverStorage().getOrThrow(edit.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showRiverEditor(call, state, river)
-            }
+            handleEditElement(edit.id, RiverRoutes(), HtmlBlockTag::editRiver)
+        }
+        post<RiverRoutes.Preview> { preview ->
+            handlePreviewElement(preview.id, RiverRoutes(), ::parseRiver, HtmlBlockTag::editRiver)
         }
         post<RiverRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseRiver)
         }
-    }
-}
-
-private fun HTML.showRiverEditor(
-    call: ApplicationCall,
-    state: State,
-    river: River,
-) {
-    val backLink = href(call, river.id)
-    val updateLink = call.application.href(RiverRoutes.Update(river.id))
-
-    simpleHtmlEditor(river) {
-        form {
-            editRiver(state, river)
-            button("Update", updateLink)
-        }
-        back(backLink)
     }
 }

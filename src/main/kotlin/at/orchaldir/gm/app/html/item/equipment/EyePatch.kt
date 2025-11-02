@@ -23,7 +23,6 @@ import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -87,7 +86,7 @@ private fun HtmlBlockTag.showFixation(
 
 // edit
 
-fun FORM.editEyePatch(
+fun HtmlBlockTag.editEyePatch(
     state: State,
     eyePatch: EyePatch,
 ) {
@@ -95,7 +94,7 @@ fun FORM.editEyePatch(
     editFixation(state, eyePatch.fixation)
 }
 
-private fun FORM.editStyle(
+private fun HtmlBlockTag.editStyle(
     state: State,
     style: EyePatchStyle,
 ) {
@@ -118,7 +117,7 @@ private fun FORM.editStyle(
     }
 }
 
-private fun FORM.editFixation(
+private fun HtmlBlockTag.editFixation(
     state: State,
     fixation: EyePatchFixation,
 ) {

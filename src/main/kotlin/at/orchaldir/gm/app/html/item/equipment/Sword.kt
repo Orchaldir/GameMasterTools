@@ -7,7 +7,6 @@ import at.orchaldir.gm.core.model.item.equipment.TwoHandedSword
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -32,7 +31,7 @@ fun HtmlBlockTag.showTwoHandedSword(
 
 // edit
 
-fun FORM.editOneHandedSword(
+fun HtmlBlockTag.editOneHandedSword(
     state: State,
     sword: OneHandedSword,
 ) {
@@ -40,7 +39,7 @@ fun FORM.editOneHandedSword(
     editSwordHilt(state, sword.hilt)
 }
 
-fun FORM.editTwoHandedSword(
+fun HtmlBlockTag.editTwoHandedSword(
     state: State,
     sword: TwoHandedSword,
 ) {

@@ -23,7 +23,6 @@ import at.orchaldir.gm.core.selector.magic.getSpells
 import at.orchaldir.gm.core.selector.world.getPlanes
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 import kotlinx.html.h2
 
@@ -94,7 +93,7 @@ private fun HtmlBlockTag.showLanguageUsage(
 
 // edit
 
-fun FORM.editKnownLanguages(
+fun HtmlBlockTag.editKnownLanguages(
     state: State,
     languages: Map<LanguageId, ComprehensionLevel>,
 ) {
@@ -124,7 +123,8 @@ fun FORM.editKnownLanguages(
     }
 }
 
-fun FORM.editLanguage(
+fun HtmlBlockTag.editLanguage(
+    call: ApplicationCall,
     state: State,
     language: Language,
 ) {

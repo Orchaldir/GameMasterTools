@@ -10,7 +10,6 @@ import at.orchaldir.gm.core.model.religion.Pantheon
 import at.orchaldir.gm.core.model.religion.PantheonId
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -27,7 +26,8 @@ fun HtmlBlockTag.showPantheon(
 
 // edit
 
-fun FORM.editPantheon(
+fun HtmlBlockTag.editPantheon(
+    call: ApplicationCall,
     state: State,
     pantheon: Pantheon,
 ) {

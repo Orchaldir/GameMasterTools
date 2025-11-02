@@ -1,33 +1,27 @@
 package at.orchaldir.gm.app.routes.utls
 
 import at.orchaldir.gm.app.STORE
-import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.Column
 import at.orchaldir.gm.app.html.Column.Companion.tdColumn
+import at.orchaldir.gm.app.html.createNameColumn
+import at.orchaldir.gm.app.html.showOptionalColor
+import at.orchaldir.gm.app.html.tdSkipZero
 import at.orchaldir.gm.app.html.util.color.editColorScheme
 import at.orchaldir.gm.app.html.util.color.parseColorScheme
 import at.orchaldir.gm.app.html.util.color.showColorScheme
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortColorScheme
 import at.orchaldir.gm.core.model.util.render.COLOR_SCHEME_TYPE
-import at.orchaldir.gm.core.model.util.render.ColorScheme
 import at.orchaldir.gm.core.model.util.render.ColorSchemeId
 import at.orchaldir.gm.core.selector.item.countEquipment
 import at.orchaldir.gm.core.selector.util.sortColorSchemes
-import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
-import io.ktor.server.html.*
-import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
-import mu.KotlinLogging
-
-private val logger = KotlinLogging.logger {}
 
 @Resource("/$COLOR_SCHEME_TYPE")
 class ColorSchemeRoutes : Routes<ColorSchemeId, SortColorScheme> {
@@ -60,6 +54,8 @@ class ColorSchemeRoutes : Routes<ColorSchemeId, SortColorScheme> {
     override fun delete(call: ApplicationCall, id: ColorSchemeId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: ColorSchemeId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())
+    override fun preview(call: ApplicationCall, id: ColorSchemeId) = call.application.href(Preview(id))
+    override fun update(call: ApplicationCall, id: ColorSchemeId) = call.application.href(Edit(id))
 }
 
 fun Application.configureColorSchemeRouting() {
@@ -90,44 +86,13 @@ fun Application.configureColorSchemeRouting() {
             handleDeleteElement(delete.id, ColorSchemeRoutes.All())
         }
         get<ColorSchemeRoutes.Edit> { edit ->
-            logger.info { "Get editor for color scheme ${edit.id.value}" }
-
-            val state = STORE.getState()
-            val scheme = state.getColorSchemeStorage().getOrThrow(edit.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showColorSchemeEditor(call, state, scheme)
-            }
+            handleEditElement(edit.id, ColorSchemeRoutes(), HtmlBlockTag::editColorScheme)
         }
         post<ColorSchemeRoutes.Preview> { preview ->
-            logger.info { "Get preview for color scheme ${preview.id.value}" }
-
-            val formParameters = call.receiveParameters()
-            val state = STORE.getState()
-            val scheme = parseColorScheme(state, formParameters, preview.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showColorSchemeEditor(call, state, scheme)
-            }
+            handlePreviewElement(preview.id, ColorSchemeRoutes(), ::parseColorScheme, HtmlBlockTag::editColorScheme)
         }
         post<ColorSchemeRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseColorScheme)
-        }
-    }
-}
-
-private fun HTML.showColorSchemeEditor(
-    call: ApplicationCall,
-    state: State,
-    scheme: ColorScheme,
-) {
-    val backLink = href(call, scheme.id)
-    val previewLink = call.application.href(ColorSchemeRoutes.Preview(scheme.id))
-    val updateLink = call.application.href(ColorSchemeRoutes.Update(scheme.id))
-
-    simpleHtmlEditor(scheme) {
-        formWithPreview(previewLink, updateLink, backLink) {
-            editColorScheme(state, scheme)
         }
     }
 }

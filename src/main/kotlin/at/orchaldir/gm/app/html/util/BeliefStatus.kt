@@ -17,7 +17,6 @@ import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 import kotlinx.html.h2
 
@@ -80,7 +79,7 @@ fun <ID : Id<ID>> HtmlBlockTag.showCurrentAndFormerBelievers(
 
 // edit
 
-fun FORM.editBeliefStatusHistory(
+fun HtmlBlockTag.editBeliefStatusHistory(
     state: State,
     history: History<BeliefStatus>,
     startDate: Date?,

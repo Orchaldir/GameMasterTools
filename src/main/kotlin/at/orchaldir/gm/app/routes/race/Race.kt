@@ -29,7 +29,6 @@ import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
-import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
@@ -80,7 +79,10 @@ class RaceRoutes : Routes<RaceId, SortRace> {
     override fun clone(call: ApplicationCall, id: RaceId) = call.application.href(Clone(id))
     override fun delete(call: ApplicationCall, id: RaceId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: RaceId) = call.application.href(Edit(id))
+    override fun gallery(call: ApplicationCall) = call.application.href(Gallery())
     override fun new(call: ApplicationCall) = call.application.href(New())
+    override fun preview(call: ApplicationCall, id: RaceId) = call.application.href(Preview(id))
+    override fun update(call: ApplicationCall, id: RaceId) = call.application.href(Edit(id))
 }
 
 fun Application.configureRaceRouting() {
@@ -133,36 +135,26 @@ fun Application.configureRaceRouting() {
             handleDeleteElement(delete.id, RaceRoutes.All())
         }
         get<RaceRoutes.Edit> { edit ->
-            logger.info { "Get editor for race ${edit.id.value}" }
-
-            val state = STORE.getState()
-            val race = state.getRaceStorage().getOrThrow(edit.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showRaceEditor(call, state, race)
-            }
+            handleEditElementSplit(
+                edit.id,
+                RaceRoutes(),
+                HtmlBlockTag::editRace,
+                HtmlBlockTag::showRaceEditorRight,
+            )
         }
         post<RaceRoutes.Preview> { preview ->
-            logger.info { "Get preview for race ${preview.id.value}" }
-
-            val state = STORE.getState()
-            val race = parseRace(state, call.receiveParameters(), preview.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showRaceEditor(call, state, race)
-            }
+            handlePreviewElementSplit(
+                preview.id,
+                RaceRoutes(),
+                ::parseRace,
+                HtmlBlockTag::editRace,
+                HtmlBlockTag::showRaceEditorRight,
+            )
         }
         post<RaceRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseRace)
         }
     }
-}
-
-private inline fun <reified V : Any> HtmlBlockTag.showSortLinks(
-    call: ApplicationCall,
-    crossinline createLink: Function2<SortRace, RaceRoutes, V>,
-) {
-    showSortTableLinks(call, SortRace.entries, RaceRoutes())
 }
 
 private fun HTML.showGallery(
@@ -176,7 +168,7 @@ private fun HTML.showGallery(
     val backLink = call.application.href(RaceRoutes.All())
 
     simpleHtml("Races") {
-        showSortLinks(call, RaceRoutes::Gallery)
+        showSortTableLinks(call, SortRace.entries, RaceRoutes())
 
         showGallery(call, state, races) { race ->
             val lifeStage = race.lifeStages.getAllLifeStages().maxBy { it.relativeSize.toPermyriad() }
@@ -226,25 +218,13 @@ private fun generateAppearance(
     return generator.generate()
 }
 
-private fun HTML.showRaceEditor(
+private fun HtmlBlockTag.showRaceEditorRight(
     call: ApplicationCall,
     state: State,
     race: Race,
 ) {
-    val backLink = call.application.href(RaceRoutes.Details(race.id))
-    val previewLink = call.application.href(RaceRoutes.Preview(race.id))
-    val updateLink = call.application.href(RaceRoutes.Update(race.id))
-
-    simpleHtmlEditor(race, true) {
-        split({
-            formWithPreview(previewLink, updateLink, backLink) {
-                editRace(call, state, race)
-            }
-        }, {
-            race.genders.getValidValues().forEach { gender ->
-                visualizeLifeStages(state, race, gender, 120)
-            }
-        })
+    race.genders.getValidValues().forEach { gender ->
+        visualizeLifeStages(state, race, gender, 120)
     }
 }
 

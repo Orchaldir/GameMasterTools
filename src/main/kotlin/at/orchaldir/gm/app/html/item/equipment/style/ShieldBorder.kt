@@ -19,7 +19,6 @@ import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -44,7 +43,7 @@ fun HtmlBlockTag.showShieldBorder(
 
 // edit
 
-fun FORM.editShieldBorder(state: State, border: ShieldBorder) {
+fun HtmlBlockTag.editShieldBorder(state: State, border: ShieldBorder) {
     showDetails("Shield Border", true) {
         selectValue("Type", BORDER, ShieldBorderType.entries, border.getType())
 

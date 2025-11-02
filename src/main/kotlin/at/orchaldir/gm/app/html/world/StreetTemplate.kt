@@ -13,7 +13,6 @@ import at.orchaldir.gm.core.model.world.street.StreetTemplateId
 import at.orchaldir.gm.core.selector.world.getTowns
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -30,7 +29,7 @@ fun HtmlBlockTag.showStreetTemplate(
 
 // edit
 
-fun FORM.editStreetTemplate(
+fun HtmlBlockTag.editStreetTemplate(
     call: ApplicationCall,
     state: State,
     template: StreetTemplate,

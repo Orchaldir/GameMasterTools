@@ -7,10 +7,7 @@ import at.orchaldir.gm.app.html.character.*
 import at.orchaldir.gm.app.html.util.showCreated
 import at.orchaldir.gm.app.html.util.showEmploymentStatus
 import at.orchaldir.gm.app.html.util.showPosition
-import at.orchaldir.gm.app.routes.handleCreateElement
-import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.app.routes.handleShowAllElements
-import at.orchaldir.gm.app.routes.handleShowElement
+import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.generator.DateGenerator
 import at.orchaldir.gm.core.generator.NameGenerator
@@ -33,7 +30,6 @@ import at.orchaldir.gm.visualization.character.appearance.visualizeCharacter
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
-import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
@@ -107,24 +103,10 @@ fun Application.configureCharacterRouting() {
             handleDeleteElement(delete.id, CharacterRoutes.All())
         }
         get<CharacterRoutes.Edit> { edit ->
-            logger.info { "Get editor for character ${edit.id.value}" }
-
-            val state = STORE.getState()
-            val character = state.getCharacterStorage().getOrThrow(edit.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showCharacterEditor(call, state, character)
-            }
+            handleEditElement(edit.id, CharacterRoutes(), HtmlBlockTag::editCharacter)
         }
         post<CharacterRoutes.Preview> { preview ->
-            logger.info { "Preview changes to character ${preview.id.value}" }
-
-            val state = STORE.getState()
-            val character = parseCharacter(state, call.receiveParameters(), preview.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showCharacterEditor(call, state, character)
-            }
+            handlePreviewElement(preview.id, CharacterRoutes(), ::parseCharacter, HtmlBlockTag::editCharacter)
         }
         post<CharacterRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseCharacter)
@@ -207,24 +189,4 @@ private fun HtmlBlockTag.showCharacterDetails(
     showSocial(call, state, character)
     showPossession(call, state, character)
     showCreated(call, state, character.id)
-}
-
-
-private fun HTML.showCharacterEditor(
-    call: ApplicationCall,
-    state: State,
-    character: Character,
-) {
-    val characterName = character.name(state)
-    val backLink = href(call, character.id)
-    val previewLink = call.application.href(CharacterRoutes.Preview(character.id))
-    val updateLink = call.application.href(CharacterRoutes.Update(character.id))
-
-    simpleHtml("Edit Character: $characterName", true) {
-        mainFrame {
-            formWithPreview(previewLink, updateLink, backLink) {
-                editCharacter(call, state, character)
-            }
-        }
-    }
 }

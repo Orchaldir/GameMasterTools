@@ -18,7 +18,6 @@ import at.orchaldir.gm.core.model.item.equipment.Helmet
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -52,7 +51,7 @@ fun HtmlBlockTag.showHelmet(
 
 // edit
 
-fun FORM.editHelmet(
+fun HtmlBlockTag.editHelmet(
     state: State,
     helmet: Helmet,
 ) {

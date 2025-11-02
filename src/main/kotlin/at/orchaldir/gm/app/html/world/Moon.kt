@@ -47,6 +47,7 @@ fun HtmlBlockTag.showMoon(
 // edit
 
 fun HtmlBlockTag.editMoon(
+    call: ApplicationCall,
     state: State,
     moon: Moon,
 ) {

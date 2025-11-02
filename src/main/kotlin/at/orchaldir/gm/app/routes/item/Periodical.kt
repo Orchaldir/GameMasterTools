@@ -7,26 +7,17 @@ import at.orchaldir.gm.app.html.item.periodical.parsePeriodical
 import at.orchaldir.gm.app.html.item.periodical.showPeriodical
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.periodical.PERIODICAL_TYPE
-import at.orchaldir.gm.core.model.item.periodical.Periodical
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalId
 import at.orchaldir.gm.core.model.util.SortPeriodical
 import at.orchaldir.gm.core.selector.item.periodical.countPeriodicalIssues
 import at.orchaldir.gm.core.selector.util.sortPeriodicals
-import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
-import io.ktor.server.html.*
-import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
-import mu.KotlinLogging
-
-private val logger = KotlinLogging.logger {}
 
 @Resource("/$PERIODICAL_TYPE")
 class PeriodicalRoutes : Routes<PeriodicalId, SortPeriodical> {
@@ -59,6 +50,8 @@ class PeriodicalRoutes : Routes<PeriodicalId, SortPeriodical> {
     override fun delete(call: ApplicationCall, id: PeriodicalId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: PeriodicalId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())
+    override fun preview(call: ApplicationCall, id: PeriodicalId) = call.application.href(Preview(id))
+    override fun update(call: ApplicationCall, id: PeriodicalId) = call.application.href(Edit(id))
 }
 
 fun Application.configurePeriodicalRouting() {
@@ -94,43 +87,13 @@ fun Application.configurePeriodicalRouting() {
             handleDeleteElement(delete.id, PeriodicalRoutes.All())
         }
         get<PeriodicalRoutes.Edit> { edit ->
-            logger.info { "Get editor for periodical ${edit.id.value}" }
-
-            val state = STORE.getState()
-            val periodical = state.getPeriodicalStorage().getOrThrow(edit.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showPeriodicalEditor(call, state, periodical)
-            }
+            handleEditElement(edit.id, PeriodicalRoutes(), HtmlBlockTag::editPeriodical)
         }
         post<PeriodicalRoutes.Preview> { preview ->
-            logger.info { "Preview periodical ${preview.id.value}" }
-
-            val state = STORE.getState()
-            val periodical = parsePeriodical(state, call.receiveParameters(), preview.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showPeriodicalEditor(call, state, periodical)
-            }
+            handlePreviewElement(preview.id, PeriodicalRoutes(), ::parsePeriodical, HtmlBlockTag::editPeriodical)
         }
         post<PeriodicalRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parsePeriodical)
-        }
-    }
-}
-
-private fun HTML.showPeriodicalEditor(
-    call: ApplicationCall,
-    state: State,
-    periodical: Periodical,
-) {
-    val backLink = href(call, periodical.id)
-    val previewLink = call.application.href(PeriodicalRoutes.Preview(periodical.id))
-    val updateLink = call.application.href(PeriodicalRoutes.Update(periodical.id))
-
-    simpleHtmlEditor(periodical) {
-        formWithPreview(previewLink, updateLink, backLink) {
-            editPeriodical(state, periodical)
         }
     }
 }

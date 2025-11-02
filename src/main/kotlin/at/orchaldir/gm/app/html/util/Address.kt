@@ -16,7 +16,6 @@ import at.orchaldir.gm.core.selector.world.getStreets
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 import kotlin.math.min
 
@@ -70,7 +69,7 @@ fun HtmlBlockTag.showAddress(
 
 // edit
 
-fun FORM.selectAddress(state: State, building: Building) {
+fun HtmlBlockTag.selectAddress(state: State, building: Building) {
     val streets = state.getStreets(building.position).toMutableList()
     showDetails("Address", true) {
 

@@ -19,7 +19,6 @@ import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -51,7 +50,7 @@ fun HtmlBlockTag.showShieldBoss(
 
 // edit
 
-fun FORM.editShieldBoss(state: State, boss: ShieldBoss) {
+fun HtmlBlockTag.editShieldBoss(state: State, boss: ShieldBoss) {
     showDetails("Shield Boss", true) {
         selectValue("Type", BOSS, ShieldBossType.entries, boss.getType())
 

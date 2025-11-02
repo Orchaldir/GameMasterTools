@@ -35,7 +35,11 @@ fun HtmlBlockTag.showQuote(
 
 // edit
 
-fun HtmlBlockTag.editQuote(state: State, quote: Quote) {
+fun HtmlBlockTag.editQuote(
+    call: ApplicationCall,
+    state: State,
+    quote: Quote,
+) {
     editTextArea(
         NAME,
         90,

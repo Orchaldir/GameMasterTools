@@ -1,32 +1,26 @@
 package at.orchaldir.gm.app.routes.rpg
 
 import at.orchaldir.gm.app.STORE
-import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.Column
+import at.orchaldir.gm.app.html.countCollectionColumn
+import at.orchaldir.gm.app.html.createNameColumn
 import at.orchaldir.gm.app.html.rpg.combat.editDamageType
 import at.orchaldir.gm.app.html.rpg.combat.parseDamageType
 import at.orchaldir.gm.app.html.rpg.combat.showDamageType
+import at.orchaldir.gm.app.html.tdString
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.combat.DAMAGE_TYPE_TYPE
-import at.orchaldir.gm.core.model.rpg.combat.DamageType
 import at.orchaldir.gm.core.model.rpg.combat.DamageTypeId
 import at.orchaldir.gm.core.model.util.SortDamageType
 import at.orchaldir.gm.core.selector.rpg.getMeleeWeapons
 import at.orchaldir.gm.core.selector.util.sortDamageTypes
-import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
-import io.ktor.server.html.*
-import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
-import mu.KotlinLogging
-
-private val logger = KotlinLogging.logger {}
 
 @Resource("/$DAMAGE_TYPE_TYPE")
 class DamageTypeRoutes : Routes<DamageTypeId, SortDamageType> {
@@ -59,6 +53,8 @@ class DamageTypeRoutes : Routes<DamageTypeId, SortDamageType> {
     override fun delete(call: ApplicationCall, id: DamageTypeId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: DamageTypeId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())
+    override fun preview(call: ApplicationCall, id: DamageTypeId) = call.application.href(Preview(id))
+    override fun update(call: ApplicationCall, id: DamageTypeId) = call.application.href(Edit(id))
 }
 
 fun Application.configureDamageTypeRouting() {
@@ -88,47 +84,13 @@ fun Application.configureDamageTypeRouting() {
             handleDeleteElement(delete.id, DamageTypeRoutes.All())
         }
         get<DamageTypeRoutes.Edit> { edit ->
-            logger.info { "Get editor for type ${edit.id.value}" }
-
-            val state = STORE.getState()
-            val type = state.getDamageTypeStorage().getOrThrow(edit.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showDamageTypeEditor(call, state, type)
-            }
+            handleEditElement(edit.id, DamageTypeRoutes(), HtmlBlockTag::editDamageType)
         }
         post<DamageTypeRoutes.Preview> { preview ->
-            logger.info { "Get preview for type ${preview.id.value}" }
-
-            val formParameters = call.receiveParameters()
-            val state = STORE.getState()
-            val type = parseDamageType(state, formParameters, preview.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showDamageTypeEditor(call, state, type)
-            }
+            handlePreviewElement(preview.id, DamageTypeRoutes(), ::parseDamageType, HtmlBlockTag::editDamageType)
         }
         post<DamageTypeRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseDamageType)
         }
     }
 }
-
-private fun HTML.showDamageTypeEditor(
-    call: ApplicationCall,
-    state: State,
-    type: DamageType,
-) {
-    val backLink = href(call, type.id)
-    val previewLink = call.application.href(DamageTypeRoutes.Preview(type.id))
-    val updateLink = call.application.href(DamageTypeRoutes.Update(type.id))
-
-    simpleHtmlEditor(type, true) {
-        mainFrame {
-            formWithPreview(previewLink, updateLink, backLink) {
-                editDamageType(state, type)
-            }
-        }
-    }
-}
-

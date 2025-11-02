@@ -43,6 +43,8 @@ class TownMapRoutes : Routes<TownMapId, SortTownMap> {
     override fun delete(call: ApplicationCall, id: TownMapId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: TownMapId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())
+    override fun preview(call: ApplicationCall, id: TownMapId) = call.application.href(Preview(id))
+    override fun update(call: ApplicationCall, id: TownMapId) = call.application.href(Edit(id))
 
     @Resource("/abstract")
     class AbstractBuildingRoutes(val parent: TownMapRoutes = TownMapRoutes()) {

@@ -72,7 +72,8 @@ private fun HtmlBlockTag.showUnits(
 
 // edit
 
-fun FORM.editCurrency(
+fun HtmlBlockTag.editCurrency(
+    call: ApplicationCall,
     state: State,
     currency: Currency,
 ) {
@@ -82,7 +83,7 @@ fun FORM.editCurrency(
     editDenominations(currency)
 }
 
-private fun FORM.editDenominations(currency: Currency) {
+private fun HtmlBlockTag.editDenominations(currency: Currency) {
     editDenomination(currency.denomination, DENOMINATION)
     editList(
         "Subdenominations",

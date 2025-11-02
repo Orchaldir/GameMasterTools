@@ -8,7 +8,6 @@ import at.orchaldir.gm.core.model.rpg.combat.DamageTypeId
 import at.orchaldir.gm.core.selector.rpg.getMeleeWeapons
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 import kotlinx.html.h2
 
@@ -42,7 +41,8 @@ private fun HtmlBlockTag.showUsages(
 
 // edit
 
-fun FORM.editDamageType(
+fun HtmlBlockTag.editDamageType(
+    call: ApplicationCall,
     state: State,
     type: DamageType,
 ) {

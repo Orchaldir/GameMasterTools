@@ -20,7 +20,6 @@ import at.orchaldir.gm.core.selector.world.getHomes
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -81,7 +80,7 @@ fun HtmlBlockTag.showPosition(
 
 // select
 
-fun FORM.selectPositionHistory(
+fun HtmlBlockTag.selectPositionHistory(
     state: State,
     history: History<Position>,
     startDate: Date,

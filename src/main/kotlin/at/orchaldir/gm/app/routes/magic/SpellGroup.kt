@@ -1,31 +1,24 @@
 package at.orchaldir.gm.app.routes.magic
 
 import at.orchaldir.gm.app.STORE
-import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.countCollectionColumn
+import at.orchaldir.gm.app.html.createNameColumn
 import at.orchaldir.gm.app.html.magic.editSpellGroup
 import at.orchaldir.gm.app.html.magic.parseSpellGroup
 import at.orchaldir.gm.app.html.magic.showSpellGroup
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.magic.SPELL_GROUP_TYPE
 import at.orchaldir.gm.core.model.magic.SpellGroup
 import at.orchaldir.gm.core.model.magic.SpellGroupId
 import at.orchaldir.gm.core.model.util.SortSpellGroup
 import at.orchaldir.gm.core.selector.util.sortSpellGroups
-import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
-import io.ktor.server.html.*
-import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
-import mu.KotlinLogging
-
-private val logger = KotlinLogging.logger {}
 
 @Resource("/$SPELL_GROUP_TYPE")
 class SpellGroupRoutes : Routes<SpellGroupId, SortSpellGroup> {
@@ -59,6 +52,8 @@ class SpellGroupRoutes : Routes<SpellGroupId, SortSpellGroup> {
     override fun delete(call: ApplicationCall, id: SpellGroupId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: SpellGroupId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())
+    override fun preview(call: ApplicationCall, id: SpellGroupId) = call.application.href(Preview(id))
+    override fun update(call: ApplicationCall, id: SpellGroupId) = call.application.href(Edit(id))
 }
 
 fun Application.configureSpellGroupRouting() {
@@ -87,45 +82,13 @@ fun Application.configureSpellGroupRouting() {
             handleDeleteElement(delete.id, SpellGroupRoutes.All())
         }
         get<SpellGroupRoutes.Edit> { edit ->
-            logger.info { "Get editor for group ${edit.id.value}" }
-
-            val state = STORE.getState()
-            val group = state.getSpellGroupStorage().getOrThrow(edit.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showSpellGroupEditor(call, state, group)
-            }
+            handleEditElement(edit.id, SpellGroupRoutes(), HtmlBlockTag::editSpellGroup)
         }
         post<SpellGroupRoutes.Preview> { preview ->
-            logger.info { "Get preview for group ${preview.id.value}" }
-
-            val formParameters = call.receiveParameters()
-            val state = STORE.getState()
-            val group = parseSpellGroup(state, formParameters, preview.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showSpellGroupEditor(call, state, group)
-            }
+            handlePreviewElement(preview.id, SpellGroupRoutes(), ::parseSpellGroup, HtmlBlockTag::editSpellGroup)
         }
         post<SpellGroupRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseSpellGroup)
         }
     }
 }
-
-private fun HTML.showSpellGroupEditor(
-    call: ApplicationCall,
-    state: State,
-    group: SpellGroup,
-) {
-    val backLink = href(call, group.id)
-    val previewLink = call.application.href(SpellGroupRoutes.Preview(group.id))
-    val updateLink = call.application.href(SpellGroupRoutes.Update(group.id))
-
-    simpleHtmlEditor(group) {
-        formWithPreview(previewLink, updateLink, backLink) {
-            editSpellGroup(state, group)
-        }
-    }
-}
-

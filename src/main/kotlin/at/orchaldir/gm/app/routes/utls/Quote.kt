@@ -9,25 +9,16 @@ import at.orchaldir.gm.app.html.util.quote.showQuote
 import at.orchaldir.gm.app.html.util.showReference
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortQuote
 import at.orchaldir.gm.core.model.util.quote.QUOTE_TYPE
-import at.orchaldir.gm.core.model.util.quote.Quote
 import at.orchaldir.gm.core.model.util.quote.QuoteId
 import at.orchaldir.gm.core.selector.util.sortQuotes
-import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
-import io.ktor.server.html.*
-import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
-import mu.KotlinLogging
-
-private val logger = KotlinLogging.logger {}
 
 @Resource("/$QUOTE_TYPE")
 class QuoteRoutes : Routes<QuoteId, SortQuote> {
@@ -60,6 +51,8 @@ class QuoteRoutes : Routes<QuoteId, SortQuote> {
     override fun delete(call: ApplicationCall, id: QuoteId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: QuoteId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())
+    override fun preview(call: ApplicationCall, id: QuoteId) = call.application.href(Preview(id))
+    override fun update(call: ApplicationCall, id: QuoteId) = call.application.href(Edit(id))
 }
 
 fun Application.configureQuoteRouting() {
@@ -92,43 +85,13 @@ fun Application.configureQuoteRouting() {
             handleDeleteElement(delete.id, QuoteRoutes.All())
         }
         get<QuoteRoutes.Edit> { edit ->
-            logger.info { "Get editor for quote ${edit.id.value}" }
-
-            val state = STORE.getState()
-            val quote = state.getQuoteStorage().getOrThrow(edit.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showQuoteEditor(call, state, quote)
-            }
+            handleEditElement(edit.id, QuoteRoutes(), HtmlBlockTag::editQuote)
         }
         post<QuoteRoutes.Preview> { preview ->
-            logger.info { "Preview quote ${preview.id.value}" }
-
-            val state = STORE.getState()
-            val quote = parseQuote(state, call.receiveParameters(), preview.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showQuoteEditor(call, state, quote)
-            }
+            handlePreviewElement(preview.id, QuoteRoutes(), ::parseQuote, HtmlBlockTag::editQuote)
         }
         post<QuoteRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseQuote)
-        }
-    }
-}
-
-private fun HTML.showQuoteEditor(
-    call: ApplicationCall,
-    state: State,
-    quote: Quote,
-) {
-    val backLink = href(call, quote.id)
-    val previewLink = call.application.href(QuoteRoutes.Preview(quote.id))
-    val updateLink = call.application.href(QuoteRoutes.Update(quote.id))
-
-    simpleHtmlEditor(quote) {
-        formWithPreview(previewLink, updateLink, backLink) {
-            editQuote(state, quote)
         }
     }
 }

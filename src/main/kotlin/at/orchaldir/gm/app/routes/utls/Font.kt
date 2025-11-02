@@ -8,10 +8,7 @@ import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.util.font.editFont
 import at.orchaldir.gm.app.html.util.font.parseFont
 import at.orchaldir.gm.app.html.util.font.showFont
-import at.orchaldir.gm.app.routes.Routes
-import at.orchaldir.gm.app.routes.handleCreateElement
-import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.app.routes.handleShowAllElements
+import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
@@ -81,6 +78,8 @@ class FontRoutes : Routes<FontId, SortFont> {
     override fun delete(call: ApplicationCall, id: FontId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: FontId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())
+    override fun preview(call: ApplicationCall, id: FontId) = call.application.href(Preview(id))
+    override fun update(call: ApplicationCall, id: FontId) = call.application.href(Edit(id))
 }
 
 fun Application.configureFontRouting() {
@@ -120,24 +119,10 @@ fun Application.configureFontRouting() {
             handleDeleteElement(delete.id, FontRoutes.All())
         }
         get<FontRoutes.Edit> { edit ->
-            logger.info { "Get editor for font ${edit.id.value}" }
-
-            val state = STORE.getState()
-            val font = state.getFontStorage().getOrThrow(edit.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showFontEditor(call, state, font)
-            }
+            handleEditElement(edit.id, FontRoutes(), HtmlBlockTag::editFont)
         }
         post<FontRoutes.Preview> { preview ->
-            logger.info { "Get preview for font ${preview.id.value}" }
-
-            val state = STORE.getState()
-            val font = parseFont(state, call.receiveParameters(), preview.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showFontEditor(call, state, font)
-            }
+            handlePreviewElement(preview.id, FontRoutes(), ::parseFont, HtmlBlockTag::editFont)
         }
         post<FontRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseFont)
@@ -203,22 +188,6 @@ private fun HTML.showFontDetails(
         action(uploaderLink, "Upload Font File")
         action(deleteLink, "Delete")
         back(backLink)
-    }
-}
-
-private fun HTML.showFontEditor(
-    call: ApplicationCall,
-    state: State,
-    font: Font,
-) {
-    val backLink = href(call, font.id)
-    val previewLink = call.application.href(FontRoutes.Preview(font.id))
-    val updateLink = call.application.href(FontRoutes.Update(font.id))
-
-    simpleHtmlEditor(font) {
-        formWithPreview(previewLink, updateLink, backLink) {
-            editFont(state, font)
-        }
     }
 }
 

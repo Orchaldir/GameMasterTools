@@ -17,7 +17,6 @@ import at.orchaldir.gm.core.selector.util.getValidColorSchemes
 import at.orchaldir.gm.utils.math.unit.SiPrefix
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -69,7 +68,8 @@ private fun HtmlBlockTag.showEquipmentData(
 
 // edit
 
-fun FORM.editEquipment(
+fun HtmlBlockTag.editEquipment(
+    call: ApplicationCall,
     state: State,
     equipment: Equipment,
 ) {
@@ -85,7 +85,7 @@ fun FORM.editEquipment(
     editEquipmentData(state, equipment)
 }
 
-private fun FORM.selectColorSchemes(
+private fun HtmlBlockTag.selectColorSchemes(
     state: State,
     equipment: Equipment,
 ) {
@@ -105,7 +105,7 @@ private fun FORM.selectColorSchemes(
     }
 }
 
-private fun FORM.editEquipmentData(
+private fun HtmlBlockTag.editEquipmentData(
     state: State,
     equipment: Equipment,
 ) {

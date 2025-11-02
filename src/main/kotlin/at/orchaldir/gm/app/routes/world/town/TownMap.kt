@@ -7,10 +7,7 @@ import at.orchaldir.gm.app.html.world.editTownMap
 import at.orchaldir.gm.app.html.world.parseTownMap
 import at.orchaldir.gm.app.html.world.showCharactersOfTownMap
 import at.orchaldir.gm.app.html.world.showTownMap
-import at.orchaldir.gm.app.routes.handleCreateElement
-import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.app.routes.handleShowAllElements
-import at.orchaldir.gm.app.routes.handleShowElementSplit
+import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.app.routes.world.BuildingRoutes
 import at.orchaldir.gm.app.routes.world.StreetRoutes
@@ -27,20 +24,13 @@ import at.orchaldir.gm.core.selector.world.getStreets
 import at.orchaldir.gm.visualization.town.getStreetTemplateFill
 import at.orchaldir.gm.visualization.town.showTerrainName
 import at.orchaldir.gm.visualization.town.visualizeTown
-import io.ktor.http.*
 import io.ktor.server.application.*
-import io.ktor.server.html.*
-import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
 import kotlinx.html.h2
-import mu.KotlinLogging
 import kotlin.let
-
-private val logger = KotlinLogging.logger {}
 
 fun Application.configureTownMapRouting() {
     routing {
@@ -73,25 +63,21 @@ fun Application.configureTownMapRouting() {
             handleDeleteElement(delete.id, TownMapRoutes.All())
         }
         get<TownMapRoutes.Edit> { edit ->
-            logger.info { "Get editor for town map ${edit.id.value}" }
-
-            val state = STORE.getState()
-            val townMap = state.getTownMapStorage().getOrThrow(edit.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showTownMapEditor(call, state, townMap)
-            }
+            handleEditElementSplit(
+                edit.id,
+                TownMapRoutes(),
+                HtmlBlockTag::editTownMap,
+                HtmlBlockTag::showTownMapEditorRight,
+            )
         }
         post<TownMapRoutes.Preview> { preview ->
-            logger.info { "Preview town map ${preview.id.value}" }
-
-            val state = STORE.getState()
-            val oldTownMap = state.getTownMapStorage().getOrThrow(preview.id)
-            val townMap = parseTownMap(state, call.receiveParameters(), oldTownMap)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showTownMapEditor(call, state, townMap)
-            }
+            handlePreviewElementSplit(
+                preview.id,
+                TownMapRoutes(),
+                { state, parameters, id -> parseTownMap(state, parameters, state.getTownMapStorage().getOrThrow(id)) },
+                HtmlBlockTag::editTownMap,
+                HtmlBlockTag::showTownMapEditorRight,
+            )
         }
         post<TownMapRoutes.Update> { update ->
             handleUpdateElement(update.id) { state, parameters, id ->
@@ -134,24 +120,12 @@ private fun HtmlBlockTag.showTownMapDetails(
 
 }
 
-private fun HTML.showTownMapEditor(
+private fun HtmlBlockTag.showTownMapEditorRight(
     call: ApplicationCall,
     state: State,
     townMap: TownMap,
 ) {
-    val backLink = href(call, townMap.id)
-    val previewLink = call.application.href(TownMapRoutes.Preview(townMap.id))
-    val updateLink = call.application.href(TownMapRoutes.Update(townMap.id))
-
-    simpleHtml("Edit Town Map ${townMap.name(state)}") {
-        split({
-            formWithPreview(previewLink, updateLink, backLink) {
-                editTownMap(state, townMap)
-            }
-        }, {
-            svg(visualizeTownWithLinks(call, state, townMap), 90)
-        })
-    }
+    svg(visualizeTownWithLinks(call, state, townMap), 90)
 }
 
 private fun visualizeTownWithLinks(

@@ -8,7 +8,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.statistic.*
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -47,7 +46,7 @@ fun HtmlBlockTag.showStatisticData(
 
 // edit
 
-fun FORM.editStatisticData(
+fun HtmlBlockTag.editStatisticData(
     state: State,
     statistic: StatisticId,
     data: StatisticData,

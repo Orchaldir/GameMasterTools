@@ -25,7 +25,6 @@ import at.orchaldir.gm.core.selector.world.getHeartPlane
 import at.orchaldir.gm.core.selector.world.getPrisonPlane
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -53,7 +52,7 @@ fun HtmlBlockTag.showGod(
 }
 // edit
 
-fun FORM.editGod(
+fun HtmlBlockTag.editGod(
     call: ApplicationCall,
     state: State,
     god: God,

@@ -11,7 +11,6 @@ import at.orchaldir.gm.core.model.util.render.ColorSchemeId
 import at.orchaldir.gm.core.selector.item.getEquipmentOf
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -38,7 +37,7 @@ fun HtmlBlockTag.showEquipmentMap(
 
 // edit
 
-fun FORM.editEquipmentMap(
+fun HtmlBlockTag.editEquipmentMap(
     state: State,
     equipmentMap: EquipmentIdMap,
     param: String,
@@ -46,7 +45,7 @@ fun FORM.editEquipmentMap(
     EquipmentDataType.entries.forEach { selectEquipment(state, equipmentMap, it, param) }
 }
 
-private fun FORM.selectEquipment(
+private fun HtmlBlockTag.selectEquipment(
     state: State,
     equipmentMap: EquipmentIdMap,
     type: EquipmentDataType,

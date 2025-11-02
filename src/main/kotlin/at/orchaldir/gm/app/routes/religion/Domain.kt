@@ -1,32 +1,25 @@
 package at.orchaldir.gm.app.routes.religion
 
 import at.orchaldir.gm.app.STORE
-import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.Column
+import at.orchaldir.gm.app.html.createNameColumn
 import at.orchaldir.gm.app.html.religion.editDomain
 import at.orchaldir.gm.app.html.religion.parseDomain
 import at.orchaldir.gm.app.html.religion.showDomain
+import at.orchaldir.gm.app.html.tdSkipZero
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.religion.DOMAIN_TYPE
-import at.orchaldir.gm.core.model.religion.Domain
 import at.orchaldir.gm.core.model.religion.DomainId
 import at.orchaldir.gm.core.model.util.SortDomain
 import at.orchaldir.gm.core.selector.religion.getGodsWith
 import at.orchaldir.gm.core.selector.util.sortDomains
-import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
-import io.ktor.server.html.*
-import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
-import mu.KotlinLogging
-
-private val logger = KotlinLogging.logger {}
 
 @Resource("/$DOMAIN_TYPE")
 class DomainRoutes : Routes<DomainId, SortDomain> {
@@ -59,6 +52,8 @@ class DomainRoutes : Routes<DomainId, SortDomain> {
     override fun delete(call: ApplicationCall, id: DomainId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: DomainId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())
+    override fun preview(call: ApplicationCall, id: DomainId) = call.application.href(Preview(id))
+    override fun update(call: ApplicationCall, id: DomainId) = call.application.href(Edit(id))
 }
 
 fun Application.configureDomainRouting() {
@@ -89,45 +84,13 @@ fun Application.configureDomainRouting() {
             handleDeleteElement(delete.id, DomainRoutes.All())
         }
         get<DomainRoutes.Edit> { edit ->
-            logger.info { "Get editor for domain ${edit.id.value}" }
-
-            val state = STORE.getState()
-            val domain = state.getDomainStorage().getOrThrow(edit.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showDomainEditor(call, state, domain)
-            }
+            handleEditElement(edit.id, DomainRoutes(), HtmlBlockTag::editDomain)
         }
         post<DomainRoutes.Preview> { preview ->
-            logger.info { "Get preview for domain ${preview.id.value}" }
-
-            val formParameters = call.receiveParameters()
-            val state = STORE.getState()
-            val domain = parseDomain(state, formParameters, preview.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showDomainEditor(call, state, domain)
-            }
+            handlePreviewElement(preview.id, DomainRoutes(), ::parseDomain, HtmlBlockTag::editDomain)
         }
         post<DomainRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseDomain)
         }
     }
 }
-
-private fun HTML.showDomainEditor(
-    call: ApplicationCall,
-    state: State,
-    domain: Domain,
-) {
-    val backLink = href(call, domain.id)
-    val previewLink = call.application.href(DomainRoutes.Preview(domain.id))
-    val updateLink = call.application.href(DomainRoutes.Update(domain.id))
-
-    simpleHtmlEditor(domain) {
-        formWithPreview(previewLink, updateLink, backLink) {
-            editDomain(call, state, domain)
-        }
-    }
-}
-

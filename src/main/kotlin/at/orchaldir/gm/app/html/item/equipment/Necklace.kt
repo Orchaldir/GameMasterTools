@@ -13,7 +13,6 @@ import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.Size
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -53,7 +52,7 @@ fun HtmlBlockTag.showNecklace(
 
 // edit
 
-fun FORM.editNecklace(
+fun HtmlBlockTag.editNecklace(
     state: State,
     necklace: Necklace,
 ) {

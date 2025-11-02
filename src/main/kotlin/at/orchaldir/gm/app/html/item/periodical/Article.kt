@@ -19,7 +19,6 @@ import at.orchaldir.gm.core.selector.item.periodical.getPeriodicalIssues
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -49,7 +48,8 @@ private fun HtmlBlockTag.showContent(
 
 // edit
 
-fun FORM.editArticle(
+fun HtmlBlockTag.editArticle(
+    call: ApplicationCall,
     state: State,
     article: Article,
 ) {

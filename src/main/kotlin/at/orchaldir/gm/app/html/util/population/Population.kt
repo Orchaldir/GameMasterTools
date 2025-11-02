@@ -104,7 +104,7 @@ private fun TR.showRaceNumber(
 
 // edit
 
-fun FORM.editPopulation(
+fun HtmlBlockTag.editPopulation(
     call: ApplicationCall,
     state: State,
     population: Population,

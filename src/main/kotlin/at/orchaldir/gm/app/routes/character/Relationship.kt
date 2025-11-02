@@ -100,7 +100,7 @@ private fun HTML.showRelationshipEditor(
     }
 }
 
-private fun FORM.editRelationships(
+private fun HtmlBlockTag.editRelationships(
     call: ApplicationCall,
     state: State,
     character: Character,

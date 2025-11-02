@@ -7,9 +7,7 @@ import at.orchaldir.gm.app.html.culture.parseLanguage
 import at.orchaldir.gm.app.html.culture.showLanguage
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.language.LANGUAGE_TYPE
-import at.orchaldir.gm.core.model.culture.language.Language
 import at.orchaldir.gm.core.model.culture.language.LanguageId
 import at.orchaldir.gm.core.model.util.SortLanguage
 import at.orchaldir.gm.core.selector.character.countCharacters
@@ -19,19 +17,12 @@ import at.orchaldir.gm.core.selector.item.countTexts
 import at.orchaldir.gm.core.selector.item.periodical.countPeriodicals
 import at.orchaldir.gm.core.selector.magic.countSpells
 import at.orchaldir.gm.core.selector.util.sortLanguages
-import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
-import io.ktor.server.html.*
-import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
-import mu.KotlinLogging
-
-private val logger = KotlinLogging.logger {}
 
 @Resource("/$LANGUAGE_TYPE")
 class LanguageRoutes : Routes<LanguageId, SortLanguage> {
@@ -64,6 +55,8 @@ class LanguageRoutes : Routes<LanguageId, SortLanguage> {
     override fun delete(call: ApplicationCall, id: LanguageId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: LanguageId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())
+    override fun preview(call: ApplicationCall, id: LanguageId) = call.application.href(Preview(id))
+    override fun update(call: ApplicationCall, id: LanguageId) = call.application.href(Edit(id))
 }
 
 fun Application.configureLanguageRouting() {
@@ -99,43 +92,13 @@ fun Application.configureLanguageRouting() {
             handleDeleteElement(delete.id, LanguageRoutes.All())
         }
         get<LanguageRoutes.Edit> { edit ->
-            logger.info { "Get editor for language ${edit.id.value}" }
-
-            val state = STORE.getState()
-            val language = state.getLanguageStorage().getOrThrow(edit.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showLanguageEditor(call, state, language)
-            }
+            handleEditElement(edit.id, LanguageRoutes(), HtmlBlockTag::editLanguage)
         }
         post<LanguageRoutes.Preview> { preview ->
-            logger.info { "Preview changes to language ${preview.id.value}" }
-
-            val state = STORE.getState()
-            val language = parseLanguage(state, call.receiveParameters(), preview.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showLanguageEditor(call, state, language)
-            }
+            handlePreviewElement(preview.id, LanguageRoutes(), ::parseLanguage, HtmlBlockTag::editLanguage)
         }
         post<LanguageRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseLanguage)
-        }
-    }
-}
-
-private fun HTML.showLanguageEditor(
-    call: ApplicationCall,
-    state: State,
-    language: Language,
-) {
-    val backLink = href(call, language.id)
-    val previewLink = call.application.href(LanguageRoutes.Preview(language.id))
-    val updateLink = call.application.href(LanguageRoutes.Update(language.id))
-
-    simpleHtmlEditor(language) {
-        formWithPreview(previewLink, updateLink, backLink) {
-            editLanguage(state, language)
         }
     }
 }

@@ -7,27 +7,18 @@ import at.orchaldir.gm.app.html.culture.parseCulture
 import at.orchaldir.gm.app.html.culture.showCulture
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.CULTURE_TYPE
-import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.util.Rarity
 import at.orchaldir.gm.core.model.util.SortCulture
 import at.orchaldir.gm.core.selector.character.getCharacters
 import at.orchaldir.gm.core.selector.util.sortCultures
-import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
-import io.ktor.server.html.*
-import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
-import mu.KotlinLogging
-
-private val logger = KotlinLogging.logger {}
 
 @Resource("/$CULTURE_TYPE")
 class CultureRoutes : Routes<CultureId, SortCulture> {
@@ -64,6 +55,8 @@ class CultureRoutes : Routes<CultureId, SortCulture> {
     override fun delete(call: ApplicationCall, id: CultureId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: CultureId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())
+    override fun preview(call: ApplicationCall, id: CultureId) = call.application.href(Preview(id))
+    override fun update(call: ApplicationCall, id: CultureId) = call.application.href(Edit(id))
 }
 
 fun Application.configureCultureRouting() {
@@ -101,46 +94,13 @@ fun Application.configureCultureRouting() {
             handleDeleteElement(delete.id, CultureRoutes())
         }
         get<CultureRoutes.Edit> { edit ->
-            logger.info { "Get editor for culture ${edit.id.value}" }
-
-            val state = STORE.getState()
-            val culture = state.getCultureStorage().getOrThrow(edit.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showCultureEditor(call, state, culture)
-            }
+            handleEditElement(edit.id, CultureRoutes(), HtmlBlockTag::editCulture)
         }
         post<CultureRoutes.Preview> { preview ->
-            logger.info { "Get preview for culture ${preview.id.value}" }
-
-            val state = STORE.getState()
-            val formParameters = call.receiveParameters()
-            val culture = parseCulture(state, formParameters, preview.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showCultureEditor(call, state, culture)
-            }
+            handlePreviewElement(preview.id, CultureRoutes(), ::parseCulture, HtmlBlockTag::editCulture)
         }
         post<CultureRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseCulture)
         }
     }
 }
-
-private fun HTML.showCultureEditor(
-    call: ApplicationCall,
-    state: State,
-    culture: Culture,
-) {
-    val backLink = href(call, culture.id)
-    val previewLink = call.application.href(CultureRoutes.Preview(culture.id))
-    val updateLink = call.application.href(CultureRoutes.Update(culture.id))
-
-    simpleHtmlEditor(culture) {
-        formWithPreview(previewLink, updateLink, backLink) {
-            editCulture(state, culture)
-        }
-    }
-}
-
-

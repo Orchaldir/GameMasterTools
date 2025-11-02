@@ -15,7 +15,6 @@ import at.orchaldir.gm.core.model.time.calendar.Calendar
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.resources.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 import kotlinx.html.h2
 
@@ -37,7 +36,7 @@ fun HtmlBlockTag.showTime(
 
 // edit
 
-fun FORM.editTime(
+fun HtmlBlockTag.editTime(
     state: State,
     time: Time,
 ) {

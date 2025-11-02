@@ -10,7 +10,6 @@ import at.orchaldir.gm.core.selector.culture.getCultures
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.util.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 import kotlinx.html.h2
 
@@ -29,7 +28,11 @@ fun HtmlBlockTag.showNameList(
 
 // edit
 
-fun FORM.editNameList(nameList: NameList) {
+fun HtmlBlockTag.editNameList(
+    call: ApplicationCall,
+    state: State,
+    nameList: NameList,
+) {
     selectName(nameList.name)
     h2 { +"Names" }
     editTextArea(

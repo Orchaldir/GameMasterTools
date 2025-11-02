@@ -1,27 +1,24 @@
 package at.orchaldir.gm.app.routes.utls
 
 import at.orchaldir.gm.app.STORE
-import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.Column
+import at.orchaldir.gm.app.html.createNameColumn
+import at.orchaldir.gm.app.html.tdInt
+import at.orchaldir.gm.app.html.tdSkipZero
 import at.orchaldir.gm.app.html.util.source.editDataSource
 import at.orchaldir.gm.app.html.util.source.parseDataSource
 import at.orchaldir.gm.app.html.util.source.showDataSource
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortDataSource
 import at.orchaldir.gm.core.model.util.source.DATA_SOURCE_TYPE
-import at.orchaldir.gm.core.model.util.source.DataSource
 import at.orchaldir.gm.core.model.util.source.DataSourceId
 import at.orchaldir.gm.core.selector.util.sortDataSources
-import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
-import io.ktor.server.html.*
-import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
 import mu.KotlinLogging
 
@@ -58,6 +55,8 @@ class DataSourceRoutes : Routes<DataSourceId, SortDataSource> {
     override fun delete(call: ApplicationCall, id: DataSourceId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: DataSourceId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())
+    override fun preview(call: ApplicationCall, id: DataSourceId) = call.application.href(Preview(id))
+    override fun update(call: ApplicationCall, id: DataSourceId) = call.application.href(Edit(id))
 }
 
 fun Application.configureDataSourceRouting() {
@@ -87,43 +86,13 @@ fun Application.configureDataSourceRouting() {
             handleDeleteElement(delete.id, DataSourceRoutes.All())
         }
         get<DataSourceRoutes.Edit> { edit ->
-            logger.info { "Get editor for source ${edit.id.value}" }
-
-            val state = STORE.getState()
-            val source = state.getDataSourceStorage().getOrThrow(edit.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showDataSourceEditor(call, state, source)
-            }
+            handleEditElement(edit.id, DataSourceRoutes(), HtmlBlockTag::editDataSource)
         }
         post<DataSourceRoutes.Preview> { preview ->
-            logger.info { "Preview source ${preview.id.value}" }
-
-            val state = STORE.getState()
-            val source = parseDataSource(state, call.receiveParameters(), preview.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showDataSourceEditor(call, state, source)
-            }
+            handlePreviewElement(preview.id, DataSourceRoutes(), ::parseDataSource, HtmlBlockTag::editDataSource)
         }
         post<DataSourceRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseDataSource)
-        }
-    }
-}
-
-private fun HTML.showDataSourceEditor(
-    call: ApplicationCall,
-    state: State,
-    source: DataSource,
-) {
-    val backLink = href(call, source.id)
-    val previewLink = call.application.href(DataSourceRoutes.Preview(source.id))
-    val updateLink = call.application.href(DataSourceRoutes.Update(source.id))
-
-    simpleHtmlEditor(source) {
-        formWithPreview(previewLink, updateLink, backLink) {
-            editDataSource(state, source)
         }
     }
 }

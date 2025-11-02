@@ -65,7 +65,11 @@ fun HtmlBlockTag.showMaterial(
 
 // edit
 
-fun HtmlBlockTag.editMaterial(material: Material) {
+fun HtmlBlockTag.editMaterial(
+    call: ApplicationCall,
+    state: State,
+    material: Material,
+) {
     selectName(material.name)
     selectValue("Category", CATEGORY, MaterialCategory.entries, material.category)
     selectColor(material.color)

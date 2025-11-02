@@ -18,7 +18,6 @@ import at.orchaldir.gm.core.selector.time.getHolidays
 import at.orchaldir.gm.core.selector.world.getRegionsCreatedBy
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -43,7 +42,8 @@ fun HtmlBlockTag.showCatastrophe(
 
 // edit
 
-fun FORM.editCatastrophe(
+fun HtmlBlockTag.editCatastrophe(
+    call: ApplicationCall,
     state: State,
     catastrophe: Catastrophe,
 ) {

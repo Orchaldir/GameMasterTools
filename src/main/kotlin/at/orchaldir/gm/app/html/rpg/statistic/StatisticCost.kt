@@ -9,7 +9,6 @@ import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.rpg.statistic.*
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -37,7 +36,7 @@ fun HtmlBlockTag.displayStatisticCost(
 
 // edit
 
-fun FORM.editStatisticCost(
+fun HtmlBlockTag.editStatisticCost(
     cost: StatisticCost,
 ) {
     showDetails("Cost", true) {

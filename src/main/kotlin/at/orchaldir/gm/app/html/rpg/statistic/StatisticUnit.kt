@@ -8,7 +8,6 @@ import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.rpg.statistic.*
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -44,7 +43,7 @@ fun HtmlBlockTag.displayStatisticUnit(
 
 // edit
 
-fun FORM.editStatisticUnit(
+fun HtmlBlockTag.editStatisticUnit(
     unit: StatisticUnit,
 ) {
     showDetails("Unit", true) {

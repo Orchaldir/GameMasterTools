@@ -1,32 +1,25 @@
 package at.orchaldir.gm.app.routes.world
 
 import at.orchaldir.gm.app.STORE
-import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.Column
+import at.orchaldir.gm.app.html.createNameColumn
+import at.orchaldir.gm.app.html.tdInlineElements
 import at.orchaldir.gm.app.html.world.editStreet
 import at.orchaldir.gm.app.html.world.parseStreet
 import at.orchaldir.gm.app.html.world.showStreet
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.SortStreet
 import at.orchaldir.gm.core.model.world.street.STREET_TYPE
-import at.orchaldir.gm.core.model.world.street.Street
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.selector.util.sortStreets
 import at.orchaldir.gm.core.selector.world.getTowns
-import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
-import io.ktor.server.html.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
-import kotlinx.html.form
-import mu.KotlinLogging
-
-private val logger = KotlinLogging.logger {}
 
 @Resource("/$STREET_TYPE")
 class StreetRoutes : Routes<StreetId, SortStreet> {
@@ -48,6 +41,9 @@ class StreetRoutes : Routes<StreetId, SortStreet> {
     @Resource("edit")
     class Edit(val id: StreetId, val parent: StreetRoutes = StreetRoutes())
 
+    @Resource("preview")
+    class Preview(val id: StreetId, val parent: StreetRoutes = StreetRoutes())
+
     @Resource("update")
     class Update(val id: StreetId, val parent: StreetRoutes = StreetRoutes())
 
@@ -56,6 +52,8 @@ class StreetRoutes : Routes<StreetId, SortStreet> {
     override fun delete(call: ApplicationCall, id: StreetId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: StreetId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())
+    override fun preview(call: ApplicationCall, id: StreetId) = call.application.href(Preview(id))
+    override fun update(call: ApplicationCall, id: StreetId) = call.application.href(Edit(id))
 }
 
 fun Application.configureStreetRouting() {
@@ -84,34 +82,13 @@ fun Application.configureStreetRouting() {
             handleDeleteElement(delete.id, StreetRoutes())
         }
         get<StreetRoutes.Edit> { edit ->
-            logger.info { "Get editor for street ${edit.id.value}" }
-
-            val state = STORE.getState()
-            val street = state.getStreetStorage().getOrThrow(edit.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showStreetEditor(call, state, street)
-            }
+            handleEditElement(edit.id, StreetRoutes(), HtmlBlockTag::editStreet)
+        }
+        post<StreetRoutes.Preview> { preview ->
+            handlePreviewElement(preview.id, StreetRoutes(), ::parseStreet, HtmlBlockTag::editStreet)
         }
         post<StreetRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseStreet)
         }
-    }
-}
-
-private fun HTML.showStreetEditor(
-    call: ApplicationCall,
-    state: State,
-    street: Street,
-) {
-    val backLink = href(call, street.id)
-    val updateLink = call.application.href(StreetRoutes.Update(street.id))
-
-    simpleHtmlEditor(street) {
-        form {
-            editStreet(state, street)
-            button("Update", updateLink)
-        }
-        back(backLink)
     }
 }

@@ -17,7 +17,6 @@ import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.DETAILS
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -77,7 +76,7 @@ private fun HtmlBlockTag.showInhabitants(
 
 // edit
 
-fun FORM.selectBuildingPurpose(state: State, building: Building) {
+fun HtmlBlockTag.selectBuildingPurpose(state: State, building: Building) {
     showDetails("Purpose", true) {
         val purpose = building.purpose
         val inhabitants = state.getCharactersLivingIn(building.id)

@@ -1,36 +1,29 @@
 package at.orchaldir.gm.app.routes.time
 
 import at.orchaldir.gm.app.STORE
-import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.Column
 import at.orchaldir.gm.app.html.Column.Companion.tdColumn
+import at.orchaldir.gm.app.html.createNameColumn
+import at.orchaldir.gm.app.html.tdSkipZero
 import at.orchaldir.gm.app.html.time.editCalendar
 import at.orchaldir.gm.app.html.time.parseCalendar
 import at.orchaldir.gm.app.html.time.showCalendar
 import at.orchaldir.gm.app.html.util.showDate
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.calendar.CALENDAR_TYPE
-import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import at.orchaldir.gm.core.model.util.SortCalendar
 import at.orchaldir.gm.core.selector.time.date.convertDate
 import at.orchaldir.gm.core.selector.time.getCurrentDate
 import at.orchaldir.gm.core.selector.time.getDefaultCalendar
 import at.orchaldir.gm.core.selector.util.sortCalendars
-import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
-import io.ktor.server.html.*
-import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
-import mu.KotlinLogging
-
-private val logger = KotlinLogging.logger {}
 
 @Resource("/$CALENDAR_TYPE")
 class CalendarRoutes : Routes<CalendarId, SortCalendar> {
@@ -63,6 +56,8 @@ class CalendarRoutes : Routes<CalendarId, SortCalendar> {
     override fun delete(call: ApplicationCall, id: CalendarId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: CalendarId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())
+    override fun preview(call: ApplicationCall, id: CalendarId) = call.application.href(Preview(id))
+    override fun update(call: ApplicationCall, id: CalendarId) = call.application.href(Edit(id))
 }
 
 fun Application.configureCalendarRouting() {
@@ -103,45 +98,13 @@ fun Application.configureCalendarRouting() {
             handleDeleteElement(delete.id, CalendarRoutes())
         }
         get<CalendarRoutes.Edit> { edit ->
-            logger.info { "Get editor for calendar ${edit.id.value}" }
-
-            val state = STORE.getState()
-            val calendar = state.getCalendarStorage().getOrThrow(edit.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showCalendarEditor(call, state, calendar)
-            }
+            handleEditElement(edit.id, CalendarRoutes(), HtmlBlockTag::editCalendar)
         }
         post<CalendarRoutes.Preview> { preview ->
-            logger.info { "Preview changes to calendar ${preview.id.value}" }
-
-            val state = STORE.getState()
-            val calendar = parseCalendar(state, call.receiveParameters(), preview.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showCalendarEditor(call, state, calendar)
-            }
+            handlePreviewElement(preview.id, CalendarRoutes(), ::parseCalendar, HtmlBlockTag::editCalendar)
         }
         post<CalendarRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseCalendar)
-        }
-    }
-}
-
-private fun HTML.showCalendarEditor(
-    call: ApplicationCall,
-    state: State,
-    calendar: Calendar,
-) {
-    val backLink = href(call, calendar.id)
-    val previewLink = call.application.href(CalendarRoutes.Preview(calendar.id))
-    val updateLink = call.application.href(CalendarRoutes.Update(calendar.id))
-
-    simpleHtmlEditor(calendar, true) {
-        mainFrame {
-            formWithPreview(previewLink, updateLink, backLink) {
-                editCalendar(state, calendar)
-            }
         }
     }
 }

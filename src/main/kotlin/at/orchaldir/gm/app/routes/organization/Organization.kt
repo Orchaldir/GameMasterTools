@@ -7,25 +7,17 @@ import at.orchaldir.gm.app.html.organization.parseOrganization
 import at.orchaldir.gm.app.html.organization.showOrganization
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.organization.ORGANIZATION_TYPE
 import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.organization.OrganizationId
 import at.orchaldir.gm.core.model.util.SortOrganization
 import at.orchaldir.gm.core.selector.util.sortOrganizations
-import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
-import io.ktor.server.html.*
-import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
-import mu.KotlinLogging
-
-private val logger = KotlinLogging.logger {}
 
 @Resource("/$ORGANIZATION_TYPE")
 class OrganizationRoutes : Routes<OrganizationId, SortOrganization> {
@@ -59,6 +51,8 @@ class OrganizationRoutes : Routes<OrganizationId, SortOrganization> {
     override fun delete(call: ApplicationCall, id: OrganizationId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: OrganizationId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())
+    override fun preview(call: ApplicationCall, id: OrganizationId) = call.application.href(Preview(id))
+    override fun update(call: ApplicationCall, id: OrganizationId) = call.application.href(Edit(id))
 }
 
 fun Application.configureOrganizationRouting() {
@@ -94,44 +88,13 @@ fun Application.configureOrganizationRouting() {
             handleDeleteElement(delete.id, OrganizationRoutes.All())
         }
         get<OrganizationRoutes.Edit> { edit ->
-            logger.info { "Get editor for organization ${edit.id.value}" }
-
-            val state = STORE.getState()
-            val organization = state.getOrganizationStorage().getOrThrow(edit.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showOrganizationEditor(call, state, organization)
-            }
+            handleEditElement(edit.id, OrganizationRoutes(), HtmlBlockTag::editOrganization)
         }
         post<OrganizationRoutes.Preview> { preview ->
-            logger.info { "Get preview for organization ${preview.id.value}" }
-
-            val formParameters = call.receiveParameters()
-            val state = STORE.getState()
-            val organization = parseOrganization(state, formParameters, preview.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showOrganizationEditor(call, state, organization)
-            }
+            handlePreviewElement(preview.id, OrganizationRoutes(), ::parseOrganization, HtmlBlockTag::editOrganization)
         }
         post<OrganizationRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseOrganization)
-        }
-    }
-}
-
-private fun HTML.showOrganizationEditor(
-    call: ApplicationCall,
-    state: State,
-    organization: Organization,
-) {
-    val backLink = href(call, organization.id)
-    val previewLink = call.application.href(OrganizationRoutes.Preview(organization.id))
-    val updateLink = call.application.href(OrganizationRoutes.Update(organization.id))
-
-    simpleHtmlEditor(organization) {
-        formWithPreview(previewLink, updateLink, backLink) {
-            editOrganization(state, organization)
         }
     }
 }

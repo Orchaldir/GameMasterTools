@@ -16,7 +16,6 @@ import at.orchaldir.gm.core.selector.time.getDefaultCalendar
 import at.orchaldir.gm.core.selector.time.getHolidays
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -41,7 +40,8 @@ fun HtmlBlockTag.showWar(
 
 // edit
 
-fun FORM.editWar(
+fun HtmlBlockTag.editWar(
+    call: ApplicationCall,
     state: State,
     war: War,
 ) {

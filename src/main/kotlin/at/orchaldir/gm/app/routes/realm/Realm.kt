@@ -7,26 +7,17 @@ import at.orchaldir.gm.app.html.realm.parseRealm
 import at.orchaldir.gm.app.html.realm.showRealm
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.REALM_TYPE
-import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.RealmId
 import at.orchaldir.gm.core.model.util.SortRealm
 import at.orchaldir.gm.core.selector.realm.countOwnedTowns
 import at.orchaldir.gm.core.selector.util.sortRealms
-import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
-import io.ktor.server.html.*
-import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
-import mu.KotlinLogging
-
-private val logger = KotlinLogging.logger {}
 
 @Resource("/$REALM_TYPE")
 class RealmRoutes : Routes<RealmId, SortRealm> {
@@ -59,6 +50,8 @@ class RealmRoutes : Routes<RealmId, SortRealm> {
     override fun delete(call: ApplicationCall, id: RealmId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: RealmId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())
+    override fun preview(call: ApplicationCall, id: RealmId) = call.application.href(Preview(id))
+    override fun update(call: ApplicationCall, id: RealmId) = call.application.href(Edit(id))
 }
 
 fun Application.configureRealmRouting() {
@@ -99,44 +92,13 @@ fun Application.configureRealmRouting() {
             handleDeleteElement(delete.id, RealmRoutes.All())
         }
         get<RealmRoutes.Edit> { edit ->
-            logger.info { "Get editor for realm ${edit.id.value}" }
-
-            val state = STORE.getState()
-            val realm = state.getRealmStorage().getOrThrow(edit.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showRealmEditor(call, state, realm)
-            }
+            handleEditElement(edit.id, RealmRoutes(), HtmlBlockTag::editRealm)
         }
         post<RealmRoutes.Preview> { preview ->
-            logger.info { "Get preview for realm ${preview.id.value}" }
-
-            val formParameters = call.receiveParameters()
-            val state = STORE.getState()
-            val realm = parseRealm(state, formParameters, preview.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showRealmEditor(call, state, realm)
-            }
+            handlePreviewElement(preview.id, RealmRoutes(), ::parseRealm, HtmlBlockTag::editRealm)
         }
         post<RealmRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseRealm)
-        }
-    }
-}
-
-private fun HTML.showRealmEditor(
-    call: ApplicationCall,
-    state: State,
-    realm: Realm,
-) {
-    val backLink = href(call, realm.id)
-    val previewLink = call.application.href(RealmRoutes.Preview(realm.id))
-    val updateLink = call.application.href(RealmRoutes.Update(realm.id))
-
-    simpleHtmlEditor(realm) {
-        formWithPreview(previewLink, updateLink, backLink) {
-            editRealm(call, state, realm)
         }
     }
 }

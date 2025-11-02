@@ -9,10 +9,7 @@ import at.orchaldir.gm.app.html.util.showAddress
 import at.orchaldir.gm.app.html.world.editBuilding
 import at.orchaldir.gm.app.html.world.parseBuilding
 import at.orchaldir.gm.app.html.world.showBuilding
-import at.orchaldir.gm.app.routes.Routes
-import at.orchaldir.gm.app.routes.handleDeleteElement
-import at.orchaldir.gm.app.routes.handleShowAllElements
-import at.orchaldir.gm.app.routes.handleShowElementSplit
+import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.action.UpdateActionLot
@@ -88,6 +85,8 @@ class BuildingRoutes : Routes<BuildingId, SortBuilding> {
     override fun delete(call: ApplicationCall, id: BuildingId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: BuildingId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())
+    override fun preview(call: ApplicationCall, id: BuildingId) = call.application.href(Preview(id))
+    override fun update(call: ApplicationCall, id: BuildingId) = call.application.href(Edit(id))
 }
 
 fun Application.configureBuildingRouting() {
@@ -128,24 +127,21 @@ fun Application.configureBuildingRouting() {
             }
         }
         get<BuildingRoutes.Edit> { edit ->
-            logger.info { "Get editor for building ${edit.id.value}" }
-
-            val state = STORE.getState()
-            val building = state.getBuildingStorage().getOrThrow(edit.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showBuildingEditor(call, state, building)
-            }
+            handleEditElementSplit(
+                edit.id,
+                BuildingRoutes(),
+                HtmlBlockTag::editBuilding,
+                HtmlBlockTag::showBuildingEditorRight,
+            )
         }
         post<BuildingRoutes.Preview> { preview ->
-            logger.info { "Preview building ${preview.id.value}" }
-
-            val state = STORE.getState()
-            val building = parseBuilding(state, call.receiveParameters(), preview.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showBuildingEditor(call, state, building)
-            }
+            handlePreviewElementSplit(
+                preview.id,
+                BuildingRoutes(),
+                ::parseBuilding,
+                HtmlBlockTag::editBuilding,
+                HtmlBlockTag::showBuildingEditorRight,
+            )
         }
         post<BuildingRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseBuilding)
@@ -200,25 +196,13 @@ private fun HtmlBlockTag.showBuildingDetails(
     action(editLotLink, "Move & Resize")
 }
 
-private fun HTML.showBuildingEditor(
+private fun HtmlBlockTag.showBuildingEditorRight(
     call: ApplicationCall,
     state: State,
     building: Building,
 ) {
-    val backLink = call.application.href(BuildingRoutes.Details(building.id))
-    val previewLink = call.application.href(BuildingRoutes.Preview(building.id))
-    val updateLink = call.application.href(BuildingRoutes.Update(building.id))
-
-    simpleHtml("Edit Building: ${building.name(state)}") {
-        split({
-            formWithPreview(previewLink, updateLink, backLink) {
-                editBuilding(state, building)
-            }
-        }, {
-            if (building.position is InTownMap) {
-                svg(visualizeBuildingLot(call, state, building, building.position), 90)
-            }
-        })
+    if (building.position is InTownMap) {
+        svg(visualizeBuildingLot(call, state, building, building.position), 90)
     }
 }
 

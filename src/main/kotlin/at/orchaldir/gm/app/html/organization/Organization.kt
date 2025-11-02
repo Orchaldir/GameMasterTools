@@ -18,7 +18,6 @@ import at.orchaldir.gm.core.model.organization.OrganizationId
 import at.orchaldir.gm.core.selector.organization.getNotMembers
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 import kotlinx.html.h2
 
@@ -55,7 +54,8 @@ private fun HtmlBlockTag.showMembers(
 
 // edit
 
-fun FORM.editOrganization(
+fun HtmlBlockTag.editOrganization(
+    call: ApplicationCall,
     state: State,
     organization: Organization,
 ) {
@@ -68,7 +68,7 @@ fun FORM.editOrganization(
     editDataSources(state, organization.sources)
 }
 
-private fun FORM.editMembers(
+private fun HtmlBlockTag.editMembers(
     state: State,
     organization: Organization,
 ) {

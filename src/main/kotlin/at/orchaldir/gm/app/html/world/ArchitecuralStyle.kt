@@ -16,7 +16,6 @@ import at.orchaldir.gm.core.selector.world.getPossibleStylesForRevival
 import at.orchaldir.gm.core.selector.world.getRevivedBy
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -37,7 +36,8 @@ fun HtmlBlockTag.showArchitecturalStyle(
 
 // edit
 
-fun FORM.editArchitecturalStyle(
+fun HtmlBlockTag.editArchitecturalStyle(
+    call: ApplicationCall,
     state: State,
     style: ArchitecturalStyle,
 ) {

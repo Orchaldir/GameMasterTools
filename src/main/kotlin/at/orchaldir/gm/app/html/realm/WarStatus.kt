@@ -14,7 +14,6 @@ import at.orchaldir.gm.core.selector.realm.getExistingCatastrophes
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -68,7 +67,7 @@ fun HtmlBlockTag.displayWarResult(
 
 // edit
 
-fun FORM.editWarStatus(
+fun HtmlBlockTag.editWarStatus(
     state: State,
     startDate: Date?,
     war: War,

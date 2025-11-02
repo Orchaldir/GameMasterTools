@@ -13,7 +13,6 @@ import at.orchaldir.gm.core.model.item.equipment.Socks
 import at.orchaldir.gm.core.model.item.equipment.style.SocksStyle
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -29,7 +28,7 @@ fun HtmlBlockTag.showSocks(
 
 // edit
 
-fun FORM.editSocks(
+fun HtmlBlockTag.editSocks(
     state: State,
     socks: Socks,
 ) {

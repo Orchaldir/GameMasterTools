@@ -7,7 +7,6 @@ import at.orchaldir.gm.core.model.world.terrain.RiverId
 import at.orchaldir.gm.core.selector.world.getTowns
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -24,7 +23,8 @@ fun HtmlBlockTag.showRiver(
 
 // edit
 
-fun FORM.editRiver(
+fun HtmlBlockTag.editRiver(
+    call: ApplicationCall,
     state: State,
     river: River,
 ) {

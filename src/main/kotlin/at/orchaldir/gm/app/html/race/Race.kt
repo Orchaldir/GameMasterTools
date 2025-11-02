@@ -135,7 +135,7 @@ private fun HtmlBlockTag.showUsages(
 
 // edit
 
-fun FORM.editRace(
+fun HtmlBlockTag.editRace(
     call: ApplicationCall,
     state: State,
     race: Race,
@@ -158,7 +158,7 @@ fun FORM.editRace(
 }
 
 
-private fun FORM.editLifeStages(
+private fun HtmlBlockTag.editLifeStages(
     state: State,
     race: Race,
 ) {
@@ -228,7 +228,7 @@ private fun HtmlBlockTag.selectHairColor(label: String, index: Int, color: Color
     )
 }
 
-private fun FORM.selectNumberOfLifeStages(number: Int) {
+private fun HtmlBlockTag.selectNumberOfLifeStages(number: Int) {
     selectInt("Life Stages", number, 2, 100, 1, LIFE_STAGE)
 }
 

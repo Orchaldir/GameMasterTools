@@ -25,7 +25,6 @@ import at.orchaldir.gm.core.selector.world.getCurrentTownMap
 import at.orchaldir.gm.core.selector.world.getTownMaps
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -65,7 +64,7 @@ fun HtmlBlockTag.showTown(
 
 // edit
 
-fun FORM.editTown(
+fun HtmlBlockTag.editTown(
     call: ApplicationCall,
     state: State,
     town: Town,

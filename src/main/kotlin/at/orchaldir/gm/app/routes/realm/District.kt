@@ -7,25 +7,17 @@ import at.orchaldir.gm.app.html.realm.parseDistrict
 import at.orchaldir.gm.app.html.realm.showDistrict
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.DISTRICT_TYPE
 import at.orchaldir.gm.core.model.realm.District
 import at.orchaldir.gm.core.model.realm.DistrictId
 import at.orchaldir.gm.core.model.util.SortDistrict
 import at.orchaldir.gm.core.selector.util.sortDistricts
-import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
-import io.ktor.server.html.*
-import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
-import mu.KotlinLogging
-
-private val logger = KotlinLogging.logger {}
 
 @Resource("/$DISTRICT_TYPE")
 class DistrictRoutes : Routes<DistrictId, SortDistrict> {
@@ -58,6 +50,8 @@ class DistrictRoutes : Routes<DistrictId, SortDistrict> {
     override fun delete(call: ApplicationCall, id: DistrictId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: DistrictId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())
+    override fun preview(call: ApplicationCall, id: DistrictId) = call.application.href(Preview(id))
+    override fun update(call: ApplicationCall, id: DistrictId) = call.application.href(Edit(id))
 }
 
 fun Application.configureDistrictRouting() {
@@ -91,25 +85,10 @@ fun Application.configureDistrictRouting() {
             handleDeleteElement(delete.id, DistrictRoutes.All())
         }
         get<DistrictRoutes.Edit> { edit ->
-            logger.info { "Get editor for legal code ${edit.id.value}" }
-
-            val state = STORE.getState()
-            val code = state.getDistrictStorage().getOrThrow(edit.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showDistrictEditor(call, state, code)
-            }
+            handleEditElement(edit.id, DistrictRoutes(), HtmlBlockTag::editDistrict)
         }
         post<DistrictRoutes.Preview> { preview ->
-            logger.info { "Get preview for legal code ${preview.id.value}" }
-
-            val formParameters = call.receiveParameters()
-            val state = STORE.getState()
-            val code = parseDistrict(state, formParameters, preview.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showDistrictEditor(call, state, code)
-            }
+            handlePreviewElement(preview.id, DistrictRoutes(), ::parseDistrict, HtmlBlockTag::editDistrict)
         }
         post<DistrictRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseDistrict)
@@ -117,18 +96,3 @@ fun Application.configureDistrictRouting() {
     }
 }
 
-private fun HTML.showDistrictEditor(
-    call: ApplicationCall,
-    state: State,
-    code: District,
-) {
-    val backLink = href(call, code.id)
-    val previewLink = call.application.href(DistrictRoutes.Preview(code.id))
-    val updateLink = call.application.href(DistrictRoutes.Update(code.id))
-
-    simpleHtmlEditor(code) {
-        formWithPreview(previewLink, updateLink, backLink) {
-            editDistrict(call, state, code)
-        }
-    }
-}

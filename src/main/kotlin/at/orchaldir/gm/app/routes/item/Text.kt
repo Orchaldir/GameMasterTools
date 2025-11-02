@@ -21,7 +21,6 @@ import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
-import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
@@ -66,10 +65,12 @@ class TextRoutes : Routes<TextId, SortText> {
 
     override fun all(call: ApplicationCall) = call.application.href(All())
     override fun all(call: ApplicationCall, sort: SortText) = call.application.href(All(sort))
-    override fun gallery(call: ApplicationCall) = call.application.href(Gallery())
     override fun delete(call: ApplicationCall, id: TextId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: TextId) = call.application.href(Edit(id))
+    override fun gallery(call: ApplicationCall) = call.application.href(Gallery())
     override fun new(call: ApplicationCall) = call.application.href(New())
+    override fun preview(call: ApplicationCall, id: TextId) = call.application.href(Preview(id))
+    override fun update(call: ApplicationCall, id: TextId) = call.application.href(Edit(id))
 }
 
 fun Application.configureTextRouting() {
@@ -120,24 +121,21 @@ fun Application.configureTextRouting() {
             handleDeleteElement(delete.id, TextRoutes.All())
         }
         get<TextRoutes.Edit> { edit ->
-            logger.info { "Get editor for text ${edit.id.value}" }
-
-            val state = STORE.getState()
-            val text = state.getTextStorage().getOrThrow(edit.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showTextEditor(call, state, text)
-            }
+            handleEditElementSplit(
+                edit.id,
+                TextRoutes(),
+                HtmlBlockTag::editText,
+                HtmlBlockTag::showTextEditorRight,
+            )
         }
         post<TextRoutes.Preview> { preview ->
-            logger.info { "Get preview for text ${preview.id.value}" }
-
-            val formParameters = call.receiveParameters()
-            val text = parseText(STORE.getState(), formParameters, preview.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showTextEditor(call, STORE.getState(), text)
-            }
+            handlePreviewElementSplit(
+                preview.id,
+                TextRoutes(),
+                ::parseText,
+                HtmlBlockTag::editText,
+                HtmlBlockTag::showTextEditorRight,
+            )
         }
         post<TextRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseText)
@@ -167,25 +165,12 @@ private fun HTML.showGallery(
     }
 }
 
-private fun HTML.showTextEditor(
+private fun HtmlBlockTag.showTextEditorRight(
     call: ApplicationCall,
     state: State,
     text: Text,
 ) {
-    val backLink = href(call, text.id)
-    val previewLink = call.application.href(TextRoutes.Preview(text.id))
-    val updateLink = call.application.href(TextRoutes.Update(text.id))
-
-    simpleHtmlEditor(text, true) {
-        split({
-            formWithPreview(previewLink, updateLink, backLink) {
-                editText(state, text)
-            }
-        }, {
-            visualizeFrontAndContent(call, state, text, 40, 0)
-        })
-
-    }
+    visualizeFrontAndContent(call, state, text, 40, 0)
 }
 
 private fun HtmlBlockTag.visualizeFrontAndContent(

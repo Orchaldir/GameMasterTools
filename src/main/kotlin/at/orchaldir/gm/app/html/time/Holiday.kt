@@ -11,7 +11,6 @@ import at.orchaldir.gm.core.selector.culture.getCultures
 import at.orchaldir.gm.core.selector.organization.getOrganizations
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -33,7 +32,8 @@ fun HtmlBlockTag.showHoliday(
 
 // edit
 
-fun FORM.editHoliday(
+fun HtmlBlockTag.editHoliday(
+    call: ApplicationCall,
     state: State,
     holiday: Holiday,
 ) {

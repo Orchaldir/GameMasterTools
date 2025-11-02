@@ -14,7 +14,6 @@ import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssueId
 import at.orchaldir.gm.core.selector.util.getExistingElements
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -32,7 +31,8 @@ fun HtmlBlockTag.showPeriodicalIssue(
 
 // edit
 
-fun FORM.editPeriodicalIssue(
+fun HtmlBlockTag.editPeriodicalIssue(
+    call: ApplicationCall,
     state: State,
     issue: PeriodicalIssue,
 ) {
@@ -42,7 +42,7 @@ fun FORM.editPeriodicalIssue(
     selectElements(state, "Articles", CONTENT, possibleArticle, issue.articles)
 }
 
-private fun FORM.selectIssueNumber(
+private fun HtmlBlockTag.selectIssueNumber(
     state: State,
     issue: PeriodicalIssue,
 ) {

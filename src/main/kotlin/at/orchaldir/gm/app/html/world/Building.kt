@@ -13,7 +13,6 @@ import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.selector.world.getPossibleStyles
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -36,7 +35,8 @@ fun HtmlBlockTag.showBuilding(
 
 // edit
 
-fun FORM.editBuilding(
+fun HtmlBlockTag.editBuilding(
+    call: ApplicationCall,
     state: State,
     building: Building,
 ) {

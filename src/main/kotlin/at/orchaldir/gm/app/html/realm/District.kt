@@ -17,7 +17,6 @@ import at.orchaldir.gm.core.selector.character.getCharactersLivingIn
 import at.orchaldir.gm.core.selector.realm.getExistingTowns
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -38,7 +37,7 @@ fun HtmlBlockTag.showDistrict(
 
 // edit
 
-fun FORM.editDistrict(
+fun HtmlBlockTag.editDistrict(
     call: ApplicationCall,
     state: State,
     district: District,

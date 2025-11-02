@@ -16,7 +16,6 @@ import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.DETAILS
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -62,7 +61,7 @@ private fun DETAILS.showSpearHead(
 
 // edit
 
-fun FORM.editPolearmHead(
+fun HtmlBlockTag.editPolearmHead(
     state: State,
     head: PolearmHead,
     param: String,

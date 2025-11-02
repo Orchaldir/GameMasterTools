@@ -12,7 +12,10 @@ import at.orchaldir.gm.core.selector.economy.money.getCurrencyUnits
 import at.orchaldir.gm.core.selector.item.getTexts
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.*
+import kotlinx.html.HtmlBlockTag
+import kotlinx.html.TextAreaWrap
+import kotlinx.html.h2
+import kotlinx.html.textArea
 
 // show
 
@@ -35,7 +38,8 @@ fun HtmlBlockTag.showFont(
 
 // edit
 
-fun FORM.editFont(
+fun HtmlBlockTag.editFont(
+    call: ApplicationCall,
     state: State,
     font: Font,
 ) {

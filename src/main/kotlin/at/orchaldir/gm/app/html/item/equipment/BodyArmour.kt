@@ -17,7 +17,6 @@ import at.orchaldir.gm.core.model.item.equipment.style.OuterwearLength
 import at.orchaldir.gm.core.model.item.equipment.style.SleeveStyle
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -34,7 +33,7 @@ fun HtmlBlockTag.showBodyArmour(
 
 // edit
 
-fun FORM.editBodyArmour(
+fun HtmlBlockTag.editBodyArmour(
     state: State,
     armour: BodyArmour,
 ) {

@@ -21,7 +21,6 @@ import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -110,7 +109,7 @@ fun HtmlBlockTag.displayCauseOfDeath(
 
 // edit
 
-fun <ID : Id<ID>> FORM.selectVitalStatus(
+fun <ID : Id<ID>> HtmlBlockTag.selectVitalStatus(
     state: State,
     id: ID,
     startDate: Date?,
@@ -122,15 +121,15 @@ fun <ID : Id<ID>> FORM.selectVitalStatus(
         selectValue("Status", VITAL, allowedStatuses, status.getType())
 
         when (status) {
-            is Abandoned -> selectVitalStatus(state, id, startDate, allowedCauses, status.date, status.cause)
+            is Abandoned -> selectVitalStatusData(state, id, startDate, allowedCauses, status.date, status.cause)
             Alive -> doNothing()
-            is Dead -> selectVitalStatus(state, id, startDate, allowedCauses, status.date, status.cause)
-            is Destroyed -> selectVitalStatus(state, id, startDate, allowedCauses, status.date, status.cause)
+            is Dead -> selectVitalStatusData(state, id, startDate, allowedCauses, status.date, status.cause)
+            is Destroyed -> selectVitalStatusData(state, id, startDate, allowedCauses, status.date, status.cause)
         }
     }
 }
 
-fun <ID : Id<ID>> HtmlBlockTag.selectVitalStatus(
+fun <ID : Id<ID>> HtmlBlockTag.selectVitalStatusData(
     state: State,
     id: ID,
     startDate: Date?,

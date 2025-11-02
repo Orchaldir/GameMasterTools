@@ -1,31 +1,24 @@
 package at.orchaldir.gm.app.routes.health
 
 import at.orchaldir.gm.app.STORE
-import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.createNameColumn
+import at.orchaldir.gm.app.html.createOriginColumn
+import at.orchaldir.gm.app.html.createStartDateColumn
 import at.orchaldir.gm.app.html.health.editDisease
 import at.orchaldir.gm.app.html.health.parseDisease
 import at.orchaldir.gm.app.html.health.showDisease
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.health.DISEASE_TYPE
-import at.orchaldir.gm.core.model.health.Disease
 import at.orchaldir.gm.core.model.health.DiseaseId
 import at.orchaldir.gm.core.model.util.SortDisease
 import at.orchaldir.gm.core.selector.util.sortDiseases
-import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
-import io.ktor.server.html.*
-import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
-import mu.KotlinLogging
-
-private val logger = KotlinLogging.logger {}
 
 @Resource("/$DISEASE_TYPE")
 class DiseaseRoutes : Routes<DiseaseId, SortDisease> {
@@ -58,6 +51,8 @@ class DiseaseRoutes : Routes<DiseaseId, SortDisease> {
     override fun delete(call: ApplicationCall, id: DiseaseId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: DiseaseId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())
+    override fun preview(call: ApplicationCall, id: DiseaseId) = call.application.href(Preview(id))
+    override fun update(call: ApplicationCall, id: DiseaseId) = call.application.href(Edit(id))
 }
 
 fun Application.configureDiseaseRouting() {
@@ -87,45 +82,13 @@ fun Application.configureDiseaseRouting() {
             handleDeleteElement(delete.id, DiseaseRoutes.All())
         }
         get<DiseaseRoutes.Edit> { edit ->
-            logger.info { "Get editor for disease ${edit.id.value}" }
-
-            val state = STORE.getState()
-            val disease = state.getDiseaseStorage().getOrThrow(edit.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showDiseaseEditor(call, state, disease)
-            }
+            handleEditElement(edit.id, DiseaseRoutes(), HtmlBlockTag::editDisease)
         }
         post<DiseaseRoutes.Preview> { preview ->
-            logger.info { "Get preview for disease ${preview.id.value}" }
-
-            val formParameters = call.receiveParameters()
-            val state = STORE.getState()
-            val disease = parseDisease(state, formParameters, preview.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showDiseaseEditor(call, state, disease)
-            }
+            handlePreviewElement(preview.id, DiseaseRoutes(), ::parseDisease, HtmlBlockTag::editDisease)
         }
         post<DiseaseRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseDisease)
         }
     }
 }
-
-private fun HTML.showDiseaseEditor(
-    call: ApplicationCall,
-    state: State,
-    disease: Disease,
-) {
-    val backLink = href(call, disease.id)
-    val previewLink = call.application.href(DiseaseRoutes.Preview(disease.id))
-    val updateLink = call.application.href(DiseaseRoutes.Update(disease.id))
-
-    simpleHtmlEditor(disease) {
-        formWithPreview(previewLink, updateLink, backLink) {
-            editDisease(state, disease)
-        }
-    }
-}
-

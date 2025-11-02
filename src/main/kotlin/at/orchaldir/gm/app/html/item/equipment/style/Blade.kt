@@ -21,7 +21,6 @@ import at.orchaldir.gm.utils.math.Factor
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.DETAILS
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -54,7 +53,7 @@ private fun DETAILS.showSimpleBlade(
 
 // edit
 
-fun FORM.editBlade(
+fun HtmlBlockTag.editBlade(
     state: State,
     blade: Blade,
     minLength: Factor,

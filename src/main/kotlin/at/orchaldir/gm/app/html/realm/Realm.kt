@@ -22,7 +22,6 @@ import at.orchaldir.gm.core.selector.economy.money.getExistingCurrency
 import at.orchaldir.gm.core.selector.realm.*
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -62,7 +61,7 @@ fun HtmlBlockTag.showRealm(
 
 // edit
 
-fun FORM.editRealm(
+fun HtmlBlockTag.editRealm(
     call: ApplicationCall,
     state: State,
     realm: Realm,

@@ -21,13 +21,12 @@ import at.orchaldir.gm.utils.math.unit.Orientation
 import at.orchaldir.gm.utils.math.unit.Orientation.Companion.fromDegrees
 import at.orchaldir.gm.utils.math.unit.QUARTER_CIRCLE
 import io.ktor.http.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 import kotlinx.html.h2
 
 // edit
 
-fun FORM.editHorns(
+fun HtmlBlockTag.editHorns(
     state: State,
     raceAppearance: RaceAppearance,
     horns: Horns,
@@ -71,7 +70,7 @@ fun FORM.editHorns(
     }
 }
 
-private fun FORM.editHorn(
+private fun HtmlBlockTag.editHorn(
     state: State,
     options: HornOptions,
     horn: Horn,

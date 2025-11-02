@@ -166,7 +166,8 @@ private fun HtmlBlockTag.showClothingOptions(
 
 // edit
 
-fun FORM.editCulture(
+fun HtmlBlockTag.editCulture(
+    call: ApplicationCall,
     state: State,
     culture: Culture,
 ) {
@@ -184,7 +185,7 @@ fun FORM.editCulture(
     editClothingOptions(state, culture)
 }
 
-private fun FORM.editNamingConvention(
+private fun HtmlBlockTag.editNamingConvention(
     namingConvention: NamingConvention,
     state: State,
 ) {
@@ -227,7 +228,7 @@ private fun FORM.editNamingConvention(
     }
 }
 
-private fun FORM.selectGenonymConvention(
+private fun HtmlBlockTag.selectGenonymConvention(
     state: State,
     lookupDistance: GenonymicLookupDistance,
     style: GenonymicStyle,
@@ -245,7 +246,7 @@ private fun FORM.selectGenonymConvention(
     selectNamesByGender(state, "Names", names, NAMES)
 }
 
-private fun FORM.selectNamesByGender(
+private fun HtmlBlockTag.selectNamesByGender(
     state: State,
     fieldLabel: String,
     namesByGender: GenderMap<NameListId>,
@@ -274,7 +275,7 @@ private fun HtmlBlockTag.selectNameList(
     }
 }
 
-private fun FORM.selectWordsByGender(label: String, genderMap: GenderMap<String>, param: String) {
+private fun HtmlBlockTag.selectWordsByGender(label: String, genderMap: GenderMap<String>, param: String) {
     selectGenderMap(label, genderMap, param) { genderParam, word ->
         textInput(name = genderParam) {
             value = word
@@ -282,7 +283,7 @@ private fun FORM.selectWordsByGender(label: String, genderMap: GenderMap<String>
     }
 }
 
-private fun FORM.editClothingOptions(
+private fun HtmlBlockTag.editClothingOptions(
     state: State,
     culture: Culture,
 ) {
