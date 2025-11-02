@@ -5,7 +5,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.combat.DamageType
 import at.orchaldir.gm.core.model.rpg.combat.DamageTypeId
-import at.orchaldir.gm.core.selector.rpg.getMeleeWeapons
+import at.orchaldir.gm.core.selector.rpg.getMeleeWeaponTypes
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -28,7 +28,7 @@ private fun HtmlBlockTag.showUsages(
     state: State,
     type: DamageTypeId,
 ) {
-    val meleeWeapons = state.getMeleeWeapons(type)
+    val meleeWeapons = state.getMeleeWeaponTypes(type)
 
     if (meleeWeapons.isEmpty()) {
         return

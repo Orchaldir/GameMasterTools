@@ -8,24 +8,24 @@ import at.orchaldir.gm.core.reducer.rpg.validateMeleeAttack
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
-const val MELEE_WEAPON_TYPE = "Melee Weapon"
+const val MELEE_WEAPON_TYPE_TYPE = "Melee Weapon Type"
 
 @JvmInline
 @Serializable
-value class MeleeWeaponId(val value: Int) : Id<MeleeWeaponId> {
+value class MeleeWeaponTypeId(val value: Int) : Id<MeleeWeaponTypeId> {
 
-    override fun next() = MeleeWeaponId(value + 1)
-    override fun type() = MELEE_WEAPON_TYPE
+    override fun next() = MeleeWeaponTypeId(value + 1)
+    override fun type() = MELEE_WEAPON_TYPE_TYPE
     override fun value() = value
 
 }
 
 @Serializable
-data class MeleeWeapon(
-    val id: MeleeWeaponId,
-    val name: Name = Name.init("$MELEE_WEAPON_TYPE ${id.value}"),
+data class MeleeWeaponType(
+    val id: MeleeWeaponTypeId,
+    val name: Name = Name.init("$MELEE_WEAPON_TYPE_TYPE ${id.value}"),
     val attacks: List<MeleeAttack> = emptyList(),
-) : ElementWithSimpleName<MeleeWeaponId> {
+) : ElementWithSimpleName<MeleeWeaponTypeId> {
 
     override fun id() = id
     override fun name() = name.text

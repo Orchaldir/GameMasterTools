@@ -29,7 +29,8 @@ import at.orchaldir.gm.app.routes.religion.DomainRoutes
 import at.orchaldir.gm.app.routes.religion.GodRoutes
 import at.orchaldir.gm.app.routes.religion.PantheonRoutes
 import at.orchaldir.gm.app.routes.rpg.DamageTypeRoutes
-import at.orchaldir.gm.app.routes.rpg.MeleeWeaponRoutes
+import at.orchaldir.gm.app.routes.rpg.MeleeWeaponModifierRoutes
+import at.orchaldir.gm.app.routes.rpg.MeleeWeaponTypeRoutes
 import at.orchaldir.gm.app.routes.rpg.StatisticRoutes
 import at.orchaldir.gm.app.routes.time.CalendarRoutes
 import at.orchaldir.gm.app.routes.time.HolidayRoutes
@@ -120,7 +121,8 @@ fun Application.configureRouting() {
                     fieldStorageLink(call, state.getPantheonStorage(), PantheonRoutes())
                     h3 { +"Rpg" }
                     fieldStorageLink(call, state.getDamageTypeStorage(), DamageTypeRoutes())
-                    fieldStorageLink(call, state.getMeleeWeaponStorage(), MeleeWeaponRoutes())
+                    fieldStorageLink(call, state.getMeleeWeaponModifierStorage(), MeleeWeaponModifierRoutes())
+                    fieldStorageLink(call, state.getMeleeWeaponTypeStorage(), MeleeWeaponTypeRoutes())
                     fieldStorageLink(call, state.getStatisticStorage(), StatisticRoutes())
                     h3 { +"Time" }
                     fieldStorageLink(call, state.getCalendarStorage(), CalendarRoutes())

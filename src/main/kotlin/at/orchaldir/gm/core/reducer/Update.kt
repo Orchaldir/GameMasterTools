@@ -32,7 +32,9 @@ import at.orchaldir.gm.core.model.religion.Domain
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.religion.Pantheon
 import at.orchaldir.gm.core.model.rpg.combat.DamageType
-import at.orchaldir.gm.core.model.rpg.combat.MeleeWeapon
+import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponModifier
+import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponModifierId
+import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponType
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.holiday.Holiday
@@ -92,7 +94,8 @@ fun reduceUpdateElement(
     is LegalCode -> updateElement(state, element)
     is MagicTradition -> updateElement(state, element)
     is Material -> updateElement(state, element)
-    is MeleeWeapon -> updateElement(state, element)
+    is MeleeWeaponModifier -> updateElement(state, element)
+    is MeleeWeaponType -> updateElement(state, element)
     is Moon -> updateElement(state, element)
     is NameList -> updateNameList(state, element)
     is Organization -> updateElement(state, element)

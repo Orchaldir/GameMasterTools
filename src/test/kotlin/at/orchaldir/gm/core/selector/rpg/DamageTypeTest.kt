@@ -25,7 +25,7 @@ class DamageTypeTest {
         @Test
         fun `Cannot delete a damage type used by a melee weapon`() {
             val attack = MeleeAttack(Damage(SimpleRandomDamage(), DAMAGE_TYPE_ID_0))
-            val element = MeleeWeapon(MELEE_WEAPON_ID_0, attacks = listOf(attack))
+            val element = MeleeWeaponType(MELEE_WEAPON_ID_0, attacks = listOf(attack))
             val newState = state.updateStorage(Storage(element))
 
             failCanDelete(newState, MELEE_WEAPON_ID_0)

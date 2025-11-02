@@ -3,15 +3,15 @@ package at.orchaldir.gm.core.selector.rpg
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.combat.DamageTypeId
-import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponId
+import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponTypeId
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 
-fun State.canDeleteMeleeWeapon(type: MeleeWeaponId) = DeleteResult(type)
+fun State.canDeleteMeleeWeaponType(type: MeleeWeaponTypeId) = DeleteResult(type)
 
-fun State.getMeleeWeapons(type: DamageTypeId) = getMeleeWeaponStorage()
+fun State.getMeleeWeaponTypes(type: DamageTypeId) = getMeleeWeaponTypeStorage()
     .getAll()
     .filter { it.contains(type) }
 
-fun State.getMeleeWeapons(statistic: StatisticId) = getMeleeWeaponStorage()
+fun State.getMeleeWeaponTypes(statistic: StatisticId) = getMeleeWeaponTypeStorage()
     .getAll()
     .filter { it.contains(statistic) }

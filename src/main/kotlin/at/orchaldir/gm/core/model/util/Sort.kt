@@ -154,7 +154,11 @@ enum class SortMaterial {
     Equipment,
 }
 
-enum class SortMeleeWeapon {
+enum class SortMeleeWeaponModifier {
+    Name,
+}
+
+enum class SortMeleeWeaponType {
     Name,
 }
 

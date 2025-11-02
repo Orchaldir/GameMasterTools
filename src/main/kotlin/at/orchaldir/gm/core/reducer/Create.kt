@@ -41,8 +41,10 @@ import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.religion.*
 import at.orchaldir.gm.core.model.rpg.combat.DamageType
 import at.orchaldir.gm.core.model.rpg.combat.DamageTypeId
-import at.orchaldir.gm.core.model.rpg.combat.MeleeWeapon
-import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponId
+import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponModifier
+import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponModifierId
+import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponType
+import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponTypeId
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.model.time.calendar.Calendar
@@ -117,7 +119,8 @@ fun reduceCreateElement(
     is LegalCodeId -> createElement(state, LegalCode(id))
     is MagicTraditionId -> createElement(state, MagicTradition(id))
     is MaterialId -> createElement(state, Material(id))
-    is MeleeWeaponId -> createElement(state, MeleeWeapon(id))
+    is MeleeWeaponModifierId -> createElement(state, MeleeWeaponModifier(id))
+    is MeleeWeaponTypeId -> createElement(state, MeleeWeaponType(id))
     is MoonId -> createElement(state, Moon(id))
     is NameListId -> createElement(state, NameList(id))
     is OrganizationId -> createElement(state, Organization(id))

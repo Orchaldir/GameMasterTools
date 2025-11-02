@@ -3,18 +3,18 @@ package at.orchaldir.gm.app.html.rpg.combat
 import at.orchaldir.gm.app.ATTACK
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.rpg.combat.MeleeWeapon
-import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponId
+import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponType
+import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponTypeId
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
 
 // show
 
-fun HtmlBlockTag.showMeleeWeapon(
+fun HtmlBlockTag.showMeleeWeaponType(
     call: ApplicationCall,
     state: State,
-    weapon: MeleeWeapon,
+    weapon: MeleeWeaponType,
 ) {
     showDetails("Attacks", true) {
         weapon.attacks.withIndex().forEach { (index, attack) ->
@@ -25,10 +25,10 @@ fun HtmlBlockTag.showMeleeWeapon(
 
 // edit
 
-fun HtmlBlockTag.editMeleeWeapon(
+fun HtmlBlockTag.editMeleeWeaponType(
     call: ApplicationCall,
     state: State,
-    weapon: MeleeWeapon,
+    weapon: MeleeWeaponType,
 ) {
     selectName(weapon.name)
     editList("Attacks", ATTACK, weapon.attacks, 0, 2, 1) { index, param, attack ->
@@ -38,14 +38,14 @@ fun HtmlBlockTag.editMeleeWeapon(
 
 // parse
 
-fun parseMeleeWeaponId(parameters: Parameters, param: String) = MeleeWeaponId(parseInt(parameters, param))
-fun parseMeleeWeaponId(value: String) = MeleeWeaponId(value.toInt())
+fun parseMeleeWeaponTypeId(parameters: Parameters, param: String) = MeleeWeaponTypeId(parseInt(parameters, param))
+fun parseMeleeWeaponTypeId(value: String) = MeleeWeaponTypeId(value.toInt())
 
-fun parseMeleeWeapon(
+fun parseMeleeWeaponType(
     state: State,
     parameters: Parameters,
-    id: MeleeWeaponId,
-) = MeleeWeapon(
+    id: MeleeWeaponTypeId,
+) = MeleeWeaponType(
     id,
     parseName(parameters),
     parseList(parameters, ATTACK, 0) { _, param ->
