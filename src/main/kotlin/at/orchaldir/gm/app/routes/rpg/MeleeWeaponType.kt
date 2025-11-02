@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.routes.rpg
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.Column.Companion.tdColumn
+import at.orchaldir.gm.app.html.countCollectionColumn
 import at.orchaldir.gm.app.html.createNameColumn
 import at.orchaldir.gm.app.html.rpg.combat.*
 import at.orchaldir.gm.app.html.showMultiLine
@@ -10,6 +11,7 @@ import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.rpg.combat.MELEE_WEAPON_TYPE_TYPE
 import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponTypeId
 import at.orchaldir.gm.core.model.util.SortMeleeWeaponType
+import at.orchaldir.gm.core.selector.item.getMeleeWeapons
 import at.orchaldir.gm.core.selector.util.sortMeleeWeaponTypes
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -78,6 +80,7 @@ fun Application.configureMeleeWeaponTypeRouting() {
                             displayParrying(attack.parrying)
                         }
                     },
+                    countCollectionColumn("Weapons") { state.getMeleeWeapons(it.id)  },
                 ),
             )
         }

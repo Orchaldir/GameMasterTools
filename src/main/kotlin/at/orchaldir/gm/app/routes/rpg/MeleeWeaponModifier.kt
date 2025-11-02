@@ -1,6 +1,7 @@
 package at.orchaldir.gm.app.routes.rpg
 
 import at.orchaldir.gm.app.STORE
+import at.orchaldir.gm.app.html.countCollectionColumn
 import at.orchaldir.gm.app.html.createNameColumn
 import at.orchaldir.gm.app.html.rpg.combat.editMeleeWeaponModifier
 import at.orchaldir.gm.app.html.rpg.combat.parseMeleeWeaponModifier
@@ -10,6 +11,7 @@ import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.rpg.combat.MELEE_WEAPON_MODIFIER_TYPE
 import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponModifierId
 import at.orchaldir.gm.core.model.util.SortMeleeWeaponModifier
+import at.orchaldir.gm.core.selector.item.getMeleeWeapons
 import at.orchaldir.gm.core.selector.util.sortMeleeWeaponModifiers
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -63,6 +65,7 @@ fun Application.configureMeleeWeaponModifierRouting() {
                 state.sortMeleeWeaponModifiers(all.sort),
                 listOf(
                     createNameColumn(call, state),
+                    countCollectionColumn("Weapons") { state.getMeleeWeapons(it.id)  },
                 ),
             )
         }

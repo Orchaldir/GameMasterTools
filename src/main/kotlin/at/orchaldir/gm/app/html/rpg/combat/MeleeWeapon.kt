@@ -42,6 +42,7 @@ fun HtmlBlockTag.editMeleeWeapon(
         )
         selectElements(
             state,
+            "Modifiers",
             combine(WEAPON, MODIFIER),
             state.getMeleeWeaponModifierStorage().getAll(),
             weapon.modifiers,
