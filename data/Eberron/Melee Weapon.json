@@ -7,19 +7,19 @@
    "attacks": [
     {
      "effect": {
-      "type": "Damage",
+      "#type": "Damage",
       "amount": {
-       "type": "ModifiedBase",
+       "#type": "ModifiedBase",
        "base": 15,
        "modifier": 2
       },
       "damageType": 4
      },
      "reach": {
-      "type": "Simple"
+      "#type": "Simple"
      },
      "parrying": {
-      "type": "Unbalanced"
+      "#type": "Unbalanced"
      }
     }
    ]
@@ -30,20 +30,20 @@
    "attacks": [
     {
      "effect": {
-      "type": "Damage",
+      "#type": "Damage",
       "amount": {
-       "type": "ModifiedBase",
+       "#type": "ModifiedBase",
        "base": 14,
        "modifier": -1
       },
       "damageType": 6
      },
      "reach": {
-      "type": "Simple",
+      "#type": "Simple",
       "distance": 0
      },
      "parrying": {
-      "type": "Normal",
+      "#type": "Normal",
       "modifier": -1
      }
     }
@@ -55,35 +55,35 @@
    "attacks": [
     {
      "effect": {
-      "type": "Damage",
+      "#type": "Damage",
       "amount": {
-       "type": "ModifiedBase",
+       "#type": "ModifiedBase",
        "base": 15
       },
       "damageType": 4
      },
      "reach": {
-      "type": "Simple"
+      "#type": "Simple"
      },
      "parrying": {
-      "type": "Normal"
+      "#type": "Normal"
      }
     },
     {
      "effect": {
-      "type": "Damage",
+      "#type": "Damage",
       "amount": {
-       "type": "ModifiedBase",
+       "#type": "ModifiedBase",
        "base": 14,
        "modifier": 1
       },
       "damageType": 6
      },
      "reach": {
-      "type": "Simple"
+      "#type": "Simple"
      },
      "parrying": {
-      "type": "Normal"
+      "#type": "Normal"
      }
     }
    ]
@@ -94,36 +94,36 @@
    "attacks": [
     {
      "effect": {
-      "type": "Damage",
+      "#type": "Damage",
       "amount": {
-       "type": "ModifiedBase",
+       "#type": "ModifiedBase",
        "base": 14,
        "modifier": 2
       },
       "damageType": 6
      },
      "reach": {
-      "type": "Simple"
+      "#type": "Simple"
      },
      "parrying": {
-      "type": "Normal"
+      "#type": "Normal"
      }
     },
     {
      "effect": {
-      "type": "Damage",
+      "#type": "Damage",
       "amount": {
-       "type": "ModifiedBase",
+       "#type": "ModifiedBase",
        "base": 14,
        "modifier": 3
       },
       "damageType": 6
      },
      "reach": {
-      "type": "Range"
+      "#type": "Range"
      },
      "parrying": {
-      "type": "Normal"
+      "#type": "Normal"
      }
     }
    ]

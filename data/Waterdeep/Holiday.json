@@ -9,7 +9,7 @@
    "id": 1,
    "name": "Grand Revel",
    "relativeDate": {
-    "type": "DayInYear",
+    "#type": "DayInYear",
     "dayIndex": 13,
     "monthIndex": 1
    }
@@ -18,7 +18,7 @@
    "id": 2,
    "name": "Rhyestertide",
    "relativeDate": {
-    "type": "DayInYear",
+    "#type": "DayInYear",
     "dayIndex": 0,
     "monthIndex": 2
    }
@@ -27,7 +27,7 @@
    "id": 3,
    "name": "Fey Day",
    "relativeDate": {
-    "type": "DayInYear",
+    "#type": "DayInYear",
     "dayIndex": 18,
     "monthIndex": 2
    }
@@ -36,7 +36,7 @@
    "id": 4,
    "name": "Fleetswake",
    "relativeDate": {
-    "type": "DayInYear",
+    "#type": "DayInYear",
     "dayIndex": 20,
     "monthIndex": 2
    }
@@ -45,7 +45,7 @@
    "id": 5,
    "name": "Fair Seas Festival",
    "relativeDate": {
-    "type": "DayInYear",
+    "#type": "DayInYear",
     "dayIndex": 28,
     "monthIndex": 2
    }
@@ -54,19 +54,19 @@
    "id": 6,
    "name": "Caravance",
    "relativeDate": {
-    "type": "DayInYear",
+    "#type": "DayInYear",
     "dayIndex": 0,
     "monthIndex": 3
    },
    "purpose": {
-    "type": "Festival"
+    "#type": "Festival"
    }
   },
   "7": {
    "id": 7,
    "name": "Goldenight",
    "relativeDate": {
-    "type": "DayInYear",
+    "#type": "DayInYear",
     "dayIndex": 4,
     "monthIndex": 3
    }
@@ -75,7 +75,7 @@
    "id": 8,
    "name": "Guildsmeet",
    "relativeDate": {
-    "type": "DayInYear",
+    "#type": "DayInYear",
     "dayIndex": 6,
     "monthIndex": 3
    }
@@ -84,7 +84,7 @@
    "id": 9,
    "name": "Leiruin",
    "relativeDate": {
-    "type": "DayInYear",
+    "#type": "DayInYear",
     "dayIndex": 9,
     "monthIndex": 3
    }
@@ -93,7 +93,7 @@
    "id": 10,
    "name": "Plowing & Running",
    "relativeDate": {
-    "type": "DayInYear",
+    "#type": "DayInYear",
     "dayIndex": 5,
     "monthIndex": 4
    }
@@ -102,12 +102,12 @@
    "id": 11,
    "name": "Trolltide",
    "relativeDate": {
-    "type": "DayInYear",
+    "#type": "DayInYear",
     "dayIndex": 0,
     "monthIndex": 5
    },
    "purpose": {
-    "type": "War",
+    "#type": "War",
     "war": 1
    }
   },
@@ -115,7 +115,7 @@
    "id": 12,
    "name": "Guildhall Day",
    "relativeDate": {
-    "type": "DayInYear",
+    "#type": "DayInYear",
     "dayIndex": 13,
     "monthIndex": 5
    }

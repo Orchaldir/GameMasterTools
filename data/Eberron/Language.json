@@ -9,7 +9,7 @@
    "id": 1,
    "name": "Common",
    "origin": {
-    "type": "Evolved",
+    "#type": "Evolved",
     "parent": 0
    }
   },
@@ -21,7 +21,7 @@
    "id": 3,
    "name": "Argon",
    "origin": {
-    "type": "Combined",
+    "#type": "Combined",
     "parents": [
      2,
      0
@@ -32,14 +32,14 @@
    "id": 4,
    "name": "Quori",
    "origin": {
-    "type": "Planar"
+    "#type": "Planar"
    }
   },
   "5": {
    "id": 5,
    "name": "Riedran",
    "origin": {
-    "type": "Combined",
+    "#type": "Combined",
     "parents": [
      0,
      4
@@ -54,7 +54,7 @@
    "id": 7,
    "name": "Dwarven",
    "origin": {
-    "type": "Evolved",
+    "#type": "Evolved",
     "parent": 6
    }
   },
@@ -66,7 +66,7 @@
    "id": 9,
    "name": "Goblin",
    "origin": {
-    "type": "Evolved",
+    "#type": "Evolved",
     "parent": 8
    }
   },
@@ -74,7 +74,7 @@
    "id": 10,
    "name": "Daelkyr",
    "origin": {
-    "type": "Planar"
+    "#type": "Planar"
    }
   },
   "11": {
@@ -98,7 +98,7 @@
    "name": "Infernal",
    "title": "Khyber's Speech",
    "origin": {
-    "type": "Planar"
+    "#type": "Planar"
    }
   },
   "16": {
@@ -110,7 +110,7 @@
    "name": "Celestial",
    "title": "Tongue of Siberys",
    "origin": {
-    "type": "Planar"
+    "#type": "Planar"
    }
   },
   "18": {
@@ -129,7 +129,7 @@
    "id": 21,
    "name": "High Kaluu",
    "origin": {
-    "type": "Combined",
+    "#type": "Combined",
     "parents": [
      2,
      15,
@@ -145,7 +145,7 @@
    "id": 23,
    "name": "Druidic",
    "origin": {
-    "type": "Planar"
+    "#type": "Planar"
    }
   },
   "24": {
@@ -156,35 +156,35 @@
    "id": 25,
    "name": "Mabran",
    "origin": {
-    "type": "Planar"
+    "#type": "Planar"
    }
   },
   "26": {
    "id": 26,
    "name": "Sylvan",
    "origin": {
-    "type": "Planar"
+    "#type": "Planar"
    }
   },
   "27": {
    "id": 27,
    "name": "Daan",
    "origin": {
-    "type": "Planar"
+    "#type": "Planar"
    }
   },
   "28": {
    "id": 28,
    "name": "Kythric",
    "origin": {
-    "type": "Planar"
+    "#type": "Planar"
    }
   },
   "29": {
    "id": 29,
    "name": "Primordial",
    "origin": {
-    "type": "Planar"
+    "#type": "Planar"
    }
   }
  }

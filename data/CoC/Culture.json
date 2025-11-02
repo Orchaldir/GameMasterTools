@@ -8,7 +8,7 @@
     "0": "Everyone"
    },
    "namingConvention": {
-    "type": "Family",
+    "#type": "Family",
     "middleNameOptions": {
      "None": "Common",
      "Random": "Rare"

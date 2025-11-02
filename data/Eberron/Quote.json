@@ -6,7 +6,7 @@
    "text": "Gold is the gift of the mountains, but iron comes from blood and bone.",
    "type": "Proverb",
    "source": {
-    "type": "Culture",
+    "#type": "Culture",
     "culture": 4
    }
   },

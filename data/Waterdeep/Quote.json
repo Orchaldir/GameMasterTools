@@ -7,7 +7,7 @@
    "description": "Someone tell me what's going on here.",
    "type": "Slang",
    "source": {
-    "type": "Organization",
+    "#type": "Organization",
     "organization": 2
    }
   },
@@ -17,7 +17,7 @@
    "description": "Don't move a muscle.",
    "type": "Slang",
    "source": {
-    "type": "Organization",
+    "#type": "Organization",
     "organization": 2
    }
   },
@@ -27,7 +27,7 @@
    "description": "Drop your weapons.",
    "type": "Slang",
    "source": {
-    "type": "Organization",
+    "#type": "Organization",
     "organization": 2
    }
   },
@@ -37,7 +37,7 @@
    "description": "\"Answer me\" or \"Tell the whole story.\"",
    "type": "Slang",
    "source": {
-    "type": "Organization",
+    "#type": "Organization",
     "organization": 2
    }
   },
@@ -47,7 +47,7 @@
    "description": "References the black robes of the magisters.",
    "type": "Slang",
    "source": {
-    "type": "Town",
+    "#type": "Town",
     "town": 0
    }
   },
@@ -56,7 +56,7 @@
    "text": "The only mortals that Waterdavians fear are a few unstable wizards and the Lords.",
    "description": "Most Waterdavians are slow to take fright unless facing magic or monsters.",
    "source": {
-    "type": "Town",
+    "#type": "Town",
     "town": 0
    }
   }

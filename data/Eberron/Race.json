@@ -5,7 +5,7 @@
    "id": 0,
    "name": "Human",
    "lifeStages": {
-    "type": "Default",
+    "#type": "Default",
     "oldAgeHairColor": "Gray"
    }
   },
@@ -16,7 +16,7 @@
     "center": 1700000
    },
    "lifeStages": {
-    "type": "Default",
+    "#type": "Default",
     "appearance": 2,
     "maxAges": [
      2,
@@ -38,7 +38,7 @@
     "center": 1200000
    },
    "lifeStages": {
-    "type": "Default",
+    "#type": "Default",
     "maxAges": [
      2,
      10,
@@ -62,17 +62,17 @@
     "center": 2000000
    },
    "lifeStages": {
-    "type": "Immutable",
+    "#type": "Immutable",
     "appearance": 3
    },
    "date": {
-    "type": "Year",
+    "#type": "Year",
     "year": 964
    },
    "origin": {
-    "type": "Created",
+    "#type": "Created",
     "creator": {
-     "type": "Organization",
+     "#type": "Organization",
      "organization": 16
     }
    }
@@ -82,7 +82,7 @@
    "name": "Changeling",
    "weight": 60000000,
    "lifeStages": {
-    "type": "Default",
+    "#type": "Default",
     "appearance": 1
    },
    "sources": [
@@ -96,7 +96,7 @@
     "center": 1600000
    },
    "lifeStages": {
-    "type": "Default",
+    "#type": "Default",
     "appearance": 2,
     "maxAges": [
      2,
@@ -111,7 +111,7 @@
     "oldAgeHairColor": "Gray"
    },
    "origin": {
-    "type": "Combined",
+    "#type": "Combined",
     "parents": [
      0,
      1
@@ -125,7 +125,7 @@
     "center": 1050000
    },
    "lifeStages": {
-    "type": "Default",
+    "#type": "Default",
     "appearance": 9,
     "maxAges": [
      2,
@@ -147,7 +147,7 @@
     "center": 1150000
    },
    "lifeStages": {
-    "type": "Default",
+    "#type": "Default",
     "maxAges": [
      2,
      5,
@@ -168,7 +168,7 @@
     "center": 1900000
    },
    "lifeStages": {
-    "type": "Default",
+    "#type": "Default",
     "appearance": 4,
     "maxAges": [
      2,
@@ -190,7 +190,7 @@
     "center": 1500000
    },
    "lifeStages": {
-    "type": "Default",
+    "#type": "Default",
     "appearance": 5,
     "oldAgeHairColor": "Gray"
    }
@@ -202,7 +202,7 @@
     "center": 1100000
    },
    "lifeStages": {
-    "type": "Default",
+    "#type": "Default",
     "appearance": 6,
     "maxAges": [
      1,
@@ -224,7 +224,7 @@
     "center": 1700000
    },
    "lifeStages": {
-    "type": "Default",
+    "#type": "Default",
     "appearance": 6,
     "oldAgeHairColor": "Gray"
    }
@@ -236,7 +236,7 @@
     "center": 2100000
    },
    "lifeStages": {
-    "type": "Default",
+    "#type": "Default",
     "appearance": 6,
     "maxAges": [
      2,
@@ -261,17 +261,17 @@
     "center": 1600000
    },
    "lifeStages": {
-    "type": "Immutable",
+    "#type": "Immutable",
     "appearance": 7
    },
    "date": {
-    "type": "Decade",
+    "#type": "Decade",
     "decade": -901
    },
    "origin": {
-    "type": "Created",
+    "#type": "Created",
     "creator": {
-     "type": "God",
+     "#type": "God",
      "god": 20
     }
    }
@@ -283,7 +283,7 @@
     "center": 2100000
    },
    "lifeStages": {
-    "type": "Default",
+    "#type": "Default",
     "appearance": 8,
     "maxAges": [
      1,
@@ -305,7 +305,7 @@
     "Female": "Common"
    },
    "lifeStages": {
-    "type": "Default",
+    "#type": "Default",
     "appearance": 12,
     "oldAgeHairColor": "Gray"
    }
@@ -321,7 +321,7 @@
     "center": 1700000
    },
    "lifeStages": {
-    "type": "Default",
+    "#type": "Default",
     "appearance": 10,
     "maxAges": [
      2,
@@ -342,7 +342,7 @@
     "center": 2700000
    },
    "lifeStages": {
-    "type": "Default",
+    "#type": "Default",
     "appearance": 11,
     "maxAges": [
      2,
@@ -364,7 +364,7 @@
     "center": 1100000
    },
    "lifeStages": {
-    "type": "Default",
+    "#type": "Default",
     "appearance": 6,
     "maxAges": [
      1,
@@ -379,14 +379,14 @@
     "oldAgeHairColor": "Gray"
    },
    "date": {
-    "type": "Century",
+    "#type": "Century",
     "century": -91
    },
    "origin": {
-    "type": "Modified",
+    "#type": "Modified",
     "parent": 10,
     "modifier": {
-     "type": "God",
+     "#type": "God",
      "god": 23
     }
    }

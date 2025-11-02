@@ -6,9 +6,9 @@
    "name": "Daanvi",
    "title": "The Perfect Order",
    "purpose": {
-    "type": "Independent",
+    "#type": "Independent",
     "pattern": {
-     "type": "Cycle",
+     "#type": "Cycle",
      "waxing": 100,
      "coterminous": 100,
      "waning": 100,
@@ -24,9 +24,9 @@
    "name": "Dal Quor",
    "title": "The Region of Dreams",
    "purpose": {
-    "type": "Independent",
+    "#type": "Independent",
     "pattern": {
-     "type": "Fixed",
+     "#type": "Fixed",
      "alignment": "Remote"
     }
    },
@@ -39,9 +39,9 @@
    "name": "Dolurrh",
    "title": "The Realm of the Dead",
    "purpose": {
-    "type": "Independent",
+    "#type": "Independent",
     "pattern": {
-     "type": "Cycle",
+     "#type": "Cycle",
      "waxing": 50,
      "coterminous": 1,
      "waning": 50,
@@ -54,7 +54,7 @@
    "name": "Fernia",
    "title": "The Sea of Fire",
    "purpose": {
-    "type": "Independent"
+    "#type": "Independent"
    },
    "languages": [
     29
@@ -65,7 +65,7 @@
    "name": "Irian",
    "title": "The Eternal Dawn",
    "purpose": {
-    "type": "Independent"
+    "#type": "Independent"
    },
    "languages": [
     17
@@ -76,7 +76,7 @@
    "name": "Kythri",
    "title": "The Churning Chaos",
    "purpose": {
-    "type": "Independent"
+    "#type": "Independent"
    },
    "languages": [
     28
@@ -87,7 +87,7 @@
    "name": "Lamannia",
    "title": "The Twilight Forest",
    "purpose": {
-    "type": "Independent"
+    "#type": "Independent"
    },
    "languages": [
     23
@@ -98,7 +98,7 @@
    "name": "Mabar",
    "title": "The Endless Night",
    "purpose": {
-    "type": "Independent"
+    "#type": "Independent"
    },
    "languages": [
     25
@@ -109,7 +109,7 @@
    "name": "Risia",
    "title": "The Plain of Ice",
    "purpose": {
-    "type": "Independent"
+    "#type": "Independent"
    },
    "languages": [
     29
@@ -120,9 +120,9 @@
    "name": "Shavarath",
    "title": "The Eternal Battleground",
    "purpose": {
-    "type": "Independent",
+    "#type": "Independent",
     "pattern": {
-     "type": "Cycle",
+     "#type": "Cycle",
      "waxing": 18,
      "coterminous": 1,
      "waning": 18,
@@ -139,7 +139,7 @@
    "name": "Syrania",
    "title": "The Azure Sky",
    "purpose": {
-    "type": "Independent"
+    "#type": "Independent"
    },
    "languages": [
     17
@@ -150,9 +150,9 @@
    "name": "Thelanis",
    "title": "The Faerie Court",
    "purpose": {
-    "type": "Independent",
+    "#type": "Independent",
     "pattern": {
-     "type": "Cycle",
+     "#type": "Cycle",
      "waxing": 102,
      "coterminous": 7,
      "waning": 102,
@@ -168,9 +168,9 @@
    "name": "Xoriat",
    "title": "The Realm of Madness",
    "purpose": {
-    "type": "Independent",
+    "#type": "Independent",
     "pattern": {
-     "type": "Fixed",
+     "#type": "Fixed",
      "alignment": "Remote"
     }
    },
@@ -186,7 +186,7 @@
    "id": 14,
    "name": "The Bitter Shield",
    "purpose": {
-    "type": "Heart",
+    "#type": "Heart",
     "god": 16
    },
    "languages": [
@@ -197,7 +197,7 @@
    "id": 15,
    "name": "The Tower of Shadows",
    "purpose": {
-    "type": "Heart",
+    "#type": "Heart",
     "god": 17
    },
    "languages": [
@@ -208,7 +208,7 @@
    "id": 16,
    "name": "The Abyssal Forest of Khaar",
    "purpose": {
-    "type": "Demiplane",
+    "#type": "Demiplane",
     "plane": 13
    }
   },
@@ -216,7 +216,7 @@
    "id": 17,
    "name": "The Ironlands",
    "purpose": {
-    "type": "Demiplane",
+    "#type": "Demiplane",
     "plane": 13
    }
   },
@@ -224,7 +224,7 @@
    "id": 18,
    "name": "The Vale of the Inner Sun",
    "purpose": {
-    "type": "Demiplane",
+    "#type": "Demiplane",
     "plane": 13
    }
   },
@@ -232,14 +232,14 @@
    "id": 19,
    "name": "The Astral Plane",
    "purpose": {
-    "type": "Independent"
+    "#type": "Independent"
    }
   },
   "20": {
    "id": 20,
    "name": "The Ethereal Veil",
    "purpose": {
-    "type": "Reflective",
+    "#type": "Reflective",
     "plane": 13
    }
   },
@@ -247,12 +247,12 @@
    "id": 21,
    "name": "The Dying Tree",
    "purpose": {
-    "type": "Prison",
+    "#type": "Prison",
     "gods": [
      18
     ],
     "creator": {
-     "type": "Organization",
+     "#type": "Organization",
      "organization": 29
     }
    },
@@ -264,12 +264,12 @@
    "id": 22,
    "name": "The Palace of Sinew",
    "purpose": {
-    "type": "Prison",
+    "#type": "Prison",
     "gods": [
      23
     ],
     "creator": {
-     "type": "Organization",
+     "#type": "Organization",
      "organization": 29
     }
    },
@@ -281,12 +281,12 @@
    "id": 23,
    "name": "The Citadel of Lidless Eyes",
    "purpose": {
-    "type": "Prison",
+    "#type": "Prison",
     "gods": [
      22
     ],
     "creator": {
-     "type": "Organization",
+     "#type": "Organization",
      "organization": 29
     }
    },
@@ -298,12 +298,12 @@
    "id": 24,
    "name": "The Heart of Stone",
    "purpose": {
-    "type": "Prison",
+    "#type": "Prison",
     "gods": [
      20
     ],
     "creator": {
-     "type": "Organization",
+     "#type": "Organization",
      "organization": 29
     }
    },

@@ -5,7 +5,7 @@
    "id": 0,
    "name": "The Battle of The Crying Fields",
    "date": {
-    "type": "Century",
+    "#type": "Century",
     "century": 9
    },
    "war": 0,
@@ -22,7 +22,7 @@
    "id": 1,
    "name": "The Battles of Vathirond",
    "date": {
-    "type": "Century",
+    "#type": "Century",
     "century": 9
    },
    "war": 0,
@@ -48,7 +48,7 @@
    "id": 2,
    "name": "The Raid of Graystone",
    "date": {
-    "type": "Year",
+    "#type": "Year",
     "year": 986
    },
    "war": 0,

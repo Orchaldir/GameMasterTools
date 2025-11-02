@@ -6,7 +6,7 @@
    "title": "Last of graduating class dies",
    "author": 8,
    "date": {
-    "type": "Year",
+    "#type": "Year",
     "year": 1910
    }
   }

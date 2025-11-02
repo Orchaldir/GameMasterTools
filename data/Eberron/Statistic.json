@@ -6,13 +6,13 @@
    "name": "Strength",
    "short": "ST",
    "data": {
-    "type": "Attribute",
+    "#type": "Attribute",
     "base": {
-     "type": "Fixed",
+     "#type": "Fixed",
      "default": 10
     },
     "cost": {
-     "type": "Fixed",
+     "#type": "Fixed",
      "cost": 10
     }
    }
@@ -22,13 +22,13 @@
    "name": "Dexterity",
    "short": "DX",
    "data": {
-    "type": "Attribute",
+    "#type": "Attribute",
     "base": {
-     "type": "Fixed",
+     "#type": "Fixed",
      "default": 10
     },
     "cost": {
-     "type": "Fixed",
+     "#type": "Fixed",
      "cost": 20
     }
    }
@@ -38,13 +38,13 @@
    "name": "Intelligence",
    "short": "IQ",
    "data": {
-    "type": "Attribute",
+    "#type": "Attribute",
     "base": {
-     "type": "Fixed",
+     "#type": "Fixed",
      "default": 10
     },
     "cost": {
-     "type": "Fixed",
+     "#type": "Fixed",
      "cost": 20
     }
    }
@@ -54,13 +54,13 @@
    "name": "Health",
    "short": "HT",
    "data": {
-    "type": "Attribute",
+    "#type": "Attribute",
     "base": {
-     "type": "Fixed",
+     "#type": "Fixed",
      "default": 10
     },
     "cost": {
-     "type": "Fixed",
+     "#type": "Fixed",
      "cost": 10
     }
    }
@@ -69,13 +69,13 @@
    "id": 4,
    "name": "Will",
    "data": {
-    "type": "Attribute",
+    "#type": "Attribute",
     "base": {
-     "type": "Fixed",
+     "#type": "Fixed",
      "default": 10
     },
     "cost": {
-     "type": "Fixed",
+     "#type": "Fixed",
      "cost": 5
     }
    }
@@ -85,13 +85,13 @@
    "name": "Perception",
    "short": "PER",
    "data": {
-    "type": "Attribute",
+    "#type": "Attribute",
     "base": {
-     "type": "Fixed",
+     "#type": "Fixed",
      "default": 10
     },
     "cost": {
-     "type": "Fixed",
+     "#type": "Fixed",
      "cost": 5
     }
    }
@@ -100,14 +100,14 @@
    "id": 6,
    "name": "Fighting",
    "data": {
-    "type": "Skill",
+    "#type": "Skill",
     "base": {
-     "type": "Statistic",
+     "#type": "Statistic",
      "statistic": 1,
      "offset": -2
     },
     "cost": {
-     "type": "GurpsSkill"
+     "#type": "GurpsSkill"
     }
    }
   },
@@ -115,14 +115,14 @@
    "id": 7,
    "name": "Shooting",
    "data": {
-    "type": "Skill",
+    "#type": "Skill",
     "base": {
-     "type": "Statistic",
+     "#type": "Statistic",
      "statistic": 5,
      "offset": -2
     },
     "cost": {
-     "type": "GurpsSkill"
+     "#type": "GurpsSkill"
     }
    }
   },
@@ -131,29 +131,29 @@
    "name": "Basic Lift",
    "short": "BL",
    "data": {
-    "type": "Derived",
+    "#type": "Derived",
     "base": {
-     "type": "Division",
+     "#type": "Division",
      "dividend": {
-      "type": "Product",
+      "#type": "Product",
       "values": [
        {
-        "type": "Statistic",
+        "#type": "Statistic",
         "statistic": 0
        },
        {
-        "type": "Statistic",
+        "#type": "Statistic",
         "statistic": 0
        }
       ]
      },
      "divisor": {
-      "type": "Fixed",
+      "#type": "Fixed",
       "default": 10
      }
     },
     "unit": {
-     "type": "Suffix",
+     "#type": "Suffix",
      "suffix": "kg"
     }
    }
@@ -163,13 +163,13 @@
    "name": "Hit Points",
    "short": "HP",
    "data": {
-    "type": "Derived",
+    "#type": "Derived",
     "base": {
-     "type": "Statistic",
+     "#type": "Statistic",
      "statistic": 0
     },
     "cost": {
-     "type": "Fixed",
+     "#type": "Fixed",
      "cost": 2
     }
    }
@@ -179,13 +179,13 @@
    "name": "Fatigue Points",
    "short": "FP",
    "data": {
-    "type": "Derived",
+    "#type": "Derived",
     "base": {
-     "type": "Statistic",
+     "#type": "Statistic",
      "statistic": 3
     },
     "cost": {
-     "type": "Fixed",
+     "#type": "Fixed",
      "cost": 3
     }
    }
@@ -194,22 +194,22 @@
    "id": 11,
    "name": "Basic Speed",
    "data": {
-    "type": "Derived",
+    "#type": "Derived",
     "base": {
-     "type": "Sum",
+     "#type": "Sum",
      "values": [
       {
-       "type": "Statistic",
+       "#type": "Statistic",
        "statistic": 1
       },
       {
-       "type": "Statistic",
+       "#type": "Statistic",
        "statistic": 3
       }
      ]
     },
     "cost": {
-     "type": "Fixed",
+     "#type": "Fixed",
      "cost": 5
     }
    }
@@ -218,23 +218,23 @@
    "id": 12,
    "name": "Dodge",
    "data": {
-    "type": "Derived",
+    "#type": "Derived",
     "base": {
-     "type": "Sum",
+     "#type": "Sum",
      "values": [
       {
-       "type": "Division",
+       "#type": "Division",
        "dividend": {
-        "type": "Statistic",
+        "#type": "Statistic",
         "statistic": 11
        },
        "divisor": {
-        "type": "Fixed",
+        "#type": "Fixed",
         "default": 4
        }
       },
       {
-       "type": "Fixed",
+       "#type": "Fixed",
        "default": 3
       }
      ]
@@ -245,24 +245,24 @@
    "id": 13,
    "name": "Basic Move",
    "data": {
-    "type": "Derived",
+    "#type": "Derived",
     "base": {
-     "type": "Division",
+     "#type": "Division",
      "dividend": {
-      "type": "Statistic",
+      "#type": "Statistic",
       "statistic": 11
      },
      "divisor": {
-      "type": "Fixed",
+      "#type": "Fixed",
       "default": 4
      }
     },
     "cost": {
-     "type": "Fixed",
+     "#type": "Fixed",
      "cost": 5
     },
     "unit": {
-     "type": "Suffix",
+     "#type": "Suffix",
      "suffix": "m/s"
     }
    }
@@ -272,13 +272,13 @@
    "name": "Thrusting Damage",
    "short": "Thr",
    "data": {
-    "type": "Damage",
+    "#type": "Damage",
     "base": {
-     "type": "Statistic",
+     "#type": "Statistic",
      "statistic": 0
     },
     "lookup": {
-     "type": "SimpleLookup",
+     "#type": "SimpleLookup",
      "lookup": {
       "current": {
        "dice": 2,
@@ -435,13 +435,13 @@
    "name": "Swinging Damage",
    "short": "Swing",
    "data": {
-    "type": "Damage",
+    "#type": "Damage",
     "base": {
-     "type": "Statistic",
+     "#type": "Statistic",
      "statistic": 0
     },
     "lookup": {
-     "type": "SimpleLookup",
+     "#type": "SimpleLookup",
      "lookup": {
       "current": {
        "dice": 4,

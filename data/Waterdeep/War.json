@@ -5,13 +5,13 @@
    "id": 0,
    "name": "1.Trollwar",
    "startDate": {
-    "type": "Year",
+    "#type": "Year",
     "year": 931
    },
    "status": {
-    "type": "Finished",
+    "#type": "Finished",
     "date": {
-     "type": "Year",
+     "#type": "Year",
      "year": 931
     }
    }
@@ -20,13 +20,13 @@
    "id": 1,
    "name": "2.Trollwar",
    "startDate": {
-    "type": "Year",
+    "#type": "Year",
     "year": 939
    },
    "status": {
-    "type": "Finished",
+    "#type": "Finished",
     "date": {
-     "type": "Year",
+     "#type": "Year",
      "year": 951
     }
    }
@@ -35,13 +35,13 @@
    "id": 2,
    "name": "3.Trollwar",
    "startDate": {
-    "type": "Year",
+    "#type": "Year",
     "year": 962
    },
    "status": {
-    "type": "Finished",
+    "#type": "Finished",
     "date": {
-     "type": "Year",
+     "#type": "Year",
      "year": 962
     }
    }

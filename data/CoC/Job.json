@@ -5,7 +5,7 @@
    "id": 0,
    "name": "Librarian",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 3
    }
   },
@@ -14,7 +14,7 @@
    "name": "Sheriff",
    "employerType": "Town",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 4
    }
   },
@@ -23,7 +23,7 @@
    "name": "Deputy",
    "employerType": "Town",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 3
    }
   },
@@ -31,7 +31,7 @@
    "id": 3,
    "name": "Reporter",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 3
    }
   },
@@ -39,7 +39,7 @@
    "id": 4,
    "name": "Cook",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 2
    }
   },
@@ -47,7 +47,7 @@
    "id": 5,
    "name": "Waiter",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 1
    }
   },
@@ -55,7 +55,7 @@
    "id": 6,
    "name": "Doctor",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 5
    }
   },
@@ -63,7 +63,7 @@
    "id": 7,
    "name": "Reverend",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 4
    }
   },
@@ -71,7 +71,7 @@
    "id": 8,
    "name": "Teacher",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 3
    }
   },
@@ -79,7 +79,7 @@
    "id": 9,
    "name": "Shopkeeper",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 3
    }
   },
@@ -87,7 +87,7 @@
    "id": 10,
    "name": "Grave Digger",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 1
    }
   },
@@ -95,7 +95,7 @@
    "id": 11,
    "name": "Gardener",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 2
    }
   },
@@ -103,7 +103,7 @@
    "id": 12,
    "name": "Architect",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 4
    }
   },
@@ -111,7 +111,7 @@
    "id": 13,
    "name": "Photographer",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 3
    }
   },
@@ -119,7 +119,7 @@
    "id": 14,
    "name": "Entertainer",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 2
    }
   },
@@ -127,7 +127,7 @@
    "id": 15,
    "name": "Jazz Musician",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 1
    }
   },
@@ -135,7 +135,7 @@
    "id": 16,
    "name": "Musician",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 3
    }
   },
@@ -143,7 +143,7 @@
    "id": 17,
    "name": "Stage Actor",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 2
    }
   },
@@ -151,7 +151,7 @@
    "id": 18,
    "name": "Stage Hand",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 1
    }
   },
@@ -159,7 +159,7 @@
    "id": 19,
    "name": "Stunt Man",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 2
    }
   },
@@ -167,7 +167,7 @@
    "id": 20,
    "name": "Coach",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 3
    }
   },
@@ -175,7 +175,7 @@
    "id": 21,
    "name": "Athlete",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 1
    }
   },
@@ -183,7 +183,7 @@
    "id": 22,
    "name": "Trainer",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 2
    }
   },
@@ -191,7 +191,7 @@
    "id": 23,
    "name": "Accountant",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 3
    }
   },
@@ -199,7 +199,7 @@
    "id": 24,
    "name": "Barber",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 2
    }
   },
@@ -207,7 +207,7 @@
    "id": 25,
    "name": "Clerk",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 2
    }
   },
@@ -215,7 +215,7 @@
    "id": 26,
    "name": "Salesman",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 4
    }
   },
@@ -223,7 +223,7 @@
    "id": 27,
    "name": "Secretary",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 3
    },
    "preferredGender": "Female"
@@ -232,7 +232,7 @@
    "id": 28,
    "name": "Small Business Owner",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 5
    }
   },
@@ -240,7 +240,7 @@
    "id": 29,
    "name": "Company Officer",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 6
    }
   },
@@ -248,7 +248,7 @@
    "id": 30,
    "name": "Stock Broker",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 6
    }
   },
@@ -256,7 +256,7 @@
    "id": 31,
    "name": "Deep-Sea Diver",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 3
    }
   },
@@ -264,7 +264,7 @@
    "id": 32,
    "name": "Aviator",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 3
    }
   },
@@ -272,7 +272,7 @@
    "id": 33,
    "name": "Charter Boat Captain",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 4
    }
   },
@@ -280,7 +280,7 @@
    "id": 34,
    "name": "Switchboard Operator",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 2
    },
    "preferredGender": "Female"
@@ -289,7 +289,7 @@
    "id": 35,
    "name": "Traveling Salesman",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 2
    }
   },
@@ -297,7 +297,7 @@
    "id": 36,
    "name": "Itinerant Preacher",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 0
    }
   },
@@ -305,7 +305,7 @@
    "id": 37,
    "name": "Missionary",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 2
    }
   },
@@ -313,7 +313,7 @@
    "id": 38,
    "name": "Thug",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 3
    },
    "preferredGender": "Male"
@@ -322,7 +322,7 @@
    "id": 39,
    "name": "Bookie",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 5
    }
   },
@@ -330,7 +330,7 @@
    "id": 40,
    "name": "Fence",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 4
    }
   },
@@ -338,7 +338,7 @@
    "id": 41,
    "name": "Forger",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 4
    }
   },
@@ -346,7 +346,7 @@
    "id": 42,
    "name": "Gambler",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 4
    }
   },
@@ -354,7 +354,7 @@
    "id": 43,
    "name": "Gangster",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 6
    }
   },
@@ -362,7 +362,7 @@
    "id": 44,
    "name": "Hit Man",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 4
    }
   },
@@ -370,7 +370,7 @@
    "id": 45,
    "name": "Columnist",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 4
    }
   },
@@ -378,7 +378,7 @@
    "id": 46,
    "name": "Copywriter",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 3
    }
   },
@@ -386,7 +386,7 @@
    "id": 47,
    "name": "Editor",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 4
    }
   },
@@ -394,7 +394,7 @@
    "id": 48,
    "name": "Foreign Correspondent",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 4
    }
   },
@@ -402,7 +402,7 @@
    "id": 49,
    "name": "Photojournalist",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 4
    }
   },
@@ -410,7 +410,7 @@
    "id": 50,
    "name": "Miner",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 2
    }
   },
@@ -418,7 +418,7 @@
    "id": 51,
    "name": "Lumberjack",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 2
    }
   },
@@ -426,7 +426,7 @@
    "id": 52,
    "name": "Farmer",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 2
    }
   },
@@ -434,7 +434,7 @@
    "id": 53,
    "name": "Farmer",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 3
    }
   },
@@ -442,7 +442,7 @@
    "id": 54,
    "name": "Bus Driver",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 3
    }
   },
@@ -450,7 +450,7 @@
    "id": 55,
    "name": "Taxi Driver",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 3
    }
   },
@@ -458,7 +458,7 @@
    "id": 56,
    "name": "Electrician",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 3
    }
   },
@@ -466,7 +466,7 @@
    "id": 57,
    "name": "Factory Worker",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 2
    }
   },
@@ -474,7 +474,7 @@
    "id": 58,
    "name": "Dockworker",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 2
    }
   },
@@ -482,7 +482,7 @@
    "id": 59,
    "name": "Plumber",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 3
    }
   },
@@ -490,7 +490,7 @@
    "id": 60,
    "name": "Mechanic",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 3
    }
   },
@@ -498,7 +498,7 @@
    "id": 61,
    "name": "Millwright",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 3
    }
   },
@@ -506,7 +506,7 @@
    "id": 62,
    "name": "Private Detective",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 3
    }
   },
@@ -514,7 +514,7 @@
    "id": 63,
    "name": "Bounty Hunter",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 2
    }
   },
@@ -522,7 +522,7 @@
    "id": 64,
    "name": "FBI Agent",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 4
    }
   },
@@ -530,7 +530,7 @@
    "id": 65,
    "name": "Forensic Specialist",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 3
    }
   },
@@ -538,7 +538,7 @@
    "id": 66,
    "name": "Police Detective",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 4
    }
   },
@@ -547,7 +547,7 @@
    "name": "Uniformed Police Officer",
    "employerType": "Town",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 3
    }
   },
@@ -555,7 +555,7 @@
    "id": 68,
    "name": "Bail Bondsman",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 5
    }
   },
@@ -564,7 +564,7 @@
    "name": "Judge",
    "employerType": "Town",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 5
    }
   },
@@ -572,7 +572,7 @@
    "id": 70,
    "name": "Practicing Attorney",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 5
    }
   },
@@ -580,7 +580,7 @@
    "id": 71,
    "name": "Prosecuting Attorney",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 4
    }
   },
@@ -588,7 +588,7 @@
    "id": 72,
    "name": "Dentist",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 4
    }
   },
@@ -596,7 +596,7 @@
    "id": 73,
    "name": "Forensic Surgeon",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 4
    }
   },
@@ -604,7 +604,7 @@
    "id": 74,
    "name": "Nurse",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 3
    },
    "preferredGender": "Female"
@@ -613,7 +613,7 @@
    "id": 75,
    "name": "Orderly",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 2
    }
   },
@@ -621,7 +621,7 @@
    "id": 76,
    "name": "Pharmacist",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 4
    }
   },
@@ -629,7 +629,7 @@
    "id": 77,
    "name": "Plastic Surgeon",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 5
    }
   },
@@ -637,7 +637,7 @@
    "id": 78,
    "name": "Psychologist",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 3
    }
   },
@@ -645,7 +645,7 @@
    "id": 79,
    "name": "Psychiatrist",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 4
    }
   },
@@ -654,7 +654,7 @@
    "name": "Military Officer",
    "employerType": "Realm",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 4
    }
   },
@@ -663,7 +663,7 @@
    "name": "Soldier",
    "employerType": "Realm",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 3
    }
   },
@@ -672,7 +672,7 @@
    "name": "Ambassador",
    "employerType": "Realm",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 6
    }
   },
@@ -680,7 +680,7 @@
    "id": 83,
    "name": "Selectman",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 4
    }
   },
@@ -689,7 +689,7 @@
    "name": "Major",
    "employerType": "Town",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 5
    }
   },
@@ -697,7 +697,7 @@
    "id": 85,
    "name": "Archaeologist",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 4
    }
   },
@@ -705,7 +705,7 @@
    "id": 86,
    "name": "Researcher",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 4
    }
   },
@@ -713,7 +713,7 @@
    "id": 87,
    "name": "Professor",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 4
    }
   },
@@ -721,7 +721,7 @@
    "id": 88,
    "name": "Antique Dealer",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 4
    }
   },
@@ -729,7 +729,7 @@
    "id": 89,
    "name": "Book Dealer",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 3
    }
   },
@@ -737,7 +737,7 @@
    "id": 90,
    "name": "Fireman",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 4
    }
   },
@@ -746,7 +746,7 @@
    "name": "Navy Sailor",
    "employerType": "Realm",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 3
    }
   },
@@ -754,7 +754,7 @@
    "id": 92,
    "name": "Sailor",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 2
    }
   },
@@ -762,7 +762,7 @@
    "id": 93,
    "name": "Museum Curator",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 4
    }
   },
@@ -770,7 +770,7 @@
    "id": 94,
    "name": "Parapsychologist",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 2
    }
   },
@@ -778,7 +778,7 @@
    "id": 95,
    "name": "Occultist",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 1
    }
   },
@@ -786,7 +786,7 @@
    "id": 96,
    "name": "Undertaker",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 4
    }
   },
@@ -794,7 +794,7 @@
    "id": 97,
    "name": "Zookeeper",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 3
    }
   },
@@ -802,7 +802,7 @@
    "id": 98,
    "name": "Foreman",
    "income": {
-    "type": "SoL",
+    "#type": "SoL",
     "standard": 4
    }
   }

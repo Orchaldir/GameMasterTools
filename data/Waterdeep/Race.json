@@ -5,14 +5,14 @@
    "id": 0,
    "name": "Tethyrian",
    "lifeStages": {
-    "type": "Default"
+    "#type": "Default"
    }
   },
   "2": {
    "id": 2,
    "name": "Illuskan",
    "lifeStages": {
-    "type": "Default",
+    "#type": "Default",
     "appearance": 2
    }
   },
@@ -20,7 +20,7 @@
    "id": 3,
    "name": "Calishite",
    "lifeStages": {
-    "type": "Default",
+    "#type": "Default",
     "appearance": 1
    }
   },
@@ -28,7 +28,7 @@
    "id": 4,
    "name": "Chondathan",
    "lifeStages": {
-    "type": "Default",
+    "#type": "Default",
     "appearance": 3
    }
   },
@@ -41,7 +41,7 @@
    },
    "weight": 90000000,
    "lifeStages": {
-    "type": "Default",
+    "#type": "Default",
     "appearance": 4,
     "maxAges": [
      2,
@@ -64,7 +64,7 @@
    },
    "weight": 80000000,
    "lifeStages": {
-    "type": "Default",
+    "#type": "Default",
     "appearance": 5,
     "maxAges": [
      2,
@@ -89,7 +89,7 @@
    },
    "weight": 50000000,
    "lifeStages": {
-    "type": "Default",
+    "#type": "Default",
     "appearance": 6,
     "maxAges": [
      2,
@@ -113,7 +113,7 @@
    },
    "weight": 70000000,
    "lifeStages": {
-    "type": "Default",
+    "#type": "Default",
     "appearance": 7,
     "maxAges": [
      2,
@@ -137,7 +137,7 @@
    },
    "weight": 60000000,
    "lifeStages": {
-    "type": "Default",
+    "#type": "Default",
     "appearance": 8,
     "maxAges": [
      2,
@@ -161,7 +161,7 @@
    },
    "weight": 70000000,
    "lifeStages": {
-    "type": "Default",
+    "#type": "Default",
     "appearance": 9,
     "maxAges": [
      2,
@@ -185,7 +185,7 @@
    },
    "weight": 55000000,
    "lifeStages": {
-    "type": "Default",
+    "#type": "Default",
     "appearance": 10,
     "maxAges": [
      2,

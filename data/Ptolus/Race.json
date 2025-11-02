@@ -10,7 +10,7 @@
    },
    "weight": 90000000,
    "lifeStages": {
-    "type": "Default",
+    "#type": "Default",
     "maxAges": [
      2,
      5,
@@ -31,7 +31,7 @@
    },
    "weight": 100000000,
    "lifeStages": {
-    "type": "Default",
+    "#type": "Default",
     "appearance": 6,
     "oldAgeHairColor": null,
     "venerableAgeHairColor": null

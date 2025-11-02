@@ -5,7 +5,7 @@
    "id": 0,
    "name": "Imperial Calendar",
    "days": {
-    "type": "Weekdays",
+    "#type": "Weekdays",
     "weekDays": [
      {
       "name": "Theoday"
@@ -31,7 +31,7 @@
     ]
    },
    "months": {
-    "type": "Complex",
+    "#type": "Complex",
     "months": [
      {
       "name": "Newyear",

@@ -5,7 +5,7 @@
    "id": 0,
    "name": "Wars of Fire",
    "startDate": {
-    "type": "~Year",
+    "#type": "~Year",
     "year": -4000
    }
   },
@@ -13,13 +13,13 @@
    "id": 1,
    "name": "1.Dwarven-Dark Elf War",
    "startDate": {
-    "type": "Year",
+    "#type": "Year",
     "year": -443
    },
    "status": {
-    "type": "Finished",
+    "#type": "Finished",
     "date": {
-     "type": "Year",
+     "#type": "Year",
      "year": -376
     }
    }
@@ -28,13 +28,13 @@
    "id": 2,
    "name": "Ghulwar",
    "startDate": {
-    "type": "Year",
+    "#type": "Year",
     "year": -330
    },
    "status": {
-    "type": "Finished",
+    "#type": "Finished",
     "date": {
-     "type": "Year",
+     "#type": "Year",
      "year": -55
     }
    }
@@ -43,13 +43,13 @@
    "id": 3,
    "name": "2.Dwarven-Dark Elf War",
    "startDate": {
-    "type": "Year",
+    "#type": "Year",
     "year": -351
    },
    "status": {
-    "type": "Finished",
+    "#type": "Finished",
     "date": {
-     "type": "Year",
+     "#type": "Year",
      "year": -343
     }
    }
@@ -58,17 +58,17 @@
    "id": 4,
    "name": "The Eastern Invasion",
    "startDate": {
-    "type": "~Year",
+    "#type": "~Year",
     "year": 699
    },
    "status": {
-    "type": "Finished",
+    "#type": "Finished",
     "result": {
-     "type": "TotalVictory",
+     "#type": "TotalVictory",
      "side": 1
     },
     "date": {
-     "type": "Year",
+     "#type": "Year",
      "year": 713
     }
    },
@@ -83,13 +83,13 @@
    "participants": [
     {
      "reference": {
-      "type": "Realm",
+      "#type": "Realm",
       "realm": 0
      }
     },
     {
      "reference": {
-      "type": "Realm",
+      "#type": "Realm",
       "realm": 2
      },
      "side": {

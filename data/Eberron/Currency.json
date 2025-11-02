@@ -24,11 +24,11 @@
     }
    ],
    "startDate": {
-    "type": "Year",
+    "#type": "Year",
     "year": 0
    },
    "endDate": {
-    "type": "Year",
+    "#type": "Year",
     "year": 893
    }
   }

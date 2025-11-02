@@ -14,6 +14,7 @@ val logger = KotlinLogging.logger {}
 
 @OptIn(ExperimentalSerializationApi::class)
 val prettyJson = Json {
+    classDiscriminator = "#type"
     prettyPrint = true
     prettyPrintIndent = " "
 }
