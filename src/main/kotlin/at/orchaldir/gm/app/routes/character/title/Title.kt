@@ -7,26 +7,17 @@ import at.orchaldir.gm.app.html.character.title.parseTitle
 import at.orchaldir.gm.app.html.character.title.showTitle
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.title.TITLE_TYPE
-import at.orchaldir.gm.core.model.character.title.Title
 import at.orchaldir.gm.core.model.character.title.TitleId
 import at.orchaldir.gm.core.model.util.SortTitle
 import at.orchaldir.gm.core.selector.character.countCharacters
 import at.orchaldir.gm.core.selector.util.sortTitles
-import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
-import io.ktor.server.html.*
-import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
-import mu.KotlinLogging
-
-private val logger = KotlinLogging.logger {}
 
 @Resource("/$TITLE_TYPE")
 class TitleRoutes : Routes<TitleId, SortTitle> {
@@ -59,6 +50,8 @@ class TitleRoutes : Routes<TitleId, SortTitle> {
     override fun delete(call: ApplicationCall, id: TitleId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: TitleId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())
+    override fun preview(call: ApplicationCall, id: TitleId) = call.application.href(Preview(id))
+    override fun update(call: ApplicationCall, id: TitleId) = call.application.href(Edit(id))
 }
 
 fun Application.configureTitleRouting() {
@@ -94,43 +87,13 @@ fun Application.configureTitleRouting() {
             handleDeleteElement(delete.id, TitleRoutes.All())
         }
         get<TitleRoutes.Edit> { edit ->
-            logger.info { "Get editor for title ${edit.id.value}" }
-
-            val state = STORE.getState()
-            val title = state.getTitleStorage().getOrThrow(edit.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showTitleEditor(call, state, title)
-            }
+            handleEditElement(edit.id, TitleRoutes(), HtmlBlockTag::editTitle)
         }
         post<TitleRoutes.Preview> { preview ->
-            logger.info { "Preview title ${preview.id.value}" }
-
-            val state = STORE.getState()
-            val title = parseTitle(state, call.receiveParameters(), preview.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showTitleEditor(call, state, title)
-            }
+            handlePreviewElement(preview.id, TitleRoutes(), ::parseTitle, HtmlBlockTag::editTitle)
         }
         post<TitleRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseTitle)
-        }
-    }
-}
-
-private fun HTML.showTitleEditor(
-    call: ApplicationCall,
-    state: State,
-    title: Title,
-) {
-    val backLink = href(call, title.id)
-    val previewLink = call.application.href(TitleRoutes.Preview(title.id))
-    val updateLink = call.application.href(TitleRoutes.Update(title.id))
-
-    simpleHtmlEditor(title) {
-        formWithPreview(previewLink, updateLink, backLink) {
-            editTitle(title)
         }
     }
 }

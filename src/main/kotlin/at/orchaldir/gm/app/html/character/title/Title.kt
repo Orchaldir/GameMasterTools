@@ -36,6 +36,8 @@ fun HtmlBlockTag.showTitle(
 // edit
 
 fun HtmlBlockTag.editTitle(
+    call: ApplicationCall,
+    state: State,
     title: Title,
 ) {
     selectName(title.name)

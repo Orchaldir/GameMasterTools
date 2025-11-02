@@ -125,6 +125,7 @@ fun HtmlBlockTag.editKnownLanguages(
 }
 
 fun HtmlBlockTag.editLanguage(
+    call: ApplicationCall,
     state: State,
     language: Language,
 ) {

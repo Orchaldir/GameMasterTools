@@ -31,8 +31,9 @@ fun HtmlBlockTag.showFashion(
 // edit
 
 fun HtmlBlockTag.editFashion(
-    fashion: Fashion,
+    call: ApplicationCall,
     state: State,
+    fashion: Fashion,
 ) {
     selectName(fashion.name)
     editAppearanceFashion(fashion.appearance)

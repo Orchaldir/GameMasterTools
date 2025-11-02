@@ -167,6 +167,7 @@ private fun HtmlBlockTag.showClothingOptions(
 // edit
 
 fun HtmlBlockTag.editCulture(
+    call: ApplicationCall,
     state: State,
     culture: Culture,
 ) {

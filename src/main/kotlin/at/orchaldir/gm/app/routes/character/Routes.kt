@@ -1,9 +1,12 @@
 package at.orchaldir.gm.app.routes.character
 
 import at.orchaldir.gm.app.routes.Routes
+import at.orchaldir.gm.app.routes.world.PlaneRoutes.Edit
+import at.orchaldir.gm.app.routes.world.PlaneRoutes.Preview
 import at.orchaldir.gm.core.model.character.CHARACTER_TYPE
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.util.SortCharacter
+import at.orchaldir.gm.core.model.world.plane.PlaneId
 import io.ktor.resources.*
 import io.ktor.server.application.*
 import io.ktor.server.resources.*
@@ -39,10 +42,12 @@ class CharacterRoutes : Routes<CharacterId, SortCharacter> {
 
     override fun all(call: ApplicationCall) = call.application.href(All())
     override fun all(call: ApplicationCall, sort: SortCharacter) = call.application.href(All(sort))
-    override fun gallery(call: ApplicationCall) = call.application.href(Gallery())
     override fun delete(call: ApplicationCall, id: CharacterId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: CharacterId) = call.application.href(Edit(id))
+    override fun gallery(call: ApplicationCall) = call.application.href(Gallery())
     override fun new(call: ApplicationCall) = call.application.href(New())
+    override fun preview(call: ApplicationCall, id: CharacterId) = call.application.href(Preview(id))
+    override fun update(call: ApplicationCall, id: CharacterId) = call.application.href(Edit(id))
 
     @Resource("/appearance")
     class Appearance(val parent: CharacterRoutes = CharacterRoutes()) {
