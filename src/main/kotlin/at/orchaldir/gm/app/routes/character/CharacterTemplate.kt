@@ -95,7 +95,12 @@ fun Application.configureCharacterTemplateRouting() {
             handleEditElement(edit.id, CharacterTemplateRoutes(), HtmlBlockTag::editCharacterTemplate)
         }
         post<CharacterTemplateRoutes.Preview> { preview ->
-            handlePreviewElement(preview.id, CharacterTemplateRoutes(), ::parseCharacterTemplate, HtmlBlockTag::editCharacterTemplate)
+            handlePreviewElement(
+                preview.id,
+                CharacterTemplateRoutes(),
+                ::parseCharacterTemplate,
+                HtmlBlockTag::editCharacterTemplate
+            )
         }
         post<CharacterTemplateRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseCharacterTemplate)

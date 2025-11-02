@@ -16,7 +16,6 @@ import at.orchaldir.gm.core.model.item.equipment.style.PocketStyle
 import at.orchaldir.gm.core.model.item.equipment.style.SleeveStyle
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show

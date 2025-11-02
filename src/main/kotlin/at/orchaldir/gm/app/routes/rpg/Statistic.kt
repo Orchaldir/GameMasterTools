@@ -4,7 +4,6 @@ import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.Column
 import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.createNameColumn
-import at.orchaldir.gm.app.html.rpg.combat.editDamageType
 import at.orchaldir.gm.app.html.rpg.statistic.*
 import at.orchaldir.gm.app.html.tdEnum
 import at.orchaldir.gm.app.html.tdString

@@ -88,7 +88,12 @@ fun Application.configureMagicTraditionRouting() {
             handleEditElement(edit.id, MagicTraditionRoutes(), HtmlBlockTag::editMagicTradition)
         }
         post<MagicTraditionRoutes.Preview> { preview ->
-            handlePreviewElement(preview.id, MagicTraditionRoutes(), ::parseMagicTradition, HtmlBlockTag::editMagicTradition)
+            handlePreviewElement(
+                preview.id,
+                MagicTraditionRoutes(),
+                ::parseMagicTradition,
+                HtmlBlockTag::editMagicTradition
+            )
         }
         post<MagicTraditionRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseMagicTradition)

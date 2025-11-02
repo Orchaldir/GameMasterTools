@@ -80,7 +80,7 @@ class RaceAppearanceRoutes : Routes<RaceAppearanceId, SortRaceAppearance> {
     override fun delete(call: ApplicationCall, id: RaceAppearanceId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: RaceAppearanceId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())
-    override fun preview(call: ApplicationCall, id:RaceAppearanceId) = call.application.href(Preview(id))
+    override fun preview(call: ApplicationCall, id: RaceAppearanceId) = call.application.href(Preview(id))
     override fun update(call: ApplicationCall, id: RaceAppearanceId) = call.application.href(Edit(id))
 }
 

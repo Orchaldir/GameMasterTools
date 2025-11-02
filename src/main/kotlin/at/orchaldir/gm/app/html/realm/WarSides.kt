@@ -10,7 +10,6 @@ import at.orchaldir.gm.core.model.realm.War
 import at.orchaldir.gm.core.model.realm.WarSide
 import at.orchaldir.gm.core.model.util.render.Color
 import io.ktor.http.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show

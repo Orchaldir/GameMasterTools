@@ -13,7 +13,6 @@ import at.orchaldir.gm.core.model.religion.DomainId
 import at.orchaldir.gm.core.selector.religion.getGodsWith
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show

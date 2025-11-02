@@ -11,7 +11,6 @@ import at.orchaldir.gm.core.selector.item.getEquipment
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show

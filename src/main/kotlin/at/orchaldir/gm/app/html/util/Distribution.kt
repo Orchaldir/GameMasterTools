@@ -6,7 +6,6 @@ import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.utils.math.unit.*
 import io.ktor.http.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show

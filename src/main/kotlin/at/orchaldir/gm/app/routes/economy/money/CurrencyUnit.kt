@@ -116,7 +116,10 @@ fun Application.configureCurrencyUnitRouting() {
             handleDeleteElement(delete.id, CurrencyUnitRoutes.All())
         }
         get<CurrencyUnitRoutes.Edit> { edit ->
-            handleEditElement<CurrencyUnitId, CurrencyUnit, SortCurrencyUnit>(edit.id, CurrencyUnitRoutes()) { call, state, unit ->
+            handleEditElement<CurrencyUnitId, CurrencyUnit, SortCurrencyUnit>(
+                edit.id,
+                CurrencyUnitRoutes()
+            ) { call, state, unit ->
                 visualizeCurrencyUnit(state, unit)
                 editCurrencyUnit(call, state, unit)
             }

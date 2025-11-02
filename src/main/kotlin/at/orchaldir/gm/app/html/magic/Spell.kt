@@ -19,7 +19,6 @@ import at.orchaldir.gm.core.selector.magic.getSpellsBasedOn
 import at.orchaldir.gm.core.selector.religion.getDomainsAssociatedWith
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show

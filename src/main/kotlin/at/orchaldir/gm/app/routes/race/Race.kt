@@ -8,7 +8,6 @@ import at.orchaldir.gm.app.html.race.parseRace
 import at.orchaldir.gm.app.html.race.showRace
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.app.routes.race.RaceAppearanceRoutes.Gallery
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.character.appearance.Appearance
@@ -82,7 +81,7 @@ class RaceRoutes : Routes<RaceId, SortRace> {
     override fun edit(call: ApplicationCall, id: RaceId) = call.application.href(Edit(id))
     override fun gallery(call: ApplicationCall) = call.application.href(Gallery())
     override fun new(call: ApplicationCall) = call.application.href(New())
-    override fun preview(call: ApplicationCall, id:RaceId) = call.application.href(Preview(id))
+    override fun preview(call: ApplicationCall, id: RaceId) = call.application.href(Preview(id))
     override fun update(call: ApplicationCall, id: RaceId) = call.application.href(Edit(id))
 }
 

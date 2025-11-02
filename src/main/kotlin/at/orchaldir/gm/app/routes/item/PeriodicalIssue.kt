@@ -87,7 +87,12 @@ fun Application.configurePeriodicalIssueRouting() {
             handleEditElement(edit.id, PeriodicalIssueRoutes(), HtmlBlockTag::editPeriodicalIssue)
         }
         post<PeriodicalIssueRoutes.Preview> { preview ->
-            handlePreviewElement(preview.id, PeriodicalIssueRoutes(), ::parsePeriodicalIssue, HtmlBlockTag::editPeriodicalIssue)
+            handlePreviewElement(
+                preview.id,
+                PeriodicalIssueRoutes(),
+                ::parsePeriodicalIssue,
+                HtmlBlockTag::editPeriodicalIssue
+            )
         }
         post<PeriodicalIssueRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parsePeriodicalIssue)

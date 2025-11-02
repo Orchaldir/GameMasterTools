@@ -89,7 +89,12 @@ fun Application.configureArchitecturalStyleRouting() {
             handleEditElement(edit.id, ArchitecturalStyleRoutes(), HtmlBlockTag::editArchitecturalStyle)
         }
         post<ArchitecturalStyleRoutes.Preview> { preview ->
-            handlePreviewElement(preview.id, ArchitecturalStyleRoutes(), ::parseArchitecturalStyle, HtmlBlockTag::editArchitecturalStyle)
+            handlePreviewElement(
+                preview.id,
+                ArchitecturalStyleRoutes(),
+                ::parseArchitecturalStyle,
+                HtmlBlockTag::editArchitecturalStyle
+            )
         }
         post<ArchitecturalStyleRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseArchitecturalStyle)

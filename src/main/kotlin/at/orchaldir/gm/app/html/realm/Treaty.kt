@@ -25,7 +25,6 @@ import at.orchaldir.gm.core.selector.realm.getWarsEndedBy
 import at.orchaldir.gm.core.selector.time.getHolidays
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show

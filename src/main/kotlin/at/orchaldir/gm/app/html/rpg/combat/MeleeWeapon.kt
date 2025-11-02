@@ -7,7 +7,6 @@ import at.orchaldir.gm.core.model.rpg.combat.MeleeWeapon
 import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponId
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show

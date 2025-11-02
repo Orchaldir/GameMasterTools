@@ -96,7 +96,12 @@ fun Application.configurePersonalityRouting() {
             handleEditElement(edit.id, PersonalityTraitRoutes(), HtmlBlockTag::editPersonalityTrait)
         }
         post<PersonalityTraitRoutes.Preview> { preview ->
-            handlePreviewElement(preview.id, PersonalityTraitRoutes(), ::parsePersonalityTrait, HtmlBlockTag::editPersonalityTrait)
+            handlePreviewElement(
+                preview.id,
+                PersonalityTraitRoutes(),
+                ::parsePersonalityTrait,
+                HtmlBlockTag::editPersonalityTrait
+            )
         }
         post<PersonalityTraitRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parsePersonalityTrait)

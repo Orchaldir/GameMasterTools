@@ -13,7 +13,6 @@ import at.orchaldir.gm.core.selector.realm.getRealmsWithLegalCode
 import at.orchaldir.gm.core.selector.realm.getRealmsWithPreviousLegalCode
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show

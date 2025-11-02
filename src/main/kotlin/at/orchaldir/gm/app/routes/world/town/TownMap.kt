@@ -74,7 +74,7 @@ fun Application.configureTownMapRouting() {
             handlePreviewElementSplit(
                 preview.id,
                 TownMapRoutes(),
-                {state, parameters, id -> parseTownMap(state, parameters, state.getTownMapStorage().getOrThrow(id)) },
+                { state, parameters, id -> parseTownMap(state, parameters, state.getTownMapStorage().getOrThrow(id)) },
                 HtmlBlockTag::editTownMap,
                 HtmlBlockTag::showTownMapEditorRight,
             )

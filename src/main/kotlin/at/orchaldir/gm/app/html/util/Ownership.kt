@@ -16,7 +16,6 @@ import at.orchaldir.gm.core.selector.util.getPreviouslyOwned
 import at.orchaldir.gm.utils.Id
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 import kotlinx.html.h2
 

@@ -151,7 +151,7 @@ fun Application.configureEquipmentRouting() {
                 EquipmentRoutes(),
                 ::parseEquipment,
                 HtmlBlockTag::editEquipment,
-            ) {call, state, equipment ->
+            ) { call, state, equipment ->
                 showEquipmentEditorRight(call, state, equipment, colorSchemeId)
             }
         }

@@ -9,7 +9,6 @@ import at.orchaldir.gm.core.model.magic.SpellGroupId
 import at.orchaldir.gm.core.selector.magic.getMagicTraditions
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show

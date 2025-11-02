@@ -23,7 +23,6 @@ import at.orchaldir.gm.core.selector.magic.getSpells
 import at.orchaldir.gm.core.selector.world.getPlanes
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 import kotlinx.html.h2
 

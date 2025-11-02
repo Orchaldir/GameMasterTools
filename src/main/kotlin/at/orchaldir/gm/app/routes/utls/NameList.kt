@@ -41,7 +41,7 @@ class NameListRoutes : Routes<NameListId, SortNameList> {
     class Edit(val id: NameListId, val parent: NameListRoutes = NameListRoutes())
 
     @Resource("preview")
-    class Preview(val id:  NameListId, val parent: NameListRoutes =  NameListRoutes())
+    class Preview(val id: NameListId, val parent: NameListRoutes = NameListRoutes())
 
     @Resource("update")
     class Update(val id: NameListId, val parent: NameListRoutes = NameListRoutes())
@@ -81,10 +81,10 @@ fun Application.configureNameListRouting() {
             handleDeleteElement(delete.id, NameListRoutes())
         }
         get<NameListRoutes.Edit> { edit ->
-            handleEditElement(edit.id,  NameListRoutes(), HtmlBlockTag::editNameList)
+            handleEditElement(edit.id, NameListRoutes(), HtmlBlockTag::editNameList)
         }
-        post< NameListRoutes.Preview> { preview ->
-            handlePreviewElement(preview.id,  NameListRoutes(), ::parseNameList, HtmlBlockTag::editNameList)
+        post<NameListRoutes.Preview> { preview ->
+            handlePreviewElement(preview.id, NameListRoutes(), ::parseNameList, HtmlBlockTag::editNameList)
         }
         post<NameListRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseNameList)

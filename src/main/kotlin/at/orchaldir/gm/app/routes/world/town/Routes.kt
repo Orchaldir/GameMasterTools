@@ -1,8 +1,6 @@
 package at.orchaldir.gm.app.routes.world.town
 
 import at.orchaldir.gm.app.routes.Routes
-import at.orchaldir.gm.app.routes.world.StreetTemplateRoutes.Edit
-import at.orchaldir.gm.app.routes.world.StreetTemplateRoutes.Preview
 import at.orchaldir.gm.core.model.util.SortTownMap
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.street.StreetTemplateId

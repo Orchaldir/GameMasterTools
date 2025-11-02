@@ -1,12 +1,9 @@
 package at.orchaldir.gm.app.routes.character
 
 import at.orchaldir.gm.app.routes.Routes
-import at.orchaldir.gm.app.routes.world.PlaneRoutes.Edit
-import at.orchaldir.gm.app.routes.world.PlaneRoutes.Preview
 import at.orchaldir.gm.core.model.character.CHARACTER_TYPE
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.util.SortCharacter
-import at.orchaldir.gm.core.model.world.plane.PlaneId
 import io.ktor.resources.*
 import io.ktor.server.application.*
 import io.ktor.server.resources.*

@@ -10,7 +10,6 @@ import at.orchaldir.gm.app.html.util.showAuthenticity
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.religion.GOD_TYPE
-import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.util.SortGod
 import at.orchaldir.gm.core.selector.religion.getPantheonsContaining

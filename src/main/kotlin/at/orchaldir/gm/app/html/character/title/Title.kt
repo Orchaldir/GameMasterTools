@@ -15,7 +15,6 @@ import at.orchaldir.gm.core.model.character.title.TitlePosition
 import at.orchaldir.gm.core.selector.character.getCharacters
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.FORM
 import kotlinx.html.HtmlBlockTag
 
 // show
