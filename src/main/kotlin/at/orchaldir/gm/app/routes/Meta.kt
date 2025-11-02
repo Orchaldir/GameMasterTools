@@ -30,8 +30,8 @@ interface Routes<ID : Id<ID>, T> {
     fun edit(call: ApplicationCall, id: ID): String
     fun gallery(call: ApplicationCall): String? = null
     fun new(call: ApplicationCall): String
-    fun preview(call: ApplicationCall, id: ID): String = ""
-    fun update(call: ApplicationCall, id: ID): String = ""
+    fun preview(call: ApplicationCall, id: ID): String
+    fun update(call: ApplicationCall, id: ID): String
 }
 
 suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>, reified T : Enum<T>> PipelineContext<Unit, ApplicationCall>.handleShowAllElements(
