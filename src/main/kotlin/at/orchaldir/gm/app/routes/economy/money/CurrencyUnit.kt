@@ -23,7 +23,6 @@ import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
-import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
@@ -69,7 +68,10 @@ class CurrencyUnitRoutes : Routes<CurrencyUnitId, SortCurrencyUnit> {
     override fun all(call: ApplicationCall, sort: SortCurrencyUnit) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: CurrencyUnitId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: CurrencyUnitId) = call.application.href(Edit(id))
+    override fun gallery(call: ApplicationCall) = call.application.href(Gallery())
     override fun new(call: ApplicationCall) = call.application.href(New())
+    override fun preview(call: ApplicationCall, id: CurrencyUnitId) = call.application.href(Preview(id))
+    override fun update(call: ApplicationCall, id: CurrencyUnitId) = call.application.href(Edit(id))
 }
 
 fun Application.configureCurrencyUnitRouting() {
@@ -114,23 +116,15 @@ fun Application.configureCurrencyUnitRouting() {
             handleDeleteElement(delete.id, CurrencyUnitRoutes.All())
         }
         get<CurrencyUnitRoutes.Edit> { edit ->
-            logger.info { "Get editor for unit ${edit.id.value}" }
-
-            val state = STORE.getState()
-            val unit = state.getCurrencyUnitStorage().getOrThrow(edit.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showCurrencyUnitEditor(call, state, unit)
+            handleEditElement<CurrencyUnitId, CurrencyUnit, SortCurrencyUnit>(edit.id, CurrencyUnitRoutes()) { call, state, unit ->
+                visualizeCurrencyUnit(state, unit)
+                editCurrencyUnit(call, state, unit)
             }
         }
         post<CurrencyUnitRoutes.Preview> { preview ->
-            logger.info { "Preview unit ${preview.id.value}" }
-
-            val state = STORE.getState()
-            val unit = parseCurrencyUnit(state, call.receiveParameters(), preview.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showCurrencyUnitEditor(call, state, unit)
+            handlePreviewElement(preview.id, CurrencyUnitRoutes(), ::parseCurrencyUnit) { call, state, unit ->
+                visualizeCurrencyUnit(state, unit)
+                editCurrencyUnit(call, state, unit)
             }
         }
         post<CurrencyUnitRoutes.Update> { update ->
@@ -160,21 +154,3 @@ private fun HTML.showGallery(
         back(backLink)
     }
 }
-
-private fun HTML.showCurrencyUnitEditor(
-    call: ApplicationCall,
-    state: State,
-    unit: CurrencyUnit,
-) {
-    val backLink = href(call, unit.id)
-    val previewLink = call.application.href(CurrencyUnitRoutes.Preview(unit.id))
-    val updateLink = call.application.href(CurrencyUnitRoutes.Update(unit.id))
-
-    simpleHtmlEditor(unit) {
-        visualizeCurrencyUnit(state, unit)
-        formWithPreview(previewLink, updateLink, backLink) {
-            editCurrencyUnit(state, unit)
-        }
-    }
-}
-

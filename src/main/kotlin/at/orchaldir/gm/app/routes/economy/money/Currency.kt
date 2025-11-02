@@ -1,32 +1,26 @@
 package at.orchaldir.gm.app.routes.economy.money
 
 import at.orchaldir.gm.app.STORE
-import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.countColumnForId
+import at.orchaldir.gm.app.html.createEndDateColumn
+import at.orchaldir.gm.app.html.createNameColumn
+import at.orchaldir.gm.app.html.createStartDateColumn
 import at.orchaldir.gm.app.html.economy.money.editCurrency
 import at.orchaldir.gm.app.html.economy.money.parseCurrency
 import at.orchaldir.gm.app.html.economy.money.showCurrency
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.CURRENCY_TYPE
-import at.orchaldir.gm.core.model.economy.money.Currency
 import at.orchaldir.gm.core.model.economy.money.CurrencyId
 import at.orchaldir.gm.core.model.util.SortCurrency
 import at.orchaldir.gm.core.selector.realm.countRealmsWithCurrencyAtAnyTime
 import at.orchaldir.gm.core.selector.util.sortCurrencies
-import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
-import io.ktor.server.html.*
-import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
-import mu.KotlinLogging
-
-private val logger = KotlinLogging.logger {}
 
 @Resource("/$CURRENCY_TYPE")
 class CurrencyRoutes : Routes<CurrencyId, SortCurrency> {
@@ -59,6 +53,8 @@ class CurrencyRoutes : Routes<CurrencyId, SortCurrency> {
     override fun delete(call: ApplicationCall, id: CurrencyId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: CurrencyId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())
+    override fun preview(call: ApplicationCall, id: CurrencyId) = call.application.href(Preview(id))
+    override fun update(call: ApplicationCall, id: CurrencyId) = call.application.href(Edit(id))
 }
 
 fun Application.configureCurrencyRouting() {
@@ -89,43 +85,13 @@ fun Application.configureCurrencyRouting() {
             handleDeleteElement(delete.id, CurrencyRoutes.All())
         }
         get<CurrencyRoutes.Edit> { edit ->
-            logger.info { "Get editor for currency ${edit.id.value}" }
-
-            val state = STORE.getState()
-            val currency = state.getCurrencyStorage().getOrThrow(edit.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showCurrencyEditor(call, state, currency)
-            }
+            handleEditElement(edit.id, CurrencyRoutes(), HtmlBlockTag::editCurrency)
         }
         post<CurrencyRoutes.Preview> { preview ->
-            logger.info { "Preview currency ${preview.id.value}" }
-
-            val state = STORE.getState()
-            val currency = parseCurrency(state, call.receiveParameters(), preview.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showCurrencyEditor(call, state, currency)
-            }
+            handlePreviewElement(preview.id, CurrencyRoutes(), ::parseCurrency, HtmlBlockTag::editCurrency)
         }
         post<CurrencyRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseCurrency)
-        }
-    }
-}
-
-private fun HTML.showCurrencyEditor(
-    call: ApplicationCall,
-    state: State,
-    currency: Currency,
-) {
-    val backLink = href(call, currency.id)
-    val previewLink = call.application.href(CurrencyRoutes.Preview(currency.id))
-    val updateLink = call.application.href(CurrencyRoutes.Update(currency.id))
-
-    simpleHtmlEditor(currency) {
-        formWithPreview(previewLink, updateLink, backLink) {
-            editCurrency(state, currency)
         }
     }
 }

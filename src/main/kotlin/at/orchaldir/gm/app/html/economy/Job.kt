@@ -91,6 +91,7 @@ private fun HtmlBlockTag.showJobUsage(
 // edit
 
 fun HtmlBlockTag.editJob(
+    call: ApplicationCall,
     state: State,
     job: Job,
 ) {

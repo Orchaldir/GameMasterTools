@@ -8,7 +8,6 @@ import at.orchaldir.gm.app.html.economy.parseJob
 import at.orchaldir.gm.app.html.economy.showJob
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.job.*
 import at.orchaldir.gm.core.model.util.SortJob
 import at.orchaldir.gm.core.selector.character.countCharactersWithCurrentOrFormerJob
@@ -17,19 +16,12 @@ import at.orchaldir.gm.core.selector.getDefaultCurrency
 import at.orchaldir.gm.core.selector.religion.countDomains
 import at.orchaldir.gm.core.selector.util.sortJobs
 import at.orchaldir.gm.utils.doNothing
-import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
-import io.ktor.server.html.*
-import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
-import mu.KotlinLogging
-
-private val logger = KotlinLogging.logger {}
 
 @Resource("/$JOB_TYPE")
 class JobRoutes : Routes<JobId, SortJob> {
@@ -62,6 +54,8 @@ class JobRoutes : Routes<JobId, SortJob> {
     override fun delete(call: ApplicationCall, id: JobId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: JobId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())
+    override fun preview(call: ApplicationCall, id: JobId) = call.application.href(Preview(id))
+    override fun update(call: ApplicationCall, id: JobId) = call.application.href(Edit(id))
 }
 
 fun Application.configureJobRouting() {
@@ -108,45 +102,13 @@ fun Application.configureJobRouting() {
             handleDeleteElement(delete.id, JobRoutes.All())
         }
         get<JobRoutes.Edit> { edit ->
-            logger.info { "Get editor for job ${edit.id.value}" }
-
-            val state = STORE.getState()
-            val job = state.getJobStorage().getOrThrow(edit.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showJobEditor(call, state, job)
-            }
+            handleEditElement(edit.id, JobRoutes(), HtmlBlockTag::editJob)
         }
         post<JobRoutes.Preview> { preview ->
-            logger.info { "Preview job ${preview.id.value}" }
-
-            val state = STORE.getState()
-            val job = parseJob(state, call.receiveParameters(), preview.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showJobEditor(call, state, job)
-            }
+            handlePreviewElement(preview.id, JobRoutes(), ::parseJob, HtmlBlockTag::editJob)
         }
         post<JobRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseJob)
         }
     }
 }
-
-private fun HTML.showJobEditor(
-    call: ApplicationCall,
-    state: State,
-    job: Job,
-) {
-    val backLink = href(call, job.id)
-    val previewLink = call.application.href(JobRoutes.Preview(job.id))
-    val updateLink = call.application.href(JobRoutes.Update(job.id))
-
-    simpleHtmlEditor(job) {
-        formWithPreview(previewLink, updateLink, backLink) {
-            editJob(state, job)
-        }
-    }
-}
-
-

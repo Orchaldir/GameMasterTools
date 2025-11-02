@@ -51,6 +51,7 @@ fun HtmlBlockTag.showBusiness(
 // edit
 
 fun HtmlBlockTag.editBusiness(
+    call: ApplicationCall,
     state: State,
     business: Business,
 ) {

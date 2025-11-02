@@ -20,7 +20,6 @@ import io.ktor.server.resources.post
 import io.ktor.server.routing.*
 import kotlinx.html.HtmlBlockTag
 
-
 @Resource("/$PLANE_TYPE")
 class PlaneRoutes : Routes<PlaneId, SortPlane> {
     @Resource("all")

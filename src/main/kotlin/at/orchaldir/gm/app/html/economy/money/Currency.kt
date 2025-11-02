@@ -73,6 +73,7 @@ private fun HtmlBlockTag.showUnits(
 // edit
 
 fun HtmlBlockTag.editCurrency(
+    call: ApplicationCall,
     state: State,
     currency: Currency,
 ) {

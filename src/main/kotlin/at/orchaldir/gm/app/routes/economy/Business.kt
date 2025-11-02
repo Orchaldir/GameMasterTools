@@ -7,26 +7,17 @@ import at.orchaldir.gm.app.html.economy.parseBusiness
 import at.orchaldir.gm.app.html.economy.showBusiness
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.business.BUSINESS_TYPE
-import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.util.SortBusiness
 import at.orchaldir.gm.core.selector.character.getEmployees
 import at.orchaldir.gm.core.selector.util.sortBusinesses
-import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
-import io.ktor.server.html.*
-import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
-import mu.KotlinLogging
-
-private val logger = KotlinLogging.logger {}
 
 @Resource("/$BUSINESS_TYPE")
 class BusinessRoutes : Routes<BusinessId, SortBusiness> {
@@ -59,6 +50,8 @@ class BusinessRoutes : Routes<BusinessId, SortBusiness> {
     override fun delete(call: ApplicationCall, id: BusinessId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: BusinessId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())
+    override fun preview(call: ApplicationCall, id: BusinessId) = call.application.href(Preview(id))
+    override fun update(call: ApplicationCall, id: BusinessId) = call.application.href(Edit(id))
 }
 
 fun Application.configureBusinessRouting() {
@@ -94,43 +87,13 @@ fun Application.configureBusinessRouting() {
             handleDeleteElement(delete.id, BusinessRoutes.All())
         }
         get<BusinessRoutes.Edit> { edit ->
-            logger.info { "Get editor for business ${edit.id.value}" }
-
-            val state = STORE.getState()
-            val business = state.getBusinessStorage().getOrThrow(edit.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showBusinessEditor(call, state, business)
-            }
+            handleEditElement(edit.id, BusinessRoutes(), HtmlBlockTag::editBusiness)
         }
         post<BusinessRoutes.Preview> { preview ->
-            logger.info { "Preview business ${preview.id.value}" }
-
-            val state = STORE.getState()
-            val business = parseBusiness(state, call.receiveParameters(), preview.id)
-
-            call.respondHtml(HttpStatusCode.OK) {
-                showBusinessEditor(call, state, business)
-            }
+            handlePreviewElement(preview.id, BusinessRoutes(), ::parseBusiness, HtmlBlockTag::editBusiness)
         }
         post<BusinessRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseBusiness)
-        }
-    }
-}
-
-private fun HTML.showBusinessEditor(
-    call: ApplicationCall,
-    state: State,
-    business: Business,
-) {
-    val backLink = href(call, business.id)
-    val previewLink = call.application.href(BusinessRoutes.Preview(business.id))
-    val updateLink = call.application.href(BusinessRoutes.Update(business.id))
-
-    simpleHtmlEditor(business) {
-        formWithPreview(previewLink, updateLink, backLink) {
-            editBusiness(state, business)
         }
     }
 }

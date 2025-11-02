@@ -37,6 +37,7 @@ fun HtmlBlockTag.showDisease(
 // edit
 
 fun HtmlBlockTag.editDisease(
+    call: ApplicationCall,
     state: State,
     disease: Disease,
 ) {
