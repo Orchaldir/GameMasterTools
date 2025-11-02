@@ -22,7 +22,10 @@
      }
     },
     "stats": {
-     "type": 1
+     "type": 1,
+     "modifiers": [
+      1
+     ]
     }
    }
   }

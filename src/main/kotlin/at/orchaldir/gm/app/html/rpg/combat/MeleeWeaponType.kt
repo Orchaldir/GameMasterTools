@@ -3,11 +3,9 @@ package at.orchaldir.gm.app.html.rpg.combat
 import at.orchaldir.gm.app.ATTACK
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.rpg.combat.DamageTypeId
 import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponType
 import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponTypeId
 import at.orchaldir.gm.core.selector.item.getMeleeWeapons
-import at.orchaldir.gm.core.selector.rpg.getMeleeWeaponTypes
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -50,10 +48,10 @@ private fun HtmlBlockTag.showUsages(
 fun HtmlBlockTag.editMeleeWeaponType(
     call: ApplicationCall,
     state: State,
-    weapon: MeleeWeaponType,
+    type: MeleeWeaponType,
 ) {
-    selectName(weapon.name)
-    editList("Attacks", ATTACK, weapon.attacks, 0, 2, 1) { index, param, attack ->
+    selectName(type.name)
+    editList("Attacks", ATTACK, type.attacks, 0, 2, 1) { index, param, attack ->
         editMeleeAttack(state, attack, "${index + 1}.Attack", param)
     }
 }

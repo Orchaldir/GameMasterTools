@@ -4,18 +4,36 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponModifier
 import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponModifierId
+import at.orchaldir.gm.core.selector.item.getMeleeWeapons
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
+import kotlinx.html.h2
 
 // show
 
 fun HtmlBlockTag.showMeleeWeaponModifier(
     call: ApplicationCall,
     state: State,
-    weapon: MeleeWeaponModifier,
+    modifier: MeleeWeaponModifier,
 ) {
+    showUsages(call, state, modifier.id)
+}
 
+private fun HtmlBlockTag.showUsages(
+    call: ApplicationCall,
+    state: State,
+    modifier: MeleeWeaponModifierId,
+) {
+    val meleeWeapons = state.getMeleeWeapons(modifier)
+
+    if (meleeWeapons.isEmpty()) {
+        return
+    }
+
+    h2 { +"Usage" }
+
+    fieldElements(call, state, meleeWeapons)
 }
 
 // edit
@@ -23,9 +41,9 @@ fun HtmlBlockTag.showMeleeWeaponModifier(
 fun HtmlBlockTag.editMeleeWeaponModifier(
     call: ApplicationCall,
     state: State,
-    weapon: MeleeWeaponModifier,
+    modifier: MeleeWeaponModifier,
 ) {
-    selectName(weapon.name)
+    selectName(modifier.name)
 }
 
 // parse
