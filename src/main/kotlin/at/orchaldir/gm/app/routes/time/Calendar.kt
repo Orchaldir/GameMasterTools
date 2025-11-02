@@ -57,7 +57,7 @@ class CalendarRoutes : Routes<CalendarId, SortCalendar> {
     override fun edit(call: ApplicationCall, id: CalendarId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())
     override fun preview(call: ApplicationCall, id: CalendarId) = call.application.href(Preview(id))
-    override fun update(call: ApplicationCall, id: CalendarId) = call.application.href(Edit(id))
+    override fun update(call: ApplicationCall, id: CalendarId) = call.application.href(Update(id))
 }
 
 fun Application.configureCalendarRouting() {

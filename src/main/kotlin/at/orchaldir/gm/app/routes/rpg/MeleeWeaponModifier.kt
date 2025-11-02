@@ -50,7 +50,7 @@ class MeleeWeaponModifierRoutes : Routes<MeleeWeaponModifierId, SortMeleeWeaponM
     override fun edit(call: ApplicationCall, id: MeleeWeaponModifierId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())
     override fun preview(call: ApplicationCall, id: MeleeWeaponModifierId) = call.application.href(Preview(id))
-    override fun update(call: ApplicationCall, id: MeleeWeaponModifierId) = call.application.href(Edit(id))
+    override fun update(call: ApplicationCall, id: MeleeWeaponModifierId) = call.application.href(Update(id))
 }
 
 fun Application.configureMeleeWeaponModifierRouting() {

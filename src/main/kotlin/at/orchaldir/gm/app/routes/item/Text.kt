@@ -70,7 +70,7 @@ class TextRoutes : Routes<TextId, SortText> {
     override fun gallery(call: ApplicationCall) = call.application.href(Gallery())
     override fun new(call: ApplicationCall) = call.application.href(New())
     override fun preview(call: ApplicationCall, id: TextId) = call.application.href(Preview(id))
-    override fun update(call: ApplicationCall, id: TextId) = call.application.href(Edit(id))
+    override fun update(call: ApplicationCall, id: TextId) = call.application.href(Update(id))
 }
 
 fun Application.configureTextRouting() {

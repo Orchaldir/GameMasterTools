@@ -56,7 +56,7 @@ class CultureRoutes : Routes<CultureId, SortCulture> {
     override fun edit(call: ApplicationCall, id: CultureId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())
     override fun preview(call: ApplicationCall, id: CultureId) = call.application.href(Preview(id))
-    override fun update(call: ApplicationCall, id: CultureId) = call.application.href(Edit(id))
+    override fun update(call: ApplicationCall, id: CultureId) = call.application.href(Update(id))
 }
 
 fun Application.configureCultureRouting() {

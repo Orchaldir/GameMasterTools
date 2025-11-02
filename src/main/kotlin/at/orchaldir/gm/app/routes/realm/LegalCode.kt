@@ -51,7 +51,7 @@ class LegalCodeRoutes : Routes<LegalCodeId, SortLegalCode> {
     override fun edit(call: ApplicationCall, id: LegalCodeId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())
     override fun preview(call: ApplicationCall, id: LegalCodeId) = call.application.href(Preview(id))
-    override fun update(call: ApplicationCall, id: LegalCodeId) = call.application.href(Edit(id))
+    override fun update(call: ApplicationCall, id: LegalCodeId) = call.application.href(Update(id))
 }
 
 fun Application.configureLegalCodeRouting() {

@@ -71,7 +71,7 @@ class CurrencyUnitRoutes : Routes<CurrencyUnitId, SortCurrencyUnit> {
     override fun gallery(call: ApplicationCall) = call.application.href(Gallery())
     override fun new(call: ApplicationCall) = call.application.href(New())
     override fun preview(call: ApplicationCall, id: CurrencyUnitId) = call.application.href(Preview(id))
-    override fun update(call: ApplicationCall, id: CurrencyUnitId) = call.application.href(Edit(id))
+    override fun update(call: ApplicationCall, id: CurrencyUnitId) = call.application.href(Update(id))
 }
 
 fun Application.configureCurrencyUnitRouting() {

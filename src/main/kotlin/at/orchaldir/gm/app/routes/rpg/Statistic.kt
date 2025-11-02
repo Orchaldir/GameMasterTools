@@ -52,7 +52,7 @@ class StatisticRoutes : Routes<StatisticId, SortStatistic> {
     override fun edit(call: ApplicationCall, id: StatisticId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())
     override fun preview(call: ApplicationCall, id: StatisticId) = call.application.href(Preview(id))
-    override fun update(call: ApplicationCall, id: StatisticId) = call.application.href(Edit(id))
+    override fun update(call: ApplicationCall, id: StatisticId) = call.application.href(Update(id))
 }
 
 fun Application.configureStatisticRouting() {

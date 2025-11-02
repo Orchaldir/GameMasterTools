@@ -54,7 +54,7 @@ class PeriodicalIssueRoutes : Routes<PeriodicalIssueId, SortPeriodicalIssue> {
     override fun edit(call: ApplicationCall, id: PeriodicalIssueId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())
     override fun preview(call: ApplicationCall, id: PeriodicalIssueId) = call.application.href(Preview(id))
-    override fun update(call: ApplicationCall, id: PeriodicalIssueId) = call.application.href(Edit(id))
+    override fun update(call: ApplicationCall, id: PeriodicalIssueId) = call.application.href(Update(id))
 }
 
 fun Application.configurePeriodicalIssueRouting() {

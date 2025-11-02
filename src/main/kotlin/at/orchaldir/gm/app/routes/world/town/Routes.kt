@@ -1,6 +1,7 @@
 package at.orchaldir.gm.app.routes.world.town
 
 import at.orchaldir.gm.app.routes.Routes
+import at.orchaldir.gm.app.routes.character.CharacterRoutes.Update
 import at.orchaldir.gm.core.model.util.SortTownMap
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.street.StreetTemplateId
@@ -44,7 +45,7 @@ class TownMapRoutes : Routes<TownMapId, SortTownMap> {
     override fun edit(call: ApplicationCall, id: TownMapId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())
     override fun preview(call: ApplicationCall, id: TownMapId) = call.application.href(Preview(id))
-    override fun update(call: ApplicationCall, id: TownMapId) = call.application.href(Edit(id))
+    override fun update(call: ApplicationCall, id: TownMapId) = call.application.href(Update(id))
 
     @Resource("/abstract")
     class AbstractBuildingRoutes(val parent: TownMapRoutes = TownMapRoutes()) {
