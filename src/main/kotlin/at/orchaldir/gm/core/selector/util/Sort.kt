@@ -64,6 +64,7 @@ import at.orchaldir.gm.core.selector.culture.countCultures
 import at.orchaldir.gm.core.selector.economy.money.calculateWeight
 import at.orchaldir.gm.core.selector.economy.money.countCurrencyUnits
 import at.orchaldir.gm.core.selector.item.countEquipment
+import at.orchaldir.gm.core.selector.item.getMeleeWeapons
 import at.orchaldir.gm.core.selector.realm.countOwnedTowns
 import at.orchaldir.gm.core.selector.realm.countRealmsWithCurrencyAtAnyTime
 import at.orchaldir.gm.core.selector.realm.countRealmsWithLegalCodeAtAnyTime
@@ -578,6 +579,7 @@ fun State.sortMeleeWeaponModifiers(
     .sortedWith(
         when (sort) {
             SortMeleeWeaponModifier.Name -> compareBy { it.name.text }
+            SortMeleeWeaponModifier.Weapons -> compareByDescending { getMeleeWeapons(it.id).size }
         })
 
 // melee weapon types
@@ -592,6 +594,7 @@ fun State.sortMeleeWeaponTypes(
     .sortedWith(
         when (sort) {
             SortMeleeWeaponType.Name -> compareBy { it.name.text }
+            SortMeleeWeaponType.Weapons -> compareByDescending { getMeleeWeapons(it.id).size }
         })
 
 // moon

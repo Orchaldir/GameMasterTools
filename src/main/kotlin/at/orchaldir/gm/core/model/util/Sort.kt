@@ -156,10 +156,12 @@ enum class SortMaterial {
 
 enum class SortMeleeWeaponModifier {
     Name,
+    Weapons,
 }
 
 enum class SortMeleeWeaponType {
     Name,
+    Weapons,
 }
 
 enum class SortMoon {
