@@ -59,10 +59,10 @@ class StatisticTest {
         fun `Cannot delete a statistic used by a melee weapon`() {
             val amount = ModifiedBaseDamage(STATISTIC_ID_0)
             val attack = MeleeAttack(Damage(amount, DAMAGE_TYPE_ID_0))
-            val element = MeleeWeaponType(MELEE_WEAPON_ID_0, attacks = listOf(attack))
+            val element = MeleeWeaponType(MELEE_WEAPON_TYPE_ID_0, attacks = listOf(attack))
             val newState = state.updateStorage(Storage(element))
 
-            failCanDelete(newState, MELEE_WEAPON_ID_0)
+            failCanDelete(newState, MELEE_WEAPON_TYPE_ID_0)
         }
 
         private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {
