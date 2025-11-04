@@ -9,7 +9,7 @@ import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Test
 
-class MeleeWeaponTest {
+class MeleeWeaponTypeTest {
 
     private val STATE = State(
         listOf(

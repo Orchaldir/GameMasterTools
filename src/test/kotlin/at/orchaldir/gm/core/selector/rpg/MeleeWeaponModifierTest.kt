@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.selector.rpg
 
-import at.orchaldir.gm.DAMAGE_TYPE_ID_0
 import at.orchaldir.gm.EQUIPMENT_ID_0
+import at.orchaldir.gm.MELEE_WEAPON_MODIFIER_ID_0
 import at.orchaldir.gm.MELEE_WEAPON_TYPE_ID_0
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
@@ -14,11 +14,11 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
-class MeleeWeaponTypeTypeTest {
+class MeleeWeaponModifierTest {
 
     @Nested
     inner class CanDeleteTest {
-        private val type = MeleeWeaponType(MELEE_WEAPON_TYPE_ID_0)
+        private val type = MeleeWeaponModifier(MELEE_WEAPON_MODIFIER_ID_0)
         private val state = State(
             listOf(
                 Storage(type),
@@ -26,8 +26,8 @@ class MeleeWeaponTypeTypeTest {
         )
 
         @Test
-        fun `Cannot delete a melee weapon type used by an equipment`() {
-            val data = OneHandedAxe(stats = MeleeWeapon(MELEE_WEAPON_TYPE_ID_0))
+        fun `Cannot delete a melee weapon modifier used by an equipment`() {
+            val data = OneHandedAxe(stats = MeleeWeapon(modifiers = setOf(MELEE_WEAPON_MODIFIER_ID_0)))
             val element = Equipment(EQUIPMENT_ID_0, data = data)
             val newState = state.updateStorage(Storage(element))
 
@@ -35,7 +35,7 @@ class MeleeWeaponTypeTypeTest {
         }
 
         private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {
-            assertEquals(DeleteResult(MELEE_WEAPON_TYPE_ID_0).addId(blockingId), state.canDeleteMeleeWeaponType(MELEE_WEAPON_TYPE_ID_0))
+            assertEquals(DeleteResult(MELEE_WEAPON_MODIFIER_ID_0).addId(blockingId), state.canDeleteMeleeWeaponModifier(MELEE_WEAPON_MODIFIER_ID_0))
         }
     }
 
