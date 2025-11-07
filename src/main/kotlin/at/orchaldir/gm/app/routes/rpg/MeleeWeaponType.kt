@@ -80,7 +80,7 @@ fun Application.configureMeleeWeaponTypeRouting() {
                             displayParrying(attack.parrying)
                         }
                     },
-                    countCollectionColumn("Weapons") { state.getMeleeWeapons(it.id)  },
+                    countCollectionColumn("Weapons") { state.getMeleeWeapons(it.id) },
                 ),
             )
         }
@@ -99,7 +99,12 @@ fun Application.configureMeleeWeaponTypeRouting() {
             handleEditElement(edit.id, MeleeWeaponTypeRoutes(), HtmlBlockTag::editMeleeWeaponType)
         }
         post<MeleeWeaponTypeRoutes.Preview> { preview ->
-            handlePreviewElement(preview.id, MeleeWeaponTypeRoutes(), ::parseMeleeWeaponType, HtmlBlockTag::editMeleeWeaponType)
+            handlePreviewElement(
+                preview.id,
+                MeleeWeaponTypeRoutes(),
+                ::parseMeleeWeaponType,
+                HtmlBlockTag::editMeleeWeaponType
+            )
         }
         post<MeleeWeaponTypeRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseMeleeWeaponType)

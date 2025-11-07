@@ -1,7 +1,6 @@
 package at.orchaldir.gm.app.routes.world.town
 
 import at.orchaldir.gm.app.routes.Routes
-import at.orchaldir.gm.app.routes.character.CharacterRoutes.Update
 import at.orchaldir.gm.core.model.util.SortTownMap
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.street.StreetTemplateId

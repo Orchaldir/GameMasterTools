@@ -33,7 +33,6 @@ import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.religion.Pantheon
 import at.orchaldir.gm.core.model.rpg.combat.DamageType
 import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponModifier
-import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponModifierId
 import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponType
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.model.time.calendar.Calendar

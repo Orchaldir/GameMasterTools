@@ -5,7 +5,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.combat.DamageTypeId
 import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponTypeId
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
-import at.orchaldir.gm.core.selector.item.getEquipmentId
 import at.orchaldir.gm.core.selector.item.getMeleeWeapons
 
 fun State.canDeleteMeleeWeaponType(type: MeleeWeaponTypeId) = DeleteResult(type)

@@ -65,7 +65,7 @@ fun Application.configureMeleeWeaponModifierRouting() {
                 state.sortMeleeWeaponModifiers(all.sort),
                 listOf(
                     createNameColumn(call, state),
-                    countCollectionColumn("Weapons") { state.getMeleeWeapons(it.id)  },
+                    countCollectionColumn("Weapons") { state.getMeleeWeapons(it.id) },
                 ),
             )
         }
@@ -84,7 +84,12 @@ fun Application.configureMeleeWeaponModifierRouting() {
             handleEditElement(edit.id, MeleeWeaponModifierRoutes(), HtmlBlockTag::editMeleeWeaponModifier)
         }
         post<MeleeWeaponModifierRoutes.Preview> { preview ->
-            handlePreviewElement(preview.id, MeleeWeaponModifierRoutes(), ::parseMeleeWeaponModifier, HtmlBlockTag::editMeleeWeaponModifier)
+            handlePreviewElement(
+                preview.id,
+                MeleeWeaponModifierRoutes(),
+                ::parseMeleeWeaponModifier,
+                HtmlBlockTag::editMeleeWeaponModifier
+            )
         }
         post<MeleeWeaponModifierRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseMeleeWeaponModifier)

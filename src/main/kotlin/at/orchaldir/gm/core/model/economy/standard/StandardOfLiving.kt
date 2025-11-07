@@ -32,6 +32,6 @@ data class StandardOfLiving(
     override fun id() = id
     override fun name() = name.text
 
-    override fun validate(state: State)  = doNothing()
+    override fun validate(state: State) = doNothing()
 
 }

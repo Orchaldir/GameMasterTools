@@ -1,6 +1,9 @@
 package at.orchaldir.gm.app.html.rpg.combat
 
-import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.fieldElements
+import at.orchaldir.gm.app.html.parseInt
+import at.orchaldir.gm.app.html.parseName
+import at.orchaldir.gm.app.html.selectName
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponModifier
 import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponModifierId
@@ -48,7 +51,9 @@ fun HtmlBlockTag.editMeleeWeaponModifier(
 
 // parse
 
-fun parseMeleeWeaponModifierId(parameters: Parameters, param: String) = MeleeWeaponModifierId(parseInt(parameters, param))
+fun parseMeleeWeaponModifierId(parameters: Parameters, param: String) =
+    MeleeWeaponModifierId(parseInt(parameters, param))
+
 fun parseMeleeWeaponModifierId(value: String) = MeleeWeaponModifierId(value.toInt())
 
 fun parseMeleeWeaponModifier(

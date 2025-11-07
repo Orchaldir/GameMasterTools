@@ -39,12 +39,7 @@ import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.religion.*
-import at.orchaldir.gm.core.model.rpg.combat.DamageType
-import at.orchaldir.gm.core.model.rpg.combat.DamageTypeId
-import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponModifier
-import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponModifierId
-import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponType
-import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponTypeId
+import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.model.time.calendar.Calendar
