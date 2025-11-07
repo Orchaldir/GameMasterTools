@@ -3,9 +3,13 @@ package at.orchaldir.gm.app.routes.item
 import at.orchaldir.gm.app.SCHEME
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.item.equipment.editEquipment
 import at.orchaldir.gm.app.html.item.equipment.parseEquipment
 import at.orchaldir.gm.app.html.item.equipment.showEquipment
+import at.orchaldir.gm.app.html.rpg.combat.displayAttackEffect
+import at.orchaldir.gm.app.html.rpg.combat.displayParrying
+import at.orchaldir.gm.app.html.rpg.combat.displayReach
 import at.orchaldir.gm.app.html.util.color.parseOptionalColorSchemeId
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
@@ -21,6 +25,7 @@ import at.orchaldir.gm.core.model.util.render.Colors
 import at.orchaldir.gm.core.model.util.render.UndefinedColors
 import at.orchaldir.gm.core.selector.culture.getFashions
 import at.orchaldir.gm.core.selector.item.getEquippedBy
+import at.orchaldir.gm.core.selector.rpg.getMeleeWeaponType
 import at.orchaldir.gm.core.selector.util.getColors
 import at.orchaldir.gm.core.selector.util.sortEquipmentList
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
@@ -130,6 +135,30 @@ fun Application.configureEquipmentRouting() {
                     createIdColumn(call, state, "Type") { it.data.getMeleeWeapon()?.type },
                     createIdColumn(call, state, "Material") { it.data.mainMaterial() },
                     Column("Modifiers") { tdInlineIds(call, state, it.data.getMeleeWeapon()?.modifiers ?: emptySet()) },
+                    tdColumn("Damage") {
+                        state.getMeleeWeaponType(it)
+                            ?.let { type ->
+                                showMultiLine(type.attacks) { attack ->
+                                    displayAttackEffect(call, state, attack.effect)
+                                }
+                            }
+                    },
+                    tdColumn("Reach") {
+                        state.getMeleeWeaponType(it)
+                            ?.let { type ->
+                                showMultiLine(type.attacks) { attack ->
+                                    displayReach(attack.reach)
+                                }
+                            }
+                    },
+                    tdColumn("Parrying") {
+                        state.getMeleeWeaponType(it)
+                            ?.let { type ->
+                                showMultiLine(type.attacks) { attack ->
+                                    displayParrying(attack.parrying)
+                                }
+                            }
+                    },
                 ),
             ) {
                 action(routes.all(call, melee.sort), "All")
