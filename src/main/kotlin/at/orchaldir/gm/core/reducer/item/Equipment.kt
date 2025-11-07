@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.render.COLOR_SCHEME_TYPE
+import at.orchaldir.gm.core.reducer.rpg.validateMeleeWeapon
 import at.orchaldir.gm.core.selector.item.getEquippedBy
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Factor
@@ -51,6 +52,8 @@ fun validateEquipment(
         is TwoHandedSword -> checkTwoHandedSword(equipment.data)
         else -> doNothing()
     }
+
+    equipment.data.getMeleeWeapon()?.let { validateMeleeWeapon(state, it) }
 }
 
 private fun checkBodyArmour(armour: BodyArmour) = when (armour.style) {
