@@ -6,7 +6,8 @@ import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.item.equipment.OneHandedAxe
-import at.orchaldir.gm.core.model.rpg.combat.*
+import at.orchaldir.gm.core.model.rpg.combat.MeleeWeapon
+import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponType
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -34,7 +35,10 @@ class MeleeWeaponTypeTest {
         }
 
         private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {
-            assertEquals(DeleteResult(MELEE_WEAPON_TYPE_ID_0).addId(blockingId), state.canDeleteMeleeWeaponType(MELEE_WEAPON_TYPE_ID_0))
+            assertEquals(
+                DeleteResult(MELEE_WEAPON_TYPE_ID_0).addId(blockingId),
+                state.canDeleteMeleeWeaponType(MELEE_WEAPON_TYPE_ID_0)
+            )
         }
     }
 

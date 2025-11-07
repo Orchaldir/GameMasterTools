@@ -41,7 +41,7 @@ sealed class PolearmHead : MadeFromParts {
         is PolearmHeadWithSpearHead -> fixation.parts() + spear.parts()
     }
 
-    override fun mainMaterial() =when (this) {
+    override fun mainMaterial() = when (this) {
         is PolearmHeadWithAxeHead -> axe.mainMaterial()
         is PolearmHeadWithSpearHead -> spear.mainMaterial()
         else -> null

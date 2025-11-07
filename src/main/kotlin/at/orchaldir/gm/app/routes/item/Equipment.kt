@@ -3,7 +3,6 @@ package at.orchaldir.gm.app.routes.item
 import at.orchaldir.gm.app.SCHEME
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.item.equipment.editEquipment
 import at.orchaldir.gm.app.html.item.equipment.parseEquipment
 import at.orchaldir.gm.app.html.item.equipment.showEquipment
@@ -13,7 +12,6 @@ import at.orchaldir.gm.app.html.rpg.combat.displayReach
 import at.orchaldir.gm.app.html.util.color.parseOptionalColorSchemeId
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.app.routes.item.EquipmentRoutes.All
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
@@ -25,7 +23,6 @@ import at.orchaldir.gm.core.model.util.render.Colors
 import at.orchaldir.gm.core.model.util.render.UndefinedColors
 import at.orchaldir.gm.core.selector.culture.getFashions
 import at.orchaldir.gm.core.selector.item.getEquippedBy
-import at.orchaldir.gm.core.selector.rpg.getMeleeWeaponType
 import at.orchaldir.gm.core.selector.util.getColors
 import at.orchaldir.gm.core.selector.util.sortEquipmentList
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
