@@ -9,6 +9,7 @@ import at.orchaldir.gm.app.html.item.equipment.showEquipment
 import at.orchaldir.gm.app.html.util.color.parseOptionalColorSchemeId
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
+import at.orchaldir.gm.app.routes.item.EquipmentRoutes.All
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
@@ -44,6 +45,12 @@ private val height = fromMeters(1.0f)
 class EquipmentRoutes : Routes<EquipmentId, SortEquipment> {
     @Resource("all")
     class All(
+        val sort: SortEquipment = SortEquipment.Name,
+        val parent: EquipmentRoutes = EquipmentRoutes(),
+    )
+
+    @Resource("melee")
+    class MeleeWeapons(
         val sort: SortEquipment = SortEquipment.Name,
         val parent: EquipmentRoutes = EquipmentRoutes(),
     )
@@ -103,7 +110,30 @@ fun Application.configureEquipmentRouting() {
                     Column("Characters") { tdSkipZero(state.getEquippedBy(it.id)) },
                     Column("Characters") { tdSkipZero(state.getFashions(it.id)) },
                 ),
-            )
+            ) {
+                val link = call.application.href(EquipmentRoutes.MeleeWeapons())
+                action(link, "Melee Weapons")
+            }
+        }
+        get<EquipmentRoutes.MeleeWeapons> { melee ->
+            val routes = EquipmentRoutes()
+            val state = STORE.getState()
+            val meleeWeapons = state.getEquipmentStorage()
+                .getAll()
+                .filter { it.data.getMeleeWeapon() != null }
+
+            handleShowAllElements(
+                routes,
+                state.sortEquipmentList(meleeWeapons, melee.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    createIdColumn(call, state, "Type") { it.data.getMeleeWeapon()?.type },
+                    createIdColumn(call, state, "Material") { it.data.mainMaterial() },
+                    Column("Modifiers") { tdInlineIds(call, state, it.data.getMeleeWeapon()?.modifiers ?: emptySet()) },
+                ),
+            ) {
+                action(routes.all(call, melee.sort), "All")
+            }
         }
         get<EquipmentRoutes.Gallery> { gallery ->
             logger.info { "Show gallery" }
