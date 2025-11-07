@@ -30,7 +30,10 @@ fun HtmlBlockTag.showEquipment(
 ) {
     fieldWeight("Weight", equipment.weight)
     fieldIds(call, state, equipment.colorSchemes)
-    equipment.data.getMeleeWeapon()?.let { showMeleeWeapon(call, state, it) }
+    equipment.data.getMeleeWeapon()?.let {
+        val material = equipment.data.mainMaterial()
+        showMeleeWeapon(call, state, it, material)
+    }
     showEquipmentData(call, state, equipment)
 }
 

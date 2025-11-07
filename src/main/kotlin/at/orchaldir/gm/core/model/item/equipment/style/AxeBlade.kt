@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.item.equipment.style
 
+import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
 import at.orchaldir.gm.core.model.util.part.MadeFromParts
@@ -28,6 +29,12 @@ sealed interface AxeBlade : MadeFromParts {
     }
 
     override fun parts() = listOf(part())
+
+    override fun mainMaterial() = when (this) {
+        is BroadAxeBlade -> part.material
+        is DaggerAxeBlade -> part.material
+        is SymmetricAxeBlade -> part.material
+    }
 }
 
 @Serializable

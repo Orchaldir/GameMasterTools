@@ -103,6 +103,8 @@ interface MadeFromParts {
         return sum
     }
 
+    fun mainMaterial(): MaterialId? = null
+
     fun requiredSchemaColors() = parts()
         .maxOfOrNull { it.requiredSchemaColors() } ?: 0
 

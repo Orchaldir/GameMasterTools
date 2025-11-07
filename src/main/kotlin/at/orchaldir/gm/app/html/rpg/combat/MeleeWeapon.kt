@@ -7,6 +7,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.rpg.combat.MeleeWeapon
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -18,9 +19,11 @@ fun HtmlBlockTag.showMeleeWeapon(
     call: ApplicationCall,
     state: State,
     weapon: MeleeWeapon,
+    mainMaterial: MaterialId?,
 ) {
     showDetails("Melee Weapon", true) {
         optionalFieldLink("Type", call, state, weapon.type)
+        optionalFieldLink(call, state, mainMaterial)
         fieldIds(call, state, "Modifiers", weapon.modifiers)
     }
 }

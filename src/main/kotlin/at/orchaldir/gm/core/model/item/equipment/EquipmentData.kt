@@ -129,6 +129,15 @@ sealed class EquipmentData : MadeFromParts {
     fun slots() = getType().slots()
 
     open fun hidesEars() = false
+
+    override fun mainMaterial() = when (this) {
+        is OneHandedAxe -> head.mainMaterial()
+        is TwoHandedAxe -> head.mainMaterial()
+        is Polearm -> head.mainMaterial() ?: shaft.mainMaterial()
+        is OneHandedSword -> blade.mainMaterial()
+        is TwoHandedSword -> blade.mainMaterial()
+        else -> null
+    }
 }
 
 @Serializable

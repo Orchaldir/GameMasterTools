@@ -15,6 +15,10 @@ sealed class Shaft : MadeFromParts {
     fun getType() = when (this) {
         is SimpleShaft -> ShaftType.Simple
     }
+
+    override fun mainMaterial() = when (this) {
+        is SimpleShaft -> part.material
+    }
 }
 
 @Serializable

@@ -34,6 +34,10 @@ sealed class Blade : MadeFromParts {
         is SimpleBlade -> listOf(part)
     }
 
+    override fun mainMaterial() = when (this) {
+        is SimpleBlade -> part.material
+    }
+
     fun size(characterHeight: Distance, gripAabb: AABB) = when (this) {
         is SimpleBlade -> Size2d(
             gripAabb.size.width * width,
