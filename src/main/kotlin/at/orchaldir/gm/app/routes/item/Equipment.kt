@@ -135,29 +135,14 @@ fun Application.configureEquipmentRouting() {
                     createIdColumn(call, state, "Type") { it.data.getMeleeWeapon()?.type },
                     createIdColumn(call, state, "Material") { it.data.mainMaterial() },
                     Column("Modifiers") { tdInlineIds(call, state, it.data.getMeleeWeapon()?.modifiers ?: emptySet()) },
-                    tdColumn("Damage") {
-                        state.getMeleeWeaponType(it)
-                            ?.let { type ->
-                                showMultiLine(type.attacks) { attack ->
-                                    displayAttackEffect(call, state, attack.effect)
-                                }
-                            }
+                    createMeleeWeaponColumn(state, "Damage") {
+                        displayAttackEffect(call, state, it.effect)
                     },
-                    tdColumn("Reach") {
-                        state.getMeleeWeaponType(it)
-                            ?.let { type ->
-                                showMultiLine(type.attacks) { attack ->
-                                    displayReach(attack.reach)
-                                }
-                            }
+                    createMeleeWeaponColumn(state, "Reach") {
+                        displayReach(it.reach)
                     },
-                    tdColumn("Parrying") {
-                        state.getMeleeWeaponType(it)
-                            ?.let { type ->
-                                showMultiLine(type.attacks) { attack ->
-                                    displayParrying(attack.parrying)
-                                }
-                            }
+                    createMeleeWeaponColumn(state, "Parrying") {
+                        displayParrying(it.parrying)
                     },
                 ),
             ) {
