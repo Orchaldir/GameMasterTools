@@ -106,6 +106,8 @@ private val logger = KotlinLogging.logger {}
 val ELEMENTS =
     setOf(
         ARCHITECTURAL_STYLE_TYPE,
+        ARMOR_MODIFIER_TYPE,
+        ARMOR_TYPE_TYPE,
         ARTICLE_TYPE,
         BATTLE_TYPE,
         BUILDING_TYPE,
@@ -186,6 +188,8 @@ data class State(
     ) : this(storageList.associateBy { it.getType() }, path, data, rarityGenerator)
 
     fun getArchitecturalStyleStorage() = getStorage<ArchitecturalStyleId, ArchitecturalStyle>(ARCHITECTURAL_STYLE_TYPE)
+    fun getArmorModifierStorage() = getStorage<ArmorModifierId, ArmorModifier>(ARMOR_MODIFIER_TYPE)
+    fun getArmorTypeStorage() = getStorage<ArmorTypeId, ArmorType>(ARMOR_TYPE_TYPE)
     fun getArticleStorage() = getStorage<ArticleId, Article>(ARTICLE_TYPE)
     fun getBattleStorage() = getStorage<BattleId, Battle>(BATTLE_TYPE)
     fun getBuildingStorage() = getStorage<BuildingId, Building>(BUILDING_TYPE)
@@ -341,6 +345,8 @@ data class State(
         logger.info { "Save to $path" }
 
         saveStorage(path, getArchitecturalStyleStorage())
+        saveStorage(path, getArmorModifierStorage())
+        saveStorage(path, getArmorTypeStorage())
         saveStorage(path, getArticleStorage())
         saveStorage(path, getBattleStorage())
         saveStorage(path, getBuildingStorage())
@@ -403,6 +409,8 @@ data class State(
 
 fun createStorage(type: String) = when (type) {
     ARCHITECTURAL_STYLE_TYPE -> Storage(ArchitecturalStyleId(0))
+    ARMOR_MODIFIER_TYPE -> Storage(ArmorModifierId(0))
+    ARMOR_TYPE_TYPE -> Storage(ArmorTypeId(0))
     ARTICLE_TYPE -> Storage(ArticleId(0))
     BATTLE_TYPE -> Storage(BattleId(0))
     BUILDING_TYPE -> Storage(BuildingId(0))
@@ -464,6 +472,8 @@ fun createStorage(type: String) = when (type) {
 
 fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) {
     ARCHITECTURAL_STYLE_TYPE -> loadStorage<ArchitecturalStyleId, ArchitecturalStyle>(path, ArchitecturalStyleId(0))
+    ARMOR_MODIFIER_TYPE -> loadStorage<ArmorModifierId, ArmorModifier>(path, ArmorModifierId(0))
+    ARMOR_TYPE_TYPE -> loadStorage<ArmorTypeId, ArmorType>(path, ArmorTypeId(0))
     ARTICLE_TYPE -> loadStorage<ArticleId, Article>(path, ArticleId(0))
     BATTLE_TYPE -> loadStorage<BattleId, Battle>(path, BattleId(0))
     BUILDING_TYPE -> loadStorage<BuildingId, Building>(path, BuildingId(0))
