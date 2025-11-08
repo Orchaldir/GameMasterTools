@@ -31,7 +31,7 @@
   },
   "1": {
    "id": 1,
-   "name": "Fine Scale Armor",
+   "name": "Very Fine Scale Armor",
    "data": {
     "#type": "Armour",
     "style": {
@@ -46,7 +46,10 @@
     "length": "Hip",
     "sleeveStyle": "Long",
     "stats": {
-     "type": 1
+     "type": 1,
+     "modifiers": [
+      1
+     ]
     }
    }
   }

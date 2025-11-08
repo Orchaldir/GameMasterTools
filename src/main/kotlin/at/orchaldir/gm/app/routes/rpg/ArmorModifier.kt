@@ -65,7 +65,7 @@ fun Application.configureArmorModifierRouting() {
                 state.sortArmorModifiers(all.sort),
                 listOf(
                     createNameColumn(call, state),
-                    countCollectionColumn("Weapons") { state.getArmors(it.id) },
+                    countCollectionColumn("Armors") { state.getArmors(it.id) },
                 ),
             )
         }
