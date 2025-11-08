@@ -1,5 +1,6 @@
 package at.orchaldir.gm.app.html.rpg.combat
 
+import at.orchaldir.gm.app.ARMOR
 import at.orchaldir.gm.app.MODIFIER
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.WEAPON
@@ -8,20 +9,20 @@ import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.MaterialId
-import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponStats
+import at.orchaldir.gm.core.model.rpg.combat.ArmorStats
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
 
 // show
 
-fun HtmlBlockTag.showMeleeWeaponStats(
+fun HtmlBlockTag.showArmorStats(
     call: ApplicationCall,
     state: State,
-    stats: MeleeWeaponStats,
+    stats: ArmorStats,
     mainMaterial: MaterialId?,
 ) {
-    showDetails("Melee Weapon Stats", true) {
+    showDetails("Armor Stats", true) {
         optionalFieldLink("Type", call, state, stats.type)
         optionalFieldLink(call, state, mainMaterial)
         fieldIds(call, state, "Modifiers", stats.modifiers)
@@ -30,24 +31,24 @@ fun HtmlBlockTag.showMeleeWeaponStats(
 
 // edit
 
-fun HtmlBlockTag.editMeleeWeaponStats(
+fun HtmlBlockTag.editArmorStats(
     call: ApplicationCall,
     state: State,
-    stats: MeleeWeaponStats,
+    stats: ArmorStats,
 ) {
     showDetails("Melee Weapon Stats", true) {
         selectOptionalElement(
             state,
             "Type",
-            combine(WEAPON, TYPE),
-            state.getMeleeWeaponTypeStorage().getAll(),
+            combine(ARMOR, TYPE),
+            state.getArmorTypeStorage().getAll(),
             stats.type,
         )
         selectElements(
             state,
             "Modifiers",
-            combine(WEAPON, MODIFIER),
-            state.getMeleeWeaponModifierStorage().getAll(),
+            combine(ARMOR, MODIFIER),
+            state.getArmorModifierStorage().getAll(),
             stats.modifiers,
         )
     }
@@ -55,14 +56,14 @@ fun HtmlBlockTag.editMeleeWeaponStats(
 
 // parse
 
-fun parseMeleeWeaponStats(
+fun parseArmorStats(
     state: State,
     parameters: Parameters,
-) = MeleeWeaponStats(
-    parseMeleeWeaponTypeId(parameters, combine(WEAPON, TYPE)),
+) = ArmorStats(
+    parseArmorTypeId(parameters, combine(ARMOR, TYPE)),
     parseElements(
         parameters,
-        combine(WEAPON, MODIFIER),
-        ::parseMeleeWeaponModifierId,
+        combine(ARMOR, MODIFIER),
+        ::parseArmorModifierId,
     ),
 )
