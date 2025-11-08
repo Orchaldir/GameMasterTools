@@ -1,11 +1,15 @@
 package at.orchaldir.gm.app.routes.rpg
 
 import at.orchaldir.gm.app.STORE
+import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.countCollectionColumn
 import at.orchaldir.gm.app.html.createNameColumn
+import at.orchaldir.gm.app.html.rpg.combat.displayAttackEffect
+import at.orchaldir.gm.app.html.rpg.combat.displayProtection
 import at.orchaldir.gm.app.html.rpg.combat.editArmorType
 import at.orchaldir.gm.app.html.rpg.combat.parseArmorType
 import at.orchaldir.gm.app.html.rpg.combat.showArmorType
+import at.orchaldir.gm.app.html.showMultiLine
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.rpg.combat.ARMOR_TYPE_TYPE
@@ -65,7 +69,8 @@ fun Application.configureArmorTypeRouting() {
                 state.sortArmorTypes(all.sort),
                 listOf(
                     createNameColumn(call, state),
-                    countCollectionColumn("Weapons") { state.getArmors(it.id) },
+                    tdColumn("Protection") { displayProtection(it.protection) },
+                    countCollectionColumn("Armor") { state.getArmors(it.id) },
                 ),
             )
         }
