@@ -57,7 +57,6 @@ fun HtmlBlockTag.editArmorStats(
 // parse
 
 fun parseArmorStats(
-    state: State,
     parameters: Parameters,
 ) = ArmorStats(
     parseArmorTypeId(parameters, combine(ARMOR, TYPE)),

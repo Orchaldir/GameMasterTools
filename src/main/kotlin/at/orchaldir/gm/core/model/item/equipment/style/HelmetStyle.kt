@@ -25,6 +25,12 @@ sealed class HelmetStyle : MadeFromParts {
         is GreatHelm -> listOf(part)
         is SkullCap -> listOf(part)
     }
+
+    override fun mainMaterial() = when (this) {
+        is ChainmailHood -> part.material
+        is GreatHelm -> part.material
+        is SkullCap -> part.material
+    }
 }
 
 @Serializable

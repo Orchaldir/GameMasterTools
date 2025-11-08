@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.model.item.equipment
 
 import at.orchaldir.gm.core.model.item.equipment.EquipmentSlot.*
 import at.orchaldir.gm.core.model.item.equipment.style.*
+import at.orchaldir.gm.core.model.rpg.combat.ArmorStats
 import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponStats
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.part.ColorItemPart
@@ -115,7 +116,15 @@ sealed class EquipmentData : MadeFromParts {
         is Tie -> EquipmentDataType.Tie
     }
 
-    fun getMeleeWeapon() = when (this) {
+    fun getArmorStats() = when (this) {
+        is BodyArmour -> stats
+        is Footwear -> stats
+        is Gloves -> stats
+        is Helmet -> stats
+        else -> null
+    }
+
+    fun getMeleeWeaponStats() = when (this) {
         is OneHandedAxe -> stats
         is TwoHandedAxe -> stats
         is Polearm -> stats
@@ -133,6 +142,10 @@ sealed class EquipmentData : MadeFromParts {
     override fun mainMaterial() = when (this) {
         is OneHandedAxe -> head.mainMaterial()
         is TwoHandedAxe -> head.mainMaterial()
+        is BodyArmour -> style.mainMaterial()
+        is Footwear -> shaft.material
+        is Gloves -> main.material
+        is Helmet -> style.mainMaterial()
         is Polearm -> head.mainMaterial() ?: shaft.mainMaterial()
         is OneHandedSword -> blade.mainMaterial()
         is TwoHandedSword -> blade.mainMaterial()
@@ -179,6 +192,7 @@ data class BodyArmour(
     val style: Armour,
     val length: OuterwearLength = OuterwearLength.Knee,
     val sleeveStyle: SleeveStyle = SleeveStyle.Short,
+    val stats: ArmorStats = ArmorStats(),
 ) : EquipmentData() {
 
     override fun parts() = style.parts()
@@ -235,6 +249,7 @@ data class Footwear(
     val style: FootwearStyle = FootwearStyle.Shoes,
     val shaft: FillLookupItemPart = FillLookupItemPart(Color.SaddleBrown),
     val sole: ColorItemPart = ColorItemPart(Color.Black),
+    val stats: ArmorStats = ArmorStats(),
 ) : EquipmentData() {
 
     constructor(style: FootwearStyle, shaft: Color, sole: Color) :
@@ -260,6 +275,7 @@ data class Glasses(
 data class Gloves(
     val style: GloveStyle = GloveStyle.Hand,
     val main: FillLookupItemPart = FillLookupItemPart(Color.Red),
+    val stats: ArmorStats = ArmorStats(),
 ) : EquipmentData() {
 
     constructor(style: GloveStyle, color: Color) : this(style, FillLookupItemPart(color))
@@ -283,6 +299,7 @@ data class Hat(
 @SerialName("Helmet")
 data class Helmet(
     val style: HelmetStyle = SkullCap(),
+    val stats: ArmorStats = ArmorStats(),
 ) : EquipmentData() {
 
     override fun hidesEars() = when (style) {

@@ -102,8 +102,8 @@ fun State.getArmors(type: ArmorTypeId) = getEquipmentStorage()
 
 fun State.getMeleeWeapons(modifier: MeleeWeaponModifierId) = getEquipmentStorage()
     .getAll()
-    .filter { it.data.getMeleeWeapon()?.modifiers?.contains(modifier) ?: false }
+    .filter { it.data.getMeleeWeaponStats()?.modifiers?.contains(modifier) ?: false }
 
 fun State.getMeleeWeapons(type: MeleeWeaponTypeId) = getEquipmentStorage()
     .getAll()
-    .filter { it.data.getMeleeWeapon()?.type == type }
+    .filter { it.data.getMeleeWeaponStats()?.type == type }

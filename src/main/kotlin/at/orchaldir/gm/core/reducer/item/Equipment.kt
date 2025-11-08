@@ -53,7 +53,7 @@ fun validateEquipment(
         else -> doNothing()
     }
 
-    equipment.data.getMeleeWeapon()?.let { validateMeleeWeapon(state, it) }
+    equipment.data.getMeleeWeaponStats()?.let { validateMeleeWeapon(state, it) }
 }
 
 private fun checkBodyArmour(armour: BodyArmour) = when (armour.style) {

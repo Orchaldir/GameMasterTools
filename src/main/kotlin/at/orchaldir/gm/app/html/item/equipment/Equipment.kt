@@ -2,7 +2,9 @@ package at.orchaldir.gm.app.html.item.equipment
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.rpg.combat.editArmorStats
 import at.orchaldir.gm.app.html.rpg.combat.editMeleeWeaponStats
+import at.orchaldir.gm.app.html.rpg.combat.showArmorStats
 import at.orchaldir.gm.app.html.rpg.combat.showMeleeWeaponStats
 import at.orchaldir.gm.app.html.util.color.parseColorSchemeId
 import at.orchaldir.gm.app.html.util.fieldWeight
@@ -28,10 +30,14 @@ fun HtmlBlockTag.showEquipment(
     state: State,
     equipment: Equipment,
 ) {
+    val material = equipment.data.mainMaterial()
+
     fieldWeight("Weight", equipment.weight)
     fieldIds(call, state, equipment.colorSchemes)
-    equipment.data.getMeleeWeapon()?.let {
-        val material = equipment.data.mainMaterial()
+    equipment.data.getArmorStats()?.let {
+        showArmorStats(call, state, it, material)
+    }
+    equipment.data.getMeleeWeaponStats()?.let {
         showMeleeWeaponStats(call, state, it, material)
     }
     showEquipmentData(call, state, equipment)
@@ -82,7 +88,8 @@ fun HtmlBlockTag.editEquipment(
     selectName(equipment.name)
     selectWeight("Weight", WEIGHT, equipment.weight, MIN_EQUIPMENT_WEIGHT, 10000, SiPrefix.Base)
     selectColorSchemes(state, equipment)
-    equipment.data.getMeleeWeapon()?.let { editMeleeWeaponStats(call, state, it) }
+    equipment.data.getArmorStats()?.let { editArmorStats(call, state, it) }
+    equipment.data.getMeleeWeaponStats()?.let { editMeleeWeaponStats(call, state, it) }
     editEquipmentData(state, equipment)
 }
 

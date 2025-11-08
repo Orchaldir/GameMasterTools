@@ -4,6 +4,7 @@ import at.orchaldir.gm.app.FOOTWEAR
 import at.orchaldir.gm.app.SHAFT
 import at.orchaldir.gm.app.SOLE
 import at.orchaldir.gm.app.html.field
+import at.orchaldir.gm.app.html.rpg.combat.parseArmorStats
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.util.part.*
 import at.orchaldir.gm.app.parse.parse
@@ -47,4 +48,5 @@ fun parseFootwear(parameters: Parameters) = Footwear(
     parse(parameters, FOOTWEAR, FootwearStyle.Shoes),
     parseFillLookupItemPart(parameters, SHAFT),
     parseColorItemPart(parameters, SOLE),
+    parseArmorStats(parameters),
 )

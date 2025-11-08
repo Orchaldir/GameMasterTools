@@ -122,16 +122,16 @@ fun Application.configureEquipmentRouting() {
             val state = STORE.getState()
             val meleeWeapons = state.getEquipmentStorage()
                 .getAll()
-                .filter { it.data.getMeleeWeapon() != null }
+                .filter { it.data.getMeleeWeaponStats() != null }
 
             handleShowAllElements(
                 routes,
                 state.sortEquipmentList(meleeWeapons, melee.sort),
                 listOf(
                     createNameColumn(call, state),
-                    createIdColumn(call, state, "Type") { it.data.getMeleeWeapon()?.type },
+                    createIdColumn(call, state, "Type") { it.data.getMeleeWeaponStats()?.type },
                     createIdColumn(call, state, "Material") { it.data.mainMaterial() },
-                    Column("Modifiers") { tdInlineIds(call, state, it.data.getMeleeWeapon()?.modifiers ?: emptySet()) },
+                    Column("Modifiers") { tdInlineIds(call, state, it.data.getMeleeWeaponStats()?.modifiers ?: emptySet()) },
                     createMeleeWeaponColumn(state, "Damage") {
                         displayAttackEffect(call, state, it.effect)
                     },
