@@ -3,7 +3,6 @@ package at.orchaldir.gm.app.html.rpg.combat
 import at.orchaldir.gm.app.ARMOR
 import at.orchaldir.gm.app.MODIFIER
 import at.orchaldir.gm.app.TYPE
-import at.orchaldir.gm.app.WEAPON
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parseElements

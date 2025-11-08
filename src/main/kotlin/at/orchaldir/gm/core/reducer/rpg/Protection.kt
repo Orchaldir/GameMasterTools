@@ -1,7 +1,10 @@
 package at.orchaldir.gm.core.reducer.rpg
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.rpg.combat.*
+import at.orchaldir.gm.core.model.rpg.combat.DamageResistance
+import at.orchaldir.gm.core.model.rpg.combat.DamageResistances
+import at.orchaldir.gm.core.model.rpg.combat.Protection
+import at.orchaldir.gm.core.model.rpg.combat.UndefinedProtection
 import at.orchaldir.gm.utils.doNothing
 
 fun validateProtection(
@@ -18,6 +21,7 @@ fun validateProtection(
                 require(dr >= 0) { "Damage Resistance for ${type.print()} needs to be >= 0!" }
             }
         }
+
         UndefinedProtection -> doNothing()
     }
 }

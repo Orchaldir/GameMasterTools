@@ -1,12 +1,11 @@
 package at.orchaldir.gm.core.selector.rpg
 
-import at.orchaldir.gm.EQUIPMENT_ID_0
 import at.orchaldir.gm.ARMOR_TYPE_ID_0
+import at.orchaldir.gm.EQUIPMENT_ID_0
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.BodyArmour
 import at.orchaldir.gm.core.model.item.equipment.Equipment
-import at.orchaldir.gm.core.model.item.equipment.OneHandedAxe
 import at.orchaldir.gm.core.model.item.equipment.style.ScaleArmour
 import at.orchaldir.gm.core.model.rpg.combat.ArmorStats
 import at.orchaldir.gm.core.model.rpg.combat.ArmorType

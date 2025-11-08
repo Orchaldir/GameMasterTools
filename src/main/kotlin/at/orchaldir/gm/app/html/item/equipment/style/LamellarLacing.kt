@@ -1,10 +1,6 @@
 package at.orchaldir.gm.app.html.item.equipment.style
 
-import at.orchaldir.gm.app.LACING
-import at.orchaldir.gm.app.LENGTH
-import at.orchaldir.gm.app.STRIPE
-import at.orchaldir.gm.app.TYPE
-import at.orchaldir.gm.app.WIDTH
+import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.showDetails

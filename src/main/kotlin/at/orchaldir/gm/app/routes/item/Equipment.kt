@@ -26,7 +26,6 @@ import at.orchaldir.gm.core.model.util.render.UndefinedColors
 import at.orchaldir.gm.core.selector.culture.getFashions
 import at.orchaldir.gm.core.selector.item.getEquippedBy
 import at.orchaldir.gm.core.selector.rpg.getArmorType
-import at.orchaldir.gm.core.selector.rpg.getMeleeWeaponType
 import at.orchaldir.gm.core.selector.util.getColors
 import at.orchaldir.gm.core.selector.util.sortEquipmentList
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
@@ -170,7 +169,13 @@ fun Application.configureEquipmentRouting() {
                     createNameColumn(call, state),
                     createIdColumn(call, state, "Type") { it.data.getMeleeWeaponStats()?.type },
                     createIdColumn(call, state, "Material") { it.data.mainMaterial() },
-                    Column("Modifiers") { tdInlineIds(call, state, it.data.getMeleeWeaponStats()?.modifiers ?: emptySet()) },
+                    Column("Modifiers") {
+                        tdInlineIds(
+                            call,
+                            state,
+                            it.data.getMeleeWeaponStats()?.modifiers ?: emptySet()
+                        )
+                    },
                     createMeleeWeaponColumn(state, "Damage") {
                         displayAttackEffect(call, state, it.effect)
                     },

@@ -8,19 +8,12 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.rpg.combat.DamageResistance
-import at.orchaldir.gm.core.model.rpg.combat.DamageResistances
-import at.orchaldir.gm.core.model.rpg.combat.Protection
-import at.orchaldir.gm.core.model.rpg.combat.ProtectionType
-import at.orchaldir.gm.core.model.rpg.combat.UndefinedProtection
+import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.core.selector.util.sortDamageTypes
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
-import io.ktor.server.application.ApplicationCall
-import kotlinx.html.DETAILS
+import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
-import kotlinx.html.abbr
-import kotlinx.html.title
 
 // show
 
@@ -51,6 +44,7 @@ fun HtmlBlockTag.displayProtection(
             }
             +" DR"
         }
+
         UndefinedProtection -> if (showUndefined) {
             +"Undefined"
         }
@@ -97,6 +91,7 @@ fun HtmlBlockTag.editProtection(
                     damageTypes = damageTypes.filter { it.id != damageType }
                 }
             }
+
             UndefinedProtection -> doNothing()
         }
     }
@@ -126,6 +121,7 @@ fun parseProtection(
     ProtectionType.DamageResistance -> DamageResistance(
         parseDR(parameters, param),
     )
+
     ProtectionType.DamageResistances -> DamageResistances(
         parseDR(parameters, param),
         parseMap(
@@ -135,6 +131,7 @@ fun parseProtection(
             { _, _, valueParam -> parseDR(parameters, valueParam) },
         ),
     )
+
     ProtectionType.Undefined -> UndefinedProtection
 }
 
