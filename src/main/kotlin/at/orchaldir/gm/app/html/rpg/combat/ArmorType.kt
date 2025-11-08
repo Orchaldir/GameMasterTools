@@ -4,9 +4,11 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.combat.ArmorType
 import at.orchaldir.gm.core.model.rpg.combat.ArmorTypeId
+import at.orchaldir.gm.core.selector.item.getArmors
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
+import kotlinx.html.h2
 
 // show
 
@@ -16,6 +18,24 @@ fun HtmlBlockTag.showArmorType(
     type: ArmorType,
 ) {
     fieldProtection(type.protection)
+
+    showUsages(call, state, type.id)
+}
+
+private fun HtmlBlockTag.showUsages(
+    call: ApplicationCall,
+    state: State,
+    type: ArmorTypeId,
+) {
+    val armors = state.getArmors(type)
+
+    if (armors.isEmpty()) {
+        return
+    }
+
+    h2 { +"Usage" }
+
+    fieldElements(call, state, armors)
 }
 
 // edit
