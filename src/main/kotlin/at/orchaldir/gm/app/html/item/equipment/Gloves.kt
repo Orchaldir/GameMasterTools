@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.html.item.equipment
 import at.orchaldir.gm.app.GLOVES
 import at.orchaldir.gm.app.MAIN
 import at.orchaldir.gm.app.html.field
+import at.orchaldir.gm.app.html.rpg.combat.parseArmorStats
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.util.part.editFillLookupItemPart
 import at.orchaldir.gm.app.html.util.part.parseFillLookupItemPart
@@ -41,4 +42,5 @@ fun HtmlBlockTag.editGloves(
 fun parseGloves(parameters: Parameters): Gloves = Gloves(
     parse(parameters, GLOVES, GloveStyle.Hand),
     parseFillLookupItemPart(parameters, MAIN),
+    parseArmorStats(parameters),
 )

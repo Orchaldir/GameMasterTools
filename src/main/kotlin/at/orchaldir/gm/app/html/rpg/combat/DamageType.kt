@@ -5,6 +5,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.combat.DamageType
 import at.orchaldir.gm.core.model.rpg.combat.DamageTypeId
+import at.orchaldir.gm.core.selector.rpg.getArmorTypes
 import at.orchaldir.gm.core.selector.rpg.getMeleeWeaponTypes
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -28,14 +29,16 @@ private fun HtmlBlockTag.showUsages(
     state: State,
     type: DamageTypeId,
 ) {
+    val armors = state.getArmorTypes(type)
     val meleeWeapons = state.getMeleeWeaponTypes(type)
 
-    if (meleeWeapons.isEmpty()) {
+    if (armors.isEmpty() && meleeWeapons.isEmpty()) {
         return
     }
 
     h2 { +"Usage" }
 
+    fieldElements(call, state, armors)
     fieldElements(call, state, meleeWeapons)
 }
 

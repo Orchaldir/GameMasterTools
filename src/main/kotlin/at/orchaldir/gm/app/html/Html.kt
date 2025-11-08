@@ -99,6 +99,8 @@ fun HtmlBlockTag.split(left: DIV.() -> Unit, right: DIV.() -> Unit) {
     }
 }
 
+// misc
+
 fun HtmlBlockTag.svg(svg: Svg, width: Int) {
     div {
         style = "display: inline-block; width:$width%"
@@ -116,6 +118,17 @@ fun HtmlBlockTag.showDetails(
     details {
         open = isOpen
         summary { +(label ?: "") }
+
+        content()
+    }
+}
+
+fun HtmlBlockTag.showTooltip(
+    tooltip: String,
+    content: ABBR.() -> Unit,
+) {
+    abbr {
+        title = tooltip
 
         content()
     }

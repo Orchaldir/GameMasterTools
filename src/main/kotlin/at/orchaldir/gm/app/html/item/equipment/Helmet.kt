@@ -7,6 +7,7 @@ import at.orchaldir.gm.app.STYLE
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.item.equipment.style.*
 import at.orchaldir.gm.app.html.optionalField
+import at.orchaldir.gm.app.html.rpg.combat.parseArmorStats
 import at.orchaldir.gm.app.html.selectOptionalValue
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.util.part.editColorSchemeItemPart
@@ -81,6 +82,7 @@ fun HtmlBlockTag.editHelmet(
 
 fun parseHelmet(parameters: Parameters) = Helmet(
     parseHelmetStyle(parameters),
+    parseArmorStats(parameters),
 )
 
 fun parseHelmetStyle(

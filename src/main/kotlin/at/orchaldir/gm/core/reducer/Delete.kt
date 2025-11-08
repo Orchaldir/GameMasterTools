@@ -32,9 +32,7 @@ import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.religion.DomainId
 import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.religion.PantheonId
-import at.orchaldir.gm.core.model.rpg.combat.DamageTypeId
-import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponModifierId
-import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponTypeId
+import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import at.orchaldir.gm.core.model.time.holiday.HolidayId
@@ -83,10 +81,7 @@ import at.orchaldir.gm.core.selector.realm.*
 import at.orchaldir.gm.core.selector.religion.canDeleteDomain
 import at.orchaldir.gm.core.selector.religion.canDeleteGod
 import at.orchaldir.gm.core.selector.religion.canDeletePantheon
-import at.orchaldir.gm.core.selector.rpg.canDeleteDamageType
-import at.orchaldir.gm.core.selector.rpg.canDeleteMeleeWeaponModifier
-import at.orchaldir.gm.core.selector.rpg.canDeleteMeleeWeaponType
-import at.orchaldir.gm.core.selector.rpg.canDeleteStatistic
+import at.orchaldir.gm.core.selector.rpg.*
 import at.orchaldir.gm.core.selector.time.canDeleteCalendar
 import at.orchaldir.gm.core.selector.time.canDeleteHoliday
 import at.orchaldir.gm.core.selector.util.*
@@ -100,6 +95,8 @@ fun reduceDeleteElement(
     id: Id<*>,
 ): Pair<State, List<Action>> = when (id) {
     is ArchitecturalStyleId -> deleteElement(state, id, State::canDeleteArchitecturalStyle)
+    is ArmorModifierId -> deleteElement(state, id, State::canDeleteArmorModifier)
+    is ArmorTypeId -> deleteElement(state, id, State::canDeleteArmorType)
     is ArticleId -> deleteElement(state, id, State::canDeleteArticle)
     is BattleId -> deleteElement(state, id, State::canDeleteBattle)
     is BuildingId -> deleteBuilding(state, id)

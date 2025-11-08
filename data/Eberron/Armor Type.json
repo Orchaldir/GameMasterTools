@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "elements": {
+  "0": {
+   "id": 0,
+   "name": "Mail",
+   "protection": {
+    "#type": "DamageResistances",
+    "amount": 4,
+    "damageTypes": {
+     "3": 2
+    }
+   }
+  },
+  "1": {
+   "id": 1,
+   "name": "Scale",
+   "protection": {
+    "#type": "DamageResistances",
+    "amount": 4,
+    "damageTypes": {
+     "3": 3
+    }
+   }
+  },
+  "2": {
+   "id": 2,
+   "name": "Plate",
+   "protection": {
+    "#type": "DamageResistance",
+    "amount": 6
+   }
+  }
+ }
+}

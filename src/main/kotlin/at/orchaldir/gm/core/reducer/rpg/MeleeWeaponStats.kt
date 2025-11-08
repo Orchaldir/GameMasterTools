@@ -1,11 +1,11 @@
 package at.orchaldir.gm.core.reducer.rpg
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.rpg.combat.MeleeWeapon
+import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponStats
 
-fun validateMeleeWeapon(
+fun validateMeleeWeaponStats(
     state: State,
-    weapon: MeleeWeapon,
+    weapon: MeleeWeaponStats,
 ) {
     state.getMeleeWeaponModifierStorage().require(weapon.modifiers)
     state.getMeleeWeaponTypeStorage().requireOptional(weapon.type)

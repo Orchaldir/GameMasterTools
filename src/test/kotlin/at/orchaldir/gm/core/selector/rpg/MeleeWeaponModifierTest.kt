@@ -6,8 +6,8 @@ import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.item.equipment.OneHandedAxe
-import at.orchaldir.gm.core.model.rpg.combat.MeleeWeapon
 import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponModifier
+import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponStats
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -27,7 +27,7 @@ class MeleeWeaponModifierTest {
 
         @Test
         fun `Cannot delete a melee weapon modifier used by an equipment`() {
-            val data = OneHandedAxe(stats = MeleeWeapon(modifiers = setOf(MELEE_WEAPON_MODIFIER_ID_0)))
+            val data = OneHandedAxe(stats = MeleeWeaponStats(modifiers = setOf(MELEE_WEAPON_MODIFIER_ID_0)))
             val element = Equipment(EQUIPMENT_ID_0, data = data)
             val newState = state.updateStorage(Storage(element))
 

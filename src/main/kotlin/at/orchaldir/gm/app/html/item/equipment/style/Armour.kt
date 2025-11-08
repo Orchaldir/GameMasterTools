@@ -72,52 +72,54 @@ private fun DETAILS.showSegmentedArmour(
 
 // edit
 
-fun HtmlBlockTag.editArmour(state: State, armour: Armour) {
+fun HtmlBlockTag.editArmour(state: State, armour: Armour, param: String = STYLE) {
     showDetails("Lacing", true) {
-        selectValue("Type", LACING, ArmourType.entries, armour.getType())
+        selectValue("Type", combine(param, TYPE), ArmourType.entries, armour.getType())
 
         when (armour) {
-            is LamellarArmour -> editLamellarArmour(state, armour)
-            is ScaleArmour -> editScaleArmour(state, armour)
-            is SegmentedArmour -> editSegmentedArmour(state, armour)
+            is LamellarArmour -> editLamellarArmour(state, param, armour)
+            is ScaleArmour -> editScaleArmour(state, param, armour)
+            is SegmentedArmour -> editSegmentedArmour(state, param, armour)
         }
     }
 }
 
 private fun DETAILS.editLamellarArmour(
     state: State,
+    param: String,
     armour: LamellarArmour,
 ) {
-    editColorSchemeItemPart(state, armour.scale, MAIN, "Scale")
-    selectUsingRectangularShape(armour.shape, SCALE, LAMELLAR_SHAPES)
-    editLamellarLacing(state, armour.lacing)
+    editColorSchemeItemPart(state, armour.scale, combine(param, MAIN), "Scale")
+    selectUsingRectangularShape(armour.shape, combine(param, SCALE), LAMELLAR_SHAPES)
+    editLamellarLacing(state, combine(param, LACING), armour.lacing)
     selectInt(
         "Columns",
         armour.columns,
         MIN_SCALE_COLUMNS,
         MAX_SCALE_COLUMNS,
         1,
-        COLUMNS,
+        combine(param, COLUMNS),
     )
 }
 
 private fun DETAILS.editScaleArmour(
     state: State,
+    param: String,
     armour: ScaleArmour,
 ) {
-    editColorSchemeItemPart(state, armour.scale, MAIN, "Scale")
-    selectComplexShape(armour.shape, SCALE)
+    editColorSchemeItemPart(state, armour.scale, combine(param, MAIN), "Scale")
+    selectComplexShape(armour.shape, combine(param, SCALE))
     selectInt(
         "Columns",
         armour.columns,
         MIN_SCALE_COLUMNS,
         MAX_SCALE_COLUMNS,
         1,
-        COLUMNS,
+        combine(param, COLUMNS),
     )
     selectFactor(
         "Row Overlap",
-        OFFSET,
+        combine(param, OFFSET),
         armour.overlap,
         MIN_SCALE_OVERLAP,
         MAX_SCALE_OVERLAP,
@@ -126,17 +128,18 @@ private fun DETAILS.editScaleArmour(
 
 private fun DETAILS.editSegmentedArmour(
     state: State,
+    param: String,
     armour: SegmentedArmour,
 ) {
-    editColorSchemeItemPart(state, armour.segment, MAIN, "Scale")
-    selectValue("Segment Shape", SHAPE, SegmentedPlateShape.entries, armour.shape)
+    editColorSchemeItemPart(state, armour.segment, combine(param, MAIN), "Scale")
+    selectValue("Segment Shape", combine(param, SHAPE), SegmentedPlateShape.entries, armour.shape)
     selectInt(
         "Rows",
         armour.rows,
         MIN_SCALE_COLUMNS,
         MAX_SCALE_COLUMNS,
         1,
-        NUMBER,
+        combine(param, NUMBER),
     )
     selectInt(
         "Breastplate Rows",
@@ -144,37 +147,37 @@ private fun DETAILS.editSegmentedArmour(
         1,
         armour.rows - 1,
         1,
-        combine(TOP, NUMBER),
+        combine(param, TOP, NUMBER),
     )
 }
 
 // parse
 
-fun parseArmour(parameters: Parameters): Armour {
-    val type = parse(parameters, LACING, ArmourType.Lamellar)
+fun parseArmour(parameters: Parameters, param: String = STYLE): Armour {
+    val type = parse(parameters, combine(param, TYPE), ArmourType.Lamellar)
 
     return when (type) {
         ArmourType.Lamellar -> LamellarArmour(
-            parseColorSchemeItemPart(parameters, MAIN),
-            parseUsingRectangularShape(parameters, SCALE),
-            parseLamellarLacing(parameters),
-            parseInt(parameters, COLUMNS, DEFAULT_SCALE_COLUMNS),
+            parseColorSchemeItemPart(parameters, combine(param, MAIN)),
+            parseUsingRectangularShape(parameters, combine(param, SCALE)),
+            parseLamellarLacing(parameters, combine(param, LACING)),
+            parseInt(parameters, combine(param, COLUMNS), DEFAULT_SCALE_COLUMNS),
         )
 
         ArmourType.Scale -> ScaleArmour(
-            parseColorSchemeItemPart(parameters, MAIN),
-            parseComplexShape(parameters, SCALE),
-            parseInt(parameters, COLUMNS, DEFAULT_SCALE_COLUMNS),
-            parseFactor(parameters, OFFSET, DEFAULT_SCALE_OVERLAP),
+            parseColorSchemeItemPart(parameters, combine(param, MAIN)),
+            parseComplexShape(parameters, combine(param, SCALE)),
+            parseInt(parameters, combine(param, COLUMNS), DEFAULT_SCALE_COLUMNS),
+            parseFactor(parameters, combine(param, OFFSET), DEFAULT_SCALE_OVERLAP),
         )
 
         ArmourType.Segmented -> SegmentedArmour(
-            parseColorSchemeItemPart(parameters, MAIN),
-            parse(parameters, SHAPE, SegmentedPlateShape.Straight),
-            parseInt(parameters, NUMBER, DEFAULT_SCALE_COLUMNS),
+            parseColorSchemeItemPart(parameters, combine(param, MAIN)),
+            parse(parameters, combine(param, SHAPE), SegmentedPlateShape.Straight),
+            parseInt(parameters, combine(param, NUMBER), DEFAULT_SCALE_COLUMNS),
             parseInt(
                 parameters,
-                combine(TOP, NUMBER),
+                combine(param, TOP, NUMBER),
                 DEFAULT_BREASTPLATE_ROWS,
             ),
         )

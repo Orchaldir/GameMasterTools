@@ -48,6 +48,12 @@ sealed class Armour : MadeFromParts {
         is ScaleArmour -> listOf(scale)
         is SegmentedArmour -> listOf(segment)
     }
+
+    override fun mainMaterial() = when (this) {
+        is LamellarArmour -> scale.material
+        is ScaleArmour -> scale.material
+        is SegmentedArmour -> segment.material
+    }
 }
 
 @Serializable

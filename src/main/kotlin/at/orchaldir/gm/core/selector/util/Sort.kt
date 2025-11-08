@@ -33,9 +33,7 @@ import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.religion.Domain
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.religion.Pantheon
-import at.orchaldir.gm.core.model.rpg.combat.DamageType
-import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponModifier
-import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponType
+import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.date.Date
@@ -64,6 +62,7 @@ import at.orchaldir.gm.core.selector.culture.countCultures
 import at.orchaldir.gm.core.selector.economy.money.calculateWeight
 import at.orchaldir.gm.core.selector.economy.money.countCurrencyUnits
 import at.orchaldir.gm.core.selector.item.countEquipment
+import at.orchaldir.gm.core.selector.item.getArmors
 import at.orchaldir.gm.core.selector.item.getMeleeWeapons
 import at.orchaldir.gm.core.selector.realm.countOwnedTowns
 import at.orchaldir.gm.core.selector.realm.countRealmsWithCurrencyAtAnyTime
@@ -121,6 +120,36 @@ fun State.sortArchitecturalStyles(
             SortArchitecturalStyle.Name -> compareBy { it.name.text }
             SortArchitecturalStyle.Start -> getStartDateComparator()
             SortArchitecturalStyle.End -> getEndDateComparator()
+        })
+
+// armor modifiers
+
+fun State.sortArmorModifiers(sort: SortArmorModifier = SortArmorModifier.Name) =
+    sortArmorModifiers(getArmorModifierStorage().getAll(), sort)
+
+fun State.sortArmorModifiers(
+    weapons: Collection<ArmorModifier>,
+    sort: SortArmorModifier = SortArmorModifier.Name,
+) = weapons
+    .sortedWith(
+        when (sort) {
+            SortArmorModifier.Name -> compareBy { it.name.text }
+            SortArmorModifier.Armor -> compareByDescending { getArmors(it.id).size }
+        })
+
+// armor types
+
+fun State.sortArmorTypes(sort: SortArmorType = SortArmorType.Name) =
+    sortArmorTypes(getArmorTypeStorage().getAll(), sort)
+
+fun State.sortArmorTypes(
+    weapons: Collection<ArmorType>,
+    sort: SortArmorType = SortArmorType.Name,
+) = weapons
+    .sortedWith(
+        when (sort) {
+            SortArmorType.Name -> compareBy { it.name.text }
+            SortArmorType.Armor -> compareByDescending { getArmors(it.id).size }
         })
 
 // article

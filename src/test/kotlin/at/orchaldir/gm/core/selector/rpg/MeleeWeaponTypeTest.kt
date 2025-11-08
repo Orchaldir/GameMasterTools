@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.item.equipment.OneHandedAxe
-import at.orchaldir.gm.core.model.rpg.combat.MeleeWeapon
+import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponStats
 import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponType
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
@@ -27,7 +27,7 @@ class MeleeWeaponTypeTest {
 
         @Test
         fun `Cannot delete a melee weapon type used by an equipment`() {
-            val data = OneHandedAxe(stats = MeleeWeapon(MELEE_WEAPON_TYPE_ID_0))
+            val data = OneHandedAxe(stats = MeleeWeaponStats(MELEE_WEAPON_TYPE_ID_0))
             val element = Equipment(EQUIPMENT_ID_0, data = data)
             val newState = state.updateStorage(Storage(element))
 

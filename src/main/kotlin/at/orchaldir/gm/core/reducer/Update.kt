@@ -31,9 +31,7 @@ import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.religion.Domain
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.religion.Pantheon
-import at.orchaldir.gm.core.model.rpg.combat.DamageType
-import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponModifier
-import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponType
+import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.holiday.Holiday
@@ -66,6 +64,8 @@ fun reduceUpdateElement(
     element: Element<*>,
 ): Pair<State, List<Action>> = when (element) {
     is ArchitecturalStyle -> updateElement(state, element)
+    is ArmorModifier -> updateElement(state, element)
+    is ArmorType -> updateElement(state, element)
     is Article -> updateElement(state, element)
     is Battle -> updateElement(state, element)
     is Building -> updateBuilding(state, element)

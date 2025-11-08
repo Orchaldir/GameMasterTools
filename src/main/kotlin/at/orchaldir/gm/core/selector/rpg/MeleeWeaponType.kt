@@ -12,7 +12,7 @@ fun State.canDeleteMeleeWeaponType(type: MeleeWeaponTypeId) = DeleteResult(type)
     .addElements(getMeleeWeapons(type))
 
 fun State.getMeleeWeaponType(equipment: Equipment) = getMeleeWeaponTypeStorage()
-    .getOptional(equipment.data.getMeleeWeapon()?.type)
+    .getOptional(equipment.data.getMeleeWeaponStats()?.type)
 
 fun State.getMeleeWeaponTypes(type: DamageTypeId) = getMeleeWeaponTypeStorage()
     .getAll()

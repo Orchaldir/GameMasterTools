@@ -26,10 +26,7 @@ import at.orchaldir.gm.app.routes.realm.*
 import at.orchaldir.gm.app.routes.religion.DomainRoutes
 import at.orchaldir.gm.app.routes.religion.GodRoutes
 import at.orchaldir.gm.app.routes.religion.PantheonRoutes
-import at.orchaldir.gm.app.routes.rpg.DamageTypeRoutes
-import at.orchaldir.gm.app.routes.rpg.MeleeWeaponModifierRoutes
-import at.orchaldir.gm.app.routes.rpg.MeleeWeaponTypeRoutes
-import at.orchaldir.gm.app.routes.rpg.StatisticRoutes
+import at.orchaldir.gm.app.routes.rpg.*
 import at.orchaldir.gm.app.routes.time.CalendarRoutes
 import at.orchaldir.gm.app.routes.time.HolidayRoutes
 import at.orchaldir.gm.app.routes.time.TimeRoutes
@@ -67,9 +64,7 @@ import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.religion.DomainId
 import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.religion.PantheonId
-import at.orchaldir.gm.core.model.rpg.combat.DamageTypeId
-import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponModifierId
-import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponTypeId
+import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
@@ -384,6 +379,8 @@ fun href(
     id: Id<*>,
 ) = when (id) {
     is ArchitecturalStyleId -> call.application.href(ArchitecturalStyleRoutes.Details(id))
+    is ArmorModifierId -> call.application.href(ArmorModifierRoutes.Details(id))
+    is ArmorTypeId -> call.application.href(ArmorTypeRoutes.Details(id))
     is ArticleId -> call.application.href(ArticleRoutes.Details(id))
     is BattleId -> call.application.href(BattleRoutes.Details(id))
     is BuildingId -> call.application.href(BuildingRoutes.Details(id))

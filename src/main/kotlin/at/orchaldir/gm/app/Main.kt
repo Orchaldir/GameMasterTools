@@ -24,10 +24,7 @@ import at.orchaldir.gm.app.routes.realm.*
 import at.orchaldir.gm.app.routes.religion.configureDomainRouting
 import at.orchaldir.gm.app.routes.religion.configureGodRouting
 import at.orchaldir.gm.app.routes.religion.configurePantheonRouting
-import at.orchaldir.gm.app.routes.rpg.configureDamageTypeRouting
-import at.orchaldir.gm.app.routes.rpg.configureMeleeWeaponModifierRouting
-import at.orchaldir.gm.app.routes.rpg.configureMeleeWeaponTypeRouting
-import at.orchaldir.gm.app.routes.rpg.configureStatisticRouting
+import at.orchaldir.gm.app.routes.rpg.*
 import at.orchaldir.gm.app.routes.time.configureCalendarRouting
 import at.orchaldir.gm.app.routes.time.configureHolidayRouting
 import at.orchaldir.gm.app.routes.time.configureTimeRouting
@@ -67,6 +64,8 @@ fun Application.module() {
     configureDataRouting()
     // elements
     configureAbstractBuildingEditorRouting()
+    configureArmorModifierRouting()
+    configureArmorTypeRouting()
     configureAppearanceRouting()
     configureArchitecturalStyleRouting()
     configureArticleRouting()

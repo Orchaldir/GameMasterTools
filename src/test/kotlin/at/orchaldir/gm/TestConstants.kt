@@ -30,9 +30,7 @@ import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.religion.DomainId
 import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.religion.PantheonId
-import at.orchaldir.gm.core.model.rpg.combat.DamageTypeId
-import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponModifierId
-import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponTypeId
+import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
@@ -60,6 +58,10 @@ import at.orchaldir.gm.core.model.world.town.TownMapId
 val ARCHITECTURAL_ID_0 = ArchitecturalStyleId(0)
 val ARCHITECTURAL_ID_1 = ArchitecturalStyleId(1)
 val UNKNOWN_ARCHITECTURAL_ID = ArchitecturalStyleId(99)
+val ARMOR_MODIFIER_ID_0 = ArmorModifierId(0)
+val UNKNOWN_ARMOR_MODIFIER = ArmorModifierId(99)
+val ARMOR_TYPE_ID_0 = ArmorTypeId(0)
+val UNKNOWN_ARMOR_TYPE = ArmorTypeId(99)
 val ARTICLE_ID_0 = ArticleId(0)
 val UNKNOWN_ARTICLE_ID = ArticleId(99)
 val BATTLE_ID_0 = BattleId(0)

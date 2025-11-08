@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.selector.rpg
 
+import at.orchaldir.gm.ARMOR_TYPE_ID_0
 import at.orchaldir.gm.DAMAGE_TYPE_ID_0
 import at.orchaldir.gm.MELEE_WEAPON_TYPE_ID_0
 import at.orchaldir.gm.core.model.DeleteResult
@@ -21,6 +22,15 @@ class DamageTypeTest {
                 Storage(damageType),
             )
         )
+
+        @Test
+        fun `Cannot delete a damage type used by an armor`() {
+            val protection = DamageResistances(2, mapOf(DAMAGE_TYPE_ID_0 to 2))
+            val element = ArmorType(ARMOR_TYPE_ID_0, protection = protection)
+            val newState = state.updateStorage(Storage(element))
+
+            failCanDelete(newState, ARMOR_TYPE_ID_0)
+        }
 
         @Test
         fun `Cannot delete a damage type used by a melee weapon`() {
