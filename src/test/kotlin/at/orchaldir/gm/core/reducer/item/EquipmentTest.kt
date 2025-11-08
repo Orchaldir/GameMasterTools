@@ -7,6 +7,8 @@ import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.economy.material.Material
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.item.equipment.*
+import at.orchaldir.gm.core.model.item.equipment.style.ScaleArmour
+import at.orchaldir.gm.core.model.rpg.combat.ArmorStats
 import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponStats
 import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
 import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
@@ -95,6 +97,24 @@ class EquipmentTest {
 
         @Nested
         inner class StatsTest {
+
+            @Test
+            fun `Armor modifier must exist`() {
+                val data = BodyArmour(ScaleArmour(), stats = ArmorStats(modifiers = setOf(UNKNOWN_ARMOR_MODIFIER)))
+                val item = Equipment(EQUIPMENT_ID_0, data = data)
+                val action = UpdateAction(item)
+
+                assertIllegalArgument("Requires unknown Armor Modifier 99!") { REDUCER.invoke(STATE, action) }
+            }
+
+            @Test
+            fun `Armor type must exist`() {
+                val data = BodyArmour(ScaleArmour(), stats = ArmorStats(UNKNOWN_ARMOR_TYPE))
+                val item = Equipment(EQUIPMENT_ID_0, data = data)
+                val action = UpdateAction(item)
+
+                assertIllegalArgument("Requires unknown Armor Type 99!") { REDUCER.invoke(STATE, action) }
+            }
 
             @Test
             fun `Melee weapon modifier must exist`() {
