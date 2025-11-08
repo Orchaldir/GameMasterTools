@@ -71,11 +71,11 @@ fun HtmlBlockTag.editProtection(
         )
 
         when (protection) {
-            is DamageResistance -> selectDR(param, protection.amount)
+            is DamageResistance -> selectDR(param, 1, protection.amount)
             is DamageResistances -> {
                 var damageTypes = state.sortDamageTypes()
 
-                selectDR(param, protection.amount)
+                selectDR(param, 0, protection.amount)
                 editMap(
                     "DR for Damage Types",
                     combine(param, DAMAGE),
@@ -89,7 +89,7 @@ fun HtmlBlockTag.editProtection(
                         damageTypes,
                         damageType,
                     )
-                    selectDR(damageTypeParam, dr)
+                    selectDR(damageTypeParam, 0, dr)
 
                     damageTypes = damageTypes.filter { it.id != damageType }
                 }
@@ -101,12 +101,13 @@ fun HtmlBlockTag.editProtection(
 
 private fun HtmlBlockTag.selectDR(
     param: String,
+    min: Int,
     dr: Int,
 ) {
     selectInt(
         "DR",
         dr,
-        1,
+        min,
         100,
         1,
         combine(param, NUMBER),
@@ -137,5 +138,5 @@ fun parseProtection(
 private fun parseDR(parameters: Parameters, param: String) = parseInt(
     parameters,
     combine(param, NUMBER),
-    0,
+    1,
 )

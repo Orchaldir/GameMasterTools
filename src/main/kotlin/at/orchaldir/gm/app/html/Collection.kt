@@ -254,7 +254,7 @@ fun <K, V> parseMap(
     val map = mutableMapOf<K, V>()
 
     for (index in 0..<count) {
-        val indexParam = combine(MEMBER, index)
+        val indexParam = combine(param, index)
         val key = parseKey(index, indexParam)
 
         map[key] = parseValue(key, index, indexParam)

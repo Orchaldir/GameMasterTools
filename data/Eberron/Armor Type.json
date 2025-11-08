@@ -5,16 +5,22 @@
    "id": 0,
    "name": "Mail",
    "protection": {
-    "#type": "DamageResistance",
-    "amount": 4
+    "#type": "DamageResistances",
+    "amount": 4,
+    "damageTypes": {
+     "0": 2
+    }
    }
   },
   "1": {
    "id": 1,
    "name": "Scale",
    "protection": {
-    "#type": "DamageResistance",
-    "amount": 4
+    "#type": "DamageResistances",
+    "amount": 4,
+    "damageTypes": {
+     "3": 3
+    }
    }
   },
   "2": {
