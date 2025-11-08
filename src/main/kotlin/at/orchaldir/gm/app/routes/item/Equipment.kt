@@ -96,6 +96,8 @@ class EquipmentRoutes : Routes<EquipmentId, SortEquipment> {
 
     override fun all(call: ApplicationCall) = call.application.href(All())
     override fun all(call: ApplicationCall, sort: SortEquipment) = call.application.href(All(sort))
+    fun allArmors(call: ApplicationCall, sort: SortEquipment) = call.application.href(AllArmors(sort))
+    fun allMeleeWeapons(call: ApplicationCall, sort: SortEquipment) = call.application.href(AllMeleeWeapons(sort))
     override fun delete(call: ApplicationCall, id: EquipmentId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: EquipmentId) = call.application.href(Edit(id))
     override fun gallery(call: ApplicationCall) = call.application.href(Gallery())
@@ -108,9 +110,10 @@ fun Application.configureEquipmentRouting() {
     routing {
         get<EquipmentRoutes.All> { all ->
             val state = STORE.getState()
+            val routes = EquipmentRoutes()
 
             handleShowAllElements(
-                EquipmentRoutes(),
+                routes,
                 state.sortEquipmentList(all.sort),
                 listOf(
                     createNameColumn(call, state),
@@ -123,11 +126,8 @@ fun Application.configureEquipmentRouting() {
                     Column("Characters") { tdSkipZero(state.getFashions(it.id)) },
                 ),
             ) {
-                val armorlink = call.application.href(EquipmentRoutes.AllArmors())
-                val meleeWeaponslink = call.application.href(EquipmentRoutes.AllMeleeWeapons())
-
-                action(armorlink, "All Amors")
-                action(meleeWeaponslink, "All Melee Weapons")
+                action(routes.allArmors(call, all.sort), "All Amors")
+                action(routes.allMeleeWeapons(call, all.sort), "All Melee Weapons")
             }
         }
         get<EquipmentRoutes.AllArmors> { all ->
@@ -144,13 +144,13 @@ fun Application.configureEquipmentRouting() {
                     createNameColumn(call, state),
                     createIdColumn(call, state, "Type") { it.data.getArmorStats()?.type },
                     createIdColumn(call, state, "Material") { it.data.mainMaterial() },
-                    Column("Modifiers") { tdInlineIds(call, state, it.data.getArmorStats()?.modifiers ?: emptySet()) },
-                    tdColumn("Damage") {
+                    tdColumn("Protection") {
                         state.getArmorType(it)
                             ?.let { type ->
                                 displayProtection(call, state, type.protection)
                             }
                     },
+                    Column("Modifiers") { tdInlineIds(call, state, it.data.getArmorStats()?.modifiers ?: emptySet()) },
                 ),
             ) {
                 action(routes.all(call, all.sort), "All")
