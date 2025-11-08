@@ -17,7 +17,7 @@ fun HtmlBlockTag.showArmorType(
     state: State,
     type: ArmorType,
 ) {
-    fieldProtection(call, type.protection)
+    fieldProtection(call, state, type.protection)
 
     showUsages(call, state, type.id)
 }

@@ -19,20 +19,24 @@ import io.ktor.http.*
 import io.ktor.server.application.ApplicationCall
 import kotlinx.html.DETAILS
 import kotlinx.html.HtmlBlockTag
+import kotlinx.html.abbr
+import kotlinx.html.title
 
 // show
 
 fun HtmlBlockTag.fieldProtection(
     call: ApplicationCall,
+    state: State,
     protection: Protection,
 ) {
     field("Protection") {
-        displayProtection(call, protection, true)
+        displayProtection(call, state, protection, true)
     }
 }
 
 fun HtmlBlockTag.displayProtection(
     call: ApplicationCall,
+    state: State,
     protection: Protection,
     showUndefined: Boolean = false,
 ) {
@@ -42,9 +46,12 @@ fun HtmlBlockTag.displayProtection(
             if (protection.amount > 0) {
                 +protection.amount.toString()
             }
-            protection.damageTypes.forEach { id, dr ->
+            protection.damageTypes.forEach { (id, dr) ->
                 +"/"
-                link(call, id, dr.toString())
+                abbr {
+                    title = state.getDamageTypeStorage().getOrThrow(id).name()
+                    link(call, id, dr.toString())
+                }
             }
             +" DR"
         }

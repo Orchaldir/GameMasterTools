@@ -69,7 +69,7 @@ fun Application.configureArmorTypeRouting() {
                 state.sortArmorTypes(all.sort),
                 listOf(
                     createNameColumn(call, state),
-                    tdColumn("Protection") { displayProtection(call, it.protection) },
+                    tdColumn("Protection") { displayProtection(call, state, it.protection) },
                     countCollectionColumn("Armor") { state.getArmors(it.id) },
                 ),
             )
