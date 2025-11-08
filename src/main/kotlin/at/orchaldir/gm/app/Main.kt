@@ -24,6 +24,8 @@ import at.orchaldir.gm.app.routes.realm.*
 import at.orchaldir.gm.app.routes.religion.configureDomainRouting
 import at.orchaldir.gm.app.routes.religion.configureGodRouting
 import at.orchaldir.gm.app.routes.religion.configurePantheonRouting
+import at.orchaldir.gm.app.routes.rpg.configureArmorModifierRouting
+import at.orchaldir.gm.app.routes.rpg.configureArmorTypeRouting
 import at.orchaldir.gm.app.routes.rpg.configureDamageTypeRouting
 import at.orchaldir.gm.app.routes.rpg.configureMeleeWeaponModifierRouting
 import at.orchaldir.gm.app.routes.rpg.configureMeleeWeaponTypeRouting
@@ -67,6 +69,8 @@ fun Application.module() {
     configureDataRouting()
     // elements
     configureAbstractBuildingEditorRouting()
+    configureArmorModifierRouting()
+    configureArmorTypeRouting()
     configureAppearanceRouting()
     configureArchitecturalStyleRouting()
     configureArticleRouting()

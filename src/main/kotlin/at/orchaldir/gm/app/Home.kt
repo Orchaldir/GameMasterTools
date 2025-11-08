@@ -28,6 +28,8 @@ import at.orchaldir.gm.app.routes.realm.*
 import at.orchaldir.gm.app.routes.religion.DomainRoutes
 import at.orchaldir.gm.app.routes.religion.GodRoutes
 import at.orchaldir.gm.app.routes.religion.PantheonRoutes
+import at.orchaldir.gm.app.routes.rpg.ArmorModifierRoutes
+import at.orchaldir.gm.app.routes.rpg.ArmorTypeRoutes
 import at.orchaldir.gm.app.routes.rpg.DamageTypeRoutes
 import at.orchaldir.gm.app.routes.rpg.MeleeWeaponModifierRoutes
 import at.orchaldir.gm.app.routes.rpg.MeleeWeaponTypeRoutes
@@ -121,6 +123,8 @@ fun Application.configureRouting() {
                     fieldStorageLink(call, state.getPantheonStorage(), PantheonRoutes())
                     h3 { +"Rpg" }
                     fieldStorageLink(call, state.getDamageTypeStorage(), DamageTypeRoutes())
+                    fieldStorageLink(call, state.getArmorModifierStorage(), ArmorModifierRoutes())
+                    fieldStorageLink(call, state.getArmorTypeStorage(), ArmorTypeRoutes())
                     fieldStorageLink(call, state.getMeleeWeaponModifierStorage(), MeleeWeaponModifierRoutes())
                     fieldStorageLink(call, state.getMeleeWeaponTypeStorage(), MeleeWeaponTypeRoutes())
                     fieldStorageLink(call, state.getStatisticStorage(), StatisticRoutes())

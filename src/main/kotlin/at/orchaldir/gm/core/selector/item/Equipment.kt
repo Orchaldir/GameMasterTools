@@ -9,6 +9,8 @@ import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentIdMap
+import at.orchaldir.gm.core.model.rpg.combat.ArmorModifierId
+import at.orchaldir.gm.core.model.rpg.combat.ArmorTypeId
 import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponModifierId
 import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponTypeId
 import at.orchaldir.gm.core.model.util.render.ColorSchemeId
@@ -89,6 +91,14 @@ fun State.getEquippedWith(scheme: ColorSchemeId) = getCharacterStorage()
             .getAllEquipment()
             .any { pair -> pair.second == scheme }
     }
+
+// stats
+
+fun State.getArmors(modifier: ArmorModifierId) = getEquipmentStorage()
+    .getAll()
+
+fun State.getArmors(type: ArmorTypeId) = getEquipmentStorage()
+    .getAll()
 
 fun State.getMeleeWeapons(modifier: MeleeWeaponModifierId) = getEquipmentStorage()
     .getAll()
