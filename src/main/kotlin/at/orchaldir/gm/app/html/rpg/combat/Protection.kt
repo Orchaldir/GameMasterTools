@@ -43,15 +43,11 @@ fun HtmlBlockTag.displayProtection(
     when (protection) {
         is DamageResistance -> +"${protection.amount} DR"
         is DamageResistances -> {
-            if (protection.amount > 0) {
-                +protection.amount.toString()
-            }
+            +protection.amount.toString()
             protection.damageTypes.forEach { (id, dr) ->
-                +"/"
-                abbr {
-                    title = state.getDamageTypeStorage().getOrThrow(id).name()
-                    link(call, id, dr.toString())
-                }
+                val type = state.getDamageTypeStorage().getOrThrow(id)
+                +"/$dr "
+                link(call, type, type.short())
             }
             +" DR"
         }

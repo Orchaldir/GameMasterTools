@@ -30,5 +30,7 @@ data class DamageType(
     override fun id() = id
     override fun name() = name.text
 
+    fun short() = short?.text ?: name()
+
     override fun validate(state: State) = doNothing()
 }
