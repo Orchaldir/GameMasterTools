@@ -41,6 +41,13 @@ class AmorTypeTest {
             assertInvalidType(protection, "Damage Resistance for Damage Type 0 needs to be >= 0!")
         }
 
+        @Test
+        fun `Damage type must exist`() {
+            val protection = DamageResistances(4, mapOf(UNKNOWN_DAMAGE_TYPE_ID to 2))
+
+            assertInvalidType(protection, "Requires unknown Damage Type 99!")
+        }
+
     }
 
     private fun assertInvalidType(protection: Protection, message: String) {
