@@ -5,6 +5,7 @@ import kotlinx.serialization.Serializable
 
 enum class ProtectionType {
     DamageResistance,
+    DamageResistances,
     Undefined,
 }
 
@@ -13,6 +14,7 @@ sealed class Protection {
 
     fun getType() = when (this) {
         is DamageResistance -> ProtectionType.DamageResistance
+        is DamageResistances -> ProtectionType.DamageResistances
         is UndefinedProtection -> ProtectionType.Undefined
     }
 }
@@ -20,7 +22,14 @@ sealed class Protection {
 @Serializable
 @SerialName("DamageResistance")
 data class DamageResistance(
-    val amount: Int,
+    val amount: Int = 1,
+) : Protection()
+
+@Serializable
+@SerialName("DamageResistances")
+data class DamageResistances(
+    val amount: Int = 1,
+    val damageTypes: Map<DamageTypeId, Int> = emptyMap(),
 ) : Protection()
 
 @Serializable

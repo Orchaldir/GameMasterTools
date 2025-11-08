@@ -17,7 +17,7 @@ fun HtmlBlockTag.showArmorType(
     state: State,
     type: ArmorType,
 ) {
-    fieldProtection(type.protection)
+    fieldProtection(call, type.protection)
 
     showUsages(call, state, type.id)
 }
@@ -46,7 +46,7 @@ fun HtmlBlockTag.editArmorType(
     type: ArmorType,
 ) {
     selectName(type.name)
-    editProtection(type.protection)
+    editProtection(call, state, type.protection)
 }
 
 // parse
