@@ -3,11 +3,13 @@ package at.orchaldir.gm.app.routes.item
 import at.orchaldir.gm.app.SCHEME
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.item.equipment.editEquipment
 import at.orchaldir.gm.app.html.item.equipment.parseEquipment
 import at.orchaldir.gm.app.html.item.equipment.showEquipment
 import at.orchaldir.gm.app.html.rpg.combat.displayAttackEffect
 import at.orchaldir.gm.app.html.rpg.combat.displayParrying
+import at.orchaldir.gm.app.html.rpg.combat.displayProtection
 import at.orchaldir.gm.app.html.rpg.combat.displayReach
 import at.orchaldir.gm.app.html.util.color.parseOptionalColorSchemeId
 import at.orchaldir.gm.app.routes.*
@@ -23,6 +25,8 @@ import at.orchaldir.gm.core.model.util.render.Colors
 import at.orchaldir.gm.core.model.util.render.UndefinedColors
 import at.orchaldir.gm.core.selector.culture.getFashions
 import at.orchaldir.gm.core.selector.item.getEquippedBy
+import at.orchaldir.gm.core.selector.rpg.getArmorType
+import at.orchaldir.gm.core.selector.rpg.getMeleeWeaponType
 import at.orchaldir.gm.core.selector.util.getColors
 import at.orchaldir.gm.core.selector.util.sortEquipmentList
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
@@ -51,8 +55,14 @@ class EquipmentRoutes : Routes<EquipmentId, SortEquipment> {
         val parent: EquipmentRoutes = EquipmentRoutes(),
     )
 
+    @Resource("armor")
+    class AllArmors(
+        val sort: SortEquipment = SortEquipment.Name,
+        val parent: EquipmentRoutes = EquipmentRoutes(),
+    )
+
     @Resource("melee")
-    class MeleeWeapons(
+    class AllMeleeWeapons(
         val sort: SortEquipment = SortEquipment.Name,
         val parent: EquipmentRoutes = EquipmentRoutes(),
     )
@@ -113,11 +123,40 @@ fun Application.configureEquipmentRouting() {
                     Column("Characters") { tdSkipZero(state.getFashions(it.id)) },
                 ),
             ) {
-                val link = call.application.href(EquipmentRoutes.MeleeWeapons())
-                action(link, "Melee Weapons")
+                val armorlink = call.application.href(EquipmentRoutes.AllMeleeWeapons())
+                val meleeWeaponslink = call.application.href(EquipmentRoutes.AllMeleeWeapons())
+
+                action(armorlink, "All Amors")
+                action(meleeWeaponslink, "All Melee Weapons")
             }
         }
-        get<EquipmentRoutes.MeleeWeapons> { melee ->
+        get<EquipmentRoutes.AllArmors> { all ->
+            val routes = EquipmentRoutes()
+            val state = STORE.getState()
+            val armors = state.getEquipmentStorage()
+                .getAll()
+                .filter { it.data.getArmorStats() != null }
+
+            handleShowAllElements(
+                routes,
+                state.sortEquipmentList(armors, all.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    createIdColumn(call, state, "Type") { it.data.getArmorStats()?.type },
+                    createIdColumn(call, state, "Material") { it.data.mainMaterial() },
+                    Column("Modifiers") { tdInlineIds(call, state, it.data.getArmorStats()?.modifiers ?: emptySet()) },
+                    tdColumn("Damage") {
+                        state.getArmorType(it)
+                            ?.let { type ->
+                                displayProtection(call, state, type.protection)
+                            }
+                    },
+                ),
+            ) {
+                action(routes.all(call, all.sort), "All")
+            }
+        }
+        get<EquipmentRoutes.AllMeleeWeapons> { all ->
             val routes = EquipmentRoutes()
             val state = STORE.getState()
             val meleeWeapons = state.getEquipmentStorage()
@@ -126,7 +165,7 @@ fun Application.configureEquipmentRouting() {
 
             handleShowAllElements(
                 routes,
-                state.sortEquipmentList(meleeWeapons, melee.sort),
+                state.sortEquipmentList(meleeWeapons, all.sort),
                 listOf(
                     createNameColumn(call, state),
                     createIdColumn(call, state, "Type") { it.data.getMeleeWeaponStats()?.type },
@@ -143,7 +182,7 @@ fun Application.configureEquipmentRouting() {
                     },
                 ),
             ) {
-                action(routes.all(call, melee.sort), "All")
+                action(routes.all(call, all.sort), "All")
             }
         }
         get<EquipmentRoutes.Gallery> { gallery ->
