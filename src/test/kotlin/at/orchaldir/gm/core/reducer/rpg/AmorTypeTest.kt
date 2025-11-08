@@ -25,6 +25,16 @@ class AmorTypeTest {
         }
     }
 
+    @Nested
+    inner class DamageResistancesTest {
+        @Test
+        fun `Damage Resistance must be greater or equal to 0`() {
+            val protection = DamageResistances(-1)
+
+            assertInvalidType(protection, "Damage Resistance needs to be >= 0!")
+        }
+    }
+
     private fun assertInvalidType(protection: Protection, message: String) {
         val type = ArmorType(ARMOR_TYPE_ID_0, protection = protection)
 
