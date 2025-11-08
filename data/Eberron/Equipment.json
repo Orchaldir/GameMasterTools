@@ -28,6 +28,26 @@
      ]
     }
    }
+  },
+  "1": {
+   "id": 1,
+   "data": {
+    "#type": "Armour",
+    "style": {
+     "#type": "Scale",
+     "scale": {
+      "material": 10
+     },
+     "shape": {
+      "#type": "Circular"
+     }
+    },
+    "length": "Hip",
+    "sleeveStyle": "Long",
+    "stats": {
+     "type": 1
+    }
+   }
   }
  }
 }

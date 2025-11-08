@@ -123,7 +123,7 @@ fun Application.configureEquipmentRouting() {
                     Column("Characters") { tdSkipZero(state.getFashions(it.id)) },
                 ),
             ) {
-                val armorlink = call.application.href(EquipmentRoutes.AllMeleeWeapons())
+                val armorlink = call.application.href(EquipmentRoutes.AllArmors())
                 val meleeWeaponslink = call.application.href(EquipmentRoutes.AllMeleeWeapons())
 
                 action(armorlink, "All Amors")
