@@ -3,12 +3,15 @@ package at.orchaldir.gm.app.html
 import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.equipment.Equipment
+import at.orchaldir.gm.core.model.rpg.combat.MeleeAttack
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.util.population.HasPopulation
 import at.orchaldir.gm.core.selector.character.countKilledCharacters
 import at.orchaldir.gm.core.selector.realm.countDestroyedRealms
 import at.orchaldir.gm.core.selector.realm.countDestroyedTowns
+import at.orchaldir.gm.core.selector.rpg.getMeleeWeaponType
 import at.orchaldir.gm.core.selector.time.getAgeInYears
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
@@ -88,6 +91,19 @@ fun <ID0 : Id<ID0>, ID1 : Id<ID1>, ELEMENT : Element<ID0>> createIdColumn(
     label: String,
     convert: (ELEMENT) -> ID1?,
 ): Column<ELEMENT> = tdColumn(label) { optionalLink(call, state, convert(it)) }
+
+fun createMeleeWeaponColumn(
+    state: State,
+    label: String,
+    display: TD.(MeleeAttack) -> Unit,
+): Column<Equipment> = tdColumn(label) {
+    state.getMeleeWeaponType(it)
+        ?.let { type ->
+            showMultiLine(type.attacks) { attack ->
+                this@tdColumn.display(attack)
+            }
+        }
+}
 
 fun <ID : Id<ID>, ELEMENT : Element<ID>> createNameColumn(
     call: ApplicationCall,

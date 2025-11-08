@@ -5,13 +5,13 @@
    "id": 0,
    "name": "American Civil War",
    "startDate": {
-    "type": "Day",
+    "#type": "Day",
     "day": 679001
    },
    "status": {
-    "type": "Finished",
+    "#type": "Finished",
     "date": {
-     "type": "Day",
+     "#type": "Day",
      "day": 680505
     }
    }

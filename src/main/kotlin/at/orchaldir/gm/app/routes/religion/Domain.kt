@@ -53,7 +53,7 @@ class DomainRoutes : Routes<DomainId, SortDomain> {
     override fun edit(call: ApplicationCall, id: DomainId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())
     override fun preview(call: ApplicationCall, id: DomainId) = call.application.href(Preview(id))
-    override fun update(call: ApplicationCall, id: DomainId) = call.application.href(Edit(id))
+    override fun update(call: ApplicationCall, id: DomainId) = call.application.href(Update(id))
 }
 
 fun Application.configureDomainRouting() {

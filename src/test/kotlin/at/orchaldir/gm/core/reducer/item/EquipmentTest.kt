@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.economy.material.Material
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.item.equipment.*
+import at.orchaldir.gm.core.model.rpg.combat.MeleeWeapon
 import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
 import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
 import at.orchaldir.gm.core.model.util.render.*
@@ -90,6 +91,29 @@ class EquipmentTest {
             val action = UpdateAction(item)
 
             assertIllegalArgument("Requires unknown Color Scheme 99!") { REDUCER.invoke(STATE, action) }
+        }
+
+        @Nested
+        inner class StatsTest {
+
+            @Test
+            fun `Melee weapon modifier must exist`() {
+                val data = OneHandedAxe(stats = MeleeWeapon(null, setOf(UNKNOWN_MELEE_WEAPON_MODIFIER)))
+                val item = Equipment(EQUIPMENT_ID_0, data = data)
+                val action = UpdateAction(item)
+
+                assertIllegalArgument("Requires unknown Melee Weapon Modifier 99!") { REDUCER.invoke(STATE, action) }
+            }
+
+            @Test
+            fun `Melee weapon type must exist`() {
+                val data = OneHandedAxe(stats = MeleeWeapon(UNKNOWN_MELEE_WEAPON_TYPE))
+                val item = Equipment(EQUIPMENT_ID_0, data = data)
+                val action = UpdateAction(item)
+
+                assertIllegalArgument("Requires unknown Melee Weapon Type 99!") { REDUCER.invoke(STATE, action) }
+            }
+
         }
 
         @Nested

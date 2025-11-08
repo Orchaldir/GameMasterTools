@@ -1,5 +1,33 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "Fine Axe",
+   "data": {
+    "#type": "Axe1",
+    "head": {
+     "#type": "Single",
+     "blade": {
+      "#type": "Symmetric",
+      "part": {
+       "material": 10
+      }
+     }
+    },
+    "shaft": {
+     "#type": "Simple",
+     "part": {
+      "material": 17
+     }
+    },
+    "stats": {
+     "type": 1,
+     "modifiers": [
+      1
+     ]
+    }
+   }
+  }
  }
 }

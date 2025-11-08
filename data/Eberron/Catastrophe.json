@@ -5,11 +5,11 @@
    "id": 0,
    "name": "The Day of Mourning",
    "startDate": {
-    "type": "Day",
+    "#type": "Day",
     "day": 333695
    },
    "endDate": {
-    "type": "Day",
+    "#type": "Day",
     "day": 333695
    },
    "sources": [
@@ -20,17 +20,17 @@
    "id": 1,
    "name": "The Crystalfall",
    "startDate": {
-    "type": "Day",
+    "#type": "Day",
     "day": 308148
    },
    "endDate": {
-    "type": "Day",
+    "#type": "Day",
     "day": 308148
    },
    "cause": {
-    "type": "Created",
+    "#type": "Created",
     "creator": {
-     "type": "Undefined"
+     "#type": "Undefined"
     }
    }
   }

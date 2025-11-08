@@ -7,7 +7,7 @@
    "race": 0,
    "culture": 0,
    "belief": {
-    "type": "Pantheon",
+    "#type": "Pantheon",
     "pantheon": 0
    },
    "statblock": {
@@ -24,7 +24,7 @@
    "race": 0,
    "culture": 0,
    "belief": {
-    "type": "Pantheon",
+    "#type": "Pantheon",
     "pantheon": 0
    },
    "statblock": {
@@ -46,7 +46,7 @@
    "race": 0,
    "culture": 0,
    "belief": {
-    "type": "Pantheon",
+    "#type": "Pantheon",
     "pantheon": 0
    },
    "statblock": {

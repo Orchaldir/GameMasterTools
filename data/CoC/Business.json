@@ -6,12 +6,12 @@
    "name": "Public Library",
    "ownership": {
     "current": {
-     "type": "Town",
+     "#type": "Town",
      "town": 0
     }
    },
    "position": {
-    "type": "Building",
+    "#type": "Building",
     "building": 33
    }
   },
@@ -20,12 +20,12 @@
    "name": "Sheriff's Office",
    "ownership": {
     "current": {
-     "type": "Town",
+     "#type": "Town",
      "town": 0
     }
    },
    "position": {
-    "type": "Building",
+    "#type": "Building",
     "building": 3
    }
   },
@@ -33,17 +33,17 @@
    "id": 2,
    "name": "Cobb’s Corners Gazette",
    "founder": {
-    "type": "Character",
+    "#type": "Character",
     "character": 8
    },
    "ownership": {
     "current": {
-     "type": "Character",
+     "#type": "Character",
      "character": 8
     }
    },
    "position": {
-    "type": "Building",
+    "#type": "Building",
     "building": 9
    }
   },
@@ -51,17 +51,17 @@
    "id": 3,
    "name": "Jim's Grill",
    "founder": {
-    "type": "Character",
+    "#type": "Character",
     "character": 9
    },
    "ownership": {
     "current": {
-     "type": "Character",
+     "#type": "Character",
      "character": 9
     }
    },
    "position": {
-    "type": "Building",
+    "#type": "Building",
     "building": 66
    }
   },
@@ -69,17 +69,17 @@
    "id": 4,
    "name": "Dr Perry's Office",
    "founder": {
-    "type": "Character",
+    "#type": "Character",
     "character": 2
    },
    "ownership": {
     "current": {
-     "type": "Character",
+     "#type": "Character",
      "character": 2
     }
    },
    "position": {
-    "type": "Building",
+    "#type": "Building",
     "building": 35
    }
   },
@@ -88,12 +88,12 @@
    "name": "First Baptist Church of the Divine Ascension",
    "ownership": {
     "current": {
-     "type": "Character",
+     "#type": "Character",
      "character": 12
     }
    },
    "position": {
-    "type": "Building",
+    "#type": "Building",
     "building": 72
    }
   },
@@ -102,12 +102,12 @@
    "name": "School",
    "ownership": {
     "current": {
-     "type": "Town",
+     "#type": "Town",
      "town": 0
     }
    },
    "position": {
-    "type": "Building",
+    "#type": "Building",
     "building": 70
    }
   },
@@ -116,12 +116,12 @@
    "name": "Town Hall",
    "ownership": {
     "current": {
-     "type": "Town",
+     "#type": "Town",
      "town": 0
     }
    },
    "position": {
-    "type": "Building",
+    "#type": "Building",
     "building": 32
    }
   },
@@ -130,12 +130,12 @@
    "name": "Karner's Goods",
    "ownership": {
     "current": {
-     "type": "Character",
+     "#type": "Character",
      "character": 16
     }
    },
    "position": {
-    "type": "Building",
+    "#type": "Building",
     "building": 13
    }
   },
@@ -148,12 +148,12 @@
    "name": "Pump House",
    "ownership": {
     "current": {
-     "type": "Town",
+     "#type": "Town",
      "town": 1
     }
    },
    "position": {
-    "type": "District",
+    "#type": "District",
     "district": 0
    },
    "sources": [
@@ -164,11 +164,11 @@
    "id": 11,
    "name": "Pickering Psychopathic Hospital",
    "startDate": {
-    "type": "Decade",
+    "#type": "Decade",
     "decade": 187
    },
    "position": {
-    "type": "District",
+    "#type": "District",
     "district": 1
    },
    "sources": [

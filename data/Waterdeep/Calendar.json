@@ -5,7 +5,7 @@
    "id": 0,
    "name": "Dalereckoning",
    "months": {
-    "type": "Simple",
+    "#type": "Simple",
     "daysPerMonth": 30,
     "months": [
      {

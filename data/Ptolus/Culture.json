@@ -25,7 +25,7 @@
     "4": "Common"
    },
    "namingConvention": {
-    "type": "Mononym"
+    "#type": "Mononym"
    }
   },
   "2": {
@@ -36,7 +36,7 @@
     "12": "Everyone"
    },
    "namingConvention": {
-    "type": "Mononym",
+    "#type": "Mononym",
     "names": {
      "female": 2,
      "genderless": 1,

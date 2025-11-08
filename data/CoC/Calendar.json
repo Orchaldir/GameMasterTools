@@ -5,7 +5,7 @@
    "id": 2,
    "name": "Roman Republican",
    "months": {
-    "type": "Complex",
+    "#type": "Complex",
     "months": [
      {
       "name": "Ianuarius",
@@ -75,7 +75,7 @@
    "id": 1,
    "name": "Julian",
    "months": {
-    "type": "Complex",
+    "#type": "Complex",
     "months": [
      {
       "name": "Ianuarius",
@@ -124,7 +124,7 @@
     ]
    },
    "origin": {
-    "type": "Modified",
+    "#type": "Modified",
     "parent": 2
    }
   },
@@ -132,7 +132,7 @@
    "id": 0,
    "name": "Gregorian",
    "days": {
-    "type": "Weekdays",
+    "#type": "Weekdays",
     "weekDays": [
      {
       "name": "Monday"
@@ -158,7 +158,7 @@
     ]
    },
    "months": {
-    "type": "Complex",
+    "#type": "Complex",
     "months": [
      {
       "name": "January",
@@ -207,7 +207,7 @@
     ]
    },
    "origin": {
-    "type": "Modified",
+    "#type": "Modified",
     "parent": 1
    }
   }

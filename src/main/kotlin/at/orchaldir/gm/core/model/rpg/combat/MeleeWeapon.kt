@@ -1,39 +1,9 @@
 package at.orchaldir.gm.core.model.rpg.combat
 
-import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
-import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
-import at.orchaldir.gm.core.model.util.name.Name
-import at.orchaldir.gm.core.reducer.rpg.validateMeleeAttack
-import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
-
-const val MELEE_WEAPON_TYPE = "Melee Weapon"
-
-@JvmInline
-@Serializable
-value class MeleeWeaponId(val value: Int) : Id<MeleeWeaponId> {
-
-    override fun next() = MeleeWeaponId(value + 1)
-    override fun type() = MELEE_WEAPON_TYPE
-    override fun value() = value
-
-}
 
 @Serializable
 data class MeleeWeapon(
-    val id: MeleeWeaponId,
-    val name: Name = Name.init("$MELEE_WEAPON_TYPE ${id.value}"),
-    val attacks: List<MeleeAttack> = emptyList(),
-) : ElementWithSimpleName<MeleeWeaponId> {
-
-    override fun id() = id
-    override fun name() = name.text
-
-    override fun validate(state: State) {
-        attacks.forEach { validateMeleeAttack(state, it) }
-    }
-
-    fun contains(type: DamageTypeId) = attacks.any { it.contains(type) }
-    fun contains(statistic: StatisticId) = attacks.any { it.contains(statistic) }
-}
+    val type: MeleeWeaponTypeId? = null,
+    val modifiers: Set<MeleeWeaponModifierId> = emptySet(),
+)

@@ -86,7 +86,7 @@ class BuildingRoutes : Routes<BuildingId, SortBuilding> {
     override fun edit(call: ApplicationCall, id: BuildingId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())
     override fun preview(call: ApplicationCall, id: BuildingId) = call.application.href(Preview(id))
-    override fun update(call: ApplicationCall, id: BuildingId) = call.application.href(Edit(id))
+    override fun update(call: ApplicationCall, id: BuildingId) = call.application.href(Update(id))
 }
 
 fun Application.configureBuildingRouting() {

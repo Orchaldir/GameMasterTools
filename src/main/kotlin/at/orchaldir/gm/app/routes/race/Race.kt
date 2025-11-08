@@ -82,7 +82,7 @@ class RaceRoutes : Routes<RaceId, SortRace> {
     override fun gallery(call: ApplicationCall) = call.application.href(Gallery())
     override fun new(call: ApplicationCall) = call.application.href(New())
     override fun preview(call: ApplicationCall, id: RaceId) = call.application.href(Preview(id))
-    override fun update(call: ApplicationCall, id: RaceId) = call.application.href(Edit(id))
+    override fun update(call: ApplicationCall, id: RaceId) = call.application.href(Update(id))
 }
 
 fun Application.configureRaceRouting() {

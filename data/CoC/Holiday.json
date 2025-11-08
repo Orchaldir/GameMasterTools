@@ -5,7 +5,7 @@
    "id": 0,
    "name": "Christmas",
    "relativeDate": {
-    "type": "DayInYear",
+    "#type": "DayInYear",
     "dayIndex": 23,
     "monthIndex": 11
    }

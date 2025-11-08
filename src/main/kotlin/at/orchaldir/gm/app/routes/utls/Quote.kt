@@ -52,7 +52,7 @@ class QuoteRoutes : Routes<QuoteId, SortQuote> {
     override fun edit(call: ApplicationCall, id: QuoteId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())
     override fun preview(call: ApplicationCall, id: QuoteId) = call.application.href(Preview(id))
-    override fun update(call: ApplicationCall, id: QuoteId) = call.application.href(Edit(id))
+    override fun update(call: ApplicationCall, id: QuoteId) = call.application.href(Update(id))
 }
 
 fun Application.configureQuoteRouting() {

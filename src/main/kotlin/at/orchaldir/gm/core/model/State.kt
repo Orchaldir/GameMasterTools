@@ -133,7 +133,8 @@ val ELEMENTS =
         LEGAL_CODE_TYPE,
         MAGIC_TRADITION_TYPE,
         MATERIAL_TYPE,
-        MELEE_WEAPON_TYPE,
+        MELEE_WEAPON_MODIFIER_TYPE,
+        MELEE_WEAPON_TYPE_TYPE,
         MOON_TYPE,
         NAME_LIST_TYPE,
         ORGANIZATION_TYPE,
@@ -212,7 +213,10 @@ data class State(
     fun getLegalCodeStorage() = getStorage<LegalCodeId, LegalCode>(LEGAL_CODE_TYPE)
     fun getMagicTraditionStorage() = getStorage<MagicTraditionId, MagicTradition>(MAGIC_TRADITION_TYPE)
     fun getMaterialStorage() = getStorage<MaterialId, Material>(MATERIAL_TYPE)
-    fun getMeleeWeaponStorage() = getStorage<MeleeWeaponId, MeleeWeapon>(MELEE_WEAPON_TYPE)
+    fun getMeleeWeaponModifierStorage() =
+        getStorage<MeleeWeaponModifierId, MeleeWeaponModifier>(MELEE_WEAPON_MODIFIER_TYPE)
+
+    fun getMeleeWeaponTypeStorage() = getStorage<MeleeWeaponTypeId, MeleeWeaponType>(MELEE_WEAPON_TYPE_TYPE)
     fun getMoonStorage() = getStorage<MoonId, Moon>(MOON_TYPE)
     fun getNameListStorage() = getStorage<NameListId, NameList>(NAME_LIST_TYPE)
     fun getOrganizationStorage() = getStorage<OrganizationId, Organization>(ORGANIZATION_TYPE)
@@ -364,7 +368,8 @@ data class State(
         saveStorage(path, getLegalCodeStorage())
         saveStorage(path, getMagicTraditionStorage())
         saveStorage(path, getMaterialStorage())
-        saveStorage(path, getMeleeWeaponStorage())
+        saveStorage(path, getMeleeWeaponModifierStorage())
+        saveStorage(path, getMeleeWeaponTypeStorage())
         saveStorage(path, getMoonStorage())
         saveStorage(path, getNameListStorage())
         saveStorage(path, getOrganizationStorage())
@@ -425,7 +430,8 @@ fun createStorage(type: String) = when (type) {
     LEGAL_CODE_TYPE -> Storage(LegalCodeId(0))
     MAGIC_TRADITION_TYPE -> Storage(MagicTraditionId(0))
     MATERIAL_TYPE -> Storage(MaterialId(0))
-    MELEE_WEAPON_TYPE -> Storage(MeleeWeaponId(0))
+    MELEE_WEAPON_MODIFIER_TYPE -> Storage(MeleeWeaponModifierId(0))
+    MELEE_WEAPON_TYPE_TYPE -> Storage(MeleeWeaponTypeId(0))
     MOON_TYPE -> Storage(MoonId(0))
     NAME_LIST_TYPE -> Storage(NameListId(0))
     ORGANIZATION_TYPE -> Storage(OrganizationId(0))
@@ -485,7 +491,12 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     LEGAL_CODE_TYPE -> loadStorage<LegalCodeId, LegalCode>(path, LegalCodeId(0))
     MAGIC_TRADITION_TYPE -> loadStorage<MagicTraditionId, MagicTradition>(path, MagicTraditionId(0))
     MATERIAL_TYPE -> loadStorage<MaterialId, Material>(path, MaterialId(0))
-    MELEE_WEAPON_TYPE -> loadStorage<MeleeWeaponId, MeleeWeapon>(path, MeleeWeaponId(0))
+    MELEE_WEAPON_MODIFIER_TYPE -> loadStorage<MeleeWeaponModifierId, MeleeWeaponModifier>(
+        path,
+        MeleeWeaponModifierId(0)
+    )
+
+    MELEE_WEAPON_TYPE_TYPE -> loadStorage<MeleeWeaponTypeId, MeleeWeaponType>(path, MeleeWeaponTypeId(0))
     MOON_TYPE -> loadStorage<MoonId, Moon>(path, MoonId(0))
     NAME_LIST_TYPE -> loadStorage<NameListId, NameList>(path, NameListId(0))
     ORGANIZATION_TYPE -> loadStorage<OrganizationId, Organization>(path, OrganizationId(0))

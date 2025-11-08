@@ -5,11 +5,11 @@
    "id": 0,
    "name": "The Young",
    "founder": {
-    "type": "Town",
+    "#type": "Town",
     "town": 0
    },
    "date": {
-    "type": "Decade",
+    "#type": "Decade",
     "decade": 179
    },
    "memberRanks": [
@@ -35,7 +35,7 @@
    },
    "beliefStatus": {
     "current": {
-     "type": "God",
+     "#type": "God",
      "god": 1
     }
    },

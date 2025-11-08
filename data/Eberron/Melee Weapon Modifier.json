@@ -1,0 +1,25 @@
+{
+ "version": 1,
+ "elements": {
+  "0": {
+   "id": 0,
+   "name": "Balanced"
+  },
+  "1": {
+   "id": 1,
+   "name": "Fine"
+  },
+  "2": {
+   "id": 2,
+   "name": "Very Fine"
+  },
+  "3": {
+   "id": 3,
+   "name": "Elven"
+  },
+  "4": {
+   "id": 4,
+   "name": "Dwarven"
+  }
+ }
+}

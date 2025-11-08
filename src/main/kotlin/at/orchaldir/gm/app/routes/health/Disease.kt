@@ -52,7 +52,7 @@ class DiseaseRoutes : Routes<DiseaseId, SortDisease> {
     override fun edit(call: ApplicationCall, id: DiseaseId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())
     override fun preview(call: ApplicationCall, id: DiseaseId) = call.application.href(Preview(id))
-    override fun update(call: ApplicationCall, id: DiseaseId) = call.application.href(Edit(id))
+    override fun update(call: ApplicationCall, id: DiseaseId) = call.application.href(Update(id))
 }
 
 fun Application.configureDiseaseRouting() {

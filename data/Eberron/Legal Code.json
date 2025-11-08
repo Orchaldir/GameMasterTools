@@ -5,11 +5,11 @@
    "id": 0,
    "name": "Galifar Code of Justice",
    "creator": {
-    "type": "Realm",
+    "#type": "Realm",
     "realm": 0
    },
    "date": {
-    "type": "Year",
+    "#type": "Year",
     "year": 0
    },
    "sources": [
@@ -20,11 +20,11 @@
    "id": 1,
    "name": "Code of Kaius",
    "creator": {
-    "type": "Realm",
+    "#type": "Realm",
     "realm": 4
    },
    "date": {
-    "type": "Century",
+    "#type": "Century",
     "century": 9
    }
   }

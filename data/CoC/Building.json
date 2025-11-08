@@ -4,41 +4,41 @@
   "3": {
    "id": 3,
    "position": {
-    "type": "TownMap",
+    "#type": "TownMap",
     "townMap": 0,
     "tileIndex": 146
    },
    "ownership": {
     "current": {
-     "type": "Town",
+     "#type": "Town",
      "town": 0
     }
    },
    "purpose": {
-    "type": "SingleBusiness"
+    "#type": "SingleBusiness"
    }
   },
   "9": {
    "id": 9,
    "position": {
-    "type": "TownMap",
+    "#type": "TownMap",
     "townMap": 0,
     "tileIndex": 220
    },
    "ownership": {
     "current": {
-     "type": "Character",
+     "#type": "Character",
      "character": 8
     }
    },
    "purpose": {
-    "type": "BusinessAndHome"
+    "#type": "BusinessAndHome"
    }
   },
   "13": {
    "id": 13,
    "position": {
-    "type": "TownMap",
+    "#type": "TownMap",
     "townMap": 0,
     "tileIndex": 169
    },
@@ -48,18 +48,18 @@
    },
    "ownership": {
     "current": {
-     "type": "Character",
+     "#type": "Character",
      "character": 16
     }
    },
    "purpose": {
-    "type": "SingleBusiness"
+    "#type": "SingleBusiness"
    }
   },
   "32": {
    "id": 32,
    "position": {
-    "type": "TownMap",
+    "#type": "TownMap",
     "townMap": 0,
     "tileIndex": 263
    },
@@ -69,18 +69,18 @@
    },
    "ownership": {
     "current": {
-     "type": "Town",
+     "#type": "Town",
      "town": 0
     }
    },
    "purpose": {
-    "type": "SingleBusiness"
+    "#type": "SingleBusiness"
    }
   },
   "33": {
    "id": 33,
    "position": {
-    "type": "TownMap",
+    "#type": "TownMap",
     "townMap": 0,
     "tileIndex": 211
    },
@@ -90,52 +90,52 @@
    },
    "ownership": {
     "current": {
-     "type": "Town",
+     "#type": "Town",
      "town": 0
     }
    },
    "purpose": {
-    "type": "SingleBusiness"
+    "#type": "SingleBusiness"
    }
   },
   "35": {
    "id": 35,
    "name": "Dr Owen Perry's Home and Practice",
    "position": {
-    "type": "TownMap",
+    "#type": "TownMap",
     "townMap": 0,
     "tileIndex": 313
    },
    "ownership": {
     "current": {
-     "type": "Character",
+     "#type": "Character",
      "character": 2
     }
    },
    "purpose": {
-    "type": "BusinessAndHome"
+    "#type": "BusinessAndHome"
    }
   },
   "52": {
    "id": 52,
    "name": "Home of John Cutter",
    "position": {
-    "type": "TownMap",
+    "#type": "TownMap",
     "townMap": 0,
     "tileIndex": 460
    },
    "ownership": {
     "current": {
-     "type": "Character",
+     "#type": "Character",
      "character": 1
     },
     "previousEntries": [
      {
       "entry": {
-       "type": "Undefined"
+       "#type": "Undefined"
       },
       "until": {
-       "type": "Year",
+       "#type": "Year",
        "year": 1918
       }
      }
@@ -145,7 +145,7 @@
   "66": {
    "id": 66,
    "position": {
-    "type": "TownMap",
+    "#type": "TownMap",
     "townMap": 0,
     "tileIndex": 449
    },
@@ -155,35 +155,35 @@
    },
    "ownership": {
     "current": {
-     "type": "Character",
+     "#type": "Character",
      "character": 9
     }
    },
    "purpose": {
-    "type": "BusinessAndHome"
+    "#type": "BusinessAndHome"
    }
   },
   "70": {
    "id": 70,
    "position": {
-    "type": "TownMap",
+    "#type": "TownMap",
     "townMap": 0,
     "tileIndex": 549
    },
    "ownership": {
     "current": {
-     "type": "Town",
+     "#type": "Town",
      "town": 0
     }
    },
    "purpose": {
-    "type": "SingleBusiness"
+    "#type": "SingleBusiness"
    }
   },
   "72": {
    "id": 72,
    "position": {
-    "type": "TownMap",
+    "#type": "TownMap",
     "townMap": 0,
     "tileIndex": 560
    },
@@ -193,25 +193,25 @@
    },
    "ownership": {
     "current": {
-     "type": "Character",
+     "#type": "Character",
      "character": 12
     }
    },
    "purpose": {
-    "type": "BusinessAndHome"
+    "#type": "BusinessAndHome"
    }
   },
   "74": {
    "id": 74,
    "name": "Home of Family Karner",
    "position": {
-    "type": "TownMap",
+    "#type": "TownMap",
     "townMap": 0,
     "tileIndex": 168
    },
    "ownership": {
     "current": {
-     "type": "Character",
+     "#type": "Character",
      "character": 16
     }
    }

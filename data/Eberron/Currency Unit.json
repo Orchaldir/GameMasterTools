@@ -5,14 +5,14 @@
    "id": 0,
    "name": "Crown",
    "format": {
-    "type": "Coin",
+    "#type": "Coin",
     "material": 21,
     "shape": {
-     "type": "Circular",
+     "#type": "Circular",
      "shape": "Octagon"
     },
     "front": {
-     "type": "Value"
+     "#type": "Value"
     }
    }
   },
@@ -21,15 +21,15 @@
    "name": "Sovereign",
    "denomination": 1,
    "format": {
-    "type": "Coin",
+    "#type": "Coin",
     "material": 24,
     "shape": {
-     "type": "Circular",
+     "#type": "Circular",
      "shape": "Octagon"
     },
     "radius": 12000,
     "front": {
-     "type": "Value"
+     "#type": "Value"
     }
    }
   },
@@ -38,15 +38,15 @@
    "name": "Galifar",
    "denomination": 2,
    "format": {
-    "type": "Coin",
+    "#type": "Coin",
     "material": 20,
     "shape": {
-     "type": "Circular",
+     "#type": "Circular",
      "shape": "Octagon"
     },
     "radius": 14000,
     "front": {
-     "type": "Value"
+     "#type": "Value"
     }
    }
   },
@@ -56,15 +56,15 @@
    "number": 10,
    "denomination": 2,
    "format": {
-    "type": "Coin",
+    "#type": "Coin",
     "material": 32,
     "shape": {
-     "type": "Circular",
+     "#type": "Circular",
      "shape": "Octagon"
     },
     "radius": 16000,
     "front": {
-     "type": "Value"
+     "#type": "Value"
     }
    }
   },
@@ -73,15 +73,15 @@
    "name": "Double Crown",
    "number": 2,
    "format": {
-    "type": "Coin",
+    "#type": "Coin",
     "material": 21,
     "shape": {
-     "type": "Circular",
+     "#type": "Circular",
      "shape": "Octagon"
     },
     "radius": 14000,
     "front": {
-     "type": "Value"
+     "#type": "Value"
     }
    }
   },
@@ -91,11 +91,11 @@
    "number": 5,
    "denomination": 1,
    "format": {
-    "type": "Coin",
+    "#type": "Coin",
     "material": 24,
     "radius": 16000,
     "front": {
-     "type": "Value"
+     "#type": "Value"
     }
    }
   }

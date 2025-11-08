@@ -1,10 +1,12 @@
 package at.orchaldir.gm.core.model.economy.standard
 
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.Price
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.utils.Id
+import at.orchaldir.gm.utils.doNothing
 import kotlinx.serialization.Serializable
 
 const val STANDARD_TYPE = "Standard Of Living"
@@ -29,5 +31,7 @@ data class StandardOfLiving(
 
     override fun id() = id
     override fun name() = name.text
+
+    override fun validate(state: State) = doNothing()
 
 }

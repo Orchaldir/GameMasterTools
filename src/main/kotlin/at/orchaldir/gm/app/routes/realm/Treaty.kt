@@ -53,7 +53,7 @@ class TreatyRoutes : Routes<TreatyId, SortTreaty> {
     override fun edit(call: ApplicationCall, id: TreatyId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())
     override fun preview(call: ApplicationCall, id: TreatyId) = call.application.href(Preview(id))
-    override fun update(call: ApplicationCall, id: TreatyId) = call.application.href(Edit(id))
+    override fun update(call: ApplicationCall, id: TreatyId) = call.application.href(Update(id))
 }
 
 fun Application.configureTreatyRouting() {

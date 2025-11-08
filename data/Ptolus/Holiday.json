@@ -5,43 +5,43 @@
    "id": 0,
    "name": "Newyear's Day",
    "purpose": {
-    "type": "Festival"
+    "#type": "Festival"
    }
   },
   "1": {
    "id": 1,
    "name": "Godsday",
    "relativeDate": {
-    "type": "DayInYear",
+    "#type": "DayInYear",
     "dayIndex": 4,
     "monthIndex": 3
    },
    "purpose": {
-    "type": "Festival"
+    "#type": "Festival"
    }
   },
   "2": {
    "id": 2,
    "name": "Day of Joining",
    "relativeDate": {
-    "type": "DayInYear",
+    "#type": "DayInYear",
     "dayIndex": 9,
     "monthIndex": 5
    },
    "purpose": {
-    "type": "Festival"
+    "#type": "Festival"
    }
   },
   "3": {
    "id": 3,
    "name": "Brightfather's Day",
    "relativeDate": {
-    "type": "DayInYear",
+    "#type": "DayInYear",
     "dayIndex": 13,
     "monthIndex": 7
    },
    "purpose": {
-    "type": "Treaty",
+    "#type": "Treaty",
     "treaty": 0
    }
   },
@@ -49,107 +49,107 @@
    "id": 4,
    "name": "Harvest Festival",
    "relativeDate": {
-    "type": "DayInYear",
+    "#type": "DayInYear",
     "dayIndex": 30,
     "monthIndex": 9
    },
    "purpose": {
-    "type": "Festival"
+    "#type": "Festival"
    }
   },
   "5": {
    "id": 5,
    "name": "Festival of the Cold Moons",
    "relativeDate": {
-    "type": "DayInYear",
+    "#type": "DayInYear",
     "dayIndex": 22,
     "monthIndex": 10
    },
    "purpose": {
-    "type": "Festival"
+    "#type": "Festival"
    }
   },
   "6": {
    "id": 6,
    "name": "Chaokaemus",
    "relativeDate": {
-    "type": "DayInYear",
+    "#type": "DayInYear",
     "dayIndex": 22,
     "monthIndex": 10
    },
    "purpose": {
-    "type": "Festival"
+    "#type": "Festival"
    }
   },
   "7": {
    "id": 7,
    "name": "Yearsend Day",
    "relativeDate": {
-    "type": "DayInYear",
+    "#type": "DayInYear",
     "dayIndex": 29,
     "monthIndex": 11
    },
    "purpose": {
-    "type": "Festival"
+    "#type": "Festival"
    }
   },
   "8": {
    "id": 8,
    "name": "Days of Memory",
    "relativeDate": {
-    "type": "DayInYear",
+    "#type": "DayInYear",
     "dayIndex": 11,
     "monthIndex": 8
    },
    "purpose": {
-    "type": "Festival"
+    "#type": "Festival"
    }
   },
   "9": {
    "id": 9,
    "name": "Winter Fast",
    "relativeDate": {
-    "type": "DayInYear",
+    "#type": "DayInYear",
     "dayIndex": 1,
     "monthIndex": 10
    },
    "purpose": {
-    "type": "Fasting"
+    "#type": "Fasting"
    }
   },
   "10": {
    "id": 10,
    "name": "Great Feast",
    "relativeDate": {
-    "type": "DayInYear",
+    "#type": "DayInYear",
     "dayIndex": 20,
     "monthIndex": 0
    },
    "purpose": {
-    "type": "Festival"
+    "#type": "Festival"
    }
   },
   "11": {
    "id": 11,
    "name": "Great Feast",
    "relativeDate": {
-    "type": "DayInYear",
+    "#type": "DayInYear",
     "dayIndex": 20,
     "monthIndex": 6
    },
    "purpose": {
-    "type": "Festival"
+    "#type": "Festival"
    }
   },
   "12": {
    "id": 12,
    "name": "Time of the Gathering",
    "relativeDate": {
-    "type": "DayInMonth",
+    "#type": "DayInMonth",
     "dayIndex": 0
    },
    "purpose": {
-    "type": "Fasting"
+    "#type": "Fasting"
    }
   }
  }

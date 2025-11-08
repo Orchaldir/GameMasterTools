@@ -6,12 +6,12 @@
    "name": "Cobb’s Corners Gazette",
    "ownership": {
     "current": {
-     "type": "Business",
+     "#type": "Business",
      "business": 2
     }
    },
    "date": {
-    "type": "Decade",
+    "#type": "Decade",
     "decade": 190
    }
   }

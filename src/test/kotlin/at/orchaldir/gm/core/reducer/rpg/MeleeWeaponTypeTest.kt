@@ -9,7 +9,7 @@ import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Test
 
-class MeleeWeaponTest {
+class MeleeWeaponTypeTest {
 
     private val STATE = State(
         listOf(
@@ -58,13 +58,13 @@ class MeleeWeaponTest {
     @Test
     fun `A valid melee weapon`() {
         val attack = MeleeAttack(Damage(validDamageAmount, DAMAGE_TYPE_ID_0), ReachRange(1, 2))
-        val weapon = MeleeWeapon(MELEE_WEAPON_ID_0, attacks = listOf(attack))
+        val weapon = MeleeWeaponType(MELEE_WEAPON_TYPE_ID_0, attacks = listOf(attack))
 
         weapon.validate(STATE)
     }
 
     private fun assertInvalidWeapon(attack: MeleeAttack, message: String) {
-        val weapon = MeleeWeapon(MELEE_WEAPON_ID_0, attacks = listOf(attack))
+        val weapon = MeleeWeaponType(MELEE_WEAPON_TYPE_ID_0, attacks = listOf(attack))
 
         assertIllegalArgument(message) { weapon.validate(STATE) }
     }

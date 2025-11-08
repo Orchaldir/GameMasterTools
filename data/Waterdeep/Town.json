@@ -6,7 +6,7 @@
    "name": "Waterdeep",
    "title": "City of Splendors",
    "population": {
-    "type": "Race",
+    "#type": "Race",
     "total": 132661,
     "racePercentages": {
      "0": 3200,

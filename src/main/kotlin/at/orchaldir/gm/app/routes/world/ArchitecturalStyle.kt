@@ -54,7 +54,7 @@ class ArchitecturalStyleRoutes : Routes<ArchitecturalStyleId, SortArchitecturalS
     override fun edit(call: ApplicationCall, id: ArchitecturalStyleId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())
     override fun preview(call: ApplicationCall, id: ArchitecturalStyleId) = call.application.href(Preview(id))
-    override fun update(call: ApplicationCall, id: ArchitecturalStyleId) = call.application.href(Edit(id))
+    override fun update(call: ApplicationCall, id: ArchitecturalStyleId) = call.application.href(Update(id))
 }
 
 fun Application.configureArchitecturalStyleRouting() {

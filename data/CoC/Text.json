@@ -5,21 +5,21 @@
    "id": 0,
    "name": "Al Azif",
    "origin": {
-    "type": "Created",
+    "#type": "Created",
     "creator": {
-     "type": "Character",
+     "#type": "Character",
      "character": 18
     }
    },
    "date": {
-    "type": "Decade",
+    "#type": "Decade",
     "decade": 73
    },
    "language": 7,
    "format": {
-    "type": "Scroll",
+    "#type": "Scroll",
     "format": {
-     "type": "OneRod",
+     "#type": "OneRod",
      "handle": {
       "segments": [
        {
@@ -49,7 +49,7 @@
     }
    },
    "content": {
-    "type": "Abstract",
+    "#type": "Abstract",
     "content": {
      "spells": [
       1
@@ -61,26 +61,26 @@
    "id": 1,
    "name": "Necronomicon",
    "origin": {
-    "type": "Translated",
+    "#type": "Translated",
     "parent": 0,
     "translator": {
-     "type": "Character",
+     "#type": "Character",
      "character": 19
     }
    },
    "date": {
-    "type": "Decade",
+    "#type": "Decade",
     "decade": 95
    },
    "language": 5,
    "format": {
-    "type": "Book",
+    "#type": "Book",
     "binding": {
-     "type": "Coptic",
+     "#type": "Coptic",
      "cover": {
      },
      "sewingPattern": {
-      "type": "Simple",
+      "#type": "Simple",
       "thread": {
        "material": 3,
        "color": "Silver"
@@ -102,7 +102,7 @@
     }
    },
    "content": {
-    "type": "AbstractChapters",
+    "#type": "AbstractChapters",
     "chapters": [
      {
       "title": "Introduction",
@@ -131,19 +131,19 @@
     ],
     "style": {
      "main": {
-      "type": "Solid",
+      "#type": "Solid",
       "size": 5000,
       "font": 0
      },
      "title": {
-      "type": "Solid",
+      "#type": "Solid",
       "size": 10000,
       "font": 0
      },
      "initials": {
-      "type": "Font",
+      "#type": "Font",
       "fontOption": {
-       "type": "Solid",
+       "#type": "Solid",
        "size": 25000,
        "color": "OrangeRed",
        "font": 0
@@ -151,10 +151,10 @@
      }
     },
     "pageNumbering": {
-     "type": "Reusing"
+     "#type": "Reusing"
     },
     "tableOfContents": {
-     "type": "Simple"
+     "#type": "Simple"
     }
    }
   },
@@ -162,32 +162,32 @@
    "id": 2,
    "name": "Necronomicon",
    "origin": {
-    "type": "Translated",
+    "#type": "Translated",
     "parent": 1
    },
    "date": {
-    "type": "Year",
+    "#type": "Year",
     "year": 1227
    },
    "language": 6,
    "format": {
-    "type": "Book",
+    "#type": "Book",
     "binding": {
-     "type": "Hardcover",
+     "#type": "Hardcover",
      "cover": {
       "fill": {
-       "type": "Solid",
+       "#type": "Solid",
        "color": "Navy"
       }
      },
      "bosses": {
-      "type": "Simple",
+      "#type": "Simple",
       "boss": {
        "material": 9
       }
      },
      "protection": {
-      "type": "Corners",
+      "#type": "Corners",
       "shape": "L",
       "main": {
        "material": 9
@@ -203,7 +203,7 @@
     }
    },
    "content": {
-    "type": "Abstract",
+    "#type": "Abstract",
     "content": {
      "spells": [
       1
@@ -215,33 +215,33 @@
    "id": 3,
    "name": "Cultus Maleficarum",
    "origin": {
-    "type": "Translated",
+    "#type": "Translated",
     "parent": 2
    },
    "date": {
-    "type": "Year",
+    "#type": "Year",
     "year": 1596
    },
    "format": {
-    "type": "Book",
+    "#type": "Book",
     "binding": {
-     "type": "Hardcover",
+     "#type": "Hardcover",
      "cover": {
       "fill": {
-       "type": "Solid",
+       "#type": "Solid",
        "color": "Black"
       }
      },
      "typography": {
-      "type": "SimpleTitle",
+      "#type": "SimpleTitle",
       "font": {
-       "type": "Solid",
+       "#type": "Solid",
        "size": 20000,
        "color": "Red"
       }
      },
      "protection": {
-      "type": "Corners",
+      "#type": "Corners",
       "shape": "L",
       "size": 1000,
       "main": {
@@ -265,7 +265,7 @@
    "name": "The Young's Mi-go Disks",
    "language": 8,
    "content": {
-    "type": "Abstract",
+    "#type": "Abstract",
     "content": {
      "spells": [
       2,
@@ -284,23 +284,23 @@
    "name": "Ecstasy, Flames, and the Druids of Briton",
    "publisher": 9,
    "date": {
-    "type": "Year",
+    "#type": "Year",
     "year": 1909
    },
    "format": {
-    "type": "Book",
+    "#type": "Book",
     "binding": {
-     "type": "Hardcover",
+     "#type": "Hardcover",
      "cover": {
       "fill": {
-       "type": "Solid",
+       "#type": "Solid",
        "color": "Black"
       }
      },
      "typography": {
-      "type": "SimpleTitle",
+      "#type": "SimpleTitle",
       "font": {
-       "type": "Solid",
+       "#type": "Solid",
        "size": 19000,
        "color": "Gold",
        "font": 4

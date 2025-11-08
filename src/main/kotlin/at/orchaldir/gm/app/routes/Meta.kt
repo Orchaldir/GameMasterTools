@@ -30,8 +30,8 @@ interface Routes<ID : Id<ID>, T> {
     fun edit(call: ApplicationCall, id: ID): String
     fun gallery(call: ApplicationCall): String? = null
     fun new(call: ApplicationCall): String
-    fun preview(call: ApplicationCall, id: ID): String = ""
-    fun update(call: ApplicationCall, id: ID): String = ""
+    fun preview(call: ApplicationCall, id: ID): String
+    fun update(call: ApplicationCall, id: ID): String
 }
 
 suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>, reified T : Enum<T>> PipelineContext<Unit, ApplicationCall>.handleShowAllElements(
@@ -181,11 +181,26 @@ suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>, T> PipelineContext<Unit,
     parse: (State, Parameters, ID) -> ELEMENT,
     noinline editDetails: HtmlBlockTag.(ApplicationCall, State, ELEMENT) -> Unit,
     noinline showRight: HtmlBlockTag.(ApplicationCall, State, ELEMENT) -> Unit,
+) = handlePreviewElementSplit(
+    id,
+    call.receiveParameters(),
+    routes,
+    parse,
+    editDetails,
+    showRight,
+)
+
+suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>, T> PipelineContext<Unit, ApplicationCall>.handlePreviewElementSplit(
+    id: ID,
+    parameters: Parameters,
+    routes: Routes<ID, T>,
+    parse: (State, Parameters, ID) -> ELEMENT,
+    noinline editDetails: HtmlBlockTag.(ApplicationCall, State, ELEMENT) -> Unit,
+    noinline showRight: HtmlBlockTag.(ApplicationCall, State, ELEMENT) -> Unit,
 ) {
     logger.info { "Preview ${id.print()}" }
 
     val state = STORE.getState()
-    val parameters = call.receiveParameters()
     val element = parse(state, parameters, id)
 
     showSplitEditor(routes, state, element, editDetails, showRight)

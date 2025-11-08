@@ -5,7 +5,7 @@
    "id": 0,
    "name": "New England",
    "date": {
-    "type": "Year",
+    "#type": "Year",
     "year": 1619
    },
    "currency": {

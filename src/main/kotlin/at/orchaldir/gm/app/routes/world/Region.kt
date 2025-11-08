@@ -50,7 +50,7 @@ class RegionRoutes : Routes<RegionId, SortRegion> {
     override fun edit(call: ApplicationCall, id: RegionId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())
     override fun preview(call: ApplicationCall, id: RegionId) = call.application.href(Preview(id))
-    override fun update(call: ApplicationCall, id: RegionId) = call.application.href(Edit(id))
+    override fun update(call: ApplicationCall, id: RegionId) = call.application.href(Update(id))
 }
 
 fun Application.configureRegionRouting() {

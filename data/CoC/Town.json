@@ -5,11 +5,11 @@
    "id": 0,
    "name": "Cobb’s Corners",
    "foundingDate": {
-    "type": "Year",
+    "#type": "Year",
     "year": 1786
    },
    "founder": {
-    "type": "Character",
+    "#type": "Character",
     "character": 0
    },
    "owner": {
@@ -23,14 +23,14 @@
    "id": 1,
    "name": "Arkham",
    "foundingDate": {
-    "type": "Year",
+    "#type": "Year",
     "year": 1679
    },
    "owner": {
     "current": 0
    },
    "population": {
-    "type": "Total",
+    "#type": "Total",
     "total": 36000
    },
    "sources": [

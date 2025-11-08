@@ -9,7 +9,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.selector.economy.getJobs
-import at.orchaldir.gm.core.selector.rpg.getMeleeWeapons
+import at.orchaldir.gm.core.selector.rpg.getMeleeWeaponTypes
 import at.orchaldir.gm.core.selector.rpg.getStatblocksWith
 import at.orchaldir.gm.core.selector.rpg.getStatisticsBasedOn
 import io.ktor.http.*
@@ -35,7 +35,7 @@ private fun HtmlBlockTag.showUsage(
     statistic: Statistic,
 ) {
     val jobs = state.getJobs(statistic.id)
-    val meleeWeapons = state.getMeleeWeapons(statistic.id)
+    val meleeWeapons = state.getMeleeWeaponTypes(statistic.id)
     val statblocks = state.getStatblocksWith(statistic.id)
     val statistics = state.getStatisticsBasedOn(statistic.id)
 

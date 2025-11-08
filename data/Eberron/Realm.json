@@ -5,21 +5,21 @@
    "id": 0,
    "name": "Kingdom of Galifar",
    "founder": {
-    "type": "Character",
+    "#type": "Character",
     "character": 15
    },
    "date": {
-    "type": "Year",
+    "#type": "Year",
     "year": 0
    },
    "status": {
-    "type": "Destroyed",
+    "#type": "Destroyed",
     "date": {
-     "type": "Year",
+     "#type": "Year",
      "year": 893
     },
     "cause": {
-     "type": "War",
+     "#type": "War",
      "war": 0
     }
    },
@@ -48,7 +48,7 @@
      {
       "entry": 0,
       "until": {
-       "type": "Year",
+       "#type": "Year",
        "year": 893
       }
      }
@@ -61,7 +61,7 @@
     "current": 0
    },
    "population": {
-    "type": "Race",
+    "#type": "Race",
     "total": 2000000,
     "racePercentages": {
      "0": 5100,
@@ -90,7 +90,7 @@
      {
       "entry": 0,
       "until": {
-       "type": "Year",
+       "#type": "Year",
        "year": 893
       }
      }
@@ -103,7 +103,7 @@
     "current": 0
    },
    "population": {
-    "type": "Race",
+    "#type": "Race",
     "total": 3700000,
     "racePercentages": {
      "0": 4400,
@@ -126,13 +126,13 @@
    "id": 3,
    "name": "Cyre",
    "status": {
-    "type": "Destroyed",
+    "#type": "Destroyed",
     "date": {
-     "type": "Day",
+     "#type": "Day",
      "day": 333695
     },
     "cause": {
-     "type": "Catastrophe",
+     "#type": "Catastrophe",
      "catastrophe": 0
     }
    },
@@ -145,7 +145,7 @@
      {
       "entry": 0,
       "until": {
-       "type": "Year",
+       "#type": "Year",
        "year": 893
       }
      }
@@ -170,7 +170,7 @@
      {
       "entry": 0,
       "until": {
-       "type": "Year",
+       "#type": "Year",
        "year": 893
       }
      }
@@ -185,7 +185,7 @@
      {
       "entry": 0,
       "until": {
-       "type": "Century",
+       "#type": "Century",
        "century": 9
       }
      }
@@ -204,7 +204,7 @@
      {
       "entry": 0,
       "until": {
-       "type": "Year",
+       "#type": "Year",
        "year": 893
       }
      }
@@ -224,7 +224,7 @@
    "id": 6,
    "name": "Droaam",
    "population": {
-    "type": "Race",
+    "#type": "Race",
     "total": 500000,
     "racePercentages": {
      "8": 1900,

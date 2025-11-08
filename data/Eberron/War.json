@@ -5,18 +5,18 @@
    "id": 0,
    "name": "The Last War",
    "startDate": {
-    "type": "Year",
+    "#type": "Year",
     "year": 893
    },
    "status": {
-    "type": "Finished",
+    "#type": "Finished",
     "result": {
-     "type": "Catastrophe",
+     "#type": "Catastrophe",
      "catastrophe": 0,
      "treaty": 0
     },
     "date": {
-     "type": "Year",
+     "#type": "Year",
      "year": 995
     }
    },

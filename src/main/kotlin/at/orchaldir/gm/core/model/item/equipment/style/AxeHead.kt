@@ -21,6 +21,11 @@ sealed interface AxeHead : MadeFromParts {
         is SingleBitAxeHead -> blade.parts()
         is DoubleBitAxeHead -> blade.parts()
     }
+
+    override fun mainMaterial() = when (this) {
+        is SingleBitAxeHead -> blade.mainMaterial()
+        is DoubleBitAxeHead -> blade.mainMaterial()
+    }
 }
 
 @Serializable

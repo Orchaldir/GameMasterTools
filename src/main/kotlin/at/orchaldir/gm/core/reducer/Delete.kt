@@ -33,7 +33,8 @@ import at.orchaldir.gm.core.model.religion.DomainId
 import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.religion.PantheonId
 import at.orchaldir.gm.core.model.rpg.combat.DamageTypeId
-import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponId
+import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponModifierId
+import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponTypeId
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import at.orchaldir.gm.core.model.time.holiday.HolidayId
@@ -83,7 +84,8 @@ import at.orchaldir.gm.core.selector.religion.canDeleteDomain
 import at.orchaldir.gm.core.selector.religion.canDeleteGod
 import at.orchaldir.gm.core.selector.religion.canDeletePantheon
 import at.orchaldir.gm.core.selector.rpg.canDeleteDamageType
-import at.orchaldir.gm.core.selector.rpg.canDeleteMeleeWeapon
+import at.orchaldir.gm.core.selector.rpg.canDeleteMeleeWeaponModifier
+import at.orchaldir.gm.core.selector.rpg.canDeleteMeleeWeaponType
 import at.orchaldir.gm.core.selector.rpg.canDeleteStatistic
 import at.orchaldir.gm.core.selector.time.canDeleteCalendar
 import at.orchaldir.gm.core.selector.time.canDeleteHoliday
@@ -126,7 +128,8 @@ fun reduceDeleteElement(
     is MagicTraditionId -> deleteElement(state, id, State::canDeleteMagicTradition)
     is MaterialId -> deleteElement(state, id, State::canDeleteMaterial)
     is MoonId -> deleteElement(state, id, State::canDeleteMoon)
-    is MeleeWeaponId -> deleteElement(state, id, State::canDeleteMeleeWeapon)
+    is MeleeWeaponModifierId -> deleteElement(state, id, State::canDeleteMeleeWeaponModifier)
+    is MeleeWeaponTypeId -> deleteElement(state, id, State::canDeleteMeleeWeaponType)
     is NameListId -> deleteElement(state, id, State::canDeleteNameList)
     is OrganizationId -> deleteElement(state, id, State::canDeleteOrganization)
     is PantheonId -> deleteElement(state, id, State::canDeletePantheon)

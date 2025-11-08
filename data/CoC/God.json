@@ -7,7 +7,7 @@
    "title": "Black Goat of the Woods with a Tousand Young",
    "gender": "Female",
    "authenticity": {
-    "type": "Authentic"
+    "#type": "Authentic"
    },
    "sources": [
     1
@@ -18,7 +18,7 @@
    "name": "The Mother",
    "gender": "Female",
    "authenticity": {
-    "type": "Mask",
+    "#type": "Mask",
     "god": 0
    },
    "sources": [
@@ -30,7 +30,7 @@
    "name": "God",
    "gender": "Male",
    "authenticity": {
-    "type": "Invented"
+    "#type": "Invented"
    }
   }
  }

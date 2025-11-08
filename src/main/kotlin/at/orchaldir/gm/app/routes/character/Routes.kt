@@ -44,7 +44,7 @@ class CharacterRoutes : Routes<CharacterId, SortCharacter> {
     override fun gallery(call: ApplicationCall) = call.application.href(Gallery())
     override fun new(call: ApplicationCall) = call.application.href(New())
     override fun preview(call: ApplicationCall, id: CharacterId) = call.application.href(Preview(id))
-    override fun update(call: ApplicationCall, id: CharacterId) = call.application.href(Edit(id))
+    override fun update(call: ApplicationCall, id: CharacterId) = call.application.href(Update(id))
 
     @Resource("/appearance")
     class Appearance(val parent: CharacterRoutes = CharacterRoutes()) {

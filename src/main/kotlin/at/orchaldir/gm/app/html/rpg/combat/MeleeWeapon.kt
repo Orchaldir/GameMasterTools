@@ -1,10 +1,14 @@
 package at.orchaldir.gm.app.html.rpg.combat
 
-import at.orchaldir.gm.app.ATTACK
+import at.orchaldir.gm.app.MODIFIER
+import at.orchaldir.gm.app.TYPE
+import at.orchaldir.gm.app.WEAPON
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.parse.combine
+import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.rpg.combat.MeleeWeapon
-import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponId
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -15,11 +19,12 @@ fun HtmlBlockTag.showMeleeWeapon(
     call: ApplicationCall,
     state: State,
     weapon: MeleeWeapon,
+    mainMaterial: MaterialId?,
 ) {
-    showDetails("Attacks", true) {
-        weapon.attacks.withIndex().forEach { (index, attack) ->
-            showMeleeAttack(call, state, attack, "${index + 1}.Attack")
-        }
+    showDetails("Melee Weapon", true) {
+        optionalFieldLink("Type", call, state, weapon.type)
+        optionalFieldLink(call, state, mainMaterial)
+        fieldIds(call, state, "Modifiers", weapon.modifiers)
     }
 }
 
@@ -30,25 +35,34 @@ fun HtmlBlockTag.editMeleeWeapon(
     state: State,
     weapon: MeleeWeapon,
 ) {
-    selectName(weapon.name)
-    editList("Attacks", ATTACK, weapon.attacks, 0, 2, 1) { index, param, attack ->
-        editMeleeAttack(state, attack, "${index + 1}.Attack", param)
+    showDetails("Melee Weapon", true) {
+        selectOptionalElement(
+            state,
+            "Type",
+            combine(WEAPON, TYPE),
+            state.getMeleeWeaponTypeStorage().getAll(),
+            weapon.type,
+        )
+        selectElements(
+            state,
+            "Modifiers",
+            combine(WEAPON, MODIFIER),
+            state.getMeleeWeaponModifierStorage().getAll(),
+            weapon.modifiers,
+        )
     }
 }
 
 // parse
 
-fun parseMeleeWeaponId(parameters: Parameters, param: String) = MeleeWeaponId(parseInt(parameters, param))
-fun parseMeleeWeaponId(value: String) = MeleeWeaponId(value.toInt())
-
 fun parseMeleeWeapon(
     state: State,
     parameters: Parameters,
-    id: MeleeWeaponId,
 ) = MeleeWeapon(
-    id,
-    parseName(parameters),
-    parseList(parameters, ATTACK, 0) { _, param ->
-        parseMeleeAttack(parameters, param)
-    }
+    parseMeleeWeaponTypeId(parameters, combine(WEAPON, TYPE)),
+    parseElements(
+        parameters,
+        combine(WEAPON, MODIFIER),
+        ::parseMeleeWeaponModifierId,
+    ),
 )

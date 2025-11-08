@@ -5,11 +5,11 @@
    "id": 0,
    "name": "Arcanix Tradition",
    "date": {
-    "type": "Century",
+    "#type": "Century",
     "century": 0
    },
    "founder": {
-    "type": "Organization",
+    "#type": "Organization",
     "organization": 30
    },
    "groups": [

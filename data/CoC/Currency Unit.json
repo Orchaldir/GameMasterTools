@@ -5,11 +5,11 @@
    "id": 0,
    "name": "Penny",
    "format": {
-    "type": "Coin",
+    "#type": "Coin",
     "material": 11,
     "radius": 9500,
     "front": {
-     "type": "Value"
+     "#type": "Value"
     }
    }
   },
@@ -18,11 +18,11 @@
    "name": "Nickel",
    "number": 5,
    "format": {
-    "type": "Coin",
+    "#type": "Coin",
     "material": 12,
     "radius": 10600,
     "front": {
-     "type": "Value"
+     "#type": "Value"
     }
    }
   },
@@ -31,11 +31,11 @@
    "name": "Dime",
    "number": 10,
    "format": {
-    "type": "Coin",
+    "#type": "Coin",
     "material": 13,
     "radius": 9000,
     "front": {
-     "type": "Value"
+     "#type": "Value"
     }
    }
   },
@@ -44,11 +44,11 @@
    "name": "Quarter",
    "number": 25,
    "format": {
-    "type": "Coin",
+    "#type": "Coin",
     "material": 13,
     "radius": 12100,
     "front": {
-     "type": "Value"
+     "#type": "Value"
     }
    }
   },
@@ -57,11 +57,11 @@
    "name": "Half Dollar",
    "number": 50,
    "format": {
-    "type": "Coin",
+    "#type": "Coin",
     "material": 13,
     "radius": 15300,
     "front": {
-     "type": "Value"
+     "#type": "Value"
     }
    }
   },
@@ -70,11 +70,11 @@
    "name": "Dollar",
    "denomination": 1,
    "format": {
-    "type": "Coin",
+    "#type": "Coin",
     "material": 13,
     "radius": 19000,
     "front": {
-     "type": "Value"
+     "#type": "Value"
     }
    }
   },
@@ -84,11 +84,11 @@
    "number": 10,
    "denomination": 1,
    "format": {
-    "type": "Coin",
+    "#type": "Coin",
     "material": 10,
     "radius": 13500,
     "front": {
-     "type": "Value"
+     "#type": "Value"
     }
    }
   }

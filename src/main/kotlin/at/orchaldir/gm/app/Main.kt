@@ -25,7 +25,8 @@ import at.orchaldir.gm.app.routes.religion.configureDomainRouting
 import at.orchaldir.gm.app.routes.religion.configureGodRouting
 import at.orchaldir.gm.app.routes.religion.configurePantheonRouting
 import at.orchaldir.gm.app.routes.rpg.configureDamageTypeRouting
-import at.orchaldir.gm.app.routes.rpg.configureMeleeWeaponRouting
+import at.orchaldir.gm.app.routes.rpg.configureMeleeWeaponModifierRouting
+import at.orchaldir.gm.app.routes.rpg.configureMeleeWeaponTypeRouting
 import at.orchaldir.gm.app.routes.rpg.configureStatisticRouting
 import at.orchaldir.gm.app.routes.time.configureCalendarRouting
 import at.orchaldir.gm.app.routes.time.configureHolidayRouting
@@ -99,7 +100,8 @@ fun Application.module() {
     configureLegalCodeRouting()
     configureMagicTraditionRouting()
     configureMaterialRouting()
-    configureMeleeWeaponRouting()
+    configureMeleeWeaponModifierRouting()
+    configureMeleeWeaponTypeRouting()
     configureMoonRouting()
     configureNameListRouting()
     configureOrganizationRouting()

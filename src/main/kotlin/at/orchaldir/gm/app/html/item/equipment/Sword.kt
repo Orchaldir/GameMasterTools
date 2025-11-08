@@ -1,6 +1,7 @@
 package at.orchaldir.gm.app.html.item.equipment
 
 import at.orchaldir.gm.app.html.item.equipment.style.*
+import at.orchaldir.gm.app.html.rpg.combat.parseMeleeWeapon
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.OneHandedSword
 import at.orchaldir.gm.core.model.item.equipment.TwoHandedSword
@@ -49,12 +50,20 @@ fun HtmlBlockTag.editTwoHandedSword(
 
 // parse
 
-fun parseOneHandedSword(parameters: Parameters) = OneHandedSword(
+fun parseOneHandedSword(
+    state: State,
+    parameters: Parameters,
+) = OneHandedSword(
     parseBlade(parameters, DEFAULT_1H_BLADE_LENGTH),
     parseSwordHilt(parameters),
+    parseMeleeWeapon(state, parameters),
 )
 
-fun parseTwoHandedSword(parameters: Parameters) = TwoHandedSword(
+fun parseTwoHandedSword(
+    state: State,
+    parameters: Parameters,
+) = TwoHandedSword(
     parseBlade(parameters, DEFAULT_2H_BLADE_LENGTH),
     parseSwordHilt(parameters),
+    parseMeleeWeapon(state, parameters),
 )

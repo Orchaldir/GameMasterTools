@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.selector.rpg
 
 import at.orchaldir.gm.DAMAGE_TYPE_ID_0
-import at.orchaldir.gm.MELEE_WEAPON_ID_0
+import at.orchaldir.gm.MELEE_WEAPON_TYPE_ID_0
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.combat.*
@@ -25,10 +25,10 @@ class DamageTypeTest {
         @Test
         fun `Cannot delete a damage type used by a melee weapon`() {
             val attack = MeleeAttack(Damage(SimpleRandomDamage(), DAMAGE_TYPE_ID_0))
-            val element = MeleeWeapon(MELEE_WEAPON_ID_0, attacks = listOf(attack))
+            val element = MeleeWeaponType(MELEE_WEAPON_TYPE_ID_0, attacks = listOf(attack))
             val newState = state.updateStorage(Storage(element))
 
-            failCanDelete(newState, MELEE_WEAPON_ID_0)
+            failCanDelete(newState, MELEE_WEAPON_TYPE_ID_0)
         }
 
         private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {

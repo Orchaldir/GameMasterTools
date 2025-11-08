@@ -5,7 +5,7 @@
    "id": 0,
    "name": "Human",
    "lifeStages": {
-    "type": "Default",
+    "#type": "Default",
     "venerableAgeHairColor": "Ivory"
    }
   }

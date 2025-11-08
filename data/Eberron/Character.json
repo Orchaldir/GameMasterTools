@@ -4,45 +4,45 @@
   "0": {
    "id": 0,
    "name": {
-    "type": "Family",
+    "#type": "Family",
     "given": "Thavius",
     "middle": null,
     "family": "Blis"
    },
    "birthDate": {
-    "type": "Day",
+    "#type": "Day",
     "day": 322954
    },
    "appearance": {
-    "type": "Humanoid",
+    "#type": "Humanoid",
     "body": {
     },
     "head": {
      "ears": {
-      "type": "Normal"
+      "#type": "Normal"
      },
      "eyes": {
-      "type": "Two",
+      "#type": "Two",
       "eye": {
-       "type": "Normal",
+       "#type": "Normal",
        "eyeShape": "Ellipse",
        "pupilColor": "SaddleBrown"
       }
      },
      "hair": {
-      "type": "Normal",
+      "#type": "Normal",
       "cut": {
-       "type": "Short",
+       "#type": "Short",
        "style": "BuzzCut"
       },
       "color": "Black"
      },
      "mouth": {
-      "type": "Normal",
+      "#type": "Normal",
       "beard": {
-       "type": "Normal",
+       "#type": "Normal",
        "style": {
-        "type": "Shaved"
+        "#type": "Shaved"
        },
        "color": "Black"
       },
@@ -53,20 +53,20 @@
    },
    "beliefStatus": {
     "current": {
-     "type": "Pantheon",
+     "#type": "Pantheon",
      "pantheon": 0
     }
    },
    "title": 0,
    "statblock": {
-    "type": "Template",
+    "#type": "Template",
     "template": 1
    }
   },
   "1": {
    "id": 1,
    "name": {
-    "type": "Family",
+    "#type": "Family",
     "given": "Beleth",
     "middle": null,
     "family": "Thiel"
@@ -75,7 +75,7 @@
    "gender": "Female",
    "sexuality": "Homosexual",
    "birthDate": {
-    "type": "Day",
+    "#type": "Day",
     "day": 324816
    },
    "culture": 1,
@@ -90,59 +90,59 @@
     ]
    },
    "appearance": {
-    "type": "Humanoid",
+    "#type": "Humanoid",
     "body": {
      "bodyShape": "Muscular",
      "foot": {
-      "type": "Clawed",
+      "#type": "Clawed",
       "size": "Small"
      }
     },
     "head": {
      "ears": {
-      "type": "Normal",
+      "#type": "Normal",
       "shape": "PointedUpwards"
      },
      "eyes": {
-      "type": "Two",
+      "#type": "Two",
       "eye": {
-       "type": "Normal",
+       "#type": "Normal",
        "pupilShape": "VerticalSlit"
       }
      },
      "hair": {
-      "type": "Normal",
+      "#type": "Normal",
       "cut": {
-       "type": "Short",
+       "#type": "Short",
        "style": "MiddlePart"
       },
       "color": "SaddleBrown"
      },
      "mouth": {
-      "type": "Female",
+      "#type": "Female",
       "width": "Large",
       "color": "Black"
      }
     },
     "height": 1690000,
     "skin": {
-     "type": "Normal",
+     "#type": "Normal",
      "color": "Light"
     }
    },
    "employmentStatus": {
     "current": {
-     "type": "Employed",
+     "#type": "Employed",
      "business": 2,
      "job": 7
     },
     "previousEntries": [
      {
       "entry": {
-       "type": "Undefined"
+       "#type": "Undefined"
       },
       "until": {
-       "type": "Year",
+       "#type": "Year",
        "year": 995
       }
      }
@@ -150,7 +150,7 @@
    },
    "beliefStatus": {
     "current": {
-     "type": "Pantheon",
+     "#type": "Pantheon",
      "pantheon": 0
     }
    }
@@ -158,7 +158,7 @@
   "2": {
    "id": 2,
    "name": {
-    "type": "Family",
+    "#type": "Family",
     "given": "Jury",
     "middle": null,
     "family": "Cannith"
@@ -166,7 +166,7 @@
    "gender": "Female",
    "sexuality": "Homosexual",
    "birthDate": {
-    "type": "Day",
+    "#type": "Day",
     "day": 323904
    },
    "culture": 1,
@@ -180,54 +180,54 @@
     ]
    },
    "appearance": {
-    "type": "Humanoid",
+    "#type": "Humanoid",
     "body": {
      "bodyShape": "Hourglass",
      "width": "Small"
     },
     "head": {
      "ears": {
-      "type": "Normal"
+      "#type": "Normal"
      },
      "eyes": {
-      "type": "Two",
+      "#type": "Two",
       "eye": {
-       "type": "Normal",
+       "#type": "Normal",
        "pupilColor": "Blue"
       }
      },
      "hair": {
-      "type": "Normal",
+      "#type": "Normal",
       "cut": {
-       "type": "Long",
+       "#type": "Long",
        "style": "Wavy"
       },
       "color": "Red"
      },
      "mouth": {
-      "type": "Female",
+      "#type": "Female",
       "color": "Black"
      }
     },
     "height": 1610000,
     "skin": {
-     "type": "Normal",
+     "#type": "Normal",
      "color": "Fair"
     }
    },
    "employmentStatus": {
     "current": {
-     "type": "Employed",
+     "#type": "Employed",
      "business": 2,
      "job": 10
     },
     "previousEntries": [
      {
       "entry": {
-       "type": "Undefined"
+       "#type": "Undefined"
       },
       "until": {
-       "type": "Year",
+       "#type": "Year",
        "year": 995
       }
      }
@@ -235,7 +235,7 @@
    },
    "beliefStatus": {
     "current": {
-     "type": "Pantheon",
+     "#type": "Pantheon",
      "pantheon": 0
     }
    },
@@ -244,13 +244,13 @@
   "3": {
    "id": 3,
    "name": {
-    "type": "Mononym",
+    "#type": "Mononym",
     "name": "Vesper"
    },
    "race": 5,
    "gender": "Female",
    "birthDate": {
-    "type": "Day",
+    "#type": "Day",
     "day": 310961
    },
    "personality": [
@@ -268,16 +268,16 @@
    },
    "housingStatus": {
     "current": {
-     "type": "Town",
+     "#type": "Town",
      "town": 0
     },
     "previousEntries": [
      {
       "entry": {
-       "type": "Undefined"
+       "#type": "Undefined"
       },
       "until": {
-       "type": "Year",
+       "#type": "Year",
        "year": 991
       }
      }
@@ -285,17 +285,17 @@
    },
    "employmentStatus": {
     "current": {
-     "type": "Employed",
+     "#type": "Employed",
      "business": 15,
      "job": 11
     },
     "previousEntries": [
      {
       "entry": {
-       "type": "Undefined"
+       "#type": "Undefined"
       },
       "until": {
-       "type": "Year",
+       "#type": "Year",
        "year": 991
       }
      }
@@ -303,7 +303,7 @@
    },
    "beliefStatus": {
     "current": {
-     "type": "Pantheon",
+     "#type": "Pantheon",
      "pantheon": 5
     }
    }
@@ -311,13 +311,13 @@
   "4": {
    "id": 4,
    "name": {
-    "type": "Family",
+    "#type": "Family",
     "given": "Brogan",
     "middle": null,
     "family": "Hul"
    },
    "birthDate": {
-    "type": "Day",
+    "#type": "Day",
     "day": 319236
    },
    "personality": [
@@ -333,36 +333,36 @@
     "9": "Accented"
    },
    "appearance": {
-    "type": "Humanoid",
+    "#type": "Humanoid",
     "body": {
      "bodyShape": "Muscular"
     },
     "head": {
      "ears": {
-      "type": "Normal",
+      "#type": "Normal",
       "size": "Large"
      },
      "eyes": {
-      "type": "Two",
+      "#type": "Two",
       "eye": {
-       "type": "Normal",
+       "#type": "Normal",
        "pupilColor": "SaddleBrown"
       }
      },
      "hair": {
-      "type": "Normal",
+      "#type": "Normal",
       "cut": {
-       "type": "Short",
+       "#type": "Short",
        "style": "Shaved"
       },
       "color": "Black"
      },
      "mouth": {
-      "type": "Normal",
+      "#type": "Normal",
       "beard": {
-       "type": "Normal",
+       "#type": "Normal",
        "style": {
-        "type": "GoateeAndMoustache",
+        "#type": "GoateeAndMoustache",
         "moustacheStyle": "Handlebar",
         "goateeStyle": "Goatee"
        },
@@ -372,23 +372,23 @@
     },
     "height": 1860000,
     "skin": {
-     "type": "Normal",
+     "#type": "Normal",
      "color": "Fair"
     }
    },
    "employmentStatus": {
     "current": {
-     "type": "Employed",
+     "#type": "Employed",
      "business": 0,
      "job": 6
     },
     "previousEntries": [
      {
       "entry": {
-       "type": "Undefined"
+       "#type": "Undefined"
       },
       "until": {
-       "type": "Year",
+       "#type": "Year",
        "year": 991
       }
      }
@@ -396,7 +396,7 @@
    },
    "beliefStatus": {
     "current": {
-     "type": "Pantheon",
+     "#type": "Pantheon",
      "pantheon": 5
     }
    }
@@ -404,12 +404,12 @@
   "5": {
    "id": 5,
    "name": {
-    "type": "Mononym",
+    "#type": "Mononym",
     "name": "Fylas"
    },
    "race": 6,
    "birthDate": {
-    "type": "Day",
+    "#type": "Day",
     "day": 307454
    },
    "languages": {
@@ -417,35 +417,35 @@
     "9": "Accented"
    },
    "appearance": {
-    "type": "Humanoid",
+    "#type": "Humanoid",
     "body": {
     },
     "head": {
      "ears": {
-      "type": "Normal",
+      "#type": "Normal",
       "shape": "PointedUpwards"
      },
      "eyes": {
-      "type": "Two",
+      "#type": "Two",
       "eye": {
-       "type": "Normal",
+       "#type": "Normal",
        "pupilColor": "SaddleBrown"
       }
      },
      "hair": {
-      "type": "Normal",
+      "#type": "Normal",
       "cut": {
-       "type": "Short",
+       "#type": "Short",
        "style": "SidePartRight"
       },
       "color": "Green"
      },
      "mouth": {
-      "type": "Normal",
+      "#type": "Normal",
       "beard": {
-       "type": "Normal",
+       "#type": "Normal",
        "style": {
-        "type": "Shaved"
+        "#type": "Shaved"
        },
        "color": "Green"
       },
@@ -454,23 +454,23 @@
     },
     "height": 1050000,
     "skin": {
-     "type": "Normal",
+     "#type": "Normal",
      "color": "Light"
     }
    },
    "employmentStatus": {
     "current": {
-     "type": "Employed",
+     "#type": "Employed",
      "business": 0,
      "job": 12
     },
     "previousEntries": [
      {
       "entry": {
-       "type": "Undefined"
+       "#type": "Undefined"
       },
       "until": {
-       "type": "Year",
+       "#type": "Year",
        "year": 991
       }
      }
@@ -478,7 +478,7 @@
    },
    "beliefStatus": {
     "current": {
-     "type": "Pantheon",
+     "#type": "Pantheon",
      "pantheon": 5
     }
    }
@@ -486,28 +486,28 @@
   "6": {
    "id": 6,
    "name": {
-    "type": "Mononym",
+    "#type": "Mononym",
     "name": "Tyraen"
    },
    "race": 1,
    "gender": "Female",
    "birthDate": {
-    "type": "Day",
+    "#type": "Day",
     "day": 279101
    },
    "employmentStatus": {
     "current": {
-     "type": "Employed",
+     "#type": "Employed",
      "business": 0,
      "job": 13
     },
     "previousEntries": [
      {
       "entry": {
-       "type": "Undefined"
+       "#type": "Undefined"
       },
       "until": {
-       "type": "Year",
+       "#type": "Year",
        "year": 993
       }
      }
@@ -517,67 +517,67 @@
   "7": {
    "id": 7,
    "name": {
-    "type": "Mononym",
+    "#type": "Mononym",
     "name": "Grim"
    },
    "race": 17,
    "gender": "Female",
    "birthDate": {
-    "type": "Year",
+    "#type": "Year",
     "year": 974
    },
    "culture": 2,
    "appearance": {
-    "type": "Humanoid",
+    "#type": "Humanoid",
     "body": {
     },
     "head": {
      "ears": {
-      "type": "Normal",
+      "#type": "Normal",
       "size": "Large"
      },
      "eyes": {
-      "type": "Two",
+      "#type": "Two",
       "eye": {
-       "type": "Normal",
+       "#type": "Normal",
        "eyeShape": "Ellipse",
        "pupilColor": "Aqua",
        "scleraColor": "Gold"
       }
      },
      "hair": {
-      "type": "Normal",
+      "#type": "Normal",
       "cut": {
-       "type": "Short",
+       "#type": "Short",
        "style": "BuzzCut"
       },
       "color": "Green"
      },
      "mouth": {
-      "type": "Female",
+      "#type": "Female",
       "width": "Small",
       "color": "Black"
      }
     },
     "height": 2700000,
     "skin": {
-     "type": "Exotic",
+     "#type": "Exotic",
      "color": "Olive"
     }
    },
    "employmentStatus": {
     "current": {
-     "type": "Employed",
+     "#type": "Employed",
      "business": 0,
      "job": 14
     },
     "previousEntries": [
      {
       "entry": {
-       "type": "Undefined"
+       "#type": "Undefined"
       },
       "until": {
-       "type": "Year",
+       "#type": "Year",
        "year": 993
       }
      }
@@ -587,7 +587,7 @@
   "8": {
    "id": 8,
    "name": {
-    "type": "Family",
+    "#type": "Family",
     "given": "Hazel",
     "middle": null,
     "family": "Ghallanda"
@@ -595,7 +595,7 @@
    "race": 7,
    "gender": "Female",
    "birthDate": {
-    "type": "Day",
+    "#type": "Day",
     "day": 314411
    },
    "personality": [
@@ -607,17 +607,17 @@
    },
    "employmentStatus": {
     "current": {
-     "type": "Employed",
+     "#type": "Employed",
      "business": 6,
      "job": 6
     },
     "previousEntries": [
      {
       "entry": {
-       "type": "Undefined"
+       "#type": "Undefined"
       },
       "until": {
-       "type": "Year",
+       "#type": "Year",
        "year": 996
       }
      }
@@ -625,7 +625,7 @@
    },
    "beliefStatus": {
     "current": {
-     "type": "Pantheon",
+     "#type": "Pantheon",
      "pantheon": 0
     }
    },
@@ -634,7 +634,7 @@
   "9": {
    "id": 9,
    "name": {
-    "type": "Family",
+    "#type": "Family",
     "given": "Ivy",
     "middle": null,
     "family": "Ghallanda"
@@ -642,7 +642,7 @@
    "race": 7,
    "gender": "Female",
    "birthDate": {
-    "type": "Day",
+    "#type": "Day",
     "day": 326876
    },
    "personality": [
@@ -654,17 +654,17 @@
    },
    "employmentStatus": {
     "current": {
-     "type": "Employed",
+     "#type": "Employed",
      "business": 6,
      "job": 5
     },
     "previousEntries": [
      {
       "entry": {
-       "type": "Undefined"
+       "#type": "Undefined"
       },
       "until": {
-       "type": "Year",
+       "#type": "Year",
        "year": 996
       }
      }
@@ -672,7 +672,7 @@
    },
    "beliefStatus": {
     "current": {
-     "type": "Pantheon",
+     "#type": "Pantheon",
      "pantheon": 0
     }
    },
@@ -681,46 +681,46 @@
   "10": {
    "id": 10,
    "name": {
-    "type": "Family",
+    "#type": "Family",
     "given": "Dolis",
     "middle": null,
     "family": "Deneith"
    },
    "birthDate": {
-    "type": "Day",
+    "#type": "Day",
     "day": 324046
    },
    "appearance": {
-    "type": "Humanoid",
+    "#type": "Humanoid",
     "body": {
      "bodyShape": "Muscular"
     },
     "head": {
      "ears": {
-      "type": "Normal",
+      "#type": "Normal",
       "size": "Large"
      },
      "eyes": {
-      "type": "Two",
+      "#type": "Two",
       "eye": {
-       "type": "Normal",
+       "#type": "Normal",
        "pupilColor": "Olive"
       }
      },
      "hair": {
-      "type": "Normal",
+      "#type": "Normal",
       "cut": {
-       "type": "Short",
+       "#type": "Short",
        "style": "SidePartRight"
       },
       "color": "Maroon"
      },
      "mouth": {
-      "type": "Normal",
+      "#type": "Normal",
       "beard": {
-       "type": "Normal",
+       "#type": "Normal",
        "style": {
-        "type": "Goatee",
+        "#type": "Goatee",
         "goateeStyle": "Goatee"
        },
        "color": "Maroon"
@@ -730,23 +730,23 @@
     },
     "height": 1800000,
     "skin": {
-     "type": "Normal",
+     "#type": "Normal",
      "color": "Light"
     }
    },
    "employmentStatus": {
     "current": {
-     "type": "Employed",
+     "#type": "Employed",
      "business": 6,
      "job": 15
     },
     "previousEntries": [
      {
       "entry": {
-       "type": "Undefined"
+       "#type": "Undefined"
       },
       "until": {
-       "type": "Year",
+       "#type": "Year",
        "year": 996
       }
      }
@@ -754,7 +754,7 @@
    },
    "beliefStatus": {
     "current": {
-     "type": "Pantheon",
+     "#type": "Pantheon",
      "pantheon": 0
     }
    },
@@ -763,14 +763,14 @@
   "11": {
    "id": 11,
    "name": {
-    "type": "Family",
+    "#type": "Family",
     "given": "Ilia",
     "middle": null,
     "family": "Kemble"
    },
    "gender": "Female",
    "birthDate": {
-    "type": "Day",
+    "#type": "Day",
     "day": 326870
    },
    "personality": [
@@ -778,17 +778,17 @@
    ],
    "employmentStatus": {
     "current": {
-     "type": "Employed",
+     "#type": "Employed",
      "business": 16,
      "job": 16
     },
     "previousEntries": [
      {
       "entry": {
-       "type": "Undefined"
+       "#type": "Undefined"
       },
       "until": {
-       "type": "Year",
+       "#type": "Year",
        "year": 995
       }
      }
@@ -796,7 +796,7 @@
    },
    "beliefStatus": {
     "current": {
-     "type": "Pantheon",
+     "#type": "Pantheon",
      "pantheon": 0
     }
    }
@@ -804,14 +804,14 @@
   "12": {
    "id": 12,
    "name": {
-    "type": "Family",
+    "#type": "Family",
     "given": "Toln",
     "middle": null,
     "family": "Kundarak"
    },
    "race": 2,
    "birthDate": {
-    "type": "Year",
+    "#type": "Year",
     "year": 840
    },
    "personality": [
@@ -820,17 +820,17 @@
    ],
    "employmentStatus": {
     "current": {
-     "type": "Employed",
+     "#type": "Employed",
      "business": 12,
      "job": 16
     },
     "previousEntries": [
      {
       "entry": {
-       "type": "Undefined"
+       "#type": "Undefined"
       },
       "until": {
-       "type": "Year",
+       "#type": "Year",
        "year": 996
       }
      }
@@ -838,7 +838,7 @@
    },
    "beliefStatus": {
     "current": {
-     "type": "Pantheon",
+     "#type": "Pantheon",
      "pantheon": 0
     }
    },
@@ -847,14 +847,14 @@
   "13": {
    "id": 13,
    "name": {
-    "type": "Family",
+    "#type": "Family",
     "given": "Deven",
     "middle": null,
     "family": "Sarkaas"
    },
    "race": 10,
    "birthDate": {
-    "type": "Year",
+    "#type": "Year",
     "year": 969
    },
    "personality": [
@@ -866,37 +866,37 @@
     ]
    },
    "appearance": {
-    "type": "Humanoid",
+    "#type": "Humanoid",
     "body": {
     },
     "head": {
      "ears": {
-      "type": "Normal",
+      "#type": "Normal",
       "shape": "PointedSideways",
       "size": "Large"
      },
      "eyes": {
-      "type": "Two",
+      "#type": "Two",
       "eye": {
-       "type": "Normal",
+       "#type": "Normal",
        "eyeShape": "Ellipse",
        "pupilColor": "Teal"
       }
      },
      "hair": {
-      "type": "Normal",
+      "#type": "Normal",
       "cut": {
-       "type": "Short",
+       "#type": "Short",
        "style": "MiddlePart"
       },
       "color": "Black"
      },
      "mouth": {
-      "type": "Normal",
+      "#type": "Normal",
       "beard": {
-       "type": "Normal",
+       "#type": "Normal",
        "style": {
-        "type": "GoateeAndMoustache",
+        "#type": "GoateeAndMoustache",
         "moustacheStyle": "Handlebar",
         "goateeStyle": "Goatee"
        },
@@ -907,23 +907,23 @@
     },
     "height": 1100000,
     "skin": {
-     "type": "Exotic",
+     "#type": "Exotic",
      "color": "Olive"
     }
    },
    "employmentStatus": {
     "current": {
-     "type": "Employed",
+     "#type": "Employed",
      "business": 8,
      "job": 17
     },
     "previousEntries": [
      {
       "entry": {
-       "type": "Undefined"
+       "#type": "Undefined"
       },
       "until": {
-       "type": "Year",
+       "#type": "Year",
        "year": 992
       }
      }
@@ -931,7 +931,7 @@
    },
    "beliefStatus": {
     "current": {
-     "type": "Pantheon",
+     "#type": "Pantheon",
      "pantheon": 5
     }
    }
@@ -939,7 +939,7 @@
   "14": {
    "id": 14,
    "name": {
-    "type": "Family",
+    "#type": "Family",
     "given": "Meera",
     "middle": null,
     "family": "Sarkaas"
@@ -947,7 +947,7 @@
    "race": 10,
    "gender": "Female",
    "birthDate": {
-    "type": "Year",
+    "#type": "Year",
     "year": 971
    },
    "relationships": {
@@ -957,17 +957,17 @@
    },
    "employmentStatus": {
     "current": {
-     "type": "Employed",
+     "#type": "Employed",
      "business": 8,
      "job": 8
     },
     "previousEntries": [
      {
       "entry": {
-       "type": "Undefined"
+       "#type": "Undefined"
       },
       "until": {
-       "type": "Year",
+       "#type": "Year",
        "year": 992
       }
      }
@@ -975,7 +975,7 @@
    },
    "beliefStatus": {
     "current": {
-     "type": "Pantheon",
+     "#type": "Pantheon",
      "pantheon": 5
     }
    }
@@ -983,41 +983,41 @@
   "15": {
    "id": 15,
    "name": {
-    "type": "Family",
+    "#type": "Family",
     "given": "Galifar",
     "middle": null,
     "family": "Wynarn"
    },
    "birthDate": {
-    "type": "Year",
+    "#type": "Year",
     "year": -45
    },
    "vitalStatus": {
-    "type": "Dead",
+    "#type": "Dead",
     "date": {
-     "type": "Year",
+     "#type": "Year",
      "year": 52
     },
     "cause": {
-     "type": "OldAge"
+     "#type": "OldAge"
     }
    },
    "culture": 3,
    "employmentStatus": {
     "current": {
-     "type": "ByRealm",
+     "#type": "ByRealm",
      "job": 28,
      "realm": 0
     },
     "previousEntries": [
      {
       "entry": {
-       "type": "ByRealm",
+       "#type": "ByRealm",
        "job": 28,
        "realm": 4
       },
       "until": {
-       "type": "Year",
+       "#type": "Year",
        "year": 0
       }
      }
@@ -1025,7 +1025,7 @@
    },
    "beliefStatus": {
     "current": {
-     "type": "Pantheon",
+     "#type": "Pantheon",
      "pantheon": 0
     }
    },
@@ -1037,36 +1037,36 @@
   "16": {
    "id": 16,
    "name": {
-    "type": "Family",
+    "#type": "Family",
     "given": "Jarot",
     "middle": null,
     "family": "Wynarn"
    },
    "birthDate": {
-    "type": "Decade",
+    "#type": "Decade",
     "decade": 83
    },
    "vitalStatus": {
-    "type": "Dead",
+    "#type": "Dead",
     "date": {
-     "type": "Day",
+     "#type": "Day",
      "day": 300115
     },
     "cause": {
-     "type": "OldAge"
+     "#type": "OldAge"
     }
    },
    "culture": 1,
    "employmentStatus": {
     "current": {
-     "type": "ByRealm",
+     "#type": "ByRealm",
      "job": 28,
      "realm": 0
     }
    },
    "beliefStatus": {
     "current": {
-     "type": "Pantheon",
+     "#type": "Pantheon",
      "pantheon": 0
     }
    },
@@ -1078,36 +1078,36 @@
   "17": {
    "id": 17,
    "name": {
-    "type": "Family",
+    "#type": "Family",
     "given": "Aurala",
     "middle": null,
     "family": "Wynarn"
    },
    "gender": "Female",
    "birthDate": {
-    "type": "Decade",
+    "#type": "Decade",
     "decade": 95
    },
    "culture": 5,
    "housingStatus": {
     "current": {
-     "type": "Realm",
+     "#type": "Realm",
      "realm": 1
     }
    },
    "employmentStatus": {
     "current": {
-     "type": "ByRealm",
+     "#type": "ByRealm",
      "job": 28,
      "realm": 1
     },
     "previousEntries": [
      {
       "entry": {
-       "type": "Undefined"
+       "#type": "Undefined"
       },
       "until": {
-       "type": "Year",
+       "#type": "Year",
        "year": 979
       }
      }
@@ -1115,7 +1115,7 @@
    },
    "beliefStatus": {
     "current": {
-     "type": "Pantheon",
+     "#type": "Pantheon",
      "pantheon": 0
     }
    },
@@ -1127,34 +1127,34 @@
   "18": {
    "id": 18,
    "name": {
-    "type": "Family",
+    "#type": "Family",
     "given": "Boranel",
     "middle": null,
     "family": "Wynarn"
    },
    "birthDate": {
-    "type": "Decade",
+    "#type": "Decade",
     "decade": 93
    },
    "housingStatus": {
     "current": {
-     "type": "Realm",
+     "#type": "Realm",
      "realm": 2
     }
    },
    "employmentStatus": {
     "current": {
-     "type": "ByRealm",
+     "#type": "ByRealm",
      "job": 28,
      "realm": 2
     },
     "previousEntries": [
      {
       "entry": {
-       "type": "Undefined"
+       "#type": "Undefined"
       },
       "until": {
-       "type": "Year",
+       "#type": "Year",
        "year": 960
       }
      }
@@ -1162,7 +1162,7 @@
    },
    "beliefStatus": {
     "current": {
-     "type": "Pantheon",
+     "#type": "Pantheon",
      "pantheon": 0
     }
    },
@@ -1171,37 +1171,37 @@
   "19": {
    "id": 19,
    "name": {
-    "type": "Family",
+    "#type": "Family",
     "given": "Oargev",
     "middle": null,
     "family": "Wynarn"
    },
    "birthDate": {
-    "type": "Year",
+    "#type": "Year",
     "year": 972
    },
    "culture": 1,
    "housingStatus": {
     "current": {
-     "type": "Town",
+     "#type": "Town",
      "town": 12
     }
    },
    "employmentStatus": {
     "current": {
-     "type": "ByTown",
+     "#type": "ByTown",
      "job": 29,
      "town": 12
     },
     "previousEntries": [
      {
       "entry": {
-       "type": "ByRealm",
+       "#type": "ByRealm",
        "job": 30,
        "realm": 3
       },
       "until": {
-       "type": "Year",
+       "#type": "Year",
        "year": 993
       }
      }
@@ -1209,7 +1209,7 @@
    },
    "beliefStatus": {
     "current": {
-     "type": "Pantheon",
+     "#type": "Pantheon",
      "pantheon": 0
     }
    },

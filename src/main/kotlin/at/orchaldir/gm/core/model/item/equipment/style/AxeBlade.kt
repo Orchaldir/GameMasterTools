@@ -28,6 +28,12 @@ sealed interface AxeBlade : MadeFromParts {
     }
 
     override fun parts() = listOf(part())
+
+    override fun mainMaterial() = when (this) {
+        is BroadAxeBlade -> part.material
+        is DaggerAxeBlade -> part.material
+        is SymmetricAxeBlade -> part.material
+    }
 }
 
 @Serializable

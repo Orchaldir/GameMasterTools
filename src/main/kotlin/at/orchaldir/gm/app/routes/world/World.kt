@@ -52,7 +52,7 @@ class WorldRoutes : Routes<WorldId, SortWorld> {
     override fun edit(call: ApplicationCall, id: WorldId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())
     override fun preview(call: ApplicationCall, id: WorldId) = call.application.href(Preview(id))
-    override fun update(call: ApplicationCall, id: WorldId) = call.application.href(Edit(id))
+    override fun update(call: ApplicationCall, id: WorldId) = call.application.href(Update(id))
 }
 
 fun Application.configureWorldRouting() {

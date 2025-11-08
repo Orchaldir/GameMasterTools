@@ -51,7 +51,7 @@ class MoonRoutes : Routes<MoonId, SortMoon> {
     override fun edit(call: ApplicationCall, id: MoonId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())
     override fun preview(call: ApplicationCall, id: MoonId) = call.application.href(Preview(id))
-    override fun update(call: ApplicationCall, id: MoonId) = call.application.href(Edit(id))
+    override fun update(call: ApplicationCall, id: MoonId) = call.application.href(Update(id))
 }
 
 fun Application.configureMoonRouting() {
