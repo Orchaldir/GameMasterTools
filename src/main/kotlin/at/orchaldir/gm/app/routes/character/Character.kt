@@ -35,6 +35,7 @@ import io.ktor.server.resources.post
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
+import kotlinx.html.td
 import mu.KotlinLogging
 import kotlin.random.Random
 
@@ -56,6 +57,8 @@ fun Application.configureCharacterRouting() {
                     Column("Sexuality") {
                         if (it.sexuality != SexualOrientation.Heterosexual) {
                             tdEnum(it.sexuality)
+                        } else {
+                            td { }
                         }
                     },
                     Column("Culture") { tdLink(call, state, it.culture) },
