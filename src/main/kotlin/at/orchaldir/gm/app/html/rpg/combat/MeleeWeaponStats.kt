@@ -8,17 +8,17 @@ import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.MaterialId
-import at.orchaldir.gm.core.model.rpg.combat.MeleeWeapon
+import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponStats
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
 
 // show
 
-fun HtmlBlockTag.showMeleeWeapon(
+fun HtmlBlockTag.showMeleeWeaponStats(
     call: ApplicationCall,
     state: State,
-    weapon: MeleeWeapon,
+    weapon: MeleeWeaponStats,
     mainMaterial: MaterialId?,
 ) {
     showDetails("Melee Weapon", true) {
@@ -30,10 +30,10 @@ fun HtmlBlockTag.showMeleeWeapon(
 
 // edit
 
-fun HtmlBlockTag.editMeleeWeapon(
+fun HtmlBlockTag.editMeleeWeaponStats(
     call: ApplicationCall,
     state: State,
-    weapon: MeleeWeapon,
+    weapon: MeleeWeaponStats,
 ) {
     showDetails("Melee Weapon", true) {
         selectOptionalElement(
@@ -55,10 +55,10 @@ fun HtmlBlockTag.editMeleeWeapon(
 
 // parse
 
-fun parseMeleeWeapon(
+fun parseMeleeWeaponStats(
     state: State,
     parameters: Parameters,
-) = MeleeWeapon(
+) = MeleeWeaponStats(
     parseMeleeWeaponTypeId(parameters, combine(WEAPON, TYPE)),
     parseElements(
         parameters,

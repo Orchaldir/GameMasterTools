@@ -1,7 +1,7 @@
 package at.orchaldir.gm.app.html.item.equipment
 
 import at.orchaldir.gm.app.html.item.equipment.style.*
-import at.orchaldir.gm.app.html.rpg.combat.parseMeleeWeapon
+import at.orchaldir.gm.app.html.rpg.combat.parseMeleeWeaponStats
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.OneHandedSword
 import at.orchaldir.gm.core.model.item.equipment.TwoHandedSword
@@ -56,7 +56,7 @@ fun parseOneHandedSword(
 ) = OneHandedSword(
     parseBlade(parameters, DEFAULT_1H_BLADE_LENGTH),
     parseSwordHilt(parameters),
-    parseMeleeWeapon(state, parameters),
+    parseMeleeWeaponStats(state, parameters),
 )
 
 fun parseTwoHandedSword(
@@ -65,5 +65,5 @@ fun parseTwoHandedSword(
 ) = TwoHandedSword(
     parseBlade(parameters, DEFAULT_2H_BLADE_LENGTH),
     parseSwordHilt(parameters),
-    parseMeleeWeapon(state, parameters),
+    parseMeleeWeaponStats(state, parameters),
 )
