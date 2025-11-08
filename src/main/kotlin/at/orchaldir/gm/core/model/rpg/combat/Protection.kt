@@ -17,6 +17,12 @@ sealed class Protection {
         is DamageResistances -> ProtectionType.DamageResistances
         is UndefinedProtection -> ProtectionType.Undefined
     }
+
+    fun contains(type: DamageTypeId) = when (this) {
+        is DamageResistance -> false
+        is DamageResistances -> damageTypes.containsKey(type)
+        UndefinedProtection -> false
+    }
 }
 
 @Serializable
