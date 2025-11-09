@@ -7,6 +7,7 @@ import at.orchaldir.gm.app.html.race.editRace
 import at.orchaldir.gm.app.html.race.parseRace
 import at.orchaldir.gm.app.html.race.showRace
 import at.orchaldir.gm.app.routes.*
+import at.orchaldir.gm.app.routes.economy.money.CurrencyUnitRoutes.Gallery
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
@@ -15,6 +16,7 @@ import at.orchaldir.gm.core.model.culture.fashion.AppearanceFashion
 import at.orchaldir.gm.core.model.race.RACE_TYPE
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
+import at.orchaldir.gm.core.model.util.SortCurrencyUnit
 import at.orchaldir.gm.core.model.util.SortRace
 import at.orchaldir.gm.core.selector.character.countCharacters
 import at.orchaldir.gm.core.selector.character.getAppearanceForAge
@@ -74,6 +76,7 @@ class RaceRoutes : Routes<RaceId, SortRace> {
     override fun delete(call: ApplicationCall, id: RaceId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: RaceId) = call.application.href(Edit(id))
     override fun gallery(call: ApplicationCall) = call.application.href(Gallery())
+    override fun gallery(call: ApplicationCall, sort: SortRace) = call.application.href(Gallery(sort))
     override fun new(call: ApplicationCall) = call.application.href(New())
     override fun preview(call: ApplicationCall, id: RaceId) = call.application.href(Preview(id))
     override fun update(call: ApplicationCall, id: RaceId) = call.application.href(Update(id))
