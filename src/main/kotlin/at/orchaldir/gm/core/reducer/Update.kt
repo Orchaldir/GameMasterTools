@@ -109,6 +109,7 @@ fun reduceUpdateElement(
     is Realm -> updateElement(state, element)
     is Region -> updateElement(state, element)
     is River -> updateElement(state, element)
+    is ShieldType -> updateElement(state, element)
     is Spell -> updateElement(state, element)
     is SpellGroup -> updateElement(state, element)
     is Statistic -> updateElement(state, element)

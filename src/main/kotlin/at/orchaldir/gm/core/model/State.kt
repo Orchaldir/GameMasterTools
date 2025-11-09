@@ -151,6 +151,7 @@ val ELEMENTS =
         REALM_TYPE,
         REGION_TYPE,
         RIVER_TYPE,
+        SHIELD_TYPE_TYPE,
         SPELL_TYPE,
         SPELL_GROUP_TYPE,
         STATISTIC_TYPE,
@@ -235,6 +236,7 @@ data class State(
     fun getRealmStorage() = getStorage<RealmId, Realm>(REALM_TYPE)
     fun getRegionStorage() = getStorage<RegionId, Region>(REGION_TYPE)
     fun getRiverStorage() = getStorage<RiverId, River>(RIVER_TYPE)
+    fun getShieldTypeStorage() = getStorage<ShieldTypeId, ShieldType>(SHIELD_TYPE_TYPE)
     fun getSpellStorage() = getStorage<SpellId, Spell>(SPELL_TYPE)
     fun getSpellGroupStorage() = getStorage<SpellGroupId, SpellGroup>(SPELL_GROUP_TYPE)
     fun getStatisticStorage() = getStorage<StatisticId, Statistic>(STATISTIC_TYPE)
@@ -390,6 +392,7 @@ data class State(
         saveStorage(path, getRealmStorage())
         saveStorage(path, getRegionStorage())
         saveStorage(path, getRiverStorage())
+        saveStorage(path, getShieldTypeStorage())
         saveStorage(path, getSpellStorage())
         saveStorage(path, getSpellGroupStorage())
         saveStorage(path, getStatisticStorage())
@@ -454,6 +457,7 @@ fun createStorage(type: String) = when (type) {
     REALM_TYPE -> Storage(RealmId(0))
     REGION_TYPE -> Storage(RegionId(0))
     RIVER_TYPE -> Storage(RiverId(0))
+    SHIELD_TYPE_TYPE -> Storage(ShieldTypeId(0))
     SPELL_TYPE -> Storage(SpellId(0))
     SPELL_GROUP_TYPE -> Storage(SpellGroupId(0))
     STATISTIC_TYPE -> Storage(StatisticId(0))
@@ -525,6 +529,7 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     REALM_TYPE -> loadStorage<RealmId, Realm>(path, RealmId(0))
     REGION_TYPE -> loadStorage<RegionId, Region>(path, RegionId(0))
     RIVER_TYPE -> loadStorage<RiverId, River>(path, RiverId(0))
+    SHIELD_TYPE_TYPE -> loadStorage<ShieldTypeId, ShieldType>(path, ShieldTypeId(0))
     SPELL_TYPE -> loadStorage<SpellId, Spell>(path, SpellId(0))
     SPELL_GROUP_TYPE -> loadStorage<SpellGroupId, SpellGroup>(path, SpellGroupId(0))
     STATISTIC_TYPE -> loadStorage<StatisticId, Statistic>(path, StatisticId(0))

@@ -140,6 +140,7 @@ fun reduceDeleteElement(
     is RealmId -> deleteElement(state, id, State::canDeleteRealm)
     is RegionId -> deleteElement(state, id, State::canDeleteRegion)
     is RiverId -> deleteElement(state, id, State::canDeleteRiver)
+    is ShieldTypeId -> deleteElement(state, id, State::canDeleteShieldType)
     is SpellId -> deleteElement(state, id, State::canDeleteSpell)
     is SpellGroupId -> deleteElement(state, id, State::canDeleteSpellGroup)
     is StatisticId -> deleteElement(state, id, State::canDeleteStatistic)
