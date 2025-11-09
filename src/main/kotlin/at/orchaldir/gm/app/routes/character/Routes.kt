@@ -17,7 +17,10 @@ class CharacterRoutes : Routes<CharacterId, SortCharacter> {
     )
 
     @Resource("gallery")
-    class Gallery(val parent: CharacterRoutes = CharacterRoutes())
+    class Gallery(
+        val sort: SortCharacter = SortCharacter.Name,
+        val parent: CharacterRoutes = CharacterRoutes(),
+    )
 
     @Resource("details")
     class Details(val id: CharacterId, val parent: CharacterRoutes = CharacterRoutes())
@@ -42,6 +45,7 @@ class CharacterRoutes : Routes<CharacterId, SortCharacter> {
     override fun delete(call: ApplicationCall, id: CharacterId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: CharacterId) = call.application.href(Edit(id))
     override fun gallery(call: ApplicationCall) = call.application.href(Gallery())
+    override fun gallery(call: ApplicationCall, sort: SortCharacter) = call.application.href(Gallery(sort))
     override fun new(call: ApplicationCall) = call.application.href(New())
     override fun preview(call: ApplicationCall, id: CharacterId) = call.application.href(Preview(id))
     override fun update(call: ApplicationCall, id: CharacterId) = call.application.href(Update(id))
