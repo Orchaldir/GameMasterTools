@@ -52,6 +52,22 @@
      ]
     }
    }
+  },
+  "2": {
+   "id": 2,
+   "data": {
+    "#type": "Armour",
+    "style": {
+     "#type": "Chain",
+     "chain": {
+      "material": 10
+     }
+    },
+    "sleeveStyle": "Long",
+    "stats": {
+     "type": 0
+    }
+   }
   }
  }
 }

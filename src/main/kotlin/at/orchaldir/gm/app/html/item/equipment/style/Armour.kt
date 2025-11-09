@@ -25,7 +25,7 @@ fun HtmlBlockTag.showArmour(
     state: State,
     armour: Armour,
 ) {
-    showDetails("Armour") {
+    showDetails("Armour Style") {
         field("Type", armour.getType())
 
         when (armour) {
@@ -82,7 +82,7 @@ private fun DETAILS.showSegmentedArmour(
 // edit
 
 fun HtmlBlockTag.editArmour(state: State, armour: Armour, param: String = STYLE) {
-    showDetails("Lacing", true) {
+    showDetails("Armour Style", true) {
         selectValue("Type", combine(param, TYPE), ArmourType.entries, armour.getType())
 
         when (armour) {
