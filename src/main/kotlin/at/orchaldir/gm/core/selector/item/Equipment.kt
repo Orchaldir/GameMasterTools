@@ -13,6 +13,7 @@ import at.orchaldir.gm.core.model.rpg.combat.ArmorModifierId
 import at.orchaldir.gm.core.model.rpg.combat.ArmorTypeId
 import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponModifierId
 import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponTypeId
+import at.orchaldir.gm.core.model.rpg.combat.ShieldTypeId
 import at.orchaldir.gm.core.model.util.render.ColorSchemeId
 import at.orchaldir.gm.core.selector.character.getCharactersWith
 import at.orchaldir.gm.core.selector.culture.getFashions
@@ -109,3 +110,6 @@ fun State.getMeleeWeapons(modifier: MeleeWeaponModifierId) = getEquipmentStorage
 fun State.getMeleeWeapons(type: MeleeWeaponTypeId) = getEquipmentStorage()
     .getAll()
     .filter { it.data.getMeleeWeaponStats()?.type == type }
+
+fun State.getShields(type: ShieldTypeId) = getEquipmentStorage()
+    .getAll()

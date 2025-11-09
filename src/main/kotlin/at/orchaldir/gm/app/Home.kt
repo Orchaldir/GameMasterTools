@@ -122,6 +122,7 @@ fun Application.configureRouting() {
                     fieldStorageLink(call, state.getArmorTypeStorage(), ArmorTypeRoutes())
                     fieldStorageLink(call, state.getMeleeWeaponModifierStorage(), MeleeWeaponModifierRoutes())
                     fieldStorageLink(call, state.getMeleeWeaponTypeStorage(), MeleeWeaponTypeRoutes())
+                    fieldStorageLink(call, state.getShieldTypeStorage(), ShieldTypeRoutes())
                     fieldStorageLink(call, state.getStatisticStorage(), StatisticRoutes())
                     h3 { +"Time" }
                     fieldStorageLink(call, state.getCalendarStorage(), CalendarRoutes())

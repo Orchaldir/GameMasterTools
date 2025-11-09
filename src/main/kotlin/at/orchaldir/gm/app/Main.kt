@@ -115,6 +115,7 @@ fun Application.module() {
     configureRealmRouting()
     configureRegionRouting()
     configureRiverRouting()
+    configureShieldTypeRouting()
     configureSpellGroupRouting()
     configureSpellRouting()
     configureStandardOfLivingRouting()

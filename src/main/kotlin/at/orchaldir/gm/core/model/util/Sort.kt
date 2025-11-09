@@ -8,12 +8,12 @@ enum class SortArchitecturalStyle {
 
 enum class SortArmorModifier {
     Name,
-    Armor,
+    Equipment,
 }
 
 enum class SortArmorType {
     Name,
-    Armor,
+    Equipment,
 }
 
 enum class SortArticle {
@@ -166,12 +166,12 @@ enum class SortMaterial {
 
 enum class SortMeleeWeaponModifier {
     Name,
-    Weapons,
+    Equipment,
 }
 
 enum class SortMeleeWeaponType {
     Name,
-    Weapons,
+    Equipment,
 }
 
 enum class SortMoon {
@@ -247,6 +247,11 @@ enum class SortRegion {
 
 enum class SortRiver {
     Name,
+}
+
+enum class SortShieldType {
+    Name,
+    Equipment,
 }
 
 enum class SortSpell {
