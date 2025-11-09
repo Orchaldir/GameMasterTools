@@ -9,7 +9,6 @@ import at.orchaldir.gm.app.html.culture.showFashion
 import at.orchaldir.gm.app.html.tdInlineElements
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.app.routes.health.DiseaseRoutes
 import at.orchaldir.gm.core.model.culture.fashion.FASHION_TYPE
 import at.orchaldir.gm.core.model.culture.fashion.FashionId
 import at.orchaldir.gm.core.model.util.SortFashion
@@ -75,12 +74,10 @@ fun Application.configureFashionRouting() {
             handleShowElement(details.id, FashionRoutes(), HtmlBlockTag::showFashion)
         }
         get<FashionRoutes.New> {
-            handleCreateElement(STORE.getState().getFashionStorage()) { id ->
-                FashionRoutes.Edit(id)
-            }
+            handleCreateElement(FashionRoutes(), STORE.getState().getFashionStorage())
         }
         get<FashionRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, DiseaseRoutes.All())
+            handleDeleteElement(FashionRoutes(), delete.id)
         }
         get<FashionRoutes.Edit> { edit ->
             handleEditElement(edit.id, FashionRoutes(), HtmlBlockTag::editFashion)

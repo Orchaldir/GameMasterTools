@@ -85,12 +85,10 @@ fun Application.configurePersonalityRouting() {
             handleShowElement(details.id, PersonalityTraitRoutes(), HtmlBlockTag::showPersonalityTrait)
         }
         get<PersonalityTraitRoutes.New> {
-            handleCreateElement(STORE.getState().getPersonalityTraitStorage()) { id ->
-                PersonalityTraitRoutes.Edit(id)
-            }
+            handleCreateElement(PersonalityTraitRoutes(), STORE.getState().getPersonalityTraitStorage())
         }
         get<PersonalityTraitRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, PersonalityTraitRoutes())
+            handleDeleteElement(PersonalityTraitRoutes(), delete.id)
         }
         get<PersonalityTraitRoutes.Edit> { edit ->
             handleEditElement(edit.id, PersonalityTraitRoutes(), HtmlBlockTag::editPersonalityTrait)

@@ -1,10 +1,13 @@
 package at.orchaldir.gm.app.routes.race
 
 import at.orchaldir.gm.app.STORE
-import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.Column
+import at.orchaldir.gm.app.html.createNameColumn
 import at.orchaldir.gm.app.html.race.editRaceAppearance
 import at.orchaldir.gm.app.html.race.parseRaceAppearance
 import at.orchaldir.gm.app.html.race.showRaceAppearance
+import at.orchaldir.gm.app.html.svg
+import at.orchaldir.gm.app.html.tdInlineElements
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.generator.AppearanceGeneratorConfig
@@ -24,19 +27,13 @@ import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Distribution
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.visualization.character.appearance.visualizeCharacter
-import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
-import io.ktor.server.html.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
-import mu.KotlinLogging
 import kotlin.random.Random
-
-private val logger = KotlinLogging.logger {}
 
 @Resource("/$RACE_APPEARANCE_TYPE")
 class RaceAppearanceRoutes : Routes<RaceAppearanceId, SortRaceAppearance> {
@@ -76,6 +73,7 @@ class RaceAppearanceRoutes : Routes<RaceAppearanceId, SortRaceAppearance> {
     override fun all(call: ApplicationCall) = call.application.href(All())
     override fun all(call: ApplicationCall, sort: SortRaceAppearance) = call.application.href(All(sort))
     override fun gallery(call: ApplicationCall) = call.application.href(Gallery())
+    override fun gallery(call: ApplicationCall, sort: SortRaceAppearance) = call.application.href(Gallery(sort))
     override fun clone(call: ApplicationCall, id: RaceAppearanceId) = call.application.href(Clone(id))
     override fun delete(call: ApplicationCall, id: RaceAppearanceId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: RaceAppearanceId) = call.application.href(Edit(id))
@@ -99,10 +97,17 @@ fun Application.configureRaceAppearanceRouting() {
             )
         }
         get<RaceAppearanceRoutes.Gallery> { gallery ->
-            logger.info { "Show gallery" }
+            val state = STORE.getState()
+            val routes = RaceAppearanceRoutes()
+            val units = state.sortRaceAppearances(gallery.sort)
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showGallery(call, STORE.getState(), gallery.sort)
+            handleShowGallery(
+                state,
+                routes,
+                units,
+                gallery.sort,
+            ) { element ->
+                getSvg(state, element)
             }
         }
         get<RaceAppearanceRoutes.Details> { details ->
@@ -115,17 +120,13 @@ fun Application.configureRaceAppearanceRouting() {
             }
         }
         get<RaceAppearanceRoutes.New> {
-            handleCreateElement(STORE.getState().getRaceAppearanceStorage()) { id ->
-                RaceAppearanceRoutes.Edit(id)
-            }
+            handleCreateElement(RaceAppearanceRoutes(), STORE.getState().getRaceAppearanceStorage())
         }
         get<RaceAppearanceRoutes.Clone> { clone ->
-            handleCloneElement(clone.id) { cloneId ->
-                RaceAppearanceRoutes.Edit(cloneId)
-            }
+            handleCloneElement(RaceAppearanceRoutes(), clone.id)
         }
         get<RaceAppearanceRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, RaceAppearanceRoutes())
+            handleDeleteElement(RaceAppearanceRoutes(), delete.id)
         }
         get<RaceAppearanceRoutes.Edit> { edit ->
             handleEditElementSplit(
@@ -147,23 +148,6 @@ fun Application.configureRaceAppearanceRouting() {
         post<RaceAppearanceRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseRaceAppearance)
         }
-    }
-}
-
-private fun HTML.showGallery(
-    call: ApplicationCall,
-    state: State,
-    sort: SortRaceAppearance,
-) {
-    val appearances = state.sortRaceAppearances(sort)
-    val backLink = call.application.href(RaceAppearanceRoutes())
-
-    simpleHtml("Race Appearances") {
-        showGallery(call, state, appearances) { element ->
-            getSvg(state, element)
-        }
-
-        back(backLink)
     }
 }
 

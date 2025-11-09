@@ -74,12 +74,10 @@ fun Application.configureSpellGroupRouting() {
             handleShowElement(details.id, SpellGroupRoutes(), HtmlBlockTag::showSpellGroup)
         }
         get<SpellGroupRoutes.New> {
-            handleCreateElement(STORE.getState().getSpellGroupStorage()) { id ->
-                SpellGroupRoutes.Edit(id)
-            }
+            handleCreateElement(SpellGroupRoutes(), STORE.getState().getSpellGroupStorage())
         }
         get<SpellGroupRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, SpellGroupRoutes.All())
+            handleDeleteElement(SpellGroupRoutes(), delete.id)
         }
         get<SpellGroupRoutes.Edit> { edit ->
             handleEditElement(edit.id, SpellGroupRoutes(), HtmlBlockTag::editSpellGroup)

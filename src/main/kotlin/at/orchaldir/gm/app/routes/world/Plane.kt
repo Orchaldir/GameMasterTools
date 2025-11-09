@@ -82,12 +82,10 @@ fun Application.configurePlaneRouting() {
             handleShowElement(details.id, PlaneRoutes(), HtmlBlockTag::showPlane)
         }
         get<PlaneRoutes.New> {
-            handleCreateElement(STORE.getState().getPlaneStorage()) { id ->
-                PlaneRoutes.Edit(id)
-            }
+            handleCreateElement(PlaneRoutes(), STORE.getState().getPlaneStorage())
         }
         get<PlaneRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, PlaneRoutes.All())
+            handleDeleteElement(PlaneRoutes(), delete.id)
         }
         get<PlaneRoutes.Edit> { edit ->
             handleEditElement(edit.id, PlaneRoutes(), HtmlBlockTag::editPlane)

@@ -76,12 +76,10 @@ fun Application.configureWorldRouting() {
             handleShowElement(details.id, WorldRoutes(), HtmlBlockTag::showWorld)
         }
         get<WorldRoutes.New> {
-            handleCreateElement(STORE.getState().getWorldStorage()) { id ->
-                WorldRoutes.Edit(id)
-            }
+            handleCreateElement(WorldRoutes(), STORE.getState().getWorldStorage())
         }
         get<WorldRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, WorldRoutes.All())
+            handleDeleteElement(WorldRoutes(), delete.id)
         }
         get<WorldRoutes.Edit> { edit ->
             handleEditElement(edit.id, WorldRoutes(), HtmlBlockTag::editWorld)

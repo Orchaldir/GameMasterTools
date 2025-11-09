@@ -25,19 +25,13 @@ import at.orchaldir.gm.utils.math.unit.maxOf
 import at.orchaldir.gm.visualization.character.appearance.calculatePaddedSize
 import at.orchaldir.gm.visualization.character.appearance.visualizeAppearance
 import at.orchaldir.gm.visualization.character.appearance.visualizeGroup
-import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
-import io.ktor.server.html.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
 import kotlinx.html.p
-import mu.KotlinLogging
-
-private val logger = KotlinLogging.logger {}
 
 @Resource("/$RACE_TYPE")
 class RaceRoutes : Routes<RaceId, SortRace> {
@@ -80,6 +74,7 @@ class RaceRoutes : Routes<RaceId, SortRace> {
     override fun delete(call: ApplicationCall, id: RaceId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: RaceId) = call.application.href(Edit(id))
     override fun gallery(call: ApplicationCall) = call.application.href(Gallery())
+    override fun gallery(call: ApplicationCall, sort: SortRace) = call.application.href(Gallery(sort))
     override fun new(call: ApplicationCall) = call.application.href(New())
     override fun preview(call: ApplicationCall, id: RaceId) = call.application.href(Preview(id))
     override fun update(call: ApplicationCall, id: RaceId) = call.application.href(Update(id))
@@ -108,10 +103,24 @@ fun Application.configureRaceRouting() {
             )
         }
         get<RaceRoutes.Gallery> { gallery ->
-            logger.info { "Show gallery" }
+            val state = STORE.getState()
+            val routes = RaceRoutes()
+            val races = state.sortRaces(gallery.sort)
+            val maxHeight = maxOf(races.map { it.height.getMax() })
+            val maxSize = CHARACTER_CONFIG.calculateSize(maxHeight)
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showGallery(call, STORE.getState(), gallery.sort)
+            handleShowGallery(
+                state,
+                routes,
+                races,
+                gallery.sort,
+            ) { race ->
+                val lifeStage = race.lifeStages.getAllLifeStages().maxBy { it.relativeSize.toPermyriad() }
+                val appearance = generateAppearance(state, race, race.genders.getValidValues().first())
+                val appearanceForAge = getAppearanceForAge(race, appearance, lifeStage.maxAge)
+                val paddedSize = calculatePaddedSize(CHARACTER_CONFIG, appearanceForAge)
+
+                visualizeAppearance(state, CHARACTER_CONFIG, maxSize, appearanceForAge, paddedSize)
             }
         }
         get<RaceRoutes.Details> { details ->
@@ -122,17 +131,13 @@ fun Application.configureRaceRouting() {
             }
         }
         get<RaceRoutes.New> {
-            handleCreateElement(STORE.getState().getRaceStorage()) { id ->
-                RaceRoutes.Edit(id)
-            }
+            handleCreateElement(RaceRoutes(), STORE.getState().getRaceStorage())
         }
         get<RaceRoutes.Clone> { clone ->
-            handleCloneElement(clone.id) { cloneId ->
-                RaceRoutes.Edit(cloneId)
-            }
+            handleCloneElement(RaceRoutes(), clone.id)
         }
         get<RaceRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, RaceRoutes.All())
+            handleDeleteElement(RaceRoutes(), delete.id)
         }
         get<RaceRoutes.Edit> { edit ->
             handleEditElementSplit(
@@ -154,32 +159,6 @@ fun Application.configureRaceRouting() {
         post<RaceRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseRace)
         }
-    }
-}
-
-private fun HTML.showGallery(
-    call: ApplicationCall,
-    state: State,
-    sort: SortRace,
-) {
-    val races = state.sortRaces(sort)
-    val maxHeight = maxOf(races.map { it.height.getMax() })
-    val maxSize = CHARACTER_CONFIG.calculateSize(maxHeight)
-    val backLink = call.application.href(RaceRoutes.All())
-
-    simpleHtml("Races") {
-        showSortTableLinks(call, SortRace.entries, RaceRoutes())
-
-        showGallery(call, state, races) { race ->
-            val lifeStage = race.lifeStages.getAllLifeStages().maxBy { it.relativeSize.toPermyriad() }
-            val appearance = generateAppearance(state, race, race.genders.getValidValues().first())
-            val appearanceForAge = getAppearanceForAge(race, appearance, lifeStage.maxAge)
-            val paddedSize = calculatePaddedSize(CHARACTER_CONFIG, appearanceForAge)
-
-            visualizeAppearance(state, CHARACTER_CONFIG, maxSize, appearanceForAge, paddedSize)
-        }
-
-        back(backLink)
     }
 }
 

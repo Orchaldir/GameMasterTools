@@ -76,12 +76,10 @@ fun Application.configureLegalCodeRouting() {
             handleShowElement(details.id, LegalCodeRoutes(), HtmlBlockTag::showLegalCode)
         }
         get<LegalCodeRoutes.New> {
-            handleCreateElement(STORE.getState().getLegalCodeStorage()) { id ->
-                LegalCodeRoutes.Edit(id)
-            }
+            handleCreateElement(LegalCodeRoutes(), STORE.getState().getLegalCodeStorage())
         }
         get<LegalCodeRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, LegalCodeRoutes.All())
+            handleDeleteElement(LegalCodeRoutes(), delete.id)
         }
         get<LegalCodeRoutes.Edit> { edit ->
             handleEditElement(edit.id, LegalCodeRoutes(), HtmlBlockTag::editLegalCode)

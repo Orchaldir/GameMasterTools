@@ -86,12 +86,10 @@ fun Application.configureSpellRouting() {
             handleShowElement(details.id, SpellRoutes(), HtmlBlockTag::showSpell)
         }
         get<SpellRoutes.New> {
-            handleCreateElement(STORE.getState().getSpellStorage()) { id ->
-                SpellRoutes.Edit(id)
-            }
+            handleCreateElement(SpellRoutes(), STORE.getState().getSpellStorage())
         }
         get<SpellRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, SpellRoutes.All())
+            handleDeleteElement(SpellRoutes(), delete.id)
         }
         get<SpellRoutes.Edit> { edit ->
             handleEditElement(edit.id, SpellRoutes(), HtmlBlockTag::editSpell)

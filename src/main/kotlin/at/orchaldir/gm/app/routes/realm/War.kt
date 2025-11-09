@@ -80,12 +80,10 @@ fun Application.configureWarRouting() {
             handleShowElement(details.id, WarRoutes(), HtmlBlockTag::showWar)
         }
         get<WarRoutes.New> {
-            handleCreateElement(STORE.getState().getWarStorage()) { id ->
-                WarRoutes.Edit(id)
-            }
+            handleCreateElement(WarRoutes(), STORE.getState().getWarStorage())
         }
         get<WarRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, WarRoutes.All())
+            handleDeleteElement(WarRoutes(), delete.id)
         }
         get<WarRoutes.Edit> { edit ->
             handleEditElement(edit.id, WarRoutes(), HtmlBlockTag::editWar)

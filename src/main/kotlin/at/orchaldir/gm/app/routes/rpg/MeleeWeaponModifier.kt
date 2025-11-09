@@ -73,12 +73,10 @@ fun Application.configureMeleeWeaponModifierRouting() {
             handleShowElement(details.id, MeleeWeaponModifierRoutes(), HtmlBlockTag::showMeleeWeaponModifier)
         }
         get<MeleeWeaponModifierRoutes.New> {
-            handleCreateElement(STORE.getState().getMeleeWeaponModifierStorage()) { id ->
-                MeleeWeaponModifierRoutes.Edit(id)
-            }
+            handleCreateElement(MeleeWeaponModifierRoutes(), STORE.getState().getMeleeWeaponModifierStorage())
         }
         get<MeleeWeaponModifierRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, MeleeWeaponModifierRoutes.All())
+            handleDeleteElement(MeleeWeaponModifierRoutes(), delete.id)
         }
         get<MeleeWeaponModifierRoutes.Edit> { edit ->
             handleEditElement(edit.id, MeleeWeaponModifierRoutes(), HtmlBlockTag::editMeleeWeaponModifier)

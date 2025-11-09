@@ -81,17 +81,13 @@ fun Application.configureCultureRouting() {
             handleShowElement(details.id, CultureRoutes(), HtmlBlockTag::showCulture)
         }
         get<CultureRoutes.New> {
-            handleCreateElement(STORE.getState().getCultureStorage()) { id ->
-                CultureRoutes.Edit(id)
-            }
+            handleCreateElement(CultureRoutes(), STORE.getState().getCultureStorage())
         }
         get<CultureRoutes.Clone> { clone ->
-            handleCloneElement(clone.id) { cloneId ->
-                CultureRoutes.Edit(cloneId)
-            }
+            handleCloneElement(CultureRoutes(), clone.id)
         }
         get<CultureRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, CultureRoutes())
+            handleDeleteElement(CultureRoutes(), delete.id)
         }
         get<CultureRoutes.Edit> { edit ->
             handleEditElement(edit.id, CultureRoutes(), HtmlBlockTag::editCulture)

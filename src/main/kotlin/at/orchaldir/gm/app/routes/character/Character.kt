@@ -16,7 +16,6 @@ import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.SexualOrientation
 import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
-import at.orchaldir.gm.core.model.util.SortCharacter
 import at.orchaldir.gm.core.selector.character.getAppearanceForAge
 import at.orchaldir.gm.core.selector.item.getEquipment
 import at.orchaldir.gm.core.selector.organization.getOrganizations
@@ -27,19 +26,13 @@ import at.orchaldir.gm.utils.RandomNumberGenerator
 import at.orchaldir.gm.visualization.character.appearance.calculatePaddedSize
 import at.orchaldir.gm.visualization.character.appearance.visualizeAppearance
 import at.orchaldir.gm.visualization.character.appearance.visualizeCharacter
-import io.ktor.http.*
 import io.ktor.server.application.*
-import io.ktor.server.html.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
 import kotlinx.html.td
-import mu.KotlinLogging
 import kotlin.random.Random
-
-private val logger = KotlinLogging.logger {}
 
 fun Application.configureCharacterRouting() {
     routing {
@@ -87,23 +80,40 @@ fun Application.configureCharacterRouting() {
                 showHousingStatusCount(it)
             }
         }
-        get<CharacterRoutes.Gallery> {
-            logger.info { "Show gallery" }
+        get<CharacterRoutes.Gallery> { gallery ->
+            val state = STORE.getState()
+            val routes = CharacterRoutes()
+            val characters = state
+                .getCharacterStorage()
+                .getAll()
+                .filter { it.appearance !is UndefinedAppearance }
+            val sortedCharacters = state.sortCharacters(characters, gallery.sort)
+            val maxSize = sortedCharacters
+                .map { calculatePaddedSize(CHARACTER_CONFIG, it.appearance) }
+                .maxBy { it.baseSize.height.value() }
+                .getFullSize()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showGallery(call, STORE.getState())
+            handleShowGallery(
+                state,
+                routes,
+                sortedCharacters,
+                gallery.sort,
+            ) { character ->
+                val equipment = state.getEquipment(character)
+                val appearance = state.getAppearanceForAge(character)
+                val paddedSize = calculatePaddedSize(CHARACTER_CONFIG, appearance)
+
+                visualizeAppearance(state, CHARACTER_CONFIG, maxSize, appearance, paddedSize, equipment)
             }
         }
         get<CharacterRoutes.Details> { details ->
             handleShowElement(details.id, CharacterRoutes(), HtmlBlockTag::showCharacterDetails)
         }
         get<CharacterRoutes.New> {
-            handleCreateElement(STORE.getState().getCharacterStorage()) { id ->
-                CharacterRoutes.Edit(id)
-            }
+            handleCreateElement(CharacterRoutes(), STORE.getState().getCharacterStorage())
         }
         get<CharacterRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, CharacterRoutes.All())
+            handleDeleteElement(CharacterRoutes(), delete.id)
         }
         get<CharacterRoutes.Edit> { edit ->
             handleEditElement(edit.id, CharacterRoutes(), HtmlBlockTag::editCharacter)
@@ -142,35 +152,6 @@ fun generateName(
     val name = generator.generate()
 
     return state.getCharacterStorage().getOrThrow(id).copy(name = name)
-}
-
-private fun HTML.showGallery(
-    call: ApplicationCall,
-    state: State,
-) {
-    val characters = state
-        .getCharacterStorage()
-        .getAll()
-        .filter { it.appearance !is UndefinedAppearance }
-    val sortedCharacters = state.sortCharacters(characters, SortCharacter.Name)
-    val charactersWithSize =
-        sortedCharacters.map { Triple(it, it.name(state), calculatePaddedSize(CHARACTER_CONFIG, it.appearance)) }
-    val maxSize = charactersWithSize
-        .maxBy { it.third.baseSize.height.value() }
-        .third
-        .getFullSize()
-    val backLink = call.application.href(CharacterRoutes.All())
-
-    simpleHtml("Characters") {
-        showGallery(call, charactersWithSize) { (character, _, paddedSize) ->
-            val equipment = state.getEquipment(character)
-            val appearance = state.getAppearanceForAge(character)
-
-            visualizeAppearance(state, CHARACTER_CONFIG, maxSize, appearance, paddedSize, equipment)
-        }
-
-        back(backLink)
-    }
 }
 
 private fun HtmlBlockTag.showCharacterDetails(

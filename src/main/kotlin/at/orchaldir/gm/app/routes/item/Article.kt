@@ -75,12 +75,10 @@ fun Application.configureArticleRouting() {
             handleShowElement(details.id, ArticleRoutes(), HtmlBlockTag::showArticle)
         }
         get<ArticleRoutes.New> {
-            handleCreateElement(STORE.getState().getArticleStorage()) { id ->
-                ArticleRoutes.Edit(id)
-            }
+            handleCreateElement(ArticleRoutes(), STORE.getState().getArticleStorage())
         }
         get<ArticleRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, ArticleRoutes.All())
+            handleDeleteElement(ArticleRoutes(), delete.id)
         }
         get<ArticleRoutes.Edit> { edit ->
             handleEditElement(edit.id, ArticleRoutes(), HtmlBlockTag::editArticle)

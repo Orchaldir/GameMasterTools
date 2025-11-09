@@ -77,12 +77,10 @@ fun Application.configureCurrencyRouting() {
             handleShowElement(details.id, CurrencyRoutes(), HtmlBlockTag::showCurrency)
         }
         get<CurrencyRoutes.New> {
-            handleCreateElement(STORE.getState().getCurrencyStorage()) { id ->
-                CurrencyRoutes.Edit(id)
-            }
+            handleCreateElement(CurrencyRoutes(), STORE.getState().getCurrencyStorage())
         }
         get<CurrencyRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, CurrencyRoutes.All())
+            handleDeleteElement(CurrencyRoutes(), delete.id)
         }
         get<CurrencyRoutes.Edit> { edit ->
             handleEditElement(edit.id, CurrencyRoutes(), HtmlBlockTag::editCurrency)

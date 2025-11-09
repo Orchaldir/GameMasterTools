@@ -1,10 +1,12 @@
 package at.orchaldir.gm.app.routes.item
 
 import at.orchaldir.gm.app.STORE
-import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.countCollectionColumn
+import at.orchaldir.gm.app.html.createNameColumn
 import at.orchaldir.gm.app.html.item.editUniform
 import at.orchaldir.gm.app.html.item.parseUniform
 import at.orchaldir.gm.app.html.item.showUniform
+import at.orchaldir.gm.app.html.svg
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
@@ -20,18 +22,13 @@ import at.orchaldir.gm.core.selector.util.sortUniforms
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMeters
 import at.orchaldir.gm.visualization.character.appearance.visualizeCharacter
-import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
-import io.ktor.server.html.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
-import mu.KotlinLogging
 
-private val logger = KotlinLogging.logger {}
 private val appearance = HumanoidBody(Body(), Head(), fromMeters(2))
 
 @Resource("/$UNIFORM_TYPE")
@@ -43,7 +40,10 @@ class UniformRoutes : Routes<UniformId, SortUniform> {
     )
 
     @Resource("gallery")
-    class Gallery(val parent: UniformRoutes = UniformRoutes())
+    class Gallery(
+        val sort: SortUniform = SortUniform.Name,
+        val parent: UniformRoutes = UniformRoutes(),
+    )
 
     @Resource("details")
     class Details(val id: UniformId, val parent: UniformRoutes = UniformRoutes())
@@ -68,6 +68,7 @@ class UniformRoutes : Routes<UniformId, SortUniform> {
     override fun delete(call: ApplicationCall, id: UniformId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: UniformId) = call.application.href(Edit(id))
     override fun gallery(call: ApplicationCall) = call.application.href(Gallery())
+    override fun gallery(call: ApplicationCall, sort: SortUniform) = call.application.href(Gallery(sort))
     override fun new(call: ApplicationCall) = call.application.href(New())
     override fun preview(call: ApplicationCall, id: UniformId) = call.application.href(Preview(id))
     override fun update(call: ApplicationCall, id: UniformId) = call.application.href(Update(id))
@@ -87,11 +88,18 @@ fun Application.configureUniformRouting() {
                 ),
             )
         }
-        get<UniformRoutes.Gallery> {
-            logger.info { "Show gallery" }
+        get<UniformRoutes.Gallery> { gallery ->
+            val state = STORE.getState()
+            val routes = UniformRoutes()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showGallery(call, STORE.getState())
+            handleShowGallery(
+                state,
+                routes,
+                state.sortUniforms(gallery.sort),
+                gallery.sort,
+            ) { uniform ->
+                val equipped = state.getEquipment(uniform.equipmentMap)
+                visualizeCharacter(state, CHARACTER_CONFIG, appearance, equipped)
             }
         }
         get<UniformRoutes.Details> { details ->
@@ -103,12 +111,10 @@ fun Application.configureUniformRouting() {
             }
         }
         get<UniformRoutes.New> {
-            handleCreateElement(STORE.getState().getUniformStorage()) { id ->
-                UniformRoutes.Edit(id)
-            }
+            handleCreateElement(UniformRoutes(), STORE.getState().getUniformStorage())
         }
         get<UniformRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, UniformRoutes.All())
+            handleDeleteElement(UniformRoutes(), delete.id)
         }
         get<UniformRoutes.Edit> { edit ->
             handleEditElementSplit(
@@ -130,23 +136,6 @@ fun Application.configureUniformRouting() {
         post<UniformRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseUniform)
         }
-    }
-}
-
-private fun HTML.showGallery(
-    call: ApplicationCall,
-    state: State,
-) {
-    val uniforms = state.sortUniforms()
-    val backLink = call.application.href(UniformRoutes.All())
-
-    simpleHtml("Uniforms") {
-        showGallery(call, state, uniforms) { uniform ->
-            val equipped = state.getEquipment(uniform.equipmentMap)
-            visualizeCharacter(state, CHARACTER_CONFIG, appearance, equipped)
-        }
-
-        back(backLink)
     }
 }
 

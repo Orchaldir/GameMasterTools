@@ -94,12 +94,10 @@ fun Application.configureJobRouting() {
             handleShowElement(details.id, JobRoutes(), HtmlBlockTag::showJob)
         }
         get<JobRoutes.New> {
-            handleCreateElement(STORE.getState().getJobStorage()) { id ->
-                JobRoutes.Edit(id)
-            }
+            handleCreateElement(JobRoutes(), STORE.getState().getJobStorage())
         }
         get<JobRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, JobRoutes.All())
+            handleDeleteElement(JobRoutes(), delete.id)
         }
         get<JobRoutes.Edit> { edit ->
             handleEditElement(edit.id, JobRoutes(), HtmlBlockTag::editJob)

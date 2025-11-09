@@ -73,10 +73,10 @@ fun Application.configureRegionRouting() {
             handleShowElement(details.id, RegionRoutes(), HtmlBlockTag::showRegion)
         }
         get<RegionRoutes.New> {
-            handleCreateElement(STORE.getState().getRegionStorage(), RegionRoutes::Edit)
+            handleCreateElement(RegionRoutes(), STORE.getState().getRegionStorage())
         }
         get<RegionRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, RegionRoutes.All())
+            handleDeleteElement(RegionRoutes(), delete.id)
         }
         get<RegionRoutes.Edit> { edit ->
             handleEditElement(edit.id, RegionRoutes(), HtmlBlockTag::editRegion)

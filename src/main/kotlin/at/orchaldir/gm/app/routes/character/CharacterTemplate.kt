@@ -79,17 +79,13 @@ fun Application.configureCharacterTemplateRouting() {
             handleShowElement(details.id, CharacterTemplateRoutes(), HtmlBlockTag::showCharacterTemplate)
         }
         get<CharacterTemplateRoutes.New> {
-            handleCreateElement(STORE.getState().getCharacterTemplateStorage()) { id ->
-                CharacterTemplateRoutes.Edit(id)
-            }
+            handleCreateElement(CharacterTemplateRoutes(), STORE.getState().getCharacterTemplateStorage())
         }
         get<CharacterTemplateRoutes.Clone> { clone ->
-            handleCloneElement(clone.id) { cloneId ->
-                CharacterTemplateRoutes.Edit(cloneId)
-            }
+            handleCloneElement(CharacterTemplateRoutes(), clone.id)
         }
         get<CharacterTemplateRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, CharacterTemplateRoutes.All())
+            handleDeleteElement(CharacterTemplateRoutes(), delete.id)
         }
         get<CharacterTemplateRoutes.Edit> { edit ->
             handleEditElement(edit.id, CharacterTemplateRoutes(), HtmlBlockTag::editCharacterTemplate)

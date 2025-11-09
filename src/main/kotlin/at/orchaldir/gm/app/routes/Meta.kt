@@ -12,11 +12,11 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
+import at.orchaldir.gm.utils.renderer.svg.Svg
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
 import io.ktor.server.request.*
-import io.ktor.server.resources.*
 import io.ktor.server.response.*
 import io.ktor.util.pipeline.*
 import kotlinx.html.*
@@ -29,6 +29,7 @@ interface Routes<ID : Id<ID>, T> {
     fun delete(call: ApplicationCall, id: ID): String
     fun edit(call: ApplicationCall, id: ID): String
     fun gallery(call: ApplicationCall): String? = null
+    fun gallery(call: ApplicationCall, sort: T): String? = null
     fun new(call: ApplicationCall): String
     fun preview(call: ApplicationCall, id: ID): String
     fun update(call: ApplicationCall, id: ID): String
@@ -56,7 +57,7 @@ inline fun <ID : Id<ID>, ELEMENT : Element<ID>, reified T : Enum<T>> HTML.showAl
 ) {
     simpleHtml(elements.firstOrNull()?.id()?.plural() ?: "Elements") {
         field("Count", elements.size)
-        showSortTableLinks(call, enumValues<T>().toList(), routes)
+        showSortAllLinks(call, enumValues<T>().toList(), routes)
         routes.gallery(call)?.let { action(it, "Gallery") }
 
         table {
@@ -81,46 +82,93 @@ inline fun <ID : Id<ID>, ELEMENT : Element<ID>, reified T : Enum<T>> HTML.showAl
     }
 }
 
-suspend inline fun <reified T : Any, ID : Id<ID>, ELEMENT : Element<ID>> PipelineContext<Unit, ApplicationCall>.handleCreateElement(
+suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>, reified T : Enum<T>> PipelineContext<Unit, ApplicationCall>.handleShowGallery(
+    state: State,
+    routes: Routes<ID, T>,
+    elements: List<ELEMENT>,
+    sort: T,
+    crossinline showElement: HtmlBlockTag.(ELEMENT) -> Svg,
+) {
+    logger.info { "Get gallery" }
+
+    call.respondHtml(HttpStatusCode.OK) {
+        showGallery(call, routes, elements, sort, { it.name(state) }, showElement)
+    }
+}
+
+suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>, reified T : Enum<T>> PipelineContext<Unit, ApplicationCall>.handleShowGallery(
+    routes: Routes<ID, T>,
+    elements: List<ELEMENT>,
+    sort: T,
+    noinline getName: (ELEMENT) -> String,
+    crossinline showElement: HtmlBlockTag.(ELEMENT) -> Svg,
+) {
+    logger.info { "Get gallery" }
+
+    call.respondHtml(HttpStatusCode.OK) {
+        showGallery(call, routes, elements, sort, getName, showElement)
+    }
+}
+
+inline fun <ID : Id<ID>, ELEMENT : Element<ID>, reified T : Enum<T>> HTML.showGallery(
+    call: ApplicationCall,
+    routes: Routes<ID, T>,
+    elements: List<ELEMENT>,
+    sort: T,
+    noinline getName: (ELEMENT) -> String,
+    crossinline showElement: HtmlBlockTag.(ELEMENT) -> Svg,
+) {
+    simpleHtml("Equipment") {
+        field("Count", elements.size)
+        showSortGalleryLinks(call, enumValues<T>().toList(), routes)
+        back(routes.all(call, sort))
+
+        showGallery(call, elements, getName) { element ->
+            showElement(element)
+        }
+
+        back(routes.all(call, sort))
+    }
+}
+
+suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>, reified T : Enum<T>> PipelineContext<Unit, ApplicationCall>.handleCreateElement(
+    routes: Routes<ID, T>,
     storage: Storage<ID, ELEMENT>,
-    createResource: (ID) -> T,
 ) {
     val id = storage.nextId
     logger.info { "Create ${id.print()}" }
 
     STORE.dispatch(CreateAction(id))
 
-    val resource = createResource(id)
-    call.respondRedirect(call.application.href(resource))
+    call.respondRedirect(routes.edit(call, id))
 
     STORE.getState().save()
 }
 
-suspend inline fun <reified T : Any, ID : Id<ID>, ELEMENT : Element<ID>> PipelineContext<Unit, ApplicationCall>.handleCloneElement(
+suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>, reified T : Enum<T>> PipelineContext<Unit, ApplicationCall>.handleCloneElement(
+    routes: Routes<ID, T>,
     id: ID,
-    createResource: (ID) -> T,
 ) {
     logger.info { "Clone ${id.print()}" }
 
     STORE.dispatch(CloneAction(id))
 
     val storage = STORE.getState().getStorage<ID, ELEMENT>(id)
-    val resource = createResource(storage.lastId)
-    call.respondRedirect(call.application.href(resource))
+    call.respondRedirect(routes.edit(call, storage.lastId))
 
     STORE.getState().save()
 }
 
-suspend inline fun <reified T : Any, ID : Id<ID>> PipelineContext<Unit, ApplicationCall>.handleDeleteElement(
+suspend inline fun <ID : Id<ID>, reified T : Enum<T>> PipelineContext<Unit, ApplicationCall>.handleDeleteElement(
+    routes: Routes<ID, T>,
     id: ID,
-    routes: T,
 ) {
     logger.info { "Delete ${id.print()}" }
 
     try {
         STORE.dispatch(DeleteAction(id))
 
-        call.respondRedirect(call.application.href(routes))
+        call.respondRedirect(routes.all(call))
 
         STORE.getState().save()
     } catch (e: CannotDeleteException) {
@@ -354,6 +402,37 @@ suspend fun <ELEMENT : Element<ID>, ID : Id<ID>, T> PipelineContext<Unit, Applic
             }, {
                 showRight(call, state, element)
             })
+        }
+    }
+}
+
+// sort
+
+fun <T : Enum<T>, ID : Id<ID>> HtmlBlockTag.showSortAllLinks(
+    call: ApplicationCall,
+    entries: List<T>,
+    routes: Routes<ID, T>,
+) = showSortTableLinks(entries) {
+    routes.all(call, it)
+}
+
+fun <T : Enum<T>, ID : Id<ID>> HtmlBlockTag.showSortGalleryLinks(
+    call: ApplicationCall,
+    entries: List<T>,
+    routes: Routes<ID, T>,
+) = showSortTableLinks(entries) {
+    routes.gallery(call, it) ?: ""
+}
+
+fun <T : Enum<T>> HtmlBlockTag.showSortTableLinks(
+    entries: List<T>,
+    createLink: (T) -> String,
+) {
+    field("Sort") {
+        entries.forEach {
+            val link = createLink(it)
+            link(link, it.name)
+            +" "
         }
     }
 }

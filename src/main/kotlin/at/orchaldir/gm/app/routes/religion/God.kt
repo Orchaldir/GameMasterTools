@@ -98,12 +98,10 @@ fun Application.configureGodRouting() {
             handleShowElement(details.id, GodRoutes(), HtmlBlockTag::showGod)
         }
         get<GodRoutes.New> {
-            handleCreateElement(STORE.getState().getGodStorage()) { id ->
-                GodRoutes.Edit(id)
-            }
+            handleCreateElement(GodRoutes(), STORE.getState().getGodStorage())
         }
         get<GodRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, GodRoutes.All())
+            handleDeleteElement(GodRoutes(), delete.id)
         }
         get<GodRoutes.Edit> { edit ->
             handleEditElement(edit.id, GodRoutes(), HtmlBlockTag::editGod)
