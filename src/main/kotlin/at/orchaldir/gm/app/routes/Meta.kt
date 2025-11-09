@@ -92,7 +92,7 @@ suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>, reified T : Enum<T>> Pip
     logger.info { "Get gallery" }
 
     call.respondHtml(HttpStatusCode.OK) {
-        showGallery(call, routes, elements, sort, { it.name(state) },showElement)
+        showGallery(call, routes, elements, sort, { it.name(state) }, showElement)
     }
 }
 
