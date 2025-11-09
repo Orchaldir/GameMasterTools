@@ -132,17 +132,16 @@ inline fun <ID : Id<ID>, ELEMENT : Element<ID>, reified T : Enum<T>> HTML.showGa
     }
 }
 
-suspend inline fun <reified T : Any, ID : Id<ID>, ELEMENT : Element<ID>> PipelineContext<Unit, ApplicationCall>.handleCreateElement(
+suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>, reified T : Enum<T>> PipelineContext<Unit, ApplicationCall>.handleCreateElement(
+    routes: Routes<ID, T>,
     storage: Storage<ID, ELEMENT>,
-    createResource: (ID) -> T,
 ) {
     val id = storage.nextId
     logger.info { "Create ${id.print()}" }
 
     STORE.dispatch(CreateAction(id))
 
-    val resource = createResource(id)
-    call.respondRedirect(call.application.href(resource))
+    call.respondRedirect(routes.edit(call, id))
 
     STORE.getState().save()
 }

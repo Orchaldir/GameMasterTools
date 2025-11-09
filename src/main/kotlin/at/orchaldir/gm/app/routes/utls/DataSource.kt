@@ -78,9 +78,7 @@ fun Application.configureDataSourceRouting() {
             handleShowElement(details.id, DataSourceRoutes(), HtmlBlockTag::showDataSource)
         }
         get<DataSourceRoutes.New> {
-            handleCreateElement(STORE.getState().getDataSourceStorage()) { id ->
-                DataSourceRoutes.Edit(id)
-            }
+            handleCreateElement(DataSourceRoutes(), STORE.getState().getDataSourceStorage())
         }
         get<DataSourceRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, DataSourceRoutes.All())

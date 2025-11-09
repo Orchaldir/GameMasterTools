@@ -77,9 +77,7 @@ fun Application.configureMagicTraditionRouting() {
             handleShowElement(details.id, MagicTraditionRoutes(), HtmlBlockTag::showMagicTradition)
         }
         get<MagicTraditionRoutes.New> {
-            handleCreateElement(STORE.getState().getMagicTraditionStorage()) { id ->
-                MagicTraditionRoutes.Edit(id)
-            }
+            handleCreateElement(MagicTraditionRoutes(), STORE.getState().getMagicTraditionStorage())
         }
         get<MagicTraditionRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, MagicTraditionRoutes.All())

@@ -76,9 +76,7 @@ fun Application.configureArmorTypeRouting() {
             handleShowElement(details.id, ArmorTypeRoutes(), HtmlBlockTag::showArmorType)
         }
         get<ArmorTypeRoutes.New> {
-            handleCreateElement(STORE.getState().getArmorTypeStorage()) { id ->
-                ArmorTypeRoutes.Edit(id)
-            }
+            handleCreateElement(ArmorTypeRoutes(), STORE.getState().getArmorTypeStorage())
         }
         get<ArmorTypeRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, ArmorTypeRoutes.All())

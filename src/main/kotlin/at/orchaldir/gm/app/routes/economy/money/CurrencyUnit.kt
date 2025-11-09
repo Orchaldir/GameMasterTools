@@ -116,9 +116,7 @@ fun Application.configureCurrencyUnitRouting() {
             handleShowElement(details.id, CurrencyUnitRoutes(), HtmlBlockTag::showCurrencyUnit)
         }
         get<CurrencyUnitRoutes.New> {
-            handleCreateElement(STORE.getState().getCurrencyUnitStorage()) { id ->
-                CurrencyUnitRoutes.Edit(id)
-            }
+            handleCreateElement(CurrencyUnitRoutes(), STORE.getState().getCurrencyUnitStorage())
         }
         get<CurrencyUnitRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, CurrencyUnitRoutes.All())

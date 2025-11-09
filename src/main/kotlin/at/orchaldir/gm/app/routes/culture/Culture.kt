@@ -81,9 +81,7 @@ fun Application.configureCultureRouting() {
             handleShowElement(details.id, CultureRoutes(), HtmlBlockTag::showCulture)
         }
         get<CultureRoutes.New> {
-            handleCreateElement(STORE.getState().getCultureStorage()) { id ->
-                CultureRoutes.Edit(id)
-            }
+            handleCreateElement(CultureRoutes(), STORE.getState().getCultureStorage())
         }
         get<CultureRoutes.Clone> { clone ->
             handleCloneElement(clone.id) { cloneId ->

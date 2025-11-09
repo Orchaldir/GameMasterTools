@@ -218,9 +218,7 @@ fun Application.configureEquipmentRouting() {
             }
         }
         get<EquipmentRoutes.New> {
-            handleCreateElement(STORE.getState().getEquipmentStorage()) { id ->
-                EquipmentRoutes.Edit(id)
-            }
+            handleCreateElement(EquipmentRoutes(), STORE.getState().getEquipmentStorage())
         }
         get<EquipmentRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, EquipmentRoutes())

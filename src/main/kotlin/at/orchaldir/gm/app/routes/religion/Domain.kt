@@ -76,9 +76,7 @@ fun Application.configureDomainRouting() {
             handleShowElement(details.id, DomainRoutes(), HtmlBlockTag::showDomain)
         }
         get<DomainRoutes.New> {
-            handleCreateElement(STORE.getState().getDomainStorage()) { id ->
-                DomainRoutes.Edit(id)
-            }
+            handleCreateElement(DomainRoutes(), STORE.getState().getDomainStorage())
         }
         get<DomainRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, DomainRoutes.All())

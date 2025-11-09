@@ -111,9 +111,7 @@ fun Application.configureFontRouting() {
             }
         }
         get<FontRoutes.New> {
-            handleCreateElement(STORE.getState().getFontStorage()) { id ->
-                FontRoutes.Edit(id)
-            }
+            handleCreateElement(FontRoutes(), STORE.getState().getFontStorage())
         }
         get<FontRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, FontRoutes.All())

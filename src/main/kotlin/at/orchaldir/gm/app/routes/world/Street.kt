@@ -74,9 +74,7 @@ fun Application.configureStreetRouting() {
             handleShowElement(details.id, StreetRoutes(), HtmlBlockTag::showStreet)
         }
         get<StreetRoutes.New> {
-            handleCreateElement(STORE.getState().getStreetStorage()) { id ->
-                StreetRoutes.Edit(id)
-            }
+            handleCreateElement(StreetRoutes(), STORE.getState().getStreetStorage())
         }
         get<StreetRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, StreetRoutes())

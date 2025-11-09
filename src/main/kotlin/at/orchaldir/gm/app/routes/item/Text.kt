@@ -125,9 +125,7 @@ fun Application.configureTextRouting() {
             }
         }
         get<TextRoutes.New> {
-            handleCreateElement(STORE.getState().getTextStorage()) { id ->
-                TextRoutes.Edit(id)
-            }
+            handleCreateElement(TextRoutes(), STORE.getState().getTextStorage())
         }
         get<TextRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, TextRoutes.All())

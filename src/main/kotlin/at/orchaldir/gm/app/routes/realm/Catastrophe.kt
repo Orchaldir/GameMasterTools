@@ -77,9 +77,7 @@ fun Application.configureCatastropheRouting() {
             handleShowElement(details.id, CatastropheRoutes(), HtmlBlockTag::showCatastrophe)
         }
         get<CatastropheRoutes.New> {
-            handleCreateElement(STORE.getState().getCatastropheStorage()) { id ->
-                CatastropheRoutes.Edit(id)
-            }
+            handleCreateElement(CatastropheRoutes(), STORE.getState().getCatastropheStorage())
         }
         get<CatastropheRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, CatastropheRoutes.All())

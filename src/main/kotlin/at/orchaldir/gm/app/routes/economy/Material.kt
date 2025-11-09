@@ -85,9 +85,7 @@ fun Application.configureMaterialRouting() {
             handleShowElement(details.id, MaterialRoutes(), HtmlBlockTag::showMaterial)
         }
         get<MaterialRoutes.New> {
-            handleCreateElement(STORE.getState().getMaterialStorage()) { id ->
-                MaterialRoutes.Edit(id)
-            }
+            handleCreateElement(MaterialRoutes(), STORE.getState().getMaterialStorage())
         }
         get<MaterialRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, MaterialRoutes.All())

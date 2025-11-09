@@ -110,9 +110,7 @@ fun Application.configureCharacterRouting() {
             handleShowElement(details.id, CharacterRoutes(), HtmlBlockTag::showCharacterDetails)
         }
         get<CharacterRoutes.New> {
-            handleCreateElement(STORE.getState().getCharacterStorage()) { id ->
-                CharacterRoutes.Edit(id)
-            }
+            handleCreateElement(CharacterRoutes(), STORE.getState().getCharacterStorage())
         }
         get<CharacterRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, CharacterRoutes.All())

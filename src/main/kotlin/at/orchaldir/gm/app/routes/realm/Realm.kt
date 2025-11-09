@@ -84,9 +84,7 @@ fun Application.configureRealmRouting() {
             handleShowElement(details.id, RealmRoutes(), HtmlBlockTag::showRealm)
         }
         get<RealmRoutes.New> {
-            handleCreateElement(STORE.getState().getRealmStorage()) { id ->
-                RealmRoutes.Edit(id)
-            }
+            handleCreateElement(RealmRoutes(), STORE.getState().getRealmStorage())
         }
         get<RealmRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, RealmRoutes.All())

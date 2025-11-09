@@ -55,9 +55,7 @@ fun Application.configureTownMapRouting() {
             }
         }
         get<TownMapRoutes.New> {
-            handleCreateElement(STORE.getState().getTownMapStorage()) { id ->
-                TownMapRoutes.Edit(id)
-            }
+            handleCreateElement(TownMapRoutes(), STORE.getState().getTownMapStorage())
         }
         get<TownMapRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, TownMapRoutes.All())

@@ -7,7 +7,6 @@ import at.orchaldir.gm.app.html.race.editRace
 import at.orchaldir.gm.app.html.race.parseRace
 import at.orchaldir.gm.app.html.race.showRace
 import at.orchaldir.gm.app.routes.*
-import at.orchaldir.gm.app.routes.economy.money.CurrencyUnitRoutes.Gallery
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
@@ -16,7 +15,6 @@ import at.orchaldir.gm.core.model.culture.fashion.AppearanceFashion
 import at.orchaldir.gm.core.model.race.RACE_TYPE
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
-import at.orchaldir.gm.core.model.util.SortCurrencyUnit
 import at.orchaldir.gm.core.model.util.SortRace
 import at.orchaldir.gm.core.selector.character.countCharacters
 import at.orchaldir.gm.core.selector.character.getAppearanceForAge
@@ -133,9 +131,7 @@ fun Application.configureRaceRouting() {
             }
         }
         get<RaceRoutes.New> {
-            handleCreateElement(STORE.getState().getRaceStorage()) { id ->
-                RaceRoutes.Edit(id)
-            }
+            handleCreateElement(RaceRoutes(), STORE.getState().getRaceStorage())
         }
         get<RaceRoutes.Clone> { clone ->
             handleCloneElement(clone.id) { cloneId ->

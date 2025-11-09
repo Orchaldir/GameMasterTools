@@ -77,9 +77,7 @@ fun Application.configureDistrictRouting() {
             handleShowElement(details.id, DistrictRoutes(), HtmlBlockTag::showDistrict)
         }
         get<DistrictRoutes.New> {
-            handleCreateElement(STORE.getState().getDistrictStorage()) { id ->
-                DistrictRoutes.Edit(id)
-            }
+            handleCreateElement(DistrictRoutes(), STORE.getState().getDistrictStorage())
         }
         get<DistrictRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, DistrictRoutes.All())

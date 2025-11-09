@@ -120,9 +120,7 @@ fun Application.configureRaceAppearanceRouting() {
             }
         }
         get<RaceAppearanceRoutes.New> {
-            handleCreateElement(STORE.getState().getRaceAppearanceStorage()) { id ->
-                RaceAppearanceRoutes.Edit(id)
-            }
+            handleCreateElement(RaceAppearanceRoutes(), STORE.getState().getRaceAppearanceStorage())
         }
         get<RaceAppearanceRoutes.Clone> { clone ->
             handleCloneElement(clone.id) { cloneId ->

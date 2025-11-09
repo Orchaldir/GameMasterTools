@@ -76,9 +76,7 @@ fun Application.configureMoonRouting() {
             handleShowElement(details.id, MoonRoutes(), HtmlBlockTag::showMoon)
         }
         get<MoonRoutes.New> {
-            handleCreateElement(STORE.getState().getMoonStorage()) { id ->
-                MoonRoutes.Edit(id)
-            }
+            handleCreateElement(MoonRoutes(), STORE.getState().getMoonStorage())
         }
         get<MoonRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, MoonRoutes.All())

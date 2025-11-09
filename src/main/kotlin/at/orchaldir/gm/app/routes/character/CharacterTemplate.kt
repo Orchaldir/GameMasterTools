@@ -79,9 +79,7 @@ fun Application.configureCharacterTemplateRouting() {
             handleShowElement(details.id, CharacterTemplateRoutes(), HtmlBlockTag::showCharacterTemplate)
         }
         get<CharacterTemplateRoutes.New> {
-            handleCreateElement(STORE.getState().getCharacterTemplateStorage()) { id ->
-                CharacterTemplateRoutes.Edit(id)
-            }
+            handleCreateElement(CharacterTemplateRoutes(), STORE.getState().getCharacterTemplateStorage())
         }
         get<CharacterTemplateRoutes.Clone> { clone ->
             handleCloneElement(clone.id) { cloneId ->

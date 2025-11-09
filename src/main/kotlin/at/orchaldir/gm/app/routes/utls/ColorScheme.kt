@@ -78,9 +78,7 @@ fun Application.configureColorSchemeRouting() {
             handleShowElement(details.id, ColorSchemeRoutes(), HtmlBlockTag::showColorScheme)
         }
         get<ColorSchemeRoutes.New> {
-            handleCreateElement(STORE.getState().getColorSchemeStorage()) { id ->
-                ColorSchemeRoutes.Edit(id)
-            }
+            handleCreateElement(ColorSchemeRoutes(), STORE.getState().getColorSchemeStorage())
         }
         get<ColorSchemeRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, ColorSchemeRoutes.All())

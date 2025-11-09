@@ -76,9 +76,7 @@ fun Application.configurePeriodicalIssueRouting() {
             handleShowElement(details.id, PeriodicalIssueRoutes(), HtmlBlockTag::showPeriodicalIssue)
         }
         get<PeriodicalIssueRoutes.New> {
-            handleCreateElement(STORE.getState().getPeriodicalIssueStorage()) { id ->
-                PeriodicalIssueRoutes.Edit(id)
-            }
+            handleCreateElement(PeriodicalIssueRoutes(), STORE.getState().getPeriodicalIssueStorage())
         }
         get<PeriodicalIssueRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, PeriodicalIssueRoutes.All())

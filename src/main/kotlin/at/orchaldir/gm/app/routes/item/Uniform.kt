@@ -111,9 +111,7 @@ fun Application.configureUniformRouting() {
             }
         }
         get<UniformRoutes.New> {
-            handleCreateElement(STORE.getState().getUniformStorage()) { id ->
-                UniformRoutes.Edit(id)
-            }
+            handleCreateElement(UniformRoutes(), STORE.getState().getUniformStorage())
         }
         get<UniformRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, UniformRoutes.All())

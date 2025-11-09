@@ -90,9 +90,7 @@ fun Application.configureStreetTemplateRouting() {
             )
         }
         get<StreetTemplateRoutes.New> {
-            handleCreateElement(STORE.getState().getStreetTemplateStorage()) { id ->
-                StreetTemplateRoutes.Edit(id)
-            }
+            handleCreateElement(StreetTemplateRoutes(), STORE.getState().getStreetTemplateStorage())
         }
         get<StreetTemplateRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, StreetTemplateRoutes())
