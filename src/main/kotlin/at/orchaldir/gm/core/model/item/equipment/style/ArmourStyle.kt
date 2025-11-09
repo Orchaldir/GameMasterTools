@@ -29,32 +29,42 @@ val MAX_SCALE_OVERLAP = THREE_QUARTER
 val LAMELLAR_SHAPES = SHAPES_WITHOUT_CROSS - ReverseTeardrop - Teardrop
 
 enum class ArmourType {
+    Chain,
     Lamellar,
     Scale,
     Segmented,
 }
 
 @Serializable
-sealed class Armour : MadeFromParts {
+sealed class ArmourStyle : MadeFromParts {
 
     fun getType() = when (this) {
+        is ChainMail -> ArmourType.Chain
         is LamellarArmour -> ArmourType.Lamellar
         is ScaleArmour -> ArmourType.Scale
         is SegmentedArmour -> ArmourType.Segmented
     }
 
     override fun parts() = when (this) {
+        is ChainMail -> listOf(chain)
         is LamellarArmour -> listOf(scale)
         is ScaleArmour -> listOf(scale)
         is SegmentedArmour -> listOf(segment)
     }
 
     override fun mainMaterial() = when (this) {
+        is ChainMail -> chain.material
         is LamellarArmour -> scale.material
         is ScaleArmour -> scale.material
         is SegmentedArmour -> segment.material
     }
 }
+
+@Serializable
+@SerialName("Chain")
+data class ChainMail(
+    val chain: ColorSchemeItemPart = ColorSchemeItemPart(Color.Silver),
+) : ArmourStyle()
 
 @Serializable
 @SerialName("Lamellar")
@@ -63,7 +73,7 @@ data class LamellarArmour(
     val shape: UsingRectangularShape = UsingRectangularShape(RectangularShape.Ellipse),
     val lacing: LamellarLacing = FourSidesLacing(),
     val columns: Int = DEFAULT_SCALE_COLUMNS,
-) : Armour()
+) : ArmourStyle()
 
 @Serializable
 @SerialName("Scale")
@@ -72,7 +82,7 @@ data class ScaleArmour(
     val shape: ComplexShape = UsingRectangularShape(RectangularShape.Heater),
     val columns: Int = DEFAULT_SCALE_COLUMNS,
     val overlap: Factor = DEFAULT_SCALE_OVERLAP,
-) : Armour()
+) : ArmourStyle()
 
 @Serializable
 @SerialName("Segmented")
@@ -81,4 +91,4 @@ data class SegmentedArmour(
     val shape: SegmentedPlateShape = SegmentedPlateShape.Straight,
     val rows: Int = DEFAULT_SCALE_COLUMNS,
     val breastplateRows: Int = DEFAULT_BREASTPLATE_ROWS,
-) : Armour()
+) : ArmourStyle()

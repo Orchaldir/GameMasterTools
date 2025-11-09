@@ -52,6 +52,22 @@
      ]
     }
    }
+  },
+  "2": {
+   "id": 2,
+   "name": "Mithral Chain Mail",
+   "data": {
+    "#type": "Armour",
+    "style": {
+     "#type": "Chain",
+     "chain": {
+      "material": 10
+     }
+    },
+    "stats": {
+     "type": 0
+    }
+   }
   }
  }
 }

@@ -20,20 +20,29 @@ import kotlinx.html.HtmlBlockTag
 
 // show
 
-fun HtmlBlockTag.showArmour(
+fun HtmlBlockTag.showArmourStyle(
     call: ApplicationCall,
     state: State,
-    armour: Armour,
+    armour: ArmourStyle,
 ) {
-    showDetails("Armour") {
+    showDetails("Armour Style") {
         field("Type", armour.getType())
 
         when (armour) {
+            is ChainMail -> showChainMail(call, state, armour)
             is LamellarArmour -> showLamellarArmour(call, state, armour)
             is ScaleArmour -> showScaleArmour(call, state, armour)
             is SegmentedArmour -> showSegmentedArmour(call, state, armour)
         }
     }
+}
+
+private fun DETAILS.showChainMail(
+    call: ApplicationCall,
+    state: State,
+    armour: ChainMail,
+) {
+    showColorSchemeItemPart(call, state, armour.chain, "Chain")
 }
 
 private fun DETAILS.showLamellarArmour(
@@ -72,16 +81,25 @@ private fun DETAILS.showSegmentedArmour(
 
 // edit
 
-fun HtmlBlockTag.editArmour(state: State, armour: Armour, param: String = STYLE) {
-    showDetails("Lacing", true) {
+fun HtmlBlockTag.editArmourStyle(state: State, armour: ArmourStyle, param: String = STYLE) {
+    showDetails("Armour Style", true) {
         selectValue("Type", combine(param, TYPE), ArmourType.entries, armour.getType())
 
         when (armour) {
+            is ChainMail -> editChainMail(state, param, armour)
             is LamellarArmour -> editLamellarArmour(state, param, armour)
             is ScaleArmour -> editScaleArmour(state, param, armour)
             is SegmentedArmour -> editSegmentedArmour(state, param, armour)
         }
     }
+}
+
+private fun DETAILS.editChainMail(
+    state: State,
+    param: String,
+    armour: ChainMail,
+) {
+    editColorSchemeItemPart(state, armour.chain, combine(param, MAIN), "Chain")
 }
 
 private fun DETAILS.editLamellarArmour(
@@ -153,10 +171,14 @@ private fun DETAILS.editSegmentedArmour(
 
 // parse
 
-fun parseArmour(parameters: Parameters, param: String = STYLE): Armour {
+fun parseArmourStyle(parameters: Parameters, param: String = STYLE): ArmourStyle {
     val type = parse(parameters, combine(param, TYPE), ArmourType.Lamellar)
 
     return when (type) {
+        ArmourType.Chain -> ChainMail(
+            parseColorSchemeItemPart(parameters, combine(param, MAIN)),
+        )
+
         ArmourType.Lamellar -> LamellarArmour(
             parseColorSchemeItemPart(parameters, combine(param, MAIN)),
             parseUsingRectangularShape(parameters, combine(param, SCALE)),

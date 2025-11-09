@@ -48,33 +48,35 @@ private fun HtmlBlockTag.showEquipmentData(
     state: State,
     equipment: Equipment,
 ) {
-    field("Type", equipment.data.getType())
+    showDetails("Appearance", true) {
+        field("Type", equipment.data.getType())
 
-    when (val data = equipment.data) {
-        is OneHandedAxe -> showOneHandedAxe(call, state, data)
-        is TwoHandedAxe -> showTwoHandedAxe(call, state, data)
-        is Belt -> showBelt(call, state, data)
-        is BodyArmour -> showBodyArmour(call, state, data)
-        is Coat -> showCoat(call, state, data)
-        is Dress -> showDress(call, state, data)
-        is Earring -> showEarring(call, state, data)
-        is EyePatch -> showEyePatch(call, state, data)
-        is Footwear -> showFootwear(call, state, data)
-        is Glasses -> showGlasses(call, state, data)
-        is Gloves -> showGloves(call, state, data)
-        is Hat -> showHat(call, state, data)
-        is Helmet -> showHelmet(call, state, data)
-        is Necklace -> showNecklace(call, state, data)
-        is Pants -> showPants(call, state, data)
-        is Polearm -> showPolearm(call, state, data)
-        is Shield -> showShield(call, state, data)
-        is Shirt -> showShirt(call, state, data)
-        is Skirt -> showSkirt(call, state, data)
-        is Socks -> showSocks(call, state, data)
-        is SuitJacket -> showSuitJacket(call, state, data)
-        is OneHandedSword -> showOneHandedSword(call, state, data)
-        is TwoHandedSword -> showTwoHandedSword(call, state, data)
-        is Tie -> showTie(call, state, data)
+        when (val data = equipment.data) {
+            is OneHandedAxe -> showOneHandedAxe(call, state, data)
+            is TwoHandedAxe -> showTwoHandedAxe(call, state, data)
+            is Belt -> showBelt(call, state, data)
+            is BodyArmour -> showBodyArmour(call, state, data)
+            is Coat -> showCoat(call, state, data)
+            is Dress -> showDress(call, state, data)
+            is Earring -> showEarring(call, state, data)
+            is EyePatch -> showEyePatch(call, state, data)
+            is Footwear -> showFootwear(call, state, data)
+            is Glasses -> showGlasses(call, state, data)
+            is Gloves -> showGloves(call, state, data)
+            is Hat -> showHat(call, state, data)
+            is Helmet -> showHelmet(call, state, data)
+            is Necklace -> showNecklace(call, state, data)
+            is Pants -> showPants(call, state, data)
+            is Polearm -> showPolearm(call, state, data)
+            is Shield -> showShield(call, state, data)
+            is Shirt -> showShirt(call, state, data)
+            is Skirt -> showSkirt(call, state, data)
+            is Socks -> showSocks(call, state, data)
+            is SuitJacket -> showSuitJacket(call, state, data)
+            is OneHandedSword -> showOneHandedSword(call, state, data)
+            is TwoHandedSword -> showTwoHandedSword(call, state, data)
+            is Tie -> showTie(call, state, data)
+        }
     }
 }
 
@@ -117,38 +119,40 @@ private fun HtmlBlockTag.editEquipmentData(
     state: State,
     equipment: Equipment,
 ) {
-    selectValue(
-        "Equipment",
-        combine(EQUIPMENT, TYPE),
-        EquipmentDataType.entries,
-        equipment.data.getType(),
-    )
+    showDetails("Appearance", true) {
+        selectValue(
+            "Type",
+            combine(EQUIPMENT, TYPE),
+            EquipmentDataType.entries,
+            equipment.data.getType(),
+        )
 
-    when (val data = equipment.data) {
-        is OneHandedAxe -> editOneHandedAxe(state, data)
-        is TwoHandedAxe -> editTwoHandedAxe(state, data)
-        is Belt -> editBelt(state, data)
-        is BodyArmour -> editBodyArmour(state, data)
-        is Coat -> editCoat(state, data)
-        is Dress -> editDress(state, data)
-        is Earring -> editEarring(state, data)
-        is EyePatch -> editEyePatch(state, data)
-        is Footwear -> editFootwear(state, data)
-        is Glasses -> editGlasses(state, data)
-        is Gloves -> editGloves(state, data)
-        is Hat -> editHat(state, data)
-        is Helmet -> editHelmet(state, data)
-        is Necklace -> editNecklace(state, data)
-        is Pants -> editPants(state, data)
-        is Polearm -> editPolearm(state, data)
-        is Shield -> editShield(state, data)
-        is Shirt -> editShirt(state, data)
-        is Skirt -> editSkirt(state, data)
-        is Socks -> editSocks(state, data)
-        is SuitJacket -> editSuitJacket(state, data)
-        is OneHandedSword -> editOneHandedSword(state, data)
-        is TwoHandedSword -> editTwoHandedSword(state, data)
-        is Tie -> editTie(state, data)
+        when (val data = equipment.data) {
+            is OneHandedAxe -> editOneHandedAxe(state, data)
+            is TwoHandedAxe -> editTwoHandedAxe(state, data)
+            is Belt -> editBelt(state, data)
+            is BodyArmour -> editBodyArmour(state, data)
+            is Coat -> editCoat(state, data)
+            is Dress -> editDress(state, data)
+            is Earring -> editEarring(state, data)
+            is EyePatch -> editEyePatch(state, data)
+            is Footwear -> editFootwear(state, data)
+            is Glasses -> editGlasses(state, data)
+            is Gloves -> editGloves(state, data)
+            is Hat -> editHat(state, data)
+            is Helmet -> editHelmet(state, data)
+            is Necklace -> editNecklace(state, data)
+            is Pants -> editPants(state, data)
+            is Polearm -> editPolearm(state, data)
+            is Shield -> editShield(state, data)
+            is Shirt -> editShirt(state, data)
+            is Skirt -> editSkirt(state, data)
+            is Socks -> editSocks(state, data)
+            is SuitJacket -> editSuitJacket(state, data)
+            is OneHandedSword -> editOneHandedSword(state, data)
+            is TwoHandedSword -> editTwoHandedSword(state, data)
+            is Tie -> editTie(state, data)
+        }
     }
 }
 
