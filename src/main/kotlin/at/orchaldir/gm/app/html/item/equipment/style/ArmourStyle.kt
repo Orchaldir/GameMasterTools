@@ -20,10 +20,10 @@ import kotlinx.html.HtmlBlockTag
 
 // show
 
-fun HtmlBlockTag.showArmour(
+fun HtmlBlockTag.showArmourStyle(
     call: ApplicationCall,
     state: State,
-    armour: Armour,
+    armour: ArmourStyle,
 ) {
     showDetails("Armour Style") {
         field("Type", armour.getType())
@@ -81,7 +81,7 @@ private fun DETAILS.showSegmentedArmour(
 
 // edit
 
-fun HtmlBlockTag.editArmour(state: State, armour: Armour, param: String = STYLE) {
+fun HtmlBlockTag.editArmourStyle(state: State, armour: ArmourStyle, param: String = STYLE) {
     showDetails("Armour Style", true) {
         selectValue("Type", combine(param, TYPE), ArmourType.entries, armour.getType())
 
@@ -171,7 +171,7 @@ private fun DETAILS.editSegmentedArmour(
 
 // parse
 
-fun parseArmour(parameters: Parameters, param: String = STYLE): Armour {
+fun parseArmourStyle(parameters: Parameters, param: String = STYLE): ArmourStyle {
     val type = parse(parameters, combine(param, TYPE), ArmourType.Lamellar)
 
     return when (type) {

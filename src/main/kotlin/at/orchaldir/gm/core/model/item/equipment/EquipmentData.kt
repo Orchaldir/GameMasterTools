@@ -189,7 +189,7 @@ data class Belt(
 @Serializable
 @SerialName("Armour")
 data class BodyArmour(
-    val style: Armour,
+    val style: ArmourStyle,
     val length: OuterwearLength = OuterwearLength.Knee,
     val sleeveStyle: SleeveStyle = SleeveStyle.Short,
     val stats: ArmorStats = ArmorStats(),
