@@ -84,9 +84,7 @@ fun Application.configureCultureRouting() {
             handleCreateElement(CultureRoutes(), STORE.getState().getCultureStorage())
         }
         get<CultureRoutes.Clone> { clone ->
-            handleCloneElement(clone.id) { cloneId ->
-                CultureRoutes.Edit(cloneId)
-            }
+            handleCloneElement(CultureRoutes(), clone.id)
         }
         get<CultureRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, CultureRoutes())

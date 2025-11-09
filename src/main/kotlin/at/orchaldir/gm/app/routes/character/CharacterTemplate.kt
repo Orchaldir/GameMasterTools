@@ -82,9 +82,7 @@ fun Application.configureCharacterTemplateRouting() {
             handleCreateElement(CharacterTemplateRoutes(), STORE.getState().getCharacterTemplateStorage())
         }
         get<CharacterTemplateRoutes.Clone> { clone ->
-            handleCloneElement(clone.id) { cloneId ->
-                CharacterTemplateRoutes.Edit(cloneId)
-            }
+            handleCloneElement(CharacterTemplateRoutes(), clone.id)
         }
         get<CharacterTemplateRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, CharacterTemplateRoutes.All())

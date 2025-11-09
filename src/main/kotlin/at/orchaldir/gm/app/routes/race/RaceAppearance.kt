@@ -123,9 +123,7 @@ fun Application.configureRaceAppearanceRouting() {
             handleCreateElement(RaceAppearanceRoutes(), STORE.getState().getRaceAppearanceStorage())
         }
         get<RaceAppearanceRoutes.Clone> { clone ->
-            handleCloneElement(clone.id) { cloneId ->
-                RaceAppearanceRoutes.Edit(cloneId)
-            }
+            handleCloneElement(RaceAppearanceRoutes(), clone.id)
         }
         get<RaceAppearanceRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, RaceAppearanceRoutes())

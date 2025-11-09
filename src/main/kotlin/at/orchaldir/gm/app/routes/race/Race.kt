@@ -134,9 +134,7 @@ fun Application.configureRaceRouting() {
             handleCreateElement(RaceRoutes(), STORE.getState().getRaceStorage())
         }
         get<RaceRoutes.Clone> { clone ->
-            handleCloneElement(clone.id) { cloneId ->
-                RaceRoutes.Edit(cloneId)
-            }
+            handleCloneElement(RaceRoutes(), clone.id)
         }
         get<RaceRoutes.Delete> { delete ->
             handleDeleteElement(delete.id, RaceRoutes.All())

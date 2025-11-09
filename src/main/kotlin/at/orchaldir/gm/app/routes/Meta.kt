@@ -146,17 +146,16 @@ suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>, reified T : Enum<T>> Pip
     STORE.getState().save()
 }
 
-suspend inline fun <reified T : Any, ID : Id<ID>, ELEMENT : Element<ID>> PipelineContext<Unit, ApplicationCall>.handleCloneElement(
+suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>, reified T : Enum<T>> PipelineContext<Unit, ApplicationCall>.handleCloneElement(
+    routes: Routes<ID, T>,
     id: ID,
-    createResource: (ID) -> T,
 ) {
     logger.info { "Clone ${id.print()}" }
 
     STORE.dispatch(CloneAction(id))
 
     val storage = STORE.getState().getStorage<ID, ELEMENT>(id)
-    val resource = createResource(storage.lastId)
-    call.respondRedirect(call.application.href(resource))
+    call.respondRedirect(routes.edit(call, storage.lastId))
 
     STORE.getState().save()
 }
