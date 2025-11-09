@@ -55,6 +55,7 @@
   },
   "2": {
    "id": 2,
+   "name": "Mithral Chain Mail",
    "data": {
     "#type": "Armour",
     "style": {
@@ -63,7 +64,6 @@
       "material": 10
      }
     },
-    "sleeveStyle": "Long",
     "stats": {
      "type": 0
     }
