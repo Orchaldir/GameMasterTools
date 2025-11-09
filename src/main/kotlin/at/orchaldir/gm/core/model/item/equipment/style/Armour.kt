@@ -29,6 +29,7 @@ val MAX_SCALE_OVERLAP = THREE_QUARTER
 val LAMELLAR_SHAPES = SHAPES_WITHOUT_CROSS - ReverseTeardrop - Teardrop
 
 enum class ArmourType {
+    Chain,
     Lamellar,
     Scale,
     Segmented,
@@ -38,23 +39,32 @@ enum class ArmourType {
 sealed class Armour : MadeFromParts {
 
     fun getType() = when (this) {
+        is ChainMail -> ArmourType.Chain
         is LamellarArmour -> ArmourType.Lamellar
         is ScaleArmour -> ArmourType.Scale
         is SegmentedArmour -> ArmourType.Segmented
     }
 
     override fun parts() = when (this) {
+        is ChainMail -> listOf(chain)
         is LamellarArmour -> listOf(scale)
         is ScaleArmour -> listOf(scale)
         is SegmentedArmour -> listOf(segment)
     }
 
     override fun mainMaterial() = when (this) {
+        is ChainMail -> chain.material
         is LamellarArmour -> scale.material
         is ScaleArmour -> scale.material
         is SegmentedArmour -> segment.material
     }
 }
+
+@Serializable
+@SerialName("Chain")
+data class ChainMail(
+    val chain: ColorSchemeItemPart = ColorSchemeItemPart(Color.Silver),
+) : Armour()
 
 @Serializable
 @SerialName("Lamellar")

@@ -29,11 +29,20 @@ fun HtmlBlockTag.showArmour(
         field("Type", armour.getType())
 
         when (armour) {
+            is ChainMail -> showChainMail(call, state, armour)
             is LamellarArmour -> showLamellarArmour(call, state, armour)
             is ScaleArmour -> showScaleArmour(call, state, armour)
             is SegmentedArmour -> showSegmentedArmour(call, state, armour)
         }
     }
+}
+
+private fun DETAILS.showChainMail(
+    call: ApplicationCall,
+    state: State,
+    armour: ChainMail,
+) {
+    showColorSchemeItemPart(call, state, armour.chain, "Chain")
 }
 
 private fun DETAILS.showLamellarArmour(
@@ -77,11 +86,20 @@ fun HtmlBlockTag.editArmour(state: State, armour: Armour, param: String = STYLE)
         selectValue("Type", combine(param, TYPE), ArmourType.entries, armour.getType())
 
         when (armour) {
+            is ChainMail -> editChainMail(state, param, armour)
             is LamellarArmour -> editLamellarArmour(state, param, armour)
             is ScaleArmour -> editScaleArmour(state, param, armour)
             is SegmentedArmour -> editSegmentedArmour(state, param, armour)
         }
     }
+}
+
+private fun DETAILS.editChainMail(
+    state: State,
+    param: String,
+    armour: ChainMail,
+) {
+    editColorSchemeItemPart(state, armour.chain, combine(param, MAIN), "Chain")
 }
 
 private fun DETAILS.editLamellarArmour(
@@ -157,6 +175,10 @@ fun parseArmour(parameters: Parameters, param: String = STYLE): Armour {
     val type = parse(parameters, combine(param, TYPE), ArmourType.Lamellar)
 
     return when (type) {
+        ArmourType.Chain -> ChainMail(
+            parseColorSchemeItemPart(parameters, combine(param, MAIN)),
+        )
+
         ArmourType.Lamellar -> LamellarArmour(
             parseColorSchemeItemPart(parameters, combine(param, MAIN)),
             parseUsingRectangularShape(parameters, combine(param, SCALE)),
