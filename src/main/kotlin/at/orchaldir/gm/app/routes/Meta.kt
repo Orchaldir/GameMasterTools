@@ -12,6 +12,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
+import at.orchaldir.gm.utils.renderer.svg.Svg
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
@@ -78,6 +79,40 @@ inline fun <ID : Id<ID>, ELEMENT : Element<ID>, reified T : Enum<T>> HTML.showAl
 
         action(routes.new(call), "Add")
         back("/")
+    }
+}
+
+suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>, reified T : Enum<T>> PipelineContext<Unit, ApplicationCall>.handleShowGallery(
+    state: State,
+    routes: Routes<ID, T>,
+    elements: List<ELEMENT>,
+    sort: T,
+    crossinline showElement: HtmlBlockTag.(ELEMENT) -> Svg,
+) {
+    logger.info { "Get gallery" }
+
+    call.respondHtml(HttpStatusCode.OK) {
+        showGallery(call, state, routes, elements, sort, showElement)
+    }
+}
+
+inline fun <ID : Id<ID>, ELEMENT : Element<ID>, reified T : Enum<T>> HTML.showGallery(
+    call: ApplicationCall,
+    state: State,
+    routes: Routes<ID, T>,
+    elements: List<ELEMENT>,
+    sort: T,
+    crossinline showElement: HtmlBlockTag.(ELEMENT) -> Svg,
+) {
+    simpleHtml("Equipment") {
+        field("Count", elements.size)
+        showSortTableLinks(call, enumValues<T>().toList(), routes)
+
+        showGallery(call, state, elements) { element ->
+            showElement(element)
+        }
+
+        back(routes.all(call, sort))
     }
 }
 

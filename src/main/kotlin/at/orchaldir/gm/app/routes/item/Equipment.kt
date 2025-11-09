@@ -32,18 +32,14 @@ import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMeters
 import at.orchaldir.gm.visualization.character.appearance.visualizeCharacter
-import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
-import io.ktor.server.html.*
 import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
 import kotlinx.html.*
-import mu.KotlinLogging
 
-private val logger = KotlinLogging.logger {}
 private val height = fromMeters(1.0f)
 
 @Resource("/$EQUIPMENT_TYPE")
@@ -191,10 +187,19 @@ fun Application.configureEquipmentRouting() {
             }
         }
         get<EquipmentRoutes.Gallery> { gallery ->
-            logger.info { "Show gallery" }
+            val state = STORE.getState()
+            val routes = EquipmentRoutes()
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showGallery(call, STORE.getState(), gallery.sort)
+            handleShowGallery(
+                state,
+                routes,
+                state.sortEquipmentList(gallery.sort),
+                gallery.sort,
+            ) { equipment ->
+                val equipped = EquipmentMap.from(equipment.data, state.getColors(equipment))
+                val appearance = createAppearance(equipment, height)
+
+                visualizeCharacter(state, CHARACTER_CONFIG, appearance, equipped)
             }
         }
         get<EquipmentRoutes.Details> { details ->
@@ -244,26 +249,6 @@ fun Application.configureEquipmentRouting() {
         post<EquipmentRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseEquipment)
         }
-    }
-}
-
-private fun HTML.showGallery(
-    call: ApplicationCall,
-    state: State,
-    sort: SortEquipment,
-) {
-    val equipmentList = state.sortEquipmentList(sort)
-    val backLink = call.application.href(EquipmentRoutes())
-
-    simpleHtml("Equipment") {
-        showGallery(call, state, equipmentList) { equipment ->
-            val equipped = EquipmentMap.from(equipment.data, state.getColors(equipment))
-            val appearance = createAppearance(equipment, height)
-
-            visualizeCharacter(state, CHARACTER_CONFIG, appearance, equipped)
-        }
-
-        back(backLink)
     }
 }
 
