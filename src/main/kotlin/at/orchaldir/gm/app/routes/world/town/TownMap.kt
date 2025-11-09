@@ -58,7 +58,7 @@ fun Application.configureTownMapRouting() {
             handleCreateElement(TownMapRoutes(), STORE.getState().getTownMapStorage())
         }
         get<TownMapRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, TownMapRoutes.All())
+            handleDeleteElement(delete.id, TownMapRoutes())
         }
         get<TownMapRoutes.Edit> { edit ->
             handleEditElementSplit(

@@ -78,7 +78,7 @@ fun Application.configureArticleRouting() {
             handleCreateElement(ArticleRoutes(), STORE.getState().getArticleStorage())
         }
         get<ArticleRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, ArticleRoutes.All())
+            handleDeleteElement(delete.id, ArticleRoutes())
         }
         get<ArticleRoutes.Edit> { edit ->
             handleEditElement(edit.id, ArticleRoutes(), HtmlBlockTag::editArticle)

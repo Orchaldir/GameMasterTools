@@ -80,7 +80,7 @@ fun Application.configureQuoteRouting() {
             handleCreateElement(QuoteRoutes(), STORE.getState().getQuoteStorage())
         }
         get<QuoteRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, QuoteRoutes.All())
+            handleDeleteElement(delete.id, QuoteRoutes())
         }
         get<QuoteRoutes.Edit> { edit ->
             handleEditElement(edit.id, QuoteRoutes(), HtmlBlockTag::editQuote)

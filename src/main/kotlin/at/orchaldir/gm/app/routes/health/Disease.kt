@@ -77,7 +77,7 @@ fun Application.configureDiseaseRouting() {
             handleCreateElement(DiseaseRoutes(), STORE.getState().getDiseaseStorage())
         }
         get<DiseaseRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, DiseaseRoutes.All())
+            handleDeleteElement(delete.id, DiseaseRoutes())
         }
         get<DiseaseRoutes.Edit> { edit ->
             handleEditElement(edit.id, DiseaseRoutes(), HtmlBlockTag::editDisease)

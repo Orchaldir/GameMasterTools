@@ -82,7 +82,7 @@ fun Application.configurePeriodicalRouting() {
             handleCreateElement(PeriodicalRoutes(), STORE.getState().getPeriodicalStorage())
         }
         get<PeriodicalRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, PeriodicalRoutes.All())
+            handleDeleteElement(delete.id, PeriodicalRoutes())
         }
         get<PeriodicalRoutes.Edit> { edit ->
             handleEditElement(edit.id, PeriodicalRoutes(), HtmlBlockTag::editPeriodical)

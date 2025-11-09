@@ -81,7 +81,7 @@ fun Application.configureArchitecturalStyleRouting() {
             handleCreateElement(ArchitecturalStyleRoutes(), STORE.getState().getArchitecturalStyleStorage())
         }
         get<ArchitecturalStyleRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, ArchitecturalStyleRoutes.All())
+            handleDeleteElement(delete.id, ArchitecturalStyleRoutes())
         }
         get<ArchitecturalStyleRoutes.Edit> { edit ->
             handleEditElement(edit.id, ArchitecturalStyleRoutes(), HtmlBlockTag::editArchitecturalStyle)

@@ -79,7 +79,7 @@ fun Application.configureArmorTypeRouting() {
             handleCreateElement(ArmorTypeRoutes(), STORE.getState().getArmorTypeStorage())
         }
         get<ArmorTypeRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, ArmorTypeRoutes.All())
+            handleDeleteElement(delete.id, ArmorTypeRoutes())
         }
         get<ArmorTypeRoutes.Edit> { edit ->
             handleEditElement(edit.id, ArmorTypeRoutes(), HtmlBlockTag::editArmorType)

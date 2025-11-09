@@ -81,7 +81,7 @@ fun Application.configureDamageTypeRouting() {
             handleCreateElement(DamageTypeRoutes(), STORE.getState().getDamageTypeStorage())
         }
         get<DamageTypeRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, DamageTypeRoutes.All())
+            handleDeleteElement(delete.id, DamageTypeRoutes())
         }
         get<DamageTypeRoutes.Edit> { edit ->
             handleEditElement(edit.id, DamageTypeRoutes(), HtmlBlockTag::editDamageType)

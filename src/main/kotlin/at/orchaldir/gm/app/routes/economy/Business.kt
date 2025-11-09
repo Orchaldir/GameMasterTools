@@ -82,7 +82,7 @@ fun Application.configureBusinessRouting() {
             handleCreateElement(BusinessRoutes(), STORE.getState().getBusinessStorage())
         }
         get<BusinessRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, BusinessRoutes.All())
+            handleDeleteElement(delete.id, BusinessRoutes())
         }
         get<BusinessRoutes.Edit> { edit ->
             handleEditElement(edit.id, BusinessRoutes(), HtmlBlockTag::editBusiness)

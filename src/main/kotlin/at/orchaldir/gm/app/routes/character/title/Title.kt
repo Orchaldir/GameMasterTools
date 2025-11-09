@@ -82,7 +82,7 @@ fun Application.configureTitleRouting() {
             handleCreateElement(TitleRoutes(), STORE.getState().getTitleStorage())
         }
         get<TitleRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, TitleRoutes.All())
+            handleDeleteElement(delete.id, TitleRoutes())
         }
         get<TitleRoutes.Edit> { edit ->
             handleEditElement(edit.id, TitleRoutes(), HtmlBlockTag::editTitle)

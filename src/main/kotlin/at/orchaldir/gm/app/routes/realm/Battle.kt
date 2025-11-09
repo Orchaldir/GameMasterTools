@@ -79,7 +79,7 @@ fun Application.configureBattleRouting() {
             handleCreateElement(BattleRoutes(), STORE.getState().getBattleStorage())
         }
         get<BattleRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, BattleRoutes.All())
+            handleDeleteElement(delete.id, BattleRoutes())
         }
         get<BattleRoutes.Edit> { edit ->
             handleEditElement(edit.id, BattleRoutes(), HtmlBlockTag::editBattle)

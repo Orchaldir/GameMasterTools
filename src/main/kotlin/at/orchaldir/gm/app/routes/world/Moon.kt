@@ -79,7 +79,7 @@ fun Application.configureMoonRouting() {
             handleCreateElement(MoonRoutes(), STORE.getState().getMoonStorage())
         }
         get<MoonRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, MoonRoutes.All())
+            handleDeleteElement(delete.id, MoonRoutes())
         }
         get<MoonRoutes.Edit> { edit ->
             handleEditElement(edit.id, MoonRoutes(), HtmlBlockTag::editMoon)

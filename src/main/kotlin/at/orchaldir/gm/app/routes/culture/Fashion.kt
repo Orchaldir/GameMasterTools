@@ -78,7 +78,7 @@ fun Application.configureFashionRouting() {
             handleCreateElement(FashionRoutes(), STORE.getState().getFashionStorage())
         }
         get<FashionRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, DiseaseRoutes.All())
+            handleDeleteElement(delete.id, FashionRoutes())
         }
         get<FashionRoutes.Edit> { edit ->
             handleEditElement(edit.id, FashionRoutes(), HtmlBlockTag::editFashion)

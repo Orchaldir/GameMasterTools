@@ -85,7 +85,7 @@ fun Application.configureCharacterTemplateRouting() {
             handleCloneElement(CharacterTemplateRoutes(), clone.id)
         }
         get<CharacterTemplateRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, CharacterTemplateRoutes.All())
+            handleDeleteElement(delete.id, CharacterTemplateRoutes())
         }
         get<CharacterTemplateRoutes.Edit> { edit ->
             handleEditElement(edit.id, CharacterTemplateRoutes(), HtmlBlockTag::editCharacterTemplate)

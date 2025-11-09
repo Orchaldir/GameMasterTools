@@ -160,16 +160,16 @@ suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>, reified T : Enum<T>> Pip
     STORE.getState().save()
 }
 
-suspend inline fun <reified T : Any, ID : Id<ID>> PipelineContext<Unit, ApplicationCall>.handleDeleteElement(
+suspend inline fun <ID : Id<ID>, reified T : Enum<T>> PipelineContext<Unit, ApplicationCall>.handleDeleteElement(
     id: ID,
-    routes: T,
+    routes: Routes<ID, T>,
 ) {
     logger.info { "Delete ${id.print()}" }
 
     try {
         STORE.dispatch(DeleteAction(id))
 
-        call.respondRedirect(call.application.href(routes))
+        call.respondRedirect(routes.all(call))
 
         STORE.getState().save()
     } catch (e: CannotDeleteException) {

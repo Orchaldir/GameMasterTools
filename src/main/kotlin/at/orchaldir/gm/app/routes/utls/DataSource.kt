@@ -81,7 +81,7 @@ fun Application.configureDataSourceRouting() {
             handleCreateElement(DataSourceRoutes(), STORE.getState().getDataSourceStorage())
         }
         get<DataSourceRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, DataSourceRoutes.All())
+            handleDeleteElement(delete.id, DataSourceRoutes())
         }
         get<DataSourceRoutes.Edit> { edit ->
             handleEditElement(edit.id, DataSourceRoutes(), HtmlBlockTag::editDataSource)
