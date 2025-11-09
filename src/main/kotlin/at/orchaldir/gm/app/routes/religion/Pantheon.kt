@@ -77,7 +77,7 @@ fun Application.configurePantheonRouting() {
             handleCreateElement(PantheonRoutes(), STORE.getState().getPantheonStorage())
         }
         get<PantheonRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, PantheonRoutes())
+            handleDeleteElement(PantheonRoutes(), delete.id)
         }
         get<PantheonRoutes.Edit> { edit ->
             handleEditElement(edit.id, PantheonRoutes(), HtmlBlockTag::editPantheon)

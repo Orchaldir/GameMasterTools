@@ -76,7 +76,7 @@ fun Application.configureNameListRouting() {
             handleCreateElement(NameListRoutes(), STORE.getState().getNameListStorage())
         }
         get<NameListRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, NameListRoutes())
+            handleDeleteElement(NameListRoutes(), delete.id)
         }
         get<NameListRoutes.Edit> { edit ->
             handleEditElement(edit.id, NameListRoutes(), HtmlBlockTag::editNameList)

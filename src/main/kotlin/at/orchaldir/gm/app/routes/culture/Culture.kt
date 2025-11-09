@@ -87,7 +87,7 @@ fun Application.configureCultureRouting() {
             handleCloneElement(CultureRoutes(), clone.id)
         }
         get<CultureRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, CultureRoutes())
+            handleDeleteElement(CultureRoutes(), delete.id)
         }
         get<CultureRoutes.Edit> { edit ->
             handleEditElement(edit.id, CultureRoutes(), HtmlBlockTag::editCulture)

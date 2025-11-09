@@ -78,7 +78,7 @@ fun Application.configureTreatyRouting() {
             handleCreateElement(TreatyRoutes(), STORE.getState().getTreatyStorage())
         }
         get<TreatyRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, TreatyRoutes())
+            handleDeleteElement(TreatyRoutes(), delete.id)
         }
         get<TreatyRoutes.Edit> { edit ->
             handleEditElement(edit.id, TreatyRoutes(), HtmlBlockTag::editTreaty)

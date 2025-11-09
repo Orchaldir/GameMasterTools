@@ -93,7 +93,7 @@ fun Application.configureCalendarRouting() {
             handleCreateElement(CalendarRoutes(), STORE.getState().getCalendarStorage())
         }
         get<CalendarRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, CalendarRoutes())
+            handleDeleteElement(CalendarRoutes(), delete.id)
         }
         get<CalendarRoutes.Edit> { edit ->
             handleEditElement(edit.id, CalendarRoutes(), HtmlBlockTag::editCalendar)

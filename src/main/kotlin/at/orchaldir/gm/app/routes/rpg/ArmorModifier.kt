@@ -76,7 +76,7 @@ fun Application.configureArmorModifierRouting() {
             handleCreateElement(ArmorModifierRoutes(), STORE.getState().getArmorModifierStorage())
         }
         get<ArmorModifierRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, ArmorModifierRoutes())
+            handleDeleteElement(ArmorModifierRoutes(), delete.id)
         }
         get<ArmorModifierRoutes.Edit> { edit ->
             handleEditElement(edit.id, ArmorModifierRoutes(), HtmlBlockTag::editArmorModifier)

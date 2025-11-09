@@ -128,7 +128,7 @@ fun Application.configureTextRouting() {
             handleCreateElement(TextRoutes(), STORE.getState().getTextStorage())
         }
         get<TextRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, TextRoutes())
+            handleDeleteElement(TextRoutes(), delete.id)
         }
         get<TextRoutes.Edit> { edit ->
             handleEditElementSplit(

@@ -82,7 +82,7 @@ fun Application.configureHolidayRouting() {
             handleCreateElement(HolidayRoutes(), STORE.getState().getHolidayStorage())
         }
         get<HolidayRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, HolidayRoutes())
+            handleDeleteElement(HolidayRoutes(), delete.id)
         }
         get<HolidayRoutes.Edit> { edit ->
             handleEditElement(edit.id, HolidayRoutes(), HtmlBlockTag::editHoliday)

@@ -114,7 +114,7 @@ fun Application.configureUniformRouting() {
             handleCreateElement(UniformRoutes(), STORE.getState().getUniformStorage())
         }
         get<UniformRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, UniformRoutes())
+            handleDeleteElement(UniformRoutes(), delete.id)
         }
         get<UniformRoutes.Edit> { edit ->
             handleEditElementSplit(

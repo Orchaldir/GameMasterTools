@@ -87,7 +87,7 @@ fun Application.configureLanguageRouting() {
             handleCreateElement(LanguageRoutes(), STORE.getState().getLanguageStorage())
         }
         get<LanguageRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, LanguageRoutes())
+            handleDeleteElement(LanguageRoutes(), delete.id)
         }
         get<LanguageRoutes.Edit> { edit ->
             handleEditElement(edit.id, LanguageRoutes(), HtmlBlockTag::editLanguage)

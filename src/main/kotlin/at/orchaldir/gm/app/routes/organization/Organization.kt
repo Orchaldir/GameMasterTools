@@ -83,7 +83,7 @@ fun Application.configureOrganizationRouting() {
             handleCreateElement(OrganizationRoutes(), STORE.getState().getOrganizationStorage())
         }
         get<OrganizationRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, OrganizationRoutes())
+            handleDeleteElement(OrganizationRoutes(), delete.id)
         }
         get<OrganizationRoutes.Edit> { edit ->
             handleEditElement(edit.id, OrganizationRoutes(), HtmlBlockTag::editOrganization)

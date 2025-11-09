@@ -80,7 +80,7 @@ fun Application.configureCurrencyRouting() {
             handleCreateElement(CurrencyRoutes(), STORE.getState().getCurrencyStorage())
         }
         get<CurrencyRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, CurrencyRoutes())
+            handleDeleteElement(CurrencyRoutes(), delete.id)
         }
         get<CurrencyRoutes.Edit> { edit ->
             handleEditElement(edit.id, CurrencyRoutes(), HtmlBlockTag::editCurrency)

@@ -91,7 +91,7 @@ fun Application.configureMeleeWeaponTypeRouting() {
             handleCreateElement(MeleeWeaponTypeRoutes(), STORE.getState().getMeleeWeaponTypeStorage())
         }
         get<MeleeWeaponTypeRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, MeleeWeaponTypeRoutes())
+            handleDeleteElement(MeleeWeaponTypeRoutes(), delete.id)
         }
         get<MeleeWeaponTypeRoutes.Edit> { edit ->
             handleEditElement(edit.id, MeleeWeaponTypeRoutes(), HtmlBlockTag::editMeleeWeaponType)

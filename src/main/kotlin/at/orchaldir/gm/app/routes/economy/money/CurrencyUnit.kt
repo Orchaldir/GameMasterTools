@@ -119,7 +119,7 @@ fun Application.configureCurrencyUnitRouting() {
             handleCreateElement(CurrencyUnitRoutes(), STORE.getState().getCurrencyUnitStorage())
         }
         get<CurrencyUnitRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, CurrencyUnitRoutes())
+            handleDeleteElement(CurrencyUnitRoutes(), delete.id)
         }
         get<CurrencyUnitRoutes.Edit> { edit ->
             handleEditElement<CurrencyUnitId, CurrencyUnit, SortCurrencyUnit>(

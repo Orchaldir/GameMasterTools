@@ -114,7 +114,7 @@ fun Application.configureFontRouting() {
             handleCreateElement(FontRoutes(), STORE.getState().getFontStorage())
         }
         get<FontRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, FontRoutes())
+            handleDeleteElement(FontRoutes(), delete.id)
         }
         get<FontRoutes.Edit> { edit ->
             handleEditElement(edit.id, FontRoutes(), HtmlBlockTag::editFont)

@@ -17,7 +17,6 @@ import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
 import io.ktor.server.request.*
-import io.ktor.server.resources.*
 import io.ktor.server.response.*
 import io.ktor.util.pipeline.*
 import kotlinx.html.*
@@ -161,8 +160,8 @@ suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>, reified T : Enum<T>> Pip
 }
 
 suspend inline fun <ID : Id<ID>, reified T : Enum<T>> PipelineContext<Unit, ApplicationCall>.handleDeleteElement(
-    id: ID,
     routes: Routes<ID, T>,
+    id: ID,
 ) {
     logger.info { "Delete ${id.print()}" }
 

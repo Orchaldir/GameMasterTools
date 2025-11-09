@@ -81,7 +81,7 @@ fun Application.configureColorSchemeRouting() {
             handleCreateElement(ColorSchemeRoutes(), STORE.getState().getColorSchemeStorage())
         }
         get<ColorSchemeRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, ColorSchemeRoutes())
+            handleDeleteElement(ColorSchemeRoutes(), delete.id)
         }
         get<ColorSchemeRoutes.Edit> { edit ->
             handleEditElement(edit.id, ColorSchemeRoutes(), HtmlBlockTag::editColorScheme)

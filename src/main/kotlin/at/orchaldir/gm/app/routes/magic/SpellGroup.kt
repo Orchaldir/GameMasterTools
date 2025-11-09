@@ -77,7 +77,7 @@ fun Application.configureSpellGroupRouting() {
             handleCreateElement(SpellGroupRoutes(), STORE.getState().getSpellGroupStorage())
         }
         get<SpellGroupRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, SpellGroupRoutes())
+            handleDeleteElement(SpellGroupRoutes(), delete.id)
         }
         get<SpellGroupRoutes.Edit> { edit ->
             handleEditElement(edit.id, SpellGroupRoutes(), HtmlBlockTag::editSpellGroup)

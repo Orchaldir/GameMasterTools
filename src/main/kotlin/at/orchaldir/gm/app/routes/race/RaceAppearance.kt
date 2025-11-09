@@ -126,7 +126,7 @@ fun Application.configureRaceAppearanceRouting() {
             handleCloneElement(RaceAppearanceRoutes(), clone.id)
         }
         get<RaceAppearanceRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, RaceAppearanceRoutes())
+            handleDeleteElement(RaceAppearanceRoutes(), delete.id)
         }
         get<RaceAppearanceRoutes.Edit> { edit ->
             handleEditElementSplit(

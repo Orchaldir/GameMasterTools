@@ -80,7 +80,7 @@ fun Application.configureStatisticRouting() {
             handleCreateElement(StatisticRoutes(), STORE.getState().getStatisticStorage())
         }
         get<StatisticRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, StatisticRoutes())
+            handleDeleteElement(StatisticRoutes(), delete.id)
         }
         get<StatisticRoutes.Edit> { edit ->
             handleEditElement(edit.id, StatisticRoutes(), HtmlBlockTag::editStatistic)

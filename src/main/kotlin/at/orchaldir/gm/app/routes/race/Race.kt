@@ -137,7 +137,7 @@ fun Application.configureRaceRouting() {
             handleCloneElement(RaceRoutes(), clone.id)
         }
         get<RaceRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, RaceRoutes())
+            handleDeleteElement(RaceRoutes(), delete.id)
         }
         get<RaceRoutes.Edit> { edit ->
             handleEditElementSplit(

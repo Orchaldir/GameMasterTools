@@ -77,7 +77,7 @@ fun Application.configureRiverRouting() {
             handleCreateElement(RiverRoutes(), STORE.getState().getRiverStorage())
         }
         get<RiverRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, RiverRoutes())
+            handleDeleteElement(RiverRoutes(), delete.id)
         }
         get<RiverRoutes.Edit> { edit ->
             handleEditElement(edit.id, RiverRoutes(), HtmlBlockTag::editRiver)

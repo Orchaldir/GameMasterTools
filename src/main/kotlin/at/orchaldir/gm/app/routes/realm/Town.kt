@@ -89,7 +89,7 @@ fun Application.configureTownRouting() {
             handleCreateElement(TownRoutes(), STORE.getState().getTownStorage())
         }
         get<TownRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, TownRoutes())
+            handleDeleteElement(TownRoutes(), delete.id)
         }
         get<TownRoutes.Edit> { edit ->
             handleEditElement(edit.id, TownRoutes(), HtmlBlockTag::editTown)

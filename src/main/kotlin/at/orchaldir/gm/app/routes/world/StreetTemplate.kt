@@ -93,7 +93,7 @@ fun Application.configureStreetTemplateRouting() {
             handleCreateElement(StreetTemplateRoutes(), STORE.getState().getStreetTemplateStorage())
         }
         get<StreetTemplateRoutes.Delete> { delete ->
-            handleDeleteElement(delete.id, StreetTemplateRoutes())
+            handleDeleteElement(StreetTemplateRoutes(), delete.id)
         }
         get<StreetTemplateRoutes.Edit> { edit ->
             handleEditElementSplit(
