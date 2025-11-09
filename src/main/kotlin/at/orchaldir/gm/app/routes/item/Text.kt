@@ -14,21 +14,17 @@ import at.orchaldir.gm.core.model.util.SortText
 import at.orchaldir.gm.core.selector.util.sortTexts
 import at.orchaldir.gm.prototypes.visualization.text.TEXT_CONFIG
 import at.orchaldir.gm.utils.math.Size2d
+import at.orchaldir.gm.utils.math.unit.ONE_M
 import at.orchaldir.gm.visualization.text.content.visualizePageOfContent
 import at.orchaldir.gm.visualization.text.visualizeText
 import at.orchaldir.gm.visualization.text.visualizeTextFormat
-import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
-import io.ktor.server.html.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
-import mu.KotlinLogging
-
-private val logger = KotlinLogging.logger {}
 
 @Resource("/$TEXT_TYPE")
 class TextRoutes : Routes<TextId, SortText> {
@@ -39,7 +35,10 @@ class TextRoutes : Routes<TextId, SortText> {
     )
 
     @Resource("gallery")
-    class Gallery(val parent: TextRoutes = TextRoutes())
+    class Gallery(
+        val sort: SortText = SortText.Name,
+        val parent: TextRoutes = TextRoutes(),
+    )
 
     @Resource("details")
     class Details(
@@ -68,6 +67,7 @@ class TextRoutes : Routes<TextId, SortText> {
     override fun delete(call: ApplicationCall, id: TextId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: TextId) = call.application.href(Edit(id))
     override fun gallery(call: ApplicationCall) = call.application.href(Gallery())
+    override fun gallery(call: ApplicationCall, sort: SortText) = call.application.href(Gallery(sort))
     override fun new(call: ApplicationCall) = call.application.href(New())
     override fun preview(call: ApplicationCall, id: TextId) = call.application.href(Preview(id))
     override fun update(call: ApplicationCall, id: TextId) = call.application.href(Update(id))
@@ -99,11 +99,24 @@ fun Application.configureTextRouting() {
                 showLanguageCountForTexts(call, state, it)
             }
         }
-        get<TextRoutes.Gallery> {
-            logger.info { "Show gallery" }
+        get<TextRoutes.Gallery> { gallery ->
+            val state = STORE.getState()
+            val routes = TextRoutes()
+            val texts = state.sortTexts(gallery.sort)
+                .filter { it.format !is UndefinedTextFormat }
+            val maxHeight = texts
+                .map { TEXT_CONFIG.calculateClosedSize(it.format).height }
+                .maxByOrNull { it.value() } ?: ONE_M
+            val maxSize = Size2d.square(maxHeight)
+            val size = TEXT_CONFIG.addPadding(maxSize)
 
-            call.respondHtml(HttpStatusCode.OK) {
-                showGallery(call, STORE.getState())
+            handleShowGallery(
+                state,
+                routes,
+                texts,
+                gallery.sort,
+            ) { text ->
+                visualizeTextFormat(state, TEXT_CONFIG, text, size)
             }
         }
         get<TextRoutes.Details> { details ->
