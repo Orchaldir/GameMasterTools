@@ -23,7 +23,6 @@ import io.ktor.server.application.*
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
-import kotlinx.html.HTML
 import kotlinx.html.HtmlBlockTag
 
 @Resource("/$TEXT_TYPE")
@@ -111,10 +110,10 @@ fun Application.configureTextRouting() {
             val size = TEXT_CONFIG.addPadding(maxSize)
 
             handleShowGallery(
-                state,
                 routes,
                 texts,
                 gallery.sort,
+                { it.getNameWithDate(state) },
             ) { text ->
                 visualizeTextFormat(state, TEXT_CONFIG, text, size)
             }
@@ -153,28 +152,6 @@ fun Application.configureTextRouting() {
         post<TextRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseText)
         }
-    }
-}
-
-private fun HTML.showGallery(
-    call: ApplicationCall,
-    state: State,
-) {
-    val texts = state.sortTexts()
-        .filter { it.format !is UndefinedTextFormat }
-    val maxHeight = texts
-        .map { TEXT_CONFIG.calculateClosedSize(it.format).height }
-        .maxBy { it.value() }
-    val maxSize = Size2d.square(maxHeight)
-    val size = TEXT_CONFIG.addPadding(maxSize)
-    val backLink = call.application.href(TextRoutes.All())
-
-    simpleHtml("Texts") {
-        showGallery(call, texts, { it.getNameWithDate(state) }) { text ->
-            visualizeTextFormat(state, TEXT_CONFIG, text, size)
-        }
-
-        back(backLink)
     }
 }
 

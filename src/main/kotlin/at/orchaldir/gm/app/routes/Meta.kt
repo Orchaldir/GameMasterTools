@@ -93,16 +93,30 @@ suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>, reified T : Enum<T>> Pip
     logger.info { "Get gallery" }
 
     call.respondHtml(HttpStatusCode.OK) {
-        showGallery(call, state, routes, elements, sort, showElement)
+        showGallery(call, routes, elements, sort, { it.name(state) },showElement)
+    }
+}
+
+suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>, reified T : Enum<T>> PipelineContext<Unit, ApplicationCall>.handleShowGallery(
+    routes: Routes<ID, T>,
+    elements: List<ELEMENT>,
+    sort: T,
+    noinline getName: (ELEMENT) -> String,
+    crossinline showElement: HtmlBlockTag.(ELEMENT) -> Svg,
+) {
+    logger.info { "Get gallery" }
+
+    call.respondHtml(HttpStatusCode.OK) {
+        showGallery(call, routes, elements, sort, getName, showElement)
     }
 }
 
 inline fun <ID : Id<ID>, ELEMENT : Element<ID>, reified T : Enum<T>> HTML.showGallery(
     call: ApplicationCall,
-    state: State,
     routes: Routes<ID, T>,
     elements: List<ELEMENT>,
     sort: T,
+    noinline getName: (ELEMENT) -> String,
     crossinline showElement: HtmlBlockTag.(ELEMENT) -> Svg,
 ) {
     simpleHtml("Equipment") {
@@ -110,7 +124,7 @@ inline fun <ID : Id<ID>, ELEMENT : Element<ID>, reified T : Enum<T>> HTML.showGa
         showSortGalleryLinks(call, enumValues<T>().toList(), routes)
         back(routes.all(call, sort))
 
-        showGallery(call, state, elements) { element ->
+        showGallery(call, elements, getName) { element ->
             showElement(element)
         }
 
