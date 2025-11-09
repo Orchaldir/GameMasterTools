@@ -96,6 +96,7 @@ class EquipmentRoutes : Routes<EquipmentId, SortEquipment> {
     override fun delete(call: ApplicationCall, id: EquipmentId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: EquipmentId) = call.application.href(Edit(id))
     override fun gallery(call: ApplicationCall) = call.application.href(Gallery())
+    override fun gallery(call: ApplicationCall, sort: SortEquipment) = call.application.href(Gallery(sort))
     override fun new(call: ApplicationCall) = call.application.href(New())
     override fun preview(call: ApplicationCall, id: EquipmentId) = call.application.href(Preview(id))
     override fun update(call: ApplicationCall, id: EquipmentId) = call.application.href(Update(id))

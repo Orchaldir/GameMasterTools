@@ -168,7 +168,7 @@ private fun HTML.showGallery(
     val backLink = call.application.href(RaceRoutes.All())
 
     simpleHtml("Races") {
-        showSortTableLinks(call, SortRace.entries, RaceRoutes())
+        showSortGalleryLinks(call, SortRace.entries, RaceRoutes())
 
         showGallery(call, state, races) { race ->
             val lifeStage = race.lifeStages.getAllLifeStages().maxBy { it.relativeSize.toPermyriad() }

@@ -149,7 +149,7 @@ private fun HTML.showGallery(
     val backLink = call.application.href(CurrencyUnitRoutes.All())
 
     simpleHtml("Currency Units") {
-        showSortTableLinks(call, SortCurrencyUnit.entries, CurrencyUnitRoutes())
+        showSortGalleryLinks(call, SortCurrencyUnit.entries, CurrencyUnitRoutes())
         showGallery(call, state, units) { unit ->
             visualizeCurrencyUnit(state, CURRENCY_CONFIG, unit, maxSize)
         }

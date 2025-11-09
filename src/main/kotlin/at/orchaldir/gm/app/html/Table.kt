@@ -1,6 +1,5 @@
 package at.orchaldir.gm.app.html
 
-import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.HasBelief
 import at.orchaldir.gm.core.model.util.name.Name
@@ -15,20 +14,6 @@ import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Weight
 import io.ktor.server.application.*
 import kotlinx.html.*
-
-fun <T : Enum<T>, ID : Id<ID>> HtmlBlockTag.showSortTableLinks(
-    call: ApplicationCall,
-    entries: List<T>,
-    routes: Routes<ID, T>,
-) {
-    field("Sort") {
-        entries.forEach {
-            val link = routes.all(call, it)
-            link(link, it.name)
-            +" "
-        }
-    }
-}
 
 // header cell
 

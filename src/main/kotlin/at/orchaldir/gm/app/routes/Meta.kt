@@ -30,6 +30,7 @@ interface Routes<ID : Id<ID>, T> {
     fun delete(call: ApplicationCall, id: ID): String
     fun edit(call: ApplicationCall, id: ID): String
     fun gallery(call: ApplicationCall): String? = null
+    fun gallery(call: ApplicationCall, sort: T): String? = null
     fun new(call: ApplicationCall): String
     fun preview(call: ApplicationCall, id: ID): String
     fun update(call: ApplicationCall, id: ID): String
@@ -57,7 +58,7 @@ inline fun <ID : Id<ID>, ELEMENT : Element<ID>, reified T : Enum<T>> HTML.showAl
 ) {
     simpleHtml(elements.firstOrNull()?.id()?.plural() ?: "Elements") {
         field("Count", elements.size)
-        showSortTableLinks(call, enumValues<T>().toList(), routes)
+        showSortAllLinks(call, enumValues<T>().toList(), routes)
         routes.gallery(call)?.let { action(it, "Gallery") }
 
         table {
@@ -106,7 +107,7 @@ inline fun <ID : Id<ID>, ELEMENT : Element<ID>, reified T : Enum<T>> HTML.showGa
 ) {
     simpleHtml("Equipment") {
         field("Count", elements.size)
-        showSortTableLinks(call, enumValues<T>().toList(), routes)
+        showSortGalleryLinks(call, enumValues<T>().toList(), routes)
 
         showGallery(call, state, elements) { element ->
             showElement(element)
@@ -389,6 +390,37 @@ suspend fun <ELEMENT : Element<ID>, ID : Id<ID>, T> PipelineContext<Unit, Applic
             }, {
                 showRight(call, state, element)
             })
+        }
+    }
+}
+
+// sort
+
+fun <T : Enum<T>, ID : Id<ID>> HtmlBlockTag.showSortAllLinks(
+    call: ApplicationCall,
+    entries: List<T>,
+    routes: Routes<ID, T>,
+) = showSortTableLinks(entries) {
+    routes.all(call, it)
+}
+
+fun <T : Enum<T>, ID : Id<ID>> HtmlBlockTag.showSortGalleryLinks(
+    call: ApplicationCall,
+    entries: List<T>,
+    routes: Routes<ID, T>,
+) = showSortTableLinks(entries) {
+    routes.gallery(call, it) ?: ""
+}
+
+fun <T : Enum<T>> HtmlBlockTag.showSortTableLinks(
+    entries: List<T>,
+    createLink: (T) -> String,
+) {
+    field("Sort") {
+        entries.forEach {
+            val link = createLink(it)
+            link(link, it.name)
+            +" "
         }
     }
 }
