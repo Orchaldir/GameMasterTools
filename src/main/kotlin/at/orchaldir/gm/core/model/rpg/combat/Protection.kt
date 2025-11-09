@@ -6,6 +6,7 @@ import kotlinx.serialization.Serializable
 enum class ProtectionType {
     DamageResistance,
     DamageResistances,
+    DefenseBonus,
     Undefined,
 }
 
@@ -15,12 +16,14 @@ sealed class Protection {
     fun getType() = when (this) {
         is DamageResistance -> ProtectionType.DamageResistance
         is DamageResistances -> ProtectionType.DamageResistances
+        is DefenseBonus -> ProtectionType.DefenseBonus
         is UndefinedProtection -> ProtectionType.Undefined
     }
 
     fun contains(type: DamageTypeId) = when (this) {
         is DamageResistance -> false
         is DamageResistances -> damageTypes.containsKey(type)
+        is DefenseBonus -> false
         UndefinedProtection -> false
     }
 }
@@ -36,6 +39,12 @@ data class DamageResistance(
 data class DamageResistances(
     val amount: Int = 1,
     val damageTypes: Map<DamageTypeId, Int> = emptyMap(),
+) : Protection()
+
+@Serializable
+@SerialName("DefenseBonus")
+data class DefenseBonus(
+    val bonus: Int = 1,
 ) : Protection()
 
 @Serializable
