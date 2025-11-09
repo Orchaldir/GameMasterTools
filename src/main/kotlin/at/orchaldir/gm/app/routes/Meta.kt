@@ -108,6 +108,7 @@ inline fun <ID : Id<ID>, ELEMENT : Element<ID>, reified T : Enum<T>> HTML.showGa
     simpleHtml("Equipment") {
         field("Count", elements.size)
         showSortGalleryLinks(call, enumValues<T>().toList(), routes)
+        back(routes.all(call, sort))
 
         showGallery(call, state, elements) { element ->
             showElement(element)
