@@ -87,6 +87,7 @@
      }
     },
     "front": {
+     "material": 17,
      "fill": {
       "#type": "VerticalStripes",
       "color0": {

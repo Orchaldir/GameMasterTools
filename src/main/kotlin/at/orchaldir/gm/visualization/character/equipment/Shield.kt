@@ -17,6 +17,7 @@ import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.toRender
 import at.orchaldir.gm.visualization.character.CharacterRenderState
+import at.orchaldir.gm.visualization.character.appearance.ABOVE_HAND_LAYER
 import at.orchaldir.gm.visualization.character.appearance.HELD_EQUIPMENT_LAYER
 import at.orchaldir.gm.visualization.utils.visualizeCircularShape
 import at.orchaldir.gm.visualization.utils.visualizeComplexShape
@@ -49,7 +50,7 @@ fun visualizeShield(
 ) {
     val (left, right) = state.config.body.getMirroredArmPoint(state.aabb, body, END)
     val radius = state.config.equipment.shield.getRadius(state.aabb, shield)
-    val renderer = state.getLayer(HELD_EQUIPMENT_LAYER)
+    val renderer = state.getLayer(ABOVE_HAND_LAYER)
     val center = state.getCenter(left, right, set, BodySlot.HeldInLeftHand)
 
     if (state.renderFront) {
