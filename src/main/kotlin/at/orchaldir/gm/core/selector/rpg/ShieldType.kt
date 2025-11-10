@@ -11,7 +11,7 @@ fun State.canDeleteShieldType(type: ShieldTypeId) = DeleteResult(type)
     .addElements(getShields(type))
 
 fun State.getShieldType(equipment: Equipment) = getShieldTypeStorage()
-    .getOptional(null)
+    .getOptional(equipment.data.getShieldStats()?.type)
 
 fun State.getShieldTypes(type: DamageTypeId) = getShieldTypeStorage()
     .getAll()

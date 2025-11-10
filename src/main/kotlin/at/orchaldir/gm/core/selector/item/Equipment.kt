@@ -17,6 +17,7 @@ import at.orchaldir.gm.core.model.rpg.combat.ShieldTypeId
 import at.orchaldir.gm.core.model.util.render.ColorSchemeId
 import at.orchaldir.gm.core.selector.character.getCharactersWith
 import at.orchaldir.gm.core.selector.culture.getFashions
+import kotlin.collections.filter
 
 fun State.canDeleteEquipment(equipment: EquipmentId) = DeleteResult(equipment)
     .addElements(getCharactersWith(equipment))
@@ -113,3 +114,4 @@ fun State.getMeleeWeapons(type: MeleeWeaponTypeId) = getEquipmentStorage()
 
 fun State.getShields(type: ShieldTypeId) = getEquipmentStorage()
     .getAll()
+    .filter { it.data.getShieldStats()?.type == type }
