@@ -7,6 +7,22 @@
    "protection": {
     "#type": "DefenseBonus"
    }
+  },
+  "1": {
+   "id": 1,
+   "name": "Medium Shield",
+   "protection": {
+    "#type": "DefenseBonus",
+    "bonus": 2
+   }
+  },
+  "2": {
+   "id": 2,
+   "name": "Large Shield",
+   "protection": {
+    "#type": "DefenseBonus",
+    "bonus": 3
+   }
   }
  }
 }
