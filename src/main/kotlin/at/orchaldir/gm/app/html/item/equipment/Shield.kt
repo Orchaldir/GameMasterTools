@@ -9,6 +9,7 @@ import at.orchaldir.gm.app.html.item.equipment.style.*
 import at.orchaldir.gm.app.html.math.parseComplexShape
 import at.orchaldir.gm.app.html.math.selectComplexShape
 import at.orchaldir.gm.app.html.math.showComplexShape
+import at.orchaldir.gm.app.html.rpg.combat.parseShieldStats
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.util.part.editFillLookupItemPart
 import at.orchaldir.gm.app.html.util.part.parseFillLookupItemPart
@@ -60,4 +61,5 @@ fun parseShield(parameters: Parameters) = Shield(
     parseShieldBoss(parameters),
     parseFillLookupItemPart(parameters, MAIN),
     parseFillLookupItemPart(parameters, BACK),
+    parseShieldStats(parameters),
 )

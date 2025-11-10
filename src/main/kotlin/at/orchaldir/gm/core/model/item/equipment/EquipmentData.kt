@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.item.equipment.EquipmentSlot.*
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.rpg.combat.ArmorStats
 import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponStats
+import at.orchaldir.gm.core.model.rpg.combat.ShieldStats
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.part.ColorItemPart
 import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
@@ -130,6 +131,11 @@ sealed class EquipmentData : MadeFromParts {
         is Polearm -> stats
         is OneHandedSword -> stats
         is TwoHandedSword -> stats
+        else -> null
+    }
+
+    fun getShieldStats() = when (this) {
+        is Shield -> stats
         else -> null
     }
 
@@ -353,6 +359,7 @@ data class Shield(
     val boss: ShieldBoss = NoShieldBoss,
     val front: FillLookupItemPart = FillLookupItemPart(Color.SaddleBrown),
     val back: FillLookupItemPart = FillLookupItemPart(Color.SaddleBrown),
+    val stats: ShieldStats = ShieldStats(),
 ) : EquipmentData() {
 
     constructor(shape: CircularShape, size: Size, color: Color) :
