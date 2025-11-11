@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.item.equipment.style.ScaleArmour
 import at.orchaldir.gm.core.model.rpg.combat.ArmorStats
 import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponStats
+import at.orchaldir.gm.core.model.rpg.combat.ShieldStats
 import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
 import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
 import at.orchaldir.gm.core.model.util.render.*
@@ -134,6 +135,14 @@ class EquipmentTest {
                 assertIllegalArgument("Requires unknown Melee Weapon Type 99!") { REDUCER.invoke(STATE, action) }
             }
 
+            @Test
+            fun `Shield type must exist`() {
+                val data = Shield(stats = ShieldStats(UNKNOWN_SHIELD_TYPE))
+                val item = Equipment(EQUIPMENT_ID_0, data = data)
+                val action = UpdateAction(item)
+
+                assertIllegalArgument("Requires unknown Shield Type 99!") { REDUCER.invoke(STATE, action) }
+            }
         }
 
         @Nested

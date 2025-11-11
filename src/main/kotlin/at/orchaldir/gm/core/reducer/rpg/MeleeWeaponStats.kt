@@ -5,8 +5,8 @@ import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponStats
 
 fun validateMeleeWeaponStats(
     state: State,
-    weapon: MeleeWeaponStats,
+    stats: MeleeWeaponStats,
 ) {
-    state.getMeleeWeaponModifierStorage().require(weapon.modifiers)
-    state.getMeleeWeaponTypeStorage().requireOptional(weapon.type)
+    state.getMeleeWeaponModifierStorage().require(stats.modifiers)
+    state.getMeleeWeaponTypeStorage().requireOptional(stats.type)
 }
