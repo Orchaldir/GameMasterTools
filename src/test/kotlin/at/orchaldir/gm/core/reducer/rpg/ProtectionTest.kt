@@ -1,6 +1,5 @@
 package at.orchaldir.gm.core.reducer.rpg
 
-import at.orchaldir.gm.ARMOR_TYPE_ID_0
 import at.orchaldir.gm.DAMAGE_TYPE_ID_0
 import at.orchaldir.gm.UNKNOWN_DAMAGE_TYPE_ID
 import at.orchaldir.gm.assertIllegalArgument
@@ -10,7 +9,7 @@ import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
-class AmorTypeTest {
+class ProtectionTest {
 
     private val STATE = State(
         listOf(
@@ -53,10 +52,15 @@ class AmorTypeTest {
 
     }
 
-    private fun assertInvalidType(protection: Protection, message: String) {
-        val type = ArmorType(ARMOR_TYPE_ID_0, protection = protection)
+    @Test
+    fun `Defense Bonus must be greater than 0`() {
+        val protection = DefenseBonus(0)
 
-        assertIllegalArgument(message) { type.validate(STATE) }
+        assertInvalidType(protection, "Defense Bonus needs to be greater 0!")
+    }
+
+    private fun assertInvalidType(protection: Protection, message: String) {
+        assertIllegalArgument(message) { validateProtection(STATE, protection) }
     }
 
 }
