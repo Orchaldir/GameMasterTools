@@ -9,15 +9,10 @@ import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentIdMap
-import at.orchaldir.gm.core.model.rpg.combat.ArmorModifierId
-import at.orchaldir.gm.core.model.rpg.combat.ArmorTypeId
-import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponModifierId
-import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponTypeId
-import at.orchaldir.gm.core.model.rpg.combat.ShieldTypeId
+import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.core.model.util.render.ColorSchemeId
 import at.orchaldir.gm.core.selector.character.getCharactersWith
 import at.orchaldir.gm.core.selector.culture.getFashions
-import kotlin.collections.filter
 
 fun State.canDeleteEquipment(equipment: EquipmentId) = DeleteResult(equipment)
     .addElements(getCharactersWith(equipment))

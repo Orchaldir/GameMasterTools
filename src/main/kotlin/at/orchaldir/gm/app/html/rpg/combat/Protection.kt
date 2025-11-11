@@ -44,6 +44,7 @@ fun HtmlBlockTag.displayProtection(
             }
             +" DR"
         }
+
         is DefenseBonus -> +"${protection.bonus} DB"
 
         UndefinedProtection -> if (showUndefined) {
@@ -92,6 +93,7 @@ fun HtmlBlockTag.editProtection(
                     damageTypes = damageTypes.filter { it.id != damageType }
                 }
             }
+
             is DefenseBonus -> selectDR(param, 1, protection.bonus)
 
             UndefinedProtection -> doNothing()

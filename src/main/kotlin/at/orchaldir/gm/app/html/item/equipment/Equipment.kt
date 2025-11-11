@@ -2,12 +2,7 @@ package at.orchaldir.gm.app.html.item.equipment
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.rpg.combat.editArmorStats
-import at.orchaldir.gm.app.html.rpg.combat.editMeleeWeaponStats
-import at.orchaldir.gm.app.html.rpg.combat.editShieldStats
-import at.orchaldir.gm.app.html.rpg.combat.showArmorStats
-import at.orchaldir.gm.app.html.rpg.combat.showMeleeWeaponStats
-import at.orchaldir.gm.app.html.rpg.combat.showShieldStats
+import at.orchaldir.gm.app.html.rpg.combat.*
 import at.orchaldir.gm.app.html.util.color.parseColorSchemeId
 import at.orchaldir.gm.app.html.util.fieldWeight
 import at.orchaldir.gm.app.html.util.parseWeight
