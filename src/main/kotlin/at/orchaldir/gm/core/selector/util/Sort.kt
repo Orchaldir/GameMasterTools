@@ -64,6 +64,7 @@ import at.orchaldir.gm.core.selector.economy.money.countCurrencyUnits
 import at.orchaldir.gm.core.selector.item.countEquipment
 import at.orchaldir.gm.core.selector.item.getArmors
 import at.orchaldir.gm.core.selector.item.getMeleeWeapons
+import at.orchaldir.gm.core.selector.item.getShields
 import at.orchaldir.gm.core.selector.realm.countOwnedTowns
 import at.orchaldir.gm.core.selector.realm.countRealmsWithCurrencyAtAnyTime
 import at.orchaldir.gm.core.selector.realm.countRealmsWithLegalCodeAtAnyTime
@@ -134,7 +135,7 @@ fun State.sortArmorModifiers(
     .sortedWith(
         when (sort) {
             SortArmorModifier.Name -> compareBy { it.name.text }
-            SortArmorModifier.Armor -> compareByDescending { getArmors(it.id).size }
+            SortArmorModifier.Equipment -> compareByDescending { getArmors(it.id).size }
         })
 
 // armor types
@@ -149,7 +150,7 @@ fun State.sortArmorTypes(
     .sortedWith(
         when (sort) {
             SortArmorType.Name -> compareBy { it.name.text }
-            SortArmorType.Armor -> compareByDescending { getArmors(it.id).size }
+            SortArmorType.Equipment -> compareByDescending { getArmors(it.id).size }
         })
 
 // article
@@ -608,7 +609,7 @@ fun State.sortMeleeWeaponModifiers(
     .sortedWith(
         when (sort) {
             SortMeleeWeaponModifier.Name -> compareBy { it.name.text }
-            SortMeleeWeaponModifier.Weapons -> compareByDescending { getMeleeWeapons(it.id).size }
+            SortMeleeWeaponModifier.Equipment -> compareByDescending { getMeleeWeapons(it.id).size }
         })
 
 // melee weapon types
@@ -623,7 +624,7 @@ fun State.sortMeleeWeaponTypes(
     .sortedWith(
         when (sort) {
             SortMeleeWeaponType.Name -> compareBy { it.name.text }
-            SortMeleeWeaponType.Weapons -> compareByDescending { getMeleeWeapons(it.id).size }
+            SortMeleeWeaponType.Equipment -> compareByDescending { getMeleeWeapons(it.id).size }
         })
 
 // moon
@@ -843,6 +844,22 @@ fun State.sortRivers(
         when (sort) {
             SortRiver.Name -> compareBy { it.name.text }
         })
+
+// shield types
+
+fun State.sortShieldTypes(sort: SortShieldType = SortShieldType.Name) =
+    sortShieldTypes(getShieldTypeStorage().getAll(), sort)
+
+fun State.sortShieldTypes(
+    weapons: Collection<ShieldType>,
+    sort: SortShieldType = SortShieldType.Name,
+) = weapons
+    .sortedWith(
+        when (sort) {
+            SortShieldType.Name -> compareBy { it.name.text }
+            SortShieldType.Equipment -> compareByDescending { getShields(it.id).size }
+        })
+
 
 // spell
 

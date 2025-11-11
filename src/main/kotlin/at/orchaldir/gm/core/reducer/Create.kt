@@ -132,6 +132,7 @@ fun reduceCreateElement(
     is RealmId -> createElement(state, Realm(id))
     is RegionId -> createElement(state, Region(id))
     is RiverId -> createElement(state, River(id))
+    is ShieldTypeId -> createElement(state, ShieldType(id))
     is SpellId -> createElement(state, Spell(id))
     is SpellGroupId -> createElement(state, SpellGroup(id))
     is StatisticId -> createElement(state, Statistic(id))

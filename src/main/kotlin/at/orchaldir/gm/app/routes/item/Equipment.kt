@@ -26,6 +26,7 @@ import at.orchaldir.gm.core.model.util.render.UndefinedColors
 import at.orchaldir.gm.core.selector.culture.getFashions
 import at.orchaldir.gm.core.selector.item.getEquippedBy
 import at.orchaldir.gm.core.selector.rpg.getArmorType
+import at.orchaldir.gm.core.selector.rpg.getShieldType
 import at.orchaldir.gm.core.selector.util.getColors
 import at.orchaldir.gm.core.selector.util.sortEquipmentList
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
@@ -62,6 +63,12 @@ class EquipmentRoutes : Routes<EquipmentId, SortEquipment> {
         val parent: EquipmentRoutes = EquipmentRoutes(),
     )
 
+    @Resource("shield")
+    class AllShields(
+        val sort: SortEquipment = SortEquipment.Name,
+        val parent: EquipmentRoutes = EquipmentRoutes(),
+    )
+
     @Resource("gallery")
     class Gallery(
         val sort: SortEquipment = SortEquipment.Name,
@@ -93,6 +100,7 @@ class EquipmentRoutes : Routes<EquipmentId, SortEquipment> {
     override fun all(call: ApplicationCall, sort: SortEquipment) = call.application.href(All(sort))
     fun allArmors(call: ApplicationCall, sort: SortEquipment) = call.application.href(AllArmors(sort))
     fun allMeleeWeapons(call: ApplicationCall, sort: SortEquipment) = call.application.href(AllMeleeWeapons(sort))
+    fun allShields(call: ApplicationCall, sort: SortEquipment) = call.application.href(AllShields(sort))
     override fun delete(call: ApplicationCall, id: EquipmentId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: EquipmentId) = call.application.href(Edit(id))
     override fun gallery(call: ApplicationCall) = call.application.href(Gallery())
@@ -122,8 +130,9 @@ fun Application.configureEquipmentRouting() {
                     Column("Characters") { tdSkipZero(state.getFashions(it.id)) },
                 ),
             ) {
-                action(routes.allArmors(call, all.sort), "All Amors")
+                action(routes.allArmors(call, all.sort), "All Armors")
                 action(routes.allMeleeWeapons(call, all.sort), "All Melee Weapons")
+                action(routes.allShields(call, all.sort), "All Shields")
             }
         }
         get<EquipmentRoutes.AllArmors> { all ->
@@ -182,6 +191,32 @@ fun Application.configureEquipmentRouting() {
                     createMeleeWeaponColumn(state, "Parrying") {
                         displayParrying(it.parrying)
                     },
+                ),
+            ) {
+                action(routes.all(call, all.sort), "All")
+            }
+        }
+        get<EquipmentRoutes.AllShields> { all ->
+            val routes = EquipmentRoutes()
+            val state = STORE.getState()
+            val shields = state.getEquipmentStorage()
+                .getAll()
+                .filter { it.data.getShieldStats() != null }
+
+            handleShowAllElements(
+                routes,
+                state.sortEquipmentList(shields, all.sort),
+                listOf(
+                    createNameColumn(call, state),
+                    createIdColumn(call, state, "Type") { it.data.getShieldStats()?.type },
+                    createIdColumn(call, state, "Material") { it.data.mainMaterial() },
+                    tdColumn("Protection") {
+                        state.getShieldType(it)
+                            ?.let { type ->
+                                displayProtection(call, state, type.protection)
+                            }
+                    },
+                    Column("Modifiers") { tdInlineIds(call, state, it.data.getShieldStats()?.modifiers ?: emptySet()) },
                 ),
             ) {
                 action(routes.all(call, all.sort), "All")
@@ -257,8 +292,6 @@ private fun HtmlBlockTag.showEquipmentDetails(
     equipment: Equipment,
     optionalColorSchemeId: ColorSchemeId? = null,
 ) {
-    val characters = state.getEquippedBy(equipment.id)
-    val fashions = state.getFashions(equipment.id)
     val previewLink = call.application.href(EquipmentRoutes.Scheme(equipment.id))
 
     if (equipment.colorSchemes.isNotEmpty()) {
@@ -274,6 +307,20 @@ private fun HtmlBlockTag.showEquipmentDetails(
     }
 
     showEquipment(call, state, equipment)
+    showUsage(call, state, equipment)
+}
+
+private fun HtmlBlockTag.showUsage(
+    call: ApplicationCall,
+    state: State,
+    equipment: Equipment,
+) {
+    val characters = state.getEquippedBy(equipment.id)
+    val fashions = state.getFashions(equipment.id)
+
+    if (characters.isEmpty() && fashions.isEmpty()) {
+        return
+    }
 
     h2 { +"Usage" }
 

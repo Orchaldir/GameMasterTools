@@ -80,7 +80,7 @@ fun Application.configureMeleeWeaponTypeRouting() {
                             displayParrying(attack.parrying)
                         }
                     },
-                    countCollectionColumn("Weapons") { state.getMeleeWeapons(it.id) },
+                    countCollectionColumn("Equipment") { state.getMeleeWeapons(it.id) },
                 ),
             )
         }

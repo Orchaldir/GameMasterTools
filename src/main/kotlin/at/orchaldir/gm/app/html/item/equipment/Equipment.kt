@@ -2,10 +2,7 @@ package at.orchaldir.gm.app.html.item.equipment
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.rpg.combat.editArmorStats
-import at.orchaldir.gm.app.html.rpg.combat.editMeleeWeaponStats
-import at.orchaldir.gm.app.html.rpg.combat.showArmorStats
-import at.orchaldir.gm.app.html.rpg.combat.showMeleeWeaponStats
+import at.orchaldir.gm.app.html.rpg.combat.*
 import at.orchaldir.gm.app.html.util.color.parseColorSchemeId
 import at.orchaldir.gm.app.html.util.fieldWeight
 import at.orchaldir.gm.app.html.util.parseWeight
@@ -39,6 +36,9 @@ fun HtmlBlockTag.showEquipment(
     }
     equipment.data.getMeleeWeaponStats()?.let {
         showMeleeWeaponStats(call, state, it, material)
+    }
+    equipment.data.getShieldStats()?.let {
+        showShieldStats(call, state, it, material)
     }
     showEquipmentData(call, state, equipment)
 }
@@ -92,6 +92,7 @@ fun HtmlBlockTag.editEquipment(
     selectColorSchemes(state, equipment)
     equipment.data.getArmorStats()?.let { editArmorStats(call, state, it) }
     equipment.data.getMeleeWeaponStats()?.let { editMeleeWeaponStats(call, state, it) }
+    equipment.data.getShieldStats()?.let { editShieldStats(call, state, it) }
     editEquipmentData(state, equipment)
 }
 

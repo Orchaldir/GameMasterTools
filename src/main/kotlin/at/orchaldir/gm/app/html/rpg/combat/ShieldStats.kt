@@ -1,27 +1,27 @@
 package at.orchaldir.gm.app.html.rpg.combat
 
-import at.orchaldir.gm.app.ARMOR
 import at.orchaldir.gm.app.MODIFIER
+import at.orchaldir.gm.app.SHIELD
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.MaterialId
-import at.orchaldir.gm.core.model.rpg.combat.ArmorStats
+import at.orchaldir.gm.core.model.rpg.combat.ShieldStats
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
 
 // show
 
-fun HtmlBlockTag.showArmorStats(
+fun HtmlBlockTag.showShieldStats(
     call: ApplicationCall,
     state: State,
-    stats: ArmorStats,
+    stats: ShieldStats,
     mainMaterial: MaterialId?,
 ) {
-    showDetails("Armor Stats", true) {
+    showDetails("Shield Stats", true) {
         optionalFieldLink("Type", call, state, stats.type)
         optionalFieldLink(call, state, mainMaterial)
         fieldIds(call, state, "Modifiers", stats.modifiers)
@@ -30,23 +30,23 @@ fun HtmlBlockTag.showArmorStats(
 
 // edit
 
-fun HtmlBlockTag.editArmorStats(
+fun HtmlBlockTag.editShieldStats(
     call: ApplicationCall,
     state: State,
-    stats: ArmorStats,
+    stats: ShieldStats,
 ) {
-    showDetails("Armor Stats", true) {
+    showDetails("Shield Stats", true) {
         selectOptionalElement(
             state,
             "Type",
-            combine(ARMOR, TYPE),
-            state.getArmorTypeStorage().getAll(),
+            combine(SHIELD, TYPE),
+            state.getShieldTypeStorage().getAll(),
             stats.type,
         )
         selectElements(
             state,
             "Modifiers",
-            combine(ARMOR, MODIFIER),
+            combine(SHIELD, MODIFIER),
             state.getArmorModifierStorage().getAll(),
             stats.modifiers,
         )
@@ -55,13 +55,13 @@ fun HtmlBlockTag.editArmorStats(
 
 // parse
 
-fun parseArmorStats(
+fun parseShieldStats(
     parameters: Parameters,
-) = ArmorStats(
-    parseArmorTypeId(parameters, combine(ARMOR, TYPE)),
+) = ShieldStats(
+    parseShieldTypeId(parameters, combine(SHIELD, TYPE)),
     parseElements(
         parameters,
-        combine(ARMOR, MODIFIER),
+        combine(SHIELD, MODIFIER),
         ::parseArmorModifierId,
     ),
 )

@@ -424,6 +424,7 @@ fun href(
     is RaceAppearanceId -> call.application.href(RaceAppearanceRoutes.Details(id))
     is RealmId -> call.application.href(RealmRoutes.Details(id))
     is RiverId -> call.application.href(RiverRoutes.Details(id))
+    is ShieldTypeId -> call.application.href(ShieldTypeRoutes.Details(id))
     is SpellId -> call.application.href(SpellRoutes.Details(id))
     is SpellGroupId -> call.application.href(SpellGroupRoutes.Details(id))
     is StandardOfLivingId -> call.application.href(StandardOfLivingRoutes.Details(id))

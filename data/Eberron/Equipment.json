@@ -68,6 +68,45 @@
      "type": 0
     }
    }
+  },
+  "3": {
+   "id": 3,
+   "name": "Medium Shield",
+   "data": {
+    "#type": "Shield",
+    "border": {
+     "#type": "Simple",
+     "part": {
+      "material": 18
+     }
+    },
+    "boss": {
+     "#type": "Simple",
+     "part": {
+      "material": 18
+     }
+    },
+    "front": {
+     "material": 17,
+     "fill": {
+      "#type": "VerticalStripes",
+      "color0": {
+       "#type": "Fixed",
+       "color": "Black"
+      },
+      "color1": {
+       "#type": "Fixed",
+       "color": "White"
+      }
+     }
+    },
+    "back": {
+     "material": 17
+    },
+    "stats": {
+     "type": 1
+    }
+   }
   }
  }
 }
