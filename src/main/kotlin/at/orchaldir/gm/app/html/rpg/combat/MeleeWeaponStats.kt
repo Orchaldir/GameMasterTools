@@ -59,7 +59,7 @@ fun parseMeleeWeaponStats(
     state: State,
     parameters: Parameters,
 ) = MeleeWeaponStats(
-    parseMeleeWeaponTypeId(parameters, combine(WEAPON, TYPE)),
+    parseOptionalMeleeWeaponTypeId(parameters, combine(WEAPON, TYPE)),
     parseElements(
         parameters,
         combine(WEAPON, MODIFIER),

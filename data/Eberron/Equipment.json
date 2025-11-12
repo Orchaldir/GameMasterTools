@@ -107,6 +107,28 @@
      "type": 1
     }
    }
+  },
+  "4": {
+   "id": 4,
+   "name": "Axe",
+   "data": {
+    "#type": "Axe2",
+    "head": {
+     "#type": "Double",
+     "blade": {
+      "#type": "Symmetric",
+      "part": {
+       "material": 10
+      }
+     }
+    },
+    "shaft": {
+     "#type": "Simple",
+     "part": {
+      "material": 17
+     }
+    }
+   }
   }
  }
 }

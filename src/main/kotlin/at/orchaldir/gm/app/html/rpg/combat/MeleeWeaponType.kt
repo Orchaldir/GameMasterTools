@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.html.rpg.combat
 import at.orchaldir.gm.app.ATTACK
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponType
 import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponTypeId
 import at.orchaldir.gm.core.selector.item.getMeleeWeapons
@@ -60,6 +61,8 @@ fun HtmlBlockTag.editMeleeWeaponType(
 
 fun parseMeleeWeaponTypeId(parameters: Parameters, param: String) = MeleeWeaponTypeId(parseInt(parameters, param))
 fun parseMeleeWeaponTypeId(value: String) = MeleeWeaponTypeId(value.toInt())
+fun parseOptionalMeleeWeaponTypeId(parameters: Parameters, param: String) =
+    parseSimpleOptionalInt(parameters, param)?.let { MeleeWeaponTypeId(it) }
 
 fun parseMeleeWeaponType(
     state: State,
