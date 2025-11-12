@@ -110,7 +110,7 @@
   },
   "4": {
    "id": 4,
-   "name": "Axe",
+   "name": "Great Axe",
    "data": {
     "#type": "Axe2",
     "head": {
@@ -119,6 +119,38 @@
       "#type": "Symmetric",
       "part": {
        "material": 10
+      }
+     }
+    },
+    "shaft": {
+     "#type": "Simple",
+     "part": {
+      "material": 17
+     }
+    }
+   }
+  },
+  "5": {
+   "id": 5,
+   "name": "Spear",
+   "data": {
+    "#type": "Polearm",
+    "head": {
+     "#type": "Spear",
+     "spear": {
+      "length": 3000,
+      "width": 20000,
+      "part": {
+       "material": 10
+      }
+     },
+     "fixation": {
+      "#type": "Bound",
+      "part": {
+       "lookup": {
+        "#type": "Fixed",
+        "color": "Crimson"
+       }
       }
      }
     },
