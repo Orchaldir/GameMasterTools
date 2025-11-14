@@ -28,9 +28,9 @@ fun main() {
         State(Storage(Material(MaterialId(0), color = Color.Gray))),
         "axes.svg",
         CHARACTER_CONFIG,
-        axeHeads,
         FIXATION,
-    ) { distance, fixation, head ->
+        axeHeads,
+    ) { distance, head, fixation ->
         val polearm = OneHandedAxe(
             head,
             fixation,
