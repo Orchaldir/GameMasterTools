@@ -70,6 +70,7 @@ fun visualizeClubHead(
     size: Size,
 ) = when (head) {
     is SimpleClubHead -> visualizeSimpleClubHead(state, renderer, config, shaftAabb, head, size)
+    is SimpleFlangedHead -> visualizeSimpleFlangedHead(state, renderer, config, shaftAabb, head, size)
 }
 
 private fun visualizeSimpleClubHead(
@@ -83,6 +84,24 @@ private fun visualizeSimpleClubHead(
     val radiusFactor = config.simpleHeight.convert(size) / 2
     val radius = shaftAabb.convertHeight(radiusFactor)
     val center = shaftAabb.getPoint(CENTER, -radiusFactor)
+
+    val color = head.part.getColor(state.state, state.colors)
+    val options = state.config.getLineOptions(color)
+
+    visualizeComplexShape(renderer, center, radius, head.shape, options)
+}
+
+private fun visualizeSimpleFlangedHead(
+    state: CharacterRenderState,
+    renderer: LayerRenderer,
+    config: ClubConfig,
+    shaftAabb: AABB,
+    head: SimpleFlangedHead,
+    size: Size,
+) {
+    val radiusFactor = config.simpleHeight.convert(size) / 2
+    val radius = shaftAabb.convertHeight(radiusFactor)
+    val center = shaftAabb.getPoint(CENTER, radiusFactor)
 
     val color = head.part.getColor(state.state, state.colors)
     val options = state.config.getLineOptions(color)

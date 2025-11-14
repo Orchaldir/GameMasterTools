@@ -14,7 +14,9 @@ import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTableWithoutColorScheme
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.shape.CircularShape
 import at.orchaldir.gm.utils.math.shape.CircularShape.Circle
+import at.orchaldir.gm.utils.math.shape.CircularShape.Hexagon
 import at.orchaldir.gm.utils.math.shape.RectangularShape.Rectangle
 import at.orchaldir.gm.utils.math.shape.RectangularShape.RoundedRectangle
 import at.orchaldir.gm.utils.math.shape.UsingCircularShape
@@ -26,6 +28,7 @@ fun main() {
         Pair("Hammer", SimpleClubHead(UsingRectangularShape(Rectangle, width))),
         Pair("Rounded Hammer", SimpleClubHead(UsingRectangularShape(RoundedRectangle, width))),
         Pair("Rounded Mace", SimpleClubHead(UsingCircularShape(Circle))),
+        Pair("Flanged Mace", SimpleFlangedHead(UsingCircularShape(Hexagon))),
     ).toMutableList()
 
     renderCharacterTableWithoutColorScheme(
