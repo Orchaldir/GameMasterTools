@@ -12,15 +12,15 @@ import kotlin.math.ceil
 fun visualizePolearmFixation(
     state: CharacterRenderState,
     shaftAabb: AABB,
-    fixation: PolearmFixation,
+    fixation: HeadFixation,
 ) {
     val renderer = state.getLayer(HELD_EQUIPMENT_LAYER, 1)
 
     when (fixation) {
-        NoPolearmFixation -> doNothing()
-        is BoundPolearmHead -> visualizeBoundFixation(state, renderer, shaftAabb, fixation)
+        NoHeadFixation -> doNothing()
+        is BoundHeadHead -> visualizeBoundFixation(state, renderer, shaftAabb, fixation)
         is Langets -> visualizeLangets(state, renderer, shaftAabb, fixation)
-        is SocketedPolearmHead -> visualizeSocketedFixation(state, renderer, shaftAabb, fixation)
+        is SocketedHeadHead -> visualizeSocketedFixation(state, renderer, shaftAabb, fixation)
     }
 }
 
@@ -28,7 +28,7 @@ fun visualizeBoundFixation(
     state: CharacterRenderState,
     renderer: LayerRenderer,
     shaftAabb: AABB,
-    fixation: BoundPolearmHead,
+    fixation: BoundHeadHead,
 ) {
     val config = state.config.equipment.polearm
     val height = shaftAabb.convertHeight(fixation.length)
@@ -62,7 +62,7 @@ fun visualizeSocketedFixation(
     state: CharacterRenderState,
     renderer: LayerRenderer,
     shaftAabb: AABB,
-    fixation: SocketedPolearmHead,
+    fixation: SocketedHeadHead,
 ) {
     val config = state.config.equipment.polearm
     val padding = config.socketedPadding

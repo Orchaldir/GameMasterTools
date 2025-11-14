@@ -21,10 +21,10 @@ import at.orchaldir.gm.utils.math.unit.Distance
 
 fun main() {
     val fixation = listOf(
-        Pair("None", NoPolearmFixation),
-        Pair("Bound", BoundPolearmHead(part = ColorSchemeItemPart(Color.Red))),
+        Pair("None", NoHeadFixation),
+        Pair("Bound", BoundHeadHead(part = ColorSchemeItemPart(Color.Red))),
         Pair("Langets", Langets()),
-        Pair("Socketed", SocketedPolearmHead()),
+        Pair("Socketed", SocketedHeadHead()),
     )
 
     renderCharacterTableWithoutColorScheme(

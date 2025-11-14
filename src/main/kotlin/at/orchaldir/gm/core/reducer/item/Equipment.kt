@@ -118,11 +118,11 @@ private fun checkPolearmHead(head: PolearmHead) = when (head) {
     }
 }
 
-private fun checkPolearmFixation(fixation: PolearmFixation) = when (fixation) {
-    NoPolearmFixation -> doNothing()
-    is BoundPolearmHead -> checkFixationLength(fixation.length)
+private fun checkPolearmFixation(fixation: HeadFixation) = when (fixation) {
+    NoHeadFixation -> doNothing()
+    is BoundHeadHead -> checkFixationLength(fixation.length)
     is Langets -> checkFactor(fixation.length, "Langets Length", MIN_LANGETS_LENGTH, MAX_LANGETS_LENGTH)
-    is SocketedPolearmHead -> checkFixationLength(fixation.length)
+    is SocketedHeadHead -> checkFixationLength(fixation.length)
 }
 
 private fun checkFixationLength(length: Factor) =

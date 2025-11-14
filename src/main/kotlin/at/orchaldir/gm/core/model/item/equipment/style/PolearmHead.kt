@@ -70,7 +70,7 @@ data class PolearmHeadWithSegments(
 @SerialName("Axe")
 data class PolearmHeadWithAxeHead(
     val axe: AxeHead = SingleBitAxeHead(),
-    val fixation: PolearmFixation = NoPolearmFixation,
+    val fixation: HeadFixation = NoHeadFixation,
 ) : PolearmHead()
 
 
@@ -78,5 +78,5 @@ data class PolearmHeadWithAxeHead(
 @SerialName("Spear")
 data class PolearmHeadWithSpearHead(
     val spear: SpearHead = SpearHead(),
-    val fixation: PolearmFixation = NoPolearmFixation,
+    val fixation: HeadFixation = NoHeadFixation,
 ) : PolearmHead()

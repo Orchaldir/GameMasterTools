@@ -26,14 +26,14 @@ import kotlinx.html.HtmlBlockTag
 fun HtmlBlockTag.showPolearmFixation(
     call: ApplicationCall,
     state: State,
-    fixation: PolearmFixation,
+    fixation: HeadFixation,
 ) {
     showDetails("Fixation") {
         field("Type", fixation.getType())
 
         when (fixation) {
-            NoPolearmFixation -> doNothing()
-            is BoundPolearmHead -> {
+            NoHeadFixation -> doNothing()
+            is BoundHeadHead -> {
                 fieldFactor("Length", fixation.length)
                 showColorSchemeItemPart(call, state, fixation.part)
             }
@@ -43,7 +43,7 @@ fun HtmlBlockTag.showPolearmFixation(
                 showColorSchemeItemPart(call, state, fixation.part)
             }
 
-            is SocketedPolearmHead -> {
+            is SocketedHeadHead -> {
                 fieldFactor("Length", fixation.length)
                 showColorSchemeItemPart(call, state, fixation.part)
             }
@@ -55,15 +55,15 @@ fun HtmlBlockTag.showPolearmFixation(
 
 fun HtmlBlockTag.editPolearmFixation(
     state: State,
-    fixation: PolearmFixation,
+    fixation: HeadFixation,
     param: String,
 ) {
     showDetails("Fixation", true) {
-        selectValue("Type", param, PolearmFixationType.entries, fixation.getType())
+        selectValue("Type", param, HeadFixationType.entries, fixation.getType())
 
         when (fixation) {
-            NoPolearmFixation -> doNothing()
-            is BoundPolearmHead -> {
+            NoHeadFixation -> doNothing()
+            is BoundHeadHead -> {
                 selectLength(param, fixation.length)
                 editColorSchemeItemPart(state, fixation.part, param)
             }
@@ -73,7 +73,7 @@ fun HtmlBlockTag.editPolearmFixation(
                 editColorSchemeItemPart(state, fixation.part, param)
             }
 
-            is SocketedPolearmHead -> {
+            is SocketedHeadHead -> {
                 selectLength(param, fixation.length)
                 editColorSchemeItemPart(state, fixation.part, param)
             }
@@ -101,19 +101,19 @@ private fun DETAILS.selectLength(
 fun parsePolearmFixation(
     parameters: Parameters,
     param: String,
-) = when (parse(parameters, param, PolearmFixationType.None)) {
-    PolearmFixationType.None -> NoPolearmFixation
-    PolearmFixationType.Bound -> BoundPolearmHead(
+) = when (parse(parameters, param, HeadFixationType.None)) {
+    HeadFixationType.None -> NoHeadFixation
+    HeadFixationType.Bound -> BoundHeadHead(
         parseLength(parameters, param),
         parseColorSchemeItemPart(parameters, param),
     )
 
-    PolearmFixationType.Langets -> Langets(
+    HeadFixationType.Langets -> Langets(
         parseLength(parameters, param, DEFAULT_LANGETS_LENGTH),
         parseColorSchemeItemPart(parameters, param),
     )
 
-    PolearmFixationType.Socketed -> SocketedPolearmHead(
+    HeadFixationType.Socketed -> SocketedHeadHead(
         parseLength(parameters, param),
         parseColorSchemeItemPart(parameters, param),
     )
