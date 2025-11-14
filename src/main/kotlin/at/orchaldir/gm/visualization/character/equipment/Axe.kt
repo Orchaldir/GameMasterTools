@@ -9,6 +9,7 @@ import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.HELD_EQUIPMENT_LAYER
+import at.orchaldir.gm.visualization.character.equipment.part.visualizeHeadFixation
 
 data class AxeConfig(
     val broadButtHeight: SizeConfig<Factor>,
@@ -79,6 +80,7 @@ fun visualizeAxe(
     body: Body,
     head: AxeHead,
     shaft: Shaft,
+    fixation: HeadFixation,
     isOneHanded: Boolean,
     set: Set<BodySlot>,
 ) {
@@ -90,6 +92,7 @@ fun visualizeAxe(
 
     visualizeAxeHead(state, renderer, shaftAabb, head)
     visualizePolearmShaft(state, renderer, shaftAabb, shaft, NoPolearmHead)
+    visualizeHeadFixation(state, shaftAabb, fixation)
 }
 
 fun visualizeAxeHead(

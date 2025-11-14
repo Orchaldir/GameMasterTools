@@ -43,8 +43,8 @@ fun visualizeBodyEquipment(
             val newState = state.copy(colors = pair.second)
 
             when (val data = pair.first) {
-                is OneHandedAxe -> visualizeAxe(newState, body, data.head, data.shaft, true, set)
-                is TwoHandedAxe -> visualizeAxe(newState, body, data.head, data.shaft, false, set)
+                is OneHandedAxe -> visualizeAxe(newState, body, data.head, data.shaft, data.fixation, true, set)
+                is TwoHandedAxe -> visualizeAxe(newState, body, data.head, data.shaft, data.fixation, false, set)
                 is Belt -> visualizeBelt(newState, body, data)
                 is BodyArmour -> visualizeBodyArmour(newState, body, data)
                 is Coat -> visualizeCoat(newState, body, data, OUTERWEAR_LAYER)
