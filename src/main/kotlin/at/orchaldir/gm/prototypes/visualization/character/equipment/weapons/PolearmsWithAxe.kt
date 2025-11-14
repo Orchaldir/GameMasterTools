@@ -11,6 +11,7 @@ import at.orchaldir.gm.core.model.item.equipment.Polearm
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.item.equipment.style.BroadAxeShape.*
 import at.orchaldir.gm.core.model.item.equipment.style.SymmetricAxeShape.*
+import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.Size.*
 import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
 import at.orchaldir.gm.core.model.util.render.Color
@@ -22,21 +23,26 @@ import at.orchaldir.gm.utils.math.unit.Distance
 fun main() {
     val table = listOf(
         listOf(
-            create(SingleBitAxeHead(BroadAxeBlade(Straight, Small, Large))),
-            create(SingleBitAxeHead(BroadAxeBlade(Curved, Medium, Medium))),
-            create(SingleBitAxeHead(BroadAxeBlade(Angular, Large, Small))),
-        ),
-        listOf(
-            create(DoubleBitAxeHead(SymmetricAxeBlade(QuarterCircle, Small))),
-            create(DoubleBitAxeHead(SymmetricAxeBlade(HalfCircle, Medium))),
-            create(DoubleBitAxeHead(SymmetricAxeBlade(HalfOctagon, Large))),
-        ),
-        listOf(
             create(SingleBitAxeHead(DaggerAxeBlade(Small))),
             create(SingleBitAxeHead(DaggerAxeBlade(Medium))),
             create(SingleBitAxeHead(DaggerAxeBlade(Large))),
         ),
-    )
+    ).toMutableList()
+
+    BroadAxeShape.entries.forEach { shape ->
+        Size.entries.forEach { size ->
+            table.add(Size.entries.map { length ->
+                create(SingleBitAxeHead(BroadAxeBlade(shape, size, length)))
+            })
+        }
+    }
+
+    SymmetricAxeShape.entries.forEach { shape ->
+        table.add(Size.entries.map { size ->
+            create(DoubleBitAxeHead(SymmetricAxeBlade(shape, size)))
+        })
+    }
+
     val appearance = HumanoidBody(
         Body(BodyShape.Muscular),
         Head(),
