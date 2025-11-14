@@ -9,7 +9,7 @@ import at.orchaldir.gm.visualization.character.appearance.HELD_EQUIPMENT_LAYER
 import at.orchaldir.gm.visualization.utils.visualizeBoundRows
 import kotlin.math.ceil
 
-fun visualizePolearmFixation(
+fun visualizeHeadFixation(
     state: CharacterRenderState,
     shaftAabb: AABB,
     fixation: HeadFixation,
