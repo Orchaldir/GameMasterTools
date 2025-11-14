@@ -182,6 +182,7 @@ sealed class EquipmentData : MadeFromParts {
 @SerialName("Axe1")
 data class OneHandedAxe(
     val head: AxeHead = SingleBitAxeHead(),
+    val fixation: HeadFixation = NoHeadFixation,
     val shaft: Shaft = SimpleShaft(),
     val stats: MeleeWeaponStats = MeleeWeaponStats(),
 ) : EquipmentData() {
@@ -193,6 +194,7 @@ data class OneHandedAxe(
 @SerialName("Axe2")
 data class TwoHandedAxe(
     val head: AxeHead = DoubleBitAxeHead(),
+    val fixation: HeadFixation = NoHeadFixation,
     val shaft: Shaft = SimpleShaft(),
     val stats: MeleeWeaponStats = MeleeWeaponStats(),
 ) : EquipmentData() {

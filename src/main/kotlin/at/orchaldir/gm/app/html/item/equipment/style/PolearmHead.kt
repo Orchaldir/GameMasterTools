@@ -36,12 +36,12 @@ fun HtmlBlockTag.showPolearmHead(
             is PolearmHeadWithSegments -> showSegments(call, state, head.segments)
             is PolearmHeadWithAxeHead -> {
                 showAxeHead(call, state, head.axe)
-                showPolearmFixation(call, state, head.fixation)
+                showHeadFixation(call, state, head.fixation)
             }
 
             is PolearmHeadWithSpearHead -> {
                 showSpearHead(call, state, head.spear)
-                showPolearmFixation(call, state, head.fixation)
+                showHeadFixation(call, state, head.fixation)
             }
 
         }
@@ -86,12 +86,12 @@ fun HtmlBlockTag.editPolearmHead(
 
             is PolearmHeadWithAxeHead -> {
                 editAxeHead(state, head.axe, combine(param, AXE))
-                editPolearmFixation(state, head.fixation, combine(param, FIXATION))
+                editHeadFixation(state, head.fixation, combine(param, FIXATION))
             }
 
             is PolearmHeadWithSpearHead -> {
                 editSpearHead(state, head.spear, param)
-                editPolearmFixation(state, head.fixation, combine(param, FIXATION))
+                editHeadFixation(state, head.fixation, combine(param, FIXATION))
             }
         }
     }
@@ -140,12 +140,12 @@ fun parsePolearmHead(
 
     PolearmHeadType.Axe -> PolearmHeadWithAxeHead(
         parseAxeHead(parameters, combine(param, AXE)),
-        parsePolearmFixation(parameters, combine(param, FIXATION)),
+        parseHeadFixation(parameters, combine(param, FIXATION)),
     )
 
     PolearmHeadType.Spear -> PolearmHeadWithSpearHead(
         parseSpearHead(parameters, param),
-        parsePolearmFixation(parameters, combine(param, FIXATION)),
+        parseHeadFixation(parameters, combine(param, FIXATION)),
     )
 }
 

@@ -23,7 +23,7 @@ import kotlinx.html.HtmlBlockTag
 
 // show
 
-fun HtmlBlockTag.showPolearmFixation(
+fun HtmlBlockTag.showHeadFixation(
     call: ApplicationCall,
     state: State,
     fixation: HeadFixation,
@@ -53,7 +53,7 @@ fun HtmlBlockTag.showPolearmFixation(
 
 // edit
 
-fun HtmlBlockTag.editPolearmFixation(
+fun HtmlBlockTag.editHeadFixation(
     state: State,
     fixation: HeadFixation,
     param: String,
@@ -98,7 +98,7 @@ private fun DETAILS.selectLength(
 
 // parse
 
-fun parsePolearmFixation(
+fun parseHeadFixation(
     parameters: Parameters,
     param: String,
 ) = when (parse(parameters, param, HeadFixationType.None)) {
