@@ -17,18 +17,21 @@ import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.shape.CircularShape
 import at.orchaldir.gm.utils.math.shape.CircularShape.Circle
 import at.orchaldir.gm.utils.math.shape.CircularShape.Hexagon
+import at.orchaldir.gm.utils.math.shape.RectangularShape
 import at.orchaldir.gm.utils.math.shape.RectangularShape.Rectangle
+import at.orchaldir.gm.utils.math.shape.RectangularShape.ReverseTeardrop
 import at.orchaldir.gm.utils.math.shape.RectangularShape.RoundedRectangle
 import at.orchaldir.gm.utils.math.shape.UsingCircularShape
 import at.orchaldir.gm.utils.math.shape.UsingRectangularShape
 
 fun main() {
     val width = Factor.fromPercentage(100)
+    val wide = Factor.fromPercentage(120)
     val heads = listOf<Pair<String,ClubHead>>(
         Pair("Hammer", SimpleClubHead(UsingRectangularShape(Rectangle, width))),
         Pair("Rounded Hammer", SimpleClubHead(UsingRectangularShape(RoundedRectangle, width))),
         Pair("Rounded Mace", SimpleClubHead(UsingCircularShape(Circle))),
-        Pair("Flanged Mace", SimpleFlangedHead(UsingCircularShape(Hexagon))),
+        Pair("Flanged Mace", SimpleFlangedHead(UsingRectangularShape(ReverseTeardrop, wide))),
     ).toMutableList()
 
     renderCharacterTableWithoutColorScheme(
@@ -41,7 +44,7 @@ fun main() {
         val polearm = OneHandedClub(
             head,
             size,
-            BOUND_FIXATION,
+            SocketedHeadHead(),
             SIMPLE_SHAFT,
         )
         Pair(createAppearance(distance), from(polearm))
