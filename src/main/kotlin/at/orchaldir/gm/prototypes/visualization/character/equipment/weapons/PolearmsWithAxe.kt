@@ -54,5 +54,5 @@ fun main() {
 
 fun create(axeHead: AxeHead) = Polearm(
     PolearmHeadWithAxeHead(axeHead, Langets()),
-    SimpleShaft(FillLookupItemPart(Color.SaddleBrown))
+    SIMPLE_SHAFT,
 )

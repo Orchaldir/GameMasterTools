@@ -34,9 +34,7 @@ fun main() {
         val polearm = OneHandedAxe(
             head,
             fixation,
-            SimpleShaft(
-                FillLookupItemPart(Color.SaddleBrown)
-            ),
+            SIMPLE_SHAFT,
         )
         Pair(createAppearance(distance), from(polearm))
     }

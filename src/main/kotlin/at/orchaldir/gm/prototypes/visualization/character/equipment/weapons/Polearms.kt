@@ -39,7 +39,7 @@ fun main() {
     )
     val stripes = HorizontalStripesLookup(Color.Red, Color.Gold)
     val shafts = listOf(
-        Pair("Wood", SimpleShaft(FillLookupItemPart(Color.SaddleBrown))),
+        Pair("Wood", SIMPLE_SHAFT),
         Pair("Stripped", SimpleShaft(FillLookupItemPart(fill = stripes))),
     )
 

@@ -229,6 +229,7 @@ data class BodyArmour(
 @SerialName("Club1")
 data class OneHandedClub(
     val head: ClubHead = SimpleClubHead(),
+    val size: Size = Size.Medium,
     val fixation: HeadFixation = NoHeadFixation,
     val shaft: Shaft = SimpleShaft(),
     val stats: MeleeWeaponStats = MeleeWeaponStats(),

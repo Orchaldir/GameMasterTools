@@ -6,8 +6,10 @@ import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap.Companion.from
 import at.orchaldir.gm.core.model.item.equipment.OneHandedClub
 import at.orchaldir.gm.core.model.item.equipment.style.*
+import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
 import at.orchaldir.gm.core.model.util.render.Color
+import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTableWithoutColorScheme
 import at.orchaldir.gm.utils.Storage
@@ -28,15 +30,14 @@ fun main() {
         State(Storage(Material(MaterialId(0), color = Color.Gray))),
         "clubs.svg",
         CHARACTER_CONFIG,
-        FIXATION,
+        addNames(Size.entries),
         heads,
-    ) { distance, head, fixation ->
+    ) { distance, head, size ->
         val polearm = OneHandedClub(
             head,
-            fixation,
-            SimpleShaft(
-                FillLookupItemPart(Color.SaddleBrown)
-            ),
+            size,
+            BOUND_FIXATION,
+            SIMPLE_SHAFT,
         )
         Pair(createAppearance(distance), from(polearm))
     }

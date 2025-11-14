@@ -37,9 +37,7 @@ fun main() {
         )
         val polearm = Polearm(
             withSpearHead,
-            SimpleShaft(
-                FillLookupItemPart(Color.SaddleBrown)
-            )
+            SIMPLE_SHAFT,
         )
         Pair(createAppearance(distance), from(polearm))
     }
