@@ -4,34 +4,34 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.Material
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap.Companion.from
-import at.orchaldir.gm.core.model.item.equipment.OneHandedAxe
+import at.orchaldir.gm.core.model.item.equipment.OneHandedClub
 import at.orchaldir.gm.core.model.item.equipment.style.*
-import at.orchaldir.gm.core.model.util.Size.Medium
 import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTableWithoutColorScheme
 import at.orchaldir.gm.utils.Storage
+import at.orchaldir.gm.utils.math.shape.CircularShape.Circle
+import at.orchaldir.gm.utils.math.shape.RectangularShape.Rectangle
+import at.orchaldir.gm.utils.math.shape.RectangularShape.RoundedRectangle
+import at.orchaldir.gm.utils.math.shape.UsingCircularShape
+import at.orchaldir.gm.utils.math.shape.UsingRectangularShape
 
 fun main() {
-    val heads = listOf<Pair<String,AxeHead>>(
-        Pair("Dagger", SingleBitAxeHead(DaggerAxeBlade(Medium)))
+    val heads = listOf<Pair<String,ClubHead>>(
+        Pair("Hammer", SimpleClubHead(UsingRectangularShape(Rectangle))),
+        Pair("Rounded Hammer", SimpleClubHead(UsingRectangularShape(RoundedRectangle))),
+        Pair("Rounded Mace", SimpleClubHead(UsingCircularShape(Circle))),
     ).toMutableList()
-    heads.addAll(BroadAxeShape.entries.map {
-        Pair("$it", SingleBitAxeHead(BroadAxeBlade(it, Medium, Medium)))
-    })
-    heads.addAll(SymmetricAxeShape.entries.map {
-        Pair("$it", DoubleBitAxeHead(SymmetricAxeBlade(it, Medium)))
-    })
 
     renderCharacterTableWithoutColorScheme(
         State(Storage(Material(MaterialId(0), color = Color.Gray))),
-        "axes.svg",
+        "clubs.svg",
         CHARACTER_CONFIG,
         FIXATION,
         heads,
     ) { distance, head, fixation ->
-        val polearm = OneHandedAxe(
+        val polearm = OneHandedClub(
             head,
             fixation,
             SimpleShaft(
