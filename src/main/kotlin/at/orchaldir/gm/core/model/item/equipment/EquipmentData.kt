@@ -242,6 +242,7 @@ data class OneHandedClub(
 @SerialName("Club2")
 data class TwoHandedClub(
     val head: ClubHead = SimpleClubHead(),
+    val size: Size = Size.Medium,
     val fixation: HeadFixation = NoHeadFixation,
     val shaft: Shaft = SimpleShaft(),
     val stats: MeleeWeaponStats = MeleeWeaponStats(),
