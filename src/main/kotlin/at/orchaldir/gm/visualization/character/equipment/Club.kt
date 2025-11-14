@@ -113,7 +113,8 @@ private fun visualizeSimpleFlangedHead(
     size: Size,
 ) {
     val renderer = state.getLayer(layer, -1)
-    val radiusFactor = config.simpleHeight.convert(size) / 2
+    val heightFactor = config.simpleHeight.convert(size)
+    val radiusFactor = heightFactor / 2
     val radius = shaftAabb.convertHeight(radiusFactor)
     val center = shaftAabb.getPoint(CENTER, -radiusFactor)
 
@@ -121,4 +122,9 @@ private fun visualizeSimpleFlangedHead(
     val options = state.config.getLineOptions(color)
 
     visualizeComplexShape(renderer, center, radius, head.shape, options)
+
+    val middleRenderer = state.getLayer(layer, 2)
+    val aabb = shaftAabb.createSubAabb(CENTER, -radiusFactor, HALF, heightFactor)
+
+    middleRenderer.renderRectangle(aabb, options)
 }
