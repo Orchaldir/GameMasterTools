@@ -13,14 +13,15 @@ fun visualizeHeadFixation(
     state: CharacterRenderState,
     shaftAabb: AABB,
     fixation: HeadFixation,
+    extraHeight: Factor = ZERO,
 ) {
     val renderer = state.getLayer(HELD_EQUIPMENT_LAYER, 1)
 
     when (fixation) {
         NoHeadFixation -> doNothing()
-        is BoundHeadHead -> visualizeBoundFixation(state, renderer, shaftAabb, fixation)
-        is Langets -> visualizeLangets(state, renderer, shaftAabb, fixation)
-        is SocketedHeadHead -> visualizeSocketedFixation(state, renderer, shaftAabb, fixation)
+        is BoundHeadHead -> visualizeBoundFixation(state, renderer, shaftAabb, fixation, extraHeight)
+        is Langets -> visualizeLangets(state, renderer, shaftAabb, fixation, extraHeight)
+        is SocketedHeadHead -> visualizeSocketedFixation(state, renderer, shaftAabb, fixation, extraHeight)
     }
 }
 
@@ -29,9 +30,10 @@ fun visualizeBoundFixation(
     renderer: LayerRenderer,
     shaftAabb: AABB,
     fixation: BoundHeadHead,
+    extraHeight: Factor,
 ) {
     val config = state.config.equipment.polearm
-    val height = shaftAabb.convertHeight(fixation.length)
+    val height = shaftAabb.convertHeight(fixation.length + extraHeight)
     val rowHeight = shaftAabb.convertHeight(config.boundRowThickness)
     val rows = ceil(height.toMeters() / rowHeight.toMeters()).toInt()
     val color = fixation.part.getColor(state.state, state.colors)
@@ -46,11 +48,12 @@ fun visualizeLangets(
     renderer: LayerRenderer,
     shaftAabb: AABB,
     fixation: Langets,
+    extraHeight: Factor,
 ) {
     state.config.equipment.polearm
     val polygon = Polygon2dBuilder()
         .addMirroredPoints(shaftAabb, HALF, START)
-        .addMirroredPoints(shaftAabb, HALF, fixation.length)
+        .addMirroredPoints(shaftAabb, HALF, fixation.length + extraHeight)
         .build()
     val color = fixation.part.getColor(state.state, state.colors)
     val options = state.config.getLineOptions(color)
@@ -63,13 +66,14 @@ fun visualizeSocketedFixation(
     renderer: LayerRenderer,
     shaftAabb: AABB,
     fixation: SocketedHeadHead,
+    extraHeight: Factor,
 ) {
     val config = state.config.equipment.polearm
     val padding = config.socketedPadding
     val doublePadding = padding * 2
     val polygon = Polygon2dBuilder()
         .addMirroredPoints(shaftAabb, FULL + doublePadding, START)
-        .addMirroredPoints(shaftAabb, FULL + doublePadding, fixation.length)
+        .addMirroredPoints(shaftAabb, FULL + doublePadding, fixation.length + extraHeight)
         .build()
     val color = fixation.part.getColor(state.state, state.colors)
     val options = state.config.getLineOptions(color)
