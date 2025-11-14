@@ -39,10 +39,14 @@ data class ClubConfig(
         return AABB.fromBottom(bottom, Size2d(width, height))
     }
 
-    fun extendShaft(shaftAabb: AABB, head: ClubHead,
-                    headSize: Size,) = when(head) {
+    fun extendShaft(shaftAabb: AABB, head: ClubHead, headSize: Size) = when(head) {
         is SimpleFlangedHead -> shaftAabb.growBottom(simpleHeight.convert(headSize))
         else -> shaftAabb
+    }
+
+    fun getExtraFixationHeight(head: ClubHead, headSize: Size) = when (head) {
+        is SimpleClubHead -> ZERO
+        is SimpleFlangedHead -> simpleHeight.convert(headSize)
     }
 }
 
@@ -62,9 +66,10 @@ fun visualizeClub(
     val config = state.config.equipment.club
     val shaftAabb = config.shaftAabb(state, body, isOneHanded, hand)
     val extendedShaftAabb = config.extendShaft(shaftAabb, head, size)
+    val extraHeight = config.getExtraFixationHeight(head, size)
 
     visualizePolearmShaft(state, renderer, extendedShaftAabb, shaft, NoPolearmHead)
-    visualizeHeadFixation(state, extendedShaftAabb, fixation)
+    visualizeHeadFixation(state, extendedShaftAabb, fixation, extraHeight)
     visualizeClubHead(state, HELD_EQUIPMENT_LAYER, config, shaftAabb, head, size)
 }
 
