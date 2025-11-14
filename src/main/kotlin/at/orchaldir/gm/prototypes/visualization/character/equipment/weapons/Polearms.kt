@@ -57,10 +57,3 @@ fun main() {
         Pair(createAppearance(distance), from(polearm))
     }
 }
-
-private fun createAppearance(height: Distance) =
-    HumanoidBody(
-        Body(BodyShape.Muscular),
-        Head(),
-        height,
-    )

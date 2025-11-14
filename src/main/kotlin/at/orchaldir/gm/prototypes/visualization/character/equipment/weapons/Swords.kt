@@ -52,10 +52,3 @@ fun main() {
 }
 
 private fun createGrip(shape: SwordGripShape) = SimpleSwordGrip(shape, FillLookupItemPart(Color.Black))
-
-private fun createAppearance(height: Distance) =
-    HumanoidBody(
-        Body(BodyShape.Muscular),
-        Head(),
-        height,
-    )

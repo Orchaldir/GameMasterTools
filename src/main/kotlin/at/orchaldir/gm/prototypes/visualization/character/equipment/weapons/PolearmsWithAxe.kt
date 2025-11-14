@@ -43,17 +43,11 @@ fun main() {
         })
     }
 
-    val appearance = HumanoidBody(
-        Body(BodyShape.Muscular),
-        Head(),
-        Distance.fromCentimeters(180),
-    )
-
     renderEquipmentDataTable(
         State(Storage(Material(MaterialId(0), color = Color.Gray))),
         "polearms-axe.svg",
         CHARACTER_CONFIG,
-        appearance,
+        createAppearance(Distance.fromCentimeters(180)),
         table,
     )
 }
