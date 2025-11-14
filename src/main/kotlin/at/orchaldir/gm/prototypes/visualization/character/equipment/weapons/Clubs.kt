@@ -21,7 +21,7 @@ import at.orchaldir.gm.utils.math.shape.UsingCircularShape
 import at.orchaldir.gm.utils.math.shape.UsingRectangularShape
 
 fun main() {
-    val width = Factor.fromPercentage(200)
+    val width = Factor.fromPercentage(100)
     val heads = listOf<Pair<String,ClubHead>>(
         Pair("Hammer", SimpleClubHead(UsingRectangularShape(Rectangle, width))),
         Pair("Rounded Hammer", SimpleClubHead(UsingRectangularShape(RoundedRectangle, width))),

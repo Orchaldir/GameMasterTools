@@ -58,6 +58,7 @@ fun visualizeClub(
 
     visualizeClubHead(state, renderer, config, shaftAabb, head, size)
     visualizePolearmShaft(state, renderer, shaftAabb, shaft, NoPolearmHead)
+    visualizeHeadFixation(state, shaftAabb, fixation)
 }
 
 fun visualizeClubHead(
