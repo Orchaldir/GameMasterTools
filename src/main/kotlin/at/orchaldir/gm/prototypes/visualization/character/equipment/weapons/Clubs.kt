@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.item.equipment.EquipmentMap.Companion.from
 import at.orchaldir.gm.core.model.item.equipment.OneHandedClub
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.Size
+import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
@@ -28,9 +29,11 @@ fun main() {
         Pair("Rounded Mace", SimpleClubHead(UsingCircularShape(Circle))),
         Pair("Flanged Mace", SimpleFlangedHead(UsingRectangularShape(ReverseTeardrop, wide))),
     ).toMutableList()
+    val iron = Material(MaterialId(1), color = Color.Gray)
+    val gilded = Material(MaterialId(0), color = Color.Gold)
 
     renderCharacterTableWithoutColorScheme(
-        State(Storage(Material(MaterialId(0), color = Color.Gray))),
+        State(Storage(listOf(iron, gilded))),
         "clubs.svg",
         CHARACTER_CONFIG,
         addNames(Size.entries),
@@ -39,7 +42,7 @@ fun main() {
         val fixation = if (head is NoClubHead) {
             NoHeadFixation
         } else {
-            SocketedHeadHead()
+            SocketedHeadHead(part = ColorSchemeItemPart(MaterialId(1)))
         }
         val polearm = OneHandedClub(
             head,
