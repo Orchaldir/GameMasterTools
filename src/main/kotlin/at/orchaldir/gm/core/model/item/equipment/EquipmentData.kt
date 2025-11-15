@@ -228,7 +228,7 @@ data class BodyArmour(
 @Serializable
 @SerialName("Club1")
 data class OneHandedClub(
-    val head: ClubHead = SimpleClubHead(),
+    val head: ClubHead = NoClubHead,
     val size: Size = Size.Medium,
     val fixation: HeadFixation = NoHeadFixation,
     val shaft: Shaft = SimpleShaft(),
@@ -241,7 +241,7 @@ data class OneHandedClub(
 @Serializable
 @SerialName("Club2")
 data class TwoHandedClub(
-    val head: ClubHead = SimpleClubHead(),
+    val head: ClubHead = NoClubHead,
     val size: Size = Size.Medium,
     val fixation: HeadFixation = NoHeadFixation,
     val shaft: Shaft = SimpleShaft(),

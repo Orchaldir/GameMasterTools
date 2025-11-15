@@ -9,6 +9,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 enum class ClubHeadType {
+    None,
     Simple,
     SimpleFlangedHead,
 }
@@ -17,20 +18,27 @@ enum class ClubHeadType {
 sealed interface ClubHead : MadeFromParts {
 
     fun getType() = when (this) {
+        is NoClubHead -> ClubHeadType.None
         is SimpleClubHead -> ClubHeadType.Simple
         is SimpleFlangedHead -> ClubHeadType.SimpleFlangedHead
     }
 
     override fun parts() = when (this) {
+        is NoClubHead -> emptyList()
         is SimpleClubHead -> listOf(part)
         is SimpleFlangedHead -> listOf(part)
     }
 
     override fun mainMaterial() = when (this) {
+        is NoClubHead -> null
         is SimpleClubHead -> part.material
         is SimpleFlangedHead -> part.material
     }
 }
+
+@Serializable
+@SerialName("None")
+data object NoClubHead : ClubHead
 
 @Serializable
 @SerialName("Simple")

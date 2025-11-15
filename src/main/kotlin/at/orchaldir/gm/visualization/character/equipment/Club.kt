@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.item.equipment.BodySlot
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.SizeConfig
+import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.visualization.character.CharacterRenderState
@@ -43,11 +44,11 @@ data class ClubConfig(
     }
 
     fun getExtraFixationHeight(head: ClubHead, headSize: Size) = when (head) {
-        is SimpleClubHead -> ZERO
         is SimpleFlangedHead -> {
             val extra = simpleHeight.convert(headSize)
             extra / (ONE + extra)
         }
+        else -> ZERO
     }
 }
 
@@ -82,6 +83,7 @@ fun visualizeClubHead(
     head: ClubHead,
     size: Size,
 ) = when (head) {
+    NoClubHead -> doNothing()
     is SimpleClubHead -> visualizeSimpleClubHead(state, layer, config, shaftAabb, head, size)
     is SimpleFlangedHead -> visualizeSimpleFlangedHead(state, layer, config, shaftAabb, head, size)
 }
