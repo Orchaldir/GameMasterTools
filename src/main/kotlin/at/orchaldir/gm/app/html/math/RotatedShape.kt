@@ -87,8 +87,9 @@ private fun parseProfile(
 
     return (0..<count)
         .map {
-            val x = parseInt(parameters, combine(profileParam, X), 50)
-            val y = parseInt(parameters, combine(profileParam, Y), minY)
+            val pointParam = combine(profileParam, it)
+            val x = parseInt(parameters, combine(pointParam, X), 50)
+            val y = parseInt(parameters, combine(pointParam, Y), minY)
             minY = y + 1
 
             Pair(y,x)
