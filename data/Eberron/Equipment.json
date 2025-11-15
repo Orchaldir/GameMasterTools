@@ -161,6 +161,33 @@
      }
     }
    }
+  },
+  "6": {
+   "id": 6,
+   "name": "Mace",
+   "data": {
+    "#type": "Club1",
+    "head": {
+     "#type": "ComplexFlanged",
+     "shape": {
+      "profile": [
+       {
+        "first": 0,
+        "second": 50
+       }
+      ]
+     },
+     "part": {
+      "material": 10
+     }
+    },
+    "shaft": {
+     "#type": "Simple",
+     "part": {
+      "material": 17
+     }
+    }
+   }
   }
  }
 }
