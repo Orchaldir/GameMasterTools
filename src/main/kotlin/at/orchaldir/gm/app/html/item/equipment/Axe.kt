@@ -1,6 +1,7 @@
 package at.orchaldir.gm.app.html.item.equipment
 
 import at.orchaldir.gm.app.AXE
+import at.orchaldir.gm.app.FIXATION
 import at.orchaldir.gm.app.html.item.equipment.style.*
 import at.orchaldir.gm.app.html.rpg.combat.parseMeleeWeaponStats
 import at.orchaldir.gm.core.model.State
@@ -18,6 +19,7 @@ fun HtmlBlockTag.showOneHandedAxe(
     axe: OneHandedAxe,
 ) {
     showAxeHead(call, state, axe.head)
+    showHeadFixation(call, state, axe.fixation)
     showShaft(call, state, axe.shaft)
 }
 
@@ -27,6 +29,7 @@ fun HtmlBlockTag.showTwoHandedAxe(
     axe: TwoHandedAxe,
 ) {
     showAxeHead(call, state, axe.head)
+    showHeadFixation(call, state, axe.fixation)
     showShaft(call, state, axe.shaft)
 }
 
@@ -37,6 +40,7 @@ fun HtmlBlockTag.editOneHandedAxe(
     axe: OneHandedAxe,
 ) {
     editAxeHead(state, axe.head, AXE)
+    editHeadFixation(state, axe.fixation, FIXATION)
     editShaft(state, axe.shaft)
 }
 
@@ -45,6 +49,7 @@ fun HtmlBlockTag.editTwoHandedAxe(
     axe: TwoHandedAxe,
 ) {
     editAxeHead(state, axe.head, AXE)
+    editHeadFixation(state, axe.fixation, FIXATION)
     editShaft(state, axe.shaft)
 }
 
@@ -55,6 +60,7 @@ fun parseOneHandedAxe(
     parameters: Parameters,
 ) = OneHandedAxe(
     parseAxeHead(parameters, AXE),
+    parseHeadFixation(parameters, FIXATION),
     parseShaft(parameters),
     parseMeleeWeaponStats(state, parameters),
 )
@@ -64,6 +70,7 @@ fun parseTwoHandedAxe(
     parameters: Parameters,
 ) = TwoHandedAxe(
     parseAxeHead(parameters, AXE),
+    parseHeadFixation(parameters, FIXATION),
     parseShaft(parameters),
     parseMeleeWeaponStats(state, parameters),
 )

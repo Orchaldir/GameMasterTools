@@ -29,7 +29,16 @@ val ACCESSORIES = setOf(
     EquipmentDataType.Tie,
 )
 val COMBAT_GEAR = setOf(
+    EquipmentDataType.OneHandedAxe,
+    EquipmentDataType.TwoHandedAxe,
+    EquipmentDataType.BodyArmour,
+    EquipmentDataType.OneHandedClub,
+    EquipmentDataType.TwoHandedClub,
+    EquipmentDataType.Helmet,
+    EquipmentDataType.Polearm,
     EquipmentDataType.Shield,
+    EquipmentDataType.OneHandedSword,
+    EquipmentDataType.TwoHandedSword,
 )
 val MAIN_EQUIPMENT = EquipmentDataType.entries - ACCESSORIES - COMBAT_GEAR - EquipmentDataType.EyePatch
 
@@ -38,6 +47,8 @@ enum class EquipmentDataType {
     TwoHandedAxe,
     Belt,
     BodyArmour,
+    OneHandedClub,
+    TwoHandedClub,
     Coat,
     Dress,
     Earring,
@@ -64,6 +75,8 @@ enum class EquipmentDataType {
         TwoHandedAxe -> setOf(HeldInTwoHandsSlot)
         Belt -> setOf(BeltSlot)
         BodyArmour -> setOf(TopSlot)
+        OneHandedClub -> setOf(HeldInOneHandSlot)
+        TwoHandedClub -> setOf(HeldInTwoHandsSlot)
         Coat -> setOf(OuterSlot)
         Dress -> setOf(BottomSlot, InnerTopSlot)
         Earring -> setOf(EarSlot)
@@ -95,6 +108,8 @@ sealed class EquipmentData : MadeFromParts {
         is TwoHandedAxe -> EquipmentDataType.TwoHandedAxe
         is Belt -> EquipmentDataType.Belt
         is BodyArmour -> EquipmentDataType.BodyArmour
+        is OneHandedClub -> EquipmentDataType.OneHandedClub
+        is TwoHandedClub -> EquipmentDataType.TwoHandedClub
         is Coat -> EquipmentDataType.Coat
         is Dress -> EquipmentDataType.Dress
         is Earring -> EquipmentDataType.Earring
@@ -128,6 +143,8 @@ sealed class EquipmentData : MadeFromParts {
     fun getMeleeWeaponStats() = when (this) {
         is OneHandedAxe -> stats
         is TwoHandedAxe -> stats
+        is OneHandedClub -> stats
+        is TwoHandedClub -> stats
         is Polearm -> stats
         is OneHandedSword -> stats
         is TwoHandedSword -> stats
@@ -149,6 +166,8 @@ sealed class EquipmentData : MadeFromParts {
         is OneHandedAxe -> head.mainMaterial()
         is TwoHandedAxe -> head.mainMaterial()
         is BodyArmour -> style.mainMaterial()
+        is OneHandedClub -> head.mainMaterial()
+        is TwoHandedClub -> head.mainMaterial()
         is Footwear -> shaft.material
         is Gloves -> main.material
         is Helmet -> style.mainMaterial()
@@ -163,6 +182,7 @@ sealed class EquipmentData : MadeFromParts {
 @SerialName("Axe1")
 data class OneHandedAxe(
     val head: AxeHead = SingleBitAxeHead(),
+    val fixation: HeadFixation = NoHeadFixation,
     val shaft: Shaft = SimpleShaft(),
     val stats: MeleeWeaponStats = MeleeWeaponStats(),
 ) : EquipmentData() {
@@ -174,6 +194,7 @@ data class OneHandedAxe(
 @SerialName("Axe2")
 data class TwoHandedAxe(
     val head: AxeHead = DoubleBitAxeHead(),
+    val fixation: HeadFixation = NoHeadFixation,
     val shaft: Shaft = SimpleShaft(),
     val stats: MeleeWeaponStats = MeleeWeaponStats(),
 ) : EquipmentData() {
@@ -202,6 +223,32 @@ data class BodyArmour(
 ) : EquipmentData() {
 
     override fun parts() = style.parts()
+}
+
+@Serializable
+@SerialName("Club1")
+data class OneHandedClub(
+    val head: ClubHead = NoClubHead,
+    val size: Size = Size.Medium,
+    val fixation: HeadFixation = NoHeadFixation,
+    val shaft: Shaft = SimpleShaft(),
+    val stats: MeleeWeaponStats = MeleeWeaponStats(),
+) : EquipmentData() {
+
+    override fun parts() = head.parts() + shaft.parts()
+}
+
+@Serializable
+@SerialName("Club2")
+data class TwoHandedClub(
+    val head: ClubHead = NoClubHead,
+    val size: Size = Size.Medium,
+    val fixation: HeadFixation = NoHeadFixation,
+    val shaft: Shaft = SimpleShaft(),
+    val stats: MeleeWeaponStats = MeleeWeaponStats(),
+) : EquipmentData() {
+
+    override fun parts() = head.parts() + shaft.parts()
 }
 
 @Serializable

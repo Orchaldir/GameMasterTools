@@ -1,9 +1,6 @@
 package at.orchaldir.gm.app.html.rpg.combat
 
-import at.orchaldir.gm.app.html.fieldElements
-import at.orchaldir.gm.app.html.parseInt
-import at.orchaldir.gm.app.html.parseName
-import at.orchaldir.gm.app.html.selectName
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.combat.ArmorType
 import at.orchaldir.gm.core.model.rpg.combat.ArmorTypeId
@@ -56,6 +53,8 @@ fun HtmlBlockTag.editArmorType(
 
 fun parseArmorTypeId(parameters: Parameters, param: String) = ArmorTypeId(parseInt(parameters, param))
 fun parseArmorTypeId(value: String) = ArmorTypeId(value.toInt())
+fun parseOptionalArmorTypeId(parameters: Parameters, param: String) =
+    parseSimpleOptionalInt(parameters, param)?.let { ArmorTypeId(it) }
 
 fun parseArmorType(
     state: State,

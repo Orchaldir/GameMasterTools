@@ -15,7 +15,7 @@ val MIN_LANGETS_LENGTH = fromPercentage(10)
 val DEFAULT_LANGETS_LENGTH = fromPercentage(20)
 val MAX_LANGETS_LENGTH = fromPercentage(40)
 
-enum class PolearmFixationType {
+enum class HeadFixationType {
     None,
     Bound,
     Langets,
@@ -23,46 +23,46 @@ enum class PolearmFixationType {
 }
 
 @Serializable
-sealed class PolearmFixation : MadeFromParts {
+sealed class HeadFixation : MadeFromParts {
 
     fun getType() = when (this) {
-        NoPolearmFixation -> PolearmFixationType.None
-        is BoundPolearmHead -> PolearmFixationType.Bound
-        is Langets -> PolearmFixationType.Langets
-        is SocketedPolearmHead -> PolearmFixationType.Socketed
+        NoHeadFixation -> HeadFixationType.None
+        is BoundHeadHead -> HeadFixationType.Bound
+        is Langets -> HeadFixationType.Langets
+        is SocketedHeadHead -> HeadFixationType.Socketed
     }
 
     override fun parts() = when (this) {
-        NoPolearmFixation -> emptyList()
-        is BoundPolearmHead -> listOf(part)
+        NoHeadFixation -> emptyList()
+        is BoundHeadHead -> listOf(part)
         is Langets -> listOf(part)
-        is SocketedPolearmHead -> listOf(part)
+        is SocketedHeadHead -> listOf(part)
     }
 }
 
 @Serializable
 @SerialName("None")
-data object NoPolearmFixation : PolearmFixation()
+data object NoHeadFixation : HeadFixation()
 
 @Serializable
 @SerialName("Bound")
-data class BoundPolearmHead(
+data class BoundHeadHead(
     val length: Factor = DEFAULT_FIXATION_LENGTH,
     val part: ColorSchemeItemPart = ColorSchemeItemPart(),
-) : PolearmFixation()
+) : HeadFixation()
 
 @Serializable
 @SerialName("Langets")
 data class Langets(
     val length: Factor = DEFAULT_LANGETS_LENGTH,
     val part: ColorSchemeItemPart = ColorSchemeItemPart(),
-) : PolearmFixation()
+) : HeadFixation()
 
 @Serializable
 @SerialName("Socketed")
-data class SocketedPolearmHead(
+data class SocketedHeadHead(
     val length: Factor = DEFAULT_FIXATION_LENGTH,
     val part: ColorSchemeItemPart = ColorSchemeItemPart(),
-) : PolearmFixation()
+) : HeadFixation()
 
 

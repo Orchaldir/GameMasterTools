@@ -15,6 +15,7 @@ import at.orchaldir.gm.visualization.character.equipment.part.OpeningConfig
 data class EquipmentConfig(
     val axe: AxeConfig,
     val belt: BeltConfig,
+    val club: ClubConfig,
     val coat: CoatConfig,
     val earring: EarringConfig,
     val eyePatch: EyePatchConfig,
@@ -43,10 +44,32 @@ fun visualizeBodyEquipment(
             val newState = state.copy(colors = pair.second)
 
             when (val data = pair.first) {
-                is OneHandedAxe -> visualizeAxe(newState, body, data.head, data.shaft, true, set)
-                is TwoHandedAxe -> visualizeAxe(newState, body, data.head, data.shaft, false, set)
+                is OneHandedAxe -> visualizeAxe(newState, body, data.head, data.shaft, data.fixation, true, set)
+                is TwoHandedAxe -> visualizeAxe(newState, body, data.head, data.shaft, data.fixation, false, set)
                 is Belt -> visualizeBelt(newState, body, data)
                 is BodyArmour -> visualizeBodyArmour(newState, body, data)
+                is OneHandedClub -> visualizeClub(
+                    newState,
+                    body,
+                    data.head,
+                    data.size,
+                    data.shaft,
+                    data.fixation,
+                    true,
+                    set
+                )
+
+                is TwoHandedClub -> visualizeClub(
+                    newState,
+                    body,
+                    data.head,
+                    data.size,
+                    data.shaft,
+                    data.fixation,
+                    false,
+                    set
+                )
+
                 is Coat -> visualizeCoat(newState, body, data, OUTERWEAR_LAYER)
                 is Dress -> visualizeDress(newState, body, data)
                 is Footwear -> visualizeFootwear(newState, body, data)

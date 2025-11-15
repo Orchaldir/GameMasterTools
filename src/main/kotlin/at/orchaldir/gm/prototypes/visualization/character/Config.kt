@@ -86,6 +86,12 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
             ),
             fromPercentage(85),
         ),
+        ClubConfig(
+            fromPercentages(20, 25, 30),
+            fromPercentage(60),
+            fromPercentage(80),
+            fromPercentage(5),
+        ),
         CoatConfig(
             fromPercentage(10),
         ),

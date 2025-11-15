@@ -60,6 +60,8 @@ fun HtmlBlockTag.editMeleeWeaponType(
 
 fun parseMeleeWeaponTypeId(parameters: Parameters, param: String) = MeleeWeaponTypeId(parseInt(parameters, param))
 fun parseMeleeWeaponTypeId(value: String) = MeleeWeaponTypeId(value.toInt())
+fun parseOptionalMeleeWeaponTypeId(parameters: Parameters, param: String) =
+    parseSimpleOptionalInt(parameters, param)?.let { MeleeWeaponTypeId(it) }
 
 fun parseMeleeWeaponType(
     state: State,

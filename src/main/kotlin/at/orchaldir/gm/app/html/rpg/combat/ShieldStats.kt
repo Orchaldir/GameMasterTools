@@ -58,7 +58,7 @@ fun HtmlBlockTag.editShieldStats(
 fun parseShieldStats(
     parameters: Parameters,
 ) = ShieldStats(
-    parseShieldTypeId(parameters, combine(SHIELD, TYPE)),
+    parseOptionalShieldTypeId(parameters, combine(SHIELD, TYPE)),
     parseElements(
         parameters,
         combine(SHIELD, MODIFIER),

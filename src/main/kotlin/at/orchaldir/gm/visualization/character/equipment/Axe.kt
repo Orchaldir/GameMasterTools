@@ -9,6 +9,7 @@ import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.HELD_EQUIPMENT_LAYER
+import at.orchaldir.gm.visualization.character.equipment.part.visualizeHeadFixation
 
 data class AxeConfig(
     val broadButtHeight: SizeConfig<Factor>,
@@ -72,6 +73,16 @@ data class AxeConfig(
         return AABB.fromCenter(center, Size2d(width, height))
     }
 
+    fun getExtraFixationHeight(head: AxeHead) = when (head) {
+        is SingleBitAxeHead -> getExtraFixationHeight(head.blade)
+        is DoubleBitAxeHead -> getExtraFixationHeight(head.blade)
+    }
+
+    fun getExtraFixationHeight(blade: AxeBlade) = when (blade) {
+        is BroadAxeBlade -> broadButtHeight.convert(blade.length)
+        is DaggerAxeBlade -> daggerButtHeight.convert(blade.size)
+        is SymmetricAxeBlade -> crescentButtHeight.convert(blade.size)
+    }
 }
 
 fun visualizeAxe(
@@ -79,6 +90,7 @@ fun visualizeAxe(
     body: Body,
     head: AxeHead,
     shaft: Shaft,
+    fixation: HeadFixation,
     isOneHanded: Boolean,
     set: Set<BodySlot>,
 ) {
@@ -87,9 +99,11 @@ fun visualizeAxe(
     val hand = state.getCenter(leftHand, rightHand, set, BodySlot.HeldInRightHand)
     val config = state.config.equipment.axe
     val shaftAabb = config.shaftAabb(state, body, isOneHanded, hand)
+    val extraHeight = config.getExtraFixationHeight(head)
 
     visualizeAxeHead(state, renderer, shaftAabb, head)
     visualizePolearmShaft(state, renderer, shaftAabb, shaft, NoPolearmHead)
+    visualizeHeadFixation(state, shaftAabb, fixation, extraHeight)
 }
 
 fun visualizeAxeHead(

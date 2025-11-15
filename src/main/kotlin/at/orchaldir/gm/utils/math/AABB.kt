@@ -162,6 +162,11 @@ data class AABB(val start: Point2d, val size: Size2d) {
 
     fun growHeightByPadding(factor: Factor) = growHeightByPadding(size.height * factor)
 
+    fun growBottom(factor: Factor): AABB {
+        val distance = size.height * factor
+        return AABB(start.minusHeight(distance), size.addHeight(distance))
+    }
+
     /**
      * Move the border inward by a certain distance.
      */

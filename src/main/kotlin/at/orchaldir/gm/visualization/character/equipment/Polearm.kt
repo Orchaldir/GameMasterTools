@@ -11,7 +11,7 @@ import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.toRender
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.HELD_EQUIPMENT_LAYER
-import at.orchaldir.gm.visualization.character.equipment.part.visualizePolearmFixation
+import at.orchaldir.gm.visualization.character.equipment.part.visualizeHeadFixation
 import at.orchaldir.gm.visualization.utils.visualizeSegments
 
 data class PolearmConfig(
@@ -66,12 +66,12 @@ private fun visualizePolearmHead(
 
         is PolearmHeadWithAxeHead -> {
             visualizeAxeHead(state, renderer, shaftAabb, polearm.head.axe)
-            visualizePolearmFixation(state, shaftAabb, polearm.head.fixation)
+            visualizeHeadFixation(state, shaftAabb, polearm.head.fixation)
         }
 
         is PolearmHeadWithSpearHead -> {
             visualizeSpearHead(state, renderer, shaftAabb, polearm.head.spear)
-            visualizePolearmFixation(state, shaftAabb, polearm.head.fixation)
+            visualizeHeadFixation(state, shaftAabb, polearm.head.fixation)
         }
     }
 }

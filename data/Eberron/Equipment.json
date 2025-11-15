@@ -107,6 +107,91 @@
      "type": 1
     }
    }
+  },
+  "4": {
+   "id": 4,
+   "name": "Great Axe",
+   "data": {
+    "#type": "Axe2",
+    "head": {
+     "#type": "Double",
+     "blade": {
+      "#type": "Symmetric",
+      "part": {
+       "material": 10
+      }
+     }
+    },
+    "shaft": {
+     "#type": "Simple",
+     "part": {
+      "material": 17
+     }
+    }
+   }
+  },
+  "5": {
+   "id": 5,
+   "name": "Spear",
+   "data": {
+    "#type": "Polearm",
+    "head": {
+     "#type": "Spear",
+     "spear": {
+      "length": 3000,
+      "width": 20000,
+      "part": {
+       "material": 10
+      }
+     },
+     "fixation": {
+      "#type": "Bound",
+      "part": {
+       "lookup": {
+        "#type": "Fixed",
+        "color": "Crimson"
+       }
+      }
+     }
+    },
+    "shaft": {
+     "#type": "Simple",
+     "part": {
+      "material": 17
+     }
+    }
+   }
+  },
+  "6": {
+   "id": 6,
+   "name": "Mace",
+   "data": {
+    "#type": "Club1",
+    "head": {
+     "#type": "ComplexFlanged",
+     "shape": {
+      "profile": [
+       {
+        "first": 30,
+        "second": 50
+       },
+       {
+        "first": 70,
+        "second": 40
+       }
+      ]
+     },
+     "part": {
+      "material": 10
+     }
+    },
+    "shaft": {
+     "#type": "Simple",
+     "part": {
+      "material": 17
+     }
+    }
+   }
   }
  }
 }
