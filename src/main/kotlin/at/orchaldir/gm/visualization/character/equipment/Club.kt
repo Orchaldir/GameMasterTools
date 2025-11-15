@@ -40,7 +40,7 @@ data class ClubConfig(
         return AABB.fromBottom(bottom, Size2d(width, height))
     }
 
-    fun extendShaft(shaftAabb: AABB, head: ClubHead, headSize: Size) = when(head) {
+    fun extendShaft(shaftAabb: AABB, head: ClubHead, headSize: Size) = when (head) {
         is SimpleFlangedHead, is ComplexFlangedHead -> shaftAabb.growBottom(simpleHeight.convert(headSize))
         else -> shaftAabb
     }
@@ -50,6 +50,7 @@ data class ClubConfig(
             val extra = simpleHeight.convert(headSize)
             extra / (ONE + extra)
         }
+
         else -> ZERO
     }
 }

@@ -4,7 +4,6 @@ import at.orchaldir.gm.app.AXE
 import at.orchaldir.gm.app.FIXATION
 import at.orchaldir.gm.app.html.item.equipment.style.*
 import at.orchaldir.gm.app.html.rpg.combat.parseMeleeWeaponStats
-import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.OneHandedAxe
 import at.orchaldir.gm.core.model.item.equipment.TwoHandedAxe

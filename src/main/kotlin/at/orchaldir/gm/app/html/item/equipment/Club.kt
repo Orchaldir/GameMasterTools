@@ -1,7 +1,6 @@
 package at.orchaldir.gm.app.html.item.equipment
 
 import at.orchaldir.gm.app.CLUB
-import at.orchaldir.gm.app.CLUB
 import at.orchaldir.gm.app.FIXATION
 import at.orchaldir.gm.app.SIZE
 import at.orchaldir.gm.app.html.field

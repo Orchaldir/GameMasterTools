@@ -48,8 +48,28 @@ fun visualizeBodyEquipment(
                 is TwoHandedAxe -> visualizeAxe(newState, body, data.head, data.shaft, data.fixation, false, set)
                 is Belt -> visualizeBelt(newState, body, data)
                 is BodyArmour -> visualizeBodyArmour(newState, body, data)
-                is OneHandedClub -> visualizeClub(newState, body, data.head, data.size, data.shaft, data.fixation, true, set)
-                is TwoHandedClub -> visualizeClub(newState, body, data.head, data.size, data.shaft, data.fixation, false, set)
+                is OneHandedClub -> visualizeClub(
+                    newState,
+                    body,
+                    data.head,
+                    data.size,
+                    data.shaft,
+                    data.fixation,
+                    true,
+                    set
+                )
+
+                is TwoHandedClub -> visualizeClub(
+                    newState,
+                    body,
+                    data.head,
+                    data.size,
+                    data.shaft,
+                    data.fixation,
+                    false,
+                    set
+                )
+
                 is Coat -> visualizeCoat(newState, body, data, OUTERWEAR_LAYER)
                 is Dress -> visualizeDress(newState, body, data)
                 is Footwear -> visualizeFootwear(newState, body, data)

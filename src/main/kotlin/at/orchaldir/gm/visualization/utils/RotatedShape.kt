@@ -2,7 +2,7 @@ package at.orchaldir.gm.visualization.utils
 
 import at.orchaldir.gm.core.model.util.Side
 import at.orchaldir.gm.utils.math.*
-import at.orchaldir.gm.utils.math.shape.*
+import at.orchaldir.gm.utils.math.shape.RotatedShape
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
 
@@ -14,8 +14,11 @@ fun visualizeRotatedShape(
     side: Side,
 ) {
     val polygon = createRotatedShapePolygon(shape, aabb)
-    val mirrored = if (side == Side.Right) { polygon }
-    else { aabb.mirrorVertically(polygon) }
+    val mirrored = if (side == Side.Right) {
+        polygon
+    } else {
+        aabb.mirrorVertically(polygon)
+    }
 
     if (shape.rounded) {
         renderer.renderRoundedPolygon(mirrored, options)

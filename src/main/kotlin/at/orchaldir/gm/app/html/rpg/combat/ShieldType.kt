@@ -1,12 +1,7 @@
 package at.orchaldir.gm.app.html.rpg.combat
 
-import at.orchaldir.gm.app.html.fieldElements
-import at.orchaldir.gm.app.html.parseInt
-import at.orchaldir.gm.app.html.parseName
-import at.orchaldir.gm.app.html.parseSimpleOptionalInt
-import at.orchaldir.gm.app.html.selectName
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponTypeId
 import at.orchaldir.gm.core.model.rpg.combat.ShieldType
 import at.orchaldir.gm.core.model.rpg.combat.ShieldTypeId
 import at.orchaldir.gm.core.selector.item.getShields

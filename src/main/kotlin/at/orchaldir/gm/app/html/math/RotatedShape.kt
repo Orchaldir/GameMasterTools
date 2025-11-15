@@ -3,16 +3,9 @@ package at.orchaldir.gm.app.html.math
 import at.orchaldir.gm.app.PROFILE
 import at.orchaldir.gm.app.X
 import at.orchaldir.gm.app.Y
-import at.orchaldir.gm.app.html.field
-import at.orchaldir.gm.app.html.fieldList
-import at.orchaldir.gm.app.html.parseBool
-import at.orchaldir.gm.app.html.parseInt
-import at.orchaldir.gm.app.html.selectBool
-import at.orchaldir.gm.app.html.selectInt
-import at.orchaldir.gm.app.html.showDetails
-import at.orchaldir.gm.app.html.showListWithIndex
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.combine
-import at.orchaldir.gm.utils.math.shape.*
+import at.orchaldir.gm.utils.math.shape.RotatedShape
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag
 
@@ -43,7 +36,7 @@ fun HtmlBlockTag.editRotatedShape(
     showDetails(label, true) {
         selectInt("Points", shape.profile.size, 1, 100, 1, profileParam)
 
-        showListWithIndex(shape.profile) { index, (y,x) ->
+        showListWithIndex(shape.profile) { index, (y, x) ->
             val pointParam = combine(profileParam, index)
             selectInt(
                 "Y",
@@ -80,7 +73,7 @@ fun parseRotatedShape(parameters: Parameters, param: String) = RotatedShape(
 private fun parseProfile(
     parameters: Parameters,
     param: String,
-): List<Pair<Int,Int>> {
+): List<Pair<Int, Int>> {
     val profileParam = combine(param, PROFILE)
     val count = parseInt(parameters, profileParam, 1)
     var minY = 0
@@ -92,6 +85,6 @@ private fun parseProfile(
             val y = parseInt(parameters, combine(pointParam, Y), minY)
             minY = y + 1
 
-            Pair(y,x)
+            Pair(y, x)
         }
 }

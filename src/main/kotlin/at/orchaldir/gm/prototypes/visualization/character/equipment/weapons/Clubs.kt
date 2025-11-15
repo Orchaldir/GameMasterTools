@@ -23,11 +23,13 @@ import at.orchaldir.gm.utils.math.shape.UsingRectangularShape
 fun main() {
     val width = Factor.fromPercentage(100)
     val wide = Factor.fromPercentage(120)
-    val rotatedShape = RotatedShape(listOf(
-        Pair(0, 20),
-        Pair(20, 40),
-        Pair(60, 40),
-    ))
+    val rotatedShape = RotatedShape(
+        listOf(
+            Pair(0, 20),
+            Pair(20, 40),
+            Pair(60, 40),
+        )
+    )
     val heads = listOf(
         Pair("Baton", NoClubHead),
         Pair("Hammer", SimpleClubHead(UsingRectangularShape(Rectangle, width))),
