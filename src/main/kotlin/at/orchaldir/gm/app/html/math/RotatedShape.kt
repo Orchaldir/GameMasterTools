@@ -32,14 +32,15 @@ fun HtmlBlockTag.showRotatedShape(
 
 // edit
 
-fun HtmlBlockTag.selectRotatedShape(
+fun HtmlBlockTag.editRotatedShape(
     shape: RotatedShape,
     param: String,
+    label: String = "Shape",
 ) {
     val profileParam = combine(param, PROFILE)
     var minY = 0
 
-    showDetails("Shape", true) {
+    showDetails(label, true) {
         selectInt("Points", shape.profile.size, 1, 100, 1, profileParam)
 
         showListWithIndex(shape.profile) { index, (y,x) ->
