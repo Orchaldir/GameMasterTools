@@ -46,7 +46,10 @@ data class ClubConfig(
 
     fun getExtraFixationHeight(head: ClubHead, headSize: Size) = when (head) {
         is SimpleClubHead -> ZERO
-        is SimpleFlangedHead -> simpleHeight.convert(headSize)
+        is SimpleFlangedHead -> {
+            val extra = simpleHeight.convert(headSize)
+            extra / (ONE + extra)
+        }
     }
 }
 
