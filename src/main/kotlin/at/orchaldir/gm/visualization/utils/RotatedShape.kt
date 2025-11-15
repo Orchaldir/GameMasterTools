@@ -32,8 +32,8 @@ private fun createRotatedShapePolygon(
         .addLeftPoint(aabb, START, START, true)
 
     shape.profile.forEach { (x, y) ->
-        val horizontal = Factor.fromPercentage(x)
-        val vertical = Factor.fromPercentage(y)
+        val horizontal = Factor.fromPercentage(y)
+        val vertical = Factor.fromPercentage(x)
 
         builder.addRightPoint(aabb, horizontal, vertical)
     }

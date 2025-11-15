@@ -41,12 +41,12 @@ data class ClubConfig(
     }
 
     fun extendShaft(shaftAabb: AABB, head: ClubHead, headSize: Size) = when(head) {
-        is SimpleFlangedHead -> shaftAabb.growBottom(simpleHeight.convert(headSize))
+        is SimpleFlangedHead, is ComplexFlangedHead -> shaftAabb.growBottom(simpleHeight.convert(headSize))
         else -> shaftAabb
     }
 
     fun getExtraFixationHeight(head: ClubHead, headSize: Size) = when (head) {
-        is SimpleFlangedHead -> {
+        is SimpleFlangedHead, is ComplexFlangedHead -> {
             val extra = simpleHeight.convert(headSize)
             extra / (ONE + extra)
         }
@@ -186,8 +186,8 @@ private fun visualizeComplexSideFlanges(
     val renderer = state.getLayer(layer, -1)
     val sideFactor = config.simpleHeight.convert(size)
     val side = shaftAabb.convertHeight(sideFactor)
-    val rightAABB = AABB(shaftAabb.getPoint(END, START), Size2d.square(side))
-    val leftAABB = AABB(shaftAabb.getPoint(START, START).minusWidth(side), Size2d.square(side))
+    val rightAABB = AABB(shaftAabb.getPoint(END, START).minusHeight(side), Size2d.square(side))
+    val leftAABB = AABB(shaftAabb.getPoint(START, START).minus(side), Size2d.square(side))
 
     visualizeRotatedShape(renderer, options, rightAABB, head.shape, Side.Right)
     visualizeRotatedShape(renderer, options, leftAABB, head.shape, Side.Left)
