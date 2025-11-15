@@ -3,6 +3,7 @@ package at.orchaldir.gm.visualization.character.equipment
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.BodySlot
 import at.orchaldir.gm.core.model.item.equipment.style.*
+import at.orchaldir.gm.core.model.util.Side
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.SizeConfig
 import at.orchaldir.gm.utils.doNothing
@@ -12,6 +13,7 @@ import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.HELD_EQUIPMENT_LAYER
 import at.orchaldir.gm.visualization.character.equipment.part.visualizeHeadFixation
 import at.orchaldir.gm.visualization.utils.visualizeComplexShape
+import at.orchaldir.gm.visualization.utils.visualizeRotatedShape
 
 data class ClubConfig(
     val simpleHeight: SizeConfig<Factor>,
@@ -86,6 +88,7 @@ fun visualizeClubHead(
     NoClubHead -> doNothing()
     is SimpleClubHead -> visualizeSimpleClubHead(state, layer, config, shaftAabb, head, size)
     is SimpleFlangedHead -> visualizeSimpleFlangedHead(state, layer, config, shaftAabb, head, size)
+    is ComplexFlangedHead -> visualizeComplexFlangedHead(state, layer, config, shaftAabb, head, size)
 }
 
 private fun visualizeSimpleClubHead(
@@ -119,7 +122,7 @@ private fun visualizeSimpleFlangedHead(
     val options = state.config.getLineOptions(color)
 
     visualizeSimpleSideFlanges(state, options, layer, config, shaftAabb, head, size)
-    visualizeSimpleMiddleFlange(state, options, layer, config, shaftAabb, size)
+    visualizeMiddleFlange(state, options, layer, config, shaftAabb, size)
 }
 
 private fun visualizeSimpleSideFlanges(
@@ -140,7 +143,7 @@ private fun visualizeSimpleSideFlanges(
     visualizeComplexShape(renderer, center, radius, head.shape, options)
 }
 
-private fun visualizeSimpleMiddleFlange(
+private fun visualizeMiddleFlange(
     state: CharacterRenderState,
     options: RenderOptions,
     layer: Int,
@@ -154,4 +157,38 @@ private fun visualizeSimpleMiddleFlange(
     val aabb = shaftAabb.createSubAabb(CENTER, -radiusFactor, HALF, heightFactor)
 
     renderer.renderRectangle(aabb, options)
+}
+
+private fun visualizeComplexFlangedHead(
+    state: CharacterRenderState,
+    layer: Int,
+    config: ClubConfig,
+    shaftAabb: AABB,
+    head: ComplexFlangedHead,
+    size: Size,
+) {
+    val color = head.part.getColor(state.state, state.colors)
+    val options = state.config.getLineOptions(color)
+
+    visualizeComplexSideFlanges(state, options, layer, config, shaftAabb, head, size)
+    visualizeMiddleFlange(state, options, layer, config, shaftAabb, size)
+}
+
+private fun visualizeComplexSideFlanges(
+    state: CharacterRenderState,
+    options: RenderOptions,
+    layer: Int,
+    config: ClubConfig,
+    shaftAabb: AABB,
+    head: ComplexFlangedHead,
+    size: Size,
+) {
+    val renderer = state.getLayer(layer, -1)
+    val sideFactor = config.simpleHeight.convert(size)
+    val side = shaftAabb.convertHeight(sideFactor)
+    val rightAABB = AABB(shaftAabb.getPoint(END, START), Size2d.square(side))
+    val leftAABB = AABB(shaftAabb.getPoint(START, START).minusWidth(side), Size2d.square(side))
+
+    visualizeRotatedShape(renderer, options, rightAABB, head.shape, Side.Right)
+    visualizeRotatedShape(renderer, options, leftAABB, head.shape, Side.Left)
 }
