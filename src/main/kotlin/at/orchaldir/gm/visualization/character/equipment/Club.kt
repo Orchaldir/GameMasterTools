@@ -6,9 +6,7 @@ import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.SizeConfig
 import at.orchaldir.gm.utils.math.*
-import at.orchaldir.gm.utils.renderer.LayerRenderer
-import at.orchaldir.gm.utils.renderer.model.FillAndBorder
-import at.orchaldir.gm.utils.renderer.model.toRender
+import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.HELD_EQUIPMENT_LAYER
 import at.orchaldir.gm.visualization.character.equipment.part.visualizeHeadFixation
@@ -115,19 +113,43 @@ private fun visualizeSimpleFlangedHead(
     head: SimpleFlangedHead,
     size: Size,
 ) {
+    val color = head.part.getColor(state.state, state.colors)
+    val options = state.config.getLineOptions(color)
+
+    visualizeSimpleSideFlanges(state, options, layer, config, shaftAabb, head, size)
+    visualizeSimpleMiddleFlange(state, options, layer, config, shaftAabb, size)
+}
+
+private fun visualizeSimpleSideFlanges(
+    state: CharacterRenderState,
+    options: RenderOptions,
+    layer: Int,
+    config: ClubConfig,
+    shaftAabb: AABB,
+    head: SimpleFlangedHead,
+    size: Size,
+) {
     val renderer = state.getLayer(layer, -1)
     val heightFactor = config.simpleHeight.convert(size)
     val radiusFactor = heightFactor / 2
     val radius = shaftAabb.convertHeight(radiusFactor)
     val center = shaftAabb.getPoint(CENTER, -radiusFactor)
 
-    val color = head.part.getColor(state.state, state.colors)
-    val options = state.config.getLineOptions(color)
-
     visualizeComplexShape(renderer, center, radius, head.shape, options)
+}
 
-    val middleRenderer = state.getLayer(layer, 2)
+private fun visualizeSimpleMiddleFlange(
+    state: CharacterRenderState,
+    options: RenderOptions,
+    layer: Int,
+    config: ClubConfig,
+    shaftAabb: AABB,
+    size: Size,
+) {
+    val renderer = state.getLayer(layer, 2)
+    val heightFactor = config.simpleHeight.convert(size)
+    val radiusFactor = heightFactor / 2
     val aabb = shaftAabb.createSubAabb(CENTER, -radiusFactor, HALF, heightFactor)
 
-    middleRenderer.renderRectangle(aabb, options)
+    renderer.renderRectangle(aabb, options)
 }
