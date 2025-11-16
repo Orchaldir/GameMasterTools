@@ -23,7 +23,7 @@ value class EquipmentModifierId(val value: Int) : Id<EquipmentModifierId> {
 data class EquipmentModifier(
     val id: EquipmentModifierId,
     val name: Name = Name.init("$EQUIPMENT_MODIFIER_TYPE ${id.value}"),
-    val effect: EquipmentModifierEffect = UndefinedEquipmentModifierEffect,
+    val effects: List<EquipmentModifierEffect> = emptyList(),
 ) : ElementWithSimpleName<EquipmentModifierId> {
 
     override fun id() = id

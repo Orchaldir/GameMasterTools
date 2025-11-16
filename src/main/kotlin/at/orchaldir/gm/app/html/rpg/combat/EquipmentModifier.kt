@@ -1,7 +1,11 @@
 package at.orchaldir.gm.app.html.rpg.combat
 
+import at.orchaldir.gm.app.EFFECT
+import at.orchaldir.gm.app.html.editList
 import at.orchaldir.gm.app.html.fieldElements
+import at.orchaldir.gm.app.html.fieldList
 import at.orchaldir.gm.app.html.parseInt
+import at.orchaldir.gm.app.html.parseList
 import at.orchaldir.gm.app.html.parseName
 import at.orchaldir.gm.app.html.selectName
 import at.orchaldir.gm.core.model.State
@@ -20,6 +24,9 @@ fun HtmlBlockTag.showEquipmentModifier(
     state: State,
     modifier: EquipmentModifier,
 ) {
+    fieldList("Effects", modifier.effects) {
+        displayEquipmentModifierEffect(call, state, it)
+    }
     showUsages(call, state, modifier.id)
 }
 
@@ -47,6 +54,9 @@ fun HtmlBlockTag.editEquipmentModifier(
     modifier: EquipmentModifier,
 ) {
     selectName(modifier.name)
+    editList("Effects", EFFECT, modifier.effects, 0, 10) { _, param, effect ->
+        editEquipmentModifierEffect(call, state, effect, param)
+    }
 }
 
 // parse
@@ -63,4 +73,7 @@ fun parseEquipmentModifier(
 ) = EquipmentModifier(
     id,
     parseName(parameters),
+    parseList(parameters, EFFECT, 0) { _, effectParam ->
+        parseEquipmentModifierEffect(parameters, effectParam)
+    }
 )

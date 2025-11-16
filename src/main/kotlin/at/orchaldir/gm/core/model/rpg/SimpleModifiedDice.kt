@@ -8,7 +8,12 @@ data class SimpleModifiedDice(
     val modifier: Int,
 ) {
     fun display(dieType: String = "d"): String {
-        var string = "$dice$dieType"
+        var string =  if (dice != 0) {
+            "$dice$dieType"
+        }
+        else {
+            ""
+        }
 
         if (modifier > 0) {
             string += "+$modifier"
