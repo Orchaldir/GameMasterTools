@@ -27,6 +27,7 @@ fun HtmlBlockTag.selectDiceNumber(
     param: String,
 ) {
     selectInt(
+        "Dice",
         entry.dice,
         1,
         100,
@@ -40,6 +41,7 @@ fun HtmlBlockTag.selectDiceModifier(
     modifier: Int,
 ) {
     selectInt(
+        "Modifier",
         modifier,
         -10,
         +10,
