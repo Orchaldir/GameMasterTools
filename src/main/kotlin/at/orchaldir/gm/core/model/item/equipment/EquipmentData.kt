@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.model.item.equipment
 import at.orchaldir.gm.core.model.item.equipment.EquipmentSlot.*
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.rpg.combat.ArmorStats
+import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifierId
 import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponStats
 import at.orchaldir.gm.core.model.rpg.combat.ShieldStats
 import at.orchaldir.gm.core.model.util.Size
@@ -155,6 +156,10 @@ sealed class EquipmentData : MadeFromParts {
         is Shield -> stats
         else -> null
     }
+
+    fun contains(modifier: EquipmentModifierId) = getArmorStats()?.modifiers?.contains(modifier) ?: false ||
+            getMeleeWeaponStats()?.modifiers?.contains(modifier) ?: false ||
+            getShieldStats()?.modifiers?.contains(modifier) ?: false
 
     fun isType(equipmentType: EquipmentDataType) = getType() == equipmentType
 

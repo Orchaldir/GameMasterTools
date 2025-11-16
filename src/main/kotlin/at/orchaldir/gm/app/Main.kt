@@ -64,7 +64,7 @@ fun Application.module() {
     configureDataRouting()
     // elements
     configureAbstractBuildingEditorRouting()
-    configureArmorModifierRouting()
+    configureEquipmentModifierRouting()
     configureArmorTypeRouting()
     configureAppearanceRouting()
     configureArchitecturalStyleRouting()

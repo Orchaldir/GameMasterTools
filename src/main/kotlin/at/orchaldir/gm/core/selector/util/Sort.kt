@@ -63,6 +63,7 @@ import at.orchaldir.gm.core.selector.economy.money.calculateWeight
 import at.orchaldir.gm.core.selector.economy.money.countCurrencyUnits
 import at.orchaldir.gm.core.selector.item.countEquipment
 import at.orchaldir.gm.core.selector.item.getArmors
+import at.orchaldir.gm.core.selector.item.getEquipment
 import at.orchaldir.gm.core.selector.item.getMeleeWeapons
 import at.orchaldir.gm.core.selector.item.getShields
 import at.orchaldir.gm.core.selector.realm.countOwnedTowns
@@ -445,7 +446,7 @@ fun State.sortEquipmentModifiers(
     .sortedWith(
         when (sort) {
             SortArmorModifier.Name -> compareBy { it.name.text }
-            SortArmorModifier.Equipment -> compareByDescending { getArmors(it.id).size }
+            SortArmorModifier.Equipment -> compareByDescending { getEquipment(it.id).size }
         })
 
 // fashion

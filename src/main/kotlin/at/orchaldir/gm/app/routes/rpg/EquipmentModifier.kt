@@ -12,6 +12,7 @@ import at.orchaldir.gm.core.model.rpg.combat.EQUIPMENT_MODIFIER_TYPE
 import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifierId
 import at.orchaldir.gm.core.model.util.SortArmorModifier
 import at.orchaldir.gm.core.selector.item.getArmors
+import at.orchaldir.gm.core.selector.item.getEquipment
 import at.orchaldir.gm.core.selector.util.sortEquipmentModifiers
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -55,7 +56,7 @@ class EquipmentModifierRoutes : Routes<EquipmentModifierId, SortArmorModifier> {
     override fun update(call: ApplicationCall, id: EquipmentModifierId) = call.application.href(Update(id))
 }
 
-fun Application.configureArmorModifierRouting() {
+fun Application.configureEquipmentModifierRouting() {
     routing {
         get<EquipmentModifierRoutes.All> { all ->
             val state = STORE.getState()
@@ -65,7 +66,7 @@ fun Application.configureArmorModifierRouting() {
                 state.sortEquipmentModifiers(all.sort),
                 listOf(
                     createNameColumn(call, state),
-                    countCollectionColumn("Armors") { state.getArmors(it.id) },
+                    countCollectionColumn("Equipment") { state.getEquipment(it.id) },
                 ),
             )
         }

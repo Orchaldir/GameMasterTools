@@ -7,8 +7,7 @@ import at.orchaldir.gm.app.html.selectName
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifier
 import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifierId
-import at.orchaldir.gm.core.selector.item.getArmors
-import at.orchaldir.gm.core.selector.item.getShields
+import at.orchaldir.gm.core.selector.item.getEquipment
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -29,17 +28,15 @@ private fun HtmlBlockTag.showUsages(
     state: State,
     modifier: EquipmentModifierId,
 ) {
-    val armors = state.getArmors(modifier)
-    val shields = state.getShields(modifier)
+    val equipment = state.getEquipment(modifier)
 
-    if (armors.isEmpty() && shields.isEmpty()) {
+    if (equipment.isEmpty()) {
         return
     }
 
     h2 { +"Usage" }
 
-    fieldElements(call, state, "Armors", armors)
-    fieldElements(call, state, "Shields", shields)
+    fieldElements(call, state, equipment)
 }
 
 // edit

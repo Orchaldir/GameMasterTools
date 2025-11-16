@@ -100,12 +100,12 @@ class EquipmentTest {
         inner class StatsTest {
 
             @Test
-            fun `Armor modifier must exist`() {
+            fun `Armor stats must have valid modifiers`() {
                 val data = BodyArmour(ScaleArmour(), stats = ArmorStats(modifiers = setOf(UNKNOWN_EQUIPMENT_MODIFIER)))
                 val item = Equipment(EQUIPMENT_ID_0, data = data)
                 val action = UpdateAction(item)
 
-                assertIllegalArgument("Requires unknown Armor Modifier 99!") { REDUCER.invoke(STATE, action) }
+                assertIllegalArgument("Requires unknown Equipment Modifier 99!") { REDUCER.invoke(STATE, action) }
             }
 
             @Test
@@ -118,12 +118,12 @@ class EquipmentTest {
             }
 
             @Test
-            fun `Melee weapon modifier must exist`() {
-                val data = OneHandedAxe(stats = MeleeWeaponStats(null, setOf(UNKNOWN_MELEE_WEAPON_MODIFIER)))
+            fun `Melee weapon stats must have valid modifiers`() {
+                val data = OneHandedAxe(stats = MeleeWeaponStats(null, setOf(UNKNOWN_EQUIPMENT_MODIFIER)))
                 val item = Equipment(EQUIPMENT_ID_0, data = data)
                 val action = UpdateAction(item)
 
-                assertIllegalArgument("Requires unknown Melee Weapon Modifier 99!") { REDUCER.invoke(STATE, action) }
+                assertIllegalArgument("Requires unknown Equipment Modifier 99!") { REDUCER.invoke(STATE, action) }
             }
 
             @Test
@@ -141,7 +141,7 @@ class EquipmentTest {
                 val item = Equipment(EQUIPMENT_ID_0, data = data)
                 val action = UpdateAction(item)
 
-                assertIllegalArgument("Requires unknown Armor Modifier 99!") { REDUCER.invoke(STATE, action) }
+                assertIllegalArgument("Requires unknown Equipment Modifier 99!") { REDUCER.invoke(STATE, action) }
             }
 
             @Test
