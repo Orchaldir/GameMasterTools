@@ -6,7 +6,7 @@ import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.app.html.rpg.parseDiceModifier
 import at.orchaldir.gm.app.html.rpg.parseSimpleModifiedDice
 import at.orchaldir.gm.app.html.rpg.selectDiceModifier
-import at.orchaldir.gm.app.html.rpg.selectSimpleModifiedDice
+import at.orchaldir.gm.app.html.rpg.selectDiceNumber
 import at.orchaldir.gm.app.html.rpg.statistic.parseStatisticId
 import at.orchaldir.gm.app.html.selectElement
 import at.orchaldir.gm.app.html.selectValue
@@ -71,10 +71,13 @@ fun HtmlBlockTag.editDamageAmount(
                     state.getBaseDamageValues(),
                     amount.base,
                 )
-                selectDiceModifier(param, amount.modifier)
+                selectDiceModifier(param, amount.modifier, state.data.rpg.damageRange)
             }
 
-            is SimpleRandomDamage -> selectSimpleModifiedDice(amount.amount, param)
+            is SimpleRandomDamage -> {
+                selectDiceNumber(amount.amount, param, state.data.rpg.damageRange)
+                selectDiceModifier(amount.amount, param, state.data.rpg.damageRange)
+            }
         }
     }
 }

@@ -6,6 +6,7 @@ import at.orchaldir.gm.app.html.parseInt
 import at.orchaldir.gm.app.html.selectInt
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.model.rpg.SimpleModifiedDice
+import at.orchaldir.gm.core.model.rpg.SimpleModifiedDiceRange
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag
 
@@ -14,39 +15,39 @@ import kotlinx.html.HtmlBlockTag
 
 // edit
 
-fun HtmlBlockTag.selectSimpleModifiedDice(
-    entry: SimpleModifiedDice,
-    param: String,
-) {
-    selectDiceNumber(entry, param)
-    selectDiceModifier(param, entry.modifier)
-}
-
 fun HtmlBlockTag.selectDiceNumber(
     entry: SimpleModifiedDice,
     param: String,
+    range: SimpleModifiedDiceRange,
 ) {
     selectInt(
         "Dice",
         entry.dice,
-        1,
-        100,
+        range.minDice,
+        range.maxDice,
         1,
         combine(param, DIE),
     )
 }
 
 fun HtmlBlockTag.selectDiceModifier(
-    entryParam: String,
+    entry: SimpleModifiedDice,
+    param: String,
+    range: SimpleModifiedDiceRange,
+) = selectDiceModifier(param, entry.modifier, range)
+
+fun HtmlBlockTag.selectDiceModifier(
+    param: String,
     modifier: Int,
+    range: SimpleModifiedDiceRange,
 ) {
     selectInt(
         "Modifier",
         modifier,
-        -10,
-        +10,
+        range.minModifier,
+        range.maxModifier,
         1,
-        combine(entryParam, NUMBER),
+        combine(param, NUMBER),
     )
 }
 

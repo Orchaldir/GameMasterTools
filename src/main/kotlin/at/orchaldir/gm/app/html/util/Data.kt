@@ -3,6 +3,9 @@ package at.orchaldir.gm.app.html.util
 import at.orchaldir.gm.app.html.economy.editEconomy
 import at.orchaldir.gm.app.html.economy.parseEconomy
 import at.orchaldir.gm.app.html.economy.showEconomy
+import at.orchaldir.gm.app.html.rpg.editRpgData
+import at.orchaldir.gm.app.html.rpg.parseRpgData
+import at.orchaldir.gm.app.html.rpg.showRpgData
 import at.orchaldir.gm.app.html.time.editTime
 import at.orchaldir.gm.app.html.time.parseTime
 import at.orchaldir.gm.app.html.time.showTime
@@ -20,6 +23,7 @@ fun HtmlBlockTag.showData(
     state: State,
 ) {
     showEconomy(call, state, state.data.economy)
+    showRpgData(call, state, state.data.rpg)
     showTime(call, state, state.data.time)
 }
 
@@ -28,6 +32,7 @@ fun HtmlBlockTag.showData(
 
 fun HtmlBlockTag.editData(state: State, data: Data) {
     editEconomy(state, data.economy)
+    editRpgData(state, state.data.rpg)
     editTime(state, data.time)
 }
 
@@ -38,5 +43,6 @@ fun parseData(
     default: Calendar,
 ) = Data(
     parseEconomy(parameters),
+    parseRpgData(parameters),
     parseTime(parameters, default),
 )

@@ -67,7 +67,7 @@ fun HtmlBlockTag.editStatisticData(
         is BaseDamage -> {
             editBaseValue(state, statistic, data.base)
             editStatisticCost(data.cost)
-            editBaseDamageLookup(data.lookup)
+            editBaseDamageLookup(state, data.lookup)
         }
 
         is DerivedAttribute -> {

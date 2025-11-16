@@ -4,7 +4,8 @@ import at.orchaldir.gm.app.PROTECTION
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.rpg.parseSimpleModifiedDice
-import at.orchaldir.gm.app.html.rpg.selectSimpleModifiedDice
+import at.orchaldir.gm.app.html.rpg.selectDiceModifier
+import at.orchaldir.gm.app.html.rpg.selectDiceNumber
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.showDetails
 import at.orchaldir.gm.app.parse.combine
@@ -66,7 +67,10 @@ fun HtmlBlockTag.editEquipmentModifierEffect(
         )
 
         when (effect) {
-            is ModifiedDamage -> selectSimpleModifiedDice(effect.amount, param)
+            is ModifiedDamage -> {
+                selectDiceNumber(effect.amount, param, state.data.rpg.damageModifierRange)
+                selectDiceModifier(effect.amount, param, state.data.rpg.damageModifierRange)
+            }
             UndefinedEquipmentModifierEffect -> doNothing()
         }
     }
