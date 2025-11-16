@@ -99,7 +99,6 @@ fun Application.module() {
     configureLegalCodeRouting()
     configureMagicTraditionRouting()
     configureMaterialRouting()
-    configureMeleeWeaponModifierRouting()
     configureMeleeWeaponTypeRouting()
     configureMoonRouting()
     configureNameListRouting()

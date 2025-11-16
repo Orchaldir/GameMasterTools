@@ -116,7 +116,6 @@ fun reduceCreateElement(
     is LegalCodeId -> createElement(state, LegalCode(id))
     is MagicTraditionId -> createElement(state, MagicTradition(id))
     is MaterialId -> createElement(state, Material(id))
-    is MeleeWeaponModifierId -> createElement(state, MeleeWeaponModifier(id))
     is MeleeWeaponTypeId -> createElement(state, MeleeWeaponType(id))
     is MoonId -> createElement(state, Moon(id))
     is NameListId -> createElement(state, NameList(id))

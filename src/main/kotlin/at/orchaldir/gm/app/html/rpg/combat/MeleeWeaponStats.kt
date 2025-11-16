@@ -47,7 +47,7 @@ fun HtmlBlockTag.editMeleeWeaponStats(
             state,
             "Modifiers",
             combine(WEAPON, MODIFIER),
-            state.getMeleeWeaponModifierStorage().getAll(),
+            state.getEquipmentModifierStorage().getAll(),
             stats.modifiers,
         )
     }
@@ -63,6 +63,6 @@ fun parseMeleeWeaponStats(
     parseElements(
         parameters,
         combine(WEAPON, MODIFIER),
-        ::parseMeleeWeaponModifierId,
+        ::parseEquipmentModifierId,
     ),
 )

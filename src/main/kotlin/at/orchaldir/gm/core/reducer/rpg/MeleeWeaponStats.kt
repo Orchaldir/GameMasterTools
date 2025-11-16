@@ -7,6 +7,6 @@ fun validateMeleeWeaponStats(
     state: State,
     stats: MeleeWeaponStats,
 ) {
-    state.getMeleeWeaponModifierStorage().require(stats.modifiers)
+    state.getEquipmentModifierStorage().require(stats.modifiers)
     state.getMeleeWeaponTypeStorage().requireOptional(stats.type)
 }

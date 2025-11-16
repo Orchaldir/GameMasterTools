@@ -25,15 +25,6 @@ class MeleeWeaponModifierTest {
             )
         )
 
-        @Test
-        fun `Cannot delete a melee weapon modifier used by an equipment`() {
-            val data = OneHandedAxe(stats = MeleeWeaponStats(modifiers = setOf(MELEE_WEAPON_MODIFIER_ID_0)))
-            val element = Equipment(EQUIPMENT_ID_0, data = data)
-            val newState = state.updateStorage(Storage(element))
-
-            failCanDelete(newState, EQUIPMENT_ID_0)
-        }
-
         private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {
             assertEquals(
                 DeleteResult(MELEE_WEAPON_MODIFIER_ID_0).addId(blockingId),

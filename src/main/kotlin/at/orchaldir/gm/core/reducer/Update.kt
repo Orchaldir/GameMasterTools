@@ -93,7 +93,6 @@ fun reduceUpdateElement(
     is LegalCode -> updateElement(state, element)
     is MagicTradition -> updateElement(state, element)
     is Material -> updateElement(state, element)
-    is MeleeWeaponModifier -> updateElement(state, element)
     is MeleeWeaponType -> updateElement(state, element)
     is Moon -> updateElement(state, element)
     is NameList -> updateNameList(state, element)

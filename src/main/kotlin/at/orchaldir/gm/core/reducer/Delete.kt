@@ -125,7 +125,6 @@ fun reduceDeleteElement(
     is MagicTraditionId -> deleteElement(state, id, State::canDeleteMagicTradition)
     is MaterialId -> deleteElement(state, id, State::canDeleteMaterial)
     is MoonId -> deleteElement(state, id, State::canDeleteMoon)
-    is MeleeWeaponModifierId -> deleteElement(state, id, State::canDeleteMeleeWeaponModifier)
     is MeleeWeaponTypeId -> deleteElement(state, id, State::canDeleteMeleeWeaponType)
     is NameListId -> deleteElement(state, id, State::canDeleteNameList)
     is OrganizationId -> deleteElement(state, id, State::canDeleteOrganization)

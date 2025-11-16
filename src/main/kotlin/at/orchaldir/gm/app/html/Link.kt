@@ -408,7 +408,6 @@ fun href(
     is LegalCodeId -> call.application.href(LegalCodeRoutes.Details(id))
     is MagicTraditionId -> call.application.href(MagicTraditionRoutes.Details(id))
     is MaterialId -> call.application.href(MaterialRoutes.Details(id))
-    is MeleeWeaponModifierId -> call.application.href(MeleeWeaponModifierRoutes.Details(id))
     is MeleeWeaponTypeId -> call.application.href(MeleeWeaponTypeRoutes.Details(id))
     is MoonId -> call.application.href(MoonRoutes.Details(id))
     is RegionId -> call.application.href(RegionRoutes.Details(id))

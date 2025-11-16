@@ -597,21 +597,6 @@ fun State.sortMaterials(
         }
     )
 
-// melee weapon modifiers
-
-fun State.sortMeleeWeaponModifiers(sort: SortMeleeWeaponModifier = SortMeleeWeaponModifier.Name) =
-    sortMeleeWeaponModifiers(getMeleeWeaponModifierStorage().getAll(), sort)
-
-fun State.sortMeleeWeaponModifiers(
-    weapons: Collection<MeleeWeaponModifier>,
-    sort: SortMeleeWeaponModifier = SortMeleeWeaponModifier.Name,
-) = weapons
-    .sortedWith(
-        when (sort) {
-            SortMeleeWeaponModifier.Name -> compareBy { it.name.text }
-            SortMeleeWeaponModifier.Equipment -> compareByDescending { getMeleeWeapons(it.id).size }
-        })
-
 // melee weapon types
 
 fun State.sortMeleeWeaponTypes(sort: SortMeleeWeaponType = SortMeleeWeaponType.Name) =
