@@ -7,6 +7,6 @@ fun validateShieldStats(
     state: State,
     stats: ShieldStats,
 ) {
-    state.getArmorModifierStorage().require(stats.modifiers)
+    state.getEquipmentModifierStorage().require(stats.modifiers)
     state.getShieldTypeStorage().requireOptional(stats.type)
 }

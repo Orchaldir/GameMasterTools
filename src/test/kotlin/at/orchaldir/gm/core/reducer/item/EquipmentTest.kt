@@ -101,7 +101,7 @@ class EquipmentTest {
 
             @Test
             fun `Armor modifier must exist`() {
-                val data = BodyArmour(ScaleArmour(), stats = ArmorStats(modifiers = setOf(UNKNOWN_ARMOR_MODIFIER)))
+                val data = BodyArmour(ScaleArmour(), stats = ArmorStats(modifiers = setOf(UNKNOWN_EQUIPMENT_MODIFIER)))
                 val item = Equipment(EQUIPMENT_ID_0, data = data)
                 val action = UpdateAction(item)
 
@@ -137,7 +137,7 @@ class EquipmentTest {
 
             @Test
             fun `Shield stats must have valid modifiers`() {
-                val data = Shield(stats = ShieldStats(null, setOf(UNKNOWN_ARMOR_MODIFIER)))
+                val data = Shield(stats = ShieldStats(null, setOf(UNKNOWN_EQUIPMENT_MODIFIER)))
                 val item = Equipment(EQUIPMENT_ID_0, data = data)
                 val action = UpdateAction(item)
 

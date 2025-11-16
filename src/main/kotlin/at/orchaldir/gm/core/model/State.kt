@@ -106,7 +106,6 @@ private val logger = KotlinLogging.logger {}
 val ELEMENTS =
     setOf(
         ARCHITECTURAL_STYLE_TYPE,
-        ARMOR_MODIFIER_TYPE,
         ARMOR_TYPE_TYPE,
         ARTICLE_TYPE,
         BATTLE_TYPE,
@@ -126,6 +125,7 @@ val ELEMENTS =
         DISTRICT_TYPE,
         DOMAIN_TYPE,
         EQUIPMENT_TYPE,
+        EQUIPMENT_MODIFIER_TYPE,
         FASHION_TYPE,
         FONT_TYPE,
         GOD_TYPE,
@@ -189,7 +189,6 @@ data class State(
     ) : this(storageList.associateBy { it.getType() }, path, data, rarityGenerator)
 
     fun getArchitecturalStyleStorage() = getStorage<ArchitecturalStyleId, ArchitecturalStyle>(ARCHITECTURAL_STYLE_TYPE)
-    fun getArmorModifierStorage() = getStorage<ArmorModifierId, ArmorModifier>(ARMOR_MODIFIER_TYPE)
     fun getArmorTypeStorage() = getStorage<ArmorTypeId, ArmorType>(ARMOR_TYPE_TYPE)
     fun getArticleStorage() = getStorage<ArticleId, Article>(ARTICLE_TYPE)
     fun getBattleStorage() = getStorage<BattleId, Battle>(BATTLE_TYPE)
@@ -209,6 +208,7 @@ data class State(
     fun getDistrictStorage() = getStorage<DistrictId, District>(DISTRICT_TYPE)
     fun getDomainStorage() = getStorage<DomainId, Domain>(DOMAIN_TYPE)
     fun getEquipmentStorage() = getStorage<EquipmentId, Equipment>(EQUIPMENT_TYPE)
+    fun getEquipmentModifierStorage() = getStorage<EquipmentModifierId, EquipmentModifier>(EQUIPMENT_MODIFIER_TYPE)
     fun getFashionStorage() = getStorage<FashionId, Fashion>(FASHION_TYPE)
     fun getFontStorage() = getStorage<FontId, Font>(FONT_TYPE)
     fun getGodStorage() = getStorage<GodId, God>(GOD_TYPE)
@@ -347,7 +347,6 @@ data class State(
         logger.info { "Save to $path" }
 
         saveStorage(path, getArchitecturalStyleStorage())
-        saveStorage(path, getArmorModifierStorage())
         saveStorage(path, getArmorTypeStorage())
         saveStorage(path, getArticleStorage())
         saveStorage(path, getBattleStorage())
@@ -367,6 +366,7 @@ data class State(
         saveStorage(path, getDistrictStorage())
         saveStorage(path, getDomainStorage())
         saveStorage(path, getEquipmentStorage())
+        saveStorage(path, getEquipmentModifierStorage())
         saveStorage(path, getFashionStorage())
         saveStorage(path, getFontStorage())
         saveStorage(path, getGodStorage())
@@ -412,7 +412,6 @@ data class State(
 
 fun createStorage(type: String) = when (type) {
     ARCHITECTURAL_STYLE_TYPE -> Storage(ArchitecturalStyleId(0))
-    ARMOR_MODIFIER_TYPE -> Storage(ArmorModifierId(0))
     ARMOR_TYPE_TYPE -> Storage(ArmorTypeId(0))
     ARTICLE_TYPE -> Storage(ArticleId(0))
     BATTLE_TYPE -> Storage(BattleId(0))
@@ -432,6 +431,7 @@ fun createStorage(type: String) = when (type) {
     DISTRICT_TYPE -> Storage(DistrictId(0))
     DOMAIN_TYPE -> Storage(DomainId(0))
     EQUIPMENT_TYPE -> Storage(EquipmentId(0))
+    EQUIPMENT_MODIFIER_TYPE -> Storage(EquipmentModifierId(0))
     FASHION_TYPE -> Storage(FashionId(0))
     FONT_TYPE -> Storage(FontId(0))
     GOD_TYPE -> Storage(GodId(0))
@@ -476,7 +476,6 @@ fun createStorage(type: String) = when (type) {
 
 fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) {
     ARCHITECTURAL_STYLE_TYPE -> loadStorage<ArchitecturalStyleId, ArchitecturalStyle>(path, ArchitecturalStyleId(0))
-    ARMOR_MODIFIER_TYPE -> loadStorage<ArmorModifierId, ArmorModifier>(path, ArmorModifierId(0))
     ARMOR_TYPE_TYPE -> loadStorage<ArmorTypeId, ArmorType>(path, ArmorTypeId(0))
     ARTICLE_TYPE -> loadStorage<ArticleId, Article>(path, ArticleId(0))
     BATTLE_TYPE -> loadStorage<BattleId, Battle>(path, BattleId(0))
@@ -496,6 +495,7 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     DISTRICT_TYPE -> loadStorage<DistrictId, District>(path, DistrictId(0))
     DOMAIN_TYPE -> loadStorage<DomainId, Domain>(path, DomainId(0))
     EQUIPMENT_TYPE -> loadStorage<EquipmentId, Equipment>(path, EquipmentId(0))
+    EQUIPMENT_MODIFIER_TYPE -> loadStorage<EquipmentModifierId, EquipmentModifier>(path, EquipmentModifierId(0))
     FASHION_TYPE -> loadStorage<FashionId, Fashion>(path, FashionId(0))
     FONT_TYPE -> loadStorage<FontId, Font>(path, FontId(0))
     GOD_TYPE -> loadStorage<GodId, God>(path, GodId(0))

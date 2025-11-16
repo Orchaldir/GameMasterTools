@@ -47,7 +47,7 @@ fun HtmlBlockTag.editShieldStats(
             state,
             "Modifiers",
             combine(SHIELD, MODIFIER),
-            state.getArmorModifierStorage().getAll(),
+            state.getEquipmentModifierStorage().getAll(),
             stats.modifiers,
         )
     }
@@ -62,6 +62,6 @@ fun parseShieldStats(
     parseElements(
         parameters,
         combine(SHIELD, MODIFIER),
-        ::parseArmorModifierId,
+        ::parseEquipmentModifierId,
     ),
 )

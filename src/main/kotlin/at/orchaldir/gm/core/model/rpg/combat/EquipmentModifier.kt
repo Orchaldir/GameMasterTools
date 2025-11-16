@@ -7,23 +7,23 @@ import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
 import kotlinx.serialization.Serializable
 
-const val ARMOR_MODIFIER_TYPE = "Armor Modifier"
+const val EQUIPMENT_MODIFIER_TYPE = "Equipment Modifier"
 
 @JvmInline
 @Serializable
-value class ArmorModifierId(val value: Int) : Id<ArmorModifierId> {
+value class EquipmentModifierId(val value: Int) : Id<EquipmentModifierId> {
 
-    override fun next() = ArmorModifierId(value + 1)
-    override fun type() = ARMOR_MODIFIER_TYPE
+    override fun next() = EquipmentModifierId(value + 1)
+    override fun type() = EQUIPMENT_MODIFIER_TYPE
     override fun value() = value
 
 }
 
 @Serializable
-data class ArmorModifier(
-    val id: ArmorModifierId,
-    val name: Name = Name.init("$ARMOR_MODIFIER_TYPE ${id.value}"),
-) : ElementWithSimpleName<ArmorModifierId> {
+data class EquipmentModifier(
+    val id: EquipmentModifierId,
+    val name: Name = Name.init("$EQUIPMENT_MODIFIER_TYPE ${id.value}"),
+) : ElementWithSimpleName<EquipmentModifierId> {
 
     override fun id() = id
     override fun name() = name.text

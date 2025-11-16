@@ -91,7 +91,7 @@ fun State.getEquippedWith(scheme: ColorSchemeId) = getCharacterStorage()
 
 // stats
 
-fun State.getArmors(modifier: ArmorModifierId) = getEquipmentStorage()
+fun State.getArmors(modifier: EquipmentModifierId) = getEquipmentStorage()
     .getAll()
     .filter { it.data.getArmorStats()?.modifiers?.contains(modifier) ?: false }
 
@@ -107,7 +107,7 @@ fun State.getMeleeWeapons(type: MeleeWeaponTypeId) = getEquipmentStorage()
     .getAll()
     .filter { it.data.getMeleeWeaponStats()?.type == type }
 
-fun State.getShields(modifier: ArmorModifierId) = getEquipmentStorage()
+fun State.getShields(modifier: EquipmentModifierId) = getEquipmentStorage()
     .getAll()
     .filter { it.data.getShieldStats()?.modifiers?.contains(modifier) ?: false }
 

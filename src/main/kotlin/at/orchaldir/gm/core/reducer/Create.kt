@@ -84,7 +84,6 @@ fun reduceCreateElement(
     id: Id<*>,
 ): Pair<State, List<Action>> = when (id) {
     is ArchitecturalStyleId -> createElement(state, ArchitecturalStyle(id))
-    is ArmorModifierId -> createElement(state, ArmorModifier(id))
     is ArmorTypeId -> createElement(state, ArmorType(id))
     is ArticleId -> createElement(state, Article(id))
     is BattleId -> createElement(state, Battle(id))
@@ -107,6 +106,7 @@ fun reduceCreateElement(
     is DistrictId -> createElement(state, District(id))
     is DomainId -> createElement(state, Domain(id))
     is EquipmentId -> createElement(state, Equipment(id))
+    is EquipmentModifierId -> createElement(state, EquipmentModifier(id))
     is FashionId -> createElement(state, Fashion(id))
     is FontId -> createElement(state, Font(id))
     is GodId -> createElement(state, God(id))

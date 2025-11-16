@@ -123,21 +123,6 @@ fun State.sortArchitecturalStyles(
             SortArchitecturalStyle.End -> getEndDateComparator()
         })
 
-// armor modifiers
-
-fun State.sortArmorModifiers(sort: SortArmorModifier = SortArmorModifier.Name) =
-    sortArmorModifiers(getArmorModifierStorage().getAll(), sort)
-
-fun State.sortArmorModifiers(
-    weapons: Collection<ArmorModifier>,
-    sort: SortArmorModifier = SortArmorModifier.Name,
-) = weapons
-    .sortedWith(
-        when (sort) {
-            SortArmorModifier.Name -> compareBy { it.name.text }
-            SortArmorModifier.Equipment -> compareByDescending { getArmors(it.id).size }
-        })
-
 // armor types
 
 fun State.sortArmorTypes(sort: SortArmorType = SortArmorType.Name) =
@@ -446,6 +431,21 @@ fun State.sortEquipmentList(
     .sortedWith(
         when (sort) {
             SortEquipment.Name -> compareBy { it.name.text }
+        })
+
+// equipment modifiers
+
+fun State.sortEquipmentModifiers(sort: SortArmorModifier = SortArmorModifier.Name) =
+    sortEquipmentModifiers(getEquipmentModifierStorage().getAll(), sort)
+
+fun State.sortEquipmentModifiers(
+    weapons: Collection<EquipmentModifier>,
+    sort: SortArmorModifier = SortArmorModifier.Name,
+) = weapons
+    .sortedWith(
+        when (sort) {
+            SortArmorModifier.Name -> compareBy { it.name.text }
+            SortArmorModifier.Equipment -> compareByDescending { getArmors(it.id).size }
         })
 
 // fashion

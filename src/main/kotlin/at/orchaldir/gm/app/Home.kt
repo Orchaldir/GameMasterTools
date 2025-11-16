@@ -117,9 +117,9 @@ fun Application.configureRouting() {
                     fieldStorageLink(call, state.getGodStorage(), GodRoutes())
                     fieldStorageLink(call, state.getPantheonStorage(), PantheonRoutes())
                     h3 { +"Rpg" }
-                    fieldStorageLink(call, state.getDamageTypeStorage(), DamageTypeRoutes())
-                    fieldStorageLink(call, state.getArmorModifierStorage(), ArmorModifierRoutes())
                     fieldStorageLink(call, state.getArmorTypeStorage(), ArmorTypeRoutes())
+                    fieldStorageLink(call, state.getDamageTypeStorage(), DamageTypeRoutes())
+                    fieldStorageLink(call, state.getEquipmentModifierStorage(), EquipmentModifierRoutes())
                     fieldStorageLink(call, state.getMeleeWeaponModifierStorage(), MeleeWeaponModifierRoutes())
                     fieldStorageLink(call, state.getMeleeWeaponTypeStorage(), MeleeWeaponTypeRoutes())
                     fieldStorageLink(call, state.getShieldTypeStorage(), ShieldTypeRoutes())

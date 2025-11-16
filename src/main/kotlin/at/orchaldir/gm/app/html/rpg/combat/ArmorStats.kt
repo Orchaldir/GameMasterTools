@@ -47,7 +47,7 @@ fun HtmlBlockTag.editArmorStats(
             state,
             "Modifiers",
             combine(ARMOR, MODIFIER),
-            state.getArmorModifierStorage().getAll(),
+            state.getEquipmentModifierStorage().getAll(),
             stats.modifiers,
         )
     }
@@ -62,6 +62,6 @@ fun parseArmorStats(
     parseElements(
         parameters,
         combine(ARMOR, MODIFIER),
-        ::parseArmorModifierId,
+        ::parseEquipmentModifierId,
     ),
 )

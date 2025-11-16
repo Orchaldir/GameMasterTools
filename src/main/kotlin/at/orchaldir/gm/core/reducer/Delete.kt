@@ -95,7 +95,6 @@ fun reduceDeleteElement(
     id: Id<*>,
 ): Pair<State, List<Action>> = when (id) {
     is ArchitecturalStyleId -> deleteElement(state, id, State::canDeleteArchitecturalStyle)
-    is ArmorModifierId -> deleteElement(state, id, State::canDeleteArmorModifier)
     is ArmorTypeId -> deleteElement(state, id, State::canDeleteArmorType)
     is ArticleId -> deleteElement(state, id, State::canDeleteArticle)
     is BattleId -> deleteElement(state, id, State::canDeleteBattle)
@@ -115,6 +114,7 @@ fun reduceDeleteElement(
     is DistrictId -> deleteElement(state, id, State::canDeleteDistrict)
     is DomainId -> deleteElement(state, id, State::canDeleteDomain)
     is EquipmentId -> deleteElement(state, id, State::canDeleteEquipment)
+    is EquipmentModifierId -> deleteElement(state, id, State::canDeleteEquipmentModifier)
     is FashionId -> deleteElement(state, id, State::canDeleteFashion)
     is FontId -> deleteElement(state, id, State::canDeleteFont)
     is GodId -> deleteElement(state, id, State::canDeleteGod)

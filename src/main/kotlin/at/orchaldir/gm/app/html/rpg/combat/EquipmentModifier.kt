@@ -5,8 +5,8 @@ import at.orchaldir.gm.app.html.parseInt
 import at.orchaldir.gm.app.html.parseName
 import at.orchaldir.gm.app.html.selectName
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.rpg.combat.ArmorModifier
-import at.orchaldir.gm.core.model.rpg.combat.ArmorModifierId
+import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifier
+import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifierId
 import at.orchaldir.gm.core.selector.item.getArmors
 import at.orchaldir.gm.core.selector.item.getShields
 import io.ktor.http.*
@@ -16,10 +16,10 @@ import kotlinx.html.h2
 
 // show
 
-fun HtmlBlockTag.showArmorModifier(
+fun HtmlBlockTag.showEquipmentModifier(
     call: ApplicationCall,
     state: State,
-    modifier: ArmorModifier,
+    modifier: EquipmentModifier,
 ) {
     showUsages(call, state, modifier.id)
 }
@@ -27,7 +27,7 @@ fun HtmlBlockTag.showArmorModifier(
 private fun HtmlBlockTag.showUsages(
     call: ApplicationCall,
     state: State,
-    modifier: ArmorModifierId,
+    modifier: EquipmentModifierId,
 ) {
     val armors = state.getArmors(modifier)
     val shields = state.getShields(modifier)
@@ -44,26 +44,26 @@ private fun HtmlBlockTag.showUsages(
 
 // edit
 
-fun HtmlBlockTag.editArmorModifier(
+fun HtmlBlockTag.editEquipmentModifier(
     call: ApplicationCall,
     state: State,
-    modifier: ArmorModifier,
+    modifier: EquipmentModifier,
 ) {
     selectName(modifier.name)
 }
 
 // parse
 
-fun parseArmorModifierId(parameters: Parameters, param: String) =
-    ArmorModifierId(parseInt(parameters, param))
+fun parseEquipmentModifierId(parameters: Parameters, param: String) =
+    EquipmentModifierId(parseInt(parameters, param))
 
-fun parseArmorModifierId(value: String) = ArmorModifierId(value.toInt())
+fun parseEquipmentModifierId(value: String) = EquipmentModifierId(value.toInt())
 
-fun parseArmorModifier(
+fun parseEquipmentModifier(
     state: State,
     parameters: Parameters,
-    id: ArmorModifierId,
-) = ArmorModifier(
+    id: EquipmentModifierId,
+) = EquipmentModifier(
     id,
     parseName(parameters),
 )
