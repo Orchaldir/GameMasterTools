@@ -39,7 +39,7 @@ fun HtmlBlockTag.editSimpleModifiedDiceRange(
             "Min Dice",
             range.minDice,
             -100,
-            100,
+            range.maxDice - 1,
             1,
             combine(param, DIE, MIN),
         )
@@ -55,7 +55,7 @@ fun HtmlBlockTag.editSimpleModifiedDiceRange(
             "Min Modifier",
             range.minModifier,
             -100,
-            100,
+            range.maxModifier - 1,
             1,
             combine(param, NUMBER, MIN),
         )
