@@ -4,6 +4,7 @@ import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.action
 import at.orchaldir.gm.app.html.back
 import at.orchaldir.gm.app.html.formWithPreview
+import at.orchaldir.gm.app.html.mainFrame
 import at.orchaldir.gm.app.html.simpleHtml
 import at.orchaldir.gm.app.html.util.editData
 import at.orchaldir.gm.app.html.util.parseData
@@ -22,6 +23,7 @@ import io.ktor.server.resources.post
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
+import kotlinx.html.h2
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
@@ -87,6 +89,9 @@ private fun HTML.showDataDetails(call: ApplicationCall) {
 
     simpleHtml("Data") {
         showData(call, state)
+
+        h2 { +"Actions"}
+
         action(editLink, "Edit")
         back("/")
     }
@@ -101,9 +106,11 @@ private fun HTML.editDataDetails(
     val previewLink = call.application.href(DataRoutes.Preview())
     val updateLink = call.application.href(DataRoutes.Update())
 
-    simpleHtml("Edit Data") {
-        formWithPreview(previewLink, updateLink, backLink) {
-            editData(state, data)
+    simpleHtml("Edit Data", true) {
+        mainFrame {
+            formWithPreview(previewLink, updateLink, backLink) {
+                editData(state, data)
+            }
         }
     }
 }

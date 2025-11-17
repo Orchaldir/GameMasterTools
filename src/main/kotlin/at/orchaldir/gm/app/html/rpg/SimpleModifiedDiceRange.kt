@@ -34,7 +34,7 @@ fun HtmlBlockTag.editSimpleModifiedDiceRange(
     range: SimpleModifiedDiceRange,
     param: String,
 ) {
-    showDetails(label) {
+    showDetails(label, true) {
         selectInt(
             "Min Dice",
             range.minDice,
