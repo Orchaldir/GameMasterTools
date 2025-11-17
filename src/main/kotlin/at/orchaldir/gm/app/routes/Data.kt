@@ -46,8 +46,10 @@ fun Application.configureDataRouting() {
         get<DataRoutes> {
             logger.info { "Get data" }
 
+            val state = STORE.getState()
+
             call.respondHtml(HttpStatusCode.OK) {
-                showDataDetails(call)
+                showDataDetails(call, state, state.data)
             }
         }
         get<DataRoutes.Edit> {
@@ -59,7 +61,7 @@ fun Application.configureDataRouting() {
                 editDataDetails(call, state, state.data)
             }
         }
-        post<DataRoutes.Preview> { preview ->
+        post<DataRoutes.Preview> {
             logger.info { "Preview data" }
 
             val state = STORE.getState()
@@ -83,12 +85,15 @@ fun Application.configureDataRouting() {
     }
 }
 
-private fun HTML.showDataDetails(call: ApplicationCall) {
-    val state = STORE.getState()
+private fun HTML.showDataDetails(
+    call: ApplicationCall,
+    state: State,
+    data: Data,
+) {
     val editLink = call.application.href(DataRoutes.Edit())
 
     simpleHtml("Data") {
-        showData(call, state)
+        showData(call, state, data)
 
         h2 { +"Actions"}
 

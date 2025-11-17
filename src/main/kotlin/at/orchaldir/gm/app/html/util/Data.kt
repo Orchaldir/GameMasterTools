@@ -21,10 +21,11 @@ import kotlinx.html.HtmlBlockTag
 fun HtmlBlockTag.showData(
     call: ApplicationCall,
     state: State,
+    data: Data,
 ) {
-    showEconomy(call, state, state.data.economy)
-    showRpgData(call, state, state.data.rpg)
-    showTime(call, state, state.data.time)
+    showEconomy(call, state, data.economy)
+    showRpgData(call, state, data.rpg)
+    showTime(call, state, data.time)
 }
 
 
@@ -32,7 +33,7 @@ fun HtmlBlockTag.showData(
 
 fun HtmlBlockTag.editData(state: State, data: Data) {
     editEconomy(state, data.economy)
-    editRpgData(state, state.data.rpg)
+    editRpgData(state, data.rpg)
     editTime(state, data.time)
 }
 
