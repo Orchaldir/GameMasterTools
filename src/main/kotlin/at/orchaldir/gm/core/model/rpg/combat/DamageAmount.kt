@@ -22,6 +22,11 @@ sealed class DamageAmount {
         is SimpleRandomDamage -> false
         is ModifiedBaseDamage -> base == statistic
     }
+
+    fun apply(effect: ModifiedDamage) = when (this) {
+        is ModifiedBaseDamage -> copy(modifier = modifier + effect.amount.modifier) // TODO: handle dice
+        is SimpleRandomDamage -> SimpleRandomDamage(amount + effect.amount)
+    }
 }
 
 @Serializable

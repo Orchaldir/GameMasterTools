@@ -1,5 +1,7 @@
 package at.orchaldir.gm.core.model.rpg
 
+import at.orchaldir.gm.utils.math.Point2d
+import at.orchaldir.gm.utils.math.unit.Distance
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -23,4 +25,6 @@ data class SimpleModifiedDice(
 
         return string
     }
+
+    operator fun plus(other: SimpleModifiedDice) = SimpleModifiedDice(dice + other.dice, modifier + other.modifier)
 }

@@ -16,6 +16,11 @@ sealed class EquipmentModifierEffect {
         is ModifiedDamage -> EquipmentModifierEffectType.ModifiedDamage
         is UndefinedEquipmentModifierEffect -> EquipmentModifierEffectType.Undefined
     }
+
+    fun modify(attack: MeleeAttack) = when (this) {
+        is ModifiedDamage -> attack.copy(effect = attack.effect.apply(this))
+        UndefinedEquipmentModifierEffect -> attack
+    }
 }
 
 @Serializable
