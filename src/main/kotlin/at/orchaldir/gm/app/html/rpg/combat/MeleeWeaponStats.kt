@@ -25,6 +25,15 @@ fun HtmlBlockTag.showMeleeWeaponStats(
         optionalFieldLink("Type", call, state, stats.type)
         optionalFieldLink(call, state, mainMaterial)
         fieldIds(call, state, "Modifiers", stats.modifiers)
+
+        state.getMeleeWeaponTypeStorage().getOptional(stats.type)?.let { type ->
+            val modifiers = state.getEquipmentModifierStorage()
+                .get(stats.modifiers)
+                .flatMap { it.effects }
+            val updatedAttacks = type.apply(modifiers)
+
+            showMeleeAttackTable(call, state, updatedAttacks)
+        }
     }
 }
 

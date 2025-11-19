@@ -3,7 +3,16 @@
  "elements": {
   "0": {
    "id": 0,
-   "name": "Elven"
+   "name": "Elven",
+   "effects": [
+    {
+     "#type": "ModifiedDamage",
+     "amount": {
+      "dice": 0,
+      "modifier": 1
+     }
+    }
+   ]
   },
   "1": {
    "id": 1,
