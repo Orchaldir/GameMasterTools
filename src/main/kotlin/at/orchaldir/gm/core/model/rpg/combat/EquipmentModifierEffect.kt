@@ -23,20 +23,6 @@ sealed class EquipmentModifierEffect {
         is ModifyDamage -> attack.copy(effect = attack.effect.apply(this))
         is ModifyDamageResistance, is ModifyDefenseBonus -> attack
     }
-
-    fun modify(protection: Protection) = when (this) {
-        is ModifyDamageResistance -> if (protection is DamageResistance) {
-            DamageResistance(protection.amount + amount)
-        } else {
-            protection
-        }
-        is ModifyDefenseBonus -> if (protection is DefenseBonus) {
-            DefenseBonus(protection.bonus + amount)
-        } else {
-            protection
-        }
-        is ModifyDamage -> protection
-    }
 }
 
 @Serializable
