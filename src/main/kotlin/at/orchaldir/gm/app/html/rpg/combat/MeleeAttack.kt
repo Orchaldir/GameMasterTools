@@ -30,6 +30,7 @@ fun HtmlBlockTag.showMeleeAttackTable(
     attacks: List<MeleeAttack>,
 ) {
     table {
+        caption { +"Attacks" }
         tr {
             th { +"Damage" }
             th { +"Reach" }
