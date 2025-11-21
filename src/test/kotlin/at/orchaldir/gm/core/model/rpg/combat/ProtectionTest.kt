@@ -45,7 +45,6 @@ class ProtectionTest {
             assertEquals(UndefinedProtection.apply(effect), UndefinedProtection)
         }
 
-
     }
 
 }
