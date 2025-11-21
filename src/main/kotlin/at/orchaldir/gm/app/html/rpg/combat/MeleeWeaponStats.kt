@@ -9,6 +9,7 @@ import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponStats
+import at.orchaldir.gm.core.selector.rpg.getEquipmentModifierEffects
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -27,10 +28,8 @@ fun HtmlBlockTag.showMeleeWeaponStats(
         fieldIds(call, state, "Modifiers", stats.modifiers)
 
         state.getMeleeWeaponTypeStorage().getOptional(stats.type)?.let { type ->
-            val modifiers = state.getEquipmentModifierStorage()
-                .get(stats.modifiers)
-                .flatMap { it.effects }
-            val updatedAttacks = type.apply(modifiers)
+            val effects = state.getEquipmentModifierEffects(stats.modifiers)
+            val updatedAttacks = type.apply(effects)
 
             showMeleeAttackTable(call, state, updatedAttacks)
         }

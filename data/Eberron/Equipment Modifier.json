@@ -16,6 +16,20 @@
   "1": {
    "id": 1,
    "name": "Very Fine"
+  },
+  "2": {
+   "id": 2,
+   "name": "Dwarven",
+   "effects": [
+    {
+     "#type": "DamageResistance",
+     "amount": 1
+    },
+    {
+     "#type": "DefenseBonus",
+     "amount": 1
+    }
+   ]
   }
  }
 }

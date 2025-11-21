@@ -26,6 +26,38 @@ sealed class Protection {
         is DefenseBonus -> false
         UndefinedProtection -> false
     }
+
+    fun apply(effects: List<EquipmentModifierEffect>): Protection {
+        var protection = this
+
+        effects.forEach { effect ->
+            protection = protection.apply(effect)
+        }
+
+        return protection
+    }
+
+    fun apply(effect: EquipmentModifierEffect) = when (effect) {
+        is ModifyDamageResistance -> when (this) {
+            is DamageResistance -> {
+                DamageResistance(amount + effect.amount)
+            }
+
+            is DamageResistances -> {
+                copy(amount = amount + effect.amount)
+            }
+
+            else -> {
+                this
+            }
+        }
+        is ModifyDefenseBonus -> if (this is DefenseBonus) {
+            DefenseBonus(bonus + effect.amount)
+        } else {
+            this
+        }
+        is ModifyDamage, UndefinedEquipmentModifierEffect -> this
+    }
 }
 
 @Serializable

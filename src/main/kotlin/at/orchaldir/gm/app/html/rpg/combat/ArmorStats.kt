@@ -9,6 +9,7 @@ import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.rpg.combat.ArmorStats
+import at.orchaldir.gm.core.selector.rpg.getEquipmentModifierEffects
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -25,6 +26,13 @@ fun HtmlBlockTag.showArmorStats(
         optionalFieldLink("Type", call, state, stats.type)
         optionalFieldLink(call, state, mainMaterial)
         fieldIds(call, state, "Modifiers", stats.modifiers)
+
+        state.getArmorTypeStorage().getOptional(stats.type)?.let { type ->
+            val effects = state.getEquipmentModifierEffects(stats.modifiers)
+            val updatedProtection = type.protection.apply(effects)
+
+            fieldProtection(call, state, updatedProtection)
+        }
     }
 }
 
