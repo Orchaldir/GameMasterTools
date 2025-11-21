@@ -72,7 +72,7 @@ fun HtmlBlockTag.editProtection(
         )
 
         when (protection) {
-            is DamageResistance -> selectDR(protection.amount, param, 0, rpg.maxDamageResistance)
+            is DamageResistance -> selectDR(protection.amount, param, 1, rpg.maxDamageResistance)
             is DamageResistances -> {
                 var damageTypes = state.sortDamageTypes()
 
