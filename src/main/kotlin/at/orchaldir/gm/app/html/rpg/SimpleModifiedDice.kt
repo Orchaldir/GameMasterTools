@@ -3,7 +3,6 @@ package at.orchaldir.gm.app.html.rpg
 import at.orchaldir.gm.app.DIE
 import at.orchaldir.gm.app.NUMBER
 import at.orchaldir.gm.app.html.parseInt
-import at.orchaldir.gm.app.html.selectInt
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.model.rpg.SimpleModifiedDice
 import at.orchaldir.gm.core.model.rpg.SimpleModifiedDiceRange
@@ -29,12 +28,10 @@ fun HtmlBlockTag.selectDiceNumber(
     param: String,
     range: SimpleModifiedDiceRange,
 ) {
-    selectInt(
+    selectFromRange(
         "Dice",
+        range.dice,
         entry.dice,
-        range.minDice,
-        range.maxDice,
-        1,
         combine(param, DIE),
     )
 }
@@ -50,12 +47,10 @@ fun HtmlBlockTag.selectDiceModifier(
     modifier: Int,
     range: SimpleModifiedDiceRange,
 ) {
-    selectInt(
+    selectFromRange(
         "Modifier",
+        range.modifier,
         modifier,
-        range.minModifier,
-        range.maxModifier,
-        1,
         combine(param, NUMBER),
     )
 }

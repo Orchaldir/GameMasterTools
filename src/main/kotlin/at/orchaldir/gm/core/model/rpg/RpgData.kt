@@ -5,6 +5,6 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class RpgData(
     val defaultDieType: DieType = DieType.D6,
-    val damageRange: SimpleModifiedDiceRange = SimpleModifiedDiceRange(1, 20, -6, 6),
-    val damageModifierRange: SimpleModifiedDiceRange = SimpleModifiedDiceRange(-2, 2, -6, 6),
+    val damageRange: SimpleModifiedDiceRange = SimpleModifiedDiceRange(Range(1, 20), Range(-6, 6)),
+    val damageModifierRange: SimpleModifiedDiceRange = SimpleModifiedDiceRange(Range(-2, 2), Range(-6, 6)),
 )
