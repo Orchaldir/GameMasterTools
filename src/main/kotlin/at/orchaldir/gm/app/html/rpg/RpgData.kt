@@ -3,9 +3,12 @@ package at.orchaldir.gm.app.html.rpg
 import at.orchaldir.gm.app.DAMAGE
 import at.orchaldir.gm.app.DEFENSE
 import at.orchaldir.gm.app.DIE
+import at.orchaldir.gm.app.MAX
 import at.orchaldir.gm.app.MODIFIER
 import at.orchaldir.gm.app.RESISTANCE
 import at.orchaldir.gm.app.html.field
+import at.orchaldir.gm.app.html.parseInt
+import at.orchaldir.gm.app.html.selectInt
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
@@ -27,10 +30,12 @@ fun HtmlBlockTag.showRpgData(
     h2 { +"RPG" }
 
     field("Default Die Type", data.defaultDieType)
-    showSimpleModifiedDiceRange("Damage Range", data.damageRange)
-    showSimpleModifiedDiceRange("Damage Modifier Range", data.damageModifierRange)
-    fieldRange("Damage Resistance", data.damageResistanceRange)
-    fieldRange("Defense Bonus", data.defenseBonusRange)
+    showSimpleModifiedDiceRange("Damage", data.damage)
+    showSimpleModifiedDiceRange("Damage Modifier", data.damageModifier)
+    field("Max Damage Resistance", data.maxDamageResistance)
+    fieldRange("Damage Resistance Modifier", data.damageResistanceModifier)
+    field("Max Defense Bonus", data.maxDefenseBonus)
+    fieldRange("Defense Bonus Modifier", data.defenseBonusModifier)
 }
 
 
@@ -43,17 +48,33 @@ fun HtmlBlockTag.editRpgData(
     h2 { +"RPG" }
 
     selectValue("Default Die Type", DIE, DieType.entries, data.defaultDieType)
-    editSimpleModifiedDiceRange("Damage Range", data.damageRange, DAMAGE)
-    editSimpleModifiedDiceRange("Damage Modifier Range", data.damageModifierRange, combine(DAMAGE, MODIFIER))
-    editRange(
-        "Damage Resistance",
-        data.damageResistanceRange,
+    editSimpleModifiedDiceRange("Damage", data.damage, DAMAGE)
+    editSimpleModifiedDiceRange("Damage Modifier", data.damageModifier, combine(DAMAGE, MODIFIER))
+    selectInt(
+        "Max Damage Resistance",
+        data.maxDamageResistance,
+        1,
+        100,
+        1,
         combine(DAMAGE, RESISTANCE),
     )
     editRange(
-        "Defense Bonus",
-        data.defenseBonusRange,
+        "Damage Resistance Modifier",
+        data.damageResistanceModifier,
+        combine(DAMAGE, RESISTANCE, MODIFIER),
+    )
+    selectInt(
+        "Max Defense Bonus",
+        data.maxDefenseBonus,
+        1,
+        100,
+        1,
         DEFENSE,
+    )
+    editRange(
+        "Defense Bonus Modifier",
+        data.defenseBonusModifier,
+        combine(DEFENSE, MODIFIER),
     )
 }
 
@@ -65,6 +86,8 @@ fun parseRpgData(
     parse(parameters, DIE, DieType.D6),
     parseSimpleModifiedDiceRange(parameters, DAMAGE),
     parseSimpleModifiedDiceRange(parameters, combine(DAMAGE, MODIFIER)),
-    parseRange(parameters, combine(DAMAGE, RESISTANCE)),
-    parseRange(parameters, DEFENSE),
+    parseInt(parameters, combine(DAMAGE, RESISTANCE)),
+    parseRange(parameters, combine(DAMAGE, RESISTANCE, MODIFIER)),
+    parseInt(parameters, DEFENSE),
+    parseRange(parameters, combine(DEFENSE, MODIFIER)),
 )

@@ -78,18 +78,18 @@ fun HtmlBlockTag.editEquipmentModifierEffect(
 
         when (effect) {
             is ModifyDamage -> {
-                selectDiceNumber(effect.amount, param, state.data.rpg.damageModifierRange)
-                selectDiceModifier(effect.amount, param, state.data.rpg.damageModifierRange)
+                selectDiceNumber(effect.amount, param, state.data.rpg.damageModifier)
+                selectDiceModifier(effect.amount, param, state.data.rpg.damageModifier)
             }
             is ModifyDamageResistance -> selectFromRange(
                 "Damage Resistance",
-                state.data.rpg.damageResistanceRange,
+                state.data.rpg.damageResistanceModifier,
                 effect.amount,
                 combine(param, DAMAGE, RESISTANCE),
             )
             is ModifyDefenseBonus -> selectFromRange(
                 "Defense Bonus",
-                state.data.rpg.defenseBonusRange,
+                state.data.rpg.defenseBonusModifier,
                 effect.amount,
                 combine(param, DEFENSE),
             )

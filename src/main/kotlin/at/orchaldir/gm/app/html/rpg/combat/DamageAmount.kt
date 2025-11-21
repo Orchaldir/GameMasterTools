@@ -65,11 +65,11 @@ fun HtmlBlockTag.editDamageAmount(
                     state.getBaseDamageValues(),
                     amount.base,
                 )
-                editSimpleModifiedDice(state.data.rpg.damageRange, amount.modifier, param)
+                editSimpleModifiedDice(state.data.rpg.damage, amount.modifier, param)
             }
 
             is SimpleRandomDamage -> {
-                editSimpleModifiedDice(state.data.rpg.damageRange, amount.amount, param)
+                editSimpleModifiedDice(state.data.rpg.damage, amount.amount, param)
             }
         }
     }
