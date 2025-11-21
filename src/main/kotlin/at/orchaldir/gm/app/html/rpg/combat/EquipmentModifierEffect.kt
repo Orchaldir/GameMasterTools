@@ -1,12 +1,18 @@
 package at.orchaldir.gm.app.html.rpg.combat
 
+import at.orchaldir.gm.app.DAMAGE
+import at.orchaldir.gm.app.DEFENSE
+import at.orchaldir.gm.app.NUMBER
 import at.orchaldir.gm.app.PROTECTION
+import at.orchaldir.gm.app.RESISTANCE
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.field
+import at.orchaldir.gm.app.html.parseInt
 import at.orchaldir.gm.app.html.rpg.parseDiceModifier
 import at.orchaldir.gm.app.html.rpg.parseSimpleModifiedDice
 import at.orchaldir.gm.app.html.rpg.selectDiceModifier
 import at.orchaldir.gm.app.html.rpg.selectDiceNumber
+import at.orchaldir.gm.app.html.rpg.selectFromRange
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.showDetails
 import at.orchaldir.gm.app.parse.combine
@@ -75,8 +81,18 @@ fun HtmlBlockTag.editEquipmentModifierEffect(
                 selectDiceNumber(effect.amount, param, state.data.rpg.damageModifierRange)
                 selectDiceModifier(effect.amount, param, state.data.rpg.damageModifierRange)
             }
-            is ModifyDamageResistance -> TODO()
-            is ModifyDefenseBonus -> TODO()
+            is ModifyDamageResistance -> selectFromRange(
+                "Damage Resistance",
+                state.data.rpg.damageResistanceRange,
+                effect.amount,
+                combine(param, DAMAGE, RESISTANCE),
+            )
+            is ModifyDefenseBonus -> selectFromRange(
+                "Defense Bonus",
+                state.data.rpg.defenseBonusRange,
+                effect.amount,
+                combine(param, DEFENSE),
+            )
             UndefinedEquipmentModifierEffect -> doNothing()
         }
     }
@@ -92,10 +108,10 @@ fun parseEquipmentModifierEffect(
         parseSimpleModifiedDice(parameters, param),
     )
     EquipmentModifierEffectType.DamageResistance -> ModifyDamageResistance(
-        parseDiceModifier(parameters, param),
+        parseInt(parameters, combine(param, DAMAGE, RESISTANCE)),
     )
     EquipmentModifierEffectType.DefenseBonus -> ModifyDefenseBonus(
-        parseDiceModifier(parameters, param),
+        parseInt(parameters, combine(param, DEFENSE)),
     )
     EquipmentModifierEffectType.Undefined -> UndefinedEquipmentModifierEffect
 }

@@ -12,6 +12,13 @@ import kotlinx.html.HtmlBlockTag
 
 // show
 
+fun HtmlBlockTag.fieldRange(
+    label: String,
+    range: Range,
+) {
+    field(label, "${range.min} to ${range.max}")
+}
+
 fun HtmlBlockTag.showRange(
     label: String,
     range: Range,

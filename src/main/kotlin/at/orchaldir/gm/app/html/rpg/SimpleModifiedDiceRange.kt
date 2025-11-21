@@ -15,8 +15,8 @@ fun HtmlBlockTag.showSimpleModifiedDiceRange(
     range: SimpleModifiedDiceRange,
 ) {
     showDetails(label) {
-        showRange("Dice", range.dice)
-        showRange("Modifier", range.modifier)
+        fieldRange("Dice", range.dice)
+        fieldRange("Modifier", range.modifier)
     }
 }
 
