@@ -23,7 +23,7 @@ sealed class DamageAmount {
         is ModifiedBaseDamage -> base == statistic
     }
 
-    fun apply(effect: ModifiedDamage) = when (this) {
+    fun apply(effect: ModifyDamage) = when (this) {
         is ModifiedBaseDamage -> copy(modifier = modifier + effect.amount)
         is SimpleRandomDamage -> SimpleRandomDamage(amount + effect.amount)
     }

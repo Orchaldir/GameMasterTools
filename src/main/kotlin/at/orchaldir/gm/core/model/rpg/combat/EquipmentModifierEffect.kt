@@ -6,27 +6,43 @@ import kotlinx.serialization.Serializable
 
 enum class EquipmentModifierEffectType {
     Undefined,
-    ModifiedDamage,
+    Damage,
+    DamageResistance,
+    DefenseBonus,
 }
 
 @Serializable
 sealed class EquipmentModifierEffect {
 
     fun getType() = when (this) {
-        is ModifiedDamage -> EquipmentModifierEffectType.ModifiedDamage
+        is ModifyDamage -> EquipmentModifierEffectType.Damage
+        is ModifyDamageResistance -> EquipmentModifierEffectType.DamageResistance
+        is ModifyDefenseBonus -> EquipmentModifierEffectType.DefenseBonus
         is UndefinedEquipmentModifierEffect -> EquipmentModifierEffectType.Undefined
     }
 
     fun modify(attack: MeleeAttack) = when (this) {
-        is ModifiedDamage -> attack.copy(effect = attack.effect.apply(this))
-        UndefinedEquipmentModifierEffect -> attack
+        is ModifyDamage -> attack.copy(effect = attack.effect.apply(this))
+        is ModifyDamageResistance, is ModifyDefenseBonus, UndefinedEquipmentModifierEffect -> attack
     }
 }
 
 @Serializable
-@SerialName("ModifiedDamage")
-data class ModifiedDamage(
+@SerialName("Damage")
+data class ModifyDamage(
     val amount: SimpleModifiedDice,
+) : EquipmentModifierEffect()
+
+@Serializable
+@SerialName("DamageResistance")
+data class ModifyDamageResistance(
+    val amount: Int,
+) : EquipmentModifierEffect()
+
+@Serializable
+@SerialName("DefenseBonus")
+data class ModifyDefenseBonus(
+    val amount: Int,
 ) : EquipmentModifierEffect()
 
 @Serializable

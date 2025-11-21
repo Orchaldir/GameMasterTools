@@ -27,7 +27,7 @@ sealed class AttackEffect {
         is UndefinedAttackEffect -> false
     }
 
-    fun apply(effect: ModifiedDamage) = when (this) {
+    fun apply(effect: ModifyDamage) = when (this) {
         is Damage -> copy(amount = amount.apply(effect))
         UndefinedAttackEffect -> this
     }

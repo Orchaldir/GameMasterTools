@@ -6,7 +6,7 @@
    "name": "Elven",
    "effects": [
     {
-     "#type": "ModifiedDamage",
+     "#type": "Damage",
      "amount": {
       "dice": 0,
       "modifier": 1
