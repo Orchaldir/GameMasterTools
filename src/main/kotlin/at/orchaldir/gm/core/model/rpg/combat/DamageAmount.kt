@@ -24,7 +24,7 @@ sealed class DamageAmount {
     }
 
     fun apply(effect: ModifiedDamage) = when (this) {
-        is ModifiedBaseDamage -> copy(modifier = modifier + effect.amount.modifier) // TODO: handle dice
+        is ModifiedBaseDamage -> copy(modifier = modifier + effect.amount)
         is SimpleRandomDamage -> SimpleRandomDamage(amount + effect.amount)
     }
 }
@@ -33,7 +33,7 @@ sealed class DamageAmount {
 @SerialName("ModifiedBase")
 data class ModifiedBaseDamage(
     val base: StatisticId,
-    val modifier: Int = 0,
+    val modifier: SimpleModifiedDice = SimpleModifiedDice(0, 0),
 ) : DamageAmount()
 
 @Serializable

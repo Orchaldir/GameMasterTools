@@ -6,8 +6,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class SimpleModifiedDice(
-    val dice: Int,
-    val modifier: Int,
+    val dice: Int = 0,
+    val modifier: Int = 0,
 ) {
     fun display(dieType: String = "d"): String {
         var string =  if (dice != 0) {

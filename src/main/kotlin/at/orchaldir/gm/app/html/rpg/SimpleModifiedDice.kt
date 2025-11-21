@@ -15,6 +15,15 @@ import kotlinx.html.HtmlBlockTag
 
 // edit
 
+fun HtmlBlockTag.editSimpleModifiedDice(
+    range: SimpleModifiedDiceRange,
+    dice: SimpleModifiedDice,
+    param: String,
+) {
+    selectDiceNumber(dice, param, range)
+    selectDiceModifier(dice, param, range)
+}
+
 fun HtmlBlockTag.selectDiceNumber(
     entry: SimpleModifiedDice,
     param: String,

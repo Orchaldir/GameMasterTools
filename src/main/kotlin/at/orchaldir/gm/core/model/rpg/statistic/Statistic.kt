@@ -34,6 +34,8 @@ data class Statistic(
     override fun name() = name.text
     override fun sources() = sources
 
+    fun short() = short?.text ?: name()
+
     override fun validate(state: State) {
         state.getDataSourceStorage().require(sources)
 

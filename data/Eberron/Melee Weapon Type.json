@@ -11,7 +11,9 @@
       "amount": {
        "#type": "ModifiedBase",
        "base": 15,
-       "modifier": 2
+       "modifier": {
+         "modifier": 2
+       }
       },
       "damageType": 4
      },
@@ -34,7 +36,9 @@
       "amount": {
        "#type": "ModifiedBase",
        "base": 14,
-       "modifier": -1
+       "modifier": {
+        "modifier": -1
+       }
       },
       "damageType": 6
      },
@@ -75,7 +79,9 @@
       "amount": {
        "#type": "ModifiedBase",
        "base": 14,
-       "modifier": 1
+       "modifier": {
+        "modifier": 1
+       }
       },
       "damageType": 6
      },
@@ -98,7 +104,9 @@
       "amount": {
        "#type": "ModifiedBase",
        "base": 14,
-       "modifier": 2
+       "modifier": {
+        "modifier": 2
+       }
       },
       "damageType": 6
      },
@@ -115,7 +123,9 @@
       "amount": {
        "#type": "ModifiedBase",
        "base": 14,
-       "modifier": 3
+       "modifier": {
+        "modifier": 3
+       }
       },
       "damageType": 6
      },

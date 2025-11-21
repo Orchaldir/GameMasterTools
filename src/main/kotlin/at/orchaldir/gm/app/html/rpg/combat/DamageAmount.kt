@@ -3,10 +3,9 @@ package at.orchaldir.gm.app.html.rpg.combat
 import at.orchaldir.gm.app.BASE
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.link
+import at.orchaldir.gm.app.html.rpg.editSimpleModifiedDice
 import at.orchaldir.gm.app.html.rpg.parseDiceModifier
 import at.orchaldir.gm.app.html.rpg.parseSimpleModifiedDice
-import at.orchaldir.gm.app.html.rpg.selectDiceModifier
-import at.orchaldir.gm.app.html.rpg.selectDiceNumber
 import at.orchaldir.gm.app.html.rpg.statistic.parseStatisticId
 import at.orchaldir.gm.app.html.selectElement
 import at.orchaldir.gm.app.html.selectValue
@@ -22,7 +21,6 @@ import at.orchaldir.gm.core.selector.rpg.getBaseDamageValues
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
-import kotlin.math.absoluteValue
 
 // show
 
@@ -34,13 +32,9 @@ fun HtmlBlockTag.displayDamageAmount(
     when (amount) {
         is ModifiedBaseDamage -> {
             val base = state.getStatisticStorage().getOrThrow(amount.base)
-            link(call, base, base.short?.text ?: base.name())
 
-            if (amount.modifier > 0) {
-                +"+${amount.modifier}"
-            } else if (amount.modifier < 0) {
-                +"-${amount.modifier.absoluteValue}"
-            }
+            link(call, base, base.short())
+            +amount.modifier.display()
         }
 
         is SimpleRandomDamage -> +amount.amount.display()
@@ -71,12 +65,11 @@ fun HtmlBlockTag.editDamageAmount(
                     state.getBaseDamageValues(),
                     amount.base,
                 )
-                selectDiceModifier(param, amount.modifier, state.data.rpg.damageRange)
+                editSimpleModifiedDice(state.data.rpg.damageRange, amount.modifier, param)
             }
 
             is SimpleRandomDamage -> {
-                selectDiceNumber(amount.amount, param, state.data.rpg.damageRange)
-                selectDiceModifier(amount.amount, param, state.data.rpg.damageRange)
+                editSimpleModifiedDice(state.data.rpg.damageRange, amount.amount, param)
             }
         }
     }
@@ -90,7 +83,7 @@ fun parseDamageAmount(
 ) = when (parse(parameters, combine(param, TYPE), DamageAmountType.SimpleRandom)) {
     DamageAmountType.ModifiedBase -> ModifiedBaseDamage(
         parseStatisticId(parameters, combine(param, BASE)),
-        parseDiceModifier(parameters, param),
+        parseSimpleModifiedDice(parameters, param),
     )
 
     DamageAmountType.SimpleRandom -> SimpleRandomDamage(
