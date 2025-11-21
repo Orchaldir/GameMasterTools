@@ -4,23 +4,12 @@ import at.orchaldir.gm.app.EFFECT
 import at.orchaldir.gm.app.PARRYING
 import at.orchaldir.gm.app.REACH
 import at.orchaldir.gm.app.html.showDetails
-import at.orchaldir.gm.app.html.tdLink
-import at.orchaldir.gm.app.html.tdSkipZero
-import at.orchaldir.gm.app.html.thMultiLines
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.combat.MeleeAttack
-import at.orchaldir.gm.core.selector.economy.countJobs
-import at.orchaldir.gm.core.selector.economy.money.display
 import io.ktor.http.*
 import io.ktor.server.application.*
-import io.ktor.server.application.call
-import kotlinx.html.HtmlBlockTag
-import kotlinx.html.caption
-import kotlinx.html.table
-import kotlinx.html.td
-import kotlinx.html.th
-import kotlinx.html.tr
+import kotlinx.html.*
 
 // show
 

@@ -12,7 +12,6 @@ import at.orchaldir.gm.core.model.rpg.combat.ShieldStats
 import at.orchaldir.gm.core.selector.rpg.getEquipmentModifierEffects
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.DETAILS
 import kotlinx.html.HtmlBlockTag
 
 // show

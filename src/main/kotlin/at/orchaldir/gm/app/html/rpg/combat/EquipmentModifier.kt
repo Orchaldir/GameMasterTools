@@ -1,13 +1,7 @@
 package at.orchaldir.gm.app.html.rpg.combat
 
 import at.orchaldir.gm.app.EFFECT
-import at.orchaldir.gm.app.html.editList
-import at.orchaldir.gm.app.html.fieldElements
-import at.orchaldir.gm.app.html.fieldList
-import at.orchaldir.gm.app.html.parseInt
-import at.orchaldir.gm.app.html.parseList
-import at.orchaldir.gm.app.html.parseName
-import at.orchaldir.gm.app.html.selectName
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifier
 import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifierEffectType

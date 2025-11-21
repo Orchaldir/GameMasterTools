@@ -4,7 +4,6 @@ import at.orchaldir.gm.app.BASE
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.app.html.rpg.editSimpleModifiedDice
-import at.orchaldir.gm.app.html.rpg.parseDiceModifier
 import at.orchaldir.gm.app.html.rpg.parseSimpleModifiedDice
 import at.orchaldir.gm.app.html.rpg.statistic.parseStatisticId
 import at.orchaldir.gm.app.html.selectElement

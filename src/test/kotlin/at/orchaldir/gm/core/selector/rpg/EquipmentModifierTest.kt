@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.selector.rpg
 
-import at.orchaldir.gm.EQUIPMENT_MODIFIER_ID_0
 import at.orchaldir.gm.EQUIPMENT_ID_0
+import at.orchaldir.gm.EQUIPMENT_MODIFIER_ID_0
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.BodyArmour
@@ -9,8 +9,8 @@ import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.item.equipment.OneHandedAxe
 import at.orchaldir.gm.core.model.item.equipment.Shield
 import at.orchaldir.gm.core.model.item.equipment.style.ScaleArmour
-import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifier
 import at.orchaldir.gm.core.model.rpg.combat.ArmorStats
+import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifier
 import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponStats
 import at.orchaldir.gm.core.model.rpg.combat.ShieldStats
 import at.orchaldir.gm.utils.Id

@@ -51,11 +51,13 @@ sealed class Protection {
                 this
             }
         }
+
         is ModifyDefenseBonus -> if (this is DefenseBonus) {
             DefenseBonus(bonus + effect.amount)
         } else {
             this
         }
+
         is ModifyDamage -> this
     }
 }

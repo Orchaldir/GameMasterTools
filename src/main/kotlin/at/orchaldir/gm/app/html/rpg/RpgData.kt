@@ -1,11 +1,6 @@
 package at.orchaldir.gm.app.html.rpg
 
-import at.orchaldir.gm.app.DAMAGE
-import at.orchaldir.gm.app.DEFENSE
-import at.orchaldir.gm.app.DIE
-import at.orchaldir.gm.app.MAX
-import at.orchaldir.gm.app.MODIFIER
-import at.orchaldir.gm.app.RESISTANCE
+import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.parseInt
 import at.orchaldir.gm.app.html.selectInt
