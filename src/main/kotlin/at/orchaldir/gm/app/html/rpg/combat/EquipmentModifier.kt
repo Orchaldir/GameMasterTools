@@ -10,6 +10,7 @@ import at.orchaldir.gm.app.html.parseName
 import at.orchaldir.gm.app.html.selectName
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifier
+import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifierEffectType
 import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifierId
 import at.orchaldir.gm.core.selector.item.getEquipment
 import io.ktor.http.*
@@ -54,8 +55,11 @@ fun HtmlBlockTag.editEquipmentModifier(
     modifier: EquipmentModifier,
 ) {
     selectName(modifier.name)
-    editList("Effects", EFFECT, modifier.effects, 0, 10) { _, param, effect ->
-        editEquipmentModifierEffect(call, state, effect, param)
+
+    val allowedTypes = EquipmentModifierEffectType.entries.toSet() - modifier.effects.map { it.getType() }.toSet()
+
+    editList("Effects", EFFECT, modifier.effects, 0, allowedTypes.size) { _, param, effect ->
+        editEquipmentModifierEffect(call, state, effect, param, allowedTypes + effect.getType())
     }
 }
 

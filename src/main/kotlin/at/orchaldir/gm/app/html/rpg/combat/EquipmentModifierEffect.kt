@@ -66,13 +66,14 @@ fun HtmlBlockTag.editEquipmentModifierEffect(
     call: ApplicationCall,
     state: State,
     effect: EquipmentModifierEffect,
-    param: String = PROTECTION,
+    param: String,
+    allowedTypes: Set<EquipmentModifierEffectType>,
 ) {
     showDetails("Effect", true) {
         selectValue(
             "Type",
             combine(param, TYPE),
-            EquipmentModifierEffectType.entries,
+            allowedTypes,
             effect.getType(),
         )
 
