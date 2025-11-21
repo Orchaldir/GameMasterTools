@@ -12,6 +12,7 @@ import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponStats
 import at.orchaldir.gm.core.selector.rpg.getEquipmentModifierEffects
 import io.ktor.http.*
 import io.ktor.server.application.*
+import kotlinx.html.DETAILS
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -26,13 +27,20 @@ fun HtmlBlockTag.showMeleeWeaponStats(
         optionalFieldLink("Type", call, state, stats.type)
         optionalFieldLink(call, state, mainMaterial)
         fieldIds(call, state, "Modifiers", stats.modifiers)
+        updatedMeleeWeaponStats(call, state, stats)
+    }
+}
 
-        state.getMeleeWeaponTypeStorage().getOptional(stats.type)?.let { type ->
-            val effects = state.getEquipmentModifierEffects(stats.modifiers)
-            val updatedAttacks = type.apply(effects)
+private fun DETAILS.updatedMeleeWeaponStats(
+    call: ApplicationCall,
+    state: State,
+    stats: MeleeWeaponStats,
+) {
+    state.getMeleeWeaponTypeStorage().getOptional(stats.type)?.let { type ->
+        val effects = state.getEquipmentModifierEffects(stats.modifiers)
+        val updatedAttacks = type.apply(effects)
 
-            showMeleeAttackTable(call, state, updatedAttacks)
-        }
+        showMeleeAttackTable(call, state, updatedAttacks)
     }
 }
 
@@ -58,6 +66,7 @@ fun HtmlBlockTag.editMeleeWeaponStats(
             state.getEquipmentModifierStorage().getAll(),
             stats.modifiers,
         )
+        updatedMeleeWeaponStats(call, state, stats)
     }
 }
 
