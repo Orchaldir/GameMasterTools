@@ -56,7 +56,7 @@ sealed class Protection {
         } else {
             this
         }
-        is ModifyDamage, UndefinedEquipmentModifierEffect -> this
+        is ModifyDamage -> this
     }
 }
 

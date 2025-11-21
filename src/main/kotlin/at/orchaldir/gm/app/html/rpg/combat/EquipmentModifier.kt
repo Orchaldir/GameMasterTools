@@ -58,7 +58,7 @@ fun HtmlBlockTag.editEquipmentModifier(
 
     val allowedTypes = EquipmentModifierEffectType.entries.toSet() - modifier.effects.map { it.getType() }.toSet()
 
-    editList("Effects", EFFECT, modifier.effects, 0, allowedTypes.size) { _, param, effect ->
+    editList("Effects", EFFECT, modifier.effects, 0, EquipmentModifierEffectType.entries.size) { _, param, effect ->
         editEquipmentModifierEffect(call, state, effect, param, allowedTypes + effect.getType())
     }
 }

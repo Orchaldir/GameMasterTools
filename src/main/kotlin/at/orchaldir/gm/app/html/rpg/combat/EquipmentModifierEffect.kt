@@ -23,8 +23,6 @@ import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifierEffectType
 import at.orchaldir.gm.core.model.rpg.combat.ModifyDamage
 import at.orchaldir.gm.core.model.rpg.combat.ModifyDamageResistance
 import at.orchaldir.gm.core.model.rpg.combat.ModifyDefenseBonus
-import at.orchaldir.gm.core.model.rpg.combat.UndefinedEquipmentModifierEffect
-import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -37,7 +35,7 @@ fun HtmlBlockTag.fieldEquipmentModifierEffect(
     effect: EquipmentModifierEffect,
 ) {
     field("Effect") {
-        displayEquipmentModifierEffect(call, state, effect, true)
+        displayEquipmentModifierEffect(call, state, effect)
     }
 }
 
@@ -45,7 +43,6 @@ fun HtmlBlockTag.displayEquipmentModifierEffect(
     call: ApplicationCall,
     state: State,
     effect: EquipmentModifierEffect,
-    showUndefined: Boolean = false,
 ) {
     when (effect) {
         is ModifyDamage -> {
@@ -54,9 +51,6 @@ fun HtmlBlockTag.displayEquipmentModifierEffect(
         }
         is ModifyDamageResistance -> +"Modifies Damage Resistance by ${effect.amount}"
         is ModifyDefenseBonus -> +"Modifies Defense Bonus by ${effect.amount}"
-        UndefinedEquipmentModifierEffect -> if (showUndefined) {
-            +"Undefined"
-        }
     }
 }
 
@@ -94,7 +88,6 @@ fun HtmlBlockTag.editEquipmentModifierEffect(
                 effect.amount,
                 combine(param, DEFENSE),
             )
-            UndefinedEquipmentModifierEffect -> doNothing()
         }
     }
 }
@@ -104,7 +97,7 @@ fun HtmlBlockTag.editEquipmentModifierEffect(
 fun parseEquipmentModifierEffect(
     parameters: Parameters,
     param: String,
-) = when (parse(parameters, combine(param, TYPE), EquipmentModifierEffectType.Undefined)) {
+) = when (parse(parameters, combine(param, TYPE), EquipmentModifierEffectType.Damage)) {
     EquipmentModifierEffectType.Damage -> ModifyDamage(
         parseSimpleModifiedDice(parameters, param),
     )
@@ -114,5 +107,4 @@ fun parseEquipmentModifierEffect(
     EquipmentModifierEffectType.DefenseBonus -> ModifyDefenseBonus(
         parseInt(parameters, combine(param, DEFENSE)),
     )
-    EquipmentModifierEffectType.Undefined -> UndefinedEquipmentModifierEffect
 }
