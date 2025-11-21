@@ -281,8 +281,7 @@
      "#type": "SimpleLookup",
      "lookup": {
       "current": {
-       "dice": 2,
-       "modifier": 0
+       "dice": 2
       },
       "previousEntries": [
        {
@@ -371,15 +370,13 @@
        },
        {
         "value": {
-         "dice": 1,
-         "modifier": 0
+         "dice": 1
         },
         "until": 13
        },
        {
         "value": {
-         "dice": 1,
-         "modifier": 0
+         "dice": 1
         },
         "until": 14
        },
@@ -513,8 +510,7 @@
        },
        {
         "value": {
-         "dice": 1,
-         "modifier": 0
+         "dice": 1
         },
         "until": 10
        },
@@ -541,8 +537,7 @@
        },
        {
         "value": {
-         "dice": 2,
-         "modifier": 0
+         "dice": 2
         },
         "until": 14
        },
@@ -569,8 +564,7 @@
        },
        {
         "value": {
-         "dice": 3,
-         "modifier": 0
+         "dice": 3
         },
         "until": 18
        },

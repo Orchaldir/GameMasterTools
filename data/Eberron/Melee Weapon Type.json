@@ -12,7 +12,7 @@
        "#type": "ModifiedBase",
        "base": 15,
        "modifier": {
-         "modifier": 2
+        "modifier": 2
        }
       },
       "damageType": 4

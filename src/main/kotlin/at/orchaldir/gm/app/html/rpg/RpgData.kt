@@ -64,7 +64,7 @@ fun parseRpgData(
 ) = RpgData(
     parse(parameters, DIE, DieType.D6),
     parseSimpleModifiedDiceRange(parameters, DAMAGE),
-    parseSimpleModifiedDiceRange(parameters, MODIFIER),
+    parseSimpleModifiedDiceRange(parameters, combine(DAMAGE, MODIFIER)),
     parseRange(parameters, combine(DAMAGE, RESISTANCE)),
     parseRange(parameters, DEFENSE),
 )
