@@ -23,7 +23,7 @@ class ProtectionTest {
         fun `Damage Resistance must be greater than 0`() {
             val protection = DamageResistance(0)
 
-            assertInvalidType(protection, "Damage Resistance needs to be greater 0!")
+            assertInvalidType(protection, "Damage Resistance needs to be >= 1!")
         }
     }
 
@@ -56,7 +56,7 @@ class ProtectionTest {
     fun `Defense Bonus must be greater than 0`() {
         val protection = DefenseBonus(0)
 
-        assertInvalidType(protection, "Defense Bonus needs to be greater 0!")
+        assertInvalidType(protection, "Defense Bonus needs to be >= 1!")
     }
 
     private fun assertInvalidType(protection: Protection, message: String) {

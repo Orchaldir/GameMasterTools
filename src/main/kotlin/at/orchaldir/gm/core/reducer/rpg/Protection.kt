@@ -11,25 +11,17 @@ fun validateProtection(
     val rpg = state.data.rpg
 
     when (protection) {
-        is DamageResistance -> {
-            require(protection.amount > 0) { "Damage Resistance needs to be greater 0!" }
-            require(protection.amount <= rpg.maxDamageResistance) { "Damage Resistance is too high!" }
-        }
+        is DamageResistance -> validateIsInside(protection.amount, "Damage Resistance", 1, rpg.maxDamageResistance)
         is DamageResistances -> {
-            require(protection.amount >= 0) { "Damage Resistance needs to be >= 0!" }
-            require(protection.amount <= rpg.maxDamageResistance) { "Damage Resistance is too high!" }
+            validateIsInside(protection.amount, "Damage Resistance", 0, rpg.maxDamageResistance)
 
             protection.damageTypes.forEach { (type, dr) ->
                 state.getDamageTypeStorage().require(type)
-                require(dr >= 0) { "Damage Resistance for ${type.print()} needs to be >= 0!" }
-                require(dr <= rpg.maxDamageResistance) { "Damage Resistance for ${type.print()} is too high!" }
+                validateIsInside(dr, "Damage Resistance for ${type.print()}", 0, rpg.maxDamageResistance)
             }
         }
 
-        is DefenseBonus -> {
-            require(protection.bonus > 0) { "Defense Bonus needs to be greater 0!" }
-            require(protection.bonus <= rpg.maxDefenseBonus) { "Defense Bonus is too high!" }
-        }
+        is DefenseBonus -> validateIsInside(protection.bonus, "Defense Bonus", 1, rpg.maxDefenseBonus)
         UndefinedProtection -> doNothing()
     }
 }
