@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.rpg
 
+import at.orchaldir.gm.core.reducer.rpg.validateIsInside
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -25,8 +26,8 @@ data class SimpleModifiedDice(
 
     operator fun plus(other: SimpleModifiedDice) = SimpleModifiedDice(dice + other.dice, modifier + other.modifier)
 
-    fun validate(range: SimpleModifiedDiceRange) {
-        range.dice.validateIsInside(dice)
-        range.modifier.validateIsInside(modifier)
+    fun validate(text: String, range: SimpleModifiedDiceRange) {
+        validateIsInside(dice, "$text's dice", range.dice)
+        validateIsInside(modifier, "$text's modifier", range.modifier)
     }
 }

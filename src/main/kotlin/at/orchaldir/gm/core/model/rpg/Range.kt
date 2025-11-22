@@ -12,9 +12,4 @@ data class Range(
     fun validate() {
         require(max > min) { "Range's max must be greater than its min!" }
     }
-
-    fun validateIsInside(value: Int) {
-        require(value in toIntRange()) { "Value is not inside range!" }
-    }
-
 }

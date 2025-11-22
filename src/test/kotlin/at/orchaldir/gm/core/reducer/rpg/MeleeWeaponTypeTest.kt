@@ -53,7 +53,7 @@ class MeleeWeaponTypeTest {
             val amount = StatisticBasedDamage(STATISTIC_ID_0, modifiedDice)
             val attack = MeleeAttack(Damage(amount, DAMAGE_TYPE_ID_0))
 
-            assertInvalidWeapon(attack, "Value is not inside range!")
+            assertInvalidWeapon(attack, "StatisticBasedDamage's dice needs to be <= 20!")
         }
 
         @Test
@@ -62,7 +62,7 @@ class MeleeWeaponTypeTest {
             val amount = StatisticBasedDamage(STATISTIC_ID_0, modifiedDice)
             val attack = MeleeAttack(Damage(amount, DAMAGE_TYPE_ID_0))
 
-            assertInvalidWeapon(attack, "Value is not inside range!")
+            assertInvalidWeapon(attack, "StatisticBasedDamage's dice needs to be >= 1!")
         }
     }
 
