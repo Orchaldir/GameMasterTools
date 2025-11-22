@@ -37,6 +37,7 @@ fun validateDamageAmount(
             require(base.data.getType() == StatisticDataType.Damage) {
                 "Damage is based on ${amount.base.print()}, which is not a base damage!"
             }
+            amount.modifier.validate(state.data.rpg.damage)
         }
 
         is SimpleRandomDamage -> doNothing()

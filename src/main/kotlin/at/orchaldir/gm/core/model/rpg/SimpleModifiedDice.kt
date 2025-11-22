@@ -24,4 +24,9 @@ data class SimpleModifiedDice(
     }
 
     operator fun plus(other: SimpleModifiedDice) = SimpleModifiedDice(dice + other.dice, modifier + other.modifier)
+
+    fun validate(range: SimpleModifiedDiceRange) {
+        range.dice.validateIsInside(dice)
+        range.modifier.validateIsInside(modifier)
+    }
 }

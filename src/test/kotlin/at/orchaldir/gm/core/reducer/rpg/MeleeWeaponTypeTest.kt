@@ -46,6 +46,24 @@ class MeleeWeaponTypeTest {
                 assertValidWeapon(attack)
             }
         }
+
+        @Test
+        fun `Too many dice for statistic based damage`() {
+            val modifiedDice = SimpleModifiedDice(STATE.data.rpg.damage.dice.max + 1)
+            val amount = StatisticBasedDamage(STATISTIC_ID_0, modifiedDice)
+            val attack = MeleeAttack(Damage(amount, DAMAGE_TYPE_ID_0))
+
+            assertInvalidWeapon(attack, "Value is not inside range!")
+        }
+
+        @Test
+        fun `Too few dice for statistic based damage`() {
+            val modifiedDice = SimpleModifiedDice(STATE.data.rpg.damage.dice.min - 1)
+            val amount = StatisticBasedDamage(STATISTIC_ID_0, modifiedDice)
+            val attack = MeleeAttack(Damage(amount, DAMAGE_TYPE_ID_0))
+
+            assertInvalidWeapon(attack, "Value is not inside range!")
+        }
     }
 
     @Nested
