@@ -14,8 +14,8 @@ import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.combat.DamageAmount
 import at.orchaldir.gm.core.model.rpg.combat.DamageAmountType
-import at.orchaldir.gm.core.model.rpg.combat.StatisticBasedDamage
 import at.orchaldir.gm.core.model.rpg.combat.SimpleRandomDamage
+import at.orchaldir.gm.core.model.rpg.combat.StatisticBasedDamage
 import at.orchaldir.gm.core.selector.rpg.getBaseDamageValues
 import io.ktor.http.*
 import io.ktor.server.application.*

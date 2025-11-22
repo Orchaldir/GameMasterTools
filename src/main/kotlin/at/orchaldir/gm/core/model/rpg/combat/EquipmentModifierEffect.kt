@@ -31,7 +31,13 @@ sealed class EquipmentModifierEffect {
 
         when (this) {
             is ModifyDamage -> amount.validate("ModifyDamage", rpg.damageModifier)
-            is ModifyDamageResistance -> validateIsInside(amount, "Damage Resistance Modifier", 1, rpg.maxDamageResistance)
+            is ModifyDamageResistance -> validateIsInside(
+                amount,
+                "Damage Resistance Modifier",
+                1,
+                rpg.maxDamageResistance
+            )
+
             is ModifyDefenseBonus -> validateIsInside(amount, "Defense Bonus Modifier", 1, rpg.maxDefenseBonus)
         }
     }
