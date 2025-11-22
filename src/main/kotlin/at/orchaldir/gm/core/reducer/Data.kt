@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.action.UpdateData
 import at.orchaldir.gm.core.model.Data
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.Economy
+import at.orchaldir.gm.core.model.rpg.RpgData
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.selector.economy.getRequiredStandards
 import at.orchaldir.gm.utils.redux.Reducer
@@ -18,6 +19,7 @@ val UPDATE_DATA: Reducer<UpdateData, State> = { state, action ->
 fun validateData(state: State, data: Data) {
     state.getCalendarStorage().require(data.time.defaultCalendar)
     validateEconomy(state, data.economy)
+    validateRpg(data.rpg)
 }
 
 private fun validateEconomy(state: State, economy: Economy) {
@@ -44,4 +46,13 @@ private fun validateEconomy(state: State, economy: Economy) {
         usedNames.add(standard.name)
         lastIncome = standard.maxYearlyIncome.value
     }
+}
+
+private fun validateRpg(rpg: RpgData) {
+    rpg.damage.validate()
+    rpg.damageModifier.validate()
+    require(rpg.maxDamageResistance > 0) { "Max Damage Resistance must be greater than 0!" }
+    rpg.damageResistanceModifier.validate()
+    require(rpg.maxDefenseBonus > 0) { "Max Defense Bonus must be greater than 0!" }
+    rpg.defenseBonusModifier.validate()
 }

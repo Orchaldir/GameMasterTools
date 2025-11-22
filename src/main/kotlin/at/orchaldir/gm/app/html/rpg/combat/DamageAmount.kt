@@ -3,10 +3,8 @@ package at.orchaldir.gm.app.html.rpg.combat
 import at.orchaldir.gm.app.BASE
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.link
-import at.orchaldir.gm.app.html.rpg.parseDiceModifier
+import at.orchaldir.gm.app.html.rpg.editSimpleModifiedDice
 import at.orchaldir.gm.app.html.rpg.parseSimpleModifiedDice
-import at.orchaldir.gm.app.html.rpg.selectDiceModifier
-import at.orchaldir.gm.app.html.rpg.selectSimpleModifiedDice
 import at.orchaldir.gm.app.html.rpg.statistic.parseStatisticId
 import at.orchaldir.gm.app.html.selectElement
 import at.orchaldir.gm.app.html.selectValue
@@ -16,13 +14,12 @@ import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.combat.DamageAmount
 import at.orchaldir.gm.core.model.rpg.combat.DamageAmountType
-import at.orchaldir.gm.core.model.rpg.combat.ModifiedBaseDamage
 import at.orchaldir.gm.core.model.rpg.combat.SimpleRandomDamage
+import at.orchaldir.gm.core.model.rpg.combat.StatisticBasedDamage
 import at.orchaldir.gm.core.selector.rpg.getBaseDamageValues
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
-import kotlin.math.absoluteValue
 
 // show
 
@@ -32,15 +29,11 @@ fun HtmlBlockTag.displayDamageAmount(
     amount: DamageAmount,
 ) {
     when (amount) {
-        is ModifiedBaseDamage -> {
+        is StatisticBasedDamage -> {
             val base = state.getStatisticStorage().getOrThrow(amount.base)
-            link(call, base, base.short?.text ?: base.name())
 
-            if (amount.modifier > 0) {
-                +"+${amount.modifier}"
-            } else if (amount.modifier < 0) {
-                +"-${amount.modifier.absoluteValue}"
-            }
+            link(call, base, base.short())
+            +amount.modifier.display()
         }
 
         is SimpleRandomDamage -> +amount.amount.display()
@@ -63,7 +56,7 @@ fun HtmlBlockTag.editDamageAmount(
         )
 
         when (amount) {
-            is ModifiedBaseDamage -> {
+            is StatisticBasedDamage -> {
                 selectElement(
                     state,
                     "Base Damage",
@@ -71,10 +64,12 @@ fun HtmlBlockTag.editDamageAmount(
                     state.getBaseDamageValues(),
                     amount.base,
                 )
-                selectDiceModifier(param, amount.modifier)
+                editSimpleModifiedDice(state.data.rpg.damage, amount.modifier, param)
             }
 
-            is SimpleRandomDamage -> selectSimpleModifiedDice(amount.amount, param)
+            is SimpleRandomDamage -> {
+                editSimpleModifiedDice(state.data.rpg.damage, amount.amount, param)
+            }
         }
     }
 }
@@ -85,9 +80,9 @@ fun parseDamageAmount(
     parameters: Parameters,
     param: String,
 ) = when (parse(parameters, combine(param, TYPE), DamageAmountType.SimpleRandom)) {
-    DamageAmountType.ModifiedBase -> ModifiedBaseDamage(
+    DamageAmountType.StatisticBased -> StatisticBasedDamage(
         parseStatisticId(parameters, combine(param, BASE)),
-        parseDiceModifier(parameters, param),
+        parseSimpleModifiedDice(parameters, param),
     )
 
     DamageAmountType.SimpleRandom -> SimpleRandomDamage(

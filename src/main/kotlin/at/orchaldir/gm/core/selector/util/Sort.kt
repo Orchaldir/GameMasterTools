@@ -61,10 +61,7 @@ import at.orchaldir.gm.core.selector.character.getEmployees
 import at.orchaldir.gm.core.selector.culture.countCultures
 import at.orchaldir.gm.core.selector.economy.money.calculateWeight
 import at.orchaldir.gm.core.selector.economy.money.countCurrencyUnits
-import at.orchaldir.gm.core.selector.item.countEquipment
-import at.orchaldir.gm.core.selector.item.getArmors
-import at.orchaldir.gm.core.selector.item.getMeleeWeapons
-import at.orchaldir.gm.core.selector.item.getShields
+import at.orchaldir.gm.core.selector.item.*
 import at.orchaldir.gm.core.selector.realm.countOwnedTowns
 import at.orchaldir.gm.core.selector.realm.countRealmsWithCurrencyAtAnyTime
 import at.orchaldir.gm.core.selector.realm.countRealmsWithLegalCodeAtAnyTime
@@ -121,21 +118,6 @@ fun State.sortArchitecturalStyles(
             SortArchitecturalStyle.Name -> compareBy { it.name.text }
             SortArchitecturalStyle.Start -> getStartDateComparator()
             SortArchitecturalStyle.End -> getEndDateComparator()
-        })
-
-// armor modifiers
-
-fun State.sortArmorModifiers(sort: SortArmorModifier = SortArmorModifier.Name) =
-    sortArmorModifiers(getArmorModifierStorage().getAll(), sort)
-
-fun State.sortArmorModifiers(
-    weapons: Collection<ArmorModifier>,
-    sort: SortArmorModifier = SortArmorModifier.Name,
-) = weapons
-    .sortedWith(
-        when (sort) {
-            SortArmorModifier.Name -> compareBy { it.name.text }
-            SortArmorModifier.Equipment -> compareByDescending { getArmors(it.id).size }
         })
 
 // armor types
@@ -448,6 +430,21 @@ fun State.sortEquipmentList(
             SortEquipment.Name -> compareBy { it.name.text }
         })
 
+// equipment modifiers
+
+fun State.sortEquipmentModifiers(sort: SortArmorModifier = SortArmorModifier.Name) =
+    sortEquipmentModifiers(getEquipmentModifierStorage().getAll(), sort)
+
+fun State.sortEquipmentModifiers(
+    weapons: Collection<EquipmentModifier>,
+    sort: SortArmorModifier = SortArmorModifier.Name,
+) = weapons
+    .sortedWith(
+        when (sort) {
+            SortArmorModifier.Name -> compareBy { it.name.text }
+            SortArmorModifier.Equipment -> compareByDescending { getEquipment(it.id).size }
+        })
+
 // fashion
 
 fun State.sortFashions(sort: SortFashion = SortFashion.Name) =
@@ -596,21 +593,6 @@ fun State.sortMaterials(
             SortMaterial.Equipment -> compareByDescending { countEquipment(it.id) }
         }
     )
-
-// melee weapon modifiers
-
-fun State.sortMeleeWeaponModifiers(sort: SortMeleeWeaponModifier = SortMeleeWeaponModifier.Name) =
-    sortMeleeWeaponModifiers(getMeleeWeaponModifierStorage().getAll(), sort)
-
-fun State.sortMeleeWeaponModifiers(
-    weapons: Collection<MeleeWeaponModifier>,
-    sort: SortMeleeWeaponModifier = SortMeleeWeaponModifier.Name,
-) = weapons
-    .sortedWith(
-        when (sort) {
-            SortMeleeWeaponModifier.Name -> compareBy { it.name.text }
-            SortMeleeWeaponModifier.Equipment -> compareByDescending { getMeleeWeapons(it.id).size }
-        })
 
 // melee weapon types
 

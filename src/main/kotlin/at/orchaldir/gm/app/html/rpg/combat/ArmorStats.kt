@@ -9,8 +9,10 @@ import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.rpg.combat.ArmorStats
+import at.orchaldir.gm.core.selector.rpg.getEquipmentModifierEffects
 import io.ktor.http.*
 import io.ktor.server.application.*
+import kotlinx.html.DETAILS
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -25,6 +27,20 @@ fun HtmlBlockTag.showArmorStats(
         optionalFieldLink("Type", call, state, stats.type)
         optionalFieldLink(call, state, mainMaterial)
         fieldIds(call, state, "Modifiers", stats.modifiers)
+        showUpdatedArmorStats(call, state, stats)
+    }
+}
+
+private fun DETAILS.showUpdatedArmorStats(
+    call: ApplicationCall,
+    state: State,
+    stats: ArmorStats,
+) {
+    state.getArmorTypeStorage().getOptional(stats.type)?.let { type ->
+        val effects = state.getEquipmentModifierEffects(stats.modifiers)
+        val updatedProtection = type.protection.apply(effects)
+
+        fieldProtection(call, state, updatedProtection)
     }
 }
 
@@ -47,9 +63,10 @@ fun HtmlBlockTag.editArmorStats(
             state,
             "Modifiers",
             combine(ARMOR, MODIFIER),
-            state.getArmorModifierStorage().getAll(),
+            state.getEquipmentModifierStorage().getAll(),
             stats.modifiers,
         )
+        showUpdatedArmorStats(call, state, stats)
     }
 }
 
@@ -62,6 +79,6 @@ fun parseArmorStats(
     parseElements(
         parameters,
         combine(ARMOR, MODIFIER),
-        ::parseArmorModifierId,
+        ::parseEquipmentModifierId,
     ),
 )

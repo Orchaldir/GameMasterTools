@@ -1,10 +1,7 @@
 package at.orchaldir.gm.app.routes
 
 import at.orchaldir.gm.app.STORE
-import at.orchaldir.gm.app.html.action
-import at.orchaldir.gm.app.html.back
-import at.orchaldir.gm.app.html.formWithPreview
-import at.orchaldir.gm.app.html.simpleHtml
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.editData
 import at.orchaldir.gm.app.html.util.parseData
 import at.orchaldir.gm.app.html.util.showData
@@ -22,6 +19,7 @@ import io.ktor.server.resources.post
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
+import kotlinx.html.h2
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
@@ -44,8 +42,10 @@ fun Application.configureDataRouting() {
         get<DataRoutes> {
             logger.info { "Get data" }
 
+            val state = STORE.getState()
+
             call.respondHtml(HttpStatusCode.OK) {
-                showDataDetails(call)
+                showDataDetails(call, state, state.data)
             }
         }
         get<DataRoutes.Edit> {
@@ -57,7 +57,7 @@ fun Application.configureDataRouting() {
                 editDataDetails(call, state, state.data)
             }
         }
-        post<DataRoutes.Preview> { preview ->
+        post<DataRoutes.Preview> {
             logger.info { "Preview data" }
 
             val state = STORE.getState()
@@ -81,12 +81,18 @@ fun Application.configureDataRouting() {
     }
 }
 
-private fun HTML.showDataDetails(call: ApplicationCall) {
-    val state = STORE.getState()
+private fun HTML.showDataDetails(
+    call: ApplicationCall,
+    state: State,
+    data: Data,
+) {
     val editLink = call.application.href(DataRoutes.Edit())
 
     simpleHtml("Data") {
-        showData(call, state)
+        showData(call, state, data)
+
+        h2 { +"Actions" }
+
         action(editLink, "Edit")
         back("/")
     }
@@ -101,9 +107,11 @@ private fun HTML.editDataDetails(
     val previewLink = call.application.href(DataRoutes.Preview())
     val updateLink = call.application.href(DataRoutes.Update())
 
-    simpleHtml("Edit Data") {
-        formWithPreview(previewLink, updateLink, backLink) {
-            editData(state, data)
+    simpleHtml("Edit Data", true) {
+        mainFrame {
+            formWithPreview(previewLink, updateLink, backLink) {
+                editData(state, data)
+            }
         }
     }
 }

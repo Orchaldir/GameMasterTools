@@ -24,7 +24,7 @@
     "stats": {
      "type": 1,
      "modifiers": [
-      1
+      0
      ]
     }
    }
@@ -65,7 +65,10 @@
      }
     },
     "stats": {
-     "type": 0
+     "type": 0,
+     "modifiers": [
+      2
+     ]
     }
    }
   },
@@ -104,7 +107,10 @@
      "material": 17
     },
     "stats": {
-     "type": 1
+     "type": 1,
+     "modifiers": [
+      2
+     ]
     }
    }
   },

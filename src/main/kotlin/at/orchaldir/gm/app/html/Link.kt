@@ -379,7 +379,6 @@ fun href(
     id: Id<*>,
 ) = when (id) {
     is ArchitecturalStyleId -> call.application.href(ArchitecturalStyleRoutes.Details(id))
-    is ArmorModifierId -> call.application.href(ArmorModifierRoutes.Details(id))
     is ArmorTypeId -> call.application.href(ArmorTypeRoutes.Details(id))
     is ArticleId -> call.application.href(ArticleRoutes.Details(id))
     is BattleId -> call.application.href(BattleRoutes.Details(id))
@@ -399,6 +398,7 @@ fun href(
     is DistrictId -> call.application.href(DistrictRoutes.Details(id))
     is DomainId -> call.application.href(DomainRoutes.Details(id))
     is EquipmentId -> call.application.href(EquipmentRoutes.Details(id))
+    is EquipmentModifierId -> call.application.href(EquipmentModifierRoutes.Details(id))
     is FashionId -> call.application.href(FashionRoutes.Details(id))
     is FontId -> call.application.href(FontRoutes.Details(id))
     is GodId -> call.application.href(GodRoutes.Details(id))
@@ -408,7 +408,6 @@ fun href(
     is LegalCodeId -> call.application.href(LegalCodeRoutes.Details(id))
     is MagicTraditionId -> call.application.href(MagicTraditionRoutes.Details(id))
     is MaterialId -> call.application.href(MaterialRoutes.Details(id))
-    is MeleeWeaponModifierId -> call.application.href(MeleeWeaponModifierRoutes.Details(id))
     is MeleeWeaponTypeId -> call.application.href(MeleeWeaponTypeRoutes.Details(id))
     is MoonId -> call.application.href(MoonRoutes.Details(id))
     is RegionId -> call.application.href(RegionRoutes.Details(id))

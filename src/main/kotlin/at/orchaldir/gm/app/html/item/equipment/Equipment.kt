@@ -40,18 +40,18 @@ fun HtmlBlockTag.showEquipment(
     equipment.data.getShieldStats()?.let {
         showShieldStats(call, state, it, material)
     }
-    showEquipmentData(call, state, equipment)
+    showEquipmentData(call, state, equipment.data)
 }
 
 private fun HtmlBlockTag.showEquipmentData(
     call: ApplicationCall,
     state: State,
-    equipment: Equipment,
+    data: EquipmentData,
 ) {
     showDetails("Appearance", true) {
-        field("Type", equipment.data.getType())
+        field("Type", data.getType())
 
-        when (val data = equipment.data) {
+        when (data) {
             is OneHandedAxe -> showOneHandedAxe(call, state, data)
             is TwoHandedAxe -> showTwoHandedAxe(call, state, data)
             is Belt -> showBelt(call, state, data)
@@ -95,7 +95,7 @@ fun HtmlBlockTag.editEquipment(
     equipment.data.getArmorStats()?.let { editArmorStats(call, state, it) }
     equipment.data.getMeleeWeaponStats()?.let { editMeleeWeaponStats(call, state, it) }
     equipment.data.getShieldStats()?.let { editShieldStats(call, state, it) }
-    editEquipmentData(state, equipment)
+    editEquipmentData(state, equipment.data)
 }
 
 private fun HtmlBlockTag.selectColorSchemes(
@@ -120,17 +120,17 @@ private fun HtmlBlockTag.selectColorSchemes(
 
 private fun HtmlBlockTag.editEquipmentData(
     state: State,
-    equipment: Equipment,
+    data: EquipmentData,
 ) {
     showDetails("Appearance", true) {
         selectValue(
             "Type",
             combine(EQUIPMENT, TYPE),
             EquipmentDataType.entries,
-            equipment.data.getType(),
+            data.getType(),
         )
 
-        when (val data = equipment.data) {
+        when (data) {
             is OneHandedAxe -> editOneHandedAxe(state, data)
             is TwoHandedAxe -> editTwoHandedAxe(state, data)
             is Belt -> editBelt(state, data)

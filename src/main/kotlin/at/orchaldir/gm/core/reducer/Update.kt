@@ -64,7 +64,6 @@ fun reduceUpdateElement(
     element: Element<*>,
 ): Pair<State, List<Action>> = when (element) {
     is ArchitecturalStyle -> updateElement(state, element)
-    is ArmorModifier -> updateElement(state, element)
     is ArmorType -> updateElement(state, element)
     is Article -> updateElement(state, element)
     is Battle -> updateElement(state, element)
@@ -84,6 +83,7 @@ fun reduceUpdateElement(
     is District -> updateElement(state, element)
     is Domain -> updateElement(state, element)
     is Equipment -> updateEquipment(state, element)
+    is EquipmentModifier -> updateElement(state, element)
     is Fashion -> updateFashion(state, element)
     is Font -> updateElement(state, element)
     is God -> updateElement(state, element)
@@ -93,7 +93,6 @@ fun reduceUpdateElement(
     is LegalCode -> updateElement(state, element)
     is MagicTradition -> updateElement(state, element)
     is Material -> updateElement(state, element)
-    is MeleeWeaponModifier -> updateElement(state, element)
     is MeleeWeaponType -> updateElement(state, element)
     is Moon -> updateElement(state, element)
     is NameList -> updateNameList(state, element)

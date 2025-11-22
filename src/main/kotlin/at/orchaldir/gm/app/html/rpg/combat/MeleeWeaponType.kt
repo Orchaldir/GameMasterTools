@@ -18,12 +18,7 @@ fun HtmlBlockTag.showMeleeWeaponType(
     state: State,
     type: MeleeWeaponType,
 ) {
-    showDetails("Attacks", true) {
-        type.attacks.withIndex().forEach { (index, attack) ->
-            showMeleeAttack(call, state, attack, "${index + 1}.Attack")
-        }
-    }
-
+    showMeleeAttackTable(call, state, type.attacks)
     showUsages(call, state, type.id)
 }
 

@@ -9,7 +9,10 @@ import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentIdMap
-import at.orchaldir.gm.core.model.rpg.combat.*
+import at.orchaldir.gm.core.model.rpg.combat.ArmorTypeId
+import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifierId
+import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponTypeId
+import at.orchaldir.gm.core.model.rpg.combat.ShieldTypeId
 import at.orchaldir.gm.core.model.util.render.ColorSchemeId
 import at.orchaldir.gm.core.selector.character.getCharactersWith
 import at.orchaldir.gm.core.selector.culture.getFashions
@@ -91,25 +94,17 @@ fun State.getEquippedWith(scheme: ColorSchemeId) = getCharacterStorage()
 
 // stats
 
-fun State.getArmors(modifier: ArmorModifierId) = getEquipmentStorage()
+fun State.getEquipment(modifier: EquipmentModifierId) = getEquipmentStorage()
     .getAll()
-    .filter { it.data.getArmorStats()?.modifiers?.contains(modifier) ?: false }
+    .filter { it.data.contains(modifier) }
 
 fun State.getArmors(type: ArmorTypeId) = getEquipmentStorage()
     .getAll()
     .filter { it.data.getArmorStats()?.type == type }
 
-fun State.getMeleeWeapons(modifier: MeleeWeaponModifierId) = getEquipmentStorage()
-    .getAll()
-    .filter { it.data.getMeleeWeaponStats()?.modifiers?.contains(modifier) ?: false }
-
 fun State.getMeleeWeapons(type: MeleeWeaponTypeId) = getEquipmentStorage()
     .getAll()
     .filter { it.data.getMeleeWeaponStats()?.type == type }
-
-fun State.getShields(modifier: ArmorModifierId) = getEquipmentStorage()
-    .getAll()
-    .filter { it.data.getShieldStats()?.modifiers?.contains(modifier) ?: false }
 
 fun State.getShields(type: ShieldTypeId) = getEquipmentStorage()
     .getAll()

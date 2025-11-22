@@ -9,9 +9,43 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.combat.MeleeAttack
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.HtmlBlockTag
+import kotlinx.html.*
 
 // show
+
+fun HtmlBlockTag.showMeleeAttackTable(
+    call: ApplicationCall,
+    state: State,
+    attacks: List<MeleeAttack>,
+) {
+    table {
+        caption { +"Attacks" }
+        tr {
+            th { +"Damage" }
+            th { +"Reach" }
+            th { +"Parrying" }
+        }
+        attacks.forEach { attack ->
+            tr {
+                td { displayAttackEffect(call, state, attack.effect) }
+                td { displayReach(attack.reach) }
+                td { displayParrying(attack.parrying) }
+            }
+        }
+    }
+}
+
+fun HtmlBlockTag.showMeleeAttacks(
+    call: ApplicationCall,
+    state: State,
+    attacks: List<MeleeAttack>,
+) {
+    showDetails("Attacks", true) {
+        attacks.withIndex().forEach { (index, attack) ->
+            showMeleeAttack(call, state, attack, "${index + 1}.Attack")
+        }
+    }
+}
 
 fun HtmlBlockTag.showMeleeAttack(
     call: ApplicationCall,

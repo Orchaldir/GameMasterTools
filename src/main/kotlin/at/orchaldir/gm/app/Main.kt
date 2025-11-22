@@ -64,7 +64,7 @@ fun Application.module() {
     configureDataRouting()
     // elements
     configureAbstractBuildingEditorRouting()
-    configureArmorModifierRouting()
+    configureEquipmentModifierRouting()
     configureArmorTypeRouting()
     configureAppearanceRouting()
     configureArchitecturalStyleRouting()
@@ -99,7 +99,6 @@ fun Application.module() {
     configureLegalCodeRouting()
     configureMagicTraditionRouting()
     configureMaterialRouting()
-    configureMeleeWeaponModifierRouting()
     configureMeleeWeaponTypeRouting()
     configureMoonRouting()
     configureNameListRouting()

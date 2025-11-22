@@ -26,6 +26,11 @@ sealed class AttackEffect {
         is Damage -> amount.contains(statistic)
         is UndefinedAttackEffect -> false
     }
+
+    fun apply(effect: ModifyDamage) = when (this) {
+        is Damage -> copy(amount = amount.apply(effect))
+        UndefinedAttackEffect -> this
+    }
 }
 
 @Serializable

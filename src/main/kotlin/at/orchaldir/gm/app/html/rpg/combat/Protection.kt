@@ -61,6 +61,8 @@ fun HtmlBlockTag.editProtection(
     protection: Protection,
     param: String = PROTECTION,
 ) {
+    val rpg = state.data.rpg
+
     showDetails("Protection", true) {
         selectValue(
             "Type",
@@ -70,11 +72,11 @@ fun HtmlBlockTag.editProtection(
         )
 
         when (protection) {
-            is DamageResistance -> selectDR(param, 1, protection.amount)
+            is DamageResistance -> selectDR(protection.amount, param, 1, rpg.maxDamageResistance)
             is DamageResistances -> {
                 var damageTypes = state.sortDamageTypes()
 
-                selectDR(param, 0, protection.amount)
+                selectDR(protection.amount, param, 0, rpg.maxDamageResistance)
                 editMap(
                     "DR for Damage Types",
                     combine(param, DAMAGE),
@@ -88,13 +90,13 @@ fun HtmlBlockTag.editProtection(
                         damageTypes,
                         damageType,
                     )
-                    selectDR(damageTypeParam, 0, dr)
+                    selectDR(protection.amount, damageTypeParam, 0, rpg.maxDamageResistance)
 
                     damageTypes = damageTypes.filter { it.id != damageType }
                 }
             }
 
-            is DefenseBonus -> selectDR(param, 1, protection.bonus)
+            is DefenseBonus -> selectDR(protection.bonus, param, 1, rpg.maxDefenseBonus)
 
             UndefinedProtection -> doNothing()
         }
@@ -102,15 +104,16 @@ fun HtmlBlockTag.editProtection(
 }
 
 private fun HtmlBlockTag.selectDR(
+    dr: Int,
     param: String,
     min: Int,
-    dr: Int,
+    max: Int,
 ) {
     selectInt(
         "DR",
         dr,
         min,
-        100,
+        max,
         1,
         combine(param, NUMBER),
     )

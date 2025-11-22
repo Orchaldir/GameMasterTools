@@ -6,7 +6,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 enum class DamageAmountType {
-    ModifiedBase,
+    StatisticBased,
     SimpleRandom,
 }
 
@@ -15,20 +15,25 @@ sealed class DamageAmount {
 
     fun getType() = when (this) {
         is SimpleRandomDamage -> DamageAmountType.SimpleRandom
-        is ModifiedBaseDamage -> DamageAmountType.ModifiedBase
+        is StatisticBasedDamage -> DamageAmountType.StatisticBased
     }
 
     fun contains(statistic: StatisticId) = when (this) {
         is SimpleRandomDamage -> false
-        is ModifiedBaseDamage -> base == statistic
+        is StatisticBasedDamage -> base == statistic
+    }
+
+    fun apply(effect: ModifyDamage) = when (this) {
+        is StatisticBasedDamage -> copy(modifier = modifier + effect.amount)
+        is SimpleRandomDamage -> SimpleRandomDamage(amount + effect.amount)
     }
 }
 
 @Serializable
-@SerialName("ModifiedBase")
-data class ModifiedBaseDamage(
+@SerialName("StatisticBased")
+data class StatisticBasedDamage(
     val base: StatisticId,
-    val modifier: Int = 0,
+    val modifier: SimpleModifiedDice = SimpleModifiedDice(0, 0),
 ) : DamageAmount()
 
 @Serializable
