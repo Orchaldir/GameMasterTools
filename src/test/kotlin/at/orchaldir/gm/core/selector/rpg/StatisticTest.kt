@@ -11,7 +11,7 @@ import at.orchaldir.gm.core.model.rpg.UniqueCharacterStatblock
 import at.orchaldir.gm.core.model.rpg.combat.Damage
 import at.orchaldir.gm.core.model.rpg.combat.MeleeAttack
 import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponType
-import at.orchaldir.gm.core.model.rpg.combat.ModifiedBaseDamage
+import at.orchaldir.gm.core.model.rpg.combat.StatisticBasedDamage
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
@@ -57,7 +57,7 @@ class StatisticTest {
 
         @Test
         fun `Cannot delete a statistic used by a melee weapon`() {
-            val amount = ModifiedBaseDamage(STATISTIC_ID_0)
+            val amount = StatisticBasedDamage(STATISTIC_ID_0)
             val attack = MeleeAttack(Damage(amount, DAMAGE_TYPE_ID_0))
             val element = MeleeWeaponType(MELEE_WEAPON_TYPE_ID_0, attacks = listOf(attack))
             val newState = state.updateStorage(Storage(element))

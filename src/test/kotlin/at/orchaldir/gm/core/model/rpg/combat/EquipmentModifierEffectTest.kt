@@ -13,8 +13,8 @@ class EquipmentModifierEffectTest {
     inner class ApplyEffectToMeleeAttackTest {
         val simple = SimpleRandomDamage(SimpleModifiedDice(1, 2))
         val simpleAttack = createAttack(simple)
-        val baseDamage = ModifiedBaseDamage(STATISTIC_ID_0, SimpleModifiedDice(1, 2))
-        val baseDamageAttack = createAttack(baseDamage)
+        val based = StatisticBasedDamage(STATISTIC_ID_0, SimpleModifiedDice(1, 2))
+        val basedAttack = createAttack(based)
         val updatedDice = SimpleModifiedDice(11, 22)
 
         @Test
@@ -28,9 +28,9 @@ class EquipmentModifierEffectTest {
         @Test
         fun `Modify Modified Base Damage`() {
             val effect = ModifyDamage(SimpleModifiedDice(10, 20))
-            val updateAttack = createAttack(ModifiedBaseDamage(STATISTIC_ID_0, updatedDice))
+            val updateAttack = createAttack(StatisticBasedDamage(STATISTIC_ID_0, updatedDice))
 
-            assertEquals(effect.modify(baseDamageAttack), updateAttack)
+            assertEquals(effect.modify(basedAttack), updateAttack)
         }
 
         @Test
@@ -38,7 +38,7 @@ class EquipmentModifierEffectTest {
             val effect = ModifyDamageResistance(1)
 
             assertEquals(effect.modify(simpleAttack), simpleAttack)
-            assertEquals(effect.modify(baseDamageAttack), baseDamageAttack)
+            assertEquals(effect.modify(basedAttack), basedAttack)
         }
 
         @Test
@@ -46,7 +46,7 @@ class EquipmentModifierEffectTest {
             val effect = ModifyDefenseBonus(2)
 
             assertEquals(effect.modify(simpleAttack), simpleAttack)
-            assertEquals(effect.modify(baseDamageAttack), baseDamageAttack)
+            assertEquals(effect.modify(basedAttack), basedAttack)
         }
 
         fun createAttack(amount: DamageAmount) = MeleeAttack(Damage(amount, DAMAGE_TYPE_ID_0))

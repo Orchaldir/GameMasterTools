@@ -9,7 +9,7 @@
      "effect": {
       "#type": "Damage",
       "amount": {
-       "#type": "ModifiedBase",
+       "#type": "StatisticBased",
        "base": 15,
        "modifier": {
         "modifier": 2
@@ -34,7 +34,7 @@
      "effect": {
       "#type": "Damage",
       "amount": {
-       "#type": "ModifiedBase",
+       "#type": "StatisticBased",
        "base": 14,
        "modifier": {
         "modifier": -1
@@ -61,7 +61,7 @@
      "effect": {
       "#type": "Damage",
       "amount": {
-       "#type": "ModifiedBase",
+       "#type": "StatisticBased",
        "base": 15
       },
       "damageType": 4
@@ -77,7 +77,7 @@
      "effect": {
       "#type": "Damage",
       "amount": {
-       "#type": "ModifiedBase",
+       "#type": "StatisticBased",
        "base": 14,
        "modifier": {
         "modifier": 1
@@ -102,7 +102,7 @@
      "effect": {
       "#type": "Damage",
       "amount": {
-       "#type": "ModifiedBase",
+       "#type": "StatisticBased",
        "base": 14,
        "modifier": {
         "modifier": 2
@@ -121,7 +121,7 @@
      "effect": {
       "#type": "Damage",
       "amount": {
-       "#type": "ModifiedBase",
+       "#type": "StatisticBased",
        "base": 14,
        "modifier": {
         "modifier": 3

@@ -29,7 +29,7 @@ class MeleeWeaponTypeTest {
 
     @Test
     fun `Cannot use an unknown base damage`() {
-        val attack = MeleeAttack(Damage(ModifiedBaseDamage(UNKNOWN_STATISTIC_ID), DAMAGE_TYPE_ID_0))
+        val attack = MeleeAttack(Damage(StatisticBasedDamage(UNKNOWN_STATISTIC_ID), DAMAGE_TYPE_ID_0))
 
         assertInvalidWeapon(attack, "Requires unknown Statistic 99!")
     }

@@ -14,7 +14,7 @@ import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.combat.DamageAmount
 import at.orchaldir.gm.core.model.rpg.combat.DamageAmountType
-import at.orchaldir.gm.core.model.rpg.combat.ModifiedBaseDamage
+import at.orchaldir.gm.core.model.rpg.combat.StatisticBasedDamage
 import at.orchaldir.gm.core.model.rpg.combat.SimpleRandomDamage
 import at.orchaldir.gm.core.selector.rpg.getBaseDamageValues
 import io.ktor.http.*
@@ -29,7 +29,7 @@ fun HtmlBlockTag.displayDamageAmount(
     amount: DamageAmount,
 ) {
     when (amount) {
-        is ModifiedBaseDamage -> {
+        is StatisticBasedDamage -> {
             val base = state.getStatisticStorage().getOrThrow(amount.base)
 
             link(call, base, base.short())
@@ -56,7 +56,7 @@ fun HtmlBlockTag.editDamageAmount(
         )
 
         when (amount) {
-            is ModifiedBaseDamage -> {
+            is StatisticBasedDamage -> {
                 selectElement(
                     state,
                     "Base Damage",
@@ -80,7 +80,7 @@ fun parseDamageAmount(
     parameters: Parameters,
     param: String,
 ) = when (parse(parameters, combine(param, TYPE), DamageAmountType.SimpleRandom)) {
-    DamageAmountType.ModifiedBase -> ModifiedBaseDamage(
+    DamageAmountType.StatisticBased -> StatisticBasedDamage(
         parseStatisticId(parameters, combine(param, BASE)),
         parseSimpleModifiedDice(parameters, param),
     )
