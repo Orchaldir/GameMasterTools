@@ -1,7 +1,11 @@
 package at.orchaldir.gm.app.html.util.math
 
 import at.orchaldir.gm.app.ITEM
+import at.orchaldir.gm.app.NUMBER
 import at.orchaldir.gm.app.RADIUS
+import at.orchaldir.gm.app.html.field
+import at.orchaldir.gm.app.html.parseInt
+import at.orchaldir.gm.app.html.selectInt
 import at.orchaldir.gm.app.html.showDetails
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.utils.math.CircularArrangement
@@ -18,6 +22,7 @@ fun <T> HtmlBlockTag.showCircularArrangement(
 ) {
     showDetails(label) {
         fieldFactor("Radius", arrangement.radius)
+        field("Number", arrangement.number)
         showItem(arrangement.item)
     }
 }
@@ -38,6 +43,14 @@ fun <T> HtmlBlockTag.editCircularArrangement(
             Factor.fromPercentage(10),
             Factor.fromPercentage(200),
         )
+        selectInt(
+            "Number",
+            arrangement.number,
+            3,
+            32,
+            1,
+            combine(param, NUMBER),
+        )
         editItem(arrangement.item, combine(param, ITEM))
     }
 }
@@ -50,5 +63,6 @@ fun <T> parseCircularArrangement(
     parseItem: (String) -> T,
 ) = CircularArrangement(
     parseItem(combine(param, ITEM)),
+    parseInt(parameters, combine(param, NUMBER), 3),
     parseFactor(parameters, combine(param, RADIUS)),
 )
