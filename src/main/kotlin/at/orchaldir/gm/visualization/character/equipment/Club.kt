@@ -221,11 +221,13 @@ private fun visualizeMorningStar(
 
     visualizeComplexShape(renderer, center, radius, UsingCircularShape(), options)
 
+    val spikeRenderer = state.getLayer(layer, 1)
+
     visualizeCircularArrangement(head.spikes, center, radius, -QUARTER_CIRCLE) { _, position, orientation ->
-        visualizeSpike(state, renderer, head.spikes.item, position, orientation, diameter)
+        visualizeSpike(state, spikeRenderer, head.spikes.item, position, orientation, diameter)
     }
 
-    visualizeTopDownSpike(state, renderer, head.spikes.item, center, diameter * 2)
+    visualizeTopDownSpike(state, spikeRenderer, head.spikes.item, center, diameter * 2)
 }
 
 private fun visualizeWarhammerHead(
