@@ -20,6 +20,7 @@ enum class ClubHeadType {
     Simple,
     SimpleFlanged,
     ComplexFlanged,
+    SpikedMace,
     MorningStar,
     Warhammer,
 }
@@ -32,6 +33,7 @@ sealed interface ClubHead : MadeFromParts {
         is SimpleClubHead -> ClubHeadType.Simple
         is SimpleFlangedHead -> ClubHeadType.SimpleFlanged
         is ComplexFlangedHead -> ClubHeadType.ComplexFlanged
+        is SpikedMaceHead -> ClubHeadType.SpikedMace
         is MorningStarHead -> ClubHeadType.MorningStar
         is WarhammerHead -> ClubHeadType.Warhammer
     }
@@ -41,8 +43,9 @@ sealed interface ClubHead : MadeFromParts {
         is SimpleClubHead -> listOf(part)
         is SimpleFlangedHead -> listOf(part)
         is ComplexFlangedHead -> listOf(part)
-        is MorningStarHead -> listOf(part)
-        is WarhammerHead -> listOf(part)
+        is SpikedMaceHead -> listOf(spike.part)
+        is MorningStarHead -> listOf(part, spikes.item.part)
+        is WarhammerHead -> listOf(part, spike.part)
     }
 
     override fun mainMaterial() = when (this) {
@@ -50,7 +53,8 @@ sealed interface ClubHead : MadeFromParts {
         is SimpleClubHead -> part.material
         is SimpleFlangedHead -> part.material
         is ComplexFlangedHead -> part.material
-        is MorningStarHead -> part.material
+        is SpikedMaceHead -> spike.part.material
+        is MorningStarHead -> spikes.item.part.material
         is WarhammerHead -> part.material
     }
 }
@@ -78,6 +82,13 @@ data class SimpleFlangedHead(
 data class ComplexFlangedHead(
     val shape: RotatedShape,
     val part: ColorSchemeItemPart = ColorSchemeItemPart(),
+) : ClubHead
+
+@Serializable
+@SerialName("SpikedMace")
+data class SpikedMaceHead(
+    val spike: Spike = Spike(FULL, THIRD),
+    val rows: Int,
 ) : ClubHead
 
 @Serializable

@@ -46,12 +46,13 @@ data class ClubConfig(
     }
 
     fun extendShaft(shaftAabb: AABB, head: ClubHead, headSize: Size) = when (head) {
-        is SimpleFlangedHead, is ComplexFlangedHead -> shaftAabb.growBottom(simpleHeight.convert(headSize))
+        is SimpleFlangedHead, is ComplexFlangedHead, is SpikedMaceHead ->
+            shaftAabb.growBottom(simpleHeight.convert(headSize))
         else -> shaftAabb
     }
 
     fun getExtraFixationHeight(head: ClubHead, headSize: Size) = when (head) {
-        is SimpleFlangedHead, is ComplexFlangedHead -> {
+        is SimpleFlangedHead, is ComplexFlangedHead, is SpikedMaceHead -> {
             val extra = simpleHeight.convert(headSize)
             extra / (ONE + extra)
         }
@@ -95,6 +96,7 @@ fun visualizeClubHead(
     is SimpleClubHead -> visualizeSimpleClubHead(state, layer, config, shaftAabb, head, size)
     is SimpleFlangedHead -> visualizeSimpleFlangedHead(state, layer, config, shaftAabb, head, size)
     is ComplexFlangedHead -> visualizeComplexFlangedHead(state, layer, config, shaftAabb, head, size)
+    is SpikedMaceHead -> visualizeSpikedMace(state, layer, config, shaftAabb, head, size)
     is MorningStarHead -> visualizeMorningStar(state, layer, config, shaftAabb, head, size)
     is WarhammerHead -> visualizeWarhammerHead(state, layer, config, shaftAabb, head, size)
 }
@@ -199,6 +201,17 @@ private fun visualizeComplexSideFlanges(
 
     visualizeRotatedShape(renderer, options, rightAABB, head.shape, Side.Right)
     visualizeRotatedShape(renderer, options, leftAABB, head.shape, Side.Left)
+}
+
+private fun visualizeSpikedMace(
+    state: CharacterRenderState,
+    layer: Int,
+    config: ClubConfig,
+    shaftAabb: AABB,
+    head: SpikedMaceHead,
+    size: Size,
+) {
+
 }
 
 private fun visualizeMorningStar(

@@ -1,10 +1,13 @@
 package at.orchaldir.gm.app.html.item.equipment.style
 
 import at.orchaldir.gm.app.AXE
+import at.orchaldir.gm.app.NUMBER
 import at.orchaldir.gm.app.SHAPE
 import at.orchaldir.gm.app.SPIKE
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.math.*
+import at.orchaldir.gm.app.html.parseInt
+import at.orchaldir.gm.app.html.selectInt
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.showDetails
 import at.orchaldir.gm.app.html.util.math.editCircularArrangement
@@ -49,6 +52,11 @@ fun HtmlBlockTag.showClubHead(
                 showColorSchemeItemPart(call, state, head.part, "Head")
             }
 
+            is SpikedMaceHead -> {
+                showSpike(call, state, head.spike)
+                field("Rows", head.rows)
+            }
+
             is MorningStarHead -> {
                 showCircularArrangement("Spikes", head.spikes) {
                     showSpike(call, state, it)
@@ -91,6 +99,19 @@ fun HtmlBlockTag.editClubHead(
                 editColorSchemeItemPart(state, head.part, param, "Head")
             }
 
+            is SpikedMaceHead -> {
+                editSpike(state, head.spike, combine(param, SPIKE))
+                field("Rows", head.rows)
+                selectInt(
+                    "Rows",
+                    head.rows,
+                    2,
+                    10,
+                    1,
+                    combine(param, NUMBER),
+                )
+            }
+
             is MorningStarHead -> {
                 editCircularArrangement("Spikes", head.spikes, combine(param, SPIKE)) { spike, spikeParam ->
                     editSpike(state, spike, spikeParam)
@@ -127,6 +148,11 @@ fun parseClubHead(
     ClubHeadType.ComplexFlanged -> ComplexFlangedHead(
         parseRotatedShape(parameters, combine(param, SHAPE)),
         parseColorSchemeItemPart(parameters, param),
+    )
+
+    ClubHeadType.SpikedMace -> SpikedMaceHead(
+        parseSpike(parameters, combine(param, SPIKE)),
+        parseInt(parameters, combine(param, NUMBER), 3),
     )
 
     ClubHeadType.MorningStar -> MorningStarHead(
