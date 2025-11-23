@@ -2,9 +2,9 @@ package at.orchaldir.gm.core.model.item.equipment.style
 
 import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
 import at.orchaldir.gm.core.model.util.part.MadeFromParts
-import at.orchaldir.gm.utils.math.shape.ComplexShape
-import at.orchaldir.gm.utils.math.shape.RotatedShape
-import at.orchaldir.gm.utils.math.shape.UsingCircularShape
+import at.orchaldir.gm.utils.math.CircularArrangement
+import at.orchaldir.gm.utils.math.FULL
+import at.orchaldir.gm.utils.math.shape.*
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -13,6 +13,9 @@ enum class ClubHeadType {
     Simple,
     SimpleFlanged,
     ComplexFlanged,
+    SpikedMace,
+    MorningStar,
+    Warhammer,
 }
 
 @Serializable
@@ -23,6 +26,9 @@ sealed interface ClubHead : MadeFromParts {
         is SimpleClubHead -> ClubHeadType.Simple
         is SimpleFlangedHead -> ClubHeadType.SimpleFlanged
         is ComplexFlangedHead -> ClubHeadType.ComplexFlanged
+        is SpikedMaceHead -> ClubHeadType.SpikedMace
+        is MorningStarHead -> ClubHeadType.MorningStar
+        is WarhammerHead -> ClubHeadType.Warhammer
     }
 
     override fun parts() = when (this) {
@@ -30,6 +36,9 @@ sealed interface ClubHead : MadeFromParts {
         is SimpleClubHead -> listOf(part)
         is SimpleFlangedHead -> listOf(part)
         is ComplexFlangedHead -> listOf(part)
+        is SpikedMaceHead -> listOf(spike.part)
+        is MorningStarHead -> listOf(part, spikes.item.part)
+        is WarhammerHead -> listOf(part, spike.part)
     }
 
     override fun mainMaterial() = when (this) {
@@ -37,6 +46,9 @@ sealed interface ClubHead : MadeFromParts {
         is SimpleClubHead -> part.material
         is SimpleFlangedHead -> part.material
         is ComplexFlangedHead -> part.material
+        is SpikedMaceHead -> spike.part.material
+        is MorningStarHead -> spikes.item.part.material
+        is WarhammerHead -> part.material
     }
 }
 
@@ -62,5 +74,27 @@ data class SimpleFlangedHead(
 @SerialName("ComplexFlanged")
 data class ComplexFlangedHead(
     val shape: RotatedShape,
+    val part: ColorSchemeItemPart = ColorSchemeItemPart(),
+) : ClubHead
+
+@Serializable
+@SerialName("SpikedMace")
+data class SpikedMaceHead(
+    val spike: Spike,
+    val rows: Int,
+) : ClubHead
+
+@Serializable
+@SerialName("MorningStar")
+data class MorningStarHead(
+    val spikes: CircularArrangement<Spike>,
+    val part: ColorSchemeItemPart = ColorSchemeItemPart(),
+) : ClubHead
+
+@Serializable
+@SerialName("Warhammer")
+data class WarhammerHead(
+    val spike: Spike,
+    val shape: ComplexShape = UsingRectangularShape(RectangularShape.Rectangle, FULL),
     val part: ColorSchemeItemPart = ColorSchemeItemPart(),
 ) : ClubHead

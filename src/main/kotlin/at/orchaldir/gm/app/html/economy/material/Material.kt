@@ -4,9 +4,9 @@ import at.orchaldir.gm.app.CATEGORY
 import at.orchaldir.gm.app.COLOR
 import at.orchaldir.gm.app.DENSITY
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.util.fieldWeight
-import at.orchaldir.gm.app.html.util.parseWeight
-import at.orchaldir.gm.app.html.util.selectWeight
+import at.orchaldir.gm.app.html.util.math.fieldWeight
+import at.orchaldir.gm.app.html.util.math.parseWeight
+import at.orchaldir.gm.app.html.util.math.selectWeight
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.Material

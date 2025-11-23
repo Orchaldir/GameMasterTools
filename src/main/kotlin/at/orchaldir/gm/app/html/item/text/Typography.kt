@@ -5,8 +5,8 @@ import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.showDetails
 import at.orchaldir.gm.app.html.util.font.editFontOption
 import at.orchaldir.gm.app.html.util.font.parseFontOption
-import at.orchaldir.gm.app.html.util.parseDistance
-import at.orchaldir.gm.app.html.util.selectDistance
+import at.orchaldir.gm.app.html.util.math.parseDistance
+import at.orchaldir.gm.app.html.util.math.selectDistance
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State

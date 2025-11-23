@@ -13,7 +13,7 @@ import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTableWithoutColorScheme
 import at.orchaldir.gm.utils.Storage
-import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.shape.CircularShape.Circle
 import at.orchaldir.gm.utils.math.shape.RectangularShape.*
 import at.orchaldir.gm.utils.math.shape.RotatedShape
@@ -21,6 +21,7 @@ import at.orchaldir.gm.utils.math.shape.UsingCircularShape
 import at.orchaldir.gm.utils.math.shape.UsingRectangularShape
 
 fun main() {
+    val ironId = MaterialId(1)
     val width = Factor.fromPercentage(100)
     val wide = Factor.fromPercentage(120)
     val rotatedShape = RotatedShape(
@@ -30,6 +31,8 @@ fun main() {
             Pair(60, 40),
         )
     )
+    val bigSpike = Spike(FULL, THIRD, ColorSchemeItemPart(ironId))
+    val smallSpike = Spike(HALF, THIRD, ColorSchemeItemPart(ironId))
     val heads = listOf(
         Pair("Baton", NoClubHead),
         Pair("Hammer", SimpleClubHead(UsingRectangularShape(Rectangle, width))),
@@ -37,8 +40,11 @@ fun main() {
         Pair("Rounded Mace", SimpleClubHead(UsingCircularShape(Circle))),
         Pair("Simple Flanged Mace", SimpleFlangedHead(UsingRectangularShape(ReverseTeardrop, wide))),
         Pair("Complex Flanged Mace", ComplexFlangedHead(rotatedShape)),
+        Pair("Spiked Mace", SpikedMaceHead(spike = smallSpike, 3)),
+        Pair("Morning Star", MorningStarHead(CircularArrangement(smallSpike, 9))),
+        Pair("Warhammer", WarhammerHead(spike = bigSpike)),
     ).toMutableList()
-    val iron = Material(MaterialId(1), color = Color.Gray)
+    val iron = Material(ironId, color = Color.Gray)
     val gilded = Material(MaterialId(0), color = Color.Gold)
 
     renderCharacterTableWithoutColorScheme(
@@ -51,7 +57,7 @@ fun main() {
         val fixation = if (head is NoClubHead) {
             NoHeadFixation
         } else {
-            SocketedHeadHead(part = ColorSchemeItemPart(MaterialId(1)))
+            SocketedHeadHead(part = ColorSchemeItemPart(ironId))
         }
         val polearm = OneHandedClub(
             head,

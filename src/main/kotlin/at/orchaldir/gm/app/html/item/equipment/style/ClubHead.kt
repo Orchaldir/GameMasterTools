@@ -1,11 +1,14 @@
 package at.orchaldir.gm.app.html.item.equipment.style
 
 import at.orchaldir.gm.app.AXE
+import at.orchaldir.gm.app.NUMBER
 import at.orchaldir.gm.app.SHAPE
-import at.orchaldir.gm.app.html.field
+import at.orchaldir.gm.app.SPIKE
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.math.*
-import at.orchaldir.gm.app.html.selectValue
-import at.orchaldir.gm.app.html.showDetails
+import at.orchaldir.gm.app.html.util.math.editCircularArrangement
+import at.orchaldir.gm.app.html.util.math.parseCircularArrangement
+import at.orchaldir.gm.app.html.util.math.showCircularArrangement
 import at.orchaldir.gm.app.html.util.part.editColorSchemeItemPart
 import at.orchaldir.gm.app.html.util.part.parseColorSchemeItemPart
 import at.orchaldir.gm.app.html.util.part.showColorSchemeItemPart
@@ -44,6 +47,24 @@ fun HtmlBlockTag.showClubHead(
                 showRotatedShape(head.shape)
                 showColorSchemeItemPart(call, state, head.part, "Head")
             }
+
+            is SpikedMaceHead -> {
+                showSpike(call, state, head.spike)
+                field("Rows", head.rows)
+            }
+
+            is MorningStarHead -> {
+                showCircularArrangement("Spikes", head.spikes) {
+                    showSpike(call, state, it)
+                }
+                showColorSchemeItemPart(call, state, head.part, "Head")
+            }
+
+            is WarhammerHead -> {
+                showComplexShape(head.shape)
+                showSpike(call, state, head.spike)
+                showColorSchemeItemPart(call, state, head.part, "Head")
+            }
         }
     }
 }
@@ -73,6 +94,32 @@ fun HtmlBlockTag.editClubHead(
                 editRotatedShape(head.shape, combine(param, SHAPE))
                 editColorSchemeItemPart(state, head.part, param, "Head")
             }
+
+            is SpikedMaceHead -> {
+                editSpike(state, head.spike, combine(param, SPIKE))
+                field("Rows", head.rows)
+                selectInt(
+                    "Rows",
+                    head.rows,
+                    2,
+                    10,
+                    1,
+                    combine(param, NUMBER),
+                )
+            }
+
+            is MorningStarHead -> {
+                editCircularArrangement("Spikes", head.spikes, combine(param, SPIKE)) { spike, spikeParam ->
+                    editSpike(state, spike, spikeParam)
+                }
+                editColorSchemeItemPart(state, head.part, param, "Head")
+            }
+
+            is WarhammerHead -> {
+                selectComplexShape(head.shape, combine(param, SHAPE))
+                editSpike(state, head.spike, combine(param, SPIKE))
+                editColorSchemeItemPart(state, head.part, param, "Head")
+            }
         }
     }
 }
@@ -96,6 +143,24 @@ fun parseClubHead(
 
     ClubHeadType.ComplexFlanged -> ComplexFlangedHead(
         parseRotatedShape(parameters, combine(param, SHAPE)),
+        parseColorSchemeItemPart(parameters, param),
+    )
+
+    ClubHeadType.SpikedMace -> SpikedMaceHead(
+        parseSpike(parameters, combine(param, SPIKE)),
+        parseInt(parameters, combine(param, NUMBER), 3),
+    )
+
+    ClubHeadType.MorningStar -> MorningStarHead(
+        parseCircularArrangement(parameters, combine(param, SPIKE), 7) {
+            parseSpike(parameters, it)
+        },
+        parseColorSchemeItemPart(parameters, param),
+    )
+
+    ClubHeadType.Warhammer -> WarhammerHead(
+        parseSpike(parameters, combine(param, SPIKE)),
+        parseComplexShape(parameters, combine(param, SHAPE)),
         parseColorSchemeItemPart(parameters, param),
     )
 }

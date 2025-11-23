@@ -1,4 +1,4 @@
-package at.orchaldir.gm.app.html.util
+package at.orchaldir.gm.app.html.util.math
 
 import at.orchaldir.gm.app.HEIGHT
 import at.orchaldir.gm.app.WIDTH

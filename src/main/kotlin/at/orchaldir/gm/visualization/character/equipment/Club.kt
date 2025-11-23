@@ -8,10 +8,17 @@ import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.SizeConfig
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
+import at.orchaldir.gm.utils.math.shape.UsingCircularShape
+import at.orchaldir.gm.utils.math.unit.HALF_CIRCLE
+import at.orchaldir.gm.utils.math.unit.QUARTER_CIRCLE
+import at.orchaldir.gm.utils.math.unit.ZERO_ORIENTATION
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.HELD_EQUIPMENT_LAYER
 import at.orchaldir.gm.visualization.character.equipment.part.visualizeHeadFixation
+import at.orchaldir.gm.visualization.character.equipment.part.visualizeSpike
+import at.orchaldir.gm.visualization.character.equipment.part.visualizeTopDownSpike
+import at.orchaldir.gm.visualization.utils.visualizeCircularArrangement
 import at.orchaldir.gm.visualization.utils.visualizeComplexShape
 import at.orchaldir.gm.visualization.utils.visualizeRotatedShape
 
@@ -41,12 +48,14 @@ data class ClubConfig(
     }
 
     fun extendShaft(shaftAabb: AABB, head: ClubHead, headSize: Size) = when (head) {
-        is SimpleFlangedHead, is ComplexFlangedHead -> shaftAabb.growBottom(simpleHeight.convert(headSize))
+        is SimpleFlangedHead, is ComplexFlangedHead, is SpikedMaceHead ->
+            shaftAabb.growBottom(simpleHeight.convert(headSize))
+
         else -> shaftAabb
     }
 
     fun getExtraFixationHeight(head: ClubHead, headSize: Size) = when (head) {
-        is SimpleFlangedHead, is ComplexFlangedHead -> {
+        is SimpleFlangedHead, is ComplexFlangedHead, is SpikedMaceHead -> {
             val extra = simpleHeight.convert(headSize)
             extra / (ONE + extra)
         }
@@ -90,6 +99,9 @@ fun visualizeClubHead(
     is SimpleClubHead -> visualizeSimpleClubHead(state, layer, config, shaftAabb, head, size)
     is SimpleFlangedHead -> visualizeSimpleFlangedHead(state, layer, config, shaftAabb, head, size)
     is ComplexFlangedHead -> visualizeComplexFlangedHead(state, layer, config, shaftAabb, head, size)
+    is SpikedMaceHead -> visualizeSpikedMace(state, layer, config, shaftAabb, head, size)
+    is MorningStarHead -> visualizeMorningStar(state, layer, config, shaftAabb, head, size)
+    is WarhammerHead -> visualizeWarhammerHead(state, layer, config, shaftAabb, head, size)
 }
 
 private fun visualizeSimpleClubHead(
@@ -105,7 +117,7 @@ private fun visualizeSimpleClubHead(
     val radius = shaftAabb.convertHeight(radiusFactor)
     val center = shaftAabb.getPoint(CENTER, -radiusFactor)
 
-    val color = head.part.getColor(state.state, state.colors)
+    val color = state.getColor(head.part)
     val options = state.config.getLineOptions(color)
 
     visualizeComplexShape(renderer, center, radius, head.shape, options)
@@ -119,7 +131,7 @@ private fun visualizeSimpleFlangedHead(
     head: SimpleFlangedHead,
     size: Size,
 ) {
-    val color = head.part.getColor(state.state, state.colors)
+    val color = state.getColor(head.part)
     val options = state.config.getLineOptions(color)
 
     visualizeSimpleSideFlanges(state, options, layer, config, shaftAabb, head, size)
@@ -168,7 +180,7 @@ private fun visualizeComplexFlangedHead(
     head: ComplexFlangedHead,
     size: Size,
 ) {
-    val color = head.part.getColor(state.state, state.colors)
+    val color = state.getColor(head.part)
     val options = state.config.getLineOptions(color)
 
     visualizeComplexSideFlanges(state, options, layer, config, shaftAabb, head, size)
@@ -192,4 +204,79 @@ private fun visualizeComplexSideFlanges(
 
     visualizeRotatedShape(renderer, options, rightAABB, head.shape, Side.Right)
     visualizeRotatedShape(renderer, options, leftAABB, head.shape, Side.Left)
+}
+
+private fun visualizeSpikedMace(
+    state: CharacterRenderState,
+    layer: Int,
+    config: ClubConfig,
+    shaftAabb: AABB,
+    head: SpikedMaceHead,
+    size: Size,
+) {
+    val renderer = state.getLayer(layer)
+    val diameterFactor = config.simpleHeight.convert(size)
+    val diameter = shaftAabb.convertHeight(diameterFactor)
+    val half = shaftAabb.size.width / 2
+    val start = shaftAabb.getPoint(CENTER, -diameterFactor)
+    val end = shaftAabb.getPoint(CENTER, START)
+    val splitter = SegmentSplitter.fromStartAndEnd(start, end, head.rows)
+
+    splitter.getCenters().forEach { center ->
+        visualizeSpike(state, renderer, head.spike, center.addWidth(half), ZERO_ORIENTATION, diameter)
+        visualizeSpike(state, renderer, head.spike, center.minusWidth(half), HALF_CIRCLE, diameter)
+    }
+}
+
+private fun visualizeMorningStar(
+    state: CharacterRenderState,
+    layer: Int,
+    config: ClubConfig,
+    shaftAabb: AABB,
+    head: MorningStarHead,
+    size: Size,
+) {
+    val renderer = state.getLayer(layer)
+    val diameterFactor = config.simpleHeight.convert(size)
+    val radiusFactor = diameterFactor / 2
+    val diameter = shaftAabb.convertHeight(diameterFactor)
+    val radius = diameter / 2
+    val center = shaftAabb.getPoint(CENTER, -radiusFactor)
+
+    val color = state.getColor(head.part)
+    val options = state.config.getLineOptions(color)
+
+    visualizeComplexShape(renderer, center, radius, UsingCircularShape(), options)
+
+    val spikeRenderer = state.getLayer(layer, 1)
+
+    visualizeCircularArrangement(head.spikes, center, radius, -QUARTER_CIRCLE) { _, position, orientation ->
+        visualizeSpike(state, spikeRenderer, head.spikes.item, position, orientation, diameter)
+    }
+
+    visualizeTopDownSpike(state, spikeRenderer, head.spikes.item, center, diameter * 2)
+}
+
+private fun visualizeWarhammerHead(
+    state: CharacterRenderState,
+    layer: Int,
+    config: ClubConfig,
+    shaftAabb: AABB,
+    head: WarhammerHead,
+    size: Size,
+) {
+    val renderer = state.getLayer(layer)
+    val diameterFactor = config.simpleHeight.convert(size)
+    val radiusFactor = diameterFactor / 2
+    val diameter = shaftAabb.convertHeight(diameterFactor)
+    val radius = diameter / 2
+    val center = shaftAabb.getPoint(CENTER, -radiusFactor)
+
+    val color = state.getColor(head.part)
+    val options = state.config.getLineOptions(color)
+
+    visualizeComplexShape(renderer, center, radius, head.shape, options)
+
+    val start = shaftAabb.getPoint(CENTER, -diameterFactor)
+    visualizeSpike(state, renderer, head.spike, start, -QUARTER_CIRCLE, diameter)
 }

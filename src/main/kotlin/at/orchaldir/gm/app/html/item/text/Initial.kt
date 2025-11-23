@@ -7,12 +7,12 @@ import at.orchaldir.gm.app.SIZE
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.showDetails
-import at.orchaldir.gm.app.html.util.fieldFactor
 import at.orchaldir.gm.app.html.util.font.editFontOption
 import at.orchaldir.gm.app.html.util.font.parseFontOption
 import at.orchaldir.gm.app.html.util.font.showFontOption
-import at.orchaldir.gm.app.html.util.parseFactor
-import at.orchaldir.gm.app.html.util.selectFactor
+import at.orchaldir.gm.app.html.util.math.fieldFactor
+import at.orchaldir.gm.app.html.util.math.parseFactor
+import at.orchaldir.gm.app.html.util.math.selectFactor
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State

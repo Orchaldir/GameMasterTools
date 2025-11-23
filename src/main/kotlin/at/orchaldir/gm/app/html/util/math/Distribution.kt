@@ -1,4 +1,4 @@
-package at.orchaldir.gm.app.html.util
+package at.orchaldir.gm.app.html.util.math
 
 import at.orchaldir.gm.app.CENTER
 import at.orchaldir.gm.app.OFFSET

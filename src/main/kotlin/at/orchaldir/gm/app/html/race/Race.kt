@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.html.race
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.*
+import at.orchaldir.gm.app.html.util.math.*
 import at.orchaldir.gm.app.html.util.population.showPopulation
 import at.orchaldir.gm.app.html.util.source.editDataSources
 import at.orchaldir.gm.app.html.util.source.parseDataSources
