@@ -156,15 +156,15 @@ fun parseClubHead(
     )
 
     ClubHeadType.MorningStar -> MorningStarHead(
-        parseCircularArrangement(parameters, combine(param, SPIKE)) {
+        parseCircularArrangement(parameters, combine(param, SPIKE), 7) {
             parseSpike(parameters, it)
         },
         parseColorSchemeItemPart(parameters, param),
     )
 
     ClubHeadType.Warhammer -> WarhammerHead(
-        parseComplexShape(parameters, combine(param, SHAPE)),
         parseSpike(parameters, combine(param, SPIKE)),
+        parseComplexShape(parameters, combine(param, SHAPE)),
         parseColorSchemeItemPart(parameters, param),
     )
 }

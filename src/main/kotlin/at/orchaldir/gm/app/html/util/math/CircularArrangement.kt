@@ -60,9 +60,10 @@ fun <T> HtmlBlockTag.editCircularArrangement(
 fun <T> parseCircularArrangement(
     parameters: Parameters,
     param: String,
+    defaultNumber: Int,
     parseItem: (String) -> T,
 ) = CircularArrangement(
     parseItem(combine(param, ITEM)),
-    parseInt(parameters, combine(param, NUMBER), 3),
+    parseInt(parameters, combine(param, NUMBER), defaultNumber),
     parseFactor(parameters, combine(param, RADIUS)),
 )

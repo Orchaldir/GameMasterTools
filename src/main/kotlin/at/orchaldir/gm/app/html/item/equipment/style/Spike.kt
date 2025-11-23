@@ -12,7 +12,11 @@ import at.orchaldir.gm.app.html.util.math.selectFactor
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.style.Spike
+import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
+import at.orchaldir.gm.utils.math.HALF
+import at.orchaldir.gm.utils.math.THIRD
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -43,15 +47,15 @@ fun HtmlBlockTag.editSpike(
             "Length",
             combine(param, LENGTH),
             spike.length,
-            Factor.fromPercentage(10),
-            Factor.fromPercentage(200),
+            fromPercentage(10),
+            fromPercentage(200),
         )
         selectFactor(
             "Width",
             combine(param, WIDTH),
             spike.width,
-            Factor.fromPercentage(10),
-            Factor.fromPercentage(50),
+            fromPercentage(10),
+            fromPercentage(50),
         )
         editColorSchemeItemPart(state, spike.part, param, "Part")
     }
@@ -62,8 +66,9 @@ fun HtmlBlockTag.editSpike(
 fun parseSpike(
     parameters: Parameters,
     param: String,
+    defaultLength: Factor = HALF,
 ) = Spike(
-    parseFactor(parameters, combine(param, LENGTH)),
-    parseFactor(parameters, combine(param, WIDTH)),
+    parseFactor(parameters, combine(param, LENGTH), defaultLength),
+    parseFactor(parameters, combine(param, WIDTH), THIRD),
     parseColorSchemeItemPart(parameters, param),
 )

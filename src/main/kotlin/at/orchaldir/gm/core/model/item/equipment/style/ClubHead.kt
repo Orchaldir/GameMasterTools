@@ -87,7 +87,7 @@ data class ComplexFlangedHead(
 @Serializable
 @SerialName("SpikedMace")
 data class SpikedMaceHead(
-    val spike: Spike = Spike(FULL, THIRD),
+    val spike: Spike,
     val rows: Int,
 ) : ClubHead
 
@@ -101,7 +101,7 @@ data class MorningStarHead(
 @Serializable
 @SerialName("Warhammer")
 data class WarhammerHead(
+    val spike: Spike,
     val shape: ComplexShape = UsingRectangularShape(RectangularShape.Rectangle, FULL),
-    val spike: Spike = Spike(FULL, THIRD),
     val part: ColorSchemeItemPart = ColorSchemeItemPart(),
 ) : ClubHead
