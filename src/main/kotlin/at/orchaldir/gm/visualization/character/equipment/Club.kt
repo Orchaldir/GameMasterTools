@@ -9,10 +9,12 @@ import at.orchaldir.gm.core.model.util.SizeConfig
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.shape.UsingCircularShape
+import at.orchaldir.gm.utils.math.unit.QUARTER_CIRCLE
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.HELD_EQUIPMENT_LAYER
 import at.orchaldir.gm.visualization.character.equipment.part.visualizeHeadFixation
+import at.orchaldir.gm.visualization.character.equipment.part.visualizeSpike
 import at.orchaldir.gm.visualization.utils.visualizeComplexShape
 import at.orchaldir.gm.visualization.utils.visualizeRotatedShape
 
@@ -108,7 +110,7 @@ private fun visualizeSimpleClubHead(
     val radius = shaftAabb.convertHeight(radiusFactor)
     val center = shaftAabb.getPoint(CENTER, -radiusFactor)
 
-    val color = head.part.getColor(state.state, state.colors)
+    val color = state.getColor(head.part)
     val options = state.config.getLineOptions(color)
 
     visualizeComplexShape(renderer, center, radius, head.shape, options)
@@ -122,7 +124,7 @@ private fun visualizeSimpleFlangedHead(
     head: SimpleFlangedHead,
     size: Size,
 ) {
-    val color = head.part.getColor(state.state, state.colors)
+    val color = state.getColor(head.part)
     val options = state.config.getLineOptions(color)
 
     visualizeSimpleSideFlanges(state, options, layer, config, shaftAabb, head, size)
@@ -171,7 +173,7 @@ private fun visualizeComplexFlangedHead(
     head: ComplexFlangedHead,
     size: Size,
 ) {
-    val color = head.part.getColor(state.state, state.colors)
+    val color = state.getColor(head.part)
     val options = state.config.getLineOptions(color)
 
     visualizeComplexSideFlanges(state, options, layer, config, shaftAabb, head, size)
@@ -210,7 +212,7 @@ private fun visualizeMorningStar(
     val radius = shaftAabb.convertHeight(radiusFactor)
     val center = shaftAabb.getPoint(CENTER, -radiusFactor)
 
-    val color = head.part.getColor(state.state, state.colors)
+    val color = state.getColor(head.part)
     val options = state.config.getLineOptions(color)
 
     visualizeComplexShape(renderer, center, radius, UsingCircularShape(), options)
@@ -225,12 +227,17 @@ private fun visualizeWarhammerHead(
     size: Size,
 ) {
     val renderer = state.getLayer(layer)
-    val radiusFactor = config.simpleHeight.convert(size) / 2
-    val radius = shaftAabb.convertHeight(radiusFactor)
+    val diameterFactor = config.simpleHeight.convert(size)
+    val radiusFactor = diameterFactor / 2
+    val diameter = shaftAabb.convertHeight(diameterFactor)
+    val radius = diameter / 2
     val center = shaftAabb.getPoint(CENTER, -radiusFactor)
 
-    val color = head.part.getColor(state.state, state.colors)
+    val color = state.getColor(head.part)
     val options = state.config.getLineOptions(color)
 
     visualizeComplexShape(renderer, center, radius, head.shape, options)
+
+    val start = shaftAabb.getPoint(CENTER, -diameterFactor)
+    visualizeSpike(state, renderer, head.spike, start, -QUARTER_CIRCLE, diameter)
 }

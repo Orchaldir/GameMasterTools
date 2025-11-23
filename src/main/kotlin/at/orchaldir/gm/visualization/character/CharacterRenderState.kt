@@ -3,6 +3,8 @@ package at.orchaldir.gm.visualization.character
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.BodySlot
 import at.orchaldir.gm.core.model.item.equipment.EquipmentElementMap
+import at.orchaldir.gm.core.model.util.part.ColorItemPart
+import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
 import at.orchaldir.gm.core.model.util.render.Colors
 import at.orchaldir.gm.core.model.util.render.UndefinedColors
 import at.orchaldir.gm.utils.math.AABB
@@ -25,6 +27,8 @@ data class CharacterRenderState(
     override fun state() = state
     override fun renderer() = renderer
     override fun lineOptions() = config.line
+
+    fun getColor(part: ColorSchemeItemPart) = part.getColor(state, colors)
 
     fun getBeardLayer() = getLayer(ABOVE_EQUIPMENT_LAYER)
     fun getTailLayer() = getLayer(-ABOVE_EQUIPMENT_LAYER)
