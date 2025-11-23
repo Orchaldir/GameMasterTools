@@ -12,6 +12,7 @@ import at.orchaldir.gm.app.html.rpg.editCharacterStatblock
 import at.orchaldir.gm.app.html.rpg.parseCharacterStatblock
 import at.orchaldir.gm.app.html.rpg.showCharacterStatblock
 import at.orchaldir.gm.app.html.util.*
+import at.orchaldir.gm.app.html.util.math.fieldDistance
 import at.orchaldir.gm.app.html.util.source.editDataSources
 import at.orchaldir.gm.app.html.util.source.parseDataSources
 import at.orchaldir.gm.app.html.util.source.showDataSources

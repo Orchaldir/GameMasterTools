@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.model.item.equipment.style
 
 import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
 import at.orchaldir.gm.core.model.util.part.MadeFromParts
+import at.orchaldir.gm.utils.math.CircularArrangement
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.HALF
 import at.orchaldir.gm.utils.math.QUARTER
@@ -82,6 +83,7 @@ data class ComplexFlangedHead(
 @Serializable
 @SerialName("MorningStar")
 data class MorningStarHead(
+    val spikes: CircularArrangement<Spike>,
     val part: ColorSchemeItemPart = ColorSchemeItemPart(),
 ) : ClubHead
 

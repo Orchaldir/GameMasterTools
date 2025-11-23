@@ -4,9 +4,9 @@ import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.rpg.combat.*
 import at.orchaldir.gm.app.html.util.color.parseColorSchemeId
-import at.orchaldir.gm.app.html.util.fieldWeight
-import at.orchaldir.gm.app.html.util.parseWeight
-import at.orchaldir.gm.app.html.util.selectWeight
+import at.orchaldir.gm.app.html.util.math.fieldWeight
+import at.orchaldir.gm.app.html.util.math.parseWeight
+import at.orchaldir.gm.app.html.util.math.selectWeight
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseElements

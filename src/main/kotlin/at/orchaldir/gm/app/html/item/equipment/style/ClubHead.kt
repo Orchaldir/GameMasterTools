@@ -7,6 +7,9 @@ import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.math.*
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.showDetails
+import at.orchaldir.gm.app.html.util.math.editCircularArrangement
+import at.orchaldir.gm.app.html.util.math.parseCircularArrangement
+import at.orchaldir.gm.app.html.util.math.showCircularArrangement
 import at.orchaldir.gm.app.html.util.part.editColorSchemeItemPart
 import at.orchaldir.gm.app.html.util.part.parseColorSchemeItemPart
 import at.orchaldir.gm.app.html.util.part.showColorSchemeItemPart
@@ -47,6 +50,9 @@ fun HtmlBlockTag.showClubHead(
             }
 
             is MorningStarHead -> {
+                showCircularArrangement("Spikes", head.spikes) {
+                    showSpike(call, state, it)
+                }
                 showColorSchemeItemPart(call, state, head.part, "Head")
             }
 
@@ -86,6 +92,9 @@ fun HtmlBlockTag.editClubHead(
             }
 
             is MorningStarHead -> {
+                editCircularArrangement("Spikes", head.spikes, combine(param, SPIKE)) { spike, spikeParam ->
+                    editSpike(state, spike, spikeParam)
+                }
                 editColorSchemeItemPart(state, head.part, param, "Head")
             }
 
@@ -121,6 +130,9 @@ fun parseClubHead(
     )
 
     ClubHeadType.MorningStar -> MorningStarHead(
+        parseCircularArrangement(parameters, combine(param, SPIKE)) {
+            parseSpike(parameters, it)
+        },
         parseColorSchemeItemPart(parameters, param),
     )
 

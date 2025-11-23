@@ -13,9 +13,11 @@ import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTableWithoutColorScheme
 import at.orchaldir.gm.utils.Storage
+import at.orchaldir.gm.utils.math.CircularArrangement
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.THIRD
+import at.orchaldir.gm.utils.math.HALF
 import at.orchaldir.gm.utils.math.shape.CircularShape.Circle
 import at.orchaldir.gm.utils.math.shape.RectangularShape.*
 import at.orchaldir.gm.utils.math.shape.RotatedShape
@@ -33,7 +35,8 @@ fun main() {
             Pair(60, 40),
         )
     )
-    val spike = Spike(FULL, THIRD, ColorSchemeItemPart(ironId))
+    val bigSpike = Spike(FULL, THIRD, ColorSchemeItemPart(ironId))
+    val smallSpike = Spike(HALF, THIRD, ColorSchemeItemPart(ironId))
     val heads = listOf(
         Pair("Baton", NoClubHead),
         Pair("Hammer", SimpleClubHead(UsingRectangularShape(Rectangle, width))),
@@ -41,8 +44,8 @@ fun main() {
         Pair("Rounded Mace", SimpleClubHead(UsingCircularShape(Circle))),
         Pair("Simple Flanged Mace", SimpleFlangedHead(UsingRectangularShape(ReverseTeardrop, wide))),
         Pair("Complex Flanged Mace", ComplexFlangedHead(rotatedShape)),
-        Pair("Morning Star", MorningStarHead()),
-        Pair("Warhammer", WarhammerHead(spike = spike)),
+        Pair("Morning Star", MorningStarHead(CircularArrangement(smallSpike))),
+        Pair("Warhammer", WarhammerHead(spike = bigSpike)),
     ).toMutableList()
     val iron = Material(ironId, color = Color.Gray)
     val gilded = Material(MaterialId(0), color = Color.Gold)

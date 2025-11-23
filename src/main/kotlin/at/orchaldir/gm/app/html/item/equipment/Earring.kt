@@ -5,12 +5,12 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.item.equipment.style.editOrnament
 import at.orchaldir.gm.app.html.item.equipment.style.parseOrnament
 import at.orchaldir.gm.app.html.item.equipment.style.showOrnament
-import at.orchaldir.gm.app.html.util.fieldFactor
-import at.orchaldir.gm.app.html.util.parseFactor
+import at.orchaldir.gm.app.html.util.math.fieldFactor
+import at.orchaldir.gm.app.html.util.math.parseFactor
 import at.orchaldir.gm.app.html.util.part.editColorSchemeItemPart
 import at.orchaldir.gm.app.html.util.part.parseColorSchemeItemPart
 import at.orchaldir.gm.app.html.util.part.showColorSchemeItemPart
-import at.orchaldir.gm.app.html.util.selectFactor
+import at.orchaldir.gm.app.html.util.math.selectFactor
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State

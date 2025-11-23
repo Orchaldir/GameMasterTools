@@ -5,8 +5,8 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.character.appearance.selectCrownLength
 import at.orchaldir.gm.app.html.character.appearance.selectHornLength
 import at.orchaldir.gm.app.html.economy.material.parseMaterialId
-import at.orchaldir.gm.app.html.util.fieldFactor
-import at.orchaldir.gm.app.html.util.parseFactor
+import at.orchaldir.gm.app.html.util.math.fieldFactor
+import at.orchaldir.gm.app.html.util.math.parseFactor
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseOneOf
