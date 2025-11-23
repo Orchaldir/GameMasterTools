@@ -12,7 +12,7 @@ fun <T> visualizeCircularArrangement(
     center: Point2d,
     radius: Distance,
     offset: Orientation = ZERO_ORIENTATION,
-    renderItem: (Int, Point2d, Orientation) -> Unit
+    renderItem: (Int, Point2d, Orientation) -> Unit,
 ) {
     val step = FULL_CIRCLE / arrangement.number
     var orientation = offset

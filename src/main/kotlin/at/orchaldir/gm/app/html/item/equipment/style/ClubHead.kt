@@ -4,12 +4,8 @@ import at.orchaldir.gm.app.AXE
 import at.orchaldir.gm.app.NUMBER
 import at.orchaldir.gm.app.SHAPE
 import at.orchaldir.gm.app.SPIKE
-import at.orchaldir.gm.app.html.field
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.math.*
-import at.orchaldir.gm.app.html.parseInt
-import at.orchaldir.gm.app.html.selectInt
-import at.orchaldir.gm.app.html.selectValue
-import at.orchaldir.gm.app.html.showDetails
 import at.orchaldir.gm.app.html.util.math.editCircularArrangement
 import at.orchaldir.gm.app.html.util.math.parseCircularArrangement
 import at.orchaldir.gm.app.html.util.math.showCircularArrangement

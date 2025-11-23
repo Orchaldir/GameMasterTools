@@ -2,10 +2,10 @@ package at.orchaldir.gm.app.html.item.text
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.util.math.fieldFactor
 import at.orchaldir.gm.app.html.util.font.editFontOption
 import at.orchaldir.gm.app.html.util.font.parseFontOption
 import at.orchaldir.gm.app.html.util.font.showFontOption
+import at.orchaldir.gm.app.html.util.math.fieldFactor
 import at.orchaldir.gm.app.html.util.math.parseFactor
 import at.orchaldir.gm.app.html.util.math.selectFactor
 import at.orchaldir.gm.app.parse.combine

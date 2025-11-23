@@ -50,6 +50,7 @@ data class ClubConfig(
     fun extendShaft(shaftAabb: AABB, head: ClubHead, headSize: Size) = when (head) {
         is SimpleFlangedHead, is ComplexFlangedHead, is SpikedMaceHead ->
             shaftAabb.growBottom(simpleHeight.convert(headSize))
+
         else -> shaftAabb
     }
 

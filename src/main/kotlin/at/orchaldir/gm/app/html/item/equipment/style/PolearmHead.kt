@@ -6,8 +6,8 @@ import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.showDetails
 import at.orchaldir.gm.app.html.util.math.fieldFactor
 import at.orchaldir.gm.app.html.util.math.parseFactor
-import at.orchaldir.gm.app.html.util.part.*
 import at.orchaldir.gm.app.html.util.math.selectFactor
+import at.orchaldir.gm.app.html.util.part.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
