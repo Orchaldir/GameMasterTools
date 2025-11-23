@@ -9,7 +9,9 @@ import at.orchaldir.gm.core.model.util.SizeConfig
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.shape.UsingCircularShape
+import at.orchaldir.gm.utils.math.unit.HALF_CIRCLE
 import at.orchaldir.gm.utils.math.unit.QUARTER_CIRCLE
+import at.orchaldir.gm.utils.math.unit.ZERO_ORIENTATION
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.HELD_EQUIPMENT_LAYER
@@ -211,7 +213,18 @@ private fun visualizeSpikedMace(
     head: SpikedMaceHead,
     size: Size,
 ) {
+    val renderer = state.getLayer(layer)
+    val diameterFactor = config.simpleHeight.convert(size)
+    val diameter = shaftAabb.convertHeight(diameterFactor)
+    val half = shaftAabb.size.width / 2
+    val start = shaftAabb.getPoint(CENTER, -diameterFactor)
+    val end = shaftAabb.getPoint(CENTER, START)
+    val splitter = SegmentSplitter.fromStartAndEnd(start, end, head.rows)
 
+    splitter.getCenters().forEach { center ->
+        visualizeSpike(state, renderer, head.spike, center.addWidth(half), ZERO_ORIENTATION, diameter)
+        visualizeSpike(state, renderer, head.spike, center.minusWidth(half), HALF_CIRCLE, diameter)
+    }
 }
 
 private fun visualizeMorningStar(
