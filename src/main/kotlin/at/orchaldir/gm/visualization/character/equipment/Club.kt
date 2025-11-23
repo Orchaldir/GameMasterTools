@@ -15,6 +15,7 @@ import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.HELD_EQUIPMENT_LAYER
 import at.orchaldir.gm.visualization.character.equipment.part.visualizeHeadFixation
 import at.orchaldir.gm.visualization.character.equipment.part.visualizeSpike
+import at.orchaldir.gm.visualization.utils.visualizeCircularArrangement
 import at.orchaldir.gm.visualization.utils.visualizeComplexShape
 import at.orchaldir.gm.visualization.utils.visualizeRotatedShape
 
@@ -208,14 +209,20 @@ private fun visualizeMorningStar(
     size: Size,
 ) {
     val renderer = state.getLayer(layer)
-    val radiusFactor = config.simpleHeight.convert(size) / 2
-    val radius = shaftAabb.convertHeight(radiusFactor)
+    val diameterFactor = config.simpleHeight.convert(size)
+    val radiusFactor = diameterFactor / 2
+    val diameter = shaftAabb.convertHeight(diameterFactor)
+    val radius = diameter / 2
     val center = shaftAabb.getPoint(CENTER, -radiusFactor)
 
     val color = state.getColor(head.part)
     val options = state.config.getLineOptions(color)
 
     visualizeComplexShape(renderer, center, radius, UsingCircularShape(), options)
+
+    visualizeCircularArrangement(head.spikes, center, radius) { _, position, orientation ->
+        visualizeSpike(state, renderer, head.spikes.item, position, orientation, diameter)
+    }
 }
 
 private fun visualizeWarhammerHead(

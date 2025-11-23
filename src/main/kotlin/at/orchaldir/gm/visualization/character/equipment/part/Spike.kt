@@ -26,7 +26,7 @@ fun visualizeSpike(
     val end = start.createPolar(length, orientation)
     val left = start.createPolar(halfWidth, orientation - QUARTER_CIRCLE)
     val right = start.createPolar(halfWidth, orientation + QUARTER_CIRCLE)
-    val poylgon = Polygon2d(listOf(left, end, right))
+    val polygon = Polygon2d(listOf(left, end, right))
 
-    renderer.renderPolygon(poylgon, options)
+    renderer.renderPolygon(polygon, options)
 }
