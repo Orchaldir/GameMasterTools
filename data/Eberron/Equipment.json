@@ -198,6 +198,36 @@
      }
     }
    }
+  },
+  "7": {
+   "id": 7,
+   "name": "Morning Star",
+   "data": {
+    "#type": "Club1",
+    "head": {
+     "#type": "MorningStar",
+     "spikes": {
+      "item": {
+       "length": 4000,
+       "width": 3000,
+       "part": {
+        "material": 10
+       }
+      },
+      "number": 12
+     },
+     "part": {
+      "material": 10
+     }
+    },
+    "size": "Large",
+    "shaft": {
+     "#type": "Simple",
+     "part": {
+      "material": 17
+     }
+    }
+   }
   }
  }
 }
