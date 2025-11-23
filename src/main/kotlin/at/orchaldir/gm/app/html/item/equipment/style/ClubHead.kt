@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.html.item.equipment.style
 
 import at.orchaldir.gm.app.AXE
 import at.orchaldir.gm.app.SHAPE
+import at.orchaldir.gm.app.SPIKE
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.math.*
 import at.orchaldir.gm.app.html.selectValue
@@ -51,6 +52,7 @@ fun HtmlBlockTag.showClubHead(
 
             is WarhammerHead -> {
                 showComplexShape(head.shape)
+                showSpike(call, state, head.spike)
                 showColorSchemeItemPart(call, state, head.part, "Head")
             }
         }
@@ -89,6 +91,7 @@ fun HtmlBlockTag.editClubHead(
 
             is WarhammerHead -> {
                 selectComplexShape(head.shape, combine(param, SHAPE))
+                editSpike(state, head.spike, combine(param, SPIKE))
                 editColorSchemeItemPart(state, head.part, param, "Head")
             }
         }
@@ -123,6 +126,7 @@ fun parseClubHead(
 
     ClubHeadType.Warhammer -> WarhammerHead(
         parseComplexShape(parameters, combine(param, SHAPE)),
+        parseSpike(parameters, combine(param, SPIKE)),
         parseColorSchemeItemPart(parameters, param),
     )
 }
