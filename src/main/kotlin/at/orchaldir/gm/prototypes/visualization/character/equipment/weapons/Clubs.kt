@@ -37,6 +37,7 @@ fun main() {
         Pair("Rounded Mace", SimpleClubHead(UsingCircularShape(Circle))),
         Pair("Simple Flanged Mace", SimpleFlangedHead(UsingRectangularShape(ReverseTeardrop, wide))),
         Pair("Complex Flanged Mace", ComplexFlangedHead(rotatedShape)),
+        Pair("Morning Star", MorningStar()),
     ).toMutableList()
     val iron = Material(MaterialId(1), color = Color.Gray)
     val gilded = Material(MaterialId(0), color = Color.Gold)

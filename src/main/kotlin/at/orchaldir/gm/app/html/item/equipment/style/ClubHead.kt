@@ -44,6 +44,10 @@ fun HtmlBlockTag.showClubHead(
                 showRotatedShape(head.shape)
                 showColorSchemeItemPart(call, state, head.part, "Head")
             }
+
+            is MorningStar -> {
+                showColorSchemeItemPart(call, state, head.part, "Head")
+            }
         }
     }
 }
@@ -73,6 +77,10 @@ fun HtmlBlockTag.editClubHead(
                 editRotatedShape(head.shape, combine(param, SHAPE))
                 editColorSchemeItemPart(state, head.part, param, "Head")
             }
+
+            is MorningStar -> {
+                editColorSchemeItemPart(state, head.part, param, "Head")
+            }
         }
     }
 }
@@ -96,6 +104,10 @@ fun parseClubHead(
 
     ClubHeadType.ComplexFlanged -> ComplexFlangedHead(
         parseRotatedShape(parameters, combine(param, SHAPE)),
+        parseColorSchemeItemPart(parameters, param),
+    )
+
+    ClubHeadType.MorningStar -> MorningStar(
         parseColorSchemeItemPart(parameters, param),
     )
 }

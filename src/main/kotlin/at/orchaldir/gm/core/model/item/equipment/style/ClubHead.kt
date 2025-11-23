@@ -13,6 +13,7 @@ enum class ClubHeadType {
     Simple,
     SimpleFlanged,
     ComplexFlanged,
+    MorningStar,
 }
 
 @Serializable
@@ -23,6 +24,7 @@ sealed interface ClubHead : MadeFromParts {
         is SimpleClubHead -> ClubHeadType.Simple
         is SimpleFlangedHead -> ClubHeadType.SimpleFlanged
         is ComplexFlangedHead -> ClubHeadType.ComplexFlanged
+        is MorningStar -> ClubHeadType.MorningStar
     }
 
     override fun parts() = when (this) {
@@ -30,6 +32,7 @@ sealed interface ClubHead : MadeFromParts {
         is SimpleClubHead -> listOf(part)
         is SimpleFlangedHead -> listOf(part)
         is ComplexFlangedHead -> listOf(part)
+        is MorningStar -> listOf(part)
     }
 
     override fun mainMaterial() = when (this) {
@@ -37,6 +40,7 @@ sealed interface ClubHead : MadeFromParts {
         is SimpleClubHead -> part.material
         is SimpleFlangedHead -> part.material
         is ComplexFlangedHead -> part.material
+        is MorningStar -> part.material
     }
 }
 
@@ -62,5 +66,11 @@ data class SimpleFlangedHead(
 @SerialName("ComplexFlanged")
 data class ComplexFlangedHead(
     val shape: RotatedShape,
+    val part: ColorSchemeItemPart = ColorSchemeItemPart(),
+) : ClubHead
+
+@Serializable
+@SerialName("MorningStar")
+data class MorningStar(
     val part: ColorSchemeItemPart = ColorSchemeItemPart(),
 ) : ClubHead

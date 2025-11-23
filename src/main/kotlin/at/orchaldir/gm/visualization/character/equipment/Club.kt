@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.SizeConfig
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
+import at.orchaldir.gm.utils.math.shape.UsingCircularShape
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.HELD_EQUIPMENT_LAYER
@@ -90,6 +91,7 @@ fun visualizeClubHead(
     is SimpleClubHead -> visualizeSimpleClubHead(state, layer, config, shaftAabb, head, size)
     is SimpleFlangedHead -> visualizeSimpleFlangedHead(state, layer, config, shaftAabb, head, size)
     is ComplexFlangedHead -> visualizeComplexFlangedHead(state, layer, config, shaftAabb, head, size)
+    is MorningStar -> visualizeMorningStar(state, layer, config, shaftAabb, head, size)
 }
 
 private fun visualizeSimpleClubHead(
@@ -192,4 +194,23 @@ private fun visualizeComplexSideFlanges(
 
     visualizeRotatedShape(renderer, options, rightAABB, head.shape, Side.Right)
     visualizeRotatedShape(renderer, options, leftAABB, head.shape, Side.Left)
+}
+
+private fun visualizeMorningStar(
+    state: CharacterRenderState,
+    layer: Int,
+    config: ClubConfig,
+    shaftAabb: AABB,
+    head: MorningStar,
+    size: Size,
+) {
+    val renderer = state.getLayer(layer)
+    val radiusFactor = config.simpleHeight.convert(size) / 2
+    val radius = shaftAabb.convertHeight(radiusFactor)
+    val center = shaftAabb.getPoint(CENTER, -radiusFactor)
+
+    val color = head.part.getColor(state.state, state.colors)
+    val options = state.config.getLineOptions(color)
+
+    visualizeComplexShape(renderer, center, radius, UsingCircularShape(), options)
 }
