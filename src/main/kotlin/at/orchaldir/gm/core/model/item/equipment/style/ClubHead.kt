@@ -2,9 +2,12 @@ package at.orchaldir.gm.core.model.item.equipment.style
 
 import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
 import at.orchaldir.gm.core.model.util.part.MadeFromParts
+import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.shape.ComplexShape
+import at.orchaldir.gm.utils.math.shape.RectangularShape
 import at.orchaldir.gm.utils.math.shape.RotatedShape
 import at.orchaldir.gm.utils.math.shape.UsingCircularShape
+import at.orchaldir.gm.utils.math.shape.UsingRectangularShape
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -14,6 +17,7 @@ enum class ClubHeadType {
     SimpleFlanged,
     ComplexFlanged,
     MorningStar,
+    Warhammer,
 }
 
 @Serializable
@@ -24,7 +28,8 @@ sealed interface ClubHead : MadeFromParts {
         is SimpleClubHead -> ClubHeadType.Simple
         is SimpleFlangedHead -> ClubHeadType.SimpleFlanged
         is ComplexFlangedHead -> ClubHeadType.ComplexFlanged
-        is MorningStar -> ClubHeadType.MorningStar
+        is MorningStarHead -> ClubHeadType.MorningStar
+        is WarhammerHead -> ClubHeadType.Warhammer
     }
 
     override fun parts() = when (this) {
@@ -32,7 +37,8 @@ sealed interface ClubHead : MadeFromParts {
         is SimpleClubHead -> listOf(part)
         is SimpleFlangedHead -> listOf(part)
         is ComplexFlangedHead -> listOf(part)
-        is MorningStar -> listOf(part)
+        is MorningStarHead -> listOf(part)
+        is WarhammerHead -> listOf(part)
     }
 
     override fun mainMaterial() = when (this) {
@@ -40,7 +46,8 @@ sealed interface ClubHead : MadeFromParts {
         is SimpleClubHead -> part.material
         is SimpleFlangedHead -> part.material
         is ComplexFlangedHead -> part.material
-        is MorningStar -> part.material
+        is MorningStarHead -> part.material
+        is WarhammerHead -> part.material
     }
 }
 
@@ -71,6 +78,13 @@ data class ComplexFlangedHead(
 
 @Serializable
 @SerialName("MorningStar")
-data class MorningStar(
+data class MorningStarHead(
+    val part: ColorSchemeItemPart = ColorSchemeItemPart(),
+) : ClubHead
+
+@Serializable
+@SerialName("Warhammer")
+data class WarhammerHead(
+    val shape: ComplexShape = UsingRectangularShape(RectangularShape.Rectangle, FULL),
     val part: ColorSchemeItemPart = ColorSchemeItemPart(),
 ) : ClubHead

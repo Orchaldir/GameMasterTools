@@ -91,7 +91,8 @@ fun visualizeClubHead(
     is SimpleClubHead -> visualizeSimpleClubHead(state, layer, config, shaftAabb, head, size)
     is SimpleFlangedHead -> visualizeSimpleFlangedHead(state, layer, config, shaftAabb, head, size)
     is ComplexFlangedHead -> visualizeComplexFlangedHead(state, layer, config, shaftAabb, head, size)
-    is MorningStar -> visualizeMorningStar(state, layer, config, shaftAabb, head, size)
+    is MorningStarHead -> visualizeMorningStar(state, layer, config, shaftAabb, head, size)
+    is WarhammerHead -> visualizeWarhammerHead(state, layer, config, shaftAabb, head, size)
 }
 
 private fun visualizeSimpleClubHead(
@@ -201,7 +202,7 @@ private fun visualizeMorningStar(
     layer: Int,
     config: ClubConfig,
     shaftAabb: AABB,
-    head: MorningStar,
+    head: MorningStarHead,
     size: Size,
 ) {
     val renderer = state.getLayer(layer)
@@ -213,4 +214,23 @@ private fun visualizeMorningStar(
     val options = state.config.getLineOptions(color)
 
     visualizeComplexShape(renderer, center, radius, UsingCircularShape(), options)
+}
+
+private fun visualizeWarhammerHead(
+    state: CharacterRenderState,
+    layer: Int,
+    config: ClubConfig,
+    shaftAabb: AABB,
+    head: WarhammerHead,
+    size: Size,
+) {
+    val renderer = state.getLayer(layer)
+    val radiusFactor = config.simpleHeight.convert(size) / 2
+    val radius = shaftAabb.convertHeight(radiusFactor)
+    val center = shaftAabb.getPoint(CENTER, -radiusFactor)
+
+    val color = head.part.getColor(state.state, state.colors)
+    val options = state.config.getLineOptions(color)
+
+    visualizeComplexShape(renderer, center, radius, head.shape, options)
 }

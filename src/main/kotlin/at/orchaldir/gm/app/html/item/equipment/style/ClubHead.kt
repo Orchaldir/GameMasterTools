@@ -45,7 +45,12 @@ fun HtmlBlockTag.showClubHead(
                 showColorSchemeItemPart(call, state, head.part, "Head")
             }
 
-            is MorningStar -> {
+            is MorningStarHead -> {
+                showColorSchemeItemPart(call, state, head.part, "Head")
+            }
+
+            is WarhammerHead -> {
+                showComplexShape(head.shape)
                 showColorSchemeItemPart(call, state, head.part, "Head")
             }
         }
@@ -78,7 +83,12 @@ fun HtmlBlockTag.editClubHead(
                 editColorSchemeItemPart(state, head.part, param, "Head")
             }
 
-            is MorningStar -> {
+            is MorningStarHead -> {
+                editColorSchemeItemPart(state, head.part, param, "Head")
+            }
+
+            is WarhammerHead -> {
+                selectComplexShape(head.shape, combine(param, SHAPE))
                 editColorSchemeItemPart(state, head.part, param, "Head")
             }
         }
@@ -107,7 +117,12 @@ fun parseClubHead(
         parseColorSchemeItemPart(parameters, param),
     )
 
-    ClubHeadType.MorningStar -> MorningStar(
+    ClubHeadType.MorningStar -> MorningStarHead(
+        parseColorSchemeItemPart(parameters, param),
+    )
+
+    ClubHeadType.Warhammer -> WarhammerHead(
+        parseComplexShape(parameters, combine(param, SHAPE)),
         parseColorSchemeItemPart(parameters, param),
     )
 }
