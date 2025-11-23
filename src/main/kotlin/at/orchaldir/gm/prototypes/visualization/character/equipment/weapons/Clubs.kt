@@ -44,7 +44,7 @@ fun main() {
         Pair("Rounded Mace", SimpleClubHead(UsingCircularShape(Circle))),
         Pair("Simple Flanged Mace", SimpleFlangedHead(UsingRectangularShape(ReverseTeardrop, wide))),
         Pair("Complex Flanged Mace", ComplexFlangedHead(rotatedShape)),
-        Pair("Morning Star", MorningStarHead(CircularArrangement(smallSpike, 12))),
+        Pair("Morning Star", MorningStarHead(CircularArrangement(smallSpike, 9))),
         Pair("Warhammer", WarhammerHead(spike = bigSpike)),
     ).toMutableList()
     val iron = Material(ironId, color = Color.Gray)

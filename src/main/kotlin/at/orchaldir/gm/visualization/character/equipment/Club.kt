@@ -15,6 +15,7 @@ import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.HELD_EQUIPMENT_LAYER
 import at.orchaldir.gm.visualization.character.equipment.part.visualizeHeadFixation
 import at.orchaldir.gm.visualization.character.equipment.part.visualizeSpike
+import at.orchaldir.gm.visualization.character.equipment.part.visualizeTopDownSpike
 import at.orchaldir.gm.visualization.utils.visualizeCircularArrangement
 import at.orchaldir.gm.visualization.utils.visualizeComplexShape
 import at.orchaldir.gm.visualization.utils.visualizeRotatedShape
@@ -223,6 +224,8 @@ private fun visualizeMorningStar(
     visualizeCircularArrangement(head.spikes, center, radius, -QUARTER_CIRCLE) { _, position, orientation ->
         visualizeSpike(state, renderer, head.spikes.item, position, orientation, diameter)
     }
+
+    visualizeTopDownSpike(state, renderer, head.spikes.item, center, diameter * 2)
 }
 
 private fun visualizeWarhammerHead(

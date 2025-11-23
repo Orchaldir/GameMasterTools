@@ -30,3 +30,19 @@ fun visualizeSpike(
 
     renderer.renderPolygon(polygon, options)
 }
+
+fun visualizeTopDownSpike(
+    state: CharacterRenderState,
+    renderer: LayerRenderer,
+    spike: Spike,
+    position: Point2d,
+    parentSize: Distance,
+) {
+    val color = state.getColor(spike.part)
+    val options = state.config.getLineOptions(color)
+
+    val length = parentSize * spike.length
+    val halfWidth = length * spike.width * HALF
+
+    renderer.renderCircle(position, halfWidth, options)
+}
