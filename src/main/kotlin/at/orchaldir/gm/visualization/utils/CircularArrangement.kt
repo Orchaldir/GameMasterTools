@@ -11,10 +11,11 @@ fun <T> visualizeCircularArrangement(
     arrangement: CircularArrangement<T>,
     center: Point2d,
     radius: Distance,
+    offset: Orientation = ZERO_ORIENTATION,
     renderItem: (Int, Point2d, Orientation) -> Unit
 ) {
     val step = FULL_CIRCLE / arrangement.number
-    var orientation = ZERO_ORIENTATION
+    var orientation = offset
     val distance = radius * arrangement.radius
 
     (0..<arrangement.number).forEach { i ->

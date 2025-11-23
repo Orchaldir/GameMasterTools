@@ -220,7 +220,7 @@ private fun visualizeMorningStar(
 
     visualizeComplexShape(renderer, center, radius, UsingCircularShape(), options)
 
-    visualizeCircularArrangement(head.spikes, center, radius) { _, position, orientation ->
+    visualizeCircularArrangement(head.spikes, center, radius, -QUARTER_CIRCLE) { _, position, orientation ->
         visualizeSpike(state, renderer, head.spikes.item, position, orientation, diameter)
     }
 }
