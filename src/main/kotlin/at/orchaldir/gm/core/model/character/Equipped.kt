@@ -20,6 +20,11 @@ sealed class Equipped {
         is EquippedUniform -> EquippedType.Uniform
     }
 
+    fun contains(uniform: UniformId) = when (this) {
+        is EquippedUniform -> this.uniform == uniform
+        else -> false
+    }
+
 }
 
 @Serializable

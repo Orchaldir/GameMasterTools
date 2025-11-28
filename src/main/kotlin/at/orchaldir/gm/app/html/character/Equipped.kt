@@ -51,7 +51,7 @@ fun HtmlBlockTag.showEquippedDetails(
 
 // select
 
-fun HtmlBlockTag.selectEquipped(
+fun HtmlBlockTag.editEquipped(
     state: State,
     param: String,
     equipped: Equipped,
@@ -80,7 +80,7 @@ fun HtmlBlockTag.selectEquipped(
 
 // parse
 
-fun parseEquippedByCharacter(parameters: Parameters, state: State, param: String) =
+fun parseEquipped(parameters: Parameters, state: State, param: String) =
     when (parse(parameters, param, EquippedType.Undefined)) {
         EquippedType.Undefined -> UndefinedEquipped
         EquippedType.Equipment -> EquippedEquipment(

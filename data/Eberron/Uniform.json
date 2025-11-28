@@ -1,5 +1,36 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "Test",
+   "equipmentMap": {
+    "list": [
+     {
+      "data": {
+       "first": 1,
+       "second": null
+      },
+      "sets": [
+       [
+        "Top"
+       ]
+      ]
+     },
+     {
+      "data": {
+       "first": 5,
+       "second": null
+      },
+      "sets": [
+       [
+        "HeldInLeftHand",
+        "HeldInRightHand"
+       ]
+      ]
+     }
+    ]
+   }
+  }
  }
 }

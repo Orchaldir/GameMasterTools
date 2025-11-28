@@ -32,4 +32,4 @@ fun State.getCharacterTemplates(statistic: StatisticId) = getCharacterTemplateSt
 
 fun State.getCharacterTemplates(uniform: UniformId) = getCharacterTemplateStorage()
     .getAll()
-    .filter { it.uniform == uniform }
+    .filter { it.equipped.contains(uniform) }

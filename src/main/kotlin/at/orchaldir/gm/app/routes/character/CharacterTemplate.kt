@@ -2,9 +2,11 @@ package at.orchaldir.gm.app.routes.character
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.character.editCharacterTemplate
 import at.orchaldir.gm.app.html.character.parseCharacterTemplate
 import at.orchaldir.gm.app.html.character.showCharacterTemplate
+import at.orchaldir.gm.app.html.character.showEquipped
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.character.CHARACTER_TEMPLATE_TYPE
@@ -70,7 +72,7 @@ fun Application.configureCharacterTemplateRouting() {
                     Column("Race") { tdLink(call, state, it.race) },
                     Column("Culture") { tdLink(call, state, it.culture) },
                     createBeliefColumn(call, state),
-                    Column("Uniform") { tdLink(call, state, it.uniform) },
+                    tdColumn("Equipped") { showEquipped(call, state, it.equipped) },
                     countColumn("Cost") { it.statblock.calculateCost(state) },
                 ),
             )
