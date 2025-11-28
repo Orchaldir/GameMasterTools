@@ -47,6 +47,8 @@ data class EquipmentMap<T>(private val list: List<EquipmentEntry<T>>) {
             EquipmentMap(map.entries.toList().map { EquipmentEntry(it.key, it.value) })
     }
 
+    fun size() = list.size
+
     fun contains(data: T) = list.any { it.data == data }
 
     fun isFree(slot: BodySlot) = list.all { it.sets.all { set -> !set.contains(slot) } }
