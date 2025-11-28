@@ -39,8 +39,8 @@ fun HtmlBlockTag.showCharacterTemplate(
     optionalFieldLink(call, state, template.culture)
     showKnownLanguages(call, state, template)
     fieldBeliefStatus(call, state, template.belief)
-    showEquippedDetails(call, state, template.equipped)
     showStatblock(call, state, template.statblock)
+    showEquippedDetails(call, state, template.equipped)
     showDataSources(call, state, template.sources)
     showUsage(call, state, template)
 }

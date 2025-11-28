@@ -35,7 +35,7 @@ fun HtmlBlockTag.showEquippedDetails(
     state: State,
     equipped: Equipped,
 ) {
-    showDetails("Equipped") {
+    showDetails("Equipped", true) {
         field("Type", equipped.getType())
 
         when (equipped) {

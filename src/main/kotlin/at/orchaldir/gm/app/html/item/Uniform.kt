@@ -16,6 +16,7 @@ import at.orchaldir.gm.core.selector.economy.getJobs
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
+import kotlinx.html.h2
 
 // show
 
@@ -25,8 +26,25 @@ fun HtmlBlockTag.showUniform(
     uniform: Uniform,
 ) {
     showEquipmentMap(call, state, "Equipment", uniform.equipmentMap)
-    fieldElements(call, state, state.getCharacterTemplates(uniform.id))
-    fieldElements(call, state, state.getJobs(uniform.id))
+    showUsages(call, state, uniform.id)
+}
+
+private fun HtmlBlockTag.showUsages(
+    call: ApplicationCall,
+    state: State,
+    uniform: UniformId,
+) {
+    val jobs = state.getJobs(uniform)
+    val templates = state.getCharacterTemplates(uniform)
+
+    if (jobs.isEmpty() && templates.isEmpty()) {
+        return
+    }
+
+    h2 { +"Usage" }
+
+    fieldElements(call, state, jobs)
+    fieldElements(call, state, templates)
 }
 
 // edit
