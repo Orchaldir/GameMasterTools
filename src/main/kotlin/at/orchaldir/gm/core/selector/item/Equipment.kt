@@ -14,6 +14,7 @@ import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifierId
 import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponTypeId
 import at.orchaldir.gm.core.model.rpg.combat.ShieldTypeId
 import at.orchaldir.gm.core.model.util.render.ColorSchemeId
+import at.orchaldir.gm.core.model.util.render.UndefinedColors
 import at.orchaldir.gm.core.selector.character.getCharactersWith
 import at.orchaldir.gm.core.selector.culture.getFashions
 
@@ -67,12 +68,12 @@ fun State.getEquipmentId(type: EquipmentDataType) = getEquipmentOf(type)
 fun State.getEquipment(character: CharacterId) =
     getEquipment(getCharacterStorage().getOrThrow(character))
 
-fun State.getEquipment(character: Character) = getEquipment(character.equipmentMap)
+fun State.getEquipment(character: Character) = resolveEquipment(character.equipmentMap)
 
-fun State.getEquipment(equipmentMap: EquipmentIdMap) = equipmentMap.convert { pair ->
+fun State.resolveEquipment(idMap: EquipmentIdMap) = idMap.convert { pair ->
     Pair(
         getEquipmentStorage().getOrThrow(pair.first).data,
-        getColorSchemeStorage().getOrThrow(pair.second).data,
+        getColorSchemeStorage().getOptional(pair.second)?.data ?: UndefinedColors,
     )
 }
 

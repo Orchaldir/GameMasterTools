@@ -88,7 +88,7 @@ data class Character(
     val relationships: Map<CharacterId, Set<InterpersonalRelationship>> = mapOf(),
     val languages: Map<LanguageId, ComprehensionLevel> = emptyMap(),
     val appearance: Appearance = UndefinedAppearance,
-    val equipmentMap: EquipmentIdMap = EquipmentMap(),
+    val equipmentMap: EquipmentIdMap = EquipmentIdMap(),
     val housingStatus: History<Position> = History(UndefinedPosition),
     val employmentStatus: History<EmploymentStatus> = History(UndefinedEmploymentStatus),
     val beliefStatus: History<BeliefStatus> = History(UndefinedBeliefStatus),

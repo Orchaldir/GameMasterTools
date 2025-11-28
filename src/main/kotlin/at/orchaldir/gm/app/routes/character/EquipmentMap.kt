@@ -10,7 +10,7 @@ import at.orchaldir.gm.core.generator.EquipmentGenerator
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.item.equipment.EquipmentIdMap
-import at.orchaldir.gm.core.selector.item.getEquipment
+import at.orchaldir.gm.core.selector.item.resolveEquipment
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.visualization.character.appearance.visualizeCharacter
 import io.ktor.http.*
@@ -90,7 +90,7 @@ private fun HTML.showEquipmentMapEditor(
     equipmentMap: EquipmentIdMap,
 ) {
     val generator = EquipmentGenerator.create(state, character.id)
-    val equipped = state.getEquipment(equipmentMap)
+    val equipped = state.resolveEquipment(equipmentMap)
     val backLink = href(call, character.id)
     val previewLink = call.application.href(CharacterRoutes.Equipment.Preview(character.id))
     val updateLink = call.application.href(CharacterRoutes.Equipment.Update(character.id))

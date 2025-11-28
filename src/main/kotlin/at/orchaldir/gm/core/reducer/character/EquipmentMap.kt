@@ -28,7 +28,7 @@ fun validateCharacterEquipment(
         val equipment = state.getEquipmentStorage().getOrThrow(pair.first)
         val allowedSlotSets = equipment.data.slots().getAllBodySlotCombinations()
 
-        state.getColorSchemeStorage().require(pair.second)
+        state.getColorSchemeStorage().requireOptional(pair.second)
 
         slotSets.forEach { slotSet ->
             // Not sure why allowedSlotSets.contains(slotSet) doesn't work

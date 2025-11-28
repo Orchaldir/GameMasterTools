@@ -23,9 +23,11 @@ fun HtmlBlockTag.showEquipmentMap(
 ) {
     fieldList(label, equipmentMap.getEquipmentWithSlotSets()) { (pair, slotSets) ->
         link(call, state, pair.first)
-        +" ("
-        link(call, state, pair.second)
-        +")"
+        if (pair.second != null) {
+            +" ("
+            link(call, state, pair.second!!)
+            +")"
+        }
 
         if (slotSets.size > 1) {
             showList(slotSets) { slots ->

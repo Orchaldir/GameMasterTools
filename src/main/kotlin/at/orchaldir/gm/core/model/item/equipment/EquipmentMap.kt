@@ -65,7 +65,7 @@ data class EquipmentMap<T>(private val list: List<EquipmentEntry<T>>) {
     )
 }
 
-typealias EquipmentIdPair = Pair<EquipmentId, ColorSchemeId>
+typealias EquipmentIdPair = Pair<EquipmentId, ColorSchemeId?>
 typealias EquipmentIdMap = EquipmentMap<EquipmentIdPair>
 typealias EquipmentElementMap = EquipmentMap<Pair<EquipmentData, Colors>>
 typealias EquipmentDataMap = EquipmentMap<EquipmentData>
