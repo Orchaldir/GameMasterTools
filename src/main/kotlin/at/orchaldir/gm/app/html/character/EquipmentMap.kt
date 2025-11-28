@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.html.character
 import at.orchaldir.gm.app.COLOR
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.color.parseColorSchemeId
+import at.orchaldir.gm.app.html.util.color.parseOptionalColorSchemeId
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.*
@@ -111,7 +112,7 @@ fun parseEquipmentMap(
     parameters.forEach { parameter, ids ->
         if (parameter.startsWith(param)) {
             val slotsString = parameter.removePrefix(param)
-            val scheme = parseColorSchemeId(parameters, combine(COLOR, parameter))
+            val scheme = parseOptionalColorSchemeId(parameters, combine(COLOR, parameter))
             tryParse(map, slotsString, ids, scheme)
         }
     }
@@ -123,7 +124,7 @@ private fun tryParse(
     map: MutableMap<EquipmentIdPair, MutableSet<Set<BodySlot>>>,
     slotsString: String,
     ids: List<String>,
-    scheme: ColorSchemeId,
+    scheme: ColorSchemeId?,
 ) {
     val filteredIds = ids.filter { it.isNotEmpty() }
     require(filteredIds.size <= 1) { "Slots $slotsString has too many items!" }

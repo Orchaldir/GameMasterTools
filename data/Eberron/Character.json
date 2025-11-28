@@ -51,6 +51,32 @@
     },
     "height": 1800000
    },
+   "equipmentMap": {
+    "list": [
+     {
+      "data": {
+       "first": 0,
+       "second": null
+      },
+      "sets": [
+       [
+        "HeldInLeftHand"
+       ]
+      ]
+     },
+     {
+      "data": {
+       "first": 2,
+       "second": null
+      },
+      "sets": [
+       [
+        "Top"
+       ]
+      ]
+     }
+    ]
+   },
    "beliefStatus": {
     "current": {
      "#type": "Pantheon",
