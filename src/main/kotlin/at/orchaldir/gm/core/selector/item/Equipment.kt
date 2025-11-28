@@ -4,11 +4,16 @@ import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
+import at.orchaldir.gm.core.model.character.EquippedEquipment
+import at.orchaldir.gm.core.model.character.EquippedUniform
+import at.orchaldir.gm.core.model.character.UndefinedEquipped
 import at.orchaldir.gm.core.model.culture.fashion.ClothingSet
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentIdMap
+import at.orchaldir.gm.core.model.item.equipment.EquipmentElementMap
+import at.orchaldir.gm.core.model.item.equipment.convert
 import at.orchaldir.gm.core.model.rpg.combat.ArmorTypeId
 import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifierId
 import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponTypeId
@@ -31,14 +36,6 @@ fun State.countEquipment(material: MaterialId) = getEquipmentStorage()
 fun State.countEquipment(scheme: ColorSchemeId) = getEquipmentStorage()
     .getAll()
     .count { it.colorSchemes.contains(scheme) }
-
-fun State.countEquippedWith(scheme: ColorSchemeId) = getCharacterStorage()
-    .getAll()
-    .count {
-        it.equipmentMap
-            .getAllEquipment()
-            .any { pair -> pair.second == scheme }
-    }
 
 //
 
@@ -68,7 +65,14 @@ fun State.getEquipmentId(type: EquipmentDataType) = getEquipmentOf(type)
 fun State.getEquipment(character: CharacterId) =
     getEquipment(getCharacterStorage().getOrThrow(character))
 
-fun State.getEquipment(character: Character) = resolveEquipment(character.equipmentMap)
+fun State.getEquipment(character: Character) = when (character.equipped) {
+    is EquippedEquipment -> resolveEquipment(character.equipped.map)
+    is EquippedUniform -> {
+        val uniform = getUniformStorage().getOrThrow(character.equipped.uniform)
+        resolveEquipment(uniform.equipmentMap)
+    }
+    UndefinedEquipped -> EquipmentElementMap()
+}
 
 fun State.resolveEquipment(idMap: EquipmentIdMap) = idMap.convert { pair ->
     Pair(
@@ -80,17 +84,13 @@ fun State.resolveEquipment(idMap: EquipmentIdMap) = idMap.convert { pair ->
 fun State.getEquippedBy(equipment: EquipmentId) = getCharacterStorage()
     .getAll()
     .filter {
-        it.equipmentMap
-            .getAllEquipment()
-            .any { pair -> pair.first == equipment }
+        it.equipped.contains(equipment)
     }
 
 fun State.getEquippedWith(scheme: ColorSchemeId) = getCharacterStorage()
     .getAll()
     .filter {
-        it.equipmentMap
-            .getAllEquipment()
-            .any { pair -> pair.second == scheme }
+        it.equipped.contains(scheme)
     }
 
 // stats

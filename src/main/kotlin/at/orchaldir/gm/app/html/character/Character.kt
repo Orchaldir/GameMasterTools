@@ -207,13 +207,8 @@ fun HtmlBlockTag.showPossession(
     state: State,
     character: Character,
 ) {
-    val editEquipmentLink = call.application.href(CharacterRoutes.Equipment.Edit(character.id))
-
     showOwnedElements(call, state, character.id, true)
-
-    showEquipmentMap(call, state, "Equipped", character.equipmentMap)
-
-    action(editEquipmentLink, "Edit Equipment")
+    showEquippedDetails(call, state, character.equipped)
 }
 
 // edit
@@ -249,6 +244,7 @@ fun HtmlBlockTag.editCharacter(
     )
     selectEmploymentStatusHistory(state, character.employmentStatus, character.birthDate)
     editCharacterStatblock(call, state, character.statblock)
+    editDataSources(state, character.sources)
 
     h2 { +"Social" }
 
@@ -277,7 +273,9 @@ fun HtmlBlockTag.editCharacter(
     }
     editAuthenticity(state, character.authenticity, ALLOWED_CHARACTER_AUTHENTICITY)
 
-    editDataSources(state, character.sources)
+    h2 { +"Possession" }
+
+    editEquipped(state, EQUIPPED, character.equipped)
 }
 
 private fun HtmlBlockTag.selectOrigin(
@@ -368,6 +366,7 @@ fun parseCharacter(
         culture = parseOptionalCultureId(parameters, CULTURE),
         personality = parsePersonality(parameters),
         languages = parseKnownLanguages(parameters, state),
+        equipped = parseEquipped(parameters, state, EQUIPPED),
         housingStatus = parsePositionHistory(parameters, state, birthDate),
         employmentStatus = parseEmploymentStatusHistory(parameters, state, birthDate),
         beliefStatus = parseBeliefStatusHistory(parameters, state, birthDate),

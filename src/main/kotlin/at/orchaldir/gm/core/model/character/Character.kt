@@ -28,7 +28,6 @@ import at.orchaldir.gm.core.model.util.source.DataSourceId
 import at.orchaldir.gm.core.model.util.source.HasDataSources
 import at.orchaldir.gm.core.reducer.character.validateCharacterAppearance
 import at.orchaldir.gm.core.reducer.character.validateCharacterData
-import at.orchaldir.gm.core.reducer.character.validateCharacterEquipment
 import at.orchaldir.gm.core.selector.time.date.getStartDay
 import at.orchaldir.gm.core.selector.time.getDefaultCalendar
 import at.orchaldir.gm.core.selector.util.getGenonymName
@@ -87,7 +86,7 @@ data class Character(
     val relationships: Map<CharacterId, Set<InterpersonalRelationship>> = mapOf(),
     val languages: Map<LanguageId, ComprehensionLevel> = emptyMap(),
     val appearance: Appearance = UndefinedAppearance,
-    val equipmentMap: EquipmentIdMap = EquipmentIdMap(),
+    val equipped: Equipped = UndefinedEquipped,
     val housingStatus: History<Position> = History(UndefinedPosition),
     val employmentStatus: History<EmploymentStatus> = History(UndefinedEmploymentStatus),
     val beliefStatus: History<BeliefStatus> = History(UndefinedBeliefStatus),
@@ -198,7 +197,7 @@ data class Character(
     override fun validate(state: State) {
         validateCharacterData(state, this)
         validateCharacterAppearance(state, appearance, race)
-        validateCharacterEquipment(state, equipmentMap)
+        //validateCharacterEquipment(state, equipmentMap) TODO
         state.getDataSourceStorage().require(sources)
     }
 }

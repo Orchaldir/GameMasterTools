@@ -131,9 +131,7 @@ fun State.getCharacters(culture: CultureId) = getCharacterStorage()
 fun State.getCharactersWith(equipment: EquipmentId) = getCharacterStorage()
     .getAll()
     .filter {
-        it.equipmentMap
-            .getAllEquipment()
-            .any { pair -> pair.first == equipment }
+        it.equipped.contains(equipment)
     }
 
 fun State.getCharacters(language: LanguageId) = getCharacterStorage()

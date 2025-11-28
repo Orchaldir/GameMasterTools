@@ -41,11 +41,6 @@ data class UpdateAppearance(
     val appearance: Appearance,
 ) : CharacterAction()
 
-data class UpdateActionOfCharacter(
-    val id: CharacterId,
-    val map: EquipmentIdMap,
-) : CharacterAction()
-
 data class UpdateRelationships(
     val id: CharacterId,
     val relationships: Map<CharacterId, Set<InterpersonalRelationship>>,
