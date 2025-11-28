@@ -12,6 +12,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.Uniform
 import at.orchaldir.gm.core.model.item.UniformId
 import at.orchaldir.gm.core.selector.character.getCharacterTemplates
+import at.orchaldir.gm.core.selector.character.getCharactersWith
 import at.orchaldir.gm.core.selector.economy.getJobs
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -34,17 +35,19 @@ private fun HtmlBlockTag.showUsages(
     state: State,
     uniform: UniformId,
 ) {
+    val characters = state.getCharactersWith(uniform)
+    val characterTemplates = state.getCharacterTemplates(uniform)
     val jobs = state.getJobs(uniform)
-    val templates = state.getCharacterTemplates(uniform)
 
-    if (jobs.isEmpty() && templates.isEmpty()) {
+    if (characters.isEmpty() && characterTemplates.isEmpty() && jobs.isEmpty()) {
         return
     }
 
     h2 { +"Usage" }
 
+    fieldElements(call, state, characters)
+    fieldElements(call, state, characterTemplates)
     fieldElements(call, state, jobs)
-    fieldElements(call, state, templates)
 }
 
 // edit
