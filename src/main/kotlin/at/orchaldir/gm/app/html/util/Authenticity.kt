@@ -9,6 +9,7 @@ import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.app.html.religion.parseGodId
 import at.orchaldir.gm.app.html.selectElement
 import at.orchaldir.gm.app.html.selectValue
+import at.orchaldir.gm.app.html.showDetails
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
@@ -60,23 +61,27 @@ fun HtmlBlockTag.editAuthenticity(
     authenticity: Authenticity,
     allowedTypes: Collection<AuthenticityType>,
 ) {
-    selectValue("Authenticity", AUTHENTICITY, allowedTypes, authenticity.getType())
+    showDetails("Authenticity", true) {
+        selectValue("Type", AUTHENTICITY, allowedTypes, authenticity.getType())
 
-    when (authenticity) {
-        Authentic, Invented, UndefinedAuthenticity -> doNothing()
-        is MaskOfOtherGod -> selectElement(
-            state,
-            combine(AUTHENTICITY, GOD),
-            state.getGodStorage().getAll(),
-            authenticity.god,
-        )
+        when (authenticity) {
+            Authentic, Invented, UndefinedAuthenticity -> doNothing()
+            is MaskOfOtherGod -> selectElement(
+                state,
+                "Mask of",
+                combine(AUTHENTICITY, GOD),
+                state.getGodStorage().getAll(),
+                authenticity.god,
+            )
 
-        is SecretIdentity -> selectElement(
-            state,
-            combine(AUTHENTICITY, CHARACTER),
-            state.getCharacterStorage().getAll(),
-            authenticity.character,
-        )
+            is SecretIdentity -> selectElement(
+                state,
+                "Secret Identity of",
+                combine(AUTHENTICITY, CHARACTER),
+                state.getCharacterStorage().getAll(),
+                authenticity.character,
+            )
+        }
     }
 }
 
@@ -90,7 +95,7 @@ fun parseAuthenticity(parameters: Parameters) = when (parse(parameters, AUTHENTI
         parseGodId(parameters, combine(AUTHENTICITY, GOD)),
     )
 
-    AuthenticityType.Secret -> SecretIdentity(
+    AuthenticityType.SecretIdentity -> SecretIdentity(
         parseCharacterId(parameters, combine(AUTHENTICITY, CHARACTER)),
     )
 }

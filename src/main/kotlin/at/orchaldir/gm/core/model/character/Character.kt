@@ -11,7 +11,6 @@ import at.orchaldir.gm.core.model.culture.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.culture.language.LanguageId
 import at.orchaldir.gm.core.model.culture.name.getDefaultFamilyName
 import at.orchaldir.gm.core.model.item.equipment.EquipmentIdMap
-import at.orchaldir.gm.core.model.item.equipment.EquipmentMap
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.rpg.CharacterStatblock
 import at.orchaldir.gm.core.model.rpg.UndefinedCharacterStatblock
@@ -41,7 +40,7 @@ const val CHARACTER_TYPE = "Character"
 val ALLOWED_CHARACTER_AUTHENTICITY = listOf(
     AuthenticityType.Undefined,
     AuthenticityType.Authentic,
-    AuthenticityType.Secret,
+    AuthenticityType.SecretIdentity,
 )
 val ALLOWED_CHARACTER_ORIGINS = listOf(
     OriginType.Born,

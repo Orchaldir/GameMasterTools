@@ -10,7 +10,7 @@ enum class AuthenticityType {
     Authentic,
     Invented,
     Mask,
-    Secret,
+    SecretIdentity,
 }
 
 @Serializable
@@ -21,7 +21,7 @@ sealed class Authenticity {
         Authentic -> AuthenticityType.Authentic
         Invented -> AuthenticityType.Invented
         is MaskOfOtherGod -> AuthenticityType.Mask
-        is SecretIdentity -> AuthenticityType.Secret
+        is SecretIdentity -> AuthenticityType.SecretIdentity
     }
 
     fun isMaskOf(god: GodId) = this is MaskOfOtherGod && this.god == god
