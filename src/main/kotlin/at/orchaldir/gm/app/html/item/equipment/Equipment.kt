@@ -16,6 +16,7 @@ import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.util.render.ColorSchemeId
 import at.orchaldir.gm.core.selector.character.getCharacterTemplates
 import at.orchaldir.gm.core.selector.character.getCharactersWith
+import at.orchaldir.gm.core.selector.culture.getFashions
 import at.orchaldir.gm.core.selector.economy.getJobs
 import at.orchaldir.gm.core.selector.item.getUniforms
 import at.orchaldir.gm.core.selector.util.filterValidColorSchemes
@@ -57,9 +58,10 @@ private fun HtmlBlockTag.showUsages(
 ) {
     val characters = state.getCharactersWith(equipment)
     val characterTemplates = state.getCharacterTemplates(equipment)
+    val fashions = state.getFashions(equipment)
     val uniforms = state.getUniforms(equipment)
 
-    if (characters.isEmpty() && characterTemplates.isEmpty() && uniforms.isEmpty()) {
+    if (characters.isEmpty() && characterTemplates.isEmpty() && fashions.isEmpty() && uniforms.isEmpty()) {
         return
     }
 
@@ -67,6 +69,7 @@ private fun HtmlBlockTag.showUsages(
 
     fieldElements(call, state, characters)
     fieldElements(call, state, characterTemplates)
+    fieldElements(call, state, fashions)
     fieldElements(call, state, uniforms)
 }
 

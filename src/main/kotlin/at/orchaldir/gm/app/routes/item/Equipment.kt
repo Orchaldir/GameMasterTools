@@ -307,25 +307,6 @@ private fun HtmlBlockTag.showEquipmentDetails(
     }
 
     showEquipment(call, state, equipment)
-    showUsage(call, state, equipment)
-}
-
-private fun HtmlBlockTag.showUsage(
-    call: ApplicationCall,
-    state: State,
-    equipment: Equipment,
-) {
-    val characters = state.getEquippedBy(equipment.id)
-    val fashions = state.getFashions(equipment.id)
-
-    if (characters.isEmpty() && fashions.isEmpty()) {
-        return
-    }
-
-    h2 { +"Usage" }
-
-    fieldElements(call, state, "Equipped By", characters)
-    fieldElements(call, state, "Part of Fashion", fashions)
 }
 
 private fun HtmlBlockTag.showEquipmentEditorRight(
