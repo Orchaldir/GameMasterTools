@@ -10,6 +10,8 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponStats
 import at.orchaldir.gm.core.selector.rpg.getEquipmentModifierEffects
+import at.orchaldir.gm.core.selector.rpg.resolveMeleeAttack
+import at.orchaldir.gm.core.selector.rpg.resolveMeleeAttacks
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.DETAILS
@@ -38,7 +40,7 @@ private fun DETAILS.updatedMeleeWeaponStats(
 ) {
     state.getMeleeWeaponTypeStorage().getOptional(stats.type)?.let { type ->
         val effects = state.getEquipmentModifierEffects(stats.modifiers)
-        val updatedAttacks = type.apply(effects)
+        val updatedAttacks = resolveMeleeAttacks(effects, type.attacks)
 
         showMeleeAttackTable(call, state, updatedAttacks)
     }

@@ -78,6 +78,41 @@ fun resolveDamageAmount(
     }
 }
 
+// resolve melee attack with modifier effects
+
+fun resolveMeleeAttacks(effects: List<EquipmentModifierEffect>, attacks: List<MeleeAttack>) = attacks.map { attack ->
+    resolveMeleeAttack(effects, attack)
+}
+
+fun resolveMeleeAttack(
+    effects: List<EquipmentModifierEffect>,
+    attack: MeleeAttack,
+): MeleeAttack {
+    var resolved = attack
+
+    effects.forEach { effect ->
+        resolved = resolveMeleeAttack(effect, resolved)
+    }
+
+    return resolved
+}
+
+fun resolveMeleeAttack(
+    effect: EquipmentModifierEffect,
+    attack: MeleeAttack,
+) = when (effect) {
+    is ModifyDamageResistance, is ModifyDefenseBonus -> attack
+    is ModifyDamage -> attack.copy(effect = resolveAttackEffect(effect, attack.effect))
+}
+
+fun resolveAttackEffect(
+    modifyDamage: ModifyDamage,
+    attackEffect: AttackEffect,
+) = when (attackEffect) {
+    is Damage -> attackEffect.copy(amount = attackEffect.amount.apply(modifyDamage))
+    UndefinedAttackEffect -> attackEffect
+}
+
 // resolve protection map with statblock
 
 fun resolveProtectionMap(

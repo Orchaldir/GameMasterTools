@@ -11,6 +11,7 @@ import at.orchaldir.gm.core.model.item.equipment.EquipmentIdMap
 import at.orchaldir.gm.core.model.rpg.combat.MeleeAttack
 import at.orchaldir.gm.core.model.rpg.combat.Protection
 import at.orchaldir.gm.core.selector.rpg.getEquipmentModifierEffects
+import at.orchaldir.gm.core.selector.rpg.resolveMeleeAttacks
 import at.orchaldir.gm.core.selector.rpg.resolveProtection
 
 // get armors
@@ -69,7 +70,7 @@ fun getMeleeAttacks(state: State, map: EquipmentIdMap): Map<Equipment, List<Mele
         val type = state.getMeleeWeaponTypeStorage().getOptional(stats.type) ?: return@forEach
         val effects = state.getEquipmentModifierEffects(stats.modifiers)
 
-        meleeAttackMap[equipment] = type.apply(effects)
+        meleeAttackMap[equipment] = resolveMeleeAttacks(effects, type.attacks)
     }
 
     return meleeAttackMap
