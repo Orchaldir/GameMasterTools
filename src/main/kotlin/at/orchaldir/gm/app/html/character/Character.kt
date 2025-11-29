@@ -208,7 +208,7 @@ fun HtmlBlockTag.showPossession(
     character: Character,
 ) {
     showOwnedElements(call, state, character.id, true)
-    showEquippedDetails(call, state, character.equipped)
+    showEquippedDetails(call, state, character.equipped, character.statblock)
 }
 
 // edit

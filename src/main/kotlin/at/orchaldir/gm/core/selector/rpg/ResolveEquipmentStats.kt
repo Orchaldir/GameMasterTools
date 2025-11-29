@@ -2,7 +2,11 @@ package at.orchaldir.gm.core.selector.rpg
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.Equipment
+import at.orchaldir.gm.core.model.rpg.CharacterStatblock
 import at.orchaldir.gm.core.model.rpg.Statblock
+import at.orchaldir.gm.core.model.rpg.UndefinedCharacterStatblock
+import at.orchaldir.gm.core.model.rpg.UniqueCharacterStatblock
+import at.orchaldir.gm.core.model.rpg.UseStatblockOfTemplate
 import at.orchaldir.gm.core.model.rpg.combat.AttackEffect
 import at.orchaldir.gm.core.model.rpg.combat.Damage
 import at.orchaldir.gm.core.model.rpg.combat.DamageAmount
@@ -12,6 +16,20 @@ import at.orchaldir.gm.core.model.rpg.combat.StatisticBasedDamage
 import at.orchaldir.gm.core.model.rpg.combat.UndefinedAttackEffect
 
 // resolve melee attack with statblock
+
+fun resolveMeleeAttackMap(
+    state: State,
+    statblock: CharacterStatblock,
+    attackMap: Map<Equipment, List<MeleeAttack>>,
+) = when (statblock) {
+    UndefinedCharacterStatblock -> attackMap
+    is UniqueCharacterStatblock -> resolveMeleeAttackMap(state, statblock.statblock, attackMap)
+    is UseStatblockOfTemplate -> {
+        val template = state.getCharacterTemplateStorage().getOrThrow(statblock.template)
+
+        resolveMeleeAttackMap(state, template.statblock, attackMap)
+    }
+}
 
 fun resolveMeleeAttackMap(
     state: State,

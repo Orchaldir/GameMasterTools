@@ -21,6 +21,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterTemplate
 import at.orchaldir.gm.core.model.character.CharacterTemplateId
 import at.orchaldir.gm.core.model.character.Gender
+import at.orchaldir.gm.core.model.rpg.UseStatblockOfTemplate
 import at.orchaldir.gm.core.selector.character.getCharactersUsing
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -40,7 +41,7 @@ fun HtmlBlockTag.showCharacterTemplate(
     showKnownLanguages(call, state, template)
     fieldBeliefStatus(call, state, template.belief)
     showStatblock(call, state, template.statblock)
-    showEquippedDetails(call, state, template.equipped)
+    showEquippedDetails(call, state, template.equipped, UseStatblockOfTemplate(template.id))
     showDataSources(call, state, template.sources)
     showUsage(call, state, template)
 }

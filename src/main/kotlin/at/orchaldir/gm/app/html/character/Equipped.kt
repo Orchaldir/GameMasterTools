@@ -3,10 +3,14 @@ package at.orchaldir.gm.app.html.character
 import at.orchaldir.gm.app.UNIFORM
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.item.parseUniformId
+import at.orchaldir.gm.app.html.rpg.combat.showMeleeAttackTable
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
+import at.orchaldir.gm.core.model.rpg.CharacterStatblock
+import at.orchaldir.gm.core.selector.character.getMeleeAttacks
+import at.orchaldir.gm.core.selector.rpg.resolveMeleeAttackMap
 import at.orchaldir.gm.core.selector.util.sortUniforms
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
@@ -34,6 +38,7 @@ fun HtmlBlockTag.showEquippedDetails(
     call: ApplicationCall,
     state: State,
     equipped: Equipped,
+    statblock: CharacterStatblock,
 ) {
     showDetails("Equipped", true) {
         field("Type", equipped.getType())
@@ -46,6 +51,11 @@ fun HtmlBlockTag.showEquippedDetails(
             is EquippedUniform -> fieldLink(call, state, equipped.uniform)
             UndefinedEquipped -> doNothing()
         }
+
+        val meleeAttackMap = getMeleeAttacks(state, equipped)
+        val resolvedMeleeAttackMap = resolveMeleeAttackMap(state, statblock, meleeAttackMap)
+
+        showMeleeAttackTable(call, state, resolvedMeleeAttackMap)
     }
 }
 
