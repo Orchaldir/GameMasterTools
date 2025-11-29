@@ -226,6 +226,15 @@ class CharacterTest {
             }
         }
 
+        @Test
+        fun `Using an unknown uniform`() {
+            val equipped = EquippedUniform(UNKNOWN_UNIFORM_ID)
+            val template = Character(CHARACTER_ID_0, equipped = equipped)
+            val action = UpdateAction(template)
+
+            assertIllegalArgument("Requires unknown Uniform 99!") { REDUCER.invoke(STATE, action) }
+        }
+
         @Nested
         inner class HousingStatusTest {
 

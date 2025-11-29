@@ -30,7 +30,7 @@ class EquippedTest {
         private val equipped = EquippedEquipment(equipmentMap)
 
         @Test
-        fun `Update equipment`() {
+        fun `Use equipment`() {
             validateEquipped(state, equipped)
         }
 
@@ -88,12 +88,12 @@ class EquippedTest {
         private val equipped = EquippedUniform(UNIFORM_ID_0)
 
         @Test
-        fun `Update equipment`() {
+        fun `Use uniform`() {
             validateEquipped(state, equipped)
         }
 
         @Test
-        fun `Cannot use unknown equipment`() {
+        fun `Cannot use unknown uniform`() {
             val state = state.removeStorage(UNIFORM_ID_0)
 
             assertIllegalArgument("Requires unknown Uniform 0!") { validateEquipped(state, equipped) }
