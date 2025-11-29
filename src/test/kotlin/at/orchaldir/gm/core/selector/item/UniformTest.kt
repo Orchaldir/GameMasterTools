@@ -39,7 +39,7 @@ class UniformTest {
         }
 
         @Test
-        fun `Cannot delete a culture used by a character`() {
+        fun `Cannot delete a uniform used by a character`() {
             val equipped = EquippedUniform(UNIFORM_ID_0)
             val template = Character(CHARACTER_ID_0, equipped = equipped)
             val newState = state.updateStorage(Storage(template))
@@ -48,7 +48,7 @@ class UniformTest {
         }
 
         @Test
-        fun `Cannot delete a culture used by a character template`() {
+        fun `Cannot delete a uniform used by a character template`() {
             val equipped = EquippedUniform(UNIFORM_ID_0)
             val template = CharacterTemplate(CHARACTER_TEMPLATE_ID_0, race = RACE_ID_0, equipped = equipped)
             val newState = state.updateStorage(Storage(template))

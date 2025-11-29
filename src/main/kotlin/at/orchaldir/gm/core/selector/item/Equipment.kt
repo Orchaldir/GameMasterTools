@@ -20,11 +20,13 @@ import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponTypeId
 import at.orchaldir.gm.core.model.rpg.combat.ShieldTypeId
 import at.orchaldir.gm.core.model.util.render.ColorSchemeId
 import at.orchaldir.gm.core.model.util.render.UndefinedColors
+import at.orchaldir.gm.core.selector.character.getCharacterTemplates
 import at.orchaldir.gm.core.selector.character.getCharactersWith
 import at.orchaldir.gm.core.selector.culture.getFashions
 
 fun State.canDeleteEquipment(equipment: EquipmentId) = DeleteResult(equipment)
     .addElements(getCharactersWith(equipment))
+    .addElements(getCharacterTemplates(equipment))
     .addElements(getFashions(equipment))
 
 // count
