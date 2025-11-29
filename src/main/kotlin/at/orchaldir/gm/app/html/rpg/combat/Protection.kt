@@ -14,15 +14,7 @@ import at.orchaldir.gm.core.selector.util.sortDamageTypes
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.HtmlBlockTag
-import kotlinx.html.caption
-import kotlinx.html.table
-import kotlinx.html.td
-import kotlinx.html.th
-import kotlinx.html.tr
-import kotlin.collections.component1
-import kotlin.collections.component2
-import kotlin.collections.forEach
+import kotlinx.html.*
 
 // show
 

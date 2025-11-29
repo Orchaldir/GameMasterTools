@@ -11,13 +11,11 @@ import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.item.UniformId
 import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.util.render.ColorSchemeId
 import at.orchaldir.gm.core.selector.character.getCharacterTemplates
 import at.orchaldir.gm.core.selector.character.getCharactersWith
 import at.orchaldir.gm.core.selector.culture.getFashions
-import at.orchaldir.gm.core.selector.economy.getJobs
 import at.orchaldir.gm.core.selector.item.getUniforms
 import at.orchaldir.gm.core.selector.util.filterValidColorSchemes
 import at.orchaldir.gm.core.selector.util.getValidColorSchemes

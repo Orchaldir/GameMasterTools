@@ -4,7 +4,6 @@ import at.orchaldir.gm.core.model.Data
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.InterpersonalRelationship
 import at.orchaldir.gm.core.model.character.appearance.Appearance
-import at.orchaldir.gm.core.model.item.equipment.EquipmentIdMap
 import at.orchaldir.gm.core.model.util.InTownMap
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.building.BuildingId

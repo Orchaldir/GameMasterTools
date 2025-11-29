@@ -2,18 +2,10 @@ package at.orchaldir.gm.core.selector.item
 
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.character.CharacterId
-import at.orchaldir.gm.core.model.character.EquippedEquipment
-import at.orchaldir.gm.core.model.character.EquippedUniform
-import at.orchaldir.gm.core.model.character.UndefinedEquipped
+import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.culture.fashion.ClothingSet
 import at.orchaldir.gm.core.model.economy.material.MaterialId
-import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
-import at.orchaldir.gm.core.model.item.equipment.EquipmentId
-import at.orchaldir.gm.core.model.item.equipment.EquipmentIdMap
-import at.orchaldir.gm.core.model.item.equipment.EquipmentElementMap
-import at.orchaldir.gm.core.model.item.equipment.convert
+import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.rpg.combat.ArmorTypeId
 import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifierId
 import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponTypeId
@@ -73,6 +65,7 @@ fun State.getEquipment(character: Character) = when (character.equipped) {
         val uniform = getUniformStorage().getOrThrow(character.equipped.uniform)
         resolveEquipment(uniform.equipmentMap)
     }
+
     UndefinedEquipped -> EquipmentElementMap()
 }
 

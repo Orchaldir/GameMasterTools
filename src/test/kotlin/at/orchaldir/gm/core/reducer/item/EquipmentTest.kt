@@ -36,8 +36,10 @@ class EquipmentTest {
             Storage(Material(MATERIAL_ID_0))
         ),
     )
-    private val EQUIPMENT_MAP = EquippedEquipment(EquipmentMap
-        .fromId(EQUIPMENT_ID_0, COLOR_SCHEME_ID_0, BodySlot.Head))
+    private val EQUIPMENT_MAP = EquippedEquipment(
+        EquipmentMap
+            .fromId(EQUIPMENT_ID_0, COLOR_SCHEME_ID_0, BodySlot.Head)
+    )
 
     @Nested
     inner class UpdateTest {

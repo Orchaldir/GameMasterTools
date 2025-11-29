@@ -1,18 +1,13 @@
 package at.orchaldir.gm.core.reducer.character
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.*
+import at.orchaldir.gm.core.model.character.Equipped
+import at.orchaldir.gm.core.model.character.EquippedEquipment
+import at.orchaldir.gm.core.model.character.EquippedUniform
+import at.orchaldir.gm.core.model.character.UndefinedEquipped
 import at.orchaldir.gm.core.model.item.equipment.BodySlot
 import at.orchaldir.gm.core.model.item.equipment.EquipmentIdMap
 import at.orchaldir.gm.core.model.item.equipment.getAllBodySlotCombinations
-import at.orchaldir.gm.core.model.rpg.CharacterStatblock
-import at.orchaldir.gm.core.model.rpg.UndefinedCharacterStatblock
-import at.orchaldir.gm.core.model.rpg.UniqueCharacterStatblock
-import at.orchaldir.gm.core.model.rpg.UseStatblockOfTemplate
-import at.orchaldir.gm.core.model.util.VALID_CAUSES_FOR_CHARACTERS
-import at.orchaldir.gm.core.model.util.VALID_VITAL_STATUS_FOR_CHARACTERS
-import at.orchaldir.gm.core.reducer.rpg.validateStatblock
-import at.orchaldir.gm.core.reducer.util.*
 import at.orchaldir.gm.utils.doNothing
 
 fun validateEquipped(

@@ -1,11 +1,6 @@
 package at.orchaldir.gm.core.selector.item
 
-import at.orchaldir.gm.CHARACTER_ID_0
-import at.orchaldir.gm.CHARACTER_TEMPLATE_ID_0
-import at.orchaldir.gm.COLOR_SCHEME_ID_0
-import at.orchaldir.gm.EQUIPMENT_ID_0
-import at.orchaldir.gm.FASHION_ID_0
-import at.orchaldir.gm.RACE_ID_0
+import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
@@ -46,7 +41,8 @@ class EquipmentTest {
         fun `Cannot delete a equipment that is equipped by a template`() {
             val map = EquipmentMap
                 .fromId(EQUIPMENT_ID_0, COLOR_SCHEME_ID_0, BodySlot.Head)
-            val template = CharacterTemplate(CHARACTER_TEMPLATE_ID_0, race = RACE_ID_0, equipped = EquippedEquipment(map))
+            val template =
+                CharacterTemplate(CHARACTER_TEMPLATE_ID_0, race = RACE_ID_0, equipped = EquippedEquipment(map))
             val newState = state.updateStorage(Storage(template))
 
             failCanDelete(newState, CHARACTER_TEMPLATE_ID_0)

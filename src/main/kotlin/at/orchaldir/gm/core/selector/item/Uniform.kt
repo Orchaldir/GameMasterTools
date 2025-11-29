@@ -6,7 +6,6 @@ import at.orchaldir.gm.core.model.item.UniformId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.model.item.equipment.containsId
 import at.orchaldir.gm.core.selector.character.getCharacterTemplates
-import at.orchaldir.gm.core.selector.character.getCharacters
 import at.orchaldir.gm.core.selector.character.getCharactersWith
 import at.orchaldir.gm.core.selector.economy.getJobs
 

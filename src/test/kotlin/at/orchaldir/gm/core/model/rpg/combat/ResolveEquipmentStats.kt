@@ -101,7 +101,7 @@ class ResolveEquipmentStats {
         }
 
         private fun assertResolve(
-            effect: EquipmentModifierEffect, input: Protection, output: Protection
+            effect: EquipmentModifierEffect, input: Protection, output: Protection,
         ) {
             assertEquals(resolveProtection(effect, input), output)
         }

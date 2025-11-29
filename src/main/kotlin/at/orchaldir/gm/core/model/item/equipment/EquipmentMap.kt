@@ -74,6 +74,7 @@ fun EquipmentIdMap.containsScheme(scheme: ColorSchemeId) = getAllEquipment().any
 fun EquipmentIdMap.convert(function: (EquipmentIdPair) -> EquipmentDataPair) = EquipmentElementMap(
     getEquipmentWithSlotSets().map { it.convert(function) }
 )
+
 fun EquipmentDataMap.addColors(function: (EquipmentData) -> EquipmentDataPair) = EquipmentElementMap(
     getEquipmentWithSlotSets().map { it.convert(function) }
 )

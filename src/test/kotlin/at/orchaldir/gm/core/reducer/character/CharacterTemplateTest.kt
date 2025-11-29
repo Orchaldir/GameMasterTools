@@ -4,7 +4,6 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterTemplate
-import at.orchaldir.gm.core.model.character.Equipped
 import at.orchaldir.gm.core.model.character.EquippedUniform
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.culture.Culture

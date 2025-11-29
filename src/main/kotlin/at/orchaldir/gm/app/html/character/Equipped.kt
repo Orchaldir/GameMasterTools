@@ -91,12 +91,14 @@ fun HtmlBlockTag.editEquipped(
                 equipped.map,
                 combine(param, EQUIPMENT),
             )
+
             is EquippedUniform -> selectElement(
                 state,
                 combine(param, UNIFORM),
                 state.sortUniforms(),
                 equipped.uniform,
             )
+
             UndefinedEquipped -> doNothing()
         }
     }
@@ -110,6 +112,7 @@ fun parseEquipped(parameters: Parameters, state: State, param: String) =
         EquippedType.Equipment -> EquippedEquipment(
             parseEquipmentMap(parameters, combine(param, EQUIPMENT)),
         )
+
         EquippedType.Uniform -> EquippedUniform(
             parseUniformId(parameters, combine(param, UNIFORM)),
         )

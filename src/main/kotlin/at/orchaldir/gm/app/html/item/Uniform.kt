@@ -13,13 +13,8 @@ import at.orchaldir.gm.app.html.selectName
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.Uniform
 import at.orchaldir.gm.core.model.item.UniformId
-import at.orchaldir.gm.core.selector.character.getArmors
-import at.orchaldir.gm.core.selector.character.getCharacterTemplates
-import at.orchaldir.gm.core.selector.character.getCharactersWith
-import at.orchaldir.gm.core.selector.character.getMeleeAttacks
-import at.orchaldir.gm.core.selector.character.getShields
+import at.orchaldir.gm.core.selector.character.*
 import at.orchaldir.gm.core.selector.economy.getJobs
-import at.orchaldir.gm.core.selector.rpg.resolveMeleeAttackMap
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
