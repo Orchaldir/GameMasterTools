@@ -170,65 +170,6 @@
      "color": "Light"
     }
    },
-   "equipmentMap": {
-    "list": [
-     {
-      "data": {
-       "first": 0,
-       "second": 1
-      },
-      "sets": [
-       [
-        "Foot"
-       ]
-      ]
-     },
-     {
-      "data": {
-       "first": 10,
-       "second": 7
-      },
-      "sets": [
-       [
-        "Bottom"
-       ]
-      ]
-     },
-     {
-      "data": {
-       "first": 2,
-       "second": 4
-      },
-      "sets": [
-       [
-        "InnerTop"
-       ]
-      ]
-     },
-     {
-      "data": {
-       "first": 4,
-       "second": 1
-      },
-      "sets": [
-       [
-        "Neck"
-       ]
-      ]
-     },
-     {
-      "data": {
-       "first": 9,
-       "second": 7
-      },
-      "sets": [
-       [
-        "Top"
-       ]
-      ]
-     }
-    ]
-   },
    "housingStatus": {
     "current": {
      "#type": "Home",

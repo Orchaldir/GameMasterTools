@@ -12,6 +12,7 @@ import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.language.LanguageId
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.economy.job.JobId
+import at.orchaldir.gm.core.model.item.UniformId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
@@ -131,10 +132,12 @@ fun State.getCharacters(culture: CultureId) = getCharacterStorage()
 fun State.getCharactersWith(equipment: EquipmentId) = getCharacterStorage()
     .getAll()
     .filter {
-        it.equipmentMap
-            .getAllEquipment()
-            .any { pair -> pair.first == equipment }
+        it.equipped.contains(equipment)
     }
+
+fun State.getCharactersWith(uniform: UniformId) = getCharacterStorage()
+    .getAll()
+    .filter { it.equipped.contains(uniform) }
 
 fun State.getCharacters(language: LanguageId) = getCharacterStorage()
     .getAll()

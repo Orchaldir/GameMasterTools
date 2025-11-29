@@ -12,7 +12,7 @@ data class EquipmentEntry<T>(val data: T, val sets: Set<Set<BodySlot>>) {
         fun <T> from(value: T, slots: Set<BodySlot>) = EquipmentEntry(value, setOf(slots))
         fun <T> from(value: T, data: EquipmentData) = from(value, data.slots().getAllBodySlotCombinations().first())
         fun fromId(equipment: EquipmentId, scheme: ColorSchemeId, slot: BodySlot) =
-            EquipmentEntry(Pair(equipment, scheme), slot)
+            EquipmentEntry(EquipmentIdPair(equipment, scheme), slot)
     }
 
     fun <U> convert(function: (T) -> U): EquipmentEntry<U> = EquipmentEntry(
@@ -47,6 +47,8 @@ data class EquipmentMap<T>(private val list: List<EquipmentEntry<T>>) {
             EquipmentMap(map.entries.toList().map { EquipmentEntry(it.key, it.value) })
     }
 
+    fun size() = list.size
+
     fun contains(data: T) = list.any { it.data == data }
 
     fun isFree(slot: BodySlot) = list.all { it.sets.all { set -> !set.contains(slot) } }
@@ -59,13 +61,20 @@ data class EquipmentMap<T>(private val list: List<EquipmentEntry<T>>) {
     fun getEquipment(slots: Set<BodySlot>): T? = list
         .find { it.sets.contains(slots) }
         ?.data
-
-    fun <U> convert(function: (T) -> U): EquipmentMap<U> = EquipmentMap(
-        list.map { it.convert(function) }
-    )
 }
 
-typealias EquipmentIdPair = Pair<EquipmentId, ColorSchemeId>
+typealias EquipmentIdPair = Pair<EquipmentId, ColorSchemeId?>
 typealias EquipmentIdMap = EquipmentMap<EquipmentIdPair>
-typealias EquipmentElementMap = EquipmentMap<Pair<EquipmentData, Colors>>
+typealias EquipmentDataPair = Pair<EquipmentData, Colors>
+typealias EquipmentElementMap = EquipmentMap<EquipmentDataPair>
 typealias EquipmentDataMap = EquipmentMap<EquipmentData>
+
+fun EquipmentIdMap.containsId(equipment: EquipmentId) = getAllEquipment().any { it.first == equipment }
+fun EquipmentIdMap.containsScheme(scheme: ColorSchemeId) = getAllEquipment().any { it.second == scheme }
+fun EquipmentIdMap.convert(function: (EquipmentIdPair) -> EquipmentDataPair) = EquipmentElementMap(
+    getEquipmentWithSlotSets().map { it.convert(function) }
+)
+
+fun EquipmentDataMap.addColors(function: (EquipmentData) -> EquipmentDataPair) = EquipmentElementMap(
+    getEquipmentWithSlotSets().map { it.convert(function) }
+)

@@ -10,8 +10,6 @@ import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.culture.language.LanguageId
 import at.orchaldir.gm.core.model.culture.name.getDefaultFamilyName
-import at.orchaldir.gm.core.model.item.equipment.EquipmentIdMap
-import at.orchaldir.gm.core.model.item.equipment.EquipmentMap
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.rpg.CharacterStatblock
 import at.orchaldir.gm.core.model.rpg.UndefinedCharacterStatblock
@@ -29,7 +27,7 @@ import at.orchaldir.gm.core.model.util.source.DataSourceId
 import at.orchaldir.gm.core.model.util.source.HasDataSources
 import at.orchaldir.gm.core.reducer.character.validateCharacterAppearance
 import at.orchaldir.gm.core.reducer.character.validateCharacterData
-import at.orchaldir.gm.core.reducer.character.validateCharacterEquipment
+import at.orchaldir.gm.core.reducer.character.validateEquipped
 import at.orchaldir.gm.core.selector.time.date.getStartDay
 import at.orchaldir.gm.core.selector.time.getDefaultCalendar
 import at.orchaldir.gm.core.selector.util.getGenonymName
@@ -41,7 +39,7 @@ const val CHARACTER_TYPE = "Character"
 val ALLOWED_CHARACTER_AUTHENTICITY = listOf(
     AuthenticityType.Undefined,
     AuthenticityType.Authentic,
-    AuthenticityType.Secret,
+    AuthenticityType.SecretIdentity,
 )
 val ALLOWED_CHARACTER_ORIGINS = listOf(
     OriginType.Born,
@@ -88,7 +86,7 @@ data class Character(
     val relationships: Map<CharacterId, Set<InterpersonalRelationship>> = mapOf(),
     val languages: Map<LanguageId, ComprehensionLevel> = emptyMap(),
     val appearance: Appearance = UndefinedAppearance,
-    val equipmentMap: EquipmentIdMap = EquipmentMap(),
+    val equipped: Equipped = UndefinedEquipped,
     val housingStatus: History<Position> = History(UndefinedPosition),
     val employmentStatus: History<EmploymentStatus> = History(UndefinedEmploymentStatus),
     val beliefStatus: History<BeliefStatus> = History(UndefinedBeliefStatus),
@@ -199,7 +197,7 @@ data class Character(
     override fun validate(state: State) {
         validateCharacterData(state, this)
         validateCharacterAppearance(state, appearance, race)
-        validateCharacterEquipment(state, equipmentMap)
+        validateEquipped(state, equipped)
         state.getDataSourceStorage().require(sources)
     }
 }

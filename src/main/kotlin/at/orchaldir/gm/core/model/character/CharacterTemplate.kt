@@ -4,7 +4,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.culture.language.LanguageId
-import at.orchaldir.gm.core.model.item.UniformId
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.rpg.Statblock
 import at.orchaldir.gm.core.model.util.BeliefStatus
@@ -15,6 +14,7 @@ import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.source.DataSourceId
 import at.orchaldir.gm.core.model.util.source.HasDataSources
+import at.orchaldir.gm.core.reducer.character.validateEquipped
 import at.orchaldir.gm.core.reducer.rpg.validateStatblock
 import at.orchaldir.gm.core.reducer.util.checkBeliefStatus
 import at.orchaldir.gm.utils.Id
@@ -41,7 +41,7 @@ data class CharacterTemplate(
     val culture: CultureId? = null,
     val languages: Map<LanguageId, ComprehensionLevel> = emptyMap(),
     val belief: BeliefStatus = UndefinedBeliefStatus,
-    val uniform: UniformId? = null,
+    val equipped: Equipped = UndefinedEquipped,
     val statblock: Statblock = Statblock(),
     val sources: Set<DataSourceId> = emptySet(),
 ) : ElementWithSimpleName<CharacterTemplateId>, HasBelief, HasDataSources {
@@ -59,7 +59,7 @@ data class CharacterTemplate(
         state.getDataSourceStorage().require(sources)
         state.getLanguageStorage().require(languages.keys)
         state.getRaceStorage().require(race)
-        state.getUniformStorage().requireOptional(uniform)
+        validateEquipped(state, equipped)
         validateStatblock(state, statblock)
         checkBeliefStatus(state, belief)
     }

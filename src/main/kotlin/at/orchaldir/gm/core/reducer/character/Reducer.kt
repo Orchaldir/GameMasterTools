@@ -1,7 +1,6 @@
 package at.orchaldir.gm.core.reducer.character
 
 import at.orchaldir.gm.core.action.CharacterAction
-import at.orchaldir.gm.core.action.UpdateActionOfCharacter
 import at.orchaldir.gm.core.action.UpdateAppearance
 import at.orchaldir.gm.core.action.UpdateRelationships
 import at.orchaldir.gm.core.model.State
@@ -11,7 +10,6 @@ val CHARACTER_REDUCER: Reducer<CharacterAction, State> = { state, action ->
     when (action) {
         // character
         is UpdateAppearance -> UPDATE_APPEARANCE(state, action)
-        is UpdateActionOfCharacter -> UPDATE_EQUIPMENT_MAP(state, action)
         is UpdateRelationships -> UPDATE_RELATIONSHIPS(state, action)
     }
 }

@@ -35,7 +35,7 @@ data class Uniform(
 
         equipmentMap.getAllEquipment().forEach { pair ->
             state.getEquipmentStorage().require(pair.first)
-            state.getColorSchemeStorage().require(pair.second)
+            state.getColorSchemeStorage().requireOptional(pair.second)
         }
     }
 }

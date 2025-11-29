@@ -73,22 +73,6 @@ class CharacterRoutes : Routes<CharacterId, SortCharacter> {
         class Generate(val id: CharacterId, val parent: Birthday = Birthday())
     }
 
-    @Resource("/equipment")
-    class Equipment(val parent: CharacterRoutes = CharacterRoutes()) {
-
-        @Resource("edit")
-        class Edit(val id: CharacterId, val parent: Equipment = Equipment())
-
-        @Resource("preview")
-        class Preview(val id: CharacterId, val parent: Equipment = Equipment())
-
-        @Resource("update")
-        class Update(val id: CharacterId, val parent: Equipment = Equipment())
-
-        @Resource("generate")
-        class Generate(val id: CharacterId, val parent: Equipment = Equipment())
-    }
-
     @Resource("/name")
     class Name(val parent: CharacterRoutes = CharacterRoutes()) {
 

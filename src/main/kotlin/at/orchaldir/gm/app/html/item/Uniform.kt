@@ -7,15 +7,18 @@ import at.orchaldir.gm.app.html.character.showEquipmentMap
 import at.orchaldir.gm.app.html.fieldElements
 import at.orchaldir.gm.app.html.parseName
 import at.orchaldir.gm.app.html.parseSimpleOptionalInt
+import at.orchaldir.gm.app.html.rpg.combat.showMeleeAttackTable
+import at.orchaldir.gm.app.html.rpg.combat.showProtectionTable
 import at.orchaldir.gm.app.html.selectName
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.Uniform
 import at.orchaldir.gm.core.model.item.UniformId
-import at.orchaldir.gm.core.selector.character.getCharacterTemplates
+import at.orchaldir.gm.core.selector.character.*
 import at.orchaldir.gm.core.selector.economy.getJobs
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
+import kotlinx.html.h2
 
 // show
 
@@ -25,8 +28,35 @@ fun HtmlBlockTag.showUniform(
     uniform: Uniform,
 ) {
     showEquipmentMap(call, state, "Equipment", uniform.equipmentMap)
-    fieldElements(call, state, state.getCharacterTemplates(uniform.id))
-    fieldElements(call, state, state.getJobs(uniform.id))
+
+    val amorMap = getArmors(state, uniform.equipmentMap)
+    val meleeAttackMap = getMeleeAttacks(state, uniform.equipmentMap)
+    val shieldMap = getShields(state, uniform.equipmentMap)
+
+    showMeleeAttackTable(call, state, meleeAttackMap)
+    showProtectionTable(call, state, amorMap + shieldMap)
+
+    showUsages(call, state, uniform.id)
+}
+
+private fun HtmlBlockTag.showUsages(
+    call: ApplicationCall,
+    state: State,
+    uniform: UniformId,
+) {
+    val characters = state.getCharactersWith(uniform)
+    val characterTemplates = state.getCharacterTemplates(uniform)
+    val jobs = state.getJobs(uniform)
+
+    if (characters.isEmpty() && characterTemplates.isEmpty() && jobs.isEmpty()) {
+        return
+    }
+
+    h2 { +"Usage" }
+
+    fieldElements(call, state, characters)
+    fieldElements(call, state, characterTemplates)
+    fieldElements(call, state, jobs)
 }
 
 // edit

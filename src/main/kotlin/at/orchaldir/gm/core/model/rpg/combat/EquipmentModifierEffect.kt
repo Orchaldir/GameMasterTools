@@ -21,11 +21,6 @@ sealed class EquipmentModifierEffect {
         is ModifyDefenseBonus -> EquipmentModifierEffectType.DefenseBonus
     }
 
-    fun modify(attack: MeleeAttack) = when (this) {
-        is ModifyDamage -> attack.copy(effect = attack.effect.apply(this))
-        is ModifyDamageResistance, is ModifyDefenseBonus -> attack
-    }
-
     fun validate(state: State) {
         val rpg = state.data.rpg
 

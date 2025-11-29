@@ -6,6 +6,7 @@ import at.orchaldir.gm.EQUIPMENT_ID_0
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
+import at.orchaldir.gm.core.model.character.EquippedEquipment
 import at.orchaldir.gm.core.model.item.equipment.BodySlot
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap
@@ -29,8 +30,8 @@ class ColorSchemeTest {
 
         @Test
         fun `Cannot delete a scheme used by a character's equipment`() {
-            val equipmentMap = EquipmentMap.fromId(EQUIPMENT_ID_0, COLOR_SCHEME_ID_0, BodySlot.Top)
-            val character = Character(CHARACTER_ID_0, equipmentMap = equipmentMap)
+            val map = EquipmentMap.fromId(EQUIPMENT_ID_0, COLOR_SCHEME_ID_0, BodySlot.Top)
+            val character = Character(CHARACTER_ID_0, equipped = EquippedEquipment(map))
             val newState = state.updateStorage(Storage(character))
 
             failCanDelete(newState, CHARACTER_ID_0)

@@ -1,21 +1,22 @@
 package at.orchaldir.gm.core.reducer.character
 
-import at.orchaldir.gm.core.action.UpdateActionOfCharacter
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.Equipped
+import at.orchaldir.gm.core.model.character.EquippedEquipment
+import at.orchaldir.gm.core.model.character.EquippedUniform
+import at.orchaldir.gm.core.model.character.UndefinedEquipped
 import at.orchaldir.gm.core.model.item.equipment.BodySlot
 import at.orchaldir.gm.core.model.item.equipment.EquipmentIdMap
 import at.orchaldir.gm.core.model.item.equipment.getAllBodySlotCombinations
-import at.orchaldir.gm.utils.redux.Reducer
-import at.orchaldir.gm.utils.redux.noFollowUps
+import at.orchaldir.gm.utils.doNothing
 
-val UPDATE_EQUIPMENT_MAP: Reducer<UpdateActionOfCharacter, State> = { state, action ->
-    val character = state.getCharacterStorage().getOrThrow(action.id)
-
-    validateCharacterEquipment(state, action.map)
-
-    val updated = character.copy(equipmentMap = action.map)
-
-    noFollowUps(state.updateStorage(state.getCharacterStorage().update(updated)))
+fun validateEquipped(
+    state: State,
+    equipped: Equipped,
+) = when (equipped) {
+    is EquippedEquipment -> validateCharacterEquipment(state, equipped.map)
+    is EquippedUniform -> state.getUniformStorage().require(equipped.uniform)
+    UndefinedEquipped -> doNothing()
 }
 
 fun validateCharacterEquipment(
@@ -28,7 +29,7 @@ fun validateCharacterEquipment(
         val equipment = state.getEquipmentStorage().getOrThrow(pair.first)
         val allowedSlotSets = equipment.data.slots().getAllBodySlotCombinations()
 
-        state.getColorSchemeStorage().require(pair.second)
+        state.getColorSchemeStorage().requireOptional(pair.second)
 
         slotSets.forEach { slotSet ->
             // Not sure why allowedSlotSets.contains(slotSet) doesn't work

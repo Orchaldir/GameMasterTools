@@ -1,12 +1,11 @@
 package at.orchaldir.gm.core.selector.item
 
-import at.orchaldir.gm.CHARACTER_TEMPLATE_ID_0
-import at.orchaldir.gm.JOB_ID_0
-import at.orchaldir.gm.RACE_ID_0
-import at.orchaldir.gm.UNIFORM_ID_0
+import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterTemplate
+import at.orchaldir.gm.core.model.character.EquippedUniform
 import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.item.Uniform
 import at.orchaldir.gm.core.model.util.GenderMap
@@ -36,8 +35,18 @@ class UniformTest {
         }
 
         @Test
-        fun `Cannot delete a culture used by a character template`() {
-            val template = CharacterTemplate(CHARACTER_TEMPLATE_ID_0, race = RACE_ID_0, uniform = UNIFORM_ID_0)
+        fun `Cannot delete a uniform used by a character`() {
+            val equipped = EquippedUniform(UNIFORM_ID_0)
+            val template = Character(CHARACTER_ID_0, equipped = equipped)
+            val newState = state.updateStorage(Storage(template))
+
+            failCanDelete(newState, CHARACTER_ID_0)
+        }
+
+        @Test
+        fun `Cannot delete a uniform used by a character template`() {
+            val equipped = EquippedUniform(UNIFORM_ID_0)
+            val template = CharacterTemplate(CHARACTER_TEMPLATE_ID_0, race = RACE_ID_0, equipped = equipped)
             val newState = state.updateStorage(Storage(template))
 
             failCanDelete(newState, CHARACTER_TEMPLATE_ID_0)

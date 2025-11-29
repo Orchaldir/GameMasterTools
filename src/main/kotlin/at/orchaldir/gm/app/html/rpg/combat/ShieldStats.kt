@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.rpg.combat.ShieldStats
 import at.orchaldir.gm.core.selector.rpg.getEquipmentModifierEffects
+import at.orchaldir.gm.core.selector.rpg.resolveProtection
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -37,7 +38,7 @@ private fun HtmlBlockTag.showUpdatedShieldStats(
 ) {
     state.getShieldTypeStorage().getOptional(stats.type)?.let { type ->
         val effects = state.getEquipmentModifierEffects(stats.modifiers)
-        val updatedProtection = type.protection.apply(effects)
+        val updatedProtection = resolveProtection(effects, type.protection)
 
         fieldProtection(call, state, updatedProtection)
     }

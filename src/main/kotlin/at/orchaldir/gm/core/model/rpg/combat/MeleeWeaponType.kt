@@ -37,13 +37,4 @@ data class MeleeWeaponType(
     fun contains(type: DamageTypeId) = attacks.any { it.contains(type) }
     fun contains(statistic: StatisticId) = attacks.any { it.contains(statistic) }
 
-    fun apply(effects: List<EquipmentModifierEffect>) = attacks.map { original ->
-        var attack = original
-
-        effects.forEach { effect ->
-            attack = effect.modify(attack)
-        }
-
-        attack
-    }
 }

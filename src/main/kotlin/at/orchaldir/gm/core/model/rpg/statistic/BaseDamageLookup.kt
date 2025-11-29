@@ -23,6 +23,11 @@ sealed class BaseDamageLookup {
         is BaseDamageDicePool -> "$value$dieType"
         is SimpleBaseDamageLookup -> lookup.get(value).display(dieType.toString())
     }
+
+    fun resolveDamage(value: Int) = when (this) {
+        is BaseDamageDicePool -> SimpleModifiedDice(value)
+        is SimpleBaseDamageLookup -> lookup.get(value)
+    }
 }
 
 @Serializable

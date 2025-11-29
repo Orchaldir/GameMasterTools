@@ -13,12 +13,17 @@ import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.util.render.ColorSchemeId
+import at.orchaldir.gm.core.selector.character.getCharacterTemplates
+import at.orchaldir.gm.core.selector.character.getCharactersWith
+import at.orchaldir.gm.core.selector.culture.getFashions
+import at.orchaldir.gm.core.selector.item.getUniforms
 import at.orchaldir.gm.core.selector.util.filterValidColorSchemes
 import at.orchaldir.gm.core.selector.util.getValidColorSchemes
 import at.orchaldir.gm.utils.math.unit.SiPrefix
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
+import kotlinx.html.h2
 
 // show
 
@@ -41,6 +46,29 @@ fun HtmlBlockTag.showEquipment(
         showShieldStats(call, state, it, material)
     }
     showEquipmentData(call, state, equipment.data)
+    showUsages(call, state, equipment.id)
+}
+
+private fun HtmlBlockTag.showUsages(
+    call: ApplicationCall,
+    state: State,
+    equipment: EquipmentId,
+) {
+    val characters = state.getCharactersWith(equipment)
+    val characterTemplates = state.getCharacterTemplates(equipment)
+    val fashions = state.getFashions(equipment)
+    val uniforms = state.getUniforms(equipment)
+
+    if (characters.isEmpty() && characterTemplates.isEmpty() && fashions.isEmpty() && uniforms.isEmpty()) {
+        return
+    }
+
+    h2 { +"Usage" }
+
+    fieldElements(call, state, characters)
+    fieldElements(call, state, characterTemplates)
+    fieldElements(call, state, fashions)
+    fieldElements(call, state, uniforms)
 }
 
 private fun HtmlBlockTag.showEquipmentData(

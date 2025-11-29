@@ -6,7 +6,6 @@ import at.orchaldir.gm.app.html.culture.editKnownLanguages
 import at.orchaldir.gm.app.html.culture.parseKnownLanguages
 import at.orchaldir.gm.app.html.culture.parseOptionalCultureId
 import at.orchaldir.gm.app.html.culture.showKnownLanguages
-import at.orchaldir.gm.app.html.item.parseOptionalUniformId
 import at.orchaldir.gm.app.html.race.parseRaceId
 import at.orchaldir.gm.app.html.rpg.editStatblock
 import at.orchaldir.gm.app.html.rpg.parseStatblock
@@ -22,6 +21,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterTemplate
 import at.orchaldir.gm.core.model.character.CharacterTemplateId
 import at.orchaldir.gm.core.model.character.Gender
+import at.orchaldir.gm.core.model.rpg.UseStatblockOfTemplate
 import at.orchaldir.gm.core.selector.character.getCharactersUsing
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -40,8 +40,8 @@ fun HtmlBlockTag.showCharacterTemplate(
     optionalFieldLink(call, state, template.culture)
     showKnownLanguages(call, state, template)
     fieldBeliefStatus(call, state, template.belief)
-    optionalFieldLink(call, state, template.uniform)
     showStatblock(call, state, template.statblock)
+    showEquippedDetails(call, state, template.equipped, UseStatblockOfTemplate(template.id))
     showDataSources(call, state, template.sources)
     showUsage(call, state, template)
 }
@@ -77,7 +77,7 @@ fun HtmlBlockTag.editCharacterTemplate(
     editOptionalElement(state, CULTURE, state.getCultureStorage().getAll(), template.culture)
     editKnownLanguages(state, template.languages)
     selectBeliefStatus(state, BELIEVE, template.belief)
-    editOptionalElement(state, UNIFORM, state.getUniformStorage().getAll(), template.uniform)
+    editEquipped(state, EQUIPPED, template.equipped)
     editStatblock(call, state, template.statblock)
     editDataSources(state, template.sources)
 }
@@ -98,7 +98,7 @@ fun parseCharacterTemplate(
     parseOptionalCultureId(parameters, CULTURE),
     parseKnownLanguages(parameters, state),
     parseBeliefStatus(parameters, state, BELIEVE),
-    parseOptionalUniformId(parameters, UNIFORM),
+    parseEquipped(parameters, state, EQUIPPED),
     parseStatblock(state, parameters),
     parseDataSources(parameters),
 )

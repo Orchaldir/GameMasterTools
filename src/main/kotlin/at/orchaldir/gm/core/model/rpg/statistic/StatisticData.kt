@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.rpg.statistic
 
+import at.orchaldir.gm.core.model.rpg.SimpleModifiedDice
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -40,6 +41,11 @@ sealed class StatisticData {
         is BaseDamage -> lookup.display(value)
         is DerivedAttribute -> unit.display(value)
         else -> value.toString()
+    }
+
+    fun resolveDamage(value: Int) = when (this) {
+        is BaseDamage -> lookup.resolveDamage(value)
+        else -> SimpleModifiedDice(modifier = value)
     }
 }
 

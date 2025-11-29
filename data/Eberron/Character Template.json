@@ -27,6 +27,10 @@
     "#type": "Pantheon",
     "pantheon": 0
    },
+   "equipped": {
+    "#type": "Uniform",
+    "uniform": 0
+   },
    "statblock": {
     "statistics": {
      "0": 4,

@@ -107,7 +107,18 @@ fun Application.configureCharacterRouting() {
             }
         }
         get<CharacterRoutes.Details> { details ->
-            handleShowElement(details.id, CharacterRoutes(), HtmlBlockTag::showCharacterDetails)
+            handleShowElementSplit(
+                details.id,
+                CharacterRoutes(),
+                HtmlBlockTag::showCharacterDetails
+            )
+            { call, state, character ->
+                val editAppearanceLink = call.application.href(CharacterRoutes.Appearance.Edit(character.id))
+
+                showCharacterFrontAndBack(call, state, character)
+
+                action(editAppearanceLink, "Edit Appearance")
+            }
         }
         get<CharacterRoutes.New> {
             handleCreateElement(CharacterRoutes(), STORE.getState().getCharacterStorage())
@@ -116,10 +127,21 @@ fun Application.configureCharacterRouting() {
             handleDeleteElement(CharacterRoutes(), delete.id)
         }
         get<CharacterRoutes.Edit> { edit ->
-            handleEditElement(edit.id, CharacterRoutes(), HtmlBlockTag::editCharacter)
+            handleEditElementSplit(
+                edit.id,
+                CharacterRoutes(),
+                HtmlBlockTag::editCharacter,
+                HtmlBlockTag::showCharacterFrontAndBack,
+            )
         }
         post<CharacterRoutes.Preview> { preview ->
-            handlePreviewElement(preview.id, CharacterRoutes(), ::parseCharacter, HtmlBlockTag::editCharacter)
+            handlePreviewElementSplit(
+                preview.id,
+                CharacterRoutes(),
+                ::parseCharacter,
+                HtmlBlockTag::editCharacter,
+                HtmlBlockTag::showCharacterFrontAndBack,
+            )
         }
         post<CharacterRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseCharacter)
@@ -159,18 +181,21 @@ private fun HtmlBlockTag.showCharacterDetails(
     state: State,
     character: Character,
 ) {
-    val equipment = state.getEquipment(character)
-    val editAppearanceLink = call.application.href(CharacterRoutes.Appearance.Edit(character.id))
-    val frontSvg = visualizeCharacter(CHARACTER_CONFIG, state, character, equipment)
-    val backSvg = visualizeCharacter(CHARACTER_CONFIG, state, character, equipment, false)
-
-    svg(frontSvg, 20)
-    svg(backSvg, 20)
-
-    action(editAppearanceLink, "Edit Appearance")
-
     showData(character, call, state)
     showSocial(call, state, character)
     showPossession(call, state, character)
     showCreated(call, state, character.id)
+}
+
+private fun HtmlBlockTag.showCharacterFrontAndBack(
+    call: ApplicationCall,
+    state: State,
+    character: Character,
+) {
+    val equipment = state.getEquipment(character)
+    val frontSvg = visualizeCharacter(CHARACTER_CONFIG, state, character, equipment)
+    val backSvg = visualizeCharacter(CHARACTER_CONFIG, state, character, equipment, false)
+
+    svg(frontSvg, 40)
+    svg(backSvg, 40)
 }

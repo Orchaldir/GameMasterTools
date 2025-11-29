@@ -38,14 +38,14 @@ enum class EquipmentSlot {
         HeadSlot -> setOf(setOf(BodySlot.Head))
         HeldInOneHandSlot -> setOf(
             setOf(BodySlot.HeldInLeftHand),
-            setOf(BodySlot.HeldInLeftHand),
+            setOf(BodySlot.HeldInRightHand),
         )
 
-        HeldInTwoHandsSlot -> setOf(setOf(BodySlot.HeldInLeftHand, BodySlot.HeldInLeftHand))
+        HeldInTwoHandsSlot -> setOf(setOf(BodySlot.HeldInLeftHand, BodySlot.HeldInRightHand))
         HeldInOneOrTwoHandsSlot -> setOf(
             setOf(BodySlot.HeldInLeftHand),
-            setOf(BodySlot.HeldInLeftHand),
-            setOf(BodySlot.HeldInLeftHand, BodySlot.HeldInLeftHand),
+            setOf(BodySlot.HeldInRightHand),
+            setOf(BodySlot.HeldInLeftHand, BodySlot.HeldInRightHand),
         )
 
         InnerTopSlot -> setOf(setOf(BodySlot.InnerTop))

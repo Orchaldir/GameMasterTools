@@ -7,10 +7,7 @@ import at.orchaldir.gm.core.model.character.appearance.eye.Eyes
 import at.orchaldir.gm.core.model.character.appearance.eye.NoEyes
 import at.orchaldir.gm.core.model.character.appearance.eye.OneEye
 import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
-import at.orchaldir.gm.core.model.item.equipment.EquipmentData
-import at.orchaldir.gm.core.model.item.equipment.EquipmentDataMap
-import at.orchaldir.gm.core.model.item.equipment.EquipmentElementMap
-import at.orchaldir.gm.core.model.item.equipment.EquipmentMap
+import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.util.render.UndefinedColors
 import at.orchaldir.gm.prototypes.visualization.renderTable
 import at.orchaldir.gm.utils.math.Size2d
@@ -77,7 +74,7 @@ fun renderCharacterTableWithoutColorScheme(
     appearance,
     equipmentTable.map { list ->
         list.map { map ->
-            map.convert { data -> Pair(data, UndefinedColors) }
+            map.addColors { data -> EquipmentDataPair(data, UndefinedColors) }
         }
     },
 )
@@ -116,7 +113,7 @@ fun <C, R> renderCharacterTableWithoutColorScheme(
 ) { distance, row, column ->
     val (appearance, equipmentMap) = create(distance, row, column)
 
-    Pair(appearance, equipmentMap.convert { data -> Pair(data, UndefinedColors) })
+    Pair(appearance, equipmentMap.addColors { data -> Pair(data, UndefinedColors) })
 }
 
 fun <C, R> renderCharacterTable(
