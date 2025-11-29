@@ -7,13 +7,16 @@ import at.orchaldir.gm.app.html.character.showEquipmentMap
 import at.orchaldir.gm.app.html.fieldElements
 import at.orchaldir.gm.app.html.parseName
 import at.orchaldir.gm.app.html.parseSimpleOptionalInt
+import at.orchaldir.gm.app.html.rpg.combat.showMeleeAttackTable
 import at.orchaldir.gm.app.html.selectName
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.Uniform
 import at.orchaldir.gm.core.model.item.UniformId
 import at.orchaldir.gm.core.selector.character.getCharacterTemplates
 import at.orchaldir.gm.core.selector.character.getCharactersWith
+import at.orchaldir.gm.core.selector.character.getMeleeAttacks
 import at.orchaldir.gm.core.selector.economy.getJobs
+import at.orchaldir.gm.core.selector.rpg.resolveMeleeAttackMap
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -27,6 +30,11 @@ fun HtmlBlockTag.showUniform(
     uniform: Uniform,
 ) {
     showEquipmentMap(call, state, "Equipment", uniform.equipmentMap)
+
+    val meleeAttackMap = getMeleeAttacks(state, uniform.equipmentMap)
+
+    showMeleeAttackTable(call, state, meleeAttackMap)
+
     showUsages(call, state, uniform.id)
 }
 

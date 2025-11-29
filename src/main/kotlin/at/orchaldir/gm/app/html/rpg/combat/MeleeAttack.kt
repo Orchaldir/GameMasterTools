@@ -3,9 +3,11 @@ package at.orchaldir.gm.app.html.rpg.combat
 import at.orchaldir.gm.app.EFFECT
 import at.orchaldir.gm.app.PARRYING
 import at.orchaldir.gm.app.REACH
+import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.app.html.showDetails
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.rpg.combat.MeleeAttack
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -31,6 +33,45 @@ fun HtmlBlockTag.showMeleeAttackTable(
                 td { displayReach(attack.reach) }
                 td { displayParrying(attack.parrying) }
             }
+        }
+    }
+}
+
+fun HtmlBlockTag.showMeleeAttackTable(
+    call: ApplicationCall,
+    state: State,
+    attackMap: Map<Equipment, List<MeleeAttack>>,
+) {
+    if (attackMap.isEmpty()) {
+        return
+    }
+
+    table {
+        caption { +"Attacks" }
+        tr {
+            th { +"Weapon" }
+            th { +"Damage" }
+            th { +"Reach" }
+            th { +"Parrying" }
+        }
+        attackMap.forEach { (weapon, attacks) ->
+            var isFirst = true
+
+            attacks.forEach { attack ->
+                tr {
+                    if (isFirst) {
+                        td {
+                            rowSpan = "2"
+                            link(call, state, weapon)
+                        }
+                        isFirst = false
+                    }
+                    td { displayAttackEffect(call, state, attack.effect) }
+                    td { displayReach(attack.reach) }
+                    td { displayParrying(attack.parrying) }
+                }
+            }
+
         }
     }
 }
