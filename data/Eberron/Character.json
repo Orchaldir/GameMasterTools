@@ -52,8 +52,34 @@
     "height": 1800000
    },
    "equipped": {
-    "#type": "Uniform",
-    "uniform": 0
+    "#type": "Equipment",
+    "map": {
+     "list": [
+      {
+       "data": {
+        "first": 4,
+        "second": null
+       },
+       "sets": [
+        [
+         "HeldInLeftHand",
+         "HeldInRightHand"
+        ]
+       ]
+      },
+      {
+       "data": {
+        "first": 2,
+        "second": null
+       },
+       "sets": [
+        [
+         "Top"
+        ]
+       ]
+      }
+     ]
+    }
    },
    "beliefStatus": {
     "current": {

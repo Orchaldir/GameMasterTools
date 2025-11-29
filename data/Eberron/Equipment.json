@@ -133,6 +133,9 @@
      "part": {
       "material": 17
      }
+    },
+    "stats": {
+     "type": 1
     }
    }
   },

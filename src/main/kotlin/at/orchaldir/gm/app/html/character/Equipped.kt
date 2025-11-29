@@ -1,5 +1,6 @@
 package at.orchaldir.gm.app.html.character
 
+import at.orchaldir.gm.app.EQUIPMENT
 import at.orchaldir.gm.app.UNIFORM
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.item.parseUniformId
@@ -76,7 +77,11 @@ fun HtmlBlockTag.editEquipped(
         }
 
         when (equipped) {
-            is EquippedEquipment -> editEquipmentMap( state, equipped.map, param)
+            is EquippedEquipment -> editEquipmentMap(
+                state,
+                equipped.map,
+                combine(param, EQUIPMENT),
+            )
             is EquippedUniform -> selectElement(
                 state,
                 combine(param, UNIFORM),
@@ -94,7 +99,7 @@ fun parseEquipped(parameters: Parameters, state: State, param: String) =
     when (parse(parameters, param, EquippedType.Undefined)) {
         EquippedType.Undefined -> UndefinedEquipped
         EquippedType.Equipment -> EquippedEquipment(
-            parseEquipmentMap(parameters, param),
+            parseEquipmentMap(parameters, combine(param, EQUIPMENT)),
         )
         EquippedType.Uniform -> EquippedUniform(
             parseUniformId(parameters, combine(param, UNIFORM)),
