@@ -14,6 +14,7 @@ import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.source.DataSourceId
 import at.orchaldir.gm.core.model.util.source.HasDataSources
+import at.orchaldir.gm.core.reducer.character.validateEquipped
 import at.orchaldir.gm.core.reducer.rpg.validateStatblock
 import at.orchaldir.gm.core.reducer.util.checkBeliefStatus
 import at.orchaldir.gm.utils.Id
@@ -58,7 +59,7 @@ data class CharacterTemplate(
         state.getDataSourceStorage().require(sources)
         state.getLanguageStorage().require(languages.keys)
         state.getRaceStorage().require(race)
-        //state.getUniformStorage().requireOptional(uniform)
+        validateEquipped(state, equipped)
         validateStatblock(state, statblock)
         checkBeliefStatus(state, belief)
     }

@@ -12,7 +12,7 @@ import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
-class EquipmentMapTest {
+class EquippedTest {
 
     private val equipmentMap = EquipmentMap
         .fromId(EQUIPMENT_ID_0, COLOR_SCHEME_ID_0, BodySlot.Head)
