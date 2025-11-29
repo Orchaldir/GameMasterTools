@@ -21,17 +21,13 @@ fun HtmlBlockTag.showMeleeAttackTable(
     attacks: List<MeleeAttack>,
 ) {
     table {
-        caption { +"Attacks" }
+        caption { +"Melee Attacks" }
         tr {
-            th { +"Damage" }
-            th { +"Reach" }
-            th { +"Parrying" }
+            sharedHeaders()
         }
         attacks.forEach { attack ->
             tr {
-                td { displayAttackEffect(call, state, attack.effect) }
-                td { displayReach(attack.reach) }
-                td { displayParrying(attack.parrying) }
+                sharedColumns(call, state, attack)
             }
         }
     }
@@ -50,9 +46,7 @@ fun HtmlBlockTag.showMeleeAttackTable(
         caption { +"Melee Attacks" }
         tr {
             th { +"Weapon" }
-            th { +"Damage" }
-            th { +"Reach" }
-            th { +"Parrying" }
+            sharedHeaders()
         }
         attackMap.forEach { (weapon, attacks) ->
             var isFirst = true
@@ -66,14 +60,28 @@ fun HtmlBlockTag.showMeleeAttackTable(
                         }
                         isFirst = false
                     }
-                    td { displayAttackEffect(call, state, attack.effect) }
-                    td { displayReach(attack.reach) }
-                    td { displayParrying(attack.parrying) }
+                    sharedColumns(call, state, attack)
                 }
             }
 
         }
     }
+}
+
+private fun TR.sharedHeaders() {
+    th { +"Damage" }
+    th { +"Reach" }
+    th { +"Parrying" }
+}
+
+private fun TR.sharedColumns(
+    call: ApplicationCall,
+    state: State,
+    attack: MeleeAttack,
+) {
+    td { displayAttackEffect(call, state, attack.effect) }
+    td { displayReach(attack.reach) }
+    td { displayParrying(attack.parrying) }
 }
 
 fun HtmlBlockTag.showMeleeAttacks(
