@@ -47,7 +47,7 @@ fun HtmlBlockTag.showMeleeAttackTable(
     }
 
     table {
-        caption { +"Attacks" }
+        caption { +"Melee Attacks" }
         tr {
             th { +"Weapon" }
             th { +"Damage" }

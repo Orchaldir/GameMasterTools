@@ -35,7 +35,7 @@ fun resolveMeleeAttackMap(
     state: State,
     statblock: Statblock,
     attackMap: Map<Equipment, List<MeleeAttack>>,
-) = attackMap.mapValues { (equipment, attacks) ->
+) = attackMap.mapValues { (_, attacks) ->
     attacks.map { attack ->
         resolveMeleeAttack(state, statblock, attack)
     }
@@ -66,6 +66,6 @@ fun resolveDamageAmount(
         val statistic = state.getStatisticStorage().getOrThrow(amount.base)
         val value = statblock.resolve(state, statistic) ?: error("Failed to resolve ${amount.base.print()} with statblock!")
 
-        SimpleRandomDamage(statistic.data.resolveDamage(value))
+        SimpleRandomDamage(statistic.data.resolveDamage(value) + amount.modifier)
     }
 }
