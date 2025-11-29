@@ -1,9 +1,10 @@
 package at.orchaldir.gm.core.reducer.character
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.UpdateActionOfCharacter
+import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
+import at.orchaldir.gm.core.model.character.EquippedEquipment
 import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.util.render.ColorScheme
 import at.orchaldir.gm.core.reducer.REDUCER
@@ -15,7 +16,8 @@ class EquipmentMapTest {
 
     private val equipmentMap = EquipmentMap
         .fromId(EQUIPMENT_ID_0, COLOR_SCHEME_ID_0, BodySlot.Head)
-    private val action = UpdateActionOfCharacter(CHARACTER_ID_0, equipmentMap)
+    private val equippedEquipment = EquippedEquipment(equipmentMap)
+    private val action = UpdateAction(Character(CHARACTER_ID_0, equipped = equippedEquipment))
     val state = State(
         listOf(
             Storage(listOf(Character(CHARACTER_ID_0))),
@@ -28,7 +30,7 @@ class EquipmentMapTest {
     fun `Update equipment`() {
         val result = REDUCER.invoke(state, action).first
 
-        assertEquals(equipmentMap, result.getCharacterStorage().getOrThrow(CHARACTER_ID_0).equipmentMap)
+        assertEquals(equippedEquipment, result.getCharacterStorage().getOrThrow(CHARACTER_ID_0).equipped)
     }
 
     @Test
@@ -69,14 +71,14 @@ class EquipmentMapTest {
                 )
             )
         )
-        val equipmentMap = EquipmentMap.fromSlotAsValueMap(
+        val equipmentMap = EquipmentMap.fromSlotAsValueMap<EquipmentIdPair>(
             mapOf(
                 EQUIPMENT_ID_0 to setOf(setOf(BodySlot.Bottom, BodySlot.InnerTop)),
                 EQUIPMENT_ID_1 to setOf(setOf(BodySlot.InnerTop)),
             )
                 .mapKeys { Pair(it.key, COLOR_SCHEME_ID_0) }
         )
-        val action = UpdateActionOfCharacter(CHARACTER_ID_0, equipmentMap)
+        val action = UpdateAction(Character(CHARACTER_ID_0, equipped = EquippedEquipment(equipmentMap)))
 
         assertIllegalArgument("Body slot InnerTop is occupied multiple times!") { REDUCER.invoke(state, action) }
     }
