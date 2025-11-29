@@ -1,7 +1,6 @@
 package at.orchaldir.gm.core.selector.rpg
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.rpg.CharacterStatblock
 import at.orchaldir.gm.core.model.rpg.Statblock
 import at.orchaldir.gm.core.model.rpg.combat.AttackEffect
 import at.orchaldir.gm.core.model.rpg.combat.Damage
