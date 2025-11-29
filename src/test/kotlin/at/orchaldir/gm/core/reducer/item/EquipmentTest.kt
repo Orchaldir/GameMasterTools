@@ -4,6 +4,7 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
+import at.orchaldir.gm.core.model.character.EquippedEquipment
 import at.orchaldir.gm.core.model.economy.material.Material
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.item.equipment.*
@@ -35,8 +36,8 @@ class EquipmentTest {
             Storage(Material(MATERIAL_ID_0))
         ),
     )
-    private val EQUIPMENT_MAP = EquipmentMap
-        .fromId(EQUIPMENT_ID_0, COLOR_SCHEME_ID_0, BodySlot.Head)
+    private val EQUIPMENT_MAP = EquippedEquipment(EquipmentMap
+        .fromId(EQUIPMENT_ID_0, COLOR_SCHEME_ID_0, BodySlot.Head))
 
     @Nested
     inner class UpdateTest {
@@ -55,7 +56,7 @@ class EquipmentTest {
             val state = State(
                 listOf(
                     Storage(oldItem),
-                    Storage(Character(CHARACTER_ID_0, equipmentMap = EQUIPMENT_MAP)),
+                    Storage(Character(CHARACTER_ID_0, equipped = EQUIPMENT_MAP)),
                     Storage(Material(MATERIAL_ID_0)),
                 )
             )
@@ -71,7 +72,7 @@ class EquipmentTest {
             val state = State(
                 listOf(
                     Storage(oldItem),
-                    Storage(Character(CHARACTER_ID_0, equipmentMap = EQUIPMENT_MAP)),
+                    Storage(Character(CHARACTER_ID_0, equipped = EQUIPMENT_MAP)),
                     Storage(listOf(Material(MATERIAL_ID_0), Material(MATERIAL_ID_1))),
                 )
             )

@@ -4,6 +4,8 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterTemplate
+import at.orchaldir.gm.core.model.character.Equipped
+import at.orchaldir.gm.core.model.character.EquippedUniform
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.language.ComprehensionLevel.Native
@@ -94,7 +96,8 @@ class CharacterTemplateTest {
 
         @Test
         fun `Using an unknown uniform`() {
-            val template = CharacterTemplate(CHARACTER_TEMPLATE_ID_0, race = RACE_ID_0, uniform = UNKNOWN_UNIFORM_ID)
+            val equipped = EquippedUniform(UNKNOWN_UNIFORM_ID)
+            val template = CharacterTemplate(CHARACTER_TEMPLATE_ID_0, race = RACE_ID_0, equipped = equipped)
             val action = UpdateAction(template)
 
             assertIllegalArgument("Requires unknown Uniform 99!") { REDUCER.invoke(STATE, action) }
@@ -110,7 +113,7 @@ class CharacterTemplateTest {
                 CULTURE_ID_0,
                 mapOf(LANGUAGE_ID_0 to Native),
                 WorshipOfGod(GOD_ID_0),
-                UNIFORM_ID_0,
+                EquippedUniform(UNIFORM_ID_0),
             )
             val action = UpdateAction(template)
 

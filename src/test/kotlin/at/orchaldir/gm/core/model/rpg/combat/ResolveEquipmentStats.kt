@@ -24,7 +24,7 @@ class ResolveEquipmentStats {
             val effect = ModifyDamage(SimpleModifiedDice(10, 20))
             val updateAttack = createAttack(SimpleRandomDamage(updatedDice))
 
-            assertEquals(resolveMeleeAttack(effect, simpleAttack), updateAttack)
+            assertResolve(effect, simpleAttack, updateAttack)
         }
 
         @Test
@@ -32,23 +32,31 @@ class ResolveEquipmentStats {
             val effect = ModifyDamage(SimpleModifiedDice(10, 20))
             val updateAttack = createAttack(StatisticBasedDamage(STATISTIC_ID_0, updatedDice))
 
-            assertEquals(resolveMeleeAttack(effect, basedAttack), updateAttack)
+            assertResolve(effect, basedAttack, updateAttack)
         }
 
         @Test
         fun `Test Modify Damage Resistance`() {
             val effect = ModifyDamageResistance(1)
 
-            assertEquals(resolveMeleeAttack(effect, simpleAttack), simpleAttack)
-            assertEquals(resolveMeleeAttack(effect, basedAttack), basedAttack)
+            assertResolve(effect, simpleAttack, simpleAttack)
+            assertResolve(effect, basedAttack, basedAttack)
         }
 
         @Test
         fun `Test Modify Defense Bonus`() {
             val effect = ModifyDefenseBonus(2)
 
-            assertEquals(resolveMeleeAttack(effect, simpleAttack), simpleAttack)
-            assertEquals(resolveMeleeAttack(effect, basedAttack), basedAttack)
+            assertResolve(effect, simpleAttack, simpleAttack)
+            assertResolve(effect, basedAttack, basedAttack)
+        }
+
+        private fun assertResolve(
+            effect: EquipmentModifierEffect,
+            input: MeleeAttack,
+            output: MeleeAttack,
+        ) {
+            assertEquals(resolveMeleeAttack(effect, input), output)
         }
 
         fun createAttack(amount: DamageAmount) = MeleeAttack(Damage(amount, DAMAGE_TYPE_ID_0))
@@ -65,10 +73,10 @@ class ResolveEquipmentStats {
         fun `Test Modify Damage`() {
             val effect = ModifyDamage(SimpleModifiedDice(1, 2))
 
-            assertEquals(resolveProtection(effect, damageResistance), damageResistance)
-            assertEquals(resolveProtection(effect, damageResistances), damageResistances)
-            assertEquals(resolveProtection(effect, defenseBonus), defenseBonus)
-            assertEquals(resolveProtection(effect, UndefinedProtection), UndefinedProtection)
+            assertResolve(effect, damageResistance, damageResistance)
+            assertResolve(effect, damageResistances, damageResistances)
+            assertResolve(effect, defenseBonus, defenseBonus)
+            assertResolve(effect, UndefinedProtection, UndefinedProtection)
         }
 
         @Test
@@ -76,20 +84,26 @@ class ResolveEquipmentStats {
             val effect = ModifyDamageResistance(1)
             val updated = DamageResistances(5, mapOf(DAMAGE_TYPE_ID_0 to 6))
 
-            assertEquals(resolveProtection(effect, damageResistance), DamageResistance(5))
-            assertEquals(resolveProtection(effect, damageResistances), updated)
-            assertEquals(resolveProtection(effect, defenseBonus), defenseBonus)
-            assertEquals(resolveProtection(effect, UndefinedProtection), UndefinedProtection)
+            assertResolve(effect, damageResistance, DamageResistance(5))
+            assertResolve(effect, damageResistances, updated)
+            assertResolve(effect, defenseBonus, defenseBonus)
+            assertResolve(effect, UndefinedProtection, UndefinedProtection)
         }
 
         @Test
         fun `Test Modify Defense Bonus`() {
             val effect = ModifyDefenseBonus(2)
 
-            assertEquals(resolveProtection(effect, damageResistance), damageResistance)
-            assertEquals(resolveProtection(effect, damageResistances), damageResistances)
-            assertEquals(resolveProtection(effect, defenseBonus), DefenseBonus(9))
-            assertEquals(resolveProtection(effect, UndefinedProtection), UndefinedProtection)
+            assertResolve(effect, damageResistance, damageResistance)
+            assertResolve(effect, damageResistances, damageResistances)
+            assertResolve(effect, defenseBonus, DefenseBonus(9))
+            assertResolve(effect, UndefinedProtection, UndefinedProtection)
+        }
+
+        private fun assertResolve(
+            effect: EquipmentModifierEffect, input: Protection, output: Protection
+        ) {
+            assertEquals(resolveProtection(effect, input), output)
         }
 
     }

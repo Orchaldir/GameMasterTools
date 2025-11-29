@@ -7,6 +7,7 @@ import at.orchaldir.gm.FASHION_ID_0
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
+import at.orchaldir.gm.core.model.character.EquippedEquipment
 import at.orchaldir.gm.core.model.culture.fashion.ClothingFashion
 import at.orchaldir.gm.core.model.culture.fashion.Fashion
 import at.orchaldir.gm.core.model.item.equipment.*
@@ -32,7 +33,7 @@ class EquipmentTest {
         fun `Cannot delete a equipment that is equipped`() {
             val map = EquipmentMap
                 .fromId(EQUIPMENT_ID_0, COLOR_SCHEME_ID_0, BodySlot.Head)
-            val character = Character(CHARACTER_ID_0, equipmentMap = map)
+            val character = Character(CHARACTER_ID_0, equipped = EquippedEquipment(map))
             val newState = state.updateStorage(Storage(character))
 
             failCanDelete(newState, CHARACTER_ID_0)

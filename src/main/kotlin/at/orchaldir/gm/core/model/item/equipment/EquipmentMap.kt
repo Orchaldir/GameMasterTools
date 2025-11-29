@@ -12,7 +12,7 @@ data class EquipmentEntry<T>(val data: T, val sets: Set<Set<BodySlot>>) {
         fun <T> from(value: T, slots: Set<BodySlot>) = EquipmentEntry(value, setOf(slots))
         fun <T> from(value: T, data: EquipmentData) = from(value, data.slots().getAllBodySlotCombinations().first())
         fun fromId(equipment: EquipmentId, scheme: ColorSchemeId, slot: BodySlot) =
-            EquipmentEntry(Pair(equipment, scheme), slot)
+            EquipmentEntry(EquipmentIdPair(equipment, scheme), slot)
     }
 
     fun <U> convert(function: (T) -> U): EquipmentEntry<U> = EquipmentEntry(
