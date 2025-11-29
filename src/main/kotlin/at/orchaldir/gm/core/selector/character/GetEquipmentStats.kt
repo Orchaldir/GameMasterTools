@@ -74,3 +74,34 @@ fun getMeleeAttacks(state: State, map: EquipmentIdMap): Map<Equipment, List<Mele
 
     return meleeAttackMap
 }
+
+// get shields
+
+fun getShields(state: State, equipped: Equipped): Map<Equipment, Protection> {
+    return when (equipped) {
+        UndefinedEquipped -> emptyMap()
+        is EquippedEquipment -> getShields(state, equipped.map)
+        is EquippedUniform -> getShields(state, equipped.uniform)
+    }
+}
+
+fun getShields(state: State, id: UniformId): Map<Equipment, Protection> {
+    val uniform = state.getUniformStorage().getOrThrow(id)
+
+    return getShields(state, uniform.equipmentMap)
+}
+
+fun getShields(state: State, map: EquipmentIdMap): Map<Equipment, Protection> {
+    val armorMap = mutableMapOf<Equipment, Protection>()
+
+    map.getAllEquipment().forEach { (id, _) ->
+        val equipment = state.getEquipmentStorage().getOrThrow(id)
+        val stats = equipment.data.getShieldStats() ?: return@forEach
+        val type = state.getShieldTypeStorage().getOptional(stats.type) ?: return@forEach
+        val effects = state.getEquipmentModifierEffects(stats.modifiers)
+
+        armorMap[equipment] = resolveProtection(effects, type.protection)
+    }
+
+    return armorMap
+}

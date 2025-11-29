@@ -5,13 +5,17 @@ import at.orchaldir.gm.app.UNIFORM
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.item.parseUniformId
 import at.orchaldir.gm.app.html.rpg.combat.showMeleeAttackTable
+import at.orchaldir.gm.app.html.rpg.combat.showProtectionTable
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.rpg.CharacterStatblock
+import at.orchaldir.gm.core.selector.character.getArmors
 import at.orchaldir.gm.core.selector.character.getMeleeAttacks
+import at.orchaldir.gm.core.selector.character.getShields
 import at.orchaldir.gm.core.selector.rpg.resolveMeleeAttackMap
+import at.orchaldir.gm.core.selector.rpg.resolveProtectionMap
 import at.orchaldir.gm.core.selector.util.sortUniforms
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
@@ -53,10 +57,15 @@ fun HtmlBlockTag.showEquippedDetails(
             UndefinedEquipped -> doNothing()
         }
 
+        val amorMap = getArmors(state, equipped)
         val meleeAttackMap = getMeleeAttacks(state, equipped)
+        val shieldMap = getShields(state, equipped)
+
+        val resolvedProtectionMap = resolveProtectionMap(state, statblock, amorMap + shieldMap)
         val resolvedMeleeAttackMap = resolveMeleeAttackMap(state, statblock, meleeAttackMap)
 
         showMeleeAttackTable(call, state, resolvedMeleeAttackMap)
+        showProtectionTable(call, state, resolvedProtectionMap)
     }
 }
 

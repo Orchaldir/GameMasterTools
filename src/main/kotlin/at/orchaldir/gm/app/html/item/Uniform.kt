@@ -17,6 +17,7 @@ import at.orchaldir.gm.core.selector.character.getArmors
 import at.orchaldir.gm.core.selector.character.getCharacterTemplates
 import at.orchaldir.gm.core.selector.character.getCharactersWith
 import at.orchaldir.gm.core.selector.character.getMeleeAttacks
+import at.orchaldir.gm.core.selector.character.getShields
 import at.orchaldir.gm.core.selector.economy.getJobs
 import at.orchaldir.gm.core.selector.rpg.resolveMeleeAttackMap
 import io.ktor.http.*
@@ -35,9 +36,10 @@ fun HtmlBlockTag.showUniform(
 
     val amorMap = getArmors(state, uniform.equipmentMap)
     val meleeAttackMap = getMeleeAttacks(state, uniform.equipmentMap)
+    val shieldMap = getShields(state, uniform.equipmentMap)
 
     showMeleeAttackTable(call, state, meleeAttackMap)
-    showProtectionTable(call, state, amorMap)
+    showProtectionTable(call, state, amorMap + shieldMap)
 
     showUsages(call, state, uniform.id)
 }

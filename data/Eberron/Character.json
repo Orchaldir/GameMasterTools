@@ -57,12 +57,11 @@
      "list": [
       {
        "data": {
-        "first": 4,
+        "first": 0,
         "second": null
        },
        "sets": [
         [
-         "HeldInLeftHand",
          "HeldInRightHand"
         ]
        ]
@@ -75,6 +74,17 @@
        "sets": [
         [
          "Top"
+        ]
+       ]
+      },
+      {
+       "data": {
+        "first": 3,
+        "second": null
+       },
+       "sets": [
+        [
+         "HeldInLeftHand"
         ]
        ]
       }
