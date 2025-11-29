@@ -9,8 +9,40 @@ import at.orchaldir.gm.core.model.item.UniformId
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.item.equipment.EquipmentIdMap
 import at.orchaldir.gm.core.model.rpg.combat.MeleeAttack
-import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponStats
+import at.orchaldir.gm.core.model.rpg.combat.Protection
 import at.orchaldir.gm.core.selector.rpg.getEquipmentModifierEffects
+import at.orchaldir.gm.core.selector.rpg.resolveProtection
+
+// get armors
+
+fun getArmors(state: State, equipped: Equipped): Map<Equipment, Protection> {
+    return when (equipped) {
+        UndefinedEquipped -> emptyMap()
+        is EquippedEquipment -> getArmors(state, equipped.map)
+        is EquippedUniform -> getArmors(state, equipped.uniform)
+    }
+}
+
+fun getArmors(state: State, id: UniformId): Map<Equipment, Protection> {
+    val uniform = state.getUniformStorage().getOrThrow(id)
+
+    return getArmors(state, uniform.equipmentMap)
+}
+
+fun getArmors(state: State, map: EquipmentIdMap): Map<Equipment, Protection> {
+    val armorMap = mutableMapOf<Equipment, Protection>()
+
+    map.getAllEquipment().forEach { (id, _) ->
+        val equipment = state.getEquipmentStorage().getOrThrow(id)
+        val stats = equipment.data.getArmorStats() ?: return@forEach
+        val type = state.getArmorTypeStorage().getOptional(stats.type) ?: return@forEach
+        val effects = state.getEquipmentModifierEffects(stats.modifiers)
+
+        armorMap[equipment] = resolveProtection(effects, type.protection)
+    }
+
+    return armorMap
+}
 
 // get melee attacks
 
