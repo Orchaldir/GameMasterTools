@@ -8,14 +8,47 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.core.selector.util.sortDamageTypes
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
+import kotlinx.html.caption
+import kotlinx.html.table
+import kotlinx.html.td
+import kotlinx.html.th
+import kotlinx.html.tr
+import kotlin.collections.component1
+import kotlin.collections.component2
+import kotlin.collections.forEach
 
 // show
+
+fun HtmlBlockTag.showProtectionTable(
+    call: ApplicationCall,
+    state: State,
+    protectionMap: Map<Equipment, Protection>,
+) {
+    if (protectionMap.isEmpty()) {
+        return
+    }
+
+    table {
+        caption { +"Protection Table" }
+        tr {
+            th { +"Equipment" }
+            th { +"Protection" }
+        }
+        protectionMap.forEach { (equipment, protection) ->
+            tr {
+                td { link(call, state, equipment) }
+                td { displayProtection(call, state, protection) }
+            }
+        }
+    }
+}
 
 fun HtmlBlockTag.fieldProtection(
     call: ApplicationCall,

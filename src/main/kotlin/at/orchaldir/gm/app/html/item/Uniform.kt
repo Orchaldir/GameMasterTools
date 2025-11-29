@@ -8,10 +8,12 @@ import at.orchaldir.gm.app.html.fieldElements
 import at.orchaldir.gm.app.html.parseName
 import at.orchaldir.gm.app.html.parseSimpleOptionalInt
 import at.orchaldir.gm.app.html.rpg.combat.showMeleeAttackTable
+import at.orchaldir.gm.app.html.rpg.combat.showProtectionTable
 import at.orchaldir.gm.app.html.selectName
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.Uniform
 import at.orchaldir.gm.core.model.item.UniformId
+import at.orchaldir.gm.core.selector.character.getArmors
 import at.orchaldir.gm.core.selector.character.getCharacterTemplates
 import at.orchaldir.gm.core.selector.character.getCharactersWith
 import at.orchaldir.gm.core.selector.character.getMeleeAttacks
@@ -31,9 +33,11 @@ fun HtmlBlockTag.showUniform(
 ) {
     showEquipmentMap(call, state, "Equipment", uniform.equipmentMap)
 
+    val amorMap = getArmors(state, uniform.equipmentMap)
     val meleeAttackMap = getMeleeAttacks(state, uniform.equipmentMap)
 
     showMeleeAttackTable(call, state, meleeAttackMap)
+    showProtectionTable(call, state, amorMap)
 
     showUsages(call, state, uniform.id)
 }
