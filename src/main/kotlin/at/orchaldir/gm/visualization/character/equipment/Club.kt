@@ -244,7 +244,7 @@ private fun visualizeFlail(
     val diameterFactor = config.simpleHeight.convert(size)
     val diameter = shaftAabb.convertHeight(diameterFactor)
     val radius = diameter / 2
-    val start = shaftAabb.getPoint(CENTER, START)
+    val start = shaftAabb.getPoint(CENTER, -diameterFactor)
     val end = shaftAabb.getPoint(CENTER, THIRD) // TODO: add config
     val thicknessFactor = config.connectionThickness.convert(head.connection.getSizeOfSub())
     val thickness = shaftAabb.convertWidth(thicknessFactor)
