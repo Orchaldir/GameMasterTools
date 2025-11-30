@@ -246,26 +246,27 @@ private fun visualizeFlail(
     val diameter = shaftAabb.convertHeight(diameterFactor)
     val radius = diameter / 2
     val start = shaftAabb.getPoint(CENTER, -diameterFactor)
-    val end = shaftAabb.getPoint(CENTER, THIRD) // TODO: add config
+    val end = Point2d.yAxis(shaftAabb.convertHeight(THIRD + diameterFactor)) // TODO: add config
     val thicknessFactor = config.connectionThickness.convert(head.connection.getSizeOfSub())
     val thickness = shaftAabb.convertWidth(thicknessFactor)
-    val renderer = state.getLayer(layer, 1)
 
-    visualizeLineStyle(
-        state,
-        renderer,
-        head.connection,
-        Line2d(start, end),
-        thickness,
-    )
+    state.renderer.createGroup(start, state.getLayerIndex(layer, 1)) { renderer ->
+        visualizeLineStyle(
+            state,
+            renderer,
+            head.connection,
+            Line2d(Point2d(), end),
+            thickness,
+        )
 
-    when (head.head) {
-        is SimpleClubHead -> TODO()
-        is MorningStarHead -> {
-            visualizeMorningStarHead(state, renderer, head.head, end, radius, QUARTER_CIRCLE)
+        when (head.head) {
+            is SimpleClubHead -> TODO()
+            is MorningStarHead -> {
+                visualizeMorningStarHead(state, renderer, head.head, end, radius, QUARTER_CIRCLE)
+            }
+            is SpikedMaceHead -> TODO()
+            else -> error("Unsupported fail head type!")
         }
-        is SpikedMaceHead -> TODO()
-        else -> error("Unsupported fail head type!")
     }
 }
 
