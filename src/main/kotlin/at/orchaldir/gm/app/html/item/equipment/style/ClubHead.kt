@@ -152,8 +152,9 @@ fun HtmlBlockTag.editClubHead(
 
 fun parseClubHead(
     parameters: Parameters,
-    param: String = CLUB,
-): ClubHead = when (parse(parameters, param, ClubHeadType.None)) {
+    param: String,
+    defaultType: ClubHeadType = ClubHeadType.None,
+): ClubHead = when (parse(parameters, param, defaultType)) {
     ClubHeadType.None -> NoClubHead
     ClubHeadType.Simple -> SimpleClubHead(
         parseComplexShape(parameters, combine(param, SHAPE)),
@@ -176,7 +177,7 @@ fun parseClubHead(
     )
 
     ClubHeadType.Flail -> FlailHead(
-        parseClubHead(parameters, combine(param, SUB)),
+        parseClubHead(parameters, combine(param, SUB), ClubHeadType.MorningStar),
         parseLineStyle(parameters, combine(param, LINE)),
     )
 

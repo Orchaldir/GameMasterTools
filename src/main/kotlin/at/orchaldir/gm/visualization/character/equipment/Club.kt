@@ -264,7 +264,7 @@ private fun visualizeFlail(
     val diameter = shaftAabb.convertHeight(diameterFactor)
     val radius = diameter / 2
     val start = shaftAabb.getPoint(CENTER, -diameterFactor)
-    val end = Point2d.yAxis(shaftAabb.convertHeight(THIRD + diameterFactor)) // TODO: add config
+    val end = Point2d.yAxis(shaftAabb.convertHeight(THIRD + diameterFactor))
     val thicknessFactor = config.connectionThickness.convert(head.connection.getSizeOfSub())
     val thickness = shaftAabb.convertWidth(thicknessFactor)
     val orientations = listOf(config.flailMaxRotation, -config.flailMaxRotation, config.flailMaxRotation)

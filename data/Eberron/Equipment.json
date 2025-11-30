@@ -237,6 +237,44 @@
      }
     }
    }
+  },
+  "8": {
+   "id": 8,
+   "name": "Flail",
+   "data": {
+    "#type": "Club1",
+    "head": {
+     "#type": "Flail",
+     "head": {
+      "#type": "MorningStar",
+      "spikes": {
+       "item": {
+        "length": 5000,
+        "width": 3300,
+        "part": {
+         "material": 10
+        }
+       },
+       "number": 7
+      },
+      "part": {
+       "material": 18
+      }
+     },
+     "connection": {
+      "#type": "Wire",
+      "main": {
+       "material": 1
+      }
+     }
+    },
+    "shaft": {
+     "#type": "Simple",
+     "part": {
+      "material": 17
+     }
+    }
+   }
   }
  }
 }
