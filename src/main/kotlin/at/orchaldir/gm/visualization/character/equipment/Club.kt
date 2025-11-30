@@ -269,7 +269,7 @@ private fun visualizeFlail(
     val thickness = shaftAabb.convertWidth(thicknessFactor)
     val orientations = listOf(config.flailMaxRotation, -config.flailMaxRotation, config.flailMaxRotation)
 
-    state.renderer.createGroup(start, state.getLayerIndex(layer, 1)) { translate ->
+    state.renderer.createGroup(start, state.getLayerIndex(layer + 1)) { translate ->
         translate.createGroup(config.flailMaxRotation) { renderer ->
             renderer.animate(orientations, config.flailSwingDuration)
 
