@@ -11,6 +11,7 @@ import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.shape.UsingCircularShape
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.HALF_CIRCLE
+import at.orchaldir.gm.utils.math.unit.Orientation
 import at.orchaldir.gm.utils.math.unit.QUARTER_CIRCLE
 import at.orchaldir.gm.utils.math.unit.ZERO_ORIENTATION
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
@@ -246,7 +247,9 @@ private fun visualizeFlail(
 
     when (head.head) {
         is SimpleClubHead -> TODO()
-        is MorningStarHead -> visualizeMorningStarHead(state, layer, head.head, end, radius)
+        is MorningStarHead -> {
+            visualizeMorningStarHead(state, layer, head.head, end, radius, QUARTER_CIRCLE)
+        }
         is SpikedMaceHead -> TODO()
         else -> error("Unsupported fail head type!")
     }
@@ -266,7 +269,7 @@ private fun visualizeMorningStar(
     val radius = diameter / 2
     val center = shaftAabb.getPoint(CENTER, -radiusFactor)
 
-    visualizeMorningStarHead(state, layer, head, center, radius)
+    visualizeMorningStarHead(state, layer, head, center, radius, -QUARTER_CIRCLE)
 }
 
 private fun visualizeMorningStarHead(
@@ -275,6 +278,7 @@ private fun visualizeMorningStarHead(
     head: MorningStarHead,
     center: Point2d,
     radius: Distance,
+    orientation: Orientation,
 ) {
     val renderer = state.getLayer(layer)
     val diameter = radius * 2
@@ -286,7 +290,7 @@ private fun visualizeMorningStarHead(
 
     val spikeRenderer = state.getLayer(layer, 1)
 
-    visualizeCircularArrangement(head.spikes, center, radius, -QUARTER_CIRCLE) { _, position, orientation ->
+    visualizeCircularArrangement(head.spikes, center, radius, orientation) { _, position, orientation ->
         visualizeSpike(state, spikeRenderer, head.spikes.item, position, orientation, diameter)
     }
 
