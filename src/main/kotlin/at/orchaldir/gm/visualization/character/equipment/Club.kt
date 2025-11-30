@@ -282,7 +282,12 @@ private fun visualizeFlail(
             )
 
             when (head.head) {
-                is SimpleClubHead -> TODO()
+                is SimpleClubHead -> {
+                    val color = state.getColor(head.head.part)
+                    val options = state.config.getLineOptions(color)
+
+                    visualizeComplexShape(renderer, end, radius, head.head.shape, options)
+                }
                 is MorningStarHead -> visualizeMorningStarHead(state, renderer, head.head, end, radius, QUARTER_CIRCLE)
                 is SpikedMaceHead -> {
                     val headAabb = AABB.fromCenter(end, Size2d(radius, diameter))
