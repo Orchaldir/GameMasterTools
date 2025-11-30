@@ -1,5 +1,29 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "House Mage",
+   "income": {
+    "#type": "SoL",
+    "standard": 4
+   }
+  },
+  "1": {
+   "id": 1,
+   "name": "Show Mage",
+   "income": {
+    "#type": "SoL",
+    "standard": 4
+   }
+  },
+  "2": {
+   "id": 2,
+   "name": "Security Mage",
+   "income": {
+    "#type": "SoL",
+    "standard": 4
+   }
+  }
  }
 }
