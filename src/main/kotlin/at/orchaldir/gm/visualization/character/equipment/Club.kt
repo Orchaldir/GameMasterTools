@@ -238,7 +238,18 @@ private fun visualizeFlail(
     head: FlailHead,
     size: Size,
 ) {
+    val diameterFactor = config.simpleHeight.convert(size)
+    val diameter = shaftAabb.convertHeight(diameterFactor)
+    val radius = diameter / 2
+    val start = shaftAabb.getPoint(CENTER, START)
+    val end = shaftAabb.getPoint(CENTER, HALF) // TODO: add config
 
+    when (head.head) {
+        is SimpleClubHead -> TODO()
+        is MorningStarHead -> visualizeMorningStarHead(state, layer, head.head, end, radius)
+        is SpikedMaceHead -> TODO()
+        else -> error("Unsupported fail head type!")
+    }
 }
 
 private fun visualizeMorningStar(
