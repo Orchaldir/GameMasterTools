@@ -73,11 +73,13 @@ fun Application.configureJobRouting() {
                     Column(listOf("Employer", "Type")) {
                         tdEnum(it.employerType)
                     },
-                    tdColumn(listOf("Yearly", "Income")) {
+                    tdColumn("Income") {
                         when (it.income) {
                             UndefinedIncome -> doNothing()
                             is AffordableStandardOfLiving -> link(call, state, it.income.standard)
-                            is Salary -> +currency.display(it.income.yearlySalary)
+                            is Salary -> showTooltip("Yearly Income") {
+                                +currency.display(it.income.yearlySalary)
+                            }
                         }
                     },
                     Column("Gender") { tdOptionalEnum(it.preferredGender) },

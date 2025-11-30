@@ -4,7 +4,7 @@
   "0": {
    "id": 0,
    "name": "House Mage",
-   "employerType": "Servant",
+   "employerType": "Household",
    "income": {
     "#type": "SoL",
     "standard": 4
@@ -13,7 +13,7 @@
   "1": {
    "id": 1,
    "name": "Show Mage",
-   "employerType": "Servant",
+   "employerType": "Household",
    "income": {
     "#type": "SoL",
     "standard": 4
@@ -22,7 +22,7 @@
   "2": {
    "id": 2,
    "name": "Security Mage",
-   "employerType": "Servant",
+   "employerType": "Household",
    "income": {
     "#type": "SoL",
     "standard": 4
