@@ -2,16 +2,12 @@ package at.orchaldir.gm.app.html.economy
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.economy.money.editPrice
-import at.orchaldir.gm.app.html.economy.money.parsePrice
-import at.orchaldir.gm.app.html.economy.money.showPrice
 import at.orchaldir.gm.app.html.item.parseOptionalUniformId
 import at.orchaldir.gm.app.html.magic.parseSpellId
 import at.orchaldir.gm.app.html.rpg.statistic.parseStatisticId
 import at.orchaldir.gm.app.html.util.parseGenderMap
 import at.orchaldir.gm.app.html.util.selectGenderMap
 import at.orchaldir.gm.app.html.util.showGenderMap
-import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.app.parse.parseSomeOf
@@ -25,7 +21,6 @@ import at.orchaldir.gm.core.selector.realm.getRealms
 import at.orchaldir.gm.core.selector.realm.getTowns
 import at.orchaldir.gm.core.selector.religion.getDomainsAssociatedWith
 import at.orchaldir.gm.core.selector.religion.getGodsAssociatedWith
-import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -38,7 +33,7 @@ fun HtmlBlockTag.showJob(
     job: Job,
 ) {
     field("Employer Type", job.employerType)
-    showSalary(call, state, job.income)
+    showIncome(call, state, job.income)
     optionalField("Preferred Gender", job.preferredGender)
     fieldIds(call, state, "Important Statistics", job.importantStatistics)
     showGenderMap("Uniforms", job.uniforms) { uniform ->
@@ -49,18 +44,6 @@ fun HtmlBlockTag.showJob(
     }
 
     showJobUsage(call, state, job)
-}
-
-private fun HtmlBlockTag.showSalary(
-    call: ApplicationCall,
-    state: State,
-    income: Income,
-) {
-    when (income) {
-        UndefinedIncome -> doNothing()
-        is AffordableStandardOfLiving -> fieldLink(call, state, income.standard)
-        is Salary -> showPrice(state, "Average Yearly Salary", income.yearlySalary)
-    }
 }
 
 private fun HtmlBlockTag.showJobUsage(
@@ -96,7 +79,7 @@ fun HtmlBlockTag.editJob(
 ) {
     selectName(job.name)
     selectValue("Employer Type", EMPLOYMENT, EmployerType.entries, job.employerType)
-    editSalary(state, job.income)
+    editIncome(state, job.income)
     selectOptionalValue("Preferred Gender", GENDER, job.preferredGender, Gender.entries)
     selectElements(
         state,
@@ -109,29 +92,6 @@ fun HtmlBlockTag.editJob(
         selectOptionalElement(state, genderParam, state.getUniformStorage().getAll(), uniform)
     }
     selectRarityMap("Spells", SPELLS, state.getSpellStorage(), job.spells) { it.name.text }
-}
-
-private fun HtmlBlockTag.editSalary(
-    state: State,
-    income: Income,
-) {
-    selectValue(
-        "Income Type",
-        combine(PRICE, TYPE),
-        state.data.economy.defaultIncomeType.getValidTypes(),
-        income.getType(),
-    )
-    when (income) {
-        UndefinedIncome -> doNothing()
-        is AffordableStandardOfLiving -> selectElement(
-            state,
-            STANDARD,
-            state.data.economy.standardsOfLiving,
-            income.standard,
-        )
-
-        is Salary -> editPrice(state, "Average Yearly Salary", income.yearlySalary, PRICE, 1, 100000)
-    }
 }
 
 // parse
@@ -156,16 +116,3 @@ fun parseJob(
     },
     parseSomeOf(parameters, SPELLS, ::parseSpellId),
 )
-
-fun parseIncome(parameters: Parameters) =
-    when (parse(parameters, combine(PRICE, TYPE), IncomeType.Undefined)) {
-        IncomeType.Undefined -> UndefinedIncome
-        IncomeType.StandardOfLiving -> AffordableStandardOfLiving(
-            parseStandardOfLivingId(parameters, STANDARD),
-        )
-
-        IncomeType.Salary -> Salary(
-            parsePrice(parameters, PRICE)
-        )
-
-    }
