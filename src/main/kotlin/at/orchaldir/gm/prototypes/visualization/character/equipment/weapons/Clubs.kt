@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
 import at.orchaldir.gm.core.model.util.render.Color
+import at.orchaldir.gm.core.model.util.render.FixedColor
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTableWithoutColorScheme
@@ -33,15 +34,22 @@ fun main() {
     )
     val bigSpike = Spike(FULL, THIRD, ColorSchemeItemPart(ironId))
     val smallSpike = Spike(HALF, THIRD, ColorSchemeItemPart(ironId))
+    val morningStar = MorningStarHead(CircularArrangement(smallSpike, 9))
+    val chain = Chain(main = ColorSchemeItemPart(ironId, FixedColor(Color.Black)))
+    val spiked = SpikedMaceHead(spike = smallSpike, 3)
+    val rounded = SimpleClubHead(UsingRectangularShape(RoundedRectangle, width))
     val heads = listOf(
         Pair("Baton", NoClubHead),
         Pair("Hammer", SimpleClubHead(UsingRectangularShape(Rectangle, width))),
-        Pair("Rounded Hammer", SimpleClubHead(UsingRectangularShape(RoundedRectangle, width))),
+        Pair("Rounded Hammer", rounded),
         Pair("Rounded Mace", SimpleClubHead(UsingCircularShape(Circle))),
         Pair("Simple Flanged Mace", SimpleFlangedHead(UsingRectangularShape(ReverseTeardrop, wide))),
         Pair("Complex Flanged Mace", ComplexFlangedHead(rotatedShape)),
-        Pair("Spiked Mace", SpikedMaceHead(spike = smallSpike, 3)),
-        Pair("Morning Star", MorningStarHead(CircularArrangement(smallSpike, 9))),
+        Pair("Spiked Mace", spiked),
+        Pair("Flail 1", FlailHead(morningStar, chain)),
+        Pair("Flail 2", FlailHead(spiked, chain)),
+        Pair("Flail 3", FlailHead(rounded, chain)),
+        Pair("Morning Star", morningStar),
         Pair("Warhammer", WarhammerHead(spike = bigSpike)),
     ).toMutableList()
     val iron = Material(ironId, color = Color.Gray)

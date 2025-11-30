@@ -9,13 +9,13 @@ import at.orchaldir.gm.core.model.util.SizeConfig
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.shape.UsingCircularShape
-import at.orchaldir.gm.utils.math.unit.HALF_CIRCLE
-import at.orchaldir.gm.utils.math.unit.QUARTER_CIRCLE
-import at.orchaldir.gm.utils.math.unit.ZERO_ORIENTATION
+import at.orchaldir.gm.utils.math.unit.*
+import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.HELD_EQUIPMENT_LAYER
 import at.orchaldir.gm.visualization.character.equipment.part.visualizeHeadFixation
+import at.orchaldir.gm.visualization.character.equipment.part.visualizeLineStyle
 import at.orchaldir.gm.visualization.character.equipment.part.visualizeSpike
 import at.orchaldir.gm.visualization.character.equipment.part.visualizeTopDownSpike
 import at.orchaldir.gm.visualization.utils.visualizeCircularArrangement
@@ -26,7 +26,10 @@ data class ClubConfig(
     val simpleHeight: SizeConfig<Factor>,
     val oneHandedHeight: Factor,
     val twoHandedHeight: Factor,
+    val connectionThickness: SizeConfig<Factor>,
     val shaftThickness: Factor,
+    val flailMaxRotation: Orientation,
+    val flailSwingDuration: Double,
 ) {
     fun shaftAabb(
         state: CharacterRenderState,
@@ -48,7 +51,7 @@ data class ClubConfig(
     }
 
     fun extendShaft(shaftAabb: AABB, head: ClubHead, headSize: Size) = when (head) {
-        is SimpleFlangedHead, is ComplexFlangedHead, is SpikedMaceHead ->
+        NoClubHead, is SimpleFlangedHead, is ComplexFlangedHead, is SpikedMaceHead, is FlailHead ->
             shaftAabb.growBottom(simpleHeight.convert(headSize))
 
         else -> shaftAabb
@@ -100,6 +103,7 @@ fun visualizeClubHead(
     is SimpleFlangedHead -> visualizeSimpleFlangedHead(state, layer, config, shaftAabb, head, size)
     is ComplexFlangedHead -> visualizeComplexFlangedHead(state, layer, config, shaftAabb, head, size)
     is SpikedMaceHead -> visualizeSpikedMace(state, layer, config, shaftAabb, head, size)
+    is FlailHead -> visualizeFlail(state, layer, config, shaftAabb, head, size)
     is MorningStarHead -> visualizeMorningStar(state, layer, config, shaftAabb, head, size)
     is WarhammerHead -> visualizeWarhammerHead(state, layer, config, shaftAabb, head, size)
 }
@@ -216,15 +220,90 @@ private fun visualizeSpikedMace(
 ) {
     val renderer = state.getLayer(layer)
     val diameterFactor = config.simpleHeight.convert(size)
-    val diameter = shaftAabb.convertHeight(diameterFactor)
-    val half = shaftAabb.size.width / 2
-    val start = shaftAabb.getPoint(CENTER, -diameterFactor)
-    val end = shaftAabb.getPoint(CENTER, START)
+    val headAabb = shaftAabb.createSubAabb(CENTER, -diameterFactor / 2, FULL, diameterFactor)
+
+    visualizeSpikesForSpikedMace(
+        state,
+        renderer,
+        headAabb,
+        head,
+    )
+}
+
+private fun visualizeSpikesForSpikedMace(
+    state: CharacterRenderState,
+    renderer: LayerRenderer,
+    aabb: AABB,
+    head: SpikedMaceHead,
+) {
+    val diameter = aabb.size.height
+    val half = aabb.size.width / 2
+    val start = aabb.getPoint(CENTER, START)
+    val end = aabb.getPoint(CENTER, END)
     val splitter = SegmentSplitter.fromStartAndEnd(start, end, head.rows)
 
     splitter.getCenters().forEach { center ->
         visualizeSpike(state, renderer, head.spike, center.addWidth(half), ZERO_ORIENTATION, diameter)
         visualizeSpike(state, renderer, head.spike, center.minusWidth(half), HALF_CIRCLE, diameter)
+    }
+}
+
+private fun visualizeFlail(
+    state: CharacterRenderState,
+    layer: Int,
+    config: ClubConfig,
+    shaftAabb: AABB,
+    head: FlailHead,
+    size: Size,
+) {
+    val diameterFactor = config.simpleHeight.convert(size)
+    val diameter = shaftAabb.convertHeight(diameterFactor)
+    val radius = diameter / 2
+    val start = shaftAabb.getPoint(CENTER, -diameterFactor)
+    val end = Point2d.yAxis(shaftAabb.convertHeight(THIRD + diameterFactor))
+    val thicknessFactor = config.connectionThickness.convert(head.connection.getSizeOfSub())
+    val thickness = shaftAabb.convertWidth(thicknessFactor)
+    val orientations = listOf(config.flailMaxRotation, -config.flailMaxRotation, config.flailMaxRotation)
+
+    state.renderer.createGroup(start, state.getLayerIndex(layer + 1)) { translate ->
+        translate.createGroup(config.flailMaxRotation) { renderer ->
+            renderer.animate(orientations, config.flailSwingDuration)
+
+            visualizeLineStyle(
+                state,
+                renderer,
+                head.connection,
+                Line2d(Point2d(), end),
+                thickness,
+            )
+
+            when (head.head) {
+                is SimpleClubHead -> {
+                    val color = state.getColor(head.head.part)
+                    val options = state.config.getLineOptions(color)
+
+                    visualizeComplexShape(renderer, end, radius, head.head.shape, options)
+                }
+
+                is MorningStarHead -> visualizeMorningStarHead(state, renderer, head.head, end, radius, QUARTER_CIRCLE)
+                is SpikedMaceHead -> {
+                    val headAabb = AABB.fromCenter(end, Size2d(radius, diameter))
+                    val color = state.getColor(head.head.spike.part)
+                    val options = state.config.getLineOptions(color)
+
+                    renderer.renderRectangle(headAabb, options)
+
+                    visualizeSpikesForSpikedMace(
+                        state,
+                        renderer,
+                        headAabb,
+                        head.head,
+                    )
+                }
+
+                else -> error("Unsupported fail head type!")
+            }
+        }
     }
 }
 
@@ -236,25 +315,36 @@ private fun visualizeMorningStar(
     head: MorningStarHead,
     size: Size,
 ) {
-    val renderer = state.getLayer(layer)
     val diameterFactor = config.simpleHeight.convert(size)
     val radiusFactor = diameterFactor / 2
     val diameter = shaftAabb.convertHeight(diameterFactor)
     val radius = diameter / 2
     val center = shaftAabb.getPoint(CENTER, -radiusFactor)
+    val renderer = state.getLayer(layer, 1)
+
+    visualizeMorningStarHead(state, renderer, head, center, radius, -QUARTER_CIRCLE)
+}
+
+private fun visualizeMorningStarHead(
+    state: CharacterRenderState,
+    renderer: LayerRenderer,
+    head: MorningStarHead,
+    center: Point2d,
+    radius: Distance,
+    orientation: Orientation,
+) {
+    val diameter = radius * 2
 
     val color = state.getColor(head.part)
     val options = state.config.getLineOptions(color)
 
     visualizeComplexShape(renderer, center, radius, UsingCircularShape(), options)
 
-    val spikeRenderer = state.getLayer(layer, 1)
-
-    visualizeCircularArrangement(head.spikes, center, radius, -QUARTER_CIRCLE) { _, position, orientation ->
-        visualizeSpike(state, spikeRenderer, head.spikes.item, position, orientation, diameter)
+    visualizeCircularArrangement(head.spikes, center, radius, orientation) { _, position, orientation ->
+        visualizeSpike(state, renderer, head.spikes.item, position, orientation, diameter)
     }
 
-    visualizeTopDownSpike(state, spikeRenderer, head.spikes.item, center, diameter * 2)
+    visualizeTopDownSpike(state, renderer, head.spikes.item, center, diameter * 2)
 }
 
 private fun visualizeWarhammerHead(

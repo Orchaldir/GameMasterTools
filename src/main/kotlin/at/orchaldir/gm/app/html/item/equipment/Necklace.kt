@@ -28,23 +28,23 @@ fun HtmlBlockTag.showNecklace(
     when (val style = necklace.style) {
         is DangleNecklace -> {
             showDangleEarring(call, state, style.dangle)
-            showJewelryLine(call, state, style.line, "Line")
+            showLineStyle(call, state, style.line, "Line")
         }
 
         is DropNecklace -> {
             showDropEarring(call, state, style.drop)
-            showJewelryLine(call, state, style.line, "Line")
+            showLineStyle(call, state, style.line, "Line")
         }
 
         is PendantNecklace -> {
             showOrnament(call, state, style.ornament)
             field("Size", style.size)
-            showJewelryLine(call, state, style.line, "Line")
+            showLineStyle(call, state, style.line, "Line")
         }
 
         is StrandNecklace -> {
             field("Number of Strands", style.strands)
-            showJewelryLine(call, state, style.line, "Strands")
+            showLineStyle(call, state, style.line, "Strands")
             field("Padding between Strands", style.padding)
         }
     }
@@ -62,23 +62,23 @@ fun HtmlBlockTag.editNecklace(
     when (val style = necklace.style) {
         is DangleNecklace -> {
             editDangleEarring(state, style.dangle)
-            editJewelryLine(state, style.line, "Line", LINE)
+            editLineStyle(state, style.line, "Line", LINE)
         }
 
         is DropNecklace -> {
             editDropEarring(state, style.drop)
-            editJewelryLine(state, style.line, "Line", LINE)
+            editLineStyle(state, style.line, "Line", LINE)
         }
 
         is PendantNecklace -> {
             editOrnament(state, style.ornament)
             selectValue("Size", SIZE, Size.entries, style.size)
-            editJewelryLine(state, style.line, "Line", LINE)
+            editLineStyle(state, style.line, "Line", LINE)
         }
 
         is StrandNecklace -> {
             selectInt("Number of Strands", style.strands, 1, 3, 1, NUMBER)
-            editJewelryLine(state, style.line, "Strands", LINE)
+            editLineStyle(state, style.line, "Strands", LINE)
             selectValue("Padding between Strands", SIZE, Size.entries, style.padding)
         }
     }
@@ -93,23 +93,23 @@ fun parseNecklace(parameters: Parameters): Necklace {
         when (type) {
             NecklaceStyleType.Dangle -> DangleNecklace(
                 parseDangleEarring(parameters),
-                parseJewelryLine(parameters, LINE),
+                parseLineStyle(parameters, LINE),
             )
 
             NecklaceStyleType.Drop -> DropNecklace(
                 parseDropEarring(parameters),
-                parseJewelryLine(parameters, LINE),
+                parseLineStyle(parameters, LINE),
             )
 
             NecklaceStyleType.Pendant -> PendantNecklace(
                 parseOrnament(parameters),
-                parseJewelryLine(parameters, LINE),
+                parseLineStyle(parameters, LINE),
                 parse(parameters, SIZE, Size.Medium),
             )
 
             NecklaceStyleType.Strand -> StrandNecklace(
                 parseInt(parameters, NUMBER, 1),
-                parseJewelryLine(parameters, LINE),
+                parseLineStyle(parameters, LINE),
                 parse(parameters, SIZE, Size.Medium),
             )
         },

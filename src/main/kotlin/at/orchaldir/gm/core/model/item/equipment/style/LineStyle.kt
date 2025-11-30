@@ -7,19 +7,19 @@ import at.orchaldir.gm.core.model.util.render.Color
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-enum class JewelryLineType {
+enum class LineStyleType {
     Chain,
     Ornament,
     Wire,
 }
 
 @Serializable
-sealed class JewelryLine : MadeFromParts {
+sealed class LineStyle : MadeFromParts {
 
     fun getType() = when (this) {
-        is Chain -> JewelryLineType.Chain
-        is OrnamentLine -> JewelryLineType.Ornament
-        is Wire -> JewelryLineType.Wire
+        is Chain -> LineStyleType.Chain
+        is OrnamentLine -> LineStyleType.Ornament
+        is Wire -> LineStyleType.Wire
     }
 
     fun getSizeOfSub() = when (this) {
@@ -40,21 +40,21 @@ sealed class JewelryLine : MadeFromParts {
 data class Chain(
     val thickness: Size = Size.Medium,
     val main: ColorSchemeItemPart = ColorSchemeItemPart(Color.Gold),
-) : JewelryLine()
+) : LineStyle()
 
 @Serializable
 @SerialName("Ornament")
 data class OrnamentLine(
     val ornament: Ornament,
     val size: Size = Size.Medium,
-) : JewelryLine()
+) : LineStyle()
 
 @Serializable
 @SerialName("Wire")
 data class Wire(
     val thickness: Size = Size.Medium,
     val main: ColorSchemeItemPart = ColorSchemeItemPart(Color.Gold),
-) : JewelryLine() {
+) : LineStyle() {
 
     constructor(thickness: Size, color: Color) : this(thickness, ColorSchemeItemPart(color))
 
