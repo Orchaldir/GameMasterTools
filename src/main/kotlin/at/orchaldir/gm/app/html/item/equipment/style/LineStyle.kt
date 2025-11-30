@@ -21,10 +21,10 @@ import kotlinx.html.HtmlBlockTag
 
 // show
 
-fun HtmlBlockTag.showJewelryLine(
+fun HtmlBlockTag.showLineStyle(
     call: ApplicationCall,
     state: State,
-    line: JewelryLine,
+    line: LineStyle,
     label: String,
 ) {
     showDetails(label) {
@@ -51,14 +51,14 @@ fun HtmlBlockTag.showJewelryLine(
 
 // edit
 
-fun HtmlBlockTag.editJewelryLine(
+fun HtmlBlockTag.editLineStyle(
     state: State,
-    line: JewelryLine,
+    line: LineStyle,
     label: String,
     param: String,
 ) {
     showDetails(label, true) {
-        selectValue("Style", combine(param, STYLE), JewelryLineType.entries, line.getType())
+        selectValue("Style", combine(param, STYLE), LineStyleType.entries, line.getType())
 
         when (line) {
             is Chain -> {
@@ -81,21 +81,21 @@ fun HtmlBlockTag.editJewelryLine(
 
 // parse
 
-fun parseJewelryLine(parameters: Parameters, param: String): JewelryLine {
-    val type = parse(parameters, combine(param, STYLE), JewelryLineType.Wire)
+fun parseLineStyle(parameters: Parameters, param: String): LineStyle {
+    val type = parse(parameters, combine(param, STYLE), LineStyleType.Wire)
 
     return when (type) {
-        JewelryLineType.Chain -> Chain(
+        LineStyleType.Chain -> Chain(
             parse(parameters, combine(param, SIZE), Size.Medium),
             parseColorSchemeItemPart(parameters, combine(param, MAIN)),
         )
 
-        JewelryLineType.Ornament -> OrnamentLine(
+        LineStyleType.Ornament -> OrnamentLine(
             parseOrnament(parameters, combine(param, ORNAMENT)),
             parse(parameters, combine(param, SIZE), Size.Medium),
         )
 
-        JewelryLineType.Wire -> Wire(
+        LineStyleType.Wire -> Wire(
             parse(parameters, combine(param, SIZE), Size.Medium),
             parseColorSchemeItemPart(parameters, combine(param, MAIN)),
         )

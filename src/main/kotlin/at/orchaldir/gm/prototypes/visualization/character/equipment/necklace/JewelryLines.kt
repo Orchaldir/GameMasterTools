@@ -24,12 +24,12 @@ fun main() {
         "jewelry-lines.svg",
         CHARACTER_CONFIG,
         addNames(Size.entries),
-        addNames(JewelryLineType.entries),
+        addNames(LineStyleType.entries),
     ) { distance, type, size ->
         val jewelryLine = when (type) {
-            JewelryLineType.Chain -> Chain(size)
-            JewelryLineType.Ornament -> OrnamentLine(pearl, size)
-            JewelryLineType.Wire -> Wire(size)
+            LineStyleType.Chain -> Chain(size)
+            LineStyleType.Ornament -> OrnamentLine(pearl, size)
+            LineStyleType.Wire -> Wire(size)
         }
         val style = StrandNecklace(1, jewelryLine)
         Pair(createAppearance(distance), from(Necklace(style)))

@@ -7,7 +7,7 @@ import at.orchaldir.gm.core.model.util.SizeConfig
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.ABOVE_EQUIPMENT_LAYER
-import at.orchaldir.gm.visualization.character.equipment.part.visualizeJewelryLine
+import at.orchaldir.gm.visualization.character.equipment.part.visualizeLineStyle
 import at.orchaldir.gm.visualization.character.equipment.part.visualizeOrnament
 
 data class NecklaceConfig(
@@ -21,12 +21,12 @@ data class NecklaceConfig(
 ) {
     fun getLength(length: NecklaceLength) = lengthMap.getValue(length)
 
-    fun getThicknessFactor(line: JewelryLine) = when (line) {
+    fun getThicknessFactor(line: LineStyle) = when (line) {
         is OrnamentLine -> ornamentThickness
         else -> wireThickness
     }.convert(line.getSizeOfSub())
 
-    fun getWireThickness(aabb: AABB, line: JewelryLine) = aabb.convertHeight(getThicknessFactor(line))
+    fun getWireThickness(aabb: AABB, line: LineStyle) = aabb.convertHeight(getThicknessFactor(line))
 }
 
 fun visualizeNecklace(
@@ -121,7 +121,7 @@ private fun visualizeStrandNecklace(
             val roundedLine = subdivideLine(line, config.subdivisions)
             val renderer = state.getLayer(ABOVE_EQUIPMENT_LAYER)
 
-            visualizeJewelryLine(state, renderer, style.line, roundedLine, thickness)
+            visualizeLineStyle(state, renderer, style.line, roundedLine, thickness)
         }
     } else {
         visualizeJewelryLineOfNecklace(state, torso, style.line, NecklaceLength.Collar)
@@ -131,7 +131,7 @@ private fun visualizeStrandNecklace(
 private fun visualizeJewelryLineOfNecklace(
     state: CharacterRenderState,
     torso: AABB,
-    jewelryLine: JewelryLine,
+    jewelryLine: LineStyle,
     length: NecklaceLength,
 ) {
     val config = state.config.equipment.necklace
@@ -141,7 +141,7 @@ private fun visualizeJewelryLineOfNecklace(
     val thickness = config.getWireThickness(torso, jewelryLine)
     val renderer = state.renderer.getLayer(ABOVE_EQUIPMENT_LAYER)
 
-    visualizeJewelryLine(state, renderer, jewelryLine, roundedLine, thickness)
+    visualizeLineStyle(state, renderer, jewelryLine, roundedLine, thickness)
 }
 
 private fun createNecklaceLine(

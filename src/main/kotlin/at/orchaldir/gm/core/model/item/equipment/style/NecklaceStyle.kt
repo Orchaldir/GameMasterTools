@@ -34,21 +34,21 @@ sealed class NecklaceStyle : MadeFromParts {
 @SerialName("Dangle")
 data class DangleNecklace(
     val dangle: DangleEarring,
-    val line: JewelryLine,
+    val line: LineStyle,
 ) : NecklaceStyle()
 
 @Serializable
 @SerialName("Drop")
 data class DropNecklace(
     val drop: DropEarring,
-    val line: JewelryLine,
+    val line: LineStyle,
 ) : NecklaceStyle()
 
 @Serializable
 @SerialName("Pendant")
 data class PendantNecklace(
     val ornament: Ornament = SimpleOrnament(),
-    val line: JewelryLine,
+    val line: LineStyle,
     val size: Size = Size.Medium,
 ) : NecklaceStyle()
 
@@ -56,7 +56,7 @@ data class PendantNecklace(
 @SerialName("Strand")
 data class StrandNecklace(
     val strands: Int = 3,
-    val line: JewelryLine,
+    val line: LineStyle,
     val padding: Size = Size.Medium,
 ) : NecklaceStyle() {
 
