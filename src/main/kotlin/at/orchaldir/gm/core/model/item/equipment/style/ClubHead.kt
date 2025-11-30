@@ -1,6 +1,8 @@
 package at.orchaldir.gm.core.model.item.equipment.style
 
+import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
+import at.orchaldir.gm.core.model.util.part.ItemPart
 import at.orchaldir.gm.core.model.util.part.MadeFromParts
 import at.orchaldir.gm.utils.math.CircularArrangement
 import at.orchaldir.gm.utils.math.FULL
@@ -8,12 +10,19 @@ import at.orchaldir.gm.utils.math.shape.*
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+val ALLOWED_FLAIL_HEADS = listOf(
+    ClubHeadType.MorningStar,
+    ClubHeadType.Simple,
+    ClubHeadType.SpikedMace,
+)
+
 enum class ClubHeadType {
     None,
     Simple,
     SimpleFlanged,
     ComplexFlanged,
     SpikedMace,
+    Flail,
     MorningStar,
     Warhammer,
 }
@@ -27,26 +36,29 @@ sealed interface ClubHead : MadeFromParts {
         is SimpleFlangedHead -> ClubHeadType.SimpleFlanged
         is ComplexFlangedHead -> ClubHeadType.ComplexFlanged
         is SpikedMaceHead -> ClubHeadType.SpikedMace
+        is FlailHead -> ClubHeadType.Flail
         is MorningStarHead -> ClubHeadType.MorningStar
         is WarhammerHead -> ClubHeadType.Warhammer
     }
 
-    override fun parts() = when (this) {
+    override fun parts(): List<ItemPart> = when (this) {
         is NoClubHead -> emptyList()
         is SimpleClubHead -> listOf(part)
         is SimpleFlangedHead -> listOf(part)
         is ComplexFlangedHead -> listOf(part)
         is SpikedMaceHead -> listOf(spike.part)
+        is FlailHead -> connection.parts() + head.parts()
         is MorningStarHead -> listOf(part, spikes.item.part)
         is WarhammerHead -> listOf(part, spike.part)
     }
 
-    override fun mainMaterial() = when (this) {
+    override fun mainMaterial(): MaterialId? = when (this) {
         is NoClubHead -> null
         is SimpleClubHead -> part.material
         is SimpleFlangedHead -> part.material
         is ComplexFlangedHead -> part.material
         is SpikedMaceHead -> spike.part.material
+        is FlailHead -> head.mainMaterial()
         is MorningStarHead -> spikes.item.part.material
         is WarhammerHead -> part.material
     }
@@ -89,6 +101,13 @@ data class SpikedMaceHead(
 data class MorningStarHead(
     val spikes: CircularArrangement<Spike>,
     val part: ColorSchemeItemPart = ColorSchemeItemPart(),
+) : ClubHead
+
+@Serializable
+@SerialName("Flail")
+data class FlailHead(
+    val head: ClubHead,
+    val connection: LineStyle,
 ) : ClubHead
 
 @Serializable
