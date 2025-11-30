@@ -11,6 +11,6 @@ interface MultiLayerRenderer {
     fun createClipping(polygon: Polygon2d): String
 
     fun createGroup(position: Point2d, layerIndex: Int = 0, content: (LayerRenderer) -> Unit)
-    fun createGroup(orientation: Orientation, layerIndex: Int = 0, content: (LayerRenderer) -> Unit)
+    fun createGroup(orientation: Orientation, layerIndex: Int = 0, content: (RotatedRenderer) -> Unit)
 
 }

@@ -9,19 +9,37 @@ import at.orchaldir.gm.utils.math.Polygon2d
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Orientation
 import at.orchaldir.gm.utils.renderer.LayerRenderer
+import at.orchaldir.gm.utils.renderer.RotatedRenderer
 import at.orchaldir.gm.utils.renderer.model.*
 import java.util.*
 
 val LOCALE: Locale = Locale.US
 
-class SvgRenderer(
-    private val fonts: MutableSet<Font>,
-    private val patterns: MutableMap<RenderFill, String>,
-    private val lines: MutableList<String>,
-    private val indent: String,
-    private val step: String,
-    private val tooltip: String? = null,
-) : LayerRenderer {
+open class SvgRenderer(
+    protected val fonts: MutableSet<Font>,
+    protected val patterns: MutableMap<RenderFill, String>,
+    protected val lines: MutableList<String>,
+    protected val indent: String,
+    protected val step: String,
+    protected val tooltip: String? = null,
+) : RotatedRenderer {
+
+    // RotatedRenderer
+
+    override fun animate(
+        orientations: List<Orientation>,
+        seconds: Double,
+    ): LayerRenderer {
+        val values = orientations.joinToString(";") { formatAttributes("%.1f", it.toDegrees()) }
+        selfClosingTag(
+            "animateTransform",
+            "attributeName=\"transform\" type=\"rotate\" values=\"%s\" dur=\"%.1fs\" repeatCount=\"indefinite\"",
+            values,
+            seconds,
+        )
+
+        return this
+    }
 
     // LayerRenderer
 
@@ -266,7 +284,7 @@ class SvgRenderer(
         content(it)
     }
 
-    override fun createGroup(orientation: Orientation, content: (LayerRenderer) -> Unit) = tag(
+    override fun createGroup(orientation: Orientation, content: (RotatedRenderer) -> Unit) = tag(
         "g",
         "transform=\"rotate(%.3f)\"",
         orientation.toDegrees(),

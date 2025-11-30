@@ -250,9 +250,12 @@ private fun visualizeFlail(
     val end = Point2d.yAxis(shaftAabb.convertHeight(THIRD + diameterFactor)) // TODO: add config
     val thicknessFactor = config.connectionThickness.convert(head.connection.getSizeOfSub())
     val thickness = shaftAabb.convertWidth(thicknessFactor)
+    val orientations = listOf(config.flailMaxRotation, -config.flailMaxRotation, config.flailMaxRotation)
 
     state.renderer.createGroup(start, state.getLayerIndex(layer, 1)) { translate ->
         translate.createGroup(config.flailMaxRotation) { renderer ->
+            renderer.animate(orientations, 5.0)
+
             visualizeLineStyle(
                 state,
                 renderer,
