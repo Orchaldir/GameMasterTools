@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
 import at.orchaldir.gm.core.model.util.render.Color
+import at.orchaldir.gm.core.model.util.render.FixedColor
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTableWithoutColorScheme
@@ -34,7 +35,7 @@ fun main() {
     val bigSpike = Spike(FULL, THIRD, ColorSchemeItemPart(ironId))
     val smallSpike = Spike(HALF, THIRD, ColorSchemeItemPart(ironId))
     val morningStar = MorningStarHead(CircularArrangement(smallSpike, 9))
-    val chain = Chain(main = ColorSchemeItemPart(ironId))
+    val chain = Chain(main = ColorSchemeItemPart(ironId, FixedColor(Color.Black)))
     val heads = listOf(
         Pair("Baton", NoClubHead),
         Pair("Hammer", SimpleClubHead(UsingRectangularShape(Rectangle, width))),
