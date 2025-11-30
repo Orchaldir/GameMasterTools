@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.model.util.SizeConfig
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.shape.UsingCircularShape
+import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.HALF_CIRCLE
 import at.orchaldir.gm.utils.math.unit.QUARTER_CIRCLE
 import at.orchaldir.gm.utils.math.unit.ZERO_ORIENTATION
@@ -248,12 +249,24 @@ private fun visualizeMorningStar(
     head: MorningStarHead,
     size: Size,
 ) {
-    val renderer = state.getLayer(layer)
     val diameterFactor = config.simpleHeight.convert(size)
     val radiusFactor = diameterFactor / 2
     val diameter = shaftAabb.convertHeight(diameterFactor)
     val radius = diameter / 2
     val center = shaftAabb.getPoint(CENTER, -radiusFactor)
+
+    visualizeMorningStarHead(state, layer, head, center, radius)
+}
+
+private fun visualizeMorningStarHead(
+    state: CharacterRenderState,
+    layer: Int,
+    head: MorningStarHead,
+    center: Point2d,
+    radius: Distance,
+) {
+    val renderer = state.getLayer(layer)
+    val diameter = radius * 2
 
     val color = state.getColor(head.part)
     val options = state.config.getLineOptions(color)
