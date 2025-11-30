@@ -18,6 +18,7 @@ import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.HELD_EQUIPMENT_LAYER
 import at.orchaldir.gm.visualization.character.equipment.part.visualizeHeadFixation
+import at.orchaldir.gm.visualization.character.equipment.part.visualizeLineStyle
 import at.orchaldir.gm.visualization.character.equipment.part.visualizeSpike
 import at.orchaldir.gm.visualization.character.equipment.part.visualizeTopDownSpike
 import at.orchaldir.gm.visualization.utils.visualizeCircularArrangement
@@ -28,6 +29,7 @@ data class ClubConfig(
     val simpleHeight: SizeConfig<Factor>,
     val oneHandedHeight: Factor,
     val twoHandedHeight: Factor,
+    val connectionThickness: SizeConfig<Factor>,
     val shaftThickness: Factor,
 ) {
     fun shaftAabb(
@@ -244,6 +246,16 @@ private fun visualizeFlail(
     val radius = diameter / 2
     val start = shaftAabb.getPoint(CENTER, START)
     val end = shaftAabb.getPoint(CENTER, THIRD) // TODO: add config
+    val thicknessFactor = config.connectionThickness.convert(head.connection.getSizeOfSub())
+    val thickness = shaftAabb.convertWidth(thicknessFactor)
+
+    visualizeLineStyle(
+        state,
+        state.getLayer(layer),
+        head.connection,
+        Line2d(start, end),
+        thickness,
+    )
 
     when (head.head) {
         is SimpleClubHead -> TODO()

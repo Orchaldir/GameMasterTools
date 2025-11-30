@@ -5,6 +5,8 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Line2d(val points: List<Point2d>) {
 
+    constructor(a: Point2d, b: Point2d) : this(listOf(a, b))
+
     init {
         require(points.size >= 2) { "The polygon has less than 2 corners!" }
     }
