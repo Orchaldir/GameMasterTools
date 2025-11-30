@@ -284,7 +284,16 @@ private fun visualizeFlail(
             when (head.head) {
                 is SimpleClubHead -> TODO()
                 is MorningStarHead -> visualizeMorningStarHead(state, renderer, head.head, end, radius, QUARTER_CIRCLE)
-                is SpikedMaceHead -> TODO()
+                is SpikedMaceHead -> {
+                    val headAabb = AABB.fromCenter(end, Size2d(radius, diameter))
+
+                    visualizeSpikesForSpikedMace(
+                        state,
+                        renderer,
+                        headAabb,
+                        head.head,
+                    )
+                }
                 else -> error("Unsupported fail head type!")
             }
         }

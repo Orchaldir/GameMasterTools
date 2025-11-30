@@ -36,6 +36,7 @@ fun main() {
     val smallSpike = Spike(HALF, THIRD, ColorSchemeItemPart(ironId))
     val morningStar = MorningStarHead(CircularArrangement(smallSpike, 9))
     val chain = Chain(main = ColorSchemeItemPart(ironId, FixedColor(Color.Black)))
+    val spiked = SpikedMaceHead(spike = smallSpike, 3)
     val heads = listOf(
         Pair("Baton", NoClubHead),
         Pair("Hammer", SimpleClubHead(UsingRectangularShape(Rectangle, width))),
@@ -43,8 +44,9 @@ fun main() {
         Pair("Rounded Mace", SimpleClubHead(UsingCircularShape(Circle))),
         Pair("Simple Flanged Mace", SimpleFlangedHead(UsingRectangularShape(ReverseTeardrop, wide))),
         Pair("Complex Flanged Mace", ComplexFlangedHead(rotatedShape)),
-        Pair("Spiked Mace", SpikedMaceHead(spike = smallSpike, 3)),
-        Pair("Flail", FlailHead(morningStar, chain)),
+        Pair("Spiked Mace", spiked),
+        Pair("Flail 1", FlailHead(morningStar, chain)),
+        Pair("Flail 2", FlailHead(spiked, chain)),
         Pair("Morning Star", morningStar),
         Pair("Warhammer", WarhammerHead(spike = bigSpike)),
     ).toMutableList()
