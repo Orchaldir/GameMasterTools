@@ -224,10 +224,26 @@ private fun visualizeSpikedMace(
 ) {
     val renderer = state.getLayer(layer)
     val diameterFactor = config.simpleHeight.convert(size)
-    val diameter = shaftAabb.convertHeight(diameterFactor)
-    val half = shaftAabb.size.width / 2
-    val start = shaftAabb.getPoint(CENTER, -diameterFactor)
-    val end = shaftAabb.getPoint(CENTER, START)
+    val headAabb = shaftAabb.createSubAabb(CENTER, -diameterFactor/2, FULL, diameterFactor)
+
+    visualizeSpikesForSpikedMace(
+        state,
+        renderer,
+        headAabb,
+        head,
+    )
+}
+
+private fun visualizeSpikesForSpikedMace(
+    state: CharacterRenderState,
+    renderer: LayerRenderer,
+    aabb: AABB,
+    head: SpikedMaceHead,
+) {
+    val diameter = aabb.size.height
+    val half = aabb.size.width / 2
+    val start = aabb.getPoint(CENTER, START)
+    val end = aabb.getPoint(CENTER, END)
     val splitter = SegmentSplitter.fromStartAndEnd(start, end, head.rows)
 
     splitter.getCenters().forEach { center ->
@@ -267,10 +283,7 @@ private fun visualizeFlail(
 
             when (head.head) {
                 is SimpleClubHead -> TODO()
-                is MorningStarHead -> {
-                    visualizeMorningStarHead(state, renderer, head.head, end, radius, QUARTER_CIRCLE)
-                }
-
+                is MorningStarHead -> visualizeMorningStarHead(state, renderer, head.head, end, radius, QUARTER_CIRCLE)
                 is SpikedMaceHead -> TODO()
                 else -> error("Unsupported fail head type!")
             }
