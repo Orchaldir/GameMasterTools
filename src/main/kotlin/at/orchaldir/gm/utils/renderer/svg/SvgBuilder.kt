@@ -6,6 +6,7 @@ import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Polygon2d
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.Orientation
 import at.orchaldir.gm.utils.renderer.AdvancedRenderer
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.model.*
@@ -77,12 +78,15 @@ class SvgBuilder(private val size: Size2d) : AdvancedRenderer {
     override fun createGroup(position: Point2d, layerIndex: Int, content: (LayerRenderer) -> Unit) {
         val layer = getLayer(layerIndex)
 
-        layer.tag(
-            "g",
-            "transform=\"translate(%.3f,%.3f)\"",
-            position.x.toMeters(),
-            position.y.toMeters(),
-        ) {
+        layer.createGroup(position) {
+            content(it)
+        }
+    }
+
+    override fun createGroup(orientation: Orientation, layerIndex: Int, content: (LayerRenderer) -> Unit) {
+        val layer = getLayer(layerIndex)
+
+        layer.createGroup(orientation) {
             content(it)
         }
     }

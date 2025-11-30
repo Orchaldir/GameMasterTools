@@ -32,6 +32,7 @@ data class ClubConfig(
     val twoHandedHeight: Factor,
     val connectionThickness: SizeConfig<Factor>,
     val shaftThickness: Factor,
+    val flailMaxRotation: Orientation,
 ) {
     fun shaftAabb(
         state: CharacterRenderState,
@@ -250,22 +251,25 @@ private fun visualizeFlail(
     val thicknessFactor = config.connectionThickness.convert(head.connection.getSizeOfSub())
     val thickness = shaftAabb.convertWidth(thicknessFactor)
 
-    state.renderer.createGroup(start, state.getLayerIndex(layer, 1)) { renderer ->
-        visualizeLineStyle(
-            state,
-            renderer,
-            head.connection,
-            Line2d(Point2d(), end),
-            thickness,
-        )
+    state.renderer.createGroup(start, state.getLayerIndex(layer, 1)) { translate ->
+        translate.createGroup(config.flailMaxRotation) { renderer ->
+            visualizeLineStyle(
+                state,
+                renderer,
+                head.connection,
+                Line2d(Point2d(), end),
+                thickness,
+            )
 
-        when (head.head) {
-            is SimpleClubHead -> TODO()
-            is MorningStarHead -> {
-                visualizeMorningStarHead(state, renderer, head.head, end, radius, QUARTER_CIRCLE)
+            when (head.head) {
+                is SimpleClubHead -> TODO()
+                is MorningStarHead -> {
+                    visualizeMorningStarHead(state, renderer, head.head, end, radius, QUARTER_CIRCLE)
+                }
+
+                is SpikedMaceHead -> TODO()
+                else -> error("Unsupported fail head type!")
             }
-            is SpikedMaceHead -> TODO()
-            else -> error("Unsupported fail head type!")
         }
     }
 }

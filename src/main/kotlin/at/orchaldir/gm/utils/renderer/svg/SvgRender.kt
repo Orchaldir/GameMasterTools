@@ -255,6 +255,25 @@ class SvgRenderer(
         return this
     }
 
+    // group
+
+    override fun createGroup(position: Point2d, content: (LayerRenderer) -> Unit) = tag(
+        "g",
+        "transform=\"translate(%.3f,%.3f)\"",
+        position.x.toMeters(),
+        position.y.toMeters(),
+    ) {
+        content(it)
+    }
+
+    override fun createGroup(orientation: Orientation, content: (LayerRenderer) -> Unit) = tag(
+        "g",
+        "transform=\"rotate(%.3f)\"",
+        orientation.toDegrees(),
+    ) {
+        content(it)
+    }
+
     //
 
     fun font(font: Font) {
