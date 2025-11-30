@@ -49,7 +49,7 @@ data class ClubConfig(
     }
 
     fun extendShaft(shaftAabb: AABB, head: ClubHead, headSize: Size) = when (head) {
-        is SimpleFlangedHead, is ComplexFlangedHead, is SpikedMaceHead ->
+        NoClubHead, is SimpleFlangedHead, is ComplexFlangedHead, is SpikedMaceHead, is FlailHead ->
             shaftAabb.growBottom(simpleHeight.convert(headSize))
 
         else -> shaftAabb
@@ -242,7 +242,7 @@ private fun visualizeFlail(
     val diameter = shaftAabb.convertHeight(diameterFactor)
     val radius = diameter / 2
     val start = shaftAabb.getPoint(CENTER, START)
-    val end = shaftAabb.getPoint(CENTER, HALF) // TODO: add config
+    val end = shaftAabb.getPoint(CENTER, THIRD) // TODO: add config
 
     when (head.head) {
         is SimpleClubHead -> TODO()
