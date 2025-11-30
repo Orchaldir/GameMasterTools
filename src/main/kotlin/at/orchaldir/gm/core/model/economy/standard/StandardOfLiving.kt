@@ -32,6 +32,7 @@ data class StandardOfLiving(
     override fun id() = id
     override fun name() = name.text
 
+    override fun toSortString(state: State) = id.value.toString()
     override fun validate(state: State) = doNothing()
 
 }
