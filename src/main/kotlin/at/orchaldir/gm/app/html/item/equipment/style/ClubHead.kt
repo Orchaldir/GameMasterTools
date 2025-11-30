@@ -1,9 +1,12 @@
 package at.orchaldir.gm.app.html.item.equipment.style
 
 import at.orchaldir.gm.app.AXE
+import at.orchaldir.gm.app.CLUB
+import at.orchaldir.gm.app.LINE
 import at.orchaldir.gm.app.NUMBER
 import at.orchaldir.gm.app.SHAPE
 import at.orchaldir.gm.app.SPIKE
+import at.orchaldir.gm.app.SUB
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.math.*
 import at.orchaldir.gm.app.html.util.math.editCircularArrangement
@@ -53,6 +56,11 @@ fun HtmlBlockTag.showClubHead(
                 field("Rows", head.rows)
             }
 
+            is FlailHead -> {
+                showClubHead(call, state, head.head)
+                showLineStyle(call, state, head.connection, "Connection")
+            }
+
             is MorningStarHead -> {
                 showCircularArrangement("Spikes", head.spikes) {
                     showSpike(call, state, it)
@@ -74,9 +82,10 @@ fun HtmlBlockTag.editClubHead(
     state: State,
     head: ClubHead,
     param: String,
+    allowedTypes: Collection<ClubHeadType> = ClubHeadType.entries
 ) {
     showDetails("Club Head", true) {
-        selectValue("Type", param, ClubHeadType.entries, head.getType())
+        selectValue("Type", param, allowedTypes, head.getType())
 
         when (head) {
             NoClubHead -> doNothing()
@@ -108,6 +117,21 @@ fun HtmlBlockTag.editClubHead(
                 )
             }
 
+            is FlailHead -> {
+                editClubHead(
+                    state,
+                    head.head,
+                    combine(param, SUB),
+                    ALLOWED_FLAIL_HEADS,
+                )
+                editLineStyle(
+                    state,
+                    head.connection,
+                    "Connection",
+                    combine(param, LINE),
+                )
+            }
+
             is MorningStarHead -> {
                 editCircularArrangement("Spikes", head.spikes, combine(param, SPIKE)) { spike, spikeParam ->
                     editSpike(state, spike, spikeParam)
@@ -128,8 +152,8 @@ fun HtmlBlockTag.editClubHead(
 
 fun parseClubHead(
     parameters: Parameters,
-    param: String = AXE,
-) = when (parse(parameters, param, ClubHeadType.None)) {
+    param: String = CLUB,
+): ClubHead = when (parse(parameters, param, ClubHeadType.None)) {
     ClubHeadType.None -> NoClubHead
     ClubHeadType.Simple -> SimpleClubHead(
         parseComplexShape(parameters, combine(param, SHAPE)),
@@ -149,6 +173,11 @@ fun parseClubHead(
     ClubHeadType.SpikedMace -> SpikedMaceHead(
         parseSpike(parameters, combine(param, SPIKE)),
         parseInt(parameters, combine(param, NUMBER), 3),
+    )
+
+    ClubHeadType.Flail -> FlailHead(
+        parseClubHead(parameters, combine(param, SUB)),
+        parseLineStyle(parameters, combine(param, LINE)),
     )
 
     ClubHeadType.MorningStar -> MorningStarHead(

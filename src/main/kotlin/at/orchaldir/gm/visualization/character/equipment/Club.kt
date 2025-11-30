@@ -100,6 +100,7 @@ fun visualizeClubHead(
     is SimpleFlangedHead -> visualizeSimpleFlangedHead(state, layer, config, shaftAabb, head, size)
     is ComplexFlangedHead -> visualizeComplexFlangedHead(state, layer, config, shaftAabb, head, size)
     is SpikedMaceHead -> visualizeSpikedMace(state, layer, config, shaftAabb, head, size)
+    is FlailHead -> visualizeFlail(state, layer, config, shaftAabb, head, size)
     is MorningStarHead -> visualizeMorningStar(state, layer, config, shaftAabb, head, size)
     is WarhammerHead -> visualizeWarhammerHead(state, layer, config, shaftAabb, head, size)
 }
@@ -226,6 +227,17 @@ private fun visualizeSpikedMace(
         visualizeSpike(state, renderer, head.spike, center.addWidth(half), ZERO_ORIENTATION, diameter)
         visualizeSpike(state, renderer, head.spike, center.minusWidth(half), HALF_CIRCLE, diameter)
     }
+}
+
+private fun visualizeFlail(
+    state: CharacterRenderState,
+    layer: Int,
+    config: ClubConfig,
+    shaftAabb: AABB,
+    head: FlailHead,
+    size: Size,
+) {
+
 }
 
 private fun visualizeMorningStar(
