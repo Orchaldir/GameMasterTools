@@ -22,6 +22,7 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
 import kotlinx.html.HtmlBlockTag
+import kotlinx.html.td
 
 @Resource("/$JOB_TYPE")
 class JobRoutes : Routes<JobId, SortJob> {
@@ -70,10 +71,7 @@ fun Application.configureJobRouting() {
                 listOf(
                     createNameColumn(call, state),
                     Column(listOf("Employer", "Type")) {
-                        when (it.employerType) {
-                            EmployerType.Business -> doNothing()
-                            else -> tdEnum(it.employerType)
-                        }
+                        tdEnum(it.employerType)
                     },
                     tdColumn(listOf("Yearly", "Income")) {
                         when (it.income) {
