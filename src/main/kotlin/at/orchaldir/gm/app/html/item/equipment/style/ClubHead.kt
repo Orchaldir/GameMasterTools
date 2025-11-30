@@ -1,12 +1,6 @@
 package at.orchaldir.gm.app.html.item.equipment.style
 
-import at.orchaldir.gm.app.AXE
-import at.orchaldir.gm.app.CLUB
-import at.orchaldir.gm.app.LINE
-import at.orchaldir.gm.app.NUMBER
-import at.orchaldir.gm.app.SHAPE
-import at.orchaldir.gm.app.SPIKE
-import at.orchaldir.gm.app.SUB
+import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.math.*
 import at.orchaldir.gm.app.html.util.math.editCircularArrangement
@@ -82,7 +76,7 @@ fun HtmlBlockTag.editClubHead(
     state: State,
     head: ClubHead,
     param: String,
-    allowedTypes: Collection<ClubHeadType> = ClubHeadType.entries
+    allowedTypes: Collection<ClubHeadType> = ClubHeadType.entries,
 ) {
     showDetails("Club Head", true) {
         selectValue("Type", param, allowedTypes, head.getType())

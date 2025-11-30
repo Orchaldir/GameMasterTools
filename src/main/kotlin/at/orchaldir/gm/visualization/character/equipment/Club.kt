@@ -9,11 +9,7 @@ import at.orchaldir.gm.core.model.util.SizeConfig
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.shape.UsingCircularShape
-import at.orchaldir.gm.utils.math.unit.Distance
-import at.orchaldir.gm.utils.math.unit.HALF_CIRCLE
-import at.orchaldir.gm.utils.math.unit.Orientation
-import at.orchaldir.gm.utils.math.unit.QUARTER_CIRCLE
-import at.orchaldir.gm.utils.math.unit.ZERO_ORIENTATION
+import at.orchaldir.gm.utils.math.unit.*
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.visualization.character.CharacterRenderState
@@ -224,7 +220,7 @@ private fun visualizeSpikedMace(
 ) {
     val renderer = state.getLayer(layer)
     val diameterFactor = config.simpleHeight.convert(size)
-    val headAabb = shaftAabb.createSubAabb(CENTER, -diameterFactor/2, FULL, diameterFactor)
+    val headAabb = shaftAabb.createSubAabb(CENTER, -diameterFactor / 2, FULL, diameterFactor)
 
     visualizeSpikesForSpikedMace(
         state,
@@ -288,6 +284,7 @@ private fun visualizeFlail(
 
                     visualizeComplexShape(renderer, end, radius, head.head.shape, options)
                 }
+
                 is MorningStarHead -> visualizeMorningStarHead(state, renderer, head.head, end, radius, QUARTER_CIRCLE)
                 is SpikedMaceHead -> {
                     val headAabb = AABB.fromCenter(end, Size2d(radius, diameter))
@@ -303,6 +300,7 @@ private fun visualizeFlail(
                         head.head,
                     )
                 }
+
                 else -> error("Unsupported fail head type!")
             }
         }
