@@ -34,22 +34,24 @@ fun HtmlBlockTag.editIncome(
     state: State,
     income: Income,
 ) {
-    selectValue(
-        "Income Type",
-        combine(PRICE, TYPE),
-        state.data.economy.defaultIncomeType.getValidTypes(),
-        income.getType(),
-    )
-    when (income) {
-        UndefinedIncome -> doNothing()
-        is AffordableStandardOfLiving -> selectElement(
-            state,
-            STANDARD,
-            state.data.economy.standardsOfLiving,
-            income.standard,
+    showDetails("Income", true) {
+        selectValue(
+            "Type",
+            combine(PRICE, TYPE),
+            state.data.economy.defaultIncomeType.getValidTypes(),
+            income.getType(),
         )
+        when (income) {
+            UndefinedIncome -> doNothing()
+            is AffordableStandardOfLiving -> selectElement(
+                state,
+                STANDARD,
+                state.data.economy.standardsOfLiving,
+                income.standard,
+            )
 
-        is Salary -> editPrice(state, "Average Yearly Salary", income.yearlySalary, PRICE, 1, 100000)
+            is Salary -> editPrice(state, "Average Yearly Salary", income.yearlySalary, PRICE, 1, 100000)
+        }
     }
 }
 
