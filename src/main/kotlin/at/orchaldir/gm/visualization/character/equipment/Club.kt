@@ -33,6 +33,7 @@ data class ClubConfig(
     val connectionThickness: SizeConfig<Factor>,
     val shaftThickness: Factor,
     val flailMaxRotation: Orientation,
+    val flailSwingDuration: Double,
 ) {
     fun shaftAabb(
         state: CharacterRenderState,
@@ -254,7 +255,7 @@ private fun visualizeFlail(
 
     state.renderer.createGroup(start, state.getLayerIndex(layer, 1)) { translate ->
         translate.createGroup(config.flailMaxRotation) { renderer ->
-            renderer.animate(orientations, 5.0)
+            renderer.animate(orientations, config.flailSwingDuration)
 
             visualizeLineStyle(
                 state,

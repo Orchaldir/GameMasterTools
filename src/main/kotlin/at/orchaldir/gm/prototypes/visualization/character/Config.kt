@@ -93,7 +93,8 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
             fromPercentage(80),
             fromPercentages(30, 50, 70),
             fromPercentage(5),
-            Orientation.fromDegrees(20),
+            fromDegrees(5),
+            8.0,
         ),
         CoatConfig(
             fromPercentage(10),
