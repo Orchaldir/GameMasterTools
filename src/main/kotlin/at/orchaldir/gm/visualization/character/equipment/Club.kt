@@ -14,6 +14,7 @@ import at.orchaldir.gm.utils.math.unit.HALF_CIRCLE
 import at.orchaldir.gm.utils.math.unit.Orientation
 import at.orchaldir.gm.utils.math.unit.QUARTER_CIRCLE
 import at.orchaldir.gm.utils.math.unit.ZERO_ORIENTATION
+import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.HELD_EQUIPMENT_LAYER
@@ -248,10 +249,11 @@ private fun visualizeFlail(
     val end = shaftAabb.getPoint(CENTER, THIRD) // TODO: add config
     val thicknessFactor = config.connectionThickness.convert(head.connection.getSizeOfSub())
     val thickness = shaftAabb.convertWidth(thicknessFactor)
+    val renderer = state.getLayer(layer, 1)
 
     visualizeLineStyle(
         state,
-        state.getLayer(layer),
+        renderer,
         head.connection,
         Line2d(start, end),
         thickness,
@@ -260,7 +262,7 @@ private fun visualizeFlail(
     when (head.head) {
         is SimpleClubHead -> TODO()
         is MorningStarHead -> {
-            visualizeMorningStarHead(state, layer, head.head, end, radius, QUARTER_CIRCLE)
+            visualizeMorningStarHead(state, renderer, head.head, end, radius, QUARTER_CIRCLE)
         }
         is SpikedMaceHead -> TODO()
         else -> error("Unsupported fail head type!")
@@ -280,19 +282,19 @@ private fun visualizeMorningStar(
     val diameter = shaftAabb.convertHeight(diameterFactor)
     val radius = diameter / 2
     val center = shaftAabb.getPoint(CENTER, -radiusFactor)
+    val renderer = state.getLayer(layer, 1)
 
-    visualizeMorningStarHead(state, layer, head, center, radius, -QUARTER_CIRCLE)
+    visualizeMorningStarHead(state, renderer, head, center, radius, -QUARTER_CIRCLE)
 }
 
 private fun visualizeMorningStarHead(
     state: CharacterRenderState,
-    layer: Int,
+    renderer: LayerRenderer,
     head: MorningStarHead,
     center: Point2d,
     radius: Distance,
     orientation: Orientation,
 ) {
-    val renderer = state.getLayer(layer)
     val diameter = radius * 2
 
     val color = state.getColor(head.part)
@@ -300,13 +302,11 @@ private fun visualizeMorningStarHead(
 
     visualizeComplexShape(renderer, center, radius, UsingCircularShape(), options)
 
-    val spikeRenderer = state.getLayer(layer, 1)
-
     visualizeCircularArrangement(head.spikes, center, radius, orientation) { _, position, orientation ->
-        visualizeSpike(state, spikeRenderer, head.spikes.item, position, orientation, diameter)
+        visualizeSpike(state, renderer, head.spikes.item, position, orientation, diameter)
     }
 
-    visualizeTopDownSpike(state, spikeRenderer, head.spikes.item, center, diameter * 2)
+    visualizeTopDownSpike(state, renderer, head.spikes.item, center, diameter * 2)
 }
 
 private fun visualizeWarhammerHead(
