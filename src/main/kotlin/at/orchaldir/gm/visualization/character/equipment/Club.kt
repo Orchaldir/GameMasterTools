@@ -286,6 +286,10 @@ private fun visualizeFlail(
                 is MorningStarHead -> visualizeMorningStarHead(state, renderer, head.head, end, radius, QUARTER_CIRCLE)
                 is SpikedMaceHead -> {
                     val headAabb = AABB.fromCenter(end, Size2d(radius, diameter))
+                    val color = state.getColor(head.head.spike.part)
+                    val options = state.config.getLineOptions(color)
+
+                    renderer.renderRectangle(headAabb, options)
 
                     visualizeSpikesForSpikedMace(
                         state,
