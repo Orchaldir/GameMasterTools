@@ -103,6 +103,9 @@
     "PointedUpwards": "Common"
    },
    "hair": {
+    "beardTypes": {
+     "None": "Common"
+    },
     "colors": {
      "Black": "Common",
      "Wheat": "Common",
@@ -212,6 +215,14 @@
   "7": {
    "id": 7,
    "name": "Assarai",
+   "earsLayout": {
+    "NoEars": "Common"
+   },
+   "earShapes": {
+    "PointedSideways": "Common",
+    "PointedUpwards": "Common",
+    "Round": "Common"
+   },
    "foot": {
     "footTypes": {
      "Clawed": "Common"

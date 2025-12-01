@@ -117,6 +117,30 @@
     "appearance": 5,
     "venerableAgeHairColor": "Ivory"
    }
+  },
+  "6": {
+   "id": 6,
+   "name": "Cherubim Elf",
+   "height": {
+    "center": 1750000
+   },
+   "weight": 60000000,
+   "lifeStages": {
+    "#type": "Default",
+    "appearance": 4,
+    "maxAges": [
+     2,
+     20,
+     60,
+     110,
+     170,
+     450,
+     650,
+     750
+    ],
+    "oldAgeHairColor": null,
+    "venerableAgeHairColor": null
+   }
   }
  }
 }
