@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterTemplate
 import at.orchaldir.gm.core.model.race.Race
+import at.orchaldir.gm.core.model.race.RaceGroup
 import at.orchaldir.gm.core.model.realm.District
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.Town
@@ -28,6 +29,14 @@ class RaceTest {
             )
         )
         val population = PopulationPerRace(100, mapOf(RACE_ID_0 to HALF))
+
+        @Test
+        fun `Cannot delete a race part of a group`() {
+            val group = RaceGroup(RACE_GROUP_ID_0, races = setOf(RACE_ID_0))
+            val newState = state.updateStorage(Storage(group))
+
+            failCanDelete(newState, RACE_GROUP_ID_0)
+        }
 
         @Test
         fun `Cannot delete a race used by a character`() {

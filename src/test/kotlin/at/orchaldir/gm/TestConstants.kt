@@ -24,6 +24,7 @@ import at.orchaldir.gm.core.model.magic.MagicTraditionId
 import at.orchaldir.gm.core.model.magic.SpellGroupId
 import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.model.organization.OrganizationId
+import at.orchaldir.gm.core.model.race.RaceGroupId
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.realm.*
@@ -154,6 +155,8 @@ val RACE_ID_1 = RaceId(1)
 val RACE_ID_2 = RaceId(2)
 val UNKNOWN_RACE_ID = RaceId(99)
 val RACE_APPEARANCE_ID_0 = RaceAppearanceId(0)
+val RACE_GROUP_ID_0 = RaceGroupId(0)
+val UNKNOWN_RACE_GROUP_ID = RaceGroupId(99)
 val REALM_ID_0 = RealmId(0)
 val REALM_ID_1 = RealmId(1)
 val UNKNOWN_REALM_ID = RealmId(99)
