@@ -26,6 +26,7 @@ import at.orchaldir.gm.core.model.magic.Spell
 import at.orchaldir.gm.core.model.magic.SpellGroup
 import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.race.Race
+import at.orchaldir.gm.core.model.race.RaceGroup
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.religion.Domain
@@ -105,6 +106,7 @@ fun reduceUpdateElement(
     is Quote -> updateElement(state, element)
     is Race -> updateElement(state, element)
     is RaceAppearance -> updateElement(state, element)
+    is RaceGroup -> updateElement(state, element)
     is Realm -> updateElement(state, element)
     is Region -> updateElement(state, element)
     is River -> updateElement(state, element)
