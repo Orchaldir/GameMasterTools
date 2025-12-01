@@ -14,9 +14,11 @@ import at.orchaldir.gm.app.parse.parseOneOf
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.character.appearance.beard.BeardType
+import at.orchaldir.gm.core.model.magic.SpellGroupId
 import at.orchaldir.gm.core.model.race.*
 import at.orchaldir.gm.core.model.race.aging.*
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
+import at.orchaldir.gm.core.model.realm.BattleId
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.selector.character.getCharacterTemplates
 import at.orchaldir.gm.core.selector.character.getCharacters
@@ -267,6 +269,7 @@ private fun HtmlBlockTag.selectAppearance(
 // parse
 
 fun parseRaceId(parameters: Parameters, param: String) = RaceId(parseInt(parameters, param))
+fun parseRaceId(value: String) = RaceId(value.toInt())
 
 fun parseRace(state: State, parameters: Parameters, id: RaceId) = Race(
     id,
