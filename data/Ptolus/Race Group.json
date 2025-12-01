@@ -3,7 +3,10 @@
  "elements": {
   "0": {
    "id": 0,
-   "name": "Elf"
+   "name": "Elf",
+   "races": [
+    2
+   ]
   },
   "1": {
    "id": 1,

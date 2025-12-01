@@ -36,6 +36,30 @@
     "oldAgeHairColor": null,
     "venerableAgeHairColor": null
    }
+  },
+  "2": {
+   "id": 2,
+   "name": "Shoal Elf",
+   "height": {
+    "center": 1750000
+   },
+   "weight": 70000000,
+   "lifeStages": {
+    "#type": "Default",
+    "appearance": 3,
+    "maxAges": [
+     2,
+     20,
+     60,
+     110,
+     170,
+     450,
+     650,
+     750
+    ],
+    "oldAgeHairColor": null,
+    "venerableAgeHairColor": null
+   }
   }
  }
 }
