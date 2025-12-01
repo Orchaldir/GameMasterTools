@@ -28,6 +28,7 @@ import at.orchaldir.gm.core.model.magic.Spell
 import at.orchaldir.gm.core.model.magic.SpellGroup
 import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.race.Race
+import at.orchaldir.gm.core.model.race.RaceGroup
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.religion.Domain
@@ -778,6 +779,21 @@ fun State.sortRaceAppearances(
     .sortedWith(
         when (sort) {
             SortRaceAppearance.Name -> compareBy { it.name.text }
+        })
+
+// race groups
+
+fun State.sortRaceGroups(sort: SortRaceGroup = SortRaceGroup.Name) =
+    sortRaceGroups(getRaceGroupStorage().getAll(), sort)
+
+fun State.sortRaceGroups(
+    groups: Collection<RaceGroup>,
+    sort: SortRaceGroup = SortRaceGroup.Name,
+) = groups
+    .sortedWith(
+        when (sort) {
+            SortRaceGroup.Name -> compareBy { it.name.text }
+            SortRaceGroup.Races -> compareByDescending { it.races.size }
         })
 
 // realm

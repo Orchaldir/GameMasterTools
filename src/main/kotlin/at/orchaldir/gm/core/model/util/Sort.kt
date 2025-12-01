@@ -227,6 +227,11 @@ enum class SortRaceAppearance {
     Name,
 }
 
+enum class SortRaceGroup {
+    Name,
+    Races,
+}
+
 enum class SortRealm {
     Name,
     Start,
