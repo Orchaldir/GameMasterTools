@@ -129,12 +129,18 @@
   "5": {
    "id": 5,
    "name": "Harrow Elf",
+   "earShapes": {
+    "PointedUpwards": "Common"
+   },
    "eye": {
     "eyeColors": {
      "Red": "Common"
     }
    },
    "hair": {
+    "beardTypes": {
+     "None": "Common"
+    },
     "colors": {
      "Black": "Common",
      "SaddleBrown": "Common"

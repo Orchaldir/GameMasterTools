@@ -108,6 +108,15 @@
     "oldAgeHairColor": null,
     "venerableAgeHairColor": null
    }
+  },
+  "5": {
+   "id": 5,
+   "name": "Harrow Elf",
+   "lifeStages": {
+    "#type": "Default",
+    "appearance": 5,
+    "venerableAgeHairColor": "Ivory"
+   }
   }
  }
 }

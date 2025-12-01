@@ -118,7 +118,7 @@ inline fun <ID : Id<ID>, ELEMENT : Element<ID>, reified T : Enum<T>> HTML.showGa
     noinline getName: (ELEMENT) -> String,
     crossinline showElement: HtmlBlockTag.(ELEMENT) -> Svg,
 ) {
-    simpleHtml("Equipment") {
+    simpleHtml("Gallery") {
         field("Count", elements.size)
         showSortGalleryLinks(call, enumValues<T>().toList(), routes)
         back(routes.all(call, sort))
