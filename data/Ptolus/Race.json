@@ -36,6 +36,111 @@
     "oldAgeHairColor": null,
     "venerableAgeHairColor": null
    }
+  },
+  "2": {
+   "id": 2,
+   "name": "Shoal Elf",
+   "height": {
+    "center": 1750000
+   },
+   "weight": 70000000,
+   "lifeStages": {
+    "#type": "Default",
+    "appearance": 3,
+    "maxAges": [
+     2,
+     20,
+     60,
+     110,
+     170,
+     450,
+     650,
+     750
+    ],
+    "oldAgeHairColor": null,
+    "venerableAgeHairColor": null
+   }
+  },
+  "3": {
+   "id": 3,
+   "name": "Solarr Elf",
+   "height": {
+    "center": 1750000
+   },
+   "weight": 70000000,
+   "lifeStages": {
+    "#type": "Default",
+    "appearance": 1,
+    "maxAges": [
+     2,
+     20,
+     60,
+     110,
+     170,
+     450,
+     650,
+     750
+    ],
+    "oldAgeHairColor": null,
+    "venerableAgeHairColor": null
+   }
+  },
+  "4": {
+   "id": 4,
+   "name": "Lunas Elf",
+   "height": {
+    "center": 1650000
+   },
+   "weight": 60000000,
+   "lifeStages": {
+    "#type": "Default",
+    "appearance": 2,
+    "maxAges": [
+     2,
+     20,
+     60,
+     110,
+     170,
+     450,
+     650,
+     750
+    ],
+    "oldAgeHairColor": null,
+    "venerableAgeHairColor": null
+   }
+  },
+  "5": {
+   "id": 5,
+   "name": "Harrow Elf",
+   "lifeStages": {
+    "#type": "Default",
+    "appearance": 5,
+    "venerableAgeHairColor": "Ivory"
+   }
+  },
+  "6": {
+   "id": 6,
+   "name": "Cherubim Elf",
+   "height": {
+    "center": 1750000
+   },
+   "weight": 60000000,
+   "lifeStages": {
+    "#type": "Default",
+    "appearance": 4,
+    "maxAges": [
+     2,
+     20,
+     60,
+     110,
+     170,
+     450,
+     650,
+     750
+    ],
+    "oldAgeHairColor": null,
+    "venerableAgeHairColor": null
+   }
   }
  }
 }

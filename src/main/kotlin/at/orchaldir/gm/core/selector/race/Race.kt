@@ -14,6 +14,7 @@ import at.orchaldir.gm.core.selector.util.getExistingElements
 fun State.canDeleteRace(race: RaceId) = DeleteResult(race)
     .addElements(getCharacters(race))
     .addElements(getCharacterTemplates(race))
+    .addElements(getRaceGroups(race))
     .apply { canDeletePopulationOf(race, it) }
 
 fun countEachRace(characters: Collection<Character>) = characters

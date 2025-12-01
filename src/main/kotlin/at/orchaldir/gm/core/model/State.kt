@@ -44,9 +44,7 @@ import at.orchaldir.gm.core.model.magic.*
 import at.orchaldir.gm.core.model.organization.ORGANIZATION_TYPE
 import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.organization.OrganizationId
-import at.orchaldir.gm.core.model.race.RACE_TYPE
-import at.orchaldir.gm.core.model.race.Race
-import at.orchaldir.gm.core.model.race.RaceId
+import at.orchaldir.gm.core.model.race.*
 import at.orchaldir.gm.core.model.race.appearance.RACE_APPEARANCE_TYPE
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
@@ -147,6 +145,7 @@ val ELEMENTS =
         QUOTE_TYPE,
         RACE_TYPE,
         RACE_APPEARANCE_TYPE,
+        RACE_GROUP_TYPE,
         REALM_TYPE,
         REGION_TYPE,
         RIVER_TYPE,
@@ -229,6 +228,7 @@ data class State(
     fun getQuoteStorage() = getStorage<QuoteId, Quote>(QUOTE_TYPE)
     fun getRaceStorage() = getStorage<RaceId, Race>(RACE_TYPE)
     fun getRaceAppearanceStorage() = getStorage<RaceAppearanceId, RaceAppearance>(RACE_APPEARANCE_TYPE)
+    fun getRaceGroupStorage() = getStorage<RaceGroupId, RaceGroup>(RACE_GROUP_TYPE)
     fun getRealmStorage() = getStorage<RealmId, Realm>(REALM_TYPE)
     fun getRegionStorage() = getStorage<RegionId, Region>(REGION_TYPE)
     fun getRiverStorage() = getStorage<RiverId, River>(RIVER_TYPE)
@@ -384,6 +384,7 @@ data class State(
         saveStorage(path, getQuoteStorage())
         saveStorage(path, getRaceStorage())
         saveStorage(path, getRaceAppearanceStorage())
+        saveStorage(path, getRaceGroupStorage())
         saveStorage(path, getRealmStorage())
         saveStorage(path, getRegionStorage())
         saveStorage(path, getRiverStorage())
@@ -447,6 +448,7 @@ fun createStorage(type: String) = when (type) {
     PLANE_TYPE -> Storage(PlaneId(0))
     QUOTE_TYPE -> Storage(QuoteId(0))
     RACE_TYPE -> Storage(RaceId(0))
+    RACE_GROUP_TYPE -> Storage(RaceGroupId(0))
     RACE_APPEARANCE_TYPE -> Storage(RaceAppearanceId(0))
     REALM_TYPE -> Storage(RealmId(0))
     REGION_TYPE -> Storage(RegionId(0))
@@ -515,6 +517,7 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     QUOTE_TYPE -> loadStorage<QuoteId, Quote>(path, QuoteId(0))
     RACE_TYPE -> loadStorage<RaceId, Race>(path, RaceId(0))
     RACE_APPEARANCE_TYPE -> loadStorage<RaceAppearanceId, RaceAppearance>(path, RaceAppearanceId(0))
+    RACE_GROUP_TYPE -> loadStorage<RaceGroupId, RaceGroup>(path, RaceGroupId(0))
     REALM_TYPE -> loadStorage<RealmId, Realm>(path, RealmId(0))
     REGION_TYPE -> loadStorage<RegionId, Region>(path, RegionId(0))
     RIVER_TYPE -> loadStorage<RiverId, River>(path, RiverId(0))

@@ -60,6 +60,10 @@
    "name": "The Empire",
    "data": {
     "#type": "Continent"
+   },
+   "position": {
+    "#type": "World",
+    "world": 0
    }
   },
   "6": {

@@ -26,6 +26,7 @@ import at.orchaldir.gm.core.model.magic.MagicTraditionId
 import at.orchaldir.gm.core.model.magic.SpellGroupId
 import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.model.organization.OrganizationId
+import at.orchaldir.gm.core.model.race.RaceGroupId
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.realm.*
@@ -77,6 +78,7 @@ import at.orchaldir.gm.core.selector.magic.canDeleteSpellGroup
 import at.orchaldir.gm.core.selector.organization.canDeleteOrganization
 import at.orchaldir.gm.core.selector.race.canDeleteRace
 import at.orchaldir.gm.core.selector.race.canDeleteRaceAppearance
+import at.orchaldir.gm.core.selector.race.canDeleteRaceGroup
 import at.orchaldir.gm.core.selector.realm.*
 import at.orchaldir.gm.core.selector.religion.canDeleteDomain
 import at.orchaldir.gm.core.selector.religion.canDeleteGod
@@ -136,6 +138,7 @@ fun reduceDeleteElement(
     is QuoteId -> deleteElement(state, id, State::canDeleteQuote)
     is RaceId -> deleteElement(state, id, State::canDeleteRace)
     is RaceAppearanceId -> deleteElement(state, id, State::canDeleteRaceAppearance)
+    is RaceGroupId -> deleteElement(state, id, State::canDeleteRaceGroup)
     is RealmId -> deleteElement(state, id, State::canDeleteRealm)
     is RegionId -> deleteElement(state, id, State::canDeleteRegion)
     is RiverId -> deleteElement(state, id, State::canDeleteRiver)

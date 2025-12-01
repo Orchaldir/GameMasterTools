@@ -267,6 +267,7 @@ private fun HtmlBlockTag.selectAppearance(
 // parse
 
 fun parseRaceId(parameters: Parameters, param: String) = RaceId(parseInt(parameters, param))
+fun parseRaceId(value: String) = RaceId(value.toInt())
 
 fun parseRace(state: State, parameters: Parameters, id: RaceId) = Race(
     id,

@@ -27,9 +27,9 @@ fun HtmlBlockTag.showWar(
 ) {
     val calendar = state.getDefaultCalendar()
 
+    fieldAge("Duration", calendar.getYears(war.getDuration(state)))
     optionalField(call, state, "Start Date", war.startDate)
     showWarStatus(call, state, war)
-    fieldAge("Duration", calendar.getYears(war.getDuration(state)))
     showWarSides(war)
     showWarParticipants(call, state, war)
     fieldElements(call, state, state.getBattles(war.id))

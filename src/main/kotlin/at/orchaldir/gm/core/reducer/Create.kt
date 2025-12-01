@@ -34,6 +34,8 @@ import at.orchaldir.gm.core.model.magic.*
 import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.organization.OrganizationId
 import at.orchaldir.gm.core.model.race.Race
+import at.orchaldir.gm.core.model.race.RaceGroup
+import at.orchaldir.gm.core.model.race.RaceGroupId
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
@@ -128,6 +130,7 @@ fun reduceCreateElement(
     is QuoteId -> createElement(state, Quote(id))
     is RaceId -> createElement(state, Race(id))
     is RaceAppearanceId -> createElement(state, RaceAppearance(id))
+    is RaceGroupId -> createElement(state, RaceGroup(id))
     is RealmId -> createElement(state, Realm(id))
     is RegionId -> createElement(state, Region(id))
     is RiverId -> createElement(state, River(id))

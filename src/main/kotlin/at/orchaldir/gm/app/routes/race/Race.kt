@@ -18,6 +18,7 @@ import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.util.SortRace
 import at.orchaldir.gm.core.selector.character.countCharacters
 import at.orchaldir.gm.core.selector.character.getAppearanceForAge
+import at.orchaldir.gm.core.selector.race.getRaceGroups
 import at.orchaldir.gm.core.selector.util.getTotalPopulation
 import at.orchaldir.gm.core.selector.util.sortRaces
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
@@ -97,6 +98,11 @@ fun Application.configureRaceRouting() {
                     Column("Avg Height") { td(it.height.center) },
                     Column("Avg Weight") { td(it.weight) },
                     createIdColumn(call, state, "Appearance") { it.lifeStages.getRaceAppearance() },
+                    tdColumn("Group") {
+                        showInlineList(state.getRaceGroups(it.id)) { group ->
+                            link(call, state, group)
+                        }
+                    },
                     countColumnForId("Population", state::getTotalPopulation),
                     countColumnForId("Characters", state::countCharacters),
                 ),
