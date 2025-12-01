@@ -44,12 +44,7 @@ import at.orchaldir.gm.core.model.magic.*
 import at.orchaldir.gm.core.model.organization.ORGANIZATION_TYPE
 import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.organization.OrganizationId
-import at.orchaldir.gm.core.model.race.RACE_GROUP_TYPE
-import at.orchaldir.gm.core.model.race.RACE_TYPE
-import at.orchaldir.gm.core.model.race.Race
-import at.orchaldir.gm.core.model.race.RaceGroup
-import at.orchaldir.gm.core.model.race.RaceGroupId
-import at.orchaldir.gm.core.model.race.RaceId
+import at.orchaldir.gm.core.model.race.*
 import at.orchaldir.gm.core.model.race.appearance.RACE_APPEARANCE_TYPE
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId

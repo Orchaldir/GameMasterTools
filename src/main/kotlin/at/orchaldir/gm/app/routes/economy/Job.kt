@@ -22,7 +22,6 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
 import kotlinx.html.HtmlBlockTag
-import kotlinx.html.td
 
 @Resource("/$JOB_TYPE")
 class JobRoutes : Routes<JobId, SortJob> {

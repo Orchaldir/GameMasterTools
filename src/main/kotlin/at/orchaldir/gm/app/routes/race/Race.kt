@@ -98,9 +98,11 @@ fun Application.configureRaceRouting() {
                     Column("Avg Height") { td(it.height.center) },
                     Column("Avg Weight") { td(it.weight) },
                     createIdColumn(call, state, "Appearance") { it.lifeStages.getRaceAppearance() },
-                    tdColumn("Group") { showInlineList(state.getRaceGroups(it.id)) { group ->
-                        link(call, state, group)
-                    } },
+                    tdColumn("Group") {
+                        showInlineList(state.getRaceGroups(it.id)) { group ->
+                            link(call, state, group)
+                        }
+                    },
                     countColumnForId("Population", state::getTotalPopulation),
                     countColumnForId("Characters", state::countCharacters),
                 ),

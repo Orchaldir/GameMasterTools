@@ -13,7 +13,9 @@ import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.app.parse.parseSomeOf
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
-import at.orchaldir.gm.core.model.economy.job.*
+import at.orchaldir.gm.core.model.economy.job.EmployerType
+import at.orchaldir.gm.core.model.economy.job.Job
+import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.selector.character.getEmployees
 import at.orchaldir.gm.core.selector.character.getPreviousEmployees
 import at.orchaldir.gm.core.selector.economy.getBusinesses
