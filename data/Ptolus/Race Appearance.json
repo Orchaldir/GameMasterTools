@@ -20,7 +20,7 @@
   },
   "1": {
    "id": 1,
-   "name": "Solarr Elf",
+   "name": "Solar Elf",
    "earShapes": {
     "PointedUpwards": "Common"
    },
@@ -43,6 +43,11 @@
    "skin": {
     "normalColors": {
      "Fair": "Common"
+    }
+   },
+   "wing": {
+    "types": {
+     "Bird": "Common"
     }
    }
   },

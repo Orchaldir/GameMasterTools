@@ -66,7 +66,7 @@ fun Application.configureRaceGroupRouting() {
                 state.sortRaceGroups(all.sort),
                 listOf(
                     createNameColumn(call, state),
-                    tdColumn("Gender") { showInlineList(it.races) { raceId ->
+                    tdColumn("Races") { showInlineList(it.races) { raceId ->
                         link(call, state, raceId)
                     } },
                 ),

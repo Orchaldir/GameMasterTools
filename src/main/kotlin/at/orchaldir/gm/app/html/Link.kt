@@ -21,6 +21,7 @@ import at.orchaldir.gm.app.routes.magic.SpellGroupRoutes
 import at.orchaldir.gm.app.routes.magic.SpellRoutes
 import at.orchaldir.gm.app.routes.organization.OrganizationRoutes
 import at.orchaldir.gm.app.routes.race.RaceAppearanceRoutes
+import at.orchaldir.gm.app.routes.race.RaceGroupRoutes
 import at.orchaldir.gm.app.routes.race.RaceRoutes
 import at.orchaldir.gm.app.routes.realm.*
 import at.orchaldir.gm.app.routes.religion.DomainRoutes
@@ -58,6 +59,7 @@ import at.orchaldir.gm.core.model.magic.MagicTraditionId
 import at.orchaldir.gm.core.model.magic.SpellGroupId
 import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.model.organization.OrganizationId
+import at.orchaldir.gm.core.model.race.RaceGroupId
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.realm.*
@@ -421,6 +423,7 @@ fun href(
     is QuoteId -> call.application.href(QuoteRoutes.Details(id))
     is RaceId -> call.application.href(RaceRoutes.Details(id))
     is RaceAppearanceId -> call.application.href(RaceAppearanceRoutes.Details(id))
+    is RaceGroupId -> call.application.href(RaceGroupRoutes.Details(id))
     is RealmId -> call.application.href(RealmRoutes.Details(id))
     is RiverId -> call.application.href(RiverRoutes.Details(id))
     is ShieldTypeId -> call.application.href(ShieldTypeRoutes.Details(id))
