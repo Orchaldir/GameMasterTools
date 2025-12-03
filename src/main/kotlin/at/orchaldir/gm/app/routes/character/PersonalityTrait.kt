@@ -2,9 +2,9 @@ package at.orchaldir.gm.app.routes.character
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.character.editPersonalityTrait
-import at.orchaldir.gm.app.html.character.parsePersonalityTrait
-import at.orchaldir.gm.app.html.character.showPersonalityTrait
+import at.orchaldir.gm.app.html.rpg.trait.editPersonalityTrait
+import at.orchaldir.gm.app.html.rpg.trait.parsePersonalityTrait
+import at.orchaldir.gm.app.html.rpg.trait.showPersonalityTrait
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.rpg.trait.CHARACTER_TRAIT_TYPE

@@ -4,10 +4,10 @@ import at.orchaldir.gm.app.DOMAIN
 import at.orchaldir.gm.app.GENDER
 import at.orchaldir.gm.app.TITLE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.character.editPersonality
+import at.orchaldir.gm.app.html.rpg.trait.editPersonality
 import at.orchaldir.gm.app.html.character.parseGender
-import at.orchaldir.gm.app.html.character.parsePersonality
-import at.orchaldir.gm.app.html.character.showPersonality
+import at.orchaldir.gm.app.html.rpg.trait.parsePersonality
+import at.orchaldir.gm.app.html.rpg.trait.showPersonality
 import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.app.html.util.source.editDataSources
 import at.orchaldir.gm.app.html.util.source.parseDataSources

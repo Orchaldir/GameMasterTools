@@ -1,4 +1,4 @@
-package at.orchaldir.gm.app.html.character
+package at.orchaldir.gm.app.html.rpg.trait
 
 import at.orchaldir.gm.app.NONE
 import at.orchaldir.gm.app.PERSONALITY_PREFIX
