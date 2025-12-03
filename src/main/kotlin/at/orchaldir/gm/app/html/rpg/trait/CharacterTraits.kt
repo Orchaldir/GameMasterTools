@@ -27,8 +27,9 @@ fun HtmlBlockTag.editCharacterTraits(
     call: ApplicationCall,
     state: State,
     personality: Set<CharacterTraitId>,
+    isOpen: Boolean = false,
 ) {
-    showDetails("Character Traits") {
+    showDetails("Character Traits", isOpen) {
         state.getCharacterTraitGroups().forEach { group ->
             val textId = "$CHARACTER_TRAIT_PREFIX${group.value}"
             var isAnyCheck = false

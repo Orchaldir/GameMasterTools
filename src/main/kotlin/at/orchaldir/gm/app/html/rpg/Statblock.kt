@@ -77,7 +77,7 @@ fun HtmlBlockTag.editStatblock(
             editStatistics(state, call, statblock, damageValues, "Base Damage Value")
             editStatistics(state, call, statblock, skills, "Skills")
         }
-        editCharacterTraits(call, state, statblock.traits)
+        editCharacterTraits(call, state, statblock.traits, true)
         field("Cost", statblock.calculateCost(state))
     }
 }
