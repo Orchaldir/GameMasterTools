@@ -6,7 +6,7 @@ import at.orchaldir.gm.app.html.simpleHtml
 import at.orchaldir.gm.app.routes.DataRoutes
 import at.orchaldir.gm.app.routes.character.CharacterRoutes
 import at.orchaldir.gm.app.routes.character.CharacterTemplateRoutes
-import at.orchaldir.gm.app.routes.character.PersonalityTraitRoutes
+import at.orchaldir.gm.app.routes.rpg.CharacterTraitRoutes
 import at.orchaldir.gm.app.routes.character.title.TitleRoutes
 import at.orchaldir.gm.app.routes.culture.CultureRoutes
 import at.orchaldir.gm.app.routes.culture.FashionRoutes
@@ -74,7 +74,7 @@ fun Application.configureRouting() {
                     h3 { +"Characters" }
                     fieldStorageLink(call, state.getCharacterStorage(), CharacterRoutes())
                     fieldStorageLink(call, state.getCharacterTemplateStorage(), CharacterTemplateRoutes())
-                    fieldStorageLink(call, state.getCharacterTraitStorage(), PersonalityTraitRoutes())
+                    fieldStorageLink(call, state.getCharacterTraitStorage(), CharacterTraitRoutes())
                     fieldStorageLink(call, state.getRaceStorage(), RaceRoutes())
                     fieldStorageLink(call, state.getRaceAppearanceStorage(), RaceAppearanceRoutes())
                     fieldStorageLink(call, state.getRaceGroupStorage(), RaceGroupRoutes())

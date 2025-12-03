@@ -1,4 +1,4 @@
-package at.orchaldir.gm.app.routes.character
+package at.orchaldir.gm.app.routes.rpg
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
@@ -9,12 +9,12 @@ import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.rpg.trait.CHARACTER_TRAIT_TYPE
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitId
-import at.orchaldir.gm.core.model.util.SortPersonalityTrait
+import at.orchaldir.gm.core.model.util.SortCharacterTrait
 import at.orchaldir.gm.core.selector.character.getCharacters
 import at.orchaldir.gm.core.selector.character.getPersonalityTraitGroups
 import at.orchaldir.gm.core.selector.character.getPersonalityTraits
 import at.orchaldir.gm.core.selector.religion.getGodsWith
-import at.orchaldir.gm.core.selector.util.sortPersonalityTraits
+import at.orchaldir.gm.core.selector.util.sortCharacterTraits
 import io.ktor.resources.*
 import io.ktor.server.application.*
 import io.ktor.server.resources.*
@@ -23,33 +23,33 @@ import io.ktor.server.routing.*
 import kotlinx.html.HtmlBlockTag
 
 @Resource("/$CHARACTER_TRAIT_TYPE")
-class PersonalityTraitRoutes : Routes<CharacterTraitId, SortPersonalityTrait> {
+class CharacterTraitRoutes : Routes<CharacterTraitId, SortCharacterTrait> {
     @Resource("all")
     class All(
-        val sort: SortPersonalityTrait = SortPersonalityTrait.Name,
-        val parent: PersonalityTraitRoutes = PersonalityTraitRoutes(),
+        val sort: SortCharacterTrait = SortCharacterTrait.Name,
+        val parent: CharacterTraitRoutes = CharacterTraitRoutes(),
     )
 
     @Resource("details")
-    class Details(val id: CharacterTraitId, val parent: PersonalityTraitRoutes = PersonalityTraitRoutes())
+    class Details(val id: CharacterTraitId, val parent: CharacterTraitRoutes = CharacterTraitRoutes())
 
     @Resource("new")
-    class New(val parent: PersonalityTraitRoutes = PersonalityTraitRoutes())
+    class New(val parent: CharacterTraitRoutes = CharacterTraitRoutes())
 
     @Resource("delete")
-    class Delete(val id: CharacterTraitId, val parent: PersonalityTraitRoutes = PersonalityTraitRoutes())
+    class Delete(val id: CharacterTraitId, val parent: CharacterTraitRoutes = CharacterTraitRoutes())
 
     @Resource("edit")
-    class Edit(val id: CharacterTraitId, val parent: PersonalityTraitRoutes = PersonalityTraitRoutes())
+    class Edit(val id: CharacterTraitId, val parent: CharacterTraitRoutes = CharacterTraitRoutes())
 
     @Resource("preview")
-    class Preview(val id: CharacterTraitId, val parent: PersonalityTraitRoutes = PersonalityTraitRoutes())
+    class Preview(val id: CharacterTraitId, val parent: CharacterTraitRoutes = CharacterTraitRoutes())
 
     @Resource("update")
-    class Update(val id: CharacterTraitId, val parent: PersonalityTraitRoutes = PersonalityTraitRoutes())
+    class Update(val id: CharacterTraitId, val parent: CharacterTraitRoutes = CharacterTraitRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
-    override fun all(call: ApplicationCall, sort: SortPersonalityTrait) = call.application.href(All(sort))
+    override fun all(call: ApplicationCall, sort: SortCharacterTrait) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: CharacterTraitId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: CharacterTraitId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())
@@ -57,16 +57,17 @@ class PersonalityTraitRoutes : Routes<CharacterTraitId, SortPersonalityTrait> {
     override fun update(call: ApplicationCall, id: CharacterTraitId) = call.application.href(Update(id))
 }
 
-fun Application.configurePersonalityRouting() {
+fun Application.configureCharacterTraitRouting() {
     routing {
-        get<PersonalityTraitRoutes.All> { all ->
+        get<CharacterTraitRoutes.All> { all ->
             val state = STORE.getState()
 
             handleShowAllElements(
-                PersonalityTraitRoutes(),
-                state.sortPersonalityTraits(all.sort),
+                CharacterTraitRoutes(),
+                state.sortCharacterTraits(all.sort),
                 listOf(
                     createNameColumn(call, state),
+                    Column("Cost") { tdInt(it.cost) },
                     countCollectionColumn("Characters") { state.getCharacters(it.id) },
                     countCollectionColumn("Gods") { state.getGodsWith(it.id) },
                 ),
@@ -81,27 +82,27 @@ fun Application.configurePersonalityRouting() {
                 fieldElements(call, state, "Without Group", it.filter { it.group == null })
             }
         }
-        get<PersonalityTraitRoutes.Details> { details ->
-            handleShowElement(details.id, PersonalityTraitRoutes(), HtmlBlockTag::showCharacterTrait)
+        get<CharacterTraitRoutes.Details> { details ->
+            handleShowElement(details.id, CharacterTraitRoutes(), HtmlBlockTag::showCharacterTrait)
         }
-        get<PersonalityTraitRoutes.New> {
-            handleCreateElement(PersonalityTraitRoutes(), STORE.getState().getCharacterTraitStorage())
+        get<CharacterTraitRoutes.New> {
+            handleCreateElement(CharacterTraitRoutes(), STORE.getState().getCharacterTraitStorage())
         }
-        get<PersonalityTraitRoutes.Delete> { delete ->
-            handleDeleteElement(PersonalityTraitRoutes(), delete.id)
+        get<CharacterTraitRoutes.Delete> { delete ->
+            handleDeleteElement(CharacterTraitRoutes(), delete.id)
         }
-        get<PersonalityTraitRoutes.Edit> { edit ->
-            handleEditElement(edit.id, PersonalityTraitRoutes(), HtmlBlockTag::editCharacterTrait)
+        get<CharacterTraitRoutes.Edit> { edit ->
+            handleEditElement(edit.id, CharacterTraitRoutes(), HtmlBlockTag::editCharacterTrait)
         }
-        post<PersonalityTraitRoutes.Preview> { preview ->
+        post<CharacterTraitRoutes.Preview> { preview ->
             handlePreviewElement(
                 preview.id,
-                PersonalityTraitRoutes(),
+                CharacterTraitRoutes(),
                 ::parseCharacterTrait,
                 HtmlBlockTag::editCharacterTrait
             )
         }
-        post<PersonalityTraitRoutes.Update> { update ->
+        post<CharacterTraitRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseCharacterTrait)
         }
     }

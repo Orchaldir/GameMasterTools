@@ -275,6 +275,21 @@ fun State.sortCharacterTemplates(
             SortCharacterTemplate.Cost -> compareByDescending { it.statblock.calculateCost(this) }
         })
 
+// character traits
+
+fun State.sortCharacterTraits(sort: SortCharacterTrait = SortCharacterTrait.Name) =
+    sortCharacterTraits(getCharacterTraitStorage().getAll(), sort)
+
+fun State.sortCharacterTraits(
+    planes: Collection<CharacterTrait>,
+    sort: SortCharacterTrait = SortCharacterTrait.Name,
+) = planes
+    .sortedWith(
+        when (sort) {
+            SortCharacterTrait.Name -> compareBy { it.name.text }
+            SortCharacterTrait.Cost -> compareByDescending { it.cost }
+        })
+
 // color scheme
 
 fun State.sortColorSchemes(sort: SortColorScheme = SortColorScheme.Name) =
@@ -702,20 +717,6 @@ fun State.sortPeriodicalIssues(
             SortPeriodicalIssue.Date -> getComplexStartAgeComparator()
         }
     )
-
-// plane
-
-fun State.sortPersonalityTraits(sort: SortPersonalityTrait = SortPersonalityTrait.Name) =
-    sortPersonalityTraits(getCharacterTraitStorage().getAll(), sort)
-
-fun State.sortPersonalityTraits(
-    planes: Collection<CharacterTrait>,
-    sort: SortPersonalityTrait = SortPersonalityTrait.Name,
-) = planes
-    .sortedWith(
-        when (sort) {
-            SortPersonalityTrait.Name -> compareBy { it.name.text }
-        })
 
 // plane
 

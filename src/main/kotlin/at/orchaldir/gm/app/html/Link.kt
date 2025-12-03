@@ -3,7 +3,7 @@ package at.orchaldir.gm.app.html
 import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.character.CharacterRoutes
 import at.orchaldir.gm.app.routes.character.CharacterTemplateRoutes
-import at.orchaldir.gm.app.routes.character.PersonalityTraitRoutes
+import at.orchaldir.gm.app.routes.rpg.CharacterTraitRoutes
 import at.orchaldir.gm.app.routes.character.title.TitleRoutes
 import at.orchaldir.gm.app.routes.culture.CultureRoutes
 import at.orchaldir.gm.app.routes.culture.FashionRoutes
@@ -418,7 +418,7 @@ fun href(
     is PantheonId -> call.application.href(PantheonRoutes.Details(id))
     is PeriodicalId -> call.application.href(PeriodicalRoutes.Details(id))
     is PeriodicalIssueId -> call.application.href(PeriodicalIssueRoutes.Details(id))
-    is CharacterTraitId -> call.application.href(PersonalityTraitRoutes.Details(id))
+    is CharacterTraitId -> call.application.href(CharacterTraitRoutes.Details(id))
     is PlaneId -> call.application.href(PlaneRoutes.Details(id))
     is QuoteId -> call.application.href(QuoteRoutes.Details(id))
     is RaceId -> call.application.href(RaceRoutes.Details(id))
