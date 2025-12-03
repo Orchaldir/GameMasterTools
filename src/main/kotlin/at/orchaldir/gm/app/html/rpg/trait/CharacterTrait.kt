@@ -1,12 +1,15 @@
 package at.orchaldir.gm.app.html.rpg.trait
 
+import at.orchaldir.gm.app.COST
 import at.orchaldir.gm.app.GROUP
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.CharacterTemplate
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTrait
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitGroup
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitId
 import at.orchaldir.gm.core.selector.character.getCharacters
+import at.orchaldir.gm.core.selector.character.getCharactersUsing
 import at.orchaldir.gm.core.selector.character.getPersonalityTraitGroups
 import at.orchaldir.gm.core.selector.character.getPersonalityTraits
 import at.orchaldir.gm.core.selector.religion.getGodsWith
@@ -21,9 +24,9 @@ fun HtmlBlockTag.showCharacterTrait(
     state: State,
     trait: CharacterTrait,
 ) {
-    val characters = state.getCharacters(trait.id)
-    val gods = state.getGodsWith(trait.id)
+
     fieldName(trait.name)
+    field("Cost", trait.cost)
 
     if (trait.group != null) {
         val traits = state.getPersonalityTraits(trait.group)
@@ -31,6 +34,23 @@ fun HtmlBlockTag.showCharacterTrait(
 
         fieldElements(call, state, "Conflicting", traits)
     }
+
+    showUsage(call, state, trait.id)
+}
+
+private fun HtmlBlockTag.showUsage(
+    call: ApplicationCall,
+    state: State,
+    trait: CharacterTraitId,
+) {
+    val characters = state.getCharacters(trait)
+    val gods = state.getGodsWith(trait)
+
+    if (characters.isEmpty() && gods.isEmpty()) {
+        return
+    }
+
+    h2 { +"Usage" }
 
     fieldElements(call, state, characters)
     fieldElements(call, state, gods)
@@ -47,6 +67,7 @@ fun HtmlBlockTag.editCharacterTrait(
     val newGroup = groups.maxOfOrNull { it.value + 1 } ?: 0
 
     selectName(trait.name)
+    selectInt("Cost", trait.cost, -1000, 1000, 1, COST)
     field("Group") {
         select {
             id = GROUP
@@ -84,5 +105,10 @@ fun parseCharacterTrait(
         ?.toIntOrNull()
         ?.let { CharacterTraitGroup(it) }
 
-    return CharacterTrait(id, parseName(parameters), group)
+    return CharacterTrait(
+        id,
+        parseName(parameters),
+        group,
+        parseInt(parameters, COST)
+    )
 }

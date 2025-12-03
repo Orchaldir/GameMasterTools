@@ -28,6 +28,7 @@ data class CharacterTrait(
     val id: CharacterTraitId,
     val name: Name = Name.init(id),
     val group: CharacterTraitGroup? = null,
+    val cost: Int = 0,
 ) : ElementWithSimpleName<CharacterTraitId> {
 
     override fun id() = id
