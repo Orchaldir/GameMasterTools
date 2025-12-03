@@ -2,6 +2,9 @@ package at.orchaldir.gm.app.html.rpg
 
 import at.orchaldir.gm.app.STATISTIC
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.rpg.trait.editCharacterTraits
+import at.orchaldir.gm.app.html.rpg.trait.parseCharacterTraits
+import at.orchaldir.gm.app.html.rpg.trait.showCharacterTraits
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.Statblock
@@ -15,6 +18,8 @@ import at.orchaldir.gm.core.selector.util.sortStatistics
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.*
+
+// show
 
 fun HtmlBlockTag.showStatblock(
     call: ApplicationCall,
@@ -35,6 +40,7 @@ fun HtmlBlockTag.showStatblock(
         showStatistics(call, state, derivedValues, "Derived Attributes")
         showStatistics(call, state, baseDamageValues, "Base Damage Values")
         showStatistics(call, state, skillValues, "Skills")
+        showCharacterTraits(call, state, statblock.traits)
         field("Cost", statblock.calculateCost(state))
     }
 }
@@ -51,6 +57,8 @@ private fun DETAILS.showStatistics(
         +statistic.data.display(value)
     }
 }
+
+// edit
 
 fun HtmlBlockTag.editStatblock(
     call: ApplicationCall,
@@ -69,6 +77,7 @@ fun HtmlBlockTag.editStatblock(
             editStatistics(state, call, statblock, damageValues, "Base Damage Value")
             editStatistics(state, call, statblock, skills, "Skills")
         }
+        editCharacterTraits(call, state, statblock.traits)
         field("Cost", statblock.calculateCost(state))
     }
 }
@@ -107,10 +116,20 @@ private fun TABLE.editStatistics(
     }
 }
 
+// parse
+
 fun parseStatblock(
     state: State,
     parameters: Parameters,
-): Statblock {
+) =Statblock(
+    parseStatistics(state, parameters),
+    parseCharacterTraits(parameters),
+)
+
+private fun parseStatistics(
+    state: State,
+    parameters: Parameters,
+): MutableMap<StatisticId, Int> {
     val values = mutableMapOf<StatisticId, Int>()
 
     state.getStatisticStorage()
@@ -122,6 +141,5 @@ fun parseStatblock(
                 }
             }
         }
-
-    return Statblock(values)
+    return values
 }
