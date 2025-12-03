@@ -21,6 +21,7 @@ import at.orchaldir.gm.core.model.rpg.statistic.StatisticData
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.model.rpg.statistic.SumOfValues
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTrait
+import at.orchaldir.gm.core.reducer.rpg.validateStatblock
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -45,14 +46,14 @@ class StatblockTest {
     inner class CalculateCostTest {
 
         @Test
-        fun `Resolve unknown statistic`() {
+        fun `Cost of unknown statistic`() {
             val statblock = Statblock(mapOf(UNKNOWN_STATISTIC_ID to 5))
 
             assertIllegalArgument("Requires unknown Statistic 99!") { statblock.calculateCost(state) }
         }
 
         @Test
-        fun `Resolve unknown character trait`() {
+        fun `Cost of unknown character trait`() {
             val statblock = Statblock(traits = setOf(UNKNOWN_CHARACTER_TRAIT_ID))
 
             assertIllegalArgument("Requires unknown Character Trait 99!") { statblock.calculateCost(state) }
@@ -165,6 +166,25 @@ class StatblockTest {
             val statblock = Statblock(map)
 
             assertEquals(result, statblock.resolve(newState, STATISTIC_ID_1))
+        }
+
+    }
+
+    @Nested
+    inner class ValidateTest {
+
+        @Test
+        fun `Validate unknown statistic`() {
+            val statblock = Statblock(mapOf(UNKNOWN_STATISTIC_ID to 5))
+
+            assertIllegalArgument("Requires unknown Statistic 99!") { validateStatblock(state, statblock) }
+        }
+
+        @Test
+        fun `Validate unknown character trait`() {
+            val statblock = Statblock(traits = setOf(UNKNOWN_CHARACTER_TRAIT_ID))
+
+            assertIllegalArgument("Requires unknown Character Trait 99!") { validateStatblock(state, statblock) }
         }
 
     }
