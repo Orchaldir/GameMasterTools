@@ -4,9 +4,9 @@ import at.orchaldir.gm.app.NONE
 import at.orchaldir.gm.app.PERSONALITY_PREFIX
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.PersonalityTrait
-import at.orchaldir.gm.core.model.character.PersonalityTraitGroup
-import at.orchaldir.gm.core.model.character.PersonalityTraitId
+import at.orchaldir.gm.core.model.rpg.trait.PersonalityTrait
+import at.orchaldir.gm.core.model.rpg.trait.PersonalityTraitGroup
+import at.orchaldir.gm.core.model.rpg.trait.PersonalityTraitId
 import at.orchaldir.gm.core.selector.character.getCharacters
 import at.orchaldir.gm.core.selector.character.getPersonalityTraitGroups
 import at.orchaldir.gm.core.selector.character.getPersonalityTraits

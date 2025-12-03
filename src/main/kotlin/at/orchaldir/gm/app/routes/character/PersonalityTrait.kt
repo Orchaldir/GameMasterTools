@@ -7,8 +7,8 @@ import at.orchaldir.gm.app.html.character.parsePersonalityTrait
 import at.orchaldir.gm.app.html.character.showPersonalityTrait
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.model.character.PERSONALITY_TRAIT_TYPE
-import at.orchaldir.gm.core.model.character.PersonalityTraitId
+import at.orchaldir.gm.core.model.rpg.trait.PERSONALITY_TRAIT_TYPE
+import at.orchaldir.gm.core.model.rpg.trait.PersonalityTraitId
 import at.orchaldir.gm.core.model.util.SortPersonalityTrait
 import at.orchaldir.gm.core.selector.character.getCharacters
 import at.orchaldir.gm.core.selector.character.getPersonalityTraitGroups

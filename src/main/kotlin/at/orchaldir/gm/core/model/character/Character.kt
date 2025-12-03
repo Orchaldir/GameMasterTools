@@ -13,6 +13,7 @@ import at.orchaldir.gm.core.model.culture.name.getDefaultFamilyName
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.rpg.CharacterStatblock
 import at.orchaldir.gm.core.model.rpg.UndefinedCharacterStatblock
+import at.orchaldir.gm.core.model.rpg.trait.PersonalityTraitId
 import at.orchaldir.gm.core.model.time.Duration
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.date.Date

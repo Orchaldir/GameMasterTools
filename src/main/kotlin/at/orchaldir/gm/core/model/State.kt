@@ -54,6 +54,9 @@ import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.core.model.rpg.statistic.STATISTIC_TYPE
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
+import at.orchaldir.gm.core.model.rpg.trait.PERSONALITY_TRAIT_TYPE
+import at.orchaldir.gm.core.model.rpg.trait.PersonalityTrait
+import at.orchaldir.gm.core.model.rpg.trait.PersonalityTraitId
 import at.orchaldir.gm.core.model.time.calendar.CALENDAR_TYPE
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.calendar.CalendarId

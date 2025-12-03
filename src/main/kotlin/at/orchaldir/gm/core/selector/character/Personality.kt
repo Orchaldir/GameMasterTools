@@ -3,8 +3,8 @@ package at.orchaldir.gm.core.selector.character
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.character.PersonalityTraitGroup
-import at.orchaldir.gm.core.model.character.PersonalityTraitId
+import at.orchaldir.gm.core.model.rpg.trait.PersonalityTraitGroup
+import at.orchaldir.gm.core.model.rpg.trait.PersonalityTraitId
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.selector.religion.getGodsWith
 

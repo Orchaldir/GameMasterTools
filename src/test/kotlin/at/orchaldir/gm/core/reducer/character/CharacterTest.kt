@@ -16,6 +16,7 @@ import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.rpg.Statblock
 import at.orchaldir.gm.core.model.rpg.UniqueCharacterStatblock
 import at.orchaldir.gm.core.model.rpg.UseStatblockOfTemplate
+import at.orchaldir.gm.core.model.rpg.trait.PersonalityTrait
 import at.orchaldir.gm.core.model.time.Time
 import at.orchaldir.gm.core.model.time.date.Day
 import at.orchaldir.gm.core.model.util.*

@@ -2,7 +2,7 @@ package at.orchaldir.gm.core.model.religion
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
-import at.orchaldir.gm.core.model.character.PersonalityTraitId
+import at.orchaldir.gm.core.model.rpg.trait.PersonalityTraitId
 import at.orchaldir.gm.core.model.util.Authenticity
 import at.orchaldir.gm.core.model.util.AuthenticityType
 import at.orchaldir.gm.core.model.util.HasStartDate

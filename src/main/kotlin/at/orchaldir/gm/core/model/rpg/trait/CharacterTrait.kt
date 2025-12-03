@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.model.character
+package at.orchaldir.gm.core.model.rpg.trait
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
