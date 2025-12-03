@@ -55,7 +55,7 @@ import at.orchaldir.gm.core.model.world.town.TownMapId
 import at.orchaldir.gm.core.reducer.world.deleteBuilding
 import at.orchaldir.gm.core.selector.character.canDeleteCharacter
 import at.orchaldir.gm.core.selector.character.canDeleteCharacterTemplate
-import at.orchaldir.gm.core.selector.character.canDeletePersonalityTrait
+import at.orchaldir.gm.core.selector.rpg.canDeleteCharacterTrait
 import at.orchaldir.gm.core.selector.character.canDeleteTitle
 import at.orchaldir.gm.core.selector.culture.canDeleteCulture
 import at.orchaldir.gm.core.selector.culture.canDeleteFashion
@@ -133,7 +133,7 @@ fun reduceDeleteElement(
     is PantheonId -> deleteElement(state, id, State::canDeletePantheon)
     is PeriodicalId -> deleteElement(state, id, State::canDeletePeriodical)
     is PeriodicalIssueId -> deleteElement(state, id, State::canDeletePeriodicalIssue)
-    is CharacterTraitId -> deleteElement(state, id, State::canDeletePersonalityTrait)
+    is CharacterTraitId -> deleteElement(state, id, State::canDeleteCharacterTrait)
     is PlaneId -> deleteElement(state, id, State::canDeletePlane)
     is QuoteId -> deleteElement(state, id, State::canDeleteQuote)
     is RaceId -> deleteElement(state, id, State::canDeleteRace)

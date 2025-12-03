@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTrait
 import at.orchaldir.gm.core.model.religion.God
+import at.orchaldir.gm.core.selector.rpg.canDeleteCharacterTrait
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -44,7 +45,7 @@ class PersonalityTest {
         private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {
             assertEquals(
                 DeleteResult(PERSONALITY_ID_0).addId(blockingId),
-                state.canDeletePersonalityTrait(PERSONALITY_ID_0)
+                state.canDeleteCharacterTrait(PERSONALITY_ID_0)
             )
         }
     }

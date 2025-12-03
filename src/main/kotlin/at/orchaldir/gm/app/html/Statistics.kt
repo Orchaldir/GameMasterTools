@@ -25,6 +25,8 @@ import at.orchaldir.gm.core.selector.magic.countEachLanguage
 import at.orchaldir.gm.core.selector.magic.countSpellOrigin
 import at.orchaldir.gm.core.selector.race.countEachRace
 import at.orchaldir.gm.core.selector.religion.countEachDomain
+import at.orchaldir.gm.core.selector.rpg.countEachCharacterTraitForCharacters
+import at.orchaldir.gm.core.selector.rpg.countEachCharacterTraitForGods
 import at.orchaldir.gm.core.selector.util.countEachCreator
 import at.orchaldir.gm.core.selector.world.countEachArchitecturalStyle
 import at.orchaldir.gm.core.selector.world.countEachPurpose
@@ -152,14 +154,14 @@ fun HtmlBlockTag.showPersonalityCountForCharacters(
     state: State,
     characters: Collection<Character>,
     label: String = "Personality",
-) = showCount(call, state, label, countEachPersonalityForCharacters(characters))
+) = showCount(call, state, label, countEachCharacterTraitForCharacters(characters))
 
 fun HtmlBlockTag.showPersonalityCountForGods(
     call: ApplicationCall,
     state: State,
     gods: Collection<God>,
     label: String = "Personality",
-) = showCount(call, state, label, countEachPersonalityForGods(gods))
+) = showCount(call, state, label, countEachCharacterTraitForGods(gods))
 
 fun HtmlBlockTag.showPublicationFrequencies(characters: Collection<Periodical>) =
     showCount("Frequencies", countPublicationFrequencies(characters))

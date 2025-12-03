@@ -4,14 +4,12 @@ import at.orchaldir.gm.app.COST
 import at.orchaldir.gm.app.GROUP
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.CharacterTemplate
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTrait
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitGroup
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitId
 import at.orchaldir.gm.core.selector.character.getCharacters
-import at.orchaldir.gm.core.selector.character.getCharactersUsing
-import at.orchaldir.gm.core.selector.character.getPersonalityTraitGroups
-import at.orchaldir.gm.core.selector.character.getPersonalityTraits
+import at.orchaldir.gm.core.selector.rpg.getCharacterTraitGroups
+import at.orchaldir.gm.core.selector.rpg.getCharacterTraits
 import at.orchaldir.gm.core.selector.religion.getGodsWith
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -29,7 +27,7 @@ fun HtmlBlockTag.showCharacterTrait(
     field("Cost", trait.cost)
 
     if (trait.group != null) {
-        val traits = state.getPersonalityTraits(trait.group)
+        val traits = state.getCharacterTraits(trait.group)
             .filter { it != trait }
 
         fieldElements(call, state, "Conflicting", traits)
@@ -63,7 +61,7 @@ fun HtmlBlockTag.editCharacterTrait(
     state: State,
     trait: CharacterTrait,
 ) {
-    val groups = state.getPersonalityTraitGroups()
+    val groups = state.getCharacterTraitGroups()
     val newGroup = groups.maxOfOrNull { it.value + 1 } ?: 0
 
     selectName(trait.name)
@@ -79,7 +77,7 @@ fun HtmlBlockTag.editCharacterTrait(
             }
             groups.forEach { g ->
                 option {
-                    label = state.getPersonalityTraits(g)
+                    label = state.getCharacterTraits(g)
                         .sortedBy { it.name.text }
                         .joinToString(separator = " VS ") { it.name.text }
                     value = g.value.toString()

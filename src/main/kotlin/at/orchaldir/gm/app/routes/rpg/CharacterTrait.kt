@@ -11,8 +11,8 @@ import at.orchaldir.gm.core.model.rpg.trait.CHARACTER_TRAIT_TYPE
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitId
 import at.orchaldir.gm.core.model.util.SortCharacterTrait
 import at.orchaldir.gm.core.selector.character.getCharacters
-import at.orchaldir.gm.core.selector.character.getPersonalityTraitGroups
-import at.orchaldir.gm.core.selector.character.getPersonalityTraits
+import at.orchaldir.gm.core.selector.rpg.getCharacterTraitGroups
+import at.orchaldir.gm.core.selector.rpg.getCharacterTraits
 import at.orchaldir.gm.core.selector.religion.getGodsWith
 import at.orchaldir.gm.core.selector.util.sortCharacterTraits
 import io.ktor.resources.*
@@ -72,8 +72,8 @@ fun Application.configureCharacterTraitRouting() {
                     countCollectionColumn("Gods") { state.getGodsWith(it.id) },
                 ),
             ) {
-                fieldList("By Group", state.getPersonalityTraitGroups()) { group ->
-                    state.getPersonalityTraits(group).forEach { trait ->
+                fieldList("By Group", state.getCharacterTraitGroups()) { group ->
+                    state.getCharacterTraits(group).forEach { trait ->
                         +" "
                         link(call, state, trait)
                     }

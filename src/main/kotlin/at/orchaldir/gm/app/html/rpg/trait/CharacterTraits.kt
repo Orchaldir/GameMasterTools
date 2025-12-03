@@ -5,8 +5,8 @@ import at.orchaldir.gm.app.CHARACTER_TRAIT_PREFIX
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitId
-import at.orchaldir.gm.core.selector.character.getPersonalityTraitGroups
-import at.orchaldir.gm.core.selector.character.getPersonalityTraits
+import at.orchaldir.gm.core.selector.rpg.getCharacterTraitGroups
+import at.orchaldir.gm.core.selector.rpg.getCharacterTraits
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.*
@@ -29,12 +29,12 @@ fun HtmlBlockTag.editCharacterTraits(
     personality: Set<CharacterTraitId>,
 ) {
     showDetails("Character Traits") {
-        state.getPersonalityTraitGroups().forEach { group ->
+        state.getCharacterTraitGroups().forEach { group ->
             val textId = "$CHARACTER_TRAIT_PREFIX${group.value}"
             var isAnyCheck = false
 
             p {
-                state.getPersonalityTraits(group).forEach { trait ->
+                state.getCharacterTraits(group).forEach { trait ->
                     val isChecked = personality.contains(trait.id)
                     isAnyCheck = isAnyCheck || isChecked
 
