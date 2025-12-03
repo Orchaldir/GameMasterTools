@@ -1,12 +1,22 @@
-package at.orchaldir.gm.core.model.character.statistic
+package at.orchaldir.gm.core.model.rpg
 
 import at.orchaldir.gm.STATISTIC_ID_0
 import at.orchaldir.gm.STATISTIC_ID_1
 import at.orchaldir.gm.UNKNOWN_STATISTIC_ID
 import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.rpg.Statblock
-import at.orchaldir.gm.core.model.rpg.statistic.*
+import at.orchaldir.gm.core.model.rpg.statistic.Attribute
+import at.orchaldir.gm.core.model.rpg.statistic.BasedOnStatistic
+import at.orchaldir.gm.core.model.rpg.statistic.DerivedAttribute
+import at.orchaldir.gm.core.model.rpg.statistic.DivisionOfValues
+import at.orchaldir.gm.core.model.rpg.statistic.FixedNumber
+import at.orchaldir.gm.core.model.rpg.statistic.FixedStatisticCost
+import at.orchaldir.gm.core.model.rpg.statistic.ProductOfValues
+import at.orchaldir.gm.core.model.rpg.statistic.Skill
+import at.orchaldir.gm.core.model.rpg.statistic.Statistic
+import at.orchaldir.gm.core.model.rpg.statistic.StatisticData
+import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
+import at.orchaldir.gm.core.model.rpg.statistic.SumOfValues
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test

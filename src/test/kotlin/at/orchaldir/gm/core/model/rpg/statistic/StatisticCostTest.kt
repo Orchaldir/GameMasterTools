@@ -1,9 +1,5 @@
-package at.orchaldir.gm.core.model.character.statistic
+package at.orchaldir.gm.core.model.rpg.statistic
 
-import at.orchaldir.gm.core.model.rpg.statistic.FixedStatisticCost
-import at.orchaldir.gm.core.model.rpg.statistic.GurpsSkillCost
-import at.orchaldir.gm.core.model.rpg.statistic.StatisticCost
-import at.orchaldir.gm.core.model.rpg.statistic.UndefinedStatisticCost
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
