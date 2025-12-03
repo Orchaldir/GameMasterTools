@@ -74,7 +74,7 @@ fun Application.configureRouting() {
                     h3 { +"Characters" }
                     fieldStorageLink(call, state.getCharacterStorage(), CharacterRoutes())
                     fieldStorageLink(call, state.getCharacterTemplateStorage(), CharacterTemplateRoutes())
-                    fieldStorageLink(call, state.getPersonalityTraitStorage(), PersonalityTraitRoutes())
+                    fieldStorageLink(call, state.getCharacterTraitStorage(), PersonalityTraitRoutes())
                     fieldStorageLink(call, state.getRaceStorage(), RaceRoutes())
                     fieldStorageLink(call, state.getRaceAppearanceStorage(), RaceAppearanceRoutes())
                     fieldStorageLink(call, state.getRaceGroupStorage(), RaceGroupRoutes())

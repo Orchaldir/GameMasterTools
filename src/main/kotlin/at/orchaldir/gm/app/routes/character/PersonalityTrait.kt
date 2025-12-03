@@ -7,7 +7,7 @@ import at.orchaldir.gm.app.html.character.parsePersonalityTrait
 import at.orchaldir.gm.app.html.character.showPersonalityTrait
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.model.rpg.trait.PERSONALITY_TRAIT_TYPE
+import at.orchaldir.gm.core.model.rpg.trait.CHARACTER_TRAIT_TYPE
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitId
 import at.orchaldir.gm.core.model.util.SortPersonalityTrait
 import at.orchaldir.gm.core.selector.character.getCharacters
@@ -22,7 +22,7 @@ import io.ktor.server.resources.post
 import io.ktor.server.routing.*
 import kotlinx.html.HtmlBlockTag
 
-@Resource("/$PERSONALITY_TRAIT_TYPE")
+@Resource("/$CHARACTER_TRAIT_TYPE")
 class PersonalityTraitRoutes : Routes<CharacterTraitId, SortPersonalityTrait> {
     @Resource("all")
     class All(
@@ -85,7 +85,7 @@ fun Application.configurePersonalityRouting() {
             handleShowElement(details.id, PersonalityTraitRoutes(), HtmlBlockTag::showPersonalityTrait)
         }
         get<PersonalityTraitRoutes.New> {
-            handleCreateElement(PersonalityTraitRoutes(), STORE.getState().getPersonalityTraitStorage())
+            handleCreateElement(PersonalityTraitRoutes(), STORE.getState().getCharacterTraitStorage())
         }
         get<PersonalityTraitRoutes.Delete> { delete ->
             handleDeleteElement(PersonalityTraitRoutes(), delete.id)

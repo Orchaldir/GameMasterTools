@@ -22,11 +22,11 @@ fun countEachPersonalityForGods(gods: Collection<God>) = gods
     .groupingBy { it }
     .eachCount()
 
-fun State.getPersonalityTraits(group: CharacterTraitGroup) = getPersonalityTraitStorage()
+fun State.getPersonalityTraits(group: CharacterTraitGroup) = getCharacterTraitStorage()
     .getAll()
     .filter { group == it.group }
 
-fun State.getPersonalityTraitGroups() = getPersonalityTraitStorage()
+fun State.getPersonalityTraitGroups() = getCharacterTraitStorage()
     .getAll()
     .mapNotNull { it.group }
     .toSet()

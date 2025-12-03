@@ -706,7 +706,7 @@ fun State.sortPeriodicalIssues(
 // plane
 
 fun State.sortPersonalityTraits(sort: SortPersonalityTrait = SortPersonalityTrait.Name) =
-    sortPersonalityTraits(getPersonalityTraitStorage().getAll(), sort)
+    sortPersonalityTraits(getCharacterTraitStorage().getAll(), sort)
 
 fun State.sortPersonalityTraits(
     planes: Collection<CharacterTrait>,

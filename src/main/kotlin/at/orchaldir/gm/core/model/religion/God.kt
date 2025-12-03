@@ -53,7 +53,7 @@ data class God(
 
     override fun validate(state: State) {
         state.getDomainStorage().require(domains)
-        state.getPersonalityTraitStorage().require(personality)
+        state.getCharacterTraitStorage().require(personality)
         checkAuthenticity(state, authenticity)
         state.getDataSourceStorage().require(sources)
     }

@@ -54,7 +54,7 @@ import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.core.model.rpg.statistic.STATISTIC_TYPE
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
-import at.orchaldir.gm.core.model.rpg.trait.PERSONALITY_TRAIT_TYPE
+import at.orchaldir.gm.core.model.rpg.trait.CHARACTER_TRAIT_TYPE
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTrait
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitId
 import at.orchaldir.gm.core.model.time.calendar.CALENDAR_TYPE
@@ -115,6 +115,7 @@ val ELEMENTS =
         CALENDAR_TYPE,
         CATASTROPHE_TYPE,
         CHARACTER_TEMPLATE_TYPE,
+        CHARACTER_TRAIT_TYPE,
         CHARACTER_TYPE,
         COLOR_SCHEME_TYPE,
         CULTURE_TYPE,
@@ -143,7 +144,6 @@ val ELEMENTS =
         PANTHEON_TYPE,
         PERIODICAL_TYPE,
         PERIODICAL_ISSUE_TYPE,
-        PERSONALITY_TRAIT_TYPE,
         PLANE_TYPE,
         QUOTE_TYPE,
         RACE_TYPE,
@@ -198,6 +198,7 @@ data class State(
     fun getCalendarStorage() = getStorage<CalendarId, Calendar>(CALENDAR_TYPE)
     fun getCatastropheStorage() = getStorage<CatastropheId, Catastrophe>(CATASTROPHE_TYPE)
     fun getCharacterTemplateStorage() = getStorage<CharacterTemplateId, CharacterTemplate>(CHARACTER_TEMPLATE_TYPE)
+    fun getCharacterTraitStorage() = getStorage<CharacterTraitId, CharacterTrait>(CHARACTER_TRAIT_TYPE)
     fun getCharacterStorage() = getStorage<CharacterId, Character>(CHARACTER_TYPE)
     fun getColorSchemeStorage() = getStorage<ColorSchemeId, ColorScheme>(COLOR_SCHEME_TYPE)
     fun getCultureStorage() = getStorage<CultureId, Culture>(CULTURE_TYPE)
@@ -226,7 +227,6 @@ data class State(
     fun getPantheonStorage() = getStorage<PantheonId, Pantheon>(PANTHEON_TYPE)
     fun getPeriodicalStorage() = getStorage<PeriodicalId, Periodical>(PERIODICAL_TYPE)
     fun getPeriodicalIssueStorage() = getStorage<PeriodicalIssueId, PeriodicalIssue>(PERIODICAL_ISSUE_TYPE)
-    fun getPersonalityTraitStorage() = getStorage<CharacterTraitId, CharacterTrait>(PERSONALITY_TRAIT_TYPE)
     fun getPlaneStorage() = getStorage<PlaneId, Plane>(PLANE_TYPE)
     fun getQuoteStorage() = getStorage<QuoteId, Quote>(QUOTE_TYPE)
     fun getRaceStorage() = getStorage<RaceId, Race>(RACE_TYPE)
@@ -355,6 +355,7 @@ data class State(
         saveStorage(path, getCatastropheStorage())
         saveStorage(path, getCharacterStorage())
         saveStorage(path, getCharacterTemplateStorage())
+        saveStorage(path, getCharacterTraitStorage())
         saveStorage(path, getColorSchemeStorage())
         saveStorage(path, getCultureStorage())
         saveStorage(path, getCurrencyStorage())
@@ -382,7 +383,6 @@ data class State(
         saveStorage(path, getPantheonStorage())
         saveStorage(path, getPeriodicalStorage())
         saveStorage(path, getPeriodicalIssueStorage())
-        saveStorage(path, getPersonalityTraitStorage())
         saveStorage(path, getPlaneStorage())
         saveStorage(path, getQuoteStorage())
         saveStorage(path, getRaceStorage())
@@ -419,6 +419,7 @@ fun createStorage(type: String) = when (type) {
     CALENDAR_TYPE -> Storage(CalendarId(0))
     CATASTROPHE_TYPE -> Storage(CatastropheId(0))
     CHARACTER_TEMPLATE_TYPE -> Storage(CharacterTemplateId(0))
+    CHARACTER_TRAIT_TYPE -> Storage(CharacterTraitId(0))
     CHARACTER_TYPE -> Storage(CharacterId(0))
     COLOR_SCHEME_TYPE -> Storage(ColorSchemeId(0))
     CULTURE_TYPE -> Storage(CultureId(0))
@@ -447,7 +448,6 @@ fun createStorage(type: String) = when (type) {
     PANTHEON_TYPE -> Storage(PantheonId(0))
     PERIODICAL_TYPE -> Storage(PeriodicalId(0))
     PERIODICAL_ISSUE_TYPE -> Storage(PeriodicalIssueId(0))
-    PERSONALITY_TRAIT_TYPE -> Storage(CharacterTraitId(0))
     PLANE_TYPE -> Storage(PlaneId(0))
     QUOTE_TYPE -> Storage(QuoteId(0))
     RACE_TYPE -> Storage(RaceId(0))
@@ -483,6 +483,7 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     CALENDAR_TYPE -> loadStorage<CalendarId, Calendar>(path, CalendarId(0))
     CATASTROPHE_TYPE -> loadStorage<CatastropheId, Catastrophe>(path, CatastropheId(0))
     CHARACTER_TEMPLATE_TYPE -> loadStorage<CharacterTemplateId, CharacterTemplate>(path, CharacterTemplateId(0))
+    CHARACTER_TRAIT_TYPE -> loadStorage<CharacterTraitId, CharacterTrait>(path, CharacterTraitId(0))
     CHARACTER_TYPE -> loadStorage<CharacterId, Character>(path, CharacterId(0))
     COLOR_SCHEME_TYPE -> loadStorage<ColorSchemeId, ColorScheme>(path, ColorSchemeId(0))
     CULTURE_TYPE -> loadStorage<CultureId, Culture>(path, CultureId(0))
@@ -511,11 +512,6 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     PANTHEON_TYPE -> loadStorage<PantheonId, Pantheon>(path, PantheonId(0))
     PERIODICAL_TYPE -> loadStorage<PeriodicalId, Periodical>(path, PeriodicalId(0))
     PERIODICAL_ISSUE_TYPE -> loadStorage<PeriodicalIssueId, PeriodicalIssue>(path, PeriodicalIssueId(0))
-    PERSONALITY_TRAIT_TYPE -> loadStorage<CharacterTraitId, CharacterTrait>(
-        path,
-        CharacterTraitId(0)
-    )
-
     PLANE_TYPE -> loadStorage<PlaneId, Plane>(path, PlaneId(0))
     QUOTE_TYPE -> loadStorage<QuoteId, Quote>(path, QuoteId(0))
     RACE_TYPE -> loadStorage<RaceId, Race>(path, RaceId(0))

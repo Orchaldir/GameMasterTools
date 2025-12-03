@@ -33,7 +33,7 @@ fun validateCharacterData(
     checkPositionHistory(state, character.housingStatus, character.birthDate, ALLOWED_HOUSING_TYPES)
     checkEmploymentStatusHistory(state, character.employmentStatus, character.birthDate)
     checkAuthenticity(state, character.authenticity)
-    state.getPersonalityTraitStorage().require(character.personality)
+    state.getCharacterTraitStorage().require(character.personality)
     validateCharacterStatblock(state, character.statblock)
 }
 

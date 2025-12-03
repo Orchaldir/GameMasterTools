@@ -74,7 +74,7 @@ fun Application.configureGodRouting() {
                     },
                     Column("Gender") { tdEnum(it.gender) },
                     Column("Personality") {
-                        val personality = state.getPersonalityTraitStorage()
+                        val personality = state.getCharacterTraitStorage()
                             .get(it.personality)
                             .sortedBy { it.name.text }
                         tdLinks(call, state, personality)
