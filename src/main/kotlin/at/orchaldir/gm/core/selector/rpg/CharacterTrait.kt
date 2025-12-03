@@ -6,11 +6,13 @@ import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitGroup
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitId
 import at.orchaldir.gm.core.model.religion.God
+import at.orchaldir.gm.core.selector.character.getCharacterTemplates
 import at.orchaldir.gm.core.selector.character.getCharacters
 import at.orchaldir.gm.core.selector.religion.getGodsWith
 
 fun State.canDeleteCharacterTrait(id: CharacterTraitId) = DeleteResult(id)
     .addElements(getCharacters(id))
+    .addElements(getCharacterTemplates(id))
     .addElements(getGodsWith(id))
 
 fun countEachCharacterTraitForCharacters(characters: Collection<Character>) = characters

@@ -1,12 +1,16 @@
 package at.orchaldir.gm.core.selector.rpg
 
 import at.orchaldir.gm.CHARACTER_ID_0
+import at.orchaldir.gm.CHARACTER_TEMPLATE_ID_0
 import at.orchaldir.gm.GOD_ID_0
 import at.orchaldir.gm.CHARACTER_TRAIT_ID_0
+import at.orchaldir.gm.RACE_ID_0
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
+import at.orchaldir.gm.core.model.character.CharacterTemplate
 import at.orchaldir.gm.core.model.religion.God
+import at.orchaldir.gm.core.model.rpg.Statblock
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTrait
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
@@ -31,6 +35,15 @@ class CharacterTraitTest {
             val newState = state.updateStorage(Storage(character))
 
             failCanDelete(newState, CHARACTER_ID_0)
+        }
+
+        @Test
+        fun `Cannot delete a character trait used by a character template`() {
+            val statblock = Statblock(traits = setOf(CHARACTER_TRAIT_ID_0))
+            val character = CharacterTemplate(CHARACTER_TEMPLATE_ID_0, race = RACE_ID_0, statblock = statblock)
+            val newState = state.updateStorage(Storage(character))
+
+            failCanDelete(newState, CHARACTER_TEMPLATE_ID_0)
         }
 
         @Test
