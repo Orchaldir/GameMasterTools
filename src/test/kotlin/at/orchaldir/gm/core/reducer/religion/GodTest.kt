@@ -22,7 +22,7 @@ class GodTest {
             Storage(CALENDAR0),
             Storage(Domain(DOMAIN_ID_0)),
             Storage(god0),
-            Storage(CharacterTrait(PERSONALITY_ID_0)),
+            Storage(CharacterTrait(CHARACTER_TRAIT_ID_0)),
         )
     )
 
@@ -52,9 +52,9 @@ class GodTest {
 
         @Test
         fun `Cannot use an unknown personality trait`() {
-            val action = UpdateAction(God(GOD_ID_0, personality = setOf(UNKNOWN_PERSONALITY_ID)))
+            val action = UpdateAction(God(GOD_ID_0, personality = setOf(UNKNOWN_CHARACTER_TRAIT_ID)))
 
-            assertIllegalArgument("Requires unknown Personality Trait 99!") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Requires unknown Character Trait 99!") { REDUCER.invoke(state, action) }
         }
 
         @Test
@@ -64,7 +64,7 @@ class GodTest {
                 NAME,
                 null,
                 Gender.Genderless,
-                setOf(PERSONALITY_ID_0),
+                setOf(CHARACTER_TRAIT_ID_0),
                 setOf(DOMAIN_ID_0),
             )
             val action = UpdateAction(god)
