@@ -6,7 +6,7 @@ import at.orchaldir.gm.PERSONALITY_ID_0
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.rpg.trait.PersonalityTrait
+import at.orchaldir.gm.core.model.rpg.trait.CharacterTrait
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
@@ -18,7 +18,7 @@ class PersonalityTest {
 
     @Nested
     inner class CanDeleteTest {
-        private val trait = PersonalityTrait(PERSONALITY_ID_0)
+        private val trait = CharacterTrait(PERSONALITY_ID_0)
         private val state = State(
             listOf(
                 Storage(trait),

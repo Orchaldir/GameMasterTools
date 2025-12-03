@@ -5,7 +5,7 @@ import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.CharacterTemplateId
-import at.orchaldir.gm.core.model.rpg.trait.PersonalityTraitId
+import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitId
 import at.orchaldir.gm.core.model.character.title.TitleId
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.fashion.FashionId
@@ -133,7 +133,7 @@ fun reduceDeleteElement(
     is PantheonId -> deleteElement(state, id, State::canDeletePantheon)
     is PeriodicalId -> deleteElement(state, id, State::canDeletePeriodical)
     is PeriodicalIssueId -> deleteElement(state, id, State::canDeletePeriodicalIssue)
-    is PersonalityTraitId -> deleteElement(state, id, State::canDeletePersonalityTrait)
+    is CharacterTraitId -> deleteElement(state, id, State::canDeletePersonalityTrait)
     is PlaneId -> deleteElement(state, id, State::canDeletePlane)
     is QuoteId -> deleteElement(state, id, State::canDeleteQuote)
     is RaceId -> deleteElement(state, id, State::canDeleteRace)

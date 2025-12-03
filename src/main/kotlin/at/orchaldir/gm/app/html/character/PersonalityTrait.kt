@@ -4,9 +4,9 @@ import at.orchaldir.gm.app.NONE
 import at.orchaldir.gm.app.PERSONALITY_PREFIX
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.rpg.trait.PersonalityTrait
-import at.orchaldir.gm.core.model.rpg.trait.PersonalityTraitGroup
-import at.orchaldir.gm.core.model.rpg.trait.PersonalityTraitId
+import at.orchaldir.gm.core.model.rpg.trait.CharacterTrait
+import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitGroup
+import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitId
 import at.orchaldir.gm.core.selector.character.getCharacters
 import at.orchaldir.gm.core.selector.character.getPersonalityTraitGroups
 import at.orchaldir.gm.core.selector.character.getPersonalityTraits
@@ -20,7 +20,7 @@ import kotlinx.html.*
 fun HtmlBlockTag.showPersonality(
     call: ApplicationCall,
     state: State,
-    personality: Set<PersonalityTraitId>,
+    personality: Set<CharacterTraitId>,
 ) {
     fieldIds(call, state, "Personality", personality)
 }
@@ -28,7 +28,7 @@ fun HtmlBlockTag.showPersonality(
 fun HtmlBlockTag.showPersonalityTrait(
     call: ApplicationCall,
     state: State,
-    trait: PersonalityTrait,
+    trait: CharacterTrait,
 ) {
     val characters = state.getCharacters(trait.id)
     val gods = state.getGodsWith(trait.id)
@@ -50,7 +50,7 @@ fun HtmlBlockTag.showPersonalityTrait(
 fun HtmlBlockTag.editPersonality(
     call: ApplicationCall,
     state: State,
-    personality: Set<PersonalityTraitId>,
+    personality: Set<CharacterTraitId>,
 ) {
     showDetails("Personality") {
         state.getPersonalityTraitGroups().forEach { group ->
@@ -92,7 +92,7 @@ fun HtmlBlockTag.editPersonality(
 fun HtmlBlockTag.editPersonalityTrait(
     call: ApplicationCall,
     state: State,
-    trait: PersonalityTrait,
+    trait: CharacterTrait,
 ) {
     val groups = state.getPersonalityTraitGroups()
     val newGroup = groups.maxOfOrNull { it.value + 1 } ?: 0
@@ -131,17 +131,17 @@ fun parsePersonality(parameters: Parameters) = parameters.entries()
     .filter { e -> e.key.startsWith(PERSONALITY_PREFIX) }
     .map { e -> e.value.first() }
     .filter { it != NONE }
-    .map { PersonalityTraitId(it.toInt()) }
+    .map { CharacterTraitId(it.toInt()) }
     .toSet()
 
 fun parsePersonalityTrait(
     state: State,
     parameters: Parameters,
-    id: PersonalityTraitId,
-): PersonalityTrait {
+    id: CharacterTraitId,
+): CharacterTrait {
     val group = parameters["group"]
         ?.toIntOrNull()
-        ?.let { PersonalityTraitGroup(it) }
+        ?.let { CharacterTraitGroup(it) }
 
-    return PersonalityTrait(id, parseName(parameters), group)
+    return CharacterTrait(id, parseName(parameters), group)
 }

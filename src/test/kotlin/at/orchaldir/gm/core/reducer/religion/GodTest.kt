@@ -4,7 +4,7 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
-import at.orchaldir.gm.core.model.rpg.trait.PersonalityTrait
+import at.orchaldir.gm.core.model.rpg.trait.CharacterTrait
 import at.orchaldir.gm.core.model.religion.Domain
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.util.MaskOfOtherGod
@@ -22,7 +22,7 @@ class GodTest {
             Storage(CALENDAR0),
             Storage(Domain(DOMAIN_ID_0)),
             Storage(god0),
-            Storage(PersonalityTrait(PERSONALITY_ID_0)),
+            Storage(CharacterTrait(PERSONALITY_ID_0)),
         )
     )
 

@@ -13,7 +13,7 @@ import at.orchaldir.gm.core.model.culture.name.getDefaultFamilyName
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.rpg.CharacterStatblock
 import at.orchaldir.gm.core.model.rpg.UndefinedCharacterStatblock
-import at.orchaldir.gm.core.model.rpg.trait.PersonalityTraitId
+import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitId
 import at.orchaldir.gm.core.model.time.Duration
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.date.Date
@@ -83,7 +83,7 @@ data class Character(
     val birthDate: Date = Year(0),
     val vitalStatus: VitalStatus = Alive,
     val culture: CultureId? = null,
-    val personality: Set<PersonalityTraitId> = emptySet(),
+    val personality: Set<CharacterTraitId> = emptySet(),
     val relationships: Map<CharacterId, Set<InterpersonalRelationship>> = mapOf(),
     val languages: Map<LanguageId, ComprehensionLevel> = emptyMap(),
     val appearance: Appearance = UndefinedAppearance,

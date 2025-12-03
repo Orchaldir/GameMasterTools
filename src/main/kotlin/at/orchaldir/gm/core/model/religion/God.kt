@@ -2,7 +2,7 @@ package at.orchaldir.gm.core.model.religion
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
-import at.orchaldir.gm.core.model.rpg.trait.PersonalityTraitId
+import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitId
 import at.orchaldir.gm.core.model.util.Authenticity
 import at.orchaldir.gm.core.model.util.AuthenticityType
 import at.orchaldir.gm.core.model.util.HasStartDate
@@ -40,7 +40,7 @@ data class God(
     val name: Name = Name.init(id),
     val title: NotEmptyString? = null,
     val gender: Gender = Gender.Genderless,
-    val personality: Set<PersonalityTraitId> = emptySet(),
+    val personality: Set<CharacterTraitId> = emptySet(),
     val domains: Set<DomainId> = emptySet(),
     val authenticity: Authenticity = UndefinedAuthenticity,
     val sources: Set<DataSourceId> = emptySet(),

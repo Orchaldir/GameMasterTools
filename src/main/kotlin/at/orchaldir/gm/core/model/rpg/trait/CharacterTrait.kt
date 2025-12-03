@@ -11,9 +11,9 @@ const val PERSONALITY_TRAIT_TYPE = "Personality Trait"
 
 @JvmInline
 @Serializable
-value class PersonalityTraitId(val value: Int) : Id<PersonalityTraitId> {
+value class CharacterTraitId(val value: Int) : Id<CharacterTraitId> {
 
-    override fun next() = PersonalityTraitId(value + 1)
+    override fun next() = CharacterTraitId(value + 1)
     override fun type() = PERSONALITY_TRAIT_TYPE
     override fun value() = value
 
@@ -21,14 +21,14 @@ value class PersonalityTraitId(val value: Int) : Id<PersonalityTraitId> {
 
 @JvmInline
 @Serializable
-value class PersonalityTraitGroup(val value: Int)
+value class CharacterTraitGroup(val value: Int)
 
 @Serializable
-data class PersonalityTrait(
-    val id: PersonalityTraitId,
+data class CharacterTrait(
+    val id: CharacterTraitId,
     val name: Name = Name.init(id),
-    val group: PersonalityTraitGroup? = null,
-) : ElementWithSimpleName<PersonalityTraitId> {
+    val group: CharacterTraitGroup? = null,
+) : ElementWithSimpleName<CharacterTraitId> {
 
     override fun id() = id
     override fun name() = name.text

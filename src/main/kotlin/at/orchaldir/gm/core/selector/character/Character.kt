@@ -19,7 +19,7 @@ import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.realm.RealmId
 import at.orchaldir.gm.core.model.realm.TownId
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
-import at.orchaldir.gm.core.model.rpg.trait.PersonalityTraitId
+import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitId
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.Dead
 import at.orchaldir.gm.core.model.util.isIn
@@ -144,7 +144,7 @@ fun State.getCharacters(language: LanguageId) = getCharacterStorage()
     .getAll()
     .filter { c -> getKnownLanguages(c).containsKey(language) }
 
-fun State.getCharacters(trait: PersonalityTraitId) = getCharacterStorage()
+fun State.getCharacters(trait: CharacterTraitId) = getCharacterStorage()
     .getAll()
     .filter { it.personality.contains(trait) }
 

@@ -2,7 +2,7 @@ package at.orchaldir.gm
 
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.CharacterTemplateId
-import at.orchaldir.gm.core.model.rpg.trait.PersonalityTraitId
+import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitId
 import at.orchaldir.gm.core.model.character.title.TitleId
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.fashion.FashionId
@@ -143,8 +143,8 @@ val UNKNOWN_PERIODICAL_ID = PeriodicalId(99)
 val ISSUE_ID_0 = PeriodicalIssueId(0)
 val ISSUE_ID_1 = PeriodicalIssueId(1)
 val UNKNOWN_ISSUE_ID = PeriodicalIssueId(99)
-val PERSONALITY_ID_0 = PersonalityTraitId(0)
-val UNKNOWN_PERSONALITY_ID = PersonalityTraitId(99)
+val PERSONALITY_ID_0 = CharacterTraitId(0)
+val UNKNOWN_PERSONALITY_ID = CharacterTraitId(99)
 val PLANE_ID_0 = PlaneId(0)
 val PLANE_ID_1 = PlaneId(1)
 val UNKNOWN_PLANE_ID = PlaneId(99)

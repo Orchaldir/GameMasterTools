@@ -16,7 +16,7 @@ import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.rpg.Statblock
 import at.orchaldir.gm.core.model.rpg.UniqueCharacterStatblock
 import at.orchaldir.gm.core.model.rpg.UseStatblockOfTemplate
-import at.orchaldir.gm.core.model.rpg.trait.PersonalityTrait
+import at.orchaldir.gm.core.model.rpg.trait.CharacterTrait
 import at.orchaldir.gm.core.model.time.Time
 import at.orchaldir.gm.core.model.time.date.Day
 import at.orchaldir.gm.core.model.util.*
@@ -57,7 +57,7 @@ class CharacterTest {
                 Storage(Culture(CULTURE_ID_0)),
                 Storage(Language(LANGUAGE_ID_0)),
                 Storage(Job(JOB_ID_0)),
-                Storage(PersonalityTrait(PERSONALITY_ID_0)),
+                Storage(CharacterTrait(PERSONALITY_ID_0)),
                 Storage(listOf(Race(RACE_ID_0), Race(RACE_ID_1)))
             )
         )

@@ -8,7 +8,7 @@ import at.orchaldir.gm.app.html.character.showPersonalityTrait
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.rpg.trait.PERSONALITY_TRAIT_TYPE
-import at.orchaldir.gm.core.model.rpg.trait.PersonalityTraitId
+import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitId
 import at.orchaldir.gm.core.model.util.SortPersonalityTrait
 import at.orchaldir.gm.core.selector.character.getCharacters
 import at.orchaldir.gm.core.selector.character.getPersonalityTraitGroups
@@ -23,7 +23,7 @@ import io.ktor.server.routing.*
 import kotlinx.html.HtmlBlockTag
 
 @Resource("/$PERSONALITY_TRAIT_TYPE")
-class PersonalityTraitRoutes : Routes<PersonalityTraitId, SortPersonalityTrait> {
+class PersonalityTraitRoutes : Routes<CharacterTraitId, SortPersonalityTrait> {
     @Resource("all")
     class All(
         val sort: SortPersonalityTrait = SortPersonalityTrait.Name,
@@ -31,30 +31,30 @@ class PersonalityTraitRoutes : Routes<PersonalityTraitId, SortPersonalityTrait> 
     )
 
     @Resource("details")
-    class Details(val id: PersonalityTraitId, val parent: PersonalityTraitRoutes = PersonalityTraitRoutes())
+    class Details(val id: CharacterTraitId, val parent: PersonalityTraitRoutes = PersonalityTraitRoutes())
 
     @Resource("new")
     class New(val parent: PersonalityTraitRoutes = PersonalityTraitRoutes())
 
     @Resource("delete")
-    class Delete(val id: PersonalityTraitId, val parent: PersonalityTraitRoutes = PersonalityTraitRoutes())
+    class Delete(val id: CharacterTraitId, val parent: PersonalityTraitRoutes = PersonalityTraitRoutes())
 
     @Resource("edit")
-    class Edit(val id: PersonalityTraitId, val parent: PersonalityTraitRoutes = PersonalityTraitRoutes())
+    class Edit(val id: CharacterTraitId, val parent: PersonalityTraitRoutes = PersonalityTraitRoutes())
 
     @Resource("preview")
-    class Preview(val id: PersonalityTraitId, val parent: PersonalityTraitRoutes = PersonalityTraitRoutes())
+    class Preview(val id: CharacterTraitId, val parent: PersonalityTraitRoutes = PersonalityTraitRoutes())
 
     @Resource("update")
-    class Update(val id: PersonalityTraitId, val parent: PersonalityTraitRoutes = PersonalityTraitRoutes())
+    class Update(val id: CharacterTraitId, val parent: PersonalityTraitRoutes = PersonalityTraitRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
     override fun all(call: ApplicationCall, sort: SortPersonalityTrait) = call.application.href(All(sort))
-    override fun delete(call: ApplicationCall, id: PersonalityTraitId) = call.application.href(Delete(id))
-    override fun edit(call: ApplicationCall, id: PersonalityTraitId) = call.application.href(Edit(id))
+    override fun delete(call: ApplicationCall, id: CharacterTraitId) = call.application.href(Delete(id))
+    override fun edit(call: ApplicationCall, id: CharacterTraitId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())
-    override fun preview(call: ApplicationCall, id: PersonalityTraitId) = call.application.href(Preview(id))
-    override fun update(call: ApplicationCall, id: PersonalityTraitId) = call.application.href(Update(id))
+    override fun preview(call: ApplicationCall, id: CharacterTraitId) = call.application.href(Preview(id))
+    override fun update(call: ApplicationCall, id: CharacterTraitId) = call.application.href(Update(id))
 }
 
 fun Application.configurePersonalityRouting() {

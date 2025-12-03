@@ -55,8 +55,8 @@ import at.orchaldir.gm.core.model.rpg.statistic.STATISTIC_TYPE
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.model.rpg.trait.PERSONALITY_TRAIT_TYPE
-import at.orchaldir.gm.core.model.rpg.trait.PersonalityTrait
-import at.orchaldir.gm.core.model.rpg.trait.PersonalityTraitId
+import at.orchaldir.gm.core.model.rpg.trait.CharacterTrait
+import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitId
 import at.orchaldir.gm.core.model.time.calendar.CALENDAR_TYPE
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
@@ -226,7 +226,7 @@ data class State(
     fun getPantheonStorage() = getStorage<PantheonId, Pantheon>(PANTHEON_TYPE)
     fun getPeriodicalStorage() = getStorage<PeriodicalId, Periodical>(PERIODICAL_TYPE)
     fun getPeriodicalIssueStorage() = getStorage<PeriodicalIssueId, PeriodicalIssue>(PERIODICAL_ISSUE_TYPE)
-    fun getPersonalityTraitStorage() = getStorage<PersonalityTraitId, PersonalityTrait>(PERSONALITY_TRAIT_TYPE)
+    fun getPersonalityTraitStorage() = getStorage<CharacterTraitId, CharacterTrait>(PERSONALITY_TRAIT_TYPE)
     fun getPlaneStorage() = getStorage<PlaneId, Plane>(PLANE_TYPE)
     fun getQuoteStorage() = getStorage<QuoteId, Quote>(QUOTE_TYPE)
     fun getRaceStorage() = getStorage<RaceId, Race>(RACE_TYPE)
@@ -447,7 +447,7 @@ fun createStorage(type: String) = when (type) {
     PANTHEON_TYPE -> Storage(PantheonId(0))
     PERIODICAL_TYPE -> Storage(PeriodicalId(0))
     PERIODICAL_ISSUE_TYPE -> Storage(PeriodicalIssueId(0))
-    PERSONALITY_TRAIT_TYPE -> Storage(PersonalityTraitId(0))
+    PERSONALITY_TRAIT_TYPE -> Storage(CharacterTraitId(0))
     PLANE_TYPE -> Storage(PlaneId(0))
     QUOTE_TYPE -> Storage(QuoteId(0))
     RACE_TYPE -> Storage(RaceId(0))
@@ -511,9 +511,9 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     PANTHEON_TYPE -> loadStorage<PantheonId, Pantheon>(path, PantheonId(0))
     PERIODICAL_TYPE -> loadStorage<PeriodicalId, Periodical>(path, PeriodicalId(0))
     PERIODICAL_ISSUE_TYPE -> loadStorage<PeriodicalIssueId, PeriodicalIssue>(path, PeriodicalIssueId(0))
-    PERSONALITY_TRAIT_TYPE -> loadStorage<PersonalityTraitId, PersonalityTrait>(
+    PERSONALITY_TRAIT_TYPE -> loadStorage<CharacterTraitId, CharacterTrait>(
         path,
-        PersonalityTraitId(0)
+        CharacterTraitId(0)
     )
 
     PLANE_TYPE -> loadStorage<PlaneId, Plane>(path, PlaneId(0))

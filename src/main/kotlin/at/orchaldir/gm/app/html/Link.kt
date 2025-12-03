@@ -37,7 +37,7 @@ import at.orchaldir.gm.app.routes.world.town.TownMapRoutes
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.CharacterTemplateId
-import at.orchaldir.gm.core.model.rpg.trait.PersonalityTraitId
+import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitId
 import at.orchaldir.gm.core.model.character.title.TitleId
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.fashion.FashionId
@@ -418,7 +418,7 @@ fun href(
     is PantheonId -> call.application.href(PantheonRoutes.Details(id))
     is PeriodicalId -> call.application.href(PeriodicalRoutes.Details(id))
     is PeriodicalIssueId -> call.application.href(PeriodicalIssueRoutes.Details(id))
-    is PersonalityTraitId -> call.application.href(PersonalityTraitRoutes.Details(id))
+    is CharacterTraitId -> call.application.href(PersonalityTraitRoutes.Details(id))
     is PlaneId -> call.application.href(PlaneRoutes.Details(id))
     is QuoteId -> call.application.href(QuoteRoutes.Details(id))
     is RaceId -> call.application.href(RaceRoutes.Details(id))
