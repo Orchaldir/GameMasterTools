@@ -9,11 +9,16 @@ import at.orchaldir.gm.core.model.item.UniformId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
+import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitId
 
 fun State.canDeleteCharacterTemplate(template: CharacterTemplateId) = DeleteResult(template)
     .addElements(getCharactersUsing(template))
 
 // get characters
+
+fun State.getCharacterTemplates(trait: CharacterTraitId) = getCharacterTemplateStorage()
+    .getAll()
+    .filter { it.statblock.traits.contains(trait) }
 
 fun State.getCharacterTemplates(culture: CultureId) = getCharacterTemplateStorage()
     .getAll()

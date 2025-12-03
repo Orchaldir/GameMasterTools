@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTrait
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitGroup
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitId
+import at.orchaldir.gm.core.selector.character.getCharacterTemplates
 import at.orchaldir.gm.core.selector.character.getCharacters
 import at.orchaldir.gm.core.selector.rpg.getCharacterTraitGroups
 import at.orchaldir.gm.core.selector.rpg.getCharacterTraits
@@ -42,15 +43,17 @@ private fun HtmlBlockTag.showUsage(
     trait: CharacterTraitId,
 ) {
     val characters = state.getCharacters(trait)
+    val characterTemplates = state.getCharacterTemplates(trait)
     val gods = state.getGodsWith(trait)
 
-    if (characters.isEmpty() && gods.isEmpty()) {
+    if (characters.isEmpty() && characterTemplates.isEmpty() && gods.isEmpty()) {
         return
     }
 
     h2 { +"Usage" }
 
     fieldElements(call, state, characters)
+    fieldElements(call, state, characterTemplates)
     fieldElements(call, state, gods)
 }
 
