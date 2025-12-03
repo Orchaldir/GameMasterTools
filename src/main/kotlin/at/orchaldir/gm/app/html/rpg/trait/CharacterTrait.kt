@@ -1,7 +1,5 @@
 package at.orchaldir.gm.app.html.rpg.trait
 
-import at.orchaldir.gm.app.NONE
-import at.orchaldir.gm.app.PERSONALITY_PREFIX
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTrait
@@ -17,15 +15,7 @@ import kotlinx.html.*
 
 // show
 
-fun HtmlBlockTag.showPersonality(
-    call: ApplicationCall,
-    state: State,
-    personality: Set<CharacterTraitId>,
-) {
-    fieldIds(call, state, "Personality", personality)
-}
-
-fun HtmlBlockTag.showPersonalityTrait(
+fun HtmlBlockTag.showCharacterTrait(
     call: ApplicationCall,
     state: State,
     trait: CharacterTrait,
@@ -47,49 +37,7 @@ fun HtmlBlockTag.showPersonalityTrait(
 
 // edit
 
-fun HtmlBlockTag.editPersonality(
-    call: ApplicationCall,
-    state: State,
-    personality: Set<CharacterTraitId>,
-) {
-    showDetails("Personality") {
-        state.getPersonalityTraitGroups().forEach { group ->
-            val textId = "$PERSONALITY_PREFIX${group.value}"
-            var isAnyCheck = false
-
-            p {
-                state.getPersonalityTraits(group).forEach { trait ->
-                    val isChecked = personality.contains(trait.id)
-                    isAnyCheck = isAnyCheck || isChecked
-
-                    radioInput {
-                        id = textId
-                        name = textId
-                        value = trait.id.value.toString()
-                        checked = isChecked
-                    }
-                    label {
-                        htmlFor = textId
-                        link(call, trait)
-                    }
-                }
-
-                radioInput {
-                    id = textId
-                    name = textId
-                    value = NONE
-                    checked = !isAnyCheck
-                }
-                label {
-                    htmlFor = textId
-                    +NONE
-                }
-            }
-        }
-    }
-}
-
-fun HtmlBlockTag.editPersonalityTrait(
+fun HtmlBlockTag.editCharacterTrait(
     call: ApplicationCall,
     state: State,
     trait: CharacterTrait,
@@ -126,15 +74,7 @@ fun HtmlBlockTag.editPersonalityTrait(
 
 // parse
 
-fun parsePersonality(parameters: Parameters) = parameters.entries()
-    .asSequence()
-    .filter { e -> e.key.startsWith(PERSONALITY_PREFIX) }
-    .map { e -> e.value.first() }
-    .filter { it != NONE }
-    .map { CharacterTraitId(it.toInt()) }
-    .toSet()
-
-fun parsePersonalityTrait(
+fun parseCharacterTrait(
     state: State,
     parameters: Parameters,
     id: CharacterTraitId,

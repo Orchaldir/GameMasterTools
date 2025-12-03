@@ -4,10 +4,10 @@ import at.orchaldir.gm.app.DOMAIN
 import at.orchaldir.gm.app.GENDER
 import at.orchaldir.gm.app.TITLE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.rpg.trait.editPersonality
+import at.orchaldir.gm.app.html.rpg.trait.editCharacterTraits
 import at.orchaldir.gm.app.html.character.parseGender
-import at.orchaldir.gm.app.html.rpg.trait.parsePersonality
-import at.orchaldir.gm.app.html.rpg.trait.showPersonality
+import at.orchaldir.gm.app.html.rpg.trait.parseCharacterTraits
+import at.orchaldir.gm.app.html.rpg.trait.showCharacterTraits
 import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.app.html.util.source.editDataSources
 import at.orchaldir.gm.app.html.util.source.parseDataSources
@@ -36,7 +36,7 @@ fun HtmlBlockTag.showGod(
 ) {
     optionalField("Title", god.title)
     field("Gender", god.gender)
-    showPersonality(call, state, god.personality)
+    showCharacterTraits(call, state, god.personality)
     fieldIds(call, state, god.domains)
     fieldAuthenticity(call, state, god.authenticity)
 
@@ -60,7 +60,7 @@ fun HtmlBlockTag.editGod(
     selectName(god.name)
     selectOptionalNotEmptyString("Optional Title", god.title, TITLE)
     selectValue("Gender", GENDER, Gender.entries, god.gender)
-    editPersonality(call, state, god.personality)
+    editCharacterTraits(call, state, god.personality)
     selectElements(state, "Domains", DOMAIN, state.getDomainStorage().getAll(), god.domains)
     editAuthenticity(state, god.authenticity, ALLOWED_GOD_AUTHENTICITY)
     editDataSources(state, god.sources)
@@ -81,7 +81,7 @@ fun parseGod(
     parseName(parameters),
     parseOptionalNotEmptyString(parameters, TITLE),
     parseGender(parameters),
-    parsePersonality(parameters),
+    parseCharacterTraits(parameters),
     parseElements(parameters, DOMAIN, ::parseDomainId),
     parseAuthenticity(parameters),
     parseDataSources(parameters),

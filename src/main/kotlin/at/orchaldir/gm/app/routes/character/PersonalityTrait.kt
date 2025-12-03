@@ -2,9 +2,9 @@ package at.orchaldir.gm.app.routes.character
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.rpg.trait.editPersonalityTrait
-import at.orchaldir.gm.app.html.rpg.trait.parsePersonalityTrait
-import at.orchaldir.gm.app.html.rpg.trait.showPersonalityTrait
+import at.orchaldir.gm.app.html.rpg.trait.editCharacterTrait
+import at.orchaldir.gm.app.html.rpg.trait.parseCharacterTrait
+import at.orchaldir.gm.app.html.rpg.trait.showCharacterTrait
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.rpg.trait.CHARACTER_TRAIT_TYPE
@@ -82,7 +82,7 @@ fun Application.configurePersonalityRouting() {
             }
         }
         get<PersonalityTraitRoutes.Details> { details ->
-            handleShowElement(details.id, PersonalityTraitRoutes(), HtmlBlockTag::showPersonalityTrait)
+            handleShowElement(details.id, PersonalityTraitRoutes(), HtmlBlockTag::showCharacterTrait)
         }
         get<PersonalityTraitRoutes.New> {
             handleCreateElement(PersonalityTraitRoutes(), STORE.getState().getCharacterTraitStorage())
@@ -91,18 +91,18 @@ fun Application.configurePersonalityRouting() {
             handleDeleteElement(PersonalityTraitRoutes(), delete.id)
         }
         get<PersonalityTraitRoutes.Edit> { edit ->
-            handleEditElement(edit.id, PersonalityTraitRoutes(), HtmlBlockTag::editPersonalityTrait)
+            handleEditElement(edit.id, PersonalityTraitRoutes(), HtmlBlockTag::editCharacterTrait)
         }
         post<PersonalityTraitRoutes.Preview> { preview ->
             handlePreviewElement(
                 preview.id,
                 PersonalityTraitRoutes(),
-                ::parsePersonalityTrait,
-                HtmlBlockTag::editPersonalityTrait
+                ::parseCharacterTrait,
+                HtmlBlockTag::editCharacterTrait
             )
         }
         post<PersonalityTraitRoutes.Update> { update ->
-            handleUpdateElement(update.id, ::parsePersonalityTrait)
+            handleUpdateElement(update.id, ::parseCharacterTrait)
         }
     }
 }
