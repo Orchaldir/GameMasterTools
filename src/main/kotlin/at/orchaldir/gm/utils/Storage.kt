@@ -79,6 +79,8 @@ data class Storage<ID : Id<ID>, ELEMENT : Element<ID>>(
 
     fun getOrThrow(id: ID) = getOrThrow(id) { "Requires unknown ${id.print()}!" }
 
+    fun getOrThrow(ids: Collection<ID>) = ids.map { getOrThrow(it) }
+
     fun contains(id: ID) = elements.containsKey(id)
 
     fun require(id: ID) {

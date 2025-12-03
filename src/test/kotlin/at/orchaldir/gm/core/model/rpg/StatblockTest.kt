@@ -1,7 +1,10 @@
 package at.orchaldir.gm.core.model.rpg
 
+import at.orchaldir.gm.CHARACTER_TRAIT_ID_0
+import at.orchaldir.gm.CHARACTER_TRAIT_ID_1
 import at.orchaldir.gm.STATISTIC_ID_0
 import at.orchaldir.gm.STATISTIC_ID_1
+import at.orchaldir.gm.UNKNOWN_CHARACTER_TRAIT_ID
 import at.orchaldir.gm.UNKNOWN_STATISTIC_ID
 import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.core.model.State
@@ -17,6 +20,7 @@ import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticData
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.model.rpg.statistic.SumOfValues
+import at.orchaldir.gm.core.model.rpg.trait.CharacterTrait
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -28,9 +32,12 @@ class StatblockTest {
     private val data1 = Attribute(cost = FixedStatisticCost(10))
     private val attribute0 = Statistic(STATISTIC_ID_0, data = data0)
     private val attribute1 = Statistic(STATISTIC_ID_1, data = data1)
+    private val trait0 = CharacterTrait(CHARACTER_TRAIT_ID_0, cost = 15)
+    private val trait1 = CharacterTrait(CHARACTER_TRAIT_ID_1, cost = -5)
     private val state = State(
         listOf(
             Storage(listOf(attribute0, attribute1)),
+            Storage(listOf(trait0, trait1)),
         )
     )
 
@@ -45,6 +52,13 @@ class StatblockTest {
         }
 
         @Test
+        fun `Resolve unknown character trait`() {
+            val statblock = Statblock(traits = setOf(UNKNOWN_CHARACTER_TRAIT_ID))
+
+            assertIllegalArgument("Requires unknown Character Trait 99!") { statblock.calculateCost(state) }
+        }
+
+        @Test
         fun `Cost of empty statblock`() {
             val statblock = Statblock()
 
@@ -56,6 +70,13 @@ class StatblockTest {
             val statblock = Statblock(mapOf(STATISTIC_ID_0 to 3, STATISTIC_ID_1 to 4))
 
             assertEquals(55, statblock.calculateCost(state))
+        }
+
+        @Test
+        fun `Cost of multiple traits`() {
+            val statblock = Statblock(traits = setOf(CHARACTER_TRAIT_ID_0, CHARACTER_TRAIT_ID_1))
+
+            assertEquals(10, statblock.calculateCost(state))
         }
     }
 

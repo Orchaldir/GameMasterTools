@@ -7,5 +7,6 @@ fun validateStatblock(
     state: State,
     statblock: Statblock,
 ) {
+    state.getCharacterTraitStorage().require(statblock.traits)
     state.getStatisticStorage().require(statblock.statistics.keys)
 }
