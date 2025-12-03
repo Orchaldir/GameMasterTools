@@ -1,5 +1,6 @@
 package at.orchaldir.gm.app.html.rpg.trait
 
+import at.orchaldir.gm.app.GROUP
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTrait
@@ -48,8 +49,8 @@ fun HtmlBlockTag.editCharacterTrait(
     selectName(trait.name)
     field("Group") {
         select {
-            id = "group"
-            name = "group"
+            id = GROUP
+            name = GROUP
             option {
                 label = "No group"
                 value = ""
@@ -79,7 +80,7 @@ fun parseCharacterTrait(
     parameters: Parameters,
     id: CharacterTraitId,
 ): CharacterTrait {
-    val group = parameters["group"]
+    val group = parameters[GROUP]
         ?.toIntOrNull()
         ?.let { CharacterTraitGroup(it) }
 

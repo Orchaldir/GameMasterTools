@@ -1,7 +1,7 @@
 package at.orchaldir.gm.app.html.rpg.trait
 
 import at.orchaldir.gm.app.NONE
-import at.orchaldir.gm.app.PERSONALITY_PREFIX
+import at.orchaldir.gm.app.CHARACTER_TRAIT_PREFIX
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitId
@@ -18,7 +18,7 @@ fun HtmlBlockTag.showCharacterTraits(
     state: State,
     personality: Set<CharacterTraitId>,
 ) {
-    fieldIds(call, state, "Personality", personality)
+    fieldIds(call, state, "Character Traits", personality)
 }
 
 // edit
@@ -28,9 +28,9 @@ fun HtmlBlockTag.editCharacterTraits(
     state: State,
     personality: Set<CharacterTraitId>,
 ) {
-    showDetails("Personality") {
+    showDetails("Character Traits") {
         state.getPersonalityTraitGroups().forEach { group ->
-            val textId = "$PERSONALITY_PREFIX${group.value}"
+            val textId = "$CHARACTER_TRAIT_PREFIX${group.value}"
             var isAnyCheck = false
 
             p {
@@ -69,7 +69,7 @@ fun HtmlBlockTag.editCharacterTraits(
 
 fun parseCharacterTraits(parameters: Parameters) = parameters.entries()
     .asSequence()
-    .filter { e -> e.key.startsWith(PERSONALITY_PREFIX) }
+    .filter { e -> e.key.startsWith(CHARACTER_TRAIT_PREFIX) }
     .map { e -> e.value.first() }
     .filter { it != NONE }
     .map { CharacterTraitId(it.toInt()) }
