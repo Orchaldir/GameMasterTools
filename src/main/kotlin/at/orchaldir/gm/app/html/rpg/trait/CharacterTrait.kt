@@ -1,5 +1,6 @@
 package at.orchaldir.gm.app.html.rpg.trait
 
+import at.orchaldir.gm.app.AVAILABLE
 import at.orchaldir.gm.app.COST
 import at.orchaldir.gm.app.GROUP
 import at.orchaldir.gm.app.TYPE
@@ -7,6 +8,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTrait
+import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitAvailability
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitGroup
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitId
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitType
@@ -28,6 +30,7 @@ fun HtmlBlockTag.showCharacterTrait(
 ) {
     fieldName(trait.name)
     field("Type", trait.type)
+    field("Availability", trait.availability)
     field("Cost", trait.cost)
 
     if (trait.group != null) {
@@ -72,6 +75,7 @@ fun HtmlBlockTag.editCharacterTrait(
 
     selectName(trait.name)
     selectValue("Type", TYPE, CharacterTraitType.entries, trait.type)
+    selectValue("Availability", AVAILABLE, CharacterTraitAvailability.entries, trait.availability)
     selectInt("Cost", trait.cost, -1000, 1000, 1, COST)
     field("Group") {
         select {
@@ -114,6 +118,7 @@ fun parseCharacterTrait(
         id,
         parseName(parameters),
         parse(parameters, TYPE, CharacterTraitType.Personality),
+        parse(parameters, AVAILABLE, CharacterTraitAvailability.Mundane),
         group,
         parseInt(parameters, COST)
     )

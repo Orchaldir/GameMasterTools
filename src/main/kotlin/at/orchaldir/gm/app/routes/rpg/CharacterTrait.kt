@@ -2,18 +2,20 @@ package at.orchaldir.gm.app.routes.rpg
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.rpg.trait.editCharacterTrait
 import at.orchaldir.gm.app.html.rpg.trait.parseCharacterTrait
 import at.orchaldir.gm.app.html.rpg.trait.showCharacterTrait
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.rpg.trait.CHARACTER_TRAIT_TYPE
+import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitAvailability
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitId
 import at.orchaldir.gm.core.model.util.SortCharacterTrait
 import at.orchaldir.gm.core.selector.character.getCharacters
+import at.orchaldir.gm.core.selector.religion.getGodsWith
 import at.orchaldir.gm.core.selector.rpg.getCharacterTraitGroups
 import at.orchaldir.gm.core.selector.rpg.getCharacterTraits
-import at.orchaldir.gm.core.selector.religion.getGodsWith
 import at.orchaldir.gm.core.selector.util.sortCharacterTraits
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -68,6 +70,11 @@ fun Application.configureCharacterTraitRouting() {
                 listOf(
                     createNameColumn(call, state),
                     Column("Type") { tdEnum(it.type) },
+                    tdColumn("Availability") {
+                        if (it.availability != CharacterTraitAvailability.Mundane) {
+                            +it.availability.name
+                        }
+                    },
                     Column("Cost") { tdSkipZero(it.cost) },
                     countCollectionColumn("Characters") { state.getCharacters(it.id) },
                     countCollectionColumn("Gods") { state.getGodsWith(it.id) },
