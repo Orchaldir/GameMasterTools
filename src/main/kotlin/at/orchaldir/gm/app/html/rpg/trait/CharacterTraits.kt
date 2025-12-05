@@ -17,8 +17,9 @@ fun HtmlBlockTag.showCharacterTraits(
     call: ApplicationCall,
     state: State,
     personality: Set<CharacterTraitId>,
+    label: String = "Character Traits",
 ) {
-    fieldIds(call, state, "Character Traits", personality)
+    fieldIds(call, state, label, personality)
 }
 
 // edit
@@ -28,8 +29,9 @@ fun HtmlBlockTag.editCharacterTraits(
     state: State,
     personality: Set<CharacterTraitId>,
     isOpen: Boolean = false,
+    label: String = "Character Traits",
 ) {
-    showDetails("Character Traits", isOpen) {
+    showDetails(label, isOpen) {
         state.getCharacterTraitGroups().forEach { group ->
             val textId = "$CHARACTER_TRAIT_PREFIX${group.value}"
             var isAnyCheck = false

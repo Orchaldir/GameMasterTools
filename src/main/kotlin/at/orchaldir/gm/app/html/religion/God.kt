@@ -36,7 +36,7 @@ fun HtmlBlockTag.showGod(
 ) {
     optionalField("Title", god.title)
     field("Gender", god.gender)
-    showCharacterTraits(call, state, god.personality)
+    showCharacterTraits(call, state, god.personality, "Personality")
     fieldIds(call, state, god.domains)
     fieldAuthenticity(call, state, god.authenticity)
 
@@ -60,7 +60,7 @@ fun HtmlBlockTag.editGod(
     selectName(god.name)
     selectOptionalNotEmptyString("Optional Title", god.title, TITLE)
     selectValue("Gender", GENDER, Gender.entries, god.gender)
-    editCharacterTraits(call, state, god.personality)
+    editCharacterTraits(call, state, god.personality, label = "Personality")
     selectElements(state, "Domains", DOMAIN, state.getDomainStorage().getAll(), god.domains)
     editAuthenticity(state, god.authenticity, ALLOWED_GOD_AUTHENTICITY)
     editDataSources(state, god.sources)
