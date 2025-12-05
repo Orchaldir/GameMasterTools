@@ -4,7 +4,6 @@ import at.orchaldir.gm.app.NONE
 import at.orchaldir.gm.app.CHARACTER_TRAIT_PREFIX
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitAvailability
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitId
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitType
 import at.orchaldir.gm.core.selector.rpg.getCharacterTraitGroups
@@ -26,18 +25,33 @@ fun HtmlBlockTag.showCharacterTraits(
 
 // edit
 
-fun HtmlBlockTag.editCharacterTraitGroups(
+fun HtmlBlockTag.editPersonality(
     call: ApplicationCall,
     state: State,
     personality: Set<CharacterTraitId>,
+) {
+    editCharacterTraitGroups(
+        call,
+        state,
+        personality,
+        setOf(CharacterTraitType.Personality),
+        true,
+        "Personality",
+    )
+}
+
+fun HtmlBlockTag.editCharacterTraitGroups(
+    call: ApplicationCall,
+    state: State,
+    traits: Set<CharacterTraitId>,
     availableTypes: Set<CharacterTraitType> = CharacterTraitType.entries.toSet(),
     isOpen: Boolean = false,
     label: String = "Character Traits",
 ) {
     showDetails(label, isOpen) {
         state.getCharacterTraitGroups().forEach { group ->
-            val traits = state.getCharacterTraits(group)
-            val filteredTraits = traits.filter { availableTypes.contains(it.type) }
+            val traitsOfGroup = state.getCharacterTraits(group)
+            val filteredTraits = traitsOfGroup.filter { availableTypes.contains(it.type) }
 
             if (filteredTraits.isEmpty()) {
                 return@forEach
@@ -48,7 +62,7 @@ fun HtmlBlockTag.editCharacterTraitGroups(
 
             p {
                 filteredTraits.forEach { trait ->
-                    val isChecked = personality.contains(trait.id)
+                    val isChecked = traits.contains(trait.id)
                     isAnyCheck = isAnyCheck || isChecked
 
                     radioInput {
