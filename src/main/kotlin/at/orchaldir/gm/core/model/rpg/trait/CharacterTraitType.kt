@@ -4,5 +4,6 @@ enum class CharacterTraitType {
     Body,
     Mind,
     Personality,
+    Society,
     Soul,
 }
