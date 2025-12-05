@@ -2,7 +2,7 @@ package at.orchaldir.gm.app.html.rpg
 
 import at.orchaldir.gm.app.STATISTIC
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.rpg.trait.editCharacterTraits
+import at.orchaldir.gm.app.html.rpg.trait.editCharacterTraitGroups
 import at.orchaldir.gm.app.html.rpg.trait.parseCharacterTraits
 import at.orchaldir.gm.app.html.rpg.trait.showCharacterTraits
 import at.orchaldir.gm.app.parse.combine
@@ -77,7 +77,7 @@ fun HtmlBlockTag.editStatblock(
             editStatistics(state, call, statblock, damageValues, "Base Damage Value")
             editStatistics(state, call, statblock, skills, "Skills")
         }
-        editCharacterTraits(call, state, statblock.traits, true)
+        editCharacterTraitGroups(call, state, statblock.traits, isOpen = true)
         field("Cost", statblock.calculateCost(state))
     }
 }

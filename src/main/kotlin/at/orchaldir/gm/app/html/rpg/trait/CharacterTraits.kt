@@ -4,7 +4,9 @@ import at.orchaldir.gm.app.NONE
 import at.orchaldir.gm.app.CHARACTER_TRAIT_PREFIX
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitAvailability
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitId
+import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitType
 import at.orchaldir.gm.core.selector.rpg.getCharacterTraitGroups
 import at.orchaldir.gm.core.selector.rpg.getCharacterTraits
 import io.ktor.http.*
@@ -24,20 +26,28 @@ fun HtmlBlockTag.showCharacterTraits(
 
 // edit
 
-fun HtmlBlockTag.editCharacterTraits(
+fun HtmlBlockTag.editCharacterTraitGroups(
     call: ApplicationCall,
     state: State,
     personality: Set<CharacterTraitId>,
+    availableTypes: Set<CharacterTraitType> = CharacterTraitType.entries.toSet(),
     isOpen: Boolean = false,
     label: String = "Character Traits",
 ) {
     showDetails(label, isOpen) {
         state.getCharacterTraitGroups().forEach { group ->
+            val traits = state.getCharacterTraits(group)
+            val filteredTraits = traits.filter { availableTypes.contains(it.type) }
+
+            if (filteredTraits.isEmpty()) {
+                return@forEach
+            }
+
             val textId = "$CHARACTER_TRAIT_PREFIX${group.value}"
             var isAnyCheck = false
 
             p {
-                state.getCharacterTraits(group).forEach { trait ->
+                filteredTraits.forEach { trait ->
                     val isChecked = personality.contains(trait.id)
                     isAnyCheck = isAnyCheck || isChecked
 

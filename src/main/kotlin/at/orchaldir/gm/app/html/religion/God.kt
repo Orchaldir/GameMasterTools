@@ -4,7 +4,7 @@ import at.orchaldir.gm.app.DOMAIN
 import at.orchaldir.gm.app.GENDER
 import at.orchaldir.gm.app.TITLE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.rpg.trait.editCharacterTraits
+import at.orchaldir.gm.app.html.rpg.trait.editCharacterTraitGroups
 import at.orchaldir.gm.app.html.character.parseGender
 import at.orchaldir.gm.app.html.rpg.trait.parseCharacterTraits
 import at.orchaldir.gm.app.html.rpg.trait.showCharacterTraits
@@ -18,6 +18,7 @@ import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.religion.ALLOWED_GOD_AUTHENTICITY
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.religion.GodId
+import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitType
 import at.orchaldir.gm.core.selector.religion.getMasksOf
 import at.orchaldir.gm.core.selector.religion.getPantheonsContaining
 import at.orchaldir.gm.core.selector.time.getHolidays
@@ -60,7 +61,14 @@ fun HtmlBlockTag.editGod(
     selectName(god.name)
     selectOptionalNotEmptyString("Optional Title", god.title, TITLE)
     selectValue("Gender", GENDER, Gender.entries, god.gender)
-    editCharacterTraits(call, state, god.personality, label = "Personality")
+    editCharacterTraitGroups(
+        call,
+        state,
+        god.personality,
+        setOf(CharacterTraitType.Personality),
+        true,
+        "Personality",
+    )
     selectElements(state, "Domains", DOMAIN, state.getDomainStorage().getAll(), god.domains)
     editAuthenticity(state, god.authenticity, ALLOWED_GOD_AUTHENTICITY)
     editDataSources(state, god.sources)

@@ -285,6 +285,38 @@
    "id": 56,
    "name": "Disloyal",
    "group": 108
+  },
+  "57": {
+   "id": 57,
+   "name": "Sharp Claws",
+   "type": "Body",
+   "availability": "Exotic",
+   "group": 109,
+   "cost": 5
+  },
+  "58": {
+   "id": 58,
+   "name": "Blunt Claws",
+   "type": "Body",
+   "availability": "Exotic",
+   "group": 109,
+   "cost": 3
+  },
+  "59": {
+   "id": 59,
+   "name": "Talons",
+   "type": "Body",
+   "availability": "Exotic",
+   "group": 109,
+   "cost": 8
+  },
+  "60": {
+   "id": 60,
+   "name": "Long Talons",
+   "type": "Body",
+   "availability": "Exotic",
+   "group": 109,
+   "cost": 11
   }
  }
 }

@@ -11,7 +11,7 @@ import at.orchaldir.gm.app.html.race.parseRaceId
 import at.orchaldir.gm.app.html.rpg.editCharacterStatblock
 import at.orchaldir.gm.app.html.rpg.parseCharacterStatblock
 import at.orchaldir.gm.app.html.rpg.showCharacterStatblock
-import at.orchaldir.gm.app.html.rpg.trait.editCharacterTraits
+import at.orchaldir.gm.app.html.rpg.trait.editCharacterTraitGroups
 import at.orchaldir.gm.app.html.rpg.trait.parseCharacterTraits
 import at.orchaldir.gm.app.html.rpg.trait.showCharacterTraits
 import at.orchaldir.gm.app.html.util.*
@@ -254,7 +254,7 @@ fun HtmlBlockTag.editCharacter(
     selectOptionalElement(state, "Culture", CULTURE, state.getCultureStorage().getAll(), character.culture)
     editKnownLanguages(state, character.languages)
     editBeliefStatusHistory(state, character.beliefStatus, character.birthDate)
-    editCharacterTraits(call, state, character.personality)
+    editCharacterTraitGroups(call, state, character.personality)
     if (character.gender == Gender.Genderless) {
         selectValue(
             "Sexuality",
