@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTrait
 import at.orchaldir.gm.core.model.religion.Domain
 import at.orchaldir.gm.core.model.religion.God
+import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitType
 import at.orchaldir.gm.core.model.util.MaskOfOtherGod
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
@@ -55,6 +56,15 @@ class GodTest {
             val action = UpdateAction(God(GOD_ID_0, personality = setOf(UNKNOWN_CHARACTER_TRAIT_ID)))
 
             assertIllegalArgument("Requires unknown Character Trait 99!") { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `Cannot use a character trait that has another type`() {
+            val trait = CharacterTrait(CHARACTER_TRAIT_ID_0, type = CharacterTraitType.Body)
+            val newState = state.updateStorage(Storage(trait))
+            val action = UpdateAction(God(GOD_ID_0, personality = setOf(CHARACTER_TRAIT_ID_0)))
+
+            assertIllegalArgument("Character Trait 0 has type other than Personality!") { REDUCER.invoke(newState, action) }
         }
 
         @Test

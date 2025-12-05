@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.model.religion
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitId
+import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitType
 import at.orchaldir.gm.core.model.util.Authenticity
 import at.orchaldir.gm.core.model.util.AuthenticityType
 import at.orchaldir.gm.core.model.util.HasStartDate
@@ -53,7 +54,8 @@ data class God(
 
     override fun validate(state: State) {
         state.getDomainStorage().require(domains)
-        state.getCharacterTraitStorage().require(personality)
+        state.getCharacterTraitStorage().getOrThrow(personality)
+            .forEach { require(it.type == CharacterTraitType.Personality) { "${it.id.print()} has type other than Personality!" } }
         checkAuthenticity(state, authenticity)
         state.getDataSourceStorage().require(sources)
     }
