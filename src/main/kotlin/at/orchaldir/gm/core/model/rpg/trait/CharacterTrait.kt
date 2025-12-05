@@ -27,6 +27,7 @@ value class CharacterTraitGroup(val value: Int)
 data class CharacterTrait(
     val id: CharacterTraitId,
     val name: Name = Name.init(id),
+    val type: CharacterTraitType = CharacterTraitType.Personality,
     val group: CharacterTraitGroup? = null,
     val cost: Int = 0,
 ) : ElementWithSimpleName<CharacterTraitId> {

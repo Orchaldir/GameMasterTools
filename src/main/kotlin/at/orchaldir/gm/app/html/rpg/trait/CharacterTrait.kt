@@ -2,11 +2,14 @@ package at.orchaldir.gm.app.html.rpg.trait
 
 import at.orchaldir.gm.app.COST
 import at.orchaldir.gm.app.GROUP
+import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTrait
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitGroup
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitId
+import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitType
 import at.orchaldir.gm.core.selector.character.getCharacterTemplates
 import at.orchaldir.gm.core.selector.character.getCharacters
 import at.orchaldir.gm.core.selector.rpg.getCharacterTraitGroups
@@ -23,8 +26,8 @@ fun HtmlBlockTag.showCharacterTrait(
     state: State,
     trait: CharacterTrait,
 ) {
-
     fieldName(trait.name)
+    field("Type", trait.type)
     field("Cost", trait.cost)
 
     if (trait.group != null) {
@@ -68,6 +71,7 @@ fun HtmlBlockTag.editCharacterTrait(
     val newGroup = groups.maxOfOrNull { it.value + 1 } ?: 0
 
     selectName(trait.name)
+    selectValue("Type", TYPE, CharacterTraitType.entries, trait.type)
     selectInt("Cost", trait.cost, -1000, 1000, 1, COST)
     field("Group") {
         select {
@@ -109,6 +113,7 @@ fun parseCharacterTrait(
     return CharacterTrait(
         id,
         parseName(parameters),
+        parse(parameters, TYPE, CharacterTraitType.Personality),
         group,
         parseInt(parameters, COST)
     )

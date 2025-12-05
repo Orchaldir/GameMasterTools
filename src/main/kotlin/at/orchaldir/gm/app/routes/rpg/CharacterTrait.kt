@@ -67,6 +67,7 @@ fun Application.configureCharacterTraitRouting() {
                 state.sortCharacterTraits(all.sort),
                 listOf(
                     createNameColumn(call, state),
+                    Column("Type") { tdEnum(it.type) },
                     Column("Cost") { tdSkipZero(it.cost) },
                     countCollectionColumn("Characters") { state.getCharacters(it.id) },
                     countCollectionColumn("Gods") { state.getGodsWith(it.id) },
