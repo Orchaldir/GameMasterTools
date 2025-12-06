@@ -27,7 +27,9 @@ fun visualizeIounStone(
     val (start, end) = state.aabb.getMirroredPoints(config.orbitWidth, -config.orbitY)
     val radius = state.aabb.convertHeight(config.size.convert(stone.size))
     val slot = set.first()
-    val begin = config.duration * slot.getIounStoneIndex() / BodySlot.getIounStoneNumber().toDouble()
+    val maxStoneIndex = state.equipped.getMaxIounStoneSlot()?.getIounStoneIndex()
+        ?: error("Cannot calculate the number of ioun stones!")
+    val begin = config.duration * slot.getIounStoneIndex() / (maxStoneIndex + 1).toDouble()
 
     state.renderer.createGroup(start, ABOVE_HAND_LAYER) { translate ->
         translate.animatePosition(listOf(start, end), config.duration, begin)
