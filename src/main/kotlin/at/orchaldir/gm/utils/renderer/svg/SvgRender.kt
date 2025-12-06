@@ -30,7 +30,15 @@ open class SvgRenderer(
         values: List<Distance>,
         seconds: Double,
     ): LayerRenderer {
-        TODO("Not yet implemented")
+        val values = values.joinToString(";") { formatAttributes("%.4f", it.toMeters()) }
+        selfClosingTag(
+            "animateTransform",
+            "attributeName=\"transform\" type=\"translate\" values=\"%s\" dur=\"%.1fs\" repeatCount=\"indefinite\"",
+            values,
+            seconds,
+        )
+
+        return this
     }
 
     override fun animate(
