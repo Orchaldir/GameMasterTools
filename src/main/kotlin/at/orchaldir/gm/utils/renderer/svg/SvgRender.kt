@@ -26,11 +26,13 @@ open class SvgRenderer(
 
     // RotatedRenderer
 
-    override fun animateX(
-        values: List<Distance>,
+    override fun animatePosition(
+        values: List<Point2d>,
         seconds: Double,
     ): LayerRenderer {
-        val values = values.joinToString(";") { formatAttributes("%.4f", it.toMeters()) }
+        val values = values.joinToString(";") {
+            formatAttributes("%.4f %.4f", it.x.toMeters(), it.y.toMeters())
+        }
         selfClosingTag(
             "animateTransform",
             "attributeName=\"transform\" type=\"translate\" values=\"%s\" dur=\"%.1fs\" repeatCount=\"indefinite\"",
