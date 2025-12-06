@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.horn.*
 import at.orchaldir.gm.core.model.item.equipment.EquipmentElementMap
 import at.orchaldir.gm.core.model.item.equipment.Helmet
+import at.orchaldir.gm.core.model.item.equipment.IounStone
 import at.orchaldir.gm.core.model.item.equipment.style.ChainmailHood
 import at.orchaldir.gm.core.model.item.equipment.style.GreatHelm
 import at.orchaldir.gm.core.model.item.equipment.style.HelmetShape
@@ -86,7 +87,7 @@ private fun handleHead(
 ) {
     handleEars(config, head.ears, paddedSize, headHeight)
     handleHorns(config, head.horns, paddedSize, headHeight)
-    handleHelms(config, equipmentMap, paddedSize, headHeight)
+    handleHeadEquipment(config, equipmentMap, paddedSize, headHeight)
 }
 
 private fun handleEars(
@@ -145,21 +146,28 @@ private fun handleHorns(
     }
 }
 
-private fun handleHelms(
+private fun handleHeadEquipment(
     config: CharacterRenderConfig,
     equipmentMap: EquipmentElementMap,
     paddedSize: PaddedSize,
     headHeight: Distance,
 ) {
     equipmentMap.getAllEquipment().forEach { (data, _) ->
-        if (data is Helmet) {
-            val helmet = config.equipment.helmet
+        when (data) {
+            is Helmet -> {
+                val helmet = config.equipment.helmet
 
-            when (data.style) {
-                is ChainmailHood -> doNothing()
-                is GreatHelm -> handleHelmetShape(helmet, data.style.shape, paddedSize, headHeight)
-                is SkullCap -> handleHelmetShape(helmet, data.style.shape, paddedSize, headHeight)
+                when (data.style) {
+                    is ChainmailHood -> doNothing()
+                    is GreatHelm -> handleHelmetShape(helmet, data.style.shape, paddedSize, headHeight)
+                    is SkullCap -> handleHelmetShape(helmet, data.style.shape, paddedSize, headHeight)
+                }
             }
+            is IounStone -> {
+                val config = config.equipment.iounStone
+                paddedSize.addToTopAndSide(headHeight * config.orbitY)
+            }
+            else -> doNothing()
         }
     }
 }
