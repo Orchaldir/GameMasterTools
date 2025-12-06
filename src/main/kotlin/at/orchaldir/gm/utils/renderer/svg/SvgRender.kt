@@ -28,16 +28,18 @@ open class SvgRenderer(
 
     override fun animatePosition(
         values: List<Point2d>,
-        seconds: Double,
+        duration: Double,
+        begin: Double,
     ): LayerRenderer {
         val values = values.joinToString(";") {
             formatAttributes("%.4f %.4f", it.x.toMeters(), it.y.toMeters())
         }
         selfClosingTag(
             "animateTransform",
-            "attributeName=\"transform\" type=\"translate\" values=\"%s\" dur=\"%.1fs\" repeatCount=\"indefinite\"",
+            "attributeName=\"transform\" type=\"translate\" values=\"%s\" begin=\"%.1fs\" dur=\"%.1fs\" repeatCount=\"indefinite\"",
             values,
-            seconds,
+            begin,
+            duration,
         )
 
         return this

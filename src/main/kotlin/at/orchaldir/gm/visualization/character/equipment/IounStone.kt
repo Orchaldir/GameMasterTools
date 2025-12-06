@@ -26,9 +26,11 @@ fun visualizeIounStone(
     val options = state.config.getLineOptions(color)
     val (start, end) = state.aabb.getMirroredPoints(config.orbitWidth, -config.orbitY)
     val radius = state.aabb.convertHeight(config.size.convert(stone.size))
+    val slot = set.first()
+    val begin = config.duration * slot.getIounStoneIndex() / BodySlot.getIounStoneNumber().toDouble()
 
     state.renderer.createGroup(start, ABOVE_HAND_LAYER) { translate ->
-        translate.animatePosition(listOf(start, end), config.duration)
+        translate.animatePosition(listOf(start, end), config.duration, begin)
 
         visualizeComplexShape(translate, Point2d(), radius, stone.shape, options)
     }

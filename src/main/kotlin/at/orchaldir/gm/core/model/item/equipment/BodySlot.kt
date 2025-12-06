@@ -38,5 +38,16 @@ enum class BodySlot {
             else -> error("Unsupported index $index for ioun stone slot!")
         }
 
+        fun getIounStoneMaxIndex() = getIounStoneNumber() - 1
+
+        fun getIounStoneNumber() = 4
+    }
+
+    fun getIounStoneIndex() = when (this) {
+        IounStone0 -> 0
+        IounStone1 -> 1
+        IounStone2 -> 2
+        IounStone3 -> 3
+        else -> error("No index, because $this is not an ioun stone!")
     }
 }
