@@ -25,7 +25,7 @@ data class EquipmentEntry<T>(val data: T, val sets: Set<Set<BodySlot>>) {
         var maxSlot: BodySlot? = null
 
         sets.forEach { slots ->
-            slots.forEach { slot->
+            slots.forEach { slot ->
                 val index = slot.getOptionalIounStoneIndex() ?: return@forEach
 
                 if (index > maxIndex) {

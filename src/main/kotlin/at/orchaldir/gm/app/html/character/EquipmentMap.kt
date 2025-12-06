@@ -75,6 +75,7 @@ private fun HtmlBlockTag.selectEquipment(
                         bodySlotIndex > maxSlot.getIounStoneIndex() + 1
                     } ?: (bodySlot != BodySlot.IounStone0)
                 }
+
                 else -> false
             }
             val isAvailable = (isSlotFree || isOccupyingSlot) && !isIounStoneSlotForbidden

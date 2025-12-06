@@ -56,6 +56,7 @@ enum class EquipmentSlot {
             setOf(BodySlot.IounStone2),
             setOf(BodySlot.IounStone3),
         )
+
         NeckSlot -> setOf(setOf(BodySlot.Neck))
         OuterSlot -> setOf(setOf(BodySlot.Outer))
         TopSlot -> setOf(setOf(BodySlot.Top))

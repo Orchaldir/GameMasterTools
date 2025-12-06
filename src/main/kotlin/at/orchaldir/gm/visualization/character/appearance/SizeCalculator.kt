@@ -163,10 +163,12 @@ private fun handleHeadEquipment(
                     is SkullCap -> handleHelmetShape(helmet, data.style.shape, paddedSize, headHeight)
                 }
             }
+
             is IounStone -> {
                 val config = config.equipment.iounStone
                 paddedSize.addToTopAndSide(headHeight * config.orbitY)
             }
+
             else -> doNothing()
         }
     }

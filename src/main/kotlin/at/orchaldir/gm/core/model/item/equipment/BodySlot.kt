@@ -1,10 +1,5 @@
 package at.orchaldir.gm.core.model.item.equipment
 
-import at.orchaldir.gm.core.model.item.equipment.BodySlot.IounStone0
-import at.orchaldir.gm.core.model.item.equipment.BodySlot.IounStone1
-import at.orchaldir.gm.core.model.item.equipment.BodySlot.IounStone2
-import at.orchaldir.gm.core.model.item.equipment.BodySlot.IounStone3
-
 // Outer > X > Inner X > Under X
 enum class BodySlot {
     Belt,
