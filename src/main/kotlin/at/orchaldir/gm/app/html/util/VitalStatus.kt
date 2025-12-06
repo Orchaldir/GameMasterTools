@@ -64,12 +64,7 @@ fun HtmlBlockTag.displayVitalStatus(
     displayCauseOfDeath(
         call,
         state,
-        when (status) {
-            is Abandoned -> status.cause
-            Alive -> return
-            is Dead -> status.cause
-            is Destroyed -> status.cause
-        },
+        status.getCauseOfDeath() ?: return,
         showUndefined,
     )
 }
