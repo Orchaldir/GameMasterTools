@@ -5,12 +5,14 @@ import at.orchaldir.gm.core.model.item.equipment.IounStone
 import at.orchaldir.gm.core.model.util.SizeConfig
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.visualization.character.CharacterRenderState
+import at.orchaldir.gm.visualization.character.appearance.ABOVE_HAND_LAYER
+import at.orchaldir.gm.visualization.utils.visualizeComplexShape
 
 data class IounStoneConfig(
-    val fixationSize: SizeConfig<Factor>,
-    val fixationDeltaY: Factor,
-    val ornamentRadius: Factor,
-    val teardropRadius: Factor,
+    val duration: Double,
+    val orbitWidth: Factor,
+    val orbitY: Factor,
+    val size: SizeConfig<Factor>,
 )
 
 fun visualizeIounStone(
@@ -18,5 +20,12 @@ fun visualizeIounStone(
     stone: IounStone,
     set: Set<BodySlot>,
 ) {
+    val config = state.config.equipment.iounStone
+    val renderer = state.renderer.getLayer(ABOVE_HAND_LAYER)
+    val color = stone.main.getColor(state.state, state.colors)
+    val options = state.config.getLineOptions(color)
+    val (start, end) = state.aabb.getMirroredPoints(config.orbitWidth, -config.orbitY)
+    val radius = state.aabb.convertHeight(config.size.convert(stone.size))
 
+    visualizeComplexShape(renderer, start, radius, stone.shape, options)
 }

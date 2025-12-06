@@ -377,7 +377,7 @@ data class Helmet(
 data class IounStone(
     val shape: ComplexShape = UsingCircularShape(),
     val size: Size = Size.Medium,
-    val main: FillLookupItemPart = FillLookupItemPart(Color.Navy),
+    val main: ColorSchemeItemPart = ColorSchemeItemPart(Color.Red),
 ) : EquipmentData() {
 
     override fun parts() = listOf(main)

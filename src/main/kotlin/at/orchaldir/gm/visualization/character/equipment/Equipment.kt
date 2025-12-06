@@ -24,6 +24,7 @@ data class EquipmentConfig(
     val hat: HatConfig,
     val helmet: HelmetConfig,
     val lamellarArmour: LamellarArmourConfig,
+    val iounStone: IounStoneConfig,
     val necklace: NecklaceConfig,
     val neckline: NecklineConfig,
     val opening: OpeningConfig,
