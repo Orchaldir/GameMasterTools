@@ -2,11 +2,11 @@ package at.orchaldir.gm.core.selector.religion
 
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitId
 import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.religion.DomainId
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.religion.GodId
+import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitId
 import at.orchaldir.gm.core.selector.time.getHolidays
 import at.orchaldir.gm.core.selector.util.canDeleteCreator
 import at.orchaldir.gm.core.selector.util.canDeleteTargetOfBelief

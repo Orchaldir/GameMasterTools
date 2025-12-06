@@ -121,7 +121,7 @@ private fun TABLE.editStatistics(
 fun parseStatblock(
     state: State,
     parameters: Parameters,
-) =Statblock(
+) = Statblock(
     parseStatistics(state, parameters),
     parseCharacterTraits(parameters),
 )

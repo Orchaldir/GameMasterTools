@@ -6,7 +6,6 @@ import at.orchaldir.gm.app.html.simpleHtml
 import at.orchaldir.gm.app.routes.DataRoutes
 import at.orchaldir.gm.app.routes.character.CharacterRoutes
 import at.orchaldir.gm.app.routes.character.CharacterTemplateRoutes
-import at.orchaldir.gm.app.routes.rpg.CharacterTraitRoutes
 import at.orchaldir.gm.app.routes.character.title.TitleRoutes
 import at.orchaldir.gm.app.routes.culture.CultureRoutes
 import at.orchaldir.gm.app.routes.culture.FashionRoutes

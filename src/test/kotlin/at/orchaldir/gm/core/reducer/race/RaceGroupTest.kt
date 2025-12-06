@@ -1,24 +1,17 @@
 package at.orchaldir.gm.core.reducer.race
 
-import at.orchaldir.gm.*
+import at.orchaldir.gm.RACE_GROUP_ID_0
+import at.orchaldir.gm.RACE_ID_0
+import at.orchaldir.gm.UNKNOWN_RACE_ID
+import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceGroup
-import at.orchaldir.gm.core.model.race.aging.LifeStage
-import at.orchaldir.gm.core.model.race.aging.LifeStages
-import at.orchaldir.gm.core.model.race.aging.SimpleAging
-import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
-import at.orchaldir.gm.core.model.util.CharacterReference
-import at.orchaldir.gm.core.model.util.name.Name
-import at.orchaldir.gm.core.model.util.origin.CreatedElement
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
 
 
 class RaceGroupTest {

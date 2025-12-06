@@ -3,7 +3,6 @@ package at.orchaldir.gm.core.selector.util
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterTemplate
-import at.orchaldir.gm.core.model.rpg.trait.CharacterTrait
 import at.orchaldir.gm.core.model.character.title.Title
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.fashion.Fashion
@@ -36,6 +35,7 @@ import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.religion.Pantheon
 import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
+import at.orchaldir.gm.core.model.rpg.trait.CharacterTrait
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.time.holiday.Holiday

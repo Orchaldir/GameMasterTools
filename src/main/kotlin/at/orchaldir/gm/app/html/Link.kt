@@ -3,7 +3,6 @@ package at.orchaldir.gm.app.html
 import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.app.routes.character.CharacterRoutes
 import at.orchaldir.gm.app.routes.character.CharacterTemplateRoutes
-import at.orchaldir.gm.app.routes.rpg.CharacterTraitRoutes
 import at.orchaldir.gm.app.routes.character.title.TitleRoutes
 import at.orchaldir.gm.app.routes.culture.CultureRoutes
 import at.orchaldir.gm.app.routes.culture.FashionRoutes
@@ -37,7 +36,6 @@ import at.orchaldir.gm.app.routes.world.town.TownMapRoutes
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.CharacterTemplateId
-import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitId
 import at.orchaldir.gm.core.model.character.title.TitleId
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.fashion.FashionId
@@ -68,6 +66,7 @@ import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.religion.PantheonId
 import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
+import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitId
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import at.orchaldir.gm.core.model.time.date.*

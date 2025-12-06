@@ -2,7 +2,10 @@ package at.orchaldir.gm.core.reducer
 
 import at.orchaldir.gm.core.action.Action
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.*
+import at.orchaldir.gm.core.model.character.Character
+import at.orchaldir.gm.core.model.character.CharacterId
+import at.orchaldir.gm.core.model.character.CharacterTemplate
+import at.orchaldir.gm.core.model.character.CharacterTemplateId
 import at.orchaldir.gm.core.model.character.title.Title
 import at.orchaldir.gm.core.model.character.title.TitleId
 import at.orchaldir.gm.core.model.culture.Culture

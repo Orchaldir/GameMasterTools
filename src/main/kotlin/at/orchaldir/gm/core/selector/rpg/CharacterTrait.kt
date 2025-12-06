@@ -3,9 +3,9 @@ package at.orchaldir.gm.core.selector.rpg
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
+import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitGroup
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitId
-import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.selector.character.getCharacterTemplates
 import at.orchaldir.gm.core.selector.character.getCharacters
 import at.orchaldir.gm.core.selector.religion.getGodsWith

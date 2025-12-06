@@ -1,8 +1,10 @@
 package at.orchaldir.gm.app.html.rpg.trait
 
-import at.orchaldir.gm.app.NONE
 import at.orchaldir.gm.app.CHARACTER_TRAIT_PREFIX
-import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.NONE
+import at.orchaldir.gm.app.html.fieldIds
+import at.orchaldir.gm.app.html.link
+import at.orchaldir.gm.app.html.showDetails
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitId
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitType
