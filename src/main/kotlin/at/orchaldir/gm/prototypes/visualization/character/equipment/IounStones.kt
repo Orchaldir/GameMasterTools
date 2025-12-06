@@ -34,10 +34,9 @@ fun main() {
         State(),
         "ioun-stones.svg",
         CHARACTER_CONFIG,
-        config,
         addNames(Size.entries),
-        true,
-    ) { distance, size, stones ->
+        config,
+    ) { distance, stones, size ->
         val map: MutableMap<BodySlot, EquipmentData> = mutableMapOf()
 
         stones.withIndex().forEach { (index, stone) ->
