@@ -43,11 +43,14 @@ enum class BodySlot {
         fun getIounStoneNumber() = 4
     }
 
-    fun getIounStoneIndex() = when (this) {
+    fun getIounStoneIndex() = getOptionalIounStoneIndex()
+        ?: error("No index, because $this is not an ioun stone!")
+
+    fun getOptionalIounStoneIndex() = when (this) {
         IounStone0 -> 0
         IounStone1 -> 1
         IounStone2 -> 2
         IounStone3 -> 3
-        else -> error("No index, because $this is not an ioun stone!")
+        else -> null
     }
 }
