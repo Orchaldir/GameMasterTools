@@ -5,6 +5,13 @@
    "id": 0,
    "name": "Vallis",
    "title": "The Moon of Magic",
+   "status": {
+    "#type": "Destroyed",
+    "date": {
+     "#type": "Millennium",
+     "millennium": -10
+    }
+   },
    "daysPerQuarter": 10,
    "color": "Lime",
    "resources": [

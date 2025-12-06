@@ -3,10 +3,15 @@ package at.orchaldir.gm.core.model.world.moon
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.time.date.Day
+import at.orchaldir.gm.core.model.util.Alive
+import at.orchaldir.gm.core.model.util.CauseOfDeathType
 import at.orchaldir.gm.core.model.util.HasPosition
 import at.orchaldir.gm.core.model.util.Position
 import at.orchaldir.gm.core.model.util.PositionType
+import at.orchaldir.gm.core.model.util.ReferenceType
 import at.orchaldir.gm.core.model.util.UndefinedPosition
+import at.orchaldir.gm.core.model.util.VitalStatus
+import at.orchaldir.gm.core.model.util.VitalStatusType
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.name.NotEmptyString
@@ -18,7 +23,18 @@ import at.orchaldir.gm.utils.math.modulo
 import kotlinx.serialization.Serializable
 
 const val MOON_TYPE = "Moon"
-val ALLOWED_MOON_POSITIONS = listOf(
+val ALLOWED_VITAL_STATUS_FOR_MOON = setOf(
+    VitalStatusType.Alive,
+    VitalStatusType.Destroyed,
+)
+val ALLOWED_CAUSES_OF_DEATH_FOR_MOON = setOf(
+    CauseOfDeathType.Accident,
+    CauseOfDeathType.Battle,
+    CauseOfDeathType.Catastrophe,
+    CauseOfDeathType.War,
+    CauseOfDeathType.Undefined,
+)
+val ALLOWED_MOON_POSITIONS = setOf(
     PositionType.Undefined,
     PositionType.Plane,
     PositionType.World,
@@ -39,6 +55,7 @@ data class Moon(
     val id: MoonId,
     val name: Name = Name.init(id),
     val title: NotEmptyString? = null,
+    val status: VitalStatus = Alive,
     val position: Position = UndefinedPosition,
     val daysPerQuarter: Int = 1,
     val color: Color = Color.White,
