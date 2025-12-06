@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.item.equipment.BodySlot
 import at.orchaldir.gm.core.model.item.equipment.IounStone
 import at.orchaldir.gm.core.model.util.SizeConfig
 import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.ABOVE_HAND_LAYER
 import at.orchaldir.gm.visualization.utils.visualizeComplexShape
@@ -27,5 +28,7 @@ fun visualizeIounStone(
     val (start, end) = state.aabb.getMirroredPoints(config.orbitWidth, -config.orbitY)
     val radius = state.aabb.convertHeight(config.size.convert(stone.size))
 
-    visualizeComplexShape(renderer, start, radius, stone.shape, options)
+    state.renderer.createGroup(start, ABOVE_HAND_LAYER) { translate ->
+        visualizeComplexShape(renderer, Point2d(), radius, stone.shape, options)
+    }
 }
