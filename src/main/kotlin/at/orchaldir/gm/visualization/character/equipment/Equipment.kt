@@ -106,6 +106,7 @@ fun visualizeHeadEquipment(
                 is Glasses -> visualizeGlasses(newState, head, data)
                 is Hat -> visualizeHat(newState, data)
                 is Helmet -> visualizeHelmetForHead(newState, data)
+                is IounStone -> visualizeIounStone(newState, data, set)
                 else -> doNothing()
             }
         }
