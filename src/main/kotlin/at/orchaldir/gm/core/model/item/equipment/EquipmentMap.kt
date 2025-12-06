@@ -19,6 +19,24 @@ data class EquipmentEntry<T>(val data: T, val sets: Set<Set<BodySlot>>) {
         function(data),
         sets,
     )
+
+    fun getMaxIounStoneSlot(): BodySlot? {
+        var maxIndex = -1
+        var maxSlot: BodySlot? = null
+
+        sets.forEach { slots ->
+            slots.forEach { slot ->
+                val index = slot.getOptionalIounStoneIndex() ?: return@forEach
+
+                if (index > maxIndex) {
+                    maxIndex = index
+                    maxSlot = slot
+                }
+            }
+        }
+
+        return maxSlot
+    }
 }
 
 @Serializable
@@ -61,6 +79,10 @@ data class EquipmentMap<T>(private val list: List<EquipmentEntry<T>>) {
     fun getEquipment(slots: Set<BodySlot>): T? = list
         .find { it.sets.contains(slots) }
         ?.data
+
+    fun getMaxIounStoneSlot() = list
+        .map { it.getMaxIounStoneSlot() }
+        .maxBy { it?.getOptionalIounStoneIndex() ?: -1 }
 }
 
 typealias EquipmentIdPair = Pair<EquipmentId, ColorSchemeId?>

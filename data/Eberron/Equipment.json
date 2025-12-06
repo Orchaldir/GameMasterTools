@@ -275,6 +275,16 @@
      }
     }
    }
+  },
+  "9": {
+   "id": 9,
+   "name": "Gold Ioun Stone",
+   "data": {
+    "#type": "IounStone",
+    "main": {
+     "material": 20
+    }
+   }
   }
  }
 }

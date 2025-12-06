@@ -12,8 +12,8 @@ import at.orchaldir.gm.utils.renderer.model.RenderStringOptions
 
 interface LayerRenderer {
 
-    fun createGroup(position: Point2d, content: (LayerRenderer) -> Unit)
-    fun createGroup(orientation: Orientation, content: (RotatedRenderer) -> Unit)
+    fun createGroup(position: Point2d, content: (TransformRenderer) -> Unit)
+    fun createGroup(orientation: Orientation, content: (TransformRenderer) -> Unit)
 
     fun renderCircle(center: Point2d, radius: Distance, options: RenderOptions): LayerRenderer
 

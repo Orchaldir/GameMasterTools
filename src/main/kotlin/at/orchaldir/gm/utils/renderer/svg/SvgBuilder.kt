@@ -9,7 +9,7 @@ import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Orientation
 import at.orchaldir.gm.utils.renderer.AdvancedRenderer
 import at.orchaldir.gm.utils.renderer.LayerRenderer
-import at.orchaldir.gm.utils.renderer.RotatedRenderer
+import at.orchaldir.gm.utils.renderer.TransformRenderer
 import at.orchaldir.gm.utils.renderer.model.*
 
 private val CLIPPING_PREFIX = "clip_"
@@ -76,7 +76,7 @@ class SvgBuilder(private val size: Size2d) : AdvancedRenderer {
 
     // group
 
-    override fun createGroup(position: Point2d, layerIndex: Int, content: (LayerRenderer) -> Unit) {
+    override fun createGroup(position: Point2d, layerIndex: Int, content: (TransformRenderer) -> Unit) {
         val layer = getLayer(layerIndex)
 
         layer.createGroup(position) {
@@ -84,7 +84,7 @@ class SvgBuilder(private val size: Size2d) : AdvancedRenderer {
         }
     }
 
-    override fun createGroup(orientation: Orientation, layerIndex: Int, content: (RotatedRenderer) -> Unit) {
+    override fun createGroup(orientation: Orientation, layerIndex: Int, content: (TransformRenderer) -> Unit) {
         val layer = getLayer(layerIndex)
 
         layer.createGroup(orientation) {

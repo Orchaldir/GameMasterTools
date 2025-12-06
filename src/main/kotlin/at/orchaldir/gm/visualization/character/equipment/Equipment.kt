@@ -24,6 +24,7 @@ data class EquipmentConfig(
     val hat: HatConfig,
     val helmet: HelmetConfig,
     val lamellarArmour: LamellarArmourConfig,
+    val iounStone: IounStoneConfig,
     val necklace: NecklaceConfig,
     val neckline: NecklineConfig,
     val opening: OpeningConfig,
@@ -106,6 +107,7 @@ fun visualizeHeadEquipment(
                 is Glasses -> visualizeGlasses(newState, head, data)
                 is Hat -> visualizeHat(newState, data)
                 is Helmet -> visualizeHelmetForHead(newState, data)
+                is IounStone -> visualizeIounStone(newState, data, set)
                 else -> doNothing()
             }
         }

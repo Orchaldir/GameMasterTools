@@ -9,7 +9,7 @@ import at.orchaldir.gm.utils.math.Polygon2d
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Orientation
 import at.orchaldir.gm.utils.renderer.LayerRenderer
-import at.orchaldir.gm.utils.renderer.RotatedRenderer
+import at.orchaldir.gm.utils.renderer.TransformRenderer
 import at.orchaldir.gm.utils.renderer.model.*
 import java.util.*
 
@@ -22,9 +22,28 @@ open class SvgRenderer(
     protected val indent: String,
     protected val step: String,
     protected val tooltip: String? = null,
-) : RotatedRenderer {
+) : TransformRenderer {
 
     // RotatedRenderer
+
+    override fun animatePosition(
+        values: List<Point2d>,
+        duration: Double,
+        begin: Double,
+    ): LayerRenderer {
+        val values = values.joinToString(";") {
+            formatAttributes("%.4f %.4f", it.x.toMeters(), it.y.toMeters())
+        }
+        selfClosingTag(
+            "animateTransform",
+            "attributeName=\"transform\" type=\"translate\" values=\"%s\" begin=\"%.1fs\" dur=\"%.1fs\" repeatCount=\"indefinite\"",
+            values,
+            begin,
+            duration,
+        )
+
+        return this
+    }
 
     override fun animate(
         orientations: List<Orientation>,
@@ -275,7 +294,7 @@ open class SvgRenderer(
 
     // group
 
-    override fun createGroup(position: Point2d, content: (LayerRenderer) -> Unit) = tag(
+    override fun createGroup(position: Point2d, content: (TransformRenderer) -> Unit) = tag(
         "g",
         "transform=\"translate(%.3f,%.3f)\"",
         position.x.toMeters(),
@@ -284,7 +303,7 @@ open class SvgRenderer(
         content(it)
     }
 
-    override fun createGroup(orientation: Orientation, content: (RotatedRenderer) -> Unit) = tag(
+    override fun createGroup(orientation: Orientation, content: (TransformRenderer) -> Unit) = tag(
         "g",
         "transform=\"rotate(%.3f)\"",
         orientation.toDegrees(),
