@@ -61,12 +61,24 @@ fun HtmlBlockTag.displayVitalStatus(
     status: VitalStatus,
     showUndefined: Boolean = true,
 ) {
-    displayCauseOfDeath(
-        call,
-        state,
-        status.getCauseOfDeath() ?: return,
-        showUndefined,
-    )
+    val cause = status.getCauseOfDeath()
+
+    if (cause != null && cause !is UndefinedCauseOfDeath) {
+        displayCauseOfDeath(
+            call,
+            state,
+            cause,
+            showUndefined,
+        )
+    }
+    else {
+        when (status) {
+            is Abandoned -> +"Abandoned"
+            Alive -> doNothing()
+            is Dead -> +"Dead"
+            is Destroyed -> +"Destroyed"
+        }
+    }
 }
 
 fun HtmlBlockTag.displayCauseOfDeath(

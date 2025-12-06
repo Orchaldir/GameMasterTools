@@ -2,13 +2,14 @@ package at.orchaldir.gm.core.model.world.moon
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.MaterialId
+import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.time.date.Day
 import at.orchaldir.gm.core.model.util.Alive
 import at.orchaldir.gm.core.model.util.CauseOfDeathType
 import at.orchaldir.gm.core.model.util.HasPosition
+import at.orchaldir.gm.core.model.util.HasVitalStatus
 import at.orchaldir.gm.core.model.util.Position
 import at.orchaldir.gm.core.model.util.PositionType
-import at.orchaldir.gm.core.model.util.ReferenceType
 import at.orchaldir.gm.core.model.util.UndefinedPosition
 import at.orchaldir.gm.core.model.util.VitalStatus
 import at.orchaldir.gm.core.model.util.VitalStatusType
@@ -61,11 +62,13 @@ data class Moon(
     val color: Color = Color.White,
     val plane: PlaneId? = null,
     val resources: Set<MaterialId> = emptySet(),
-) : ElementWithSimpleName<MoonId>, HasPosition {
+) : ElementWithSimpleName<MoonId>, HasPosition, HasVitalStatus {
 
     override fun id() = id
     override fun name() = name.text
     override fun position() = position
+    override fun startDate() = null
+    override fun vitalStatus() = status
 
     fun getCycle() = daysPerQuarter * 4
 
