@@ -12,6 +12,7 @@ import at.orchaldir.gm.core.model.rpg.trait.CHARACTER_TRAIT_TYPE
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitAvailability
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitId
 import at.orchaldir.gm.core.model.util.SortCharacterTrait
+import at.orchaldir.gm.core.selector.character.getCharacterTemplates
 import at.orchaldir.gm.core.selector.character.getCharacters
 import at.orchaldir.gm.core.selector.religion.getGodsWith
 import at.orchaldir.gm.core.selector.rpg.getCharacterTraitGroups
@@ -77,6 +78,7 @@ fun Application.configureCharacterTraitRouting() {
                     },
                     Column("Cost") { tdSkipZero(it.cost) },
                     countCollectionColumn("Characters") { state.getCharacters(it.id) },
+                    countCollectionColumn("Templates") { state.getCharacterTemplates(it.id) },
                     countCollectionColumn("Gods") { state.getGodsWith(it.id) },
                 ),
             ) {
