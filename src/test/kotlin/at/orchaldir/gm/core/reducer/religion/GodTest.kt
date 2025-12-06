@@ -4,9 +4,10 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
-import at.orchaldir.gm.core.model.character.PersonalityTrait
 import at.orchaldir.gm.core.model.religion.Domain
 import at.orchaldir.gm.core.model.religion.God
+import at.orchaldir.gm.core.model.rpg.trait.CharacterTrait
+import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitType
 import at.orchaldir.gm.core.model.util.MaskOfOtherGod
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
@@ -22,7 +23,7 @@ class GodTest {
             Storage(CALENDAR0),
             Storage(Domain(DOMAIN_ID_0)),
             Storage(god0),
-            Storage(PersonalityTrait(PERSONALITY_ID_0)),
+            Storage(CharacterTrait(CHARACTER_TRAIT_ID_0)),
         )
     )
 
@@ -52,9 +53,23 @@ class GodTest {
 
         @Test
         fun `Cannot use an unknown personality trait`() {
-            val action = UpdateAction(God(GOD_ID_0, personality = setOf(UNKNOWN_PERSONALITY_ID)))
+            val action = UpdateAction(God(GOD_ID_0, personality = setOf(UNKNOWN_CHARACTER_TRAIT_ID)))
 
-            assertIllegalArgument("Requires unknown Personality Trait 99!") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Requires unknown Character Trait 99!") { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `Cannot use a character trait that has another type`() {
+            val trait = CharacterTrait(CHARACTER_TRAIT_ID_0, type = CharacterTraitType.Body)
+            val newState = state.updateStorage(Storage(trait))
+            val action = UpdateAction(God(GOD_ID_0, personality = setOf(CHARACTER_TRAIT_ID_0)))
+
+            assertIllegalArgument("Character Trait 0 has type other than Personality!") {
+                REDUCER.invoke(
+                    newState,
+                    action
+                )
+            }
         }
 
         @Test
@@ -64,7 +79,7 @@ class GodTest {
                 NAME,
                 null,
                 Gender.Genderless,
-                setOf(PERSONALITY_ID_0),
+                setOf(CHARACTER_TRAIT_ID_0),
                 setOf(DOMAIN_ID_0),
             )
             val action = UpdateAction(god)

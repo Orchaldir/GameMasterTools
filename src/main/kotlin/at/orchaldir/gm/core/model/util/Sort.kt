@@ -60,6 +60,11 @@ enum class SortCharacterTemplate {
     Cost,
 }
 
+enum class SortCharacterTrait {
+    Name,
+    Cost,
+}
+
 enum class SortColorScheme {
     Name,
     Equipment,
@@ -198,10 +203,6 @@ enum class SortPeriodical {
 enum class SortPeriodicalIssue {
     Periodical,
     Date,
-}
-
-enum class SortPersonalityTrait {
-    Name,
 }
 
 enum class SortPlane {

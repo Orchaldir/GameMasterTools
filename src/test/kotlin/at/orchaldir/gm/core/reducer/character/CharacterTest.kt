@@ -16,6 +16,7 @@ import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.rpg.Statblock
 import at.orchaldir.gm.core.model.rpg.UniqueCharacterStatblock
 import at.orchaldir.gm.core.model.rpg.UseStatblockOfTemplate
+import at.orchaldir.gm.core.model.rpg.trait.CharacterTrait
 import at.orchaldir.gm.core.model.time.Time
 import at.orchaldir.gm.core.model.time.date.Day
 import at.orchaldir.gm.core.model.util.*
@@ -56,7 +57,7 @@ class CharacterTest {
                 Storage(Culture(CULTURE_ID_0)),
                 Storage(Language(LANGUAGE_ID_0)),
                 Storage(Job(JOB_ID_0)),
-                Storage(PersonalityTrait(PERSONALITY_ID_0)),
+                Storage(CharacterTrait(CHARACTER_TRAIT_ID_0)),
                 Storage(listOf(Race(RACE_ID_0), Race(RACE_ID_1)))
             )
         )
@@ -272,10 +273,10 @@ class CharacterTest {
 
         @Test
         fun `Cannot use unknown personality trait`() {
-            val state = STATE.removeStorage(PERSONALITY_ID_0)
-            val action = UpdateAction(Character(CHARACTER_ID_0, personality = setOf(PERSONALITY_ID_0)))
+            val state = STATE.removeStorage(CHARACTER_TRAIT_ID_0)
+            val action = UpdateAction(Character(CHARACTER_ID_0, personality = setOf(CHARACTER_TRAIT_ID_0)))
 
-            assertIllegalArgument("Requires unknown Personality Trait 0!") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Requires unknown Character Trait 0!") { REDUCER.invoke(state, action) }
         }
 
         @Test

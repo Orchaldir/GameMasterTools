@@ -26,7 +26,12 @@ fun HtmlBlockTag.showCharacterStatblock(
         when (statblock) {
             UndefinedCharacterStatblock -> doNothing()
             is UniqueCharacterStatblock -> showStatblock(call, state, statblock.statblock)
-            is UseStatblockOfTemplate -> fieldLink(call, state, statblock.template)
+            is UseStatblockOfTemplate -> {
+                val template = state.getCharacterTemplateStorage().getOrThrow(statblock.template)
+
+                fieldLink(call, state, statblock.template)
+                field("Cost", template.statblock.calculateCost(state))
+            }
         }
     }
 }

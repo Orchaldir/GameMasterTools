@@ -2,13 +2,19 @@ package at.orchaldir.gm.core.model.rpg
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.statistic.*
+import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitId
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class Statblock(
     val statistics: Map<StatisticId, Int> = emptyMap(),
+    val traits: Set<CharacterTraitId> = emptySet(),
 ) {
     fun calculateCost(state: State): Int {
+        return calculateStatisticCost(state) + calculateTraitCost(state)
+    }
+
+    fun calculateStatisticCost(state: State): Int {
         val storage = state.getStatisticStorage()
 
         return statistics
@@ -20,6 +26,10 @@ data class Statblock(
                     .calculate(level)
             }.sum()
     }
+
+    fun calculateTraitCost(state: State) = state.getCharacterTraitStorage()
+        .getOrThrow(traits)
+        .sumOf { it.cost }
 
     fun resolve(state: State, statistics: List<Statistic>) = statistics.mapNotNull { statistic ->
         resolve(state, statistic)?.let { Pair(statistic, it) }

@@ -2,7 +2,10 @@ package at.orchaldir.gm.core.reducer
 
 import at.orchaldir.gm.core.action.Action
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.*
+import at.orchaldir.gm.core.model.character.Character
+import at.orchaldir.gm.core.model.character.CharacterId
+import at.orchaldir.gm.core.model.character.CharacterTemplate
+import at.orchaldir.gm.core.model.character.CharacterTemplateId
 import at.orchaldir.gm.core.model.character.title.Title
 import at.orchaldir.gm.core.model.character.title.TitleId
 import at.orchaldir.gm.core.model.culture.Culture
@@ -44,6 +47,8 @@ import at.orchaldir.gm.core.model.religion.*
 import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
+import at.orchaldir.gm.core.model.rpg.trait.CharacterTrait
+import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitId
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import at.orchaldir.gm.core.model.time.holiday.Holiday
@@ -125,7 +130,7 @@ fun reduceCreateElement(
     is PantheonId -> createElement(state, Pantheon(id))
     is PeriodicalId -> createElement(state, Periodical(id))
     is PeriodicalIssueId -> createElement(state, PeriodicalIssue(id))
-    is PersonalityTraitId -> createElement(state, PersonalityTrait(id))
+    is CharacterTraitId -> createElement(state, CharacterTrait(id))
     is PlaneId -> createElement(state, Plane(id))
     is QuoteId -> createElement(state, Quote(id))
     is RaceId -> createElement(state, Race(id))

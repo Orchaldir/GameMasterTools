@@ -2,7 +2,6 @@ package at.orchaldir.gm
 
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.CharacterTemplateId
-import at.orchaldir.gm.core.model.character.PersonalityTraitId
 import at.orchaldir.gm.core.model.character.title.TitleId
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.fashion.FashionId
@@ -33,6 +32,7 @@ import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.religion.PantheonId
 import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
+import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitId
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import at.orchaldir.gm.core.model.time.calendar.ComplexMonths
@@ -81,6 +81,9 @@ val CHARACTER_ID_2 = CharacterId(2)
 val UNKNOWN_CHARACTER_ID = CharacterId(99)
 val CHARACTER_TEMPLATE_ID_0 = CharacterTemplateId(0)
 val UNKNOWN_CHARACTER_TEMPLATE_ID = CharacterTemplateId(99)
+val CHARACTER_TRAIT_ID_0 = CharacterTraitId(0)
+val CHARACTER_TRAIT_ID_1 = CharacterTraitId(1)
+val UNKNOWN_CHARACTER_TRAIT_ID = CharacterTraitId(99)
 val COLOR_SCHEME_ID_0 = ColorSchemeId(0)
 val COLOR_SCHEME_ID_1 = ColorSchemeId(1)
 val COLOR_SCHEME_ID_2 = ColorSchemeId(2)
@@ -143,8 +146,6 @@ val UNKNOWN_PERIODICAL_ID = PeriodicalId(99)
 val ISSUE_ID_0 = PeriodicalIssueId(0)
 val ISSUE_ID_1 = PeriodicalIssueId(1)
 val UNKNOWN_ISSUE_ID = PeriodicalIssueId(99)
-val PERSONALITY_ID_0 = PersonalityTraitId(0)
-val UNKNOWN_PERSONALITY_ID = PersonalityTraitId(99)
 val PLANE_ID_0 = PlaneId(0)
 val PLANE_ID_1 = PlaneId(1)
 val UNKNOWN_PLANE_ID = PlaneId(99)

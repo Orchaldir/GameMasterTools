@@ -11,6 +11,9 @@ import at.orchaldir.gm.app.html.race.parseRaceId
 import at.orchaldir.gm.app.html.rpg.editCharacterStatblock
 import at.orchaldir.gm.app.html.rpg.parseCharacterStatblock
 import at.orchaldir.gm.app.html.rpg.showCharacterStatblock
+import at.orchaldir.gm.app.html.rpg.trait.editCharacterTraitGroups
+import at.orchaldir.gm.app.html.rpg.trait.parseCharacterTraits
+import at.orchaldir.gm.app.html.rpg.trait.showCharacterTraits
 import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.app.html.util.math.fieldDistance
 import at.orchaldir.gm.app.html.util.source.editDataSources
@@ -149,7 +152,7 @@ fun HtmlBlockTag.showSocial(
 
     showFamily(call, state, character)
 
-    showPersonality(call, state, character.personality)
+    showCharacterTraits(call, state, character.personality)
 
     field("Sexuality", character.sexuality)
 
@@ -251,7 +254,7 @@ fun HtmlBlockTag.editCharacter(
     selectOptionalElement(state, "Culture", CULTURE, state.getCultureStorage().getAll(), character.culture)
     editKnownLanguages(state, character.languages)
     editBeliefStatusHistory(state, character.beliefStatus, character.birthDate)
-    editPersonality(call, state, character.personality)
+    editCharacterTraitGroups(call, state, character.personality)
     if (character.gender == Gender.Genderless) {
         selectValue(
             "Sexuality",
@@ -364,7 +367,7 @@ fun parseCharacter(
         birthDate = birthDate,
         vitalStatus = parseVitalStatus(parameters, state),
         culture = parseOptionalCultureId(parameters, CULTURE),
-        personality = parsePersonality(parameters),
+        personality = parseCharacterTraits(parameters),
         languages = parseKnownLanguages(parameters, state),
         equipped = parseEquipped(parameters, state, EQUIPPED),
         housingStatus = parsePositionHistory(parameters, state, birthDate),

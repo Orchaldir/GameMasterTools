@@ -1,6 +1,9 @@
 package at.orchaldir.gm.app
 
-import at.orchaldir.gm.app.routes.character.*
+import at.orchaldir.gm.app.routes.character.configureAppearanceRouting
+import at.orchaldir.gm.app.routes.character.configureCharacterRelationshipRouting
+import at.orchaldir.gm.app.routes.character.configureCharacterRouting
+import at.orchaldir.gm.app.routes.character.configureCharacterTemplateRouting
 import at.orchaldir.gm.app.routes.character.title.configureTitleRouting
 import at.orchaldir.gm.app.routes.configureDataRouting
 import at.orchaldir.gm.app.routes.culture.configureCultureRouting
@@ -65,10 +68,9 @@ fun Application.module() {
     configureDataRouting()
     // elements
     configureAbstractBuildingEditorRouting()
-    configureEquipmentModifierRouting()
-    configureArmorTypeRouting()
     configureAppearanceRouting()
     configureArchitecturalStyleRouting()
+    configureArmorTypeRouting()
     configureArticleRouting()
     configureBattleRouting()
     configureBuildingEditorRouting()
@@ -79,6 +81,7 @@ fun Application.module() {
     configureCharacterRelationshipRouting()
     configureCharacterRouting()
     configureCharacterTemplateRouting()
+    configureCharacterTraitRouting()
     configureColorSchemeRouting()
     configureCultureRouting()
     configureCurrencyRouting()
@@ -88,6 +91,7 @@ fun Application.module() {
     configureDiseaseRouting()
     configureDistrictRouting()
     configureDomainRouting()
+    configureEquipmentModifierRouting()
     configureEquipmentRouting()
     configureEquipmentRouting()
     configureFashionRouting()
@@ -106,7 +110,6 @@ fun Application.module() {
     configurePantheonRouting()
     configurePeriodicalIssueRouting()
     configurePeriodicalRouting()
-    configurePersonalityRouting()
     configurePlaneRouting()
     configureQuoteRouting()
     configureRaceAppearanceRouting()

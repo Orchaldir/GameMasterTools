@@ -3,7 +3,6 @@ package at.orchaldir.gm.core.selector.util
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterTemplate
-import at.orchaldir.gm.core.model.character.PersonalityTrait
 import at.orchaldir.gm.core.model.character.title.Title
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.fashion.Fashion
@@ -36,6 +35,7 @@ import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.religion.Pantheon
 import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
+import at.orchaldir.gm.core.model.rpg.trait.CharacterTrait
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.time.holiday.Holiday
@@ -273,6 +273,21 @@ fun State.sortCharacterTemplates(
         when (sort) {
             SortCharacterTemplate.Name -> compareBy { it.name.text }
             SortCharacterTemplate.Cost -> compareByDescending { it.statblock.calculateCost(this) }
+        })
+
+// character traits
+
+fun State.sortCharacterTraits(sort: SortCharacterTrait = SortCharacterTrait.Name) =
+    sortCharacterTraits(getCharacterTraitStorage().getAll(), sort)
+
+fun State.sortCharacterTraits(
+    planes: Collection<CharacterTrait>,
+    sort: SortCharacterTrait = SortCharacterTrait.Name,
+) = planes
+    .sortedWith(
+        when (sort) {
+            SortCharacterTrait.Name -> compareBy { it.name.text }
+            SortCharacterTrait.Cost -> compareByDescending { it.cost }
         })
 
 // color scheme
@@ -702,20 +717,6 @@ fun State.sortPeriodicalIssues(
             SortPeriodicalIssue.Date -> getComplexStartAgeComparator()
         }
     )
-
-// plane
-
-fun State.sortPersonalityTraits(sort: SortPersonalityTrait = SortPersonalityTrait.Name) =
-    sortPersonalityTraits(getPersonalityTraitStorage().getAll(), sort)
-
-fun State.sortPersonalityTraits(
-    planes: Collection<PersonalityTrait>,
-    sort: SortPersonalityTrait = SortPersonalityTrait.Name,
-) = planes
-    .sortedWith(
-        when (sort) {
-            SortPersonalityTrait.Name -> compareBy { it.name.text }
-        })
 
 // plane
 

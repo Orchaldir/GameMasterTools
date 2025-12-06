@@ -4,10 +4,10 @@ import at.orchaldir.gm.app.DOMAIN
 import at.orchaldir.gm.app.GENDER
 import at.orchaldir.gm.app.TITLE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.character.editPersonality
 import at.orchaldir.gm.app.html.character.parseGender
-import at.orchaldir.gm.app.html.character.parsePersonality
-import at.orchaldir.gm.app.html.character.showPersonality
+import at.orchaldir.gm.app.html.rpg.trait.editPersonality
+import at.orchaldir.gm.app.html.rpg.trait.parseCharacterTraits
+import at.orchaldir.gm.app.html.rpg.trait.showCharacterTraits
 import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.app.html.util.source.editDataSources
 import at.orchaldir.gm.app.html.util.source.parseDataSources
@@ -36,7 +36,7 @@ fun HtmlBlockTag.showGod(
 ) {
     optionalField("Title", god.title)
     field("Gender", god.gender)
-    showPersonality(call, state, god.personality)
+    showCharacterTraits(call, state, god.personality, "Personality")
     fieldIds(call, state, god.domains)
     fieldAuthenticity(call, state, god.authenticity)
 
@@ -81,7 +81,7 @@ fun parseGod(
     parseName(parameters),
     parseOptionalNotEmptyString(parameters, TITLE),
     parseGender(parameters),
-    parsePersonality(parameters),
+    parseCharacterTraits(parameters),
     parseElements(parameters, DOMAIN, ::parseDomainId),
     parseAuthenticity(parameters),
     parseDataSources(parameters),
