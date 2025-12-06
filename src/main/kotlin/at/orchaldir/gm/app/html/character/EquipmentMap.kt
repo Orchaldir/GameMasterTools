@@ -67,17 +67,17 @@ private fun HtmlBlockTag.selectEquipment(
             val currentId = currentPair?.first
             val optionalEquipment = state.getEquipmentStorage().getOptional(currentId)
             val isOccupyingSlot = optionalEquipment?.data?.isType(type) ?: false
-            val isIounStoneSlotAvailable = when (type) {
+            val isIounStoneSlotForbidden = when (type) {
                 EquipmentDataType.IounStone -> {
                     val bodySlot = bodySlots.first()
                     val bodySlotIndex = bodySlot.getIounStoneIndex()
                     equipmentMap.getMaxIounStoneSlot()?.let { maxSlot ->
-                        bodySlotIndex <= maxSlot.getIounStoneIndex() + 1
-                    } ?: (bodySlot == BodySlot.IounStone0)
+                        bodySlotIndex > maxSlot.getIounStoneIndex() + 1
+                    } ?: (bodySlot != BodySlot.IounStone0)
                 }
                 else -> false
             }
-            val isAvailable = isSlotFree || isOccupyingSlot || isIounStoneSlotAvailable
+            val isAvailable = (isSlotFree || isOccupyingSlot) && !isIounStoneSlotForbidden
             val text = bodySlots.joinToString(" & ")
 
             if (isAvailable) {
@@ -104,6 +104,8 @@ private fun HtmlBlockTag.selectEquipment(
                         currentSchema,
                     )
                 }
+            } else if (isIounStoneSlotForbidden) {
+                field(text, "Ioun Stone Slots need to be filled in order")
             } else {
                 field(text, "Slot(s) are occupied")
             }
