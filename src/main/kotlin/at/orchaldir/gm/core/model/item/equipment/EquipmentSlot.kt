@@ -14,6 +14,7 @@ enum class EquipmentSlot {
     HeldInTwoHandsSlot,
     HeldInOneOrTwoHandsSlot,
     InnerTopSlot,
+    IounStone,
     NeckSlot,
     OuterSlot,
     TopSlot;
@@ -49,6 +50,12 @@ enum class EquipmentSlot {
         )
 
         InnerTopSlot -> setOf(setOf(BodySlot.InnerTop))
+        IounStone -> setOf(
+            setOf(BodySlot.IounStone0),
+            setOf(BodySlot.IounStone1),
+            setOf(BodySlot.IounStone2),
+            setOf(BodySlot.IounStone3),
+        )
         NeckSlot -> setOf(setOf(BodySlot.Neck))
         OuterSlot -> setOf(setOf(BodySlot.Outer))
         TopSlot -> setOf(setOf(BodySlot.Top))
