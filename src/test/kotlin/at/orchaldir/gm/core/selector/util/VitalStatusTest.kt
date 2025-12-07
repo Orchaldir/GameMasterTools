@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.Town
+import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.moon.Moon
 import at.orchaldir.gm.utils.Element
@@ -17,11 +18,13 @@ import kotlin.test.assertEquals
 
 class VitalStatusTest {
 
+    private val killedBy = KilledBy(CharacterReference(CHARACTER_ID_0))
+
     @Test
     fun `Cannot delete a character that destroyed a business`() {
         testCanDeleteDestroyer(
             CHARACTER_ID_0,
-            KilledBy(CharacterReference(CHARACTER_ID_0)),
+            killedBy,
             DeleteResult(CHARACTER_ID_0).addId(BUSINESS_ID_0),
         ) { status ->
             Business(BUSINESS_ID_0, status = status)
@@ -32,7 +35,7 @@ class VitalStatusTest {
     fun `Cannot delete a character that destroyed a character`() {
         testCanDeleteDestroyer(
             CHARACTER_ID_0,
-            KilledBy(CharacterReference(CHARACTER_ID_0)),
+            killedBy,
             DeleteResult(CHARACTER_ID_0).addId(CHARACTER_ID_1),
         ) { status ->
             Character(CHARACTER_ID_1, status = status)
@@ -40,10 +43,21 @@ class VitalStatusTest {
     }
 
     @Test
+    fun `Cannot delete a character that destroyed a god`() {
+        testCanDeleteDestroyer(
+            CHARACTER_ID_0,
+            killedBy,
+            DeleteResult(CHARACTER_ID_0).addId(GOD_ID_0),
+        ) { status ->
+            God(GOD_ID_0, status = status)
+        }
+    }
+
+    @Test
     fun `Cannot delete a character that destroyed a moon`() {
         testCanDeleteDestroyer(
             CHARACTER_ID_0,
-            KilledBy(CharacterReference(CHARACTER_ID_0)),
+            killedBy,
             DeleteResult(CHARACTER_ID_0).addId(MOON_ID_0),
         ) { status ->
             Moon(MOON_ID_0, status = status)
@@ -54,7 +68,7 @@ class VitalStatusTest {
     fun `Cannot delete a character that destroyed a realm`() {
         testCanDeleteDestroyer(
             CHARACTER_ID_0,
-            KilledBy(CharacterReference(CHARACTER_ID_0)),
+            killedBy,
             DeleteResult(CHARACTER_ID_0).addId(REALM_ID_0),
         ) { status ->
             Realm(REALM_ID_0, status = status)
@@ -65,7 +79,7 @@ class VitalStatusTest {
     fun `Cannot delete a character that destroyed a town`() {
         testCanDeleteDestroyer(
             CHARACTER_ID_0,
-            KilledBy(CharacterReference(CHARACTER_ID_0)),
+            killedBy,
             DeleteResult(CHARACTER_ID_0).addId(TOWN_ID_0),
         ) { status ->
             Town(TOWN_ID_0, status = status)

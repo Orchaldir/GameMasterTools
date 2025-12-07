@@ -17,11 +17,12 @@ fun <ID : Id<ID>> HtmlBlockTag.showDestroyed(
 ) {
     val businesses = getDestroyedBy(state.getBusinessStorage(), destroyer)
     val characters = getDestroyedBy(state.getCharacterStorage(), destroyer)
+    val gods = getDestroyedBy(state.getGodStorage(), destroyer)
     val moons = getDestroyedBy(state.getMoonStorage(), destroyer)
     val realms = getDestroyedBy(state.getRealmStorage(), destroyer)
     val towns = getDestroyedBy(state.getTownStorage(), destroyer)
 
-    if (businesses.isEmpty() && characters.isEmpty() && moons.isEmpty() && realms.isEmpty() && towns.isEmpty()) {
+    if (businesses.isEmpty() && characters.isEmpty() && gods.isEmpty() && moons.isEmpty() && realms.isEmpty() && towns.isEmpty()) {
         return
     }
 
@@ -29,6 +30,7 @@ fun <ID : Id<ID>> HtmlBlockTag.showDestroyed(
 
     fieldElements(call, state, businesses)
     fieldElements(call, state, characters)
+    fieldElements(call, state, gods)
     fieldElements(call, state, moons)
     fieldElements(call, state, realms)
     fieldElements(call, state, towns)
