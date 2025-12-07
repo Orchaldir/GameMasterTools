@@ -34,7 +34,7 @@ class TextTest {
         listOf(
             Storage(listOf(Text(TEXT_ID_0), Text(TEXT_ID_1, date = DAY1))),
             Storage(CALENDAR0),
-            Storage(Business(BUSINESS_ID_0, startDate = DAY2)),
+            Storage(Business(BUSINESS_ID_0, date = DAY2)),
             Storage(Character(CHARACTER_ID_0, birthDate = DAY0)),
             Storage(Language(LANGUAGE_ID_0)),
             Storage(Spell(SPELL_ID_0)),

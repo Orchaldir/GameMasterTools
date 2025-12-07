@@ -18,7 +18,7 @@ class OwnerTest {
     private val STATE = State(
         listOf(
             Storage(CALENDAR0),
-            Storage(Business(BUSINESS_ID_0, startDate = DAY0)),
+            Storage(Business(BUSINESS_ID_0, date = DAY0)),
             Storage(Character(CHARACTER_ID_2, birthDate = DAY0)),
             Storage(Organization(ORGANIZATION_ID_0, date = DAY0)),
             Storage(Realm(REALM_ID_0, date = DAY0)),

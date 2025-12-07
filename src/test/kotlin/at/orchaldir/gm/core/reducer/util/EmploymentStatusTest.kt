@@ -59,7 +59,7 @@ class EmploymentStatusTest {
 
         @Test
         fun `Character employed by a business before its founding`() {
-            val newState = state.updateStorage(Storage(Business(BUSINESS_ID_0, startDate = DAY1)))
+            val newState = state.updateStorage(Storage(Business(BUSINESS_ID_0, date = DAY1)))
 
             assertIllegalArgument("The Business 0 doesn't exist at the required date!") {
                 checkEmploymentStatusHistory(newState, History(Employed(BUSINESS_ID_0, JOB_ID_0)), DAY0)

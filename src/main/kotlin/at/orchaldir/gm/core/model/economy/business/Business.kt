@@ -2,7 +2,6 @@ package at.orchaldir.gm.core.model.economy.business
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.ALLOWED_CAUSES_OF_DEATH_FOR_REALM
-import at.orchaldir.gm.core.model.realm.ALLOWED_VITAL_STATUS_FOR_REALM
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
@@ -51,7 +50,7 @@ value class BusinessId(val value: Int) : Id<BusinessId> {
 data class Business(
     val id: BusinessId,
     val name: Name = Name.init(id),
-    private val startDate: Date? = null,
+    val date: Date? = null,
     val status: VitalStatus = Alive,
     val founder: Reference = UndefinedReference,
     val ownership: History<Reference> = History(UndefinedReference),
@@ -65,7 +64,7 @@ data class Business(
     override fun sources() = sources
     override fun owner() = ownership
     override fun position() = position
-    override fun startDate() = startDate
+    override fun startDate() = date
     override fun vitalStatus() = status
 
     override fun validate(state: State) {
@@ -73,14 +72,14 @@ data class Business(
             state,
             id,
             status,
-            startDate,
+            date,
             ALLOWED_VITAL_STATUS_FOR_BUSINESS,
             ALLOWED_CAUSES_OF_DEATH_FOR_BUSINESS,
         )
         validateHasStartAndEnd(state, this)
-        validateCreator(state, founder, id, startDate, "Founder")
-        checkPosition(state, position, "position", startDate, ALLOWED_BUSINESS_POSITIONS)
-        checkOwnership(state, ownership, startDate)
+        validateCreator(state, founder, id, date, "Founder")
+        checkPosition(state, position, "position", date, ALLOWED_BUSINESS_POSITIONS)
+        checkOwnership(state, ownership, date)
     }
 
 }

@@ -34,7 +34,7 @@ class CreatorTest {
 
     private val STATE = State(
         listOf(
-            Storage(Business(BUSINESS_ID_0, startDate = DAY1)),
+            Storage(Business(BUSINESS_ID_0, date = DAY1)),
             Storage(CALENDAR0),
             Storage(Character(CHARACTER_ID_0, birthDate = DAY1)),
             Storage(Culture(CULTURE_ID_0)),

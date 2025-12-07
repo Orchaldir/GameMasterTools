@@ -5,16 +5,9 @@ import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.economy.business.Business
-import at.orchaldir.gm.core.model.util.Abandoned
-import at.orchaldir.gm.core.model.util.Alive
 import at.orchaldir.gm.core.model.util.CharacterReference
-import at.orchaldir.gm.core.model.util.Closed
-import at.orchaldir.gm.core.model.util.Dead
-import at.orchaldir.gm.core.model.util.Destroyed
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.InBuilding
-import at.orchaldir.gm.core.model.util.Vanished
-import at.orchaldir.gm.core.model.util.VitalStatus
 import at.orchaldir.gm.core.model.util.VitalStatusType
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.reducer.REDUCER
@@ -51,7 +44,7 @@ class BusinessTest {
                     VitalStatusType.Vanished to false,
                 ),
             ) { status ->
-                Business(BUSINESS_ID_0, startDate = DAY0, status = status)
+                Business(BUSINESS_ID_0, date = DAY0, status = status)
             }
         }
 
@@ -88,7 +81,7 @@ class BusinessTest {
 
         @Test
         fun `Date is in the future`() {
-            val action = UpdateAction(Business(BUSINESS_ID_0, startDate = FUTURE_DAY_0))
+            val action = UpdateAction(Business(BUSINESS_ID_0, date = FUTURE_DAY_0))
 
             assertIllegalArgument("Date (Start Date) is in the future!") { REDUCER.invoke(STATE, action) }
         }

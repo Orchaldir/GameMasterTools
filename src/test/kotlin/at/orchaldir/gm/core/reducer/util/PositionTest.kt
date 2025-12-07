@@ -201,7 +201,7 @@ class PositionTest {
         private fun createLongTermCareState(date: Date = DAY0) = State(
             listOf(
                 Storage(CALENDAR0),
-                Storage(Business(BUSINESS_ID_0, startDate = date)),
+                Storage(Business(BUSINESS_ID_0, date = date)),
             )
         )
     }
