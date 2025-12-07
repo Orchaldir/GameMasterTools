@@ -11,9 +11,7 @@ import at.orchaldir.gm.app.html.util.source.editDataSources
 import at.orchaldir.gm.app.html.util.source.parseDataSources
 import at.orchaldir.gm.app.html.util.source.showDataSources
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.economy.business.ALLOWED_BUSINESS_POSITIONS
-import at.orchaldir.gm.core.model.economy.business.Business
-import at.orchaldir.gm.core.model.economy.business.BusinessId
+import at.orchaldir.gm.core.model.economy.business.*
 import at.orchaldir.gm.core.selector.character.getEmployees
 import at.orchaldir.gm.core.selector.character.getPreviousEmployees
 import at.orchaldir.gm.core.selector.item.getTextsPublishedBy
@@ -34,6 +32,7 @@ fun HtmlBlockTag.showBusiness(
 
     fieldPosition(call, state, business.position)
     optionalField(call, state, "Start", business.startDate())
+    showVitalStatus(call, state, business.status)
     fieldAge("Age", state, business.startDate())
     fieldReference(call, state, business.founder, "Founder")
     showOwnership(call, state, business.ownership)
@@ -55,8 +54,16 @@ fun HtmlBlockTag.editBusiness(
     business: Business,
 ) {
     selectName(business.name)
-    selectPosition(state, POSITION, business.position, business.startDate(), ALLOWED_BUSINESS_POSITIONS)
     selectOptionalDate(state, "Start", business.startDate(), DATE)
+    selectVitalStatus(
+        state,
+        business.id,
+        business.startDate(),
+        business.status,
+        ALLOWED_VITAL_STATUS_FOR_BUSINESS,
+        ALLOWED_CAUSES_OF_DEATH_FOR_BUSINESS,
+    )
+    selectPosition(state, POSITION, business.position, business.startDate(), ALLOWED_BUSINESS_POSITIONS)
     selectCreator(state, business.founder, business.id, business.startDate(), "Founder")
     selectOwnership(state, business.ownership, business.startDate())
     editDataSources(state, business.sources)
@@ -79,6 +86,7 @@ fun parseBusiness(
         id,
         parseName(parameters),
         startDate,
+        parseVitalStatus(parameters, state),
         parseCreator(parameters),
         parseOwnership(parameters, state, startDate),
         parsePosition(parameters, state),

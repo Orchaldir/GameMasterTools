@@ -34,8 +34,6 @@ import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.time.date.Year
 import at.orchaldir.gm.core.model.util.Dead
 import at.orchaldir.gm.core.model.util.History
-import at.orchaldir.gm.core.model.util.VALID_CAUSES_FOR_CHARACTERS
-import at.orchaldir.gm.core.model.util.VALID_VITAL_STATUS_FOR_CHARACTERS
 import at.orchaldir.gm.core.selector.character.*
 import at.orchaldir.gm.core.selector.organization.getOrganizations
 import at.orchaldir.gm.core.selector.race.getExistingRaces
@@ -63,7 +61,7 @@ fun TD.showNameWithVitalStatus(
 ) {
     val name = character.nameForSorting(state)
 
-    if (character.vitalStatus is Dead) {
+    if (character.status is Dead) {
         del {
             link(call, character, name)
         }
@@ -92,12 +90,11 @@ fun HtmlBlockTag.showData(
         is HumanoidBody -> showHeight(state, character, character.appearance.height)
         UndefinedAppearance -> doNothing()
     }
-    field(call, state, "Birthdate", character.birthDate)
-    showVitalStatus(call, state, character.vitalStatus)
+    field(call, state, "Birthdate", character.date)
+    showVitalStatus(call, state, character.status)
     showAge(state, character, race)
     showPositionHistory(call, state, character.housingStatus, "Housing Status")
     showEmploymentStatusHistory(call, state, character.employmentStatus)
-    showDestroyed(call, state, character.id)
     fieldElements(call, state, "Led Battles", state.getBattlesLedBy(character.id))
     showCharacterStatblock(call, state, character.statblock)
     showDataSources(call, state, character.sources)
@@ -221,7 +218,7 @@ fun HtmlBlockTag.editCharacter(
     state: State,
     character: Character,
 ) {
-    val races = state.getExistingRaces(character.birthDate)
+    val races = state.getExistingRaces(character.date)
     val race = state.getRaceStorage().getOrThrow(character.race)
 
     selectCharacterName(state, character)
@@ -232,20 +229,20 @@ fun HtmlBlockTag.editCharacter(
     selectVitalStatus(
         state,
         character.id,
-        character.birthDate,
-        character.vitalStatus,
-        VALID_VITAL_STATUS_FOR_CHARACTERS,
-        VALID_CAUSES_FOR_CHARACTERS,
+        character.date,
+        character.status,
+        ALLOWED_VITAL_STATUS_FOR_CHARACTER,
+        ALLOWED_CAUSES_OF_DEATH_FOR_CHARACTER,
     )
     showAge(state, character, race)
     selectPositionHistory(
         state,
         character.housingStatus,
-        character.birthDate,
+        character.date,
         ALLOWED_HOUSING_TYPES,
         "Housing Status",
     )
-    selectEmploymentStatusHistory(state, character.employmentStatus, character.birthDate)
+    selectEmploymentStatusHistory(state, character.employmentStatus, character.date)
     editCharacterStatblock(call, state, character.statblock)
     editDataSources(state, character.sources)
 
@@ -253,7 +250,7 @@ fun HtmlBlockTag.editCharacter(
 
     selectOptionalElement(state, "Culture", CULTURE, state.getCultureStorage().getAll(), character.culture)
     editKnownLanguages(state, character.languages)
-    editBeliefStatusHistory(state, character.beliefStatus, character.birthDate)
+    editBeliefStatusHistory(state, character.beliefStatus, character.date)
     editCharacterTraitGroups(call, state, character.personality)
     if (character.gender == Gender.Genderless) {
         selectValue(
@@ -286,7 +283,7 @@ private fun HtmlBlockTag.selectOrigin(
     character: Character,
     race: Race,
 ) {
-    editOrigin(state, character.id, character.origin, character.birthDate, ALLOWED_CHARACTER_ORIGINS, ::CharacterId)
+    editOrigin(state, character.id, character.origin, character.date, ALLOWED_CHARACTER_ORIGINS, ::CharacterId)
 
     if (race.lifeStages is SimpleAging) {
         selectOptionalValue(
@@ -300,7 +297,7 @@ private fun HtmlBlockTag.selectOrigin(
         }
     }
 
-    selectDate(state, "Birthdate", character.birthDate, combine(ORIGIN, DATE), race.startDate())
+    selectDate(state, "Birthdate", character.date, combine(ORIGIN, DATE), race.startDate())
 }
 
 private fun HtmlBlockTag.selectCharacterName(
@@ -364,8 +361,8 @@ fun parseCharacter(
         gender = parseGender(parameters),
         sexuality = parse(parameters, SEXUALITY, SexualOrientation.Asexual),
         origin = origin,
-        birthDate = birthDate,
-        vitalStatus = parseVitalStatus(parameters, state),
+        date = birthDate,
+        status = parseVitalStatus(parameters, state),
         culture = parseOptionalCultureId(parameters, CULTURE),
         personality = parseCharacterTraits(parameters),
         languages = parseKnownLanguages(parameters, state),

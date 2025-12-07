@@ -8,8 +8,11 @@ import at.orchaldir.gm.core.model.religion.Domain
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTrait
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitType
+import at.orchaldir.gm.core.model.util.Alive
 import at.orchaldir.gm.core.model.util.MaskOfOtherGod
+import at.orchaldir.gm.core.model.util.VitalStatusType
 import at.orchaldir.gm.core.reducer.REDUCER
+import at.orchaldir.gm.core.reducer.util.testAllowedVitalStatusTypes
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -29,6 +32,23 @@ class GodTest {
 
     @Nested
     inner class UpdateTest {
+
+        @Test
+        fun `Test allowed vital status types`() {
+            testAllowedVitalStatusTypes(
+                state,
+                mapOf(
+                    VitalStatusType.Abandoned to false,
+                    VitalStatusType.Alive to true,
+                    VitalStatusType.Closed to false,
+                    VitalStatusType.Dead to true,
+                    VitalStatusType.Destroyed to false,
+                    VitalStatusType.Vanished to true,
+                ),
+            ) { status ->
+                God(GOD_ID_0, status = status)
+            }
+        }
 
         @Test
         fun `Cannot update unknown id`() {
@@ -79,6 +99,7 @@ class GodTest {
                 NAME,
                 null,
                 Gender.Genderless,
+                Alive,
                 setOf(CHARACTER_TRAIT_ID_0),
                 setOf(DOMAIN_ID_0),
             )

@@ -57,13 +57,13 @@ fun <ELEMENT : Creation> createCreatorColumn(
 fun <ELEMENT : HasStartDate> createStartDateColumn(
     call: ApplicationCall,
     state: State,
-    label: String = "Date",
+    label: String = "Start Date",
 ) = createDateColumn<ELEMENT>(label, state, call, HasStartDate::startDate)
 
 fun <ELEMENT : HasStartAndEndDate> createEndDateColumn(
     call: ApplicationCall,
     state: State,
-    label: String = "End",
+    label: String = "End Date",
 ) = createDateColumn<ELEMENT>(label, state, call, HasStartAndEndDate::endDate)
 
 private fun <T> createDateColumn(
@@ -160,6 +160,7 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> countColumnForId(
 fun <ELEMENT : HasVitalStatus> createVitalColumn(
     call: ApplicationCall,
     state: State,
+    showType: Boolean,
     label: String = "End",
 ): Column<ELEMENT> =
-    tdColumn(label) { displayVitalStatus(call, state, it.vitalStatus(), false) }
+    tdColumn(label) { displayVitalStatus(call, state, it.vitalStatus(), showType) }

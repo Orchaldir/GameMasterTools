@@ -34,7 +34,9 @@ enum class SortBuilding {
 
 enum class SortBusiness {
     Name,
-    Date,
+    Start,
+    End,
+    Age,
     Employees,
 }
 
@@ -129,6 +131,8 @@ enum class SortFont {
 
 enum class SortGod {
     Name,
+    End,
+    Age,
     Believers,
 }
 
@@ -176,6 +180,8 @@ enum class SortMeleeWeaponType {
 
 enum class SortMoon {
     Name,
+    End,
+    Age,
 }
 
 enum class SortNameList {
@@ -185,7 +191,9 @@ enum class SortNameList {
 
 enum class SortOrganization {
     Name,
-    Date,
+    Start,
+    End,
+    Age,
     Members,
 }
 
@@ -291,7 +299,9 @@ enum class SortTitle {
 
 enum class SortTown {
     Name,
-    Date,
+    Start,
+    End,
+    Age,
     Buildings,
     Residents,
     Population,

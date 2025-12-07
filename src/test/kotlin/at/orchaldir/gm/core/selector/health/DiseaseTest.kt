@@ -49,7 +49,7 @@ class DiseaseTest {
         @Test
         fun `Cannot delete a disease that killed a character`() {
             val dead = Dead(DAY0, DeathByDisease(DISEASE_ID_0))
-            val character = Character(CHARACTER_ID_0, vitalStatus = dead)
+            val character = Character(CHARACTER_ID_0, status = dead)
             val newState = state.updateStorage(Storage(character))
 
             failCanDelete(newState, CHARACTER_ID_0)

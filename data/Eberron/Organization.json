@@ -281,6 +281,13 @@
    "date": {
     "#type": "Year",
     "year": -3200
+   },
+   "status": {
+    "#type": "Destroyed",
+    "date": {
+     "#type": "Year",
+     "year": -2000
+    }
    }
   },
   "27": {

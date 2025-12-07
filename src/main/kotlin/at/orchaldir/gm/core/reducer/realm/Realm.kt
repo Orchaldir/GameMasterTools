@@ -1,9 +1,9 @@
 package at.orchaldir.gm.core.reducer.realm
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.realm.ALLOWED_CAUSES_OF_DEATH_FOR_REALM
+import at.orchaldir.gm.core.model.realm.ALLOWED_VITAL_STATUS_FOR_REALM
 import at.orchaldir.gm.core.model.realm.Realm
-import at.orchaldir.gm.core.model.util.VALID_CAUSES_FOR_REALMS
-import at.orchaldir.gm.core.model.util.VALID_VITAL_STATUS_FOR_REALMS
 import at.orchaldir.gm.core.reducer.util.*
 import at.orchaldir.gm.core.selector.util.requireExists
 
@@ -35,8 +35,8 @@ fun validateRealm(state: State, realm: Realm) {
         realm.id,
         realm.status,
         realm.date,
-        VALID_VITAL_STATUS_FOR_REALMS,
-        VALID_CAUSES_FOR_REALMS,
+        ALLOWED_VITAL_STATUS_FOR_REALM,
+        ALLOWED_CAUSES_OF_DEATH_FOR_REALM,
     )
     validateHasStartAndEnd(state, realm)
     validatePopulation(state, realm.population)

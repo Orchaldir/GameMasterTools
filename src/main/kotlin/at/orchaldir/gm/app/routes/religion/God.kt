@@ -73,6 +73,8 @@ fun Application.configureGodRouting() {
                         tdLinks(call, state, pantheons)
                     },
                     Column("Gender") { tdEnum(it.gender) },
+                    createEndDateColumn(call, state),
+                    createVitalColumn(call, state, false, "Death"),
                     Column("Personality") {
                         val personality = state.getCharacterTraitStorage()
                             .get(it.personality)

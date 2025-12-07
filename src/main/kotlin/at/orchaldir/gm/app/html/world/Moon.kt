@@ -8,9 +8,7 @@ import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.render.Color
-import at.orchaldir.gm.core.model.world.moon.ALLOWED_MOON_POSITIONS
-import at.orchaldir.gm.core.model.world.moon.Moon
-import at.orchaldir.gm.core.model.world.moon.MoonId
+import at.orchaldir.gm.core.model.world.moon.*
 import at.orchaldir.gm.core.selector.time.getCurrentDate
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -28,6 +26,7 @@ fun HtmlBlockTag.showMoon(
     val nextFullMoon = moon.getNextFullMoon(currentDate)
 
     optionalField("Title", moon.title)
+    showVitalStatus(call, state, moon.status)
     fieldPosition(call, state, moon.position)
     field("Cycle", moon.getCycle().toString() + " days")
     fieldColor(moon.color)
@@ -53,6 +52,14 @@ fun HtmlBlockTag.editMoon(
 ) {
     selectName(moon.name)
     selectOptionalNotEmptyString("Optional Title", moon.title, TITLE)
+    selectVitalStatus(
+        state,
+        moon.id,
+        null,
+        moon.status,
+        ALLOWED_VITAL_STATUS_FOR_MOON,
+        ALLOWED_CAUSES_OF_DEATH_FOR_MOON,
+    )
     selectPosition(
         state,
         POSITION,
@@ -74,6 +81,7 @@ fun parseMoon(state: State, parameters: Parameters, id: MoonId) = Moon(
     id,
     parseName(parameters),
     parseOptionalNotEmptyString(parameters, TITLE),
+    parseVitalStatus(parameters, state),
     parsePosition(parameters, state),
     parseInt(parameters, LENGTH, 1),
     parse(parameters, COLOR, Color.White),

@@ -67,7 +67,7 @@ fun Application.configureCatastropheRouting() {
                 listOf<Column<Catastrophe>>(
                     createNameColumn(call, state),
                     createStartDateColumn(call, state, "Start"),
-                    createEndDateColumn(call, state, "End"),
+                    createEndDateColumn(call, state),
                     createAgeColumn(state, "Years"),
                     tdColumn("Cause") { displayCauseOfCatastrophe(call, state, it.cause, false) }
                 ) + createDestroyedColumns(state),

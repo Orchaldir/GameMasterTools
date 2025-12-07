@@ -9,11 +9,11 @@
     "middle": null,
     "family": "Cobb"
    },
-   "birthDate": {
+   "date": {
     "#type": "Year",
     "year": 1742
    },
-   "vitalStatus": {
+   "status": {
     "#type": "Dead",
     "date": {
      "#type": "Year",
@@ -39,7 +39,7 @@
     "middle": null,
     "family": "Cutter"
    },
-   "birthDate": {
+   "date": {
     "#type": "Day",
     "day": 694120
    },
@@ -119,7 +119,7 @@
     "middle": null,
     "family": "Perry"
    },
-   "birthDate": {
+   "date": {
     "#type": "Day",
     "day": 679101
    },
@@ -210,7 +210,7 @@
     "family": "Carruthers"
    },
    "gender": "Female",
-   "birthDate": {
+   "date": {
     "#type": "Day",
     "day": 682280
    },
@@ -282,7 +282,7 @@
     "family": "Wells"
    },
    "gender": "Female",
-   "birthDate": {
+   "date": {
     "#type": "Day",
     "day": 695115
    },
@@ -319,7 +319,7 @@
     "middle": null,
     "family": "Spencer"
    },
-   "birthDate": {
+   "date": {
     "#type": "Day",
     "day": 686625
    },
@@ -410,11 +410,11 @@
     "family": "Maclearan"
    },
    "gender": "Female",
-   "birthDate": {
+   "date": {
     "#type": "Day",
     "day": 687818
    },
-   "vitalStatus": {
+   "status": {
     "#type": "Dead",
     "date": {
      "#type": "Year",
@@ -449,7 +449,7 @@
     "middle": null,
     "family": "Maclearan"
    },
-   "birthDate": {
+   "date": {
     "#type": "Year",
     "year": 1873
    },
@@ -484,7 +484,7 @@
     "middle": null,
     "family": "Wendell"
    },
-   "birthDate": {
+   "date": {
     "#type": "Year",
     "year": 1886
    },
@@ -564,7 +564,7 @@
     "middle": null,
     "family": "Haggerty"
    },
-   "birthDate": {
+   "date": {
     "#type": "Year",
     "year": 1879
    },
@@ -603,7 +603,7 @@
     "family": "Haggerty"
    },
    "gender": "Female",
-   "birthDate": {
+   "date": {
     "#type": "Year",
     "year": 1882
    },
@@ -649,7 +649,7 @@
     "mother": 10,
     "father": 9
    },
-   "birthDate": {
+   "date": {
     "#type": "Year",
     "year": 1907
    },
@@ -686,7 +686,7 @@
     "middle": null,
     "family": "Wilson"
    },
-   "birthDate": {
+   "date": {
     "#type": "Year",
     "year": 1878
    },
@@ -730,7 +730,7 @@
     "family": "Wilson"
    },
    "gender": "Female",
-   "birthDate": {
+   "date": {
     "#type": "Year",
     "year": 1898
    },
@@ -769,7 +769,7 @@
     "mother": 13,
     "father": 12
    },
-   "birthDate": {
+   "date": {
     "#type": "Year",
     "year": 1913
    },
@@ -839,7 +839,7 @@
     "family": "Rydell"
    },
    "gender": "Female",
-   "birthDate": {
+   "date": {
     "#type": "Year",
     "year": 1890
    },
@@ -872,7 +872,7 @@
     "middle": null,
     "family": "Karner"
    },
-   "birthDate": {
+   "date": {
     "#type": "Year",
     "year": 1867
    },
@@ -911,7 +911,7 @@
     "family": "Karner"
    },
    "gender": "Female",
-   "birthDate": {
+   "date": {
     "#type": "Year",
     "year": 1870
    },
@@ -947,11 +947,11 @@
     "#type": "Mononym",
     "name": "Abdul Alhazred"
    },
-   "birthDate": {
+   "date": {
     "#type": "~Year",
     "year": 699
    },
-   "vitalStatus": {
+   "status": {
     "#type": "Dead",
     "date": {
      "#type": "Year",
@@ -970,11 +970,11 @@
     "middle": null,
     "family": "Philetas"
    },
-   "birthDate": {
+   "date": {
     "#type": "Decade",
     "decade": 91
    },
-   "vitalStatus": {
+   "status": {
     "#type": "Dead",
     "date": {
      "#type": "Decade",
@@ -993,7 +993,7 @@
     "middle": null,
     "family": "Bowen"
    },
-   "birthDate": {
+   "date": {
     "#type": "Year",
     "year": 1873
    },
@@ -1029,7 +1029,7 @@
     "middle": null,
     "family": "Tobey"
    },
-   "birthDate": {
+   "date": {
     "#type": "Year",
     "year": 1867
    },

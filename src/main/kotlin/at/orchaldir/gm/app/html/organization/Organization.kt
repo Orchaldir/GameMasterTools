@@ -12,9 +12,7 @@ import at.orchaldir.gm.app.html.util.source.parseDataSources
 import at.orchaldir.gm.app.html.util.source.showDataSources
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.organization.MemberRank
-import at.orchaldir.gm.core.model.organization.Organization
-import at.orchaldir.gm.core.model.organization.OrganizationId
+import at.orchaldir.gm.core.model.organization.*
 import at.orchaldir.gm.core.selector.organization.getNotMembers
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -30,12 +28,13 @@ fun HtmlBlockTag.showOrganization(
 ) {
     optionalField(call, state, "Date", organization.date)
     fieldReference(call, state, organization.founder, "Founder")
-    showCreated(call, state, organization.id)
+    showVitalStatus(call, state, organization.status)
     showMembers(call, state, organization)
     showBeliefStatusHistory(call, state, organization.beliefStatus)
+    showDataSources(call, state, organization.sources)
+    showCreated(call, state, organization.id)
     showHolidays(call, state, organization.holidays)
     showOwnedElements(call, state, organization.id)
-    showDataSources(call, state, organization.sources)
 }
 
 
@@ -62,6 +61,14 @@ fun HtmlBlockTag.editOrganization(
     selectName(organization.name)
     selectOptionalDate(state, "Date", organization.date, DATE)
     selectCreator(state, organization.founder, organization.id, organization.date, "Founder")
+    selectVitalStatus(
+        state,
+        organization.id,
+        organization.date,
+        organization.status,
+        ALLOWED_VITAL_STATUS_FOR_ORGANIZATION,
+        ALLOWED_CAUSES_OF_DEATH_FOR_ORGANIZATION,
+    )
     editMembers(state, organization)
     editBeliefStatusHistory(state, organization.beliefStatus, organization.date)
     editHolidays(state, organization.holidays)
@@ -91,7 +98,7 @@ private fun HtmlBlockTag.editMembers(
         "Members",
         MEMBER,
         organization.members,
-        1,
+        0,
         maxMembers,
     ) { _, memberParam, characterId, history ->
         val character = state.getCharacterStorage().getOrThrow(characterId)
@@ -108,7 +115,7 @@ private fun HtmlBlockTag.editMembers(
             combine(memberParam, RANK),
             history,
             "Rank",
-            character.birthDate
+            character.date
         ) { _, param, currentRank, _ ->
             selectOptionalValue("Rank", param, currentRank, rankIds) { rank ->
                 label = organization.memberRanks[rank].name.text
@@ -134,6 +141,7 @@ fun parseOrganization(
         parseName(parameters),
         parseCreator(parameters),
         date,
+        parseVitalStatus(parameters, state),
         parseList(parameters, RANK, 1) { index, param ->
             parseRank(parameters, index, param)
         },
@@ -161,7 +169,7 @@ private fun parseMembers(
     },
 ) { characterId, index, memberParam ->
     val character = state.getCharacterStorage().getOrThrow(characterId)
-    parseHistory(parameters, combine(memberParam, RANK), state, character.birthDate, ::parseMemberRank)
+    parseHistory(parameters, combine(memberParam, RANK), state, character.date, ::parseMemberRank)
 }
 
 fun parseMemberRank(parameters: Parameters, state: State, param: String) = parseSimpleOptionalInt(parameters, param)

@@ -15,6 +15,13 @@
   "1": {
    "id": 1,
    "name": "Crya",
+   "status": {
+    "#type": "Destroyed",
+    "date": {
+     "#type": "Millennium",
+     "millennium": -41
+    }
+   },
    "position": {
     "#type": "World",
     "world": 0

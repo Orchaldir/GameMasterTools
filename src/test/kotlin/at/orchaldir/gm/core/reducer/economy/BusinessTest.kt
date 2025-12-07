@@ -8,8 +8,10 @@ import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.util.CharacterReference
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.InBuilding
+import at.orchaldir.gm.core.model.util.VitalStatusType
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.reducer.REDUCER
+import at.orchaldir.gm.core.reducer.util.testAllowedVitalStatusTypes
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -28,6 +30,23 @@ class BusinessTest {
                 Storage(Character(CHARACTER_ID_0)),
             )
         )
+
+        @Test
+        fun `Test allowed vital status types`() {
+            testAllowedVitalStatusTypes(
+                STATE,
+                mapOf(
+                    VitalStatusType.Abandoned to false,
+                    VitalStatusType.Alive to true,
+                    VitalStatusType.Closed to true,
+                    VitalStatusType.Dead to false,
+                    VitalStatusType.Destroyed to true,
+                    VitalStatusType.Vanished to false,
+                ),
+            ) { status ->
+                Business(BUSINESS_ID_0, date = DAY0, status = status)
+            }
+        }
 
         @Test
         fun `Cannot update unknown id`() {
@@ -62,9 +81,9 @@ class BusinessTest {
 
         @Test
         fun `Date is in the future`() {
-            val action = UpdateAction(Business(BUSINESS_ID_0, startDate = FUTURE_DAY_0))
+            val action = UpdateAction(Business(BUSINESS_ID_0, date = FUTURE_DAY_0))
 
-            assertIllegalArgument("Date (Business Founding) is in the future!") { REDUCER.invoke(STATE, action) }
+            assertIllegalArgument("Date (Start Date) is in the future!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test

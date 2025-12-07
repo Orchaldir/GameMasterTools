@@ -33,11 +33,11 @@ fun HtmlBlockTag.showCatastrophe(
     optionalField(call, state, "End Date", catastrophe.endDate)
     fieldAge("Duration", calendar.getYears(catastrophe.getDuration(state)))
     showCauseOfCatastrophe(call, state, catastrophe.cause)
-    showDestroyed(call, state, catastrophe.id)
     fieldElements(call, state, "Created Regions", state.getRegionsCreatedBy(catastrophe.id))
     fieldElements(call, state, "Ended Wars", state.getWarsEndedBy(catastrophe.id))
     fieldElements(call, state, state.getHolidays(catastrophe.id))
     showDataSources(call, state, catastrophe.sources)
+    showDestroyed(call, state, catastrophe.id)
 }
 
 // edit

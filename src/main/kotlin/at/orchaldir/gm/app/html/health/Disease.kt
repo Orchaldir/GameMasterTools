@@ -28,9 +28,8 @@ fun HtmlBlockTag.showDisease(
     optionalField(call, state, "Date", disease.date)
     fieldOrigin(call, state, disease.origin, ::DiseaseId)
     showDataSources(call, state, disease.sources)
-
-    showDestroyed(call, state, disease.id)
     fieldElements(call, state, "Diseases based on it", state.getDiseasesBasedOn(disease.id))
+    showDestroyed(call, state, disease.id)
 }
 
 // edit

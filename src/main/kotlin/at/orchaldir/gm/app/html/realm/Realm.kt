@@ -11,10 +11,10 @@ import at.orchaldir.gm.app.html.util.source.editDataSources
 import at.orchaldir.gm.app.html.util.source.parseDataSources
 import at.orchaldir.gm.app.html.util.source.showDataSources
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.realm.ALLOWED_CAUSES_OF_DEATH_FOR_REALM
+import at.orchaldir.gm.core.model.realm.ALLOWED_VITAL_STATUS_FOR_REALM
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.RealmId
-import at.orchaldir.gm.core.model.util.VALID_CAUSES_FOR_REALMS
-import at.orchaldir.gm.core.model.util.VALID_VITAL_STATUS_FOR_REALMS
 import at.orchaldir.gm.core.selector.character.getCharactersLivingIn
 import at.orchaldir.gm.core.selector.character.getEmployees
 import at.orchaldir.gm.core.selector.character.getPreviousEmployees
@@ -75,8 +75,8 @@ fun HtmlBlockTag.editRealm(
         realm.id,
         realm.date,
         realm.status,
-        VALID_VITAL_STATUS_FOR_REALMS,
-        VALID_CAUSES_FOR_REALMS,
+        ALLOWED_VITAL_STATUS_FOR_REALM,
+        ALLOWED_CAUSES_OF_DEATH_FOR_REALM,
     )
     selectHistory(state, TOWN, realm.capital, "Capital", realm.date) { _, param, town, start ->
         selectOptionalElement(

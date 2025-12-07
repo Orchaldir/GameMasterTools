@@ -15,9 +15,7 @@ import at.orchaldir.gm.app.html.util.source.showDataSources
 import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
-import at.orchaldir.gm.core.model.religion.ALLOWED_GOD_AUTHENTICITY
-import at.orchaldir.gm.core.model.religion.God
-import at.orchaldir.gm.core.model.religion.GodId
+import at.orchaldir.gm.core.model.religion.*
 import at.orchaldir.gm.core.selector.religion.getMasksOf
 import at.orchaldir.gm.core.selector.religion.getPantheonsContaining
 import at.orchaldir.gm.core.selector.time.getHolidays
@@ -36,6 +34,7 @@ fun HtmlBlockTag.showGod(
 ) {
     optionalField("Title", god.title)
     field("Gender", god.gender)
+    showVitalStatus(call, state, god.status)
     showCharacterTraits(call, state, god.personality, "Personality")
     fieldIds(call, state, god.domains)
     fieldAuthenticity(call, state, god.authenticity)
@@ -60,6 +59,14 @@ fun HtmlBlockTag.editGod(
     selectName(god.name)
     selectOptionalNotEmptyString("Optional Title", god.title, TITLE)
     selectValue("Gender", GENDER, Gender.entries, god.gender)
+    selectVitalStatus(
+        state,
+        god.id,
+        null,
+        god.status,
+        ALLOWED_VITAL_STATUS_FOR_GOD,
+        ALLOWED_CAUSES_OF_DEATH_FOR_GOD,
+    )
     editPersonality(call, state, god.personality)
     selectElements(state, "Domains", DOMAIN, state.getDomainStorage().getAll(), god.domains)
     editAuthenticity(state, god.authenticity, ALLOWED_GOD_AUTHENTICITY)
@@ -81,6 +88,7 @@ fun parseGod(
     parseName(parameters),
     parseOptionalNotEmptyString(parameters, TITLE),
     parseGender(parameters),
+    parseVitalStatus(parameters, state),
     parseCharacterTraits(parameters),
     parseElements(parameters, DOMAIN, ::parseDomainId),
     parseAuthenticity(parameters),

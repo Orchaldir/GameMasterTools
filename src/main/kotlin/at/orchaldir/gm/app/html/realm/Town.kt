@@ -13,10 +13,10 @@ import at.orchaldir.gm.app.html.util.source.parseDataSources
 import at.orchaldir.gm.app.html.util.source.showDataSources
 import at.orchaldir.gm.app.html.world.showCharactersOfTownMap
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.realm.ALLOWED_CAUSES_OF_DEATH_FOR_TOWN
+import at.orchaldir.gm.core.model.realm.ALLOWED_VITAL_STATUS_FOR_TOWN
 import at.orchaldir.gm.core.model.realm.Town
 import at.orchaldir.gm.core.model.realm.TownId
-import at.orchaldir.gm.core.model.util.VALID_CAUSES_FOR_TOWNS
-import at.orchaldir.gm.core.model.util.VALID_VITAL_STATUS_FOR_TOWNS
 import at.orchaldir.gm.core.selector.realm.getDistricts
 import at.orchaldir.gm.core.selector.realm.getExistingRealms
 import at.orchaldir.gm.core.selector.realm.getRealmsWithCapital
@@ -36,7 +36,7 @@ fun HtmlBlockTag.showTown(
 ) {
     optionalField("Title", town.title)
     fieldReference(call, state, town.founder, "Founder")
-    optionalField(call, state, "Founding Date", town.foundingDate)
+    optionalField(call, state, "Founding Date", town.date)
     showVitalStatus(call, state, town.status)
     showHistory(call, state, town.owner, "Owner", "Independent") { _, _, owner ->
         link(call, state, owner)
@@ -71,17 +71,17 @@ fun HtmlBlockTag.editTown(
 ) {
     selectName(town.name)
     selectOptionalNotEmptyString("Optional Title", town.title, TITLE)
-    selectCreator(state, town.founder, town.id, town.foundingDate, "Founder")
-    selectOptionalDate(state, "Founding Date", town.foundingDate, DATE)
+    selectCreator(state, town.founder, town.id, town.date, "Founder")
+    selectOptionalDate(state, "Founding Date", town.date, DATE)
     selectVitalStatus(
         state,
         town.id,
-        town.foundingDate,
+        town.date,
         town.status,
-        VALID_VITAL_STATUS_FOR_TOWNS,
-        VALID_CAUSES_FOR_TOWNS,
+        ALLOWED_VITAL_STATUS_FOR_TOWN,
+        ALLOWED_CAUSES_OF_DEATH_FOR_TOWN,
     )
-    selectHistory(state, OWNER, town.owner, "Owner", town.foundingDate) { _, param, owner, start ->
+    selectHistory(state, OWNER, town.owner, "Owner", town.date) { _, param, owner, start ->
         selectOptionalElement(
             state,
             "Realm",
@@ -111,8 +111,8 @@ fun parseTown(
         id,
         parseName(parameters),
         parseOptionalNotEmptyString(parameters, TITLE),
-        date,
         parseCreator(parameters),
+        date,
         parseVitalStatus(parameters, state),
         parseHistory(parameters, OWNER, state, date) { _, _, param ->
             parseOptionalRealmId(parameters, param)

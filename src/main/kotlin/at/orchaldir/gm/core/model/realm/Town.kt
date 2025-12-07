@@ -16,6 +16,8 @@ import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
 const val TOWN_TYPE = "Town"
+val ALLOWED_VITAL_STATUS_FOR_TOWN = ALLOWED_VITAL_STATUS_FOR_REALM
+val ALLOWED_CAUSES_OF_DEATH_FOR_TOWN = ALLOWED_CAUSES_OF_DEATH_FOR_REALM
 
 @JvmInline
 @Serializable
@@ -32,8 +34,8 @@ data class Town(
     val id: TownId,
     val name: Name = Name.init(id),
     val title: NotEmptyString? = null,
-    val foundingDate: Date? = null,
     val founder: Reference = UndefinedReference,
+    val date: Date? = null,
     val status: VitalStatus = Alive,
     val owner: History<RealmId?> = History(null),
     val population: Population = UndefinedPopulation,
@@ -45,7 +47,7 @@ data class Town(
     override fun creator() = founder
     override fun population() = population
     override fun sources() = sources
-    override fun startDate() = foundingDate
+    override fun startDate() = date
     override fun vitalStatus() = status
     override fun validate(state: State) = validateTown(state, this)
 }

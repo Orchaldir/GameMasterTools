@@ -8,7 +8,11 @@ import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 
 fun <ID : Id<ID>> State.canDeleteDestroyer(id: ID, result: DeleteResult) = result
+    .addElements(getDestroyedBy(getBusinessStorage(), id))
     .addElements(getDestroyedBy(getCharacterStorage(), id))
+    .addElements(getDestroyedBy(getGodStorage(), id))
+    .addElements(getDestroyedBy(getMoonStorage(), id))
+    .addElements(getDestroyedBy(getOrganizationStorage(), id))
     .addElements(getDestroyedBy(getRealmStorage(), id))
     .addElements(getDestroyedBy(getTownStorage(), id))
 

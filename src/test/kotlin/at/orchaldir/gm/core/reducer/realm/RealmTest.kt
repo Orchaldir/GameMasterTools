@@ -5,9 +5,13 @@ import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.RealmId
-import at.orchaldir.gm.core.model.util.*
+import at.orchaldir.gm.core.model.util.CharacterReference
+import at.orchaldir.gm.core.model.util.History
+import at.orchaldir.gm.core.model.util.HistoryEntry
+import at.orchaldir.gm.core.model.util.VitalStatusType
 import at.orchaldir.gm.core.model.util.population.TotalPopulation
 import at.orchaldir.gm.core.reducer.REDUCER
+import at.orchaldir.gm.core.reducer.util.testAllowedVitalStatusTypes
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -91,40 +95,21 @@ class RealmTest {
             assertIllegalArgument("Requires unknown Currency 99!") { REDUCER.invoke(STATE, action) }
         }
 
-        @Nested
-        inner class VitalStatusTest {
-
-            @Test
-            fun `A realm cannot die`() {
-                val status = Dead(DAY0, DeathByCatastrophe(UNKNOWN_CATASTROPHE_ID))
-                val realm = Realm(REALM_ID_0, status = status)
-                val action = UpdateAction(realm)
-
-                assertIllegalArgument("Invalid vital status Dead!") { REDUCER.invoke(STATE, action) }
+        @Test
+        fun `Test allowed vital status types`() {
+            testAllowedVitalStatusTypes(
+                STATE,
+                mapOf(
+                    VitalStatusType.Abandoned to true,
+                    VitalStatusType.Alive to true,
+                    VitalStatusType.Closed to false,
+                    VitalStatusType.Dead to false,
+                    VitalStatusType.Destroyed to true,
+                    VitalStatusType.Vanished to false,
+                ),
+            ) { status ->
+                Realm(REALM_ID_0, date = DAY0, status = status)
             }
-
-            @Test
-            fun `A realm can be alive`() {
-                testValidStatus(Alive)
-            }
-
-            @Test
-            fun `A realm can be abandoned`() {
-                testValidStatus(Abandoned(DAY0))
-            }
-
-            @Test
-            fun `A realm can be destroyed`() {
-                testValidStatus(Destroyed(DAY0))
-            }
-
-            private fun testValidStatus(status: VitalStatus) {
-                val realm = Realm(REALM_ID_0, status = status)
-                val action = UpdateAction(realm)
-
-                REDUCER.invoke(STATE, action)
-            }
-
         }
 
         @Test

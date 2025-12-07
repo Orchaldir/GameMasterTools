@@ -5,6 +5,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.character.*
 import at.orchaldir.gm.app.html.util.showCreated
+import at.orchaldir.gm.app.html.util.showDestroyed
 import at.orchaldir.gm.app.html.util.showEmploymentStatus
 import at.orchaldir.gm.app.html.util.showPosition
 import at.orchaldir.gm.app.routes.*
@@ -59,7 +60,7 @@ fun Application.configureCharacterRouting() {
                     createAgeColumn(state),
                     createStartDateColumn(call, state, "Birthdate"),
                     createEndDateColumn(call, state, "Deathdate"),
-                    createVitalColumn(call, state, "Death"),
+                    createVitalColumn(call, state, false, "Death"),
                     tdColumn("Housing Status") { showPosition(call, state, it.housingStatus.current, false) },
                     tdColumn("Employment Status") {
                         showEmploymentStatus(
@@ -161,9 +162,9 @@ fun generateBirthday(
 ): Character {
     val generator = DateGenerator(RandomNumberGenerator(Random), state, state.getDefaultCalendarId())
     val character = state.getCharacterStorage().getOrThrow(id)
-    val birthDate = generator.generateMonthAndDay(character.birthDate)
+    val birthDate = generator.generateMonthAndDay(character.date)
 
-    return character.copy(birthDate = birthDate)
+    return character.copy(date = birthDate)
 }
 
 fun generateName(
@@ -185,6 +186,7 @@ private fun HtmlBlockTag.showCharacterDetails(
     showSocial(call, state, character)
     showPossession(call, state, character)
     showCreated(call, state, character.id)
+    showDestroyed(call, state, character.id)
 }
 
 private fun HtmlBlockTag.showCharacterFrontAndBack(

@@ -36,8 +36,10 @@ fun HtmlBlockTag.showVitalStatus(
         when (status) {
             is Abandoned -> showVitalStatus(call, state, status.date, status.cause)
             Alive -> doNothing()
+            is Closed -> field(call, state, "Date", status.date)
             is Dead -> showVitalStatus(call, state, status.date, status.cause)
             is Destroyed -> showVitalStatus(call, state, status.date, status.cause)
+            is Vanished -> field(call, state, "Date", status.date)
         }
     }
 }
@@ -59,19 +61,38 @@ fun HtmlBlockTag.displayVitalStatus(
     call: ApplicationCall,
     state: State,
     status: VitalStatus,
-    showUndefined: Boolean = true,
+    showType: Boolean,
 ) {
-    displayCauseOfDeath(
-        call,
-        state,
-        when (status) {
-            is Abandoned -> status.cause
-            Alive -> return
-            is Dead -> status.cause
-            is Destroyed -> status.cause
-        },
-        showUndefined,
-    )
+    val cause = status.getCauseOfDeath()
+
+    if (cause != null && cause !is UndefinedCauseOfDeath) {
+        if (showType) {
+            displayVitalStatusType(status)
+            +" ("
+        }
+
+        displayCauseOfDeath(
+            call,
+            state,
+            cause,
+            false,
+        )
+
+        if (showType) {
+            +")"
+        }
+    } else {
+        displayVitalStatusType(status)
+    }
+}
+
+fun HtmlBlockTag.displayVitalStatusType(status: VitalStatus) = when (status) {
+    is Abandoned -> +"Abandoned"
+    Alive -> doNothing()
+    is Closed -> +"Closed"
+    is Dead -> +"Dead"
+    is Destroyed -> +"Destroyed"
+    is Vanished -> +"Vanished"
 }
 
 fun HtmlBlockTag.displayCauseOfDeath(
@@ -82,24 +103,11 @@ fun HtmlBlockTag.displayCauseOfDeath(
 ) {
     when (cause) {
         is Accident -> +"Accident"
-        is DeathByCatastrophe -> {
-            link(call, state, cause.catastrophe)
-        }
-
+        is DeathByCatastrophe -> link(call, state, cause.catastrophe)
         is DeathByDisease -> link(call, state, cause.disease)
-        is DeathInBattle -> {
-            link(call, state, cause.battle)
-        }
-
-        is DeathInWar -> {
-            link(call, state, cause.war)
-        }
-
-        is KilledBy -> {
-            +"Killed by "
-            showReference(call, state, cause.killer)
-        }
-
+        is DeathInBattle -> link(call, state, cause.battle)
+        is DeathInWar -> link(call, state, cause.war)
+        is KilledBy -> showReference(call, state, cause.killer)
         is OldAge -> +"Old Age"
         UndefinedCauseOfDeath -> if (showUndefined) {
             +"Undefined"
@@ -123,8 +131,10 @@ fun <ID : Id<ID>> HtmlBlockTag.selectVitalStatus(
         when (status) {
             is Abandoned -> selectVitalStatusData(state, id, startDate, allowedCauses, status.date, status.cause)
             Alive -> doNothing()
+            is Closed -> selectDeathDate(state, startDate, status.date)
             is Dead -> selectVitalStatusData(state, id, startDate, allowedCauses, status.date, status.cause)
             is Destroyed -> selectVitalStatusData(state, id, startDate, allowedCauses, status.date, status.cause)
+            is Vanished -> selectDeathDate(state, startDate, status.date)
         }
     }
 }
@@ -137,6 +147,15 @@ fun <ID : Id<ID>> HtmlBlockTag.selectVitalStatusData(
     date: Date,
     cause: CauseOfDeath,
 ) {
+    selectDeathDate(state, startDate, date)
+    selectCauseOfDeath(state, id, cause, date, allowedCauses)
+}
+
+private fun HtmlBlockTag.selectDeathDate(
+    state: State,
+    startDate: Date?,
+    date: Date,
+) {
     selectDate(
         state,
         "Date",
@@ -144,7 +163,6 @@ fun <ID : Id<ID>> HtmlBlockTag.selectVitalStatusData(
         combine(DEATH, DATE),
         startDate,
     )
-    selectCauseOfDeath(state, id, cause, date, allowedCauses)
 }
 
 private fun <ID : Id<ID>> HtmlBlockTag.selectCauseOfDeath(
@@ -232,6 +250,11 @@ fun parseVitalStatus(
     )
 
     VitalStatusType.Alive -> Alive
+
+    VitalStatusType.Closed -> Closed(
+        parseDeathDay(parameters, state),
+    )
+
     VitalStatusType.Dead -> Dead(
         parseDeathDay(parameters, state),
         parseCauseOfDeath(parameters),
@@ -240,6 +263,10 @@ fun parseVitalStatus(
     VitalStatusType.Destroyed -> Destroyed(
         parseDeathDay(parameters, state),
         parseCauseOfDeath(parameters),
+    )
+
+    VitalStatusType.Vanished -> Vanished(
+        parseDeathDay(parameters, state),
     )
 }
 

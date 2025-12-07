@@ -82,11 +82,11 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> State.sortElements(elements: Collection
 fun <Element : HasStartDate> State.getStartDateComparator(valueForNull: Int = Int.MAX_VALUE) =
     getDateComparator<Element>(valueForNull) { it.startDate() }
 
+fun <Element : HasComplexStartDate> State.getComplexStartDateComparator(valueForNull: Int = Int.MAX_VALUE) =
+    getDateComparator<Element>(valueForNull) { it.startDate(this) }
+
 fun <Element : HasStartAndEndDate> State.getEndDateComparator(valueForNull: Int = Int.MAX_VALUE) =
     getDateComparator<Element>(valueForNull) { it.endDate() }
-
-fun <Element : HasComplexStartDate> State.getComplexStartAgeComparator(valueForNull: Int = Int.MAX_VALUE) =
-    getDateComparator<Element>(valueForNull) { it.startDate(this) }
 
 fun <T> State.getDateComparator(
     valueForNull: Int = Int.MAX_VALUE,
@@ -195,7 +195,9 @@ fun State.sortBusinesses(
     .sortedWith(
         when (sort) {
             SortBusiness.Name -> compareBy { it.name.text }
-            SortBusiness.Date -> getStartDateComparator()
+            SortBusiness.Start -> getStartDateComparator()
+            SortBusiness.End -> getEndDateComparator()
+            SortBusiness.Age -> compareByDescending { it.getAgeInYears(this) }
             SortBusiness.Employees -> compareByDescending { getEmployees(it.id).size }
         }
     )
@@ -502,6 +504,8 @@ fun State.sortGods(
     .sortedWith(
         when (sort) {
             SortGod.Name -> compareBy { it.name.text }
+            SortGod.End -> getEndDateComparator()
+            SortGod.Age -> compareByDescending { it.getAgeInYears(this) }
             SortGod.Believers -> compareByDescending { getBelievers(getCharacterStorage(), it.id).size }
         })
 
@@ -637,6 +641,8 @@ fun State.sortMoons(
     .sortedWith(
         when (sort) {
             SortMoon.Name -> compareBy { it.name.text }
+            SortMoon.End -> getEndDateComparator()
+            SortMoon.Age -> compareByDescending { it.getAgeInYears(this) }
         })
 
 // name list
@@ -666,7 +672,9 @@ fun State.sortOrganizations(
     .sortedWith(
         when (sort) {
             SortOrganization.Name -> compareBy { it.name.text }
-            SortOrganization.Date -> getStartDateComparator()
+            SortOrganization.Start -> getStartDateComparator()
+            SortOrganization.End -> getEndDateComparator()
+            SortOrganization.Age -> compareByDescending { it.getAgeInYears(this) }
             SortOrganization.Members -> compareByDescending { it.countAllMembers() }
         })
 
@@ -714,7 +722,7 @@ fun State.sortPeriodicalIssues(
     .sortedWith(
         when (sort) {
             SortPeriodicalIssue.Periodical -> compareBy { getPeriodicalStorage().getOrThrow(it.periodical).name.text }
-            SortPeriodicalIssue.Date -> getComplexStartAgeComparator()
+            SortPeriodicalIssue.Date -> getComplexStartDateComparator()
         }
     )
 
@@ -977,7 +985,9 @@ fun State.sortTowns(
     .sortedWith(
         when (sort) {
             SortTown.Name -> compareBy { it.name.text }
-            SortTown.Date -> getStartDateComparator()
+            SortTown.Start -> getStartDateComparator()
+            SortTown.End -> getEndDateComparator()
+            SortTown.Age -> compareByDescending { it.getAgeInYears(this) }
             SortTown.Population -> compareByDescending { it.population.getTotalPopulation() }
             SortTown.Buildings -> compareByDescending { countBuildings(it.id) }
             SortTown.Residents -> compareByDescending { countResidents(it.id) }

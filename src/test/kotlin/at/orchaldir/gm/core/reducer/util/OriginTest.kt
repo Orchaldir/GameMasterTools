@@ -18,8 +18,8 @@ class OriginTest {
             Storage(
                 listOf(
                     Character(CHARACTER_ID_0),
-                    Character(CHARACTER_ID_1, gender = Gender.Male, birthDate = DAY1),
-                    Character(CHARACTER_ID_2, gender = Gender.Female, birthDate = DAY1),
+                    Character(CHARACTER_ID_1, gender = Gender.Male, date = DAY1),
+                    Character(CHARACTER_ID_2, gender = Gender.Female, date = DAY1),
                 )
             ),
         )

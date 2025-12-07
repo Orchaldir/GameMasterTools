@@ -4,9 +4,11 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.OnWorld
+import at.orchaldir.gm.core.model.util.VitalStatusType
 import at.orchaldir.gm.core.model.world.moon.Moon
 import at.orchaldir.gm.core.model.world.plane.Plane
 import at.orchaldir.gm.core.reducer.REDUCER
+import at.orchaldir.gm.core.reducer.util.testAllowedVitalStatusTypes
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -16,6 +18,7 @@ class MoonTest {
 
     val state = State(
         listOf(
+            Storage(CALENDAR0),
             Storage(Moon(MOON_ID_0)),
             Storage(Plane(PLANE_ID_0)),
         )
@@ -23,6 +26,23 @@ class MoonTest {
 
     @Nested
     inner class UpdateTest {
+
+        @Test
+        fun `Test allowed vital status types`() {
+            testAllowedVitalStatusTypes(
+                state,
+                mapOf(
+                    VitalStatusType.Abandoned to false,
+                    VitalStatusType.Alive to true,
+                    VitalStatusType.Closed to false,
+                    VitalStatusType.Dead to false,
+                    VitalStatusType.Destroyed to true,
+                    VitalStatusType.Vanished to true,
+                ),
+            ) { status ->
+                Moon(MOON_ID_0, status = status)
+            }
+        }
 
         @Test
         fun `Cannot update unknown id`() {

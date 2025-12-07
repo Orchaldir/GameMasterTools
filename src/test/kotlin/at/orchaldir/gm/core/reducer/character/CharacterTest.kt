@@ -22,6 +22,7 @@ import at.orchaldir.gm.core.model.time.date.Day
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.util.origin.BornElement
 import at.orchaldir.gm.core.reducer.REDUCER
+import at.orchaldir.gm.core.reducer.util.testAllowedVitalStatusTypes
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -42,7 +43,7 @@ class CharacterTest {
 
             val characters = REDUCER.invoke(state, CreateAction(CHARACTER_ID_0)).first.getCharacterStorage()
 
-            assertEquals(today, characters.getOrThrow(CHARACTER_ID_0).birthDate)
+            assertEquals(today, characters.getOrThrow(CHARACTER_ID_0).date)
         }
     }
 
@@ -84,43 +85,21 @@ class CharacterTest {
             }
         }
 
-        @Nested
-        inner class VitalStatusTest {
-
-            @Test
-            fun `A character can be alive`() {
-                testValidStatus(Alive)
+        @Test
+        fun `Test allowed vital status types`() {
+            testAllowedVitalStatusTypes(
+                STATE,
+                mapOf(
+                    VitalStatusType.Abandoned to false,
+                    VitalStatusType.Alive to true,
+                    VitalStatusType.Closed to false,
+                    VitalStatusType.Dead to true,
+                    VitalStatusType.Destroyed to false,
+                    VitalStatusType.Vanished to true,
+                ),
+            ) { status ->
+                Character(CHARACTER_ID_0, date = DAY0, status = status)
             }
-
-            @Test
-            fun `A character can die`() {
-                testValidStatus(Dead(DAY2))
-            }
-
-            @Test
-            fun `A character cannot be abandoned`() {
-                testInvalidStatus(Abandoned(DAY2))
-            }
-
-            @Test
-            fun `A character cannot be destroyed`() {
-                testInvalidStatus(Destroyed(DAY2))
-            }
-
-            private fun testValidStatus(status: VitalStatus) {
-                val character = Character(CHARACTER_ID_0, birthDate = DAY0, vitalStatus = status)
-                val action = UpdateAction(character)
-
-                REDUCER.invoke(STATE, action)
-            }
-
-            private fun testInvalidStatus(status: VitalStatus) {
-                val character = Character(CHARACTER_ID_0, birthDate = DAY0, vitalStatus = status)
-                val action = UpdateAction(character)
-
-                assertIllegalArgument("Invalid vital status ${status.getType()}!") { REDUCER.invoke(STATE, action) }
-            }
-
         }
 
         @Nested
@@ -187,7 +166,7 @@ class CharacterTest {
 
             @Test
             fun `Cannot be born in the future`() {
-                val action = UpdateAction(Character(CHARACTER_ID_0, birthDate = Day(1)))
+                val action = UpdateAction(Character(CHARACTER_ID_0, date = Day(1)))
 
                 assertIllegalArgument("Date (Birthday) is in the future!") { REDUCER.invoke(state, action) }
             }

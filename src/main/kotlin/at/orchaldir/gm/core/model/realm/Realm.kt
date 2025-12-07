@@ -16,6 +16,17 @@ import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
 const val REALM_TYPE = "Realm"
+val ALLOWED_VITAL_STATUS_FOR_REALM = setOf(
+    VitalStatusType.Alive,
+    VitalStatusType.Abandoned,
+    VitalStatusType.Destroyed,
+)
+val ALLOWED_CAUSES_OF_DEATH_FOR_REALM = setOf(
+    CauseOfDeathType.Battle,
+    CauseOfDeathType.Catastrophe,
+    CauseOfDeathType.War,
+    CauseOfDeathType.Undefined,
+)
 
 @JvmInline
 @Serializable
