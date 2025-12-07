@@ -2,6 +2,8 @@ package at.orchaldir.gm.core.model.organization
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterId
+import at.orchaldir.gm.core.model.realm.ALLOWED_CAUSES_OF_DEATH_FOR_REALM
+import at.orchaldir.gm.core.model.realm.ALLOWED_VITAL_STATUS_FOR_REALM
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.time.holiday.HolidayId
 import at.orchaldir.gm.core.model.util.*
@@ -14,10 +16,14 @@ import at.orchaldir.gm.core.reducer.organization.validateRanks
 import at.orchaldir.gm.core.reducer.util.checkBeliefStatusHistory
 import at.orchaldir.gm.core.reducer.util.validateCreator
 import at.orchaldir.gm.core.reducer.util.validateDate
+import at.orchaldir.gm.core.reducer.util.validateHasStartAndEnd
+import at.orchaldir.gm.core.reducer.util.validateVitalStatus
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
 const val ORGANIZATION_TYPE = "Organization"
+val ALLOWED_VITAL_STATUS_FOR_ORGANIZATION = ALLOWED_VITAL_STATUS_FOR_REALM
+val ALLOWED_CAUSES_OF_DEATH_FOR_ORGANIZATION = ALLOWED_CAUSES_OF_DEATH_FOR_REALM
 
 @JvmInline
 @Serializable
@@ -35,12 +41,13 @@ data class Organization(
     val name: Name = Name.init(id),
     val founder: Reference = UndefinedReference,
     val date: Date? = null,
+    val status: VitalStatus = Alive,
     val memberRanks: List<MemberRank> = listOf(MemberRank()),
     val members: Map<CharacterId, History<Int?>> = emptyMap(),
     val beliefStatus: History<BeliefStatus> = History(UndefinedBeliefStatus),
     val holidays: Set<HolidayId> = emptySet(),
     val sources: Set<DataSourceId> = emptySet(),
-) : ElementWithSimpleName<OrganizationId>, Creation, HasBelief, HasDataSources, HasStartAndEndDate {
+) : ElementWithSimpleName<OrganizationId>, Creation, HasBelief, HasDataSources, HasVitalStatus {
 
     override fun id() = id
     override fun name() = name.text
@@ -48,11 +55,18 @@ data class Organization(
     override fun creator() = founder
     override fun sources() = sources
     override fun startDate() = date
-    override fun endDate() = null
+    override fun vitalStatus() = status
 
     override fun validate(state: State) {
-        validateDate(state, date, "Organization")
-
+        validateVitalStatus(
+            state,
+            id,
+            status,
+            date,
+            ALLOWED_VITAL_STATUS_FOR_ORGANIZATION,
+            ALLOWED_CAUSES_OF_DEATH_FOR_ORGANIZATION,
+        )
+        validateHasStartAndEnd(state, this)
         validateCreator(state, founder, id, date, "founder")
         validateRanks(state, this)
         validateMembers(state, this)

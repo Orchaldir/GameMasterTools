@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.economy.business.Business
+import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.Town
 import at.orchaldir.gm.core.model.religion.God
@@ -61,6 +62,17 @@ class VitalStatusTest {
             DeleteResult(CHARACTER_ID_0).addId(MOON_ID_0),
         ) { status ->
             Moon(MOON_ID_0, status = status)
+        }
+    }
+
+    @Test
+    fun `Cannot delete a character that destroyed an organization`() {
+        testCanDeleteDestroyer(
+            CHARACTER_ID_0,
+            killedBy,
+            DeleteResult(CHARACTER_ID_0).addId(ORGANIZATION_ID_0),
+        ) { status ->
+            Organization(ORGANIZATION_ID_0, status = status)
         }
     }
 

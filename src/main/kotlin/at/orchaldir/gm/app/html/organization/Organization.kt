@@ -12,9 +12,13 @@ import at.orchaldir.gm.app.html.util.source.parseDataSources
 import at.orchaldir.gm.app.html.util.source.showDataSources
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.organization.ALLOWED_CAUSES_OF_DEATH_FOR_ORGANIZATION
+import at.orchaldir.gm.core.model.organization.ALLOWED_VITAL_STATUS_FOR_ORGANIZATION
 import at.orchaldir.gm.core.model.organization.MemberRank
 import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.organization.OrganizationId
+import at.orchaldir.gm.core.model.realm.ALLOWED_CAUSES_OF_DEATH_FOR_REALM
+import at.orchaldir.gm.core.model.realm.ALLOWED_VITAL_STATUS_FOR_REALM
 import at.orchaldir.gm.core.selector.organization.getNotMembers
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -30,12 +34,13 @@ fun HtmlBlockTag.showOrganization(
 ) {
     optionalField(call, state, "Date", organization.date)
     fieldReference(call, state, organization.founder, "Founder")
-    showCreated(call, state, organization.id)
+    showVitalStatus(call, state, organization.status)
     showMembers(call, state, organization)
     showBeliefStatusHistory(call, state, organization.beliefStatus)
+    showDataSources(call, state, organization.sources)
+    showCreated(call, state, organization.id)
     showHolidays(call, state, organization.holidays)
     showOwnedElements(call, state, organization.id)
-    showDataSources(call, state, organization.sources)
 }
 
 
@@ -62,6 +67,14 @@ fun HtmlBlockTag.editOrganization(
     selectName(organization.name)
     selectOptionalDate(state, "Date", organization.date, DATE)
     selectCreator(state, organization.founder, organization.id, organization.date, "Founder")
+    selectVitalStatus(
+        state,
+        organization.id,
+        organization.date,
+        organization.status,
+        ALLOWED_VITAL_STATUS_FOR_ORGANIZATION,
+        ALLOWED_CAUSES_OF_DEATH_FOR_ORGANIZATION,
+    )
     editMembers(state, organization)
     editBeliefStatusHistory(state, organization.beliefStatus, organization.date)
     editHolidays(state, organization.holidays)
@@ -134,6 +147,7 @@ fun parseOrganization(
         parseName(parameters),
         parseCreator(parameters),
         date,
+        parseVitalStatus(parameters, state),
         parseList(parameters, RANK, 1) { index, param ->
             parseRank(parameters, index, param)
         },
