@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.culture.Culture
+import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.health.Disease
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.realm.Battle
@@ -28,6 +29,17 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
 class VitalStatusTest {
+
+    @Test
+    fun `Cannot delete a character that destroyed a business`() {
+        testCanDeleteDestroyer(
+            CHARACTER_ID_0,
+            KilledBy(CharacterReference(CHARACTER_ID_0)),
+            DeleteResult(CHARACTER_ID_0).addId(BUSINESS_ID_0),
+        ) { status ->
+            Business(BUSINESS_ID_0, status = status)
+        }
+    }
 
     @Test
     fun `Cannot delete a character that destroyed a character`() {
