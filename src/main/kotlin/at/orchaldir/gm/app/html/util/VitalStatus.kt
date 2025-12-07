@@ -100,24 +100,11 @@ fun HtmlBlockTag.displayCauseOfDeath(
 ) {
     when (cause) {
         is Accident -> +"Accident"
-        is DeathByCatastrophe -> {
-            link(call, state, cause.catastrophe)
-        }
-
+        is DeathByCatastrophe -> link(call, state, cause.catastrophe)
         is DeathByDisease -> link(call, state, cause.disease)
-        is DeathInBattle -> {
-            link(call, state, cause.battle)
-        }
-
-        is DeathInWar -> {
-            link(call, state, cause.war)
-        }
-
-        is KilledBy -> {
-            +"Killed by "
-            showReference(call, state, cause.killer)
-        }
-
+        is DeathInBattle -> link(call, state, cause.battle)
+        is DeathInWar -> link(call, state, cause.war)
+        is KilledBy -> showReference(call, state, cause.killer)
         is OldAge -> +"Old Age"
         UndefinedCauseOfDeath -> if (showUndefined) {
             +"Undefined"
