@@ -1,6 +1,8 @@
 package at.orchaldir.gm.core.model.economy.business
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.realm.ALLOWED_CAUSES_OF_DEATH_FOR_REALM
+import at.orchaldir.gm.core.model.realm.ALLOWED_VITAL_STATUS_FOR_REALM
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
@@ -10,11 +12,14 @@ import at.orchaldir.gm.core.model.util.source.HasDataSources
 import at.orchaldir.gm.core.reducer.util.checkOwnership
 import at.orchaldir.gm.core.reducer.util.checkPosition
 import at.orchaldir.gm.core.reducer.util.validateCreator
-import at.orchaldir.gm.core.reducer.util.validateDate
+import at.orchaldir.gm.core.reducer.util.validateHasStartAndEnd
+import at.orchaldir.gm.core.reducer.util.validateVitalStatus
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
 const val BUSINESS_TYPE = "Business"
+val ALLOWED_VITAL_STATUS_FOR_BUSINESS = ALLOWED_VITAL_STATUS_FOR_REALM
+val ALLOWED_CAUSES_OF_DEATH_FOR_BUSINESS = ALLOWED_CAUSES_OF_DEATH_FOR_REALM
 val ALLOWED_BUSINESS_POSITIONS = listOf(
     PositionType.Undefined,
     PositionType.Building,
@@ -43,11 +48,12 @@ data class Business(
     val id: BusinessId,
     val name: Name = Name.init(id),
     private val startDate: Date? = null,
+    val status: VitalStatus = Alive,
     val founder: Reference = UndefinedReference,
     val ownership: History<Reference> = History(UndefinedReference),
     val position: Position = UndefinedPosition,
     val sources: Set<DataSourceId> = emptySet(),
-) : ElementWithSimpleName<BusinessId>, Creation, HasDataSources, HasOwner, HasPosition, HasStartDate {
+) : ElementWithSimpleName<BusinessId>, Creation, HasDataSources, HasOwner, HasPosition, HasVitalStatus {
 
     override fun id() = id
     override fun name() = name.text
@@ -56,9 +62,18 @@ data class Business(
     override fun owner() = ownership
     override fun position() = position
     override fun startDate() = startDate
+    override fun vitalStatus() = status
 
     override fun validate(state: State) {
-        validateDate(state, startDate, "Business Founding")
+        validateVitalStatus(
+            state,
+            id,
+            status,
+            startDate,
+            ALLOWED_VITAL_STATUS_FOR_BUSINESS,
+            ALLOWED_CAUSES_OF_DEATH_FOR_BUSINESS,
+        )
+        validateHasStartAndEnd(state, this)
         validateCreator(state, founder, id, startDate, "Founder")
         checkPosition(state, position, "position", startDate, ALLOWED_BUSINESS_POSITIONS)
         checkOwnership(state, ownership, startDate)
