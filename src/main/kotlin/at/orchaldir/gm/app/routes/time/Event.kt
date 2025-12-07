@@ -11,6 +11,7 @@ import at.orchaldir.gm.app.html.util.showReference
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.EmploymentStatus
+import at.orchaldir.gm.core.model.character.UndefinedEmploymentStatus
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.economy.money.CurrencyId
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalId
@@ -226,12 +227,28 @@ private fun <ID : Id<ID>> HtmlBlockTag.handleJobChanged(
     state: State,
     event: HistoryEvent<ID, EmploymentStatus>,
 ) {
-    link(call, state, event.id)
-    +"'s job changed from "
-    showEmploymentStatus(call, state, event.from)
-    +" to "
-    showEmploymentStatus(call, state, event.to)
-    +"."
+    val isFromDefined = event.from !is UndefinedEmploymentStatus
+    val isToDefined = event.to !is UndefinedEmploymentStatus
+
+    if (isFromDefined && isToDefined) {
+        link(call, state, event.id)
+        +"'s job changed from "
+        showEmploymentStatus(call, state, event.from)
+        +" to "
+        showEmploymentStatus(call, state, event.to)
+        +"."
+    }
+    else if (isFromDefined) {
+        link(call, state, event.id)
+        +" became unemployed."
+    } else if (isToDefined) {
+        link(call, state, event.id)
+        +" became a "
+        showEmploymentStatus(call, state, event.to)
+        +"."
+    } else {
+        error("2 following EmploymentStatus are undefined for ${event.id.print()}!")
+    }
 }
 
 private fun <ID : Id<ID>> HtmlBlockTag.handleOwnershipChanged(
