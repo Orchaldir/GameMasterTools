@@ -12,6 +12,7 @@ import at.orchaldir.gm.core.selector.time.date.createSorter
 import at.orchaldir.gm.core.selector.time.date.getEndDay
 import at.orchaldir.gm.core.selector.time.date.getStartDay
 import at.orchaldir.gm.core.selector.time.getDefaultCalendar
+import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 
 fun State.getEvents(calendar: Calendar): List<Event<*>> {
@@ -19,7 +20,7 @@ fun State.getEvents(calendar: Calendar): List<Event<*>> {
     val default = getDefaultCalendar()
 
     getArchitecturalStyleStorage().getAll().forEach { style ->
-        handleStartAndEnd(events, default, calendar, style, style.id)
+        handleStartAndEnd(events, default, calendar, style)
     }
 
     getBattleStorage().getAll().forEach { battle ->
@@ -37,19 +38,17 @@ fun State.getEvents(calendar: Calendar): List<Event<*>> {
     }
 
     getBusinessStorage().getAll().forEach { business ->
-        addPossibleEvent(events, default, calendar, business.startDate()) {
-            StartEvent(it, business.id)
-        }
+        handleStartAndEnd(events, default, calendar, business)
 
         addHistoricEvents(events, default, calendar, business.id, business.ownership, HistoryEventType.Ownership)
     }
 
     getCatastropheStorage().getAll().forEach { catastrophe ->
-        handleStartAndEnd(events, default, calendar, catastrophe, catastrophe.id)
+        handleStartAndEnd(events, default, calendar, catastrophe)
     }
 
     getCharacterStorage().getAll().forEach { character ->
-        handleStartAndEnd(events, default, calendar, character, character.id)
+        handleStartAndEnd(events, default, calendar, character)
 
         addHistoricEvents(
             events,
@@ -62,13 +61,17 @@ fun State.getEvents(calendar: Calendar): List<Event<*>> {
     }
 
     getCurrencyStorage().getAll().forEach { currency ->
-        handleStartAndEnd(events, default, calendar, currency, currency.id)
+        handleStartAndEnd(events, default, calendar, currency)
     }
 
     getFontStorage().getAll().forEach { font ->
         addPossibleEvent(events, default, calendar, font.startDate()) {
             StartEvent(it, font.id)
         }
+    }
+
+    getGodStorage().getAll().forEach { god ->
+        handleStartAndEnd(events, default, calendar, god)
     }
 
     getLegalCodeStorage().getAll().forEach { code ->
@@ -83,10 +86,12 @@ fun State.getEvents(calendar: Calendar): List<Event<*>> {
         }
     }
 
+    getMoonStorage().getAll().forEach { god ->
+        handleStartAndEnd(events, default, calendar, god)
+    }
+
     getOrganizationStorage().getAll().forEach { organization ->
-        addPossibleEvent(events, default, calendar, organization.startDate()) {
-            StartEvent(it, organization.id)
-        }
+        handleStartAndEnd(events, default, calendar, organization)
     }
 
     getPeriodicalStorage().getAll().forEach { periodical ->
@@ -106,7 +111,7 @@ fun State.getEvents(calendar: Calendar): List<Event<*>> {
     }
 
     getRealmStorage().getAll().forEach { realm ->
-        handleStartAndEnd(events, default, calendar, realm, realm.id)
+        handleStartAndEnd(events, default, calendar, realm)
 
         addHistoricEvents(events, default, calendar, realm.id, realm.capital, HistoryEventType.Capital)
         addHistoricEvents(events, default, calendar, realm.id, realm.currency, HistoryEventType.Currency)
@@ -127,7 +132,7 @@ fun State.getEvents(calendar: Calendar): List<Event<*>> {
     }
 
     getTownStorage().getAll().forEach { town ->
-        handleStartAndEnd(events, default, calendar, town, town.id)
+        handleStartAndEnd(events, default, calendar, town)
     }
 
     getTreatyStorage().getAll().forEach { treaty ->
@@ -137,19 +142,21 @@ fun State.getEvents(calendar: Calendar): List<Event<*>> {
     }
 
     getWarStorage().getAll().forEach { war ->
-        handleStartAndEnd(events, default, calendar, war, war.id)
+        handleStartAndEnd(events, default, calendar, war)
     }
 
     return events
 }
 
-private fun <ID : Id<ID>, T : HasStartAndEndDate> handleStartAndEnd(
+private fun <ID : Id<ID>, T> handleStartAndEnd(
     events: MutableList<Event<*>>,
     from: Calendar,
     to: Calendar,
     element: T,
-    id: ID,
-) {
+) where
+        T : HasStartAndEndDate,
+        T : Element<ID> {
+    val id = element.id()
     val startDate = element.startDate()
     val endDate = element.endDate()
 
