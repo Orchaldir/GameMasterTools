@@ -95,7 +95,6 @@ fun HtmlBlockTag.showData(
     showAge(state, character, race)
     showPositionHistory(call, state, character.housingStatus, "Housing Status")
     showEmploymentStatusHistory(call, state, character.employmentStatus)
-    showDestroyed(call, state, character.id)
     fieldElements(call, state, "Led Battles", state.getBattlesLedBy(character.id))
     showCharacterStatblock(call, state, character.statblock)
     showDataSources(call, state, character.sources)

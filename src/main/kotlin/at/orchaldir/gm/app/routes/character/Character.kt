@@ -5,6 +5,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.character.*
 import at.orchaldir.gm.app.html.util.showCreated
+import at.orchaldir.gm.app.html.util.showDestroyed
 import at.orchaldir.gm.app.html.util.showEmploymentStatus
 import at.orchaldir.gm.app.html.util.showPosition
 import at.orchaldir.gm.app.routes.*
@@ -185,6 +186,7 @@ private fun HtmlBlockTag.showCharacterDetails(
     showSocial(call, state, character)
     showPossession(call, state, character)
     showCreated(call, state, character.id)
+    showDestroyed(call, state, character.id)
 }
 
 private fun HtmlBlockTag.showCharacterFrontAndBack(

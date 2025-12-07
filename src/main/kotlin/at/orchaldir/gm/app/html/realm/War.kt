@@ -33,8 +33,8 @@ fun HtmlBlockTag.showWar(
     showWarSides(war)
     showWarParticipants(call, state, war)
     fieldElements(call, state, state.getBattles(war.id))
-    showDestroyed(call, state, war.id)
     fieldElements(call, state, state.getHolidays(war.id))
+    showDestroyed(call, state, war.id)
     showDataSources(call, state, war.sources)
 }
 
