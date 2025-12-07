@@ -1,32 +1,19 @@
 package at.orchaldir.gm.core.selector.util
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.UpdateAction
-import at.orchaldir.gm.core.model.Data
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.economy.business.Business
-import at.orchaldir.gm.core.model.health.Disease
-import at.orchaldir.gm.core.model.race.Race
-import at.orchaldir.gm.core.model.realm.Battle
-import at.orchaldir.gm.core.model.realm.Catastrophe
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.Town
-import at.orchaldir.gm.core.model.realm.War
-import at.orchaldir.gm.core.model.time.Time
-import at.orchaldir.gm.core.model.time.date.Day
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.moon.Moon
-import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
-import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
 
 class VitalStatusTest {
 
@@ -48,7 +35,7 @@ class VitalStatusTest {
             KilledBy(CharacterReference(CHARACTER_ID_0)),
             DeleteResult(CHARACTER_ID_0).addId(CHARACTER_ID_1),
         ) { status ->
-            Character(CHARACTER_ID_1, vitalStatus = status)
+            Character(CHARACTER_ID_1, status = status)
         }
     }
 

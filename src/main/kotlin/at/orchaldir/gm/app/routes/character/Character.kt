@@ -162,9 +162,9 @@ fun generateBirthday(
 ): Character {
     val generator = DateGenerator(RandomNumberGenerator(Random), state, state.getDefaultCalendarId())
     val character = state.getCharacterStorage().getOrThrow(id)
-    val birthDate = generator.generateMonthAndDay(character.birthDate)
+    val birthDate = generator.generateMonthAndDay(character.date)
 
-    return character.copy(birthDate = birthDate)
+    return character.copy(date = birthDate)
 }
 
 fun generateName(

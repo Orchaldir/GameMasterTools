@@ -145,7 +145,7 @@ class VitalStatusTest {
         }
 
         private fun testDie(deathDate: Day, causeOfDeath: CauseOfDeath) {
-            val character = Character(CHARACTER_ID_0, vitalStatus = Dead(deathDate, causeOfDeath))
+            val character = Character(CHARACTER_ID_0, status = Dead(deathDate, causeOfDeath))
             val action = UpdateAction(character)
 
             val result = REDUCER.invoke(state, action).first
@@ -157,7 +157,7 @@ class VitalStatusTest {
         }
 
         private fun testFailToDie(deathDate: Day, causeOfDeath: CauseOfDeath) {
-            val action = UpdateAction(Character(CHARACTER_ID_0, vitalStatus = Dead(deathDate, causeOfDeath)))
+            val action = UpdateAction(Character(CHARACTER_ID_0, status = Dead(deathDate, causeOfDeath)))
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
         }

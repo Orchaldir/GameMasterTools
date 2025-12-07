@@ -86,8 +86,8 @@ data class Character(
     val gender: Gender = Gender.Male,
     val sexuality: SexualOrientation = SexualOrientation.Heterosexual,
     val origin: Origin = UndefinedOrigin,
-    val birthDate: Date = Year(0),
-    val vitalStatus: VitalStatus = Alive,
+    val date: Date = Year(0),
+    val status: VitalStatus = Alive,
     val culture: CultureId? = null,
     val personality: Set<CharacterTraitId> = emptySet(),
     val relationships: Map<CharacterId, Set<InterpersonalRelationship>> = mapOf(),
@@ -146,19 +146,19 @@ data class Character(
 
     override fun belief() = beliefStatus
     override fun sources() = sources
-    override fun startDate() = birthDate
-    override fun vitalStatus() = vitalStatus
+    override fun startDate() = date
+    override fun vitalStatus() = status
 
     fun getAge(state: State, currentDay: Day): Duration {
         val defaultCalendar = state.getDefaultCalendar()
-        val birthDate = defaultCalendar.getStartDay(birthDate)
+        val birthDate = defaultCalendar.getStartDay(date)
 
         if (birthDate >= currentDay) {
             return Duration(0)
         }
 
-        if (vitalStatus is Dead) {
-            val deathDate = defaultCalendar.getStartDay(vitalStatus.date)
+        if (status is Dead) {
+            val deathDate = defaultCalendar.getStartDay(status.date)
 
             if (deathDate < currentDay) {
                 return deathDate.getDurationBetween(birthDate)
@@ -169,9 +169,9 @@ data class Character(
     }
 
     fun isAlive(calendar: Calendar, date: Date): Boolean {
-        if (calendar.isAfterOrEqual(date, birthDate)) {
-            if (vitalStatus is Dead) {
-                return calendar.isAfterOrEqual(vitalStatus.date, date)
+        if (calendar.isAfterOrEqual(date, this@Character.date)) {
+            if (status is Dead) {
+                return calendar.isAfterOrEqual(status.date, date)
             }
 
             return true
@@ -182,20 +182,20 @@ data class Character(
 
     // employment
 
-    fun checkEmploymentStatus(check: (EmploymentStatus) -> Boolean) = if (vitalStatus is Alive) {
+    fun checkEmploymentStatus(check: (EmploymentStatus) -> Boolean) = if (status is Alive) {
         check(employmentStatus.current)
     } else {
         false
     }
 
     fun checkPreviousEmploymentStatus(check: (EmploymentStatus) -> Boolean) =
-        (vitalStatus is Dead && check(employmentStatus.current)) ||
+        (status is Dead && check(employmentStatus.current)) ||
                 employmentStatus.previousEntries.any { check(it.entry) }
 
     fun checkCurrentOrPreviousEmploymentStatus(check: (EmploymentStatus) -> Boolean) =
         check(employmentStatus.current) || employmentStatus.previousEntries.any { check(it.entry) }
 
-    fun getBusiness() = if (vitalStatus is Alive) {
+    fun getBusiness() = if (status is Alive) {
         employmentStatus.current.getBusiness()
     } else {
         null

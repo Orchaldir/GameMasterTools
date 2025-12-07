@@ -43,7 +43,7 @@ class CharacterTest {
 
             val characters = REDUCER.invoke(state, CreateAction(CHARACTER_ID_0)).first.getCharacterStorage()
 
-            assertEquals(today, characters.getOrThrow(CHARACTER_ID_0).birthDate)
+            assertEquals(today, characters.getOrThrow(CHARACTER_ID_0).date)
         }
     }
 
@@ -98,7 +98,7 @@ class CharacterTest {
                     VitalStatusType.Vanished to true,
                 ),
             ) { status ->
-                Character(CHARACTER_ID_0, birthDate = DAY0, vitalStatus = status)
+                Character(CHARACTER_ID_0, date = DAY0, status = status)
             }
         }
 
@@ -166,7 +166,7 @@ class CharacterTest {
 
             @Test
             fun `Cannot be born in the future`() {
-                val action = UpdateAction(Character(CHARACTER_ID_0, birthDate = Day(1)))
+                val action = UpdateAction(Character(CHARACTER_ID_0, date = Day(1)))
 
                 assertIllegalArgument("Date (Birthday) is in the future!") { REDUCER.invoke(state, action) }
             }

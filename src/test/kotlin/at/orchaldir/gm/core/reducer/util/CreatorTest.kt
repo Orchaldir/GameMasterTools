@@ -36,7 +36,7 @@ class CreatorTest {
         listOf(
             Storage(Business(BUSINESS_ID_0, date = DAY1)),
             Storage(CALENDAR0),
-            Storage(Character(CHARACTER_ID_0, birthDate = DAY1)),
+            Storage(Character(CHARACTER_ID_0, date = DAY1)),
             Storage(Culture(CULTURE_ID_0)),
             Storage(God(GOD_ID_0)),
             Storage(Organization(ORGANIZATION_ID_0, date = DAY1)),

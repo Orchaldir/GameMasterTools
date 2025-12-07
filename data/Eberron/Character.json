@@ -9,7 +9,7 @@
     "middle": null,
     "family": "Blis"
    },
-   "birthDate": {
+   "date": {
     "#type": "Day",
     "day": 322954
    },
@@ -128,7 +128,7 @@
    "race": 9,
    "gender": "Female",
    "sexuality": "Homosexual",
-   "birthDate": {
+   "date": {
     "#type": "Day",
     "day": 324816
    },
@@ -219,7 +219,7 @@
    },
    "gender": "Female",
    "sexuality": "Homosexual",
-   "birthDate": {
+   "date": {
     "#type": "Day",
     "day": 323904
    },
@@ -303,7 +303,7 @@
    },
    "race": 5,
    "gender": "Female",
-   "birthDate": {
+   "date": {
     "#type": "Day",
     "day": 310961
    },
@@ -370,7 +370,7 @@
     "middle": null,
     "family": "Hul"
    },
-   "birthDate": {
+   "date": {
     "#type": "Day",
     "day": 319236
    },
@@ -462,7 +462,7 @@
     "name": "Fylas"
    },
    "race": 6,
-   "birthDate": {
+   "date": {
     "#type": "Day",
     "day": 307454
    },
@@ -545,7 +545,7 @@
    },
    "race": 1,
    "gender": "Female",
-   "birthDate": {
+   "date": {
     "#type": "Day",
     "day": 279101
    },
@@ -576,7 +576,7 @@
    },
    "race": 17,
    "gender": "Female",
-   "birthDate": {
+   "date": {
     "#type": "Year",
     "year": 974
    },
@@ -648,7 +648,7 @@
    },
    "race": 7,
    "gender": "Female",
-   "birthDate": {
+   "date": {
     "#type": "Day",
     "day": 314411
    },
@@ -695,7 +695,7 @@
    },
    "race": 7,
    "gender": "Female",
-   "birthDate": {
+   "date": {
     "#type": "Day",
     "day": 326876
    },
@@ -740,7 +740,7 @@
     "middle": null,
     "family": "Deneith"
    },
-   "birthDate": {
+   "date": {
     "#type": "Day",
     "day": 324046
    },
@@ -823,7 +823,7 @@
     "family": "Kemble"
    },
    "gender": "Female",
-   "birthDate": {
+   "date": {
     "#type": "Day",
     "day": 326870
    },
@@ -864,7 +864,7 @@
     "family": "Kundarak"
    },
    "race": 2,
-   "birthDate": {
+   "date": {
     "#type": "Year",
     "year": 840
    },
@@ -907,7 +907,7 @@
     "family": "Sarkaas"
    },
    "race": 10,
-   "birthDate": {
+   "date": {
     "#type": "Year",
     "year": 969
    },
@@ -1000,7 +1000,7 @@
    },
    "race": 10,
    "gender": "Female",
-   "birthDate": {
+   "date": {
     "#type": "Year",
     "year": 971
    },
@@ -1042,11 +1042,11 @@
     "middle": null,
     "family": "Wynarn"
    },
-   "birthDate": {
+   "date": {
     "#type": "Year",
     "year": -45
    },
-   "vitalStatus": {
+   "status": {
     "#type": "Dead",
     "date": {
      "#type": "Year",
@@ -1096,11 +1096,11 @@
     "middle": null,
     "family": "Wynarn"
    },
-   "birthDate": {
+   "date": {
     "#type": "Decade",
     "decade": 83
    },
-   "vitalStatus": {
+   "status": {
     "#type": "Dead",
     "date": {
      "#type": "Day",
@@ -1138,7 +1138,7 @@
     "family": "Wynarn"
    },
    "gender": "Female",
-   "birthDate": {
+   "date": {
     "#type": "Decade",
     "decade": 95
    },
@@ -1186,7 +1186,7 @@
     "middle": null,
     "family": "Wynarn"
    },
-   "birthDate": {
+   "date": {
     "#type": "Decade",
     "decade": 93
    },
@@ -1230,7 +1230,7 @@
     "middle": null,
     "family": "Wynarn"
    },
-   "birthDate": {
+   "date": {
     "#type": "Year",
     "year": 972
    },

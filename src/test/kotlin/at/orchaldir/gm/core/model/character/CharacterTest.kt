@@ -21,7 +21,7 @@ class CharacterTest {
 
         private val birthDate = Day(10)
         private val deathDay = Day(25)
-        private val character = Character(CharacterId(0), birthDate = birthDate, vitalStatus = Dead(deathDay, Accident))
+        private val character = Character(CharacterId(0), date = birthDate, status = Dead(deathDay, Accident))
         private val calendar = Calendar(CALENDAR_ID_0)
         private val state = State(Storage(calendar))
 

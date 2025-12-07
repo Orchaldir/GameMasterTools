@@ -22,14 +22,14 @@ fun validateCharacterData(
     validateVitalStatus(
         state,
         character.id,
-        character.vitalStatus,
-        character.birthDate,
+        character.status,
+        character.date,
         ALLOWED_VITAL_STATUS_FOR_CHARACTER,
         ALLOWED_CAUSES_OF_DEATH_FOR_CHARACTER,
     )
-    checkBeliefStatusHistory(state, character.beliefStatus, character.birthDate)
-    checkPositionHistory(state, character.housingStatus, character.birthDate, ALLOWED_HOUSING_TYPES)
-    checkEmploymentStatusHistory(state, character.employmentStatus, character.birthDate)
+    checkBeliefStatusHistory(state, character.beliefStatus, character.date)
+    checkPositionHistory(state, character.housingStatus, character.date, ALLOWED_HOUSING_TYPES)
+    checkEmploymentStatusHistory(state, character.employmentStatus, character.date)
     checkAuthenticity(state, character.authenticity)
     state.getCharacterTraitStorage().require(character.personality)
     validateCharacterStatblock(state, character.statblock)
@@ -58,6 +58,6 @@ private fun checkOrigin(
     state: State,
     character: Character,
 ) {
-    validateDate(state, character.birthDate, "Birthday")
-    validateOrigin(state, character.id, character.origin, character.birthDate, ::CharacterId)
+    validateDate(state, character.date, "Birthday")
+    validateOrigin(state, character.id, character.origin, character.date, ::CharacterId)
 }

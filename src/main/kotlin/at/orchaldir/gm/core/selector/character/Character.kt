@@ -98,8 +98,8 @@ fun State.countResidents(town: TownMapId) = getCharacterStorage()
 // count each
 
 fun countEachCauseOfDeath(characters: Collection<Character>) = characters
-    .filter { it.vitalStatus is Dead }
-    .groupingBy { it.vitalStatus.getCauseOfDeath()?.getType()!! }
+    .filter { it.status is Dead }
+    .groupingBy { it.status.getCauseOfDeath()?.getType()!! }
     .eachCount()
 
 fun countEachCulture(characters: Collection<Character>) = characters
@@ -125,7 +125,7 @@ fun State.countEachLanguage(characters: Collection<Character>) = characters
 
 fun <ID : Id<ID>> State.countKilledCharacters(id: ID) = getCharacterStorage()
     .getAll()
-    .count { it.vitalStatus.isDestroyedBy(id) }
+    .count { it.status.isDestroyedBy(id) }
 
 // get characters
 

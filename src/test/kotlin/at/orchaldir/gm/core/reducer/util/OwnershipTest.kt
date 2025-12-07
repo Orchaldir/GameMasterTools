@@ -19,7 +19,7 @@ class OwnerTest {
         listOf(
             Storage(CALENDAR0),
             Storage(Business(BUSINESS_ID_0, date = DAY0)),
-            Storage(Character(CHARACTER_ID_2, birthDate = DAY0)),
+            Storage(Character(CHARACTER_ID_2, date = DAY0)),
             Storage(Organization(ORGANIZATION_ID_0, date = DAY0)),
             Storage(Realm(REALM_ID_0, date = DAY0)),
             Storage(listOf(StreetTemplate(STREET_TEMPLATE_ID_0), StreetTemplate(STREET_TEMPLATE_ID_0))),
@@ -147,7 +147,7 @@ class OwnerTest {
 
         @Test
         fun `Character owns a building before his birth`() {
-            val state = STATE.updateStorage(Storage(Character(CHARACTER_ID_2, birthDate = DAY1)))
+            val state = STATE.updateStorage(Storage(Character(CHARACTER_ID_2, date = DAY1)))
 
             assertIllegalArgument("The owner (Character 2) doesn't exist at the required date!") {
                 checkOwnership(state, OWNED_BY_CHARACTER, DAY0)
@@ -172,7 +172,7 @@ class OwnerTest {
                     HistoryEntry(CharacterReference(CHARACTER_ID_2), DAY2)
                 )
             )
-            val state = STATE.updateStorage(Storage(Character(CHARACTER_ID_2, birthDate = DAY2)))
+            val state = STATE.updateStorage(Storage(Character(CHARACTER_ID_2, date = DAY2)))
 
             assertIllegalArgument("The 2.previous owner (Character 2) doesn't exist at the required date!") {
                 checkOwnership(state, ownership, DAY0)
