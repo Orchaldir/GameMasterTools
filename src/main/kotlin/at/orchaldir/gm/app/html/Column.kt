@@ -57,13 +57,13 @@ fun <ELEMENT : Creation> createCreatorColumn(
 fun <ELEMENT : HasStartDate> createStartDateColumn(
     call: ApplicationCall,
     state: State,
-    label: String = "Date",
+    label: String = "Start Date",
 ) = createDateColumn<ELEMENT>(label, state, call, HasStartDate::startDate)
 
 fun <ELEMENT : HasStartAndEndDate> createEndDateColumn(
     call: ApplicationCall,
     state: State,
-    label: String = "End",
+    label: String = "End Date",
 ) = createDateColumn<ELEMENT>(label, state, call, HasStartAndEndDate::endDate)
 
 private fun <T> createDateColumn(

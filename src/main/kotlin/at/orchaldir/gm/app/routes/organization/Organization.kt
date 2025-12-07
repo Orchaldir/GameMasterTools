@@ -66,7 +66,9 @@ fun Application.configureOrganizationRouting() {
                 listOf(
                     createNameColumn(call, state),
                     createStartDateColumn(call, state),
+                    createEndDateColumn(call, state),
                     createAgeColumn(state),
+                    createVitalColumn(call, state, true),
                     createReferenceColumn(call, state, "Founder", Organization::founder),
                     countCollectionColumn("Ranks", Organization::memberRanks),
                     countColumn("Members", Organization::countAllMembers),

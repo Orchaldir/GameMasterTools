@@ -69,7 +69,7 @@ fun Application.configureTownRouting() {
                     Column("Title") { tdString(it.title) },
                     createCreatorColumn(call, state, "Founder"),
                     createStartDateColumn(call, state, "Founding"),
-                    createEndDateColumn(call, state, "End"),
+                    createEndDateColumn(call, state),
                     createAgeColumn(state),
                     createVitalColumn(call, state, true),
                     createIdColumn(call, state, "Owner") { it.owner.current },

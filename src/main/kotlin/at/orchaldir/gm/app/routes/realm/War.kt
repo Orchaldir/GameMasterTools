@@ -68,7 +68,7 @@ fun Application.configureWarRouting() {
                 listOf<Column<War>>(
                     createNameColumn(call, state),
                     createStartDateColumn(call, state, "Start"),
-                    createEndDateColumn(call, state, "End"),
+                    createEndDateColumn(call, state),
                     createAgeColumn(state, "Years"),
                     tdColumn("Status") { displayWarStatus(call, state, it) },
                     createIdColumn(call, state, "Treaty") { it.status.treaty() },

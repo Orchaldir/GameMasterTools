@@ -65,7 +65,7 @@ fun Application.configureBusinessRouting() {
                 listOf(
                     createNameColumn(call, state),
                     createStartDateColumn(call, state),
-                    createEndDateColumn(call, state, "End"),
+                    createEndDateColumn(call, state),
                     createAgeColumn(state),
                     createVitalColumn(call, state, true),
                     createCreatorColumn(call, state, "Founder"),

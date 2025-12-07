@@ -66,7 +66,7 @@ fun Application.configureRealmRouting() {
                     createNameColumn(call, state),
                     createCreatorColumn(call, state, "Founder"),
                     createStartDateColumn(call, state, "Founding"),
-                    createEndDateColumn(call, state, "End"),
+                    createEndDateColumn(call, state),
                     createAgeColumn(state),
                     createVitalColumn(call, state, true),
                     createIdColumn(call, state, "Capital") { it.capital.current },
