@@ -5,11 +5,9 @@ import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.organization.Organization
-import at.orchaldir.gm.core.model.util.CharacterReference
-import at.orchaldir.gm.core.model.util.History
-import at.orchaldir.gm.core.model.util.HistoryEntry
-import at.orchaldir.gm.core.model.util.WorshipOfGod
+import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.reducer.REDUCER
+import at.orchaldir.gm.core.reducer.util.testAllowedVitalStatusTypes
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -30,6 +28,23 @@ class OrganizationTest {
 
     @Nested
     inner class UpdateTest {
+
+        @Test
+        fun `Test allowed vital status types`() {
+            testAllowedVitalStatusTypes(
+                state,
+                mapOf(
+                    VitalStatusType.Abandoned to true,
+                    VitalStatusType.Alive to true,
+                    VitalStatusType.Closed to false,
+                    VitalStatusType.Dead to false,
+                    VitalStatusType.Destroyed to true,
+                    VitalStatusType.Vanished to false,
+                ),
+            ) { status ->
+                Organization(ORGANIZATION_ID_0, date = DAY0, status = status)
+            }
+        }
 
         @Test
         fun `Successfully update a organization`() {
@@ -53,7 +68,7 @@ class OrganizationTest {
         fun `Date is in the future`() {
             val action = UpdateAction(Organization(ORGANIZATION_ID_0, date = FUTURE_DAY_0))
 
-            assertIllegalArgument("Date (Organization) is in the future!") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Date (Start Date) is in the future!") { REDUCER.invoke(state, action) }
         }
 
         @Test

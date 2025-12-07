@@ -169,7 +169,7 @@ data class Character(
     }
 
     fun isAlive(calendar: Calendar, date: Date): Boolean {
-        if (calendar.isAfterOrEqual(date, this@Character.date)) {
+        if (calendar.isAfterOrEqual(date, this.date)) {
             if (status is Dead) {
                 return calendar.isAfterOrEqual(status.date, date)
             }
