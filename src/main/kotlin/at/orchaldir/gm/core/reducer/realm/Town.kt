@@ -1,9 +1,9 @@
 package at.orchaldir.gm.core.reducer.realm
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.realm.ALLOWED_CAUSES_OF_DEATH_FOR_TOWN
+import at.orchaldir.gm.core.model.realm.ALLOWED_VITAL_STATUS_FOR_TOWN
 import at.orchaldir.gm.core.model.realm.Town
-import at.orchaldir.gm.core.model.util.VALID_CAUSES_FOR_TOWNS
-import at.orchaldir.gm.core.model.util.VALID_VITAL_STATUS_FOR_TOWNS
 import at.orchaldir.gm.core.reducer.util.*
 import at.orchaldir.gm.core.selector.util.requireExists
 
@@ -15,8 +15,8 @@ fun validateTown(state: State, town: Town) {
         town.id,
         town.status,
         town.foundingDate,
-        VALID_VITAL_STATUS_FOR_TOWNS,
-        VALID_CAUSES_FOR_TOWNS,
+        ALLOWED_VITAL_STATUS_FOR_TOWN,
+        ALLOWED_CAUSES_OF_DEATH_FOR_TOWN,
     )
     state.getDataSourceStorage().require(town.sources)
     validateHistory(state, town.owner, town.foundingDate, "owner") { _, realmId, _, date ->

@@ -16,6 +16,8 @@ import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
 const val TOWN_TYPE = "Town"
+val ALLOWED_VITAL_STATUS_FOR_TOWN = ALLOWED_VITAL_STATUS_FOR_REALM
+val ALLOWED_CAUSES_OF_DEATH_FOR_TOWN = ALLOWED_CAUSES_OF_DEATH_FOR_REALM
 
 @JvmInline
 @Serializable

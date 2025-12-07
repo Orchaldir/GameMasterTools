@@ -29,7 +29,6 @@ val ALLOWED_VITAL_STATUS_FOR_MOON = setOf(
     VitalStatusType.Destroyed,
 )
 val ALLOWED_CAUSES_OF_DEATH_FOR_MOON = setOf(
-    CauseOfDeathType.Accident,
     CauseOfDeathType.Battle,
     CauseOfDeathType.Catastrophe,
     CauseOfDeathType.War,

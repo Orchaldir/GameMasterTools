@@ -13,10 +13,10 @@ import at.orchaldir.gm.app.html.util.source.parseDataSources
 import at.orchaldir.gm.app.html.util.source.showDataSources
 import at.orchaldir.gm.app.html.world.showCharactersOfTownMap
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.realm.ALLOWED_CAUSES_OF_DEATH_FOR_TOWN
+import at.orchaldir.gm.core.model.realm.ALLOWED_VITAL_STATUS_FOR_TOWN
 import at.orchaldir.gm.core.model.realm.Town
 import at.orchaldir.gm.core.model.realm.TownId
-import at.orchaldir.gm.core.model.util.VALID_CAUSES_FOR_TOWNS
-import at.orchaldir.gm.core.model.util.VALID_VITAL_STATUS_FOR_TOWNS
 import at.orchaldir.gm.core.selector.realm.getDistricts
 import at.orchaldir.gm.core.selector.realm.getExistingRealms
 import at.orchaldir.gm.core.selector.realm.getRealmsWithCapital
@@ -78,8 +78,8 @@ fun HtmlBlockTag.editTown(
         town.id,
         town.foundingDate,
         town.status,
-        VALID_VITAL_STATUS_FOR_TOWNS,
-        VALID_CAUSES_FOR_TOWNS,
+        ALLOWED_VITAL_STATUS_FOR_TOWN,
+        ALLOWED_CAUSES_OF_DEATH_FOR_TOWN,
     )
     selectHistory(state, OWNER, town.owner, "Owner", town.foundingDate) { _, param, owner, start ->
         selectOptionalElement(
