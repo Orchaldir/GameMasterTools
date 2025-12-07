@@ -15,13 +15,7 @@ import at.orchaldir.gm.app.html.util.source.showDataSources
 import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
-import at.orchaldir.gm.core.model.realm.ALLOWED_CAUSES_OF_DEATH_FOR_REALM
-import at.orchaldir.gm.core.model.realm.ALLOWED_VITAL_STATUS_FOR_REALM
-import at.orchaldir.gm.core.model.religion.ALLOWED_CAUSES_OF_DEATH_FOR_GOD
-import at.orchaldir.gm.core.model.religion.ALLOWED_GOD_AUTHENTICITY
-import at.orchaldir.gm.core.model.religion.ALLOWED_VITAL_STATUS_FOR_GOD
-import at.orchaldir.gm.core.model.religion.God
-import at.orchaldir.gm.core.model.religion.GodId
+import at.orchaldir.gm.core.model.religion.*
 import at.orchaldir.gm.core.selector.religion.getMasksOf
 import at.orchaldir.gm.core.selector.religion.getPantheonsContaining
 import at.orchaldir.gm.core.selector.time.getHolidays

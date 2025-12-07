@@ -15,7 +15,6 @@ import at.orchaldir.gm.core.reducer.organization.validateMembers
 import at.orchaldir.gm.core.reducer.organization.validateRanks
 import at.orchaldir.gm.core.reducer.util.checkBeliefStatusHistory
 import at.orchaldir.gm.core.reducer.util.validateCreator
-import at.orchaldir.gm.core.reducer.util.validateDate
 import at.orchaldir.gm.core.reducer.util.validateHasStartAndEnd
 import at.orchaldir.gm.core.reducer.util.validateVitalStatus
 import at.orchaldir.gm.utils.Id

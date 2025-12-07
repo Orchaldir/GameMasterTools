@@ -8,11 +8,7 @@ import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.render.Color
-import at.orchaldir.gm.core.model.world.moon.ALLOWED_CAUSES_OF_DEATH_FOR_MOON
-import at.orchaldir.gm.core.model.world.moon.ALLOWED_MOON_POSITIONS
-import at.orchaldir.gm.core.model.world.moon.ALLOWED_VITAL_STATUS_FOR_MOON
-import at.orchaldir.gm.core.model.world.moon.Moon
-import at.orchaldir.gm.core.model.world.moon.MoonId
+import at.orchaldir.gm.core.model.world.moon.*
 import at.orchaldir.gm.core.selector.time.getCurrentDate
 import io.ktor.http.*
 import io.ktor.server.application.*

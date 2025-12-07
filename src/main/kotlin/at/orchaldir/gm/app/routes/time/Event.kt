@@ -237,8 +237,7 @@ private fun <ID : Id<ID>> HtmlBlockTag.handleJobChanged(
         +" to "
         showEmploymentStatus(call, state, event.to)
         +"."
-    }
-    else if (isFromDefined) {
+    } else if (isFromDefined) {
         link(call, state, event.id)
         +" became unemployed."
     } else if (isToDefined) {

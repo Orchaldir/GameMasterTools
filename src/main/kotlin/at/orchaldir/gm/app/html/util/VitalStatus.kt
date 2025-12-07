@@ -81,8 +81,7 @@ fun HtmlBlockTag.displayVitalStatus(
         if (showType) {
             +")"
         }
-    }
-    else {
+    } else {
         displayVitalStatusType(status)
     }
 }
@@ -255,6 +254,7 @@ fun parseVitalStatus(
     VitalStatusType.Closed -> Closed(
         parseDeathDay(parameters, state),
     )
+
     VitalStatusType.Dead -> Dead(
         parseDeathDay(parameters, state),
         parseCauseOfDeath(parameters),

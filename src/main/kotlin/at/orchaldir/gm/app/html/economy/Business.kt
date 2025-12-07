@@ -11,13 +11,7 @@ import at.orchaldir.gm.app.html.util.source.editDataSources
 import at.orchaldir.gm.app.html.util.source.parseDataSources
 import at.orchaldir.gm.app.html.util.source.showDataSources
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.economy.business.ALLOWED_BUSINESS_POSITIONS
-import at.orchaldir.gm.core.model.economy.business.ALLOWED_CAUSES_OF_DEATH_FOR_BUSINESS
-import at.orchaldir.gm.core.model.economy.business.ALLOWED_VITAL_STATUS_FOR_BUSINESS
-import at.orchaldir.gm.core.model.economy.business.Business
-import at.orchaldir.gm.core.model.economy.business.BusinessId
-import at.orchaldir.gm.core.model.realm.ALLOWED_CAUSES_OF_DEATH_FOR_REALM
-import at.orchaldir.gm.core.model.realm.ALLOWED_VITAL_STATUS_FOR_REALM
+import at.orchaldir.gm.core.model.economy.business.*
 import at.orchaldir.gm.core.selector.character.getEmployees
 import at.orchaldir.gm.core.selector.character.getPreviousEmployees
 import at.orchaldir.gm.core.selector.item.getTextsPublishedBy

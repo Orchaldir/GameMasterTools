@@ -8,11 +8,7 @@ import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.source.DataSourceId
 import at.orchaldir.gm.core.model.util.source.HasDataSources
-import at.orchaldir.gm.core.reducer.util.checkOwnership
-import at.orchaldir.gm.core.reducer.util.checkPosition
-import at.orchaldir.gm.core.reducer.util.validateCreator
-import at.orchaldir.gm.core.reducer.util.validateHasStartAndEnd
-import at.orchaldir.gm.core.reducer.util.validateVitalStatus
+import at.orchaldir.gm.core.reducer.util.*
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
