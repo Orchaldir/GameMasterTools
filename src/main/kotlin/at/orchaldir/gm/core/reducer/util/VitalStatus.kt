@@ -23,6 +23,7 @@ fun <ID : Id<ID>> validateVitalStatus(
     when (status) {
         is Abandoned -> validateVitalStatus(state, id, startDate, status.date, status.cause, allowedCauses)
         Alive -> doNothing()
+        is Closed -> validateDeathDay(state, startDate, status.date)
         is Dead -> validateVitalStatus(state, id, startDate, status.date, status.cause, allowedCauses)
         is Destroyed -> validateVitalStatus(state, id, startDate, status.date, status.cause, allowedCauses)
         is Vanished -> validateDeathDay(state, startDate, status.date)

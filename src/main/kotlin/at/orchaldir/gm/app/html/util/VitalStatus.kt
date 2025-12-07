@@ -36,9 +36,10 @@ fun HtmlBlockTag.showVitalStatus(
         when (status) {
             is Abandoned -> showVitalStatus(call, state, status.date, status.cause)
             Alive -> doNothing()
+            is Closed -> field(call, state, "Date", status.date)
             is Dead -> showVitalStatus(call, state, status.date, status.cause)
             is Destroyed -> showVitalStatus(call, state, status.date, status.cause)
-            is Vanished -> doNothing()
+            is Vanished -> field(call, state, "Date", status.date)
         }
     }
 }
@@ -89,6 +90,7 @@ fun HtmlBlockTag.displayVitalStatus(
 fun HtmlBlockTag.displayVitalStatusType(status: VitalStatus) = when (status) {
     is Abandoned -> +"Abandoned"
     Alive -> doNothing()
+    is Closed -> +"Closed"
     is Dead -> +"Dead"
     is Destroyed -> +"Destroyed"
     is Vanished -> +"Vanished"
@@ -130,6 +132,7 @@ fun <ID : Id<ID>> HtmlBlockTag.selectVitalStatus(
         when (status) {
             is Abandoned -> selectVitalStatusData(state, id, startDate, allowedCauses, status.date, status.cause)
             Alive -> doNothing()
+            is Closed -> selectDeathDate(state, startDate, status.date)
             is Dead -> selectVitalStatusData(state, id, startDate, allowedCauses, status.date, status.cause)
             is Destroyed -> selectVitalStatusData(state, id, startDate, allowedCauses, status.date, status.cause)
             is Vanished -> selectDeathDate(state, startDate, status.date)
@@ -248,6 +251,10 @@ fun parseVitalStatus(
     )
 
     VitalStatusType.Alive -> Alive
+
+    VitalStatusType.Closed -> Closed(
+        parseDeathDay(parameters, state),
+    )
     VitalStatusType.Dead -> Dead(
         parseDeathDay(parameters, state),
         parseCauseOfDeath(parameters),

@@ -18,7 +18,11 @@ import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
 const val BUSINESS_TYPE = "Business"
-val ALLOWED_VITAL_STATUS_FOR_BUSINESS = ALLOWED_VITAL_STATUS_FOR_REALM
+val ALLOWED_VITAL_STATUS_FOR_BUSINESS = setOf(
+    VitalStatusType.Alive,
+    VitalStatusType.Closed,
+    VitalStatusType.Destroyed,
+)
 val ALLOWED_CAUSES_OF_DEATH_FOR_BUSINESS = ALLOWED_CAUSES_OF_DEATH_FOR_REALM
 val ALLOWED_BUSINESS_POSITIONS = listOf(
     PositionType.Undefined,
