@@ -3,7 +3,6 @@ package at.orchaldir.gm.core.reducer.world
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.realm.Town
 import at.orchaldir.gm.core.model.util.OnWorld
 import at.orchaldir.gm.core.model.util.VitalStatusType
 import at.orchaldir.gm.core.model.world.moon.Moon

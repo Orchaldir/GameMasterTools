@@ -185,8 +185,7 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> testAllowedVitalStatusTypes(
 
         if (isValidMap.getValue(type)) {
             REDUCER.invoke(state, action)
-        }
-        else {
+        } else {
             assertIllegalArgument("Invalid vital status ${type}!") { REDUCER.invoke(state, action) }
         }
     }

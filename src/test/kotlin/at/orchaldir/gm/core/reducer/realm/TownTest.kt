@@ -4,7 +4,9 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.Town
-import at.orchaldir.gm.core.model.util.*
+import at.orchaldir.gm.core.model.util.CharacterReference
+import at.orchaldir.gm.core.model.util.History
+import at.orchaldir.gm.core.model.util.VitalStatusType
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.population.TotalPopulation
 import at.orchaldir.gm.core.reducer.REDUCER
