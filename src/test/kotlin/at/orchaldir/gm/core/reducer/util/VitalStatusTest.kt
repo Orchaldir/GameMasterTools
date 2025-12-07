@@ -15,6 +15,8 @@ import at.orchaldir.gm.core.model.time.Time
 import at.orchaldir.gm.core.model.time.date.Day
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.reducer.REDUCER
+import at.orchaldir.gm.utils.Element
+import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -158,6 +160,34 @@ class VitalStatusTest {
             val action = UpdateAction(Character(CHARACTER_ID_0, vitalStatus = Dead(deathDate, causeOfDeath)))
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
+        }
+    }
+}
+
+fun <ID : Id<ID>, ELEMENT : Element<ID>> testAllowedVitalStatusTypes(
+    state: State,
+    isValidMap: Map<VitalStatusType, Boolean>,
+    create: (VitalStatus) -> ELEMENT,
+) {
+    VitalStatusType.entries.forEach { type ->
+        require(isValidMap.containsKey(type)) { "Map doesn't contain type $type!" }
+
+        val status = when (type) {
+            VitalStatusType.Abandoned -> Abandoned(DAY2)
+            VitalStatusType.Alive -> Alive
+            VitalStatusType.Closed -> Closed(DAY2)
+            VitalStatusType.Dead -> Dead(DAY2)
+            VitalStatusType.Destroyed -> Destroyed(DAY2)
+            VitalStatusType.Vanished -> Vanished(DAY2)
+        }
+        val element = create(status)
+        val action = UpdateAction(element)
+
+        if (isValidMap.getValue(type)) {
+            REDUCER.invoke(state, action)
+        }
+        else {
+            assertIllegalArgument("Invalid vital status ${type}!") { REDUCER.invoke(state, action) }
         }
     }
 }

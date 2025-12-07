@@ -22,6 +22,7 @@ import at.orchaldir.gm.core.model.time.date.Day
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.util.origin.BornElement
 import at.orchaldir.gm.core.reducer.REDUCER
+import at.orchaldir.gm.core.reducer.util.testAllowedVitalStatusTypes
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -81,6 +82,23 @@ class CharacterTest {
                 val action = UpdateAction(character)
 
                 assertIllegalArgument("Requires unknown Character Template 99!") { REDUCER.invoke(STATE, action) }
+            }
+        }
+
+        @Test
+        fun `Test allowed vital status types`() {
+            testAllowedVitalStatusTypes(
+                STATE,
+                mapOf(
+                    VitalStatusType.Abandoned to false,
+                    VitalStatusType.Alive to true,
+                    VitalStatusType.Closed to false,
+                    VitalStatusType.Dead to true,
+                    VitalStatusType.Destroyed to false,
+                    VitalStatusType.Vanished to true,
+                ),
+            ) { status ->
+                Character(CHARACTER_ID_0, birthDate = DAY0, vitalStatus = status)
             }
         }
 
