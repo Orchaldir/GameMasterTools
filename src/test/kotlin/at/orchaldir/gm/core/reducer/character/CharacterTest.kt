@@ -98,8 +98,18 @@ class CharacterTest {
             }
 
             @Test
+            fun `A character can vanish`() {
+                testValidStatus(Vanished(DAY2))
+            }
+
+            @Test
             fun `A character cannot be abandoned`() {
                 testInvalidStatus(Abandoned(DAY2))
+            }
+
+            @Test
+            fun `A character cannot be closed`() {
+                testInvalidStatus(Closed(DAY2))
             }
 
             @Test
@@ -107,18 +117,19 @@ class CharacterTest {
                 testInvalidStatus(Destroyed(DAY2))
             }
 
-            private fun testValidStatus(status: VitalStatus) {
-                val character = Character(CHARACTER_ID_0, birthDate = DAY0, vitalStatus = status)
-                val action = UpdateAction(character)
+            private fun testValidStatus(status: VitalStatus) = testValidStatus(status, true)
+            private fun testInvalidStatus(status: VitalStatus) = testValidStatus(status, false)
 
-                REDUCER.invoke(STATE, action)
-            }
+            private fun testValidStatus(status: VitalStatus, isValid: Boolean) {
+                val element = Character(CHARACTER_ID_0, birthDate = DAY0, vitalStatus = status)
+                val action = UpdateAction(element)
 
-            private fun testInvalidStatus(status: VitalStatus) {
-                val character = Character(CHARACTER_ID_0, birthDate = DAY0, vitalStatus = status)
-                val action = UpdateAction(character)
-
-                assertIllegalArgument("Invalid vital status ${status.getType()}!") { REDUCER.invoke(STATE, action) }
+                if (isValid) {
+                    REDUCER.invoke(STATE, action)
+                }
+                else {
+                    assertIllegalArgument("Invalid vital status ${status.getType()}!") { REDUCER.invoke(STATE, action) }
+                }
             }
 
         }

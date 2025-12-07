@@ -64,6 +64,7 @@ val ALLOWED_HOUSING_TYPES = listOf(
 val ALLOWED_VITAL_STATUS_FOR_CHARACTER = setOf(
     VitalStatusType.Alive,
     VitalStatusType.Dead,
+    VitalStatusType.Vanished,
 )
 val ALLOWED_CAUSES_OF_DEATH_FOR_CHARACTER = CauseOfDeathType.entries
 
