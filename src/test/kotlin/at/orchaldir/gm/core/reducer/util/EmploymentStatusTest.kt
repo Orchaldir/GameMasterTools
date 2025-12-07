@@ -29,7 +29,7 @@ class EmploymentStatusTest {
                 )
             ),
             Storage(Realm(REALM_ID_0, date = YEAR0)),
-            Storage(Town(TOWN_ID_0, foundingDate = YEAR0)),
+            Storage(Town(TOWN_ID_0, date = YEAR0)),
         )
     )
 
@@ -137,7 +137,7 @@ class EmploymentStatusTest {
 
         @Test
         fun `Character employed by a town before its founding`() {
-            val newState = state.updateStorage(Storage(Town(TOWN_ID_0, foundingDate = DAY1)))
+            val newState = state.updateStorage(Storage(Town(TOWN_ID_0, date = DAY1)))
 
             assertIllegalArgument("The Town 0 doesn't exist at the required date!") {
                 checkEmploymentStatusHistory(newState, History(EmployedByTown(JOB_ID_2, TOWN_ID_0)), DAY0)

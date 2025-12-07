@@ -4,7 +4,7 @@
   "0": {
    "id": 0,
    "name": "Cobb’s Corners",
-   "foundingDate": {
+   "date": {
     "#type": "Year",
     "year": 1786
    },
@@ -22,7 +22,7 @@
   "1": {
    "id": 1,
    "name": "Arkham",
-   "foundingDate": {
+   "date": {
     "#type": "Year",
     "year": 1679
    },

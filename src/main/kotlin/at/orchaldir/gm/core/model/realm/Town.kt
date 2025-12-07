@@ -34,8 +34,8 @@ data class Town(
     val id: TownId,
     val name: Name = Name.init(id),
     val title: NotEmptyString? = null,
-    val foundingDate: Date? = null,
     val founder: Reference = UndefinedReference,
+    val date: Date? = null,
     val status: VitalStatus = Alive,
     val owner: History<RealmId?> = History(null),
     val population: Population = UndefinedPopulation,
@@ -47,7 +47,7 @@ data class Town(
     override fun creator() = founder
     override fun population() = population
     override fun sources() = sources
-    override fun startDate() = foundingDate
+    override fun startDate() = date
     override fun vitalStatus() = status
     override fun validate(state: State) = validateTown(state, this)
 }

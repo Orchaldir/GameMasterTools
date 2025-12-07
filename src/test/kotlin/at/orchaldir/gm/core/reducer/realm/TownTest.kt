@@ -3,7 +3,6 @@ package at.orchaldir.gm.core.reducer.realm
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.Town
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.util.name.Name
@@ -47,7 +46,7 @@ class TownTest {
                     VitalStatusType.Vanished to false,
                 ),
             ) { status ->
-                Town(TOWN_ID_0, foundingDate = DAY0, status = status)
+                Town(TOWN_ID_0, date = DAY0, status = status)
             }
         }
 
@@ -67,7 +66,7 @@ class TownTest {
 
         @Test
         fun `Date is in the future`() {
-            val action = UpdateAction(Town(TOWN_ID_0, foundingDate = FUTURE_DAY_0))
+            val action = UpdateAction(Town(TOWN_ID_0, date = FUTURE_DAY_0))
 
             assertIllegalArgument("Date (Town) is in the future!") { REDUCER.invoke(STATE, action) }
         }

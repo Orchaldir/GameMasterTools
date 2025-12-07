@@ -41,7 +41,7 @@ class CreatorTest {
             Storage(God(GOD_ID_0)),
             Storage(Organization(ORGANIZATION_ID_0, date = DAY1)),
             Storage(Realm(REALM_ID_0, date = DAY1)),
-            Storage(Town(TOWN_ID_0, foundingDate = DAY1)),
+            Storage(Town(TOWN_ID_0, date = DAY1)),
         )
     )
 

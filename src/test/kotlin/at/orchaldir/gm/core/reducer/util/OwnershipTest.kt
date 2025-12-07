@@ -23,7 +23,7 @@ class OwnerTest {
             Storage(Organization(ORGANIZATION_ID_0, date = DAY0)),
             Storage(Realm(REALM_ID_0, date = DAY0)),
             Storage(listOf(StreetTemplate(STREET_TEMPLATE_ID_0), StreetTemplate(STREET_TEMPLATE_ID_0))),
-            Storage(Town(TOWN_ID_0, foundingDate = DAY0)),
+            Storage(Town(TOWN_ID_0, date = DAY0)),
         )
     )
     private val OWNED_BY_BUSINESS = History<Reference>(BusinessReference(BUSINESS_ID_0))
@@ -156,7 +156,7 @@ class OwnerTest {
 
         @Test
         fun `First owner didn't exist yet`() {
-            val state = STATE.updateStorage(Storage(Town(TOWN_ID_0, foundingDate = DAY1)))
+            val state = STATE.updateStorage(Storage(Town(TOWN_ID_0, date = DAY1)))
 
             assertIllegalArgument("The 1.previous owner (Town 0) doesn't exist at the required date!") {
                 checkOwnership(state, TOWN_AS_PREVIOUS, DAY0)

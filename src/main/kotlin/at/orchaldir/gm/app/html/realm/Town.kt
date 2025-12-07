@@ -36,7 +36,7 @@ fun HtmlBlockTag.showTown(
 ) {
     optionalField("Title", town.title)
     fieldReference(call, state, town.founder, "Founder")
-    optionalField(call, state, "Founding Date", town.foundingDate)
+    optionalField(call, state, "Founding Date", town.date)
     showVitalStatus(call, state, town.status)
     showHistory(call, state, town.owner, "Owner", "Independent") { _, _, owner ->
         link(call, state, owner)
@@ -71,17 +71,17 @@ fun HtmlBlockTag.editTown(
 ) {
     selectName(town.name)
     selectOptionalNotEmptyString("Optional Title", town.title, TITLE)
-    selectCreator(state, town.founder, town.id, town.foundingDate, "Founder")
-    selectOptionalDate(state, "Founding Date", town.foundingDate, DATE)
+    selectCreator(state, town.founder, town.id, town.date, "Founder")
+    selectOptionalDate(state, "Founding Date", town.date, DATE)
     selectVitalStatus(
         state,
         town.id,
-        town.foundingDate,
+        town.date,
         town.status,
         ALLOWED_VITAL_STATUS_FOR_TOWN,
         ALLOWED_CAUSES_OF_DEATH_FOR_TOWN,
     )
-    selectHistory(state, OWNER, town.owner, "Owner", town.foundingDate) { _, param, owner, start ->
+    selectHistory(state, OWNER, town.owner, "Owner", town.date) { _, param, owner, start ->
         selectOptionalElement(
             state,
             "Realm",
@@ -111,8 +111,8 @@ fun parseTown(
         id,
         parseName(parameters),
         parseOptionalNotEmptyString(parameters, TITLE),
-        date,
         parseCreator(parameters),
+        date,
         parseVitalStatus(parameters, state),
         parseHistory(parameters, OWNER, state, date) { _, _, param ->
             parseOptionalRealmId(parameters, param)

@@ -365,7 +365,7 @@ class PositionTest {
             listOf(
                 Storage(Building(BUILDING_ID_0)),
                 Storage(CALENDAR0),
-                Storage(Town(TOWN_ID_0, foundingDate = date)),
+                Storage(Town(TOWN_ID_0, date = date)),
             )
         )
     }

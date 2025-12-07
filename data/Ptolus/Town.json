@@ -42,7 +42,7 @@
   "3": {
    "id": 3,
    "name": "Dwarvenhearth",
-   "foundingDate": {
+   "date": {
     "#type": "~Year",
     "year": -2000
    },
