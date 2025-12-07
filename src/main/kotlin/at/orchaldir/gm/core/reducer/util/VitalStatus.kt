@@ -25,6 +25,7 @@ fun <ID : Id<ID>> validateVitalStatus(
         Alive -> doNothing()
         is Dead -> validateVitalStatus(state, id, startDate, status.date, status.cause, allowedCauses)
         is Destroyed -> validateVitalStatus(state, id, startDate, status.date, status.cause, allowedCauses)
+        is Vanished -> validateDeathDay(state, startDate, status.date)
     }
 }
 
@@ -36,16 +37,24 @@ private fun <ID : Id<ID>> validateVitalStatus(
     cause: CauseOfDeath,
     allowedCauses: Collection<CauseOfDeathType>,
 ) {
-    val calendar = state.getDefaultCalendar()
-
-    date.let {
-        require(calendar.isAfterOrEqual(state.getCurrentDate(), it)) { "Cannot died in the future!" }
-        require(calendar.isAfterOrEqualOptional(it, startDate)) { "Cannot died before its origin!" }
-    }
+    validateDeathDay(state, startDate, date)
 
     require(allowedCauses.contains(cause.getType())) { "Invalid status of death ${cause.getType()}!" }
 
     checkCauseOfDeath(state, id, cause, date)
+}
+
+private fun validateDeathDay(
+    state: State,
+    startDate: Date?,
+    date: Date,
+) {
+    val calendar = state.getDefaultCalendar()
+
+    date.let {
+        require(calendar.isAfterOrEqual(state.getCurrentDate(), it)) { "Cannot die in the future!" }
+        require(calendar.isAfterOrEqualOptional(it, startDate)) { "Cannot die before its origin!" }
+    }
 }
 
 private fun <ID : Id<ID>> checkCauseOfDeath(

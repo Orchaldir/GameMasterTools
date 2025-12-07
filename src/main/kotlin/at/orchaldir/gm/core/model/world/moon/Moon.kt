@@ -27,6 +27,7 @@ const val MOON_TYPE = "Moon"
 val ALLOWED_VITAL_STATUS_FOR_MOON = setOf(
     VitalStatusType.Alive,
     VitalStatusType.Destroyed,
+    VitalStatusType.Vanished,
 )
 val ALLOWED_CAUSES_OF_DEATH_FOR_MOON = setOf(
     CauseOfDeathType.Battle,

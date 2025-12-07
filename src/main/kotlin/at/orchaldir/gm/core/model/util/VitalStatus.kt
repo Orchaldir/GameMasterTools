@@ -10,6 +10,7 @@ enum class VitalStatusType {
     Alive,
     Dead,
     Destroyed,
+    Vanished,
 }
 
 @Serializable
@@ -19,6 +20,7 @@ sealed class VitalStatus {
         is Alive -> VitalStatusType.Alive
         is Dead -> VitalStatusType.Dead
         is Destroyed -> VitalStatusType.Destroyed
+        is Vanished -> VitalStatusType.Vanished
     }
 
     fun getCauseOfDeath() = when (this) {
@@ -26,6 +28,7 @@ sealed class VitalStatus {
         is Alive -> null
         is Dead -> cause
         is Destroyed -> cause
+        is Vanished -> null
     }
 
     fun getDeathDate() = when (this) {
@@ -33,6 +36,7 @@ sealed class VitalStatus {
         is Alive -> null
         is Dead -> date
         is Destroyed -> date
+        is Vanished -> date
     }
 
     fun <ID : Id<ID>> isDestroyedBy(id: ID) = when (this) {
@@ -40,6 +44,7 @@ sealed class VitalStatus {
         Alive -> false
         is Dead -> cause.isDestroyedBy(id)
         is Destroyed -> cause.isDestroyedBy(id)
+        is Vanished -> false
     }
 }
 
@@ -66,4 +71,10 @@ data class Dead(
 data class Destroyed(
     val date: Date,
     val cause: CauseOfDeath = UndefinedCauseOfDeath,
+) : VitalStatus()
+
+@Serializable
+@SerialName("Vanished")
+data class Vanished(
+    val date: Date,
 ) : VitalStatus()
