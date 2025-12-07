@@ -2,12 +2,15 @@ package at.orchaldir.gm.core.model.world.moon
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.MaterialId
+import at.orchaldir.gm.core.model.realm.ALLOWED_CAUSES_OF_DEATH_FOR_REALM
+import at.orchaldir.gm.core.model.realm.ALLOWED_VITAL_STATUS_FOR_REALM
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.time.date.Day
 import at.orchaldir.gm.core.model.util.Alive
 import at.orchaldir.gm.core.model.util.CauseOfDeathType
 import at.orchaldir.gm.core.model.util.HasPosition
 import at.orchaldir.gm.core.model.util.HasVitalStatus
+import at.orchaldir.gm.core.model.util.NoReference
 import at.orchaldir.gm.core.model.util.Position
 import at.orchaldir.gm.core.model.util.PositionType
 import at.orchaldir.gm.core.model.util.UndefinedPosition
@@ -19,6 +22,9 @@ import at.orchaldir.gm.core.model.util.name.NotEmptyString
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.world.plane.PlaneId
 import at.orchaldir.gm.core.reducer.util.checkPosition
+import at.orchaldir.gm.core.reducer.util.validateCreator
+import at.orchaldir.gm.core.reducer.util.validateHasStartAndEnd
+import at.orchaldir.gm.core.reducer.util.validateVitalStatus
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.math.modulo
 import kotlinx.serialization.Serializable
@@ -123,6 +129,15 @@ data class Moon(
     }
 
     override fun validate(state: State) {
+        validateVitalStatus(
+            state,
+            id,
+            status,
+            null,
+            ALLOWED_VITAL_STATUS_FOR_MOON,
+            ALLOWED_CAUSES_OF_DEATH_FOR_MOON,
+        )
+        validateHasStartAndEnd(state, this)
         state.getPlaneStorage().requireOptional(plane)
         checkPosition(state, position, "position", null, ALLOWED_MOON_POSITIONS)
         require(daysPerQuarter > 0) { "Days per quarter most be greater than 0!" }

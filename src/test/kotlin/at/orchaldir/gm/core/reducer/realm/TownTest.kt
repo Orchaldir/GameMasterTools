@@ -3,11 +3,13 @@ package at.orchaldir.gm.core.reducer.realm
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.Town
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.population.TotalPopulation
 import at.orchaldir.gm.core.reducer.REDUCER
+import at.orchaldir.gm.core.reducer.util.testAllowedVitalStatusTypes
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -32,40 +34,21 @@ class TownTest {
             assertIllegalArgument("Requires unknown Town 99!") { REDUCER.invoke(State(), action) }
         }
 
-        @Nested
-        inner class VitalStatusTest {
-
-            @Test
-            fun `A town cannot die`() {
-                val status = Dead(DAY0, DeathByCatastrophe(UNKNOWN_CATASTROPHE_ID))
-                val town = Town(TOWN_ID_0, status = status)
-                val action = UpdateAction(town)
-
-                assertIllegalArgument("Invalid vital status Dead!") { REDUCER.invoke(STATE, action) }
+        @Test
+        fun `Test allowed vital status types`() {
+            testAllowedVitalStatusTypes(
+                STATE,
+                mapOf(
+                    VitalStatusType.Abandoned to true,
+                    VitalStatusType.Alive to true,
+                    VitalStatusType.Closed to false,
+                    VitalStatusType.Dead to false,
+                    VitalStatusType.Destroyed to true,
+                    VitalStatusType.Vanished to false,
+                ),
+            ) { status ->
+                Town(TOWN_ID_0, foundingDate = DAY0, status = status)
             }
-
-            @Test
-            fun `A town can be alive`() {
-                testValidStatus(Alive)
-            }
-
-            @Test
-            fun `A town can be abandoned`() {
-                testValidStatus(Abandoned(DAY0))
-            }
-
-            @Test
-            fun `A town can be destroyed`() {
-                testValidStatus(Destroyed(DAY0))
-            }
-
-            private fun testValidStatus(status: VitalStatus) {
-                val town = Town(TOWN_ID_0, status = status)
-                val action = UpdateAction(town)
-
-                REDUCER.invoke(STATE, action)
-            }
-
         }
 
         @Test

@@ -170,7 +170,7 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> testAllowedVitalStatusTypes(
     create: (VitalStatus) -> ELEMENT,
 ) {
     VitalStatusType.entries.forEach { type ->
-        require(isValidMap.containsKey(type)) { "Map doesn't contain type $type!" }
+        require(isValidMap.containsKey(type)) { "Input doesn't contain type $type!" }
 
         val status = when (type) {
             VitalStatusType.Abandoned -> Abandoned(DAY2)

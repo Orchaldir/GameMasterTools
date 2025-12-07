@@ -103,56 +103,6 @@ class CharacterTest {
         }
 
         @Nested
-        inner class VitalStatusTest {
-
-            @Test
-            fun `A character can be alive`() {
-                testValidStatus(Alive)
-            }
-
-            @Test
-            fun `A character can die`() {
-                testValidStatus(Dead(DAY2))
-            }
-
-            @Test
-            fun `A character can vanish`() {
-                testValidStatus(Vanished(DAY2))
-            }
-
-            @Test
-            fun `A character cannot be abandoned`() {
-                testInvalidStatus(Abandoned(DAY2))
-            }
-
-            @Test
-            fun `A character cannot be closed`() {
-                testInvalidStatus(Closed(DAY2))
-            }
-
-            @Test
-            fun `A character cannot be destroyed`() {
-                testInvalidStatus(Destroyed(DAY2))
-            }
-
-            private fun testValidStatus(status: VitalStatus) = testValidStatus(status, true)
-            private fun testInvalidStatus(status: VitalStatus) = testValidStatus(status, false)
-
-            private fun testValidStatus(status: VitalStatus, isValid: Boolean) {
-                val element = Character(CHARACTER_ID_0, birthDate = DAY0, vitalStatus = status)
-                val action = UpdateAction(element)
-
-                if (isValid) {
-                    REDUCER.invoke(STATE, action)
-                }
-                else {
-                    assertIllegalArgument("Invalid vital status ${status.getType()}!") { REDUCER.invoke(STATE, action) }
-                }
-            }
-
-        }
-
-        @Nested
         inner class SexualOrientationTest {
             @Test
             fun `All sexual orientations are valid for males`() {

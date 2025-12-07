@@ -15,8 +15,10 @@ import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.InBuilding
 import at.orchaldir.gm.core.model.util.Vanished
 import at.orchaldir.gm.core.model.util.VitalStatus
+import at.orchaldir.gm.core.model.util.VitalStatusType
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.reducer.REDUCER
+import at.orchaldir.gm.core.reducer.util.testAllowedVitalStatusTypes
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -36,54 +38,21 @@ class BusinessTest {
             )
         )
 
-        @Nested
-        inner class VitalStatusTest {
-
-            @Test
-            fun `A business can be alive`() {
-                testValidStatus(Alive)
+        @Test
+        fun `Test allowed vital status types`() {
+            testAllowedVitalStatusTypes(
+                STATE,
+                mapOf(
+                    VitalStatusType.Abandoned to false,
+                    VitalStatusType.Alive to true,
+                    VitalStatusType.Closed to true,
+                    VitalStatusType.Dead to false,
+                    VitalStatusType.Destroyed to true,
+                    VitalStatusType.Vanished to false,
+                ),
+            ) { status ->
+                Business(BUSINESS_ID_0, startDate = DAY0, status = status)
             }
-
-            @Test
-            fun `A business cannot die`() {
-                testInvalidStatus(Dead(DAY2))
-            }
-
-            @Test
-            fun `A business cannot vanish`() {
-                testInvalidStatus(Vanished(DAY2))
-            }
-
-            @Test
-            fun `A business cannot be abandoned`() {
-                testInvalidStatus(Abandoned(DAY2))
-            }
-
-            @Test
-            fun `A business can be closed`() {
-                testValidStatus(Closed(DAY2))
-            }
-
-            @Test
-            fun `A business can be destroyed`() {
-                testValidStatus(Destroyed(DAY2))
-            }
-
-            private fun testValidStatus(status: VitalStatus) = testValidStatus(status, true)
-            private fun testInvalidStatus(status: VitalStatus) = testValidStatus(status, false)
-
-            private fun testValidStatus(status: VitalStatus, isValid: Boolean) {
-                val element = Business(BUSINESS_ID_0, startDate = DAY0, status = status)
-                val action = UpdateAction(element)
-
-                if (isValid) {
-                    REDUCER.invoke(STATE, action)
-                }
-                else {
-                    assertIllegalArgument("Invalid vital status ${status.getType()}!") { REDUCER.invoke(STATE, action) }
-                }
-            }
-
         }
 
         @Test
