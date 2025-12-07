@@ -71,7 +71,7 @@ fun Application.configureTownRouting() {
                     createStartDateColumn(call, state, "Founding"),
                     createEndDateColumn(call, state, "End"),
                     createAgeColumn(state),
-                    createVitalColumn(call, state),
+                    createVitalColumn(call, state, true),
                     createIdColumn(call, state, "Owner") { it.owner.current },
                     createIdColumn(call, state, "Map") { state.getCurrentTownMap(it.id)?.id },
                     countColumnForId("Buildings", state::countBuildings),

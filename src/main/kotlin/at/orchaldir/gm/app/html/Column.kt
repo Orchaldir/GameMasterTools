@@ -160,6 +160,7 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> countColumnForId(
 fun <ELEMENT : HasVitalStatus> createVitalColumn(
     call: ApplicationCall,
     state: State,
+    showType: Boolean,
     label: String = "End",
 ): Column<ELEMENT> =
-    tdColumn(label) { displayVitalStatus(call, state, it.vitalStatus(), false) }
+    tdColumn(label) { displayVitalStatus(call, state, it.vitalStatus(), showType) }

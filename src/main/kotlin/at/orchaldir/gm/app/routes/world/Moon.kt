@@ -65,7 +65,7 @@ fun Application.configureMoonRouting() {
                 listOf(
                     createNameColumn(call, state),
                     Column("Title") { tdString(it.title) },
-                    createVitalColumn(call, state),
+                    createVitalColumn(call, state, true),
                     createPositionColumn(call, state),
                     tdColumn("Duration") { +"${it.getCycle()} days" },
                     tdColumn("Color") { showOptionalColor(it.color) },

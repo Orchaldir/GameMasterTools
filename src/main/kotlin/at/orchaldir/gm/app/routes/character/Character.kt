@@ -59,7 +59,7 @@ fun Application.configureCharacterRouting() {
                     createAgeColumn(state),
                     createStartDateColumn(call, state, "Birthdate"),
                     createEndDateColumn(call, state, "Deathdate"),
-                    createVitalColumn(call, state, "Death"),
+                    createVitalColumn(call, state, false, "Death"),
                     tdColumn("Housing Status") { showPosition(call, state, it.housingStatus.current, false) },
                     tdColumn("Employment Status") {
                         showEmploymentStatus(
