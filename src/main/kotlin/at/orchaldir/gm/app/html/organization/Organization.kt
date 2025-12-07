@@ -104,7 +104,7 @@ private fun HtmlBlockTag.editMembers(
         "Members",
         MEMBER,
         organization.members,
-        1,
+        0,
         maxMembers,
     ) { _, memberParam, characterId, history ->
         val character = state.getCharacterStorage().getOrThrow(characterId)
