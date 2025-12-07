@@ -34,8 +34,6 @@ import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.time.date.Year
 import at.orchaldir.gm.core.model.util.Dead
 import at.orchaldir.gm.core.model.util.History
-import at.orchaldir.gm.core.model.util.VALID_CAUSES_FOR_CHARACTERS
-import at.orchaldir.gm.core.model.util.VALID_VITAL_STATUS_FOR_CHARACTERS
 import at.orchaldir.gm.core.selector.character.*
 import at.orchaldir.gm.core.selector.organization.getOrganizations
 import at.orchaldir.gm.core.selector.race.getExistingRaces
@@ -234,8 +232,8 @@ fun HtmlBlockTag.editCharacter(
         character.id,
         character.birthDate,
         character.vitalStatus,
-        VALID_VITAL_STATUS_FOR_CHARACTERS,
-        VALID_CAUSES_FOR_CHARACTERS,
+        ALLOWED_VITAL_STATUS_FOR_CHARACTER,
+        ALLOWED_CAUSES_OF_DEATH_FOR_CHARACTER,
     )
     showAge(state, character, race)
     selectPositionHistory(

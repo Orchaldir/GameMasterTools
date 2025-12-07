@@ -61,6 +61,11 @@ val ALLOWED_HOUSING_TYPES = listOf(
     PositionType.Town,
     PositionType.World,
 )
+val ALLOWED_VITAL_STATUS_FOR_CHARACTER = setOf(
+    VitalStatusType.Alive,
+    VitalStatusType.Dead,
+)
+val ALLOWED_CAUSES_OF_DEATH_FOR_CHARACTER = CauseOfDeathType.entries
 
 @JvmInline
 @Serializable

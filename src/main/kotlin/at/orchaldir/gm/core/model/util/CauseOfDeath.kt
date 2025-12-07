@@ -8,7 +8,6 @@ import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-val VALID_CAUSES_FOR_CHARACTERS = CauseOfDeathType.entries
 val VALID_CAUSES_FOR_REALMS = CauseOfDeathType.entries -
         CauseOfDeathType.Accident -
         CauseOfDeathType.Killed -

@@ -6,8 +6,6 @@ import at.orchaldir.gm.core.model.rpg.CharacterStatblock
 import at.orchaldir.gm.core.model.rpg.UndefinedCharacterStatblock
 import at.orchaldir.gm.core.model.rpg.UniqueCharacterStatblock
 import at.orchaldir.gm.core.model.rpg.UseStatblockOfTemplate
-import at.orchaldir.gm.core.model.util.VALID_CAUSES_FOR_CHARACTERS
-import at.orchaldir.gm.core.model.util.VALID_VITAL_STATUS_FOR_CHARACTERS
 import at.orchaldir.gm.core.reducer.rpg.validateStatblock
 import at.orchaldir.gm.core.reducer.util.*
 import at.orchaldir.gm.utils.doNothing
@@ -26,8 +24,8 @@ fun validateCharacterData(
         character.id,
         character.vitalStatus,
         character.birthDate,
-        VALID_VITAL_STATUS_FOR_CHARACTERS,
-        VALID_CAUSES_FOR_CHARACTERS,
+        ALLOWED_VITAL_STATUS_FOR_CHARACTER,
+        ALLOWED_CAUSES_OF_DEATH_FOR_CHARACTER,
     )
     checkBeliefStatusHistory(state, character.beliefStatus, character.birthDate)
     checkPositionHistory(state, character.housingStatus, character.birthDate, ALLOWED_HOUSING_TYPES)
