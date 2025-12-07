@@ -11,10 +11,13 @@ import at.orchaldir.gm.core.model.health.Disease
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.realm.Battle
 import at.orchaldir.gm.core.model.realm.Catastrophe
+import at.orchaldir.gm.core.model.realm.Realm
+import at.orchaldir.gm.core.model.realm.Town
 import at.orchaldir.gm.core.model.realm.War
 import at.orchaldir.gm.core.model.time.Time
 import at.orchaldir.gm.core.model.time.date.Day
 import at.orchaldir.gm.core.model.util.*
+import at.orchaldir.gm.core.model.world.moon.Moon
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
@@ -27,13 +30,46 @@ import kotlin.test.assertFailsWith
 class VitalStatusTest {
 
     @Test
-    fun `Died from murder`() {
+    fun `Cannot delete a character that destroyed a character`() {
         testCanDeleteDestroyer(
             CHARACTER_ID_0,
             KilledBy(CharacterReference(CHARACTER_ID_0)),
             DeleteResult(CHARACTER_ID_0).addId(CHARACTER_ID_1),
         ) { status ->
             Character(CHARACTER_ID_1, vitalStatus = status)
+        }
+    }
+
+    @Test
+    fun `Cannot delete a character that destroyed a moon`() {
+        testCanDeleteDestroyer(
+            CHARACTER_ID_0,
+            KilledBy(CharacterReference(CHARACTER_ID_0)),
+            DeleteResult(CHARACTER_ID_0).addId(MOON_ID_0),
+        ) { status ->
+            Moon(MOON_ID_0, status = status)
+        }
+    }
+
+    @Test
+    fun `Cannot delete a character that destroyed a realm`() {
+        testCanDeleteDestroyer(
+            CHARACTER_ID_0,
+            KilledBy(CharacterReference(CHARACTER_ID_0)),
+            DeleteResult(CHARACTER_ID_0).addId(REALM_ID_0),
+        ) { status ->
+            Realm(REALM_ID_0, status = status)
+        }
+    }
+
+    @Test
+    fun `Cannot delete a character that destroyed a town`() {
+        testCanDeleteDestroyer(
+            CHARACTER_ID_0,
+            KilledBy(CharacterReference(CHARACTER_ID_0)),
+            DeleteResult(CHARACTER_ID_0).addId(TOWN_ID_0),
+        ) { status ->
+            Town(TOWN_ID_0, status = status)
         }
     }
 }
