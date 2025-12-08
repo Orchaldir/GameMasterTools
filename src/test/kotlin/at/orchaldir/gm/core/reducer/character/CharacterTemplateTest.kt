@@ -12,7 +12,7 @@ import at.orchaldir.gm.core.model.culture.language.Language
 import at.orchaldir.gm.core.model.item.Uniform
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.religion.God
-import at.orchaldir.gm.core.model.rpg.Statblock
+import at.orchaldir.gm.core.model.rpg.statblock.Statblock
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.model.util.WorshipOfGod
 import at.orchaldir.gm.core.model.util.name.Name

@@ -11,8 +11,8 @@ import at.orchaldir.gm.core.model.culture.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.culture.language.LanguageId
 import at.orchaldir.gm.core.model.culture.name.getDefaultFamilyName
 import at.orchaldir.gm.core.model.race.RaceId
-import at.orchaldir.gm.core.model.rpg.CharacterStatblock
-import at.orchaldir.gm.core.model.rpg.UndefinedCharacterStatblock
+import at.orchaldir.gm.core.model.rpg.statblock.CharacterStatblock
+import at.orchaldir.gm.core.model.rpg.statblock.UndefinedCharacterStatblock
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitId
 import at.orchaldir.gm.core.model.time.Duration
 import at.orchaldir.gm.core.model.time.calendar.Calendar

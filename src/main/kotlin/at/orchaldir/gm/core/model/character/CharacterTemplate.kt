@@ -5,7 +5,7 @@ import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.culture.language.LanguageId
 import at.orchaldir.gm.core.model.race.RaceId
-import at.orchaldir.gm.core.model.rpg.Statblock
+import at.orchaldir.gm.core.model.rpg.statblock.Statblock
 import at.orchaldir.gm.core.model.util.BeliefStatus
 import at.orchaldir.gm.core.model.util.HasBelief
 import at.orchaldir.gm.core.model.util.History

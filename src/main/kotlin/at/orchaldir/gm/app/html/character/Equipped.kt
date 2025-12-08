@@ -10,7 +10,7 @@ import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
-import at.orchaldir.gm.core.model.rpg.CharacterStatblock
+import at.orchaldir.gm.core.model.rpg.statblock.CharacterStatblock
 import at.orchaldir.gm.core.selector.character.getArmors
 import at.orchaldir.gm.core.selector.character.getMeleeAttacks
 import at.orchaldir.gm.core.selector.character.getShields

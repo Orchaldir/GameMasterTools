@@ -2,8 +2,12 @@ package at.orchaldir.gm.core.selector.rpg
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.Equipment
-import at.orchaldir.gm.core.model.rpg.*
 import at.orchaldir.gm.core.model.rpg.combat.*
+import at.orchaldir.gm.core.model.rpg.statblock.CharacterStatblock
+import at.orchaldir.gm.core.model.rpg.statblock.Statblock
+import at.orchaldir.gm.core.model.rpg.statblock.UndefinedCharacterStatblock
+import at.orchaldir.gm.core.model.rpg.statblock.UniqueCharacterStatblock
+import at.orchaldir.gm.core.model.rpg.statblock.UseStatblockOfTemplate
 
 // resolve melee attack with statblock
 

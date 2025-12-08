@@ -21,7 +21,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterTemplate
 import at.orchaldir.gm.core.model.character.CharacterTemplateId
 import at.orchaldir.gm.core.model.character.Gender
-import at.orchaldir.gm.core.model.rpg.UseStatblockOfTemplate
+import at.orchaldir.gm.core.model.rpg.statblock.UseStatblockOfTemplate
 import at.orchaldir.gm.core.selector.character.getCharactersUsing
 import io.ktor.http.*
 import io.ktor.server.application.*

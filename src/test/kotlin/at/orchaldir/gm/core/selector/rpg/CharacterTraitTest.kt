@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterTemplate
 import at.orchaldir.gm.core.model.religion.God
-import at.orchaldir.gm.core.model.rpg.Statblock
+import at.orchaldir.gm.core.model.rpg.statblock.Statblock
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTrait
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
