@@ -36,7 +36,7 @@ fun HtmlBlockTag.showStatblockUpdate(
             showStatistics(call, state, statblock, update, resolved, damageValues, "Base Damage Value")
             showStatistics(call, state, statblock, update, resolved, skills, "Skills")
         }
-        field("Cost", statblock.calculateCost(state))
+        field("Update Cost", update.calculateCost(state))
     }
 }
 

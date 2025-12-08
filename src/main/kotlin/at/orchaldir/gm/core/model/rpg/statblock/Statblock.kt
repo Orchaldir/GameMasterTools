@@ -15,32 +15,15 @@ import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.model.rpg.statistic.SumOfValues
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitId
 import kotlinx.serialization.Serializable
+import kotlin.collections.component1
+import kotlin.collections.component2
 
 @Serializable
 data class Statblock(
     val statistics: Map<StatisticId, Int> = emptyMap(),
     val traits: Set<CharacterTraitId> = emptySet(),
 ) {
-    fun calculateCost(state: State): Int {
-        return calculateStatisticCost(state) + calculateTraitCost(state)
-    }
-
-    fun calculateStatisticCost(state: State): Int {
-        val storage = state.getStatisticStorage()
-
-        return statistics
-            .map { (id, level) ->
-                storage
-                    .getOrThrow(id)
-                    .data
-                    .cost()
-                    .calculate(level)
-            }.sum()
-    }
-
-    fun calculateTraitCost(state: State) = state.getCharacterTraitStorage()
-        .getOrThrow(traits)
-        .sumOf { it.cost }
+    fun calculateCost(state: State) = calculateStatisticCost(state, statistics) + calculateTraitCost(state, traits)
 
     fun resolve(state: State, statistics: List<Statistic>) = statistics.mapNotNull { statistic ->
         resolve(state, statistic)?.let { Pair(statistic, it) }
@@ -110,3 +93,20 @@ data class Statblock(
     }
 
 }
+
+fun calculateStatisticCost(state: State, statistics: Map<StatisticId, Int>): Int {
+    val storage = state.getStatisticStorage()
+
+    return statistics
+        .map { (id, level) ->
+            storage
+                .getOrThrow(id)
+                .data
+                .cost()
+                .calculate(level)
+        }.sum()
+}
+
+fun calculateTraitCost(state: State, traits: Set<CharacterTraitId>) = state.getCharacterTraitStorage()
+    .getOrThrow(traits)
+    .sumOf { it.cost }
