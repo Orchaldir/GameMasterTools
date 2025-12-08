@@ -1,19 +1,22 @@
 package at.orchaldir.gm.app.html.rpg.statblock
 
-import at.orchaldir.gm.app.STATISTIC
+import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.rpg.trait.parseCharacterTraits
 import at.orchaldir.gm.app.html.rpg.trait.showCharacterTraits
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.statblock.Statblock
 import at.orchaldir.gm.core.model.rpg.statblock.StatblockUpdate
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
+import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.selector.rpg.getAttributes
 import at.orchaldir.gm.core.selector.rpg.getBaseDamageValues
 import at.orchaldir.gm.core.selector.rpg.getDerivedAttributes
 import at.orchaldir.gm.core.selector.rpg.getSkills
 import at.orchaldir.gm.core.selector.util.sortStatistics
 import at.orchaldir.gm.utils.math.unit.up
+import io.ktor.http.Parameters
 import io.ktor.server.application.*
 import kotlinx.html.*
 
@@ -31,7 +34,7 @@ fun HtmlBlockTag.showStatblockUpdate(
     val damageValues = state.sortStatistics(state.getBaseDamageValues())
     val skills = state.sortStatistics(state.getSkills())
 
-    showDetails("Stateblock Update", true) {
+    showDetails("Statblock Update", true) {
         table {
             showStatistics(call, state, statblock, update, resolved, attributes, "Attribute")
             showStatistics(call, state, statblock, update, resolved, derivedAttributes, "Derived Attribute")
@@ -98,7 +101,7 @@ fun HtmlBlockTag.editStatblockUpdate(
     val damageValues = state.sortStatistics(state.getBaseDamageValues())
     val skills = state.sortStatistics(state.getSkills())
 
-    showDetails("Stateblock Update", true) {
+    showDetails("Statblock Update", true) {
         table {
             editStatistics(call, state, statblock, update, resolved, attributes, "Attribute")
             editStatistics(call, state, statblock, update, resolved, derivedAttributes, "Derived Attribute")
@@ -136,9 +139,28 @@ private fun TABLE.editStatistics(
             tr {
                 tdLink(call, state, statistic)
                 tdSkipZero(base)
-                tdSkipZero(modifier)
+                td {
+                    selectInt(
+                        modifier,
+                        -10,
+                        +10,
+                        1,
+                        combine(STATISTIC, statistic.id.value),
+                    )
+                }
                 tdSkipZero(result)
                 tdInt(statistic.data.cost().calculate(modifier))
             }
         }
 }
+
+// parse
+
+fun parseStatblockUpdate(
+    state: State,
+    parameters: Parameters,
+) = StatblockUpdate(
+    parseStatistics(state, parameters),
+    parseCharacterTraits(parameters, combine(ADD, CHARACTER_TRAIT_PREFIX)),
+    parseCharacterTraits(parameters, combine(REMOVE, CHARACTER_TRAIT_PREFIX)),
+)

@@ -126,7 +126,7 @@ fun parseStatblock(
     parseCharacterTraits(parameters),
 )
 
-private fun parseStatistics(
+fun parseStatistics(
     state: State,
     parameters: Parameters,
 ): MutableMap<StatisticId, Int> {

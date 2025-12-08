@@ -116,6 +116,10 @@
     "#type": "Modify",
     "template": 1,
     "update": {
+     "statistics": {
+      "2": 1,
+      "16": 2
+     }
     }
    }
   },

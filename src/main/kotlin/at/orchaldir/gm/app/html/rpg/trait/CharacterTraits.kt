@@ -96,9 +96,12 @@ fun HtmlBlockTag.editCharacterTraitGroups(
 
 // parse
 
-fun parseCharacterTraits(parameters: Parameters) = parameters.entries()
+fun parseCharacterTraits(
+    parameters: Parameters,
+    param: String = CHARACTER_TRAIT_PREFIX,
+) = parameters.entries()
     .asSequence()
-    .filter { e -> e.key.startsWith(CHARACTER_TRAIT_PREFIX) }
+    .filter { e -> e.key.startsWith(param) }
     .map { e -> e.value.first() }
     .filter { it != NONE }
     .map { CharacterTraitId(it.toInt()) }

@@ -104,7 +104,7 @@ fun parseCharacterStatblock(
     )
     CharacterStatblockType.ModifiedTemplate -> ModifyStatblockOfTemplate(
         parseCharacterTemplateId(parameters, combine(STATBLOCK, REFERENCE)),
-        StatblockUpdate(),
+        parseStatblockUpdate(state, parameters),
     )
 
     CharacterStatblockType.Undefined -> UndefinedCharacterStatblock
