@@ -45,7 +45,7 @@ fun HtmlBlockTag.showCharacterStatblock(
                 fieldLink(call, state, statblock.template)
                 field("Template Cost", template.statblock.calculateCost(state))
                 showStatblockUpdate(call, state, template.statblock, statblock.update, resolved)
-                field("Cost", resolved.calculateCost(state))
+                showStatblock(call, state, resolved)
             }
         }
     }
