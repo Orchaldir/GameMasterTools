@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.html.rpg.statblock
 
 import at.orchaldir.gm.app.STATISTIC
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.rpg.trait.showCharacterTraits
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.statblock.Statblock
@@ -12,6 +13,7 @@ import at.orchaldir.gm.core.selector.rpg.getBaseDamageValues
 import at.orchaldir.gm.core.selector.rpg.getDerivedAttributes
 import at.orchaldir.gm.core.selector.rpg.getSkills
 import at.orchaldir.gm.core.selector.util.sortStatistics
+import at.orchaldir.gm.utils.math.unit.up
 import io.ktor.server.application.*
 import kotlinx.html.*
 
@@ -36,6 +38,8 @@ fun HtmlBlockTag.showStatblockUpdate(
             showStatistics(call, state, statblock, update, resolved, damageValues, "Base Damage Value")
             showStatistics(call, state, statblock, update, resolved, skills, "Skills")
         }
+        showCharacterTraits(call, state, update.addedTraits, "Added Traits")
+        showCharacterTraits(call, state, update.removedTraits, "Removed Traits")
         field("Update Cost", update.calculateCost(state))
     }
 }
@@ -49,6 +53,13 @@ private fun TABLE.showStatistics(
     statistics: List<Statistic>,
     label: String,
 ) {
+    val filtered = statistics
+        .filter { update.statistics.containsKey(it.id) }
+
+    if (filtered.isEmpty()) {
+        return
+    }
+
     tr {
         th { +label }
         th { +"Base" }
@@ -56,9 +67,11 @@ private fun TABLE.showStatistics(
         th { +"Result" }
         th { +"Cost" }
     }
-    statistics.forEach { statistic ->
+
+    filtered
+        .forEach { statistic ->
         val base = statblock.resolve(state, statistic)
-        val modifier = update.statistics[statistic.id] ?: 0
+        val modifier = update.statistics[statistic.id] ?: return@forEach
         val result = resolved.resolve(state, statistic) ?: return@forEach
 
         tr {
