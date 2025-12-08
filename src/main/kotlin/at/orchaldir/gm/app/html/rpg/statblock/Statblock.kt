@@ -1,4 +1,4 @@
-package at.orchaldir.gm.app.html.rpg
+package at.orchaldir.gm.app.html.rpg.statblock
 
 import at.orchaldir.gm.app.STATISTIC
 import at.orchaldir.gm.app.html.*

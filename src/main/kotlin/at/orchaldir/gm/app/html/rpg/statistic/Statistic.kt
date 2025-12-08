@@ -10,7 +10,7 @@ import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.selector.economy.getJobs
 import at.orchaldir.gm.core.selector.rpg.getMeleeWeaponTypes
-import at.orchaldir.gm.core.selector.rpg.getStatblocksWith
+import at.orchaldir.gm.core.selector.rpg.statblock.getStatblocksWith
 import at.orchaldir.gm.core.selector.rpg.getStatisticsBasedOn
 import io.ktor.http.*
 import io.ktor.server.application.*

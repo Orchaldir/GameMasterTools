@@ -9,6 +9,7 @@ import kotlinx.serialization.Serializable
 enum class CharacterStatblockType {
     Statblock,
     Template,
+    ModifiedTemplate,
     Undefined,
 }
 
@@ -19,24 +20,39 @@ sealed class CharacterStatblock {
         UndefinedCharacterStatblock -> CharacterStatblockType.Undefined
         is UniqueCharacterStatblock -> CharacterStatblockType.Statblock
         is UseStatblockOfTemplate -> CharacterStatblockType.Template
+        is ModifyStatblockOfTemplate -> CharacterStatblockType.ModifiedTemplate
     }
 
-    fun calculateCost(state: State) = when (this) {
+    fun getStatblock(state: State) = when (this) {
         UndefinedCharacterStatblock -> null
-        is UniqueCharacterStatblock -> statblock.calculateCost(state)
+        is UniqueCharacterStatblock -> statblock
         is UseStatblockOfTemplate -> state.getCharacterTemplateStorage()
             .getOrThrow(template)
             .statblock
-            .calculateCost(state)
+        is ModifyStatblockOfTemplate -> {
+            val statblock = state.getCharacterTemplateStorage()
+                .getOrThrow(template)
+                .statblock
+
+            update.resolve(statblock)
+        }
     }
+
+    fun calculateCost(state: State) = getStatblock(state)?.calculateCost(state)
 
     fun contains(statistic: StatisticId) = when (this) {
         UndefinedCharacterStatblock -> false
         is UniqueCharacterStatblock -> statblock.statistics.containsKey(statistic)
         is UseStatblockOfTemplate -> false
+        is ModifyStatblockOfTemplate -> update.statistics.containsKey(statistic)
     }
 
-    fun contains(template: CharacterTemplateId) = this is UseStatblockOfTemplate && this.template == template
+    fun contains(template: CharacterTemplateId) = when (this) {
+        UndefinedCharacterStatblock -> false
+        is UniqueCharacterStatblock -> false
+        is UseStatblockOfTemplate -> this.template == template
+        is ModifyStatblockOfTemplate -> this.template == template
+    }
 }
 
 @Serializable
@@ -49,6 +65,13 @@ data class UniqueCharacterStatblock(
 @SerialName("Template")
 data class UseStatblockOfTemplate(
     val template: CharacterTemplateId,
+) : CharacterStatblock()
+
+@Serializable
+@SerialName("Modify")
+data class ModifyStatblockOfTemplate(
+    val template: CharacterTemplateId,
+    val update: StatblockUpdate,
 ) : CharacterStatblock()
 
 @Serializable

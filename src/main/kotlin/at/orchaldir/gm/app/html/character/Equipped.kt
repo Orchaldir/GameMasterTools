@@ -14,8 +14,8 @@ import at.orchaldir.gm.core.model.rpg.statblock.CharacterStatblock
 import at.orchaldir.gm.core.selector.character.getArmors
 import at.orchaldir.gm.core.selector.character.getMeleeAttacks
 import at.orchaldir.gm.core.selector.character.getShields
-import at.orchaldir.gm.core.selector.rpg.resolveMeleeAttackMap
-import at.orchaldir.gm.core.selector.rpg.resolveProtectionMap
+import at.orchaldir.gm.core.selector.rpg.statblock.resolveMeleeAttackMap
+import at.orchaldir.gm.core.selector.rpg.statblock.resolveProtectionMap
 import at.orchaldir.gm.core.selector.util.sortUniforms
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*

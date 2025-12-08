@@ -7,9 +7,9 @@ import at.orchaldir.gm.app.html.culture.parseKnownLanguages
 import at.orchaldir.gm.app.html.culture.parseOptionalCultureId
 import at.orchaldir.gm.app.html.culture.showKnownLanguages
 import at.orchaldir.gm.app.html.race.parseRaceId
-import at.orchaldir.gm.app.html.rpg.editStatblock
-import at.orchaldir.gm.app.html.rpg.parseStatblock
-import at.orchaldir.gm.app.html.rpg.showStatblock
+import at.orchaldir.gm.app.html.rpg.statblock.editStatblock
+import at.orchaldir.gm.app.html.rpg.statblock.parseStatblock
+import at.orchaldir.gm.app.html.rpg.statblock.showStatblock
 import at.orchaldir.gm.app.html.util.fieldBeliefStatus
 import at.orchaldir.gm.app.html.util.parseBeliefStatus
 import at.orchaldir.gm.app.html.util.selectBeliefStatus

@@ -8,9 +8,9 @@ import at.orchaldir.gm.app.html.culture.parseKnownLanguages
 import at.orchaldir.gm.app.html.culture.parseOptionalCultureId
 import at.orchaldir.gm.app.html.culture.showKnownLanguages
 import at.orchaldir.gm.app.html.race.parseRaceId
-import at.orchaldir.gm.app.html.rpg.editCharacterStatblock
-import at.orchaldir.gm.app.html.rpg.parseCharacterStatblock
-import at.orchaldir.gm.app.html.rpg.showCharacterStatblock
+import at.orchaldir.gm.app.html.rpg.statblock.editCharacterStatblock
+import at.orchaldir.gm.app.html.rpg.statblock.parseCharacterStatblock
+import at.orchaldir.gm.app.html.rpg.statblock.showCharacterStatblock
 import at.orchaldir.gm.app.html.rpg.trait.editCharacterTraitGroups
 import at.orchaldir.gm.app.html.rpg.trait.parseCharacterTraits
 import at.orchaldir.gm.app.html.rpg.trait.showCharacterTraits

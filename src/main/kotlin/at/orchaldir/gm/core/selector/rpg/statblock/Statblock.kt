@@ -1,6 +1,7 @@
-package at.orchaldir.gm.core.selector.rpg
+package at.orchaldir.gm.core.selector.rpg.statblock
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.rpg.statblock.ModifyStatblockOfTemplate
 import at.orchaldir.gm.core.model.rpg.statblock.Statblock
 import at.orchaldir.gm.core.model.rpg.statblock.UndefinedCharacterStatblock
 import at.orchaldir.gm.core.model.rpg.statblock.UniqueCharacterStatblock
@@ -8,6 +9,8 @@ import at.orchaldir.gm.core.model.rpg.statblock.UseStatblockOfTemplate
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
+
+
 
 fun State.getStatblocksWith(statistic: StatisticId): List<Pair<Id<*>, Int>> {
     val statblocks = mutableListOf<Pair<Id<*>, Int>>()
@@ -32,6 +35,13 @@ fun State.getStatblocksWith(statistic: StatisticId): List<Pair<Id<*>, Int>> {
                     val template = getCharacterTemplateStorage().getOrThrow(character.statblock.template)
 
                     addStatblock(statblocks, statistic, template.statblock, character.id)
+                }
+
+                is ModifyStatblockOfTemplate -> {
+                    val template = getCharacterTemplateStorage().getOrThrow(character.statblock.template)
+                    val resolvedStatblock = character.statblock.update.resolve(template.statblock)
+
+                    addStatblock(statblocks, statistic, resolvedStatblock, character.id)
                 }
             }
         }

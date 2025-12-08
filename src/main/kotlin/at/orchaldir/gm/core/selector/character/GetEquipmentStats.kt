@@ -11,8 +11,8 @@ import at.orchaldir.gm.core.model.item.equipment.EquipmentIdMap
 import at.orchaldir.gm.core.model.rpg.combat.MeleeAttack
 import at.orchaldir.gm.core.model.rpg.combat.Protection
 import at.orchaldir.gm.core.selector.rpg.getEquipmentModifierEffects
-import at.orchaldir.gm.core.selector.rpg.resolveMeleeAttacks
-import at.orchaldir.gm.core.selector.rpg.resolveProtection
+import at.orchaldir.gm.core.selector.rpg.statblock.resolveMeleeAttacks
+import at.orchaldir.gm.core.selector.rpg.statblock.resolveProtection
 
 // get armors
 

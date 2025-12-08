@@ -3,10 +3,12 @@ package at.orchaldir.gm.core.reducer.character
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.rpg.statblock.CharacterStatblock
+import at.orchaldir.gm.core.model.rpg.statblock.ModifyStatblockOfTemplate
 import at.orchaldir.gm.core.model.rpg.statblock.UndefinedCharacterStatblock
 import at.orchaldir.gm.core.model.rpg.statblock.UniqueCharacterStatblock
 import at.orchaldir.gm.core.model.rpg.statblock.UseStatblockOfTemplate
 import at.orchaldir.gm.core.reducer.rpg.validateStatblock
+import at.orchaldir.gm.core.reducer.rpg.validateStatblockUpdate
 import at.orchaldir.gm.core.reducer.util.*
 import at.orchaldir.gm.utils.doNothing
 
@@ -43,6 +45,10 @@ fun validateCharacterStatblock(
         UndefinedCharacterStatblock -> doNothing()
         is UniqueCharacterStatblock -> validateStatblock(state, statblock.statblock)
         is UseStatblockOfTemplate -> state.getCharacterTemplateStorage().require(statblock.template)
+        is ModifyStatblockOfTemplate -> {
+            state.getCharacterTemplateStorage().require(statblock.template)
+            validateStatblockUpdate(state, statblock.update)
+        }
     }
 }
 

@@ -1,4 +1,4 @@
-package at.orchaldir.gm.app.html.rpg
+package at.orchaldir.gm.app.html.rpg.statblock
 
 import at.orchaldir.gm.app.REFERENCE
 import at.orchaldir.gm.app.STATBLOCK
@@ -9,6 +9,8 @@ import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.statblock.CharacterStatblock
 import at.orchaldir.gm.core.model.rpg.statblock.CharacterStatblockType
+import at.orchaldir.gm.core.model.rpg.statblock.ModifyStatblockOfTemplate
+import at.orchaldir.gm.core.model.rpg.statblock.StatblockUpdate
 import at.orchaldir.gm.core.model.rpg.statblock.UndefinedCharacterStatblock
 import at.orchaldir.gm.core.model.rpg.statblock.UniqueCharacterStatblock
 import at.orchaldir.gm.core.model.rpg.statblock.UseStatblockOfTemplate
@@ -31,6 +33,12 @@ fun HtmlBlockTag.showCharacterStatblock(
             UndefinedCharacterStatblock -> doNothing()
             is UniqueCharacterStatblock -> showStatblock(call, state, statblock.statblock)
             is UseStatblockOfTemplate -> {
+                val template = state.getCharacterTemplateStorage().getOrThrow(statblock.template)
+
+                fieldLink(call, state, statblock.template)
+                field("Cost", template.statblock.calculateCost(state))
+            }
+            is ModifyStatblockOfTemplate -> {
                 val template = state.getCharacterTemplateStorage().getOrThrow(statblock.template)
 
                 fieldLink(call, state, statblock.template)
@@ -64,6 +72,13 @@ fun HtmlBlockTag.editCharacterStatblock(
                 state.getCharacterTemplateStorage().getAll(),
                 statblock.template,
             )
+
+            is ModifyStatblockOfTemplate -> selectElement(
+                state,
+                combine(STATBLOCK, REFERENCE),
+                state.getCharacterTemplateStorage().getAll(),
+                statblock.template,
+            )
         }
     }
 }
@@ -80,6 +95,10 @@ fun parseCharacterStatblock(
 
     CharacterStatblockType.Template -> UseStatblockOfTemplate(
         parseCharacterTemplateId(parameters, combine(STATBLOCK, REFERENCE)),
+    )
+    CharacterStatblockType.ModifiedTemplate -> ModifyStatblockOfTemplate(
+        parseCharacterTemplateId(parameters, combine(STATBLOCK, REFERENCE)),
+        StatblockUpdate(),
     )
 
     CharacterStatblockType.Undefined -> UndefinedCharacterStatblock
