@@ -74,12 +74,17 @@ fun HtmlBlockTag.editCharacterStatblock(
                 statblock.template,
             )
 
-            is ModifyStatblockOfTemplate -> selectElement(
-                state,
-                combine(STATBLOCK, REFERENCE),
-                state.getCharacterTemplateStorage().getAll(),
-                statblock.template,
-            )
+            is ModifyStatblockOfTemplate -> {
+                val template = state.getCharacterTemplateStorage().getOrThrow(statblock.template)
+
+                selectElement(
+                    state,
+                    combine(STATBLOCK, REFERENCE),
+                    state.getCharacterTemplateStorage().getAll(),
+                    statblock.template,
+                )
+                editStatblockUpdate(call, state, template.statblock, statblock.update)
+            }
         }
     }
 }

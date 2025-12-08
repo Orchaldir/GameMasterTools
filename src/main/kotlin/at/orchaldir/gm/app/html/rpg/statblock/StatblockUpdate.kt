@@ -83,3 +83,62 @@ private fun TABLE.showStatistics(
         }
     }
 }
+
+// edit
+
+fun HtmlBlockTag.editStatblockUpdate(
+    call: ApplicationCall,
+    state: State,
+    statblock: Statblock,
+    update: StatblockUpdate,
+) {
+    val resolved = update.resolve(statblock)
+    val attributes = state.sortStatistics(state.getAttributes())
+    val derivedAttributes = state.sortStatistics(state.getDerivedAttributes())
+    val damageValues = state.sortStatistics(state.getBaseDamageValues())
+    val skills = state.sortStatistics(state.getSkills())
+
+    showDetails("Stateblock Update", true) {
+        table {
+            editStatistics(call, state, statblock, update, resolved, attributes, "Attribute")
+            editStatistics(call, state, statblock, update, resolved, derivedAttributes, "Derived Attribute")
+            editStatistics(call, state, statblock, update, resolved, damageValues, "Base Damage Value")
+            editStatistics(call, state, statblock, update, resolved, skills, "Skills")
+        }
+        showCharacterTraits(call, state, update.addedTraits, "Added Traits")
+        showCharacterTraits(call, state, update.removedTraits, "Removed Traits")
+        field("Update Cost", update.calculateCost(state))
+    }
+}
+
+private fun TABLE.editStatistics(
+    call: ApplicationCall,
+    state: State,
+    statblock: Statblock,
+    update: StatblockUpdate,
+    resolved: Statblock,
+    statistics: List<Statistic>,
+    label: String,
+) {
+    tr {
+        th { +label }
+        th { +"Base" }
+        th { +"Modifier" }
+        th { +"Result" }
+        th { +"Cost" }
+    }
+
+    statistics.forEach { statistic ->
+            val base = statblock.resolve(state, statistic)
+            val modifier = update.statistics[statistic.id] ?: 0
+            val result = resolved.resolve(state, statistic)
+
+            tr {
+                tdLink(call, state, statistic)
+                tdSkipZero(base)
+                tdSkipZero(modifier)
+                tdSkipZero(result)
+                tdInt(statistic.data.cost().calculate(modifier))
+            }
+        }
+}
