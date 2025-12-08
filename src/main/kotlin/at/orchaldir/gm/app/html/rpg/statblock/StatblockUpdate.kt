@@ -27,8 +27,8 @@ fun HtmlBlockTag.showStatblockUpdate(
     state: State,
     statblock: Statblock,
     update: StatblockUpdate,
+    resolved: Statblock,
 ) {
-    val resolved = update.resolve(statblock)
     val attributes = state.sortStatistics(state.getAttributes())
     val derivedAttributes = state.sortStatistics(state.getDerivedAttributes())
     val damageValues = state.sortStatistics(state.getBaseDamageValues())
@@ -94,8 +94,8 @@ fun HtmlBlockTag.editStatblockUpdate(
     state: State,
     statblock: Statblock,
     update: StatblockUpdate,
+    resolved: Statblock,
 ) {
-    val resolved = update.resolve(statblock)
     val attributes = state.sortStatistics(state.getAttributes())
     val derivedAttributes = state.sortStatistics(state.getDerivedAttributes())
     val damageValues = state.sortStatistics(state.getBaseDamageValues())

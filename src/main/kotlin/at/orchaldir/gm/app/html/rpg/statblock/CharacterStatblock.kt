@@ -40,10 +40,12 @@ fun HtmlBlockTag.showCharacterStatblock(
             }
             is ModifyStatblockOfTemplate -> {
                 val template = state.getCharacterTemplateStorage().getOrThrow(statblock.template)
+                val resolved = statblock.update.resolve(template.statblock)
 
                 fieldLink(call, state, statblock.template)
-                showStatblockUpdate(call, state, template.statblock, statblock.update)
-                field("Cost", template.statblock.calculateCost(state))
+                field("Template Cost", template.statblock.calculateCost(state))
+                showStatblockUpdate(call, state, template.statblock, statblock.update, resolved)
+                field("Cost", resolved.calculateCost(state))
             }
         }
     }
@@ -76,6 +78,7 @@ fun HtmlBlockTag.editCharacterStatblock(
 
             is ModifyStatblockOfTemplate -> {
                 val template = state.getCharacterTemplateStorage().getOrThrow(statblock.template)
+                val resolved = statblock.update.resolve(template.statblock)
 
                 selectElement(
                     state,
@@ -83,7 +86,9 @@ fun HtmlBlockTag.editCharacterStatblock(
                     state.getCharacterTemplateStorage().getAll(),
                     statblock.template,
                 )
-                editStatblockUpdate(call, state, template.statblock, statblock.update)
+                field("Template Cost", template.statblock.calculateCost(state))
+                editStatblockUpdate(call, state, template.statblock, statblock.update, resolved)
+                field("Cost", resolved.calculateCost(state))
             }
         }
     }
