@@ -42,6 +42,7 @@ fun HtmlBlockTag.showCharacterStatblock(
                 val template = state.getCharacterTemplateStorage().getOrThrow(statblock.template)
 
                 fieldLink(call, state, statblock.template)
+                showStatblockUpdate(call, state, template.statblock, statblock.update)
                 field("Cost", template.statblock.calculateCost(state))
             }
         }

@@ -113,8 +113,10 @@
    },
    "title": 0,
    "statblock": {
-    "#type": "Template",
-    "template": 1
+    "#type": "Modify",
+    "template": 1,
+    "update": {
+    }
    }
   },
   "1": {
