@@ -1,6 +1,6 @@
 package at.orchaldir.gm.app.html.rpg.trait
 
-import at.orchaldir.gm.app.CHARACTER_TRAIT_PREFIX
+import at.orchaldir.gm.app.CHARACTER_TRAIT
 import at.orchaldir.gm.app.NONE
 import at.orchaldir.gm.app.html.fieldIds
 import at.orchaldir.gm.app.html.link
@@ -59,7 +59,7 @@ fun HtmlBlockTag.editCharacterTraitGroups(
                 return@forEach
             }
 
-            val textId = "$CHARACTER_TRAIT_PREFIX${group.value}"
+            val textId = "$CHARACTER_TRAIT${group.value}"
             var isAnyCheck = false
 
             p {
@@ -98,7 +98,7 @@ fun HtmlBlockTag.editCharacterTraitGroups(
 
 fun parseCharacterTraits(
     parameters: Parameters,
-    param: String = CHARACTER_TRAIT_PREFIX,
+    param: String = CHARACTER_TRAIT,
 ) = parameters.entries()
     .asSequence()
     .filter { e -> e.key.startsWith(param) }
