@@ -49,9 +49,18 @@ fun HtmlBlockTag.editCharacterTraitGroups(
     availableTypes: Set<CharacterTraitType> = CharacterTraitType.entries.toSet(),
     isOpen: Boolean = false,
     label: String = "Character Traits",
+    blockedTraits: Set<CharacterTraitId> = emptySet(),
 ) {
+    val blockedGroups = blockedTraits
+        .mapNotNull { state.getCharacterTraitStorage().getOrThrow(it).group }
+        .toSet()
+
     showDetails(label, isOpen) {
         state.getCharacterTraitGroups().forEach { group ->
+            if (blockedGroups.contains(group)) {
+                return@forEach
+            }
+
             val traitsOfGroup = state.getCharacterTraits(group)
             val filteredTraits = traitsOfGroup.filter { availableTypes.contains(it.type) }
 

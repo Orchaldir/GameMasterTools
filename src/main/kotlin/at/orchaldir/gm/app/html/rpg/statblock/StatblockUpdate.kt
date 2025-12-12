@@ -42,8 +42,8 @@ fun HtmlBlockTag.showStatblockUpdate(
             showStatistics(call, state, statblock, update, resolved, damageValues, "Base Damage Value")
             showStatistics(call, state, statblock, update, resolved, skills, "Skills")
         }
-        showCharacterTraits(call, state, update.addedTraits, "Added Traits")
         showCharacterTraits(call, state, update.removedTraits, "Removed Traits")
+        showCharacterTraits(call, state, update.addedTraits, "Added Traits")
         field("Update Cost", update.calculateCost(state))
     }
 }
@@ -109,14 +109,20 @@ fun HtmlBlockTag.editStatblockUpdate(
             editStatistics(call, state, statblock, update, resolved, damageValues, "Base Damage Value")
             editStatistics(call, state, statblock, update, resolved, skills, "Skills")
         }
-        showCharacterTraits(call, state, update.addedTraits, "Added Traits")
-        editCharacterTraitGroups(call, state, statblock.traits, isOpen = true, label = "Added Traits")
         selectElements(
             state,
             "Removed Traits",
             combine(REMOVE, CHARACTER_TRAIT),
             state.getCharacterTraitStorage().get(statblock.traits),
             update.removedTraits,
+        )
+        editCharacterTraitGroups(
+            call,
+            state,
+            update.addedTraits,
+            isOpen = true,
+            label = "Added Traits",
+            blockedTraits = statblock.traits - update.removedTraits,
         )
         field("Update Cost", update.calculateCost(state))
     }
@@ -169,7 +175,7 @@ fun parseStatblockUpdate(
     parameters: Parameters,
 ) = StatblockUpdate(
     parseStatistics(state, parameters),
-    parseCharacterTraits(parameters, combine(ADD, CHARACTER_TRAIT)),
+    parseCharacterTraits(parameters, CHARACTER_TRAIT),
     parseElements(
         parameters,
         combine(REMOVE, CHARACTER_TRAIT),
