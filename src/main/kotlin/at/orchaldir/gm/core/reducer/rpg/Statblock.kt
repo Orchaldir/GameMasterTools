@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.model.rpg.statblock.UndefinedCharacterStatblock
 import at.orchaldir.gm.core.model.rpg.statblock.UniqueCharacterStatblock
 import at.orchaldir.gm.core.model.rpg.statblock.UseStatblockOfTemplate
 import at.orchaldir.gm.utils.doNothing
+import at.orchaldir.gm.utils.math.unit.up
 
 fun validateCharacterStatblock(
     state: State,
@@ -40,5 +41,10 @@ fun validateStatblockUpdate(
 ) {
     state.getCharacterTraitStorage().require(update.addedTraits)
     state.getCharacterTraitStorage().require(update.removedTraits)
+    update.addedTraits.forEach {
+        require(!update.removedTraits.contains(it)) { "Cannot add & remove ${it.print()}!"
+        }
+    }
+
     state.getStatisticStorage().require(update.statistics.keys)
 }

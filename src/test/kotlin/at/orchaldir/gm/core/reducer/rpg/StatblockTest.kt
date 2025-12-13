@@ -61,6 +61,14 @@ class StatblockTest {
         }
 
         @Test
+        fun `Cannot add & remove the same character trait`() {
+            val sameTrait = setOf(CHARACTER_TRAIT_ID_0)
+            val update = StatblockUpdate(addedTraits = sameTrait, removedTraits = sameTrait)
+
+            assertIllegalArgument("Cannot add & remove Character Trait 0!") { validate(update) }
+        }
+
+        @Test
         fun `Using an unknown statistic`() {
             val update = StatblockUpdate(mapOf(UNKNOWN_STATISTIC_ID to 4))
 
