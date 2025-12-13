@@ -41,10 +41,15 @@ fun validateStatblockUpdate(
 ) {
     state.getCharacterTraitStorage().require(update.addedTraits)
     state.getCharacterTraitStorage().require(update.removedTraits)
+    state.getStatisticStorage().require(update.statistics.keys)
+
     update.addedTraits.forEach {
         require(!update.removedTraits.contains(it)) { "Cannot add & remove ${it.print()}!"
         }
     }
 
-    state.getStatisticStorage().require(update.statistics.keys)
+    update.removedTraits.forEach {
+        require(statblock.traits.contains(it)) { "Cannot remove ${it.print()}, because it is not in the statblock!"
+        }
+    }
 }
