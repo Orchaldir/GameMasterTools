@@ -13,9 +13,6 @@
     "#type": "Day",
     "day": 322954
    },
-   "personality": [
-    59
-   ],
    "appearance": {
     "#type": "Humanoid",
     "body": {
@@ -122,13 +119,7 @@
      "statistics": {
       "2": 1,
       "16": 2
-     },
-     "addedTraits": [
-      59
-     ],
-     "removedTraits": [
-      57
-     ]
+     }
     }
    }
   },

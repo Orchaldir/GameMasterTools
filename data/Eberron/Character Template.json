@@ -35,22 +35,18 @@
     "uniform": 0
    },
    "statblock": {
-    "#type": "Unique",
-    "statblock": {
+    "#type": "Modify",
+    "template": 0,
+    "update": {
      "statistics": {
-      "0": 4,
+      "0": 2,
       "1": 2,
       "2": 2,
       "3": 2,
       "4": 2,
       "5": 2,
-      "6": 6,
-      "7": 2
-     },
-     "traits": [
-      6,
-      57
-     ]
+      "6": 2
+     }
     }
    }
   },
