@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.race.aging
 
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
+import at.orchaldir.gm.core.model.rpg.statblock.Statblock
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.math.FULL
@@ -53,6 +54,12 @@ sealed class LifeStages {
         is SimpleAging -> lifeStages.size
     }
 
+    fun getStatblock() = when (this) {
+        is DefaultAging -> statblock
+        is ImmutableLifeStage -> statblock
+        is SimpleAging -> statblock
+    }
+
     abstract fun getAllLifeStages(): List<LifeStage>
     abstract fun getLifeStage(age: Int): LifeStage?
     abstract fun getLifeStageStartAge(age: Int): Int
@@ -67,6 +74,7 @@ data class DefaultAging(
     val maxAges: List<Int> = DEFAULT_MAX_AGES,
     val oldAgeHairColor: Color? = DEFAULT_OLD_AGE_HAIR_COLOR,
     val venerableAgeHairColor: Color? = DEFAULT_VENERABLE_AGE_HAIR_COLOR,
+    val statblock: Statblock = Statblock(),
 ) : LifeStages() {
 
     override fun contains(id: RaceAppearanceId) = id == appearance
@@ -108,6 +116,7 @@ data class DefaultAging(
 data class SimpleAging(
     val appearance: RaceAppearanceId = RaceAppearanceId(0),
     val lifeStages: List<LifeStage>,
+    val statblock: Statblock = Statblock(),
 ) : LifeStages() {
 
     override fun contains(id: RaceAppearanceId) = id == appearance
@@ -126,6 +135,7 @@ data class SimpleAging(
 @SerialName("Immutable")
 data class ImmutableLifeStage(
     val appearance: RaceAppearanceId = RaceAppearanceId(0),
+    val statblock: Statblock = Statblock(),
 ) : LifeStages() {
 
     override fun contains(id: RaceAppearanceId) = id == appearance
