@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.model.rpg.statblock
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterTemplateId
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
+import at.orchaldir.gm.core.selector.rpg.statblock.getStatblockOrNull
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -23,23 +24,7 @@ sealed class StatblockLookup {
         is ModifyStatblockOfTemplate -> StatblockLookupType.ModifyTemplate
     }
 
-    fun getStatblock(state: State) = when (this) {
-        UndefinedStatblockLookup -> null
-        is UniqueStatblock -> statblock
-        is UseStatblockOfTemplate -> state.getCharacterTemplateStorage()
-            .getOrThrow(template)
-            .statblock
-
-        is ModifyStatblockOfTemplate -> {
-            val statblock = state.getCharacterTemplateStorage()
-                .getOrThrow(template)
-                .statblock
-
-            update.resolve(statblock)
-        }
-    }
-
-    fun calculateCost(state: State) = getStatblock(state)?.calculateCost(state)
+    fun calculateCost(state: State) = state.getStatblockOrNull(this)?.calculateCost(state)
 
     fun contains(statistic: StatisticId) = when (this) {
         UndefinedStatblockLookup -> false

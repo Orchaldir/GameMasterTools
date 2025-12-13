@@ -8,6 +8,7 @@ import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.statblock.*
+import at.orchaldir.gm.core.selector.rpg.statblock.getStatblock
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -18,28 +19,28 @@ import kotlinx.html.HtmlBlockTag
 fun HtmlBlockTag.showStatblockLookup(
     call: ApplicationCall,
     state: State,
-    statblock: StatblockLookup,
+    lookup: StatblockLookup,
 ) {
     showDetails("Statblock", true) {
-        field("Type", statblock.getType())
+        field("Type", lookup.getType())
 
-        when (statblock) {
+        when (lookup) {
             UndefinedStatblockLookup -> doNothing()
-            is UniqueStatblock -> showStatblock(call, state, statblock.statblock)
+            is UniqueStatblock -> showStatblock(call, state, lookup.statblock)
             is UseStatblockOfTemplate -> {
-                val template = state.getCharacterTemplateStorage().getOrThrow(statblock.template)
+                val statblock = state.getStatblock(lookup.template)
 
-                fieldLink(call, state, statblock.template)
-                field("Cost", template.statblock.calculateCost(state))
+                fieldLink(call, state, lookup.template)
+                field("Cost", statblock.calculateCost(state))
             }
 
             is ModifyStatblockOfTemplate -> {
-                val template = state.getCharacterTemplateStorage().getOrThrow(statblock.template)
-                val resolved = statblock.update.resolve(template.statblock)
+                val statblock = state.getStatblock(lookup.template)
+                val resolved = lookup.update.resolve(statblock)
 
-                fieldLink(call, state, statblock.template)
-                field("Template Cost", template.statblock.calculateCost(state))
-                showStatblockUpdate(call, state, template.statblock, statblock.update, resolved)
+                fieldLink(call, state, lookup.template)
+                field("Template Cost", statblock.calculateCost(state))
+                showStatblockUpdate(call, state, statblock, lookup.update, resolved)
                 showStatblock(call, state, resolved)
             }
         }
@@ -51,38 +52,38 @@ fun HtmlBlockTag.showStatblockLookup(
 fun HtmlBlockTag.editStatblockLookup(
     call: ApplicationCall,
     state: State,
-    statblock: StatblockLookup,
+    lookup: StatblockLookup,
 ) {
     showDetails("Statblock", true) {
         selectValue(
             "Type",
             STATBLOCK,
             StatblockLookupType.entries,
-            statblock.getType(),
+            lookup.getType(),
         )
 
-        when (statblock) {
+        when (lookup) {
             UndefinedStatblockLookup -> doNothing()
-            is UniqueStatblock -> editStatblock(call, state, statblock.statblock)
+            is UniqueStatblock -> editStatblock(call, state, lookup.statblock)
             is UseStatblockOfTemplate -> selectElement(
                 state,
                 combine(STATBLOCK, REFERENCE),
                 state.getCharacterTemplateStorage().getAll(),
-                statblock.template,
+                lookup.template,
             )
 
             is ModifyStatblockOfTemplate -> {
-                val template = state.getCharacterTemplateStorage().getOrThrow(statblock.template)
-                val resolved = statblock.update.resolve(template.statblock)
+                val statblock = state.getStatblock(lookup.template)
+                val resolved = lookup.update.resolve(statblock)
 
                 selectElement(
                     state,
                     combine(STATBLOCK, REFERENCE),
                     state.getCharacterTemplateStorage().getAll(),
-                    statblock.template,
+                    lookup.template,
                 )
-                field("Template Cost", template.statblock.calculateCost(state))
-                editStatblockUpdate(call, state, template.statblock, statblock.update, resolved)
+                field("Template Cost", statblock.calculateCost(state))
+                editStatblockUpdate(call, state, statblock, lookup.update, resolved)
                 field("Cost", resolved.calculateCost(state))
             }
         }

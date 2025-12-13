@@ -5,7 +5,8 @@ import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.culture.language.LanguageId
 import at.orchaldir.gm.core.model.race.RaceId
-import at.orchaldir.gm.core.model.rpg.statblock.Statblock
+import at.orchaldir.gm.core.model.rpg.statblock.StatblockLookup
+import at.orchaldir.gm.core.model.rpg.statblock.UndefinedStatblockLookup
 import at.orchaldir.gm.core.model.util.BeliefStatus
 import at.orchaldir.gm.core.model.util.HasBelief
 import at.orchaldir.gm.core.model.util.History
@@ -15,7 +16,7 @@ import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.source.DataSourceId
 import at.orchaldir.gm.core.model.util.source.HasDataSources
 import at.orchaldir.gm.core.reducer.character.validateEquipped
-import at.orchaldir.gm.core.reducer.rpg.validateStatblock
+import at.orchaldir.gm.core.reducer.rpg.validateStatblockLookup
 import at.orchaldir.gm.core.reducer.util.checkBeliefStatus
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
@@ -42,7 +43,7 @@ data class CharacterTemplate(
     val languages: Map<LanguageId, ComprehensionLevel> = emptyMap(),
     val belief: BeliefStatus = UndefinedBeliefStatus,
     val equipped: Equipped = UndefinedEquipped,
-    val statblock: Statblock = Statblock(),
+    val statblock: StatblockLookup = UndefinedStatblockLookup,
     val sources: Set<DataSourceId> = emptySet(),
 ) : ElementWithSimpleName<CharacterTemplateId>, HasBelief, HasDataSources {
 
@@ -60,7 +61,7 @@ data class CharacterTemplate(
         state.getLanguageStorage().require(languages.keys)
         state.getRaceStorage().require(race)
         validateEquipped(state, equipped)
-        validateStatblock(state, statblock)
+        validateStatblockLookup(state, statblock)
         checkBeliefStatus(state, belief)
     }
 }

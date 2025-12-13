@@ -17,7 +17,7 @@ class StatblockTest {
         StatblockUpdate(mapOf(STATISTIC_ID_0 to 4), setOf(CHARACTER_TRAIT_ID_1), setOf(CHARACTER_TRAIT_ID_0))
     private val state = State(
         listOf(
-            Storage(CharacterTemplate(CHARACTER_TEMPLATE_ID_0, race = RACE_ID_0, statblock = validStatblock)),
+            Storage(CharacterTemplate(CHARACTER_TEMPLATE_ID_0, race = RACE_ID_0, statblock = UniqueStatblock(validStatblock))),
             Storage(listOf(CharacterTrait(CHARACTER_TRAIT_ID_0), CharacterTrait(CHARACTER_TRAIT_ID_1))),
             Storage(Statistic(STATISTIC_ID_0)),
         )

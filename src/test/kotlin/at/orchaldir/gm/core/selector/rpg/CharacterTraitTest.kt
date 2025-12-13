@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterTemplate
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.rpg.statblock.Statblock
+import at.orchaldir.gm.core.model.rpg.statblock.UniqueStatblock
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTrait
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
@@ -35,7 +36,7 @@ class CharacterTraitTest {
 
         @Test
         fun `Cannot delete a character trait used by a character template`() {
-            val statblock = Statblock(traits = setOf(CHARACTER_TRAIT_ID_0))
+            val statblock = UniqueStatblock(Statblock(traits = setOf(CHARACTER_TRAIT_ID_0)))
             val character = CharacterTemplate(CHARACTER_TEMPLATE_ID_0, race = RACE_ID_0, statblock = statblock)
             val newState = state.updateStorage(Storage(character))
 

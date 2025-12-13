@@ -9,20 +9,20 @@ import at.orchaldir.gm.core.model.rpg.statblock.*
 
 fun resolveMeleeAttackMap(
     state: State,
-    statblock: StatblockLookup,
+    lookup: StatblockLookup,
     attackMap: Map<Equipment, List<MeleeAttack>>,
-) = when (statblock) {
+) = when (lookup) {
     UndefinedStatblockLookup -> attackMap
-    is UniqueStatblock -> resolveMeleeAttackMap(state, statblock.statblock, attackMap)
+    is UniqueStatblock -> resolveMeleeAttackMap(state, lookup.statblock, attackMap)
     is UseStatblockOfTemplate -> {
-        val template = state.getCharacterTemplateStorage().getOrThrow(statblock.template)
+        val statblock = state.getStatblock(lookup.template)
 
-        resolveMeleeAttackMap(state, template.statblock, attackMap)
+        resolveMeleeAttackMap(state, statblock, attackMap)
     }
 
     is ModifyStatblockOfTemplate -> {
-        val template = state.getCharacterTemplateStorage().getOrThrow(statblock.template)
-        val resolvedStatblock = statblock.update.resolve(template.statblock)
+        val statblock = state.getStatblock(lookup.template)
+        val resolvedStatblock = lookup.update.resolve(statblock)
 
         resolveMeleeAttackMap(state, resolvedStatblock, attackMap)
     }
