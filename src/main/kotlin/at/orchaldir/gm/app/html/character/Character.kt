@@ -11,9 +11,6 @@ import at.orchaldir.gm.app.html.race.parseRaceId
 import at.orchaldir.gm.app.html.rpg.statblock.editStatblockLookup
 import at.orchaldir.gm.app.html.rpg.statblock.parseStatblockLookup
 import at.orchaldir.gm.app.html.rpg.statblock.showStatblockLookup
-import at.orchaldir.gm.app.html.rpg.trait.editCharacterTraitGroups
-import at.orchaldir.gm.app.html.rpg.trait.parseCharacterTraits
-import at.orchaldir.gm.app.html.rpg.trait.showCharacterTraits
 import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.app.html.util.math.fieldDistance
 import at.orchaldir.gm.app.html.util.source.editDataSources

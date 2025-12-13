@@ -20,6 +20,7 @@ fun State.getStatblockOrNull(lookup: StatblockLookup): Statblock? = when (lookup
 
         lookup.update.resolve(statblock)
     }
+
     UndefinedStatblockLookup -> null
 }
 
