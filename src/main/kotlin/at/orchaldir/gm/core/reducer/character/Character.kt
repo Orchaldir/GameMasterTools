@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.rpg.statblock.ModifyStatblockOfTemplate
 import at.orchaldir.gm.core.model.rpg.statblock.UndefinedCharacterStatblock
 import at.orchaldir.gm.core.model.rpg.statblock.UniqueCharacterStatblock
 import at.orchaldir.gm.core.model.rpg.statblock.UseStatblockOfTemplate
+import at.orchaldir.gm.core.reducer.rpg.validateCharacterStatblock
 import at.orchaldir.gm.core.reducer.rpg.validateStatblock
 import at.orchaldir.gm.core.reducer.rpg.validateStatblockUpdate
 import at.orchaldir.gm.core.reducer.util.*
@@ -35,21 +36,6 @@ fun validateCharacterData(
     checkAuthenticity(state, character.authenticity)
     state.getCharacterTraitStorage().require(character.personality)
     validateCharacterStatblock(state, character.statblock)
-}
-
-fun validateCharacterStatblock(
-    state: State,
-    statblock: CharacterStatblock,
-) {
-    when (statblock) {
-        UndefinedCharacterStatblock -> doNothing()
-        is UniqueCharacterStatblock -> validateStatblock(state, statblock.statblock)
-        is UseStatblockOfTemplate -> state.getCharacterTemplateStorage().require(statblock.template)
-        is ModifyStatblockOfTemplate -> {
-            state.getCharacterTemplateStorage().require(statblock.template)
-            validateStatblockUpdate(state, statblock.update)
-        }
-    }
 }
 
 private fun checkSexualOrientation(character: Character) {
