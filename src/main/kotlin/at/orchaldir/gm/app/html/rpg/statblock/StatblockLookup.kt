@@ -21,7 +21,7 @@ fun HtmlBlockTag.showStatblockLookup(
     state: State,
     lookup: StatblockLookup,
 ) {
-    showDetails("Statblock", true) {
+    showDetails("Statblock Lookup", true) {
         field("Type", lookup.getType())
 
         when (lookup) {
@@ -54,7 +54,7 @@ fun HtmlBlockTag.editStatblockLookup(
     state: State,
     lookup: StatblockLookup,
 ) {
-    showDetails("Statblock", true) {
+    showDetails("Statblock Lookup", true) {
         selectValue(
             "Type",
             STATBLOCK,
