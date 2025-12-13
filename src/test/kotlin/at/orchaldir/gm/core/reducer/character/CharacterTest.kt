@@ -8,13 +8,10 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.character.Gender.Genderless
 import at.orchaldir.gm.core.model.culture.Culture
-import at.orchaldir.gm.core.model.culture.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.culture.language.Language
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.race.Race
-import at.orchaldir.gm.core.model.rpg.statblock.Statblock
-import at.orchaldir.gm.core.model.rpg.statblock.UniqueStatblock
 import at.orchaldir.gm.core.model.rpg.statblock.UseStatblockOfTemplate
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTrait
 import at.orchaldir.gm.core.model.time.Time
@@ -30,7 +27,6 @@ import kotlin.test.assertEquals
 
 class CharacterTest {
 
-    private val LANGUAGES = mapOf(LANGUAGE_ID_0 to ComprehensionLevel.Native)
     val character0 = Character(CHARACTER_ID_0)
 
     @Nested
