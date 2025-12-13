@@ -19,8 +19,8 @@ fun validateCharacterStatblock(
         is UniqueCharacterStatblock -> validateStatblock(state, statblock.statblock)
         is UseStatblockOfTemplate -> state.getCharacterTemplateStorage().require(statblock.template)
         is ModifyStatblockOfTemplate -> {
-            state.getCharacterTemplateStorage().require(statblock.template)
-            validateStatblockUpdate(state, statblock.update)
+            val template = state.getCharacterTemplateStorage().getOrThrow(statblock.template)
+            validateStatblockUpdate(state, template.statblock, statblock.update)
         }
     }
 }
@@ -35,9 +35,10 @@ fun validateStatblock(
 
 fun validateStatblockUpdate(
     state: State,
-    statblockUpdate: StatblockUpdate,
+    statblock: Statblock,
+    update: StatblockUpdate,
 ) {
-    state.getCharacterTraitStorage().require(statblockUpdate.addedTraits)
-    state.getCharacterTraitStorage().require(statblockUpdate.removedTraits)
-    state.getStatisticStorage().require(statblockUpdate.statistics.keys)
+    state.getCharacterTraitStorage().require(update.addedTraits)
+    state.getCharacterTraitStorage().require(update.removedTraits)
+    state.getStatisticStorage().require(update.statistics.keys)
 }
