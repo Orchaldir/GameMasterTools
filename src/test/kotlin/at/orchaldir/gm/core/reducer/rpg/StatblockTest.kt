@@ -104,7 +104,7 @@ class StatblockTest {
     }
 
     @Nested
-    inner class CharacterStatblockTest {
+    inner class StatblockLookupTest {
 
         @Test
         fun `Using an unknown template`() {
@@ -142,8 +142,8 @@ class StatblockTest {
             validate(statblock)
         }
 
-        private fun validate(statblock: CharacterStatblock) {
-            validateCharacterStatblock(state, statblock)
+        private fun validate(statblock: StatblockLookup) {
+            validateStatblockLookup(state, statblock)
         }
     }
 }

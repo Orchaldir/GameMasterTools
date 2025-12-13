@@ -14,7 +14,7 @@ import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.rpg.statblock.Statblock
-import at.orchaldir.gm.core.model.rpg.statblock.UniqueCharacterStatblock
+import at.orchaldir.gm.core.model.rpg.statblock.UniqueStatblock
 import at.orchaldir.gm.core.model.rpg.statblock.UseStatblockOfTemplate
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTrait
 import at.orchaldir.gm.core.model.time.Time
@@ -68,7 +68,7 @@ class CharacterTest {
 
             @Test
             fun `Using an unknown statistic`() {
-                val statblock = UniqueCharacterStatblock(Statblock(mapOf(UNKNOWN_STATISTIC_ID to 4)))
+                val statblock = UniqueStatblock(Statblock(mapOf(UNKNOWN_STATISTIC_ID to 4)))
                 val character = Character(CHARACTER_ID_0, statblock = statblock)
                 val action = UpdateAction(character)
 

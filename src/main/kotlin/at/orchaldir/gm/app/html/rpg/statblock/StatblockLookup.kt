@@ -15,17 +15,17 @@ import kotlinx.html.HtmlBlockTag
 
 // show
 
-fun HtmlBlockTag.showCharacterStatblock(
+fun HtmlBlockTag.showStatblockLookup(
     call: ApplicationCall,
     state: State,
-    statblock: CharacterStatblock,
+    statblock: StatblockLookup,
 ) {
     showDetails("Statblock", true) {
         field("Type", statblock.getType())
 
         when (statblock) {
-            UndefinedCharacterStatblock -> doNothing()
-            is UniqueCharacterStatblock -> showStatblock(call, state, statblock.statblock)
+            UndefinedStatblockLookup -> doNothing()
+            is UniqueStatblock -> showStatblock(call, state, statblock.statblock)
             is UseStatblockOfTemplate -> {
                 val template = state.getCharacterTemplateStorage().getOrThrow(statblock.template)
 
@@ -48,22 +48,22 @@ fun HtmlBlockTag.showCharacterStatblock(
 
 // edit
 
-fun HtmlBlockTag.editCharacterStatblock(
+fun HtmlBlockTag.editStatblockLookup(
     call: ApplicationCall,
     state: State,
-    statblock: CharacterStatblock,
+    statblock: StatblockLookup,
 ) {
     showDetails("Statblock", true) {
         selectValue(
             "Type",
             STATBLOCK,
-            CharacterStatblockType.entries,
+            StatblockLookupType.entries,
             statblock.getType(),
         )
 
         when (statblock) {
-            UndefinedCharacterStatblock -> doNothing()
-            is UniqueCharacterStatblock -> editStatblock(call, state, statblock.statblock)
+            UndefinedStatblockLookup -> doNothing()
+            is UniqueStatblock -> editStatblock(call, state, statblock.statblock)
             is UseStatblockOfTemplate -> selectElement(
                 state,
                 combine(STATBLOCK, REFERENCE),
@@ -91,22 +91,22 @@ fun HtmlBlockTag.editCharacterStatblock(
 
 // parse
 
-fun parseCharacterStatblock(
+fun parseStatblockLookup(
     state: State,
     parameters: Parameters,
-) = when (parse(parameters, STATBLOCK, CharacterStatblockType.Undefined)) {
-    CharacterStatblockType.Statblock -> UniqueCharacterStatblock(
+) = when (parse(parameters, STATBLOCK, StatblockLookupType.Undefined)) {
+    StatblockLookupType.Unique -> UniqueStatblock(
         parseStatblock(state, parameters),
     )
 
-    CharacterStatblockType.Template -> UseStatblockOfTemplate(
+    StatblockLookupType.UseTemplate -> UseStatblockOfTemplate(
         parseCharacterTemplateId(parameters, combine(STATBLOCK, REFERENCE)),
     )
 
-    CharacterStatblockType.ModifiedTemplate -> ModifyStatblockOfTemplate(
+    StatblockLookupType.ModifyTemplate -> ModifyStatblockOfTemplate(
         parseCharacterTemplateId(parameters, combine(STATBLOCK, REFERENCE)),
         parseStatblockUpdate(state, parameters),
     )
 
-    CharacterStatblockType.Undefined -> UndefinedCharacterStatblock
+    StatblockLookupType.Undefined -> UndefinedStatblockLookup
 }

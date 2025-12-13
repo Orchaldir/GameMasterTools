@@ -18,8 +18,8 @@ fun State.getStatblocksWith(statistic: StatisticId): List<Pair<Id<*>, Int>> {
     getCharacterStorage().getAll()
         .forEach { character ->
             when (character.statblock) {
-                UndefinedCharacterStatblock -> doNothing()
-                is UniqueCharacterStatblock -> addStatblock(
+                UndefinedStatblockLookup -> doNothing()
+                is UniqueStatblock -> addStatblock(
                     statblocks,
                     statistic,
                     character.statblock.statblock,

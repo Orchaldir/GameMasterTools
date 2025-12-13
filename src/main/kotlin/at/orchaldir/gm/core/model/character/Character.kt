@@ -11,8 +11,8 @@ import at.orchaldir.gm.core.model.culture.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.culture.language.LanguageId
 import at.orchaldir.gm.core.model.culture.name.getDefaultFamilyName
 import at.orchaldir.gm.core.model.race.RaceId
-import at.orchaldir.gm.core.model.rpg.statblock.CharacterStatblock
-import at.orchaldir.gm.core.model.rpg.statblock.UndefinedCharacterStatblock
+import at.orchaldir.gm.core.model.rpg.statblock.StatblockLookup
+import at.orchaldir.gm.core.model.rpg.statblock.UndefinedStatblockLookup
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitId
 import at.orchaldir.gm.core.model.time.Duration
 import at.orchaldir.gm.core.model.time.calendar.Calendar
@@ -99,7 +99,7 @@ data class Character(
     val beliefStatus: History<BeliefStatus> = History(UndefinedBeliefStatus),
     val title: TitleId? = null,
     val authenticity: Authenticity = Authentic,
-    val statblock: CharacterStatblock = UndefinedCharacterStatblock,
+    val statblock: StatblockLookup = UndefinedStatblockLookup,
     val sources: Set<DataSourceId> = emptySet(),
 ) : Element<CharacterId>, HasBelief, HasDataSources, HasVitalStatus {
 

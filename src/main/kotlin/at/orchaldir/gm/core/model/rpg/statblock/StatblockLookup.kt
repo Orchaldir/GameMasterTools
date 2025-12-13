@@ -6,26 +6,26 @@ import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-enum class CharacterStatblockType {
-    Statblock,
-    Template,
-    ModifiedTemplate,
+enum class StatblockLookupType {
+    Unique,
+    UseTemplate,
+    ModifyTemplate,
     Undefined,
 }
 
 @Serializable
-sealed class CharacterStatblock {
+sealed class StatblockLookup {
 
     fun getType() = when (this) {
-        UndefinedCharacterStatblock -> CharacterStatblockType.Undefined
-        is UniqueCharacterStatblock -> CharacterStatblockType.Statblock
-        is UseStatblockOfTemplate -> CharacterStatblockType.Template
-        is ModifyStatblockOfTemplate -> CharacterStatblockType.ModifiedTemplate
+        UndefinedStatblockLookup -> StatblockLookupType.Undefined
+        is UniqueStatblock -> StatblockLookupType.Unique
+        is UseStatblockOfTemplate -> StatblockLookupType.UseTemplate
+        is ModifyStatblockOfTemplate -> StatblockLookupType.ModifyTemplate
     }
 
     fun getStatblock(state: State) = when (this) {
-        UndefinedCharacterStatblock -> null
-        is UniqueCharacterStatblock -> statblock
+        UndefinedStatblockLookup -> null
+        is UniqueStatblock -> statblock
         is UseStatblockOfTemplate -> state.getCharacterTemplateStorage()
             .getOrThrow(template)
             .statblock
@@ -42,39 +42,39 @@ sealed class CharacterStatblock {
     fun calculateCost(state: State) = getStatblock(state)?.calculateCost(state)
 
     fun contains(statistic: StatisticId) = when (this) {
-        UndefinedCharacterStatblock -> false
-        is UniqueCharacterStatblock -> statblock.statistics.containsKey(statistic)
+        UndefinedStatblockLookup -> false
+        is UniqueStatblock -> statblock.statistics.containsKey(statistic)
         is UseStatblockOfTemplate -> false
         is ModifyStatblockOfTemplate -> update.statistics.containsKey(statistic)
     }
 
     fun contains(template: CharacterTemplateId) = when (this) {
-        UndefinedCharacterStatblock -> false
-        is UniqueCharacterStatblock -> false
+        UndefinedStatblockLookup -> false
+        is UniqueStatblock -> false
         is UseStatblockOfTemplate -> this.template == template
         is ModifyStatblockOfTemplate -> this.template == template
     }
 }
 
 @Serializable
-@SerialName("Statblock")
-data class UniqueCharacterStatblock(
+@SerialName("Unique")
+data class UniqueStatblock(
     val statblock: Statblock,
-) : CharacterStatblock()
+) : StatblockLookup()
 
 @Serializable
 @SerialName("Template")
 data class UseStatblockOfTemplate(
     val template: CharacterTemplateId,
-) : CharacterStatblock()
+) : StatblockLookup()
 
 @Serializable
 @SerialName("Modify")
 data class ModifyStatblockOfTemplate(
     val template: CharacterTemplateId,
     val update: StatblockUpdate,
-) : CharacterStatblock()
+) : StatblockLookup()
 
 @Serializable
 @SerialName("Undefined")
-data object UndefinedCharacterStatblock : CharacterStatblock()
+data object UndefinedStatblockLookup : StatblockLookup()

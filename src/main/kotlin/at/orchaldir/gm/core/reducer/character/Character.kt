@@ -2,7 +2,7 @@ package at.orchaldir.gm.core.reducer.character
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
-import at.orchaldir.gm.core.reducer.rpg.validateCharacterStatblock
+import at.orchaldir.gm.core.reducer.rpg.validateStatblockLookup
 import at.orchaldir.gm.core.reducer.util.*
 
 fun validateCharacterData(
@@ -27,7 +27,7 @@ fun validateCharacterData(
     checkEmploymentStatusHistory(state, character.employmentStatus, character.date)
     checkAuthenticity(state, character.authenticity)
     state.getCharacterTraitStorage().require(character.personality)
-    validateCharacterStatblock(state, character.statblock)
+    validateStatblockLookup(state, character.statblock)
 }
 
 private fun checkSexualOrientation(character: Character) {

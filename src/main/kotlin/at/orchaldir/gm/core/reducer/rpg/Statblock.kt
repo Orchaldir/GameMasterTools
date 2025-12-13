@@ -4,13 +4,13 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.statblock.*
 import at.orchaldir.gm.utils.doNothing
 
-fun validateCharacterStatblock(
+fun validateStatblockLookup(
     state: State,
-    statblock: CharacterStatblock,
+    statblock: StatblockLookup,
 ) {
     when (statblock) {
-        UndefinedCharacterStatblock -> doNothing()
-        is UniqueCharacterStatblock -> validateStatblock(state, statblock.statblock)
+        UndefinedStatblockLookup -> doNothing()
+        is UniqueStatblock -> validateStatblock(state, statblock.statblock)
         is UseStatblockOfTemplate -> state.getCharacterTemplateStorage().require(statblock.template)
         is ModifyStatblockOfTemplate -> {
             val template = state.getCharacterTemplateStorage().getOrThrow(statblock.template)
