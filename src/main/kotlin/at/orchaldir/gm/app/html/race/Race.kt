@@ -83,7 +83,7 @@ fun HtmlBlockTag.editRace(
     selectWeight("Weight", WEIGHT, race.weight, 1, 1000, weightPrefix)
     selectOptionalDate(state, "Date", race.date, DATE)
     editOrigin(state, race.id, race.origin, race.date, ALLOWED_RACE_ORIGINS, ::RaceId)
-    editLifeStages(state, race.lifeStages)
+    editLifeStages(call, state, race.lifeStages)
     editDataSources(state, race.sources)
 }
 
@@ -98,7 +98,7 @@ fun parseRace(state: State, parameters: Parameters, id: RaceId) = Race(
     parseOneOf(parameters, GENDER, Gender::valueOf),
     parseDistribution(parameters, HEIGHT, heightPrefix, ::parseDistance),
     parseWeight(parameters, WEIGHT, weightPrefix),
-    parseLifeStages(parameters),
+    parseLifeStages(state, parameters),
     parseOptionalDate(parameters, state, DATE),
     parseOrigin(parameters),
     parseDataSources(parameters),

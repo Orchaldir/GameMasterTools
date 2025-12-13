@@ -2,6 +2,9 @@ package at.orchaldir.gm.app.html.race
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.rpg.statblock.editStatblock
+import at.orchaldir.gm.app.html.rpg.statblock.parseStatblock
+import at.orchaldir.gm.app.html.rpg.statblock.showStatblock
 import at.orchaldir.gm.app.html.util.math.fieldFactor
 import at.orchaldir.gm.app.html.util.math.parseFactor
 import at.orchaldir.gm.app.html.util.math.selectPercentage
@@ -11,6 +14,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.beard.BeardType
 import at.orchaldir.gm.core.model.race.aging.*
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
+import at.orchaldir.gm.core.model.realm.CauseOfCatastropheType.Undefined
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.math.Factor
 import io.ktor.http.*
@@ -27,7 +31,10 @@ fun HtmlBlockTag.showLifeStages(
     h2 { +"Life Stages" }
 
     when (lifeStages) {
-        is ImmutableLifeStage -> showAppearance(call, state, lifeStages.appearance)
+        is ImmutableLifeStage -> {
+            showAppearance(call, state, lifeStages.appearance)
+            showStatblock(call, state, lifeStages.statblock)
+        }
 
         is DefaultAging -> {
             showAppearance(call, state, lifeStages.appearance)
@@ -38,6 +45,7 @@ fun HtmlBlockTag.showLifeStages(
             }
             optionalField("Old Age Hair Color", lifeStages.oldAgeHairColor)
             optionalField("Venerable Hair Color", lifeStages.venerableAgeHairColor)
+            showStatblock(call, state, lifeStages.statblock)
         }
 
         is SimpleAging -> {
@@ -45,6 +53,7 @@ fun HtmlBlockTag.showLifeStages(
             details {
                 showList(lifeStages.lifeStages, HtmlBlockTag::showLifeStage)
             }
+            showStatblock(call, state, lifeStages.statblock)
         }
     }
 }
@@ -89,6 +98,7 @@ private fun HtmlBlockTag.showMaxAge(maxAge: Int) {
 // edit
 
 fun HtmlBlockTag.editLifeStages(
+    call: ApplicationCall,
     state: State,
     lifeStages: LifeStages,
 ) {
@@ -102,6 +112,7 @@ fun HtmlBlockTag.editLifeStages(
     when (lifeStages) {
         is ImmutableLifeStage -> {
             selectAppearance(state, lifeStages.appearance, 0)
+            editStatblock(call, state, lifeStages.statblock)
         }
 
         is DefaultAging -> {
@@ -114,6 +125,7 @@ fun HtmlBlockTag.editLifeStages(
             }
             selectHairColor("Old Age Hair Color", 6, lifeStages.oldAgeHairColor)
             selectHairColor("Venerable Hair Color", 7, lifeStages.venerableAgeHairColor)
+            editStatblock(call, state, lifeStages.statblock)
         }
 
         is SimpleAging -> {
@@ -144,6 +156,7 @@ fun HtmlBlockTag.editLifeStages(
                 }
                 minMaxAge = stage.maxAge + 1
             }
+            editStatblock(call, state, lifeStages.statblock)
         }
     }
 }
@@ -194,25 +207,29 @@ private fun HtmlBlockTag.selectAppearance(
 
 // parse
 
-fun parseLifeStages(parameters: Parameters) = when (parameters[combine(LIFE_STAGE, TYPE)]) {
-    LifeStagesType.ImmutableLifeStage.name -> ImmutableLifeStage(
+fun parseLifeStages(
+    state: State,
+    parameters: Parameters,
+) = when (parse(parameters, combine(LIFE_STAGE, TYPE), LifeStagesType.DefaultAging)) {
+    LifeStagesType.ImmutableLifeStage -> ImmutableLifeStage(
         parseAppearanceId(parameters, 0),
+        parseStatblock(state, parameters),
     )
 
-    LifeStagesType.DefaultAging.name -> DefaultAging(
+    LifeStagesType.DefaultAging -> DefaultAging(
         parseAppearanceId(parameters, 0),
         parseMaxAges(parameters),
         parseHairColor(parameters, 6),
         parseHairColor(parameters, 7),
+        parseStatblock(state, parameters),
     )
 
-    LifeStagesType.SimpleAging.name -> SimpleAging(
+    LifeStagesType.SimpleAging -> SimpleAging(
         parseAppearanceId(parameters, 0),
         parseSimpleLifeStages(parameters),
+        parseStatblock(state, parameters),
     )
-
-    else -> error("Unsupported")
-    }
+}
 
 private fun parseMaxAges(parameters: Parameters): List<Int> = (0..<DefaultLifeStages.entries.size)
     .map { parseMaxAge(parameters, it, DEFAULT_MAX_AGES[it]) }

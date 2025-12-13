@@ -54,7 +54,7 @@ sealed class LifeStages {
         is SimpleAging -> lifeStages.size
     }
 
-    fun getStatblock() = when (this) {
+    fun statblock() = when (this) {
         is DefaultAging -> statblock
         is ImmutableLifeStage -> statblock
         is SimpleAging -> statblock
