@@ -20,6 +20,8 @@ import org.junit.jupiter.api.Test
 class StatblockTest {
 
     private val validStatblock = Statblock(mapOf(STATISTIC_ID_0 to 4), setOf(CHARACTER_TRAIT_ID_0))
+    private val validUpdate =
+        StatblockUpdate(mapOf(STATISTIC_ID_0 to 4), setOf(CHARACTER_TRAIT_ID_1), setOf(CHARACTER_TRAIT_ID_0))
     private val state = State(
         listOf(
             Storage(CharacterTemplate(CHARACTER_TEMPLATE_ID_0, race = RACE_ID_0, statblock = validStatblock)),
@@ -130,8 +132,15 @@ class StatblockTest {
         }
 
         @Test
-        fun `Test a valid character statblock`() {
+        fun `Using a valid character template`() {
             val statblock = UseStatblockOfTemplate(CHARACTER_TEMPLATE_ID_0)
+
+            validate(statblock)
+        }
+
+        @Test
+        fun `Modifying a valid character template`() {
+            val statblock = ModifyStatblockOfTemplate(CHARACTER_TEMPLATE_ID_0, validUpdate)
 
             validate(statblock)
         }
