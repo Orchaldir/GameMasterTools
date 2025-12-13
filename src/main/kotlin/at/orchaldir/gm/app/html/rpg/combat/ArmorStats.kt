@@ -10,7 +10,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.rpg.combat.ArmorStats
 import at.orchaldir.gm.core.selector.rpg.getEquipmentModifierEffects
-import at.orchaldir.gm.core.selector.rpg.resolveProtection
+import at.orchaldir.gm.core.selector.rpg.statblock.resolveProtection
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.DETAILS

@@ -1,6 +1,6 @@
 package at.orchaldir.gm.app.html.rpg.trait
 
-import at.orchaldir.gm.app.CHARACTER_TRAIT_PREFIX
+import at.orchaldir.gm.app.CHARACTER_TRAIT
 import at.orchaldir.gm.app.NONE
 import at.orchaldir.gm.app.html.fieldIds
 import at.orchaldir.gm.app.html.link
@@ -49,9 +49,18 @@ fun HtmlBlockTag.editCharacterTraitGroups(
     availableTypes: Set<CharacterTraitType> = CharacterTraitType.entries.toSet(),
     isOpen: Boolean = false,
     label: String = "Character Traits",
+    blockedTraits: Set<CharacterTraitId> = emptySet(),
 ) {
+    val blockedGroups = blockedTraits
+        .mapNotNull { state.getCharacterTraitStorage().getOrThrow(it).group }
+        .toSet()
+
     showDetails(label, isOpen) {
         state.getCharacterTraitGroups().forEach { group ->
+            if (blockedGroups.contains(group)) {
+                return@forEach
+            }
+
             val traitsOfGroup = state.getCharacterTraits(group)
             val filteredTraits = traitsOfGroup.filter { availableTypes.contains(it.type) }
 
@@ -59,7 +68,7 @@ fun HtmlBlockTag.editCharacterTraitGroups(
                 return@forEach
             }
 
-            val textId = "$CHARACTER_TRAIT_PREFIX${group.value}"
+            val textId = "$CHARACTER_TRAIT${group.value}"
             var isAnyCheck = false
 
             p {
@@ -96,9 +105,12 @@ fun HtmlBlockTag.editCharacterTraitGroups(
 
 // parse
 
-fun parseCharacterTraits(parameters: Parameters) = parameters.entries()
+fun parseCharacterTraits(
+    parameters: Parameters,
+    param: String = CHARACTER_TRAIT,
+) = parameters.entries()
     .asSequence()
-    .filter { e -> e.key.startsWith(CHARACTER_TRAIT_PREFIX) }
+    .filter { e -> e.key.startsWith(param) }
     .map { e -> e.value.first() }
     .filter { it != NONE }
     .map { CharacterTraitId(it.toInt()) }

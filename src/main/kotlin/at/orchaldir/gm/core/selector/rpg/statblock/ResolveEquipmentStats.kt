@@ -1,9 +1,9 @@
-package at.orchaldir.gm.core.selector.rpg
+package at.orchaldir.gm.core.selector.rpg.statblock
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.Equipment
-import at.orchaldir.gm.core.model.rpg.*
 import at.orchaldir.gm.core.model.rpg.combat.*
+import at.orchaldir.gm.core.model.rpg.statblock.*
 
 // resolve melee attack with statblock
 
@@ -18,6 +18,13 @@ fun resolveMeleeAttackMap(
         val template = state.getCharacterTemplateStorage().getOrThrow(statblock.template)
 
         resolveMeleeAttackMap(state, template.statblock, attackMap)
+    }
+
+    is ModifyStatblockOfTemplate -> {
+        val template = state.getCharacterTemplateStorage().getOrThrow(statblock.template)
+        val resolvedStatblock = statblock.update.resolve(template.statblock)
+
+        resolveMeleeAttackMap(state, resolvedStatblock, attackMap)
     }
 }
 

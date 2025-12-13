@@ -13,9 +13,9 @@ import at.orchaldir.gm.core.model.culture.language.Language
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.race.Race
-import at.orchaldir.gm.core.model.rpg.Statblock
-import at.orchaldir.gm.core.model.rpg.UniqueCharacterStatblock
-import at.orchaldir.gm.core.model.rpg.UseStatblockOfTemplate
+import at.orchaldir.gm.core.model.rpg.statblock.Statblock
+import at.orchaldir.gm.core.model.rpg.statblock.UniqueCharacterStatblock
+import at.orchaldir.gm.core.model.rpg.statblock.UseStatblockOfTemplate
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTrait
 import at.orchaldir.gm.core.model.time.Time
 import at.orchaldir.gm.core.model.time.date.Day

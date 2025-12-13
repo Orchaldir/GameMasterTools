@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.model.rpg
+package at.orchaldir.gm.core.model.rpg.statblock
 
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.State

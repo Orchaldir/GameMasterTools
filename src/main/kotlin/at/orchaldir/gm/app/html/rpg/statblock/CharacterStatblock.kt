@@ -1,4 +1,4 @@
-package at.orchaldir.gm.app.html.rpg
+package at.orchaldir.gm.app.html.rpg.statblock
 
 import at.orchaldir.gm.app.REFERENCE
 import at.orchaldir.gm.app.STATBLOCK
@@ -7,7 +7,7 @@ import at.orchaldir.gm.app.html.character.parseCharacterTemplateId
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.rpg.*
+import at.orchaldir.gm.core.model.rpg.statblock.*
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -31,6 +31,16 @@ fun HtmlBlockTag.showCharacterStatblock(
 
                 fieldLink(call, state, statblock.template)
                 field("Cost", template.statblock.calculateCost(state))
+            }
+
+            is ModifyStatblockOfTemplate -> {
+                val template = state.getCharacterTemplateStorage().getOrThrow(statblock.template)
+                val resolved = statblock.update.resolve(template.statblock)
+
+                fieldLink(call, state, statblock.template)
+                field("Template Cost", template.statblock.calculateCost(state))
+                showStatblockUpdate(call, state, template.statblock, statblock.update, resolved)
+                showStatblock(call, state, resolved)
             }
         }
     }
@@ -60,6 +70,21 @@ fun HtmlBlockTag.editCharacterStatblock(
                 state.getCharacterTemplateStorage().getAll(),
                 statblock.template,
             )
+
+            is ModifyStatblockOfTemplate -> {
+                val template = state.getCharacterTemplateStorage().getOrThrow(statblock.template)
+                val resolved = statblock.update.resolve(template.statblock)
+
+                selectElement(
+                    state,
+                    combine(STATBLOCK, REFERENCE),
+                    state.getCharacterTemplateStorage().getAll(),
+                    statblock.template,
+                )
+                field("Template Cost", template.statblock.calculateCost(state))
+                editStatblockUpdate(call, state, template.statblock, statblock.update, resolved)
+                field("Cost", resolved.calculateCost(state))
+            }
         }
     }
 }
@@ -76,6 +101,11 @@ fun parseCharacterStatblock(
 
     CharacterStatblockType.Template -> UseStatblockOfTemplate(
         parseCharacterTemplateId(parameters, combine(STATBLOCK, REFERENCE)),
+    )
+
+    CharacterStatblockType.ModifiedTemplate -> ModifyStatblockOfTemplate(
+        parseCharacterTemplateId(parameters, combine(STATBLOCK, REFERENCE)),
+        parseStatblockUpdate(state, parameters),
     )
 
     CharacterStatblockType.Undefined -> UndefinedCharacterStatblock

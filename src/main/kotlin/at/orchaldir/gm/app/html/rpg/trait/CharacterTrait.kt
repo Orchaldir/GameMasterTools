@@ -101,6 +101,9 @@ fun HtmlBlockTag.editCharacterTrait(
 
 // parse
 
+fun parseCharacterTraitId(parameters: Parameters, param: String) = CharacterTraitId(parseInt(parameters, param))
+fun parseCharacterTraitId(value: String) = CharacterTraitId(value.toInt())
+
 fun parseCharacterTrait(
     state: State,
     parameters: Parameters,

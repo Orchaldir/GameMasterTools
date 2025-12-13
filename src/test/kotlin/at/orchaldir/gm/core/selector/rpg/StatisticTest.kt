@@ -6,12 +6,12 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterTemplate
 import at.orchaldir.gm.core.model.economy.job.Job
-import at.orchaldir.gm.core.model.rpg.Statblock
-import at.orchaldir.gm.core.model.rpg.UniqueCharacterStatblock
 import at.orchaldir.gm.core.model.rpg.combat.Damage
 import at.orchaldir.gm.core.model.rpg.combat.MeleeAttack
 import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponType
 import at.orchaldir.gm.core.model.rpg.combat.StatisticBasedDamage
+import at.orchaldir.gm.core.model.rpg.statblock.Statblock
+import at.orchaldir.gm.core.model.rpg.statblock.UniqueCharacterStatblock
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
