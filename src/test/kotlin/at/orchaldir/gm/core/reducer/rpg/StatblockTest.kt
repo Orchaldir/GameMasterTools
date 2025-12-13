@@ -1,18 +1,11 @@
 package at.orchaldir.gm.core.reducer.rpg
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterTemplate
-import at.orchaldir.gm.core.model.rpg.statblock.CharacterStatblock
-import at.orchaldir.gm.core.model.rpg.statblock.ModifyStatblockOfTemplate
-import at.orchaldir.gm.core.model.rpg.statblock.Statblock
-import at.orchaldir.gm.core.model.rpg.statblock.StatblockUpdate
-import at.orchaldir.gm.core.model.rpg.statblock.UseStatblockOfTemplate
+import at.orchaldir.gm.core.model.rpg.statblock.*
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTrait
-import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -82,7 +75,11 @@ class StatblockTest {
         fun `Cannot remove a character trait not in the statblock`() {
             val update = StatblockUpdate(removedTraits = setOf(CHARACTER_TRAIT_ID_1))
 
-            assertIllegalArgument("Cannot remove Character Trait 1, because it is not in the statblock!") { validate(update) }
+            assertIllegalArgument("Cannot remove Character Trait 1, because it is not in the statblock!") {
+                validate(
+                    update
+                )
+            }
         }
 
         @Test

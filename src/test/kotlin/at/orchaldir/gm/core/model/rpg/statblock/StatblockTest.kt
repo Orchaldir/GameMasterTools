@@ -1,25 +1,8 @@
 package at.orchaldir.gm.core.model.rpg.statblock
 
-import at.orchaldir.gm.CHARACTER_TRAIT_ID_0
-import at.orchaldir.gm.CHARACTER_TRAIT_ID_1
-import at.orchaldir.gm.STATISTIC_ID_0
-import at.orchaldir.gm.STATISTIC_ID_1
-import at.orchaldir.gm.UNKNOWN_CHARACTER_TRAIT_ID
-import at.orchaldir.gm.UNKNOWN_STATISTIC_ID
-import at.orchaldir.gm.assertIllegalArgument
+import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.rpg.statistic.Attribute
-import at.orchaldir.gm.core.model.rpg.statistic.BasedOnStatistic
-import at.orchaldir.gm.core.model.rpg.statistic.DerivedAttribute
-import at.orchaldir.gm.core.model.rpg.statistic.DivisionOfValues
-import at.orchaldir.gm.core.model.rpg.statistic.FixedNumber
-import at.orchaldir.gm.core.model.rpg.statistic.FixedStatisticCost
-import at.orchaldir.gm.core.model.rpg.statistic.ProductOfValues
-import at.orchaldir.gm.core.model.rpg.statistic.Skill
-import at.orchaldir.gm.core.model.rpg.statistic.Statistic
-import at.orchaldir.gm.core.model.rpg.statistic.StatisticData
-import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
-import at.orchaldir.gm.core.model.rpg.statistic.SumOfValues
+import at.orchaldir.gm.core.model.rpg.statistic.*
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTrait
 import at.orchaldir.gm.core.reducer.rpg.validateStatblock
 import at.orchaldir.gm.utils.Storage

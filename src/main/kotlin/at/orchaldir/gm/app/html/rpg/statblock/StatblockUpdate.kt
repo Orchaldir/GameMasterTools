@@ -1,6 +1,8 @@
 package at.orchaldir.gm.app.html.rpg.statblock
 
-import at.orchaldir.gm.app.*
+import at.orchaldir.gm.app.CHARACTER_TRAIT
+import at.orchaldir.gm.app.REMOVE
+import at.orchaldir.gm.app.STATISTIC
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.rpg.trait.editCharacterTraitGroups
 import at.orchaldir.gm.app.html.rpg.trait.parseCharacterTraitId
@@ -17,7 +19,7 @@ import at.orchaldir.gm.core.selector.rpg.getBaseDamageValues
 import at.orchaldir.gm.core.selector.rpg.getDerivedAttributes
 import at.orchaldir.gm.core.selector.rpg.getSkills
 import at.orchaldir.gm.core.selector.util.sortStatistics
-import io.ktor.http.Parameters
+import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.*
 
@@ -74,18 +76,18 @@ private fun TABLE.showStatistics(
 
     filtered
         .forEach { statistic ->
-        val base = statblock.resolve(state, statistic)
-        val modifier = update.statistics[statistic.id] ?: return@forEach
-        val result = resolved.resolve(state, statistic) ?: return@forEach
+            val base = statblock.resolve(state, statistic)
+            val modifier = update.statistics[statistic.id] ?: return@forEach
+            val result = resolved.resolve(state, statistic) ?: return@forEach
 
-        tr {
-            tdLink(call, state, statistic)
-            tdSkipZero(base)
-            tdSkipZero(modifier)
-            tdInt(result)
-            tdInt(statistic.data.cost().calculate(modifier))
+            tr {
+                tdLink(call, state, statistic)
+                tdSkipZero(base)
+                tdSkipZero(modifier)
+                tdInt(result)
+                tdInt(statistic.data.cost().calculate(modifier))
+            }
         }
-    }
 }
 
 // edit
@@ -146,26 +148,26 @@ private fun TABLE.editStatistics(
     }
 
     statistics.forEach { statistic ->
-            val base = statblock.resolve(state, statistic)
-            val modifier = update.statistics[statistic.id] ?: 0
-            val result = resolved.resolve(state, statistic)
+        val base = statblock.resolve(state, statistic)
+        val modifier = update.statistics[statistic.id] ?: 0
+        val result = resolved.resolve(state, statistic)
 
-            tr {
-                tdLink(call, state, statistic)
-                tdSkipZero(base)
-                td {
-                    selectInt(
-                        modifier,
-                        -10,
-                        +10,
-                        1,
-                        combine(STATISTIC, statistic.id.value),
-                    )
-                }
-                tdSkipZero(result)
-                tdInt(statistic.data.cost().calculate(modifier))
+        tr {
+            tdLink(call, state, statistic)
+            tdSkipZero(base)
+            td {
+                selectInt(
+                    modifier,
+                    -10,
+                    +10,
+                    1,
+                    combine(STATISTIC, statistic.id.value),
+                )
             }
+            tdSkipZero(result)
+            tdInt(statistic.data.cost().calculate(modifier))
         }
+    }
 }
 
 // parse

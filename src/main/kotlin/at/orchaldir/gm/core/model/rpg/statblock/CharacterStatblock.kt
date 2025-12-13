@@ -29,6 +29,7 @@ sealed class CharacterStatblock {
         is UseStatblockOfTemplate -> state.getCharacterTemplateStorage()
             .getOrThrow(template)
             .statblock
+
         is ModifyStatblockOfTemplate -> {
             val statblock = state.getCharacterTemplateStorage()
                 .getOrThrow(template)

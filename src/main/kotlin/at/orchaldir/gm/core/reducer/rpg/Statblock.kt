@@ -1,15 +1,8 @@
 package at.orchaldir.gm.core.reducer.rpg
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.rpg.statblock.CharacterStatblock
-import at.orchaldir.gm.core.model.rpg.statblock.ModifyStatblockOfTemplate
-import at.orchaldir.gm.core.model.rpg.statblock.Statblock
-import at.orchaldir.gm.core.model.rpg.statblock.StatblockUpdate
-import at.orchaldir.gm.core.model.rpg.statblock.UndefinedCharacterStatblock
-import at.orchaldir.gm.core.model.rpg.statblock.UniqueCharacterStatblock
-import at.orchaldir.gm.core.model.rpg.statblock.UseStatblockOfTemplate
+import at.orchaldir.gm.core.model.rpg.statblock.*
 import at.orchaldir.gm.utils.doNothing
-import at.orchaldir.gm.utils.math.unit.up
 
 fun validateCharacterStatblock(
     state: State,
@@ -44,12 +37,14 @@ fun validateStatblockUpdate(
     state.getStatisticStorage().require(update.statistics.keys)
 
     update.addedTraits.forEach {
-        require(!update.removedTraits.contains(it)) { "Cannot add & remove ${it.print()}!"
+        require(!update.removedTraits.contains(it)) {
+            "Cannot add & remove ${it.print()}!"
         }
     }
 
     update.removedTraits.forEach {
-        require(statblock.traits.contains(it)) { "Cannot remove ${it.print()}, because it is not in the statblock!"
+        require(statblock.traits.contains(it)) {
+            "Cannot remove ${it.print()}, because it is not in the statblock!"
         }
     }
 }

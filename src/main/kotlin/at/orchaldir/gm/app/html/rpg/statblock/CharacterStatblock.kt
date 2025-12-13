@@ -7,13 +7,7 @@ import at.orchaldir.gm.app.html.character.parseCharacterTemplateId
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.rpg.statblock.CharacterStatblock
-import at.orchaldir.gm.core.model.rpg.statblock.CharacterStatblockType
-import at.orchaldir.gm.core.model.rpg.statblock.ModifyStatblockOfTemplate
-import at.orchaldir.gm.core.model.rpg.statblock.StatblockUpdate
-import at.orchaldir.gm.core.model.rpg.statblock.UndefinedCharacterStatblock
-import at.orchaldir.gm.core.model.rpg.statblock.UniqueCharacterStatblock
-import at.orchaldir.gm.core.model.rpg.statblock.UseStatblockOfTemplate
+import at.orchaldir.gm.core.model.rpg.statblock.*
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -38,6 +32,7 @@ fun HtmlBlockTag.showCharacterStatblock(
                 fieldLink(call, state, statblock.template)
                 field("Cost", template.statblock.calculateCost(state))
             }
+
             is ModifyStatblockOfTemplate -> {
                 val template = state.getCharacterTemplateStorage().getOrThrow(statblock.template)
                 val resolved = statblock.update.resolve(template.statblock)
@@ -107,6 +102,7 @@ fun parseCharacterStatblock(
     CharacterStatblockType.Template -> UseStatblockOfTemplate(
         parseCharacterTemplateId(parameters, combine(STATBLOCK, REFERENCE)),
     )
+
     CharacterStatblockType.ModifiedTemplate -> ModifyStatblockOfTemplate(
         parseCharacterTemplateId(parameters, combine(STATBLOCK, REFERENCE)),
         parseStatblockUpdate(state, parameters),
