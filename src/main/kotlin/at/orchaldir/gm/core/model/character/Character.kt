@@ -89,7 +89,6 @@ data class Character(
     val date: Date = Year(0),
     val status: VitalStatus = Alive,
     val culture: CultureId? = null,
-    val personality: Set<CharacterTraitId> = emptySet(),
     val relationships: Map<CharacterId, Set<InterpersonalRelationship>> = mapOf(),
     val languages: Map<LanguageId, ComprehensionLevel> = emptyMap(),
     val appearance: Appearance = UndefinedAppearance,

@@ -149,8 +149,6 @@ fun HtmlBlockTag.showSocial(
 
     showFamily(call, state, character)
 
-    showCharacterTraits(call, state, character.personality)
-
     field("Sexuality", character.sexuality)
 
     showMap("Relationships", character.relationships) { other, relationships ->
@@ -251,7 +249,6 @@ fun HtmlBlockTag.editCharacter(
     selectOptionalElement(state, "Culture", CULTURE, state.getCultureStorage().getAll(), character.culture)
     editKnownLanguages(state, character.languages)
     editBeliefStatusHistory(state, character.beliefStatus, character.date)
-    editCharacterTraitGroups(call, state, character.personality)
     if (character.gender == Gender.Genderless) {
         selectValue(
             "Sexuality",
@@ -364,7 +361,6 @@ fun parseCharacter(
         date = birthDate,
         status = parseVitalStatus(parameters, state),
         culture = parseOptionalCultureId(parameters, CULTURE),
-        personality = parseCharacterTraits(parameters),
         languages = parseKnownLanguages(parameters, state),
         equipped = parseEquipped(parameters, state, EQUIPPED),
         housingStatus = parsePositionHistory(parameters, state, birthDate),

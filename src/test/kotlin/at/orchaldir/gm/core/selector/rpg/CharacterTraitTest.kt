@@ -28,7 +28,8 @@ class CharacterTraitTest {
 
         @Test
         fun `Cannot delete a character trait used by a character`() {
-            val character = Character(CHARACTER_ID_0, personality = setOf(CHARACTER_TRAIT_ID_0))
+            val statblock = UniqueStatblock(Statblock(traits = setOf(CHARACTER_TRAIT_ID_0)))
+            val character = Character(CHARACTER_ID_0, statblock = statblock)
             val newState = state.updateStorage(Storage(character))
 
             failCanDelete(newState, CHARACTER_ID_0)

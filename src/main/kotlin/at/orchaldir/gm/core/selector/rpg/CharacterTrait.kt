@@ -15,11 +15,6 @@ fun State.canDeleteCharacterTrait(id: CharacterTraitId) = DeleteResult(id)
     .addElements(getCharacterTemplates(id))
     .addElements(getGodsWith(id))
 
-fun countEachCharacterTraitForCharacters(characters: Collection<Character>) = characters
-    .flatMap { it.personality }
-    .groupingBy { it }
-    .eachCount()
-
 fun countEachCharacterTraitForGods(gods: Collection<God>) = gods
     .flatMap { it.personality }
     .groupingBy { it }

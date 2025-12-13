@@ -89,7 +89,6 @@ private fun HtmlBlockTag.showCharactersOfTownMap(
     showGenderCount(characters)
     showJobCount(call, state, characters)
     showHousingStatusCount(characters)
-    showPersonalityCountForCharacters(call, state, characters)
     showRaceCount(call, state, characters)
 }
 

@@ -26,7 +26,6 @@ fun validateCharacterData(
     checkPositionHistory(state, character.housingStatus, character.date, ALLOWED_HOUSING_TYPES)
     checkEmploymentStatusHistory(state, character.employmentStatus, character.date)
     checkAuthenticity(state, character.authenticity)
-    state.getCharacterTraitStorage().require(character.personality)
     validateStatblockLookup(state, character.statblock)
 }
 
