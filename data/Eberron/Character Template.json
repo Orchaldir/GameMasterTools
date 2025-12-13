@@ -11,10 +11,13 @@
     "pantheon": 0
    },
    "statblock": {
-    "statistics": {
-     "0": 2,
-     "6": 4,
-     "7": 2
+    "#type": "Unique",
+    "statblock": {
+     "statistics": {
+      "0": 2,
+      "6": 4,
+      "7": 2
+     }
     }
    }
   },
@@ -32,20 +35,19 @@
     "uniform": 0
    },
    "statblock": {
-    "statistics": {
-     "0": 4,
-     "1": 2,
-     "2": 2,
-     "3": 2,
-     "4": 2,
-     "5": 2,
-     "6": 6,
-     "7": 2
-    },
-    "traits": [
-     6,
-     57
-    ]
+    "#type": "Modify",
+    "template": 0,
+    "update": {
+     "statistics": {
+      "0": 2,
+      "1": 2,
+      "2": 2,
+      "3": 2,
+      "4": 2,
+      "5": 2,
+      "6": 2
+     }
+    }
    }
   },
   "2": {
@@ -58,10 +60,13 @@
     "pantheon": 0
    },
    "statblock": {
-    "statistics": {
-     "1": 2,
-     "5": 2,
-     "7": 4
+    "#type": "Unique",
+    "statblock": {
+     "statistics": {
+      "1": 2,
+      "5": 2,
+      "7": 4
+     }
     }
    }
   }

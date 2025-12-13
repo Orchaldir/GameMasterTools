@@ -7,9 +7,9 @@ import at.orchaldir.gm.app.html.culture.parseKnownLanguages
 import at.orchaldir.gm.app.html.culture.parseOptionalCultureId
 import at.orchaldir.gm.app.html.culture.showKnownLanguages
 import at.orchaldir.gm.app.html.race.parseRaceId
-import at.orchaldir.gm.app.html.rpg.statblock.editStatblock
-import at.orchaldir.gm.app.html.rpg.statblock.parseStatblock
-import at.orchaldir.gm.app.html.rpg.statblock.showStatblock
+import at.orchaldir.gm.app.html.rpg.statblock.editStatblockLookup
+import at.orchaldir.gm.app.html.rpg.statblock.parseStatblockLookup
+import at.orchaldir.gm.app.html.rpg.statblock.showStatblockLookup
 import at.orchaldir.gm.app.html.util.fieldBeliefStatus
 import at.orchaldir.gm.app.html.util.parseBeliefStatus
 import at.orchaldir.gm.app.html.util.selectBeliefStatus
@@ -40,7 +40,7 @@ fun HtmlBlockTag.showCharacterTemplate(
     optionalFieldLink(call, state, template.culture)
     showKnownLanguages(call, state, template)
     fieldBeliefStatus(call, state, template.belief)
-    showStatblock(call, state, template.statblock)
+    showStatblockLookup(call, state, template.statblock)
     showEquippedDetails(call, state, template.equipped, UseStatblockOfTemplate(template.id))
     showDataSources(call, state, template.sources)
     showUsage(call, state, template)
@@ -78,7 +78,7 @@ fun HtmlBlockTag.editCharacterTemplate(
     editKnownLanguages(state, template.languages)
     selectBeliefStatus(state, BELIEVE, template.belief)
     editEquipped(state, EQUIPPED, template.equipped)
-    editStatblock(call, state, template.statblock)
+    editStatblockLookup(call, state, template.statblock, setOf(template.id))
     editDataSources(state, template.sources)
 }
 
@@ -99,6 +99,6 @@ fun parseCharacterTemplate(
     parseKnownLanguages(parameters, state),
     parseBeliefStatus(parameters, state, BELIEVE),
     parseEquipped(parameters, state, EQUIPPED),
-    parseStatblock(state, parameters),
+    parseStatblockLookup(state, parameters),
     parseDataSources(parameters),
 )

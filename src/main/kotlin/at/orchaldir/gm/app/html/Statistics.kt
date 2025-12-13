@@ -25,7 +25,6 @@ import at.orchaldir.gm.core.selector.magic.countEachLanguage
 import at.orchaldir.gm.core.selector.magic.countSpellOrigin
 import at.orchaldir.gm.core.selector.race.countEachRace
 import at.orchaldir.gm.core.selector.religion.countEachDomain
-import at.orchaldir.gm.core.selector.rpg.countEachCharacterTraitForCharacters
 import at.orchaldir.gm.core.selector.rpg.countEachCharacterTraitForGods
 import at.orchaldir.gm.core.selector.util.countEachCreator
 import at.orchaldir.gm.core.selector.world.countEachArchitecturalStyle
@@ -148,13 +147,6 @@ fun HtmlBlockTag.showOwnerCount(
 fun countEachOwner(ownershipCollection: Collection<History<Reference>>) = ownershipCollection
     .groupingBy { it.current }
     .eachCount()
-
-fun HtmlBlockTag.showPersonalityCountForCharacters(
-    call: ApplicationCall,
-    state: State,
-    characters: Collection<Character>,
-    label: String = "Personality",
-) = showCount(call, state, label, countEachCharacterTraitForCharacters(characters))
 
 fun HtmlBlockTag.showPersonalityCountForGods(
     call: ApplicationCall,

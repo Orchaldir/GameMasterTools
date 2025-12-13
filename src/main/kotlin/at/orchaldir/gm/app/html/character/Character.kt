@@ -8,12 +8,9 @@ import at.orchaldir.gm.app.html.culture.parseKnownLanguages
 import at.orchaldir.gm.app.html.culture.parseOptionalCultureId
 import at.orchaldir.gm.app.html.culture.showKnownLanguages
 import at.orchaldir.gm.app.html.race.parseRaceId
-import at.orchaldir.gm.app.html.rpg.statblock.editCharacterStatblock
-import at.orchaldir.gm.app.html.rpg.statblock.parseCharacterStatblock
-import at.orchaldir.gm.app.html.rpg.statblock.showCharacterStatblock
-import at.orchaldir.gm.app.html.rpg.trait.editCharacterTraitGroups
-import at.orchaldir.gm.app.html.rpg.trait.parseCharacterTraits
-import at.orchaldir.gm.app.html.rpg.trait.showCharacterTraits
+import at.orchaldir.gm.app.html.rpg.statblock.editStatblockLookup
+import at.orchaldir.gm.app.html.rpg.statblock.parseStatblockLookup
+import at.orchaldir.gm.app.html.rpg.statblock.showStatblockLookup
 import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.app.html.util.math.fieldDistance
 import at.orchaldir.gm.app.html.util.source.editDataSources
@@ -96,7 +93,7 @@ fun HtmlBlockTag.showData(
     showPositionHistory(call, state, character.housingStatus, "Housing Status")
     showEmploymentStatusHistory(call, state, character.employmentStatus)
     fieldElements(call, state, "Led Battles", state.getBattlesLedBy(character.id))
-    showCharacterStatblock(call, state, character.statblock)
+    showStatblockLookup(call, state, character.statblock)
     showDataSources(call, state, character.sources)
 
     action(generateNameLink, "Generate New Name")
@@ -148,8 +145,6 @@ fun HtmlBlockTag.showSocial(
     showBeliefStatusHistory(call, state, character.beliefStatus)
 
     showFamily(call, state, character)
-
-    showCharacterTraits(call, state, character.personality)
 
     field("Sexuality", character.sexuality)
 
@@ -243,7 +238,7 @@ fun HtmlBlockTag.editCharacter(
         "Housing Status",
     )
     selectEmploymentStatusHistory(state, character.employmentStatus, character.date)
-    editCharacterStatblock(call, state, character.statblock)
+    editStatblockLookup(call, state, character.statblock)
     editDataSources(state, character.sources)
 
     h2 { +"Social" }
@@ -251,7 +246,6 @@ fun HtmlBlockTag.editCharacter(
     selectOptionalElement(state, "Culture", CULTURE, state.getCultureStorage().getAll(), character.culture)
     editKnownLanguages(state, character.languages)
     editBeliefStatusHistory(state, character.beliefStatus, character.date)
-    editCharacterTraitGroups(call, state, character.personality)
     if (character.gender == Gender.Genderless) {
         selectValue(
             "Sexuality",
@@ -364,7 +358,6 @@ fun parseCharacter(
         date = birthDate,
         status = parseVitalStatus(parameters, state),
         culture = parseOptionalCultureId(parameters, CULTURE),
-        personality = parseCharacterTraits(parameters),
         languages = parseKnownLanguages(parameters, state),
         equipped = parseEquipped(parameters, state, EQUIPPED),
         housingStatus = parsePositionHistory(parameters, state, birthDate),
@@ -372,7 +365,7 @@ fun parseCharacter(
         beliefStatus = parseBeliefStatusHistory(parameters, state, birthDate),
         title = parseOptionalTitleId(parameters, TITLE),
         authenticity = parseAuthenticity(parameters),
-        statblock = parseCharacterStatblock(state, parameters),
+        statblock = parseStatblockLookup(state, parameters),
         sources = parseDataSources(parameters),
     )
 }

@@ -8,13 +8,10 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.character.Gender.Genderless
 import at.orchaldir.gm.core.model.culture.Culture
-import at.orchaldir.gm.core.model.culture.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.culture.language.Language
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.race.Race
-import at.orchaldir.gm.core.model.rpg.statblock.Statblock
-import at.orchaldir.gm.core.model.rpg.statblock.UniqueCharacterStatblock
 import at.orchaldir.gm.core.model.rpg.statblock.UseStatblockOfTemplate
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTrait
 import at.orchaldir.gm.core.model.time.Time
@@ -30,7 +27,6 @@ import kotlin.test.assertEquals
 
 class CharacterTest {
 
-    private val LANGUAGES = mapOf(LANGUAGE_ID_0 to ComprehensionLevel.Native)
     val character0 = Character(CHARACTER_ID_0)
 
     @Nested
@@ -63,26 +59,13 @@ class CharacterTest {
             )
         )
 
-        @Nested
-        inner class StatblockTest {
+        @Test
+        fun `Using an unknown template`() {
+            val statblock = UseStatblockOfTemplate(UNKNOWN_CHARACTER_TEMPLATE_ID)
+            val character = Character(CHARACTER_ID_0, statblock = statblock)
+            val action = UpdateAction(character)
 
-            @Test
-            fun `Using an unknown statistic`() {
-                val statblock = UniqueCharacterStatblock(Statblock(mapOf(UNKNOWN_STATISTIC_ID to 4)))
-                val character = Character(CHARACTER_ID_0, statblock = statblock)
-                val action = UpdateAction(character)
-
-                assertIllegalArgument("Requires unknown Statistic 99!") { REDUCER.invoke(STATE, action) }
-            }
-
-            @Test
-            fun `Using an unknown template`() {
-                val statblock = UseStatblockOfTemplate(UNKNOWN_CHARACTER_TEMPLATE_ID)
-                val character = Character(CHARACTER_ID_0, statblock = statblock)
-                val action = UpdateAction(character)
-
-                assertIllegalArgument("Requires unknown Character Template 99!") { REDUCER.invoke(STATE, action) }
-            }
+            assertIllegalArgument("Requires unknown Character Template 99!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
@@ -248,14 +231,6 @@ class CharacterTest {
             val action = UpdateAction(Character(CHARACTER_ID_0, title = TITLE_ID_0))
 
             assertIllegalArgument("Requires unknown Title 0!") { REDUCER.invoke(STATE, action) }
-        }
-
-        @Test
-        fun `Cannot use unknown personality trait`() {
-            val state = STATE.removeStorage(CHARACTER_TRAIT_ID_0)
-            val action = UpdateAction(Character(CHARACTER_ID_0, personality = setOf(CHARACTER_TRAIT_ID_0)))
-
-            assertIllegalArgument("Requires unknown Character Trait 0!") { REDUCER.invoke(state, action) }
         }
 
         @Test

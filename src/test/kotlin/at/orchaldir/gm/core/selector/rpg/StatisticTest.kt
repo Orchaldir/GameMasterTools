@@ -11,7 +11,7 @@ import at.orchaldir.gm.core.model.rpg.combat.MeleeAttack
 import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponType
 import at.orchaldir.gm.core.model.rpg.combat.StatisticBasedDamage
 import at.orchaldir.gm.core.model.rpg.statblock.Statblock
-import at.orchaldir.gm.core.model.rpg.statblock.UniqueCharacterStatblock
+import at.orchaldir.gm.core.model.rpg.statblock.UniqueStatblock
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
@@ -24,7 +24,7 @@ class StatisticTest {
     @Nested
     inner class CanDeleteTest {
         private val statistic = Statistic(STATISTIC_ID_0)
-        private val statblock = Statblock(mapOf(STATISTIC_ID_0 to 2))
+        private val statblock = UniqueStatblock(Statblock(mapOf(STATISTIC_ID_0 to 2)))
         private val state = State(
             listOf(
                 Storage(statistic),
@@ -41,7 +41,7 @@ class StatisticTest {
 
         @Test
         fun `Cannot delete a statistic used a character`() {
-            val element = Character(CHARACTER_ID_0, statblock = UniqueCharacterStatblock(statblock))
+            val element = Character(CHARACTER_ID_0, statblock = statblock)
             val newState = state.updateStorage(Storage(element))
 
             failCanDelete(newState, CHARACTER_ID_0)

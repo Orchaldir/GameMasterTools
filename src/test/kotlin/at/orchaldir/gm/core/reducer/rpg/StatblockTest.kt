@@ -17,7 +17,13 @@ class StatblockTest {
         StatblockUpdate(mapOf(STATISTIC_ID_0 to 4), setOf(CHARACTER_TRAIT_ID_1), setOf(CHARACTER_TRAIT_ID_0))
     private val state = State(
         listOf(
-            Storage(CharacterTemplate(CHARACTER_TEMPLATE_ID_0, race = RACE_ID_0, statblock = validStatblock)),
+            Storage(
+                CharacterTemplate(
+                    CHARACTER_TEMPLATE_ID_0,
+                    race = RACE_ID_0,
+                    statblock = UniqueStatblock(validStatblock)
+                )
+            ),
             Storage(listOf(CharacterTrait(CHARACTER_TRAIT_ID_0), CharacterTrait(CHARACTER_TRAIT_ID_1))),
             Storage(Statistic(STATISTIC_ID_0)),
         )
@@ -104,7 +110,7 @@ class StatblockTest {
     }
 
     @Nested
-    inner class CharacterStatblockTest {
+    inner class StatblockLookupTest {
 
         @Test
         fun `Using an unknown template`() {
@@ -142,8 +148,8 @@ class StatblockTest {
             validate(statblock)
         }
 
-        private fun validate(statblock: CharacterStatblock) {
-            validateCharacterStatblock(state, statblock)
+        private fun validate(statblock: StatblockLookup) {
+            validateStatblockLookup(state, statblock)
         }
     }
 }

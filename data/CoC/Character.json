@@ -44,10 +44,6 @@
     "day": 694120
    },
    "culture": 0,
-   "personality": [
-    1,
-    24
-   ],
    "appearance": {
     "#type": "Humanoid",
     "body": {
@@ -109,6 +105,15 @@
      "#type": "God",
      "god": 1
     }
+   },
+   "statblock": {
+    "#type": "Unique",
+    "statblock": {
+     "traits": [
+      1,
+      24
+     ]
+    }
    }
   },
   "2": {
@@ -124,11 +129,6 @@
     "day": 679101
    },
    "culture": 0,
-   "personality": [
-    12,
-    28,
-    47
-   ],
    "appearance": {
     "#type": "Humanoid",
     "body": {
@@ -199,6 +199,16 @@
      "#type": "God",
      "god": 2
     }
+   },
+   "statblock": {
+    "#type": "Unique",
+    "statblock": {
+     "traits": [
+      12,
+      28,
+      47
+     ]
+    }
    }
   },
   "3": {
@@ -215,9 +225,6 @@
     "day": 682280
    },
    "culture": 0,
-   "personality": [
-    28
-   ],
    "appearance": {
     "#type": "Humanoid",
     "body": {
@@ -271,6 +278,14 @@
      "#type": "God",
      "god": 2
     }
+   },
+   "statblock": {
+    "#type": "Unique",
+    "statblock": {
+     "traits": [
+      28
+     ]
+    }
    }
   },
   "4": {
@@ -287,10 +302,6 @@
     "day": 695115
    },
    "culture": 0,
-   "personality": [
-    1,
-    24
-   ],
    "housingStatus": {
     "current": {
      "#type": "Town",
@@ -309,6 +320,15 @@
      "#type": "God",
      "god": 1
     }
+   },
+   "statblock": {
+    "#type": "Unique",
+    "statblock": {
+     "traits": [
+      1,
+      24
+     ]
+    }
    }
   },
   "5": {
@@ -324,12 +344,6 @@
     "day": 686625
    },
    "culture": 0,
-   "personality": [
-    0,
-    9,
-    24,
-    27
-   ],
    "appearance": {
     "#type": "Humanoid",
     "body": {
@@ -399,6 +413,17 @@
      "#type": "God",
      "god": 2
     }
+   },
+   "statblock": {
+    "#type": "Unique",
+    "statblock": {
+     "traits": [
+      0,
+      9,
+      24,
+      27
+     ]
+    }
    }
   },
   "6": {
@@ -426,9 +451,6 @@
     }
    },
    "culture": 0,
-   "personality": [
-    28
-   ],
    "relationships": {
     "7": [
      "Spouse"
@@ -438,6 +460,14 @@
     "current": {
      "#type": "God",
      "god": 2
+    }
+   },
+   "statblock": {
+    "#type": "Unique",
+    "statblock": {
+     "traits": [
+      28
+     ]
     }
    }
   },
@@ -454,10 +484,6 @@
     "year": 1873
    },
    "culture": 0,
-   "personality": [
-    30,
-    42
-   ],
    "relationships": {
     "6": [
      "Spouse"
@@ -474,6 +500,15 @@
      "#type": "God",
      "god": 2
     }
+   },
+   "statblock": {
+    "#type": "Unique",
+    "statblock": {
+     "traits": [
+      30,
+      42
+     ]
+    }
    }
   },
   "8": {
@@ -489,10 +524,6 @@
     "year": 1886
    },
    "culture": 0,
-   "personality": [
-    5,
-    46
-   ],
    "appearance": {
     "#type": "Humanoid",
     "body": {
@@ -554,6 +585,15 @@
      "#type": "God",
      "god": 2
     }
+   },
+   "statblock": {
+    "#type": "Unique",
+    "statblock": {
+     "traits": [
+      5,
+      46
+     ]
+    }
    }
   },
   "9": {
@@ -608,9 +648,6 @@
     "year": 1882
    },
    "culture": 0,
-   "personality": [
-    28
-   ],
    "relationships": {
     "9": [
      "Spouse"
@@ -634,6 +671,14 @@
      "#type": "God",
      "god": 2
     }
+   },
+   "statblock": {
+    "#type": "Unique",
+    "statblock": {
+     "traits": [
+      28
+     ]
+    }
    }
   },
   "11": {
@@ -654,10 +699,6 @@
     "year": 1907
    },
    "culture": 0,
-   "personality": [
-    10,
-    47
-   ],
    "housingStatus": {
     "current": {
      "#type": "Home",
@@ -676,6 +717,15 @@
      "#type": "God",
      "god": 1
     }
+   },
+   "statblock": {
+    "#type": "Unique",
+    "statblock": {
+     "traits": [
+      10,
+      47
+     ]
+    }
    }
   },
   "12": {
@@ -691,11 +741,6 @@
     "year": 1878
    },
    "culture": 0,
-   "personality": [
-    24,
-    49,
-    35
-   ],
    "relationships": {
     "13": [
      "Spouse"
@@ -719,6 +764,16 @@
      "#type": "God",
      "god": 2
     }
+   },
+   "statblock": {
+    "#type": "Unique",
+    "statblock": {
+     "traits": [
+      24,
+      49,
+      35
+     ]
+    }
    }
   },
   "13": {
@@ -735,9 +790,6 @@
     "year": 1898
    },
    "culture": 0,
-   "personality": [
-    13
-   ],
    "relationships": {
     "12": [
      "Spouse"
@@ -753,6 +805,14 @@
     "current": {
      "#type": "God",
      "god": 2
+    }
+   },
+   "statblock": {
+    "#type": "Unique",
+    "statblock": {
+     "traits": [
+      13
+     ]
     }
    }
   },

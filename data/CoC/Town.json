@@ -4,13 +4,13 @@
   "0": {
    "id": 0,
    "name": "Cobb’s Corners",
-   "date": {
-    "#type": "Year",
-    "year": 1786
-   },
    "founder": {
     "#type": "Character",
     "character": 0
+   },
+   "date": {
+    "#type": "Year",
+    "year": 1786
    },
    "owner": {
     "current": 0

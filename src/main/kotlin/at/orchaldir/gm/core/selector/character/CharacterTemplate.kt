@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitId
+import at.orchaldir.gm.core.selector.rpg.statblock.getStatblock
 
 fun State.canDeleteCharacterTemplate(template: CharacterTemplateId) = DeleteResult(template)
     .addElements(getCharactersUsing(template))
@@ -18,7 +19,7 @@ fun State.canDeleteCharacterTemplate(template: CharacterTemplateId) = DeleteResu
 
 fun State.getCharacterTemplates(trait: CharacterTraitId) = getCharacterTemplateStorage()
     .getAll()
-    .filter { it.statblock.traits.contains(trait) }
+    .filter { getStatblock(it.statblock).traits.contains(trait) }
 
 fun State.getCharacterTemplates(culture: CultureId) = getCharacterTemplateStorage()
     .getAll()
@@ -38,7 +39,7 @@ fun State.getCharacterTemplates(race: RaceId) = getCharacterTemplateStorage()
 
 fun State.getCharacterTemplates(statistic: StatisticId) = getCharacterTemplateStorage()
     .getAll()
-    .filter { it.statblock.statistics.containsKey(statistic) }
+    .filter { getStatblock(it.statblock).statistics.containsKey(statistic) }
 
 fun State.getCharacterTemplates(uniform: UniformId) = getCharacterTemplateStorage()
     .getAll()
