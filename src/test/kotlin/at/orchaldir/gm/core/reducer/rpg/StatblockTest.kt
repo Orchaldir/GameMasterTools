@@ -54,6 +54,13 @@ class StatblockTest {
         }
 
         @Test
+        fun `Removing an unknown character trait`() {
+            val update = StatblockUpdate(removedTraits = setOf(UNKNOWN_CHARACTER_TRAIT_ID))
+
+            assertIllegalArgument("Requires unknown Character Trait 99!") { validate(update) }
+        }
+
+        @Test
         fun `Using an unknown statistic`() {
             val update = StatblockUpdate(mapOf(UNKNOWN_STATISTIC_ID to 4))
 
