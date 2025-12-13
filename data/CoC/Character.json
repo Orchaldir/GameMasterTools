@@ -44,10 +44,15 @@
     "day": 694120
    },
    "culture": 0,
-   "personality": [
-    1,
-    24
-   ],
+   "statblock": {
+    "#type": "Unique",
+    "statblock": {
+     "traits": [
+      1,
+      24
+     ]
+    }
+   },
    "appearance": {
     "#type": "Humanoid",
     "body": {
@@ -124,11 +129,16 @@
     "day": 679101
    },
    "culture": 0,
-   "personality": [
-    12,
-    28,
-    47
-   ],
+   "statblock": {
+    "#type": "Unique",
+    "statblock": {
+     "traits": [
+      12,
+      28,
+      47
+     ]
+    }
+   },
    "appearance": {
     "#type": "Humanoid",
     "body": {
@@ -215,9 +225,14 @@
     "day": 682280
    },
    "culture": 0,
-   "personality": [
-    28
-   ],
+   "statblock": {
+    "#type": "Unique",
+    "statblock": {
+     "traits": [
+      28
+     ]
+    }
+   },
    "appearance": {
     "#type": "Humanoid",
     "body": {
@@ -287,10 +302,15 @@
     "day": 695115
    },
    "culture": 0,
-   "personality": [
-    1,
-    24
-   ],
+   "statblock": {
+    "#type": "Unique",
+    "statblock": {
+     "traits": [
+      1,
+      24
+     ]
+    }
+   },
    "housingStatus": {
     "current": {
      "#type": "Town",
@@ -324,12 +344,17 @@
     "day": 686625
    },
    "culture": 0,
-   "personality": [
-    0,
-    9,
-    24,
-    27
-   ],
+   "statblock": {
+    "#type": "Unique",
+    "statblock": {
+     "traits": [
+      0,
+      9,
+      24,
+      27
+     ]
+    }
+   },
    "appearance": {
     "#type": "Humanoid",
     "body": {
@@ -426,9 +451,14 @@
     }
    },
    "culture": 0,
-   "personality": [
-    28
-   ],
+   "statblock": {
+    "#type": "Unique",
+    "statblock": {
+     "traits": [
+      28
+     ]
+    }
+   },
    "relationships": {
     "7": [
      "Spouse"
@@ -454,10 +484,15 @@
     "year": 1873
    },
    "culture": 0,
-   "personality": [
-    30,
-    42
-   ],
+   "statblock": {
+    "#type": "Unique",
+    "statblock": {
+     "traits": [
+      30,
+      42
+     ]
+    }
+   },
    "relationships": {
     "6": [
      "Spouse"
@@ -489,10 +524,15 @@
     "year": 1886
    },
    "culture": 0,
-   "personality": [
-    5,
-    46
-   ],
+   "statblock": {
+    "#type": "Unique",
+    "statblock": {
+     "traits": [
+      5,
+      46
+     ]
+    }
+   },
    "appearance": {
     "#type": "Humanoid",
     "body": {
@@ -608,9 +648,14 @@
     "year": 1882
    },
    "culture": 0,
-   "personality": [
-    28
-   ],
+   "statblock": {
+    "#type": "Unique",
+    "statblock": {
+     "traits": [
+      28
+     ]
+    }
+   },
    "relationships": {
     "9": [
      "Spouse"
@@ -654,10 +699,15 @@
     "year": 1907
    },
    "culture": 0,
-   "personality": [
-    10,
-    47
-   ],
+   "statblock": {
+    "#type": "Unique",
+    "statblock": {
+     "traits": [
+      10,
+      47
+     ]
+    }
+   },
    "housingStatus": {
     "current": {
      "#type": "Home",
@@ -691,11 +741,16 @@
     "year": 1878
    },
    "culture": 0,
-   "personality": [
-    24,
-    49,
-    35
-   ],
+   "statblock": {
+    "#type": "Unique",
+    "statblock": {
+     "traits": [
+      24,
+      49,
+      35
+     ]
+    }
+   },
    "relationships": {
     "13": [
      "Spouse"
@@ -735,9 +790,14 @@
     "year": 1898
    },
    "culture": 0,
-   "personality": [
-    13
-   ],
+   "statblock": {
+    "#type": "Unique",
+    "statblock": {
+     "traits": [
+      13
+     ]
+    }
+   },
    "relationships": {
     "12": [
      "Spouse"

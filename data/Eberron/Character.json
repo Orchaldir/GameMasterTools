@@ -139,11 +139,16 @@
     "day": 324816
    },
    "culture": 1,
-   "personality": [
-    2,
-    50,
-    39
-   ],
+   "statblock": {
+    "#type": "Unique",
+    "statblock": {
+     "traits": [
+      2,
+      50,
+      39
+     ]
+    }
+   },
    "relationships": {
     "2": [
      "Lover"
@@ -230,10 +235,15 @@
     "day": 323904
    },
    "culture": 1,
-   "personality": [
-    39,
-    52
-   ],
+   "statblock": {
+    "#type": "Unique",
+    "statblock": {
+     "traits": [
+      39,
+      52
+     ]
+    }
+   },
    "relationships": {
     "1": [
      "Lover"
@@ -313,10 +323,15 @@
     "#type": "Day",
     "day": 310961
    },
-   "personality": [
-    0,
-    41
-   ],
+   "statblock": {
+    "#type": "Unique",
+    "statblock": {
+     "traits": [
+      0,
+      41
+     ]
+    }
+   },
    "relationships": {
     "4": [
      "Spouse"
@@ -380,10 +395,15 @@
     "#type": "Day",
     "day": 319236
    },
-   "personality": [
-    5,
-    41
-   ],
+   "statblock": {
+    "#type": "Unique",
+    "statblock": {
+     "traits": [
+      5,
+      41
+     ]
+    }
+   },
    "relationships": {
     "3": [
      "Spouse"
@@ -658,10 +678,15 @@
     "#type": "Day",
     "day": 314411
    },
-   "personality": [
-    5,
-    50
-   ],
+   "statblock": {
+    "#type": "Unique",
+    "statblock": {
+     "traits": [
+      5,
+      50
+     ]
+    }
+   },
    "languages": {
     "14": "Native"
    },
@@ -705,10 +730,15 @@
     "#type": "Day",
     "day": 326876
    },
-   "personality": [
-    33,
-    37
-   ],
+   "statblock": {
+    "#type": "Unique",
+    "statblock": {
+     "traits": [
+      33,
+      37
+     ]
+    }
+   },
    "languages": {
     "14": "Native"
    },
@@ -833,9 +863,14 @@
     "#type": "Day",
     "day": 326870
    },
-   "personality": [
-    5
-   ],
+   "statblock": {
+    "#type": "Unique",
+    "statblock": {
+     "traits": [
+      5
+     ]
+    }
+   },
    "employmentStatus": {
     "current": {
      "#type": "Employed",
@@ -874,10 +909,15 @@
     "#type": "Year",
     "year": 840
    },
-   "personality": [
-    5,
-    51
-   ],
+   "statblock": {
+    "#type": "Unique",
+    "statblock": {
+     "traits": [
+      5,
+      51
+     ]
+    }
+   },
    "employmentStatus": {
     "current": {
      "#type": "Employed",
@@ -917,9 +957,14 @@
     "#type": "Year",
     "year": 969
    },
-   "personality": [
-    52
-   ],
+   "statblock": {
+    "#type": "Unique",
+    "statblock": {
+     "traits": [
+      52
+     ]
+    }
+   },
    "relationships": {
     "14": [
      "Spouse"
