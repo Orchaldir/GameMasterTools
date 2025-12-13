@@ -774,6 +774,7 @@ fun State.sortRaces(
             SortRace.Name -> compareBy { it.name.text }
             SortRace.Population -> compareByDescending { getTotalPopulation(it.id) }
             SortRace.Characters -> compareByDescending { countCharacters(it.id) }
+            SortRace.Cost -> compareByDescending { it.calculateCost(this) }
         })
 
 // race appearance
