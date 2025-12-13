@@ -7,11 +7,14 @@ import at.orchaldir.gm.app.html.character.parseCharacterTemplateId
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.CharacterTemplateId
 import at.orchaldir.gm.core.model.rpg.statblock.*
 import at.orchaldir.gm.core.selector.rpg.statblock.getStatblock
+import at.orchaldir.gm.core.selector.util.sortCharacterTemplates
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
+import kotlinx.html.DETAILS
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -53,6 +56,7 @@ fun HtmlBlockTag.editStatblockLookup(
     call: ApplicationCall,
     state: State,
     lookup: StatblockLookup,
+    ignoredTemplates: Set<CharacterTemplateId> = emptySet(),
 ) {
     showDetails("Statblock Lookup", true) {
         selectValue(
@@ -65,29 +69,34 @@ fun HtmlBlockTag.editStatblockLookup(
         when (lookup) {
             UndefinedStatblockLookup -> doNothing()
             is UniqueStatblock -> editStatblock(call, state, lookup.statblock)
-            is UseStatblockOfTemplate -> selectElement(
-                state,
-                combine(STATBLOCK, REFERENCE),
-                state.getCharacterTemplateStorage().getAll(),
-                lookup.template,
-            )
-
+            is UseStatblockOfTemplate -> selectCharacterTemplate(state, ignoredTemplates, lookup.template)
             is ModifyStatblockOfTemplate -> {
                 val statblock = state.getStatblock(lookup.template)
                 val resolved = lookup.update.resolve(statblock)
 
-                selectElement(
-                    state,
-                    combine(STATBLOCK, REFERENCE),
-                    state.getCharacterTemplateStorage().getAll(),
-                    lookup.template,
-                )
+                selectCharacterTemplate(state, ignoredTemplates, lookup.template)
                 field("Template Cost", statblock.calculateCost(state))
                 editStatblockUpdate(call, state, statblock, lookup.update, resolved)
                 field("Cost", resolved.calculateCost(state))
             }
         }
     }
+}
+
+private fun DETAILS.selectCharacterTemplate(
+    state: State,
+    ignoredTemplates: Set<CharacterTemplateId>,
+    templateId: CharacterTemplateId,
+) {
+    val templates = state.getCharacterTemplateStorage()
+        .getAll()
+        .filter { !ignoredTemplates.contains(it.id) }
+    selectElement(
+        state,
+        combine(STATBLOCK, REFERENCE),
+        state.sortCharacterTemplates(templates),
+        templateId,
+    )
 }
 
 // parse
