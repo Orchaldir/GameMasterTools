@@ -93,7 +93,7 @@ fun HtmlBlockTag.showData(
     showPositionHistory(call, state, character.housingStatus, "Housing Status")
     showEmploymentStatusHistory(call, state, character.employmentStatus)
     fieldElements(call, state, "Led Battles", state.getBattlesLedBy(character.id))
-    showStatblockLookup(call, state, character.statblock)
+    showStatblockLookup(call, state, character.race, character.statblock)
     showDataSources(call, state, character.sources)
 
     action(generateNameLink, "Generate New Name")
@@ -203,7 +203,7 @@ fun HtmlBlockTag.showPossession(
     character: Character,
 ) {
     showOwnedElements(call, state, character.id, true)
-    showEquippedDetails(call, state, character.equipped, character.statblock)
+    showEquippedDetails(call, state, character.equipped, character.race, character.statblock)
 }
 
 // edit
@@ -238,7 +238,7 @@ fun HtmlBlockTag.editCharacter(
         "Housing Status",
     )
     selectEmploymentStatusHistory(state, character.employmentStatus, character.date)
-    editStatblockLookup(call, state, character.statblock)
+    editStatblockLookup(call, state, character.race, character.statblock)
     editDataSources(state, character.sources)
 
     h2 { +"Social" }

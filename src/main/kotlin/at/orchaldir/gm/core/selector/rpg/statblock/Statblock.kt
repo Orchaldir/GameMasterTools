@@ -2,62 +2,47 @@ package at.orchaldir.gm.core.selector.rpg.statblock
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterTemplateId
+import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.rpg.statblock.*
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.utils.Id
-import at.orchaldir.gm.utils.doNothing
 
-fun State.getStatblock(id: CharacterTemplateId): Statblock {
+fun State.getStatblock(base: Statblock, id: CharacterTemplateId): Statblock {
     val template = getCharacterTemplateStorage().getOrThrow(id)
-    return getStatblock(template.statblock)
+    return getStatblock(base, template.statblock)
 }
 
-fun State.getStatblockOrNull(lookup: StatblockLookup): Statblock? = when (lookup) {
-    is UniqueStatblock -> lookup.statblock
-    is UseStatblockOfTemplate -> getStatblock(lookup.template)
+fun State.getStatblock(base: Statblock, lookup: StatblockLookup): Statblock = when (lookup) {
+    is UniqueStatblock -> lookup.statblock.resolve(base)
+    is UseStatblockOfTemplate -> getStatblock(base, lookup.template)
     is ModifyStatblockOfTemplate -> {
-        val statblock = getStatblock(lookup.template)
+        val statblock = getStatblock(base, lookup.template)
 
         lookup.update.resolve(statblock)
     }
 
-    UndefinedStatblockLookup -> null
+    UndefinedStatblockLookup -> base
 }
 
-fun State.getStatblock(lookup: StatblockLookup): Statblock = getStatblockOrNull(lookup) ?: Statblock()
+fun State.getStatblock(raceId: RaceId, lookup: StatblockLookup): Statblock {
+    val race = getRaceStorage().getOrThrow(raceId)
+
+    return getStatblock(race.lifeStages.statblock(), lookup)
+}
 
 fun State.getStatblocksWith(statistic: StatisticId): List<Pair<Id<*>, Int>> {
     val statblocks = mutableListOf<Pair<Id<*>, Int>>()
 
     getCharacterTemplateStorage().getAll()
         .forEach { template ->
-            addStatblock(statblocks, statistic, getStatblock(template.statblock), template.id)
+            addStatblock(statblocks, statistic, getStatblock(template.race, template.statblock), template.id)
         }
 
     getCharacterStorage().getAll()
         .forEach { character ->
-            when (character.statblock) {
-                UndefinedStatblockLookup -> doNothing()
-                is UniqueStatblock -> addStatblock(
-                    statblocks,
-                    statistic,
-                    character.statblock.statblock,
-                    character.id
-                )
+            val statblock = getStatblock(character.race, character.statblock)
 
-                is UseStatblockOfTemplate -> {
-                    val statblock = getStatblock(character.statblock.template)
-
-                    addStatblock(statblocks, statistic, statblock, character.id)
-                }
-
-                is ModifyStatblockOfTemplate -> {
-                    val statblock = getStatblock(character.statblock.template)
-                    val resolvedStatblock = character.statblock.update.resolve(statblock)
-
-                    addStatblock(statblocks, statistic, resolvedStatblock, character.id)
-                }
-            }
+            addStatblock(statblocks, statistic, statblock, character.id)
         }
 
     return statblocks

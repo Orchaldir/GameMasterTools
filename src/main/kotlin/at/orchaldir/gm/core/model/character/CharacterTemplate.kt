@@ -61,7 +61,7 @@ data class CharacterTemplate(
         state.getLanguageStorage().require(languages.keys)
         state.getRaceStorage().require(race)
         validateEquipped(state, equipped)
-        validateStatblockLookup(state, statblock)
+        validateStatblockLookup(state, race, statblock)
         checkBeliefStatus(state, belief)
     }
 }

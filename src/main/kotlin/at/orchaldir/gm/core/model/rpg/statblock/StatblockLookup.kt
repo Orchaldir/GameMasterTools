@@ -2,8 +2,9 @@ package at.orchaldir.gm.core.model.rpg.statblock
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterTemplateId
+import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
-import at.orchaldir.gm.core.selector.rpg.statblock.getStatblockOrNull
+import at.orchaldir.gm.core.selector.rpg.statblock.getStatblock
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -24,7 +25,8 @@ sealed class StatblockLookup {
         is ModifyStatblockOfTemplate -> StatblockLookupType.ModifyTemplate
     }
 
-    fun calculateCost(state: State) = state.getStatblockOrNull(this)?.calculateCost(state)
+    fun calculateCost(raceId: RaceId, state: State) = state.getStatblock(raceId, this).calculateCost(state)
+
 
     fun contains(statistic: StatisticId) = when (this) {
         UndefinedStatblockLookup -> false
@@ -44,7 +46,7 @@ sealed class StatblockLookup {
 @Serializable
 @SerialName("Unique")
 data class UniqueStatblock(
-    val statblock: Statblock,
+    val statblock: StatblockUpdate,
 ) : StatblockLookup()
 
 @Serializable

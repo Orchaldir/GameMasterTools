@@ -1,21 +1,33 @@
 package at.orchaldir.gm.core.reducer.rpg
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.rpg.statblock.*
 import at.orchaldir.gm.core.selector.rpg.statblock.getStatblock
 import at.orchaldir.gm.utils.doNothing
 
 fun validateStatblockLookup(
     state: State,
+    race: RaceId,
+    lookup: StatblockLookup,
+) = validateStatblockLookup(
+    state,
+    state.getRaceStorage().getOrThrow(race).lifeStages.statblock(),
+    lookup,
+)
+
+fun validateStatblockLookup(
+    state: State,
+    statblock: Statblock,
     lookup: StatblockLookup,
 ) {
     when (lookup) {
         UndefinedStatblockLookup -> doNothing()
-        is UniqueStatblock -> validateStatblock(state, lookup.statblock)
+        is UniqueStatblock -> validateStatblockUpdate(state, statblock, lookup.statblock)
         is UseStatblockOfTemplate -> state.getCharacterTemplateStorage().require(lookup.template)
         is ModifyStatblockOfTemplate -> {
-            val statblock = state.getStatblock(lookup.template)
-            validateStatblockUpdate(state, statblock, lookup.update)
+            val templateStatblock = state.getStatblock(statblock, lookup.template)
+            validateStatblockUpdate(state, templateStatblock, lookup.update)
         }
     }
 }

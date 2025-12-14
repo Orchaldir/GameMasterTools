@@ -40,8 +40,8 @@ fun HtmlBlockTag.showCharacterTemplate(
     optionalFieldLink(call, state, template.culture)
     showKnownLanguages(call, state, template)
     fieldBeliefStatus(call, state, template.belief)
-    showStatblockLookup(call, state, template.statblock)
-    showEquippedDetails(call, state, template.equipped, UseStatblockOfTemplate(template.id))
+    showStatblockLookup(call, state, template.race, template.statblock)
+    showEquippedDetails(call, state, template.equipped, template.race, UseStatblockOfTemplate(template.id))
     showDataSources(call, state, template.sources)
     showUsage(call, state, template)
 }
@@ -78,7 +78,7 @@ fun HtmlBlockTag.editCharacterTemplate(
     editKnownLanguages(state, template.languages)
     selectBeliefStatus(state, BELIEVE, template.belief)
     editEquipped(state, EQUIPPED, template.equipped)
-    editStatblockLookup(call, state, template.statblock, setOf(template.id))
+    editStatblockLookup(call, state, template.race, template.statblock, setOf(template.id))
     editDataSources(state, template.sources)
 }
 

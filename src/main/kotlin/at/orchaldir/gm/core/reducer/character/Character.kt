@@ -26,7 +26,7 @@ fun validateCharacterData(
     checkPositionHistory(state, character.housingStatus, character.date, ALLOWED_HOUSING_TYPES)
     checkEmploymentStatusHistory(state, character.employmentStatus, character.date)
     checkAuthenticity(state, character.authenticity)
-    validateStatblockLookup(state, character.statblock)
+    validateStatblockLookup(state, character.race, character.statblock)
 }
 
 private fun checkSexualOrientation(character: Character) {

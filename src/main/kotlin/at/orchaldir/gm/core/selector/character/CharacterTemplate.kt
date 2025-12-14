@@ -19,7 +19,7 @@ fun State.canDeleteCharacterTemplate(template: CharacterTemplateId) = DeleteResu
 
 fun State.getCharacterTemplates(trait: CharacterTraitId) = getCharacterTemplateStorage()
     .getAll()
-    .filter { getStatblock(it.statblock).traits.contains(trait) }
+    .filter { getStatblock(it.race, it.statblock).traits.contains(trait) }
 
 fun State.getCharacterTemplates(culture: CultureId) = getCharacterTemplateStorage()
     .getAll()
@@ -39,7 +39,7 @@ fun State.getCharacterTemplates(race: RaceId) = getCharacterTemplateStorage()
 
 fun State.getCharacterTemplates(statistic: StatisticId) = getCharacterTemplateStorage()
     .getAll()
-    .filter { getStatblock(it.statblock).statistics.containsKey(statistic) }
+    .filter { getStatblock(it.race, it.statblock).statistics.containsKey(statistic) }
 
 fun State.getCharacterTemplates(uniform: UniformId) = getCharacterTemplateStorage()
     .getAll()

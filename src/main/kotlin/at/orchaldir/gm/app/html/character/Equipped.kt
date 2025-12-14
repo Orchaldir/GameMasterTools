@@ -10,6 +10,8 @@ import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
+import at.orchaldir.gm.core.model.race.RaceId
+import at.orchaldir.gm.core.model.rpg.statblock.Statblock
 import at.orchaldir.gm.core.model.rpg.statblock.StatblockLookup
 import at.orchaldir.gm.core.selector.character.getArmors
 import at.orchaldir.gm.core.selector.character.getMeleeAttacks
@@ -43,7 +45,22 @@ fun HtmlBlockTag.showEquippedDetails(
     call: ApplicationCall,
     state: State,
     equipped: Equipped,
-    statblock: StatblockLookup,
+    race: RaceId,
+    lookup: StatblockLookup,
+) = showEquippedDetails(
+    call,
+    state,
+    equipped,
+    state.getRaceStorage().getOrThrow(race).lifeStages.statblock(),
+    lookup,
+)
+
+fun HtmlBlockTag.showEquippedDetails(
+    call: ApplicationCall,
+    state: State,
+    equipped: Equipped,
+    base: Statblock,
+    lookup: StatblockLookup,
 ) {
     showDetails("Equipped", true) {
         field("Type", equipped.getType())
@@ -61,8 +78,8 @@ fun HtmlBlockTag.showEquippedDetails(
         val meleeAttackMap = getMeleeAttacks(state, equipped)
         val shieldMap = getShields(state, equipped)
 
-        val resolvedProtectionMap = resolveProtectionMap(state, statblock, amorMap + shieldMap)
-        val resolvedMeleeAttackMap = resolveMeleeAttackMap(state, statblock, meleeAttackMap)
+        val resolvedProtectionMap = resolveProtectionMap(state, lookup, amorMap + shieldMap)
+        val resolvedMeleeAttackMap = resolveMeleeAttackMap(state, base, lookup, meleeAttackMap)
 
         showMeleeAttackTable(call, state, resolvedMeleeAttackMap)
         showProtectionTable(call, state, resolvedProtectionMap)
