@@ -135,6 +135,14 @@ class StatblockTest {
         @Test
         fun `Using an unknown statistic`() {
             val update = StatblockUpdate(mapOf(UNKNOWN_STATISTIC_ID to 4))
+            val statblock = UniqueStatblock(update)
+
+            assertIllegalArgument("Requires unknown Statistic 99!") { validate(statblock) }
+        }
+
+        @Test
+        fun `Modifying an unknown statistic`() {
+            val update = StatblockUpdate(mapOf(UNKNOWN_STATISTIC_ID to 4))
             val statblock = ModifyStatblockOfTemplate(CHARACTER_TEMPLATE_ID_0, update)
 
             assertIllegalArgument("Requires unknown Statistic 99!") { validate(statblock) }
