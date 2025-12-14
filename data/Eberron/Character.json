@@ -662,6 +662,15 @@
       }
      }
     ]
+   },
+   "statblock": {
+    "#type": "Unique",
+    "statblock": {
+     "statistics": {
+      "0": 1,
+      "6": 2
+     }
+    }
    }
   },
   "8": {
