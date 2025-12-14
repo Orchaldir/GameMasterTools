@@ -53,6 +53,10 @@ fun validateStatblockUpdate(
         require(!update.removedTraits.contains(it)) {
             "Cannot add & remove ${it.print()}!"
         }
+
+        require(!statblock.traits.contains(it)) {
+            "Cannot add ${it.print()} again!"
+        }
     }
 
     update.removedTraits.forEach {

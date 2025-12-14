@@ -78,13 +78,19 @@ class StatblockTest {
         }
 
         @Test
+        fun `Cannot add the same character trait again`() {
+            val sameTrait = setOf(CHARACTER_TRAIT_ID_0)
+            val update = StatblockUpdate(addedTraits = sameTrait)
+
+            assertIllegalArgument("Cannot add Character Trait 0 again!") { validate(update) }
+        }
+
+        @Test
         fun `Cannot remove a character trait not in the statblock`() {
             val update = StatblockUpdate(removedTraits = setOf(CHARACTER_TRAIT_ID_1))
 
             assertIllegalArgument("Cannot remove Character Trait 1, because it is not in the statblock!") {
-                validate(
-                    update
-                )
+                validate(update)
             }
         }
 
