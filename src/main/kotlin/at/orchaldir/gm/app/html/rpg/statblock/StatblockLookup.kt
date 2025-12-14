@@ -46,6 +46,7 @@ fun HtmlBlockTag.showStatblockLookup(
             is UniqueStatblock -> {
                 val resolved = lookup.statblock.resolve(statblock)
                 showStatblockUpdate(call, state, statblock, lookup.statblock, resolved)
+                showStatblock(call, state, resolved)
             }
             is UseStatblockOfTemplate -> {
                 val statblock = state.getStatblock(statblock, lookup.template)

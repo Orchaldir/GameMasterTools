@@ -111,13 +111,17 @@ fun HtmlBlockTag.editStatblockUpdate(
             editStatistics(call, state, statblock, update, resolved, damageValues, "Base Damage Value")
             editStatistics(call, state, statblock, update, resolved, skills, "Skills")
         }
-        selectElements(
-            state,
-            "Removed Traits",
-            combine(REMOVE, CHARACTER_TRAIT),
-            state.getCharacterTraitStorage().get(statblock.traits),
-            update.removedTraits,
-        )
+        if (statblock.traits.isNotEmpty()) {
+            br { }
+            selectElements(
+                state,
+                "Removed Traits",
+                combine(REMOVE, CHARACTER_TRAIT),
+                state.getCharacterTraitStorage().get(statblock.traits),
+                update.removedTraits,
+            )
+        }
+        br { }
         editCharacterTraitGroups(
             call,
             state,
