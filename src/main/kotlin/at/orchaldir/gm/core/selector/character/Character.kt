@@ -150,7 +150,7 @@ fun State.getCharacters(language: LanguageId) = getCharacterStorage()
 
 fun State.getCharacters(trait: CharacterTraitId) = getCharacterStorage()
     .getAll()
-    .filter { getStatblock(it.race, it.statblock).traits.contains(trait) }
+    .filter { it.statblock.contains(this, it.race, trait) }
 
 fun State.getCharacters(race: RaceId) = getCharacterStorage()
     .getAll()

@@ -4,7 +4,9 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterTemplateId
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
+import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitId
 import at.orchaldir.gm.core.selector.rpg.statblock.getStatblock
+import at.orchaldir.gm.utils.math.unit.up
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -41,6 +43,13 @@ sealed class StatblockLookup {
         is UseStatblockOfTemplate -> this.template == template
         is ModifyStatblockOfTemplate -> this.template == template
     }
+
+    fun contains(state: State, race: RaceId, trait: CharacterTraitId) = when (this) {
+        UndefinedStatblockLookup -> false
+        is UniqueStatblock -> statblock.contains(trait)
+        is UseStatblockOfTemplate -> false
+        is ModifyStatblockOfTemplate -> update.contains(trait)
+    } || state.getStatblock(race, this).traits.contains(trait)
 }
 
 @Serializable

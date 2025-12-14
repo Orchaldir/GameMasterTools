@@ -19,6 +19,8 @@ data class StatblockUpdate(
             removedTraits
         )
 
+    fun contains(id: CharacterTraitId) = addedTraits.contains(id) || removedTraits.contains(id)
+
     fun resolve(statblock: Statblock): Statblock {
         val newStatistics = statblock.statistics.toMutableMap()
 

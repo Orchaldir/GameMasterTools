@@ -7,7 +7,6 @@ import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterTemplate
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.religion.God
-import at.orchaldir.gm.core.model.rpg.statblock.Statblock
 import at.orchaldir.gm.core.model.rpg.statblock.StatblockUpdate
 import at.orchaldir.gm.core.model.rpg.statblock.UniqueStatblock
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTrait
@@ -30,8 +29,17 @@ class CharacterTraitTest {
         )
 
         @Test
-        fun `Cannot delete a character trait used by a character`() {
-            val statblock = UniqueStatblock(StatblockUpdate(addedTraits = setOf(CHARACTER_TRAIT_ID_0)))
+        fun `Cannot delete a character trait added by a character`() {
+            testCharacter(StatblockUpdate(addedTraits = setOf(CHARACTER_TRAIT_ID_0)))
+        }
+
+        @Test
+        fun `Cannot delete a character trait removed by a character`() {
+            testCharacter(StatblockUpdate(removedTraits = setOf(CHARACTER_TRAIT_ID_0)))
+        }
+
+        private fun testCharacter(update: StatblockUpdate) {
+            val statblock = UniqueStatblock(update)
             val character = Character(CHARACTER_ID_0, statblock = statblock)
             val newState = state.updateStorage(Storage(character))
 
@@ -39,8 +47,17 @@ class CharacterTraitTest {
         }
 
         @Test
-        fun `Cannot delete a character trait used by a character template`() {
-            val statblock = UniqueStatblock(StatblockUpdate(addedTraits = setOf(CHARACTER_TRAIT_ID_0)))
+        fun `Cannot delete a character trait added by a character template`() {
+            testTemplate(StatblockUpdate(addedTraits = setOf(CHARACTER_TRAIT_ID_0)))
+        }
+
+        @Test
+        fun `Cannot delete a character trait removed by a character template`() {
+            testTemplate(StatblockUpdate(removedTraits = setOf(CHARACTER_TRAIT_ID_0)))
+        }
+
+        private fun testTemplate(update: StatblockUpdate) {
+            val statblock = UniqueStatblock(update)
             val character = CharacterTemplate(CHARACTER_TEMPLATE_ID_0, race = RACE_ID_0, statblock = statblock)
             val newState = state.updateStorage(Storage(character))
 
