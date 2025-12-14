@@ -13,12 +13,12 @@ fun State.getStatblock(base: Statblock, id: CharacterTemplateId): Statblock {
 }
 
 fun State.getStatblock(base: Statblock, lookup: StatblockLookup): Statblock = when (lookup) {
-    is UniqueStatblock -> lookup.statblock.resolve(base)
+    is UniqueStatblock -> lookup.statblock.applyTo(base)
     is UseStatblockOfTemplate -> getStatblock(base, lookup.template)
     is ModifyStatblockOfTemplate -> {
         val statblock = getStatblock(base, lookup.template)
 
-        lookup.update.resolve(statblock)
+        lookup.update.applyTo(statblock)
     }
 
     UndefinedStatblockLookup -> base

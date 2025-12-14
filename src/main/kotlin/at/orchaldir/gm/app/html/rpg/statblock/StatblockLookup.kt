@@ -44,7 +44,7 @@ fun HtmlBlockTag.showStatblockLookup(
         when (lookup) {
             UndefinedStatblockLookup -> doNothing()
             is UniqueStatblock -> {
-                val resolved = lookup.statblock.resolve(statblock)
+                val resolved = lookup.statblock.applyTo(statblock)
                 showStatblockUpdate(call, state, statblock, lookup.statblock, resolved)
                 showStatblock(call, state, resolved)
             }
@@ -57,7 +57,7 @@ fun HtmlBlockTag.showStatblockLookup(
 
             is ModifyStatblockOfTemplate -> {
                 val statblock = state.getStatblock(statblock, lookup.template)
-                val resolved = lookup.update.resolve(statblock)
+                val resolved = lookup.update.applyTo(statblock)
 
                 fieldLink(call, state, lookup.template)
                 field("Template Cost", statblock.calculateCost(state))
@@ -102,14 +102,14 @@ fun HtmlBlockTag.editStatblockLookup(
         when (lookup) {
             UndefinedStatblockLookup -> doNothing()
             is UniqueStatblock -> {
-                val resolved = lookup.statblock.resolve(statblock)
+                val resolved = lookup.statblock.applyTo(statblock)
 
                 editStatblockUpdate(call, state, statblock, lookup.statblock, resolved)
             }
             is UseStatblockOfTemplate -> selectCharacterTemplate(state, ignoredTemplates, lookup.template)
             is ModifyStatblockOfTemplate -> {
                 val statblock = state.getStatblock(statblock, lookup.template)
-                val resolved = lookup.update.resolve(statblock)
+                val resolved = lookup.update.applyTo(statblock)
 
                 selectCharacterTemplate(state, ignoredTemplates, lookup.template)
                 field("Template Cost", statblock.calculateCost(state))

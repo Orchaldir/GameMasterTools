@@ -15,7 +15,7 @@ fun resolveMeleeAttackMap(
 ) = when (lookup) {
     UndefinedStatblockLookup -> attackMap
     is UniqueStatblock -> {
-        val statblock = lookup.statblock.resolve(base)
+        val statblock = lookup.statblock.applyTo(base)
         resolveMeleeAttackMap(state, statblock, attackMap)
     }
     is UseStatblockOfTemplate -> {
@@ -26,7 +26,7 @@ fun resolveMeleeAttackMap(
 
     is ModifyStatblockOfTemplate -> {
         val statblock = state.getStatblock(base, lookup.template)
-        val resolvedStatblock = lookup.update.resolve(statblock)
+        val resolvedStatblock = lookup.update.applyTo(statblock)
 
         resolveMeleeAttackMap(state, resolvedStatblock, attackMap)
     }
