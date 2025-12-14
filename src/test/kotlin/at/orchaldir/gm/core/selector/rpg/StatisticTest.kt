@@ -6,11 +6,13 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterTemplate
 import at.orchaldir.gm.core.model.economy.job.Job
+import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.rpg.combat.Damage
 import at.orchaldir.gm.core.model.rpg.combat.MeleeAttack
 import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponType
 import at.orchaldir.gm.core.model.rpg.combat.StatisticBasedDamage
 import at.orchaldir.gm.core.model.rpg.statblock.Statblock
+import at.orchaldir.gm.core.model.rpg.statblock.StatblockUpdate
 import at.orchaldir.gm.core.model.rpg.statblock.UniqueStatblock
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.utils.Id
@@ -24,9 +26,10 @@ class StatisticTest {
     @Nested
     inner class CanDeleteTest {
         private val statistic = Statistic(STATISTIC_ID_0)
-        private val statblock = UniqueStatblock(Statblock(mapOf(STATISTIC_ID_0 to 2)))
+        private val statblock = UniqueStatblock(StatblockUpdate(mapOf(STATISTIC_ID_0 to 2)))
         private val state = State(
             listOf(
+                Storage(Race(RACE_ID_0)),
                 Storage(statistic),
             )
         )

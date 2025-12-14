@@ -21,7 +21,7 @@ class StatblockTest {
                 CharacterTemplate(
                     CHARACTER_TEMPLATE_ID_0,
                     race = RACE_ID_0,
-                    statblock = UniqueStatblock(validStatblock)
+                    statblock = UniqueStatblock(StatblockUpdate(validStatblock))
                 )
             ),
             Storage(listOf(CharacterTrait(CHARACTER_TRAIT_ID_0), CharacterTrait(CHARACTER_TRAIT_ID_1))),
@@ -149,7 +149,7 @@ class StatblockTest {
         }
 
         private fun validate(statblock: StatblockLookup) {
-            validateStatblockLookup(state, statblock)
+            validateStatblockLookup(state, Statblock(), statblock)
         }
     }
 }

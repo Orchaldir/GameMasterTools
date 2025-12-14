@@ -5,8 +5,10 @@ import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterTemplate
+import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.rpg.statblock.Statblock
+import at.orchaldir.gm.core.model.rpg.statblock.StatblockUpdate
 import at.orchaldir.gm.core.model.rpg.statblock.UniqueStatblock
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTrait
 import at.orchaldir.gm.utils.Id
@@ -22,13 +24,14 @@ class CharacterTraitTest {
         private val trait = CharacterTrait(CHARACTER_TRAIT_ID_0)
         private val state = State(
             listOf(
+                Storage(Race(RACE_ID_0)),
                 Storage(trait),
             )
         )
 
         @Test
         fun `Cannot delete a character trait used by a character`() {
-            val statblock = UniqueStatblock(Statblock(traits = setOf(CHARACTER_TRAIT_ID_0)))
+            val statblock = UniqueStatblock(StatblockUpdate(addedTraits = setOf(CHARACTER_TRAIT_ID_0)))
             val character = Character(CHARACTER_ID_0, statblock = statblock)
             val newState = state.updateStorage(Storage(character))
 
@@ -37,7 +40,7 @@ class CharacterTraitTest {
 
         @Test
         fun `Cannot delete a character trait used by a character template`() {
-            val statblock = UniqueStatblock(Statblock(traits = setOf(CHARACTER_TRAIT_ID_0)))
+            val statblock = UniqueStatblock(StatblockUpdate(addedTraits = setOf(CHARACTER_TRAIT_ID_0)))
             val character = CharacterTemplate(CHARACTER_TEMPLATE_ID_0, race = RACE_ID_0, statblock = statblock)
             val newState = state.updateStorage(Storage(character))
 
