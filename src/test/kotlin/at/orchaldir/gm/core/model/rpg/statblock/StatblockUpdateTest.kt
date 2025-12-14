@@ -119,4 +119,48 @@ class StatblockUpdateTest {
         }
     }
 
+    @Nested
+    inner class ApplyToTest {
+
+        @Test
+        fun `Add a statistic`() {
+            val statblock = Statblock(mapOf(STATISTIC_ID_0 to 3))
+            val update = StatblockUpdate(mapOf(STATISTIC_ID_1 to 4))
+            val result = update.applyTo(statblock)
+
+            assertEquals( statistics, result.statistics)
+            assertEquals( emptySet(), result.traits)
+        }
+
+        @Test
+        fun `Modify a statistic`() {
+            val statblock = Statblock(mapOf(STATISTIC_ID_0 to 3))
+            val update = StatblockUpdate(mapOf(STATISTIC_ID_0 to 4))
+            val result = update.applyTo(statblock)
+
+            assertEquals( mapOf(STATISTIC_ID_0 to 7), result.statistics)
+            assertEquals( emptySet(), result.traits)
+        }
+
+        @Test
+        fun `Add a trait`() {
+            val statblock = Statblock(traits = setOf(CHARACTER_TRAIT_ID_0))
+            val update = StatblockUpdate(addedTraits = setOf(CHARACTER_TRAIT_ID_1))
+            val result = update.applyTo(statblock)
+
+            assertEquals( emptyMap(), result.statistics)
+            assertEquals( traits, result.traits)
+        }
+
+        @Test
+        fun `Remove a trait`() {
+            val statblock = Statblock(traits = traits)
+            val update = StatblockUpdate(removedTraits = setOf(CHARACTER_TRAIT_ID_1))
+            val result = update.applyTo(statblock)
+
+            assertEquals( emptyMap(), result.statistics)
+            assertEquals( setOf(CHARACTER_TRAIT_ID_0), result.traits)
+        }
+    }
+
 }
