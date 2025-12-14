@@ -8,6 +8,8 @@ import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
+import kotlin.test.assertFalse
 
 class StatblockUpdateTest {
 
@@ -82,8 +84,39 @@ class StatblockUpdateTest {
     @Test
     fun `Construct update from statblock`() {
         val statblock = Statblock(statistics, traits)
+        val update = StatblockUpdate(statblock)
 
-        assertEquals( StatblockUpdate(statistics, traits), StatblockUpdate(statblock))
+        assertEquals( statistics, update.statistics)
+        assertEquals( traits, update.addedTraits)
+        assertEquals( emptySet(), update.removedTraits)
+    }
+
+    @Nested
+    inner class ContainsStatisticTest {
+
+        @Test
+        fun `Contains added trait`() {
+            val update = StatblockUpdate(addedTraits = setOf(CHARACTER_TRAIT_ID_0))
+
+            assertTrue(update.contains(CHARACTER_TRAIT_ID_0))
+            assertFalse(update.contains(CHARACTER_TRAIT_ID_1))
+        }
+
+        @Test
+        fun `Contains removed trait`() {
+            val update = StatblockUpdate(removedTraits = setOf(CHARACTER_TRAIT_ID_0))
+
+            assertTrue(update.contains(CHARACTER_TRAIT_ID_0))
+            assertFalse(update.contains(CHARACTER_TRAIT_ID_1))
+        }
+
+        @Test
+        fun `Contains no trait`() {
+            val update = StatblockUpdate()
+
+            assertFalse(update.contains(CHARACTER_TRAIT_ID_0))
+            assertFalse(update.contains(CHARACTER_TRAIT_ID_1))
+        }
     }
 
 }
