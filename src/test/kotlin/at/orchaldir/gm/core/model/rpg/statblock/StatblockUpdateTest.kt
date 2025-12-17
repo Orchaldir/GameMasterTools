@@ -42,12 +42,21 @@ class StatblockUpdateTest {
         }
 
         @Test
-        fun `Cost of multiple added traits`() {
+        fun `Cost of multiple traits`() {
             assertCost(Statblock(traits = traits), 10)
         }
 
+        @Test
+        fun `Cost of removed traits`() {
+            assertCost(Statblock(traits = setOf(CHARACTER_TRAIT_ID_0)), Statblock(), -15)
+        }
+
         private fun assertCost(resolved: Statblock, cost: Int) {
-            assertEquals(cost, calculateUpdateCost(state, Statblock(), resolved))
+            assertCost(Statblock(), resolved, cost)
+        }
+
+        private fun assertCost(base: Statblock, resolved: Statblock, cost: Int) {
+            assertEquals(cost, calculateUpdateCost(state, base, resolved))
         }
     }
 
