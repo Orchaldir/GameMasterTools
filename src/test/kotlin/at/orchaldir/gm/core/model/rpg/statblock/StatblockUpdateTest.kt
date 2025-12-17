@@ -29,55 +29,25 @@ class StatblockUpdateTest {
     )
 
     @Nested
-    inner class CalculateCostTest {
-
-        @Test
-        fun `Cost of unknown statistic`() {
-            val update = StatblockUpdate(mapOf(UNKNOWN_STATISTIC_ID to 5))
-
-            assertIllegalArgument("Requires unknown Statistic 99!") { update.calculateCost(state) }
-        }
-
-        @Test
-        fun `Cost of unknown added character trait`() {
-            val update = StatblockUpdate(addedTraits = setOf(UNKNOWN_CHARACTER_TRAIT_ID))
-
-            assertIllegalArgument("Requires unknown Character Trait 99!") { update.calculateCost(state) }
-        }
-
-        @Test
-        fun `Cost of unknown removed character trait`() {
-            val update = StatblockUpdate(addedTraits = setOf(UNKNOWN_CHARACTER_TRAIT_ID))
-
-            assertIllegalArgument("Requires unknown Character Trait 99!") { update.calculateCost(state) }
-        }
+    inner class CalculateUpdateCostTest {
 
         @Test
         fun `Cost of empty update`() {
-            val update = StatblockUpdate()
-
-            assertEquals(0, update.calculateCost(state))
+            assertCost(Statblock(), 0)
         }
 
         @Test
         fun `Cost of multiple statistics`() {
-            val update = StatblockUpdate(statistics)
-
-            assertEquals(55, update.calculateCost(state))
+            assertCost(Statblock(statistics), 55)
         }
 
         @Test
         fun `Cost of multiple added traits`() {
-            val update = StatblockUpdate(addedTraits = traits)
-
-            assertEquals(10, update.calculateCost(state))
+            assertCost(Statblock(traits = traits), 10)
         }
 
-        @Test
-        fun `Cost of multiple removed traits`() {
-            val update = StatblockUpdate(removedTraits = traits)
-
-            assertEquals(-10, update.calculateCost(state))
+        private fun assertCost(resolved: Statblock, cost: Int) {
+            assertEquals(cost, calculateUpdateCost(state, Statblock(), resolved))
         }
     }
 

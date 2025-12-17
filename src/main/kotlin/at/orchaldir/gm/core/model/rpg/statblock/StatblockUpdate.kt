@@ -13,12 +13,6 @@ data class StatblockUpdate(
 ) {
     constructor(statblock: Statblock): this(statblock.statistics, statblock.traits)
 
-    fun calculateCost(state: State) =
-        calculateStatisticCost(state, statistics) + calculateTraitCost(state, addedTraits) - calculateTraitCost(
-            state,
-            removedTraits
-        )
-
     fun contains(id: CharacterTraitId) = addedTraits.contains(id) || removedTraits.contains(id)
 
     fun applyTo(statblock: Statblock): Statblock {
@@ -35,3 +29,9 @@ data class StatblockUpdate(
     }
 
 }
+
+fun calculateUpdateCost(
+    state: State,
+    base: Statblock,
+    resolved: Statblock,
+) = resolved.calculateCost(state) - base.calculateCost(state)
