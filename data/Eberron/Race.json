@@ -354,7 +354,13 @@
      60,
      80
     ],
-    "oldAgeHairColor": "Gray"
+    "oldAgeHairColor": "Gray",
+    "statblock": {
+     "statistics": {
+      "0": 4,
+      "3": 2
+     }
+    }
    }
   },
   "18": {

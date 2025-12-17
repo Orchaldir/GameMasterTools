@@ -11,14 +11,11 @@ data class StatblockUpdate(
     val addedTraits: Set<CharacterTraitId> = emptySet(),
     val removedTraits: Set<CharacterTraitId> = emptySet(),
 ) {
+    constructor(statblock: Statblock) : this(statblock.statistics, statblock.traits)
 
-    fun calculateCost(state: State) =
-        calculateStatisticCost(state, statistics) + calculateTraitCost(state, addedTraits) - calculateTraitCost(
-            state,
-            removedTraits
-        )
+    fun contains(id: CharacterTraitId) = addedTraits.contains(id) || removedTraits.contains(id)
 
-    fun resolve(statblock: Statblock): Statblock {
+    fun applyTo(statblock: Statblock): Statblock {
         val newStatistics = statblock.statistics.toMutableMap()
 
         statistics.forEach { (id, modifier) ->
@@ -32,3 +29,9 @@ data class StatblockUpdate(
     }
 
 }
+
+fun calculateUpdateCost(
+    state: State,
+    base: Statblock,
+    resolved: Statblock,
+) = resolved.calculateCost(state) - base.calculateCost(state)

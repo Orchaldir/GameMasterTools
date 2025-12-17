@@ -72,7 +72,7 @@ fun Application.configureCharacterRouting() {
                         )
                     },
                     countCollectionColumn("Organizations") { state.getOrganizations(it.id) },
-                    countColumn("Cost") { it.statblock.calculateCost(state) },
+                    countColumn("Cost") { it.statblock.calculateCost(it.race, state) },
                 ),
             ) {
                 showCauseOfDeath(it)

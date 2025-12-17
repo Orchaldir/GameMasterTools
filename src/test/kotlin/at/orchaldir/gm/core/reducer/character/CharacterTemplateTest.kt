@@ -12,7 +12,7 @@ import at.orchaldir.gm.core.model.culture.language.Language
 import at.orchaldir.gm.core.model.item.Uniform
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.religion.God
-import at.orchaldir.gm.core.model.rpg.statblock.Statblock
+import at.orchaldir.gm.core.model.rpg.statblock.StatblockUpdate
 import at.orchaldir.gm.core.model.rpg.statblock.UniqueStatblock
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.model.util.WorshipOfGod
@@ -66,7 +66,7 @@ class CharacterTemplateTest {
 
         @Test
         fun `Using an unknown statistic`() {
-            val statblock = UniqueStatblock(Statblock(mapOf(UNKNOWN_STATISTIC_ID to 4)))
+            val statblock = UniqueStatblock(StatblockUpdate(mapOf(UNKNOWN_STATISTIC_ID to 4)))
             val template = CharacterTemplate(CHARACTER_TEMPLATE_ID_0, race = RACE_ID_0, statblock = statblock)
             val action = UpdateAction(template)
 

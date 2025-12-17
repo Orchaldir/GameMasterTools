@@ -257,7 +257,9 @@ fun State.sortCharacters(
                 SortCharacter.Name -> compareBy { it.second }
                 SortCharacter.Start -> getCharacterStartDatePairComparator()
                 SortCharacter.Age -> compareByDescending { it.first.getAge(this, currentDay).days }
-                SortCharacter.Cost -> compareByDescending { it.first.statblock.calculateCost(this) }
+                SortCharacter.Cost -> compareByDescending { (character, _) ->
+                    character.statblock.calculateCost(character.race, this)
+                }
             })
         .map { it.first }
 }
@@ -274,7 +276,9 @@ fun State.sortCharacterTemplates(
     .sortedWith(
         when (sort) {
             SortCharacterTemplate.Name -> compareBy { it.name.text }
-            SortCharacterTemplate.Cost -> compareByDescending { it.statblock.calculateCost(this) }
+            SortCharacterTemplate.Cost -> compareByDescending { template ->
+                template.statblock.calculateCost(template.race, this)
+            }
         })
 
 // character traits
@@ -774,6 +778,7 @@ fun State.sortRaces(
             SortRace.Name -> compareBy { it.name.text }
             SortRace.Population -> compareByDescending { getTotalPopulation(it.id) }
             SortRace.Characters -> compareByDescending { countCharacters(it.id) }
+            SortRace.Cost -> compareByDescending { it.calculateCost(this) }
         })
 
 // race appearance

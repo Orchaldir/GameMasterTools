@@ -8,6 +8,7 @@ import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterTemplateId
+import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.rpg.statblock.*
 import at.orchaldir.gm.core.selector.rpg.statblock.getStatblock
 import at.orchaldir.gm.core.selector.util.sortCharacterTemplates
@@ -22,6 +23,19 @@ import kotlinx.html.HtmlBlockTag
 fun HtmlBlockTag.showStatblockLookup(
     call: ApplicationCall,
     state: State,
+    race: RaceId,
+    lookup: StatblockLookup,
+) = showStatblockLookup(
+    call,
+    state,
+    state.getRaceStorage().getOrThrow(race).lifeStages.statblock(),
+    lookup,
+)
+
+fun HtmlBlockTag.showStatblockLookup(
+    call: ApplicationCall,
+    state: State,
+    base: Statblock,
     lookup: StatblockLookup,
 ) {
     showDetails("Statblock Lookup", true) {
@@ -29,17 +43,22 @@ fun HtmlBlockTag.showStatblockLookup(
 
         when (lookup) {
             UndefinedStatblockLookup -> doNothing()
-            is UniqueStatblock -> showStatblock(call, state, lookup.statblock)
+            is UniqueStatblock -> {
+                val resolved = lookup.statblock.applyTo(base)
+                showStatblockUpdate(call, state, base, lookup.statblock, resolved)
+                showStatblock(call, state, resolved)
+            }
+
             is UseStatblockOfTemplate -> {
-                val statblock = state.getStatblock(lookup.template)
+                val statblock = state.getStatblock(base, lookup.template)
 
                 fieldLink(call, state, lookup.template)
                 field("Cost", statblock.calculateCost(state))
             }
 
             is ModifyStatblockOfTemplate -> {
-                val statblock = state.getStatblock(lookup.template)
-                val resolved = lookup.update.resolve(statblock)
+                val statblock = state.getStatblock(base, lookup.template)
+                val resolved = lookup.update.applyTo(statblock)
 
                 fieldLink(call, state, lookup.template)
                 field("Template Cost", statblock.calculateCost(state))
@@ -51,10 +70,25 @@ fun HtmlBlockTag.showStatblockLookup(
 }
 
 // edit
+fun HtmlBlockTag.editStatblockLookup(
+    call: ApplicationCall,
+    state: State,
+    race: RaceId,
+    lookup: StatblockLookup,
+    ignoredTemplates: Set<CharacterTemplateId> = emptySet(),
+) = editStatblockLookup(
+    call,
+    state,
+    state.getRaceStorage().getOrThrow(race).lifeStages.statblock(),
+    lookup,
+    ignoredTemplates,
+)
+
 
 fun HtmlBlockTag.editStatblockLookup(
     call: ApplicationCall,
     state: State,
+    statblock: Statblock,
     lookup: StatblockLookup,
     ignoredTemplates: Set<CharacterTemplateId> = emptySet(),
 ) {
@@ -68,11 +102,16 @@ fun HtmlBlockTag.editStatblockLookup(
 
         when (lookup) {
             UndefinedStatblockLookup -> doNothing()
-            is UniqueStatblock -> editStatblock(call, state, lookup.statblock)
+            is UniqueStatblock -> {
+                val resolved = lookup.statblock.applyTo(statblock)
+
+                editStatblockUpdate(call, state, statblock, lookup.statblock, resolved)
+            }
+
             is UseStatblockOfTemplate -> selectCharacterTemplate(state, ignoredTemplates, lookup.template)
             is ModifyStatblockOfTemplate -> {
-                val statblock = state.getStatblock(lookup.template)
-                val resolved = lookup.update.resolve(statblock)
+                val statblock = state.getStatblock(statblock, lookup.template)
+                val resolved = lookup.update.applyTo(statblock)
 
                 selectCharacterTemplate(state, ignoredTemplates, lookup.template)
                 field("Template Cost", statblock.calculateCost(state))
@@ -106,7 +145,7 @@ fun parseStatblockLookup(
     parameters: Parameters,
 ) = when (parse(parameters, STATBLOCK, StatblockLookupType.Undefined)) {
     StatblockLookupType.Unique -> UniqueStatblock(
-        parseStatblock(state, parameters),
+        parseStatblockUpdate(state, parameters),
     )
 
     StatblockLookupType.UseTemplate -> UseStatblockOfTemplate(

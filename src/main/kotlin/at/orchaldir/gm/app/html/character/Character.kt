@@ -90,10 +90,10 @@ fun HtmlBlockTag.showData(
     field(call, state, "Birthdate", character.date)
     showVitalStatus(call, state, character.status)
     showAge(state, character, race)
+    showStatblockLookup(call, state, character.race, character.statblock)
     showPositionHistory(call, state, character.housingStatus, "Housing Status")
     showEmploymentStatusHistory(call, state, character.employmentStatus)
     fieldElements(call, state, "Led Battles", state.getBattlesLedBy(character.id))
-    showStatblockLookup(call, state, character.statblock)
     showDataSources(call, state, character.sources)
 
     action(generateNameLink, "Generate New Name")
@@ -203,7 +203,7 @@ fun HtmlBlockTag.showPossession(
     character: Character,
 ) {
     showOwnedElements(call, state, character.id, true)
-    showEquippedDetails(call, state, character.equipped, character.statblock)
+    showEquippedDetails(call, state, character.equipped, character.race, character.statblock)
 }
 
 // edit
@@ -230,6 +230,7 @@ fun HtmlBlockTag.editCharacter(
         ALLOWED_CAUSES_OF_DEATH_FOR_CHARACTER,
     )
     showAge(state, character, race)
+    editStatblockLookup(call, state, character.race, character.statblock)
     selectPositionHistory(
         state,
         character.housingStatus,
@@ -238,7 +239,6 @@ fun HtmlBlockTag.editCharacter(
         "Housing Status",
     )
     selectEmploymentStatusHistory(state, character.employmentStatus, character.date)
-    editStatblockLookup(call, state, character.statblock)
     editDataSources(state, character.sources)
 
     h2 { +"Social" }

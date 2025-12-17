@@ -73,7 +73,7 @@ fun Application.configureCharacterTemplateRouting() {
                     Column("Culture") { tdLink(call, state, it.culture) },
                     createBeliefColumn(call, state),
                     tdColumn("Equipped") { showEquipped(call, state, it.equipped) },
-                    countColumn("Cost") { it.statblock.calculateCost(state) },
+                    countColumn("Cost") { it.statblock.calculateCost(it.race, state) },
                 ),
             )
         }

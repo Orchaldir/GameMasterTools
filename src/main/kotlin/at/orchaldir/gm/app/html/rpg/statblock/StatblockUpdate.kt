@@ -13,6 +13,7 @@ import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.statblock.Statblock
 import at.orchaldir.gm.core.model.rpg.statblock.StatblockUpdate
+import at.orchaldir.gm.core.model.rpg.statblock.calculateUpdateCost
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.selector.rpg.getAttributes
 import at.orchaldir.gm.core.selector.rpg.getBaseDamageValues
@@ -28,7 +29,7 @@ import kotlinx.html.*
 fun HtmlBlockTag.showStatblockUpdate(
     call: ApplicationCall,
     state: State,
-    statblock: Statblock,
+    base: Statblock,
     update: StatblockUpdate,
     resolved: Statblock,
 ) {
@@ -39,14 +40,14 @@ fun HtmlBlockTag.showStatblockUpdate(
 
     showDetails("Statblock Update", true) {
         table {
-            showStatistics(call, state, statblock, update, resolved, attributes, "Attribute")
-            showStatistics(call, state, statblock, update, resolved, derivedAttributes, "Derived Attribute")
-            showStatistics(call, state, statblock, update, resolved, damageValues, "Base Damage Value")
-            showStatistics(call, state, statblock, update, resolved, skills, "Skills")
+            showStatistics(call, state, base, update, resolved, attributes, "Attribute")
+            showStatistics(call, state, base, update, resolved, derivedAttributes, "Derived Attribute")
+            showStatistics(call, state, base, update, resolved, damageValues, "Base Damage Value")
+            showStatistics(call, state, base, update, resolved, skills, "Skills")
         }
         showCharacterTraits(call, state, update.removedTraits, "Removed Traits")
         showCharacterTraits(call, state, update.addedTraits, "Added Traits")
-        field("Update Cost", update.calculateCost(state))
+        field("Update Cost", calculateUpdateCost(state, base, resolved))
     }
 }
 
@@ -95,7 +96,7 @@ private fun TABLE.showStatistics(
 fun HtmlBlockTag.editStatblockUpdate(
     call: ApplicationCall,
     state: State,
-    statblock: Statblock,
+    base: Statblock,
     update: StatblockUpdate,
     resolved: Statblock,
 ) {
@@ -106,27 +107,31 @@ fun HtmlBlockTag.editStatblockUpdate(
 
     showDetails("Statblock Update", true) {
         table {
-            editStatistics(call, state, statblock, update, resolved, attributes, "Attribute")
-            editStatistics(call, state, statblock, update, resolved, derivedAttributes, "Derived Attribute")
-            editStatistics(call, state, statblock, update, resolved, damageValues, "Base Damage Value")
-            editStatistics(call, state, statblock, update, resolved, skills, "Skills")
+            editStatistics(call, state, base, update, resolved, attributes, "Attribute")
+            editStatistics(call, state, base, update, resolved, derivedAttributes, "Derived Attribute")
+            editStatistics(call, state, base, update, resolved, damageValues, "Base Damage Value")
+            editStatistics(call, state, base, update, resolved, skills, "Skills")
         }
-        selectElements(
-            state,
-            "Removed Traits",
-            combine(REMOVE, CHARACTER_TRAIT),
-            state.getCharacterTraitStorage().get(statblock.traits),
-            update.removedTraits,
-        )
+        if (base.traits.isNotEmpty()) {
+            br { }
+            selectElements(
+                state,
+                "Removed Traits",
+                combine(REMOVE, CHARACTER_TRAIT),
+                state.getCharacterTraitStorage().get(base.traits),
+                update.removedTraits,
+            )
+        }
+        br { }
         editCharacterTraitGroups(
             call,
             state,
             update.addedTraits,
             isOpen = true,
             label = "Added Traits",
-            blockedTraits = statblock.traits - update.removedTraits,
+            blockedTraits = base.traits - update.removedTraits,
         )
-        field("Update Cost", update.calculateCost(state))
+        field("Update Cost", calculateUpdateCost(state, base, resolved))
     }
 }
 

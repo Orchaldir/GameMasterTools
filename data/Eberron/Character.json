@@ -212,7 +212,7 @@
    "statblock": {
     "#type": "Unique",
     "statblock": {
-     "traits": [
+     "addedTraits": [
       2,
       50,
       39
@@ -304,7 +304,7 @@
    "statblock": {
     "#type": "Unique",
     "statblock": {
-     "traits": [
+     "addedTraits": [
       39,
       52
      ]
@@ -376,7 +376,7 @@
    "statblock": {
     "#type": "Unique",
     "statblock": {
-     "traits": [
+     "addedTraits": [
       0,
       41
      ]
@@ -474,7 +474,7 @@
    "statblock": {
     "#type": "Unique",
     "statblock": {
-     "traits": [
+     "addedTraits": [
       5,
       41
      ]
@@ -662,6 +662,15 @@
       }
      }
     ]
+   },
+   "statblock": {
+    "#type": "Unique",
+    "statblock": {
+     "statistics": {
+      "0": 1,
+      "6": 2
+     }
+    }
    }
   },
   "8": {
@@ -709,7 +718,7 @@
    "statblock": {
     "#type": "Unique",
     "statblock": {
-     "traits": [
+     "addedTraits": [
       5,
       50
      ]
@@ -761,7 +770,7 @@
    "statblock": {
     "#type": "Unique",
     "statblock": {
-     "traits": [
+     "addedTraits": [
       33,
       37
      ]
@@ -890,7 +899,7 @@
    "statblock": {
     "#type": "Unique",
     "statblock": {
-     "traits": [
+     "addedTraits": [
       5
      ]
     }
@@ -937,7 +946,7 @@
    "statblock": {
     "#type": "Unique",
     "statblock": {
-     "traits": [
+     "addedTraits": [
       5,
       51
      ]
@@ -1035,7 +1044,7 @@
    "statblock": {
     "#type": "Unique",
     "statblock": {
-     "traits": [
+     "addedTraits": [
       52
      ]
     }

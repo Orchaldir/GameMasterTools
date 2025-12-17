@@ -21,7 +21,7 @@ class StatblockTest {
                 CharacterTemplate(
                     CHARACTER_TEMPLATE_ID_0,
                     race = RACE_ID_0,
-                    statblock = UniqueStatblock(validStatblock)
+                    statblock = UniqueStatblock(StatblockUpdate(validStatblock))
                 )
             ),
             Storage(listOf(CharacterTrait(CHARACTER_TRAIT_ID_0), CharacterTrait(CHARACTER_TRAIT_ID_1))),
@@ -78,13 +78,19 @@ class StatblockTest {
         }
 
         @Test
+        fun `Cannot add the same character trait again`() {
+            val sameTrait = setOf(CHARACTER_TRAIT_ID_0)
+            val update = StatblockUpdate(addedTraits = sameTrait)
+
+            assertIllegalArgument("Cannot add Character Trait 0 again!") { validate(update) }
+        }
+
+        @Test
         fun `Cannot remove a character trait not in the statblock`() {
             val update = StatblockUpdate(removedTraits = setOf(CHARACTER_TRAIT_ID_1))
 
             assertIllegalArgument("Cannot remove Character Trait 1, because it is not in the statblock!") {
-                validate(
-                    update
-                )
+                validate(update)
             }
         }
 
@@ -129,6 +135,14 @@ class StatblockTest {
         @Test
         fun `Using an unknown statistic`() {
             val update = StatblockUpdate(mapOf(UNKNOWN_STATISTIC_ID to 4))
+            val statblock = UniqueStatblock(update)
+
+            assertIllegalArgument("Requires unknown Statistic 99!") { validate(statblock) }
+        }
+
+        @Test
+        fun `Modifying an unknown statistic`() {
+            val update = StatblockUpdate(mapOf(UNKNOWN_STATISTIC_ID to 4))
             val statblock = ModifyStatblockOfTemplate(CHARACTER_TEMPLATE_ID_0, update)
 
             assertIllegalArgument("Requires unknown Statistic 99!") { validate(statblock) }
@@ -149,7 +163,7 @@ class StatblockTest {
         }
 
         private fun validate(statblock: StatblockLookup) {
-            validateStatblockLookup(state, statblock)
+            validateStatblockLookup(state, Statblock(), statblock)
         }
     }
 }

@@ -230,6 +230,7 @@ enum class SortRace {
     Name,
     Population,
     Characters,
+    Cost,
 }
 
 enum class SortRaceAppearance {
