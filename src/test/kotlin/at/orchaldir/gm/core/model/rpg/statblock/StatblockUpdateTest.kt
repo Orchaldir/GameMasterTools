@@ -42,6 +42,16 @@ class StatblockUpdateTest {
         }
 
         @Test
+        fun `Cost of increased statistics with GURPS cost`() {
+            val attribute = Statistic(STATISTIC_ID_0, data = Attribute(cost = GurpsSkillCost))
+            val newState = state.updateStorage(Storage(attribute))
+            val base = Statblock(mapOf(STATISTIC_ID_0 to 10))
+            val updated = Statblock(mapOf(STATISTIC_ID_0 to 11))
+
+            assertEquals(4, calculateUpdateCost(newState, base, updated))
+        }
+
+        @Test
         fun `Cost of multiple traits`() {
             assertCost(Statblock(traits = traits), 10)
         }
