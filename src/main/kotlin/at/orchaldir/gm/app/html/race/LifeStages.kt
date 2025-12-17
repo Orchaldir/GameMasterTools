@@ -14,7 +14,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.beard.BeardType
 import at.orchaldir.gm.core.model.race.aging.*
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
-import at.orchaldir.gm.core.model.realm.CauseOfCatastropheType.Undefined
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.math.Factor
 import io.ktor.http.*

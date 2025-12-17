@@ -12,7 +12,6 @@ import at.orchaldir.gm.core.model.culture.language.Language
 import at.orchaldir.gm.core.model.item.Uniform
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.religion.God
-import at.orchaldir.gm.core.model.rpg.statblock.Statblock
 import at.orchaldir.gm.core.model.rpg.statblock.StatblockUpdate
 import at.orchaldir.gm.core.model.rpg.statblock.UniqueStatblock
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic

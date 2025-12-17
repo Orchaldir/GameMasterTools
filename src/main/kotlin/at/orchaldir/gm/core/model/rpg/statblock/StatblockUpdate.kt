@@ -11,7 +11,7 @@ data class StatblockUpdate(
     val addedTraits: Set<CharacterTraitId> = emptySet(),
     val removedTraits: Set<CharacterTraitId> = emptySet(),
 ) {
-    constructor(statblock: Statblock): this(statblock.statistics, statblock.traits)
+    constructor(statblock: Statblock) : this(statblock.statistics, statblock.traits)
 
     fun contains(id: CharacterTraitId) = addedTraits.contains(id) || removedTraits.contains(id)
 

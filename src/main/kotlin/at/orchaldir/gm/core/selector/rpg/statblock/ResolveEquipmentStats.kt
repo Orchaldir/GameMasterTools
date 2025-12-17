@@ -18,6 +18,7 @@ fun resolveMeleeAttackMap(
         val statblock = lookup.statblock.applyTo(base)
         resolveMeleeAttackMap(state, statblock, attackMap)
     }
+
     is UseStatblockOfTemplate -> {
         val statblock = state.getStatblock(base, lookup.template)
 

@@ -33,7 +33,6 @@ import at.orchaldir.gm.core.model.world.town.TownMapId
 import at.orchaldir.gm.core.selector.culture.getKnownLanguages
 import at.orchaldir.gm.core.selector.organization.getOrganizations
 import at.orchaldir.gm.core.selector.realm.getBattlesLedBy
-import at.orchaldir.gm.core.selector.rpg.statblock.getStatblock
 import at.orchaldir.gm.core.selector.time.getDefaultCalendar
 import at.orchaldir.gm.core.selector.util.canDeleteCreator
 import at.orchaldir.gm.core.selector.util.canDeleteDestroyer

@@ -1,6 +1,9 @@
 package at.orchaldir.gm.core.model.rpg.statblock
 
-import at.orchaldir.gm.*
+import at.orchaldir.gm.CHARACTER_TRAIT_ID_0
+import at.orchaldir.gm.CHARACTER_TRAIT_ID_1
+import at.orchaldir.gm.STATISTIC_ID_0
+import at.orchaldir.gm.STATISTIC_ID_1
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.statistic.*
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTrait
@@ -8,8 +11,8 @@ import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 class StatblockUpdateTest {
 
@@ -75,9 +78,9 @@ class StatblockUpdateTest {
         val statblock = Statblock(statistics, traits)
         val update = StatblockUpdate(statblock)
 
-        assertEquals( statistics, update.statistics)
-        assertEquals( traits, update.addedTraits)
-        assertEquals( emptySet(), update.removedTraits)
+        assertEquals(statistics, update.statistics)
+        assertEquals(traits, update.addedTraits)
+        assertEquals(emptySet(), update.removedTraits)
     }
 
     @Nested
@@ -117,8 +120,8 @@ class StatblockUpdateTest {
             val update = StatblockUpdate(mapOf(STATISTIC_ID_1 to 4))
             val result = update.applyTo(statblock)
 
-            assertEquals( statistics, result.statistics)
-            assertEquals( emptySet(), result.traits)
+            assertEquals(statistics, result.statistics)
+            assertEquals(emptySet(), result.traits)
         }
 
         @Test
@@ -127,8 +130,8 @@ class StatblockUpdateTest {
             val update = StatblockUpdate(mapOf(STATISTIC_ID_0 to 4))
             val result = update.applyTo(statblock)
 
-            assertEquals( mapOf(STATISTIC_ID_0 to 7), result.statistics)
-            assertEquals( emptySet(), result.traits)
+            assertEquals(mapOf(STATISTIC_ID_0 to 7), result.statistics)
+            assertEquals(emptySet(), result.traits)
         }
 
         @Test
@@ -137,8 +140,8 @@ class StatblockUpdateTest {
             val update = StatblockUpdate(addedTraits = setOf(CHARACTER_TRAIT_ID_1))
             val result = update.applyTo(statblock)
 
-            assertEquals( emptyMap(), result.statistics)
-            assertEquals( traits, result.traits)
+            assertEquals(emptyMap(), result.statistics)
+            assertEquals(traits, result.traits)
         }
 
         @Test
@@ -147,8 +150,8 @@ class StatblockUpdateTest {
             val update = StatblockUpdate(removedTraits = setOf(CHARACTER_TRAIT_ID_1))
             val result = update.applyTo(statblock)
 
-            assertEquals( emptyMap(), result.statistics)
-            assertEquals( setOf(CHARACTER_TRAIT_ID_0), result.traits)
+            assertEquals(emptyMap(), result.statistics)
+            assertEquals(setOf(CHARACTER_TRAIT_ID_0), result.traits)
         }
     }
 

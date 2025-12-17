@@ -11,7 +11,6 @@ import at.orchaldir.gm.core.model.rpg.combat.Damage
 import at.orchaldir.gm.core.model.rpg.combat.MeleeAttack
 import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponType
 import at.orchaldir.gm.core.model.rpg.combat.StatisticBasedDamage
-import at.orchaldir.gm.core.model.rpg.statblock.Statblock
 import at.orchaldir.gm.core.model.rpg.statblock.StatblockUpdate
 import at.orchaldir.gm.core.model.rpg.statblock.UniqueStatblock
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic

@@ -48,6 +48,7 @@ fun HtmlBlockTag.showStatblockLookup(
                 showStatblockUpdate(call, state, base, lookup.statblock, resolved)
                 showStatblock(call, state, resolved)
             }
+
             is UseStatblockOfTemplate -> {
                 val statblock = state.getStatblock(base, lookup.template)
 
@@ -106,6 +107,7 @@ fun HtmlBlockTag.editStatblockLookup(
 
                 editStatblockUpdate(call, state, statblock, lookup.statblock, resolved)
             }
+
             is UseStatblockOfTemplate -> selectCharacterTemplate(state, ignoredTemplates, lookup.template)
             is ModifyStatblockOfTemplate -> {
                 val statblock = state.getStatblock(statblock, lookup.template)
