@@ -47,6 +47,17 @@ data class EquipmentMap<T>(private val list: List<EquipmentMapEntry<T>>) {
 
     fun getAllEquipment() = list.map { it.data }
     fun getEquipmentWithSlotSets() = list
+    fun getSlotSetWithEquipmentList(): List<Pair<Set<BodySlot>, T>> {
+        val output: MutableList<Pair<Set<BodySlot>, T>> = mutableListOf()
+
+        list.forEach { entry ->
+            entry.sets.forEach { set ->
+                output.add(Pair(set, entry.data))
+            }
+        }
+
+        return output
+    }
 
     fun getEquipment(slots: Set<BodySlot>): T? = list
         .find { it.sets.contains(slots) }

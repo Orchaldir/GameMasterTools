@@ -99,6 +99,7 @@ fun HtmlBlockTag.showEquippedDetails(
 // select
 
 fun HtmlBlockTag.editEquipped(
+    call: ApplicationCall,
     state: State,
     param: String,
     equipped: Equipped,
@@ -136,6 +137,7 @@ fun HtmlBlockTag.editEquipped(
 
             is UseEquipmentFromTemplate -> doNothing()
             is ModifyEquipmentFromTemplate -> editEquipmentMapUpdate(
+                call,
                 state,
                 state.getEquipmentMapOfTemplate(lookup),
                 equipped.update,
