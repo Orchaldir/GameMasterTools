@@ -101,6 +101,12 @@ class EquipmentMapUpdateTest {
             assertRemove(map01, map0, BodySlot.Foot)
         }
 
+        @Test
+        fun `Update removes duplicate equipment`() {
+            assertRemove(twice0, map0, BodySlot.Foot)
+            assertRemove(twice0, other0, BodySlot.Head)
+        }
+
         private fun assertAdd(
             from: EquipmentIdMap,
             to: EquipmentIdMap,
