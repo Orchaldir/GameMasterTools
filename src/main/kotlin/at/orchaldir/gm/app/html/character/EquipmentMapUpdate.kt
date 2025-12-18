@@ -58,5 +58,5 @@ fun parseEquipmentMapUpdate(
 ): EquipmentMapUpdate {
     val updated = parseEquipmentMap(parameters, combine(param, EQUIPMENT))
 
-    return EquipmentMapUpdate()
+    return EquipmentMapUpdate.calculateUpdate(base, updated)
 }
