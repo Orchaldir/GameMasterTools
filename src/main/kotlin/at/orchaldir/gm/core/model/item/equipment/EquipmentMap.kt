@@ -26,6 +26,9 @@ data class EquipmentMap<T>(private val list: List<EquipmentMapEntry<T>>) {
         fun <T> fromSlotAsKeyMap(map: Map<BodySlot, T>) =
             EquipmentMap(map.entries.map { EquipmentMapEntry(it.value, it.key) })
 
+        fun fromSlotToIdMap(map: Map<BodySlot, EquipmentId>): EquipmentIdMap =
+            EquipmentMap(map.entries.map { EquipmentMapEntry(Pair(it.value, null), it.key) })
+
         fun <T> fromSlotAsValueMap(map: Map<T, Set<Set<BodySlot>>>) =
             EquipmentMap(map.entries.toList().map { EquipmentMapEntry(it.key, it.value) })
     }
