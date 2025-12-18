@@ -12,6 +12,7 @@ import kotlinx.serialization.Serializable
 enum class EquippedType {
     Undefined,
     Equipment,
+    UseTemplate,
     Uniform,
 }
 
@@ -22,6 +23,7 @@ sealed class Equipped {
         UndefinedEquipped -> EquippedType.Undefined
         is EquippedEquipment -> EquippedType.Equipment
         is EquippedUniform -> EquippedType.Uniform
+        is UseEquipmentFromTemplate -> EquippedType.UseTemplate
     }
 
     fun contains(scheme: ColorSchemeId) = when (this) {
@@ -52,6 +54,10 @@ data class EquippedEquipment(
 data class EquippedUniform(
     val uniform: UniformId,
 ) : Equipped()
+
+@Serializable
+@SerialName("UseTemplate")
+data object UseEquipmentFromTemplate : Equipped()
 
 @Serializable
 @SerialName("Undefined")

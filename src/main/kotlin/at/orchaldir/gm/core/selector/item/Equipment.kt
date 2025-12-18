@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.rpg.combat.ArmorTypeId
 import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifierId
 import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponTypeId
 import at.orchaldir.gm.core.model.rpg.combat.ShieldTypeId
+import at.orchaldir.gm.core.model.rpg.statblock.StatblockLookup
 import at.orchaldir.gm.core.model.util.render.ColorSchemeId
 import at.orchaldir.gm.core.model.util.render.UndefinedColors
 import at.orchaldir.gm.core.selector.character.getCharacterTemplates
@@ -59,14 +60,29 @@ fun State.getEquipmentId(type: EquipmentDataType) = getEquipmentOf(type)
 fun State.getEquipment(character: CharacterId) =
     getEquipment(getCharacterStorage().getOrThrow(character))
 
-fun State.getEquipment(character: Character) = when (character.equipped) {
-    is EquippedEquipment -> resolveEquipment(character.equipped.map)
+fun State.getEquipment(character: Character) = getEquipment(character.equipped, character.statblock)
+
+fun State.getEquipment(
+    equipped: Equipped,
+    lookup: StatblockLookup,
+) = resolveEquipment(getEquipmentMap(equipped, lookup))
+
+fun State.getEquipmentMap(
+    equipped: Equipped,
+    lookup: StatblockLookup,
+): EquipmentIdMap = when (equipped) {
+    is EquippedEquipment -> equipped.map
     is EquippedUniform -> {
-        val uniform = getUniformStorage().getOrThrow(character.equipped.uniform)
-        resolveEquipment(uniform.equipmentMap)
+        val uniform = getUniformStorage().getOrThrow(equipped.uniform)
+        uniform.equipmentMap
+    }
+    is UseEquipmentFromTemplate -> {
+        val templateId = lookup.template() ?: error("Cannot get equipment from the template without a template!")
+        val template = getCharacterTemplateStorage().getOrThrow(templateId)
+        getEquipmentMap(template.equipped, template.statblock)
     }
 
-    UndefinedEquipped -> EquipmentElementMap()
+    UndefinedEquipped -> EquipmentIdMap()
 }
 
 fun State.resolveEquipment(idMap: EquipmentIdMap) = idMap.convert { pair ->

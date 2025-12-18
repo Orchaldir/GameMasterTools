@@ -202,7 +202,7 @@ data class Character(
     override fun validate(state: State) {
         validateCharacterData(state, this)
         validateCharacterAppearance(state, appearance, race)
-        validateEquipped(state, equipped)
+        validateEquipped(state, equipped, statblock)
         state.getDataSourceStorage().require(sources)
     }
 }

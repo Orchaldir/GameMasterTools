@@ -60,7 +60,7 @@ data class CharacterTemplate(
         state.getDataSourceStorage().require(sources)
         state.getLanguageStorage().require(languages.keys)
         state.getRaceStorage().require(race)
-        validateEquipped(state, equipped)
+        validateEquipped(state, equipped, statblock)
         validateStatblockLookup(state, race, statblock)
         checkBeliefStatus(state, belief)
     }

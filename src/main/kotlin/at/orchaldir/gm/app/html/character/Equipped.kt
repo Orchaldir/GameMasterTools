@@ -1,6 +1,7 @@
 package at.orchaldir.gm.app.html.character
 
 import at.orchaldir.gm.app.EQUIPMENT
+import at.orchaldir.gm.app.TEMPLATE
 import at.orchaldir.gm.app.UNIFORM
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.item.parseUniformId
@@ -18,6 +19,7 @@ import at.orchaldir.gm.core.selector.character.getMeleeAttacks
 import at.orchaldir.gm.core.selector.character.getShields
 import at.orchaldir.gm.core.selector.rpg.statblock.resolveMeleeAttackMap
 import at.orchaldir.gm.core.selector.rpg.statblock.resolveProtectionMap
+import at.orchaldir.gm.core.selector.util.sortCharacterTemplates
 import at.orchaldir.gm.core.selector.util.sortUniforms
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
@@ -35,6 +37,7 @@ fun HtmlBlockTag.showEquipped(
     when (equipped) {
         is EquippedEquipment -> +"${equipped.map.size()} items"
         is EquippedUniform -> link(call, state, equipped.uniform)
+        is UseEquipmentFromTemplate -> +"Use Template"
         UndefinedEquipped -> if (showUndefined) {
             +"Undefined"
         }
@@ -71,12 +74,13 @@ fun HtmlBlockTag.showEquippedDetails(
             }
 
             is EquippedUniform -> fieldLink(call, state, equipped.uniform)
+            is UseEquipmentFromTemplate -> doNothing()
             UndefinedEquipped -> doNothing()
         }
 
-        val amorMap = getArmors(state, equipped)
-        val meleeAttackMap = getMeleeAttacks(state, equipped)
-        val shieldMap = getShields(state, equipped)
+        val amorMap = getArmors(state, equipped, lookup)
+        val meleeAttackMap = getMeleeAttacks(state, equipped, lookup)
+        val shieldMap = getShields(state, equipped, lookup)
 
         val resolvedProtectionMap = resolveProtectionMap(state, lookup, amorMap + shieldMap)
         val resolvedMeleeAttackMap = resolveMeleeAttackMap(state, base, lookup, meleeAttackMap)
@@ -98,6 +102,7 @@ fun HtmlBlockTag.editEquipped(
             when (type) {
                 EquippedType.Undefined -> false
                 EquippedType.Equipment -> false
+                EquippedType.UseTemplate -> state.getCharacterTemplateStorage().isEmpty()
                 EquippedType.Uniform -> state.getUniformStorage().isEmpty()
             }
         }
@@ -116,6 +121,7 @@ fun HtmlBlockTag.editEquipped(
                 equipped.uniform,
             )
 
+            is UseEquipmentFromTemplate -> doNothing()
             UndefinedEquipped -> doNothing()
         }
     }
@@ -129,6 +135,8 @@ fun parseEquipped(parameters: Parameters, state: State, param: String) =
         EquippedType.Equipment -> EquippedEquipment(
             parseEquipmentMap(parameters, combine(param, EQUIPMENT)),
         )
+
+        EquippedType.UseTemplate -> UseEquipmentFromTemplate
 
         EquippedType.Uniform -> EquippedUniform(
             parseUniformId(parameters, combine(param, UNIFORM)),
