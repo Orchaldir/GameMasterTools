@@ -77,13 +77,23 @@ fun State.getEquipmentMap(
         val uniform = getUniformStorage().getOrThrow(equipped.uniform)
         uniform.equipmentMap
     }
-    is UseEquipmentFromTemplate -> {
-        val templateId = lookup.template() ?: error("Cannot get equipment from the template without a template!")
-        val template = getCharacterTemplateStorage().getOrThrow(templateId)
-        getEquipmentMap(template.equipped, template.statblock)
+    is UseEquipmentFromTemplate -> getEquipmentMapOfTemplate(lookup)
+    is ModifyEquipmentFromTemplate -> {
+        getEquipmentMap(equipped.update, lookup)
     }
 
     UndefinedEquipped -> EquipmentIdMap()
+}
+
+fun State.getEquipmentMap(
+    update: EquipmentMapUpdate,
+    lookup: StatblockLookup,
+) = update.applyTo(getEquipmentMapOfTemplate(lookup))
+
+fun State.getEquipmentMapOfTemplate(lookup: StatblockLookup): EquipmentIdMap {
+    val templateId = lookup.template() ?: error("Cannot get equipment from the template without a template!")
+    val template = getCharacterTemplateStorage().getOrThrow(templateId)
+    return getEquipmentMap(template.equipped, template.statblock)
 }
 
 fun State.resolveEquipment(idMap: EquipmentIdMap) = idMap.convert { pair ->

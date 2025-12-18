@@ -4,12 +4,15 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Equipped
 import at.orchaldir.gm.core.model.character.EquippedEquipment
 import at.orchaldir.gm.core.model.character.EquippedUniform
+import at.orchaldir.gm.core.model.character.ModifyEquipmentFromTemplate
 import at.orchaldir.gm.core.model.character.UndefinedEquipped
 import at.orchaldir.gm.core.model.character.UseEquipmentFromTemplate
 import at.orchaldir.gm.core.model.item.equipment.BodySlot
 import at.orchaldir.gm.core.model.item.equipment.EquipmentIdMap
+import at.orchaldir.gm.core.model.item.equipment.EquipmentMapUpdate
 import at.orchaldir.gm.core.model.item.equipment.getAllBodySlotCombinations
 import at.orchaldir.gm.core.model.rpg.statblock.StatblockLookup
+import at.orchaldir.gm.core.selector.item.getEquipmentMap
 import at.orchaldir.gm.utils.doNothing
 
 fun validateEquipped(
@@ -17,13 +20,17 @@ fun validateEquipped(
     equipped: Equipped,
     lookup: StatblockLookup,
 ) = when (equipped) {
-    is EquippedEquipment -> validateCharacterEquipment(state, equipped.map)
+    is EquippedEquipment -> validateEquipmentMap(state, equipped.map)
     is EquippedUniform -> state.getUniformStorage().require(equipped.uniform)
-    UseEquipmentFromTemplate -> lookup.template() ?: error("Cannot use equipment from the template without a template!")
+    UseEquipmentFromTemplate -> validateTemplate(lookup)
+    is ModifyEquipmentFromTemplate -> validateEquipmentMapUpdate(state, equipped.update, lookup)
     UndefinedEquipped -> doNothing()
 }
 
-fun validateCharacterEquipment(
+private fun validateTemplate(lookup: StatblockLookup) =
+    lookup.template() ?: error("Cannot use equipment from the template without a template!")
+
+fun validateEquipmentMap(
     state: State,
     equipmentMap: EquipmentIdMap,
 ) {
@@ -45,4 +52,12 @@ fun validateCharacterEquipment(
             occupySlots.addAll(slotSet)
         }
     }
+}
+
+fun validateEquipmentMapUpdate(
+    state: State,
+    update: EquipmentMapUpdate,
+    lookup: StatblockLookup,
+) {
+    validateTemplate(lookup)
 }

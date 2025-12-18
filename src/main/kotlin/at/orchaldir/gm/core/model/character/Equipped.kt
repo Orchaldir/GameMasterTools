@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.model.character
 import at.orchaldir.gm.core.model.item.UniformId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentIdMap
+import at.orchaldir.gm.core.model.item.equipment.EquipmentMapUpdate
 import at.orchaldir.gm.core.model.item.equipment.containsId
 import at.orchaldir.gm.core.model.item.equipment.containsScheme
 import at.orchaldir.gm.core.model.util.render.ColorSchemeId
@@ -13,6 +14,7 @@ enum class EquippedType {
     Undefined,
     Equipment,
     UseTemplate,
+    ModifyTemplate,
     Uniform,
 }
 
@@ -24,6 +26,7 @@ sealed class Equipped {
         is EquippedEquipment -> EquippedType.Equipment
         is EquippedUniform -> EquippedType.Uniform
         is UseEquipmentFromTemplate -> EquippedType.UseTemplate
+        is ModifyEquipmentFromTemplate -> EquippedType.ModifyTemplate
     }
 
     fun contains(scheme: ColorSchemeId) = when (this) {
@@ -33,6 +36,7 @@ sealed class Equipped {
 
     fun contains(equipment: EquipmentId) = when (this) {
         is EquippedEquipment -> map.containsId(equipment)
+        is ModifyEquipmentFromTemplate -> update.added.containsId(equipment)
         else -> false
     }
 
@@ -58,6 +62,12 @@ data class EquippedUniform(
 @Serializable
 @SerialName("UseTemplate")
 data object UseEquipmentFromTemplate : Equipped()
+
+@Serializable
+@SerialName("ModifyTemplate")
+data class ModifyEquipmentFromTemplate(
+    val update: EquipmentMapUpdate,
+) : Equipped()
 
 @Serializable
 @SerialName("Undefined")

@@ -1,5 +1,8 @@
 package at.orchaldir.gm.core.model.item.equipment
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class EquipmentMapUpdate(
     val removed: Set<Set<BodySlot>> = emptySet(),
     val added: EquipmentIdMap = EquipmentIdMap(),
