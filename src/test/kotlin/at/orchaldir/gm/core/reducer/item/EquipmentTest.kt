@@ -38,7 +38,7 @@ class EquipmentTest {
     )
     private val EQUIPMENT_MAP = EquippedEquipment(
         EquipmentMap
-            .fromId(EQUIPMENT_ID_0, COLOR_SCHEME_ID_0, BodySlot.Head)
+            .from(BodySlot.Head, EQUIPMENT_ID_0, COLOR_SCHEME_ID_0)
     )
 
     @Nested

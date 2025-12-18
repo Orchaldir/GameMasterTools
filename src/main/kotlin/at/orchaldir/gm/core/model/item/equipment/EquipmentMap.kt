@@ -20,7 +20,7 @@ data class EquipmentMap<T>(private val list: List<EquipmentMapEntry<T>>) {
         fun from(list: List<EquipmentData>) =
             EquipmentMap(list.map { EquipmentMapEntry.from(it, it) })
 
-        fun fromId(equipment: EquipmentId, scheme: ColorSchemeId?, slot: BodySlot) =
+        fun from(slot: BodySlot, equipment: EquipmentId, scheme: ColorSchemeId? = null) =
             EquipmentMap(EquipmentMapEntry.fromId(equipment, scheme, slot))
 
         fun <T> fromSlotAsKeyMap(map: Map<BodySlot, T>) =

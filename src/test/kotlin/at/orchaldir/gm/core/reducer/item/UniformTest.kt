@@ -43,7 +43,7 @@ class UniformTest {
 
         @Test
         fun `Cannot update uniform with unknown equipment`() {
-            val equipmentMap = EquipmentMap.fromId(UNKNOWN_EQUIPMENT_ID, COLOR_SCHEME_ID_0, BodySlot.Head)
+            val equipmentMap = EquipmentMap.from(BodySlot.Head, UNKNOWN_EQUIPMENT_ID, COLOR_SCHEME_ID_0)
             val action = UpdateAction(Uniform(UNIFORM_ID_0, equipmentMap = equipmentMap))
 
             assertIllegalArgument("Requires unknown Equipment 99!") { REDUCER.invoke(STATE, action) }
@@ -51,7 +51,7 @@ class UniformTest {
 
         @Test
         fun `Success`() {
-            val equipmentMap = EquipmentMap.fromId(EQUIPMENT_ID_0, COLOR_SCHEME_ID_0, BodySlot.Head)
+            val equipmentMap = EquipmentMap.from(BodySlot.Head, EQUIPMENT_ID_0, COLOR_SCHEME_ID_0)
             val uniform = Uniform(UNIFORM_ID_0, equipmentMap = equipmentMap)
             val action = UpdateAction(uniform)
 

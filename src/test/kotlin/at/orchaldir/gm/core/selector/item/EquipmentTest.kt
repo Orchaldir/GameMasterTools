@@ -30,7 +30,7 @@ class EquipmentTest {
         @Test
         fun `Cannot delete a equipment that is equipped a characeter`() {
             val map = EquipmentMap
-                .fromId(EQUIPMENT_ID_0, COLOR_SCHEME_ID_0, BodySlot.Head)
+                .from(BodySlot.Head, EQUIPMENT_ID_0, COLOR_SCHEME_ID_0)
             val character = Character(CHARACTER_ID_0, equipped = EquippedEquipment(map))
             val newState = state.updateStorage(Storage(character))
 
@@ -40,7 +40,7 @@ class EquipmentTest {
         @Test
         fun `Cannot delete a equipment that is equipped by a template`() {
             val map = EquipmentMap
-                .fromId(EQUIPMENT_ID_0, COLOR_SCHEME_ID_0, BodySlot.Head)
+                .from(BodySlot.Head, EQUIPMENT_ID_0, COLOR_SCHEME_ID_0)
             val template =
                 CharacterTemplate(CHARACTER_TEMPLATE_ID_0, race = RACE_ID_0, equipped = EquippedEquipment(map))
             val newState = state.updateStorage(Storage(template))

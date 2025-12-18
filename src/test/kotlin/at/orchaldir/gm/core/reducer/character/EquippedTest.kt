@@ -27,7 +27,7 @@ class EquippedTest {
     inner class EquippedEquipmentTest {
 
         private val equipmentMap = EquipmentMap
-            .fromId(EQUIPMENT_ID_0, COLOR_SCHEME_ID_0, BodySlot.Head)
+            .from(BodySlot.Head, EQUIPMENT_ID_0, COLOR_SCHEME_ID_0)
         private val equipped = EquippedEquipment(equipmentMap)
 
         @Test
