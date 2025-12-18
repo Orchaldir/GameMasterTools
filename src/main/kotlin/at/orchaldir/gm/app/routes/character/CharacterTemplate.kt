@@ -10,7 +10,9 @@ import at.orchaldir.gm.app.html.character.showEquipped
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.app.routes.race.generateAppearance
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CHARACTER_TEMPLATE_TYPE
+import at.orchaldir.gm.core.model.character.CharacterTemplate
 import at.orchaldir.gm.core.model.character.CharacterTemplateId
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.util.SortCharacterTemplate
@@ -88,19 +90,8 @@ fun Application.configureCharacterTemplateRouting() {
                 details.id,
                 CharacterTemplateRoutes(),
                 HtmlBlockTag::showCharacterTemplate,
-            ) { _, state, template ->
-                val gender = template.gender ?: Gender.Male
-                val appearance = generateAppearance(
-                    state,
-                    state.getRaceStorage().getOrThrow(template.race),
-                    gender,
-                    state.getAppearanceFashion(gender, template.culture),
-                )
-                val equipped = state.getEquipment(template)
-                val svg = visualizeCharacter(state, CHARACTER_CONFIG, appearance, equipped)
-
-                svg(svg, 80)
-            }
+                HtmlBlockTag::showCharacterTemplateRight,
+            )
         }
         get<CharacterTemplateRoutes.New> {
             handleCreateElement(CharacterTemplateRoutes(), STORE.getState().getCharacterTemplateStorage())
@@ -112,18 +103,42 @@ fun Application.configureCharacterTemplateRouting() {
             handleDeleteElement(CharacterTemplateRoutes(), delete.id)
         }
         get<CharacterTemplateRoutes.Edit> { edit ->
-            handleEditElement(edit.id, CharacterTemplateRoutes(), HtmlBlockTag::editCharacterTemplate)
+            handleEditElementSplit(
+                edit.id,
+                CharacterTemplateRoutes(),
+                HtmlBlockTag::editCharacterTemplate,
+                HtmlBlockTag::showCharacterTemplateRight,
+            )
         }
         post<CharacterTemplateRoutes.Preview> { preview ->
-            handlePreviewElement(
+            handlePreviewElementSplit(
                 preview.id,
                 CharacterTemplateRoutes(),
                 ::parseCharacterTemplate,
-                HtmlBlockTag::editCharacterTemplate
+                HtmlBlockTag::editCharacterTemplate,
+                HtmlBlockTag::showCharacterTemplateRight,
             )
         }
         post<CharacterTemplateRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseCharacterTemplate)
         }
     }
+}
+
+private fun HtmlBlockTag.showCharacterTemplateRight(
+    call: ApplicationCall,
+    state: State,
+    template: CharacterTemplate,
+) {
+    val gender = template.gender ?: Gender.Male
+    val appearance = generateAppearance(
+        state,
+        state.getRaceStorage().getOrThrow(template.race),
+        gender,
+        state.getAppearanceFashion(gender, template.culture),
+    )
+    val equipped = state.getEquipment(template)
+    val svg = visualizeCharacter(state, CHARACTER_CONFIG, appearance, equipped)
+
+    svg(svg, 80)
 }

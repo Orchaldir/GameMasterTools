@@ -107,12 +107,8 @@ fun Application.configureUniformRouting() {
                 details.id,
                 UniformRoutes(),
                 HtmlBlockTag::showUniform,
-            ) { _, state, uniform ->
-                val equipped = state.resolveEquipment(uniform.equipmentMap)
-                val svg = visualizeCharacter(state, CHARACTER_CONFIG, appearance, equipped)
-
-                svg(svg, 80)
-            }
+                HtmlBlockTag::showUniformRight,
+            )
         }
         get<UniformRoutes.New> {
             handleCreateElement(UniformRoutes(), STORE.getState().getUniformStorage())
@@ -125,7 +121,7 @@ fun Application.configureUniformRouting() {
                 edit.id,
                 UniformRoutes(),
                 HtmlBlockTag::editUniform,
-                HtmlBlockTag::showUniformEditorRight,
+                HtmlBlockTag::showUniformRight,
             )
         }
         post<UniformRoutes.Preview> { preview ->
@@ -134,7 +130,7 @@ fun Application.configureUniformRouting() {
                 UniformRoutes(),
                 ::parseUniform,
                 HtmlBlockTag::editUniform,
-                HtmlBlockTag::showUniformEditorRight,
+                HtmlBlockTag::showUniformRight,
             )
         }
         post<UniformRoutes.Update> { update ->
@@ -143,7 +139,7 @@ fun Application.configureUniformRouting() {
     }
 }
 
-private fun HtmlBlockTag.showUniformEditorRight(
+private fun HtmlBlockTag.showUniformRight(
     call: ApplicationCall,
     state: State,
     uniform: Uniform,
