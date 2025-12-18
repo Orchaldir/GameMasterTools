@@ -113,6 +113,7 @@ class CharacterTemplateTest {
                 CULTURE_ID_0,
                 mapOf(LANGUAGE_ID_0 to Native),
                 WorshipOfGod(GOD_ID_0),
+                UniqueStatblock(StatblockUpdate()),
                 EquippedUniform(UNIFORM_ID_0),
             )
             val action = UpdateAction(template)
