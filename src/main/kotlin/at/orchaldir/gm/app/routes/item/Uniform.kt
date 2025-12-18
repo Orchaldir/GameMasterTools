@@ -103,11 +103,15 @@ fun Application.configureUniformRouting() {
             }
         }
         get<UniformRoutes.Details> { details ->
-            handleShowElement<UniformId, Uniform, SortUniform>(details.id, UniformRoutes()) { call, state, uniform ->
+            handleShowElementSplit(
+                details.id,
+                UniformRoutes(),
+                HtmlBlockTag::showUniform,
+            ) { _, state, uniform ->
                 val equipped = state.resolveEquipment(uniform.equipmentMap)
                 val svg = visualizeCharacter(state, CHARACTER_CONFIG, appearance, equipped)
-                svg(svg, 20)
-                showUniform(call, state, uniform)
+
+                svg(svg, 80)
             }
         }
         get<UniformRoutes.New> {
