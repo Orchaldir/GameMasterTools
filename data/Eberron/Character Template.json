@@ -10,6 +10,35 @@
     "#type": "Pantheon",
     "pantheon": 0
    },
+   "equipped": {
+    "#type": "Equipment",
+    "map": {
+     "list": [
+      {
+       "data": {
+        "first": 0,
+        "second": null
+       },
+       "sets": [
+        [
+         "HeldInRightHand"
+        ]
+       ]
+      },
+      {
+       "data": {
+        "first": 3,
+        "second": null
+       },
+       "sets": [
+        [
+         "HeldInLeftHand"
+        ]
+       ]
+      }
+     ]
+    }
+   },
    "statblock": {
     "#type": "Unique",
     "statblock": {
@@ -31,8 +60,7 @@
     "pantheon": 0
    },
    "equipped": {
-    "#type": "Uniform",
-    "uniform": 0
+    "#type": "UseTemplate"
    },
    "statblock": {
     "#type": "Modify",

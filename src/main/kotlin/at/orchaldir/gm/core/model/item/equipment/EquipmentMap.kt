@@ -82,7 +82,7 @@ data class EquipmentMap<T>(private val list: List<EquipmentEntry<T>>) {
 
     fun getMaxIounStoneSlot() = list
         .map { it.getMaxIounStoneSlot() }
-        .maxBy { it?.getOptionalIounStoneIndex() ?: -1 }
+        .maxByOrNull { it?.getOptionalIounStoneIndex() ?: -1 }
 }
 
 typealias EquipmentIdPair = Pair<EquipmentId, ColorSchemeId?>
