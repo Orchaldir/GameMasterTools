@@ -95,6 +95,12 @@ class EquipmentMapUpdateTest {
             assertRemove(map1, emptyMap, BodySlot.Foot)
         }
 
+        @Test
+        fun `Update removes second equipment`() {
+            assertRemove(map01, map1, BodySlot.Head)
+            assertRemove(map01, map0, BodySlot.Foot)
+        }
+
         private fun assertAdd(
             from: EquipmentIdMap,
             to: EquipmentIdMap,
