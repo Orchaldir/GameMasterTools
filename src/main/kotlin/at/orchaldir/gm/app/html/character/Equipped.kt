@@ -96,9 +96,16 @@ fun HtmlBlockTag.editEquipped(
     state: State,
     param: String,
     equipped: Equipped,
+    lookup: StatblockLookup,
 ) {
+    val allowedTypes = if (lookup.hasTemplate()) {
+        EquippedType.entries
+    } else {
+        EquippedType.entries - EquippedType.UseTemplate
+    }
+
     showDetails("Equipped", true) {
-        selectValue("Type", param, EquippedType.entries, equipped.getType()) { type ->
+        selectValue("Type", param, allowedTypes, equipped.getType()) { type ->
             when (type) {
                 EquippedType.Undefined -> false
                 EquippedType.Equipment -> false

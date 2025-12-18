@@ -269,7 +269,7 @@ fun HtmlBlockTag.editCharacter(
 
     h2 { +"Possession" }
 
-    editEquipped(state, EQUIPPED, character.equipped)
+    editEquipped(state, EQUIPPED, character.equipped, character.statblock)
 }
 
 private fun HtmlBlockTag.selectOrigin(

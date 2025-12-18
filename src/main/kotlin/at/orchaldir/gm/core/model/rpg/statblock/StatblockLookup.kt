@@ -33,6 +33,13 @@ sealed class StatblockLookup {
         is ModifyStatblockOfTemplate -> this.template
     }
 
+    fun hasTemplate() = when (this) {
+        UndefinedStatblockLookup -> false
+        is UniqueStatblock -> false
+        is UseStatblockOfTemplate -> true
+        is ModifyStatblockOfTemplate -> true
+    }
+
     fun calculateCost(raceId: RaceId, state: State) = state.getStatblock(raceId, this).calculateCost(state)
 
 
