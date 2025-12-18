@@ -14,6 +14,7 @@ import at.orchaldir.gm.core.model.character.CHARACTER_TEMPLATE_TYPE
 import at.orchaldir.gm.core.model.character.CharacterTemplateId
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.util.SortCharacterTemplate
+import at.orchaldir.gm.core.selector.culture.getAppearanceFashion
 import at.orchaldir.gm.core.selector.item.getEquipment
 import at.orchaldir.gm.core.selector.util.sortCharacterTemplates
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
@@ -88,10 +89,12 @@ fun Application.configureCharacterTemplateRouting() {
                 CharacterTemplateRoutes(),
                 HtmlBlockTag::showCharacterTemplate,
             ) { _, state, template ->
+                val gender = template.gender ?: Gender.Male
                 val appearance = generateAppearance(
                     state,
                     state.getRaceStorage().getOrThrow(template.race),
-                    template.gender ?: Gender.Male,
+                    gender,
+                    state.getAppearanceFashion(gender, template.culture),
                 )
                 val equipped = state.getEquipment(template)
                 val svg = visualizeCharacter(state, CHARACTER_CONFIG, appearance, equipped)

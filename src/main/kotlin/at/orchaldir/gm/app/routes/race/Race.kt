@@ -190,13 +190,14 @@ fun generateAppearance(
     state: State,
     race: Race,
     gender: Gender,
+    appearanceFashion: AppearanceFashion = AppearanceFashion(),
 ): Appearance {
     val raceAppearanceId = race.lifeStages.getRaceAppearance()
     val raceAppearance = state.getRaceAppearanceStorage().getOrThrow(raceAppearanceId)
     val generator = createGeneratorConfig(
         state,
         raceAppearance,
-        AppearanceFashion(),
+        appearanceFashion,
         gender,
         race.height,
     )
