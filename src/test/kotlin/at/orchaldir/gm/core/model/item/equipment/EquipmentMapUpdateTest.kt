@@ -89,12 +89,28 @@ class EquipmentMapUpdateTest {
             assertAdd(other0, twice0, map0)
         }
 
+        @Test
+        fun `Update removes last equipment`() {
+            assertRemove(map0, emptyMap, BodySlot.Head)
+            assertRemove(map1, emptyMap, BodySlot.Foot)
+        }
+
         private fun assertAdd(
             from: EquipmentIdMap,
             to: EquipmentIdMap,
             added: EquipmentIdMap,
         ) {
             val update = EquipmentMapUpdate(added = added)
+
+            assertEquals(update, calculateUpdate(from, to))
+        }
+
+        private fun assertRemove(
+            from: EquipmentIdMap,
+            to: EquipmentIdMap,
+            removed: BodySlot,
+        ) {
+            val update = EquipmentMapUpdate(setOf(setOf(removed)))
 
             assertEquals(update, calculateUpdate(from, to))
         }
