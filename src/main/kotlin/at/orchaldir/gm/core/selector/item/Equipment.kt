@@ -61,6 +61,7 @@ fun State.getEquipment(character: CharacterId) =
     getEquipment(getCharacterStorage().getOrThrow(character))
 
 fun State.getEquipment(character: Character) = getEquipment(character.equipped, character.statblock)
+fun State.getEquipment(template: CharacterTemplate) = getEquipment(template.equipped, template.statblock)
 
 fun State.getEquipment(
     equipped: Equipped,

@@ -186,7 +186,7 @@ private fun HtmlBlockTag.visualizeLifeStages(
     }
 }
 
-private fun generateAppearance(
+fun generateAppearance(
     state: State,
     race: Race,
     gender: Gender,
