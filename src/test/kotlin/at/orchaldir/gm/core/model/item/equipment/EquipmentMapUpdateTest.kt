@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.model.item.equipment
 import at.orchaldir.gm.EQUIPMENT_ID_0
 import at.orchaldir.gm.EQUIPMENT_ID_1
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap.Companion.fromSlotAsValueMap
+import at.orchaldir.gm.core.model.item.equipment.EquipmentMapUpdate.Companion.calculateUpdate
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -15,15 +16,14 @@ class EquipmentMapUpdateTest {
     val map1 = EquipmentIdMap.from(BodySlot.Foot, EQUIPMENT_ID_1)
     val map01 = EquipmentIdMap.fromSlotToIdMap(mapOf(BodySlot.Head to EQUIPMENT_ID_0, BodySlot.Foot to EQUIPMENT_ID_1))
     val twice0 = fromSlotAsValueMap(mapOf(EquipmentIdPair(EQUIPMENT_ID_0, null) to sets))
+    val emptyUpdate = EquipmentMapUpdate()
 
     @Nested
     inner class ApplyToTest {
 
         @Test
         fun `Test empty update`() {
-            val update = EquipmentMapUpdate()
-
-            assertEquals(map0, update.applyTo(map0))
+            assertEquals(map0, emptyUpdate.applyTo(map0))
         }
 
         @Test
@@ -59,15 +59,15 @@ class EquipmentMapUpdateTest {
     inner class CalculateUpdateTest {
         @Test
         fun `Update between to empty maps is empty`() {
-            assertEquals(EquipmentMapUpdate(), EquipmentMapUpdate.calculateUpdate(emptyMap, emptyMap))
+            assertEquals(emptyUpdate, calculateUpdate(emptyMap, emptyMap))
         }
 
         @Test
         fun `Update between to identical maps is empty`() {
-            assertEquals(EquipmentMapUpdate(), EquipmentMapUpdate.calculateUpdate(map0, map0))
-            assertEquals(EquipmentMapUpdate(), EquipmentMapUpdate.calculateUpdate(map1, map1))
-            assertEquals(EquipmentMapUpdate(), EquipmentMapUpdate.calculateUpdate(map01, map01))
-            assertEquals(EquipmentMapUpdate(), EquipmentMapUpdate.calculateUpdate(twice0, twice0))
+            assertEquals(emptyUpdate, calculateUpdate(map0, map0))
+            assertEquals(emptyUpdate, calculateUpdate(map1, map1))
+            assertEquals(emptyUpdate, calculateUpdate(map01, map01))
+            assertEquals(emptyUpdate, calculateUpdate(twice0, twice0))
         }
     }
 
