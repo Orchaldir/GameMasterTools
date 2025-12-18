@@ -11,13 +11,14 @@ import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
+import at.orchaldir.gm.core.model.item.equipment.EquipmentIdMap
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.rpg.statblock.Statblock
 import at.orchaldir.gm.core.model.rpg.statblock.StatblockLookup
 import at.orchaldir.gm.core.selector.character.getArmors
 import at.orchaldir.gm.core.selector.character.getMeleeAttacks
 import at.orchaldir.gm.core.selector.character.getShields
-import at.orchaldir.gm.core.selector.item.getEquipmentMapOfTemplate
+import at.orchaldir.gm.core.selector.item.getEquipmentMapForLookup
 import at.orchaldir.gm.core.selector.rpg.statblock.resolveMeleeAttackMap
 import at.orchaldir.gm.core.selector.rpg.statblock.resolveProtectionMap
 import at.orchaldir.gm.core.selector.util.sortUniforms
@@ -77,7 +78,7 @@ fun HtmlBlockTag.showEquippedDetails(
             is ModifyEquipmentFromTemplate -> showEquipmentMapUpdate(
                 call,
                 state,
-                state.getEquipmentMapOfTemplate(lookup),
+                state.getEquipmentMapForLookup(lookup),
                 equipped.update,
             )
             UndefinedEquipped -> doNothing()
@@ -139,7 +140,7 @@ fun HtmlBlockTag.editEquipped(
             is ModifyEquipmentFromTemplate -> editEquipmentMapUpdate(
                 call,
                 state,
-                state.getEquipmentMapOfTemplate(lookup),
+                state.getEquipmentMapForLookup(lookup),
                 equipped.update,
                 combine(param, UPDATE),
             )
@@ -150,7 +151,12 @@ fun HtmlBlockTag.editEquipped(
 
 // parse
 
-fun parseEquipped(parameters: Parameters, state: State, param: String) =
+fun parseEquipped(
+    parameters: Parameters,
+    state: State,
+    param: String,
+    base: EquipmentIdMap,
+) =
     when (parse(parameters, param, EquippedType.Undefined)) {
         EquippedType.Undefined -> UndefinedEquipped
         EquippedType.Equipment -> EquippedEquipment(
@@ -159,7 +165,7 @@ fun parseEquipped(parameters: Parameters, state: State, param: String) =
 
         EquippedType.UseTemplate -> UseEquipmentFromTemplate
         EquippedType.ModifyTemplate -> ModifyEquipmentFromTemplate(
-            parseEquipmentMapUpdate(parameters, combine(param, UPDATE)),
+            parseEquipmentMapUpdate(parameters, combine(param, UPDATE), base),
         )
 
         EquippedType.Uniform -> EquippedUniform(

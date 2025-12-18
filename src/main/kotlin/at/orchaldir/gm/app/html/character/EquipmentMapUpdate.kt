@@ -1,5 +1,6 @@
 package at.orchaldir.gm.app.html.character
 
+import at.orchaldir.gm.app.EQUIPMENT
 import at.orchaldir.gm.app.REMOVE
 import at.orchaldir.gm.app.html.fieldList
 import at.orchaldir.gm.app.html.link
@@ -39,18 +40,13 @@ fun HtmlBlockTag.editEquipmentMapUpdate(
     update: EquipmentMapUpdate,
     param: String,
 ) {
-    selectValues(
-        "Removed",
-        combine(param, REMOVE),
-        base.getSlotSetWithEquipmentList(),
-        update.removed
-            .mapNotNull { set ->
-                base.getEquipment(set)?.let { Pair(set, it) }
-            }.toSet(),
-    ) { (set, pair) ->
-        link(call, state, pair.first)
-        +" $set"
-    }
+    val updated = update.applyTo(base)
+
+    editEquipmentMap(
+        state,
+        updated,
+        combine(param, EQUIPMENT),
+    )
 }
 
 // parse
@@ -58,4 +54,9 @@ fun HtmlBlockTag.editEquipmentMapUpdate(
 fun parseEquipmentMapUpdate(
     parameters: Parameters,
     param: String,
-) = EquipmentMapUpdate()
+    base: EquipmentIdMap,
+): EquipmentMapUpdate {
+    val updated = parseEquipmentMap(parameters, combine(param, EQUIPMENT))
+
+    return EquipmentMapUpdate()
+}

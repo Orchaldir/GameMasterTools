@@ -23,6 +23,7 @@ import at.orchaldir.gm.core.model.character.CharacterTemplateId
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.rpg.statblock.UseStatblockOfTemplate
 import at.orchaldir.gm.core.selector.character.getCharactersUsing
+import at.orchaldir.gm.core.selector.item.getEquipmentMapForLookup
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -90,15 +91,20 @@ fun parseCharacterTemplate(
     state: State,
     parameters: Parameters,
     id: CharacterTemplateId,
-) = CharacterTemplate(
-    id,
-    parseName(parameters),
-    parseRaceId(parameters, RACE),
-    parse<Gender>(parameters, GENDER),
-    parseOptionalCultureId(parameters, CULTURE),
-    parseKnownLanguages(parameters, state),
-    parseBeliefStatus(parameters, state, BELIEVE),
-    parseStatblockLookup(state, parameters),
-    parseEquipped(parameters, state, EQUIPPED),
-    parseDataSources(parameters),
-)
+): CharacterTemplate {
+    val lookup = parseStatblockLookup(state, parameters)
+    val baseEquipment = state.getEquipmentMapForLookup(lookup)
+
+    return CharacterTemplate(
+        id,
+        parseName(parameters),
+        parseRaceId(parameters, RACE),
+        parse<Gender>(parameters, GENDER),
+        parseOptionalCultureId(parameters, CULTURE),
+        parseKnownLanguages(parameters, state),
+        parseBeliefStatus(parameters, state, BELIEVE),
+        lookup,
+        parseEquipped(parameters, state, EQUIPPED, baseEquipment),
+        parseDataSources(parameters),
+    )
+}

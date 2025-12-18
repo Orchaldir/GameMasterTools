@@ -32,6 +32,7 @@ import at.orchaldir.gm.core.model.time.date.Year
 import at.orchaldir.gm.core.model.util.Dead
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.selector.character.*
+import at.orchaldir.gm.core.selector.item.getEquipmentMapForLookup
 import at.orchaldir.gm.core.selector.organization.getOrganizations
 import at.orchaldir.gm.core.selector.race.getExistingRaces
 import at.orchaldir.gm.core.selector.realm.getBattlesLedBy
@@ -348,6 +349,8 @@ fun parseCharacter(
     val race = parseRaceId(parameters, RACE)
     val origin = parseOrigin(parameters)
     val birthDate = parseBirthday(parameters, state, race)
+    val lookup = parseStatblockLookup(state, parameters)
+    val baseEquipment = state.getEquipmentMapForLookup(lookup)
 
     return character.copy(
         name = name,
@@ -359,13 +362,13 @@ fun parseCharacter(
         status = parseVitalStatus(parameters, state),
         culture = parseOptionalCultureId(parameters, CULTURE),
         languages = parseKnownLanguages(parameters, state),
-        equipped = parseEquipped(parameters, state, EQUIPPED),
+        equipped = parseEquipped(parameters, state, EQUIPPED, baseEquipment),
         housingStatus = parsePositionHistory(parameters, state, birthDate),
         employmentStatus = parseEmploymentStatusHistory(parameters, state, birthDate),
         beliefStatus = parseBeliefStatusHistory(parameters, state, birthDate),
         title = parseOptionalTitleId(parameters, TITLE),
         authenticity = parseAuthenticity(parameters),
-        statblock = parseStatblockLookup(state, parameters),
+        statblock = lookup,
         sources = parseDataSources(parameters),
     )
 }
