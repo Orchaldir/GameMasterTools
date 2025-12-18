@@ -77,8 +77,8 @@ fun HtmlBlockTag.editCharacterTemplate(
     editOptionalElement(state, CULTURE, state.getCultureStorage().getAll(), template.culture)
     editKnownLanguages(state, template.languages)
     selectBeliefStatus(state, BELIEVE, template.belief)
-    editEquipped(state, EQUIPPED, template.equipped, template.statblock)
     editStatblockLookup(call, state, template.race, template.statblock, setOf(template.id))
+    editEquipped(state, EQUIPPED, template.equipped, template.statblock)
     editDataSources(state, template.sources)
 }
 
@@ -98,7 +98,7 @@ fun parseCharacterTemplate(
     parseOptionalCultureId(parameters, CULTURE),
     parseKnownLanguages(parameters, state),
     parseBeliefStatus(parameters, state, BELIEVE),
-    parseEquipped(parameters, state, EQUIPPED),
     parseStatblockLookup(state, parameters),
+    parseEquipped(parameters, state, EQUIPPED),
     parseDataSources(parameters),
 )

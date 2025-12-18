@@ -42,8 +42,8 @@ data class CharacterTemplate(
     val culture: CultureId? = null,
     val languages: Map<LanguageId, ComprehensionLevel> = emptyMap(),
     val belief: BeliefStatus = UndefinedBeliefStatus,
-    val equipped: Equipped = UndefinedEquipped,
     val statblock: StatblockLookup = UndefinedStatblockLookup,
+    val equipped: Equipped = UndefinedEquipped,
     val sources: Set<DataSourceId> = emptySet(),
 ) : ElementWithSimpleName<CharacterTemplateId>, HasBelief, HasDataSources {
 

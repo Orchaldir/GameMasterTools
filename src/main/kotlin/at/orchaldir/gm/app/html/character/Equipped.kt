@@ -25,6 +25,7 @@ import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
+import kotlinx.html.br
 
 // show
 
@@ -82,10 +83,11 @@ fun HtmlBlockTag.showEquippedDetails(
         val meleeAttackMap = getMeleeAttacks(state, equipped, lookup)
         val shieldMap = getShields(state, equipped, lookup)
 
-        val resolvedProtectionMap = resolveProtectionMap(state, lookup, amorMap + shieldMap)
         val resolvedMeleeAttackMap = resolveMeleeAttackMap(state, base, lookup, meleeAttackMap)
+        val resolvedProtectionMap = resolveProtectionMap(state, lookup, amorMap + shieldMap)
 
         showMeleeAttackTable(call, state, resolvedMeleeAttackMap)
+        br { }
         showProtectionTable(call, state, resolvedProtectionMap)
     }
 }
