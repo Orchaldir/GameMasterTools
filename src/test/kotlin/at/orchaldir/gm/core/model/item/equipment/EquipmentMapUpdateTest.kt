@@ -58,8 +58,16 @@ class EquipmentMapUpdateTest {
     @Nested
     inner class CalculateUpdateTest {
         @Test
-        fun `Test update between to empty maps`() {
+        fun `Update between to empty maps is empty`() {
             assertEquals(EquipmentMapUpdate(), EquipmentMapUpdate.calculateUpdate(emptyMap, emptyMap))
+        }
+
+        @Test
+        fun `Update between to identical maps is empty`() {
+            assertEquals(EquipmentMapUpdate(), EquipmentMapUpdate.calculateUpdate(map0, map0))
+            assertEquals(EquipmentMapUpdate(), EquipmentMapUpdate.calculateUpdate(map1, map1))
+            assertEquals(EquipmentMapUpdate(), EquipmentMapUpdate.calculateUpdate(map01, map01))
+            assertEquals(EquipmentMapUpdate(), EquipmentMapUpdate.calculateUpdate(twice0, twice0))
         }
     }
 
