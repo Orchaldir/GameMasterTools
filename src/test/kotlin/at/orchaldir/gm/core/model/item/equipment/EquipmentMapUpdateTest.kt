@@ -12,9 +12,11 @@ class EquipmentMapUpdateTest {
 
     @Nested
     inner class ApplyToTest {
+        val sets = setOf(setOf(BodySlot.Foot), setOf(BodySlot.Head))
         val map0 = EquipmentIdMap.from(BodySlot.Head, EQUIPMENT_ID_0)
         val map1 = EquipmentIdMap.from(BodySlot.Foot, EQUIPMENT_ID_1)
         val map01 = EquipmentIdMap.fromSlotToIdMap(mapOf(BodySlot.Head to EQUIPMENT_ID_0, BodySlot.Foot to EQUIPMENT_ID_1))
+        val twice0 = fromSlotAsValueMap(mapOf(EquipmentIdPair(EQUIPMENT_ID_0, null) to sets))
 
         @Test
         fun `Test empty update`() {
@@ -33,10 +35,22 @@ class EquipmentMapUpdateTest {
         @Test
         fun `Add equipment a second time`() {
             val update = EquipmentMapUpdate(added = EquipmentIdMap.from(BodySlot.Foot, EQUIPMENT_ID_0))
-            val sets = setOf(setOf(BodySlot.Foot), setOf(BodySlot.Head))
-            val result = fromSlotAsValueMap(mapOf(EquipmentIdPair(EQUIPMENT_ID_0, null) to sets))
 
-            assertEquals(result, update.applyTo(map0))
+            assertEquals(twice0, update.applyTo(map0))
+        }
+
+        @Test
+        fun `Remove one of 2 equipments`() {
+            val update = EquipmentMapUpdate(setOf(setOf(BodySlot.Foot)))
+
+            assertEquals(map0, update.applyTo(map01))
+        }
+
+        @Test
+        fun `Remove one of 2 instances`() {
+            val update = EquipmentMapUpdate(setOf(setOf(BodySlot.Foot)))
+
+            assertEquals(map0, update.applyTo(twice0))
         }
     }
 
