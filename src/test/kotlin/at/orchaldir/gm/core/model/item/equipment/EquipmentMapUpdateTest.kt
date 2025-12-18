@@ -9,14 +9,15 @@ import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
 class EquipmentMapUpdateTest {
+    val sets = setOf(setOf(BodySlot.Foot), setOf(BodySlot.Head))
+    val emptyMap = EquipmentIdMap()
+    val map0 = EquipmentIdMap.from(BodySlot.Head, EQUIPMENT_ID_0)
+    val map1 = EquipmentIdMap.from(BodySlot.Foot, EQUIPMENT_ID_1)
+    val map01 = EquipmentIdMap.fromSlotToIdMap(mapOf(BodySlot.Head to EQUIPMENT_ID_0, BodySlot.Foot to EQUIPMENT_ID_1))
+    val twice0 = fromSlotAsValueMap(mapOf(EquipmentIdPair(EQUIPMENT_ID_0, null) to sets))
 
     @Nested
     inner class ApplyToTest {
-        val sets = setOf(setOf(BodySlot.Foot), setOf(BodySlot.Head))
-        val map0 = EquipmentIdMap.from(BodySlot.Head, EQUIPMENT_ID_0)
-        val map1 = EquipmentIdMap.from(BodySlot.Foot, EQUIPMENT_ID_1)
-        val map01 = EquipmentIdMap.fromSlotToIdMap(mapOf(BodySlot.Head to EQUIPMENT_ID_0, BodySlot.Foot to EQUIPMENT_ID_1))
-        val twice0 = fromSlotAsValueMap(mapOf(EquipmentIdPair(EQUIPMENT_ID_0, null) to sets))
 
         @Test
         fun `Test empty update`() {
@@ -51,6 +52,14 @@ class EquipmentMapUpdateTest {
             val update = EquipmentMapUpdate(setOf(setOf(BodySlot.Foot)))
 
             assertEquals(map0, update.applyTo(twice0))
+        }
+    }
+
+    @Nested
+    inner class CalculateUpdateTest {
+        @Test
+        fun `Test update between to empty maps`() {
+            assertEquals(EquipmentMapUpdate(), EquipmentMapUpdate.calculateUpdate(emptyMap, emptyMap))
         }
     }
 
