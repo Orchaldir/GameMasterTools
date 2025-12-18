@@ -5,29 +5,29 @@ import at.orchaldir.gm.core.model.util.render.Colors
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class EquipmentMap<T>(private val list: List<EquipmentEntry<T>>) {
+data class EquipmentMap<T>(private val list: List<EquipmentMapEntry<T>>) {
 
     constructor() : this(emptyList())
-    constructor(entry: EquipmentEntry<T>) : this(listOf(entry))
+    constructor(entry: EquipmentMapEntry<T>) : this(listOf(entry))
 
     companion object {
         fun from(data: EquipmentData) =
-            EquipmentMap(EquipmentEntry.from(data, data))
+            EquipmentMap(EquipmentMapEntry.from(data, data))
 
         fun <T> from(data: EquipmentData, second: T) =
-            EquipmentMap(EquipmentEntry.from(Pair(data, second), data))
+            EquipmentMap(EquipmentMapEntry.from(Pair(data, second), data))
 
         fun from(list: List<EquipmentData>) =
-            EquipmentMap(list.map { EquipmentEntry.from(it, it) })
+            EquipmentMap(list.map { EquipmentMapEntry.from(it, it) })
 
         fun fromId(equipment: EquipmentId, scheme: ColorSchemeId, slot: BodySlot) =
-            EquipmentMap(EquipmentEntry.fromId(equipment, scheme, slot))
+            EquipmentMap(EquipmentMapEntry.fromId(equipment, scheme, slot))
 
         fun <T> fromSlotAsKeyMap(map: Map<BodySlot, T>) =
-            EquipmentMap(map.entries.map { EquipmentEntry(it.value, it.key) })
+            EquipmentMap(map.entries.map { EquipmentMapEntry(it.value, it.key) })
 
         fun <T> fromSlotAsValueMap(map: Map<T, Set<Set<BodySlot>>>) =
-            EquipmentMap(map.entries.toList().map { EquipmentEntry(it.key, it.value) })
+            EquipmentMap(map.entries.toList().map { EquipmentMapEntry(it.key, it.value) })
     }
 
     fun size() = list.size

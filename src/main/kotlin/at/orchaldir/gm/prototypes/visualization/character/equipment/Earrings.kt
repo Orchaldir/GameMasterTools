@@ -51,7 +51,7 @@ fun main() {
     ).map { row ->
         row.map {
             val earring = Earring(it)
-            val entry = EquipmentEntry<EquipmentData>(earring, setOf(setOf(BodySlot.LeftEar), setOf(BodySlot.RightEar)))
+            val entry = EquipmentMapEntry<EquipmentData>(earring, setOf(setOf(BodySlot.LeftEar), setOf(BodySlot.RightEar)))
 
             EquipmentMap(entry)
         }

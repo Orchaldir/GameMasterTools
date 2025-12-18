@@ -29,7 +29,7 @@ fun main() {
     ) { distance, shape, eyeShape ->
         val eye = NormalEye(eyeShape, VerticalSlit, Red, Yellow)
         val eyePatch = EyePatch(EyePatchWithEye(eye, shape), OneBand())
-        val entry = EquipmentEntry<EquipmentData>(eyePatch, BodySlot.LeftEye)
+        val entry = EquipmentMapEntry<EquipmentData>(eyePatch, BodySlot.LeftEye)
 
         Pair(createAppearance(distance), EquipmentMap(entry))
     }
