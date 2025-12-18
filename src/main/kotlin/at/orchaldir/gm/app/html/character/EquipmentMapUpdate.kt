@@ -12,6 +12,7 @@ import at.orchaldir.gm.core.model.item.equipment.EquipmentMapUpdate
 import at.orchaldir.gm.core.model.item.equipment.EquipmentIdPair
 import io.ktor.http.*
 import io.ktor.server.application.*
+import io.ktor.util.filter
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -56,7 +57,12 @@ fun parseEquipmentMapUpdate(
     param: String,
     base: EquipmentIdMap,
 ): EquipmentMapUpdate {
-    val updated = parseEquipmentMap(parameters, combine(param, EQUIPMENT))
+    val paramStart = combine(param, EQUIPMENT)
+    if (parameters.filter { parameter, _ -> parameter.startsWith(paramStart) }.isEmpty()) {
+        return EquipmentMapUpdate()
+    }
+
+    val updated = parseEquipmentMap(parameters, paramStart)
 
     return EquipmentMapUpdate.calculateUpdate(base, updated)
 }

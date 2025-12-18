@@ -10,6 +10,16 @@
     "#type": "Pantheon",
     "pantheon": 0
    },
+   "statblock": {
+    "#type": "Unique",
+    "statblock": {
+     "statistics": {
+      "0": 2,
+      "6": 4,
+      "7": 2
+     }
+    }
+   },
    "equipped": {
     "#type": "Equipment",
     "map": {
@@ -38,16 +48,6 @@
       }
      ]
     }
-   },
-   "statblock": {
-    "#type": "Unique",
-    "statblock": {
-     "statistics": {
-      "0": 2,
-      "6": 4,
-      "7": 2
-     }
-    }
    }
   },
   "1": {
@@ -58,9 +58,6 @@
    "belief": {
     "#type": "Pantheon",
     "pantheon": 0
-   },
-   "equipped": {
-    "#type": "UseTemplate"
    },
    "statblock": {
     "#type": "Modify",
@@ -74,6 +71,26 @@
       "4": 2,
       "5": 2,
       "6": 2
+     }
+    }
+   },
+   "equipped": {
+    "#type": "ModifyTemplate",
+    "update": {
+     "added": {
+      "list": [
+       {
+        "data": {
+         "first": 1,
+         "second": null
+        },
+        "sets": [
+         [
+          "Top"
+         ]
+        ]
+       }
+      ]
      }
     }
    }
