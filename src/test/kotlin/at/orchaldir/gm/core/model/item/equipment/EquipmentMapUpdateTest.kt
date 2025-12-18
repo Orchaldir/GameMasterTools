@@ -69,6 +69,20 @@ class EquipmentMapUpdateTest {
             assertEquals(emptyUpdate, calculateUpdate(map01, map01))
             assertEquals(emptyUpdate, calculateUpdate(twice0, twice0))
         }
+
+        @Test
+        fun `Update adds first equipment`() {
+            val update = EquipmentMapUpdate(added = map0)
+
+            assertEquals(update, calculateUpdate(emptyMap, map0))
+        }
+
+        @Test
+        fun `Update adds second equipment`() {
+            val update = EquipmentMapUpdate(added = map1)
+
+            assertEquals(update, calculateUpdate(map0, map01))
+        }
     }
 
 }
