@@ -5,8 +5,8 @@ data class EquipmentMapUpdate(
     val added: EquipmentIdMap = EquipmentIdMap(),
 ) {
 
-    fun applyTo(map: EquipmentIdMap) = EquipmentIdMap(
-        map.getEquipmentWithSlotSets().mapNotNull { (data, sets) ->
+    fun applyTo(map: EquipmentIdMap): EquipmentIdMap {
+        val updatedList = map.getEquipmentWithSlotSets().mapNotNull { (data, sets) ->
             val addedSets = added.getSets(data) ?: emptySet()
             val newSets = sets.filter { set -> !removed.contains(set) }
                 .toSet() + addedSets
@@ -17,5 +17,10 @@ data class EquipmentMapUpdate(
                 EquipmentMapEntry(data, newSets)
             }
         }
-    )
+        val addedList = added.getEquipmentWithSlotSets().filter { entry ->
+            !map.contains(entry.data)
+        }
+
+        return EquipmentIdMap(updatedList + addedList)
+    }
 }
