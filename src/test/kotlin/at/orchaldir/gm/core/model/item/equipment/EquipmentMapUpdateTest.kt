@@ -11,22 +11,22 @@ class EquipmentMapUpdateTest {
 
     @Nested
     inner class ApplyToTest {
+        val map0 = EquipmentIdMap.fromId(EQUIPMENT_ID_0, null, BodySlot.Head)
+        val map1 = EquipmentIdMap.fromId(EQUIPMENT_ID_1, null, BodySlot.Foot)
+        val map01 = EquipmentIdMap.fromSlotToIdMap(mapOf(BodySlot.Head to EQUIPMENT_ID_0, BodySlot.Foot to EQUIPMENT_ID_1))
 
         @Test
         fun `Test empty update`() {
-            val input = EquipmentIdMap.fromId(EQUIPMENT_ID_0, null, BodySlot.Head)
             val update = EquipmentMapUpdate()
 
-            assertEquals(input, update.applyTo(input))
+            assertEquals(map0, update.applyTo(map0))
         }
 
         @Test
         fun `Add another equipment`() {
-            val input = EquipmentIdMap.fromId(EQUIPMENT_ID_0, null, BodySlot.Head)
-            val update = EquipmentMapUpdate(added = EquipmentIdMap.fromId(EQUIPMENT_ID_1, null, BodySlot.Foot))
-            val result = EquipmentIdMap.fromSlotToIdMap(mapOf(BodySlot.Head to EQUIPMENT_ID_0, BodySlot.Foot to EQUIPMENT_ID_1))
+            val update = EquipmentMapUpdate(added = map1)
 
-            assertEquals(result, update.applyTo(input))
+            assertEquals(map01, update.applyTo(map0))
         }
     }
 
