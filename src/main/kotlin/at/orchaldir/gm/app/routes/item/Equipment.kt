@@ -129,7 +129,7 @@ fun Application.configureEquipmentRouting() {
                     Column(listOf("Color", "Schemes")) { tdInlineIds(call, state, it.colorSchemes) },
                     Column(listOf("Required", "Colors")) { tdSkipZero(it.data.requiredSchemaColors()) },
                     countCollectionColumn("Characters") { state.getCharactersWith(it.id) },
-                    countCollectionColumn("Templates") { state.getCharacterTemplates(it.id) },
+                    Column(listOf("Character", "Templates")) { tdSkipZero(state.getCharacterTemplates(it.id)) },
                     countCollectionColumn("Fashions") { state.getFashions(it.id) },
                     countCollectionColumn("Uniforms") { state.getUniforms(it.id) },
                 ),
