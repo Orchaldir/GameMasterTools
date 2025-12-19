@@ -62,7 +62,7 @@ data class UseUniform(
 ) : Equipped()
 
 @Serializable
-@SerialName("ModifiedUniform")
+@SerialName("ModifyUniform")
 data class ModifyUniform(
     val uniform: UniformId,
     val update: EquipmentMapUpdate,
