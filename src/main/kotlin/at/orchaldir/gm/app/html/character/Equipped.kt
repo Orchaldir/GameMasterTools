@@ -19,6 +19,7 @@ import at.orchaldir.gm.core.model.rpg.statblock.StatblockLookup
 import at.orchaldir.gm.core.selector.character.getArmors
 import at.orchaldir.gm.core.selector.character.getMeleeAttacks
 import at.orchaldir.gm.core.selector.character.getShields
+import at.orchaldir.gm.core.selector.item.getEquipmentMap
 import at.orchaldir.gm.core.selector.item.getEquipmentMapForLookup
 import at.orchaldir.gm.core.selector.rpg.statblock.resolveMeleeAttackMap
 import at.orchaldir.gm.core.selector.rpg.statblock.resolveProtectionMap
@@ -92,7 +93,7 @@ fun HtmlBlockTag.showEquippedDetails(
                 showEquipmentMapUpdate(
                     call,
                     state,
-                    state.getUniformStorage().getOrThrow(equipped.uniform).equipmentMap,
+                    state.getEquipmentMap(equipped.uniform),
                     equipped.update,
                 )
             }
@@ -158,7 +159,7 @@ fun HtmlBlockTag.editEquipped(
                 editEquipmentMapUpdate(
                     call,
                     state,
-                    state.getUniformStorage().getOrThrow(equipped.uniform).equipmentMap,
+                    state.getEquipmentMap(equipped.uniform),
                     equipped.update,
                     combine(param, UPDATE),
                 )
@@ -215,7 +216,7 @@ fun parseEquipped(
 
         EquippedType.ModifyUniform -> {
             val uniformId = parseUniformId(parameters, combine(param, UNIFORM))
-            val uniform = state.getUniformStorage().getOrThrow(uniformId).equipmentMap
+            val uniform =state.getEquipmentMap(uniformId)
 
             ModifiedUniform(
                 uniformId,

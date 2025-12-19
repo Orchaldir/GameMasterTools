@@ -1,6 +1,8 @@
 package at.orchaldir.gm.app.routes.item
 
 import at.orchaldir.gm.app.STORE
+import at.orchaldir.gm.app.html.Column.Companion.tdColumn
+import at.orchaldir.gm.app.html.character.showEquipped
 import at.orchaldir.gm.app.html.countCollectionColumn
 import at.orchaldir.gm.app.html.createNameColumn
 import at.orchaldir.gm.app.html.item.editUniform
@@ -16,7 +18,9 @@ import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
 import at.orchaldir.gm.core.model.item.UNIFORM_TYPE
 import at.orchaldir.gm.core.model.item.Uniform
 import at.orchaldir.gm.core.model.item.UniformId
+import at.orchaldir.gm.core.model.rpg.statblock.UndefinedStatblockLookup
 import at.orchaldir.gm.core.model.util.SortUniform
+import at.orchaldir.gm.core.selector.item.getEquipment
 import at.orchaldir.gm.core.selector.item.resolveEquipment
 import at.orchaldir.gm.core.selector.util.sortUniforms
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
@@ -84,7 +88,7 @@ fun Application.configureUniformRouting() {
                 state.sortUniforms(all.sort),
                 listOf(
                     createNameColumn(call, state),
-                    countCollectionColumn("Parts") { it.equipmentMap.getAllEquipment() }
+                    tdColumn("Equipped") { showEquipped(call, state, it.equipped, UndefinedStatblockLookup) },
                 ),
             )
         }
@@ -98,7 +102,7 @@ fun Application.configureUniformRouting() {
                 state.sortUniforms(gallery.sort),
                 gallery.sort,
             ) { uniform ->
-                val equipped = state.resolveEquipment(uniform.equipmentMap)
+                val equipped = state.getEquipment(uniform)
                 visualizeCharacter(state, CHARACTER_CONFIG, appearance, equipped)
             }
         }
@@ -144,7 +148,7 @@ private fun HtmlBlockTag.showUniformRight(
     state: State,
     uniform: Uniform,
 ) {
-    val equipped = state.resolveEquipment(uniform.equipmentMap)
+    val equipped = state.getEquipment(uniform)
     val svg = visualizeCharacter(state, CHARACTER_CONFIG, appearance, equipped)
 
     svg(svg, 50)

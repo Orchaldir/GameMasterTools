@@ -17,5 +17,5 @@ fun State.canDeleteUniform(uniform: UniformId) = DeleteResult(uniform)
 fun State.getUniforms(equipment: EquipmentId) = getUniformStorage()
     .getAll()
     .filter {
-        it.equipmentMap.containsId(equipment)
+        getEquipmentMap(it).containsId(equipment)
     }

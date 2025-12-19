@@ -5,17 +5,21 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.culture.fashion.ClothingSet
 import at.orchaldir.gm.core.model.economy.material.MaterialId
+import at.orchaldir.gm.core.model.item.Uniform
+import at.orchaldir.gm.core.model.item.UniformId
 import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.rpg.combat.ArmorTypeId
 import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifierId
 import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponTypeId
 import at.orchaldir.gm.core.model.rpg.combat.ShieldTypeId
 import at.orchaldir.gm.core.model.rpg.statblock.StatblockLookup
+import at.orchaldir.gm.core.model.rpg.statblock.UndefinedStatblockLookup
 import at.orchaldir.gm.core.model.util.render.ColorSchemeId
 import at.orchaldir.gm.core.model.util.render.UndefinedColors
 import at.orchaldir.gm.core.selector.character.getCharacterTemplates
 import at.orchaldir.gm.core.selector.character.getCharactersWith
 import at.orchaldir.gm.core.selector.culture.getFashions
+import kotlin.getOrThrow
 
 fun State.canDeleteEquipment(equipment: EquipmentId) = DeleteResult(equipment)
     .addElements(getCharactersWith(equipment))
@@ -62,6 +66,7 @@ fun State.getEquipment(character: CharacterId) =
 
 fun State.getEquipment(character: Character) = getEquipment(character.equipped, character.statblock)
 fun State.getEquipment(template: CharacterTemplate) = getEquipment(template.equipped, template.statblock)
+fun State.getEquipment(uniform: Uniform) = getEquipment(uniform.equipped, UndefinedStatblockLookup)
 
 fun State.getEquipment(
     equipped: Equipped,
@@ -73,13 +78,10 @@ fun State.getEquipmentMap(
     lookup: StatblockLookup,
 ): EquipmentIdMap = when (equipped) {
     is EquippedEquipment -> equipped.map
-    is EquippedUniform -> {
-        val uniform = getUniformStorage().getOrThrow(equipped.uniform)
-        uniform.equipmentMap
-    }
+    is EquippedUniform -> getEquipmentMap(equipped.uniform)
     is ModifiedUniform -> {
-        val uniform = getUniformStorage().getOrThrow(equipped.uniform)
-        equipped.update.applyTo(uniform.equipmentMap)
+        val uniform = getEquipmentMap(equipped.uniform)
+        equipped.update.applyTo(uniform)
     }
     is UseEquipmentFromTemplate -> getEquipmentMapForLookup(lookup)
     is ModifyEquipmentFromTemplate -> {
@@ -99,6 +101,12 @@ fun State.getEquipmentMapForLookup(lookup: StatblockLookup): EquipmentIdMap {
     val template = getCharacterTemplateStorage().getOrThrow(templateId)
     return getEquipmentMap(template.equipped, template.statblock)
 }
+
+fun State.getEquipmentMap(uniformId: UniformId) =
+    getEquipmentMap(getUniformStorage().getOrThrow(uniformId))
+
+fun State.getEquipmentMap(uniform: Uniform) =
+    getEquipmentMap(uniform.equipped, UndefinedStatblockLookup)
 
 fun State.resolveEquipment(idMap: EquipmentIdMap) = idMap.convert { pair ->
     Pair(
