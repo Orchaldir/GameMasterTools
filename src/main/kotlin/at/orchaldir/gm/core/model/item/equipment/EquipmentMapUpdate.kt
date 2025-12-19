@@ -34,10 +34,13 @@ data class EquipmentMapUpdate(
     }
 
     fun applyTo(map: EquipmentIdMap): EquipmentIdMap {
+        val toRemove = removed.toMutableSet()
         val updatedList = map.getEquipmentWithSlotSets().mapNotNull { (data, sets) ->
             val addedSets = added.getSets(data) ?: emptySet()
             val newSets = sets.filter { set -> !removed.contains(set) }
                 .toSet() + addedSets
+
+            toRemove.removeAll(sets)
 
             if (newSets.isEmpty()) {
                 null
@@ -45,6 +48,9 @@ data class EquipmentMapUpdate(
                 EquipmentMapEntry(data, newSets)
             }
         }
+
+        require(toRemove.isEmpty()) { "Couldn't remove $toRemove!" }
+
         val addedList = added.getEquipmentWithSlotSets().filter { entry ->
             !map.contains(entry.data)
         }

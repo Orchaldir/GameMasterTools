@@ -139,6 +139,17 @@ class EquippedTest {
         }
 
         @Test
+        fun `Remove an equipment that is not part of the uniform`() {
+            val uniformEquipped = EquippedEquipment(map0)
+            val newState = state.updateStorage(Uniform(UNIFORM_ID_0, equipped = uniformEquipped))
+            val equipped = ModifiedUniform(UNIFORM_ID_0, EquipmentMapUpdate(removed = setOf(setOf(BodySlot.Foot))))
+
+            assertIllegalArgument("Couldn't remove [[Foot]]!") {
+                validateEquipped(newState, equipped, UndefinedStatblockLookup)
+            }
+        }
+
+        @Test
         fun `Cannot use unknown uniform`() {
             val equipped = ModifiedUniform(UNKNOWN_UNIFORM_ID, EquipmentMapUpdate())
 
