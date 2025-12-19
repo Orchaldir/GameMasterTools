@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.EquippedEquipment
 import at.orchaldir.gm.core.model.character.EquippedUniform
+import at.orchaldir.gm.core.model.character.ModifiedUniform
 import at.orchaldir.gm.core.model.character.UseEquipmentFromTemplate
 import at.orchaldir.gm.core.model.item.Uniform
 import at.orchaldir.gm.core.model.item.equipment.*
@@ -14,13 +15,14 @@ import at.orchaldir.gm.core.model.util.render.ColorScheme
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import at.orchaldir.gm.core.model.item.equipment.*
 
 class EquippedTest {
-    val state = State(
+    private val state = State(
         listOf(
             Storage(Character(CHARACTER_ID_0)),
             Storage(ColorScheme(COLOR_SCHEME_ID_0)),
-            Storage(Equipment(EQUIPMENT_ID_0, data = Hat())),
+            Storage(listOf(Equipment(EQUIPMENT_ID_0, data = Hat()), Equipment(EQUIPMENT_ID_1, data = Footwear()))),
             Storage(Uniform(UNIFORM_ID_0)),
         )
     )
@@ -53,7 +55,7 @@ class EquippedTest {
 
         @Test
         fun `Cannot use equipment with wrong slots`() {
-            val state = state.updateStorage(Storage(listOf(Equipment(EQUIPMENT_ID_0, data = Dress()))))
+            val state = state.updateStorage(Equipment(EQUIPMENT_ID_0, data = Dress()))
 
             assertIllegalArgument("Equipment 0 uses wrong slots!") { validateEquipped(state, equipped, UndefinedStatblockLookup) }
         }
@@ -101,6 +103,26 @@ class EquippedTest {
             val state = state.removeStorage(UNIFORM_ID_0)
 
             assertIllegalArgument("Requires unknown Uniform 0!") { validateEquipped(state, equipped, UndefinedStatblockLookup) }
+        }
+    }
+
+    @Nested
+    inner class ModifiedUniformTest {
+
+        @Test
+        fun `Add an equipment`() {
+            val uniformEquipped = EquippedEquipment(map0)
+            val newState = state.updateStorage(Uniform(UNIFORM_ID_0, equipped = uniformEquipped))
+            val equipped = ModifiedUniform(UNIFORM_ID_0, EquipmentMapUpdate(added = map1))
+
+            validateEquipped(newState, equipped, UndefinedStatblockLookup)
+        }
+
+        @Test
+        fun `Cannot use unknown uniform`() {
+            val equipped = ModifiedUniform(UNKNOWN_UNIFORM_ID, EquipmentMapUpdate())
+
+            assertIllegalArgument("Requires unknown Uniform 99!") { validateEquipped(state, equipped, UndefinedStatblockLookup) }
         }
     }
 
