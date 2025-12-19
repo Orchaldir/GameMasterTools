@@ -11,6 +11,7 @@ import at.orchaldir.gm.core.model.item.Uniform
 import at.orchaldir.gm.core.model.item.equipment.BodySlot
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap
+import at.orchaldir.gm.core.model.item.equipment.Helmet
 import at.orchaldir.gm.core.model.magic.Spell
 import at.orchaldir.gm.core.model.util.render.ColorScheme
 import at.orchaldir.gm.core.reducer.REDUCER
@@ -25,7 +26,7 @@ class UniformTest {
         listOf(
             Storage(CALENDAR0),
             Storage(ColorScheme(COLOR_SCHEME_ID_0)),
-            Storage(Equipment(EQUIPMENT_ID_0)),
+            Storage(Equipment(EQUIPMENT_ID_0, data = Helmet())),
             Storage(Uniform(UNIFORM_ID_0)),
             Storage(Spell(SPELL_ID_0)),
         ),
