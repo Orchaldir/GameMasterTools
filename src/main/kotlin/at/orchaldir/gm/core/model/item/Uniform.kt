@@ -37,6 +37,6 @@ data class Uniform(
     override fun validate(state: State) {
         state.getUniformStorage().require(id)
 
-        validateEquipped(state, equipped, UndefinedStatblockLookup)
+        validateEquipped(state, equipped, UndefinedStatblockLookup, id)
     }
 }

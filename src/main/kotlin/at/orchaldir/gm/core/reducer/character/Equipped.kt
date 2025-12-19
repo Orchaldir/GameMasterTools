@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.character.ModifiedUniform
 import at.orchaldir.gm.core.model.character.ModifyEquipmentFromTemplate
 import at.orchaldir.gm.core.model.character.UndefinedEquipped
 import at.orchaldir.gm.core.model.character.UseEquipmentFromTemplate
+import at.orchaldir.gm.core.model.item.UniformId
 import at.orchaldir.gm.core.model.item.equipment.BodySlot
 import at.orchaldir.gm.core.model.item.equipment.EquipmentIdMap
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMapUpdate
@@ -21,10 +22,15 @@ fun validateEquipped(
     state: State,
     equipped: Equipped,
     lookup: StatblockLookup,
+    element: UniformId? = null,
 ) = when (equipped) {
     is EquippedEquipment -> validateEquipmentMap(state, equipped.map)
-    is EquippedUniform -> state.getUniformStorage().require(equipped.uniform)
+    is EquippedUniform -> {
+        state.getUniformStorage().require(equipped.uniform)
+        validateUniformId(equipped.uniform, element)
+    }
     is ModifiedUniform -> {
+        validateUniformId(equipped.uniform, element)
         validateEquipmentMapUpdate(state, state.getEquipmentMap(equipped.uniform), equipped.update)
     }
     UseEquipmentFromTemplate -> validateTemplate(lookup)
@@ -33,6 +39,13 @@ fun validateEquipped(
         validateEquipmentMapUpdate(state, state.getEquipmentMapForLookup(lookup), equipped.update)
     }
     UndefinedEquipped -> doNothing()
+}
+
+private fun validateUniformId(
+    uniform: UniformId,
+    element: UniformId?,
+) {
+    require(uniform != element) { "${uniform.print()} is based on itself!" }
 }
 
 private fun validateTemplate(lookup: StatblockLookup) =

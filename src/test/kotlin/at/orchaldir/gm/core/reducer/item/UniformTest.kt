@@ -5,12 +5,15 @@ import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.Data
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.EquippedEquipment
+import at.orchaldir.gm.core.model.character.EquippedUniform
+import at.orchaldir.gm.core.model.character.ModifiedUniform
 import at.orchaldir.gm.core.model.economy.Economy
 import at.orchaldir.gm.core.model.economy.standard.StandardOfLiving
 import at.orchaldir.gm.core.model.item.Uniform
 import at.orchaldir.gm.core.model.item.equipment.BodySlot
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap
+import at.orchaldir.gm.core.model.item.equipment.EquipmentMapUpdate
 import at.orchaldir.gm.core.model.item.equipment.Helmet
 import at.orchaldir.gm.core.model.magic.Spell
 import at.orchaldir.gm.core.model.util.render.ColorScheme
@@ -49,6 +52,21 @@ class UniformTest {
             val action = UpdateAction(Uniform(UNIFORM_ID_0, equipped = EquippedEquipment(equipmentMap)))
 
             assertIllegalArgument("Requires unknown Equipment 99!") { REDUCER.invoke(STATE, action) }
+        }
+
+        @Test
+        fun `Cannot update uniform based on itself`() {
+            val action = UpdateAction(Uniform(UNIFORM_ID_0, equipped = EquippedUniform(UNIFORM_ID_0)))
+
+            assertIllegalArgument("Uniform 0 is based on itself!") { REDUCER.invoke(STATE, action) }
+        }
+
+        @Test
+        fun `Cannot update uniform modifying itself`() {
+            val equipped = ModifiedUniform(UNIFORM_ID_0, EquipmentMapUpdate())
+            val action = UpdateAction(Uniform(UNIFORM_ID_0, equipped = equipped))
+
+            assertIllegalArgument("Uniform 0 is based on itself!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test

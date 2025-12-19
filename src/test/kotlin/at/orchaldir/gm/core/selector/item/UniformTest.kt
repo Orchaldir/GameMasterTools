@@ -55,7 +55,7 @@ class UniformTest {
         }
 
         @Test
-        fun `Cannot delete a uniform used by an uniform`() {
+        fun `Cannot delete a uniform another uniform is based on`() {
             val equipped = ModifiedUniform(UNIFORM_ID_0, EquipmentMapUpdate())
             val uniform1 = Uniform(UNIFORM_ID_1, equipped = equipped)
             val newState = state.updateStorage(Storage(listOf(uniform, uniform1)))
