@@ -11,6 +11,7 @@ import kotlinx.serialization.Serializable
 
 const val EQUIPMENT_TYPE = "Equipment"
 const val MIN_EQUIPMENT_WEIGHT = 10L
+const val MAX_EQUIPMENT_WEIGHT = 1_000_000L
 
 @JvmInline
 @Serializable
