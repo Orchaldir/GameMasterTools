@@ -8,7 +8,7 @@ import kotlinx.serialization.Serializable
 
 enum class EquippedType {
     Undefined,
-    Equipment,
+    Unique,
     ModifyTemplate,
     ModifyUniform,
     UseTemplate,
@@ -20,7 +20,7 @@ sealed class Equipped {
 
     fun getType() = when (this) {
         UndefinedEquipped -> EquippedType.Undefined
-        is EquippedEquipment -> EquippedType.Equipment
+        is UniqueEquipment -> EquippedType.Unique
         is ModifyEquipmentFromTemplate -> EquippedType.ModifyTemplate
         is ModifyUniform -> EquippedType.ModifyUniform
         is UseEquipmentFromTemplate -> EquippedType.UseTemplate
@@ -28,14 +28,14 @@ sealed class Equipped {
     }
 
     fun contains(scheme: ColorSchemeId) = when (this) {
-        is EquippedEquipment -> map.containsScheme(scheme)
+        is UniqueEquipment -> map.containsScheme(scheme)
         is ModifyEquipmentFromTemplate -> update.added.containsScheme(scheme)
         is ModifyUniform -> update.added.containsScheme(scheme)
         else -> false
     }
 
     fun contains(equipment: EquipmentId) = when (this) {
-        is EquippedEquipment -> map.containsId(equipment)
+        is UniqueEquipment -> map.containsId(equipment)
         is ModifyEquipmentFromTemplate -> update.added.containsId(equipment)
         is ModifyUniform -> update.added.containsId(equipment)
         else -> false
@@ -50,8 +50,8 @@ sealed class Equipped {
 }
 
 @Serializable
-@SerialName("Equipment")
-data class EquippedEquipment(
+@SerialName("Unique")
+data class UniqueEquipment(
     val map: EquipmentIdMap,
 ) : Equipped()
 

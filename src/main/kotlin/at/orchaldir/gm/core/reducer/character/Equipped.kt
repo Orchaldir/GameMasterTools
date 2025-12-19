@@ -18,7 +18,7 @@ fun validateEquipped(
     lookup: StatblockLookup,
     element: UniformId? = null,
 ) = when (equipped) {
-    is EquippedEquipment -> validateEquipmentMap(state, equipped.map)
+    is UniqueEquipment -> validateEquipmentMap(state, equipped.map)
     is UseUniform -> {
         state.getUniformStorage().require(equipped.uniform)
         validateUniformId(equipped.uniform, element)

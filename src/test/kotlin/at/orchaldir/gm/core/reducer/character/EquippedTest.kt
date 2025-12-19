@@ -28,7 +28,7 @@ class EquippedTest {
 
         private val equipmentMap = EquipmentMap
             .from(BodySlot.Head, EQUIPMENT_ID_0, COLOR_SCHEME_ID_0)
-        private val equipped = EquippedEquipment(equipmentMap)
+        private val equipped = UniqueEquipment(equipmentMap)
 
         @Test
         fun `Use equipment`() {
@@ -95,7 +95,7 @@ class EquippedTest {
             assertIllegalArgument("Body slot InnerTop is occupied multiple times!") {
                 validateEquipped(
                     state,
-                    EquippedEquipment(equipmentMap),
+                    UniqueEquipment(equipmentMap),
                     UndefinedStatblockLookup,
                 )
             }
@@ -131,7 +131,7 @@ class EquippedTest {
 
         @Test
         fun `Add an equipment`() {
-            val uniformEquipped = EquippedEquipment(map0)
+            val uniformEquipped = UniqueEquipment(map0)
             val newState = state.updateStorage(Uniform(UNIFORM_ID_0, equipped = uniformEquipped))
             val equipped = ModifyUniform(UNIFORM_ID_0, EquipmentMapUpdate(added = map1))
 
@@ -140,7 +140,7 @@ class EquippedTest {
 
         @Test
         fun `Add an unknown equipment`() {
-            val uniformEquipped = EquippedEquipment(map0)
+            val uniformEquipped = UniqueEquipment(map0)
             val newState = state.updateStorage(Uniform(UNIFORM_ID_0, equipped = uniformEquipped))
             val equipped = ModifyUniform(
                 UNIFORM_ID_0,
@@ -154,7 +154,7 @@ class EquippedTest {
 
         @Test
         fun `Add the same equipment`() {
-            val uniformEquipped = EquippedEquipment(map0)
+            val uniformEquipped = UniqueEquipment(map0)
             val newState = state.updateStorage(Uniform(UNIFORM_ID_0, equipped = uniformEquipped))
             val equipped = ModifyUniform(UNIFORM_ID_0, EquipmentMapUpdate(added = map0))
 
@@ -165,7 +165,7 @@ class EquippedTest {
 
         @Test
         fun `Remove an equipment`() {
-            val uniformEquipped = EquippedEquipment(map01)
+            val uniformEquipped = UniqueEquipment(map01)
             val newState = state.updateStorage(Uniform(UNIFORM_ID_0, equipped = uniformEquipped))
             val equipped = ModifyUniform(UNIFORM_ID_0, EquipmentMapUpdate(removed = setOf(setOf(BodySlot.Foot))))
 
@@ -174,7 +174,7 @@ class EquippedTest {
 
         @Test
         fun `Remove an equipment that is not part of the uniform`() {
-            val uniformEquipped = EquippedEquipment(map0)
+            val uniformEquipped = UniqueEquipment(map0)
             val newState = state.updateStorage(Uniform(UNIFORM_ID_0, equipped = uniformEquipped))
             val equipped = ModifyUniform(UNIFORM_ID_0, EquipmentMapUpdate(removed = setOf(setOf(BodySlot.Foot))))
 

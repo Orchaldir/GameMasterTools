@@ -5,7 +5,7 @@
    "id": 0,
    "name": "Tuxedo",
    "equipped": {
-    "#type": "Equipment",
+    "#type": "Unique",
     "map": {
      "list": [
       {

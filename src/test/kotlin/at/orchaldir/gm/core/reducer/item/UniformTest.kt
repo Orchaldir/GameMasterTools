@@ -4,7 +4,7 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.Data
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.EquippedEquipment
+import at.orchaldir.gm.core.model.character.UniqueEquipment
 import at.orchaldir.gm.core.model.character.UseUniform
 import at.orchaldir.gm.core.model.character.ModifyUniform
 import at.orchaldir.gm.core.model.economy.Economy
@@ -45,7 +45,7 @@ class UniformTest {
         @Test
         fun `Cannot update uniform with unknown equipment`() {
             val equipmentMap = EquipmentMap.from(BodySlot.Head, UNKNOWN_EQUIPMENT_ID, COLOR_SCHEME_ID_0)
-            val action = UpdateAction(Uniform(UNIFORM_ID_0, equipped = EquippedEquipment(equipmentMap)))
+            val action = UpdateAction(Uniform(UNIFORM_ID_0, equipped = UniqueEquipment(equipmentMap)))
 
             assertIllegalArgument("Requires unknown Equipment 99!") { REDUCER.invoke(STATE, action) }
         }
@@ -68,7 +68,7 @@ class UniformTest {
         @Test
         fun `Success`() {
             val equipmentMap = EquipmentMap.from(BodySlot.Head, EQUIPMENT_ID_0, COLOR_SCHEME_ID_0)
-            val uniform = Uniform(UNIFORM_ID_0, equipped = EquippedEquipment(equipmentMap))
+            val uniform = Uniform(UNIFORM_ID_0, equipped = UniqueEquipment(equipmentMap))
             val action = UpdateAction(uniform)
 
             assertEquals(uniform, REDUCER.invoke(STATE, action).first.getUniformStorage().get(UNIFORM_ID_0))

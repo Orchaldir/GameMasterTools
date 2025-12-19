@@ -41,7 +41,7 @@ fun HtmlBlockTag.showEquipped(
     showUndefined: Boolean = false,
 ) {
     when (equipped) {
-        is EquippedEquipment -> +"${equipped.map.size()} items"
+        is UniqueEquipment -> +"${equipped.map.size()} items"
         is UseUniform -> link(call, state, equipped.uniform)
         is ModifyUniform -> {
             +"Modify "
@@ -89,7 +89,7 @@ fun HtmlBlockTag.showEquippedDetails(
         field("Type", equipped.getType())
 
         when (equipped) {
-            is EquippedEquipment -> showEquipmentMap(call, state, "Equipment", equipped.map)
+            is UniqueEquipment -> showEquipmentMap(call, state, "Equipment", equipped.map)
             is UseUniform -> fieldLink(call, state, equipped.uniform)
             is ModifyUniform -> {
                 fieldLink(call, state, equipped.uniform)
@@ -145,7 +145,7 @@ fun HtmlBlockTag.editEquipped(
         selectValue("Type", param, allowedTypes, equipped.getType()) { type ->
             when (type) {
                 EquippedType.Undefined -> false
-                EquippedType.Equipment -> false
+                EquippedType.Unique -> false
                 EquippedType.UseTemplate, EquippedType.ModifyTemplate -> state.getCharacterTemplateStorage().isEmpty()
                 EquippedType.UseUniform, EquippedType.ModifyUniform -> state.getUniformStorage()
                     .isEmptyWithout(elementId)
@@ -153,7 +153,7 @@ fun HtmlBlockTag.editEquipped(
         }
 
         when (equipped) {
-            is EquippedEquipment -> editEquipmentMap(
+            is UniqueEquipment -> editEquipmentMap(
                 state,
                 equipped.map,
                 combine(param, EQUIPMENT),
@@ -210,7 +210,7 @@ fun parseEquipped(
 ) =
     when (parse(parameters, param, EquippedType.Undefined)) {
         EquippedType.Undefined -> UndefinedEquipped
-        EquippedType.Equipment -> EquippedEquipment(
+        EquippedType.Unique -> UniqueEquipment(
             parseEquipmentMap(parameters, combine(param, EQUIPMENT)),
         )
 
