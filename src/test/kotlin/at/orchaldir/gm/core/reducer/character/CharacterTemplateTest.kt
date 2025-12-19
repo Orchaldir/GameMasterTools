@@ -4,7 +4,7 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterTemplate
-import at.orchaldir.gm.core.model.character.EquippedUniform
+import at.orchaldir.gm.core.model.character.UseUniform
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.language.ComprehensionLevel.Native
@@ -96,7 +96,7 @@ class CharacterTemplateTest {
 
         @Test
         fun `Using an unknown uniform`() {
-            val equipped = EquippedUniform(UNKNOWN_UNIFORM_ID)
+            val equipped = UseUniform(UNKNOWN_UNIFORM_ID)
             val template = CharacterTemplate(CHARACTER_TEMPLATE_ID_0, race = RACE_ID_0, equipped = equipped)
             val action = UpdateAction(template)
 
@@ -114,7 +114,7 @@ class CharacterTemplateTest {
                 mapOf(LANGUAGE_ID_0 to Native),
                 WorshipOfGod(GOD_ID_0),
                 UniqueStatblock(StatblockUpdate()),
-                EquippedUniform(UNIFORM_ID_0),
+                UseUniform(UNIFORM_ID_0),
             )
             val action = UpdateAction(template)
 

@@ -5,8 +5,8 @@ import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterTemplate
-import at.orchaldir.gm.core.model.character.EquippedUniform
-import at.orchaldir.gm.core.model.character.ModifiedUniform
+import at.orchaldir.gm.core.model.character.UseUniform
+import at.orchaldir.gm.core.model.character.ModifyUniform
 import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.item.Uniform
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMapUpdate
@@ -38,7 +38,7 @@ class UniformTest {
 
         @Test
         fun `Cannot delete a uniform used by a character`() {
-            val equipped = EquippedUniform(UNIFORM_ID_0)
+            val equipped = UseUniform(UNIFORM_ID_0)
             val template = Character(CHARACTER_ID_0, equipped = equipped)
             val newState = state.updateStorage(Storage(template))
 
@@ -47,7 +47,7 @@ class UniformTest {
 
         @Test
         fun `Cannot delete a uniform used by a character template`() {
-            val equipped = EquippedUniform(UNIFORM_ID_0)
+            val equipped = UseUniform(UNIFORM_ID_0)
             val template = CharacterTemplate(CHARACTER_TEMPLATE_ID_0, race = RACE_ID_0, equipped = equipped)
             val newState = state.updateStorage(Storage(template))
 
@@ -56,7 +56,7 @@ class UniformTest {
 
         @Test
         fun `Cannot delete a uniform another uniform is based on`() {
-            val equipped = ModifiedUniform(UNIFORM_ID_0, EquipmentMapUpdate())
+            val equipped = ModifyUniform(UNIFORM_ID_0, EquipmentMapUpdate())
             val uniform1 = Uniform(UNIFORM_ID_1, equipped = equipped)
             val newState = state.updateStorage(Storage(listOf(uniform, uniform1)))
 

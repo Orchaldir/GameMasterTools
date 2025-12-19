@@ -77,8 +77,8 @@ fun State.getEquipmentMap(
     lookup: StatblockLookup,
 ): EquipmentIdMap = when (equipped) {
     is EquippedEquipment -> equipped.map
-    is EquippedUniform -> getEquipmentMap(equipped.uniform)
-    is ModifiedUniform -> {
+    is UseUniform -> getEquipmentMap(equipped.uniform)
+    is ModifyUniform -> {
         val uniform = getEquipmentMap(equipped.uniform)
         equipped.update.applyTo(uniform)
     }

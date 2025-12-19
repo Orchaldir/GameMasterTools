@@ -105,7 +105,7 @@ class EquippedTest {
     @Nested
     inner class EquippedUniformTest {
 
-        private val equipped = EquippedUniform(UNIFORM_ID_0)
+        private val equipped = UseUniform(UNIFORM_ID_0)
 
         @Test
         fun `Use uniform`() {
@@ -133,7 +133,7 @@ class EquippedTest {
         fun `Add an equipment`() {
             val uniformEquipped = EquippedEquipment(map0)
             val newState = state.updateStorage(Uniform(UNIFORM_ID_0, equipped = uniformEquipped))
-            val equipped = ModifiedUniform(UNIFORM_ID_0, EquipmentMapUpdate(added = map1))
+            val equipped = ModifyUniform(UNIFORM_ID_0, EquipmentMapUpdate(added = map1))
 
             validateEquipped(newState, equipped, UndefinedStatblockLookup)
         }
@@ -142,7 +142,7 @@ class EquippedTest {
         fun `Add an unknown equipment`() {
             val uniformEquipped = EquippedEquipment(map0)
             val newState = state.updateStorage(Uniform(UNIFORM_ID_0, equipped = uniformEquipped))
-            val equipped = ModifiedUniform(
+            val equipped = ModifyUniform(
                 UNIFORM_ID_0,
                 EquipmentMapUpdate(added = EquipmentIdMap.from(BodySlot.Foot, UNKNOWN_EQUIPMENT_ID))
             )
@@ -156,7 +156,7 @@ class EquippedTest {
         fun `Add the same equipment`() {
             val uniformEquipped = EquippedEquipment(map0)
             val newState = state.updateStorage(Uniform(UNIFORM_ID_0, equipped = uniformEquipped))
-            val equipped = ModifiedUniform(UNIFORM_ID_0, EquipmentMapUpdate(added = map0))
+            val equipped = ModifyUniform(UNIFORM_ID_0, EquipmentMapUpdate(added = map0))
 
             assertIllegalArgument("Couldn't add [[Head]] again!") {
                 validateEquipped(newState, equipped, UndefinedStatblockLookup)
@@ -167,7 +167,7 @@ class EquippedTest {
         fun `Remove an equipment`() {
             val uniformEquipped = EquippedEquipment(map01)
             val newState = state.updateStorage(Uniform(UNIFORM_ID_0, equipped = uniformEquipped))
-            val equipped = ModifiedUniform(UNIFORM_ID_0, EquipmentMapUpdate(removed = setOf(setOf(BodySlot.Foot))))
+            val equipped = ModifyUniform(UNIFORM_ID_0, EquipmentMapUpdate(removed = setOf(setOf(BodySlot.Foot))))
 
             validateEquipped(newState, equipped, UndefinedStatblockLookup)
         }
@@ -176,7 +176,7 @@ class EquippedTest {
         fun `Remove an equipment that is not part of the uniform`() {
             val uniformEquipped = EquippedEquipment(map0)
             val newState = state.updateStorage(Uniform(UNIFORM_ID_0, equipped = uniformEquipped))
-            val equipped = ModifiedUniform(UNIFORM_ID_0, EquipmentMapUpdate(removed = setOf(setOf(BodySlot.Foot))))
+            val equipped = ModifyUniform(UNIFORM_ID_0, EquipmentMapUpdate(removed = setOf(setOf(BodySlot.Foot))))
 
             assertIllegalArgument("Couldn't remove [[Foot]]!") {
                 validateEquipped(newState, equipped, UndefinedStatblockLookup)
@@ -185,7 +185,7 @@ class EquippedTest {
 
         @Test
         fun `Cannot use unknown uniform`() {
-            val equipped = ModifiedUniform(UNKNOWN_UNIFORM_ID, EquipmentMapUpdate())
+            val equipped = ModifyUniform(UNKNOWN_UNIFORM_ID, EquipmentMapUpdate())
 
             assertIllegalArgument("Requires unknown Uniform 99!") {
                 validateEquipped(

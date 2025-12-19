@@ -42,8 +42,8 @@ fun HtmlBlockTag.showEquipped(
 ) {
     when (equipped) {
         is EquippedEquipment -> +"${equipped.map.size()} items"
-        is EquippedUniform -> link(call, state, equipped.uniform)
-        is ModifiedUniform -> {
+        is UseUniform -> link(call, state, equipped.uniform)
+        is ModifyUniform -> {
             +"Modify "
             link(call, state, equipped.uniform)
         }
@@ -90,8 +90,8 @@ fun HtmlBlockTag.showEquippedDetails(
 
         when (equipped) {
             is EquippedEquipment -> showEquipmentMap(call, state, "Equipment", equipped.map)
-            is EquippedUniform -> fieldLink(call, state, equipped.uniform)
-            is ModifiedUniform -> {
+            is UseUniform -> fieldLink(call, state, equipped.uniform)
+            is ModifyUniform -> {
                 fieldLink(call, state, equipped.uniform)
                 showEquipmentMapUpdate(
                     call,
@@ -159,9 +159,9 @@ fun HtmlBlockTag.editEquipped(
                 combine(param, EQUIPMENT),
             )
 
-            is EquippedUniform -> selectLookedUpUniform(state, param, equipped.uniform, elementId)
+            is UseUniform -> selectLookedUpUniform(state, param, equipped.uniform, elementId)
 
-            is ModifiedUniform -> {
+            is ModifyUniform -> {
                 selectLookedUpUniform(state, param, equipped.uniform, elementId)
                 editEquipmentMapUpdate(
                     call,
@@ -219,7 +219,7 @@ fun parseEquipped(
             parseEquipmentMapUpdate(parameters, combine(param, UPDATE), base),
         )
 
-        EquippedType.UseUniform -> EquippedUniform(
+        EquippedType.UseUniform -> UseUniform(
             parseUniformId(parameters, combine(param, UNIFORM)),
         )
 
@@ -227,7 +227,7 @@ fun parseEquipped(
             val uniformId = parseUniformId(parameters, combine(param, UNIFORM))
             val uniform = state.getEquipmentMap(uniformId)
 
-            ModifiedUniform(
+            ModifyUniform(
                 uniformId,
                 parseEquipmentMapUpdate(parameters, combine(param, UPDATE), uniform),
             )

@@ -19,12 +19,12 @@ fun validateEquipped(
     element: UniformId? = null,
 ) = when (equipped) {
     is EquippedEquipment -> validateEquipmentMap(state, equipped.map)
-    is EquippedUniform -> {
+    is UseUniform -> {
         state.getUniformStorage().require(equipped.uniform)
         validateUniformId(equipped.uniform, element)
     }
 
-    is ModifiedUniform -> {
+    is ModifyUniform -> {
         validateUniformId(equipped.uniform, element)
         validateEquipmentMapUpdate(state, state.getEquipmentMap(equipped.uniform), equipped.update)
     }

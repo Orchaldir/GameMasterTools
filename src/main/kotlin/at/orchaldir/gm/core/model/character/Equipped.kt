@@ -9,10 +9,10 @@ import kotlinx.serialization.Serializable
 enum class EquippedType {
     Undefined,
     Equipment,
-    UseTemplate,
     ModifyTemplate,
-    UseUniform,
     ModifyUniform,
+    UseTemplate,
+    UseUniform,
 }
 
 @Serializable
@@ -21,29 +21,29 @@ sealed class Equipped {
     fun getType() = when (this) {
         UndefinedEquipped -> EquippedType.Undefined
         is EquippedEquipment -> EquippedType.Equipment
-        is EquippedUniform -> EquippedType.UseUniform
-        is ModifiedUniform -> EquippedType.ModifyUniform
-        is UseEquipmentFromTemplate -> EquippedType.UseTemplate
         is ModifyEquipmentFromTemplate -> EquippedType.ModifyTemplate
+        is ModifyUniform -> EquippedType.ModifyUniform
+        is UseEquipmentFromTemplate -> EquippedType.UseTemplate
+        is UseUniform -> EquippedType.UseUniform
     }
 
     fun contains(scheme: ColorSchemeId) = when (this) {
         is EquippedEquipment -> map.containsScheme(scheme)
         is ModifyEquipmentFromTemplate -> update.added.containsScheme(scheme)
-        is ModifiedUniform -> update.added.containsScheme(scheme)
+        is ModifyUniform -> update.added.containsScheme(scheme)
         else -> false
     }
 
     fun contains(equipment: EquipmentId) = when (this) {
         is EquippedEquipment -> map.containsId(equipment)
         is ModifyEquipmentFromTemplate -> update.added.containsId(equipment)
-        is ModifiedUniform -> update.added.containsId(equipment)
+        is ModifyUniform -> update.added.containsId(equipment)
         else -> false
     }
 
     fun contains(uniform: UniformId) = when (this) {
-        is EquippedUniform -> this.uniform == uniform
-        is ModifiedUniform -> this.uniform == uniform
+        is ModifyUniform -> this.uniform == uniform
+        is UseUniform -> this.uniform == uniform
         else -> false
     }
 
@@ -57,13 +57,13 @@ data class EquippedEquipment(
 
 @Serializable
 @SerialName("UseUniform")
-data class EquippedUniform(
+data class UseUniform(
     val uniform: UniformId,
 ) : Equipped()
 
 @Serializable
 @SerialName("ModifiedUniform")
-data class ModifiedUniform(
+data class ModifyUniform(
     val uniform: UniformId,
     val update: EquipmentMapUpdate,
 ) : Equipped()
