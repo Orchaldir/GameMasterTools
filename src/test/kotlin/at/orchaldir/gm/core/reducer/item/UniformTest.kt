@@ -10,11 +10,7 @@ import at.orchaldir.gm.core.model.character.ModifiedUniform
 import at.orchaldir.gm.core.model.economy.Economy
 import at.orchaldir.gm.core.model.economy.standard.StandardOfLiving
 import at.orchaldir.gm.core.model.item.Uniform
-import at.orchaldir.gm.core.model.item.equipment.BodySlot
-import at.orchaldir.gm.core.model.item.equipment.Equipment
-import at.orchaldir.gm.core.model.item.equipment.EquipmentMap
-import at.orchaldir.gm.core.model.item.equipment.EquipmentMapUpdate
-import at.orchaldir.gm.core.model.item.equipment.Helmet
+import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.magic.Spell
 import at.orchaldir.gm.core.model.util.render.ColorScheme
 import at.orchaldir.gm.core.reducer.REDUCER

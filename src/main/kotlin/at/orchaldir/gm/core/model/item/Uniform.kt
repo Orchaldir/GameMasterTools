@@ -3,8 +3,6 @@ package at.orchaldir.gm.core.model.item
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Equipped
 import at.orchaldir.gm.core.model.character.UndefinedEquipped
-import at.orchaldir.gm.core.model.item.equipment.EquipmentIdMap
-import at.orchaldir.gm.core.model.item.equipment.EquipmentMap
 import at.orchaldir.gm.core.model.rpg.statblock.UndefinedStatblockLookup
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name

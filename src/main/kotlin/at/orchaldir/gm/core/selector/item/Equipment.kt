@@ -19,7 +19,6 @@ import at.orchaldir.gm.core.model.util.render.UndefinedColors
 import at.orchaldir.gm.core.selector.character.getCharacterTemplates
 import at.orchaldir.gm.core.selector.character.getCharactersWith
 import at.orchaldir.gm.core.selector.culture.getFashions
-import kotlin.getOrThrow
 
 fun State.canDeleteEquipment(equipment: EquipmentId) = DeleteResult(equipment)
     .addElements(getCharactersWith(equipment))
@@ -83,6 +82,7 @@ fun State.getEquipmentMap(
         val uniform = getEquipmentMap(equipped.uniform)
         equipped.update.applyTo(uniform)
     }
+
     is UseEquipmentFromTemplate -> getEquipmentMapForLookup(lookup)
     is ModifyEquipmentFromTemplate -> {
         getEquipmentMap(equipped.update, lookup)

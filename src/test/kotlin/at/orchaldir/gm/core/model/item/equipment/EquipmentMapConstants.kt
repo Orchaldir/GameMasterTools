@@ -4,11 +4,7 @@ import at.orchaldir.gm.EQUIPMENT_ID_0
 import at.orchaldir.gm.EQUIPMENT_ID_1
 import at.orchaldir.gm.UNKNOWN_EQUIPMENT_ID
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap.Companion.fromSlotAsValueMap
-import at.orchaldir.gm.core.model.item.equipment.EquipmentMapUpdate.Companion.calculateUpdate
 import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.Nested
-import org.junit.jupiter.api.Test
-import kotlin.test.assertEquals
 
 
 val sets = setOf(setOf(BodySlot.Foot), setOf(BodySlot.Head))

@@ -1,17 +1,12 @@
 package at.orchaldir.gm.app.html.item
 
 import at.orchaldir.gm.app.UNIFORM
-import at.orchaldir.gm.app.html.character.editEquipmentMap
 import at.orchaldir.gm.app.html.character.editEquipped
-import at.orchaldir.gm.app.html.character.parseEquipmentMap
 import at.orchaldir.gm.app.html.character.parseEquipped
-import at.orchaldir.gm.app.html.character.showEquipmentMap
 import at.orchaldir.gm.app.html.character.showEquippedDetails
 import at.orchaldir.gm.app.html.fieldElements
 import at.orchaldir.gm.app.html.parseName
 import at.orchaldir.gm.app.html.parseSimpleOptionalInt
-import at.orchaldir.gm.app.html.rpg.combat.showMeleeAttackTable
-import at.orchaldir.gm.app.html.rpg.combat.showProtectionTable
 import at.orchaldir.gm.app.html.selectName
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.Uniform
@@ -19,7 +14,8 @@ import at.orchaldir.gm.core.model.item.UniformId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentIdMap
 import at.orchaldir.gm.core.model.rpg.statblock.Statblock
 import at.orchaldir.gm.core.model.rpg.statblock.UndefinedStatblockLookup
-import at.orchaldir.gm.core.selector.character.*
+import at.orchaldir.gm.core.selector.character.getCharacterTemplates
+import at.orchaldir.gm.core.selector.character.getCharactersWith
 import at.orchaldir.gm.core.selector.economy.getJobs
 import io.ktor.http.*
 import io.ktor.server.application.*

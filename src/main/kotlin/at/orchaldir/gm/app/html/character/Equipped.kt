@@ -47,14 +47,17 @@ fun HtmlBlockTag.showEquipped(
             +"Modify "
             link(call, state, equipped.uniform)
         }
+
         is UseEquipmentFromTemplate -> {
             +"Use "
             optionalLink(call, state, lookup.template())
         }
+
         is ModifyEquipmentFromTemplate -> {
             +"Modify "
             optionalLink(call, state, lookup.template())
         }
+
         UndefinedEquipped -> if (showUndefined) {
             +"Undefined"
         }
@@ -97,6 +100,7 @@ fun HtmlBlockTag.showEquippedDetails(
                     equipped.update,
                 )
             }
+
             is UseEquipmentFromTemplate -> doNothing()
             is ModifyEquipmentFromTemplate -> showEquipmentMapUpdate(
                 call,
@@ -104,6 +108,7 @@ fun HtmlBlockTag.showEquippedDetails(
                 state.getEquipmentMapForLookup(lookup),
                 equipped.update,
             )
+
             UndefinedEquipped -> doNothing()
         }
 
@@ -142,7 +147,8 @@ fun HtmlBlockTag.editEquipped(
                 EquippedType.Undefined -> false
                 EquippedType.Equipment -> false
                 EquippedType.UseTemplate, EquippedType.ModifyTemplate -> state.getCharacterTemplateStorage().isEmpty()
-                EquippedType.UseUniform, EquippedType.ModifyUniform -> state.getUniformStorage().isEmptyWithout(elementId)
+                EquippedType.UseUniform, EquippedType.ModifyUniform -> state.getUniformStorage()
+                    .isEmptyWithout(elementId)
             }
         }
 
@@ -174,6 +180,7 @@ fun HtmlBlockTag.editEquipped(
                 equipped.update,
                 combine(param, UPDATE),
             )
+
             UndefinedEquipped -> doNothing()
         }
     }
@@ -218,7 +225,7 @@ fun parseEquipped(
 
         EquippedType.ModifyUniform -> {
             val uniformId = parseUniformId(parameters, combine(param, UNIFORM))
-            val uniform =state.getEquipmentMap(uniformId)
+            val uniform = state.getEquipmentMap(uniformId)
 
             ModifiedUniform(
                 uniformId,

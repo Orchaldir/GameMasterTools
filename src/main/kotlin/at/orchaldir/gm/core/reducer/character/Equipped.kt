@@ -1,13 +1,7 @@
 package at.orchaldir.gm.core.reducer.character
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.Equipped
-import at.orchaldir.gm.core.model.character.EquippedEquipment
-import at.orchaldir.gm.core.model.character.EquippedUniform
-import at.orchaldir.gm.core.model.character.ModifiedUniform
-import at.orchaldir.gm.core.model.character.ModifyEquipmentFromTemplate
-import at.orchaldir.gm.core.model.character.UndefinedEquipped
-import at.orchaldir.gm.core.model.character.UseEquipmentFromTemplate
+import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.item.UniformId
 import at.orchaldir.gm.core.model.item.equipment.BodySlot
 import at.orchaldir.gm.core.model.item.equipment.EquipmentIdMap
@@ -29,15 +23,18 @@ fun validateEquipped(
         state.getUniformStorage().require(equipped.uniform)
         validateUniformId(equipped.uniform, element)
     }
+
     is ModifiedUniform -> {
         validateUniformId(equipped.uniform, element)
         validateEquipmentMapUpdate(state, state.getEquipmentMap(equipped.uniform), equipped.update)
     }
+
     UseEquipmentFromTemplate -> validateTemplate(lookup)
     is ModifyEquipmentFromTemplate -> {
         validateTemplate(lookup)
         validateEquipmentMapUpdate(state, state.getEquipmentMapForLookup(lookup), equipped.update)
     }
+
     UndefinedEquipped -> doNothing()
 }
 

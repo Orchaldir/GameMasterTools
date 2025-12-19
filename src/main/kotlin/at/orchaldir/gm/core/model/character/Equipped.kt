@@ -1,11 +1,7 @@
 package at.orchaldir.gm.core.model.character
 
 import at.orchaldir.gm.core.model.item.UniformId
-import at.orchaldir.gm.core.model.item.equipment.EquipmentId
-import at.orchaldir.gm.core.model.item.equipment.EquipmentIdMap
-import at.orchaldir.gm.core.model.item.equipment.EquipmentMapUpdate
-import at.orchaldir.gm.core.model.item.equipment.containsId
-import at.orchaldir.gm.core.model.item.equipment.containsScheme
+import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.util.render.ColorSchemeId
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
