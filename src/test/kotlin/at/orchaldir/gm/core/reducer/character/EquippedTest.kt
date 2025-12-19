@@ -119,6 +119,26 @@ class EquippedTest {
         }
 
         @Test
+        fun `Add an unknown equipment`() {
+            val uniformEquipped = EquippedEquipment(map0)
+            val newState = state.updateStorage(Uniform(UNIFORM_ID_0, equipped = uniformEquipped))
+            val equipped = ModifiedUniform(UNIFORM_ID_0, EquipmentMapUpdate(added = EquipmentIdMap.from(BodySlot.Foot, UNKNOWN_EQUIPMENT_ID)))
+
+            assertIllegalArgument("Requires unknown Equipment 99!") {
+                validateEquipped(newState, equipped, UndefinedStatblockLookup)
+            }
+        }
+
+        @Test
+        fun `Remove an equipment`() {
+            val uniformEquipped = EquippedEquipment(map01)
+            val newState = state.updateStorage(Uniform(UNIFORM_ID_0, equipped = uniformEquipped))
+            val equipped = ModifiedUniform(UNIFORM_ID_0, EquipmentMapUpdate(removed = setOf(setOf(BodySlot.Foot))))
+
+            validateEquipped(newState, equipped, UndefinedStatblockLookup)
+        }
+
+        @Test
         fun `Cannot use unknown uniform`() {
             val equipped = ModifiedUniform(UNKNOWN_UNIFORM_ID, EquipmentMapUpdate())
 

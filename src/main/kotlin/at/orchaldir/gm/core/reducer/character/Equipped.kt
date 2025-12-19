@@ -13,6 +13,8 @@ import at.orchaldir.gm.core.model.item.equipment.EquipmentIdMap
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMapUpdate
 import at.orchaldir.gm.core.model.item.equipment.getAllBodySlotCombinations
 import at.orchaldir.gm.core.model.rpg.statblock.StatblockLookup
+import at.orchaldir.gm.core.selector.item.getEquipmentMap
+import at.orchaldir.gm.core.selector.item.getEquipmentMapForLookup
 import at.orchaldir.gm.utils.doNothing
 
 fun validateEquipped(
@@ -22,9 +24,14 @@ fun validateEquipped(
 ) = when (equipped) {
     is EquippedEquipment -> validateEquipmentMap(state, equipped.map)
     is EquippedUniform -> state.getUniformStorage().require(equipped.uniform)
-    is ModifiedUniform -> state.getUniformStorage().require(equipped.uniform)
+    is ModifiedUniform -> {
+        validateEquipmentMapUpdate(state, state.getEquipmentMap(equipped.uniform), equipped.update)
+    }
     UseEquipmentFromTemplate -> validateTemplate(lookup)
-    is ModifyEquipmentFromTemplate -> validateEquipmentMapUpdate(state, equipped.update, lookup)
+    is ModifyEquipmentFromTemplate -> {
+        validateTemplate(lookup)
+        validateEquipmentMapUpdate(state, state.getEquipmentMapForLookup(lookup), equipped.update)
+    }
     UndefinedEquipped -> doNothing()
 }
 
@@ -57,8 +64,10 @@ fun validateEquipmentMap(
 
 fun validateEquipmentMapUpdate(
     state: State,
+    base: EquipmentIdMap,
     update: EquipmentMapUpdate,
-    lookup: StatblockLookup,
 ) {
-    validateTemplate(lookup)
+    val updated = update.applyTo(base)
+
+    validateEquipmentMap(state, updated)
 }
