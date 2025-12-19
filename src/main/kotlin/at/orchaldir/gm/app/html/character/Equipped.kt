@@ -128,6 +128,7 @@ fun HtmlBlockTag.editEquipped(
     param: String,
     equipped: Equipped,
     lookup: StatblockLookup,
+    elementId: UniformId? = null,
 ) {
     val allowedTypes = if (lookup.hasTemplate()) {
         EquippedType.entries
@@ -141,7 +142,7 @@ fun HtmlBlockTag.editEquipped(
                 EquippedType.Undefined -> false
                 EquippedType.Equipment -> false
                 EquippedType.UseTemplate, EquippedType.ModifyTemplate -> state.getCharacterTemplateStorage().isEmpty()
-                EquippedType.UseUniform, EquippedType.ModifyUniform -> state.getUniformStorage().isEmpty()
+                EquippedType.UseUniform, EquippedType.ModifyUniform -> state.getUniformStorage().isEmptyWithout(elementId)
             }
         }
 
@@ -152,10 +153,10 @@ fun HtmlBlockTag.editEquipped(
                 combine(param, EQUIPMENT),
             )
 
-            is EquippedUniform -> selectUniform(state, param, equipped.uniform)
+            is EquippedUniform -> selectLookedUpUniform(state, param, equipped.uniform, elementId)
 
             is ModifiedUniform -> {
-                selectUniform(state, param, equipped.uniform)
+                selectLookedUpUniform(state, param, equipped.uniform, elementId)
                 editEquipmentMapUpdate(
                     call,
                     state,
@@ -178,16 +179,17 @@ fun HtmlBlockTag.editEquipped(
     }
 }
 
-private fun DETAILS.selectUniform(
+private fun DETAILS.selectLookedUpUniform(
     state: State,
     param: String,
-    uniform: UniformId,
+    lookedUpUniform: UniformId,
+    element: UniformId? = null,
 ) {
     selectElement(
         state,
         combine(param, UNIFORM),
-        state.sortUniforms(),
-        uniform,
+        state.sortUniforms().filter { it.id != element },
+        lookedUpUniform,
     )
 }
 
