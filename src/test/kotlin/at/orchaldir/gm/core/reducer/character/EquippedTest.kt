@@ -3,9 +3,11 @@ package at.orchaldir.gm.core.reducer.character
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
+import at.orchaldir.gm.core.model.character.CharacterTemplate
 import at.orchaldir.gm.core.model.character.EquippedEquipment
 import at.orchaldir.gm.core.model.character.EquippedUniform
 import at.orchaldir.gm.core.model.character.ModifiedUniform
+import at.orchaldir.gm.core.model.character.ModifyEquipmentFromTemplate
 import at.orchaldir.gm.core.model.character.UseEquipmentFromTemplate
 import at.orchaldir.gm.core.model.item.Uniform
 import at.orchaldir.gm.core.model.item.equipment.*
@@ -21,6 +23,7 @@ class EquippedTest {
     private val state = State(
         listOf(
             Storage(Character(CHARACTER_ID_0)),
+            Storage(CharacterTemplate(CHARACTER_TEMPLATE_ID_0, race = RACE_ID_0)),
             Storage(ColorScheme(COLOR_SCHEME_ID_0)),
             Storage(listOf(Equipment(EQUIPMENT_ID_0, data = Hat()), Equipment(EQUIPMENT_ID_1, data = Footwear()))),
             Storage(Uniform(UNIFORM_ID_0)),
@@ -182,6 +185,32 @@ class EquippedTest {
 
             assertIllegalArgument("Cannot use equipment from the template without a template!") {
                 validateEquipped(state, UseEquipmentFromTemplate, UndefinedStatblockLookup)
+            }
+        }
+    }
+
+    @Nested
+    inner class ModifyEquipmentFromTemplateTest {
+        val equipped = ModifyEquipmentFromTemplate(EquipmentMapUpdate())
+
+        @Test
+        fun `Use with template`() {
+            validateEquipped(state, equipped, UseStatblockOfTemplate(CHARACTER_TEMPLATE_ID_0))
+        }
+
+        @Test
+        fun `Add an unknown equipment`() {
+            val equipped = ModifyEquipmentFromTemplate(EquipmentMapUpdate(added = unknownMap))
+
+            assertIllegalArgument("Requires unknown Equipment 99!") {
+                validateEquipped(state, equipped, UseStatblockOfTemplate(CHARACTER_TEMPLATE_ID_0))
+            }
+        }
+
+        @Test
+        fun `Fail without template`() {
+            assertIllegalArgument("Cannot use equipment from the template without a template!") {
+                validateEquipped(state, equipped, UndefinedStatblockLookup)
             }
         }
     }
