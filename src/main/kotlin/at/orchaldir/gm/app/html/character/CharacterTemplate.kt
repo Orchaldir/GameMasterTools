@@ -42,7 +42,7 @@ fun HtmlBlockTag.showCharacterTemplate(
     showKnownLanguages(call, state, template)
     fieldBeliefStatus(call, state, template.belief)
     showStatblockLookup(call, state, template.race, template.statblock)
-    showEquippedDetails(call, state, template.equipped, template.race, UseStatblockOfTemplate(template.id))
+    showEquippedDetails(call, state, template.equipped, template.race, template.statblock)
     showDataSources(call, state, template.sources)
     showUsage(call, state, template)
 }
