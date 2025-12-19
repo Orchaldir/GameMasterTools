@@ -13,9 +13,14 @@ fun State.canDeleteUniform(uniform: UniformId) = DeleteResult(uniform)
     .addElements(getCharactersWith(uniform))
     .addElements(getCharacterTemplates(uniform))
     .addElements(getJobs(uniform))
+    .addElements(getUniformsBasedOn(uniform))
 
 fun State.getUniforms(equipment: EquipmentId) = getUniformStorage()
     .getAll()
     .filter {
         getEquipmentMap(it).containsId(equipment)
     }
+
+fun State.getUniformsBasedOn(uniform: UniformId) = getUniformStorage()
+    .getAll()
+    .filter { it.equipped.contains(uniform) }

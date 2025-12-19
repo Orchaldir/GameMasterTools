@@ -33,17 +33,21 @@ sealed class Equipped {
 
     fun contains(scheme: ColorSchemeId) = when (this) {
         is EquippedEquipment -> map.containsScheme(scheme)
+        is ModifyEquipmentFromTemplate -> update.added.containsScheme(scheme)
+        is ModifiedUniform -> update.added.containsScheme(scheme)
         else -> false
     }
 
     fun contains(equipment: EquipmentId) = when (this) {
         is EquippedEquipment -> map.containsId(equipment)
         is ModifyEquipmentFromTemplate -> update.added.containsId(equipment)
+        is ModifiedUniform -> update.added.containsId(equipment)
         else -> false
     }
 
     fun contains(uniform: UniformId) = when (this) {
         is EquippedUniform -> this.uniform == uniform
+        is ModifiedUniform -> this.uniform == uniform
         else -> false
     }
 
