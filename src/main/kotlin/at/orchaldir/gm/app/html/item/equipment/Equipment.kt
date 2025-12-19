@@ -7,6 +7,9 @@ import at.orchaldir.gm.app.html.util.color.parseColorSchemeId
 import at.orchaldir.gm.app.html.util.math.fieldWeight
 import at.orchaldir.gm.app.html.util.math.parseWeight
 import at.orchaldir.gm.app.html.util.math.selectWeight
+import at.orchaldir.gm.app.html.util.parseWeightLookup
+import at.orchaldir.gm.app.html.util.selectWeightLookup
+import at.orchaldir.gm.app.html.util.showWeightLookupDetails
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseElements
@@ -34,7 +37,7 @@ fun HtmlBlockTag.showEquipment(
 ) {
     val material = equipment.data.mainMaterial()
 
-    fieldWeight("Weight", equipment.weight)
+    showWeightLookupDetails(call, state, equipment.weight)
     fieldIds(call, state, equipment.colorSchemes)
     equipment.data.getArmorStats()?.let {
         showArmorStats(call, state, it, material)
@@ -119,7 +122,7 @@ fun HtmlBlockTag.editEquipment(
     equipment: Equipment,
 ) {
     selectName(equipment.name)
-    selectWeight("Weight", WEIGHT, equipment.weight, MIN_EQUIPMENT_WEIGHT, 10000, SiPrefix.Base)
+    selectWeightLookup(state, equipment.weight)
     selectColorSchemes(state, equipment)
     equipment.data.getArmorStats()?.let { editArmorStats(call, state, it) }
     equipment.data.getMeleeWeaponStats()?.let { editMeleeWeaponStats(call, state, it) }
@@ -208,7 +211,7 @@ fun parseEquipment(
         id,
         parseName(parameters),
         data,
-        parseWeight(parameters, WEIGHT, SiPrefix.Base),
+        parseWeightLookup(parameters),
         parseColorSchemes(state, parameters, data),
     )
 }

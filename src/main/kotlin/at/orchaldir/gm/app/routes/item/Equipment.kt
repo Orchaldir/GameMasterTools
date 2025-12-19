@@ -4,6 +4,7 @@ import at.orchaldir.gm.app.SCHEME
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.Column.Companion.tdColumn
+import at.orchaldir.gm.app.html.util.showWeightLookup
 import at.orchaldir.gm.app.html.item.equipment.editEquipment
 import at.orchaldir.gm.app.html.item.equipment.parseEquipment
 import at.orchaldir.gm.app.html.item.equipment.showEquipment
@@ -124,7 +125,7 @@ fun Application.configureEquipmentRouting() {
                 listOf(
                     createNameColumn(call, state),
                     Column("Type") { tdEnum(it.data.getType()) },
-                    Column("Weight") { td(it.weight) },
+                    tdColumn("Weight") { showWeightLookup(it.weight) },
                     Column("Materials") { tdInlineIds(call, state, it.data.materials()) },
                     Column(listOf("Color", "Schemes")) { tdInlineIds(call, state, it.colorSchemes) },
                     Column(listOf("Required", "Colors")) { tdSkipZero(it.data.requiredSchemaColors()) },
