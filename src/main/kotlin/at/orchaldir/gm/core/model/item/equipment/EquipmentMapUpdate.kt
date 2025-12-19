@@ -37,10 +37,14 @@ data class EquipmentMapUpdate(
         val toRemove = removed.toMutableSet()
         val updatedList = map.getEquipmentWithSlotSets().mapNotNull { (data, sets) ->
             val addedSets = added.getSets(data) ?: emptySet()
-            val newSets = sets.filter { set -> !removed.contains(set) }
-                .toSet() + addedSets
+            val addedAgain = addedSets.filter { sets.contains(it) }
+
+            require(addedAgain.isEmpty()) { "Couldn't add $addedAgain again!" }
 
             toRemove.removeAll(sets)
+
+            val newSets = sets.filter { set -> !removed.contains(set) }
+                .toSet() + addedSets
 
             if (newSets.isEmpty()) {
                 null

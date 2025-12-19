@@ -130,6 +130,17 @@ class EquippedTest {
         }
 
         @Test
+        fun `Add the same equipment`() {
+            val uniformEquipped = EquippedEquipment(map0)
+            val newState = state.updateStorage(Uniform(UNIFORM_ID_0, equipped = uniformEquipped))
+            val equipped = ModifiedUniform(UNIFORM_ID_0, EquipmentMapUpdate(added = map0))
+
+            assertIllegalArgument("Couldn't add [[Head]] again!") {
+                validateEquipped(newState, equipped, UndefinedStatblockLookup)
+            }
+        }
+
+        @Test
         fun `Remove an equipment`() {
             val uniformEquipped = EquippedEquipment(map01)
             val newState = state.updateStorage(Uniform(UNIFORM_ID_0, equipped = uniformEquipped))
