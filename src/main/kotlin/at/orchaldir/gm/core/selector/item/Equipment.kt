@@ -121,12 +121,6 @@ fun State.resolveEquipment(idMap: EquipmentIdMap) = idMap.convert { pair ->
     )
 }
 
-fun State.getEquippedBy(equipment: EquipmentId) = getCharacterStorage()
-    .getAll()
-    .filter {
-        it.equipped.contains(equipment)
-    }
-
 fun State.getEquippedWith(scheme: ColorSchemeId) = getCharacterStorage()
     .getAll()
     .filter {

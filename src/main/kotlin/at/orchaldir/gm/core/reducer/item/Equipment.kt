@@ -8,7 +8,7 @@ import at.orchaldir.gm.core.model.util.render.COLOR_SCHEME_TYPE
 import at.orchaldir.gm.core.reducer.rpg.validateArmorStats
 import at.orchaldir.gm.core.reducer.rpg.validateMeleeWeaponStats
 import at.orchaldir.gm.core.reducer.rpg.validateShieldStats
-import at.orchaldir.gm.core.selector.item.getEquippedBy
+import at.orchaldir.gm.core.selector.item.canDeleteEquipment
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.checkFactor
@@ -21,9 +21,9 @@ fun updateEquipment(state: State, equipment: Equipment): Pair<State, List<Action
     validateEquipment(state, equipment)
 
     if (equipment.data.javaClass != oldEquipment.data.javaClass) {
-        require(
-            state.getEquippedBy(equipment.id).isEmpty()
-        ) { "Cannot change equipment ${equipment.id.value} while it is equipped" }
+        require(state.canDeleteEquipment(equipment.id).canDelete()) {
+            "Cannot change equipment ${equipment.id.value} while it is equipped"
+        }
     }
 
     return noFollowUps(state.updateStorage(state.getEquipmentStorage().update(equipment)))

@@ -23,8 +23,10 @@ import at.orchaldir.gm.core.model.util.SortEquipment
 import at.orchaldir.gm.core.model.util.render.ColorSchemeId
 import at.orchaldir.gm.core.model.util.render.Colors
 import at.orchaldir.gm.core.model.util.render.UndefinedColors
+import at.orchaldir.gm.core.selector.character.getCharacterTemplates
+import at.orchaldir.gm.core.selector.character.getCharactersWith
 import at.orchaldir.gm.core.selector.culture.getFashions
-import at.orchaldir.gm.core.selector.item.getEquippedBy
+import at.orchaldir.gm.core.selector.item.getUniforms
 import at.orchaldir.gm.core.selector.rpg.getArmorType
 import at.orchaldir.gm.core.selector.rpg.getShieldType
 import at.orchaldir.gm.core.selector.util.getColors
@@ -126,8 +128,10 @@ fun Application.configureEquipmentRouting() {
                     Column("Materials") { tdInlineIds(call, state, it.data.materials()) },
                     Column(listOf("Color", "Schemes")) { tdInlineIds(call, state, it.colorSchemes) },
                     Column(listOf("Required", "Colors")) { tdSkipZero(it.data.requiredSchemaColors()) },
-                    Column("Characters") { tdSkipZero(state.getEquippedBy(it.id)) },
-                    Column("Characters") { tdSkipZero(state.getFashions(it.id)) },
+                    countCollectionColumn("Characters") { state.getCharactersWith(it.id) },
+                    countCollectionColumn("Templates") { state.getCharacterTemplates(it.id) },
+                    countCollectionColumn("Fashions") { state.getFashions(it.id) },
+                    countCollectionColumn("Uniforms") { state.getUniforms(it.id) },
                 ),
             ) {
                 action(routes.allArmors(call, all.sort), "All Armors")
