@@ -11,6 +11,7 @@ import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
+import at.orchaldir.gm.core.model.item.UniformId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentIdMap
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.rpg.statblock.Statblock
@@ -25,6 +26,7 @@ import at.orchaldir.gm.core.selector.util.sortUniforms
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
+import kotlinx.html.DETAILS
 import kotlinx.html.HtmlBlockTag
 import kotlinx.html.br
 
@@ -39,6 +41,10 @@ fun HtmlBlockTag.showEquipped(
     when (equipped) {
         is EquippedEquipment -> +"${equipped.map.size()} items"
         is EquippedUniform -> link(call, state, equipped.uniform)
+        is ModifiedUniform -> {
+            +"Modify "
+            link(call, state, equipped.uniform)
+        }
         is UseEquipmentFromTemplate -> +"Use Template"
         is ModifyEquipmentFromTemplate -> +"Modify Template"
         UndefinedEquipped -> if (showUndefined) {
@@ -74,6 +80,15 @@ fun HtmlBlockTag.showEquippedDetails(
         when (equipped) {
             is EquippedEquipment -> showEquipmentMap(call, state, "Equipment", equipped.map)
             is EquippedUniform -> fieldLink(call, state, equipped.uniform)
+            is ModifiedUniform -> {
+                fieldLink(call, state, equipped.uniform)
+                showEquipmentMapUpdate(
+                    call,
+                    state,
+                    state.getUniformStorage().getOrThrow(equipped.uniform).equipmentMap,
+                    equipped.update,
+                )
+            }
             is UseEquipmentFromTemplate -> doNothing()
             is ModifyEquipmentFromTemplate -> showEquipmentMapUpdate(
                 call,
@@ -118,7 +133,7 @@ fun HtmlBlockTag.editEquipped(
                 EquippedType.Undefined -> false
                 EquippedType.Equipment -> false
                 EquippedType.UseTemplate, EquippedType.ModifyTemplate -> state.getCharacterTemplateStorage().isEmpty()
-                EquippedType.Uniform -> state.getUniformStorage().isEmpty()
+                EquippedType.UseUniform, EquippedType.ModifyUniform -> state.getUniformStorage().isEmpty()
             }
         }
 
@@ -129,12 +144,18 @@ fun HtmlBlockTag.editEquipped(
                 combine(param, EQUIPMENT),
             )
 
-            is EquippedUniform -> selectElement(
-                state,
-                combine(param, UNIFORM),
-                state.sortUniforms(),
-                equipped.uniform,
-            )
+            is EquippedUniform -> selectUniform(state, param, equipped.uniform)
+
+            is ModifiedUniform -> {
+                selectUniform(state, param, equipped.uniform)
+                editEquipmentMapUpdate(
+                    call,
+                    state,
+                    state.getUniformStorage().getOrThrow(equipped.uniform).equipmentMap,
+                    equipped.update,
+                    combine(param, UPDATE),
+                )
+            }
 
             is UseEquipmentFromTemplate -> doNothing()
             is ModifyEquipmentFromTemplate -> editEquipmentMapUpdate(
@@ -147,6 +168,19 @@ fun HtmlBlockTag.editEquipped(
             UndefinedEquipped -> doNothing()
         }
     }
+}
+
+private fun DETAILS.selectUniform(
+    state: State,
+    param: String,
+    uniform: UniformId,
+) {
+    selectElement(
+        state,
+        combine(param, UNIFORM),
+        state.sortUniforms(),
+        uniform,
+    )
 }
 
 // parse
@@ -168,8 +202,18 @@ fun parseEquipped(
             parseEquipmentMapUpdate(parameters, combine(param, UPDATE), base),
         )
 
-        EquippedType.Uniform -> EquippedUniform(
+        EquippedType.UseUniform -> EquippedUniform(
             parseUniformId(parameters, combine(param, UNIFORM)),
         )
+
+        EquippedType.ModifyUniform -> {
+            val uniformId = parseUniformId(parameters, combine(param, UNIFORM))
+            val uniform = state.getUniformStorage().getOrThrow(uniformId).equipmentMap
+
+            ModifiedUniform(
+                uniformId,
+                parseEquipmentMapUpdate(parameters, combine(param, UPDATE), uniform),
+            )
+        }
 
     }

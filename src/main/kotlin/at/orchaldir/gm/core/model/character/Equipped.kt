@@ -15,7 +15,8 @@ enum class EquippedType {
     Equipment,
     UseTemplate,
     ModifyTemplate,
-    Uniform,
+    UseUniform,
+    ModifyUniform,
 }
 
 @Serializable
@@ -24,7 +25,8 @@ sealed class Equipped {
     fun getType() = when (this) {
         UndefinedEquipped -> EquippedType.Undefined
         is EquippedEquipment -> EquippedType.Equipment
-        is EquippedUniform -> EquippedType.Uniform
+        is EquippedUniform -> EquippedType.UseUniform
+        is ModifiedUniform -> EquippedType.ModifyUniform
         is UseEquipmentFromTemplate -> EquippedType.UseTemplate
         is ModifyEquipmentFromTemplate -> EquippedType.ModifyTemplate
     }
@@ -54,9 +56,16 @@ data class EquippedEquipment(
 ) : Equipped()
 
 @Serializable
-@SerialName("Uniform")
+@SerialName("UseUniform")
 data class EquippedUniform(
     val uniform: UniformId,
+) : Equipped()
+
+@Serializable
+@SerialName("ModifiedUniform")
+data class ModifiedUniform(
+    val uniform: UniformId,
+    val update: EquipmentMapUpdate,
 ) : Equipped()
 
 @Serializable

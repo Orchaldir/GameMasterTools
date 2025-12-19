@@ -77,6 +77,10 @@ fun State.getEquipmentMap(
         val uniform = getUniformStorage().getOrThrow(equipped.uniform)
         uniform.equipmentMap
     }
+    is ModifiedUniform -> {
+        val uniform = getUniformStorage().getOrThrow(equipped.uniform)
+        equipped.update.applyTo(uniform.equipmentMap)
+    }
     is UseEquipmentFromTemplate -> getEquipmentMapForLookup(lookup)
     is ModifyEquipmentFromTemplate -> {
         getEquipmentMap(equipped.update, lookup)
@@ -91,7 +95,7 @@ fun State.getEquipmentMap(
 ) = update.applyTo(getEquipmentMapForLookup(lookup))
 
 fun State.getEquipmentMapForLookup(lookup: StatblockLookup): EquipmentIdMap {
-    val templateId = lookup.template() ?: error("Cannot get equipment from the template without a template!")
+    val templateId = lookup.template() ?: return EquipmentIdMap()
     val template = getCharacterTemplateStorage().getOrThrow(templateId)
     return getEquipmentMap(template.equipped, template.statblock)
 }
