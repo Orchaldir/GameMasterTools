@@ -36,6 +36,7 @@ fun HtmlBlockTag.showEquipped(
     call: ApplicationCall,
     state: State,
     equipped: Equipped,
+    lookup: StatblockLookup,
     showUndefined: Boolean = false,
 ) {
     when (equipped) {
@@ -45,8 +46,14 @@ fun HtmlBlockTag.showEquipped(
             +"Modify "
             link(call, state, equipped.uniform)
         }
-        is UseEquipmentFromTemplate -> +"Use Template"
-        is ModifyEquipmentFromTemplate -> +"Modify Template"
+        is UseEquipmentFromTemplate -> {
+            +"Use "
+            optionalLink(call, state, lookup.template())
+        }
+        is ModifyEquipmentFromTemplate -> {
+            +"Modify "
+            optionalLink(call, state, lookup.template())
+        }
         UndefinedEquipped -> if (showUndefined) {
             +"Undefined"
         }

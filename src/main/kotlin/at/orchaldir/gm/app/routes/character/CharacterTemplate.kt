@@ -80,7 +80,7 @@ fun Application.configureCharacterTemplateRouting() {
                     Column("Race") { tdLink(call, state, it.race) },
                     Column("Culture") { tdLink(call, state, it.culture) },
                     createBeliefColumn(call, state),
-                    tdColumn("Equipped") { showEquipped(call, state, it.equipped) },
+                    tdColumn("Equipped") { showEquipped(call, state, it.equipped, it.statblock) },
                     countColumn("Cost") { it.statblock.calculateCost(it.race, state) },
                 ),
             )
