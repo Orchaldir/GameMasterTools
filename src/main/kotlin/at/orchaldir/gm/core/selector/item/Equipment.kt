@@ -102,6 +102,12 @@ fun State.getEquipmentMapForLookup(lookup: StatblockLookup): EquipmentIdMap {
     return getEquipmentMap(template.equipped, template.statblock)
 }
 
+fun State.getEquipmentMap(character: Character) =
+    getEquipmentMap(character.equipped, character.statblock)
+
+fun State.getEquipmentMap(template: CharacterTemplate) =
+    getEquipmentMap(template.equipped, template.statblock)
+
 fun State.getEquipmentMap(uniformId: UniformId) =
     getEquipmentMap(getUniformStorage().getOrThrow(uniformId))
 
