@@ -103,6 +103,9 @@ interface MadeFromParts {
         return sum
     }
 
+    /**
+     * The main material of an equipment is relevant for the RPG stats.
+     */
     fun mainMaterial(): MaterialId? = null
 
     fun requiredSchemaColors() = parts()
