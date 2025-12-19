@@ -1,0 +1,119 @@
+package at.orchaldir.gm.core.model.item.equipment
+
+import at.orchaldir.gm.core.model.item.equipment.EquipmentMapUpdate.Companion.calculateUpdate
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
+import kotlin.test.assertEquals
+
+class EquipmentMapUpdateTest {
+
+    @Nested
+    inner class ApplyToTest {
+
+        @Test
+        fun `Test empty update`() {
+            assertEquals(map0, emptyUpdate.applyTo(map0))
+        }
+
+        @Test
+        fun `Add another equipment`() {
+            val update = EquipmentMapUpdate(added = map1)
+
+            assertEquals(map01, update.applyTo(map0))
+        }
+
+        @Test
+        fun `Add equipment a second time`() {
+            val update = EquipmentMapUpdate(added = other0)
+
+            assertEquals(twice0, update.applyTo(map0))
+        }
+
+        @Test
+        fun `Remove one of 2 equipments`() {
+            val update = EquipmentMapUpdate(setOf(setOf(BodySlot.Foot)))
+
+            assertEquals(map0, update.applyTo(map01))
+        }
+
+        @Test
+        fun `Remove one of 2 instances`() {
+            val update = EquipmentMapUpdate(setOf(setOf(BodySlot.Foot)))
+
+            assertEquals(map0, update.applyTo(twice0))
+        }
+    }
+
+    @Nested
+    inner class CalculateUpdateTest {
+        @Test
+        fun `Update between to empty maps is empty`() {
+            assertEquals(emptyUpdate, calculateUpdate(emptyMap, emptyMap))
+        }
+
+        @Test
+        fun `Update between to identical maps is empty`() {
+            assertEquals(emptyUpdate, calculateUpdate(map0, map0))
+            assertEquals(emptyUpdate, calculateUpdate(map1, map1))
+            assertEquals(emptyUpdate, calculateUpdate(map01, map01))
+            assertEquals(emptyUpdate, calculateUpdate(twice0, twice0))
+        }
+
+        @Test
+        fun `Update adds first equipment`() {
+            assertAdd(emptyMap, map0, map0)
+            assertAdd(emptyMap, map1, map1)
+        }
+
+        @Test
+        fun `Update adds second equipment`() {
+            assertAdd(map0, map01, map1)
+            assertAdd(map1, map01, map0)
+        }
+
+        @Test
+        fun `Update adds equipment a second time`() {
+            assertAdd(map0, twice0, other0)
+            assertAdd(other0, twice0, map0)
+        }
+
+        @Test
+        fun `Update removes last equipment`() {
+            assertRemove(map0, emptyMap, BodySlot.Head)
+            assertRemove(map1, emptyMap, BodySlot.Foot)
+        }
+
+        @Test
+        fun `Update removes second equipment`() {
+            assertRemove(map01, map1, BodySlot.Head)
+            assertRemove(map01, map0, BodySlot.Foot)
+        }
+
+        @Test
+        fun `Update removes duplicate equipment`() {
+            assertRemove(twice0, map0, BodySlot.Foot)
+            assertRemove(twice0, other0, BodySlot.Head)
+        }
+
+        private fun assertAdd(
+            from: EquipmentIdMap,
+            to: EquipmentIdMap,
+            added: EquipmentIdMap,
+        ) {
+            val update = EquipmentMapUpdate(added = added)
+
+            assertEquals(update, calculateUpdate(from, to))
+        }
+
+        private fun assertRemove(
+            from: EquipmentIdMap,
+            to: EquipmentIdMap,
+            removed: BodySlot,
+        ) {
+            val update = EquipmentMapUpdate(setOf(setOf(removed)))
+
+            assertEquals(update, calculateUpdate(from, to))
+        }
+    }
+
+}

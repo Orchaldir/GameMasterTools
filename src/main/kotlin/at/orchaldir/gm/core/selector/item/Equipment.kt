@@ -5,11 +5,15 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.culture.fashion.ClothingSet
 import at.orchaldir.gm.core.model.economy.material.MaterialId
+import at.orchaldir.gm.core.model.item.Uniform
+import at.orchaldir.gm.core.model.item.UniformId
 import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.rpg.combat.ArmorTypeId
 import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifierId
 import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponTypeId
 import at.orchaldir.gm.core.model.rpg.combat.ShieldTypeId
+import at.orchaldir.gm.core.model.rpg.statblock.StatblockLookup
+import at.orchaldir.gm.core.model.rpg.statblock.UndefinedStatblockLookup
 import at.orchaldir.gm.core.model.util.render.ColorSchemeId
 import at.orchaldir.gm.core.model.util.render.UndefinedColors
 import at.orchaldir.gm.core.selector.character.getCharacterTemplates
@@ -59,15 +63,56 @@ fun State.getEquipmentId(type: EquipmentDataType) = getEquipmentOf(type)
 fun State.getEquipment(character: CharacterId) =
     getEquipment(getCharacterStorage().getOrThrow(character))
 
-fun State.getEquipment(character: Character) = when (character.equipped) {
-    is EquippedEquipment -> resolveEquipment(character.equipped.map)
-    is EquippedUniform -> {
-        val uniform = getUniformStorage().getOrThrow(character.equipped.uniform)
-        resolveEquipment(uniform.equipmentMap)
+fun State.getEquipment(character: Character) = getEquipment(character.equipped, character.statblock)
+fun State.getEquipment(template: CharacterTemplate) = getEquipment(template.equipped, template.statblock)
+fun State.getEquipment(uniform: Uniform) = getEquipment(uniform.equipped, UndefinedStatblockLookup)
+
+fun State.getEquipment(
+    equipped: Equipped,
+    lookup: StatblockLookup,
+) = resolveEquipment(getEquipmentMap(equipped, lookup))
+
+fun State.getEquipmentMap(
+    equipped: Equipped,
+    lookup: StatblockLookup,
+): EquipmentIdMap = when (equipped) {
+    is UniqueEquipment -> equipped.map
+    is UseUniform -> getEquipmentMap(equipped.uniform)
+    is ModifyUniform -> {
+        val uniform = getEquipmentMap(equipped.uniform)
+        equipped.update.applyTo(uniform)
     }
 
-    UndefinedEquipped -> EquipmentElementMap()
+    is UseEquipmentFromTemplate -> getEquipmentMapForLookup(lookup)
+    is ModifyEquipmentFromTemplate -> {
+        getEquipmentMap(equipped.update, lookup)
+    }
+
+    UndefinedEquipped -> EquipmentIdMap()
 }
+
+fun State.getEquipmentMap(
+    update: EquipmentMapUpdate,
+    lookup: StatblockLookup,
+) = update.applyTo(getEquipmentMapForLookup(lookup))
+
+fun State.getEquipmentMapForLookup(lookup: StatblockLookup): EquipmentIdMap {
+    val templateId = lookup.template() ?: return EquipmentIdMap()
+    val template = getCharacterTemplateStorage().getOrThrow(templateId)
+    return getEquipmentMap(template.equipped, template.statblock)
+}
+
+fun State.getEquipmentMap(character: Character) =
+    getEquipmentMap(character.equipped, character.statblock)
+
+fun State.getEquipmentMap(template: CharacterTemplate) =
+    getEquipmentMap(template.equipped, template.statblock)
+
+fun State.getEquipmentMap(uniformId: UniformId) =
+    getEquipmentMap(getUniformStorage().getOrThrow(uniformId))
+
+fun State.getEquipmentMap(uniform: Uniform) =
+    getEquipmentMap(uniform.equipped, UndefinedStatblockLookup)
 
 fun State.resolveEquipment(idMap: EquipmentIdMap) = idMap.convert { pair ->
     Pair(

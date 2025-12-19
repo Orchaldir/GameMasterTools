@@ -23,16 +23,40 @@ import kotlinx.html.HtmlBlockTag
 fun HtmlBlockTag.showStatblockLookup(
     call: ApplicationCall,
     state: State,
+    lookup: StatblockLookup,
+    showUndefined: Boolean = false,
+) {
+    when (lookup) {
+        is UniqueStatblock -> +"Unique"
+        is UseStatblockOfTemplate -> {
+            +"Use "
+            optionalLink(call, state, lookup.template())
+        }
+
+        is ModifyStatblockOfTemplate -> {
+            +"Modify "
+            optionalLink(call, state, lookup.template())
+        }
+
+        UndefinedStatblockLookup -> if (showUndefined) {
+            +"Undefined"
+        }
+    }
+}
+
+fun HtmlBlockTag.showStatblockLookupDetails(
+    call: ApplicationCall,
+    state: State,
     race: RaceId,
     lookup: StatblockLookup,
-) = showStatblockLookup(
+) = showStatblockLookupDetails(
     call,
     state,
     state.getRaceStorage().getOrThrow(race).lifeStages.statblock(),
     lookup,
 )
 
-fun HtmlBlockTag.showStatblockLookup(
+fun HtmlBlockTag.showStatblockLookupDetails(
     call: ApplicationCall,
     state: State,
     base: Statblock,

@@ -9,7 +9,7 @@ import at.orchaldir.gm.app.html.culture.showKnownLanguages
 import at.orchaldir.gm.app.html.race.parseRaceId
 import at.orchaldir.gm.app.html.rpg.statblock.editStatblockLookup
 import at.orchaldir.gm.app.html.rpg.statblock.parseStatblockLookup
-import at.orchaldir.gm.app.html.rpg.statblock.showStatblockLookup
+import at.orchaldir.gm.app.html.rpg.statblock.showStatblockLookupDetails
 import at.orchaldir.gm.app.html.util.fieldBeliefStatus
 import at.orchaldir.gm.app.html.util.parseBeliefStatus
 import at.orchaldir.gm.app.html.util.selectBeliefStatus
@@ -21,8 +21,8 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterTemplate
 import at.orchaldir.gm.core.model.character.CharacterTemplateId
 import at.orchaldir.gm.core.model.character.Gender
-import at.orchaldir.gm.core.model.rpg.statblock.UseStatblockOfTemplate
 import at.orchaldir.gm.core.selector.character.getCharactersUsing
+import at.orchaldir.gm.core.selector.item.getEquipmentMapForLookup
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -40,8 +40,8 @@ fun HtmlBlockTag.showCharacterTemplate(
     optionalFieldLink(call, state, template.culture)
     showKnownLanguages(call, state, template)
     fieldBeliefStatus(call, state, template.belief)
-    showStatblockLookup(call, state, template.race, template.statblock)
-    showEquippedDetails(call, state, template.equipped, template.race, UseStatblockOfTemplate(template.id))
+    showStatblockLookupDetails(call, state, template.race, template.statblock)
+    showEquippedDetails(call, state, template.equipped, template.race, template.statblock)
     showDataSources(call, state, template.sources)
     showUsage(call, state, template)
 }
@@ -77,8 +77,8 @@ fun HtmlBlockTag.editCharacterTemplate(
     editOptionalElement(state, CULTURE, state.getCultureStorage().getAll(), template.culture)
     editKnownLanguages(state, template.languages)
     selectBeliefStatus(state, BELIEVE, template.belief)
-    editEquipped(state, EQUIPPED, template.equipped)
     editStatblockLookup(call, state, template.race, template.statblock, setOf(template.id))
+    editEquipped(call, state, EQUIPPED, template.equipped, template.statblock)
     editDataSources(state, template.sources)
 }
 
@@ -90,15 +90,20 @@ fun parseCharacterTemplate(
     state: State,
     parameters: Parameters,
     id: CharacterTemplateId,
-) = CharacterTemplate(
-    id,
-    parseName(parameters),
-    parseRaceId(parameters, RACE),
-    parse<Gender>(parameters, GENDER),
-    parseOptionalCultureId(parameters, CULTURE),
-    parseKnownLanguages(parameters, state),
-    parseBeliefStatus(parameters, state, BELIEVE),
-    parseEquipped(parameters, state, EQUIPPED),
-    parseStatblockLookup(state, parameters),
-    parseDataSources(parameters),
-)
+): CharacterTemplate {
+    val lookup = parseStatblockLookup(state, parameters)
+    val baseEquipment = state.getEquipmentMapForLookup(lookup)
+
+    return CharacterTemplate(
+        id,
+        parseName(parameters),
+        parseRaceId(parameters, RACE),
+        parse<Gender>(parameters, GENDER),
+        parseOptionalCultureId(parameters, CULTURE),
+        parseKnownLanguages(parameters, state),
+        parseBeliefStatus(parameters, state, BELIEVE),
+        lookup,
+        parseEquipped(parameters, state, EQUIPPED, baseEquipment),
+        parseDataSources(parameters),
+    )
+}

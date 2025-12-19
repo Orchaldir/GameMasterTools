@@ -4,7 +4,7 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.character.EquippedEquipment
+import at.orchaldir.gm.core.model.character.UniqueEquipment
 import at.orchaldir.gm.core.model.economy.material.Material
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.item.equipment.*
@@ -36,9 +36,9 @@ class EquipmentTest {
             Storage(Material(MATERIAL_ID_0))
         ),
     )
-    private val EQUIPMENT_MAP = EquippedEquipment(
+    private val EQUIPMENT_MAP = UniqueEquipment(
         EquipmentMap
-            .fromId(EQUIPMENT_ID_0, COLOR_SCHEME_ID_0, BodySlot.Head)
+            .from(BodySlot.Head, EQUIPMENT_ID_0, COLOR_SCHEME_ID_0)
     )
 
     @Nested

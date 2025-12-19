@@ -26,6 +26,20 @@ sealed class StatblockLookup {
         is ModifyStatblockOfTemplate -> StatblockLookupType.ModifyTemplate
     }
 
+    fun template() = when (this) {
+        UndefinedStatblockLookup -> null
+        is UniqueStatblock -> null
+        is UseStatblockOfTemplate -> this.template
+        is ModifyStatblockOfTemplate -> this.template
+    }
+
+    fun hasTemplate() = when (this) {
+        UndefinedStatblockLookup -> false
+        is UniqueStatblock -> false
+        is UseStatblockOfTemplate -> true
+        is ModifyStatblockOfTemplate -> true
+    }
+
     fun calculateCost(raceId: RaceId, state: State) = state.getStatblock(raceId, this).calculateCost(state)
 
 
@@ -36,12 +50,7 @@ sealed class StatblockLookup {
         is ModifyStatblockOfTemplate -> update.statistics.containsKey(statistic)
     }
 
-    fun contains(template: CharacterTemplateId) = when (this) {
-        UndefinedStatblockLookup -> false
-        is UniqueStatblock -> false
-        is UseStatblockOfTemplate -> this.template == template
-        is ModifyStatblockOfTemplate -> this.template == template
-    }
+    fun contains(template: CharacterTemplateId) = template() == template
 
     fun contains(state: State, race: RaceId, trait: CharacterTraitId) = when (this) {
         UndefinedStatblockLookup -> false

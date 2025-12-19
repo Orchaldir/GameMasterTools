@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.html.character
 
 import at.orchaldir.gm.app.EQUIPMENT
 import at.orchaldir.gm.app.UNIFORM
+import at.orchaldir.gm.app.UPDATE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.item.parseUniformId
 import at.orchaldir.gm.app.html.rpg.combat.showMeleeAttackTable
@@ -10,19 +11,25 @@ import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
+import at.orchaldir.gm.core.model.item.UniformId
+import at.orchaldir.gm.core.model.item.equipment.EquipmentIdMap
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.rpg.statblock.Statblock
 import at.orchaldir.gm.core.model.rpg.statblock.StatblockLookup
 import at.orchaldir.gm.core.selector.character.getArmors
 import at.orchaldir.gm.core.selector.character.getMeleeAttacks
 import at.orchaldir.gm.core.selector.character.getShields
+import at.orchaldir.gm.core.selector.item.getEquipmentMap
+import at.orchaldir.gm.core.selector.item.getEquipmentMapForLookup
 import at.orchaldir.gm.core.selector.rpg.statblock.resolveMeleeAttackMap
 import at.orchaldir.gm.core.selector.rpg.statblock.resolveProtectionMap
 import at.orchaldir.gm.core.selector.util.sortUniforms
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
+import kotlinx.html.DETAILS
 import kotlinx.html.HtmlBlockTag
+import kotlinx.html.br
 
 // show
 
@@ -30,11 +37,27 @@ fun HtmlBlockTag.showEquipped(
     call: ApplicationCall,
     state: State,
     equipped: Equipped,
+    lookup: StatblockLookup,
     showUndefined: Boolean = false,
 ) {
     when (equipped) {
-        is EquippedEquipment -> +"${equipped.map.size()} items"
-        is EquippedUniform -> link(call, state, equipped.uniform)
+        is UniqueEquipment -> +"${equipped.map.size()} items"
+        is UseUniform -> link(call, state, equipped.uniform)
+        is ModifyUniform -> {
+            +"Modify "
+            link(call, state, equipped.uniform)
+        }
+
+        is UseEquipmentFromTemplate -> {
+            +"Use "
+            optionalLink(call, state, lookup.template())
+        }
+
+        is ModifyEquipmentFromTemplate -> {
+            +"Modify "
+            optionalLink(call, state, lookup.template())
+        }
+
         UndefinedEquipped -> if (showUndefined) {
             +"Undefined"
         }
@@ -66,22 +89,38 @@ fun HtmlBlockTag.showEquippedDetails(
         field("Type", equipped.getType())
 
         when (equipped) {
-            is EquippedEquipment -> {
-                showEquipmentMap(call, state, "Equipment", equipped.map)
+            is UniqueEquipment -> showEquipmentMap(call, state, "Equipment", equipped.map)
+            is UseUniform -> fieldLink(call, state, equipped.uniform)
+            is ModifyUniform -> {
+                fieldLink(call, state, equipped.uniform)
+                showEquipmentMapUpdate(
+                    call,
+                    state,
+                    state.getEquipmentMap(equipped.uniform),
+                    equipped.update,
+                )
             }
 
-            is EquippedUniform -> fieldLink(call, state, equipped.uniform)
+            is UseEquipmentFromTemplate -> doNothing()
+            is ModifyEquipmentFromTemplate -> showEquipmentMapUpdate(
+                call,
+                state,
+                state.getEquipmentMapForLookup(lookup),
+                equipped.update,
+            )
+
             UndefinedEquipped -> doNothing()
         }
 
-        val amorMap = getArmors(state, equipped)
-        val meleeAttackMap = getMeleeAttacks(state, equipped)
-        val shieldMap = getShields(state, equipped)
+        val amorMap = getArmors(state, equipped, lookup)
+        val meleeAttackMap = getMeleeAttacks(state, equipped, lookup)
+        val shieldMap = getShields(state, equipped, lookup)
 
-        val resolvedProtectionMap = resolveProtectionMap(state, lookup, amorMap + shieldMap)
         val resolvedMeleeAttackMap = resolveMeleeAttackMap(state, base, lookup, meleeAttackMap)
+        val resolvedProtectionMap = resolveProtectionMap(state, lookup, amorMap + shieldMap)
 
         showMeleeAttackTable(call, state, resolvedMeleeAttackMap)
+        br { }
         showProtectionTable(call, state, resolvedProtectionMap)
     }
 }
@@ -89,31 +128,57 @@ fun HtmlBlockTag.showEquippedDetails(
 // select
 
 fun HtmlBlockTag.editEquipped(
+    call: ApplicationCall,
     state: State,
     param: String,
     equipped: Equipped,
+    lookup: StatblockLookup,
+    elementId: UniformId? = null,
 ) {
+    val allowedTypes = if (lookup.hasTemplate()) {
+        EquippedType.entries
+    } else {
+        EquippedType.entries - EquippedType.UseTemplate - EquippedType.ModifyTemplate
+    }
+
     showDetails("Equipped", true) {
-        selectValue("Type", param, EquippedType.entries, equipped.getType()) { type ->
+        selectValue("Type", param, allowedTypes, equipped.getType()) { type ->
             when (type) {
                 EquippedType.Undefined -> false
-                EquippedType.Equipment -> false
-                EquippedType.Uniform -> state.getUniformStorage().isEmpty()
+                EquippedType.Unique -> false
+                EquippedType.UseTemplate, EquippedType.ModifyTemplate -> state.getCharacterTemplateStorage().isEmpty()
+                EquippedType.UseUniform, EquippedType.ModifyUniform -> state.getUniformStorage()
+                    .isEmptyWithout(elementId)
             }
         }
 
         when (equipped) {
-            is EquippedEquipment -> editEquipmentMap(
+            is UniqueEquipment -> editEquipmentMap(
                 state,
                 equipped.map,
                 combine(param, EQUIPMENT),
             )
 
-            is EquippedUniform -> selectElement(
+            is UseUniform -> selectLookedUpUniform(state, param, equipped.uniform, elementId)
+
+            is ModifyUniform -> {
+                selectLookedUpUniform(state, param, equipped.uniform, elementId)
+                editEquipmentMapUpdate(
+                    call,
+                    state,
+                    state.getEquipmentMap(equipped.uniform),
+                    equipped.update,
+                    combine(param, UPDATE),
+                )
+            }
+
+            is UseEquipmentFromTemplate -> doNothing()
+            is ModifyEquipmentFromTemplate -> editEquipmentMapUpdate(
+                call,
                 state,
-                combine(param, UNIFORM),
-                state.sortUniforms(),
-                equipped.uniform,
+                state.getEquipmentMapForLookup(lookup),
+                equipped.update,
+                combine(param, UPDATE),
             )
 
             UndefinedEquipped -> doNothing()
@@ -121,16 +186,51 @@ fun HtmlBlockTag.editEquipped(
     }
 }
 
+private fun DETAILS.selectLookedUpUniform(
+    state: State,
+    param: String,
+    lookedUpUniform: UniformId,
+    element: UniformId? = null,
+) {
+    selectElement(
+        state,
+        combine(param, UNIFORM),
+        state.sortUniforms().filter { it.id != element },
+        lookedUpUniform,
+    )
+}
+
 // parse
 
-fun parseEquipped(parameters: Parameters, state: State, param: String) =
+fun parseEquipped(
+    parameters: Parameters,
+    state: State,
+    param: String,
+    base: EquipmentIdMap,
+) =
     when (parse(parameters, param, EquippedType.Undefined)) {
         EquippedType.Undefined -> UndefinedEquipped
-        EquippedType.Equipment -> EquippedEquipment(
+        EquippedType.Unique -> UniqueEquipment(
             parseEquipmentMap(parameters, combine(param, EQUIPMENT)),
         )
 
-        EquippedType.Uniform -> EquippedUniform(
+        EquippedType.UseTemplate -> UseEquipmentFromTemplate
+        EquippedType.ModifyTemplate -> ModifyEquipmentFromTemplate(
+            parseEquipmentMapUpdate(parameters, combine(param, UPDATE), base),
+        )
+
+        EquippedType.UseUniform -> UseUniform(
             parseUniformId(parameters, combine(param, UNIFORM)),
         )
+
+        EquippedType.ModifyUniform -> {
+            val uniformId = parseUniformId(parameters, combine(param, UNIFORM))
+            val uniform = state.getEquipmentMap(uniformId)
+
+            ModifyUniform(
+                uniformId,
+                parseEquipmentMapUpdate(parameters, combine(param, UPDATE), uniform),
+            )
+        }
+
     }

@@ -1,10 +1,12 @@
 package at.orchaldir.gm.core.model.item
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.item.equipment.EquipmentIdMap
-import at.orchaldir.gm.core.model.item.equipment.EquipmentMap
+import at.orchaldir.gm.core.model.character.Equipped
+import at.orchaldir.gm.core.model.character.UndefinedEquipped
+import at.orchaldir.gm.core.model.rpg.statblock.UndefinedStatblockLookup
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
+import at.orchaldir.gm.core.reducer.character.validateEquipped
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
@@ -24,7 +26,7 @@ value class UniformId(val value: Int) : Id<UniformId> {
 data class Uniform(
     val id: UniformId,
     val name: Name = Name.init(id),
-    val equipmentMap: EquipmentIdMap = EquipmentMap(),
+    val equipped: Equipped = UndefinedEquipped,
 ) : ElementWithSimpleName<UniformId> {
 
     override fun id() = id
@@ -33,9 +35,6 @@ data class Uniform(
     override fun validate(state: State) {
         state.getUniformStorage().require(id)
 
-        equipmentMap.getAllEquipment().forEach { pair ->
-            state.getEquipmentStorage().require(pair.first)
-            state.getColorSchemeStorage().requireOptional(pair.second)
-        }
+        validateEquipped(state, equipped, UndefinedStatblockLookup, id)
     }
 }

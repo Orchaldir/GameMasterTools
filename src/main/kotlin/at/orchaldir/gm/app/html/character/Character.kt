@@ -10,7 +10,7 @@ import at.orchaldir.gm.app.html.culture.showKnownLanguages
 import at.orchaldir.gm.app.html.race.parseRaceId
 import at.orchaldir.gm.app.html.rpg.statblock.editStatblockLookup
 import at.orchaldir.gm.app.html.rpg.statblock.parseStatblockLookup
-import at.orchaldir.gm.app.html.rpg.statblock.showStatblockLookup
+import at.orchaldir.gm.app.html.rpg.statblock.showStatblockLookupDetails
 import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.app.html.util.math.fieldDistance
 import at.orchaldir.gm.app.html.util.source.editDataSources
@@ -32,6 +32,7 @@ import at.orchaldir.gm.core.model.time.date.Year
 import at.orchaldir.gm.core.model.util.Dead
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.selector.character.*
+import at.orchaldir.gm.core.selector.item.getEquipmentMapForLookup
 import at.orchaldir.gm.core.selector.organization.getOrganizations
 import at.orchaldir.gm.core.selector.race.getExistingRaces
 import at.orchaldir.gm.core.selector.realm.getBattlesLedBy
@@ -90,7 +91,7 @@ fun HtmlBlockTag.showData(
     field(call, state, "Birthdate", character.date)
     showVitalStatus(call, state, character.status)
     showAge(state, character, race)
-    showStatblockLookup(call, state, character.race, character.statblock)
+    showStatblockLookupDetails(call, state, character.race, character.statblock)
     showPositionHistory(call, state, character.housingStatus, "Housing Status")
     showEmploymentStatusHistory(call, state, character.employmentStatus)
     fieldElements(call, state, "Led Battles", state.getBattlesLedBy(character.id))
@@ -269,7 +270,7 @@ fun HtmlBlockTag.editCharacter(
 
     h2 { +"Possession" }
 
-    editEquipped(state, EQUIPPED, character.equipped)
+    editEquipped(call, state, EQUIPPED, character.equipped, character.statblock)
 }
 
 private fun HtmlBlockTag.selectOrigin(
@@ -348,6 +349,8 @@ fun parseCharacter(
     val race = parseRaceId(parameters, RACE)
     val origin = parseOrigin(parameters)
     val birthDate = parseBirthday(parameters, state, race)
+    val lookup = parseStatblockLookup(state, parameters)
+    val baseEquipment = state.getEquipmentMapForLookup(lookup)
 
     return character.copy(
         name = name,
@@ -359,13 +362,13 @@ fun parseCharacter(
         status = parseVitalStatus(parameters, state),
         culture = parseOptionalCultureId(parameters, CULTURE),
         languages = parseKnownLanguages(parameters, state),
-        equipped = parseEquipped(parameters, state, EQUIPPED),
+        equipped = parseEquipped(parameters, state, EQUIPPED, baseEquipment),
         housingStatus = parsePositionHistory(parameters, state, birthDate),
         employmentStatus = parseEmploymentStatusHistory(parameters, state, birthDate),
         beliefStatus = parseBeliefStatusHistory(parameters, state, birthDate),
         title = parseOptionalTitleId(parameters, TITLE),
         authenticity = parseAuthenticity(parameters),
-        statblock = parseStatblockLookup(state, parameters),
+        statblock = lookup,
         sources = parseDataSources(parameters),
     )
 }

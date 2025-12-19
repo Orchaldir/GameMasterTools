@@ -111,7 +111,7 @@ fun Application.configureCharacterRouting() {
             handleShowElementSplit(
                 details.id,
                 CharacterRoutes(),
-                HtmlBlockTag::showCharacterDetails
+                HtmlBlockTag::showCharacterDetails,
             )
             { call, state, character ->
                 val editAppearanceLink = call.application.href(CharacterRoutes.Appearance.Edit(character.id))

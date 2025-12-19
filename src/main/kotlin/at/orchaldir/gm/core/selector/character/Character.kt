@@ -17,6 +17,7 @@ import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.item.UniformId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
+import at.orchaldir.gm.core.model.item.equipment.containsId
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.realm.RealmId
@@ -31,6 +32,7 @@ import at.orchaldir.gm.core.model.util.wasIn
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.town.TownMapId
 import at.orchaldir.gm.core.selector.culture.getKnownLanguages
+import at.orchaldir.gm.core.selector.item.getEquipmentMap
 import at.orchaldir.gm.core.selector.organization.getOrganizations
 import at.orchaldir.gm.core.selector.realm.getBattlesLedBy
 import at.orchaldir.gm.core.selector.time.getDefaultCalendar
@@ -135,9 +137,7 @@ fun State.getCharacters(culture: CultureId) = getCharacterStorage()
 
 fun State.getCharactersWith(equipment: EquipmentId) = getCharacterStorage()
     .getAll()
-    .filter {
-        it.equipped.contains(equipment)
-    }
+    .filter { getEquipmentMap(it).containsId(equipment) }
 
 fun State.getCharactersWith(uniform: UniformId) = getCharacterStorage()
     .getAll()

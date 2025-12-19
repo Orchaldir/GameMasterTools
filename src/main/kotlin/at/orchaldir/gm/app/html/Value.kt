@@ -136,6 +136,39 @@ fun <T : Enum<T>> HtmlBlockTag.selectValue(
     }
 }
 
+// values
+
+fun <T> HtmlBlockTag.selectValues(
+    fieldLabel: String,
+    param: String,
+    values: Collection<T>,
+    selected: Set<T>,
+    content: HtmlBlockTag.(T) -> Unit,
+) {
+    field(fieldLabel) {
+        selectValues(param, values, selected, content)
+    }
+}
+
+fun <T> HtmlBlockTag.selectValues(
+    param: String,
+    values: Collection<T>,
+    selected: Set<T>,
+    content: HtmlBlockTag.(T) -> Unit,
+) {
+    values.forEach { v ->
+        p {
+            checkBoxInput {
+                name = param
+                value = v.toString()
+                checked = selected.contains(v)
+                onChange = ON_CHANGE_SCRIPT
+                content(v)
+            }
+        }
+    }
+}
+
 // value
 
 fun <T> HtmlBlockTag.selectOptionalValue(

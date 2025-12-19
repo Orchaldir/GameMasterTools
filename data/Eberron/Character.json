@@ -52,7 +52,7 @@
     "height": 1800000
    },
    "equipped": {
-    "#type": "Equipment",
+    "#type": "Unique",
     "map": {
      "list": [
       {

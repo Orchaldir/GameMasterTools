@@ -5,69 +5,41 @@ import at.orchaldir.gm.core.model.util.render.Colors
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class EquipmentEntry<T>(val data: T, val sets: Set<Set<BodySlot>>) {
-    constructor(value: T, slot: BodySlot) : this(value, setOf(setOf(slot)))
-
-    companion object {
-        fun <T> from(value: T, slots: Set<BodySlot>) = EquipmentEntry(value, setOf(slots))
-        fun <T> from(value: T, data: EquipmentData) = from(value, data.slots().getAllBodySlotCombinations().first())
-        fun fromId(equipment: EquipmentId, scheme: ColorSchemeId, slot: BodySlot) =
-            EquipmentEntry(EquipmentIdPair(equipment, scheme), slot)
-    }
-
-    fun <U> convert(function: (T) -> U): EquipmentEntry<U> = EquipmentEntry(
-        function(data),
-        sets,
-    )
-
-    fun getMaxIounStoneSlot(): BodySlot? {
-        var maxIndex = -1
-        var maxSlot: BodySlot? = null
-
-        sets.forEach { slots ->
-            slots.forEach { slot ->
-                val index = slot.getOptionalIounStoneIndex() ?: return@forEach
-
-                if (index > maxIndex) {
-                    maxIndex = index
-                    maxSlot = slot
-                }
-            }
-        }
-
-        return maxSlot
-    }
-}
-
-@Serializable
-data class EquipmentMap<T>(private val list: List<EquipmentEntry<T>>) {
+data class EquipmentMap<T>(private val list: List<EquipmentMapEntry<T>>) {
 
     constructor() : this(emptyList())
-    constructor(entry: EquipmentEntry<T>) : this(listOf(entry))
+    constructor(entry: EquipmentMapEntry<T>) : this(listOf(entry))
 
     companion object {
         fun from(data: EquipmentData) =
-            EquipmentMap(EquipmentEntry.from(data, data))
+            EquipmentMap(EquipmentMapEntry.from(data, data))
 
         fun <T> from(data: EquipmentData, second: T) =
-            EquipmentMap(EquipmentEntry.from(Pair(data, second), data))
+            EquipmentMap(EquipmentMapEntry.from(Pair(data, second), data))
 
         fun from(list: List<EquipmentData>) =
-            EquipmentMap(list.map { EquipmentEntry.from(it, it) })
+            EquipmentMap(list.map { EquipmentMapEntry.from(it, it) })
 
-        fun fromId(equipment: EquipmentId, scheme: ColorSchemeId, slot: BodySlot) =
-            EquipmentMap(EquipmentEntry.fromId(equipment, scheme, slot))
+        fun from(slot: BodySlot, equipment: EquipmentId, scheme: ColorSchemeId? = null) =
+            EquipmentMap(EquipmentMapEntry.fromId(equipment, scheme, slot))
 
         fun <T> fromSlotAsKeyMap(map: Map<BodySlot, T>) =
-            EquipmentMap(map.entries.map { EquipmentEntry(it.value, it.key) })
+            EquipmentMap(map.entries.map { EquipmentMapEntry(it.value, it.key) })
+
+        fun fromSlotToIdMap(map: Map<BodySlot, EquipmentId>): EquipmentIdMap =
+            EquipmentMap(map.entries.map { EquipmentMapEntry(Pair(it.value, null), it.key) })
 
         fun <T> fromSlotAsValueMap(map: Map<T, Set<Set<BodySlot>>>) =
-            EquipmentMap(map.entries.toList().map { EquipmentEntry(it.key, it.value) })
+            EquipmentMap(map.entries.toList().map { EquipmentMapEntry(it.key, it.value) })
     }
 
     fun size() = list.size
 
     fun contains(data: T) = list.any { it.data == data }
+
+    fun getSets(data: T) = list
+        .firstOrNull() { it.data == data }
+        ?.sets
 
     fun isFree(slot: BodySlot) = list.all { it.sets.all { set -> !set.contains(slot) } }
 
@@ -75,6 +47,17 @@ data class EquipmentMap<T>(private val list: List<EquipmentEntry<T>>) {
 
     fun getAllEquipment() = list.map { it.data }
     fun getEquipmentWithSlotSets() = list
+    fun getSlotSetWithEquipmentList(): List<Pair<Set<BodySlot>, T>> {
+        val output: MutableList<Pair<Set<BodySlot>, T>> = mutableListOf()
+
+        list.forEach { entry ->
+            entry.sets.forEach { set ->
+                output.add(Pair(set, entry.data))
+            }
+        }
+
+        return output
+    }
 
     fun getEquipment(slots: Set<BodySlot>): T? = list
         .find { it.sets.contains(slots) }
@@ -82,7 +65,7 @@ data class EquipmentMap<T>(private val list: List<EquipmentEntry<T>>) {
 
     fun getMaxIounStoneSlot() = list
         .map { it.getMaxIounStoneSlot() }
-        .maxBy { it?.getOptionalIounStoneIndex() ?: -1 }
+        .maxByOrNull { it?.getOptionalIounStoneIndex() ?: -1 }
 }
 
 typealias EquipmentIdPair = Pair<EquipmentId, ColorSchemeId?>

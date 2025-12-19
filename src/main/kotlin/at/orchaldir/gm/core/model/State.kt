@@ -285,6 +285,8 @@ data class State(
         return copy(storageMap = newMap)
     }
 
+    fun <ID : Id<ID>, ELEMENT : Element<ID>> updateStorage(element: ELEMENT) = updateStorage(Storage(element))
+
     fun updateStorage(storage: Storage<*, *>): State {
         val newMap = storageMap.toMutableMap()
         newMap[storage.getType()] = storage

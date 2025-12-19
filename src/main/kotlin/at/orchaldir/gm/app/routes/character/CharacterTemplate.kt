@@ -7,12 +7,21 @@ import at.orchaldir.gm.app.html.character.editCharacterTemplate
 import at.orchaldir.gm.app.html.character.parseCharacterTemplate
 import at.orchaldir.gm.app.html.character.showCharacterTemplate
 import at.orchaldir.gm.app.html.character.showEquipped
+import at.orchaldir.gm.app.html.rpg.statblock.showStatblockLookup
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
+import at.orchaldir.gm.app.routes.race.generateAppearance
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CHARACTER_TEMPLATE_TYPE
+import at.orchaldir.gm.core.model.character.CharacterTemplate
 import at.orchaldir.gm.core.model.character.CharacterTemplateId
+import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.util.SortCharacterTemplate
+import at.orchaldir.gm.core.selector.culture.getAppearanceFashion
+import at.orchaldir.gm.core.selector.item.getEquipment
 import at.orchaldir.gm.core.selector.util.sortCharacterTemplates
+import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
+import at.orchaldir.gm.visualization.character.appearance.visualizeCharacter
 import io.ktor.resources.*
 import io.ktor.server.application.*
 import io.ktor.server.resources.*
@@ -72,13 +81,19 @@ fun Application.configureCharacterTemplateRouting() {
                     Column("Race") { tdLink(call, state, it.race) },
                     Column("Culture") { tdLink(call, state, it.culture) },
                     createBeliefColumn(call, state),
-                    tdColumn("Equipped") { showEquipped(call, state, it.equipped) },
+                    tdColumn("Statblock") { showStatblockLookup(call, state, it.statblock) },
+                    tdColumn("Equipped") { showEquipped(call, state, it.equipped, it.statblock) },
                     countColumn("Cost") { it.statblock.calculateCost(it.race, state) },
                 ),
             )
         }
         get<CharacterTemplateRoutes.Details> { details ->
-            handleShowElement(details.id, CharacterTemplateRoutes(), HtmlBlockTag::showCharacterTemplate)
+            handleShowElementSplit(
+                details.id,
+                CharacterTemplateRoutes(),
+                HtmlBlockTag::showCharacterTemplate,
+                HtmlBlockTag::showCharacterTemplateRight,
+            )
         }
         get<CharacterTemplateRoutes.New> {
             handleCreateElement(CharacterTemplateRoutes(), STORE.getState().getCharacterTemplateStorage())
@@ -90,18 +105,42 @@ fun Application.configureCharacterTemplateRouting() {
             handleDeleteElement(CharacterTemplateRoutes(), delete.id)
         }
         get<CharacterTemplateRoutes.Edit> { edit ->
-            handleEditElement(edit.id, CharacterTemplateRoutes(), HtmlBlockTag::editCharacterTemplate)
+            handleEditElementSplit(
+                edit.id,
+                CharacterTemplateRoutes(),
+                HtmlBlockTag::editCharacterTemplate,
+                HtmlBlockTag::showCharacterTemplateRight,
+            )
         }
         post<CharacterTemplateRoutes.Preview> { preview ->
-            handlePreviewElement(
+            handlePreviewElementSplit(
                 preview.id,
                 CharacterTemplateRoutes(),
                 ::parseCharacterTemplate,
-                HtmlBlockTag::editCharacterTemplate
+                HtmlBlockTag::editCharacterTemplate,
+                HtmlBlockTag::showCharacterTemplateRight,
             )
         }
         post<CharacterTemplateRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseCharacterTemplate)
         }
     }
+}
+
+private fun HtmlBlockTag.showCharacterTemplateRight(
+    call: ApplicationCall,
+    state: State,
+    template: CharacterTemplate,
+) {
+    val gender = template.gender ?: Gender.Male
+    val appearance = generateAppearance(
+        state,
+        state.getRaceStorage().getOrThrow(template.race),
+        gender,
+        state.getAppearanceFashion(gender, template.culture),
+    )
+    val equipped = state.getEquipment(template)
+    val svg = visualizeCharacter(state, CHARACTER_CONFIG, appearance, equipped)
+
+    svg(svg, 80)
 }

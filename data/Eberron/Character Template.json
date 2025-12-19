@@ -19,6 +19,35 @@
       "7": 2
      }
     }
+   },
+   "equipped": {
+    "#type": "Unique",
+    "map": {
+     "list": [
+      {
+       "data": {
+        "first": 0,
+        "second": null
+       },
+       "sets": [
+        [
+         "HeldInRightHand"
+        ]
+       ]
+      },
+      {
+       "data": {
+        "first": 3,
+        "second": null
+       },
+       "sets": [
+        [
+         "HeldInLeftHand"
+        ]
+       ]
+      }
+     ]
+    }
    }
   },
   "1": {
@@ -29,10 +58,6 @@
    "belief": {
     "#type": "Pantheon",
     "pantheon": 0
-   },
-   "equipped": {
-    "#type": "Uniform",
-    "uniform": 0
    },
    "statblock": {
     "#type": "Modify",
@@ -46,6 +71,26 @@
       "4": 2,
       "5": 2,
       "6": 2
+     }
+    }
+   },
+   "equipped": {
+    "#type": "ModifyTemplate",
+    "update": {
+     "added": {
+      "list": [
+       {
+        "data": {
+         "first": 1,
+         "second": null
+        },
+        "sets": [
+         [
+          "Top"
+         ]
+        ]
+       }
+      ]
      }
     }
    }

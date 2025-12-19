@@ -42,8 +42,8 @@ data class CharacterTemplate(
     val culture: CultureId? = null,
     val languages: Map<LanguageId, ComprehensionLevel> = emptyMap(),
     val belief: BeliefStatus = UndefinedBeliefStatus,
-    val equipped: Equipped = UndefinedEquipped,
     val statblock: StatblockLookup = UndefinedStatblockLookup,
+    val equipped: Equipped = UndefinedEquipped,
     val sources: Set<DataSourceId> = emptySet(),
 ) : ElementWithSimpleName<CharacterTemplateId>, HasBelief, HasDataSources {
 
@@ -60,7 +60,7 @@ data class CharacterTemplate(
         state.getDataSourceStorage().require(sources)
         state.getLanguageStorage().require(languages.keys)
         state.getRaceStorage().require(race)
-        validateEquipped(state, equipped)
+        validateEquipped(state, equipped, statblock)
         validateStatblockLookup(state, race, statblock)
         checkBeliefStatus(state, belief)
     }
