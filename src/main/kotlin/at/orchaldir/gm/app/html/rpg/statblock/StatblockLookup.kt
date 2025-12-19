@@ -8,6 +8,13 @@ import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterTemplateId
+import at.orchaldir.gm.core.model.character.Equipped
+import at.orchaldir.gm.core.model.character.EquippedEquipment
+import at.orchaldir.gm.core.model.character.EquippedUniform
+import at.orchaldir.gm.core.model.character.ModifiedUniform
+import at.orchaldir.gm.core.model.character.ModifyEquipmentFromTemplate
+import at.orchaldir.gm.core.model.character.UndefinedEquipped
+import at.orchaldir.gm.core.model.character.UseEquipmentFromTemplate
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.rpg.statblock.*
 import at.orchaldir.gm.core.selector.rpg.statblock.getStatblock
@@ -23,16 +30,38 @@ import kotlinx.html.HtmlBlockTag
 fun HtmlBlockTag.showStatblockLookup(
     call: ApplicationCall,
     state: State,
+    lookup: StatblockLookup,
+    showUndefined: Boolean = false,
+) {
+    when (lookup) {
+        is UniqueStatblock -> +"Unique"
+        is UseStatblockOfTemplate -> {
+            +"Use "
+            optionalLink(call, state, lookup.template())
+        }
+        is ModifyStatblockOfTemplate -> {
+            +"Modify "
+            optionalLink(call, state, lookup.template())
+        }
+        UndefinedStatblockLookup -> if (showUndefined) {
+            +"Undefined"
+        }
+    }
+}
+
+fun HtmlBlockTag.showStatblockLookupDetails(
+    call: ApplicationCall,
+    state: State,
     race: RaceId,
     lookup: StatblockLookup,
-) = showStatblockLookup(
+) = showStatblockLookupDetails(
     call,
     state,
     state.getRaceStorage().getOrThrow(race).lifeStages.statblock(),
     lookup,
 )
 
-fun HtmlBlockTag.showStatblockLookup(
+fun HtmlBlockTag.showStatblockLookupDetails(
     call: ApplicationCall,
     state: State,
     base: Statblock,

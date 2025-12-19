@@ -7,6 +7,7 @@ import at.orchaldir.gm.app.html.character.editCharacterTemplate
 import at.orchaldir.gm.app.html.character.parseCharacterTemplate
 import at.orchaldir.gm.app.html.character.showCharacterTemplate
 import at.orchaldir.gm.app.html.character.showEquipped
+import at.orchaldir.gm.app.html.rpg.statblock.showStatblockLookup
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.app.routes.race.generateAppearance
@@ -80,6 +81,7 @@ fun Application.configureCharacterTemplateRouting() {
                     Column("Race") { tdLink(call, state, it.race) },
                     Column("Culture") { tdLink(call, state, it.culture) },
                     createBeliefColumn(call, state),
+                    tdColumn("Statblock") { showStatblockLookup(call, state, it.statblock) },
                     tdColumn("Equipped") { showEquipped(call, state, it.equipped, it.statblock) },
                     countColumn("Cost") { it.statblock.calculateCost(it.race, state) },
                 ),

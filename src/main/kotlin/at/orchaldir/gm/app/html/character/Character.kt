@@ -10,7 +10,7 @@ import at.orchaldir.gm.app.html.culture.showKnownLanguages
 import at.orchaldir.gm.app.html.race.parseRaceId
 import at.orchaldir.gm.app.html.rpg.statblock.editStatblockLookup
 import at.orchaldir.gm.app.html.rpg.statblock.parseStatblockLookup
-import at.orchaldir.gm.app.html.rpg.statblock.showStatblockLookup
+import at.orchaldir.gm.app.html.rpg.statblock.showStatblockLookupDetails
 import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.app.html.util.math.fieldDistance
 import at.orchaldir.gm.app.html.util.source.editDataSources
@@ -91,7 +91,7 @@ fun HtmlBlockTag.showData(
     field(call, state, "Birthdate", character.date)
     showVitalStatus(call, state, character.status)
     showAge(state, character, race)
-    showStatblockLookup(call, state, character.race, character.statblock)
+    showStatblockLookupDetails(call, state, character.race, character.statblock)
     showPositionHistory(call, state, character.housingStatus, "Housing Status")
     showEmploymentStatusHistory(call, state, character.employmentStatus)
     fieldElements(call, state, "Led Battles", state.getBattlesLedBy(character.id))

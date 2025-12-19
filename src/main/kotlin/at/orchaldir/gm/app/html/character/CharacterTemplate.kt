@@ -9,7 +9,7 @@ import at.orchaldir.gm.app.html.culture.showKnownLanguages
 import at.orchaldir.gm.app.html.race.parseRaceId
 import at.orchaldir.gm.app.html.rpg.statblock.editStatblockLookup
 import at.orchaldir.gm.app.html.rpg.statblock.parseStatblockLookup
-import at.orchaldir.gm.app.html.rpg.statblock.showStatblockLookup
+import at.orchaldir.gm.app.html.rpg.statblock.showStatblockLookupDetails
 import at.orchaldir.gm.app.html.util.fieldBeliefStatus
 import at.orchaldir.gm.app.html.util.parseBeliefStatus
 import at.orchaldir.gm.app.html.util.selectBeliefStatus
@@ -21,7 +21,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterTemplate
 import at.orchaldir.gm.core.model.character.CharacterTemplateId
 import at.orchaldir.gm.core.model.character.Gender
-import at.orchaldir.gm.core.model.rpg.statblock.UseStatblockOfTemplate
 import at.orchaldir.gm.core.selector.character.getCharactersUsing
 import at.orchaldir.gm.core.selector.item.getEquipmentMapForLookup
 import io.ktor.http.*
@@ -41,7 +40,7 @@ fun HtmlBlockTag.showCharacterTemplate(
     optionalFieldLink(call, state, template.culture)
     showKnownLanguages(call, state, template)
     fieldBeliefStatus(call, state, template.belief)
-    showStatblockLookup(call, state, template.race, template.statblock)
+    showStatblockLookupDetails(call, state, template.race, template.statblock)
     showEquippedDetails(call, state, template.equipped, template.race, template.statblock)
     showDataSources(call, state, template.sources)
     showUsage(call, state, template)
