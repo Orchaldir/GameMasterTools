@@ -29,7 +29,7 @@ fun validateEquipped(
 }
 
 private fun validateTemplate(lookup: StatblockLookup) =
-    lookup.template() ?: error("Cannot use equipment from the template without a template!")
+    requireNotNull(lookup.template()) { "Cannot use equipment from the template without a template!" }
 
 fun validateEquipmentMap(
     state: State,

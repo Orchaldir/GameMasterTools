@@ -5,9 +5,11 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.EquippedEquipment
 import at.orchaldir.gm.core.model.character.EquippedUniform
+import at.orchaldir.gm.core.model.character.UseEquipmentFromTemplate
 import at.orchaldir.gm.core.model.item.Uniform
 import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.rpg.statblock.UndefinedStatblockLookup
+import at.orchaldir.gm.core.model.rpg.statblock.UseStatblockOfTemplate
 import at.orchaldir.gm.core.model.util.render.ColorScheme
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -99,6 +101,24 @@ class EquippedTest {
             val state = state.removeStorage(UNIFORM_ID_0)
 
             assertIllegalArgument("Requires unknown Uniform 0!") { validateEquipped(state, equipped, UndefinedStatblockLookup) }
+        }
+    }
+
+    @Nested
+    inner class UseEquipmentFromTemplateTest {
+
+        @Test
+        fun `Use with template`() {
+            validateEquipped(state, UseEquipmentFromTemplate, UseStatblockOfTemplate(CHARACTER_TEMPLATE_ID_0))
+        }
+
+        @Test
+        fun `Fail without template`() {
+            val state = state.removeStorage(UNIFORM_ID_0)
+
+            assertIllegalArgument("Cannot use equipment from the template without a template!") {
+                validateEquipped(state, UseEquipmentFromTemplate, UndefinedStatblockLookup)
+            }
         }
     }
 }
