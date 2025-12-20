@@ -1,6 +1,8 @@
 package at.orchaldir.gm.utils.math
 
 import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.Volume
+import at.orchaldir.gm.utils.math.unit.Weight
 import at.orchaldir.gm.utils.math.unit.checkDistance
 import kotlinx.serialization.Serializable
 import kotlin.math.sqrt
@@ -26,6 +28,10 @@ data class Size2d(val width: Distance, val height: Distance) {
 
         fun fromDiagonalRadius(radius: Distance) = square(radius * sqrt(2.0f))
     }
+
+    fun calculateVolumeOfPrism(thickness: Distance) = Volume.fromCubicMillimeters(
+        width.toMillimeters() * height.toMillimeters() * thickness.toMillimeters()
+    )
 
     fun scale(horizontal: Factor, vertical: Factor) =
         Size2d(width * horizontal, height * vertical)

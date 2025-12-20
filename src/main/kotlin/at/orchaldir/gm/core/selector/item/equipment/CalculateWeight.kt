@@ -95,8 +95,14 @@ private fun calculateWeightPerMaterialForBody(
     data: EquipmentData,
     wpm: WeightPerMaterial,
 ) {
+    val torsoAABB = config.body.getTorsoAabb(aabb, body)
+
     when (data) {
-        is Belt -> TODO()
+        is Belt -> {
+            val bandVolume = config.equipment.belt.getBandVolume(config, torsoAABB, body)
+
+            //wpm.add(data.strap.material, bandVolume)
+        }
         is BodyArmour -> TODO()
         is Coat -> TODO()
         is Dress -> TODO()

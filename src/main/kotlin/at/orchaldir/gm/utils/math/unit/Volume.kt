@@ -22,6 +22,7 @@ value class Volume private constructor(private val cmm: Long) : SiUnit<Volume> {
         fun fromCubicCentimeters(ccm: Long) = Volume(convertFromCubicCentimeters(ccm))
         fun fromCubicCentimeters(ccm: Float) = Volume(convertFromCubicCentimeters(ccm))
         fun fromCubicMillimeters(cmm: Long) = Volume(cmm)
+        fun fromCubicMillimeters(cmm: Float) = Volume(cmm.toLong())
         fun fromCubicMicrometers(cµm: Long) = Volume(convertFromCubicMicrometers(cµm).toLong())
 
         fun from(prefix: SiPrefix, value: Long) = when (prefix) {
