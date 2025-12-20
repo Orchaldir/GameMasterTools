@@ -31,12 +31,12 @@ sealed class ComplexShape {
         is UsingRectangularShape -> shape.isRounded()
     }
 
-    fun calculateVolume(radius: Distance, thickness: Distance) = when (this) {
+    fun calculateVolumeOfPrism(radius: Distance, thickness: Distance) = when (this) {
         is UsingCircularShape -> shape.calculateVolumeOfPrism(radius, thickness)
         is UsingRectangularShape -> shape.calculateVolumeOfPrism(shape.calculateSize(radius, widthFactor), thickness)
     }
 
-    fun calculateVolume(size: Size2d, thickness: Distance) = when (this) {
+    fun calculateVolumeOfPrism(size: Size2d, thickness: Distance) = when (this) {
         is UsingCircularShape -> shape.calculateVolumeOfPrism(size.innerRadius(), thickness)
         is UsingRectangularShape -> shape.calculateVolumeOfPrism(size, thickness)
     }
