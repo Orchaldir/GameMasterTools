@@ -21,7 +21,6 @@ import at.orchaldir.gm.visualization.character.appearance.HIGHER_EQUIPMENT_LAYER
 
 data class BeltConfig(
     val bandHeight: Factor,
-    val bandLength: Factor,
     val bandThicknessRelativeToHeight: Factor,
     val buckleHeight: SizeConfig<Factor>,
     val buckleThicknessRelativeToHeight: Factor,
@@ -38,7 +37,7 @@ data class BeltConfig(
         val bandSize = getBandSize(config, torsoAABB, body)
         val bandThickness = bandSize.height * bandThicknessRelativeToHeight
 
-        return bandSize.calculateVolumeOfPrism(bandThickness) * bandLength
+        return bandSize.calculateVolumeOfPrism(bandThickness) * config.body().getTorsoCircumferenceFactor()
     }
 
     fun getBuckleHeight(torsoAABB: AABB, size: Size) =

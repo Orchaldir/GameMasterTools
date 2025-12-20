@@ -24,6 +24,7 @@ data class BodyConfig(
     val tail: TailConfig,
     val torsoHeight: Factor,
     val torsoWidth: Factor,
+    val torsoThicknessRelativeToWidth: Factor,
     val torsoY: Factor,
     val widerWidth: Factor,
     val width: SizeConfig<Factor>,
@@ -111,6 +112,8 @@ data class BodyConfig(
 
         return Pair(left + offset, right + offset)
     }
+
+    fun getTorsoCircumferenceFactor() = (FULL + torsoThicknessRelativeToWidth) * 2
 
     fun getTorsoAabb(aabb: AABB, body: Body): AABB {
         val width = getTorsoWidth(body)
