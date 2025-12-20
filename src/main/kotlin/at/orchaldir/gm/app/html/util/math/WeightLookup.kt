@@ -15,6 +15,7 @@ import at.orchaldir.gm.utils.math.unit.CalculatedWeight
 import at.orchaldir.gm.utils.math.unit.FixedWeight
 import at.orchaldir.gm.utils.math.unit.SiPrefix
 import at.orchaldir.gm.utils.math.unit.UndefinedWeight
+import at.orchaldir.gm.utils.math.unit.Weight
 import at.orchaldir.gm.utils.math.unit.WeightLookup
 import at.orchaldir.gm.utils.math.unit.WeightLookupType
 import io.ktor.http.*
@@ -26,9 +27,10 @@ import kotlinx.html.HtmlBlockTag
 fun HtmlBlockTag.showWeightLookup(
     lookup: WeightLookup,
     showUndefined: Boolean = false,
+    calculate: () -> Weight,
 ) {
     when (lookup) {
-        CalculatedWeight -> +"Calculated"
+        CalculatedWeight -> +calculate().toString()
         is FixedWeight -> +lookup.weight.toString()
         UndefinedWeight -> if (showUndefined) {
             +"Undefined"

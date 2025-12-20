@@ -1,5 +1,6 @@
 package at.orchaldir.gm.utils.math.unit
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 
 class VolumePerMaterial(
@@ -19,5 +20,15 @@ class VolumePerMaterial(
     }
 
     fun get(material: MaterialId) = map[material]
+
+    fun getWeightPerMaterial(state: State) = map.mapValues { (id, volume) ->
+        val material = state.getMaterialStorage().getOrThrow(id)
+
+        Weight.fromVolume(volume, material.density)
+    }
+
+    fun getWeight(state: State) = getWeightPerMaterial(state).values
+        .reduceOrNull { acc, weight -> acc + weight }
+        ?: WEIGHTLESS
 
 }

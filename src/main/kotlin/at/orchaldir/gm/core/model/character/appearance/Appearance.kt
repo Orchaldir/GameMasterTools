@@ -9,6 +9,8 @@ import at.orchaldir.gm.utils.math.unit.Distance
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+val DEFAULT_HUMANOID_HEIGHT = Distance.fromCentimeters(180)
+
 enum class AppearanceType {
     Body,
     HeadOnly,
@@ -52,9 +54,9 @@ data class HeadOnly(
 @Serializable
 @SerialName("Humanoid")
 data class HumanoidBody(
-    val body: Body,
-    val head: Head,
-    val height: Distance,
+    val body: Body = Body(),
+    val head: Head = Head(),
+    val height: Distance = DEFAULT_HUMANOID_HEIGHT,
     val skin: Skin = NormalSkin(),
     val tails: Tails = NoTails,
     val wings: Wings = NoWings,

@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.selector.item.equipment
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.character.appearance.Head
@@ -35,12 +36,20 @@ import at.orchaldir.gm.core.model.item.equipment.TwoHandedAxe
 import at.orchaldir.gm.core.model.item.equipment.TwoHandedClub
 import at.orchaldir.gm.core.model.item.equipment.TwoHandedSword
 import at.orchaldir.gm.core.model.item.equipment.style.SimpleBuckle
+import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
+import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.unit.VolumePerMaterial
 import at.orchaldir.gm.visualization.character.ICharacterConfig
 import at.orchaldir.gm.visualization.character.appearance.BodyConfig
 import at.orchaldir.gm.visualization.character.appearance.HeadConfig
 import at.orchaldir.gm.visualization.character.equipment.EquipmentConfig
+
+val WEIGHT_CONFIG = CalculateWeightConfig(
+    CHARACTER_CONFIG.body,
+    CHARACTER_CONFIG.equipment,
+    CHARACTER_CONFIG.head,
+)
 
 data class CalculateWeightConfig(
     val body: BodyConfig,
@@ -53,7 +62,19 @@ data class CalculateWeightConfig(
     override fun head() = head
 }
 
-fun calculateVolumePerMaterial(config: CalculateWeightConfig, appearance: Appearance, data: EquipmentData): VolumePerMaterial {
+fun calculateWeight(
+    state: State,
+    config: CalculateWeightConfig,
+    data: EquipmentData,
+    appearance: Appearance = HumanoidBody(),
+) = calculateVolumePerMaterial(config, data, appearance)
+    .getWeight(state)
+
+fun calculateVolumePerMaterial(
+    config: CalculateWeightConfig,
+    data: EquipmentData,
+    appearance: Appearance = HumanoidBody(),
+): VolumePerMaterial {
     val wpm = VolumePerMaterial()
     val aabb = AABB(appearance.getSize2d())
 
@@ -107,26 +128,26 @@ private fun calculateVolumePerMaterialForBody(
                 wpm.add(data.buckle.part.material, buckleVolume)
             }
         }
-        is BodyArmour -> TODO()
-        is Coat -> TODO()
-        is Dress -> TODO()
-        is Footwear -> TODO()
-        is Gloves -> TODO()
-        is Necklace -> TODO()
-        is OneHandedAxe -> TODO()
-        is OneHandedClub -> TODO()
-        is OneHandedSword -> TODO()
-        is Pants -> TODO()
-        is Polearm -> TODO()
-        is Shield -> TODO()
-        is Shirt -> TODO()
-        is Skirt -> TODO()
-        is Socks -> TODO()
-        is SuitJacket -> TODO()
-        is Tie -> TODO()
-        is TwoHandedAxe -> TODO()
-        is TwoHandedClub -> TODO()
-        is TwoHandedSword -> TODO()
+        is BodyArmour -> doNothing()
+        is Coat -> doNothing()
+        is Dress -> doNothing()
+        is Footwear -> doNothing()
+        is Gloves -> doNothing()
+        is Necklace -> doNothing()
+        is OneHandedAxe -> doNothing()
+        is OneHandedClub -> doNothing()
+        is OneHandedSword -> doNothing()
+        is Pants -> doNothing()
+        is Polearm -> doNothing()
+        is Shield -> doNothing()
+        is Shirt -> doNothing()
+        is Skirt -> doNothing()
+        is Socks -> doNothing()
+        is SuitJacket -> doNothing()
+        is Tie -> doNothing()
+        is TwoHandedAxe -> doNothing()
+        is TwoHandedClub -> doNothing()
+        is TwoHandedSword -> doNothing()
         else -> error("Equipment type ${data.getType()} is unsupported!")
     }
 }
@@ -139,12 +160,12 @@ private fun calculateVolumePerMaterialForHead(
     wpm: VolumePerMaterial,
 ) {
     when (data) {
-        is Earring -> TODO()
-        is EyePatch -> TODO()
-        is Glasses -> TODO()
-        is Hat -> TODO()
-        is Helmet -> TODO()
-        is IounStone -> TODO()
+        is Earring -> doNothing()
+        is EyePatch -> doNothing()
+        is Glasses -> doNothing()
+        is Hat -> doNothing()
+        is Helmet -> doNothing()
+        is IounStone -> doNothing()
         else -> error("Equipment type ${data.getType()} is unsupported!")
     }
 }
