@@ -8,6 +8,7 @@ import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.toRender
 import at.orchaldir.gm.visualization.character.CharacterRenderState
+import at.orchaldir.gm.visualization.character.ICharacterConfig
 import at.orchaldir.gm.visualization.character.appearance.BodyConfig
 import at.orchaldir.gm.visualization.character.appearance.addHip
 import at.orchaldir.gm.visualization.character.appearance.addTorso
@@ -27,7 +28,7 @@ data class CoatConfig(
 }
 
 fun getOuterwearBottomY(
-    state: CharacterRenderState,
+    config: ICharacterConfig,
     body: Body,
     length: OuterwearLength,
     ankleFactor: Factor = FULL,
@@ -38,7 +39,7 @@ fun getOuterwearBottomY(
         OuterwearLength.Ankle -> ankleFactor
     }
 
-    return state.config.body.getLegY(body, bottomHeight)
+    return config.body().getLegY(body, bottomHeight)
 }
 
 fun visualizeCoat(
@@ -87,12 +88,12 @@ fun createOuterwearBuilder(
     necklineStyle: NecklineStyle = NecklineStyle.None,
     paddedWidth: Factor = FULL,
 ): Polygon2dBuilder {
-    val builder = createCoatBottom(state, body, length, paddedWidth)
+    val builder = createOuterwearBottom(state, body, length, paddedWidth)
     addTorso(state, body, builder, necklineStyle.addTop(), paddedWidth)
     return builder
 }
 
-fun createCoatBottom(
+fun createOuterwearBottom(
     state: CharacterRenderState,
     body: Body,
     length: OuterwearLength,

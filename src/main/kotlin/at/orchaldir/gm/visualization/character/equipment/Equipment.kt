@@ -5,7 +5,12 @@ import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.item.equipment.style.OuterwearLength
 import at.orchaldir.gm.utils.doNothing
+import at.orchaldir.gm.utils.math.AABB
+import at.orchaldir.gm.utils.math.FULL
+import at.orchaldir.gm.utils.math.Size2d
+import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.visualization.character.CharacterRenderState
+import at.orchaldir.gm.visualization.character.ICharacterConfig
 import at.orchaldir.gm.visualization.character.appearance.JACKET_LAYER
 import at.orchaldir.gm.visualization.character.appearance.OUTERWEAR_LAYER
 import at.orchaldir.gm.visualization.character.equipment.part.LamellarArmourConfig
@@ -34,7 +39,23 @@ data class EquipmentConfig(
     val skirt: SkirtConfig,
     val sword: SwordConfig,
     val tie: TieConfig,
-)
+) {
+    fun getOuterwearBodySize(config: ICharacterConfig, body: Body, torsoAABB: AABB, length: OuterwearLength): Size2d {
+        val topY = config.body().shoulderY
+        val bottomY = getOuterwearBottomY(config, body, length)
+        val height = topY - bottomY
+
+        return torsoAABB.size.scale(FULL, height) * config.body().getTorsoCircumferenceFactor()
+    }
+
+    fun getOuterwearBodyVolume(
+        config: ICharacterConfig,
+        body: Body,
+        torsoAABB: AABB,
+        length: OuterwearLength,
+        thickness: Distance,
+    ) = getOuterwearBodySize(config, body, torsoAABB, length).calculateVolumeOfPrism(thickness)
+}
 
 fun visualizeBodyEquipment(
     state: CharacterRenderState,
