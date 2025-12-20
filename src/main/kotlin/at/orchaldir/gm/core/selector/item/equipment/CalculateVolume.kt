@@ -139,7 +139,13 @@ private fun calculateVolumePerMaterialForBody(
 
             vpm.add(data.style.mainMaterial(), torsoVolume + sleevesVolume)
         }
-        is Coat -> doNothing()
+        is Coat -> {
+            val thickness = config.equipment.coat.getThickness(torsoAABB)
+            val sleevesVolume = config.equipment.getSleevesVolume(config, body, torsoAABB, data.sleeveStyle, thickness)
+            val torsoVolume = config.equipment.getOuterwearBodyVolume(config, body, torsoAABB, data.length, thickness)
+
+            vpm.add(data.main.material, torsoVolume + sleevesVolume)
+        }
         is Dress -> doNothing()
         is Footwear -> doNothing()
         is Gloves -> doNothing()

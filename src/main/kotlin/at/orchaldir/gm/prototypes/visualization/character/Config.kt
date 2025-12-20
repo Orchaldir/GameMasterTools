@@ -109,6 +109,7 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
             8.0,
         ),
         CoatConfig(
+            fromPercentage(1),
             fromPercentage(10),
         ),
         EarringConfig(

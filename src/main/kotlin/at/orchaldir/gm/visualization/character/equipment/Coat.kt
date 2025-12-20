@@ -2,9 +2,15 @@ package at.orchaldir.gm.visualization.character.equipment
 
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.Coat
+import at.orchaldir.gm.core.model.item.equipment.style.ArmourStyle
+import at.orchaldir.gm.core.model.item.equipment.style.ChainMail
+import at.orchaldir.gm.core.model.item.equipment.style.LamellarArmour
 import at.orchaldir.gm.core.model.item.equipment.style.NecklineStyle
 import at.orchaldir.gm.core.model.item.equipment.style.OuterwearLength
+import at.orchaldir.gm.core.model.item.equipment.style.ScaleArmour
+import at.orchaldir.gm.core.model.item.equipment.style.SegmentedArmour
 import at.orchaldir.gm.utils.math.*
+import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.toRender
 import at.orchaldir.gm.visualization.character.CharacterRenderState
@@ -19,12 +25,15 @@ import at.orchaldir.gm.visualization.character.equipment.part.visualizeTopPocket
 import at.orchaldir.gm.visualization.renderBuilder
 
 data class CoatConfig(
+    val thickness: Factor,
     val widthPadding: Factor,
 ) {
     fun getHipWidth(config: BodyConfig, body: Body) =
         config.getTorsoWidth(body) * config.getHipWidth(body.bodyShape) * getPaddedWidth()
 
     fun getPaddedWidth() = FULL + widthPadding
+
+    fun getThickness(torsoAABB: AABB) = torsoAABB.convertHeight(thickness)
 }
 
 fun getOuterwearBottomY(
