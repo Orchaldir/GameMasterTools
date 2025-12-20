@@ -8,19 +8,23 @@ class VolumeTest {
 
     @Test
     fun `To string`() {
-        assertEquals("1 mm^3", Volume.fromCubicMillimeters(1).toString())
-        assertEquals("12 mm^3", Volume.fromCubicMillimeters(12).toString())
-        assertEquals("123 mm^3", Volume.fromCubicMillimeters(123).toString())
-        assertEquals("1.2 cm^3", Volume.fromCubicMillimeters(1234).toString())
-        assertEquals("12.3 cm^3", Volume.fromCubicMillimeters(12345).toString())
-        assertEquals("123.5 cm^3", Volume.fromCubicMillimeters(123456).toString())
-        assertEquals("1.2 dm^3", Volume.fromCubicMillimeters(1234567).toString())
-        assertEquals("12.3 dm^3", Volume.fromCubicMillimeters(12345678).toString())
-        assertEquals("123.5 dm^3", Volume.fromCubicMillimeters(123456789).toString())
-        assertEquals("1.2 m^3", Volume.fromCubicMillimeters(1234567890).toString())
-        assertEquals("12.3 m^3", Volume.fromCubicMillimeters(12345678900).toString())
-        assertEquals("123.5 m^3", Volume.fromCubicMillimeters(123456789000).toString())
-        assertEquals("1234.6 m^3", Volume.fromCubicMillimeters(1234567890000).toString())
+        assertToString(1, "1 mm^3")
+        assertToString(12, "12 mm^3")
+        assertToString(123, "123 mm^3")
+        assertToString(1234, "1.2 cm^3")
+        assertToString(12345, "12.3 cm^3")
+        assertToString(123456, "123.5 cm^3")
+        assertToString(1234567, "1.2 dm^3")
+        assertToString(12345678, "12.3 dm^3")
+        assertToString(123456789, "123.5 dm^3")
+        assertToString(1234567890, "1.2 m^3")
+        assertToString(12345678900, "12.3 m^3")
+        assertToString(123456789000, "123.5 m^3")
+        assertToString(1234567890000, "1234.6 m^3")
+    }
+
+    private fun assertToString(cmm: Long, result: String) {
+        assertEquals(result, Volume.fromCubicMillimeters(cmm).toString())
     }
 
     @Test
