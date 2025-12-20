@@ -148,7 +148,7 @@ private fun calculateVolumePerMaterialForBody(
         is TwoHandedAxe -> doNothing()
         is TwoHandedClub -> doNothing()
         is TwoHandedSword -> doNothing()
-        else -> error("Equipment type ${data.getType()} is unsupported!")
+        else -> doNothing()
     }
 }
 
@@ -166,6 +166,6 @@ private fun calculateVolumePerMaterialForHead(
         is Hat -> doNothing()
         is Helmet -> doNothing()
         is IounStone -> doNothing()
-        else -> error("Equipment type ${data.getType()} is unsupported!")
+        else -> doNothing()
     }
 }
