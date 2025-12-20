@@ -52,7 +52,7 @@ private fun visualizeLamellarArmourBody(
     val start = torso.getPoint(CENTER, START)
     val bottomFactor = getOuterwearBottomY(state.config, body, armour.length, THREE_QUARTER)
     val bottom = state.aabb.getPoint(CENTER, bottomFactor)
-    val overlap = state.config.equipment.lamellarArmour.overlap
+    val overlap = state.config.equipment.armor.lamellar.overlap
     val lacingRenderer = createScaleRenderer(state, renderer, options, style, scaleSize, clippingName)
     val stripeRenderer = createStripeRenderer(state, renderer, style.lacing, scaleSize, maxWidth, clippingName)
 
@@ -77,7 +77,7 @@ private fun createScaleRenderer(
     scaleSize: Size2d,
     clippingName: String,
 ): (AABB) -> Unit {
-    val config = state.config.equipment.lamellarArmour
+    val config = state.config.equipment.armor.lamellar
     val overlap = config.overlap
 
     when (val lacing = armour.lacing) {
@@ -163,7 +163,7 @@ private fun createStripeRenderer(
     rowWidth: Distance,
     clippingName: String,
 ): (AABB) -> Unit {
-    state.config.equipment.lamellarArmour
+    state.config.equipment.armor.lamellar
 
     return when (lacing) {
         NoLacing, is DiagonalLacing, is FourSidesLacing -> {
@@ -221,7 +221,7 @@ private fun visualizeArmourSleeve(
     val options = FillAndBorder(color.toRender(), state.config.line, clippingName)
     val top = aabb.getPoint(CENTER, START)
     val bottom = aabb.getPoint(CENTER, FULL)
-    val overlap = state.config.equipment.lamellarArmour.overlap
+    val overlap = state.config.equipment.armor.lamellar.overlap
     val lacingRenderer = createScaleRenderer(state, renderer, options, style, scaleSize, clippingName)
     val stripeRenderer = createStripeRenderer(state, renderer, style.lacing, scaleSize, aabb.size.width, clippingName)
 

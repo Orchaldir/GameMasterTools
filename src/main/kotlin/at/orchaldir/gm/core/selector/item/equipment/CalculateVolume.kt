@@ -35,6 +35,10 @@ import at.orchaldir.gm.core.model.item.equipment.Tie
 import at.orchaldir.gm.core.model.item.equipment.TwoHandedAxe
 import at.orchaldir.gm.core.model.item.equipment.TwoHandedClub
 import at.orchaldir.gm.core.model.item.equipment.TwoHandedSword
+import at.orchaldir.gm.core.model.item.equipment.style.ChainMail
+import at.orchaldir.gm.core.model.item.equipment.style.LamellarArmour
+import at.orchaldir.gm.core.model.item.equipment.style.ScaleArmour
+import at.orchaldir.gm.core.model.item.equipment.style.SegmentedArmour
 import at.orchaldir.gm.core.model.item.equipment.style.SimpleBuckle
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.utils.doNothing
@@ -128,7 +132,16 @@ private fun calculateVolumePerMaterialForBody(
                 vpm.add(data.buckle.part.material, buckleVolume)
             }
         }
-        is BodyArmour -> doNothing()
+        is BodyArmour -> {
+            val torsoVolume = config.equipment.getOuterwearBodySize(config, body, torsoAABB, data.length)
+
+            when (data.style) {
+                is ChainMail -> TODO()
+                is LamellarArmour -> TODO()
+                is ScaleArmour -> TODO()
+                is SegmentedArmour -> TODO()
+            }
+        }
         is Coat -> doNothing()
         is Dress -> doNothing()
         is Footwear -> doNothing()

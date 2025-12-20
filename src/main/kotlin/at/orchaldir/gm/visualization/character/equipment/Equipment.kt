@@ -18,6 +18,7 @@ import at.orchaldir.gm.visualization.character.equipment.part.NecklineConfig
 import at.orchaldir.gm.visualization.character.equipment.part.OpeningConfig
 
 data class EquipmentConfig(
+    val armor: BodyArmourConfig,
     val axe: AxeConfig,
     val belt: BeltConfig,
     val club: ClubConfig,
@@ -28,7 +29,6 @@ data class EquipmentConfig(
     val glasses: GlassesConfig,
     val hat: HatConfig,
     val helmet: HelmetConfig,
-    val lamellarArmour: LamellarArmourConfig,
     val iounStone: IounStoneConfig,
     val necklace: NecklaceConfig,
     val neckline: NecklineConfig,

@@ -2,15 +2,26 @@ package at.orchaldir.gm.visualization.character.equipment
 
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.BodyArmour
+import at.orchaldir.gm.core.model.item.equipment.style.ArmourType
 import at.orchaldir.gm.core.model.item.equipment.style.ChainMail
 import at.orchaldir.gm.core.model.item.equipment.style.LamellarArmour
 import at.orchaldir.gm.core.model.item.equipment.style.ScaleArmour
 import at.orchaldir.gm.core.model.item.equipment.style.SegmentedArmour
+import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.visualization.character.CharacterRenderState
+import at.orchaldir.gm.visualization.character.equipment.part.LamellarArmourConfig
 import at.orchaldir.gm.visualization.character.equipment.part.visualizeChainMail
 import at.orchaldir.gm.visualization.character.equipment.part.visualizeLamellarArmour
 import at.orchaldir.gm.visualization.character.equipment.part.visualizeScaleArmour
 import at.orchaldir.gm.visualization.character.equipment.part.visualizeSegmentedArmour
+
+data class BodyArmourConfig(
+    val thicknessChainMail: Factor,
+    val thicknessLamellar: Factor,
+    val thicknessScale: Factor,
+    val thicknessSegmented: Factor,
+    val lamellar: LamellarArmourConfig,
+)
 
 fun visualizeBodyArmour(
     state: CharacterRenderState,

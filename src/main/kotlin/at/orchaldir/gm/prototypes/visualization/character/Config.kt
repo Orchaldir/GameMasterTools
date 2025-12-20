@@ -64,6 +64,16 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
         withFactor(0.8f, 1.0f, 1.2f),
     ),
     EquipmentConfig(
+        BodyArmourConfig(
+            fromPercentage(1),
+            fromPercentage(1),
+            fromPercentage(1),
+            fromPercentage(1),
+            LamellarArmourConfig(
+                fromPercentage(20),
+                fromPercentage(20),
+            ),
+        ),
         AxeConfig(
             fromPercentages(8, 10, 12),
             fromPercentage(200),
@@ -145,10 +155,6 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
             fromPercentage(20),
             fromPercentage(10),
             fromPercentage(5),
-        ),
-        LamellarArmourConfig(
-            fromPercentage(20),
-            fromPercentage(20),
         ),
         IounStoneConfig(
             10.0,
