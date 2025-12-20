@@ -10,11 +10,14 @@ import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.MAX_EQUIPMENT_WEIGHT
 import at.orchaldir.gm.core.model.item.equipment.MIN_EQUIPMENT_WEIGHT
+import at.orchaldir.gm.core.selector.item.equipment.VOLUME_CONFIG
+import at.orchaldir.gm.core.selector.item.equipment.calculateVolumePerMaterial
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.unit.CalculatedWeight
 import at.orchaldir.gm.utils.math.unit.FixedWeight
 import at.orchaldir.gm.utils.math.unit.SiPrefix
 import at.orchaldir.gm.utils.math.unit.UndefinedWeight
+import at.orchaldir.gm.utils.math.unit.VolumePerMaterial
 import at.orchaldir.gm.utils.math.unit.Weight
 import at.orchaldir.gm.utils.math.unit.WeightLookup
 import at.orchaldir.gm.utils.math.unit.WeightLookupType
@@ -42,12 +45,17 @@ fun HtmlBlockTag.showWeightLookupDetails(
     call: ApplicationCall,
     state: State,
     lookup: WeightLookup,
+    calculate: () -> VolumePerMaterial,
 ) {
     showDetails("Weight", true) {
         field("Type", lookup.getType())
 
         when (lookup) {
-            CalculatedWeight -> doNothing()
+            CalculatedWeight -> {
+                val vpm = calculate()
+
+                fieldWeight("Weight", vpm.getWeight(state))
+            }
             is FixedWeight -> fieldWeight("Weight", lookup.weight)
             UndefinedWeight -> doNothing()
         }

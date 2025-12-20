@@ -27,7 +27,7 @@ import at.orchaldir.gm.core.model.util.render.UndefinedColors
 import at.orchaldir.gm.core.selector.character.getCharacterTemplates
 import at.orchaldir.gm.core.selector.character.getCharactersWith
 import at.orchaldir.gm.core.selector.culture.getFashions
-import at.orchaldir.gm.core.selector.item.equipment.WEIGHT_CONFIG
+import at.orchaldir.gm.core.selector.item.equipment.VOLUME_CONFIG
 import at.orchaldir.gm.core.selector.item.equipment.calculateWeight
 import at.orchaldir.gm.core.selector.item.getUniforms
 import at.orchaldir.gm.core.selector.rpg.getArmorType
@@ -127,7 +127,7 @@ fun Application.configureEquipmentRouting() {
                 listOf(
                     createNameColumn(call, state),
                     Column("Type") { tdEnum(it.data.getType()) },
-                    tdColumn("Weight") { showWeightLookup(it.weight) { calculateWeight(state, WEIGHT_CONFIG, it.data)} },
+                    tdColumn("Weight") { showWeightLookup(it.weight) { calculateWeight(state, VOLUME_CONFIG, it.data)} },
                     Column("Materials") { tdInlineIds(call, state, it.data.materials()) },
                     Column(listOf("Color", "Schemes")) { tdInlineIds(call, state, it.colorSchemes) },
                     Column(listOf("Required", "Colors")) { tdSkipZero(it.data.requiredSchemaColors()) },

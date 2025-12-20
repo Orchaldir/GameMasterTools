@@ -45,13 +45,13 @@ import at.orchaldir.gm.visualization.character.appearance.BodyConfig
 import at.orchaldir.gm.visualization.character.appearance.HeadConfig
 import at.orchaldir.gm.visualization.character.equipment.EquipmentConfig
 
-val WEIGHT_CONFIG = CalculateWeightConfig(
+val VOLUME_CONFIG = CalculateVolumeConfig(
     CHARACTER_CONFIG.body,
     CHARACTER_CONFIG.equipment,
     CHARACTER_CONFIG.head,
 )
 
-data class CalculateWeightConfig(
+data class CalculateVolumeConfig(
     val body: BodyConfig,
     val equipment: EquipmentConfig,
     val head: HeadConfig,
@@ -64,18 +64,18 @@ data class CalculateWeightConfig(
 
 fun calculateWeight(
     state: State,
-    config: CalculateWeightConfig,
+    config: CalculateVolumeConfig,
     data: EquipmentData,
     appearance: Appearance = HumanoidBody(),
 ) = calculateVolumePerMaterial(config, data, appearance)
     .getWeight(state)
 
 fun calculateVolumePerMaterial(
-    config: CalculateWeightConfig,
+    config: CalculateVolumeConfig,
     data: EquipmentData,
     appearance: Appearance = HumanoidBody(),
 ): VolumePerMaterial {
-    val wpm = VolumePerMaterial()
+    val vpm = VolumePerMaterial()
     val aabb = AABB(appearance.getSize2d())
 
     when (appearance) {
@@ -84,7 +84,7 @@ fun calculateVolumePerMaterial(
             appearance.head,
             aabb,
             data,
-            wpm,
+            vpm,
         )
         is HumanoidBody -> {
             val headAabb = config.body.getHeadAabb(aabb)
@@ -94,38 +94,38 @@ fun calculateVolumePerMaterial(
                 appearance.body,
                 aabb,
                 data,
-                wpm,
+                vpm,
             )
             calculateVolumePerMaterialForHead(
                 config,
                 appearance.head,
                 headAabb,
                 data,
-                wpm,
+                vpm,
             )
         }
         UndefinedAppearance -> error("Cannot calculate the equipment weight with an undefined appearance!")
     }
 
-    return wpm
+    return vpm
 }
 
 private fun calculateVolumePerMaterialForBody(
-    config: CalculateWeightConfig,
+    config: CalculateVolumeConfig,
     body: Body,
     aabb: AABB,
     data: EquipmentData,
-    wpm: VolumePerMaterial,
+    vpm: VolumePerMaterial,
 ) {
     val torsoAABB = config.body.getTorsoAabb(aabb, body)
 
     when (data) {
         is Belt -> {
-            wpm.add(data.strap.material, config.equipment.belt.getBandVolume(config, torsoAABB, body))
+            vpm.add(data.strap.material, config.equipment.belt.getBandVolume(config, torsoAABB, body))
 
             if (data.buckle is SimpleBuckle) {
                 val buckleVolume = config.equipment.belt.getBuckleVolume(torsoAABB, data.buckle.shape, data.buckle.size)
-                wpm.add(data.buckle.part.material, buckleVolume)
+                vpm.add(data.buckle.part.material, buckleVolume)
             }
         }
         is BodyArmour -> doNothing()
@@ -153,11 +153,11 @@ private fun calculateVolumePerMaterialForBody(
 }
 
 private fun calculateVolumePerMaterialForHead(
-    config: CalculateWeightConfig,
+    config: CalculateVolumeConfig,
     head: Head,
     aabb: AABB,
     data: EquipmentData,
-    wpm: VolumePerMaterial,
+    vpm: VolumePerMaterial,
 ) {
     when (data) {
         is Earring -> doNothing()
