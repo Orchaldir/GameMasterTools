@@ -5,11 +5,17 @@ import at.orchaldir.gm.app.WEIGHT
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.showDetails
+import at.orchaldir.gm.app.html.tdLink
+import at.orchaldir.gm.app.html.tdSkipZero
+import at.orchaldir.gm.app.html.tdString
+import at.orchaldir.gm.app.html.thMultiLines
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.MAX_EQUIPMENT_WEIGHT
 import at.orchaldir.gm.core.model.item.equipment.MIN_EQUIPMENT_WEIGHT
+import at.orchaldir.gm.core.selector.economy.countJobs
+import at.orchaldir.gm.core.selector.economy.money.display
 import at.orchaldir.gm.core.selector.item.equipment.VOLUME_CONFIG
 import at.orchaldir.gm.core.selector.item.equipment.calculateVolumePerMaterial
 import at.orchaldir.gm.utils.doNothing
@@ -24,6 +30,10 @@ import at.orchaldir.gm.utils.math.unit.WeightLookupType
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
+import kotlinx.html.table
+import kotlinx.html.td
+import kotlinx.html.th
+import kotlinx.html.tr
 
 // show
 
@@ -54,10 +64,31 @@ fun HtmlBlockTag.showWeightLookupDetails(
             CalculatedWeight -> {
                 val vpm = calculate()
 
+                showVolumePerMaterial(call, state, vpm)
+
                 fieldWeight("Weight", vpm.getWeight(state))
             }
             is FixedWeight -> fieldWeight("Weight", lookup.weight)
             UndefinedWeight -> doNothing()
+        }
+    }
+}
+
+fun HtmlBlockTag.showVolumePerMaterial(
+    call: ApplicationCall,
+    state: State,
+    vpm: VolumePerMaterial,
+) {
+    table {
+        tr {
+            th { +"Material" }
+            th { +"Volume" }
+        }
+        vpm.getMap().forEach { (id, volume) ->
+            tr {
+                tdLink(call, state, id)
+                tdString(volume.toString())
+            }
         }
     }
 }
