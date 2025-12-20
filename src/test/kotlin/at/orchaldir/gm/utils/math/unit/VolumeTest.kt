@@ -1,6 +1,7 @@
 package at.orchaldir.gm.utils.math.unit
 
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 class VolumeTest {
@@ -27,29 +28,33 @@ class VolumeTest {
         assertEquals(result, Volume.fromCubicMillimeters(cmm).toString())
     }
 
-    @Test
-    fun `Convert to & from Cubic Kilometers`() {
-        assertEquals(1, convertToCubicKilometers(convertFromCubicKilometers(1)).toLong())
-    }
+    @Nested
+    inner class ConversionTest {
 
-    @Test
-    fun `Convert to & from Cubic Meters`() {
-        assertEquals(1, convertToCubicMeters(convertFromCubicMeters(1)).toLong())
-    }
+        @Test
+        fun `Convert to & from Cubic Kilometers`() {
+            assertEquals(1, convertToCubicKilometers(convertFromCubicKilometers(1)).toLong())
+        }
 
-    @Test
-    fun `Convert to & from Cubic Decimeters`() {
-        assertEquals(1, convertToCubicDecimeters(convertFromCubicDecimeters(1)).toLong())
-    }
+        @Test
+        fun `Convert to & from Cubic Meters`() {
+            assertEquals(1, convertToCubicMeters(convertFromCubicMeters(1)).toLong())
+        }
 
-    @Test
-    fun `Convert to & from Cubic Centimeters`() {
-        assertEquals(1, convertToCubicCentimeters(convertFromCubicCentimeters(1)).toLong())
-    }
+        @Test
+        fun `Convert to & from Cubic Decimeters`() {
+            assertEquals(1, convertToCubicDecimeters(convertFromCubicDecimeters(1)).toLong())
+        }
 
-    @Test
-    fun `Convert to & from Cubic Micrometers`() {
-        assertEquals(1, convertFromCubicMicrometers(convertToCubicMicrometers(1)).toLong())
+        @Test
+        fun `Convert to & from Cubic Centimeters`() {
+            assertEquals(1, convertToCubicCentimeters(convertFromCubicCentimeters(1)).toLong())
+        }
+
+        @Test
+        fun `Convert to & from Cubic Micrometers`() {
+            assertEquals(1, convertFromCubicMicrometers(convertToCubicMicrometers(1)).toLong())
+        }
     }
 
 }
