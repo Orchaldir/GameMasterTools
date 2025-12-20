@@ -5,7 +5,8 @@
    "id": 0,
    "name": "Cloth",
    "category": "Fabric",
-   "color": "White"
+   "color": "White",
+   "density": 100000000
   },
   "1": {
    "id": 1,
