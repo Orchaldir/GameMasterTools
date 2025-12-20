@@ -18,7 +18,7 @@ import at.orchaldir.gm.core.model.character.CharacterTemplateId
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.util.SortCharacterTemplate
 import at.orchaldir.gm.core.selector.culture.getAppearanceFashion
-import at.orchaldir.gm.core.selector.item.getEquipment
+import at.orchaldir.gm.core.selector.item.equipment.getEquipment
 import at.orchaldir.gm.core.selector.util.sortCharacterTemplates
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.visualization.character.appearance.visualizeCharacter

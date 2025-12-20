@@ -11,7 +11,7 @@ import at.orchaldir.gm.core.model.item.equipment.containsId
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitId
-import at.orchaldir.gm.core.selector.item.getEquipmentMap
+import at.orchaldir.gm.core.selector.item.equipment.getEquipmentMap
 import at.orchaldir.gm.core.selector.rpg.statblock.getStatblock
 
 fun State.canDeleteCharacterTemplate(template: CharacterTemplateId) = DeleteResult(template)

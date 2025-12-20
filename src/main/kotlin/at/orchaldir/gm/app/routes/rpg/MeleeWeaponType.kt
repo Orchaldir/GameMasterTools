@@ -11,7 +11,7 @@ import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.rpg.combat.MELEE_WEAPON_TYPE_TYPE
 import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponTypeId
 import at.orchaldir.gm.core.model.util.SortMeleeWeaponType
-import at.orchaldir.gm.core.selector.item.getMeleeWeapons
+import at.orchaldir.gm.core.selector.item.equipment.getMeleeWeapons
 import at.orchaldir.gm.core.selector.util.sortMeleeWeaponTypes
 import io.ktor.resources.*
 import io.ktor.server.application.*

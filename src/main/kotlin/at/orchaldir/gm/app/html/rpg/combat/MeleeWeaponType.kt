@@ -5,7 +5,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponType
 import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponTypeId
-import at.orchaldir.gm.core.selector.item.getMeleeWeapons
+import at.orchaldir.gm.core.selector.item.equipment.getMeleeWeapons
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag

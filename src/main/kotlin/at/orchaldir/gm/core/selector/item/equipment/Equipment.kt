@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.selector.item
+package at.orchaldir.gm.core.selector.item.equipment
 
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State

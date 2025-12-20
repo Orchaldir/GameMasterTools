@@ -5,7 +5,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.Material
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.selector.economy.money.getCurrencyUnits
-import at.orchaldir.gm.core.selector.item.getEquipmentMadeOf
+import at.orchaldir.gm.core.selector.item.equipment.getEquipmentMadeOf
 import at.orchaldir.gm.core.selector.item.getTextsMadeOf
 import at.orchaldir.gm.core.selector.world.getMoonsContaining
 import at.orchaldir.gm.core.selector.world.getRegionsContaining

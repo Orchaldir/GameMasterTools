@@ -5,7 +5,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.rpg.combat.ArmorTypeId
 import at.orchaldir.gm.core.model.rpg.combat.DamageTypeId
-import at.orchaldir.gm.core.selector.item.getArmors
+import at.orchaldir.gm.core.selector.item.equipment.getArmors
 
 fun State.canDeleteArmorType(type: ArmorTypeId) = DeleteResult(type)
     .addElements(getArmors(type))

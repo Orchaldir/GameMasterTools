@@ -22,7 +22,7 @@ import at.orchaldir.gm.core.model.character.CharacterTemplate
 import at.orchaldir.gm.core.model.character.CharacterTemplateId
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.selector.character.getCharactersUsing
-import at.orchaldir.gm.core.selector.item.getEquipmentMapForLookup
+import at.orchaldir.gm.core.selector.item.equipment.getEquipmentMapForLookup
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag

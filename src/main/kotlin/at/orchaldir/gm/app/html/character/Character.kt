@@ -32,7 +32,7 @@ import at.orchaldir.gm.core.model.time.date.Year
 import at.orchaldir.gm.core.model.util.Dead
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.selector.character.*
-import at.orchaldir.gm.core.selector.item.getEquipmentMapForLookup
+import at.orchaldir.gm.core.selector.item.equipment.getEquipmentMapForLookup
 import at.orchaldir.gm.core.selector.organization.getOrganizations
 import at.orchaldir.gm.core.selector.race.getExistingRaces
 import at.orchaldir.gm.core.selector.realm.getBattlesLedBy

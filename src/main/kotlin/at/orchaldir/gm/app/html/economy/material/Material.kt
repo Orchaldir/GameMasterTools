@@ -14,7 +14,7 @@ import at.orchaldir.gm.core.model.economy.material.MaterialCategory
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.selector.economy.money.getCurrencyUnits
-import at.orchaldir.gm.core.selector.item.getEquipmentMadeOf
+import at.orchaldir.gm.core.selector.item.equipment.getEquipmentMadeOf
 import at.orchaldir.gm.core.selector.item.getTextsMadeOf
 import at.orchaldir.gm.core.selector.race.getRaceAppearancesMadeOf
 import at.orchaldir.gm.core.selector.world.getMoonsContaining

@@ -8,8 +8,8 @@ import at.orchaldir.gm.core.model.item.equipment.EquipmentIdMap
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMapUpdate
 import at.orchaldir.gm.core.model.item.equipment.getAllBodySlotCombinations
 import at.orchaldir.gm.core.model.rpg.statblock.StatblockLookup
-import at.orchaldir.gm.core.selector.item.getEquipmentMap
-import at.orchaldir.gm.core.selector.item.getEquipmentMapForLookup
+import at.orchaldir.gm.core.selector.item.equipment.getEquipmentMap
+import at.orchaldir.gm.core.selector.item.equipment.getEquipmentMapForLookup
 import at.orchaldir.gm.utils.doNothing
 
 fun validateEquipped(

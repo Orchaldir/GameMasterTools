@@ -11,7 +11,7 @@ import at.orchaldir.gm.core.model.economy.material.MATERIAL_TYPE
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.util.SortMaterial
 import at.orchaldir.gm.core.selector.economy.money.countCurrencyUnits
-import at.orchaldir.gm.core.selector.item.countEquipment
+import at.orchaldir.gm.core.selector.item.equipment.countEquipment
 import at.orchaldir.gm.core.selector.item.countTexts
 import at.orchaldir.gm.core.selector.race.countRaceAppearancesMadeOf
 import at.orchaldir.gm.core.selector.util.sortMaterials

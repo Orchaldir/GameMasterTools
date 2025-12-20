@@ -8,7 +8,7 @@ import at.orchaldir.gm.core.model.util.render.COLOR_SCHEME_TYPE
 import at.orchaldir.gm.core.reducer.rpg.validateArmorStats
 import at.orchaldir.gm.core.reducer.rpg.validateMeleeWeaponStats
 import at.orchaldir.gm.core.reducer.rpg.validateShieldStats
-import at.orchaldir.gm.core.selector.item.canDeleteEquipment
+import at.orchaldir.gm.core.selector.item.equipment.canDeleteEquipment
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.checkFactor

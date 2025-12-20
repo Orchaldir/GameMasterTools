@@ -8,7 +8,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.util.OneOrNone
 import at.orchaldir.gm.core.model.util.render.ColorSchemeId
-import at.orchaldir.gm.core.selector.item.getEquipmentOf
+import at.orchaldir.gm.core.selector.item.equipment.getEquipmentOf
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
