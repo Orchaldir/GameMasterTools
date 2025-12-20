@@ -4,6 +4,8 @@ import at.orchaldir.gm.utils.math.Factor
 import kotlinx.serialization.Serializable
 import java.util.*
 
+val ZERO_VOLUME = Volume.fromCubicMillimeters(0)
+
 @JvmInline
 @Serializable
 value class Volume private constructor(private val cmm: Long) : SiUnit<Volume> {

@@ -40,6 +40,7 @@ data class Size2d(val width: Distance, val height: Distance) {
     operator fun plus(size: Size2d) = Size2d(width + size.width, height + size.height)
     operator fun minus(distance: Distance) = Size2d(width - distance, height - distance)
     operator fun times(factor: Factor) = Size2d(width * factor, height * factor)
+    operator fun times(factor: Float) = Size2d(width * factor, height * factor)
     operator fun div(factor: Factor) = Size2d(width / factor, height / factor)
 
     fun addWidth(distance: Distance) = Size2d(width + distance, height)

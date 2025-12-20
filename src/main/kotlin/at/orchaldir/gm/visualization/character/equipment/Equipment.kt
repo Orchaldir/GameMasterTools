@@ -1,5 +1,6 @@
 package at.orchaldir.gm.visualization.character.equipment
 
+import at.orchaldir.gm.app.html.race.weightPrefix
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.item.equipment.*
@@ -8,9 +9,13 @@ import at.orchaldir.gm.core.model.item.equipment.style.SleeveStyle
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.FULL
+import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.HALF
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.Volume
+import at.orchaldir.gm.utils.math.unit.WEIGHTLESS
+import at.orchaldir.gm.utils.math.unit.ZERO_VOLUME
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.ICharacterConfig
 import at.orchaldir.gm.visualization.character.appearance.JACKET_LAYER
@@ -50,6 +55,22 @@ data class EquipmentConfig(
             SleeveStyle.Short -> armSize.replaceHeight(HALF)
         }
     }
+
+    fun getAllSidesForSleeves(config: ICharacterConfig, body: Body, torsoAABB: AABB, style: SleeveStyle): Size2d? {
+        val size = getSleeveSize(config, body, torsoAABB, style) ?: return null
+        val numberOfArms = 2.0f
+        val numberOfSides = 4.0f
+
+        return size * numberOfArms * numberOfSides
+    }
+
+    fun getSleevesVolume(
+        config: ICharacterConfig,
+        body: Body,
+        torsoAABB: AABB,
+        style: SleeveStyle,
+        thickness: Distance,
+    ) = getAllSidesForSleeves(config, body, torsoAABB, style)?.calculateVolumeOfPrism(thickness) ?: ZERO_VOLUME
 
     fun getAllSidesForOuterwearBody(config: ICharacterConfig, body: Body, torsoAABB: AABB, length: OuterwearLength): Size2d {
         val topY = config.body().shoulderY
