@@ -23,6 +23,7 @@ import at.orchaldir.gm.utils.math.unit.CalculatedWeight
 import at.orchaldir.gm.utils.math.unit.FixedWeight
 import at.orchaldir.gm.utils.math.unit.SiPrefix
 import at.orchaldir.gm.utils.math.unit.UndefinedWeight
+import at.orchaldir.gm.utils.math.unit.Volume
 import at.orchaldir.gm.utils.math.unit.VolumePerMaterial
 import at.orchaldir.gm.utils.math.unit.Weight
 import at.orchaldir.gm.utils.math.unit.WeightLookup
@@ -83,11 +84,18 @@ fun HtmlBlockTag.showVolumePerMaterial(
         tr {
             th { +"Material" }
             th { +"Volume" }
+            th { +"Density" }
+            th { +"Weight" }
         }
         vpm.getMap().forEach { (id, volume) ->
+            val material = state.getMaterialStorage().getOrThrow(id)
+            val weight = Weight.fromVolume(volume, material.density)
+
             tr {
-                tdLink(call, state, id)
+                tdLink(call, state, material)
                 tdString(volume.toString())
+                tdString(material.density.toString())
+                tdString(weight.toString())
             }
         }
     }
