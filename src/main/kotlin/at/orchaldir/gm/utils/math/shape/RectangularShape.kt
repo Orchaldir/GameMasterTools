@@ -26,7 +26,7 @@ enum class RectangularShape {
 
     fun calculateArea(size: Size2d) = size.width.toMeters() * size.height.toMeters()
 
-    fun calculateVolume(size: Size2d, thickness: Distance) =
+    fun calculateVolumeOfPrism(size: Size2d, thickness: Distance) =
         Volume.fromCubicMeters(calculateArea(size) * thickness.toMeters())
 
     fun calculateCenter(aabb: AABB) = when (this) {

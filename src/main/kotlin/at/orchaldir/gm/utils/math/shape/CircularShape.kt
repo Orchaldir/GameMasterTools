@@ -36,7 +36,7 @@ enum class CircularShape {
     fun calculateArea(radius: Distance) =
         Math.PI.toFloat() * radius.toMeters().pow(2)
 
-    fun calculateVolume(radius: Distance, thickness: Distance) =
+    fun calculateVolumeOfPrism(radius: Distance, thickness: Distance) =
         Volume.fromCubicMeters(calculateArea(radius) * thickness.toMeters())
 
     fun calculateIncircle(radius: Distance, inner: CircularShape): Distance {
