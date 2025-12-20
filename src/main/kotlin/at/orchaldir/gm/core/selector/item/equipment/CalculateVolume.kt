@@ -34,6 +34,7 @@ import at.orchaldir.gm.core.model.item.equipment.Tie
 import at.orchaldir.gm.core.model.item.equipment.TwoHandedAxe
 import at.orchaldir.gm.core.model.item.equipment.TwoHandedClub
 import at.orchaldir.gm.core.model.item.equipment.TwoHandedSword
+import at.orchaldir.gm.core.model.item.equipment.style.SimpleBuckle
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.unit.VolumePerMaterial
 import at.orchaldir.gm.visualization.character.ICharacterConfig
@@ -99,9 +100,12 @@ private fun calculateVolumePerMaterialForBody(
 
     when (data) {
         is Belt -> {
-            val bandVolume = config.equipment.belt.getBandVolume(config, torsoAABB, body)
+            wpm.add(data.strap.material, config.equipment.belt.getBandVolume(config, torsoAABB, body))
 
-            //wpm.add(data.strap.material, bandVolume)
+            if (data.buckle is SimpleBuckle) {
+                val buckleVolume = config.equipment.belt.getBuckleVolume(torsoAABB, data.buckle.shape, data.buckle.size)
+                wpm.add(data.buckle.part.material, buckleVolume)
+            }
         }
         is BodyArmour -> TODO()
         is Coat -> TODO()

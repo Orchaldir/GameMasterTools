@@ -8,6 +8,8 @@ import at.orchaldir.gm.core.model.util.SizeConfig
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
+import at.orchaldir.gm.utils.math.shape.CircularShape
+import at.orchaldir.gm.utils.math.shape.RectangularShape
 import at.orchaldir.gm.utils.math.unit.Volume
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.LineOptions
@@ -22,6 +24,7 @@ data class BeltConfig(
     val bandLength: Factor,
     val bandThicknessRelativeToHeight: Factor,
     val buckleHeight: SizeConfig<Factor>,
+    val buckleThicknessRelativeToHeight: Factor,
     val holeRadius: SizeConfig<Factor>,
     val y: Factor,
 ) {
@@ -36,6 +39,26 @@ data class BeltConfig(
         val bandThickness = bandSize.height * bandThicknessRelativeToHeight
 
         return bandSize.calculateVolumeOfPrism(bandThickness) * bandLength
+    }
+
+    fun getBuckleHeight(torsoAABB: AABB, size: Size) =
+        torsoAABB.convertHeight(buckleHeight.convert(size))
+
+    fun getBuckleVolume(torsoAABB: AABB, shape: BuckleShape, size: Size): Volume {
+        val height = getBuckleHeight(torsoAABB, size)
+        val half = height / 2.0f
+        val double = height * 2.0f
+        val thickness = height * buckleThicknessRelativeToHeight
+
+        return when (shape) {
+            BuckleShape.Circle -> CircularShape.Circle.calculateVolumeOfPrism(half, thickness)
+            BuckleShape.Frame -> Volume.fromCube(double - half, height - half, thickness)
+            BuckleShape.Plate -> RectangularShape.Ellipse.calculateVolumeOfPrism(Size2d(double, height), thickness)
+            BuckleShape.Rectangle -> Volume.fromCube(double, height, thickness)
+            BuckleShape.Ring -> CircularShape.Circle.calculateVolumeOfPrism(half, thickness) -
+                    CircularShape.Circle.calculateVolumeOfPrism(half / 2, thickness)
+            BuckleShape.Square -> Volume.fromCube(height, height, thickness)
+        }
     }
 }
 
@@ -145,19 +168,19 @@ private fun visualizeSimpleBuckle(
     val fill = buckle.part.getFill(state.state, state.colors)
     val options = FillAndBorder(fill.toRender(), state.config.line)
     val beltConfig = state.config.equipment.belt
-    val distance = torsoAABB.convertHeight(beltConfig.buckleHeight.convert(buckle.size))
-    val half = distance / 2.0f
-    val double = distance * 2.0f
+    val height = beltConfig.getBuckleHeight(torsoAABB, buckle.size)
+    val half = height / 2.0f
+    val double = height * 2.0f
     val center = torsoAABB.getPoint(CENTER, beltConfig.y)
     val renderer = state.renderer.getLayer(HIGHER_EQUIPMENT_LAYER)
 
     when (buckle.shape) {
         BuckleShape.Circle -> renderer.renderCircle(center, half, options)
-        BuckleShape.Frame -> renderer.renderHollowRectangle(center, double, distance, half / 2, options)
-        BuckleShape.Plate -> renderer.renderEllipse(center, distance, half, options)
-        BuckleShape.Rectangle -> renderer.renderRectangle(AABB.fromWidthAndHeight(center, double, distance), options)
+        BuckleShape.Frame -> renderer.renderHollowRectangle(center, double, height, half / 2, options)
+        BuckleShape.Plate -> renderer.renderEllipse(center, height, half, options)
+        BuckleShape.Rectangle -> renderer.renderRectangle(AABB.fromWidthAndHeight(center, double, height), options)
         BuckleShape.Ring -> renderer.renderRing(center, half, half / 2.0f, options)
-        BuckleShape.Square -> renderer.renderRectangle(AABB.fromCenter(center, distance), options)
+        BuckleShape.Square -> renderer.renderRectangle(AABB.fromCenter(center, height), options)
     }
 
 }

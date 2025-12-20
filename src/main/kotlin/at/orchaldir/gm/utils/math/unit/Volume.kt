@@ -32,6 +32,9 @@ value class Volume private constructor(private val cmm: Long) : SiUnit<Volume> {
             SiPrefix.Milli -> fromCubicMillimeters(value)
             SiPrefix.Micro -> fromCubicMicrometers(value)
         }
+
+        fun fromCube(width: Distance, height: Distance, depth: Distance) =
+            fromCubicMeters(width.toMeters() * height.toMeters() * depth.toMeters())
     }
 
     override fun value() = cmm
