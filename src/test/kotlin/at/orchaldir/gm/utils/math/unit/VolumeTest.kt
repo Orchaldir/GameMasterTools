@@ -28,12 +28,28 @@ class VolumeTest {
     }
 
     @Test
-    fun `Convert to & from si prefix`() {
-        val value = 1234L
+    fun `Convert to & from Cubic Kilometers`() {
+        assertEquals(1, convertToCubicKilometers(convertFromCubicKilometers(1)).toLong())
+    }
 
-        prefixes.forEach {
-            assertEquals(value, Volume.from(it, value).convertToLong(it))
-        }
+    @Test
+    fun `Convert to & from Cubic Meters`() {
+        assertEquals(1, convertToCubicMeters(convertFromCubicMeters(1)).toLong())
+    }
+
+    @Test
+    fun `Convert to & from Cubic Decimeters`() {
+        assertEquals(1, convertToCubicDecimeters(convertFromCubicDecimeters(1)).toLong())
+    }
+
+    @Test
+    fun `Convert to & from Cubic Centimeters`() {
+        assertEquals(1, convertToCubicCentimeters(convertFromCubicCentimeters(1)).toLong())
+    }
+
+    @Test
+    fun `Convert to & from Cubic Micrometers`() {
+        assertEquals(1, convertFromCubicMicrometers(convertToCubicMicrometers(1)).toLong())
     }
 
 }
