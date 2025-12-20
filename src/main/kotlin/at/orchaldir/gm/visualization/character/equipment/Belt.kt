@@ -12,6 +12,7 @@ import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.utils.renderer.model.NoBorder
 import at.orchaldir.gm.utils.renderer.model.toRender
+import at.orchaldir.gm.visualization.character.ICharacterConfig
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.HIGHER_EQUIPMENT_LAYER
 
@@ -20,7 +21,13 @@ data class BeltConfig(
     val buckleHeight: SizeConfig<Factor>,
     val holeRadius: SizeConfig<Factor>,
     val y: Factor,
-)
+) {
+    fun getBeltSize(config: ICharacterConfig, torsoAABB: AABB, body: Body): Size2d {
+        val hipWidth = config.equipment().pants.getHipWidth(config.body(), body)
+
+        return torsoAABB.size.scale(hipWidth, bandHeight)
+    }
+}
 
 fun visualizeBelt(
     state: CharacterRenderState,
@@ -42,9 +49,11 @@ private fun visualizeBeltBand(
 ) {
     val fill = belt.strap.getFill(state.state, state.colors)
     val options = FillAndBorder(fill.toRender(), state.config.line)
-    val hipWidth = state.config.equipment.pants.getHipWidth(state.config.body, body)
     val beltConfig = state.config.equipment.belt
-    val bandAabb = torsoAABB.createSubAabb(CENTER, beltConfig.y, hipWidth, beltConfig.bandHeight)
+    val bandAabb = AABB.fromCenter(
+        torsoAABB.getPoint(CENTER, beltConfig.y),
+        beltConfig.getBeltSize(state.config, torsoAABB, body),
+    )
     val polygon = Polygon2dBuilder()
         .addRectangle(bandAabb)
         .build()

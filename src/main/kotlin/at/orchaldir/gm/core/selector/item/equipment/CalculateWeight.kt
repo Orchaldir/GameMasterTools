@@ -1,6 +1,6 @@
 package at.orchaldir.gm.core.selector.item.equipment
 
-import at.orchaldir.gm.core.model.character.appearance.SkinColor
+import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.item.equipment.Belt
 import at.orchaldir.gm.core.model.item.equipment.BodyArmour
 import at.orchaldir.gm.core.model.item.equipment.Coat
@@ -29,23 +29,25 @@ import at.orchaldir.gm.core.model.item.equipment.Tie
 import at.orchaldir.gm.core.model.item.equipment.TwoHandedAxe
 import at.orchaldir.gm.core.model.item.equipment.TwoHandedClub
 import at.orchaldir.gm.core.model.item.equipment.TwoHandedSword
-import at.orchaldir.gm.utils.math.AABB
-import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.WeightPerMaterial
-import at.orchaldir.gm.utils.renderer.model.LineOptions
-import at.orchaldir.gm.utils.renderer.model.RGB
+import at.orchaldir.gm.visualization.character.ICharacterConfig
 import at.orchaldir.gm.visualization.character.appearance.BodyConfig
 import at.orchaldir.gm.visualization.character.appearance.HeadConfig
 import at.orchaldir.gm.visualization.character.equipment.EquipmentConfig
 
 data class CalculateWeightConfig(
-    val aabb: AABB,
+    val appearance: Appearance,
     val body: BodyConfig,
     val equipment: EquipmentConfig,
     val head: HeadConfig,
-)
+): ICharacterConfig {
 
-fun calculateWeightPerMaterial(config: BodyConfig, data: EquipmentData): WeightPerMaterial {
+    override fun body() = body
+    override fun equipment() = equipment
+    override fun head() = head
+}
+
+fun calculateWeightPerMaterial(config: CalculateWeightConfig, data: EquipmentData): WeightPerMaterial {
     val wpm = WeightPerMaterial()
 
     when (data) {
