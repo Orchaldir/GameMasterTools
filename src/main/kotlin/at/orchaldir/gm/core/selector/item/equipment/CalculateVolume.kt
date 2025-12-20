@@ -35,7 +35,7 @@ import at.orchaldir.gm.core.model.item.equipment.TwoHandedAxe
 import at.orchaldir.gm.core.model.item.equipment.TwoHandedClub
 import at.orchaldir.gm.core.model.item.equipment.TwoHandedSword
 import at.orchaldir.gm.utils.math.AABB
-import at.orchaldir.gm.utils.math.unit.WeightPerMaterial
+import at.orchaldir.gm.utils.math.unit.VolumePerMaterial
 import at.orchaldir.gm.visualization.character.ICharacterConfig
 import at.orchaldir.gm.visualization.character.appearance.BodyConfig
 import at.orchaldir.gm.visualization.character.appearance.HeadConfig
@@ -52,12 +52,12 @@ data class CalculateWeightConfig(
     override fun head() = head
 }
 
-fun calculateWeightPerMaterial(config: CalculateWeightConfig, appearance: Appearance, data: EquipmentData): WeightPerMaterial {
-    val wpm = WeightPerMaterial()
+fun calculateVolumePerMaterial(config: CalculateWeightConfig, appearance: Appearance, data: EquipmentData): VolumePerMaterial {
+    val wpm = VolumePerMaterial()
     val aabb = AABB(appearance.getSize2d())
 
     when (appearance) {
-        is HeadOnly -> calculateWeightPerMaterialForHead(
+        is HeadOnly -> calculateVolumePerMaterialForHead(
             config,
             appearance.head,
             aabb,
@@ -67,14 +67,14 @@ fun calculateWeightPerMaterial(config: CalculateWeightConfig, appearance: Appear
         is HumanoidBody -> {
             val headAabb = config.body.getHeadAabb(aabb)
 
-            calculateWeightPerMaterialForBody(
+            calculateVolumePerMaterialForBody(
                 config,
                 appearance.body,
                 aabb,
                 data,
                 wpm,
             )
-            calculateWeightPerMaterialForHead(
+            calculateVolumePerMaterialForHead(
                 config,
                 appearance.head,
                 headAabb,
@@ -88,12 +88,12 @@ fun calculateWeightPerMaterial(config: CalculateWeightConfig, appearance: Appear
     return wpm
 }
 
-private fun calculateWeightPerMaterialForBody(
+private fun calculateVolumePerMaterialForBody(
     config: CalculateWeightConfig,
     body: Body,
     aabb: AABB,
     data: EquipmentData,
-    wpm: WeightPerMaterial,
+    wpm: VolumePerMaterial,
 ) {
     val torsoAABB = config.body.getTorsoAabb(aabb, body)
 
@@ -127,12 +127,12 @@ private fun calculateWeightPerMaterialForBody(
     }
 }
 
-private fun calculateWeightPerMaterialForHead(
+private fun calculateVolumePerMaterialForHead(
     config: CalculateWeightConfig,
     head: Head,
     aabb: AABB,
     data: EquipmentData,
-    wpm: WeightPerMaterial,
+    wpm: VolumePerMaterial,
 ) {
     when (data) {
         is Earring -> TODO()
