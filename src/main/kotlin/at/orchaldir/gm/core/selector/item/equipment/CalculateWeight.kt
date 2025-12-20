@@ -1,6 +1,11 @@
 package at.orchaldir.gm.core.selector.item.equipment
 
 import at.orchaldir.gm.core.model.character.appearance.Appearance
+import at.orchaldir.gm.core.model.character.appearance.Body
+import at.orchaldir.gm.core.model.character.appearance.Head
+import at.orchaldir.gm.core.model.character.appearance.HeadOnly
+import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
+import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
 import at.orchaldir.gm.core.model.item.equipment.Belt
 import at.orchaldir.gm.core.model.item.equipment.BodyArmour
 import at.orchaldir.gm.core.model.item.equipment.Coat
@@ -29,6 +34,7 @@ import at.orchaldir.gm.core.model.item.equipment.Tie
 import at.orchaldir.gm.core.model.item.equipment.TwoHandedAxe
 import at.orchaldir.gm.core.model.item.equipment.TwoHandedClub
 import at.orchaldir.gm.core.model.item.equipment.TwoHandedSword
+import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.unit.WeightPerMaterial
 import at.orchaldir.gm.visualization.character.ICharacterConfig
 import at.orchaldir.gm.visualization.character.appearance.BodyConfig
@@ -36,7 +42,6 @@ import at.orchaldir.gm.visualization.character.appearance.HeadConfig
 import at.orchaldir.gm.visualization.character.equipment.EquipmentConfig
 
 data class CalculateWeightConfig(
-    val appearance: Appearance,
     val body: BodyConfig,
     val equipment: EquipmentConfig,
     val head: HeadConfig,
@@ -47,22 +52,56 @@ data class CalculateWeightConfig(
     override fun head() = head
 }
 
-fun calculateWeightPerMaterial(config: CalculateWeightConfig, data: EquipmentData): WeightPerMaterial {
+fun calculateWeightPerMaterial(config: CalculateWeightConfig, appearance: Appearance, data: EquipmentData): WeightPerMaterial {
     val wpm = WeightPerMaterial()
+    val aabb = AABB(appearance.getSize2d())
 
+    when (appearance) {
+        is HeadOnly -> calculateWeightPerMaterialForHead(
+            config,
+            appearance.head,
+            aabb,
+            data,
+            wpm,
+        )
+        is HumanoidBody -> {
+            val headAabb = config.body.getHeadAabb(aabb)
+
+            calculateWeightPerMaterialForBody(
+                config,
+                appearance.body,
+                aabb,
+                data,
+                wpm,
+            )
+            calculateWeightPerMaterialForHead(
+                config,
+                appearance.head,
+                headAabb,
+                data,
+                wpm,
+            )
+        }
+        UndefinedAppearance -> error("Cannot calculate the equipment weight with an undefined appearance!")
+    }
+
+    return wpm
+}
+
+private fun calculateWeightPerMaterialForBody(
+    config: CalculateWeightConfig,
+    body: Body,
+    aabb: AABB,
+    data: EquipmentData,
+    wpm: WeightPerMaterial,
+) {
     when (data) {
         is Belt -> TODO()
         is BodyArmour -> TODO()
         is Coat -> TODO()
         is Dress -> TODO()
-        is Earring -> TODO()
-        is EyePatch -> TODO()
         is Footwear -> TODO()
-        is Glasses -> TODO()
         is Gloves -> TODO()
-        is Hat -> TODO()
-        is Helmet -> TODO()
-        is IounStone -> TODO()
         is Necklace -> TODO()
         is OneHandedAxe -> TODO()
         is OneHandedClub -> TODO()
@@ -78,7 +117,24 @@ fun calculateWeightPerMaterial(config: CalculateWeightConfig, data: EquipmentDat
         is TwoHandedAxe -> TODO()
         is TwoHandedClub -> TODO()
         is TwoHandedSword -> TODO()
+        else -> error("Equipment type ${data.getType()} is unsupported!")
     }
+}
 
-    return wpm
+private fun calculateWeightPerMaterialForHead(
+    config: CalculateWeightConfig,
+    head: Head,
+    aabb: AABB,
+    data: EquipmentData,
+    wpm: WeightPerMaterial,
+) {
+    when (data) {
+        is Earring -> TODO()
+        is EyePatch -> TODO()
+        is Glasses -> TODO()
+        is Hat -> TODO()
+        is Helmet -> TODO()
+        is IounStone -> TODO()
+        else -> error("Equipment type ${data.getType()} is unsupported!")
+    }
 }
