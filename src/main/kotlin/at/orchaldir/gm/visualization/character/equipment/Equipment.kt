@@ -4,16 +4,17 @@ import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.item.equipment.style.OuterwearLength
+import at.orchaldir.gm.core.model.item.equipment.style.SleeveStyle
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.FULL
+import at.orchaldir.gm.utils.math.HALF
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.ICharacterConfig
 import at.orchaldir.gm.visualization.character.appearance.JACKET_LAYER
 import at.orchaldir.gm.visualization.character.appearance.OUTERWEAR_LAYER
-import at.orchaldir.gm.visualization.character.equipment.part.LamellarArmourConfig
 import at.orchaldir.gm.visualization.character.equipment.part.NecklineConfig
 import at.orchaldir.gm.visualization.character.equipment.part.OpeningConfig
 
@@ -40,7 +41,17 @@ data class EquipmentConfig(
     val sword: SwordConfig,
     val tie: TieConfig,
 ) {
-    fun getOuterwearBodySize(config: ICharacterConfig, body: Body, torsoAABB: AABB, length: OuterwearLength): Size2d {
+    fun getSleeveSize(config: ICharacterConfig, body: Body, torsoAABB: AABB, style: SleeveStyle): Size2d? {
+        val armSize = config.body().getArmSize(torsoAABB, body)
+
+        return when (style) {
+            SleeveStyle.Long -> armSize
+            SleeveStyle.None -> null
+            SleeveStyle.Short -> armSize.replaceHeight(HALF)
+        }
+    }
+
+    fun getAllSidesForOuterwearBody(config: ICharacterConfig, body: Body, torsoAABB: AABB, length: OuterwearLength): Size2d {
         val topY = config.body().shoulderY
         val bottomY = getOuterwearBottomY(config, body, length)
         val height = bottomY - topY
@@ -54,7 +65,7 @@ data class EquipmentConfig(
         torsoAABB: AABB,
         length: OuterwearLength,
         thickness: Distance,
-    ) = getOuterwearBodySize(config, body, torsoAABB, length).calculateVolumeOfPrism(thickness)
+    ) = getAllSidesForOuterwearBody(config, body, torsoAABB, length).calculateVolumeOfPrism(thickness)
 }
 
 fun visualizeBodyEquipment(
