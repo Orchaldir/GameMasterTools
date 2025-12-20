@@ -29,6 +29,7 @@ fun downSixSteps(value: Long) = value * SI_SIX_STEPS
 fun downSixSteps(value: Float) = (value * SI_SIX_STEPS).toLong()
 
 fun downNineSteps(value: Long) = value * SI_NINE_STEPS
+fun downNineSteps(value: Float) = (value * SI_NINE_STEPS).toLong()
 
 fun up(value: Int) = value / SI_STEP.toFloat()
 fun up(value: Long) = value / SI_STEP.toFloat()

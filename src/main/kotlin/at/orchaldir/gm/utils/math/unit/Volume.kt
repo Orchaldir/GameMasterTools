@@ -14,9 +14,13 @@ value class Volume private constructor(private val cmm: Long) : SiUnit<Volume> {
 
     companion object {
         fun fromCubicKilometers(ckm: Long) = Volume(convertFromCubicKilometers(ckm))
+        fun fromCubicKilometers(ckm: Float) = Volume(convertFromCubicKilometers(ckm))
         fun fromCubicMeters(cm: Long) = Volume(convertFromCubicMeters(cm))
+        fun fromCubicMeters(cm: Float) = Volume(convertFromCubicMeters(cm))
         fun fromCubicDecimeters(cdm: Long) = Volume(convertFromCubicDecimeters(cdm))
+        fun fromCubicDecimeters(cdm: Float) = Volume(convertFromCubicDecimeters(cdm))
         fun fromCubicCentimeters(ccm: Long) = Volume(convertFromCubicCentimeters(ccm))
+        fun fromCubicCentimeters(ccm: Float) = Volume(convertFromCubicCentimeters(ccm))
         fun fromCubicMillimeters(cmm: Long) = Volume(cmm)
         fun fromCubicMicrometers(cµm: Long) = Volume(convertFromCubicMicrometers(cµm).toLong())
 
@@ -30,6 +34,9 @@ value class Volume private constructor(private val cmm: Long) : SiUnit<Volume> {
     }
 
     override fun value() = cmm
+
+    fun toCubicMeters() = convertToCubicMeters(cmm)
+
     override fun convertToLong(prefix: SiPrefix) = when (prefix) {
         SiPrefix.Kilo -> convertToCubicKilometers(cmm).toLong()
         SiPrefix.Base -> convertToCubicMeters(cmm).toLong()
@@ -56,9 +63,13 @@ value class Volume private constructor(private val cmm: Long) : SiUnit<Volume> {
 }
 
 fun convertFromCubicKilometers(ckm: Long) = downSixSteps(downSixSteps(downSixSteps(ckm)))
+fun convertFromCubicKilometers(ckm: Float) = downSixSteps(downSixSteps(downSixSteps(ckm)))
 fun convertFromCubicMeters(cm: Long) = downNineSteps(cm)
+fun convertFromCubicMeters(cm: Float) = downNineSteps(cm)
 fun convertFromCubicDecimeters(cdm: Long) = downSixSteps(cdm)
+fun convertFromCubicDecimeters(cdm: Float) = downSixSteps(cdm)
 fun convertFromCubicCentimeters(ccm: Long) = downThreeSteps(ccm)
+fun convertFromCubicCentimeters(ccm: Float) = downThreeSteps(ccm)
 fun convertFromCubicMicrometers(cµm: Long) = upSixSteps(upSixSteps(upSixSteps(cµm)))
 
 fun convertToCubicKilometers(cmm: Long) = upSixSteps(upSixSteps(upSixSteps(cmm)))

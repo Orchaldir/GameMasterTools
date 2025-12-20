@@ -26,6 +26,9 @@ value class Weight private constructor(private val milligrams: Long) : SiUnit<We
         fun fromVolume(volume: Float, density: Weight) =
             fromKilograms(volume * density.toKilograms())
 
+        fun fromVolume(volume: Volume, density: Weight) =
+            fromKilograms(volume.toCubicMeters() * density.toKilograms())
+
         fun from(prefix: SiPrefix, value: Long) = when (prefix) {
             SiPrefix.Kilo -> fromKilograms(value)
             SiPrefix.Base -> fromGrams(value)
