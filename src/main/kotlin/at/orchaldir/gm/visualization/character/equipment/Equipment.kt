@@ -43,7 +43,7 @@ data class EquipmentConfig(
     fun getOuterwearBodySize(config: ICharacterConfig, body: Body, torsoAABB: AABB, length: OuterwearLength): Size2d {
         val topY = config.body().shoulderY
         val bottomY = getOuterwearBottomY(config, body, length)
-        val height = topY - bottomY
+        val height = bottomY - topY
 
         return torsoAABB.size.scale(FULL, height) * config.body().getTorsoCircumferenceFactor()
     }

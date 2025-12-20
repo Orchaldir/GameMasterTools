@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.render.ColorSchemeId
 import at.orchaldir.gm.core.reducer.item.validateEquipment
 import at.orchaldir.gm.utils.Id
+import at.orchaldir.gm.utils.math.unit.CalculatedWeight
 import kotlinx.serialization.Serializable
 
 const val EQUIPMENT_TYPE = "Equipment"
@@ -29,7 +30,7 @@ data class Equipment(
     val id: EquipmentId,
     val name: Name = Name.init(id),
     val data: EquipmentData = Belt(),
-    val weight: WeightLookup = UndefinedWeight,
+    val weight: WeightLookup = CalculatedWeight,
     val colorSchemes: Set<ColorSchemeId> = emptySet(),
 ) : ElementWithSimpleName<EquipmentId> {
 

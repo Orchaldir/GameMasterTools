@@ -133,14 +133,10 @@ private fun calculateVolumePerMaterialForBody(
             }
         }
         is BodyArmour -> {
-            val torsoVolume = config.equipment.getOuterwearBodySize(config, body, torsoAABB, data.length)
+            val thickness = config.equipment.armor.getThickness(torsoAABB, data.style)
+            val torsoVolume = config.equipment.getOuterwearBodyVolume(config, body, torsoAABB, data.length, thickness)
 
-            when (data.style) {
-                is ChainMail -> TODO()
-                is LamellarArmour -> TODO()
-                is ScaleArmour -> TODO()
-                is SegmentedArmour -> TODO()
-            }
+            vpm.add(data.style.mainMaterial(), torsoVolume)
         }
         is Coat -> doNothing()
         is Dress -> doNothing()

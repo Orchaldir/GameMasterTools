@@ -2,12 +2,15 @@ package at.orchaldir.gm.visualization.character.equipment
 
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.BodyArmour
+import at.orchaldir.gm.core.model.item.equipment.style.ArmourStyle
 import at.orchaldir.gm.core.model.item.equipment.style.ArmourType
 import at.orchaldir.gm.core.model.item.equipment.style.ChainMail
 import at.orchaldir.gm.core.model.item.equipment.style.LamellarArmour
 import at.orchaldir.gm.core.model.item.equipment.style.ScaleArmour
 import at.orchaldir.gm.core.model.item.equipment.style.SegmentedArmour
+import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.equipment.part.LamellarArmourConfig
 import at.orchaldir.gm.visualization.character.equipment.part.visualizeChainMail
@@ -21,7 +24,20 @@ data class BodyArmourConfig(
     val thicknessScale: Factor,
     val thicknessSegmented: Factor,
     val lamellar: LamellarArmourConfig,
-)
+) {
+
+    fun getThickness(torsoAABB: AABB, style: ArmourStyle): Distance {
+        val thicknessFactor = when (style) {
+            is ChainMail -> thicknessChainMail
+            is LamellarArmour -> thicknessLamellar
+            is ScaleArmour -> thicknessScale
+            is SegmentedArmour -> thicknessSegmented
+        }
+
+        return torsoAABB.convertHeight(thicknessFactor)
+    }
+
+}
 
 fun visualizeBodyArmour(
     state: CharacterRenderState,
