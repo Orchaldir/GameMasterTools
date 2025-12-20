@@ -1,6 +1,5 @@
-package at.orchaldir.gm.core.model.util
+package at.orchaldir.gm.utils.math.unit
 
-import at.orchaldir.gm.utils.math.unit.Weight
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

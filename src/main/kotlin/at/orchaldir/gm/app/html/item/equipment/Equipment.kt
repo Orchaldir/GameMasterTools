@@ -4,12 +4,9 @@ import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.rpg.combat.*
 import at.orchaldir.gm.app.html.util.color.parseColorSchemeId
-import at.orchaldir.gm.app.html.util.math.fieldWeight
-import at.orchaldir.gm.app.html.util.math.parseWeight
-import at.orchaldir.gm.app.html.util.math.selectWeight
-import at.orchaldir.gm.app.html.util.parseWeightLookup
-import at.orchaldir.gm.app.html.util.selectWeightLookup
-import at.orchaldir.gm.app.html.util.showWeightLookupDetails
+import at.orchaldir.gm.app.html.util.math.parseWeightLookup
+import at.orchaldir.gm.app.html.util.math.selectWeightLookup
+import at.orchaldir.gm.app.html.util.math.showWeightLookupDetails
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseElements
@@ -22,7 +19,6 @@ import at.orchaldir.gm.core.selector.culture.getFashions
 import at.orchaldir.gm.core.selector.item.getUniforms
 import at.orchaldir.gm.core.selector.util.filterValidColorSchemes
 import at.orchaldir.gm.core.selector.util.getValidColorSchemes
-import at.orchaldir.gm.utils.math.unit.SiPrefix
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
