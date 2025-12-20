@@ -11,7 +11,8 @@
    "id": 1,
    "name": "Leather",
    "category": "Skin",
-   "color": "SaddleBrown"
+   "color": "SaddleBrown",
+   "density": 200000000
   },
   "2": {
    "id": 2,
