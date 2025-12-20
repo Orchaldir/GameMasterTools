@@ -9,15 +9,24 @@ import java.util.*
 value class Volume private constructor(private val cmm: Long) : SiUnit<Volume> {
 
     init {
-        require(cmm >= 0) { "Volume must be greater 0!" }
+        require(cmm >= 0) { "Volume $cmm must be greater 0!" }
     }
 
     companion object {
+        fun fromCubicKilometers(ckm: Long) = Volume(convertFromCubicKilometers(ckm))
         fun fromCubicMeters(cm: Long) = Volume(convertFromCubicMeters(cm))
         fun fromCubicDecimeters(cdm: Long) = Volume(convertFromCubicDecimeters(cdm))
         fun fromCubicCentimeters(ccm: Long) = Volume(convertFromCubicCentimeters(ccm))
         fun fromCubicMillimeters(cmm: Long) = Volume(cmm)
-        fun fromCubicMicrometers(cmm: Long) = Volume(convertFromCubicMicrometers(cmm).toLong())
+        fun fromCubicMicrometers(cµm: Long) = Volume(convertFromCubicMicrometers(cµm).toLong())
+
+        fun from(prefix: SiPrefix, value: Long) = when (prefix) {
+            SiPrefix.Kilo -> fromCubicKilometers(value)
+            SiPrefix.Base -> fromCubicMeters(value)
+            SiPrefix.Centi -> fromCubicCentimeters(value)
+            SiPrefix.Milli -> fromCubicMillimeters(value)
+            SiPrefix.Micro -> fromCubicMicrometers(value)
+        }
     }
 
     override fun value() = cmm
@@ -46,12 +55,13 @@ value class Volume private constructor(private val cmm: Long) : SiUnit<Volume> {
     }
 }
 
+fun convertFromCubicKilometers(ckm: Long) = downSixSteps(downSixSteps(downSixSteps(ckm)))
 fun convertFromCubicMeters(cm: Long) = downNineSteps(cm)
 fun convertFromCubicDecimeters(cdm: Long) = downSixSteps(cdm)
 fun convertFromCubicCentimeters(ccm: Long) = downThreeSteps(ccm)
 fun convertFromCubicMicrometers(cµm: Long) = upSixSteps(upSixSteps(upSixSteps(cµm)))
 
-fun convertToCubicKilometers(ckm: Long) = upSixSteps(upSixSteps(upSixSteps(ckm)))
+fun convertToCubicKilometers(cmm: Long) = upSixSteps(upSixSteps(upSixSteps(cmm)))
 fun convertToCubicMeters(cmm: Long) = upNineSteps(cmm)
 fun convertToCubicDecimeters(cmm: Long) = upSixSteps(cmm)
 fun convertToCubicCentimeters(cmm: Long) = upThreeSteps(cmm)
