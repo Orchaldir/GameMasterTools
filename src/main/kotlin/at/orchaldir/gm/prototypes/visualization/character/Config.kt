@@ -132,7 +132,7 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
             fromPercentage(90),
             fromPermille(25),
             fromPercentage(2),
-            fromPermille(3),
+            fromPercentage(2),
         ),
         GlassesConfig(
             fromPercentages(25, 35, 40),

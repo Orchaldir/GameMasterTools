@@ -44,7 +44,7 @@ data class PantsConfig(
         style: PantsStyle,
     ): Volume {
         val height = getPantlegHeight(config, style) ?: return ZERO_VOLUME
-        return config.equipment().getPantlegVolume(config, height, thickness)
+        return config.equipment().getPantlegsVolume(config, height, thickness)
     }
 }
 

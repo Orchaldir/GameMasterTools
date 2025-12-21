@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.Footwear
 import at.orchaldir.gm.core.model.item.equipment.style.FootwearStyle
 import at.orchaldir.gm.utils.math.*
+import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Volume
 import at.orchaldir.gm.utils.math.unit.ZERO_VOLUME
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
@@ -26,7 +27,7 @@ data class FootwearConfig(
 
     // shaft
 
-    fun getShaftHeight(
+    fun getShaftHeightFactor(
         config: ICharacterConfig<Body>,
         style: FootwearStyle,
         isFront: Boolean = true,
@@ -47,6 +48,16 @@ data class FootwearConfig(
         }
     }
 
+    fun getShaftHeight(
+        config: ICharacterConfig<Body>,
+        style: FootwearStyle,
+        isFront: Boolean = true,
+    ): Distance? {
+        val height = getShaftHeightFactor(config, style, isFront) ?: return null
+
+        return config.fullAABB().convertHeight(config.body().getLegHeight() * height)
+    }
+
     fun getShaftVolume(
         config: ICharacterConfig<Body>,
         style: FootwearStyle,
@@ -55,12 +66,8 @@ data class FootwearConfig(
 
         if (style.hasShaft()) {
             val height = getShaftHeight(config, style, false) ?: error("Style $style should have a shaft height")
-            val width = config.body().getLegWidth(config)
-            val size = config.fullAABB().size.scale(width, config.body().getLegHeight() * height)
-            val thickness = config.fullAABB().size.width * shaftThickness
 
-            val v = size.calculateVolumeOfPrism(thickness)
-            volume += v * 4.0f
+            volume += config.equipment().getPantlegVolume(config, height, shaftThickness)
         }
 
         return volume * 2.0f
@@ -116,7 +123,7 @@ private fun visualizeBootShaft(
     footwear: Footwear,
     options: RenderOptions,
 ) {
-    val height = state.equipment().footwear.getShaftHeight(state, footwear.style, state.renderFront) ?: return
+    val height = state.equipment().footwear.getShaftHeightFactor(state, footwear.style, state.renderFront) ?: return
 
     visualizeBootShaft(state, options, height, state.config.equipment.footwear.shaftPadding)
 }
