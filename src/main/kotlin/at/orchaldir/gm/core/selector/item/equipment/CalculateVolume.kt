@@ -197,8 +197,9 @@ private fun calculateVolumePerMaterialForBody(
         }
         is Gloves -> {
             val hands = config.equipment.gloves.getHandsVolume(config)
+            val sleeves = config.equipment.gloves.getSleevesVolume(config, data.style)
 
-            vpm.add(data.main.material, hands)
+            vpm.add(data.main.material, hands + sleeves)
         }
         is Necklace -> doNothing()
         is OneHandedAxe -> doNothing()

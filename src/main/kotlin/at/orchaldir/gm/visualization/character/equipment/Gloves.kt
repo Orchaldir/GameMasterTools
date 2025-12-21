@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.item.equipment.Gloves
 import at.orchaldir.gm.core.model.item.equipment.style.GloveStyle
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
+import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Volume
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
@@ -22,6 +23,27 @@ data class GlovesConfig(
     fun getHandsVolume(
         config: ICharacterConfig<Body>,
     ) = Volume.fromHollowSphere(config.body().getHandRadius(config), thickness) * 2.0f
+
+    // sleeves
+
+    fun getSleeveSize(config: ICharacterConfig<Body>, style: GloveStyle): Size2d? {
+        val armSize = config.body().getArmSize(config)
+
+        return when (style) {
+            GloveStyle.Hand -> null
+            GloveStyle.Half -> armSize.replaceHeight(HALF)
+            GloveStyle.Full -> armSize
+        }
+    }
+
+    fun getSleevesVolume(
+        config: ICharacterConfig<Body>,
+        style: GloveStyle,
+    ): Volume {
+        val distance = config.body().getHandRadius(config) * thickness
+
+        return config.equipment().getSleevesVolume(getSleeveSize(config, style), distance)
+    }
 
 }
 

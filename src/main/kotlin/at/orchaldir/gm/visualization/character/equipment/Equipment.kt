@@ -3,6 +3,7 @@ package at.orchaldir.gm.visualization.character.equipment
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.item.equipment.*
+import at.orchaldir.gm.core.model.item.equipment.style.GloveStyle
 import at.orchaldir.gm.core.model.item.equipment.style.OuterwearLength
 import at.orchaldir.gm.core.model.item.equipment.style.SleeveStyle
 import at.orchaldir.gm.utils.doNothing
@@ -50,9 +51,9 @@ data class EquipmentConfig(
         val armSize = config.body().getArmSize(config)
 
         return when (style) {
-            SleeveStyle.Long -> armSize
             SleeveStyle.None -> null
             SleeveStyle.Short -> armSize.replaceHeight(HALF)
+            SleeveStyle.Long -> armSize
         }
     }
 
@@ -60,8 +61,13 @@ data class EquipmentConfig(
         config: ICharacterConfig<Body>,
         style: SleeveStyle,
         thickness: Distance,
+    ) = getSleevesVolume(getSleeveSize(config, style), thickness)
+
+    fun getSleevesVolume(
+        size2d: Size2d?,
+        thickness: Distance,
     ): Volume {
-        val size = getSleeveSize(config, style) ?: return ZERO_VOLUME
+        val size = size2d ?: return ZERO_VOLUME
         val numberOfArms = 2.0f
         val numberOfSides = 4.0f
 
