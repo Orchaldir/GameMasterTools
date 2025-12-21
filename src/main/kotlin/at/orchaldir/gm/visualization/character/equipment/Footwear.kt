@@ -38,7 +38,6 @@ data class FootwearConfig(
     fun getSoleVolume(
         config: ICharacterConfig,
         body: Body,
-        torsoAABB: AABB,
         style: FootwearStyle,
     ) = if (style.hasSole()) {
         val soleLength = config.body().getFootLength(config, body)

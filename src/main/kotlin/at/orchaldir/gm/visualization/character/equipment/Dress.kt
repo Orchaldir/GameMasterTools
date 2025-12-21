@@ -45,21 +45,20 @@ data class DressConfig(
         return config.body().getLegY(body, bottomHeight)
     }
 
-    fun getAllSidesOfBody(config: ICharacterConfig, body: Body, torsoAABB: AABB, skirtStyle: SkirtStyle): Size2d {
+    fun getAllSidesOfBody(config: ICharacterConfig, body: Body, skirtStyle: SkirtStyle): Size2d {
         val topY = config.body().shoulderY
         val bottomY = getBottomY(config, body, skirtStyle)
         val height = bottomY - topY
 
-        return torsoAABB.size.scale(FULL, height) * config.body().getTorsoCircumferenceFactor()
+        return config.torsoAABB().size.scale(FULL, height) * config.body().getTorsoCircumferenceFactor()
     }
 
     fun getBodyVolume(
         config: ICharacterConfig,
         body: Body,
-        torsoAABB: AABB,
         skirtStyle: SkirtStyle,
         thickness: Distance,
-    ) = getAllSidesOfBody(config, body, torsoAABB, skirtStyle).calculateVolumeOfPrism(thickness)
+    ) = getAllSidesOfBody(config, body, skirtStyle).calculateVolumeOfPrism(thickness)
 }
 
 fun visualizeDress(
