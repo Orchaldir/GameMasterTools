@@ -39,19 +39,19 @@ data class DressConfig(
         return config.body().getLegY(config, bottomHeight)
     }
 
-    fun getAllSidesOfBody(config: ICharacterConfig<Body>, skirtStyle: SkirtStyle): Size2d {
+    fun getBodySize(config: ICharacterConfig<Body>, skirtStyle: SkirtStyle): Size2d {
         val topY = config.body().shoulderY
         val bottomY = getBottomY(config, skirtStyle)
         val height = bottomY - topY
 
-        return config.torsoAABB().size.scale(FULL, height) * config.body().getTorsoCircumferenceFactor()
+        return config.torsoAABB().size.scale(FULL, height)
     }
 
     fun getBodyVolume(
         config: ICharacterConfig<Body>,
         skirtStyle: SkirtStyle,
         thickness: Distance,
-    ) = getAllSidesOfBody(config, skirtStyle).calculateVolumeOfPrism(thickness)
+    ) = getBodySize(config, skirtStyle).calculateVolumeOfPrism(thickness) * config.body().getTorsoCircumferenceFactor()
 }
 
 fun visualizeDress(

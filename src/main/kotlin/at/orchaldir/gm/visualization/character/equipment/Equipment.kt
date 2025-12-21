@@ -10,6 +10,7 @@ import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.HALF
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.Volume
 import at.orchaldir.gm.utils.math.unit.ZERO_VOLUME
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.ICharacterConfig
@@ -54,35 +55,33 @@ data class EquipmentConfig(
         }
     }
 
-    fun getAllSidesForSleeves(config: ICharacterConfig<Body>, style: SleeveStyle): Size2d? {
-        val size = getSleeveSize(config, style) ?: return null
-        val numberOfArms = 2.0f
-        val numberOfSides = 4.0f
-
-        return size * numberOfArms * numberOfSides
-    }
-
     fun getSleevesVolume(
         config: ICharacterConfig<Body>,
         style: SleeveStyle,
         thickness: Distance,
-    ) = getAllSidesForSleeves(config, style)?.calculateVolumeOfPrism(thickness) ?: ZERO_VOLUME
+    ): Volume {
+        val size = getSleeveSize(config, style) ?: return ZERO_VOLUME
+        val numberOfArms = 2.0f
+        val numberOfSides = 4.0f
+
+        return size.calculateVolumeOfPrism(thickness) * numberOfArms * numberOfSides
+    }
 
     // outerwear
 
-    fun getAllSidesForOuterwear(config: ICharacterConfig<Body>, length: OuterwearLength): Size2d {
+    fun getOuterwearSize(config: ICharacterConfig<Body>, length: OuterwearLength): Size2d {
         val topY = config.body().shoulderY
         val bottomY = getOuterwearBottomY(config, length)
         val height = bottomY - topY
 
-        return config.torsoAABB().size.scale(FULL, height) * config.body().getTorsoCircumferenceFactor()
+        return config.torsoAABB().size.scale(FULL, height)
     }
 
     fun getOuterwearBodyVolume(
         config: ICharacterConfig<Body>,
         length: OuterwearLength,
         thickness: Distance,
-    ) = getAllSidesForOuterwear(config, length).calculateVolumeOfPrism(thickness)
+    ) = getOuterwearSize(config, length).calculateVolumeOfPrism(thickness) * config.body().getTorsoCircumferenceFactor()
 }
 
 fun visualizeBodyEquipment(state: CharacterRenderState<Body>) {

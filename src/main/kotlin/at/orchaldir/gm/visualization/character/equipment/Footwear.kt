@@ -4,7 +4,6 @@ import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.Footwear
 import at.orchaldir.gm.core.model.item.equipment.style.FootwearStyle
 import at.orchaldir.gm.utils.math.*
-import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Volume
 import at.orchaldir.gm.utils.math.unit.ZERO_VOLUME
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
@@ -21,7 +20,8 @@ data class FootwearConfig(
     val heightKnee: Factor,
     val heightTight: Factor,
     val heightSole: Factor,
-    val paddingShaft: Factor,
+    val shaftPadding: Factor,
+    val shaftThickness: Factor,
 ) {
 
     // shaft
@@ -56,10 +56,11 @@ data class FootwearConfig(
         if (style.hasShaft()) {
             val height = getShaftHeight(config, style, false) ?: error("Style $style should have a shaft height")
             val width = config.body().getLegWidth(config)
-            val size = config.fullAABB().size.scale(width, height) * 4.0f
-            val thickness = config.fullAABB().size.width * paddingShaft
+            val size = config.fullAABB().size.scale(width, height)
+            val thickness = config.fullAABB().size.width * shaftThickness
 
-            volume += size.calculateVolumeOfPrism(thickness)
+            val v = size.calculateVolumeOfPrism(thickness)
+            volume += v * 4.0f
         }
 
         return volume * 2.0f
@@ -117,7 +118,7 @@ private fun visualizeBootShaft(
 ) {
     val height = state.equipment().footwear.getShaftHeight(state, footwear.style, state.renderFront) ?: return
 
-    visualizeBootShaft(state, options, height, state.config.equipment.footwear.paddingShaft)
+    visualizeBootShaft(state, options, height, state.config.equipment.footwear.shaftPadding)
 }
 
 fun visualizeBootShaft(
