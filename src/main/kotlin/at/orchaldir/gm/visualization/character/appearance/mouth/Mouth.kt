@@ -68,7 +68,7 @@ fun visualizeMaleMouth(
         return
     }
 
-    val aabb = state.aabb
+    val aabb = state.headAABB()
     val config = state.config
     val center = aabb.getPoint(CENTER, config.head.mouth.y)
     val width = aabb.convertWidth(config.head.mouth.getSimpleWidth(size))
@@ -87,7 +87,7 @@ private fun visualizeFemaleMouth(
         return
     }
 
-    val aabb = state.aabb
+    val aabb = state.headAABB()
     val config = state.config.head.mouth
     val options = NoBorder(mouth.color.toRender())
     val width = config.getSimpleWidth(mouth.width)

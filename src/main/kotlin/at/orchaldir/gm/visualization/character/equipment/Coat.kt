@@ -68,8 +68,8 @@ fun visualizeCoat(
         val bottomY = getOuterwearBottomY(state, body, coat.length)
         val topY = state.config.body.torsoY + state.config.body.torsoHeight * necklineHeight
         val torsoWidth = state.config.body.getTorsoWidth(body)
-        val size = state.aabb.size.scale(torsoWidth, FULL)
-        val aabb = AABB.fromCenter(state.aabb.getCenter(), size)
+        val size = state.fullAABB.size.scale(torsoWidth, FULL)
+        val aabb = AABB.fromCenter(state.fullAABB.getCenter(), size)
 
         visualizeOpening(state, aabb, HALF, topY, bottomY, coat.openingStyle, layer)
         visualizeTopPockets(state, options, coat.pocketStyle, layer)
@@ -115,10 +115,10 @@ fun createOuterwearBottom(
         val width = config.getTorsoWidth(body) * config.getHipWidth(body.bodyShape) * paddedWidth
         val bottomY = getOuterwearBottomY(state, body, length)
 
-        builder.addMirroredPoints(state.aabb, width, bottomY)
+        builder.addMirroredPoints(state.fullAABB, width, bottomY)
     }
 
-    addHip(state.config, builder, state.aabb, body, paddedWidth)
+    addHip(state, builder, body, paddedWidth)
 
     return builder
 }

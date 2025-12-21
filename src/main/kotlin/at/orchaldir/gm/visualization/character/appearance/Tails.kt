@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.character.appearance.tail.NoTails
 import at.orchaldir.gm.core.model.character.appearance.tail.SimpleTail
 import at.orchaldir.gm.core.model.character.appearance.tail.SimpleTailShape
 import at.orchaldir.gm.core.model.character.appearance.tail.Tails
+import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.SizeConfig
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
@@ -13,12 +14,19 @@ import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.visualization.character.CharacterRenderState
+import at.orchaldir.gm.visualization.character.ICharacterConfig
 
 data class TailConfig(
     val bunnySize: SizeConfig<Factor>,
     val horseLength: Factor,
     val startY: Factor,
-)
+) {
+    fun getBunnyCenter(config: ICharacterConfig) = config.fullAABB()
+        .getPoint(CENTER, startY)
+
+    fun getBunnyRadius(config: ICharacterConfig, size: Size) = config.fullAABB()
+        .convertHeight(bunnySize.convert(size))
+}
 
 fun visualizeTails(state: CharacterRenderState, tails: Tails, skin: Skin, hair: Hair) = when (tails) {
     NoTails -> doNothing()
@@ -39,8 +47,8 @@ private fun visualizeSimpleTail(state: CharacterRenderState, tail: SimpleTail, s
 
 private fun visualizeBunny(state: CharacterRenderState, options: RenderOptions, tail: SimpleTail) {
     val config = state.config.body.tail
-    val center = state.aabb.getPoint(CENTER, config.startY)
-    val radius = state.aabb.convertHeight(config.bunnySize.convert(tail.size))
+    val center = config.getBunnyCenter(state)
+    val radius = config.getBunnyRadius(state, tail.size)
 
     state.getTailLayer().renderCircle(center, radius, options)
 }
@@ -48,7 +56,7 @@ private fun visualizeBunny(state: CharacterRenderState, options: RenderOptions, 
 private fun visualizeCat(state: CharacterRenderState, options: RenderOptions, tail: SimpleTail) {
     val config = state.config.body.tail
     val line = createTailLine(state, config)
-    val radius = state.aabb.convertHeight(config.bunnySize.convert(tail.size))
+    val radius = config.getBunnyRadius(state, tail.size)
     val polygon = buildTailPolygon(line, radius, false)
 
     renderTailPolygon(state, options, polygon)
@@ -58,10 +66,11 @@ private fun visualizeHorse(state: CharacterRenderState, options: RenderOptions, 
     val config = state.config.body.tail
     val radius = config.bunnySize.convert(tail.size)
     val width = radius * 2.0f
+    val aabb = state.fullAABB()
     val polygon = Polygon2dBuilder()
-        .addMirroredPoints(state.aabb, width, config.startY - radius)
-        .addMirroredPoints(state.aabb, width * 0.9f, config.startY + config.horseLength / 2.0f)
-        .addMirroredPoints(state.aabb, width, config.startY + config.horseLength, true)
+        .addMirroredPoints(aabb, width, config.startY - radius)
+        .addMirroredPoints(aabb, width * 0.9f, config.startY + config.horseLength / 2.0f)
+        .addMirroredPoints(aabb, width, config.startY + config.horseLength, true)
         .build()
 
     state.getTailLayer().renderRoundedPolygon(polygon, options)
@@ -70,27 +79,28 @@ private fun visualizeHorse(state: CharacterRenderState, options: RenderOptions, 
 private fun visualizeRat(state: CharacterRenderState, options: RenderOptions, tail: SimpleTail) {
     val config = state.config.body.tail
     val line = createTailLine(state, config)
-    val radius = state.aabb.convertHeight(config.bunnySize.convert(tail.size)) * 1.5f
+    val radius = config.getBunnyRadius(state, tail.size) * 1.5f
     val polygon = buildTailPolygon(line, radius, true)
 
     renderTailPolygon(state, options, polygon)
 }
 
 private fun visualizeSquirrel(state: CharacterRenderState, options: RenderOptions) {
+    val aabb = state.fullAABB()
     val polygon = Polygon2dBuilder()
-        .addMirroredPoints(state.aabb, fromPercentage(50), fromPercentage(80))
-        .addMirroredPoints(state.aabb, fromPercentage(50), fromPercentage(10))
-        .addLeftPoint(state.aabb, CENTER, fromPercentage(10))
+        .addMirroredPoints(aabb, fromPercentage(50), fromPercentage(80))
+        .addMirroredPoints(aabb, fromPercentage(50), fromPercentage(10))
+        .addLeftPoint(aabb, CENTER, fromPercentage(10))
         .build()
 
     state.getTailLayer().renderRoundedPolygon(polygon, options)
 
     if (!state.renderFront) {
         val backPolygon = Polygon2dBuilder()
-            .addLeftPoint(state.aabb, CENTER, fromPercentage(10))
-            .addMirroredPoints(state.aabb, fromPercentage(45), fromPercentage(10))
-            .addMirroredPoints(state.aabb, fromPercentage(45), fromPercentage(30))
-            .addMirroredPoints(state.aabb, fromPercentage(20), fromPercentage(40))
+            .addLeftPoint(aabb, CENTER, fromPercentage(10))
+            .addMirroredPoints(aabb, fromPercentage(45), fromPercentage(10))
+            .addMirroredPoints(aabb, fromPercentage(45), fromPercentage(30))
+            .addMirroredPoints(aabb, fromPercentage(20), fromPercentage(40))
             .build()
 
         state.getTailLayer().renderRoundedPolygon(backPolygon, options)
@@ -100,14 +110,18 @@ private fun visualizeSquirrel(state: CharacterRenderState, options: RenderOption
 private fun createTailLine(
     state: CharacterRenderState,
     config: TailConfig,
-) = Line2dBuilder()
-    .addPoint(state.aabb, CENTER, config.startY)
-    .addPoint(state.aabb, fromPercentage(30), config.startY + fromPercentage(5))
-    .addPoint(state.aabb, fromPercentage(35), config.startY + fromPercentage(30))
-    .addPoint(state.aabb, fromPercentage(75), config.startY + fromPercentage(30))
-    .addPoint(state.aabb, fromPercentage(70), config.startY - fromPercentage(20))
-    .addPoint(state.aabb, fromPercentage(90), config.startY - fromPercentage(25))
-    .build()
+): Line2d {
+    val aabb = state.fullAABB()
+
+    return Line2dBuilder()
+        .addPoint(aabb, CENTER, config.startY)
+        .addPoint(aabb, fromPercentage(30), config.startY + fromPercentage(5))
+        .addPoint(aabb, fromPercentage(35), config.startY + fromPercentage(30))
+        .addPoint(aabb, fromPercentage(75), config.startY + fromPercentage(30))
+        .addPoint(aabb, fromPercentage(70), config.startY - fromPercentage(20))
+        .addPoint(aabb, fromPercentage(90), config.startY - fromPercentage(25))
+        .build()
+}
 
 private fun buildTailPolygon(line: Line2d, width: Distance, isSharp: Boolean): Polygon2d {
     val half = width / 2.0f
@@ -139,7 +153,7 @@ private fun renderTailPolygon(
     val mirrored = if (!state.renderFront) {
         polygon
     } else {
-        state.aabb.mirrorVertically(polygon)
+        state.fullAABB().mirrorVertically(polygon)
     }
 
     state.getTailLayer().renderRoundedPolygon(mirrored, options)

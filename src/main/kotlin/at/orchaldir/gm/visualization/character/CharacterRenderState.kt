@@ -15,28 +15,24 @@ import at.orchaldir.gm.visualization.character.appearance.ABOVE_EQUIPMENT_LAYER
 
 data class CharacterRenderState(
     val state: State,
-    val aabb: AABB,
+    val fullAABB: AABB,
     val config: CharacterRenderConfig,
     val renderer: MultiLayerRenderer,
     val renderFront: Boolean,
     val equipped: EquipmentElementMap,
     val colors: Colors = UndefinedColors,
+    val headAABB: AABB? = null,
+    val eyeAABB: AABB? = null,
+    val torsoAABB: AABB? = null,
 ) : RenderState, ICharacterConfig {
 
     override fun state() = state
     override fun renderer() = renderer
     override fun lineOptions() = config.line
-    override fun fullAABB(): AABB {
-        TODO("Not yet implemented")
-    }
 
-    override fun headAABB(): AABB {
-        TODO("Not yet implemented")
-    }
-
-    override fun torsoAABB(): AABB {
-        TODO("Not yet implemented")
-    }
+    override fun fullAABB() = fullAABB
+    override fun headAABB() = headAABB ?: error("Head is unsupported!")
+    override fun torsoAABB() = torsoAABB ?: error("Head is unsupported!")
 
     override fun body() = config.body
     override fun equipment() = config.equipment

@@ -16,9 +16,10 @@ fun visualizeCrownOfHorns(
     hair: Hair,
 ) {
     val options = state.config.getFeatureOptions(state.state, crown.color, hair, skin)
-    val length = state.aabb.convertHeight(crown.length)
-    val half = state.aabb.convertHeight(crown.width) / 2.0f
-    val pair = state.aabb.getMirroredPoints(FULL, state.config.head.hornConfig.y)
+    val aabb = state.headAABB()
+    val length = aabb.convertHeight(crown.length)
+    val half = aabb.convertHeight(crown.width) / 2.0f
+    val pair = aabb.getMirroredPoints(FULL, state.config.head.hornConfig.y)
     val layer = state.config.head.hornConfig.getLayer(state.renderFront)
 
     renderLineOfHorns(state, options, length, half, pair, crown.front, layer)
@@ -75,7 +76,7 @@ private fun renderSideHorn(
     if ((side == Side.Right && state.renderFront) ||
         (side == Side.Left && !state.renderFront)
     ) {
-        polygon = state.aabb.mirrorVertically(polygon)
+        polygon = state.headAABB().mirrorVertically(polygon)
     }
 
     state.renderer.getLayer(layer).renderRoundedPolygon(polygon, options)

@@ -39,7 +39,7 @@ data class CharacterRenderConfig(
 
     fun calculateSize(height: Distance) = Size2d.square(height + padding * 2.0f)
 
-    fun getHairLength(aabb: AABB, length: HairLength) = body.getDistanceFromNeckToBottom(aabb) *
+    fun getHairLength(config: ICharacterConfig, length: HairLength) = body.getDistanceFromNeckToBottom(config.headAABB()) *
             head.hair.getLength(length)
 
     fun getOptions(state: State, skin: Skin): RenderOptions = FillAndBorder(

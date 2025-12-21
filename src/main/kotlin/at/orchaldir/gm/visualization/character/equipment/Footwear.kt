@@ -29,7 +29,7 @@ data class FootwearConfig(
         body: Body,
         aabb: AABB,
     ): Size2d {
-        val width = aabb.convertHeight(config.body().getFootRadius(body) * 2.0f)
+        val width = aabb.convertHeight(config.body().getFootRadiusFactor(body) * 2.0f)
         val height = aabb.convertHeight(heightSole)
 
         return Size2d(width, height)

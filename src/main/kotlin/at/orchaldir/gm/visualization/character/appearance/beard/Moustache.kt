@@ -9,7 +9,7 @@ import at.orchaldir.gm.utils.math.Polygon2dBuilder
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 
 fun getFuManchu(state: CharacterRenderState, head: Head): Polygon2d {
-    val aabb = state.aabb
+    val aabb = state.headAABB()
     val config = state.config
     val mouthTopY = config.head.mouth.getTopY(head.mouth)
     val thickness = config.head.beard.mediumThickness
@@ -38,7 +38,7 @@ fun getFuManchu(state: CharacterRenderState, head: Head): Polygon2d {
 }
 
 fun getHandlebar(state: CharacterRenderState, head: Head): Polygon2d {
-    val aabb = state.aabb
+    val aabb = state.headAABB()
     val config = state.config
     val mouthTopY = config.head.mouth.getTopY(head.mouth)
     val thickness = config.head.beard.smallThickness
@@ -105,9 +105,10 @@ private fun getSimple(
     val bottomY = mouthTopY - state.config.head.beard.moustacheOffset
     val topY = bottomY - height
     val builder = Polygon2dBuilder()
+    val aabb = state.headAABB()
 
-    builder.addMirroredPoints(state.aabb, topWidth, topY)
-    builder.addMirroredPoints(state.aabb, bottomWidth, bottomY)
+    builder.addMirroredPoints(aabb, topWidth, topY)
+    builder.addMirroredPoints(aabb, bottomWidth, bottomY)
 
     return builder
 }

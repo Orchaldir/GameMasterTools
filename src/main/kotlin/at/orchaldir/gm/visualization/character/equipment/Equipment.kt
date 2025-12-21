@@ -45,8 +45,8 @@ data class EquipmentConfig(
 ) {
     // sleaves
 
-    fun getSleeveSize(config: ICharacterConfig, body: Body, torsoAABB: AABB, style: SleeveStyle): Size2d? {
-        val armSize = config.body().getArmSize(torsoAABB, body)
+    fun getSleeveSize(config: ICharacterConfig, body: Body, style: SleeveStyle): Size2d? {
+        val armSize = config.body().getArmSize(config.fullAABB(), body)
 
         return when (style) {
             SleeveStyle.Long -> armSize
@@ -55,8 +55,8 @@ data class EquipmentConfig(
         }
     }
 
-    fun getAllSidesForSleeves(config: ICharacterConfig, body: Body, torsoAABB: AABB, style: SleeveStyle): Size2d? {
-        val size = getSleeveSize(config, body, torsoAABB, style) ?: return null
+    fun getAllSidesForSleeves(config: ICharacterConfig, body: Body, style: SleeveStyle): Size2d? {
+        val size = getSleeveSize(config, body, style) ?: return null
         val numberOfArms = 2.0f
         val numberOfSides = 4.0f
 
@@ -66,10 +66,9 @@ data class EquipmentConfig(
     fun getSleevesVolume(
         config: ICharacterConfig,
         body: Body,
-        torsoAABB: AABB,
         style: SleeveStyle,
         thickness: Distance,
-    ) = getAllSidesForSleeves(config, body, torsoAABB, style)?.calculateVolumeOfPrism(thickness) ?: ZERO_VOLUME
+    ) = getAllSidesForSleeves(config, body, style)?.calculateVolumeOfPrism(thickness) ?: ZERO_VOLUME
 
     // outerwear
 

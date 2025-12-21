@@ -36,7 +36,6 @@ import at.orchaldir.gm.core.model.item.equipment.TwoHandedAxe
 import at.orchaldir.gm.core.model.item.equipment.TwoHandedClub
 import at.orchaldir.gm.core.model.item.equipment.TwoHandedSword
 import at.orchaldir.gm.core.model.item.equipment.style.SimpleBuckle
-import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.unit.VolumePerMaterial
@@ -157,21 +156,21 @@ private fun calculateVolumePerMaterialForBody(
         }
         is BodyArmour -> {
             val thickness = config.equipment.armor.getThickness(torsoAABB, data.style)
-            val sleevesVolume = config.equipment.getSleevesVolume(config, body, torsoAABB, data.sleeveStyle, thickness)
+            val sleevesVolume = config.equipment.getSleevesVolume(config, body, data.sleeveStyle, thickness)
             val torsoVolume = config.equipment.getOuterwearBodyVolume(config, body, torsoAABB, data.length, thickness)
 
             vpm.add(data.style.mainMaterial(), torsoVolume + sleevesVolume)
         }
         is Coat -> {
             val thickness = config.equipment.coat.getThickness(torsoAABB)
-            val sleevesVolume = config.equipment.getSleevesVolume(config, body, torsoAABB, data.sleeveStyle, thickness)
+            val sleevesVolume = config.equipment.getSleevesVolume(config, body, data.sleeveStyle, thickness)
             val torsoVolume = config.equipment.getOuterwearBodyVolume(config, body, torsoAABB, data.length, thickness)
 
             vpm.add(data.main.material, torsoVolume + sleevesVolume)
         }
         is Dress -> {
             val thickness = config.equipment.dress.getThickness(torsoAABB)
-            val sleevesVolume = config.equipment.getSleevesVolume(config, body, torsoAABB, data.sleeveStyle, thickness)
+            val sleevesVolume = config.equipment.getSleevesVolume(config, body, data.sleeveStyle, thickness)
             val torsoVolume = config.equipment.dress.getBodyVolume(config, body, torsoAABB, data.skirtStyle, thickness)
 
             vpm.add(data.main.material, torsoVolume + sleevesVolume)

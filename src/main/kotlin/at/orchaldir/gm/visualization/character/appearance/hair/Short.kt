@@ -20,7 +20,7 @@ fun visualizeShortHair(state: CharacterRenderState, hair: NormalHair, shortHair:
             else -> doNothing()
         }
 
-        state.renderer.getLayer().renderRectangle(state.aabb, options)
+        state.renderer.getLayer().renderRectangle(state.headAABB(), options)
 
         return
     }
@@ -49,7 +49,7 @@ private fun visualizeMiddlePart(
     options: FillAndBorder,
     x: Factor,
 ) {
-    val aabb = state.aabb
+    val aabb = state.headAABB()
     val config = state.config
     val (bottomLeft, bottomRight) = aabb.getMirroredPoints(config.head.hair.width, config.head.hairlineY)
     val (topLeft, topRight) = aabb.getMirroredPoints(config.head.hair.width, START)
@@ -82,10 +82,11 @@ private fun visualizeRectangleHair(
     topY: Factor,
     topWidth: Factor = FULL,
 ) {
+    val aabb = state.headAABB()
     val polygon = Polygon2dBuilder()
-        .addMirroredPoints(state.aabb, width * topWidth, topY, true)
-        .addMirroredPoints(state.aabb, width, state.config.head.hairlineY, true)
-        .addLeftPoint(state.aabb, CENTER, state.config.head.hairlineY - Factor.fromNumber(0.05f))
+        .addMirroredPoints(aabb, width * topWidth, topY, true)
+        .addMirroredPoints(aabb, width, state.config.head.hairlineY, true)
+        .addLeftPoint(aabb, CENTER, state.config.head.hairlineY - Factor.fromNumber(0.05f))
         .build()
 
     renderRoundedPolygon(state.renderer, options, polygon.corners)

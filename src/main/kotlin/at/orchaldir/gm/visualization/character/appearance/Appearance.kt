@@ -82,28 +82,33 @@ fun visualizeAppearance(
     paddedSize: PaddedSize,
 ) {
     val offset = Point2d(paddedSize.left + paddedSize.universial, paddedSize.top + paddedSize.universial)
-    val full = AABB.fromCenter(state.aabb.getCenter(), paddedSize.getFullSize())
+    val full = AABB.fromCenter(state.fullAABB.getCenter(), paddedSize.getFullSize())
     val inner = AABB(full.start + offset, appearance.getSize2d())
-    val innerState = state.copy(aabb = inner)
+    val innerState = state.copy(fullAABB = inner)
 
-    state.renderer.getLayer().renderRectangle(state.aabb, BorderOnly(state.config.line))
+    state.renderer.getLayer().renderRectangle(state.fullAABB, BorderOnly(state.config.line))
 
     when (appearance) {
-        is HeadOnly -> visualizeHead(innerState, appearance.head, appearance.skin)
-        is HumanoidBody -> {
-            val headAabb = state.config.body.getHeadAabb(inner)
-            val headState = state.copy(aabb = headAabb)
-
-            visualizeBody(innerState, appearance.body, appearance.skin)
+        is HeadOnly -> {
+            val headState = state.copy(headAABB = state.fullAABB)
             visualizeHead(headState, appearance.head, appearance.skin)
-            visualizeTails(innerState, appearance.tails, appearance.skin, appearance.head.hair)
-            visualizeWings(innerState, appearance.wings, appearance.skin, appearance.head.hair)
+        }
+        is HumanoidBody -> {
+            val torsoAabb = state.config.body.getTorsoAabb(state, appearance.body)
+            val bodyState = state.copy(torsoAABB = torsoAabb)
+            val headAabb = state.config.body.getHeadAabb(inner)
+            val headState = state.copy(headAABB = headAabb)
+
+            visualizeBody(bodyState, appearance.body, appearance.skin)
+            visualizeHead(headState, appearance.head, appearance.skin)
+            visualizeTails(bodyState, appearance.tails, appearance.skin, appearance.head.hair)
+            visualizeWings(bodyState, appearance.wings, appearance.skin, appearance.head.hair)
         }
 
         UndefinedAppearance -> {
             val height = state.config.padding
             val options = RenderStringOptions(Black.toRender(), height * 2.0f)
-            val center = state.aabb.getCenter() + Point2d.yAxis(height * 0.25f)
+            val center = state.fullAABB.getCenter() + Point2d.yAxis(height * 0.25f)
             state.renderer.getLayer().renderString("?", center, Orientation.zero(), options)
         }
 

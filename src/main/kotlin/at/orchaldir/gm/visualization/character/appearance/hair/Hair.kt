@@ -57,11 +57,12 @@ fun visualizeBackSideOfHead(
 ) {
     val padding = state.config.head.hair.longPadding
     val width = FULL + padding * 2.0f
+    val aabb = state.headAABB()
     val builder = Polygon2dBuilder()
-        .addLeftPoint(state.aabb, CENTER, -padding)
-        .addMirroredPoints(state.aabb, width, -padding)
-        .addMirroredPoints(state.aabb, width, FULL + padding)
-        .addLeftPoint(state.aabb, CENTER, FULL + padding)
+        .addLeftPoint(aabb, CENTER, -padding)
+        .addMirroredPoints(aabb, width, -padding)
+        .addMirroredPoints(aabb, width, FULL + padding)
+        .addLeftPoint(aabb, CENTER, FULL + padding)
 
     renderRoundedBuilder(state.renderer, builder, options, state.getLayerIndex(layer))
 }

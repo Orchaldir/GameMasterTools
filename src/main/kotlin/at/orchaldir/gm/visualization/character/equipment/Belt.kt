@@ -66,7 +66,7 @@ fun visualizeBelt(
     body: Body,
     belt: Belt,
 ) {
-    val torsoAABB = state.config.body.getTorsoAabb(state.aabb, body)
+    val torsoAABB = state.config.body.getTorsoAabb(state, body)
 
     visualizeBeltBand(state, body, torsoAABB, belt)
     visualizeBeltHoles(state, body, torsoAABB, belt.holes)

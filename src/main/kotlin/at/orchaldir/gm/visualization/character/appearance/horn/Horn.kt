@@ -56,7 +56,7 @@ fun visualizeComplexHorn(
     if ((side == Side.Right && state.renderFront) ||
         (side == Side.Left && !state.renderFront)
     ) {
-        polygon = state.aabb.mirrorVertically(polygon)
+        polygon = state.headAABB().mirrorVertically(polygon)
     }
 
     state.renderer.getLayer(layer).renderRoundedPolygon(polygon, options)
@@ -83,8 +83,8 @@ private fun createLeftHornAtBrow(
     val y = state.config.head.hornConfig.y
     val halfWidth = horn.getWidth() / 2.0f
 
-    builder.addLeftPoint(state.aabb, CENTER, y + halfWidth)
-    builder.addRightPoint(state.aabb, CENTER, y - halfWidth)
+    builder.addLeftPoint(state.headAABB(), CENTER, y + halfWidth)
+    builder.addRightPoint(state.headAABB(), CENTER, y - halfWidth)
 
     createLeftHornAtSide(state, horn, builder)
 }
@@ -98,8 +98,8 @@ private fun createLeftHornInFront(
     val halfWidth = horn.getWidth() / 2.0f
     val y = state.config.head.hornConfig.y + halfWidth
 
-    builder.addRightPoint(state.aabb, x - halfWidth, y)
-    builder.addLeftPoint(state.aabb, x + halfWidth, y)
+    builder.addRightPoint(state.headAABB(), x - halfWidth, y)
+    builder.addLeftPoint(state.headAABB(), x + halfWidth, y)
 
     createLeftHornAtTop(state, horn, builder)
 }
@@ -112,10 +112,10 @@ private fun createLeftHornAtSide(
     val y = state.config.head.hornConfig.y
     val halfWidthFactor = horn.getWidth() / 2.0f
 
-    builder.addLeftPoint(state.aabb, END, y + halfWidthFactor, true)
-    builder.addRightPoint(state.aabb, END, y - halfWidthFactor, true)
+    builder.addLeftPoint(state.headAABB(), END, y + halfWidthFactor, true)
+    builder.addRightPoint(state.headAABB(), END, y - halfWidthFactor, true)
 
-    addShape(state, horn, builder, state.aabb.getPoint(END, y), Orientation.zero())
+    addShape(state, horn, builder, state.headAABB().getPoint(END, y), Orientation.zero())
 }
 
 private fun createLeftHornAtTop(
@@ -126,10 +126,10 @@ private fun createLeftHornAtTop(
     val x = fromPercentage(80)
     val halfWidth = horn.getWidth() / 2.0f
 
-    builder.addRightPoint(state.aabb, x - halfWidth, START, true)
-    builder.addLeftPoint(state.aabb, x + halfWidth, START, true)
+    builder.addRightPoint(state.headAABB(), x - halfWidth, START, true)
+    builder.addLeftPoint(state.headAABB(), x + halfWidth, START, true)
 
-    addShape(state, horn, builder, state.aabb.getPoint(x, START), -QUARTER_CIRCLE)
+    addShape(state, horn, builder, state.headAABB().getPoint(x, START), -QUARTER_CIRCLE)
 }
 
 private fun addShape(
@@ -140,7 +140,8 @@ private fun addShape(
     startOrientation: Orientation,
 ) {
     val halfWidthFactor = horn.getWidth() / 2.0f
-    val length = state.aabb.convertHeight(horn.length)
+    val aabb = state.headAABB()
+    val length = aabb.convertHeight(horn.length)
 
     when (horn.shape) {
         is CurvedHorn -> {
@@ -149,7 +150,7 @@ private fun addShape(
             val stepOrientation = horn.shape.change / steps
             var orientation = startOrientation + horn.orientationOffset
             var center = startPosition
-            var halfWidth = state.aabb.convertHeight(halfWidthFactor)
+            var halfWidth = aabb.convertHeight(halfWidthFactor)
             val stepWidth = halfWidth / steps
             // todo: add option to use constant or linear decreasing
 
@@ -175,7 +176,7 @@ private fun addShape(
         is SpiralHorn -> {
             val orientation = startOrientation + horn.orientationOffset
             var center = startPosition
-            var halfWidth = state.aabb.convertHeight(halfWidthFactor)
+            var halfWidth = aabb.convertHeight(halfWidthFactor)
             val weightCalculator = LinearDecreasingWeight(horn.shape.cycles)
             var amplitude = length * horn.shape.amplitude
             var sideOfAmplitude = 1.0f

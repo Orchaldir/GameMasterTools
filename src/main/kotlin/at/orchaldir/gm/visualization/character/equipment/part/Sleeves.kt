@@ -3,7 +3,6 @@ package at.orchaldir.gm.visualization.character.equipment.part
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.style.SleeveStyle
 import at.orchaldir.gm.utils.math.AABB
-import at.orchaldir.gm.utils.math.HALF
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.EQUIPMENT_LAYER
@@ -32,7 +31,7 @@ fun createSleeveAabbs(
     style: SleeveStyle,
 ): Pair<AABB, AABB> {
     val (left, right) = state.config.body.getArmStarts(state.aabb, body)
-    val sleeveSize = state.config.equipment.getSleeveSize(state, body, state.aabb, style)
+    val sleeveSize = state.config.equipment.getSleeveSize(state, body, style)
         ?: error("Cannot create sleeves for style None!")
     val leftAabb = AABB(left, sleeveSize)
     val rightAabb = AABB(right, sleeveSize)

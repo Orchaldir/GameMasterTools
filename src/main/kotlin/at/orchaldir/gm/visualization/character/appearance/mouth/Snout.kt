@@ -29,13 +29,14 @@ fun visualizeSnout(state: CharacterRenderState, snout: Snout) {
 }
 
 private fun visualizeCat(state: CharacterRenderState, snout: Snout) {
-    val radius = state.aabb.convertHeight(fromPercentage(8))
-    val thickness = state.aabb.convertHeight(fromPercentage(4))
+    val aabb = state.headAABB()
+    val radius = aabb.convertHeight(fromPercentage(8))
+    val thickness = aabb.convertHeight(fromPercentage(4))
     val options = NoBorder(snout.color.toRender())
     val lineOptions = LineOptions(snout.color.toRender(), thickness)
-    val center = state.aabb.getPoint(CENTER, fromPercentage(60))
-    val lineCenter = state.aabb.getPoint(CENTER, fromPercentage(80))
-    val (left, right) = state.aabb.getMirroredPoints(fromPercentage(20), fromPercentage(85))
+    val center = aabb.getPoint(CENTER, fromPercentage(60))
+    val lineCenter = aabb.getPoint(CENTER, fromPercentage(80))
+    val (left, right) = aabb.getMirroredPoints(fromPercentage(20), fromPercentage(85))
 
     state.renderer.getLayer().apply {
         renderCircleArc(center, radius, HALF_CIRCLE, HALF_CIRCLE, options)
@@ -63,13 +64,14 @@ private fun visualizeDog(state: CharacterRenderState, snout: Snout) {
     val lineHalf = lineThickness / 2.0f
     val mouthY = fromPercentage(85)
     val mouthWidth = fromPercentage(30)
+    val aabb = state.headAABB()
     val polygon = Polygon2dBuilder()
-        .addMirroredPoints(state.aabb, fromPercentage(20), fromPercentage(60))
-        .addMirroredPoints(state.aabb, fromPercentage(20), fromPercentage(70))
-        .addMirroredPoints(state.aabb, lineThickness, fromPercentage(75))
-        .addMirroredPoints(state.aabb, lineThickness, mouthY - lineHalf, true)
-        .addMirroredPoints(state.aabb, mouthWidth, mouthY - lineHalf, true)
-        .addMirroredPoints(state.aabb, mouthWidth, mouthY + lineHalf, true)
+        .addMirroredPoints(aabb, fromPercentage(20), fromPercentage(60))
+        .addMirroredPoints(aabb, fromPercentage(20), fromPercentage(70))
+        .addMirroredPoints(aabb, lineThickness, fromPercentage(75))
+        .addMirroredPoints(aabb, lineThickness, mouthY - lineHalf, true)
+        .addMirroredPoints(aabb, mouthWidth, mouthY - lineHalf, true)
+        .addMirroredPoints(aabb, mouthWidth, mouthY + lineHalf, true)
         .build()
 
     state.renderer.getLayer()
@@ -90,9 +92,10 @@ private fun visualizePig(state: CharacterRenderState, snout: Snout) =
 
 private fun visualizeReptile(state: CharacterRenderState, snout: Snout) {
     val options = NoBorder(Color.Black.toRender())
-    val noseWidth = state.aabb.convertHeight(fromPercentage(5))
+    val aabb = state.headAABB()
+    val noseWidth = aabb.convertHeight(fromPercentage(5))
     val noseHeight = noseWidth / 2.0f
-    val (left, right) = state.aabb.getMirroredPoints(fromPercentage(20), fromPercentage(60))
+    val (left, right) = aabb.getMirroredPoints(fromPercentage(20), fromPercentage(60))
     val orientation = Orientation.fromDegrees(45)
     val renderer = state.renderer.getLayer()
 
@@ -114,15 +117,16 @@ private fun visualizeRoundedSnoutWithCircleNostrils(
 ) {
     val options = state.config.getLineOptions(snout.color)
     val nostrilOptions = NoBorder(Color.Black.toRender())
+    val aabb = state.headAABB()
     val polygon = Polygon2dBuilder()
-        .addLeftPoint(state.aabb, CENTER, upperY)
-        .addMirroredPoints(state.aabb, width, upperY)
-        .addMirroredPoints(state.aabb, width, (upperY + lowerY) / 2.0f)
-        .addMirroredPoints(state.aabb, width, lowerY)
-        .addLeftPoint(state.aabb, CENTER, lowerY)
+        .addLeftPoint(aabb, CENTER, upperY)
+        .addMirroredPoints(aabb, width, upperY)
+        .addMirroredPoints(aabb, width, (upperY + lowerY) / 2.0f)
+        .addMirroredPoints(aabb, width, lowerY)
+        .addLeftPoint(aabb, CENTER, lowerY)
         .build()
-    val (left, right) = state.aabb.getMirroredPoints(distanceBetweenNostrils, nostrilY)
-    val nostrilRadius = state.aabb.convertHeight(nostrilRadius)
+    val (left, right) = aabb.getMirroredPoints(distanceBetweenNostrils, nostrilY)
+    val nostrilRadius = aabb.convertHeight(nostrilRadius)
 
     state.renderer.getLayer().apply {
         renderRoundedPolygon(polygon, options)

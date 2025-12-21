@@ -30,15 +30,15 @@ data class AxeConfig(
         isOneHanded: Boolean,
         hand: Point2d,
     ): AABB {
-        val handRadius = state.aabb.convertHeight(state.config.body.getHandRadius(body))
+        val handRadius = state.config.body.getHandRadius(state, body)
         val bottom = hand.addHeight(handRadius * 2)
         val heightFactor = if (isOneHanded) {
             oneHandedHeight
         } else {
             twoHandedHeight
         }
-        val height = state.aabb.convertHeight(heightFactor)
-        val width = state.aabb.convertHeight(shaftThickness)
+        val height = state.fullAABB.convertHeight(heightFactor)
+        val width = state.fullAABB.convertHeight(shaftThickness)
 
         return AABB.fromBottom(bottom, Size2d(width, height))
     }
@@ -95,7 +95,7 @@ fun visualizeAxe(
     set: Set<BodySlot>,
 ) {
     val renderer = state.getLayer(HELD_EQUIPMENT_LAYER)
-    val (leftHand, rightHand) = state.config.body.getMirroredArmPoint(state.aabb, body, END)
+    val (leftHand, rightHand) = state.config.body.getMirroredArmPoint(state, body, END)
     val hand = state.getCenter(leftHand, rightHand, set, BodySlot.HeldInLeftHand)
     val config = state.config.equipment.axe
     val shaftAabb = config.shaftAabb(state, body, isOneHanded, hand)

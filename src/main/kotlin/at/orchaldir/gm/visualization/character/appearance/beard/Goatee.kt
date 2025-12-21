@@ -13,8 +13,8 @@ fun getChinPuff(state: CharacterRenderState, head: Head): Polygon2d {
 
 fun getGoatee(state: CharacterRenderState, head: Head): Polygon2d {
     val width = state.config.head.getGoateeWidth(head.mouth)
-    val (topLeft, topRight) = state.aabb.getMirroredPoints(width, fromPercentage(95))
-    val bottom = state.aabb.getPoint(CENTER, state.config.head.getGoateeBottomY())
+    val (topLeft, topRight) = state.headAABB().getMirroredPoints(width, fromPercentage(95))
+    val bottom = state.headAABB().getPoint(CENTER, state.config.head.getGoateeBottomY())
 
     return Polygon2d(listOf(topLeft, topRight, bottom))
 }
@@ -27,7 +27,7 @@ fun getLandingStrip(state: CharacterRenderState, head: Head): Polygon2d {
 fun getSoulPatch(state: CharacterRenderState, head: Head): Polygon2d {
     val topY = state.config.head.mouth.getBottomY(head.mouth)
     val size = state.config.head.beard.mediumThickness
-    return fromTopAndBottom(state.aabb, topY, topY + size, size, size).build()
+    return fromTopAndBottom(state.headAABB(), topY, topY + size, size, size).build()
 }
 
 fun getVanDyke(state: CharacterRenderState, head: Head): Polygon2d {
@@ -54,7 +54,7 @@ private fun fromMouthAndBottom(
     bottomY: Factor,
     topWidth: Factor,
     bottomWidth: Factor,
-) = fromTopAndBottom(state.aabb, state.config.head.mouth.getBottomY(mouth), bottomY, topWidth, bottomWidth)
+) = fromTopAndBottom(state.headAABB(), state.config.head.mouth.getBottomY(mouth), bottomY, topWidth, bottomWidth)
 
 private fun fromTopAndBottom(
     aabb: AABB,

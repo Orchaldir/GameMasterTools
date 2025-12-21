@@ -19,7 +19,7 @@ fun visualizePonytail(state: CharacterRenderState, hair: NormalHair, ponytail: P
     val options = config.getLineOptions(hair.color)
     val layer = state.getLayerIndex(HAIR_LAYER)
     val y = Factor.fromPercentage(20)
-    val length = state.config.getHairLength(state.aabb, ponytail.length)
+    val length = state.config.getHairLength(state, ponytail.length)
 
     visualizeBackSideOfHead(state, options, HAIR_LAYER + 1)
 
@@ -41,7 +41,7 @@ fun visualizePonytail(state: CharacterRenderState, hair: NormalHair, ponytail: P
     }
 
     if (ponytail.position == Right || ponytail.position == BothSides) {
-        val right = state.aabb.mirrorVertically(polygon)
+        val right = state.headAABB().mirrorVertically(polygon)
         renderRoundedPolygon(state.renderer, options, right, layer)
     }
 }
@@ -63,11 +63,12 @@ private fun getCenterStraightPonytail(
     y: Factor,
 ): Polygon2d {
     val config = state.config.head.hair
-    val (left, right) = state.aabb.getMirroredPoints(config.getBottomWidth(style), FULL)
+    val aabb = state.headAABB()
+    val (left, right) = aabb.getMirroredPoints(config.getBottomWidth(style), FULL)
 
     return Polygon2dBuilder()
-        .addLeftPoint(state.aabb, CENTER, y)
-        .addMirroredPoints(state.aabb, config.ponytailWidth, y)
+        .addLeftPoint(aabb, CENTER, y)
+        .addMirroredPoints(aabb, config.ponytailWidth, y)
         .addPoints(left.addHeight(length), right.addHeight(length))
         .build()
 }
@@ -95,7 +96,7 @@ private fun getBraid(
 ): Polygon2d {
     val braid = state.config.head.hair.braidWidth
     val half = braid / 2.0f
-    val aabb = state.aabb
+    val aabb = state.headAABB()
     val length = lengthDistance.toMeters() / aabb.size.height.toMeters() + 1.0 - startY.toNumber()
     val n = max((length / braid.toNumber()).toInt(), 1)
     var x = startX
@@ -135,14 +136,15 @@ private fun getLeftStraightPonytail(
     val width = config.ponytailWidth
     val bottomWidth = config.getBottomWidth(style)
     val half = width / 2.0f
-    val left = state.aabb.getPoint(FULL + half, FULL)
-    val right = state.aabb.getPoint(FULL + half + bottomWidth, FULL)
+    val aabb = state.headAABB()
+    val left = aabb.getPoint(FULL + half, FULL)
+    val right = aabb.getPoint(FULL + half + bottomWidth, FULL)
 
     return Polygon2dBuilder()
-        .addLeftPoint(state.aabb, FULL, y - half)
-        .addRightPoint(state.aabb, FULL + half + width, y - half)
-        .addLeftPoint(state.aabb, FULL, y + half)
-        .addLeftPoint(state.aabb, FULL + half, y + half)
+        .addLeftPoint(aabb, FULL, y - half)
+        .addRightPoint(aabb, FULL + half + width, y - half)
+        .addLeftPoint(aabb, FULL, y + half)
+        .addLeftPoint(aabb, FULL + half, y + half)
         .addLeftPoint(left.addHeight(length))
         .addRightPoint(right.addHeight(length))
         .build()
