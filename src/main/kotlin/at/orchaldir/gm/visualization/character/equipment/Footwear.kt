@@ -56,7 +56,7 @@ data class FootwearConfig(
         if (style.hasShaft()) {
             val height = getShaftHeight(config, style, false) ?: error("Style $style should have a shaft height")
             val width = config.body().getLegWidth(config)
-            val size = config.fullAABB().size.scale(width, height)
+            val size = config.fullAABB().size.scale(width, config.body().getLegHeight() * height)
             val thickness = config.fullAABB().size.width * shaftThickness
 
             val v = size.calculateVolumeOfPrism(thickness)
