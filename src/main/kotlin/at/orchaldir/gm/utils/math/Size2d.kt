@@ -54,6 +54,8 @@ data class Size2d(val width: Distance, val height: Distance) {
     fun replaceHeight(height: Distance) = copy(height = height)
     fun replaceHeight(factor: Factor) = replaceHeight(height * factor)
 
+    fun shrinkByPadding(padding: Factor) = times(FULL - padding * 2.0f)
+
     fun max(other: Size2d) = Size2d(width.max(other.width), height.max(other.height))
 
     fun minSize() = width.min(height)

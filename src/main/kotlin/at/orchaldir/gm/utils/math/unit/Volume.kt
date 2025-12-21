@@ -2,6 +2,7 @@ package at.orchaldir.gm.utils.math.unit
 
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.Size2d
 import kotlinx.serialization.Serializable
 import java.util.*
 import kotlin.math.PI
@@ -38,11 +39,21 @@ value class Volume private constructor(private val cmm: Long) : SiUnit<Volume> {
             SiPrefix.Micro -> fromCubicMicrometers(value)
         }
 
+        // shapes
+
+        fun fromCube(size: Size2d, length: Distance) =
+            fromCube(size.width, size.height, length)
+
         fun fromCube(width: Distance, height: Distance, depth: Distance) =
             fromCubicMeters(width.toMeters() * height.toMeters() * depth.toMeters())
 
         fun fromSphere(radius: Distance) =
             fromCubicMeters(radius.toMeters().pow(3) * 4.0f * PI.toFloat() / 3.0f)
+
+        // hollow shapes
+
+        fun fromHollowCube(size: Size2d, thickness: Factor, length: Distance) =
+            fromCube(size, length) - fromCube(size.shrinkByPadding(thickness), length)
 
         fun fromHollowSphere(outerRadius: Distance, innerRadius: Distance) =
             fromSphere(outerRadius) - fromSphere(innerRadius)

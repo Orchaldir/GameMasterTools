@@ -205,7 +205,11 @@ private fun calculateVolumePerMaterialForBody(
         is OneHandedAxe -> doNothing()
         is OneHandedClub -> doNothing()
         is OneHandedSword -> doNothing()
-        is Pants -> doNothing()
+        is Pants -> {
+            val pantlegs = config.equipment.pants.getPantlegsVolume(config, data.style)
+
+            vpm.add(data.main.material, pantlegs)
+        }
         is Polearm -> doNothing()
         is Shield -> doNothing()
         is Shirt -> doNothing()

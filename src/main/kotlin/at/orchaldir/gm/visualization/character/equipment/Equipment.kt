@@ -3,11 +3,11 @@ package at.orchaldir.gm.visualization.character.equipment
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.item.equipment.*
-import at.orchaldir.gm.core.model.item.equipment.style.GloveStyle
 import at.orchaldir.gm.core.model.item.equipment.style.OuterwearLength
 import at.orchaldir.gm.core.model.item.equipment.style.SleeveStyle
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.FULL
+import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.HALF
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.unit.Distance
@@ -45,6 +45,25 @@ data class EquipmentConfig(
     val sword: SwordConfig,
     val tie: TieConfig,
 ) {
+    // pantlegs
+
+    fun getPantlegCrossSection(config: ICharacterConfig<Body>): Size2d {
+        val factor = config.body().getLegWidth(config)
+        return Size2d.square(config.fullAABB().size.width * factor)
+    }
+
+    fun getPantlegVolume(
+        config: ICharacterConfig<Body>,
+        height: Distance,
+        thickness: Factor,
+    ) = Volume.fromHollowCube(getPantlegCrossSection(config), thickness, height)
+
+    fun getPantlegsVolume(
+        config: ICharacterConfig<Body>,
+        height: Distance,
+        thickness: Factor,
+    ) = getPantlegVolume(config, height, thickness) * 2.0f
+
     // sleaves
 
     fun getSleeveSize(config: ICharacterConfig<Body>, style: SleeveStyle): Size2d? {

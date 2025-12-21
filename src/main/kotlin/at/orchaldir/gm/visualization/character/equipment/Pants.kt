@@ -4,6 +4,9 @@ import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.Pants
 import at.orchaldir.gm.core.model.item.equipment.style.PantsStyle
 import at.orchaldir.gm.utils.math.*
+import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.Volume
+import at.orchaldir.gm.utils.math.unit.ZERO_VOLUME
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.toRender
 import at.orchaldir.gm.visualization.character.CharacterRenderState
@@ -13,10 +16,31 @@ import at.orchaldir.gm.visualization.character.appearance.EQUIPMENT_LAYER
 data class PantsConfig(
     val heightBermuda: Factor,
     val heightShort: Factor,
+    val thickness: Factor,
     val widthPadding: Factor,
 ) {
     fun getHipWidth(config: ICharacterConfig<Body>) = config.body()
         .getHipWidth(config) * (FULL + widthPadding)
+
+    fun getPantlegHeightFactor(style: PantsStyle): Factor? = when (style) {
+        PantsStyle.Bermuda -> heightBermuda
+        PantsStyle.HotPants -> null
+        PantsStyle.Regular -> FULL
+        PantsStyle.Shorts -> heightShort
+    }
+
+    fun getPantlegHeight(
+        config: ICharacterConfig<Body>,
+        style: PantsStyle,
+    ): Distance? = getPantlegHeightFactor(style)?.let { config.fullAABB().convertHeight(it) }
+
+    fun getPantlegsVolume(
+        config: ICharacterConfig<Body>,
+        style: PantsStyle,
+    ): Volume {
+        val height = getPantlegHeight(config, style) ?: return ZERO_VOLUME
+        return config.equipment().getPantlegVolume(config, height, thickness)
+    }
 }
 
 fun visualizePants(
@@ -25,11 +49,11 @@ fun visualizePants(
 ) {
     val fill = pants.main.getFill(state.state, state.colors)
     val options = FillAndBorder(fill.toRender(), state.config.line)
-    val polygon = when (pants.style) {
-        PantsStyle.Bermuda -> getPantsWithHeight(state, state.config.equipment.pants.heightBermuda)
-        PantsStyle.HotPants -> getBase(state).build()
-        PantsStyle.Regular -> getRegularPants(state)
-        PantsStyle.Shorts -> getPantsWithHeight(state, state.config.equipment.pants.heightShort)
+    val height = state.equipment().pants.getPantlegHeightFactor(pants.style)
+    val polygon = if (height != null) {
+        getPantsWithHeight(state, height)
+    } else {
+        getBase(state).build()
     }
 
     state.renderer.getLayer(EQUIPMENT_LAYER).renderPolygon(polygon, options)

@@ -201,8 +201,9 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
             fromPercentage(1),
         ),
         PantsConfig(
-            fromPercentage(50),
+            fromPercentage(55),
             fromPercentage(30),
+            fromPercentage(1),
             fromPercentage(5),
         ),
         PolearmConfig(
