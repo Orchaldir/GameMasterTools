@@ -32,7 +32,12 @@ data class PantsConfig(
     fun getPantlegHeight(
         config: ICharacterConfig<Body>,
         style: PantsStyle,
-    ): Distance? = getPantlegHeightFactor(style)?.let { config.fullAABB().convertHeight(it) }
+    ): Distance? {
+        val heightFactor = getPantlegHeightFactor(style) ?: return null
+        val factor = config.body().getLegHeight(config, heightFactor)
+
+        return config.fullAABB().convertHeight(factor)
+    }
 
     fun getPantlegsVolume(
         config: ICharacterConfig<Body>,

@@ -102,6 +102,14 @@ data class BodyConfig(
         return fullBottomY - fullHeight * (FULL - factor)
     }
 
+    fun getLegHeight(config: ICharacterConfig<Body>, factor: Factor): Factor {
+        val topY = getLegY()
+        val fullBottomY = getFootY(config)
+        val fullHeight = fullBottomY - topY
+
+        return fullHeight * factor
+    }
+
     fun getShoeHeight(config: ICharacterConfig<Body>) = getFootRadiusFactor(config) / getLegHeight()
 
     fun getMirroredArmPoint(config: ICharacterConfig<Body>, vertical: Factor): Pair<Point2d, Point2d> {
