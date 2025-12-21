@@ -1,7 +1,6 @@
 package at.orchaldir.gm.core.model.item.equipment
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.utils.math.unit.UndefinedWeight
 import at.orchaldir.gm.utils.math.unit.WeightLookup
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name

@@ -6,9 +6,7 @@ import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.showDetails
 import at.orchaldir.gm.app.html.tdLink
-import at.orchaldir.gm.app.html.tdSkipZero
 import at.orchaldir.gm.app.html.tdString
-import at.orchaldir.gm.app.html.thMultiLines
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
@@ -18,8 +16,6 @@ import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.unit.CalculatedWeight
 import at.orchaldir.gm.utils.math.unit.FixedWeight
 import at.orchaldir.gm.utils.math.unit.SiPrefix
-import at.orchaldir.gm.utils.math.unit.UndefinedWeight
-import at.orchaldir.gm.utils.math.unit.Volume
 import at.orchaldir.gm.utils.math.unit.VolumePerMaterial
 import at.orchaldir.gm.utils.math.unit.Weight
 import at.orchaldir.gm.utils.math.unit.WeightLookup
@@ -28,7 +24,6 @@ import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
 import kotlinx.html.table
-import kotlinx.html.td
 import kotlinx.html.th
 import kotlinx.html.tr
 
@@ -36,15 +31,11 @@ import kotlinx.html.tr
 
 fun HtmlBlockTag.showWeightLookup(
     lookup: WeightLookup,
-    showUndefined: Boolean = false,
     calculate: () -> Weight,
 ) {
     when (lookup) {
         CalculatedWeight -> +calculate().toString()
         is FixedWeight -> +lookup.weight.toString()
-        UndefinedWeight -> if (showUndefined) {
-            +"Undefined"
-        }
     }
 }
 
@@ -66,7 +57,6 @@ fun HtmlBlockTag.showWeightLookupDetails(
                 fieldWeight("Weight", vpm.getWeight(state))
             }
             is FixedWeight -> fieldWeight("Weight", lookup.weight)
-            UndefinedWeight -> doNothing()
         }
     }
 }
@@ -117,7 +107,6 @@ fun HtmlBlockTag.selectWeightLookup(
                 MAX_EQUIPMENT_WEIGHT,
                 SiPrefix.Base,
             )
-            UndefinedWeight -> doNothing()
         }
     }
 }
@@ -127,10 +116,9 @@ fun HtmlBlockTag.selectWeightLookup(
 fun parseWeightLookup(
     parameters: Parameters,
     param: String = WEIGHT,
-) = when (parse(parameters, combine(param, TYPE), WeightLookupType.Undefined)) {
+) = when (parse(parameters, combine(param, TYPE), WeightLookupType.Calculated)) {
     WeightLookupType.Calculated -> CalculatedWeight
     WeightLookupType.Fixed -> FixedWeight(
         parseWeight(parameters, param, SiPrefix.Base, MIN_EQUIPMENT_WEIGHT),
     )
-    WeightLookupType.Undefined -> UndefinedWeight
 }
