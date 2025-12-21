@@ -21,12 +21,7 @@ data class GlovesConfig(
 
     fun getHandsVolume(
         config: ICharacterConfig<Body>,
-    ): Volume {
-        val outerRadius = config.body().getHandRadius(config)
-        val innerRadius = outerRadius * (FULL - thickness)
-
-        return Volume.fromHollowSphere(outerRadius, innerRadius) * 2.0f
-    }
+    ) = Volume.fromHollowSphere(config.body().getHandRadius(config), thickness) * 2.0f
 
 }
 

@@ -1,5 +1,6 @@
 package at.orchaldir.gm.utils.math.unit
 
+import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
 import kotlinx.serialization.Serializable
 import java.util.*
@@ -45,6 +46,9 @@ value class Volume private constructor(private val cmm: Long) : SiUnit<Volume> {
 
         fun fromHollowSphere(outerRadius: Distance, innerRadius: Distance) =
             fromSphere(outerRadius) - fromSphere(innerRadius)
+
+        fun fromHollowSphere(radius: Distance, thickness: Factor) =
+            fromHollowSphere(radius, radius * (FULL - thickness))
     }
 
     override fun value() = cmm
