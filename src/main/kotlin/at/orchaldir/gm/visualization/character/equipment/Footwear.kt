@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.item.equipment.Footwear
 import at.orchaldir.gm.core.model.item.equipment.style.FootwearStyle
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.Volume
 import at.orchaldir.gm.utils.math.unit.ZERO_VOLUME
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
@@ -44,6 +45,24 @@ data class FootwearConfig(
             FootwearStyle.Sandals -> null
             FootwearStyle.Slippers -> null
         }
+    }
+
+    fun getShaftVolume(
+        config: ICharacterConfig<Body>,
+        style: FootwearStyle,
+    ): Volume {
+        var volume = ZERO_VOLUME
+
+        if (style.hasShaft()) {
+            val height = getShaftHeight(config, style, false) ?: error("Style $style should have a shaft height")
+            val width = config.body().getLegWidth(config)
+            val size = config.fullAABB().size.scale(width, height) * 4.0f
+            val thickness = config.fullAABB().size.width * paddingShaft
+
+            volume += size.calculateVolumeOfPrism(thickness)
+        }
+
+        return volume * 2.0f
     }
 
     // sole

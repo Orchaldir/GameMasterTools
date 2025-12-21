@@ -8,9 +8,7 @@ enum class FootwearStyle {
     Shoes,
     Slippers;
 
-    fun hasHeel() = this == Pumps
-
-    fun hasShaft() = this != Pumps
+    fun hasShaft() = this != Sandals && this != Slippers
 
     fun hasSole() = this != Pumps
 
