@@ -43,6 +43,8 @@ data class EquipmentConfig(
     val sword: SwordConfig,
     val tie: TieConfig,
 ) {
+    // sleaves
+
     fun getSleeveSize(config: ICharacterConfig, body: Body, torsoAABB: AABB, style: SleeveStyle): Size2d? {
         val armSize = config.body().getArmSize(torsoAABB, body)
 
@@ -68,6 +70,8 @@ data class EquipmentConfig(
         style: SleeveStyle,
         thickness: Distance,
     ) = getAllSidesForSleeves(config, body, torsoAABB, style)?.calculateVolumeOfPrism(thickness) ?: ZERO_VOLUME
+
+    // outerwear
 
     fun getAllSidesForOuterwear(config: ICharacterConfig, body: Body, torsoAABB: AABB, length: OuterwearLength): Size2d {
         val topY = config.body().shoulderY

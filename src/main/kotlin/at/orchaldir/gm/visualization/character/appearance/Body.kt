@@ -66,6 +66,7 @@ data class BodyConfig(
     fun getArmsAabb(aabb: AABB, body: Body) = AABB
         .fromTop(aabb.getPoint(CENTER, torsoY), getArmsSize(aabb, body))
 
+    fun getFootLength(aabb: AABB, body: Body) = aabb.convertHeight(getBodyWidth(body) * foot.length)
     fun getFootRadius(body: Body) = getBodyWidth(body) * foot.radius
 
     fun getFootY(body: Body) = END - getFootRadius(body)

@@ -4,10 +4,12 @@ import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.Footwear
 import at.orchaldir.gm.core.model.item.equipment.style.FootwearStyle
 import at.orchaldir.gm.utils.math.*
+import at.orchaldir.gm.utils.math.unit.ZERO_VOLUME
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.utils.renderer.model.toRender
 import at.orchaldir.gm.visualization.character.CharacterRenderState
+import at.orchaldir.gm.visualization.character.ICharacterConfig
 import at.orchaldir.gm.visualization.character.appearance.BEHIND_LAYER
 import at.orchaldir.gm.visualization.character.appearance.EQUIPMENT_LAYER
 import at.orchaldir.gm.visualization.character.appearance.visualizeFeet
@@ -18,7 +20,33 @@ data class FootwearConfig(
     val heightTight: Factor,
     val heightSole: Factor,
     val paddingShaft: Factor,
-)
+) {
+
+    // sole
+
+    fun getSoleFrontSize(
+        config: ICharacterConfig,
+        body: Body,
+        aabb: AABB,
+    ): Size2d {
+        val width = aabb.convertHeight(config.body().getFootRadius(body) * 2.0f)
+        val height = aabb.convertHeight(heightSole)
+
+        return Size2d(width, height)
+    }
+
+    fun getSoleVolume(
+        config: ICharacterConfig,
+        body: Body,
+        torsoAABB: AABB,
+        style: FootwearStyle,
+    ) = if (style.hasSole()) {
+        val soleLength = config.body().getFootLength(torsoAABB, body)
+        getSoleFrontSize(config, body, torsoAABB).calculateVolumeOfPrism(soleLength) * 2.0f
+    } else {
+        ZERO_VOLUME
+    }
+}
 
 fun visualizeFootwear(
     state: CharacterRenderState,
@@ -96,9 +124,7 @@ fun visualizeSoles(
     val color = footwear.sole.getColor(state.state)
     val options = FillAndBorder(color.toRender(), config.line)
     val (left, right) = config.body.getMirroredLegPoint(state.aabb, body, END)
-    val width = state.aabb.convertHeight(config.body.getFootRadius(body) * 2.0f)
-    val height = state.aabb.convertHeight(config.equipment.footwear.heightSole)
-    val size = Size2d(width, height)
+    val size = config.equipment.footwear.getSoleFrontSize(state.config, body, state.aabb)
     val offset = Point2d.yAxis(size.height / 2.0f)
     val leftAABB = AABB.fromCenter(left + offset, size)
     val rightAABB = AABB.fromCenter(right + offset, size)

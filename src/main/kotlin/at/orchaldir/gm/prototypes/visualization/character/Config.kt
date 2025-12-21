@@ -40,6 +40,7 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
     BodyConfig(
         fromPercentage(10),
         FootConfig(
+            fromPercentage(30),
             fromPercentage(9),
             fromPercentage(50),
             withFactor(0.375f, 0.5f, 0.625f),

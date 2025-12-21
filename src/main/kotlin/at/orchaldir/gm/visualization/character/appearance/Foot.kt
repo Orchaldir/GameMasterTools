@@ -15,6 +15,7 @@ import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 
 data class FootConfig(
+    val length: Factor,
     val radius: Factor,
     val clawLengthToWidth: Factor,
     val clawSize: SizeConfig<Factor>,
