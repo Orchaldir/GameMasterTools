@@ -50,7 +50,7 @@ private fun visualizeLamellarArmourBody(
     val scaleWidth = calculateArmourScaleWidth(state, body, torso, style.columns)
     val scaleSize = style.shape.calculateSizeFromWidth(scaleWidth)
     val start = torso.getPoint(CENTER, START)
-    val bottomFactor = getOuterwearBottomY(state.config, body, armour.length, THREE_QUARTER)
+    val bottomFactor = getOuterwearBottomY(state, body, armour.length, THREE_QUARTER)
     val bottom = state.aabb.getPoint(CENTER, bottomFactor)
     val overlap = state.config.equipment.armor.lamellar.overlap
     val lacingRenderer = createScaleRenderer(state, renderer, options, style, scaleSize, clippingName)

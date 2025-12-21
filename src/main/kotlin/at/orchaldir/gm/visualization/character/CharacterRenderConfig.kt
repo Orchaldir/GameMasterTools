@@ -18,6 +18,10 @@ import at.orchaldir.gm.visualization.character.equipment.EquipmentConfig
 
 interface ICharacterConfig {
 
+    fun fullAABB(): AABB
+    fun headAABB(): AABB
+    fun torsoAABB(): AABB
+
     fun body(): BodyConfig
     fun equipment(): EquipmentConfig
     fun head(): HeadConfig
@@ -31,11 +35,7 @@ data class CharacterRenderConfig(
     val equipment: EquipmentConfig,
     val head: HeadConfig,
     val skinColors: Map<SkinColor, RGB>,
-): ICharacterConfig {
-
-    override fun body() = body
-    override fun equipment() = equipment
-    override fun head() = head
+) {
 
     fun calculateSize(height: Distance) = Size2d.square(height + padding * 2.0f)
 

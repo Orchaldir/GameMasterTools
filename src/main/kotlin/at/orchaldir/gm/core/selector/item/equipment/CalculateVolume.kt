@@ -35,10 +35,6 @@ import at.orchaldir.gm.core.model.item.equipment.Tie
 import at.orchaldir.gm.core.model.item.equipment.TwoHandedAxe
 import at.orchaldir.gm.core.model.item.equipment.TwoHandedClub
 import at.orchaldir.gm.core.model.item.equipment.TwoHandedSword
-import at.orchaldir.gm.core.model.item.equipment.style.ChainMail
-import at.orchaldir.gm.core.model.item.equipment.style.LamellarArmour
-import at.orchaldir.gm.core.model.item.equipment.style.ScaleArmour
-import at.orchaldir.gm.core.model.item.equipment.style.SegmentedArmour
 import at.orchaldir.gm.core.model.item.equipment.style.SimpleBuckle
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.utils.doNothing
@@ -60,6 +56,17 @@ data class CalculateVolumeConfig(
     val equipment: EquipmentConfig,
     val head: HeadConfig,
 ): ICharacterConfig {
+    override fun fullAABB(): AABB {
+        TODO("Not yet implemented")
+    }
+
+    override fun headAABB(): AABB {
+        TODO("Not yet implemented")
+    }
+
+    override fun torsoAABB(): AABB {
+        TODO("Not yet implemented")
+    }
 
     override fun body() = body
     override fun equipment() = equipment

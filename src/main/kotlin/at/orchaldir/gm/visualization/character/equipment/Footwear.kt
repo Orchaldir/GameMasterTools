@@ -124,7 +124,7 @@ fun visualizeSoles(
     val color = footwear.sole.getColor(state.state)
     val options = FillAndBorder(color.toRender(), config.line)
     val (left, right) = config.body.getMirroredLegPoint(state.aabb, body, END)
-    val size = config.equipment.footwear.getSoleFrontSize(state.config, body, state.aabb)
+    val size = config.equipment.footwear.getSoleFrontSize(state, body, state.aabb)
     val offset = Point2d.yAxis(size.height / 2.0f)
     val leftAABB = AABB.fromCenter(left + offset, size)
     val rightAABB = AABB.fromCenter(right + offset, size)

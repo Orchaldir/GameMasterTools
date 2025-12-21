@@ -32,7 +32,7 @@ fun createSleeveAabbs(
     style: SleeveStyle,
 ): Pair<AABB, AABB> {
     val (left, right) = state.config.body.getArmStarts(state.aabb, body)
-    val sleeveSize = state.config.equipment.getSleeveSize(state.config, body, state.aabb, style)
+    val sleeveSize = state.config.equipment.getSleeveSize(state, body, state.aabb, style)
         ?: error("Cannot create sleeves for style None!")
     val leftAabb = AABB(left, sleeveSize)
     val rightAabb = AABB(right, sleeveSize)

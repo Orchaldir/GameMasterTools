@@ -21,11 +21,26 @@ data class CharacterRenderState(
     val renderFront: Boolean,
     val equipped: EquipmentElementMap,
     val colors: Colors = UndefinedColors,
-) : RenderState {
+) : RenderState, ICharacterConfig {
 
     override fun state() = state
     override fun renderer() = renderer
     override fun lineOptions() = config.line
+    override fun fullAABB(): AABB {
+        TODO("Not yet implemented")
+    }
+
+    override fun headAABB(): AABB {
+        TODO("Not yet implemented")
+    }
+
+    override fun torsoAABB(): AABB {
+        TODO("Not yet implemented")
+    }
+
+    override fun body() = config.body
+    override fun equipment() = config.equipment
+    override fun head() = config.head
 
     fun getColor(part: ColorSchemeItemPart) = part.getColor(state, colors)
 

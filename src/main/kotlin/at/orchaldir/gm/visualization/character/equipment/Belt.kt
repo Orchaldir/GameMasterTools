@@ -84,7 +84,7 @@ private fun visualizeBeltBand(
     val beltConfig = state.config.equipment.belt
     val bandAabb = AABB.fromCenter(
         torsoAABB.getPoint(CENTER, beltConfig.y),
-        beltConfig.getBandSize(state.config, torsoAABB, body),
+        beltConfig.getBandSize(state, torsoAABB, body),
     )
     val polygon = Polygon2dBuilder()
         .addRectangle(bandAabb)
