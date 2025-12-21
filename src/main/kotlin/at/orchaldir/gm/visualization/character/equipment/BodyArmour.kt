@@ -12,6 +12,7 @@ import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.visualization.character.CharacterRenderState
+import at.orchaldir.gm.visualization.character.ICharacterConfig
 import at.orchaldir.gm.visualization.character.equipment.part.LamellarArmourConfig
 import at.orchaldir.gm.visualization.character.equipment.part.visualizeChainMail
 import at.orchaldir.gm.visualization.character.equipment.part.visualizeLamellarArmour
@@ -26,7 +27,7 @@ data class BodyArmourConfig(
     val lamellar: LamellarArmourConfig,
 ) {
 
-    fun getThickness(torsoAABB: AABB, style: ArmourStyle): Distance {
+    fun getThickness(config: ICharacterConfig, style: ArmourStyle): Distance {
         val thicknessFactor = when (style) {
             is ChainMail -> thicknessChainMail
             is LamellarArmour -> thicknessLamellar
@@ -34,7 +35,7 @@ data class BodyArmourConfig(
             is SegmentedArmour -> thicknessSegmented
         }
 
-        return torsoAABB.convertHeight(thicknessFactor)
+        return config.torsoAABB().convertHeight(thicknessFactor)
     }
 
 }

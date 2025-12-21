@@ -33,7 +33,7 @@ data class CoatConfig(
 
     fun getPaddedWidth() = FULL + widthPadding
 
-    fun getThickness(torsoAABB: AABB) = torsoAABB.convertHeight(thickness)
+    fun getThickness(config: ICharacterConfig) = config.torsoAABB().convertHeight(thickness)
 }
 
 fun getOuterwearBottomY(

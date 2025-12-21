@@ -145,8 +145,6 @@ private fun calculateVolumePerMaterialForBody(
     data: EquipmentData,
     vpm: VolumePerMaterial,
 ) {
-    val torsoAABB = config.body.getTorsoAabb(aabb, body)
-
     when (data) {
         is Belt -> {
             vpm.add(data.strap.material, config.equipment.belt.getBandVolume(config, body))
@@ -157,21 +155,21 @@ private fun calculateVolumePerMaterialForBody(
             }
         }
         is BodyArmour -> {
-            val thickness = config.equipment.armor.getThickness(torsoAABB, data.style)
+            val thickness = config.equipment.armor.getThickness(config, data.style)
             val sleevesVolume = config.equipment.getSleevesVolume(config, body, data.sleeveStyle, thickness)
-            val torsoVolume = config.equipment.getOuterwearBodyVolume(config, body, torsoAABB, data.length, thickness)
+            val torsoVolume = config.equipment.getOuterwearBodyVolume(config, body, data.length, thickness)
 
             vpm.add(data.style.mainMaterial(), torsoVolume + sleevesVolume)
         }
         is Coat -> {
-            val thickness = config.equipment.coat.getThickness(torsoAABB)
+            val thickness = config.equipment.coat.getThickness(config)
             val sleevesVolume = config.equipment.getSleevesVolume(config, body, data.sleeveStyle, thickness)
-            val torsoVolume = config.equipment.getOuterwearBodyVolume(config, body, torsoAABB, data.length, thickness)
+            val torsoVolume = config.equipment.getOuterwearBodyVolume(config, body, data.length, thickness)
 
             vpm.add(data.main.material, torsoVolume + sleevesVolume)
         }
         is Dress -> {
-            val thickness = config.equipment.dress.getThickness(torsoAABB)
+            val thickness = config.equipment.dress.getThickness(config)
             val sleevesVolume = config.equipment.getSleevesVolume(config, body, data.sleeveStyle, thickness)
             val torsoVolume = config.equipment.dress.getBodyVolume(config, body, data.skirtStyle, thickness)
 

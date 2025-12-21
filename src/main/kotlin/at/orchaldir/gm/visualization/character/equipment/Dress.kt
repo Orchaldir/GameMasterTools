@@ -27,7 +27,7 @@ import at.orchaldir.gm.visualization.renderBuilder
 data class DressConfig(
     val thickness: Factor,
 ) {
-    fun getThickness(torsoAABB: AABB) = torsoAABB.convertHeight(thickness)
+    fun getThickness(config: ICharacterConfig) = config.torsoAABB().convertHeight(thickness)
 
     fun getBottomY(
         config: ICharacterConfig,
