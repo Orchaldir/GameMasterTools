@@ -169,24 +169,24 @@ private fun calculateVolumePerMaterialForBody(
         }
         is BodyArmour -> {
             val thickness = config.equipment.armor.getThickness(config, data.style)
-            val sleevesVolume = config.equipment.getSleevesVolume(config, data.sleeveStyle, thickness)
-            val torsoVolume = config.equipment.getOuterwearBodyVolume(config, data.length, thickness)
+            val sleeves = config.equipment.getSleevesVolume(config, data.sleeveStyle, thickness)
+            val torso = config.equipment.getOuterwearBodyVolume(config, data.length, thickness)
 
-            vpm.add(data.style.mainMaterial(), torsoVolume + sleevesVolume)
+            vpm.add(data.style.mainMaterial(), torso + sleeves)
         }
         is Coat -> {
             val thickness = config.equipment.coat.getThickness(config)
-            val sleevesVolume = config.equipment.getSleevesVolume(config, data.sleeveStyle, thickness)
-            val torsoVolume = config.equipment.getOuterwearBodyVolume(config, data.length, thickness)
+            val sleeves = config.equipment.getSleevesVolume(config, data.sleeveStyle, thickness)
+            val torso = config.equipment.getOuterwearBodyVolume(config, data.length, thickness)
 
-            vpm.add(data.main.material, torsoVolume + sleevesVolume)
+            vpm.add(data.main.material, torso + sleeves)
         }
         is Dress -> {
             val thickness = config.equipment.dress.getThickness(config)
-            val sleevesVolume = config.equipment.getSleevesVolume(config, data.sleeveStyle, thickness)
-            val torsoVolume = config.equipment.dress.getBodyVolume(config, data.skirtStyle, thickness)
+            val sleeves = config.equipment.getSleevesVolume(config, data.sleeveStyle, thickness)
+            val torso = config.equipment.dress.getBodyVolume(config, data.skirtStyle, thickness)
 
-            vpm.add(data.main.material, torsoVolume + sleevesVolume)
+            vpm.add(data.main.material, torso + sleeves)
         }
         is Footwear -> {
             val soles = config.equipment.footwear.getSoleVolume(config, data.style)

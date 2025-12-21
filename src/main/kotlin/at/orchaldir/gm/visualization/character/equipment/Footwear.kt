@@ -27,9 +27,8 @@ data class FootwearConfig(
     fun getSoleFrontSize(
         config: ICharacterConfig<Body>,
     ): Size2d {
-        val aabb = config.fullAABB()
-        val width = aabb.convertHeight(config.body().getFootRadiusFactor(config) * 2.0f)
-        val height = aabb.convertHeight(heightSole)
+        val width = config.body().getFootRadius(config) * 2.0f
+        val height = config.fullAABB().convertHeight(heightSole)
 
         return Size2d(width, height)
     }
