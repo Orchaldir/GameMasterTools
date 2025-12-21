@@ -139,6 +139,9 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
             fromPercentage(2),
             fromPercentage(1),
         ),
+        GlovesConfig(
+            fromPercentage(1),
+        ),
         HatConfig(
             fromPercentage(10),
             fromPercentage(40),

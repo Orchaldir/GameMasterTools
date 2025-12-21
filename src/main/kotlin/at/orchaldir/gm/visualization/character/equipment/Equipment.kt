@@ -30,6 +30,7 @@ data class EquipmentConfig(
     val eyePatch: EyePatchConfig,
     val footwear: FootwearConfig,
     val glasses: GlassesConfig,
+    val gloves: GlovesConfig,
     val hat: HatConfig,
     val helmet: HelmetConfig,
     val iounStone: IounStoneConfig,

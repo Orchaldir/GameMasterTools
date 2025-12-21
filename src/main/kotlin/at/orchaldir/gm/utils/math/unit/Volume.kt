@@ -3,6 +3,8 @@ package at.orchaldir.gm.utils.math.unit
 import at.orchaldir.gm.utils.math.Factor
 import kotlinx.serialization.Serializable
 import java.util.*
+import kotlin.math.PI
+import kotlin.math.pow
 
 val ZERO_VOLUME = Volume.fromCubicMillimeters(0)
 
@@ -37,6 +39,12 @@ value class Volume private constructor(private val cmm: Long) : SiUnit<Volume> {
 
         fun fromCube(width: Distance, height: Distance, depth: Distance) =
             fromCubicMeters(width.toMeters() * height.toMeters() * depth.toMeters())
+
+        fun fromSphere(radius: Distance) =
+            fromCubicMeters(radius.toMeters().pow(3) * 4.0f * PI.toFloat() / 3.0f)
+
+        fun fromHollowSphere(outerRadius: Distance, innerRadius: Distance) =
+            fromSphere(outerRadius) - fromSphere(innerRadius)
     }
 
     override fun value() = cmm

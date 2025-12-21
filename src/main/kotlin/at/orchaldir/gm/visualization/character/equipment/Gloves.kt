@@ -5,13 +5,30 @@ import at.orchaldir.gm.core.model.item.equipment.Gloves
 import at.orchaldir.gm.core.model.item.equipment.style.GloveStyle
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
+import at.orchaldir.gm.utils.math.unit.Volume
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.utils.renderer.model.toRender
 import at.orchaldir.gm.visualization.character.CharacterRenderState
+import at.orchaldir.gm.visualization.character.ICharacterConfig
 import at.orchaldir.gm.visualization.character.appearance.HIGHER_EQUIPMENT_LAYER
 import at.orchaldir.gm.visualization.character.appearance.getArmLayer
 import at.orchaldir.gm.visualization.character.appearance.visualizeHands
+
+data class GlovesConfig(
+    val thickness: Factor,
+) {
+
+    fun getHandsVolume(
+        config: ICharacterConfig<Body>,
+    ): Volume {
+        val outerRadius = config.body().getHandRadius(config)
+        val innerRadius = outerRadius * (FULL - thickness)
+
+        return Volume.fromHollowSphere(outerRadius, innerRadius) * 2.0f
+    }
+
+}
 
 fun visualizeGloves(
     state: CharacterRenderState<Body>,

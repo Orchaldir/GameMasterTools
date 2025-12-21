@@ -195,7 +195,11 @@ private fun calculateVolumePerMaterialForBody(
             vpm.add(data.shaft.material, shafts)
             vpm.add(data.sole.material, soles)
         }
-        is Gloves -> doNothing()
+        is Gloves -> {
+            val hands = config.equipment.gloves.getHandsVolume(config)
+
+            vpm.add(data.main.material, hands)
+        }
         is Necklace -> doNothing()
         is OneHandedAxe -> doNothing()
         is OneHandedClub -> doNothing()
