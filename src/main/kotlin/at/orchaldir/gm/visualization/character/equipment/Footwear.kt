@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.Footwear
 import at.orchaldir.gm.core.model.item.equipment.style.FootwearStyle
 import at.orchaldir.gm.utils.math.*
+import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.ZERO_VOLUME
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
@@ -21,6 +22,29 @@ data class FootwearConfig(
     val heightSole: Factor,
     val paddingShaft: Factor,
 ) {
+
+    // shaft
+
+    fun getShaftHeight(
+        config: ICharacterConfig<Body>,
+        style: FootwearStyle,
+        isFront: Boolean = true,
+    ): Factor? {
+        val shoeHeight = config.body().getShoeHeight(config)
+
+        return when (style) {
+            FootwearStyle.Boots -> heightAnkle
+            FootwearStyle.KneeHighBoots -> heightKnee
+            FootwearStyle.Pumps -> if (isFront) {
+                null
+            } else {
+                shoeHeight
+            }
+            FootwearStyle.Shoes -> shoeHeight
+            FootwearStyle.Sandals -> null
+            FootwearStyle.Slippers -> null
+        }
+    }
 
     // sole
 
@@ -72,19 +96,7 @@ private fun visualizeBootShaft(
     footwear: Footwear,
     options: RenderOptions,
 ) {
-    val shoeHeight = state.config.body.getShoeHeight(state)
-    val height = when (footwear.style) {
-        FootwearStyle.Boots -> state.config.equipment.footwear.heightAnkle
-        FootwearStyle.KneeHighBoots -> state.config.equipment.footwear.heightKnee
-        FootwearStyle.Pumps -> if (state.renderFront) {
-            return
-        } else {
-            shoeHeight
-        }
-
-        FootwearStyle.Shoes -> shoeHeight
-        else -> return
-    }
+    val height = state.equipment().footwear.getShaftHeight(state, footwear.style, state.renderFront) ?: return
 
     visualizeBootShaft(state, options, height, state.config.equipment.footwear.paddingShaft)
 }
