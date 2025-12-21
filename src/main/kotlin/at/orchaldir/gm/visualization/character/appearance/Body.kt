@@ -31,10 +31,10 @@ data class BodyConfig(
 ) {
     fun getBodyWidth(body: Body) = width.convert(body.width)
 
-    fun getHeadAabb(aabb: AABB): AABB {
+    fun getHeadAabb(fullAabb: AABB): AABB {
         val startX = getStartX(headHeight)
-        val start = aabb.getPoint(startX, START)
-        val size = aabb.size * headHeight
+        val start = fullAabb.getPoint(startX, START)
+        val size = fullAabb.size * headHeight
 
         return AABB(start, size)
     }

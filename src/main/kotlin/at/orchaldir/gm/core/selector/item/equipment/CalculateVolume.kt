@@ -58,19 +58,21 @@ data class CalculateVolumeConfig(
 
         fun from(config: CharacterRenderConfig, appearance: Appearance = HumanoidBody()): CalculateVolumeConfig {
             val fullAABB = AABB(appearance.getSize2d())
+            val headAABB = when (appearance) {
+                is HeadOnly -> fullAABB
+                is HumanoidBody -> config.body.getHeadAabb(fullAABB)
+                UndefinedAppearance -> null
+            }
+            val torsoAABB = if (appearance is HumanoidBody) {
+                config.body.getTorsoAabb(fullAABB, appearance.body)
+            } else {
+                null
+            }
 
             return CalculateVolumeConfig(
                 fullAABB,
-                if (appearance is HeadOnly) {
-                    fullAABB
-                } else {
-                    null
-                },
-                if (appearance is HumanoidBody) {
-                    config.body.getTorsoAabb(fullAABB, appearance.body)
-                } else {
-                    null
-                },
+                headAABB,
+                torsoAABB,
                 config.body,
                 config.equipment,
                 config.head,
@@ -147,10 +149,10 @@ private fun calculateVolumePerMaterialForBody(
 
     when (data) {
         is Belt -> {
-            vpm.add(data.strap.material, config.equipment.belt.getBandVolume(config, torsoAABB, body))
+            vpm.add(data.strap.material, config.equipment.belt.getBandVolume(config, body))
 
             if (data.buckle is SimpleBuckle) {
-                val buckleVolume = config.equipment.belt.getBuckleVolume(torsoAABB, data.buckle.shape, data.buckle.size)
+                val buckleVolume = config.equipment.belt.getBuckleVolume(config, data.buckle.shape, data.buckle.size)
                 vpm.add(data.buckle.part.material, buckleVolume)
             }
         }

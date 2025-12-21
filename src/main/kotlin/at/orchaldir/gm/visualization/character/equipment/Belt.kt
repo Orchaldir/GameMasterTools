@@ -27,24 +27,30 @@ data class BeltConfig(
     val holeRadius: SizeConfig<Factor>,
     val y: Factor,
 ) {
-    fun getBandSize(config: ICharacterConfig, torsoAABB: AABB, body: Body): Size2d {
+    fun getBandCenter(config: ICharacterConfig) =
+        config.torsoAABB().getPoint(CENTER, y)
+
+    fun getBandSize(config: ICharacterConfig,body: Body): Size2d {
         val hipWidth = config.equipment().pants.getHipWidth(config.body(), body)
 
-        return torsoAABB.size.scale(hipWidth, bandHeight)
+        return config.torsoAABB().size.scale(hipWidth, bandHeight)
     }
 
-    fun getBandVolume(config: ICharacterConfig, torsoAABB: AABB, body: Body): Volume {
-        val bandSize = getBandSize(config, torsoAABB, body)
+    fun getBandVolume(config: ICharacterConfig, body: Body): Volume {
+        val bandSize = getBandSize(config, body)
         val bandThickness = bandSize.height * bandThicknessRelativeToHeight
 
         return bandSize.calculateVolumeOfPrism(bandThickness) * config.body().getTorsoCircumferenceFactor()
     }
 
-    fun getBuckleHeight(torsoAABB: AABB, size: Size) =
-        torsoAABB.convertHeight(buckleHeight.convert(size))
+    fun getBeltHoleRadius(config: ICharacterConfig, size: Size) =
+        config.torsoAABB().convertHeight(holeRadius.convert(size))
 
-    fun getBuckleVolume(torsoAABB: AABB, shape: BuckleShape, size: Size): Volume {
-        val height = getBuckleHeight(torsoAABB, size)
+    fun getBuckleHeight(config: ICharacterConfig, size: Size) =
+        config.torsoAABB().convertHeight(buckleHeight.convert(size))
+
+    fun getBuckleVolume(config: ICharacterConfig, shape: BuckleShape, size: Size): Volume {
+        val height = getBuckleHeight(config, size)
         val half = height / 2.0f
         val double = height * 2.0f
         val thickness = height * buckleThicknessRelativeToHeight
@@ -68,7 +74,7 @@ fun visualizeBelt(
 ) {
     val torsoAABB = state.torsoAABB()
 
-    visualizeBeltBand(state, body, torsoAABB, belt)
+    visualizeBeltBand(state, body, belt)
     visualizeBeltHoles(state, body, torsoAABB, belt.holes)
     visualizeBuckle(state, torsoAABB, belt.buckle)
 }
@@ -76,15 +82,14 @@ fun visualizeBelt(
 private fun visualizeBeltBand(
     state: CharacterRenderState,
     body: Body,
-    torsoAABB: AABB,
     belt: Belt,
 ) {
     val fill = belt.strap.getFill(state.state, state.colors)
     val options = FillAndBorder(fill.toRender(), state.config.line)
     val beltConfig = state.config.equipment.belt
     val bandAabb = AABB.fromCenter(
-        torsoAABB.getPoint(CENTER, beltConfig.y),
-        beltConfig.getBandSize(state, torsoAABB, body),
+        beltConfig.getBandCenter(state),
+        beltConfig.getBandSize(state, body),
     )
     val polygon = Polygon2dBuilder()
         .addRectangle(bandAabb)
@@ -128,8 +133,7 @@ private fun visualizeRowOfBeltHoles(
     size: Size,
     border: Color?,
 ) {
-    val factor = state.config.equipment.belt.holeRadius.convert(size)
-    val radius = torsoAABB.convertHeight(factor)
+    val radius = state.config.equipment.belt.getBeltHoleRadius(state, size)
     val options = if (border != null) {
         FillAndBorder(Color.Black.toRender(), LineOptions(border.toRender(), radius / 2.0f))
     } else {
@@ -167,7 +171,7 @@ private fun visualizeSimpleBuckle(
     val fill = buckle.part.getFill(state.state, state.colors)
     val options = FillAndBorder(fill.toRender(), state.config.line)
     val beltConfig = state.config.equipment.belt
-    val height = beltConfig.getBuckleHeight(torsoAABB, buckle.size)
+    val height = beltConfig.getBuckleHeight(state, buckle.size)
     val half = height / 2.0f
     val double = height * 2.0f
     val center = torsoAABB.getPoint(CENTER, beltConfig.y)
