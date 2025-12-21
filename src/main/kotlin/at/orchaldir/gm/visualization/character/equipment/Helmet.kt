@@ -73,20 +73,21 @@ private fun visualizeChainmailHood(
 ) {
     val color = hood.part.getColor(state.state, state.colors)
     val options = state.config.getLineOptions(color)
+    val aabb = state.headAABB()
 
     if (state.renderFront) {
         val hoodWidth = config.getHelmWidth()
         val hoodOpeningWidth = config.hoodOpeningWidth
         val polygon = Polygon2dBuilder()
-            .addMirroredPoints(state.aabb, hoodWidth, START, true)
-            .addMirroredPoints(state.aabb, hoodWidth, END, true)
-            .addMirroredPoints(state.aabb, hoodOpeningWidth, END, true)
-            .addMirroredPoints(state.aabb, hoodOpeningWidth, FULL - hoodOpeningWidth)
+            .addMirroredPoints(aabb, hoodWidth, START, true)
+            .addMirroredPoints(aabb, hoodWidth, END, true)
+            .addMirroredPoints(aabb, hoodOpeningWidth, END, true)
+            .addMirroredPoints(aabb, hoodOpeningWidth, FULL - hoodOpeningWidth)
             .build()
 
         renderer.renderRoundedPolygon(polygon, options)
     } else {
-        renderer.renderRectangle(state.aabb, options)
+        renderer.renderRectangle(aabb, options)
     }
 }
 
@@ -98,7 +99,7 @@ private fun visualizeGreatHelm(
 ) {
     val color = helm.part.getColor(state.state, state.colors)
     val options = state.config.getLineOptions(color)
-    val polygon = createGreatHelmPolygon(state.aabb, config, helm)
+    val polygon = createGreatHelmPolygon(state.headAABB(), config, helm)
 
     if (state.renderFront) {
         visualizeHelmWithEyeHoles(state, renderer, config, options, polygon, helm.eyeHole)
@@ -131,7 +132,7 @@ private fun visualizeSkullCap(
 ) {
     val color = cap.part.getColor(state.state, state.colors)
     val options = state.config.getLineOptions(color)
-    val polygon = createSkullCapPolygon(state.aabb, config, cap)
+    val polygon = createSkullCapPolygon(state.headAABB(), config, cap)
 
     renderer.renderRoundedPolygon(polygon, options)
 }
@@ -202,7 +203,7 @@ private fun createChainmailHoodForBodyPolygon(
     body: Body,
     shape: HoodBodyShape,
 ): Polygon2d {
-    val aabb = state.config.body.getArmsAabb(state.aabb, body)
+    val aabb = state.config.body.getArmsAabb(state.headAABB(), body)
     val builder = Polygon2dBuilder()
         .addMirroredPoints(aabb, FULL, START, true)
 

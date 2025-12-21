@@ -35,7 +35,7 @@ fun addNeckline(
         return
     }
 
-    val torsoAabb = state.config.body.getTorsoAabb(state.aabb, body)
+    val torsoAabb = state.torsoAABB()
     val neckline = state.config.equipment.neckline
 
     when (style) {

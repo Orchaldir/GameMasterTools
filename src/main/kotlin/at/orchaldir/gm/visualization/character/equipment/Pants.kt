@@ -55,10 +55,10 @@ private fun getPants(state: CharacterRenderState, body: Body, bottomY: Factor): 
     val midY = bottomY.interpolate(topY, CENTER)
     val centerY = midY.interpolate(topY, CENTER)
 
-    builder.addMirroredPoints(state.aabb, pantsWidth, midY)
-    builder.addMirroredPoints(state.aabb, pantsWidth, bottomY)
-    builder.addMirroredPoints(state.aabb, innerWidth, bottomY)
-    builder.addLeftPoint(state.aabb, CENTER, centerY)
+    builder.addMirroredPoints(state.fullAABB, pantsWidth, midY)
+    builder.addMirroredPoints(state.fullAABB, pantsWidth, bottomY)
+    builder.addMirroredPoints(state.fullAABB, innerWidth, bottomY)
+    builder.addLeftPoint(state.fullAABB, CENTER, centerY)
 
     return builder.build()
 }
@@ -66,7 +66,7 @@ private fun getPants(state: CharacterRenderState, body: Body, bottomY: Factor): 
 private fun getBase(state: CharacterRenderState, body: Body): Polygon2dBuilder {
     val builder = Polygon2dBuilder()
     val bodyConfig = state.config.body
-    val torso = bodyConfig.getTorsoAabb(state.aabb, body)
+    val torso = state.torsoAABB()
     val topY = bodyConfig.hipY
     val hipWidth = state.config.equipment.pants.getHipWidth(bodyConfig, body)
 

@@ -118,7 +118,7 @@ private fun visualizeSimpleGuard(
 ): Point2d {
     val guardSize = Size2d(
         gripAabb.size.width * guard.width,
-        state.aabb.convertHeight(guard.height),
+        state.fullAABB.convertHeight(guard.height),
     )
     val bottom = gripAabb.getPoint(CENTER, START)
     val guardAabb = AABB.fromBottom(bottom, guardSize)

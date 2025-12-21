@@ -92,8 +92,8 @@ private fun visualizeCoolie(
 
     val builder = Polygon2dBuilder()
 
-    builder.addMirroredPoints(state.aabb, state.config.equipment.hat.widthCoolie, y)
-    builder.addLeftPoint(state.aabb, CENTER, y - state.config.equipment.hat.heightHigh)
+    builder.addMirroredPoints(state.headAABB(), state.config.equipment.hat.widthCoolie, y)
+    builder.addLeftPoint(state.headAABB(), CENTER, y - state.config.equipment.hat.heightHigh)
 
     renderBuilder(state.renderer, builder, options, EQUIPMENT_LAYER)
 }
@@ -106,7 +106,7 @@ private fun visualizeCowboy(
     val options = state.config.getLineOptions(fill)
 
     val crown = buildCrown(state)
-    crown.addLeftPoint(state.aabb, CENTER, fromPercentage(-10))
+    crown.addLeftPoint(state.headAABB(), CENTER, fromPercentage(-10))
     crown.createSharpCorners(0)
 
     renderRoundedBuilder(state.renderer, crown, options, EQUIPMENT_LAYER)
@@ -163,8 +163,8 @@ private fun buildCrown(
     val builder = Polygon2dBuilder()
     val width = state.config.equipment.hat.getCommonWidth()
 
-    builder.addMirroredPoints(state.aabb, width, y)
-    builder.addMirroredPoints(state.aabb, width + extraTopWidth, y - height)
+    builder.addMirroredPoints(state.headAABB(), width, y)
+    builder.addMirroredPoints(state.headAABB(), width + extraTopWidth, y - height)
 
     return builder
 }
@@ -173,8 +173,8 @@ private fun buildBrim(state: CharacterRenderState, width: Factor, height: Factor
     val builder = Polygon2dBuilder()
     val half = height * 0.5f
 
-    builder.addMirroredPoints(state.aabb, width, y + half)
-    builder.addMirroredPoints(state.aabb, width, y - half)
+    builder.addMirroredPoints(state.headAABB(), width, y + half)
+    builder.addMirroredPoints(state.headAABB(), width, y - half)
 
     return builder
 }

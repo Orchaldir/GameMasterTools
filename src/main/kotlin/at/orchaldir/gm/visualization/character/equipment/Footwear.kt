@@ -27,8 +27,8 @@ data class FootwearConfig(
     fun getSoleFrontSize(
         config: ICharacterConfig,
         body: Body,
-        aabb: AABB,
     ): Size2d {
+        val aabb = config.fullAABB()
         val width = aabb.convertHeight(config.body().getFootRadiusFactor(body) * 2.0f)
         val height = aabb.convertHeight(heightSole)
 
@@ -41,8 +41,8 @@ data class FootwearConfig(
         torsoAABB: AABB,
         style: FootwearStyle,
     ) = if (style.hasSole()) {
-        val soleLength = config.body().getFootLength(torsoAABB, body)
-        getSoleFrontSize(config, body, torsoAABB).calculateVolumeOfPrism(soleLength) * 2.0f
+        val soleLength = config.body().getFootLength(config, body)
+        getSoleFrontSize(config, body).calculateVolumeOfPrism(soleLength) * 2.0f
     } else {
         ZERO_VOLUME
     }
@@ -105,8 +105,8 @@ fun visualizeBootShaft(
     val config = state.config.body
     val width = config.getLegWidth(body) + padding
     val height = config.getLegHeight() * scale
-    val size = state.aabb.size.scale(width, height)
-    val (left, right) = config.getMirroredLegPoint(state.aabb, body, FULL - scale * 0.5f)
+    val size = state.fullAABB.size.scale(width, height)
+    val (left, right) = config.getMirroredLegPoint(state, body, FULL - scale * 0.5f)
     val leftAabb = AABB.fromCenter(left, size)
     val rightAabb = AABB.fromCenter(right, size)
     val layer = state.renderer.getLayer(EQUIPMENT_LAYER)
@@ -123,8 +123,8 @@ fun visualizeSoles(
     val config = state.config
     val color = footwear.sole.getColor(state.state)
     val options = FillAndBorder(color.toRender(), config.line)
-    val (left, right) = config.body.getMirroredLegPoint(state.aabb, body, END)
-    val size = config.equipment.footwear.getSoleFrontSize(state, body, state.aabb)
+    val (left, right) = config.body.getMirroredLegPoint(state, body, END)
+    val size = config.equipment.footwear.getSoleFrontSize(state, body)
     val offset = Point2d.yAxis(size.height / 2.0f)
     val leftAABB = AABB.fromCenter(left + offset, size)
     val rightAABB = AABB.fromCenter(right + offset, size)

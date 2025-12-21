@@ -10,6 +10,7 @@ import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.toRender
 import at.orchaldir.gm.visualization.character.CharacterRenderState
+import at.orchaldir.gm.visualization.character.ICharacterConfig
 import at.orchaldir.gm.visualization.character.appearance.HELD_EQUIPMENT_LAYER
 import at.orchaldir.gm.visualization.character.equipment.part.visualizeHeadFixation
 import at.orchaldir.gm.visualization.utils.visualizeSegments
@@ -22,8 +23,8 @@ data class PolearmConfig(
     val boundRowThickness: Factor,
     val socketedPadding: Factor,
 ) {
-    fun getLength(aabb: AABB) = aabb.convertHeight(length)
-    fun getWidth(aabb: AABB) = aabb.convertHeight(width)
+    fun getLength(config: ICharacterConfig) = config.fullAABB().convertHeight(length)
+    fun getWidth(config: ICharacterConfig) = config.fullAABB().convertHeight(width)
 }
 
 fun visualizePolearm(
@@ -32,11 +33,11 @@ fun visualizePolearm(
     polearm: Polearm,
     set: Set<BodySlot>,
 ) {
-    val (leftHand, rightHand) = state.config.body.getMirroredArmPoint(state.aabb, body, END)
+    val (leftHand, rightHand) = state.config.body.getMirroredArmPoint(state, body, END)
     val config = state.config.equipment.polearm
-    val length = config.getLength(state.aabb)
-    val width = config.getWidth(state.aabb)
-    val y = state.aabb.getEnd().y - length / 2
+    val length = config.getLength(state)
+    val width = config.getWidth(state)
+    val y = state.fullAABB.getEnd().y - length / 2
     val left = Point2d(leftHand.x, y)
     val right = Point2d(rightHand.x, y)
     val renderer = state.getLayer(HELD_EQUIPMENT_LAYER)

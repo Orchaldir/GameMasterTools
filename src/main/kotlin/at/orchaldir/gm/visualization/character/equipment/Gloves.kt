@@ -36,8 +36,8 @@ private fun visualizeGloveSleeves(
     body: Body,
     length: Factor,
 ) {
-    val (left, right) = state.config.body.getArmStarts(state.aabb, body)
-    val armSize = state.config.body.getArmSize(state.aabb, body)
+    val (left, right) = state.config.body.getArmStarts(state, body)
+    val armSize = state.config.body.getArmSize(state, body)
     val gloveSize = Size2d(armSize.width, armSize.height * length)
     val down = Point2d.yAxis(armSize.height * (FULL - length))
     val centerLeft = left + down

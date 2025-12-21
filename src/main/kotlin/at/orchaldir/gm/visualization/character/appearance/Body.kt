@@ -67,7 +67,8 @@ data class BodyConfig(
     fun getArmsAabb(aabb: AABB, body: Body) = AABB
         .fromTop(aabb.getPoint(CENTER, torsoY), getArmsSize(aabb, body))
 
-    fun getFootLength(aabb: AABB, body: Body) = aabb.convertHeight(getBodyWidth(body) * foot.length)
+    fun getFootLength(config: ICharacterConfig, body: Body) = config.torsoAABB()
+        .convertHeight(getBodyWidth(body) * foot.length)
 
     fun getFootRadius(config: ICharacterConfig, body: Body) = config.fullAABB()
         .convertHeight(getFootRadiusFactor(body))
@@ -122,12 +123,13 @@ data class BodyConfig(
 
     fun getTorsoCircumferenceFactor() = (FULL + torsoThicknessRelativeToWidth) * 2
 
-    fun getTorsoAabb(config: ICharacterConfig, body: Body): AABB {
+    fun getTorsoAabb(config: ICharacterConfig, body: Body) = getTorsoAabb(config.torsoAABB(), body)
+
+    fun getTorsoAabb(fullAABB: AABB, body: Body): AABB {
         val width = getTorsoWidth(body)
         val startX = getStartX(width)
-        val aabb = config.fullAABB()
-        val start = aabb.getPoint(startX, torsoY)
-        val size = aabb.size.scale(width, torsoHeight)
+        val start = fullAABB.getPoint(startX, torsoY)
+        val size = fullAABB.size.scale(width, torsoHeight)
 
         return AABB(start, size)
     }

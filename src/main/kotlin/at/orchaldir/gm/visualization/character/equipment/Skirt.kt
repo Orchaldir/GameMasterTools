@@ -64,15 +64,15 @@ fun createSkirt(
 
     if (skirtStyle == Asymmetrical) {
         val offset = state.getSideOffset(width * -0.5f)
-        builder.addLeftPoint(state.aabb, CENTER + offset, bottomY)
+        builder.addLeftPoint(state.fullAABB, CENTER + offset, bottomY)
     } else {
-        builder.addMirroredPoints(state.aabb, width, bottomY)
+        builder.addMirroredPoints(state.fullAABB, width, bottomY)
     }
 
     if (skirtStyle == BallGown) {
-        builder.addMirroredPoints(state.aabb, width, state.config.body.getLegY())
+        builder.addMirroredPoints(state.fullAABB, width, state.config.body.getLegY())
     } else {
-        addHip(state.config, builder, state.aabb, body, skirtConfig.getSkirtWidthFactor(), skirtStyle != ALine)
+        addHip(state, builder, body, skirtConfig.getSkirtWidthFactor(), skirtStyle != ALine)
     }
 
     return builder

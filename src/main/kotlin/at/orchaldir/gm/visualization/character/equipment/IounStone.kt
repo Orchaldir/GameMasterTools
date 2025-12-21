@@ -24,8 +24,8 @@ fun visualizeIounStone(
     val config = state.config.equipment.iounStone
     val color = stone.main.getColor(state.state, state.colors)
     val options = state.config.getLineOptions(color)
-    val (start, end) = state.aabb.getMirroredPoints(config.orbitWidth, -config.orbitY)
-    val radius = state.aabb.convertHeight(config.size.convert(stone.size))
+    val (start, end) = state.headAABB().getMirroredPoints(config.orbitWidth, -config.orbitY)
+    val radius = state.headAABB().convertHeight(config.size.convert(stone.size))
     val slot = set.first()
     val maxStoneIndex = state.equipped.getMaxIounStoneSlot()?.getIounStoneIndex()
         ?: error("Cannot calculate the number of ioun stones!")

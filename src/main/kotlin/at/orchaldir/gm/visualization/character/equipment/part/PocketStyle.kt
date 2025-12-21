@@ -22,8 +22,8 @@ fun visualizeTopPockets(
     }
 
     val y = fromPercentage(55)
-    val (left, right) = state.aabb.getMirroredPoints(fromPercentage(25), y)
-    val width = state.aabb.convertWidth(fromPercentage(10))
+    val (left, right) = state.fullAABB.getMirroredPoints(fromPercentage(25), y)
+    val width = state.fullAABB.convertWidth(fromPercentage(10))
 
     visualizePocket(state, options, style, left, width, layer)
     visualizePocket(state, options, style, right, width, layer)

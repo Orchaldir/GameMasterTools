@@ -12,6 +12,7 @@ import at.orchaldir.gm.utils.isEven
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.visualization.character.CharacterRenderState
+import at.orchaldir.gm.visualization.character.ICharacterConfig
 import at.orchaldir.gm.visualization.character.appearance.HELD_EQUIPMENT_LAYER
 
 data class SwordConfig(
@@ -25,12 +26,12 @@ data class SwordConfig(
 ) {
 
     fun gripAabb(
-        state: CharacterRenderState,
+        config: ICharacterConfig,
         body: Body,
         isOneHanded: Boolean,
         hand: Point2d,
     ): AABB {
-        val handRadius = state.aabb.convertHeight(state.config.body.getHandRadiusFactor(body))
+        val handRadius = config.body().getHandRadius(config, body)
         val oneHandLength = handRadius * gripLength
         val length = oneHandLength * isOneHanded.convert(1, 2)
         val center = hand.minusHeight(oneHandLength / 2)
@@ -50,14 +51,14 @@ fun visualizeSword(
     set: Set<BodySlot>,
 ) {
     val renderer = state.getLayer(HELD_EQUIPMENT_LAYER)
-    val (leftHand, rightHand) = state.config.body.getMirroredArmPoint(state.aabb, body, END)
+    val (leftHand, rightHand) = state.config.body.getMirroredArmPoint(state, body, END)
     val hand = state.getCenter(leftHand, rightHand, set, BodySlot.HeldInRightHand)
     val config = state.config.equipment.sword
     val gripAabb = config.gripAabb(state, body, isOneHanded, hand)
 
     val bladeBottom = visualizeSwordHilt(state, renderer, config, hilt, gripAabb)
 
-    val bladeSize = blade.size(state.aabb.size.height, gripAabb)
+    val bladeSize = blade.size(state.fullAABB.size.height, gripAabb)
     val bladeAabb = AABB.fromBottom(bladeBottom, bladeSize)
 
     visualizeBlade(state, renderer, config, blade, bladeAabb)
@@ -101,7 +102,7 @@ private fun createSimplyBladePolygon(
         BladeShape.Flame -> {
             val remainingHeightFactor = FULL - config.straightTopY * 3
             val remainingHeight = aabb.size.height * remainingHeightFactor
-            val rowHeight = state.aabb.size.height * config.flameStep
+            val rowHeight = state.fullAABB.size.height * config.flameStep
             val rows = (remainingHeight.toMeters() / rowHeight.toMeters()).toInt()
             val step = remainingHeightFactor / rows
             val offset = config.flameOffset

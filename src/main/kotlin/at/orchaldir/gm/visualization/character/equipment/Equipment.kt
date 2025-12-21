@@ -46,7 +46,7 @@ data class EquipmentConfig(
     // sleaves
 
     fun getSleeveSize(config: ICharacterConfig, body: Body, style: SleeveStyle): Size2d? {
-        val armSize = config.body().getArmSize(config.fullAABB(), body)
+        val armSize = config.body().getArmSize(config, body)
 
         return when (style) {
             SleeveStyle.Long -> armSize
