@@ -1,5 +1,6 @@
 package at.orchaldir.gm.visualization.character.equipment.part
 
+import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.SizeConfig
 import at.orchaldir.gm.utils.doNothing
@@ -17,7 +18,7 @@ data class OpeningConfig(
 )
 
 fun visualizeOpening(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     aabb: AABB,
     x: Factor,
     topY: Factor,
@@ -42,7 +43,7 @@ fun visualizeOpening(
 }
 
 fun visualizeButtons(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     aabb: AABB,
     x: Factor,
     topY: Factor,
@@ -66,7 +67,7 @@ fun visualizeButtons(
 }
 
 fun visualizeZipper(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     aabb: AABB,
     x: Factor,
     topY: Factor,

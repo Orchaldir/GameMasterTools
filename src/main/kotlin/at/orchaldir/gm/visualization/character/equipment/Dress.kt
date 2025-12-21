@@ -2,22 +2,17 @@ package at.orchaldir.gm.visualization.character.equipment
 
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.Dress
-import at.orchaldir.gm.core.model.item.equipment.style.OuterwearLength
 import at.orchaldir.gm.core.model.item.equipment.style.SkirtStyle
-import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.DOUBLE
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.math.HALF
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.THREE_QUARTER
-import at.orchaldir.gm.utils.math.ZERO
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.toRender
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.ICharacterConfig
-import at.orchaldir.gm.visualization.character.appearance.BodyConfig
 import at.orchaldir.gm.visualization.character.appearance.EQUIPMENT_LAYER
 import at.orchaldir.gm.visualization.character.appearance.addTorso
 import at.orchaldir.gm.visualization.character.equipment.part.addNeckline
@@ -27,11 +22,10 @@ import at.orchaldir.gm.visualization.renderBuilder
 data class DressConfig(
     val thickness: Factor,
 ) {
-    fun getThickness(config: ICharacterConfig) = config.torsoAABB().convertHeight(thickness)
+    fun getThickness(config: ICharacterConfig<Body>) = config.torsoAABB().convertHeight(thickness)
 
     fun getBottomY(
-        config: ICharacterConfig,
-        body: Body,
+        config: ICharacterConfig<Body>,
         skirtStyle: SkirtStyle,
     ): Factor {
         val bottomHeight = when (skirtStyle) {
@@ -42,46 +36,43 @@ data class DressConfig(
             SkirtStyle.Sheath -> FULL
         }
 
-        return config.body().getLegY(body, bottomHeight)
+        return config.body().getLegY(config, bottomHeight)
     }
 
-    fun getAllSidesOfBody(config: ICharacterConfig, body: Body, skirtStyle: SkirtStyle): Size2d {
+    fun getAllSidesOfBody(config: ICharacterConfig<Body>, skirtStyle: SkirtStyle): Size2d {
         val topY = config.body().shoulderY
-        val bottomY = getBottomY(config, body, skirtStyle)
+        val bottomY = getBottomY(config, skirtStyle)
         val height = bottomY - topY
 
         return config.torsoAABB().size.scale(FULL, height) * config.body().getTorsoCircumferenceFactor()
     }
 
     fun getBodyVolume(
-        config: ICharacterConfig,
-        body: Body,
+        config: ICharacterConfig<Body>,
         skirtStyle: SkirtStyle,
         thickness: Distance,
-    ) = getAllSidesOfBody(config, body, skirtStyle).calculateVolumeOfPrism(thickness)
+    ) = getAllSidesOfBody(config, skirtStyle).calculateVolumeOfPrism(thickness)
 }
 
 fun visualizeDress(
-    state: CharacterRenderState,
-    body: Body,
+    state: CharacterRenderState<Body>,
     dress: Dress,
 ) {
     val fill = dress.main.getFill(state.state, state.colors)
     val options = FillAndBorder(fill.toRender(), state.config.line)
 
-    visualizeSleeves(state, options, body, dress.sleeveStyle)
-    visualizeDressBody(state, options, body, dress)
+    visualizeSleeves(state, options, dress.sleeveStyle)
+    visualizeDressBody(state, options, dress)
 }
 
 private fun visualizeDressBody(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     options: FillAndBorder,
-    body: Body,
     dress: Dress,
 ) {
-    val builder = createSkirt(state, body, dress.skirtStyle)
-    addTorso(state, body, builder, dress.necklineStyle.addTop())
-    addNeckline(state, body, builder, dress.necklineStyle)
+    val builder = createSkirt(state, dress.skirtStyle)
+    addTorso(state, builder, dress.necklineStyle.addTop())
+    addNeckline(state, builder, dress.necklineStyle)
 
     renderBuilder(state.renderer, builder, options, EQUIPMENT_LAYER)
 }

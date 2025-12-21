@@ -9,30 +9,28 @@ import at.orchaldir.gm.visualization.character.appearance.addHip
 import at.orchaldir.gm.visualization.character.appearance.addTorso
 
 fun calculateArmourScaleWidth(
-    config: ICharacterConfig,
-    body: Body,
+    config: ICharacterConfig<Body>,
     columns: Int,
 ): Distance {
-    val hipWidthFactor = config.body().getHipWidth(body.bodyShape)
+    val hipWidthFactor = config.body().getHipWidth(config)
     val hipWidth = config.torsoAABB().convertWidth(hipWidthFactor)
 
     return hipWidth / columns
 }
 
 fun createClippingPolygonForArmourBody(
-    state: CharacterRenderState,
-    body: Body,
+    state: CharacterRenderState<Body>,
 ): Polygon2d {
     val torso = state.torsoAABB()
-    val hipWidthFactor = state.config.body.getHipWidth(body.bodyShape)
+    val hipWidthFactor = state.config.body.getHipWidth(state)
     val hipWidth = torso.convertWidth(hipWidthFactor)
     val half = hipWidth / 2
     val bottom = state.fullAABB.getPoint(CENTER, END)
     val builder = Polygon2dBuilder()
         .addPoints(bottom.minusWidth(half), bottom.addWidth(half))
 
-    addHip(state, builder, body)
-    addTorso(state, body, builder)
+    addHip(state, builder)
+    addTorso(state, builder)
 
     return builder.build()
 }

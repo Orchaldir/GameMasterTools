@@ -25,12 +25,11 @@ data class AxeConfig(
     val shaftThickness: Factor,
 ) {
     fun shaftAabb(
-        state: CharacterRenderState,
-        body: Body,
+        state: CharacterRenderState<Body>,
         isOneHanded: Boolean,
         hand: Point2d,
     ): AABB {
-        val handRadius = state.config.body.getHandRadius(state, body)
+        val handRadius = state.config.body.getHandRadius(state)
         val bottom = hand.addHeight(handRadius * 2)
         val heightFactor = if (isOneHanded) {
             oneHandedHeight
@@ -86,8 +85,7 @@ data class AxeConfig(
 }
 
 fun visualizeAxe(
-    state: CharacterRenderState,
-    body: Body,
+    state: CharacterRenderState<Body>,
     head: AxeHead,
     shaft: Shaft,
     fixation: HeadFixation,
@@ -95,10 +93,10 @@ fun visualizeAxe(
     set: Set<BodySlot>,
 ) {
     val renderer = state.getLayer(HELD_EQUIPMENT_LAYER)
-    val (leftHand, rightHand) = state.config.body.getMirroredArmPoint(state, body, END)
+    val (leftHand, rightHand) = state.config.body.getMirroredArmPoint(state, END)
     val hand = state.getCenter(leftHand, rightHand, set, BodySlot.HeldInLeftHand)
     val config = state.config.equipment.axe
-    val shaftAabb = config.shaftAabb(state, body, isOneHanded, hand)
+    val shaftAabb = config.shaftAabb(state, isOneHanded, hand)
     val extraHeight = config.getExtraFixationHeight(head)
 
     visualizeAxeHead(state, renderer, shaftAabb, head)
@@ -107,7 +105,7 @@ fun visualizeAxe(
 }
 
 fun visualizeAxeHead(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     renderer: LayerRenderer,
     shaftAabb: AABB,
     head: AxeHead,
@@ -117,7 +115,7 @@ fun visualizeAxeHead(
 }
 
 private fun visualizeSingleBitAxeHead(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     renderer: LayerRenderer,
     shaftAabb: AABB,
     head: SingleBitAxeHead,
@@ -126,7 +124,7 @@ private fun visualizeSingleBitAxeHead(
 }
 
 fun visualizeDoubleBitAxeHead(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     renderer: LayerRenderer,
     shaftAabb: AABB,
     head: DoubleBitAxeHead,
@@ -136,7 +134,7 @@ fun visualizeDoubleBitAxeHead(
 }
 
 private fun visualizeAxeBlade(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     renderer: LayerRenderer,
     shaftAabb: AABB,
     blade: AxeBlade,

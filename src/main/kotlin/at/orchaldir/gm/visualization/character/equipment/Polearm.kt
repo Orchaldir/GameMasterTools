@@ -23,17 +23,16 @@ data class PolearmConfig(
     val boundRowThickness: Factor,
     val socketedPadding: Factor,
 ) {
-    fun getLength(config: ICharacterConfig) = config.fullAABB().convertHeight(length)
-    fun getWidth(config: ICharacterConfig) = config.fullAABB().convertHeight(width)
+    fun getLength(config: ICharacterConfig<Body>) = config.fullAABB().convertHeight(length)
+    fun getWidth(config: ICharacterConfig<Body>) = config.fullAABB().convertHeight(width)
 }
 
 fun visualizePolearm(
-    state: CharacterRenderState,
-    body: Body,
+    state: CharacterRenderState<Body>,
     polearm: Polearm,
     set: Set<BodySlot>,
 ) {
-    val (leftHand, rightHand) = state.config.body.getMirroredArmPoint(state, body, END)
+    val (leftHand, rightHand) = state.config.body.getMirroredArmPoint(state, END)
     val config = state.config.equipment.polearm
     val length = config.getLength(state)
     val width = config.getWidth(state)
@@ -49,7 +48,7 @@ fun visualizePolearm(
 }
 
 private fun visualizePolearmHead(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     renderer: LayerRenderer,
     shaftAabb: AABB,
     polearm: Polearm,
@@ -78,7 +77,7 @@ private fun visualizePolearmHead(
 }
 
 fun visualizePolearmShaft(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     renderer: LayerRenderer,
     aabb: AABB,
     shaft: Shaft,

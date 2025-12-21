@@ -20,6 +20,7 @@ import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
 import at.orchaldir.gm.visualization.character.CharacterRenderConfig
 import at.orchaldir.gm.visualization.character.CharacterRenderState
+import at.orchaldir.gm.visualization.character.convert
 
 fun visualizeCharacter(
     config: CharacterRenderConfig,
@@ -51,9 +52,9 @@ fun visualizeAppearance(
 ): Svg {
     val aabb = paddedSize.getFullAABB()
     val builder = SvgBuilder(paddedSize.getFullSize())
-    val renderState = CharacterRenderState(state, aabb, config, builder, renderFront, equipped)
+    val renderState = CharacterRenderState(state, appearance, aabb, config, builder, renderFront, equipped)
 
-    visualizeAppearance(renderState, appearance, paddedSize)
+    visualizeAppearance(renderState, paddedSize)
 
     return builder.finish()
 }
@@ -69,20 +70,20 @@ fun visualizeAppearance(
 ): Svg {
     val aabb = AABB(renderSize)
     val builder = SvgBuilder(renderSize)
-    val state = CharacterRenderState(state, aabb, config, builder, renderFront, equipped)
+    val state = CharacterRenderState(state, appearance, aabb, config, builder, renderFront, equipped)
 
-    visualizeAppearance(state, appearance, paddedSize)
+    visualizeAppearance(state, paddedSize)
 
     return builder.finish()
 }
 
 fun visualizeAppearance(
-    state: CharacterRenderState,
-    appearance: Appearance,
+    state: CharacterRenderState<Appearance>,
     paddedSize: PaddedSize,
 ) {
     val offset = Point2d(paddedSize.left + paddedSize.universial, paddedSize.top + paddedSize.universial)
     val paddedAabb = AABB.fromCenter(state.fullAABB.getCenter(), paddedSize.getFullSize())
+    val appearance = state.get()
     val fullAabb = AABB(paddedAabb.start + offset, appearance.getSize2d())
     val fullState = state.copy(fullAABB = fullAabb)
 
@@ -90,16 +91,16 @@ fun visualizeAppearance(
 
     when (appearance) {
         is HeadOnly -> {
-            val headState = fullState.copy(headAABB = state.fullAABB)
+            val headState = fullState.convert(appearance.head, state.fullAABB)
             visualizeHead(headState, appearance.head, appearance.skin)
         }
         is HumanoidBody -> {
             val torsoAabb = state.config.body.getTorsoAabb(fullAabb, appearance.body)
-            val bodyState = fullState.copy(torsoAABB = torsoAabb)
+            val bodyState = fullState.convert(appearance.body, torsoAabb)
             val headAabb = state.config.body.getHeadAabb(fullAabb)
-            val headState = fullState.copy(headAABB = headAabb)
+            val headState = fullState.convert(appearance.head, headAabb)
 
-            visualizeBody(bodyState, appearance.body, appearance.skin)
+            visualizeBody(bodyState, appearance.skin)
             visualizeHead(headState, appearance.head, appearance.skin)
             visualizeTails(bodyState, appearance.tails, appearance.skin, appearance.head.hair)
             visualizeWings(bodyState, appearance.wings, appearance.skin, appearance.head.hair)

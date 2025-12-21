@@ -26,8 +26,7 @@ data class NecklineConfig(
 }
 
 fun addNeckline(
-    state: CharacterRenderState,
-    body: Body,
+    state: CharacterRenderState<Body>,
     builder: Polygon2dBuilder,
     style: NecklineStyle,
 ) {
@@ -39,9 +38,9 @@ fun addNeckline(
     val neckline = state.config.equipment.neckline
 
     when (style) {
-        Asymmetrical -> addAsymmetrical(state, builder, body, torsoAabb)
+        Asymmetrical -> addAsymmetrical(state, builder, torsoAabb)
         Crew -> addRound(builder, torsoAabb, neckline.widthCrew, neckline.heightCrew)
-        Halter -> addHalter(state, builder, body, torsoAabb)
+        Halter -> addHalter(state, builder, torsoAabb)
         None, Strapless -> return
         V -> addV(builder, torsoAabb, neckline.widthV, neckline.heightV)
         DeepV -> addV(builder, torsoAabb, neckline.widthV, neckline.heightDeepV)
@@ -50,23 +49,21 @@ fun addNeckline(
 }
 
 private fun addAsymmetrical(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     builder: Polygon2dBuilder,
-    body: Body,
     aabb: AABB,
 ) {
-    val shoulderWidth = state.config.body.getShoulderWidth(body.bodyShape)
+    val shoulderWidth = state.config.body.getShoulderWidth(state)
     val offset = state.getSideOffset(shoulderWidth * 0.5f)
     builder.addLeftPoint(aabb, CENTER + offset, START)
 }
 
 private fun addHalter(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     builder: Polygon2dBuilder,
-    body: Body,
     aabb: AABB,
 ) {
-    val shoulderWidth = state.config.body.getShoulderWidth(body.bodyShape)
+    val shoulderWidth = state.config.body.getShoulderWidth(state)
     builder.addMirroredPoints(aabb, shoulderWidth * 0.5f, START)
     builder.addLeftPoint(aabb, CENTER, state.config.body.shoulderY)
 }

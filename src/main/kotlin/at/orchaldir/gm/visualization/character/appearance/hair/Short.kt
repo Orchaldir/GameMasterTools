@@ -1,5 +1,6 @@
 package at.orchaldir.gm.visualization.character.appearance.hair
 
+import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.hair.NormalHair
 import at.orchaldir.gm.core.model.character.appearance.hair.ShortHairCut
 import at.orchaldir.gm.core.model.character.appearance.hair.ShortHairStyle.*
@@ -9,7 +10,7 @@ import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.renderRoundedPolygon
 
-fun visualizeShortHair(state: CharacterRenderState, hair: NormalHair, shortHair: ShortHairCut) {
+fun visualizeShortHair(state: CharacterRenderState<Head>, hair: NormalHair, shortHair: ShortHairCut) {
     val config = state.config
     val options = config.getLineOptions(hair.color)
 
@@ -45,7 +46,7 @@ fun visualizeShortHair(state: CharacterRenderState, hair: NormalHair, shortHair:
 }
 
 private fun visualizeMiddlePart(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     options: FillAndBorder,
     x: Factor,
 ) {
@@ -76,7 +77,7 @@ private fun visualizeMiddlePart(
 }
 
 private fun visualizeRectangleHair(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     options: FillAndBorder,
     width: Factor,
     topY: Factor,

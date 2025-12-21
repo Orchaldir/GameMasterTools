@@ -1,5 +1,6 @@
 package at.orchaldir.gm.visualization.character.equipment.part
 
+import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.eye.EyeShape
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.Size
@@ -13,7 +14,7 @@ import at.orchaldir.gm.visualization.character.appearance.HAND_LAYER
 import at.orchaldir.gm.visualization.character.equipment.HelmetConfig
 
 fun visualizeHelmetFront(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     config: HelmetConfig,
     front: HelmetFront,
 ) {
@@ -36,14 +37,14 @@ fun visualizeHelmetFront(
 }
 
 private fun visualizeNoseProtection(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     renderer: LayerRenderer,
     config: HelmetConfig,
     protection: NoseProtection,
 ) = visualizeNoseProtection(state, renderer, config, protection.shape, protection.part)
 
 private fun visualizeNoseProtection(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     renderer: LayerRenderer,
     config: HelmetConfig,
     shape: NoseProtectionShape,
@@ -94,7 +95,7 @@ private fun createNoseProtectionPolygon(
 }
 
 private fun visualizeEyeProtection(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     renderer: LayerRenderer,
     config: HelmetConfig,
     protection: EyeProtection,
@@ -111,7 +112,7 @@ private fun visualizeEyeProtection(
 }
 
 private fun createEyeProtectionPolygon(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     config: HelmetConfig,
     shape: EyeProtectionShape,
 ): Polygon2d {
@@ -174,7 +175,7 @@ private fun createEyeHolePolygon(
 }
 
 private fun visualizeFaceProtection(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     renderer: LayerRenderer,
     config: HelmetConfig,
     protection: FaceProtection,
@@ -186,7 +187,7 @@ private fun visualizeFaceProtection(
 }
 
 fun visualizeHelmWithEyeHoles(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     renderer: LayerRenderer,
     config: HelmetConfig,
     options: FillAndBorder,
@@ -202,7 +203,7 @@ fun visualizeHelmWithEyeHoles(
 }
 
 private fun createFaceProtectionPolygon(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     config: HelmetConfig,
     shape: FaceProtectionShape,
 ): Polygon2d {

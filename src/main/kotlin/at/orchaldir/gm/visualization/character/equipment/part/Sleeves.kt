@@ -9,16 +9,16 @@ import at.orchaldir.gm.visualization.character.appearance.EQUIPMENT_LAYER
 import at.orchaldir.gm.visualization.character.appearance.getArmLayer
 
 fun visualizeSleeves(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     options: RenderOptions,
-    body: Body,
     style: SleeveStyle,
     layerIndex: Int = EQUIPMENT_LAYER,
 ) {
     if (style == SleeveStyle.None) {
         return
     }
-    val (leftAabb, rightAabb) = createSleeveAabbs(state, body, style)
+
+    val (leftAabb, rightAabb) = createSleeveAabbs(state, style)
     val layer = state.renderer.getLayer(getArmLayer(layerIndex, state.renderFront))
 
     layer.renderRectangle(leftAabb, options)
@@ -26,12 +26,11 @@ fun visualizeSleeves(
 }
 
 fun createSleeveAabbs(
-    state: CharacterRenderState,
-    body: Body,
+    state: CharacterRenderState<Body>,
     style: SleeveStyle,
 ): Pair<AABB, AABB> {
-    val (left, right) = state.config.body.getArmStarts(state, body)
-    val sleeveSize = state.config.equipment.getSleeveSize(state, body, style)
+    val (left, right) = state.config.body.getArmStarts(state)
+    val sleeveSize = state.config.equipment.getSleeveSize(state, style)
         ?: error("Cannot create sleeves for style None!")
     val leftAabb = AABB(left, sleeveSize)
     val rightAabb = AABB(right, sleeveSize)

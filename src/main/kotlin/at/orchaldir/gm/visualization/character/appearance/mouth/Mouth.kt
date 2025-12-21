@@ -9,6 +9,7 @@ import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.model.NoBorder
 import at.orchaldir.gm.visualization.character.CharacterRenderState
+import at.orchaldir.gm.visualization.character.ICharacterConfig
 import at.orchaldir.gm.visualization.character.appearance.MOUTH_LAYER
 import at.orchaldir.gm.visualization.character.appearance.beard.visualizeBeard
 
@@ -20,8 +21,8 @@ data class MouthConfig(
 ) {
     fun getSimpleWidth(size: Size) = simpleWidth.convert(size)
 
-    fun getWidth(mouth: Mouth): Factor {
-        val width = when (mouth) {
+    fun getWidth(config: ICharacterConfig<Head>): Factor {
+        val width = when (val mouth = config.get().mouth) {
             is FemaleMouth -> mouth.width
             NoMouth -> Size.Medium
             is NormalMouth -> mouth.width
@@ -32,7 +33,7 @@ data class MouthConfig(
         return getSimpleWidth(width)
     }
 
-    fun getHeight(mouth: Mouth) = when (mouth) {
+    fun getHeight(config: ICharacterConfig<Head>) = when (config.get().mouth) {
         is FemaleMouth -> femaleHeight
         NoMouth -> ZERO
         is NormalMouth -> simpleHeight
@@ -40,28 +41,28 @@ data class MouthConfig(
         is Snout -> error("Snout is not supported!")
     }
 
-    fun getBottomY(mouth: Mouth) = y + getHeight(mouth) * 0.5f
+    fun getBottomY(config: ICharacterConfig<Head>) = y + getHeight(config) * 0.5f
 
-    fun getTopY(mouth: Mouth) = y - getHeight(mouth) * 0.5f
+    fun getTopY(config: ICharacterConfig<Head>) = y - getHeight(config) * 0.5f
 
 }
 
-fun visualizeMouth(state: CharacterRenderState, head: Head) {
-    when (head.mouth) {
+fun visualizeMouth(state: CharacterRenderState<Head>) {
+    when (val mouth = state.get().mouth) {
         NoMouth -> doNothing()
         is NormalMouth -> {
-            visualizeMaleMouth(state, head.mouth.width)
-            visualizeBeard(state, head, head.mouth.beard)
+            visualizeMaleMouth(state, mouth.width)
+            visualizeBeard(state, mouth.beard)
         }
 
-        is FemaleMouth -> visualizeFemaleMouth(state, head.mouth)
-        is Beak -> visualizeBeak(state, head.mouth)
-        is Snout -> visualizeSnout(state, head.mouth)
+        is FemaleMouth -> visualizeFemaleMouth(state, mouth)
+        is Beak -> visualizeBeak(state, mouth)
+        is Snout -> visualizeSnout(state, mouth)
     }
 }
 
 fun visualizeMaleMouth(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     size: Size,
 ) {
     if (!state.renderFront) {
@@ -80,7 +81,7 @@ fun visualizeMaleMouth(
 }
 
 private fun visualizeFemaleMouth(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     mouth: FemaleMouth,
 ) {
     if (!state.renderFront) {

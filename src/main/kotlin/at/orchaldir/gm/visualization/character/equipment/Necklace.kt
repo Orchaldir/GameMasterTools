@@ -30,8 +30,7 @@ data class NecklaceConfig(
 }
 
 fun visualizeNecklace(
-    state: CharacterRenderState,
-    body: Body,
+    state: CharacterRenderState<Body>,
     necklace: Necklace,
 ) {
     val torso = state.torsoAABB()
@@ -45,7 +44,7 @@ fun visualizeNecklace(
 }
 
 private fun visualizeDangleNecklace(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     torso: AABB,
     style: DangleNecklace,
     length: NecklaceLength,
@@ -64,7 +63,7 @@ private fun visualizeDangleNecklace(
 }
 
 private fun visualizeDropNecklace(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     torso: AABB,
     style: DropNecklace,
     length: NecklaceLength,
@@ -83,7 +82,7 @@ private fun visualizeDropNecklace(
 }
 
 private fun visualizePendantNecklace(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     torso: AABB,
     style: PendantNecklace,
     length: NecklaceLength,
@@ -104,7 +103,7 @@ private fun visualizePendantNecklace(
 }
 
 private fun visualizeStrandNecklace(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     torso: AABB,
     style: StrandNecklace,
     length: NecklaceLength,
@@ -129,7 +128,7 @@ private fun visualizeStrandNecklace(
 }
 
 private fun visualizeJewelryLineOfNecklace(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     torso: AABB,
     jewelryLine: LineStyle,
     length: NecklaceLength,

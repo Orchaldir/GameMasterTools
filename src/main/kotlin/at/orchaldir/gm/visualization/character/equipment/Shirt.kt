@@ -10,13 +10,12 @@ import at.orchaldir.gm.visualization.character.equipment.part.visualizeSleeves
 import at.orchaldir.gm.visualization.character.equipment.part.visualizeTorso
 
 fun visualizeShirt(
-    state: CharacterRenderState,
-    body: Body,
+    state: CharacterRenderState<Body>,
     shirt: Shirt,
 ) {
     val fill = shirt.main.getFill(state.state, state.colors)
     val options = FillAndBorder(fill.toRender(), state.config.line)
 
-    visualizeSleeves(state, options, body, shirt.sleeveStyle)
-    visualizeTorso(state, options, body, shirt.necklineStyle, LOWER_EQUIPMENT_LAYER)
+    visualizeSleeves(state, options, shirt.sleeveStyle)
+    visualizeTorso(state, options, shirt.necklineStyle, LOWER_EQUIPMENT_LAYER)
 }

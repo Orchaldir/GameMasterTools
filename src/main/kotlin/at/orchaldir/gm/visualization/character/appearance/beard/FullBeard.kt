@@ -1,5 +1,6 @@
 package at.orchaldir.gm.visualization.character.appearance.beard
 
+import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.beard.FullBeardStyle
 import at.orchaldir.gm.core.model.character.appearance.hair.HairLength
 import at.orchaldir.gm.core.model.util.render.Color
@@ -8,7 +9,7 @@ import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 
 fun visualizeFullBeard(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     style: FullBeardStyle,
     length: HairLength,
     color: Color,
@@ -27,7 +28,7 @@ fun visualizeFullBeard(
     layer.renderRoundedPolygon(polygon, options)
 }
 
-private fun getFork(state: CharacterRenderState, distance: Distance, widthFactor: Factor): Polygon2d {
+private fun getFork(state: CharacterRenderState<Head>, distance: Distance, widthFactor: Factor): Polygon2d {
     val padding = state.config.head.hair.longPadding
     val width = FULL + padding * 2.0f
     val startY = HALF
@@ -47,7 +48,7 @@ private fun getFork(state: CharacterRenderState, distance: Distance, widthFactor
 }
 
 
-private fun getRectangle(state: CharacterRenderState, distance: Distance, widthFactor: Factor): Polygon2d {
+private fun getRectangle(state: CharacterRenderState<Head>, distance: Distance, widthFactor: Factor): Polygon2d {
     val padding = state.config.head.hair.longPadding
     val width = FULL + padding * 2.0f
     val startY = HALF
@@ -62,7 +63,7 @@ private fun getRectangle(state: CharacterRenderState, distance: Distance, widthF
         .build()
 }
 
-private fun getTriangle(state: CharacterRenderState, distance: Distance): Polygon2d {
+private fun getTriangle(state: CharacterRenderState<Head>, distance: Distance): Polygon2d {
     val padding = state.config.head.hair.longPadding
     val width = FULL + padding * 2.0f
     val startY = HALF

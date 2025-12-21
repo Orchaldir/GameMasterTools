@@ -16,7 +16,9 @@ import at.orchaldir.gm.visualization.character.appearance.BodyConfig
 import at.orchaldir.gm.visualization.character.appearance.HeadConfig
 import at.orchaldir.gm.visualization.character.equipment.EquipmentConfig
 
-interface ICharacterConfig {
+interface ICharacterConfig<T> {
+
+    fun get(): T
 
     fun fullAABB(): AABB
     fun headAABB(): AABB
@@ -39,7 +41,7 @@ data class CharacterRenderConfig(
 
     fun calculateSize(height: Distance) = Size2d.square(height + padding * 2.0f)
 
-    fun getHairLength(config: ICharacterConfig, length: HairLength) = body.getDistanceFromNeckToBottom(config.headAABB()) *
+    fun getHairLength(config: ICharacterConfig<Head>, length: HairLength) = body.getDistanceFromNeckToBottom(config.headAABB()) *
             head.hair.getLength(length)
 
     fun getOptions(state: State, skin: Skin): RenderOptions = FillAndBorder(

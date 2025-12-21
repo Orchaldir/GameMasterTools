@@ -23,7 +23,7 @@ data class EyesConfig(
     val slitFactor: Factor,
 ) {
 
-    fun getEyeSize(config: ICharacterConfig, shape: EyeShape, size: Size = Size.Small): Size2d {
+    fun getEyeSize(config: ICharacterConfig<Head>, shape: EyeShape, size: Size = Size.Small): Size2d {
         val diameter = config.headAABB().convertWidth(diameter.convert(size))
 
         return when (shape) {
@@ -35,7 +35,7 @@ data class EyesConfig(
 
     fun getDistanceBetweenEyes(size: Size = Size.Medium) = distanceBetweenEyes.convert(size)
 
-    fun getOneEyeCenter(config: ICharacterConfig, size: Size) = config.headAABB().getPoint(
+    fun getOneEyeCenter(config: ICharacterConfig<Head>, size: Size) = config.headAABB().getPoint(
         CENTER,
         if (size == Size.Small) {
             twoEyesY
@@ -44,51 +44,51 @@ data class EyesConfig(
         }
     )
 
-    fun getTwoEyesCenter(config: ICharacterConfig, ) = config
+    fun getTwoEyesCenter(config: ICharacterConfig<Head>) = config
         .headAABB()
         .getMirroredPoints(getDistanceBetweenEyes(), twoEyesY)
 }
 
-fun visualizeEyes(state: CharacterRenderState, head: Head) {
+fun visualizeEyes(state: CharacterRenderState<Head>) {
     if (!state.renderFront) {
         return
     }
 
     val config = state.config
 
-    when (head.eyes) {
+    when (val eyes = state.get().eyes) {
         NoEyes -> doNothing()
         is OneEye -> {
-            val center = config.head.eyes.getOneEyeCenter(state, head.eyes.size)
-            val size = config.head.eyes.getEyeSize(state, head.eyes.eye.getShape(), head.eyes.size)
+            val center = config.head.eyes.getOneEyeCenter(state, eyes.size)
+            val size = config.head.eyes.getEyeSize(state, eyes.eye.getShape(), eyes.size)
 
-            visualizeEye(state, center, size, head.eyes.eye)
+            visualizeEye(state, center, size, eyes.eye)
         }
 
         is TwoEyes -> {
-            val size = config.head.eyes.getEyeSize(state, head.eyes.eye.getShape(), Size.Small)
+            val size = config.head.eyes.getEyeSize(state, eyes.eye.getShape(), Size.Small)
             val (left, right) = config.head.eyes.getTwoEyesCenter(state)
 
-            visualizeEye(state, left, size, head.eyes.eye)
-            visualizeEye(state, right, size, head.eyes.eye)
+            visualizeEye(state, left, size, eyes.eye)
+            visualizeEye(state, right, size, eyes.eye)
         }
     }
 }
 
-fun visualizeEye(state: CharacterRenderState, center: Point2d, eye: Eye, layer: Int) {
+fun visualizeEye(state: CharacterRenderState<Head>, center: Point2d, eye: Eye, layer: Int) {
     val size = state.config.head.eyes.getEyeSize(state, eye.getShape(), Size.Small)
     val eyeAabb = AABB.fromCenter(center, size)
 
     visualizeEye(state, eyeAabb, eye, layer)
 }
 
-private fun visualizeEye(state: CharacterRenderState, center: Point2d, size: Size2d, eye: Eye, layer: Int = 0) {
+private fun visualizeEye(state: CharacterRenderState<Head>, center: Point2d, size: Size2d, eye: Eye, layer: Int = 0) {
     val eyeAabb = AABB.fromCenter(center, size)
 
     visualizeEye(state, eyeAabb, eye, layer)
 }
 
-private fun visualizeEye(state: CharacterRenderState, aabb: AABB, eye: Eye, layer: Int) {
+private fun visualizeEye(state: CharacterRenderState<Head>, aabb: AABB, eye: Eye, layer: Int) {
     when (eye) {
         is NormalEye -> {
             visualizeEyeShape(state, aabb, eye.eyeShape, eye.scleraColor, layer)
@@ -99,7 +99,7 @@ private fun visualizeEye(state: CharacterRenderState, aabb: AABB, eye: Eye, laye
     }
 }
 
-private fun visualizeEyeShape(state: CharacterRenderState, aabb: AABB, eyeShape: EyeShape, color: Color, layer: Int) {
+private fun visualizeEyeShape(state: CharacterRenderState<Head>, aabb: AABB, eyeShape: EyeShape, color: Color, layer: Int) {
     val options = NoBorder(color.toRender())
     val renderer = state.renderer.getLayer(layer)
 
@@ -110,7 +110,7 @@ private fun visualizeEyeShape(state: CharacterRenderState, aabb: AABB, eyeShape:
     }
 }
 
-private fun visualizePupil(state: CharacterRenderState, aabb: AABB, pupilShape: PupilShape, color: Color, layer: Int) {
+private fun visualizePupil(state: CharacterRenderState<Head>, aabb: AABB, pupilShape: PupilShape, color: Color, layer: Int) {
     val options = NoBorder(color.toRender())
     val slitWidth = aabb.size.width * state.config.head.eyes.slitFactor
     val renderer = state.renderer.getLayer(layer)

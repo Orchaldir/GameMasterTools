@@ -1,5 +1,6 @@
 package at.orchaldir.gm.visualization.character.appearance
 
+import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.character.appearance.Skin
 import at.orchaldir.gm.core.model.character.appearance.hair.Hair
 import at.orchaldir.gm.core.model.character.appearance.tail.NoTails
@@ -21,19 +22,19 @@ data class TailConfig(
     val horseLength: Factor,
     val startY: Factor,
 ) {
-    fun getBunnyCenter(config: ICharacterConfig) = config.fullAABB()
+    fun getBunnyCenter(config: ICharacterConfig<Body>) = config.fullAABB()
         .getPoint(CENTER, startY)
 
-    fun getBunnyRadius(config: ICharacterConfig, size: Size) = config.fullAABB()
+    fun getBunnyRadius(config: ICharacterConfig<Body>, size: Size) = config.fullAABB()
         .convertHeight(bunnySize.convert(size))
 }
 
-fun visualizeTails(state: CharacterRenderState, tails: Tails, skin: Skin, hair: Hair) = when (tails) {
+fun visualizeTails(state: CharacterRenderState<Body>, tails: Tails, skin: Skin, hair: Hair) = when (tails) {
     NoTails -> doNothing()
     is SimpleTail -> visualizeSimpleTail(state, tails, skin, hair)
 }
 
-private fun visualizeSimpleTail(state: CharacterRenderState, tail: SimpleTail, skin: Skin, hair: Hair) {
+private fun visualizeSimpleTail(state: CharacterRenderState<Body>, tail: SimpleTail, skin: Skin, hair: Hair) {
     val options = state.config.getFeatureOptions(state.state, tail.color, hair, skin)
 
     when (tail.shape) {
@@ -45,7 +46,7 @@ private fun visualizeSimpleTail(state: CharacterRenderState, tail: SimpleTail, s
     }
 }
 
-private fun visualizeBunny(state: CharacterRenderState, options: RenderOptions, tail: SimpleTail) {
+private fun visualizeBunny(state: CharacterRenderState<Body>, options: RenderOptions, tail: SimpleTail) {
     val config = state.config.body.tail
     val center = config.getBunnyCenter(state)
     val radius = config.getBunnyRadius(state, tail.size)
@@ -53,7 +54,7 @@ private fun visualizeBunny(state: CharacterRenderState, options: RenderOptions, 
     state.getTailLayer().renderCircle(center, radius, options)
 }
 
-private fun visualizeCat(state: CharacterRenderState, options: RenderOptions, tail: SimpleTail) {
+private fun visualizeCat(state: CharacterRenderState<Body>, options: RenderOptions, tail: SimpleTail) {
     val config = state.config.body.tail
     val line = createTailLine(state, config)
     val radius = config.getBunnyRadius(state, tail.size)
@@ -62,7 +63,7 @@ private fun visualizeCat(state: CharacterRenderState, options: RenderOptions, ta
     renderTailPolygon(state, options, polygon)
 }
 
-private fun visualizeHorse(state: CharacterRenderState, options: RenderOptions, tail: SimpleTail) {
+private fun visualizeHorse(state: CharacterRenderState<Body>, options: RenderOptions, tail: SimpleTail) {
     val config = state.config.body.tail
     val radius = config.bunnySize.convert(tail.size)
     val width = radius * 2.0f
@@ -76,7 +77,7 @@ private fun visualizeHorse(state: CharacterRenderState, options: RenderOptions, 
     state.getTailLayer().renderRoundedPolygon(polygon, options)
 }
 
-private fun visualizeRat(state: CharacterRenderState, options: RenderOptions, tail: SimpleTail) {
+private fun visualizeRat(state: CharacterRenderState<Body>, options: RenderOptions, tail: SimpleTail) {
     val config = state.config.body.tail
     val line = createTailLine(state, config)
     val radius = config.getBunnyRadius(state, tail.size) * 1.5f
@@ -85,7 +86,7 @@ private fun visualizeRat(state: CharacterRenderState, options: RenderOptions, ta
     renderTailPolygon(state, options, polygon)
 }
 
-private fun visualizeSquirrel(state: CharacterRenderState, options: RenderOptions) {
+private fun visualizeSquirrel(state: CharacterRenderState<Body>, options: RenderOptions) {
     val aabb = state.fullAABB()
     val polygon = Polygon2dBuilder()
         .addMirroredPoints(aabb, fromPercentage(50), fromPercentage(80))
@@ -108,7 +109,7 @@ private fun visualizeSquirrel(state: CharacterRenderState, options: RenderOption
 }
 
 private fun createTailLine(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     config: TailConfig,
 ): Line2d {
     val aabb = state.fullAABB()
@@ -146,7 +147,7 @@ private fun buildTailPolygon(line: Line2d, width: Distance, isSharp: Boolean): P
 }
 
 private fun renderTailPolygon(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     options: RenderOptions,
     polygon: Polygon2d,
 ) {

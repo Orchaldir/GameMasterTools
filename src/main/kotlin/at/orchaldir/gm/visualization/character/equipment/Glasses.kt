@@ -23,8 +23,7 @@ data class GlassesConfig(
 }
 
 fun visualizeGlasses(
-    state: CharacterRenderState,
-    head: Head,
+    state: CharacterRenderState<Head>,
     glasses: Glasses,
 ) {
     if (!state.renderFront) {
@@ -53,7 +52,7 @@ fun visualizeGlasses(
 }
 
 fun visualizeWarpAround(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     renderOptions: RenderOptions,
 ) {
     val glassesOptions = state.config.equipment.glasses
@@ -68,7 +67,7 @@ fun visualizeWarpAround(
 }
 
 fun visualizeLens(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     renderOptions: RenderOptions,
     center: Point2d,
     lensShape: LensShape,
@@ -111,7 +110,7 @@ fun visualizeLens(
 }
 
 private fun createRectangleLens(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     glassesOptions: GlassesConfig,
     center: Point2d,
 ): Polygon2d {
@@ -124,7 +123,7 @@ private fun createRectangleLens(
 }
 
 private fun createSquareLens(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     glassesOptions: GlassesConfig,
     center: Point2d,
 ): Polygon2d {
@@ -136,7 +135,7 @@ private fun createSquareLens(
 }
 
 fun visualizeFrame(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     lineOptions: LineOptions,
 ) {
     val width = state.config.equipment.glasses.size.medium

@@ -45,18 +45,19 @@ import at.orchaldir.gm.visualization.character.appearance.BodyConfig
 import at.orchaldir.gm.visualization.character.appearance.HeadConfig
 import at.orchaldir.gm.visualization.character.equipment.EquipmentConfig
 
-data class CalculateVolumeConfig(
+data class CalculateVolumeConfig<T>(
+    val appearance: T,
     val fullAABB: AABB,
     val headAABB: AABB?,
     val torsoAABB: AABB?,
     val body: BodyConfig,
     val equipment: EquipmentConfig,
     val head: HeadConfig,
-): ICharacterConfig {
+): ICharacterConfig<T> {
 
     companion object {
 
-        fun from(config: CharacterRenderConfig, appearance: Appearance = HumanoidBody()): CalculateVolumeConfig {
+        fun from(config: CharacterRenderConfig, appearance: Appearance = HumanoidBody()): CalculateVolumeConfig<Appearance> {
             val fullAABB = AABB(appearance.getSize2d())
             val headAABB = when (appearance) {
                 is HeadOnly -> fullAABB
@@ -70,6 +71,7 @@ data class CalculateVolumeConfig(
             }
 
             return CalculateVolumeConfig(
+                appearance,
                 fullAABB,
                 headAABB,
                 torsoAABB,
@@ -81,6 +83,8 @@ data class CalculateVolumeConfig(
 
     }
 
+    override fun get() = appearance
+
     override fun fullAABB() = fullAABB
     override fun headAABB() = headAABB ?: error("Head is unsupported!")
     override fun torsoAABB() = torsoAABB ?: error("Head is unsupported!")
@@ -90,44 +94,55 @@ data class CalculateVolumeConfig(
     override fun head() = head
 }
 
+fun CalculateVolumeConfig<Appearance>.convert(appearance: Body) = CalculateVolumeConfig(
+    appearance,
+    fullAABB,
+    headAABB,
+    torsoAABB,
+    body,
+    equipment,
+    head,
+)
+
+fun CalculateVolumeConfig<Appearance>.convert(appearance: Head) = CalculateVolumeConfig(
+    appearance,
+    fullAABB,
+    headAABB,
+    torsoAABB,
+    body,
+    equipment,
+    head,
+)
+
 fun calculateWeight(
     state: State,
-    config: CalculateVolumeConfig,
+    config: CalculateVolumeConfig<Appearance>,
     data: EquipmentData,
     appearance: Appearance = HumanoidBody(),
 ) = calculateVolumePerMaterial(config, data, appearance)
     .getWeight(state)
 
 fun calculateVolumePerMaterial(
-    config: CalculateVolumeConfig,
+    config: CalculateVolumeConfig<Appearance>,
     data: EquipmentData,
     appearance: Appearance = HumanoidBody(),
 ): VolumePerMaterial {
     val vpm = VolumePerMaterial()
-    val aabb = AABB(appearance.getSize2d())
 
     when (appearance) {
         is HeadOnly -> calculateVolumePerMaterialForHead(
-            config,
-            appearance.head,
-            aabb,
+            config.convert(appearance.head),
             data,
             vpm,
         )
         is HumanoidBody -> {
-            val headAabb = config.body.getHeadAabb(aabb)
-
             calculateVolumePerMaterialForBody(
-                config,
-                appearance.body,
-                aabb,
+                config.convert(appearance.body),
                 data,
                 vpm,
             )
             calculateVolumePerMaterialForHead(
-                config,
-                appearance.head,
-                headAabb,
+                config.convert(appearance.head),
                 data,
                 vpm,
             )
@@ -139,15 +154,13 @@ fun calculateVolumePerMaterial(
 }
 
 private fun calculateVolumePerMaterialForBody(
-    config: CalculateVolumeConfig,
-    body: Body,
-    aabb: AABB,
+    config: CalculateVolumeConfig<Body>,
     data: EquipmentData,
     vpm: VolumePerMaterial,
 ) {
     when (data) {
         is Belt -> {
-            vpm.add(data.strap.material, config.equipment.belt.getBandVolume(config, body))
+            vpm.add(data.strap.material, config.equipment.belt.getBandVolume(config))
 
             if (data.buckle is SimpleBuckle) {
                 val buckleVolume = config.equipment.belt.getBuckleVolume(config, data.buckle.shape, data.buckle.size)
@@ -156,27 +169,27 @@ private fun calculateVolumePerMaterialForBody(
         }
         is BodyArmour -> {
             val thickness = config.equipment.armor.getThickness(config, data.style)
-            val sleevesVolume = config.equipment.getSleevesVolume(config, body, data.sleeveStyle, thickness)
-            val torsoVolume = config.equipment.getOuterwearBodyVolume(config, body, data.length, thickness)
+            val sleevesVolume = config.equipment.getSleevesVolume(config, data.sleeveStyle, thickness)
+            val torsoVolume = config.equipment.getOuterwearBodyVolume(config, data.length, thickness)
 
             vpm.add(data.style.mainMaterial(), torsoVolume + sleevesVolume)
         }
         is Coat -> {
             val thickness = config.equipment.coat.getThickness(config)
-            val sleevesVolume = config.equipment.getSleevesVolume(config, body, data.sleeveStyle, thickness)
-            val torsoVolume = config.equipment.getOuterwearBodyVolume(config, body, data.length, thickness)
+            val sleevesVolume = config.equipment.getSleevesVolume(config, data.sleeveStyle, thickness)
+            val torsoVolume = config.equipment.getOuterwearBodyVolume(config, data.length, thickness)
 
             vpm.add(data.main.material, torsoVolume + sleevesVolume)
         }
         is Dress -> {
             val thickness = config.equipment.dress.getThickness(config)
-            val sleevesVolume = config.equipment.getSleevesVolume(config, body, data.sleeveStyle, thickness)
-            val torsoVolume = config.equipment.dress.getBodyVolume(config, body, data.skirtStyle, thickness)
+            val sleevesVolume = config.equipment.getSleevesVolume(config, data.sleeveStyle, thickness)
+            val torsoVolume = config.equipment.dress.getBodyVolume(config, data.skirtStyle, thickness)
 
             vpm.add(data.main.material, torsoVolume + sleevesVolume)
         }
         is Footwear -> {
-            val soles = config.equipment.footwear.getSoleVolume(config, body, data.style)
+            val soles = config.equipment.footwear.getSoleVolume(config, data.style)
 
             vpm.add(data.sole.material, soles)
         }
@@ -201,9 +214,7 @@ private fun calculateVolumePerMaterialForBody(
 }
 
 private fun calculateVolumePerMaterialForHead(
-    config: CalculateVolumeConfig,
-    head: Head,
-    aabb: AABB,
+    config: CalculateVolumeConfig<Head>,
     data: EquipmentData,
     vpm: VolumePerMaterial,
 ) {

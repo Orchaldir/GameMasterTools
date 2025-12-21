@@ -14,8 +14,8 @@ import at.orchaldir.gm.utils.renderer.model.toRender
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.utils.visualizeComplexShape
 
-fun visualizeOrnament(
-    state: CharacterRenderState,
+fun <T> visualizeOrnament(
+    state: CharacterRenderState<T>,
     renderer: LayerRenderer,
     ornament: Ornament,
     aabb: AABB,
@@ -29,8 +29,8 @@ fun visualizeOrnament(
     showBorder,
 )
 
-fun visualizeOrnament(
-    state: CharacterRenderState,
+fun <T> visualizeOrnament(
+    state: CharacterRenderState<T>,
     renderer: LayerRenderer,
     ornament: Ornament,
     position: Point2d,
@@ -41,8 +41,8 @@ fun visualizeOrnament(
     is OrnamentWithBorder -> visualizeBorderOrnament(state, renderer, ornament, position, radius)
 }
 
-private fun visualizeSimpleOrnament(
-    state: CharacterRenderState,
+private fun <T> visualizeSimpleOrnament(
+    state: CharacterRenderState<T>,
     renderer: LayerRenderer,
     ornament: SimpleOrnament,
     position: Point2d,
@@ -59,8 +59,8 @@ private fun visualizeSimpleOrnament(
     visualizeComplexShape(renderer, position, radius, ornament.shape, options)
 }
 
-private fun visualizeBorderOrnament(
-    state: CharacterRenderState,
+private fun <T> visualizeBorderOrnament(
+    state: CharacterRenderState<T>,
     renderer: LayerRenderer,
     ornament: OrnamentWithBorder,
     position: Point2d,

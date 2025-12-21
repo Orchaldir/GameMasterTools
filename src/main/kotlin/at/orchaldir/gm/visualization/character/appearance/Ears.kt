@@ -19,7 +19,7 @@ data class EarConfig(
     private val roundRadius: SizeConfig<Factor>,
     val pointedLength: Factor,
 ) {
-    fun getRoundRadius(config: ICharacterConfig, size: Size) = config.headAABB()
+    fun getRoundRadius(config: ICharacterConfig<Head>, size: Size) = config.headAABB()
         .convertHeight(roundRadius.convert(size))
     fun getRoundRadius(headHeight: Distance, size: Size) = headHeight * roundRadius.convert(size)
     fun getSidewaysLength(headHeight: Distance, size: Size) = getRoundRadius(headHeight, size) * pointedLength
@@ -29,19 +29,21 @@ data class EarConfig(
 private fun EquipmentElementMap.areEarsHidden() = getAllEquipment()
     .any { it.first.hidesEars() }
 
-fun visualizeEars(state: CharacterRenderState, head: Head, skin: Skin) {
+fun visualizeEars(state: CharacterRenderState<Head>, skin: Skin) {
     if (state.equipped.areEarsHidden()) {
         return
     }
 
-    when (head.ears) {
+    val ears = state.get().ears
+
+    when (ears) {
         NoEars -> doNothing()
-        is NormalEars -> visualizeNormalEars(state, head.ears.shape, head.ears.size, skin)
+        is NormalEars -> visualizeNormalEars(state, ears.shape, ears.size, skin)
     }
 }
 
 private fun visualizeNormalEars(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     shape: EarShape,
     size: Size,
     skin: Skin,
@@ -56,7 +58,7 @@ private fun visualizeNormalEars(
 }
 
 private fun visualizeRoundEars(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     size: Size,
     option: RenderOptions,
 ) {
@@ -69,7 +71,7 @@ private fun visualizeRoundEars(
 }
 
 private fun visualizePointedSideways(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     size: Size,
     option: RenderOptions,
 ) {
@@ -85,7 +87,7 @@ private fun visualizePointedSideways(
 }
 
 private fun visualizePointedUpwards(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     size: Size,
     option: RenderOptions,
 ) {

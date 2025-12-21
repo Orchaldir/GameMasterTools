@@ -25,37 +25,34 @@ data class FootwearConfig(
     // sole
 
     fun getSoleFrontSize(
-        config: ICharacterConfig,
-        body: Body,
+        config: ICharacterConfig<Body>,
     ): Size2d {
         val aabb = config.fullAABB()
-        val width = aabb.convertHeight(config.body().getFootRadiusFactor(body) * 2.0f)
+        val width = aabb.convertHeight(config.body().getFootRadiusFactor(config) * 2.0f)
         val height = aabb.convertHeight(heightSole)
 
         return Size2d(width, height)
     }
 
     fun getSoleVolume(
-        config: ICharacterConfig,
-        body: Body,
+        config: ICharacterConfig<Body>,
         style: FootwearStyle,
     ) = if (style.hasSole()) {
-        val soleLength = config.body().getFootLength(config, body)
-        getSoleFrontSize(config, body).calculateVolumeOfPrism(soleLength) * 2.0f
+        val soleLength = config.body().getFootLength(config)
+        getSoleFrontSize(config).calculateVolumeOfPrism(soleLength) * 2.0f
     } else {
         ZERO_VOLUME
     }
 }
 
 fun visualizeFootwear(
-    state: CharacterRenderState,
-    body: Body,
+    state: CharacterRenderState<Body>,
     footwear: Footwear,
 ) {
     val fill = footwear.shaft.getFill(state.state, state.colors)
     val options = FillAndBorder(fill.toRender(), state.config.line)
 
-    visualizeBootShaft(state, body, footwear, options)
+    visualizeBootShaft(state, footwear, options)
 
     if (footwear.style.isFootVisible(state.renderFront)) {
         val layer = if (state.renderFront) {
@@ -63,21 +60,20 @@ fun visualizeFootwear(
         } else {
             BEHIND_LAYER
         }
-        visualizeFeet(state, body, options, layer)
+        visualizeFeet(state, options, layer)
     }
 
     if (footwear.style.hasSole()) {
-        visualizeSoles(state, body, footwear)
+        visualizeSoles(state, footwear)
     }
 }
 
 private fun visualizeBootShaft(
-    state: CharacterRenderState,
-    body: Body,
+    state: CharacterRenderState<Body>,
     footwear: Footwear,
     options: RenderOptions,
 ) {
-    val shoeHeight = state.config.body.getShoeHeight(body)
+    val shoeHeight = state.config.body.getShoeHeight(state)
     val height = when (footwear.style) {
         FootwearStyle.Boots -> state.config.equipment.footwear.heightAnkle
         FootwearStyle.KneeHighBoots -> state.config.equipment.footwear.heightKnee
@@ -91,21 +87,20 @@ private fun visualizeBootShaft(
         else -> return
     }
 
-    visualizeBootShaft(state, body, options, height, state.config.equipment.footwear.paddingShaft)
+    visualizeBootShaft(state, options, height, state.config.equipment.footwear.paddingShaft)
 }
 
 fun visualizeBootShaft(
-    state: CharacterRenderState,
-    body: Body,
+    state: CharacterRenderState<Body>,
     options: RenderOptions,
     scale: Factor,
     padding: Factor,
 ) {
     val config = state.config.body
-    val width = config.getLegWidth(body) + padding
+    val width = config.getLegWidth(state) + padding
     val height = config.getLegHeight() * scale
     val size = state.fullAABB.size.scale(width, height)
-    val (left, right) = config.getMirroredLegPoint(state, body, FULL - scale * 0.5f)
+    val (left, right) = config.getMirroredLegPoint(state, FULL - scale * 0.5f)
     val leftAabb = AABB.fromCenter(left, size)
     val rightAabb = AABB.fromCenter(right, size)
     val layer = state.renderer.getLayer(EQUIPMENT_LAYER)
@@ -115,15 +110,14 @@ fun visualizeBootShaft(
 }
 
 fun visualizeSoles(
-    state: CharacterRenderState,
-    body: Body,
+    state: CharacterRenderState<Body>,
     footwear: Footwear,
 ) {
     val config = state.config
     val color = footwear.sole.getColor(state.state)
     val options = FillAndBorder(color.toRender(), config.line)
-    val (left, right) = config.body.getMirroredLegPoint(state, body, END)
-    val size = config.equipment.footwear.getSoleFrontSize(state, body)
+    val (left, right) = config.body.getMirroredLegPoint(state, END)
+    val size = config.equipment.footwear.getSoleFrontSize(state)
     val offset = Point2d.yAxis(size.height / 2.0f)
     val leftAABB = AABB.fromCenter(left + offset, size)
     val rightAABB = AABB.fromCenter(right + offset, size)

@@ -1,5 +1,6 @@
 package at.orchaldir.gm.visualization.character.appearance.horn
 
+import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.Skin
 import at.orchaldir.gm.core.model.character.appearance.hair.Hair
 import at.orchaldir.gm.core.model.character.appearance.horn.*
@@ -11,7 +12,7 @@ import at.orchaldir.gm.utils.math.unit.QUARTER_CIRCLE
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 
 fun visualizeHorn(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     horn: Horn,
     side: Side,
     skin: Skin,
@@ -24,7 +25,7 @@ fun visualizeHorn(
 }
 
 fun visualizeSimpleHorn(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     horn: SimpleHorn,
     side: Side,
     skin: Skin,
@@ -42,7 +43,7 @@ fun visualizeSimpleHorn(
 }
 
 fun visualizeComplexHorn(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     horn: ComplexHorn,
     side: Side,
     skin: Skin,
@@ -62,7 +63,7 @@ fun visualizeComplexHorn(
     state.renderer.getLayer(layer).renderRoundedPolygon(polygon, options)
 }
 
-private fun createLeftHorn(state: CharacterRenderState, horn: ComplexHorn): Polygon2d {
+private fun createLeftHorn(state: CharacterRenderState<Head>, horn: ComplexHorn): Polygon2d {
     val builder = Polygon2dBuilder()
 
     when (horn.position) {
@@ -76,7 +77,7 @@ private fun createLeftHorn(state: CharacterRenderState, horn: ComplexHorn): Poly
 }
 
 private fun createLeftHornAtBrow(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     horn: ComplexHorn,
     builder: Polygon2dBuilder,
 ) {
@@ -90,7 +91,7 @@ private fun createLeftHornAtBrow(
 }
 
 private fun createLeftHornInFront(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     horn: ComplexHorn,
     builder: Polygon2dBuilder,
 ) {
@@ -105,7 +106,7 @@ private fun createLeftHornInFront(
 }
 
 private fun createLeftHornAtSide(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     horn: ComplexHorn,
     builder: Polygon2dBuilder,
 ) {
@@ -119,7 +120,7 @@ private fun createLeftHornAtSide(
 }
 
 private fun createLeftHornAtTop(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     horn: ComplexHorn,
     builder: Polygon2dBuilder,
 ) {
@@ -133,7 +134,7 @@ private fun createLeftHornAtTop(
 }
 
 private fun addShape(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     horn: ComplexHorn,
     builder: Polygon2dBuilder,
     startPosition: Point2d,

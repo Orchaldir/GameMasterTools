@@ -6,7 +6,6 @@ import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.item.equipment.style.OuterwearLength
 import at.orchaldir.gm.core.model.item.equipment.style.SleeveStyle
 import at.orchaldir.gm.utils.doNothing
-import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.HALF
 import at.orchaldir.gm.utils.math.Size2d
@@ -45,8 +44,8 @@ data class EquipmentConfig(
 ) {
     // sleaves
 
-    fun getSleeveSize(config: ICharacterConfig, body: Body, style: SleeveStyle): Size2d? {
-        val armSize = config.body().getArmSize(config, body)
+    fun getSleeveSize(config: ICharacterConfig<Body>, style: SleeveStyle): Size2d? {
+        val armSize = config.body().getArmSize(config)
 
         return when (style) {
             SleeveStyle.Long -> armSize
@@ -55,8 +54,8 @@ data class EquipmentConfig(
         }
     }
 
-    fun getAllSidesForSleeves(config: ICharacterConfig, body: Body, style: SleeveStyle): Size2d? {
-        val size = getSleeveSize(config, body, style) ?: return null
+    fun getAllSidesForSleeves(config: ICharacterConfig<Body>, style: SleeveStyle): Size2d? {
+        val size = getSleeveSize(config, style) ?: return null
         val numberOfArms = 2.0f
         val numberOfSides = 4.0f
 
@@ -64,46 +63,40 @@ data class EquipmentConfig(
     }
 
     fun getSleevesVolume(
-        config: ICharacterConfig,
-        body: Body,
+        config: ICharacterConfig<Body>,
         style: SleeveStyle,
         thickness: Distance,
-    ) = getAllSidesForSleeves(config, body, style)?.calculateVolumeOfPrism(thickness) ?: ZERO_VOLUME
+    ) = getAllSidesForSleeves(config, style)?.calculateVolumeOfPrism(thickness) ?: ZERO_VOLUME
 
     // outerwear
 
-    fun getAllSidesForOuterwear(config: ICharacterConfig, body: Body, length: OuterwearLength): Size2d {
+    fun getAllSidesForOuterwear(config: ICharacterConfig<Body>, length: OuterwearLength): Size2d {
         val topY = config.body().shoulderY
-        val bottomY = getOuterwearBottomY(config, body, length)
+        val bottomY = getOuterwearBottomY(config, length)
         val height = bottomY - topY
 
         return config.torsoAABB().size.scale(FULL, height) * config.body().getTorsoCircumferenceFactor()
     }
 
     fun getOuterwearBodyVolume(
-        config: ICharacterConfig,
-        body: Body,
+        config: ICharacterConfig<Body>,
         length: OuterwearLength,
         thickness: Distance,
-    ) = getAllSidesForOuterwear(config, body, length).calculateVolumeOfPrism(thickness)
+    ) = getAllSidesForOuterwear(config, length).calculateVolumeOfPrism(thickness)
 }
 
-fun visualizeBodyEquipment(
-    state: CharacterRenderState,
-    body: Body,
-) {
+fun visualizeBodyEquipment(state: CharacterRenderState<Body>) {
     state.equipped.getEquipmentWithSlotSets().forEach { (pair, sets) ->
         sets.forEach { set ->
             val newState = state.copy(colors = pair.second)
 
             when (val data = pair.first) {
-                is OneHandedAxe -> visualizeAxe(newState, body, data.head, data.shaft, data.fixation, true, set)
-                is TwoHandedAxe -> visualizeAxe(newState, body, data.head, data.shaft, data.fixation, false, set)
-                is Belt -> visualizeBelt(newState, body, data)
-                is BodyArmour -> visualizeBodyArmour(newState, body, data)
+                is OneHandedAxe -> visualizeAxe(newState, data.head, data.shaft, data.fixation, true, set)
+                is TwoHandedAxe -> visualizeAxe(newState, data.head, data.shaft, data.fixation, false, set)
+                is Belt -> visualizeBelt(newState, data)
+                is BodyArmour -> visualizeBodyArmour(newState, data)
                 is OneHandedClub -> visualizeClub(
                     newState,
-                    body,
                     data.head,
                     data.size,
                     data.shaft,
@@ -114,7 +107,6 @@ fun visualizeBodyEquipment(
 
                 is TwoHandedClub -> visualizeClub(
                     newState,
-                    body,
                     data.head,
                     data.size,
                     data.shaft,
@@ -123,22 +115,22 @@ fun visualizeBodyEquipment(
                     set
                 )
 
-                is Coat -> visualizeCoat(newState, body, data, OUTERWEAR_LAYER)
-                is Dress -> visualizeDress(newState, body, data)
-                is Footwear -> visualizeFootwear(newState, body, data)
-                is Gloves -> visualizeGloves(newState, body, data)
-                is Helmet -> visualizeHelmetForBody(newState, body, data)
-                is Necklace -> visualizeNecklace(newState, body, data)
-                is Pants -> visualizePants(newState, body, data)
-                is Polearm -> visualizePolearm(newState, body, data, set)
-                is Shield -> visualizeShield(newState, body, data, set)
-                is Shirt -> visualizeShirt(newState, body, data)
-                is Skirt -> visualizeSkirt(newState, body, data)
-                is Socks -> visualizeSocks(newState, body, data)
-                is SuitJacket -> visualizeCoat(newState, body, data.convert(), JACKET_LAYER)
-                is OneHandedSword -> visualizeSword(newState, body, data.blade, data.hilt, true, set)
-                is TwoHandedSword -> visualizeSword(newState, body, data.blade, data.hilt, false, set)
-                is Tie -> visualizeTie(newState, body, data)
+                is Coat -> visualizeCoat(newState, data, OUTERWEAR_LAYER)
+                is Dress -> visualizeDress(newState, data)
+                is Footwear -> visualizeFootwear(newState, data)
+                is Gloves -> visualizeGloves(newState, data)
+                is Helmet -> visualizeHelmetForBody(newState, data)
+                is Necklace -> visualizeNecklace(newState, data)
+                is Pants -> visualizePants(newState, data)
+                is Polearm -> visualizePolearm(newState, data, set)
+                is Shield -> visualizeShield(newState, data, set)
+                is Shirt -> visualizeShirt(newState, data)
+                is Skirt -> visualizeSkirt(newState, data)
+                is Socks -> visualizeSocks(newState, data)
+                is SuitJacket -> visualizeCoat(newState, data.convert(), JACKET_LAYER)
+                is OneHandedSword -> visualizeSword(newState, data.blade, data.hilt, true, set)
+                is TwoHandedSword -> visualizeSword(newState, data.blade, data.hilt, false, set)
+                is Tie -> visualizeTie(newState, data)
                 else -> doNothing()
             }
         }
@@ -146,17 +138,16 @@ fun visualizeBodyEquipment(
 }
 
 fun visualizeHeadEquipment(
-    state: CharacterRenderState,
-    head: Head,
+    state: CharacterRenderState<Head>,
 ) {
     state.equipped.getEquipmentWithSlotSets().forEach { (pair, sets) ->
         sets.forEach { set ->
             val newState = state.copy(colors = pair.second)
 
             when (val data = pair.first) {
-                is Earring -> visualizeEarring(newState, head, data, set)
-                is EyePatch -> visualizeEyePatch(newState, head, data, set)
-                is Glasses -> visualizeGlasses(newState, head, data)
+                is Earring -> visualizeEarring(newState, data, set)
+                is EyePatch -> visualizeEyePatch(newState, data, set)
+                is Glasses -> visualizeGlasses(newState, data)
                 is Hat -> visualizeHat(newState, data)
                 is Helmet -> visualizeHelmetForHead(newState, data)
                 is IounStone -> visualizeIounStone(newState, data, set)

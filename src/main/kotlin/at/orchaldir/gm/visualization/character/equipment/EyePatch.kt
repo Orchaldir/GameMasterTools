@@ -12,7 +12,6 @@ import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.visualization.character.CharacterRenderState
-import at.orchaldir.gm.visualization.character.ICharacterConfig
 import at.orchaldir.gm.visualization.character.appearance.EQUIPMENT_LAYER
 import at.orchaldir.gm.visualization.character.appearance.EyesConfig
 import at.orchaldir.gm.visualization.character.appearance.visualizeEye
@@ -41,8 +40,7 @@ data class EyePatchConfig(
 }
 
 fun visualizeEyePatch(
-    state: CharacterRenderState,
-    head: Head,
+    state: CharacterRenderState<Head>,
     eyePatch: EyePatch,
     set: Set<BodySlot>,
 ) {
@@ -60,7 +58,7 @@ fun visualizeEyePatch(
 }
 
 fun visualizeEyePatchForTwoEyes(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     side: Side,
     eyePatch: EyePatch,
 ) {
@@ -93,7 +91,7 @@ fun visualizeEyePatchForTwoEyes(
 }
 
 fun visualizeEyePatchForTwoEyesAndBehind(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     side: Side,
     eyePatch: EyePatch,
 ) {
@@ -101,7 +99,7 @@ fun visualizeEyePatchForTwoEyesAndBehind(
 }
 
 private fun visualizeFixationForTwoEyes(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     center: Point2d,
     side: Side,
     fixation: EyePatchFixation,
@@ -145,7 +143,7 @@ private fun visualizeFixationForTwoEyes(
 }
 
 private fun visualizeFixationForTwoEyesAndBehind(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     side: Side,
     fixation: EyePatchFixation,
 ) {

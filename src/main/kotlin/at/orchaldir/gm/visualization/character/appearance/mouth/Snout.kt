@@ -1,5 +1,6 @@
 package at.orchaldir.gm.visualization.character.appearance.mouth
 
+import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.mouth.Snout
 import at.orchaldir.gm.core.model.character.appearance.mouth.SnoutShape
 import at.orchaldir.gm.core.model.util.Size
@@ -14,7 +15,7 @@ import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.utils.renderer.model.NoBorder
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 
-fun visualizeSnout(state: CharacterRenderState, snout: Snout) {
+fun visualizeSnout(state: CharacterRenderState<Head>, snout: Snout) {
     if (!state.renderFront) {
         return
     }
@@ -28,7 +29,7 @@ fun visualizeSnout(state: CharacterRenderState, snout: Snout) {
     }
 }
 
-private fun visualizeCat(state: CharacterRenderState, snout: Snout) {
+private fun visualizeCat(state: CharacterRenderState<Head>, snout: Snout) {
     val aabb = state.headAABB()
     val radius = aabb.convertHeight(fromPercentage(8))
     val thickness = aabb.convertHeight(fromPercentage(4))
@@ -46,7 +47,7 @@ private fun visualizeCat(state: CharacterRenderState, snout: Snout) {
     }
 }
 
-private fun visualizeCow(state: CharacterRenderState, snout: Snout) =
+private fun visualizeCow(state: CharacterRenderState<Head>, snout: Snout) =
     visualizeRoundedSnoutWithCircleNostrils(
         state,
         snout,
@@ -58,7 +59,7 @@ private fun visualizeCow(state: CharacterRenderState, snout: Snout) =
         fromPercentage(10),
     )
 
-private fun visualizeDog(state: CharacterRenderState, snout: Snout) {
+private fun visualizeDog(state: CharacterRenderState<Head>, snout: Snout) {
     val options = state.config.getLineOptions(snout.color)
     val lineThickness = fromPercentage(4)
     val lineHalf = lineThickness / 2.0f
@@ -78,7 +79,7 @@ private fun visualizeDog(state: CharacterRenderState, snout: Snout) {
         .renderRoundedPolygon(polygon, options)
 }
 
-private fun visualizePig(state: CharacterRenderState, snout: Snout) =
+private fun visualizePig(state: CharacterRenderState<Head>, snout: Snout) =
     visualizeRoundedSnoutWithCircleNostrils(
         state,
         snout,
@@ -90,7 +91,7 @@ private fun visualizePig(state: CharacterRenderState, snout: Snout) =
         fromPercentage(5),
     )
 
-private fun visualizeReptile(state: CharacterRenderState, snout: Snout) {
+private fun visualizeReptile(state: CharacterRenderState<Head>, snout: Snout) {
     val options = NoBorder(Color.Black.toRender())
     val aabb = state.headAABB()
     val noseWidth = aabb.convertHeight(fromPercentage(5))
@@ -106,7 +107,7 @@ private fun visualizeReptile(state: CharacterRenderState, snout: Snout) {
 }
 
 private fun visualizeRoundedSnoutWithCircleNostrils(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     snout: Snout,
     upperY: Factor,
     lowerY: Factor,

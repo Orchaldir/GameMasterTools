@@ -1,5 +1,6 @@
 package at.orchaldir.gm.visualization.character.equipment
 
+import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.item.equipment.Hat
 import at.orchaldir.gm.core.model.item.equipment.style.HatStyle
 import at.orchaldir.gm.utils.math.*
@@ -26,7 +27,7 @@ data class HatConfig(
 }
 
 fun visualizeHat(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     hat: Hat,
 ) {
     when (hat.style) {
@@ -42,7 +43,7 @@ fun visualizeHat(
 }
 
 private fun visualizeBeanie(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     hat: Hat,
 ) {
     val fill = hat.main.getFill(state.state, state.colors)
@@ -58,7 +59,7 @@ private fun visualizeBeanie(
 }
 
 private fun visualizeBoater(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     hat: Hat,
 ) {
     val fill = hat.main.getFill(state.state, state.colors)
@@ -69,7 +70,7 @@ private fun visualizeBoater(
 }
 
 private fun visualizeBowler(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     hat: Hat,
 ) {
     val fill = hat.main.getFill(state.state, state.colors)
@@ -83,7 +84,7 @@ private fun visualizeBowler(
 }
 
 private fun visualizeCoolie(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     hat: Hat,
 ) {
     val fill = hat.main.getFill(state.state, state.colors)
@@ -99,7 +100,7 @@ private fun visualizeCoolie(
 }
 
 private fun visualizeCowboy(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     hat: Hat,
 ) {
     val fill = hat.main.getFill(state.state, state.colors)
@@ -114,7 +115,7 @@ private fun visualizeCowboy(
 }
 
 private fun visualizeFez(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     hat: Hat,
 ) {
     val fill = hat.main.getFill(state.state, state.colors)
@@ -129,7 +130,7 @@ private fun visualizeFez(
 }
 
 private fun visualizePillbox(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     hat: Hat,
 ) {
     val fill = hat.main.getFill(state.state, state.colors)
@@ -139,7 +140,7 @@ private fun visualizePillbox(
 }
 
 private fun visualizeTopHat(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     hat: Hat,
 ) {
     val fill = hat.main.getFill(state.state, state.colors)
@@ -155,7 +156,7 @@ private fun visualizeTopHat(
 }
 
 private fun buildCrown(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     height: Factor = state.config.equipment.hat.heightLow,
     extraTopWidth: Factor = ZERO,
     y: Factor = state.config.head.hatY,
@@ -169,7 +170,7 @@ private fun buildCrown(
     return builder
 }
 
-private fun buildBrim(state: CharacterRenderState, width: Factor, height: Factor, y: Factor): Polygon2dBuilder {
+private fun buildBrim(state: CharacterRenderState<Head>, width: Factor, height: Factor, y: Factor): Polygon2dBuilder {
     val builder = Polygon2dBuilder()
     val half = height * 0.5f
 
@@ -180,7 +181,7 @@ private fun buildBrim(state: CharacterRenderState, width: Factor, height: Factor
 }
 
 private fun renderBrim(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     options: FillAndBorder,
     width: Factor,
     y: Factor = state.config.head.hatY,

@@ -14,8 +14,7 @@ import at.orchaldir.gm.visualization.character.appearance.getArmLayer
 import at.orchaldir.gm.visualization.character.appearance.visualizeHands
 
 fun visualizeGloves(
-    state: CharacterRenderState,
-    body: Body,
+    state: CharacterRenderState<Body>,
     gloves: Gloves,
 ) {
     val fill = gloves.main.getFill(state.state, state.colors)
@@ -23,21 +22,20 @@ fun visualizeGloves(
 
     when (gloves.style) {
         GloveStyle.Hand -> doNothing()
-        GloveStyle.Half -> visualizeGloveSleeves(state, options, body, HALF)
-        GloveStyle.Full -> visualizeGloveSleeves(state, options, body, FULL)
+        GloveStyle.Half -> visualizeGloveSleeves(state, options, HALF)
+        GloveStyle.Full -> visualizeGloveSleeves(state, options, FULL)
     }
 
-    visualizeHands(state, body, options)
+    visualizeHands(state, options)
 }
 
 private fun visualizeGloveSleeves(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     options: RenderOptions,
-    body: Body,
     length: Factor,
 ) {
-    val (left, right) = state.config.body.getArmStarts(state, body)
-    val armSize = state.config.body.getArmSize(state, body)
+    val (left, right) = state.config.body.getArmStarts(state)
+    val armSize = state.config.body.getArmSize(state)
     val gloveSize = Size2d(armSize.width, armSize.height * length)
     val down = Point2d.yAxis(armSize.height * (FULL - length))
     val centerLeft = left + down

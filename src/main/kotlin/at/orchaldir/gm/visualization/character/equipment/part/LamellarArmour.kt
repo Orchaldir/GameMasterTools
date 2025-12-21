@@ -22,35 +22,33 @@ data class LamellarArmourConfig(
 )
 
 fun visualizeLamellarArmour(
-    state: CharacterRenderState,
-    body: Body,
+    state: CharacterRenderState<Body>,
     armour: BodyArmour,
     style: LamellarArmour,
 ) {
     val renderer = state.renderer.getLayer(JACKET_LAYER)
 
-    visualizeLamellarArmourBody(state, renderer, body, armour, style)
-    visualizeArmourSleeves(state, renderer, body, armour, style)
+    visualizeLamellarArmourBody(state, renderer, armour, style)
+    visualizeArmourSleeves(state, renderer, armour, style)
 }
 
 private fun visualizeLamellarArmourBody(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     renderer: LayerRenderer,
-    body: Body,
     armour: BodyArmour,
     style: LamellarArmour,
 ) {
-    val clipping = createClippingPolygonForArmourBody(state, body)
+    val clipping = createClippingPolygonForArmourBody(state)
     val clippingName = state.renderer.createClipping(clipping)
     val color = style.scale.getColor(state.state, state.colors)
     val options = FillAndBorder(color.toRender(), state.config.line, clippingName)
     val torso = state.torsoAABB()
-    val maxWidthFactor = state.config.body.getMaxWidth(body.bodyShape)
+    val maxWidthFactor = state.config.body.getMaxWidth(state)
     val maxWidth = torso.convertWidth(maxWidthFactor)
-    val scaleWidth = calculateArmourScaleWidth(state, body, style.columns)
+    val scaleWidth = calculateArmourScaleWidth(state, style.columns)
     val scaleSize = style.shape.calculateSizeFromWidth(scaleWidth)
     val start = torso.getPoint(CENTER, START)
-    val bottomFactor = getOuterwearBottomY(state, body, armour.length, THREE_QUARTER)
+    val bottomFactor = getOuterwearBottomY(state, armour.length, THREE_QUARTER)
     val bottom = state.fullAABB.getPoint(CENTER, bottomFactor)
     val overlap = state.config.equipment.armor.lamellar.overlap
     val lacingRenderer = createScaleRenderer(state, renderer, options, style, scaleSize, clippingName)
@@ -70,7 +68,7 @@ private fun visualizeLamellarArmourBody(
 }
 
 private fun createScaleRenderer(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     renderer: LayerRenderer,
     options: RenderOptions,
     armour: LamellarArmour,
@@ -156,7 +154,7 @@ private fun createScaleRenderer(
 }
 
 private fun createStripeRenderer(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     renderer: LayerRenderer,
     lacing: LamellarLacing,
     scaleSize: Size2d,
@@ -187,9 +185,8 @@ private fun createStripeRenderer(
 }
 
 private fun visualizeArmourSleeves(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     renderer: LayerRenderer,
-    body: Body,
     armour: BodyArmour,
     style: LamellarArmour,
 ) {
@@ -197,9 +194,9 @@ private fun visualizeArmourSleeves(
         return
     }
 
-    val (leftAabb, rightAabb) = createSleeveAabbs(state, body, armour.sleeveStyle)
-    val (leftClip, rightClip) = createSleeveAabbs(state, body, SleeveStyle.Long)
-    val scaleWidth = calculateArmourScaleWidth(state, body, style.columns)
+    val (leftAabb, rightAabb) = createSleeveAabbs(state, armour.sleeveStyle)
+    val (leftClip, rightClip) = createSleeveAabbs(state, SleeveStyle.Long)
+    val scaleWidth = calculateArmourScaleWidth(state, style.columns)
     val scaleSize = style.shape.calculateSizeFromWidth(scaleWidth)
 
     visualizeArmourSleeve(state, renderer, leftAabb, leftClip, style, scaleSize)
@@ -207,7 +204,7 @@ private fun visualizeArmourSleeves(
 }
 
 private fun visualizeArmourSleeve(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     renderer: LayerRenderer,
     aabb: AABB,
     clip: AABB,

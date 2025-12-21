@@ -1,6 +1,9 @@
 package at.orchaldir.gm.visualization.character
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.appearance.Appearance
+import at.orchaldir.gm.core.model.character.appearance.Body
+import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.item.equipment.BodySlot
 import at.orchaldir.gm.core.model.item.equipment.EquipmentElementMap
 import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
@@ -13,8 +16,9 @@ import at.orchaldir.gm.utils.renderer.MultiLayerRenderer
 import at.orchaldir.gm.visualization.RenderState
 import at.orchaldir.gm.visualization.character.appearance.ABOVE_EQUIPMENT_LAYER
 
-data class CharacterRenderState(
+data class CharacterRenderState<T>(
     val state: State,
+    val appearance: T,
     val fullAABB: AABB,
     val config: CharacterRenderConfig,
     val renderer: MultiLayerRenderer,
@@ -22,14 +26,14 @@ data class CharacterRenderState(
     val equipped: EquipmentElementMap,
     val colors: Colors = UndefinedColors,
     val headAABB: AABB? = null,
-    val eyeAABB: AABB? = null,
     val torsoAABB: AABB? = null,
-) : RenderState, ICharacterConfig {
+) : RenderState, ICharacterConfig<T> {
 
     override fun state() = state
     override fun renderer() = renderer
     override fun lineOptions() = config.line
 
+    override fun get() = appearance
     override fun fullAABB() = fullAABB
     override fun headAABB() = headAABB ?: error("Head is unsupported!")
     override fun torsoAABB() = torsoAABB ?: error("Torso is unsupported!")
@@ -77,3 +81,30 @@ data class CharacterRenderState(
         }
     }
 }
+
+
+fun CharacterRenderState<Appearance>.convert(body: Body, aabb: AABB) = CharacterRenderState(
+    state,
+    body,
+    fullAABB,
+    config,
+    renderer,
+    renderFront,
+    equipped,
+    colors,
+    headAABB,
+    aabb,
+)
+
+fun CharacterRenderState<Appearance>.convert(head: Head, aabb: AABB) = CharacterRenderState(
+    state,
+    head,
+    fullAABB,
+    config,
+    renderer,
+    renderFront,
+    equipped,
+    colors,
+    aabb,
+    torsoAABB,
+)

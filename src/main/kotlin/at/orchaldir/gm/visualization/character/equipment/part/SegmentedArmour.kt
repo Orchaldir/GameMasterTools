@@ -14,32 +14,30 @@ import at.orchaldir.gm.visualization.character.appearance.JACKET_LAYER
 import at.orchaldir.gm.visualization.character.equipment.getOuterwearBottomY
 
 fun visualizeSegmentedArmour(
-    state: CharacterRenderState,
-    body: Body,
+    state: CharacterRenderState<Body>,
     armour: BodyArmour,
     style: SegmentedArmour,
 ) {
     val renderer = state.renderer.getLayer(JACKET_LAYER)
 
-    visualizeSegmentedArmourBody(state, renderer, body, armour, style)
+    visualizeSegmentedArmourBody(state, renderer, armour, style)
 }
 
 private fun visualizeSegmentedArmourBody(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     renderer: LayerRenderer,
-    body: Body,
     armour: BodyArmour,
     style: SegmentedArmour,
 ) {
-    val clipping = createClippingPolygonForArmourBody(state, body)
+    val clipping = createClippingPolygonForArmourBody(state)
     val clippingName = state.renderer.createClipping(clipping)
     val color = style.segment.getColor(state.state, state.colors)
     val options = FillAndBorder(color.toRender(), state.config.line, clippingName)
     val torso = state.torsoAABB()
-    val maxWidthFactor = state.config.body.getMaxWidth(body.bodyShape)
+    val maxWidthFactor = state.config.body.getMaxWidth(state)
     val segmentWidth = torso.convertWidth(maxWidthFactor)
     val start = torso.getPoint(CENTER, START)
-    val bottomFactor = getOuterwearBottomY(state, body, armour.length, THREE_QUARTER)
+    val bottomFactor = getOuterwearBottomY(state, armour.length, THREE_QUARTER)
     val bottom = state.fullAABB.getPoint(CENTER, bottomFactor)
     val rowHeight = (bottom - start).y / style.rows.toFloat()
     var center = torso.getPoint(CENTER, START)
@@ -54,7 +52,7 @@ private fun visualizeSegmentedArmourBody(
     }
 
     renderBreastPlate(style, renderer, options, torso, rowHeight, segmentWidth)
-    visualizeArmourSleeves(state, renderer, body, armour, style, rowHeight)
+    visualizeArmourSleeves(state, renderer, armour, style, rowHeight)
 }
 
 private fun renderBreastPlate(
@@ -115,9 +113,8 @@ private fun createSegmentPolygon(
 }
 
 private fun visualizeArmourSleeves(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     renderer: LayerRenderer,
-    body: Body,
     armour: BodyArmour,
     style: SegmentedArmour,
     rowHeight: Distance,
@@ -126,14 +123,14 @@ private fun visualizeArmourSleeves(
         return
     }
 
-    val (leftAabb, rightAabb) = createSleeveAabbs(state, body, armour.sleeveStyle)
+    val (leftAabb, rightAabb) = createSleeveAabbs(state, armour.sleeveStyle)
 
     visualizeArmourSleeve(state, renderer, leftAabb, style, rowHeight)
     visualizeArmourSleeve(state, renderer, rightAabb, style, rowHeight)
 }
 
 private fun visualizeArmourSleeve(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     renderer: LayerRenderer,
     aabb: AABB,
     style: SegmentedArmour,

@@ -1,5 +1,6 @@
 package at.orchaldir.gm.visualization.character.appearance.hair
 
+import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.hair.NormalHair
 import at.orchaldir.gm.core.model.character.appearance.hair.Ponytail
 import at.orchaldir.gm.core.model.character.appearance.hair.PonytailPosition
@@ -14,7 +15,7 @@ import at.orchaldir.gm.visualization.character.appearance.HAIR_LAYER
 import at.orchaldir.gm.visualization.renderRoundedPolygon
 import kotlin.math.max
 
-fun visualizePonytail(state: CharacterRenderState, hair: NormalHair, ponytail: Ponytail) {
+fun visualizePonytail(state: CharacterRenderState<Head>, hair: NormalHair, ponytail: Ponytail) {
     val config = state.config
     val options = config.getLineOptions(hair.color)
     val layer = state.getLayerIndex(HAIR_LAYER)
@@ -47,7 +48,7 @@ fun visualizePonytail(state: CharacterRenderState, hair: NormalHair, ponytail: P
 }
 
 private fun getCenterPonytail(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     style: PonytailStyle,
     length: Distance,
     y: Factor,
@@ -57,7 +58,7 @@ private fun getCenterPonytail(
 }
 
 private fun getCenterStraightPonytail(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     style: PonytailStyle,
     length: Distance,
     y: Factor,
@@ -74,7 +75,7 @@ private fun getCenterStraightPonytail(
 }
 
 private fun getLeftPonytail(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     style: PonytailStyle,
     length: Distance,
     y: Factor,
@@ -88,7 +89,7 @@ private fun getLeftPonytail(
 }
 
 private fun getBraid(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     lengthDistance: Distance,
     startX: Factor,
     startY: Factor,
@@ -127,7 +128,7 @@ private fun getBraid(
 }
 
 private fun getLeftStraightPonytail(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     style: PonytailStyle,
     length: Distance,
     y: Factor,

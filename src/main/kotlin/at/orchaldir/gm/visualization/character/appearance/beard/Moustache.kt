@@ -8,12 +8,12 @@ import at.orchaldir.gm.utils.math.Polygon2d
 import at.orchaldir.gm.utils.math.Polygon2dBuilder
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 
-fun getFuManchu(state: CharacterRenderState, head: Head): Polygon2d {
+fun getFuManchu(state: CharacterRenderState<Head>): Polygon2d {
     val aabb = state.headAABB()
     val config = state.config
-    val mouthTopY = config.head.mouth.getTopY(head.mouth)
+    val mouthTopY = config.head.mouth.getTopY(state)
     val thickness = config.head.beard.mediumThickness
-    val mouthWidth = config.head.mouth.getWidth(head.mouth)
+    val mouthWidth = config.head.mouth.getWidth(state)
     val deltaY = fromPercentage(2)
     val outerWidth = mouthWidth + thickness * 2.0f
     val topY = mouthTopY - thickness - deltaY
@@ -37,12 +37,12 @@ fun getFuManchu(state: CharacterRenderState, head: Head): Polygon2d {
     return Polygon2d(corners)
 }
 
-fun getHandlebar(state: CharacterRenderState, head: Head): Polygon2d {
+fun getHandlebar(state: CharacterRenderState<Head>): Polygon2d {
     val aabb = state.headAABB()
     val config = state.config
-    val mouthTopY = config.head.mouth.getTopY(head.mouth)
+    val mouthTopY = config.head.mouth.getTopY(state)
     val thickness = config.head.beard.smallThickness
-    val mouthWidth = config.head.mouth.getWidth(head.mouth)
+    val mouthWidth = config.head.mouth.getWidth(state)
     val width = mouthWidth + thickness * 2.0f
     val centerY = mouthTopY - thickness
     val bottomY = mouthTopY + thickness
@@ -67,27 +67,27 @@ fun getHandlebar(state: CharacterRenderState, head: Head): Polygon2d {
     return Polygon2d(corners)
 }
 
-fun getPencil(state: CharacterRenderState, head: Head): Polygon2d {
+fun getPencil(state: CharacterRenderState<Head>): Polygon2d {
     val height = state.config.head.beard.smallThickness
-    val width = state.config.head.mouth.getWidth(head.mouth)
-    return getSimple(state, head, height, width, width).build()
+    val width = state.config.head.mouth.getWidth(state)
+    return getSimple(state, height, width, width).build()
 }
 
-fun getPyramid(state: CharacterRenderState, head: Head): Polygon2d {
+fun getPyramid(state: CharacterRenderState<Head>): Polygon2d {
     val height = state.config.head.beard.mediumThickness
-    val width = state.config.head.mouth.getWidth(head.mouth)
-    return getSimple(state, head, height, height, width).build()
+    val width = state.config.head.mouth.getWidth(state)
+    return getSimple(state, height, height, width).build()
 }
 
-fun getToothbrush(state: CharacterRenderState, head: Head): Polygon2d {
+fun getToothbrush(state: CharacterRenderState<Head>): Polygon2d {
     val height = state.config.head.beard.mediumThickness
-    return getSimple(state, head, height, height, height).build()
+    return getSimple(state, height, height, height).build()
 }
 
-fun getWalrus(state: CharacterRenderState, head: Head): Polygon2d {
+fun getWalrus(state: CharacterRenderState<Head>): Polygon2d {
     val height = state.config.head.beard.mediumThickness
-    val width = state.config.head.mouth.getWidth(head.mouth) + height
-    val polygon = getSimple(state, head, height, width, width)
+    val width = state.config.head.mouth.getWidth(state) + height
+    val polygon = getSimple(state, height, width, width)
 
     polygon.createSharpCorners(1)
 
@@ -95,13 +95,12 @@ fun getWalrus(state: CharacterRenderState, head: Head): Polygon2d {
 }
 
 private fun getSimple(
-    state: CharacterRenderState,
-    head: Head,
+    state: CharacterRenderState<Head>,
     height: Factor,
     topWidth: Factor,
     bottomWidth: Factor,
 ): Polygon2dBuilder {
-    val mouthTopY = state.config.head.mouth.getTopY(head.mouth)
+    val mouthTopY = state.config.head.mouth.getTopY(state)
     val bottomY = mouthTopY - state.config.head.beard.moustacheOffset
     val topY = bottomY - height
     val builder = Polygon2dBuilder()

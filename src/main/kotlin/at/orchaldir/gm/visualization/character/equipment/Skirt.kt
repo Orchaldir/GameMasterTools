@@ -11,7 +11,7 @@ import at.orchaldir.gm.utils.math.Polygon2dBuilder
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.toRender
 import at.orchaldir.gm.visualization.character.CharacterRenderState
-import at.orchaldir.gm.visualization.character.appearance.BodyConfig
+import at.orchaldir.gm.visualization.character.ICharacterConfig
 import at.orchaldir.gm.visualization.character.appearance.EQUIPMENT_LAYER
 import at.orchaldir.gm.visualization.character.appearance.addHip
 import at.orchaldir.gm.visualization.renderBuilder
@@ -23,9 +23,9 @@ data class SkirtConfig(
     val widthBallGown: Factor,
     val widthPadding: Factor,
 ) {
-    fun getSkirtWidth(config: BodyConfig, body: Body) = config.getLegsWidth(body) * getSkirtWidthFactor()
+    fun getSkirtWidth(config: ICharacterConfig<Body>) = config.body().getLegsWidth(config) * getSkirtWidthFactor()
 
-    fun getSkirtWidth(config: BodyConfig, body: Body, style: SkirtStyle) = getSkirtWidth(config, body) * when (style) {
+    fun getSkirtWidth(config: ICharacterConfig<Body>, style: SkirtStyle) = getSkirtWidth(config) * when (style) {
         ALine -> widthAline
         BallGown -> widthBallGown
         else -> FULL
@@ -40,27 +40,25 @@ data class SkirtConfig(
 }
 
 fun visualizeSkirt(
-    state: CharacterRenderState,
-    body: Body,
+    state: CharacterRenderState<Body>,
     skirt: Skirt,
 ) {
     val fill = skirt.main.getFill(state.state, state.colors)
     val options = FillAndBorder(fill.toRender(), state.config.line)
-    val builder = createSkirt(state, body, skirt.style)
+    val builder = createSkirt(state, skirt.style)
 
     renderBuilder(state.renderer, builder, options, EQUIPMENT_LAYER)
 }
 
 fun createSkirt(
-    state: CharacterRenderState,
-    body: Body,
+    state: CharacterRenderState<Body>,
     skirtStyle: SkirtStyle,
 ): Polygon2dBuilder {
     val builder = Polygon2dBuilder()
     val skirtConfig = state.config.equipment.skirt
-    val width = skirtConfig.getSkirtWidth(state.config.body, body, skirtStyle)
+    val width = skirtConfig.getSkirtWidth(state, skirtStyle)
     val height = skirtConfig.getSkirtHeight(skirtStyle)
-    val bottomY = state.config.body.getLegY(body, height)
+    val bottomY = state.config.body.getLegY(state, height)
 
     if (skirtStyle == Asymmetrical) {
         val offset = state.getSideOffset(width * -0.5f)
@@ -72,7 +70,7 @@ fun createSkirt(
     if (skirtStyle == BallGown) {
         builder.addMirroredPoints(state.fullAABB, width, state.config.body.getLegY())
     } else {
-        addHip(state, builder, body, skirtConfig.getSkirtWidthFactor(), skirtStyle != ALine)
+        addHip(state, builder, skirtConfig.getSkirtWidthFactor(), skirtStyle != ALine)
     }
 
     return builder

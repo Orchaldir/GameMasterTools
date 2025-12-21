@@ -21,8 +21,7 @@ data class TieConfig(
 )
 
 fun visualizeTie(
-    state: CharacterRenderState,
-    body: Body,
+    state: CharacterRenderState<Body>,
     tie: Tie,
 ) {
     if (!state.renderFront) {
@@ -50,7 +49,7 @@ fun visualizeTie(
 
 private fun isRounded(tie: Tie) = tie.style == TieStyle.RoundedBowTie
 
-private fun createKnot(state: CharacterRenderState, torso: AABB, tie: Tie): Polygon2dBuilder {
+private fun createKnot(state: CharacterRenderState<Body>, torso: AABB, tie: Tie): Polygon2dBuilder {
     val config = state.config.equipment.tie
 
     return if (tie.style.isBowTie()) {
@@ -64,7 +63,7 @@ private fun createKnot(state: CharacterRenderState, torso: AABB, tie: Tie): Poly
     }
 }
 
-private fun createTie(state: CharacterRenderState, torso: AABB, tie: Tie): Polygon2dBuilder {
+private fun createTie(state: CharacterRenderState<Body>, torso: AABB, tie: Tie): Polygon2dBuilder {
     val config = state.config.equipment.tie
 
     return when (tie.style) {
@@ -77,13 +76,13 @@ private fun createTie(state: CharacterRenderState, torso: AABB, tie: Tie): Polyg
     }
 }
 
-private fun createKnitTie(state: CharacterRenderState, torso: AABB, tie: Tie): Polygon2dBuilder {
+private fun createKnitTie(state: CharacterRenderState<Body>, torso: AABB, tie: Tie): Polygon2dBuilder {
     val config = state.config.equipment.tie
 
     return createBaseTie(config, torso, tie, config.tieEndY)
 }
 
-private fun createNormalTie(state: CharacterRenderState, torso: AABB, tie: Tie): Polygon2dBuilder {
+private fun createNormalTie(state: CharacterRenderState<Body>, torso: AABB, tie: Tie): Polygon2dBuilder {
     val config = state.config.equipment.tie
     val width = config.tieWidth.convert(tie.size)
     val transitionHeight = width / 2.0f

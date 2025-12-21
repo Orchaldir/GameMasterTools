@@ -1,6 +1,5 @@
 package at.orchaldir.gm.visualization.character.equipment
 
-import at.orchaldir.gm.core.model.character.appearance.Ears
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.NoEars
 import at.orchaldir.gm.core.model.character.appearance.NormalEars
@@ -13,7 +12,6 @@ import at.orchaldir.gm.core.model.item.equipment.style.StudEarring
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.SizeConfig
 import at.orchaldir.gm.core.model.util.render.Color
-import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Point2d
@@ -23,7 +21,6 @@ import at.orchaldir.gm.utils.math.unit.Orientation
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.ICharacterConfig
 import at.orchaldir.gm.visualization.character.appearance.EQUIPMENT_LAYER
-import at.orchaldir.gm.visualization.character.appearance.HeadConfig
 import at.orchaldir.gm.visualization.character.equipment.part.visualizeOrnament
 import at.orchaldir.gm.visualization.character.equipment.part.visualizeWire
 
@@ -32,13 +29,13 @@ data class EarringConfig(
     val wireThickness: SizeConfig<Factor>,
 ) {
 
-    fun calculateEarRadius(config: ICharacterConfig, head: HeadConfig, ears: Ears) = when (ears) {
+    fun calculateEarRadius(config: ICharacterConfig<Head>) = when (val ears = config.get().ears) {
         NoEars -> error("Earrings require ears!")
-        is NormalEars -> head.ears.getRoundRadius(config, ears.size)
+        is NormalEars -> config.head().ears.getRoundRadius(config, ears.size)
     }
 
-    fun calculatePosition(config: ICharacterConfig, head: HeadConfig, earRadius: Distance): Pair<Point2d, Point2d> {
-        val (left, right) = config.headAABB().getMirroredPoints(FULL, head.earY)
+    fun calculatePosition(config: ICharacterConfig<Head>, earRadius: Distance): Pair<Point2d, Point2d> {
+        val (left, right) = config.headAABB().getMirroredPoints(FULL, config.head().earY)
         val offset = earRadius * 0.7f
         val orientation = Orientation.fromDegrees(30)
 
@@ -54,14 +51,13 @@ data class EarringConfig(
 }
 
 fun visualizeEarring(
-    state: CharacterRenderState,
-    head: Head,
+    state: CharacterRenderState<Head>,
     earring: Earring,
     set: Set<BodySlot>,
 ) {
     val config = state.config.equipment.earring
-    val earRadius = config.calculateEarRadius(state, state.config.head, head.ears)
-    val (left, right) = config.calculatePosition(state, state.config.head, earRadius)
+    val earRadius = config.calculateEarRadius(state)
+    val (left, right) = config.calculatePosition(state, earRadius)
 
     if (set.contains(BodySlot.LeftEar)) {
         visualizeEarring(state, earring, right, earRadius)
@@ -72,7 +68,7 @@ fun visualizeEarring(
 }
 
 private fun visualizeEarring(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     earring: Earring,
     position: Point2d,
     earRadius: Distance,
@@ -85,8 +81,8 @@ private fun visualizeEarring(
     }
 }
 
-fun visualizeDangleEarring(
-    state: CharacterRenderState,
+fun <T> visualizeDangleEarring(
+    state: CharacterRenderState<T>,
     dangle: DangleEarring,
     position: Point2d,
     earRadius: Distance,
@@ -116,7 +112,7 @@ fun visualizeDangleEarring(
 }
 
 private fun visualizeDropEarring(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     drop: DropEarring,
     start: Point2d,
     earRadius: Distance,
@@ -125,8 +121,8 @@ private fun visualizeDropEarring(
     visualizeDropEarring(state, drop, start, earRadius, maxLength, EQUIPMENT_LAYER)
 }
 
-fun visualizeDropEarring(
-    state: CharacterRenderState,
+fun <T> visualizeDropEarring(
+    state: CharacterRenderState<T>,
     drop: DropEarring,
     start: Point2d,
     earRadius: Distance,
@@ -145,7 +141,7 @@ fun visualizeDropEarring(
 }
 
 private fun visualizeHoopEarring(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     hoop: HoopEarring,
     position: Point2d,
     earRadius: Distance,
@@ -158,7 +154,7 @@ private fun visualizeHoopEarring(
 }
 
 private fun visualizeStudEarring(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     stud: StudEarring,
     position: Point2d,
     earRadius: Distance,
@@ -169,8 +165,8 @@ private fun visualizeStudEarring(
     visualizeOrnament(state, renderer, stud.ornament, position, radius)
 }
 
-private fun visualizeEarringWire(
-    state: CharacterRenderState,
+private fun <T> visualizeEarringWire(
+    state: CharacterRenderState<T>,
     earRadius: Distance,
     top: Point2d,
     bottom: Point2d,
@@ -185,7 +181,7 @@ private fun visualizeEarringWire(
 )
 
 fun calculateMaxDrop(
-    config: ICharacterConfig,
+    config: ICharacterConfig<Head>,
     start: Point2d,
     earRadius: Distance,
 ): Distance {

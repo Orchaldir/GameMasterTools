@@ -1,5 +1,6 @@
 package at.orchaldir.gm.visualization.character.equipment
 
+import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.item.equipment.BodySlot
 import at.orchaldir.gm.core.model.item.equipment.IounStone
 import at.orchaldir.gm.core.model.util.SizeConfig
@@ -17,7 +18,7 @@ data class IounStoneConfig(
 )
 
 fun visualizeIounStone(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     stone: IounStone,
     set: Set<BodySlot>,
 ) {

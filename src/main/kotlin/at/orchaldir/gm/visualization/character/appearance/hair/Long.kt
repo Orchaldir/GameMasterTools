@@ -1,5 +1,6 @@
 package at.orchaldir.gm.visualization.character.appearance.hair
 
+import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.hair.LongHairCut
 import at.orchaldir.gm.core.model.character.appearance.hair.LongHairStyle
 import at.orchaldir.gm.core.model.character.appearance.hair.NormalHair
@@ -13,7 +14,7 @@ import at.orchaldir.gm.visualization.character.appearance.HAIR_LAYER
 import at.orchaldir.gm.visualization.renderRoundedBuilder
 import kotlin.math.roundToInt
 
-fun visualizeLongHair(state: CharacterRenderState, hair: NormalHair, longHair: LongHairCut) {
+fun visualizeLongHair(state: CharacterRenderState<Head>, hair: NormalHair, longHair: LongHairCut) {
     val config = state.config
     val options = config.getLineOptions(hair.color)
     val height = config.getHairLength(state, longHair.length)
@@ -26,7 +27,7 @@ fun visualizeLongHair(state: CharacterRenderState, hair: NormalHair, longHair: L
 }
 
 private fun visualizeStraightHair(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     options: RenderOptions,
     height: Distance,
 ) {
@@ -44,7 +45,7 @@ private fun visualizeStraightHair(
 }
 
 private fun visualizeU(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     options: RenderOptions,
     height: Distance,
 ) {
@@ -64,7 +65,7 @@ private fun visualizeU(
 }
 
 private fun visualizeWavy(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     options: RenderOptions,
     height: Distance,
 ) {

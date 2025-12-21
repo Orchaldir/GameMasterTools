@@ -1,5 +1,6 @@
 package at.orchaldir.gm.visualization.character.equipment
 
+import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
@@ -11,7 +12,7 @@ import at.orchaldir.gm.visualization.character.equipment.part.visualizeOrnament
 import at.orchaldir.gm.visualization.utils.visualizeBoundRows
 
 fun visualizeSwordHilt(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     renderer: LayerRenderer,
     config: SwordConfig,
     hilt: SwordHilt,
@@ -21,7 +22,7 @@ fun visualizeSwordHilt(
 }
 
 private fun visualizeSimpleHilt(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     renderer: LayerRenderer,
     config: SwordConfig,
     hilt: SimpleSwordHilt,
@@ -34,7 +35,7 @@ private fun visualizeSimpleHilt(
 }
 
 private fun visualizeGrip(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     renderer: LayerRenderer,
     config: SwordConfig,
     grip: SwordGrip,
@@ -45,7 +46,7 @@ private fun visualizeGrip(
 }
 
 private fun visualizeBoundGrip(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     renderer: LayerRenderer,
     config: SwordConfig,
     grip: BoundSwordGrip,
@@ -58,7 +59,7 @@ private fun visualizeBoundGrip(
 }
 
 private fun visualizeSimpleGrip(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     renderer: LayerRenderer,
     config: SwordConfig,
     grip: SimpleSwordGrip,
@@ -99,7 +100,7 @@ private fun createSimpleGripPolygon(
 }
 
 private fun visualizeGuard(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     renderer: LayerRenderer,
     config: SwordConfig,
     guard: SwordGuard,
@@ -110,7 +111,7 @@ private fun visualizeGuard(
 }
 
 private fun visualizeSimpleGuard(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     renderer: LayerRenderer,
     config: SwordConfig,
     guard: SimpleSwordGuard,
@@ -131,7 +132,7 @@ private fun visualizeSimpleGuard(
 }
 
 private fun visualizePommel(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     renderer: LayerRenderer,
     config: SwordConfig,
     pommel: Pommel,
@@ -142,7 +143,7 @@ private fun visualizePommel(
 }
 
 private fun visualizePommelWithOrnament(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     renderer: LayerRenderer,
     config: SwordConfig,
     pommel: PommelWithOrnament,

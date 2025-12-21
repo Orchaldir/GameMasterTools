@@ -1,5 +1,6 @@
 package at.orchaldir.gm.visualization.character.appearance.mouth
 
+import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.mouth.Beak
 import at.orchaldir.gm.core.model.character.appearance.mouth.BeakShape
 import at.orchaldir.gm.utils.math.CENTER
@@ -9,7 +10,7 @@ import at.orchaldir.gm.utils.math.Factor.Companion.fromPermille
 import at.orchaldir.gm.utils.math.Polygon2dBuilder
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 
-fun visualizeBeak(state: CharacterRenderState, beak: Beak) {
+fun visualizeBeak(state: CharacterRenderState<Head>, beak: Beak) {
     if (!state.renderFront) {
         return
     }
@@ -22,7 +23,7 @@ fun visualizeBeak(state: CharacterRenderState, beak: Beak) {
     }
 }
 
-private fun visualizeCrow(state: CharacterRenderState, beak: Beak) = visualizeSharpBeak(
+private fun visualizeCrow(state: CharacterRenderState<Head>, beak: Beak) = visualizeSharpBeak(
     state,
     beak,
     fromPercentage(30),
@@ -32,7 +33,7 @@ private fun visualizeCrow(state: CharacterRenderState, beak: Beak) = visualizeSh
     false,
 )
 
-private fun visualizeHawk(state: CharacterRenderState, beak: Beak) = visualizeSharpBeak(
+private fun visualizeHawk(state: CharacterRenderState<Head>, beak: Beak) = visualizeSharpBeak(
     state,
     beak,
     fromPercentage(40),
@@ -42,7 +43,7 @@ private fun visualizeHawk(state: CharacterRenderState, beak: Beak) = visualizeSh
     true,
 )
 
-private fun visualizeParrot(state: CharacterRenderState, beak: Beak) {
+private fun visualizeParrot(state: CharacterRenderState<Head>, beak: Beak) {
     val width = fromPercentage(40)
     val upperHeight = fromPercentage(25)
     val peakHeight = fromPercentage(35)
@@ -60,7 +61,7 @@ private fun visualizeParrot(state: CharacterRenderState, beak: Beak) {
 }
 
 private fun visualizeSharpBeak(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     beak: Beak,
     upperHeight: Factor,
     lowerHeight: Factor,
@@ -88,7 +89,7 @@ private fun visualizeSharpBeak(
         .renderRoundedPolygon(upperPolygon, options)
 }
 
-private fun visualizeDuckBeak(state: CharacterRenderState, beak: Beak) {
+private fun visualizeDuckBeak(state: CharacterRenderState<Head>, beak: Beak) {
     val lowerHeight = fromPermille(125)
     val lowerWidth = fromPercentage(35)
     val upperHeight0 = fromPercentage(20)

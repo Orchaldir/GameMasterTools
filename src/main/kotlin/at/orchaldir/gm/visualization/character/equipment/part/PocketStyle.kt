@@ -1,5 +1,6 @@
 package at.orchaldir.gm.visualization.character.equipment.part
 
+import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.style.PocketStyle
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
@@ -12,7 +13,7 @@ import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 
 fun visualizeTopPockets(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     options: RenderOptions,
     style: PocketStyle,
     layer: Int,
@@ -30,7 +31,7 @@ fun visualizeTopPockets(
 }
 
 fun visualizePocket(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     options: RenderOptions,
     style: PocketStyle,
     position: Point2d,

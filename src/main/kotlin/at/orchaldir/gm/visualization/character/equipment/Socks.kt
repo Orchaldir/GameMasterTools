@@ -11,30 +11,28 @@ import at.orchaldir.gm.visualization.character.appearance.EQUIPMENT_LAYER
 import at.orchaldir.gm.visualization.character.appearance.visualizeFeet
 
 fun visualizeSocks(
-    state: CharacterRenderState,
-    body: Body,
+    state: CharacterRenderState<Body>,
     socks: Socks,
 ) {
     val fill = socks.main.getFill(state.state, state.colors)
     val options = state.config.getLineOptions(fill)
 
-    visualizeSocksShaft(state, body, socks, options)
+    visualizeSocksShaft(state, socks, options)
 
     val layer = if (state.renderFront) {
         EQUIPMENT_LAYER
     } else {
         BEHIND_LAYER
     }
-    visualizeFeet(state, body, options, layer)
+    visualizeFeet(state, options, layer)
 }
 
 private fun visualizeSocksShaft(
-    state: CharacterRenderState,
-    body: Body,
+    state: CharacterRenderState<Body>,
     socks: Socks,
     options: RenderOptions,
 ) {
-    val shoeHeight = state.config.body.getShoeHeight(body)
+    val shoeHeight = state.config.body.getShoeHeight(state)
     val height = when (socks.style) {
         SocksStyle.TightHigh -> state.config.equipment.footwear.heightTight
         SocksStyle.KneeHigh -> state.config.equipment.footwear.heightKnee
@@ -43,5 +41,5 @@ private fun visualizeSocksShaft(
         else -> return
     }
 
-    visualizeBootShaft(state, body, options, height, ZERO)
+    visualizeBootShaft(state, options, height, ZERO)
 }

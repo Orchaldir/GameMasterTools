@@ -1,5 +1,6 @@
 package at.orchaldir.gm.visualization.character.appearance.horn
 
+import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.Skin
 import at.orchaldir.gm.core.model.character.appearance.hair.Hair
 import at.orchaldir.gm.core.model.character.appearance.horn.CrownOfHorns
@@ -10,7 +11,7 @@ import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 
 fun visualizeCrownOfHorns(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     crown: CrownOfHorns,
     skin: Skin,
     hair: Hair,
@@ -32,7 +33,7 @@ fun visualizeCrownOfHorns(
 }
 
 private fun renderLineOfHorns(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     options: RenderOptions,
     length: Distance,
     half: Distance,
@@ -63,7 +64,7 @@ private fun createHornOfLine(
 }
 
 private fun renderSideHorn(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     options: RenderOptions,
     length: Distance,
     half: Distance,

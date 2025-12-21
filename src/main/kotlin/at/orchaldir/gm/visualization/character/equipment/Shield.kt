@@ -29,7 +29,7 @@ data class ShieldConfig(
     val bossFactor: Factor,
     val bossBorderFactor: Factor,
 ) {
-    fun getRadius(config: ICharacterConfig, shield: Shield): Distance {
+    fun getRadius(config: ICharacterConfig<Body>, shield: Shield): Distance {
         val radius = config.fullAABB().convertHeight(radius.convert(shield.size))
 
         return if (shield.shape is UsingCircularShape) {
@@ -39,16 +39,15 @@ data class ShieldConfig(
         }
     }
 
-    fun getBossRadius(config: ICharacterConfig) = config.fullAABB().convertHeight(bossFactor)
+    fun getBossRadius(config: ICharacterConfig<Body>) = config.fullAABB().convertHeight(bossFactor)
 }
 
 fun visualizeShield(
-    state: CharacterRenderState,
-    body: Body,
+    state: CharacterRenderState<Body>,
     shield: Shield,
     set: Set<BodySlot>,
 ) {
-    val (left, right) = state.config.body.getMirroredArmPoint(state, body, END)
+    val (left, right) = state.config.body.getMirroredArmPoint(state, END)
     val radius = state.config.equipment.shield.getRadius(state, shield)
     val renderer = state.getLayer(ABOVE_HAND_LAYER)
     val center = state.getCenter(left, right, set, BodySlot.HeldInLeftHand)
@@ -63,7 +62,7 @@ fun visualizeShield(
 }
 
 private fun visualizeShieldBody(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     renderer: LayerRenderer,
     center: Point2d,
     radius: Distance,
@@ -77,7 +76,7 @@ private fun visualizeShieldBody(
 }
 
 private fun visualizeShieldBorder(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     renderer: LayerRenderer,
     center: Point2d,
     radius: Distance,
@@ -104,7 +103,7 @@ private fun visualizeShieldBorder(
 }
 
 private fun visualizeShieldBoss(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     renderer: LayerRenderer,
     boss: ShieldBoss,
     center: Point2d,
@@ -130,7 +129,7 @@ private fun visualizeShieldBoss(
 }
 
 private fun visualizeShieldBoss(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     renderer: LayerRenderer,
     center: Point2d,
     shape: CircularShape,
