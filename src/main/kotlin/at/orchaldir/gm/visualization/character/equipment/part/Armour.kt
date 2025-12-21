@@ -23,7 +23,7 @@ fun createClippingPolygonForArmourBody(
     state: CharacterRenderState,
     body: Body,
 ): Polygon2d {
-    val torso = state.config.body.getTorsoAabb(state, body)
+    val torso = state.torsoAABB()
     val hipWidthFactor = state.config.body.getHipWidth(body.bodyShape)
     val hipWidth = torso.convertWidth(hipWidthFactor)
     val half = hipWidth / 2

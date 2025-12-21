@@ -44,7 +44,7 @@ private fun visualizeLamellarArmourBody(
     val clippingName = state.renderer.createClipping(clipping)
     val color = style.scale.getColor(state.state, state.colors)
     val options = FillAndBorder(color.toRender(), state.config.line, clippingName)
-    val torso = state.config.body.getTorsoAabb(state, body)
+    val torso = state.torsoAABB()
     val maxWidthFactor = state.config.body.getMaxWidth(body.bodyShape)
     val maxWidth = torso.convertWidth(maxWidthFactor)
     val scaleWidth = calculateArmourScaleWidth(state, body, style.columns)

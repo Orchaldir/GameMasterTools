@@ -34,7 +34,7 @@ fun visualizeNecklace(
     body: Body,
     necklace: Necklace,
 ) {
-    val torso = state.config.body.getTorsoAabb(state, body)
+    val torso = state.torsoAABB()
 
     when (necklace.style) {
         is DangleNecklace -> visualizeDangleNecklace(state, torso, necklace.style, necklace.length)

@@ -46,7 +46,7 @@ data class BodyConfig(
         val armWidth = config.fullAABB().convertWidth(getArmWidth(body))
         val offset = Point2d.xAxis(armWidth)
         val shoulderWidth = getShoulderWidth(body.bodyShape)
-        val torso = getTorsoAabb(config, body)
+        val torso = config.torsoAABB()
         val points = torso.getMirroredPoints(shoulderWidth, START)
 
         return points.copy(first = points.first - offset)
@@ -103,7 +103,7 @@ data class BodyConfig(
     fun getShoeHeight(body: Body) = getFootRadiusFactor(body) / getLegHeight()
 
     fun getMirroredArmPoint(config: ICharacterConfig, body: Body, vertical: Factor): Pair<Point2d, Point2d> {
-        val torso = getTorsoAabb(config, body)
+        val torso = config.torsoAABB()
         val size = getArmSize(config, body)
         val offset = Point2d.xAxis(size.width / 2.0f)
         val shoulderWidth = getShoulderWidth(body.bodyShape)
@@ -113,7 +113,7 @@ data class BodyConfig(
     }
 
     fun getMirroredLegPoint(config: ICharacterConfig, body: Body, vertical: Factor): Pair<Point2d, Point2d> {
-        val torso = getTorsoAabb(config, body)
+        val torso =config.torsoAABB()
         val size = getLegSize(config, body)
         val offset = Point2d.yAxis(size.height * vertical)
         val (left, right) = torso.getMirroredPoints(HALF, END)
@@ -122,8 +122,6 @@ data class BodyConfig(
     }
 
     fun getTorsoCircumferenceFactor() = (FULL + torsoThicknessRelativeToWidth) * 2
-
-    fun getTorsoAabb(config: ICharacterConfig, body: Body) = getTorsoAabb(config.torsoAABB(), body)
 
     fun getTorsoAabb(fullAABB: AABB, body: Body): AABB {
         val width = getTorsoWidth(body)
