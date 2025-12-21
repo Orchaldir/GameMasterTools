@@ -82,22 +82,22 @@ fun visualizeAppearance(
     paddedSize: PaddedSize,
 ) {
     val offset = Point2d(paddedSize.left + paddedSize.universial, paddedSize.top + paddedSize.universial)
-    val full = AABB.fromCenter(state.fullAABB.getCenter(), paddedSize.getFullSize())
-    val inner = AABB(full.start + offset, appearance.getSize2d())
-    val innerState = state.copy(fullAABB = inner)
+    val paddedAabb = AABB.fromCenter(state.fullAABB.getCenter(), paddedSize.getFullSize())
+    val fullAabb = AABB(paddedAabb.start + offset, appearance.getSize2d())
+    val fullState = state.copy(fullAABB = fullAabb)
 
     state.renderer.getLayer().renderRectangle(state.fullAABB, BorderOnly(state.config.line))
 
     when (appearance) {
         is HeadOnly -> {
-            val headState = innerState.copy(headAABB = state.fullAABB)
+            val headState = fullState.copy(headAABB = state.fullAABB)
             visualizeHead(headState, appearance.head, appearance.skin)
         }
         is HumanoidBody -> {
-            val torsoAabb = state.config.body.getTorsoAabb(full, appearance.body)
-            val bodyState = innerState.copy(torsoAABB = torsoAabb)
-            val headAabb = state.config.body.getHeadAabb(inner)
-            val headState = innerState.copy(headAABB = headAabb)
+            val torsoAabb = state.config.body.getTorsoAabb(fullAabb, appearance.body)
+            val bodyState = fullState.copy(torsoAABB = torsoAabb)
+            val headAabb = state.config.body.getHeadAabb(fullAabb)
+            val headState = fullState.copy(headAABB = headAabb)
 
             visualizeBody(bodyState, appearance.body, appearance.skin)
             visualizeHead(headState, appearance.head, appearance.skin)
