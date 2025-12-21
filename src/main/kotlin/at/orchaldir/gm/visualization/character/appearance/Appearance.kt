@@ -90,14 +90,14 @@ fun visualizeAppearance(
 
     when (appearance) {
         is HeadOnly -> {
-            val headState = state.copy(headAABB = state.fullAABB)
+            val headState = innerState.copy(headAABB = state.fullAABB)
             visualizeHead(headState, appearance.head, appearance.skin)
         }
         is HumanoidBody -> {
-            val torsoAabb = state.config.body.getTorsoAabb(state, appearance.body)
-            val bodyState = state.copy(torsoAABB = torsoAabb)
+            val torsoAabb = state.config.body.getTorsoAabb(full, appearance.body)
+            val bodyState = innerState.copy(torsoAABB = torsoAabb)
             val headAabb = state.config.body.getHeadAabb(inner)
-            val headState = state.copy(headAABB = headAabb)
+            val headState = innerState.copy(headAABB = headAabb)
 
             visualizeBody(bodyState, appearance.body, appearance.skin)
             visualizeHead(headState, appearance.head, appearance.skin)

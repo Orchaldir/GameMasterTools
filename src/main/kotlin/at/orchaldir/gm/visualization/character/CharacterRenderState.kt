@@ -32,7 +32,7 @@ data class CharacterRenderState(
 
     override fun fullAABB() = fullAABB
     override fun headAABB() = headAABB ?: error("Head is unsupported!")
-    override fun torsoAABB() = torsoAABB ?: error("Head is unsupported!")
+    override fun torsoAABB() = torsoAABB ?: error("Torso is unsupported!")
 
     override fun body() = config.body
     override fun equipment() = config.equipment
