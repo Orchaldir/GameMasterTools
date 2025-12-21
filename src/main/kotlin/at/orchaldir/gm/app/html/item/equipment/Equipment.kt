@@ -16,12 +16,12 @@ import at.orchaldir.gm.core.model.util.render.ColorSchemeId
 import at.orchaldir.gm.core.selector.character.getCharacterTemplates
 import at.orchaldir.gm.core.selector.character.getCharactersWith
 import at.orchaldir.gm.core.selector.culture.getFashions
-import at.orchaldir.gm.core.selector.item.equipment.VOLUME_CONFIG
+import at.orchaldir.gm.core.selector.item.equipment.CalculateVolumeConfig
 import at.orchaldir.gm.core.selector.item.equipment.calculateVolumePerMaterial
-import at.orchaldir.gm.core.selector.item.equipment.calculateWeight
 import at.orchaldir.gm.core.selector.item.getUniforms
 import at.orchaldir.gm.core.selector.util.filterValidColorSchemes
 import at.orchaldir.gm.core.selector.util.getValidColorSchemes
+import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -37,7 +37,7 @@ fun HtmlBlockTag.showEquipment(
     val material = equipment.data.mainMaterial()
 
     showWeightLookupDetails(call, state, equipment.weight) {
-        calculateVolumePerMaterial(VOLUME_CONFIG, equipment.data)
+        calculateVolumePerMaterial(CalculateVolumeConfig.from(CHARACTER_CONFIG), equipment.data)
     }
     fieldIds(call, state, equipment.colorSchemes)
     equipment.data.getArmorStats()?.let {

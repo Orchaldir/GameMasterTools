@@ -14,10 +14,6 @@ import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.MAX_EQUIPMENT_WEIGHT
 import at.orchaldir.gm.core.model.item.equipment.MIN_EQUIPMENT_WEIGHT
-import at.orchaldir.gm.core.selector.economy.countJobs
-import at.orchaldir.gm.core.selector.economy.money.display
-import at.orchaldir.gm.core.selector.item.equipment.VOLUME_CONFIG
-import at.orchaldir.gm.core.selector.item.equipment.calculateVolumePerMaterial
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.unit.CalculatedWeight
 import at.orchaldir.gm.utils.math.unit.FixedWeight

@@ -40,33 +40,49 @@ import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.unit.VolumePerMaterial
+import at.orchaldir.gm.visualization.character.CharacterRenderConfig
 import at.orchaldir.gm.visualization.character.ICharacterConfig
 import at.orchaldir.gm.visualization.character.appearance.BodyConfig
 import at.orchaldir.gm.visualization.character.appearance.HeadConfig
 import at.orchaldir.gm.visualization.character.equipment.EquipmentConfig
 
-val VOLUME_CONFIG = CalculateVolumeConfig(
-    CHARACTER_CONFIG.body,
-    CHARACTER_CONFIG.equipment,
-    CHARACTER_CONFIG.head,
-)
-
 data class CalculateVolumeConfig(
+    val fullAABB: AABB,
+    val headAABB: AABB?,
+    val torsoAABB: AABB?,
     val body: BodyConfig,
     val equipment: EquipmentConfig,
     val head: HeadConfig,
 ): ICharacterConfig {
-    override fun fullAABB(): AABB {
-        TODO("Not yet implemented")
+
+    companion object {
+
+        fun from(config: CharacterRenderConfig, appearance: Appearance = HumanoidBody()): CalculateVolumeConfig {
+            val fullAABB = AABB(appearance.getSize2d())
+
+            return CalculateVolumeConfig(
+                fullAABB,
+                if (appearance is HeadOnly) {
+                    fullAABB
+                } else {
+                    null
+                },
+                if (appearance is HumanoidBody) {
+                    config.body.getTorsoAabb(fullAABB, appearance.body)
+                } else {
+                    null
+                },
+                config.body,
+                config.equipment,
+                config.head,
+            )
+        }
+
     }
 
-    override fun headAABB(): AABB {
-        TODO("Not yet implemented")
-    }
-
-    override fun torsoAABB(): AABB {
-        TODO("Not yet implemented")
-    }
+    override fun fullAABB() = fullAABB
+    override fun headAABB() = headAABB ?: error("Head is unsupported!")
+    override fun torsoAABB() = torsoAABB ?: error("Head is unsupported!")
 
     override fun body() = body
     override fun equipment() = equipment
