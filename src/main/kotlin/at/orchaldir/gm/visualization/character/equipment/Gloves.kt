@@ -26,24 +26,16 @@ data class GlovesConfig(
 
     // sleeves
 
-    fun getSleeveSize(config: ICharacterConfig<Body>, style: GloveStyle): Size2d? {
-        val armSize = config.body().getArmSize(config)
-
-        return when (style) {
-            GloveStyle.Hand -> null
-            GloveStyle.Half -> armSize.replaceHeight(HALF)
-            GloveStyle.Full -> armSize
-        }
+    fun getSleeveHeightFactor(style: GloveStyle) = when (style) {
+        GloveStyle.Hand -> null
+        GloveStyle.Half -> HALF
+        GloveStyle.Full -> FULL
     }
 
     fun getSleevesVolume(
         config: ICharacterConfig<Body>,
         style: GloveStyle,
-    ): Volume {
-        val distance = config.body().getHandRadius(config) * thickness
-
-        return config.equipment().getSleevesVolume(getSleeveSize(config, style), distance)
-    }
+    ) = config.equipment().getSleevesVolume(config, thickness, getSleeveHeightFactor(style))
 
 }
 

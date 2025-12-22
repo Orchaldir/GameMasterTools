@@ -25,15 +25,11 @@ data class BodyArmourConfig(
     val lamellar: LamellarArmourConfig,
 ) {
 
-    fun getThickness(config: ICharacterConfig<Body>, style: ArmourStyle): Distance {
-        val thicknessFactor = when (style) {
-            is ChainMail -> thicknessChainMail
-            is LamellarArmour -> thicknessLamellar
-            is ScaleArmour -> thicknessScale
-            is SegmentedArmour -> thicknessSegmented
-        }
-
-        return config.torsoAABB().convertHeight(thicknessFactor)
+    fun getThickness(style: ArmourStyle) = when (style) {
+        is ChainMail -> thicknessChainMail
+        is LamellarArmour -> thicknessLamellar
+        is ScaleArmour -> thicknessScale
+        is SegmentedArmour -> thicknessSegmented
     }
 
 }

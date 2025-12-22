@@ -1,7 +1,6 @@
 package at.orchaldir.gm.visualization.character.appearance
 
 import at.orchaldir.gm.core.model.character.appearance.Body
-import at.orchaldir.gm.core.model.character.appearance.BodyShape
 import at.orchaldir.gm.core.model.character.appearance.BodyShape.*
 import at.orchaldir.gm.core.model.character.appearance.Skin
 import at.orchaldir.gm.core.model.util.SizeConfig
@@ -43,7 +42,7 @@ data class BodyConfig(
         head.size.height * (FULL - headHeight) / headHeight
 
     fun getArmStarts(config: ICharacterConfig<Body>): Pair<Point2d, Point2d> {
-        val armWidth = config.fullAABB().convertWidth(getArmWidth(config))
+        val armWidth = getArmWidth(config)
         val offset = Point2d.xAxis(armWidth)
         val shoulderWidth = getShoulderWidth(config)
         val torso = config.torsoAABB()
@@ -52,16 +51,18 @@ data class BodyConfig(
         return points.copy(first = points.first - offset)
     }
 
-    fun getArmWidth(config: ICharacterConfig<Body>) = getBodyWidth(config) * getShoulderWidth(config) * armWidth
+    fun getArmWidthFactor(config: ICharacterConfig<Body>) = getBodyWidth(config) * getShoulderWidth(config) * armWidth
+    fun getArmWidth(config: ICharacterConfig<Body>) = config.fullAABB().convertWidth(getArmWidthFactor(config))
 
-    fun getArmHeight() = torsoHeight
+    fun getArmHeightFactor() = torsoHeight
+    fun getArmHeight(config: ICharacterConfig<Body>) = config.fullAABB().convertHeight(getArmHeightFactor())
 
     fun getArmSize(config: ICharacterConfig<Body>) = config.fullAABB().size
-        .scale(getArmWidth(config), getArmHeight())
+        .scale(getArmWidthFactor(config), getArmHeightFactor())
 
     fun getArmsSize(config: ICharacterConfig<Body>) = config.fullAABB().size.scale(
-        getTorsoWidth(config) * getShoulderWidth(config) + getArmWidth(config) * 2,
-        getArmHeight(),
+        getTorsoWidth(config) * getShoulderWidth(config) + getArmWidthFactor(config) * 2,
+        getArmHeightFactor(),
     )
 
     fun getArmsAabb(config: ICharacterConfig<Body>) = AABB

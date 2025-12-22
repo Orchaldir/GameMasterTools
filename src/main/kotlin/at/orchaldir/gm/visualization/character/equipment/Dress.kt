@@ -3,12 +3,12 @@ package at.orchaldir.gm.visualization.character.equipment
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.Dress
 import at.orchaldir.gm.core.model.item.equipment.style.SkirtStyle
+import at.orchaldir.gm.core.model.item.equipment.style.SleeveStyle
 import at.orchaldir.gm.utils.math.DOUBLE
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.THREE_QUARTER
-import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.Volume
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.toRender
 import at.orchaldir.gm.visualization.character.CharacterRenderState
@@ -22,36 +22,29 @@ import at.orchaldir.gm.visualization.renderBuilder
 data class DressConfig(
     val thickness: Factor,
 ) {
-    fun getThickness(config: ICharacterConfig<Body>) = config.torsoAABB().convertHeight(thickness)
-
-    fun getBottomY(
-        config: ICharacterConfig<Body>,
-        skirtStyle: SkirtStyle,
-    ): Factor {
-        val bottomHeight = when (skirtStyle) {
-            SkirtStyle.ALine -> FULL
-            SkirtStyle.Asymmetrical -> THREE_QUARTER
-            SkirtStyle.BallGown -> DOUBLE
-            SkirtStyle.Mini -> THREE_QUARTER
-            SkirtStyle.Sheath -> FULL
-        }
-
-        return config.body().getLegY(config, bottomHeight)
-    }
-
-    fun getBodySize(config: ICharacterConfig<Body>, skirtStyle: SkirtStyle): Size2d {
-        val topY = config.body().shoulderY
-        val bottomY = getBottomY(config, skirtStyle)
-        val height = bottomY - topY
-
-        return config.torsoAABB().size.scale(FULL, height)
+    fun getBottomHeight(skirtStyle: SkirtStyle, ) = when (skirtStyle) {
+        SkirtStyle.ALine -> FULL
+        SkirtStyle.Asymmetrical -> THREE_QUARTER
+        SkirtStyle.BallGown -> DOUBLE
+        SkirtStyle.Mini -> THREE_QUARTER
+        SkirtStyle.Sheath -> FULL
     }
 
     fun getBodyVolume(
         config: ICharacterConfig<Body>,
+        style: SkirtStyle,
+    ): Volume {
+        val bottomHeight = getBottomHeight(style)
+        val height = config.equipment().getOuterwearHeight(config, bottomHeight)
+
+        return config.equipment().getOuterwearBodyVolume(config, height, thickness)
+    }
+
+    fun getVolume(
+        config: ICharacterConfig<Body>,
         skirtStyle: SkirtStyle,
-        thickness: Distance,
-    ) = getBodySize(config, skirtStyle).calculateVolumeOfPrism(thickness) * config.body().getTorsoCircumferenceFactor()
+        sleeveStyle: SleeveStyle,
+    ) = getBodyVolume(config, skirtStyle) + config.equipment().getSleevesVolume(config, sleeveStyle, thickness)
 }
 
 fun visualizeDress(
