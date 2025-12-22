@@ -83,6 +83,8 @@ fun HtmlBlockTag.showVolumePerMaterial(
 fun HtmlBlockTag.selectWeightLookup(
     state: State,
     lookup: WeightLookup,
+    minWeight: Long,
+    maxWeight: Long,
     param: String = WEIGHT,
 ) {
     showDetails("Weight", true) {
@@ -94,8 +96,8 @@ fun HtmlBlockTag.selectWeightLookup(
                 "Weight",
                 param,
                 lookup.weight,
-                MIN_EQUIPMENT_WEIGHT,
-                MAX_EQUIPMENT_WEIGHT,
+                minWeight,
+                maxWeight,
                 SiPrefix.Base,
             )
         }
@@ -106,10 +108,11 @@ fun HtmlBlockTag.selectWeightLookup(
 
 fun parseWeightLookup(
     parameters: Parameters,
+    minWeight: Long,
     param: String = WEIGHT,
 ) = when (parse(parameters, combine(param, TYPE), WeightLookupType.Calculated)) {
     WeightLookupType.Calculated -> CalculatedWeight
     WeightLookupType.Fixed -> FixedWeight(
-        parseWeight(parameters, param, SiPrefix.Base, MIN_EQUIPMENT_WEIGHT),
+        parseWeight(parameters, param, SiPrefix.Base, minWeight),
     )
 }

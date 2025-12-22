@@ -126,7 +126,7 @@ fun HtmlBlockTag.editEquipment(
     equipment: Equipment,
 ) {
     selectName(equipment.name)
-    selectWeightLookup(state, equipment.weight)
+    selectWeightLookup(state, equipment.weight, MIN_EQUIPMENT_WEIGHT, MAX_EQUIPMENT_WEIGHT)
     selectColorSchemes(state, equipment)
     equipment.data.getArmorStats()?.let { editArmorStats(call, state, it) }
     equipment.data.getMeleeWeaponStats()?.let { editMeleeWeaponStats(call, state, it) }
@@ -215,7 +215,7 @@ fun parseEquipment(
         id,
         parseName(parameters),
         data,
-        parseWeightLookup(parameters),
+        parseWeightLookup(parameters, MIN_EQUIPMENT_WEIGHT),
         parseColorSchemes(state, parameters, data),
     )
 }

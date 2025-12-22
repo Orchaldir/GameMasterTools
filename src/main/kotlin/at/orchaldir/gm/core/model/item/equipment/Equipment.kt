@@ -1,6 +1,8 @@
 package at.orchaldir.gm.core.model.item.equipment
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.economy.CalculatedPrice
+import at.orchaldir.gm.core.model.economy.PriceLookup
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.render.ColorSchemeId
@@ -13,6 +15,9 @@ import kotlinx.serialization.Serializable
 const val EQUIPMENT_TYPE = "Equipment"
 const val MIN_EQUIPMENT_WEIGHT = 10L
 const val MAX_EQUIPMENT_WEIGHT = 1_000_000L
+
+const val MIN_EQUIPMENT_PRICE = 0
+const val MAX_EQUIPMENT_PRICE = 1_000_000_000
 
 @JvmInline
 @Serializable
