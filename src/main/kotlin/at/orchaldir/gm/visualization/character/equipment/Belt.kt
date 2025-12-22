@@ -15,8 +15,8 @@ import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.utils.renderer.model.NoBorder
 import at.orchaldir.gm.utils.renderer.model.toRender
-import at.orchaldir.gm.visualization.character.ICharacterConfig
 import at.orchaldir.gm.visualization.character.CharacterRenderState
+import at.orchaldir.gm.visualization.character.ICharacterConfig
 import at.orchaldir.gm.visualization.character.appearance.HIGHER_EQUIPMENT_LAYER
 
 data class BeltConfig(
@@ -62,6 +62,7 @@ data class BeltConfig(
             BuckleShape.Rectangle -> Volume.fromCube(double, height, thickness)
             BuckleShape.Ring -> CircularShape.Circle.calculateVolumeOfPrism(half, thickness) -
                     CircularShape.Circle.calculateVolumeOfPrism(half / 2, thickness)
+
             BuckleShape.Square -> Volume.fromCube(height, height, thickness)
         }
     }

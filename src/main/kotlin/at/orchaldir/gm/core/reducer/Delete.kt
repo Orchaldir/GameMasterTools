@@ -65,9 +65,9 @@ import at.orchaldir.gm.core.selector.economy.canDeleteMaterial
 import at.orchaldir.gm.core.selector.economy.money.canDeleteCurrency
 import at.orchaldir.gm.core.selector.economy.money.canDeleteCurrencyUnit
 import at.orchaldir.gm.core.selector.health.canDeleteDisease
-import at.orchaldir.gm.core.selector.item.equipment.canDeleteEquipment
 import at.orchaldir.gm.core.selector.item.canDeleteText
 import at.orchaldir.gm.core.selector.item.canDeleteUniform
+import at.orchaldir.gm.core.selector.item.equipment.canDeleteEquipment
 import at.orchaldir.gm.core.selector.item.periodical.canDeleteArticle
 import at.orchaldir.gm.core.selector.item.periodical.canDeletePeriodical
 import at.orchaldir.gm.core.selector.item.periodical.canDeletePeriodicalIssue

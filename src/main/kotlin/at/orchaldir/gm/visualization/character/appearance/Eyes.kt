@@ -99,7 +99,13 @@ private fun visualizeEye(state: CharacterRenderState<Head>, aabb: AABB, eye: Eye
     }
 }
 
-private fun visualizeEyeShape(state: CharacterRenderState<Head>, aabb: AABB, eyeShape: EyeShape, color: Color, layer: Int) {
+private fun visualizeEyeShape(
+    state: CharacterRenderState<Head>,
+    aabb: AABB,
+    eyeShape: EyeShape,
+    color: Color,
+    layer: Int,
+) {
     val options = NoBorder(color.toRender())
     val renderer = state.renderer.getLayer(layer)
 
@@ -110,7 +116,13 @@ private fun visualizeEyeShape(state: CharacterRenderState<Head>, aabb: AABB, eye
     }
 }
 
-private fun visualizePupil(state: CharacterRenderState<Head>, aabb: AABB, pupilShape: PupilShape, color: Color, layer: Int) {
+private fun visualizePupil(
+    state: CharacterRenderState<Head>,
+    aabb: AABB,
+    pupilShape: PupilShape,
+    color: Color,
+    layer: Int,
+) {
     val options = NoBorder(color.toRender())
     val slitWidth = aabb.size.width * state.config.head.eyes.slitFactor
     val renderer = state.renderer.getLayer(layer)

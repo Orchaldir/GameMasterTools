@@ -5,7 +5,6 @@ import at.orchaldir.gm.core.model.item.equipment.EquipmentElementMap
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.SizeConfig
 import at.orchaldir.gm.utils.doNothing
-import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Point2d
@@ -21,6 +20,7 @@ data class EarConfig(
 ) {
     fun getRoundRadius(config: ICharacterConfig<Head>, size: Size) = config.headAABB()
         .convertHeight(roundRadius.convert(size))
+
     fun getRoundRadius(headHeight: Distance, size: Size) = headHeight * roundRadius.convert(size)
     fun getSidewaysLength(headHeight: Distance, size: Size) = getRoundRadius(headHeight, size) * pointedLength
     fun getUpwardsLength(headHeight: Distance, size: Size) = getRoundRadius(headHeight, size) * (pointedLength + FULL)

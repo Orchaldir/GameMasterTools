@@ -4,9 +4,9 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.Data
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.ModifyUniform
 import at.orchaldir.gm.core.model.character.UniqueEquipment
 import at.orchaldir.gm.core.model.character.UseUniform
-import at.orchaldir.gm.core.model.character.ModifyUniform
 import at.orchaldir.gm.core.model.economy.Economy
 import at.orchaldir.gm.core.model.economy.standard.StandardOfLiving
 import at.orchaldir.gm.core.model.item.Uniform

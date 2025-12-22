@@ -94,6 +94,7 @@ fun visualizeAppearance(
             val headState = fullState.convert(appearance.head, state.fullAABB)
             visualizeHead(headState, appearance.head, appearance.skin)
         }
+
         is HumanoidBody -> {
             val torsoAabb = state.config.body.getTorsoAabb(fullAabb, appearance.body)
             val bodyState = fullState.convert(appearance.body, torsoAabb)

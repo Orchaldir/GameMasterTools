@@ -2,7 +2,8 @@ package at.orchaldir.gm.utils.math.unit
 
 import at.orchaldir.gm.MATERIAL_ID_0
 import at.orchaldir.gm.MATERIAL_ID_1
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 
 class VolumePerMaterialTest {

@@ -1,6 +1,9 @@
 package at.orchaldir.gm.app.html.item.equipment
 
-import at.orchaldir.gm.app.*
+import at.orchaldir.gm.app.COLOR
+import at.orchaldir.gm.app.EQUIPMENT
+import at.orchaldir.gm.app.SCHEME
+import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.rpg.combat.*
 import at.orchaldir.gm.app.html.util.color.parseColorSchemeId

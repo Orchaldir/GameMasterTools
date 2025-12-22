@@ -2,23 +2,12 @@ package at.orchaldir.gm.visualization.character.equipment
 
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.BodyArmour
-import at.orchaldir.gm.core.model.item.equipment.style.ArmourStyle
-import at.orchaldir.gm.core.model.item.equipment.style.ChainMail
-import at.orchaldir.gm.core.model.item.equipment.style.LamellarArmour
-import at.orchaldir.gm.core.model.item.equipment.style.OuterwearLength
-import at.orchaldir.gm.core.model.item.equipment.style.ScaleArmour
-import at.orchaldir.gm.core.model.item.equipment.style.SegmentedArmour
-import at.orchaldir.gm.core.model.item.equipment.style.SleeveStyle
+import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Volume
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.ICharacterConfig
-import at.orchaldir.gm.visualization.character.equipment.part.LamellarArmourConfig
-import at.orchaldir.gm.visualization.character.equipment.part.visualizeChainMail
-import at.orchaldir.gm.visualization.character.equipment.part.visualizeLamellarArmour
-import at.orchaldir.gm.visualization.character.equipment.part.visualizeScaleArmour
-import at.orchaldir.gm.visualization.character.equipment.part.visualizeSegmentedArmour
+import at.orchaldir.gm.visualization.character.equipment.part.*
 
 data class BodyArmourConfig(
     val thicknessChainMail: Factor,

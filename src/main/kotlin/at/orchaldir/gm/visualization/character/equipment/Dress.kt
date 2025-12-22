@@ -22,7 +22,7 @@ import at.orchaldir.gm.visualization.renderBuilder
 data class DressConfig(
     val thickness: Factor,
 ) {
-    fun getBottomHeight(skirtStyle: SkirtStyle, ) = when (skirtStyle) {
+    fun getBottomHeight(skirtStyle: SkirtStyle) = when (skirtStyle) {
         SkirtStyle.ALine -> FULL
         SkirtStyle.Asymmetrical -> THREE_QUARTER
         SkirtStyle.BallGown -> DOUBLE

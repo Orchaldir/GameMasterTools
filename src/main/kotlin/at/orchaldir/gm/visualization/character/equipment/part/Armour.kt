@@ -1,7 +1,10 @@
 package at.orchaldir.gm.visualization.character.equipment.part
 
 import at.orchaldir.gm.core.model.character.appearance.Body
-import at.orchaldir.gm.utils.math.*
+import at.orchaldir.gm.utils.math.CENTER
+import at.orchaldir.gm.utils.math.END
+import at.orchaldir.gm.utils.math.Polygon2d
+import at.orchaldir.gm.utils.math.Polygon2dBuilder
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.ICharacterConfig

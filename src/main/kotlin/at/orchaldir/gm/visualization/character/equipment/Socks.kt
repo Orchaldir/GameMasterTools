@@ -2,13 +2,7 @@ package at.orchaldir.gm.visualization.character.equipment
 
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.Socks
-import at.orchaldir.gm.core.model.item.equipment.style.FootwearStyle
-import at.orchaldir.gm.core.model.item.equipment.style.SkirtStyle
-import at.orchaldir.gm.core.model.item.equipment.style.SkirtStyle.ALine
-import at.orchaldir.gm.core.model.item.equipment.style.SkirtStyle.BallGown
-import at.orchaldir.gm.core.model.item.equipment.style.SkirtStyle.Mini
 import at.orchaldir.gm.core.model.item.equipment.style.SocksStyle
-import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.ZERO
 import at.orchaldir.gm.utils.math.unit.Distance

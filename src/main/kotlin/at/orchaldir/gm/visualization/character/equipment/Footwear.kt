@@ -42,6 +42,7 @@ data class FootwearConfig(
             } else {
                 shoeHeight
             }
+
             FootwearStyle.Shoes -> shoeHeight
             FootwearStyle.Sandals -> null
             FootwearStyle.Slippers -> null

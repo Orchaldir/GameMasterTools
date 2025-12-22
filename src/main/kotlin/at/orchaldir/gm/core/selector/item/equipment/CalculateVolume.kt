@@ -1,40 +1,8 @@
 package at.orchaldir.gm.core.selector.item.equipment
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.appearance.Appearance
-import at.orchaldir.gm.core.model.character.appearance.Body
-import at.orchaldir.gm.core.model.character.appearance.Head
-import at.orchaldir.gm.core.model.character.appearance.HeadOnly
-import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
-import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
-import at.orchaldir.gm.core.model.item.equipment.Belt
-import at.orchaldir.gm.core.model.item.equipment.BodyArmour
-import at.orchaldir.gm.core.model.item.equipment.Coat
-import at.orchaldir.gm.core.model.item.equipment.Dress
-import at.orchaldir.gm.core.model.item.equipment.Earring
-import at.orchaldir.gm.core.model.item.equipment.EquipmentData
-import at.orchaldir.gm.core.model.item.equipment.EyePatch
-import at.orchaldir.gm.core.model.item.equipment.Footwear
-import at.orchaldir.gm.core.model.item.equipment.Glasses
-import at.orchaldir.gm.core.model.item.equipment.Gloves
-import at.orchaldir.gm.core.model.item.equipment.Hat
-import at.orchaldir.gm.core.model.item.equipment.Helmet
-import at.orchaldir.gm.core.model.item.equipment.IounStone
-import at.orchaldir.gm.core.model.item.equipment.Necklace
-import at.orchaldir.gm.core.model.item.equipment.OneHandedAxe
-import at.orchaldir.gm.core.model.item.equipment.OneHandedClub
-import at.orchaldir.gm.core.model.item.equipment.OneHandedSword
-import at.orchaldir.gm.core.model.item.equipment.Pants
-import at.orchaldir.gm.core.model.item.equipment.Polearm
-import at.orchaldir.gm.core.model.item.equipment.Shield
-import at.orchaldir.gm.core.model.item.equipment.Shirt
-import at.orchaldir.gm.core.model.item.equipment.Skirt
-import at.orchaldir.gm.core.model.item.equipment.Socks
-import at.orchaldir.gm.core.model.item.equipment.SuitJacket
-import at.orchaldir.gm.core.model.item.equipment.Tie
-import at.orchaldir.gm.core.model.item.equipment.TwoHandedAxe
-import at.orchaldir.gm.core.model.item.equipment.TwoHandedClub
-import at.orchaldir.gm.core.model.item.equipment.TwoHandedSword
+import at.orchaldir.gm.core.model.character.appearance.*
+import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.item.equipment.style.OuterwearLength
 import at.orchaldir.gm.core.model.item.equipment.style.SimpleBuckle
 import at.orchaldir.gm.utils.doNothing
@@ -54,11 +22,14 @@ data class CalculateVolumeConfig<T>(
     val body: BodyConfig,
     val equipment: EquipmentConfig,
     val head: HeadConfig,
-): ICharacterConfig<T> {
+) : ICharacterConfig<T> {
 
     companion object {
 
-        fun from(config: CharacterRenderConfig, appearance: Appearance = HumanoidBody()): CalculateVolumeConfig<Appearance> {
+        fun from(
+            config: CharacterRenderConfig,
+            appearance: Appearance = HumanoidBody(),
+        ): CalculateVolumeConfig<Appearance> {
             val fullAABB = AABB(appearance.getSize2d())
             val headAABB = when (appearance) {
                 is HeadOnly -> fullAABB
@@ -136,6 +107,7 @@ fun calculateVolumePerMaterial(
             data,
             vpm,
         )
+
         is HumanoidBody -> {
             calculateVolumePerMaterialForBody(
                 config.convert(appearance.body),
@@ -148,6 +120,7 @@ fun calculateVolumePerMaterial(
                 vpm,
             )
         }
+
         UndefinedAppearance -> error("Cannot calculate the equipment weight with an undefined appearance!")
     }
 
@@ -168,21 +141,25 @@ private fun calculateVolumePerMaterialForBody(
                 vpm.add(data.buckle.part.material, buckleVolume)
             }
         }
+
         is BodyArmour -> {
             val volume = config.equipment.armor.getVolume(config, data.style, data.length, data.sleeveStyle)
 
             vpm.add(data.style.mainMaterial(), volume)
         }
+
         is Coat -> {
             val volume = config.equipment.coat.getVolume(config, data.length, data.sleeveStyle)
 
             vpm.add(data.main.material, volume)
         }
+
         is Dress -> {
             val volume = config.equipment.dress.getVolume(config, data.skirtStyle, data.sleeveStyle)
 
             vpm.add(data.main.material, volume)
         }
+
         is Footwear -> {
             val shafts = config.equipment.footwear.getShaftVolume(config, data.style)
             val soles = config.equipment.footwear.getSoleVolume(config, data.style)
@@ -190,11 +167,13 @@ private fun calculateVolumePerMaterialForBody(
             vpm.add(data.shaft.material, shafts)
             vpm.add(data.sole.material, soles)
         }
+
         is Gloves -> {
             val volume = config.equipment.gloves.getVolume(config, data.style)
 
             vpm.add(data.main.material, volume)
         }
+
         is Necklace -> doNothing()
         is OneHandedAxe -> doNothing()
         is OneHandedClub -> doNothing()
@@ -204,6 +183,7 @@ private fun calculateVolumePerMaterialForBody(
 
             vpm.add(data.main.material, volume)
         }
+
         is Polearm -> doNothing()
         is Shield -> doNothing()
         is Shirt -> {
@@ -211,21 +191,25 @@ private fun calculateVolumePerMaterialForBody(
 
             vpm.add(data.main.material, volume)
         }
+
         is Skirt -> {
             val volume = config.equipment.skirt.getVolume(config, data.style)
 
             vpm.add(data.main.material, volume)
         }
+
         is Socks -> {
             val volume = config.equipment.sock.getVolume(config, data.style)
 
             vpm.add(data.main.material, volume)
         }
+
         is SuitJacket -> {
             val volume = config.equipment.coat.getVolume(config, OuterwearLength.Hip, data.sleeveStyle)
 
             vpm.add(data.main.material, volume)
         }
+
         is Tie -> doNothing()
         is TwoHandedAxe -> doNothing()
         is TwoHandedClub -> doNothing()
