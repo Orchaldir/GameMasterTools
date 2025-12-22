@@ -169,8 +169,12 @@ enum class SortMagicTradition {
 enum class SortMaterial {
     Name,
     Density,
-    Currency,
+    Price,
+    Currencies,
     Equipment,
+    RaceAppearances,
+    Streets,
+    Texts,
 }
 
 enum class SortMeleeWeaponType {

@@ -62,7 +62,9 @@ import at.orchaldir.gm.core.selector.character.getEmployees
 import at.orchaldir.gm.core.selector.culture.countCultures
 import at.orchaldir.gm.core.selector.economy.money.calculateWeight
 import at.orchaldir.gm.core.selector.economy.money.countCurrencyUnits
+import at.orchaldir.gm.core.selector.item.countTexts
 import at.orchaldir.gm.core.selector.item.equipment.*
+import at.orchaldir.gm.core.selector.race.countRaceAppearancesMadeOf
 import at.orchaldir.gm.core.selector.realm.countOwnedTowns
 import at.orchaldir.gm.core.selector.realm.countRealmsWithCurrencyAtAnyTime
 import at.orchaldir.gm.core.selector.realm.countRealmsWithLegalCodeAtAnyTime
@@ -71,6 +73,7 @@ import at.orchaldir.gm.core.selector.time.date.createSorter
 import at.orchaldir.gm.core.selector.time.getCurrentDate
 import at.orchaldir.gm.core.selector.time.getDefaultCalendar
 import at.orchaldir.gm.core.selector.world.countBuildings
+import at.orchaldir.gm.core.selector.world.countStreetTemplatesMadeOf
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 
@@ -613,8 +616,12 @@ fun State.sortMaterials(
         when (sort) {
             SortMaterial.Name -> compareBy { it.name.text }
             SortMaterial.Density -> compareByDescending { it.density.value() }
-            SortMaterial.Currency -> compareByDescending { countCurrencyUnits(it.id) }
+            SortMaterial.Price -> compareByDescending { it.pricePerKilogram.value }
+            SortMaterial.Currencies -> compareByDescending { countCurrencyUnits(it.id) }
             SortMaterial.Equipment -> compareByDescending { countEquipment(it.id) }
+            SortMaterial.RaceAppearances -> compareByDescending { countRaceAppearancesMadeOf(it.id) }
+            SortMaterial.Streets -> compareByDescending { countStreetTemplatesMadeOf(it.id) }
+            SortMaterial.Texts -> compareByDescending { countTexts(it.id) }
         }
     )
 
