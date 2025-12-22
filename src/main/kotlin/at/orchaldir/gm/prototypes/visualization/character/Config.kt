@@ -40,6 +40,7 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
     BodyConfig(
         fromPercentage(10),
         FootConfig(
+            fromPercentage(30),
             fromPercentage(9),
             fromPercentage(50),
             withFactor(0.375f, 0.5f, 0.625f),
@@ -58,11 +59,22 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
         ),
         fromPercentage(42),
         fromPercentage(35),
+        fromPercentage(40),
         fromPermille(255),
         fromPercentage(120),
         withFactor(0.8f, 1.0f, 1.2f),
     ),
     EquipmentConfig(
+        BodyArmourConfig(
+            fromPercentage(1),
+            fromPercentage(1),
+            fromPercentage(1),
+            fromPercentage(1),
+            LamellarArmourConfig(
+                fromPercentage(20),
+                fromPercentage(20),
+            ),
+        ),
         AxeConfig(
             fromPercentages(8, 10, 12),
             fromPercentage(200),
@@ -78,7 +90,9 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
         ),
         BeltConfig(
             fromPercentage(10),
+            fromPercentage(5),
             fromPercentages(12, 16, 20),
+            fromPercentage(5),
             SizeConfig(
                 fromPercentage(1),
                 fromPercentage(2),
@@ -96,7 +110,11 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
             8.0,
         ),
         CoatConfig(
+            fromPermille(5),
             fromPercentage(10),
+        ),
+        DressConfig(
+            fromPermille(2),
         ),
         EarringConfig(
             fromPercentages(20, 25, 30),
@@ -114,10 +132,14 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
             fromPercentage(90),
             fromPermille(25),
             fromPercentage(2),
+            fromPercentage(2),
         ),
         GlassesConfig(
             fromPercentages(25, 35, 40),
             fromPercentage(2),
+            fromPercentage(1),
+        ),
+        GlovesConfig(
             fromPercentage(1),
         ),
         HatConfig(
@@ -142,10 +164,6 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
             fromPercentage(20),
             fromPercentage(10),
             fromPercentage(5),
-        ),
-        LamellarArmourConfig(
-            fromPercentage(20),
-            fromPercentage(20),
         ),
         IounStoneConfig(
             10.0,
@@ -183,8 +201,9 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
             fromPercentage(1),
         ),
         PantsConfig(
-            fromPercentage(50),
+            fromPercentage(55),
             fromPercentage(30),
+            fromPercentage(1),
             fromPercentage(5),
         ),
         PolearmConfig(
@@ -201,12 +220,19 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
             fromPercentage(8),
             fromPercentage(150),
         ),
+        ShirtConfig(
+            fromPercentage(1),
+        ),
         SkirtConfig(
             fromPercentage(40),
             fromPercentage(90),
+            fromPercentage(1),
             fromPercentage(140),
             fromPercentage(180),
             fromPercentage(5),
+        ),
+        SockConfig(
+            fromPercentage(1),
         ),
         SwordConfig(
             fromPercentage(2),

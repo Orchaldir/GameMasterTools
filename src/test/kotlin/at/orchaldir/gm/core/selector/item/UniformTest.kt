@@ -5,8 +5,8 @@ import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterTemplate
-import at.orchaldir.gm.core.model.character.UseUniform
 import at.orchaldir.gm.core.model.character.ModifyUniform
+import at.orchaldir.gm.core.model.character.UseUniform
 import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.item.Uniform
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMapUpdate

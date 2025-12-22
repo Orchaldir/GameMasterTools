@@ -1,5 +1,6 @@
 package at.orchaldir.gm.visualization.character.equipment.part
 
+import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
@@ -10,7 +11,7 @@ import at.orchaldir.gm.visualization.utils.visualizeBoundRows
 import kotlin.math.ceil
 
 fun visualizeHeadFixation(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     shaftAabb: AABB,
     fixation: HeadFixation,
     extraHeight: Factor = ZERO,
@@ -26,7 +27,7 @@ fun visualizeHeadFixation(
 }
 
 fun visualizeBoundFixation(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     renderer: LayerRenderer,
     shaftAabb: AABB,
     fixation: BoundHeadHead,
@@ -44,7 +45,7 @@ fun visualizeBoundFixation(
 }
 
 fun visualizeLangets(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     renderer: LayerRenderer,
     shaftAabb: AABB,
     fixation: Langets,
@@ -62,7 +63,7 @@ fun visualizeLangets(
 }
 
 fun visualizeSocketedFixation(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     renderer: LayerRenderer,
     shaftAabb: AABB,
     fixation: SocketedHeadHead,

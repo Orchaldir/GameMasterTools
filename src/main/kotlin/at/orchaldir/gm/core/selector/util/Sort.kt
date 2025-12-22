@@ -62,7 +62,7 @@ import at.orchaldir.gm.core.selector.character.getEmployees
 import at.orchaldir.gm.core.selector.culture.countCultures
 import at.orchaldir.gm.core.selector.economy.money.calculateWeight
 import at.orchaldir.gm.core.selector.economy.money.countCurrencyUnits
-import at.orchaldir.gm.core.selector.item.*
+import at.orchaldir.gm.core.selector.item.equipment.*
 import at.orchaldir.gm.core.selector.realm.countOwnedTowns
 import at.orchaldir.gm.core.selector.realm.countRealmsWithCurrencyAtAnyTime
 import at.orchaldir.gm.core.selector.realm.countRealmsWithLegalCodeAtAnyTime

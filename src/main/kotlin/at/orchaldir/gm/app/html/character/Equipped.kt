@@ -19,8 +19,8 @@ import at.orchaldir.gm.core.model.rpg.statblock.StatblockLookup
 import at.orchaldir.gm.core.selector.character.getArmors
 import at.orchaldir.gm.core.selector.character.getMeleeAttacks
 import at.orchaldir.gm.core.selector.character.getShields
-import at.orchaldir.gm.core.selector.item.getEquipmentMap
-import at.orchaldir.gm.core.selector.item.getEquipmentMapForLookup
+import at.orchaldir.gm.core.selector.item.equipment.getEquipmentMap
+import at.orchaldir.gm.core.selector.item.equipment.getEquipmentMapForLookup
 import at.orchaldir.gm.core.selector.rpg.statblock.resolveMeleeAttackMap
 import at.orchaldir.gm.core.selector.rpg.statblock.resolveProtectionMap
 import at.orchaldir.gm.core.selector.util.sortUniforms

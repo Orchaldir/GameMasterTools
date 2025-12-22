@@ -5,17 +5,46 @@ import at.orchaldir.gm.core.model.item.equipment.Gloves
 import at.orchaldir.gm.core.model.item.equipment.style.GloveStyle
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
+import at.orchaldir.gm.utils.math.unit.Volume
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.utils.renderer.model.toRender
 import at.orchaldir.gm.visualization.character.CharacterRenderState
+import at.orchaldir.gm.visualization.character.ICharacterConfig
 import at.orchaldir.gm.visualization.character.appearance.HIGHER_EQUIPMENT_LAYER
 import at.orchaldir.gm.visualization.character.appearance.getArmLayer
 import at.orchaldir.gm.visualization.character.appearance.visualizeHands
 
+data class GlovesConfig(
+    val thickness: Factor,
+) {
+
+    fun getHandsVolume(
+        config: ICharacterConfig<Body>,
+    ) = Volume.fromHollowSphere(config.body().getHandRadius(config), thickness) * 2.0f
+
+    // sleeves
+
+    fun getSleeveHeightFactor(style: GloveStyle) = when (style) {
+        GloveStyle.Hand -> null
+        GloveStyle.Half -> HALF
+        GloveStyle.Full -> FULL
+    }
+
+    fun getSleevesVolume(
+        config: ICharacterConfig<Body>,
+        style: GloveStyle,
+    ) = config.equipment().getSleevesVolume(config, thickness, getSleeveHeightFactor(style))
+
+    fun getVolume(
+        config: ICharacterConfig<Body>,
+        style: GloveStyle,
+    ) = getHandsVolume(config) + getSleevesVolume(config, style)
+
+}
+
 fun visualizeGloves(
-    state: CharacterRenderState,
-    body: Body,
+    state: CharacterRenderState<Body>,
     gloves: Gloves,
 ) {
     val fill = gloves.main.getFill(state.state, state.colors)
@@ -23,21 +52,20 @@ fun visualizeGloves(
 
     when (gloves.style) {
         GloveStyle.Hand -> doNothing()
-        GloveStyle.Half -> visualizeGloveSleeves(state, options, body, HALF)
-        GloveStyle.Full -> visualizeGloveSleeves(state, options, body, FULL)
+        GloveStyle.Half -> visualizeGloveSleeves(state, options, HALF)
+        GloveStyle.Full -> visualizeGloveSleeves(state, options, FULL)
     }
 
-    visualizeHands(state, body, options)
+    visualizeHands(state, options)
 }
 
 private fun visualizeGloveSleeves(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     options: RenderOptions,
-    body: Body,
     length: Factor,
 ) {
-    val (left, right) = state.config.body.getArmStarts(state.aabb, body)
-    val armSize = state.config.body.getArmSize(state.aabb, body)
+    val (left, right) = state.config.body.getArmStarts(state)
+    val armSize = state.config.body.getArmSize(state)
     val gloveSize = Size2d(armSize.width, armSize.height * length)
     val down = Point2d.yAxis(armSize.height * (FULL - length))
     val centerLeft = left + down

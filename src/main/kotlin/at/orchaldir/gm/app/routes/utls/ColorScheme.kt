@@ -14,7 +14,7 @@ import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.util.SortColorScheme
 import at.orchaldir.gm.core.model.util.render.COLOR_SCHEME_TYPE
 import at.orchaldir.gm.core.model.util.render.ColorSchemeId
-import at.orchaldir.gm.core.selector.item.countEquipment
+import at.orchaldir.gm.core.selector.item.equipment.countEquipment
 import at.orchaldir.gm.core.selector.util.sortColorSchemes
 import io.ktor.resources.*
 import io.ktor.server.application.*

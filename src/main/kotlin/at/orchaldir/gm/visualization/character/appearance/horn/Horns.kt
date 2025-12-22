@@ -1,5 +1,6 @@
 package at.orchaldir.gm.visualization.character.appearance.horn
 
+import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.Skin
 import at.orchaldir.gm.core.model.character.appearance.hair.Hair
 import at.orchaldir.gm.core.model.character.appearance.horn.*
@@ -24,7 +25,7 @@ data class HornConfig(
 }
 
 fun visualizeHorns(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     horns: Horns,
     skin: Skin,
     hair: Hair,

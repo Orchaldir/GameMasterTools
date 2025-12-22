@@ -8,7 +8,10 @@ import at.orchaldir.gm.core.model.util.SizeConfig
 import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
 import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
 import at.orchaldir.gm.utils.doNothing
-import at.orchaldir.gm.utils.math.*
+import at.orchaldir.gm.utils.math.END
+import at.orchaldir.gm.utils.math.FULL
+import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.shape.CircularShape
 import at.orchaldir.gm.utils.math.shape.ComplexShape
 import at.orchaldir.gm.utils.math.shape.UsingCircularShape
@@ -17,6 +20,7 @@ import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.toRender
 import at.orchaldir.gm.visualization.character.CharacterRenderState
+import at.orchaldir.gm.visualization.character.ICharacterConfig
 import at.orchaldir.gm.visualization.character.appearance.ABOVE_HAND_LAYER
 import at.orchaldir.gm.visualization.utils.visualizeCircularShape
 import at.orchaldir.gm.visualization.utils.visualizeComplexShape
@@ -28,8 +32,8 @@ data class ShieldConfig(
     val bossFactor: Factor,
     val bossBorderFactor: Factor,
 ) {
-    fun getRadius(aabb: AABB, shield: Shield): Distance {
-        val radius = aabb.convertHeight(radius.convert(shield.size))
+    fun getRadius(config: ICharacterConfig<Body>, shield: Shield): Distance {
+        val radius = config.fullAABB().convertHeight(radius.convert(shield.size))
 
         return if (shield.shape is UsingCircularShape) {
             radius
@@ -38,17 +42,16 @@ data class ShieldConfig(
         }
     }
 
-    fun getBossRadius(aabb: AABB) = aabb.convertHeight(bossFactor)
+    fun getBossRadius(config: ICharacterConfig<Body>) = config.fullAABB().convertHeight(bossFactor)
 }
 
 fun visualizeShield(
-    state: CharacterRenderState,
-    body: Body,
+    state: CharacterRenderState<Body>,
     shield: Shield,
     set: Set<BodySlot>,
 ) {
-    val (left, right) = state.config.body.getMirroredArmPoint(state.aabb, body, END)
-    val radius = state.config.equipment.shield.getRadius(state.aabb, shield)
+    val (left, right) = state.config.body.getMirroredArmPoint(state, END)
+    val radius = state.config.equipment.shield.getRadius(state, shield)
     val renderer = state.getLayer(ABOVE_HAND_LAYER)
     val center = state.getCenter(left, right, set, BodySlot.HeldInLeftHand)
 
@@ -62,7 +65,7 @@ fun visualizeShield(
 }
 
 private fun visualizeShieldBody(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     renderer: LayerRenderer,
     center: Point2d,
     radius: Distance,
@@ -76,7 +79,7 @@ private fun visualizeShieldBody(
 }
 
 private fun visualizeShieldBorder(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     renderer: LayerRenderer,
     center: Point2d,
     radius: Distance,
@@ -103,7 +106,7 @@ private fun visualizeShieldBorder(
 }
 
 private fun visualizeShieldBoss(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     renderer: LayerRenderer,
     boss: ShieldBoss,
     center: Point2d,
@@ -129,14 +132,14 @@ private fun visualizeShieldBoss(
 }
 
 private fun visualizeShieldBoss(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     renderer: LayerRenderer,
     center: Point2d,
     shape: CircularShape,
     part: ColorSchemeItemPart,
     factor: Factor = FULL,
 ) {
-    val bossRadius = state.config.equipment.shield.getBossRadius(state.aabb) * factor
+    val bossRadius = state.config.equipment.shield.getBossRadius(state) * factor
     val fill = part.getColor(state.state, state.colors)
     val options = FillAndBorder(fill.toRender(), state.config.line)
 

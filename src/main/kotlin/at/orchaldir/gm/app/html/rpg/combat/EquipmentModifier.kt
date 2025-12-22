@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifier
 import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifierEffectType
 import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifierId
-import at.orchaldir.gm.core.selector.item.getEquipment
+import at.orchaldir.gm.core.selector.item.equipment.getEquipment
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag

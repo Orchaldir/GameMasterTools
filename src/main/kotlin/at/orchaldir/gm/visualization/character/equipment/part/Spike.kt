@@ -10,8 +10,8 @@ import at.orchaldir.gm.utils.math.unit.QUARTER_CIRCLE
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 
-fun visualizeSpike(
-    state: CharacterRenderState,
+fun <T> visualizeSpike(
+    state: CharacterRenderState<T>,
     renderer: LayerRenderer,
     spike: Spike,
     start: Point2d,
@@ -31,8 +31,8 @@ fun visualizeSpike(
     renderer.renderPolygon(polygon, options)
 }
 
-fun visualizeTopDownSpike(
-    state: CharacterRenderState,
+fun <T> visualizeTopDownSpike(
+    state: CharacterRenderState<T>,
     renderer: LayerRenderer,
     spike: Spike,
     position: Point2d,

@@ -5,8 +5,8 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.item.equipment.EquipmentData
 import at.orchaldir.gm.core.model.util.render.*
-import at.orchaldir.gm.core.selector.item.getEquipment
-import at.orchaldir.gm.core.selector.item.getEquippedWith
+import at.orchaldir.gm.core.selector.item.equipment.getEquipment
+import at.orchaldir.gm.core.selector.item.equipment.getEquippedWith
 
 private val DEFAULT_COLOR_SCHEME: Colors = TwoColors.init(Color.Navy, Color.Green)
 

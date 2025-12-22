@@ -34,14 +34,14 @@ data class HairConfig(
     }
 }
 
-fun visualizeHair(state: CharacterRenderState, head: Head) {
-    when (head.hair) {
+fun visualizeHair(state: CharacterRenderState<Head>) {
+    when (val hair = state.get().hair) {
         NoHair -> doNothing()
-        is NormalHair -> visualizeNormalHair(state, head.hair)
+        is NormalHair -> visualizeNormalHair(state, hair)
     }
 }
 
-private fun visualizeNormalHair(state: CharacterRenderState, hair: NormalHair) {
+private fun visualizeNormalHair(state: CharacterRenderState<Head>, hair: NormalHair) {
     when (hair.cut) {
         is Bun -> visualizeBun(state, hair, hair.cut)
         is LongHairCut -> visualizeLongHair(state, hair, hair.cut)
@@ -51,17 +51,18 @@ private fun visualizeNormalHair(state: CharacterRenderState, hair: NormalHair) {
 }
 
 fun visualizeBackSideOfHead(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     options: RenderOptions,
     layer: Int,
 ) {
     val padding = state.config.head.hair.longPadding
     val width = FULL + padding * 2.0f
+    val aabb = state.headAABB()
     val builder = Polygon2dBuilder()
-        .addLeftPoint(state.aabb, CENTER, -padding)
-        .addMirroredPoints(state.aabb, width, -padding)
-        .addMirroredPoints(state.aabb, width, FULL + padding)
-        .addLeftPoint(state.aabb, CENTER, FULL + padding)
+        .addLeftPoint(aabb, CENTER, -padding)
+        .addMirroredPoints(aabb, width, -padding)
+        .addMirroredPoints(aabb, width, FULL + padding)
+        .addLeftPoint(aabb, CENTER, FULL + padding)
 
     renderRoundedBuilder(state.renderer, builder, options, state.getLayerIndex(layer))
 }

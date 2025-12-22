@@ -1,5 +1,6 @@
 package at.orchaldir.gm.visualization.character.appearance.horn
 
+import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.Skin
 import at.orchaldir.gm.core.model.character.appearance.hair.Hair
 import at.orchaldir.gm.core.model.character.appearance.horn.CrownOfHorns
@@ -10,15 +11,16 @@ import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 
 fun visualizeCrownOfHorns(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     crown: CrownOfHorns,
     skin: Skin,
     hair: Hair,
 ) {
     val options = state.config.getFeatureOptions(state.state, crown.color, hair, skin)
-    val length = state.aabb.convertHeight(crown.length)
-    val half = state.aabb.convertHeight(crown.width) / 2.0f
-    val pair = state.aabb.getMirroredPoints(FULL, state.config.head.hornConfig.y)
+    val aabb = state.headAABB()
+    val length = aabb.convertHeight(crown.length)
+    val half = aabb.convertHeight(crown.width) / 2.0f
+    val pair = aabb.getMirroredPoints(FULL, state.config.head.hornConfig.y)
     val layer = state.config.head.hornConfig.getLayer(state.renderFront)
 
     renderLineOfHorns(state, options, length, half, pair, crown.front, layer)
@@ -31,7 +33,7 @@ fun visualizeCrownOfHorns(
 }
 
 private fun renderLineOfHorns(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     options: RenderOptions,
     length: Distance,
     half: Distance,
@@ -62,7 +64,7 @@ private fun createHornOfLine(
 }
 
 private fun renderSideHorn(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     options: RenderOptions,
     length: Distance,
     half: Distance,
@@ -75,7 +77,7 @@ private fun renderSideHorn(
     if ((side == Side.Right && state.renderFront) ||
         (side == Side.Left && !state.renderFront)
     ) {
-        polygon = state.aabb.mirrorVertically(polygon)
+        polygon = state.headAABB().mirrorVertically(polygon)
     }
 
     state.renderer.getLayer(layer).renderRoundedPolygon(polygon, options)

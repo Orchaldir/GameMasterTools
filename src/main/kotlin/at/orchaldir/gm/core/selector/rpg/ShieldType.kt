@@ -5,7 +5,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.rpg.combat.DamageTypeId
 import at.orchaldir.gm.core.model.rpg.combat.ShieldTypeId
-import at.orchaldir.gm.core.selector.item.getShields
+import at.orchaldir.gm.core.selector.item.equipment.getShields
 
 fun State.canDeleteShieldType(type: ShieldTypeId) = DeleteResult(type)
     .addElements(getShields(type))

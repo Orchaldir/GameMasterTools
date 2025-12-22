@@ -1,14 +1,13 @@
 package at.orchaldir.gm.visualization.character.appearance
 
 import at.orchaldir.gm.core.model.character.appearance.Body
-import at.orchaldir.gm.core.model.character.appearance.BodyShape
 import at.orchaldir.gm.core.model.character.appearance.BodyShape.*
 import at.orchaldir.gm.core.model.character.appearance.Skin
 import at.orchaldir.gm.core.model.util.SizeConfig
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
-import at.orchaldir.gm.visualization.character.CharacterRenderConfig
 import at.orchaldir.gm.visualization.character.CharacterRenderState
+import at.orchaldir.gm.visualization.character.ICharacterConfig
 import at.orchaldir.gm.visualization.character.equipment.visualizeBodyEquipment
 
 data class BodyConfig(
@@ -24,16 +23,17 @@ data class BodyConfig(
     val tail: TailConfig,
     val torsoHeight: Factor,
     val torsoWidth: Factor,
+    val torsoThicknessRelativeToWidth: Factor,
     val torsoY: Factor,
     val widerWidth: Factor,
     val width: SizeConfig<Factor>,
 ) {
-    fun getBodyWidth(body: Body) = width.convert(body.width)
+    fun getBodyWidth(config: ICharacterConfig<Body>) = width.convert(config.get().width)
 
-    fun getHeadAabb(aabb: AABB): AABB {
+    fun getHeadAabb(fullAabb: AABB): AABB {
         val startX = getStartX(headHeight)
-        val start = aabb.getPoint(startX, START)
-        val size = aabb.size * headHeight
+        val start = fullAabb.getPoint(startX, START)
+        val size = fullAabb.size * headHeight
 
         return AABB(start, size)
     }
@@ -41,105 +41,141 @@ data class BodyConfig(
     fun getDistanceFromNeckToBottom(head: AABB) =
         head.size.height * (FULL - headHeight) / headHeight
 
-    fun getArmStarts(aabb: AABB, body: Body): Pair<Point2d, Point2d> {
-        val armWidth = aabb.convertWidth(getArmWidth(body))
+    fun getArmStarts(config: ICharacterConfig<Body>): Pair<Point2d, Point2d> {
+        val armWidth = getArmWidth(config)
         val offset = Point2d.xAxis(armWidth)
-        val shoulderWidth = getShoulderWidth(body.bodyShape)
-        val torso = getTorsoAabb(aabb, body)
+        val shoulderWidth = getShoulderWidth(config)
+        val torso = config.torsoAABB()
         val points = torso.getMirroredPoints(shoulderWidth, START)
 
         return points.copy(first = points.first - offset)
     }
 
-    fun getArmWidth(body: Body) = getBodyWidth(body) * getShoulderWidth(body.bodyShape) * armWidth
+    fun getArmWidthFactor(config: ICharacterConfig<Body>) = getBodyWidth(config) * getShoulderWidth(config) * armWidth
+    fun getArmWidth(config: ICharacterConfig<Body>) = config.fullAABB().convertWidth(getArmWidthFactor(config))
 
-    fun getArmHeight() = torsoHeight
+    fun getArmHeightFactor() = torsoHeight
+    fun getArmHeight(config: ICharacterConfig<Body>) = config.fullAABB().convertHeight(getArmHeightFactor())
 
-    fun getArmSize(aabb: AABB, body: Body) = aabb.size.scale(getArmWidth(body), getArmHeight())
+    fun getArmSize(config: ICharacterConfig<Body>) = config.fullAABB().size
+        .scale(getArmWidthFactor(config), getArmHeightFactor())
 
-    fun getArmsSize(aabb: AABB, body: Body) = aabb.size.scale(
-        getTorsoWidth(body) * getShoulderWidth(body.bodyShape) + getArmWidth(body) * 2,
-        getArmHeight(),
+    fun getArmsSize(config: ICharacterConfig<Body>) = config.fullAABB().size.scale(
+        getTorsoWidth(config) * getShoulderWidth(config) + getArmWidthFactor(config) * 2,
+        getArmHeightFactor(),
     )
 
-    fun getArmsAabb(aabb: AABB, body: Body) = AABB
-        .fromTop(aabb.getPoint(CENTER, torsoY), getArmsSize(aabb, body))
+    fun getArmsAabb(config: ICharacterConfig<Body>) = AABB
+        .fromTop(config.fullAABB().getPoint(CENTER, torsoY), getArmsSize(config))
 
-    fun getFootRadius(body: Body) = getBodyWidth(body) * foot.radius
+    fun getFootLength(config: ICharacterConfig<Body>) = config.torsoAABB()
+        .convertHeight(getBodyWidth(config) * foot.length)
 
-    fun getFootY(body: Body) = END - getFootRadius(body)
+    fun getFootRadius(config: ICharacterConfig<Body>) = config.fullAABB()
+        .convertHeight(getFootRadiusFactor(config))
 
-    fun getHandRadius(body: Body) = getBodyWidth(body) * handRadius
+    fun getFootRadiusFactor(config: ICharacterConfig<Body>) = getBodyWidth(config) * foot.radius
 
-    fun getLegWidth(body: Body) = getBodyWidth(body) * legWidth
+    fun getFootY(config: ICharacterConfig<Body>) = END - getFootRadiusFactor(config)
 
-    fun getLegsWidth(body: Body) = getTorsoWidth(body) * HALF + getLegWidth(body)
+    fun getHandRadius(config: ICharacterConfig<Body>) = config.fullAABB()
+        .convertHeight(getHandRadiusFactor(config))
 
-    fun getLegsInnerWidth(body: Body) = getTorsoWidth(body) * HALF - getLegWidth(body)
+    fun getHandRadiusFactor(config: ICharacterConfig<Body>) = getBodyWidth(config) * handRadius
 
-    fun getLegHeight() = END - getLegY()
+    fun getLegWidth(config: ICharacterConfig<Body>) = getBodyWidth(config) * legWidth
 
-    fun getLegSize(aabb: AABB, body: Body) =
-        aabb.size.scale(getLegWidth(body), getLegHeight())
+    fun getLegsWidth(config: ICharacterConfig<Body>) = getTorsoWidth(config) * HALF + getLegWidth(config)
+
+    fun getLegsInnerWidth(config: ICharacterConfig<Body>) = getTorsoWidth(config) * HALF - getLegWidth(config)
+
+    fun getLegHeightFactor() = END - getLegY()
+    fun getLegHeight(config: ICharacterConfig<Body>) = config.fullAABB().convertHeight(getLegHeightFactor())
+
+    fun getLegSize(config: ICharacterConfig<Body>) =
+        config.fullAABB().size.scale(getLegWidth(config), getLegHeightFactor())
 
     fun getLegY() = torsoY + torsoHeight
 
-    fun getLegY(body: Body, factor: Factor): Factor {
+    fun getLegY(config: ICharacterConfig<Body>, factor: Factor): Factor {
         val topY = getLegY()
-        val fullBottomY = getFootY(body)
+        val fullBottomY = getFootY(config)
         val fullHeight = fullBottomY - topY
         return fullBottomY - fullHeight * (FULL - factor)
     }
 
-    fun getShoeHeight(body: Body) = getFootRadius(body) / getLegHeight()
+    fun getLegHeightFactor(config: ICharacterConfig<Body>, factor: Factor): Factor {
+        val topY = getLegY()
+        val fullBottomY = getFootY(config)
+        val fullHeight = fullBottomY - topY
 
-    fun getMirroredArmPoint(aabb: AABB, body: Body, vertical: Factor): Pair<Point2d, Point2d> {
-        val torso = getTorsoAabb(aabb, body)
-        val size = getArmSize(aabb, body)
+        return fullHeight * factor
+    }
+
+    fun getLegHeight(config: ICharacterConfig<Body>, factor: Factor) =
+        config.fullAABB().convertHeight(getLegHeightFactor(config, factor))
+
+    fun getShoeHeight(config: ICharacterConfig<Body>) = getFootRadiusFactor(config) / getLegHeightFactor()
+
+    fun getMirroredArmPoint(config: ICharacterConfig<Body>, vertical: Factor): Pair<Point2d, Point2d> {
+        val torso = config.torsoAABB()
+        val size = getArmSize(config)
         val offset = Point2d.xAxis(size.width / 2.0f)
-        val shoulderWidth = getShoulderWidth(body.bodyShape)
+        val shoulderWidth = getShoulderWidth(config)
         val (left, right) = torso.getMirroredPoints(shoulderWidth, vertical)
 
         return Pair(left - offset, right + offset)
     }
 
-    fun getMirroredLegPoint(aabb: AABB, body: Body, vertical: Factor): Pair<Point2d, Point2d> {
-        val torso = getTorsoAabb(aabb, body)
-        val size = getLegSize(aabb, body)
+    fun getMirroredLegPoint(config: ICharacterConfig<Body>, vertical: Factor): Pair<Point2d, Point2d> {
+        val torso = config.torsoAABB()
+        val size = getLegSize(config)
         val offset = Point2d.yAxis(size.height * vertical)
         val (left, right) = torso.getMirroredPoints(HALF, END)
 
         return Pair(left + offset, right + offset)
     }
 
-    fun getTorsoAabb(aabb: AABB, body: Body): AABB {
-        val width = getTorsoWidth(body)
+    fun getTorsoCircumferenceFactor() = (FULL + torsoThicknessRelativeToWidth) * 2
+
+    fun getTorsoAabb(fullAABB: AABB, body: Body): AABB {
+        val config = object : ICharacterConfig<Body> {
+            override fun get() = body
+
+            override fun fullAABB() = TODO()
+            override fun headAABB() = TODO()
+            override fun torsoAABB() = TODO()
+            override fun body() = TODO()
+            override fun equipment() = TODO()
+            override fun head() = TODO()
+        }
+        val width = getTorsoWidth(config)
         val startX = getStartX(width)
-        val start = aabb.getPoint(startX, torsoY)
-        val size = aabb.size.scale(width, torsoHeight)
+        val start = fullAABB.getPoint(startX, torsoY)
+        val size = fullAABB.size.scale(width, torsoHeight)
 
         return AABB(start, size)
     }
 
-    fun getTorsoWidth(body: Body) = getBodyWidth(body) * torsoWidth
+    fun getTorsoWidth(config: ICharacterConfig<Body>) = getBodyWidth(config) * torsoWidth
 
-    fun getHipWidth(bodyShape: BodyShape) = when (bodyShape) {
+    fun getHipWidth(config: ICharacterConfig<Body>) = when (config.get().bodyShape) {
         Fat -> widerWidth
         else -> FULL
     }
 
-    fun getWaistWidth(bodyShape: BodyShape) = when (bodyShape) {
+    fun getWaistWidth(config: ICharacterConfig<Body>) = when (config.get().bodyShape) {
         Hourglass -> hourglassWidth
         else -> FULL
     }
 
-    fun getShoulderWidth(bodyShape: BodyShape) = when (bodyShape) {
+    fun getShoulderWidth(config: ICharacterConfig<Body>) = when (config.get().bodyShape) {
         Muscular -> widerWidth
         Rectangle, Hourglass -> shoulderWidth
         else -> FULL
     }
 
-    fun getMaxWidth(bodyShape: BodyShape) = when (bodyShape) {
+    fun getMaxWidth(config: ICharacterConfig<Body>) = when (config.get().bodyShape) {
         Rectangle, Hourglass -> shoulderWidth
         else -> widerWidth
     }
@@ -147,49 +183,46 @@ data class BodyConfig(
 }
 
 fun visualizeBody(
-    state: CharacterRenderState,
-    body: Body,
+    state: CharacterRenderState<Body>,
     skin: Skin,
 ) {
     val options = state.config.getOptions(state.state, skin)
 
-    visualizeArms(state, body, options)
-    visualizeHands(state, body, options)
-    visualizeLegs(state, body, options)
-    visualizeFeet(state, body, options)
-    visualizeTorso(state, body, options)
-    visualizeBodyEquipment(state, body)
+    visualizeArms(state, options)
+    visualizeHands(state, options)
+    visualizeLegs(state, options)
+    visualizeFeet(state, options)
+    visualizeTorso(state, options)
+    visualizeBodyEquipment(state)
 }
 
-fun visualizeTorso(state: CharacterRenderState, body: Body, options: RenderOptions) {
-    val polygon = createTorso(state, body).build()
+fun visualizeTorso(state: CharacterRenderState<Body>, options: RenderOptions) {
+    val polygon = createTorso(state).build()
 
     state.renderer.getLayer().renderPolygon(polygon, options)
 }
 
 fun createTorso(
-    state: CharacterRenderState,
-    body: Body,
+    state: CharacterRenderState<Body>,
     addTop: Boolean = true,
 ): Polygon2dBuilder {
-    val builder = createHip(state.config, state.aabb, body)
-    addTorso(state, body, builder, addTop)
+    val builder = createHip(state)
+    addTorso(state, builder, addTop)
 
     return builder
 }
 
 fun addTorso(
-    state: CharacterRenderState,
-    body: Body,
+    config: ICharacterConfig<Body>,
     builder: Polygon2dBuilder,
     addTop: Boolean = true,
     paddedWidth: Factor = FULL,
 ) {
-    val config = state.config.body
-    val torso = config.getTorsoAabb(state.aabb, body)
-    val waistWidth = config.getWaistWidth(body.bodyShape) * paddedWidth
-    val shoulderWidth = config.getShoulderWidth(body.bodyShape)
-    val shoulderHeight = config.shoulderY
+    val torso = config.torsoAABB()
+    val bodyConfig = config.body()
+    val waistWidth = bodyConfig.getWaistWidth(config) * paddedWidth
+    val shoulderWidth = bodyConfig.getShoulderWidth(config)
+    val shoulderHeight = bodyConfig.shoulderY
 
     builder.addMirroredPoints(torso, waistWidth, CENTER)
     builder.addMirroredPoints(torso, shoulderWidth, shoulderHeight)
@@ -199,32 +232,30 @@ fun addTorso(
     }
 }
 
-fun createHip(config: CharacterRenderConfig, aabb: AABB, body: Body): Polygon2dBuilder {
+fun createHip(config: ICharacterConfig<Body>): Polygon2dBuilder {
     val builder = Polygon2dBuilder()
-    addHip(config, builder, aabb, body)
+    addHip(config, builder)
     return builder
 }
 
 fun addHip(
-    config: CharacterRenderConfig,
+    config: ICharacterConfig<Body>,
     builder: Polygon2dBuilder,
-    aabb: AABB,
-    body: Body,
     paddedWidth: Factor = FULL,
     addBottom: Boolean = true,
 ) {
-    val torso = config.body.getTorsoAabb(aabb, body)
-    val hipWidth = config.body.getHipWidth(body.bodyShape) * paddedWidth
+    val torso = config.torsoAABB()
+    val hipWidth = config.body().getHipWidth(config) * paddedWidth
 
     if (addBottom) {
         builder.addMirroredPoints(torso, hipWidth, END)
     }
-    builder.addMirroredPoints(torso, hipWidth, config.body.hipY)
+    builder.addMirroredPoints(torso, hipWidth, config.body().hipY)
 }
 
-fun visualizeArms(state: CharacterRenderState, body: Body, options: RenderOptions) {
-    val size = state.config.body.getArmSize(state.aabb, body)
-    val (left, right) = state.config.body.getMirroredArmPoint(state.aabb, body, CENTER)
+fun visualizeArms(state: CharacterRenderState<Body>, options: RenderOptions) {
+    val size = state.config.body.getArmSize(state)
+    val (left, right) = state.config.body.getMirroredArmPoint(state, CENTER)
     val leftAabb = AABB.fromCenter(left, size)
     val rightAabb = AABB.fromCenter(right, size)
 
@@ -233,18 +264,18 @@ fun visualizeArms(state: CharacterRenderState, body: Body, options: RenderOption
         .renderRectangle(rightAabb, options)
 }
 
-fun visualizeHands(state: CharacterRenderState, body: Body, options: RenderOptions) {
-    val (left, right) = state.config.body.getMirroredArmPoint(state.aabb, body, END)
-    val radius = state.aabb.convertHeight(state.config.body.getHandRadius(body))
+fun visualizeHands(state: CharacterRenderState<Body>, options: RenderOptions) {
+    val (left, right) = state.config.body.getMirroredArmPoint(state, END)
+    val radius = state.config.body.getHandRadius(state)
     val layer = state.renderer.getLayer(getArmLayer(HAND_LAYER, state.renderFront))
 
     layer.renderCircle(left, radius, options)
     layer.renderCircle(right, radius, options)
 }
 
-fun visualizeLegs(state: CharacterRenderState, body: Body, options: RenderOptions) {
-    val size = state.config.body.getLegSize(state.aabb, body)
-    val (left, right) = state.config.body.getMirroredLegPoint(state.aabb, body, CENTER)
+fun visualizeLegs(state: CharacterRenderState<Body>, options: RenderOptions) {
+    val size = state.config.body.getLegSize(state)
+    val (left, right) = state.config.body.getMirroredLegPoint(state, CENTER)
     val leftAabb = AABB.fromCenter(left, size)
     val rightAabb = AABB.fromCenter(right, size)
 

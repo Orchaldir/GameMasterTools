@@ -1,12 +1,15 @@
 package at.orchaldir.gm.app.html.item.equipment
 
-import at.orchaldir.gm.app.*
+import at.orchaldir.gm.app.COLOR
+import at.orchaldir.gm.app.EQUIPMENT
+import at.orchaldir.gm.app.SCHEME
+import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.rpg.combat.*
 import at.orchaldir.gm.app.html.util.color.parseColorSchemeId
-import at.orchaldir.gm.app.html.util.math.fieldWeight
-import at.orchaldir.gm.app.html.util.math.parseWeight
-import at.orchaldir.gm.app.html.util.math.selectWeight
+import at.orchaldir.gm.app.html.util.math.parseWeightLookup
+import at.orchaldir.gm.app.html.util.math.selectWeightLookup
+import at.orchaldir.gm.app.html.util.math.showWeightLookupDetails
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseElements
@@ -16,10 +19,12 @@ import at.orchaldir.gm.core.model.util.render.ColorSchemeId
 import at.orchaldir.gm.core.selector.character.getCharacterTemplates
 import at.orchaldir.gm.core.selector.character.getCharactersWith
 import at.orchaldir.gm.core.selector.culture.getFashions
+import at.orchaldir.gm.core.selector.item.equipment.CalculateVolumeConfig
+import at.orchaldir.gm.core.selector.item.equipment.calculateVolumePerMaterial
 import at.orchaldir.gm.core.selector.item.getUniforms
 import at.orchaldir.gm.core.selector.util.filterValidColorSchemes
 import at.orchaldir.gm.core.selector.util.getValidColorSchemes
-import at.orchaldir.gm.utils.math.unit.SiPrefix
+import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -34,7 +39,9 @@ fun HtmlBlockTag.showEquipment(
 ) {
     val material = equipment.data.mainMaterial()
 
-    fieldWeight("Weight", equipment.weight)
+    showWeightLookupDetails(call, state, equipment.weight) {
+        calculateVolumePerMaterial(CalculateVolumeConfig.from(CHARACTER_CONFIG), equipment.data)
+    }
     fieldIds(call, state, equipment.colorSchemes)
     equipment.data.getArmorStats()?.let {
         showArmorStats(call, state, it, material)
@@ -119,7 +126,7 @@ fun HtmlBlockTag.editEquipment(
     equipment: Equipment,
 ) {
     selectName(equipment.name)
-    selectWeight("Weight", WEIGHT, equipment.weight, MIN_EQUIPMENT_WEIGHT, 10000, SiPrefix.Base)
+    selectWeightLookup(state, equipment.weight)
     selectColorSchemes(state, equipment)
     equipment.data.getArmorStats()?.let { editArmorStats(call, state, it) }
     equipment.data.getMeleeWeaponStats()?.let { editMeleeWeaponStats(call, state, it) }
@@ -208,7 +215,7 @@ fun parseEquipment(
         id,
         parseName(parameters),
         data,
-        parseWeight(parameters, WEIGHT, SiPrefix.Base),
+        parseWeightLookup(parameters),
         parseColorSchemes(state, parameters, data),
     )
 }

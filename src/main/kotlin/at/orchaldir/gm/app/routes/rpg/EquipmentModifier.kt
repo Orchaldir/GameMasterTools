@@ -11,7 +11,7 @@ import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.rpg.combat.EQUIPMENT_MODIFIER_TYPE
 import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifierId
 import at.orchaldir.gm.core.model.util.SortArmorModifier
-import at.orchaldir.gm.core.selector.item.getEquipment
+import at.orchaldir.gm.core.selector.item.equipment.getEquipment
 import at.orchaldir.gm.core.selector.util.sortEquipmentModifiers
 import io.ktor.resources.*
 import io.ktor.server.application.*

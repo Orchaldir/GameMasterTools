@@ -13,8 +13,8 @@ import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 
-fun visualizeLineStyle(
-    state: CharacterRenderState,
+fun <T> visualizeLineStyle(
+    state: CharacterRenderState<T>,
     renderer: LayerRenderer,
     style: LineStyle,
     line: Line2d,

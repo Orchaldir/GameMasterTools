@@ -15,14 +15,14 @@ import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 
 data class FootConfig(
+    val length: Factor,
     val radius: Factor,
     val clawLengthToWidth: Factor,
     val clawSize: SizeConfig<Factor>,
 )
 
 fun visualizeFeet(
-    state: CharacterRenderState,
-    body: Body,
+    state: CharacterRenderState<Body>,
     options: RenderOptions,
 ) {
     val layer = if (state.renderFront) {
@@ -30,39 +30,39 @@ fun visualizeFeet(
     } else {
         BEHIND_LAYER
     }
-    visualizeFeet(state, body, options, layer, true)
+    visualizeFeet(state, options, layer, true)
 }
 
 fun visualizeFeet(
-    state: CharacterRenderState,
-    body: Body,
+    state: CharacterRenderState<Body>,
     options: RenderOptions,
     layerIndex: Int,
     renderClaws: Boolean = false,
 ) {
-    val (left, right) = state.config.body.getMirroredLegPoint(state.aabb, body, END)
-    val radius = state.aabb.convertHeight(state.config.body.getFootRadius(body))
+    val (left, right) = state.config.body.getMirroredLegPoint(state, END)
+    val radius = state.config.body.getFootRadius(state)
     val offset = Orientation.fromDegrees(0)
     val angle = Orientation.fromDegrees(180)
     val layer = state.renderer.getLayer(layerIndex)
+    val foot = state.get().foot
 
     layer.renderCircleArc(left, radius, offset, angle, options)
     layer.renderCircleArc(right, radius, offset, angle, options)
 
-    if (renderClaws && body.foot is ClawedFoot) {
+    if (renderClaws && foot is ClawedFoot) {
         val clawsLayer = layerIndex - if (state.renderFront) {
             0
         } else {
             1
         }
 
-        visualizeClaws(state, body.foot, clawsLayer, left, radius)
-        visualizeClaws(state, body.foot, clawsLayer, right, radius)
+        visualizeClaws(state, foot, clawsLayer, left, radius)
+        visualizeClaws(state, foot, clawsLayer, right, radius)
     }
 }
 
 fun visualizeClaws(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     foot: ClawedFoot,
     layerIndex: Int,
     center: Point2d,

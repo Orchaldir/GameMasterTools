@@ -14,36 +14,34 @@ import at.orchaldir.gm.visualization.utils.visualizeComplexShape
 import at.orchaldir.gm.visualization.utils.visualizeRows
 
 fun visualizeScaleArmour(
-    state: CharacterRenderState,
-    body: Body,
+    state: CharacterRenderState<Body>,
     armour: BodyArmour,
     style: ScaleArmour,
 ) {
     val renderer = state.renderer.getLayer(JACKET_LAYER)
 
-    visualizeScaleArmourBody(state, renderer, body, armour, style)
-    visualizeScaleArmourSleeves(state, renderer, body, armour, style)
+    visualizeScaleArmourBody(state, renderer, armour, style)
+    visualizeScaleArmourSleeves(state, renderer, armour, style)
 }
 
 private fun visualizeScaleArmourBody(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     renderer: LayerRenderer,
-    body: Body,
     armour: BodyArmour,
     style: ScaleArmour,
 ) {
-    val clipping = createClippingPolygonForArmourBody(state, body)
+    val clipping = createClippingPolygonForArmourBody(state)
     val clippingName = state.renderer.createClipping(clipping)
     val color = style.scale.getColor(state.state, state.colors)
     val options = FillAndBorder(color.toRender(), state.config.line, clippingName)
-    val torso = state.config.body.getTorsoAabb(state.aabb, body)
-    val maxWidthFactor = state.config.body.getMaxWidth(body.bodyShape)
+    val torso = state.torsoAABB()
+    val maxWidthFactor = state.config.body.getMaxWidth(state)
     val maxWidth = torso.convertWidth(maxWidthFactor)
-    val scaleWidth = calculateArmourScaleWidth(state, body, torso, style.columns)
+    val scaleWidth = calculateArmourScaleWidth(state, style.columns)
     val scaleSize = style.shape.calculateSizeFromWidth(scaleWidth)
     val top = torso.getPoint(CENTER, START)
-    val bottomFactor = getOuterwearBottomY(state, body, armour.length, THREE_QUARTER)
-    val bottom = state.aabb.getPoint(CENTER, bottomFactor)
+    val bottomFactor = getOuterwearBottomY(state, armour.length, THREE_QUARTER)
+    val bottom = state.fullAABB.getPoint(CENTER, bottomFactor)
 
     visualizeRows(
         scaleSize,
@@ -60,9 +58,8 @@ private fun visualizeScaleArmourBody(
 }
 
 private fun visualizeScaleArmourSleeves(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     renderer: LayerRenderer,
-    body: Body,
     armour: BodyArmour,
     style: ScaleArmour,
 ) {
@@ -70,10 +67,9 @@ private fun visualizeScaleArmourSleeves(
         return
     }
 
-    val (leftAabb, rightAabb) = createSleeveAabbs(state, body, armour.sleeveStyle)
-    val (leftClip, rightClip) = createSleeveAabbs(state, body, SleeveStyle.Long)
-    val torso = state.config.body.getTorsoAabb(state.aabb, body)
-    val scaleWidth = calculateArmourScaleWidth(state, body, torso, style.columns)
+    val (leftAabb, rightAabb) = createSleeveAabbs(state, armour.sleeveStyle)
+    val (leftClip, rightClip) = createSleeveAabbs(state, SleeveStyle.Long)
+    val scaleWidth = calculateArmourScaleWidth(state, style.columns)
     val scaleSize = style.shape.calculateSizeFromWidth(scaleWidth)
 
     visualizeScaleArmourSleeve(state, renderer, leftAabb, leftClip, style, scaleSize)
@@ -81,7 +77,7 @@ private fun visualizeScaleArmourSleeves(
 }
 
 private fun visualizeScaleArmourSleeve(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     renderer: LayerRenderer,
     aabb: AABB,
     clip: AABB,

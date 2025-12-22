@@ -195,7 +195,7 @@ data class OneHandedAxe(
     val stats: MeleeWeaponStats = MeleeWeaponStats(),
 ) : EquipmentData() {
 
-    override fun parts() = head.parts() + shaft.parts()
+    override fun parts() = head.parts() + fixation.parts() + shaft.parts()
 }
 
 @Serializable
@@ -207,7 +207,7 @@ data class TwoHandedAxe(
     val stats: MeleeWeaponStats = MeleeWeaponStats(),
 ) : EquipmentData() {
 
-    override fun parts() = head.parts() + shaft.parts()
+    override fun parts() = head.parts() + fixation.parts() + shaft.parts()
 }
 
 @Serializable
@@ -243,7 +243,7 @@ data class OneHandedClub(
     val stats: MeleeWeaponStats = MeleeWeaponStats(),
 ) : EquipmentData() {
 
-    override fun parts() = head.parts() + shaft.parts()
+    override fun parts() = head.parts() + fixation.parts() + shaft.parts()
 }
 
 @Serializable
@@ -256,7 +256,7 @@ data class TwoHandedClub(
     val stats: MeleeWeaponStats = MeleeWeaponStats(),
 ) : EquipmentData() {
 
-    override fun parts() = head.parts() + shaft.parts()
+    override fun parts() = head.parts() + fixation.parts() + shaft.parts()
 }
 
 @Serializable
@@ -301,7 +301,7 @@ data class EyePatch(
     val fixation: EyePatchFixation = NoFixation,
 ) : EquipmentData() {
 
-    override fun parts() = style.parts()
+    override fun parts() = style.parts() + fixation.parts()
 }
 
 @Serializable

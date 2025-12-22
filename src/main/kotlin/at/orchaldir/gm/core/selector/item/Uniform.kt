@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.item.equipment.containsId
 import at.orchaldir.gm.core.selector.character.getCharacterTemplates
 import at.orchaldir.gm.core.selector.character.getCharactersWith
 import at.orchaldir.gm.core.selector.economy.getJobs
+import at.orchaldir.gm.core.selector.item.equipment.getEquipmentMap
 
 fun State.canDeleteUniform(uniform: UniformId) = DeleteResult(uniform)
     .addElements(getCharactersWith(uniform))

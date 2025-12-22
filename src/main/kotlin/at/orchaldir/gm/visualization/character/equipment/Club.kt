@@ -32,20 +32,19 @@ data class ClubConfig(
     val flailSwingDuration: Double,
 ) {
     fun shaftAabb(
-        state: CharacterRenderState,
-        body: Body,
+        state: CharacterRenderState<Body>,
         isOneHanded: Boolean,
         hand: Point2d,
     ): AABB {
-        val handRadius = state.aabb.convertHeight(state.config.body.getHandRadius(body))
+        val handRadius = state.config.body.getHandRadius(state)
         val bottom = hand.addHeight(handRadius * 2)
         val heightFactor = if (isOneHanded) {
             oneHandedHeight
         } else {
             twoHandedHeight
         }
-        val height = state.aabb.convertHeight(heightFactor)
-        val width = state.aabb.convertHeight(shaftThickness)
+        val height = state.fullAABB.convertHeight(heightFactor)
+        val width = state.fullAABB.convertHeight(shaftThickness)
 
         return AABB.fromBottom(bottom, Size2d(width, height))
     }
@@ -68,8 +67,7 @@ data class ClubConfig(
 }
 
 fun visualizeClub(
-    state: CharacterRenderState,
-    body: Body,
+    state: CharacterRenderState<Body>,
     head: ClubHead,
     size: Size,
     shaft: Shaft,
@@ -78,10 +76,10 @@ fun visualizeClub(
     set: Set<BodySlot>,
 ) {
     val renderer = state.getLayer(HELD_EQUIPMENT_LAYER)
-    val (leftHand, rightHand) = state.config.body.getMirroredArmPoint(state.aabb, body, END)
+    val (leftHand, rightHand) = state.config.body.getMirroredArmPoint(state, END)
     val hand = state.getCenter(leftHand, rightHand, set, BodySlot.HeldInRightHand)
     val config = state.config.equipment.club
-    val shaftAabb = config.shaftAabb(state, body, isOneHanded, hand)
+    val shaftAabb = config.shaftAabb(state, isOneHanded, hand)
     val extendedShaftAabb = config.extendShaft(shaftAabb, head, size)
     val extraHeight = config.getExtraFixationHeight(head, size)
 
@@ -91,7 +89,7 @@ fun visualizeClub(
 }
 
 fun visualizeClubHead(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     layer: Int,
     config: ClubConfig,
     shaftAabb: AABB,
@@ -109,7 +107,7 @@ fun visualizeClubHead(
 }
 
 private fun visualizeSimpleClubHead(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     layer: Int,
     config: ClubConfig,
     shaftAabb: AABB,
@@ -128,7 +126,7 @@ private fun visualizeSimpleClubHead(
 }
 
 private fun visualizeSimpleFlangedHead(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     layer: Int,
     config: ClubConfig,
     shaftAabb: AABB,
@@ -143,7 +141,7 @@ private fun visualizeSimpleFlangedHead(
 }
 
 private fun visualizeSimpleSideFlanges(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     options: RenderOptions,
     layer: Int,
     config: ClubConfig,
@@ -161,7 +159,7 @@ private fun visualizeSimpleSideFlanges(
 }
 
 private fun visualizeMiddleFlange(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     options: RenderOptions,
     layer: Int,
     config: ClubConfig,
@@ -177,7 +175,7 @@ private fun visualizeMiddleFlange(
 }
 
 private fun visualizeComplexFlangedHead(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     layer: Int,
     config: ClubConfig,
     shaftAabb: AABB,
@@ -192,7 +190,7 @@ private fun visualizeComplexFlangedHead(
 }
 
 private fun visualizeComplexSideFlanges(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     options: RenderOptions,
     layer: Int,
     config: ClubConfig,
@@ -211,7 +209,7 @@ private fun visualizeComplexSideFlanges(
 }
 
 private fun visualizeSpikedMace(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     layer: Int,
     config: ClubConfig,
     shaftAabb: AABB,
@@ -231,7 +229,7 @@ private fun visualizeSpikedMace(
 }
 
 private fun visualizeSpikesForSpikedMace(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     renderer: LayerRenderer,
     aabb: AABB,
     head: SpikedMaceHead,
@@ -249,7 +247,7 @@ private fun visualizeSpikesForSpikedMace(
 }
 
 private fun visualizeFlail(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     layer: Int,
     config: ClubConfig,
     shaftAabb: AABB,
@@ -308,7 +306,7 @@ private fun visualizeFlail(
 }
 
 private fun visualizeMorningStar(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     layer: Int,
     config: ClubConfig,
     shaftAabb: AABB,
@@ -326,7 +324,7 @@ private fun visualizeMorningStar(
 }
 
 private fun visualizeMorningStarHead(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     renderer: LayerRenderer,
     head: MorningStarHead,
     center: Point2d,
@@ -348,7 +346,7 @@ private fun visualizeMorningStarHead(
 }
 
 private fun visualizeWarhammerHead(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     layer: Int,
     config: ClubConfig,
     shaftAabb: AABB,

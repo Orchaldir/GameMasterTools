@@ -1,5 +1,6 @@
 package at.orchaldir.gm.visualization.character.equipment
 
+import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.style.SpearHead
 import at.orchaldir.gm.core.model.item.equipment.style.SpearShape
 import at.orchaldir.gm.utils.math.*
@@ -7,7 +8,7 @@ import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 
 fun visualizeSpearHead(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     renderer: LayerRenderer,
     shaftAabb: AABB,
     head: SpearHead,

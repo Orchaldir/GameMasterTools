@@ -1,5 +1,6 @@
 package at.orchaldir.gm.visualization.character.equipment.part
 
+import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.eye.EyeShape
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.Size
@@ -13,7 +14,7 @@ import at.orchaldir.gm.visualization.character.appearance.HAND_LAYER
 import at.orchaldir.gm.visualization.character.equipment.HelmetConfig
 
 fun visualizeHelmetFront(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     config: HelmetConfig,
     front: HelmetFront,
 ) {
@@ -36,14 +37,14 @@ fun visualizeHelmetFront(
 }
 
 private fun visualizeNoseProtection(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     renderer: LayerRenderer,
     config: HelmetConfig,
     protection: NoseProtection,
 ) = visualizeNoseProtection(state, renderer, config, protection.shape, protection.part)
 
 private fun visualizeNoseProtection(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     renderer: LayerRenderer,
     config: HelmetConfig,
     shape: NoseProtectionShape,
@@ -51,7 +52,7 @@ private fun visualizeNoseProtection(
 ) {
     val color = part.getColor(state.state, state.colors)
     val options = state.config.getLineOptions(color)
-    val polygon = createNoseProtectionPolygon(state.aabb, config, shape)
+    val polygon = createNoseProtectionPolygon(state.headAABB(), config, shape)
 
     renderer.renderRoundedPolygon(polygon, options)
 }
@@ -94,15 +95,15 @@ private fun createNoseProtectionPolygon(
 }
 
 private fun visualizeEyeProtection(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     renderer: LayerRenderer,
     config: HelmetConfig,
     protection: EyeProtection,
 ) {
     val color = protection.part.getColor(state.state, state.colors)
     val options = state.config.getLineOptions(color)
-    val (left, right) = state.config.head.eyes.getTwoEyesCenter(state.aabb)
-    val eyeSize = state.config.head.eyes.getEyeSize(state.aabb, EyeShape.Ellipse, Size.Medium)
+    val (left, right) = state.config.head.eyes.getTwoEyesCenter(state)
+    val eyeSize = state.config.head.eyes.getEyeSize(state, EyeShape.Ellipse, Size.Medium)
     val polygon = createEyeProtectionPolygon(state, config, protection.shape)
     val leftHole = createEyeHolePolygon(config, protection.hole, left, eyeSize)
     val rightHole = createEyeHolePolygon(config, protection.hole, right, eyeSize)
@@ -111,11 +112,11 @@ private fun visualizeEyeProtection(
 }
 
 private fun createEyeProtectionPolygon(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     config: HelmetConfig,
     shape: EyeProtectionShape,
 ): Polygon2d {
-    val aabb = state.aabb
+    val aabb = state.headAABB()
     val startY = config.frontBottomY
     val endY = startY + config.eyeProtectionHeight
     val width = config.eyeProtectionWidth
@@ -174,7 +175,7 @@ private fun createEyeHolePolygon(
 }
 
 private fun visualizeFaceProtection(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     renderer: LayerRenderer,
     config: HelmetConfig,
     protection: FaceProtection,
@@ -186,15 +187,15 @@ private fun visualizeFaceProtection(
 }
 
 fun visualizeHelmWithEyeHoles(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     renderer: LayerRenderer,
     config: HelmetConfig,
     options: FillAndBorder,
     polygon: Polygon2d,
     eyeHoleShape: EyeHoleShape,
 ) {
-    val (left, right) = state.config.head.eyes.getTwoEyesCenter(state.aabb)
-    val eyeSize = state.config.head.eyes.getEyeSize(state.aabb, EyeShape.Ellipse, Size.Medium)
+    val (left, right) = state.config.head.eyes.getTwoEyesCenter(state)
+    val eyeSize = state.config.head.eyes.getEyeSize(state, EyeShape.Ellipse, Size.Medium)
     val leftHole = createEyeHolePolygon(config, eyeHoleShape, left, eyeSize)
     val rightHole = createEyeHolePolygon(config, eyeHoleShape, right, eyeSize)
 
@@ -202,11 +203,11 @@ fun visualizeHelmWithEyeHoles(
 }
 
 private fun createFaceProtectionPolygon(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     config: HelmetConfig,
     shape: FaceProtectionShape,
 ): Polygon2d {
-    val aabb = state.aabb
+    val aabb = state.headAABB()
     val startY = config.frontBottomY
     val width = config.eyeProtectionWidth
     val builder = Polygon2dBuilder()

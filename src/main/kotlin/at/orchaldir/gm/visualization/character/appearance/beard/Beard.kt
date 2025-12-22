@@ -16,68 +16,66 @@ data class BeardConfig(
     val wideFullBeardWidth: Factor,
 )
 
-fun visualizeBeard(state: CharacterRenderState, head: Head, beard: Beard) {
+fun visualizeBeard(state: CharacterRenderState<Head>, beard: Beard) {
     when (beard) {
         NoBeard -> doNothing()
-        is NormalBeard -> visualizeNormalBeard(state, head, beard)
+        is NormalBeard -> visualizeNormalBeard(state, beard)
     }
 }
 
-private fun visualizeNormalBeard(state: CharacterRenderState, head: Head, beard: NormalBeard) {
+private fun visualizeNormalBeard(state: CharacterRenderState<Head>, beard: NormalBeard) {
     when (val style = beard.style) {
         is FullBeard -> visualizeFullBeard(state, style.style, style.length, beard.color)
-        is Goatee -> visualizeGoatee(state, head, style.goateeStyle, beard.color)
+        is Goatee -> visualizeGoatee(state, style.goateeStyle, beard.color)
         is GoateeAndMoustache -> {
-            visualizeGoatee(state, head, style.goateeStyle, beard.color)
-            visualizeMoustache(state, head, style.moustacheStyle, beard.color)
+            visualizeGoatee(state, style.goateeStyle, beard.color)
+            visualizeMoustache(state, style.moustacheStyle, beard.color)
         }
 
-        is Moustache -> visualizeMoustache(state, head, style.moustacheStyle, beard.color)
+        is Moustache -> visualizeMoustache(state, style.moustacheStyle, beard.color)
         ShavedBeard -> doNothing()
     }
 }
 
 private fun visualizeGoatee(
-    state: CharacterRenderState,
-    head: Head,
+    state: CharacterRenderState<Head>,
     goatee: GoateeStyle,
     color: Color,
 ) {
     val layer = state.getBeardLayer()
     val options = NoBorder(color.toRender())
     val polygon = when (goatee) {
-        GoateeStyle.ChinPuff -> getChinPuff(state, head)
+        GoateeStyle.ChinPuff -> getChinPuff(state)
         GoateeStyle.Goatee -> {
-            layer.renderPolygon(getGoatee(state, head), options)
+            layer.renderPolygon(getGoatee(state), options)
             return
         }
 
-        GoateeStyle.LandingStrip -> getLandingStrip(state, head)
+        GoateeStyle.LandingStrip -> getLandingStrip(state)
         GoateeStyle.SoulPatch -> {
-            layer.renderPolygon(getSoulPatch(state, head), options)
+            layer.renderPolygon(getSoulPatch(state), options)
             return
         }
 
-        GoateeStyle.VanDyke -> getVanDyke(state, head)
+        GoateeStyle.VanDyke -> getVanDyke(state)
     }
 
     layer.renderRoundedPolygon(polygon, options)
 }
 
 private fun visualizeMoustache(
-    state: CharacterRenderState,
-    head: Head,
+    state: CharacterRenderState<Head>,
     moustache: MoustacheStyle,
     color: Color,
 ) {
     val options = NoBorder(color.toRender())
     val polygon = when (moustache) {
-        MoustacheStyle.FuManchu -> getFuManchu(state, head)
-        MoustacheStyle.Handlebar -> getHandlebar(state, head)
-        MoustacheStyle.Pencil -> getPencil(state, head)
-        MoustacheStyle.Pyramid -> getPyramid(state, head)
-        MoustacheStyle.Toothbrush -> getToothbrush(state, head)
-        MoustacheStyle.Walrus -> getWalrus(state, head)
+        MoustacheStyle.FuManchu -> getFuManchu(state)
+        MoustacheStyle.Handlebar -> getHandlebar(state)
+        MoustacheStyle.Pencil -> getPencil(state)
+        MoustacheStyle.Pyramid -> getPyramid(state)
+        MoustacheStyle.Toothbrush -> getToothbrush(state)
+        MoustacheStyle.Walrus -> getWalrus(state)
     }
 
     state.getBeardLayer().renderRoundedPolygon(polygon, options)

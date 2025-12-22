@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.selector.item
+package at.orchaldir.gm.core.selector.item.equipment
 
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
@@ -120,12 +120,6 @@ fun State.resolveEquipment(idMap: EquipmentIdMap) = idMap.convert { pair ->
         getColorSchemeStorage().getOptional(pair.second)?.data ?: UndefinedColors,
     )
 }
-
-fun State.getEquippedBy(equipment: EquipmentId) = getCharacterStorage()
-    .getAll()
-    .filter {
-        it.equipped.contains(equipment)
-    }
 
 fun State.getEquippedWith(scheme: ColorSchemeId) = getCharacterStorage()
     .getAll()

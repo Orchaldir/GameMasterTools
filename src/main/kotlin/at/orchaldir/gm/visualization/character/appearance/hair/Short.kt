@@ -1,5 +1,6 @@
 package at.orchaldir.gm.visualization.character.appearance.hair
 
+import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.hair.NormalHair
 import at.orchaldir.gm.core.model.character.appearance.hair.ShortHairCut
 import at.orchaldir.gm.core.model.character.appearance.hair.ShortHairStyle.*
@@ -9,7 +10,7 @@ import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.renderRoundedPolygon
 
-fun visualizeShortHair(state: CharacterRenderState, hair: NormalHair, shortHair: ShortHairCut) {
+fun visualizeShortHair(state: CharacterRenderState<Head>, hair: NormalHair, shortHair: ShortHairCut) {
     val config = state.config
     val options = config.getLineOptions(hair.color)
 
@@ -20,7 +21,7 @@ fun visualizeShortHair(state: CharacterRenderState, hair: NormalHair, shortHair:
             else -> doNothing()
         }
 
-        state.renderer.getLayer().renderRectangle(state.aabb, options)
+        state.renderer.getLayer().renderRectangle(state.headAABB(), options)
 
         return
     }
@@ -45,11 +46,11 @@ fun visualizeShortHair(state: CharacterRenderState, hair: NormalHair, shortHair:
 }
 
 private fun visualizeMiddlePart(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     options: FillAndBorder,
     x: Factor,
 ) {
-    val aabb = state.aabb
+    val aabb = state.headAABB()
     val config = state.config
     val (bottomLeft, bottomRight) = aabb.getMirroredPoints(config.head.hair.width, config.head.hairlineY)
     val (topLeft, topRight) = aabb.getMirroredPoints(config.head.hair.width, START)
@@ -76,16 +77,17 @@ private fun visualizeMiddlePart(
 }
 
 private fun visualizeRectangleHair(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     options: FillAndBorder,
     width: Factor,
     topY: Factor,
     topWidth: Factor = FULL,
 ) {
+    val aabb = state.headAABB()
     val polygon = Polygon2dBuilder()
-        .addMirroredPoints(state.aabb, width * topWidth, topY, true)
-        .addMirroredPoints(state.aabb, width, state.config.head.hairlineY, true)
-        .addLeftPoint(state.aabb, CENTER, state.config.head.hairlineY - Factor.fromNumber(0.05f))
+        .addMirroredPoints(aabb, width * topWidth, topY, true)
+        .addMirroredPoints(aabb, width, state.config.head.hairlineY, true)
+        .addLeftPoint(aabb, CENTER, state.config.head.hairlineY - Factor.fromNumber(0.05f))
         .build()
 
     renderRoundedPolygon(state.renderer, options, polygon.corners)

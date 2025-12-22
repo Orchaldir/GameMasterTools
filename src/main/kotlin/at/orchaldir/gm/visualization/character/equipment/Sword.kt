@@ -12,6 +12,7 @@ import at.orchaldir.gm.utils.isEven
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.visualization.character.CharacterRenderState
+import at.orchaldir.gm.visualization.character.ICharacterConfig
 import at.orchaldir.gm.visualization.character.appearance.HELD_EQUIPMENT_LAYER
 
 data class SwordConfig(
@@ -25,12 +26,11 @@ data class SwordConfig(
 ) {
 
     fun gripAabb(
-        state: CharacterRenderState,
-        body: Body,
+        config: ICharacterConfig<Body>,
         isOneHanded: Boolean,
         hand: Point2d,
     ): AABB {
-        val handRadius = state.aabb.convertHeight(state.config.body.getHandRadius(body))
+        val handRadius = config.body().getHandRadius(config)
         val oneHandLength = handRadius * gripLength
         val length = oneHandLength * isOneHanded.convert(1, 2)
         val center = hand.minusHeight(oneHandLength / 2)
@@ -42,29 +42,28 @@ data class SwordConfig(
 }
 
 fun visualizeSword(
-    state: CharacterRenderState,
-    body: Body,
+    state: CharacterRenderState<Body>,
     blade: Blade,
     hilt: SwordHilt,
     isOneHanded: Boolean,
     set: Set<BodySlot>,
 ) {
     val renderer = state.getLayer(HELD_EQUIPMENT_LAYER)
-    val (leftHand, rightHand) = state.config.body.getMirroredArmPoint(state.aabb, body, END)
+    val (leftHand, rightHand) = state.config.body.getMirroredArmPoint(state, END)
     val hand = state.getCenter(leftHand, rightHand, set, BodySlot.HeldInRightHand)
     val config = state.config.equipment.sword
-    val gripAabb = config.gripAabb(state, body, isOneHanded, hand)
+    val gripAabb = config.gripAabb(state, isOneHanded, hand)
 
     val bladeBottom = visualizeSwordHilt(state, renderer, config, hilt, gripAabb)
 
-    val bladeSize = blade.size(state.aabb.size.height, gripAabb)
+    val bladeSize = blade.size(state.fullAABB.size.height, gripAabb)
     val bladeAabb = AABB.fromBottom(bladeBottom, bladeSize)
 
     visualizeBlade(state, renderer, config, blade, bladeAabb)
 }
 
 fun visualizeBlade(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     renderer: LayerRenderer,
     config: SwordConfig,
     blade: Blade,
@@ -76,7 +75,7 @@ fun visualizeBlade(
 }
 
 private fun visualizeSimpleBlade(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     renderer: LayerRenderer,
     config: SwordConfig,
     blade: SimpleBlade,
@@ -90,7 +89,7 @@ private fun visualizeSimpleBlade(
 }
 
 private fun createSimplyBladePolygon(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     config: SwordConfig,
     blade: SimpleBlade,
     aabb: AABB,
@@ -101,7 +100,7 @@ private fun createSimplyBladePolygon(
         BladeShape.Flame -> {
             val remainingHeightFactor = FULL - config.straightTopY * 3
             val remainingHeight = aabb.size.height * remainingHeightFactor
-            val rowHeight = state.aabb.size.height * config.flameStep
+            val rowHeight = state.fullAABB.size.height * config.flameStep
             val rows = (remainingHeight.toMeters() / rowHeight.toMeters()).toInt()
             val step = remainingHeightFactor / rows
             val offset = config.flameOffset

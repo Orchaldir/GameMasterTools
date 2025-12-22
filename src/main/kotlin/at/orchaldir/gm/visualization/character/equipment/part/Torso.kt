@@ -9,14 +9,13 @@ import at.orchaldir.gm.visualization.character.appearance.createTorso
 import at.orchaldir.gm.visualization.renderBuilder
 
 fun visualizeTorso(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     options: RenderOptions,
-    body: Body,
     style: NecklineStyle,
     layerIndex: Int = EQUIPMENT_LAYER,
 ) {
-    val builder = createTorso(state, body, style.addTop())
-    addNeckline(state, body, builder, style)
+    val builder = createTorso(state, style.addTop())
+    addNeckline(state, builder, style)
 
     renderBuilder(state.renderer, builder, options, layerIndex)
 }

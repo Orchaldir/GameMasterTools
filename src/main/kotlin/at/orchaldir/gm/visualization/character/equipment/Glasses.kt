@@ -23,17 +23,16 @@ data class GlassesConfig(
 }
 
 fun visualizeGlasses(
-    state: CharacterRenderState,
-    head: Head,
+    state: CharacterRenderState<Head>,
     glasses: Glasses,
 ) {
     if (!state.renderFront) {
         return
     }
 
-    val (left, right) = state.config.head.eyes.getTwoEyesCenter(state.aabb)
+    val (left, right) = state.config.head.eyes.getTwoEyesCenter(state)
     val widthFactor = state.config.equipment.glasses.getFrameWidth(glasses.frameType)
-    val width = state.aabb.convertHeight(widthFactor)
+    val width = state.headAABB().convertHeight(widthFactor)
     val frameColor = glasses.frame.getColor(state.state, state.colors)
     val lineOptions = LineOptions(frameColor.toRender(), width)
     val lensFill = glasses.lens.getFill(state.state, state.colors)
@@ -53,13 +52,13 @@ fun visualizeGlasses(
 }
 
 fun visualizeWarpAround(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     renderOptions: RenderOptions,
 ) {
     val glassesOptions = state.config.equipment.glasses
     val renderer = state.renderer.getLayer()
     val eyeY = state.config.head.eyes.twoEyesY
-    val aabb = state.aabb.createSubAabb(HALF, eyeY, FULL, glassesOptions.size.small)
+    val aabb = state.headAABB().createSubAabb(HALF, eyeY, FULL, glassesOptions.size.small)
     val polygon = Polygon2dBuilder()
         .addRectangle(aabb)
         .build()
@@ -68,7 +67,7 @@ fun visualizeWarpAround(
 }
 
 fun visualizeLens(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     renderOptions: RenderOptions,
     center: Point2d,
     lensShape: LensShape,
@@ -78,7 +77,7 @@ fun visualizeLens(
 
     when (lensShape) {
         LensShape.Circle -> {
-            val radius = state.aabb.convertHeight(config.size.medium) / 2.0f
+            val radius = state.headAABB().convertHeight(config.size.medium) / 2.0f
             renderer.renderCircle(center, radius, renderOptions)
         }
 
@@ -111,12 +110,12 @@ fun visualizeLens(
 }
 
 private fun createRectangleLens(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     glassesOptions: GlassesConfig,
     center: Point2d,
 ): Polygon2d {
-    val small = state.aabb.convertHeight(glassesOptions.size.small)
-    val medium = state.aabb.convertHeight(glassesOptions.size.medium)
+    val small = state.headAABB().convertHeight(glassesOptions.size.small)
+    val medium = state.headAABB().convertHeight(glassesOptions.size.medium)
 
     return Polygon2dBuilder()
         .addRectangle(AABB.fromWidthAndHeight(center, medium, small))
@@ -124,11 +123,11 @@ private fun createRectangleLens(
 }
 
 private fun createSquareLens(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     glassesOptions: GlassesConfig,
     center: Point2d,
 ): Polygon2d {
-    val size = state.aabb.convertHeight(glassesOptions.size.medium)
+    val size = state.headAABB().convertHeight(glassesOptions.size.medium)
 
     return Polygon2dBuilder()
         .addSquare(center, size)
@@ -136,15 +135,16 @@ private fun createSquareLens(
 }
 
 fun visualizeFrame(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     lineOptions: LineOptions,
 ) {
     val width = state.config.equipment.glasses.size.medium
     val eyesConfig = state.config.head.eyes
     val distanceBetweenEyes = eyesConfig.getDistanceBetweenEyes()
-    val (headLeft, headRight) = state.aabb.getMirroredPoints(FULL, eyesConfig.twoEyesY)
-    val (outerLeft, outerRight) = state.aabb.getMirroredPoints(distanceBetweenEyes + width, eyesConfig.twoEyesY)
-    val (innerLeft, innerRight) = state.aabb.getMirroredPoints(distanceBetweenEyes - width, eyesConfig.twoEyesY)
+    val aabb = state.headAABB()
+    val (headLeft, headRight) = aabb.getMirroredPoints(FULL, eyesConfig.twoEyesY)
+    val (outerLeft, outerRight) = aabb.getMirroredPoints(distanceBetweenEyes + width, eyesConfig.twoEyesY)
+    val (innerLeft, innerRight) = aabb.getMirroredPoints(distanceBetweenEyes - width, eyesConfig.twoEyesY)
     val renderer = state.renderer.getLayer()
 
     renderer.renderLine(listOf(headLeft, outerLeft), lineOptions)

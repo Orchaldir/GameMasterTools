@@ -47,7 +47,7 @@ sealed class ArmourStyle : MadeFromParts {
 
     override fun parts() = when (this) {
         is ChainMail -> listOf(chain)
-        is LamellarArmour -> listOf(scale)
+        is LamellarArmour -> lacing.parts() + scale
         is ScaleArmour -> listOf(scale)
         is SegmentedArmour -> listOf(segment)
     }

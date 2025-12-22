@@ -12,6 +12,7 @@ import at.orchaldir.gm.app.html.rpg.combat.displayParrying
 import at.orchaldir.gm.app.html.rpg.combat.displayProtection
 import at.orchaldir.gm.app.html.rpg.combat.displayReach
 import at.orchaldir.gm.app.html.util.color.parseOptionalColorSchemeId
+import at.orchaldir.gm.app.html.util.math.showWeightLookup
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
@@ -23,8 +24,12 @@ import at.orchaldir.gm.core.model.util.SortEquipment
 import at.orchaldir.gm.core.model.util.render.ColorSchemeId
 import at.orchaldir.gm.core.model.util.render.Colors
 import at.orchaldir.gm.core.model.util.render.UndefinedColors
+import at.orchaldir.gm.core.selector.character.getCharacterTemplates
+import at.orchaldir.gm.core.selector.character.getCharactersWith
 import at.orchaldir.gm.core.selector.culture.getFashions
-import at.orchaldir.gm.core.selector.item.getEquippedBy
+import at.orchaldir.gm.core.selector.item.equipment.CalculateVolumeConfig
+import at.orchaldir.gm.core.selector.item.equipment.calculateWeight
+import at.orchaldir.gm.core.selector.item.getUniforms
 import at.orchaldir.gm.core.selector.rpg.getArmorType
 import at.orchaldir.gm.core.selector.rpg.getShieldType
 import at.orchaldir.gm.core.selector.util.getColors
@@ -115,6 +120,7 @@ fun Application.configureEquipmentRouting() {
         get<EquipmentRoutes.All> { all ->
             val state = STORE.getState()
             val routes = EquipmentRoutes()
+            val config = CalculateVolumeConfig.from(CHARACTER_CONFIG)
 
             handleShowAllElements(
                 routes,
@@ -122,12 +128,14 @@ fun Application.configureEquipmentRouting() {
                 listOf(
                     createNameColumn(call, state),
                     Column("Type") { tdEnum(it.data.getType()) },
-                    Column("Weight") { td(it.weight) },
+                    tdColumn("Weight") { showWeightLookup(it.weight) { calculateWeight(state, config, it.data) } },
                     Column("Materials") { tdInlineIds(call, state, it.data.materials()) },
                     Column(listOf("Color", "Schemes")) { tdInlineIds(call, state, it.colorSchemes) },
                     Column(listOf("Required", "Colors")) { tdSkipZero(it.data.requiredSchemaColors()) },
-                    Column("Characters") { tdSkipZero(state.getEquippedBy(it.id)) },
-                    Column("Characters") { tdSkipZero(state.getFashions(it.id)) },
+                    countCollectionColumn("Characters") { state.getCharactersWith(it.id) },
+                    Column(listOf("Character", "Templates")) { tdSkipZero(state.getCharacterTemplates(it.id)) },
+                    countCollectionColumn("Fashions") { state.getFashions(it.id) },
+                    countCollectionColumn("Uniforms") { state.getUniforms(it.id) },
                 ),
             ) {
                 action(routes.allArmors(call, all.sort), "All Armors")

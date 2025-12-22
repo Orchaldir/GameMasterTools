@@ -31,14 +31,14 @@ sealed class ComplexShape {
         is UsingRectangularShape -> shape.isRounded()
     }
 
-    fun calculateVolume(radius: Distance, thickness: Distance) = when (this) {
-        is UsingCircularShape -> shape.calculateVolume(radius, thickness)
-        is UsingRectangularShape -> shape.calculateVolume(shape.calculateSize(radius, widthFactor), thickness)
+    fun calculateVolumeOfPrism(radius: Distance, thickness: Distance) = when (this) {
+        is UsingCircularShape -> shape.calculateVolumeOfPrism(radius, thickness)
+        is UsingRectangularShape -> shape.calculateVolumeOfPrism(shape.calculateSize(radius, widthFactor), thickness)
     }
 
-    fun calculateVolume(size: Size2d, thickness: Distance) = when (this) {
-        is UsingCircularShape -> shape.calculateVolume(size.innerRadius(), thickness)
-        is UsingRectangularShape -> shape.calculateVolume(size, thickness)
+    fun calculateVolumeOfPrism(size: Size2d, thickness: Distance) = when (this) {
+        is UsingCircularShape -> shape.calculateVolumeOfPrism(size.innerRadius(), thickness)
+        is UsingRectangularShape -> shape.calculateVolumeOfPrism(size, thickness)
     }
 
     abstract fun calculateAabb(center: Point2d, radius: Distance): AABB

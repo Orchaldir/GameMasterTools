@@ -4,8 +4,8 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterTemplate
-import at.orchaldir.gm.core.model.character.UseUniform
 import at.orchaldir.gm.core.model.character.Gender
+import at.orchaldir.gm.core.model.character.UseUniform
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.language.ComprehensionLevel.Native
 import at.orchaldir.gm.core.model.culture.language.Language

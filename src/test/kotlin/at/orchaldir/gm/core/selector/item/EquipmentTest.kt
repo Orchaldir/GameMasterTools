@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.culture.fashion.ClothingFashion
 import at.orchaldir.gm.core.model.culture.fashion.Fashion
 import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.util.OneOrNone
+import at.orchaldir.gm.core.selector.item.equipment.canDeleteEquipment
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested

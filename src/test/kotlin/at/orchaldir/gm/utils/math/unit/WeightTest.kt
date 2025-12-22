@@ -25,4 +25,12 @@ class WeightTest {
         }
     }
 
+    @Test
+    fun `Calculate from volume`() {
+        assertEquals(
+            Weight.fromKilograms(50),
+            Weight.fromVolume(Volume.fromCubicMeters(2.5f), Weight.fromKilograms(20)),
+        )
+    }
+
 }

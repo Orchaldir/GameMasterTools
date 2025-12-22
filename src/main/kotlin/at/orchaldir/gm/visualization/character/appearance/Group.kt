@@ -32,9 +32,9 @@ fun visualizeGroup(
     appearances.forEach { appearance ->
         val size = appearance.getSize2d()
         val aabb = AABB(start - Point2d.yAxis(size.height), size)
-        val renderState = CharacterRenderState(state, aabb, config, builder, renderFront, equipped)
+        val renderState = CharacterRenderState(state, appearance, aabb, config, builder, renderFront, equipped)
 
-        visualizeAppearance(renderState, appearance, paddedSizeMap.getValue(appearance))
+        visualizeAppearance(renderState, paddedSizeMap.getValue(appearance))
 
         start += Point2d.xAxis(size.width)
     }

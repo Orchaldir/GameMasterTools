@@ -7,7 +7,7 @@ import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.render.*
-import at.orchaldir.gm.core.selector.item.getEquipment
+import at.orchaldir.gm.core.selector.item.equipment.getEquipment
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*

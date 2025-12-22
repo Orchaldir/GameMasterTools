@@ -11,34 +11,31 @@ import at.orchaldir.gm.visualization.character.equipment.createOuterwearBuilder
 import at.orchaldir.gm.visualization.renderBuilder
 
 fun visualizeChainMail(
-    state: CharacterRenderState,
-    body: Body,
+    state: CharacterRenderState<Body>,
     armour: BodyArmour,
     style: ChainMail,
 ) {
     val fill = style.chain.getColor(state.state, state.colors)
     val options = FillAndBorder(fill.toRender(), state.config.line)
 
-    visualizeChainMailBody(state, options, body, armour)
-    visualizeArmourSleeves(state, options, body, armour)
+    visualizeChainMailBody(state, options, armour)
+    visualizeArmourSleeves(state, options, armour)
 }
 
 private fun visualizeChainMailBody(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     options: RenderOptions,
-    body: Body,
     armour: BodyArmour,
 ) {
-    val builder = createOuterwearBuilder(state, body, armour.length)
+    val builder = createOuterwearBuilder(state, armour.length)
 
     renderBuilder(state.renderer, builder, options, JACKET_LAYER)
 }
 
 private fun visualizeArmourSleeves(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Body>,
     options: RenderOptions,
-    body: Body,
     armour: BodyArmour,
 ) {
-    visualizeSleeves(state, options, body, armour.sleeveStyle, JACKET_LAYER)
+    visualizeSleeves(state, options, armour.sleeveStyle, JACKET_LAYER)
 }

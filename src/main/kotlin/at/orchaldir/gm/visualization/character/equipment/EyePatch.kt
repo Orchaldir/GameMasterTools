@@ -40,8 +40,7 @@ data class EyePatchConfig(
 }
 
 fun visualizeEyePatch(
-    state: CharacterRenderState,
-    head: Head,
+    state: CharacterRenderState<Head>,
     eyePatch: EyePatch,
     set: Set<BodySlot>,
 ) {
@@ -59,13 +58,13 @@ fun visualizeEyePatch(
 }
 
 fun visualizeEyePatchForTwoEyes(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     side: Side,
     eyePatch: EyePatch,
 ) {
     val center = side
         .flip()
-        .get(state.config.head.eyes.getTwoEyesCenter(state.aabb))
+        .get(state.config.head.eyes.getTwoEyesCenter(state))
 
     visualizeFixationForTwoEyes(state, center, side, eyePatch.fixation)
 
@@ -78,7 +77,7 @@ fun visualizeEyePatchForTwoEyes(
 
         is OrnamentAsEyePatch -> {
             val config = state.config.equipment.eyePatch
-            val radius = state.aabb.convertHeight(config.ornamentRadius)
+            val radius = state.headAABB().convertHeight(config.ornamentRadius)
             visualizeOrnament(state, state.getLayer(EQUIPMENT_LAYER), eyePatch.style.ornament, center, radius)
         }
 
@@ -92,7 +91,7 @@ fun visualizeEyePatchForTwoEyes(
 }
 
 fun visualizeEyePatchForTwoEyesAndBehind(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     side: Side,
     eyePatch: EyePatch,
 ) {
@@ -100,7 +99,7 @@ fun visualizeEyePatchForTwoEyesAndBehind(
 }
 
 private fun visualizeFixationForTwoEyes(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     center: Point2d,
     side: Side,
     fixation: EyePatchFixation,
@@ -108,33 +107,34 @@ private fun visualizeFixationForTwoEyes(
     val eyesConfig = state.config.head.eyes
     val eyePatchConfig = state.config.equipment.eyePatch
     val renderer = state.renderer.getLayer(EQUIPMENT_LAYER)
-    val offsetY = state.aabb.convertHeight(eyePatchConfig.fixationDeltaY) / 2.0f
+    val aabb = state.headAABB()
+    val offsetY = aabb.convertHeight(eyePatchConfig.fixationDeltaY) / 2.0f
 
     when (fixation) {
         NoFixation -> doNothing()
         is OneBand -> {
-            val (closeEnd, distantEnd) = eyePatchConfig.getOneBandPoints(eyesConfig, state.aabb, side)
+            val (closeEnd, distantEnd) = eyePatchConfig.getOneBandPoints(eyesConfig, aabb, side)
             val color = fixation.band.getColor(state.state, state.colors)
-            val options = eyePatchConfig.getFixationOptions(state.aabb, color, fixation.size)
+            val options = eyePatchConfig.getFixationOptions(aabb, color, fixation.size)
 
             renderer.renderLine(listOf(closeEnd, center, distantEnd), options)
         }
 
         is DiagonalBand -> {
-            val (closeEnd, distantEnd) = eyePatchConfig.getDiagonalBandPoints(eyesConfig, state.aabb, side)
+            val (closeEnd, distantEnd) = eyePatchConfig.getDiagonalBandPoints(eyesConfig, aabb, side)
             val color = fixation.band.getColor(state.state, state.colors)
-            val options = eyePatchConfig.getFixationOptions(state.aabb, color, fixation.size)
+            val options = eyePatchConfig.getFixationOptions(aabb, color, fixation.size)
 
             renderer.renderLine(listOf(closeEnd, center, distantEnd), options)
         }
 
         is TwoBands -> {
-            val (topLeft, topRight) = state.aabb
+            val (topLeft, topRight) = aabb
                 .getMirroredPoints(FULL, eyesConfig.twoEyesY - eyePatchConfig.fixationDeltaY)
-            val (bottomLeft, bottomRight) = state.aabb
+            val (bottomLeft, bottomRight) = aabb
                 .getMirroredPoints(FULL, eyesConfig.twoEyesY + eyePatchConfig.fixationDeltaY)
             val color = fixation.band.getColor(state.state, state.colors)
-            val options = eyePatchConfig.getFixationOptions(state.aabb, color, Size.Small)
+            val options = eyePatchConfig.getFixationOptions(aabb, color, Size.Small)
 
             renderer.renderLine(listOf(topLeft, center.minusHeight(offsetY), topRight), options)
             renderer.renderLine(listOf(bottomLeft, center.addHeight(offsetY), bottomRight), options)
@@ -143,7 +143,7 @@ private fun visualizeFixationForTwoEyes(
 }
 
 private fun visualizeFixationForTwoEyesAndBehind(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     side: Side,
     fixation: EyePatchFixation,
 ) {
@@ -154,17 +154,17 @@ private fun visualizeFixationForTwoEyesAndBehind(
     when (fixation) {
         NoFixation, is TwoBands -> doNothing()
         is OneBand -> {
-            val (closeEnd, distantEnd) = eyePatchConfig.getOneBandPoints(eyesConfig, state.aabb, side)
+            val (closeEnd, distantEnd) = eyePatchConfig.getOneBandPoints(eyesConfig, state.headAABB(), side)
             val color = fixation.band.getColor(state.state, state.colors)
-            val options = eyePatchConfig.getFixationOptions(state.aabb, color, fixation.size)
+            val options = eyePatchConfig.getFixationOptions(state.headAABB(), color, fixation.size)
 
             renderer.renderLine(listOf(closeEnd, distantEnd), options)
         }
 
         is DiagonalBand -> {
-            val (closeEnd, distantEnd) = eyePatchConfig.getDiagonalBandPoints(eyesConfig, state.aabb, side)
+            val (closeEnd, distantEnd) = eyePatchConfig.getDiagonalBandPoints(eyesConfig, state.headAABB(), side)
             val color = fixation.band.getColor(state.state, state.colors)
-            val options = eyePatchConfig.getFixationOptions(state.aabb, color, fixation.size)
+            val options = eyePatchConfig.getFixationOptions(state.headAABB(), color, fixation.size)
 
             renderer.renderLine(listOf(closeEnd, distantEnd), options)
         }

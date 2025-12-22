@@ -7,7 +7,7 @@ import at.orchaldir.gm.core.model.item.equipment.EquipmentIdMap
 import at.orchaldir.gm.core.model.rpg.combat.MeleeAttack
 import at.orchaldir.gm.core.model.rpg.combat.Protection
 import at.orchaldir.gm.core.model.rpg.statblock.StatblockLookup
-import at.orchaldir.gm.core.selector.item.getEquipmentMap
+import at.orchaldir.gm.core.selector.item.equipment.getEquipmentMap
 import at.orchaldir.gm.core.selector.rpg.getEquipmentModifierEffects
 import at.orchaldir.gm.core.selector.rpg.statblock.resolveMeleeAttacks
 import at.orchaldir.gm.core.selector.rpg.statblock.resolveProtection

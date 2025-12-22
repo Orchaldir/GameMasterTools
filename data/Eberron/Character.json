@@ -15,8 +15,6 @@
    },
    "appearance": {
     "#type": "Humanoid",
-    "body": {
-    },
     "head": {
      "ears": {
       "#type": "Normal"
@@ -48,8 +46,7 @@
       },
       "width": "Large"
      }
-    },
-    "height": 1800000
+    }
    },
    "equipped": {
     "#type": "Unique",
@@ -498,8 +495,6 @@
    },
    "appearance": {
     "#type": "Humanoid",
-    "body": {
-    },
     "head": {
      "ears": {
       "#type": "Normal",
@@ -609,8 +604,6 @@
    "culture": 2,
    "appearance": {
     "#type": "Humanoid",
-    "body": {
-    },
     "head": {
      "ears": {
       "#type": "Normal",
@@ -827,7 +820,6 @@
       "width": "Small"
      }
     },
-    "height": 1800000,
     "skin": {
      "#type": "Normal",
      "color": "Light"
@@ -973,8 +965,6 @@
    },
    "appearance": {
     "#type": "Humanoid",
-    "body": {
-    },
     "head": {
      "ears": {
       "#type": "Normal",

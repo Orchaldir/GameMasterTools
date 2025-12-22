@@ -13,7 +13,7 @@ import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.rpg.combat.ARMOR_TYPE_TYPE
 import at.orchaldir.gm.core.model.rpg.combat.ArmorTypeId
 import at.orchaldir.gm.core.model.util.SortArmorType
-import at.orchaldir.gm.core.selector.item.getArmors
+import at.orchaldir.gm.core.selector.item.equipment.getArmors
 import at.orchaldir.gm.core.selector.util.sortArmorTypes
 import io.ktor.resources.*
 import io.ktor.server.application.*

@@ -1,6 +1,7 @@
 package at.orchaldir.gm.utils.math
 
 import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.Volume
 import at.orchaldir.gm.utils.math.unit.checkDistance
 import kotlinx.serialization.Serializable
 import kotlin.math.sqrt
@@ -27,6 +28,10 @@ data class Size2d(val width: Distance, val height: Distance) {
         fun fromDiagonalRadius(radius: Distance) = square(radius * sqrt(2.0f))
     }
 
+    fun calculateVolumeOfPrism(thickness: Distance) = Volume.fromCubicMillimeters(
+        width.toMillimeters() * height.toMillimeters() * thickness.toMillimeters()
+    )
+
     fun scale(horizontal: Factor, vertical: Factor) =
         Size2d(width * horizontal, height * vertical)
 
@@ -34,6 +39,7 @@ data class Size2d(val width: Distance, val height: Distance) {
     operator fun plus(size: Size2d) = Size2d(width + size.width, height + size.height)
     operator fun minus(distance: Distance) = Size2d(width - distance, height - distance)
     operator fun times(factor: Factor) = Size2d(width * factor, height * factor)
+    operator fun times(factor: Float) = Size2d(width * factor, height * factor)
     operator fun div(factor: Factor) = Size2d(width / factor, height / factor)
 
     fun addWidth(distance: Distance) = Size2d(width + distance, height)
@@ -46,6 +52,9 @@ data class Size2d(val width: Distance, val height: Distance) {
     fun replaceWidth(factor: Factor) = replaceWidth(width * factor)
     fun replaceHeight(height: Distance) = copy(height = height)
     fun replaceHeight(factor: Factor) = replaceHeight(height * factor)
+
+    fun shrinkByPadding(padding: Distance) = minus(padding * 2.0f)
+    fun shrinkByPadding(padding: Factor) = times(FULL - padding * 2.0f)
 
     fun max(other: Size2d) = Size2d(width.max(other.width), height.max(other.height))
 

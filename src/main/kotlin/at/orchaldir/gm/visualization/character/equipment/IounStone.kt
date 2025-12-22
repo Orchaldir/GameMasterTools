@@ -1,5 +1,6 @@
 package at.orchaldir.gm.visualization.character.equipment
 
+import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.item.equipment.BodySlot
 import at.orchaldir.gm.core.model.item.equipment.IounStone
 import at.orchaldir.gm.core.model.util.SizeConfig
@@ -17,15 +18,15 @@ data class IounStoneConfig(
 )
 
 fun visualizeIounStone(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     stone: IounStone,
     set: Set<BodySlot>,
 ) {
     val config = state.config.equipment.iounStone
     val color = stone.main.getColor(state.state, state.colors)
     val options = state.config.getLineOptions(color)
-    val (start, end) = state.aabb.getMirroredPoints(config.orbitWidth, -config.orbitY)
-    val radius = state.aabb.convertHeight(config.size.convert(stone.size))
+    val (start, end) = state.headAABB().getMirroredPoints(config.orbitWidth, -config.orbitY)
+    val radius = state.headAABB().convertHeight(config.size.convert(stone.size))
     val slot = set.first()
     val maxStoneIndex = state.equipped.getMaxIounStoneSlot()?.getIounStoneIndex()
         ?: error("Cannot calculate the number of ioun stones!")

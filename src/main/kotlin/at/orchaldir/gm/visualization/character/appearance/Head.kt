@@ -2,10 +2,11 @@ package at.orchaldir.gm.visualization.character.appearance
 
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.Skin
-import at.orchaldir.gm.core.model.character.appearance.mouth.Mouth
 import at.orchaldir.gm.utils.math.END
+import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.visualization.character.CharacterRenderState
+import at.orchaldir.gm.visualization.character.ICharacterConfig
 import at.orchaldir.gm.visualization.character.appearance.beard.BeardConfig
 import at.orchaldir.gm.visualization.character.appearance.hair.HairConfig
 import at.orchaldir.gm.visualization.character.appearance.hair.visualizeHair
@@ -26,27 +27,33 @@ data class HeadConfig(
     val hornConfig: HornConfig,
     val mouth: MouthConfig,
 ) {
+    fun getEarCenter(config: ICharacterConfig<Head>) = config.headAABB()
+        .getPoint(FULL, earY)
+
+    fun getEarCenters(config: ICharacterConfig<Head>) = config.headAABB()
+        .getMirroredPoints(FULL, earY)
+
     fun getGoateeBottomY() = END + beard.mediumThickness
 
-    fun getGoateeWidth(mouth: Mouth) = this.mouth.getWidth(mouth) * beard.goateeWidth
+    fun getGoateeWidth(config: ICharacterConfig<Head>) = mouth.getWidth(config) * beard.goateeWidth
 }
 
 fun visualizeHead(
-    state: CharacterRenderState,
+    state: CharacterRenderState<Head>,
     head: Head,
     skin: Skin,
 ) {
-    visualizeEars(state, head, skin)
-    visualizeHeadShape(state, head, skin)
-    visualizeEyes(state, head)
-    visualizeMouth(state, head)
-    visualizeHair(state, head)
+    visualizeEars(state, skin)
+    visualizeHeadShape(state, skin)
+    visualizeEyes(state)
+    visualizeMouth(state)
+    visualizeHair(state)
     visualizeHorns(state, head.horns, skin, head.hair)
-    visualizeHeadEquipment(state, head)
+    visualizeHeadEquipment(state)
 }
 
-fun visualizeHeadShape(state: CharacterRenderState, head: Head, skin: Skin) {
+fun visualizeHeadShape(state: CharacterRenderState<Head>, skin: Skin) {
     val options = state.config.getOptions(state.state, skin)
 
-    state.renderer.getLayer().renderRectangle(state.aabb, options)
+    state.renderer.getLayer().renderRectangle(state.headAABB(), options)
 }

@@ -2,6 +2,7 @@ package at.orchaldir.gm.utils.math.shape
 
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.Volume
 
 val SHAPES_WITHOUT_CROSS = RectangularShape.entries - RectangularShape.Cross
 
@@ -25,8 +26,8 @@ enum class RectangularShape {
 
     fun calculateArea(size: Size2d) = size.width.toMeters() * size.height.toMeters()
 
-    fun calculateVolume(size: Size2d, thickness: Distance) =
-        calculateArea(size) * thickness.toMeters()
+    fun calculateVolumeOfPrism(size: Size2d, thickness: Distance) =
+        Volume.fromCubicMeters(calculateArea(size) * thickness.toMeters())
 
     fun calculateCenter(aabb: AABB) = when (this) {
         Heater, RoundedHeater, Rectangle, RoundedRectangle, Ellipse -> aabb.getCenter()

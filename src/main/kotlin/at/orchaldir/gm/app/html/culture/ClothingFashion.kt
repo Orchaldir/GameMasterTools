@@ -15,8 +15,8 @@ import at.orchaldir.gm.core.model.culture.fashion.ClothingSet
 import at.orchaldir.gm.core.model.item.equipment.ACCESSORIES
 import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
 import at.orchaldir.gm.core.model.item.equipment.MAIN_EQUIPMENT
-import at.orchaldir.gm.core.selector.item.getEquipmentId
-import at.orchaldir.gm.core.selector.item.isAvailable
+import at.orchaldir.gm.core.selector.item.equipment.getEquipmentId
+import at.orchaldir.gm.core.selector.item.equipment.isAvailable
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag

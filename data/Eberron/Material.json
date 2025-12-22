@@ -5,13 +5,15 @@
    "id": 0,
    "name": "Cloth",
    "category": "Fabric",
-   "color": "White"
+   "color": "White",
+   "density": 100000000
   },
   "1": {
    "id": 1,
    "name": "Leather",
    "category": "Skin",
-   "color": "SaddleBrown"
+   "color": "SaddleBrown",
+   "density": 200000000
   },
   "2": {
    "id": 2,
