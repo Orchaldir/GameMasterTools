@@ -6,14 +6,16 @@
    "name": "Cloth",
    "category": "Fabric",
    "color": "White",
-   "density": 100000000
+   "density": 100000000,
+   "pricePerKilogram": 100
   },
   "1": {
    "id": 1,
    "name": "Leather",
    "category": "Skin",
    "color": "SaddleBrown",
-   "density": 200000000
+   "density": 200000000,
+   "pricePerKilogram": 200
   },
   "2": {
    "id": 2,
