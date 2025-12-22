@@ -43,6 +43,7 @@ data class EquipmentConfig(
     val shield: ShieldConfig,
     val shirt: ShirtConfig,
     val skirt: SkirtConfig,
+    val sock: SockConfig,
     val sword: SwordConfig,
     val tie: TieConfig,
 ) {

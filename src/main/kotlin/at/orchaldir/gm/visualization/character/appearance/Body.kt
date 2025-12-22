@@ -90,6 +90,7 @@ data class BodyConfig(
     fun getLegsInnerWidth(config: ICharacterConfig<Body>) = getTorsoWidth(config) * HALF - getLegWidth(config)
 
     fun getLegHeightFactor() = END - getLegY()
+    fun getLegHeight(config: ICharacterConfig<Body>) = config.fullAABB().convertHeight(getLegHeightFactor())
 
     fun getLegSize(config: ICharacterConfig<Body>) =
         config.fullAABB().size.scale(getLegWidth(config), getLegHeightFactor())

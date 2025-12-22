@@ -55,7 +55,7 @@ data class FootwearConfig(
     ): Distance? {
         val height = getShaftHeightFactor(config, style, isFront) ?: return null
 
-        return config.fullAABB().convertHeight(config.body().getLegHeightFactor() * height)
+        return config.body().getLegHeight(config) * height
     }
 
     fun getShaftVolume(

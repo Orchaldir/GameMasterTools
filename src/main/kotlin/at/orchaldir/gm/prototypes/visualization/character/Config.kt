@@ -231,6 +231,9 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
             fromPercentage(180),
             fromPercentage(5),
         ),
+        SockConfig(
+            fromPercentage(1),
+        ),
         SwordConfig(
             fromPercentage(2),
             fromPercentage(10),
