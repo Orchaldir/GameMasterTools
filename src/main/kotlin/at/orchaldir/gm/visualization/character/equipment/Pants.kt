@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.item.equipment.style.PantsStyle
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Volume
+import at.orchaldir.gm.utils.math.unit.ZERO_DISTANCE
 import at.orchaldir.gm.utils.math.unit.ZERO_VOLUME
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.toRender
@@ -45,6 +46,17 @@ data class PantsConfig(
     ): Volume {
         val height = getPantlegHeight(config, style) ?: return ZERO_VOLUME
         return config.equipment().getPantlegsVolume(config, height, thickness)
+    }
+
+    fun getVolume(
+        config: ICharacterConfig<Body>,
+        style: PantsStyle,
+    ): Volume {
+        val pantlegs = getPantlegsVolume(config, style)
+        val bodyDistance = config.torsoAABB().convertHeight(END - config.body().hipY)
+        val body = config.equipment().getOuterwearBodyVolume(config, bodyDistance, thickness)
+
+        return pantlegs + body
     }
 }
 
