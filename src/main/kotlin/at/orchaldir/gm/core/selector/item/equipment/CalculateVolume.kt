@@ -168,18 +168,14 @@ private fun calculateVolumePerMaterialForBody(
             }
         }
         is BodyArmour -> {
-            val thickness = config.equipment.armor.getThickness(data.style)
-            val sleeves = config.equipment.getSleevesVolume(config, data.sleeveStyle, thickness)
-            val torso = config.equipment.getOuterwearBodyVolume(config, data.length, thickness)
+            val volume = config.equipment.armor.getVolume(config, data.style, data.length, data.sleeveStyle)
 
-            vpm.add(data.style.mainMaterial(), torso + sleeves)
+            vpm.add(data.style.mainMaterial(), volume)
         }
         is Coat -> {
-            val thickness = config.equipment.coat.thickness
-            val sleeves = config.equipment.getSleevesVolume(config, data.sleeveStyle, thickness)
-            val torso = config.equipment.getOuterwearBodyVolume(config, data.length, thickness)
+            val volume = config.equipment.coat.getVolume(config, data.length, data.sleeveStyle)
 
-            vpm.add(data.main.material, torso + sleeves)
+            vpm.add(data.main.material, volume)
         }
         is Dress -> {
             val volume = config.equipment.dress.getVolume(config, data.skirtStyle, data.sleeveStyle)
@@ -194,10 +190,9 @@ private fun calculateVolumePerMaterialForBody(
             vpm.add(data.sole.material, soles)
         }
         is Gloves -> {
-            val hands = config.equipment.gloves.getHandsVolume(config)
-            val sleeves = config.equipment.gloves.getSleevesVolume(config, data.style)
+            val volume = config.equipment.gloves.getVolume(config, data.style)
 
-            vpm.add(data.main.material, hands + sleeves)
+            vpm.add(data.main.material, volume)
         }
         is Necklace -> doNothing()
         is OneHandedAxe -> doNothing()

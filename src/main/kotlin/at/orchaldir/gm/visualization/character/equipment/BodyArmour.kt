@@ -5,10 +5,13 @@ import at.orchaldir.gm.core.model.item.equipment.BodyArmour
 import at.orchaldir.gm.core.model.item.equipment.style.ArmourStyle
 import at.orchaldir.gm.core.model.item.equipment.style.ChainMail
 import at.orchaldir.gm.core.model.item.equipment.style.LamellarArmour
+import at.orchaldir.gm.core.model.item.equipment.style.OuterwearLength
 import at.orchaldir.gm.core.model.item.equipment.style.ScaleArmour
 import at.orchaldir.gm.core.model.item.equipment.style.SegmentedArmour
+import at.orchaldir.gm.core.model.item.equipment.style.SleeveStyle
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.Volume
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.ICharacterConfig
 import at.orchaldir.gm.visualization.character.equipment.part.LamellarArmourConfig
@@ -30,6 +33,19 @@ data class BodyArmourConfig(
         is LamellarArmour -> thicknessLamellar
         is ScaleArmour -> thicknessScale
         is SegmentedArmour -> thicknessSegmented
+    }
+
+    fun getVolume(
+        config: ICharacterConfig<Body>,
+        style: ArmourStyle,
+        length: OuterwearLength,
+        sleeveStyle: SleeveStyle,
+    ): Volume {
+        val thickness = getThickness(style)
+        val sleeves = config.equipment().getSleevesVolume(config, sleeveStyle, thickness)
+        val body = config.equipment().getOuterwearBodyVolume(config, length, thickness)
+
+        return sleeves + body
     }
 
 }

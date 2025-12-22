@@ -3,6 +3,8 @@ package at.orchaldir.gm.visualization.character.equipment
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.Gloves
 import at.orchaldir.gm.core.model.item.equipment.style.GloveStyle
+import at.orchaldir.gm.core.model.item.equipment.style.SkirtStyle
+import at.orchaldir.gm.core.model.item.equipment.style.SleeveStyle
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.unit.Distance
@@ -36,6 +38,11 @@ data class GlovesConfig(
         config: ICharacterConfig<Body>,
         style: GloveStyle,
     ) = config.equipment().getSleevesVolume(config, thickness, getSleeveHeightFactor(style))
+
+    fun getVolume(
+        config: ICharacterConfig<Body>,
+        style: GloveStyle,
+    ) = getHandsVolume(config) + getSleevesVolume(config, style)
 
 }
 
