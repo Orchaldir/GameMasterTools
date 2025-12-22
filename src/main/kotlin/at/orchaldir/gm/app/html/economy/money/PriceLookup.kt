@@ -1,0 +1,135 @@
+package at.orchaldir.gm.app.html.economy.money
+
+import at.orchaldir.gm.app.TYPE
+import at.orchaldir.gm.app.WEIGHT
+import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.parse.combine
+import at.orchaldir.gm.app.parse.parse
+import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.economy.money.CalculatedPrice
+import at.orchaldir.gm.core.model.economy.money.Currency
+import at.orchaldir.gm.core.model.economy.money.FixedPrice
+import at.orchaldir.gm.core.model.economy.money.Price
+import at.orchaldir.gm.core.model.economy.money.PriceLookup
+import at.orchaldir.gm.core.model.economy.money.PriceLookupType
+import at.orchaldir.gm.core.selector.getDefaultCurrency
+import at.orchaldir.gm.utils.doNothing
+import at.orchaldir.gm.utils.math.unit.*
+import io.ktor.http.*
+import io.ktor.server.application.*
+import kotlinx.html.HtmlBlockTag
+import kotlinx.html.table
+import kotlinx.html.td
+import kotlinx.html.th
+import kotlinx.html.tr
+
+// show
+
+fun HtmlBlockTag.displayPriceLookup(
+    currency: Currency,
+    lookup: PriceLookup,
+    showZero: Boolean = false,
+    calculate: () -> Price,
+) {
+    val price = when (lookup) {
+        CalculatedPrice -> calculate()
+        is FixedPrice -> lookup.price
+    }
+
+    displayPrice(currency, price, showZero)
+}
+
+fun HtmlBlockTag.showPriceLookupDetails(
+    call: ApplicationCall,
+    state: State,
+    lookup: PriceLookup,
+    calculate: () -> VolumePerMaterial,
+) {
+    showDetails("Price", true) {
+        field("Type", lookup.getType())
+
+        when (lookup) {
+            CalculatedPrice -> {
+                val vpm = calculate()
+
+                showVolumePerMaterial(call, state, vpm)
+
+                fieldPrice(state, "Price", vpm.getPrice(state))
+            }
+
+            is FixedPrice -> fieldPrice(state, "Price", lookup.price)
+        }
+    }
+}
+
+fun HtmlBlockTag.showVolumePerMaterial(
+    call: ApplicationCall,
+    state: State,
+    vpm: VolumePerMaterial,
+) {
+    val currency = state.getDefaultCurrency()
+
+    table {
+        tr {
+            th { +"Material" }
+            th { +"Weight" }
+            th { +"Price per Kilogram" }
+            th { +"Price" }
+        }
+        vpm.getMap().forEach { (id, volume) ->
+            val material = state.getMaterialStorage().getOrThrow(id)
+            val weight = Weight.fromVolume(volume, material.density)
+            val price = Price.fromWeight(weight, material.pricePerKilogram)
+
+            tr {
+                tdLink(call, state, material)
+                tdString(weight.toString())
+                td {
+                    displayPrice(currency, material.pricePerKilogram)
+                }
+                td {
+                    displayPrice(currency, price)
+                }
+            }
+        }
+    }
+}
+
+// edit
+
+fun HtmlBlockTag.selectPriceLookup(
+    state: State,
+    lookup: PriceLookup,
+    minPrice: Int,
+    maxPrice: Int,
+    param: String = WEIGHT,
+) {
+    showDetails("Price", true) {
+        selectValue("Type", combine(param, TYPE), PriceLookupType.entries, lookup.getType())
+
+        when (lookup) {
+            CalculatedPrice -> doNothing()
+            is FixedPrice -> selectPrice(
+                state,
+                "Price",
+                lookup.price,
+                param,
+                minPrice,
+                maxPrice,
+            )
+        }
+    }
+}
+
+// parse
+
+fun parsePriceLookup(
+    parameters: Parameters,
+    minPrice: Int,
+    param: String = WEIGHT,
+) = when (parse(parameters, combine(param, TYPE), PriceLookupType.Calculated)) {
+    PriceLookupType.Calculated -> CalculatedPrice
+    PriceLookupType.Fixed -> FixedPrice(
+        parsePrice(parameters, param, minPrice),
+    )
+}

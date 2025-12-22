@@ -3,7 +3,7 @@ package at.orchaldir.gm.app.html.economy
 import at.orchaldir.gm.app.PRICE
 import at.orchaldir.gm.app.STANDARD
 import at.orchaldir.gm.app.TYPE
-import at.orchaldir.gm.app.html.economy.money.editPrice
+import at.orchaldir.gm.app.html.economy.money.selectPrice
 import at.orchaldir.gm.app.html.economy.money.parsePrice
 import at.orchaldir.gm.app.html.economy.money.fieldPrice
 import at.orchaldir.gm.app.html.fieldLink
@@ -55,7 +55,7 @@ fun HtmlBlockTag.editIncome(
                 income.standard,
             )
 
-            is Salary -> editPrice(state, "Average Yearly Salary", income.yearlySalary, PRICE, 1, 100000)
+            is Salary -> selectPrice(state, "Average Yearly Salary", income.yearlySalary, PRICE, 1, 100000)
         }
     }
 }
@@ -70,7 +70,7 @@ fun parseIncome(parameters: Parameters) =
         )
 
         IncomeType.Salary -> Salary(
-            parsePrice(parameters, PRICE)
+            parsePrice(parameters, PRICE, 1)
         )
 
     }

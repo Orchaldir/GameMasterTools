@@ -2,7 +2,7 @@ package at.orchaldir.gm.app.html.economy
 
 import at.orchaldir.gm.app.NAME
 import at.orchaldir.gm.app.PRICE
-import at.orchaldir.gm.app.html.economy.money.editPrice
+import at.orchaldir.gm.app.html.economy.money.selectPrice
 import at.orchaldir.gm.app.html.economy.money.parsePrice
 import at.orchaldir.gm.app.html.economy.money.fieldPrice
 import at.orchaldir.gm.app.html.fieldElements
@@ -38,7 +38,7 @@ fun HtmlBlockTag.editStandardOfLiving(
     minIncome: Int,
 ) {
     selectName(standard.name, combine(param, NAME))
-    editPrice(
+    selectPrice(
         state,
         "Max Yearly Income",
         standard.maxYearlyIncome,
@@ -59,5 +59,5 @@ fun parseStandardOfLiving(
 ) = StandardOfLiving(
     id,
     parseName(parameters, combine(param, NAME), "Standard ${id.value}"),
-    parsePrice(parameters, combine(param, PRICE)),
+    parsePrice(parameters, combine(param, PRICE), 1),
 )

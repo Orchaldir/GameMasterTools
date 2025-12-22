@@ -1,6 +1,5 @@
-package at.orchaldir.gm.core.model.economy
+package at.orchaldir.gm.core.model.economy.money
 
-import at.orchaldir.gm.core.model.economy.money.Price
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

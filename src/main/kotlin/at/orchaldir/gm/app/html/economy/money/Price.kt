@@ -34,14 +34,13 @@ fun HtmlBlockTag.fieldPrice(
 
 // edit
 
-fun HtmlBlockTag.editPrice(
+fun HtmlBlockTag.selectPrice(
     state: State,
     label: String,
     price: Price,
     param: String,
     min: Int,
     max: Int,
-
     ) {
     val currency = state.getDefaultCurrency()
     field(label) {
@@ -53,6 +52,6 @@ fun HtmlBlockTag.editPrice(
 
 // parse
 
-fun parsePrice(parameters: Parameters, param: String) = Price(
-    parseInt(parameters, param, 1),
+fun parsePrice(parameters: Parameters, param: String, default: Int = 0) = Price(
+    parseInt(parameters, param, default),
 )

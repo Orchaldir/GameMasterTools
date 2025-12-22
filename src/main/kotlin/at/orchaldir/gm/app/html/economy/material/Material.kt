@@ -5,7 +5,7 @@ import at.orchaldir.gm.app.COLOR
 import at.orchaldir.gm.app.DENSITY
 import at.orchaldir.gm.app.PRICE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.economy.money.editPrice
+import at.orchaldir.gm.app.html.economy.money.selectPrice
 import at.orchaldir.gm.app.html.economy.money.fieldPrice
 import at.orchaldir.gm.app.html.economy.money.parsePrice
 import at.orchaldir.gm.app.html.util.math.fieldWeight
@@ -94,7 +94,7 @@ fun HtmlBlockTag.editMaterial(
         25000,
         SiPrefix.Kilo,
     )
-    editPrice(
+    selectPrice(
         state,
         "Price Per Kilogram",
         material.pricePerKilogram,
@@ -121,5 +121,5 @@ fun parseMaterial(
     parse(parameters, CATEGORY, MaterialCategory.Metal),
     parse(parameters, COLOR, Color.Pink),
     parseWeight(parameters, DENSITY, SiPrefix.Kilo),
-    parsePrice(parameters, PRICE),
+    parsePrice(parameters, PRICE, 1),
 )
