@@ -205,7 +205,11 @@ private fun calculateVolumePerMaterialForBody(
         }
         is Polearm -> doNothing()
         is Shield -> doNothing()
-        is Shirt -> doNothing()
+        is Shirt -> {
+            val volume = config.equipment.shirt.getVolume(config, data.sleeveStyle)
+
+            vpm.add(data.main.material, volume)
+        }
         is Skirt -> doNothing()
         is Socks -> doNothing()
         is SuitJacket -> doNothing()

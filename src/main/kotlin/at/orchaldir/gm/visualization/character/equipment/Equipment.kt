@@ -41,6 +41,7 @@ data class EquipmentConfig(
     val pants: PantsConfig,
     val polearm: PolearmConfig,
     val shield: ShieldConfig,
+    val shirt: ShirtConfig,
     val skirt: SkirtConfig,
     val sword: SwordConfig,
     val tie: TieConfig,
