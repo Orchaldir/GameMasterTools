@@ -55,6 +55,9 @@ value class Volume private constructor(private val cmm: Long) : SiUnit<Volume> {
         fun fromHollowCube(size: Size2d, thickness: Factor, length: Distance) =
             fromCube(size, length) - fromCube(size.shrinkByPadding(thickness), length)
 
+        fun fromHollowCube(size: Size2d, thickness: Distance, length: Distance) =
+            fromCube(size, length) - fromCube(size.shrinkByPadding(thickness), length)
+
         fun fromHollowSphere(outerRadius: Distance, innerRadius: Distance) =
             fromSphere(outerRadius) - fromSphere(innerRadius)
 

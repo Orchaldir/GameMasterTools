@@ -10,6 +10,7 @@ import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.HALF
 import at.orchaldir.gm.utils.math.Size2d
+import at.orchaldir.gm.utils.math.ZERO
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Volume
 import at.orchaldir.gm.utils.math.unit.ZERO_VOLUME
@@ -95,19 +96,44 @@ data class EquipmentConfig(
 
     // outerwear
 
-    fun getOuterwearSize(config: ICharacterConfig<Body>, length: OuterwearLength): Size2d {
-        val topY = config.body().shoulderY
-        val bottomY = getOuterwearBottomY(config, length)
-        val height = bottomY - topY
+    fun getOuterwearHeightFactor(
+        length: OuterwearLength,
+        ankleFactor: Factor = FULL,
+    ): Factor = when (length) {
+        OuterwearLength.Hip -> ZERO
+        OuterwearLength.Knee -> HALF
+        OuterwearLength.Ankle -> ankleFactor
+    }
 
-        return config.torsoAABB().size.scale(FULL, height)
+    fun getOuterwearHeight(
+        config: ICharacterConfig<Body>,
+        length: OuterwearLength,
+        ankleFactor: Factor = FULL,
+    ): Distance {
+        val heightFactor = getOuterwearHeightFactor(length, ankleFactor)
+        val hipToBottom = config.fullAABB().convertHeight(config.body().getLegHeight(config, heightFactor))
+        val shouldersToHip = config.torsoAABB().size.height
+
+        return hipToBottom + shouldersToHip
+    }
+
+    fun getOuterwearCrossSection(config: ICharacterConfig<Body>): Size2d {
+        val width = config.torsoAABB().size.width
+        val thickness = width * config.body().torsoThicknessRelativeToWidth
+
+        return Size2d(width, thickness)
     }
 
     fun getOuterwearBodyVolume(
         config: ICharacterConfig<Body>,
         length: OuterwearLength,
         thickness: Distance,
-    ) = getOuterwearSize(config, length).calculateVolumeOfPrism(thickness) * config.body().getTorsoCircumferenceFactor()
+    ): Volume {
+        val height = getOuterwearHeight(config, length)
+        val size = getOuterwearCrossSection(config)
+
+        return Volume.fromHollowCube(size, thickness, height)
+    }
 }
 
 fun visualizeBodyEquipment(state: CharacterRenderState<Body>) {
