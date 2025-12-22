@@ -86,6 +86,14 @@ fun CalculateVolumeConfig<Appearance>.convert(appearance: Head) = CalculateVolum
     head,
 )
 
+fun calculatePrice(
+    state: State,
+    config: CalculateVolumeConfig<Appearance>,
+    data: EquipmentData,
+    appearance: Appearance = HumanoidBody(),
+) = calculateVolumePerMaterial(config, data, appearance)
+    .getPrice(state)
+
 fun calculateWeight(
     state: State,
     config: CalculateVolumeConfig<Appearance>,

@@ -17,7 +17,7 @@ import kotlinx.html.tr
 
 // show
 
-fun HtmlBlockTag.showWeightLookup(
+fun HtmlBlockTag.displayWeightLookup(
     lookup: WeightLookup,
     calculate: () -> Weight,
 ) {

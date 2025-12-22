@@ -4,6 +4,7 @@ import at.orchaldir.gm.app.SCHEME
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.Column.Companion.tdColumn
+import at.orchaldir.gm.app.html.economy.money.displayPriceLookup
 import at.orchaldir.gm.app.html.item.equipment.editEquipment
 import at.orchaldir.gm.app.html.item.equipment.parseEquipment
 import at.orchaldir.gm.app.html.item.equipment.showEquipment
@@ -12,7 +13,7 @@ import at.orchaldir.gm.app.html.rpg.combat.displayParrying
 import at.orchaldir.gm.app.html.rpg.combat.displayProtection
 import at.orchaldir.gm.app.html.rpg.combat.displayReach
 import at.orchaldir.gm.app.html.util.color.parseOptionalColorSchemeId
-import at.orchaldir.gm.app.html.util.math.showWeightLookup
+import at.orchaldir.gm.app.html.util.math.displayWeightLookup
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
@@ -27,7 +28,9 @@ import at.orchaldir.gm.core.model.util.render.UndefinedColors
 import at.orchaldir.gm.core.selector.character.getCharacterTemplates
 import at.orchaldir.gm.core.selector.character.getCharactersWith
 import at.orchaldir.gm.core.selector.culture.getFashions
+import at.orchaldir.gm.core.selector.getDefaultCurrency
 import at.orchaldir.gm.core.selector.item.equipment.CalculateVolumeConfig
+import at.orchaldir.gm.core.selector.item.equipment.calculatePrice
 import at.orchaldir.gm.core.selector.item.equipment.calculateWeight
 import at.orchaldir.gm.core.selector.item.getUniforms
 import at.orchaldir.gm.core.selector.rpg.getArmorType
@@ -121,6 +124,7 @@ fun Application.configureEquipmentRouting() {
             val state = STORE.getState()
             val routes = EquipmentRoutes()
             val config = CalculateVolumeConfig.from(CHARACTER_CONFIG)
+            val currency = state.getDefaultCurrency()
 
             handleShowAllElements(
                 routes,
@@ -128,7 +132,8 @@ fun Application.configureEquipmentRouting() {
                 listOf(
                     createNameColumn(call, state),
                     Column("Type") { tdEnum(it.data.getType()) },
-                    tdColumn("Weight") { showWeightLookup(it.weight) { calculateWeight(state, config, it.data) } },
+                    tdColumn("Weight") { displayWeightLookup(it.weight) { calculateWeight(state, config, it.data) } },
+                    tdColumn("Price") { displayPriceLookup(currency, it.price) { calculatePrice(state, config, it.data) } },
                     Column("Materials") { tdInlineIds(call, state, it.data.materials()) },
                     Column(listOf("Color", "Schemes")) { tdInlineIds(call, state, it.colorSchemes) },
                     Column(listOf("Required", "Colors")) { tdSkipZero(it.data.requiredSchemaColors()) },
