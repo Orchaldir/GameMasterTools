@@ -6,8 +6,6 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.item.equipment.MAX_EQUIPMENT_WEIGHT
-import at.orchaldir.gm.core.model.item.equipment.MIN_EQUIPMENT_WEIGHT
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.unit.*
 import io.ktor.http.*
@@ -25,7 +23,7 @@ fun HtmlBlockTag.showWeightLookup(
 ) {
     when (lookup) {
         CalculatedWeight -> +calculate().toString()
-        is FixedWeight -> +lookup.weight.toString()
+        is UserDefinedWeight -> +lookup.weight.toString()
     }
 }
 
@@ -33,21 +31,16 @@ fun HtmlBlockTag.showWeightLookupDetails(
     call: ApplicationCall,
     state: State,
     lookup: WeightLookup,
-    calculate: () -> VolumePerMaterial,
+    vpm: VolumePerMaterial,
 ) {
     showDetails("Weight", true) {
         field("Type", lookup.getType())
 
+        showVolumePerMaterial(call, state, vpm)
+
         when (lookup) {
-            CalculatedWeight -> {
-                val vpm = calculate()
-
-                showVolumePerMaterial(call, state, vpm)
-
-                fieldWeight("Weight", vpm.getWeight(state))
-            }
-
-            is FixedWeight -> fieldWeight("Weight", lookup.weight)
+            CalculatedWeight -> fieldWeight("Calculated Weight", vpm.getWeight(state))
+            is UserDefinedWeight -> fieldWeight("User Defined Weight", lookup.weight)
         }
     }
 }
@@ -92,8 +85,8 @@ fun HtmlBlockTag.selectWeightLookup(
 
         when (lookup) {
             CalculatedWeight -> doNothing()
-            is FixedWeight -> selectWeight(
-                "Weight",
+            is UserDefinedWeight -> selectWeight(
+                "User Defined Weight",
                 param,
                 lookup.weight,
                 minWeight,
@@ -112,7 +105,7 @@ fun parseWeightLookup(
     param: String = WEIGHT,
 ) = when (parse(parameters, combine(param, TYPE), WeightLookupType.Calculated)) {
     WeightLookupType.Calculated -> CalculatedWeight
-    WeightLookupType.Fixed -> FixedWeight(
+    WeightLookupType.UserDefined -> UserDefinedWeight(
         parseWeight(parameters, param, SiPrefix.Base, minWeight),
     )
 }

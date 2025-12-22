@@ -1,6 +1,8 @@
 package at.orchaldir.gm.core.model.item.equipment
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.economy.money.CalculatedPrice
+import at.orchaldir.gm.core.model.economy.money.PriceLookup
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.render.ColorSchemeId
@@ -33,6 +35,7 @@ data class Equipment(
     val name: Name = Name.init(id),
     val data: EquipmentData = Belt(),
     val weight: WeightLookup = CalculatedWeight,
+    val price: PriceLookup = CalculatedPrice,
     val colorSchemes: Set<ColorSchemeId> = emptySet(),
 ) : ElementWithSimpleName<EquipmentId> {
 

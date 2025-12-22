@@ -5,14 +5,14 @@ import kotlinx.serialization.Serializable
 
 enum class PriceLookupType {
     Calculated,
-    Fixed,
+    UserDefined,
 }
 
 @Serializable
 sealed class PriceLookup {
     fun getType() = when (this) {
         is CalculatedPrice -> PriceLookupType.Calculated
-        is FixedPrice -> PriceLookupType.Fixed
+        is UserDefinedPrice -> PriceLookupType.UserDefined
     }
 }
 
@@ -21,8 +21,8 @@ sealed class PriceLookup {
 data object CalculatedPrice : PriceLookup()
 
 @Serializable
-@SerialName("Fixed")
-data class FixedPrice(
+@SerialName("User")
+data class UserDefinedPrice(
     val price: Price,
 ) : PriceLookup()
 

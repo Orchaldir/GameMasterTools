@@ -5,6 +5,9 @@ import at.orchaldir.gm.app.EQUIPMENT
 import at.orchaldir.gm.app.SCHEME
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.economy.money.parsePriceLookup
+import at.orchaldir.gm.app.html.economy.money.selectPriceLookup
+import at.orchaldir.gm.app.html.economy.money.showPriceLookupDetails
 import at.orchaldir.gm.app.html.rpg.combat.*
 import at.orchaldir.gm.app.html.util.color.parseColorSchemeId
 import at.orchaldir.gm.app.html.util.math.parseWeightLookup
@@ -38,10 +41,10 @@ fun HtmlBlockTag.showEquipment(
     equipment: Equipment,
 ) {
     val material = equipment.data.mainMaterial()
+    val vpm = calculateVolumePerMaterial(CalculateVolumeConfig.from(CHARACTER_CONFIG), equipment.data)
 
-    showWeightLookupDetails(call, state, equipment.weight) {
-        calculateVolumePerMaterial(CalculateVolumeConfig.from(CHARACTER_CONFIG), equipment.data)
-    }
+    showWeightLookupDetails(call, state, equipment.weight, vpm)
+    showPriceLookupDetails(call, state, equipment.price, vpm)
     fieldIds(call, state, equipment.colorSchemes)
     equipment.data.getArmorStats()?.let {
         showArmorStats(call, state, it, material)
@@ -127,6 +130,7 @@ fun HtmlBlockTag.editEquipment(
 ) {
     selectName(equipment.name)
     selectWeightLookup(state, equipment.weight, MIN_EQUIPMENT_WEIGHT, MAX_EQUIPMENT_WEIGHT)
+    selectPriceLookup(state, equipment.price, MIN_EQUIPMENT_PRICE, MAX_EQUIPMENT_PRICE)
     selectColorSchemes(state, equipment)
     equipment.data.getArmorStats()?.let { editArmorStats(call, state, it) }
     equipment.data.getMeleeWeaponStats()?.let { editMeleeWeaponStats(call, state, it) }
@@ -216,6 +220,7 @@ fun parseEquipment(
         parseName(parameters),
         data,
         parseWeightLookup(parameters, MIN_EQUIPMENT_WEIGHT),
+        parsePriceLookup(parameters, MIN_EQUIPMENT_PRICE),
         parseColorSchemes(state, parameters, data),
     )
 }

@@ -5,14 +5,14 @@ import kotlinx.serialization.Serializable
 
 enum class WeightLookupType {
     Calculated,
-    Fixed,
+    UserDefined,
 }
 
 @Serializable
 sealed class WeightLookup {
     fun getType() = when (this) {
         is CalculatedWeight -> WeightLookupType.Calculated
-        is FixedWeight -> WeightLookupType.Fixed
+        is UserDefinedWeight -> WeightLookupType.UserDefined
     }
 }
 
@@ -21,8 +21,8 @@ sealed class WeightLookup {
 data object CalculatedWeight : WeightLookup()
 
 @Serializable
-@SerialName("Fixed")
-data class FixedWeight(
+@SerialName("User")
+data class UserDefinedWeight(
     val weight: Weight,
 ) : WeightLookup()
 

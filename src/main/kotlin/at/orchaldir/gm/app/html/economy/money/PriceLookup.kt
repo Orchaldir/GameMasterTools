@@ -8,7 +8,7 @@ import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.CalculatedPrice
 import at.orchaldir.gm.core.model.economy.money.Currency
-import at.orchaldir.gm.core.model.economy.money.FixedPrice
+import at.orchaldir.gm.core.model.economy.money.UserDefinedPrice
 import at.orchaldir.gm.core.model.economy.money.Price
 import at.orchaldir.gm.core.model.economy.money.PriceLookup
 import at.orchaldir.gm.core.model.economy.money.PriceLookupType
@@ -33,7 +33,7 @@ fun HtmlBlockTag.displayPriceLookup(
 ) {
     val price = when (lookup) {
         CalculatedPrice -> calculate()
-        is FixedPrice -> lookup.price
+        is UserDefinedPrice -> lookup.price
     }
 
     displayPrice(currency, price, showZero)
@@ -43,21 +43,16 @@ fun HtmlBlockTag.showPriceLookupDetails(
     call: ApplicationCall,
     state: State,
     lookup: PriceLookup,
-    calculate: () -> VolumePerMaterial,
+    vpm: VolumePerMaterial,
 ) {
     showDetails("Price", true) {
         field("Type", lookup.getType())
 
+        showVolumePerMaterial(call, state, vpm)
+
         when (lookup) {
-            CalculatedPrice -> {
-                val vpm = calculate()
-
-                showVolumePerMaterial(call, state, vpm)
-
-                fieldPrice(state, "Price", vpm.getPrice(state))
-            }
-
-            is FixedPrice -> fieldPrice(state, "Price", lookup.price)
+            CalculatedPrice -> fieldPrice(state, "Calculated Price", vpm.getPrice(state))
+            is UserDefinedPrice -> fieldPrice(state, "User Defined Price", lookup.price)
         }
     }
 }
@@ -109,7 +104,7 @@ fun HtmlBlockTag.selectPriceLookup(
 
         when (lookup) {
             CalculatedPrice -> doNothing()
-            is FixedPrice -> selectPrice(
+            is UserDefinedPrice -> selectPrice(
                 state,
                 "Price",
                 lookup.price,
@@ -129,7 +124,7 @@ fun parsePriceLookup(
     param: String = WEIGHT,
 ) = when (parse(parameters, combine(param, TYPE), PriceLookupType.Calculated)) {
     PriceLookupType.Calculated -> CalculatedPrice
-    PriceLookupType.Fixed -> FixedPrice(
+    PriceLookupType.UserDefined -> UserDefinedPrice(
         parsePrice(parameters, param, minPrice),
     )
 }
