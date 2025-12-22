@@ -35,12 +35,7 @@ fun getOuterwearBottomY(
     length: OuterwearLength,
     ankleFactor: Factor = FULL,
 ): Factor {
-    val bottomHeight = when (length) {
-        OuterwearLength.Hip -> ZERO
-        OuterwearLength.Knee -> HALF
-        OuterwearLength.Ankle -> ankleFactor
-    }
-
+    val bottomHeight = config.equipment().getOuterwearHeightFactor(length, ankleFactor)
     return config.body().getLegY(config, bottomHeight)
 }
 
