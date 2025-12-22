@@ -4,7 +4,7 @@ import at.orchaldir.gm.app.NAME
 import at.orchaldir.gm.app.PRICE
 import at.orchaldir.gm.app.html.economy.money.editPrice
 import at.orchaldir.gm.app.html.economy.money.parsePrice
-import at.orchaldir.gm.app.html.economy.money.showPrice
+import at.orchaldir.gm.app.html.economy.money.fieldPrice
 import at.orchaldir.gm.app.html.fieldElements
 import at.orchaldir.gm.app.html.parseInt
 import at.orchaldir.gm.app.html.parseName
@@ -25,7 +25,7 @@ fun HtmlBlockTag.showStandardOfLiving(
     state: State,
     standard: StandardOfLiving,
 ) {
-    showPrice(state, "Max Yearly Income", standard.maxYearlyIncome)
+    fieldPrice(state, "Max Yearly Income", standard.maxYearlyIncome)
     fieldElements(call, state, state.getJobs(standard.id))
 }
 

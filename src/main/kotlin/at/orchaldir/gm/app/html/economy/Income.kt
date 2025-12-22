@@ -5,7 +5,7 @@ import at.orchaldir.gm.app.STANDARD
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.economy.money.editPrice
 import at.orchaldir.gm.app.html.economy.money.parsePrice
-import at.orchaldir.gm.app.html.economy.money.showPrice
+import at.orchaldir.gm.app.html.economy.money.fieldPrice
 import at.orchaldir.gm.app.html.fieldLink
 import at.orchaldir.gm.app.html.selectElement
 import at.orchaldir.gm.app.html.selectValue
@@ -29,7 +29,7 @@ fun HtmlBlockTag.showIncome(
     when (income) {
         UndefinedIncome -> doNothing()
         is AffordableStandardOfLiving -> fieldLink(call, state, income.standard)
-        is Salary -> showPrice(state, "Average Yearly Salary", income.yearlySalary)
+        is Salary -> fieldPrice(state, "Average Yearly Salary", income.yearlySalary)
     }
 }
 

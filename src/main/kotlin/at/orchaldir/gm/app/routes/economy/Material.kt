@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.routes.economy
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.economy.material.editMaterial
 import at.orchaldir.gm.app.html.economy.material.parseMaterial
 import at.orchaldir.gm.app.html.economy.material.showMaterial
@@ -11,6 +12,8 @@ import at.orchaldir.gm.core.model.economy.material.MATERIAL_TYPE
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.util.SortMaterial
 import at.orchaldir.gm.core.selector.economy.money.countCurrencyUnits
+import at.orchaldir.gm.core.selector.economy.money.display
+import at.orchaldir.gm.core.selector.getDefaultCurrency
 import at.orchaldir.gm.core.selector.item.countTexts
 import at.orchaldir.gm.core.selector.item.equipment.countEquipment
 import at.orchaldir.gm.core.selector.race.countRaceAppearancesMadeOf
@@ -62,6 +65,7 @@ fun Application.configureMaterialRouting() {
     routing {
         get<MaterialRoutes.All> { all ->
             val state = STORE.getState()
+            val currency = state.getDefaultCurrency()
 
             handleShowAllElements(
                 MaterialRoutes(),
@@ -71,6 +75,7 @@ fun Application.configureMaterialRouting() {
                     Column("Category") { tdEnum(it.category) },
                     Column("Color") { tdColor(it.color) },
                     Column("Density") { td(it.density) },
+                    tdColumn("Price") { +currency.display(it.pricePerKilogram) },
                     countColumnForId("Currency", state::countCurrencyUnits),
                     countColumnForId("Equipment", state::countEquipment),
                     countColumnForId("Race App", state::countRaceAppearancesMadeOf),

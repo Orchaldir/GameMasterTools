@@ -12,7 +12,7 @@ import kotlinx.html.HtmlBlockTag
 
 // show
 
-fun HtmlBlockTag.showPrice(
+fun HtmlBlockTag.fieldPrice(
     state: State,
     label: String,
     price: Price,
