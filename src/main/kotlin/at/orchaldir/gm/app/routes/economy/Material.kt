@@ -6,6 +6,7 @@ import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.economy.material.editMaterial
 import at.orchaldir.gm.app.html.economy.material.parseMaterial
 import at.orchaldir.gm.app.html.economy.material.showMaterial
+import at.orchaldir.gm.app.html.economy.money.displayPrice
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.economy.material.MATERIAL_TYPE
@@ -75,10 +76,10 @@ fun Application.configureMaterialRouting() {
                     Column("Category") { tdEnum(it.category) },
                     Column("Color") { tdColor(it.color) },
                     Column("Density") { td(it.density) },
-                    tdColumn("Price") { +currency.display(it.pricePerKilogram) },
+                    tdColumn("Price") { displayPrice(currency, it.pricePerKilogram) },
                     countColumnForId("Currency", state::countCurrencyUnits),
                     countColumnForId("Equipment", state::countEquipment),
-                    countColumnForId("Race App", state::countRaceAppearancesMadeOf),
+                    countColumnForId(listOf("Race", "Appearance"), state::countRaceAppearancesMadeOf),
                     countColumnForId("Streets", state::countStreetTemplates),
                     countColumnForId("Texts", state::countTexts),
                 ),
