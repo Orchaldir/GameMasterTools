@@ -35,6 +35,7 @@ import at.orchaldir.gm.core.model.item.equipment.Tie
 import at.orchaldir.gm.core.model.item.equipment.TwoHandedAxe
 import at.orchaldir.gm.core.model.item.equipment.TwoHandedClub
 import at.orchaldir.gm.core.model.item.equipment.TwoHandedSword
+import at.orchaldir.gm.core.model.item.equipment.style.OuterwearLength
 import at.orchaldir.gm.core.model.item.equipment.style.SimpleBuckle
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
@@ -212,7 +213,11 @@ private fun calculateVolumePerMaterialForBody(
         }
         is Skirt -> doNothing()
         is Socks -> doNothing()
-        is SuitJacket -> doNothing()
+        is SuitJacket -> {
+            val volume = config.equipment.coat.getVolume(config, OuterwearLength.Hip, data.sleeveStyle)
+
+            vpm.add(data.main.material, volume)
+        }
         is Tie -> doNothing()
         is TwoHandedAxe -> doNothing()
         is TwoHandedClub -> doNothing()
