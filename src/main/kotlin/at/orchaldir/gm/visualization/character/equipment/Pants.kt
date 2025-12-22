@@ -6,7 +6,6 @@ import at.orchaldir.gm.core.model.item.equipment.style.PantsStyle
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Volume
-import at.orchaldir.gm.utils.math.unit.ZERO_DISTANCE
 import at.orchaldir.gm.utils.math.unit.ZERO_VOLUME
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.toRender
@@ -35,9 +34,8 @@ data class PantsConfig(
         style: PantsStyle,
     ): Distance? {
         val heightFactor = getPantlegHeightFactor(style) ?: return null
-        val factor = config.body().getLegHeight(config, heightFactor)
 
-        return config.fullAABB().convertHeight(factor)
+        return config.body().getLegHeight(config, heightFactor)
     }
 
     fun getPantlegsVolume(

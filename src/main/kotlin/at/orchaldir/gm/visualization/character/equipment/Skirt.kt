@@ -8,6 +8,7 @@ import at.orchaldir.gm.utils.math.CENTER
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Polygon2dBuilder
+import at.orchaldir.gm.utils.math.unit.Volume
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.toRender
 import at.orchaldir.gm.visualization.character.CharacterRenderState
@@ -19,6 +20,7 @@ import at.orchaldir.gm.visualization.renderBuilder
 data class SkirtConfig(
     val heightMini: Factor,
     val heightFull: Factor,
+    val thickness: Factor,
     val widthAline: Factor,
     val widthBallGown: Factor,
     val widthPadding: Factor,
@@ -31,12 +33,20 @@ data class SkirtConfig(
         else -> FULL
     }
 
-    fun getSkirtHeight(style: SkirtStyle) = when (style) {
+    fun getSkirtHeightFactor(style: SkirtStyle) = when (style) {
         Mini -> heightMini
         else -> heightFull
     }
 
+    fun getSkirtHeight(config: ICharacterConfig<Body>, style: SkirtStyle) =
+        config.body().getLegHeight(config, getSkirtHeightFactor(style))
+
     fun getSkirtWidthFactor() = FULL + widthPadding
+
+    fun getVolume(
+        config: ICharacterConfig<Body>,
+        style: SkirtStyle,
+    ) =  config.equipment().getOuterwearBodyVolume(config, getSkirtHeight(config, style), thickness)
 }
 
 fun visualizeSkirt(
@@ -57,7 +67,7 @@ fun createSkirt(
     val builder = Polygon2dBuilder()
     val skirtConfig = state.config.equipment.skirt
     val width = skirtConfig.getSkirtWidth(state, skirtStyle)
-    val height = skirtConfig.getSkirtHeight(skirtStyle)
+    val height = skirtConfig.getSkirtHeightFactor(skirtStyle)
     val bottomY = state.config.body.getLegY(state, height)
 
     if (skirtStyle == Asymmetrical) {

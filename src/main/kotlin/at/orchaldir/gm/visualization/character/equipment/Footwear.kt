@@ -55,7 +55,7 @@ data class FootwearConfig(
     ): Distance? {
         val height = getShaftHeightFactor(config, style, isFront) ?: return null
 
-        return config.fullAABB().convertHeight(config.body().getLegHeight() * height)
+        return config.fullAABB().convertHeight(config.body().getLegHeightFactor() * height)
     }
 
     fun getShaftVolume(
@@ -136,7 +136,7 @@ fun visualizeBootShaft(
 ) {
     val config = state.config.body
     val width = config.getLegWidth(state) + padding
-    val height = config.getLegHeight() * scale
+    val height = config.getLegHeightFactor() * scale
     val size = state.fullAABB.size.scale(width, height)
     val (left, right) = config.getMirroredLegPoint(state, FULL - scale * 0.5f)
     val leftAabb = AABB.fromCenter(left, size)

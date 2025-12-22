@@ -211,7 +211,11 @@ private fun calculateVolumePerMaterialForBody(
 
             vpm.add(data.main.material, volume)
         }
-        is Skirt -> doNothing()
+        is Skirt -> {
+            val volume = config.equipment.skirt.getVolume(config, data.style)
+
+            vpm.add(data.main.material, volume)
+        }
         is Socks -> doNothing()
         is SuitJacket -> {
             val volume = config.equipment.coat.getVolume(config, OuterwearLength.Hip, data.sleeveStyle)

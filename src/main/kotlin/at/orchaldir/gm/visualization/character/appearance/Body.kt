@@ -89,10 +89,10 @@ data class BodyConfig(
 
     fun getLegsInnerWidth(config: ICharacterConfig<Body>) = getTorsoWidth(config) * HALF - getLegWidth(config)
 
-    fun getLegHeight() = END - getLegY()
+    fun getLegHeightFactor() = END - getLegY()
 
     fun getLegSize(config: ICharacterConfig<Body>) =
-        config.fullAABB().size.scale(getLegWidth(config), getLegHeight())
+        config.fullAABB().size.scale(getLegWidth(config), getLegHeightFactor())
 
     fun getLegY() = torsoY + torsoHeight
 
@@ -103,7 +103,7 @@ data class BodyConfig(
         return fullBottomY - fullHeight * (FULL - factor)
     }
 
-    fun getLegHeight(config: ICharacterConfig<Body>, factor: Factor): Factor {
+    fun getLegHeightFactor(config: ICharacterConfig<Body>, factor: Factor): Factor {
         val topY = getLegY()
         val fullBottomY = getFootY(config)
         val fullHeight = fullBottomY - topY
@@ -111,7 +111,10 @@ data class BodyConfig(
         return fullHeight * factor
     }
 
-    fun getShoeHeight(config: ICharacterConfig<Body>) = getFootRadiusFactor(config) / getLegHeight()
+    fun getLegHeight(config: ICharacterConfig<Body>, factor: Factor) =
+        config.fullAABB().convertHeight(getLegHeightFactor(config, factor))
+
+    fun getShoeHeight(config: ICharacterConfig<Body>) = getFootRadiusFactor(config) / getLegHeightFactor()
 
     fun getMirroredArmPoint(config: ICharacterConfig<Body>, vertical: Factor): Pair<Point2d, Point2d> {
         val torso = config.torsoAABB()

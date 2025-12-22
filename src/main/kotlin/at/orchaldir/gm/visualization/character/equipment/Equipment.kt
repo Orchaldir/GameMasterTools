@@ -123,7 +123,7 @@ data class EquipmentConfig(
         config: ICharacterConfig<Body>,
         legHeight: Factor,
     ): Distance {
-        val hipToBottom = config.fullAABB().convertHeight(config.body().getLegHeight(config, legHeight))
+        val hipToBottom = config.body().getLegHeight(config, legHeight)
         val shouldersToHip = config.torsoAABB().size.height
 
         return hipToBottom + shouldersToHip
