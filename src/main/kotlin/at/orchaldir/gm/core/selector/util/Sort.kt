@@ -950,6 +950,8 @@ fun State.sortStreetTemplates(
     .sortedWith(
         when (sort) {
             SortStreetTemplate.Name -> compareBy { it.name.text }
+            SortStreetTemplate.Weight -> compareByDescending { it.materialCost.calculateWeight()?.value()?.toInt() ?: 0 }
+            SortStreetTemplate.Price -> compareByDescending { it.materialCost.calculatePrice(this).value }
         })
 
 // text

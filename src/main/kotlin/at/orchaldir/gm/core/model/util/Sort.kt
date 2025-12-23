@@ -288,6 +288,8 @@ enum class SortStreet {
 
 enum class SortStreetTemplate {
     Name,
+    Weight,
+    Price,
 }
 
 enum class SortText {
