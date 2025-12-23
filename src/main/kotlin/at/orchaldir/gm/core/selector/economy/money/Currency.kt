@@ -49,19 +49,25 @@ private fun Currency.getAmountPerDenomination(price: Int): List<Pair<Denominatio
 
 fun Currency.print(price: Price): String {
     var string = ""
-    var isFirst = true
+    var isFirstAvailable = true
+    var index = 0
+    val amountPerDenomination = getAmountPerDenomination(price)
 
-    getAmountPerDenomination(price).forEach { (denomination, number) ->
-        if (number == 0) {
+    amountPerDenomination.forEach { (denomination, number) ->
+        val isLast = index == amountPerDenomination.size - 1
+        val canSkipZero = !isLast || !isFirstAvailable
+
+        if (number == 0 && canSkipZero) {
             return@forEach
         }
-        else if (isFirst) {
-            isFirst = false
+        else if (isFirstAvailable) {
+            isFirstAvailable = false
         } else {
             string += " "
         }
 
         string += denomination.display(number)
+        index++
     }
 
     return string
