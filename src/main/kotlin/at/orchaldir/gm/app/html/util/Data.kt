@@ -11,7 +11,6 @@ import at.orchaldir.gm.app.html.time.parseTime
 import at.orchaldir.gm.app.html.time.showTime
 import at.orchaldir.gm.core.model.Data
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.selector.time.getDefaultCalendar
 import io.ktor.http.*
 import io.ktor.server.application.*

@@ -1,13 +1,6 @@
 package at.orchaldir.gm.core.selector.economy.money
 
-import at.orchaldir.gm.CP
-import at.orchaldir.gm.CURRENCY_ID_0
-import at.orchaldir.gm.CURRENCY_UNIT_ID_0
-import at.orchaldir.gm.DAY0
-import at.orchaldir.gm.FANTASY_CURRENCY
-import at.orchaldir.gm.GP
-import at.orchaldir.gm.REALM_ID_0
-import at.orchaldir.gm.SP
+import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.Currency

@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.model.economy.money
 
 import at.orchaldir.gm.FANTASY_CURRENCY
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 

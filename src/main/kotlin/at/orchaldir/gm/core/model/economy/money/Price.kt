@@ -8,15 +8,15 @@ import kotlinx.serialization.Serializable
 @Serializable
 value class Price(val value: Int) {
 
-    private constructor(value: Float): this(value.toInt())
+    private constructor(value: Float) : this(value.toInt())
 
     companion object {
 
         fun fromWeight(weight: Weight, pricePerKilogram: Price) =
             Price(weight.toKilograms() * pricePerKilogram.value)
-        
+
     }
-    
+
     init {
         require(value >= 0) { "Price is negative!" }
     }

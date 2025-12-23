@@ -1,21 +1,15 @@
 package at.orchaldir.gm.app.html.economy.money
 
-import at.orchaldir.gm.app.html.field
-import at.orchaldir.gm.app.html.link
-import at.orchaldir.gm.app.html.parseInt
-import at.orchaldir.gm.app.html.selectInt
-import at.orchaldir.gm.app.html.showDetails
-import at.orchaldir.gm.app.html.showTooltip
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.Currency
-import at.orchaldir.gm.core.model.economy.money.Denomination
 import at.orchaldir.gm.core.model.economy.money.Price
 import at.orchaldir.gm.core.selector.economy.money.getAmountPerDenomination
 import at.orchaldir.gm.core.selector.economy.money.print
 import at.orchaldir.gm.core.selector.getDefaultCurrency
 import io.ktor.http.*
-import io.ktor.server.application.ApplicationCall
+import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -67,7 +61,11 @@ fun HtmlBlockTag.selectPrice(
             field(denomination.text.text) {
                 selectInt(
                     amount,
-                    if (isHighestAvailable) { 0 }  else { -1 },
+                    if (isHighestAvailable) {
+                        0
+                    } else {
+                        -1
+                    },
                     Int.MAX_VALUE,
                     1,
                     combine(param, denomination.text.text),

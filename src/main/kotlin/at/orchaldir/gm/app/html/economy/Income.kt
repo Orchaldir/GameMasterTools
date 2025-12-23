@@ -3,9 +3,9 @@ package at.orchaldir.gm.app.html.economy
 import at.orchaldir.gm.app.PRICE
 import at.orchaldir.gm.app.STANDARD
 import at.orchaldir.gm.app.TYPE
-import at.orchaldir.gm.app.html.economy.money.selectPrice
-import at.orchaldir.gm.app.html.economy.money.parsePrice
 import at.orchaldir.gm.app.html.economy.money.fieldPrice
+import at.orchaldir.gm.app.html.economy.money.parsePrice
+import at.orchaldir.gm.app.html.economy.money.selectPrice
 import at.orchaldir.gm.app.html.fieldLink
 import at.orchaldir.gm.app.html.selectElement
 import at.orchaldir.gm.app.html.selectValue

@@ -77,7 +77,7 @@ data class Currency(
         var valueOfDenomination = 1
         var price = 0
 
-        subDenominations.zip(denominations).forEach { (pair,amount) ->
+        subDenominations.zip(denominations).forEach { (pair, amount) ->
             price += amount * valueOfDenomination
             valueOfDenomination = pair.second
         }

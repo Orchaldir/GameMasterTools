@@ -30,7 +30,7 @@ class MaterialCostTest {
 
     @Test
     fun `Calculate Weight`() {
-        assertEquals(w3, init(mapOf(MATERIAL_ID_0 to w2, MATERIAL_ID_1 to w1)).calculateWeight(),)
+        assertEquals(w3, init(mapOf(MATERIAL_ID_0 to w2, MATERIAL_ID_1 to w1)).calculateWeight())
     }
 
 }

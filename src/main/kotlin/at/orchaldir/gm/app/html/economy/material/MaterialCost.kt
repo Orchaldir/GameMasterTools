@@ -2,14 +2,9 @@ package at.orchaldir.gm.app.html.economy.material
 
 import at.orchaldir.gm.app.ADD
 import at.orchaldir.gm.app.MATERIAL
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.economy.money.displayPrice
 import at.orchaldir.gm.app.html.economy.money.fieldPrice
-import at.orchaldir.gm.app.html.link
-import at.orchaldir.gm.app.html.selectInt
-import at.orchaldir.gm.app.html.selectOptionalElement
-import at.orchaldir.gm.app.html.showMap
-import at.orchaldir.gm.app.html.tdLink
-import at.orchaldir.gm.app.html.tdString
 import at.orchaldir.gm.app.html.util.math.fieldWeight
 import at.orchaldir.gm.app.html.util.math.selectWeight
 import at.orchaldir.gm.app.parse.combine
@@ -22,13 +17,7 @@ import at.orchaldir.gm.utils.math.unit.SiPrefix
 import at.orchaldir.gm.utils.math.unit.Weight
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.HtmlBlockTag
-import kotlinx.html.table
-import kotlinx.html.td
-import kotlinx.html.th
-import kotlinx.html.tr
-import kotlin.collections.component1
-import kotlin.collections.component2
+import kotlinx.html.*
 
 fun HtmlBlockTag.showMaterialCost(
     call: ApplicationCall,

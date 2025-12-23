@@ -4,8 +4,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.Price
 import at.orchaldir.gm.utils.math.unit.Weight
 import kotlinx.serialization.Serializable
-import kotlin.collections.component1
-import kotlin.collections.component2
 
 @JvmInline
 @Serializable

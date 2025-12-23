@@ -5,9 +5,9 @@ import at.orchaldir.gm.app.COLOR
 import at.orchaldir.gm.app.DENSITY
 import at.orchaldir.gm.app.PRICE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.economy.money.selectPrice
 import at.orchaldir.gm.app.html.economy.money.fieldPrice
 import at.orchaldir.gm.app.html.economy.money.parsePrice
+import at.orchaldir.gm.app.html.economy.money.selectPrice
 import at.orchaldir.gm.app.html.util.math.fieldWeight
 import at.orchaldir.gm.app.html.util.math.parseWeight
 import at.orchaldir.gm.app.html.util.math.selectWeight

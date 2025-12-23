@@ -64,8 +64,7 @@ fun Currency.print(price: Price): String {
 
         if (number == 0 && canSkipZero) {
             return@forEach
-        }
-        else if (isFirstAvailable) {
+        } else if (isFirstAvailable) {
             isFirstAvailable = false
         } else {
             string += " "

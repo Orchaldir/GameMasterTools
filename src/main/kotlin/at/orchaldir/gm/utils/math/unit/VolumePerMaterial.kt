@@ -3,7 +3,6 @@ package at.orchaldir.gm.utils.math.unit
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.economy.material.calculatePrice
-import at.orchaldir.gm.core.model.economy.money.Price
 
 class VolumePerMaterial(
     private val map: MutableMap<MaterialId, Volume> = mutableMapOf(),

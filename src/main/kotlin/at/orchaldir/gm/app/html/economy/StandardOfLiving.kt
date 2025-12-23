@@ -2,9 +2,9 @@ package at.orchaldir.gm.app.html.economy
 
 import at.orchaldir.gm.app.NAME
 import at.orchaldir.gm.app.PRICE
-import at.orchaldir.gm.app.html.economy.money.selectPrice
-import at.orchaldir.gm.app.html.economy.money.parsePrice
 import at.orchaldir.gm.app.html.economy.money.fieldPrice
+import at.orchaldir.gm.app.html.economy.money.parsePrice
+import at.orchaldir.gm.app.html.economy.money.selectPrice
 import at.orchaldir.gm.app.html.fieldElements
 import at.orchaldir.gm.app.html.parseInt
 import at.orchaldir.gm.app.html.parseName
