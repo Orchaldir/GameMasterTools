@@ -34,6 +34,8 @@ value class Weight private constructor(private val milligrams: Long) : SiUnit<We
             SiPrefix.Micro -> fromMicrograms(value)
         }
 
+        fun from(prefix: SiPrefix, value: String, default: Long = 0) = from(prefix, value.toLongOrNull() ?: default)
+
         fun resolveUnit(prefix: SiPrefix) = prefix.resolveUnit() + "g"
     }
 
