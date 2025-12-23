@@ -20,35 +20,58 @@ fun State.canDeleteCurrency(currency: CurrencyId) = DeleteResult(currency)
 
 fun State.getExistingCurrency(date: Date?) = getExistingElements(getCurrencyStorage().getAll(), date)
 
-// display
+// price
 
-fun Currency.display(price: Price) = display(price.value)
+fun Currency.getAmountPerDenomination(price: Price) = getAmountPerDenomination(price.value)
 
-private fun Currency.display(price: Int): String {
-    var lastThreshold = 0
+private fun Currency.getAmountPerDenomination(price: Int): List<Pair<Denomination, Int>> {
+    var remaining = price
+    val result: MutableList<Pair<Denomination, Int>> = mutableListOf()
+    var denomination = denomination
 
-    subDenominations.forEach { (subdenomination, threshold) ->
-        if (price < threshold) {
-            return display(subdenomination, price, lastThreshold)
+    subDenominations.reversed().forEach { (subdenomination, threshold) ->
+        val amount = if (price >= threshold) {
+            val times = remaining / threshold
+            remaining %= threshold
+
+            times
+        } else {
+            0
         }
 
-        lastThreshold = threshold
+        result.add(Pair(denomination, amount))
+
+        denomination = subdenomination
     }
 
-    return display(denomination, price, lastThreshold)
+    result.add(Pair(denomination, remaining))
+
+    return result
 }
 
-private fun Currency.display(denomination: Denomination, price: Int, threshold: Int): String {
-    if (threshold == 0) {
-        return denomination.display(price)
+// print
+
+fun Currency.print(price: Price): String {
+    var string = ""
+    var isFirstAvailable = true
+    var index = 0
+    val amountPerDenomination = getAmountPerDenomination(price)
+
+    amountPerDenomination.forEach { (denomination, number) ->
+        val isLast = index == amountPerDenomination.size - 1
+        val canSkipZero = !isLast || !isFirstAvailable
+        index++
+
+        if (number == 0 && canSkipZero) {
+            return@forEach
+        } else if (isFirstAvailable) {
+            isFirstAvailable = false
+        } else {
+            string += " "
+        }
+
+        string += denomination.display(number)
     }
 
-    val times = price / threshold
-    val remains = price % threshold
-
-    return if (remains > 0) {
-        denomination.display(times) + " " + display(remains)
-    } else {
-        denomination.display(times)
-    }
+    return string
 }

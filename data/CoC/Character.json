@@ -131,8 +131,6 @@
    "culture": 0,
    "appearance": {
     "#type": "Humanoid",
-    "body": {
-    },
     "head": {
      "ears": {
       "#type": "Normal"
@@ -164,7 +162,6 @@
       }
      }
     },
-    "height": 1800000,
     "skin": {
      "#type": "Normal",
      "color": "Light"
@@ -254,7 +251,6 @@
       "#type": "Female"
      }
     },
-    "height": 1800000,
     "skin": {
      "#type": "Normal",
      "color": "Light"
@@ -380,8 +376,7 @@
       },
       "width": "Large"
      }
-    },
-    "height": 1800000
+    }
    },
    "housingStatus": {
     "current": {
@@ -561,7 +556,6 @@
       "width": "Small"
      }
     },
-    "height": 1800000,
     "skin": {
      "#type": "Normal",
      "color": "Light"
@@ -871,7 +865,6 @@
       }
      }
     },
-    "height": 1800000,
     "skin": {
      "#type": "Normal",
      "color": "Fair"

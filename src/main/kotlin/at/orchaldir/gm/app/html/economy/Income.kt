@@ -3,9 +3,9 @@ package at.orchaldir.gm.app.html.economy
 import at.orchaldir.gm.app.PRICE
 import at.orchaldir.gm.app.STANDARD
 import at.orchaldir.gm.app.TYPE
-import at.orchaldir.gm.app.html.economy.money.editPrice
+import at.orchaldir.gm.app.html.economy.money.fieldPrice
 import at.orchaldir.gm.app.html.economy.money.parsePrice
-import at.orchaldir.gm.app.html.economy.money.showPrice
+import at.orchaldir.gm.app.html.economy.money.selectPrice
 import at.orchaldir.gm.app.html.fieldLink
 import at.orchaldir.gm.app.html.selectElement
 import at.orchaldir.gm.app.html.selectValue
@@ -29,7 +29,7 @@ fun HtmlBlockTag.showIncome(
     when (income) {
         UndefinedIncome -> doNothing()
         is AffordableStandardOfLiving -> fieldLink(call, state, income.standard)
-        is Salary -> showPrice(state, "Average Yearly Salary", income.yearlySalary)
+        is Salary -> fieldPrice(call, state, "Average Yearly Salary", income.yearlySalary)
     }
 }
 
@@ -55,14 +55,14 @@ fun HtmlBlockTag.editIncome(
                 income.standard,
             )
 
-            is Salary -> editPrice(state, "Average Yearly Salary", income.yearlySalary, PRICE, 1, 100000)
+            is Salary -> selectPrice(state, "Average Yearly Salary", income.yearlySalary, PRICE, 1, 100000)
         }
     }
 }
 
 // parse
 
-fun parseIncome(parameters: Parameters) =
+fun parseIncome(state: State, parameters: Parameters) =
     when (parse(parameters, combine(PRICE, TYPE), IncomeType.Undefined)) {
         IncomeType.Undefined -> UndefinedIncome
         IncomeType.StandardOfLiving -> AffordableStandardOfLiving(
@@ -70,7 +70,7 @@ fun parseIncome(parameters: Parameters) =
         )
 
         IncomeType.Salary -> Salary(
-            parsePrice(parameters, PRICE)
+            parsePrice(state, parameters, PRICE)
         )
 
     }

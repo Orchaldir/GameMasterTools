@@ -118,6 +118,8 @@ enum class SortDomain {
 
 enum class SortEquipment {
     Name,
+    Weight,
+    Price,
 }
 
 enum class SortFashion {
@@ -169,8 +171,12 @@ enum class SortMagicTradition {
 enum class SortMaterial {
     Name,
     Density,
-    Currency,
+    Price,
+    Currencies,
     Equipment,
+    RaceAppearances,
+    Streets,
+    Texts,
 }
 
 enum class SortMeleeWeaponType {
@@ -284,6 +290,8 @@ enum class SortStreet {
 
 enum class SortStreetTemplate {
     Name,
+    Weight,
+    Price,
 }
 
 enum class SortText {

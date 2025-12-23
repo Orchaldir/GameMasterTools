@@ -10,8 +10,10 @@ import kotlinx.html.HtmlBlockTag
 
 // show
 
-fun HtmlBlockTag.fieldWeight(name: String, weight: Weight) {
-    field(name, weight.toString())
+fun HtmlBlockTag.fieldWeight(name: String, weight: Weight?) {
+    if (weight != null) {
+        field(name, weight.toString())
+    }
 }
 
 // edit

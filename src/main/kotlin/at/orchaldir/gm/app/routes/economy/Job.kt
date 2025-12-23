@@ -11,7 +11,7 @@ import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.economy.job.*
 import at.orchaldir.gm.core.model.util.SortJob
 import at.orchaldir.gm.core.selector.character.countCharactersWithCurrentOrFormerJob
-import at.orchaldir.gm.core.selector.economy.money.display
+import at.orchaldir.gm.core.selector.economy.money.print
 import at.orchaldir.gm.core.selector.getDefaultCurrency
 import at.orchaldir.gm.core.selector.religion.countDomains
 import at.orchaldir.gm.core.selector.util.sortJobs
@@ -77,7 +77,7 @@ fun Application.configureJobRouting() {
                             UndefinedIncome -> doNothing()
                             is AffordableStandardOfLiving -> link(call, state, it.income.standard)
                             is Salary -> showTooltip("Yearly Income") {
-                                +currency.display(it.income.yearlySalary)
+                                +currency.print(it.income.yearlySalary)
                             }
                         }
                     },

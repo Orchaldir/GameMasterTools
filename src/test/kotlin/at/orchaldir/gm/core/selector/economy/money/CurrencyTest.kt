@@ -1,9 +1,6 @@
 package at.orchaldir.gm.core.selector.economy.money
 
-import at.orchaldir.gm.CURRENCY_ID_0
-import at.orchaldir.gm.CURRENCY_UNIT_ID_0
-import at.orchaldir.gm.DAY0
-import at.orchaldir.gm.REALM_ID_0
+import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.Currency
@@ -64,7 +61,7 @@ class CurrencyTest {
     }
 
     @Nested
-    inner class DisplayDollarTest {
+    inner class PrintDollarTest {
 
         private val currency = Currency(
             CURRENCY_ID_0,
@@ -95,21 +92,53 @@ class CurrencyTest {
         }
 
         private fun test(value: Int, result: String) {
-            assertEquals(result, currency.display(Price(value)))
+            assertEquals(result, currency.print(Price(value)))
         }
     }
 
     @Nested
-    inner class DisplayFantasyCurrencyTest {
+    inner class GetAmountPerDenominationTest {
 
-        private val currency = Currency(
-            CURRENCY_ID_0,
-            denomination = Denomination.init("gp", hasSpace = true),
-            subDenominations = listOf(
-                Pair(Denomination.init("cp", hasSpace = true), 10),
-                Pair(Denomination.init("sp", hasSpace = true), 100),
-            ),
-        )
+        @Test
+        fun `A price of 0`() {
+            assertAmount(0, 0, 0, 0)
+        }
+
+        @Test
+        fun `A price in cp`() {
+            assertAmount(5, 0, 0, 5)
+        }
+
+        @Test
+        fun `A price in sp`() {
+            assertAmount(30, 0, 3, 0)
+        }
+
+        @Test
+        fun `A price in cp & sp`() {
+            assertAmount(89, 0, 8, 9)
+        }
+
+        @Test
+        fun `A price in gp`() {
+            assertAmount(200, 2, 0, 0)
+        }
+
+        @Test
+        fun `A price in all 3`() {
+            assertAmount(123, 1, 2, 3)
+        }
+
+        private fun assertAmount(price: Int, gp: Int, sp: Int, cp: Int) {
+            assertEquals(
+                listOf(Pair(GP, gp), Pair(SP, sp), Pair(CP, cp)),
+                FANTASY_CURRENCY.getAmountPerDenomination(Price(price)),
+            )
+        }
+    }
+
+    @Nested
+    inner class PrintFantasyCurrencyTest {
 
         @Test
         fun `A price of 0`() {
@@ -146,8 +175,13 @@ class CurrencyTest {
             test(123, "1 gp 2 sp 3 cp")
         }
 
+        @Test
+        fun `Test max amount of a denomination`() {
+            test(10, "1 sp")
+        }
+
         private fun test(value: Int, result: String) {
-            assertEquals(result, currency.display(Price(value)))
+            assertEquals(result, FANTASY_CURRENCY.print(Price(value)))
         }
     }
 }

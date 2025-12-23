@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.routes.world
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.Column.Companion.tdColumn
+import at.orchaldir.gm.app.html.economy.money.displayPrice
 import at.orchaldir.gm.app.html.world.editStreetTemplate
 import at.orchaldir.gm.app.html.world.parseStreetTemplate
 import at.orchaldir.gm.app.html.world.showStreetTemplate
@@ -15,6 +16,7 @@ import at.orchaldir.gm.core.model.util.render.Solid
 import at.orchaldir.gm.core.model.world.street.STREET_TEMPLATE_TYPE
 import at.orchaldir.gm.core.model.world.street.StreetTemplate
 import at.orchaldir.gm.core.model.world.street.StreetTemplateId
+import at.orchaldir.gm.core.selector.getDefaultCurrency
 import at.orchaldir.gm.core.selector.util.sortStreetTemplates
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Size2d
@@ -70,6 +72,7 @@ fun Application.configureStreetTemplateRouting() {
     routing {
         get<StreetTemplateRoutes.All> { all ->
             val state = STORE.getState()
+            val currency = state.getDefaultCurrency()
 
             handleShowAllElements(
                 StreetTemplateRoutes(),
@@ -78,6 +81,8 @@ fun Application.configureStreetTemplateRouting() {
                     createNameColumn(call, state),
                     tdColumn("Color") { showColor(it.color) },
                     Column("Materials") { tdInlineIds(call, state, it.materialCost.materials()) },
+                    tdColumn("Weight") { it.materialCost.calculateWeight()?.let { +it.toString() } },
+                    tdColumn("Price") { displayPrice(call, currency, it.materialCost.calculatePrice(state)) },
                 ),
             )
         }

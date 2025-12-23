@@ -6,14 +6,16 @@
    "name": "Cloth",
    "category": "Fabric",
    "color": "White",
-   "density": 100000000
+   "density": 100000000,
+   "pricePerKilogram": 100
   },
   "1": {
    "id": 1,
    "name": "Leather",
    "category": "Skin",
    "color": "SaddleBrown",
-   "density": 200000000
+   "density": 200000000,
+   "pricePerKilogram": 200
   },
   "2": {
    "id": 2,
@@ -57,7 +59,8 @@
   "10": {
    "id": 10,
    "name": "Mithral",
-   "color": "LightGray"
+   "color": "LightGray",
+   "pricePerKilogram": 10000
   },
   "11": {
    "id": 11,
@@ -91,13 +94,15 @@
    "id": 17,
    "name": "Wood",
    "category": "Wood",
-   "color": "Peru"
+   "color": "Peru",
+   "pricePerKilogram": 10
   },
   "18": {
    "id": 18,
    "name": "Iron",
    "color": "DimGray",
-   "density": 7870000000
+   "density": 7870000000,
+   "pricePerKilogram": 20
   },
   "19": {
    "id": 19,
@@ -109,7 +114,8 @@
    "id": 20,
    "name": "Gold",
    "color": "Gold",
-   "density": 19320000000
+   "density": 19320000000,
+   "pricePerKilogram": 4200
   },
   "21": {
    "id": 21,

@@ -2,9 +2,9 @@ package at.orchaldir.gm.app.html.economy
 
 import at.orchaldir.gm.app.NAME
 import at.orchaldir.gm.app.PRICE
-import at.orchaldir.gm.app.html.economy.money.editPrice
+import at.orchaldir.gm.app.html.economy.money.fieldPrice
 import at.orchaldir.gm.app.html.economy.money.parsePrice
-import at.orchaldir.gm.app.html.economy.money.showPrice
+import at.orchaldir.gm.app.html.economy.money.selectPrice
 import at.orchaldir.gm.app.html.fieldElements
 import at.orchaldir.gm.app.html.parseInt
 import at.orchaldir.gm.app.html.parseName
@@ -25,7 +25,7 @@ fun HtmlBlockTag.showStandardOfLiving(
     state: State,
     standard: StandardOfLiving,
 ) {
-    showPrice(state, "Max Yearly Income", standard.maxYearlyIncome)
+    fieldPrice(call, state, "Max Yearly Income", standard.maxYearlyIncome)
     fieldElements(call, state, state.getJobs(standard.id))
 }
 
@@ -38,7 +38,7 @@ fun HtmlBlockTag.editStandardOfLiving(
     minIncome: Int,
 ) {
     selectName(standard.name, combine(param, NAME))
-    editPrice(
+    selectPrice(
         state,
         "Max Yearly Income",
         standard.maxYearlyIncome,
@@ -53,11 +53,12 @@ fun HtmlBlockTag.editStandardOfLiving(
 fun parseStandardOfLivingId(parameters: Parameters, param: String) = StandardOfLivingId(parseInt(parameters, param))
 
 fun parseStandardOfLiving(
+    state: State,
     id: StandardOfLivingId,
     parameters: Parameters,
     param: String,
 ) = StandardOfLiving(
     id,
     parseName(parameters, combine(param, NAME), "Standard ${id.value}"),
-    parsePrice(parameters, combine(param, PRICE)),
+    parsePrice(state, parameters, combine(param, PRICE)),
 )

@@ -6,8 +6,6 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.item.equipment.MAX_EQUIPMENT_WEIGHT
-import at.orchaldir.gm.core.model.item.equipment.MIN_EQUIPMENT_WEIGHT
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.unit.*
 import io.ktor.http.*
@@ -19,13 +17,13 @@ import kotlinx.html.tr
 
 // show
 
-fun HtmlBlockTag.showWeightLookup(
+fun HtmlBlockTag.displayWeightLookup(
     lookup: WeightLookup,
     calculate: () -> Weight,
 ) {
     when (lookup) {
         CalculatedWeight -> +calculate().toString()
-        is FixedWeight -> +lookup.weight.toString()
+        is UserDefinedWeight -> +lookup.weight.toString()
     }
 }
 
@@ -33,21 +31,16 @@ fun HtmlBlockTag.showWeightLookupDetails(
     call: ApplicationCall,
     state: State,
     lookup: WeightLookup,
-    calculate: () -> VolumePerMaterial,
+    vpm: VolumePerMaterial,
 ) {
     showDetails("Weight", true) {
         field("Type", lookup.getType())
 
+        showVolumePerMaterial(call, state, vpm)
+
         when (lookup) {
-            CalculatedWeight -> {
-                val vpm = calculate()
-
-                showVolumePerMaterial(call, state, vpm)
-
-                fieldWeight("Weight", vpm.getWeight(state))
-            }
-
-            is FixedWeight -> fieldWeight("Weight", lookup.weight)
+            CalculatedWeight -> fieldWeight("Calculated Weight", vpm.getWeight(state))
+            is UserDefinedWeight -> fieldWeight("User Defined Weight", lookup.weight)
         }
     }
 }
@@ -83,6 +76,8 @@ fun HtmlBlockTag.showVolumePerMaterial(
 fun HtmlBlockTag.selectWeightLookup(
     state: State,
     lookup: WeightLookup,
+    minWeight: Long,
+    maxWeight: Long,
     param: String = WEIGHT,
 ) {
     showDetails("Weight", true) {
@@ -90,12 +85,12 @@ fun HtmlBlockTag.selectWeightLookup(
 
         when (lookup) {
             CalculatedWeight -> doNothing()
-            is FixedWeight -> selectWeight(
-                "Weight",
+            is UserDefinedWeight -> selectWeight(
+                "User Defined Weight",
                 param,
                 lookup.weight,
-                MIN_EQUIPMENT_WEIGHT,
-                MAX_EQUIPMENT_WEIGHT,
+                minWeight,
+                maxWeight,
                 SiPrefix.Base,
             )
         }
@@ -106,10 +101,11 @@ fun HtmlBlockTag.selectWeightLookup(
 
 fun parseWeightLookup(
     parameters: Parameters,
+    minWeight: Long,
     param: String = WEIGHT,
 ) = when (parse(parameters, combine(param, TYPE), WeightLookupType.Calculated)) {
     WeightLookupType.Calculated -> CalculatedWeight
-    WeightLookupType.Fixed -> FixedWeight(
-        parseWeight(parameters, param, SiPrefix.Base, MIN_EQUIPMENT_WEIGHT),
+    WeightLookupType.UserDefined -> UserDefinedWeight(
+        parseWeight(parameters, param, SiPrefix.Base, minWeight),
     )
 }

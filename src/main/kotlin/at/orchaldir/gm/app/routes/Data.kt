@@ -8,7 +8,6 @@ import at.orchaldir.gm.app.html.util.showData
 import at.orchaldir.gm.core.action.UpdateData
 import at.orchaldir.gm.core.model.Data
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.selector.time.getDefaultCalendar
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -61,7 +60,7 @@ fun Application.configureDataRouting() {
             logger.info { "Preview data" }
 
             val state = STORE.getState()
-            val data = parseData(call.receiveParameters(), state.getDefaultCalendar())
+            val data = parseData(state, call.receiveParameters())
 
             call.respondHtml(HttpStatusCode.OK) {
                 editDataDetails(call, state, data)
@@ -70,7 +69,8 @@ fun Application.configureDataRouting() {
         post<DataRoutes.Update> {
             logger.info { "Update data" }
 
-            val data = parseData(call.receiveParameters(), STORE.getState().getDefaultCalendar())
+            val state = STORE.getState()
+            val data = parseData(state, call.receiveParameters())
 
             STORE.dispatch(UpdateData(data))
 

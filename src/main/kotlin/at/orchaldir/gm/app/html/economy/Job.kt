@@ -110,7 +110,7 @@ fun parseJob(
     id,
     parseName(parameters),
     parse(parameters, EMPLOYMENT, EmployerType.Business),
-    parseIncome(parameters),
+    parseIncome(state, parameters),
     parse<Gender>(parameters, GENDER),
     parseElements(parameters, STATISTIC, ::parseStatisticId),
     parseGenderMap(UNIFORM) { param ->

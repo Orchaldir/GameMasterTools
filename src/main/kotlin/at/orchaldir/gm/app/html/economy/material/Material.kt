@@ -3,7 +3,11 @@ package at.orchaldir.gm.app.html.economy.material
 import at.orchaldir.gm.app.CATEGORY
 import at.orchaldir.gm.app.COLOR
 import at.orchaldir.gm.app.DENSITY
+import at.orchaldir.gm.app.PRICE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.economy.money.fieldPrice
+import at.orchaldir.gm.app.html.economy.money.parsePrice
+import at.orchaldir.gm.app.html.economy.money.selectPrice
 import at.orchaldir.gm.app.html.util.math.fieldWeight
 import at.orchaldir.gm.app.html.util.math.parseWeight
 import at.orchaldir.gm.app.html.util.math.selectWeight
@@ -37,7 +41,16 @@ fun HtmlBlockTag.showMaterial(
     field("Category", material.category)
     fieldColor(material.color)
     fieldWeight("Density", material.density)
+    fieldPrice(call, state, "Price Per Kilogram", material.pricePerKilogram)
 
+    showUsage(call, state, material)
+}
+
+private fun HtmlBlockTag.showUsage(
+    call: ApplicationCall,
+    state: State,
+    material: Material,
+) {
     val currencyUnits = state.getCurrencyUnits(material.id)
     val equipmentList = state.getEquipmentMadeOf(material.id)
     val moons = state.getMoonsContaining(material.id)
@@ -81,6 +94,14 @@ fun HtmlBlockTag.editMaterial(
         25000,
         SiPrefix.Kilo,
     )
+    selectPrice(
+        state,
+        "Price Per Kilogram",
+        material.pricePerKilogram,
+        PRICE,
+        0,
+        Int.MAX_VALUE,
+    )
 }
 
 // parse
@@ -94,13 +115,11 @@ fun parseMaterial(
     state: State,
     parameters: Parameters,
     id: MaterialId,
-): Material {
-    val density = parseWeight(parameters, DENSITY, SiPrefix.Kilo)
-    return Material(
-        id,
-        parseName(parameters),
-        parse(parameters, CATEGORY, MaterialCategory.Metal),
-        parse(parameters, COLOR, Color.Pink),
-        density,
-    )
-}
+) = Material(
+    id,
+    parseName(parameters),
+    parse(parameters, CATEGORY, MaterialCategory.Metal),
+    parse(parameters, COLOR, Color.Pink),
+    parseWeight(parameters, DENSITY, SiPrefix.Kilo),
+    parsePrice(state, parameters, PRICE),
+)

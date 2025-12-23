@@ -9,6 +9,10 @@ import at.orchaldir.gm.core.model.world.town.TownMapId
 fun State.canDeleteStreetTemplate(template: StreetTemplateId) = DeleteResult(template)
     .addElements(getTowns(template))
 
+fun State.countStreetTemplatesMadeOf(material: MaterialId) = getStreetTemplateStorage()
+    .getAll()
+    .count { it.materialCost.contains(material) }
+
 fun State.getStreetTemplatesMadeOf(material: MaterialId) = getStreetTemplateStorage()
     .getAll()
     .filter { it.materialCost.contains(material) }
