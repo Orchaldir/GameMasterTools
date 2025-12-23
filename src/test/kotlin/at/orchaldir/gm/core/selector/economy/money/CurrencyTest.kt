@@ -138,6 +138,11 @@ class CurrencyTest {
             test(123, "1 gp 2 sp 3 cp")
         }
 
+        @Test
+        fun `Test max amount of a denomination`() {
+            test(10, "1 sp")
+        }
+
         private fun test(value: Int, result: String) {
             assertEquals(result, FANTASY_CURRENCY.print(Price(value)))
         }
