@@ -13,6 +13,7 @@ class MaterialCostTest {
     val w0 = Weight.fromKilograms(0)
     val w1 = Weight.fromKilograms(1)
     val w2 = Weight.fromKilograms(2)
+    val w3 = Weight.fromKilograms(3)
 
     @Test
     fun `Test simple constructor`() {
@@ -25,6 +26,11 @@ class MaterialCostTest {
             MaterialCost(mapOf(MATERIAL_ID_0 to w2)),
             init(mapOf(MATERIAL_ID_0 to w2, MATERIAL_ID_1 to w0)),
         )
+    }
+
+    @Test
+    fun `Calculate Weight`() {
+        assertEquals(w3, init(mapOf(MATERIAL_ID_0 to w2, MATERIAL_ID_1 to w1)).calculateWeight(),)
     }
 
 }
