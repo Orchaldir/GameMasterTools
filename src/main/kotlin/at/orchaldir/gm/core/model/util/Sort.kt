@@ -118,6 +118,8 @@ enum class SortDomain {
 
 enum class SortEquipment {
     Name,
+    Weight,
+    Price,
 }
 
 enum class SortFashion {

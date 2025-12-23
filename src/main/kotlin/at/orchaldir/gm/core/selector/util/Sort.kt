@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterTemplate
 import at.orchaldir.gm.core.model.character.title.Title
 import at.orchaldir.gm.core.model.culture.Culture
+import at.orchaldir.gm.core.selector.item.equipment.VOLUME_CONFIG
 import at.orchaldir.gm.core.model.culture.fashion.Fashion
 import at.orchaldir.gm.core.model.culture.language.Language
 import at.orchaldir.gm.core.model.economy.business.Business
@@ -453,6 +454,8 @@ fun State.sortEquipmentList(
     .sortedWith(
         when (sort) {
             SortEquipment.Name -> compareBy { it.name.text }
+            SortEquipment.Weight -> compareByDescending { calculateWeight(this, VOLUME_CONFIG, it.data).value().toInt() }
+            SortEquipment.Price -> compareByDescending { calculatePrice(this, VOLUME_CONFIG, it.data).value }
         })
 
 // equipment modifiers

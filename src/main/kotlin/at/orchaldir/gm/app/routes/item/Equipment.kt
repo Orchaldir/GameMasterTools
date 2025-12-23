@@ -26,6 +26,7 @@ import at.orchaldir.gm.core.model.util.render.ColorSchemeId
 import at.orchaldir.gm.core.model.util.render.Colors
 import at.orchaldir.gm.core.model.util.render.UndefinedColors
 import at.orchaldir.gm.core.selector.character.getCharacterTemplates
+import at.orchaldir.gm.core.selector.item.equipment.VOLUME_CONFIG
 import at.orchaldir.gm.core.selector.character.getCharactersWith
 import at.orchaldir.gm.core.selector.culture.getFashions
 import at.orchaldir.gm.core.selector.getDefaultCurrency
@@ -123,7 +124,6 @@ fun Application.configureEquipmentRouting() {
         get<EquipmentRoutes.All> { all ->
             val state = STORE.getState()
             val routes = EquipmentRoutes()
-            val config = CalculateVolumeConfig.from(CHARACTER_CONFIG)
             val currency = state.getDefaultCurrency()
 
             handleShowAllElements(
@@ -132,8 +132,8 @@ fun Application.configureEquipmentRouting() {
                 listOf(
                     createNameColumn(call, state),
                     Column("Type") { tdEnum(it.data.getType()) },
-                    tdColumn("Weight") { displayWeightLookup(it.weight) { calculateWeight(state, config, it.data) } },
-                    tdColumn("Price") { displayPriceLookup(call, currency, it.price) { calculatePrice(state, config, it.data) } },
+                    tdColumn("Weight") { displayWeightLookup(it.weight) { calculateWeight(state, VOLUME_CONFIG, it.data) } },
+                    tdColumn("Price") { displayPriceLookup(call, currency, it.price) { calculatePrice(state, VOLUME_CONFIG, it.data) } },
                     Column("Materials") { tdInlineIds(call, state, it.data.materials()) },
                     Column(listOf("Color", "Schemes")) { tdInlineIds(call, state, it.colorSchemes) },
                     Column(listOf("Required", "Colors")) { tdSkipZero(it.data.requiredSchemaColors()) },

@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.item.equipment.style.OuterwearLength
 import at.orchaldir.gm.core.model.item.equipment.style.SimpleBuckle
+import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.unit.VolumePerMaterial
@@ -13,6 +14,8 @@ import at.orchaldir.gm.visualization.character.ICharacterConfig
 import at.orchaldir.gm.visualization.character.appearance.BodyConfig
 import at.orchaldir.gm.visualization.character.appearance.HeadConfig
 import at.orchaldir.gm.visualization.character.equipment.EquipmentConfig
+
+val VOLUME_CONFIG = CalculateVolumeConfig.from(CHARACTER_CONFIG)
 
 data class CalculateVolumeConfig<T>(
     val appearance: T,
