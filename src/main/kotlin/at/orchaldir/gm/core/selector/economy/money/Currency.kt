@@ -20,35 +20,50 @@ fun State.canDeleteCurrency(currency: CurrencyId) = DeleteResult(currency)
 
 fun State.getExistingCurrency(date: Date?) = getExistingElements(getCurrencyStorage().getAll(), date)
 
-// display
+// price
 
-fun Currency.display(price: Price) = display(price.value)
+fun Currency.getPricePerDenomination(price: Price) = getPricePerDenomination(price.value)
 
-private fun Currency.display(price: Int): String {
-    var lastThreshold = 0
+private fun Currency.getPricePerDenomination(price: Int): List<Pair<Denomination, Int>> {
+    var remaining = price
+    val result: MutableList<Pair<Denomination, Int>> = mutableListOf()
+    var denomination = denomination
 
     subDenominations.forEach { (subdenomination, threshold) ->
-        if (price < threshold) {
-            return display(subdenomination, price, lastThreshold)
+        if (price > threshold) {
+            val times = remaining / threshold
+            remaining %= threshold
+
+            if (times > 0) {
+                result.add(Pair(denomination, times))
+            }
         }
 
-        lastThreshold = threshold
+        denomination = subdenomination
     }
 
-    return display(denomination, price, lastThreshold)
+    if (remaining > 0 || result.isEmpty()) {
+        result.add(Pair(denomination, remaining))
+    }
+
+    return result
 }
 
-private fun Currency.display(denomination: Denomination, price: Int, threshold: Int): String {
-    if (threshold == 0) {
-        return denomination.display(price)
+// display
+
+fun Currency.display(price: Price): String {
+    var string = ""
+    var first = true
+
+    getPricePerDenomination(price).forEach { (denomination, number) ->
+        if (first) {
+            first = false
+        } else {
+            string += " "
+        }
+
+        string += denomination.display(number)
     }
 
-    val times = price / threshold
-    val remains = price % threshold
-
-    return if (remains > 0) {
-        denomination.display(times) + " " + display(remains)
-    } else {
-        denomination.display(times)
-    }
+    return string
 }
