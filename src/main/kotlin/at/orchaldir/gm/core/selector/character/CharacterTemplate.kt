@@ -19,6 +19,10 @@ fun State.canDeleteCharacterTemplate(template: CharacterTemplateId) = DeleteResu
 
 // get characters
 
+fun State.getCharacterTemplates(template: CharacterTemplateId) = getCharacterTemplateStorage()
+    .getAll()
+    .filter { it.statblock.contains(template) }
+
 fun State.getCharacterTemplates(trait: CharacterTraitId) = getCharacterTemplateStorage()
     .getAll()
     .filter { it.statblock.contains(this, it.race, trait) }
