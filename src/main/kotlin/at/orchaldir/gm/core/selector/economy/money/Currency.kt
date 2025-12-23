@@ -29,7 +29,7 @@ private fun Currency.getPricePerDenomination(price: Int): List<Pair<Denomination
     val result: MutableList<Pair<Denomination, Int>> = mutableListOf()
     var denomination = denomination
 
-    subDenominations.forEach { (subdenomination, threshold) ->
+    subDenominations.reversed().forEach { (subdenomination, threshold) ->
         if (price > threshold) {
             val times = remaining / threshold
             remaining %= threshold
