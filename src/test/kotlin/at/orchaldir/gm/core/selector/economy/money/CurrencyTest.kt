@@ -1,10 +1,13 @@
 package at.orchaldir.gm.core.selector.economy.money
 
+import at.orchaldir.gm.CP
 import at.orchaldir.gm.CURRENCY_ID_0
 import at.orchaldir.gm.CURRENCY_UNIT_ID_0
 import at.orchaldir.gm.DAY0
 import at.orchaldir.gm.FANTASY_CURRENCY
+import at.orchaldir.gm.GP
 import at.orchaldir.gm.REALM_ID_0
+import at.orchaldir.gm.SP
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.Currency
@@ -97,6 +100,47 @@ class CurrencyTest {
 
         private fun test(value: Int, result: String) {
             assertEquals(result, currency.print(Price(value)))
+        }
+    }
+
+    @Nested
+    inner class GetAmountPerDenominationTest {
+
+        @Test
+        fun `A price of 0`() {
+            assertAmount(0, 0, 0, 0)
+        }
+
+        @Test
+        fun `A price in cp`() {
+            assertAmount(5, 0, 0, 5)
+        }
+
+        @Test
+        fun `A price in sp`() {
+            assertAmount(30, 0, 3, 0)
+        }
+
+        @Test
+        fun `A price in cp & sp`() {
+            assertAmount(89, 0, 8, 9)
+        }
+
+        @Test
+        fun `A price in gp`() {
+            assertAmount(200, 2, 0, 0)
+        }
+
+        @Test
+        fun `A price in all 3`() {
+            assertAmount(123, 1, 2, 3)
+        }
+
+        private fun assertAmount(price: Int, gp: Int, sp: Int, cp: Int) {
+            assertEquals(
+                listOf(Pair(GP, gp), Pair(SP, sp), Pair(CP, cp)),
+                FANTASY_CURRENCY.getAmountPerDenomination(Price(price)),
+            )
         }
     }
 

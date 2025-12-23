@@ -60,6 +60,7 @@ fun Currency.print(price: Price): String {
     amountPerDenomination.forEach { (denomination, number) ->
         val isLast = index == amountPerDenomination.size - 1
         val canSkipZero = !isLast || !isFirstAvailable
+        index++
 
         if (number == 0 && canSkipZero) {
             return@forEach
@@ -71,7 +72,6 @@ fun Currency.print(price: Price): String {
         }
 
         string += denomination.display(number)
-        index++
     }
 
     return string

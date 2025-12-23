@@ -226,11 +226,14 @@ val DAY2 = Day(-100)
 val FUTURE_DAY_0 = Day(100)
 val FUTURE_YEAR_0 = Year(10)
 
+val CP = Denomination.init("cp", hasSpace = true)
+val SP = Denomination.init("sp", hasSpace = true)
+val GP = Denomination.init("gp", hasSpace = true)
 val FANTASY_CURRENCY = Currency(
     CURRENCY_ID_0,
-    denomination = Denomination.init("gp", hasSpace = true),
+    denomination = GP,
     subDenominations = listOf(
-        Pair(Denomination.init("cp", hasSpace = true), 10),
-        Pair(Denomination.init("sp", hasSpace = true), 100),
+        Pair(CP, 10),
+        Pair(SP, 100),
     ),
 )
