@@ -64,7 +64,7 @@ class CurrencyTest {
     }
 
     @Nested
-    inner class DisplayDollarTest {
+    inner class PrintDollarTest {
 
         private val currency = Currency(
             CURRENCY_ID_0,
@@ -100,7 +100,7 @@ class CurrencyTest {
     }
 
     @Nested
-    inner class DisplayFantasyCurrencyTest {
+    inner class PrintFantasyCurrencyTest {
 
         private val currency = Currency(
             CURRENCY_ID_0,
