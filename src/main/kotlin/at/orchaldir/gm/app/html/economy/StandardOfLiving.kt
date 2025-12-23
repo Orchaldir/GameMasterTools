@@ -25,7 +25,7 @@ fun HtmlBlockTag.showStandardOfLiving(
     state: State,
     standard: StandardOfLiving,
 ) {
-    fieldPrice(state, "Max Yearly Income", standard.maxYearlyIncome)
+    fieldPrice(call, state, "Max Yearly Income", standard.maxYearlyIncome)
     fieldElements(call, state, state.getJobs(standard.id))
 }
 

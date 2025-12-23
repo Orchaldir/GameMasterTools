@@ -52,8 +52,8 @@ fun HtmlBlockTag.showPriceLookupDetails(
         showVolumePerMaterial(call, state, vpm)
 
         when (lookup) {
-            CalculatedPrice -> fieldPrice(state, "Calculated Price", vpm.getPrice(state))
-            is UserDefinedPrice -> fieldPrice(state, "User Defined Price", lookup.price)
+            CalculatedPrice -> fieldPrice(call, state, "Calculated Price", vpm.getPrice(state))
+            is UserDefinedPrice -> fieldPrice(call, state, "User Defined Price", lookup.price)
         }
     }
 }

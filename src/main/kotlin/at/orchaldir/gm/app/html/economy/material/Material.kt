@@ -41,7 +41,7 @@ fun HtmlBlockTag.showMaterial(
     field("Category", material.category)
     fieldColor(material.color)
     fieldWeight("Density", material.density)
-    fieldPrice(state, "Price Per Kilogram", material.pricePerKilogram)
+    fieldPrice(call, state, "Price Per Kilogram", material.pricePerKilogram)
 
     showUsage(call, state, material)
 }

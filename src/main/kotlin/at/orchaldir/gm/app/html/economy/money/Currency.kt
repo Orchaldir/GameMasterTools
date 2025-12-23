@@ -42,7 +42,7 @@ private fun HtmlBlockTag.showDenominations(currency: Currency) {
     showDenomination(currency.denomination)
     fieldList("Subdenominations", currency.subDenominations) { (denomination, threshold) ->
         showDenomination(denomination)
-        field("Threshold", threshold.toString())
+        field("Until", threshold.toString())
     }
 }
 

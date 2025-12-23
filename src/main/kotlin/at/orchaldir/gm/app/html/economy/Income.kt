@@ -29,7 +29,7 @@ fun HtmlBlockTag.showIncome(
     when (income) {
         UndefinedIncome -> doNothing()
         is AffordableStandardOfLiving -> fieldLink(call, state, income.standard)
-        is Salary -> fieldPrice(state, "Average Yearly Salary", income.yearlySalary)
+        is Salary -> fieldPrice(call, state, "Average Yearly Salary", income.yearlySalary)
     }
 }
 
