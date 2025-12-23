@@ -22,9 +22,9 @@ fun State.getExistingCurrency(date: Date?) = getExistingElements(getCurrencyStor
 
 // price
 
-fun Currency.getPricePerDenomination(price: Price) = getPricePerDenomination(price.value)
+fun Currency.getAmountPerDenomination(price: Price) = getAmountPerDenomination(price.value)
 
-private fun Currency.getPricePerDenomination(price: Int): List<Pair<Denomination, Int>> {
+private fun Currency.getAmountPerDenomination(price: Int): List<Pair<Denomination, Int>> {
     var remaining = price
     val result: MutableList<Pair<Denomination, Int>> = mutableListOf()
     var denomination = denomination
@@ -53,11 +53,11 @@ private fun Currency.getPricePerDenomination(price: Int): List<Pair<Denomination
 
 fun Currency.print(price: Price): String {
     var string = ""
-    var first = true
+    var isFirst = true
 
-    getPricePerDenomination(price).forEach { (denomination, number) ->
-        if (first) {
-            first = false
+    getAmountPerDenomination(price).forEach { (denomination, number) ->
+        if (isFirst) {
+            isFirst = false
         } else {
             string += " "
         }

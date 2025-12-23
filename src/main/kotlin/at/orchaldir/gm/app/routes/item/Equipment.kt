@@ -133,7 +133,7 @@ fun Application.configureEquipmentRouting() {
                     createNameColumn(call, state),
                     Column("Type") { tdEnum(it.data.getType()) },
                     tdColumn("Weight") { displayWeightLookup(it.weight) { calculateWeight(state, config, it.data) } },
-                    tdColumn("Price") { displayPriceLookup(currency, it.price) { calculatePrice(state, config, it.data) } },
+                    tdColumn("Price") { displayPriceLookup(call, currency, it.price) { calculatePrice(state, config, it.data) } },
                     Column("Materials") { tdInlineIds(call, state, it.data.materials()) },
                     Column(listOf("Color", "Schemes")) { tdInlineIds(call, state, it.colorSchemes) },
                     Column(listOf("Required", "Colors")) { tdSkipZero(it.data.requiredSchemaColors()) },

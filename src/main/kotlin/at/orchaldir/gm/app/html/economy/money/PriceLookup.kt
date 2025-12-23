@@ -26,6 +26,7 @@ import kotlinx.html.tr
 // show
 
 fun HtmlBlockTag.displayPriceLookup(
+    call: ApplicationCall,
     currency: Currency,
     lookup: PriceLookup,
     showZero: Boolean = false,
@@ -36,7 +37,7 @@ fun HtmlBlockTag.displayPriceLookup(
         is UserDefinedPrice -> lookup.price
     }
 
-    displayPrice(currency, price, showZero)
+    displayPrice(call, currency, price, showZero)
 }
 
 fun HtmlBlockTag.showPriceLookupDetails(
@@ -80,10 +81,10 @@ fun HtmlBlockTag.showVolumePerMaterial(
                 tdLink(call, state, material)
                 tdString(weight.toString())
                 td {
-                    displayPrice(currency, material.pricePerKilogram)
+                    displayPrice(call, currency, material.pricePerKilogram)
                 }
                 td {
-                    displayPrice(currency, price)
+                    displayPrice(call, currency, price)
                 }
             }
         }
