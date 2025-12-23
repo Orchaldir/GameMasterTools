@@ -30,12 +30,16 @@ private fun Currency.getAmountPerDenomination(price: Int): List<Pair<Denominatio
     var denomination = denomination
 
     subDenominations.reversed().forEach { (subdenomination, threshold) ->
-        if (price >= threshold) {
+        val amount = if (price >= threshold) {
             val times = remaining / threshold
             remaining %= threshold
 
-            result.add(Pair(denomination, times))
+            times
+        } else {
+            0
         }
+
+        result.add(Pair(denomination, amount))
 
         denomination = subdenomination
     }

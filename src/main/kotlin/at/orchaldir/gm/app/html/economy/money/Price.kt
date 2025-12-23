@@ -56,12 +56,18 @@ fun HtmlBlockTag.selectPrice(
     max: Int,
 ) {
     val currency = state.getDefaultCurrency()
+    var isHighestAvailable = true
+
     showDetails(label, true) {
-        currency.getAmountPerDenomination(price).reversed().forEach { (denomination, amount) ->
+        currency.getAmountPerDenomination(price).forEach { (denomination, amount) ->
+            if (amount > 0) {
+                isHighestAvailable = false
+            }
+
             field(denomination.text.text) {
                 selectInt(
                     amount,
-                    -1,
+                    if (isHighestAvailable) { 0 }  else { -1 },
                     Int.MAX_VALUE,
                     1,
                     combine(param, denomination.text.text),
