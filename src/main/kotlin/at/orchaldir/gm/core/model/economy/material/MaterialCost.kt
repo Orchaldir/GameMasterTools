@@ -15,6 +15,12 @@ value class MaterialCost(
     constructor() : this(emptyMap())
     constructor(material: MaterialId) : this(mapOf(material to Weight.fromKilograms(1)))
 
+    companion object {
+        fun init(map: Map<MaterialId, Weight>) = MaterialCost(
+            map.filterValues { it.value() > 0 }
+        )
+    }
+
     fun contains(material: MaterialId) = map.containsKey(material)
 
     fun materials() = map.keys
