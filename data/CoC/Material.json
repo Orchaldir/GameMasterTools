@@ -29,7 +29,8 @@
    "id": 4,
    "name": "Stone",
    "category": "Stone",
-   "color": "Gray"
+   "color": "Gray",
+   "pricePerKilogram": 100
   },
   "5": {
    "id": 5,

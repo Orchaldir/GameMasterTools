@@ -1,7 +1,11 @@
 package at.orchaldir.gm.core.model.economy.material
 
+import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.economy.money.Price
 import at.orchaldir.gm.utils.math.unit.Weight
 import kotlinx.serialization.Serializable
+import kotlin.collections.component1
+import kotlin.collections.component2
 
 @JvmInline
 @Serializable
@@ -15,5 +19,18 @@ value class MaterialCost(
 
     fun materials() = map.keys
 
+    fun calculatePrice(state: State) = calculatePrice(state, map)
     fun calculateWeight() = map.values.reduceOrNull { sum, weight -> sum + weight }
+}
+
+fun calculatePrice(state: State, map: Map<MaterialId, Weight>): Price {
+    var total = Price(0)
+
+    map.forEach { (id, weight) ->
+        val material = state.getMaterialStorage().getOrThrow(id)
+
+        total += Price.fromWeight(weight, material.pricePerKilogram)
+    }
+
+    return total
 }
