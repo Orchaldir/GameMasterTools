@@ -24,7 +24,9 @@ fun HtmlBlockTag.displayPrice(
     showZero: Boolean = false,
 ) {
     if (showZero || price.value > 0) {
-        link(call, currency, currency.print(price))
+        showTooltip(currency.name()) {
+            link(call, currency, currency.print(price))
+        }
     }
 }
 
