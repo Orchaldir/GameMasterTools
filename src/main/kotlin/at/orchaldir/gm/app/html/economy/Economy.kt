@@ -13,7 +13,7 @@ import at.orchaldir.gm.core.model.economy.Economy
 import at.orchaldir.gm.core.model.economy.job.IncomeType
 import at.orchaldir.gm.core.model.economy.standard.StandardOfLivingId
 import at.orchaldir.gm.core.selector.economy.countJobs
-import at.orchaldir.gm.core.selector.economy.money.display
+import at.orchaldir.gm.core.selector.economy.money.print
 import at.orchaldir.gm.core.selector.getDefaultCurrency
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -42,7 +42,7 @@ fun HtmlBlockTag.showEconomy(
         economy.standardsOfLiving.forEach { standard ->
             tr {
                 tdLink(call, state, standard)
-                td { +currency.display(standard.maxYearlyIncome) }
+                td { +currency.print(standard.maxYearlyIncome) }
                 tdSkipZero(state.countJobs(standard.id))
             }
         }

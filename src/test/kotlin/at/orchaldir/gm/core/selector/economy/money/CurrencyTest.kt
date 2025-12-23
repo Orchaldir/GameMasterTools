@@ -95,7 +95,7 @@ class CurrencyTest {
         }
 
         private fun test(value: Int, result: String) {
-            assertEquals(result, currency.display(Price(value)))
+            assertEquals(result, currency.print(Price(value)))
         }
     }
 
@@ -147,7 +147,7 @@ class CurrencyTest {
         }
 
         private fun test(value: Int, result: String) {
-            assertEquals(result, currency.display(Price(value)))
+            assertEquals(result, currency.print(Price(value)))
         }
     }
 }

@@ -13,7 +13,6 @@ import at.orchaldir.gm.core.model.economy.material.MATERIAL_TYPE
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.util.SortMaterial
 import at.orchaldir.gm.core.selector.economy.money.countCurrencyUnits
-import at.orchaldir.gm.core.selector.economy.money.display
 import at.orchaldir.gm.core.selector.getDefaultCurrency
 import at.orchaldir.gm.core.selector.item.countTexts
 import at.orchaldir.gm.core.selector.item.equipment.countEquipment

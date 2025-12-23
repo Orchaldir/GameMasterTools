@@ -49,9 +49,9 @@ private fun Currency.getPricePerDenomination(price: Int): List<Pair<Denomination
     return result
 }
 
-// display
+// print
 
-fun Currency.display(price: Price): String {
+fun Currency.print(price: Price): String {
     var string = ""
     var first = true
 

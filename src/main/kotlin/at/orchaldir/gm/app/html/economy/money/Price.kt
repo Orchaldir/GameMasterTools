@@ -6,7 +6,7 @@ import at.orchaldir.gm.app.html.selectInt
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.Currency
 import at.orchaldir.gm.core.model.economy.money.Price
-import at.orchaldir.gm.core.selector.economy.money.display
+import at.orchaldir.gm.core.selector.economy.money.print
 import at.orchaldir.gm.core.selector.getDefaultCurrency
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag
@@ -19,7 +19,7 @@ fun HtmlBlockTag.displayPrice(
     showZero: Boolean = false,
 ) {
     if (showZero || price.value > 0) {
-        +currency.display(price)
+        +currency.print(price)
     }
 }
 
@@ -29,7 +29,7 @@ fun HtmlBlockTag.fieldPrice(
     price: Price,
 ) {
     val currency = state.getDefaultCurrency()
-    field(label, currency.display(price))
+    field(label, currency.print(price))
 }
 
 // edit
@@ -46,7 +46,7 @@ fun HtmlBlockTag.selectPrice(
     field(label) {
         selectInt(price.value, min, max, 1, param)
         +" = "
-        +currency.display(price)
+        +currency.print(price)
     }
 }
 
