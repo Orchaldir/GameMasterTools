@@ -454,10 +454,10 @@ fun State.sortEquipmentList(
         when (sort) {
             SortEquipment.Name -> compareBy { it.name.text }
             SortEquipment.Weight -> compareByDescending {
-                calculateWeight(this, VOLUME_CONFIG, it.data).value().toInt()
+                calculateWeight(this, VOLUME_CONFIG, it).value().toInt()
             }
 
-            SortEquipment.Price -> compareByDescending { calculatePrice(this, VOLUME_CONFIG, it.data).value }
+            SortEquipment.Price -> compareByDescending { calculatePrice(this, VOLUME_CONFIG, it).value }
         })
 
 // equipment modifiers

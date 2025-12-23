@@ -7,6 +7,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.item.parseUniformId
 import at.orchaldir.gm.app.html.rpg.combat.showMeleeAttackTable
 import at.orchaldir.gm.app.html.rpg.combat.showProtectionTable
+import at.orchaldir.gm.app.html.util.math.fieldWeight
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
@@ -19,6 +20,8 @@ import at.orchaldir.gm.core.model.rpg.statblock.StatblockLookup
 import at.orchaldir.gm.core.selector.character.getArmors
 import at.orchaldir.gm.core.selector.character.getMeleeAttacks
 import at.orchaldir.gm.core.selector.character.getShields
+import at.orchaldir.gm.core.selector.item.equipment.VOLUME_CONFIG
+import at.orchaldir.gm.core.selector.item.equipment.calculateWeight
 import at.orchaldir.gm.core.selector.item.equipment.getEquipmentMap
 import at.orchaldir.gm.core.selector.item.equipment.getEquipmentMapForLookup
 import at.orchaldir.gm.core.selector.rpg.statblock.resolveMeleeAttackMap
@@ -85,6 +88,8 @@ fun HtmlBlockTag.showEquippedDetails(
     base: Statblock,
     lookup: StatblockLookup,
 ) {
+    val equipmentMap = state.getEquipmentMap(equipped, lookup)
+
     showDetails("Equipped", true) {
         field("Type", equipped.getType())
 
@@ -96,7 +101,7 @@ fun HtmlBlockTag.showEquippedDetails(
                 showEquipmentMapUpdate(
                     call,
                     state,
-                    state.getEquipmentMap(equipped.uniform),
+                    equipmentMap,
                     equipped.update,
                 )
             }
@@ -111,6 +116,8 @@ fun HtmlBlockTag.showEquippedDetails(
 
             UndefinedEquipped -> doNothing()
         }
+
+        fieldWeight("Total Weight", calculateWeight(state, VOLUME_CONFIG, equipmentMap))
 
         val amorMap = getArmors(state, equipped, lookup)
         val meleeAttackMap = getMeleeAttacks(state, equipped, lookup)
