@@ -6,6 +6,7 @@ import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.app.html.selectInt
 import at.orchaldir.gm.app.html.selectOptionalElement
 import at.orchaldir.gm.app.html.showMap
+import at.orchaldir.gm.app.html.util.math.fieldWeight
 import at.orchaldir.gm.app.html.util.math.selectWeight
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.model.State
@@ -26,6 +27,7 @@ fun HtmlBlockTag.showMaterialCost(
         link(call, state, material)
         +": $cost"
     }
+    fieldWeight("Total Weight", materialCost.calculateWeight())
 }
 
 

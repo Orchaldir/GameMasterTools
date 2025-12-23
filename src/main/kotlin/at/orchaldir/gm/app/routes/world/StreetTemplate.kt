@@ -78,6 +78,7 @@ fun Application.configureStreetTemplateRouting() {
                     createNameColumn(call, state),
                     tdColumn("Color") { showColor(it.color) },
                     Column("Materials") { tdInlineIds(call, state, it.materialCost.materials()) },
+                    tdColumn("Weight") { it.materialCost.calculateWeight()?.let { +it.toString() } },
                 ),
             )
         }

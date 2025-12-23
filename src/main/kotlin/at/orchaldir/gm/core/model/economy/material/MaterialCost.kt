@@ -14,4 +14,6 @@ value class MaterialCost(
     fun contains(material: MaterialId) = map.containsKey(material)
 
     fun materials() = map.keys
+
+    fun calculateWeight() = map.values.reduceOrNull { sum, weight -> sum + weight }
 }
