@@ -62,7 +62,7 @@ fun HtmlBlockTag.editIncome(
 
 // parse
 
-fun parseIncome(parameters: Parameters) =
+fun parseIncome(state: State, parameters: Parameters) =
     when (parse(parameters, combine(PRICE, TYPE), IncomeType.Undefined)) {
         IncomeType.Undefined -> UndefinedIncome
         IncomeType.StandardOfLiving -> AffordableStandardOfLiving(
@@ -70,7 +70,7 @@ fun parseIncome(parameters: Parameters) =
         )
 
         IncomeType.Salary -> Salary(
-            parsePrice(parameters, PRICE, 1)
+            parsePrice(state, parameters, PRICE)
         )
 
     }

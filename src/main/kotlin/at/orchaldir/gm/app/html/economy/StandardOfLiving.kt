@@ -53,11 +53,12 @@ fun HtmlBlockTag.editStandardOfLiving(
 fun parseStandardOfLivingId(parameters: Parameters, param: String) = StandardOfLivingId(parseInt(parameters, param))
 
 fun parseStandardOfLiving(
+    state: State,
     id: StandardOfLivingId,
     parameters: Parameters,
     param: String,
 ) = StandardOfLiving(
     id,
     parseName(parameters, combine(param, NAME), "Standard ${id.value}"),
-    parsePrice(parameters, combine(param, PRICE), 1),
+    parsePrice(state, parameters, combine(param, PRICE)),
 )

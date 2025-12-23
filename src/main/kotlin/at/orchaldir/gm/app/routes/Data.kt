@@ -61,7 +61,7 @@ fun Application.configureDataRouting() {
             logger.info { "Preview data" }
 
             val state = STORE.getState()
-            val data = parseData(call.receiveParameters(), state.getDefaultCalendar())
+            val data = parseData(state, call.receiveParameters())
 
             call.respondHtml(HttpStatusCode.OK) {
                 editDataDetails(call, state, data)
@@ -70,7 +70,8 @@ fun Application.configureDataRouting() {
         post<DataRoutes.Update> {
             logger.info { "Update data" }
 
-            val data = parseData(call.receiveParameters(), STORE.getState().getDefaultCalendar())
+            val state = STORE.getState()
+            val data = parseData(state, call.receiveParameters())
 
             STORE.dispatch(UpdateData(data))
 

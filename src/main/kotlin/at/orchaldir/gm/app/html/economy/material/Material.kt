@@ -121,5 +121,5 @@ fun parseMaterial(
     parse(parameters, CATEGORY, MaterialCategory.Metal),
     parse(parameters, COLOR, Color.Pink),
     parseWeight(parameters, DENSITY, SiPrefix.Kilo),
-    parsePrice(parameters, PRICE, 1),
+    parsePrice(state, parameters, PRICE),
 )

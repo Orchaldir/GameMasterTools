@@ -220,7 +220,7 @@ fun parseEquipment(
         parseName(parameters),
         data,
         parseWeightLookup(parameters, MIN_EQUIPMENT_WEIGHT),
-        parsePriceLookup(parameters, MIN_EQUIPMENT_PRICE),
+        parsePriceLookup(state, parameters),
         parseColorSchemes(state, parameters, data),
     )
 }

@@ -56,16 +56,34 @@ data class Currency(
     }
 
     fun countDenominations() = subDenominations.size + 1
+
     fun getDenomination(index: Int): Denomination {
         val size = subDenominations.size
 
-        return if (index >= 0 && index < size) {
-            subDenominations[index].first
-        } else if (index == size) {
-            denomination
-        } else {
-            error("Currency ${id.value} doesn't have a denomination $index!")
+        return when (index) {
+            in 0..<size -> subDenominations[index].first
+            size -> denomination
+            else -> error("Currency ${id.value} doesn't have a denomination $index!")
         }
     }
 
+    fun getDenominations() = subDenominations.map { it.first } + denomination
+
+    fun calculatePriceFromDenominations(denominations: List<Int>): Price {
+        require(denominations.size == subDenominations.size + 1) {
+            "Cannot calculate the price from teh wrong number of values!"
+        }
+
+        var valueOfDenomination = 1
+        var price = 0
+
+        subDenominations.zip(denominations).forEach { (pair,amount) ->
+            price += amount * valueOfDenomination
+            valueOfDenomination = pair.second
+        }
+
+        price += denominations.last() * valueOfDenomination
+
+        return Price(price)
+    }
 }

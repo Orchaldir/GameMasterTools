@@ -89,11 +89,12 @@ fun HtmlBlockTag.editEconomy(
 // parse
 
 fun parseEconomy(
+    state: State,
     parameters: Parameters,
 ) = Economy(
     parseCurrencyId(parameters, CURRENCY),
     parse(parameters, combine(PRICE, TYPE), IncomeType.Undefined),
     parseList(parameters, STANDARD, 1) { index, param ->
-        parseStandardOfLiving(StandardOfLivingId(index), parameters, param)
+        parseStandardOfLiving(state, StandardOfLivingId(index), parameters, param)
     },
 )

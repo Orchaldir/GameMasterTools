@@ -34,17 +34,13 @@ private fun Currency.getAmountPerDenomination(price: Int): List<Pair<Denominatio
             val times = remaining / threshold
             remaining %= threshold
 
-            if (times > 0) {
-                result.add(Pair(denomination, times))
-            }
+            result.add(Pair(denomination, times))
         }
 
         denomination = subdenomination
     }
 
-    if (remaining > 0 || result.isEmpty()) {
-        result.add(Pair(denomination, remaining))
-    }
+    result.add(Pair(denomination, remaining))
 
     return result
 }
@@ -56,7 +52,10 @@ fun Currency.print(price: Price): String {
     var isFirst = true
 
     getAmountPerDenomination(price).forEach { (denomination, number) ->
-        if (isFirst) {
+        if (number == 0) {
+            return@forEach
+        }
+        else if (isFirst) {
             isFirst = false
         } else {
             string += " "

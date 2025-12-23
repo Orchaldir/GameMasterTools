@@ -1,10 +1,7 @@
 package at.orchaldir.gm.core.model.economy.money
 
-import at.orchaldir.gm.core.model.economy.material.Material
 import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.math.unit.Volume
 import at.orchaldir.gm.utils.math.unit.Weight
-import at.orchaldir.gm.utils.math.unit.Weight.Companion.fromKilograms
 import kotlinx.serialization.Serializable
 
 @JvmInline

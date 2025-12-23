@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.selector.economy.money
 import at.orchaldir.gm.CURRENCY_ID_0
 import at.orchaldir.gm.CURRENCY_UNIT_ID_0
 import at.orchaldir.gm.DAY0
+import at.orchaldir.gm.FANTASY_CURRENCY
 import at.orchaldir.gm.REALM_ID_0
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
@@ -102,15 +103,6 @@ class CurrencyTest {
     @Nested
     inner class PrintFantasyCurrencyTest {
 
-        private val currency = Currency(
-            CURRENCY_ID_0,
-            denomination = Denomination.init("gp", hasSpace = true),
-            subDenominations = listOf(
-                Pair(Denomination.init("cp", hasSpace = true), 10),
-                Pair(Denomination.init("sp", hasSpace = true), 100),
-            ),
-        )
-
         @Test
         fun `A price of 0`() {
             test(0, "0 cp")
@@ -147,7 +139,7 @@ class CurrencyTest {
         }
 
         private fun test(value: Int, result: String) {
-            assertEquals(result, currency.print(Price(value)))
+            assertEquals(result, FANTASY_CURRENCY.print(Price(value)))
         }
     }
 }

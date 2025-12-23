@@ -9,8 +9,10 @@ import at.orchaldir.gm.core.model.culture.language.LanguageId
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.economy.material.MaterialId
+import at.orchaldir.gm.core.model.economy.money.Currency
 import at.orchaldir.gm.core.model.economy.money.CurrencyId
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnitId
+import at.orchaldir.gm.core.model.economy.money.Denomination
 import at.orchaldir.gm.core.model.economy.standard.StandardOfLivingId
 import at.orchaldir.gm.core.model.health.DiseaseId
 import at.orchaldir.gm.core.model.item.UniformId
@@ -223,3 +225,12 @@ val DAY1 = Day(-200)
 val DAY2 = Day(-100)
 val FUTURE_DAY_0 = Day(100)
 val FUTURE_YEAR_0 = Year(10)
+
+val FANTASY_CURRENCY = Currency(
+    CURRENCY_ID_0,
+    denomination = Denomination.init("gp", hasSpace = true),
+    subDenominations = listOf(
+        Pair(Denomination.init("cp", hasSpace = true), 10),
+        Pair(Denomination.init("sp", hasSpace = true), 100),
+    ),
+)

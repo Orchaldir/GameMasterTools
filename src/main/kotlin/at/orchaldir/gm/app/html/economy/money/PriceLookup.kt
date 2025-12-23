@@ -120,12 +120,12 @@ fun HtmlBlockTag.selectPriceLookup(
 // parse
 
 fun parsePriceLookup(
+    state: State,
     parameters: Parameters,
-    minPrice: Int,
     param: String = WEIGHT,
 ) = when (parse(parameters, combine(param, TYPE), PriceLookupType.Calculated)) {
     PriceLookupType.Calculated -> CalculatedPrice
     PriceLookupType.UserDefined -> UserDefinedPrice(
-        parsePrice(parameters, param, minPrice),
+        parsePrice(state, parameters, param),
     )
 }
