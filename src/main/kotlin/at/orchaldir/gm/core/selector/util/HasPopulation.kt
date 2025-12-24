@@ -90,7 +90,7 @@ fun <ID : Id<ID>, ELEMENT> State.getPopulationIndex(
 ): Int? where
         ELEMENT : Element<ID>,
         ELEMENT : HasPopulation {
-    return if (element.population() is UndefinedPopulation) {
+    return if (element.population().getTotalPopulation() == null) {
         null
     } else {
         getStorage<ID, ELEMENT>(element.id())
