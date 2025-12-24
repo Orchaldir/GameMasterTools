@@ -23,6 +23,14 @@
    "name": "Cherubar",
    "owner": {
     "current": 0
+   },
+   "population": {
+    "#type": "Abstract",
+    "density": "Small",
+    "races": [
+     6,
+     9
+    ]
    }
   },
   "2": {
