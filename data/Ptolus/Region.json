@@ -146,6 +146,9 @@
   "13": {
    "id": 13,
    "name": "Endless Sea of Ice",
+   "data": {
+    "#type": "Sea"
+   },
    "position": {
     "#type": "Region",
     "region": 5
