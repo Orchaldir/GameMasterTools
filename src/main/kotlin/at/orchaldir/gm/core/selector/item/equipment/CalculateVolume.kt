@@ -115,6 +115,16 @@ fun calculatePrice(
 ) = calculateVolumePerMaterial(config, data, appearance)
     .getPrice(state)
 
+fun calculatePrice(
+    state: State,
+    config: CalculateVolumeConfig<Appearance>,
+    map: EquipmentIdMap,
+    appearance: Appearance = HumanoidBody(),
+) = map.getAllEquipment()
+    .map { (id, _) -> state.getEquipmentStorage().getOrThrow(id) }
+    .map { equipment -> calculatePrice(state, config, equipment, appearance) }
+    .reduceOrNull { total, price -> total + price }
+
 fun calculateWeight(
     state: State,
     config: CalculateVolumeConfig<Appearance>,

@@ -4,6 +4,7 @@ import at.orchaldir.gm.app.EQUIPMENT
 import at.orchaldir.gm.app.UNIFORM
 import at.orchaldir.gm.app.UPDATE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.economy.money.fieldPrice
 import at.orchaldir.gm.app.html.item.parseUniformId
 import at.orchaldir.gm.app.html.rpg.combat.showMeleeAttackTable
 import at.orchaldir.gm.app.html.rpg.combat.showProtectionTable
@@ -21,6 +22,7 @@ import at.orchaldir.gm.core.selector.character.getArmors
 import at.orchaldir.gm.core.selector.character.getMeleeAttacks
 import at.orchaldir.gm.core.selector.character.getShields
 import at.orchaldir.gm.core.selector.item.equipment.VOLUME_CONFIG
+import at.orchaldir.gm.core.selector.item.equipment.calculatePrice
 import at.orchaldir.gm.core.selector.item.equipment.calculateWeight
 import at.orchaldir.gm.core.selector.item.equipment.getEquipmentMap
 import at.orchaldir.gm.core.selector.item.equipment.getEquipmentMapForLookup
@@ -117,6 +119,7 @@ fun HtmlBlockTag.showEquippedDetails(
             UndefinedEquipped -> doNothing()
         }
 
+        fieldPrice(call, state, "Total Price", calculatePrice(state, VOLUME_CONFIG, equipmentMap))
         fieldWeight("Total Weight", calculateWeight(state, VOLUME_CONFIG, equipmentMap))
 
         val amorMap = getArmors(state, equipped, lookup)
