@@ -150,6 +150,7 @@ fun HtmlBlockTag.editEquipped(
     } else {
         EquippedType.entries - EquippedType.UseTemplate - EquippedType.ModifyTemplate
     }
+    val equipmentMap = state.getEquipmentMap(equipped, lookup)
 
     showDetails("Equipped", true) {
         selectValue("Type", param, allowedTypes, equipped.getType()) { type ->
@@ -176,7 +177,7 @@ fun HtmlBlockTag.editEquipped(
                 editEquipmentMapUpdate(
                     call,
                     state,
-                    state.getEquipmentMap(equipped.uniform),
+                    equipmentMap,
                     equipped.update,
                     combine(param, UPDATE),
                 )
@@ -193,6 +194,9 @@ fun HtmlBlockTag.editEquipped(
 
             UndefinedEquipped -> doNothing()
         }
+
+        fieldPrice(call, state, "Total Price", calculatePrice(state, VOLUME_CONFIG, equipmentMap))
+        fieldWeight("Total Weight", calculateWeight(state, VOLUME_CONFIG, equipmentMap))
     }
 }
 
