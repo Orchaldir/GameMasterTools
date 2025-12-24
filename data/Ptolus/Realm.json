@@ -39,6 +39,12 @@
    "date": {
     "#type": "~Year",
     "year": 699
+   },
+   "population": {
+    "#type": "Abstract",
+    "races": [
+     8
+    ]
    }
   },
   "3": {
@@ -111,6 +117,9 @@
   "7": {
    "id": 7,
    "name": "Roth",
+   "capital": {
+    "current": 6
+   },
    "owner": {
     "current": 0
    },
@@ -123,6 +132,7 @@
    "population": {
     "#type": "Abstract",
     "races": [
+     10,
      9
     ]
    }
