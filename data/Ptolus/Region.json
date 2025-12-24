@@ -156,6 +156,10 @@
    "name": "Whitewind Sea",
    "data": {
     "#type": "Sea"
+   },
+   "position": {
+    "#type": "World",
+    "world": 0
    }
   },
   "15": {
@@ -163,6 +167,10 @@
    "name": "Southern Sea",
    "data": {
     "#type": "Sea"
+   },
+   "position": {
+    "#type": "World",
+    "world": 0
    }
   },
   "16": {
@@ -170,6 +178,10 @@
    "name": "Gulf of Satran",
    "data": {
     "#type": "Sea"
+   },
+   "position": {
+    "#type": "World",
+    "world": 0
    }
   },
   "17": {

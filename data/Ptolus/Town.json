@@ -42,13 +42,13 @@
   "3": {
    "id": 3,
    "name": "Dwarvenhearth",
-   "date": {
-    "#type": "~Year",
-    "year": -2000
-   },
    "founder": {
     "#type": "Organization",
     "organization": 1
+   },
+   "date": {
+    "#type": "~Year",
+    "year": -2000
    },
    "status": {
     "#type": "Abandoned",
