@@ -205,6 +205,69 @@
     "#type": "Region",
     "region": 1
    }
+  },
+  "19": {
+   "id": 19,
+   "name": "Southern Continent",
+   "data": {
+    "#type": "Continent"
+   },
+   "position": {
+    "#type": "World",
+    "world": 0
+   }
+  },
+  "20": {
+   "id": 20,
+   "name": "Scorched Peaks",
+   "data": {
+    "#type": "Mountain"
+   },
+   "position": {
+    "#type": "Region",
+    "region": 19
+   }
+  },
+  "21": {
+   "id": 21,
+   "name": "Uraq",
+   "data": {
+    "#type": "Desert"
+   },
+   "position": {
+    "#type": "Region",
+    "region": 19
+   }
+  },
+  "22": {
+   "id": 22,
+   "name": "Panogolan",
+   "position": {
+    "#type": "Region",
+    "region": 19
+   }
+  },
+  "23": {
+   "id": 23,
+   "name": "Buneir",
+   "data": {
+    "#type": "Forrest"
+   },
+   "position": {
+    "#type": "Region",
+    "region": 19
+   }
+  },
+  "24": {
+   "id": 24,
+   "name": "Sea of World’s End",
+   "data": {
+    "#type": "Sea"
+   },
+   "position": {
+    "#type": "World",
+    "world": 0
+   }
   }
  }
 }

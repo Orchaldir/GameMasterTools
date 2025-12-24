@@ -19,6 +19,21 @@
     "#type": "Town",
     "town": 1
    }
+  },
+  "1": {
+   "id": 1,
+   "name": "The Grand Cathedral",
+   "position": {
+    "#type": "Town",
+    "town": 2
+   },
+   "ownership": {
+    "current": {
+     "#type": "Organization",
+     "organization": 0
+    }
+   },
+   "style": 1
   }
  }
 }

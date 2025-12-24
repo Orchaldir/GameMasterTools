@@ -61,6 +61,14 @@
      "war": 2
     }
    }
+  },
+  "4": {
+   "id": 4,
+   "name": "Dohrinthas",
+   "title": "The Golden City",
+   "owner": {
+    "current": 3
+   }
   }
  }
 }
