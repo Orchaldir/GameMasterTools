@@ -197,6 +197,14 @@
     "#type": "Region",
     "region": 5
    }
+  },
+  "18": {
+   "id": 18,
+   "name": "Mrathrach’s Pit",
+   "position": {
+    "#type": "Region",
+    "region": 1
+   }
   }
  }
 }

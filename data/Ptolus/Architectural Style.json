@@ -4,6 +4,14 @@
   "0": {
    "id": 0,
    "name": "Grailwarden"
+  },
+  "1": {
+   "id": 1,
+   "name": "Prustan"
+  },
+  "2": {
+   "id": 2,
+   "name": "Palastani"
   }
  }
 }
