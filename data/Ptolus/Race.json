@@ -149,6 +149,14 @@
     "#type": "Default",
     "appearance": 8
    }
+  },
+  "8": {
+   "id": 8,
+   "name": "Eastern Barbarian",
+   "lifeStages": {
+    "#type": "Default",
+    "appearance": 9
+   }
   }
  }
 }
