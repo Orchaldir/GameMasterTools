@@ -344,6 +344,28 @@
      "Bird": "Common"
     }
    }
+  },
+  "9": {
+   "id": 9,
+   "name": "Eastern Barbarian",
+   "hair": {
+    "colors": {
+     "Black": "Common",
+     "SaddleBrown": "Common"
+    }
+   },
+   "skin": {
+    "normalColors": {
+     "Light": "Uncommon",
+     "Medium": "Common",
+     "Tan": "Uncommon"
+    }
+   },
+   "wing": {
+    "types": {
+     "Bird": "Common"
+    }
+   }
   }
  }
 }
