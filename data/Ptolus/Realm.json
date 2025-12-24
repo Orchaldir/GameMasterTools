@@ -4,6 +4,14 @@
   "0": {
    "id": 0,
    "name": "The Empire of Tarsis",
+   "founder": {
+    "#type": "Realm",
+    "realm": 8
+   },
+   "date": {
+    "#type": "Year",
+    "year": 0
+   },
    "capital": {
     "current": 2
    },
@@ -19,6 +27,20 @@
    "name": "Cherubar",
    "owner": {
     "current": 0
+   },
+   "currency": {
+    "current": 0
+   },
+   "legalCode": {
+    "current": 0
+   },
+   "population": {
+    "#type": "Abstract",
+    "density": "Small",
+    "races": [
+     6,
+     9
+    ]
    }
   },
   "2": {
@@ -27,6 +49,133 @@
    "date": {
     "#type": "~Year",
     "year": 699
+   },
+   "population": {
+    "#type": "Abstract",
+    "races": [
+     8
+    ]
+   }
+  },
+  "3": {
+   "id": 3,
+   "name": "The Sea Kingdoms",
+   "capital": {
+    "current": 4
+   },
+   "owner": {
+    "current": 0
+   },
+   "currency": {
+    "current": 0
+   },
+   "legalCode": {
+    "current": 0
+   }
+  },
+  "4": {
+   "id": 4,
+   "name": "Uraq",
+   "owner": {
+    "current": 0,
+    "previousEntries": [
+     {
+      "entry": null,
+      "until": {
+       "#type": "~Year",
+       "year": 199
+      }
+     }
+    ]
+   }
+  },
+  "5": {
+   "id": 5,
+   "name": "Palastan",
+   "capital": {
+    "current": 5
+   },
+   "owner": {
+    "current": 0
+   },
+   "currency": {
+    "current": 0
+   },
+   "legalCode": {
+    "current": 0
+   },
+   "population": {
+    "#type": "Abstract",
+    "races": [
+     11,
+     9,
+     2
+    ]
+   }
+  },
+  "6": {
+   "id": 6,
+   "name": "Ren Tehoth",
+   "owner": {
+    "current": 0
+   },
+   "currency": {
+    "current": 0
+   },
+   "legalCode": {
+    "current": 0
+   },
+   "population": {
+    "#type": "Abstract",
+    "races": [
+     2
+    ]
+   }
+  },
+  "7": {
+   "id": 7,
+   "name": "Roth",
+   "capital": {
+    "current": 6
+   },
+   "owner": {
+    "current": 0
+   },
+   "currency": {
+    "current": 0
+   },
+   "legalCode": {
+    "current": 0
+   },
+   "population": {
+    "#type": "Abstract",
+    "races": [
+     10,
+     9
+    ]
+   }
+  },
+  "8": {
+   "id": 8,
+   "name": "Prust",
+   "capital": {
+    "current": 2
+   },
+   "owner": {
+    "current": 0
+   },
+   "currency": {
+    "current": 0
+   },
+   "legalCode": {
+    "current": 0
+   },
+   "population": {
+    "#type": "Abstract",
+    "races": [
+     0,
+     9
+    ]
    }
   }
  }

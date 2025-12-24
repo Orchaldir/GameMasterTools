@@ -11,7 +11,6 @@ import at.orchaldir.gm.app.html.world.parseBuilding
 import at.orchaldir.gm.app.html.world.showBuilding
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes.New
 import at.orchaldir.gm.core.action.UpdateActionLot
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.InTownMap
@@ -50,6 +49,9 @@ class BuildingRoutes : Routes<BuildingId, SortBuilding> {
 
     @Resource("details")
     class Details(val id: BuildingId, val parent: BuildingRoutes = BuildingRoutes())
+
+    @Resource("new")
+    class New(val parent: BuildingRoutes = BuildingRoutes())
 
     @Resource("delete")
     class Delete(val id: BuildingId, val parent: BuildingRoutes = BuildingRoutes())
@@ -126,6 +128,12 @@ fun Application.configureBuildingRouting() {
                 }
             }
         }
+        get<BuildingRoutes.New> {
+            handleCreateElement(BuildingRoutes(), STORE.getState().getBuildingStorage())
+        }
+        get<BuildingRoutes.Delete> { delete ->
+            handleDeleteElement(BuildingRoutes(), delete.id)
+        }
         get<BuildingRoutes.Edit> { edit ->
             handleEditElementSplit(
                 edit.id,
@@ -145,9 +153,6 @@ fun Application.configureBuildingRouting() {
         }
         post<BuildingRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseBuilding)
-        }
-        get<BuildingRoutes.Delete> { delete ->
-            handleDeleteElement(BuildingRoutes(), delete.id)
         }
         get<BuildingRoutes.Lot.Edit> { edit ->
             logger.info { "Get editor for building lot ${edit.id.value}" }

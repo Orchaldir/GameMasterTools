@@ -3,9 +3,7 @@ package at.orchaldir.gm.core.selector.util
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.race.RaceId
-import at.orchaldir.gm.core.model.util.population.HasPopulation
-import at.orchaldir.gm.core.model.util.population.PopulationPerRace
-import at.orchaldir.gm.core.model.util.population.UndefinedPopulation
+import at.orchaldir.gm.core.model.util.population.*
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
@@ -49,26 +47,46 @@ fun <ID : Id<ID>, ELEMENT> getPopulationEntries(
         }
     }
 
-fun State.getTotalPopulation(race: RaceId): Int {
+fun <ID : Id<ID>, ELEMENT> getAbstractPopulations(
+    storage: Storage<ID, ELEMENT>,
+    race: RaceId,
+) where
+        ELEMENT : Element<ID>,
+        ELEMENT : HasPopulation = storage
+    .getAll()
+    .filter { element ->
+        when (val population = element.population()) {
+            is AbstractPopulation -> population.races.contains(race)
+            is PopulationPerRace -> false
+            is TotalPopulation -> population.races.contains(race)
+            UndefinedPopulation -> false
+        }
+    }
+
+fun State.calculateTotalPopulation(race: RaceId): Int? {
     val towns = getTownStorage()
         .getAll()
         .filter { it.owner.current == null }
         .sumOf { it.population.getPopulation(race) ?: 0 }
-
     val realms = getRealmStorage()
         .getAll()
         .filter { it.owner.current == null }
         .sumOf { it.population.getPopulation(race) ?: 0 }
+    val total = towns + realms
 
-    return towns + realms
+    return if (total > 0) {
+        total
+    } else {
+        null
+    }
 }
 
-fun <ID : Id<ID>, ELEMENT> State.getPopulationIndex(
+fun <ID : Id<ID>, ELEMENT> State.calculatePopulationIndex(
     element: ELEMENT,
 ): Int? where
         ELEMENT : Element<ID>,
         ELEMENT : HasPopulation {
-    return if (element.population() is UndefinedPopulation) {
+    return if (element.population().getTotalPopulation() == null) {
         null
     } else {
         getStorage<ID, ELEMENT>(element.id())
@@ -78,15 +96,16 @@ fun <ID : Id<ID>, ELEMENT> State.getPopulationIndex(
     }
 }
 
-fun State.getPopulationIndex(
+fun State.calculatePopulationIndex(
     race: RaceId,
 ) = getRaceStorage()
     .getAll()
-    .map { other ->
-        Pair(race, getTotalPopulation(other.id))
+    .mapNotNull { other ->
+        calculateTotalPopulation(other.id)
     }
+    .map { Pair(race, it) }
     .filter { it.second > 0 }
-    .sortedByDescending { getTotalPopulation(race) }
+    .sortedByDescending { calculateTotalPopulation(race) }
     .indexOfFirst { it.first == race }
     .let {
         if (it >= 0) {

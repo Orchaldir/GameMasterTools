@@ -1,5 +1,39 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "Grail Temple",
+   "position": {
+    "#type": "Town",
+    "town": 1
+   },
+   "ownership": {
+    "current": {
+     "#type": "Town",
+     "town": 1
+    }
+   },
+   "style": 0,
+   "builder": {
+    "#type": "Town",
+    "town": 1
+   }
+  },
+  "1": {
+   "id": 1,
+   "name": "The Grand Cathedral",
+   "position": {
+    "#type": "Town",
+    "town": 2
+   },
+   "ownership": {
+    "current": {
+     "#type": "Organization",
+     "organization": 0
+    }
+   },
+   "style": 1
+  }
  }
 }

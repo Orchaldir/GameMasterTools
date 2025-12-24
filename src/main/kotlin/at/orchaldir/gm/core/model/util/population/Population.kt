@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.util.population
 
 import at.orchaldir.gm.core.model.race.RaceId
+import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.ONE
 import at.orchaldir.gm.utils.math.ZERO
@@ -8,8 +9,9 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 enum class PopulationType {
-    Total,
+    Abstract,
     PerRace,
+    Total,
     Undefined,
 }
 
@@ -17,8 +19,9 @@ enum class PopulationType {
 sealed class Population {
 
     fun getType() = when (this) {
-        is TotalPopulation -> PopulationType.Total
+        is AbstractPopulation -> PopulationType.Abstract
         is PopulationPerRace -> PopulationType.PerRace
+        is TotalPopulation -> PopulationType.Total
         UndefinedPopulation -> PopulationType.Undefined
     }
 
@@ -30,20 +33,23 @@ sealed class Population {
     fun getTotalPopulation() = when (this) {
         is TotalPopulation -> total
         is PopulationPerRace -> total
-        UndefinedPopulation -> null
+        is AbstractPopulation, UndefinedPopulation -> null
     }
 
     fun contains(race: RaceId) = when (this) {
+        is AbstractPopulation -> races.contains(race)
         is PopulationPerRace -> racePercentages.containsKey(race)
+        is TotalPopulation -> races.contains(race)
         else -> false
     }
 
 }
 
 @Serializable
-@SerialName("Total")
-data class TotalPopulation(
-    val total: Int,
+@SerialName("Abstract")
+data class AbstractPopulation(
+    val density: Size = Size.Medium,
+    val races: Set<RaceId> = emptySet(),
 ) : Population()
 
 @Serializable
@@ -60,6 +66,13 @@ data class PopulationPerRace(
     fun getUndefinedPercentage() = ONE - getDefinedPercentage()
 
 }
+
+@Serializable
+@SerialName("Total")
+data class TotalPopulation(
+    val total: Int,
+    val races: Set<RaceId> = emptySet(),
+) : Population()
 
 @Serializable
 @SerialName("Undefined")

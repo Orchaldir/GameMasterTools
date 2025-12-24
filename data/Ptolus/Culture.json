@@ -66,6 +66,46 @@
     "2": "Everyone",
     "5": "Everyone"
    }
+  },
+  "5": {
+   "id": 5,
+   "name": "Palastani",
+   "languages": {
+    "2": "Everyone",
+    "7": "Everyone",
+    "14": "Common"
+   }
+  },
+  "6": {
+   "id": 6,
+   "name": "Rhothan",
+   "languages": {
+    "2": "Everyone",
+    "11": "Everyone"
+   }
+  },
+  "7": {
+   "id": 7,
+   "name": "Sea Kingdoms",
+   "languages": {
+    "2": "Everyone"
+   }
+  },
+  "8": {
+   "id": 8,
+   "name": "Imperial",
+   "languages": {
+    "2": "Everyone",
+    "3": "Rare"
+   }
+  },
+  "9": {
+   "id": 9,
+   "name": "Nallish",
+   "languages": {
+    "2": "Common",
+    "15": "Everyone"
+   }
   }
  }
 }

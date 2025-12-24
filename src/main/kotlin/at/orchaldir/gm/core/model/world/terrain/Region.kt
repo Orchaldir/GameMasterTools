@@ -49,7 +49,7 @@ data class Region(
     override fun validate(state: State) {
         when (data) {
             is Battlefield -> state.getBattleStorage().requireOptional(data.battle)
-            Continent, Desert, Forrest, Lake, Mountain, Sea, UndefinedRegionData -> doNothing()
+            Continent, Desert, Forrest, Lake, Plains, Mountain, Sea, UndefinedRegionData -> doNothing()
             is Wasteland -> state.getCatastropheStorage().requireOptional(data.catastrophe)
         }
 

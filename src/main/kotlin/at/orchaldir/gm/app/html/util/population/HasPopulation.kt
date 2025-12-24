@@ -4,9 +4,10 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.util.population.HasPopulation
+import at.orchaldir.gm.core.selector.util.calculatePopulationIndex
+import at.orchaldir.gm.core.selector.util.calculateTotalPopulation
+import at.orchaldir.gm.core.selector.util.getAbstractPopulations
 import at.orchaldir.gm.core.selector.util.getPopulationEntries
-import at.orchaldir.gm.core.selector.util.getPopulationIndex
-import at.orchaldir.gm.core.selector.util.getTotalPopulation
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
@@ -16,22 +17,22 @@ import kotlinx.html.*
 
 // show
 
-fun HtmlBlockTag.showPopulation(
+fun HtmlBlockTag.showPopulationOfRace(
     call: ApplicationCall,
     state: State,
     race: RaceId,
 ) {
     h2 { +"Population" }
 
-    optionalField("Total", state.getTotalPopulation(race))
-    optionalField("Index", state.getPopulationIndex(race))
+    optionalField("Total", state.calculateTotalPopulation(race))
+    optionalField("Index", state.calculatePopulationIndex(race))
 
-    showPopulation(call, state, race, state.getDistrictStorage())
-    showPopulation(call, state, race, state.getRealmStorage())
-    showPopulation(call, state, race, state.getTownStorage())
+    showPopulationOfRace(call, state, race, state.getDistrictStorage())
+    showPopulationOfRace(call, state, race, state.getRealmStorage())
+    showPopulationOfRace(call, state, race, state.getTownStorage())
 }
 
-private fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showPopulation(
+private fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showPopulationOfRace(
     call: ApplicationCall,
     state: State,
     race: RaceId,
@@ -66,4 +67,6 @@ private fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showPopulation(
                 }
         }
     }
+
+    fieldElements(call, state, "Abstract Population", getAbstractPopulations(storage, race))
 }

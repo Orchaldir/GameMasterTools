@@ -2,6 +2,8 @@ package at.orchaldir.gm.app.html
 
 import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.util.*
+import at.orchaldir.gm.app.html.util.population.showPopulation
+import at.orchaldir.gm.app.html.util.population.showRacesPopulation
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.rpg.combat.MeleeAttack
@@ -122,7 +124,12 @@ fun <ELEMENT : HasOwner> createOwnerColumn(
 ): Column<ELEMENT> = tdColumn("Owner") { showReference(call, state, it.owner().current, false) }
 
 fun <ELEMENT : HasPopulation> createPopulationColumn(): Column<ELEMENT> =
-    Column("Population") { tdSkipZero(it.population().getTotalPopulation()) }
+    tdColumn("Population") { showPopulation(it.population()) }
+
+fun <ELEMENT : HasPopulation> createRacesOfPopulationColumn(
+    call: ApplicationCall,
+    state: State,
+): Column<ELEMENT> = tdColumn("Races") { showRacesPopulation(call, state, it.population()) }
 
 fun <ELEMENT : HasPosition> createPositionColumn(
     call: ApplicationCall,

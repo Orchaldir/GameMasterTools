@@ -140,6 +140,9 @@
       }
      }
     ]
+   },
+   "purpose": {
+    "#type": "SingleFamilyHouse"
    }
   },
   "66": {
@@ -214,6 +217,9 @@
      "#type": "Character",
      "character": 16
     }
+   },
+   "purpose": {
+    "#type": "SingleFamilyHouse"
    }
   }
  }

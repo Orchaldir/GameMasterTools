@@ -6,14 +6,24 @@
    "name": "Ptolus",
    "owner": {
     "current": 0
+   },
+   "population": {
+    "#type": "Abstract",
+    "density": "Large"
    }
   },
   "1": {
    "id": 1,
    "name": "Grail Keep",
    "founder": {
-    "#type": "Organization",
-    "organization": 0
+    "#type": "Culture",
+    "culture": 3
+   },
+   "population": {
+    "#type": "Abstract",
+    "races": [
+     0
+    ]
    }
   },
   "2": {
@@ -37,18 +47,26 @@
       }
      }
     ]
+   },
+   "population": {
+    "#type": "Abstract",
+    "density": "Large",
+    "races": [
+     0,
+     9
+    ]
    }
   },
   "3": {
    "id": 3,
    "name": "Dwarvenhearth",
+   "founder": {
+    "#type": "Culture",
+    "culture": 4
+   },
    "date": {
     "#type": "~Year",
     "year": -2000
-   },
-   "founder": {
-    "#type": "Organization",
-    "organization": 1
    },
    "status": {
     "#type": "Abandoned",
@@ -60,6 +78,77 @@
      "#type": "War",
      "war": 2
     }
+   },
+   "population": {
+    "#type": "Abstract",
+    "races": [
+     0
+    ]
+   }
+  },
+  "4": {
+   "id": 4,
+   "name": "Dohrinthas",
+   "title": "The Golden City",
+   "owner": {
+    "current": 3
+   },
+   "population": {
+    "#type": "Abstract",
+    "density": "Large"
+   }
+  },
+  "5": {
+   "id": 5,
+   "name": "Trolone",
+   "owner": {
+    "current": 5
+   }
+  },
+  "6": {
+   "id": 6,
+   "name": "Slune",
+   "owner": {
+    "current": 7
+   }
+  },
+  "7": {
+   "id": 7,
+   "name": "Paelinth",
+   "owner": {
+    "current": 6
+   },
+   "population": {
+    "#type": "Abstract",
+    "races": [
+     2
+    ]
+   }
+  },
+  "8": {
+   "id": 8,
+   "name": "Sariush",
+   "owner": {
+    "current": 6
+   },
+   "population": {
+    "#type": "Abstract",
+    "races": [
+     2
+    ]
+   }
+  },
+  "9": {
+   "id": 9,
+   "name": "Phinothae",
+   "owner": {
+    "current": 6
+   },
+   "population": {
+    "#type": "Abstract",
+    "races": [
+     2
+    ]
    }
   }
  }

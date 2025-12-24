@@ -12,6 +12,7 @@ enum class RegionDataType {
     Forrest,
     Lake,
     Mountain,
+    Plains,
     Sea,
     Undefined,
     Wasteland,
@@ -26,6 +27,7 @@ sealed class RegionData {
         Desert -> RegionDataType.Desert
         Forrest -> RegionDataType.Forrest
         Lake -> RegionDataType.Lake
+        Plains -> RegionDataType.Plains
         Mountain -> RegionDataType.Mountain
         Sea -> RegionDataType.Sea
         UndefinedRegionData -> RegionDataType.Undefined
@@ -70,6 +72,10 @@ data object Forrest : RegionData()
 @Serializable
 @SerialName("Lake")
 data object Lake : RegionData()
+
+@Serializable
+@SerialName("Plains")
+data object Plains : RegionData()
 
 @Serializable
 @SerialName("Mountain")

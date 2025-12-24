@@ -69,9 +69,7 @@ fun HtmlBlockTag.displayPlanePurpose(
         is PrisonPlane -> {
             +"Prison of "
 
-            showInlineList(purpose.gods) { god ->
-                link(call, state, god)
-            }
+            showInlineIds(call, state, purpose.gods)
         }
 
         is ReflectivePlane -> {

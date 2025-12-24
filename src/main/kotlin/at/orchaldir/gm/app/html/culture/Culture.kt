@@ -42,8 +42,8 @@ fun HtmlBlockTag.showCulture(
     culture: Culture,
 ) {
     fieldLink("Calendar", call, state, culture.calendar)
-    showRarityMap("Languages", culture.languages) { l ->
-        link(call, state, l)
+    showRarityMap("Languages", culture.languages, true) {
+        link(call, state, it)
     }
     showHolidays(call, state, culture.holidays)
     showDataSources(call, state, culture.sources)

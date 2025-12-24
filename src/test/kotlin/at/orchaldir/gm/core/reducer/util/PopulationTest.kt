@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.reducer.util
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.race.Race
+import at.orchaldir.gm.core.model.util.population.AbstractPopulation
 import at.orchaldir.gm.core.model.util.population.Population
 import at.orchaldir.gm.core.model.util.population.PopulationPerRace
 import at.orchaldir.gm.core.model.util.population.TotalPopulation
@@ -26,16 +27,19 @@ class PopulationTest {
     )
 
     @Nested
-    inner class TotalPopulationTest {
+    inner class AbstractPopulationTest {
 
         @Test
-        fun `The total population must be greater than 0`() {
-            assertTotalPopulation(TotalPopulation(0))
+        fun `With an unknown race`() {
+            assertPopulation(
+                AbstractPopulation(races = setOf(UNKNOWN_RACE_ID)),
+                "Requires unknown Race 99!",
+            )
         }
 
         @Test
         fun `A valid population`() {
-            validatePopulation(state, TotalPopulation(100))
+            validatePopulation(state, AbstractPopulation(races = setOf(RACE_ID_0)))
         }
 
     }
@@ -83,6 +87,29 @@ class PopulationTest {
         @Test
         fun `A valid population`() {
             validatePopulation(state, PopulationPerRace(100, mapOf(RACE_ID_0 to HALF, RACE_ID_1 to HALF)))
+        }
+
+    }
+
+    @Nested
+    inner class TotalPopulationTest {
+
+        @Test
+        fun `The total population must be greater than 0`() {
+            assertTotalPopulation(TotalPopulation(0))
+        }
+
+        @Test
+        fun `With an unknown race`() {
+            assertPopulation(
+                TotalPopulation(100, setOf(UNKNOWN_RACE_ID)),
+                "Requires unknown Race 99!",
+            )
+        }
+
+        @Test
+        fun `A valid population`() {
+            validatePopulation(state, TotalPopulation(100, races = setOf(RACE_ID_0)))
         }
 
     }

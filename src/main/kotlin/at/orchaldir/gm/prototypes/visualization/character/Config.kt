@@ -315,10 +315,10 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
     mapOf(
         SkinColor.Fair to RGB(254, 228, 208),
         SkinColor.Light to RGB(232, 198, 175),
-        SkinColor.Medium to RGB(175, 118, 88),
-        SkinColor.Tan to RGB(156, 89, 60),
-        SkinColor.Dark to RGB(122, 68, 44),
-        SkinColor.VeryDark to RGB(58, 26, 13),
+        SkinColor.Medium to RGB(200, 158, 134),
+        SkinColor.Tan to RGB(175, 118, 88),
+        SkinColor.Dark to RGB(156, 89, 60),
+        SkinColor.VeryDark to RGB(122, 68, 44),
     )
 )
 

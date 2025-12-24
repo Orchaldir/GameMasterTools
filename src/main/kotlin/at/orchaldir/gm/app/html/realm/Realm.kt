@@ -6,7 +6,7 @@ import at.orchaldir.gm.app.html.economy.money.parseOptionalCurrencyId
 import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.app.html.util.population.editPopulation
 import at.orchaldir.gm.app.html.util.population.parsePopulation
-import at.orchaldir.gm.app.html.util.population.showPopulation
+import at.orchaldir.gm.app.html.util.population.showPopulationDetails
 import at.orchaldir.gm.app.html.util.source.editDataSources
 import at.orchaldir.gm.app.html.util.source.parseDataSources
 import at.orchaldir.gm.app.html.util.source.showDataSources
@@ -31,7 +31,7 @@ fun HtmlBlockTag.showRealm(
     state: State,
     realm: Realm,
 ) {
-    showPopulation(call, state, realm)
+    showPopulationDetails(call, state, realm)
     fieldReference(call, state, realm.founder, "Founder")
     optionalField(call, state, "Date", realm.date)
     showVitalStatus(call, state, realm.status)

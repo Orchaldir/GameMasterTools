@@ -97,6 +97,34 @@
      }
     }
    ]
+  },
+  "5": {
+   "id": 5,
+   "name": "Gnoll War",
+   "startDate": {
+    "#type": "~Year",
+    "year": 689
+   },
+   "status": {
+    "#type": "Finished",
+    "result": {
+     "#type": "Disengagement"
+    }
+   },
+   "sides": [
+    {
+     "color": "Blue",
+     "name": "Defenders"
+    }
+   ],
+   "participants": [
+    {
+     "reference": {
+      "#type": "Realm",
+      "realm": 7
+     }
+    }
+   ]
   }
  }
 }

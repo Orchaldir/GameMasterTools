@@ -310,6 +310,97 @@
      "Bird": "Common"
     }
    }
+  },
+  "8": {
+   "id": 8,
+   "name": "Northern Barbarian",
+   "eye": {
+    "eyeColors": {
+     "Blue": "Common",
+     "Green": "Uncommon",
+     "SaddleBrown": "Common",
+     "SkyBlue": "Uncommon",
+     "SteelBlue": "Uncommon"
+    }
+   },
+   "hair": {
+    "colors": {
+     "Crimson": "Rare",
+     "Gold": "Common",
+     "Orange": "Rare",
+     "SaddleBrown": "Common",
+     "Wheat": "Common",
+     "Yellow": "Common"
+    }
+   },
+   "skin": {
+    "normalColors": {
+     "Fair": "Common",
+     "Light": "Uncommon"
+    }
+   },
+   "wing": {
+    "types": {
+     "Bird": "Common"
+    }
+   }
+  },
+  "9": {
+   "id": 9,
+   "name": "Eastern Barbarian",
+   "hair": {
+    "colors": {
+     "Black": "Common",
+     "SaddleBrown": "Common"
+    }
+   },
+   "skin": {
+    "normalColors": {
+     "Light": "Uncommon",
+     "Medium": "Common",
+     "Tan": "Uncommon"
+    }
+   },
+   "wing": {
+    "types": {
+     "Bird": "Common"
+    }
+   }
+  },
+  "10": {
+   "id": 10,
+   "name": "Imperial",
+   "eye": {
+    "eyeColors": {
+     "Blue": "Common",
+     "Green": "Common",
+     "LightGray": "Uncommon",
+     "Olive": "Uncommon",
+     "Peru": "Uncommon",
+     "SaddleBrown": "Common",
+     "SkyBlue": "Uncommon",
+     "SteelBlue": "Uncommon"
+    }
+   },
+   "hair": {
+    "colors": {
+     "Black": "Common",
+     "Gold": "Uncommon",
+     "SaddleBrown": "Common"
+    }
+   },
+   "skin": {
+    "normalColors": {
+     "Fair": "Uncommon",
+     "Light": "Common",
+     "Medium": "Uncommon"
+    }
+   },
+   "wing": {
+    "types": {
+     "Bird": "Common"
+    }
+   }
   }
  }
 }

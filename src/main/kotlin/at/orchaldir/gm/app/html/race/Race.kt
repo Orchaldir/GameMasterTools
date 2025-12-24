@@ -7,7 +7,7 @@ import at.orchaldir.gm.app.WEIGHT
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.app.html.util.math.*
-import at.orchaldir.gm.app.html.util.population.showPopulation
+import at.orchaldir.gm.app.html.util.population.showPopulationOfRace
 import at.orchaldir.gm.app.html.util.source.editDataSources
 import at.orchaldir.gm.app.html.util.source.parseDataSources
 import at.orchaldir.gm.app.html.util.source.showDataSources
@@ -17,6 +17,7 @@ import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.race.*
 import at.orchaldir.gm.core.selector.character.getCharacterTemplates
 import at.orchaldir.gm.core.selector.character.getCharacters
+import at.orchaldir.gm.core.selector.race.getRaceGroups
 import at.orchaldir.gm.utils.math.unit.SiPrefix
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -33,6 +34,7 @@ fun HtmlBlockTag.showRace(
     state: State,
     race: Race,
 ) {
+    fieldElements(call, state, state.getRaceGroups(race.id))
     showRarityMap("Gender", race.genders)
     showDistribution("Height", race.height)
     fieldWeight("Weight", race.weight)
@@ -41,7 +43,7 @@ fun HtmlBlockTag.showRace(
     fieldOrigin(call, state, race.origin, ::RaceId)
     showDataSources(call, state, race.sources)
     showLifeStages(call, state, race.lifeStages)
-    showPopulation(call, state, race.id)
+    showPopulationOfRace(call, state, race.id)
     showUsages(call, state, race.id)
 }
 

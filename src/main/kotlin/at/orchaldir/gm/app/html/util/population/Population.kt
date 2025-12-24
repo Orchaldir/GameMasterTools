@@ -1,17 +1,23 @@
 package at.orchaldir.gm.app.html.util.population
 
+import at.orchaldir.gm.app.DENSITY
 import at.orchaldir.gm.app.NUMBER
 import at.orchaldir.gm.app.POPULATION
+import at.orchaldir.gm.app.RACE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.race.parseRaceId
 import at.orchaldir.gm.app.html.util.math.parseFactor
 import at.orchaldir.gm.app.html.util.math.selectFactor
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
+import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.race.Race
+import at.orchaldir.gm.core.model.race.RaceId
+import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.population.*
 import at.orchaldir.gm.core.model.util.population.PopulationType.Undefined
-import at.orchaldir.gm.core.selector.util.getPopulationIndex
+import at.orchaldir.gm.core.selector.util.calculatePopulationIndex
 import at.orchaldir.gm.core.selector.util.sortRaces
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
@@ -26,7 +32,29 @@ import kotlinx.html.*
 
 // show
 
-fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showPopulation(
+fun HtmlBlockTag.showPopulation(population: Population) {
+    when (population) {
+        is AbstractPopulation -> +population.density.toString()
+        is PopulationPerRace -> +population.total.toString()
+        is TotalPopulation -> +population.total.toString()
+        UndefinedPopulation -> doNothing()
+    }
+}
+
+fun HtmlBlockTag.showRacesPopulation(
+    call: ApplicationCall,
+    state: State,
+    population: Population,
+) {
+    when (population) {
+        is AbstractPopulation -> showInlineIds(call, state, population.races)
+        is PopulationPerRace -> showInlineIds(call, state, population.racePercentages.keys)
+        is TotalPopulation -> showInlineIds(call, state, population.races)
+        UndefinedPopulation -> doNothing()
+    }
+}
+
+fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showPopulationDetails(
     call: ApplicationCall,
     state: State,
     element: ELEMENT,
@@ -41,9 +69,14 @@ fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showPopulation(
 
     showDetails("Population", true) {
         optionalField("Total", population.getTotalPopulation())
-        optionalField("Index", state.getPopulationIndex(element))
+        optionalField("Index", state.calculatePopulationIndex(element))
 
         when (population) {
+            is AbstractPopulation -> {
+                field("Density", population.density)
+                fieldIds(call, state, population.races)
+            }
+
             is PopulationPerRace -> {
                 var remaining = Factor.fromPercentage(100)
 
@@ -70,7 +103,8 @@ fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showPopulation(
                 }
             }
 
-            is TotalPopulation, UndefinedPopulation -> doNothing()
+            is TotalPopulation -> fieldIds(call, state, population.races)
+            UndefinedPopulation -> doNothing()
         }
     }
 }
@@ -108,14 +142,24 @@ fun HtmlBlockTag.editPopulation(
     call: ApplicationCall,
     state: State,
     population: Population,
+    param: String = POPULATION,
 ) {
     showDetails("Population", true) {
-        selectValue("Type", POPULATION, PopulationType.entries, population.getType())
+        selectValue("Type", param, PopulationType.entries, population.getType())
 
         when (population) {
-            is TotalPopulation -> selectTotalPopulation(population.total)
+            is AbstractPopulation -> {
+                selectValue(
+                    "Density",
+                    combine(param, DENSITY),
+                    Size.entries,
+                    population.density,
+                )
+                selectRaceSet(state, param, population.races)
+            }
+
             is PopulationPerRace -> {
-                selectTotalPopulation(population.total)
+                selectTotalPopulation(param, population.total)
 
                 val remaining = population.getUndefinedPercentage()
 
@@ -137,7 +181,7 @@ fun HtmlBlockTag.editPopulation(
                             tdLink(call, state, race)
                             td {
                                 selectFactor(
-                                    combine(POPULATION, race.id.value),
+                                    combine(param, race.id.value),
                                     percentage,
                                     minValue,
                                     FULL.min(percentage + remaining),
@@ -152,43 +196,76 @@ fun HtmlBlockTag.editPopulation(
                 }
             }
 
+            is TotalPopulation -> {
+                selectTotalPopulation(param, population.total)
+                selectRaceSet(state, param, population.races)
+            }
+
             UndefinedPopulation -> doNothing()
         }
     }
 }
 
-private fun DETAILS.selectTotalPopulation(totalPopulation: Int) {
+private fun DETAILS.selectRaceSet(
+    state: State,
+    param: String,
+    races: Set<RaceId>,
+) {
+    selectElements(
+        state,
+        "Races",
+        combine(param, RACE),
+        state.sortRaces(),
+        races,
+    )
+}
+
+private fun DETAILS.selectTotalPopulation(param: String, totalPopulation: Int) {
     selectInt(
         "Total Population",
         totalPopulation,
         0,
         Int.MAX_VALUE,
         1,
-        combine(POPULATION, NUMBER),
+        combine(param, NUMBER),
     )
 }
 
 // parse
 
-fun parsePopulation(parameters: Parameters, state: State) = when (parse(parameters, POPULATION, Undefined)) {
-    PopulationType.Total -> TotalPopulation(
-        parseTotalPopulation(parameters),
+fun parsePopulation(
+    parameters: Parameters,
+    state: State,
+    param: String = POPULATION,
+) = when (parse(parameters, param, Undefined)) {
+    PopulationType.Abstract -> AbstractPopulation(
+        parse(parameters, combine(param, DENSITY), Size.Medium),
+        parseRaceSet(parameters, param)
     )
 
     PopulationType.PerRace -> PopulationPerRace(
-        parseTotalPopulation(parameters),
+        parseTotalPopulation(parameters, param),
         state.getRaceStorage()
             .getAll()
             .associate { race ->
-                Pair(race.id, parsePopulationOfRace(parameters, race))
+                Pair(race.id, parsePopulationOfRace(parameters, param, race))
             }
             .filter { it.value.isGreaterZero() }
+    )
+
+    PopulationType.Total -> TotalPopulation(
+        parseTotalPopulation(parameters, param),
+        parseRaceSet(parameters, param)
     )
 
     Undefined -> UndefinedPopulation
 }
 
-private fun parseTotalPopulation(parameters: Parameters): Int = parseInt(parameters, combine(POPULATION, NUMBER), 0)
+private fun parseRaceSet(parameters: Parameters, param: String) =
+    parseElements(parameters, combine(param, RACE), ::parseRaceId)
 
-fun parsePopulationOfRace(parameters: Parameters, race: Race) =
-    parseFactor(parameters, combine(POPULATION, race.id.value), ZERO)
+private fun parseTotalPopulation(parameters: Parameters, param: String): Int =
+    parseInt(parameters, combine(param, NUMBER), 0)
+
+fun parsePopulationOfRace(parameters: Parameters, param: String, race: Race) =
+    parseFactor(parameters, combine(param, race.id.value), ZERO)

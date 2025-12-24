@@ -52,7 +52,7 @@ data class Building(
     val constructionDate: Date? = null,
     val ownership: History<Reference> = History(UndefinedReference),
     val style: ArchitecturalStyleId? = null,
-    val purpose: BuildingPurpose = SingleFamilyHouse,
+    val purpose: BuildingPurpose = UndefinedBuildingPurpose,
     val builder: Reference = UndefinedReference,
 ) : Element<BuildingId>, Creation, HasOwner, HasPosition, HasStartDate {
 

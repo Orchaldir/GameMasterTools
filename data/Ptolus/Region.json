@@ -96,7 +96,7 @@
    },
    "position": {
     "#type": "Region",
-    "region": 5
+    "region": 26
    }
   },
   "9": {
@@ -107,7 +107,7 @@
    },
    "position": {
     "#type": "Region",
-    "region": 5
+    "region": 26
    }
   },
   "10": {
@@ -146,6 +146,9 @@
   "13": {
    "id": 13,
    "name": "Endless Sea of Ice",
+   "data": {
+    "#type": "Sea"
+   },
    "position": {
     "#type": "Region",
     "region": 5
@@ -156,6 +159,10 @@
    "name": "Whitewind Sea",
    "data": {
     "#type": "Sea"
+   },
+   "position": {
+    "#type": "World",
+    "world": 0
    }
   },
   "15": {
@@ -163,6 +170,10 @@
    "name": "Southern Sea",
    "data": {
     "#type": "Sea"
+   },
+   "position": {
+    "#type": "World",
+    "world": 0
    }
   },
   "16": {
@@ -170,6 +181,10 @@
    "name": "Gulf of Satran",
    "data": {
     "#type": "Sea"
+   },
+   "position": {
+    "#type": "World",
+    "world": 0
    }
   },
   "17": {
@@ -178,6 +193,96 @@
    "data": {
     "#type": "Lake"
    },
+   "position": {
+    "#type": "Region",
+    "region": 5
+   }
+  },
+  "18": {
+   "id": 18,
+   "name": "Mrathrach’s Pit",
+   "position": {
+    "#type": "Region",
+    "region": 1
+   }
+  },
+  "19": {
+   "id": 19,
+   "name": "Southern Continent",
+   "data": {
+    "#type": "Continent"
+   },
+   "position": {
+    "#type": "World",
+    "world": 0
+   }
+  },
+  "20": {
+   "id": 20,
+   "name": "Scorched Peaks",
+   "data": {
+    "#type": "Mountain"
+   },
+   "position": {
+    "#type": "Region",
+    "region": 19
+   }
+  },
+  "21": {
+   "id": 21,
+   "name": "Sea of World’s End",
+   "data": {
+    "#type": "Sea"
+   },
+   "position": {
+    "#type": "World",
+    "world": 0
+   }
+  },
+  "22": {
+   "id": 22,
+   "name": "Plains of Rhoth",
+   "data": {
+    "#type": "Plains"
+   },
+   "position": {
+    "#type": "Region",
+    "region": 5
+   }
+  },
+  "23": {
+   "id": 23,
+   "name": "Plains of Panish",
+   "data": {
+    "#type": "Plains"
+   },
+   "position": {
+    "#type": "Region",
+    "region": 5
+   }
+  },
+  "24": {
+   "id": 24,
+   "name": "Distant South",
+   "position": {
+    "#type": "Region",
+    "region": 19
+   }
+  },
+  "25": {
+   "id": 25,
+   "name": "The East",
+   "data": {
+    "#type": "Plains"
+   },
+   "position": {
+    "#type": "Region",
+    "region": 5
+   }
+  },
+  "26": {
+   "id": 26,
+   "name": "Nall",
    "position": {
     "#type": "Region",
     "region": 5

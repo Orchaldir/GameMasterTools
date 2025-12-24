@@ -185,11 +185,12 @@ inline fun <reified T : Enum<T>> HtmlBlockTag.showRarityMap(
 fun <T> HtmlBlockTag.showRarityMap(
     label: String,
     values: RarityMap<T>,
+    isOpen: Boolean = false,
     content: LI.(T) -> Unit,
 ) {
     val sortedMap = reverseAndSort(values.getRarityMap())
 
-    showDetails(label) {
+    showDetails(label, isOpen) {
         showMap(sortedMap) { rarity, values ->
             fieldList(rarity.toString(), values) {
                 content(it)

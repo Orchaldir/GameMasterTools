@@ -6,7 +6,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.app.html.util.population.editPopulation
 import at.orchaldir.gm.app.html.util.population.parsePopulation
-import at.orchaldir.gm.app.html.util.population.showPopulation
+import at.orchaldir.gm.app.html.util.population.showPopulationDetails
 import at.orchaldir.gm.app.html.util.source.editDataSources
 import at.orchaldir.gm.app.html.util.source.parseDataSources
 import at.orchaldir.gm.app.html.util.source.showDataSources
@@ -30,7 +30,7 @@ fun HtmlBlockTag.showDistrict(
     optionalField(call, state, "Date", district.foundingDate)
     fieldReference(call, state, district.founder, "Founder")
     fieldElements(call, state, "Residents", state.getCharactersLivingIn(district.id))
-    showPopulation(call, state, district)
+    showPopulationDetails(call, state, district)
     showLocalElements(call, state, district.id)
     showDataSources(call, state, district.sources)
 }
