@@ -14,6 +14,7 @@
      "town": 1
     }
    },
+   "style": 0,
    "builder": {
     "#type": "Town",
     "town": 1
