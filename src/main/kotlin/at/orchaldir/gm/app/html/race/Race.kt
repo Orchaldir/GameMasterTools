@@ -17,6 +17,7 @@ import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.race.*
 import at.orchaldir.gm.core.selector.character.getCharacterTemplates
 import at.orchaldir.gm.core.selector.character.getCharacters
+import at.orchaldir.gm.core.selector.race.getRaceGroups
 import at.orchaldir.gm.utils.math.unit.SiPrefix
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -33,6 +34,7 @@ fun HtmlBlockTag.showRace(
     state: State,
     race: Race,
 ) {
+    fieldElements(call, state, state.getRaceGroups(race.id))
     showRarityMap("Gender", race.genders)
     showDistribution("Height", race.height)
     fieldWeight("Weight", race.weight)

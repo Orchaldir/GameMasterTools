@@ -325,7 +325,9 @@
    },
    "hair": {
     "colors": {
+     "Crimson": "Rare",
      "Gold": "Common",
+     "Orange": "Rare",
      "SaddleBrown": "Common",
      "Wheat": "Common",
      "Yellow": "Common"
