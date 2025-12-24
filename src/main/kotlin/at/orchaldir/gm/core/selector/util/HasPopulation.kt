@@ -3,8 +3,10 @@ package at.orchaldir.gm.core.selector.util
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.race.RaceId
+import at.orchaldir.gm.core.model.util.population.AbstractPopulation
 import at.orchaldir.gm.core.model.util.population.HasPopulation
 import at.orchaldir.gm.core.model.util.population.PopulationPerRace
+import at.orchaldir.gm.core.model.util.population.TotalPopulation
 import at.orchaldir.gm.core.model.util.population.UndefinedPopulation
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
@@ -46,6 +48,22 @@ fun <ID : Id<ID>, ELEMENT> getPopulationEntries(
             }
 
             else -> null
+        }
+    }
+
+fun <ID : Id<ID>, ELEMENT> getAbstractPopulation(
+    storage: Storage<ID, ELEMENT>,
+    race: RaceId,
+) where
+        ELEMENT : Element<ID>,
+        ELEMENT : HasPopulation = storage
+    .getAll()
+    .filter { element ->
+        when (val population = element.population()) {
+            is AbstractPopulation -> population.races.contains(race)
+            is PopulationPerRace -> false
+            is TotalPopulation -> population.races.contains(race)
+            UndefinedPopulation -> false
         }
     }
 

@@ -4,6 +4,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.util.population.HasPopulation
+import at.orchaldir.gm.core.selector.util.getAbstractPopulation
 import at.orchaldir.gm.core.selector.util.getPopulationEntries
 import at.orchaldir.gm.core.selector.util.getPopulationIndex
 import at.orchaldir.gm.core.selector.util.getTotalPopulation
@@ -66,4 +67,6 @@ private fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showPopulation(
                 }
         }
     }
+
+    fieldElements(call, state, "Abstract Population", getAbstractPopulation(storage, race))
 }
