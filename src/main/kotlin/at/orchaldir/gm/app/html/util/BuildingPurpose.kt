@@ -52,6 +52,7 @@ fun HtmlBlockTag.showBuildingPurpose(
             is SingleBusiness -> showBusinesses(call, state, building)
 
             is SingleFamilyHouse -> showInhabitants(call, state, building)
+            UndefinedBuildingPurpose -> doNothing()
         }
 
         fieldElements(call, state, "Previous Inhabitants", state.getCharactersPreviouslyLivingIn(building.id))
@@ -95,6 +96,8 @@ fun HtmlBlockTag.selectBuildingPurpose(state: State, building: Building) {
             BusinessAndHome -> doNothing()
             SingleBusiness -> doNothing()
             SingleFamilyHouse -> doNothing()
+            UndefinedBuildingPurpose -> doNothing()
+
         }
     }
 }
@@ -107,4 +110,5 @@ fun parseBuildingPurpose(parameters: Parameters): BuildingPurpose =
         BuildingPurposeType.BusinessAndHome -> BusinessAndHome
         BuildingPurposeType.SingleBusiness -> SingleBusiness
         BuildingPurposeType.SingleFamilyHouse -> SingleFamilyHouse
+        BuildingPurposeType.Undefined -> UndefinedBuildingPurpose
     }

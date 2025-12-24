@@ -7,7 +7,8 @@ enum class BuildingPurposeType {
     ApartmentHouse,
     BusinessAndHome,
     SingleBusiness,
-    SingleFamilyHouse;
+    SingleFamilyHouse,
+    Undefined;
 
     fun isBusiness() = this == SingleBusiness ||
             this == BusinessAndHome
@@ -24,6 +25,7 @@ sealed class BuildingPurpose {
         BusinessAndHome -> BuildingPurposeType.BusinessAndHome
         SingleBusiness -> BuildingPurposeType.SingleBusiness
         SingleFamilyHouse -> BuildingPurposeType.SingleFamilyHouse
+        UndefinedBuildingPurpose -> BuildingPurposeType.Undefined
     }
 
     fun isHome() = when (this) {
@@ -51,6 +53,10 @@ data object SingleFamilyHouse : BuildingPurpose()
 @Serializable
 @SerialName("ApartmentHouse")
 data class ApartmentHouse(val apartments: Int) : BuildingPurpose()
+
+@Serializable
+@SerialName("Undefined")
+data object UndefinedBuildingPurpose : BuildingPurpose()
 
 
 

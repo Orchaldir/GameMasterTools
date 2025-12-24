@@ -199,6 +199,7 @@ fun validateBuildingPurpose(
         is SingleBusiness -> doNothing()
         is SingleFamilyHouse -> doNothing()
         is BusinessAndHome -> doNothing()
+        UndefinedBuildingPurpose -> doNothing()
     }
 
     if (!building.purpose.getType().isHome()) {
