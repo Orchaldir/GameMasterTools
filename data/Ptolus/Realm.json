@@ -107,6 +107,25 @@
      2
     ]
    }
+  },
+  "7": {
+   "id": 7,
+   "name": "Roth",
+   "owner": {
+    "current": 0
+   },
+   "currency": {
+    "current": 0
+   },
+   "legalCode": {
+    "current": 0
+   },
+   "population": {
+    "#type": "Abstract",
+    "races": [
+     9
+    ]
+   }
   }
  }
 }
