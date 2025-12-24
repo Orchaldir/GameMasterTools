@@ -1,13 +1,5 @@
 {
  "version": 1,
  "elements": {
-  "0": {
-   "id": 0,
-   "name": "Grailwarden Dwarves"
-  },
-  "1": {
-   "id": 1,
-   "name": "Stonelost Dwarves"
-  }
  }
 }
