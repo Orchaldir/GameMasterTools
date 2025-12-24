@@ -98,6 +98,14 @@
     "2": "Everyone",
     "3": "Rare"
    }
+  },
+  "9": {
+   "id": 9,
+   "name": "Nallish",
+   "languages": {
+    "2": "Common",
+    "15": "Everyone"
+   }
   }
  }
 }
