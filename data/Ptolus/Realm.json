@@ -4,6 +4,10 @@
   "0": {
    "id": 0,
    "name": "The Empire of Tarsis",
+   "date": {
+    "#type": "Year",
+    "year": 0
+   },
    "capital": {
     "current": 2
    },
