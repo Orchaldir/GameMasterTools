@@ -32,7 +32,7 @@ class PopulationTest {
         @Test
         fun `With an unknown race`() {
             assertPopulation(
-                AbstractPopulation(races = setOf(UNKNOWN_RACE_ID )),
+                AbstractPopulation(races = setOf(UNKNOWN_RACE_ID)),
                 "Requires unknown Race 99!",
             )
         }
@@ -102,7 +102,7 @@ class PopulationTest {
         @Test
         fun `With an unknown race`() {
             assertPopulation(
-                TotalPopulation(100, setOf(UNKNOWN_RACE_ID )),
+                TotalPopulation(100, setOf(UNKNOWN_RACE_ID)),
                 "Requires unknown Race 99!",
             )
         }

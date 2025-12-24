@@ -3,11 +3,7 @@ package at.orchaldir.gm.core.selector.util
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.race.RaceId
-import at.orchaldir.gm.core.model.util.population.AbstractPopulation
-import at.orchaldir.gm.core.model.util.population.HasPopulation
-import at.orchaldir.gm.core.model.util.population.PopulationPerRace
-import at.orchaldir.gm.core.model.util.population.TotalPopulation
-import at.orchaldir.gm.core.model.util.population.UndefinedPopulation
+import at.orchaldir.gm.core.model.util.population.*
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage

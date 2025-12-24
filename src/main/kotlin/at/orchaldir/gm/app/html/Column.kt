@@ -3,7 +3,6 @@ package at.orchaldir.gm.app.html
 import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.app.html.util.population.showPopulation
-import at.orchaldir.gm.app.html.util.population.showPopulationOfRace
 import at.orchaldir.gm.app.html.util.population.showRacesPopulation
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.Equipment

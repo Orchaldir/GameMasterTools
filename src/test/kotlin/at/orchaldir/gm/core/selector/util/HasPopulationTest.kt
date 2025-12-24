@@ -1,6 +1,8 @@
 package at.orchaldir.gm.core.selector.util
 
-import at.orchaldir.gm.*
+import at.orchaldir.gm.RACE_ID_0
+import at.orchaldir.gm.REALM_ID_0
+import at.orchaldir.gm.REALM_ID_1
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.util.population.AbstractPopulation
 import at.orchaldir.gm.core.model.util.population.Population

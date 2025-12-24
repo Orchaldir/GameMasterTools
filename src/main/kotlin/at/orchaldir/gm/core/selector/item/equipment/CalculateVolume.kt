@@ -1,22 +1,18 @@
 package at.orchaldir.gm.core.selector.item.equipment
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.Equipped
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.economy.money.CalculatedPrice
 import at.orchaldir.gm.core.model.economy.money.UserDefinedPrice
 import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.item.equipment.style.OuterwearLength
 import at.orchaldir.gm.core.model.item.equipment.style.SimpleBuckle
-import at.orchaldir.gm.core.model.rpg.statblock.StatblockLookup
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.unit.CalculatedWeight
 import at.orchaldir.gm.utils.math.unit.UserDefinedWeight
 import at.orchaldir.gm.utils.math.unit.VolumePerMaterial
-import at.orchaldir.gm.utils.math.unit.WEIGHTLESS
-import at.orchaldir.gm.utils.math.unit.Weight
 import at.orchaldir.gm.visualization.character.CharacterRenderConfig
 import at.orchaldir.gm.visualization.character.ICharacterConfig
 import at.orchaldir.gm.visualization.character.appearance.BodyConfig

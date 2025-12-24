@@ -1,11 +1,7 @@
 package at.orchaldir.gm.core.reducer.util
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.util.population.AbstractPopulation
-import at.orchaldir.gm.core.model.util.population.Population
-import at.orchaldir.gm.core.model.util.population.PopulationPerRace
-import at.orchaldir.gm.core.model.util.population.TotalPopulation
-import at.orchaldir.gm.core.model.util.population.UndefinedPopulation
+import at.orchaldir.gm.core.model.util.population.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.ONE
 
@@ -26,6 +22,7 @@ fun validatePopulation(
 
         require(population.getDefinedPercentage() <= ONE) { "The total population of all Races must be <= 100%!" }
     }
+
     is TotalPopulation -> {
         validateTotalPopulation(population.total)
         state.getRaceStorage().require(population.races)

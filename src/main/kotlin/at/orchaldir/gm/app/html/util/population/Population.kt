@@ -76,6 +76,7 @@ fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showPopulationDetails(
                 field("Density", population.density)
                 fieldIds(call, state, population.races)
             }
+
             is PopulationPerRace -> {
                 var remaining = Factor.fromPercentage(100)
 
@@ -141,7 +142,7 @@ fun HtmlBlockTag.editPopulation(
     call: ApplicationCall,
     state: State,
     population: Population,
-    param: String = POPULATION
+    param: String = POPULATION,
 ) {
     showDetails("Population", true) {
         selectValue("Type", param, PopulationType.entries, population.getType())
@@ -156,6 +157,7 @@ fun HtmlBlockTag.editPopulation(
                 )
                 selectRaceSet(state, param, population.races)
             }
+
             is PopulationPerRace -> {
                 selectTotalPopulation(param, population.total)
 
@@ -193,6 +195,7 @@ fun HtmlBlockTag.editPopulation(
                     showRemainingPopulation(population, remaining)
                 }
             }
+
             is TotalPopulation -> {
                 selectTotalPopulation(param, population.total)
                 selectRaceSet(state, param, population.races)
@@ -249,6 +252,7 @@ fun parsePopulation(
             }
             .filter { it.value.isGreaterZero() }
     )
+
     PopulationType.Total -> TotalPopulation(
         parseTotalPopulation(parameters, param),
         parseRaceSet(parameters, param)
