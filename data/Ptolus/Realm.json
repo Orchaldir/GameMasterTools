@@ -49,6 +49,12 @@
    },
    "owner": {
     "current": 0
+   },
+   "currency": {
+    "current": 0
+   },
+   "legalCode": {
+    "current": 0
    }
   },
   "4": {
@@ -81,6 +87,25 @@
    },
    "legalCode": {
     "current": 0
+   }
+  },
+  "6": {
+   "id": 6,
+   "name": "Ren Tehoth",
+   "owner": {
+    "current": 0
+   },
+   "currency": {
+    "current": 0
+   },
+   "legalCode": {
+    "current": 0
+   },
+   "population": {
+    "#type": "Abstract",
+    "races": [
+     2
+    ]
    }
   }
  }
