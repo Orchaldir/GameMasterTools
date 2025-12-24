@@ -93,6 +93,13 @@
    },
    "legalCode": {
     "current": 0
+   },
+   "population": {
+    "#type": "Abstract",
+    "races": [
+     9,
+     2
+    ]
    }
   },
   "6": {
