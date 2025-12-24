@@ -7,7 +7,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.app.html.util.population.editPopulation
 import at.orchaldir.gm.app.html.util.population.parsePopulation
-import at.orchaldir.gm.app.html.util.population.showPopulation
+import at.orchaldir.gm.app.html.util.population.showPopulationDetails
 import at.orchaldir.gm.app.html.util.source.editDataSources
 import at.orchaldir.gm.app.html.util.source.parseDataSources
 import at.orchaldir.gm.app.html.util.source.showDataSources
@@ -43,7 +43,7 @@ fun HtmlBlockTag.showTown(
     }
     fieldElements(call, state, "Capital of", state.getRealmsWithCapital(town.id))
     fieldElements(call, state, "Previous Capital of", state.getRealmsWithPreviousCapital(town.id))
-    showPopulation(call, state, town)
+    showPopulationDetails(call, state, town)
     fieldElements(call, state, "Districts", state.getDistricts(town.id))
     showDataSources(call, state, town.sources)
 

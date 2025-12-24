@@ -32,7 +32,7 @@ import kotlinx.html.*
 
 // show
 
-fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showPopulation(
+fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showPopulationDetails(
     call: ApplicationCall,
     state: State,
     element: ELEMENT,
