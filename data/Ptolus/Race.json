@@ -165,6 +165,28 @@
     "#type": "Default",
     "appearance": 10
    }
+  },
+  "10": {
+   "id": 10,
+   "name": "Halfling",
+   "height": {
+    "center": 1150000
+   },
+   "lifeStages": {
+    "#type": "Default",
+    "appearance": 10,
+    "maxAges": [
+     2,
+     5,
+     12,
+     20,
+     50,
+     75,
+     100,
+     200
+    ],
+    "oldAgeHairColor": "Gray"
+   }
   }
  }
 }
