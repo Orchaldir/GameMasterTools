@@ -4,6 +4,10 @@
   "0": {
    "id": 0,
    "name": "The Empire of Tarsis",
+   "founder": {
+    "#type": "Realm",
+    "realm": 8
+   },
    "date": {
     "#type": "Year",
     "year": 0
@@ -22,6 +26,12 @@
    "id": 1,
    "name": "Cherubar",
    "owner": {
+    "current": 0
+   },
+   "currency": {
+    "current": 0
+   },
+   "legalCode": {
     "current": 0
    },
    "population": {
@@ -141,6 +151,29 @@
     "#type": "Abstract",
     "races": [
      10,
+     9
+    ]
+   }
+  },
+  "8": {
+   "id": 8,
+   "name": "Prust",
+   "capital": {
+    "current": 2
+   },
+   "owner": {
+    "current": 0
+   },
+   "currency": {
+    "current": 0
+   },
+   "legalCode": {
+    "current": 0
+   },
+   "population": {
+    "#type": "Abstract",
+    "races": [
+     0,
      9
     ]
    }

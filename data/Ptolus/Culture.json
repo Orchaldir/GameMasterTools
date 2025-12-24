@@ -72,7 +72,8 @@
    "name": "Palastani",
    "languages": {
     "2": "Everyone",
-    "7": "Everyone"
+    "7": "Everyone",
+    "14": "Common"
    }
   },
   "6": {
@@ -81,6 +82,21 @@
    "languages": {
     "2": "Everyone",
     "11": "Everyone"
+   }
+  },
+  "7": {
+   "id": 7,
+   "name": "Sea Kingdoms",
+   "languages": {
+    "2": "Everyone"
+   }
+  },
+  "8": {
+   "id": 8,
+   "name": "Imperial",
+   "languages": {
+    "2": "Everyone",
+    "3": "Rare"
    }
   }
  }
