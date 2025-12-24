@@ -67,6 +67,8 @@ import at.orchaldir.gm.core.model.world.World
 import at.orchaldir.gm.core.model.world.WorldId
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
+import at.orchaldir.gm.core.model.world.building.Building
+import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.moon.Moon
 import at.orchaldir.gm.core.model.world.moon.MoonId
 import at.orchaldir.gm.core.model.world.plane.Plane
@@ -94,6 +96,7 @@ fun reduceCreateElement(
     is ArmorTypeId -> createElement(state, ArmorType(id))
     is ArticleId -> createElement(state, Article(id))
     is BattleId -> createElement(state, Battle(id))
+    is BuildingId -> createElement(state, Building(id))
     is BusinessId -> createElement(state, Business(id))
     is CalendarId -> createElement(state, Calendar(id))
     is CatastropheId -> createElement(state, Catastrophe(id))

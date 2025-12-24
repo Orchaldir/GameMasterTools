@@ -1,5 +1,23 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "Grail Temple",
+   "position": {
+    "#type": "Town",
+    "town": 1
+   },
+   "ownership": {
+    "current": {
+     "#type": "Town",
+     "town": 1
+    }
+   },
+   "builder": {
+    "#type": "Town",
+    "town": 1
+   }
+  }
  }
 }
