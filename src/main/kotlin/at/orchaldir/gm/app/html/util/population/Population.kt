@@ -32,6 +32,15 @@ import kotlinx.html.*
 
 // show
 
+fun HtmlBlockTag.showPopulation(population: Population) {
+    when (population) {
+        is AbstractPopulation -> +population.density.toString()
+        is PopulationPerRace -> +population.total.toString()
+        is TotalPopulation -> +population.total.toString()
+        UndefinedPopulation -> doNothing()
+    }
+}
+
 fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showPopulationDetails(
     call: ApplicationCall,
     state: State,

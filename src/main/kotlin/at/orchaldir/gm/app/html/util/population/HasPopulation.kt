@@ -17,7 +17,7 @@ import kotlinx.html.*
 
 // show
 
-fun HtmlBlockTag.showPopulation(
+fun HtmlBlockTag.showPopulationOfRace(
     call: ApplicationCall,
     state: State,
     race: RaceId,
@@ -27,12 +27,12 @@ fun HtmlBlockTag.showPopulation(
     optionalField("Total", state.calculateTotalPopulation(race))
     optionalField("Index", state.calculatePopulationIndex(race))
 
-    showPopulation(call, state, race, state.getDistrictStorage())
-    showPopulation(call, state, race, state.getRealmStorage())
-    showPopulation(call, state, race, state.getTownStorage())
+    showPopulationOfRace(call, state, race, state.getDistrictStorage())
+    showPopulationOfRace(call, state, race, state.getRealmStorage())
+    showPopulationOfRace(call, state, race, state.getTownStorage())
 }
 
-private fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showPopulation(
+private fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showPopulationOfRace(
     call: ApplicationCall,
     state: State,
     race: RaceId,
