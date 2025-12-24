@@ -41,6 +41,19 @@ fun HtmlBlockTag.showPopulation(population: Population) {
     }
 }
 
+fun HtmlBlockTag.showRacesPopulation(
+    call: ApplicationCall,
+    state: State,
+    population: Population,
+) {
+    when (population) {
+        is AbstractPopulation -> showInlineIds(call, state, population.races)
+        is PopulationPerRace -> showInlineIds(call, state, population.racePercentages.keys)
+        is TotalPopulation -> showInlineIds(call, state, population.races)
+        UndefinedPopulation -> doNothing()
+    }
+}
+
 fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showPopulationDetails(
     call: ApplicationCall,
     state: State,

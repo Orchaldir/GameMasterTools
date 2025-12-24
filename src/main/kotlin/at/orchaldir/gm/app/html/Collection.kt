@@ -99,6 +99,16 @@ fun <T> HtmlBlockTag.fieldListWithIndex(
     }
 }
 
+fun <ID : Id<ID>> HtmlBlockTag.showInlineIds(
+    call: ApplicationCall,
+    state: State,
+    ids: Collection<ID>,
+) {
+    showInlineList(ids) { id ->
+        link(call, state, id)
+    }
+}
+
 fun <T> HtmlBlockTag.showInlineList(
     elements: Collection<T>,
     content: (T) -> Unit,
