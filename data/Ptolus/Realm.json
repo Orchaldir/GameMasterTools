@@ -97,6 +97,7 @@
    "population": {
     "#type": "Abstract",
     "races": [
+     11,
      9,
      2
     ]

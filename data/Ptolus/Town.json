@@ -83,6 +83,19 @@
    "owner": {
     "current": 7
    }
+  },
+  "7": {
+   "id": 7,
+   "name": "Paelinth",
+   "owner": {
+    "current": 6
+   },
+   "population": {
+    "#type": "Abstract",
+    "races": [
+     2
+    ]
+   }
   }
  }
 }
