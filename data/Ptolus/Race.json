@@ -141,6 +141,14 @@
     "oldAgeHairColor": null,
     "venerableAgeHairColor": null
    }
+  },
+  "7": {
+   "id": 7,
+   "name": "Northern Barbarian",
+   "lifeStages": {
+    "#type": "Default",
+    "appearance": 8
+   }
   }
  }
 }

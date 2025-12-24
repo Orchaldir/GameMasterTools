@@ -310,6 +310,38 @@
      "Bird": "Common"
     }
    }
+  },
+  "8": {
+   "id": 8,
+   "name": "Northern Barbarian",
+   "eye": {
+    "eyeColors": {
+     "Blue": "Common",
+     "Green": "Uncommon",
+     "SaddleBrown": "Common",
+     "SkyBlue": "Uncommon",
+     "SteelBlue": "Uncommon"
+    }
+   },
+   "hair": {
+    "colors": {
+     "Gold": "Common",
+     "SaddleBrown": "Common",
+     "Wheat": "Common",
+     "Yellow": "Common"
+    }
+   },
+   "skin": {
+    "normalColors": {
+     "Fair": "Common",
+     "Light": "Uncommon"
+    }
+   },
+   "wing": {
+    "types": {
+     "Bird": "Common"
+    }
+   }
   }
  }
 }
