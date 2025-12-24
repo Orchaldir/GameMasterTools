@@ -230,36 +230,6 @@
   },
   "21": {
    "id": 21,
-   "name": "Uraq",
-   "data": {
-    "#type": "Desert"
-   },
-   "position": {
-    "#type": "Region",
-    "region": 19
-   }
-  },
-  "22": {
-   "id": 22,
-   "name": "Panogolan",
-   "position": {
-    "#type": "Region",
-    "region": 19
-   }
-  },
-  "23": {
-   "id": 23,
-   "name": "Buneir",
-   "data": {
-    "#type": "Forrest"
-   },
-   "position": {
-    "#type": "Region",
-    "region": 19
-   }
-  },
-  "24": {
-   "id": 24,
    "name": "Sea of World’s End",
    "data": {
     "#type": "Sea"
@@ -269,8 +239,8 @@
     "world": 0
    }
   },
-  "25": {
-   "id": 25,
+  "22": {
+   "id": 22,
    "name": "Plains of Rhoth",
    "data": {
     "#type": "Plains"
@@ -280,8 +250,8 @@
     "region": 5
    }
   },
-  "26": {
-   "id": 26,
+  "23": {
+   "id": 23,
    "name": "Plains of Panish",
    "data": {
     "#type": "Plains"
@@ -289,6 +259,14 @@
    "position": {
     "#type": "Region",
     "region": 5
+   }
+  },
+  "24": {
+   "id": 24,
+   "name": "Distant South",
+   "position": {
+    "#type": "Region",
+    "region": 19
    }
   }
  }
