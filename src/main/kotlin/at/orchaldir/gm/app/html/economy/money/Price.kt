@@ -31,11 +31,14 @@ fun HtmlBlockTag.fieldPrice(
     call: ApplicationCall,
     state: State,
     label: String,
-    price: Price,
+    price: Price?,
 ) {
-    val currency = state.getDefaultCurrency()
-    field(label) {
-        displayPrice(call, currency, price, true)
+    if (price != null && price.value > 0) {
+        val currency = state.getDefaultCurrency()
+
+        field(label) {
+            displayPrice(call, currency, price, true)
+        }
     }
 }
 
