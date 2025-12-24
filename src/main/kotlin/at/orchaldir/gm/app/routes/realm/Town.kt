@@ -76,6 +76,7 @@ fun Application.configureTownRouting() {
                     createIdColumn(call, state, "Map") { state.getCurrentTownMap(it.id)?.id },
                     countColumnForId("Buildings", state::countBuildings),
                     createPopulationColumn(),
+                    createRacesOfPopulationColumn(call, state),
                     countColumnForId("Residents", state::countResidents),
                 ),
             ) {

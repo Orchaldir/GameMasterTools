@@ -74,6 +74,14 @@
     "2": "Everyone",
     "7": "Everyone"
    }
+  },
+  "6": {
+   "id": 6,
+   "name": "Rhothan",
+   "languages": {
+    "2": "Everyone",
+    "11": "Everyone"
+   }
   }
  }
 }

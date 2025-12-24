@@ -6,6 +6,10 @@
    "name": "Ptolus",
    "owner": {
     "current": 0
+   },
+   "population": {
+    "#type": "Abstract",
+    "density": "Large"
    }
   },
   "1": {
@@ -14,6 +18,12 @@
    "founder": {
     "#type": "Culture",
     "culture": 3
+   },
+   "population": {
+    "#type": "Abstract",
+    "races": [
+     0
+    ]
    }
   },
   "2": {
@@ -36,6 +46,14 @@
        "year": 713
       }
      }
+    ]
+   },
+   "population": {
+    "#type": "Abstract",
+    "density": "Large",
+    "races": [
+     0,
+     9
     ]
    }
   },
@@ -60,6 +78,12 @@
      "#type": "War",
      "war": 2
     }
+   },
+   "population": {
+    "#type": "Abstract",
+    "races": [
+     0
+    ]
    }
   },
   "4": {
@@ -68,6 +92,10 @@
    "title": "The Golden City",
    "owner": {
     "current": 3
+   },
+   "population": {
+    "#type": "Abstract",
+    "density": "Large"
    }
   },
   "5": {
@@ -87,6 +115,32 @@
   "7": {
    "id": 7,
    "name": "Paelinth",
+   "owner": {
+    "current": 6
+   },
+   "population": {
+    "#type": "Abstract",
+    "races": [
+     2
+    ]
+   }
+  },
+  "8": {
+   "id": 8,
+   "name": "Sariush",
+   "owner": {
+    "current": 6
+   },
+   "population": {
+    "#type": "Abstract",
+    "races": [
+     2
+    ]
+   }
+  },
+  "9": {
+   "id": 9,
+   "name": "Phinothae",
    "owner": {
     "current": 6
    },
