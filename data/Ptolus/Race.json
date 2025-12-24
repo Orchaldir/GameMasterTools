@@ -157,6 +157,14 @@
     "#type": "Default",
     "appearance": 9
    }
+  },
+  "9": {
+   "id": 9,
+   "name": "Imperial",
+   "lifeStages": {
+    "#type": "Default",
+    "appearance": 10
+   }
   }
  }
 }

@@ -36,6 +36,9 @@
   "3": {
    "id": 3,
    "name": "The Sea Kingdoms",
+   "capital": {
+    "current": 4
+   },
    "owner": {
     "current": 0
    }
@@ -54,6 +57,22 @@
       }
      }
     ]
+   }
+  },
+  "5": {
+   "id": 5,
+   "name": "Palastan",
+   "capital": {
+    "current": 5
+   },
+   "owner": {
+    "current": 0
+   },
+   "currency": {
+    "current": 0
+   },
+   "legalCode": {
+    "current": 0
    }
   }
  }
