@@ -19,7 +19,7 @@ import at.orchaldir.gm.core.model.util.SortRace
 import at.orchaldir.gm.core.selector.character.countCharacters
 import at.orchaldir.gm.core.selector.character.getAppearanceForAge
 import at.orchaldir.gm.core.selector.race.getRaceGroups
-import at.orchaldir.gm.core.selector.util.getTotalPopulation
+import at.orchaldir.gm.core.selector.util.calculateTotalPopulation
 import at.orchaldir.gm.core.selector.util.sortRaces
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.utils.math.unit.maxOf
@@ -103,7 +103,7 @@ fun Application.configureRaceRouting() {
                             link(call, state, group)
                         }
                     },
-                    countColumnForId("Population", state::getTotalPopulation),
+                    countColumnForId("Population", state::calculateTotalPopulation),
                     countColumnForId("Characters", state::countCharacters),
                     Column("Cost") { tdSkipZero(it.calculateCost(state)) },
                 ),

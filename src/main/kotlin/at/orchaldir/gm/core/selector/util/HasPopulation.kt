@@ -51,7 +51,7 @@ fun <ID : Id<ID>, ELEMENT> getPopulationEntries(
         }
     }
 
-fun <ID : Id<ID>, ELEMENT> getAbstractPopulation(
+fun <ID : Id<ID>, ELEMENT> getAbstractPopulations(
     storage: Storage<ID, ELEMENT>,
     race: RaceId,
 ) where
@@ -67,7 +67,7 @@ fun <ID : Id<ID>, ELEMENT> getAbstractPopulation(
         }
     }
 
-fun State.getTotalPopulation(race: RaceId): Int? {
+fun State.calculateTotalPopulation(race: RaceId): Int? {
     val towns = getTownStorage()
         .getAll()
         .filter { it.owner.current == null }
@@ -85,7 +85,7 @@ fun State.getTotalPopulation(race: RaceId): Int? {
     }
 }
 
-fun <ID : Id<ID>, ELEMENT> State.getPopulationIndex(
+fun <ID : Id<ID>, ELEMENT> State.calculatePopulationIndex(
     element: ELEMENT,
 ): Int? where
         ELEMENT : Element<ID>,
@@ -100,16 +100,16 @@ fun <ID : Id<ID>, ELEMENT> State.getPopulationIndex(
     }
 }
 
-fun State.getPopulationIndex(
+fun State.calculatePopulationIndex(
     race: RaceId,
 ) = getRaceStorage()
     .getAll()
     .mapNotNull { other ->
-        getTotalPopulation(other.id)
+        calculateTotalPopulation(other.id)
     }
     .map { Pair(race, it) }
     .filter { it.second > 0 }
-    .sortedByDescending { getTotalPopulation(race) }
+    .sortedByDescending { calculateTotalPopulation(race) }
     .indexOfFirst { it.first == race }
     .let {
         if (it >= 0) {

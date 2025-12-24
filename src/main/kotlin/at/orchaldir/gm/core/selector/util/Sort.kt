@@ -788,7 +788,7 @@ fun State.sortRaces(
             SortRace.Weight -> compareByDescending { it.weight.value() }
             SortRace.MaxLifeSpan -> compareByDescending { it.lifeStages.getMaxAge() }
             SortRace.Name -> compareBy { it.name.text }
-            SortRace.Population -> compareByDescending { getTotalPopulation(it.id) }
+            SortRace.Population -> compareByDescending { calculateTotalPopulation(it.id) }
             SortRace.Characters -> compareByDescending { countCharacters(it.id) }
             SortRace.Cost -> compareByDescending { it.calculateCost(this) }
         })

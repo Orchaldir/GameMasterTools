@@ -17,7 +17,7 @@ import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.population.*
 import at.orchaldir.gm.core.model.util.population.PopulationType.Undefined
-import at.orchaldir.gm.core.selector.util.getPopulationIndex
+import at.orchaldir.gm.core.selector.util.calculatePopulationIndex
 import at.orchaldir.gm.core.selector.util.sortRaces
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
@@ -47,7 +47,7 @@ fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showPopulation(
 
     showDetails("Population", true) {
         optionalField("Total", population.getTotalPopulation())
-        optionalField("Index", state.getPopulationIndex(element))
+        optionalField("Index", state.calculatePopulationIndex(element))
 
         when (population) {
             is AbstractPopulation -> {
