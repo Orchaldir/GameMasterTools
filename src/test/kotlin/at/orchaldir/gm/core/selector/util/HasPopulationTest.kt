@@ -44,7 +44,10 @@ class HasPopulationTest {
             val realm1 = Realm(REALM_ID_1)
             val storage = Storage(listOf(realm0, realm1))
 
-            assertEquals(listOf(realm0), getPopulations(storage, RACE_ID_0))
+            assertEquals(
+                listOf(realm0),
+                getPopulations(storage) { it.population().contains(RACE_ID_0) },
+            )
         }
     }
 

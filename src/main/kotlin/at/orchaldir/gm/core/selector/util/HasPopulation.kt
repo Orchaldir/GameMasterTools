@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.selector.util
 
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.util.population.*
 import at.orchaldir.gm.utils.Element
@@ -15,18 +16,29 @@ data class PopulationEntry<ID : Id<ID>>(
     val percentage: Factor,
 )
 
-fun State.canDeletePopulationOf(race: RaceId, result: DeleteResult) = result
-    .addElements(getPopulations(getDistrictStorage(), race))
-    .addElements(getPopulations(getRealmStorage(), race))
-    .addElements(getPopulations(getTownStorage(), race))
+fun State.canDeletePopulationOf(culture: CultureId, result: DeleteResult) = canDeletePopulationOf(result) { hasPopulation ->
+    hasPopulation.population().contains(culture)
+}
+
+fun State.canDeletePopulationOf(race: RaceId, result: DeleteResult) = canDeletePopulationOf(result) { hasPopulation ->
+    hasPopulation.population().contains(race)
+}
+
+fun State.canDeletePopulationOf(
+    result: DeleteResult,
+    check: (HasPopulation) -> Boolean,
+) = result
+    .addElements(getPopulations(getDistrictStorage(), check))
+    .addElements(getPopulations(getRealmStorage(), check))
+    .addElements(getPopulations(getTownStorage(), check))
 
 fun <ID : Id<ID>, ELEMENT> getPopulations(
     storage: Storage<ID, ELEMENT>,
-    race: RaceId,
+    check: (HasPopulation) -> Boolean,
 ) where
         ELEMENT : Element<ID>,
         ELEMENT : HasPopulation = storage.getAll()
-    .filter { it.population().contains(race) }
+    .filter { check(it) }
 
 fun <ID : Id<ID>, ELEMENT> getPopulationEntries(
     storage: Storage<ID, ELEMENT>,
