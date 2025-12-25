@@ -55,16 +55,16 @@ fun <ID : Id<ID>, ELEMENT> getPopulationEntries(
 
 fun <ID : Id<ID>, ELEMENT> getAbstractPopulations(
     storage: Storage<ID, ELEMENT>,
-    race: RaceId,
+    contains: (IPopulationWithSets) -> Boolean,
 ) where
         ELEMENT : Element<ID>,
         ELEMENT : HasPopulation = storage
     .getAll()
     .filter { element ->
         when (val population = element.population()) {
-            is AbstractPopulation -> population.races.contains(race)
+            is AbstractPopulation -> contains(population)
             is PopulationDistribution -> false
-            is TotalPopulation -> population.races.contains(race)
+            is TotalPopulation -> contains(population)
             UndefinedPopulation -> false
         }
     }

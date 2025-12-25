@@ -5,10 +5,12 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.util.population.HasPopulation
+import at.orchaldir.gm.core.model.util.population.IPopulationWithSets
 import at.orchaldir.gm.core.model.util.population.Population
 import at.orchaldir.gm.core.model.util.population.PopulationDistribution
 import at.orchaldir.gm.core.selector.util.calculatePopulationIndex
 import at.orchaldir.gm.core.selector.util.calculateTotalPopulation
+import at.orchaldir.gm.core.selector.util.getAbstractPopulations
 import at.orchaldir.gm.core.selector.util.getPopulationEntries
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
@@ -28,6 +30,7 @@ fun HtmlBlockTag.showPopulationOfCulture(
     state,
     state.getCultureStorage(),
     culture,
+    { it.cultures().contains(culture) },
     { when (val population = it.population()) {
         is PopulationDistribution -> population.cultures.getData(culture, population.total)
         else -> null
@@ -44,6 +47,7 @@ fun HtmlBlockTag.showPopulationOfRace(
     state,
     state.getRaceStorage(),
     race,
+    { it.races().contains(race) },
     { when (val population = it.population()) {
         is PopulationDistribution -> population.races.getData(race, population.total)
         else -> null
@@ -56,6 +60,7 @@ fun <ID : Id<ID>, ELEMENT: Element<ID>> HtmlBlockTag.showPopulationOfElement(
     state: State,
     storage: Storage<ID, ELEMENT>,
     id: ID,
+    contains: (IPopulationWithSets) -> Boolean,
     getPercentage: (HasPopulation) -> Pair<Int, Factor>?,
     getPopulation: (Population) -> Int?
 ) {
@@ -64,9 +69,9 @@ fun <ID : Id<ID>, ELEMENT: Element<ID>> HtmlBlockTag.showPopulationOfElement(
     optionalField("Total", state.calculateTotalPopulation(getPopulation))
     optionalField("Index", state.calculatePopulationIndex(storage, id, getPopulation))
 
-    showPopulationOfRace(call, state, getPercentage, state.getDistrictStorage())
-    showPopulationOfRace(call, state, getPercentage, state.getRealmStorage())
-    showPopulationOfRace(call, state, getPercentage, state.getTownStorage())
+    showPopulationOfRace(call, state, getPercentage, state.getDistrictStorage(), contains)
+    showPopulationOfRace(call, state, getPercentage, state.getRealmStorage(), contains)
+    showPopulationOfRace(call, state, getPercentage, state.getTownStorage(), contains)
 }
 
 private fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showPopulationOfRace(
@@ -74,6 +79,7 @@ private fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showPopulationOfRace(
     state: State,
     getPercentage: (HasPopulation) -> Pair<Int, Factor>?,
     storage: Storage<ID, ELEMENT>,
+    contains: (IPopulationWithSets) -> Boolean,
 ) where
         ELEMENT : Element<ID>,
         ELEMENT : HasPopulation {
@@ -105,6 +111,5 @@ private fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showPopulationOfRace(
         }
     }
 
-    // TODO
-    //fieldElements(call, state, "Abstract Population", getAbstractPopulations(storage, race))
+    fieldElements(call, state, "Abstract Population", getAbstractPopulations(storage, contains))
 }

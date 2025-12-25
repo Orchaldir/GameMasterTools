@@ -69,13 +69,20 @@ sealed class Population {
 
 }
 
+interface IPopulationWithSets {
+
+    fun races(): Set<RaceId>
+    fun cultures(): Set<CultureId>
+
+}
+
 @Serializable
 @SerialName("Abstract")
 data class AbstractPopulation(
     val density: Size = Size.Medium,
     val races: Set<RaceId> = emptySet(),
     val cultures: Set<CultureId> = emptySet(),
-) : Population()
+) : Population(), IPopulationWithSets
 
 @Serializable
 @SerialName("Distribution")
@@ -96,7 +103,7 @@ data class TotalPopulation(
     val total: Int,
     val races: Set<RaceId> = emptySet(),
     val cultures: Set<CultureId> = emptySet(),
-) : Population()
+) : Population(), IPopulationWithSets
 
 @Serializable
 @SerialName("Undefined")
