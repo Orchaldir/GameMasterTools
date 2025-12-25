@@ -42,20 +42,14 @@ fun <ID : Id<ID>, ELEMENT> getPopulations(
 
 fun <ID : Id<ID>, ELEMENT> getPopulationEntries(
     storage: Storage<ID, ELEMENT>,
-    race: RaceId,
+    getPercentage: (HasPopulation) -> Pair<Int, Factor>?,
 ) where
         ELEMENT : Element<ID>,
         ELEMENT : HasPopulation = storage
     .getAll()
     .mapNotNull { element ->
-        when (val population = element.population()) {
-            is PopulationDistribution -> {
-                population.races.map[race]?.let { percentage ->
-                    PopulationEntry(element.id(), percentage.apply(population.total), percentage)
-                }
-            }
-
-            else -> null
+        getPercentage(element)?.let { (number, percentage) ->
+            PopulationEntry(element.id(), number, percentage)
         }
     }
 
@@ -75,15 +69,15 @@ fun <ID : Id<ID>, ELEMENT> getAbstractPopulations(
         }
     }
 
-fun State.calculateTotalPopulation(race: RaceId): Int? {
+fun State.calculateTotalPopulation(getPopulation: (Population) -> Int?): Int? {
     val towns = getTownStorage()
         .getAll()
         .filter { it.owner.current == null }
-        .sumOf { it.population.getPopulation(race) ?: 0 }
+        .sumOf { getPopulation(it.population) ?: 0 }
     val realms = getRealmStorage()
         .getAll()
         .filter { it.owner.current == null }
-        .sumOf { it.population.getPopulation(race) ?: 0 }
+        .sumOf { getPopulation(it.population) ?: 0 }
     val total = towns + realms
 
     return if (total > 0) {
@@ -108,17 +102,19 @@ fun <ID : Id<ID>, ELEMENT> State.calculatePopulationIndex(
     }
 }
 
-fun State.calculatePopulationIndex(
-    race: RaceId,
-) = getRaceStorage()
+fun <ID : Id<ID>, ELEMENT: Element<ID>> State.calculatePopulationIndex(
+    storage: Storage<ID, ELEMENT>,
+    id: ID,
+    getPopulation: (Population) -> Int?
+): Int? = storage
     .getAll()
-    .mapNotNull { other ->
-        calculateTotalPopulation(other.id)
+    .mapNotNull {
+        calculateTotalPopulation(getPopulation)
     }
-    .map { Pair(race, it) }
+    .map { Pair(id, it) }
     .filter { it.second > 0 }
-    .sortedByDescending { calculateTotalPopulation(race) }
-    .indexOfFirst { it.first == race }
+    .sortedByDescending { it.second }
+    .indexOfFirst { it.first == id }
     .let {
         if (it >= 0) {
             it + 1

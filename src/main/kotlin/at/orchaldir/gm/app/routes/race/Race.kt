@@ -103,7 +103,7 @@ fun Application.configureRaceRouting() {
                             link(call, state, group)
                         }
                     },
-                    countColumnForId("Population", state::calculateTotalPopulation),
+                    //countColumnForId("Population", state::calculateTotalPopulation),
                     countColumnForId("Characters", state::countCharacters),
                     Column("Cost") { tdSkipZero(it.calculateCost(state)) },
                 ),
