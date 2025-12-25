@@ -11,7 +11,7 @@ import kotlinx.serialization.Serializable
 
 enum class PopulationType {
     Abstract,
-    PerRace,
+    Distribution,
     Total,
     Undefined,
 }
@@ -21,32 +21,32 @@ sealed class Population {
 
     fun getType() = when (this) {
         is AbstractPopulation -> PopulationType.Abstract
-        is PopulationPerRace -> PopulationType.PerRace
+        is PopulationDistribution -> PopulationType.Distribution
         is TotalPopulation -> PopulationType.Total
         UndefinedPopulation -> PopulationType.Undefined
     }
 
     fun getPopulation(race: RaceId) = when (this) {
-        is PopulationPerRace -> getNumber(race)
+        is PopulationDistribution -> getNumber(race)
         else -> null
     }
 
     fun getTotalPopulation() = when (this) {
         is TotalPopulation -> total
-        is PopulationPerRace -> total
+        is PopulationDistribution -> total
         is AbstractPopulation, UndefinedPopulation -> null
     }
 
     fun contains(culture: CultureId) = when (this) {
         is AbstractPopulation -> cultures.contains(culture)
-        is PopulationPerRace -> cultures.containsKey(culture)
+        is PopulationDistribution -> cultures.containsKey(culture)
         is TotalPopulation -> cultures.contains(culture)
         else -> false
     }
 
     fun contains(race: RaceId) = when (this) {
         is AbstractPopulation -> races.contains(race)
-        is PopulationPerRace -> races.containsKey(race)
+        is PopulationDistribution -> races.containsKey(race)
         is TotalPopulation -> races.contains(race)
         else -> false
     }
@@ -62,8 +62,8 @@ data class AbstractPopulation(
 ) : Population()
 
 @Serializable
-@SerialName("Race")
-data class PopulationPerRace(
+@SerialName("Distribution")
+data class PopulationDistribution(
     val total: Int,
     val races: Map<RaceId, Factor> = emptyMap(),
     val cultures: Map<CultureId, Factor> = emptyMap(),

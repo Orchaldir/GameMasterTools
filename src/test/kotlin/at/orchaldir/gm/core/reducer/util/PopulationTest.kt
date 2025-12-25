@@ -5,7 +5,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.util.population.AbstractPopulation
 import at.orchaldir.gm.core.model.util.population.Population
-import at.orchaldir.gm.core.model.util.population.PopulationPerRace
+import at.orchaldir.gm.core.model.util.population.PopulationDistribution
 import at.orchaldir.gm.core.model.util.population.TotalPopulation
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.Factor
@@ -49,13 +49,13 @@ class PopulationTest {
 
         @Test
         fun `The total population must be greater than 0`() {
-            assertTotalPopulation(PopulationPerRace(0, emptyMap()))
+            assertTotalPopulation(PopulationDistribution(0, emptyMap()))
         }
 
         @Test
         fun `With an unknown race`() {
             assertPopulation(
-                PopulationPerRace(100, mapOf(UNKNOWN_RACE_ID to HALF)),
+                PopulationDistribution(100, mapOf(UNKNOWN_RACE_ID to HALF)),
                 "Requires unknown Race 99!",
             )
         }
@@ -63,7 +63,7 @@ class PopulationTest {
         @Test
         fun `A race's percentage must be greater than 0`() {
             assertPopulation(
-                PopulationPerRace(100, mapOf(RACE_ID_0 to ZERO)),
+                PopulationDistribution(100, mapOf(RACE_ID_0 to ZERO)),
                 "The population of Race 0 must be > 0%!",
             )
         }
@@ -71,7 +71,7 @@ class PopulationTest {
         @Test
         fun `A race's percentage must be less or equal than 100`() {
             assertPopulation(
-                PopulationPerRace(100, mapOf(RACE_ID_0 to Factor.fromPercentage(101))),
+                PopulationDistribution(100, mapOf(RACE_ID_0 to Factor.fromPercentage(101))),
                 "The population of Race 0 must be <= 100%!",
             )
         }
@@ -79,14 +79,14 @@ class PopulationTest {
         @Test
         fun `The total population of all Races must be less or equal than 100`() {
             assertPopulation(
-                PopulationPerRace(100, mapOf(RACE_ID_0 to HALF, RACE_ID_1 to THREE_QUARTER)),
+                PopulationDistribution(100, mapOf(RACE_ID_0 to HALF, RACE_ID_1 to THREE_QUARTER)),
                 "The total population of all Races must be <= 100%!",
             )
         }
 
         @Test
         fun `A valid population`() {
-            validatePopulation(state, PopulationPerRace(100, mapOf(RACE_ID_0 to HALF, RACE_ID_1 to HALF)))
+            validatePopulation(state, PopulationDistribution(100, mapOf(RACE_ID_0 to HALF, RACE_ID_1 to HALF)))
         }
 
     }

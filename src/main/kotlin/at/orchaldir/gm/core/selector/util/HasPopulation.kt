@@ -37,7 +37,7 @@ fun <ID : Id<ID>, ELEMENT> getPopulationEntries(
     .getAll()
     .mapNotNull { element ->
         when (val population = element.population()) {
-            is PopulationPerRace -> {
+            is PopulationDistribution -> {
                 population.races[race]?.let { percentage ->
                     PopulationEntry(element.id(), percentage.apply(population.total), percentage)
                 }
@@ -57,7 +57,7 @@ fun <ID : Id<ID>, ELEMENT> getAbstractPopulations(
     .filter { element ->
         when (val population = element.population()) {
             is AbstractPopulation -> population.races.contains(race)
-            is PopulationPerRace -> false
+            is PopulationDistribution -> false
             is TotalPopulation -> population.races.contains(race)
             UndefinedPopulation -> false
         }

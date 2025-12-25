@@ -10,7 +10,7 @@ import at.orchaldir.gm.core.model.race.RaceGroup
 import at.orchaldir.gm.core.model.realm.District
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.Town
-import at.orchaldir.gm.core.model.util.population.PopulationPerRace
+import at.orchaldir.gm.core.model.util.population.PopulationDistribution
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.HALF
@@ -28,7 +28,7 @@ class RaceTest {
                 Storage(race),
             )
         )
-        val population = PopulationPerRace(100, mapOf(RACE_ID_0 to HALF))
+        val population = PopulationDistribution(100, mapOf(RACE_ID_0 to HALF))
 
         @Test
         fun `Cannot delete a race part of a group`() {

@@ -6,7 +6,7 @@ import at.orchaldir.gm.REALM_ID_1
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.util.population.AbstractPopulation
 import at.orchaldir.gm.core.model.util.population.Population
-import at.orchaldir.gm.core.model.util.population.PopulationPerRace
+import at.orchaldir.gm.core.model.util.population.PopulationDistribution
 import at.orchaldir.gm.core.model.util.population.TotalPopulation
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.HALF
@@ -17,7 +17,7 @@ import kotlin.test.assertEquals
 class HasPopulationTest {
 
     private val abstractPopulation = AbstractPopulation(races = setOf(RACE_ID_0))
-    private val populationPerRace = PopulationPerRace(100, mapOf(RACE_ID_0 to HALF))
+    private val populationDistribution = PopulationDistribution(100, mapOf(RACE_ID_0 to HALF))
     private val totalPopulation = TotalPopulation(100, setOf(RACE_ID_0))
 
     @Nested
@@ -30,7 +30,7 @@ class HasPopulationTest {
 
         @Test
         fun `Test population per race`() {
-            assertGetPopulations(populationPerRace)
+            assertGetPopulations(populationDistribution)
         }
 
         @Test

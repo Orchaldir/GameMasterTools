@@ -35,7 +35,7 @@ import kotlinx.html.*
 fun HtmlBlockTag.showPopulation(population: Population) {
     when (population) {
         is AbstractPopulation -> +population.density.toString()
-        is PopulationPerRace -> +population.total.toString()
+        is PopulationDistribution -> +population.total.toString()
         is TotalPopulation -> +population.total.toString()
         UndefinedPopulation -> doNothing()
     }
@@ -48,7 +48,7 @@ fun HtmlBlockTag.showRacesPopulation(
 ) {
     when (population) {
         is AbstractPopulation -> showInlineIds(call, state, population.races)
-        is PopulationPerRace -> showInlineIds(call, state, population.races.keys)
+        is PopulationDistribution -> showInlineIds(call, state, population.races.keys)
         is TotalPopulation -> showInlineIds(call, state, population.races)
         UndefinedPopulation -> doNothing()
     }
@@ -77,7 +77,7 @@ fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showPopulationDetails(
                 fieldIds(call, state, population.races)
             }
 
-            is PopulationPerRace -> {
+            is PopulationDistribution -> {
                 var remaining = Factor.fromPercentage(100)
 
                 table {
@@ -110,7 +110,7 @@ fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showPopulationDetails(
 }
 
 private fun TABLE.showRemainingPopulation(
-    population: PopulationPerRace,
+    population: PopulationDistribution,
     remaining: Factor,
 ) {
     if (remaining.isGreaterZero()) {
@@ -158,7 +158,7 @@ fun HtmlBlockTag.editPopulation(
                 selectRaceSet(state, param, population.races)
             }
 
-            is PopulationPerRace -> {
+            is PopulationDistribution -> {
                 selectTotalPopulation(param, population.total)
 
                 val remaining = population.getUndefinedPercentagesForRaces()
@@ -243,7 +243,7 @@ fun parsePopulation(
         parseRaceSet(parameters, param)
     )
 
-    PopulationType.PerRace -> PopulationPerRace(
+    PopulationType.Distribution -> PopulationDistribution(
         parseTotalPopulation(parameters, param),
         state.getRaceStorage()
             .getAll()

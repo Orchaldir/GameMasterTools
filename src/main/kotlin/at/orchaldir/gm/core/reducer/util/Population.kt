@@ -11,7 +11,7 @@ fun validatePopulation(
     population: Population,
 ) = when (population) {
     is AbstractPopulation -> state.getRaceStorage().require(population.races)
-    is PopulationPerRace -> {
+    is PopulationDistribution -> {
         validateTotalPopulation(population.total)
 
         population.races.forEach { (race, percentage) ->
