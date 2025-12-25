@@ -5,10 +5,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.util.population.ElementDistribution
-import at.orchaldir.gm.core.model.util.population.Population
-import at.orchaldir.gm.core.model.util.population.PopulationDistribution
 import at.orchaldir.gm.core.reducer.util.validateElementDistribution
-import at.orchaldir.gm.core.reducer.util.validatePopulation
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.HALF
@@ -61,9 +58,12 @@ class ElementDistributionTest {
 
     @Test
     fun `A valid population`() {
-        validateElementDistribution(state.getRaceStorage(), ElementDistribution(mapOf(RACE_ID_0 to HALF, RACE_ID_1 to HALF)))
+        validateElementDistribution(
+            state.getRaceStorage(),
+            ElementDistribution(mapOf(RACE_ID_0 to HALF, RACE_ID_1 to HALF))
+        )
     }
-    
+
     private fun assertPopulation(distribution: ElementDistribution<RaceId>, message: String) {
         assertIllegalArgument(message) {
             validateElementDistribution(state.getRaceStorage(), distribution)

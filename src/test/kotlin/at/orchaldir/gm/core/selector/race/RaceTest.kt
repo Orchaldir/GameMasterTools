@@ -7,9 +7,7 @@ import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterTemplate
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceGroup
-import at.orchaldir.gm.core.model.realm.District
 import at.orchaldir.gm.core.model.realm.Realm
-import at.orchaldir.gm.core.model.realm.Town
 import at.orchaldir.gm.core.model.util.population.ElementDistribution
 import at.orchaldir.gm.core.model.util.population.PopulationDistribution
 import at.orchaldir.gm.utils.Id

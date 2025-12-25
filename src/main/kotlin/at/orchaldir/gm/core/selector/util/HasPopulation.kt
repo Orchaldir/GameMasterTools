@@ -16,9 +16,10 @@ data class PopulationEntry<ID : Id<ID>>(
     val percentage: Factor,
 )
 
-fun State.canDeletePopulationOf(culture: CultureId, result: DeleteResult) = canDeletePopulationOf(result) { hasPopulation ->
-    hasPopulation.population().contains(culture)
-}
+fun State.canDeletePopulationOf(culture: CultureId, result: DeleteResult) =
+    canDeletePopulationOf(result) { hasPopulation ->
+        hasPopulation.population().contains(culture)
+    }
 
 fun State.canDeletePopulationOf(race: RaceId, result: DeleteResult) = canDeletePopulationOf(result) { hasPopulation ->
     hasPopulation.population().contains(race)
@@ -102,10 +103,10 @@ fun <ID : Id<ID>, ELEMENT> State.calculatePopulationIndex(
     }
 }
 
-fun <ID : Id<ID>, ELEMENT: Element<ID>> State.calculatePopulationIndex(
+fun <ID : Id<ID>, ELEMENT : Element<ID>> State.calculatePopulationIndex(
     storage: Storage<ID, ELEMENT>,
     id: ID,
-    getPopulation: (Population) -> Int?
+    getPopulation: (Population) -> Int?,
 ): Int? = storage
     .getAll()
     .mapNotNull {

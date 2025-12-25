@@ -1,8 +1,6 @@
 package at.orchaldir.gm.core.reducer.util
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.race.Race
-import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.util.population.*
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id

@@ -104,7 +104,7 @@ fun Application.configureRaceRouting() {
                         }
                     },
                     countColumnForId("Population") { race ->
-                        state.calculateTotalPopulation({ it.getPopulation(race)})
+                        state.calculateTotalPopulation({ it.getPopulation(race) })
                     },
                     countColumnForId("Characters", state::countCharacters),
                     Column("Cost") { tdSkipZero(it.calculateCost(state)) },

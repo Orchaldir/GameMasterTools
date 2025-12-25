@@ -1,33 +1,17 @@
 package at.orchaldir.gm.app.html.util.population
 
-import at.orchaldir.gm.app.CULTURE
-import at.orchaldir.gm.app.DENSITY
-import at.orchaldir.gm.app.NUMBER
-import at.orchaldir.gm.app.POPULATION
-import at.orchaldir.gm.app.RACE
-import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.culture.parseCultureId
-import at.orchaldir.gm.app.html.race.parseRaceId
-import at.orchaldir.gm.app.html.util.math.parseFactor
+import at.orchaldir.gm.app.html.tdLink
+import at.orchaldir.gm.app.html.tdPercentage
+import at.orchaldir.gm.app.html.tdSkipZero
+import at.orchaldir.gm.app.html.tdString
 import at.orchaldir.gm.app.html.util.math.selectFactor
 import at.orchaldir.gm.app.parse.combine
-import at.orchaldir.gm.app.parse.parse
-import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.culture.Culture
-import at.orchaldir.gm.core.model.culture.CultureId
-import at.orchaldir.gm.core.model.race.Race
-import at.orchaldir.gm.core.model.race.RaceId
-import at.orchaldir.gm.core.model.util.Size
-import at.orchaldir.gm.core.model.util.population.*
-import at.orchaldir.gm.core.model.util.population.PopulationType.Undefined
-import at.orchaldir.gm.core.selector.util.calculatePopulationIndex
-import at.orchaldir.gm.core.selector.util.sortCultures
-import at.orchaldir.gm.core.selector.util.sortRaces
+import at.orchaldir.gm.core.model.util.population.ElementDistribution
+import at.orchaldir.gm.core.model.util.population.PopulationDistribution
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
-import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.ONE_PERCENT
@@ -44,7 +28,7 @@ fun <ID : Id<ID>> DETAILS.showElementDistribution(
     state: State,
     label: String,
     distribution: Map<ID, Factor>,
-    ) {
+) {
     var remaining = Factor.fromPercentage(100)
 
     table {

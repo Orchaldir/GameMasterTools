@@ -1,26 +1,13 @@
 package at.orchaldir.gm.core.reducer.util.population
 
-import at.orchaldir.gm.CULTURE_ID_0
-import at.orchaldir.gm.RACE_ID_0
-import at.orchaldir.gm.RACE_ID_1
-import at.orchaldir.gm.RACE_ID_2
-import at.orchaldir.gm.UNKNOWN_CULTURE_ID
-import at.orchaldir.gm.UNKNOWN_RACE_ID
-import at.orchaldir.gm.assertIllegalArgument
+import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.race.Race
-import at.orchaldir.gm.core.model.util.population.AbstractPopulation
-import at.orchaldir.gm.core.model.util.population.ElementDistribution
-import at.orchaldir.gm.core.model.util.population.Population
-import at.orchaldir.gm.core.model.util.population.PopulationDistribution
-import at.orchaldir.gm.core.model.util.population.TotalPopulation
+import at.orchaldir.gm.core.model.util.population.*
 import at.orchaldir.gm.core.reducer.util.validatePopulation
 import at.orchaldir.gm.utils.Storage
-import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.HALF
-import at.orchaldir.gm.utils.math.THREE_QUARTER
-import at.orchaldir.gm.utils.math.ZERO
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 

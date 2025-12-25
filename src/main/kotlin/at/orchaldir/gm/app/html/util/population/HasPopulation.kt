@@ -31,11 +31,13 @@ fun HtmlBlockTag.showPopulationOfCulture(
     state.getCultureStorage(),
     culture,
     { it.cultures().contains(culture) },
-    { when (val population = it.population()) {
-        is PopulationDistribution -> population.cultures.getData(culture, population.total)
-        else -> null
-    } },
-    { it.getPopulation(culture)},
+    {
+        when (val population = it.population()) {
+            is PopulationDistribution -> population.cultures.getData(culture, population.total)
+            else -> null
+        }
+    },
+    { it.getPopulation(culture) },
 )
 
 fun HtmlBlockTag.showPopulationOfRace(
@@ -48,21 +50,23 @@ fun HtmlBlockTag.showPopulationOfRace(
     state.getRaceStorage(),
     race,
     { it.races().contains(race) },
-    { when (val population = it.population()) {
-        is PopulationDistribution -> population.races.getData(race, population.total)
-        else -> null
-    } },
-    { it.getPopulation(race)},
+    {
+        when (val population = it.population()) {
+            is PopulationDistribution -> population.races.getData(race, population.total)
+            else -> null
+        }
+    },
+    { it.getPopulation(race) },
 )
 
-fun <ID : Id<ID>, ELEMENT: Element<ID>> HtmlBlockTag.showPopulationOfElement(
+fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.showPopulationOfElement(
     call: ApplicationCall,
     state: State,
     storage: Storage<ID, ELEMENT>,
     id: ID,
     contains: (IPopulationWithSets) -> Boolean,
     getPercentage: (HasPopulation) -> Pair<Int, Factor>?,
-    getPopulation: (Population) -> Int?
+    getPopulation: (Population) -> Int?,
 ) {
     h2 { +"Population" }
 

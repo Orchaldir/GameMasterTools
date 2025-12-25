@@ -86,6 +86,7 @@ fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showPopulationDetails(
                 fieldIds(call, state, population.races)
                 fieldIds(call, state, population.cultures)
             }
+
             UndefinedPopulation -> doNothing()
         }
     }
