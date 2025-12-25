@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterTemplate
 import at.orchaldir.gm.core.model.culture.Culture
+import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.War
 import at.orchaldir.gm.core.model.realm.WarParticipant
 import at.orchaldir.gm.core.model.util.CultureReference
@@ -74,6 +75,14 @@ class CultureTest {
             val newState = state.updateStorage(Storage(war))
 
             failCanDelete(newState, WAR_ID_0)
+        }
+
+        @Test
+        fun `Cannot delete a culture used by a population`() {
+            val realm = Realm(REALM_ID_0, population = population)
+            val newState = state.updateStorage(Storage(realm))
+
+            failCanDelete(newState, REALM_ID_0)
         }
 
         private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {
