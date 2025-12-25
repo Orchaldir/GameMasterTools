@@ -51,6 +51,20 @@ sealed class Population {
         else -> false
     }
 
+    fun cultures() = when (this) {
+        is AbstractPopulation -> cultures
+        is PopulationDistribution -> cultures.keys
+        is TotalPopulation -> cultures
+        else -> emptySet()
+    }
+
+    fun races() = when (this) {
+        is AbstractPopulation -> races
+        is PopulationDistribution -> races.keys
+        is TotalPopulation -> races
+        else -> emptySet()
+    }
+
 }
 
 @Serializable

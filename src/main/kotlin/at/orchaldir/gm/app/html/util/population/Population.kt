@@ -1,10 +1,12 @@
 package at.orchaldir.gm.app.html.util.population
 
+import at.orchaldir.gm.app.CULTURE
 import at.orchaldir.gm.app.DENSITY
 import at.orchaldir.gm.app.NUMBER
 import at.orchaldir.gm.app.POPULATION
 import at.orchaldir.gm.app.RACE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.culture.parseCultureId
 import at.orchaldir.gm.app.html.race.parseRaceId
 import at.orchaldir.gm.app.html.util.math.parseFactor
 import at.orchaldir.gm.app.html.util.math.selectFactor
@@ -12,12 +14,15 @@ import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.culture.Culture
+import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.population.*
 import at.orchaldir.gm.core.model.util.population.PopulationType.Undefined
 import at.orchaldir.gm.core.selector.util.calculatePopulationIndex
+import at.orchaldir.gm.core.selector.util.sortCultures
 import at.orchaldir.gm.core.selector.util.sortRaces
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
@@ -41,18 +46,17 @@ fun HtmlBlockTag.showPopulation(population: Population) {
     }
 }
 
-fun HtmlBlockTag.showRacesPopulation(
+fun HtmlBlockTag.showCulturesOfPopulation(
     call: ApplicationCall,
     state: State,
     population: Population,
-) {
-    when (population) {
-        is AbstractPopulation -> showInlineIds(call, state, population.races)
-        is PopulationDistribution -> showInlineIds(call, state, population.races.keys)
-        is TotalPopulation -> showInlineIds(call, state, population.races)
-        UndefinedPopulation -> doNothing()
-    }
-}
+) = showInlineIds(call, state, population.cultures())
+
+fun HtmlBlockTag.showRacesOfPopulation(
+    call: ApplicationCall,
+    state: State,
+    population: Population,
+) = showInlineIds(call, state, population.races())
 
 fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showPopulationDetails(
     call: ApplicationCall,
@@ -75,37 +79,52 @@ fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showPopulationDetails(
             is AbstractPopulation -> {
                 field("Density", population.density)
                 fieldIds(call, state, population.races)
+                fieldIds(call, state, population.cultures)
             }
 
             is PopulationDistribution -> {
-                var remaining = Factor.fromPercentage(100)
-
-                table {
-                    tr {
-                        th { +"Race" }
-                        th { +"Percentage" }
-                        th { +"Number" }
-                    }
-                    population.races
-                        .toList()
-                        .sortedByDescending { it.second.toPermyriad() }
-                        .forEach { (raceId, percentage) ->
-
-                            tr {
-                                tdLink(call, state, raceId)
-                                showPercentageAndNumber(population.total, percentage)
-                            }
-
-                            remaining = remaining - percentage
-                        }
-
-                    showRemainingPopulation(population, remaining)
-                }
+                showDistribution(population, call, state, "Race", population.races)
+                showDistribution(population, call, state, "Culture", population.cultures)
             }
 
-            is TotalPopulation -> fieldIds(call, state, population.races)
+            is TotalPopulation -> {
+                fieldIds(call, state, population.races)
+                fieldIds(call, state, population.cultures)
+            }
             UndefinedPopulation -> doNothing()
         }
+    }
+}
+
+private fun <ID : Id<ID>> DETAILS.showDistribution(
+    population: PopulationDistribution,
+    call: ApplicationCall,
+    state: State,
+    label: String,
+    distribution: Map<ID, Factor>,
+    ) {
+    var remaining = Factor.fromPercentage(100)
+
+    table {
+        tr {
+            th { +label }
+            th { +"Percentage" }
+            th { +"Number" }
+        }
+        distribution
+            .toList()
+            .sortedByDescending { it.second.toPermyriad() }
+            .forEach { (raceId, percentage) ->
+
+                tr {
+                    tdLink(call, state, raceId)
+                    showPercentageAndNumber(population.total, percentage)
+                }
+
+                remaining -= percentage
+            }
+
+        showRemainingPopulation(population, remaining)
     }
 }
 
@@ -121,7 +140,7 @@ private fun TABLE.showRemainingPopulation(
     }
 }
 
-fun TR.showPercentageAndNumber(
+private fun TR.showPercentageAndNumber(
     total: Int,
     percentage: Factor,
 ) {
@@ -156,54 +175,102 @@ fun HtmlBlockTag.editPopulation(
                     population.density,
                 )
                 selectRaceSet(state, param, population.races)
+                selectCultureSet(state, param, population.cultures)
             }
 
             is PopulationDistribution -> {
                 selectTotalPopulation(param, population.total)
 
-                val remaining = population.getUndefinedPercentagesForRaces()
-
-                table {
-                    tr {
-                        th { +"Race" }
-                        th { +"Percentage" }
-                        th { +"Number" }
-                    }
-                    state.sortRaces().forEach { race ->
-                        val percentage = population.getPercentage(race.id)
-                        val minValue = if (percentage.isGreaterZero() && population.races.count() == 1) {
-                            ONE_PERCENT
-                        } else {
-                            ZERO
-                        }
-
-                        tr {
-                            tdLink(call, state, race)
-                            td {
-                                selectFactor(
-                                    combine(param, race.id.value),
-                                    percentage,
-                                    minValue,
-                                    FULL.min(percentage + remaining),
-                                    ONE_PERCENT,
-                                )
-                            }
-                            showRaceNumber(population.total, percentage)
-                        }
-                    }
-
-                    showRemainingPopulation(population, remaining)
-                }
+                editDistribution(
+                    call,
+                    state,
+                    "Race",
+                    param,
+                    population,
+                    state.sortRaces(),
+                    population.races,
+                    population::getPercentage,
+                )
+                editDistribution(
+                    call,
+                    state,
+                    "Culture",
+                    param,
+                    population,
+                    state.sortCultures(),
+                    population.cultures,
+                    population::getPercentage,
+                )
             }
 
             is TotalPopulation -> {
                 selectTotalPopulation(param, population.total)
                 selectRaceSet(state, param, population.races)
+                selectCultureSet(state, param, population.cultures)
             }
 
             UndefinedPopulation -> doNothing()
         }
     }
+}
+
+private fun <ID : Id<ID>, ELEMENT : Element<ID>> DETAILS.editDistribution(
+    call: ApplicationCall,
+    state: State,
+    label: String,
+    param: String,
+    population: PopulationDistribution,
+    allElements: List<ELEMENT>,
+    distribution: Map<ID, Factor>,
+    getPercentage: (ID) -> Factor,
+) {
+    val remaining = population.getUndefinedPercentagesForRaces()
+
+    table {
+        tr {
+            th { +label }
+            th { +"Percentage" }
+            th { +"Number" }
+        }
+        allElements.forEach { element ->
+            val percentage = getPercentage(element.id())
+            val minValue = if (percentage.isGreaterZero() && distribution.count() == 1) {
+                ONE_PERCENT
+            } else {
+                ZERO
+            }
+
+            tr {
+                tdLink(call, state, element)
+                td {
+                    selectFactor(
+                        combine(param, element.id().value()),
+                        percentage,
+                        minValue,
+                        FULL.min(percentage + remaining),
+                        ONE_PERCENT,
+                    )
+                }
+                showRaceNumber(population.total, percentage)
+            }
+        }
+
+        showRemainingPopulation(population, remaining)
+    }
+}
+
+private fun DETAILS.selectCultureSet(
+    state: State,
+    param: String,
+    cultures: Set<CultureId>,
+) {
+    selectElements(
+        state,
+        "Cultures",
+        combine(param, CULTURE),
+        state.sortCultures(),
+        cultures,
+    )
 }
 
 private fun DETAILS.selectRaceSet(
@@ -240,7 +307,8 @@ fun parsePopulation(
 ) = when (parse(parameters, param, Undefined)) {
     PopulationType.Abstract -> AbstractPopulation(
         parse(parameters, combine(param, DENSITY), Size.Medium),
-        parseRaceSet(parameters, param)
+        parseRaceSet(parameters, param),
+        parseCultureSet(parameters, param),
     )
 
     PopulationType.Distribution -> PopulationDistribution(
@@ -250,22 +318,35 @@ fun parsePopulation(
             .associate { race ->
                 Pair(race.id, parsePopulationOfRace(parameters, param, race))
             }
-            .filter { it.value.isGreaterZero() }
+            .filter { it.value.isGreaterZero() },
+        state.getCultureStorage()
+            .getAll()
+            .associate { culture ->
+                Pair(culture.id, parsePopulationOfCulture(parameters, param, culture))
+            }
+            .filter { it.value.isGreaterZero() },
     )
 
     PopulationType.Total -> TotalPopulation(
         parseTotalPopulation(parameters, param),
-        parseRaceSet(parameters, param)
+        parseRaceSet(parameters, param),
+        parseCultureSet(parameters, param),
     )
 
     Undefined -> UndefinedPopulation
 }
+
+private fun parseCultureSet(parameters: Parameters, param: String) =
+    parseElements(parameters, combine(param, CULTURE), ::parseCultureId)
 
 private fun parseRaceSet(parameters: Parameters, param: String) =
     parseElements(parameters, combine(param, RACE), ::parseRaceId)
 
 private fun parseTotalPopulation(parameters: Parameters, param: String): Int =
     parseInt(parameters, combine(param, NUMBER), 0)
+
+fun parsePopulationOfCulture(parameters: Parameters, param: String, culture: Culture) =
+    parseFactor(parameters, combine(param, culture.id.value), ZERO)
 
 fun parsePopulationOfRace(parameters: Parameters, param: String, race: Race) =
     parseFactor(parameters, combine(param, race.id.value), ZERO)

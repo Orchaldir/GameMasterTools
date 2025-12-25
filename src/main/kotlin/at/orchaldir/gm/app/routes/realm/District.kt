@@ -69,6 +69,7 @@ fun Application.configureDistrictRouting() {
                     createCreatorColumn(call, state, "Founder"),
                     createPopulationColumn(),
                     createRacesOfPopulationColumn(call, state),
+                    createCulturesOfPopulationColumn(call, state),
                 ),
             ) {
                 showCreatorCount(call, state, it, "Creators")
