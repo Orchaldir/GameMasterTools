@@ -23,6 +23,11 @@ sealed class Population {
         UndefinedPopulation -> PopulationType.Undefined
     }
 
+    fun getPopulation(culture: CultureId) = when (this) {
+        is PopulationDistribution -> getNumber(culture)
+        else -> null
+    }
+
     fun getPopulation(race: RaceId) = when (this) {
         is PopulationDistribution -> getNumber(race)
         else -> null
