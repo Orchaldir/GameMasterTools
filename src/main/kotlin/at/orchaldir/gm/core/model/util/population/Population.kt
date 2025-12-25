@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.util.population
 
+import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.math.Factor
@@ -36,9 +37,16 @@ sealed class Population {
         is AbstractPopulation, UndefinedPopulation -> null
     }
 
+    fun contains(culture: CultureId) = when (this) {
+        is AbstractPopulation -> cultures.contains(culture)
+        is PopulationPerRace -> cultures.containsKey(culture)
+        is TotalPopulation -> cultures.contains(culture)
+        else -> false
+    }
+
     fun contains(race: RaceId) = when (this) {
         is AbstractPopulation -> races.contains(race)
-        is PopulationPerRace -> racePercentages.containsKey(race)
+        is PopulationPerRace -> races.containsKey(race)
         is TotalPopulation -> races.contains(race)
         else -> false
     }
@@ -50,20 +58,30 @@ sealed class Population {
 data class AbstractPopulation(
     val density: Size = Size.Medium,
     val races: Set<RaceId> = emptySet(),
+    val cultures: Set<CultureId> = emptySet(),
 ) : Population()
 
 @Serializable
 @SerialName("Race")
 data class PopulationPerRace(
     val total: Int,
-    val racePercentages: Map<RaceId, Factor>,
+    val races: Map<RaceId, Factor> = emptyMap(),
+    val cultures: Map<CultureId, Factor> = emptyMap(),
 ) : Population() {
 
-    fun getPercentage(race: RaceId) = racePercentages.getOrDefault(race, ZERO)
-    fun getNumber(race: RaceId) = getPercentage(race).apply(total)
+    fun getPercentage(race: RaceId) = races.getOrDefault(race, ZERO)
+    fun getPercentage(culture: CultureId) = cultures.getOrDefault(culture, ZERO)
 
-    fun getDefinedPercentage() = Factor.fromPermyriad(racePercentages.values.sumOf { it.toPermyriad() })
-    fun getUndefinedPercentage() = ONE - getDefinedPercentage()
+    fun getNumber(race: RaceId) = getPercentage(race).apply(total)
+    fun getNumber(culture: CultureId) = getPercentage(culture).apply(total)
+
+    fun getDefinedPercentagesForRaces() = races.values
+        .reduceOrNull { sum, percentage -> sum + percentage } ?: ZERO
+    fun getUndefinedPercentagesForRaces() = ONE - getDefinedPercentagesForRaces()
+
+    fun getDefinedPercentagesForCultures() = cultures.values
+        .reduceOrNull { sum, percentage -> sum + percentage } ?: ZERO
+    fun getUndefinedPercentagesForCultures() = ONE - getDefinedPercentagesForCultures()
 
 }
 
@@ -72,6 +90,7 @@ data class PopulationPerRace(
 data class TotalPopulation(
     val total: Int,
     val races: Set<RaceId> = emptySet(),
+    val cultures: Set<CultureId> = emptySet(),
 ) : Population()
 
 @Serializable

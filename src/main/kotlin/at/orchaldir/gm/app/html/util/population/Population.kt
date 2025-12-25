@@ -48,7 +48,7 @@ fun HtmlBlockTag.showRacesPopulation(
 ) {
     when (population) {
         is AbstractPopulation -> showInlineIds(call, state, population.races)
-        is PopulationPerRace -> showInlineIds(call, state, population.racePercentages.keys)
+        is PopulationPerRace -> showInlineIds(call, state, population.races.keys)
         is TotalPopulation -> showInlineIds(call, state, population.races)
         UndefinedPopulation -> doNothing()
     }
@@ -86,7 +86,7 @@ fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showPopulationDetails(
                         th { +"Percentage" }
                         th { +"Number" }
                     }
-                    population.racePercentages
+                    population.races
                         .toList()
                         .sortedByDescending { it.second.toPermyriad() }
                         .forEach { (raceId, percentage) ->
@@ -161,7 +161,7 @@ fun HtmlBlockTag.editPopulation(
             is PopulationPerRace -> {
                 selectTotalPopulation(param, population.total)
 
-                val remaining = population.getUndefinedPercentage()
+                val remaining = population.getUndefinedPercentagesForRaces()
 
                 table {
                     tr {
@@ -171,7 +171,7 @@ fun HtmlBlockTag.editPopulation(
                     }
                     state.sortRaces().forEach { race ->
                         val percentage = population.getPercentage(race.id)
-                        val minValue = if (percentage.isGreaterZero() && population.racePercentages.count() == 1) {
+                        val minValue = if (percentage.isGreaterZero() && population.races.count() == 1) {
                             ONE_PERCENT
                         } else {
                             ZERO
