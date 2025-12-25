@@ -83,8 +83,15 @@ private fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showPopulationOfRace(
 ) where
         ELEMENT : Element<ID>,
         ELEMENT : HasPopulation {
+    val elementsWithAbstractPopulation = getAbstractPopulations(storage, contains)
     val entries = getPopulationEntries(storage, getPercentage)
     val total = entries.sumOf { it.number }
+
+    if (elementsWithAbstractPopulation.isEmpty() && entries.isEmpty()) {
+        return
+    }
+
+    h3 { +storage.getPlural() }
 
     if (entries.isNotEmpty()) {
         val id = entries.first().id
@@ -111,5 +118,5 @@ private fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showPopulationOfRace(
         }
     }
 
-    fieldElements(call, state, "Abstract Population", getAbstractPopulations(storage, contains))
+    fieldElements(call, state, "Abstract Population", elementsWithAbstractPopulation)
 }
