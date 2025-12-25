@@ -38,7 +38,7 @@ fun <ID : Id<ID>, ELEMENT> getPopulationEntries(
     .mapNotNull { element ->
         when (val population = element.population()) {
             is PopulationDistribution -> {
-                population.races[race]?.let { percentage ->
+                population.races.map[race]?.let { percentage ->
                     PopulationEntry(element.id(), percentage.apply(population.total), percentage)
                 }
             }

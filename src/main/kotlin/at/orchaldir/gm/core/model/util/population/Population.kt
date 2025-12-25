@@ -39,28 +39,28 @@ sealed class Population {
 
     fun contains(culture: CultureId) = when (this) {
         is AbstractPopulation -> cultures.contains(culture)
-        is PopulationDistribution -> cultures.containsKey(culture)
+        is PopulationDistribution -> cultures.map.containsKey(culture)
         is TotalPopulation -> cultures.contains(culture)
         else -> false
     }
 
     fun contains(race: RaceId) = when (this) {
         is AbstractPopulation -> races.contains(race)
-        is PopulationDistribution -> races.containsKey(race)
+        is PopulationDistribution -> races.map.containsKey(race)
         is TotalPopulation -> races.contains(race)
         else -> false
     }
 
     fun cultures() = when (this) {
         is AbstractPopulation -> cultures
-        is PopulationDistribution -> cultures.keys
+        is PopulationDistribution -> cultures.map.keys
         is TotalPopulation -> cultures
         else -> emptySet()
     }
 
     fun races() = when (this) {
         is AbstractPopulation -> races
-        is PopulationDistribution -> races.keys
+        is PopulationDistribution -> races.map.keys
         is TotalPopulation -> races
         else -> emptySet()
     }
@@ -75,27 +75,29 @@ data class AbstractPopulation(
     val cultures: Set<CultureId> = emptySet(),
 ) : Population()
 
+@JvmInline
+@Serializable
+value class ElementDistribution<T>(
+    val map: Map<T, Factor> = emptyMap(),
+) {
+    fun getPercentage(id: T) = map.getOrDefault(id, ZERO)
+    fun getNumber(total: Int, id: T) = getPercentage(id).apply(total)
+
+    fun getDefinedPercentages() = map.values
+        .reduceOrNull { sum, percentage -> sum + percentage } ?: ZERO
+    fun getUndefinedPercentages() = ONE - getDefinedPercentages()
+}
+
 @Serializable
 @SerialName("Distribution")
 data class PopulationDistribution(
     val total: Int,
-    val races: Map<RaceId, Factor> = emptyMap(),
-    val cultures: Map<CultureId, Factor> = emptyMap(),
+    val races: ElementDistribution<RaceId> = ElementDistribution(),
+    val cultures: ElementDistribution<CultureId> = ElementDistribution(),
 ) : Population() {
 
-    fun getPercentage(race: RaceId) = races.getOrDefault(race, ZERO)
-    fun getPercentage(culture: CultureId) = cultures.getOrDefault(culture, ZERO)
-
-    fun getNumber(race: RaceId) = getPercentage(race).apply(total)
-    fun getNumber(culture: CultureId) = getPercentage(culture).apply(total)
-
-    fun getDefinedPercentagesForRaces() = races.values
-        .reduceOrNull { sum, percentage -> sum + percentage } ?: ZERO
-    fun getUndefinedPercentagesForRaces() = ONE - getDefinedPercentagesForRaces()
-
-    fun getDefinedPercentagesForCultures() = cultures.values
-        .reduceOrNull { sum, percentage -> sum + percentage } ?: ZERO
-    fun getUndefinedPercentagesForCultures() = ONE - getDefinedPercentagesForCultures()
+    fun getNumber(race: RaceId) = races.getNumber(total, race)
+    fun getNumber(culture: CultureId) = cultures.getNumber(total, culture)
 
 }
 

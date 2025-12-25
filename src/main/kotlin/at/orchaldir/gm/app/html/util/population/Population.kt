@@ -83,9 +83,9 @@ fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showPopulationDetails(
             }
 
             is PopulationDistribution -> {
-                showDistribution(population, call, state, "Race", population.races)
+                showDistribution(population, call, state, "Race", population.races.map)
                 br { }
-                showDistribution(population, call, state, "Culture", population.cultures)
+                showDistribution(population, call, state, "Culture", population.cultures.map)
             }
 
             is TotalPopulation -> {
@@ -190,8 +190,6 @@ fun HtmlBlockTag.editPopulation(
                     population,
                     state.sortRaces(),
                     population.races,
-                    population.getUndefinedPercentagesForRaces(),
-                    population::getPercentage,
                 )
                 br { }
                 editDistribution(
@@ -202,8 +200,6 @@ fun HtmlBlockTag.editPopulation(
                     population,
                     state.sortCultures(),
                     population.cultures,
-                    population.getUndefinedPercentagesForCultures(),
-                    population::getPercentage,
                 )
             }
 
@@ -225,10 +221,10 @@ private fun <ID : Id<ID>, ELEMENT : Element<ID>> DETAILS.editDistribution(
     param: String,
     population: PopulationDistribution,
     allElements: List<ELEMENT>,
-    distribution: Map<ID, Factor>,
-    remaining: Factor,
-    getPercentage: (ID) -> Factor,
+    distribution: ElementDistribution<ID>,
 ) {
+    val remaining = distribution.getUndefinedPercentages()
+
     table {
         tr {
             th { +label }
@@ -236,8 +232,8 @@ private fun <ID : Id<ID>, ELEMENT : Element<ID>> DETAILS.editDistribution(
             th { +"Number" }
         }
         allElements.forEach { element ->
-            val percentage = getPercentage(element.id())
-            val minValue = if (percentage.isGreaterZero() && distribution.count() == 1) {
+            val percentage = distribution.getPercentage(element.id())
+            val minValue = if (percentage.isGreaterZero() && distribution.map.count() == 1) {
                 ONE_PERCENT
             } else {
                 ZERO
@@ -316,18 +312,22 @@ fun parsePopulation(
 
     PopulationType.Distribution -> PopulationDistribution(
         parseTotalPopulation(parameters, param),
-        state.getRaceStorage()
+        ElementDistribution(
+            state.getRaceStorage()
             .getAll()
             .associate { race ->
                 Pair(race.id, parsePopulationOfRace(parameters, param, race))
             }
-            .filter { it.value.isGreaterZero() },
-        state.getCultureStorage()
+            .filter { it.value.isGreaterZero() }
+        ),
+        ElementDistribution(
+            state.getCultureStorage()
             .getAll()
             .associate { culture ->
                 Pair(culture.id, parsePopulationOfCulture(parameters, param, culture))
             }
-            .filter { it.value.isGreaterZero() },
+            .filter { it.value.isGreaterZero() }
+        ),
     )
 
     PopulationType.Total -> TotalPopulation(
