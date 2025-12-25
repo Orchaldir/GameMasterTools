@@ -26,6 +26,7 @@ import at.orchaldir.gm.core.selector.util.sortCultures
 import at.orchaldir.gm.core.selector.util.sortRaces
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
+import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
@@ -186,7 +187,7 @@ fun HtmlBlockTag.editPopulation(
                     call,
                     state,
                     "Race",
-                    param,
+                    combine(param, RACE),
                     population,
                     state.sortRaces(),
                     population.races,
@@ -196,7 +197,7 @@ fun HtmlBlockTag.editPopulation(
                     call,
                     state,
                     "Culture",
-                    param,
+                    combine(param, CULTURE),
                     population,
                     state.sortCultures(),
                     population.cultures,
@@ -312,21 +313,17 @@ fun parsePopulation(
 
     PopulationType.Distribution -> PopulationDistribution(
         parseTotalPopulation(parameters, param),
-        ElementDistribution(
-            state.getRaceStorage()
-            .getAll()
-            .associate { race ->
-                Pair(race.id, parsePopulationOfRace(parameters, param, race))
-            }
-            .filter { it.value.isGreaterZero() }
+        parseDistribution(
+            state.getRaceStorage(),
+            parameters,
+            param,
+            ::parsePopulationOfRace,
         ),
-        ElementDistribution(
-            state.getCultureStorage()
-            .getAll()
-            .associate { culture ->
-                Pair(culture.id, parsePopulationOfCulture(parameters, param, culture))
-            }
-            .filter { it.value.isGreaterZero() }
+        parseDistribution(
+            state.getCultureStorage(),
+            parameters,
+            param,
+            ::parsePopulationOfCulture,
         ),
     )
 
@@ -339,6 +336,20 @@ fun parsePopulation(
     Undefined -> UndefinedPopulation
 }
 
+private fun <ID : Id<ID>, ELEMENT : Element<ID>> parseDistribution(
+    storage: Storage<ID, ELEMENT>,
+    parameters: Parameters,
+    param: String,
+    parsePopulation: (Parameters, String, ELEMENT) -> Factor,
+): ElementDistribution<ID> = ElementDistribution(
+    storage
+        .getAll()
+        .associate { element ->
+            Pair(element.id(), parsePopulation(parameters, param, element))
+        }
+        .filter { it.value.isGreaterZero() }
+)
+
 private fun parseCultureSet(parameters: Parameters, param: String) =
     parseElements(parameters, combine(param, CULTURE), ::parseCultureId)
 
@@ -349,7 +360,7 @@ private fun parseTotalPopulation(parameters: Parameters, param: String): Int =
     parseInt(parameters, combine(param, NUMBER), 0)
 
 fun parsePopulationOfCulture(parameters: Parameters, param: String, culture: Culture) =
-    parseFactor(parameters, combine(param, culture.id.value), ZERO)
+    parseFactor(parameters, combine(param, CULTURE, culture.id.value), ZERO)
 
 fun parsePopulationOfRace(parameters: Parameters, param: String, race: Race) =
-    parseFactor(parameters, combine(param, race.id.value), ZERO)
+    parseFactor(parameters, combine(param, RACE, race.id.value), ZERO)
