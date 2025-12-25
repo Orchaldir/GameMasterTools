@@ -3,9 +3,6 @@ package at.orchaldir.gm.core.model.util.population
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.util.Size
-import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.math.ONE
-import at.orchaldir.gm.utils.math.ZERO
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -74,19 +71,6 @@ data class AbstractPopulation(
     val races: Set<RaceId> = emptySet(),
     val cultures: Set<CultureId> = emptySet(),
 ) : Population()
-
-@JvmInline
-@Serializable
-value class ElementDistribution<T>(
-    val map: Map<T, Factor> = emptyMap(),
-) {
-    fun getPercentage(id: T) = map.getOrDefault(id, ZERO)
-    fun getNumber(total: Int, id: T) = getPercentage(id).apply(total)
-
-    fun getDefinedPercentages() = map.values
-        .reduceOrNull { sum, percentage -> sum + percentage } ?: ZERO
-    fun getUndefinedPercentages() = ONE - getDefinedPercentages()
-}
 
 @Serializable
 @SerialName("Distribution")
