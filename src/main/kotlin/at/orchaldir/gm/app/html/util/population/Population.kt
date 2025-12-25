@@ -84,6 +84,7 @@ fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showPopulationDetails(
 
             is PopulationDistribution -> {
                 showDistribution(population, call, state, "Race", population.races)
+                br { }
                 showDistribution(population, call, state, "Culture", population.cultures)
             }
 
@@ -145,10 +146,10 @@ private fun TR.showPercentageAndNumber(
     percentage: Factor,
 ) {
     tdPercentage(percentage)
-    showRaceNumber(total, percentage)
+    showElementNumber(total, percentage)
 }
 
-private fun TR.showRaceNumber(
+private fun TR.showElementNumber(
     total: Int,
     percentage: Factor,
 ) {
@@ -189,8 +190,10 @@ fun HtmlBlockTag.editPopulation(
                     population,
                     state.sortRaces(),
                     population.races,
+                    population.getUndefinedPercentagesForRaces(),
                     population::getPercentage,
                 )
+                br { }
                 editDistribution(
                     call,
                     state,
@@ -199,6 +202,7 @@ fun HtmlBlockTag.editPopulation(
                     population,
                     state.sortCultures(),
                     population.cultures,
+                    population.getUndefinedPercentagesForCultures(),
                     population::getPercentage,
                 )
             }
@@ -222,10 +226,9 @@ private fun <ID : Id<ID>, ELEMENT : Element<ID>> DETAILS.editDistribution(
     population: PopulationDistribution,
     allElements: List<ELEMENT>,
     distribution: Map<ID, Factor>,
+    remaining: Factor,
     getPercentage: (ID) -> Factor,
 ) {
-    val remaining = population.getUndefinedPercentagesForRaces()
-
     table {
         tr {
             th { +label }
@@ -251,7 +254,7 @@ private fun <ID : Id<ID>, ELEMENT : Element<ID>> DETAILS.editDistribution(
                         ONE_PERCENT,
                     )
                 }
-                showRaceNumber(population.total, percentage)
+                showElementNumber(population.total, percentage)
             }
         }
 
