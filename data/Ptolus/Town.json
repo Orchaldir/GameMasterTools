@@ -9,7 +9,11 @@
    },
    "population": {
     "#type": "Abstract",
-    "density": "Large"
+    "density": "Large",
+    "cultures": [
+     8,
+     5
+    ]
    }
   },
   "1": {
