@@ -7,10 +7,9 @@ import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterTemplate
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceGroup
-import at.orchaldir.gm.core.model.realm.District
 import at.orchaldir.gm.core.model.realm.Realm
-import at.orchaldir.gm.core.model.realm.Town
-import at.orchaldir.gm.core.model.util.population.PopulationPerRace
+import at.orchaldir.gm.core.model.util.population.ElementDistribution
+import at.orchaldir.gm.core.model.util.population.PopulationDistribution
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.HALF
@@ -23,12 +22,8 @@ class RaceTest {
     @Nested
     inner class CanDeleteTest {
         private val race = Race(RACE_ID_0)
-        private val state = State(
-            listOf(
-                Storage(race),
-            )
-        )
-        val population = PopulationPerRace(100, mapOf(RACE_ID_0 to HALF))
+        private val state = State(Storage(race))
+        private val population = PopulationDistribution(100, ElementDistribution(mapOf(RACE_ID_0 to HALF)))
 
         @Test
         fun `Cannot delete a race part of a group`() {
@@ -55,27 +50,11 @@ class RaceTest {
         }
 
         @Test
-        fun `Cannot delete a race used by the population of a district`() {
-            val district = District(DISTRICT_ID_0, population = population)
-            val newState = state.updateStorage(Storage(district))
-
-            failCanDelete(newState, DISTRICT_ID_0)
-        }
-
-        @Test
-        fun `Cannot delete a race used by the population of a realm`() {
+        fun `Cannot delete a race used by a population`() {
             val realm = Realm(REALM_ID_0, population = population)
             val newState = state.updateStorage(Storage(realm))
 
             failCanDelete(newState, REALM_ID_0)
-        }
-
-        @Test
-        fun `Cannot delete a race used by the population of a town`() {
-            val town = Town(TOWN_ID_0, population = population)
-            val newState = state.updateStorage(Storage(town))
-
-            failCanDelete(newState, TOWN_ID_0)
         }
 
         private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {

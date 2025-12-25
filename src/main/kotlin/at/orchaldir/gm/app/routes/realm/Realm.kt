@@ -75,6 +75,7 @@ fun Application.configureRealmRouting() {
                     createIdColumn(call, state, "Legal Code") { it.legalCode.current },
                     createPopulationColumn(),
                     createRacesOfPopulationColumn(call, state),
+                    createCulturesOfPopulationColumn(call, state),
                     countColumnForId("Towns", state::countOwnedTowns),
                 ),
             ) {

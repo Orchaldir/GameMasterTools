@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.selector.util
 
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.util.population.*
 import at.orchaldir.gm.utils.Element
@@ -15,63 +16,69 @@ data class PopulationEntry<ID : Id<ID>>(
     val percentage: Factor,
 )
 
-fun State.canDeletePopulationOf(race: RaceId, result: DeleteResult) = result
-    .addElements(getPopulations(getDistrictStorage(), race))
-    .addElements(getPopulations(getRealmStorage(), race))
-    .addElements(getPopulations(getTownStorage(), race))
+fun State.canDeletePopulationOf(culture: CultureId, result: DeleteResult) =
+    canDeletePopulationOf(result) { hasPopulation ->
+        hasPopulation.population().contains(culture)
+    }
+
+fun State.canDeletePopulationOf(race: RaceId, result: DeleteResult) = canDeletePopulationOf(result) { hasPopulation ->
+    hasPopulation.population().contains(race)
+}
+
+fun State.canDeletePopulationOf(
+    result: DeleteResult,
+    check: (HasPopulation) -> Boolean,
+) = result
+    .addElements(getPopulations(getDistrictStorage(), check))
+    .addElements(getPopulations(getRealmStorage(), check))
+    .addElements(getPopulations(getTownStorage(), check))
 
 fun <ID : Id<ID>, ELEMENT> getPopulations(
     storage: Storage<ID, ELEMENT>,
-    race: RaceId,
+    check: (HasPopulation) -> Boolean,
 ) where
         ELEMENT : Element<ID>,
         ELEMENT : HasPopulation = storage.getAll()
-    .filter { it.population().contains(race) }
+    .filter { check(it) }
 
 fun <ID : Id<ID>, ELEMENT> getPopulationEntries(
     storage: Storage<ID, ELEMENT>,
-    race: RaceId,
+    getPercentage: (HasPopulation) -> Pair<Int, Factor>?,
 ) where
         ELEMENT : Element<ID>,
         ELEMENT : HasPopulation = storage
     .getAll()
     .mapNotNull { element ->
-        when (val population = element.population()) {
-            is PopulationPerRace -> {
-                population.racePercentages[race]?.let { percentage ->
-                    PopulationEntry(element.id(), percentage.apply(population.total), percentage)
-                }
-            }
-
-            else -> null
+        getPercentage(element)?.let { (number, percentage) ->
+            PopulationEntry(element.id(), number, percentage)
         }
     }
 
 fun <ID : Id<ID>, ELEMENT> getAbstractPopulations(
     storage: Storage<ID, ELEMENT>,
-    race: RaceId,
+    contains: (IPopulationWithSets) -> Boolean,
 ) where
         ELEMENT : Element<ID>,
         ELEMENT : HasPopulation = storage
     .getAll()
     .filter { element ->
         when (val population = element.population()) {
-            is AbstractPopulation -> population.races.contains(race)
-            is PopulationPerRace -> false
-            is TotalPopulation -> population.races.contains(race)
+            is AbstractPopulation -> contains(population)
+            is PopulationDistribution -> false
+            is TotalPopulation -> contains(population)
             UndefinedPopulation -> false
         }
     }
 
-fun State.calculateTotalPopulation(race: RaceId): Int? {
+fun State.calculateTotalPopulation(getPopulation: (Population) -> Int?): Int? {
     val towns = getTownStorage()
         .getAll()
         .filter { it.owner.current == null }
-        .sumOf { it.population.getPopulation(race) ?: 0 }
+        .sumOf { getPopulation(it.population) ?: 0 }
     val realms = getRealmStorage()
         .getAll()
         .filter { it.owner.current == null }
-        .sumOf { it.population.getPopulation(race) ?: 0 }
+        .sumOf { getPopulation(it.population) ?: 0 }
     val total = towns + realms
 
     return if (total > 0) {
@@ -96,17 +103,19 @@ fun <ID : Id<ID>, ELEMENT> State.calculatePopulationIndex(
     }
 }
 
-fun State.calculatePopulationIndex(
-    race: RaceId,
-) = getRaceStorage()
+fun <ID : Id<ID>, ELEMENT : Element<ID>> State.calculatePopulationIndex(
+    storage: Storage<ID, ELEMENT>,
+    id: ID,
+    getPopulation: (Population) -> Int?,
+): Int? = storage
     .getAll()
-    .mapNotNull { other ->
-        calculateTotalPopulation(other.id)
+    .mapNotNull {
+        calculateTotalPopulation(getPopulation)
     }
-    .map { Pair(race, it) }
+    .map { Pair(id, it) }
     .filter { it.second > 0 }
-    .sortedByDescending { calculateTotalPopulation(race) }
-    .indexOfFirst { it.first == race }
+    .sortedByDescending { it.second }
+    .indexOfFirst { it.first == id }
     .let {
         if (it >= 0) {
             it + 1

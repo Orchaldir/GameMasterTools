@@ -2,8 +2,12 @@ package at.orchaldir.gm.app.html.util.population
 
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.util.population.HasPopulation
+import at.orchaldir.gm.core.model.util.population.IPopulationWithSets
+import at.orchaldir.gm.core.model.util.population.Population
+import at.orchaldir.gm.core.model.util.population.PopulationDistribution
 import at.orchaldir.gm.core.selector.util.calculatePopulationIndex
 import at.orchaldir.gm.core.selector.util.calculateTotalPopulation
 import at.orchaldir.gm.core.selector.util.getAbstractPopulations
@@ -17,31 +21,81 @@ import kotlinx.html.*
 
 // show
 
+fun HtmlBlockTag.showPopulationOfCulture(
+    call: ApplicationCall,
+    state: State,
+    culture: CultureId,
+) = showPopulationOfElement(
+    call,
+    state,
+    state.getCultureStorage(),
+    culture,
+    { it.cultures().contains(culture) },
+    {
+        when (val population = it.population()) {
+            is PopulationDistribution -> population.cultures.getData(culture, population.total)
+            else -> null
+        }
+    },
+    { it.getPopulation(culture) },
+)
+
 fun HtmlBlockTag.showPopulationOfRace(
     call: ApplicationCall,
     state: State,
     race: RaceId,
+) = showPopulationOfElement(
+    call,
+    state,
+    state.getRaceStorage(),
+    race,
+    { it.races().contains(race) },
+    {
+        when (val population = it.population()) {
+            is PopulationDistribution -> population.races.getData(race, population.total)
+            else -> null
+        }
+    },
+    { it.getPopulation(race) },
+)
+
+fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.showPopulationOfElement(
+    call: ApplicationCall,
+    state: State,
+    storage: Storage<ID, ELEMENT>,
+    id: ID,
+    contains: (IPopulationWithSets) -> Boolean,
+    getPercentage: (HasPopulation) -> Pair<Int, Factor>?,
+    getPopulation: (Population) -> Int?,
 ) {
     h2 { +"Population" }
 
-    optionalField("Total", state.calculateTotalPopulation(race))
-    optionalField("Index", state.calculatePopulationIndex(race))
+    optionalField("Total", state.calculateTotalPopulation(getPopulation))
+    optionalField("Index", state.calculatePopulationIndex(storage, id, getPopulation))
 
-    showPopulationOfRace(call, state, race, state.getDistrictStorage())
-    showPopulationOfRace(call, state, race, state.getRealmStorage())
-    showPopulationOfRace(call, state, race, state.getTownStorage())
+    showPopulationOfRace(call, state, getPercentage, state.getDistrictStorage(), contains)
+    showPopulationOfRace(call, state, getPercentage, state.getRealmStorage(), contains)
+    showPopulationOfRace(call, state, getPercentage, state.getTownStorage(), contains)
 }
 
 private fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showPopulationOfRace(
     call: ApplicationCall,
     state: State,
-    race: RaceId,
+    getPercentage: (HasPopulation) -> Pair<Int, Factor>?,
     storage: Storage<ID, ELEMENT>,
+    contains: (IPopulationWithSets) -> Boolean,
 ) where
         ELEMENT : Element<ID>,
         ELEMENT : HasPopulation {
-    val entries = getPopulationEntries(storage, race)
+    val elementsWithAbstractPopulation = getAbstractPopulations(storage, contains)
+    val entries = getPopulationEntries(storage, getPercentage)
     val total = entries.sumOf { it.number }
+
+    if (elementsWithAbstractPopulation.isEmpty() && entries.isEmpty()) {
+        return
+    }
+
+    h3 { +storage.getPlural() }
 
     if (entries.isNotEmpty()) {
         val id = entries.first().id
@@ -68,5 +122,5 @@ private fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showPopulationOfRace(
         }
     }
 
-    fieldElements(call, state, "Abstract Population", getAbstractPopulations(storage, race))
+    fieldElements(call, state, "Abstract Population", elementsWithAbstractPopulation)
 }

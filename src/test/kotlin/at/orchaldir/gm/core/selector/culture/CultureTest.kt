@@ -6,14 +6,18 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterTemplate
 import at.orchaldir.gm.core.model.culture.Culture
+import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.War
 import at.orchaldir.gm.core.model.realm.WarParticipant
 import at.orchaldir.gm.core.model.util.CultureReference
 import at.orchaldir.gm.core.model.util.Dead
 import at.orchaldir.gm.core.model.util.KilledBy
+import at.orchaldir.gm.core.model.util.population.ElementDistribution
+import at.orchaldir.gm.core.model.util.population.PopulationDistribution
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
+import at.orchaldir.gm.utils.math.HALF
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
@@ -29,6 +33,7 @@ class CultureTest {
                 Storage(culture),
             )
         )
+        val population = PopulationDistribution(100, cultures = ElementDistribution(mapOf(CULTURE_ID_0 to HALF)))
 
         @Test
         fun `Cannot delete a culture that with a character`() {
@@ -70,6 +75,14 @@ class CultureTest {
             val newState = state.updateStorage(Storage(war))
 
             failCanDelete(newState, WAR_ID_0)
+        }
+
+        @Test
+        fun `Cannot delete a culture used by a population`() {
+            val realm = Realm(REALM_ID_0, population = population)
+            val newState = state.updateStorage(Storage(realm))
+
+            failCanDelete(newState, REALM_ID_0)
         }
 
         private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {

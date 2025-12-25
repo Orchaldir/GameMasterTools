@@ -77,6 +77,7 @@ fun Application.configureTownRouting() {
                     countColumnForId("Buildings", state::countBuildings),
                     createPopulationColumn(),
                     createRacesOfPopulationColumn(call, state),
+                    createCulturesOfPopulationColumn(call, state),
                     countColumnForId("Residents", state::countResidents),
                 ),
             ) {
