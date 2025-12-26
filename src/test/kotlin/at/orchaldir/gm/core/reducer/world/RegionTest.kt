@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.util.BattleReference
 import at.orchaldir.gm.core.model.util.CatastropheReference
 import at.orchaldir.gm.core.model.util.InRegion
 import at.orchaldir.gm.core.model.util.InTown
+import at.orchaldir.gm.core.model.util.WarReference
 import at.orchaldir.gm.core.model.world.terrain.Battlefield
 import at.orchaldir.gm.core.model.world.terrain.Region
 import at.orchaldir.gm.core.model.world.terrain.Wasteland
@@ -51,9 +52,18 @@ class RegionTest {
         }
 
         @Test
-        fun `Cannot use unknown battle`() {
+        fun `Cannot use unknown battle to create a battlefield`() {
             val cause = BattleReference(UNKNOWN_BATTLE_ID)
             val region = Region(REGION_ID_0, data = Battlefield(cause))
+            val action = UpdateAction(region)
+
+            assertIllegalArgument("Requires unknown Cause (Battle 99)!") { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `Cannot use unknown battle to create a wasteland`() {
+            val cause = BattleReference(UNKNOWN_BATTLE_ID)
+            val region = Region(REGION_ID_0, data = Wasteland(cause))
             val action = UpdateAction(region)
 
             assertIllegalArgument("Requires unknown Cause (Battle 99)!") { REDUCER.invoke(state, action) }
@@ -66,6 +76,24 @@ class RegionTest {
             val action = UpdateAction(region)
 
             assertIllegalArgument("Requires unknown Cause (Catastrophe 99)!") { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `Cannot use unknown war to create a battlefield`() {
+            val cause = WarReference(UNKNOWN_WAR_ID)
+            val region = Region(REGION_ID_0, data = Battlefield(cause))
+            val action = UpdateAction(region)
+
+            assertIllegalArgument("Requires unknown Cause (War 99)!") { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `Cannot use unknown war to create a wasteland`() {
+            val cause = WarReference(UNKNOWN_WAR_ID)
+            val region = Region(REGION_ID_0, data = Wasteland(cause))
+            val action = UpdateAction(region)
+
+            assertIllegalArgument("Requires unknown Cause (War 99)!") { REDUCER.invoke(state, action) }
         }
 
         @Test
