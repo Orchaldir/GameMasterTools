@@ -176,6 +176,16 @@
      "Clawed": "Common"
     }
    },
+   "hair": {
+    "colors": {
+     "normal": {
+      "DarkBlond": "Common",
+      "LightBrown": "Common",
+      "MediumBrown": "Common",
+      "DarkBrown": "Common"
+     }
+    }
+   },
    "mouth": {
     "mouthTypes": {
      "Snout": "Common"
