@@ -396,7 +396,8 @@ private fun HtmlBlockTag.editHairColor(
     )
 
     if (options.types.contains(HairColorType.Normal)) {
-        selectRarityMap(
+        selectHairColorRarityMap(
+            CHARACTER_CONFIG,
             "Normal Colors",
             combine(param, COLOR),
             options.normal,

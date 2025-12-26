@@ -1,9 +1,13 @@
 package at.orchaldir.gm.app.html
 
 import at.orchaldir.gm.app.COLOR
+import at.orchaldir.gm.core.model.character.appearance.SkinColor
+import at.orchaldir.gm.core.model.character.appearance.hair.HairColor
+import at.orchaldir.gm.core.model.character.appearance.hair.NormalHairColorEnum
 import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.renderer.model.RenderColor
+import at.orchaldir.gm.visualization.character.CharacterRenderConfig
 import kotlinx.html.HtmlBlockTag
 import kotlinx.html.span
 import kotlinx.html.style
@@ -29,6 +33,12 @@ fun HtmlBlockTag.showOptionalColor(color: Color?) {
 }
 
 fun HtmlBlockTag.showColor(color: Color) = showColor(color.name, color.name)
+
+fun HtmlBlockTag.showHairColor(config: CharacterRenderConfig, color: NormalHairColorEnum) =
+    showColor(color.name, config.getHairColor(color).toCode())
+
+fun HtmlBlockTag.showSkinColor(config: CharacterRenderConfig, color: SkinColor) =
+    showColor(color.name, config.getSkinColor(color).toCode())
 
 fun HtmlBlockTag.showColor(name: String, code: String) {
     showColorBlock(code)

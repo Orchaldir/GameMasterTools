@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.html
 
 import at.orchaldir.gm.app.AVAILABLE
 import at.orchaldir.gm.app.parse.combine
+import at.orchaldir.gm.core.model.character.appearance.hair.NormalHairColorEnum
 import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.util.RarityMap
 import at.orchaldir.gm.core.model.util.render.Color
@@ -9,6 +10,7 @@ import at.orchaldir.gm.core.model.util.reverseAndSort
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
+import at.orchaldir.gm.visualization.character.CharacterRenderConfig
 import io.ktor.http.*
 import kotlinx.html.*
 
@@ -208,6 +210,15 @@ fun HtmlBlockTag.selectColorRarityMap(
     selectId: String,
     rarityMap: RarityMap<Color>,
 ) = selectColorRarityMap(enum, selectId, rarityMap, HtmlBlockTag::showColor)
+
+fun HtmlBlockTag.selectHairColorRarityMap(
+    config: CharacterRenderConfig,
+    enum: String,
+    selectId: String,
+    rarityMap: RarityMap<NormalHairColorEnum>,
+) = selectColorRarityMap(enum, selectId, rarityMap) { color ->
+    showHairColor(config, color)
+}
 
 inline fun <reified T : Enum<T>> HtmlBlockTag.selectColorRarityMap(
     enum: String,
