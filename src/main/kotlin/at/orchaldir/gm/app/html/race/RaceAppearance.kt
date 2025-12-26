@@ -381,40 +381,44 @@ private fun HtmlBlockTag.editHair(appearance: RaceAppearance) {
     selectRarityMap("Hair", HAIR, appearance.hair.hairTypes)
 
     if (requiresHairColor(appearance)) {
-        editHairColor(
+        editHairColors(
             appearance.hair.colors,
             HAIR,
+            "Hair Colors",
             ALLOWED_HAIR_COLOR_TYPES,
         )
     }
 }
 
-private fun HtmlBlockTag.editHairColor(
+private fun HtmlBlockTag.editHairColors(
     options: HairColorOptions,
     param: String,
+    label: String,
     allowedTypes: Set<HairColorType>,
 ) {
-    selectRarityMap(
-        "Color Types",
-        combine(param, COLOR, TYPE),
-        options.types,
-        allowedTypes,
-    )
+    showDetails(label, true) {
+        selectRarityMap(
+            "Types",
+            combine(param, COLOR, TYPE),
+            options.types,
+            allowedTypes,
+        )
 
-    if (options.types.contains(HairColorType.Normal)) {
-        selectHairColorRarityMap(
-            CHARACTER_CONFIG,
-            "Normal Colors",
-            combine(param, COLOR),
-            options.normal,
-        )
-    }
-    if (options.types.contains(HairColorType.Exotic)) {
-        selectColorRarityMap(
-            "Exotic Colors",
-            combine(param, EXOTIC, COLOR),
-            options.exotic,
-        )
+        if (options.types.contains(HairColorType.Normal)) {
+            selectHairColorRarityMap(
+                CHARACTER_CONFIG,
+                "Normal Colors",
+                combine(param, COLOR),
+                options.normal,
+            )
+        }
+        if (options.types.contains(HairColorType.Exotic)) {
+            selectColorRarityMap(
+                "Exotic Colors",
+                combine(param, EXOTIC, COLOR),
+                options.exotic,
+            )
+        }
     }
 }
 
@@ -483,7 +487,12 @@ private fun HtmlBlockTag.editSkinInternal(state: State, options: SkinOptions, pa
     }
 
     if (options.skinTypes.isAvailable(SkinType.Fur)) {
-        selectColorRarityMap("Fur Colors", combine(param, FUR, COLOR), options.furColors.exotic)
+        editHairColors(
+            options.furColors,
+            FUR,
+            "Fur Colors",
+            ALLOWED_HAIR_COLOR_TYPES,
+        )
     }
 
     if (options.skinTypes.isAvailable(SkinType.Material)) {
@@ -679,7 +688,7 @@ private fun parseMouthOptions(parameters: Parameters) = MouthOptions(
 private fun parseSkinOptions(parameters: Parameters, param: String) = SkinOptions(
     parseOneOf(parameters, combine(param, TYPE), SkinType::valueOf, setOf(SkinType.Normal)),
     parseOneOf(parameters, combine(param, EXOTIC, COLOR), Color::valueOf, setOf(DEFAULT_EXOTIC_COLOR)),
-    parseHairColors(parameters, BEARD),
+    parseHairColors(parameters, FUR),
     parseOneOf(parameters, combine(param, MATERIAL), ::parseMaterialId, setOf(MaterialId(0))),
     parseOneOf(parameters, combine(param, NORMAL, COLOR), SkinColor::valueOf, SkinColor.entries),
     parseOneOf(parameters, combine(param, SCALE, COLOR), Color::valueOf, setOf(DEFAULT_SCALE_COLOR)),

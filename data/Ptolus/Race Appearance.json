@@ -200,11 +200,33 @@
    "skin": {
     "skinTypes": {
      "Fur": "Common"
+    },
+    "furColors": {
+     "normal": {
+      "LightestBlond": "Common",
+      "VeryLightBlond": "Common",
+      "LightBlond": "Common",
+      "Blond": "Common"
+     }
     }
    },
    "tail": {
     "layouts": {
      "Simple": "Common"
+    },
+    "simpleOptions": {
+     "Cat": {
+      "skin": {
+       "furColors": {
+        "normal": {
+         "LightestBlond": "Common",
+         "VeryLightBlond": "Common",
+         "LightBlond": "Common",
+         "Blond": "Common"
+        }
+       }
+      }
+     }
     }
    },
    "wing": {
