@@ -123,7 +123,14 @@ private fun HtmlBlockTag.showHair(appearance: RaceAppearance) {
     showRarityMap("Hair", appearance.hair.hairTypes)
 
     if (requiresHairColor(appearance)) {
-        showColorRarityMap("Exotics Colors", appearance.hair.colors.exotic)
+        showRarityMap("Hair Color Types", appearance.hair.colors.types)
+
+        if (appearance.hair.colors.types.contains(HairColorType.Normal)) {
+            showRarityMap("Normal Colors", appearance.hair.colors.normal)
+        }
+        if (appearance.hair.colors.types.contains(HairColorType.Exotic)) {
+            showColorRarityMap("Exotics Colors", appearance.hair.colors.exotic)
+        }
     }
 }
 
