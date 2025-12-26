@@ -37,20 +37,6 @@ fun HtmlBlockTag.showRegion(
     showLocalElements(call, state, region.id)
 }
 
-private fun HtmlBlockTag.showRegionData(
-    call: ApplicationCall,
-    state: State,
-    data: RegionData,
-) {
-    field("Type", data.getType())
-
-    when (data) {
-        Continent, Desert, Forrest, Lake, Plains, Mountain, Sea, UndefinedRegionData -> doNothing()
-        is Battlefield -> fieldEventReference(call, state, data.cause, "Caused by")
-        is Wasteland -> fieldEventReference(call, state, data.cause, "Caused by")
-    }
-}
-
 // edit
 
 fun HtmlBlockTag.editRegion(
@@ -70,34 +56,6 @@ fun HtmlBlockTag.editRegion(
     selectElements(state, "Resources", MATERIAL, state.getMaterialStorage().getAll(), region.resources)
 }
 
-private fun HtmlBlockTag.editRegionData(
-    state: State,
-    data: RegionData,
-    date: Date?,
-) {
-    selectValue("Type", TYPE, RegionDataType.entries, data.getType())
-
-    when (data) {
-        Continent, Desert, Forrest, Lake, Plains, Mountain, Sea, UndefinedRegionData -> doNothing()
-        is Battlefield -> selectEventReference(
-            state,
-            "Caused By",
-            data.cause,
-                    date,
-            REFERENCE,
-            ALLOWED_BATTLEFIELD_CAUSES,
-        )
-
-        is Wasteland -> selectEventReference(
-            state,
-            "Caused By",
-            data.cause,
-            date,
-            REFERENCE,
-            ALLOWED_WASTELAND_CAUSES,
-        )
-    }
-}
 
 // parse
 
@@ -113,21 +71,3 @@ fun parseRegion(state: State, parameters: Parameters, id: RegionId) = Region(
     parseElements(parameters, MATERIAL, ::parseMaterialId),
 )
 
-fun parseRegionData(parameters: Parameters) = when (parse(parameters, TYPE, RegionDataType.Undefined)) {
-    RegionDataType.Battlefield -> Battlefield(
-        parseEventReference(parameters, REFERENCE),
-    )
-
-    RegionDataType.Continent -> Continent
-    RegionDataType.Desert -> Desert
-    RegionDataType.Forrest -> Forrest
-    RegionDataType.Lake -> Lake
-    RegionDataType.Plains -> Plains
-    RegionDataType.Mountain -> Mountain
-    RegionDataType.Sea -> Sea
-    RegionDataType.Undefined -> UndefinedRegionData
-    RegionDataType.Wasteland -> Wasteland(
-        parseEventReference(parameters, REFERENCE),
-    )
-
-}
