@@ -12,4 +12,5 @@ enum class HairColor {
     Black,
     Orange,
     Red,
+    Auburn,
 }

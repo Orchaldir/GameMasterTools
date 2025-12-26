@@ -325,6 +325,7 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
         HairColor.Black to RGB(10, 10, 10),
         HairColor.Orange to RGB(255, 125, 0),
         HairColor.Red to RGB(255, 0, 0),
+        HairColor.Auburn to RGB(126, 37, 31),
     ),
     mapOf(
         SkinColor.Fair to RGB(254, 228, 208),
