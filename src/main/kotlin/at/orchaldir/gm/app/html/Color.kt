@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.html
 import at.orchaldir.gm.app.COLOR
 import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.util.render.Color
+import at.orchaldir.gm.utils.renderer.model.RenderColor
 import kotlinx.html.HtmlBlockTag
 import kotlinx.html.span
 import kotlinx.html.style
@@ -27,14 +28,16 @@ fun HtmlBlockTag.showOptionalColor(color: Color?) {
     }
 }
 
-fun HtmlBlockTag.showColor(color: Color) {
-    showColorBlock(color)
-    +" $color"
+fun HtmlBlockTag.showColor(color: Color) = showColor(color.name, color.name)
+
+fun HtmlBlockTag.showColor(name: String, code: String) {
+    showColorBlock(code)
+    +" $name"
 }
 
-fun HtmlBlockTag.showColorBlock(color: Color) {
+fun HtmlBlockTag.showColorBlock(code: String) {
     span {
-        style = "color:$color"
+        style = "color:$code"
         +"█"
     }
 }

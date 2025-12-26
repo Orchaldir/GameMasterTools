@@ -38,6 +38,7 @@ import at.orchaldir.gm.core.model.race.appearance.*
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.selector.race.getRaces
+import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -126,7 +127,7 @@ private fun HtmlBlockTag.showHair(appearance: RaceAppearance) {
         showRarityMap("Hair Color Types", appearance.hair.colors.types)
 
         if (appearance.hair.colors.types.contains(HairColorType.Normal)) {
-            showRarityMap("Normal Colors", appearance.hair.colors.normal)
+            showColorRarityMap(CHARACTER_CONFIG, "Normal Colors", appearance.hair.colors.normal)
         }
         if (appearance.hair.colors.types.contains(HairColorType.Exotic)) {
             showColorRarityMap("Exotics Colors", appearance.hair.colors.exotic)
