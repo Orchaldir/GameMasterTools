@@ -5,13 +5,17 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.economy.material.parseMaterialId
 import at.orchaldir.gm.app.html.realm.parseOptionalBattleId
 import at.orchaldir.gm.app.html.realm.parseOptionalCatastropheId
+import at.orchaldir.gm.app.html.util.fieldEventReference
 import at.orchaldir.gm.app.html.util.fieldPosition
+import at.orchaldir.gm.app.html.util.parseEventReference
 import at.orchaldir.gm.app.html.util.parsePosition
+import at.orchaldir.gm.app.html.util.selectEventReference
 import at.orchaldir.gm.app.html.util.selectPosition
 import at.orchaldir.gm.app.html.util.showLocalElements
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.world.terrain.*
 import at.orchaldir.gm.core.selector.world.getTowns
 import at.orchaldir.gm.utils.doNothing
@@ -42,8 +46,8 @@ private fun HtmlBlockTag.showRegionData(
 
     when (data) {
         Continent, Desert, Forrest, Lake, Plains, Mountain, Sea, UndefinedRegionData -> doNothing()
-        is Battlefield -> optionalFieldLink("Caused by", call, state, data.battle)
-        is Wasteland -> optionalFieldLink("Caused by", call, state, data.catastrophe)
+        is Battlefield -> fieldEventReference(call, state, data.cause, "Caused by")
+        is Wasteland -> fieldEventReference(call, state, data.cause, "Caused by")
     }
 }
 
@@ -55,7 +59,7 @@ fun HtmlBlockTag.editRegion(
     region: Region,
 ) {
     selectName(region.name)
-    editRegionData(state, region.data)
+    editRegionData(state, region.data, null)
     selectPosition(
         state,
         POSITION,
@@ -69,34 +73,28 @@ fun HtmlBlockTag.editRegion(
 private fun HtmlBlockTag.editRegionData(
     state: State,
     data: RegionData,
+    date: Date?,
 ) {
-    val battles = state.getBattleStorage().getAll()
-    val catastrophes = state.getCatastropheStorage().getAll()
-
-    selectValue("Type", TYPE, RegionDataType.entries, data.getType()) {
-        when (it) {
-            RegionDataType.Battlefield -> battles.isEmpty()
-            RegionDataType.Wasteland -> catastrophes.isEmpty()
-            else -> false
-        }
-    }
+    selectValue("Type", TYPE, RegionDataType.entries, data.getType())
 
     when (data) {
         Continent, Desert, Forrest, Lake, Plains, Mountain, Sea, UndefinedRegionData -> doNothing()
-        is Battlefield -> selectOptionalElement(
+        is Battlefield -> selectEventReference(
             state,
             "Caused By",
-            BATTLE,
-            battles,
-            data.battle,
+            data.cause,
+                    date,
+            REFERENCE,
+            ALLOWED_BATTLEFIELD_CAUSES,
         )
 
-        is Wasteland -> selectOptionalElement(
+        is Wasteland -> selectEventReference(
             state,
             "Caused By",
-            CATASTROPHE,
-            catastrophes,
-            data.catastrophe,
+            data.cause,
+            date,
+            REFERENCE,
+            ALLOWED_WASTELAND_CAUSES,
         )
     }
 }
@@ -117,7 +115,7 @@ fun parseRegion(state: State, parameters: Parameters, id: RegionId) = Region(
 
 fun parseRegionData(parameters: Parameters) = when (parse(parameters, TYPE, RegionDataType.Undefined)) {
     RegionDataType.Battlefield -> Battlefield(
-        parseOptionalBattleId(parameters, BATTLE),
+        parseEventReference(parameters, REFERENCE),
     )
 
     RegionDataType.Continent -> Continent
@@ -129,7 +127,7 @@ fun parseRegionData(parameters: Parameters) = when (parse(parameters, TYPE, Regi
     RegionDataType.Sea -> Sea
     RegionDataType.Undefined -> UndefinedRegionData
     RegionDataType.Wasteland -> Wasteland(
-        parseOptionalCatastropheId(parameters, CATASTROPHE),
+        parseEventReference(parameters, REFERENCE),
     )
 
 }
