@@ -10,4 +10,6 @@ enum class HairColor {
     MediumBrown,
     DarkBrown,
     Black,
+    Orange,
+    Red,
 }
