@@ -60,6 +60,8 @@ fun HtmlBlockTag.showRaceAppearance(
     state: State,
     appearance: RaceAppearance,
 ) {
+    fieldElements(call, state, "Used by", state.getRaces(appearance.id))
+
     showRarityMap("Type", appearance.appearanceTypes)
 
     showEars(appearance)
@@ -71,8 +73,6 @@ fun HtmlBlockTag.showRaceAppearance(
     showSkin(call, state, appearance)
     showTails(call, state, appearance)
     showWings(call, state, appearance)
-
-    showElements(call, state, state.getRaces(appearance.id))
 }
 
 private fun HtmlBlockTag.showEars(appearance: RaceAppearance) {
