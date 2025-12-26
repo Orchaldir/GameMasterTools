@@ -6,6 +6,7 @@ import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.unit.Orientation
+import at.orchaldir.gm.utils.math.unit.ZERO_ORIENTATION
 import at.orchaldir.gm.utils.renderer.MultiLayerRenderer
 import at.orchaldir.gm.utils.renderer.model.RenderStringOptions
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
@@ -32,6 +33,40 @@ fun <T> renderTable(
             val aabb = AABB(start, renderSize)
 
             render(aabb, builder, element)
+
+            start += columnStep
+        }
+
+        startOfRow += rowStep
+    }
+
+    File(filename).writeText(builder.finish().export())
+}
+
+fun <T> renderTableWithNames(
+    filename: String,
+    renderSize: Size2d,
+    rows: List<List<Pair<String,T>>>,
+    render: (AABB, MultiLayerRenderer, T) -> Unit,
+) {
+    val maxColumns = rows.maxOf { it.size }
+    val totalSize = Size2d(renderSize.width * maxColumns, renderSize.height * rows.size)
+    val builder = SvgBuilder(totalSize)
+    val columnStep = Point2d.xAxis(renderSize.width)
+    val rowStep = Point2d.yAxis(renderSize.height)
+    var startOfRow = Point2d()
+    val textSize = renderSize.width / 10.0f
+    val textOptions = RenderStringOptions(Color.Black.toRender(), textSize)
+
+    rows.forEach { row ->
+        var start = startOfRow.copy()
+
+        row.forEach { element ->
+            val aabb = AABB(start, renderSize)
+
+            render(aabb, builder, element.second)
+
+            builder.getLayer().renderString(element.first, aabb.getCenter(), ZERO_ORIENTATION, textOptions)
 
             start += columnStep
         }
