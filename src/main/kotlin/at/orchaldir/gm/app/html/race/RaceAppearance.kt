@@ -262,9 +262,9 @@ private fun HtmlBlockTag.showFeatureColor(
     state: State,
     options: FeatureColorOptions,
 ) {
-    field("Color Type", options.types)
+    field("Color Type", options.type)
 
-    if (options.types == FeatureColorType.Overwrite) {
+    if (options.type == FeatureColorType.Overwrite) {
         showDetails("Skin") {
             showSkinInternal(call, state, options.skin)
         }
@@ -489,7 +489,7 @@ private fun HtmlBlockTag.editSkinInternal(state: State, options: SkinOptions, pa
     if (options.skinTypes.isAvailable(SkinType.Fur)) {
         editHairColors(
             options.furColors,
-            FUR,
+            combine(param, FUR),
             "Fur Colors",
             ALLOWED_HAIR_COLOR_TYPES,
         )
@@ -550,10 +550,10 @@ private fun HtmlBlockTag.editFeatureColor(
         } else {
             setOf(FeatureColorType.Overwrite, FeatureColorType.Skin)
         },
-        options.types,
+        options.type,
     )
 
-    if (options.types == FeatureColorType.Overwrite) {
+    if (options.type == FeatureColorType.Overwrite) {
         showDetails("Skin", true) {
             editSkinInternal(state, options.skin, param)
         }
@@ -688,7 +688,7 @@ private fun parseMouthOptions(parameters: Parameters) = MouthOptions(
 private fun parseSkinOptions(parameters: Parameters, param: String) = SkinOptions(
     parseOneOf(parameters, combine(param, TYPE), SkinType::valueOf, setOf(SkinType.Normal)),
     parseOneOf(parameters, combine(param, EXOTIC, COLOR), Color::valueOf, setOf(DEFAULT_EXOTIC_COLOR)),
-    parseHairColors(parameters, FUR),
+    parseHairColors(parameters, combine(param, FUR)),
     parseOneOf(parameters, combine(param, MATERIAL), ::parseMaterialId, setOf(MaterialId(0))),
     parseOneOf(parameters, combine(param, NORMAL, COLOR), SkinColor::valueOf, SkinColor.entries),
     parseOneOf(parameters, combine(param, SCALE, COLOR), Color::valueOf, setOf(DEFAULT_SCALE_COLOR)),

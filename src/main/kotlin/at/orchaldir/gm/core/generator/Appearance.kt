@@ -310,7 +310,7 @@ private fun generateSimpleTail(
 private fun generateFeatureColor(
     config: AppearanceGeneratorConfig,
     options: FeatureColorOptions,
-) = when (options.types) {
+) = when (options.type) {
     FeatureColorType.Hair -> ReuseHairColor
     FeatureColorType.Overwrite -> OverwriteFeatureColor(generateSkin(config, options.skin))
     FeatureColorType.Skin -> ReuseSkinColor

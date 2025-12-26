@@ -6,12 +6,12 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class FeatureColorOptions(
-    val types: FeatureColorType = FeatureColorType.Skin,
+    val type: FeatureColorType = FeatureColorType.Skin,
     val skin: SkinOptions = SkinOptions(),
 ) {
 
     fun contains(material: MaterialId): Boolean {
-        if (types == FeatureColorType.Overwrite) {
+        if (type == FeatureColorType.Overwrite) {
             return skin.contains(material)
         }
 
