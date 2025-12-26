@@ -148,12 +148,20 @@ fun HtmlBlockTag.showColorRarityMap(
     showColor(color)
 }
 
-fun HtmlBlockTag.showColorRarityMap(
+fun HtmlBlockTag.showHairColorRarityMap(
     config: CharacterRenderConfig,
     label: String,
     colors: RarityMap<NormalHairColorEnum>,
 ) = showRarityMap(label, colors) { color ->
     showColor(color.name, config.getHairColor(color).toCode())
+}
+
+fun HtmlBlockTag.showSkinColorRarityMap(
+    config: CharacterRenderConfig,
+    label: String,
+    colors: RarityMap<SkinColor>,
+) = showRarityMap(label, colors) { color ->
+    showColor(color.name, config.getSkinColor(color).toCode())
 }
 
 fun <K, V> HtmlBlockTag.showMap(

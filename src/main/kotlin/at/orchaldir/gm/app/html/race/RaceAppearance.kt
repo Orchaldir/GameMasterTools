@@ -127,7 +127,7 @@ private fun HtmlBlockTag.showHair(appearance: RaceAppearance) {
         showRarityMap("Hair Color Types", appearance.hair.colors.types)
 
         if (appearance.hair.colors.types.contains(HairColorType.Normal)) {
-            showColorRarityMap(CHARACTER_CONFIG, "Normal Colors", appearance.hair.colors.normal)
+            showHairColorRarityMap(CHARACTER_CONFIG, "Normal Colors", appearance.hair.colors.normal)
         }
         if (appearance.hair.colors.types.contains(HairColorType.Exotic)) {
             showColorRarityMap("Exotics Colors", appearance.hair.colors.exotic)
@@ -212,7 +212,7 @@ private fun HtmlBlockTag.showSkinInternal(
     }
 
     if (options.skinTypes.isAvailable(SkinType.Normal)) {
-        showRarityMap("Normal Skin Colors", options.normalColors)
+        showSkinColorRarityMap(CHARACTER_CONFIG, "Normal Skin Colors", options.normalColors)
     }
 
     if (options.skinTypes.isAvailable(SkinType.Material)) {
