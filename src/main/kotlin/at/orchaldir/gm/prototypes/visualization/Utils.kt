@@ -49,32 +49,14 @@ fun <T> renderTableWithNames(
     rows: List<List<Pair<String,T>>>,
     render: (AABB, MultiLayerRenderer, T) -> Unit,
 ) {
-    val maxColumns = rows.maxOf { it.size }
-    val totalSize = Size2d(renderSize.width * maxColumns, renderSize.height * rows.size)
-    val builder = SvgBuilder(totalSize)
-    val columnStep = Point2d.xAxis(renderSize.width)
-    val rowStep = Point2d.yAxis(renderSize.height)
-    var startOfRow = Point2d()
     val textSize = renderSize.width / 10.0f
     val textOptions = RenderStringOptions(Color.Black.toRender(), textSize)
 
-    rows.forEach { row ->
-        var start = startOfRow.copy()
+    renderTable(filename, renderSize, rows) { aabb, renderer, pair ->
+        render(aabb, renderer, pair.second)
 
-        row.forEach { element ->
-            val aabb = AABB(start, renderSize)
-
-            render(aabb, builder, element.second)
-
-            builder.getLayer().renderString(element.first, aabb.getCenter(), ZERO_ORIENTATION, textOptions)
-
-            start += columnStep
-        }
-
-        startOfRow += rowStep
+        renderer.getLayer().renderString(pair.first, aabb.getCenter(), ZERO_ORIENTATION, textOptions)
     }
-
-    File(filename).writeText(builder.finish().export())
 }
 
 fun <C, R> renderTable(
