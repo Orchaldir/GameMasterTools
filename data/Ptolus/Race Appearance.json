@@ -4,10 +4,35 @@
   "0": {
    "id": 0,
    "name": "Dwarf",
+   "hair": {
+    "colors": {
+     "normal": {
+      "LightBrown": "Common",
+      "MediumBrown": "Common",
+      "DarkBrown": "Common",
+      "Black": "Uncommon",
+      "Orange": "Uncommon",
+      "Red": "Rare",
+      "Auburn": "Uncommon"
+     }
+    }
+   },
    "skin": {
+    "furColors": {
+     "types": {
+      "None": "Common",
+      "Normal": "Common",
+      "Exotic": "Common"
+     }
+    },
     "normalColors": {
      "Fair": "Common",
      "Light": "Common"
+    }
+   },
+   "wing": {
+    "types": {
+     "Bird": "Common"
     }
    }
   },

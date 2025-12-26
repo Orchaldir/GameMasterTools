@@ -374,7 +374,33 @@ private fun HtmlBlockTag.editHair(appearance: RaceAppearance) {
     selectRarityMap("Hair", HAIR, appearance.hair.hairTypes)
 
     if (requiresHairColor(appearance)) {
-        selectColorRarityMap("Exotic Colors", combine(HAIR, COLOR), appearance.hair.colors.exotic)
+        editHairColor(appearance.hair.colors, HAIR)
+    }
+}
+
+private fun HtmlBlockTag.editHairColor(
+    options: HairColorOptions,
+    param: String,
+) {
+    selectRarityMap(
+        "Hair Color Types",
+        combine(param, COLOR, TYPE),
+        options.types,
+    )
+
+    if (options.types.contains(HairColorType.Normal)) {
+        selectRarityMap(
+            "Normal Colors",
+            combine(param, COLOR),
+            options.normal,
+        )
+    }
+    if (options.types.contains(HairColorType.Exotic)) {
+        selectColorRarityMap(
+            "Exotic Colors",
+            combine(param, EXOTIC, COLOR),
+            options.exotic,
+        )
     }
 }
 
