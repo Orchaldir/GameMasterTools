@@ -1,23 +1,16 @@
 package at.orchaldir.gm.app.html.world
 
-import at.orchaldir.gm.app.*
-import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.economy.material.parseMaterialId
-import at.orchaldir.gm.app.html.realm.parseOptionalBattleId
-import at.orchaldir.gm.app.html.realm.parseOptionalCatastropheId
+import at.orchaldir.gm.app.REFERENCE
+import at.orchaldir.gm.app.TYPE
+import at.orchaldir.gm.app.html.field
+import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.util.fieldEventReference
-import at.orchaldir.gm.app.html.util.fieldPosition
 import at.orchaldir.gm.app.html.util.parseEventReference
-import at.orchaldir.gm.app.html.util.parsePosition
 import at.orchaldir.gm.app.html.util.selectEventReference
-import at.orchaldir.gm.app.html.util.selectPosition
-import at.orchaldir.gm.app.html.util.showLocalElements
 import at.orchaldir.gm.app.parse.parse
-import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.world.terrain.*
-import at.orchaldir.gm.core.selector.world.getTowns
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -54,7 +47,7 @@ fun HtmlBlockTag.editRegionData(
             state,
             "Caused By",
             data.cause,
-                    date,
+            date,
             REFERENCE,
             ALLOWED_BATTLEFIELD_CAUSES,
         )

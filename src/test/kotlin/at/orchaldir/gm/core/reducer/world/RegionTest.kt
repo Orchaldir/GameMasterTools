@@ -3,11 +3,7 @@ package at.orchaldir.gm.core.reducer.world
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.util.BattleReference
-import at.orchaldir.gm.core.model.util.CatastropheReference
-import at.orchaldir.gm.core.model.util.InRegion
-import at.orchaldir.gm.core.model.util.InTown
-import at.orchaldir.gm.core.model.util.WarReference
+import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.terrain.Battlefield
 import at.orchaldir.gm.core.model.world.terrain.Region
 import at.orchaldir.gm.core.model.world.terrain.Wasteland

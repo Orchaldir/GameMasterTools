@@ -8,7 +8,6 @@ import at.orchaldir.gm.core.model.realm.Battle
 import at.orchaldir.gm.core.model.realm.War
 import at.orchaldir.gm.core.model.time.holiday.Holiday
 import at.orchaldir.gm.core.model.time.holiday.HolidayOfWar
-import at.orchaldir.gm.core.model.util.BattleReference
 import at.orchaldir.gm.core.model.util.Dead
 import at.orchaldir.gm.core.model.util.DeathInWar
 import at.orchaldir.gm.core.model.util.WarReference

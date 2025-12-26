@@ -4,7 +4,6 @@ import at.orchaldir.gm.BATTLE_ID_0
 import at.orchaldir.gm.CHARACTER_ID_0
 import at.orchaldir.gm.DAY0
 import at.orchaldir.gm.REGION_ID_0
-import at.orchaldir.gm.WAR_ID_0
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
@@ -12,7 +11,6 @@ import at.orchaldir.gm.core.model.realm.Battle
 import at.orchaldir.gm.core.model.util.BattleReference
 import at.orchaldir.gm.core.model.util.Dead
 import at.orchaldir.gm.core.model.util.DeathInBattle
-import at.orchaldir.gm.core.model.util.WarReference
 import at.orchaldir.gm.core.model.world.terrain.Battlefield
 import at.orchaldir.gm.core.model.world.terrain.Region
 import at.orchaldir.gm.core.model.world.terrain.Wasteland
