@@ -314,7 +314,14 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
         ),
     ),
     mapOf(
-        HairColor.VeryLightBlond to RGB(254, 228, 208),
+        HairColor.VeryLightBlond to RGB(233, 228, 142),
+        HairColor.LightBlond to RGB(219, 188, 104),
+        HairColor.Blond to RGB(206, 147, 79),
+        HairColor.DarkBlond to RGB(194, 117, 62),
+        HairColor.LightBrown to RGB(186, 93, 58),
+        HairColor.MediumBrown to RGB(138, 77, 35),
+        HairColor.DarkBrown to RGB(77, 51, 48),
+        HairColor.Black to RGB(10, 10, 10),
     ),
     mapOf(
         SkinColor.Fair to RGB(254, 228, 208),
