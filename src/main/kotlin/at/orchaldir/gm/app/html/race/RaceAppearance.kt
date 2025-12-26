@@ -124,7 +124,7 @@ private fun HtmlBlockTag.showHair(appearance: RaceAppearance) {
     showRarityMap("Hair", appearance.hair.hairTypes)
 
     if (requiresHairColor(appearance)) {
-        showRarityMap("Hair Color Types", appearance.hair.colors.types)
+        showRarityMap("Color Types", appearance.hair.colors.types)
 
         if (appearance.hair.colors.types.contains(HairColorType.Normal)) {
             showHairColorRarityMap(CHARACTER_CONFIG, "Normal Colors", appearance.hair.colors.normal)
@@ -389,7 +389,7 @@ private fun HtmlBlockTag.editHairColor(
     allowedTypes: Set<HairColorType>,
 ) {
     selectRarityMap(
-        "Hair Color Types",
+        "Color Types",
         combine(param, COLOR, TYPE),
         options.types,
         allowedTypes,
@@ -490,7 +490,8 @@ private fun HtmlBlockTag.editSkinInternal(state: State, options: SkinOptions, pa
     }
 
     if (options.skinTypes.isAvailable(SkinType.Normal)) {
-        selectRarityMap(
+        selectSkinColorRarityMap(
+            CHARACTER_CONFIG,
             "Normal Skin Colors",
             combine(param, NORMAL, COLOR),
             options.normalColors,

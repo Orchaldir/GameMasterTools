@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.html
 
 import at.orchaldir.gm.app.AVAILABLE
 import at.orchaldir.gm.app.parse.combine
+import at.orchaldir.gm.core.model.character.appearance.SkinColor
 import at.orchaldir.gm.core.model.character.appearance.hair.NormalHairColorEnum
 import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.util.RarityMap
@@ -218,6 +219,15 @@ fun HtmlBlockTag.selectHairColorRarityMap(
     rarityMap: RarityMap<NormalHairColorEnum>,
 ) = selectColorRarityMap(enum, selectId, rarityMap) { color ->
     showHairColor(config, color)
+}
+
+fun HtmlBlockTag.selectSkinColorRarityMap(
+    config: CharacterRenderConfig,
+    enum: String,
+    selectId: String,
+    rarityMap: RarityMap<SkinColor>,
+) = selectColorRarityMap(enum, selectId, rarityMap) { color ->
+    showSkinColor(config, color)
 }
 
 inline fun <reified T : Enum<T>> HtmlBlockTag.selectColorRarityMap(
