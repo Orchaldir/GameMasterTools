@@ -236,19 +236,7 @@ inline fun <reified T : Enum<T>> HtmlBlockTag.selectRarityMap(
     enum: String,
     selectId: String,
     rarityMap: RarityMap<T>,
-) {
-    val values = enumValues<T>().toSet()
-
-    showDetails(enum, true) {
-        showMap(rarityMap.getRarityFor(values)) { currentValue, currentRarity ->
-            selectValue(currentValue.toString(), selectId, rarityMap.getAvailableRarities()) { rarity ->
-                label = rarity.toString()
-                value = "$currentValue-$rarity"
-                selected = rarity == currentRarity
-            }
-        }
-    }
-}
+) = selectRarityMap(enum, selectId, rarityMap, enumValues<T>().toSet())
 
 fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectRarityMap(
     enum: String,
