@@ -39,10 +39,6 @@ fun TR.tdChar(char: Char) {
     tdString("\"$char\"")
 }
 
-fun TR.tdColor(color: Color?) {
-    td { showOptionalColor(color) }
-}
-
 fun <T : Enum<T>> TR.tdEnum(value: T?) {
     td {
         if (value != null) {

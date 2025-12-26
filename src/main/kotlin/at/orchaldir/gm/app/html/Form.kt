@@ -207,8 +207,15 @@ fun HtmlBlockTag.selectColorRarityMap(
     enum: String,
     selectId: String,
     rarityMap: RarityMap<Color>,
+) = selectColorRarityMap(enum, selectId, rarityMap, HtmlBlockTag::showColor)
+
+inline fun <reified T : Enum<T>> HtmlBlockTag.selectColorRarityMap(
+    enum: String,
+    selectId: String,
+    rarityMap: RarityMap<T>,
+    crossinline show: TD.(T) -> Unit,
 ) {
-    val colors = enumValues<Color>().toSet()
+    val colors = enumValues<T>().toSet()
 
     showDetails(enum, true) {
         table {
@@ -218,7 +225,9 @@ fun HtmlBlockTag.selectColorRarityMap(
             }
             rarityMap.getRarityFor(colors).forEach { (currentColor, currentRarity) ->
                 tr {
-                    tdColor(currentColor)
+                    td {
+                        show(currentColor)
+                    }
                     td {
                         selectValue(selectId, rarityMap.getAvailableRarities()) { rarity ->
                             label = rarity.toString()

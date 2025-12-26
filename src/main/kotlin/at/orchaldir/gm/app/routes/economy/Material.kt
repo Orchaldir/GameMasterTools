@@ -73,7 +73,7 @@ fun Application.configureMaterialRouting() {
                 listOf(
                     createNameColumn(call, state),
                     Column("Category") { tdEnum(it.category) },
-                    Column("Color") { tdColor(it.color) },
+                    tdColumn("Color") { showColor(it.color) },
                     Column("Density") { td(it.density) },
                     tdColumn("Price") { displayPrice(call, currency, it.pricePerKilogram) },
                     countColumnForId("Currency", state::countCurrencyUnits),
