@@ -2,6 +2,7 @@ package at.orchaldir.gm.visualization.character.appearance.beard
 
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.beard.*
+import at.orchaldir.gm.core.model.character.appearance.hair.HairColor
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Factor
@@ -40,10 +41,10 @@ private fun visualizeNormalBeard(state: CharacterRenderState<Head>, beard: Norma
 private fun visualizeGoatee(
     state: CharacterRenderState<Head>,
     goatee: GoateeStyle,
-    color: Color,
+    color: HairColor,
 ) {
     val layer = state.getBeardLayer()
-    val options = NoBorder(color.toRender())
+    val options = NoBorder(state.config.getHairColor(color))
     val polygon = when (goatee) {
         GoateeStyle.ChinPuff -> getChinPuff(state)
         GoateeStyle.Goatee -> {
@@ -66,9 +67,9 @@ private fun visualizeGoatee(
 private fun visualizeMoustache(
     state: CharacterRenderState<Head>,
     moustache: MoustacheStyle,
-    color: Color,
+    color: HairColor,
 ) {
-    val options = NoBorder(color.toRender())
+    val options = NoBorder(state.config.getHairColor(color))
     val polygon = when (moustache) {
         MoustacheStyle.FuManchu -> getFuManchu(state)
         MoustacheStyle.Handlebar -> getHandlebar(state)
