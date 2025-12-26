@@ -14,7 +14,7 @@ sealed class Hair {
 
     fun getType() = when (this) {
         NoHair -> HairType.None
-        is NormalHair -> HairType.Normal
+        is ExoticHair -> HairType.Normal
     }
 
 }
@@ -24,8 +24,8 @@ sealed class Hair {
 data object NoHair : Hair()
 
 @Serializable
-@SerialName("Normal")
-data class NormalHair(
+@SerialName("Exotic")
+data class ExoticHair(
     val cut: HairCut,
     val color: Color,
 ) : Hair()

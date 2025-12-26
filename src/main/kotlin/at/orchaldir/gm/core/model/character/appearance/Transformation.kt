@@ -5,7 +5,7 @@ import at.orchaldir.gm.core.model.character.appearance.beard.NoBeard
 import at.orchaldir.gm.core.model.character.appearance.beard.NormalBeard
 import at.orchaldir.gm.core.model.character.appearance.hair.Hair
 import at.orchaldir.gm.core.model.character.appearance.hair.NoHair
-import at.orchaldir.gm.core.model.character.appearance.hair.NormalHair
+import at.orchaldir.gm.core.model.character.appearance.hair.ExoticHair
 import at.orchaldir.gm.core.model.character.appearance.mouth.Mouth
 import at.orchaldir.gm.core.model.character.appearance.mouth.NormalMouth
 import at.orchaldir.gm.core.model.util.render.Color
@@ -50,7 +50,7 @@ fun updateHairColor(head: Head, color: Color) = head.copy(
 
 fun updateHairColor(hair: Hair, color: Color) = when (hair) {
     NoHair -> hair
-    is NormalHair -> hair.copy(color = color)
+    is ExoticHair -> hair.copy(color = color)
 }
 
 fun updateHairColor(mouth: Mouth, color: Color) = when (mouth) {

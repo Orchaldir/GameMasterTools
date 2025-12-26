@@ -1,7 +1,7 @@
 package at.orchaldir.gm.visualization.character.appearance.hair
 
 import at.orchaldir.gm.core.model.character.appearance.Head
-import at.orchaldir.gm.core.model.character.appearance.hair.NormalHair
+import at.orchaldir.gm.core.model.character.appearance.hair.ExoticHair
 import at.orchaldir.gm.core.model.character.appearance.hair.Ponytail
 import at.orchaldir.gm.core.model.character.appearance.hair.PonytailPosition
 import at.orchaldir.gm.core.model.character.appearance.hair.PonytailPosition.BothSides
@@ -15,7 +15,7 @@ import at.orchaldir.gm.visualization.character.appearance.HAIR_LAYER
 import at.orchaldir.gm.visualization.renderRoundedPolygon
 import kotlin.math.max
 
-fun visualizePonytail(state: CharacterRenderState<Head>, hair: NormalHair, ponytail: Ponytail) {
+fun visualizePonytail(state: CharacterRenderState<Head>, hair: ExoticHair, ponytail: Ponytail) {
     val config = state.config
     val options = config.getLineOptions(hair.color)
     val layer = state.getLayerIndex(HAIR_LAYER)

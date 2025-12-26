@@ -111,7 +111,7 @@ fun generateBeard(config: AppearanceGeneratorConfig, hair: Hair): Beard {
             },
             when (hair) {
                 NoHair -> config.generate(options.hair.colors)
-                is NormalHair -> hair.color
+                is ExoticHair -> hair.color
             }
         )
     }
@@ -166,7 +166,7 @@ fun generateHair(config: AppearanceGeneratorConfig): Hair {
 
     return when (config.generate(options.hair.hairTypes)) {
         HairType.None -> NoHair
-        HairType.Normal -> NormalHair(
+        HairType.Normal -> ExoticHair(
             generateHairCut(config),
             config.generate(options.hair.colors),
         )

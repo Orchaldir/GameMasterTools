@@ -189,14 +189,14 @@ private fun HtmlBlockTag.editHair(
 
     when (hair) {
         NoHair -> doNothing()
-        is NormalHair -> editNormalHair(raceAppearance, fashion?.hair, hair)
+        is ExoticHair -> editNormalHair(raceAppearance, fashion?.hair, hair)
     }
 }
 
 private fun HtmlBlockTag.editNormalHair(
     raceAppearance: RaceAppearance,
     fashion: HairFashion?,
-    hair: NormalHair,
+    hair: ExoticHair,
 ) {
     selectFromOptionalOneOf(
         "Haircut",
@@ -441,7 +441,7 @@ private fun parseHair(parameters: Parameters, config: AppearanceGeneratorConfig)
     return when (parameters[HAIR]) {
         HairType.None.toString() -> NoHair
         HairType.Normal.toString() -> {
-            return NormalHair(
+            return ExoticHair(
                 when (parameters[combine(HAIR, STYLE)]) {
                     HairStyle.Bun.toString() -> Bun(
                         parseAppearanceOption(

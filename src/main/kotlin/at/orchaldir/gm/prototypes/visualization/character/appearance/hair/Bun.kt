@@ -7,7 +7,7 @@ import at.orchaldir.gm.core.model.character.appearance.NormalEars
 import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
 import at.orchaldir.gm.core.model.character.appearance.hair.Bun
 import at.orchaldir.gm.core.model.character.appearance.hair.BunStyle
-import at.orchaldir.gm.core.model.character.appearance.hair.NormalHair
+import at.orchaldir.gm.core.model.character.appearance.hair.ExoticHair
 import at.orchaldir.gm.core.model.character.appearance.horn.NoHorns
 import at.orchaldir.gm.core.model.character.appearance.mouth.FemaleMouth
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap
@@ -36,7 +36,7 @@ private fun createAppearance(height: Distance, style: BunStyle, size: Size) =
         Head(
             NormalEars(),
             TwoEyes(),
-            NormalHair(Bun(style, size), Color.SaddleBrown),
+            ExoticHair(Bun(style, size), Color.SaddleBrown),
             NoHorns,
             FemaleMouth()
         ),

@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.model.character.appearance.hair.Hair
 import at.orchaldir.gm.core.model.character.appearance.hair.HairColor
 import at.orchaldir.gm.core.model.character.appearance.hair.HairLength
 import at.orchaldir.gm.core.model.character.appearance.hair.NoHair
-import at.orchaldir.gm.core.model.character.appearance.hair.NormalHair
+import at.orchaldir.gm.core.model.character.appearance.hair.ExoticHair
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.util.render.Fill
 import at.orchaldir.gm.utils.math.AABB
@@ -72,7 +72,7 @@ data class CharacterRenderConfig(
         is OverwriteFeatureColor -> getOptions(state, featureColor.skin)
         ReuseHairColor -> when (hair) {
             NoHair -> error("Cannot reuse hair color without hair!")
-            is NormalHair -> getLineOptions(hair.color)
+            is ExoticHair -> getLineOptions(hair.color)
         }
 
         ReuseSkinColor -> getOptions(state, skin)

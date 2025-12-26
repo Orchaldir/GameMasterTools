@@ -62,7 +62,7 @@
       }
      },
      "hair": {
-      "#type": "Normal",
+      "#type": "Exotic",
       "cut": {
        "#type": "Short",
        "style": "SidePartRight"
@@ -144,7 +144,7 @@
       }
      },
      "hair": {
-      "#type": "Normal",
+      "#type": "Exotic",
       "cut": {
        "#type": "Short",
        "style": "SidePartLeft"
@@ -240,7 +240,7 @@
       }
      },
      "hair": {
-      "#type": "Normal",
+      "#type": "Exotic",
       "cut": {
        "#type": "Bun",
        "style": "Low"
@@ -358,7 +358,7 @@
       }
      },
      "hair": {
-      "#type": "Normal",
+      "#type": "Exotic",
       "cut": {
        "#type": "Short",
        "style": "MiddlePart"
@@ -537,7 +537,7 @@
       }
      },
      "hair": {
-      "#type": "Normal",
+      "#type": "Exotic",
       "cut": {
        "#type": "Short",
        "style": "SidePartRight"
@@ -846,7 +846,7 @@
       }
      },
      "hair": {
-      "#type": "Normal",
+      "#type": "Exotic",
       "cut": {
        "#type": "Short",
        "style": "SidePartRight"

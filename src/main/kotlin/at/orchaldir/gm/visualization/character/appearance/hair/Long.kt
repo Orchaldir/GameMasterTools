@@ -3,7 +3,7 @@ package at.orchaldir.gm.visualization.character.appearance.hair
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.hair.LongHairCut
 import at.orchaldir.gm.core.model.character.appearance.hair.LongHairStyle
-import at.orchaldir.gm.core.model.character.appearance.hair.NormalHair
+import at.orchaldir.gm.core.model.character.appearance.hair.ExoticHair
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Orientation
@@ -14,7 +14,7 @@ import at.orchaldir.gm.visualization.character.appearance.HAIR_LAYER
 import at.orchaldir.gm.visualization.renderRoundedBuilder
 import kotlin.math.roundToInt
 
-fun visualizeLongHair(state: CharacterRenderState<Head>, hair: NormalHair, longHair: LongHairCut) {
+fun visualizeLongHair(state: CharacterRenderState<Head>, hair: ExoticHair, longHair: LongHairCut) {
     val config = state.config
     val options = config.getLineOptions(hair.color)
     val height = config.getHairLength(state, longHair.length)
