@@ -32,9 +32,7 @@
    "weight": 100000000,
    "lifeStages": {
     "#type": "Default",
-    "appearance": 6,
-    "oldAgeHairColor": null,
-    "venerableAgeHairColor": null
+    "appearance": 6
    }
   },
   "2": {
@@ -56,9 +54,7 @@
      450,
      650,
      750
-    ],
-    "oldAgeHairColor": null,
-    "venerableAgeHairColor": null
+    ]
    }
   },
   "3": {
@@ -80,9 +76,7 @@
      450,
      650,
      750
-    ],
-    "oldAgeHairColor": null,
-    "venerableAgeHairColor": null
+    ]
    }
   },
   "4": {
@@ -104,9 +98,7 @@
      450,
      650,
      750
-    ],
-    "oldAgeHairColor": null,
-    "venerableAgeHairColor": null
+    ]
    }
   },
   "5": {
@@ -115,7 +107,10 @@
    "lifeStages": {
     "#type": "Default",
     "appearance": 5,
-    "venerableAgeHairColor": "Ivory"
+    "venerableAgeHairColor": {
+     "#type": "Exotic",
+     "color": "Ivory"
+    }
    }
   },
   "6": {
@@ -137,9 +132,7 @@
      450,
      650,
      750
-    ],
-    "oldAgeHairColor": null,
-    "venerableAgeHairColor": null
+    ]
    }
   },
   "7": {
@@ -185,7 +178,10 @@
      100,
      200
     ],
-    "oldAgeHairColor": "Gray"
+    "oldAgeHairColor": {
+     "#type": "Exotic",
+     "color": "Gray"
+    }
    }
   },
   "11": {

@@ -1,5 +1,35 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "Elven",
+   "effects": [
+    {
+     "#type": "Damage",
+     "amount": {
+      "modifier": 1
+     }
+    }
+   ]
+  },
+  "1": {
+   "id": 1,
+   "name": "Very Fine"
+  },
+  "2": {
+   "id": 2,
+   "name": "Dwarven",
+   "effects": [
+    {
+     "#type": "DamageResistance",
+     "amount": 1
+    },
+    {
+     "#type": "DefenseBonus",
+     "amount": 1
+    }
+   ]
+  }
  }
 }

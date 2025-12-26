@@ -4,13 +4,6 @@
   "0": {
    "id": 0,
    "name": "Dwarf",
-   "hair": {
-    "colors": {
-     "Black": "Uncommon",
-     "Crimson": "Rare",
-     "SaddleBrown": "Common"
-    }
-   },
    "skin": {
     "normalColors": {
      "Fair": "Common",
@@ -33,11 +26,6 @@
    "hair": {
     "beardTypes": {
      "None": "Common"
-    },
-    "colors": {
-     "Gold": "Common",
-     "Orange": "Uncommon",
-     "Yellow": "Uncommon"
     }
    },
    "skin": {
@@ -60,11 +48,6 @@
    "hair": {
     "beardTypes": {
      "None": "Common"
-    },
-    "colors": {
-     "AliceBlue": "Rare",
-     "Gold": "Rare",
-     "White": "Common"
     }
    },
    "skin": {
@@ -82,11 +65,6 @@
    "hair": {
     "beardTypes": {
      "None": "Common"
-    },
-    "colors": {
-     "Black": "Common",
-     "Chocolate": "Common",
-     "SaddleBrown": "Common"
     }
    },
    "skin": {
@@ -105,11 +83,6 @@
    "hair": {
     "beardTypes": {
      "None": "Common"
-    },
-    "colors": {
-     "Black": "Common",
-     "Wheat": "Common",
-     "White": "Common"
     }
    },
    "skin": {
@@ -143,10 +116,6 @@
    "hair": {
     "beardTypes": {
      "None": "Common"
-    },
-    "colors": {
-     "Black": "Common",
-     "SaddleBrown": "Common"
     }
    },
    "skin": {
@@ -196,9 +165,6 @@
    "skin": {
     "skinTypes": {
      "Fur": "Common"
-    },
-    "furColors": {
-     "Peru": "Common"
     }
    },
    "tail": {
@@ -234,45 +200,6 @@
     },
     "hairTypes": {
      "None": "Common"
-    },
-    "colors": {
-     "AliceBlue": "Common",
-     "AntiqueWhite": "Common",
-     "Aqua": "Common",
-     "Black": "Common",
-     "Blue": "Common",
-     "BlueViolet": "Common",
-     "Chocolate": "Common",
-     "Crimson": "Common",
-     "DimGray": "Common",
-     "Fuchsia": "Common",
-     "Gold": "Common",
-     "Gray": "Common",
-     "Green": "Common",
-     "Indigo": "Common",
-     "Ivory": "Common",
-     "Lavender": "Common",
-     "LightGray": "Common",
-     "LightYellow": "Common",
-     "Lime": "Common",
-     "Maroon": "Common",
-     "Navy": "Common",
-     "Olive": "Common",
-     "Orange": "Common",
-     "OrangeRed": "Common",
-     "Peru": "Common",
-     "Pink": "Common",
-     "Purple": "Common",
-     "Red": "Common",
-     "SaddleBrown": "Common",
-     "Silver": "Common",
-     "SkyBlue": "Common",
-     "SteelBlue": "Common",
-     "Tan": "Common",
-     "Teal": "Common",
-     "Wheat": "Common",
-     "White": "Common",
-     "Yellow": "Common"
     }
    },
    "mouth": {
@@ -323,16 +250,6 @@
      "SteelBlue": "Uncommon"
     }
    },
-   "hair": {
-    "colors": {
-     "Crimson": "Rare",
-     "Gold": "Common",
-     "Orange": "Rare",
-     "SaddleBrown": "Common",
-     "Wheat": "Common",
-     "Yellow": "Common"
-    }
-   },
    "skin": {
     "normalColors": {
      "Fair": "Common",
@@ -348,12 +265,6 @@
   "9": {
    "id": 9,
    "name": "Eastern Barbarian",
-   "hair": {
-    "colors": {
-     "Black": "Common",
-     "SaddleBrown": "Common"
-    }
-   },
    "skin": {
     "normalColors": {
      "Light": "Uncommon",
@@ -380,13 +291,6 @@
      "SaddleBrown": "Common",
      "SkyBlue": "Uncommon",
      "SteelBlue": "Uncommon"
-    }
-   },
-   "hair": {
-    "colors": {
-     "Black": "Common",
-     "Gold": "Uncommon",
-     "SaddleBrown": "Common"
     }
    },
    "skin": {
