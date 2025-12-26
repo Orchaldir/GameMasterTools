@@ -314,6 +314,7 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
         ),
     ),
     mapOf(
+        HairColor.LightestBlond to RGB(243, 234, 170),
         HairColor.VeryLightBlond to RGB(233, 228, 142),
         HairColor.LightBlond to RGB(219, 188, 104),
         HairColor.Blond to RGB(206, 147, 79),
