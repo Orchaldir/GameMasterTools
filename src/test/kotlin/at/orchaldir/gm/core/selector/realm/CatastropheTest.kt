@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.realm.InterruptedByCatastrophe
 import at.orchaldir.gm.core.model.realm.War
 import at.orchaldir.gm.core.model.time.holiday.Holiday
 import at.orchaldir.gm.core.model.time.holiday.HolidayOfCatastrophe
+import at.orchaldir.gm.core.model.util.CatastropheReference
 import at.orchaldir.gm.core.model.util.Dead
 import at.orchaldir.gm.core.model.util.DeathByCatastrophe
 import at.orchaldir.gm.core.model.world.terrain.Region
@@ -51,7 +52,7 @@ class CatastropheTest {
 
         @Test
         fun `Cannot delete a catastrophe that created a region`() {
-            val region = Region(REGION_ID_0, data = Wasteland(CATASTROPHE_ID_0))
+            val region = Region(REGION_ID_0, data = Wasteland(CatastropheReference(CATASTROPHE_ID_0)))
             val newState = state.updateStorage(Storage(region))
 
             failCanDelete(newState, REGION_ID_0)

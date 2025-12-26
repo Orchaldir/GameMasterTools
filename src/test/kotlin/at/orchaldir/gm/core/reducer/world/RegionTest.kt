@@ -3,6 +3,8 @@ package at.orchaldir.gm.core.reducer.world
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.util.BattleReference
+import at.orchaldir.gm.core.model.util.CatastropheReference
 import at.orchaldir.gm.core.model.util.InRegion
 import at.orchaldir.gm.core.model.util.InTown
 import at.orchaldir.gm.core.model.world.terrain.Battlefield
@@ -50,18 +52,20 @@ class RegionTest {
 
         @Test
         fun `Cannot use unknown battle`() {
-            val region = Region(REGION_ID_0, data = Battlefield(UNKNOWN_BATTLE_ID))
+            val cause = BattleReference(UNKNOWN_BATTLE_ID)
+            val region = Region(REGION_ID_0, data = Battlefield(cause))
             val action = UpdateAction(region)
 
-            assertIllegalArgument("Requires unknown Battle 99!") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Requires unknown Cause (Battle 99)!") { REDUCER.invoke(state, action) }
         }
 
         @Test
         fun `Cannot use unknown catastrophe`() {
-            val region = Region(REGION_ID_0, data = Wasteland(UNKNOWN_CATASTROPHE_ID))
+            val cause = CatastropheReference(UNKNOWN_CATASTROPHE_ID)
+            val region = Region(REGION_ID_0, data = Wasteland(cause))
             val action = UpdateAction(region)
 
-            assertIllegalArgument("Requires unknown Catastrophe 99!") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Requires unknown Cause (Catastrophe 99)!") { REDUCER.invoke(state, action) }
         }
 
         @Test

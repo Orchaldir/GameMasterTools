@@ -21,7 +21,10 @@
    "name": "Mournland",
    "data": {
     "#type": "Wasteland",
-    "catastrophe": 0
+    "cause": {
+     "#type": "Catastrophe",
+     "catastrophe": 0
+    }
    },
    "position": {
     "#type": "Region",
@@ -33,7 +36,10 @@
    "name": "The Crying Fields",
    "data": {
     "#type": "Battlefield",
-    "battle": 0
+    "cause": {
+     "#type": "Battle",
+     "battle": 0
+    }
    },
    "position": {
     "#type": "Region",
