@@ -3,6 +3,7 @@ package at.orchaldir.gm.visualization.character
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.hair.Hair
+import at.orchaldir.gm.core.model.character.appearance.hair.HairColor
 import at.orchaldir.gm.core.model.character.appearance.hair.HairLength
 import at.orchaldir.gm.core.model.character.appearance.hair.NoHair
 import at.orchaldir.gm.core.model.character.appearance.hair.NormalHair
@@ -36,6 +37,7 @@ data class CharacterRenderConfig(
     val body: BodyConfig,
     val equipment: EquipmentConfig,
     val head: HeadConfig,
+    val hairColors: Map<HairColor, RGB>,
     val skinColors: Map<SkinColor, RGB>,
 ) {
 
@@ -79,5 +81,6 @@ data class CharacterRenderConfig(
     fun getLineOptions(color: Color) = FillAndBorder(color.toRender(), line)
     fun getLineOptions(fill: Fill) = FillAndBorder(fill.toRender(), line)
 
+    fun getHairColor(hairColor: HairColor) = hairColors[hairColor] ?: Color.Purple.toRender()
     fun getSkinColor(skinColor: SkinColor) = skinColors[skinColor] ?: Color.Purple.toRender()
 }

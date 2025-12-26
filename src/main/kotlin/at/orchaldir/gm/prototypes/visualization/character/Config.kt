@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.character.appearance.SkinColor
 import at.orchaldir.gm.core.model.character.appearance.eye.Eyes
 import at.orchaldir.gm.core.model.character.appearance.eye.OneEye
 import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
+import at.orchaldir.gm.core.model.character.appearance.hair.HairColor
 import at.orchaldir.gm.core.model.character.appearance.hair.HairLength
 import at.orchaldir.gm.core.model.character.appearance.horn.*
 import at.orchaldir.gm.core.model.item.equipment.style.NecklaceLength.*
@@ -313,13 +314,16 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
         ),
     ),
     mapOf(
+        HairColor.VeryLightBlond to RGB(254, 228, 208),
+    ),
+    mapOf(
         SkinColor.Fair to RGB(254, 228, 208),
         SkinColor.Light to RGB(232, 198, 175),
         SkinColor.Medium to RGB(200, 158, 134),
         SkinColor.Tan to RGB(175, 118, 88),
         SkinColor.Dark to RGB(156, 89, 60),
         SkinColor.VeryDark to RGB(122, 68, 44),
-    )
+    ),
 )
 
 val EYES: List<Pair<String, Eyes>> = listOf(
