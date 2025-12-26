@@ -440,7 +440,7 @@ private fun parseHair(parameters: Parameters, config: AppearanceGeneratorConfig)
 
     return when (parameters[HAIR]) {
         HairType.None.toString() -> NoHair
-        HairType.Normal.toString() -> {
+        HairType.Exotic.toString() -> {
             return ExoticHair(
                 when (parameters[combine(HAIR, STYLE)]) {
                     HairStyle.Bun.toString() -> Bun(

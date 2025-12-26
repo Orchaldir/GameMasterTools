@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 
 enum class HairType {
     None,
-    Normal,
+    Exotic,
 }
 
 @Serializable
@@ -14,7 +14,7 @@ sealed class Hair {
 
     fun getType() = when (this) {
         NoHair -> HairType.None
-        is ExoticHair -> HairType.Normal
+        is ExoticHair -> HairType.Exotic
     }
 
 }

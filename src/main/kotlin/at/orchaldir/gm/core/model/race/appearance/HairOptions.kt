@@ -9,6 +9,6 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class HairOptions(
     val beardTypes: OneOf<BeardType> = OneOf(BeardType.Normal),
-    val hairTypes: OneOf<HairType> = OneOf(HairType.Normal),
+    val hairTypes: OneOf<HairType> = OneOf(HairType.Exotic),
     val colors: OneOf<Color> = OneOf(Color.SaddleBrown),
 )

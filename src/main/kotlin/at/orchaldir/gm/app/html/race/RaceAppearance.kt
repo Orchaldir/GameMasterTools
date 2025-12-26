@@ -44,7 +44,7 @@ import kotlinx.html.h3
 
 private fun requiresHairColor(appearance: RaceAppearance) =
     appearance.hair.beardTypes.isAvailable(BeardType.Normal) ||
-            appearance.hair.hairTypes.isAvailable(HairType.Normal)
+            appearance.hair.hairTypes.isAvailable(HairType.Exotic)
 
 private fun requiresNormalHorns(appearance: RaceAppearance) =
     appearance.horn.layouts.isAvailable(HornsLayout.Two) ||
@@ -486,7 +486,7 @@ private fun HtmlBlockTag.editFeatureColor(
     selectValue(
         "Color Type",
         combine(param, COLOR),
-        if (hairOptions.hairTypes.contains(HairType.Normal)) {
+        if (hairOptions.hairTypes.contains(HairType.Exotic)) {
             FeatureColorType.entries
         } else {
             setOf(FeatureColorType.Overwrite, FeatureColorType.Skin)
