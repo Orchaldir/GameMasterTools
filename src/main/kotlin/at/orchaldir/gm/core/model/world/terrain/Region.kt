@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.model.util.UndefinedPosition
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.reducer.util.checkPosition
+import at.orchaldir.gm.core.reducer.util.validateEventReference
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
 import kotlinx.serialization.Serializable
@@ -48,9 +49,22 @@ data class Region(
 
     override fun validate(state: State) {
         when (data) {
-            is Battlefield -> state.getBattleStorage().requireOptional(data.battle)
+            is Battlefield -> validateEventReference(
+                state,
+                data.cause,
+                null,
+                "Cause",
+                ALLOWED_BATTLEFIELD_CAUSES,
+            )
+
             Continent, Desert, Forrest, Lake, Plains, Mountain, Sea, UndefinedRegionData -> doNothing()
-            is Wasteland -> state.getCatastropheStorage().requireOptional(data.catastrophe)
+            is Wasteland -> validateEventReference(
+                state,
+                data.cause,
+                null,
+                "Cause",
+                ALLOWED_WASTELAND_CAUSES,
+            )
         }
 
         checkPosition(state, position, "position", null, data.getAllowedRegionTypes())

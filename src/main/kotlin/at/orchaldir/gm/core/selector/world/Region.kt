@@ -3,12 +3,11 @@ package at.orchaldir.gm.core.selector.world
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.MaterialId
-import at.orchaldir.gm.core.model.realm.BattleId
-import at.orchaldir.gm.core.model.realm.CatastropheId
 import at.orchaldir.gm.core.model.world.terrain.RegionDataType
 import at.orchaldir.gm.core.model.world.terrain.RegionId
 import at.orchaldir.gm.core.model.world.town.TownMapId
 import at.orchaldir.gm.core.selector.util.canDeleteWithPositions
+import at.orchaldir.gm.utils.Id
 
 fun State.canDeleteRegion(region: RegionId) = DeleteResult(region)
     .addElements(getTowns(region))
@@ -24,13 +23,9 @@ fun State.getRegionsContaining(material: MaterialId) = getRegionStorage()
     .getAll()
     .filter { it.resources.contains(material) }
 
-fun State.getRegionsCreatedBy(battle: BattleId) = getRegionStorage()
+fun <ID : Id<ID>> State.getRegionsCreatedBy(id: ID) = getRegionStorage()
     .getAll()
-    .filter { it.data.isCreatedBy(battle) }
-
-fun State.getRegionsCreatedBy(catastrophe: CatastropheId) = getRegionStorage()
-    .getAll()
-    .filter { it.data.isCreatedBy(catastrophe) }
+    .filter { it.data.isCreatedBy(id) }
 
 fun State.getRegionsIds(town: TownMapId) = getTownMapStorage()
     .getOrThrow(town)

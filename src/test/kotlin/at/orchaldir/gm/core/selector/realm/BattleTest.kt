@@ -8,10 +8,12 @@ import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.realm.Battle
+import at.orchaldir.gm.core.model.util.BattleReference
 import at.orchaldir.gm.core.model.util.Dead
 import at.orchaldir.gm.core.model.util.DeathInBattle
 import at.orchaldir.gm.core.model.world.terrain.Battlefield
 import at.orchaldir.gm.core.model.world.terrain.Region
+import at.orchaldir.gm.core.model.world.terrain.Wasteland
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -40,7 +42,15 @@ class BattleTest {
 
         @Test
         fun `Cannot delete a battle with a battlefield`() {
-            val region = Region(REGION_ID_0, data = Battlefield(BATTLE_ID_0))
+            val region = Region(REGION_ID_0, data = Battlefield(BattleReference(BATTLE_ID_0)))
+            val newState = state.updateStorage(Storage(region))
+
+            failCanDelete(newState, REGION_ID_0)
+        }
+
+        @Test
+        fun `Cannot delete a battle that caused a wasteland`() {
+            val region = Region(REGION_ID_0, data = Wasteland(BattleReference(BATTLE_ID_0)))
             val newState = state.updateStorage(Storage(region))
 
             failCanDelete(newState, REGION_ID_0)

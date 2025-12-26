@@ -1,9 +1,24 @@
 package at.orchaldir.gm.core.model.world.terrain
 
-import at.orchaldir.gm.core.model.realm.BattleId
-import at.orchaldir.gm.core.model.realm.CatastropheId
+import at.orchaldir.gm.core.model.util.EventReference
+import at.orchaldir.gm.core.model.util.EventReferenceType
+import at.orchaldir.gm.core.model.util.UndefinedEventReference
+import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+
+val ALLOWED_BATTLEFIELD_CAUSES = listOf(
+    EventReferenceType.Battle,
+    EventReferenceType.War,
+    EventReferenceType.Undefined,
+)
+
+val ALLOWED_WASTELAND_CAUSES = listOf(
+    EventReferenceType.Battle,
+    EventReferenceType.Catastrophe,
+    EventReferenceType.War,
+    EventReferenceType.Undefined,
+)
 
 enum class RegionDataType {
     Battlefield,
@@ -40,13 +55,9 @@ sealed class RegionData {
         ALLOWED_REGION_POSITIONS
     }
 
-    fun isCreatedBy(battle: BattleId) = when (this) {
-        is Battlefield -> this.battle == battle
-        else -> false
-    }
-
-    fun isCreatedBy(catastrophe: CatastropheId) = when (this) {
-        is Wasteland -> this.catastrophe == catastrophe
+    fun <ID : Id<ID>> isCreatedBy(id: ID) = when (this) {
+        is Battlefield -> this.cause.isId(id)
+        is Wasteland -> this.cause.isId(id)
         else -> false
     }
 }
@@ -54,7 +65,7 @@ sealed class RegionData {
 @Serializable
 @SerialName("Battlefield")
 data class Battlefield(
-    val battle: BattleId? = null,
+    val cause: EventReference = UndefinedEventReference,
 ) : RegionData()
 
 @Serializable
@@ -92,7 +103,7 @@ data object UndefinedRegionData : RegionData()
 @Serializable
 @SerialName("Wasteland")
 data class Wasteland(
-    val catastrophe: CatastropheId? = null,
+    val cause: EventReference = UndefinedEventReference,
 ) : RegionData()
 
 

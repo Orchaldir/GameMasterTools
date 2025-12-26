@@ -287,6 +287,21 @@
     "#type": "Region",
     "region": 5
    }
+  },
+  "27": {
+   "id": 27,
+   "name": "Kem",
+   "data": {
+    "#type": "Wasteland",
+    "cause": {
+     "#type": "War",
+     "war": 0
+    }
+   },
+   "position": {
+    "#type": "Region",
+    "region": 19
+   }
   }
  }
 }
