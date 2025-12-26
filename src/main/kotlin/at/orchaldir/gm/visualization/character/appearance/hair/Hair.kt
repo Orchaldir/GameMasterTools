@@ -37,11 +37,11 @@ data class HairConfig(
 fun visualizeHair(state: CharacterRenderState<Head>) {
     when (val hair = state.get().hair) {
         NoHair -> doNothing()
-        is ExoticHair -> visualizeNormalHair(state, hair)
+        is NormalHair -> visualizeNormalHair(state, hair)
     }
 }
 
-private fun visualizeNormalHair(state: CharacterRenderState<Head>, hair: ExoticHair) {
+private fun visualizeNormalHair(state: CharacterRenderState<Head>, hair: NormalHair) {
     when (hair.cut) {
         is Bun -> visualizeBun(state, hair, hair.cut)
         is LongHairCut -> visualizeLongHair(state, hair, hair.cut)

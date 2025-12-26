@@ -3,14 +3,14 @@ package at.orchaldir.gm.visualization.character.appearance.hair
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.hair.Bun
 import at.orchaldir.gm.core.model.character.appearance.hair.BunStyle
-import at.orchaldir.gm.core.model.character.appearance.hair.ExoticHair
+import at.orchaldir.gm.core.model.character.appearance.hair.NormalHair
 import at.orchaldir.gm.utils.math.CENTER
 import at.orchaldir.gm.utils.math.END
 import at.orchaldir.gm.utils.math.START
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.HAIR_LAYER
 
-fun visualizeBun(state: CharacterRenderState<Head>, hair: ExoticHair, bun: Bun) {
+fun visualizeBun(state: CharacterRenderState<Head>, hair: NormalHair, bun: Bun) {
     val config = state.config
     val options = config.getLineOptions(hair.color)
     val radiusFactor = config.head.hair.bunRadius.convert(bun.size)

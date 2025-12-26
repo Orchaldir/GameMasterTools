@@ -110,8 +110,8 @@ fun generateBeard(config: AppearanceGeneratorConfig, hair: Hair): Beard {
                 BeardStyleType.Shaved -> ShavedBeard
             },
             when (hair) {
-                NoHair -> config.generate(options.hair.colors)
-                is ExoticHair -> hair.color
+                NoHair -> generateHairColor(config, options.hair.colors)
+                is NormalHair -> hair.color
             }
         )
     }
@@ -166,9 +166,9 @@ fun generateHair(config: AppearanceGeneratorConfig): Hair {
 
     return when (config.generate(options.hair.hairTypes)) {
         HairType.None -> NoHair
-        HairType.Exotic -> ExoticHair(
+        HairType.Normal -> NormalHair(
             generateHairCut(config),
-            config.generate(options.hair.colors),
+            generateHairColor(config, options.hair.colors),
         )
     }
 }
@@ -193,6 +193,19 @@ fun generateHairCut(config: AppearanceGeneratorConfig): HairCut {
             config.generate(fashion.ponytailPositions),
             config.generate(fashion.hairLengths),
         )
+    }
+}
+
+fun generateHairColor(config: AppearanceGeneratorConfig, options: HairColorOptions): HairColor {
+    return when (config.generate(options.types)) {
+        HairColorType.Normal -> NormalHairColor(
+            config.generate(options.normal)
+        )
+        HairColorType.Exotic -> ExoticHairColor(
+            config.generate(options.exotic)
+        )
+
+        HairColorType.None -> error("HairColorType None is unsupported!")
     }
 }
 
@@ -265,7 +278,7 @@ fun generateSkin(config: AppearanceGeneratorConfig) = generateSkin(config, confi
 
 fun generateSkin(config: AppearanceGeneratorConfig, options: SkinOptions) = when (config.generate(options.skinTypes)) {
     SkinType.Exotic -> ExoticSkin(config.generate(options.exoticColors))
-    SkinType.Fur -> Fur(config.generate(options.furColors))
+    SkinType.Fur -> Fur(generateHairColor(config, options.furColors))
     SkinType.Material -> MaterialSkin(config.generate(options.materials))
     SkinType.Normal -> NormalSkin(config.generate(options.normalColors))
     SkinType.Scales -> Scales(config.generate(options.scalesColors))

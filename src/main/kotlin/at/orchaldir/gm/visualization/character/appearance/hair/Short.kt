@@ -1,7 +1,7 @@
 package at.orchaldir.gm.visualization.character.appearance.hair
 
 import at.orchaldir.gm.core.model.character.appearance.Head
-import at.orchaldir.gm.core.model.character.appearance.hair.ExoticHair
+import at.orchaldir.gm.core.model.character.appearance.hair.NormalHair
 import at.orchaldir.gm.core.model.character.appearance.hair.ShortHairCut
 import at.orchaldir.gm.core.model.character.appearance.hair.ShortHairStyle.*
 import at.orchaldir.gm.utils.doNothing
@@ -10,7 +10,7 @@ import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.renderRoundedPolygon
 
-fun visualizeShortHair(state: CharacterRenderState<Head>, hair: ExoticHair, shortHair: ShortHairCut) {
+fun visualizeShortHair(state: CharacterRenderState<Head>, hair: NormalHair, shortHair: ShortHairCut) {
     val config = state.config
     val options = config.getLineOptions(hair.color)
 

@@ -9,8 +9,8 @@ import at.orchaldir.gm.core.model.util.render.Color
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class HairOptions(
-    val beardTypes: OneOf<BeardType> = OneOf(BeardType.Normal),
-    val hairTypes: OneOf<HairType> = OneOf(HairType.Normal),
-    val colors: HairColorOptions = HairColorOptions(),
+data class HairColorOptions(
+    val types: OneOf<HairColorType> = OneOf(HairColorType.Normal),
+    val normal: OneOf<NormalHairColorEnum> = OneOf(NormalHairColorEnum.entries),
+    val exotic: OneOf<Color> = OneOf(Color.entries),
 )

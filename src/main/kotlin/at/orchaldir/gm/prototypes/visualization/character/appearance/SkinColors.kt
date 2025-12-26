@@ -1,9 +1,7 @@
 package at.orchaldir.gm.prototypes.visualization.character.appearance
 
 import at.orchaldir.gm.core.model.character.appearance.SkinColor
-import at.orchaldir.gm.core.model.character.appearance.hair.HairColor
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
-import at.orchaldir.gm.prototypes.visualization.renderTable
 import at.orchaldir.gm.prototypes.visualization.renderTableWithNames
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.renderer.model.NoBorder

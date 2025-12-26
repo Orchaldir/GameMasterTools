@@ -12,7 +12,7 @@ fun validateTails(appearance: RaceAppearance) {
         require(options.simpleOptions.containsKey(it)) { "No options for $it tail!" }
     }
 
-    if (!appearance.hair.hairTypes.contains(HairType.Exotic)) {
+    if (!appearance.hair.hairTypes.contains(HairType.Normal)) {
         options.simpleOptions.forEach { (shape, shapeOptions) ->
             require(shapeOptions.types != FeatureColorType.Hair) { "Tail options for $shape require hair!" }
         }

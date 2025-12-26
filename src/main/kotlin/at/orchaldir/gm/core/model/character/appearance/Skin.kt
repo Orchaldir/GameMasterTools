@@ -1,5 +1,8 @@
 package at.orchaldir.gm.core.model.character.appearance
 
+import at.orchaldir.gm.core.model.character.appearance.hair.HairColor
+import at.orchaldir.gm.core.model.character.appearance.hair.NormalHairColor
+import at.orchaldir.gm.core.model.character.appearance.hair.NormalHairColorEnum
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.util.render.Color
 import kotlinx.serialization.SerialName
@@ -42,7 +45,7 @@ data class ExoticSkin(val color: Color = Color.Red) : Skin()
 
 @Serializable
 @SerialName("Fur")
-data class Fur(val color: Color = Color.SaddleBrown) : Skin()
+data class Fur(val color: HairColor = NormalHairColor(NormalHairColorEnum.MediumBrown)) : Skin()
 
 @Serializable
 @SerialName("Material")

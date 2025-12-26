@@ -2,11 +2,15 @@ package at.orchaldir.gm.visualization.character
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.*
+import at.orchaldir.gm.core.model.character.appearance.hair.ExoticHairColor
 import at.orchaldir.gm.core.model.character.appearance.hair.Hair
 import at.orchaldir.gm.core.model.character.appearance.hair.HairColor
+import at.orchaldir.gm.core.model.character.appearance.hair.NormalHairColorEnum
 import at.orchaldir.gm.core.model.character.appearance.hair.HairLength
 import at.orchaldir.gm.core.model.character.appearance.hair.NoHair
-import at.orchaldir.gm.core.model.character.appearance.hair.ExoticHair
+import at.orchaldir.gm.core.model.character.appearance.hair.NoHairColor
+import at.orchaldir.gm.core.model.character.appearance.hair.NormalHair
+import at.orchaldir.gm.core.model.character.appearance.hair.NormalHairColor
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.util.render.Fill
 import at.orchaldir.gm.utils.math.AABB
@@ -37,7 +41,7 @@ data class CharacterRenderConfig(
     val body: BodyConfig,
     val equipment: EquipmentConfig,
     val head: HeadConfig,
-    val hairColors: Map<HairColor, RGB>,
+    val hairColors: Map<NormalHairColorEnum, RGB>,
     val skinColors: Map<SkinColor, RGB>,
 ) {
 
@@ -50,18 +54,24 @@ data class CharacterRenderConfig(
     fun getOptions(state: State, skin: Skin): RenderOptions = FillAndBorder(
         when (skin) {
             is ExoticSkin -> skin.color.toRender()
-            is Fur -> skin.color.toRender()
+            is Fur -> getHairColor(skin.color)
             is MaterialSkin -> state
                 .getMaterialStorage()
                 .getOrThrow(skin.material)
                 .color
                 .toRender()
 
-            is NormalSkin -> skinColors[skin.color] ?: Color.Purple.toRender()
+            is NormalSkin -> getSkinColor(skin.color)
             is Scales -> skin.color.toRender()
         },
         line,
     )
+
+    fun getHairColor(hairColor: HairColor): RenderColor = when (hairColor) {
+        is NormalHairColor -> getHairColor(hairColor.color)
+        is ExoticHairColor -> hairColor.color.toRender()
+        NoHairColor -> error("HairColorType None is unsupported!")
+    }
 
     fun getFeatureOptions(
         state: State,
@@ -72,15 +82,16 @@ data class CharacterRenderConfig(
         is OverwriteFeatureColor -> getOptions(state, featureColor.skin)
         ReuseHairColor -> when (hair) {
             NoHair -> error("Cannot reuse hair color without hair!")
-            is ExoticHair -> getLineOptions(hair.color)
+            is NormalHair -> getLineOptions(hair.color)
         }
 
         ReuseSkinColor -> getOptions(state, skin)
     }
 
     fun getLineOptions(color: Color) = FillAndBorder(color.toRender(), line)
+    fun getLineOptions(hairColor: HairColor) = FillAndBorder(getHairColor(hairColor), line)
     fun getLineOptions(fill: Fill) = FillAndBorder(fill.toRender(), line)
 
-    fun getHairColor(hairColor: HairColor) = hairColors[hairColor] ?: Color.Purple.toRender()
+    fun getHairColor(hairColor: NormalHairColorEnum) = hairColors[hairColor] ?: Color.Purple.toRender()
     fun getSkinColor(skinColor: SkinColor) = skinColors[skinColor] ?: Color.Purple.toRender()
 }

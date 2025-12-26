@@ -1,0 +1,113 @@
+package at.orchaldir.gm.app.html.character.appearance
+
+import at.orchaldir.gm.app.COLOR
+import at.orchaldir.gm.app.EXOTIC
+import at.orchaldir.gm.app.TYPE
+import at.orchaldir.gm.app.html.field
+import at.orchaldir.gm.app.html.selectColor
+import at.orchaldir.gm.app.html.selectFromOneOf
+import at.orchaldir.gm.app.html.showDetails
+import at.orchaldir.gm.app.parse.combine
+import at.orchaldir.gm.app.parse.parse
+import at.orchaldir.gm.core.generator.AppearanceGeneratorConfig
+import at.orchaldir.gm.core.model.character.appearance.hair.ExoticHairColor
+import at.orchaldir.gm.core.model.character.appearance.hair.HairColor
+import at.orchaldir.gm.core.model.character.appearance.hair.HairColorType
+import at.orchaldir.gm.core.model.character.appearance.hair.NoHairColor
+import at.orchaldir.gm.core.model.character.appearance.hair.NormalHairColor
+import at.orchaldir.gm.core.model.race.appearance.HairColorOptions
+import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
+import at.orchaldir.gm.utils.doNothing
+import io.ktor.http.*
+import kotlinx.html.HtmlBlockTag
+import kotlinx.html.style
+
+// show
+
+fun HtmlBlockTag.showHairColor(
+    hairColor: HairColor,
+    text: String = "Hair Color"
+) {
+    showDetails(text, true) {
+        field("Type", hairColor.getType())
+
+        when (hairColor) {
+            is NoHairColor -> doNothing()
+            is NormalHairColor -> field("Color", hairColor.color)
+            is ExoticHairColor -> field("Color", hairColor.color)
+        }
+    }
+}
+
+// edit
+
+fun HtmlBlockTag.selectHairColor(
+    options: HairColorOptions,
+    hairColor: HairColor,
+    param: String,
+    text: String = "Hair Color"
+) {
+    val colorParam = combine(param, COLOR)
+
+    showDetails(text, true) {
+        selectFromOneOf(
+            "Type",
+            combine(colorParam, TYPE),
+            options.types,
+            hairColor.getType(),
+        )
+
+        when (hairColor) {
+            is NoHairColor -> doNothing()
+            is NormalHairColor -> selectFromOneOf(
+                "Color",
+                colorParam,
+                options.normal,
+                hairColor.color,
+            ) { skinColor ->
+                label = skinColor.name
+                value = skinColor.toString()
+                val bgColor = CHARACTER_CONFIG.getHairColor(skinColor).toCode()
+                style = "background-color:${bgColor}"
+            }
+            is ExoticHairColor -> selectColor(
+                "Color",
+                combine(colorParam, EXOTIC),
+                options.exotic,
+                hairColor.color,
+            )
+        }
+    }
+}
+
+// parse
+
+fun parseHairColor(
+    parameters: Parameters,
+    config: AppearanceGeneratorConfig,
+    options: HairColorOptions,
+    param: String,
+): HairColor {
+    val colorParam = combine(param, COLOR)
+
+    return when (parse(parameters, combine(colorParam, TYPE), HairColorType.Normal)) {
+        HairColorType.None -> NoHairColor
+        HairColorType.Normal -> NormalHairColor(
+            parseAppearanceOption(
+                parameters,
+                colorParam,
+                config,
+                options.normal,
+            ),
+        )
+
+        HairColorType.Exotic -> ExoticHairColor(
+            parseAppearanceColor(
+                parameters,
+                combine(colorParam, EXOTIC),
+                config,
+                options.exotic,
+            ),
+        )
+    }
+}

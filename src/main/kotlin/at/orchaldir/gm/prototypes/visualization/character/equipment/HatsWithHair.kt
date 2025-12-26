@@ -5,7 +5,7 @@ import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.HeadOnly
 import at.orchaldir.gm.core.model.character.appearance.NormalEars
 import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
-import at.orchaldir.gm.core.model.character.appearance.hair.ExoticHair
+import at.orchaldir.gm.core.model.character.appearance.hair.NormalHair
 import at.orchaldir.gm.core.model.character.appearance.hair.ShortHairCut
 import at.orchaldir.gm.core.model.character.appearance.hair.ShortHairStyle
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap.Companion.from
@@ -33,6 +33,6 @@ fun main() {
 
 private fun createAppearance(distance: Distance, style: ShortHairStyle) =
     HeadOnly(
-        Head(ears = NormalEars(), eyes = TwoEyes(), hair = ExoticHair(ShortHairCut(style), Yellow)),
+        Head(ears = NormalEars(), eyes = TwoEyes(), hair = NormalHair(ShortHairCut(style), Yellow)),
         distance,
     )

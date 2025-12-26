@@ -18,6 +18,8 @@ import at.orchaldir.gm.core.model.character.appearance.eye.EyeShape
 import at.orchaldir.gm.core.model.character.appearance.eye.EyeType
 import at.orchaldir.gm.core.model.character.appearance.eye.EyesLayout
 import at.orchaldir.gm.core.model.character.appearance.eye.PupilShape
+import at.orchaldir.gm.core.model.character.appearance.hair.HairColorType
+import at.orchaldir.gm.core.model.character.appearance.hair.NormalHairColorEnum
 import at.orchaldir.gm.core.model.character.appearance.hair.HairType
 import at.orchaldir.gm.core.model.character.appearance.horn.HornsLayout
 import at.orchaldir.gm.core.model.character.appearance.horn.SimpleHornType
@@ -44,7 +46,7 @@ import kotlinx.html.h3
 
 private fun requiresHairColor(appearance: RaceAppearance) =
     appearance.hair.beardTypes.isAvailable(BeardType.Normal) ||
-            appearance.hair.hairTypes.isAvailable(HairType.Exotic)
+            appearance.hair.hairTypes.isAvailable(HairType.Normal)
 
 private fun requiresNormalHorns(appearance: RaceAppearance) =
     appearance.horn.layouts.isAvailable(HornsLayout.Two) ||
@@ -121,7 +123,7 @@ private fun HtmlBlockTag.showHair(appearance: RaceAppearance) {
     showRarityMap("Hair", appearance.hair.hairTypes)
 
     if (requiresHairColor(appearance)) {
-        showColorRarityMap("Colors", appearance.hair.colors)
+        showColorRarityMap("Exotics Colors", appearance.hair.colors.exotic)
     }
 }
 
@@ -212,7 +214,7 @@ private fun HtmlBlockTag.showSkinInternal(
     }
 
     if (options.skinTypes.isAvailable(SkinType.Fur)) {
-        showColorRarityMap("Fur Colors", options.furColors)
+        showColorRarityMap("Fur Colors", options.furColors.exotic)
     }
 
     if (options.skinTypes.isAvailable(SkinType.Scales)) {
@@ -365,7 +367,7 @@ private fun HtmlBlockTag.editHair(appearance: RaceAppearance) {
     selectRarityMap("Hair", HAIR, appearance.hair.hairTypes)
 
     if (requiresHairColor(appearance)) {
-        selectColorRarityMap("Colors", combine(HAIR, COLOR), appearance.hair.colors)
+        selectColorRarityMap("Exotic Colors", combine(HAIR, COLOR), appearance.hair.colors.exotic)
     }
 }
 
@@ -434,7 +436,7 @@ private fun HtmlBlockTag.editSkinInternal(state: State, options: SkinOptions, pa
     }
 
     if (options.skinTypes.isAvailable(SkinType.Fur)) {
-        selectColorRarityMap("Fur Colors", combine(param, FUR, COLOR), options.furColors)
+        selectColorRarityMap("Fur Colors", combine(param, FUR, COLOR), options.furColors.exotic)
     }
 
     if (options.skinTypes.isAvailable(SkinType.Material)) {
@@ -486,7 +488,7 @@ private fun HtmlBlockTag.editFeatureColor(
     selectValue(
         "Color Type",
         combine(param, COLOR),
-        if (hairOptions.hairTypes.contains(HairType.Exotic)) {
+        if (hairOptions.hairTypes.contains(HairType.Normal)) {
             FeatureColorType.entries
         } else {
             setOf(FeatureColorType.Overwrite, FeatureColorType.Skin)
@@ -583,8 +585,30 @@ private fun parseFootOptions(parameters: Parameters): FootOptions {
 private fun parseHairOptions(parameters: Parameters) = HairOptions(
     parseOneOf(parameters, BEARD, BeardType::valueOf),
     parseOneOf(parameters, HAIR, HairType::valueOf),
-    parseOneOf(parameters, combine(HAIR, COLOR), Color::valueOf, Color.entries),
+    parseHairColors(parameters, HAIR),
 )
+
+private fun parseHairColors(parameters: Parameters, param: String) = HairColorOptions(
+    parseOneOf(
+        parameters,
+        combine(param, COLOR, TYPE),
+        HairColorType::valueOf,
+        HairColorType.entries,
+    ),
+    parseOneOf(
+        parameters,
+        combine(param, COLOR),
+        NormalHairColorEnum::valueOf,
+        NormalHairColorEnum.entries,
+    ),
+    parseOneOf(
+        parameters,
+        combine(param, EXOTIC, COLOR),
+        Color::valueOf,
+        Color.entries,
+    ),
+)
+
 
 private fun parseHornOptions(parameters: Parameters) = HornOptions(
     parseOneOf(parameters, HORN, HornsLayout::valueOf),
@@ -607,7 +631,7 @@ private fun parseMouthOptions(parameters: Parameters) = MouthOptions(
 private fun parseSkinOptions(parameters: Parameters, param: String) = SkinOptions(
     parseOneOf(parameters, combine(param, TYPE), SkinType::valueOf, setOf(SkinType.Normal)),
     parseOneOf(parameters, combine(param, EXOTIC, COLOR), Color::valueOf, setOf(DEFAULT_EXOTIC_COLOR)),
-    parseOneOf(parameters, combine(param, FUR, COLOR), Color::valueOf, setOf(DEFAULT_FUR_COLOR)),
+    parseHairColors(parameters, BEARD),
     parseOneOf(parameters, combine(param, MATERIAL), ::parseMaterialId, setOf(MaterialId(0))),
     parseOneOf(parameters, combine(param, NORMAL, COLOR), SkinColor::valueOf, SkinColor.entries),
     parseOneOf(parameters, combine(param, SCALE, COLOR), Color::valueOf, setOf(DEFAULT_SCALE_COLOR)),

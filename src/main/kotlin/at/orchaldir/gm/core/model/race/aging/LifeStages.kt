@@ -1,5 +1,8 @@
 package at.orchaldir.gm.core.model.race.aging
 
+import at.orchaldir.gm.core.model.character.appearance.hair.ExoticHairColor
+import at.orchaldir.gm.core.model.character.appearance.hair.HairColor
+import at.orchaldir.gm.core.model.character.appearance.hair.NoHairColor
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.rpg.statblock.Statblock
 import at.orchaldir.gm.core.model.util.name.Name
@@ -12,8 +15,8 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 val DEFAULT_MAX_AGES = listOf(2, 5, 12, 18, 45, 60, 90, 120)
-val DEFAULT_OLD_AGE_HAIR_COLOR = Color.LightGray
-val DEFAULT_VENERABLE_AGE_HAIR_COLOR = Color.White
+val DEFAULT_OLD_AGE_HAIR_COLOR = ExoticHairColor(Color.LightGray)
+val DEFAULT_VENERABLE_AGE_HAIR_COLOR = ExoticHairColor(Color.White)
 
 private val immutable = LifeStage(Name.init("Immutable"), Int.MAX_VALUE)
 private val defaultRelativeSizes = listOf(20, 40, 60, 95, 100, 100, 95, 90)
@@ -72,8 +75,8 @@ sealed class LifeStages {
 data class DefaultAging(
     val appearance: RaceAppearanceId = RaceAppearanceId(0),
     val maxAges: List<Int> = DEFAULT_MAX_AGES,
-    val oldAgeHairColor: Color? = DEFAULT_OLD_AGE_HAIR_COLOR,
-    val venerableAgeHairColor: Color? = DEFAULT_VENERABLE_AGE_HAIR_COLOR,
+    val oldAgeHairColor: HairColor = DEFAULT_OLD_AGE_HAIR_COLOR,
+    val venerableAgeHairColor: HairColor = DEFAULT_VENERABLE_AGE_HAIR_COLOR,
     val statblock: Statblock = Statblock(),
 ) : LifeStages() {
 
@@ -101,7 +104,7 @@ data class DefaultAging(
     private fun createLifeStage(
         index: Int,
         hasBeard: Boolean = false,
-        hairColor: Color? = null,
+        hairColor: HairColor = NoHairColor,
     ) = LifeStage(
         Name.init(DefaultLifeStages.entries[index].name),
         maxAges[index],

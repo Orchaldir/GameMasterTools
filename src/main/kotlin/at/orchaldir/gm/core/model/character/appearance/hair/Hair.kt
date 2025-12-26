@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 
 enum class HairType {
     None,
-    Exotic,
+    Normal,
 }
 
 @Serializable
@@ -14,7 +14,7 @@ sealed class Hair {
 
     fun getType() = when (this) {
         NoHair -> HairType.None
-        is ExoticHair -> HairType.Exotic
+        is NormalHair -> HairType.Normal
     }
 
 }
@@ -24,9 +24,13 @@ sealed class Hair {
 data object NoHair : Hair()
 
 @Serializable
-@SerialName("Exotic")
-data class ExoticHair(
+@SerialName("Normal")
+data class NormalHair(
     val cut: HairCut,
-    val color: Color,
-) : Hair()
+    val color: HairColor,
+) : Hair() {
+
+    constructor(cut: HairCut, color: Color): this(cut, ExoticHairColor(color))
+
+}
 

@@ -2,6 +2,10 @@ package at.orchaldir.gm.app.html.race
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.character.appearance.parseAppearanceColor
+import at.orchaldir.gm.app.html.character.appearance.parseAppearanceOption
+import at.orchaldir.gm.app.html.character.appearance.selectHairColor
+import at.orchaldir.gm.app.html.character.appearance.showHairColor
 import at.orchaldir.gm.app.html.rpg.statblock.editStatblock
 import at.orchaldir.gm.app.html.rpg.statblock.parseStatblock
 import at.orchaldir.gm.app.html.rpg.statblock.showStatblock
@@ -10,9 +14,17 @@ import at.orchaldir.gm.app.html.util.math.parseFactor
 import at.orchaldir.gm.app.html.util.math.selectPercentage
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
+import at.orchaldir.gm.core.generator.AppearanceGeneratorConfig
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.beard.BeardType
+import at.orchaldir.gm.core.model.character.appearance.hair.ExoticHairColor
+import at.orchaldir.gm.core.model.character.appearance.hair.HairColor
+import at.orchaldir.gm.core.model.character.appearance.hair.HairColorType
+import at.orchaldir.gm.core.model.character.appearance.hair.NoHairColor
+import at.orchaldir.gm.core.model.character.appearance.hair.NormalHairColor
+import at.orchaldir.gm.core.model.character.appearance.hair.NormalHairColorEnum
 import at.orchaldir.gm.core.model.race.aging.*
+import at.orchaldir.gm.core.model.race.appearance.HairColorOptions
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.math.Factor
@@ -75,7 +87,7 @@ private fun HtmlBlockTag.showLifeStage(stage: LifeStage) {
         }
         if (stage.hairColor != null) {
             li {
-                field("Hair Color", stage.hairColor)
+                showHairColor(stage.hairColor)
             }
         }
     }
@@ -160,12 +172,12 @@ fun HtmlBlockTag.editLifeStages(
     }
 }
 
-private fun HtmlBlockTag.selectHairColor(label: String, index: Int, color: Color?) {
-    selectOptionalColor(
+private fun HtmlBlockTag.selectHairColor(label: String, index: Int, color: HairColor) {
+    selectHairColor(
+        HairColorOptions(),
         color,
-        combine(LIFE_STAGE, combine(HAIR, COLOR), index),
+        combine(LIFE_STAGE, HAIR, index),
         label,
-        Color.entries,
     )
 }
 
@@ -251,9 +263,20 @@ private fun parseSimpleLifeStage(parameters: Parameters, index: Int) = LifeStage
 private fun parseMaxAge(parameters: Parameters, index: Int, default: Int = 2) =
     parseInt(parameters, combine(LIFE_STAGE, AGE, index), default)
 
-private fun parseHairColor(parameters: Parameters, index: Int, default: Color? = null) =
-    parse<Color>(parameters, combine(LIFE_STAGE, combine(HAIR, COLOR), index))
-        ?: default
+private fun parseHairColor(parameters: Parameters, index: Int, default: Color? = null): HairColor {
+    val colorParam = combine(combine(LIFE_STAGE, HAIR, index), COLOR)
+
+    return when (parse(parameters, combine(colorParam, TYPE), HairColorType.Normal)) {
+        HairColorType.None -> NoHairColor
+        HairColorType.Normal -> NormalHairColor(
+            parse(parameters, colorParam, NormalHairColorEnum.MediumBrown),
+        )
+
+        HairColorType.Exotic -> ExoticHairColor(
+            parse(parameters, combine(colorParam, EXOTIC), Color.Blue),
+        )
+    }
+}
 
 private fun parseAppearanceId(parameters: Parameters, index: Int) =
     parseRaceAppearanceId(parameters, combine(RACE, APPEARANCE, index))
