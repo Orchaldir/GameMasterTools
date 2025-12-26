@@ -19,16 +19,6 @@
      "Teal": "Common"
     }
    },
-   "hair": {
-    "colors": {
-     "Black": "Common",
-     "Maroon": "Rare",
-     "Orange": "Rare",
-     "Red": "Rare",
-     "SaddleBrown": "Common",
-     "Yellow": "Common"
-    }
-   },
    "skin": {
     "normalColors": {
      "Fair": "Uncommon",
@@ -54,9 +44,6 @@
    "hair": {
     "beardTypes": {
      "None": "Common"
-    },
-    "colors": {
-     "White": "Common"
     }
    },
    "skin": {
@@ -90,16 +77,6 @@
      "Teal": "Common"
     }
    },
-   "hair": {
-    "colors": {
-     "Black": "Common",
-     "Maroon": "Rare",
-     "Orange": "Rare",
-     "Red": "Rare",
-     "SaddleBrown": "Common",
-     "Yellow": "Common"
-    }
-   },
    "skin": {
     "normalColors": {
      "Fair": "Uncommon",
@@ -124,9 +101,6 @@
    },
    "hair": {
     "beardTypes": {
-     "None": "Common"
-    },
-    "hairTypes": {
      "None": "Common"
     }
    },
@@ -155,16 +129,6 @@
      "SaddleBrown": "Common",
      "Silver": "Common",
      "Teal": "Common"
-    }
-   },
-   "hair": {
-    "colors": {
-     "Black": "Common",
-     "Maroon": "Rare",
-     "Orange": "Rare",
-     "Red": "Rare",
-     "SaddleBrown": "Common",
-     "Yellow": "Common"
     }
    },
    "skin": {
@@ -210,16 +174,6 @@
      "Small": "Common"
     }
    },
-   "hair": {
-    "colors": {
-     "Black": "Common",
-     "Maroon": "Rare",
-     "Orange": "Rare",
-     "Red": "Rare",
-     "SaddleBrown": "Common",
-     "Yellow": "Common"
-    }
-   },
    "skin": {
     "normalColors": {
      "Fair": "Uncommon",
@@ -254,13 +208,6 @@
     "scleraColors": {
      "Gold": "Common",
      "White": "Common"
-    }
-   },
-   "hair": {
-    "colors": {
-     "Black": "Common",
-     "Maroon": "Rare",
-     "SaddleBrown": "Common"
     }
    },
    "skin": {
@@ -381,12 +328,6 @@
    "skin": {
     "skinTypes": {
      "Fur": "Common"
-    },
-    "furColors": {
-     "Chocolate": "Uncommon",
-     "Gray": "Uncommon",
-     "Maroon": "Uncommon",
-     "SaddleBrown": "Common"
     }
    }
   },
@@ -409,21 +350,6 @@
      "SaddleBrown": "Common",
      "Silver": "Common",
      "Teal": "Common"
-    }
-   },
-   "hair": {
-    "colors": {
-     "Black": "Common",
-     "Blue": "Common",
-     "Crimson": "Common",
-     "Green": "Common",
-     "Maroon": "Rare",
-     "Orange": "Common",
-     "Pink": "Common",
-     "Purple": "Common",
-     "Red": "Rare",
-     "SaddleBrown": "Common",
-     "Yellow": "Common"
     }
    },
    "skin": {
@@ -510,9 +436,6 @@
    "hair": {
     "beardTypes": {
      "None": "Common"
-    },
-    "colors": {
-     "Green": "Common"
     }
    },
    "skin": {
@@ -552,16 +475,6 @@
     "clawColors": {
      "Black": "Common",
      "Gold": "Common"
-    }
-   },
-   "hair": {
-    "colors": {
-     "Black": "Common",
-     "Maroon": "Rare",
-     "Orange": "Rare",
-     "Red": "Rare",
-     "SaddleBrown": "Common",
-     "Yellow": "Common"
     }
    },
    "skin": {

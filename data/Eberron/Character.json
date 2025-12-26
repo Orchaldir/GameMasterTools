@@ -28,12 +28,15 @@
       }
      },
      "hair": {
-      "#type": "Exotic",
+      "#type": "Normal",
       "cut": {
        "#type": "Short",
        "style": "BuzzCut"
       },
-      "color": "Black"
+      "color": {
+       "#type": "Exotic",
+       "color": "Black"
+      }
      },
      "mouth": {
       "#type": "Normal",
@@ -42,7 +45,10 @@
        "style": {
         "#type": "Shaved"
        },
-       "color": "Black"
+       "color": {
+        "#type": "Exotic",
+        "color": "Black"
+       }
       },
       "width": "Large"
      }
@@ -163,12 +169,15 @@
       }
      },
      "hair": {
-      "#type": "Exotic",
+      "#type": "Normal",
       "cut": {
        "#type": "Short",
        "style": "MiddlePart"
       },
-      "color": "SaddleBrown"
+      "color": {
+       "#type": "Exotic",
+       "color": "SaddleBrown"
+      }
      },
      "mouth": {
       "#type": "Female",
@@ -255,12 +264,15 @@
       }
      },
      "hair": {
-      "#type": "Exotic",
+      "#type": "Normal",
       "cut": {
        "#type": "Long",
        "style": "Wavy"
       },
-      "color": "Red"
+      "color": {
+       "#type": "Exotic",
+       "color": "Red"
+      }
      },
      "mouth": {
       "#type": "Female",
@@ -418,12 +430,15 @@
       }
      },
      "hair": {
-      "#type": "Exotic",
+      "#type": "Normal",
       "cut": {
        "#type": "Short",
        "style": "Shaved"
       },
-      "color": "Black"
+      "color": {
+       "#type": "Exotic",
+       "color": "Black"
+      }
      },
      "mouth": {
       "#type": "Normal",
@@ -434,7 +449,10 @@
         "moustacheStyle": "Handlebar",
         "goateeStyle": "Goatee"
        },
-       "color": "Black"
+       "color": {
+        "#type": "Exotic",
+        "color": "Black"
+       }
       }
      }
     },
@@ -508,12 +526,15 @@
       }
      },
      "hair": {
-      "#type": "Exotic",
+      "#type": "Normal",
       "cut": {
        "#type": "Short",
        "style": "SidePartRight"
       },
-      "color": "Green"
+      "color": {
+       "#type": "Exotic",
+       "color": "Green"
+      }
      },
      "mouth": {
       "#type": "Normal",
@@ -522,7 +543,10 @@
        "style": {
         "#type": "Shaved"
        },
-       "color": "Green"
+       "color": {
+        "#type": "Exotic",
+        "color": "Green"
+       }
       },
       "width": "Small"
      }
@@ -619,12 +643,15 @@
       }
      },
      "hair": {
-      "#type": "Exotic",
+      "#type": "Normal",
       "cut": {
        "#type": "Short",
        "style": "BuzzCut"
       },
-      "color": "Green"
+      "color": {
+       "#type": "Exotic",
+       "color": "Green"
+      }
      },
      "mouth": {
       "#type": "Female",
@@ -800,12 +827,15 @@
       }
      },
      "hair": {
-      "#type": "Exotic",
+      "#type": "Normal",
       "cut": {
        "#type": "Short",
        "style": "SidePartRight"
       },
-      "color": "Maroon"
+      "color": {
+       "#type": "Exotic",
+       "color": "Maroon"
+      }
      },
      "mouth": {
       "#type": "Normal",
@@ -815,7 +845,10 @@
         "#type": "Goatee",
         "goateeStyle": "Goatee"
        },
-       "color": "Maroon"
+       "color": {
+        "#type": "Exotic",
+        "color": "Maroon"
+       }
       },
       "width": "Small"
      }
@@ -980,12 +1013,15 @@
       }
      },
      "hair": {
-      "#type": "Exotic",
+      "#type": "Normal",
       "cut": {
        "#type": "Short",
        "style": "MiddlePart"
       },
-      "color": "Black"
+      "color": {
+       "#type": "Exotic",
+       "color": "Black"
+      }
      },
      "mouth": {
       "#type": "Normal",
@@ -996,7 +1032,10 @@
         "moustacheStyle": "Handlebar",
         "goateeStyle": "Goatee"
        },
-       "color": "Black"
+       "color": {
+        "#type": "Exotic",
+        "color": "Black"
+       }
       },
       "width": "Large"
      }

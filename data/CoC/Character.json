@@ -62,12 +62,15 @@
       }
      },
      "hair": {
-      "#type": "Exotic",
+      "#type": "Normal",
       "cut": {
        "#type": "Short",
        "style": "SidePartRight"
       },
-      "color": "SaddleBrown"
+      "color": {
+       "#type": "Exotic",
+       "color": "SaddleBrown"
+      }
      },
      "mouth": {
       "#type": "Normal",
@@ -76,7 +79,10 @@
        "style": {
         "#type": "Shaved"
        },
-       "color": "Maroon"
+       "color": {
+        "#type": "Exotic",
+        "color": "Maroon"
+       }
       }
      }
     },
@@ -144,12 +150,15 @@
       }
      },
      "hair": {
-      "#type": "Exotic",
+      "#type": "Normal",
       "cut": {
        "#type": "Short",
        "style": "SidePartLeft"
       },
-      "color": "SaddleBrown"
+      "color": {
+       "#type": "Exotic",
+       "color": "SaddleBrown"
+      }
      },
      "mouth": {
       "#type": "Normal",
@@ -158,7 +167,10 @@
        "style": {
         "#type": "Shaved"
        },
-       "color": "Orange"
+       "color": {
+        "#type": "Exotic",
+        "color": "Orange"
+       }
       }
      }
     },
@@ -240,12 +252,15 @@
       }
      },
      "hair": {
-      "#type": "Exotic",
+      "#type": "Normal",
       "cut": {
        "#type": "Bun",
        "style": "Low"
       },
-      "color": "Black"
+      "color": {
+       "#type": "Exotic",
+       "color": "Black"
+      }
      },
      "mouth": {
       "#type": "Female"
@@ -358,12 +373,15 @@
       }
      },
      "hair": {
-      "#type": "Exotic",
+      "#type": "Normal",
       "cut": {
        "#type": "Short",
        "style": "MiddlePart"
       },
-      "color": "Black"
+      "color": {
+       "#type": "Exotic",
+       "color": "Black"
+      }
      },
      "mouth": {
       "#type": "Normal",
@@ -372,7 +390,10 @@
        "style": {
         "#type": "Shaved"
        },
-       "color": "Maroon"
+       "color": {
+        "#type": "Exotic",
+        "color": "Maroon"
+       }
       },
       "width": "Large"
      }
@@ -537,12 +558,15 @@
       }
      },
      "hair": {
-      "#type": "Exotic",
+      "#type": "Normal",
       "cut": {
        "#type": "Short",
        "style": "SidePartRight"
       },
-      "color": "SaddleBrown"
+      "color": {
+       "#type": "Exotic",
+       "color": "SaddleBrown"
+      }
      },
      "mouth": {
       "#type": "Normal",
@@ -551,7 +575,10 @@
        "style": {
         "#type": "Shaved"
        },
-       "color": "Orange"
+       "color": {
+        "#type": "Exotic",
+        "color": "Orange"
+       }
       },
       "width": "Small"
      }
@@ -846,12 +873,15 @@
       }
      },
      "hair": {
-      "#type": "Exotic",
+      "#type": "Normal",
       "cut": {
        "#type": "Short",
        "style": "SidePartRight"
       },
-      "color": "SaddleBrown"
+      "color": {
+       "#type": "Exotic",
+       "color": "SaddleBrown"
+      }
      },
      "mouth": {
       "#type": "Normal",
@@ -861,7 +891,10 @@
         "#type": "Moustache",
         "moustacheStyle": "Pencil"
        },
-       "color": "SaddleBrown"
+       "color": {
+        "#type": "Exotic",
+        "color": "SaddleBrown"
+       }
       }
      }
     },

@@ -19,16 +19,6 @@
      "Teal": "Common"
     }
    },
-   "hair": {
-    "colors": {
-     "Black": "Common",
-     "Maroon": "Rare",
-     "Orange": "Rare",
-     "Red": "Rare",
-     "SaddleBrown": "Common",
-     "Yellow": "Common"
-    }
-   },
    "horn": {
     "colors": {
      "types": "Overwrite"

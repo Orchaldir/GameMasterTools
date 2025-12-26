@@ -6,7 +6,10 @@
    "name": "Human",
    "lifeStages": {
     "#type": "Default",
-    "venerableAgeHairColor": "Ivory"
+    "venerableAgeHairColor": {
+     "#type": "Exotic",
+     "color": "Ivory"
+    }
    }
   }
  }
