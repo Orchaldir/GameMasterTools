@@ -35,7 +35,6 @@ import at.orchaldir.gm.core.model.character.appearance.wing.WingType
 import at.orchaldir.gm.core.model.character.appearance.wing.WingsLayout
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.race.appearance.*
-import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.selector.race.getRaces
@@ -125,13 +124,19 @@ private fun HtmlBlockTag.showHair(appearance: RaceAppearance) {
     showRarityMap("Hair", appearance.hair.hairTypes)
 
     if (requiresHairColor(appearance)) {
-        showRarityMap("Color Types", appearance.hair.colors.types)
+        showHairColors(appearance.hair.colors, "Hair Colors")
+    }
+}
 
-        if (appearance.hair.colors.types.contains(HairColorType.Normal)) {
-            showHairColorRarityMap(CHARACTER_CONFIG, "Normal Colors", appearance.hair.colors.normal)
+private fun HtmlBlockTag.showHairColors(options: HairColorOptions, label: String) {
+    showDetails(label) {
+        showRarityMap("Types", options.types)
+
+        if (options.types.contains(HairColorType.Normal)) {
+            showHairColorRarityMap(CHARACTER_CONFIG, "Normal Colors", options.normal)
         }
-        if (appearance.hair.colors.types.contains(HairColorType.Exotic)) {
-            showColorRarityMap("Exotics Colors", appearance.hair.colors.exotic)
+        if (options.types.contains(HairColorType.Exotic)) {
+            showColorRarityMap("Exotics Colors", options.exotic)
         }
     }
 }
@@ -223,7 +228,7 @@ private fun HtmlBlockTag.showSkinInternal(
     }
 
     if (options.skinTypes.isAvailable(SkinType.Fur)) {
-        showColorRarityMap("Fur Colors", options.furColors.exotic)
+        showHairColors(options.furColors, "Fur Colors")
     }
 
     if (options.skinTypes.isAvailable(SkinType.Scales)) {
