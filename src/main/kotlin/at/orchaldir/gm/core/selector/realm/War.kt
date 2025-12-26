@@ -9,11 +9,13 @@ import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.selector.time.getHolidays
 import at.orchaldir.gm.core.selector.util.canDeleteDestroyer
 import at.orchaldir.gm.core.selector.util.getExistingElements
+import at.orchaldir.gm.core.selector.world.getRegionsCreatedBy
 import at.orchaldir.gm.utils.Id
 
 fun State.canDeleteWar(war: WarId) = DeleteResult(war)
     .addElements(getBattles(war))
     .addElements(getHolidays(war))
+    .addElements(getRegionsCreatedBy(war))
     .apply { canDeleteDestroyer(war, it) }
 
 fun <ID : Id<ID>> State.getWarsWithParticipant(id: ID) = getWarStorage()

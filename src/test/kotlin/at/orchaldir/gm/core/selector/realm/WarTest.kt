@@ -8,8 +8,13 @@ import at.orchaldir.gm.core.model.realm.Battle
 import at.orchaldir.gm.core.model.realm.War
 import at.orchaldir.gm.core.model.time.holiday.Holiday
 import at.orchaldir.gm.core.model.time.holiday.HolidayOfWar
+import at.orchaldir.gm.core.model.util.BattleReference
 import at.orchaldir.gm.core.model.util.Dead
 import at.orchaldir.gm.core.model.util.DeathInWar
+import at.orchaldir.gm.core.model.util.WarReference
+import at.orchaldir.gm.core.model.world.terrain.Battlefield
+import at.orchaldir.gm.core.model.world.terrain.Region
+import at.orchaldir.gm.core.model.world.terrain.Wasteland
 import at.orchaldir.gm.core.selector.realm.canDeleteWar
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
@@ -52,6 +57,22 @@ class WarTest {
             val newState = state.updateStorage(Storage(character))
 
             failCanDelete(newState, CHARACTER_ID_0)
+        }
+
+        @Test
+        fun `Cannot delete a war with a battlefield`() {
+            val region = Region(REGION_ID_0, data = Battlefield(WarReference(WAR_ID_0)))
+            val newState = state.updateStorage(Storage(region))
+
+            failCanDelete(newState, REGION_ID_0)
+        }
+
+        @Test
+        fun `Cannot delete a war that caused a wasteland`() {
+            val region = Region(REGION_ID_0, data = Wasteland(WarReference(WAR_ID_0)))
+            val newState = state.updateStorage(Storage(region))
+
+            failCanDelete(newState, REGION_ID_0)
         }
 
         private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {
