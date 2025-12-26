@@ -5,10 +5,8 @@ enum class HairColor {
     LightBlond,
     Blond,
     DarkBlond,
+    LightBrown,
     MediumBrown,
     DarkBrown,
     Black,
-    // Reddish-brown
-    Auburn,
-    Red,
 }
