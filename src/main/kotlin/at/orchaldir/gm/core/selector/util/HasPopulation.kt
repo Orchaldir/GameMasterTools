@@ -104,24 +104,29 @@ fun <ID : Id<ID>, ELEMENT> State.calculatePopulationIndex(
 fun <ID : Id<ID>, ELEMENT : Element<ID>> State.calculatePopulationIndex(
     storage: Storage<ID, ELEMENT>,
     id: ID,
-    getPopulation: (Population) -> Int?,
-): Int? = storage
-    .getAll()
-    .mapNotNull {
-        val total = calculateTotalPopulation(getPopulation)
+    getPopulation: (Population, ID) -> Int?,
+): Int? {
+    val mapNotNull = storage
+        .getAll()
+        .mapNotNull {
+            val total = calculateTotalPopulation { population ->
+                getPopulation(population, it.id())
+            }
 
-        if (total == null || total == 0) {
-            return@mapNotNull null
-        }
+            if (total == null || total == 0) {
+                return@mapNotNull null
+            }
 
-        Pair(it.id(), total)
-    }
-    .sortedByDescending { it.second }
-    .indexOfFirst { it.first == id }
-    .let {
-        if (it >= 0) {
-            it + 1
-        } else {
-            null
+            Pair(it.id(), total)
         }
-    }
+    return mapNotNull
+        .sortedByDescending { it.second }
+        .indexOfFirst { it.first == id }
+        .let {
+            if (it >= 0) {
+                it + 1
+            } else {
+                null
+            }
+        }
+}
