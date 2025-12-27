@@ -51,6 +51,14 @@
    "hair": {
     "beardTypes": {
      "None": "Common"
+    },
+    "colors": {
+     "normal": {
+      "LightestBlond": "Common",
+      "VeryLightBlond": "Common",
+      "LightBlond": "Common",
+      "Orange": "Common"
+     }
     }
    },
    "skin": {
@@ -73,6 +81,11 @@
    "hair": {
     "beardTypes": {
      "None": "Common"
+    },
+    "colors": {
+     "types": {
+      "Exotic": "Common"
+     }
     }
    },
    "skin": {
