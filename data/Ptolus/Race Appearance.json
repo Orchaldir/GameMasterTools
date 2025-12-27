@@ -108,12 +108,27 @@
    "hair": {
     "beardTypes": {
      "None": "Common"
+    },
+    "colors": {
+     "normal": {
+      "DarkBlond": "Uncommon",
+      "LightBrown": "Common",
+      "MediumBrown": "Common",
+      "DarkBrown": "Common",
+      "Black": "Common",
+      "Auburn": "Uncommon"
+     }
     }
    },
    "skin": {
     "normalColors": {
      "Fair": "Common",
      "Light": "Common"
+    }
+   },
+   "wing": {
+    "types": {
+     "Bird": "Common"
     }
    }
   },

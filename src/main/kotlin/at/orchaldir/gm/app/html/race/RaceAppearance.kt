@@ -656,13 +656,13 @@ private fun parseHairColors(parameters: Parameters, param: String) = HairColorOp
         parameters,
         combine(param, COLOR),
         NormalHairColorEnum::valueOf,
-        NormalHairColorEnum.entries,
+        DEFAULT_NORMAL_HAIR_COLORS,
     ),
     parseOneOf(
         parameters,
         combine(param, EXOTIC, COLOR),
         Color::valueOf,
-        Color.entries,
+        DEFAULT_EXOTIC_HAIR_COLORS,
     ),
 )
 
