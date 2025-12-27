@@ -199,6 +199,22 @@
      "color": "MediumBrown"
     }
    }
+  },
+  "12": {
+   "id": 12,
+   "name": "Assarai",
+   "lifeStages": {
+    "#type": "Default",
+    "appearance": 7,
+    "oldAgeHairColor": {
+     "#type": "Normal",
+     "color": "MediumBrown"
+    },
+    "venerableAgeHairColor": {
+     "#type": "Normal",
+     "color": "MediumBrown"
+    }
+   }
   }
  }
 }
