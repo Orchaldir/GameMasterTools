@@ -15,6 +15,7 @@ import at.orchaldir.gm.core.model.economy.standard.StandardOfLivingId
 import at.orchaldir.gm.core.selector.economy.countJobs
 import at.orchaldir.gm.core.selector.economy.money.print
 import at.orchaldir.gm.core.selector.getDefaultCurrency
+import at.orchaldir.gm.core.selector.util.getPopulationsWith
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.*
@@ -37,13 +38,19 @@ fun HtmlBlockTag.showEconomy(
         tr {
             th { +"Name" }
             thMultiLines(listOf("Max", "Yearly", "Income"))
+            th { +"Districts" }
             th { +"Jobs" }
+            th { +"Realms" }
+            th { +"Towns" }
         }
         economy.standardsOfLiving.forEach { standard ->
             tr {
                 tdLink(call, state, standard)
                 td { +currency.print(standard.maxYearlyIncome) }
+                tdSkipZero(getPopulationsWith(state.getDistrictStorage(), standard.id))
                 tdSkipZero(state.countJobs(standard.id))
+                tdSkipZero(getPopulationsWith(state.getRealmStorage(), standard.id))
+                tdSkipZero(getPopulationsWith(state.getTownStorage(), standard.id))
             }
         }
     }
