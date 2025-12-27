@@ -43,7 +43,7 @@ fun HtmlBlockTag.editDistrict(
     district: District,
 ) {
     selectName(district.name)
-    selectOptionalElement(
+    editOptionalElement(
         state,
         TOWN,
         state.getExistingTowns(district.foundingDate),
