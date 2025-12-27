@@ -21,11 +21,12 @@ import at.orchaldir.gm.core.selector.realm.getDistricts
 import at.orchaldir.gm.core.selector.realm.getExistingRealms
 import at.orchaldir.gm.core.selector.realm.getRealmsWithCapital
 import at.orchaldir.gm.core.selector.realm.getRealmsWithPreviousCapital
+import at.orchaldir.gm.core.selector.util.sortDistricts
 import at.orchaldir.gm.core.selector.world.getCurrentTownMap
 import at.orchaldir.gm.core.selector.world.getTownMaps
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.HtmlBlockTag
+import kotlinx.html.*
 
 // show
 
@@ -44,7 +45,7 @@ fun HtmlBlockTag.showTown(
     fieldElements(call, state, "Capital of", state.getRealmsWithCapital(town.id))
     fieldElements(call, state, "Previous Capital of", state.getRealmsWithPreviousCapital(town.id))
     showPopulationDetails(call, state, town)
-    fieldElements(call, state, "Districts", state.getDistricts(town.id))
+    showDistricts(call, state, town)
     showDataSources(call, state, town.sources)
 
     val currentTownMap = state.getCurrentTownMap(town.id)
@@ -60,6 +61,55 @@ fun HtmlBlockTag.showTown(
 
     showCreated(call, state, town.id)
     showOwnedElements(call, state, town.id)
+}
+
+private fun HtmlBlockTag.showDistricts(
+    call: ApplicationCall,
+    state: State,
+    town: Town,
+) {
+    val districts = state.getDistricts(town.id)
+    var totalPopulation = 0
+
+    if (districts.isEmpty()) {
+        return
+    }
+
+    val townPopulation = town.population.getTotalPopulation() ?: 0
+
+    br { }
+    table {
+        tr {
+            th { +"Districts" }
+            th { +"Population" }
+        }
+        state
+            .sortDistricts(districts)
+            .forEach { district ->
+                val population = district.population.getTotalPopulation() ?: 0
+
+                tr {
+                    tdLink(call, state, district.id)
+                    tdSkipZero(population)
+                }
+
+                totalPopulation += population
+            }
+
+        tr {
+            tdString("Total")
+            tdSkipZero(totalPopulation)
+        }
+
+        val missing = townPopulation - totalPopulation
+
+        if (missing != 0) {
+            tr {
+                tdString("Missing")
+                tdSkipZero(missing)
+            }
+        }
+    }
 }
 
 // edit

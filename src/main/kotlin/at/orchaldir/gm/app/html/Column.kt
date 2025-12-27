@@ -1,6 +1,7 @@
 package at.orchaldir.gm.app.html
 
 import at.orchaldir.gm.app.html.Column.Companion.tdColumn
+import at.orchaldir.gm.app.html.economy.displayIncome
 import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.app.html.util.population.showCulturesOfPopulation
 import at.orchaldir.gm.app.html.util.population.showPopulation
@@ -126,6 +127,12 @@ fun <ELEMENT : HasOwner> createOwnerColumn(
 
 fun <ELEMENT : HasPopulation> createPopulationColumn(): Column<ELEMENT> =
     tdColumn("Population") { showPopulation(it.population()) }
+
+fun <ELEMENT : HasPopulation> createPopulationIncomeColumn(
+    call: ApplicationCall,
+    state: State,
+): Column<ELEMENT> =
+    tdColumn(listOf("Avg", "Income")) { it.population().income()?.let { displayIncome(call, state, it) } }
 
 fun <ELEMENT : HasPopulation> createCulturesOfPopulationColumn(
     call: ApplicationCall,

@@ -186,10 +186,68 @@
   },
   "11": {
    "id": 11,
-   "name": "Aram",
+   "name": "Centaur",
    "lifeStages": {
     "#type": "Default",
-    "appearance": 10
+    "appearance": 10,
+    "oldAgeHairColor": {
+     "#type": "Normal",
+     "color": "MediumBrown"
+    },
+    "venerableAgeHairColor": {
+     "#type": "Normal",
+     "color": "MediumBrown"
+    }
+   }
+  },
+  "12": {
+   "id": 12,
+   "name": "Assarai",
+   "lifeStages": {
+    "#type": "Default",
+    "appearance": 7,
+    "oldAgeHairColor": {
+     "#type": "None"
+    },
+    "venerableAgeHairColor": {
+     "#type": "None"
+    }
+   }
+  },
+  "13": {
+   "id": 13,
+   "name": "Gnome",
+   "height": {
+    "center": 1050000
+   },
+   "weight": 40000000,
+   "lifeStages": {
+    "#type": "Default",
+    "appearance": 11,
+    "maxAges": [
+     2,
+     10,
+     20,
+     40,
+     100,
+     150,
+     200,
+     300
+    ],
+    "oldAgeHairColor": {
+     "#type": "None"
+    },
+    "venerableAgeHairColor": {
+     "#type": "None"
+    }
+   }
+  },
+  "14": {
+   "id": 14,
+   "name": "Orc",
+   "lifeStages": {
+    "#type": "Default",
+    "appearance": 12
    }
   }
  }

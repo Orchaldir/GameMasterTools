@@ -109,6 +109,7 @@ enum class SortDistrict {
     Name,
     Date,
     Population,
+    Income,
 }
 
 enum class SortDomain {

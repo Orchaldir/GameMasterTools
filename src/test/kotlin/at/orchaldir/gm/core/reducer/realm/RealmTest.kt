@@ -114,9 +114,9 @@ class RealmTest {
 
         @Test
         fun `The population is validated`() {
-            val action = UpdateAction(Realm(REALM_ID_0, population = TotalPopulation(0)))
+            val action = UpdateAction(Realm(REALM_ID_0, population = TotalPopulation(-1)))
 
-            assertIllegalArgument("The total population must be greater than 0!") { REDUCER.invoke(STATE, action) }
+            assertIllegalArgument("The total population must be >= 0!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test

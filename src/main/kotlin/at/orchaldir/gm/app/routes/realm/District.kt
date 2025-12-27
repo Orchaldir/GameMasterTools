@@ -68,6 +68,7 @@ fun Application.configureDistrictRouting() {
                     createStartDateColumn(call, state),
                     createCreatorColumn(call, state, "Founder"),
                     createPopulationColumn(),
+                    createPopulationIncomeColumn(call, state),
                     createRacesOfPopulationColumn(call, state),
                     createCulturesOfPopulationColumn(call, state),
                 ),

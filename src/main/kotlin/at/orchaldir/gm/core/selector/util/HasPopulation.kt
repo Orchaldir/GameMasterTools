@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.selector.util
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.CultureId
+import at.orchaldir.gm.core.model.economy.standard.StandardOfLivingId
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.util.population.*
 import at.orchaldir.gm.utils.Element
@@ -33,12 +34,22 @@ fun State.canDeletePopulationOf(
     .addElements(getPopulations(getRealmStorage(), check))
     .addElements(getPopulations(getTownStorage(), check))
 
+fun <ID : Id<ID>, ELEMENT> getPopulationsWith(
+    storage: Storage<ID, ELEMENT>,
+    standard: StandardOfLivingId,
+) where
+        ELEMENT : Element<ID>,
+        ELEMENT : HasPopulation = getPopulations(storage) {
+    it.population().income()?.hasStandard(standard) ?: false
+}
+
 fun <ID : Id<ID>, ELEMENT> getPopulations(
     storage: Storage<ID, ELEMENT>,
     check: (HasPopulation) -> Boolean,
 ) where
         ELEMENT : Element<ID>,
-        ELEMENT : HasPopulation = storage.getAll()
+        ELEMENT : HasPopulation = storage
+    .getAll()
     .filter { check(it) }
 
 fun <ID : Id<ID>, ELEMENT> getPopulationEntries(
@@ -73,11 +84,9 @@ fun <ID : Id<ID>, ELEMENT> getAbstractPopulations(
 fun State.calculateTotalPopulation(getPopulation: (Population) -> Int?): Int? {
     val towns = getTownStorage()
         .getAll()
-        .filter { it.owner.current == null }
         .sumOf { getPopulation(it.population) ?: 0 }
     val realms = getRealmStorage()
         .getAll()
-        .filter { it.owner.current == null }
         .sumOf { getPopulation(it.population) ?: 0 }
     val total = towns + realms
 
@@ -106,20 +115,29 @@ fun <ID : Id<ID>, ELEMENT> State.calculatePopulationIndex(
 fun <ID : Id<ID>, ELEMENT : Element<ID>> State.calculatePopulationIndex(
     storage: Storage<ID, ELEMENT>,
     id: ID,
-    getPopulation: (Population) -> Int?,
-): Int? = storage
-    .getAll()
-    .mapNotNull {
-        calculateTotalPopulation(getPopulation)
-    }
-    .map { Pair(id, it) }
-    .filter { it.second > 0 }
-    .sortedByDescending { it.second }
-    .indexOfFirst { it.first == id }
-    .let {
-        if (it >= 0) {
-            it + 1
-        } else {
-            null
+    getPopulation: (Population, ID) -> Int?,
+): Int? {
+    val mapNotNull = storage
+        .getAll()
+        .mapNotNull {
+            val total = calculateTotalPopulation { population ->
+                getPopulation(population, it.id())
+            }
+
+            if (total == null || total == 0) {
+                return@mapNotNull null
+            }
+
+            Pair(it.id(), total)
         }
-    }
+    return mapNotNull
+        .sortedByDescending { it.second }
+        .indexOfFirst { it.first == id }
+        .let {
+            if (it >= 0) {
+                it + 1
+            } else {
+                null
+            }
+        }
+}

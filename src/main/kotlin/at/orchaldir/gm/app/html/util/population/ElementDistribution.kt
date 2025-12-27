@@ -14,7 +14,7 @@ import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.math.ONE_PERCENT
+import at.orchaldir.gm.utils.math.ONE_TENTH_PERCENT
 import at.orchaldir.gm.utils.math.ZERO
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -103,7 +103,7 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> DETAILS.editElementDistribution(
         allElements.forEach { element ->
             val percentage = distribution.getPercentage(element.id())
             val minValue = if (percentage.isGreaterZero() && distribution.map.count() == 1) {
-                ONE_PERCENT
+                ONE_TENTH_PERCENT
             } else {
                 ZERO
             }
@@ -116,7 +116,7 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> DETAILS.editElementDistribution(
                         percentage,
                         minValue,
                         FULL.min(percentage + remaining),
-                        ONE_PERCENT,
+                        ONE_TENTH_PERCENT,
                     )
                 }
                 showElementNumber(population.total, percentage)

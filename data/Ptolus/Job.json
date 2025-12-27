@@ -27,6 +27,54 @@
     "#type": "SoL",
     "standard": 4
    }
+  },
+  "3": {
+   "id": 3,
+   "name": "Shipwright",
+   "income": {
+    "#type": "SoL",
+    "standard": 3
+   }
+  },
+  "4": {
+   "id": 4,
+   "name": "Sailmaker",
+   "income": {
+    "#type": "SoL",
+    "standard": 1
+   }
+  },
+  "5": {
+   "id": 5,
+   "name": "Netmaker",
+   "income": {
+    "#type": "SoL",
+    "standard": 1
+   }
+  },
+  "6": {
+   "id": 6,
+   "name": "Pitchmaker",
+   "income": {
+    "#type": "SoL",
+    "standard": 1
+   }
+  },
+  "7": {
+   "id": 7,
+   "name": "Ropemaker",
+   "income": {
+    "#type": "SoL",
+    "standard": 1
+   }
+  },
+  "8": {
+   "id": 8,
+   "name": "Dockworker",
+   "income": {
+    "#type": "SoL",
+    "standard": 1
+   }
   }
  }
 }

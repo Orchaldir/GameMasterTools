@@ -8,10 +8,7 @@ import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.fashion.Fashion
 import at.orchaldir.gm.core.model.culture.language.Language
 import at.orchaldir.gm.core.model.economy.business.Business
-import at.orchaldir.gm.core.model.economy.job.AffordableStandardOfLiving
 import at.orchaldir.gm.core.model.economy.job.Job
-import at.orchaldir.gm.core.model.economy.job.Salary
-import at.orchaldir.gm.core.model.economy.job.UndefinedIncome
 import at.orchaldir.gm.core.model.economy.material.Material
 import at.orchaldir.gm.core.model.economy.money.Currency
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnit
@@ -424,6 +421,9 @@ fun State.sortDistricts(
             SortDistrict.Name -> compareBy { it.name.text }
             SortDistrict.Date -> getStartDateComparator()
             SortDistrict.Population -> compareByDescending { it.population.getTotalPopulation() }
+            SortDistrict.Income -> compareByDescending {
+                it.population.income()?.sortValue(this) ?: -1
+            }
         })
 
 // domain
@@ -549,11 +549,7 @@ fun State.sortJobs(
             SortJob.Name -> compareBy { it.name.text }
             SortJob.EmployerType -> compareBy { it.employerType }
             SortJob.Income -> compareByDescending {
-                when (it.income) {
-                    UndefinedIncome -> 0
-                    is AffordableStandardOfLiving -> it.income.standard.value + 1
-                    is Salary -> it.income.yearlySalary.value
-                }
+                it.income.sortValue(this)
             }
 
             SortJob.Characters -> compareByDescending { countCharactersWithJob(it.id) }

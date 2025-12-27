@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.selector.realm
 
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.economy.standard.StandardOfLivingId
 import at.orchaldir.gm.core.model.realm.DistrictId
 import at.orchaldir.gm.core.model.realm.TownId
 import at.orchaldir.gm.core.model.time.date.Date
@@ -14,5 +15,9 @@ fun State.canDeleteDistrict(district: DistrictId) = DeleteResult(district)
 fun State.getDistricts(town: TownId) = getDistrictStorage()
     .getAll()
     .filter { it.town == town }
+
+fun State.getDistricts(standard: StandardOfLivingId) = getDistrictStorage()
+    .getAll()
+    .filter { it.population.income()?.hasStandard(standard) ?: false }
 
 fun State.getExistingDistricts(date: Date?) = getExistingElements(getDistrictStorage().getAll(), date)

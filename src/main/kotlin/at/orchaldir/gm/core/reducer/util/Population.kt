@@ -13,17 +13,29 @@ fun validatePopulation(
     state: State,
     population: Population,
 ) = when (population) {
-    is AbstractPopulation -> state.getRaceStorage().require(population.races)
+    is AbstractPopulation -> {
+        state.getCultureStorage().require(population.cultures)
+        state.getRaceStorage().require(population.races)
+
+        population.income.validate(state)
+    }
+
     is PopulationDistribution -> {
         validateTotalPopulation(population.total)
 
         validateElementDistribution(state.getCultureStorage(), population.cultures)
         validateElementDistribution(state.getRaceStorage(), population.races)
+
+        population.income.validate(state)
     }
 
     is TotalPopulation -> {
         validateTotalPopulation(population.total)
+
+        state.getCultureStorage().require(population.cultures)
         state.getRaceStorage().require(population.races)
+
+        population.income.validate(state)
     }
 
     UndefinedPopulation -> doNothing()
@@ -44,4 +56,4 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> validateElementDistribution(
 
 fun validateTotalPopulation(
     totalPopulation: Int,
-) = require(totalPopulation > 0) { "The total population must be greater than 0!" }
+) = require(totalPopulation >= 0) { "The total population must be >= 0!" }

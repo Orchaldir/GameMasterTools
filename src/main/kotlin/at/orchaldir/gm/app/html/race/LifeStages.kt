@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.html.race
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.character.appearance.fieldHairColor
 import at.orchaldir.gm.app.html.character.appearance.selectHairColor
 import at.orchaldir.gm.app.html.character.appearance.showHairColor
 import at.orchaldir.gm.app.html.rpg.statblock.editStatblock
@@ -16,8 +17,8 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.beard.BeardType
 import at.orchaldir.gm.core.model.character.appearance.hair.*
 import at.orchaldir.gm.core.model.race.aging.*
-import at.orchaldir.gm.core.model.race.appearance.HairColorOptions
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
+import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.math.Factor
 import io.ktor.http.*
@@ -46,8 +47,8 @@ fun HtmlBlockTag.showLifeStages(
                 val stage = DefaultLifeStages.entries[indexed.index].name
                 field(stage, "$maxAge years")
             }
-            optionalField("Old Age Hair Color", lifeStages.oldAgeHairColor)
-            optionalField("Venerable Hair Color", lifeStages.venerableAgeHairColor)
+            fieldHairColor(lifeStages.oldAgeHairColor, "Old Age Hair Color")
+            fieldHairColor(lifeStages.venerableAgeHairColor, "Venerable Hair Color")
             showStatblock(call, state, lifeStages.statblock)
         }
 
@@ -77,7 +78,7 @@ private fun HtmlBlockTag.showLifeStage(stage: LifeStage) {
                 }
             }
         }
-        if (stage.hairColor != null) {
+        if (stage.hairColor != NoHairColor) {
             li {
                 showHairColor(stage.hairColor)
             }
@@ -166,7 +167,9 @@ fun HtmlBlockTag.editLifeStages(
 
 private fun HtmlBlockTag.selectHairColor(label: String, index: Int, color: HairColor) {
     selectHairColor(
-        HairColorOptions(),
+        OneOf(setOf(HairColorType.None, HairColorType.Exotic)),
+        OneOf(NormalHairColorEnum.entries),
+        OneOf(Color.entries),
         color,
         combine(LIFE_STAGE, HAIR, index),
         label,

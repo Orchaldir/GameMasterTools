@@ -37,7 +37,7 @@ fun HtmlBlockTag.showPopulationOfCulture(
             else -> null
         }
     },
-    { it.getPopulation(culture) },
+    { hasPopulation, id -> hasPopulation.getPopulation(id) },
 )
 
 fun HtmlBlockTag.showPopulationOfRace(
@@ -56,7 +56,7 @@ fun HtmlBlockTag.showPopulationOfRace(
             else -> null
         }
     },
-    { it.getPopulation(race) },
+    { hasPopulation, id -> hasPopulation.getPopulation(id) },
 )
 
 fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.showPopulationOfElement(
@@ -66,11 +66,14 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.showPopulationOfElement(
     id: ID,
     contains: (IPopulationWithSets) -> Boolean,
     getPercentage: (HasPopulation) -> Pair<Int, Factor>?,
-    getPopulation: (Population) -> Int?,
+    getPopulation: (Population, ID) -> Int?,
 ) {
     h2 { +"Population" }
 
-    optionalField("Total", state.calculateTotalPopulation(getPopulation))
+    val total = state.calculateTotalPopulation { population ->
+        getPopulation(population, id)
+    }
+    optionalField("Total", total)
     optionalField("Index", state.calculatePopulationIndex(storage, id, getPopulation))
 
     showPopulationOfRace(call, state, getPercentage, state.getDistrictStorage(), contains)

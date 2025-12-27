@@ -3,6 +3,9 @@ package at.orchaldir.gm.app.html.util.population
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.culture.parseCultureId
+import at.orchaldir.gm.app.html.economy.editIncome
+import at.orchaldir.gm.app.html.economy.parseIncome
+import at.orchaldir.gm.app.html.economy.showIncome
 import at.orchaldir.gm.app.html.race.parseRaceId
 import at.orchaldir.gm.app.html.util.math.parseFactor
 import at.orchaldir.gm.app.parse.combine
@@ -71,18 +74,21 @@ fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showPopulationDetails(
 
         when (population) {
             is AbstractPopulation -> {
+                showIncome(call, state, population.income)
                 field("Density", population.density)
                 fieldIds(call, state, population.races)
                 fieldIds(call, state, population.cultures)
             }
 
             is PopulationDistribution -> {
+                showIncome(call, state, population.income)
                 showElementDistribution(population, call, state, "Race", population.races.map)
                 br { }
                 showElementDistribution(population, call, state, "Culture", population.cultures.map)
             }
 
             is TotalPopulation -> {
+                showIncome(call, state, population.income)
                 fieldIds(call, state, population.races)
                 fieldIds(call, state, population.cultures)
             }
@@ -111,12 +117,14 @@ fun HtmlBlockTag.editPopulation(
                     Size.entries,
                     population.density,
                 )
+                editIncome(state, population.income, combine(param, INCOME))
                 selectRaceSet(state, param, population.races)
                 selectCultureSet(state, param, population.cultures)
             }
 
             is PopulationDistribution -> {
                 selectTotalPopulation(param, population.total)
+                editIncome(state, population.income, combine(param, INCOME))
 
                 editElementDistribution(
                     call,
@@ -141,6 +149,7 @@ fun HtmlBlockTag.editPopulation(
 
             is TotalPopulation -> {
                 selectTotalPopulation(param, population.total)
+                editIncome(state, population.income, combine(param, INCOME))
                 selectRaceSet(state, param, population.races)
                 selectCultureSet(state, param, population.cultures)
             }
@@ -200,6 +209,7 @@ fun parsePopulation(
         parse(parameters, combine(param, DENSITY), Size.Medium),
         parseRaceSet(parameters, param),
         parseCultureSet(parameters, param),
+        parseIncome(state, parameters, combine(param, INCOME)),
     )
 
     PopulationType.Distribution -> PopulationDistribution(
@@ -216,12 +226,14 @@ fun parsePopulation(
             param,
             ::parsePopulationOfCulture,
         ),
+        parseIncome(state, parameters, combine(param, INCOME)),
     )
 
     PopulationType.Total -> TotalPopulation(
         parseTotalPopulation(parameters, param),
         parseRaceSet(parameters, param),
         parseCultureSet(parameters, param),
+        parseIncome(state, parameters, combine(param, INCOME)),
     )
 
     Undefined -> UndefinedPopulation

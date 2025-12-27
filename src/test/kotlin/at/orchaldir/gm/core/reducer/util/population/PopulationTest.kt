@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.reducer.util.population
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.Culture
+import at.orchaldir.gm.core.model.economy.job.AffordableStandardOfLiving
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.util.population.*
 import at.orchaldir.gm.core.reducer.util.validatePopulation
@@ -24,15 +25,32 @@ class PopulationTest {
             )
         )
     )
+    private val income = AffordableStandardOfLiving(UNKNOWN_STANDARD_ID)
 
     @Nested
     inner class AbstractPopulationTest {
+
+        @Test
+        fun `With an unknown culture`() {
+            assertPopulation(
+                AbstractPopulation(cultures = setOf(UNKNOWN_CULTURE_ID)),
+                "Requires unknown Culture 99!",
+            )
+        }
 
         @Test
         fun `With an unknown race`() {
             assertPopulation(
                 AbstractPopulation(races = setOf(UNKNOWN_RACE_ID)),
                 "Requires unknown Race 99!",
+            )
+        }
+
+        @Test
+        fun `With an unknown standard of living`() {
+            assertPopulation(
+                AbstractPopulation(income = income),
+                "Requires unknown Standard Of Living 99!",
             )
         }
 
@@ -47,8 +65,8 @@ class PopulationTest {
     inner class PopulationPerRaceTest {
 
         @Test
-        fun `The total population must be greater than 0`() {
-            assertTotalPopulation(PopulationDistribution(0, ElementDistribution()))
+        fun `The total population must be greater or equal 0`() {
+            assertTotalPopulation(PopulationDistribution(-1, ElementDistribution()))
         }
 
         @Test
@@ -68,6 +86,14 @@ class PopulationTest {
         }
 
         @Test
+        fun `With an unknown standard of living`() {
+            assertPopulation(
+                PopulationDistribution(100, income = income),
+                "Requires unknown Standard Of Living 99!",
+            )
+        }
+
+        @Test
         fun `A valid population`() {
             val cultures = ElementDistribution(mapOf(CULTURE_ID_0 to HALF))
             val races = ElementDistribution(mapOf(RACE_ID_0 to HALF, RACE_ID_1 to HALF))
@@ -82,8 +108,16 @@ class PopulationTest {
     inner class TotalPopulationTest {
 
         @Test
-        fun `The total population must be greater than 0`() {
-            assertTotalPopulation(TotalPopulation(0))
+        fun `The total population must be greater or equal 0`() {
+            assertTotalPopulation(TotalPopulation(-1))
+        }
+
+        @Test
+        fun `With an unknown culture`() {
+            assertPopulation(
+                TotalPopulation(100, cultures = setOf(UNKNOWN_CULTURE_ID)),
+                "Requires unknown Culture 99!",
+            )
         }
 
         @Test
@@ -95,6 +129,14 @@ class PopulationTest {
         }
 
         @Test
+        fun `With an unknown standard of living`() {
+            assertPopulation(
+                TotalPopulation(100, income = income),
+                "Requires unknown Standard Of Living 99!",
+            )
+        }
+
+        @Test
         fun `A valid population`() {
             validatePopulation(state, TotalPopulation(100, races = setOf(RACE_ID_0)))
         }
@@ -102,7 +144,7 @@ class PopulationTest {
     }
 
     private fun assertTotalPopulation(population: Population) =
-        assertPopulation(population, "The total population must be greater than 0!")
+        assertPopulation(population, "The total population must be >= 0!")
 
     private fun assertPopulation(population: Population, message: String) {
         assertIllegalArgument(message) {

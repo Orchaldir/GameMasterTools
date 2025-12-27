@@ -16,6 +16,13 @@ import kotlinx.html.HtmlBlockTag
 
 fun HtmlBlockTag.displayPrice(
     call: ApplicationCall,
+    state: State,
+    price: Price,
+    showZero: Boolean = false,
+) = displayPrice(call, state.getDefaultCurrency(), price, showZero)
+
+fun HtmlBlockTag.displayPrice(
+    call: ApplicationCall,
     currency: Currency,
     price: Price,
     showZero: Boolean = false,

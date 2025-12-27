@@ -1,6 +1,8 @@
 package at.orchaldir.gm.core.model.util.population
 
 import at.orchaldir.gm.core.model.culture.CultureId
+import at.orchaldir.gm.core.model.economy.job.Income
+import at.orchaldir.gm.core.model.economy.job.UndefinedIncome
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.util.Size
 import kotlinx.serialization.SerialName
@@ -21,6 +23,13 @@ sealed class Population {
         is PopulationDistribution -> PopulationType.Distribution
         is TotalPopulation -> PopulationType.Total
         UndefinedPopulation -> PopulationType.Undefined
+    }
+
+    fun income() = when (this) {
+        is AbstractPopulation -> income
+        is PopulationDistribution -> income
+        is TotalPopulation -> income
+        UndefinedPopulation -> null
     }
 
     fun getPopulation(culture: CultureId) = when (this) {
@@ -82,6 +91,7 @@ data class AbstractPopulation(
     val density: Size = Size.Medium,
     val races: Set<RaceId> = emptySet(),
     val cultures: Set<CultureId> = emptySet(),
+    val income: Income = UndefinedIncome,
 ) : Population(), IPopulationWithSets
 
 @Serializable
@@ -90,6 +100,7 @@ data class PopulationDistribution(
     val total: Int,
     val races: ElementDistribution<RaceId> = ElementDistribution(),
     val cultures: ElementDistribution<CultureId> = ElementDistribution(),
+    val income: Income = UndefinedIncome,
 ) : Population() {
 
     fun getNumber(race: RaceId) = races.getNumber(total, race)
@@ -103,6 +114,7 @@ data class TotalPopulation(
     val total: Int,
     val races: Set<RaceId> = emptySet(),
     val cultures: Set<CultureId> = emptySet(),
+    val income: Income = UndefinedIncome,
 ) : Population(), IPopulationWithSets
 
 @Serializable
