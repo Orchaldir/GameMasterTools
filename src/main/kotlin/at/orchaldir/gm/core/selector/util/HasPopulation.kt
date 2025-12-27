@@ -108,10 +108,14 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> State.calculatePopulationIndex(
 ): Int? = storage
     .getAll()
     .mapNotNull {
-        calculateTotalPopulation(getPopulation)
+        val total = calculateTotalPopulation(getPopulation)
+
+        if (total == null || total == 0) {
+            return@mapNotNull null
+        }
+
+        Pair(it.id(), total)
     }
-    .map { Pair(id, it) }
-    .filter { it.second > 0 }
     .sortedByDescending { it.second }
     .indexOfFirst { it.first == id }
     .let {
