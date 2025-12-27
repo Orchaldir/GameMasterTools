@@ -37,6 +37,14 @@ class PopulationTest {
         }
 
         @Test
+        fun `With an unknown culture`() {
+            assertPopulation(
+                AbstractPopulation(cultures = setOf(UNKNOWN_CULTURE_ID)),
+                "Requires unknown Culture 99!",
+            )
+        }
+
+        @Test
         fun `A valid population`() {
             validatePopulation(state, AbstractPopulation(races = setOf(RACE_ID_0)))
         }
@@ -47,8 +55,8 @@ class PopulationTest {
     inner class PopulationPerRaceTest {
 
         @Test
-        fun `The total population must be greater than 0`() {
-            assertTotalPopulation(PopulationDistribution(0, ElementDistribution()))
+        fun `The total population must be greater or equal 0`() {
+            assertTotalPopulation(PopulationDistribution(-1, ElementDistribution()))
         }
 
         @Test
@@ -82,8 +90,8 @@ class PopulationTest {
     inner class TotalPopulationTest {
 
         @Test
-        fun `The total population must be greater than 0`() {
-            assertTotalPopulation(TotalPopulation(0))
+        fun `The total population must be greater or equal 0`() {
+            assertTotalPopulation(TotalPopulation(-1))
         }
 
         @Test
@@ -95,6 +103,14 @@ class PopulationTest {
         }
 
         @Test
+        fun `With an unknown culture`() {
+            assertPopulation(
+                TotalPopulation(100, cultures = setOf(UNKNOWN_CULTURE_ID)),
+                "Requires unknown Culture 99!",
+            )
+        }
+
+        @Test
         fun `A valid population`() {
             validatePopulation(state, TotalPopulation(100, races = setOf(RACE_ID_0)))
         }
@@ -102,7 +118,7 @@ class PopulationTest {
     }
 
     private fun assertTotalPopulation(population: Population) =
-        assertPopulation(population, "The total population must be greater than 0!")
+        assertPopulation(population, "The total population must be >= 0!")
 
     private fun assertPopulation(population: Population, message: String) {
         assertIllegalArgument(message) {
