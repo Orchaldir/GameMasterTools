@@ -85,6 +85,11 @@
     "colors": {
      "types": {
       "Exotic": "Common"
+     },
+     "exotic": {
+      "AliceBlue": "Uncommon",
+      "Lavender": "Uncommon",
+      "White": "Common"
      }
     }
    },

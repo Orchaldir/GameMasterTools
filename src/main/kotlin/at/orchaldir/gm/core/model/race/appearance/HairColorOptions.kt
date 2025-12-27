@@ -12,5 +12,5 @@ import kotlinx.serialization.Serializable
 data class HairColorOptions(
     val types: OneOf<HairColorType> = OneOf(HairColorType.Normal),
     val normal: OneOf<NormalHairColorEnum> = OneOf(NormalHairColorEnum.entries),
-    val exotic: OneOf<Color> = OneOf(Color.entries),
+    val exotic: OneOf<Color> = OneOf(Color.SaddleBrown),
 )
