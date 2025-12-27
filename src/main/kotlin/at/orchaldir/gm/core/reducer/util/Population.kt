@@ -44,4 +44,4 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> validateElementDistribution(
 
 fun validateTotalPopulation(
     totalPopulation: Int,
-) = require(totalPopulation > 0) { "The total population must be greater than 0!" }
+) = require(totalPopulation >= 0) { "The total population must be >= 0!" }

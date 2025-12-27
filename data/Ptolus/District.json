@@ -17,6 +17,132 @@
      "standard": 1
     }
    }
+  },
+  "1": {
+   "id": 1,
+   "name": "Guildsman District",
+   "town": 0,
+   "population": {
+    "#type": "Total",
+    "total": 9000,
+    "income": {
+     "#type": "SoL",
+     "standard": 1
+    }
+   }
+  },
+  "2": {
+   "id": 2,
+   "name": "Midtown",
+   "town": 0,
+   "population": {
+    "#type": "Total",
+    "total": 14000,
+    "income": {
+     "#type": "SoL",
+     "standard": 2
+    }
+   }
+  },
+  "3": {
+   "id": 3,
+   "name": "Necropolis",
+   "town": 0,
+   "population": {
+    "#type": "Total",
+    "total": 0
+   }
+  },
+  "4": {
+   "id": 4,
+   "name": "Nobles’ Quarter",
+   "town": 0,
+   "population": {
+    "#type": "Total",
+    "total": 3000,
+    "income": {
+     "#type": "SoL",
+     "standard": 5
+    }
+   }
+  },
+  "5": {
+   "id": 5,
+   "name": "North Market",
+   "town": 0,
+   "population": {
+    "#type": "Total",
+    "total": 9000,
+    "income": {
+     "#type": "SoL",
+     "standard": 2
+    }
+   }
+  },
+  "6": {
+   "id": 6,
+   "name": "Oldtown",
+   "town": 0,
+   "population": {
+    "#type": "Total",
+    "total": 10000,
+    "income": {
+     "#type": "SoL",
+     "standard": 3
+    }
+   }
+  },
+  "7": {
+   "id": 7,
+   "name": "Rivergate District",
+   "town": 0,
+   "population": {
+    "#type": "Total",
+    "total": 10000,
+    "income": {
+     "#type": "SoL",
+     "standard": 3
+    }
+   }
+  },
+  "8": {
+   "id": 8,
+   "name": "South Market",
+   "town": 0,
+   "population": {
+    "#type": "Total",
+    "total": 8000,
+    "income": {
+     "#type": "SoL",
+     "standard": 3
+    }
+   }
+  },
+  "9": {
+   "id": 9,
+   "name": "Temple District",
+   "town": 0,
+   "population": {
+    "#type": "Total",
+    "total": 8000,
+    "income": {
+     "#type": "SoL",
+     "standard": 3
+    }
+   }
+  },
+  "10": {
+   "id": 10,
+   "name": "Warrens",
+   "town": 0,
+   "population": {
+    "#type": "Total",
+    "total": 2000,
+    "income": {
+     "#type": "SoL",
+     "standard": 0
+    }
+   }
   }
  }
 }
