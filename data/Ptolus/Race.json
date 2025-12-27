@@ -186,10 +186,18 @@
   },
   "11": {
    "id": 11,
-   "name": "Aram",
+   "name": "Centaur",
    "lifeStages": {
     "#type": "Default",
-    "appearance": 10
+    "appearance": 10,
+    "oldAgeHairColor": {
+     "#type": "Normal",
+     "color": "MediumBrown"
+    },
+    "venerableAgeHairColor": {
+     "#type": "Normal",
+     "color": "MediumBrown"
+    }
    }
   }
  }

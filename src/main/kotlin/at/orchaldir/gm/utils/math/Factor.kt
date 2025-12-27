@@ -1,10 +1,12 @@
 package at.orchaldir.gm.utils.math
 
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
+import at.orchaldir.gm.utils.math.Factor.Companion.fromPermille
 import kotlinx.serialization.Serializable
 
 val START = fromPercentage(0)
 val ZERO = fromPercentage(0)
+val ONE_TENTH_PERCENT = fromPermille(1)
 val ONE_PERCENT = fromPercentage(1)
 val QUARTER = fromPercentage(25)
 val THIRD = fromPercentage(33)
