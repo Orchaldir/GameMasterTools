@@ -25,6 +25,13 @@ sealed class Population {
         UndefinedPopulation -> PopulationType.Undefined
     }
 
+    fun income() = when (this) {
+        is AbstractPopulation -> income
+        is PopulationDistribution -> income
+        is TotalPopulation -> income
+        UndefinedPopulation -> null
+    }
+
     fun getPopulation(culture: CultureId) = when (this) {
         is PopulationDistribution -> getNumber(culture)
         else -> null

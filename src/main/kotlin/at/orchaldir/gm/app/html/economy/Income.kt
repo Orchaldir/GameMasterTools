@@ -4,10 +4,12 @@ import at.orchaldir.gm.app.INCOME
 import at.orchaldir.gm.app.PRICE
 import at.orchaldir.gm.app.STANDARD
 import at.orchaldir.gm.app.TYPE
+import at.orchaldir.gm.app.html.economy.money.displayPrice
 import at.orchaldir.gm.app.html.economy.money.fieldPrice
 import at.orchaldir.gm.app.html.economy.money.parsePrice
 import at.orchaldir.gm.app.html.economy.money.selectPrice
 import at.orchaldir.gm.app.html.fieldLink
+import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.app.html.selectElement
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.showDetails
@@ -21,6 +23,18 @@ import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
 
 // show
+
+fun HtmlBlockTag.displayIncome(
+    call: ApplicationCall,
+    state: State,
+    income: Income,
+) {
+    when (income) {
+        UndefinedIncome -> doNothing()
+        is AffordableStandardOfLiving -> link(call, state, income.standard)
+        is Salary -> displayPrice(call, state, income.yearlySalary)
+    }
+}
 
 fun HtmlBlockTag.showIncome(
     call: ApplicationCall,
