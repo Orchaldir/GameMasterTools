@@ -12,6 +12,8 @@ import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.generator.AppearanceGeneratorConfig
 import at.orchaldir.gm.core.model.character.appearance.hair.*
 import at.orchaldir.gm.core.model.race.appearance.HairColorOptions
+import at.orchaldir.gm.core.model.util.OneOf
+import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
@@ -42,6 +44,22 @@ fun HtmlBlockTag.selectHairColor(
     hairColor: HairColor,
     param: String,
     text: String = "Hair Color",
+) = selectHairColor(
+    options.types,
+    options.normal,
+    options.exotic,
+    hairColor,
+    param,
+    text,
+)
+
+fun HtmlBlockTag.selectHairColor(
+    allowedTypes: OneOf<HairColorType>,
+    allowedNormalColors: OneOf<NormalHairColorEnum>,
+    allowedExoticColors: OneOf<Color>,
+    hairColor: HairColor,
+    param: String,
+    text: String = "Hair Color",
 ) {
     val colorParam = combine(param, COLOR)
 
@@ -49,7 +67,7 @@ fun HtmlBlockTag.selectHairColor(
         selectFromOneOf(
             "Type",
             combine(colorParam, TYPE),
-            options.types,
+            allowedTypes,
             hairColor.getType(),
         )
 
@@ -58,7 +76,7 @@ fun HtmlBlockTag.selectHairColor(
             is NormalHairColor -> selectFromOneOf(
                 "Color",
                 colorParam,
-                options.normal,
+                allowedNormalColors,
                 hairColor.color,
             ) { skinColor ->
                 label = skinColor.name
@@ -70,7 +88,7 @@ fun HtmlBlockTag.selectHairColor(
             is ExoticHairColor -> selectColor(
                 "Color",
                 combine(colorParam, EXOTIC),
-                options.exotic,
+                allowedExoticColors,
                 hairColor.color,
             )
         }

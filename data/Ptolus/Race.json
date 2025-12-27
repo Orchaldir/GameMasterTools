@@ -207,12 +207,10 @@
     "#type": "Default",
     "appearance": 7,
     "oldAgeHairColor": {
-     "#type": "Normal",
-     "color": "MediumBrown"
+     "#type": "None"
     },
     "venerableAgeHairColor": {
-     "#type": "Normal",
-     "color": "MediumBrown"
+     "#type": "None"
     }
    }
   }
