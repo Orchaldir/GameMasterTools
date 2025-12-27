@@ -389,6 +389,73 @@
      "Medium": "Rare"
     }
    }
+  },
+  "11": {
+   "id": 11,
+   "name": "Gnome",
+   "earShapes": {
+    "PointedUpwards": "Common"
+   },
+   "hair": {
+    "colors": {
+     "types": {
+      "Exotic": "Common"
+     },
+     "exotic": {
+      "Black": "Common",
+      "Blue": "Common",
+      "Gold": "Common",
+      "Green": "Common",
+      "Purple": "Common",
+      "Red": "Common",
+      "SaddleBrown": "Common"
+     }
+    }
+   },
+   "skin": {
+    "normalColors": {
+     "Fair": "Common",
+     "Light": "Common",
+     "Medium": "Uncommon"
+    }
+   }
+  },
+  "12": {
+   "id": 12,
+   "name": "Orc",
+   "eye": {
+    "scleraColors": {
+     "Blue": "Common",
+     "LightGray": "Common",
+     "White": "Common"
+    }
+   },
+   "hair": {
+    "colors": {
+     "normal": {
+      "VeryLightBlond": "Rare",
+      "LightBlond": "Uncommon",
+      "Blond": "Uncommon",
+      "DarkBlond": "Common",
+      "LightBrown": "Common",
+      "MediumBrown": "Common",
+      "DarkBrown": "Common",
+      "Black": "Common",
+      "Orange": "Rare",
+      "Red": "Rare",
+      "Auburn": "Common"
+     }
+    }
+   },
+   "skin": {
+    "skinTypes": {
+     "Exotic": "Common"
+    },
+    "exoticColors": {
+     "Green": "Common",
+     "Olive": "Common"
+    }
+   }
   }
  }
 }
