@@ -16,18 +16,25 @@ fun validatePopulation(
     is AbstractPopulation -> {
         state.getCultureStorage().require(population.cultures)
         state.getRaceStorage().require(population.races)
+
+        population.income.validate(state)
     }
     is PopulationDistribution -> {
         validateTotalPopulation(population.total)
 
         validateElementDistribution(state.getCultureStorage(), population.cultures)
         validateElementDistribution(state.getRaceStorage(), population.races)
+
+        population.income.validate(state)
     }
 
     is TotalPopulation -> {
         validateTotalPopulation(population.total)
+
         state.getCultureStorage().require(population.cultures)
         state.getRaceStorage().require(population.races)
+
+        population.income.validate(state)
     }
 
     UndefinedPopulation -> doNothing()

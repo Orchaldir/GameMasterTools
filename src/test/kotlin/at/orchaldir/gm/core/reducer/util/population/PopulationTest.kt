@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.reducer.util.population
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.Culture
+import at.orchaldir.gm.core.model.economy.job.AffordableStandardOfLiving
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.util.population.*
 import at.orchaldir.gm.core.reducer.util.validatePopulation
@@ -24,9 +25,18 @@ class PopulationTest {
             )
         )
     )
+    private val income = AffordableStandardOfLiving(UNKNOWN_STANDARD_ID)
 
     @Nested
     inner class AbstractPopulationTest {
+
+        @Test
+        fun `With an unknown culture`() {
+            assertPopulation(
+                AbstractPopulation(cultures = setOf(UNKNOWN_CULTURE_ID)),
+                "Requires unknown Culture 99!",
+            )
+        }
 
         @Test
         fun `With an unknown race`() {
@@ -37,10 +47,10 @@ class PopulationTest {
         }
 
         @Test
-        fun `With an unknown culture`() {
+        fun `With an unknown standard of living`() {
             assertPopulation(
-                AbstractPopulation(cultures = setOf(UNKNOWN_CULTURE_ID)),
-                "Requires unknown Culture 99!",
+                AbstractPopulation(income = income),
+                "Requires unknown Standard Of Living 99!",
             )
         }
 
@@ -76,6 +86,14 @@ class PopulationTest {
         }
 
         @Test
+        fun `With an unknown standard of living`() {
+            assertPopulation(
+                PopulationDistribution(100, income = income),
+                "Requires unknown Standard Of Living 99!",
+            )
+        }
+
+        @Test
         fun `A valid population`() {
             val cultures = ElementDistribution(mapOf(CULTURE_ID_0 to HALF))
             val races = ElementDistribution(mapOf(RACE_ID_0 to HALF, RACE_ID_1 to HALF))
@@ -95,6 +113,14 @@ class PopulationTest {
         }
 
         @Test
+        fun `With an unknown culture`() {
+            assertPopulation(
+                TotalPopulation(100, cultures = setOf(UNKNOWN_CULTURE_ID)),
+                "Requires unknown Culture 99!",
+            )
+        }
+
+        @Test
         fun `With an unknown race`() {
             assertPopulation(
                 TotalPopulation(100, setOf(UNKNOWN_RACE_ID)),
@@ -103,10 +129,10 @@ class PopulationTest {
         }
 
         @Test
-        fun `With an unknown culture`() {
+        fun `With an unknown standard of living`() {
             assertPopulation(
-                TotalPopulation(100, cultures = setOf(UNKNOWN_CULTURE_ID)),
-                "Requires unknown Culture 99!",
+                TotalPopulation(100, income = income),
+                "Requires unknown Standard Of Living 99!",
             )
         }
 

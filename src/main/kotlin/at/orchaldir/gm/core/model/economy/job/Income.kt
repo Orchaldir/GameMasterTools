@@ -37,6 +37,12 @@ sealed class Income {
         is AffordableStandardOfLiving -> state.data.economy.getStandardOfLiving(standard).maxYearlyIncome.value
         is Salary -> yearlySalary.value
     }
+
+    fun validate(state: State) {
+        if (this is AffordableStandardOfLiving) {
+            state.data.economy.requireStandardOfLiving(standard)
+        }
+    }
 }
 
 @Serializable

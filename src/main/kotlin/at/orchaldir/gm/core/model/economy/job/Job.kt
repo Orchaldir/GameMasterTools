@@ -40,10 +40,7 @@ data class Job(
     override fun name() = name.text
 
     override fun validate(state: State) {
-        if (income is AffordableStandardOfLiving) {
-            state.data.economy.requireStandardOfLiving(income.standard)
-        }
-
+        income.validate(state)
         state.getSpellStorage().require(spells.getValidValues())
         state.getStatisticStorage().require(importantStatistics)
         state.getUniformStorage().requireOptional(uniforms.getValues())
