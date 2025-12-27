@@ -8,12 +8,12 @@
     "current": 0
    },
    "population": {
-    "#type": "Abstract",
-    "density": "Large",
-    "cultures": [
-     8,
-     5
-    ]
+    "#type": "Distribution",
+    "total": 75000,
+    "races": {
+     "2": 900,
+     "9": 7000
+    }
    }
   },
   "1": {
