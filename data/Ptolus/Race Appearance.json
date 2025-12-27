@@ -29,11 +29,6 @@
      "Fair": "Common",
      "Light": "Common"
     }
-   },
-   "wing": {
-    "types": {
-     "Bird": "Common"
-    }
    }
   },
   "1": {
@@ -64,11 +59,6 @@
    "skin": {
     "normalColors": {
      "Fair": "Common"
-    }
-   },
-   "wing": {
-    "types": {
-     "Bird": "Common"
     }
    }
   },
@@ -125,11 +115,6 @@
      "Fair": "Common",
      "Light": "Common"
     }
-   },
-   "wing": {
-    "types": {
-     "Bird": "Common"
-    }
    }
   },
   "4": {
@@ -141,6 +126,13 @@
    "hair": {
     "beardTypes": {
      "None": "Common"
+    },
+    "colors": {
+     "normal": {
+      "LightestBlond": "Common",
+      "VeryLightBlond": "Common",
+      "LightBlond": "Common"
+     }
     }
    },
    "skin": {
@@ -182,11 +174,6 @@
     },
     "exoticColors": {
      "LightYellow": "Common"
-    }
-   },
-   "wing": {
-    "types": {
-     "Bird": "Common"
     }
    }
   },
@@ -247,11 +234,6 @@
     "layouts": {
      "Simple": "Common"
     }
-   },
-   "wing": {
-    "types": {
-     "Bird": "Common"
-    }
    }
   },
   "7": {
@@ -307,11 +289,6 @@
      "Rat": {
      }
     }
-   },
-   "wing": {
-    "types": {
-     "Bird": "Common"
-    }
    }
   },
   "8": {
@@ -331,11 +308,6 @@
      "Fair": "Common",
      "Light": "Uncommon"
     }
-   },
-   "wing": {
-    "types": {
-     "Bird": "Common"
-    }
    }
   },
   "9": {
@@ -346,11 +318,6 @@
      "Light": "Uncommon",
      "Medium": "Common",
      "Tan": "Uncommon"
-    }
-   },
-   "wing": {
-    "types": {
-     "Bird": "Common"
     }
    }
   },
@@ -374,11 +341,6 @@
      "Fair": "Uncommon",
      "Light": "Common",
      "Medium": "Uncommon"
-    }
-   },
-   "wing": {
-    "types": {
-     "Bird": "Common"
     }
    }
   }

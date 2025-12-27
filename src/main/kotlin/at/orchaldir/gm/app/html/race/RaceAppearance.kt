@@ -721,7 +721,7 @@ private fun parseFeatureColor(parameters: Parameters, param: String): FeatureCol
 
 private fun parseWingOptions(parameters: Parameters) = WingOptions(
     parseOneOf(parameters, combine(WING, LAYOUT), WingsLayout::valueOf),
-    parseOneOrNone(parameters, combine(WING, TYPE), WingType::valueOf, listOf(WingType.Bird)),
+    parseOneOrNone(parameters, combine(WING, TYPE), WingType::valueOf, emptySet()),
     parseFeatureColor(parameters, combine(WING, BAT)),
     parseOneOf(parameters, combine(WING, BIRD, COLOR), Color::valueOf, setOf(DEFAULT_BIRD_COLOR)),
     parseOneOf(parameters, combine(WING, BUTTERFLY, COLOR), Color::valueOf, setOf(DEFAULT_BUTTERFLY_COLOR)),
