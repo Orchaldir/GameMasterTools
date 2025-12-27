@@ -166,6 +166,14 @@
    "hair": {
     "beardTypes": {
      "None": "Common"
+    },
+    "colors": {
+     "normal": {
+      "LightBrown": "Common",
+      "MediumBrown": "Common",
+      "DarkBrown": "Common",
+      "Black": "Common"
+     }
     }
    },
    "skin": {
