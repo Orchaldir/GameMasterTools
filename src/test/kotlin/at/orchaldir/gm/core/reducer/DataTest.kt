@@ -7,12 +7,19 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.Economy
 import at.orchaldir.gm.core.model.economy.job.AffordableStandardOfLiving
 import at.orchaldir.gm.core.model.economy.job.Job
+import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.economy.money.Currency
 import at.orchaldir.gm.core.model.economy.money.Price
 import at.orchaldir.gm.core.model.economy.standard.StandardOfLiving
+import at.orchaldir.gm.core.model.realm.District
+import at.orchaldir.gm.core.model.realm.Realm
+import at.orchaldir.gm.core.model.realm.Town
 import at.orchaldir.gm.core.model.time.Time
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.util.name.Name
+import at.orchaldir.gm.core.model.util.population.AbstractPopulation
+import at.orchaldir.gm.utils.Element
+import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -23,6 +30,7 @@ class DataTest {
     private val name0 = Name.init("A")
     private val name1 = Name.init("B")
     private val usedIncome = AffordableStandardOfLiving(STANDARD_ID_1)
+    private val population = AbstractPopulation(income = usedIncome)
     private val state = State(
         listOf(
             Storage(Calendar(CALENDAR_ID_0)),
@@ -69,14 +77,37 @@ class DataTest {
             }
         }
 
-        @Test
-        fun `Cannot delete a used standard of living`() {
-            val newState = state.updateStorage(Storage(Job(JOB_ID_0, income = usedIncome)),)
-            val data = Data(economy = Economy(standardsOfLiving = listOf(StandardOfLiving(STANDARD_ID_0))))
-            val action = UpdateData(data)
+        @Nested
+        inner class CanDeleteTest {
 
-            assertIllegalArgument("The number of required Standards of Living is 2!") {
-                REDUCER.invoke(newState, action)
+            @Test
+            fun `Cannot delete a standard of living used by a district`() {
+                assertDelete(Storage(District(DISTRICT_ID_0, population = population)))
+            }
+
+            @Test
+            fun `Cannot delete a standard of living used by a job`() {
+                assertDelete(Storage(Job(JOB_ID_0, income = usedIncome)))
+            }
+
+            @Test
+            fun `Cannot delete a standard of living used by a realm`() {
+                assertDelete(Storage(Realm(REALM_ID_0, population = population)))
+            }
+
+            @Test
+            fun `Cannot delete a standard of living used by a town`() {
+                assertDelete(Storage(Town(TOWN_ID_0, population = population)))
+            }
+
+            private fun <ID : Id<ID>, ELEMENT : Element<ID>> assertDelete(storage: Storage<ID, ELEMENT>) {
+                val newState = state.updateStorage(storage)
+                val data = Data(economy = Economy(standardsOfLiving = listOf(StandardOfLiving(STANDARD_ID_0))))
+                val action = UpdateData(data)
+
+                assertIllegalArgument("The number of required Standards of Living is 2!") {
+                    REDUCER.invoke(newState, action)
+                }
             }
         }
 
