@@ -27,6 +27,7 @@ import at.orchaldir.gm.core.selector.world.getTownMaps
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
+import kotlinx.html.br
 import kotlinx.html.table
 import kotlinx.html.th
 import kotlinx.html.tr
@@ -80,6 +81,7 @@ private fun HtmlBlockTag.showDistricts(
 
     val townPopulation = town.population.getTotalPopulation() ?: 0
 
+    br {  }
     table {
         tr {
             th { +"Districts" }
