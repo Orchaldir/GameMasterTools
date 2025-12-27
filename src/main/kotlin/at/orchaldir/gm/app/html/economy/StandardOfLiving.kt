@@ -14,6 +14,8 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.standard.StandardOfLiving
 import at.orchaldir.gm.core.model.economy.standard.StandardOfLivingId
 import at.orchaldir.gm.core.selector.economy.getJobs
+import at.orchaldir.gm.core.selector.realm.getDistricts
+import at.orchaldir.gm.core.selector.util.getPopulationsWith
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -26,7 +28,10 @@ fun HtmlBlockTag.showStandardOfLiving(
     standard: StandardOfLiving,
 ) {
     fieldPrice(call, state, "Max Yearly Income", standard.maxYearlyIncome)
+    fieldElements(call, state, getPopulationsWith(state.getDistrictStorage(), standard.id))
     fieldElements(call, state, state.getJobs(standard.id))
+    fieldElements(call, state, getPopulationsWith(state.getRealmStorage(), standard.id))
+    fieldElements(call, state, getPopulationsWith(state.getTownStorage(), standard.id))
 }
 
 // edit

@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.selector.util
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.CultureId
+import at.orchaldir.gm.core.model.economy.standard.StandardOfLivingId
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.util.population.*
 import at.orchaldir.gm.utils.Element
@@ -33,13 +34,23 @@ fun State.canDeletePopulationOf(
     .addElements(getPopulations(getRealmStorage(), check))
     .addElements(getPopulations(getTownStorage(), check))
 
+fun <ID : Id<ID>, ELEMENT> getPopulationsWith(
+    storage: Storage<ID, ELEMENT>,
+    standard: StandardOfLivingId,
+) where
+        ELEMENT : Element<ID>,
+        ELEMENT : HasPopulation = getPopulations(storage) {
+            it.population().income()?.hasStandard(standard) ?: false
+}
+
 fun <ID : Id<ID>, ELEMENT> getPopulations(
     storage: Storage<ID, ELEMENT>,
     check: (HasPopulation) -> Boolean,
 ) where
         ELEMENT : Element<ID>,
-        ELEMENT : HasPopulation = storage.getAll()
-    .filter { check(it) }
+        ELEMENT : HasPopulation = storage
+            .getAll()
+            .filter { check(it) }
 
 fun <ID : Id<ID>, ELEMENT> getPopulationEntries(
     storage: Storage<ID, ELEMENT>,
