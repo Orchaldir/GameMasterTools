@@ -329,18 +329,28 @@
    "skin": {
     "normalColors": {
      "Fair": "Common",
-     "Light": "Uncommon"
+     "Light": "Rare"
     }
    }
   },
   "9": {
    "id": 9,
    "name": "Eastern Barbarian",
+   "hair": {
+    "colors": {
+     "normal": {
+      "LightBrown": "Common",
+      "MediumBrown": "Common",
+      "DarkBrown": "Common",
+      "Black": "Common"
+     }
+    }
+   },
    "skin": {
     "normalColors": {
-     "Light": "Uncommon",
+     "Light": "Rare",
      "Medium": "Common",
-     "Tan": "Uncommon"
+     "Tan": "Rare"
     }
    }
   },
@@ -359,11 +369,24 @@
      "SteelBlue": "Uncommon"
     }
    },
+   "hair": {
+    "colors": {
+     "normal": {
+      "Blond": "Uncommon",
+      "DarkBlond": "Uncommon",
+      "LightBrown": "Common",
+      "MediumBrown": "Common",
+      "DarkBrown": "Common",
+      "Black": "Common",
+      "Auburn": "Uncommon"
+     }
+    }
+   },
    "skin": {
     "normalColors": {
-     "Fair": "Uncommon",
+     "Fair": "Rare",
      "Light": "Common",
-     "Medium": "Uncommon"
+     "Medium": "Rare"
     }
    }
   }
