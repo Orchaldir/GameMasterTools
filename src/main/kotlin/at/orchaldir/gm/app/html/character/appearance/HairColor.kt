@@ -10,11 +10,7 @@ import at.orchaldir.gm.app.html.showDetails
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.generator.AppearanceGeneratorConfig
-import at.orchaldir.gm.core.model.character.appearance.hair.ExoticHairColor
-import at.orchaldir.gm.core.model.character.appearance.hair.HairColor
-import at.orchaldir.gm.core.model.character.appearance.hair.HairColorType
-import at.orchaldir.gm.core.model.character.appearance.hair.NoHairColor
-import at.orchaldir.gm.core.model.character.appearance.hair.NormalHairColor
+import at.orchaldir.gm.core.model.character.appearance.hair.*
 import at.orchaldir.gm.core.model.race.appearance.HairColorOptions
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.utils.doNothing
@@ -26,7 +22,7 @@ import kotlinx.html.style
 
 fun HtmlBlockTag.showHairColor(
     hairColor: HairColor,
-    text: String = "Hair Color"
+    text: String = "Hair Color",
 ) {
     showDetails(text, true) {
         field("Type", hairColor.getType())
@@ -45,7 +41,7 @@ fun HtmlBlockTag.selectHairColor(
     options: HairColorOptions,
     hairColor: HairColor,
     param: String,
-    text: String = "Hair Color"
+    text: String = "Hair Color",
 ) {
     val colorParam = combine(param, COLOR)
 
@@ -70,6 +66,7 @@ fun HtmlBlockTag.selectHairColor(
                 val bgColor = CHARACTER_CONFIG.getHairColor(skinColor).toCode()
                 style = "background-color:${bgColor}"
             }
+
             is ExoticHairColor -> selectColor(
                 "Color",
                 combine(colorParam, EXOTIC),

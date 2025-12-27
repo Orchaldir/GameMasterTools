@@ -17,6 +17,7 @@ data class Size2d(val width: Distance, val height: Distance) {
     companion object {
         fun fromMeters(size: Float) =
             Size2d.square(Distance.fromMeters(size))
+
         fun fromMeters(width: Float, height: Float) =
             Size2d(Distance.fromMeters(width), Distance.fromMeters(height))
 

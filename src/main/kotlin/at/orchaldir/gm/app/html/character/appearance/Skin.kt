@@ -58,7 +58,7 @@ private fun HtmlBlockTag.editSkinInternal(
             skin.color
         )
 
-        is Fur -> selectHairColor(options.furColors,skin.color, combine(param, FUR))
+        is Fur -> selectHairColor(options.furColors, skin.color, combine(param, FUR))
 
         is MaterialSkin -> selectFromOneOf(
             "Material",

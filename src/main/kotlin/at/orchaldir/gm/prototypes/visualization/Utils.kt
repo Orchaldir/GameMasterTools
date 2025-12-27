@@ -46,7 +46,7 @@ fun <T> renderTable(
 fun <T> renderTableWithNames(
     filename: String,
     renderSize: Size2d,
-    rows: List<List<Pair<String,T>>>,
+    rows: List<List<Pair<String, T>>>,
     render: (AABB, MultiLayerRenderer, T) -> Unit,
 ) {
     val textSize = renderSize.width / 10.0f

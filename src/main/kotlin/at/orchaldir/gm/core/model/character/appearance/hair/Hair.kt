@@ -30,7 +30,7 @@ data class NormalHair(
     val color: HairColor,
 ) : Hair() {
 
-    constructor(cut: HairCut, color: Color): this(cut, ExoticHairColor(color))
+    constructor(cut: HairCut, color: Color) : this(cut, ExoticHairColor(color))
 
 }
 

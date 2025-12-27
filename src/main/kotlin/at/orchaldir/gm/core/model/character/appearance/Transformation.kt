@@ -4,8 +4,8 @@ import at.orchaldir.gm.core.model.character.appearance.beard.Beard
 import at.orchaldir.gm.core.model.character.appearance.beard.NoBeard
 import at.orchaldir.gm.core.model.character.appearance.beard.NormalBeard
 import at.orchaldir.gm.core.model.character.appearance.hair.Hair
-import at.orchaldir.gm.core.model.character.appearance.hair.NoHair
 import at.orchaldir.gm.core.model.character.appearance.hair.HairColor
+import at.orchaldir.gm.core.model.character.appearance.hair.NoHair
 import at.orchaldir.gm.core.model.character.appearance.hair.NormalHair
 import at.orchaldir.gm.core.model.character.appearance.mouth.Mouth
 import at.orchaldir.gm.core.model.character.appearance.mouth.NormalMouth

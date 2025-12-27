@@ -2,15 +2,7 @@ package at.orchaldir.gm.visualization.character
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.*
-import at.orchaldir.gm.core.model.character.appearance.hair.ExoticHairColor
-import at.orchaldir.gm.core.model.character.appearance.hair.Hair
-import at.orchaldir.gm.core.model.character.appearance.hair.HairColor
-import at.orchaldir.gm.core.model.character.appearance.hair.NormalHairColorEnum
-import at.orchaldir.gm.core.model.character.appearance.hair.HairLength
-import at.orchaldir.gm.core.model.character.appearance.hair.NoHair
-import at.orchaldir.gm.core.model.character.appearance.hair.NoHairColor
-import at.orchaldir.gm.core.model.character.appearance.hair.NormalHair
-import at.orchaldir.gm.core.model.character.appearance.hair.NormalHairColor
+import at.orchaldir.gm.core.model.character.appearance.hair.*
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.util.render.Fill
 import at.orchaldir.gm.utils.math.AABB

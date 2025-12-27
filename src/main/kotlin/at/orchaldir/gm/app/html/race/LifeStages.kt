@@ -2,8 +2,6 @@ package at.orchaldir.gm.app.html.race
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.character.appearance.parseAppearanceColor
-import at.orchaldir.gm.app.html.character.appearance.parseAppearanceOption
 import at.orchaldir.gm.app.html.character.appearance.selectHairColor
 import at.orchaldir.gm.app.html.character.appearance.showHairColor
 import at.orchaldir.gm.app.html.rpg.statblock.editStatblock
@@ -14,15 +12,9 @@ import at.orchaldir.gm.app.html.util.math.parseFactor
 import at.orchaldir.gm.app.html.util.math.selectPercentage
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
-import at.orchaldir.gm.core.generator.AppearanceGeneratorConfig
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.beard.BeardType
-import at.orchaldir.gm.core.model.character.appearance.hair.ExoticHairColor
-import at.orchaldir.gm.core.model.character.appearance.hair.HairColor
-import at.orchaldir.gm.core.model.character.appearance.hair.HairColorType
-import at.orchaldir.gm.core.model.character.appearance.hair.NoHairColor
-import at.orchaldir.gm.core.model.character.appearance.hair.NormalHairColor
-import at.orchaldir.gm.core.model.character.appearance.hair.NormalHairColorEnum
+import at.orchaldir.gm.core.model.character.appearance.hair.*
 import at.orchaldir.gm.core.model.race.aging.*
 import at.orchaldir.gm.core.model.race.appearance.HairColorOptions
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId

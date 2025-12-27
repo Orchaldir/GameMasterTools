@@ -4,7 +4,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.HasBelief
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.name.NotEmptyString
-import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.selector.util.getBelievers
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
@@ -12,7 +11,6 @@ import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Weight
-import at.orchaldir.gm.utils.renderer.model.RenderColor
 import io.ktor.server.application.*
 import kotlinx.html.*
 

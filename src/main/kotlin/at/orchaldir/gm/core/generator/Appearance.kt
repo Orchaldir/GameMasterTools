@@ -201,6 +201,7 @@ fun generateHairColor(config: AppearanceGeneratorConfig, options: HairColorOptio
         HairColorType.Normal -> NormalHairColor(
             config.generate(options.normal)
         )
+
         HairColorType.Exotic -> ExoticHairColor(
             config.generate(options.exotic)
         )
