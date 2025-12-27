@@ -11,7 +11,11 @@
    },
    "population": {
     "#type": "Total",
-    "total": 2000
+    "total": 2000,
+    "income": {
+     "#type": "SoL",
+     "standard": 1
+    }
    }
   }
  }

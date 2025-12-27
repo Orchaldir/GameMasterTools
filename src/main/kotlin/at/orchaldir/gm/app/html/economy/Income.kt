@@ -1,5 +1,6 @@
 package at.orchaldir.gm.app.html.economy
 
+import at.orchaldir.gm.app.INCOME
 import at.orchaldir.gm.app.PRICE
 import at.orchaldir.gm.app.STANDARD
 import at.orchaldir.gm.app.TYPE
@@ -38,11 +39,12 @@ fun HtmlBlockTag.showIncome(
 fun HtmlBlockTag.editIncome(
     state: State,
     income: Income,
+    param: String = INCOME,
 ) {
     showDetails("Income", true) {
         selectValue(
             "Type",
-            combine(PRICE, TYPE),
+            combine(param, TYPE),
             state.data.economy.defaultIncomeType.getValidTypes(),
             income.getType(),
         )
@@ -50,27 +52,38 @@ fun HtmlBlockTag.editIncome(
             UndefinedIncome -> doNothing()
             is AffordableStandardOfLiving -> selectElement(
                 state,
-                STANDARD,
+                combine(param, STANDARD),
                 state.data.economy.standardsOfLiving,
                 income.standard,
             )
 
-            is Salary -> selectPrice(state, "Average Yearly Salary", income.yearlySalary, PRICE, 1, 100000)
+            is Salary -> selectPrice(
+                state,
+                "Average Yearly Salary",
+                income.yearlySalary,
+                combine(param, PRICE),
+                1,
+                100000,
+            )
         }
     }
 }
 
 // parse
 
-fun parseIncome(state: State, parameters: Parameters) =
-    when (parse(parameters, combine(PRICE, TYPE), IncomeType.Undefined)) {
+fun parseIncome(
+    state: State,
+    parameters: Parameters,
+    param: String = INCOME,
+) =
+    when (parse(parameters, combine(param, TYPE), IncomeType.Undefined)) {
         IncomeType.Undefined -> UndefinedIncome
         IncomeType.StandardOfLiving -> AffordableStandardOfLiving(
-            parseStandardOfLivingId(parameters, STANDARD),
+            parseStandardOfLivingId(parameters, combine(param, STANDARD)),
         )
 
         IncomeType.Salary -> Salary(
-            parsePrice(state, parameters, PRICE)
+            parsePrice(state, parameters, combine(param, PRICE)),
         )
 
     }
