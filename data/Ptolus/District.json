@@ -1,5 +1,18 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "Docks",
+   "town": 0,
+   "foundingDate": {
+    "#type": "~Year",
+    "year": 419
+   },
+   "population": {
+    "#type": "Total",
+    "total": 2000
+   }
+  }
  }
 }
