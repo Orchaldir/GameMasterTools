@@ -3,12 +3,7 @@ package at.orchaldir.gm.app.html.character.appearance
 import at.orchaldir.gm.app.COLOR
 import at.orchaldir.gm.app.EXOTIC
 import at.orchaldir.gm.app.TYPE
-import at.orchaldir.gm.app.html.field
-import at.orchaldir.gm.app.html.selectColor
-import at.orchaldir.gm.app.html.selectFromOneOf
-import at.orchaldir.gm.app.html.showColor
-import at.orchaldir.gm.app.html.showDetails
-import at.orchaldir.gm.app.html.showHairColor
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.generator.AppearanceGeneratorConfig

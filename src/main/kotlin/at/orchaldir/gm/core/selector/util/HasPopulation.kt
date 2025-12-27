@@ -40,7 +40,7 @@ fun <ID : Id<ID>, ELEMENT> getPopulationsWith(
 ) where
         ELEMENT : Element<ID>,
         ELEMENT : HasPopulation = getPopulations(storage) {
-            it.population().income()?.hasStandard(standard) ?: false
+    it.population().income()?.hasStandard(standard) ?: false
 }
 
 fun <ID : Id<ID>, ELEMENT> getPopulations(
@@ -49,8 +49,8 @@ fun <ID : Id<ID>, ELEMENT> getPopulations(
 ) where
         ELEMENT : Element<ID>,
         ELEMENT : HasPopulation = storage
-            .getAll()
-            .filter { check(it) }
+    .getAll()
+    .filter { check(it) }
 
 fun <ID : Id<ID>, ELEMENT> getPopulationEntries(
     storage: Storage<ID, ELEMENT>,

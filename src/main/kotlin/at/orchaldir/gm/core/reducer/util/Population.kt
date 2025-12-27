@@ -19,6 +19,7 @@ fun validatePopulation(
 
         population.income.validate(state)
     }
+
     is PopulationDistribution -> {
         validateTotalPopulation(population.total)
 

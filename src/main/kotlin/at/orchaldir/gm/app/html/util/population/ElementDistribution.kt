@@ -14,7 +14,6 @@ import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.math.ONE_PERCENT
 import at.orchaldir.gm.utils.math.ONE_TENTH_PERCENT
 import at.orchaldir.gm.utils.math.ZERO
 import io.ktor.http.*

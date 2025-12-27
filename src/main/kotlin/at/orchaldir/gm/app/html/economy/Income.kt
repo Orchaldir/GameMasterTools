@@ -4,15 +4,11 @@ import at.orchaldir.gm.app.INCOME
 import at.orchaldir.gm.app.PRICE
 import at.orchaldir.gm.app.STANDARD
 import at.orchaldir.gm.app.TYPE
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.economy.money.displayPrice
 import at.orchaldir.gm.app.html.economy.money.fieldPrice
 import at.orchaldir.gm.app.html.economy.money.parsePrice
 import at.orchaldir.gm.app.html.economy.money.selectPrice
-import at.orchaldir.gm.app.html.fieldLink
-import at.orchaldir.gm.app.html.link
-import at.orchaldir.gm.app.html.selectElement
-import at.orchaldir.gm.app.html.selectValue
-import at.orchaldir.gm.app.html.showDetails
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State

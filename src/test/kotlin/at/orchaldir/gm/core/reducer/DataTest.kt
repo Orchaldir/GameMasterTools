@@ -7,7 +7,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.Economy
 import at.orchaldir.gm.core.model.economy.job.AffordableStandardOfLiving
 import at.orchaldir.gm.core.model.economy.job.Job
-import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.economy.money.Currency
 import at.orchaldir.gm.core.model.economy.money.Price
 import at.orchaldir.gm.core.model.economy.standard.StandardOfLiving
