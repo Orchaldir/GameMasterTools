@@ -13,7 +13,10 @@ fun validatePopulation(
     state: State,
     population: Population,
 ) = when (population) {
-    is AbstractPopulation -> state.getRaceStorage().require(population.races)
+    is AbstractPopulation -> {
+        state.getCultureStorage().require(population.cultures)
+        state.getRaceStorage().require(population.races)
+    }
     is PopulationDistribution -> {
         validateTotalPopulation(population.total)
 
@@ -23,6 +26,7 @@ fun validatePopulation(
 
     is TotalPopulation -> {
         validateTotalPopulation(population.total)
+        state.getCultureStorage().require(population.cultures)
         state.getRaceStorage().require(population.races)
     }
 
