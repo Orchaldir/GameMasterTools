@@ -311,6 +311,21 @@
      "SteelBlue": "Uncommon"
     }
    },
+   "hair": {
+    "colors": {
+     "normal": {
+      "LightestBlond": "Common",
+      "VeryLightBlond": "Common",
+      "LightBlond": "Common",
+      "Blond": "Common",
+      "DarkBlond": "Common",
+      "LightBrown": "Common",
+      "MediumBrown": "Common",
+      "Orange": "Rare",
+      "Red": "Rare"
+     }
+    }
+   },
    "skin": {
     "normalColors": {
      "Fair": "Common",
