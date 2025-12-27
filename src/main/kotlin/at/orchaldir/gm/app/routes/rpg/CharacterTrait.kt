@@ -83,9 +83,8 @@ fun Application.configureCharacterTraitRouting() {
                 ),
             ) {
                 fieldList("By Group", state.getCharacterTraitGroups()) { group ->
-                    state.getCharacterTraits(group).forEach { trait ->
-                        +" "
-                        link(call, state, trait)
+                    showInlineList(state.getCharacterTraits(group)) {
+                        link(call, state, it)
                     }
                 }
 

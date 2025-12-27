@@ -110,7 +110,7 @@ fun generateBeard(config: AppearanceGeneratorConfig, hair: Hair): Beard {
                 BeardStyleType.Shaved -> ShavedBeard
             },
             when (hair) {
-                NoHair -> config.generate(options.hair.colors)
+                NoHair -> generateHairColor(config, options.hair.colors)
                 is NormalHair -> hair.color
             }
         )
@@ -168,7 +168,7 @@ fun generateHair(config: AppearanceGeneratorConfig): Hair {
         HairType.None -> NoHair
         HairType.Normal -> NormalHair(
             generateHairCut(config),
-            config.generate(options.hair.colors),
+            generateHairColor(config, options.hair.colors),
         )
     }
 }
@@ -193,6 +193,20 @@ fun generateHairCut(config: AppearanceGeneratorConfig): HairCut {
             config.generate(fashion.ponytailPositions),
             config.generate(fashion.hairLengths),
         )
+    }
+}
+
+fun generateHairColor(config: AppearanceGeneratorConfig, options: HairColorOptions): HairColor {
+    return when (config.generate(options.types)) {
+        HairColorType.Normal -> NormalHairColor(
+            config.generate(options.normal)
+        )
+
+        HairColorType.Exotic -> ExoticHairColor(
+            config.generate(options.exotic)
+        )
+
+        HairColorType.None -> error("HairColorType None is unsupported!")
     }
 }
 
@@ -265,7 +279,7 @@ fun generateSkin(config: AppearanceGeneratorConfig) = generateSkin(config, confi
 
 fun generateSkin(config: AppearanceGeneratorConfig, options: SkinOptions) = when (config.generate(options.skinTypes)) {
     SkinType.Exotic -> ExoticSkin(config.generate(options.exoticColors))
-    SkinType.Fur -> Fur(config.generate(options.furColors))
+    SkinType.Fur -> Fur(generateHairColor(config, options.furColors))
     SkinType.Material -> MaterialSkin(config.generate(options.materials))
     SkinType.Normal -> NormalSkin(config.generate(options.normalColors))
     SkinType.Scales -> Scales(config.generate(options.scalesColors))
@@ -297,7 +311,7 @@ private fun generateSimpleTail(
 private fun generateFeatureColor(
     config: AppearanceGeneratorConfig,
     options: FeatureColorOptions,
-) = when (options.types) {
+) = when (options.type) {
     FeatureColorType.Hair -> ReuseHairColor
     FeatureColorType.Overwrite -> OverwriteFeatureColor(generateSkin(config, options.skin))
     FeatureColorType.Skin -> ReuseSkinColor

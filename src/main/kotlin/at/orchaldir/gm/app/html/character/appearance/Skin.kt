@@ -58,7 +58,7 @@ private fun HtmlBlockTag.editSkinInternal(
             skin.color
         )
 
-        is Fur -> selectColor("Color", combine(param, EXOTIC, COLOR), options.furColors, skin.color)
+        is Fur -> selectHairColor(options.furColors, skin.color, combine(param, FUR))
 
         is MaterialSkin -> selectFromOneOf(
             "Material",
@@ -107,7 +107,7 @@ fun parseSkin(
         }
 
         SkinType.Fur.toString() -> {
-            return Fur(parseExoticColor(parameters, config, options.furColors, param))
+            return Fur(parseHairColor(parameters, config, options.furColors, param))
         }
 
         SkinType.Material.toString() -> MaterialSkin(parseMaterialId(parameters, combine(param, MATERIAL)))

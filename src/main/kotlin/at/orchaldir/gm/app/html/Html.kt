@@ -2,6 +2,8 @@ package at.orchaldir.gm.app.html
 
 import at.orchaldir.gm.app.APP_TITLE
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.appearance.SkinColor
+import at.orchaldir.gm.core.model.character.appearance.hair.NormalHairColorEnum
 import at.orchaldir.gm.core.model.util.RarityMap
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.render.Color
@@ -9,6 +11,7 @@ import at.orchaldir.gm.core.model.util.reverseAndSort
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.renderer.svg.Svg
+import at.orchaldir.gm.visualization.character.CharacterRenderConfig
 import kotlinx.html.*
 
 fun <ID : Id<ID>, ELEMENT : ElementWithSimpleName<ID>> HTML.simpleHtmlDetails(
@@ -141,6 +144,22 @@ fun HtmlBlockTag.showColorRarityMap(
     colors: RarityMap<Color>,
 ) = showRarityMap(label, colors) { color ->
     showColor(color)
+}
+
+fun HtmlBlockTag.showHairColorRarityMap(
+    config: CharacterRenderConfig,
+    label: String,
+    colors: RarityMap<NormalHairColorEnum>,
+) = showRarityMap(label, colors) { color ->
+    showHairColor(config, color)
+}
+
+fun HtmlBlockTag.showSkinColorRarityMap(
+    config: CharacterRenderConfig,
+    label: String,
+    colors: RarityMap<SkinColor>,
+) = showRarityMap(label, colors) { color ->
+    showSkinColor(config, color)
 }
 
 fun <K, V> HtmlBlockTag.showMap(

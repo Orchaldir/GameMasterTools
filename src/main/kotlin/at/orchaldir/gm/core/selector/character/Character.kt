@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.character.CharacterTemplateId
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.character.appearance.beard.NoBeard
+import at.orchaldir.gm.core.model.character.appearance.hair.NoHairColor
 import at.orchaldir.gm.core.model.character.appearance.updateBeard
 import at.orchaldir.gm.core.model.character.appearance.updateHairColor
 import at.orchaldir.gm.core.model.character.title.TitleId
@@ -376,7 +377,7 @@ private fun getAppearanceForAge(race: Race, appearance: Appearance, age: Int, he
             updatedAppearance = updateBeard(updatedAppearance, NoBeard)
         }
 
-        if (stage.hairColor != null) {
+        if (stage.hairColor != NoHairColor) {
             updatedAppearance = updateHairColor(updatedAppearance, stage.hairColor)
         }
     }

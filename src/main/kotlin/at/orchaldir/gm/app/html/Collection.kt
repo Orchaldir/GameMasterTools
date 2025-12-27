@@ -116,7 +116,7 @@ fun <T> HtmlBlockTag.showInlineList(
     elements.withIndex().forEach { value ->
         when (value.index) {
             0 -> doNothing()
-            elements.size -> +" & "
+            elements.size - 1 -> +" & "
             else -> +", "
         }
         content(value.value)

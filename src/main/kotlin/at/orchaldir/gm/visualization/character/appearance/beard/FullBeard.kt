@@ -2,8 +2,8 @@ package at.orchaldir.gm.visualization.character.appearance.beard
 
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.beard.FullBeardStyle
+import at.orchaldir.gm.core.model.character.appearance.hair.HairColor
 import at.orchaldir.gm.core.model.character.appearance.hair.HairLength
-import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.visualization.character.CharacterRenderState
@@ -12,7 +12,7 @@ fun visualizeFullBeard(
     state: CharacterRenderState<Head>,
     style: FullBeardStyle,
     length: HairLength,
-    color: Color,
+    color: HairColor,
 ) {
     val layer = state.getBeardLayer()
     val options = state.config.getLineOptions(color)

@@ -4,11 +4,11 @@ import at.orchaldir.gm.core.model.character.appearance.beard.Beard
 import at.orchaldir.gm.core.model.character.appearance.beard.NoBeard
 import at.orchaldir.gm.core.model.character.appearance.beard.NormalBeard
 import at.orchaldir.gm.core.model.character.appearance.hair.Hair
+import at.orchaldir.gm.core.model.character.appearance.hair.HairColor
 import at.orchaldir.gm.core.model.character.appearance.hair.NoHair
 import at.orchaldir.gm.core.model.character.appearance.hair.NormalHair
 import at.orchaldir.gm.core.model.character.appearance.mouth.Mouth
 import at.orchaldir.gm.core.model.character.appearance.mouth.NormalMouth
-import at.orchaldir.gm.core.model.util.render.Color
 
 fun updateBeard(appearance: Appearance, beard: Beard): Appearance {
     return when (appearance) {
@@ -27,7 +27,7 @@ fun updateBeard(mouth: Mouth, beard: Beard): Mouth {
     }
 }
 
-fun updateHairColor(appearance: Appearance, color: Color): Appearance {
+fun updateHairColor(appearance: Appearance, color: HairColor): Appearance {
     return when (appearance) {
         is HeadOnly -> appearance.copy(
             head = updateHairColor(appearance.head, color),
@@ -43,27 +43,27 @@ fun updateHairColor(appearance: Appearance, color: Color): Appearance {
     }
 }
 
-fun updateHairColor(head: Head, color: Color) = head.copy(
+fun updateHairColor(head: Head, color: HairColor) = head.copy(
     hair = updateHairColor(head.hair, color),
     mouth = updateHairColor(head.mouth, color),
 )
 
-fun updateHairColor(hair: Hair, color: Color) = when (hair) {
+fun updateHairColor(hair: Hair, color: HairColor) = when (hair) {
     NoHair -> hair
     is NormalHair -> hair.copy(color = color)
 }
 
-fun updateHairColor(mouth: Mouth, color: Color) = when (mouth) {
+fun updateHairColor(mouth: Mouth, color: HairColor) = when (mouth) {
     is NormalMouth -> mouth.copy(updateHairColor(mouth.beard, color))
     else -> mouth
 }
 
-fun updateHairColor(beard: Beard, color: Color) = when (beard) {
+fun updateHairColor(beard: Beard, color: HairColor) = when (beard) {
     NoBeard -> beard
     is NormalBeard -> beard.copy(color = color)
 }
 
-fun updateFurColor(skin: Skin, color: Color) = when (skin) {
+fun updateFurColor(skin: Skin, color: HairColor) = when (skin) {
     is Fur -> Fur(color)
     else -> skin
 }

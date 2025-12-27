@@ -27,6 +27,10 @@ data object NoHair : Hair()
 @SerialName("Normal")
 data class NormalHair(
     val cut: HairCut,
-    val color: Color,
-) : Hair()
+    val color: HairColor,
+) : Hair() {
+
+    constructor(cut: HairCut, color: Color) : this(cut, ExoticHairColor(color))
+
+}
 

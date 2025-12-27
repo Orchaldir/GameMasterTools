@@ -6,6 +6,7 @@ import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.unit.Orientation
+import at.orchaldir.gm.utils.math.unit.ZERO_ORIENTATION
 import at.orchaldir.gm.utils.renderer.MultiLayerRenderer
 import at.orchaldir.gm.utils.renderer.model.RenderStringOptions
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
@@ -40,6 +41,22 @@ fun <T> renderTable(
     }
 
     File(filename).writeText(builder.finish().export())
+}
+
+fun <T> renderTableWithNames(
+    filename: String,
+    renderSize: Size2d,
+    rows: List<List<Pair<String, T>>>,
+    render: (AABB, MultiLayerRenderer, T) -> Unit,
+) {
+    val textSize = renderSize.width / 10.0f
+    val textOptions = RenderStringOptions(Color.Black.toRender(), textSize)
+
+    renderTable(filename, renderSize, rows) { aabb, renderer, pair ->
+        render(aabb, renderer, pair.second)
+
+        renderer.getLayer().renderString(pair.first, aabb.getCenter(), ZERO_ORIENTATION, textOptions)
+    }
 }
 
 fun <C, R> renderTable(

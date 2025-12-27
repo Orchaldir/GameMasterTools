@@ -82,7 +82,12 @@ private fun HtmlBlockTag.editNormalBeard(
         fashion?.beardStyles,
         beard.style.getType(),
     )
-    selectColor("Color", combine(BEARD, COLOR), raceAppearance.hair.colors, beard.color)
+    selectHairColor(
+        raceAppearance.hair.colors,
+        beard.color,
+        BEARD,
+        "Color",
+    )
 
     when (val style = beard.style) {
         is FullBeard -> {
@@ -189,24 +194,25 @@ private fun HtmlBlockTag.editHair(
 
     when (hair) {
         NoHair -> doNothing()
-        is NormalHair -> editNormalHair(raceAppearance, fashion?.hair, hair)
+        is NormalHair -> {
+            editHairCut(fashion?.hair, hair.cut)
+            selectHairColor(raceAppearance.hair.colors, hair.color, HAIR)
+        }
     }
 }
 
-private fun HtmlBlockTag.editNormalHair(
-    raceAppearance: RaceAppearance,
+private fun HtmlBlockTag.editHairCut(
     fashion: HairFashion?,
-    hair: NormalHair,
+    cut: HairCut,
 ) {
     selectFromOptionalOneOf(
         "Haircut",
         combine(HAIR, STYLE),
         fashion?.hairStyles,
-        hair.cut.getType(),
+        cut.getType(),
     )
-    selectColor("Color", combine(HAIR, COLOR), raceAppearance.hair.colors, hair.color)
 
-    when (val cut = hair.cut) {
+    when (cut) {
         is Bun -> {
             selectFromOptionalOneOf(
                 "Bun Style",
@@ -359,7 +365,7 @@ private fun parseNormalBeard(
 
         else -> Goatee(GoateeStyle.Goatee)
     },
-    parseAppearanceColor(parameters, BEARD, config, config.appearanceOptions.hair.colors),
+    parseHairColor(parameters, config, config.appearanceOptions.hair.colors, BEARD),
 )
 
 private fun parseMoustacheStyle(
@@ -440,62 +446,66 @@ private fun parseHair(parameters: Parameters, config: AppearanceGeneratorConfig)
 
     return when (parameters[HAIR]) {
         HairType.None.toString() -> NoHair
-        HairType.Normal.toString() -> {
-            return NormalHair(
-                when (parameters[combine(HAIR, STYLE)]) {
-                    HairStyle.Bun.toString() -> Bun(
-                        parseAppearanceOption(
-                            parameters,
-                            combine(BUN, STYLE),
-                            config,
-                            fashion.bunStyles,
-                        ),
-                        parse(parameters, combine(BUN, SIZE), Size.Medium),
-                    )
-
-                    HairStyle.Long.toString() -> LongHairCut(
-                        parseAppearanceOption(
-                            parameters,
-                            combine(LONG, STYLE),
-                            config,
-                            fashion.longHairStyles,
-                        ),
-                        parseHairLength(parameters, config),
-                    )
-
-                    HairStyle.Ponytail.toString() -> Ponytail(
-                        parseAppearanceOption(
-                            parameters,
-                            combine(PONYTAIL, STYLE),
-                            config,
-                            fashion.ponytailStyles,
-                        ),
-                        parseAppearanceOption(
-                            parameters,
-                            combine(PONYTAIL, POSITION),
-                            config,
-                            fashion.ponytailPositions,
-                        ),
-                        parseHairLength(parameters, config),
-                    )
-
-                    HairStyle.Short.toString() -> ShortHairCut(
-                        parseAppearanceOption(
-                            parameters,
-                            combine(SHORT, STYLE),
-                            config,
-                            fashion.shortHairStyles,
-                        ),
-                    )
-
-                    else -> generateHairCut(config)
-                },
-                parseAppearanceColor(parameters, HAIR, config, config.appearanceOptions.hair.colors),
-            )
-        }
+        HairType.Normal.toString() -> NormalHair(
+            parseHairCut(parameters, config, fashion),
+            parseHairColor(parameters, config, config.appearanceOptions.hair.colors, HAIR),
+        )
 
         else -> generateHair(config)
     }
+}
+
+private fun parseHairCut(
+    parameters: Parameters,
+    config: AppearanceGeneratorConfig,
+    fashion: HairFashion,
+): HairCut = when (parameters[combine(HAIR, STYLE)]) {
+    HairStyle.Bun.toString() -> Bun(
+        parseAppearanceOption(
+            parameters,
+            combine(BUN, STYLE),
+            config,
+            fashion.bunStyles,
+        ),
+        parse(parameters, combine(BUN, SIZE), Size.Medium),
+    )
+
+    HairStyle.Long.toString() -> LongHairCut(
+        parseAppearanceOption(
+            parameters,
+            combine(LONG, STYLE),
+            config,
+            fashion.longHairStyles,
+        ),
+        parseHairLength(parameters, config),
+    )
+
+    HairStyle.Ponytail.toString() -> Ponytail(
+        parseAppearanceOption(
+            parameters,
+            combine(PONYTAIL, STYLE),
+            config,
+            fashion.ponytailStyles,
+        ),
+        parseAppearanceOption(
+            parameters,
+            combine(PONYTAIL, POSITION),
+            config,
+            fashion.ponytailPositions,
+        ),
+        parseHairLength(parameters, config),
+    )
+
+    HairStyle.Short.toString() -> ShortHairCut(
+        parseAppearanceOption(
+            parameters,
+            combine(SHORT, STYLE),
+            config,
+            fashion.shortHairStyles,
+        ),
+    )
+
+    else -> generateHairCut(config)
 }
 
 private fun parseHairLength(

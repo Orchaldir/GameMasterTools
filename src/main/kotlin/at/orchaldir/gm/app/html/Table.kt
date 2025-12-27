@@ -4,7 +4,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.HasBelief
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.name.NotEmptyString
-import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.selector.util.getBelievers
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
@@ -36,10 +35,6 @@ fun TR.thMultiLines(lines: List<String>, width: Int? = null) {
 
 fun TR.tdChar(char: Char) {
     tdString("\"$char\"")
-}
-
-fun TR.tdColor(color: Color?) {
-    td { showOptionalColor(color) }
 }
 
 fun <T : Enum<T>> TR.tdEnum(value: T?) {

@@ -18,7 +18,9 @@ import at.orchaldir.gm.core.model.character.appearance.eye.EyeShape
 import at.orchaldir.gm.core.model.character.appearance.eye.EyeType
 import at.orchaldir.gm.core.model.character.appearance.eye.EyesLayout
 import at.orchaldir.gm.core.model.character.appearance.eye.PupilShape
+import at.orchaldir.gm.core.model.character.appearance.hair.HairColorType
 import at.orchaldir.gm.core.model.character.appearance.hair.HairType
+import at.orchaldir.gm.core.model.character.appearance.hair.NormalHairColorEnum
 import at.orchaldir.gm.core.model.character.appearance.horn.HornsLayout
 import at.orchaldir.gm.core.model.character.appearance.horn.SimpleHornType
 import at.orchaldir.gm.core.model.character.appearance.horn.VALID_CROWN_HORNS
@@ -36,6 +38,7 @@ import at.orchaldir.gm.core.model.race.appearance.*
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.selector.race.getRaces
+import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -57,6 +60,8 @@ fun HtmlBlockTag.showRaceAppearance(
     state: State,
     appearance: RaceAppearance,
 ) {
+    fieldElements(call, state, "Used by", state.getRaces(appearance.id))
+
     showRarityMap("Type", appearance.appearanceTypes)
 
     showEars(appearance)
@@ -68,8 +73,6 @@ fun HtmlBlockTag.showRaceAppearance(
     showSkin(call, state, appearance)
     showTails(call, state, appearance)
     showWings(call, state, appearance)
-
-    showElements(call, state, state.getRaces(appearance.id))
 }
 
 private fun HtmlBlockTag.showEars(appearance: RaceAppearance) {
@@ -121,7 +124,20 @@ private fun HtmlBlockTag.showHair(appearance: RaceAppearance) {
     showRarityMap("Hair", appearance.hair.hairTypes)
 
     if (requiresHairColor(appearance)) {
-        showColorRarityMap("Colors", appearance.hair.colors)
+        showHairColors(appearance.hair.colors, "Hair Colors")
+    }
+}
+
+private fun HtmlBlockTag.showHairColors(options: HairColorOptions, label: String) {
+    showDetails(label) {
+        showRarityMap("Types", options.types)
+
+        if (options.types.contains(HairColorType.Normal)) {
+            showHairColorRarityMap(CHARACTER_CONFIG, "Normal Colors", options.normal)
+        }
+        if (options.types.contains(HairColorType.Exotic)) {
+            showColorRarityMap("Exotics Colors", options.exotic)
+        }
     }
 }
 
@@ -202,7 +218,7 @@ private fun HtmlBlockTag.showSkinInternal(
     }
 
     if (options.skinTypes.isAvailable(SkinType.Normal)) {
-        showRarityMap("Normal Skin Colors", options.normalColors)
+        showSkinColorRarityMap(CHARACTER_CONFIG, "Normal Skin Colors", options.normalColors)
     }
 
     if (options.skinTypes.isAvailable(SkinType.Material)) {
@@ -212,7 +228,7 @@ private fun HtmlBlockTag.showSkinInternal(
     }
 
     if (options.skinTypes.isAvailable(SkinType.Fur)) {
-        showColorRarityMap("Fur Colors", options.furColors)
+        showHairColors(options.furColors, "Fur Colors")
     }
 
     if (options.skinTypes.isAvailable(SkinType.Scales)) {
@@ -246,9 +262,9 @@ private fun HtmlBlockTag.showFeatureColor(
     state: State,
     options: FeatureColorOptions,
 ) {
-    field("Color Type", options.types)
+    field("Color Type", options.type)
 
-    if (options.types == FeatureColorType.Overwrite) {
+    if (options.type == FeatureColorType.Overwrite) {
         showDetails("Skin") {
             showSkinInternal(call, state, options.skin)
         }
@@ -365,7 +381,44 @@ private fun HtmlBlockTag.editHair(appearance: RaceAppearance) {
     selectRarityMap("Hair", HAIR, appearance.hair.hairTypes)
 
     if (requiresHairColor(appearance)) {
-        selectColorRarityMap("Colors", combine(HAIR, COLOR), appearance.hair.colors)
+        editHairColors(
+            appearance.hair.colors,
+            HAIR,
+            "Hair Colors",
+            ALLOWED_HAIR_COLOR_TYPES,
+        )
+    }
+}
+
+private fun HtmlBlockTag.editHairColors(
+    options: HairColorOptions,
+    param: String,
+    label: String,
+    allowedTypes: Set<HairColorType>,
+) {
+    showDetails(label, true) {
+        selectRarityMap(
+            "Types",
+            combine(param, COLOR, TYPE),
+            options.types,
+            allowedTypes,
+        )
+
+        if (options.types.contains(HairColorType.Normal)) {
+            selectHairColorRarityMap(
+                CHARACTER_CONFIG,
+                "Normal Colors",
+                combine(param, COLOR),
+                options.normal,
+            )
+        }
+        if (options.types.contains(HairColorType.Exotic)) {
+            selectColorRarityMap(
+                "Exotic Colors",
+                combine(param, EXOTIC, COLOR),
+                options.exotic,
+            )
+        }
     }
 }
 
@@ -434,7 +487,12 @@ private fun HtmlBlockTag.editSkinInternal(state: State, options: SkinOptions, pa
     }
 
     if (options.skinTypes.isAvailable(SkinType.Fur)) {
-        selectColorRarityMap("Fur Colors", combine(param, FUR, COLOR), options.furColors)
+        editHairColors(
+            options.furColors,
+            combine(param, FUR),
+            "Fur Colors",
+            ALLOWED_HAIR_COLOR_TYPES,
+        )
     }
 
     if (options.skinTypes.isAvailable(SkinType.Material)) {
@@ -447,7 +505,8 @@ private fun HtmlBlockTag.editSkinInternal(state: State, options: SkinOptions, pa
     }
 
     if (options.skinTypes.isAvailable(SkinType.Normal)) {
-        selectRarityMap(
+        selectSkinColorRarityMap(
+            CHARACTER_CONFIG,
             "Normal Skin Colors",
             combine(param, NORMAL, COLOR),
             options.normalColors,
@@ -491,10 +550,10 @@ private fun HtmlBlockTag.editFeatureColor(
         } else {
             setOf(FeatureColorType.Overwrite, FeatureColorType.Skin)
         },
-        options.types,
+        options.type,
     )
 
-    if (options.types == FeatureColorType.Overwrite) {
+    if (options.type == FeatureColorType.Overwrite) {
         showDetails("Skin", true) {
             editSkinInternal(state, options.skin, param)
         }
@@ -583,8 +642,30 @@ private fun parseFootOptions(parameters: Parameters): FootOptions {
 private fun parseHairOptions(parameters: Parameters) = HairOptions(
     parseOneOf(parameters, BEARD, BeardType::valueOf),
     parseOneOf(parameters, HAIR, HairType::valueOf),
-    parseOneOf(parameters, combine(HAIR, COLOR), Color::valueOf, Color.entries),
+    parseHairColors(parameters, HAIR),
 )
+
+private fun parseHairColors(parameters: Parameters, param: String) = HairColorOptions(
+    parseOneOf(
+        parameters,
+        combine(param, COLOR, TYPE),
+        HairColorType::valueOf,
+        setOf(HairColorType.Normal),
+    ),
+    parseOneOf(
+        parameters,
+        combine(param, COLOR),
+        NormalHairColorEnum::valueOf,
+        DEFAULT_NORMAL_HAIR_COLORS,
+    ),
+    parseOneOf(
+        parameters,
+        combine(param, EXOTIC, COLOR),
+        Color::valueOf,
+        DEFAULT_EXOTIC_HAIR_COLORS,
+    ),
+)
+
 
 private fun parseHornOptions(parameters: Parameters) = HornOptions(
     parseOneOf(parameters, HORN, HornsLayout::valueOf),
@@ -607,7 +688,7 @@ private fun parseMouthOptions(parameters: Parameters) = MouthOptions(
 private fun parseSkinOptions(parameters: Parameters, param: String) = SkinOptions(
     parseOneOf(parameters, combine(param, TYPE), SkinType::valueOf, setOf(SkinType.Normal)),
     parseOneOf(parameters, combine(param, EXOTIC, COLOR), Color::valueOf, setOf(DEFAULT_EXOTIC_COLOR)),
-    parseOneOf(parameters, combine(param, FUR, COLOR), Color::valueOf, setOf(DEFAULT_FUR_COLOR)),
+    parseHairColors(parameters, combine(param, FUR)),
     parseOneOf(parameters, combine(param, MATERIAL), ::parseMaterialId, setOf(MaterialId(0))),
     parseOneOf(parameters, combine(param, NORMAL, COLOR), SkinColor::valueOf, SkinColor.entries),
     parseOneOf(parameters, combine(param, SCALE, COLOR), Color::valueOf, setOf(DEFAULT_SCALE_COLOR)),
@@ -640,7 +721,7 @@ private fun parseFeatureColor(parameters: Parameters, param: String): FeatureCol
 
 private fun parseWingOptions(parameters: Parameters) = WingOptions(
     parseOneOf(parameters, combine(WING, LAYOUT), WingsLayout::valueOf),
-    parseOneOrNone(parameters, combine(WING, TYPE), WingType::valueOf, listOf(WingType.Bird)),
+    parseOneOrNone(parameters, combine(WING, TYPE), WingType::valueOf, emptySet()),
     parseFeatureColor(parameters, combine(WING, BAT)),
     parseOneOf(parameters, combine(WING, BIRD, COLOR), Color::valueOf, setOf(DEFAULT_BIRD_COLOR)),
     parseOneOf(parameters, combine(WING, BUTTERFLY, COLOR), Color::valueOf, setOf(DEFAULT_BUTTERFLY_COLOR)),

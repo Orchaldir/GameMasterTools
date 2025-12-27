@@ -6,12 +6,25 @@
    "name": "Dwarf",
    "hair": {
     "colors": {
-     "Black": "Uncommon",
-     "Crimson": "Rare",
-     "SaddleBrown": "Common"
+     "normal": {
+      "LightBrown": "Common",
+      "MediumBrown": "Common",
+      "DarkBrown": "Common",
+      "Black": "Uncommon",
+      "Orange": "Uncommon",
+      "Red": "Rare",
+      "Auburn": "Uncommon"
+     }
     }
    },
    "skin": {
+    "furColors": {
+     "types": {
+      "None": "Common",
+      "Normal": "Common",
+      "Exotic": "Common"
+     }
+    },
     "normalColors": {
      "Fair": "Common",
      "Light": "Common"
@@ -35,19 +48,17 @@
      "None": "Common"
     },
     "colors": {
-     "Gold": "Common",
-     "Orange": "Uncommon",
-     "Yellow": "Uncommon"
+     "normal": {
+      "LightestBlond": "Common",
+      "VeryLightBlond": "Common",
+      "LightBlond": "Common",
+      "Orange": "Common"
+     }
     }
    },
    "skin": {
     "normalColors": {
      "Fair": "Common"
-    }
-   },
-   "wing": {
-    "types": {
-     "Bird": "Common"
     }
    }
   },
@@ -62,9 +73,14 @@
      "None": "Common"
     },
     "colors": {
-     "AliceBlue": "Rare",
-     "Gold": "Rare",
-     "White": "Common"
+     "types": {
+      "Exotic": "Common"
+     },
+     "exotic": {
+      "AliceBlue": "Uncommon",
+      "Lavender": "Uncommon",
+      "White": "Common"
+     }
     }
    },
    "skin": {
@@ -84,9 +100,14 @@
      "None": "Common"
     },
     "colors": {
-     "Black": "Common",
-     "Chocolate": "Common",
-     "SaddleBrown": "Common"
+     "normal": {
+      "DarkBlond": "Uncommon",
+      "LightBrown": "Common",
+      "MediumBrown": "Common",
+      "DarkBrown": "Common",
+      "Black": "Common",
+      "Auburn": "Uncommon"
+     }
     }
    },
    "skin": {
@@ -107,9 +128,11 @@
      "None": "Common"
     },
     "colors": {
-     "Black": "Common",
-     "Wheat": "Common",
-     "White": "Common"
+     "normal": {
+      "LightestBlond": "Common",
+      "VeryLightBlond": "Common",
+      "LightBlond": "Common"
+     }
     }
    },
    "skin": {
@@ -145,8 +168,12 @@
      "None": "Common"
     },
     "colors": {
-     "Black": "Common",
-     "SaddleBrown": "Common"
+     "normal": {
+      "LightBrown": "Common",
+      "MediumBrown": "Common",
+      "DarkBrown": "Common",
+      "Black": "Common"
+     }
     }
    },
    "skin": {
@@ -155,11 +182,6 @@
     },
     "exoticColors": {
      "LightYellow": "Common"
-    }
-   },
-   "wing": {
-    "types": {
-     "Bird": "Common"
     }
    }
   },
@@ -182,6 +204,16 @@
      "Clawed": "Common"
     }
    },
+   "hair": {
+    "colors": {
+     "normal": {
+      "DarkBlond": "Common",
+      "LightBrown": "Common",
+      "MediumBrown": "Common",
+      "DarkBrown": "Common"
+     }
+    }
+   },
    "mouth": {
     "mouthTypes": {
      "Snout": "Common"
@@ -198,17 +230,17 @@
      "Fur": "Common"
     },
     "furColors": {
-     "Peru": "Common"
+     "normal": {
+      "LightestBlond": "Common",
+      "VeryLightBlond": "Common",
+      "LightBlond": "Common",
+      "Blond": "Common"
+     }
     }
    },
    "tail": {
     "layouts": {
      "Simple": "Common"
-    }
-   },
-   "wing": {
-    "types": {
-     "Bird": "Common"
     }
    }
   },
@@ -234,45 +266,6 @@
     },
     "hairTypes": {
      "None": "Common"
-    },
-    "colors": {
-     "AliceBlue": "Common",
-     "AntiqueWhite": "Common",
-     "Aqua": "Common",
-     "Black": "Common",
-     "Blue": "Common",
-     "BlueViolet": "Common",
-     "Chocolate": "Common",
-     "Crimson": "Common",
-     "DimGray": "Common",
-     "Fuchsia": "Common",
-     "Gold": "Common",
-     "Gray": "Common",
-     "Green": "Common",
-     "Indigo": "Common",
-     "Ivory": "Common",
-     "Lavender": "Common",
-     "LightGray": "Common",
-     "LightYellow": "Common",
-     "Lime": "Common",
-     "Maroon": "Common",
-     "Navy": "Common",
-     "Olive": "Common",
-     "Orange": "Common",
-     "OrangeRed": "Common",
-     "Peru": "Common",
-     "Pink": "Common",
-     "Purple": "Common",
-     "Red": "Common",
-     "SaddleBrown": "Common",
-     "Silver": "Common",
-     "SkyBlue": "Common",
-     "SteelBlue": "Common",
-     "Tan": "Common",
-     "Teal": "Common",
-     "Wheat": "Common",
-     "White": "Common",
-     "Yellow": "Common"
     }
    },
    "mouth": {
@@ -304,11 +297,6 @@
      "Rat": {
      }
     }
-   },
-   "wing": {
-    "types": {
-     "Bird": "Common"
-    }
    }
   },
   "8": {
@@ -325,23 +313,23 @@
    },
    "hair": {
     "colors": {
-     "Crimson": "Rare",
-     "Gold": "Common",
-     "Orange": "Rare",
-     "SaddleBrown": "Common",
-     "Wheat": "Common",
-     "Yellow": "Common"
+     "normal": {
+      "LightestBlond": "Common",
+      "VeryLightBlond": "Common",
+      "LightBlond": "Common",
+      "Blond": "Common",
+      "DarkBlond": "Common",
+      "LightBrown": "Common",
+      "MediumBrown": "Common",
+      "Orange": "Rare",
+      "Red": "Rare"
+     }
     }
    },
    "skin": {
     "normalColors": {
      "Fair": "Common",
-     "Light": "Uncommon"
-    }
-   },
-   "wing": {
-    "types": {
-     "Bird": "Common"
+     "Light": "Rare"
     }
    }
   },
@@ -350,20 +338,19 @@
    "name": "Eastern Barbarian",
    "hair": {
     "colors": {
-     "Black": "Common",
-     "SaddleBrown": "Common"
+     "normal": {
+      "LightBrown": "Common",
+      "MediumBrown": "Common",
+      "DarkBrown": "Common",
+      "Black": "Common"
+     }
     }
    },
    "skin": {
     "normalColors": {
-     "Light": "Uncommon",
+     "Light": "Rare",
      "Medium": "Common",
-     "Tan": "Uncommon"
-    }
-   },
-   "wing": {
-    "types": {
-     "Bird": "Common"
+     "Tan": "Rare"
     }
    }
   },
@@ -384,21 +371,22 @@
    },
    "hair": {
     "colors": {
-     "Black": "Common",
-     "Gold": "Uncommon",
-     "SaddleBrown": "Common"
+     "normal": {
+      "Blond": "Uncommon",
+      "DarkBlond": "Uncommon",
+      "LightBrown": "Common",
+      "MediumBrown": "Common",
+      "DarkBrown": "Common",
+      "Black": "Common",
+      "Auburn": "Uncommon"
+     }
     }
    },
    "skin": {
     "normalColors": {
-     "Fair": "Uncommon",
+     "Fair": "Rare",
      "Light": "Common",
-     "Medium": "Uncommon"
-    }
-   },
-   "wing": {
-    "types": {
-     "Bird": "Common"
+     "Medium": "Rare"
     }
    }
   }

@@ -2,6 +2,8 @@ package at.orchaldir.gm.app.html
 
 import at.orchaldir.gm.app.AVAILABLE
 import at.orchaldir.gm.app.parse.combine
+import at.orchaldir.gm.core.model.character.appearance.SkinColor
+import at.orchaldir.gm.core.model.character.appearance.hair.NormalHairColorEnum
 import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.util.RarityMap
 import at.orchaldir.gm.core.model.util.render.Color
@@ -9,6 +11,7 @@ import at.orchaldir.gm.core.model.util.reverseAndSort
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
+import at.orchaldir.gm.visualization.character.CharacterRenderConfig
 import io.ktor.http.*
 import kotlinx.html.*
 
@@ -207,8 +210,33 @@ fun HtmlBlockTag.selectColorRarityMap(
     enum: String,
     selectId: String,
     rarityMap: RarityMap<Color>,
+) = selectColorRarityMap(enum, selectId, rarityMap, HtmlBlockTag::showColor)
+
+fun HtmlBlockTag.selectHairColorRarityMap(
+    config: CharacterRenderConfig,
+    enum: String,
+    selectId: String,
+    rarityMap: RarityMap<NormalHairColorEnum>,
+) = selectColorRarityMap(enum, selectId, rarityMap) { color ->
+    showHairColor(config, color)
+}
+
+fun HtmlBlockTag.selectSkinColorRarityMap(
+    config: CharacterRenderConfig,
+    enum: String,
+    selectId: String,
+    rarityMap: RarityMap<SkinColor>,
+) = selectColorRarityMap(enum, selectId, rarityMap) { color ->
+    showSkinColor(config, color)
+}
+
+inline fun <reified T : Enum<T>> HtmlBlockTag.selectColorRarityMap(
+    enum: String,
+    selectId: String,
+    rarityMap: RarityMap<T>,
+    crossinline show: TD.(T) -> Unit,
 ) {
-    val colors = enumValues<Color>().toSet()
+    val colors = enumValues<T>().toSet()
 
     showDetails(enum, true) {
         table {
@@ -218,7 +246,9 @@ fun HtmlBlockTag.selectColorRarityMap(
             }
             rarityMap.getRarityFor(colors).forEach { (currentColor, currentRarity) ->
                 tr {
-                    tdColor(currentColor)
+                    td {
+                        show(currentColor)
+                    }
                     td {
                         selectValue(selectId, rarityMap.getAvailableRarities()) { rarity ->
                             label = rarity.toString()
@@ -236,19 +266,7 @@ inline fun <reified T : Enum<T>> HtmlBlockTag.selectRarityMap(
     enum: String,
     selectId: String,
     rarityMap: RarityMap<T>,
-) {
-    val values = enumValues<T>().toSet()
-
-    showDetails(enum, true) {
-        showMap(rarityMap.getRarityFor(values)) { currentValue, currentRarity ->
-            selectValue(currentValue.toString(), selectId, rarityMap.getAvailableRarities()) { rarity ->
-                label = rarity.toString()
-                value = "$currentValue-$rarity"
-                selected = rarity == currentRarity
-            }
-        }
-    }
-}
+) = selectRarityMap(enum, selectId, rarityMap, enumValues<T>().toSet())
 
 fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectRarityMap(
     enum: String,

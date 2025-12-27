@@ -18,7 +18,7 @@ fun HtmlBlockTag.selectFeatureColor(
     color: FeatureColor,
     param: String,
 ) {
-    if (options.types == FeatureColorType.Overwrite && color is OverwriteFeatureColor) {
+    if (options.type == FeatureColorType.Overwrite && color is OverwriteFeatureColor) {
         editSkin(state, options.skin, color.skin, param)
     }
 }
@@ -30,7 +30,7 @@ fun parseFeatureColor(
     config: AppearanceGeneratorConfig,
     options: FeatureColorOptions,
     param: String,
-) = when (options.types) {
+) = when (options.type) {
     FeatureColorType.Hair -> ReuseHairColor
     FeatureColorType.Overwrite -> OverwriteFeatureColor(
         parseSkin(parameters, config, options.skin, param)

@@ -1,5 +1,7 @@
 package at.orchaldir.gm.core.model.character.appearance.beard
 
+import at.orchaldir.gm.core.model.character.appearance.hair.ExoticHairColor
+import at.orchaldir.gm.core.model.character.appearance.hair.HairColor
 import at.orchaldir.gm.core.model.util.render.Color
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -27,6 +29,10 @@ data object NoBeard : Beard()
 @SerialName("Normal")
 data class NormalBeard(
     val style: BeardStyle,
-    val color: Color,
-) : Beard()
+    val color: HairColor,
+) : Beard() {
+
+    constructor(style: BeardStyle, color: Color) : this(style, ExoticHairColor(color))
+
+}
 

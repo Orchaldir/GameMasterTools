@@ -1,5 +1,606 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "Strength",
+   "short": "ST",
+   "data": {
+    "#type": "Attribute",
+    "base": {
+     "#type": "Fixed",
+     "default": 10
+    },
+    "cost": {
+     "#type": "Fixed",
+     "cost": 10
+    }
+   }
+  },
+  "1": {
+   "id": 1,
+   "name": "Dexterity",
+   "short": "DX",
+   "data": {
+    "#type": "Attribute",
+    "base": {
+     "#type": "Fixed",
+     "default": 10
+    },
+    "cost": {
+     "#type": "Fixed",
+     "cost": 20
+    }
+   }
+  },
+  "2": {
+   "id": 2,
+   "name": "Intelligence",
+   "short": "IQ",
+   "data": {
+    "#type": "Attribute",
+    "base": {
+     "#type": "Fixed",
+     "default": 10
+    },
+    "cost": {
+     "#type": "Fixed",
+     "cost": 20
+    }
+   }
+  },
+  "3": {
+   "id": 3,
+   "name": "Health",
+   "short": "HT",
+   "data": {
+    "#type": "Attribute",
+    "base": {
+     "#type": "Fixed",
+     "default": 10
+    },
+    "cost": {
+     "#type": "Fixed",
+     "cost": 10
+    }
+   }
+  },
+  "4": {
+   "id": 4,
+   "name": "Will",
+   "data": {
+    "#type": "Attribute",
+    "base": {
+     "#type": "Fixed",
+     "default": 10
+    },
+    "cost": {
+     "#type": "Fixed",
+     "cost": 5
+    }
+   }
+  },
+  "5": {
+   "id": 5,
+   "name": "Perception",
+   "short": "PER",
+   "data": {
+    "#type": "Attribute",
+    "base": {
+     "#type": "Fixed",
+     "default": 10
+    },
+    "cost": {
+     "#type": "Fixed",
+     "cost": 5
+    }
+   }
+  },
+  "6": {
+   "id": 6,
+   "name": "Fighting",
+   "data": {
+    "#type": "Skill",
+    "base": {
+     "#type": "Statistic",
+     "statistic": 1,
+     "offset": -2
+    },
+    "cost": {
+     "#type": "GurpsSkill"
+    }
+   }
+  },
+  "7": {
+   "id": 7,
+   "name": "Shooting",
+   "data": {
+    "#type": "Skill",
+    "base": {
+     "#type": "Statistic",
+     "statistic": 5,
+     "offset": -2
+    },
+    "cost": {
+     "#type": "GurpsSkill"
+    }
+   }
+  },
+  "8": {
+   "id": 8,
+   "name": "Basic Lift",
+   "short": "BL",
+   "data": {
+    "#type": "Derived",
+    "base": {
+     "#type": "Division",
+     "dividend": {
+      "#type": "Product",
+      "values": [
+       {
+        "#type": "Statistic",
+        "statistic": 0
+       },
+       {
+        "#type": "Statistic",
+        "statistic": 0
+       }
+      ]
+     },
+     "divisor": {
+      "#type": "Fixed",
+      "default": 10
+     }
+    },
+    "unit": {
+     "#type": "Suffix",
+     "suffix": "kg"
+    }
+   }
+  },
+  "9": {
+   "id": 9,
+   "name": "Hit Points",
+   "short": "HP",
+   "data": {
+    "#type": "Derived",
+    "base": {
+     "#type": "Statistic",
+     "statistic": 0
+    },
+    "cost": {
+     "#type": "Fixed",
+     "cost": 2
+    }
+   }
+  },
+  "10": {
+   "id": 10,
+   "name": "Fatigue Points",
+   "short": "FP",
+   "data": {
+    "#type": "Derived",
+    "base": {
+     "#type": "Statistic",
+     "statistic": 3
+    },
+    "cost": {
+     "#type": "Fixed",
+     "cost": 3
+    }
+   }
+  },
+  "11": {
+   "id": 11,
+   "name": "Basic Speed",
+   "data": {
+    "#type": "Derived",
+    "base": {
+     "#type": "Sum",
+     "values": [
+      {
+       "#type": "Statistic",
+       "statistic": 1
+      },
+      {
+       "#type": "Statistic",
+       "statistic": 3
+      }
+     ]
+    },
+    "cost": {
+     "#type": "Fixed",
+     "cost": 5
+    }
+   }
+  },
+  "12": {
+   "id": 12,
+   "name": "Dodge",
+   "data": {
+    "#type": "Derived",
+    "base": {
+     "#type": "Sum",
+     "values": [
+      {
+       "#type": "Division",
+       "dividend": {
+        "#type": "Statistic",
+        "statistic": 11
+       },
+       "divisor": {
+        "#type": "Fixed",
+        "default": 4
+       }
+      },
+      {
+       "#type": "Fixed",
+       "default": 3
+      }
+     ]
+    }
+   }
+  },
+  "13": {
+   "id": 13,
+   "name": "Basic Move",
+   "data": {
+    "#type": "Derived",
+    "base": {
+     "#type": "Division",
+     "dividend": {
+      "#type": "Statistic",
+      "statistic": 11
+     },
+     "divisor": {
+      "#type": "Fixed",
+      "default": 4
+     }
+    },
+    "cost": {
+     "#type": "Fixed",
+     "cost": 5
+    },
+    "unit": {
+     "#type": "Suffix",
+     "suffix": "m/s"
+    }
+   }
+  },
+  "14": {
+   "id": 14,
+   "name": "Thrusting Damage",
+   "short": "Thr",
+   "data": {
+    "#type": "Damage",
+    "base": {
+     "#type": "Statistic",
+     "statistic": 0
+    },
+    "lookup": {
+     "#type": "SimpleLookup",
+     "lookup": {
+      "current": {
+       "dice": 2
+      },
+      "previousEntries": [
+       {
+        "value": {
+         "dice": 1,
+         "modifier": -6
+        },
+        "until": 1
+       },
+       {
+        "value": {
+         "dice": 1,
+         "modifier": -6
+        },
+        "until": 2
+       },
+       {
+        "value": {
+         "dice": 1,
+         "modifier": -5
+        },
+        "until": 3
+       },
+       {
+        "value": {
+         "dice": 1,
+         "modifier": -5
+        },
+        "until": 4
+       },
+       {
+        "value": {
+         "dice": 1,
+         "modifier": -4
+        },
+        "until": 5
+       },
+       {
+        "value": {
+         "dice": 1,
+         "modifier": -4
+        },
+        "until": 6
+       },
+       {
+        "value": {
+         "dice": 1,
+         "modifier": -3
+        },
+        "until": 7
+       },
+       {
+        "value": {
+         "dice": 1,
+         "modifier": -3
+        },
+        "until": 8
+       },
+       {
+        "value": {
+         "dice": 1,
+         "modifier": -2
+        },
+        "until": 9
+       },
+       {
+        "value": {
+         "dice": 1,
+         "modifier": -2
+        },
+        "until": 10
+       },
+       {
+        "value": {
+         "dice": 1,
+         "modifier": -1
+        },
+        "until": 11
+       },
+       {
+        "value": {
+         "dice": 1,
+         "modifier": -1
+        },
+        "until": 12
+       },
+       {
+        "value": {
+         "dice": 1
+        },
+        "until": 13
+       },
+       {
+        "value": {
+         "dice": 1
+        },
+        "until": 14
+       },
+       {
+        "value": {
+         "dice": 1,
+         "modifier": 1
+        },
+        "until": 15
+       },
+       {
+        "value": {
+         "dice": 1,
+         "modifier": 1
+        },
+        "until": 16
+       },
+       {
+        "value": {
+         "dice": 1,
+         "modifier": 2
+        },
+        "until": 17
+       },
+       {
+        "value": {
+         "dice": 1,
+         "modifier": 2
+        },
+        "until": 18
+       },
+       {
+        "value": {
+         "dice": 2,
+         "modifier": -1
+        },
+        "until": 19
+       },
+       {
+        "value": {
+         "dice": 2,
+         "modifier": -1
+        },
+        "until": 20
+       }
+      ]
+     }
+    }
+   }
+  },
+  "15": {
+   "id": 15,
+   "name": "Swinging Damage",
+   "short": "Swing",
+   "data": {
+    "#type": "Damage",
+    "base": {
+     "#type": "Statistic",
+     "statistic": 0
+    },
+    "lookup": {
+     "#type": "SimpleLookup",
+     "lookup": {
+      "current": {
+       "dice": 4,
+       "modifier": -1
+      },
+      "previousEntries": [
+       {
+        "value": {
+         "dice": 1,
+         "modifier": -5
+        },
+        "until": 1
+       },
+       {
+        "value": {
+         "dice": 1,
+         "modifier": -5
+        },
+        "until": 2
+       },
+       {
+        "value": {
+         "dice": 1,
+         "modifier": -4
+        },
+        "until": 3
+       },
+       {
+        "value": {
+         "dice": 1,
+         "modifier": -4
+        },
+        "until": 4
+       },
+       {
+        "value": {
+         "dice": 1,
+         "modifier": -3
+        },
+        "until": 5
+       },
+       {
+        "value": {
+         "dice": 1,
+         "modifier": -3
+        },
+        "until": 6
+       },
+       {
+        "value": {
+         "dice": 1,
+         "modifier": -2
+        },
+        "until": 7
+       },
+       {
+        "value": {
+         "dice": 1,
+         "modifier": -2
+        },
+        "until": 8
+       },
+       {
+        "value": {
+         "dice": 1,
+         "modifier": -1
+        },
+        "until": 9
+       },
+       {
+        "value": {
+         "dice": 1
+        },
+        "until": 10
+       },
+       {
+        "value": {
+         "dice": 1,
+         "modifier": 1
+        },
+        "until": 11
+       },
+       {
+        "value": {
+         "dice": 1,
+         "modifier": 2
+        },
+        "until": 12
+       },
+       {
+        "value": {
+         "dice": 2,
+         "modifier": -1
+        },
+        "until": 13
+       },
+       {
+        "value": {
+         "dice": 2
+        },
+        "until": 14
+       },
+       {
+        "value": {
+         "dice": 2,
+         "modifier": 1
+        },
+        "until": 15
+       },
+       {
+        "value": {
+         "dice": 2,
+         "modifier": 2
+        },
+        "until": 16
+       },
+       {
+        "value": {
+         "dice": 3,
+         "modifier": -1
+        },
+        "until": 17
+       },
+       {
+        "value": {
+         "dice": 3
+        },
+        "until": 18
+       },
+       {
+        "value": {
+         "dice": 3,
+         "modifier": 1
+        },
+        "until": 19
+       },
+       {
+        "value": {
+         "dice": 3,
+         "modifier": 2
+        },
+        "until": 20
+       }
+      ]
+     }
+    }
+   }
+  },
+  "16": {
+   "id": 16,
+   "name": "Stealth",
+   "data": {
+    "#type": "Skill",
+    "base": {
+     "#type": "Statistic",
+     "statistic": 1,
+     "offset": -2
+    },
+    "cost": {
+     "#type": "GurpsSkill"
+    }
+   }
+  }
  }
 }
