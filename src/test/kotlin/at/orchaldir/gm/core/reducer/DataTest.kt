@@ -22,11 +22,11 @@ class DataTest {
 
     private val name0 = Name.init("A")
     private val name1 = Name.init("B")
+    private val usedIncome = AffordableStandardOfLiving(STANDARD_ID_1)
     private val state = State(
         listOf(
             Storage(Calendar(CALENDAR_ID_0)),
             Storage(Currency(CURRENCY_ID_0)),
-            Storage(Job(JOB_ID_0, income = AffordableStandardOfLiving(STANDARD_ID_1))),
         )
     )
 
@@ -71,11 +71,12 @@ class DataTest {
 
         @Test
         fun `Cannot delete a used standard of living`() {
+            val newState = state.updateStorage(Storage(Job(JOB_ID_0, income = usedIncome)),)
             val data = Data(economy = Economy(standardsOfLiving = listOf(StandardOfLiving(STANDARD_ID_0))))
             val action = UpdateData(data)
 
             assertIllegalArgument("The number of required Standards of Living is 2!") {
-                REDUCER.invoke(state, action)
+                REDUCER.invoke(newState, action)
             }
         }
 
