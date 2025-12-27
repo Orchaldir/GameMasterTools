@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.html.race
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.character.appearance.fieldHairColor
 import at.orchaldir.gm.app.html.character.appearance.selectHairColor
 import at.orchaldir.gm.app.html.character.appearance.showHairColor
 import at.orchaldir.gm.app.html.rpg.statblock.editStatblock
@@ -46,8 +47,8 @@ fun HtmlBlockTag.showLifeStages(
                 val stage = DefaultLifeStages.entries[indexed.index].name
                 field(stage, "$maxAge years")
             }
-            showHairColor(lifeStages.oldAgeHairColor, "Old Age Hair Color")
-            showHairColor(lifeStages.venerableAgeHairColor, "Venerable Hair Color")
+            fieldHairColor(lifeStages.oldAgeHairColor, "Old Age Hair Color")
+            fieldHairColor(lifeStages.venerableAgeHairColor, "Venerable Hair Color")
             showStatblock(call, state, lifeStages.statblock)
         }
 

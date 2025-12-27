@@ -6,7 +6,9 @@ import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.selectColor
 import at.orchaldir.gm.app.html.selectFromOneOf
+import at.orchaldir.gm.app.html.showColor
 import at.orchaldir.gm.app.html.showDetails
+import at.orchaldir.gm.app.html.showHairColor
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.generator.AppearanceGeneratorConfig
@@ -21,6 +23,19 @@ import kotlinx.html.HtmlBlockTag
 import kotlinx.html.style
 
 // show
+
+fun HtmlBlockTag.fieldHairColor(
+    hairColor: HairColor,
+    text: String = "Hair Color",
+) = field(text) {
+    displayHairColor(hairColor)
+}
+
+fun HtmlBlockTag.displayHairColor(hairColor: HairColor) = when (hairColor) {
+    is NoHairColor -> +"None"
+    is NormalHairColor -> showHairColor(CHARACTER_CONFIG, hairColor.color)
+    is ExoticHairColor -> showColor(hairColor.color)
+}
 
 fun HtmlBlockTag.showHairColor(
     hairColor: HairColor,
