@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.economy.job
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.Price
 import at.orchaldir.gm.core.model.economy.standard.StandardOfLivingId
 import kotlinx.serialization.SerialName
@@ -29,6 +30,12 @@ sealed class Income {
     fun hasStandard(id: StandardOfLivingId) = when (this) {
         is AffordableStandardOfLiving -> standard == id
         else -> false
+    }
+
+    fun sortValue(state: State) = when (this) {
+        UndefinedIncome -> 0
+        is AffordableStandardOfLiving -> state.data.economy.getStandardOfLiving(standard).maxYearlyIncome.value
+        is Salary -> yearlySalary.value
     }
 }
 

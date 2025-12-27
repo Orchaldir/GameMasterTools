@@ -424,6 +424,9 @@ fun State.sortDistricts(
             SortDistrict.Name -> compareBy { it.name.text }
             SortDistrict.Date -> getStartDateComparator()
             SortDistrict.Population -> compareByDescending { it.population.getTotalPopulation() }
+            SortDistrict.Income -> compareByDescending {
+                it.population.income()?.sortValue(this) ?: -1
+            }
         })
 
 // domain
@@ -549,11 +552,7 @@ fun State.sortJobs(
             SortJob.Name -> compareBy { it.name.text }
             SortJob.EmployerType -> compareBy { it.employerType }
             SortJob.Income -> compareByDescending {
-                when (it.income) {
-                    UndefinedIncome -> 0
-                    is AffordableStandardOfLiving -> it.income.standard.value + 1
-                    is Salary -> it.income.yearlySalary.value
-                }
+                it.income.sortValue(this)
             }
 
             SortJob.Characters -> compareByDescending { countCharactersWithJob(it.id) }
