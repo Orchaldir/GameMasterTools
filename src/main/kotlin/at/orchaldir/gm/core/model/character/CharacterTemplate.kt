@@ -36,7 +36,7 @@ value class CharacterTemplateId(val value: Int) : Id<CharacterTemplateId> {
 @Serializable
 data class CharacterTemplate(
     val id: CharacterTemplateId,
-    val name: Name = Name.init("Character Template ${id.value}"),
+    val name: Name = Name.init(id),
     val race: RaceId,
     val gender: Gender? = null,
     val culture: CultureId? = null,

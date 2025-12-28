@@ -21,7 +21,7 @@ value class EquipmentModifierId(val value: Int) : Id<EquipmentModifierId> {
 @Serializable
 data class EquipmentModifier(
     val id: EquipmentModifierId,
-    val name: Name = Name.init("$EQUIPMENT_MODIFIER_TYPE ${id.value}"),
+    val name: Name = Name.init(id),
     val effects: List<EquipmentModifierEffect> = emptyList(),
 ) : ElementWithSimpleName<EquipmentModifierId> {
 

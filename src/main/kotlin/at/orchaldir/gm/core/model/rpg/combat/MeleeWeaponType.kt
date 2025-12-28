@@ -23,7 +23,7 @@ value class MeleeWeaponTypeId(val value: Int) : Id<MeleeWeaponTypeId> {
 @Serializable
 data class MeleeWeaponType(
     val id: MeleeWeaponTypeId,
-    val name: Name = Name.init("$MELEE_WEAPON_TYPE_TYPE ${id.value}"),
+    val name: Name = Name.init(id),
     val attacks: List<MeleeAttack> = emptyList(),
 ) : ElementWithSimpleName<MeleeWeaponTypeId> {
 
