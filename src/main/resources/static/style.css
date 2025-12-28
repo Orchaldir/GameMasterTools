@@ -8,6 +8,10 @@ abbr[title] {
   border-bottom: 1px dotted blue;
 }
 
+body {
+    background-color: #F1E9D2;
+}
+
 details {
   border: 1px solid #aaa;
   border-radius: 4px;
