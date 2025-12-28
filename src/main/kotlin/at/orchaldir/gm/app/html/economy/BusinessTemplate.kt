@@ -8,7 +8,8 @@ import at.orchaldir.gm.app.html.util.source.editDataSources
 import at.orchaldir.gm.app.html.util.source.parseDataSources
 import at.orchaldir.gm.app.html.util.source.showDataSources
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.economy.business.*
+import at.orchaldir.gm.core.model.economy.business.BusinessTemplate
+import at.orchaldir.gm.core.model.economy.business.BusinessTemplateId
 import at.orchaldir.gm.core.selector.economy.getBusinesses
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -57,7 +58,9 @@ fun HtmlBlockTag.editBusinessTemplate(
 // parse
 
 fun parseBusinessTemplateId(value: String) = BusinessTemplateId(value.toInt())
-fun parseBusinessTemplateId(parameters: Parameters, param: String) = parseOptionalBusinessTemplateId(parameters, param) ?: BusinessTemplateId(0)
+fun parseBusinessTemplateId(parameters: Parameters, param: String) =
+    parseOptionalBusinessTemplateId(parameters, param) ?: BusinessTemplateId(0)
+
 fun parseOptionalBusinessTemplateId(parameters: Parameters, param: String) =
     parseSimpleOptionalInt(parameters, param)?.let { BusinessTemplateId(it) }
 

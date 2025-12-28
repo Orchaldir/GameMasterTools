@@ -123,6 +123,7 @@ fun <T> HtmlBlockTag.showInlineList(
                 +" & $remaining more"
                 return
             }
+
             elements.size - 1 -> +" & "
             else -> +", "
         }

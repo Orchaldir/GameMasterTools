@@ -7,11 +7,7 @@ import at.orchaldir.gm.app.routes.character.title.TitleRoutes
 import at.orchaldir.gm.app.routes.culture.CultureRoutes
 import at.orchaldir.gm.app.routes.culture.FashionRoutes
 import at.orchaldir.gm.app.routes.culture.LanguageRoutes
-import at.orchaldir.gm.app.routes.economy.BusinessRoutes
-import at.orchaldir.gm.app.routes.economy.BusinessTemplateRoutes
-import at.orchaldir.gm.app.routes.economy.JobRoutes
-import at.orchaldir.gm.app.routes.economy.MaterialRoutes
-import at.orchaldir.gm.app.routes.economy.StandardOfLivingRoutes
+import at.orchaldir.gm.app.routes.economy.*
 import at.orchaldir.gm.app.routes.economy.money.CurrencyRoutes
 import at.orchaldir.gm.app.routes.economy.money.CurrencyUnitRoutes
 import at.orchaldir.gm.app.routes.health.DiseaseRoutes

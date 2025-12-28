@@ -16,12 +16,7 @@ import at.orchaldir.gm.core.model.culture.fashion.FashionId
 import at.orchaldir.gm.core.model.culture.language.LANGUAGE_TYPE
 import at.orchaldir.gm.core.model.culture.language.Language
 import at.orchaldir.gm.core.model.culture.language.LanguageId
-import at.orchaldir.gm.core.model.economy.business.BUSINESS_TEMPLATE_TYPE
-import at.orchaldir.gm.core.model.economy.business.BUSINESS_TYPE
-import at.orchaldir.gm.core.model.economy.business.Business
-import at.orchaldir.gm.core.model.economy.business.BusinessId
-import at.orchaldir.gm.core.model.economy.business.BusinessTemplate
-import at.orchaldir.gm.core.model.economy.business.BusinessTemplateId
+import at.orchaldir.gm.core.model.economy.business.*
 import at.orchaldir.gm.core.model.economy.job.JOB_TYPE
 import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.economy.job.JobId

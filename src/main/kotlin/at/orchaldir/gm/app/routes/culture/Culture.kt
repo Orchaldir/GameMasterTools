@@ -9,7 +9,6 @@ import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.culture.CULTURE_TYPE
 import at.orchaldir.gm.core.model.culture.CultureId
-import at.orchaldir.gm.core.model.util.Rarity
 import at.orchaldir.gm.core.model.util.SortCulture
 import at.orchaldir.gm.core.selector.character.getCharacters
 import at.orchaldir.gm.core.selector.util.sortCultures
@@ -19,8 +18,6 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
 import kotlinx.html.HtmlBlockTag
-import kotlin.collections.component1
-import kotlin.collections.component2
 
 @Resource("/$CULTURE_TYPE")
 class CultureRoutes : Routes<CultureId, SortCulture> {

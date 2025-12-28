@@ -8,7 +8,6 @@ import at.orchaldir.gm.core.model.util.ALLOWED_CREATORS
 import at.orchaldir.gm.core.model.util.Reference
 import at.orchaldir.gm.core.selector.item.getTextsPublishedBy
 import at.orchaldir.gm.core.selector.util.getCreatedBy
-import at.orchaldir.gm.core.selector.util.isCreator
 import at.orchaldir.gm.utils.Id
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -42,7 +41,8 @@ fun <ID : Id<ID>> HtmlBlockTag.showCreated(
 
     if (!alwaysShowTitle && articles.isEmpty() && buildings.isEmpty() && businesses.isEmpty() && catastrophes.isEmpty() && magicTraditions.isEmpty() &&
         languages.isEmpty() && organizations.isEmpty() && planes.isEmpty() && quotes.isEmpty() && races.isEmpty() && realms.isEmpty() && spells.isEmpty() &&
-        texts.isEmpty() && publishedTexts.isEmpty() && towns.isEmpty() && treaties.isEmpty()) {
+        texts.isEmpty() && publishedTexts.isEmpty() && towns.isEmpty() && treaties.isEmpty()
+    ) {
         return
     }
 

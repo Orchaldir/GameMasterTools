@@ -9,11 +9,7 @@ import at.orchaldir.gm.app.routes.configureDataRouting
 import at.orchaldir.gm.app.routes.culture.configureCultureRouting
 import at.orchaldir.gm.app.routes.culture.configureFashionRouting
 import at.orchaldir.gm.app.routes.culture.configureLanguageRouting
-import at.orchaldir.gm.app.routes.economy.configureBusinessRouting
-import at.orchaldir.gm.app.routes.economy.configureBusinessTemplateRouting
-import at.orchaldir.gm.app.routes.economy.configureJobRouting
-import at.orchaldir.gm.app.routes.economy.configureMaterialRouting
-import at.orchaldir.gm.app.routes.economy.configureStandardOfLivingRouting
+import at.orchaldir.gm.app.routes.economy.*
 import at.orchaldir.gm.app.routes.economy.money.configureCurrencyRouting
 import at.orchaldir.gm.app.routes.economy.money.configureCurrencyUnitRouting
 import at.orchaldir.gm.app.routes.health.configureDiseaseRouting

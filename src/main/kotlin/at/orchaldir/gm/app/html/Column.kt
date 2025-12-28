@@ -23,7 +23,6 @@ import io.ktor.server.application.*
 import kotlinx.html.TD
 import kotlinx.html.TR
 import kotlinx.html.td
-import kotlinx.html.title
 
 data class Column<T>(
     val header: List<String>,

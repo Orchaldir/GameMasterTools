@@ -11,7 +11,6 @@ import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.economy.business.BUSINESS_TEMPLATE_TYPE
 import at.orchaldir.gm.core.model.economy.business.BusinessTemplateId
 import at.orchaldir.gm.core.model.util.SortBusinessTemplate
-import at.orchaldir.gm.core.selector.character.getEmployees
 import at.orchaldir.gm.core.selector.economy.getBusinesses
 import at.orchaldir.gm.core.selector.util.sortBusinessTemplates
 import io.ktor.resources.*
@@ -83,7 +82,12 @@ fun Application.configureBusinessTemplateRouting() {
             handleEditElement(edit.id, BusinessTemplateRoutes(), HtmlBlockTag::editBusinessTemplate)
         }
         post<BusinessTemplateRoutes.Preview> { preview ->
-            handlePreviewElement(preview.id, BusinessTemplateRoutes(), ::parseBusinessTemplate, HtmlBlockTag::editBusinessTemplate)
+            handlePreviewElement(
+                preview.id,
+                BusinessTemplateRoutes(),
+                ::parseBusinessTemplate,
+                HtmlBlockTag::editBusinessTemplate
+            )
         }
         post<BusinessTemplateRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseBusinessTemplate)

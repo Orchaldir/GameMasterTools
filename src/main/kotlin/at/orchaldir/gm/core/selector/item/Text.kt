@@ -3,7 +3,6 @@ package at.orchaldir.gm.core.selector.item
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.language.LanguageId
-import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.item.text.TextId
@@ -101,7 +100,7 @@ fun State.getTranslationsOf(text: TextId) = getTextStorage()
     .getAll()
     .filter { b -> b.origin.isTranslationOf(text.value) }
 
-fun <ID: Id<ID>> State.getTextsPublishedBy(publisher: ID) = getTextStorage()
+fun <ID : Id<ID>> State.getTextsPublishedBy(publisher: ID) = getTextStorage()
     .getAll()
     .filter { it.publisher == publisher }
 

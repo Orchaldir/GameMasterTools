@@ -1,12 +1,6 @@
 package at.orchaldir.gm.app.html.util.population
 
-import at.orchaldir.gm.app.html.link
-import at.orchaldir.gm.app.html.showInlineList
-import at.orchaldir.gm.app.html.showTooltip
-import at.orchaldir.gm.app.html.tdLink
-import at.orchaldir.gm.app.html.tdPercentage
-import at.orchaldir.gm.app.html.tdSkipZero
-import at.orchaldir.gm.app.html.tdString
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.math.selectFactor
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.model.State
@@ -22,8 +16,6 @@ import at.orchaldir.gm.utils.math.ZERO
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.*
-import kotlin.collections.component1
-import kotlin.collections.component2
 
 // show
 
