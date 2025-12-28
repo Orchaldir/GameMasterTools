@@ -19,6 +19,8 @@ import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
 import kotlinx.html.HtmlBlockTag
+import kotlin.collections.component1
+import kotlin.collections.component2
 
 @Resource("/$CULTURE_TYPE")
 class CultureRoutes : Routes<CultureId, SortCulture> {
@@ -70,7 +72,17 @@ fun Application.configureCultureRouting() {
                 listOf(
                     createNameColumn(call, state),
                     Column("Calendar") { tdLink(call, state, it.calendar) },
-                    Column("Languages") { tdInlineIds(call, state, it.languages.getValuesFor(Rarity.Everyone)) },
+                    Column("Languages") {
+                        val languages = it.languages.getRarityMap()
+                            .entries
+                            .sortedBy { it.value }
+
+                        tdInline(languages, 2) { (id, rarity) ->
+                            showTooltip(rarity.toString()) {
+                                link(call, state, id)
+                            }
+                        }
+                    },
                     Column(listOf("Naming", "Convention")) { tdEnum(it.namingConvention.getType()) },
                     countCollectionColumn("Holidays") { it.holidays },
                     countCollectionColumn("Characters") { state.getCharacters(it.id) },
