@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.routes.economy
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.economy.editBusiness
 import at.orchaldir.gm.app.html.economy.parseBusiness
 import at.orchaldir.gm.app.html.economy.showBusiness
@@ -64,6 +65,7 @@ fun Application.configureBusinessRouting() {
                 state.sortBusinesses(all.sort),
                 listOf(
                     createNameColumn(call, state),
+                    Column("Templates") { tdInlineIds(call, state, it.templates, 2) },
                     createStartDateColumn(call, state),
                     createEndDateColumn(call, state),
                     createAgeColumn(state),
