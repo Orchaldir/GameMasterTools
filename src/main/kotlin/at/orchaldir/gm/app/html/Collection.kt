@@ -103,19 +103,26 @@ fun <ID : Id<ID>> HtmlBlockTag.showInlineIds(
     call: ApplicationCall,
     state: State,
     ids: Collection<ID>,
+    max: Int = Int.MAX_VALUE,
 ) {
-    showInlineList(ids) { id ->
+    showInlineList(ids, max) { id ->
         link(call, state, id)
     }
 }
 
 fun <T> HtmlBlockTag.showInlineList(
     elements: Collection<T>,
+    max: Int = Int.MAX_VALUE,
     content: (T) -> Unit,
 ) {
     elements.withIndex().forEach { value ->
         when (value.index) {
             0 -> doNothing()
+            in max..Int.MAX_VALUE -> {
+                val remaining = elements.size - max
+                +" & $remaining more"
+                return
+            }
             elements.size - 1 -> +" & "
             else -> +", "
         }

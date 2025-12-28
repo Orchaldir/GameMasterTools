@@ -47,13 +47,13 @@ fun HtmlBlockTag.showCulturesOfPopulation(
     call: ApplicationCall,
     state: State,
     population: Population,
-) = showInlineIds(call, state, population.cultures())
+) = showInlineIds(call, state, population.cultures(), 2)
 
 fun HtmlBlockTag.showRacesOfPopulation(
     call: ApplicationCall,
     state: State,
     population: Population,
-) = showInlineIds(call, state, population.races())
+) = showInlineIds(call, state, population.races(), 2)
 
 fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showPopulationDetails(
     call: ApplicationCall,
