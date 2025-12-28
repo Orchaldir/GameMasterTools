@@ -13,6 +13,7 @@ import at.orchaldir.gm.core.model.util.font.FontId
 import at.orchaldir.gm.core.model.util.origin.TranslatedElement
 import at.orchaldir.gm.core.model.util.quote.QuoteId
 import at.orchaldir.gm.core.selector.util.getReferenceName
+import at.orchaldir.gm.utils.Id
 
 fun State.canDeleteText(text: TextId) = DeleteResult(text)
     .addElements(getTranslationsOf(text))
@@ -100,7 +101,7 @@ fun State.getTranslationsOf(text: TextId) = getTextStorage()
     .getAll()
     .filter { b -> b.origin.isTranslationOf(text.value) }
 
-fun State.getTextsPublishedBy(publisher: BusinessId) = getTextStorage()
+fun <ID: Id<ID>> State.getTextsPublishedBy(publisher: ID) = getTextStorage()
     .getAll()
     .filter { it.publisher == publisher }
 
