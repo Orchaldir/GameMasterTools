@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.fashion.FashionId
 import at.orchaldir.gm.core.model.culture.language.LanguageId
 import at.orchaldir.gm.core.model.economy.business.BusinessId
+import at.orchaldir.gm.core.model.economy.business.BusinessTemplateId
 import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.economy.money.CurrencyId
@@ -60,6 +61,7 @@ import at.orchaldir.gm.core.selector.culture.canDeleteCulture
 import at.orchaldir.gm.core.selector.culture.canDeleteFashion
 import at.orchaldir.gm.core.selector.culture.canDeleteLanguage
 import at.orchaldir.gm.core.selector.economy.canDeleteBusiness
+import at.orchaldir.gm.core.selector.economy.canDeleteBusinessTemplate
 import at.orchaldir.gm.core.selector.economy.canDeleteJob
 import at.orchaldir.gm.core.selector.economy.canDeleteMaterial
 import at.orchaldir.gm.core.selector.economy.money.canDeleteCurrency
@@ -101,6 +103,7 @@ fun reduceDeleteElement(
     is BattleId -> deleteElement(state, id, State::canDeleteBattle)
     is BuildingId -> deleteBuilding(state, id)
     is BusinessId -> deleteElement(state, id, State::canDeleteBusiness)
+    is BusinessTemplateId -> deleteElement(state, id, State::canDeleteBusinessTemplate)
     is CalendarId -> deleteElement(state, id, State::canDeleteCalendar)
     is CatastropheId -> deleteElement(state, id, State::canDeleteCatastrophe)
     is CharacterId -> deleteElement(state, id, State::canDeleteCharacter)
