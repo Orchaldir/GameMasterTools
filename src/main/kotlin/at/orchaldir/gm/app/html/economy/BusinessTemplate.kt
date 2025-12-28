@@ -1,5 +1,6 @@
 package at.orchaldir.gm.app.html.economy
 
+import at.orchaldir.gm.app.html.fieldElements
 import at.orchaldir.gm.app.html.parseName
 import at.orchaldir.gm.app.html.parseSimpleOptionalInt
 import at.orchaldir.gm.app.html.selectName
@@ -8,9 +9,11 @@ import at.orchaldir.gm.app.html.util.source.parseDataSources
 import at.orchaldir.gm.app.html.util.source.showDataSources
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.business.*
+import at.orchaldir.gm.core.selector.economy.getBusinesses
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
+import kotlinx.html.h2
 
 // show
 
@@ -20,6 +23,24 @@ fun HtmlBlockTag.showBusinessTemplate(
     template: BusinessTemplate,
 ) {
     showDataSources(call, state, template.sources)
+
+    showUsage(call, state, template)
+}
+
+private fun HtmlBlockTag.showUsage(
+    call: ApplicationCall,
+    state: State,
+    template: BusinessTemplate,
+) {
+    val businesses = state.getBusinesses(template.id)
+
+    if (businesses.isEmpty()) {
+        return
+    }
+
+    h2 { +"Usage" }
+
+    fieldElements(call, state, businesses)
 }
 
 // edit
