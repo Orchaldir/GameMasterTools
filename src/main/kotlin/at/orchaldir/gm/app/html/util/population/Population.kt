@@ -47,7 +47,12 @@ fun HtmlBlockTag.showCulturesOfPopulation(
     call: ApplicationCall,
     state: State,
     population: Population,
-) = showInlineIds(call, state, population.cultures(), 2)
+    max: Int = 2,
+) = when (population) {
+    is PopulationDistribution -> showInlineElementDistribution(call, state, population.cultures, max)
+    UndefinedPopulation -> doNothing()
+    else -> showInlineIds(call, state, population.cultures(), max)
+}
 
 fun HtmlBlockTag.showRacesOfPopulation(
     call: ApplicationCall,
@@ -55,17 +60,9 @@ fun HtmlBlockTag.showRacesOfPopulation(
     population: Population,
     max: Int = 2,
 ) = when (population) {
-    is PopulationDistribution -> {
-        val sorted = population.races.map.entries
-            .sortedByDescending { it.value.toPermyriad() }
-        showInlineList(sorted, max) { (id, factor) ->
-            showTooltip(factor.toString()) {
-                link(call, state, id)
-            }
-        }
-    }
+    is PopulationDistribution -> showInlineElementDistribution(call, state, population.races, max)
     UndefinedPopulation -> doNothing()
-    else -> showInlineIds(call, state, population.races(), 2)
+    else -> showInlineIds(call, state, population.races(), max)
 }
 
 fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showPopulationDetails(

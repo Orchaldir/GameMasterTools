@@ -1,5 +1,8 @@
 package at.orchaldir.gm.app.html.util.population
 
+import at.orchaldir.gm.app.html.link
+import at.orchaldir.gm.app.html.showInlineList
+import at.orchaldir.gm.app.html.showTooltip
 import at.orchaldir.gm.app.html.tdLink
 import at.orchaldir.gm.app.html.tdPercentage
 import at.orchaldir.gm.app.html.tdSkipZero
@@ -19,8 +22,26 @@ import at.orchaldir.gm.utils.math.ZERO
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.*
+import kotlin.collections.component1
+import kotlin.collections.component2
 
 // show
+
+fun <ID : Id<ID>> HtmlBlockTag.showInlineElementDistribution(
+    call: ApplicationCall,
+    state: State,
+    distribution: ElementDistribution<ID>,
+    max: Int = 2,
+) {
+    val sorted = distribution.map.entries
+        .sortedByDescending { it.value.toPermyriad() }
+
+    showInlineList(sorted, max) { (id, factor) ->
+        showTooltip(factor.toString()) {
+            link(call, state, id)
+        }
+    }
+}
 
 fun <ID : Id<ID>> DETAILS.showElementDistribution(
     population: PopulationDistribution,
