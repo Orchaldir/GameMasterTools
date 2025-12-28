@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.fashion.Fashion
 import at.orchaldir.gm.core.model.culture.language.Language
 import at.orchaldir.gm.core.model.economy.business.Business
+import at.orchaldir.gm.core.model.economy.business.BusinessTemplate
 import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.economy.material.Material
 import at.orchaldir.gm.core.model.economy.money.Currency
@@ -70,6 +71,7 @@ fun reduceUpdateElement(
     is Battle -> updateElement(state, element)
     is Building -> updateBuilding(state, element)
     is Business -> updateElement(state, element)
+    is BusinessTemplate -> updateElement(state, element)
     is Calendar -> updateElement(state, element)
     is Catastrophe -> updateElement(state, element)
     is Character -> updateElement(state, element)

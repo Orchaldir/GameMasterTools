@@ -1,9 +1,6 @@
 package at.orchaldir.gm.app.html.util.population
 
-import at.orchaldir.gm.app.html.tdLink
-import at.orchaldir.gm.app.html.tdPercentage
-import at.orchaldir.gm.app.html.tdSkipZero
-import at.orchaldir.gm.app.html.tdString
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.math.selectFactor
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.model.State
@@ -21,6 +18,22 @@ import io.ktor.server.application.*
 import kotlinx.html.*
 
 // show
+
+fun <ID : Id<ID>> HtmlBlockTag.showInlineElementDistribution(
+    call: ApplicationCall,
+    state: State,
+    distribution: ElementDistribution<ID>,
+    max: Int = 2,
+) {
+    val sorted = distribution.map.entries
+        .sortedByDescending { it.value.toPermyriad() }
+
+    showInlineList(sorted, max) { (id, factor) ->
+        showTooltip(factor.toString()) {
+            link(call, state, id)
+        }
+    }
+}
 
 fun <ID : Id<ID>> DETAILS.showElementDistribution(
     population: PopulationDistribution,

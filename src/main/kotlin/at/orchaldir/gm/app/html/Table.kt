@@ -85,7 +85,8 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> TR.tdInlineElements(
     call: ApplicationCall,
     state: State,
     elements: Collection<ELEMENT>,
-) = tdInline(elements) { element ->
+    max: Int = Int.MAX_VALUE,
+) = tdInline(elements, max) { element ->
     link(call, state, element)
 }
 
@@ -93,16 +94,18 @@ fun <ID : Id<ID>> TR.tdInlineIds(
     call: ApplicationCall,
     state: State,
     ids: Collection<ID>,
-) = tdInline(ids) { id ->
+    max: Int = Int.MAX_VALUE,
+) = tdInline(ids, max) { id ->
     link(call, state, id)
 }
 
 fun <T> TR.tdInline(
     values: Collection<T>,
+    max: Int = Int.MAX_VALUE,
     content: HtmlBlockTag.(T) -> Unit,
 ) {
     td {
-        showInlineList(values) { value ->
+        showInlineList(values, max) { value ->
             content(value)
         }
     }

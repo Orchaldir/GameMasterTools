@@ -16,6 +16,8 @@ import at.orchaldir.gm.core.model.culture.language.Language
 import at.orchaldir.gm.core.model.culture.language.LanguageId
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.business.BusinessId
+import at.orchaldir.gm.core.model.economy.business.BusinessTemplate
+import at.orchaldir.gm.core.model.economy.business.BusinessTemplateId
 import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.economy.material.Material
@@ -98,6 +100,7 @@ fun reduceCreateElement(
     is BattleId -> createElement(state, Battle(id))
     is BuildingId -> createElement(state, Building(id))
     is BusinessId -> createElement(state, Business(id))
+    is BusinessTemplateId -> createElement(state, BusinessTemplate(id))
     is CalendarId -> createElement(state, Calendar(id))
     is CatastropheId -> createElement(state, Catastrophe(id))
     is CharacterId -> createElement(state, Character(id, date = state.getCurrentDate()))

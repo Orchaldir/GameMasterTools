@@ -24,7 +24,7 @@ value class StatisticId(val value: Int) : Id<StatisticId> {
 @Serializable
 data class Statistic(
     val id: StatisticId,
-    val name: Name = Name.init("$STATISTIC_TYPE ${id.value}"),
+    val name: Name = Name.init(id),
     val short: Name? = null,
     val data: StatisticData = Attribute(),
     val sources: Set<DataSourceId> = emptySet(),

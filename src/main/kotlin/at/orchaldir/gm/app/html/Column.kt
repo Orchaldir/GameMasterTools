@@ -23,7 +23,6 @@ import io.ktor.server.application.*
 import kotlinx.html.TD
 import kotlinx.html.TR
 import kotlinx.html.td
-import kotlinx.html.title
 
 data class Column<T>(
     val header: List<String>,
@@ -77,8 +76,10 @@ private fun <T> createDateColumn(
     getDate: (T) -> Date?,
 ): Column<T> = tdColumn(label) {
     val date = getDate(it)
-    title = state.getAgeInYears(date)?.let { "$it years ago" } ?: ""
-    showOptionalDate(call, state, date)
+
+    showTooltip(state.getAgeInYears(date)?.let { "$it years ago" } ?: "") {
+        showOptionalDate(call, state, date)
+    }
 }
 
 fun <ID : Id<ID>, ELEMENT : Element<ID>> createDestroyedColumns(

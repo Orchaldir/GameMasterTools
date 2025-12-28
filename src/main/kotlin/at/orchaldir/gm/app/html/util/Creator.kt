@@ -6,8 +6,8 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.ALLOWED_CREATORS
 import at.orchaldir.gm.core.model.util.Reference
+import at.orchaldir.gm.core.selector.item.getTextsPublishedBy
 import at.orchaldir.gm.core.selector.util.getCreatedBy
-import at.orchaldir.gm.core.selector.util.isCreator
 import at.orchaldir.gm.utils.Id
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -22,27 +22,48 @@ fun <ID : Id<ID>> HtmlBlockTag.showCreated(
     id: ID,
     alwaysShowTitle: Boolean = false,
 ) {
-    if (!alwaysShowTitle && !state.isCreator(id)) {
+    val articles = getCreatedBy(state.getArticleStorage(), id)
+    val buildings = getCreatedBy(state.getBuildingStorage(), id)
+    val businesses = getCreatedBy(state.getBusinessStorage(), id)
+    val catastrophes = getCreatedBy(state.getCatastropheStorage(), id)
+    val magicTraditions = getCreatedBy(state.getMagicTraditionStorage(), id)
+    val languages = getCreatedBy(state.getLanguageStorage(), id)
+    val organizations = getCreatedBy(state.getOrganizationStorage(), id)
+    val planes = getCreatedBy(state.getPlaneStorage(), id)
+    val quotes = getCreatedBy(state.getQuoteStorage(), id)
+    val races = getCreatedBy(state.getRaceStorage(), id)
+    val realms = getCreatedBy(state.getRealmStorage(), id)
+    val spells = getCreatedBy(state.getSpellStorage(), id)
+    val texts = getCreatedBy(state.getTextStorage(), id)
+    val publishedTexts = state.getTextsPublishedBy(id)
+    val towns = getCreatedBy(state.getTownStorage(), id)
+    val treaties = getCreatedBy(state.getTreatyStorage(), id)
+
+    if (!alwaysShowTitle && articles.isEmpty() && buildings.isEmpty() && businesses.isEmpty() && catastrophes.isEmpty() && magicTraditions.isEmpty() &&
+        languages.isEmpty() && organizations.isEmpty() && planes.isEmpty() && quotes.isEmpty() && races.isEmpty() && realms.isEmpty() && spells.isEmpty() &&
+        texts.isEmpty() && publishedTexts.isEmpty() && towns.isEmpty() && treaties.isEmpty()
+    ) {
         return
     }
 
     h2 { +"Created" }
 
-    fieldElements(call, state, getCreatedBy(state.getArticleStorage(), id))
-    fieldElements(call, state, getCreatedBy(state.getBuildingStorage(), id))
-    fieldElements(call, state, getCreatedBy(state.getBusinessStorage(), id))
-    fieldElements(call, state, getCreatedBy(state.getCatastropheStorage(), id))
-    fieldElements(call, state, getCreatedBy(state.getLanguageStorage(), id))
-    fieldElements(call, state, getCreatedBy(state.getMagicTraditionStorage(), id))
-    fieldElements(call, state, getCreatedBy(state.getOrganizationStorage(), id))
-    fieldElements(call, state, getCreatedBy(state.getPlaneStorage(), id))
-    fieldElements(call, state, getCreatedBy(state.getQuoteStorage(), id))
-    fieldElements(call, state, getCreatedBy(state.getRaceStorage(), id))
-    fieldElements(call, state, getCreatedBy(state.getRealmStorage(), id))
-    fieldElements(call, state, getCreatedBy(state.getSpellStorage(), id))
-    fieldElements(call, state, getCreatedBy(state.getTextStorage(), id))
-    fieldElements(call, state, getCreatedBy(state.getTownStorage(), id))
-    fieldElements(call, state, getCreatedBy(state.getTreatyStorage(), id))
+    fieldElements(call, state, articles)
+    fieldElements(call, state, buildings)
+    fieldElements(call, state, businesses)
+    fieldElements(call, state, catastrophes)
+    fieldElements(call, state, languages)
+    fieldElements(call, state, magicTraditions)
+    fieldElements(call, state, organizations)
+    fieldElements(call, state, planes)
+    fieldElements(call, state, quotes)
+    fieldElements(call, state, races)
+    fieldElements(call, state, realms)
+    fieldElements(call, state, spells)
+    fieldElements(call, state, texts)
+    fieldElements(call, state, "Published Texts", publishedTexts)
+    fieldElements(call, state, towns)
+    fieldElements(call, state, treaties)
 }
 
 // select

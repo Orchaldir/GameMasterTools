@@ -64,6 +64,7 @@ fun Application.configureBusinessRouting() {
                 state.sortBusinesses(all.sort),
                 listOf(
                     createNameColumn(call, state),
+                    Column("Templates") { tdInlineIds(call, state, it.templates, 2) },
                     createStartDateColumn(call, state),
                     createEndDateColumn(call, state),
                     createAgeColumn(state),

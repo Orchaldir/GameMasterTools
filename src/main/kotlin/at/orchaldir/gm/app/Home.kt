@@ -11,6 +11,7 @@ import at.orchaldir.gm.app.routes.culture.CultureRoutes
 import at.orchaldir.gm.app.routes.culture.FashionRoutes
 import at.orchaldir.gm.app.routes.culture.LanguageRoutes
 import at.orchaldir.gm.app.routes.economy.BusinessRoutes
+import at.orchaldir.gm.app.routes.economy.BusinessTemplateRoutes
 import at.orchaldir.gm.app.routes.economy.JobRoutes
 import at.orchaldir.gm.app.routes.economy.MaterialRoutes
 import at.orchaldir.gm.app.routes.economy.money.CurrencyRoutes
@@ -96,6 +97,7 @@ fun Application.configureRouting() {
                     fieldStorageLink(call, state.getPeriodicalIssueStorage(), PeriodicalIssueRoutes())
                     h3 { +"Economy" }
                     fieldStorageLink(call, state.getBusinessStorage(), BusinessRoutes())
+                    fieldStorageLink(call, state.getBusinessTemplateStorage(), BusinessTemplateRoutes())
                     fieldStorageLink(call, state.getCurrencyStorage(), CurrencyRoutes())
                     fieldStorageLink(call, state.getCurrencyUnitStorage(), CurrencyUnitRoutes())
                     fieldStorageLink(call, state.getJobStorage(), JobRoutes())

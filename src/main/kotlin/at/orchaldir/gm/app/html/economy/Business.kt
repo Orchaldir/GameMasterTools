@@ -2,19 +2,19 @@ package at.orchaldir.gm.app.html.economy
 
 import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.POSITION
-import at.orchaldir.gm.app.html.fieldElements
-import at.orchaldir.gm.app.html.parseName
-import at.orchaldir.gm.app.html.parseSimpleOptionalInt
-import at.orchaldir.gm.app.html.selectName
+import at.orchaldir.gm.app.TEMPLATE
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.app.html.util.source.editDataSources
 import at.orchaldir.gm.app.html.util.source.parseDataSources
 import at.orchaldir.gm.app.html.util.source.showDataSources
+import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.business.*
 import at.orchaldir.gm.core.selector.character.getEmployees
 import at.orchaldir.gm.core.selector.character.getPreviousEmployees
 import at.orchaldir.gm.core.selector.item.getTextsPublishedBy
+import at.orchaldir.gm.core.selector.util.sortBusinessTemplates
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -30,6 +30,7 @@ fun HtmlBlockTag.showBusiness(
     val previousEmployees = state.getPreviousEmployees(business.id).toSet() - employees
     val published = state.getTextsPublishedBy(business.id)
 
+    fieldIds(call, state, business.templates)
     fieldPosition(call, state, business.position)
     optionalField(call, state, "Start", business.startDate())
     showVitalStatus(call, state, business.status)
@@ -38,11 +39,8 @@ fun HtmlBlockTag.showBusiness(
     showOwnership(call, state, business.ownership)
     showEmployees(call, state, employees, showOptionalBusiness = false)
     fieldElements(call, state, "Previous Employees", previousEmployees)
-    showCreated(call, state, business.id, true)
-
-    fieldElements(call, state, "Published Texts", published)
-
-    showOwnedElements(call, state, business.id, true)
+    showCreated(call, state, business.id)
+    showOwnedElements(call, state, business.id)
     showDataSources(call, state, business.sources)
 }
 
@@ -54,6 +52,13 @@ fun HtmlBlockTag.editBusiness(
     business: Business,
 ) {
     selectName(business.name)
+    selectElements(
+        state,
+        "Templates",
+        TEMPLATE,
+        state.sortBusinessTemplates(),
+        business.templates,
+    )
     selectOptionalDate(state, "Start", business.startDate(), DATE)
     selectVitalStatus(
         state,
@@ -85,6 +90,7 @@ fun parseBusiness(
     return Business(
         id,
         parseName(parameters),
+        parseElements(parameters, TEMPLATE, ::parseBusinessTemplateId),
         startDate,
         parseVitalStatus(parameters, state),
         parseCreator(parameters),

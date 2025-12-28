@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.selector.economy
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.business.BusinessId
+import at.orchaldir.gm.core.model.economy.business.BusinessTemplateId
 import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.selector.character.getEmployees
@@ -33,5 +34,9 @@ fun State.getBusinesses(job: JobId) = getCharacterStorage()
         }
     }
     .toSet()
+
+fun State.getBusinesses(template: BusinessTemplateId) = getBusinessStorage()
+    .getAll()
+    .filter { it.templates.contains(template) }
 
 fun State.getOpenBusinesses(date: Date?) = getExistingElements(getBusinessStorage().getAll(), date)

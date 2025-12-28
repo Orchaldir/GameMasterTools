@@ -56,6 +56,13 @@ class BusinessTest {
         }
 
         @Test
+        fun `Cannot use unknown business template`() {
+            val action = UpdateAction(Business(BUSINESS_ID_0, templates = setOf(UNKNOWN_BUSINESS_TEMPLATE_ID)))
+
+            assertIllegalArgument("Requires unknown Business Template 99!") { REDUCER.invoke(STATE, action) }
+        }
+
+        @Test
         fun `Owner is an unknown character`() {
             val action =
                 UpdateAction(Business(BUSINESS_ID_0, ownership = History(CharacterReference(CHARACTER_ID_0))))

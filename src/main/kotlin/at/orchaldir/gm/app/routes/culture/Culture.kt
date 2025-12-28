@@ -9,7 +9,6 @@ import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.culture.CULTURE_TYPE
 import at.orchaldir.gm.core.model.culture.CultureId
-import at.orchaldir.gm.core.model.util.Rarity
 import at.orchaldir.gm.core.model.util.SortCulture
 import at.orchaldir.gm.core.selector.character.getCharacters
 import at.orchaldir.gm.core.selector.util.sortCultures
@@ -70,7 +69,17 @@ fun Application.configureCultureRouting() {
                 listOf(
                     createNameColumn(call, state),
                     Column("Calendar") { tdLink(call, state, it.calendar) },
-                    Column("Languages") { tdInlineIds(call, state, it.languages.getValuesFor(Rarity.Everyone)) },
+                    Column("Languages") {
+                        val languages = it.languages.getRarityMap()
+                            .entries
+                            .sortedBy { it.value }
+
+                        tdInline(languages, 2) { (id, rarity) ->
+                            showTooltip(rarity.toString()) {
+                                link(call, state, id)
+                            }
+                        }
+                    },
                     Column(listOf("Naming", "Convention")) { tdEnum(it.namingConvention.getType()) },
                     countCollectionColumn("Holidays") { it.holidays },
                     countCollectionColumn("Characters") { state.getCharacters(it.id) },

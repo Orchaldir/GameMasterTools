@@ -23,7 +23,7 @@ value class DamageTypeId(val value: Int) : Id<DamageTypeId> {
 @Serializable
 data class DamageType(
     val id: DamageTypeId,
-    val name: Name = Name.init("$DAMAGE_TYPE_TYPE ${id.value}"),
+    val name: Name = Name.init(id),
     val short: NotEmptyString? = null,
 ) : ElementWithSimpleName<DamageTypeId> {
 

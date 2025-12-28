@@ -7,10 +7,7 @@ import at.orchaldir.gm.app.routes.character.title.TitleRoutes
 import at.orchaldir.gm.app.routes.culture.CultureRoutes
 import at.orchaldir.gm.app.routes.culture.FashionRoutes
 import at.orchaldir.gm.app.routes.culture.LanguageRoutes
-import at.orchaldir.gm.app.routes.economy.BusinessRoutes
-import at.orchaldir.gm.app.routes.economy.JobRoutes
-import at.orchaldir.gm.app.routes.economy.MaterialRoutes
-import at.orchaldir.gm.app.routes.economy.StandardOfLivingRoutes
+import at.orchaldir.gm.app.routes.economy.*
 import at.orchaldir.gm.app.routes.economy.money.CurrencyRoutes
 import at.orchaldir.gm.app.routes.economy.money.CurrencyUnitRoutes
 import at.orchaldir.gm.app.routes.health.DiseaseRoutes
@@ -41,6 +38,7 @@ import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.fashion.FashionId
 import at.orchaldir.gm.core.model.culture.language.LanguageId
 import at.orchaldir.gm.core.model.economy.business.BusinessId
+import at.orchaldir.gm.core.model.economy.business.BusinessTemplateId
 import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.economy.money.CurrencyId
@@ -385,6 +383,7 @@ fun href(
     is BattleId -> call.application.href(BattleRoutes.Details(id))
     is BuildingId -> call.application.href(BuildingRoutes.Details(id))
     is BusinessId -> call.application.href(BusinessRoutes.Details(id))
+    is BusinessTemplateId -> call.application.href(BusinessTemplateRoutes.Details(id))
     is CalendarId -> call.application.href(CalendarRoutes.Details(id))
     is CatastropheId -> call.application.href(CatastropheRoutes.Details(id))
     is CharacterId -> call.application.href(CharacterRoutes.Details(id))

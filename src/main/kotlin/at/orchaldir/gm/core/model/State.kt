@@ -16,9 +16,7 @@ import at.orchaldir.gm.core.model.culture.fashion.FashionId
 import at.orchaldir.gm.core.model.culture.language.LANGUAGE_TYPE
 import at.orchaldir.gm.core.model.culture.language.Language
 import at.orchaldir.gm.core.model.culture.language.LanguageId
-import at.orchaldir.gm.core.model.economy.business.BUSINESS_TYPE
-import at.orchaldir.gm.core.model.economy.business.Business
-import at.orchaldir.gm.core.model.economy.business.BusinessId
+import at.orchaldir.gm.core.model.economy.business.*
 import at.orchaldir.gm.core.model.economy.job.JOB_TYPE
 import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.economy.job.JobId
@@ -112,6 +110,7 @@ val ELEMENTS =
         BATTLE_TYPE,
         BUILDING_TYPE,
         BUSINESS_TYPE,
+        BUSINESS_TEMPLATE_TYPE,
         CALENDAR_TYPE,
         CATASTROPHE_TYPE,
         CHARACTER_TEMPLATE_TYPE,
@@ -195,6 +194,7 @@ data class State(
     fun getBattleStorage() = getStorage<BattleId, Battle>(BATTLE_TYPE)
     fun getBuildingStorage() = getStorage<BuildingId, Building>(BUILDING_TYPE)
     fun getBusinessStorage() = getStorage<BusinessId, Business>(BUSINESS_TYPE)
+    fun getBusinessTemplateStorage() = getStorage<BusinessTemplateId, BusinessTemplate>(BUSINESS_TEMPLATE_TYPE)
     fun getCalendarStorage() = getStorage<CalendarId, Calendar>(CALENDAR_TYPE)
     fun getCatastropheStorage() = getStorage<CatastropheId, Catastrophe>(CATASTROPHE_TYPE)
     fun getCharacterTemplateStorage() = getStorage<CharacterTemplateId, CharacterTemplate>(CHARACTER_TEMPLATE_TYPE)
@@ -353,6 +353,7 @@ data class State(
         saveStorage(path, getBattleStorage())
         saveStorage(path, getBuildingStorage())
         saveStorage(path, getBusinessStorage())
+        saveStorage(path, getBusinessTemplateStorage())
         saveStorage(path, getCalendarStorage())
         saveStorage(path, getCatastropheStorage())
         saveStorage(path, getCharacterStorage())
@@ -418,6 +419,7 @@ fun createStorage(type: String) = when (type) {
     BATTLE_TYPE -> Storage(BattleId(0))
     BUILDING_TYPE -> Storage(BuildingId(0))
     BUSINESS_TYPE -> Storage(BusinessId(0))
+    BUSINESS_TEMPLATE_TYPE -> Storage(BusinessTemplateId(0))
     CALENDAR_TYPE -> Storage(CalendarId(0))
     CATASTROPHE_TYPE -> Storage(CatastropheId(0))
     CHARACTER_TEMPLATE_TYPE -> Storage(CharacterTemplateId(0))
@@ -482,6 +484,7 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     BATTLE_TYPE -> loadStorage<BattleId, Battle>(path, BattleId(0))
     BUILDING_TYPE -> loadStorage<BuildingId, Building>(path, BuildingId(0))
     BUSINESS_TYPE -> loadStorage<BusinessId, Business>(path, BusinessId(0))
+    BUSINESS_TEMPLATE_TYPE -> loadStorage<BusinessTemplateId, BusinessTemplate>(path, BusinessTemplateId(0))
     CALENDAR_TYPE -> loadStorage<CalendarId, Calendar>(path, CalendarId(0))
     CATASTROPHE_TYPE -> loadStorage<CatastropheId, Catastrophe>(path, CatastropheId(0))
     CHARACTER_TEMPLATE_TYPE -> loadStorage<CharacterTemplateId, CharacterTemplate>(path, CharacterTemplateId(0))

@@ -22,7 +22,7 @@ value class ShieldTypeId(val value: Int) : Id<ShieldTypeId> {
 @Serializable
 data class ShieldType(
     val id: ShieldTypeId,
-    val name: Name = Name.init("$SHIELD_TYPE_TYPE ${id.value}"),
+    val name: Name = Name.init(id),
     val protection: Protection = UndefinedProtection,
 ) : ElementWithSimpleName<ShieldTypeId> {
 

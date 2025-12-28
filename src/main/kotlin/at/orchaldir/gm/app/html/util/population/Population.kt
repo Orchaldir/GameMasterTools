@@ -47,13 +47,23 @@ fun HtmlBlockTag.showCulturesOfPopulation(
     call: ApplicationCall,
     state: State,
     population: Population,
-) = showInlineIds(call, state, population.cultures())
+    max: Int = 2,
+) = when (population) {
+    is PopulationDistribution -> showInlineElementDistribution(call, state, population.cultures, max)
+    UndefinedPopulation -> doNothing()
+    else -> showInlineIds(call, state, population.cultures(), max)
+}
 
 fun HtmlBlockTag.showRacesOfPopulation(
     call: ApplicationCall,
     state: State,
     population: Population,
-) = showInlineIds(call, state, population.races())
+    max: Int = 2,
+) = when (population) {
+    is PopulationDistribution -> showInlineElementDistribution(call, state, population.races, max)
+    UndefinedPopulation -> doNothing()
+    else -> showInlineIds(call, state, population.races(), max)
+}
 
 fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showPopulationDetails(
     call: ApplicationCall,

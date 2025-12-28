@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.fashion.FashionId
 import at.orchaldir.gm.core.model.culture.language.LanguageId
 import at.orchaldir.gm.core.model.economy.business.BusinessId
+import at.orchaldir.gm.core.model.economy.business.BusinessTemplateId
 import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.economy.money.Currency
@@ -72,6 +73,8 @@ val BUILDING_ID_1 = BuildingId(1)
 val UNKNOWN_BUILDING_ID = BuildingId(99)
 val BUSINESS_ID_0 = BusinessId(0)
 val UNKNOWN_BUSINESS_ID = BusinessId(99)
+val BUSINESS_TEMPLATE_ID_0 = BusinessTemplateId(0)
+val UNKNOWN_BUSINESS_TEMPLATE_ID = BusinessTemplateId(99)
 val CALENDAR_ID_0 = CalendarId(0)
 val CALENDAR_ID_1 = CalendarId(1)
 val UNKNOWN_CALENDAR_ID = CalendarId(99)
