@@ -65,6 +65,7 @@ data class Business(
     override fun vitalStatus() = status
 
     override fun validate(state: State) {
+        state.getBusinessTemplateStorage().require(templates)
         validateVitalStatus(
             state,
             id,
