@@ -3,6 +3,10 @@ a {
   text-decoration: none;
 }
 
+abbr[title] {
+  border-bottom: 1px dotted blue;
+}
+
 details {
   border: 1px solid #aaa;
   border-radius: 4px;
