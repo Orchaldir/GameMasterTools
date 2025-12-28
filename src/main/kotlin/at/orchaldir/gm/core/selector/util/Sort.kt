@@ -58,6 +58,7 @@ import at.orchaldir.gm.core.selector.character.countCharactersWithJob
 import at.orchaldir.gm.core.selector.character.countResidents
 import at.orchaldir.gm.core.selector.character.getEmployees
 import at.orchaldir.gm.core.selector.culture.countCultures
+import at.orchaldir.gm.core.selector.economy.getBusinesses
 import at.orchaldir.gm.core.selector.economy.money.calculateWeight
 import at.orchaldir.gm.core.selector.economy.money.countCurrencyUnits
 import at.orchaldir.gm.core.selector.item.countTexts
@@ -215,6 +216,7 @@ fun State.sortBusinessTemplates(
     .sortedWith(
         when (sort) {
             SortBusinessTemplate.Name -> compareBy { it.name.text }
+            SortBusinessTemplate.Businesses -> compareByDescending { getBusinesses(it.id).size }
         }
     )
 

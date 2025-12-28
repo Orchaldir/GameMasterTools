@@ -42,6 +42,7 @@ enum class SortBusiness {
 
 enum class SortBusinessTemplate {
     Name,
+    Businesses,
 }
 
 enum class SortCalendar {
