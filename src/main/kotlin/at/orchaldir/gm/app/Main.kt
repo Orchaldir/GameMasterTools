@@ -10,6 +10,7 @@ import at.orchaldir.gm.app.routes.culture.configureCultureRouting
 import at.orchaldir.gm.app.routes.culture.configureFashionRouting
 import at.orchaldir.gm.app.routes.culture.configureLanguageRouting
 import at.orchaldir.gm.app.routes.economy.configureBusinessRouting
+import at.orchaldir.gm.app.routes.economy.configureBusinessTemplateRouting
 import at.orchaldir.gm.app.routes.economy.configureJobRouting
 import at.orchaldir.gm.app.routes.economy.configureMaterialRouting
 import at.orchaldir.gm.app.routes.economy.configureStandardOfLivingRouting
@@ -76,6 +77,7 @@ fun Application.module() {
     configureBuildingEditorRouting()
     configureBuildingRouting()
     configureBusinessRouting()
+    configureBusinessTemplateRouting()
     configureCalendarRouting()
     configureCatastropheRouting()
     configureCharacterRelationshipRouting()

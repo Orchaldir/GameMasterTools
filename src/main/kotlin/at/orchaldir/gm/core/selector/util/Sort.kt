@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.fashion.Fashion
 import at.orchaldir.gm.core.model.culture.language.Language
 import at.orchaldir.gm.core.model.economy.business.Business
+import at.orchaldir.gm.core.model.economy.business.BusinessTemplate
 import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.economy.material.Material
 import at.orchaldir.gm.core.model.economy.money.Currency
@@ -199,6 +200,21 @@ fun State.sortBusinesses(
             SortBusiness.End -> getEndDateComparator()
             SortBusiness.Age -> compareByDescending { it.getAgeInYears(this) }
             SortBusiness.Employees -> compareByDescending { getEmployees(it.id).size }
+        }
+    )
+
+// business template
+
+fun State.sortBusinessTemplates(sort: SortBusinessTemplate = SortBusinessTemplate.Name) =
+    sortBusinessTemplates(getBusinessTemplateStorage().getAll(), sort)
+
+fun State.sortBusinessTemplates(
+    businesses: Collection<BusinessTemplate>,
+    sort: SortBusinessTemplate = SortBusinessTemplate.Name,
+) = businesses
+    .sortedWith(
+        when (sort) {
+            SortBusinessTemplate.Name -> compareBy { it.name.text }
         }
     )
 

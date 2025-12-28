@@ -17,9 +17,9 @@ import kotlinx.html.HtmlBlockTag
 fun HtmlBlockTag.showBusinessTemplate(
     call: ApplicationCall,
     state: State,
-    business: BusinessTemplate,
+    template: BusinessTemplate,
 ) {
-    showDataSources(call, state, business.sources)
+    showDataSources(call, state, template.sources)
 }
 
 // edit
@@ -27,10 +27,10 @@ fun HtmlBlockTag.showBusinessTemplate(
 fun HtmlBlockTag.editBusinessTemplate(
     call: ApplicationCall,
     state: State,
-    business: BusinessTemplate,
+    template: BusinessTemplate,
 ) {
-    selectName(business.name)
-    editDataSources(state, business.sources)
+    selectName(template.name)
+    editDataSources(state, template.sources)
 }
 
 // parse
