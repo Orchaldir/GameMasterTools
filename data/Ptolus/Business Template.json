@@ -2,7 +2,16 @@
  "version": 1,
  "elements": {
   "0": {
-   "id": 0
+   "id": 0,
+   "name": "Inn"
+  },
+  "1": {
+   "id": 1,
+   "name": "Restaurant"
+  },
+  "2": {
+   "id": 2,
+   "name": "Bar"
   }
  }
 }

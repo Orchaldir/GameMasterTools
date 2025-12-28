@@ -35,6 +35,7 @@ fun HtmlBlockTag.editBusinessTemplate(
 
 // parse
 
+fun parseBusinessTemplateId(value: String) = BusinessTemplateId(value.toInt())
 fun parseBusinessTemplateId(parameters: Parameters, param: String) = parseOptionalBusinessTemplateId(parameters, param) ?: BusinessTemplateId(0)
 fun parseOptionalBusinessTemplateId(parameters: Parameters, param: String) =
     parseSimpleOptionalInt(parameters, param)?.let { BusinessTemplateId(it) }

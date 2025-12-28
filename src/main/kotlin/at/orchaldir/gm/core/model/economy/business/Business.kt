@@ -46,6 +46,7 @@ value class BusinessId(val value: Int) : Id<BusinessId> {
 data class Business(
     val id: BusinessId,
     val name: Name = Name.init(id),
+    val templates: Set<BusinessTemplateId> = emptySet(),
     val date: Date? = null,
     val status: VitalStatus = Alive,
     val founder: Reference = UndefinedReference,

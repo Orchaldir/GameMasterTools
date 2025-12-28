@@ -1,5 +1,18 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "The Ghostly Minstrel",
+   "templates": [
+    2,
+    0,
+    1
+   ],
+   "position": {
+    "#type": "District",
+    "district": 2
+   }
+  }
  }
 }
