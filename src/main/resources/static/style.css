@@ -4,6 +4,7 @@ a {
 }
 
 abbr[title] {
+  text-decoration: none;
   border-bottom: 1px dotted blue;
 }
 

@@ -77,8 +77,10 @@ private fun <T> createDateColumn(
     getDate: (T) -> Date?,
 ): Column<T> = tdColumn(label) {
     val date = getDate(it)
-    title = state.getAgeInYears(date)?.let { "$it years ago" } ?: ""
-    showOptionalDate(call, state, date)
+
+    showTooltip(state.getAgeInYears(date)?.let { "$it years ago" } ?: "") {
+        showOptionalDate(call, state, date)
+    }
 }
 
 fun <ID : Id<ID>, ELEMENT : Element<ID>> createDestroyedColumns(
