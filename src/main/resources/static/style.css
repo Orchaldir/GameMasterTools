@@ -1,27 +1,24 @@
+a {
+  color: blue;
+  text-decoration: none;
+}
+
 details {
   border: 1px solid #aaa;
   border-radius: 4px;
   padding: 10px 20px 10px;
 }
 
-table, th, td {
-  border: 1px solid black;
-  border-collapse: collapse;
-  padding: 5px;
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(1, 1fr);
+  gap: 10px;
+  position: relative;
 }
 
-th {
-  background-color: #BFC9CA;
-}
-
-.split {
-  max-width: 50%;
-  width: 50%;
-  float: left;
-  height: 100vh;
-  overflow-x: scroll;
-  overflow-y: scroll;
-  overflow: scroll;
+.grid-item {
+  overflow: hidden;
 }
 
 .main {
@@ -35,14 +32,22 @@ p {
   padding-left: 10px;
 }
 
-.grid-container {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(1, 1fr);
-  gap: 10px;
-  position: relative;
+.split {
+  max-width: 50%;
+  width: 50%;
+  float: left;
+  height: 100vh;
+  overflow-x: scroll;
+  overflow-y: scroll;
+  overflow: scroll;
 }
 
-.grid-item {
-  overflow: hidden;
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  padding: 5px;
+}
+
+th {
+  background-color: #BFC9CA;
 }
