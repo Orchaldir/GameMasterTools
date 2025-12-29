@@ -94,12 +94,14 @@ fun convertToSquareDecimeters(smm: Long) = upTwoSteps(upTwoSteps(smm))
 fun convertToSquareCentimeters(smm: Long) = up(up(smm))
 fun convertToSquareMicrometers(smm: Long) = downThreeSteps(downThreeSteps(smm))
 
-fun formatArea(smm: Long) = if (smm >= SI_NINE_STEPS) {
-    String.format(Locale.US, "%.1f m^2", convertToSquareMeters(smm))
+fun formatArea(smm: Long) = if (smm >= SI_TWELVE_STEPS) {
+    String.format(Locale.US, "%.1f km^2", convertToSquareKilometers(smm))
 } else if (smm >= SI_SIX_STEPS) {
+    String.format(Locale.US, "%.1f m^2", convertToSquareMeters(smm))
+} else if (smm >= SI_FOUR_STEPS) {
     String.format(Locale.US, "%.1f dm^2", convertToSquareDecimeters(smm))
-} else if (smm >= SI_THREE_STEPS) {
-    String.format(Locale.US, "%.1f sm^2", convertToSquareCentimeters(smm))
+} else if (smm >= SI_TWO_STEPS) {
+    String.format(Locale.US, "%.1f cm^2", convertToSquareCentimeters(smm))
 } else {
     String.format(Locale.US, "%d mm^2", smm)
 }
