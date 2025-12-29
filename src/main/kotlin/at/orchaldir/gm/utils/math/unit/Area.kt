@@ -23,6 +23,14 @@ value class Area private constructor(private val sm: Float) {
         fun fromSquareMeters(sm: Long) = Area(sm.toFloat())
         fun fromSquareMeters(sm: Float) = Area(sm)
 
+        fun convertFrom(value: Float, prefix: SiPrefix) = Area(when (prefix) {
+            SiPrefix.Kilo -> convertFromSquareKilometers(value)
+            SiPrefix.Base -> value
+            SiPrefix.Centi -> convertFromSquareCentimeters(value)
+            SiPrefix.Milli -> convertFromSquareMillimeters(value)
+            SiPrefix.Micro -> error("Unsupported!")
+        })
+
         // shapes
 
         fun fromSquare(size: Size2d) = fromSquare(size.width, size.height)
@@ -32,6 +40,14 @@ value class Area private constructor(private val sm: Float) {
 
         fun fromCircle(radius: Distance) =
             fromSquareMeters(radius.toMeters().pow(2) * PI.toFloat())
+    }
+
+    fun convertTo(prefix: SiPrefix) = when (prefix) {
+        SiPrefix.Kilo -> convertToSquareKilometers(sm)
+        SiPrefix.Base -> sm
+        SiPrefix.Centi -> convertToSquareCentimeters(sm)
+        SiPrefix.Milli -> convertToSquareMillimeters(sm)
+        SiPrefix.Micro -> error("Unsupported!")
     }
 
     override fun toString() = formatArea(sm)
@@ -52,8 +68,12 @@ value class Area private constructor(private val sm: Float) {
 }
 
 fun convertFromSquareKilometers(skm: Float) = skm * SI_SIX_STEPS
+fun convertFromSquareCentimeters(skm: Float) = skm / SI_TWO_STEPS
+fun convertFromSquareMillimeters(skm: Float) = skm / SI_SIX_STEPS
 
 fun convertToSquareKilometers(sm: Float) = sm / SI_SIX_STEPS
+fun convertToSquareCentimeters(sm: Float) = sm * SI_TWO_STEPS
+fun convertToSquareMillimeters(sm: Float) = sm * SI_SIX_STEPS
 
 fun formatArea(sm: Float) = if (sm >= SI_SIX_STEPS) {
     String.format(Locale.US, "%.1f km^2", convertToSquareKilometers(sm))
