@@ -4,6 +4,8 @@ import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.economy.money.parseOptionalCurrencyId
 import at.orchaldir.gm.app.html.util.*
+import at.orchaldir.gm.app.html.util.math.parseAreaLookup
+import at.orchaldir.gm.app.html.util.math.selectAreaLookup
 import at.orchaldir.gm.app.html.util.population.editPopulation
 import at.orchaldir.gm.app.html.util.population.parsePopulation
 import at.orchaldir.gm.app.html.util.population.showPopulationDetails
@@ -31,6 +33,7 @@ fun HtmlBlockTag.showRealm(
     state: State,
     realm: Realm,
 ) {
+    showAreaLookupDetails(state, realm)
     showPopulationDetails(call, state, realm)
     fieldReference(call, state, realm.founder, "Founder")
     optionalField(call, state, "Date", realm.date)
@@ -67,6 +70,7 @@ fun HtmlBlockTag.editRealm(
     realm: Realm,
 ) {
     selectName(realm.name)
+    selectAreaLookup(realm.area, state.data.largeAreaUnit)
     editPopulation(call, state, realm.population)
     selectCreator(state, realm.founder, realm.id, realm.date, "Founder")
     selectOptionalDate(state, "Date", realm.date, DATE)
@@ -150,6 +154,7 @@ fun parseRealm(
         parseHistory(parameters, LEGAL_CODE, state, date) { _, _, param ->
             parseOptionalLegalCodeId(parameters, param)
         },
+        parseAreaLookup(parameters, state.data.largeAreaUnit),
         parsePopulation(parameters, state),
         parseDataSources(parameters),
     )

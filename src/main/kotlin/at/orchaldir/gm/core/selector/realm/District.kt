@@ -21,3 +21,4 @@ fun State.getDistricts(town: TownId) = getDistrictStorage()
     .filter { it.position.isIn(town) }
 
 fun State.getExistingDistricts(date: Date?) = getExistingElements(getDistrictStorage().getAll(), date)
+

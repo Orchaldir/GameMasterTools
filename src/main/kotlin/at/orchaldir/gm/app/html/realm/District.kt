@@ -3,6 +3,8 @@ package at.orchaldir.gm.app.html.realm
 import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.*
+import at.orchaldir.gm.app.html.util.math.parseAreaLookup
+import at.orchaldir.gm.app.html.util.math.selectAreaLookup
 import at.orchaldir.gm.app.html.util.population.editPopulation
 import at.orchaldir.gm.app.html.util.population.parsePopulation
 import at.orchaldir.gm.app.html.util.population.showPopulationDetails
@@ -29,8 +31,10 @@ fun HtmlBlockTag.showDistrict(
     fieldPosition(call, state, district.position)
     optionalField(call, state, "Date", district.foundingDate)
     fieldReference(call, state, district.founder, "Founder")
-    fieldElements(call, state, "Residents", state.getCharactersLivingIn(district.id))
+    showAreaLookupDetails(state, district)
     showPopulationDetails(call, state, district)
+    fieldPopulationDensity(state, district)
+    fieldElements(call, state, "Residents", state.getCharactersLivingIn(district.id))
     showSubDistricts(call, state, state.getDistricts(district.id), district.population)
     showLocalElements(call, state, district.id)
     showDataSources(call, state, district.sources)
@@ -52,6 +56,7 @@ fun HtmlBlockTag.editDistrict(
     )
     selectOptionalDate(state, "Date", district.foundingDate, DATE)
     selectCreator(state, district.founder, district.id, district.foundingDate, "Founder")
+    selectAreaLookup(district.area, state.data.largeAreaUnit)
     editPopulation(call, state, district.population)
     editDataSources(state, district.sources)
 }
@@ -73,6 +78,7 @@ fun parseDistrict(
     parsePosition(parameters, state),
     parseOptionalDate(parameters, state, DATE),
     parseCreator(parameters),
+    parseAreaLookup(parameters, state.data.largeAreaUnit),
     parsePopulation(parameters, state),
     parseDataSources(parameters),
 )
