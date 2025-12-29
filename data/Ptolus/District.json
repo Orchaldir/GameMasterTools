@@ -225,6 +225,77 @@
      "standard": 3
     }
    }
+  },
+  "14": {
+   "id": 14,
+   "name": "Katterwood",
+   "position": {
+    "#type": "District",
+    "district": 2
+   },
+   "population": {
+    "#type": "Numbers",
+    "races": {
+     "9": 200,
+     "10": 200
+    },
+    "income": {
+     "#type": "SoL",
+     "standard": 3
+    }
+   }
+  },
+  "15": {
+   "id": 15,
+   "name": "Longbottom",
+   "position": {
+    "#type": "District",
+    "district": 2
+   },
+   "population": {
+    "#type": "Abstract",
+    "density": "Small",
+    "income": {
+     "#type": "SoL",
+     "standard": 1
+    }
+   }
+  },
+  "16": {
+   "id": 16,
+   "name": "The Mane",
+   "position": {
+    "#type": "District",
+    "district": 2
+   },
+   "population": {
+    "#type": "Numbers",
+    "races": {
+     "1": 1000
+    },
+    "income": {
+     "#type": "SoL",
+     "standard": 1
+    }
+   }
+  },
+  "17": {
+   "id": 17,
+   "name": "Narred",
+   "position": {
+    "#type": "District",
+    "district": 2
+   },
+   "population": {
+    "#type": "Numbers",
+    "races": {
+     "11": 700
+    },
+    "income": {
+     "#type": "SoL",
+     "standard": 2
+    }
+   }
   }
  }
 }
