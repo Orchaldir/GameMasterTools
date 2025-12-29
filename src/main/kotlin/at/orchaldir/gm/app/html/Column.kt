@@ -51,7 +51,7 @@ fun <ELEMENT : HasStartAndEndDate> createAgeColumn(
 
 fun <ID : Id<ID>, ELEMENT> createAreaColumn(
     state: State,
-    unit: AreaUnit,
+    unit: AreaUnit = state.data.largeAreaUnit,
 ): Column<ELEMENT> where
         ELEMENT : Element<ID>,
         ELEMENT : HasArea = tdColumn("Area") {

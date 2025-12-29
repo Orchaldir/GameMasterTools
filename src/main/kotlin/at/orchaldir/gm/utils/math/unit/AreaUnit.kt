@@ -1,5 +1,11 @@
 package at.orchaldir.gm.utils.math.unit
 
+val LARGE_AREA_UNITS = setOf(
+    AreaUnit.SquareKiloMeter,
+    AreaUnit.Hectare,
+    AreaUnit.Acre,
+)
+
 enum class AreaUnit {
     SquareKiloMeter,
     Hectare,

@@ -34,7 +34,7 @@ fun HtmlBlockTag.showDistrict(
     fieldPosition(call, state, district.position)
     optionalField(call, state, "Date", district.foundingDate)
     fieldReference(call, state, district.founder, "Founder")
-    showAreaLookupDetails(district.area, AreaUnit.Hectare) {
+    showAreaLookupDetails(district.area, state.data.largeAreaUnit) {
         state.calculateArea(district)
     }
     showPopulationDetails(call, state, district)
@@ -60,7 +60,7 @@ fun HtmlBlockTag.editDistrict(
     )
     selectOptionalDate(state, "Date", district.foundingDate, DATE)
     selectCreator(state, district.founder, district.id, district.foundingDate, "Founder")
-    selectAreaLookup(district.area, AreaUnit.Hectare)
+    selectAreaLookup(district.area, state.data.largeAreaUnit)
     editPopulation(call, state, district.population)
     editDataSources(state, district.sources)
 }
@@ -82,7 +82,7 @@ fun parseDistrict(
     parsePosition(parameters, state),
     parseOptionalDate(parameters, state, DATE),
     parseCreator(parameters),
-    parseAreaLookup(parameters, AreaUnit.Hectare),
+    parseAreaLookup(parameters, state.data.largeAreaUnit),
     parsePopulation(parameters, state),
     parseDataSources(parameters),
 )
