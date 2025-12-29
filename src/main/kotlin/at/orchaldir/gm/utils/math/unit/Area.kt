@@ -18,8 +18,6 @@ value class Area private constructor(private val smm: Long) : SiUnit<Area> {
     }
 
     companion object {
-        fun fromSquareKilometers(skm: Long) = Area(convertFromSquareKilometers(skm))
-        fun fromSquareKilometers(skm: Float) = Area(convertFromSquareKilometers(skm))
         fun fromSquareMeters(sm: Long) = Area(convertFromSquareMeters(sm))
         fun fromSquareMeters(sm: Float) = Area(convertFromSquareMeters(sm))
         fun fromSquareDecimeters(sdm: Long) = Area(convertFromSquareDecimeters(sdm))
@@ -31,7 +29,7 @@ value class Area private constructor(private val smm: Long) : SiUnit<Area> {
         fun fromSquareMicrometers(sµm: Long) = Area(convertFromSquareMicrometers(sµm).toLong())
 
         fun from(prefix: SiPrefix, value: Long) = when (prefix) {
-            SiPrefix.Kilo -> fromSquareKilometers(value)
+            SiPrefix.Kilo -> error("Use LargeArea instead!")
             SiPrefix.Base -> fromSquareMeters(value)
             SiPrefix.Centi -> fromSquareCentimeters(value)
             SiPrefix.Milli -> fromSquareMillimeters(value)
@@ -54,7 +52,7 @@ value class Area private constructor(private val smm: Long) : SiUnit<Area> {
     fun toSquareMeters() = convertToSquareMeters(smm)
 
     override fun convertToLong(prefix: SiPrefix) = when (prefix) {
-        SiPrefix.Kilo -> convertToSquareKilometers(smm).toLong()
+        SiPrefix.Kilo -> error("Use LargeArea instead!")
         SiPrefix.Base -> convertToSquareMeters(smm).toLong()
         SiPrefix.Centi -> convertToSquareCentimeters(smm).toLong()
         SiPrefix.Milli -> smm
@@ -78,8 +76,6 @@ value class Area private constructor(private val smm: Long) : SiUnit<Area> {
     }
 }
 
-fun convertFromSquareKilometers(skm: Long) = downSixSteps(downSixSteps(skm))
-fun convertFromSquareKilometers(skm: Float) = downSixSteps(downSixSteps(skm))
 fun convertFromSquareMeters(sm: Long) = downThreeSteps(downThreeSteps(sm))
 fun convertFromSquareMeters(sm: Float) = downThreeSteps(downThreeSteps(sm))
 fun convertFromSquareDecimeters(sdm: Long) = downTwoSteps(downTwoSteps(sdm))
@@ -94,9 +90,7 @@ fun convertToSquareDecimeters(smm: Long) = upTwoSteps(upTwoSteps(smm))
 fun convertToSquareCentimeters(smm: Long) = up(up(smm))
 fun convertToSquareMicrometers(smm: Long) = downThreeSteps(downThreeSteps(smm))
 
-fun formatArea(smm: Long) = if (smm >= SI_TWELVE_STEPS) {
-    String.format(Locale.US, "%.1f km^2", convertToSquareKilometers(smm))
-} else if (smm >= SI_SIX_STEPS) {
+fun formatArea(smm: Long) = if (smm >= SI_SIX_STEPS) {
     String.format(Locale.US, "%.1f m^2", convertToSquareMeters(smm))
 } else if (smm >= SI_FOUR_STEPS) {
     String.format(Locale.US, "%.1f dm^2", convertToSquareDecimeters(smm))
