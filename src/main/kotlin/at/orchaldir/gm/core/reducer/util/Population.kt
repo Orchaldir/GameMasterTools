@@ -20,11 +20,11 @@ fun validatePopulation(
         population.income.validate(state)
     }
 
-    is PopulationDistribution -> {
+    is PopulationWithPercentages -> {
         validateTotalPopulation(population.total)
 
-        validateElementDistribution(state.getCultureStorage(), population.cultures)
-        validateElementDistribution(state.getRaceStorage(), population.races)
+        validatePercentageDistribution(state.getCultureStorage(), population.cultures)
+        validatePercentageDistribution(state.getRaceStorage(), population.races)
 
         population.income.validate(state)
     }
@@ -41,9 +41,9 @@ fun validatePopulation(
     UndefinedPopulation -> doNothing()
 }
 
-fun <ID : Id<ID>, ELEMENT : Element<ID>> validateElementDistribution(
+fun <ID : Id<ID>, ELEMENT : Element<ID>> validatePercentageDistribution(
     storage: Storage<ID, ELEMENT>,
-    distribution: ElementDistribution<ID>,
+    distribution: PercentageDistribution<ID>,
 ) {
     distribution.map.forEach { (race, percentage) ->
         storage.require(race)

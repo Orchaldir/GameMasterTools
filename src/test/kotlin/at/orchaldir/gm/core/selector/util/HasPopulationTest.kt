@@ -17,7 +17,7 @@ import kotlin.test.assertEquals
 class HasPopulationTest {
 
     private val abstractPopulation = AbstractPopulation(races = setOf(RACE_ID_0))
-    private val populationDistribution = PopulationDistribution(100, ElementDistribution(mapOf(RACE_ID_0 to HALF)))
+    private val populationDistribution = PopulationWithPercentages(100, PercentageDistribution(mapOf(RACE_ID_0 to HALF)))
     private val totalPopulation = TotalPopulation(100, setOf(RACE_ID_0))
 
     @Nested

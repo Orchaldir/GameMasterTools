@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 
 @JvmInline
 @Serializable
-value class ElementDistribution<T>(
+value class PercentageDistribution<T>(
     val map: Map<T, Factor> = emptyMap(),
 ) {
     fun getPercentage(id: T) = map.getOrDefault(id, ZERO)

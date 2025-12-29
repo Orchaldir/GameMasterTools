@@ -7,7 +7,7 @@ import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.util.population.HasPopulation
 import at.orchaldir.gm.core.model.util.population.IPopulationWithSets
 import at.orchaldir.gm.core.model.util.population.Population
-import at.orchaldir.gm.core.model.util.population.PopulationDistribution
+import at.orchaldir.gm.core.model.util.population.PopulationWithPercentages
 import at.orchaldir.gm.core.selector.util.calculatePopulationIndex
 import at.orchaldir.gm.core.selector.util.calculateTotalPopulation
 import at.orchaldir.gm.core.selector.util.getAbstractPopulations
@@ -33,7 +33,7 @@ fun HtmlBlockTag.showPopulationOfCulture(
     { it.cultures().contains(culture) },
     {
         when (val population = it.population()) {
-            is PopulationDistribution -> population.cultures.getData(culture, population.total)
+            is PopulationWithPercentages -> population.cultures.getData(culture, population.total)
             else -> null
         }
     },
@@ -52,7 +52,7 @@ fun HtmlBlockTag.showPopulationOfRace(
     { it.races().contains(race) },
     {
         when (val population = it.population()) {
-            is PopulationDistribution -> population.races.getData(race, population.total)
+            is PopulationWithPercentages -> population.races.getData(race, population.total)
             else -> null
         }
     },

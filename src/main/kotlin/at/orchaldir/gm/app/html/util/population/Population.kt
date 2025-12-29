@@ -37,7 +37,7 @@ import kotlinx.html.br
 fun HtmlBlockTag.showPopulation(population: Population) {
     when (population) {
         is AbstractPopulation -> +population.density.toString()
-        is PopulationDistribution -> +population.total.toString()
+        is PopulationWithPercentages -> +population.total.toString()
         is TotalPopulation -> +population.total.toString()
         UndefinedPopulation -> doNothing()
     }
@@ -49,7 +49,7 @@ fun HtmlBlockTag.showCulturesOfPopulation(
     population: Population,
     max: Int = 2,
 ) = when (population) {
-    is PopulationDistribution -> showInlineElementDistribution(call, state, population.cultures, max)
+    is PopulationWithPercentages -> showInlinePercentageDistribution(call, state, population.cultures, max)
     UndefinedPopulation -> doNothing()
     else -> showInlineIds(call, state, population.cultures(), max)
 }
@@ -60,7 +60,7 @@ fun HtmlBlockTag.showRacesOfPopulation(
     population: Population,
     max: Int = 2,
 ) = when (population) {
-    is PopulationDistribution -> showInlineElementDistribution(call, state, population.races, max)
+    is PopulationWithPercentages -> showInlinePercentageDistribution(call, state, population.races, max)
     UndefinedPopulation -> doNothing()
     else -> showInlineIds(call, state, population.races(), max)
 }
@@ -90,11 +90,11 @@ fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showPopulationDetails(
                 fieldIds(call, state, population.cultures)
             }
 
-            is PopulationDistribution -> {
+            is PopulationWithPercentages -> {
                 showIncome(call, state, population.income)
-                showElementDistribution(population, call, state, "Race", population.races.map)
+                showPercentageDistribution(population, call, state, "Race", population.races.map)
                 br { }
-                showElementDistribution(population, call, state, "Culture", population.cultures.map)
+                showPercentageDistribution(population, call, state, "Culture", population.cultures.map)
             }
 
             is TotalPopulation -> {
@@ -132,11 +132,11 @@ fun HtmlBlockTag.editPopulation(
                 selectCultureSet(state, param, population.cultures)
             }
 
-            is PopulationDistribution -> {
+            is PopulationWithPercentages -> {
                 selectTotalPopulation(param, population.total)
                 editIncome(state, population.income, combine(param, INCOME))
 
-                editElementDistribution(
+                editPercentageDistribution(
                     call,
                     state,
                     "Race",
@@ -146,7 +146,7 @@ fun HtmlBlockTag.editPopulation(
                     population.races,
                 )
                 br { }
-                editElementDistribution(
+                editPercentageDistribution(
                     call,
                     state,
                     "Culture",
@@ -222,15 +222,15 @@ fun parsePopulation(
         parseIncome(state, parameters, combine(param, INCOME)),
     )
 
-    PopulationType.Distribution -> PopulationDistribution(
+    PopulationType.Distribution -> PopulationWithPercentages(
         parseTotalPopulation(parameters, param),
-        parseElementDistribution(
+        parsePercentageDistribution(
             state.getRaceStorage(),
             parameters,
             param,
             ::parsePopulationOfRace,
         ),
-        parseElementDistribution(
+        parsePercentageDistribution(
             state.getCultureStorage(),
             parameters,
             param,

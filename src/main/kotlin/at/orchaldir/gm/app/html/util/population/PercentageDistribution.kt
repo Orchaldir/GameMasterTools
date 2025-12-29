@@ -4,8 +4,8 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.math.selectFactor
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.util.population.ElementDistribution
-import at.orchaldir.gm.core.model.util.population.PopulationDistribution
+import at.orchaldir.gm.core.model.util.population.PercentageDistribution
+import at.orchaldir.gm.core.model.util.population.PopulationWithPercentages
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
@@ -19,10 +19,10 @@ import kotlinx.html.*
 
 // show
 
-fun <ID : Id<ID>> HtmlBlockTag.showInlineElementDistribution(
+fun <ID : Id<ID>> HtmlBlockTag.showInlinePercentageDistribution(
     call: ApplicationCall,
     state: State,
-    distribution: ElementDistribution<ID>,
+    distribution: PercentageDistribution<ID>,
     max: Int = 2,
 ) {
     val sorted = distribution.map.entries
@@ -35,8 +35,8 @@ fun <ID : Id<ID>> HtmlBlockTag.showInlineElementDistribution(
     }
 }
 
-fun <ID : Id<ID>> DETAILS.showElementDistribution(
-    population: PopulationDistribution,
+fun <ID : Id<ID>> DETAILS.showPercentageDistribution(
+    population: PopulationWithPercentages,
     call: ApplicationCall,
     state: State,
     label: String,
@@ -68,7 +68,7 @@ fun <ID : Id<ID>> DETAILS.showElementDistribution(
 }
 
 private fun TABLE.showRemainingPopulation(
-    population: PopulationDistribution,
+    population: PopulationWithPercentages,
     remaining: Factor,
 ) {
     if (remaining.isGreaterZero()) {
@@ -96,14 +96,14 @@ private fun TR.showElementNumber(
 
 // edit
 
-fun <ID : Id<ID>, ELEMENT : Element<ID>> DETAILS.editElementDistribution(
+fun <ID : Id<ID>, ELEMENT : Element<ID>> DETAILS.editPercentageDistribution(
     call: ApplicationCall,
     state: State,
     label: String,
     param: String,
-    population: PopulationDistribution,
+    population: PopulationWithPercentages,
     allElements: List<ELEMENT>,
-    distribution: ElementDistribution<ID>,
+    distribution: PercentageDistribution<ID>,
 ) {
     val remaining = distribution.getUndefinedPercentages()
 
@@ -142,12 +142,12 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> DETAILS.editElementDistribution(
 
 // parse
 
-fun <ID : Id<ID>, ELEMENT : Element<ID>> parseElementDistribution(
+fun <ID : Id<ID>, ELEMENT : Element<ID>> parsePercentageDistribution(
     storage: Storage<ID, ELEMENT>,
     parameters: Parameters,
     param: String,
     parsePopulation: (Parameters, String, ELEMENT) -> Factor,
-): ElementDistribution<ID> = ElementDistribution(
+): PercentageDistribution<ID> = PercentageDistribution(
     storage
         .getAll()
         .associate { element ->

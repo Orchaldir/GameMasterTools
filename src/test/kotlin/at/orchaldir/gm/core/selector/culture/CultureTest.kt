@@ -12,8 +12,8 @@ import at.orchaldir.gm.core.model.realm.WarParticipant
 import at.orchaldir.gm.core.model.util.CultureReference
 import at.orchaldir.gm.core.model.util.Dead
 import at.orchaldir.gm.core.model.util.KilledBy
-import at.orchaldir.gm.core.model.util.population.ElementDistribution
-import at.orchaldir.gm.core.model.util.population.PopulationDistribution
+import at.orchaldir.gm.core.model.util.population.PercentageDistribution
+import at.orchaldir.gm.core.model.util.population.PopulationWithPercentages
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
@@ -33,7 +33,7 @@ class CultureTest {
                 Storage(culture),
             )
         )
-        val population = PopulationDistribution(100, cultures = ElementDistribution(mapOf(CULTURE_ID_0 to HALF)))
+        val population = PopulationWithPercentages(100, cultures = PercentageDistribution(mapOf(CULTURE_ID_0 to HALF)))
 
         @Test
         fun `Cannot delete a culture that with a character`() {
