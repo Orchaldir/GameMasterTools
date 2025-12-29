@@ -51,9 +51,9 @@ value class Area private constructor(private val sm: Float) {
     }
 }
 
-fun convertFromSquareKilometers(skm: Float) = upSixSteps(skm)
+fun convertFromSquareKilometers(skm: Float) = skm * SI_SIX_STEPS
 
-fun convertToSquareKilometers(sm: Float) = upSixSteps(sm)
+fun convertToSquareKilometers(sm: Float) = sm / SI_SIX_STEPS
 
 fun formatArea(sm: Float) = if (sm >= SI_SIX_STEPS) {
     String.format(Locale.US, "%.1f km^2", convertToSquareKilometers(sm))

@@ -29,7 +29,7 @@ class AreaTest {
 
         @Test
         fun `Convert to & from Square Kilometers`() {
-            assertEquals(1.5f, convertFromSquareKilometers(convertToSquareKilometers(1.5f)).toLong())
+            assertEquals(1.5f, convertFromSquareKilometers(convertToSquareKilometers(1.5f)), 0.001f)
         }
     }
 
