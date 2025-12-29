@@ -176,6 +176,42 @@
      "standard": 0
     }
    }
+  },
+  "11": {
+   "id": 11,
+   "name": "Delver’s Square",
+   "position": {
+    "#type": "District",
+    "district": 2
+   }
+  },
+  "12": {
+   "id": 12,
+   "name": "Emerald Hill",
+   "position": {
+    "#type": "District",
+    "district": 2
+   },
+   "population": {
+    "#type": "Total",
+    "total": 1000,
+    "races": [
+     6,
+     2
+    ],
+    "income": {
+     "#type": "SoL",
+     "standard": 3
+    }
+   }
+  },
+  "13": {
+   "id": 13,
+   "name": "Fairbriar",
+   "position": {
+    "#type": "District",
+    "district": 2
+   }
   }
  }
 }

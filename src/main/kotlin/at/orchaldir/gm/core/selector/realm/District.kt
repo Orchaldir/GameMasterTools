@@ -20,8 +20,4 @@ fun State.getDistricts(town: TownId) = getDistrictStorage()
     .getAll()
     .filter { it.position.isIn(town) }
 
-fun State.getDistricts(standard: StandardOfLivingId) = getDistrictStorage()
-    .getAll()
-    .filter { it.population.income()?.hasStandard(standard) ?: false }
-
 fun State.getExistingDistricts(date: Date?) = getExistingElements(getDistrictStorage().getAll(), date)
