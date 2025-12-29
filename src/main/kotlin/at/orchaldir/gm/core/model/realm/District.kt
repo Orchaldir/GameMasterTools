@@ -16,6 +16,7 @@ import at.orchaldir.gm.core.reducer.util.validatePopulation
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.math.unit.AreaLookup
 import at.orchaldir.gm.utils.math.unit.CalculatedArea
+import at.orchaldir.gm.utils.math.unit.HasArea
 import kotlinx.serialization.Serializable
 
 const val DISTRICT_TYPE = "District"
@@ -45,10 +46,12 @@ data class District(
     val area: AreaLookup = CalculatedArea,
     val population: Population = UndefinedPopulation,
     val sources: Set<DataSourceId> = emptySet(),
-) : ElementWithSimpleName<DistrictId>, Creation, HasDataSources, HasPopulation, HasPosition, HasStartDate {
+) : ElementWithSimpleName<DistrictId>, Creation, HasArea, HasDataSources, HasPopulation, HasPosition, HasStartDate {
 
     override fun id() = id
     override fun name() = name.text
+
+    override fun area() = area
     override fun creator() = founder
     override fun population() = population
     override fun position() = position

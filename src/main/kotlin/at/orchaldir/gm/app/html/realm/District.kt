@@ -17,8 +17,8 @@ import at.orchaldir.gm.core.model.realm.ALLOWED_DISTRICT_POSITIONS
 import at.orchaldir.gm.core.model.realm.District
 import at.orchaldir.gm.core.model.realm.DistrictId
 import at.orchaldir.gm.core.selector.character.getCharactersLivingIn
-import at.orchaldir.gm.core.selector.realm.calculateArea
 import at.orchaldir.gm.core.selector.realm.getDistricts
+import at.orchaldir.gm.core.selector.util.calculateArea
 import at.orchaldir.gm.utils.math.unit.AreaUnit
 import io.ktor.http.*
 import io.ktor.server.application.*

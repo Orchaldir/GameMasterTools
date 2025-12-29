@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.html
 import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.economy.displayIncome
 import at.orchaldir.gm.app.html.util.*
+import at.orchaldir.gm.app.html.util.math.displayAreaLookup
 import at.orchaldir.gm.app.html.util.population.showCulturesOfPopulation
 import at.orchaldir.gm.app.html.util.population.showPopulation
 import at.orchaldir.gm.app.html.util.population.showRacesOfPopulation
@@ -17,8 +18,11 @@ import at.orchaldir.gm.core.selector.realm.countDestroyedRealms
 import at.orchaldir.gm.core.selector.realm.countDestroyedTowns
 import at.orchaldir.gm.core.selector.rpg.getMeleeWeaponType
 import at.orchaldir.gm.core.selector.time.getAgeInYears
+import at.orchaldir.gm.core.selector.util.calculateArea
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
+import at.orchaldir.gm.utils.math.unit.AreaUnit
+import at.orchaldir.gm.utils.math.unit.HasArea
 import io.ktor.server.application.*
 import kotlinx.html.TD
 import kotlinx.html.TR
@@ -44,6 +48,17 @@ fun <ELEMENT : HasStartAndEndDate> createAgeColumn(
     state: State,
     label: String = "Age",
 ): Column<ELEMENT> = Column(label) { tdSkipZero(it.getAgeInYears(state)) }
+
+fun <ID : Id<ID>, ELEMENT> createAreaColumn(
+    state: State,
+    unit: AreaUnit,
+): Column<ELEMENT> where
+        ELEMENT : Element<ID>,
+        ELEMENT : HasArea = tdColumn("Area") {
+    displayAreaLookup(it.area(), unit) {
+        state.calculateArea(it)
+    }
+}
 
 fun <ELEMENT : HasBelief> createBeliefColumn(
     call: ApplicationCall,

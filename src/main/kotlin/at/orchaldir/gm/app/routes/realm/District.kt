@@ -12,6 +12,7 @@ import at.orchaldir.gm.core.model.realm.DistrictId
 import at.orchaldir.gm.core.model.util.SortDistrict
 import at.orchaldir.gm.core.selector.realm.getDistricts
 import at.orchaldir.gm.core.selector.util.sortDistricts
+import at.orchaldir.gm.utils.math.unit.AreaUnit
 import io.ktor.resources.*
 import io.ktor.server.application.*
 import io.ktor.server.resources.*
@@ -67,6 +68,7 @@ fun Application.configureDistrictRouting() {
                     createPositionColumn(call, state),
                     createStartDateColumn(call, state),
                     createCreatorColumn(call, state, "Founder"),
+                    createAreaColumn(state, AreaUnit.Hectare),
                     createPopulationColumn(),
                     createPopulationIncomeColumn(call, state),
                     createRacesOfPopulationColumn(call, state),

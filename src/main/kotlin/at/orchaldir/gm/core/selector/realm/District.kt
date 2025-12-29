@@ -27,13 +27,3 @@ fun State.getDistricts(town: TownId) = getDistrictStorage()
 
 fun State.getExistingDistricts(date: Date?) = getExistingElements(getDistrictStorage().getAll(), date)
 
-fun State.calculateArea(district: District): Area = when (district.area) {
-    CalculatedArea -> getDistrictStorage()
-        .getAll()
-        .filter { it.position.isIn(district.id) }
-        .map { other ->
-            calculateArea(other)
-        }
-        .reduceOrNull { sum, area -> sum + area } ?: ZERO_AREA
-    is UserDefinedArea -> district.area.area
-}

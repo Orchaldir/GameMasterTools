@@ -23,7 +23,9 @@ fun HtmlBlockTag.displayAreaLookup(
         is UserDefinedArea -> lookup.area
     }
 
-    +area.toString(unit)
+    if (area.isGreaterZero()) {
+        +area.toString(unit)
+    }
 }
 
 fun HtmlBlockTag.showAreaLookupDetails(
