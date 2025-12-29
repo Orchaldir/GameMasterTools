@@ -3,6 +3,9 @@ package at.orchaldir.gm.app.html.realm
 import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.*
+import at.orchaldir.gm.app.html.util.math.parseAreaLookup
+import at.orchaldir.gm.app.html.util.math.selectAreaLookup
+import at.orchaldir.gm.app.html.util.math.showAreaLookupDetails
 import at.orchaldir.gm.app.html.util.population.editPopulation
 import at.orchaldir.gm.app.html.util.population.parsePopulation
 import at.orchaldir.gm.app.html.util.population.showPopulationDetails
@@ -14,7 +17,9 @@ import at.orchaldir.gm.core.model.realm.ALLOWED_DISTRICT_POSITIONS
 import at.orchaldir.gm.core.model.realm.District
 import at.orchaldir.gm.core.model.realm.DistrictId
 import at.orchaldir.gm.core.selector.character.getCharactersLivingIn
+import at.orchaldir.gm.core.selector.realm.calculateArea
 import at.orchaldir.gm.core.selector.realm.getDistricts
+import at.orchaldir.gm.utils.math.unit.AreaUnit
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -29,8 +34,11 @@ fun HtmlBlockTag.showDistrict(
     fieldPosition(call, state, district.position)
     optionalField(call, state, "Date", district.foundingDate)
     fieldReference(call, state, district.founder, "Founder")
-    fieldElements(call, state, "Residents", state.getCharactersLivingIn(district.id))
+    showAreaLookupDetails(district.area, AreaUnit.Hectare) {
+        state.calculateArea(district)
+    }
     showPopulationDetails(call, state, district)
+    fieldElements(call, state, "Residents", state.getCharactersLivingIn(district.id))
     showSubDistricts(call, state, state.getDistricts(district.id), district.population)
     showLocalElements(call, state, district.id)
     showDataSources(call, state, district.sources)
@@ -52,6 +60,7 @@ fun HtmlBlockTag.editDistrict(
     )
     selectOptionalDate(state, "Date", district.foundingDate, DATE)
     selectCreator(state, district.founder, district.id, district.foundingDate, "Founder")
+    selectAreaLookup(district.area, AreaUnit.Hectare)
     editPopulation(call, state, district.population)
     editDataSources(state, district.sources)
 }
@@ -73,6 +82,7 @@ fun parseDistrict(
     parsePosition(parameters, state),
     parseOptionalDate(parameters, state, DATE),
     parseCreator(parameters),
+    parseAreaLookup(parameters, AreaUnit.Hectare),
     parsePopulation(parameters, state),
     parseDataSources(parameters),
 )

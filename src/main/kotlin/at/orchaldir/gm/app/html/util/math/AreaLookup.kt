@@ -68,7 +68,7 @@ fun HtmlBlockTag.selectAreaLookup(
 fun parseAreaLookup(
     parameters: Parameters,
     unit: AreaUnit,
-    param: String = WEIGHT,
+    param: String = AREA,
 ) = when (parse(parameters, combine(param, TYPE), AreaLookupType.Calculated)) {
     AreaLookupType.Calculated -> CalculatedArea
     AreaLookupType.UserDefined -> UserDefinedArea(
