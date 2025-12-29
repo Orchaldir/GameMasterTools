@@ -35,6 +35,7 @@ value class Factor private constructor(private val permyriad: Int) {
         fun fromPercentage(percentage: Int) = Factor(percentage * PERCENTAGE_FACTOR)
         fun fromPermille(permille: Int) = Factor(permille * PERMILLE_FACTOR)
         fun fromPermyriad(permyriad: Int) = Factor(permyriad)
+        fun divideTwoInts(dividend: Int, divisor: Int) = Factor.fromNumber(dividend / divisor.toFloat())
     }
 
     fun isGreaterZero() = permyriad > 0

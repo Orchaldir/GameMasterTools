@@ -1,7 +1,6 @@
 package at.orchaldir.gm.app.html.world
 
 import at.orchaldir.gm.app.MATERIAL
-import at.orchaldir.gm.app.POSITION
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.economy.material.parseMaterialId
 import at.orchaldir.gm.app.html.util.fieldPosition
@@ -42,7 +41,6 @@ fun HtmlBlockTag.editRegion(
     editRegionData(state, region.data, null)
     selectPosition(
         state,
-        POSITION,
         region.position,
         null,
         region.data.getAllowedRegionTypes(),

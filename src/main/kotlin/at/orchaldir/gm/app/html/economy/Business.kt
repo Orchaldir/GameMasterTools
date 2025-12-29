@@ -1,7 +1,6 @@
 package at.orchaldir.gm.app.html.economy
 
 import at.orchaldir.gm.app.DATE
-import at.orchaldir.gm.app.POSITION
 import at.orchaldir.gm.app.TEMPLATE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.*
@@ -68,7 +67,7 @@ fun HtmlBlockTag.editBusiness(
         ALLOWED_VITAL_STATUS_FOR_BUSINESS,
         ALLOWED_CAUSES_OF_DEATH_FOR_BUSINESS,
     )
-    selectPosition(state, POSITION, business.position, business.startDate(), ALLOWED_BUSINESS_POSITIONS)
+    selectPosition(state, business.position, business.startDate(), ALLOWED_BUSINESS_POSITIONS)
     selectCreator(state, business.founder, business.id, business.startDate(), "Founder")
     selectOwnership(state, business.ownership, business.startDate())
     editDataSources(state, business.sources)

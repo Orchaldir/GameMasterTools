@@ -43,7 +43,6 @@ fun HtmlBlockTag.editBuilding(
     selectOptionalName(building.name)
     selectPosition(
         state,
-        POSITION,
         building.position,
         building.constructionDate,
         ALLOWED_BUILDING_POSITIONS,

@@ -62,7 +62,6 @@ fun HtmlBlockTag.editMoon(
     )
     selectPosition(
         state,
-        POSITION,
         moon.position,
         null,
         ALLOWED_MOON_POSITIONS,

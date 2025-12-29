@@ -7,10 +7,12 @@ import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.util.Size
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlin.math.max
 
 enum class PopulationType {
     Abstract,
-    Distribution,
+    Numbers,
+    Percentages,
     Total,
     Undefined,
 }
@@ -20,58 +22,67 @@ sealed class Population {
 
     fun getType() = when (this) {
         is AbstractPopulation -> PopulationType.Abstract
-        is PopulationDistribution -> PopulationType.Distribution
+        is PopulationWithNumbers -> PopulationType.Numbers
+        is PopulationWithPercentages -> PopulationType.Percentages
         is TotalPopulation -> PopulationType.Total
         UndefinedPopulation -> PopulationType.Undefined
     }
 
     fun income() = when (this) {
         is AbstractPopulation -> income
-        is PopulationDistribution -> income
+        is PopulationWithNumbers -> income
+        is PopulationWithPercentages -> income
         is TotalPopulation -> income
         UndefinedPopulation -> null
     }
 
     fun getPopulation(culture: CultureId) = when (this) {
-        is PopulationDistribution -> getNumber(culture)
+        is PopulationWithNumbers -> cultures.getNumber(culture)
+        is PopulationWithPercentages -> getNumber(culture)
         else -> null
     }
 
     fun getPopulation(race: RaceId) = when (this) {
-        is PopulationDistribution -> getNumber(race)
+        is PopulationWithNumbers -> races.getNumber(race)
+        is PopulationWithPercentages -> getNumber(race)
         else -> null
     }
 
     fun getTotalPopulation() = when (this) {
         is TotalPopulation -> total
-        is PopulationDistribution -> total
+        is PopulationWithNumbers -> calculateTotal()
+        is PopulationWithPercentages -> total
         is AbstractPopulation, UndefinedPopulation -> null
     }
 
     fun contains(culture: CultureId) = when (this) {
         is AbstractPopulation -> cultures.contains(culture)
-        is PopulationDistribution -> cultures.map.containsKey(culture)
+        is PopulationWithNumbers -> cultures.map.containsKey(culture)
+        is PopulationWithPercentages -> cultures.map.containsKey(culture)
         is TotalPopulation -> cultures.contains(culture)
         else -> false
     }
 
     fun contains(race: RaceId) = when (this) {
         is AbstractPopulation -> races.contains(race)
-        is PopulationDistribution -> races.map.containsKey(race)
+        is PopulationWithNumbers -> races.map.containsKey(race)
+        is PopulationWithPercentages -> races.map.containsKey(race)
         is TotalPopulation -> races.contains(race)
         else -> false
     }
 
     fun cultures() = when (this) {
         is AbstractPopulation -> cultures
-        is PopulationDistribution -> cultures.map.keys
+        is PopulationWithNumbers -> cultures.map.keys
+        is PopulationWithPercentages -> cultures.map.keys
         is TotalPopulation -> cultures
         else -> emptySet()
     }
 
     fun races() = when (this) {
         is AbstractPopulation -> races
-        is PopulationDistribution -> races.map.keys
+        is PopulationWithNumbers -> races.map.keys
+        is PopulationWithPercentages -> races.map.keys
         is TotalPopulation -> races
         else -> emptySet()
     }
@@ -95,11 +106,23 @@ data class AbstractPopulation(
 ) : Population(), IPopulationWithSets
 
 @Serializable
-@SerialName("Distribution")
-data class PopulationDistribution(
+@SerialName("Numbers")
+data class PopulationWithNumbers(
+    val races: NumberDistribution<RaceId> = NumberDistribution(),
+    val cultures: NumberDistribution<CultureId> = NumberDistribution(),
+    val income: Income = UndefinedIncome,
+) : Population() {
+
+    fun calculateTotal() = max(races.calculateTotal(), cultures.calculateTotal())
+
+}
+
+@Serializable
+@SerialName("Percentages")
+data class PopulationWithPercentages(
     val total: Int,
-    val races: ElementDistribution<RaceId> = ElementDistribution(),
-    val cultures: ElementDistribution<CultureId> = ElementDistribution(),
+    val races: PercentageDistribution<RaceId> = PercentageDistribution(),
+    val cultures: PercentageDistribution<CultureId> = PercentageDistribution(),
     val income: Income = UndefinedIncome,
 ) : Population() {
 

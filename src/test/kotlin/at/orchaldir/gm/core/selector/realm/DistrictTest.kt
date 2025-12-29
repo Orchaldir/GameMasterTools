@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.selector.realm
 import at.orchaldir.gm.BUSINESS_ID_0
 import at.orchaldir.gm.CHARACTER_ID_0
 import at.orchaldir.gm.DISTRICT_ID_0
+import at.orchaldir.gm.DISTRICT_ID_1
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
@@ -44,6 +45,14 @@ class DistrictTest {
             val newState = state.updateStorage(Storage(business))
 
             failCanDelete(newState, BUSINESS_ID_0)
+        }
+
+        @Test
+        fun `Cannot delete a district that has neighborhoods`() {
+            val district = District(DISTRICT_ID_1, position = InDistrict(DISTRICT_ID_0))
+            val newState = state.updateStorage(Storage(district))
+
+            failCanDelete(newState, DISTRICT_ID_1)
         }
 
         private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {

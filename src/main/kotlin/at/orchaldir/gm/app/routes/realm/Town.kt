@@ -11,6 +11,7 @@ import at.orchaldir.gm.core.model.realm.TOWN_TYPE
 import at.orchaldir.gm.core.model.realm.TownId
 import at.orchaldir.gm.core.model.util.SortTown
 import at.orchaldir.gm.core.selector.character.countResidents
+import at.orchaldir.gm.core.selector.realm.getDistricts
 import at.orchaldir.gm.core.selector.util.sortTowns
 import at.orchaldir.gm.core.selector.world.countBuildings
 import at.orchaldir.gm.core.selector.world.getCurrentTownMap
@@ -74,10 +75,11 @@ fun Application.configureTownRouting() {
                     createVitalColumn(call, state, true),
                     createIdColumn(call, state, "Owner") { it.owner.current },
                     createIdColumn(call, state, "Map") { state.getCurrentTownMap(it.id)?.id },
-                    countColumnForId("Buildings", state::countBuildings),
                     createPopulationColumn(),
                     createRacesOfPopulationColumn(call, state),
                     createCulturesOfPopulationColumn(call, state),
+                    countColumnForId("Buildings", state::countBuildings),
+                    countCollectionColumn("Districts") { state.getDistricts(it.id) },
                     countColumnForId("Residents", state::countResidents),
                 ),
             ) {

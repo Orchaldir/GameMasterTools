@@ -4,7 +4,10 @@
   "0": {
    "id": 0,
    "name": "Docks",
-   "town": 0,
+   "position": {
+    "#type": "Town",
+    "town": 0
+   },
    "foundingDate": {
     "#type": "~Year",
     "year": 419
@@ -21,7 +24,10 @@
   "1": {
    "id": 1,
    "name": "Guildsman District",
-   "town": 0,
+   "position": {
+    "#type": "Town",
+    "town": 0
+   },
    "population": {
     "#type": "Total",
     "total": 9000,
@@ -34,7 +40,10 @@
   "2": {
    "id": 2,
    "name": "Midtown",
-   "town": 0,
+   "position": {
+    "#type": "Town",
+    "town": 0
+   },
    "population": {
     "#type": "Total",
     "total": 14000,
@@ -47,7 +56,10 @@
   "3": {
    "id": 3,
    "name": "Necropolis",
-   "town": 0,
+   "position": {
+    "#type": "Town",
+    "town": 0
+   },
    "population": {
     "#type": "Total",
     "total": 0
@@ -56,7 +68,10 @@
   "4": {
    "id": 4,
    "name": "Nobles’ Quarter",
-   "town": 0,
+   "position": {
+    "#type": "Town",
+    "town": 0
+   },
    "population": {
     "#type": "Total",
     "total": 3000,
@@ -69,7 +84,10 @@
   "5": {
    "id": 5,
    "name": "North Market",
-   "town": 0,
+   "position": {
+    "#type": "Town",
+    "town": 0
+   },
    "population": {
     "#type": "Total",
     "total": 9000,
@@ -82,7 +100,10 @@
   "6": {
    "id": 6,
    "name": "Oldtown",
-   "town": 0,
+   "position": {
+    "#type": "Town",
+    "town": 0
+   },
    "population": {
     "#type": "Total",
     "total": 10000,
@@ -95,7 +116,10 @@
   "7": {
    "id": 7,
    "name": "Rivergate District",
-   "town": 0,
+   "position": {
+    "#type": "Town",
+    "town": 0
+   },
    "population": {
     "#type": "Total",
     "total": 10000,
@@ -108,7 +132,10 @@
   "8": {
    "id": 8,
    "name": "South Market",
-   "town": 0,
+   "position": {
+    "#type": "Town",
+    "town": 0
+   },
    "population": {
     "#type": "Total",
     "total": 8000,
@@ -121,7 +148,10 @@
   "9": {
    "id": 9,
    "name": "Temple District",
-   "town": 0,
+   "position": {
+    "#type": "Town",
+    "town": 0
+   },
    "population": {
     "#type": "Total",
     "total": 8000,
@@ -134,13 +164,144 @@
   "10": {
    "id": 10,
    "name": "Warrens",
-   "town": 0,
+   "position": {
+    "#type": "Town",
+    "town": 0
+   },
    "population": {
     "#type": "Total",
     "total": 2000,
     "income": {
      "#type": "SoL",
      "standard": 0
+    }
+   }
+  },
+  "11": {
+   "id": 11,
+   "name": "Delver’s Square",
+   "position": {
+    "#type": "District",
+    "district": 2
+   },
+   "population": {
+    "#type": "Total",
+    "total": 1000,
+    "income": {
+     "#type": "SoL",
+     "standard": 3
+    }
+   }
+  },
+  "12": {
+   "id": 12,
+   "name": "Emerald Hill",
+   "position": {
+    "#type": "District",
+    "district": 2
+   },
+   "population": {
+    "#type": "Total",
+    "total": 1000,
+    "races": [
+     6,
+     2
+    ],
+    "income": {
+     "#type": "SoL",
+     "standard": 3
+    }
+   }
+  },
+  "13": {
+   "id": 13,
+   "name": "Fairbriar",
+   "position": {
+    "#type": "District",
+    "district": 2
+   },
+   "population": {
+    "#type": "Numbers",
+    "races": {
+     "2": 100,
+     "9": 200,
+     "10": 100,
+     "13": 250
+    },
+    "income": {
+     "#type": "SoL",
+     "standard": 3
+    }
+   }
+  },
+  "14": {
+   "id": 14,
+   "name": "Katterwood",
+   "position": {
+    "#type": "District",
+    "district": 2
+   },
+   "population": {
+    "#type": "Numbers",
+    "races": {
+     "9": 200,
+     "10": 200
+    },
+    "income": {
+     "#type": "SoL",
+     "standard": 3
+    }
+   }
+  },
+  "15": {
+   "id": 15,
+   "name": "Longbottom",
+   "position": {
+    "#type": "District",
+    "district": 2
+   },
+   "population": {
+    "#type": "Abstract",
+    "density": "Small",
+    "income": {
+     "#type": "SoL",
+     "standard": 1
+    }
+   }
+  },
+  "16": {
+   "id": 16,
+   "name": "The Mane",
+   "position": {
+    "#type": "District",
+    "district": 2
+   },
+   "population": {
+    "#type": "Numbers",
+    "races": {
+     "1": 1000
+    },
+    "income": {
+     "#type": "SoL",
+     "standard": 1
+    }
+   }
+  },
+  "17": {
+   "id": 17,
+   "name": "Narred",
+   "position": {
+    "#type": "District",
+    "district": 2
+   },
+   "population": {
+    "#type": "Numbers",
+    "races": {
+     "11": 700
+    },
+    "income": {
+     "#type": "SoL",
+     "standard": 2
     }
    }
   }

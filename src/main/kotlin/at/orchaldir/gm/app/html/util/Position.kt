@@ -101,10 +101,10 @@ fun HtmlBlockTag.selectPositionHistory(
 
 fun HtmlBlockTag.selectPosition(
     state: State,
-    param: String,
     position: Position,
     start: Date?,
     allowedTypes: Collection<PositionType>,
+    param: String = POSITION,
     noun: String = POSITION_TEXT,
     getTiles: (TownMapId) -> List<Int> = { emptyList() },
 ) {

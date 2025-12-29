@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.District
 import at.orchaldir.gm.core.model.realm.Town
 import at.orchaldir.gm.core.model.util.CharacterReference
+import at.orchaldir.gm.core.model.util.InTown
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.population.TotalPopulation
 import at.orchaldir.gm.core.reducer.REDUCER
@@ -42,10 +43,10 @@ class DistrictTest {
         }
 
         @Test
-        fun `Town must exist`() {
-            val action = UpdateAction(District(DISTRICT_ID_0, town = UNKNOWN_TOWN_ID))
+        fun `Position must exist`() {
+            val action = UpdateAction(District(DISTRICT_ID_0, position = InTown(UNKNOWN_TOWN_ID)))
 
-            assertIllegalArgument("Requires unknown Town 99!") { REDUCER.invoke(STATE, action) }
+            assertIllegalArgument("Requires unknown position!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test

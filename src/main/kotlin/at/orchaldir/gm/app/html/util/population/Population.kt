@@ -37,7 +37,8 @@ import kotlinx.html.br
 fun HtmlBlockTag.showPopulation(population: Population) {
     when (population) {
         is AbstractPopulation -> +population.density.toString()
-        is PopulationDistribution -> +population.total.toString()
+        is PopulationWithNumbers -> +population.calculateTotal().toString()
+        is PopulationWithPercentages -> +population.total.toString()
         is TotalPopulation -> +population.total.toString()
         UndefinedPopulation -> doNothing()
     }
@@ -49,7 +50,8 @@ fun HtmlBlockTag.showCulturesOfPopulation(
     population: Population,
     max: Int = 2,
 ) = when (population) {
-    is PopulationDistribution -> showInlineElementDistribution(call, state, population.cultures, max)
+    is PopulationWithNumbers -> showInlineNumberDistribution(call, state, population.cultures, max)
+    is PopulationWithPercentages -> showInlinePercentageDistribution(call, state, population.cultures, max)
     UndefinedPopulation -> doNothing()
     else -> showInlineIds(call, state, population.cultures(), max)
 }
@@ -60,7 +62,8 @@ fun HtmlBlockTag.showRacesOfPopulation(
     population: Population,
     max: Int = 2,
 ) = when (population) {
-    is PopulationDistribution -> showInlineElementDistribution(call, state, population.races, max)
+    is PopulationWithNumbers -> showInlineNumberDistribution(call, state, population.races, max)
+    is PopulationWithPercentages -> showInlinePercentageDistribution(call, state, population.races, max)
     UndefinedPopulation -> doNothing()
     else -> showInlineIds(call, state, population.races(), max)
 }
@@ -90,11 +93,18 @@ fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showPopulationDetails(
                 fieldIds(call, state, population.cultures)
             }
 
-            is PopulationDistribution -> {
+            is PopulationWithNumbers -> {
                 showIncome(call, state, population.income)
-                showElementDistribution(population, call, state, "Race", population.races.map)
+                showNumberDistribution(population, call, state, "Race", population.races)
                 br { }
-                showElementDistribution(population, call, state, "Culture", population.cultures.map)
+                showNumberDistribution(population, call, state, "Culture", population.cultures)
+            }
+
+            is PopulationWithPercentages -> {
+                showIncome(call, state, population.income)
+                showPercentageDistribution(population, call, state, "Race", population.races.map)
+                br { }
+                showPercentageDistribution(population, call, state, "Culture", population.cultures.map)
             }
 
             is TotalPopulation -> {
@@ -132,11 +142,10 @@ fun HtmlBlockTag.editPopulation(
                 selectCultureSet(state, param, population.cultures)
             }
 
-            is PopulationDistribution -> {
-                selectTotalPopulation(param, population.total)
+            is PopulationWithNumbers -> {
                 editIncome(state, population.income, combine(param, INCOME))
 
-                editElementDistribution(
+                editNumberDistribution(
                     call,
                     state,
                     "Race",
@@ -146,7 +155,32 @@ fun HtmlBlockTag.editPopulation(
                     population.races,
                 )
                 br { }
-                editElementDistribution(
+                editNumberDistribution(
+                    call,
+                    state,
+                    "Culture",
+                    combine(param, CULTURE),
+                    population,
+                    state.sortCultures(),
+                    population.cultures,
+                )
+            }
+
+            is PopulationWithPercentages -> {
+                selectTotalPopulation(param, population.total)
+                editIncome(state, population.income, combine(param, INCOME))
+
+                editPercentageDistribution(
+                    call,
+                    state,
+                    "Race",
+                    combine(param, RACE),
+                    population,
+                    state.sortRaces(),
+                    population.races,
+                )
+                br { }
+                editPercentageDistribution(
                     call,
                     state,
                     "Culture",
@@ -222,19 +256,35 @@ fun parsePopulation(
         parseIncome(state, parameters, combine(param, INCOME)),
     )
 
-    PopulationType.Distribution -> PopulationDistribution(
-        parseTotalPopulation(parameters, param),
-        parseElementDistribution(
+    PopulationType.Numbers -> PopulationWithNumbers(
+        parseNumberDistribution(
             state.getRaceStorage(),
             parameters,
             param,
-            ::parsePopulationOfRace,
+            ::parseNumberOfRace,
         ),
-        parseElementDistribution(
+        parseNumberDistribution(
             state.getCultureStorage(),
             parameters,
             param,
-            ::parsePopulationOfCulture,
+            ::parseNumberOfCulture,
+        ),
+        parseIncome(state, parameters, combine(param, INCOME)),
+    )
+
+    PopulationType.Percentages -> PopulationWithPercentages(
+        parseTotalPopulation(parameters, param),
+        parsePercentageDistribution(
+            state.getRaceStorage(),
+            parameters,
+            param,
+            ::parsePercentageOfRace,
+        ),
+        parsePercentageDistribution(
+            state.getCultureStorage(),
+            parameters,
+            param,
+            ::parsePercentageOfCulture,
         ),
         parseIncome(state, parameters, combine(param, INCOME)),
     )
@@ -258,8 +308,14 @@ private fun parseRaceSet(parameters: Parameters, param: String) =
 private fun parseTotalPopulation(parameters: Parameters, param: String): Int =
     parseInt(parameters, combine(param, NUMBER), 0)
 
-fun parsePopulationOfCulture(parameters: Parameters, param: String, culture: Culture) =
+fun parseNumberOfCulture(parameters: Parameters, param: String, culture: Culture) =
+    parseInt(parameters, combine(param, CULTURE, culture.id.value))
+
+fun parseNumberOfRace(parameters: Parameters, param: String, race: Race) =
+    parseInt(parameters, combine(param, RACE, race.id.value))
+
+fun parsePercentageOfCulture(parameters: Parameters, param: String, culture: Culture) =
     parseFactor(parameters, combine(param, CULTURE, culture.id.value), ZERO)
 
-fun parsePopulationOfRace(parameters: Parameters, param: String, race: Race) =
+fun parsePercentageOfRace(parameters: Parameters, param: String, race: Race) =
     parseFactor(parameters, combine(param, RACE, race.id.value), ZERO)

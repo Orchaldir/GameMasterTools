@@ -1,6 +1,5 @@
 package at.orchaldir.gm.app.html.world
 
-import at.orchaldir.gm.app.POSITION
 import at.orchaldir.gm.app.TITLE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.fieldPosition
@@ -38,7 +37,6 @@ fun HtmlBlockTag.editWorld(
     selectOptionalNotEmptyString("Optional Title", world.title, TITLE)
     selectPosition(
         state,
-        POSITION,
         world.position,
         null,
         ALLOWED_WORLD_POSITIONS,

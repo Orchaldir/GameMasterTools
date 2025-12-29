@@ -20,11 +20,18 @@ fun validatePopulation(
         population.income.validate(state)
     }
 
-    is PopulationDistribution -> {
+    is PopulationWithNumbers -> {
+        validateNumberDistribution(state.getCultureStorage(), population.cultures)
+        validateNumberDistribution(state.getRaceStorage(), population.races)
+
+        population.income.validate(state)
+    }
+
+    is PopulationWithPercentages -> {
         validateTotalPopulation(population.total)
 
-        validateElementDistribution(state.getCultureStorage(), population.cultures)
-        validateElementDistribution(state.getRaceStorage(), population.races)
+        validatePercentageDistribution(state.getCultureStorage(), population.cultures)
+        validatePercentageDistribution(state.getRaceStorage(), population.races)
 
         population.income.validate(state)
     }
@@ -41,14 +48,24 @@ fun validatePopulation(
     UndefinedPopulation -> doNothing()
 }
 
-fun <ID : Id<ID>, ELEMENT : Element<ID>> validateElementDistribution(
+fun <ID : Id<ID>, ELEMENT : Element<ID>> validateNumberDistribution(
     storage: Storage<ID, ELEMENT>,
-    distribution: ElementDistribution<ID>,
+    distribution: NumberDistribution<ID>,
 ) {
-    distribution.map.forEach { (race, percentage) ->
-        storage.require(race)
-        require(percentage.isGreaterZero()) { "The population of ${race.print()} must be > 0%!" }
-        require(percentage.isLessOrEqualOne()) { "The population of ${race.print()} must be <= 100%!" }
+    distribution.map.forEach { (id, number) ->
+        storage.require(id)
+        require(number > 0) { "The population of ${id.print()} must be > 0!" }
+    }
+}
+
+fun <ID : Id<ID>, ELEMENT : Element<ID>> validatePercentageDistribution(
+    storage: Storage<ID, ELEMENT>,
+    distribution: PercentageDistribution<ID>,
+) {
+    distribution.map.forEach { (id, percentage) ->
+        storage.require(id)
+        require(percentage.isGreaterZero()) { "The population of ${id.print()} must be > 0%!" }
+        require(percentage.isLessOrEqualOne()) { "The population of ${id.print()} must be <= 100%!" }
     }
 
     require(distribution.getDefinedPercentages() <= ONE) { "The total population of all ${storage.getPlural()} must be <= 100%!" }

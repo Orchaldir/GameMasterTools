@@ -4,6 +4,7 @@ import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.OWNER
 import at.orchaldir.gm.app.TITLE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.economy.displayIncome
 import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.app.html.util.population.editPopulation
 import at.orchaldir.gm.app.html.util.population.parsePopulation
@@ -13,10 +14,8 @@ import at.orchaldir.gm.app.html.util.source.parseDataSources
 import at.orchaldir.gm.app.html.util.source.showDataSources
 import at.orchaldir.gm.app.html.world.showCharactersOfTownMap
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.realm.ALLOWED_CAUSES_OF_DEATH_FOR_TOWN
-import at.orchaldir.gm.core.model.realm.ALLOWED_VITAL_STATUS_FOR_TOWN
-import at.orchaldir.gm.core.model.realm.Town
-import at.orchaldir.gm.core.model.realm.TownId
+import at.orchaldir.gm.core.model.realm.*
+import at.orchaldir.gm.core.model.util.population.Population
 import at.orchaldir.gm.core.selector.realm.getDistricts
 import at.orchaldir.gm.core.selector.realm.getExistingRealms
 import at.orchaldir.gm.core.selector.realm.getRealmsWithCapital
@@ -45,7 +44,7 @@ fun HtmlBlockTag.showTown(
     fieldElements(call, state, "Capital of", state.getRealmsWithCapital(town.id))
     fieldElements(call, state, "Previous Capital of", state.getRealmsWithPreviousCapital(town.id))
     showPopulationDetails(call, state, town)
-    showDistricts(call, state, town)
+    showSubDistricts(call, state, state.getDistricts(town.id), town.population)
     showDataSources(call, state, town.sources)
 
     val currentTownMap = state.getCurrentTownMap(town.id)
@@ -63,37 +62,41 @@ fun HtmlBlockTag.showTown(
     showOwnedElements(call, state, town.id)
 }
 
-private fun HtmlBlockTag.showDistricts(
+fun HtmlBlockTag.showSubDistricts(
     call: ApplicationCall,
     state: State,
-    town: Town,
+    districts: List<District>,
+    population: Population,
 ) {
-    val districts = state.getDistricts(town.id)
     var totalPopulation = 0
 
     if (districts.isEmpty()) {
         return
     }
 
-    val townPopulation = town.population.getTotalPopulation() ?: 0
+    val townPopulation = population.getTotalPopulation() ?: 0
 
     br { }
     table {
         tr {
             th { +"Districts" }
             th { +"Population" }
+            th { +"Income" }
         }
         state
             .sortDistricts(districts)
             .forEach { district ->
-                val population = district.population.getTotalPopulation() ?: 0
+                val districtPopulation = district.population.getTotalPopulation() ?: 0
 
                 tr {
                     tdLink(call, state, district.id)
-                    tdSkipZero(population)
+                    tdSkipZero(districtPopulation)
+                    td {
+                        district.population.income()?.let { displayIncome(call, state, it) }
+                    }
                 }
 
-                totalPopulation += population
+                totalPopulation += districtPopulation
             }
 
         tr {
@@ -110,6 +113,7 @@ private fun HtmlBlockTag.showDistricts(
             }
         }
     }
+    br { }
 }
 
 // edit

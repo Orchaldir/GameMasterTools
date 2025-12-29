@@ -1,7 +1,6 @@
 package at.orchaldir.gm.app.html.realm
 
 import at.orchaldir.gm.app.DATE
-import at.orchaldir.gm.app.TOWN
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.app.html.util.population.editPopulation
@@ -11,10 +10,11 @@ import at.orchaldir.gm.app.html.util.source.editDataSources
 import at.orchaldir.gm.app.html.util.source.parseDataSources
 import at.orchaldir.gm.app.html.util.source.showDataSources
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.realm.ALLOWED_DISTRICT_POSITIONS
 import at.orchaldir.gm.core.model.realm.District
 import at.orchaldir.gm.core.model.realm.DistrictId
 import at.orchaldir.gm.core.selector.character.getCharactersLivingIn
-import at.orchaldir.gm.core.selector.realm.getExistingTowns
+import at.orchaldir.gm.core.selector.realm.getDistricts
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -26,11 +26,12 @@ fun HtmlBlockTag.showDistrict(
     state: State,
     district: District,
 ) {
-    optionalFieldLink("Town", call, state, district.town)
+    fieldPosition(call, state, district.position)
     optionalField(call, state, "Date", district.foundingDate)
     fieldReference(call, state, district.founder, "Founder")
     fieldElements(call, state, "Residents", state.getCharactersLivingIn(district.id))
     showPopulationDetails(call, state, district)
+    showSubDistricts(call, state, state.getDistricts(district.id), district.population)
     showLocalElements(call, state, district.id)
     showDataSources(call, state, district.sources)
 }
@@ -43,11 +44,11 @@ fun HtmlBlockTag.editDistrict(
     district: District,
 ) {
     selectName(district.name)
-    editOptionalElement(
+    selectPosition(
         state,
-        TOWN,
-        state.getExistingTowns(district.foundingDate),
-        district.town,
+        district.position,
+        district.foundingDate,
+        ALLOWED_DISTRICT_POSITIONS,
     )
     selectOptionalDate(state, "Date", district.foundingDate, DATE)
     selectCreator(state, district.founder, district.id, district.foundingDate, "Founder")
@@ -69,7 +70,7 @@ fun parseDistrict(
 ) = District(
     id,
     parseName(parameters),
-    parseOptionalTownId(parameters, TOWN),
+    parsePosition(parameters, state),
     parseOptionalDate(parameters, state, DATE),
     parseCreator(parameters),
     parsePopulation(parameters, state),
