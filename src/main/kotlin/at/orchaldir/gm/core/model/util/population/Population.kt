@@ -113,7 +113,7 @@ data class PopulationWithNumbers(
     val income: Income = UndefinedIncome,
 ) : Population() {
 
-    fun calculateTotal() = max(races.getTotal(), cultures.getTotal())
+    fun calculateTotal() = max(races.calculateTotal(), cultures.calculateTotal())
 
 }
 

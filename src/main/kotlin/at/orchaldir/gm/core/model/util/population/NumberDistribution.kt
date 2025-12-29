@@ -8,7 +8,8 @@ import kotlinx.serialization.Serializable
 value class NumberDistribution<T>(
     val map: Map<T, Int> = emptyMap(),
 ) {
-    fun getTotal() = map.values.sum()
+    fun calculateTotal() = map.values.sum()
     fun getPercentage(id: T, total: Int) = Factor.divideTwoInts(getNumber(id), total)
+    fun getPercentage(id: T) = getPercentage(id, calculateTotal())
     fun getNumber(id: T) = map.getOrDefault(id, 0)
 }

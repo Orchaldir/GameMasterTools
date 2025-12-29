@@ -7,11 +7,10 @@ import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.util.population.NumberDistribution
 import at.orchaldir.gm.core.reducer.util.validateNumberDistribution
 import at.orchaldir.gm.utils.Storage
-import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.math.HALF
+import at.orchaldir.gm.utils.math.QUARTER
 import at.orchaldir.gm.utils.math.THREE_QUARTER
-import at.orchaldir.gm.utils.math.ZERO
 import org.junit.jupiter.api.Test
+import kotlin.test.assertEquals
 
 class NumberDistributionTest {
     private val state = State(
@@ -23,6 +22,7 @@ class NumberDistributionTest {
             )
         )
     )
+    private val valid = NumberDistribution(mapOf(RACE_ID_0 to 100, RACE_ID_1 to 300))
 
     @Test
     fun `With an unknown race`() {
@@ -42,10 +42,18 @@ class NumberDistributionTest {
 
     @Test
     fun `A valid population`() {
-        validateNumberDistribution(
-            state.getRaceStorage(),
-            NumberDistribution(mapOf(RACE_ID_0 to 100, RACE_ID_1 to 200))
-        )
+        validateNumberDistribution(state.getRaceStorage(), valid)
+    }
+
+    @Test
+    fun `Calculate the total population`() {
+        assertEquals(400, valid.calculateTotal())
+    }
+
+    @Test
+    fun `Calculate the percentage`() {
+        assertEquals(QUARTER, valid.getPercentage(RACE_ID_0))
+        assertEquals(THREE_QUARTER, valid.getPercentage(RACE_ID_1))
     }
 
     private fun assertPopulation(distribution: NumberDistribution<RaceId>, message: String) {
