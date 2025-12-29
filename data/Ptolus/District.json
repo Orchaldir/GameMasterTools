@@ -183,6 +183,14 @@
    "position": {
     "#type": "District",
     "district": 2
+   },
+   "population": {
+    "#type": "Total",
+    "total": 1000,
+    "income": {
+     "#type": "SoL",
+     "standard": 3
+    }
    }
   },
   "12": {

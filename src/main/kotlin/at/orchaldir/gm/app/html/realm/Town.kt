@@ -4,6 +4,7 @@ import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.OWNER
 import at.orchaldir.gm.app.TITLE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.economy.displayIncome
 import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.app.html.util.population.editPopulation
 import at.orchaldir.gm.app.html.util.population.parsePopulation
@@ -84,6 +85,7 @@ fun HtmlBlockTag.showSubDistricts(
         tr {
             th { +"Districts" }
             th { +"Population" }
+            th { +"Income" }
         }
         state
             .sortDistricts(districts)
@@ -93,6 +95,9 @@ fun HtmlBlockTag.showSubDistricts(
                 tr {
                     tdLink(call, state, district.id)
                     tdSkipZero(districtPopulation)
+                    td {
+                        district.population.income()?.let { displayIncome(call, state, it) }
+                    }
                 }
 
                 totalPopulation += districtPopulation
