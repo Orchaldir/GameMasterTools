@@ -11,6 +11,7 @@ import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.HALF
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import kotlin.test.assertEquals
 
 class PopulationTest {
     private val state = State(
@@ -63,6 +64,9 @@ class PopulationTest {
 
     @Nested
     inner class PopulationWithNumbersTest {
+        private val cultures = NumberDistribution(mapOf(CULTURE_ID_0 to 100))
+        private val races = NumberDistribution(mapOf(RACE_ID_0 to 100, RACE_ID_1 to 100))
+        private val valid = PopulationWithNumbers(races, cultures)
 
         @Test
         fun `With an unknown culture`() {
@@ -90,11 +94,12 @@ class PopulationTest {
 
         @Test
         fun `A valid population`() {
-            val cultures = NumberDistribution(mapOf(CULTURE_ID_0 to 100))
-            val races = NumberDistribution(mapOf(RACE_ID_0 to 100, RACE_ID_1 to 100))
-            val distribution = PopulationWithNumbers(races, cultures)
+            validatePopulation(state, valid)
+        }
 
-            validatePopulation(state, distribution)
+        @Test
+        fun `Calculate the total population`() {
+            assertEquals(200, valid.calculateTotal())
         }
 
     }
