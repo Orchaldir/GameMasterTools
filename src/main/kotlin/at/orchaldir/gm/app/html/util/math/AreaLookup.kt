@@ -36,10 +36,12 @@ fun HtmlBlockTag.showAreaLookupDetails(
     showDetails("Area", true) {
         field("Type", lookup.getType())
 
-        when (lookup) {
-            CalculatedArea -> fieldArea("Calculated Area", calculate(), unit)
-            is UserDefinedArea -> fieldArea("User Defined Area", lookup.area, unit)
+        val area = when (lookup) {
+            CalculatedArea -> calculate()
+            is UserDefinedArea -> lookup.area
         }
+
+        fieldArea("Area", area, unit)
     }
 }
 
