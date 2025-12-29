@@ -8,7 +8,7 @@
     "current": 0
    },
    "population": {
-    "#type": "Distribution",
+    "#type": "Percentages",
     "total": 75000,
     "races": {
      "0": 900,
