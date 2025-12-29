@@ -19,6 +19,7 @@ import at.orchaldir.gm.core.selector.realm.countDestroyedTowns
 import at.orchaldir.gm.core.selector.rpg.getMeleeWeaponType
 import at.orchaldir.gm.core.selector.time.getAgeInYears
 import at.orchaldir.gm.core.selector.util.calculateArea
+import at.orchaldir.gm.core.selector.util.calculateDensity
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.math.unit.AreaUnit
@@ -27,6 +28,7 @@ import io.ktor.server.application.*
 import kotlinx.html.TD
 import kotlinx.html.TR
 import kotlinx.html.td
+import java.util.Locale
 
 data class Column<T>(
     val header: List<String>,
@@ -143,6 +145,20 @@ fun <ELEMENT : HasOwner> createOwnerColumn(
 
 fun <ELEMENT : HasPopulation> createPopulationColumn(): Column<ELEMENT> =
     tdColumn("Population") { showPopulation(it.population()) }
+
+fun <ID : Id<ID>, ELEMENT> createPopulationDensityColumn(
+    state: State,
+    unit: AreaUnit = state.data.largeAreaUnit,
+): Column<ELEMENT> where
+        ELEMENT : Element<ID>,
+        ELEMENT : HasArea,
+        ELEMENT : HasPopulation = tdColumn(listOf("Population", "Density")) {
+    val density = state.calculateDensity(it, unit)
+
+    if (density > 0.0) {
+        +String.format(Locale.US, "%.1f", density)
+    }
+}
 
 fun <ELEMENT : HasPopulation> createPopulationIncomeColumn(
     call: ApplicationCall,

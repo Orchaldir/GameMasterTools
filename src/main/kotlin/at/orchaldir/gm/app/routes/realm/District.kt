@@ -70,6 +70,7 @@ fun Application.configureDistrictRouting() {
                     createCreatorColumn(call, state, "Founder"),
                     createAreaColumn(state),
                     createPopulationColumn(),
+                    createPopulationDensityColumn(state),
                     createPopulationIncomeColumn(call, state),
                     createRacesOfPopulationColumn(call, state),
                     createCulturesOfPopulationColumn(call, state),
