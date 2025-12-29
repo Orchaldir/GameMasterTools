@@ -438,6 +438,7 @@ fun State.sortDistricts(
         when (sort) {
             SortDistrict.Name -> compareBy { it.name.text }
             SortDistrict.Date -> getStartDateComparator()
+            SortDistrict.Area -> compareByDescending { calculateArea(it).toValue() }
             SortDistrict.Population -> compareByDescending { it.population.getTotalPopulation() }
             SortDistrict.Income -> compareByDescending {
                 it.population.income()?.sortValue(this) ?: -1

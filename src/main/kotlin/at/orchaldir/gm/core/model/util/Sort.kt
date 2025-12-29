@@ -113,6 +113,7 @@ enum class SortDisease {
 enum class SortDistrict {
     Name,
     Date,
+    Area,
     Population,
     Income,
 }
