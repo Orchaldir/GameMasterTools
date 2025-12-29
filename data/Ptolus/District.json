@@ -12,6 +12,10 @@
     "#type": "~Year",
     "year": 419
    },
+   "area": {
+    "#type": "User",
+    "area": 60000.0
+   },
    "population": {
     "#type": "Total",
     "total": 2000,
