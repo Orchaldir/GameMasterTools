@@ -58,7 +58,7 @@ class TownTest {
 
         @Test
         fun `Cannot delete a town that has districts`() {
-            val district = District(DISTRICT_ID_0, town = TOWN_ID_0)
+            val district = District(DISTRICT_ID_0, position = InTown(TOWN_ID_0))
             val newState = state.updateStorage(Storage(district))
 
             failCanDelete(newState, DISTRICT_ID_0)
