@@ -7,34 +7,21 @@ import java.util.*
 import kotlin.math.PI
 import kotlin.math.pow
 
-val ZERO_AREA = Area.fromSquareMillimeters(0)
+val ZERO_AREA = Area.fromSquareMeters(0)
 
 @JvmInline
 @Serializable
-value class Area private constructor(private val smm: Long) : SiUnit<Area> {
+value class Area private constructor(private val sm: Float) {
 
     init {
-        require(smm >= 0) { "Area $smm must be greater 0!" }
+        require(sm >= 0) { "Area $sm must be greater 0!" }
     }
 
     companion object {
-        fun fromSquareMeters(sm: Long) = Area(convertFromSquareMeters(sm))
-        fun fromSquareMeters(sm: Float) = Area(convertFromSquareMeters(sm))
-        fun fromSquareDecimeters(sdm: Long) = Area(convertFromSquareDecimeters(sdm))
-        fun fromSquareDecimeters(sdm: Float) = Area(convertFromSquareDecimeters(sdm))
-        fun fromSquareCentimeters(scm: Long) = Area(convertFromSquareCentimeters(scm))
-        fun fromSquareCentimeters(scm: Float) = Area(convertFromSquareCentimeters(scm))
-        fun fromSquareMillimeters(smm: Long) = Area(smm)
-        fun fromSquareMillimeters(smm: Float) = Area(smm.toLong())
-        fun fromSquareMicrometers(sµm: Long) = Area(convertFromSquareMicrometers(sµm).toLong())
-
-        fun from(prefix: SiPrefix, value: Long) = when (prefix) {
-            SiPrefix.Kilo -> error("Use LargeArea instead!")
-            SiPrefix.Base -> fromSquareMeters(value)
-            SiPrefix.Centi -> fromSquareCentimeters(value)
-            SiPrefix.Milli -> fromSquareMillimeters(value)
-            SiPrefix.Micro -> fromSquareMicrometers(value)
-        }
+        fun fromSquareKiloMeters(skm: Long) = fromSquareKiloMeters(skm.toFloat())
+        fun fromSquareKiloMeters(skm: Float) = convertToSquareKilometers(skm)
+        fun fromSquareMeters(sm: Long) = Area(sm.toFloat())
+        fun fromSquareMeters(sm: Float) = Area(sm)
 
         // shapes
 
@@ -47,55 +34,29 @@ value class Area private constructor(private val smm: Long) : SiUnit<Area> {
             fromSquareMeters(radius.toMeters().pow(2) * PI.toFloat())
     }
 
-    override fun value() = smm
+    override fun toString() = formatArea(sm)
 
-    fun toSquareMeters() = convertToSquareMeters(smm)
+    operator fun plus(other: Area) = Area(sm + other.sm)
+    operator fun minus(other: Area) = Area(sm - other.sm)
+    operator fun times(factor: Float) = Area(sm * factor)
+    operator fun times(factor: Factor) = times(factor.toNumber())
+    operator fun times(factor: Int) = Area(sm * factor)
+    operator fun div(factor: Float) = Area(sm / factor)
+    operator fun div(factor: Int) = Area(sm / factor)
 
-    override fun convertToLong(prefix: SiPrefix) = when (prefix) {
-        SiPrefix.Kilo -> error("Use LargeArea instead!")
-        SiPrefix.Base -> convertToSquareMeters(smm).toLong()
-        SiPrefix.Centi -> convertToSquareCentimeters(smm).toLong()
-        SiPrefix.Milli -> smm
-        SiPrefix.Micro -> convertToSquareMicrometers(smm)
-    }
-
-    override fun toString() = formatArea(smm)
-
-    override operator fun plus(other: Area) = Area(smm + other.smm)
-    override operator fun minus(other: Area) = Area(smm - other.smm)
-    operator fun times(factor: Float) = Area((smm * factor).toLong())
-    override operator fun times(factor: Factor) = times(factor.toNumber())
-    operator fun times(factor: Int) = Area(smm * factor)
-    operator fun div(factor: Float) = Area((smm / factor).toLong())
-    operator fun div(factor: Int) = Area(smm / factor)
-
-    fun max(other: Area) = if (smm >= other.smm) {
+    fun max(other: Area) = if (sm >= other.sm) {
         this
     } else {
         other
     }
 }
 
-fun convertFromSquareMeters(sm: Long) = downThreeSteps(downThreeSteps(sm))
-fun convertFromSquareMeters(sm: Float) = downThreeSteps(downThreeSteps(sm))
-fun convertFromSquareDecimeters(sdm: Long) = downTwoSteps(downTwoSteps(sdm))
-fun convertFromSquareDecimeters(sdm: Float) =  downTwoSteps(downTwoSteps(sdm))
-fun convertFromSquareCentimeters(scm: Long) = down(down(scm))
-fun convertFromSquareCentimeters(scm: Float) = down(down(scm))
-fun convertFromSquareMicrometers(cµm: Long) = upThreeSteps(upThreeSteps(cµm))
+fun convertFromSquareKilometers(skm: Float) = upSixSteps(skm)
 
-fun convertToSquareKilometers(smm: Long) = upSixSteps(upSixSteps(smm))
-fun convertToSquareMeters(smm: Long) = upThreeSteps(upThreeSteps(smm))
-fun convertToSquareDecimeters(smm: Long) = upTwoSteps(upTwoSteps(smm))
-fun convertToSquareCentimeters(smm: Long) = up(up(smm))
-fun convertToSquareMicrometers(smm: Long) = downThreeSteps(downThreeSteps(smm))
+fun convertToSquareKilometers(sm: Float) = upSixSteps(sm)
 
-fun formatArea(smm: Long) = if (smm >= SI_SIX_STEPS) {
-    String.format(Locale.US, "%.1f m^2", convertToSquareMeters(smm))
-} else if (smm >= SI_FOUR_STEPS) {
-    String.format(Locale.US, "%.1f dm^2", convertToSquareDecimeters(smm))
-} else if (smm >= SI_TWO_STEPS) {
-    String.format(Locale.US, "%.1f cm^2", convertToSquareCentimeters(smm))
+fun formatArea(sm: Float) = if (sm >= SI_SIX_STEPS) {
+    String.format(Locale.US, "%.1f km^2", convertToSquareKilometers(sm))
 } else {
-    String.format(Locale.US, "%d mm^2", smm)
+    String.format(Locale.US, "%.1f m^2", sm)
 }
