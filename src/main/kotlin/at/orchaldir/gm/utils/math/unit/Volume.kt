@@ -102,13 +102,13 @@ fun convertFromCubicDecimeters(cdm: Long) = downSixSteps(cdm)
 fun convertFromCubicDecimeters(cdm: Float) = downSixSteps(cdm)
 fun convertFromCubicCentimeters(ccm: Long) = downThreeSteps(ccm)
 fun convertFromCubicCentimeters(ccm: Float) = downThreeSteps(ccm)
-fun convertFromCubicMicrometers(cµm: Long) = upSixSteps(upSixSteps(upSixSteps(cµm)))
+fun convertFromCubicMicrometers(cµm: Long) = upThreeSteps(upThreeSteps(upThreeSteps(cµm)))
 
 fun convertToCubicKilometers(cmm: Long) = upSixSteps(upSixSteps(upSixSteps(cmm)))
 fun convertToCubicMeters(cmm: Long) = upNineSteps(cmm)
 fun convertToCubicDecimeters(cmm: Long) = upSixSteps(cmm)
 fun convertToCubicCentimeters(cmm: Long) = upThreeSteps(cmm)
-fun convertToCubicMicrometers(cmm: Long) = downSixSteps(downSixSteps(downSixSteps(cmm)))
+fun convertToCubicMicrometers(cmm: Long) = downThreeSteps(downThreeSteps(downThreeSteps(cmm)))
 
 fun formatVolume(cmm: Long) = if (cmm >= SI_NINE_STEPS) {
     String.format(Locale.US, "%.1f m^3", convertToCubicMeters(cmm))
