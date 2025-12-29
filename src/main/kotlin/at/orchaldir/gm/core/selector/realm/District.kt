@@ -11,6 +11,7 @@ import at.orchaldir.gm.core.selector.util.getExistingElements
 import at.orchaldir.gm.utils.math.unit.Area
 import at.orchaldir.gm.utils.math.unit.CalculatedArea
 import at.orchaldir.gm.utils.math.unit.UserDefinedArea
+import at.orchaldir.gm.utils.math.unit.ZERO_AREA
 
 fun State.canDeleteDistrict(district: DistrictId) = DeleteResult(district)
     .addElements(getDistricts(district))
@@ -29,9 +30,10 @@ fun State.getExistingDistricts(date: Date?) = getExistingElements(getDistrictSto
 fun State.calculateArea(district: District): Area = when (district.area) {
     CalculatedArea -> getDistrictStorage()
         .getAll()
+        .filter { it.position.isIn(district.id) }
         .map { other ->
             calculateArea(other)
         }
-        .reduce { sum, area -> sum + area }
+        .reduceOrNull { sum, area -> sum + area } ?: ZERO_AREA
     is UserDefinedArea -> district.area.area
 }
