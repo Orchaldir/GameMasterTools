@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.html.realm
 import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.*
+import at.orchaldir.gm.app.html.util.math.fieldDensity
 import at.orchaldir.gm.app.html.util.math.parseAreaLookup
 import at.orchaldir.gm.app.html.util.math.selectAreaLookup
 import at.orchaldir.gm.app.html.util.math.showAreaLookupDetails
@@ -19,6 +20,7 @@ import at.orchaldir.gm.core.model.realm.DistrictId
 import at.orchaldir.gm.core.selector.character.getCharactersLivingIn
 import at.orchaldir.gm.core.selector.realm.getDistricts
 import at.orchaldir.gm.core.selector.util.calculateArea
+import at.orchaldir.gm.core.selector.util.calculateDensity
 import at.orchaldir.gm.utils.math.unit.AreaUnit
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -31,13 +33,17 @@ fun HtmlBlockTag.showDistrict(
     state: State,
     district: District,
 ) {
+    val area = state.calculateArea(district)
+    val density = state.calculateDensity(district, state.data.largeAreaUnit)
+
     fieldPosition(call, state, district.position)
     optionalField(call, state, "Date", district.foundingDate)
     fieldReference(call, state, district.founder, "Founder")
     showAreaLookupDetails(district.area, state.data.largeAreaUnit) {
-        state.calculateArea(district)
+        area
     }
     showPopulationDetails(call, state, district)
+    fieldDensity("Population Density", density, "people", state.data.largeAreaUnit)
     fieldElements(call, state, "Residents", state.getCharactersLivingIn(district.id))
     showSubDistricts(call, state, state.getDistricts(district.id), district.population)
     showLocalElements(call, state, district.id)

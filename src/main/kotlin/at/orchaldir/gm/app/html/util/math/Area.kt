@@ -7,6 +7,7 @@ import at.orchaldir.gm.utils.math.unit.Area
 import at.orchaldir.gm.utils.math.unit.AreaUnit
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag
+import java.util.Locale
 
 // show
 
@@ -17,6 +18,18 @@ fun HtmlBlockTag.fieldArea(
 ) {
     if (area != null && area.isGreaterZero()) {
         field(name, area.toString(unit))
+    }
+}
+
+fun HtmlBlockTag.fieldDensity(
+    name: String,
+    density: Float,
+    upperUnit: String,
+    areaUnit: AreaUnit,
+) {
+    if (density > 0.0f) {
+        val text = String.format(Locale.US, "%.1f %s/%s", density, upperUnit, areaUnit.resolveUnit())
+        field(name, text)
     }
 }
 
