@@ -1,6 +1,5 @@
 package at.orchaldir.gm.app.html.world
 
-import at.orchaldir.gm.app.POSITION
 import at.orchaldir.gm.app.TITLE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.fieldPosition

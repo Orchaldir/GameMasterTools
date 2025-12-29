@@ -8,7 +8,6 @@ import at.orchaldir.gm.app.html.realm.showDistrict
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.realm.DISTRICT_TYPE
-import at.orchaldir.gm.core.model.realm.District
 import at.orchaldir.gm.core.model.realm.DistrictId
 import at.orchaldir.gm.core.model.util.SortDistrict
 import at.orchaldir.gm.core.selector.realm.getDistricts

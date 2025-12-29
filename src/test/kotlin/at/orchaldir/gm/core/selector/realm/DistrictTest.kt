@@ -4,7 +4,6 @@ import at.orchaldir.gm.BUSINESS_ID_0
 import at.orchaldir.gm.CHARACTER_ID_0
 import at.orchaldir.gm.DISTRICT_ID_0
 import at.orchaldir.gm.DISTRICT_ID_1
-import at.orchaldir.gm.TOWN_ID_0
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
@@ -12,7 +11,6 @@ import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.realm.District
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.InDistrict
-import at.orchaldir.gm.core.model.util.InTown
 import at.orchaldir.gm.core.model.util.Position
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage

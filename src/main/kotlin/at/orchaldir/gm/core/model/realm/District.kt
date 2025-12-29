@@ -2,14 +2,7 @@ package at.orchaldir.gm.core.model.realm
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.date.Date
-import at.orchaldir.gm.core.model.util.Creation
-import at.orchaldir.gm.core.model.util.HasPosition
-import at.orchaldir.gm.core.model.util.HasStartDate
-import at.orchaldir.gm.core.model.util.Position
-import at.orchaldir.gm.core.model.util.PositionType
-import at.orchaldir.gm.core.model.util.Reference
-import at.orchaldir.gm.core.model.util.UndefinedPosition
-import at.orchaldir.gm.core.model.util.UndefinedReference
+import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.population.HasPopulation

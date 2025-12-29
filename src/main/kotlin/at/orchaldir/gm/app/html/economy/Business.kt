@@ -1,7 +1,6 @@
 package at.orchaldir.gm.app.html.economy
 
 import at.orchaldir.gm.app.DATE
-import at.orchaldir.gm.app.POSITION
 import at.orchaldir.gm.app.TEMPLATE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.*

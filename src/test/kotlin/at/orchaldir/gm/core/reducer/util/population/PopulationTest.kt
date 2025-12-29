@@ -87,7 +87,7 @@ class PopulationTest {
         @Test
         fun `With an unknown standard of living`() {
             assertPopulation(
-                PopulationWithNumbers( income = income),
+                PopulationWithNumbers(income = income),
                 "Requires unknown Standard Of Living 99!",
             )
         }

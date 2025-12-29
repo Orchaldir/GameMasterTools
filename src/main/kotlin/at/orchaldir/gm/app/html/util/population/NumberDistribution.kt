@@ -1,19 +1,14 @@
 package at.orchaldir.gm.app.html.util.population
 
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.util.math.selectFactor
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.population.NumberDistribution
 import at.orchaldir.gm.core.model.util.population.PopulationWithNumbers
-import at.orchaldir.gm.core.model.util.population.PopulationWithPercentages
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
-import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.math.ONE_TENTH_PERCENT
-import at.orchaldir.gm.utils.math.ZERO
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.*

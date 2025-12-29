@@ -7,11 +7,7 @@ import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.util.population.PercentageDistribution
 import at.orchaldir.gm.core.reducer.util.validatePercentageDistribution
 import at.orchaldir.gm.utils.Storage
-import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.math.HALF
-import at.orchaldir.gm.utils.math.QUARTER
-import at.orchaldir.gm.utils.math.THREE_QUARTER
-import at.orchaldir.gm.utils.math.ZERO
+import at.orchaldir.gm.utils.math.*
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
