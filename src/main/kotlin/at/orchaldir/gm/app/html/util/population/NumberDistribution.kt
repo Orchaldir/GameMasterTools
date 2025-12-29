@@ -67,6 +67,7 @@ fun <ID : Id<ID>> DETAILS.showNumberDistribution(
             }
 
         showRemainingPopulation(total, remaining)
+        showTotalPopulation(total)
     }
 }
 
@@ -79,6 +80,13 @@ private fun TABLE.showRemainingPopulation(
             tdString("Other")
             showPercentageAndNumber(total, remaining)
         }
+    }
+}
+
+private fun TABLE.showTotalPopulation(total: Int) {
+    tr {
+        tdString("Total")
+        showPercentageAndNumber(total, total)
     }
 }
 
@@ -103,7 +111,7 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> DETAILS.editNumberDistribution(
     distribution: NumberDistribution<ID>,
 ) {
     val total = population.calculateTotal()
-    val remaining = total
+    var remaining = total
 
     table {
         tr {
@@ -133,9 +141,12 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> DETAILS.editNumberDistribution(
                     )
                 }
             }
+
+            remaining -= number
         }
 
         showRemainingPopulation(total, remaining)
+        showTotalPopulation(total)
     }
 }
 
