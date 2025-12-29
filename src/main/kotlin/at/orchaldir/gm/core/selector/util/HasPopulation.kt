@@ -75,6 +75,7 @@ fun <ID : Id<ID>, ELEMENT> getAbstractPopulations(
     .filter { element ->
         when (val population = element.population()) {
             is AbstractPopulation -> contains(population)
+            is PopulationWithNumbers -> false
             is PopulationWithPercentages -> false
             is TotalPopulation -> contains(population)
             UndefinedPopulation -> false
