@@ -8,6 +8,8 @@ import kotlin.math.PI
 import kotlin.math.pow
 
 val ZERO_AREA = Area.fromSquareMeters(0)
+const val SQUARE_METER_PER_ACRE = 4047.0f
+const val SQUARE_METER_PER_HECTARE = 10000.0f
 
 @JvmInline
 @Serializable
@@ -23,12 +25,13 @@ value class Area private constructor(private val sm: Float) {
         fun fromSquareMeters(sm: Long) = Area(sm.toFloat())
         fun fromSquareMeters(sm: Float) = Area(sm)
 
-        fun convertFrom(value: Float, prefix: SiPrefix) = Area(when (prefix) {
-            SiPrefix.Kilo -> convertFromSquareKilometers(value)
-            SiPrefix.Base -> value
-            SiPrefix.Centi -> convertFromSquareCentimeters(value)
-            SiPrefix.Milli -> convertFromSquareMillimeters(value)
-            SiPrefix.Micro -> error("Unsupported!")
+        fun convertFrom(value: Float, unit: AreaUnit) = Area(when (unit) {
+            AreaUnit.SquareKiloMeter -> convertFromSquareKilometers(value)
+            AreaUnit.Hectare -> convertFromHectare(value)
+            AreaUnit.Acre -> convertFromAcre(value)
+            AreaUnit.SquareMeter -> value
+            AreaUnit.SquareCentiMeter -> convertFromSquareCentimeters(value)
+            AreaUnit.SquareMilliMeter -> convertFromSquareMillimeters(value)
         })
 
         // shapes
@@ -42,12 +45,13 @@ value class Area private constructor(private val sm: Float) {
             fromSquareMeters(radius.toMeters().pow(2) * PI.toFloat())
     }
 
-    fun convertTo(prefix: SiPrefix) = when (prefix) {
-        SiPrefix.Kilo -> convertToSquareKilometers(sm)
-        SiPrefix.Base -> sm
-        SiPrefix.Centi -> convertToSquareCentimeters(sm)
-        SiPrefix.Milli -> convertToSquareMillimeters(sm)
-        SiPrefix.Micro -> error("Unsupported!")
+    fun convertTo(unit: AreaUnit) = when (unit) {
+        AreaUnit.SquareKiloMeter -> convertToSquareKilometers(sm)
+        AreaUnit.Hectare -> convertToHectare(sm)
+        AreaUnit.Acre -> convertToAcre(sm)
+        AreaUnit.SquareMeter -> sm
+        AreaUnit.SquareCentiMeter -> convertToSquareCentimeters(sm)
+        AreaUnit.SquareMilliMeter -> convertToSquareMillimeters(sm)
     }
 
     override fun toString() = formatArea(sm)
@@ -68,10 +72,14 @@ value class Area private constructor(private val sm: Float) {
 }
 
 fun convertFromSquareKilometers(skm: Float) = skm * SI_SIX_STEPS
-fun convertFromSquareCentimeters(skm: Float) = skm / SI_TWO_STEPS
-fun convertFromSquareMillimeters(skm: Float) = skm / SI_SIX_STEPS
+fun convertFromHectare(hectare: Float) = hectare * SQUARE_METER_PER_HECTARE
+fun convertFromAcre(acre: Float) = acre * SQUARE_METER_PER_ACRE
+fun convertFromSquareCentimeters(scm: Float) = scm / SI_TWO_STEPS
+fun convertFromSquareMillimeters(smm: Float) = smm / SI_SIX_STEPS
 
 fun convertToSquareKilometers(sm: Float) = sm / SI_SIX_STEPS
+fun convertToHectare(sm: Float) = sm / SQUARE_METER_PER_HECTARE
+fun convertToAcre(sm: Float) = sm / SQUARE_METER_PER_ACRE
 fun convertToSquareCentimeters(sm: Float) = sm * SI_TWO_STEPS
 fun convertToSquareMillimeters(sm: Float) = sm * SI_SIX_STEPS
 

@@ -28,25 +28,10 @@ class AreaTest {
     inner class ConversionTest {
 
         @Test
-        fun `Convert to & from Square Kilometers`() {
-            assertEquals(1.5f, convertFromSquareKilometers(convertToSquareKilometers(1.5f)), 0.001f)
-        }
-
-        @Test
-        fun `Convert to & from Square Centimeters`() {
-            assertEquals(1.5f, convertFromSquareCentimeters(convertToSquareCentimeters(1.5f)), 0.001f)
-        }
-
-        @Test
-        fun `Convert to & from Square Millimeters`() {
-            assertEquals(1.5f, convertFromSquareMillimeters(convertToSquareMillimeters(1.5f)), 0.001f)
-        }
-
-        @Test
         fun `Convert to & from with SiPrefix`() {
-            (SiPrefix.entries - SiPrefix.Micro).forEach { prefix ->
-                val area = Area.convertFrom(1.5f, prefix)
-                assertEquals(1.5f, area.convertTo(prefix), 0.001f)
+            AreaUnit.entries.forEach { unit ->
+                val area = Area.convertFrom(1.5f, unit)
+                assertEquals(1.5f, area.convertTo(unit), 0.001f)
             }
         }
     }
