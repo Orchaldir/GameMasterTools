@@ -42,7 +42,6 @@ fun HtmlBlockTag.editRegion(
     editRegionData(state, region.data, null)
     selectPosition(
         state,
-        POSITION,
         region.position,
         null,
         region.data.getAllowedRegionTypes(),

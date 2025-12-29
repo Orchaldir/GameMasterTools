@@ -3,8 +3,12 @@ package at.orchaldir.gm.core.model.realm
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.Creation
+import at.orchaldir.gm.core.model.util.HasPosition
 import at.orchaldir.gm.core.model.util.HasStartDate
+import at.orchaldir.gm.core.model.util.Position
+import at.orchaldir.gm.core.model.util.PositionType
 import at.orchaldir.gm.core.model.util.Reference
+import at.orchaldir.gm.core.model.util.UndefinedPosition
 import at.orchaldir.gm.core.model.util.UndefinedReference
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
@@ -13,12 +17,18 @@ import at.orchaldir.gm.core.model.util.population.Population
 import at.orchaldir.gm.core.model.util.population.UndefinedPopulation
 import at.orchaldir.gm.core.model.util.source.DataSourceId
 import at.orchaldir.gm.core.model.util.source.HasDataSources
+import at.orchaldir.gm.core.reducer.util.checkPosition
 import at.orchaldir.gm.core.reducer.util.validateCreator
 import at.orchaldir.gm.core.reducer.util.validatePopulation
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
 const val DISTRICT_TYPE = "District"
+val ALLOWED_DISTRICT_POSITIONS = listOf(
+    PositionType.Undefined,
+    PositionType.District,
+    PositionType.Town,
+)
 
 @JvmInline
 @Serializable
@@ -34,22 +44,23 @@ value class DistrictId(val value: Int) : Id<DistrictId> {
 data class District(
     val id: DistrictId,
     val name: Name = Name.init(id),
-    val town: TownId? = null,
+    val position: Position = UndefinedPosition,
     val foundingDate: Date? = null,
     val founder: Reference = UndefinedReference,
     val population: Population = UndefinedPopulation,
     val sources: Set<DataSourceId> = emptySet(),
-) : ElementWithSimpleName<DistrictId>, Creation, HasDataSources, HasPopulation, HasStartDate {
+) : ElementWithSimpleName<DistrictId>, Creation, HasDataSources, HasPopulation, HasPosition, HasStartDate {
 
     override fun id() = id
     override fun name() = name.text
     override fun creator() = founder
     override fun population() = population
+    override fun position() = position
     override fun sources() = sources
     override fun startDate() = foundingDate
 
     override fun validate(state: State) {
-        state.getTownStorage().requireOptional(town)
+        checkPosition(state, position, "position", null, ALLOWED_DISTRICT_POSITIONS)
         validateCreator(state, founder, id, foundingDate, "founder")
         validatePopulation(state, population)
     }

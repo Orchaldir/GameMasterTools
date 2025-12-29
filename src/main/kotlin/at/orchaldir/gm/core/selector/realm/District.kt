@@ -12,9 +12,13 @@ import at.orchaldir.gm.core.selector.util.getExistingElements
 fun State.canDeleteDistrict(district: DistrictId) = DeleteResult(district)
     .apply { canDeleteWithPositions(district, it) }
 
+fun State.getDistricts(district: DistrictId) = getDistrictStorage()
+    .getAll()
+    .filter { it.position.isIn(district) }
+
 fun State.getDistricts(town: TownId) = getDistrictStorage()
     .getAll()
-    .filter { it.town == town }
+    .filter { it.position.isIn(town) }
 
 fun State.getDistricts(standard: StandardOfLivingId) = getDistrictStorage()
     .getAll()

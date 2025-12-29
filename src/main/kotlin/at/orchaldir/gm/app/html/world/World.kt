@@ -38,7 +38,6 @@ fun HtmlBlockTag.editWorld(
     selectOptionalNotEmptyString("Optional Title", world.title, TITLE)
     selectPosition(
         state,
-        POSITION,
         world.position,
         null,
         ALLOWED_WORLD_POSITIONS,

@@ -64,7 +64,7 @@ fun Application.configureDistrictRouting() {
                 state.sortDistricts(all.sort),
                 listOf(
                     createNameColumn(call, state),
-                    createIdColumn(call, state, "Town", District::town),
+                    createPositionColumn(call, state),
                     createStartDateColumn(call, state),
                     createCreatorColumn(call, state, "Founder"),
                     createPopulationColumn(),
