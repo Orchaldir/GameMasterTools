@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.selector.util.canDeleteWithPositions
 import at.orchaldir.gm.core.selector.util.getExistingElements
 
 fun State.canDeleteDistrict(district: DistrictId) = DeleteResult(district)
+    .addElements(getDistricts(district))
     .apply { canDeleteWithPositions(district, it) }
 
 fun State.getDistricts(district: DistrictId) = getDistrictStorage()

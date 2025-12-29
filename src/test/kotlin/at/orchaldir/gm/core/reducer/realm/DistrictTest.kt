@@ -43,7 +43,7 @@ class DistrictTest {
         }
 
         @Test
-        fun `Town must exist`() {
+        fun `Position must exist`() {
             val action = UpdateAction(District(DISTRICT_ID_0, position = InTown(UNKNOWN_TOWN_ID)))
 
             assertIllegalArgument("Requires unknown position!") { REDUCER.invoke(STATE, action) }
