@@ -54,7 +54,10 @@ value class Area private constructor(private val sm: Float) {
         AreaUnit.SquareMilliMeter -> convertToSquareMillimeters(sm)
     }
 
+    fun isGreaterZero() = sm > 0.0f
     override fun toString() = formatArea(sm)
+
+    fun toString(unit: AreaUnit) = String.format(Locale.US, "%.1f ${unit.resolveUnit()}", convertTo(unit))
 
     operator fun plus(other: Area) = Area(sm + other.sm)
     operator fun minus(other: Area) = Area(sm - other.sm)
