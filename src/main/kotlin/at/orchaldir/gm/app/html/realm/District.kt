@@ -15,6 +15,7 @@ import at.orchaldir.gm.core.model.realm.ALLOWED_DISTRICT_POSITIONS
 import at.orchaldir.gm.core.model.realm.District
 import at.orchaldir.gm.core.model.realm.DistrictId
 import at.orchaldir.gm.core.selector.character.getCharactersLivingIn
+import at.orchaldir.gm.core.selector.realm.getDistricts
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -31,6 +32,7 @@ fun HtmlBlockTag.showDistrict(
     fieldReference(call, state, district.founder, "Founder")
     fieldElements(call, state, "Residents", state.getCharactersLivingIn(district.id))
     showPopulationDetails(call, state, district)
+    showSubDistricts(call, state, state.getDistricts(district.id), district.population)
     showLocalElements(call, state, district.id)
     showDataSources(call, state, district.sources)
 }
