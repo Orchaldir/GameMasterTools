@@ -62,7 +62,45 @@ class PopulationTest {
     }
 
     @Nested
-    inner class PopulationPerRaceTest {
+    inner class PopulationWithNumbersTest {
+
+        @Test
+        fun `With an unknown culture`() {
+            assertPopulation(
+                PopulationWithNumbers(cultures = NumberDistribution(mapOf(UNKNOWN_CULTURE_ID to 100))),
+                "Requires unknown Culture 99!",
+            )
+        }
+
+        @Test
+        fun `With an unknown race`() {
+            assertPopulation(
+                PopulationWithNumbers(NumberDistribution(mapOf(UNKNOWN_RACE_ID to 100))),
+                "Requires unknown Race 99!",
+            )
+        }
+
+        @Test
+        fun `With an unknown standard of living`() {
+            assertPopulation(
+                PopulationWithNumbers( income = income),
+                "Requires unknown Standard Of Living 99!",
+            )
+        }
+
+        @Test
+        fun `A valid population`() {
+            val cultures = NumberDistribution(mapOf(CULTURE_ID_0 to 100))
+            val races = NumberDistribution(mapOf(RACE_ID_0 to 100, RACE_ID_1 to 100))
+            val distribution = PopulationWithNumbers(races, cultures)
+
+            validatePopulation(state, distribution)
+        }
+
+    }
+
+    @Nested
+    inner class PopulationWithPercentagesTest {
 
         @Test
         fun `The total population must be greater or equal 0`() {
