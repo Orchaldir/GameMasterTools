@@ -9,9 +9,11 @@ import at.orchaldir.gm.core.reducer.util.validatePercentageDistribution
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.HALF
+import at.orchaldir.gm.utils.math.QUARTER
 import at.orchaldir.gm.utils.math.THREE_QUARTER
 import at.orchaldir.gm.utils.math.ZERO
 import org.junit.jupiter.api.Test
+import kotlin.test.assertEquals
 
 class PercentageDistributionTest {
     private val state = State(
@@ -23,6 +25,7 @@ class PercentageDistributionTest {
             )
         )
     )
+    private val valid = PercentageDistribution(mapOf(RACE_ID_0 to QUARTER, RACE_ID_1 to HALF))
 
     @Test
     fun `With an unknown race`() {
@@ -58,10 +61,28 @@ class PercentageDistributionTest {
 
     @Test
     fun `A valid population`() {
-        validatePercentageDistribution(
-            state.getRaceStorage(),
-            PercentageDistribution(mapOf(RACE_ID_0 to HALF, RACE_ID_1 to HALF))
-        )
+        validatePercentageDistribution(state.getRaceStorage(), valid)
+    }
+
+    @Test
+    fun `Calculate the defined percentages`() {
+        assertEquals(THREE_QUARTER, valid.getDefinedPercentages())
+    }
+
+    @Test
+    fun `Calculate the undefined percentages`() {
+        assertEquals(QUARTER, valid.getUndefinedPercentages())
+    }
+
+    @Test
+    fun `Calculate the number`() {
+        assertEquals(100, valid.getNumber(400, RACE_ID_0))
+        assertEquals(200, valid.getNumber(400, RACE_ID_1))
+    }
+
+    @Test
+    fun `Calculate the number if not included`() {
+        assertEquals(0, valid.getNumber(400, UNKNOWN_RACE_ID))
     }
 
     private fun assertPopulation(distribution: PercentageDistribution<RaceId>, message: String) {

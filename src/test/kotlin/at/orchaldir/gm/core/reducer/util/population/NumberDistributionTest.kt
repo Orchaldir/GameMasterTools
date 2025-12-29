@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.reducer.util.validateNumberDistribution
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.QUARTER
 import at.orchaldir.gm.utils.math.THREE_QUARTER
+import at.orchaldir.gm.utils.math.ZERO
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
@@ -54,6 +55,11 @@ class NumberDistributionTest {
     fun `Calculate the percentage`() {
         assertEquals(QUARTER, valid.getPercentage(RACE_ID_0))
         assertEquals(THREE_QUARTER, valid.getPercentage(RACE_ID_1))
+    }
+
+    @Test
+    fun `Calculate the percentage if not included`() {
+        assertEquals(ZERO, valid.getPercentage(UNKNOWN_RACE_ID))
     }
 
     private fun assertPopulation(distribution: NumberDistribution<RaceId>, message: String) {
