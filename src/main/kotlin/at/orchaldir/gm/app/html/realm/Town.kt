@@ -10,6 +10,7 @@ import at.orchaldir.gm.app.html.util.math.parseAreaLookup
 import at.orchaldir.gm.app.html.util.math.selectAreaLookup
 import at.orchaldir.gm.app.html.realm.population.editPopulation
 import at.orchaldir.gm.app.html.realm.population.parsePopulation
+import at.orchaldir.gm.app.html.realm.population.showAreaAndPopulation
 import at.orchaldir.gm.app.html.realm.population.showPopulationDetails
 import at.orchaldir.gm.app.html.util.source.editDataSources
 import at.orchaldir.gm.app.html.util.source.parseDataSources
@@ -45,9 +46,7 @@ fun HtmlBlockTag.showTown(
     }
     fieldElements(call, state, "Capital of", state.getRealmsWithCapital(town.id))
     fieldElements(call, state, "Previous Capital of", state.getRealmsWithPreviousCapital(town.id))
-    showAreaLookupDetails(state, town)
-    showPopulationDetails(call, state, town)
-    fieldPopulationDensity(state, town)
+    showAreaAndPopulation(call, state, town)
     showSubDistricts(call, state, state.getDistricts(town.id), town.population)
     showDataSources(call, state, town.sources)
 

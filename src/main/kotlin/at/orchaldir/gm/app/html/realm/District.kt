@@ -10,7 +10,7 @@ import at.orchaldir.gm.app.html.util.math.parseAreaLookup
 import at.orchaldir.gm.app.html.util.math.selectAreaLookup
 import at.orchaldir.gm.app.html.realm.population.editPopulation
 import at.orchaldir.gm.app.html.realm.population.parsePopulation
-import at.orchaldir.gm.app.html.realm.population.showPopulationDetails
+import at.orchaldir.gm.app.html.realm.population.showAreaAndPopulation
 import at.orchaldir.gm.app.html.util.source.editDataSources
 import at.orchaldir.gm.app.html.util.source.parseDataSources
 import at.orchaldir.gm.app.html.util.source.showDataSources
@@ -34,9 +34,7 @@ fun HtmlBlockTag.showDistrict(
     fieldPosition(call, state, district.position)
     optionalField(call, state, "Date", district.foundingDate)
     fieldReference(call, state, district.founder, "Founder")
-    showAreaLookupDetails(state, district)
-    showPopulationDetails(call, state, district)
-    fieldPopulationDensity(state, district)
+    showAreaAndPopulation(call, state, district)
     fieldElements(call, state, "Residents", state.getCharactersLivingIn(district.id))
     showEconomyDetails(call, state, district)
     showSubDistricts(call, state, state.getDistricts(district.id), district.population)

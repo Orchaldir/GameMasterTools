@@ -8,6 +8,7 @@ import at.orchaldir.gm.app.html.util.math.parseAreaLookup
 import at.orchaldir.gm.app.html.util.math.selectAreaLookup
 import at.orchaldir.gm.app.html.realm.population.editPopulation
 import at.orchaldir.gm.app.html.realm.population.parsePopulation
+import at.orchaldir.gm.app.html.realm.population.showAreaAndPopulation
 import at.orchaldir.gm.app.html.realm.population.showPopulationDetails
 import at.orchaldir.gm.app.html.util.source.editDataSources
 import at.orchaldir.gm.app.html.util.source.parseDataSources
@@ -33,8 +34,7 @@ fun HtmlBlockTag.showRealm(
     state: State,
     realm: Realm,
 ) {
-    showAreaLookupDetails(state, realm)
-    showPopulationDetails(call, state, realm)
+    showAreaAndPopulation(call, state, realm)
     fieldReference(call, state, realm.founder, "Founder")
     optionalField(call, state, "Date", realm.date)
     showVitalStatus(call, state, realm.status)
