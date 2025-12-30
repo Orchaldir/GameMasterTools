@@ -1,4 +1,4 @@
-package at.orchaldir.gm.app.html.util.population
+package at.orchaldir.gm.app.html.util
 
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.math.selectFactor

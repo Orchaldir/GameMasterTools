@@ -7,7 +7,15 @@ import at.orchaldir.gm.app.html.economy.editIncome
 import at.orchaldir.gm.app.html.economy.parseIncome
 import at.orchaldir.gm.app.html.economy.showIncome
 import at.orchaldir.gm.app.html.race.parseRaceId
+import at.orchaldir.gm.app.html.util.editNumberDistribution
+import at.orchaldir.gm.app.html.util.editPercentageDistribution
 import at.orchaldir.gm.app.html.util.math.parseFactor
+import at.orchaldir.gm.app.html.util.parseNumberDistribution
+import at.orchaldir.gm.app.html.util.parsePercentageDistribution
+import at.orchaldir.gm.app.html.util.showInlineNumberDistribution
+import at.orchaldir.gm.app.html.util.showInlinePercentageDistribution
+import at.orchaldir.gm.app.html.util.showNumberDistribution
+import at.orchaldir.gm.app.html.util.showPercentageDistribution
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.app.parse.parseElements
