@@ -3,7 +3,7 @@ package at.orchaldir.gm.app.html
 import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.economy.displayIncome
 import at.orchaldir.gm.app.html.util.*
-import at.orchaldir.gm.app.html.util.math.displayAreaLookup
+import at.orchaldir.gm.app.html.util.displayAreaLookup
 import at.orchaldir.gm.app.html.util.population.showCulturesOfPopulation
 import at.orchaldir.gm.app.html.util.population.showPopulation
 import at.orchaldir.gm.app.html.util.population.showRacesOfPopulation
@@ -19,7 +19,7 @@ import at.orchaldir.gm.core.selector.realm.countDestroyedTowns
 import at.orchaldir.gm.core.selector.rpg.getMeleeWeaponType
 import at.orchaldir.gm.core.selector.time.getAgeInYears
 import at.orchaldir.gm.core.selector.util.calculateArea
-import at.orchaldir.gm.core.selector.util.calculateDensity
+import at.orchaldir.gm.core.selector.util.calculatePopulationDensity
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.math.unit.AreaUnit
@@ -57,9 +57,7 @@ fun <ID : Id<ID>, ELEMENT> createAreaColumn(
 ): Column<ELEMENT> where
         ELEMENT : Element<ID>,
         ELEMENT : HasArea = tdColumn("Area") {
-    displayAreaLookup(it.area(), unit) {
-        state.calculateArea(it)
-    }
+    displayAreaLookup(state, it, unit)
 }
 
 fun <ELEMENT : HasBelief> createBeliefColumn(
@@ -153,7 +151,7 @@ fun <ID : Id<ID>, ELEMENT> createPopulationDensityColumn(
         ELEMENT : Element<ID>,
         ELEMENT : HasArea,
         ELEMENT : HasPopulation = tdColumn(listOf("Population", "Density")) {
-    val density = state.calculateDensity(it, unit)
+    val density = state.calculatePopulationDensity(it, unit)
 
     if (density > 0.0) {
         +String.format(Locale.US, "%.1f", density)

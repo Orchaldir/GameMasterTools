@@ -440,7 +440,7 @@ fun State.sortDistricts(
             SortDistrict.Date -> getStartDateComparator()
             SortDistrict.Area -> compareByDescending { calculateArea(it).toValue() }
             SortDistrict.Population -> compareByDescending { it.population.getTotalPopulation() }
-            SortDistrict.Density -> compareByDescending { calculateDensity(it, data.largeAreaUnit) }
+            SortDistrict.Density -> compareByDescending { calculatePopulationDensity(it, data.largeAreaUnit) }
             SortDistrict.Income -> compareByDescending {
                 it.population.income()?.sortValue(this) ?: -1
             }

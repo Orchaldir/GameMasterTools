@@ -34,7 +34,7 @@ fun <ID : Id<ID>, ID1 : Id<ID1>, ELEMENT> State.calculateArea(
     }
     .reduceOrNull { sum, area -> sum + area } ?: ZERO_AREA
 
-fun <ID : Id<ID>, ELEMENT> State.calculateDensity(element: ELEMENT, unit: AreaUnit): Float where
+fun <ID : Id<ID>, ELEMENT> State.calculatePopulationDensity(element: ELEMENT, unit: AreaUnit): Float where
         ELEMENT : Element<ID>,
         ELEMENT : HasArea,
         ELEMENT : HasPopulation {

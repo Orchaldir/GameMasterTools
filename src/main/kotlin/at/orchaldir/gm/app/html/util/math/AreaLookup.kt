@@ -2,8 +2,9 @@ package at.orchaldir.gm.app.html.util.math
 
 import at.orchaldir.gm.app.AREA
 import at.orchaldir.gm.app.TYPE
-import at.orchaldir.gm.app.WEIGHT
-import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.field
+import at.orchaldir.gm.app.html.selectValue
+import at.orchaldir.gm.app.html.showDetails
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.utils.doNothing
