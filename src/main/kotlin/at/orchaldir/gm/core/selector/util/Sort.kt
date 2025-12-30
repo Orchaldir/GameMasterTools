@@ -1030,6 +1030,7 @@ fun State.sortTowns(
             SortTown.End -> getEndDateComparator()
             SortTown.Age -> compareByDescending { it.getAgeInYears(this) }
             SortTown.Population -> compareByDescending { it.population.getTotalPopulation() }
+            SortTown.Density -> compareByDescending { calculatePopulationDensity(it, data.largeAreaUnit) }
             SortTown.Buildings -> compareByDescending { countBuildings(it.id) }
             SortTown.Residents -> compareByDescending { countResidents(it.id) }
         })
