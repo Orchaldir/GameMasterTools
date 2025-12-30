@@ -17,12 +17,16 @@ import at.orchaldir.gm.core.selector.realm.countDestroyedRealms
 import at.orchaldir.gm.core.selector.realm.countDestroyedTowns
 import at.orchaldir.gm.core.selector.rpg.getMeleeWeaponType
 import at.orchaldir.gm.core.selector.time.getAgeInYears
+import at.orchaldir.gm.core.selector.util.calculatePopulationDensity
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
+import at.orchaldir.gm.utils.math.unit.AreaUnit
+import at.orchaldir.gm.utils.math.unit.HasArea
 import io.ktor.server.application.*
 import kotlinx.html.TD
 import kotlinx.html.TR
 import kotlinx.html.td
+import java.util.*
 
 data class Column<T>(
     val header: List<String>,
@@ -44,6 +48,15 @@ fun <ELEMENT : HasStartAndEndDate> createAgeColumn(
     state: State,
     label: String = "Age",
 ): Column<ELEMENT> = Column(label) { tdSkipZero(it.getAgeInYears(state)) }
+
+fun <ID : Id<ID>, ELEMENT> createAreaColumn(
+    state: State,
+    unit: AreaUnit = state.data.largeAreaUnit,
+): Column<ELEMENT> where
+        ELEMENT : Element<ID>,
+        ELEMENT : HasArea = tdColumn("Area") {
+    displayAreaLookup(state, it, unit)
+}
 
 fun <ELEMENT : HasBelief> createBeliefColumn(
     call: ApplicationCall,
@@ -128,6 +141,20 @@ fun <ELEMENT : HasOwner> createOwnerColumn(
 
 fun <ELEMENT : HasPopulation> createPopulationColumn(): Column<ELEMENT> =
     tdColumn("Population") { showPopulation(it.population()) }
+
+fun <ID : Id<ID>, ELEMENT> createPopulationDensityColumn(
+    state: State,
+    unit: AreaUnit = state.data.largeAreaUnit,
+): Column<ELEMENT> where
+        ELEMENT : Element<ID>,
+        ELEMENT : HasArea,
+        ELEMENT : HasPopulation = tdColumn(listOf("Population", "Density")) {
+    val density = state.calculatePopulationDensity(it, unit)
+
+    if (density > 0.0) {
+        +String.format(Locale.US, "%.1f", density)
+    }
+}
 
 fun <ELEMENT : HasPopulation> createPopulationIncomeColumn(
     call: ApplicationCall,

@@ -12,6 +12,10 @@
     "#type": "~Year",
     "year": 419
    },
+   "area": {
+    "#type": "User",
+    "area": 64752.0
+   },
    "population": {
     "#type": "Total",
     "total": 2000,
@@ -27,6 +31,10 @@
    "position": {
     "#type": "Town",
     "town": 0
+   },
+   "area": {
+    "#type": "User",
+    "area": 1246476.0
    },
    "population": {
     "#type": "Total",
@@ -44,6 +52,10 @@
     "#type": "Town",
     "town": 0
    },
+   "area": {
+    "#type": "User",
+    "area": 1914231.0
+   },
    "population": {
     "#type": "Total",
     "total": 14000,
@@ -60,6 +72,10 @@
     "#type": "Town",
     "town": 0
    },
+   "area": {
+    "#type": "User",
+    "area": 263055.0
+   },
    "population": {
     "#type": "Total",
     "total": 0
@@ -71,6 +87,10 @@
    "position": {
     "#type": "Town",
     "town": 0
+   },
+   "area": {
+    "#type": "User",
+    "area": 493734.0
    },
    "population": {
     "#type": "Total",
@@ -88,6 +108,10 @@
     "#type": "Town",
     "town": 0
    },
+   "area": {
+    "#type": "User",
+    "area": 918669.0
+   },
    "population": {
     "#type": "Total",
     "total": 9000,
@@ -103,6 +127,10 @@
    "position": {
     "#type": "Town",
     "town": 0
+   },
+   "area": {
+    "#type": "User",
+    "area": 1068408.0
    },
    "population": {
     "#type": "Total",
@@ -120,6 +148,10 @@
     "#type": "Town",
     "town": 0
    },
+   "area": {
+    "#type": "User",
+    "area": 319713.0
+   },
    "population": {
     "#type": "Total",
     "total": 10000,
@@ -135,6 +167,10 @@
    "position": {
     "#type": "Town",
     "town": 0
+   },
+   "area": {
+    "#type": "User",
+    "area": 963186.0
    },
    "population": {
     "#type": "Total",
@@ -152,6 +188,10 @@
     "#type": "Town",
     "town": 0
    },
+   "area": {
+    "#type": "User",
+    "area": 445170.0
+   },
    "population": {
     "#type": "Total",
     "total": 8000,
@@ -167,6 +207,10 @@
    "position": {
     "#type": "Town",
     "town": 0
+   },
+   "area": {
+    "#type": "User",
+    "area": 52611.0
    },
    "population": {
     "#type": "Total",

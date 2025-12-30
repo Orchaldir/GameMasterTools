@@ -113,7 +113,9 @@ enum class SortDisease {
 enum class SortDistrict {
     Name,
     Date,
+    Area,
     Population,
+    Density,
     Income,
 }
 
@@ -317,9 +319,10 @@ enum class SortTown {
     Start,
     End,
     Age,
+    Population,
+    Density,
     Buildings,
     Residents,
-    Population,
 }
 
 enum class SortTownMap {

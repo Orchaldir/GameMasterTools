@@ -3,6 +3,7 @@ package at.orchaldir.gm.utils.math.unit
 import at.orchaldir.gm.utils.math.Factor
 
 const val SI_STEP = 10
+const val SI_TWO_STEPS = 100
 const val SI_THREE_STEPS = 1000
 const val SI_FOUR_STEPS = SI_THREE_STEPS * SI_STEP
 const val SI_SIX_STEPS = SI_THREE_STEPS * SI_THREE_STEPS
@@ -22,6 +23,9 @@ interface SiUnit<T> {
 fun down(value: Long) = value * SI_STEP
 fun down(value: Float) = (value * SI_STEP).toLong()
 
+fun downTwoSteps(value: Long) = value * SI_TWO_STEPS
+fun downTwoSteps(value: Float) = (value * SI_TWO_STEPS).toLong()
+
 fun downThreeSteps(value: Long) = value * SI_THREE_STEPS
 fun downThreeSteps(value: Float) = (value * SI_THREE_STEPS).toLong()
 
@@ -34,6 +38,9 @@ fun downNineSteps(value: Float) = (value * SI_NINE_STEPS).toLong()
 fun up(value: Int) = value / SI_STEP.toFloat()
 fun up(value: Long) = value / SI_STEP.toFloat()
 fun up(value: Float) = value / SI_STEP.toFloat()
+
+fun upTwoSteps(value: Long) = value / SI_TWO_STEPS.toFloat()
+fun upTwoSteps(value: Float) = value / SI_TWO_STEPS.toFloat()
 
 fun upThreeSteps(value: Long) = value / SI_THREE_STEPS.toFloat()
 fun upThreeSteps(value: Float) = value / SI_THREE_STEPS.toFloat()
