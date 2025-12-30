@@ -35,7 +35,6 @@ fun HtmlBlockTag.showDistrict(
     optionalField(call, state, "Date", district.foundingDate)
     fieldReference(call, state, district.founder, "Founder")
     showAreaAndPopulation(call, state, district)
-    fieldElements(call, state, "Residents", state.getCharactersLivingIn(district.id))
     showEconomyDetails(call, state, district)
     showSubDistricts(call, state, state.getDistricts(district.id), district.population)
     showLocalElements(call, state, district.id)

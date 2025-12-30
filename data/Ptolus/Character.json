@@ -1,5 +1,25 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": {
+    "#type": "Family",
+    "given": "Larel",
+    "middle": null,
+    "family": "Notan"
+   },
+   "race": 9,
+   "date": {
+    "#type": "~Year",
+    "year": 669
+   },
+   "housingStatus": {
+    "current": {
+     "#type": "District",
+     "district": 0
+    }
+   }
+  }
  }
 }

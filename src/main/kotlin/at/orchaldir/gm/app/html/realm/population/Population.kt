@@ -35,6 +35,7 @@ import at.orchaldir.gm.core.model.realm.population.PopulationWithPercentages
 import at.orchaldir.gm.core.model.realm.population.TotalPopulation
 import at.orchaldir.gm.core.model.realm.population.UndefinedPopulation
 import at.orchaldir.gm.core.model.util.NumberDistribution
+import at.orchaldir.gm.core.selector.character.getCharactersLivingIn
 import at.orchaldir.gm.core.selector.util.calculatePopulationIndex
 import at.orchaldir.gm.core.selector.util.sortCultures
 import at.orchaldir.gm.core.selector.util.sortRaces
@@ -133,6 +134,8 @@ fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showPopulationDetails(
 
             UndefinedPopulation -> doNothing()
         }
+
+        fieldElements(call, state, state.getCharactersLivingIn(element.id()))
     }
 }
 
