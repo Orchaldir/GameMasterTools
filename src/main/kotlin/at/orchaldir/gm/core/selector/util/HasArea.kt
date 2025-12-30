@@ -6,12 +6,7 @@ import at.orchaldir.gm.core.model.util.population.HasPopulation
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
-import at.orchaldir.gm.utils.math.unit.Area
-import at.orchaldir.gm.utils.math.unit.AreaUnit
-import at.orchaldir.gm.utils.math.unit.CalculatedArea
-import at.orchaldir.gm.utils.math.unit.HasArea
-import at.orchaldir.gm.utils.math.unit.UserDefinedArea
-import at.orchaldir.gm.utils.math.unit.ZERO_AREA
+import at.orchaldir.gm.utils.math.unit.*
 
 fun <ID : Id<ID>, ELEMENT> State.calculateArea(element: ELEMENT): Area where
         ELEMENT : Element<ID>,
@@ -33,6 +28,7 @@ fun <ID : Id<ID>, ELEMENT> State.calculateArea(element: ELEMENT): Area where
 
         area
     }
+
     is UserDefinedArea -> area.area
 }
 

@@ -18,8 +18,8 @@ fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.displayAreaLookup(
     element: ELEMENT,
     unit: AreaUnit = state.data.largeAreaUnit,
 ) where
-ELEMENT : Element<ID>,
-ELEMENT : HasArea = displayAreaLookup(element.area(), unit) {
+        ELEMENT : Element<ID>,
+        ELEMENT : HasArea = displayAreaLookup(element.area(), unit) {
     state.calculateArea(element)
 }
 

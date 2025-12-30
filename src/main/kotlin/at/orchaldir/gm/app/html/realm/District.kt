@@ -3,10 +3,8 @@ package at.orchaldir.gm.app.html.realm
 import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.*
-import at.orchaldir.gm.app.html.util.math.fieldDensity
 import at.orchaldir.gm.app.html.util.math.parseAreaLookup
 import at.orchaldir.gm.app.html.util.math.selectAreaLookup
-import at.orchaldir.gm.app.html.util.showAreaLookupDetails
 import at.orchaldir.gm.app.html.util.population.editPopulation
 import at.orchaldir.gm.app.html.util.population.parsePopulation
 import at.orchaldir.gm.app.html.util.population.showPopulationDetails
@@ -19,7 +17,6 @@ import at.orchaldir.gm.core.model.realm.District
 import at.orchaldir.gm.core.model.realm.DistrictId
 import at.orchaldir.gm.core.selector.character.getCharactersLivingIn
 import at.orchaldir.gm.core.selector.realm.getDistricts
-import at.orchaldir.gm.core.selector.util.calculatePopulationDensity
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag

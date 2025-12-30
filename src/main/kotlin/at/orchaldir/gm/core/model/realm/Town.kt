@@ -58,6 +58,7 @@ data class Town(
     } else {
         UndefinedPosition
     }
+
     override fun sources() = sources
     override fun startDate() = date
     override fun vitalStatus() = status

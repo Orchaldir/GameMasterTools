@@ -25,14 +25,16 @@ value class Area private constructor(private val sm: Float) {
         fun fromSquareMeters(sm: Long) = Area(sm.toFloat())
         fun fromSquareMeters(sm: Float) = Area(sm)
 
-        fun convertFrom(value: Float, unit: AreaUnit) = Area(when (unit) {
-            AreaUnit.SquareKiloMeter -> convertFromSquareKilometers(value)
-            AreaUnit.Hectare -> convertFromHectare(value)
-            AreaUnit.Acre -> convertFromAcre(value)
-            AreaUnit.SquareMeter -> value
-            AreaUnit.SquareCentiMeter -> convertFromSquareCentimeters(value)
-            AreaUnit.SquareMilliMeter -> convertFromSquareMillimeters(value)
-        })
+        fun convertFrom(value: Float, unit: AreaUnit) = Area(
+            when (unit) {
+                AreaUnit.SquareKiloMeter -> convertFromSquareKilometers(value)
+                AreaUnit.Hectare -> convertFromHectare(value)
+                AreaUnit.Acre -> convertFromAcre(value)
+                AreaUnit.SquareMeter -> value
+                AreaUnit.SquareCentiMeter -> convertFromSquareCentimeters(value)
+                AreaUnit.SquareMilliMeter -> convertFromSquareMillimeters(value)
+            }
+        )
 
         // shapes
 

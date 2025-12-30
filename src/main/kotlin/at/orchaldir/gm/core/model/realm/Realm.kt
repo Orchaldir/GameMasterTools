@@ -70,6 +70,7 @@ data class Realm(
     } else {
         UndefinedPosition
     }
+
     override fun sources() = sources
     override fun startDate() = date
     override fun vitalStatus() = status

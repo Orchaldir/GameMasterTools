@@ -2,16 +2,11 @@ package at.orchaldir.gm.core.selector.realm
 
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.realm.District
 import at.orchaldir.gm.core.model.realm.DistrictId
 import at.orchaldir.gm.core.model.realm.TownId
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.selector.util.canDeleteWithPositions
 import at.orchaldir.gm.core.selector.util.getExistingElements
-import at.orchaldir.gm.utils.math.unit.Area
-import at.orchaldir.gm.utils.math.unit.CalculatedArea
-import at.orchaldir.gm.utils.math.unit.UserDefinedArea
-import at.orchaldir.gm.utils.math.unit.ZERO_AREA
 
 fun State.canDeleteDistrict(district: DistrictId) = DeleteResult(district)
     .addElements(getDistricts(district))

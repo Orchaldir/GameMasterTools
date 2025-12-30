@@ -3,7 +3,6 @@ package at.orchaldir.gm.app.html
 import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.economy.displayIncome
 import at.orchaldir.gm.app.html.util.*
-import at.orchaldir.gm.app.html.util.displayAreaLookup
 import at.orchaldir.gm.app.html.util.population.showCulturesOfPopulation
 import at.orchaldir.gm.app.html.util.population.showPopulation
 import at.orchaldir.gm.app.html.util.population.showRacesOfPopulation
@@ -18,7 +17,6 @@ import at.orchaldir.gm.core.selector.realm.countDestroyedRealms
 import at.orchaldir.gm.core.selector.realm.countDestroyedTowns
 import at.orchaldir.gm.core.selector.rpg.getMeleeWeaponType
 import at.orchaldir.gm.core.selector.time.getAgeInYears
-import at.orchaldir.gm.core.selector.util.calculateArea
 import at.orchaldir.gm.core.selector.util.calculatePopulationDensity
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
@@ -28,7 +26,7 @@ import io.ktor.server.application.*
 import kotlinx.html.TD
 import kotlinx.html.TR
 import kotlinx.html.td
-import java.util.Locale
+import java.util.*
 
 data class Column<T>(
     val header: List<String>,
