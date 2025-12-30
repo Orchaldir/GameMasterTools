@@ -115,6 +115,7 @@ enum class SortDistrict {
     Date,
     Area,
     Population,
+    Density,
     Income,
 }
 
