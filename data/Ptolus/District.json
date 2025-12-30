@@ -23,6 +23,13 @@
      "#type": "SoL",
      "standard": 1
     }
+   },
+   "economy": {
+    "#type": "Businesses",
+    "businesses": [
+     4,
+     3
+    ]
    }
   },
   "1": {

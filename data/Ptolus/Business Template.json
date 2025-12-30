@@ -12,6 +12,14 @@
   "2": {
    "id": 2,
    "name": "Bar"
+  },
+  "3": {
+   "id": 3,
+   "name": "Shipyard"
+  },
+  "4": {
+   "id": 4,
+   "name": "Sail Loft"
   }
  }
 }

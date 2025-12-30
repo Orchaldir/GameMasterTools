@@ -1,6 +1,9 @@
 package at.orchaldir.gm.core.model.realm
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.economy.Economy
+import at.orchaldir.gm.core.model.economy.HasEconomy
+import at.orchaldir.gm.core.model.economy.UndefinedEconomy
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
@@ -45,8 +48,9 @@ data class District(
     val founder: Reference = UndefinedReference,
     val area: AreaLookup = CalculatedArea,
     val population: Population = UndefinedPopulation,
+    val economy: Economy = UndefinedEconomy,
     val sources: Set<DataSourceId> = emptySet(),
-) : ElementWithSimpleName<DistrictId>, Creation, HasArea, HasDataSources, HasPopulation, HasPosition, HasStartDate {
+) : ElementWithSimpleName<DistrictId>, Creation, HasArea, HasDataSources, HasEconomy, HasPopulation, HasPosition, HasStartDate {
 
     override fun id() = id
     override fun name() = name.text
@@ -54,6 +58,7 @@ data class District(
     override fun area() = area
     override fun useDistrictsForAreaCalculation() = true
     override fun creator() = founder
+    override fun economy() = economy
     override fun population() = population
     override fun position() = position
     override fun sources() = sources

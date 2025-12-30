@@ -1,6 +1,7 @@
 package at.orchaldir.gm.app.html.economy
 
 import at.orchaldir.gm.app.BUSINESS
+import at.orchaldir.gm.app.ECONOMY
 import at.orchaldir.gm.app.NUMBER
 import at.orchaldir.gm.app.POPULATION
 import at.orchaldir.gm.app.html.*
@@ -72,7 +73,7 @@ fun HtmlBlockTag.editEconomy(
     call: ApplicationCall,
     state: State,
     economy: Economy,
-    param: String = POPULATION,
+    param: String = ECONOMY,
 ) {
     val total = economy.getNumberOfBusinesses() ?: 0
 
@@ -132,7 +133,7 @@ private fun DETAILS.selectTotalNumber(param: String, number: Int) {
 fun parseEconomy(
     parameters: Parameters,
     state: State,
-    param: String = POPULATION,
+    param: String = ECONOMY,
 ) = when (parse(parameters, param, EconomyType.Undefined)) {
     EconomyType.Businesses -> CommonBusinesses(
         parseElements(parameters, combine(param, BUSINESS), ::parseBusinessTemplateId)

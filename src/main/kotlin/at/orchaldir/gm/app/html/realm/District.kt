@@ -2,6 +2,9 @@ package at.orchaldir.gm.app.html.realm
 
 import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.economy.editEconomy
+import at.orchaldir.gm.app.html.economy.parseEconomy
+import at.orchaldir.gm.app.html.economy.showEconomyDetails
 import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.app.html.util.math.parseAreaLookup
 import at.orchaldir.gm.app.html.util.math.selectAreaLookup
@@ -35,6 +38,7 @@ fun HtmlBlockTag.showDistrict(
     showPopulationDetails(call, state, district)
     fieldPopulationDensity(state, district)
     fieldElements(call, state, "Residents", state.getCharactersLivingIn(district.id))
+    showEconomyDetails(call, state, district)
     showSubDistricts(call, state, state.getDistricts(district.id), district.population)
     showLocalElements(call, state, district.id)
     showDataSources(call, state, district.sources)
@@ -58,6 +62,7 @@ fun HtmlBlockTag.editDistrict(
     selectCreator(state, district.founder, district.id, district.foundingDate, "Founder")
     selectAreaLookup(district.area, state.data.largeAreaUnit)
     editPopulation(call, state, district.population)
+    editEconomy(call, state, district.economy)
     editDataSources(state, district.sources)
 }
 
@@ -80,5 +85,6 @@ fun parseDistrict(
     parseCreator(parameters),
     parseAreaLookup(parameters, state.data.largeAreaUnit),
     parsePopulation(parameters, state),
+    parseEconomy(parameters, state),
     parseDataSources(parameters),
 )
