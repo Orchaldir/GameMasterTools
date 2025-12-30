@@ -99,7 +99,7 @@ fun HtmlBlockTag.editEconomy(
             )
 
             is EconomyWithPercentages -> {
-                selectBusinessNumber(param, economy.total)
+                selectTotalNumber(param, economy.total)
                 editPercentageDistribution(
                     call,
                     state,
@@ -116,7 +116,7 @@ fun HtmlBlockTag.editEconomy(
     }
 }
 
-private fun DETAILS.selectBusinessNumber(param: String, number: Int) {
+private fun DETAILS.selectTotalNumber(param: String, number: Int) {
     selectInt(
         "Number of Businesses",
         number,
@@ -148,7 +148,7 @@ fun parseEconomy(
     )
 
     EconomyType.Percentages -> EconomyWithPercentages(
-        parseBusinessNumber(parameters, param),
+        parseTotalNumber(parameters, param),
         parsePercentageDistribution(
             state.getBusinessTemplateStorage(),
             parameters,
@@ -160,7 +160,7 @@ fun parseEconomy(
     EconomyType.Undefined -> UndefinedEconomy
 }
 
-private fun parseBusinessNumber(parameters: Parameters, param: String): Int =
+private fun parseTotalNumber(parameters: Parameters, param: String): Int =
     parseInt(parameters, combine(param, NUMBER), 0)
 
 fun parseNumberOfBusiness(parameters: Parameters, param: String, template: BusinessTemplate) =
