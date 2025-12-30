@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.model.util.population
+package at.orchaldir.gm.core.model.realm.population
 
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.economy.job.Income

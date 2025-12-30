@@ -13,7 +13,7 @@ import at.orchaldir.gm.core.model.util.CultureReference
 import at.orchaldir.gm.core.model.util.Dead
 import at.orchaldir.gm.core.model.util.KilledBy
 import at.orchaldir.gm.core.model.util.PercentageDistribution
-import at.orchaldir.gm.core.model.util.population.PopulationWithPercentages
+import at.orchaldir.gm.core.model.realm.population.PopulationWithPercentages
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage

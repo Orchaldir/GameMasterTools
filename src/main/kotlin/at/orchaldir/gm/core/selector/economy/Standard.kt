@@ -3,7 +3,7 @@ package at.orchaldir.gm.core.selector.economy
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.job.AffordableStandardOfLiving
 import at.orchaldir.gm.core.model.economy.job.Income
-import at.orchaldir.gm.core.model.util.population.HasPopulation
+import at.orchaldir.gm.core.model.realm.population.HasPopulation
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage

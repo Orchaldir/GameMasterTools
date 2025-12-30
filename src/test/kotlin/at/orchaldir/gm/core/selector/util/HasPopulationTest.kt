@@ -6,9 +6,13 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.District
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.Town
+import at.orchaldir.gm.core.model.realm.population.AbstractPopulation
+import at.orchaldir.gm.core.model.realm.population.Population
+import at.orchaldir.gm.core.model.realm.population.PopulationWithNumbers
+import at.orchaldir.gm.core.model.realm.population.PopulationWithPercentages
+import at.orchaldir.gm.core.model.realm.population.TotalPopulation
 import at.orchaldir.gm.core.model.util.NumberDistribution
 import at.orchaldir.gm.core.model.util.PercentageDistribution
-import at.orchaldir.gm.core.model.util.population.*
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.HALF

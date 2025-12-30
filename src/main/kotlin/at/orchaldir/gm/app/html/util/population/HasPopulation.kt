@@ -4,10 +4,10 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.race.RaceId
-import at.orchaldir.gm.core.model.util.population.HasPopulation
-import at.orchaldir.gm.core.model.util.population.IPopulationWithSets
-import at.orchaldir.gm.core.model.util.population.Population
-import at.orchaldir.gm.core.model.util.population.PopulationWithPercentages
+import at.orchaldir.gm.core.model.realm.population.HasPopulation
+import at.orchaldir.gm.core.model.realm.population.IPopulationWithSets
+import at.orchaldir.gm.core.model.realm.population.Population
+import at.orchaldir.gm.core.model.realm.population.PopulationWithPercentages
 import at.orchaldir.gm.core.selector.util.calculatePopulationIndex
 import at.orchaldir.gm.core.selector.util.calculateTotalPopulation
 import at.orchaldir.gm.core.selector.util.getAbstractPopulations
