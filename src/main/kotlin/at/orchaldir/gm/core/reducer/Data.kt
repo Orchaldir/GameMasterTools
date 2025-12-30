@@ -3,7 +3,7 @@ package at.orchaldir.gm.core.reducer
 import at.orchaldir.gm.core.action.UpdateData
 import at.orchaldir.gm.core.model.Data
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.economy.Economy
+import at.orchaldir.gm.core.model.economy.EconomyData
 import at.orchaldir.gm.core.model.rpg.RpgData
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.selector.economy.getRequiredStandards
@@ -22,7 +22,7 @@ fun validateData(state: State, data: Data) {
     validateRpg(data.rpg)
 }
 
-private fun validateEconomy(state: State, economy: Economy) {
+private fun validateEconomy(state: State, economy: EconomyData) {
     state.getCurrencyStorage().require(economy.defaultCurrency)
     val requiredStandards = state.getRequiredStandards()
 

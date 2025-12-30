@@ -1,9 +1,9 @@
 package at.orchaldir.gm.app.html.util
 
 import at.orchaldir.gm.app.AREA
-import at.orchaldir.gm.app.html.economy.editEconomy
-import at.orchaldir.gm.app.html.economy.parseEconomy
-import at.orchaldir.gm.app.html.economy.showEconomy
+import at.orchaldir.gm.app.html.economy.editEconomyData
+import at.orchaldir.gm.app.html.economy.parseEconomyData
+import at.orchaldir.gm.app.html.economy.showEconomyData
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.rpg.editRpgData
 import at.orchaldir.gm.app.html.rpg.parseRpgData
@@ -30,7 +30,7 @@ fun HtmlBlockTag.showData(
     data: Data,
 ) {
     field("Large Area Unit", data.largeAreaUnit)
-    showEconomy(call, state, data.economy)
+    showEconomyData(call, state, data.economy)
     showRpgData(call, state, data.rpg)
     showTime(call, state, data.time)
 }
@@ -45,7 +45,7 @@ fun HtmlBlockTag.editData(state: State, data: Data) {
         LARGE_AREA_UNITS,
         data.largeAreaUnit,
     )
-    editEconomy(state, data.economy)
+    editEconomyData(state, data.economy)
     editRpgData(state, data.rpg)
     editTime(state, data.time)
 }
@@ -56,7 +56,7 @@ fun parseData(
     state: State,
     parameters: Parameters,
 ) = Data(
-    parseEconomy(state, parameters),
+    parseEconomyData(state, parameters),
     parseRpgData(parameters),
     parseTime(parameters, state.getDefaultCalendar()),
     parse(parameters, AREA, AreaUnit.Hectare),

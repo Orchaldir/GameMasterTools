@@ -5,7 +5,7 @@ import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.Data
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.economy.Economy
+import at.orchaldir.gm.core.model.economy.EconomyData
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.job.AffordableStandardOfLiving
 import at.orchaldir.gm.core.model.economy.job.Job
@@ -31,7 +31,7 @@ class JobTest {
             Storage(Spell(SPELL_ID_0)),
             Storage(Uniform(UNIFORM_ID_0)),
         ),
-        data = Data(Economy(standardsOfLiving = listOf(StandardOfLiving(STANDARD_ID_0)))),
+        data = Data(EconomyData(standardsOfLiving = listOf(StandardOfLiving(STANDARD_ID_0)))),
     )
 
     @Nested

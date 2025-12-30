@@ -9,7 +9,7 @@ import at.orchaldir.gm.app.html.economy.money.parseCurrencyId
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.economy.Economy
+import at.orchaldir.gm.core.model.economy.EconomyData
 import at.orchaldir.gm.core.model.economy.job.IncomeType
 import at.orchaldir.gm.core.model.economy.standard.StandardOfLivingId
 import at.orchaldir.gm.core.selector.economy.countJobs
@@ -22,10 +22,10 @@ import kotlinx.html.*
 
 // show
 
-fun HtmlBlockTag.showEconomy(
+fun HtmlBlockTag.showEconomyData(
     call: ApplicationCall,
     state: State,
-    economy: Economy,
+    economy: EconomyData,
 ) {
     val currency = state.getDefaultCurrency()
 
@@ -58,9 +58,9 @@ fun HtmlBlockTag.showEconomy(
 
 // edit
 
-fun HtmlBlockTag.editEconomy(
+fun HtmlBlockTag.editEconomyData(
     state: State,
-    economy: Economy,
+    economy: EconomyData,
 ) {
     h2 { +"Economy" }
 
@@ -95,10 +95,10 @@ fun HtmlBlockTag.editEconomy(
 
 // parse
 
-fun parseEconomy(
+fun parseEconomyData(
     state: State,
     parameters: Parameters,
-) = Economy(
+) = EconomyData(
     parseCurrencyId(parameters, CURRENCY),
     parse(parameters, combine(PRICE, TYPE), IncomeType.Undefined),
     parseList(parameters, STANDARD, 1) { index, param ->
