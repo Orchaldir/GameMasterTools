@@ -13,6 +13,9 @@ import at.orchaldir.gm.core.model.util.source.DataSourceId
 import at.orchaldir.gm.core.model.util.source.HasDataSources
 import at.orchaldir.gm.core.reducer.realm.validateRealm
 import at.orchaldir.gm.utils.Id
+import at.orchaldir.gm.utils.math.unit.AreaLookup
+import at.orchaldir.gm.utils.math.unit.CalculatedArea
+import at.orchaldir.gm.utils.math.unit.HasArea
 import kotlinx.serialization.Serializable
 
 const val REALM_TYPE = "Realm"
@@ -49,14 +52,24 @@ data class Realm(
     val owner: History<RealmId?> = History(null),
     val currency: History<CurrencyId?> = History(null),
     val legalCode: History<LegalCodeId?> = History(null),
+    val area: AreaLookup = CalculatedArea,
     val population: Population = UndefinedPopulation,
     val sources: Set<DataSourceId> = emptySet(),
-) : ElementWithSimpleName<RealmId>, Creation, HasDataSources, HasPopulation, HasVitalStatus {
+) : ElementWithSimpleName<RealmId>, Creation, HasArea, HasDataSources, HasPopulation, HasPosition, HasVitalStatus {
 
     override fun id() = id
     override fun name() = name.text
+
+    override fun area() = area
+    override fun useRealmsForAreaCalculation() = true
+    override fun useTownsForAreaCalculation() = true
     override fun creator() = founder
     override fun population() = population
+    override fun position() = if (owner.current != null) {
+        InRealm(owner.current)
+    } else {
+        UndefinedPosition
+    }
     override fun sources() = sources
     override fun startDate() = date
     override fun vitalStatus() = status

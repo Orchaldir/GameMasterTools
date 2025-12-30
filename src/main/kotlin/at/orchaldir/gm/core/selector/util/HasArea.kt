@@ -16,7 +16,23 @@ import at.orchaldir.gm.utils.math.unit.ZERO_AREA
 fun <ID : Id<ID>, ELEMENT> State.calculateArea(element: ELEMENT): Area where
         ELEMENT : Element<ID>,
         ELEMENT : HasArea = when (val area = element.area()) {
-    CalculatedArea -> calculateArea(getDistrictStorage(), element.id())
+    CalculatedArea -> {
+        var area = ZERO_AREA
+
+        if (element.useDistrictsForAreaCalculation()) {
+            area += calculateArea(getDistrictStorage(), element.id())
+        }
+
+        if (element.useRealmsForAreaCalculation()) {
+            area += calculateArea(getRealmStorage(), element.id())
+        }
+
+        if (element.useTownsForAreaCalculation()) {
+            area += calculateArea(getTownStorage(), element.id())
+        }
+
+        area
+    }
     is UserDefinedArea -> area.area
 }
 

@@ -44,14 +44,20 @@ data class Town(
     val area: AreaLookup = CalculatedArea,
     val population: Population = UndefinedPopulation,
     val sources: Set<DataSourceId> = emptySet(),
-) : ElementWithSimpleName<TownId>, Creation, HasArea, HasDataSources, HasPopulation, HasVitalStatus {
+) : ElementWithSimpleName<TownId>, Creation, HasArea, HasDataSources, HasPopulation, HasPosition, HasVitalStatus {
 
     override fun id() = id
     override fun name() = name.text
 
     override fun area() = area
+    override fun useDistrictsForAreaCalculation() = true
     override fun creator() = founder
     override fun population() = population
+    override fun position() = if (owner.current != null) {
+        InRealm(owner.current)
+    } else {
+        UndefinedPosition
+    }
     override fun sources() = sources
     override fun startDate() = date
     override fun vitalStatus() = status

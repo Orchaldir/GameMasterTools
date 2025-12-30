@@ -52,6 +52,7 @@ data class District(
     override fun name() = name.text
 
     override fun area() = area
+    override fun useDistrictsForAreaCalculation() = true
     override fun creator() = founder
     override fun population() = population
     override fun position() = position
