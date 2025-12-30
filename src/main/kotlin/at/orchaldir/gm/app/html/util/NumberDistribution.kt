@@ -32,13 +32,12 @@ fun <ID : Id<ID>> HtmlBlockTag.showInlineNumberDistribution(
 }
 
 fun <ID : Id<ID>> DETAILS.showNumberDistribution(
-    population: PopulationWithNumbers,
     call: ApplicationCall,
     state: State,
     label: String,
     distribution: NumberDistribution<ID>,
+    total: Int,
 ) {
-    val total = population.calculateTotal()
     var remaining = total
 
     table {
@@ -101,11 +100,10 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> DETAILS.editNumberDistribution(
     state: State,
     label: String,
     param: String,
-    population: PopulationWithNumbers,
     allElements: List<ELEMENT>,
     distribution: NumberDistribution<ID>,
+    total: Int,
 ) {
-    val total = population.calculateTotal()
     var remaining = total
 
     table {

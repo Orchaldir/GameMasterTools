@@ -34,6 +34,7 @@ import at.orchaldir.gm.core.model.realm.population.PopulationWithNumbers
 import at.orchaldir.gm.core.model.realm.population.PopulationWithPercentages
 import at.orchaldir.gm.core.model.realm.population.TotalPopulation
 import at.orchaldir.gm.core.model.realm.population.UndefinedPopulation
+import at.orchaldir.gm.core.model.util.NumberDistribution
 import at.orchaldir.gm.core.selector.util.calculatePopulationIndex
 import at.orchaldir.gm.core.selector.util.sortCultures
 import at.orchaldir.gm.core.selector.util.sortRaces
@@ -95,6 +96,8 @@ fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showPopulationDetails(
     if (population is UndefinedPopulation) {
         return
     }
+    val total = population.getTotalPopulation()
+    val totalOrZero = total ?: 0
 
     showDetails("Population", true) {
         optionalField("Total", population.getTotalPopulation())
@@ -110,16 +113,16 @@ fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showPopulationDetails(
 
             is PopulationWithNumbers -> {
                 showIncome(call, state, population.income)
-                showNumberDistribution(population, call, state, "Race", population.races)
+                showNumberDistribution(call, state, "Race", population.races, totalOrZero)
                 br { }
-                showNumberDistribution(population, call, state, "Culture", population.cultures)
+                showNumberDistribution(call, state, "Culture", population.cultures, totalOrZero)
             }
 
             is PopulationWithPercentages -> {
                 showIncome(call, state, population.income)
-                showPercentageDistribution(population, call, state, "Race", population.races.map)
+                showPercentageDistribution(call, state, "Race", population.races, totalOrZero)
                 br { }
-                showPercentageDistribution(population, call, state, "Culture", population.cultures.map)
+                showPercentageDistribution(call, state, "Culture", population.cultures, totalOrZero)
             }
 
             is TotalPopulation -> {
@@ -141,6 +144,8 @@ fun HtmlBlockTag.editPopulation(
     population: Population,
     param: String = POPULATION,
 ) {
+    val total = population.getTotalPopulation() ?: 0
+
     showDetails("Population", true) {
         selectValue("Type", param, PopulationType.entries, population.getType())
 
@@ -165,9 +170,9 @@ fun HtmlBlockTag.editPopulation(
                     state,
                     "Race",
                     combine(param, RACE),
-                    population,
                     state.sortRaces(),
                     population.races,
+                    total,
                 )
                 br { }
                 editNumberDistribution(
@@ -175,9 +180,9 @@ fun HtmlBlockTag.editPopulation(
                     state,
                     "Culture",
                     combine(param, CULTURE),
-                    population,
                     state.sortCultures(),
                     population.cultures,
+                    total,
                 )
             }
 
@@ -190,9 +195,9 @@ fun HtmlBlockTag.editPopulation(
                     state,
                     "Race",
                     combine(param, RACE),
-                    population,
                     state.sortRaces(),
                     population.races,
+                    total,
                 )
                 br { }
                 editPercentageDistribution(
@@ -200,9 +205,9 @@ fun HtmlBlockTag.editPopulation(
                     state,
                     "Culture",
                     combine(param, CULTURE),
-                    population,
                     state.sortCultures(),
                     population.cultures,
+                    total,
                 )
             }
 

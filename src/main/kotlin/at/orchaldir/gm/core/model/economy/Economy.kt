@@ -29,7 +29,7 @@ sealed class Economy {
         else -> null
     }
 
-    fun getTotalEconomy() = when (this) {
+    fun getNumberOfBusinesses() = when (this) {
         is EconomyWithNumbers -> businesses.calculateTotal()
         is EconomyWithPercentages -> total
         is CommonBusinesses, UndefinedEconomy -> null

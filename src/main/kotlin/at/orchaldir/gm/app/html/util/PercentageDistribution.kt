@@ -36,11 +36,11 @@ fun <ID : Id<ID>> HtmlBlockTag.showInlinePercentageDistribution(
 }
 
 fun <ID : Id<ID>> DETAILS.showPercentageDistribution(
-    population: PopulationWithPercentages,
     call: ApplicationCall,
     state: State,
     label: String,
-    distribution: Map<ID, Factor>,
+    distribution: PercentageDistribution<ID>,
+    total: Int,
 ) {
     var remaining = Factor.fromPercentage(100)
 
@@ -51,30 +51,31 @@ fun <ID : Id<ID>> DETAILS.showPercentageDistribution(
             th { +"Number" }
         }
         distribution
+            .map
             .toList()
             .sortedByDescending { it.second.toPermyriad() }
             .forEach { (raceId, percentage) ->
 
                 tr {
                     tdLink(call, state, raceId)
-                    showPercentageAndNumber(population.total, percentage)
+                    showPercentageAndNumber(total, percentage)
                 }
 
                 remaining -= percentage
             }
 
-        showRemainingPopulation(population, remaining)
+        showRemainingPopulation(total, remaining)
     }
 }
 
 private fun TABLE.showRemainingPopulation(
-    population: PopulationWithPercentages,
+    total: Int,
     remaining: Factor,
 ) {
     if (remaining.isGreaterZero()) {
         tr {
             tdString("Other")
-            showPercentageAndNumber(population.total, remaining)
+            showPercentageAndNumber(total, remaining)
         }
     }
 }
@@ -101,9 +102,9 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> DETAILS.editPercentageDistribution(
     state: State,
     label: String,
     param: String,
-    population: PopulationWithPercentages,
     allElements: List<ELEMENT>,
     distribution: PercentageDistribution<ID>,
+    total: Int,
 ) {
     val remaining = distribution.getUndefinedPercentages()
 
@@ -132,11 +133,11 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> DETAILS.editPercentageDistribution(
                         ONE_TENTH_PERCENT,
                     )
                 }
-                showElementNumber(population.total, percentage)
+                showElementNumber(total, percentage)
             }
         }
 
-        showRemainingPopulation(population, remaining)
+        showRemainingPopulation(total, remaining)
     }
 }
 
