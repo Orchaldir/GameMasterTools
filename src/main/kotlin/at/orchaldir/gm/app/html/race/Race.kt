@@ -7,7 +7,7 @@ import at.orchaldir.gm.app.WEIGHT
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.app.html.util.math.*
-import at.orchaldir.gm.app.html.util.population.showPopulationOfRace
+import at.orchaldir.gm.app.html.realm.population.showPopulationOfRace
 import at.orchaldir.gm.app.html.util.source.editDataSources
 import at.orchaldir.gm.app.html.util.source.parseDataSources
 import at.orchaldir.gm.app.html.util.source.showDataSources

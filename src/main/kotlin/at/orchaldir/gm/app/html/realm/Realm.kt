@@ -6,9 +6,9 @@ import at.orchaldir.gm.app.html.economy.money.parseOptionalCurrencyId
 import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.app.html.util.math.parseAreaLookup
 import at.orchaldir.gm.app.html.util.math.selectAreaLookup
-import at.orchaldir.gm.app.html.util.population.editPopulation
-import at.orchaldir.gm.app.html.util.population.parsePopulation
-import at.orchaldir.gm.app.html.util.population.showPopulationDetails
+import at.orchaldir.gm.app.html.realm.population.editPopulation
+import at.orchaldir.gm.app.html.realm.population.parsePopulation
+import at.orchaldir.gm.app.html.realm.population.showPopulationDetails
 import at.orchaldir.gm.app.html.util.source.editDataSources
 import at.orchaldir.gm.app.html.util.source.parseDataSources
 import at.orchaldir.gm.app.html.util.source.showDataSources

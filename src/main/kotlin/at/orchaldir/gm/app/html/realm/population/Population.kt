@@ -1,4 +1,4 @@
-package at.orchaldir.gm.app.html.util.population
+package at.orchaldir.gm.app.html.realm.population
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*

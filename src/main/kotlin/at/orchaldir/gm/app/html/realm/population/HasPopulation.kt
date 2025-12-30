@@ -1,4 +1,4 @@
-package at.orchaldir.gm.app.html.util.population
+package at.orchaldir.gm.app.html.realm.population
 
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
