@@ -19,6 +19,7 @@ import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.ZERO
 import io.ktor.http.*
 import io.ktor.server.application.*
+import kotlinx.html.DETAILS
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -97,19 +98,33 @@ fun HtmlBlockTag.editEconomy(
                 total,
             )
 
-            is EconomyWithPercentages -> editPercentageDistribution(
-                call,
-                state,
-                "Business",
-                combine(param, BUSINESS),
-                state.sortBusinessTemplates(),
-                economy.businesses,
-                total,
-            )
+            is EconomyWithPercentages -> {
+                selectBusinessNumber(param, economy.total)
+                editPercentageDistribution(
+                    call,
+                    state,
+                    "Business",
+                    combine(param, BUSINESS),
+                    state.sortBusinessTemplates(),
+                    economy.businesses,
+                    total,
+                )
+            }
 
             UndefinedEconomy -> doNothing()
         }
     }
+}
+
+private fun DETAILS.selectBusinessNumber(param: String, number: Int) {
+    selectInt(
+        "Number of Businesses",
+        number,
+        0,
+        Int.MAX_VALUE,
+        1,
+        combine(param, NUMBER),
+    )
 }
 
 // parse
@@ -133,7 +148,7 @@ fun parseEconomy(
     )
 
     EconomyType.Percentages -> EconomyWithPercentages(
-        parseTotalPopulation(parameters, param),
+        parseBusinessNumber(parameters, param),
         parsePercentageDistribution(
             state.getBusinessTemplateStorage(),
             parameters,
@@ -145,7 +160,7 @@ fun parseEconomy(
     EconomyType.Undefined -> UndefinedEconomy
 }
 
-private fun parseTotalPopulation(parameters: Parameters, param: String): Int =
+private fun parseBusinessNumber(parameters: Parameters, param: String): Int =
     parseInt(parameters, combine(param, NUMBER), 0)
 
 fun parseNumberOfBusiness(parameters: Parameters, param: String, template: BusinessTemplate) =
