@@ -4,7 +4,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.math.selectFactor
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.util.population.PercentageDistribution
+import at.orchaldir.gm.core.model.util.PercentageDistribution
 import at.orchaldir.gm.core.model.util.population.PopulationWithPercentages
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id

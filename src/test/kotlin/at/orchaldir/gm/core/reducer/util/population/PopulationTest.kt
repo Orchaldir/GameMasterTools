@@ -5,6 +5,8 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.economy.job.AffordableStandardOfLiving
 import at.orchaldir.gm.core.model.race.Race
+import at.orchaldir.gm.core.model.util.NumberDistribution
+import at.orchaldir.gm.core.model.util.PercentageDistribution
 import at.orchaldir.gm.core.model.util.population.*
 import at.orchaldir.gm.core.reducer.util.validatePopulation
 import at.orchaldir.gm.utils.Storage

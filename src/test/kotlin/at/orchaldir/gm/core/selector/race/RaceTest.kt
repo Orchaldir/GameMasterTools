@@ -8,7 +8,7 @@ import at.orchaldir.gm.core.model.character.CharacterTemplate
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceGroup
 import at.orchaldir.gm.core.model.realm.Realm
-import at.orchaldir.gm.core.model.util.population.PercentageDistribution
+import at.orchaldir.gm.core.model.util.PercentageDistribution
 import at.orchaldir.gm.core.model.util.population.PopulationWithPercentages
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
