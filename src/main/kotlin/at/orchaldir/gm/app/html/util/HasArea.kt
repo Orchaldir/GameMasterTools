@@ -32,16 +32,3 @@ fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showAreaLookupDetails(
         ELEMENT : HasArea = showAreaLookupDetails(element.area(), unit) {
     state.calculateArea(element)
 }
-
-fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.fieldPopulationDensity(
-    state: State,
-    element: ELEMENT,
-) where
-        ELEMENT : Element<ID>,
-        ELEMENT : HasArea,
-        ELEMENT : HasPopulation = fieldDensity(
-    "Population Density",
-    state.calculatePopulationDensity(element, state.data.largeAreaUnit),
-    "people",
-    state.data.largeAreaUnit,
-)
