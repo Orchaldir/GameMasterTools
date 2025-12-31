@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.routes.economy
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.countCollectionColumn
+import at.orchaldir.gm.app.html.countColumnForId
 import at.orchaldir.gm.app.html.createNameColumn
 import at.orchaldir.gm.app.html.economy.editBusinessTemplate
 import at.orchaldir.gm.app.html.economy.parseBusinessTemplate
@@ -11,6 +12,7 @@ import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.economy.business.BUSINESS_TEMPLATE_TYPE
 import at.orchaldir.gm.core.model.economy.business.BusinessTemplateId
 import at.orchaldir.gm.core.model.util.SortBusinessTemplate
+import at.orchaldir.gm.core.selector.economy.calculateTotalNumberInEconomy
 import at.orchaldir.gm.core.selector.economy.getBusinesses
 import at.orchaldir.gm.core.selector.util.sortBusinessTemplates
 import io.ktor.resources.*
@@ -65,7 +67,10 @@ fun Application.configureBusinessTemplateRouting() {
                 state.sortBusinessTemplates(all.sort),
                 listOf(
                     createNameColumn(call, state),
-                    countCollectionColumn("Businesses") { state.getBusinesses(it.id) }
+                    countCollectionColumn("Businesses") { state.getBusinesses(it.id) },
+                    countColumnForId("Economy") { template ->
+                        state.calculateTotalNumberInEconomy({ it.getNumber(template) })
+                    },
                 ),
             )
         }

@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.model.util.population
+package at.orchaldir.gm.core.model.util
 
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.ONE

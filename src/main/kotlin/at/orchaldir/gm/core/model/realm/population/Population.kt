@@ -1,9 +1,11 @@
-package at.orchaldir.gm.core.model.util.population
+package at.orchaldir.gm.core.model.realm.population
 
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.economy.job.Income
 import at.orchaldir.gm.core.model.economy.job.UndefinedIncome
 import at.orchaldir.gm.core.model.race.RaceId
+import at.orchaldir.gm.core.model.util.NumberDistribution
+import at.orchaldir.gm.core.model.util.PercentageDistribution
 import at.orchaldir.gm.core.model.util.Size
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

@@ -1,4 +1,4 @@
-package at.orchaldir.gm.app.html.util.population
+package at.orchaldir.gm.app.html.realm.population
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
@@ -7,6 +7,7 @@ import at.orchaldir.gm.app.html.economy.editIncome
 import at.orchaldir.gm.app.html.economy.parseIncome
 import at.orchaldir.gm.app.html.economy.showIncome
 import at.orchaldir.gm.app.html.race.parseRaceId
+import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.app.html.util.math.parseFactor
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
@@ -16,10 +17,11 @@ import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
+import at.orchaldir.gm.core.model.realm.population.*
+import at.orchaldir.gm.core.model.realm.population.PopulationType.Undefined
 import at.orchaldir.gm.core.model.util.Size
-import at.orchaldir.gm.core.model.util.population.*
-import at.orchaldir.gm.core.model.util.population.PopulationType.Undefined
-import at.orchaldir.gm.core.selector.util.calculatePopulationIndex
+import at.orchaldir.gm.core.selector.character.getCharactersLivingIn
+import at.orchaldir.gm.core.selector.realm.calculatePopulationIndex
 import at.orchaldir.gm.core.selector.util.sortCultures
 import at.orchaldir.gm.core.selector.util.sortRaces
 import at.orchaldir.gm.utils.Element
@@ -80,6 +82,8 @@ fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showPopulationDetails(
     if (population is UndefinedPopulation) {
         return
     }
+    val total = population.getTotalPopulation()
+    val totalOrZero = total ?: 0
 
     showDetails("Population", true) {
         optionalField("Total", population.getTotalPopulation())
@@ -95,16 +99,16 @@ fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showPopulationDetails(
 
             is PopulationWithNumbers -> {
                 showIncome(call, state, population.income)
-                showNumberDistribution(population, call, state, "Race", population.races)
+                showNumberDistribution(call, state, "Race", population.races, totalOrZero)
                 br { }
-                showNumberDistribution(population, call, state, "Culture", population.cultures)
+                showNumberDistribution(call, state, "Culture", population.cultures, totalOrZero)
             }
 
             is PopulationWithPercentages -> {
                 showIncome(call, state, population.income)
-                showPercentageDistribution(population, call, state, "Race", population.races.map)
+                showPercentageDistribution(call, state, "Race", population.races, totalOrZero)
                 br { }
-                showPercentageDistribution(population, call, state, "Culture", population.cultures.map)
+                showPercentageDistribution(call, state, "Culture", population.cultures, totalOrZero)
             }
 
             is TotalPopulation -> {
@@ -115,6 +119,8 @@ fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showPopulationDetails(
 
             UndefinedPopulation -> doNothing()
         }
+
+        fieldElements(call, state, state.getCharactersLivingIn(element.id()))
     }
 }
 
@@ -126,6 +132,8 @@ fun HtmlBlockTag.editPopulation(
     population: Population,
     param: String = POPULATION,
 ) {
+    val total = population.getTotalPopulation() ?: 0
+
     showDetails("Population", true) {
         selectValue("Type", param, PopulationType.entries, population.getType())
 
@@ -150,9 +158,9 @@ fun HtmlBlockTag.editPopulation(
                     state,
                     "Race",
                     combine(param, RACE),
-                    population,
                     state.sortRaces(),
                     population.races,
+                    total,
                 )
                 br { }
                 editNumberDistribution(
@@ -160,9 +168,9 @@ fun HtmlBlockTag.editPopulation(
                     state,
                     "Culture",
                     combine(param, CULTURE),
-                    population,
                     state.sortCultures(),
                     population.cultures,
+                    total,
                 )
             }
 
@@ -175,9 +183,9 @@ fun HtmlBlockTag.editPopulation(
                     state,
                     "Race",
                     combine(param, RACE),
-                    population,
                     state.sortRaces(),
                     population.races,
+                    total,
                 )
                 br { }
                 editPercentageDistribution(
@@ -185,9 +193,9 @@ fun HtmlBlockTag.editPopulation(
                     state,
                     "Culture",
                     combine(param, CULTURE),
-                    population,
                     state.sortCultures(),
                     population.cultures,
+                    total,
                 )
             }
 
@@ -260,14 +268,12 @@ fun parsePopulation(
         parseNumberDistribution(
             state.getRaceStorage(),
             parameters,
-            param,
-            ::parseNumberOfRace,
+            combine(param, RACE),
         ),
         parseNumberDistribution(
             state.getCultureStorage(),
             parameters,
-            param,
-            ::parseNumberOfCulture,
+            combine(param, CULTURE),
         ),
         parseIncome(state, parameters, combine(param, INCOME)),
     )
@@ -307,12 +313,6 @@ private fun parseRaceSet(parameters: Parameters, param: String) =
 
 private fun parseTotalPopulation(parameters: Parameters, param: String): Int =
     parseInt(parameters, combine(param, NUMBER), 0)
-
-fun parseNumberOfCulture(parameters: Parameters, param: String, culture: Culture) =
-    parseInt(parameters, combine(param, CULTURE, culture.id.value))
-
-fun parseNumberOfRace(parameters: Parameters, param: String, race: Race) =
-    parseInt(parameters, combine(param, RACE, race.id.value))
 
 fun parsePercentageOfCulture(parameters: Parameters, param: String, culture: Culture) =
     parseFactor(parameters, combine(param, CULTURE, culture.id.value), ZERO)

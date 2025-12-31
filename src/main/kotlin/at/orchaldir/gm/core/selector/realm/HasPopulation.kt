@@ -1,21 +1,17 @@
-package at.orchaldir.gm.core.selector.util
+package at.orchaldir.gm.core.selector.realm
 
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.economy.standard.StandardOfLivingId
 import at.orchaldir.gm.core.model.race.RaceId
-import at.orchaldir.gm.core.model.util.population.*
+import at.orchaldir.gm.core.model.realm.population.*
+import at.orchaldir.gm.core.selector.util.RankingEntry
+import at.orchaldir.gm.core.selector.util.calculateRankingIndex
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.Factor
-
-data class PopulationEntry<ID : Id<ID>>(
-    val id: ID,
-    val number: Int,
-    val percentage: Factor,
-)
 
 fun State.canDeletePopulationOf(culture: CultureId, result: DeleteResult) =
     canDeletePopulationOf(result) { hasPopulation ->
@@ -61,7 +57,7 @@ fun <ID : Id<ID>, ELEMENT> getPopulationEntries(
     .getAll()
     .mapNotNull { element ->
         getPercentage(element)?.let { (number, percentage) ->
-            PopulationEntry(element.id(), number, percentage)
+            RankingEntry(element.id(), number, percentage)
         }
     }
 
@@ -102,43 +98,16 @@ fun <ID : Id<ID>, ELEMENT> State.calculatePopulationIndex(
     element: ELEMENT,
 ): Int? where
         ELEMENT : Element<ID>,
-        ELEMENT : HasPopulation {
-    return if (element.population().getTotalPopulation() == null) {
-        null
-    } else {
-        getStorage<ID, ELEMENT>(element.id())
-            .getAll()
-            .sortedByDescending { it.population().getTotalPopulation() }
-            .indexOfFirst { it.id() == element.id() } + 1
-    }
+        ELEMENT : HasPopulation = calculateRankingIndex(element) {
+    it.population().getTotalPopulation()
 }
 
 fun <ID : Id<ID>, ELEMENT : Element<ID>> State.calculatePopulationIndex(
     storage: Storage<ID, ELEMENT>,
     id: ID,
     getPopulation: (Population, ID) -> Int?,
-): Int? {
-    val mapNotNull = storage
-        .getAll()
-        .mapNotNull {
-            val total = calculateTotalPopulation { population ->
-                getPopulation(population, it.id())
-            }
-
-            if (total == null || total == 0) {
-                return@mapNotNull null
-            }
-
-            Pair(it.id(), total)
-        }
-    return mapNotNull
-        .sortedByDescending { it.second }
-        .indexOfFirst { it.first == id }
-        .let {
-            if (it >= 0) {
-                it + 1
-            } else {
-                null
-            }
-        }
+) = calculateRankingIndex(storage, id) {
+    calculateTotalPopulation { population ->
+        getPopulation(population, it)
+    }
 }

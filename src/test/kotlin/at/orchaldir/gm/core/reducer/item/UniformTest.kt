@@ -7,7 +7,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.ModifyUniform
 import at.orchaldir.gm.core.model.character.UniqueEquipment
 import at.orchaldir.gm.core.model.character.UseUniform
-import at.orchaldir.gm.core.model.economy.Economy
+import at.orchaldir.gm.core.model.economy.EconomyData
 import at.orchaldir.gm.core.model.economy.standard.StandardOfLiving
 import at.orchaldir.gm.core.model.item.Uniform
 import at.orchaldir.gm.core.model.item.equipment.*
@@ -29,7 +29,7 @@ class UniformTest {
             Storage(Uniform(UNIFORM_ID_0)),
             Storage(Spell(SPELL_ID_0)),
         ),
-        data = Data(Economy(standardsOfLiving = listOf(StandardOfLiving(STANDARD_ID_0)))),
+        data = Data(EconomyData(standardsOfLiving = listOf(StandardOfLiving(STANDARD_ID_0)))),
     )
 
     @Nested

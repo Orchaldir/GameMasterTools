@@ -43,6 +43,7 @@ enum class SortBusiness {
 enum class SortBusinessTemplate {
     Name,
     Businesses,
+    Economy,
 }
 
 enum class SortCalendar {
@@ -117,6 +118,7 @@ enum class SortDistrict {
     Population,
     Density,
     Income,
+    Economy,
 }
 
 enum class SortDomain {

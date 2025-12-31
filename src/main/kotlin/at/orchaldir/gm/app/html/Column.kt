@@ -2,16 +2,17 @@ package at.orchaldir.gm.app.html
 
 import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.economy.displayIncome
+import at.orchaldir.gm.app.html.realm.population.showCulturesOfPopulation
+import at.orchaldir.gm.app.html.realm.population.showPopulation
+import at.orchaldir.gm.app.html.realm.population.showRacesOfPopulation
 import at.orchaldir.gm.app.html.util.*
-import at.orchaldir.gm.app.html.util.population.showCulturesOfPopulation
-import at.orchaldir.gm.app.html.util.population.showPopulation
-import at.orchaldir.gm.app.html.util.population.showRacesOfPopulation
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.economy.HasEconomy
 import at.orchaldir.gm.core.model.item.equipment.Equipment
+import at.orchaldir.gm.core.model.realm.population.HasPopulation
 import at.orchaldir.gm.core.model.rpg.combat.MeleeAttack
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.*
-import at.orchaldir.gm.core.model.util.population.HasPopulation
 import at.orchaldir.gm.core.selector.character.countKilledCharacters
 import at.orchaldir.gm.core.selector.realm.countDestroyedRealms
 import at.orchaldir.gm.core.selector.realm.countDestroyedTowns
@@ -102,6 +103,9 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> createDestroyedColumns(
     countColumnForId(listOf("Destroyed", "Towns"), state::countDestroyedTowns),
     countColumnForId(listOf("Killed", "Characters"), state::countKilledCharacters),
 )
+
+fun <ELEMENT : HasEconomy> createEconomyColumn(): Column<ELEMENT> =
+    Column("Businesses") { tdSkipZero(it.economy().getNumberOfBusinesses()) }
 
 fun <ID0 : Id<ID0>, ID1 : Id<ID1>, ELEMENT : Element<ID0>> createIdColumn(
     call: ApplicationCall,

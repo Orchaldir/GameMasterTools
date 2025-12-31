@@ -23,6 +23,13 @@
      "#type": "SoL",
      "standard": 1
     }
+   },
+   "economy": {
+    "#type": "Businesses",
+    "businesses": [
+     4,
+     3
+    ]
    }
   },
   "1": {
@@ -267,10 +274,12 @@
    "population": {
     "#type": "Numbers",
     "races": {
-     "2": 100,
-     "9": 200,
-     "10": 100,
-     "13": 250
+     "map": {
+      "2": 100,
+      "9": 200,
+      "10": 100,
+      "13": 250
+     }
     },
     "income": {
      "#type": "SoL",
@@ -288,8 +297,10 @@
    "population": {
     "#type": "Numbers",
     "races": {
-     "9": 200,
-     "10": 200
+     "map": {
+      "9": 200,
+      "10": 200
+     }
     },
     "income": {
      "#type": "SoL",
@@ -323,7 +334,9 @@
    "population": {
     "#type": "Numbers",
     "races": {
-     "1": 1000
+     "map": {
+      "1": 1000
+     }
     },
     "income": {
      "#type": "SoL",
@@ -341,7 +354,9 @@
    "population": {
     "#type": "Numbers",
     "races": {
-     "11": 700
+     "map": {
+      "11": 700
+     }
     },
     "income": {
      "#type": "SoL",

@@ -3,12 +3,13 @@ package at.orchaldir.gm.core.reducer.realm
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.economy.EconomyWithPercentages
 import at.orchaldir.gm.core.model.realm.District
 import at.orchaldir.gm.core.model.realm.Town
+import at.orchaldir.gm.core.model.realm.population.TotalPopulation
 import at.orchaldir.gm.core.model.util.CharacterReference
 import at.orchaldir.gm.core.model.util.InTown
 import at.orchaldir.gm.core.model.util.name.Name
-import at.orchaldir.gm.core.model.util.population.TotalPopulation
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -54,6 +55,13 @@ class DistrictTest {
             val action = UpdateAction(District(DISTRICT_ID_0, population = TotalPopulation(-1)))
 
             assertIllegalArgument("The total population must be >= 0!") { REDUCER.invoke(STATE, action) }
+        }
+
+        @Test
+        fun `The economy is validated`() {
+            val action = UpdateAction(District(DISTRICT_ID_0, economy = EconomyWithPercentages(-1)))
+
+            assertIllegalArgument("The total number of businesses must be >= 0!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test

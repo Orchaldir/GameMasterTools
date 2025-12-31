@@ -6,3 +6,4 @@ import at.orchaldir.gm.core.model.economy.business.BusinessTemplateId
 
 fun State.canDeleteBusinessTemplate(template: BusinessTemplateId) = DeleteResult(template)
     .addElements(getBusinesses(template))
+    .apply { canDeleteEconomyOf(template, it) }

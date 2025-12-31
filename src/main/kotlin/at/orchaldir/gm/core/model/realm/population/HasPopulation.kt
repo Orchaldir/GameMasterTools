@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.model.util.population
+package at.orchaldir.gm.core.model.realm.population
 
 interface HasPopulation {
 

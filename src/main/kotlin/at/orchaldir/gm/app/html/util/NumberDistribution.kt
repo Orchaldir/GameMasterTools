@@ -1,10 +1,10 @@
-package at.orchaldir.gm.app.html.util.population
+package at.orchaldir.gm.app.html.util
 
+import at.orchaldir.gm.app.NUMBER
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.util.population.NumberDistribution
-import at.orchaldir.gm.core.model.util.population.PopulationWithNumbers
+import at.orchaldir.gm.core.model.util.NumberDistribution
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
@@ -32,13 +32,12 @@ fun <ID : Id<ID>> HtmlBlockTag.showInlineNumberDistribution(
 }
 
 fun <ID : Id<ID>> DETAILS.showNumberDistribution(
-    population: PopulationWithNumbers,
     call: ApplicationCall,
     state: State,
     label: String,
     distribution: NumberDistribution<ID>,
+    total: Int,
 ) {
-    val total = population.calculateTotal()
     var remaining = total
 
     table {
@@ -101,11 +100,10 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> DETAILS.editNumberDistribution(
     state: State,
     label: String,
     param: String,
-    population: PopulationWithNumbers,
     allElements: List<ELEMENT>,
     distribution: NumberDistribution<ID>,
+    total: Int,
 ) {
-    val total = population.calculateTotal()
     var remaining = total
 
     table {
@@ -140,6 +138,22 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> DETAILS.editNumberDistribution(
             remaining -= number
         }
 
+        tr {
+            tdString("Unknown")
+            tdPercentage(Factor.divideTwoInts(distribution.unknown, total))
+            td {
+                selectInt(
+                    distribution.unknown,
+                    0,
+                    Int.MAX_VALUE,
+                    1,
+                    combine(param, NUMBER),
+                )
+            }
+        }
+
+        remaining -= distribution.unknown
+
         showRemainingPopulation(total, remaining)
         showTotalPopulation(total)
     }
@@ -151,12 +165,12 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> parseNumberDistribution(
     storage: Storage<ID, ELEMENT>,
     parameters: Parameters,
     param: String,
-    parsePopulation: (Parameters, String, ELEMENT) -> Int,
 ): NumberDistribution<ID> = NumberDistribution(
     storage
         .getAll()
         .associate { element ->
-            Pair(element.id(), parsePopulation(parameters, param, element))
+            Pair(element.id(), parseInt(parameters, combine(param, element.id().value())))
         }
-        .filter { it.value > 0 }
+        .filter { it.value > 0 },
+    parseInt(parameters, combine(param, NUMBER)),
 )

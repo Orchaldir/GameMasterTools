@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.selector.util
+package at.orchaldir.gm.core.selector.realm
 
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.DeleteResult
@@ -6,7 +6,9 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.District
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.Town
-import at.orchaldir.gm.core.model.util.population.*
+import at.orchaldir.gm.core.model.realm.population.*
+import at.orchaldir.gm.core.model.util.NumberDistribution
+import at.orchaldir.gm.core.model.util.PercentageDistribution
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.HALF

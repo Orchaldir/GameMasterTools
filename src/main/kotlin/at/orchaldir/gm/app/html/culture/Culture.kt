@@ -2,13 +2,13 @@ package at.orchaldir.gm.app.html.culture
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.realm.population.showPopulationOfCulture
 import at.orchaldir.gm.app.html.time.editHolidays
 import at.orchaldir.gm.app.html.time.parseCalendarId
 import at.orchaldir.gm.app.html.time.parseHolidays
 import at.orchaldir.gm.app.html.time.showHolidays
 import at.orchaldir.gm.app.html.util.name.parseNameListId
 import at.orchaldir.gm.app.html.util.parseGenderMap
-import at.orchaldir.gm.app.html.util.population.showPopulationOfCulture
 import at.orchaldir.gm.app.html.util.selectGenderMap
 import at.orchaldir.gm.app.html.util.showCreated
 import at.orchaldir.gm.app.html.util.showGenderMap

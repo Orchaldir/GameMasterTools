@@ -5,19 +5,22 @@ import at.orchaldir.gm.app.OWNER
 import at.orchaldir.gm.app.TITLE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.economy.displayIncome
+import at.orchaldir.gm.app.html.economy.editEconomy
+import at.orchaldir.gm.app.html.economy.parseEconomy
+import at.orchaldir.gm.app.html.economy.showEconomyDetails
+import at.orchaldir.gm.app.html.realm.population.editPopulation
+import at.orchaldir.gm.app.html.realm.population.parsePopulation
+import at.orchaldir.gm.app.html.realm.population.showAreaAndPopulation
 import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.app.html.util.math.parseAreaLookup
 import at.orchaldir.gm.app.html.util.math.selectAreaLookup
-import at.orchaldir.gm.app.html.util.population.editPopulation
-import at.orchaldir.gm.app.html.util.population.parsePopulation
-import at.orchaldir.gm.app.html.util.population.showPopulationDetails
 import at.orchaldir.gm.app.html.util.source.editDataSources
 import at.orchaldir.gm.app.html.util.source.parseDataSources
 import at.orchaldir.gm.app.html.util.source.showDataSources
 import at.orchaldir.gm.app.html.world.showCharactersOfTownMap
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.*
-import at.orchaldir.gm.core.model.util.population.Population
+import at.orchaldir.gm.core.model.realm.population.Population
 import at.orchaldir.gm.core.selector.realm.getDistricts
 import at.orchaldir.gm.core.selector.realm.getExistingRealms
 import at.orchaldir.gm.core.selector.realm.getRealmsWithCapital
@@ -45,9 +48,8 @@ fun HtmlBlockTag.showTown(
     }
     fieldElements(call, state, "Capital of", state.getRealmsWithCapital(town.id))
     fieldElements(call, state, "Previous Capital of", state.getRealmsWithPreviousCapital(town.id))
-    showAreaLookupDetails(state, town)
-    showPopulationDetails(call, state, town)
-    fieldPopulationDensity(state, town)
+    showAreaAndPopulation(call, state, town)
+    showEconomyDetails(call, state, town)
     showSubDistricts(call, state, state.getDistricts(town.id), town.population)
     showDataSources(call, state, town.sources)
 
@@ -150,6 +152,7 @@ fun HtmlBlockTag.editTown(
     }
     selectAreaLookup(town.area, state.data.largeAreaUnit)
     editPopulation(call, state, town.population)
+    editEconomy(call, state, town.economy)
     editDataSources(state, town.sources)
 }
 
@@ -178,6 +181,7 @@ fun parseTown(
         },
         parseAreaLookup(parameters, state.data.largeAreaUnit),
         parsePopulation(parameters, state),
+        parseEconomy(parameters, state),
         parseDataSources(parameters),
     )
 }

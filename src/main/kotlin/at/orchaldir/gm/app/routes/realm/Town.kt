@@ -80,9 +80,10 @@ fun Application.configureTownRouting() {
                     createPopulationDensityColumn(state),
                     createRacesOfPopulationColumn(call, state),
                     createCulturesOfPopulationColumn(call, state),
+                    countColumnForId("Characters", state::countResidents),
                     countColumnForId("Buildings", state::countBuildings),
+                    createEconomyColumn(),
                     countCollectionColumn("Districts") { state.getDistricts(it.id) },
-                    countColumnForId("Residents", state::countResidents),
                 ),
             ) {
                 showCreatorCount(call, state, it, "Founders")

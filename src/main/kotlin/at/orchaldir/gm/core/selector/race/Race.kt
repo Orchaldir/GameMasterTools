@@ -8,7 +8,7 @@ import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.selector.character.getCharacterTemplates
 import at.orchaldir.gm.core.selector.character.getCharacters
-import at.orchaldir.gm.core.selector.util.canDeletePopulationOf
+import at.orchaldir.gm.core.selector.realm.canDeletePopulationOf
 import at.orchaldir.gm.core.selector.util.getExistingElements
 
 fun State.canDeleteRace(race: RaceId) = DeleteResult(race)

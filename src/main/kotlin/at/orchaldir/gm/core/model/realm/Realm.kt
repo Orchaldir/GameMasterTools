@@ -1,14 +1,17 @@
 package at.orchaldir.gm.core.model.realm
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.economy.Economy
+import at.orchaldir.gm.core.model.economy.HasEconomy
+import at.orchaldir.gm.core.model.economy.UndefinedEconomy
 import at.orchaldir.gm.core.model.economy.money.CurrencyId
+import at.orchaldir.gm.core.model.realm.population.HasPopulation
+import at.orchaldir.gm.core.model.realm.population.Population
+import at.orchaldir.gm.core.model.realm.population.UndefinedPopulation
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
-import at.orchaldir.gm.core.model.util.population.HasPopulation
-import at.orchaldir.gm.core.model.util.population.Population
-import at.orchaldir.gm.core.model.util.population.UndefinedPopulation
 import at.orchaldir.gm.core.model.util.source.DataSourceId
 import at.orchaldir.gm.core.model.util.source.HasDataSources
 import at.orchaldir.gm.core.reducer.realm.validateRealm
@@ -54,8 +57,10 @@ data class Realm(
     val legalCode: History<LegalCodeId?> = History(null),
     val area: AreaLookup = CalculatedArea,
     val population: Population = UndefinedPopulation,
+    val economy: Economy = UndefinedEconomy,
     val sources: Set<DataSourceId> = emptySet(),
-) : ElementWithSimpleName<RealmId>, Creation, HasArea, HasDataSources, HasPopulation, HasPosition, HasVitalStatus {
+) : ElementWithSimpleName<RealmId>, Creation, HasArea, HasDataSources, HasEconomy, HasPopulation, HasPosition,
+    HasVitalStatus {
 
     override fun id() = id
     override fun name() = name.text
@@ -64,6 +69,7 @@ data class Realm(
     override fun useRealmsForAreaCalculation() = true
     override fun useTownsForAreaCalculation() = true
     override fun creator() = founder
+    override fun economy() = economy
     override fun population() = population
     override fun position() = if (owner.current != null) {
         InRealm(owner.current)

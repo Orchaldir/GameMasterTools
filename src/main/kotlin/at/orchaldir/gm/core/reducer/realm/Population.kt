@@ -1,7 +1,9 @@
-package at.orchaldir.gm.core.reducer.util
+package at.orchaldir.gm.core.reducer.realm
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.util.population.*
+import at.orchaldir.gm.core.model.realm.population.*
+import at.orchaldir.gm.core.model.util.NumberDistribution
+import at.orchaldir.gm.core.model.util.PercentageDistribution
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage

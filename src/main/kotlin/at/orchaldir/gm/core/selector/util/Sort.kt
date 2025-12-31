@@ -58,12 +58,14 @@ import at.orchaldir.gm.core.selector.character.countCharactersWithJob
 import at.orchaldir.gm.core.selector.character.countResidents
 import at.orchaldir.gm.core.selector.character.getEmployees
 import at.orchaldir.gm.core.selector.culture.countCultures
+import at.orchaldir.gm.core.selector.economy.calculateTotalNumberInEconomy
 import at.orchaldir.gm.core.selector.economy.getBusinesses
 import at.orchaldir.gm.core.selector.economy.money.calculateWeight
 import at.orchaldir.gm.core.selector.economy.money.countCurrencyUnits
 import at.orchaldir.gm.core.selector.item.countTexts
 import at.orchaldir.gm.core.selector.item.equipment.*
 import at.orchaldir.gm.core.selector.race.countRaceAppearancesMadeOf
+import at.orchaldir.gm.core.selector.realm.calculateTotalPopulation
 import at.orchaldir.gm.core.selector.realm.countOwnedTowns
 import at.orchaldir.gm.core.selector.realm.countRealmsWithCurrencyAtAnyTime
 import at.orchaldir.gm.core.selector.realm.countRealmsWithLegalCodeAtAnyTime
@@ -217,6 +219,9 @@ fun State.sortBusinessTemplates(
         when (sort) {
             SortBusinessTemplate.Name -> compareBy { it.name.text }
             SortBusinessTemplate.Businesses -> compareByDescending { getBusinesses(it.id).size }
+            SortBusinessTemplate.Economy -> compareByDescending { template ->
+                calculateTotalNumberInEconomy({ it.getNumber(template.id) })
+            }
         }
     )
 
@@ -443,6 +448,10 @@ fun State.sortDistricts(
             SortDistrict.Density -> compareByDescending { calculatePopulationDensity(it, data.largeAreaUnit) }
             SortDistrict.Income -> compareByDescending {
                 it.population.income()?.sortValue(this) ?: -1
+            }
+
+            SortDistrict.Economy -> compareByDescending {
+                it.economy.getNumberOfBusinesses()
             }
         })
 

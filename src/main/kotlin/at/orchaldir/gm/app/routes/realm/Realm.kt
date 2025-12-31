@@ -78,6 +78,7 @@ fun Application.configureRealmRouting() {
                     createPopulationDensityColumn(state),
                     createRacesOfPopulationColumn(call, state),
                     createCulturesOfPopulationColumn(call, state),
+                    createEconomyColumn(),
                     countColumnForId("Towns", state::countOwnedTowns),
                 ),
             ) {
