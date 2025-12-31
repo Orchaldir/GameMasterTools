@@ -13,10 +13,10 @@ import at.orchaldir.gm.core.model.economy.standard.StandardOfLiving
 import at.orchaldir.gm.core.model.realm.District
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.Town
+import at.orchaldir.gm.core.model.realm.population.AbstractPopulation
 import at.orchaldir.gm.core.model.time.Time
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.util.name.Name
-import at.orchaldir.gm.core.model.realm.population.AbstractPopulation
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage

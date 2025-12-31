@@ -1,12 +1,9 @@
 package at.orchaldir.gm.app.html.util
 
 import at.orchaldir.gm.app.html.util.math.displayAreaLookup
-import at.orchaldir.gm.app.html.util.math.fieldDensity
 import at.orchaldir.gm.app.html.util.math.showAreaLookupDetails
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.realm.population.HasPopulation
 import at.orchaldir.gm.core.selector.util.calculateArea
-import at.orchaldir.gm.core.selector.util.calculatePopulationDensity
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.math.unit.AreaUnit

@@ -11,12 +11,12 @@ import kotlinx.html.*
 
 // show
 
-fun <ID : Id<ID>, ELEMENT: Element<ID>> HtmlBlockTag.showRankingOfElements(
+fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.showRankingOfElements(
     call: ApplicationCall,
     state: State,
     total: Int,
     abstractElements: List<ELEMENT>,
-    entries: List<RankingEntry<ID>>
+    entries: List<RankingEntry<ID>>,
 ) {
 
     if (abstractElements.isEmpty() && entries.isEmpty()) {

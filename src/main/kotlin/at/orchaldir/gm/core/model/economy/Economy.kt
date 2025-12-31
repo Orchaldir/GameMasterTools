@@ -1,8 +1,6 @@
 package at.orchaldir.gm.core.model.economy
 
-import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.economy.business.BusinessTemplateId
-import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.util.NumberDistribution
 import at.orchaldir.gm.core.model.util.PercentageDistribution
 import kotlinx.serialization.SerialName
@@ -75,7 +73,7 @@ data class EconomyWithNumbers(
 @SerialName("Percentages")
 data class EconomyWithPercentages(
     val total: Int,
-    val businesses: PercentageDistribution<BusinessTemplateId> = PercentageDistribution()
+    val businesses: PercentageDistribution<BusinessTemplateId> = PercentageDistribution(),
 ) : Economy()
 
 @Serializable

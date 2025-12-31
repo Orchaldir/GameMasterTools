@@ -4,11 +4,11 @@ import at.orchaldir.gm.BUSINESS_TEMPLATE_ID_0
 import at.orchaldir.gm.UNKNOWN_BUSINESS_TEMPLATE_ID
 import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.economy.CommonBusinesses
 import at.orchaldir.gm.core.model.economy.Economy
+import at.orchaldir.gm.core.model.economy.EconomyWithNumbers
 import at.orchaldir.gm.core.model.economy.EconomyWithPercentages
 import at.orchaldir.gm.core.model.economy.business.BusinessTemplate
-import at.orchaldir.gm.core.model.economy.CommonBusinesses
-import at.orchaldir.gm.core.model.economy.EconomyWithNumbers
 import at.orchaldir.gm.core.model.util.NumberDistribution
 import at.orchaldir.gm.core.model.util.PercentageDistribution
 import at.orchaldir.gm.utils.Storage
@@ -18,7 +18,7 @@ import org.junit.jupiter.api.Test
 
 class EconomyTest {
     private val state = State(
-         Storage(BusinessTemplate(BUSINESS_TEMPLATE_ID_0)),
+        Storage(BusinessTemplate(BUSINESS_TEMPLATE_ID_0)),
     )
 
     @Nested
@@ -34,7 +34,7 @@ class EconomyTest {
 
         @Test
         fun `A valid population`() {
-            validateEconomy(state, CommonBusinesses( setOf(BUSINESS_TEMPLATE_ID_0)))
+            validateEconomy(state, CommonBusinesses(setOf(BUSINESS_TEMPLATE_ID_0)))
         }
 
     }

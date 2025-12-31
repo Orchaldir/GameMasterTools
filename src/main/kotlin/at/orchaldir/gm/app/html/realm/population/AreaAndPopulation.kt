@@ -18,8 +18,7 @@ fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showAreaAndPopulation(
 ) where
         ELEMENT : Element<ID>,
         ELEMENT : HasArea,
-        ELEMENT : HasPopulation
-{
+        ELEMENT : HasPopulation {
     showAreaLookupDetails(state, element)
     showPopulationDetails(call, state, element)
     fieldPopulationDensity(state, element)

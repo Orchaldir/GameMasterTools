@@ -1,11 +1,7 @@
 package at.orchaldir.gm.core.reducer.economy
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.economy.CommonBusinesses
-import at.orchaldir.gm.core.model.economy.Economy
-import at.orchaldir.gm.core.model.economy.EconomyWithNumbers
-import at.orchaldir.gm.core.model.economy.EconomyWithPercentages
-import at.orchaldir.gm.core.model.economy.UndefinedEconomy
+import at.orchaldir.gm.core.model.economy.*
 import at.orchaldir.gm.core.model.util.NumberDistribution
 import at.orchaldir.gm.core.model.util.PercentageDistribution
 import at.orchaldir.gm.utils.Element

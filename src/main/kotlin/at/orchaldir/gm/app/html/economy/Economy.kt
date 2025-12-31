@@ -3,7 +3,6 @@ package at.orchaldir.gm.app.html.economy
 import at.orchaldir.gm.app.BUSINESS
 import at.orchaldir.gm.app.ECONOMY
 import at.orchaldir.gm.app.NUMBER
-import at.orchaldir.gm.app.POPULATION
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.app.html.util.math.parseFactor
@@ -13,9 +12,7 @@ import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.*
 import at.orchaldir.gm.core.model.economy.business.BusinessTemplate
-import at.orchaldir.gm.core.selector.character.getCharactersLivingIn
 import at.orchaldir.gm.core.selector.economy.calculateEconomyIndex
-import at.orchaldir.gm.core.selector.realm.calculatePopulationIndex
 import at.orchaldir.gm.core.selector.util.getBusinessesIn
 import at.orchaldir.gm.core.selector.util.sortBusinessTemplates
 import at.orchaldir.gm.utils.Element

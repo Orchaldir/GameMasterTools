@@ -1,7 +1,6 @@
 package at.orchaldir.gm.core.selector.util
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.realm.population.HasPopulation
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
@@ -15,7 +14,7 @@ data class RankingEntry<ID : Id<ID>>(
 
 fun <ID : Id<ID>, ELEMENT> State.calculateRankingIndex(
     element: ELEMENT,
-    calculateValue: (ELEMENT) -> Int?
+    calculateValue: (ELEMENT) -> Int?,
 ): Int? where
         ELEMENT : Element<ID> {
     return if (calculateValue(element) == null) {

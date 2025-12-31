@@ -1,16 +1,11 @@
 package at.orchaldir.gm.app.html.realm.population
 
-import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.optionalField
 import at.orchaldir.gm.app.html.util.showRankingOfElements
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.race.RaceId
-import at.orchaldir.gm.core.model.realm.population.HasPopulation
-import at.orchaldir.gm.core.model.realm.population.IPopulationWithSets
-import at.orchaldir.gm.core.model.realm.population.Population
-import at.orchaldir.gm.core.model.realm.population.PopulationWithNumbers
-import at.orchaldir.gm.core.model.realm.population.PopulationWithPercentages
-import at.orchaldir.gm.core.selector.economy.getEconomyEntries
+import at.orchaldir.gm.core.model.realm.population.*
 import at.orchaldir.gm.core.selector.realm.calculatePopulationIndex
 import at.orchaldir.gm.core.selector.realm.calculateTotalPopulation
 import at.orchaldir.gm.core.selector.realm.getAbstractPopulations
@@ -20,7 +15,8 @@ import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.Factor
 import io.ktor.server.application.*
-import kotlinx.html.*
+import kotlinx.html.HtmlBlockTag
+import kotlinx.html.h2
 
 // show
 
@@ -97,9 +93,9 @@ private fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showPopulationOfElement(
 ) where
         ELEMENT : Element<ID>,
         ELEMENT : HasPopulation = showRankingOfElements(
-call,
-state,
-total,
+    call,
+    state,
+    total,
     getAbstractPopulations(storage, contains),
     getPopulationEntries(storage, getPercentage),
 )

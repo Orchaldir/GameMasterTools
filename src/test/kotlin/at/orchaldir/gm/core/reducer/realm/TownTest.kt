@@ -4,13 +4,12 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.EconomyWithPercentages
-import at.orchaldir.gm.core.model.realm.District
 import at.orchaldir.gm.core.model.realm.Town
+import at.orchaldir.gm.core.model.realm.population.TotalPopulation
 import at.orchaldir.gm.core.model.util.CharacterReference
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.VitalStatusType
 import at.orchaldir.gm.core.model.util.name.Name
-import at.orchaldir.gm.core.model.realm.population.TotalPopulation
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.core.reducer.util.testAllowedVitalStatusTypes
 import at.orchaldir.gm.utils.Storage

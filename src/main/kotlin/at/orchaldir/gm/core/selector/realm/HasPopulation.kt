@@ -5,14 +5,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.economy.standard.StandardOfLivingId
 import at.orchaldir.gm.core.model.race.RaceId
-import at.orchaldir.gm.core.model.realm.population.AbstractPopulation
-import at.orchaldir.gm.core.model.realm.population.HasPopulation
-import at.orchaldir.gm.core.model.realm.population.IPopulationWithSets
-import at.orchaldir.gm.core.model.realm.population.Population
-import at.orchaldir.gm.core.model.realm.population.PopulationWithNumbers
-import at.orchaldir.gm.core.model.realm.population.PopulationWithPercentages
-import at.orchaldir.gm.core.model.realm.population.TotalPopulation
-import at.orchaldir.gm.core.model.realm.population.UndefinedPopulation
+import at.orchaldir.gm.core.model.realm.population.*
 import at.orchaldir.gm.core.selector.util.RankingEntry
 import at.orchaldir.gm.core.selector.util.calculateRankingIndex
 import at.orchaldir.gm.utils.Element

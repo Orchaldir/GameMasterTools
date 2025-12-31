@@ -14,7 +14,6 @@ import at.orchaldir.gm.core.model.economy.business.BusinessTemplateId
 import at.orchaldir.gm.core.model.util.SortBusinessTemplate
 import at.orchaldir.gm.core.selector.economy.calculateTotalNumberInEconomy
 import at.orchaldir.gm.core.selector.economy.getBusinesses
-import at.orchaldir.gm.core.selector.realm.calculateTotalPopulation
 import at.orchaldir.gm.core.selector.util.sortBusinessTemplates
 import io.ktor.resources.*
 import io.ktor.server.application.*

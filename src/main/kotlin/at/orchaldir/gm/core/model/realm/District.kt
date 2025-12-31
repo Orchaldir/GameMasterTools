@@ -4,19 +4,19 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.Economy
 import at.orchaldir.gm.core.model.economy.HasEconomy
 import at.orchaldir.gm.core.model.economy.UndefinedEconomy
+import at.orchaldir.gm.core.model.realm.population.HasPopulation
+import at.orchaldir.gm.core.model.realm.population.Population
+import at.orchaldir.gm.core.model.realm.population.UndefinedPopulation
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
-import at.orchaldir.gm.core.model.realm.population.HasPopulation
-import at.orchaldir.gm.core.model.realm.population.Population
-import at.orchaldir.gm.core.model.realm.population.UndefinedPopulation
 import at.orchaldir.gm.core.model.util.source.DataSourceId
 import at.orchaldir.gm.core.model.util.source.HasDataSources
 import at.orchaldir.gm.core.reducer.economy.validateEconomy
+import at.orchaldir.gm.core.reducer.realm.validatePopulation
 import at.orchaldir.gm.core.reducer.util.checkPosition
 import at.orchaldir.gm.core.reducer.util.validateCreator
-import at.orchaldir.gm.core.reducer.realm.validatePopulation
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.math.unit.AreaLookup
 import at.orchaldir.gm.utils.math.unit.CalculatedArea
@@ -51,7 +51,8 @@ data class District(
     val population: Population = UndefinedPopulation,
     val economy: Economy = UndefinedEconomy,
     val sources: Set<DataSourceId> = emptySet(),
-) : ElementWithSimpleName<DistrictId>, Creation, HasArea, HasDataSources, HasEconomy, HasPopulation, HasPosition, HasStartDate {
+) : ElementWithSimpleName<DistrictId>, Creation, HasArea, HasDataSources, HasEconomy, HasPopulation, HasPosition,
+    HasStartDate {
 
     override fun id() = id
     override fun name() = name.text

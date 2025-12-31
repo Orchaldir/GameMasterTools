@@ -5,13 +5,13 @@ import at.orchaldir.gm.core.model.economy.Economy
 import at.orchaldir.gm.core.model.economy.HasEconomy
 import at.orchaldir.gm.core.model.economy.UndefinedEconomy
 import at.orchaldir.gm.core.model.economy.money.CurrencyId
+import at.orchaldir.gm.core.model.realm.population.HasPopulation
+import at.orchaldir.gm.core.model.realm.population.Population
+import at.orchaldir.gm.core.model.realm.population.UndefinedPopulation
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
-import at.orchaldir.gm.core.model.realm.population.HasPopulation
-import at.orchaldir.gm.core.model.realm.population.Population
-import at.orchaldir.gm.core.model.realm.population.UndefinedPopulation
 import at.orchaldir.gm.core.model.util.source.DataSourceId
 import at.orchaldir.gm.core.model.util.source.HasDataSources
 import at.orchaldir.gm.core.reducer.realm.validateRealm
@@ -59,7 +59,8 @@ data class Realm(
     val population: Population = UndefinedPopulation,
     val economy: Economy = UndefinedEconomy,
     val sources: Set<DataSourceId> = emptySet(),
-) : ElementWithSimpleName<RealmId>, Creation, HasArea, HasDataSources, HasEconomy, HasPopulation, HasPosition, HasVitalStatus {
+) : ElementWithSimpleName<RealmId>, Creation, HasArea, HasDataSources, HasEconomy, HasPopulation, HasPosition,
+    HasVitalStatus {
 
     override fun id() = id
     override fun name() = name.text
