@@ -13,8 +13,10 @@ import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.*
 import at.orchaldir.gm.core.model.economy.business.BusinessTemplate
+import at.orchaldir.gm.core.selector.character.getCharactersLivingIn
 import at.orchaldir.gm.core.selector.economy.calculateEconomyIndex
 import at.orchaldir.gm.core.selector.realm.calculatePopulationIndex
+import at.orchaldir.gm.core.selector.util.getBusinessesIn
 import at.orchaldir.gm.core.selector.util.sortBusinessTemplates
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
@@ -67,6 +69,8 @@ fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showEconomyDetails(
 
             UndefinedEconomy -> doNothing()
         }
+
+        fieldElements(call, state, state.getBusinessesIn(element.id()))
     }
 }
 

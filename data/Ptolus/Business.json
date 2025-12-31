@@ -13,6 +13,27 @@
     "#type": "District",
     "district": 2
    }
+  },
+  "1": {
+   "id": 1,
+   "name": "Larel's Implements",
+   "templates": [
+    5
+   ],
+   "founder": {
+    "#type": "Character",
+    "character": 0
+   },
+   "ownership": {
+    "current": {
+     "#type": "Character",
+     "character": 0
+    }
+   },
+   "position": {
+    "#type": "District",
+    "district": 0
+   }
   }
  }
 }
