@@ -80,12 +80,12 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.showPopulationOfElement(
     optionalField("Total", total)
     optionalField("Index", state.calculatePopulationIndex(storage, id, getPopulation))
 
-    showPopulationOfRace(call, state, getPercentage, state.getDistrictStorage(), totalOrZero, contains)
-    showPopulationOfRace(call, state, getPercentage, state.getRealmStorage(), totalOrZero, contains)
-    showPopulationOfRace(call, state, getPercentage, state.getTownStorage(), totalOrZero, contains)
+    showPopulationOfElement(call, state, getPercentage, state.getDistrictStorage(), totalOrZero, contains)
+    showPopulationOfElement(call, state, getPercentage, state.getRealmStorage(), totalOrZero, contains)
+    showPopulationOfElement(call, state, getPercentage, state.getTownStorage(), totalOrZero, contains)
 }
 
-private fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showPopulationOfRace(
+private fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showPopulationOfElement(
     call: ApplicationCall,
     state: State,
     getPercentage: (HasPopulation) -> Pair<Int, Factor>?,
@@ -129,5 +129,5 @@ private fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showPopulationOfRace(
         }
     }
 
-    fieldElements(call, state, "Abstract Population", elementsWithAbstractPopulation)
+    fieldElements(call, state, "Abstract Population In", elementsWithAbstractPopulation)
 }
