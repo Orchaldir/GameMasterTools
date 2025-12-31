@@ -17,8 +17,7 @@ fun <ID : Id<ID>, ELEMENT> State.calculateRankingIndex(
     element: ELEMENT,
     calculateValue: (ELEMENT) -> Int?
 ): Int? where
-        ELEMENT : Element<ID>,
-        ELEMENT : HasPopulation {
+        ELEMENT : Element<ID> {
     return if (calculateValue(element) == null) {
         null
     } else {

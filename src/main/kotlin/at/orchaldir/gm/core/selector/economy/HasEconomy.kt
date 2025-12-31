@@ -8,6 +8,8 @@ import at.orchaldir.gm.core.model.economy.EconomyWithPercentages
 import at.orchaldir.gm.core.model.economy.HasEconomy
 import at.orchaldir.gm.core.model.economy.IAbstractEconomy
 import at.orchaldir.gm.core.model.economy.UndefinedEconomy
+import at.orchaldir.gm.core.selector.realm.calculateTotalPopulation
+import at.orchaldir.gm.core.selector.util.calculateRankingIndex
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
@@ -74,43 +76,16 @@ fun <ID : Id<ID>, ELEMENT> State.calculateEconomyIndex(
     element: ELEMENT,
 ): Int? where
         ELEMENT : Element<ID>,
-        ELEMENT : HasEconomy {
-    return if (element.economy().getNumberOfBusinesses() == null) {
-        null
-    } else {
-        getStorage<ID, ELEMENT>(element.id())
-            .getAll()
-            .sortedByDescending { it.economy().getNumberOfBusinesses() }
-            .indexOfFirst { it.id() == element.id() } + 1
-    }
+        ELEMENT : HasEconomy = calculateRankingIndex(element) {
+    it.economy().getNumberOfBusinesses()
 }
 
 fun <ID : Id<ID>, ELEMENT : Element<ID>> State.calculateEconomyIndex(
     storage: Storage<ID, ELEMENT>,
     id: ID,
     getEconomy: (Economy, ID) -> Int?,
-): Int? {
-    val mapNotNull = storage
-        .getAll()
-        .mapNotNull {
-            val total = calculateTotalNumberInEconomy { population ->
-                getEconomy(population, it.id())
-            }
-
-            if (total == null || total == 0) {
-                return@mapNotNull null
-            }
-
-            Pair(it.id(), total)
-        }
-    return mapNotNull
-        .sortedByDescending { it.second }
-        .indexOfFirst { it.first == id }
-        .let {
-            if (it >= 0) {
-                it + 1
-            } else {
-                null
-            }
-        }
+) = calculateRankingIndex(storage, id) {
+    calculateTotalNumberInEconomy { population ->
+        getEconomy(population, it)
+    }
 }

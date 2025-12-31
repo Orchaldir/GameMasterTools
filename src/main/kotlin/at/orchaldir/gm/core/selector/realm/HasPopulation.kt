@@ -118,7 +118,7 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> State.calculatePopulationIndex(
     storage: Storage<ID, ELEMENT>,
     id: ID,
     getPopulation: (Population, ID) -> Int?,
-): Int? = calculateRankingIndex(storage, id) {
+) = calculateRankingIndex(storage, id) {
     calculateTotalPopulation { population ->
         getPopulation(population, it)
     }
