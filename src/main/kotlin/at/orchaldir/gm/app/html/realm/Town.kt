@@ -5,6 +5,9 @@ import at.orchaldir.gm.app.OWNER
 import at.orchaldir.gm.app.TITLE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.economy.displayIncome
+import at.orchaldir.gm.app.html.economy.editEconomy
+import at.orchaldir.gm.app.html.economy.parseEconomy
+import at.orchaldir.gm.app.html.economy.showEconomyDetails
 import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.app.html.util.math.parseAreaLookup
 import at.orchaldir.gm.app.html.util.math.selectAreaLookup
@@ -47,6 +50,7 @@ fun HtmlBlockTag.showTown(
     fieldElements(call, state, "Capital of", state.getRealmsWithCapital(town.id))
     fieldElements(call, state, "Previous Capital of", state.getRealmsWithPreviousCapital(town.id))
     showAreaAndPopulation(call, state, town)
+    showEconomyDetails(call, state, town)
     showSubDistricts(call, state, state.getDistricts(town.id), town.population)
     showDataSources(call, state, town.sources)
 
@@ -149,6 +153,7 @@ fun HtmlBlockTag.editTown(
     }
     selectAreaLookup(town.area, state.data.largeAreaUnit)
     editPopulation(call, state, town.population)
+    editEconomy(call, state, town.economy)
     editDataSources(state, town.sources)
 }
 
@@ -177,6 +182,7 @@ fun parseTown(
         },
         parseAreaLookup(parameters, state.data.largeAreaUnit),
         parsePopulation(parameters, state),
+        parseEconomy(parameters, state),
         parseDataSources(parameters),
     )
 }

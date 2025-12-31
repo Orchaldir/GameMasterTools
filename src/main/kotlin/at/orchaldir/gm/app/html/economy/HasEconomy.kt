@@ -58,8 +58,8 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.showEconomyOfElement(
     optionalField("Index", state.calculateEconomyIndex(storage, id, getEconomy))
 
     showEconomyOfElement(call, state, getPercentage, state.getDistrictStorage(), totalOrZero, contains)
-    //showEconomyOfElement(call, state, getPercentage, state.getRealmStorage(), totalOrZero, contains)
-    //showEconomyOfElement(call, state, getPercentage, state.getTownStorage(), totalOrZero, contains)
+    showEconomyOfElement(call, state, getPercentage, state.getRealmStorage(), totalOrZero, contains)
+    showEconomyOfElement(call, state, getPercentage, state.getTownStorage(), totalOrZero, contains)
 }
 
 private fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showEconomyOfElement(

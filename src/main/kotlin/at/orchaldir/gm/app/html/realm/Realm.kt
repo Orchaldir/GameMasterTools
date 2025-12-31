@@ -2,7 +2,10 @@ package at.orchaldir.gm.app.html.realm
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.economy.editEconomy
 import at.orchaldir.gm.app.html.economy.money.parseOptionalCurrencyId
+import at.orchaldir.gm.app.html.economy.parseEconomy
+import at.orchaldir.gm.app.html.economy.showEconomyDetails
 import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.app.html.util.math.parseAreaLookup
 import at.orchaldir.gm.app.html.util.math.selectAreaLookup
@@ -35,6 +38,7 @@ fun HtmlBlockTag.showRealm(
     realm: Realm,
 ) {
     showAreaAndPopulation(call, state, realm)
+    showEconomyDetails(call, state, realm)
     fieldReference(call, state, realm.founder, "Founder")
     optionalField(call, state, "Date", realm.date)
     showVitalStatus(call, state, realm.status)
@@ -72,6 +76,7 @@ fun HtmlBlockTag.editRealm(
     selectName(realm.name)
     selectAreaLookup(realm.area, state.data.largeAreaUnit)
     editPopulation(call, state, realm.population)
+    editEconomy(call, state, realm.economy)
     selectCreator(state, realm.founder, realm.id, realm.date, "Founder")
     selectOptionalDate(state, "Date", realm.date, DATE)
     selectVitalStatus(
@@ -156,6 +161,7 @@ fun parseRealm(
         },
         parseAreaLookup(parameters, state.data.largeAreaUnit),
         parsePopulation(parameters, state),
+        parseEconomy(parameters, state),
         parseDataSources(parameters),
     )
 }
