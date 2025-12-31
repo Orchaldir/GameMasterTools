@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.ALLOWED_CAUSES_OF_DEATH_FOR_REALM
 import at.orchaldir.gm.core.model.realm.ALLOWED_VITAL_STATUS_FOR_REALM
 import at.orchaldir.gm.core.model.realm.Realm
+import at.orchaldir.gm.core.reducer.economy.validateEconomy
 import at.orchaldir.gm.core.reducer.util.*
 import at.orchaldir.gm.core.selector.util.requireExists
 
@@ -40,4 +41,5 @@ fun validateRealm(state: State, realm: Realm) {
     )
     validateHasStartAndEnd(state, realm)
     validatePopulation(state, realm.population)
+    validateEconomy(state, realm.economy)
 }

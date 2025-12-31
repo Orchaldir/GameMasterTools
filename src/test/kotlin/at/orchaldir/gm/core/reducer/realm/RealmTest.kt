@@ -3,6 +3,8 @@ package at.orchaldir.gm.core.reducer.realm
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.economy.EconomyWithPercentages
+import at.orchaldir.gm.core.model.realm.District
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.RealmId
 import at.orchaldir.gm.core.model.util.CharacterReference
@@ -117,6 +119,13 @@ class RealmTest {
             val action = UpdateAction(Realm(REALM_ID_0, population = TotalPopulation(-1)))
 
             assertIllegalArgument("The total population must be >= 0!") { REDUCER.invoke(STATE, action) }
+        }
+
+        @Test
+        fun `The economy is validated`() {
+            val action = UpdateAction(Realm(REALM_ID_0, economy = EconomyWithPercentages(-1)))
+
+            assertIllegalArgument("The total number of businesses must be >= 0!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
