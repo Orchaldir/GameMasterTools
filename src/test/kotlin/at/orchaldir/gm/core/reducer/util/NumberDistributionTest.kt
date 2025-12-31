@@ -1,11 +1,11 @@
-package at.orchaldir.gm.core.reducer.util.population
+package at.orchaldir.gm.core.reducer.util
 
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.util.NumberDistribution
-import at.orchaldir.gm.core.reducer.util.validateNumberDistribution
+import at.orchaldir.gm.core.reducer.realm.validateNumberDistribution
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.QUARTER
 import at.orchaldir.gm.utils.math.THREE_QUARTER

@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.reducer.util
+package at.orchaldir.gm.core.reducer.realm
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.population.AbstractPopulation

@@ -15,7 +15,7 @@ import at.orchaldir.gm.core.model.util.source.DataSourceId
 import at.orchaldir.gm.core.model.util.source.HasDataSources
 import at.orchaldir.gm.core.reducer.util.checkPosition
 import at.orchaldir.gm.core.reducer.util.validateCreator
-import at.orchaldir.gm.core.reducer.util.validatePopulation
+import at.orchaldir.gm.core.reducer.realm.validatePopulation
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.math.unit.AreaLookup
 import at.orchaldir.gm.utils.math.unit.CalculatedArea
