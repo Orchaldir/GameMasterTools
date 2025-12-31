@@ -73,6 +73,7 @@ fun Application.configureDistrictRouting() {
                     createPopulationIncomeColumn(call, state),
                     createRacesOfPopulationColumn(call, state),
                     createCulturesOfPopulationColumn(call, state),
+                    createEconomyColumn(),
                     countCollectionColumn("Neighborhoods") { state.getDistricts(it.id) },
                 ),
             ) {
