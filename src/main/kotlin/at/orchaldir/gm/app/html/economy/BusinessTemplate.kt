@@ -25,6 +25,7 @@ fun HtmlBlockTag.showBusinessTemplate(
 ) {
     showDataSources(call, state, template.sources)
 
+    showEconomyOfBusinessTemplate(call, state, template.id)
     showUsage(call, state, template)
 }
 
