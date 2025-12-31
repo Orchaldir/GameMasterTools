@@ -13,6 +13,7 @@ import at.orchaldir.gm.core.model.realm.population.PopulationWithNumbers
 import at.orchaldir.gm.core.model.realm.population.PopulationWithPercentages
 import at.orchaldir.gm.core.model.realm.population.TotalPopulation
 import at.orchaldir.gm.core.model.realm.population.UndefinedPopulation
+import at.orchaldir.gm.core.selector.util.calculateRankingIndex
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
@@ -109,43 +110,16 @@ fun <ID : Id<ID>, ELEMENT> State.calculatePopulationIndex(
     element: ELEMENT,
 ): Int? where
         ELEMENT : Element<ID>,
-        ELEMENT : HasPopulation {
-    return if (element.population().getTotalPopulation() == null) {
-        null
-    } else {
-        getStorage<ID, ELEMENT>(element.id())
-            .getAll()
-            .sortedByDescending { it.population().getTotalPopulation() }
-            .indexOfFirst { it.id() == element.id() } + 1
-    }
+        ELEMENT : HasPopulation = calculateRankingIndex(element) {
+    it.population().getTotalPopulation()
 }
 
 fun <ID : Id<ID>, ELEMENT : Element<ID>> State.calculatePopulationIndex(
     storage: Storage<ID, ELEMENT>,
     id: ID,
     getPopulation: (Population, ID) -> Int?,
-): Int? {
-    val mapNotNull = storage
-        .getAll()
-        .mapNotNull {
-            val total = calculateTotalPopulation { population ->
-                getPopulation(population, it.id())
-            }
-
-            if (total == null || total == 0) {
-                return@mapNotNull null
-            }
-
-            Pair(it.id(), total)
-        }
-    return mapNotNull
-        .sortedByDescending { it.second }
-        .indexOfFirst { it.first == id }
-        .let {
-            if (it >= 0) {
-                it + 1
-            } else {
-                null
-            }
-        }
+): Int? = calculateRankingIndex(storage, id) {
+    calculateTotalPopulation { population ->
+        getPopulation(population, it)
+    }
 }
