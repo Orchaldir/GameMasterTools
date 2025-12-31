@@ -8,18 +8,12 @@ import at.orchaldir.gm.core.model.economy.EconomyWithPercentages
 import at.orchaldir.gm.core.model.economy.HasEconomy
 import at.orchaldir.gm.core.model.economy.IAbstractEconomy
 import at.orchaldir.gm.core.model.economy.UndefinedEconomy
-import at.orchaldir.gm.core.selector.realm.calculateTotalPopulation
+import at.orchaldir.gm.core.selector.util.RankingEntry
 import at.orchaldir.gm.core.selector.util.calculateRankingIndex
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.Factor
-
-data class EconomyEntry<ID : Id<ID>>(
-    val id: ID,
-    val number: Int,
-    val percentage: Factor,
-)
 
 fun <ID : Id<ID>, ELEMENT> getEconomies(
     storage: Storage<ID, ELEMENT>,
@@ -39,7 +33,7 @@ fun <ID : Id<ID>, ELEMENT> getEconomyEntries(
     .getAll()
     .mapNotNull { element ->
         getPercentage(element)?.let { (number, percentage) ->
-            EconomyEntry(element.id(), number, percentage)
+            RankingEntry(element.id(), number, percentage)
         }
     }
 

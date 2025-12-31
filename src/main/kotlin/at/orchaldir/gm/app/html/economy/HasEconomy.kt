@@ -1,12 +1,9 @@
 package at.orchaldir.gm.app.html.economy
 
-import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.optionalField
+import at.orchaldir.gm.app.html.util.showRankingOfElements
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.economy.Economy
-import at.orchaldir.gm.core.model.economy.EconomyWithNumbers
-import at.orchaldir.gm.core.model.economy.EconomyWithPercentages
-import at.orchaldir.gm.core.model.economy.HasEconomy
-import at.orchaldir.gm.core.model.economy.IAbstractEconomy
+import at.orchaldir.gm.core.model.economy.*
 import at.orchaldir.gm.core.model.economy.business.BusinessTemplateId
 import at.orchaldir.gm.core.selector.economy.calculateEconomyIndex
 import at.orchaldir.gm.core.selector.economy.calculateTotalNumberInEconomy
@@ -17,7 +14,8 @@ import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.Factor
 import io.ktor.server.application.*
-import kotlinx.html.*
+import kotlinx.html.HtmlBlockTag
+import kotlinx.html.h2
 
 // show
 
@@ -73,40 +71,10 @@ private fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showEconomyOfElement(
     contains: (IAbstractEconomy) -> Boolean,
 ) where
         ELEMENT : Element<ID>,
-        ELEMENT : HasEconomy {
-    val elementsWithAbstractEconomy = getAbstractEconomies(storage, contains)
-    val entries = getEconomyEntries(storage, getPercentage)
-
-    if (elementsWithAbstractEconomy.isEmpty() && entries.isEmpty()) {
-        return
-    }
-
-    h3 { +storage.getPlural() }
-
-    if (entries.isNotEmpty()) {
-        val id = entries.first().id
-
-        table {
-            tr {
-                th { +id.plural() }
-                thMultiLines(listOf("Percentage", "of", "Total"))
-                thMultiLines(listOf("Percentage", "of", id.type()))
-                th { +"Number" }
-            }
-            entries
-                .sortedByDescending { it.number }
-                .forEach {
-                    val percentageOfTotal = Factor.fromNumber(it.number / total.toFloat())
-
-                    tr {
-                        tdLink(call, state, it.id)
-                        tdPercentage(percentageOfTotal)
-                        tdPercentage(it.percentage)
-                        tdSkipZero(it.number)
-                    }
-                }
-        }
-    }
-
-    fieldElements(call, state, "Unknown Number In", elementsWithAbstractEconomy)
-}
+        ELEMENT : HasEconomy = showRankingOfElements(
+    call,
+    state,
+    total,
+    getAbstractEconomies(storage, contains),
+    getEconomyEntries(storage, getPercentage),
+)

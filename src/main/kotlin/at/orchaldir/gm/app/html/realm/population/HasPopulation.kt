@@ -1,6 +1,7 @@
 package at.orchaldir.gm.app.html.realm.population
 
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.util.showRankingOfElements
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.race.RaceId
@@ -9,6 +10,7 @@ import at.orchaldir.gm.core.model.realm.population.IPopulationWithSets
 import at.orchaldir.gm.core.model.realm.population.Population
 import at.orchaldir.gm.core.model.realm.population.PopulationWithNumbers
 import at.orchaldir.gm.core.model.realm.population.PopulationWithPercentages
+import at.orchaldir.gm.core.selector.economy.getEconomyEntries
 import at.orchaldir.gm.core.selector.realm.calculatePopulationIndex
 import at.orchaldir.gm.core.selector.realm.calculateTotalPopulation
 import at.orchaldir.gm.core.selector.realm.getAbstractPopulations
@@ -94,40 +96,10 @@ private fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showPopulationOfElement(
     contains: (IPopulationWithSets) -> Boolean,
 ) where
         ELEMENT : Element<ID>,
-        ELEMENT : HasPopulation {
-    val elementsWithAbstractPopulation = getAbstractPopulations(storage, contains)
-    val entries = getPopulationEntries(storage, getPercentage)
-
-    if (elementsWithAbstractPopulation.isEmpty() && entries.isEmpty()) {
-        return
-    }
-
-    h3 { +storage.getPlural() }
-
-    if (entries.isNotEmpty()) {
-        val id = entries.first().id
-
-        table {
-            tr {
-                th { +id.plural() }
-                thMultiLines(listOf("Percentage", "of", "Total"))
-                thMultiLines(listOf("Percentage", "of", id.type()))
-                th { +"Number" }
-            }
-            entries
-                .sortedByDescending { it.number }
-                .forEach {
-                    val percentageOfTotal = Factor.fromNumber(it.number / total.toFloat())
-
-                    tr {
-                        tdLink(call, state, it.id)
-                        tdPercentage(percentageOfTotal)
-                        tdPercentage(it.percentage)
-                        tdSkipZero(it.number)
-                    }
-                }
-        }
-    }
-
-    fieldElements(call, state, "Abstract Population In", elementsWithAbstractPopulation)
-}
+        ELEMENT : HasPopulation = showRankingOfElements(
+call,
+state,
+total,
+    getAbstractPopulations(storage, contains),
+    getPopulationEntries(storage, getPercentage),
+)

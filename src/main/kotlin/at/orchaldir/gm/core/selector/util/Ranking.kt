@@ -7,7 +7,7 @@ import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.Factor
 
-data class DistributionEntry<ID : Id<ID>>(
+data class RankingEntry<ID : Id<ID>>(
     val id: ID,
     val number: Int,
     val percentage: Factor,

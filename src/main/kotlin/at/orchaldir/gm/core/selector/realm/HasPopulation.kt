@@ -13,17 +13,12 @@ import at.orchaldir.gm.core.model.realm.population.PopulationWithNumbers
 import at.orchaldir.gm.core.model.realm.population.PopulationWithPercentages
 import at.orchaldir.gm.core.model.realm.population.TotalPopulation
 import at.orchaldir.gm.core.model.realm.population.UndefinedPopulation
+import at.orchaldir.gm.core.selector.util.RankingEntry
 import at.orchaldir.gm.core.selector.util.calculateRankingIndex
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.Factor
-
-data class PopulationEntry<ID : Id<ID>>(
-    val id: ID,
-    val number: Int,
-    val percentage: Factor,
-)
 
 fun State.canDeletePopulationOf(culture: CultureId, result: DeleteResult) =
     canDeletePopulationOf(result) { hasPopulation ->
@@ -69,7 +64,7 @@ fun <ID : Id<ID>, ELEMENT> getPopulationEntries(
     .getAll()
     .mapNotNull { element ->
         getPercentage(element)?.let { (number, percentage) ->
-            PopulationEntry(element.id(), number, percentage)
+            RankingEntry(element.id(), number, percentage)
         }
     }
 
