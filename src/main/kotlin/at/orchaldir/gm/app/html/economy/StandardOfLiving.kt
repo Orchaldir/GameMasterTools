@@ -14,7 +14,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.standard.StandardOfLiving
 import at.orchaldir.gm.core.model.economy.standard.StandardOfLivingId
 import at.orchaldir.gm.core.selector.economy.getJobs
-import at.orchaldir.gm.core.selector.util.getPopulationsWith
+import at.orchaldir.gm.core.selector.realm.getPopulationsWith
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag

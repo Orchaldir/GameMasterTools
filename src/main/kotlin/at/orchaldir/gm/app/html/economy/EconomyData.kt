@@ -15,7 +15,7 @@ import at.orchaldir.gm.core.model.economy.standard.StandardOfLivingId
 import at.orchaldir.gm.core.selector.economy.countJobs
 import at.orchaldir.gm.core.selector.economy.money.print
 import at.orchaldir.gm.core.selector.getDefaultCurrency
-import at.orchaldir.gm.core.selector.util.getPopulationsWith
+import at.orchaldir.gm.core.selector.realm.getPopulationsWith
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.*

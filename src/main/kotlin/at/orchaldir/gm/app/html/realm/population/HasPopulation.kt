@@ -8,10 +8,10 @@ import at.orchaldir.gm.core.model.realm.population.HasPopulation
 import at.orchaldir.gm.core.model.realm.population.IPopulationWithSets
 import at.orchaldir.gm.core.model.realm.population.Population
 import at.orchaldir.gm.core.model.realm.population.PopulationWithPercentages
-import at.orchaldir.gm.core.selector.util.calculatePopulationIndex
-import at.orchaldir.gm.core.selector.util.calculateTotalPopulation
-import at.orchaldir.gm.core.selector.util.getAbstractPopulations
-import at.orchaldir.gm.core.selector.util.getPopulationEntries
+import at.orchaldir.gm.core.selector.realm.calculatePopulationIndex
+import at.orchaldir.gm.core.selector.realm.calculateTotalPopulation
+import at.orchaldir.gm.core.selector.realm.getAbstractPopulations
+import at.orchaldir.gm.core.selector.realm.getPopulationEntries
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage

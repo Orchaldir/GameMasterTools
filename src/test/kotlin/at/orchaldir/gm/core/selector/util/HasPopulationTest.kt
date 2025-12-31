@@ -13,6 +13,8 @@ import at.orchaldir.gm.core.model.realm.population.PopulationWithPercentages
 import at.orchaldir.gm.core.model.realm.population.TotalPopulation
 import at.orchaldir.gm.core.model.util.NumberDistribution
 import at.orchaldir.gm.core.model.util.PercentageDistribution
+import at.orchaldir.gm.core.selector.realm.canDeletePopulationOf
+import at.orchaldir.gm.core.selector.realm.getPopulations
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.HALF

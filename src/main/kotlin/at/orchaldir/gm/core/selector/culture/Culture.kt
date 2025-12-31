@@ -13,7 +13,7 @@ import at.orchaldir.gm.core.selector.character.getCharacters
 import at.orchaldir.gm.core.selector.realm.getWarsWithParticipant
 import at.orchaldir.gm.core.selector.util.canDeleteCreator
 import at.orchaldir.gm.core.selector.util.canDeleteDestroyer
-import at.orchaldir.gm.core.selector.util.canDeletePopulationOf
+import at.orchaldir.gm.core.selector.realm.canDeletePopulationOf
 
 fun State.canDeleteCulture(culture: CultureId) = DeleteResult(culture)
     .addElements(getCharacters(culture))

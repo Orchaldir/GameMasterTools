@@ -34,9 +34,8 @@ import at.orchaldir.gm.core.model.realm.population.PopulationWithNumbers
 import at.orchaldir.gm.core.model.realm.population.PopulationWithPercentages
 import at.orchaldir.gm.core.model.realm.population.TotalPopulation
 import at.orchaldir.gm.core.model.realm.population.UndefinedPopulation
-import at.orchaldir.gm.core.model.util.NumberDistribution
 import at.orchaldir.gm.core.selector.character.getCharactersLivingIn
-import at.orchaldir.gm.core.selector.util.calculatePopulationIndex
+import at.orchaldir.gm.core.selector.realm.calculatePopulationIndex
 import at.orchaldir.gm.core.selector.util.sortCultures
 import at.orchaldir.gm.core.selector.util.sortRaces
 import at.orchaldir.gm.utils.Element
