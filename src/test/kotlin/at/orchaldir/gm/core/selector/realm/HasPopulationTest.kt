@@ -1,6 +1,10 @@
-package at.orchaldir.gm.core.selector.util
+package at.orchaldir.gm.core.selector.realm
 
-import at.orchaldir.gm.*
+import at.orchaldir.gm.DISTRICT_ID_0
+import at.orchaldir.gm.RACE_ID_0
+import at.orchaldir.gm.REALM_ID_0
+import at.orchaldir.gm.REALM_ID_1
+import at.orchaldir.gm.TOWN_ID_0
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.District
@@ -13,8 +17,6 @@ import at.orchaldir.gm.core.model.realm.population.PopulationWithPercentages
 import at.orchaldir.gm.core.model.realm.population.TotalPopulation
 import at.orchaldir.gm.core.model.util.NumberDistribution
 import at.orchaldir.gm.core.model.util.PercentageDistribution
-import at.orchaldir.gm.core.selector.realm.canDeletePopulationOf
-import at.orchaldir.gm.core.selector.realm.getPopulations
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.HALF
