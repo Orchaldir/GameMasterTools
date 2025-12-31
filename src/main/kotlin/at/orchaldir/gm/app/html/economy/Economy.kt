@@ -150,8 +150,7 @@ fun parseEconomy(
         parseNumberDistribution(
             state.getBusinessTemplateStorage(),
             parameters,
-            param,
-            ::parseNumberOfBusiness,
+            combine(param, BUSINESS),
         ),
     )
 
@@ -170,9 +169,6 @@ fun parseEconomy(
 
 private fun parseTotalNumber(parameters: Parameters, param: String): Int =
     parseInt(parameters, combine(param, NUMBER), 0)
-
-fun parseNumberOfBusiness(parameters: Parameters, param: String, template: BusinessTemplate) =
-    parseInt(parameters, combine(param, BUSINESS, template.id.value))
 
 fun parsePercentageOfBusiness(parameters: Parameters, param: String, template: BusinessTemplate) =
     parseFactor(parameters, combine(param, BUSINESS, template.id.value), ZERO)

@@ -3,12 +3,12 @@ package at.orchaldir.gm.core.model.util
 import at.orchaldir.gm.utils.math.Factor
 import kotlinx.serialization.Serializable
 
-@JvmInline
 @Serializable
-value class NumberDistribution<T>(
+data class NumberDistribution<T>(
     val map: Map<T, Int> = emptyMap(),
+    val unknown: Int = 0,
 ) {
-    fun calculateTotal() = map.values.sum()
+    fun calculateTotal() = map.values.sum() + unknown
     fun getPercentage(id: T, total: Int) = Factor.divideTwoInts(getNumber(id), total)
     fun getPercentage(id: T) = getPercentage(id, calculateTotal())
     fun getNumber(id: T) = map.getOrDefault(id, 0)

@@ -1,5 +1,7 @@
 package at.orchaldir.gm.app.html.util
 
+import at.orchaldir.gm.app.NUMBER
+import at.orchaldir.gm.app.UNIFORM
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.model.State
@@ -138,6 +140,22 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> DETAILS.editNumberDistribution(
             remaining -= number
         }
 
+        tr {
+            tdString("Unknown")
+            tdPercentage(Factor.divideTwoInts(distribution.unknown, total))
+            td {
+                selectInt(
+                    distribution.unknown,
+                    0,
+                    Int.MAX_VALUE,
+                    1,
+                    combine(param, NUMBER),
+                )
+            }
+        }
+
+        remaining -= distribution.unknown
+
         showRemainingPopulation(total, remaining)
         showTotalPopulation(total)
     }
@@ -149,12 +167,12 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> parseNumberDistribution(
     storage: Storage<ID, ELEMENT>,
     parameters: Parameters,
     param: String,
-    parsePopulation: (Parameters, String, ELEMENT) -> Int,
 ): NumberDistribution<ID> = NumberDistribution(
     storage
         .getAll()
         .associate { element ->
-            Pair(element.id(), parsePopulation(parameters, param, element))
+            Pair(element.id(), parseInt(parameters, combine(param, element.id().value())))
         }
-        .filter { it.value > 0 }
+        .filter { it.value > 0 },
+    parseInt(parameters, combine(param, NUMBER)),
 )
