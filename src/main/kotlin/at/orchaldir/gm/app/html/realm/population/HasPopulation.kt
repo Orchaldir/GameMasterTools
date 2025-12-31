@@ -76,12 +76,13 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.showPopulationOfElement(
     val total = state.calculateTotalPopulation { population ->
         getPopulation(population, id)
     }
+    val totalOrZero = total ?: 0
     optionalField("Total", total)
     optionalField("Index", state.calculatePopulationIndex(storage, id, getPopulation))
 
-    showPopulationOfRace(call, state, getPercentage, state.getDistrictStorage(), contains)
-    showPopulationOfRace(call, state, getPercentage, state.getRealmStorage(), contains)
-    showPopulationOfRace(call, state, getPercentage, state.getTownStorage(), contains)
+    showPopulationOfRace(call, state, getPercentage, state.getDistrictStorage(), totalOrZero, contains)
+    showPopulationOfRace(call, state, getPercentage, state.getRealmStorage(), totalOrZero, contains)
+    showPopulationOfRace(call, state, getPercentage, state.getTownStorage(), totalOrZero, contains)
 }
 
 private fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showPopulationOfRace(
@@ -89,13 +90,13 @@ private fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showPopulationOfRace(
     state: State,
     getPercentage: (HasPopulation) -> Pair<Int, Factor>?,
     storage: Storage<ID, ELEMENT>,
+    total: Int,
     contains: (IPopulationWithSets) -> Boolean,
 ) where
         ELEMENT : Element<ID>,
         ELEMENT : HasPopulation {
     val elementsWithAbstractPopulation = getAbstractPopulations(storage, contains)
     val entries = getPopulationEntries(storage, getPercentage)
-    val total = entries.sumOf { it.number }
 
     if (elementsWithAbstractPopulation.isEmpty() && entries.isEmpty()) {
         return
