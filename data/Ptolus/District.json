@@ -274,10 +274,12 @@
    "population": {
     "#type": "Numbers",
     "races": {
-     "2": 100,
-     "9": 200,
-     "10": 100,
-     "13": 250
+     "map": {
+      "2": 100,
+      "9": 200,
+      "10": 100,
+      "13": 250
+     }
     },
     "income": {
      "#type": "SoL",
@@ -295,9 +297,10 @@
    "population": {
     "#type": "Numbers",
     "races": {
+     "map": {
      "9": 200,
      "10": 200
-    },
+    }},
     "income": {
      "#type": "SoL",
      "standard": 3
@@ -330,8 +333,9 @@
    "population": {
     "#type": "Numbers",
     "races": {
+     "map": {
      "1": 1000
-    },
+    }},
     "income": {
      "#type": "SoL",
      "standard": 1
@@ -348,8 +352,9 @@
    "population": {
     "#type": "Numbers",
     "races": {
+     "map": {
      "11": 700
-    },
+    }},
     "income": {
      "#type": "SoL",
      "standard": 2
