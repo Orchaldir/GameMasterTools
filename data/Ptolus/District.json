@@ -298,9 +298,10 @@
     "#type": "Numbers",
     "races": {
      "map": {
-     "9": 200,
-     "10": 200
-    }},
+      "9": 200,
+      "10": 200
+     }
+    },
     "income": {
      "#type": "SoL",
      "standard": 3
@@ -334,8 +335,9 @@
     "#type": "Numbers",
     "races": {
      "map": {
-     "1": 1000
-    }},
+      "1": 1000
+     }
+    },
     "income": {
      "#type": "SoL",
      "standard": 1
@@ -353,8 +355,9 @@
     "#type": "Numbers",
     "races": {
      "map": {
-     "11": 700
-    }},
+      "11": 700
+     }
+    },
     "income": {
      "#type": "SoL",
      "standard": 2
