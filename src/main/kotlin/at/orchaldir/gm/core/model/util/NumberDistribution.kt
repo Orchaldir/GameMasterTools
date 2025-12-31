@@ -12,4 +12,8 @@ value class NumberDistribution<T>(
     fun getPercentage(id: T, total: Int) = Factor.divideTwoInts(getNumber(id), total)
     fun getPercentage(id: T) = getPercentage(id, calculateTotal())
     fun getNumber(id: T) = map.getOrDefault(id, 0)
+
+    fun getData(id: T) = map[id]?.let { number ->
+        Pair(number, Factor.divideTwoInts(number, calculateTotal()))
+    }
 }

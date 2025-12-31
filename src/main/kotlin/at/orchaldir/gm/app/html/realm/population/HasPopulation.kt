@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.realm.population.HasPopulation
 import at.orchaldir.gm.core.model.realm.population.IPopulationWithSets
 import at.orchaldir.gm.core.model.realm.population.Population
+import at.orchaldir.gm.core.model.realm.population.PopulationWithNumbers
 import at.orchaldir.gm.core.model.realm.population.PopulationWithPercentages
 import at.orchaldir.gm.core.selector.realm.calculatePopulationIndex
 import at.orchaldir.gm.core.selector.realm.calculateTotalPopulation
@@ -33,6 +34,7 @@ fun HtmlBlockTag.showPopulationOfCulture(
     { it.cultures().contains(culture) },
     {
         when (val population = it.population()) {
+            is PopulationWithNumbers -> population.cultures.getData(culture)
             is PopulationWithPercentages -> population.cultures.getData(culture, population.total)
             else -> null
         }
@@ -52,6 +54,7 @@ fun HtmlBlockTag.showPopulationOfRace(
     { it.races().contains(race) },
     {
         when (val population = it.population()) {
+            is PopulationWithNumbers -> population.races.getData(race)
             is PopulationWithPercentages -> population.races.getData(race, population.total)
             else -> null
         }
