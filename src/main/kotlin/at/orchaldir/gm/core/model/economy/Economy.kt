@@ -1,6 +1,8 @@
 package at.orchaldir.gm.core.model.economy
 
+import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.economy.business.BusinessTemplateId
+import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.util.NumberDistribution
 import at.orchaldir.gm.core.model.util.PercentageDistribution
 import kotlinx.serialization.SerialName
@@ -51,11 +53,17 @@ sealed class Economy {
 
 }
 
+interface IAbstractEconomy {
+
+    fun businesses(): Set<BusinessTemplateId>
+
+}
+
 @Serializable
 @SerialName("Businesses")
 data class CommonBusinesses(
     val businesses: Set<BusinessTemplateId> = emptySet(),
-) : Economy()
+) : Economy(), IAbstractEconomy
 
 @Serializable
 @SerialName("Numbers")
