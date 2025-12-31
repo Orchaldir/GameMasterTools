@@ -88,7 +88,7 @@ class EconomyTest {
     }
 
     private fun assertTotalEconomy(population: Economy) =
-        assertEconomy(population, "The total business number must be >= 0!")
+        assertEconomy(population, "The total number of businesses must be >= 0!")
 
     private fun assertEconomy(population: Economy, message: String) {
         assertIllegalArgument(message) {

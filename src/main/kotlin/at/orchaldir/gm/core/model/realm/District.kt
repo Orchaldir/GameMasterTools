@@ -13,6 +13,7 @@ import at.orchaldir.gm.core.model.realm.population.Population
 import at.orchaldir.gm.core.model.realm.population.UndefinedPopulation
 import at.orchaldir.gm.core.model.util.source.DataSourceId
 import at.orchaldir.gm.core.model.util.source.HasDataSources
+import at.orchaldir.gm.core.reducer.economy.validateEconomy
 import at.orchaldir.gm.core.reducer.util.checkPosition
 import at.orchaldir.gm.core.reducer.util.validateCreator
 import at.orchaldir.gm.core.reducer.realm.validatePopulation
@@ -68,6 +69,7 @@ data class District(
         checkPosition(state, position, "position", null, ALLOWED_DISTRICT_POSITIONS)
         validateCreator(state, founder, id, foundingDate, "founder")
         validatePopulation(state, population)
+        validateEconomy(state, economy)
     }
 
 }

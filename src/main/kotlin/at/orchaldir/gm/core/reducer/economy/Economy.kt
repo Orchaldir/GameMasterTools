@@ -55,4 +55,4 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> validatePercentageDistribution(
 
 fun validateTotalBusinessNumber(
     totalEconomy: Int,
-) = require(totalEconomy >= 0) { "The total business number must be >= 0!" }
+) = require(totalEconomy >= 0) { "The total number of businesses must be >= 0!" }
