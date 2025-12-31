@@ -13,6 +13,8 @@ import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.*
 import at.orchaldir.gm.core.model.economy.business.BusinessTemplate
+import at.orchaldir.gm.core.selector.economy.calculateEconomyIndex
+import at.orchaldir.gm.core.selector.realm.calculatePopulationIndex
 import at.orchaldir.gm.core.selector.util.sortBusinessTemplates
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
@@ -43,6 +45,7 @@ fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showEconomyDetails(
 
     showDetails("Economy", true) {
         optionalField("Businesses", total)
+        optionalField("Index", state.calculateEconomyIndex(element))
 
         when (economy) {
             is CommonBusinesses -> fieldIds(call, state, economy.businesses)
