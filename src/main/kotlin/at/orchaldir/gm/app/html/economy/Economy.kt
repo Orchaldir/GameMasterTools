@@ -54,7 +54,7 @@ fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showEconomyDetails(
             is EconomyWithNumbers -> showNumberDistribution(
                 call,
                 state,
-                "Race",
+                "Businesses",
                 economy.businesses,
                 totalOrZero,
             )
@@ -62,7 +62,7 @@ fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showEconomyDetails(
             is EconomyWithPercentages -> showPercentageDistribution(
                 call,
                 state,
-                "Race",
+                "Businesses",
                 economy.businesses,
                 totalOrZero,
             )
