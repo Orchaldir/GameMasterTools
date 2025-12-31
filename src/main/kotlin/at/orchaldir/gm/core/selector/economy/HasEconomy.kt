@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.selector.economy
 
+import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.CommonBusinesses
 import at.orchaldir.gm.core.model.economy.Economy
@@ -8,12 +9,28 @@ import at.orchaldir.gm.core.model.economy.EconomyWithPercentages
 import at.orchaldir.gm.core.model.economy.HasEconomy
 import at.orchaldir.gm.core.model.economy.IAbstractEconomy
 import at.orchaldir.gm.core.model.economy.UndefinedEconomy
+import at.orchaldir.gm.core.model.economy.business.BusinessTemplateId
+import at.orchaldir.gm.core.model.race.RaceId
+import at.orchaldir.gm.core.model.realm.population.HasPopulation
+import at.orchaldir.gm.core.selector.realm.getPopulations
 import at.orchaldir.gm.core.selector.util.RankingEntry
 import at.orchaldir.gm.core.selector.util.calculateRankingIndex
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.Factor
+
+fun State.canDeleteEconomyOf(business: BusinessTemplateId, result: DeleteResult) = canDeleteEconomyOf(result) { hasEconomy ->
+    hasEconomy.economy().contains(business)
+}
+
+fun State.canDeleteEconomyOf(
+    result: DeleteResult,
+    check: (HasEconomy) -> Boolean,
+) = result
+    .addElements(getEconomies(getDistrictStorage(), check))
+    .addElements(getEconomies(getRealmStorage(), check))
+    .addElements(getEconomies(getTownStorage(), check))
 
 fun <ID : Id<ID>, ELEMENT> getEconomies(
     storage: Storage<ID, ELEMENT>,
