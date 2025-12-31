@@ -449,6 +449,9 @@ fun State.sortDistricts(
             SortDistrict.Income -> compareByDescending {
                 it.population.income()?.sortValue(this) ?: -1
             }
+            SortDistrict.Economy -> compareByDescending {
+                it.economy.getNumberOfBusinesses()
+            }
         })
 
 // domain

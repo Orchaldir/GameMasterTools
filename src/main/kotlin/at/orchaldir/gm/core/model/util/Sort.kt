@@ -118,6 +118,7 @@ enum class SortDistrict {
     Population,
     Density,
     Income,
+    Economy,
 }
 
 enum class SortDomain {
