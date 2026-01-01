@@ -112,7 +112,7 @@ fun HtmlBlockTag.selectCharacterAge(
                 selectDate(
                     state,
                     "Birthdate",
-                    character.date,
+                    age.date,
                     combine(AGE, DATE),
                     race.startDate(),
                 )

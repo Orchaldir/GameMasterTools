@@ -19,6 +19,12 @@ sealed class CharacterAge {
         AgeViaDefaultLifeStage -> CharacterAgeType.DefaultLifeStage
         is AgeViaLifeStage -> CharacterAgeType.LifeStage
     }
+
+    fun date() = when (this) {
+        is AgeViaBirthdate -> date
+        AgeViaDefaultLifeStage -> null
+        is AgeViaLifeStage -> null
+    }
 }
 
 @Serializable
