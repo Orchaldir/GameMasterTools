@@ -34,6 +34,29 @@ import kotlinx.html.HtmlBlockTag
 
 // show
 
+fun HtmlBlockTag.inlineCharacterAge(
+    state: State,
+    character: Character,
+) {
+    val race = state.getRaceStorage().getOrThrow(character.race)
+
+    when (character.age) {
+        is AgeViaBirthdate -> +character.getAgeInYears(state).toString()
+        AgeViaDefaultLifeStage -> inlineCharacterAge(race, race.lifeStages.getDefaultLifeStageId())
+        is AgeViaLifeStage -> inlineCharacterAge(race, character.age.lifeStage)
+    }
+}
+
+private fun HtmlBlockTag.inlineCharacterAge(
+    race: Race,
+    lifeStageId: LifeStageId?,
+) {
+    if (lifeStageId != null) {
+        val lifeStage = race.lifeStages.getLifeStage(lifeStageId)
+        +lifeStage.name.text
+    }
+}
+
 fun HtmlBlockTag.showCharacterAge(
     call: ApplicationCall,
     state: State,

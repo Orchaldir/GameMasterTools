@@ -57,7 +57,7 @@ fun Application.configureCharacterRouting() {
                     },
                     Column("Culture") { tdLink(call, state, it.culture) },
                     createBeliefColumn(call, state),
-                    createAgeColumn(state),
+                    tdColumn("Age") { inlineCharacterAge(state, it) },
                     createStartDateColumn(call, state, "Birthdate"),
                     createEndDateColumn(call, state, "Deathdate"),
                     createVitalColumn(call, state, false, "Death"),
