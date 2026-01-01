@@ -268,24 +268,20 @@ fun State.sortCharacters(sort: SortCharacter = SortCharacter.Name) =
 fun State.sortCharacters(
     characters: Collection<Character>,
     sort: SortCharacter = SortCharacter.Name,
-): List<Character> {
-    val currentDay = getCurrentDate()
-
-    return characters
-        .map {
-            Pair(it, it.name.toSortString())
-        }
-        .sortedWith(
-            when (sort) {
-                SortCharacter.Name -> compareBy { it.second }
-                SortCharacter.Start -> getCharacterStartDatePairComparator()
-                SortCharacter.Age -> compareByDescending { it.first.getAge(this, currentDay).days }
-                SortCharacter.Cost -> compareByDescending { (character, _) ->
-                    character.statblock.calculateCost(character.race, this)
-                }
-            })
-        .map { it.first }
-}
+) = characters
+    .map {
+        Pair(it, it.name.toSortString())
+    }
+    .sortedWith(
+        when (sort) {
+            SortCharacter.Name -> compareBy { it.second }
+            SortCharacter.Start -> getCharacterStartDatePairComparator()
+            SortCharacter.Age -> compareByDescending { it.first.getAge(this)?.days }
+            SortCharacter.Cost -> compareByDescending { (character, _) ->
+                character.statblock.calculateCost(character.race, this)
+            }
+        })
+    .map { it.first }
 
 // character template
 
