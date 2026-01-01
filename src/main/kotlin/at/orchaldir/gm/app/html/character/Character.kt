@@ -286,35 +286,37 @@ private fun HtmlBlockTag.selectCharacterName(
     state: State,
     character: Character,
 ) {
-    field("Name Type") {
-        select {
-            id = NAME_TYPE
-            name = NAME_TYPE
-            onChange = ON_CHANGE_SCRIPT
-            option {
-                label = "Mononym"
-                value = "Mononym"
-                selected = character.name is Mononym
-            }
-            option {
-                label = "FamilyName"
-                value = "FamilyName"
-                selected = character.name is FamilyName
-                disabled = !state.canHaveFamilyName(character)
-            }
-            option {
-                label = "Genonym"
-                value = "Genonym"
-                selected = character.name is Genonym
-                disabled = !state.canHaveGenonym(character)
+    showDetails("Name", true) {
+        field("Type") {
+            select {
+                id = NAME_TYPE
+                name = NAME_TYPE
+                onChange = ON_CHANGE_SCRIPT
+                option {
+                    label = "Mononym"
+                    value = "Mononym"
+                    selected = character.name is Mononym
+                }
+                option {
+                    label = "FamilyName"
+                    value = "FamilyName"
+                    selected = character.name is FamilyName
+                    disabled = !state.canHaveFamilyName(character)
+                }
+                option {
+                    label = "Genonym"
+                    value = "Genonym"
+                    selected = character.name is Genonym
+                    disabled = !state.canHaveGenonym(character)
+                }
             }
         }
-    }
-    selectName("Given Name", character.getGivenName(), GIVEN_NAME)
+        selectName("Given Name", character.getGivenName(), GIVEN_NAME)
 
-    if (character.name is FamilyName) {
-        selectOptionalName("Middle Name", character.name.middle, MIDDLE_NAME)
-        selectName("Family Name", character.name.family, FAMILY_NAME)
+        if (character.name is FamilyName) {
+            selectOptionalName("Middle Name", character.name.middle, MIDDLE_NAME)
+            selectName("Family Name", character.name.family, FAMILY_NAME)
+        }
     }
 }
 
