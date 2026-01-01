@@ -9,6 +9,8 @@ fun validateCharacterData(
     state: State,
     character: Character,
 ) {
+    val birthdate = character.approximateBirthday(state)
+
     state.getRaceStorage().require(character.race)
     state.getCultureStorage().requireOptional(character.culture)
     state.getTitleStorage().requireOptional(character.title)
@@ -18,13 +20,13 @@ fun validateCharacterData(
         state,
         character.id,
         character.status,
-        character.date,
+        birthdate,
         ALLOWED_VITAL_STATUS_FOR_CHARACTER,
         ALLOWED_CAUSES_OF_DEATH_FOR_CHARACTER,
     )
-    checkBeliefStatusHistory(state, character.beliefStatus, character.date)
-    checkPositionHistory(state, character.housingStatus, character.date, ALLOWED_HOUSING_TYPES)
-    checkEmploymentStatusHistory(state, character.employmentStatus, character.date)
+    checkBeliefStatusHistory(state, character.beliefStatus, birthdate)
+    checkPositionHistory(state, character.housingStatus, birthdate, ALLOWED_HOUSING_TYPES)
+    checkEmploymentStatusHistory(state, character.employmentStatus, birthdate)
     checkAuthenticity(state, character.authenticity)
     validateStatblockLookup(state, character.race, character.statblock)
 }
@@ -41,6 +43,11 @@ private fun checkOrigin(
     state: State,
     character: Character,
 ) {
-    validateDate(state, character.date, "Birthday")
-    validateOrigin(state, character.id, character.origin, character.date, ::CharacterId)
+    val birthdate = character.approximateBirthday(state)
+
+    if (character.age is AgeViaBirthdate) {
+        validateDate(state, character.age.date, "Birthday")
+    }
+
+    validateOrigin(state, character.id, character.origin, birthdate, ::CharacterId)
 }

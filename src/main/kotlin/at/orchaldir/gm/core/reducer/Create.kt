@@ -103,7 +103,7 @@ fun reduceCreateElement(
     is BusinessTemplateId -> createElement(state, BusinessTemplate(id))
     is CalendarId -> createElement(state, Calendar(id))
     is CatastropheId -> createElement(state, Catastrophe(id))
-    is CharacterId -> createElement(state, Character(id, date = state.getCurrentDate()))
+    is CharacterId -> createElement(state, Character(id))
     is CharacterTemplateId -> {
         val race = state.getRaceStorage().getIds().first()
         createElement(state, CharacterTemplate(id, race = race))

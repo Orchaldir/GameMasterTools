@@ -115,7 +115,7 @@ private fun HtmlBlockTag.editMembers(
             combine(memberParam, RANK),
             history,
             "Rank",
-            character.date
+            character.approximateBirthday(state)
         ) { _, param, currentRank, _ ->
             selectOptionalValue("Rank", param, currentRank, rankIds) { rank ->
                 label = organization.memberRanks[rank].name.text
@@ -164,12 +164,18 @@ private fun parseMembers(
     parameters,
     MEMBER,
     state.getNotMembers(id).toList(),
-    { index, keyParam ->
+    { _, keyParam ->
         parseOptionalCharacterId(parameters, combine(keyParam, CHARACTER))
     },
-) { characterId, index, memberParam ->
+) { characterId, _, memberParam ->
     val character = state.getCharacterStorage().getOrThrow(characterId)
-    parseHistory(parameters, combine(memberParam, RANK), state, character.date, ::parseMemberRank)
+    parseHistory(
+        parameters,
+        combine(memberParam, RANK),
+        state,
+        character.startDate(),
+        ::parseMemberRank,
+    )
 }
 
 fun parseMemberRank(parameters: Parameters, state: State, param: String) = parseSimpleOptionalInt(parameters, param)
