@@ -325,7 +325,7 @@ fun State.getOthersWithoutRelationship(character: Character) = getCharacterStora
 fun State.isAlive(id: CharacterId, date: Date) = isAlive(getCharacterStorage().getOrThrow(id), date)
 
 fun State.isAlive(character: Character, date: Date) = character
-    .isAlive(getDefaultCalendar(), date)
+    .isAlive(this, date)
 
 fun State.getLiving(date: Date?) = if (date == null) {
     getCharacterStorage().getAll()

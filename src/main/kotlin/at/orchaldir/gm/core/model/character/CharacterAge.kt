@@ -1,5 +1,7 @@
 package at.orchaldir.gm.core.model.character
 
+import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.aging.LifeStageId
 import at.orchaldir.gm.core.model.time.date.Date
 import kotlinx.serialization.SerialName
@@ -25,6 +27,22 @@ sealed class CharacterAge {
         AgeViaDefaultLifeStage -> null
         is AgeViaLifeStage -> null
     }
+
+    fun approximateBirthday(state: State, raceId: RaceId): Date = when (this) {
+        is AgeViaBirthdate -> date
+        AgeViaDefaultLifeStage -> {
+            val race = state.getRaceStorage().getOrThrow(raceId)
+            val lifeStageId = race.lifeStages.getDefaultLifeStageId()
+                ?: error("ImmutableLifeStage is not supported by AgeViaDefaultLifeStage!")
+            approximateBirthday(state, raceId, lifeStageId)
+        }
+        is AgeViaLifeStage -> approximateBirthday(state, raceId, lifeStage)
+    }
+
+    private fun approximateBirthday(state: State, raceId: RaceId, lifeStage: LifeStageId) = state
+        .getRaceStorage()
+        .getOrThrow(raceId)
+        .lifeStages.approximateBirthDate(state, lifeStage)
 }
 
 @Serializable

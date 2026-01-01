@@ -88,7 +88,7 @@ fun HtmlBlockTag.showData(
         is HumanoidBody -> showHeight(state, character, character.appearance.height)
         UndefinedAppearance -> doNothing()
     }
-    field(call, state, "Birthdate", character.date)
+    showCharacterAge(call, state, character, race, character.age)
     showVitalStatus(call, state, character.status)
     showAge(state, character, race)
     showStatblockLookupDetails(call, state, character.race, character.statblock)
@@ -214,18 +214,19 @@ fun HtmlBlockTag.editCharacter(
     state: State,
     character: Character,
 ) {
-    val races = state.getExistingRaces(character.date)
+    val birthdate = character.approximateBirthday(state)
+    val races = state.getExistingRaces(birthdate)
     val race = state.getRaceStorage().getOrThrow(character.race)
 
     selectCharacterName(state, character)
     selectOptionalElement(state, "Title", TITLE, state.getTitleStorage().getAll(), character.title)
     selectElement(state, RACE, races, character.race)
     selectFromOneOf("Gender", GENDER, race.genders, character.gender)
-    selectOrigin(state, character, race)
+    selectOrigin(state, character, race, birthdate)
     selectVitalStatus(
         state,
         character.id,
-        character.date,
+        birthdate,
         character.status,
         ALLOWED_VITAL_STATUS_FOR_CHARACTER,
         ALLOWED_CAUSES_OF_DEATH_FOR_CHARACTER,
@@ -235,18 +236,18 @@ fun HtmlBlockTag.editCharacter(
     selectPositionHistory(
         state,
         character.housingStatus,
-        character.date,
+        birthdate,
         ALLOWED_HOUSING_TYPES,
         "Housing Status",
     )
-    selectEmploymentStatusHistory(state, character.employmentStatus, character.date)
+    selectEmploymentStatusHistory(state, character.employmentStatus, birthdate)
     editDataSources(state, character.sources)
 
     h2 { +"Social" }
 
     selectOptionalElement(state, "Culture", CULTURE, state.getCultureStorage().getAll(), character.culture)
     editKnownLanguages(state, character.languages)
-    editBeliefStatusHistory(state, character.beliefStatus, character.date)
+    editBeliefStatusHistory(state, character.beliefStatus, birthdate)
     if (character.gender == Gender.Genderless) {
         selectValue(
             "Sexuality",
@@ -277,8 +278,9 @@ private fun HtmlBlockTag.selectOrigin(
     state: State,
     character: Character,
     race: Race,
+    birthdate: Date,
 ) {
-    editOrigin(state, character.id, character.origin, character.date, ALLOWED_CHARACTER_ORIGINS, ::CharacterId)
+    editOrigin(state, character.id, character.origin, birthdate, ALLOWED_CHARACTER_ORIGINS, ::CharacterId)
 
     if (race.lifeStages is SimpleAging) {
         selectOptionalValue(
@@ -292,7 +294,7 @@ private fun HtmlBlockTag.selectOrigin(
         }
     }
 
-    selectDate(state, "Birthdate", character.date, combine(ORIGIN, DATE), race.startDate())
+    selectCharacterAge(state, character, race, character.age)
 }
 
 private fun HtmlBlockTag.selectCharacterName(
@@ -348,7 +350,8 @@ fun parseCharacter(
     val name = parseCharacterName(parameters)
     val race = parseRaceId(parameters, RACE)
     val origin = parseOrigin(parameters)
-    val birthDate = parseBirthday(parameters, state, race)
+    val age = parseCharacterAge(parameters, state)
+    val birthDate = age.approximateBirthday(state, race)
     val lookup = parseStatblockLookup(state, parameters)
     val baseEquipment = state.getEquipmentMapForLookup(lookup)
 
@@ -358,7 +361,7 @@ fun parseCharacter(
         gender = parseGender(parameters),
         sexuality = parse(parameters, SEXUALITY, SexualOrientation.Asexual),
         origin = origin,
-        date = birthDate,
+        age = age,
         status = parseVitalStatus(parameters, state),
         culture = parseOptionalCultureId(parameters, CULTURE),
         languages = parseKnownLanguages(parameters, state),

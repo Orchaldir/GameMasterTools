@@ -195,16 +195,7 @@ data class Character(
 
     fun isAlive(state: State, date: Date): Boolean {
         val calendar = state.getDefaultCalendar()
-        val birthDate = when (age) {
-            is AgeViaBirthdate -> age.date
-            AgeViaDefaultLifeStage -> {
-                val race = state.getRaceStorage().getOrThrow(race)
-                val lifeStageId = race.lifeStages.getDefaultLifeStageId()
-                    ?: error("ImmutableLifeStage is not supported by AgeViaDefaultLifeStage!")
-                approximateBirthday(state, lifeStageId)
-            }
-            is AgeViaLifeStage -> approximateBirthday(state, age.lifeStage)
-        }
+        val birthDate = approximateBirthday(state)
 
         if (calendar.isAfterOrEqual(date, birthDate)) {
             if (status is Dead) {
@@ -217,10 +208,7 @@ data class Character(
         return false
     }
 
-    private fun approximateBirthday(state: State, lifeStage: LifeStageId) = state
-        .getRaceStorage()
-        .getOrThrow(race)
-        .lifeStages.approximateBirthDate(state, lifeStage)
+    fun approximateBirthday(state: State) = age.approximateBirthday(state, race)
 
     // employment
 
