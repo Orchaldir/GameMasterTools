@@ -4,8 +4,20 @@ import at.orchaldir.gm.core.model.util.name.Name
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+enum class CharacterNameType {
+    Family,
+    Genonym,
+    Mononym,
+}
+
 @Serializable
 sealed class CharacterName {
+
+    fun getType() = when (this) {
+        is FamilyName -> CharacterNameType.Family
+        is Genonym -> CharacterNameType.Genonym
+        is Mononym -> CharacterNameType.Mononym
+    }
 
     fun toSortString() = when (this) {
         is FamilyName -> family.text + given.text + middle?.text
