@@ -155,14 +155,14 @@ data class Character(
             val race = state.getRaceStorage().getOrThrow(race)
 
             race.lifeStages.getDefaultLifeStageId()?.let {
-                approximateAgeViaLifeStage(state, race, it)
+                race.lifeStages.approximateAge(state, race, it)
             }
         }
 
         is AgeViaLifeStage -> {
             val race = state.getRaceStorage().getOrThrow(race)
 
-            approximateAgeViaLifeStage(state, race, age.lifeStage)
+            race.lifeStages.approximateAge(state, race, age.lifeStage)
         }
     }
 
@@ -189,18 +189,12 @@ data class Character(
         return currentDay.getDurationBetween(birthDay)
     }
 
-    private fun approximateAgeViaLifeStage(
-        state: State,
-        race: Race,
-        lifeStageId: LifeStageId,
-    ): Duration {
-        val defaultCalendar = state.getDefaultCalendar()
-        val lifeStage = race.lifeStages.getLifeStage(lifeStageId)
-
-        return Duration(lifeStage.maxAge * defaultCalendar.getDaysPerYear())
-    }
-
     fun isAlive(calendar: Calendar, date: Date): Boolean {
+        val birthDate = when (age) {
+            is AgeViaBirthdate -> age.date
+            AgeViaDefaultLifeStage -> TODO()
+            is AgeViaLifeStage -> TODO()
+        }
         if (calendar.isAfterOrEqual(date, this.date)) {
             if (status is Dead) {
                 return calendar.isAfterOrEqual(status.date, date)

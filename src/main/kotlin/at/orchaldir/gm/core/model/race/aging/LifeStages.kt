@@ -1,12 +1,16 @@
 package at.orchaldir.gm.core.model.race.aging
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.hair.ExoticHairColor
 import at.orchaldir.gm.core.model.character.appearance.hair.HairColor
 import at.orchaldir.gm.core.model.character.appearance.hair.NoHairColor
+import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.rpg.statblock.Statblock
+import at.orchaldir.gm.core.model.time.Duration
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.render.Color
+import at.orchaldir.gm.core.selector.time.getDefaultCalendar
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Factor.Companion.fromNumber
@@ -91,6 +95,17 @@ sealed class LifeStages {
     abstract fun getLifeStageForAge(age: Int): LifeStage?
     abstract fun getStartAgeOfCurrentLifeStage(age: Int): Int
     abstract fun getRelativeSize(age: Int): Factor
+
+    fun approximateAge(
+        state: State,
+        race: Race,
+        lifeStageId: LifeStageId,
+    ): Duration {
+        val defaultCalendar = state.getDefaultCalendar()
+        val lifeStage = race.lifeStages.getLifeStage(lifeStageId)
+
+        return Duration(lifeStage.maxAge * defaultCalendar.getDaysPerYear())
+    }
 
 }
 
