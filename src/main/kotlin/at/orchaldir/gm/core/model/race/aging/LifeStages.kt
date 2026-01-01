@@ -96,15 +96,10 @@ sealed class LifeStages {
     abstract fun getStartAgeOfCurrentLifeStage(age: Int): Int
     abstract fun getRelativeSize(age: Int): Factor
 
-    fun approximateAge(
-        state: State,
-        race: Race,
-        lifeStageId: LifeStageId,
-    ): Duration {
-        val defaultCalendar = state.getDefaultCalendar()
-        val lifeStage = race.lifeStages.getLifeStage(lifeStageId)
+    fun approximateAgeInYears(lifeStageId: LifeStageId): Int {
+        val lifeStage = getLifeStage(lifeStageId)
 
-        return Duration(lifeStage.maxAge * defaultCalendar.getDaysPerYear())
+        return lifeStage.maxAge
     }
 
 }

@@ -10,9 +10,7 @@ import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.culture.language.LanguageId
 import at.orchaldir.gm.core.model.culture.name.getDefaultFamilyName
-import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
-import at.orchaldir.gm.core.model.race.aging.LifeStageId
 import at.orchaldir.gm.core.model.rpg.statblock.StatblockLookup
 import at.orchaldir.gm.core.model.rpg.statblock.UndefinedStatblockLookup
 import at.orchaldir.gm.core.model.time.Duration
@@ -148,22 +146,28 @@ data class Character(
     override fun startDate() = age.date()
     override fun vitalStatus() = status
 
-    fun getAge(state: State): Duration? = when (age) {
-        is AgeViaBirthdate -> calculateAgeWithBirthdate(state, age.date)
+    fun getAge(state: State): Duration? {
+        val ageInYears = when (age) {
+            is AgeViaBirthdate -> {
+                return calculateAgeWithBirthdate(state, age.date)
+            }
 
-        AgeViaDefaultLifeStage -> {
-            val race = state.getRaceStorage().getOrThrow(race)
+            AgeViaDefaultLifeStage -> {
+                val race = state.getRaceStorage().getOrThrow(race)
+                val lifeStageId = race.lifeStages.getDefaultLifeStageId() ?: return null
 
-            race.lifeStages.getDefaultLifeStageId()?.let {
-                race.lifeStages.approximateAge(state, race, it)
+                race.lifeStages.approximateAgeInYears(lifeStageId)
+            }
+
+            is AgeViaLifeStage -> {
+                val race = state.getRaceStorage().getOrThrow(race)
+
+                race.lifeStages.approximateAgeInYears(age.lifeStage)
             }
         }
+        val defaultCalendar = state.getDefaultCalendar()
 
-        is AgeViaLifeStage -> {
-            val race = state.getRaceStorage().getOrThrow(race)
-
-            race.lifeStages.approximateAge(state, race, age.lifeStage)
-        }
+        return Duration(ageInYears * defaultCalendar.getDaysPerYear())
     }
 
     private fun calculateAgeWithBirthdate(
