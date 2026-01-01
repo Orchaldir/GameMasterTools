@@ -53,7 +53,10 @@ private fun HtmlBlockTag.inlineCharacterAge(
 ) {
     if (lifeStageId != null) {
         val lifeStage = race.lifeStages.getLifeStage(lifeStageId)
-        +lifeStage.name.text
+        val start = race.lifeStages.getLifeStageStartAge(lifeStageId)
+        showTooltip("$start-${lifeStage.maxAge} years") {
+            +lifeStage.name.text
+        }
     }
 }
 
