@@ -102,7 +102,7 @@ fun HtmlBlockTag.selectCharacterAge(
         selectValue("Type", AGE, CharacterAgeType.entries, age.getType()) { type ->
             when (type) {
                 CharacterAgeType.Birthdate -> false
-                CharacterAgeType.LifeStage -> race.lifeStages.getType() != LifeStagesType.ImmutableLifeStage
+                CharacterAgeType.LifeStage -> race.lifeStages.getType() == LifeStagesType.ImmutableLifeStage
                 CharacterAgeType.DefaultLifeStage -> false
             }
         }

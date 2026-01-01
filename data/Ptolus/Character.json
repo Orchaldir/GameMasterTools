@@ -10,6 +10,10 @@
     "family": "Notan"
    },
    "race": 9,
+   "age": {
+    "#type": "LifeStage",
+    "lifeStage": 5
+   },
    "housingStatus": {
     "current": {
      "#type": "District",
