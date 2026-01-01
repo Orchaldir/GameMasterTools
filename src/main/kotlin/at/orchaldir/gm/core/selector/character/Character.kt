@@ -370,7 +370,7 @@ fun getAppearanceForAge(race: Race, appearance: Appearance, age: Int): Appearanc
 
 private fun getAppearanceForAge(race: Race, appearance: Appearance, age: Int, height: Distance): Appearance {
     var updatedAppearance = appearance.with(height)
-    val stage = race.lifeStages.getLifeStage(age)
+    val stage = race.lifeStages.getLifeStageForAge(age)
 
     if (stage != null) {
         if (!stage.hasBeard) {

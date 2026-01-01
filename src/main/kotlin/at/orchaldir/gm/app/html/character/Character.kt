@@ -126,8 +126,8 @@ private fun HtmlBlockTag.showAge(
 ) {
     val age = character.getAgeInYears(state)
     fieldAge("Age", age)
-    race.lifeStages.getLifeStage(age)?.let {
-        val start = race.lifeStages.getLifeStageStartAge(age)
+    race.lifeStages.getLifeStageForAge(age)?.let {
+        val start = race.lifeStages.getStartAgeOfCurrentLifeStage(age)
         field("Life Stage", "${it.name.text} ($start-${it.maxAge} years)")
     }
 }

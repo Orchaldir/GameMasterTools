@@ -17,6 +17,7 @@ import kotlinx.serialization.Serializable
 val DEFAULT_MAX_AGES = listOf(2, 5, 12, 18, 45, 60, 90, 120)
 val DEFAULT_OLD_AGE_HAIR_COLOR = ExoticHairColor(Color.LightGray)
 val DEFAULT_VENERABLE_AGE_HAIR_COLOR = ExoticHairColor(Color.White)
+val DEFAULT_LIFE_STAGE_ID = LifeStageId(4)
 
 private val immutable = LifeStage(Name.init("Immutable"), Int.MAX_VALUE)
 private val defaultRelativeSizes = listOf(20, 40, 60, 95, 100, 100, 95, 90)
@@ -63,9 +64,32 @@ sealed class LifeStages {
         is SimpleAging -> statblock
     }
 
+    fun getDefaultLifeStageId() = when (this) {
+        is DefaultAging -> DEFAULT_LIFE_STAGE_ID
+        is ImmutableLifeStage -> null
+        is SimpleAging -> defaultLifeStage
+    }
+
+    fun getLifeStage(id: LifeStageId) = getLifeStage(id.value)
+
+    private fun getLifeStage(id: Int) = when (this) {
+        is DefaultAging -> getAllLifeStages()[id]
+        is ImmutableLifeStage -> error("Cannot get $id for ImmutableLifeStage!")
+        is SimpleAging -> lifeStages[id]
+    }
+
+    fun getLifeStageStartAge(id: LifeStageId) = when (this) {
+        is ImmutableLifeStage -> 0
+        else -> if (id.value == 0) {
+            0
+        } else {
+            getLifeStage(id.value-1).maxAge
+        }
+    }
+
     abstract fun getAllLifeStages(): List<LifeStage>
-    abstract fun getLifeStage(age: Int): LifeStage?
-    abstract fun getLifeStageStartAge(age: Int): Int
+    abstract fun getLifeStageForAge(age: Int): LifeStage?
+    abstract fun getStartAgeOfCurrentLifeStage(age: Int): Int
     abstract fun getRelativeSize(age: Int): Factor
 
 }
@@ -84,9 +108,9 @@ data class DefaultAging(
 
     override fun getAllLifeStages() = defaultLifeStagesMap.computeIfAbsent(this) { createLifeStages() }
 
-    override fun getLifeStage(age: Int) = getLifeStage(age, getAllLifeStages())
+    override fun getLifeStageForAge(age: Int) = getLifeStage(age, getAllLifeStages())
 
-    override fun getLifeStageStartAge(age: Int) = getLifeStageStartAge(age, getAllLifeStages())
+    override fun getStartAgeOfCurrentLifeStage(age: Int) = getStartAgeOfCurrentLifeStage(age, getAllLifeStages())
 
     override fun getRelativeSize(age: Int) = getRelativeSize(age, getAllLifeStages())
 
@@ -120,15 +144,16 @@ data class SimpleAging(
     val appearance: RaceAppearanceId = RaceAppearanceId(0),
     val lifeStages: List<LifeStage>,
     val statblock: Statblock = Statblock(),
+    val defaultLifeStage: LifeStageId = DEFAULT_LIFE_STAGE_ID,
 ) : LifeStages() {
 
     override fun contains(id: RaceAppearanceId) = id == appearance
 
     override fun getAllLifeStages() = lifeStages
 
-    override fun getLifeStage(age: Int) = getLifeStage(age, lifeStages)
+    override fun getLifeStageForAge(age: Int) = getLifeStage(age, lifeStages)
 
-    override fun getLifeStageStartAge(age: Int) = getLifeStageStartAge(age, lifeStages)
+    override fun getStartAgeOfCurrentLifeStage(age: Int) = getStartAgeOfCurrentLifeStage(age, lifeStages)
 
     override fun getRelativeSize(age: Int) = getRelativeSize(age, lifeStages)
 
@@ -145,9 +170,9 @@ data class ImmutableLifeStage(
 
     override fun getAllLifeStages() = listOf(immutable)
 
-    override fun getLifeStage(age: Int) = null
+    override fun getLifeStageForAge(age: Int) = null
 
-    override fun getLifeStageStartAge(age: Int) = 0
+    override fun getStartAgeOfCurrentLifeStage(age: Int) = 0
 
     override fun getRelativeSize(age: Int) = FULL
 }
@@ -155,7 +180,7 @@ data class ImmutableLifeStage(
 private fun getLifeStage(age: Int, lifeStages: List<LifeStage>) = lifeStages
     .firstOrNull { age <= it.maxAge } ?: lifeStages.last()
 
-private fun getLifeStageStartAge(age: Int, lifeStages: List<LifeStage>) = 1 + (lifeStages
+private fun getStartAgeOfCurrentLifeStage(age: Int, lifeStages: List<LifeStage>) = 1 + (lifeStages
     .lastOrNull { age > it.maxAge }?.maxAge ?: -1)
 
 private fun getRelativeSize(age: Int, lifeStages: List<LifeStage>): Factor {
