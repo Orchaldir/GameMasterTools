@@ -90,7 +90,6 @@ fun HtmlBlockTag.showData(
     }
     showCharacterAge(call, state, character, race, character.age)
     showVitalStatus(call, state, character.status)
-    showAge(state, character, race)
     showStatblockLookupDetails(call, state, character.race, character.statblock)
     showPositionHistory(call, state, character.housingStatus, "Housing Status")
     showEmploymentStatusHistory(call, state, character.employmentStatus)
@@ -117,19 +116,6 @@ fun HtmlBlockTag.showCurrentHeight(
 ) {
     val currentHeight = state.scaleHeightByAge(character, maxHeight)
     fieldDistance("Current Height", currentHeight)
-}
-
-private fun HtmlBlockTag.showAge(
-    state: State,
-    character: Character,
-    race: Race,
-) {
-    val age = character.getAgeInYears(state)
-    fieldAge("Age", age)
-    race.lifeStages.getLifeStageForAge(age)?.let {
-        val start = race.lifeStages.getStartAgeOfCurrentLifeStage(age)
-        field("Life Stage", "${it.name.text} ($start-${it.maxAge} years)")
-    }
 }
 
 fun HtmlBlockTag.showSocial(
@@ -231,7 +217,6 @@ fun HtmlBlockTag.editCharacter(
         ALLOWED_VITAL_STATUS_FOR_CHARACTER,
         ALLOWED_CAUSES_OF_DEATH_FOR_CHARACTER,
     )
-    showAge(state, character, race)
     editStatblockLookup(call, state, character.race, character.statblock)
     selectPositionHistory(
         state,
