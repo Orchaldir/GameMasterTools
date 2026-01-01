@@ -38,9 +38,6 @@ import at.orchaldir.gm.core.selector.race.getExistingRaces
 import at.orchaldir.gm.core.selector.realm.getBattlesLedBy
 import at.orchaldir.gm.core.selector.time.getCurrentYear
 import at.orchaldir.gm.core.selector.time.getDefaultCalendar
-import at.orchaldir.gm.core.selector.util.canHaveFamilyName
-import at.orchaldir.gm.core.selector.util.canHaveGenonym
-import at.orchaldir.gm.core.selector.util.getGivenName
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.unit.Distance
 import io.ktor.http.*
@@ -282,44 +279,6 @@ private fun HtmlBlockTag.selectOrigin(
     selectCharacterAge(state, character, race, character.age)
 }
 
-private fun HtmlBlockTag.selectCharacterName(
-    state: State,
-    character: Character,
-) {
-    showDetails("Name", true) {
-        field("Type") {
-            select {
-                id = NAME_TYPE
-                name = NAME_TYPE
-                onChange = ON_CHANGE_SCRIPT
-                option {
-                    label = "Mononym"
-                    value = "Mononym"
-                    selected = character.name is Mononym
-                }
-                option {
-                    label = "FamilyName"
-                    value = "FamilyName"
-                    selected = character.name is FamilyName
-                    disabled = !state.canHaveFamilyName(character)
-                }
-                option {
-                    label = "Genonym"
-                    value = "Genonym"
-                    selected = character.name is Genonym
-                    disabled = !state.canHaveGenonym(character)
-                }
-            }
-        }
-        selectName("Given Name", character.getGivenName(), GIVEN_NAME)
-
-        if (character.name is FamilyName) {
-            selectOptionalName("Middle Name", character.name.middle, MIDDLE_NAME)
-            selectName("Family Name", character.name.family, FAMILY_NAME)
-        }
-    }
-}
-
 // parse
 
 fun parseCharacterId(parameters: Parameters, param: String) = CharacterId(parseInt(parameters, param))
@@ -386,19 +345,4 @@ private fun parseBirthday(
     }
 
     return parseDate(parameters, state.getDefaultCalendar(), combine(ORIGIN, DATE))
-}
-
-private fun parseCharacterName(parameters: Parameters): CharacterName {
-    val given = parseName(parameters, GIVEN_NAME)
-
-    return when (parameters.getOrFail(NAME_TYPE)) {
-        "FamilyName" -> FamilyName(
-            given,
-            parseOptionalName(parameters, MIDDLE_NAME),
-            parseName(parameters, FAMILY_NAME, "Unknown"),
-        )
-
-        "Genonym" -> Genonym(given)
-        else -> Mononym(given)
-    }
 }
