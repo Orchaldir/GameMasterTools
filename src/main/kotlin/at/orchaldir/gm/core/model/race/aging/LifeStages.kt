@@ -8,8 +8,10 @@ import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.rpg.statblock.Statblock
 import at.orchaldir.gm.core.model.time.Duration
+import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.render.Color
+import at.orchaldir.gm.core.selector.time.getCurrentDate
 import at.orchaldir.gm.core.selector.time.getDefaultCalendar
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
@@ -100,6 +102,13 @@ sealed class LifeStages {
         val lifeStage = getLifeStage(lifeStageId)
 
         return lifeStage.maxAge
+    }
+
+    fun approximateBirthDate(state: State, lifeStageId: LifeStageId): Date {
+        val currentDay = state.getCurrentDate()
+        val age = approximateAgeInYears(lifeStageId)
+
+        return currentDay.minus(age * state.getDefaultCalendar().getDaysPerYear())
     }
 
 }

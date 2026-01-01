@@ -11,6 +11,7 @@ import at.orchaldir.gm.core.model.culture.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.culture.language.LanguageId
 import at.orchaldir.gm.core.model.culture.name.getDefaultFamilyName
 import at.orchaldir.gm.core.model.race.RaceId
+import at.orchaldir.gm.core.model.race.aging.LifeStageId
 import at.orchaldir.gm.core.model.rpg.statblock.StatblockLookup
 import at.orchaldir.gm.core.model.rpg.statblock.UndefinedStatblockLookup
 import at.orchaldir.gm.core.model.time.Duration
@@ -159,11 +160,10 @@ data class Character(
                 race.lifeStages.approximateAgeInYears(lifeStageId)
             }
 
-            is AgeViaLifeStage -> {
-                val race = state.getRaceStorage().getOrThrow(race)
-
-                race.lifeStages.approximateAgeInYears(age.lifeStage)
-            }
+            is AgeViaLifeStage -> state
+                .getRaceStorage()
+                .getOrThrow(race)
+                .lifeStages.approximateAgeInYears(age.lifeStage)
         }
         val defaultCalendar = state.getDefaultCalendar()
 
@@ -193,13 +193,20 @@ data class Character(
         return currentDay.getDurationBetween(birthDay)
     }
 
-    fun isAlive(calendar: Calendar, date: Date): Boolean {
+    fun isAlive(state: State, date: Date): Boolean {
+        val calendar = state.getDefaultCalendar()
         val birthDate = when (age) {
             is AgeViaBirthdate -> age.date
-            AgeViaDefaultLifeStage -> TODO()
-            is AgeViaLifeStage -> TODO()
+            AgeViaDefaultLifeStage -> {
+                val race = state.getRaceStorage().getOrThrow(race)
+                val lifeStageId = race.lifeStages.getDefaultLifeStageId()
+                    ?: error("ImmutableLifeStage is not supported by AgeViaDefaultLifeStage!")
+                approximateBirthday(state, lifeStageId)
+            }
+            is AgeViaLifeStage -> approximateBirthday(state, age.lifeStage)
         }
-        if (calendar.isAfterOrEqual(date, this.date)) {
+
+        if (calendar.isAfterOrEqual(date, birthDate)) {
             if (status is Dead) {
                 return calendar.isAfterOrEqual(status.date, date)
             }
@@ -209,6 +216,11 @@ data class Character(
 
         return false
     }
+
+    private fun approximateBirthday(state: State, lifeStage: LifeStageId) = state
+        .getRaceStorage()
+        .getOrThrow(race)
+        .lifeStages.approximateBirthDate(state, lifeStage)
 
     // employment
 
