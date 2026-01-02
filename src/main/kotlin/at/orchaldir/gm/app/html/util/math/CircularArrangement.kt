@@ -7,7 +7,7 @@ import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.parseInt
 import at.orchaldir.gm.app.html.selectInt
 import at.orchaldir.gm.app.html.showDetails
-import at.orchaldir.gm.app.parse.combine
+import at.orchaldir.gm.app.html.combine
 import at.orchaldir.gm.utils.math.CircularArrangement
 import at.orchaldir.gm.utils.math.Factor
 import io.ktor.http.*

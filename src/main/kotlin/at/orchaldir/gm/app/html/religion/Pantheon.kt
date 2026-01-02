@@ -4,7 +4,7 @@ import at.orchaldir.gm.app.GOD
 import at.orchaldir.gm.app.TITLE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.showCurrentAndFormerBelievers
-import at.orchaldir.gm.app.parse.parseElements
+import at.orchaldir.gm.app.html.parseElements
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.religion.Pantheon
 import at.orchaldir.gm.core.model.religion.PantheonId

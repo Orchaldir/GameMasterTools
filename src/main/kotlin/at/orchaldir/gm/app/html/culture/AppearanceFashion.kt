@@ -5,7 +5,7 @@ import at.orchaldir.gm.app.html.parseOneOf
 import at.orchaldir.gm.app.html.parseOneOrNone
 import at.orchaldir.gm.app.html.selectRarityMap
 import at.orchaldir.gm.app.html.showRarityMap
-import at.orchaldir.gm.app.parse.combine
+import at.orchaldir.gm.app.html.combine
 import at.orchaldir.gm.core.model.character.appearance.beard.BeardStyleType
 import at.orchaldir.gm.core.model.character.appearance.beard.FullBeardStyle
 import at.orchaldir.gm.core.model.character.appearance.beard.GoateeStyle

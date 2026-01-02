@@ -7,7 +7,7 @@ import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.item.equipment.style.*
 import at.orchaldir.gm.app.html.rpg.combat.parseMeleeWeaponStats
 import at.orchaldir.gm.app.html.selectValue
-import at.orchaldir.gm.app.parse.parse
+import at.orchaldir.gm.app.html.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.OneHandedClub
 import at.orchaldir.gm.core.model.item.equipment.TwoHandedClub

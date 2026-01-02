@@ -9,7 +9,7 @@ import at.orchaldir.gm.app.html.realm.parseWarId
 import at.orchaldir.gm.app.html.religion.parseGodId
 import at.orchaldir.gm.app.html.selectElement
 import at.orchaldir.gm.app.html.selectValue
-import at.orchaldir.gm.app.parse.parse
+import at.orchaldir.gm.app.html.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.holiday.*
 import at.orchaldir.gm.utils.doNothing

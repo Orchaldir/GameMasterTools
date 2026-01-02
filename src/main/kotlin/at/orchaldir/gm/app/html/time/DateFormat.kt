@@ -2,8 +2,8 @@ package at.orchaldir.gm.app.html.time
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.parse.combine
-import at.orchaldir.gm.app.parse.parse
+import at.orchaldir.gm.app.html.combine
+import at.orchaldir.gm.app.html.parse
 import at.orchaldir.gm.core.model.time.calendar.DateFormat
 import at.orchaldir.gm.core.model.time.calendar.DateOrder
 import io.ktor.http.*

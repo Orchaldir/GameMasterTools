@@ -12,8 +12,8 @@ import at.orchaldir.gm.app.html.util.field
 import at.orchaldir.gm.app.html.util.fieldAge
 import at.orchaldir.gm.app.html.util.parseDate
 import at.orchaldir.gm.app.html.util.selectDate
-import at.orchaldir.gm.app.parse.combine
-import at.orchaldir.gm.app.parse.parse
+import at.orchaldir.gm.app.html.combine
+import at.orchaldir.gm.app.html.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.race.Race

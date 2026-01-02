@@ -6,8 +6,8 @@ import at.orchaldir.gm.app.html.item.equipment.style.*
 import at.orchaldir.gm.app.html.util.part.editFillLookupItemPart
 import at.orchaldir.gm.app.html.util.part.parseFillLookupItemPart
 import at.orchaldir.gm.app.html.util.part.showFillLookupItemPart
-import at.orchaldir.gm.app.parse.combine
-import at.orchaldir.gm.app.parse.parse
+import at.orchaldir.gm.app.html.combine
+import at.orchaldir.gm.app.html.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.SuitJacket
 import at.orchaldir.gm.core.model.item.equipment.style.NECKLINES_WITH_SLEEVES

@@ -12,7 +12,7 @@ import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.time.editTime
 import at.orchaldir.gm.app.html.time.parseTime
 import at.orchaldir.gm.app.html.time.showTime
-import at.orchaldir.gm.app.parse.parse
+import at.orchaldir.gm.app.html.parse
 import at.orchaldir.gm.core.model.Data
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.selector.time.getDefaultCalendar

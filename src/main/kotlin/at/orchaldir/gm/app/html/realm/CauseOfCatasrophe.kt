@@ -7,7 +7,7 @@ import at.orchaldir.gm.app.html.showDetails
 import at.orchaldir.gm.app.html.util.parseCreator
 import at.orchaldir.gm.app.html.util.selectCreator
 import at.orchaldir.gm.app.html.util.showReference
-import at.orchaldir.gm.app.parse.parse
+import at.orchaldir.gm.app.html.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.realm.CauseOfCatastropheType.Undefined

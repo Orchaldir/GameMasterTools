@@ -7,7 +7,7 @@ import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.util.fieldEventReference
 import at.orchaldir.gm.app.html.util.parseEventReference
 import at.orchaldir.gm.app.html.util.selectEventReference
-import at.orchaldir.gm.app.parse.parse
+import at.orchaldir.gm.app.html.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.world.terrain.*

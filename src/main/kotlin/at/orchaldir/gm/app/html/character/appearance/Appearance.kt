@@ -7,8 +7,8 @@ import at.orchaldir.gm.app.html.selectFromOneOf
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.util.math.parseDistance
 import at.orchaldir.gm.app.html.util.math.selectDistance
-import at.orchaldir.gm.app.parse.combine
-import at.orchaldir.gm.app.parse.parse
+import at.orchaldir.gm.app.html.combine
+import at.orchaldir.gm.app.html.parse
 import at.orchaldir.gm.core.generator.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character

@@ -7,7 +7,7 @@ import at.orchaldir.gm.app.html.util.fieldPosition
 import at.orchaldir.gm.app.html.util.parsePosition
 import at.orchaldir.gm.app.html.util.selectPosition
 import at.orchaldir.gm.app.html.util.showLocalElements
-import at.orchaldir.gm.app.parse.parseElements
+import at.orchaldir.gm.app.html.parseElements
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.terrain.Region
 import at.orchaldir.gm.core.model.world.terrain.RegionId

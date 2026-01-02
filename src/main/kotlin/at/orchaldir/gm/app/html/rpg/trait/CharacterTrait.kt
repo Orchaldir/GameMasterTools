@@ -5,7 +5,7 @@ import at.orchaldir.gm.app.COST
 import at.orchaldir.gm.app.GROUP
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.parse.parse
+import at.orchaldir.gm.app.html.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.trait.*
 import at.orchaldir.gm.core.selector.character.getCharacterTemplates
