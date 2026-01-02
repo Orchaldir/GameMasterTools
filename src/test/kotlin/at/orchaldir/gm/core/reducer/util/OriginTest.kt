@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.reducer.util
 
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.AgeViaBirthdate
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.Gender
@@ -13,14 +14,15 @@ import org.junit.jupiter.api.Test
 
 
 class OriginTest {
+    private val age = AgeViaBirthdate(DAY1)
     private val state = State(
         listOf(
             Storage(CALENDAR0),
             Storage(
                 listOf(
                     Character(CHARACTER_ID_0),
-                    Character(CHARACTER_ID_1, gender = Gender.Male),
-                    Character(CHARACTER_ID_2, gender = Gender.Female),
+                    Character(CHARACTER_ID_1, gender = Gender.Male, age = age),
+                    Character(CHARACTER_ID_2, gender = Gender.Female, age = age),
                 )
             ),
             Storage(Race(RACE_ID_0)),
