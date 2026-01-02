@@ -15,6 +15,12 @@ class DateGenerator(
     constructor(numberGenerator: NumberGenerator, state: State, id: CalendarId) :
             this(numberGenerator, state.getCalendarStorage().getOrThrow(id))
 
+    fun generateMonthAndDay(startYear: Int, endYear: Int): Day {
+        val year = numberGenerator.getNumber(startYear, endYear)
+
+        return generateMonthAndDay(Year(year))
+    }
+
     fun generateMonthAndDay(date: Date): Day {
         val monthIndex = numberGenerator.getNumber() % calendar.months.getSize()
         val dayIndex = numberGenerator.getNumber() % calendar.months.getDaysPerMonth(monthIndex)
