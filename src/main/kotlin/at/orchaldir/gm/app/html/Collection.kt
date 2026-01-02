@@ -239,6 +239,12 @@ fun <T> parseList(
         }
 }
 
+fun <T> parseElements(parameters: Parameters, param: String, parseId: (String) -> T) =
+    parameters.getAll(param)
+        ?.map { parseId(it) }
+        ?.toSet()
+        ?: emptySet()
+
 fun <ID : Id<ID>, V> parseIdMap(
     parameters: Parameters,
     param: String,
@@ -278,4 +284,3 @@ fun <K, V> parseMap(
 
     return map
 }
-
