@@ -4,7 +4,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.language.LanguageId
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.HasOrigin
-import at.orchaldir.gm.core.model.util.HasSimpleStartDate
+import at.orchaldir.gm.core.model.util.HasStartDate
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.origin.Origin
@@ -44,7 +44,7 @@ data class Spell(
     val language: LanguageId? = null,
     val origin: Origin = UndefinedOrigin,
     val sources: Set<DataSourceId> = emptySet(),
-) : ElementWithSimpleName<SpellId>, HasDataSources, HasOrigin, HasSimpleStartDate {
+) : ElementWithSimpleName<SpellId>, HasDataSources, HasOrigin, HasStartDate {
 
     init {
         validateOriginType(origin, ALLOWED_SPELL_ORIGINS)
@@ -55,7 +55,7 @@ data class Spell(
     override fun creator() = origin.creator()
     override fun origin() = origin
     override fun sources() = sources
-    override fun startDate() = date
+    override fun startDate(state: State) = date
 
     override fun validate(state: State) {
         validateDate(state, date, "Spell")

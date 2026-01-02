@@ -3,7 +3,7 @@ package at.orchaldir.gm.core.model.util.quote
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.Creation
-import at.orchaldir.gm.core.model.util.HasSimpleStartDate
+import at.orchaldir.gm.core.model.util.HasStartDate
 import at.orchaldir.gm.core.model.util.Reference
 import at.orchaldir.gm.core.model.util.UndefinedReference
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
@@ -32,12 +32,12 @@ data class Quote(
     val type: QuoteType = QuoteType.Quote,
     val source: Reference = UndefinedReference,
     val date: Date? = null,
-) : ElementWithSimpleName<QuoteId>, Creation, HasSimpleStartDate {
+) : ElementWithSimpleName<QuoteId>, Creation, HasStartDate {
 
     override fun id() = id
     override fun name() = text.text
     override fun creator() = source
-    override fun startDate() = date
+    override fun startDate(state: State) = date
     override fun validate(state: State) {
         validateCreator(state, source, id, date, "source")
     }

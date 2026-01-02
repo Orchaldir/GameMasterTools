@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.model.item.text.content.LinkedQuote
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.CharacterReference
 import at.orchaldir.gm.core.model.util.Creation
-import at.orchaldir.gm.core.model.util.HasSimpleStartDate
+import at.orchaldir.gm.core.model.util.HasStartDate
 import at.orchaldir.gm.core.model.util.UndefinedReference
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
@@ -32,7 +32,7 @@ data class Article(
     val author: CharacterId? = null,
     val date: Date? = null,
     val content: ArticleContent = UndefinedArticleContent,
-) : ElementWithSimpleName<ArticleId>, Creation, HasSimpleStartDate {
+) : ElementWithSimpleName<ArticleId>, Creation, HasStartDate {
 
     override fun id() = id
     override fun name() = title.text
@@ -43,7 +43,7 @@ data class Article(
         UndefinedReference
     }
 
-    override fun startDate() = date
+    override fun startDate(state: State) = date
 
     override fun validate(state: State) {
         state.getArticleStorage().requireOptional(id)

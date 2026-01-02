@@ -13,14 +13,6 @@ interface HasStartDate {
 
 }
 
-interface HasSimpleStartDate: HasStartDate {
-
-    fun startDate(): Date?
-
-    override fun startDate(state: State) = startDate()
-
-}
-
 interface HasStartAndEndDate : HasStartDate {
 
     fun endDate(): Date?

@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.model.race.aging.ImmutableLifeStage
 import at.orchaldir.gm.core.model.race.aging.LifeStages
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.HasOrigin
-import at.orchaldir.gm.core.model.util.HasSimpleStartDate
+import at.orchaldir.gm.core.model.util.HasStartDate
 import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
@@ -62,7 +62,7 @@ data class Race(
     val date: Date? = null,
     val origin: Origin = UndefinedOrigin,
     val sources: Set<DataSourceId> = emptySet(),
-) : ElementWithSimpleName<RaceId>, HasDataSources, HasOrigin, HasSimpleStartDate {
+) : ElementWithSimpleName<RaceId>, HasDataSources, HasOrigin, HasStartDate {
 
     init {
         validateOriginType(origin, ALLOWED_RACE_ORIGINS)
@@ -73,7 +73,7 @@ data class Race(
     override fun creator() = origin.creator()
     override fun origin() = origin
     override fun sources() = sources
-    override fun startDate() = date
+    override fun startDate(state: State) = date
 
     fun calculateBodyMassIndex() = weight.toKilograms() / height.center.toMeters().pow(2)
     fun calculateCost(state: State) = lifeStages.statblock().calculateCost(state)

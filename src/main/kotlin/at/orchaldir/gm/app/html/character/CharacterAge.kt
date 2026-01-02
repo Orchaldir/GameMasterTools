@@ -141,7 +141,7 @@ fun HtmlBlockTag.selectCharacterAge(
                     "Birthdate",
                     age.date,
                     combine(AGE, DATE),
-                    race.startDate(),
+                    race.startDate(state),
                 )
                 showAgeViaBirthdate(state, character, race)
 

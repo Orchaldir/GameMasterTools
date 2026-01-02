@@ -52,7 +52,7 @@ data class District(
     val economy: Economy = UndefinedEconomy,
     val sources: Set<DataSourceId> = emptySet(),
 ) : ElementWithSimpleName<DistrictId>, Creation, HasArea, HasDataSources, HasEconomy, HasPopulation, HasPosition,
-    HasSimpleStartDate {
+    HasStartDate {
 
     override fun id() = id
     override fun name() = name.text
@@ -64,7 +64,7 @@ data class District(
     override fun population() = population
     override fun position() = position
     override fun sources() = sources
-    override fun startDate() = foundingDate
+    override fun startDate(state: State) = foundingDate
 
     override fun validate(state: State) {
         checkPosition(state, position, "position", null, ALLOWED_DISTRICT_POSITIONS)

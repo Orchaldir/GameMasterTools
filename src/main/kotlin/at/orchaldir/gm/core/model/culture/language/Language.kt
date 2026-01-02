@@ -4,7 +4,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.Creation
 import at.orchaldir.gm.core.model.util.HasOrigin
-import at.orchaldir.gm.core.model.util.HasSimpleStartDate
+import at.orchaldir.gm.core.model.util.HasStartDate
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.name.NotEmptyString
@@ -44,7 +44,7 @@ data class Language(
     val title: NotEmptyString? = null,
     val date: Date? = null,
     val origin: Origin = UndefinedOrigin,
-) : ElementWithSimpleName<LanguageId>, Creation, HasOrigin, HasSimpleStartDate {
+) : ElementWithSimpleName<LanguageId>, Creation, HasOrigin, HasStartDate {
 
     init {
         validateOriginType(origin, ALLOWED_LANGUAGE_ORIGINS)
@@ -54,7 +54,7 @@ data class Language(
     override fun name() = name.text
     override fun creator() = origin.creator()
     override fun origin() = origin
-    override fun startDate() = date
+    override fun startDate(state: State) = date
 
     override fun validate(state: State) {
         validateDate(state, date, "Language")

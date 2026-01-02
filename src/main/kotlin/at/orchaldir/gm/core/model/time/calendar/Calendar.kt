@@ -3,7 +3,7 @@ package at.orchaldir.gm.core.model.time.calendar
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.Duration
 import at.orchaldir.gm.core.model.time.date.*
-import at.orchaldir.gm.core.model.util.HasSimpleStartDate
+import at.orchaldir.gm.core.model.util.HasStartDate
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.origin.Origin
@@ -48,7 +48,7 @@ data class Calendar(
     val date: Date? = null,
     val origin: Origin = UndefinedOrigin,
     val defaultFormat: DateFormat = DateFormat(),
-) : ElementWithSimpleName<CalendarId>, HasSimpleStartDate {
+) : ElementWithSimpleName<CalendarId>, HasStartDate {
 
     init {
         validateOriginType(origin, ALLOWED_CALENDAR_ORIGINS)
@@ -56,7 +56,7 @@ data class Calendar(
 
     override fun id() = id
     override fun name() = name.text
-    override fun startDate() = date
+    override fun startDate(state: State) = date
 
     override fun validate(state: State) {
         validateDays(this)

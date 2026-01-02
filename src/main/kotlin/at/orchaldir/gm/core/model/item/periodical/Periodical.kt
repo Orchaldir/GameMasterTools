@@ -34,12 +34,12 @@ data class Periodical(
     val calendar: CalendarId = CalendarId(0),
     val date: Date? = null,
     val frequency: PublicationFrequency = PublicationFrequency.Daily,
-) : ElementWithSimpleName<PeriodicalId>, HasOwner, HasSimpleStartDate {
+) : ElementWithSimpleName<PeriodicalId>, HasOwner, HasStartDate {
 
     override fun id() = id
     override fun name() = name.text
     override fun owner() = ownership
-    override fun startDate() = date
+    override fun startDate(state: State) = date
 
     override fun validate(state: State) {
         state.getPeriodicalStorage().require(id)

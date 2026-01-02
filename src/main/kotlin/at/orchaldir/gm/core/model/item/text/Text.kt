@@ -9,7 +9,7 @@ import at.orchaldir.gm.core.model.item.text.content.UndefinedTextContent
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.Creation
 import at.orchaldir.gm.core.model.util.HasOrigin
-import at.orchaldir.gm.core.model.util.HasSimpleStartDate
+import at.orchaldir.gm.core.model.util.HasStartDate
 import at.orchaldir.gm.core.model.util.font.FontId
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
@@ -59,7 +59,7 @@ data class Text(
     val format: TextFormat = UndefinedTextFormat,
     val content: TextContent = UndefinedTextContent,
     val sources: Set<DataSourceId> = emptySet(),
-) : ElementWithSimpleName<TextId>, Creation, HasDataSources, HasOrigin, HasSimpleStartDate, MadeFromParts {
+) : ElementWithSimpleName<TextId>, Creation, HasDataSources, HasOrigin, HasStartDate, MadeFromParts {
 
     init {
         validateOriginType(origin, ALLOWED_TEXT_ORIGINS)
@@ -83,7 +83,7 @@ data class Text(
     override fun creator() = origin.creator()
     override fun origin() = origin
     override fun sources() = sources
-    override fun startDate() = date
+    override fun startDate(state: State) = date
     override fun parts() = format.parts()
 
     override fun validate(state: State) {

@@ -55,7 +55,7 @@ data class PeriodicalIssue(
         val periodical = state.getPeriodicalStorage().getOrThrow(periodical)
         val calendar = state.getCalendarStorage().getOrThrow(periodical.calendar)
 
-        return periodical.startDate()?.let { state.convertDateToDefault(calendar, it) }
+        return periodical.startDate(state)?.let { state.convertDateToDefault(calendar, it) }
     }
 
     override fun validate(state: State) {

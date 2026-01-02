@@ -54,7 +54,7 @@ data class Building(
     val style: ArchitecturalStyleId? = null,
     val purpose: BuildingPurpose = UndefinedBuildingPurpose,
     val builder: Reference = UndefinedReference,
-) : Element<BuildingId>, Creation, HasOwner, HasPosition, HasSimpleStartDate {
+) : Element<BuildingId>, Creation, HasOwner, HasPosition, HasStartDate {
 
     override fun id() = id
 
@@ -71,7 +71,7 @@ data class Building(
     override fun creator() = builder
     override fun owner() = ownership
     override fun position() = position
-    override fun startDate() = constructionDate
+    override fun startDate(state: State) = constructionDate
 
     private fun businessName(state: State): String {
         val businesses = state.getBusinessesIn(id)

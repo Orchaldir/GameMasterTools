@@ -9,7 +9,7 @@ import at.orchaldir.gm.core.model.culture.name.NoNamingConvention
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import at.orchaldir.gm.core.model.time.holiday.HolidayId
 import at.orchaldir.gm.core.model.util.GenderMap
-import at.orchaldir.gm.core.model.util.HasSimpleStartDate
+import at.orchaldir.gm.core.model.util.HasStartDate
 import at.orchaldir.gm.core.model.util.SomeOf
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
@@ -40,12 +40,12 @@ data class Culture(
     val fashion: GenderMap<FashionId?> = GenderMap(null),
     val holidays: Set<HolidayId> = emptySet(),
     val sources: Set<DataSourceId> = emptySet(),
-) : ElementWithSimpleName<CultureId>, HasDataSources, HasSimpleStartDate {
+) : ElementWithSimpleName<CultureId>, HasDataSources, HasStartDate {
 
     override fun id() = id
     override fun name() = name.text
     override fun sources() = sources
-    override fun startDate() = null
+    override fun startDate(state: State) = null
 
     fun getFashion(character: Character) = fashion.get(character.gender)
 

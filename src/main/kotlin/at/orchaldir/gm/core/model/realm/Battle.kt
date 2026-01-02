@@ -3,7 +3,7 @@ package at.orchaldir.gm.core.model.realm
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.time.date.Date
-import at.orchaldir.gm.core.model.util.HasSimpleStartDate
+import at.orchaldir.gm.core.model.util.HasStartDate
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.source.DataSourceId
@@ -33,12 +33,12 @@ data class Battle(
     val war: WarId? = null,
     val participants: List<BattleParticipant> = emptyList(),
     val sources: Set<DataSourceId> = emptySet(),
-) : ElementWithSimpleName<BattleId>, HasDataSources, HasSimpleStartDate {
+) : ElementWithSimpleName<BattleId>, HasDataSources, HasStartDate {
 
     override fun id() = id
     override fun name() = name.text
     override fun sources() = sources
-    override fun startDate() = date
+    override fun startDate(state: State) = date
 
     override fun validate(state: State) {
         validateDate(state, date, "Battle")
