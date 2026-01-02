@@ -2,7 +2,7 @@ package at.orchaldir.gm.core.model.util.font
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.date.Date
-import at.orchaldir.gm.core.model.util.HasStartDate
+import at.orchaldir.gm.core.model.util.HasSimpleStartDate
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.reducer.util.validateDate
@@ -27,7 +27,7 @@ data class Font(
     val name: Name = Name.init(id),
     val date: Date? = null,
     val base64: String = "",
-) : ElementWithSimpleName<FontId>, HasStartDate {
+) : ElementWithSimpleName<FontId>, HasSimpleStartDate {
 
     override fun id() = id
     override fun name() = name.text

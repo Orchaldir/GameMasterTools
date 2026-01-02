@@ -115,7 +115,7 @@ private fun HtmlBlockTag.editMembers(
             combine(memberParam, RANK),
             history,
             "Rank",
-            character.approximateBirthday(state)
+            character.startDate(state)
         ) { _, param, currentRank, _ ->
             selectOptionalValue("Rank", param, currentRank, rankIds) { rank ->
                 label = organization.memberRanks[rank].name.text
@@ -173,7 +173,7 @@ private fun parseMembers(
         parameters,
         combine(memberParam, RANK),
         state,
-        character.startDate(),
+        character.startDate(state),
         ::parseMemberRank,
     )
 }

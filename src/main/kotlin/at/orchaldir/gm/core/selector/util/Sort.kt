@@ -84,9 +84,9 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> State.sortElements(elements: Collection
     .sortedWith(compareBy { it.toSortString(this) })
 
 fun <Element : HasStartDate> State.getStartDateComparator(valueForNull: Int = Int.MAX_VALUE) =
-    getDateComparator<Element>(valueForNull) { it.startDate() }
+    getDateComparator<Element>(valueForNull) { it.startDate(this) }
 
-fun <Element : HasComplexStartDate> State.getComplexStartDateComparator(valueForNull: Int = Int.MAX_VALUE) =
+fun <Element : HasStartDate> State.getComplexStartDateComparator(valueForNull: Int = Int.MAX_VALUE) =
     getDateComparator<Element>(valueForNull) { it.startDate(this) }
 
 fun <Element : HasStartAndEndDate> State.getEndDateComparator(valueForNull: Int = Int.MAX_VALUE) =

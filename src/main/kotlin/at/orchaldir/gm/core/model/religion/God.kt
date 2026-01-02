@@ -54,7 +54,7 @@ data class God(
     override fun id() = id
     override fun name() = name.text
     override fun sources() = sources
-    override fun startDate() = null
+    override fun startDate(state: State) = null
     override fun vitalStatus() = status
 
     override fun validate(state: State) {

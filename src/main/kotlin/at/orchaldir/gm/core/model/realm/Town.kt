@@ -66,7 +66,7 @@ data class Town(
     }
 
     override fun sources() = sources
-    override fun startDate() = date
+    override fun startDate(state: State) = date
     override fun vitalStatus() = status
     override fun validate(state: State) = validateTown(state, this)
 }

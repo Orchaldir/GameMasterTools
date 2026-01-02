@@ -3,7 +3,7 @@ package at.orchaldir.gm.core.model.magic
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.Creation
-import at.orchaldir.gm.core.model.util.HasStartDate
+import at.orchaldir.gm.core.model.util.HasSimpleStartDate
 import at.orchaldir.gm.core.model.util.Reference
 import at.orchaldir.gm.core.model.util.UndefinedReference
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
@@ -33,7 +33,7 @@ data class MagicTradition(
     val founder: Reference = UndefinedReference,
     val groups: Set<SpellGroupId> = emptySet(),
     val sources: Set<DataSourceId> = emptySet(),
-) : ElementWithSimpleName<MagicTraditionId>, Creation, HasDataSources, HasStartDate {
+) : ElementWithSimpleName<MagicTraditionId>, Creation, HasDataSources, HasSimpleStartDate {
 
     override fun id() = id
     override fun name() = name.text

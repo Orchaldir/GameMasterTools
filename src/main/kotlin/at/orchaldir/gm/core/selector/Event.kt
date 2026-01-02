@@ -148,7 +148,7 @@ fun State.getEvents(calendar: Calendar): List<Event<*>> {
     return events
 }
 
-private fun <ID : Id<ID>, T> handleStartAndEnd(
+private fun <ID : Id<ID>, T> State.handleStartAndEnd(
     events: MutableList<Event<*>>,
     from: Calendar,
     to: Calendar,
@@ -157,7 +157,7 @@ private fun <ID : Id<ID>, T> handleStartAndEnd(
         T : HasStartAndEndDate,
         T : Element<ID> {
     val id = element.id()
-    val startDate = element.startDate()
+    val startDate = element.startDate(this)
     val endDate = element.endDate()
 
     if (startDate == endDate) {

@@ -18,7 +18,7 @@ fun validateMembers(state: State, organization: Organization) {
             require(history.previousEntries.isNotEmpty()) { "Member ${characterId.value} was never a member!" }
         }
 
-        val birthdate = character.approximateBirthday(state)
+        val birthdate = character.startDate(state)
         val startDate = state.getDefaultCalendar().max(birthdate, organization.date)
 
         validateHistory(state, history, startDate, "rank") { _, rank, noun, _ ->

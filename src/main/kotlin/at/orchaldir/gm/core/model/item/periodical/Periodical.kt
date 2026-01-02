@@ -34,7 +34,7 @@ data class Periodical(
     val calendar: CalendarId = CalendarId(0),
     val date: Date? = null,
     val frequency: PublicationFrequency = PublicationFrequency.Daily,
-) : ElementWithSimpleName<PeriodicalId>, HasOwner, HasStartDate {
+) : ElementWithSimpleName<PeriodicalId>, HasOwner, HasSimpleStartDate {
 
     override fun id() = id
     override fun name() = name.text

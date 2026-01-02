@@ -11,11 +11,9 @@ import at.orchaldir.gm.core.model.culture.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.culture.language.LanguageId
 import at.orchaldir.gm.core.model.culture.name.getDefaultFamilyName
 import at.orchaldir.gm.core.model.race.RaceId
-import at.orchaldir.gm.core.model.race.aging.LifeStageId
 import at.orchaldir.gm.core.model.rpg.statblock.StatblockLookup
 import at.orchaldir.gm.core.model.rpg.statblock.UndefinedStatblockLookup
 import at.orchaldir.gm.core.model.time.Duration
-import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.util.origin.Origin
@@ -99,7 +97,7 @@ data class Character(
     val authenticity: Authenticity = Authentic,
     val statblock: StatblockLookup = UndefinedStatblockLookup,
     val sources: Set<DataSourceId> = emptySet(),
-) : Element<CharacterId>, HasBelief, HasDataSources, HasVitalStatus {
+) : Element<CharacterId>, HasBelief, HasDataSources, HasVitalStatus, HasStartDate {
 
     init {
         validateOriginType(origin, ALLOWED_CHARACTER_ORIGINS)
@@ -144,7 +142,7 @@ data class Character(
 
     override fun belief() = beliefStatus
     override fun sources() = sources
-    override fun startDate() = age.date()
+    override fun startDate(state: State) = age.approximateBirthday(state, race)
     override fun vitalStatus() = status
 
     fun getAge(state: State): Duration? {
@@ -195,7 +193,7 @@ data class Character(
 
     fun isAlive(state: State, date: Date): Boolean {
         val calendar = state.getDefaultCalendar()
-        val birthDate = approximateBirthday(state)
+        val birthDate = startDate(state)
 
         if (calendar.isAfterOrEqual(date, birthDate)) {
             if (status is Dead) {
@@ -207,8 +205,6 @@ data class Character(
 
         return false
     }
-
-    fun approximateBirthday(state: State) = age.approximateBirthday(state, race)
 
     // employment
 

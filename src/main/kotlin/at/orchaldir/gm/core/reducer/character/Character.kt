@@ -9,7 +9,7 @@ fun validateCharacterData(
     state: State,
     character: Character,
 ) {
-    val birthdate = character.approximateBirthday(state)
+    val birthdate = character.startDate(state)
 
     state.getRaceStorage().require(character.race)
     state.getCultureStorage().requireOptional(character.culture)
@@ -43,7 +43,7 @@ private fun checkOrigin(
     state: State,
     character: Character,
 ) {
-    val birthdate = character.approximateBirthday(state)
+    val birthdate = character.startDate(state)
 
     if (character.age is AgeViaBirthdate) {
         validateDate(state, character.age.date, "Birthday")

@@ -197,7 +197,7 @@ fun HtmlBlockTag.editCharacter(
     state: State,
     character: Character,
 ) {
-    val birthdate = character.approximateBirthday(state)
+    val birthdate = character.startDate(state)
     val races = state.getExistingRaces(birthdate)
     val race = state.getRaceStorage().getOrThrow(character.race)
 

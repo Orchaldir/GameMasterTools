@@ -3,7 +3,7 @@ package at.orchaldir.gm.core.model.world.town
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.TownId
 import at.orchaldir.gm.core.model.time.date.Date
-import at.orchaldir.gm.core.model.util.HasStartDate
+import at.orchaldir.gm.core.model.util.HasSimpleStartDate
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.reducer.world.town.hasDuplicateTownAndDate
 import at.orchaldir.gm.core.reducer.world.town.validateTownTile
@@ -35,7 +35,7 @@ data class TownMap(
     val town: TownId? = null,
     val date: Date? = null,
     val map: TileMap2d<TownTile> = TileMap2d(square(10), TownTile()),
-) : Element<TownMapId>, HasStartDate {
+) : Element<TownMapId>, HasSimpleStartDate {
 
     override fun id() = id
     override fun name(state: State) =

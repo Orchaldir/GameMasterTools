@@ -3,7 +3,7 @@ package at.orchaldir.gm.core.model.realm
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.ComplexCreation
-import at.orchaldir.gm.core.model.util.HasStartDate
+import at.orchaldir.gm.core.model.util.HasSimpleStartDate
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.source.DataSourceId
@@ -33,7 +33,7 @@ data class Treaty(
     val date: Date? = null,
     val participants: List<TreatyParticipant> = emptyList(),
     val sources: Set<DataSourceId> = emptySet(),
-) : ElementWithSimpleName<TreatyId>, ComplexCreation, HasDataSources, HasStartDate {
+) : ElementWithSimpleName<TreatyId>, ComplexCreation, HasDataSources, HasSimpleStartDate {
 
     override fun id() = id
     override fun name() = name.text

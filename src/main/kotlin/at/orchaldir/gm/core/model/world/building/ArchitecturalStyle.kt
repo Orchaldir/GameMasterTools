@@ -36,7 +36,7 @@ data class ArchitecturalStyle(
 
     override fun id() = id
     override fun name() = name.text
-    override fun startDate() = start
+    override fun startDate(state: State) = start
     override fun endDate() = end
 
     override fun validate(state: State) {

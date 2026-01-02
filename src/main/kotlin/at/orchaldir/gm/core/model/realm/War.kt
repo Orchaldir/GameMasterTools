@@ -40,7 +40,7 @@ data class War(
     override fun id() = id
     override fun name() = name.text
     override fun sources() = sources
-    override fun startDate() = startDate
+    override fun startDate(state: State) = startDate
     override fun endDate() = when (status) {
         OngoingWar -> null
         is FinishedWar -> status.date ?: startDate

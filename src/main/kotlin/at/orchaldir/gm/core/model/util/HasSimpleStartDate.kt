@@ -9,7 +9,15 @@ import at.orchaldir.gm.core.selector.time.getDefaultCalendar
 
 interface HasStartDate {
 
+    fun startDate(state: State): Date?
+
+}
+
+interface HasSimpleStartDate: HasStartDate {
+
     fun startDate(): Date?
+
+    override fun startDate(state: State) = startDate()
 
 }
 
@@ -17,11 +25,11 @@ interface HasStartAndEndDate : HasStartDate {
 
     fun endDate(): Date?
 
-    fun hasSameStartAndEnd() = startDate() != null && startDate() == endDate()
+    fun hasSameStartAndEnd(state: State) = startDate(state) != null && startDate(state) == endDate()
 
     fun getDuration(state: State): Duration {
         val calendar = state.getDefaultCalendar()
-        val startDate = startDate()
+        val startDate = startDate(state)
         val endDate = endDate()
 
         return if (startDate != null && endDate != null) {
@@ -36,10 +44,4 @@ interface HasStartAndEndDate : HasStartDate {
     fun getAgeInYears(state: State) = state
         .getDefaultCalendar()
         .getYears(getDuration(state))
-}
-
-interface HasComplexStartDate {
-
-    fun startDate(state: State): Date?
-
 }

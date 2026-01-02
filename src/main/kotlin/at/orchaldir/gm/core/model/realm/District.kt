@@ -52,7 +52,7 @@ data class District(
     val economy: Economy = UndefinedEconomy,
     val sources: Set<DataSourceId> = emptySet(),
 ) : ElementWithSimpleName<DistrictId>, Creation, HasArea, HasDataSources, HasEconomy, HasPopulation, HasPosition,
-    HasStartDate {
+    HasSimpleStartDate {
 
     override fun id() = id
     override fun name() = name.text

@@ -4,7 +4,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.Creation
 import at.orchaldir.gm.core.model.util.HasOrigin
-import at.orchaldir.gm.core.model.util.HasStartDate
+import at.orchaldir.gm.core.model.util.HasSimpleStartDate
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.origin.Origin
@@ -44,7 +44,7 @@ data class Disease(
     val date: Date? = null,
     val origin: Origin = UndefinedOrigin,
     val sources: Set<DataSourceId> = emptySet(),
-) : ElementWithSimpleName<DiseaseId>, Creation, HasDataSources, HasOrigin, HasStartDate {
+) : ElementWithSimpleName<DiseaseId>, Creation, HasDataSources, HasOrigin, HasSimpleStartDate {
 
     init {
         validateOriginType(origin, ALLOWED_DISEASE_ORIGINS)

@@ -3,7 +3,7 @@ package at.orchaldir.gm.core.model.realm
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.Creation
-import at.orchaldir.gm.core.model.util.HasStartDate
+import at.orchaldir.gm.core.model.util.HasSimpleStartDate
 import at.orchaldir.gm.core.model.util.Reference
 import at.orchaldir.gm.core.model.util.UndefinedReference
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
@@ -33,7 +33,7 @@ data class LegalCode(
     val creator: Reference = UndefinedReference,
     val date: Date? = null,
     val sources: Set<DataSourceId> = emptySet(),
-) : ElementWithSimpleName<LegalCodeId>, Creation, HasDataSources, HasStartDate {
+) : ElementWithSimpleName<LegalCodeId>, Creation, HasDataSources, HasSimpleStartDate {
 
     override fun id() = id
     override fun name() = name.text
