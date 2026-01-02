@@ -1,9 +1,11 @@
 package at.orchaldir.gm.app.html.realm
 
 import at.orchaldir.gm.app.DATE
+import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.economy.editEconomy
 import at.orchaldir.gm.app.html.economy.parseEconomy
 import at.orchaldir.gm.app.html.economy.showEconomyDetails
+import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.parseInt
 import at.orchaldir.gm.app.html.parseName
 import at.orchaldir.gm.app.html.parseSimpleOptionalInt
@@ -11,16 +13,19 @@ import at.orchaldir.gm.app.html.realm.population.editPopulation
 import at.orchaldir.gm.app.html.realm.population.parsePopulation
 import at.orchaldir.gm.app.html.realm.population.showAreaAndPopulation
 import at.orchaldir.gm.app.html.selectName
+import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.app.html.util.math.parseAreaLookup
 import at.orchaldir.gm.app.html.util.math.selectAreaLookup
 import at.orchaldir.gm.app.html.util.source.editDataSources
 import at.orchaldir.gm.app.html.util.source.parseDataSources
 import at.orchaldir.gm.app.html.util.source.showDataSources
+import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.ALLOWED_DISTRICT_POSITIONS
 import at.orchaldir.gm.core.model.realm.District
 import at.orchaldir.gm.core.model.realm.DistrictId
+import at.orchaldir.gm.core.model.realm.DistrictType
 import at.orchaldir.gm.core.selector.realm.getDistricts
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -33,6 +38,7 @@ fun HtmlBlockTag.showDistrict(
     state: State,
     district: District,
 ) {
+    field("Type", district.type)
     fieldPosition(call, state, district.position)
     optionalField(call, state, "Date", district.foundingDate)
     fieldReference(call, state, district.founder, "Founder")
@@ -51,6 +57,12 @@ fun HtmlBlockTag.editDistrict(
     district: District,
 ) {
     selectName(district.name)
+    selectValue(
+        "Type",
+        TYPE,
+        DistrictType.entries,
+        district.type,
+    )
     selectPosition(
         state,
         district.position,
@@ -83,6 +95,7 @@ fun parseDistrict(
     parseOptionalDate(parameters, state, DATE),
     parseCreator(parameters),
     parseAreaLookup(parameters, state.data.largeAreaUnit),
+    parse(parameters, TYPE, DistrictType.District),
     parsePopulation(parameters, state),
     parseEconomy(parameters, state),
     parseDataSources(parameters),
