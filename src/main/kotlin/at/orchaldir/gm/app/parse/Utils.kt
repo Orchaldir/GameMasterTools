@@ -30,62 +30,7 @@ inline fun <reified T : Enum<T>> parseSet(parameters: Parameters, param: String)
 
 // RarityMap
 
-fun <T> parseOneOf(
-    parameters: Parameters,
-    selectId: String,
-    converter: (String) -> T,
-    default: Collection<T> = listOf(),
-): OneOf<T> {
-    val map = parseRarityMap(parameters, selectId, converter)
 
-    if (map != null) {
-        return OneOf.init(map)
-    }
-
-    return OneOf(default)
-}
-
-fun <T> parseOneOrNone(
-    parameters: Parameters,
-    selectId: String,
-    converter: (String) -> T,
-    default: Collection<T> = listOf(),
-): OneOrNone<T> {
-    val map = parseRarityMap(parameters, selectId, converter)
-
-    if (map != null) {
-        return OneOrNone.init(map)
-    }
-
-    return OneOrNone(default)
-}
-
-fun <T> parseSomeOf(
-    parameters: Parameters,
-    selectId: String,
-    converter: (String) -> T,
-    default: Collection<T> = listOf(),
-): SomeOf<T> {
-    val map = parseRarityMap(parameters, selectId, converter)
-
-    if (map != null) {
-        return SomeOf.init(map)
-    }
-
-    return SomeOf(default)
-}
-
-private fun <T> parseRarityMap(
-    parameters: Parameters,
-    selectId: String,
-    converter: (String) -> T,
-) = parameters.getAll(selectId)
-    ?.associate {
-        val parts = it.split('-')
-        val value = converter(parts[0])
-        val rarity = Rarity.valueOf(parts[1])
-        Pair(value, rarity)
-    }
 
 //
 
