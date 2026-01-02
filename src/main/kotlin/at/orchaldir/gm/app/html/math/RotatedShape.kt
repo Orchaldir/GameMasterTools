@@ -4,7 +4,6 @@ import at.orchaldir.gm.app.PROFILE
 import at.orchaldir.gm.app.X
 import at.orchaldir.gm.app.Y
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.combine
 import at.orchaldir.gm.utils.math.shape.RotatedShape
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag

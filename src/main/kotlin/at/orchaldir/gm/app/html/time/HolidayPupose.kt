@@ -1,15 +1,11 @@
 package at.orchaldir.gm.app.html.time
 
 import at.orchaldir.gm.app.*
-import at.orchaldir.gm.app.html.field
-import at.orchaldir.gm.app.html.link
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.realm.parseCatastropheId
 import at.orchaldir.gm.app.html.realm.parseTreatyId
 import at.orchaldir.gm.app.html.realm.parseWarId
 import at.orchaldir.gm.app.html.religion.parseGodId
-import at.orchaldir.gm.app.html.selectElement
-import at.orchaldir.gm.app.html.selectValue
-import at.orchaldir.gm.app.html.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.holiday.*
 import at.orchaldir.gm.utils.doNothing

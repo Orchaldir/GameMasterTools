@@ -2,7 +2,6 @@ package at.orchaldir.gm.app.html.race
 
 import at.orchaldir.gm.app.RACE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.parseElements
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.race.RaceGroup
 import at.orchaldir.gm.core.model.race.RaceGroupId

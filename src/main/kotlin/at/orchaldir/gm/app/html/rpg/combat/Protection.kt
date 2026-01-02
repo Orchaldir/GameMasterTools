@@ -5,8 +5,6 @@ import at.orchaldir.gm.app.NUMBER
 import at.orchaldir.gm.app.PROTECTION
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.combine
-import at.orchaldir.gm.app.html.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.rpg.combat.*

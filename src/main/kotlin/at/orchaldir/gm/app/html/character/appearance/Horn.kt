@@ -6,8 +6,6 @@ import at.orchaldir.gm.app.html.util.math.parseFactor
 import at.orchaldir.gm.app.html.util.math.parseOrientation
 import at.orchaldir.gm.app.html.util.math.selectOrientation
 import at.orchaldir.gm.app.html.util.math.selectPercentage
-import at.orchaldir.gm.app.html.combine
-import at.orchaldir.gm.app.html.parse
 import at.orchaldir.gm.core.generator.AppearanceGeneratorConfig
 import at.orchaldir.gm.core.generator.generateHorn
 import at.orchaldir.gm.core.generator.generateHorns

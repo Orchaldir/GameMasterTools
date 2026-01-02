@@ -4,16 +4,11 @@ import at.orchaldir.gm.app.DAMAGE
 import at.orchaldir.gm.app.DEFENSE
 import at.orchaldir.gm.app.RESISTANCE
 import at.orchaldir.gm.app.TYPE
-import at.orchaldir.gm.app.html.field
-import at.orchaldir.gm.app.html.parseInt
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.rpg.parseSimpleModifiedDice
 import at.orchaldir.gm.app.html.rpg.selectDiceModifier
 import at.orchaldir.gm.app.html.rpg.selectDiceNumber
 import at.orchaldir.gm.app.html.rpg.selectFromRange
-import at.orchaldir.gm.app.html.selectValue
-import at.orchaldir.gm.app.html.showDetails
-import at.orchaldir.gm.app.html.combine
-import at.orchaldir.gm.app.html.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.combat.*
 import io.ktor.http.*

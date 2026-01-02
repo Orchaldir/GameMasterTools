@@ -3,14 +3,10 @@ package at.orchaldir.gm.app.html.item.text
 import at.orchaldir.gm.app.ALIGNMENT
 import at.orchaldir.gm.app.NUMBER
 import at.orchaldir.gm.app.PAGE
-import at.orchaldir.gm.app.html.field
-import at.orchaldir.gm.app.html.selectValue
-import at.orchaldir.gm.app.html.showDetails
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.font.editFontOption
 import at.orchaldir.gm.app.html.util.font.parseFontOption
 import at.orchaldir.gm.app.html.util.font.showFontOption
-import at.orchaldir.gm.app.html.combine
-import at.orchaldir.gm.app.html.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.text.content.*
 import at.orchaldir.gm.core.model.util.HorizontalAlignment

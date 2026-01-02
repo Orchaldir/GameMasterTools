@@ -4,7 +4,6 @@ import at.orchaldir.gm.app.PARTICIPANT
 import at.orchaldir.gm.app.SIDE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.*
-import at.orchaldir.gm.app.html.combine
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.ALLOWED_WAR_PARTICIPANTS
 import at.orchaldir.gm.core.model.realm.War

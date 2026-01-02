@@ -3,7 +3,6 @@ package at.orchaldir.gm.app.routes.world.town
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.world.parseTerrainType
-import at.orchaldir.gm.app.html.combine
 import at.orchaldir.gm.app.routes.world.RegionRoutes
 import at.orchaldir.gm.app.routes.world.RiverRoutes
 import at.orchaldir.gm.core.action.ResizeTerrain

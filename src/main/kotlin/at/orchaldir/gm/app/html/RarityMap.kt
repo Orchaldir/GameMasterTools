@@ -2,16 +2,14 @@ package at.orchaldir.gm.app.html
 
 import at.orchaldir.gm.core.model.character.appearance.SkinColor
 import at.orchaldir.gm.core.model.character.appearance.hair.NormalHairColorEnum
-import at.orchaldir.gm.core.model.util.OneOf
-import at.orchaldir.gm.core.model.util.OneOrNone
-import at.orchaldir.gm.core.model.util.Rarity
-import at.orchaldir.gm.core.model.util.RarityMap
-import at.orchaldir.gm.core.model.util.SomeOf
+import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.util.render.Color
-import at.orchaldir.gm.core.model.util.reverseAndSort
 import at.orchaldir.gm.visualization.character.CharacterRenderConfig
-import io.ktor.http.Parameters
-import kotlinx.html.*
+import io.ktor.http.*
+import kotlinx.html.HtmlBlockTag
+import kotlinx.html.LI
+import kotlinx.html.li
+import kotlinx.html.ul
 
 // show
 

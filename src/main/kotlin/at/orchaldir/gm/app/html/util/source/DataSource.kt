@@ -4,7 +4,6 @@ import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.NUMBER
 import at.orchaldir.gm.app.SOURCE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.parseElements
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.source.DataSource
 import at.orchaldir.gm.core.model.util.source.DataSourceId

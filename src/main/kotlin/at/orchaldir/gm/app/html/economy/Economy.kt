@@ -6,9 +6,6 @@ import at.orchaldir.gm.app.NUMBER
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.app.html.util.math.parseFactor
-import at.orchaldir.gm.app.html.combine
-import at.orchaldir.gm.app.html.parse
-import at.orchaldir.gm.app.html.parseElements
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.*
 import at.orchaldir.gm.core.model.economy.business.BusinessTemplate

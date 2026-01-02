@@ -4,10 +4,10 @@ import at.orchaldir.gm.app.FOOTWEAR
 import at.orchaldir.gm.app.SHAFT
 import at.orchaldir.gm.app.SOLE
 import at.orchaldir.gm.app.html.field
+import at.orchaldir.gm.app.html.parse
 import at.orchaldir.gm.app.html.rpg.combat.parseArmorStats
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.util.part.*
-import at.orchaldir.gm.app.html.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.Footwear
 import at.orchaldir.gm.core.model.item.equipment.style.FootwearStyle

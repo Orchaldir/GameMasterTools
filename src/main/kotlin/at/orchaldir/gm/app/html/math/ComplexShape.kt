@@ -2,14 +2,10 @@ package at.orchaldir.gm.app.html.math
 
 import at.orchaldir.gm.app.SHAPE
 import at.orchaldir.gm.app.SIZE
-import at.orchaldir.gm.app.html.field
-import at.orchaldir.gm.app.html.selectValue
-import at.orchaldir.gm.app.html.showDetails
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.math.fieldFactor
 import at.orchaldir.gm.app.html.util.math.parseFactor
 import at.orchaldir.gm.app.html.util.math.selectFactor
-import at.orchaldir.gm.app.html.combine
-import at.orchaldir.gm.app.html.parse
 import at.orchaldir.gm.utils.math.HALF
 import at.orchaldir.gm.utils.math.ONE_PERCENT
 import at.orchaldir.gm.utils.math.shape.*

@@ -2,9 +2,9 @@ package at.orchaldir.gm.app.html.time
 
 import at.orchaldir.gm.app.HOLIDAY
 import at.orchaldir.gm.app.html.fieldElements
+import at.orchaldir.gm.app.html.parseElements
 import at.orchaldir.gm.app.html.selectElements
 import at.orchaldir.gm.app.html.showDetails
-import at.orchaldir.gm.app.html.parseElements
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.holiday.HolidayId
 import io.ktor.http.*

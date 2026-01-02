@@ -2,8 +2,6 @@ package at.orchaldir.gm.app.html.rpg.combat
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.combine
-import at.orchaldir.gm.app.html.parse
 import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*

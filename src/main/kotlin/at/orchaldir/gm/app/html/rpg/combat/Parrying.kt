@@ -4,8 +4,6 @@ import at.orchaldir.gm.app.NUMBER
 import at.orchaldir.gm.app.PARRYING
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.combine
-import at.orchaldir.gm.app.html.parse
 import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*

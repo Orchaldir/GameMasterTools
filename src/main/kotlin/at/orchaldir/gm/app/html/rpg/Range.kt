@@ -2,10 +2,10 @@ package at.orchaldir.gm.app.html.rpg
 
 import at.orchaldir.gm.app.MAX
 import at.orchaldir.gm.app.MIN
+import at.orchaldir.gm.app.html.combine
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.parseInt
 import at.orchaldir.gm.app.html.selectInt
-import at.orchaldir.gm.app.html.combine
 import at.orchaldir.gm.core.model.rpg.Range
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag

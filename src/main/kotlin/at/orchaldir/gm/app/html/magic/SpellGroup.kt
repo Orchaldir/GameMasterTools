@@ -2,7 +2,6 @@ package at.orchaldir.gm.app.html.magic
 
 import at.orchaldir.gm.app.SPELLS
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.parseElements
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.magic.SpellGroup
 import at.orchaldir.gm.core.model.magic.SpellGroupId

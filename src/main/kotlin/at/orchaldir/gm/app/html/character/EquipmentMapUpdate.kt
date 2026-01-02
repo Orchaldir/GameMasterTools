@@ -1,9 +1,9 @@
 package at.orchaldir.gm.app.html.character
 
 import at.orchaldir.gm.app.EQUIPMENT
+import at.orchaldir.gm.app.html.combine
 import at.orchaldir.gm.app.html.fieldList
 import at.orchaldir.gm.app.html.link
-import at.orchaldir.gm.app.html.combine
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.EquipmentIdMap
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMapUpdate

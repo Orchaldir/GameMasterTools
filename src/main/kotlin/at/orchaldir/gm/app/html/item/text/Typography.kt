@@ -1,14 +1,14 @@
 package at.orchaldir.gm.app.html.item.text
 
 import at.orchaldir.gm.app.*
+import at.orchaldir.gm.app.html.combine
+import at.orchaldir.gm.app.html.parse
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.showDetails
 import at.orchaldir.gm.app.html.util.font.editFontOption
 import at.orchaldir.gm.app.html.util.font.parseFontOption
 import at.orchaldir.gm.app.html.util.math.parseDistance
 import at.orchaldir.gm.app.html.util.math.selectDistance
-import at.orchaldir.gm.app.html.combine
-import at.orchaldir.gm.app.html.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.text.book.typography.*
 import at.orchaldir.gm.core.model.util.font.FontOption

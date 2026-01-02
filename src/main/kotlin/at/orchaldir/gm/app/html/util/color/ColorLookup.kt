@@ -3,8 +3,6 @@ package at.orchaldir.gm.app.html.util.color
 import at.orchaldir.gm.app.COLOR
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.combine
-import at.orchaldir.gm.app.html.parse
 import at.orchaldir.gm.core.model.util.render.*
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*

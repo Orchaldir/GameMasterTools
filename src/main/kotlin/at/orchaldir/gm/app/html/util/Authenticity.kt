@@ -6,8 +6,6 @@ import at.orchaldir.gm.app.GOD
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.character.parseCharacterId
 import at.orchaldir.gm.app.html.religion.parseGodId
-import at.orchaldir.gm.app.html.combine
-import at.orchaldir.gm.app.html.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.utils.doNothing

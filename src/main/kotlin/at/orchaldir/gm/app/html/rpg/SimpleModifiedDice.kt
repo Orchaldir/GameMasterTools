@@ -2,8 +2,8 @@ package at.orchaldir.gm.app.html.rpg
 
 import at.orchaldir.gm.app.DIE
 import at.orchaldir.gm.app.NUMBER
-import at.orchaldir.gm.app.html.parseInt
 import at.orchaldir.gm.app.html.combine
+import at.orchaldir.gm.app.html.parseInt
 import at.orchaldir.gm.core.model.rpg.SimpleModifiedDice
 import at.orchaldir.gm.core.model.rpg.SimpleModifiedDiceRange
 import io.ktor.http.*

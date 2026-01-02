@@ -2,15 +2,10 @@ package at.orchaldir.gm.app.html.rpg.combat
 
 import at.orchaldir.gm.app.BASE
 import at.orchaldir.gm.app.TYPE
-import at.orchaldir.gm.app.html.link
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.rpg.editSimpleModifiedDice
 import at.orchaldir.gm.app.html.rpg.parseSimpleModifiedDice
 import at.orchaldir.gm.app.html.rpg.statistic.parseStatisticId
-import at.orchaldir.gm.app.html.selectElement
-import at.orchaldir.gm.app.html.selectValue
-import at.orchaldir.gm.app.html.showDetails
-import at.orchaldir.gm.app.html.combine
-import at.orchaldir.gm.app.html.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.combat.DamageAmount
 import at.orchaldir.gm.core.model.rpg.combat.DamageAmountType

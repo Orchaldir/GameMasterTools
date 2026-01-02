@@ -2,10 +2,10 @@ package at.orchaldir.gm.app.html.util
 
 import at.orchaldir.gm.app.HEIGHT
 import at.orchaldir.gm.app.WIDTH
+import at.orchaldir.gm.app.html.combine
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.parseInt
 import at.orchaldir.gm.app.html.selectInt
-import at.orchaldir.gm.app.html.combine
 import at.orchaldir.gm.utils.map.MapSize2d
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag
