@@ -30,20 +30,6 @@ class CharacterTest {
     val character0 = Character(CHARACTER_ID_0)
 
     @Nested
-    inner class CreateTest {
-
-        @Test
-        fun `Default birthday is today`() {
-            val today = Day(42)
-            val state = State(data = Data(time = Time(currentDate = today)))
-
-            val characters = REDUCER.invoke(state, CreateAction(CHARACTER_ID_0)).first.getCharacterStorage()
-
-            assertEquals(today, characters.getOrThrow(CHARACTER_ID_0).date)
-        }
-    }
-
-    @Nested
     inner class UpdateTest {
 
         val STATE = State(
@@ -70,6 +56,8 @@ class CharacterTest {
 
         @Test
         fun `Test allowed vital status types`() {
+            val age = AgeViaBirthdate(DAY0)
+
             testAllowedVitalStatusTypes(
                 STATE,
                 mapOf(
@@ -81,7 +69,7 @@ class CharacterTest {
                     VitalStatusType.Vanished to true,
                 ),
             ) { status ->
-                Character(CHARACTER_ID_0, date = DAY0, status = status)
+                Character(CHARACTER_ID_0, age = age, status = status)
             }
         }
 
@@ -149,7 +137,8 @@ class CharacterTest {
 
             @Test
             fun `Cannot be born in the future`() {
-                val action = UpdateAction(Character(CHARACTER_ID_0, date = Day(1)))
+                val age = AgeViaBirthdate(Day(1))
+                val action = UpdateAction(Character(CHARACTER_ID_0, age = age))
 
                 assertIllegalArgument("Date (Birthday) is in the future!") { REDUCER.invoke(state, action) }
             }

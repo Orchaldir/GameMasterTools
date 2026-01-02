@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.Gender
+import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.util.origin.*
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -18,10 +19,11 @@ class OriginTest {
             Storage(
                 listOf(
                     Character(CHARACTER_ID_0),
-                    Character(CHARACTER_ID_1, gender = Gender.Male, date = DAY1),
-                    Character(CHARACTER_ID_2, gender = Gender.Female, date = DAY1),
+                    Character(CHARACTER_ID_1, gender = Gender.Male),
+                    Character(CHARACTER_ID_2, gender = Gender.Female),
                 )
             ),
+            Storage(Race(RACE_ID_0)),
         )
     )
 

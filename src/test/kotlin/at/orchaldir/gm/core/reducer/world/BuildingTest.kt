@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.model.Data
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CHARACTER_TYPE
 import at.orchaldir.gm.core.model.character.Character
+import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.realm.Town
 import at.orchaldir.gm.core.model.time.Time
 import at.orchaldir.gm.core.model.time.date.Day
@@ -231,7 +232,8 @@ class BuildingTest {
                 Storage(listOf(ArchitecturalStyle(STYLE, start = YEAR0))),
                 Storage(listOf(Building(BUILDING_ID_0, style = STYLE), Building(BUILDING_ID_1, style = STYLE))),
                 Storage(CALENDAR0),
-                Storage(Character(CHARACTER_ID_0, date = DAY0)),
+                Storage(Character(CHARACTER_ID_0)),
+                Storage(Race(RACE_ID_0)),
                 Storage(listOf(Street(STREET_ID_0), Street(STREET_ID_1), Street(STREET_NOT_IN_TOWN))),
                 Storage(Town(TOWN_ID_0)),
                 Storage(emptyTownMap),
@@ -499,7 +501,6 @@ class BuildingTest {
                     Storage(
                         Character(
                             CHARACTER_ID_0,
-                            date = DAY0,
                             housingStatus = History(InBuilding(BUILDING_ID_0))
                         )
                     )
@@ -515,7 +516,6 @@ class BuildingTest {
                     Storage(
                         Character(
                             CHARACTER_ID_0,
-                            date = DAY0,
                             housingStatus = History(InBuilding(BUILDING_ID_0))
                         )
                     )
@@ -537,7 +537,6 @@ class BuildingTest {
                             Storage(
                                 Character(
                                     CHARACTER_ID_0,
-                                    date = DAY0,
                                     housingStatus = History(InApartment(BUILDING_ID_0, 4))
                                 )
                             )

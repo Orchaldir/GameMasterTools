@@ -16,6 +16,7 @@ import at.orchaldir.gm.core.model.item.text.book.SimpleSewingPattern
 import at.orchaldir.gm.core.model.item.text.content.*
 import at.orchaldir.gm.core.model.item.text.scroll.ScrollWithOneRod
 import at.orchaldir.gm.core.model.magic.Spell
+import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.util.CharacterReference
 import at.orchaldir.gm.core.model.util.font.SolidFont
 import at.orchaldir.gm.core.model.util.origin.CreatedElement
@@ -35,8 +36,9 @@ class TextTest {
             Storage(listOf(Text(TEXT_ID_0), Text(TEXT_ID_1, date = DAY1))),
             Storage(CALENDAR0),
             Storage(Business(BUSINESS_ID_0, date = DAY2)),
-            Storage(Character(CHARACTER_ID_0, date = DAY0)),
+            Storage(Character(CHARACTER_ID_0)),
             Storage(Language(LANGUAGE_ID_0)),
+            Storage(Race(RACE_ID_0)),
             Storage(Spell(SPELL_ID_0)),
         )
     )

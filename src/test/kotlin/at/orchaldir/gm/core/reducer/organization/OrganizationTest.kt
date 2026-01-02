@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.organization.Organization
+import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.core.reducer.util.testAllowedVitalStatusTypes
@@ -21,8 +22,9 @@ class OrganizationTest {
     private val state = State(
         listOf(
             Storage(CALENDAR0),
-            Storage(Character(CHARACTER_ID_0, date = DAY1)),
+            Storage(Character(CHARACTER_ID_0)),
             Storage(organization0),
+            Storage(Race(RACE_ID_0)),
         )
     )
 
