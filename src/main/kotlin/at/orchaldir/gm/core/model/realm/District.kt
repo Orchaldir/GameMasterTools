@@ -64,7 +64,7 @@ data class District(
     override fun population() = population
     override fun position() = position
     override fun sources() = sources
-    override fun startDate() = foundingDate
+    override fun startDate(state: State) = foundingDate
 
     override fun validate(state: State) {
         checkPosition(state, position, "position", null, ALLOWED_DISTRICT_POSITIONS)

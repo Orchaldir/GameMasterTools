@@ -83,7 +83,7 @@ data class Text(
     override fun creator() = origin.creator()
     override fun origin() = origin
     override fun sources() = sources
-    override fun startDate() = date
+    override fun startDate(state: State) = date
     override fun parts() = format.parts()
 
     override fun validate(state: State) {

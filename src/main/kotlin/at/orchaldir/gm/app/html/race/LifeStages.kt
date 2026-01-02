@@ -275,3 +275,5 @@ private fun parseHairColor(parameters: Parameters, index: Int, default: Color? =
 
 private fun parseAppearanceId(parameters: Parameters, index: Int) =
     parseRaceAppearanceId(parameters, combine(RACE, APPEARANCE, index))
+
+fun parseLifeStageId(parameters: Parameters, param: String) = LifeStageId(parseInt(parameters, param))

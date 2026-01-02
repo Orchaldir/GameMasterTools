@@ -60,7 +60,7 @@ data class Moon(
     override fun id() = id
     override fun name() = name.text
     override fun position() = position
-    override fun startDate() = null
+    override fun startDate(state: State) = null
     override fun vitalStatus() = status
 
     fun getCycle() = daysPerQuarter * 4

@@ -12,7 +12,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.business.*
 import at.orchaldir.gm.core.selector.character.getEmployees
 import at.orchaldir.gm.core.selector.character.getPreviousEmployees
-import at.orchaldir.gm.core.selector.item.getTextsPublishedBy
 import at.orchaldir.gm.core.selector.util.sortBusinessTemplates
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -27,13 +26,13 @@ fun HtmlBlockTag.showBusiness(
 ) {
     val employees = state.getEmployees(business.id).toSet()
     val previousEmployees = state.getPreviousEmployees(business.id).toSet() - employees
-    val published = state.getTextsPublishedBy(business.id)
+    val startDate = business.startDate(state)
 
     fieldIds(call, state, business.templates)
     fieldPosition(call, state, business.position)
-    optionalField(call, state, "Start", business.startDate())
+    optionalField(call, state, "Start", startDate)
     showVitalStatus(call, state, business.status)
-    fieldAge("Age", state, business.startDate())
+    fieldAge("Age", state, startDate)
     fieldReference(call, state, business.founder, "Founder")
     showOwnership(call, state, business.ownership)
     showEmployees(call, state, employees, showOptionalBusiness = false)
@@ -50,6 +49,8 @@ fun HtmlBlockTag.editBusiness(
     state: State,
     business: Business,
 ) {
+    val startDate = business.startDate(state)
+
     selectName(business.name)
     selectElements(
         state,
@@ -58,18 +59,18 @@ fun HtmlBlockTag.editBusiness(
         state.sortBusinessTemplates(),
         business.templates,
     )
-    selectOptionalDate(state, "Start", business.startDate(), DATE)
+    selectOptionalDate(state, "Start", startDate, DATE)
     selectVitalStatus(
         state,
         business.id,
-        business.startDate(),
+        startDate,
         business.status,
         ALLOWED_VITAL_STATUS_FOR_BUSINESS,
         ALLOWED_CAUSES_OF_DEATH_FOR_BUSINESS,
     )
-    selectPosition(state, business.position, business.startDate(), ALLOWED_BUSINESS_POSITIONS)
-    selectCreator(state, business.founder, business.id, business.startDate(), "Founder")
-    selectOwnership(state, business.ownership, business.startDate())
+    selectPosition(state, business.position, startDate, ALLOWED_BUSINESS_POSITIONS)
+    selectCreator(state, business.founder, business.id, startDate, "Founder")
+    selectOwnership(state, business.ownership, startDate)
     editDataSources(state, business.sources)
 }
 

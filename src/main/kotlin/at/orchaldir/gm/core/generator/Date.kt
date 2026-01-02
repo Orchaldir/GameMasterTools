@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import at.orchaldir.gm.core.model.time.date.*
 import at.orchaldir.gm.core.selector.time.date.*
+import at.orchaldir.gm.core.selector.time.getCurrentYear
 import at.orchaldir.gm.utils.NumberGenerator
 
 class DateGenerator(
@@ -14,6 +15,13 @@ class DateGenerator(
 
     constructor(numberGenerator: NumberGenerator, state: State, id: CalendarId) :
             this(numberGenerator, state.getCalendarStorage().getOrThrow(id))
+
+    fun generateMonthAndDay(state: State, startYear: Int, endYear: Int): Day {
+        val age = numberGenerator.getNumber(startYear, endYear)
+        val year = state.getCurrentYear() - age
+
+        return generateMonthAndDay(year)
+    }
 
     fun generateMonthAndDay(date: Date): Day {
         val monthIndex = numberGenerator.getNumber() % calendar.months.getSize()

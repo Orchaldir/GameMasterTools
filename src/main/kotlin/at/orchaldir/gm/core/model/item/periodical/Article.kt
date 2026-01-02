@@ -43,7 +43,7 @@ data class Article(
         UndefinedReference
     }
 
-    override fun startDate() = date
+    override fun startDate(state: State) = date
 
     override fun validate(state: State) {
         state.getArticleStorage().requireOptional(id)

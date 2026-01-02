@@ -53,7 +53,7 @@ data class TownMap(
             }
         }
 
-    override fun startDate() = date
+    override fun startDate(state: State) = date
 
     fun canBuild(index: Int, size: MapSize2d) = checkTiles(index, size) { it.canBuild() }
     fun canResize(index: Int, size: MapSize2d, building: BuildingId) =

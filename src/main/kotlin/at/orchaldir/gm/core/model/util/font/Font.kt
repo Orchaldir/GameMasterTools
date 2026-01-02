@@ -31,7 +31,7 @@ data class Font(
 
     override fun id() = id
     override fun name() = name.text
-    override fun startDate() = date
+    override fun startDate(state: State) = date
 
     override fun validate(state: State) {
         validateDate(state, date, "Font")

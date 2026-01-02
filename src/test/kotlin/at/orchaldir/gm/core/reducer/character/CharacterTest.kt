@@ -1,9 +1,7 @@
 package at.orchaldir.gm.core.reducer.character
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.CreateAction
 import at.orchaldir.gm.core.action.UpdateAction
-import at.orchaldir.gm.core.model.Data
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.character.Gender.Genderless
@@ -12,9 +10,10 @@ import at.orchaldir.gm.core.model.culture.language.Language
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.race.Race
+import at.orchaldir.gm.core.model.race.aging.ImmutableLifeStage
+import at.orchaldir.gm.core.model.race.aging.LifeStageId
 import at.orchaldir.gm.core.model.rpg.statblock.UseStatblockOfTemplate
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTrait
-import at.orchaldir.gm.core.model.time.Time
 import at.orchaldir.gm.core.model.time.date.Day
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.util.origin.BornElement
@@ -28,20 +27,6 @@ import kotlin.test.assertEquals
 class CharacterTest {
 
     val character0 = Character(CHARACTER_ID_0)
-
-    @Nested
-    inner class CreateTest {
-
-        @Test
-        fun `Default birthday is today`() {
-            val today = Day(42)
-            val state = State(data = Data(time = Time(currentDate = today)))
-
-            val characters = REDUCER.invoke(state, CreateAction(CHARACTER_ID_0)).first.getCharacterStorage()
-
-            assertEquals(today, characters.getOrThrow(CHARACTER_ID_0).date)
-        }
-    }
 
     @Nested
     inner class UpdateTest {
@@ -70,6 +55,8 @@ class CharacterTest {
 
         @Test
         fun `Test allowed vital status types`() {
+            val age = AgeViaBirthdate(DAY0)
+
             testAllowedVitalStatusTypes(
                 STATE,
                 mapOf(
@@ -81,7 +68,43 @@ class CharacterTest {
                     VitalStatusType.Vanished to true,
                 ),
             ) { status ->
-                Character(CHARACTER_ID_0, date = DAY0, status = status)
+                Character(CHARACTER_ID_0, age = age, status = status)
+            }
+        }
+
+        @Nested
+        inner class AgeTest {
+            @Test
+            fun `Cannot use age via default life stage with immutable life stage`() {
+                val newState = STATE.updateStorage(Storage(Race(RACE_ID_0, lifeStages = ImmutableLifeStage())))
+                val character = Character(CHARACTER_ID_0, age = AgeViaDefaultLifeStage, race = RACE_ID_0)
+                val action = UpdateAction(character)
+
+                assertIllegalArgument("Age via default life stage is not supported by Race 0!") {
+                    REDUCER.invoke(newState, action)
+                }
+            }
+
+            @Test
+            fun `Cannot use age via life stage with immutable life stage`() {
+                val newState = STATE.updateStorage(Storage(Race(RACE_ID_0, lifeStages = ImmutableLifeStage())))
+                val age = AgeViaLifeStage(LifeStageId(0))
+                val character = Character(CHARACTER_ID_0, age = age, race = RACE_ID_0)
+                val action = UpdateAction(character)
+
+                assertIllegalArgument("Age via life stage is not supported by Race 0!") {
+                    REDUCER.invoke(newState, action)
+                }
+            }
+
+            @Test
+            fun `Cannot use an unknown life stage`() {
+                val character = Character(CHARACTER_ID_0, age = AgeViaLifeStage(LifeStageId(-1)))
+                val action = UpdateAction(character)
+
+                assertIllegalArgument("Age via Life Stage -1 is not supported by Race 0!") {
+                    REDUCER.invoke(STATE, action)
+                }
             }
         }
 
@@ -149,7 +172,8 @@ class CharacterTest {
 
             @Test
             fun `Cannot be born in the future`() {
-                val action = UpdateAction(Character(CHARACTER_ID_0, date = Day(1)))
+                val age = AgeViaBirthdate(Day(1))
+                val action = UpdateAction(Character(CHARACTER_ID_0, age = age))
 
                 assertIllegalArgument("Date (Birthday) is in the future!") { REDUCER.invoke(state, action) }
             }

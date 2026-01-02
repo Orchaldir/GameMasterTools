@@ -27,21 +27,21 @@ class LifeStagesTest {
 
             @Test
             fun `Get life stage before being born`() {
-                assertEquals(a, simpleAging.getLifeStage(-1))
+                assertEquals(a, simpleAging.getLifeStageForAge(-1))
             }
 
             @Test
             fun `Get life stage`() {
-                assertEquals(a, simpleAging.getLifeStage(0))
-                assertEquals(a, simpleAging.getLifeStage(1))
-                assertEquals(a, simpleAging.getLifeStage(2))
-                assertEquals(b, simpleAging.getLifeStage(3))
-                assertEquals(b, simpleAging.getLifeStage(4))
+                assertEquals(a, simpleAging.getLifeStageForAge(0))
+                assertEquals(a, simpleAging.getLifeStageForAge(1))
+                assertEquals(a, simpleAging.getLifeStageForAge(2))
+                assertEquals(b, simpleAging.getLifeStageForAge(3))
+                assertEquals(b, simpleAging.getLifeStageForAge(4))
             }
 
             @Test
             fun `Get last life stage if too old`() {
-                assertEquals(b, simpleAging.getLifeStage(5))
+                assertEquals(b, simpleAging.getLifeStageForAge(5))
             }
         }
 

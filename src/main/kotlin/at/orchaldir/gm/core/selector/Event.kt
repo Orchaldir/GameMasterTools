@@ -65,7 +65,7 @@ fun State.getEvents(calendar: Calendar): List<Event<*>> {
     }
 
     getFontStorage().getAll().forEach { font ->
-        addPossibleEvent(events, default, calendar, font.startDate()) {
+        addPossibleEvent(events, default, calendar, font.startDate(this)) {
             StartEvent(it, font.id)
         }
     }
@@ -75,13 +75,13 @@ fun State.getEvents(calendar: Calendar): List<Event<*>> {
     }
 
     getLegalCodeStorage().getAll().forEach { code ->
-        addPossibleEvent(events, default, calendar, code.startDate()) {
+        addPossibleEvent(events, default, calendar, code.startDate(this)) {
             StartEvent(it, code.id)
         }
     }
 
     getMagicTraditionStorage().getAll().forEach { tradition ->
-        addPossibleEvent(events, default, calendar, tradition.startDate()) {
+        addPossibleEvent(events, default, calendar, tradition.startDate(this)) {
             StartEvent(it, tradition.id)
         }
     }
@@ -105,7 +105,7 @@ fun State.getEvents(calendar: Calendar): List<Event<*>> {
     }
 
     getRaceStorage().getAll().forEach { race ->
-        addPossibleEvent(events, default, calendar, race.startDate()) {
+        addPossibleEvent(events, default, calendar, race.startDate(this)) {
             StartEvent(it, race.id)
         }
     }
@@ -136,7 +136,7 @@ fun State.getEvents(calendar: Calendar): List<Event<*>> {
     }
 
     getTreatyStorage().getAll().forEach { treaty ->
-        addPossibleEvent(events, default, calendar, treaty.startDate()) {
+        addPossibleEvent(events, default, calendar, treaty.startDate(this)) {
             StartEvent(it, treaty.id)
         }
     }
@@ -148,7 +148,7 @@ fun State.getEvents(calendar: Calendar): List<Event<*>> {
     return events
 }
 
-private fun <ID : Id<ID>, T> handleStartAndEnd(
+private fun <ID : Id<ID>, T> State.handleStartAndEnd(
     events: MutableList<Event<*>>,
     from: Calendar,
     to: Calendar,
@@ -157,7 +157,7 @@ private fun <ID : Id<ID>, T> handleStartAndEnd(
         T : HasStartAndEndDate,
         T : Element<ID> {
     val id = element.id()
-    val startDate = element.startDate()
+    val startDate = element.startDate(this)
     val endDate = element.endDate()
 
     if (startDate == endDate) {

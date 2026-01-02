@@ -39,7 +39,7 @@ data class Periodical(
     override fun id() = id
     override fun name() = name.text
     override fun owner() = ownership
-    override fun startDate() = date
+    override fun startDate(state: State) = date
 
     override fun validate(state: State) {
         state.getPeriodicalStorage().require(id)

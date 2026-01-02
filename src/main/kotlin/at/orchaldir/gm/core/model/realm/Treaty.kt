@@ -38,7 +38,7 @@ data class Treaty(
     override fun id() = id
     override fun name() = name.text
     override fun sources() = sources
-    override fun startDate() = date
+    override fun startDate(state: State) = date
     override fun <ID : Id<ID>> isCreatedBy(id: ID) = participants.any { it.isCreatedBy(id) }
 
     override fun validate(state: State) {

@@ -3,7 +3,7 @@ package at.orchaldir.gm.core.model.item.periodical
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.time.date.Year
-import at.orchaldir.gm.core.model.util.HasComplexStartDate
+import at.orchaldir.gm.core.model.util.HasStartDate
 import at.orchaldir.gm.core.selector.time.date.convertDateToDefault
 import at.orchaldir.gm.core.selector.time.date.display
 import at.orchaldir.gm.core.selector.time.date.getStartDay
@@ -29,7 +29,7 @@ data class PeriodicalIssue(
     val periodical: PeriodicalId = PeriodicalId(0),
     val date: Date = Year(0),
     val articles: Set<ArticleId> = emptySet(),
-) : Element<PeriodicalIssueId>, HasComplexStartDate {
+) : Element<PeriodicalIssueId>, HasStartDate {
 
     override fun id() = id
 
@@ -55,7 +55,7 @@ data class PeriodicalIssue(
         val periodical = state.getPeriodicalStorage().getOrThrow(periodical)
         val calendar = state.getCalendarStorage().getOrThrow(periodical.calendar)
 
-        return periodical.startDate()?.let { state.convertDateToDefault(calendar, it) }
+        return periodical.startDate(state)?.let { state.convertDateToDefault(calendar, it) }
     }
 
     override fun validate(state: State) {

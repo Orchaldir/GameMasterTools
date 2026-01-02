@@ -2,9 +2,11 @@ package at.orchaldir.gm.core.reducer.util
 
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.AgeViaBirthdate
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.organization.Organization
+import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.Town
 import at.orchaldir.gm.core.model.util.*
@@ -19,8 +21,9 @@ class OwnerTest {
         listOf(
             Storage(CALENDAR0),
             Storage(Business(BUSINESS_ID_0, date = DAY0)),
-            Storage(Character(CHARACTER_ID_2, date = DAY0)),
+            Storage(Character(CHARACTER_ID_2)),
             Storage(Organization(ORGANIZATION_ID_0, date = DAY0)),
+            Storage(Race(RACE_ID_0)),
             Storage(Realm(REALM_ID_0, date = DAY0)),
             Storage(listOf(StreetTemplate(STREET_TEMPLATE_ID_0), StreetTemplate(STREET_TEMPLATE_ID_0))),
             Storage(Town(TOWN_ID_0, date = DAY0)),
@@ -147,7 +150,8 @@ class OwnerTest {
 
         @Test
         fun `Character owns a building before his birth`() {
-            val state = STATE.updateStorage(Storage(Character(CHARACTER_ID_2, date = DAY1)))
+            val age = AgeViaBirthdate(DAY1)
+            val state = STATE.updateStorage(Storage(Character(CHARACTER_ID_2, age = age)))
 
             assertIllegalArgument("The owner (Character 2) doesn't exist at the required date!") {
                 checkOwnership(state, OWNED_BY_CHARACTER, DAY0)
@@ -172,7 +176,8 @@ class OwnerTest {
                     HistoryEntry(CharacterReference(CHARACTER_ID_2), DAY2)
                 )
             )
-            val state = STATE.updateStorage(Storage(Character(CHARACTER_ID_2, date = DAY2)))
+            val age = AgeViaBirthdate(DAY2)
+            val state = STATE.updateStorage(Storage(Character(CHARACTER_ID_2, age = age)))
 
             assertIllegalArgument("The 2.previous owner (Character 2) doesn't exist at the required date!") {
                 checkOwnership(state, ownership, DAY0)

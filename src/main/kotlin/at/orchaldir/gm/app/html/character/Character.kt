@@ -38,16 +38,16 @@ import at.orchaldir.gm.core.selector.race.getExistingRaces
 import at.orchaldir.gm.core.selector.realm.getBattlesLedBy
 import at.orchaldir.gm.core.selector.time.getCurrentYear
 import at.orchaldir.gm.core.selector.time.getDefaultCalendar
-import at.orchaldir.gm.core.selector.util.canHaveFamilyName
-import at.orchaldir.gm.core.selector.util.canHaveGenonym
-import at.orchaldir.gm.core.selector.util.getGivenName
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.unit.Distance
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.resources.*
 import io.ktor.server.util.*
-import kotlinx.html.*
+import kotlinx.html.HtmlBlockTag
+import kotlinx.html.TD
+import kotlinx.html.del
+import kotlinx.html.h2
 import kotlin.random.Random
 
 // show
@@ -88,9 +88,8 @@ fun HtmlBlockTag.showData(
         is HumanoidBody -> showHeight(state, character, character.appearance.height)
         UndefinedAppearance -> doNothing()
     }
-    field(call, state, "Birthdate", character.date)
+    showCharacterAge(call, state, character, race, character.age)
     showVitalStatus(call, state, character.status)
-    showAge(state, character, race)
     showStatblockLookupDetails(call, state, character.race, character.statblock)
     showPositionHistory(call, state, character.housingStatus, "Housing Status")
     showEmploymentStatusHistory(call, state, character.employmentStatus)
@@ -117,19 +116,6 @@ fun HtmlBlockTag.showCurrentHeight(
 ) {
     val currentHeight = state.scaleHeightByAge(character, maxHeight)
     fieldDistance("Current Height", currentHeight)
-}
-
-private fun HtmlBlockTag.showAge(
-    state: State,
-    character: Character,
-    race: Race,
-) {
-    val age = character.getAgeInYears(state)
-    fieldAge("Age", age)
-    race.lifeStages.getLifeStage(age)?.let {
-        val start = race.lifeStages.getLifeStageStartAge(age)
-        field("Life Stage", "${it.name.text} ($start-${it.maxAge} years)")
-    }
 }
 
 fun HtmlBlockTag.showSocial(
@@ -214,39 +200,39 @@ fun HtmlBlockTag.editCharacter(
     state: State,
     character: Character,
 ) {
-    val races = state.getExistingRaces(character.date)
+    val birthdate = character.startDate(state)
+    val races = state.getExistingRaces(birthdate)
     val race = state.getRaceStorage().getOrThrow(character.race)
 
     selectCharacterName(state, character)
     selectOptionalElement(state, "Title", TITLE, state.getTitleStorage().getAll(), character.title)
     selectElement(state, RACE, races, character.race)
     selectFromOneOf("Gender", GENDER, race.genders, character.gender)
-    selectOrigin(state, character, race)
+    selectOrigin(state, character, race, birthdate)
     selectVitalStatus(
         state,
         character.id,
-        character.date,
+        birthdate,
         character.status,
         ALLOWED_VITAL_STATUS_FOR_CHARACTER,
         ALLOWED_CAUSES_OF_DEATH_FOR_CHARACTER,
     )
-    showAge(state, character, race)
     editStatblockLookup(call, state, character.race, character.statblock)
     selectPositionHistory(
         state,
         character.housingStatus,
-        character.date,
+        birthdate,
         ALLOWED_HOUSING_TYPES,
         "Housing Status",
     )
-    selectEmploymentStatusHistory(state, character.employmentStatus, character.date)
+    selectEmploymentStatusHistory(state, character.employmentStatus, birthdate)
     editDataSources(state, character.sources)
 
     h2 { +"Social" }
 
     selectOptionalElement(state, "Culture", CULTURE, state.getCultureStorage().getAll(), character.culture)
     editKnownLanguages(state, character.languages)
-    editBeliefStatusHistory(state, character.beliefStatus, character.date)
+    editBeliefStatusHistory(state, character.beliefStatus, birthdate)
     if (character.gender == Gender.Genderless) {
         selectValue(
             "Sexuality",
@@ -277,8 +263,9 @@ private fun HtmlBlockTag.selectOrigin(
     state: State,
     character: Character,
     race: Race,
+    birthdate: Date,
 ) {
-    editOrigin(state, character.id, character.origin, character.date, ALLOWED_CHARACTER_ORIGINS, ::CharacterId)
+    editOrigin(state, character.id, character.origin, birthdate, ALLOWED_CHARACTER_ORIGINS, ::CharacterId)
 
     if (race.lifeStages is SimpleAging) {
         selectOptionalValue(
@@ -292,43 +279,7 @@ private fun HtmlBlockTag.selectOrigin(
         }
     }
 
-    selectDate(state, "Birthdate", character.date, combine(ORIGIN, DATE), race.startDate())
-}
-
-private fun HtmlBlockTag.selectCharacterName(
-    state: State,
-    character: Character,
-) {
-    field("Name Type") {
-        select {
-            id = NAME_TYPE
-            name = NAME_TYPE
-            onChange = ON_CHANGE_SCRIPT
-            option {
-                label = "Mononym"
-                value = "Mononym"
-                selected = character.name is Mononym
-            }
-            option {
-                label = "FamilyName"
-                value = "FamilyName"
-                selected = character.name is FamilyName
-                disabled = !state.canHaveFamilyName(character)
-            }
-            option {
-                label = "Genonym"
-                value = "Genonym"
-                selected = character.name is Genonym
-                disabled = !state.canHaveGenonym(character)
-            }
-        }
-    }
-    selectName("Given Name", character.getGivenName(), GIVEN_NAME)
-
-    if (character.name is FamilyName) {
-        selectOptionalName("Middle Name", character.name.middle, MIDDLE_NAME)
-        selectName("Family Name", character.name.family, FAMILY_NAME)
-    }
+    selectCharacterAge(state, character, race, character.age)
 }
 
 // parse
@@ -348,7 +299,8 @@ fun parseCharacter(
     val name = parseCharacterName(parameters)
     val race = parseRaceId(parameters, RACE)
     val origin = parseOrigin(parameters)
-    val birthDate = parseBirthday(parameters, state, race)
+    val age = parseCharacterAge(parameters, state)
+    val birthDate = age.approximateBirthday(state, race)
     val lookup = parseStatblockLookup(state, parameters)
     val baseEquipment = state.getEquipmentMapForLookup(lookup)
 
@@ -358,7 +310,7 @@ fun parseCharacter(
         gender = parseGender(parameters),
         sexuality = parse(parameters, SEXUALITY, SexualOrientation.Asexual),
         origin = origin,
-        date = birthDate,
+        age = age,
         status = parseVitalStatus(parameters, state),
         culture = parseOptionalCultureId(parameters, CULTURE),
         languages = parseKnownLanguages(parameters, state),
@@ -396,19 +348,4 @@ private fun parseBirthday(
     }
 
     return parseDate(parameters, state.getDefaultCalendar(), combine(ORIGIN, DATE))
-}
-
-private fun parseCharacterName(parameters: Parameters): CharacterName {
-    val given = parseName(parameters, GIVEN_NAME)
-
-    return when (parameters.getOrFail(NAME_TYPE)) {
-        "FamilyName" -> FamilyName(
-            given,
-            parseOptionalName(parameters, MIDDLE_NAME),
-            parseName(parameters, FAMILY_NAME, "Unknown"),
-        )
-
-        "Genonym" -> Genonym(given)
-        else -> Mononym(given)
-    }
 }

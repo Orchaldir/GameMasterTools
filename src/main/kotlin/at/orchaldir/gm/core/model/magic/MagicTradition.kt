@@ -38,7 +38,7 @@ data class MagicTradition(
     override fun id() = id
     override fun name() = name.text
     override fun creator() = founder
-    override fun startDate() = date
+    override fun startDate(state: State) = date
     override fun sources() = sources
 
     override fun validate(state: State) {

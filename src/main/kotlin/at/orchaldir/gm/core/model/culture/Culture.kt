@@ -45,7 +45,7 @@ data class Culture(
     override fun id() = id
     override fun name() = name.text
     override fun sources() = sources
-    override fun startDate() = null
+    override fun startDate(state: State) = null
 
     fun getFashion(character: Character) = fashion.get(character.gender)
 

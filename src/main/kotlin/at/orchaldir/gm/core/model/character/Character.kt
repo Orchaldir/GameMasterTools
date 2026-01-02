@@ -14,10 +14,7 @@ import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.rpg.statblock.StatblockLookup
 import at.orchaldir.gm.core.model.rpg.statblock.UndefinedStatblockLookup
 import at.orchaldir.gm.core.model.time.Duration
-import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.date.Date
-import at.orchaldir.gm.core.model.time.date.Day
-import at.orchaldir.gm.core.model.time.date.Year
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.util.origin.Origin
 import at.orchaldir.gm.core.model.util.origin.OriginType
@@ -29,6 +26,7 @@ import at.orchaldir.gm.core.reducer.character.validateCharacterAppearance
 import at.orchaldir.gm.core.reducer.character.validateCharacterData
 import at.orchaldir.gm.core.reducer.character.validateEquipped
 import at.orchaldir.gm.core.selector.time.date.getStartDay
+import at.orchaldir.gm.core.selector.time.getCurrentDate
 import at.orchaldir.gm.core.selector.time.getDefaultCalendar
 import at.orchaldir.gm.core.selector.util.getGenonymName
 import at.orchaldir.gm.utils.Element
@@ -85,7 +83,7 @@ data class Character(
     val gender: Gender = Gender.Male,
     val sexuality: SexualOrientation = SexualOrientation.Heterosexual,
     val origin: Origin = UndefinedOrigin,
-    val date: Date = Year(0),
+    val age: CharacterAge = AgeViaDefaultLifeStage,
     val status: VitalStatus = Alive,
     val culture: CultureId? = null,
     val relationships: Map<CharacterId, Set<InterpersonalRelationship>> = mapOf(),
@@ -99,7 +97,7 @@ data class Character(
     val authenticity: Authenticity = Authentic,
     val statblock: StatblockLookup = UndefinedStatblockLookup,
     val sources: Set<DataSourceId> = emptySet(),
-) : Element<CharacterId>, HasBelief, HasDataSources, HasVitalStatus {
+) : Element<CharacterId>, HasBelief, HasDataSources, HasVitalStatus, HasStartDate {
 
     init {
         validateOriginType(origin, ALLOWED_CHARACTER_ORIGINS)
@@ -144,14 +142,41 @@ data class Character(
 
     override fun belief() = beliefStatus
     override fun sources() = sources
-    override fun startDate() = date
+    override fun startDate(state: State) = age.approximateBirthday(state, race)
     override fun vitalStatus() = status
 
-    fun getAge(state: State, currentDay: Day): Duration {
-        val defaultCalendar = state.getDefaultCalendar()
-        val birthDate = defaultCalendar.getStartDay(date)
+    fun getAge(state: State): Duration? {
+        val ageInYears = when (age) {
+            is AgeViaBirthdate -> {
+                return calculateAgeWithBirthdate(state, age.date)
+            }
 
-        if (birthDate >= currentDay) {
+            AgeViaDefaultLifeStage -> {
+                val race = state.getRaceStorage().getOrThrow(race)
+                val lifeStageId = race.lifeStages.getDefaultLifeStageId() ?: return null
+
+                race.lifeStages.approximateAgeInYears(lifeStageId)
+            }
+
+            is AgeViaLifeStage -> state
+                .getRaceStorage()
+                .getOrThrow(race)
+                .lifeStages.approximateAgeInYears(age.lifeStage)
+        }
+        val defaultCalendar = state.getDefaultCalendar()
+
+        return Duration(ageInYears * defaultCalendar.getDaysPerYear())
+    }
+
+    private fun calculateAgeWithBirthdate(
+        state: State,
+        birthDate: Date,
+    ): Duration {
+        val currentDay = state.getCurrentDate()
+        val defaultCalendar = state.getDefaultCalendar()
+        val birthDay = defaultCalendar.getStartDay(birthDate)
+
+        if (birthDay >= currentDay) {
             return Duration(0)
         }
 
@@ -159,15 +184,18 @@ data class Character(
             val deathDate = defaultCalendar.getStartDay(status.date)
 
             if (deathDate < currentDay) {
-                return deathDate.getDurationBetween(birthDate)
+                return deathDate.getDurationBetween(birthDay)
             }
         }
 
-        return currentDay.getDurationBetween(birthDate)
+        return currentDay.getDurationBetween(birthDay)
     }
 
-    fun isAlive(calendar: Calendar, date: Date): Boolean {
-        if (calendar.isAfterOrEqual(date, this.date)) {
+    fun isAlive(state: State, date: Date): Boolean {
+        val calendar = state.getDefaultCalendar()
+        val birthDate = startDate(state)
+
+        if (calendar.isAfterOrEqual(date, birthDate)) {
             if (status is Dead) {
                 return calendar.isAfterOrEqual(status.date, date)
             }

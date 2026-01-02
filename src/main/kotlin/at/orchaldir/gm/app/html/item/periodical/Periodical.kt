@@ -33,7 +33,7 @@ fun HtmlBlockTag.showPeriodical(
     showOwnership(call, state, periodical.ownership)
     fieldLink("Language", call, state, periodical.language)
     fieldLink("Calendar", call, state, periodical.calendar)
-    optionalField(call, state, periodical.calendar, "Publication Start", periodical.startDate())
+    optionalField(call, state, periodical.calendar, "Publication Start", periodical.startDate(state))
     field("Frequency", periodical.frequency)
 
     h2 { +"Usage" }
@@ -52,7 +52,7 @@ fun HtmlBlockTag.editPeriodical(
     state: State,
     periodical: Periodical,
 ) {
-    val date = periodical.startDate()
+    val date = periodical.startDate(state)
     val calendar = state.getCalendarStorage().getOrThrow(periodical.calendar)
     val frequencies = getValidPublicationFrequencies(calendar)
 

@@ -85,7 +85,6 @@ import at.orchaldir.gm.core.model.world.terrain.River
 import at.orchaldir.gm.core.model.world.terrain.RiverId
 import at.orchaldir.gm.core.model.world.town.TownMap
 import at.orchaldir.gm.core.model.world.town.TownMapId
-import at.orchaldir.gm.core.selector.time.getCurrentDate
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.redux.noFollowUps
@@ -103,7 +102,7 @@ fun reduceCreateElement(
     is BusinessTemplateId -> createElement(state, BusinessTemplate(id))
     is CalendarId -> createElement(state, Calendar(id))
     is CatastropheId -> createElement(state, Catastrophe(id))
-    is CharacterId -> createElement(state, Character(id, date = state.getCurrentDate()))
+    is CharacterId -> createElement(state, Character(id))
     is CharacterTemplateId -> {
         val race = state.getRaceStorage().getIds().first()
         createElement(state, CharacterTemplate(id, race = race))

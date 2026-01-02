@@ -3,8 +3,10 @@ package at.orchaldir.gm.core.reducer.organization
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.AgeViaBirthdate
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.organization.Organization
+import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.core.reducer.util.testAllowedVitalStatusTypes
@@ -16,13 +18,15 @@ import kotlin.test.assertEquals
 
 class OrganizationTest {
 
+    private val age = AgeViaBirthdate(DAY1)
     private val unknownRank = 42
     private val organization0 = Organization(ORGANIZATION_ID_0)
     private val state = State(
         listOf(
             Storage(CALENDAR0),
-            Storage(Character(CHARACTER_ID_0, date = DAY1)),
+            Storage(Character(CHARACTER_ID_0, age = age)),
             Storage(organization0),
+            Storage(Race(RACE_ID_0)),
         )
     )
 

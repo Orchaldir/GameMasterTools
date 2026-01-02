@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.reducer.util
 
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.AgeViaBirthdate
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.culture.CULTURE_TYPE
 import at.orchaldir.gm.core.model.culture.Culture
@@ -12,6 +13,7 @@ import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.magic.MagicTradition
 import at.orchaldir.gm.core.model.magic.Spell
 import at.orchaldir.gm.core.model.organization.Organization
+import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.realm.Catastrophe
 import at.orchaldir.gm.core.model.realm.CreatedCatastrophe
 import at.orchaldir.gm.core.model.realm.Realm
@@ -32,14 +34,16 @@ import org.junit.jupiter.api.Test
 
 class CreatorTest {
 
+    private val age = AgeViaBirthdate(DAY1)
     private val STATE = State(
         listOf(
             Storage(Business(BUSINESS_ID_0, date = DAY1)),
             Storage(CALENDAR0),
-            Storage(Character(CHARACTER_ID_0, date = DAY1)),
+            Storage(Character(CHARACTER_ID_0, age = age)),
             Storage(Culture(CULTURE_ID_0)),
             Storage(God(GOD_ID_0)),
             Storage(Organization(ORGANIZATION_ID_0, date = DAY1)),
+            Storage(Race(RACE_ID_0)),
             Storage(Realm(REALM_ID_0, date = DAY1)),
             Storage(Town(TOWN_ID_0, date = DAY1)),
         )

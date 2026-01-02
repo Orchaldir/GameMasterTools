@@ -53,7 +53,7 @@ data class Organization(
     override fun belief() = beliefStatus
     override fun creator() = founder
     override fun sources() = sources
-    override fun startDate() = date
+    override fun startDate(state: State) = date
     override fun vitalStatus() = status
 
     override fun validate(state: State) {

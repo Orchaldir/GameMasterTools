@@ -39,7 +39,7 @@ data class LegalCode(
     override fun name() = name.text
     override fun creator() = creator
     override fun sources() = sources
-    override fun startDate() = date
+    override fun startDate(state: State) = date
 
     override fun validate(state: State) {
         validateCreator(state, creator, id, date, "creator")

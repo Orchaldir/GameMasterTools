@@ -54,7 +54,7 @@ data class Language(
     override fun name() = name.text
     override fun creator() = origin.creator()
     override fun origin() = origin
-    override fun startDate() = date
+    override fun startDate(state: State) = date
 
     override fun validate(state: State) {
         validateDate(state, date, "Language")

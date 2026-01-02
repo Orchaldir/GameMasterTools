@@ -71,7 +71,7 @@ data class Building(
     override fun creator() = builder
     override fun owner() = ownership
     override fun position() = position
-    override fun startDate() = constructionDate
+    override fun startDate(state: State) = constructionDate
 
     private fun businessName(state: State): String {
         val businesses = state.getBusinessesIn(id)

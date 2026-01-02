@@ -22,8 +22,10 @@ fun validateDate(
 fun <ID : Id<ID>, T> validateHasStartAndEnd(state: State, element: T) where
         T : HasStartAndEndDate,
         T : Element<ID> {
-    validateDate(state, element.startDate(), "Start Date")
-    require(state.getDefaultCalendar().isAfterOrEqualOptional(element.endDate(), element.startDate())) {
+    val startDate = element.startDate(state)
+
+    validateDate(state, startDate, "Start Date")
+    require(state.getDefaultCalendar().isAfterOrEqualOptional(element.endDate(), startDate)) {
         val id = element.id()
         "The ${id.print()} must end after it started!"
     }

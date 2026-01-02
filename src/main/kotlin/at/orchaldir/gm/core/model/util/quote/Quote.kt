@@ -37,7 +37,7 @@ data class Quote(
     override fun id() = id
     override fun name() = text.text
     override fun creator() = source
-    override fun startDate() = date
+    override fun startDate(state: State) = date
     override fun validate(state: State) {
         validateCreator(state, source, id, date, "source")
     }

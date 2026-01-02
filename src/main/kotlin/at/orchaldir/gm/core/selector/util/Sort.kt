@@ -71,7 +71,6 @@ import at.orchaldir.gm.core.selector.realm.countRealmsWithCurrencyAtAnyTime
 import at.orchaldir.gm.core.selector.realm.countRealmsWithLegalCodeAtAnyTime
 import at.orchaldir.gm.core.selector.rpg.getMeleeWeaponTypes
 import at.orchaldir.gm.core.selector.time.date.createSorter
-import at.orchaldir.gm.core.selector.time.getCurrentDate
 import at.orchaldir.gm.core.selector.time.getDefaultCalendar
 import at.orchaldir.gm.core.selector.world.countBuildings
 import at.orchaldir.gm.core.selector.world.countStreetTemplatesMadeOf
@@ -84,9 +83,9 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> State.sortElements(elements: Collection
     .sortedWith(compareBy { it.toSortString(this) })
 
 fun <Element : HasStartDate> State.getStartDateComparator(valueForNull: Int = Int.MAX_VALUE) =
-    getDateComparator<Element>(valueForNull) { it.startDate() }
+    getDateComparator<Element>(valueForNull) { it.startDate(this) }
 
-fun <Element : HasComplexStartDate> State.getComplexStartDateComparator(valueForNull: Int = Int.MAX_VALUE) =
+fun <Element : HasStartDate> State.getComplexStartDateComparator(valueForNull: Int = Int.MAX_VALUE) =
     getDateComparator<Element>(valueForNull) { it.startDate(this) }
 
 fun <Element : HasStartAndEndDate> State.getEndDateComparator(valueForNull: Int = Int.MAX_VALUE) =
@@ -268,24 +267,20 @@ fun State.sortCharacters(sort: SortCharacter = SortCharacter.Name) =
 fun State.sortCharacters(
     characters: Collection<Character>,
     sort: SortCharacter = SortCharacter.Name,
-): List<Character> {
-    val currentDay = getCurrentDate()
-
-    return characters
-        .map {
-            Pair(it, it.name.toSortString())
-        }
-        .sortedWith(
-            when (sort) {
-                SortCharacter.Name -> compareBy { it.second }
-                SortCharacter.Start -> getCharacterStartDatePairComparator()
-                SortCharacter.Age -> compareByDescending { it.first.getAge(this, currentDay).days }
-                SortCharacter.Cost -> compareByDescending { (character, _) ->
-                    character.statblock.calculateCost(character.race, this)
-                }
-            })
-        .map { it.first }
-}
+) = characters
+    .map {
+        Pair(it, it.name.toSortString())
+    }
+    .sortedWith(
+        when (sort) {
+            SortCharacter.Name -> compareBy { it.second }
+            SortCharacter.Start -> getCharacterStartDatePairComparator()
+            SortCharacter.Age -> compareByDescending { it.first.getAge(this)?.days }
+            SortCharacter.Cost -> compareByDescending { (character, _) ->
+                character.statblock.calculateCost(character.race, this)
+            }
+        })
+    .map { it.first }
 
 // character template
 

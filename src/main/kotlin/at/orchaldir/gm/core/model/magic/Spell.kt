@@ -55,7 +55,7 @@ data class Spell(
     override fun creator() = origin.creator()
     override fun origin() = origin
     override fun sources() = sources
-    override fun startDate() = date
+    override fun startDate(state: State) = date
 
     override fun validate(state: State) {
         validateDate(state, date, "Spell")

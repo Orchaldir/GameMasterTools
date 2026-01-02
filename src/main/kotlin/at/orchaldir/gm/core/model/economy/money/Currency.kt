@@ -43,7 +43,7 @@ data class Currency(
 
     override fun id() = id
     override fun name() = name.text
-    override fun startDate() = startDate
+    override fun startDate(state: State) = startDate
     override fun endDate() = endDate
 
     override fun validate(state: State) {

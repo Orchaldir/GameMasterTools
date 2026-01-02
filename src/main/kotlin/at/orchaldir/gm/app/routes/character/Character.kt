@@ -13,10 +13,10 @@ import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.generator.DateGenerator
 import at.orchaldir.gm.core.generator.NameGenerator
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.character.CharacterId
-import at.orchaldir.gm.core.model.character.SexualOrientation
+import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
+import at.orchaldir.gm.core.model.race.aging.LifeStageId
+import at.orchaldir.gm.core.model.time.date.Day
 import at.orchaldir.gm.core.selector.character.getAppearanceForAge
 import at.orchaldir.gm.core.selector.item.equipment.getEquipment
 import at.orchaldir.gm.core.selector.organization.getOrganizations
@@ -57,7 +57,7 @@ fun Application.configureCharacterRouting() {
                     },
                     Column("Culture") { tdLink(call, state, it.culture) },
                     createBeliefColumn(call, state),
-                    createAgeColumn(state),
+                    tdColumn("Age") { inlineCharacterAge(state, it) },
                     createStartDateColumn(call, state, "Birthdate"),
                     createEndDateColumn(call, state, "Deathdate"),
                     createVitalColumn(call, state, false, "Death"),
@@ -162,9 +162,36 @@ fun generateBirthday(
 ): Character {
     val generator = DateGenerator(RandomNumberGenerator(Random), state, state.getDefaultCalendarId())
     val character = state.getCharacterStorage().getOrThrow(id)
-    val birthDate = generator.generateMonthAndDay(character.date)
 
-    return character.copy(date = birthDate)
+    val birthDate = when (character.age) {
+        is AgeViaBirthdate -> generator.generateMonthAndDay(character.age.date)
+        AgeViaDefaultLifeStage -> {
+            val race = state.getRaceStorage().getOrThrow(character.race)
+            val lifeStageId = race.lifeStages.getDefaultLifeStageId()
+                ?: error("Cannot generate birthdate without default life stage!")
+
+            generateBirthday(state, generator, character, lifeStageId)
+        }
+
+        is AgeViaLifeStage -> generateBirthday(state, generator, character, character.age.lifeStage)
+    }
+
+    return character.copy(age = AgeViaBirthdate(birthDate))
+}
+
+fun generateBirthday(
+    state: State,
+    generator: DateGenerator,
+    character: Character,
+    lifeStageId: LifeStageId,
+): Day {
+    val race = state.getRaceStorage().getOrThrow(character.race)
+
+    return generator.generateMonthAndDay(
+        state,
+        race.lifeStages.getLifeStageStartAge(lifeStageId),
+        race.lifeStages.getLifeStage(lifeStageId).maxAge,
+    )
 }
 
 fun generateName(

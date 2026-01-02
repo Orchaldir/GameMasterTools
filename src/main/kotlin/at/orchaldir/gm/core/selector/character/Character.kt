@@ -36,7 +36,6 @@ import at.orchaldir.gm.core.selector.culture.getKnownLanguages
 import at.orchaldir.gm.core.selector.item.equipment.getEquipmentMap
 import at.orchaldir.gm.core.selector.organization.getOrganizations
 import at.orchaldir.gm.core.selector.realm.getBattlesLedBy
-import at.orchaldir.gm.core.selector.time.getDefaultCalendar
 import at.orchaldir.gm.core.selector.util.canDeleteCreator
 import at.orchaldir.gm.core.selector.util.canDeleteDestroyer
 import at.orchaldir.gm.core.selector.util.canDeleteOwner
@@ -325,7 +324,7 @@ fun State.getOthersWithoutRelationship(character: Character) = getCharacterStora
 fun State.isAlive(id: CharacterId, date: Date) = isAlive(getCharacterStorage().getOrThrow(id), date)
 
 fun State.isAlive(character: Character, date: Date) = character
-    .isAlive(getDefaultCalendar(), date)
+    .isAlive(this, date)
 
 fun State.getLiving(date: Date?) = if (date == null) {
     getCharacterStorage().getAll()
@@ -370,7 +369,7 @@ fun getAppearanceForAge(race: Race, appearance: Appearance, age: Int): Appearanc
 
 private fun getAppearanceForAge(race: Race, appearance: Appearance, age: Int, height: Distance): Appearance {
     var updatedAppearance = appearance.with(height)
-    val stage = race.lifeStages.getLifeStage(age)
+    val stage = race.lifeStages.getLifeStageForAge(age)
 
     if (stage != null) {
         if (!stage.hasBeard) {

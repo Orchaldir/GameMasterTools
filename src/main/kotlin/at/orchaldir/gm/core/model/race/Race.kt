@@ -2,7 +2,7 @@ package at.orchaldir.gm.core.model.race
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
-import at.orchaldir.gm.core.model.race.aging.ImmutableLifeStage
+import at.orchaldir.gm.core.model.race.aging.DefaultAging
 import at.orchaldir.gm.core.model.race.aging.LifeStages
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.HasOrigin
@@ -58,7 +58,7 @@ data class Race(
     val genders: OneOf<Gender> = OneOf(DEFAULT_GENDERS),
     val height: Distribution<Distance> = Distribution.fromMeters(1.8f),
     val weight: Weight = Weight.fromKilograms(75.0f),
-    val lifeStages: LifeStages = ImmutableLifeStage(),
+    val lifeStages: LifeStages = DefaultAging(),
     val date: Date? = null,
     val origin: Origin = UndefinedOrigin,
     val sources: Set<DataSourceId> = emptySet(),
@@ -73,7 +73,7 @@ data class Race(
     override fun creator() = origin.creator()
     override fun origin() = origin
     override fun sources() = sources
-    override fun startDate() = date
+    override fun startDate(state: State) = date
 
     fun calculateBodyMassIndex() = weight.toKilograms() / height.center.toMeters().pow(2)
     fun calculateCost(state: State) = lifeStages.statblock().calculateCost(state)

@@ -18,7 +18,7 @@ fun <ELEMENT : HasStartDate> State.exists(element: ELEMENT, date: Date?) = if (d
 }
 
 fun <ELEMENT : HasStartDate> State.exists(element: ELEMENT, day: Day) = getDefaultCalendar()
-    .isAfterOrEqualOptional(day, element.startDate())
+    .isAfterOrEqualOptional(day, element.startDate(this))
 
 fun <ID, ELEMENT> State.getExistingElements(storage: Storage<ID, ELEMENT>, date: Date?)
         where ID : Id<ID>,

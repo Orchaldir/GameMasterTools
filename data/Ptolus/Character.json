@@ -10,9 +10,9 @@
     "family": "Notan"
    },
    "race": 9,
-   "date": {
-    "#type": "~Year",
-    "year": 669
+   "age": {
+    "#type": "LifeStage",
+    "lifeStage": 5
    },
    "housingStatus": {
     "current": {

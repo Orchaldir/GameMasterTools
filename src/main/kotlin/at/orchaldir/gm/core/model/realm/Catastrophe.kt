@@ -39,7 +39,7 @@ data class Catastrophe(
     override fun id() = id
     override fun name() = name.text
     override fun sources() = sources
-    override fun startDate() = startDate
+    override fun startDate(state: State) = startDate
     override fun endDate() = endDate
     override fun creator() = cause.creator() ?: UndefinedReference
 
