@@ -80,7 +80,7 @@ sealed class LifeStages {
 
     private fun getLifeStage(id: Int) = when (this) {
         is DefaultAging -> getAllLifeStages()[id]
-        is ImmutableLifeStage -> error("Cannot get $id for ImmutableLifeStage!")
+        is ImmutableLifeStage -> error("Cannot get Life Stage $id for ImmutableLifeStage!")
         is SimpleAging -> lifeStages[id]
     }
 

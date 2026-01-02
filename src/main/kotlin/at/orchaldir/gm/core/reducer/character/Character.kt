@@ -2,18 +2,22 @@ package at.orchaldir.gm.core.reducer.character
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
+import at.orchaldir.gm.core.model.race.Race
+import at.orchaldir.gm.core.model.race.aging.ImmutableLifeStage
 import at.orchaldir.gm.core.reducer.rpg.validateStatblockLookup
 import at.orchaldir.gm.core.reducer.util.*
+import at.orchaldir.gm.utils.doNothing
 
 fun validateCharacterData(
     state: State,
     character: Character,
 ) {
     val birthdate = character.startDate(state)
+    val race = state.getRaceStorage().getOrThrow(character.race)
 
-    state.getRaceStorage().require(character.race)
     state.getCultureStorage().requireOptional(character.culture)
     state.getTitleStorage().requireOptional(character.title)
+    validateAge(state, character, race)
     checkSexualOrientation(character)
     checkOrigin(state, character)
     validateVitalStatus(
@@ -29,6 +33,14 @@ fun validateCharacterData(
     checkEmploymentStatusHistory(state, character.employmentStatus, birthdate)
     checkAuthenticity(state, character.authenticity)
     validateStatblockLookup(state, character.race, character.statblock)
+}
+
+private fun validateAge(state: State, character: Character, race: Race) {
+    when (character.age) {
+        is AgeViaBirthdate -> doNothing()
+        AgeViaDefaultLifeStage -> require(race.lifeStages !is ImmutableLifeStage) { "Age via default life stage is not supported by" }
+        is AgeViaLifeStage -> doNothing()
+    }
 }
 
 private fun checkSexualOrientation(character: Character) {

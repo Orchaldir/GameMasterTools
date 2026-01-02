@@ -12,6 +12,7 @@ import at.orchaldir.gm.core.model.culture.language.Language
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.race.Race
+import at.orchaldir.gm.core.model.race.aging.ImmutableLifeStage
 import at.orchaldir.gm.core.model.rpg.statblock.UseStatblockOfTemplate
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTrait
 import at.orchaldir.gm.core.model.time.Time
@@ -70,6 +71,20 @@ class CharacterTest {
                 ),
             ) { status ->
                 Character(CHARACTER_ID_0, age = age, status = status)
+            }
+        }
+
+        @Nested
+        inner class AgeTest {
+            @Test
+            fun `Cannot use age via default life stage with immutable life stage`() {
+                val newState = STATE.updateStorage(Storage(Race(RACE_ID_0, lifeStages = ImmutableLifeStage())))
+                val character = Character(CHARACTER_ID_0, age = AgeViaDefaultLifeStage, race = RACE_ID_0)
+                val action = UpdateAction(character)
+
+                assertIllegalState("ImmutableLifeStage is not supported by AgeViaDefaultLifeStage!") {
+                    REDUCER.invoke(newState, action)
+                }
             }
         }
 
