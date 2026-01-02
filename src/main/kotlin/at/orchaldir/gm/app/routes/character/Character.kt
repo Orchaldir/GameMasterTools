@@ -194,6 +194,7 @@ fun generateBirthday(
     val race = state.getRaceStorage().getOrThrow(character.race)
 
     return generator.generateMonthAndDay(
+        state,
         race.lifeStages.getLifeStageStartAge(lifeStageId),
         race.lifeStages.getLifeStage(lifeStageId).maxAge,
     )
