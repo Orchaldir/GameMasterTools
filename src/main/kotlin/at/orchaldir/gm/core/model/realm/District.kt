@@ -48,6 +48,7 @@ data class District(
     val foundingDate: Date? = null,
     val founder: Reference = UndefinedReference,
     val area: AreaLookup = CalculatedArea,
+    val type: DistrictType = DistrictType.District,
     val population: Population = UndefinedPopulation,
     val economy: Economy = UndefinedEconomy,
     val sources: Set<DataSourceId> = emptySet(),

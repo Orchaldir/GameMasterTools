@@ -7,8 +7,6 @@ import at.orchaldir.gm.app.html.economy.parseJobId
 import at.orchaldir.gm.app.html.economy.parseOptionalBusinessId
 import at.orchaldir.gm.app.html.realm.parseRealmId
 import at.orchaldir.gm.app.html.realm.parseTownId
-import at.orchaldir.gm.app.parse.combine
-import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.economy.job.EmployerType

@@ -3,9 +3,9 @@ package at.orchaldir.gm.app.html.rpg.combat
 import at.orchaldir.gm.app.EFFECT
 import at.orchaldir.gm.app.PARRYING
 import at.orchaldir.gm.app.REACH
+import at.orchaldir.gm.app.html.combine
 import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.app.html.showDetails
-import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.rpg.combat.MeleeAttack

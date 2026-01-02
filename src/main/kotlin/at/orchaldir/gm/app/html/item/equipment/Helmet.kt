@@ -4,16 +4,12 @@ import at.orchaldir.gm.app.BODY_SHAPE
 import at.orchaldir.gm.app.HELMET
 import at.orchaldir.gm.app.SHAPE
 import at.orchaldir.gm.app.STYLE
-import at.orchaldir.gm.app.html.field
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.item.equipment.style.*
-import at.orchaldir.gm.app.html.optionalField
 import at.orchaldir.gm.app.html.rpg.combat.parseArmorStats
-import at.orchaldir.gm.app.html.selectOptionalValue
-import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.util.part.editColorSchemeItemPart
 import at.orchaldir.gm.app.html.util.part.parseColorSchemeItemPart
 import at.orchaldir.gm.app.html.util.part.showColorSchemeItemPart
-import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.Helmet
 import at.orchaldir.gm.core.model.item.equipment.style.*

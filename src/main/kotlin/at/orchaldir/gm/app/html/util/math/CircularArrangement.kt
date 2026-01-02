@@ -3,11 +3,7 @@ package at.orchaldir.gm.app.html.util.math
 import at.orchaldir.gm.app.ITEM
 import at.orchaldir.gm.app.NUMBER
 import at.orchaldir.gm.app.RADIUS
-import at.orchaldir.gm.app.html.field
-import at.orchaldir.gm.app.html.parseInt
-import at.orchaldir.gm.app.html.selectInt
-import at.orchaldir.gm.app.html.showDetails
-import at.orchaldir.gm.app.parse.combine
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.utils.math.CircularArrangement
 import at.orchaldir.gm.utils.math.Factor
 import io.ktor.http.*

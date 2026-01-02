@@ -8,8 +8,6 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.parseDayIndex
 import at.orchaldir.gm.app.html.util.selectDayIndex
 import at.orchaldir.gm.app.html.util.selectMonthIndex
-import at.orchaldir.gm.app.parse.combine
-import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.time.calendar.DayOfTheMonth
 import at.orchaldir.gm.core.model.time.calendar.DaysType

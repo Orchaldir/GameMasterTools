@@ -2,8 +2,8 @@ package at.orchaldir.gm.app.html.util.math
 
 import at.orchaldir.gm.app.CENTER
 import at.orchaldir.gm.app.OFFSET
+import at.orchaldir.gm.app.html.combine
 import at.orchaldir.gm.app.html.field
-import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.utils.math.unit.*
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag

@@ -15,10 +15,6 @@ import at.orchaldir.gm.app.html.util.showGenderMap
 import at.orchaldir.gm.app.html.util.source.editDataSources
 import at.orchaldir.gm.app.html.util.source.parseDataSources
 import at.orchaldir.gm.app.html.util.source.showDataSources
-import at.orchaldir.gm.app.parse.combine
-import at.orchaldir.gm.app.parse.parse
-import at.orchaldir.gm.app.parse.parseOneOf
-import at.orchaldir.gm.app.parse.parseSomeOf
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId

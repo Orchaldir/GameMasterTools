@@ -4,16 +4,11 @@ import at.orchaldir.gm.app.BATTLE
 import at.orchaldir.gm.app.CATASTROPHE
 import at.orchaldir.gm.app.TREATY
 import at.orchaldir.gm.app.WAR
-import at.orchaldir.gm.app.html.field
-import at.orchaldir.gm.app.html.link
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.realm.parseBattleId
 import at.orchaldir.gm.app.html.realm.parseCatastropheId
 import at.orchaldir.gm.app.html.realm.parseTreatyId
 import at.orchaldir.gm.app.html.realm.parseWarId
-import at.orchaldir.gm.app.html.selectElement
-import at.orchaldir.gm.app.html.selectValue
-import at.orchaldir.gm.app.parse.combine
-import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.*

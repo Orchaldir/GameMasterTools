@@ -1,7 +1,6 @@
 package at.orchaldir.gm.app.html
 
 import at.orchaldir.gm.app.AVAILABLE
-import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.model.character.appearance.SkinColor
 import at.orchaldir.gm.core.model.character.appearance.hair.NormalHairColorEnum
 import at.orchaldir.gm.core.model.util.OneOf
@@ -16,6 +15,11 @@ import io.ktor.http.*
 import kotlinx.html.*
 
 const val ON_CHANGE_SCRIPT = "updateEditor();"
+
+fun combine(param0: String, param1: String) = "$param0-$param1"
+fun combine(param0: String, param1: String, param2: String) = "$param0-$param1-$param2"
+fun combine(param: String, number: Int) = combine(param, number.toString())
+fun combine(param0: String, param1: String, number: Int) = combine(param0, param1, number.toString())
 
 fun HtmlBlockTag.formWithPreview(
     previewLink: String,
@@ -299,6 +303,19 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectRarityMap(
 }
 
 // parse
+
+inline fun <reified T : Enum<T>> parse(parameters: Parameters, param: String, default: T): T =
+    parameters[param]?.let { java.lang.Enum.valueOf(T::class.java, it) } ?: default
+
+inline fun <reified T : Enum<T>> parse(parameters: Parameters, param: String): T? =
+    parameters[param]
+        ?.let {
+            if (it == "") {
+                null
+            } else {
+                java.lang.Enum.valueOf(T::class.java, it)
+            }
+        }
 
 fun <T> parseOptional(
     parameters: Parameters,

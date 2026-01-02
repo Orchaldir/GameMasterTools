@@ -235,6 +235,7 @@
     "#type": "District",
     "district": 2
    },
+   "type": "Neighborhood",
    "population": {
     "#type": "Total",
     "total": 1000,
@@ -251,6 +252,7 @@
     "#type": "District",
     "district": 2
    },
+   "type": "Neighborhood",
    "population": {
     "#type": "Total",
     "total": 1000,
@@ -271,6 +273,7 @@
     "#type": "District",
     "district": 2
    },
+   "type": "Neighborhood",
    "population": {
     "#type": "Numbers",
     "races": {
@@ -294,6 +297,7 @@
     "#type": "District",
     "district": 2
    },
+   "type": "Neighborhood",
    "population": {
     "#type": "Numbers",
     "races": {
@@ -315,6 +319,7 @@
     "#type": "District",
     "district": 2
    },
+   "type": "Neighborhood",
    "population": {
     "#type": "Abstract",
     "density": "Small",
@@ -331,6 +336,7 @@
     "#type": "District",
     "district": 2
    },
+   "type": "Neighborhood",
    "population": {
     "#type": "Numbers",
     "races": {
@@ -351,6 +357,7 @@
     "#type": "District",
     "district": 2
    },
+   "type": "Neighborhood",
    "population": {
     "#type": "Numbers",
     "races": {

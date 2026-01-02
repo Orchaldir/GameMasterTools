@@ -8,9 +8,6 @@ import at.orchaldir.gm.app.html.rpg.statistic.parseStatisticId
 import at.orchaldir.gm.app.html.util.parseGenderMap
 import at.orchaldir.gm.app.html.util.selectGenderMap
 import at.orchaldir.gm.app.html.util.showGenderMap
-import at.orchaldir.gm.app.parse.parse
-import at.orchaldir.gm.app.parse.parseElements
-import at.orchaldir.gm.app.parse.parseSomeOf
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.economy.job.EmployerType

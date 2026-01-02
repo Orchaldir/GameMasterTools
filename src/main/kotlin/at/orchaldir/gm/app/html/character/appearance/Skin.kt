@@ -1,11 +1,11 @@
 package at.orchaldir.gm.app.html.character.appearance
 
 import at.orchaldir.gm.app.*
+import at.orchaldir.gm.app.html.combine
 import at.orchaldir.gm.app.html.economy.material.parseMaterialId
 import at.orchaldir.gm.app.html.selectColor
 import at.orchaldir.gm.app.html.selectFromOneOf
 import at.orchaldir.gm.app.html.showDetails
-import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.core.generator.AppearanceGeneratorConfig
 import at.orchaldir.gm.core.generator.generateSkin
 import at.orchaldir.gm.core.model.State

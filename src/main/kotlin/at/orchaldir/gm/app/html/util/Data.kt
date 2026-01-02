@@ -5,6 +5,7 @@ import at.orchaldir.gm.app.html.economy.editEconomyData
 import at.orchaldir.gm.app.html.economy.parseEconomyData
 import at.orchaldir.gm.app.html.economy.showEconomyData
 import at.orchaldir.gm.app.html.field
+import at.orchaldir.gm.app.html.parse
 import at.orchaldir.gm.app.html.rpg.editRpgData
 import at.orchaldir.gm.app.html.rpg.parseRpgData
 import at.orchaldir.gm.app.html.rpg.showRpgData
@@ -12,7 +13,6 @@ import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.time.editTime
 import at.orchaldir.gm.app.html.time.parseTime
 import at.orchaldir.gm.app.html.time.showTime
-import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.Data
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.selector.time.getDefaultCalendar

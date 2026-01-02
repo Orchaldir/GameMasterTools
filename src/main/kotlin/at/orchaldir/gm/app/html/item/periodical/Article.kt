@@ -12,7 +12,6 @@ import at.orchaldir.gm.app.html.item.text.showContentEntries
 import at.orchaldir.gm.app.html.util.optionalField
 import at.orchaldir.gm.app.html.util.parseOptionalDate
 import at.orchaldir.gm.app.html.util.selectOptionalDate
-import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.periodical.*
 import at.orchaldir.gm.core.selector.item.periodical.getPeriodicalIssues

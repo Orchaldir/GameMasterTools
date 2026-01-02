@@ -7,7 +7,6 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.field
 import at.orchaldir.gm.app.html.util.parseDate
 import at.orchaldir.gm.app.html.util.selectDate
-import at.orchaldir.gm.app.parse.parseElements
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssue
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalIssueId
