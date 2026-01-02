@@ -21,7 +21,7 @@ fun HtmlBlockTag.selectCharacterName(
     showDetails("Name", true) {
         selectValue(
             "Type",
-            combine(NAME,TYPE),
+            combine(NAME, TYPE),
             CharacterNameType.entries,
             character.name.getType(),
         ) { type ->
@@ -45,12 +45,13 @@ fun HtmlBlockTag.selectCharacterName(
 fun parseCharacterName(parameters: Parameters): CharacterName {
     val given = parseName(parameters, GIVEN_NAME)
 
-    return when (parse(parameters, combine(NAME,TYPE), CharacterNameType.Mononym)) {
+    return when (parse(parameters, combine(NAME, TYPE), CharacterNameType.Mononym)) {
         CharacterNameType.Family -> FamilyName(
             given,
             parseOptionalName(parameters, MIDDLE_NAME),
             parseName(parameters, FAMILY_NAME, "Unknown"),
         )
+
         CharacterNameType.Genonym -> Genonym(given)
         CharacterNameType.Mononym -> Mononym(given)
     }

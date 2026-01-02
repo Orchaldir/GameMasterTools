@@ -1,9 +1,7 @@
 package at.orchaldir.gm.core.reducer.character
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.action.CreateAction
 import at.orchaldir.gm.core.action.UpdateAction
-import at.orchaldir.gm.core.model.Data
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.character.Gender.Genderless
@@ -16,7 +14,6 @@ import at.orchaldir.gm.core.model.race.aging.ImmutableLifeStage
 import at.orchaldir.gm.core.model.race.aging.LifeStageId
 import at.orchaldir.gm.core.model.rpg.statblock.UseStatblockOfTemplate
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTrait
-import at.orchaldir.gm.core.model.time.Time
 import at.orchaldir.gm.core.model.time.date.Day
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.util.origin.BornElement
@@ -87,6 +84,7 @@ class CharacterTest {
                     REDUCER.invoke(newState, action)
                 }
             }
+
             @Test
             fun `Cannot use age via life stage with immutable life stage`() {
                 val newState = STATE.updateStorage(Storage(Race(RACE_ID_0, lifeStages = ImmutableLifeStage())))

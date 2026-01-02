@@ -36,6 +36,7 @@ sealed class CharacterAge {
                 ?: error("ImmutableLifeStage is not supported by AgeViaDefaultLifeStage!")
             approximateBirthday(state, raceId, lifeStageId)
         }
+
         is AgeViaLifeStage -> approximateBirthday(state, raceId, lifeStage)
     }
 

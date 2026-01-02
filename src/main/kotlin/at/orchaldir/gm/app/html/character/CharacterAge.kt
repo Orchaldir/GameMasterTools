@@ -3,11 +3,11 @@ package at.orchaldir.gm.app.html.character
 import at.orchaldir.gm.app.AGE
 import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.LIFE_STAGE
-import at.orchaldir.gm.app.NUMBER
-import at.orchaldir.gm.app.ORIGIN
-import at.orchaldir.gm.app.PURPOSE
-import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.race.parseLifeStageId
+import at.orchaldir.gm.app.html.selectValue
+import at.orchaldir.gm.app.html.showDetails
+import at.orchaldir.gm.app.html.showTooltip
 import at.orchaldir.gm.app.html.util.field
 import at.orchaldir.gm.app.html.util.fieldAge
 import at.orchaldir.gm.app.html.util.parseDate
@@ -15,17 +15,11 @@ import at.orchaldir.gm.app.html.util.selectDate
 import at.orchaldir.gm.app.parse.combine
 import at.orchaldir.gm.app.parse.parse
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.AgeViaBirthdate
-import at.orchaldir.gm.core.model.character.AgeViaDefaultLifeStage
-import at.orchaldir.gm.core.model.character.AgeViaLifeStage
-import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.character.CharacterAge
-import at.orchaldir.gm.core.model.character.CharacterAgeType
+import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.aging.LifeStage
 import at.orchaldir.gm.core.model.race.aging.LifeStageId
 import at.orchaldir.gm.core.model.race.aging.LifeStagesType
-import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.selector.time.getDefaultCalendar
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -78,6 +72,7 @@ fun HtmlBlockTag.showCharacterAge(
 
                 return@showDetails
             }
+
             AgeViaDefaultLifeStage -> race.lifeStages.getDefaultLifeStageId()
             is AgeViaLifeStage -> age.lifeStage
         }
@@ -147,6 +142,7 @@ fun HtmlBlockTag.selectCharacterAge(
 
                 return@showDetails
             }
+
             AgeViaDefaultLifeStage -> race.lifeStages.getDefaultLifeStageId()
             is AgeViaLifeStage -> {
                 selectValue(
@@ -176,6 +172,7 @@ fun parseCharacterAge(
     CharacterAgeType.Birthdate -> AgeViaBirthdate(
         parseDate(parameters, state.getDefaultCalendar(), combine(AGE, DATE)),
     )
+
     CharacterAgeType.DefaultLifeStage -> AgeViaDefaultLifeStage
     CharacterAgeType.LifeStage -> AgeViaLifeStage(
         parseLifeStageId(parameters, combine(AGE, LIFE_STAGE)),

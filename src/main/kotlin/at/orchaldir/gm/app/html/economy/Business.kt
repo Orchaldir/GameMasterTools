@@ -12,7 +12,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.business.*
 import at.orchaldir.gm.core.selector.character.getEmployees
 import at.orchaldir.gm.core.selector.character.getPreviousEmployees
-import at.orchaldir.gm.core.selector.item.getTextsPublishedBy
 import at.orchaldir.gm.core.selector.util.sortBusinessTemplates
 import io.ktor.http.*
 import io.ktor.server.application.*

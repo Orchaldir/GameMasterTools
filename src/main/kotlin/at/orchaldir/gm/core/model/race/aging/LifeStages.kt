@@ -4,10 +4,8 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.hair.ExoticHairColor
 import at.orchaldir.gm.core.model.character.appearance.hair.HairColor
 import at.orchaldir.gm.core.model.character.appearance.hair.NoHairColor
-import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.rpg.statblock.Statblock
-import at.orchaldir.gm.core.model.time.Duration
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.render.Color
@@ -89,7 +87,7 @@ sealed class LifeStages {
         else -> if (id.value == 0) {
             0
         } else {
-            getLifeStage(id.value-1).maxAge
+            getLifeStage(id.value - 1).maxAge
         }
     }
 

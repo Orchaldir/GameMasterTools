@@ -5,7 +5,6 @@ import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.Data
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.AgeViaBirthdate
-import at.orchaldir.gm.core.model.character.AgeViaDefaultLifeStage
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.health.Disease
@@ -160,11 +159,13 @@ class VitalStatusTest {
         }
 
         private fun testFailToDie(deathDate: Day, causeOfDeath: CauseOfDeath) {
-            val action = UpdateAction(Character(
-                CHARACTER_ID_0,
-                age = AgeViaBirthdate(Day(0)),
-                status = Dead(deathDate, causeOfDeath)
-            ))
+            val action = UpdateAction(
+                Character(
+                    CHARACTER_ID_0,
+                    age = AgeViaBirthdate(Day(0)),
+                    status = Dead(deathDate, causeOfDeath)
+                )
+            )
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(state, action) }
         }

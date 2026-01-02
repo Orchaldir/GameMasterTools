@@ -13,16 +13,9 @@ import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.generator.DateGenerator
 import at.orchaldir.gm.core.generator.NameGenerator
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.AgeViaBirthdate
-import at.orchaldir.gm.core.model.character.AgeViaDefaultLifeStage
-import at.orchaldir.gm.core.model.character.AgeViaLifeStage
-import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.character.CharacterId
-import at.orchaldir.gm.core.model.character.SexualOrientation
+import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
-import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.aging.LifeStageId
-import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.time.date.Day
 import at.orchaldir.gm.core.selector.character.getAppearanceForAge
 import at.orchaldir.gm.core.selector.item.equipment.getEquipment
@@ -179,6 +172,7 @@ fun generateBirthday(
 
             generateBirthday(state, generator, character, lifeStageId)
         }
+
         is AgeViaLifeStage -> generateBirthday(state, generator, character, character.age.lifeStage)
     }
 

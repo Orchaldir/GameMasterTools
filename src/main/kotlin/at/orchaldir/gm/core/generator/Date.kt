@@ -6,7 +6,6 @@ import at.orchaldir.gm.core.model.time.calendar.CalendarId
 import at.orchaldir.gm.core.model.time.date.*
 import at.orchaldir.gm.core.selector.time.date.*
 import at.orchaldir.gm.core.selector.time.getCurrentYear
-import at.orchaldir.gm.core.selector.time.getDefaultCalendar
 import at.orchaldir.gm.utils.NumberGenerator
 
 class DateGenerator(
