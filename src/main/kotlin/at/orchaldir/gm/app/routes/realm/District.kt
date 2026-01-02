@@ -64,6 +64,7 @@ fun Application.configureDistrictRouting() {
                 state.sortDistricts(all.sort),
                 listOf(
                     createNameColumn(call, state),
+                    Column("Type") { tdEnum(it.type) },
                     createPositionColumn(call, state),
                     createStartDateColumn(call, state),
                     createCreatorColumn(call, state, "Founder"),
