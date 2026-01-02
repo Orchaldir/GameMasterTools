@@ -13,6 +13,7 @@ import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.aging.ImmutableLifeStage
+import at.orchaldir.gm.core.model.race.aging.LifeStageId
 import at.orchaldir.gm.core.model.rpg.statblock.UseStatblockOfTemplate
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTrait
 import at.orchaldir.gm.core.model.time.Time
@@ -82,8 +83,29 @@ class CharacterTest {
                 val character = Character(CHARACTER_ID_0, age = AgeViaDefaultLifeStage, race = RACE_ID_0)
                 val action = UpdateAction(character)
 
-                assertIllegalState("ImmutableLifeStage is not supported by AgeViaDefaultLifeStage!") {
+                assertIllegalArgument("Age via default life stage is not supported by Race 0!") {
                     REDUCER.invoke(newState, action)
+                }
+            }
+            @Test
+            fun `Cannot use age via life stage with immutable life stage`() {
+                val newState = STATE.updateStorage(Storage(Race(RACE_ID_0, lifeStages = ImmutableLifeStage())))
+                val age = AgeViaLifeStage(LifeStageId(0))
+                val character = Character(CHARACTER_ID_0, age = age, race = RACE_ID_0)
+                val action = UpdateAction(character)
+
+                assertIllegalArgument("Age via life stage is not supported by Race 0!") {
+                    REDUCER.invoke(newState, action)
+                }
+            }
+
+            @Test
+            fun `Cannot use an unknown life stage`() {
+                val character = Character(CHARACTER_ID_0, age = AgeViaLifeStage(LifeStageId(-1)))
+                val action = UpdateAction(character)
+
+                assertIllegalArgument("Age via Life Stage -1 is not supported by Race 0!") {
+                    REDUCER.invoke(STATE, action)
                 }
             }
         }

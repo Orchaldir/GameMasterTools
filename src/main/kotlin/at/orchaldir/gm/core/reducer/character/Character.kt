@@ -12,12 +12,14 @@ fun validateCharacterData(
     state: State,
     character: Character,
 ) {
-    val birthdate = character.startDate(state)
     val race = state.getRaceStorage().getOrThrow(character.race)
 
     state.getCultureStorage().requireOptional(character.culture)
     state.getTitleStorage().requireOptional(character.title)
     validateAge(state, character, race)
+
+    val birthdate = character.startDate(state)
+
     checkSexualOrientation(character)
     checkOrigin(state, character)
     validateVitalStatus(
@@ -38,8 +40,13 @@ fun validateCharacterData(
 private fun validateAge(state: State, character: Character, race: Race) {
     when (character.age) {
         is AgeViaBirthdate -> doNothing()
-        AgeViaDefaultLifeStage -> require(race.lifeStages !is ImmutableLifeStage) { "Age via default life stage is not supported by" }
-        is AgeViaLifeStage -> doNothing()
+        AgeViaDefaultLifeStage -> require(race.lifeStages !is ImmutableLifeStage) { "Age via default life stage is not supported by ${race.id.print()}!" }
+        is AgeViaLifeStage -> {
+            require(race.lifeStages !is ImmutableLifeStage) { "Age via life stage is not supported by ${race.id.print()}!" }
+            require(character.age.lifeStage.value in 0..<race.lifeStages.countLifeStages()) {
+                "Age via ${character.age.lifeStage.print()} is not supported by ${race.id.print()}!"
+            }
+        }
     }
 }
 
