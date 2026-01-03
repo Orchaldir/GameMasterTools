@@ -3,10 +3,14 @@ package at.orchaldir.gm.app.html.economy.money
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.WEIGHT
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.util.math.fieldFactor
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.*
 import at.orchaldir.gm.core.selector.getDefaultCurrency
+import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
+import at.orchaldir.gm.utils.math.FULL
+import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.unit.VolumePerMaterial
 import at.orchaldir.gm.utils.math.unit.WEIGHTLESS
 import at.orchaldir.gm.utils.math.unit.Weight
@@ -36,11 +40,13 @@ fun HtmlBlockTag.showPriceLookupDetails(
     state: State,
     lookup: PriceLookup,
     vpm: VolumePerMaterial,
+    costFactors: Map<Id<*>, Factor> = emptyMap(),
 ) {
     showDetails("Price", true) {
         field("Type", lookup.getType())
 
         showPricePerMaterial(call, state, vpm)
+        showCostFactors(call, state, costFactors)
 
         when (lookup) {
             CalculatedPrice -> fieldPrice(call, state, "Calculated Price", vpm.getPrice(state))
@@ -58,6 +64,7 @@ fun HtmlBlockTag.showPricePerMaterial(
     var totalWeight = WEIGHTLESS
     var totalPrice = FREE
 
+    br {  }
     table {
         tr {
             th { +"Material" }
@@ -94,6 +101,42 @@ fun HtmlBlockTag.showPricePerMaterial(
                     displayPrice(call, currency, totalPrice)
                 }
             }
+        }
+    }
+}
+
+fun HtmlBlockTag.showCostFactors(
+    call: ApplicationCall,
+    state: State,
+    costFactors: Map<Id<*>, Factor>,
+) {
+    var totalFactor = FULL
+
+    br {  }
+    table {
+        tr {
+            th { +"Cost Factor" }
+            th { +"Value" }
+        }
+        tr {
+            tdString("Base")
+            tdString(FULL.toString())
+        }
+        costFactors.entries
+            .sortedByDescending { it.value.toPermyriad() }
+            .forEach { (id, factor) ->
+
+            tr {
+                tdLink(call, state, id)
+                tdString(factor.toString())
+            }
+
+            totalFactor += factor
+        }
+
+        tr {
+            tdString("Total")
+            tdString(totalFactor.toString())
         }
     }
 }
