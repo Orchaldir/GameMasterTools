@@ -32,6 +32,7 @@ value class Factor private constructor(private val permyriad: Int) {
 
     companion object {
         fun fromNumber(number: Float) = Factor((number * NUMBER_FACTOR).toInt())
+        fun fromNumber(number: Int) = Factor(number * NUMBER_FACTOR)
         fun fromPercentage(percentage: Int) = Factor(percentage * PERCENTAGE_FACTOR)
         fun fromPermille(permille: Int) = Factor(permille * PERMILLE_FACTOR)
         fun fromPermyriad(permyriad: Int) = Factor(permyriad)
