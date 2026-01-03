@@ -3,16 +3,12 @@ package at.orchaldir.gm.app.html.rpg.combat
 import at.orchaldir.gm.app.COST
 import at.orchaldir.gm.app.EFFECT
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.util.math.fieldFactor
 import at.orchaldir.gm.app.html.util.math.parseFactor
-import at.orchaldir.gm.app.html.util.math.selectFactor
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.rpg.combat.DEFAULT_COST_FACTOR
+import at.orchaldir.gm.core.model.rpg.combat.DEFAULT_MODIFIER_COST_FACTOR
 import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifier
 import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifierEffectType
 import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifierId
-import at.orchaldir.gm.core.model.rpg.combat.MAX_COST_FACTOR
-import at.orchaldir.gm.core.model.rpg.combat.MIN_COST_FACTOR
 import at.orchaldir.gm.core.selector.item.equipment.getEquipment
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -29,7 +25,7 @@ fun HtmlBlockTag.showEquipmentModifier(
     fieldList("Effects", modifier.effects) {
         displayEquipmentModifierEffect(call, state, it)
     }
-    fieldFactor("Cost", modifier.cost)
+    fieldCostFactor(modifier.cost)
     showUsages(call, state, modifier.id)
 }
 
@@ -63,14 +59,7 @@ fun HtmlBlockTag.editEquipmentModifier(
     editList("Effects", EFFECT, modifier.effects, 0, EquipmentModifierEffectType.entries.size) { _, param, effect ->
         editEquipmentModifierEffect(call, state, effect, param, allowedTypes + effect.getType())
     }
-
-    selectFactor(
-        "Cost",
-        COST,
-        modifier.cost,
-        MIN_COST_FACTOR,
-        MAX_COST_FACTOR,
-    )
+    selectCostFactor(modifier.cost)
 }
 
 // parse
@@ -90,5 +79,5 @@ fun parseEquipmentModifier(
     parseList(parameters, EFFECT, 0) { _, effectParam ->
         parseEquipmentModifierEffect(parameters, effectParam)
     },
-    parseFactor(parameters, COST, DEFAULT_COST_FACTOR),
+    parseFactor(parameters, COST, DEFAULT_MODIFIER_COST_FACTOR),
 )

@@ -21,11 +21,14 @@ fun calculateCostFactors(
 private fun calculateCostFactors(
     state: State,
     costFactors: MutableMap<Id<*>, Factor>,
-    stats: ArmorStats,
+    armor: ArmorStats,
 ) {
     state.getEquipmentModifierStorage()
-        .get(stats.modifiers)
+        .get(armor.modifiers)
         .forEach { modifier ->
             costFactors[modifier.id] = modifier.cost
         }
+
+    state.getArmorTypeStorage().getOptional(armor.type)
+        ?.let { costFactors[it.id] = it.cost }
 }

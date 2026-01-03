@@ -5,13 +5,9 @@ import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.math.ZERO
 import kotlinx.serialization.Serializable
 
 const val EQUIPMENT_MODIFIER_TYPE = "Equipment Modifier"
-val MIN_COST_FACTOR = Factor.fromNumber(-100)
-val DEFAULT_COST_FACTOR = ZERO
-val MAX_COST_FACTOR = Factor.fromNumber(100)
 
 @JvmInline
 @Serializable
@@ -28,7 +24,7 @@ data class EquipmentModifier(
     val id: EquipmentModifierId,
     val name: Name = Name.init(id),
     val effects: List<EquipmentModifierEffect> = emptyList(),
-    val cost: Factor = DEFAULT_COST_FACTOR,
+    val cost: Factor = DEFAULT_MODIFIER_COST_FACTOR,
 ) : ElementWithSimpleName<EquipmentModifierId> {
 
     override fun id() = id
