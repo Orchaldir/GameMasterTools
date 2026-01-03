@@ -8,6 +8,7 @@ enum class SortArchitecturalStyle {
 
 enum class SortArmorModifier {
     Name,
+    Cost,
     Equipment,
 }
 
