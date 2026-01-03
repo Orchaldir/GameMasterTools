@@ -40,7 +40,7 @@ fun HtmlBlockTag.showPriceLookupDetails(
     showDetails("Price", true) {
         field("Type", lookup.getType())
 
-        showVolumePerMaterial(call, state, vpm)
+        showPricePerMaterial(call, state, vpm)
 
         when (lookup) {
             CalculatedPrice -> fieldPrice(call, state, "Calculated Price", vpm.getPrice(state))
@@ -49,7 +49,7 @@ fun HtmlBlockTag.showPriceLookupDetails(
     }
 }
 
-fun HtmlBlockTag.showVolumePerMaterial(
+fun HtmlBlockTag.showPricePerMaterial(
     call: ApplicationCall,
     state: State,
     vpm: VolumePerMaterial,
