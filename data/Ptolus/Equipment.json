@@ -11,6 +11,11 @@
      "chain": {
       "material": 4
      }
+    },
+    "stats": {
+     "modifiers": [
+      1
+     ]
     }
    }
   }

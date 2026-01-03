@@ -4,6 +4,8 @@ import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.unit.Weight
 import kotlinx.serialization.Serializable
 
+val FREE = Price(0)
+
 @JvmInline
 @Serializable
 value class Price(val value: Int) {

@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.model.economy.standard
 
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.economy.money.FREE
 import at.orchaldir.gm.core.model.economy.money.Price
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
@@ -26,7 +27,7 @@ value class StandardOfLivingId(val value: Int) : Id<StandardOfLivingId> {
 data class StandardOfLiving(
     val id: StandardOfLivingId,
     val name: Name = Name.init(id),
-    val maxYearlyIncome: Price = Price(0),
+    val maxYearlyIncome: Price = FREE,
 ) : ElementWithSimpleName<StandardOfLivingId> {
 
     override fun id() = id

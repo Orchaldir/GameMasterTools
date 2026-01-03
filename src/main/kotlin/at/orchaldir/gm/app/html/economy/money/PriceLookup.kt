@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.economy.money.*
 import at.orchaldir.gm.core.selector.getDefaultCurrency
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.unit.VolumePerMaterial
+import at.orchaldir.gm.utils.math.unit.WEIGHTLESS
 import at.orchaldir.gm.utils.math.unit.Weight
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -54,6 +55,8 @@ fun HtmlBlockTag.showVolumePerMaterial(
     vpm: VolumePerMaterial,
 ) {
     val currency = state.getDefaultCurrency()
+    var totalWeight = WEIGHTLESS
+    var totalPrice = FREE
 
     table {
         tr {
@@ -75,6 +78,20 @@ fun HtmlBlockTag.showVolumePerMaterial(
                 }
                 td {
                     displayPrice(call, currency, price)
+                }
+            }
+
+            totalWeight += weight
+            totalPrice += price
+        }
+
+        if (vpm.getMap().size > 1) {
+            tr {
+                tdString("Total")
+                tdString(totalWeight.toString())
+                td { }
+                td {
+                    displayPrice(call, currency, totalPrice)
                 }
             }
         }

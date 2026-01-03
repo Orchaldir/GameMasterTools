@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.economy.material
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.economy.money.FREE
 import at.orchaldir.gm.core.model.economy.money.Price
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
@@ -29,7 +30,7 @@ data class Material(
     val category: MaterialCategory = MaterialCategory.Metal,
     val color: Color = Color.Pink,
     val density: Weight = Weight.fromKilograms(1000),
-    val pricePerKilogram: Price = Price(0),
+    val pricePerKilogram: Price = FREE,
 ) : ElementWithSimpleName<MaterialId> {
 
     override fun id() = id
