@@ -29,7 +29,8 @@
    "id": 4,
    "name": "Iron",
    "color": "DimGray",
-   "density": 7870000000
+   "density": 7870000000,
+   "pricePerKilogram": 1000
   },
   "5": {
    "id": 5,
@@ -71,7 +72,7 @@
    "id": 11,
    "name": "Mithral",
    "color": "Silver",
-   "density": 5000000000
+   "density": 3935000000
   },
   "12": {
    "id": 12,

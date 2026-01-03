@@ -1,5 +1,18 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "Sword",
+   "data": {
+    "#type": "Armour",
+    "style": {
+     "#type": "Chain",
+     "chain": {
+      "material": 4
+     }
+    }
+   }
+  }
  }
 }
