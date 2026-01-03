@@ -29,7 +29,8 @@
      "#type": "DefenseBonus",
      "amount": 1
     }
-   ]
+   ],
+   "cost": 40000
   }
  }
 }
