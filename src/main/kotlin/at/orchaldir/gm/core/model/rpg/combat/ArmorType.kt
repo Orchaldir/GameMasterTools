@@ -33,6 +33,7 @@ data class ArmorType(
 
     override fun validate(state: State) {
         validateProtection(state, protection)
+        validateCost(cost)
     }
 
     fun contains(type: DamageTypeId) = protection.contains(type)
