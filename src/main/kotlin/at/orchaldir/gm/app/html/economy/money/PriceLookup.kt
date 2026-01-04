@@ -7,6 +7,7 @@ import at.orchaldir.gm.app.html.util.math.fieldFactor
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.*
 import at.orchaldir.gm.core.selector.getDefaultCurrency
+import at.orchaldir.gm.core.selector.item.equipment.calculatePrice
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.FULL
@@ -49,7 +50,11 @@ fun HtmlBlockTag.showPriceLookupDetails(
         showCostFactors(call, state, costFactors)
 
         when (lookup) {
-            CalculatedPrice -> fieldPrice(call, state, "Calculated Price", vpm.getPrice(state))
+            CalculatedPrice -> {
+                val price = calculatePrice(state, vpm, costFactors)
+
+                fieldPrice(call, state, "Calculated Price", price)
+            }
             is UserDefinedPrice -> fieldPrice(call, state, "User Defined Price", lookup.price)
         }
     }
