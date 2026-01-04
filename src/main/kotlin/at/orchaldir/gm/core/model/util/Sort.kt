@@ -14,6 +14,7 @@ enum class SortArmorModifier {
 
 enum class SortArmorType {
     Name,
+    Cost,
     Equipment,
 }
 
