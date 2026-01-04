@@ -5,6 +5,7 @@ import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.SimpleModifiedDice
 import at.orchaldir.gm.core.model.rpg.combat.*
+import at.orchaldir.gm.utils.math.ONE_PERCENT
 import org.junit.jupiter.api.Test
 
 class EquipmentModifierTest {
@@ -29,9 +30,20 @@ class EquipmentModifierTest {
         assertInvalidModifier(listOf(modifyDB, modifyDB), "Contains a type of effects more than once!")
     }
 
+    @Test
+    fun `Cannot have a cost factor below the minimum`() {
+        val modifier = EquipmentModifier(EQUIPMENT_MODIFIER_ID_0, cost = MIN_COST_FACTOR - ONE_PERCENT)
+
+        assertInvalidModifier(modifier, "Cost Factor -101% is below the minimum!")
+    }
+
     private fun assertInvalidModifier(effects: List<EquipmentModifierEffect>, message: String) {
         val modifier = EquipmentModifier(EQUIPMENT_MODIFIER_ID_0, effects = effects)
 
+        assertInvalidModifier(modifier, message)
+    }
+
+    private fun assertInvalidModifier(modifier: EquipmentModifier, message: String) {
         assertIllegalArgument(message) { modifier.validate(state) }
     }
 

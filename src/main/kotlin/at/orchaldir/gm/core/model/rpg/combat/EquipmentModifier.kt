@@ -33,5 +33,6 @@ data class EquipmentModifier(
     override fun validate(state: State) {
         val effectTypes = effects.map { it.getType() }
         require(effectTypes.size == effectTypes.toSet().size) { "Contains a type of effects more than once!" }
+        validate(cost)
     }
 }
