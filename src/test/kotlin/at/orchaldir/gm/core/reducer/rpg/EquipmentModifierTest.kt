@@ -17,17 +17,17 @@ class EquipmentModifierTest {
 
     @Test
     fun `Cannot have ModifyDamage twice`() {
-        assertInvalidModifier(listOf(modifyDamage, modifyDamage), "Contains a type of effects more than once!")
+        assertInvalidModifier(listOf(modifyDamage, modifyDamage))
     }
 
     @Test
     fun `Cannot have ModifyDamageResistance twice`() {
-        assertInvalidModifier(listOf(modifyDR, modifyDR), "Contains a type of effects more than once!")
+        assertInvalidModifier(listOf(modifyDR, modifyDR))
     }
 
     @Test
     fun `Cannot have ModifyDefenseBonus twice`() {
-        assertInvalidModifier(listOf(modifyDB, modifyDB), "Contains a type of effects more than once!")
+        assertInvalidModifier(listOf(modifyDB, modifyDB))
     }
 
     @Test
@@ -37,10 +37,17 @@ class EquipmentModifierTest {
         assertInvalidModifier(modifier, "Cost Factor -101% is below the minimum!")
     }
 
-    private fun assertInvalidModifier(effects: List<EquipmentModifierEffect>, message: String) {
+    @Test
+    fun `Cannot have a cost factor above the maximum`() {
+        val modifier = EquipmentModifier(EQUIPMENT_MODIFIER_ID_0, cost = MAX_COST_FACTOR + ONE_PERCENT)
+
+        assertInvalidModifier(modifier, "Cost Factor 10001% is above the maximum!")
+    }
+
+    private fun assertInvalidModifier(effects: List<EquipmentModifierEffect>) {
         val modifier = EquipmentModifier(EQUIPMENT_MODIFIER_ID_0, effects = effects)
 
-        assertInvalidModifier(modifier, message)
+        assertInvalidModifier(modifier, "Contains a type of effects more than once!")
     }
 
     private fun assertInvalidModifier(modifier: EquipmentModifier, message: String) {

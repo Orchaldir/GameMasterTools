@@ -11,4 +11,5 @@ val MAX_COST_FACTOR = Factor.fromNumber(100)
 
 fun validate(cost: Factor) {
     require(cost >= MIN_COST_FACTOR) { "Cost Factor $cost is below the minimum!" }
+    require(cost <= MAX_COST_FACTOR) { "Cost Factor $cost is above the maximum!" }
 }
