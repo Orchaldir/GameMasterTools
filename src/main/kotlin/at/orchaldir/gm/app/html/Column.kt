@@ -21,6 +21,7 @@ import at.orchaldir.gm.core.selector.time.getAgeInYears
 import at.orchaldir.gm.core.selector.util.calculatePopulationDensity
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
+import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.unit.AreaUnit
 import at.orchaldir.gm.utils.math.unit.HasArea
 import io.ktor.server.application.*
@@ -64,6 +65,10 @@ fun <ELEMENT : HasBelief> createBeliefColumn(
     state: State,
 ): Column<ELEMENT> =
     tdColumn("Belief") { showBeliefStatus(call, state, it.belief().current, false) }
+
+fun <ID : Id<ID>, ELEMENT : Element<ID>> createCostFactorColumn(
+    get: (ELEMENT) -> Factor,
+): Column<ELEMENT> = tdColumn("Cost") { +get(it).toString() }
 
 fun <ELEMENT : Creation> createCreatorColumn(
     call: ApplicationCall,

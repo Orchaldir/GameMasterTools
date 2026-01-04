@@ -1,9 +1,12 @@
 package at.orchaldir.gm.app.html.rpg.combat
 
+import at.orchaldir.gm.app.COST
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.util.math.parseFactor
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.combat.ArmorType
 import at.orchaldir.gm.core.model.rpg.combat.ArmorTypeId
+import at.orchaldir.gm.core.model.rpg.combat.DEFAULT_TYPE_COST_FACTOR
 import at.orchaldir.gm.core.selector.item.equipment.getArmors
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -18,6 +21,7 @@ fun HtmlBlockTag.showArmorType(
     type: ArmorType,
 ) {
     fieldProtection(call, state, type.protection)
+    fieldCostFactor(type.cost)
 
     showUsages(call, state, type.id)
 }
@@ -47,6 +51,7 @@ fun HtmlBlockTag.editArmorType(
 ) {
     selectName(type.name)
     editProtection(call, state, type.protection)
+    selectCostFactor(type.cost)
 }
 
 // parse
@@ -64,4 +69,5 @@ fun parseArmorType(
     id,
     parseName(parameters),
     parseProtection(parameters),
+    parseFactor(parameters, COST, DEFAULT_TYPE_COST_FACTOR),
 )

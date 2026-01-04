@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.routes.rpg
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.countCollectionColumn
+import at.orchaldir.gm.app.html.createCostFactorColumn
 import at.orchaldir.gm.app.html.createNameColumn
 import at.orchaldir.gm.app.html.rpg.combat.displayProtection
 import at.orchaldir.gm.app.html.rpg.combat.editArmorType
@@ -68,6 +69,7 @@ fun Application.configureArmorTypeRouting() {
                 listOf(
                     createNameColumn(call, state),
                     tdColumn("Protection") { displayProtection(call, state, it.protection) },
+                    createCostFactorColumn { it.cost },
                     countCollectionColumn("Equipment") { state.getArmors(it.id) },
                 ),
             )

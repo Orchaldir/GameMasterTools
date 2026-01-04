@@ -136,6 +136,7 @@ fun State.sortArmorTypes(
     .sortedWith(
         when (sort) {
             SortArmorType.Name -> compareBy { it.name.text }
+            SortArmorType.Cost -> compareByDescending { it.cost.toPermyriad() }
             SortArmorType.Equipment -> compareByDescending { getArmors(it.id).size }
         })
 
@@ -496,6 +497,7 @@ fun State.sortEquipmentModifiers(
     .sortedWith(
         when (sort) {
             SortArmorModifier.Name -> compareBy { it.name.text }
+            SortArmorModifier.Cost -> compareByDescending { it.cost.toPermyriad() }
             SortArmorModifier.Equipment -> compareByDescending { getEquipment(it.id).size }
         })
 

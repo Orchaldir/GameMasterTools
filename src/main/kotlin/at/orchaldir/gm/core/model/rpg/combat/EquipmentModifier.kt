@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.utils.Id
+import at.orchaldir.gm.utils.math.Factor
 import kotlinx.serialization.Serializable
 
 const val EQUIPMENT_MODIFIER_TYPE = "Equipment Modifier"
@@ -23,6 +24,7 @@ data class EquipmentModifier(
     val id: EquipmentModifierId,
     val name: Name = Name.init(id),
     val effects: List<EquipmentModifierEffect> = emptyList(),
+    val cost: Factor = DEFAULT_MODIFIER_COST_FACTOR,
 ) : ElementWithSimpleName<EquipmentModifierId> {
 
     override fun id() = id
@@ -31,5 +33,6 @@ data class EquipmentModifier(
     override fun validate(state: State) {
         val effectTypes = effects.map { it.getType() }
         require(effectTypes.size == effectTypes.toSet().size) { "Contains a type of effects more than once!" }
+        validateCost(cost)
     }
 }

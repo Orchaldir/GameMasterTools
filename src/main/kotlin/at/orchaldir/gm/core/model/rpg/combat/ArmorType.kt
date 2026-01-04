@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.reducer.rpg.validateProtection
 import at.orchaldir.gm.utils.Id
+import at.orchaldir.gm.utils.math.Factor
 import kotlinx.serialization.Serializable
 
 const val ARMOR_TYPE_TYPE = "Armor Type"
@@ -24,6 +25,7 @@ data class ArmorType(
     val id: ArmorTypeId,
     val name: Name = Name.init(id),
     val protection: Protection = UndefinedProtection,
+    val cost: Factor = DEFAULT_TYPE_COST_FACTOR,
 ) : ElementWithSimpleName<ArmorTypeId> {
 
     override fun id() = id
@@ -31,6 +33,7 @@ data class ArmorType(
 
     override fun validate(state: State) {
         validateProtection(state, protection)
+        validateCost(cost)
     }
 
     fun contains(type: DamageTypeId) = protection.contains(type)

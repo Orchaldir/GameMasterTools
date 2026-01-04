@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.routes.rpg
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.countCollectionColumn
+import at.orchaldir.gm.app.html.createCostFactorColumn
 import at.orchaldir.gm.app.html.createNameColumn
 import at.orchaldir.gm.app.html.rpg.combat.editEquipmentModifier
 import at.orchaldir.gm.app.html.rpg.combat.parseEquipmentModifier
@@ -65,6 +66,7 @@ fun Application.configureEquipmentModifierRouting() {
                 state.sortEquipmentModifiers(all.sort),
                 listOf(
                     createNameColumn(call, state),
+                    createCostFactorColumn { it.cost },
                     countCollectionColumn("Equipment") { state.getEquipment(it.id) },
                 ),
             )

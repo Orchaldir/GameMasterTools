@@ -20,6 +20,7 @@ import at.orchaldir.gm.core.selector.character.getCharacterTemplates
 import at.orchaldir.gm.core.selector.character.getCharactersWith
 import at.orchaldir.gm.core.selector.culture.getFashions
 import at.orchaldir.gm.core.selector.item.equipment.CalculateVolumeConfig
+import at.orchaldir.gm.core.selector.item.equipment.calculateCostFactors
 import at.orchaldir.gm.core.selector.item.equipment.calculateVolumePerMaterial
 import at.orchaldir.gm.core.selector.item.getUniforms
 import at.orchaldir.gm.core.selector.util.filterValidColorSchemes
@@ -38,10 +39,11 @@ fun HtmlBlockTag.showEquipment(
     equipment: Equipment,
 ) {
     val material = equipment.data.mainMaterial()
+    val costFactors = calculateCostFactors(state, equipment.data)
     val vpm = calculateVolumePerMaterial(CalculateVolumeConfig.from(CHARACTER_CONFIG), equipment.data)
 
     showWeightLookupDetails(call, state, equipment.weight, vpm)
-    showPriceLookupDetails(call, state, equipment.price, vpm)
+    showPriceLookupDetails(call, state, equipment.price, vpm, costFactors)
     fieldIds(call, state, equipment.colorSchemes)
     equipment.data.getArmorStats()?.let {
         showArmorStats(call, state, it, material)

@@ -67,10 +67,10 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
     ),
     EquipmentConfig(
         BodyArmourConfig(
-            fromPercentage(1),
-            fromPercentage(1),
-            fromPercentage(1),
-            fromPercentage(1),
+            fromPermille(2),
+            fromPermille(2),
+            fromPermille(2),
+            fromPermille(2),
             LamellarArmourConfig(
                 fromPercentage(20),
                 fromPercentage(20),

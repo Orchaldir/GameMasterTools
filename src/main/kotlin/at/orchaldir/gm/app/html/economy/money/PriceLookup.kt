@@ -6,8 +6,13 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.*
 import at.orchaldir.gm.core.selector.getDefaultCurrency
+import at.orchaldir.gm.core.selector.item.equipment.calculatePrice
+import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
+import at.orchaldir.gm.utils.math.FULL
+import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.unit.VolumePerMaterial
+import at.orchaldir.gm.utils.math.unit.WEIGHTLESS
 import at.orchaldir.gm.utils.math.unit.Weight
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -35,26 +40,36 @@ fun HtmlBlockTag.showPriceLookupDetails(
     state: State,
     lookup: PriceLookup,
     vpm: VolumePerMaterial,
+    costFactors: Map<Id<*>, Factor> = emptyMap(),
 ) {
     showDetails("Price", true) {
         field("Type", lookup.getType())
 
-        showVolumePerMaterial(call, state, vpm)
+        showPricePerMaterial(call, state, vpm)
+        showCostFactors(call, state, costFactors)
 
         when (lookup) {
-            CalculatedPrice -> fieldPrice(call, state, "Calculated Price", vpm.getPrice(state))
+            CalculatedPrice -> {
+                val price = calculatePrice(state, vpm, costFactors)
+
+                fieldPrice(call, state, "Calculated Price", price)
+            }
+
             is UserDefinedPrice -> fieldPrice(call, state, "User Defined Price", lookup.price)
         }
     }
 }
 
-fun HtmlBlockTag.showVolumePerMaterial(
+fun HtmlBlockTag.showPricePerMaterial(
     call: ApplicationCall,
     state: State,
     vpm: VolumePerMaterial,
 ) {
     val currency = state.getDefaultCurrency()
+    var totalWeight = WEIGHTLESS
+    var totalPrice = FREE
 
+    br { }
     table {
         tr {
             th { +"Material" }
@@ -77,6 +92,56 @@ fun HtmlBlockTag.showVolumePerMaterial(
                     displayPrice(call, currency, price)
                 }
             }
+
+            totalWeight += weight
+            totalPrice += price
+        }
+
+        if (vpm.getMap().size > 1) {
+            tr {
+                tdString("Total")
+                tdString(totalWeight.toString())
+                td { }
+                td {
+                    displayPrice(call, currency, totalPrice)
+                }
+            }
+        }
+    }
+}
+
+fun HtmlBlockTag.showCostFactors(
+    call: ApplicationCall,
+    state: State,
+    costFactors: Map<Id<*>, Factor>,
+) {
+    var totalFactor = FULL
+
+    br { }
+    table {
+        tr {
+            th { +"Cost Factor" }
+            th { +"Value" }
+        }
+        tr {
+            tdString("Base")
+            tdString(FULL.toString())
+        }
+        costFactors.entries
+            .sortedByDescending { it.value.toPermyriad() }
+            .forEach { (id, factor) ->
+
+                tr {
+                    tdLink(call, state, id)
+                    tdString(factor.toString())
+                }
+
+                totalFactor += factor
+            }
+
+        tr {
+            tdString("Total")
+            tdString(totalFactor.toString())
         }
     }
 }

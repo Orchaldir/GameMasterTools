@@ -1,8 +1,11 @@
 package at.orchaldir.gm.app.html.rpg.combat
 
+import at.orchaldir.gm.app.COST
 import at.orchaldir.gm.app.EFFECT
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.util.math.parseFactor
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.rpg.combat.DEFAULT_MODIFIER_COST_FACTOR
 import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifier
 import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifierEffectType
 import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifierId
@@ -22,6 +25,7 @@ fun HtmlBlockTag.showEquipmentModifier(
     fieldList("Effects", modifier.effects) {
         displayEquipmentModifierEffect(call, state, it)
     }
+    fieldCostFactor(modifier.cost)
     showUsages(call, state, modifier.id)
 }
 
@@ -55,6 +59,7 @@ fun HtmlBlockTag.editEquipmentModifier(
     editList("Effects", EFFECT, modifier.effects, 0, EquipmentModifierEffectType.entries.size) { _, param, effect ->
         editEquipmentModifierEffect(call, state, effect, param, allowedTypes + effect.getType())
     }
+    selectCostFactor(modifier.cost)
 }
 
 // parse
@@ -73,5 +78,6 @@ fun parseEquipmentModifier(
     parseName(parameters),
     parseList(parameters, EFFECT, 0) { _, effectParam ->
         parseEquipmentModifierEffect(parameters, effectParam)
-    }
+    },
+    parseFactor(parameters, COST, DEFAULT_MODIFIER_COST_FACTOR),
 )

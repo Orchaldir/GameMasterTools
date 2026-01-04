@@ -11,11 +11,13 @@
       "modifier": 1
      }
     }
-   ]
+   ],
+   "cost": 160000
   },
   "1": {
    "id": 1,
-   "name": "Very Fine"
+   "name": "Very Fine",
+   "cost": 190000
   },
   "2": {
    "id": 2,
@@ -29,7 +31,13 @@
      "#type": "DefenseBonus",
      "amount": 1
     }
-   ]
+   ],
+   "cost": 40000
+  },
+  "3": {
+   "id": 3,
+   "name": "Fine",
+   "cost": 30000
   }
  }
 }
