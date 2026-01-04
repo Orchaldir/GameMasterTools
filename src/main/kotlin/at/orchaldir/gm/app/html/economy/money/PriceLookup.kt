@@ -3,7 +3,6 @@ package at.orchaldir.gm.app.html.economy.money
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.WEIGHT
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.util.math.fieldFactor
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.*
 import at.orchaldir.gm.core.selector.getDefaultCurrency
@@ -55,6 +54,7 @@ fun HtmlBlockTag.showPriceLookupDetails(
 
                 fieldPrice(call, state, "Calculated Price", price)
             }
+
             is UserDefinedPrice -> fieldPrice(call, state, "User Defined Price", lookup.price)
         }
     }
@@ -69,7 +69,7 @@ fun HtmlBlockTag.showPricePerMaterial(
     var totalWeight = WEIGHTLESS
     var totalPrice = FREE
 
-    br {  }
+    br { }
     table {
         tr {
             th { +"Material" }
@@ -117,7 +117,7 @@ fun HtmlBlockTag.showCostFactors(
 ) {
     var totalFactor = FULL
 
-    br {  }
+    br { }
     table {
         tr {
             th { +"Cost Factor" }
@@ -131,13 +131,13 @@ fun HtmlBlockTag.showCostFactors(
             .sortedByDescending { it.value.toPermyriad() }
             .forEach { (id, factor) ->
 
-            tr {
-                tdLink(call, state, id)
-                tdString(factor.toString())
-            }
+                tr {
+                    tdLink(call, state, id)
+                    tdString(factor.toString())
+                }
 
-            totalFactor += factor
-        }
+                totalFactor += factor
+            }
 
         tr {
             tdString("Total")

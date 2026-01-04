@@ -6,7 +6,6 @@ import at.orchaldir.gm.app.html.util.math.parseFactor
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.combat.ArmorType
 import at.orchaldir.gm.core.model.rpg.combat.ArmorTypeId
-import at.orchaldir.gm.core.model.rpg.combat.DEFAULT_MODIFIER_COST_FACTOR
 import at.orchaldir.gm.core.model.rpg.combat.DEFAULT_TYPE_COST_FACTOR
 import at.orchaldir.gm.core.selector.item.equipment.getArmors
 import io.ktor.http.*
