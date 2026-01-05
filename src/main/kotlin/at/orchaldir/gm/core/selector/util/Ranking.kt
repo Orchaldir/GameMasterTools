@@ -27,7 +27,7 @@ fun <ID : Id<ID>, ELEMENT> State.calculateIndexOfElementWithConcept(
     }
 }
 
-fun <ID : Id<ID>, ELEMENT : Element<ID>> calculateRankingIndex(
+fun <ID : Id<ID>, ELEMENT : Element<ID>> calculateIndexOfElementBasedOnConcept(
     storage: Storage<ID, ELEMENT>,
     id: ID,
     calculateTotal: (ID) -> Int?,

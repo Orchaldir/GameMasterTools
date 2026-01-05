@@ -7,7 +7,7 @@ import at.orchaldir.gm.core.model.economy.standard.StandardOfLivingId
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.realm.population.*
 import at.orchaldir.gm.core.selector.util.RankingEntry
-import at.orchaldir.gm.core.selector.util.calculateRankingIndex
+import at.orchaldir.gm.core.selector.util.calculateIndexOfElementBasedOnConcept
 import at.orchaldir.gm.core.selector.util.calculateIndexOfElementWithConcept
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
@@ -103,11 +103,11 @@ fun <ID : Id<ID>, ELEMENT> State.calculateIndexOfElementWithPopulation(
     it.population().getTotalPopulation()
 }
 
-fun <ID : Id<ID>, ELEMENT : Element<ID>> State.calculatePopulationIndex(
+fun <ID : Id<ID>, ELEMENT : Element<ID>> State.calculateIndexOfElementBasedOnPopulation(
     storage: Storage<ID, ELEMENT>,
     id: ID,
     getPopulation: (Population, ID) -> Int?,
-) = calculateRankingIndex(storage, id) {
+) = calculateIndexOfElementBasedOnConcept(storage, id) {
     calculateTotalPopulation { population ->
         getPopulation(population, it)
     }

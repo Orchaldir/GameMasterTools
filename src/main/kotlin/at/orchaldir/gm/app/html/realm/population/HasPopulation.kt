@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.realm.population.*
-import at.orchaldir.gm.core.selector.realm.calculatePopulationIndex
+import at.orchaldir.gm.core.selector.realm.calculateIndexOfElementBasedOnPopulation
 import at.orchaldir.gm.core.selector.realm.calculateTotalPopulation
 import at.orchaldir.gm.core.selector.realm.getAbstractPopulations
 import at.orchaldir.gm.core.selector.realm.getPopulationEntries
@@ -76,7 +76,7 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.showPopulationOfElement(
     }
     val totalOrZero = total ?: 0
     optionalField("Total", total)
-    optionalField("Index", state.calculatePopulationIndex(storage, id, getPopulation))
+    optionalField("Index", state.calculateIndexOfElementBasedOnPopulation(storage, id, getPopulation))
 
     showPopulationOfElement(call, state, getPercentage, state.getDistrictStorage(), totalOrZero, contains)
     showPopulationOfElement(call, state, getPercentage, state.getRealmStorage(), totalOrZero, contains)
