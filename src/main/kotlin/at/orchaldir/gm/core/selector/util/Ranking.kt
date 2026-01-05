@@ -18,7 +18,7 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> State.calculateIndexOfElementWithConcep
 ): Int? {
     val value = calculateValue(element)
 
-    return if (value == null) {
+    return if (value == null || value == 0) {
         null
     } else {
         getStorage<ID, ELEMENT>(element.id())
