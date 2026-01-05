@@ -498,10 +498,10 @@ class BuildingTest {
             @Test
             fun `A home needs to stay a home, while characters are living in it`() {
                 val state = STATE.updateStorage(
-                        Character(
-                            CHARACTER_ID_0,
-                            housingStatus = History(InBuilding(BUILDING_ID_0))
-                        )
+                    Character(
+                        CHARACTER_ID_0,
+                        housingStatus = History(InBuilding(BUILDING_ID_0))
+                    )
                 )
                 val newBuilding = building.copy(purpose = ApartmentHouse(3))
 
@@ -511,10 +511,10 @@ class BuildingTest {
             @Test
             fun `A home can become another type of home, while characters are living in it`() {
                 val state = STATE.updateStorage(
-                        Character(
-                            CHARACTER_ID_0,
-                            housingStatus = History(InBuilding(BUILDING_ID_0))
-                        )
+                    Character(
+                        CHARACTER_ID_0,
+                        housingStatus = History(InBuilding(BUILDING_ID_0))
+                    )
                 )
                 val newBuilding = building.copy(purpose = BusinessAndHome)
 
@@ -530,10 +530,10 @@ class BuildingTest {
                 (3..4).forEach {
                     val state = STATE
                         .updateStorage(
-                                Character(
-                                    CHARACTER_ID_0,
-                                    housingStatus = History(InApartment(BUILDING_ID_0, 4))
-                                )
+                            Character(
+                                CHARACTER_ID_0,
+                                housingStatus = History(InApartment(BUILDING_ID_0, 4))
+                            )
                         )
                         .updateStorage(Building(BUILDING_ID_0, purpose = ApartmentHouse(5)))
                     val newBuilding = building.copy(purpose = ApartmentHouse(it))

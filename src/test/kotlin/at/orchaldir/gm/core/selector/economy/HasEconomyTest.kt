@@ -15,7 +15,6 @@ import at.orchaldir.gm.core.model.realm.Town
 import at.orchaldir.gm.core.model.util.NumberDistribution
 import at.orchaldir.gm.core.model.util.PercentageDistribution
 import at.orchaldir.gm.utils.Id
-import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.HALF
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test

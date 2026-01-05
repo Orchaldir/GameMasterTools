@@ -38,7 +38,7 @@ data class EquipmentMap<T>(private val list: List<EquipmentMapEntry<T>>) {
     fun contains(data: T) = list.any { it.data == data }
 
     fun getSets(data: T) = list
-        .firstOrNull() { it.data == data }
+        .firstOrNull { it.data == data }
         ?.sets
 
     fun isFree(slot: BodySlot) = list.all { it.sets.all { set -> !set.contains(slot) } }
