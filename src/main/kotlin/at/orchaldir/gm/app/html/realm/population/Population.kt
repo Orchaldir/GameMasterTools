@@ -84,7 +84,7 @@ fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showPopulationDetails(
 
     showDetails("Population", true) {
         optionalField("Total", population.getTotalPopulation())
-        optionalField("Index", state.calculateRankOfElementWithPopulation(element))
+        optionalField("Rank", state.calculateRankOfElementWithPopulation(element))
 
         when (population) {
             is AbstractPopulation -> {

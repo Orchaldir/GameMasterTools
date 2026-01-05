@@ -53,7 +53,7 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.showEconomyOfElement(
     }
     val totalOrZero = total ?: 0
     optionalField("Total", total)
-    optionalField("Index", state.calculateRankBasedOnEconomy(element, getEconomy))
+    optionalField("Rank", state.calculateRankBasedOnEconomy(element, getEconomy))
 
     showEconomyOfElement(call, state, getPercentage, state.getDistrictStorage(), totalOrZero, contains)
     showEconomyOfElement(call, state, getPercentage, state.getRealmStorage(), totalOrZero, contains)

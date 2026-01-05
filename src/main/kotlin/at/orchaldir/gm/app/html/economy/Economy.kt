@@ -41,7 +41,7 @@ fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showEconomyDetails(
 
     showDetails("Economy", true) {
         optionalField("Businesses", total)
-        optionalField("Index", state.calculateRankOfElementWithEconomy(element))
+        optionalField("Rank", state.calculateRankOfElementWithEconomy(element))
 
         when (economy) {
             is CommonBusinesses -> fieldIds(call, state, economy.businesses)

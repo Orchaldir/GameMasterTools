@@ -73,7 +73,7 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.showPopulationOfElement(
     }
     val totalOrZero = total ?: 0
     optionalField("Total", total)
-    optionalField("Index", state.calculateRankBasedOnPopulation(element, getPopulation))
+    optionalField("Rank", state.calculateRankBasedOnPopulation(element, getPopulation))
 
     showPopulationOfElement(call, state, getPercentage, state.getDistrictStorage(), totalOrZero, contains)
     showPopulationOfElement(call, state, getPercentage, state.getRealmStorage(), totalOrZero, contains)

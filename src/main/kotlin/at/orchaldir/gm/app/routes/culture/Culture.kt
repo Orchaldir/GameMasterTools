@@ -11,6 +11,7 @@ import at.orchaldir.gm.core.model.culture.CULTURE_TYPE
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.util.SortCulture
 import at.orchaldir.gm.core.selector.character.getCharacters
+import at.orchaldir.gm.core.selector.realm.calculateTotalPopulation
 import at.orchaldir.gm.core.selector.util.sortCultures
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -81,6 +82,9 @@ fun Application.configureCultureRouting() {
                         }
                     },
                     Column(listOf("Naming", "Convention")) { tdEnum(it.namingConvention.getType()) },
+                    countColumnForId("Population") { culture ->
+                        state.calculateTotalPopulation({ it.getPopulation(culture) })
+                    },
                     countCollectionColumn("Holidays") { it.holidays },
                     countCollectionColumn("Characters") { state.getCharacters(it.id) },
                 ),
