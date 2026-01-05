@@ -16,13 +16,16 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> State.calculateIndexOfElementWithConcep
     element: ELEMENT,
     calculateValue: (ELEMENT) -> Int?,
 ): Int? {
-    return if (calculateValue(element) == null) {
+    val value = calculateValue(element)
+
+    return if (value == null) {
         null
     } else {
         getStorage<ID, ELEMENT>(element.id())
             .getAll()
-            .sortedByDescending { calculateValue(it) }
-            .indexOfFirst { it.id() == element.id() } + 1
+            .map { calculateValue(it) }
+            .sortedByDescending { it }
+            .indexOfFirst { it == value } + 1
     }
 }
 
