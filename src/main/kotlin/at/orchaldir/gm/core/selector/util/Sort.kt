@@ -342,6 +342,9 @@ fun State.sortCultures(
     .sortedWith(
         when (sort) {
             SortCulture.Name -> compareBy { it.name.text }
+            SortCulture.Population -> compareByDescending { race ->
+                calculateTotalPopulation({ it.getPopulation(race.id) })
+            }
         })
 
 // currency
