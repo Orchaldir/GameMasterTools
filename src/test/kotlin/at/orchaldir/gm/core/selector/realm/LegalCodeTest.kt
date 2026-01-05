@@ -27,7 +27,7 @@ class LegalCodeTest {
         @Test
         fun `Cannot delete an element used as a position`() {
             val realm = Realm(REALM_ID_0, legalCode = History(LEGAL_CODE_ID_0))
-            val newState = state.updateStorage(Storage(realm))
+            val newState = state.updateStorage(realm)
 
             failCanDelete(newState, REALM_ID_0)
         }

@@ -27,7 +27,7 @@ class NameListTest {
         @Test
         fun `Cannot delete a name list, if used by a culture`() {
             val culture = Culture(CULTURE_ID_0, namingConvention = MononymConvention(NAME_LIST_ID0))
-            val newState = state.updateStorage(Storage(culture))
+            val newState = state.updateStorage(culture)
 
             failCanDelete(newState, CULTURE_ID_0)
         }

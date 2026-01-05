@@ -31,7 +31,7 @@ class UniformTest {
         @Test
         fun `Cannot delete a uniform used by a job`() {
             val job = Job(JOB_ID_0, uniforms = GenderMap(UNIFORM_ID_0))
-            val newState = state.updateStorage(Storage(job))
+            val newState = state.updateStorage(job)
 
             failCanDelete(newState, JOB_ID_0)
         }
@@ -40,7 +40,7 @@ class UniformTest {
         fun `Cannot delete a uniform used by a character`() {
             val equipped = UseUniform(UNIFORM_ID_0)
             val template = Character(CHARACTER_ID_0, equipped = equipped)
-            val newState = state.updateStorage(Storage(template))
+            val newState = state.updateStorage(template)
 
             failCanDelete(newState, CHARACTER_ID_0)
         }
@@ -49,7 +49,7 @@ class UniformTest {
         fun `Cannot delete a uniform used by a character template`() {
             val equipped = UseUniform(UNIFORM_ID_0)
             val template = CharacterTemplate(CHARACTER_TEMPLATE_ID_0, race = RACE_ID_0, equipped = equipped)
-            val newState = state.updateStorage(Storage(template))
+            val newState = state.updateStorage(template)
 
             failCanDelete(newState, CHARACTER_TEMPLATE_ID_0)
         }

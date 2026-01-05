@@ -28,7 +28,7 @@ class HolidayTest {
         @Test
         fun `Cannot delete a holiday used by a culture`() {
             val culture = Culture(CULTURE_ID_0, holidays = setOf(HOLIDAY_ID_0))
-            val newState = state.updateStorage(Storage(culture))
+            val newState = state.updateStorage(culture)
 
             failCanDelete(newState, CULTURE_ID_0)
         }
@@ -36,7 +36,7 @@ class HolidayTest {
         @Test
         fun `Cannot delete a holiday used by a organization`() {
             val organization = Organization(ORGANIZATION_ID_0, holidays = setOf(HOLIDAY_ID_0))
-            val newState = state.updateStorage(Storage(organization))
+            val newState = state.updateStorage(organization)
 
             failCanDelete(newState, ORGANIZATION_ID_0)
         }

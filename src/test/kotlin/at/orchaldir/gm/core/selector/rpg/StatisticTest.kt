@@ -36,7 +36,7 @@ class StatisticTest {
         @Test
         fun `Cannot delete a statistic used by a job`() {
             val element = Job(JOB_ID_0, importantStatistics = setOf(STATISTIC_ID_0))
-            val newState = state.updateStorage(Storage(element))
+            val newState = state.updateStorage(element)
 
             failCanDelete(newState, JOB_ID_0)
         }
@@ -44,7 +44,7 @@ class StatisticTest {
         @Test
         fun `Cannot delete a statistic used a character`() {
             val element = Character(CHARACTER_ID_0, statblock = statblock)
-            val newState = state.updateStorage(Storage(element))
+            val newState = state.updateStorage(element)
 
             failCanDelete(newState, CHARACTER_ID_0)
         }
@@ -52,7 +52,7 @@ class StatisticTest {
         @Test
         fun `Cannot delete a statistic used a character template`() {
             val element = CharacterTemplate(CHARACTER_TEMPLATE_ID_0, race = RACE_ID_0, statblock = statblock)
-            val newState = state.updateStorage(Storage(element))
+            val newState = state.updateStorage(element)
 
             failCanDelete(newState, CHARACTER_TEMPLATE_ID_0)
         }
@@ -62,7 +62,7 @@ class StatisticTest {
             val amount = StatisticBasedDamage(STATISTIC_ID_0)
             val attack = MeleeAttack(Damage(amount, DAMAGE_TYPE_ID_0))
             val element = MeleeWeaponType(MELEE_WEAPON_TYPE_ID_0, attacks = listOf(attack))
-            val newState = state.updateStorage(Storage(element))
+            val newState = state.updateStorage(element)
 
             failCanDelete(newState, MELEE_WEAPON_TYPE_ID_0)
         }

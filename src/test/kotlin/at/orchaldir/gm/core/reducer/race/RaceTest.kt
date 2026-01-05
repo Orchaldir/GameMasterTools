@@ -86,7 +86,7 @@ class RaceTest {
         fun `Date is in the future`() {
             val origin = CreatedElement(CharacterReference(CHARACTER_ID_0))
             val action = UpdateAction(Race(RACE_ID_0, date = FUTURE_DAY_0, origin = origin))
-            val newState = state.updateStorage(Storage(Character(CHARACTER_ID_0)))
+            val newState = state.updateStorage(Character(CHARACTER_ID_0))
 
             assertIllegalArgument("Date (Race) is in the future!") { REDUCER.invoke(newState, action) }
         }

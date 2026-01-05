@@ -32,7 +32,7 @@ class ColorSchemeTest {
         fun `Cannot delete a scheme used by a character's equipment`() {
             val map = EquipmentMap.from(BodySlot.Top, EQUIPMENT_ID_0, COLOR_SCHEME_ID_0)
             val character = Character(CHARACTER_ID_0, equipped = UniqueEquipment(map))
-            val newState = state.updateStorage(Storage(character))
+            val newState = state.updateStorage(character)
 
             failCanDelete(newState, CHARACTER_ID_0)
         }
@@ -40,7 +40,7 @@ class ColorSchemeTest {
         @Test
         fun `Cannot delete a scheme used by an equipment`() {
             val equipment = Equipment(EQUIPMENT_ID_0, colorSchemes = setOf(COLOR_SCHEME_ID_0))
-            val newState = state.updateStorage(Storage(equipment))
+            val newState = state.updateStorage(equipment)
 
             failCanDelete(newState, EQUIPMENT_ID_0)
         }

@@ -6,7 +6,7 @@ import at.orchaldir.gm.RACE_ID_2
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.utils.Storage
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 

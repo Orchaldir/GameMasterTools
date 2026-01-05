@@ -32,7 +32,7 @@ class BusinessTest {
         @Test
         fun `Cannot delete a business that created another element`() {
             val building = Building(BUILDING_ID_0, builder = BusinessReference(BUSINESS_ID_0))
-            val newState = state.updateStorage(Storage(building))
+            val newState = state.updateStorage(building)
 
             failCanDelete(newState, BUILDING_ID_0)
         }
@@ -41,7 +41,7 @@ class BusinessTest {
         fun `Cannot delete a business that owns another element`() {
             val ownership = History<Reference>(BusinessReference(BUSINESS_ID_0))
             val building = Building(BUILDING_ID_0, ownership = ownership)
-            val newState = state.updateStorage(Storage(building))
+            val newState = state.updateStorage(building)
 
             failCanDelete(newState, BUILDING_ID_0)
         }
@@ -50,7 +50,7 @@ class BusinessTest {
         fun `Cannot delete a business where a character is employed`() {
             val employmentStatus = History<EmploymentStatus>(Employed(BUSINESS_ID_0, JOB_ID_0))
             val character = Character(CHARACTER_ID_0, employmentStatus = employmentStatus)
-            val newState = state.updateStorage(Storage(character))
+            val newState = state.updateStorage(character)
 
             failCanDelete(newState, CHARACTER_ID_0)
         }
@@ -59,7 +59,7 @@ class BusinessTest {
         fun `Cannot delete a business where a character was previously employed`() {
             val entry = HistoryEntry<EmploymentStatus>(Employed(BUSINESS_ID_0, JobId(0)), DAY0)
             val character = Character(CHARACTER_ID_0, employmentStatus = History(Unemployed, listOf(entry)))
-            val newState = state.updateStorage(Storage(character))
+            val newState = state.updateStorage(character)
 
             failCanDelete(newState, CHARACTER_ID_0)
         }
@@ -68,7 +68,7 @@ class BusinessTest {
         fun `Cannot delete a business with a long term patient`() {
             val housingStatus = History<Position>(LongTermCareIn(BUSINESS_ID_0))
             val character = Character(CHARACTER_ID_0, housingStatus = housingStatus)
-            val newState = state.updateStorage(Storage(character))
+            val newState = state.updateStorage(character)
 
             failCanDelete(newState, CHARACTER_ID_0)
         }
@@ -76,7 +76,7 @@ class BusinessTest {
         @Test
         fun `Cannot delete a business that published a text`() {
             val character = Text(TEXT_ID_0, publisher = BUSINESS_ID_0)
-            val newState = state.updateStorage(Storage(character))
+            val newState = state.updateStorage(character)
 
             failCanDelete(newState, TEXT_ID_0)
         }

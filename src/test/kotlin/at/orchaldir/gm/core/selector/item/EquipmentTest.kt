@@ -33,7 +33,7 @@ class EquipmentTest {
             val map = EquipmentMap
                 .from(BodySlot.Head, EQUIPMENT_ID_0, COLOR_SCHEME_ID_0)
             val character = Character(CHARACTER_ID_0, equipped = UniqueEquipment(map))
-            val newState = state.updateStorage(Storage(character))
+            val newState = state.updateStorage(character)
 
             failCanDelete(newState, CHARACTER_ID_0)
         }
@@ -44,7 +44,7 @@ class EquipmentTest {
                 .from(BodySlot.Head, EQUIPMENT_ID_0, COLOR_SCHEME_ID_0)
             val template =
                 CharacterTemplate(CHARACTER_TEMPLATE_ID_0, race = RACE_ID_0, equipped = UniqueEquipment(map))
-            val newState = state.updateStorage(Storage(template))
+            val newState = state.updateStorage(template)
 
             failCanDelete(newState, CHARACTER_TEMPLATE_ID_0)
         }
@@ -53,7 +53,7 @@ class EquipmentTest {
         fun `Cannot delete a equipment that is part of a fashion`() {
             val map = mapOf(EquipmentDataType.Pants to OneOrNone(EQUIPMENT_ID_0))
             val fashion = Fashion(FASHION_ID_0, clothing = ClothingFashion(equipmentRarityMap = map))
-            val newState = state.updateStorage(Storage(fashion))
+            val newState = state.updateStorage(fashion)
 
             failCanDelete(newState, FASHION_ID_0)
         }

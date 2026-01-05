@@ -35,7 +35,7 @@ class CalendarTest {
         @Test
         fun `Cannot delete a calendar used by a culture`() {
             val culture = Culture(CULTURE_ID_0, calendar = CALENDAR_ID_0)
-            val newState = state.updateStorage(Storage(culture))
+            val newState = state.updateStorage(culture)
 
             failCanDelete(newState, CULTURE_ID_0)
         }
@@ -43,7 +43,7 @@ class CalendarTest {
         @Test
         fun `Cannot delete a calendar used by a holiday`() {
             val holiday = Holiday(HOLIDAY_ID_0, calendar = CALENDAR_ID_0)
-            val newState = state.updateStorage(Storage(holiday))
+            val newState = state.updateStorage(holiday)
 
             failCanDelete(newState, HOLIDAY_ID_0)
         }
@@ -51,7 +51,7 @@ class CalendarTest {
         @Test
         fun `Cannot delete a calendar used by a periodical`() {
             val periodical = Periodical(PERIODICAL_ID_0, calendar = CALENDAR_ID_0)
-            val newState = state.updateStorage(Storage(periodical))
+            val newState = state.updateStorage(periodical)
 
             failCanDelete(newState, PERIODICAL_ID_0)
         }

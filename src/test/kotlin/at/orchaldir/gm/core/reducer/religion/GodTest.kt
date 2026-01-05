@@ -81,7 +81,7 @@ class GodTest {
         @Test
         fun `Cannot use a character trait that has another type`() {
             val trait = CharacterTrait(CHARACTER_TRAIT_ID_0, type = CharacterTraitType.Body)
-            val newState = state.updateStorage(Storage(trait))
+            val newState = state.updateStorage(trait)
             val action = UpdateAction(God(GOD_ID_0, personality = setOf(CHARACTER_TRAIT_ID_0)))
 
             assertIllegalArgument("Character Trait 0 has type other than Personality!") {

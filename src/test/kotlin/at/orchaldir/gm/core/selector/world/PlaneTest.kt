@@ -32,7 +32,7 @@ class PlaneTest {
 
         @Test
         fun `Cannot delete the plane linked to a moon`() {
-            val newState = state.updateStorage(Storage(Moon(MOON_ID_0, plane = PLANE_ID_0)))
+            val newState = state.updateStorage(Moon(MOON_ID_0, plane = PLANE_ID_0))
 
             failCanDelete(newState, MOON_ID_0)
         }
@@ -57,7 +57,7 @@ class PlaneTest {
         fun `Cannot delete an element used as home`() {
             val housingStatus = History<Position>(position)
             val character = Character(CHARACTER_ID_0, housingStatus = housingStatus)
-            val newState = state.updateStorage(Storage(character))
+            val newState = state.updateStorage(character)
 
             failCanDelete(newState, CHARACTER_ID_0)
         }
@@ -65,7 +65,7 @@ class PlaneTest {
         @Test
         fun `Cannot delete an element used as a position`() {
             val business = Business(BUSINESS_ID_0, position = position)
-            val newState = state.updateStorage(Storage(business))
+            val newState = state.updateStorage(business)
 
             failCanDelete(newState, BUSINESS_ID_0)
         }

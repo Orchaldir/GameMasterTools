@@ -35,7 +35,7 @@ class BattleTest {
         fun `Cannot delete a battle that killed a character`() {
             val dead = Dead(DAY0, DeathInBattle(BATTLE_ID_0))
             val character = Character(CHARACTER_ID_0, status = dead)
-            val newState = state.updateStorage(Storage(character))
+            val newState = state.updateStorage(character)
 
             failCanDelete(newState, CHARACTER_ID_0)
         }
@@ -43,7 +43,7 @@ class BattleTest {
         @Test
         fun `Cannot delete a battle with a battlefield`() {
             val region = Region(REGION_ID_0, data = Battlefield(BattleReference(BATTLE_ID_0)))
-            val newState = state.updateStorage(Storage(region))
+            val newState = state.updateStorage(region)
 
             failCanDelete(newState, REGION_ID_0)
         }
@@ -51,7 +51,7 @@ class BattleTest {
         @Test
         fun `Cannot delete a battle that caused a wasteland`() {
             val region = Region(REGION_ID_0, data = Wasteland(BattleReference(BATTLE_ID_0)))
-            val newState = state.updateStorage(Storage(region))
+            val newState = state.updateStorage(region)
 
             failCanDelete(newState, REGION_ID_0)
         }

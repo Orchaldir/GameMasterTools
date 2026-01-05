@@ -33,7 +33,7 @@ class StreetTest {
         fun `Cannot delete, if used by a town`() {
             val tile = StreetTile(STREET_TEMPLATE_ID_0, STREET_ID_0)
             val townMap = TownMap(TOWN_MAP_ID_0, map = TileMap2d(TownTile(construction = tile)))
-            val newState = state.updateStorage(Storage(townMap))
+            val newState = state.updateStorage(townMap)
 
             failCanDelete(newState, TOWN_MAP_ID_0)
         }
@@ -41,7 +41,7 @@ class StreetTest {
         @Test
         fun `Cannot delete, because it is used by the address of a building`() {
             val building = Building(BUILDING_ID_0, address = StreetAddress(STREET_ID_0, 4))
-            val newState = state.updateStorage(Storage(building))
+            val newState = state.updateStorage(building)
 
             failCanDelete(newState, BUILDING_ID_0)
         }

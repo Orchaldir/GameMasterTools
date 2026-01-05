@@ -31,7 +31,7 @@ class OrganizationTest {
         fun `Cannot delete a organization that killed a character`() {
             val dead = Dead(DAY0, KilledBy(OrganizationReference(ORGANIZATION_ID_0)))
             val character = Character(CHARACTER_ID_0, status = dead)
-            val newState = state.updateStorage(Storage(character))
+            val newState = state.updateStorage(character)
 
             failCanDelete(newState, CHARACTER_ID_0)
         }
@@ -39,7 +39,7 @@ class OrganizationTest {
         @Test
         fun `Cannot delete an organization that created another element`() {
             val building = Building(BUILDING_ID_0, builder = OrganizationReference(ORGANIZATION_ID_0))
-            val newState = state.updateStorage(Storage(building))
+            val newState = state.updateStorage(building)
 
             failCanDelete(newState, BUILDING_ID_0)
         }
@@ -48,7 +48,7 @@ class OrganizationTest {
         fun `Cannot delete an organization that owns another element`() {
             val ownership = History<Reference>(OrganizationReference(ORGANIZATION_ID_0))
             val building = Building(BUILDING_ID_0, ownership = ownership)
-            val newState = state.updateStorage(Storage(building))
+            val newState = state.updateStorage(building)
 
             failCanDelete(newState, BUILDING_ID_0)
         }

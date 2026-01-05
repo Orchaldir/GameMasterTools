@@ -51,7 +51,7 @@ class SpellTest {
         @Test
         fun `Cannot delete a spell used by a domain`() {
             val domain = Domain(DOMAIN_ID_0, spells = SomeOf(SPELL_ID_0))
-            val newState = state.updateStorage(Storage(domain))
+            val newState = state.updateStorage(domain)
 
             failCanDelete(newState, DOMAIN_ID_0)
         }
@@ -59,7 +59,7 @@ class SpellTest {
         @Test
         fun `Cannot delete a spell used by a job`() {
             val job = Job(JOB_ID_0, spells = SomeOf(SPELL_ID_0))
-            val newState = state.updateStorage(Storage(job))
+            val newState = state.updateStorage(job)
 
             failCanDelete(newState, JOB_ID_0)
         }
@@ -67,7 +67,7 @@ class SpellTest {
         @Test
         fun `Cannot delete a spell used by a spell group`() {
             val group = SpellGroup(SPELL_GROUP_ID_0, spells = setOf(SPELL_ID_0))
-            val newState = state.updateStorage(Storage(group))
+            val newState = state.updateStorage(group)
 
             failCanDelete(newState, SPELL_GROUP_ID_0)
         }
@@ -76,7 +76,7 @@ class SpellTest {
         fun `Cannot delete a spell contained in a text`() {
             val content = AbstractContent(spells = setOf(SPELL_ID_0))
             val group = Text(TEXT_ID_0, content = AbstractText(content))
-            val newState = state.updateStorage(Storage(group))
+            val newState = state.updateStorage(group)
 
             failCanDelete(newState, TEXT_ID_0)
         }

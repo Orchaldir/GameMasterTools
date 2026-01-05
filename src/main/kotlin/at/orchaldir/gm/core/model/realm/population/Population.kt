@@ -58,11 +58,12 @@ sealed class Population {
         else -> null
     }
 
-    private fun getPopulation(income: Income, standard: StandardOfLivingId, total: Int) = if (income.hasStandard(standard)) {
-        total
-    } else {
-        null
-    }
+    private fun getPopulation(income: Income, standard: StandardOfLivingId, total: Int) =
+        if (income.hasStandard(standard)) {
+            total
+        } else {
+            null
+        }
 
     fun getTotalPopulation() = when (this) {
         is TotalPopulation -> total

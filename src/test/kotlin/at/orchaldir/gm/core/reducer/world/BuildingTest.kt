@@ -269,7 +269,7 @@ class BuildingTest {
 
         @Test
         fun `Architectural style didn't exist yet`() {
-            val state = STATE.updateStorage(Storage(ArchitecturalStyle(STYLE, start = Year(2000))))
+            val state = STATE.updateStorage(ArchitecturalStyle(STYLE, start = Year(2000)))
 
             failUpdate(state, "Architectural Style 0 didn't exist yet, when building 0 was build!")
         }
@@ -498,12 +498,10 @@ class BuildingTest {
             @Test
             fun `A home needs to stay a home, while characters are living in it`() {
                 val state = STATE.updateStorage(
-                    Storage(
                         Character(
                             CHARACTER_ID_0,
                             housingStatus = History(InBuilding(BUILDING_ID_0))
                         )
-                    )
                 )
                 val newBuilding = building.copy(purpose = ApartmentHouse(3))
 
@@ -513,12 +511,10 @@ class BuildingTest {
             @Test
             fun `A home can become another type of home, while characters are living in it`() {
                 val state = STATE.updateStorage(
-                    Storage(
                         Character(
                             CHARACTER_ID_0,
                             housingStatus = History(InBuilding(BUILDING_ID_0))
                         )
-                    )
                 )
                 val newBuilding = building.copy(purpose = BusinessAndHome)
 
@@ -534,14 +530,12 @@ class BuildingTest {
                 (3..4).forEach {
                     val state = STATE
                         .updateStorage(
-                            Storage(
                                 Character(
                                     CHARACTER_ID_0,
                                     housingStatus = History(InApartment(BUILDING_ID_0, 4))
                                 )
-                            )
                         )
-                        .updateStorage(Storage(Building(BUILDING_ID_0, purpose = ApartmentHouse(5))))
+                        .updateStorage(Building(BUILDING_ID_0, purpose = ApartmentHouse(5)))
                     val newBuilding = building.copy(purpose = ApartmentHouse(it))
 
                     failUpdate(state, newBuilding, "The apartment house 0 requires at least 5 apartments!")

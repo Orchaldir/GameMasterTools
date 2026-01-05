@@ -39,7 +39,7 @@ class FontTest {
         fun `Cannot delete, if used by a currency coin`() {
             val coin = Coin(MATERIAL_ID_0, front = ShowValue(FONT_ID_0))
             val unit = CurrencyUnit(CURRENCY_UNIT_ID_0, format = coin)
-            val newState = state.updateStorage(Storage(unit))
+            val newState = state.updateStorage(unit)
 
             failCanDelete(newState, CURRENCY_UNIT_ID_0)
         }
@@ -93,7 +93,7 @@ class FontTest {
         }
 
         private fun failCanDelete(text: Text) {
-            val newState = state.updateStorage(Storage(text))
+            val newState = state.updateStorage(text)
 
             failCanDelete(newState, TEXT_ID_0)
         }

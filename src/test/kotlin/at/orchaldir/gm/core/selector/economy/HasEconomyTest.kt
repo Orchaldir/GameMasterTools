@@ -35,7 +35,7 @@ class HasEconomyTest {
         @Test
         fun `Cannot a common business`() {
             val district = District(DISTRICT_ID_0, economy = commonBusinesses)
-            val newState = state.updateStorage(Storage(district))
+            val newState = state.updateStorage(district)
 
             failCanDelete(newState, DISTRICT_ID_0)
         }
@@ -43,7 +43,7 @@ class HasEconomyTest {
         @Test
         fun `Cannot delete a race used by the population of a realm`() {
             val realm = Realm(REALM_ID_0, economy = percentages)
-            val newState = state.updateStorage(Storage(realm))
+            val newState = state.updateStorage(realm)
 
             failCanDelete(newState, REALM_ID_0)
         }
@@ -51,7 +51,7 @@ class HasEconomyTest {
         @Test
         fun `Cannot delete a race used by a population with numbers`() {
             val town = Town(TOWN_ID_0, economy = numbers)
-            val newState = state.updateStorage(Storage(town))
+            val newState = state.updateStorage(town)
 
             failCanDelete(newState, TOWN_ID_0)
         }

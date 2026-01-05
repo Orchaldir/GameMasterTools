@@ -35,7 +35,7 @@ class CharacterTest {
         @Test
         fun `Cannot delete a character that created another element`() {
             val building = Building(BUILDING_ID_0, builder = CharacterReference(CHARACTER_ID_0))
-            val newState = state.updateStorage(Storage(building))
+            val newState = state.updateStorage(building)
 
             failCanDelete(newState, BUILDING_ID_0)
         }
@@ -44,7 +44,7 @@ class CharacterTest {
         fun `Cannot delete a character that owns another element`() {
             val ownership = History<Reference>(CharacterReference(CHARACTER_ID_0))
             val building = Building(BUILDING_ID_0, ownership = ownership)
-            val newState = state.updateStorage(Storage(building))
+            val newState = state.updateStorage(building)
 
             failCanDelete(newState, BUILDING_ID_0)
         }
@@ -52,7 +52,7 @@ class CharacterTest {
         @Test
         fun `Cannot delete a member of an organization`() {
             val organization = Organization(ORGANIZATION_ID_0, members = mapOf(CHARACTER_ID_0 to History(0)))
-            val newState = state.updateStorage(Storage(organization))
+            val newState = state.updateStorage(organization)
 
             failCanDelete(newState, ORGANIZATION_ID_0)
         }
@@ -61,7 +61,7 @@ class CharacterTest {
         fun `Cannot delete a character that signed a treaty`() {
             val participant = TreatyParticipant(REALM_ID_0, CHARACTER_ID_0)
             val treaty = Treaty(TREATY_ID_0, participants = listOf(participant))
-            val newState = state.updateStorage(Storage(treaty))
+            val newState = state.updateStorage(treaty)
 
             failCanDelete(newState, TREATY_ID_0)
         }
@@ -70,7 +70,7 @@ class CharacterTest {
         fun `Cannot delete a character that led a battle`() {
             val participant = BattleParticipant(REALM_ID_0, CHARACTER_ID_0)
             val battle = Battle(BATTLE_ID_0, participants = listOf(participant))
-            val newState = state.updateStorage(Storage(battle))
+            val newState = state.updateStorage(battle)
 
             failCanDelete(newState, BATTLE_ID_0)
         }

@@ -28,7 +28,7 @@ class TownMapTest {
         @Test
         fun `Cannot delete an element used as a position`() {
             val building = Building(BUILDING_ID_0, position = position)
-            val newState = state.updateStorage(Storage(building))
+            val newState = state.updateStorage(building)
 
             failCanDelete(newState, BUILDING_ID_0)
         }

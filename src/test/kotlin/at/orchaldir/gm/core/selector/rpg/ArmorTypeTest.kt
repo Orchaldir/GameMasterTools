@@ -30,7 +30,7 @@ class ArmorTypeTest {
         fun `Cannot delete an armor type used by an equipment`() {
             val data = BodyArmour(ScaleArmour(), stats = ArmorStats(ARMOR_TYPE_ID_0))
             val element = Equipment(EQUIPMENT_ID_0, data = data)
-            val newState = state.updateStorage(Storage(element))
+            val newState = state.updateStorage(element)
 
             failCanDelete(newState, EQUIPMENT_ID_0)
         }

@@ -34,7 +34,7 @@ class DistrictTest {
         fun `Cannot delete an element used as home`() {
             val housingStatus = History<Position>(position)
             val character = Character(CHARACTER_ID_0, housingStatus = housingStatus)
-            val newState = state.updateStorage(Storage(character))
+            val newState = state.updateStorage(character)
 
             failCanDelete(newState, CHARACTER_ID_0)
         }
@@ -42,7 +42,7 @@ class DistrictTest {
         @Test
         fun `Cannot delete an element used as a position`() {
             val business = Business(BUSINESS_ID_0, position = position)
-            val newState = state.updateStorage(Storage(business))
+            val newState = state.updateStorage(business)
 
             failCanDelete(newState, BUSINESS_ID_0)
         }
@@ -50,7 +50,7 @@ class DistrictTest {
         @Test
         fun `Cannot delete a district that has neighborhoods`() {
             val district = District(DISTRICT_ID_1, position = InDistrict(DISTRICT_ID_0))
-            val newState = state.updateStorage(Storage(district))
+            val newState = state.updateStorage(district)
 
             failCanDelete(newState, DISTRICT_ID_1)
         }

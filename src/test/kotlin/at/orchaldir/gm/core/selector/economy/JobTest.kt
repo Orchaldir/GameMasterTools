@@ -32,7 +32,7 @@ class JobTest {
         fun `Cannot delete a job used by a character`() {
             val employmentStatus = History<EmploymentStatus>(Employed(BUSINESS_ID_0, JOB_ID_0))
             val character = Character(CHARACTER_ID_0, employmentStatus = employmentStatus)
-            val newState = state.updateStorage(Storage(character))
+            val newState = state.updateStorage(character)
 
             failCanDelete(newState, CHARACTER_ID_0)
         }
@@ -41,7 +41,7 @@ class JobTest {
         fun `Cannot delete a job previously used by a character`() {
             val entry = HistoryEntry<EmploymentStatus>(Employed(BUSINESS_ID_0, JOB_ID_0), DAY0)
             val character = Character(CHARACTER_ID_0, employmentStatus = History(Unemployed, entry))
-            val newState = state.updateStorage(Storage(character))
+            val newState = state.updateStorage(character)
 
             failCanDelete(newState, CHARACTER_ID_0)
         }
@@ -49,7 +49,7 @@ class JobTest {
         @Test
         fun `Cannot delete a job associated with a domain`() {
             val character = Domain(DOMAIN_ID_0, jobs = setOf(JOB_ID_0))
-            val newState = state.updateStorage(Storage(character))
+            val newState = state.updateStorage(character)
 
             failCanDelete(newState, DOMAIN_ID_0)
         }

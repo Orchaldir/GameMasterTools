@@ -41,7 +41,7 @@ class CharacterTraitTest {
         private fun testCharacter(update: StatblockUpdate) {
             val statblock = UniqueStatblock(update)
             val character = Character(CHARACTER_ID_0, statblock = statblock)
-            val newState = state.updateStorage(Storage(character))
+            val newState = state.updateStorage(character)
 
             failCanDelete(newState, CHARACTER_ID_0)
         }
@@ -59,7 +59,7 @@ class CharacterTraitTest {
         private fun testTemplate(update: StatblockUpdate) {
             val statblock = UniqueStatblock(update)
             val character = CharacterTemplate(CHARACTER_TEMPLATE_ID_0, race = RACE_ID_0, statblock = statblock)
-            val newState = state.updateStorage(Storage(character))
+            val newState = state.updateStorage(character)
 
             failCanDelete(newState, CHARACTER_TEMPLATE_ID_0)
         }
@@ -67,7 +67,7 @@ class CharacterTraitTest {
         @Test
         fun `Cannot delete a character trait used by a god`() {
             val god = God(GOD_ID_0, personality = setOf(CHARACTER_TRAIT_ID_0))
-            val newState = state.updateStorage(Storage(god))
+            val newState = state.updateStorage(god)
 
             failCanDelete(newState, GOD_ID_0)
         }

@@ -26,7 +26,7 @@ class SpellGroupTest {
         @Test
         fun `Cannot delete a spell group used by a tradition`() {
             val tradition = MagicTradition(MAGIC_TRADITION_ID_0, groups = setOf(SPELL_GROUP_ID_0))
-            val newState = state.updateStorage(Storage(tradition))
+            val newState = state.updateStorage(tradition)
 
             failCanDelete(newState, MAGIC_TRADITION_ID_0)
         }

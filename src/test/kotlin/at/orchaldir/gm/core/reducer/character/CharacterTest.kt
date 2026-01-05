@@ -76,7 +76,7 @@ class CharacterTest {
         inner class AgeTest {
             @Test
             fun `Cannot use age via default life stage with immutable life stage`() {
-                val newState = STATE.updateStorage(Storage(Race(RACE_ID_0, lifeStages = ImmutableLifeStage())))
+                val newState = STATE.updateStorage(Race(RACE_ID_0, lifeStages = ImmutableLifeStage()))
                 val character = Character(CHARACTER_ID_0, age = AgeViaDefaultLifeStage, race = RACE_ID_0)
                 val action = UpdateAction(character)
 
@@ -87,7 +87,7 @@ class CharacterTest {
 
             @Test
             fun `Cannot use age via life stage with immutable life stage`() {
-                val newState = STATE.updateStorage(Storage(Race(RACE_ID_0, lifeStages = ImmutableLifeStage())))
+                val newState = STATE.updateStorage(Race(RACE_ID_0, lifeStages = ImmutableLifeStage()))
                 val age = AgeViaLifeStage(LifeStageId(0))
                 val character = Character(CHARACTER_ID_0, age = age, race = RACE_ID_0)
                 val action = UpdateAction(character)
@@ -127,7 +127,7 @@ class CharacterTest {
 
             @Test
             fun `Some sexual orientations are invalid for genderless`() {
-                val state = STATE.updateStorage(Storage(Character(CHARACTER_ID_0, gender = Genderless)))
+                val state = STATE.updateStorage(Character(CHARACTER_ID_0, gender = Genderless))
                 val invalidList = SexualOrientation.entries - SEXUAL_ORIENTATION_FOR_GENDERLESS
 
                 invalidList.forEach { sexuality ->
@@ -144,7 +144,7 @@ class CharacterTest {
                 gender: Gender,
                 validList: Collection<SexualOrientation>,
             ) {
-                val state = STATE.updateStorage(Storage(Character(CHARACTER_ID_0, gender = gender)))
+                val state = STATE.updateStorage(Character(CHARACTER_ID_0, gender = gender))
 
                 validList.forEach { sexuality ->
                     val character = Character(CHARACTER_ID_0, gender = gender, sexuality = sexuality)

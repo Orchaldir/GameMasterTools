@@ -30,7 +30,7 @@ class PantheonTest {
         fun `Cannot delete a pantheon that a character believes in`() {
             val beliefStatus = History<BeliefStatus>(WorshipOfPantheon(PANTHEON_ID_0))
             val character = Character(CHARACTER_ID_0, beliefStatus = beliefStatus)
-            val newState = state.updateStorage(Storage(character))
+            val newState = state.updateStorage(character)
 
             failCanDelete(newState, CHARACTER_ID_0)
         }
