@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.realm.population.*
 import at.orchaldir.gm.core.selector.util.RankingEntry
 import at.orchaldir.gm.core.selector.util.calculateRankingIndex
+import at.orchaldir.gm.core.selector.util.calculateIndexOfElementWithConcept
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
@@ -94,11 +95,11 @@ fun State.calculateTotalPopulation(getPopulation: (Population) -> Int?): Int? {
     }
 }
 
-fun <ID : Id<ID>, ELEMENT> State.calculatePopulationIndex(
+fun <ID : Id<ID>, ELEMENT> State.calculateIndexOfElementWithPopulation(
     element: ELEMENT,
 ): Int? where
         ELEMENT : Element<ID>,
-        ELEMENT : HasPopulation = calculateRankingIndex(element) {
+        ELEMENT : HasPopulation = calculateIndexOfElementWithConcept(element) {
     it.population().getTotalPopulation()
 }
 

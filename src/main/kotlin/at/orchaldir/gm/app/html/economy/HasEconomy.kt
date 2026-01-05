@@ -36,7 +36,7 @@ fun HtmlBlockTag.showEconomyOfBusinessTemplate(
             else -> null
         }
     },
-    { hasEconomy, id -> hasEconomy.getNumber(id) },
+    { economy, id -> economy.getNumber(id) },
 )
 
 fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.showEconomyOfElement(

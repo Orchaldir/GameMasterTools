@@ -12,7 +12,7 @@ data class RankingEntry<ID : Id<ID>>(
     val percentage: Factor,
 )
 
-fun <ID : Id<ID>, ELEMENT> State.calculateRankingIndex(
+fun <ID : Id<ID>, ELEMENT> State.calculateIndexOfElementWithConcept(
     element: ELEMENT,
     calculateValue: (ELEMENT) -> Int?,
 ): Int? where

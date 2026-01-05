@@ -18,7 +18,7 @@ import at.orchaldir.gm.core.model.realm.population.*
 import at.orchaldir.gm.core.model.realm.population.PopulationType.Undefined
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.selector.character.getCharactersLivingIn
-import at.orchaldir.gm.core.selector.realm.calculatePopulationIndex
+import at.orchaldir.gm.core.selector.realm.calculateIndexOfElementWithPopulation
 import at.orchaldir.gm.core.selector.util.sortCultures
 import at.orchaldir.gm.core.selector.util.sortRaces
 import at.orchaldir.gm.utils.Element
@@ -84,7 +84,7 @@ fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showPopulationDetails(
 
     showDetails("Population", true) {
         optionalField("Total", population.getTotalPopulation())
-        optionalField("Index", state.calculatePopulationIndex(element))
+        optionalField("Index", state.calculateIndexOfElementWithPopulation(element))
 
         when (population) {
             is AbstractPopulation -> {

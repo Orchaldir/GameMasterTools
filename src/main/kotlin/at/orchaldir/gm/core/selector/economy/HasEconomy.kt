@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.economy.*
 import at.orchaldir.gm.core.model.economy.business.BusinessTemplateId
 import at.orchaldir.gm.core.selector.util.RankingEntry
 import at.orchaldir.gm.core.selector.util.calculateRankingIndex
+import at.orchaldir.gm.core.selector.util.calculateIndexOfElementWithConcept
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
@@ -81,11 +82,11 @@ fun State.calculateTotalNumberInEconomy(getNumber: (Economy) -> Int?): Int? {
     }
 }
 
-fun <ID : Id<ID>, ELEMENT> State.calculateEconomyIndex(
+fun <ID : Id<ID>, ELEMENT> State.calculateIndexOfElementWithEconomy(
     element: ELEMENT,
 ): Int? where
         ELEMENT : Element<ID>,
-        ELEMENT : HasEconomy = calculateRankingIndex(element) {
+        ELEMENT : HasEconomy = calculateIndexOfElementWithConcept(element) {
     it.economy().getNumberOfBusinesses()
 }
 
