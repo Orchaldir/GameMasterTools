@@ -53,14 +53,14 @@ class RankingTest {
         @Test
         fun `Test with null`() {
             val lookup = mapOf(
-                element0 to 100,
+                element0 to 4,
                 element1 to null,
-                element2 to 300,
+                element2 to 3,
             )
 
-            assertIndex(lookup, element0, 2)
+            assertIndex(lookup, element0, 1)
             assertIndex(lookup, element1, null)
-            assertIndex(lookup, element2, 1)
+            assertIndex(lookup, element2, 2)
         }
 
         private fun assertIndex(lookup: Map<Race, Int?>, element: Race, index: Int?) {
