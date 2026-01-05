@@ -27,7 +27,7 @@ class DamageTypeTest {
         fun `Cannot delete a damage type used by an armor`() {
             val protection = DamageResistances(2, mapOf(DAMAGE_TYPE_ID_0 to 2))
             val element = ArmorType(ARMOR_TYPE_ID_0, protection = protection)
-            val newState = state.updateStorage(Storage(element))
+            val newState = state.updateStorage(element)
 
             failCanDelete(newState, ARMOR_TYPE_ID_0)
         }
@@ -36,7 +36,7 @@ class DamageTypeTest {
         fun `Cannot delete a damage type used by a melee weapon`() {
             val attack = MeleeAttack(Damage(SimpleRandomDamage(), DAMAGE_TYPE_ID_0))
             val element = MeleeWeaponType(MELEE_WEAPON_TYPE_ID_0, attacks = listOf(attack))
-            val newState = state.updateStorage(Storage(element))
+            val newState = state.updateStorage(element)
 
             failCanDelete(newState, MELEE_WEAPON_TYPE_ID_0)
         }

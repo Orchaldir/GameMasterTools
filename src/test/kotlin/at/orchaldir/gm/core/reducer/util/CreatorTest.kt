@@ -131,7 +131,7 @@ class CreatorTest {
         }
 
         private fun <ID : Id<ID>, ELEMENT : Element<ID>> test(element: ELEMENT) {
-            val newState = STATE.updateStorage(Storage(element))
+            val newState = STATE.updateStorage(element)
 
             assertTrue(newState.isCreator(CHARACTER_ID_0))
         }

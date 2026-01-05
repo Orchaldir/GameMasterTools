@@ -37,7 +37,7 @@ class MaterialTest {
         @Test
         fun `Cannot delete a material used by a currency unit`() {
             val unit = CurrencyUnit(CURRENCY_UNIT_ID_0, format = Coin(MATERIAL_ID_0))
-            val newState = state.updateStorage(Storage(unit))
+            val newState = state.updateStorage(unit)
 
             failCanDelete(newState, CURRENCY_UNIT_ID_0)
         }
@@ -45,7 +45,7 @@ class MaterialTest {
         @Test
         fun `Cannot delete a material used by an equipment`() {
             val equipment = Equipment(EQUIPMENT_ID_0, data = Shirt(main = FillLookupItemPart(MATERIAL_ID_0)))
-            val newState = state.updateStorage(Storage(equipment))
+            val newState = state.updateStorage(equipment)
 
             failCanDelete(newState, EQUIPMENT_ID_0)
         }
@@ -53,7 +53,7 @@ class MaterialTest {
         @Test
         fun `Cannot delete a material used by a street template`() {
             val template = StreetTemplate(STREET_TEMPLATE_ID_0, materialCost = MaterialCost(MATERIAL_ID_0))
-            val newState = state.updateStorage(Storage(template))
+            val newState = state.updateStorage(template)
 
             failCanDelete(newState, STREET_TEMPLATE_ID_0)
         }
@@ -61,7 +61,7 @@ class MaterialTest {
         @Test
         fun `Cannot delete a material used by a text`() {
             val text = Text(TEXT_ID_0, format = Book(Hardcover(), 100))
-            val newState = state.updateStorage(Storage(text))
+            val newState = state.updateStorage(text)
 
             failCanDelete(newState, TEXT_ID_0)
         }
@@ -69,7 +69,7 @@ class MaterialTest {
         @Test
         fun `Cannot delete a material contained in a region`() {
             val region = Region(REGION_ID_0, resources = setOf(MATERIAL_ID_0))
-            val newState = state.updateStorage(Storage(region))
+            val newState = state.updateStorage(region)
 
             failCanDelete(newState, REGION_ID_0)
         }
@@ -77,7 +77,7 @@ class MaterialTest {
         @Test
         fun `Cannot delete a material contained in a moon`() {
             val moon = Moon(MOON_ID_0, resources = setOf(MATERIAL_ID_0))
-            val newState = state.updateStorage(Storage(moon))
+            val newState = state.updateStorage(moon)
 
             failCanDelete(newState, MOON_ID_0)
         }

@@ -4,8 +4,8 @@ import at.orchaldir.gm.app.html.optionalField
 import at.orchaldir.gm.app.html.util.showRankingOfElements
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.*
-import at.orchaldir.gm.core.model.economy.business.BusinessTemplateId
-import at.orchaldir.gm.core.selector.economy.calculateEconomyIndex
+import at.orchaldir.gm.core.model.economy.business.BusinessTemplate
+import at.orchaldir.gm.core.selector.economy.calculateRankBasedOnEconomy
 import at.orchaldir.gm.core.selector.economy.calculateTotalNumberInEconomy
 import at.orchaldir.gm.core.selector.economy.getAbstractEconomies
 import at.orchaldir.gm.core.selector.economy.getEconomyEntries
@@ -22,40 +22,38 @@ import kotlinx.html.h2
 fun HtmlBlockTag.showEconomyOfBusinessTemplate(
     call: ApplicationCall,
     state: State,
-    template: BusinessTemplateId,
+    template: BusinessTemplate,
 ) = showEconomyOfElement(
     call,
     state,
-    state.getBusinessTemplateStorage(),
     template,
-    { it.businesses().contains(template) },
+    { it.businesses().contains(template.id) },
     {
         when (val population = it.economy()) {
-            is EconomyWithNumbers -> population.businesses.getData(template)
-            is EconomyWithPercentages -> population.businesses.getData(template, population.total)
+            is EconomyWithNumbers -> population.businesses.getData(template.id)
+            is EconomyWithPercentages -> population.businesses.getData(template.id, population.total)
             else -> null
         }
     },
-    { hasEconomy, id -> hasEconomy.getNumber(id) },
+    { economy, other -> economy.getNumber(other.id) },
 )
 
 fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.showEconomyOfElement(
     call: ApplicationCall,
     state: State,
-    storage: Storage<ID, ELEMENT>,
-    id: ID,
+    element: ELEMENT,
     contains: (IAbstractEconomy) -> Boolean,
     getPercentage: (HasEconomy) -> Pair<Int, Factor>?,
-    getEconomy: (Economy, ID) -> Int?,
+    getEconomy: (Economy, ELEMENT) -> Int?,
 ) {
     h2 { +"Economy" }
 
     val total = state.calculateTotalNumberInEconomy { population ->
-        getEconomy(population, id)
+        getEconomy(population, element)
     }
     val totalOrZero = total ?: 0
     optionalField("Total", total)
-    optionalField("Index", state.calculateEconomyIndex(storage, id, getEconomy))
+    optionalField("Rank", state.calculateRankBasedOnEconomy(element, getEconomy))
 
     showEconomyOfElement(call, state, getPercentage, state.getDistrictStorage(), totalOrZero, contains)
     showEconomyOfElement(call, state, getPercentage, state.getRealmStorage(), totalOrZero, contains)

@@ -5,7 +5,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.*
 import at.orchaldir.gm.core.model.economy.business.BusinessTemplateId
 import at.orchaldir.gm.core.selector.util.RankingEntry
-import at.orchaldir.gm.core.selector.util.calculateRankingIndex
+import at.orchaldir.gm.core.selector.util.calculateRankOfElement
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
@@ -81,20 +81,19 @@ fun State.calculateTotalNumberInEconomy(getNumber: (Economy) -> Int?): Int? {
     }
 }
 
-fun <ID : Id<ID>, ELEMENT> State.calculateEconomyIndex(
+fun <ID : Id<ID>, ELEMENT> State.calculateRankOfElementWithEconomy(
     element: ELEMENT,
 ): Int? where
         ELEMENT : Element<ID>,
-        ELEMENT : HasEconomy = calculateRankingIndex(element) {
+        ELEMENT : HasEconomy = calculateRankOfElement(element) {
     it.economy().getNumberOfBusinesses()
 }
 
-fun <ID : Id<ID>, ELEMENT : Element<ID>> State.calculateEconomyIndex(
-    storage: Storage<ID, ELEMENT>,
-    id: ID,
-    getEconomy: (Economy, ID) -> Int?,
-) = calculateRankingIndex(storage, id) {
+fun <ID : Id<ID>, ELEMENT : Element<ID>> State.calculateRankBasedOnEconomy(
+    element: ELEMENT,
+    getEconomy: (Economy, ELEMENT) -> Int?,
+) = calculateRankOfElement(element) { other ->
     calculateTotalNumberInEconomy { population ->
-        getEconomy(population, it)
+        getEconomy(population, other)
     }
 }

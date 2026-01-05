@@ -83,7 +83,7 @@ class StreetTest {
         private fun testTileNotEmpty(townTile: TownTile) {
             val map = TileMap2d(townTile)
             val town = TownMap(TOWN_MAP_ID_0, map = map)
-            val state = STATE.updateStorage(Storage(town))
+            val state = STATE.updateStorage(town)
             val action = AddStreetTile(TOWN_MAP_ID_0, 0, STREET_TEMPLATE_ID_0, STREET_ID_0)
 
             assertIllegalArgument("Tile 0 is not empty!") { REDUCER.invoke(state, action) }
@@ -93,7 +93,7 @@ class StreetTest {
         fun `Successfully set a street`() {
             val map = TileMap2d(EMPTY)
             val town = TownMap(TOWN_MAP_ID_0, map = map)
-            val state = STATE.updateStorage(Storage(town))
+            val state = STATE.updateStorage(town)
             val action = AddStreetTile(TOWN_MAP_ID_0, 0, STREET_TEMPLATE_ID_0, STREET_ID_0)
 
             assertEquals(

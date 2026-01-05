@@ -102,21 +102,21 @@ class BeliefStatusTest {
 
         private fun <ID : Id<ID>> assertCharacter(beliefStatus: History<BeliefStatus>, id: ID) {
             val character = Character(CHARACTER_ID_0, beliefStatus = beliefStatus)
-            val newState = state.updateStorage(Storage(character))
+            val newState = state.updateStorage(character)
 
             failCanDelete(newState, id, CHARACTER_ID_0)
         }
 
         private fun <ID : Id<ID>> assertCharacterTemplate(beliefStatus: BeliefStatus, id: ID) {
             val template = CharacterTemplate(CHARACTER_TEMPLATE_ID_0, race = RACE_ID_0, belief = beliefStatus)
-            val newState = state.updateStorage(Storage(template))
+            val newState = state.updateStorage(template)
 
             failCanDelete(newState, id, CHARACTER_TEMPLATE_ID_0)
         }
 
         private fun <ID : Id<ID>> assertOrganization(beliefStatus: History<BeliefStatus>, id: ID) {
             val organization = Organization(ORGANIZATION_ID_0, beliefStatus = beliefStatus)
-            val newState = state.updateStorage(Storage(organization))
+            val newState = state.updateStorage(organization)
 
             failCanDelete(newState, id, ORGANIZATION_ID_0)
         }

@@ -65,7 +65,7 @@ class ArchitecturalStyleTest {
         @Test
         fun `Style cannot start after a building using it was build`() {
             val building = Building(BuildingId(0), constructionDate = YEAR0, style = ARCHITECTURAL_ID_0)
-            val newState = state.updateStorage(Storage(building))
+            val newState = state.updateStorage(building)
             val action = UpdateAction(ArchitecturalStyle(ARCHITECTURAL_ID_0, start = YEAR1))
 
             assertIllegalArgument("Architectural Style 0 didn't exist yet, when building 0 was build!") {

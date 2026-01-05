@@ -28,7 +28,7 @@ class RaceAppearanceTest {
         @Test
         fun `Cannot delete an appearance used by a race`() {
             val race = Race(RaceId(0), lifeStages = ImmutableLifeStage(RACE_APPEARANCE_ID_0))
-            val newState = state.updateStorage(Storage(race))
+            val newState = state.updateStorage(race)
 
             failCanDelete(newState, RACE_ID_0)
         }

@@ -33,7 +33,7 @@ class QuoteTest {
         fun `Cannot delete a quote used by an article`() {
             val content = FullArticleContent(listOf(LinkedQuote(QUOTE_ID_0)))
             val article = Article(ARTICLE_ID_0, content = content)
-            val newState = state.updateStorage(Storage(article))
+            val newState = state.updateStorage(article)
 
             failCanDelete(newState, ARTICLE_ID_0)
         }
@@ -43,7 +43,7 @@ class QuoteTest {
             val chapter = SimpleChapter(0, listOf(LinkedQuote(QUOTE_ID_0)))
             val content = SimpleChapters(listOf(chapter))
             val text = Text(TEXT_ID_0, content = content)
-            val newState = state.updateStorage(Storage(text))
+            val newState = state.updateStorage(text)
 
             failCanDelete(newState, TEXT_ID_0)
         }

@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.model.realm.population
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.economy.job.Income
 import at.orchaldir.gm.core.model.economy.job.UndefinedIncome
+import at.orchaldir.gm.core.model.economy.standard.StandardOfLivingId
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.util.NumberDistribution
 import at.orchaldir.gm.core.model.util.PercentageDistribution
@@ -49,6 +50,20 @@ sealed class Population {
         is PopulationWithPercentages -> getNumber(race)
         else -> null
     }
+
+    fun getPopulation(standard: StandardOfLivingId): Int? = when (this) {
+        is PopulationWithNumbers -> getPopulation(income, standard, calculateTotal())
+        is PopulationWithPercentages -> getPopulation(income, standard, total)
+        is TotalPopulation -> getPopulation(income, standard, total)
+        else -> null
+    }
+
+    private fun getPopulation(income: Income, standard: StandardOfLivingId, total: Int) =
+        if (income.hasStandard(standard)) {
+            total
+        } else {
+            null
+        }
 
     fun getTotalPopulation() = when (this) {
         is TotalPopulation -> total

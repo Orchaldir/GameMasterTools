@@ -29,7 +29,7 @@ class ShieldTypeTest {
         fun `Cannot delete a shield type used by an equipment`() {
             val data = Shield(stats = ShieldStats(SHIELD_TYPE_ID_0))
             val element = Equipment(EQUIPMENT_ID_0, data = data)
-            val newState = state.updateStorage(Storage(element))
+            val newState = state.updateStorage(element)
 
             failCanDelete(newState, EQUIPMENT_ID_0)
         }

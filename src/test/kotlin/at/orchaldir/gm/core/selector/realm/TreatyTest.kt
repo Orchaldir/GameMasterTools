@@ -34,7 +34,7 @@ class TreatyTest {
         fun `Cannot delete a treaty that is celebrated by a holiday`() {
             val purpose = HolidayOfTreaty(TREATY_ID_0)
             val holiday = Holiday(HOLIDAY_ID_0, purpose = purpose)
-            val newState = state.updateStorage(Storage(holiday))
+            val newState = state.updateStorage(holiday)
 
             failCanDelete(newState, HOLIDAY_ID_0)
         }
@@ -43,7 +43,7 @@ class TreatyTest {
         fun `Cannot delete a treaty that ended a war`() {
             val status = FinishedWar(Peace(TREATY_ID_0), DAY0)
             val war = War(WAR_ID_0, status = status)
-            val newState = state.updateStorage(Storage(war))
+            val newState = state.updateStorage(war)
 
             failCanDelete(newState, WAR_ID_0)
         }

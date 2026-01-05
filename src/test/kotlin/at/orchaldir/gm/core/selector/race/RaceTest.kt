@@ -28,7 +28,7 @@ class RaceTest {
         @Test
         fun `Cannot delete a race part of a group`() {
             val group = RaceGroup(RACE_GROUP_ID_0, races = setOf(RACE_ID_0))
-            val newState = state.updateStorage(Storage(group))
+            val newState = state.updateStorage(group)
 
             failCanDelete(newState, RACE_GROUP_ID_0)
         }
@@ -36,7 +36,7 @@ class RaceTest {
         @Test
         fun `Cannot delete a race used by a character`() {
             val character = Character(CHARACTER_ID_0, race = RACE_ID_0)
-            val newState = state.updateStorage(Storage(character))
+            val newState = state.updateStorage(character)
 
             failCanDelete(newState, CHARACTER_ID_0)
         }
@@ -44,7 +44,7 @@ class RaceTest {
         @Test
         fun `Cannot delete a race used by a character template`() {
             val template = CharacterTemplate(CHARACTER_TEMPLATE_ID_0, race = RACE_ID_0)
-            val newState = state.updateStorage(Storage(template))
+            val newState = state.updateStorage(template)
 
             failCanDelete(newState, CHARACTER_TEMPLATE_ID_0)
         }
@@ -52,7 +52,7 @@ class RaceTest {
         @Test
         fun `Cannot delete a race used by a population`() {
             val realm = Realm(REALM_ID_0, population = population)
-            val newState = state.updateStorage(Storage(realm))
+            val newState = state.updateStorage(realm)
 
             failCanDelete(newState, REALM_ID_0)
         }

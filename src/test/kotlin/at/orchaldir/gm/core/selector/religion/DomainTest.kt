@@ -26,7 +26,7 @@ class DomainTest {
         @Test
         fun `Cannot delete a domain used by a god`() {
             val god = God(GOD_ID_0, domains = setOf(DOMAIN_ID_0))
-            val newState = state.updateStorage(Storage(god))
+            val newState = state.updateStorage(god)
 
             failCanDelete(newState, GOD_ID_0)
         }

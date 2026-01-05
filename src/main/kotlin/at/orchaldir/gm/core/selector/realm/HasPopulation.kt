@@ -7,7 +7,7 @@ import at.orchaldir.gm.core.model.economy.standard.StandardOfLivingId
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.realm.population.*
 import at.orchaldir.gm.core.selector.util.RankingEntry
-import at.orchaldir.gm.core.selector.util.calculateRankingIndex
+import at.orchaldir.gm.core.selector.util.calculateRankOfElement
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
@@ -79,13 +79,16 @@ fun <ID : Id<ID>, ELEMENT> getAbstractPopulations(
     }
 
 fun State.calculateTotalPopulation(getPopulation: (Population) -> Int?): Int? {
-    val towns = getTownStorage()
+    val districts = getDistrictStorage()
         .getAll()
         .sumOf { getPopulation(it.population) ?: 0 }
     val realms = getRealmStorage()
         .getAll()
         .sumOf { getPopulation(it.population) ?: 0 }
-    val total = towns + realms
+    val towns = getTownStorage()
+        .getAll()
+        .sumOf { getPopulation(it.population) ?: 0 }
+    val total = districts + realms + towns
 
     return if (total > 0) {
         total
@@ -94,20 +97,19 @@ fun State.calculateTotalPopulation(getPopulation: (Population) -> Int?): Int? {
     }
 }
 
-fun <ID : Id<ID>, ELEMENT> State.calculatePopulationIndex(
+fun <ID : Id<ID>, ELEMENT> State.calculateRankOfElementWithPopulation(
     element: ELEMENT,
 ): Int? where
         ELEMENT : Element<ID>,
-        ELEMENT : HasPopulation = calculateRankingIndex(element) {
+        ELEMENT : HasPopulation = calculateRankOfElement(element) {
     it.population().getTotalPopulation()
 }
 
-fun <ID : Id<ID>, ELEMENT : Element<ID>> State.calculatePopulationIndex(
-    storage: Storage<ID, ELEMENT>,
-    id: ID,
-    getPopulation: (Population, ID) -> Int?,
-) = calculateRankingIndex(storage, id) {
+fun <ID : Id<ID>, ELEMENT : Element<ID>> State.calculateRankBasedOnPopulation(
+    element: ELEMENT,
+    getPopulation: (Population, ELEMENT) -> Int?,
+) = calculateRankOfElement(element) { other ->
     calculateTotalPopulation { population ->
-        getPopulation(population, it)
+        getPopulation(population, other)
     }
 }

@@ -26,7 +26,7 @@ class TitleTest {
         @Test
         fun `Cannot delete a title used by a character`() {
             val character = Character(CHARACTER_ID_0, title = TITLE_ID_0)
-            val newState = state.updateStorage(Storage(character))
+            val newState = state.updateStorage(character)
 
             failCanDelete(newState, CHARACTER_ID_0)
         }

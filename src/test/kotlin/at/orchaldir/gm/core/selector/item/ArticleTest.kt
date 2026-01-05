@@ -27,7 +27,7 @@ class ArticleTest {
         @Test
         fun `Cannot delete an article published in a periodical issue`() {
             val issue = PeriodicalIssue(ISSUE_ID_0, articles = setOf(ARTICLE_ID_0))
-            val newState = state.updateStorage(Storage(issue))
+            val newState = state.updateStorage(issue)
 
             failCanDelete(newState, ISSUE_ID_0)
         }

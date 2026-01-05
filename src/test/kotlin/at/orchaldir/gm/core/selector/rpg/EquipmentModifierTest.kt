@@ -34,7 +34,7 @@ class EquipmentModifierTest {
         fun `Cannot delete an equipment modifier used by an armor`() {
             val data = BodyArmour(ScaleArmour(), stats = ArmorStats(modifiers = setOf(EQUIPMENT_MODIFIER_ID_0)))
             val element = Equipment(EQUIPMENT_ID_0, data = data)
-            val newState = state.updateStorage(Storage(element))
+            val newState = state.updateStorage(element)
 
             failCanDelete(newState, EQUIPMENT_ID_0)
         }
@@ -43,7 +43,7 @@ class EquipmentModifierTest {
         fun `Cannot delete an equipment modifier used by a shield`() {
             val data = Shield(stats = ShieldStats(modifiers = setOf(EQUIPMENT_MODIFIER_ID_0)))
             val element = Equipment(EQUIPMENT_ID_0, data = data)
-            val newState = state.updateStorage(Storage(element))
+            val newState = state.updateStorage(element)
 
             failCanDelete(newState, EQUIPMENT_ID_0)
         }
@@ -52,7 +52,7 @@ class EquipmentModifierTest {
         fun `Cannot delete an equipment modifier used by a weapon`() {
             val data = OneHandedAxe(stats = MeleeWeaponStats(modifiers = setOf(EQUIPMENT_MODIFIER_ID_0)))
             val element = Equipment(EQUIPMENT_ID_0, data = data)
-            val newState = state.updateStorage(Storage(element))
+            val newState = state.updateStorage(element)
 
             failCanDelete(newState, EQUIPMENT_ID_0)
         }

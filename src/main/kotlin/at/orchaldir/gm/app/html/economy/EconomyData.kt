@@ -13,6 +13,7 @@ import at.orchaldir.gm.core.model.economy.standard.StandardOfLivingId
 import at.orchaldir.gm.core.selector.economy.countJobs
 import at.orchaldir.gm.core.selector.economy.money.print
 import at.orchaldir.gm.core.selector.getDefaultCurrency
+import at.orchaldir.gm.core.selector.realm.calculateTotalPopulation
 import at.orchaldir.gm.core.selector.realm.getPopulationsWith
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -38,6 +39,7 @@ fun HtmlBlockTag.showEconomyData(
             thMultiLines(listOf("Max", "Yearly", "Income"))
             th { +"Districts" }
             th { +"Jobs" }
+            th { +"Population" }
             th { +"Realms" }
             th { +"Towns" }
         }
@@ -47,6 +49,7 @@ fun HtmlBlockTag.showEconomyData(
                 td { +currency.print(standard.maxYearlyIncome) }
                 tdSkipZero(getPopulationsWith(state.getDistrictStorage(), standard.id))
                 tdSkipZero(state.countJobs(standard.id))
+                tdSkipZero(state.calculateTotalPopulation({ it.getPopulation(standard.id) }))
                 tdSkipZero(getPopulationsWith(state.getRealmStorage(), standard.id))
                 tdSkipZero(getPopulationsWith(state.getTownStorage(), standard.id))
             }

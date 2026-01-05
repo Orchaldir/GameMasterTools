@@ -29,7 +29,7 @@ class BusinessTemplateTest {
         @Test
         fun `Cannot delete a business template used by a business`() {
             val business = Business(BUSINESS_ID_0, templates = setOf(BUSINESS_TEMPLATE_ID_0))
-            val newState = state.updateStorage(Storage(business))
+            val newState = state.updateStorage(business)
 
             failCanDelete(newState, BUSINESS_ID_0)
         }
@@ -38,7 +38,7 @@ class BusinessTemplateTest {
         fun `Cannot delete a business template used by an economy`() {
             val economy = CommonBusinesses(setOf(BUSINESS_TEMPLATE_ID_0))
             val realm = Realm(REALM_ID_0, economy = economy)
-            val newState = state.updateStorage(Storage(realm))
+            val newState = state.updateStorage(realm)
 
             failCanDelete(newState, REALM_ID_0)
         }

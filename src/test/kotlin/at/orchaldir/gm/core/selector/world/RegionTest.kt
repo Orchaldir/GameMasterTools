@@ -34,7 +34,7 @@ class RegionTest {
         @Test
         fun `Cannot delete, if used by a town map`() {
             val map = TileMap2d(TownTile(MountainTerrain(REGION_ID_0)))
-            val newState = state.updateStorage(Storage(TownMap(TOWN_MAP_ID_0, map = map)))
+            val newState = state.updateStorage(TownMap(TOWN_MAP_ID_0, map = map))
 
             failCanDelete(newState, TOWN_MAP_ID_0)
         }
@@ -51,7 +51,7 @@ class RegionTest {
         fun `Cannot delete an element used as home`() {
             val housingStatus = History<Position>(position)
             val character = Character(CHARACTER_ID_0, housingStatus = housingStatus)
-            val newState = state.updateStorage(Storage(character))
+            val newState = state.updateStorage(character)
 
             failCanDelete(newState, CHARACTER_ID_0)
         }
@@ -59,7 +59,7 @@ class RegionTest {
         @Test
         fun `Cannot delete an element used as a position`() {
             val business = Business(BUSINESS_ID_0, position = position)
-            val newState = state.updateStorage(Storage(business))
+            val newState = state.updateStorage(business)
 
             failCanDelete(newState, BUSINESS_ID_0)
         }

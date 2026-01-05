@@ -34,9 +34,7 @@ fun visualizeEars(state: CharacterRenderState<Head>, skin: Skin) {
         return
     }
 
-    val ears = state.get().ears
-
-    when (ears) {
+    when (val ears = state.get().ears) {
         NoEars -> doNothing()
         is NormalEars -> visualizeNormalEars(state, ears.shape, ears.size, skin)
     }

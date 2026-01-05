@@ -55,7 +55,7 @@ class LanguageTest {
         @Test
         fun `Cannot delete a language known by a character`() {
             val character = Character(CHARACTER_ID_0, languages = languages)
-            val newState = state.updateStorage(Storage(character))
+            val newState = state.updateStorage(character)
 
             failCanDelete(newState, CHARACTER_ID_0)
         }
@@ -63,7 +63,7 @@ class LanguageTest {
         @Test
         fun `Cannot delete a language known by a character template`() {
             val template = CharacterTemplate(CHARACTER_TEMPLATE_ID_0, race = RACE_ID_0, languages = languages)
-            val newState = state.updateStorage(Storage(template))
+            val newState = state.updateStorage(template)
 
             failCanDelete(newState, CHARACTER_TEMPLATE_ID_0)
         }
@@ -71,7 +71,7 @@ class LanguageTest {
         @Test
         fun `Cannot delete a language used by a culture`() {
             val culture = Culture(CULTURE_ID_0, languages = SomeOf(LANGUAGE_ID_0))
-            val newState = state.updateStorage(Storage(culture))
+            val newState = state.updateStorage(culture)
 
             failCanDelete(newState, CULTURE_ID_0)
         }
@@ -79,7 +79,7 @@ class LanguageTest {
         @Test
         fun `Cannot delete a language used by a periodical`() {
             val periodical = Periodical(PERIODICAL_ID_0, language = LANGUAGE_ID_0)
-            val newState = state.updateStorage(Storage(periodical))
+            val newState = state.updateStorage(periodical)
 
             failCanDelete(newState, PERIODICAL_ID_0)
         }
@@ -87,7 +87,7 @@ class LanguageTest {
         @Test
         fun `Cannot delete a language used by a plane`() {
             val plane = Plane(PLANE_ID_0, languages = setOf(LANGUAGE_ID_0))
-            val newState = state.updateStorage(Storage(plane))
+            val newState = state.updateStorage(plane)
 
             failCanDelete(newState, PLANE_ID_0)
         }
@@ -95,7 +95,7 @@ class LanguageTest {
         @Test
         fun `Cannot delete a language used by a text`() {
             val text = Text(TEXT_ID_0, language = LANGUAGE_ID_0)
-            val newState = state.updateStorage(Storage(text))
+            val newState = state.updateStorage(text)
 
             failCanDelete(newState, TEXT_ID_0)
         }

@@ -74,7 +74,7 @@ class AbstractBuildingTest {
         private fun testTileNotEmpty(townTile: TownTile) {
             val map = TileMap2d(townTile)
             val town = TownMap(TOWN_MAP_ID_0, map = map)
-            val state = STATE.updateStorage(Storage(town))
+            val state = STATE.updateStorage(town)
             val action = AddAbstractBuilding(TOWN_MAP_ID_0, 0)
 
             assertIllegalArgument("Tile 0 is not empty!") { REDUCER.invoke(state, action) }
@@ -84,7 +84,7 @@ class AbstractBuildingTest {
         fun `Successfully set an abstract building`() {
             val map = TileMap2d(EMPTY)
             val town = TownMap(TOWN_MAP_ID_0, map = map)
-            val state = STATE.updateStorage(Storage(town))
+            val state = STATE.updateStorage(town)
             val action = AddAbstractBuilding(TOWN_MAP_ID_0, 0)
 
             assertEquals(

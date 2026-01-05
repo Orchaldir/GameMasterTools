@@ -3,7 +3,6 @@ package at.orchaldir.gm.core.selector.util
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
-import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.Factor
 
 data class RankingEntry<ID : Id<ID>>(
@@ -12,45 +11,19 @@ data class RankingEntry<ID : Id<ID>>(
     val percentage: Factor,
 )
 
-fun <ID : Id<ID>, ELEMENT> State.calculateRankingIndex(
+fun <ID : Id<ID>, ELEMENT : Element<ID>> State.calculateRankOfElement(
     element: ELEMENT,
     calculateValue: (ELEMENT) -> Int?,
-): Int? where
-        ELEMENT : Element<ID> {
-    return if (calculateValue(element) == null) {
+): Int? {
+    val value = calculateValue(element)
+
+    return if (value == null || value == 0) {
         null
     } else {
         getStorage<ID, ELEMENT>(element.id())
             .getAll()
-            .sortedByDescending { calculateValue(it) }
-            .indexOfFirst { it.id() == element.id() } + 1
+            .map { calculateValue(it) }
+            .sortedByDescending { it }
+            .indexOfFirst { it == value } + 1
     }
-}
-
-fun <ID : Id<ID>, ELEMENT : Element<ID>> calculateRankingIndex(
-    storage: Storage<ID, ELEMENT>,
-    id: ID,
-    calculateTotal: (ID) -> Int?,
-): Int? {
-    val mapNotNull = storage
-        .getAll()
-        .mapNotNull {
-            val total = calculateTotal(it.id())
-
-            if (total == null || total == 0) {
-                return@mapNotNull null
-            }
-
-            Pair(it.id(), total)
-        }
-    return mapNotNull
-        .sortedByDescending { it.second }
-        .indexOfFirst { it.first == id }
-        .let {
-            if (it >= 0) {
-                it + 1
-            } else {
-                null
-            }
-        }
 }

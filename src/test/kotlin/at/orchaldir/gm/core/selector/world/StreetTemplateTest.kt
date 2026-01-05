@@ -30,7 +30,7 @@ class StreetTemplateTest {
         fun `Cannot delete, if used by a town`() {
             val tile = StreetTile(STREET_TEMPLATE_ID_0, STREET_ID_0)
             val townMap = TownMap(TOWN_MAP_ID_0, map = TileMap2d(TownTile(construction = tile)))
-            val newState = state.updateStorage(Storage(townMap))
+            val newState = state.updateStorage(townMap)
 
             failCanDelete(newState, TOWN_MAP_ID_0)
         }

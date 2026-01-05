@@ -36,7 +36,7 @@ class CatastropheTest {
         fun `Cannot delete a catastrophe that killed a character`() {
             val dead = Dead(DAY0, DeathByCatastrophe(CATASTROPHE_ID_0))
             val character = Character(CHARACTER_ID_0, status = dead)
-            val newState = state.updateStorage(Storage(character))
+            val newState = state.updateStorage(character)
 
             failCanDelete(newState, CHARACTER_ID_0)
         }
@@ -45,7 +45,7 @@ class CatastropheTest {
         fun `Cannot delete a catastrophe that is remembered by a holiday`() {
             val purpose = HolidayOfCatastrophe(CATASTROPHE_ID_0)
             val holiday = Holiday(HOLIDAY_ID_0, purpose = purpose)
-            val newState = state.updateStorage(Storage(holiday))
+            val newState = state.updateStorage(holiday)
 
             failCanDelete(newState, HOLIDAY_ID_0)
         }
@@ -53,7 +53,7 @@ class CatastropheTest {
         @Test
         fun `Cannot delete a catastrophe that created a region`() {
             val region = Region(REGION_ID_0, data = Wasteland(CatastropheReference(CATASTROPHE_ID_0)))
-            val newState = state.updateStorage(Storage(region))
+            val newState = state.updateStorage(region)
 
             failCanDelete(newState, REGION_ID_0)
         }
@@ -62,7 +62,7 @@ class CatastropheTest {
         fun `Cannot delete a catastrophe that interrupted a war`() {
             val status = FinishedWar(InterruptedByCatastrophe(CATASTROPHE_ID_0), DAY0)
             val war = War(WAR_ID_0, status = status)
-            val newState = state.updateStorage(Storage(war))
+            val newState = state.updateStorage(war)
 
             failCanDelete(newState, WAR_ID_0)
         }

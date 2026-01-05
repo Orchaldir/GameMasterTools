@@ -24,7 +24,7 @@ class CultureTest {
             Storage(Culture(CULTURE_ID_0)),
         )
     )
-    private val STATE_WITH_NAMES = STATE.updateStorage(Storage(nameList))
+    private val STATE_WITH_NAMES = STATE.updateStorage(nameList)
 
     @Nested
     inner class UpdateTest {

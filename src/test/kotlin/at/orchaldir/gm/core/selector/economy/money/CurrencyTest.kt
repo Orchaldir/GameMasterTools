@@ -30,7 +30,7 @@ class CurrencyTest {
         @Test
         fun `Cannot delete a currency with units`() {
             val unit = CurrencyUnit(CURRENCY_UNIT_ID_0, currency = CURRENCY_ID_0)
-            val newState = state.updateStorage(Storage(unit))
+            val newState = state.updateStorage(unit)
 
             failCanDelete(newState, CURRENCY_UNIT_ID_0)
         }
@@ -38,7 +38,7 @@ class CurrencyTest {
         @Test
         fun `Cannot delete a currency used by a realm`() {
             val realm = Realm(REALM_ID_0, currency = History(CURRENCY_ID_0))
-            val newState = state.updateStorage(Storage(realm))
+            val newState = state.updateStorage(realm)
 
             failCanDelete(newState, REALM_ID_0)
         }
@@ -47,7 +47,7 @@ class CurrencyTest {
         fun `Cannot delete a currency used by a realm in the past`() {
             val history = History(null, HistoryEntry(CURRENCY_ID_0, DAY0))
             val realm = Realm(REALM_ID_0, currency = history)
-            val newState = state.updateStorage(Storage(realm))
+            val newState = state.updateStorage(realm)
 
             failCanDelete(newState, REALM_ID_0)
         }

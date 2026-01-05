@@ -36,7 +36,7 @@ class WarTest {
         fun `Cannot delete a war that is celebrated by a holiday`() {
             val purpose = HolidayOfWar(WAR_ID_0)
             val holiday = Holiday(HOLIDAY_ID_0, purpose = purpose)
-            val newState = state.updateStorage(Storage(holiday))
+            val newState = state.updateStorage(holiday)
 
             failCanDelete(newState, HOLIDAY_ID_0)
         }
@@ -44,7 +44,7 @@ class WarTest {
         @Test
         fun `Cannot delete a war that has a battle`() {
             val battle = Battle(BATTLE_ID_0, war = WAR_ID_0)
-            val newState = state.updateStorage(Storage(battle))
+            val newState = state.updateStorage(battle)
 
             failCanDelete(newState, BATTLE_ID_0)
         }
@@ -53,7 +53,7 @@ class WarTest {
         fun `Cannot delete a war that killed a character`() {
             val dead = Dead(DAY0, DeathInWar(WAR_ID_0))
             val character = Character(CHARACTER_ID_0, status = dead)
-            val newState = state.updateStorage(Storage(character))
+            val newState = state.updateStorage(character)
 
             failCanDelete(newState, CHARACTER_ID_0)
         }
@@ -61,7 +61,7 @@ class WarTest {
         @Test
         fun `Cannot delete a war with a battlefield`() {
             val region = Region(REGION_ID_0, data = Battlefield(WarReference(WAR_ID_0)))
-            val newState = state.updateStorage(Storage(region))
+            val newState = state.updateStorage(region)
 
             failCanDelete(newState, REGION_ID_0)
         }
@@ -69,7 +69,7 @@ class WarTest {
         @Test
         fun `Cannot delete a war that caused a wasteland`() {
             val region = Region(REGION_ID_0, data = Wasteland(WarReference(WAR_ID_0)))
-            val newState = state.updateStorage(Storage(region))
+            val newState = state.updateStorage(region)
 
             failCanDelete(newState, REGION_ID_0)
         }

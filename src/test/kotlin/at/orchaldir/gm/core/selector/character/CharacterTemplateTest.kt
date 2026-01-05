@@ -28,7 +28,7 @@ class CharacterTemplateTest {
         @Test
         fun `Cannot delete a template that is used by a character as statblock`() {
             val element = Character(CHARACTER_ID_1, statblock = UseStatblockOfTemplate(CHARACTER_TEMPLATE_ID_0))
-            val newState = state.updateStorage(Storage(element))
+            val newState = state.updateStorage(element)
 
             failCanDelete(newState, CHARACTER_ID_1)
         }

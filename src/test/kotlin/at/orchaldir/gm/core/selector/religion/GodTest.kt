@@ -35,7 +35,7 @@ class GodTest {
         @Test
         fun `Cannot delete the god of a heart plane`() {
             val plane = Plane(PLANE_ID_0, purpose = HeartPlane(GOD_ID_0))
-            val newState = state.updateStorage(Storage(plane))
+            val newState = state.updateStorage(plane)
 
             failCanDelete(newState, PLANE_ID_0)
         }
@@ -43,7 +43,7 @@ class GodTest {
         @Test
         fun `Cannot delete a god imprisoned in a plane`() {
             val plane = Plane(PLANE_ID_0, purpose = PrisonPlane(setOf(GOD_ID_0)))
-            val newState = state.updateStorage(Storage(plane))
+            val newState = state.updateStorage(plane)
 
             failCanDelete(newState, PLANE_ID_0)
         }
@@ -51,7 +51,7 @@ class GodTest {
         @Test
         fun `Cannot delete the god worshipped on a holiday`() {
             val plane = Holiday(HOLIDAY_ID_0, purpose = HolidayOfGod(GOD_ID_0))
-            val newState = state.updateStorage(Storage(plane))
+            val newState = state.updateStorage(plane)
 
             failCanDelete(newState, HOLIDAY_ID_0)
         }
@@ -67,7 +67,7 @@ class GodTest {
         @Test
         fun `Cannot delete a god that is part of a pantheon`() {
             val pantheon = Pantheon(PANTHEON_ID_0, gods = setOf(GOD_ID_0))
-            val newState = state.updateStorage(Storage(pantheon))
+            val newState = state.updateStorage(pantheon)
 
             failCanDelete(newState, PANTHEON_ID_0)
         }
@@ -76,7 +76,7 @@ class GodTest {
         fun `Cannot delete a god that a character believes in`() {
             val beliefStatus = History<BeliefStatus>(WorshipOfGod(GOD_ID_0))
             val character = Character(CHARACTER_ID_0, beliefStatus = beliefStatus)
-            val newState = state.updateStorage(Storage(character))
+            val newState = state.updateStorage(character)
 
             failCanDelete(newState, CHARACTER_ID_0)
         }

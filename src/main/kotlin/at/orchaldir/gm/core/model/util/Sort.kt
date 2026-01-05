@@ -82,6 +82,7 @@ enum class SortColorScheme {
 
 enum class SortCulture {
     Name,
+    Population,
 }
 
 enum class SortCurrency {
