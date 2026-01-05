@@ -79,13 +79,16 @@ fun <ID : Id<ID>, ELEMENT> getAbstractPopulations(
     }
 
 fun State.calculateTotalPopulation(getPopulation: (Population) -> Int?): Int? {
-    val towns = getTownStorage()
+    val districts = getDistrictStorage()
         .getAll()
         .sumOf { getPopulation(it.population) ?: 0 }
     val realms = getRealmStorage()
         .getAll()
         .sumOf { getPopulation(it.population) ?: 0 }
-    val total = towns + realms
+    val towns = getTownStorage()
+        .getAll()
+        .sumOf { getPopulation(it.population) ?: 0 }
+    val total = districts + realms + towns
 
     return if (total > 0) {
         total
