@@ -32,12 +32,17 @@ class RankingTest {
                 element2 to 300,
             )
 
-            assertEquals(
-                3,
-                state.calculateIndexOfElementWithConcept(element0, lookup::get)
-            )
+            assertIndex(lookup, element0, 3)
+            assertIndex(lookup, element1, 2)
+            assertIndex(lookup, element2, 1)
         }
 
+        private fun assertIndex(lookup: Map<Race, Int>, element: Race, index: Int) {
+            assertEquals(
+                index,
+                state.calculateIndexOfElementWithConcept(element, lookup::get)
+            )
+        }
 
     }
 
