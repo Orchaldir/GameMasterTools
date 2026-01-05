@@ -46,7 +46,7 @@ fun HtmlBlockTag.showCulture(
     showDataSources(call, state, culture.sources)
     showNamingConvention(culture.namingConvention, call, state)
     showClothingOptions(call, state, culture)
-    showPopulationOfCulture(call, state, culture.id)
+    showPopulationOfCulture(call, state, culture)
     showUsages(call, state, culture.id)
     showCreated(call, state, culture.id)
 }

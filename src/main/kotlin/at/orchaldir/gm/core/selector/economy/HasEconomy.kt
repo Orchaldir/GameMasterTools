@@ -5,7 +5,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.*
 import at.orchaldir.gm.core.model.economy.business.BusinessTemplateId
 import at.orchaldir.gm.core.selector.util.RankingEntry
-import at.orchaldir.gm.core.selector.util.calculateIndexOfElementBasedOnConcept
 import at.orchaldir.gm.core.selector.util.calculateIndexOfElementWithConcept
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
@@ -91,11 +90,10 @@ fun <ID : Id<ID>, ELEMENT> State.calculateIndexOfElementWithEconomy(
 }
 
 fun <ID : Id<ID>, ELEMENT : Element<ID>> State.calculateIndexOfElementBasedOnEconomy(
-    storage: Storage<ID, ELEMENT>,
-    id: ID,
-    getEconomy: (Economy, ID) -> Int?,
-) = calculateIndexOfElementBasedOnConcept(storage, id) {
+    element: ELEMENT,
+    getEconomy: (Economy, ELEMENT) -> Int?,
+) = calculateIndexOfElementWithConcept(element) { other ->
     calculateTotalNumberInEconomy { population ->
-        getEconomy(population, it)
+        getEconomy(population, other)
     }
 }

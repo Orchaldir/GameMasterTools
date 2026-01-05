@@ -3,7 +3,9 @@ package at.orchaldir.gm.app.html.realm.population
 import at.orchaldir.gm.app.html.optionalField
 import at.orchaldir.gm.app.html.util.showRankingOfElements
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
+import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.realm.population.*
 import at.orchaldir.gm.core.selector.realm.calculateIndexOfElementBasedOnPopulation
@@ -23,60 +25,57 @@ import kotlinx.html.h2
 fun HtmlBlockTag.showPopulationOfCulture(
     call: ApplicationCall,
     state: State,
-    culture: CultureId,
+    culture: Culture,
 ) = showPopulationOfElement(
     call,
     state,
-    state.getCultureStorage(),
     culture,
-    { it.cultures().contains(culture) },
+    { it.cultures().contains(culture.id) },
     {
         when (val population = it.population()) {
-            is PopulationWithNumbers -> population.cultures.getData(culture)
-            is PopulationWithPercentages -> population.cultures.getData(culture, population.total)
+            is PopulationWithNumbers -> population.cultures.getData(culture.id)
+            is PopulationWithPercentages -> population.cultures.getData(culture.id, population.total)
             else -> null
         }
     },
-    { hasPopulation, id -> hasPopulation.getPopulation(id) },
+    { hasPopulation, other -> hasPopulation.getPopulation(other.id) },
 )
 
 fun HtmlBlockTag.showPopulationOfRace(
     call: ApplicationCall,
     state: State,
-    race: RaceId,
+    race: Race,
 ) = showPopulationOfElement(
     call,
     state,
-    state.getRaceStorage(),
     race,
-    { it.races().contains(race) },
+    { it.races().contains(race.id) },
     {
         when (val population = it.population()) {
-            is PopulationWithNumbers -> population.races.getData(race)
-            is PopulationWithPercentages -> population.races.getData(race, population.total)
+            is PopulationWithNumbers -> population.races.getData(race.id)
+            is PopulationWithPercentages -> population.races.getData(race.id, population.total)
             else -> null
         }
     },
-    { hasPopulation, id -> hasPopulation.getPopulation(id) },
+    { hasPopulation, other -> hasPopulation.getPopulation(other.id) },
 )
 
 fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.showPopulationOfElement(
     call: ApplicationCall,
     state: State,
-    storage: Storage<ID, ELEMENT>,
-    id: ID,
+    element: ELEMENT,
     contains: (IPopulationWithSets) -> Boolean,
     getPercentage: (HasPopulation) -> Pair<Int, Factor>?,
-    getPopulation: (Population, ID) -> Int?,
+    getPopulation: (Population, ELEMENT) -> Int?,
 ) {
     h2 { +"Population" }
 
     val total = state.calculateTotalPopulation { population ->
-        getPopulation(population, id)
+        getPopulation(population, element)
     }
     val totalOrZero = total ?: 0
     optionalField("Total", total)
-    optionalField("Index", state.calculateIndexOfElementBasedOnPopulation(storage, id, getPopulation))
+    optionalField("Index", state.calculateIndexOfElementBasedOnPopulation(element, getPopulation))
 
     showPopulationOfElement(call, state, getPercentage, state.getDistrictStorage(), totalOrZero, contains)
     showPopulationOfElement(call, state, getPercentage, state.getRealmStorage(), totalOrZero, contains)

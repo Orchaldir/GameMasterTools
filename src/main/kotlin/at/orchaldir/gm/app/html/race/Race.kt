@@ -42,7 +42,7 @@ fun HtmlBlockTag.showRace(
     fieldOrigin(call, state, race.origin, ::RaceId)
     showDataSources(call, state, race.sources)
     showLifeStages(call, state, race.lifeStages)
-    showPopulationOfRace(call, state, race.id)
+    showPopulationOfRace(call, state, race)
     showUsages(call, state, race.id)
 }
 
