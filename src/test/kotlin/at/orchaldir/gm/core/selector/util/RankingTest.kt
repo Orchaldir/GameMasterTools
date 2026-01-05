@@ -25,7 +25,7 @@ class RankingTest {
         private val state = State(Storage(elements))
 
         @Test
-        fun `Test indices with 3 different values`() {
+        fun `Test with 3 different values`() {
             val lookup = mapOf(
                 element0 to 100,
                 element1 to 200,
@@ -34,6 +34,19 @@ class RankingTest {
 
             assertIndex(lookup, element0, 3)
             assertIndex(lookup, element1, 2)
+            assertIndex(lookup, element2, 1)
+        }
+
+        @Test
+        fun `Test with 2 identical values`() {
+            val lookup = mapOf(
+                element0 to 100,
+                element1 to 300,
+                element2 to 300,
+            )
+
+            assertIndex(lookup, element0, 3)
+            assertIndex(lookup, element1, 1)
             assertIndex(lookup, element2, 1)
         }
 
