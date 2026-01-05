@@ -27,13 +27,13 @@ class RankingTest {
         @Test
         fun `Test indices with 3 different values`() {
             val lookup = mapOf(
-                element0 to 300,
+                element0 to 100,
                 element1 to 200,
-                element2 to 100,
+                element2 to 300,
             )
 
             assertEquals(
-                2,
+                3,
                 state.calculateIndexOfElementWithConcept(element0, lookup::get)
             )
         }
