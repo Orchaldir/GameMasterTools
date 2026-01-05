@@ -5,7 +5,7 @@ import at.orchaldir.gm.app.html.util.showRankingOfElements
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.*
 import at.orchaldir.gm.core.model.economy.business.BusinessTemplate
-import at.orchaldir.gm.core.selector.economy.calculateIndexOfElementBasedOnEconomy
+import at.orchaldir.gm.core.selector.economy.calculateRankBasedOnEconomy
 import at.orchaldir.gm.core.selector.economy.calculateTotalNumberInEconomy
 import at.orchaldir.gm.core.selector.economy.getAbstractEconomies
 import at.orchaldir.gm.core.selector.economy.getEconomyEntries
@@ -53,7 +53,7 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.showEconomyOfElement(
     }
     val totalOrZero = total ?: 0
     optionalField("Total", total)
-    optionalField("Index", state.calculateIndexOfElementBasedOnEconomy(element, getEconomy))
+    optionalField("Index", state.calculateRankBasedOnEconomy(element, getEconomy))
 
     showEconomyOfElement(call, state, getPercentage, state.getDistrictStorage(), totalOrZero, contains)
     showEconomyOfElement(call, state, getPercentage, state.getRealmStorage(), totalOrZero, contains)

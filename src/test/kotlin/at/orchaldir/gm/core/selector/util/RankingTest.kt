@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test
 class RankingTest {
 
     @Nested
-    inner class CalculateIndexOfElementWithConceptTest {
+    inner class CalculateRankOfElementTest {
         val element0 = Race(RACE_ID_0)
         val element1 = Race(RACE_ID_1)
         val element2 = Race(RACE_ID_2)
@@ -79,7 +79,7 @@ class RankingTest {
         private fun assertIndex(lookup: Map<Race, Int?>, element: Race, index: Int?) {
             assertEquals(
                 index,
-                state.calculateIndexOfElementWithConcept(element, lookup::get)
+                state.calculateRankOfElement(element, lookup::get)
             )
         }
 

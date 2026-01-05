@@ -4,11 +4,9 @@ import at.orchaldir.gm.app.html.optionalField
 import at.orchaldir.gm.app.html.util.showRankingOfElements
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.Culture
-import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.race.Race
-import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.realm.population.*
-import at.orchaldir.gm.core.selector.realm.calculateIndexOfElementBasedOnPopulation
+import at.orchaldir.gm.core.selector.realm.calculateRankBasedOnPopulation
 import at.orchaldir.gm.core.selector.realm.calculateTotalPopulation
 import at.orchaldir.gm.core.selector.realm.getAbstractPopulations
 import at.orchaldir.gm.core.selector.realm.getPopulationEntries
@@ -75,7 +73,7 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.showPopulationOfElement(
     }
     val totalOrZero = total ?: 0
     optionalField("Total", total)
-    optionalField("Index", state.calculateIndexOfElementBasedOnPopulation(element, getPopulation))
+    optionalField("Index", state.calculateRankBasedOnPopulation(element, getPopulation))
 
     showPopulationOfElement(call, state, getPercentage, state.getDistrictStorage(), totalOrZero, contains)
     showPopulationOfElement(call, state, getPercentage, state.getRealmStorage(), totalOrZero, contains)
