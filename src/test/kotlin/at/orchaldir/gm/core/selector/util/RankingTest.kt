@@ -32,9 +32,9 @@ class RankingTest {
                 element2 to 300,
             )
 
-            assertIndex(lookup, element0, 3)
-            assertIndex(lookup, element1, 2)
-            assertIndex(lookup, element2, 1)
+            assertRank(lookup, element0, 3)
+            assertRank(lookup, element1, 2)
+            assertRank(lookup, element2, 1)
         }
 
         @Test
@@ -45,9 +45,9 @@ class RankingTest {
                 element2 to 300,
             )
 
-            assertIndex(lookup, element0, 3)
-            assertIndex(lookup, element1, 1)
-            assertIndex(lookup, element2, 1)
+            assertRank(lookup, element0, 3)
+            assertRank(lookup, element1, 1)
+            assertRank(lookup, element2, 1)
         }
 
         @Test
@@ -58,9 +58,9 @@ class RankingTest {
                 element2 to 3,
             )
 
-            assertIndex(lookup, element0, 1)
-            assertIndex(lookup, element1, null)
-            assertIndex(lookup, element2, 2)
+            assertRank(lookup, element0, 1)
+            assertRank(lookup, element1, null)
+            assertRank(lookup, element2, 2)
         }
 
         @Test
@@ -71,14 +71,14 @@ class RankingTest {
                 element2 to 3,
             )
 
-            assertIndex(lookup, element0, 1)
-            assertIndex(lookup, element1, null)
-            assertIndex(lookup, element2, 2)
+            assertRank(lookup, element0, 1)
+            assertRank(lookup, element1, null)
+            assertRank(lookup, element2, 2)
         }
 
-        private fun assertIndex(lookup: Map<Race, Int?>, element: Race, index: Int?) {
+        private fun assertRank(lookup: Map<Race, Int?>, element: Race, rank: Int?) {
             assertEquals(
-                index,
+                rank,
                 state.calculateRankOfElement(element, lookup::get)
             )
         }
