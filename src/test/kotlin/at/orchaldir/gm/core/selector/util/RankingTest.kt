@@ -50,7 +50,20 @@ class RankingTest {
             assertIndex(lookup, element2, 1)
         }
 
-        private fun assertIndex(lookup: Map<Race, Int>, element: Race, index: Int) {
+        @Test
+        fun `Test with null`() {
+            val lookup = mapOf(
+                element0 to 100,
+                element1 to null,
+                element2 to 300,
+            )
+
+            assertIndex(lookup, element0, 2)
+            assertIndex(lookup, element1, null)
+            assertIndex(lookup, element2, 1)
+        }
+
+        private fun assertIndex(lookup: Map<Race, Int?>, element: Race, index: Int?) {
             assertEquals(
                 index,
                 state.calculateIndexOfElementWithConcept(element, lookup::get)
