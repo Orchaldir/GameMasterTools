@@ -48,6 +48,7 @@ enum class EquipmentDataType {
     TwoHandedAxe,
     Belt,
     BodyArmour,
+    Bow,
     OneHandedClub,
     TwoHandedClub,
     Coat,
@@ -77,6 +78,7 @@ enum class EquipmentDataType {
         TwoHandedAxe -> setOf(HeldInTwoHandsSlot)
         Belt -> setOf(BeltSlot)
         BodyArmour -> setOf(TopSlot)
+        Bow -> setOf(HeldInTwoHandsSlot)
         OneHandedClub -> setOf(HeldInOneHandSlot)
         TwoHandedClub -> setOf(HeldInTwoHandsSlot)
         Coat -> setOf(OuterSlot)
@@ -111,6 +113,7 @@ sealed class EquipmentData : MadeFromParts {
         is TwoHandedAxe -> EquipmentDataType.TwoHandedAxe
         is Belt -> EquipmentDataType.Belt
         is BodyArmour -> EquipmentDataType.BodyArmour
+        is Bow -> EquipmentDataType.Bow
         is OneHandedClub -> EquipmentDataType.OneHandedClub
         is TwoHandedClub -> EquipmentDataType.TwoHandedClub
         is Coat -> EquipmentDataType.Coat
@@ -231,6 +234,16 @@ data class BodyArmour(
 ) : EquipmentData() {
 
     override fun parts() = style.parts()
+}
+
+@Serializable
+@SerialName("Bow")
+data class Bow(
+    val shape: BowShape = BowShape.Straight,
+    val fill: FillLookupItemPart = FillLookupItemPart(),
+) : EquipmentData() {
+
+    override fun parts() = listOf(fill)
 }
 
 @Serializable
