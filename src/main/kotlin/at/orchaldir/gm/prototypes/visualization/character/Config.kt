@@ -101,6 +101,9 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
             ),
             fromPercentage(85),
         ),
+        BowConfig(
+            fromPercentage(5),
+        ),
         ClubConfig(
             fromPercentages(20, 25, 30),
             fromPercentage(60),
