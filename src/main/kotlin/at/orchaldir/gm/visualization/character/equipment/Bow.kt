@@ -48,7 +48,7 @@ private fun visualizeBow(
 ) {
     val height = state.fullAABB.convertHeight(bow.height)
     val width = height * state.config.equipment.bow.thicknessCenter
-    val aabb = AABB.fromWidthAndHeight(Point2d(), height, width)
+    val aabb = AABB.fromWidthAndHeight(Point2d(), width, height)
     val fill = bow.fill.getFill(state.state, state.colors)
     val options = FillAndBorder(fill.toRender(), state.config.line)
 
