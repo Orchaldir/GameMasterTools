@@ -3,6 +3,9 @@ package at.orchaldir.gm.app.html.item.equipment
 import at.orchaldir.gm.app.MAIN
 import at.orchaldir.gm.app.SHAPE
 import at.orchaldir.gm.app.html.field
+import at.orchaldir.gm.app.html.item.equipment.style.editBowGrip
+import at.orchaldir.gm.app.html.item.equipment.style.parseBowGrip
+import at.orchaldir.gm.app.html.item.equipment.style.showBowGrip
 import at.orchaldir.gm.app.html.parse
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.util.part.editFillLookupItemPart
@@ -23,6 +26,7 @@ fun HtmlBlockTag.showBow(
     bow: Bow,
 ) {
     field("Shape", bow.shape)
+    showBowGrip(call, state, bow.grip)
     showFillLookupItemPart(call, state, bow.fill, "Main")
 }
 
@@ -38,6 +42,7 @@ fun HtmlBlockTag.editBow(
         BowShape.entries,
         bow.shape,
     )
+    editBowGrip(state, bow.grip)
     editFillLookupItemPart(state, bow.fill, MAIN, "Main")
 }
 
@@ -45,5 +50,6 @@ fun HtmlBlockTag.editBow(
 
 fun parseBow(parameters: Parameters) = Bow(
     parse(parameters, SHAPE, BowShape.Straight),
+    parseBowGrip(parameters),
     parseFillLookupItemPart(parameters, MAIN),
 )

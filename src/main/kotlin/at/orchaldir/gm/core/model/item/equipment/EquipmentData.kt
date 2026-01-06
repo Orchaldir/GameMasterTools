@@ -240,10 +240,11 @@ data class BodyArmour(
 @SerialName("Bow")
 data class Bow(
     val shape: BowShape = BowShape.Straight,
+    val grip: BowGrip = NoBowGrip,
     val fill: FillLookupItemPart = FillLookupItemPart(),
 ) : EquipmentData() {
 
-    override fun parts() = listOf(fill)
+    override fun parts() = grip.parts() + fill
 }
 
 @Serializable
