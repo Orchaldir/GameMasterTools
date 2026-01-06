@@ -7,39 +7,39 @@ import at.orchaldir.gm.core.model.util.render.Color
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-const val MIN_SWORD_GRIP_ROWS = 3
-const val DEFAULT_SWORD_GRIP_ROWS = 5
-const val MAX_SWORD_GRIP_ROWS = 20
+const val MIN_GRIP_ROWS = 3
+const val DEFAULT_GRIP_ROWS = 5
+const val MAX_GRIP_ROWS = 20
 
-enum class SwordGripType {
+enum class GripType {
     Simple,
     Bound,
 }
 
 @Serializable
-sealed interface SwordGrip : MadeFromParts {
+sealed interface Grip : MadeFromParts {
 
     fun getType() = when (this) {
-        is SimpleSwordGrip -> SwordGripType.Simple
-        is BoundSwordGrip -> SwordGripType.Bound
+        is SimpleGrip -> GripType.Simple
+        is BoundGrip -> GripType.Bound
     }
 
     override fun parts() = when (this) {
-        is SimpleSwordGrip -> listOf(part)
-        is BoundSwordGrip -> listOf(part)
+        is SimpleGrip -> listOf(part)
+        is BoundGrip -> listOf(part)
     }
 }
 
 @Serializable
 @SerialName("Simple")
-data class SimpleSwordGrip(
-    val shape: SwordGripShape = SwordGripShape.Straight,
+data class SimpleGrip(
+    val shape: GripShape = GripShape.Straight,
     val part: FillLookupItemPart = FillLookupItemPart(),
-) : SwordGrip
+) : Grip
 
 @Serializable
 @SerialName("Bound")
-data class BoundSwordGrip(
-    val rows: Int = DEFAULT_SWORD_GRIP_ROWS,
+data class BoundGrip(
+    val rows: Int = DEFAULT_GRIP_ROWS,
     val part: ColorSchemeItemPart = ColorSchemeItemPart(Color.Red),
-) : SwordGrip
+) : Grip

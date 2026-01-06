@@ -38,18 +38,18 @@ private fun visualizeGrip(
     state: CharacterRenderState<Body>,
     renderer: LayerRenderer,
     config: SwordConfig,
-    grip: SwordGrip,
+    grip: Grip,
     aabb: AABB,
 ) = when (grip) {
-    is BoundSwordGrip -> visualizeBoundGrip(state, renderer, config, grip, aabb)
-    is SimpleSwordGrip -> visualizeSimpleGrip(state, renderer, config, grip, aabb)
+    is BoundGrip -> visualizeBoundGrip(state, renderer, config, grip, aabb)
+    is SimpleGrip -> visualizeSimpleGrip(state, renderer, config, grip, aabb)
 }
 
 private fun visualizeBoundGrip(
     state: CharacterRenderState<Body>,
     renderer: LayerRenderer,
     config: SwordConfig,
-    grip: BoundSwordGrip,
+    grip: BoundGrip,
     aabb: AABB,
 ) {
     val color = grip.part.getColor(state.state, state.colors)
@@ -62,7 +62,7 @@ private fun visualizeSimpleGrip(
     state: CharacterRenderState<Body>,
     renderer: LayerRenderer,
     config: SwordConfig,
-    grip: SimpleSwordGrip,
+    grip: SimpleGrip,
     aabb: AABB,
 ) {
     val fill = grip.part.getFill(state.state, state.colors)
@@ -74,23 +74,23 @@ private fun visualizeSimpleGrip(
 
 private fun createSimpleGripPolygon(
     config: SwordConfig,
-    grip: SimpleSwordGrip,
+    grip: SimpleGrip,
     aabb: AABB,
 ): Polygon2d {
     val builder = Polygon2dBuilder()
 
     when (grip.shape) {
-        SwordGripShape.Oval -> builder
+        GripShape.Oval -> builder
             .addLeftPoint(aabb, CENTER, START)
             .addMirroredPoints(aabb, FULL, START)
             .addMirroredPoints(aabb, FULL, END)
             .addLeftPoint(aabb, CENTER, END)
 
-        SwordGripShape.Straight -> builder
+        GripShape.Straight -> builder
             .addMirroredPoints(aabb, FULL, START, true)
             .addMirroredPoints(aabb, FULL, END, true)
 
-        SwordGripShape.Waisted -> builder
+        GripShape.Waisted -> builder
             .addMirroredPoints(aabb, config.gripThinnerWidth, START, true)
             .addMirroredPoints(aabb, FULL, CENTER, true)
             .addMirroredPoints(aabb, config.gripThinnerWidth, END, true)
