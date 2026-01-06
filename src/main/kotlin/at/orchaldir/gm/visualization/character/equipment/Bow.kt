@@ -3,6 +3,7 @@ package at.orchaldir.gm.visualization.character.equipment
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.Bow
 import at.orchaldir.gm.core.model.item.equipment.style.*
+import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.unit.Volume
 import at.orchaldir.gm.visualization.character.CharacterRenderState
@@ -15,16 +16,21 @@ data class BowConfig(
 
 fun visualizeBow(
     state: CharacterRenderState<Body>,
-    armour: Bow,
+    bow: Bow,
 ) {
+    val height = state.fullAABB.convertHeight(bow.height)
 
+    visualizeBowShape(state, bow)
 }
 
 fun visualizeBowShape(
     state: CharacterRenderState<Body>,
-    armour: Bow,
+    bow: Bow,
 ) {
-
+    when (bow.shape) {
+        BowShape.Angular -> doNothing()
+        BowShape.Straight -> doNothing()
+    }
 }
 
 

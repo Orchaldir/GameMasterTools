@@ -12,6 +12,8 @@ import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
 import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
 import at.orchaldir.gm.core.model.util.part.MadeFromParts
 import at.orchaldir.gm.core.model.util.render.Color
+import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.HALF
 import at.orchaldir.gm.utils.math.shape.CircularShape
 import at.orchaldir.gm.utils.math.shape.ComplexShape
 import at.orchaldir.gm.utils.math.shape.UsingCircularShape
@@ -240,6 +242,7 @@ data class BodyArmour(
 @SerialName("Bow")
 data class Bow(
     val shape: BowShape = BowShape.Straight,
+    val height: Factor = HALF,
     val grip: BowGrip = NoBowGrip,
     val fill: FillLookupItemPart = FillLookupItemPart(),
 ) : EquipmentData() {
