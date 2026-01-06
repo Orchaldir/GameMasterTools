@@ -160,7 +160,7 @@ fun visualizeBodyEquipment(state: CharacterRenderState<Body>) {
                 is TwoHandedAxe -> visualizeAxe(newState, data.head, data.shaft, data.fixation, false, set)
                 is Belt -> visualizeBelt(newState, data)
                 is BodyArmour -> visualizeBodyArmour(newState, data)
-                is Bow -> visualizeBow(newState, data)
+                is Bow -> visualizeBow(newState, data, set)
                 is OneHandedClub -> visualizeClub(
                     newState,
                     data.head,
