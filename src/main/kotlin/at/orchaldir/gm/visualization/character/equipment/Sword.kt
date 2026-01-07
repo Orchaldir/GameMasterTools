@@ -14,13 +14,14 @@ import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.ICharacterConfig
 import at.orchaldir.gm.visualization.character.appearance.HELD_EQUIPMENT_LAYER
+import at.orchaldir.gm.visualization.character.equipment.part.GripConfig
 
 data class SwordConfig(
     val flameStep: Factor,
     val flameOffset: Factor,
+    val grip: GripConfig,
     val gripLength: Factor,
     val gripWidth: Factor,
-    val gripThinnerWidth: Factor,
     val pommelSizes: SizeConfig<Factor>,
     val straightTopY: Factor,
 ) {

@@ -31,6 +31,7 @@ import at.orchaldir.gm.visualization.character.appearance.hair.HairConfig
 import at.orchaldir.gm.visualization.character.appearance.horn.HornConfig
 import at.orchaldir.gm.visualization.character.appearance.mouth.MouthConfig
 import at.orchaldir.gm.visualization.character.equipment.*
+import at.orchaldir.gm.visualization.character.equipment.part.GripConfig
 import at.orchaldir.gm.visualization.character.equipment.part.LamellarArmourConfig
 import at.orchaldir.gm.visualization.character.equipment.part.NecklineConfig
 import at.orchaldir.gm.visualization.character.equipment.part.OpeningConfig
@@ -242,9 +243,11 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
         SwordConfig(
             fromPercentage(2),
             fromPercentage(10),
+            GripConfig(
+                fromPercentage(80),
+            ),
             fromPercentage(250),
             fromPercentage(30),
-            fromPercentage(80),
             fromPercentages(100, 125, 150),
             fromPercentage(10),
         ),
