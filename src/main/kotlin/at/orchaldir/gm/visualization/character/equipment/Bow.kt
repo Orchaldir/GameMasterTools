@@ -136,7 +136,7 @@ private fun visualizeBowShape(
                 .addPoint(bowAabb, END, fromPercentage(15))
                 .addPoint(bowAabb, START, START)
                 .build()
-            val curve = subdivideLine(line, 3)
+            val curve = subdivideLine(line, 4)
             val builder = Polygon2dBuilder()
 
             curve.points.withIndex().forEach { (index, point) ->
@@ -147,7 +147,11 @@ private fun visualizeBowShape(
                 builder.addLeftAndRightPoint(point, orientation, radius)
             }
 
-            renderer.renderPolygon(builder.build(), options)
+            val polygon = builder.build()
+            val mirrored = bowAabb.mirrorHorizontally(polygon)
+
+            renderer.renderPolygon(polygon, options)
+            renderer.renderPolygon(mirrored, options)
         }
     }
 }
