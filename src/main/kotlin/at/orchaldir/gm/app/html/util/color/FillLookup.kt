@@ -5,6 +5,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.math.fieldFactor
 import at.orchaldir.gm.app.html.util.math.parseFactor
 import at.orchaldir.gm.app.html.util.math.selectPercentage
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.render.*
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.unit.Distance
@@ -48,25 +49,41 @@ fun HtmlBlockTag.showFillLookup(fill: FillLookup) {
 
 // edit
 
-fun HtmlBlockTag.selectFillLookup(label: String, fill: FillLookup, param: String = FILL) {
+fun HtmlBlockTag.selectFillLookup(
+    state: State,
+    label: String,
+    fill: FillLookup,
+    param: String = FILL,
+) {
     showDetails(label, true) {
-        selectFillLookup(fill, param)
+        selectFillLookup(state, fill, param)
     }
 }
 
-fun HtmlBlockTag.selectFillLookup(fill: FillLookup, param: String = FILL) {
+fun HtmlBlockTag.selectFillLookup(
+    state: State,
+    fill: FillLookup,
+    param: String = FILL,
+) {
     selectValue("Fill Type", combine(param, TYPE), FillLookupType.entries, fill.getType())
-    selectFillData(fill, param)
+    selectFillData(state, fill, param)
 }
 
 private fun HtmlBlockTag.selectFillData(
+    state: State,
     fill: FillLookup,
     param: String,
 ) {
     when (fill) {
-        is SolidLookup -> editColorLookup("SolidFill", fill.color, combine(param, COLOR, 0), Color.entries)
+        is SolidLookup -> editColorLookup(state, "SolidFill", fill.color, combine(param, COLOR, 0), Color.entries)
         is TransparentLookup -> {
-            editColorLookup("Solid Fill", fill.color, combine(param, COLOR, 0), Color.entries)
+            editColorLookup(
+                state,
+                "Solid Fill",
+                fill.color,
+                combine(param, COLOR, 0),
+                Color.entries,
+            )
             selectPercentage(
                 "Opacity",
                 combine(param, OPACITY),
@@ -77,10 +94,17 @@ private fun HtmlBlockTag.selectFillData(
             )
         }
 
-        is VerticalStripesLookup -> selectStripes(fill.color0, fill.color1, fill.width, param)
-        is HorizontalStripesLookup -> selectStripes(fill.color0, fill.color1, fill.width, param)
+        is VerticalStripesLookup -> selectStripes(state, fill.color0, fill.color1, fill.width, param)
+        is HorizontalStripesLookup -> selectStripes(state, fill.color0, fill.color1, fill.width, param)
         is TilesLookup -> {
-            selectTwoColors(param, fill.fill, fill.background, "Tile Color", "Background Color")
+            selectTwoColors(
+                state,
+                param,
+                fill.fill,
+                fill.background,
+                "Tile Color",
+                "Background Color",
+            )
             selectFloat("Tile in Meter", fill.width, 0.001f, 100f, 0.01f, combine(param, PATTERN, TILE))
             selectPercentage(
                 "Border in Percentage",
@@ -94,12 +118,19 @@ private fun HtmlBlockTag.selectFillData(
     }
 }
 
-private fun HtmlBlockTag.selectStripes(lookup0: ColorLookup, lookup1: ColorLookup, width: Distance, param: String) {
-    selectTwoColors(param, lookup0, lookup1, "1.Stripe Color", "2.Stripe Color")
+private fun HtmlBlockTag.selectStripes(
+    state: State,
+    lookup0: ColorLookup,
+    lookup1: ColorLookup,
+    width: Distance,
+    param: String,
+) {
+    selectTwoColors(state, param, lookup0, lookup1, "1.Stripe Color", "2.Stripe Color")
     selectStripeWidth(param, width)
 }
 
 private fun HtmlBlockTag.selectTwoColors(
+    state: State,
     param: String,
     lookup0: ColorLookup,
     lookup1: ColorLookup,
@@ -107,12 +138,14 @@ private fun HtmlBlockTag.selectTwoColors(
     label1: String,
 ) {
     editColorLookup(
+        state,
         label0,
         lookup0,
         combine(param, COLOR, 0),
         lookup1.getOtherColors(),
     )
     editColorLookup(
+        state,
         label1,
         lookup1,
         combine(param, COLOR, 1),
