@@ -20,7 +20,7 @@ import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.THREE_QUARTER
 
 fun main() {
-    val grip = SimpleGrip(GripShape.Straight, FillLookupItemPart(Color.Red))
+    val grip = SimpleGrip(GripShape.Oval, FillLookupItemPart(Color.Red))
     val grips = listOf(
         Pair("No Grip", NoBowGrip),
         Pair("Small Grip", SimpleBowGrip(Size.Small, grip)),

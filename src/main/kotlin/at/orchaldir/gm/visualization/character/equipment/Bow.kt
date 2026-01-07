@@ -55,7 +55,7 @@ private fun visualizeBow(
     val centerX = (thickness - width) / 2.0f
     val bowAabb = AABB.fromWidthAndHeight(Point2d.xAxis(centerX), width, height)
 
-    //visualizeBowShape(state, renderer, bowAabb, bow)
+    visualizeBowShape(state, renderer, bowAabb, bow)
     visualizeBowGrip(state, config, renderer, height, thickness, bow)
 }
 
