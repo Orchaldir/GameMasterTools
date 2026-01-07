@@ -6,9 +6,12 @@ import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.item.equipment.Bow
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap.Companion.from
 import at.orchaldir.gm.core.model.item.equipment.style.BowShape
+import at.orchaldir.gm.core.model.item.equipment.style.GripShape
 import at.orchaldir.gm.core.model.item.equipment.style.NoBowGrip
 import at.orchaldir.gm.core.model.item.equipment.style.SimpleBowGrip
+import at.orchaldir.gm.core.model.item.equipment.style.SimpleGrip
 import at.orchaldir.gm.core.model.util.Size
+import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
@@ -17,11 +20,12 @@ import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.THREE_QUARTER
 
 fun main() {
+    val grip = SimpleGrip(GripShape.Straight, FillLookupItemPart(Color.Red))
     val grips = listOf(
         Pair("No Grip", NoBowGrip),
-        Pair("Small Grip", SimpleBowGrip(Size.Small)),
-        Pair("Medium Grip", SimpleBowGrip(Size.Small)),
-        Pair("Large Grip", SimpleBowGrip(Size.Small)),
+        Pair("Small Grip", SimpleBowGrip(Size.Small, grip)),
+        Pair("Medium Grip", SimpleBowGrip(Size.Medium, grip)),
+        Pair("Large Grip", SimpleBowGrip(Size.Large, grip)),
     )
 
     renderCharacterTableWithoutColorScheme(
