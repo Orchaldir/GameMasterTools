@@ -8,12 +8,15 @@ import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.SizeConfig
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
+import at.orchaldir.gm.utils.math.CENTER
 import at.orchaldir.gm.utils.math.END
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Polygon2dBuilder
 import at.orchaldir.gm.utils.math.START
 import at.orchaldir.gm.utils.math.FULL
+import at.orchaldir.gm.utils.math.Line2dBuilder
+import at.orchaldir.gm.utils.math.subdivideLine
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.QUARTER_CIRCLE
 import at.orchaldir.gm.utils.renderer.TransformRenderer
@@ -125,7 +128,16 @@ private fun visualizeBowShape(
 
             renderer.renderPolygon(polygon, options)
         }
-        BowShape.Straight -> doNothing()
+        BowShape.Straight -> {
+            val line = Line2dBuilder()
+                .addPoint(centerAabb, CENTER, START)
+                .addPoint(bowAabb, END, START)
+                .addPoint(bowAabb, START, START)
+                .build()
+            val curve = subdivideLine(line, 3)
+
+            renderer.renderLine(curve, state.lineOptions())
+        }
     }
 }
 
