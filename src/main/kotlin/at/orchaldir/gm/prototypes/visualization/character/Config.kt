@@ -103,6 +103,10 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
             fromPercentage(85),
         ),
         BowConfig(
+            GripConfig(
+                fromPercentage(80),
+            ),
+            fromPercentages(10, 15, 20),
             fromPercentage(25),
             fromPercentage(5),
         ),

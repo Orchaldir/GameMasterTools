@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.BodySlot
 import at.orchaldir.gm.core.model.item.equipment.Bow
 import at.orchaldir.gm.core.model.item.equipment.style.*
+import at.orchaldir.gm.core.model.util.SizeConfig
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.END
@@ -15,8 +16,12 @@ import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.toRender
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.HELD_EQUIPMENT_LAYER
+import at.orchaldir.gm.visualization.character.equipment.part.GripConfig
+import at.orchaldir.gm.visualization.character.equipment.part.visualizeGrip
 
 data class BowConfig(
+    val grip: GripConfig,
+    val gripHeight: SizeConfig<Factor>,
     val heightToWidth: Factor,
     val thicknessCenter: Factor,
 )
@@ -43,12 +48,32 @@ private fun visualizeBow(
     bow: Bow,
 ) {
     val height = state.fullAABB.convertHeight(bow.height)
-    val width = height * state.config.equipment.bow.heightToWidth
-    val thickness = height * state.config.equipment.bow.thicknessCenter
+    val config = state.config.equipment.bow
+    val width = height * config.heightToWidth
+    val thickness = height * config.thicknessCenter
     val centerX = (thickness - width) / 2.0f
     val aabb = AABB.fromWidthAndHeight(Point2d.xAxis(centerX), width, height)
 
     visualizeBowShape(state, renderer, aabb, bow)
+    visualizeBowGrip(state, config, renderer, aabb, bow)
+}
+
+private fun visualizeBowGrip(
+    state: CharacterRenderState<Body>,
+    config: BowConfig,
+    renderer: TransformRenderer,
+    aabb: AABB,
+    bow: Bow,
+) {
+    when (val grip = bow.grip) {
+        NoBowGrip -> doNothing()
+        is SimpleBowGrip -> {
+            val gripAabb = aabb.replaceHeight(config.gripHeight.convert(grip.size))
+
+            visualizeGrip(state, renderer, config.grip, grip.grip, gripAabb)
+        }
+    }
+
 }
 
 private fun visualizeBowShape(
