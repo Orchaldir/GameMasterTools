@@ -5,11 +5,7 @@ import at.orchaldir.gm.core.model.economy.material.Material
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.item.equipment.Bow
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap.Companion.from
-import at.orchaldir.gm.core.model.item.equipment.style.BowShape
-import at.orchaldir.gm.core.model.item.equipment.style.GripShape
-import at.orchaldir.gm.core.model.item.equipment.style.NoBowGrip
-import at.orchaldir.gm.core.model.item.equipment.style.SimpleBowGrip
-import at.orchaldir.gm.core.model.item.equipment.style.SimpleGrip
+import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
 import at.orchaldir.gm.core.model.util.render.Color

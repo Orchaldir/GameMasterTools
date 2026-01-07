@@ -10,7 +10,6 @@ import at.orchaldir.gm.utils.renderer.model.toRender
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.equipment.part.visualizeGrip
 import at.orchaldir.gm.visualization.character.equipment.part.visualizeOrnament
-import at.orchaldir.gm.visualization.utils.visualizeBoundRows
 
 fun visualizeSwordHilt(
     state: CharacterRenderState<Body>,

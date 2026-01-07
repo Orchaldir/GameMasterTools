@@ -3,24 +3,15 @@ package at.orchaldir.gm.visualization.character.equipment
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.BodySlot
 import at.orchaldir.gm.core.model.item.equipment.Bow
-import at.orchaldir.gm.core.model.item.equipment.style.*
+import at.orchaldir.gm.core.model.item.equipment.style.BowGrip
+import at.orchaldir.gm.core.model.item.equipment.style.BowShape
+import at.orchaldir.gm.core.model.item.equipment.style.NoBowGrip
+import at.orchaldir.gm.core.model.item.equipment.style.SimpleBowGrip
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.SizeConfig
 import at.orchaldir.gm.utils.doNothing
-import at.orchaldir.gm.utils.math.AABB
-import at.orchaldir.gm.utils.math.CENTER
-import at.orchaldir.gm.utils.math.END
-import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.math.Point2d
-import at.orchaldir.gm.utils.math.Polygon2dBuilder
-import at.orchaldir.gm.utils.math.START
-import at.orchaldir.gm.utils.math.FULL
+import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
-import at.orchaldir.gm.utils.math.Line2d
-import at.orchaldir.gm.utils.math.Line2dBuilder
-import at.orchaldir.gm.utils.math.QUARTER
-import at.orchaldir.gm.utils.math.THREE_QUARTER
-import at.orchaldir.gm.utils.math.subdivideLine
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.QUARTER_CIRCLE
 import at.orchaldir.gm.utils.renderer.TransformRenderer
@@ -107,7 +98,13 @@ private fun visualizeBowGrip(
 ) {
     when (grip) {
         NoBowGrip -> doNothing()
-        is SimpleBowGrip -> visualizeGrip(state, renderer, config.grip, grip.grip, config.calculateGripAabb(grip, height))
+        is SimpleBowGrip -> visualizeGrip(
+            state,
+            renderer,
+            config.grip,
+            grip.grip,
+            config.calculateGripAabb(grip, height)
+        )
     }
 }
 
@@ -132,6 +129,7 @@ private fun visualizeBowShape(
 
             renderer.renderPolygon(polygon, options)
         }
+
         BowShape.Curved -> {
             val line = Line2dBuilder()
                 .addPoint(centerAabb, CENTER, CENTER)
@@ -142,6 +140,7 @@ private fun visualizeBowShape(
                 .build()
             renderLine(renderer, options, line, bowAabb, centerAabb)
         }
+
         BowShape.Rectangular -> {
             val line = Line2dBuilder()
                 .addPoint(centerAabb, CENTER, CENTER)
@@ -151,6 +150,7 @@ private fun visualizeBowShape(
                 .build()
             renderLine(renderer, options, line, bowAabb, centerAabb)
         }
+
         BowShape.Straight -> {
             val line = Line2dBuilder()
                 .addPoint(centerAabb, CENTER, CENTER)

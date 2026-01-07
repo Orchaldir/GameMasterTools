@@ -1,7 +1,6 @@
 package at.orchaldir.gm.utils.math
 
 import at.orchaldir.gm.utils.math.unit.Distance
-import at.orchaldir.gm.utils.math.unit.Orientation
 
 fun calculatePointsOnLine(line: Line2d, step: Distance): List<Point2d> {
     var last = line.points[0]

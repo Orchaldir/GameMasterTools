@@ -2,16 +2,12 @@ package at.orchaldir.gm.app.html.item.equipment.style
 
 import at.orchaldir.gm.app.GRIP
 import at.orchaldir.gm.app.SIZE
-import at.orchaldir.gm.app.html.combine
-import at.orchaldir.gm.app.html.field
-import at.orchaldir.gm.app.html.parse
-import at.orchaldir.gm.app.html.selectValue
-import at.orchaldir.gm.app.html.showDetails
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.item.equipment.style.SimpleBowGrip
 import at.orchaldir.gm.core.model.item.equipment.style.BowGrip
 import at.orchaldir.gm.core.model.item.equipment.style.BowGripType
 import at.orchaldir.gm.core.model.item.equipment.style.NoBowGrip
+import at.orchaldir.gm.core.model.item.equipment.style.SimpleBowGrip
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
