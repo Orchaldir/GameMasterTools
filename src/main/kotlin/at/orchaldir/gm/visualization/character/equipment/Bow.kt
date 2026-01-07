@@ -47,18 +47,21 @@ private fun visualizeBow(
     val thickness = height * state.config.equipment.bow.thicknessCenter
     val centerX = (thickness - width) / 2.0f
     val aabb = AABB.fromWidthAndHeight(Point2d.xAxis(centerX), width, height)
+
+    visualizeBowShape(state, renderer, aabb, bow)
+}
+
+private fun visualizeBowShape(
+    state: CharacterRenderState<Body>,
+    renderer: TransformRenderer,
+    aabb: AABB,
+    bow: Bow,
+) {
     val fill = bow.fill.getFill(state.state, state.colors)
     val options = FillAndBorder(fill.toRender(), state.config.line)
 
     renderer.renderRectangle(aabb, options)
 
-    visualizeBowShape(state, bow)
-}
-
-private fun visualizeBowShape(
-    state: CharacterRenderState<Body>,
-    bow: Bow,
-) {
     when (bow.shape) {
         BowShape.Angular -> doNothing()
         BowShape.Straight -> doNothing()
