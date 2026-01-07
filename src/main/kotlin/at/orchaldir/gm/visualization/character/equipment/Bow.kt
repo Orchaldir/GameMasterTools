@@ -17,7 +17,6 @@ import at.orchaldir.gm.utils.math.START
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.Line2dBuilder
-import at.orchaldir.gm.utils.math.QUARTER
 import at.orchaldir.gm.utils.math.subdivideLine
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.QUARTER_CIRCLE
@@ -138,8 +137,17 @@ private fun visualizeBowShape(
                 .addPoint(bowAabb, START, START)
                 .build()
             val curve = subdivideLine(line, 3)
+            val builder = Polygon2dBuilder()
 
-            renderer.renderLine(curve, state.lineOptions())
+            curve.points.withIndex().forEach { (index, point) ->
+                val orientation = curve.calculateOrientation(index)
+                val factor = FULL - Factor.divideTwoInts(index, curve.points.size)
+                val radius = centerAabb.size.width * factor / 2
+
+                builder.addLeftAndRightPoint(point, orientation, radius)
+            }
+
+            renderer.renderPolygon(builder.build(), options)
         }
     }
 }
