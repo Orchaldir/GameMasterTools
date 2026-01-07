@@ -90,8 +90,9 @@ private fun visualizeBow(
     val bowAabb = AABB.fromWidthAndHeight(Point2d.xAxis(centerX), width, height)
     val centerAabb = config.calculateCenterAabb(bow.grip, height)
 
-    visualizeBowShape(state, config, renderer, bowAabb, centerAabb, bow)
+    visualizeBowShape(state, renderer, bowAabb, centerAabb, bow)
     visualizeBowGrip(state, config, renderer, height, bow.grip)
+    visualizeBowString(state, renderer, bowAabb)
 }
 
 private fun visualizeBowGrip(
@@ -109,7 +110,6 @@ private fun visualizeBowGrip(
 
 private fun visualizeBowShape(
     state: CharacterRenderState<Body>,
-    config: BowConfig,
     renderer: TransformRenderer,
     bowAabb: AABB,
     centerAabb: AABB,
@@ -154,6 +154,19 @@ private fun visualizeBowShape(
             renderer.renderPolygon(mirrored, options)
         }
     }
+}
+
+private fun visualizeBowString(
+    state: CharacterRenderState<Body>,
+    renderer: TransformRenderer,
+    bowAabb: AABB,
+) {
+    val line = Line2dBuilder()
+        .addPoint(bowAabb, START, START)
+        .addPoint(bowAabb, START, END)
+        .build()
+
+    renderer.renderLine(line, state.lineOptions())
 }
 
 
