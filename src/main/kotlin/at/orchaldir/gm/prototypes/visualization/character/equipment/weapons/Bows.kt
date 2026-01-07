@@ -17,7 +17,7 @@ import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTableWithoutColorScheme
 import at.orchaldir.gm.utils.Storage
-import at.orchaldir.gm.utils.math.THREE_QUARTER
+import at.orchaldir.gm.utils.math.FULL
 
 fun main() {
     val grip0 = SimpleGrip(GripShape.Oval, FillLookupItemPart(Color.Red))
@@ -39,7 +39,7 @@ fun main() {
     ) { distance, grip, shape ->
         val polearm = Bow(
             shape,
-            THREE_QUARTER,
+            FULL,
             grip,
         )
         Pair(createAppearance(distance), from(polearm))

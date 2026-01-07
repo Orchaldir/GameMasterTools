@@ -34,15 +34,24 @@ data class BowConfig(
 
     fun calculateBowThickness(height: Distance) = height * thicknessCenter
 
-    fun calculateGripAabb(grip: BowGrip, height: Distance): AABB {
-        val gripHeight = when (grip) {
-            NoBowGrip -> calculateGripHeight(Size.Small, height)
-            is SimpleBowGrip -> calculateGripHeight(grip.size, height)
+    fun calculateCenterAabb(grip: BowGrip, height: Distance): AABB {
+        val size = when (grip) {
+            NoBowGrip -> Size.Small
+            is SimpleBowGrip -> grip.size
         }
-        val thickness = calculateBowThickness(height) * gripThickness
+
+        return calculateGripAabb(size, height, FULL)
+    }
+
+    fun calculateGripAabb(grip: SimpleBowGrip, height: Distance) =
+        calculateGripAabb(grip.size, height, gripThickness)
+
+
+    private fun calculateGripAabb(size: Size, height: Distance, thickness: Factor): AABB {
+        val gripHeight = calculateGripHeight(size, height)
+        val thickness = calculateBowThickness(height) * thickness
 
         return AABB.fromWidthAndHeight(Point2d(), thickness, gripHeight)
-
     }
 
     fun calculateGripHeight(size: Size, height: Distance) = height * gripHeight.convert(size)
@@ -75,22 +84,22 @@ private fun visualizeBow(
     val width = height * config.heightToWidth
     val centerX = -width / 2.0f
     val bowAabb = AABB.fromWidthAndHeight(Point2d.xAxis(centerX), width, height)
-    val gripAabb = config.calculateGripAabb(bow.grip, height)
+    val centerAabb = config.calculateCenterAabb(bow.grip, height)
 
-    visualizeBowShape(state, config, renderer, bowAabb, gripAabb, bow)
-    visualizeBowGrip(state, config, renderer, gripAabb, bow.grip)
+    visualizeBowShape(state, config, renderer, bowAabb, centerAabb, bow)
+    visualizeBowGrip(state, config, renderer, height, bow.grip)
 }
 
 private fun visualizeBowGrip(
     state: CharacterRenderState<Body>,
     config: BowConfig,
     renderer: TransformRenderer,
-    gripAabb: AABB,
+    height: Distance,
     grip: BowGrip,
 ) {
     when (grip) {
         NoBowGrip -> doNothing()
-        is SimpleBowGrip -> visualizeGrip(state, renderer, config.grip, grip.grip, gripAabb)
+        is SimpleBowGrip -> visualizeGrip(state, renderer, config.grip, grip.grip, config.calculateGripAabb(grip, height))
     }
 }
 
@@ -99,7 +108,7 @@ private fun visualizeBowShape(
     config: BowConfig,
     renderer: TransformRenderer,
     bowAabb: AABB,
-    gripAabb: AABB,
+    centerAabb: AABB,
     bow: Bow,
 ) {
     val fill = bow.fill.getFill(state.state, state.colors)
@@ -109,8 +118,8 @@ private fun visualizeBowShape(
         BowShape.Angular -> {
             val polygon = Polygon2dBuilder()
                 .addLeftPoint(bowAabb, START, START)
-                .addMirroredPoints(gripAabb, FULL, START)
-                .addMirroredPoints(gripAabb, FULL, END)
+                .addMirroredPoints(centerAabb, FULL, START)
+                .addMirroredPoints(centerAabb, FULL, END)
                 .addLeftPoint(bowAabb, START, END)
                 .build()
 
