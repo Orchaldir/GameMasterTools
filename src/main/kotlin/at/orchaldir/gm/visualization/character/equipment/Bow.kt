@@ -16,6 +16,7 @@ import at.orchaldir.gm.utils.math.Polygon2dBuilder
 import at.orchaldir.gm.utils.math.START
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
+import at.orchaldir.gm.utils.math.Line2d
 import at.orchaldir.gm.utils.math.Line2dBuilder
 import at.orchaldir.gm.utils.math.subdivideLine
 import at.orchaldir.gm.utils.math.unit.Distance
@@ -129,6 +130,15 @@ private fun visualizeBowShape(
 
             renderer.renderPolygon(polygon, options)
         }
+        BowShape.Rectangular -> {
+            val line = Line2dBuilder()
+                .addPoint(centerAabb, CENTER, CENTER)
+                .addPoint(centerAabb, CENTER, START)
+                .addPoint(bowAabb, END, START)
+                .addPoint(bowAabb, START, START)
+                .build()
+            renderLine(renderer, options, line, bowAabb, centerAabb)
+        }
         BowShape.Straight -> {
             val line = Line2dBuilder()
                 .addPoint(centerAabb, CENTER, CENTER)
@@ -136,24 +146,34 @@ private fun visualizeBowShape(
                 .addPoint(bowAabb, END, fromPercentage(15))
                 .addPoint(bowAabb, START, START)
                 .build()
-            val curve = subdivideLine(line, 4)
-            val builder = Polygon2dBuilder()
-
-            curve.points.withIndex().forEach { (index, point) ->
-                val orientation = curve.calculateOrientation(index)
-                val factor = FULL - Factor.divideTwoInts(index, curve.points.size)
-                val radius = centerAabb.size.width * factor / 2
-
-                builder.addLeftAndRightPoint(point, orientation, radius)
-            }
-
-            val polygon = builder.build()
-            val mirrored = bowAabb.mirrorHorizontally(polygon)
-
-            renderer.renderPolygon(polygon, options)
-            renderer.renderPolygon(mirrored, options)
+            renderLine(renderer, options, line, bowAabb, centerAabb)
         }
     }
+}
+
+private fun renderLine(
+    renderer: TransformRenderer,
+    options: FillAndBorder,
+    line: Line2d,
+    bowAabb: AABB,
+    centerAabb: AABB,
+) {
+    val curve = subdivideLine(line, 4)
+    val builder = Polygon2dBuilder()
+
+    curve.points.withIndex().forEach { (index, point) ->
+        val orientation = curve.calculateOrientation(index)
+        val factor = FULL - Factor.divideTwoInts(index, curve.points.size)
+        val radius = centerAabb.size.width * factor / 2
+
+        builder.addLeftAndRightPoint(point, orientation, radius)
+    }
+
+    val polygon = builder.build()
+    val mirrored = bowAabb.mirrorHorizontally(polygon)
+
+    renderer.renderPolygon(polygon, options)
+    renderer.renderPolygon(mirrored, options)
 }
 
 private fun visualizeBowString(
