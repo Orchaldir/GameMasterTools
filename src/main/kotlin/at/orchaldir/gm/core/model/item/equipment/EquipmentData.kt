@@ -12,6 +12,8 @@ import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
 import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
 import at.orchaldir.gm.core.model.util.part.MadeFromParts
 import at.orchaldir.gm.core.model.util.render.Color
+import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.HALF
 import at.orchaldir.gm.utils.math.shape.CircularShape
 import at.orchaldir.gm.utils.math.shape.ComplexShape
 import at.orchaldir.gm.utils.math.shape.UsingCircularShape
@@ -48,6 +50,7 @@ enum class EquipmentDataType {
     TwoHandedAxe,
     Belt,
     BodyArmour,
+    Bow,
     OneHandedClub,
     TwoHandedClub,
     Coat,
@@ -77,6 +80,7 @@ enum class EquipmentDataType {
         TwoHandedAxe -> setOf(HeldInTwoHandsSlot)
         Belt -> setOf(BeltSlot)
         BodyArmour -> setOf(TopSlot)
+        Bow -> setOf(HeldInTwoHandsSlot)
         OneHandedClub -> setOf(HeldInOneHandSlot)
         TwoHandedClub -> setOf(HeldInTwoHandsSlot)
         Coat -> setOf(OuterSlot)
@@ -111,6 +115,7 @@ sealed class EquipmentData : MadeFromParts {
         is TwoHandedAxe -> EquipmentDataType.TwoHandedAxe
         is Belt -> EquipmentDataType.Belt
         is BodyArmour -> EquipmentDataType.BodyArmour
+        is Bow -> EquipmentDataType.Bow
         is OneHandedClub -> EquipmentDataType.OneHandedClub
         is TwoHandedClub -> EquipmentDataType.TwoHandedClub
         is Coat -> EquipmentDataType.Coat
@@ -231,6 +236,18 @@ data class BodyArmour(
 ) : EquipmentData() {
 
     override fun parts() = style.parts()
+}
+
+@Serializable
+@SerialName("Bow")
+data class Bow(
+    val shape: BowShape = BowShape.Straight,
+    val height: Factor = HALF,
+    val grip: BowGrip = NoBowGrip,
+    val fill: FillLookupItemPart = FillLookupItemPart(),
+) : EquipmentData() {
+
+    override fun parts() = grip.parts() + fill
 }
 
 @Serializable

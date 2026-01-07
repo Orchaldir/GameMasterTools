@@ -34,7 +34,7 @@ fun Boolean.toInt() = when (this) {
     false -> 0
 }
 
-fun Boolean.convert(trueValue: Int, falseValue: Int): Int = if (this) {
+fun <T> Boolean.convert(trueValue: T, falseValue: T) = if (this) {
     trueValue
 } else {
     falseValue

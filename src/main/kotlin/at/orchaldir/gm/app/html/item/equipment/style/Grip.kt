@@ -13,21 +13,21 @@ import kotlinx.html.HtmlBlockTag
 
 // show
 
-fun HtmlBlockTag.showSwordGrip(
+fun HtmlBlockTag.showGrip(
     call: ApplicationCall,
     state: State,
-    grip: SwordGrip,
+    grip: Grip,
 ) {
     showDetails("Grip") {
         field("Type", grip.getType())
 
         when (grip) {
-            is SimpleSwordGrip -> {
+            is SimpleGrip -> {
                 field("Shape", grip.shape)
                 showFillLookupItemPart(call, state, grip.part)
             }
 
-            is BoundSwordGrip -> {
+            is BoundGrip -> {
                 field("Rows", grip.rows)
                 showColorSchemeItemPart(call, state, grip.part)
             }
@@ -37,31 +37,31 @@ fun HtmlBlockTag.showSwordGrip(
 
 // edit
 
-fun HtmlBlockTag.editSwordGrip(
+fun HtmlBlockTag.editGrip(
     state: State,
-    grip: SwordGrip,
+    grip: Grip,
     param: String = GRIP,
 ) {
     showDetails("Grip", true) {
-        selectValue("Type", param, SwordGripType.entries, grip.getType())
+        selectValue("Type", param, GripType.entries, grip.getType())
 
         when (grip) {
-            is SimpleSwordGrip -> {
+            is SimpleGrip -> {
                 selectValue(
                     "Shape",
                     combine(param, SHAPE),
-                    SwordGripShape.entries,
+                    GripShape.entries,
                     grip.shape,
                 )
                 editFillLookupItemPart(state, grip.part, param)
             }
 
-            is BoundSwordGrip -> {
+            is BoundGrip -> {
                 selectInt(
                     "Rows",
                     grip.rows,
-                    MIN_SWORD_GRIP_ROWS,
-                    MIN_SWORD_GRIP_ROWS,
+                    MIN_GRIP_ROWS,
+                    MIN_GRIP_ROWS,
                     1,
                     combine(param, NUMBER),
                 )
@@ -74,17 +74,17 @@ fun HtmlBlockTag.editSwordGrip(
 
 // parse
 
-fun parseSwordGrip(
+fun parseGrip(
     parameters: Parameters,
     param: String = GRIP,
-) = when (parse(parameters, param, SwordGripType.Simple)) {
-    SwordGripType.Simple -> SimpleSwordGrip(
-        parse(parameters, combine(param, SHAPE), SwordGripShape.Straight),
+) = when (parse(parameters, param, GripType.Simple)) {
+    GripType.Simple -> SimpleGrip(
+        parse(parameters, combine(param, SHAPE), GripShape.Straight),
         parseFillLookupItemPart(parameters, param),
     )
 
-    SwordGripType.Bound -> BoundSwordGrip(
-        parseInt(parameters, combine(param, NUMBER), DEFAULT_SWORD_GRIP_ROWS),
+    GripType.Bound -> BoundGrip(
+        parseInt(parameters, combine(param, NUMBER), DEFAULT_GRIP_ROWS),
         parseColorSchemeItemPart(parameters, param),
     )
 }

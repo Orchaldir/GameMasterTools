@@ -169,7 +169,7 @@ private fun checkSwordGuard(guard: SwordGuard) = when (guard) {
     }
 }
 
-private fun checkSwordGrip(grip: SwordGrip) = when (grip) {
-    is SimpleSwordGrip -> doNothing()
-    is BoundSwordGrip -> checkInt(grip.rows, "Grip's Rows", MIN_SWORD_GRIP_ROWS, MAX_SWORD_GRIP_ROWS)
+private fun checkSwordGrip(grip: Grip) = when (grip) {
+    is SimpleGrip -> doNothing()
+    is BoundGrip -> checkInt(grip.rows, "Grip's Rows", MIN_GRIP_ROWS, MAX_GRIP_ROWS)
 }

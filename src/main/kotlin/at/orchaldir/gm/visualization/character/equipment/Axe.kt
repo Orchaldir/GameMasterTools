@@ -94,7 +94,7 @@ fun visualizeAxe(
 ) {
     val renderer = state.getLayer(HELD_EQUIPMENT_LAYER)
     val (leftHand, rightHand) = state.config.body.getMirroredArmPoint(state, END)
-    val hand = state.getCenter(leftHand, rightHand, set, BodySlot.HeldInLeftHand)
+    val hand = state.getCenter(leftHand, rightHand, set, BodySlot.HeldInRightHand)
     val config = state.config.equipment.axe
     val shaftAabb = config.shaftAabb(state, isOneHanded, hand)
     val extraHeight = config.getExtraFixationHeight(head)

@@ -89,7 +89,7 @@ fun HtmlBlockTag.editColorSchemeItemPart(
 ) {
     showDetails(label, true) {
         selectMaterial(state, part.material, combine(param, MATERIAL))
-        editColorLookup("Color Lookup", part.lookup, param, Color.entries)
+        editColorLookup(state, "Color Lookup", part.lookup, param, Color.entries)
     }
 }
 
@@ -113,7 +113,7 @@ fun HtmlBlockTag.editFillLookupItemPart(
 ) {
     showDetails(label, true) {
         selectMaterial(state, part.material, combine(param, MATERIAL))
-        selectFillLookup(part.fill, combine(param, FILL))
+        selectFillLookup(state, part.fill, combine(param, FILL))
     }
 }
 

@@ -14,13 +14,14 @@ import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.ICharacterConfig
 import at.orchaldir.gm.visualization.character.appearance.HELD_EQUIPMENT_LAYER
+import at.orchaldir.gm.visualization.character.equipment.part.GripConfig
 
 data class SwordConfig(
     val flameStep: Factor,
     val flameOffset: Factor,
+    val grip: GripConfig,
     val gripLength: Factor,
     val gripWidth: Factor,
-    val gripThinnerWidth: Factor,
     val pommelSizes: SizeConfig<Factor>,
     val straightTopY: Factor,
 ) {
@@ -32,9 +33,9 @@ data class SwordConfig(
     ): AABB {
         val handRadius = config.body().getHandRadius(config)
         val oneHandLength = handRadius * gripLength
-        val length = oneHandLength * isOneHanded.convert(1, 2)
+        val length = oneHandLength * isOneHanded.convert(1f, 1.5f)
         val center = hand.minusHeight(oneHandLength / 2)
-        val size = Size2d(length * gripWidth, length)
+        val size = Size2d(oneHandLength * gripWidth, length)
 
         return AABB.fromTop(center, size)
     }

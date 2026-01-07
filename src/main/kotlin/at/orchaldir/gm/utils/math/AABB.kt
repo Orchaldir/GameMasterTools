@@ -120,6 +120,8 @@ data class AABB(val start: Point2d, val size: Size2d) {
     operator fun plus(offset: Point2d) = AABB(start + offset, size)
 
     fun replaceWidth(width: Distance) = copy(size = size.replaceWidth(width))
+    fun replaceHeight(height: Distance) = copy(size = size.replaceHeight(height))
+    fun replaceHeight(height: Factor) = copy(size = size.replaceHeight(height))
 
     /**
      * Move the border outward by a certain distance.

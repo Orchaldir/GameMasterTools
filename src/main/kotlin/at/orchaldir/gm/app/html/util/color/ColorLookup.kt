@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.html.util.color
 import at.orchaldir.gm.app.COLOR
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.render.*
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
@@ -32,6 +33,7 @@ fun HtmlBlockTag.showColorLookup(
 
 
 fun HtmlBlockTag.editColorLookup(
+    state: State,
     label: String,
     lookup: ColorLookup,
     param: String,
@@ -43,7 +45,14 @@ fun HtmlBlockTag.editColorLookup(
             combine(param, TYPE),
             ColorLookupType.entries,
             lookup.type(),
-        )
+        ) { type ->
+            when (type) {
+                ColorLookupType.Fixed -> false
+                ColorLookupType.Material -> false
+                ColorLookupType.Schema0 -> state.getColorSchemeStorage().isEmpty()
+                ColorLookupType.Schema1 -> state.getColorSchemeStorage().isEmpty()
+            }
+        }
 
         when (lookup) {
             is FixedColor -> selectColor(

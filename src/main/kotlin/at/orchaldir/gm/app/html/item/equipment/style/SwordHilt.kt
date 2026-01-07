@@ -26,7 +26,7 @@ fun HtmlBlockTag.showSwordHilt(
         when (hilt) {
             is SimpleSwordHilt -> {
                 showSwordGuard(call, state, hilt.guard)
-                showSwordGrip(call, state, hilt.grip)
+                showGrip(call, state, hilt.grip)
                 showPommel(call, state, hilt.pommel)
             }
         }
@@ -45,7 +45,7 @@ fun HtmlBlockTag.editSwordHilt(
         when (hilt) {
             is SimpleSwordHilt -> {
                 editSwordGuard(state, hilt.guard)
-                editSwordGrip(state, hilt.grip)
+                editGrip(state, hilt.grip)
                 editPommel(state, hilt.pommel)
             }
         }
@@ -60,7 +60,7 @@ fun parseSwordHilt(
 ) = when (parse(parameters, HILT, SwordHiltType.Simple)) {
     SwordHiltType.Simple -> SimpleSwordHilt(
         parseSwordGuard(parameters),
-        parseSwordGrip(parameters),
+        parseGrip(parameters),
         parsePommel(parameters),
     )
 }

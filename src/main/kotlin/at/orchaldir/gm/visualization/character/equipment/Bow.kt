@@ -1,0 +1,204 @@
+package at.orchaldir.gm.visualization.character.equipment
+
+import at.orchaldir.gm.core.model.character.appearance.Body
+import at.orchaldir.gm.core.model.item.equipment.BodySlot
+import at.orchaldir.gm.core.model.item.equipment.Bow
+import at.orchaldir.gm.core.model.item.equipment.style.BowGrip
+import at.orchaldir.gm.core.model.item.equipment.style.BowShape
+import at.orchaldir.gm.core.model.item.equipment.style.NoBowGrip
+import at.orchaldir.gm.core.model.item.equipment.style.SimpleBowGrip
+import at.orchaldir.gm.core.model.util.Size
+import at.orchaldir.gm.core.model.util.SizeConfig
+import at.orchaldir.gm.utils.doNothing
+import at.orchaldir.gm.utils.math.*
+import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
+import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.QUARTER_CIRCLE
+import at.orchaldir.gm.utils.renderer.TransformRenderer
+import at.orchaldir.gm.utils.renderer.model.FillAndBorder
+import at.orchaldir.gm.utils.renderer.model.toRender
+import at.orchaldir.gm.visualization.character.CharacterRenderState
+import at.orchaldir.gm.visualization.character.appearance.HELD_EQUIPMENT_LAYER
+import at.orchaldir.gm.visualization.character.equipment.part.GripConfig
+import at.orchaldir.gm.visualization.character.equipment.part.visualizeGrip
+
+data class BowConfig(
+    val grip: GripConfig,
+    val gripHeight: SizeConfig<Factor>,
+    val gripThickness: Factor,
+    val heightToWidth: Factor,
+    val thicknessCenter: Factor,
+) {
+
+    fun calculateBowThickness(height: Distance) = height * thicknessCenter
+
+    fun calculateCenterAabb(grip: BowGrip, height: Distance): AABB {
+        val size = when (grip) {
+            NoBowGrip -> Size.Small
+            is SimpleBowGrip -> grip.size
+        }
+
+        return calculateGripAabb(size, height, FULL)
+    }
+
+    fun calculateGripAabb(grip: SimpleBowGrip, height: Distance) =
+        calculateGripAabb(grip.size, height, gripThickness)
+
+
+    private fun calculateGripAabb(size: Size, height: Distance, thickness: Factor): AABB {
+        val gripHeight = calculateGripHeight(size, height)
+        val thickness = calculateBowThickness(height) * thickness
+
+        return AABB.fromWidthAndHeight(Point2d(), thickness, gripHeight)
+    }
+
+    fun calculateGripHeight(size: Size, height: Distance) = height * gripHeight.convert(size)
+
+}
+
+fun visualizeBow(
+    state: CharacterRenderState<Body>,
+    bow: Bow,
+    set: Set<BodySlot>,
+) {
+    val (leftHand, rightHand) = state.config.body.getMirroredArmPoint(state, END)
+    val hand = state.getCenter(leftHand, rightHand, set, BodySlot.HeldInRightHand)
+
+    state.getLayer(HELD_EQUIPMENT_LAYER)
+        .createGroup(hand) { movedRenderer ->
+            movedRenderer.createGroup(QUARTER_CIRCLE) { rotatedRender ->
+                visualizeBow(state, rotatedRender, bow)
+            }
+        }
+}
+
+private fun visualizeBow(
+    state: CharacterRenderState<Body>,
+    renderer: TransformRenderer,
+    bow: Bow,
+) {
+    val height = state.fullAABB.convertHeight(bow.height)
+    val config = state.config.equipment.bow
+    val width = height * config.heightToWidth
+    val centerX = -width / 2.0f
+    val bowAabb = AABB.fromWidthAndHeight(Point2d.xAxis(centerX), width, height)
+    val centerAabb = config.calculateCenterAabb(bow.grip, height)
+
+    visualizeBowShape(state, renderer, bowAabb, centerAabb, bow)
+    visualizeBowGrip(state, config, renderer, height, bow.grip)
+    visualizeBowString(state, renderer, bowAabb)
+}
+
+private fun visualizeBowGrip(
+    state: CharacterRenderState<Body>,
+    config: BowConfig,
+    renderer: TransformRenderer,
+    height: Distance,
+    grip: BowGrip,
+) {
+    when (grip) {
+        NoBowGrip -> doNothing()
+        is SimpleBowGrip -> visualizeGrip(
+            state,
+            renderer,
+            config.grip,
+            grip.grip,
+            config.calculateGripAabb(grip, height)
+        )
+    }
+}
+
+private fun visualizeBowShape(
+    state: CharacterRenderState<Body>,
+    renderer: TransformRenderer,
+    bowAabb: AABB,
+    centerAabb: AABB,
+    bow: Bow,
+) {
+    val fill = bow.fill.getFill(state.state, state.colors)
+    val options = FillAndBorder(fill.toRender(), state.config.line)
+
+    when (bow.shape) {
+        BowShape.Angular -> {
+            val polygon = Polygon2dBuilder()
+                .addLeftPoint(bowAabb, START, START)
+                .addMirroredPoints(centerAabb, FULL, START)
+                .addMirroredPoints(centerAabb, FULL, END)
+                .addLeftPoint(bowAabb, START, END)
+                .build()
+
+            renderer.renderPolygon(polygon, options)
+        }
+
+        BowShape.Curved -> {
+            val line = Line2dBuilder()
+                .addPoint(centerAabb, CENTER, CENTER)
+                .addPoint(centerAabb, CENTER, START)
+                .addPoint(bowAabb, END + fromPercentage(20), QUARTER)
+                .addPoint(bowAabb, END, START)
+                .addPoint(bowAabb, START, START)
+                .build()
+            renderLine(renderer, options, line, bowAabb, centerAabb)
+        }
+
+        BowShape.Rectangular -> {
+            val line = Line2dBuilder()
+                .addPoint(centerAabb, CENTER, CENTER)
+                .addPoint(centerAabb, CENTER, START)
+                .addPoint(bowAabb, END, START)
+                .addPoint(bowAabb, START, START)
+                .build()
+            renderLine(renderer, options, line, bowAabb, centerAabb)
+        }
+
+        BowShape.Straight -> {
+            val line = Line2dBuilder()
+                .addPoint(centerAabb, CENTER, CENTER)
+                .addPoint(centerAabb, CENTER, START)
+                .addPoint(bowAabb, END, fromPercentage(15))
+                .addPoint(bowAabb, START, START)
+                .build()
+            renderLine(renderer, options, line, bowAabb, centerAabb)
+        }
+    }
+}
+
+private fun renderLine(
+    renderer: TransformRenderer,
+    options: FillAndBorder,
+    line: Line2d,
+    bowAabb: AABB,
+    centerAabb: AABB,
+) {
+    val curve = subdivideLine(line, 4)
+    val builder = Polygon2dBuilder()
+
+    curve.points.withIndex().forEach { (index, point) ->
+        val orientation = curve.calculateOrientation(index)
+        val factor = FULL - Factor.divideTwoInts(index, curve.points.size)
+        val radius = centerAabb.size.width * factor / 2
+
+        builder.addLeftAndRightPoint(point, orientation, radius)
+    }
+
+    val polygon = builder.build()
+    val mirrored = bowAabb.mirrorHorizontally(polygon)
+
+    renderer.renderPolygon(polygon, options)
+    renderer.renderPolygon(mirrored, options)
+}
+
+private fun visualizeBowString(
+    state: CharacterRenderState<Body>,
+    renderer: TransformRenderer,
+    bowAabb: AABB,
+) {
+    val line = Line2dBuilder()
+        .addPoint(bowAabb, START, START)
+        .addPoint(bowAabb, START, END)
+        .build()
+
+    renderer.renderLine(line, state.lineOptions())
+}
+
+
