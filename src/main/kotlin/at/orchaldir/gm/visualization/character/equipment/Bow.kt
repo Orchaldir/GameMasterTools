@@ -10,6 +10,7 @@ import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.END
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Point2d
+import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.QUARTER_CIRCLE
 import at.orchaldir.gm.utils.renderer.TransformRenderer
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
@@ -52,23 +53,25 @@ private fun visualizeBow(
     val width = height * config.heightToWidth
     val thickness = height * config.thicknessCenter
     val centerX = (thickness - width) / 2.0f
-    val aabb = AABB.fromWidthAndHeight(Point2d.xAxis(centerX), width, height)
+    val bowAabb = AABB.fromWidthAndHeight(Point2d.xAxis(centerX), width, height)
 
-    visualizeBowShape(state, renderer, aabb, bow)
-    visualizeBowGrip(state, config, renderer, aabb, bow)
+    //visualizeBowShape(state, renderer, bowAabb, bow)
+    visualizeBowGrip(state, config, renderer, height, thickness, bow)
 }
 
 private fun visualizeBowGrip(
     state: CharacterRenderState<Body>,
     config: BowConfig,
     renderer: TransformRenderer,
-    aabb: AABB,
+    height: Distance,
+    thickness: Distance,
     bow: Bow,
 ) {
     when (val grip = bow.grip) {
         NoBowGrip -> doNothing()
         is SimpleBowGrip -> {
-            val gripAabb = aabb.replaceHeight(config.gripHeight.convert(grip.size))
+            val gripHeight = height * config.gripHeight.convert(grip.size)
+            val gripAabb = AABB.fromWidthAndHeight(Point2d(), thickness, gripHeight)
 
             visualizeGrip(state, renderer, config.grip, grip.grip, gripAabb)
         }
