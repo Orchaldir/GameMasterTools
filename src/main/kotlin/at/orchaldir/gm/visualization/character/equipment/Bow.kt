@@ -15,7 +15,9 @@ import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Polygon2dBuilder
 import at.orchaldir.gm.utils.math.START
 import at.orchaldir.gm.utils.math.FULL
+import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.Line2dBuilder
+import at.orchaldir.gm.utils.math.QUARTER
 import at.orchaldir.gm.utils.math.subdivideLine
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.QUARTER_CIRCLE
@@ -130,8 +132,9 @@ private fun visualizeBowShape(
         }
         BowShape.Straight -> {
             val line = Line2dBuilder()
+                .addPoint(centerAabb, CENTER, CENTER)
                 .addPoint(centerAabb, CENTER, START)
-                .addPoint(bowAabb, END, START)
+                .addPoint(bowAabb, END, fromPercentage(15))
                 .addPoint(bowAabb, START, START)
                 .build()
             val curve = subdivideLine(line, 3)
