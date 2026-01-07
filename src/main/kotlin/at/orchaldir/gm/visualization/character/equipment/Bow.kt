@@ -27,6 +27,7 @@ import at.orchaldir.gm.visualization.character.equipment.part.visualizeGrip
 data class BowConfig(
     val grip: GripConfig,
     val gripHeight: SizeConfig<Factor>,
+    val gripThickness: Factor,
     val heightToWidth: Factor,
     val thicknessCenter: Factor,
 ) {
@@ -38,7 +39,7 @@ data class BowConfig(
             NoBowGrip -> calculateGripHeight(Size.Small, height)
             is SimpleBowGrip -> calculateGripHeight(grip.size, height)
         }
-        val thickness = calculateBowThickness(height)
+        val thickness = calculateBowThickness(height) * gripThickness
 
         return AABB.fromWidthAndHeight(Point2d(), thickness, gripHeight)
 
@@ -72,7 +73,7 @@ private fun visualizeBow(
     val height = state.fullAABB.convertHeight(bow.height)
     val config = state.config.equipment.bow
     val width = height * config.heightToWidth
-    val centerX = (width) / 2.0f
+    val centerX = -width / 2.0f
     val bowAabb = AABB.fromWidthAndHeight(Point2d.xAxis(centerX), width, height)
     val gripAabb = config.calculateGripAabb(bow.grip, height)
 

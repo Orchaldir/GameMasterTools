@@ -20,12 +20,14 @@ import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.THREE_QUARTER
 
 fun main() {
-    val grip = SimpleGrip(GripShape.Oval, FillLookupItemPart(Color.Red))
+    val grip0 = SimpleGrip(GripShape.Oval, FillLookupItemPart(Color.Red))
+    val grip1 = SimpleGrip(GripShape.Straight, FillLookupItemPart(Color.Green))
+    val grip2 = SimpleGrip(GripShape.Waisted, FillLookupItemPart(Color.Blue))
     val grips = listOf(
         Pair("No Grip", NoBowGrip),
-        Pair("Small Grip", SimpleBowGrip(Size.Small, grip)),
-        Pair("Medium Grip", SimpleBowGrip(Size.Medium, grip)),
-        Pair("Large Grip", SimpleBowGrip(Size.Large, grip)),
+        Pair("Small Grip", SimpleBowGrip(Size.Small, grip0)),
+        Pair("Medium Grip", SimpleBowGrip(Size.Medium, grip1)),
+        Pair("Large Grip", SimpleBowGrip(Size.Large, grip2)),
     )
 
     renderCharacterTableWithoutColorScheme(
