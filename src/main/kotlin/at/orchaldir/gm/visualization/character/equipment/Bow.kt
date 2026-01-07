@@ -9,19 +9,15 @@ import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.END
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Point2d
-import at.orchaldir.gm.utils.math.QUARTER
-import at.orchaldir.gm.utils.math.ZERO
 import at.orchaldir.gm.utils.math.unit.QUARTER_CIRCLE
-import at.orchaldir.gm.utils.math.unit.Volume
 import at.orchaldir.gm.utils.renderer.TransformRenderer
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.toRender
 import at.orchaldir.gm.visualization.character.CharacterRenderState
-import at.orchaldir.gm.visualization.character.ICharacterConfig
 import at.orchaldir.gm.visualization.character.appearance.HELD_EQUIPMENT_LAYER
-import at.orchaldir.gm.visualization.character.equipment.part.*
 
 data class BowConfig(
+    val heightToWidth: Factor,
     val thicknessCenter: Factor,
 )
 
@@ -47,8 +43,9 @@ private fun visualizeBow(
     bow: Bow,
 ) {
     val height = state.fullAABB.convertHeight(bow.height)
-    val width = height * state.config.equipment.bow.thicknessCenter
-    val aabb = AABB.fromWidthAndHeight(Point2d(), width, height)
+    val width = height * state.config.equipment.bow.heightToWidth
+    val thickness = height * state.config.equipment.bow.thicknessCenter
+    val aabb = AABB.fromWidthAndHeight(Point2d(), thickness, height)
     val fill = bow.fill.getFill(state.state, state.colors)
     val options = FillAndBorder(fill.toRender(), state.config.line)
 
