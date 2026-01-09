@@ -1,0 +1,15 @@
+package at.orchaldir.gm.core.model.rpg.combat
+
+import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class RangedAttack(
+    val accuracy: Accuracy = UndefinedAccuracy,
+    val effect: AttackEffect = UndefinedAttackEffect,
+    val range: Range = UndefinedRange,
+    val shots: Shots = UndefinedShots,
+) {
+    fun contains(type: DamageTypeId) = effect.contains(type)
+    fun contains(statistic: StatisticId) = effect.contains(statistic) || range.contains(statistic)
+}

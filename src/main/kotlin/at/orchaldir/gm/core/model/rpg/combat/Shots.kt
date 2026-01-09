@@ -22,13 +22,13 @@ sealed class Shots {
 @Serializable
 @SerialName("Thrown")
 data class Thrown(
-    val rounds: Int = 1,
+    val roundsOfReload: Int = 1,
 ) : Shots()
 
 @Serializable
 @SerialName("SingleShot")
 data class SingleShot(
-    val rounds: Int = 1,
+    val roundsOfReload: Int = 1,
 ) : Shots()
 
 @Serializable

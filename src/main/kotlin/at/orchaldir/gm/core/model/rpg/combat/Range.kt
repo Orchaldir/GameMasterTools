@@ -19,6 +19,11 @@ sealed class Range {
         is StatisticBasedHalfAndMaxRange -> RangeType.StatisticBasedHalfAndMax
         is UndefinedRange -> RangeType.Undefined
     }
+
+    fun contains(other: StatisticId) = when (this) {
+        is StatisticBasedHalfAndMaxRange -> statistic == other
+        else -> false
+    }
 }
 
 @Serializable
