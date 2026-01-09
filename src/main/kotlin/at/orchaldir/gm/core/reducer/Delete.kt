@@ -141,6 +141,7 @@ fun reduceDeleteElement(
     is RaceId -> deleteElement(state, id, State::canDeleteRace)
     is RaceAppearanceId -> deleteElement(state, id, State::canDeleteRaceAppearance)
     is RaceGroupId -> deleteElement(state, id, State::canDeleteRaceGroup)
+    is RangedWeaponTypeId -> deleteElement(state, id, State::canDeleteRangedWeaponType)
     is RealmId -> deleteElement(state, id, State::canDeleteRealm)
     is RegionId -> deleteElement(state, id, State::canDeleteRegion)
     is RiverId -> deleteElement(state, id, State::canDeleteRiver)

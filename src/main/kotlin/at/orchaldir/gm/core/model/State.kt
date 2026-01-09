@@ -148,6 +148,7 @@ val ELEMENTS =
         RACE_TYPE,
         RACE_APPEARANCE_TYPE,
         RACE_GROUP_TYPE,
+        RANGED_WEAPON_TYPE_TYPE,
         REALM_TYPE,
         REGION_TYPE,
         RIVER_TYPE,
@@ -232,6 +233,7 @@ data class State(
     fun getRaceStorage() = getStorage<RaceId, Race>(RACE_TYPE)
     fun getRaceAppearanceStorage() = getStorage<RaceAppearanceId, RaceAppearance>(RACE_APPEARANCE_TYPE)
     fun getRaceGroupStorage() = getStorage<RaceGroupId, RaceGroup>(RACE_GROUP_TYPE)
+    fun getRangedWeaponTypeStorage() = getStorage<RangedWeaponTypeId, RangedWeaponType>(RANGED_WEAPON_TYPE_TYPE)
     fun getRealmStorage() = getStorage<RealmId, Realm>(REALM_TYPE)
     fun getRegionStorage() = getStorage<RegionId, Region>(REGION_TYPE)
     fun getRiverStorage() = getStorage<RiverId, River>(RIVER_TYPE)
@@ -391,6 +393,7 @@ data class State(
         saveStorage(path, getRaceStorage())
         saveStorage(path, getRaceAppearanceStorage())
         saveStorage(path, getRaceGroupStorage())
+        saveStorage(path, getRangedWeaponTypeStorage())
         saveStorage(path, getRealmStorage())
         saveStorage(path, getRegionStorage())
         saveStorage(path, getRiverStorage())
@@ -457,6 +460,7 @@ fun createStorage(type: String) = when (type) {
     RACE_TYPE -> Storage(RaceId(0))
     RACE_GROUP_TYPE -> Storage(RaceGroupId(0))
     RACE_APPEARANCE_TYPE -> Storage(RaceAppearanceId(0))
+    RANGED_WEAPON_TYPE_TYPE -> Storage(RangedWeaponTypeId(0))
     REALM_TYPE -> Storage(RealmId(0))
     REGION_TYPE -> Storage(RegionId(0))
     RIVER_TYPE -> Storage(RiverId(0))
@@ -522,6 +526,7 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     RACE_TYPE -> loadStorage<RaceId, Race>(path, RaceId(0))
     RACE_APPEARANCE_TYPE -> loadStorage<RaceAppearanceId, RaceAppearance>(path, RaceAppearanceId(0))
     RACE_GROUP_TYPE -> loadStorage<RaceGroupId, RaceGroup>(path, RaceGroupId(0))
+    RANGED_WEAPON_TYPE_TYPE -> loadStorage<RangedWeaponTypeId, RangedWeaponType>(path, RangedWeaponTypeId(0))
     REALM_TYPE -> loadStorage<RealmId, Realm>(path, RealmId(0))
     REGION_TYPE -> loadStorage<RegionId, Region>(path, RegionId(0))
     RIVER_TYPE -> loadStorage<RiverId, River>(path, RiverId(0))

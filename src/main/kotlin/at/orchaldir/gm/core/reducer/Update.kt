@@ -109,6 +109,7 @@ fun reduceUpdateElement(
     is Race -> updateElement(state, element)
     is RaceAppearance -> updateElement(state, element)
     is RaceGroup -> updateElement(state, element)
+    is RangedWeaponType -> updateElement(state, element)
     is Realm -> updateElement(state, element)
     is Region -> updateElement(state, element)
     is River -> updateElement(state, element)
