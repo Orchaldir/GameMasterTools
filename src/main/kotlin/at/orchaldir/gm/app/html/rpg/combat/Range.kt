@@ -36,7 +36,10 @@ fun HtmlBlockTag.displayRange(
 ) {
     when (range) {
         is FixedHalfAndMaxRange -> +"${range.half}/${range.max}"
-        is StatisticBasedHalfAndMaxRange -> link(call, range.statistic, "x${range.half}/x${range.max}")
+        is StatisticBasedHalfAndMaxRange -> {
+            val text = "x${range.half.toStringAsNumber()}/x${range.max.toStringAsNumber()}"
+            link(call, range.statistic, text)
+        }
         UndefinedRange -> if(showUndefined) {
             +"Undefined"
         }
@@ -101,7 +104,7 @@ fun HtmlBlockTag.editRange(
                     combine(rangeParam, MAX),
                     range.max,
                     range.half + TEN_PERCENTS,
-                    Factor.fromNumber(10),
+                    Factor.fromNumber(30),
                     TEN_PERCENTS,
                 )
             }

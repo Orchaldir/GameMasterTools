@@ -21,8 +21,8 @@
      "range": {
       "#type": "StatisticBasedHalfAndMax",
       "statistic": 0,
-      "half": 95000,
-      "max": 100000
+      "half": 100000,
+      "max": 150000
      },
      "shots": {
       "#type": "SingleShot",
