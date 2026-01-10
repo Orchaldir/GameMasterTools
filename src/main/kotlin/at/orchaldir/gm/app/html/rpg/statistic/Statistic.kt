@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.selector.economy.getJobs
 import at.orchaldir.gm.core.selector.rpg.getMeleeWeaponTypes
+import at.orchaldir.gm.core.selector.rpg.getRangedWeaponTypes
 import at.orchaldir.gm.core.selector.rpg.getStatisticsBasedOn
 import at.orchaldir.gm.core.selector.rpg.statblock.getStatblocksWith
 import io.ktor.http.*
@@ -36,10 +37,11 @@ private fun HtmlBlockTag.showUsage(
 ) {
     val jobs = state.getJobs(statistic.id)
     val meleeWeapons = state.getMeleeWeaponTypes(statistic.id)
+    val rangedWeapons = state.getRangedWeaponTypes(statistic.id)
     val statblocks = state.getStatblocksWith(statistic.id)
     val statistics = state.getStatisticsBasedOn(statistic.id)
 
-    if (jobs.isEmpty() && meleeWeapons.isEmpty() && statblocks.isEmpty() && statistics.isEmpty()) {
+    if (jobs.isEmpty() && meleeWeapons.isEmpty() && rangedWeapons.isEmpty() && statblocks.isEmpty() && statistics.isEmpty()) {
         return
     }
 
@@ -47,6 +49,7 @@ private fun HtmlBlockTag.showUsage(
 
     fieldElements(call, state, jobs)
     fieldElements(call, state, meleeWeapons)
+    fieldElements(call, state, rangedWeapons)
     fieldElements(call, state, statistics)
 
     table {
