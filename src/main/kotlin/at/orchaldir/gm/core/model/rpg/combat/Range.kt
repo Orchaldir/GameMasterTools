@@ -29,7 +29,7 @@ sealed class Range {
 @Serializable
 @SerialName("FixedHalfAndMax")
 data class FixedHalfAndMaxRange(
-    val min: Int,
+    val half: Int,
     val max: Int,
 ) : Range()
 
@@ -37,7 +37,7 @@ data class FixedHalfAndMaxRange(
 @SerialName("StatisticBasedHalfAndMax")
 data class StatisticBasedHalfAndMaxRange(
     val statistic: StatisticId,
-    val min: Factor,
+    val half: Factor,
     val max: Factor,
 ) : Range()
 
