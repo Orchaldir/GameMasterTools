@@ -261,6 +261,11 @@ enum class SortRaceGroup {
     Races,
 }
 
+enum class SortRangedWeaponType {
+    Name,
+    Equipment,
+}
+
 enum class SortRealm {
     Name,
     Start,

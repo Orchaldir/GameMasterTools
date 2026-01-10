@@ -422,6 +422,7 @@ fun href(
     is RaceId -> call.application.href(RaceRoutes.Details(id))
     is RaceAppearanceId -> call.application.href(RaceAppearanceRoutes.Details(id))
     is RaceGroupId -> call.application.href(RaceGroupRoutes.Details(id))
+    is RangedWeaponTypeId -> call.application.href(RangedWeaponTypeRoutes.Details(id))
     is RealmId -> call.application.href(RealmRoutes.Details(id))
     is RiverId -> call.application.href(RiverRoutes.Details(id))
     is ShieldTypeId -> call.application.href(ShieldTypeRoutes.Details(id))
