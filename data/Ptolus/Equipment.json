@@ -3,21 +3,36 @@
  "elements": {
   "0": {
    "id": 0,
-   "name": "Sword",
+   "name": "Elven Short Bow",
    "data": {
-    "#type": "Armour",
-    "style": {
-     "#type": "Chain",
-     "chain": {
-      "material": 4
+    "#type": "Bow",
+    "height": 10000,
+    "grip": {
+     "#type": "Simple",
+     "grip": {
+      "#type": "Simple",
+      "part": {
+       "material": 11
+      }
      }
+    },
+    "fill": {
+     "material": 12
     },
     "stats": {
      "type": 0,
      "modifiers": [
-      1
+      0
      ]
     }
+   },
+   "weight": {
+    "#type": "User",
+    "weight": 10000
+   },
+   "price": {
+    "#type": "User",
+    "price": 0
    }
   }
  }
