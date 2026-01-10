@@ -26,7 +26,7 @@ data class SimpleAccuracy(
 ) : Accuracy()
 
 @Serializable
-@SerialName("Simple")
+@SerialName("Scope")
 data class AccuracyWithScope(
     val base: Int,
     val scope: Int,
