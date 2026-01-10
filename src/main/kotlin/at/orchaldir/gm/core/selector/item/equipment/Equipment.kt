@@ -144,6 +144,7 @@ fun State.getMeleeWeapons(type: MeleeWeaponTypeId) = getEquipmentStorage()
 
 fun State.getRangedWeapons(type: RangedWeaponTypeId) = getEquipmentStorage()
     .getAll()
+    .filter { it.data.getRangedWeaponStats()?.type == type }
 
 fun State.getShields(type: ShieldTypeId) = getEquipmentStorage()
     .getAll()

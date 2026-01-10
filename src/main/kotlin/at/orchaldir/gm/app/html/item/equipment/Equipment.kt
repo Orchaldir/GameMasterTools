@@ -51,6 +51,9 @@ fun HtmlBlockTag.showEquipment(
     equipment.data.getMeleeWeaponStats()?.let {
         showMeleeWeaponStats(call, state, it, material)
     }
+    equipment.data.getRangedWeaponStats()?.let {
+        showRangedWeaponStats(call, state, it, material)
+    }
     equipment.data.getShieldStats()?.let {
         showShieldStats(call, state, it, material)
     }
@@ -134,6 +137,7 @@ fun HtmlBlockTag.editEquipment(
     selectColorSchemes(state, equipment)
     equipment.data.getArmorStats()?.let { editArmorStats(call, state, it) }
     equipment.data.getMeleeWeaponStats()?.let { editMeleeWeaponStats(call, state, it) }
+    equipment.data.getRangedWeaponStats()?.let { editRangedWeaponStats(call, state, it) }
     equipment.data.getShieldStats()?.let { editShieldStats(call, state, it) }
     editEquipmentData(state, equipment.data)
 }

@@ -56,7 +56,7 @@ fun parseOneHandedSword(
 ) = OneHandedSword(
     parseBlade(parameters, DEFAULT_1H_BLADE_LENGTH),
     parseSwordHilt(parameters),
-    parseMeleeWeaponStats(state, parameters),
+    parseMeleeWeaponStats(parameters),
 )
 
 fun parseTwoHandedSword(
@@ -65,5 +65,5 @@ fun parseTwoHandedSword(
 ) = TwoHandedSword(
     parseBlade(parameters, DEFAULT_2H_BLADE_LENGTH),
     parseSwordHilt(parameters),
-    parseMeleeWeaponStats(state, parameters),
+    parseMeleeWeaponStats(parameters),
 )

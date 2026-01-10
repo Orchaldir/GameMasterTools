@@ -38,5 +38,5 @@ fun parsePolearm(
 ) = Polearm(
     parsePolearmHead(parameters, TOP),
     parseShaft(parameters),
-    parseMeleeWeaponStats(state, parameters),
+    parseMeleeWeaponStats(parameters),
 )
