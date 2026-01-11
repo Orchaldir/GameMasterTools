@@ -1,12 +1,14 @@
 package at.orchaldir.gm.core.selector.rpg
 
 import at.orchaldir.gm.*
+import at.orchaldir.gm.core.model.Data
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterTemplate
 import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.race.Race
+import at.orchaldir.gm.core.model.rpg.RpgData
 import at.orchaldir.gm.core.model.rpg.combat.Damage
 import at.orchaldir.gm.core.model.rpg.combat.MeleeAttack
 import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponType
