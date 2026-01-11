@@ -2,9 +2,12 @@ package at.orchaldir.gm.app.html.rpg
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.realm.parseOptionalCatastropheId
+import at.orchaldir.gm.app.html.rpg.statistic.parseOptionalStatisticId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.DieType
 import at.orchaldir.gm.core.model.rpg.RpgData
+import at.orchaldir.gm.core.selector.util.sortStatistics
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -26,6 +29,7 @@ fun HtmlBlockTag.showRpgData(
     fieldRange("Damage Resistance Modifier", data.damageResistanceModifier)
     field("Max Defense Bonus", data.maxDefenseBonus)
     fieldRange("Defense Bonus Modifier", data.defenseBonusModifier)
+    optionalFieldLink("Muscle-Powered Statistic", call, state, data.musclePoweredStatistic)
 }
 
 
@@ -66,6 +70,13 @@ fun HtmlBlockTag.editRpgData(
         data.defenseBonusModifier,
         combine(DEFENSE, MODIFIER),
     )
+    selectOptionalElement(
+        state,
+        "Muscle-Powered Statistic",
+        STATISTIC,
+        state.sortStatistics(),
+        data.musclePoweredStatistic,
+    )
 }
 
 // parse
@@ -80,4 +91,5 @@ fun parseRpgData(
     parseRange(parameters, combine(DAMAGE, RESISTANCE, MODIFIER)),
     parseInt(parameters, DEFENSE),
     parseRange(parameters, combine(DEFENSE, MODIFIER)),
+    parseOptionalStatisticId(parameters, STATISTIC),
 )

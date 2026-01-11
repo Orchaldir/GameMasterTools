@@ -7,6 +7,7 @@ import kotlinx.serialization.Serializable
 
 enum class RangeType {
     FixedHalfAndMax,
+    MusclePoweredHalfAndMax,
     StatisticBasedHalfAndMax,
     Undefined,
 }
@@ -16,6 +17,7 @@ sealed class Range {
 
     fun getType() = when (this) {
         is FixedHalfAndMaxRange -> RangeType.FixedHalfAndMax
+        is MusclePoweredHalfAndMaxRange -> RangeType.MusclePoweredHalfAndMax
         is StatisticBasedHalfAndMaxRange -> RangeType.StatisticBasedHalfAndMax
         is UndefinedRange -> RangeType.Undefined
     }
@@ -31,6 +33,13 @@ sealed class Range {
 data class FixedHalfAndMaxRange(
     val half: Int,
     val max: Int,
+) : Range()
+
+@Serializable
+@SerialName("MusclePoweredHalfAndMax")
+data class MusclePoweredHalfAndMaxRange(
+    val half: Factor,
+    val max: Factor,
 ) : Range()
 
 @Serializable

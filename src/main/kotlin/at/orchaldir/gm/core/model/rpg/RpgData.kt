@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.rpg
 
+import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -11,4 +12,5 @@ data class RpgData(
     val damageResistanceModifier: Range = Range(-5, 5),
     val maxDefenseBonus: Int = 10,
     val defenseBonusModifier: Range = Range(-5, 5),
+    val musclePoweredStatistic: StatisticId? = null,
 )

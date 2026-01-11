@@ -78,7 +78,7 @@ fun Application.configureRangedWeaponTypeRouting() {
                     },
                     tdColumn("Range") {
                         showMultiLine(it.attacks) { attack ->
-                            displayRange(call, attack.range)
+                            displayRange(call, state, attack.range)
                         }
                     },
                     tdColumn("Shots") {

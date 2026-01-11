@@ -6,6 +6,7 @@ import at.orchaldir.gm.app.html.util.source.editDataSources
 import at.orchaldir.gm.app.html.util.source.parseDataSources
 import at.orchaldir.gm.app.html.util.source.showDataSources
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.selector.economy.getJobs
@@ -85,6 +86,8 @@ fun HtmlBlockTag.editStatistic(
 
 fun parseStatisticId(parameters: Parameters, param: String) = StatisticId(parseInt(parameters, param))
 fun parseStatisticId(value: String) = StatisticId(value.toInt())
+fun parseOptionalStatisticId(parameters: Parameters, param: String) =
+    parseSimpleOptionalInt(parameters, param)?.let { StatisticId(it) }
 
 fun parseStatistic(
     state: State,
