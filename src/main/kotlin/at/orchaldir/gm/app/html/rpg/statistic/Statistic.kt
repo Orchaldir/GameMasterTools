@@ -5,6 +5,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.source.editDataSources
 import at.orchaldir.gm.app.html.util.source.parseDataSources
 import at.orchaldir.gm.app.html.util.source.showDataSources
+import at.orchaldir.gm.app.routes.DataRoutes
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
@@ -16,6 +17,8 @@ import at.orchaldir.gm.core.selector.rpg.getStatisticsBasedOn
 import at.orchaldir.gm.core.selector.rpg.statblock.getStatblocksWith
 import io.ktor.http.*
 import io.ktor.server.application.*
+import io.ktor.server.application.call
+import io.ktor.server.resources.href
 import kotlinx.html.*
 
 // show
@@ -41,8 +44,9 @@ private fun HtmlBlockTag.showUsage(
     val rangedWeapons = state.getRangedWeaponTypes(statistic.id)
     val statblocks = state.getStatblocksWith(statistic.id)
     val statistics = state.getStatisticsBasedOn(statistic.id)
+    val isMusclePowered = state.data.rpg.musclePoweredStatistic == statistic.id
 
-    if (jobs.isEmpty() && meleeWeapons.isEmpty() && rangedWeapons.isEmpty() && statblocks.isEmpty() && statistics.isEmpty()) {
+    if (jobs.isEmpty() && meleeWeapons.isEmpty() && rangedWeapons.isEmpty() && statblocks.isEmpty() && statistics.isEmpty() && !isMusclePowered) {
         return
     }
 
@@ -52,6 +56,18 @@ private fun HtmlBlockTag.showUsage(
     fieldElements(call, state, meleeWeapons)
     fieldElements(call, state, rangedWeapons)
     fieldElements(call, state, statistics)
+
+    if (isMusclePowered) {
+        val dataLink = call.application.href(DataRoutes())
+
+        field("Other") {
+            ul {
+                li {
+                    link(dataLink, "Muscle-Powered Statistic")
+                }
+            }
+        }
+    }
 
     table {
         tr {
