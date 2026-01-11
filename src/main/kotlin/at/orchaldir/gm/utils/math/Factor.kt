@@ -8,6 +8,7 @@ val START = fromPercentage(0)
 val ZERO = fromPercentage(0)
 val ONE_TENTH_PERCENT = fromPermille(1)
 val ONE_PERCENT = fromPercentage(1)
+val TEN_PERCENTS = fromPercentage(10)
 val QUARTER = fromPercentage(25)
 val THIRD = fromPercentage(33)
 val CENTER = fromPercentage(50)
@@ -51,6 +52,7 @@ value class Factor private constructor(private val permyriad: Int) {
     fun apply(value: Int) = (value * toNumber()).toInt()
 
     override fun toString() = formatAsFactor(permyriad)
+    fun toStringAsNumber() = formatAsNumber(permyriad)
 
     operator fun unaryMinus() = Factor(-permyriad)
     operator fun plus(other: Factor) = Factor(permyriad + other.permyriad)
@@ -101,6 +103,17 @@ fun formatAsFactor(permyriad: Int): String {
         "$percentageOnly%"
     } else {
         String.format("%d.%01d%%", percentageOnly, permilleOnly)
+    }
+}
+
+fun formatAsNumber(permyriad: Int): String {
+    val percentageOnly = percentageOnly(permyriad)
+    val number = percentageOnly / 100.0f
+
+    return if (percentageOnly % 10 == 0) {
+        number.toInt().toString()
+    } else {
+        String.format("%.1f", number)
     }
 }
 

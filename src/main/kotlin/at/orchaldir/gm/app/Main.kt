@@ -113,6 +113,7 @@ fun Application.module() {
     configureRaceAppearanceRouting()
     configureRaceGroupRouting()
     configureRaceRouting()
+    configureRangedWeaponTypeRouting()
     configureRealmRouting()
     configureRegionRouting()
     configureRiverRouting()

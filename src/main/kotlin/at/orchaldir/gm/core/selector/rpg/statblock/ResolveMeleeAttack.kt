@@ -49,30 +49,6 @@ fun resolveMeleeAttack(
     attack: MeleeAttack,
 ) = attack.copy(effect = resolveAttackEffect(state, statblock, attack.effect))
 
-fun resolveAttackEffect(
-    state: State,
-    statblock: Statblock,
-    effect: AttackEffect,
-) = when (effect) {
-    is Damage -> effect.copy(amount = resolveDamageAmount(state, statblock, effect.amount))
-    UndefinedAttackEffect -> effect
-}
-
-fun resolveDamageAmount(
-    state: State,
-    statblock: Statblock,
-    amount: DamageAmount,
-) = when (amount) {
-    is SimpleRandomDamage -> amount
-    is StatisticBasedDamage -> {
-        val statistic = state.getStatisticStorage().getOrThrow(amount.base)
-        val value =
-            statblock.resolve(state, statistic) ?: error("Failed to resolve ${amount.base.print()} with statblock!")
-
-        SimpleRandomDamage(statistic.data.resolveDamage(value) + amount.modifier)
-    }
-}
-
 // resolve melee attack with modifier effects
 
 fun resolveMeleeAttacks(effects: List<EquipmentModifierEffect>, attacks: List<MeleeAttack>) = attacks.map { attack ->
@@ -98,54 +74,4 @@ fun resolveMeleeAttack(
 ) = when (effect) {
     is ModifyDamageResistance, is ModifyDefenseBonus -> attack
     is ModifyDamage -> attack.copy(effect = resolveAttackEffect(effect, attack.effect))
-}
-
-fun resolveAttackEffect(
-    modifyDamage: ModifyDamage,
-    attackEffect: AttackEffect,
-) = when (attackEffect) {
-    is Damage -> attackEffect.copy(amount = attackEffect.amount.apply(modifyDamage))
-    UndefinedAttackEffect -> attackEffect
-}
-
-// resolve protection map with statblock
-
-fun resolveProtectionMap(
-    state: State,
-    statblock: StatblockLookup,
-    protectionMap: Map<Equipment, Protection>,
-) = protectionMap
-
-// resolve protection with modifier effects
-
-fun resolveProtection(
-    effects: List<EquipmentModifierEffect>,
-    protection: Protection,
-): Protection {
-    var resolved = protection
-
-    effects.forEach { effect ->
-        resolved = resolveProtection(effect, resolved)
-    }
-
-    return resolved
-}
-
-fun resolveProtection(
-    effect: EquipmentModifierEffect,
-    protection: Protection,
-) = when (effect) {
-    is ModifyDamageResistance -> when (protection) {
-        is DamageResistance -> DamageResistance(protection.amount + effect.amount)
-        is DamageResistances -> protection.copy(amount = protection.amount + effect.amount)
-        else -> protection
-    }
-
-    is ModifyDefenseBonus -> if (protection is DefenseBonus) {
-        DefenseBonus(protection.bonus + effect.amount)
-    } else {
-        protection
-    }
-
-    is ModifyDamage -> protection
 }

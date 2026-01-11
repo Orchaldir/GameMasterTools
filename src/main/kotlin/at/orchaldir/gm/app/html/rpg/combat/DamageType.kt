@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.rpg.combat.DamageType
 import at.orchaldir.gm.core.model.rpg.combat.DamageTypeId
 import at.orchaldir.gm.core.selector.rpg.getArmorTypes
 import at.orchaldir.gm.core.selector.rpg.getMeleeWeaponTypes
+import at.orchaldir.gm.core.selector.rpg.getRangedWeaponTypes
 import at.orchaldir.gm.core.selector.rpg.getShieldTypes
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -32,9 +33,10 @@ private fun HtmlBlockTag.showUsages(
 ) {
     val armors = state.getArmorTypes(type)
     val meleeWeapons = state.getMeleeWeaponTypes(type)
+    val rangedWeapons = state.getRangedWeaponTypes(type)
     val shields = state.getShieldTypes(type)
 
-    if (armors.isEmpty() && meleeWeapons.isEmpty() && shields.isEmpty()) {
+    if (armors.isEmpty() && meleeWeapons.isEmpty() && rangedWeapons.isEmpty() && shields.isEmpty()) {
         return
     }
 
@@ -42,6 +44,7 @@ private fun HtmlBlockTag.showUsages(
 
     fieldElements(call, state, armors)
     fieldElements(call, state, meleeWeapons)
+    fieldElements(call, state, rangedWeapons)
     fieldElements(call, state, shields)
 }
 

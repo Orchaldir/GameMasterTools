@@ -72,7 +72,6 @@ fun HtmlBlockTag.editMeleeWeaponStats(
 // parse
 
 fun parseMeleeWeaponStats(
-    state: State,
     parameters: Parameters,
 ) = MeleeWeaponStats(
     parseOptionalMeleeWeaponTypeId(parameters, combine(WEAPON, TYPE)),

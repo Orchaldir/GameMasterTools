@@ -38,14 +38,15 @@ fun HtmlBlockTag.displayReach(
 
 fun HtmlBlockTag.editReach(
     reach: Reach,
-    param: String = PARRYING,
+    param: String,
 ) {
+    val reachParam = combine(param, REACH)
     val maxReach = 10
 
     showDetails("Reach", true) {
         selectValue(
             "Type",
-            combine(param, TYPE),
+            combine(reachParam, TYPE),
             ReachType.entries,
             reach.getType(),
         )
@@ -57,7 +58,7 @@ fun HtmlBlockTag.editReach(
                 0,
                 maxReach,
                 1,
-                combine(param, NUMBER),
+                combine(reachParam, NUMBER),
             )
 
             is ReachRange -> {
@@ -67,7 +68,7 @@ fun HtmlBlockTag.editReach(
                     0,
                     reach.max - 1,
                     1,
-                    combine(param, MIN),
+                    combine(reachParam, MIN),
                 )
                 selectInt(
                     "Max",
@@ -75,7 +76,7 @@ fun HtmlBlockTag.editReach(
                     reach.min + 1,
                     maxReach,
                     1,
-                    combine(param, MAX),
+                    combine(reachParam, MAX),
                 )
             }
 
@@ -88,16 +89,20 @@ fun HtmlBlockTag.editReach(
 
 fun parseReach(
     parameters: Parameters,
-    param: String = PARRYING,
-) = when (parse(parameters, combine(param, TYPE), ReachType.Undefined)) {
-    ReachType.Simple -> SimpleReach(
-        parseInt(parameters, combine(param, NUMBER), 1),
-    )
+    param: String,
+): Reach {
+    val reachParam = combine(param, REACH)
 
-    ReachType.Range -> ReachRange(
-        parseInt(parameters, combine(param, MIN), 1),
-        parseInt(parameters, combine(param, MAX), 2),
-    )
+    return when (parse(parameters, combine(reachParam, TYPE), ReachType.Undefined)) {
+        ReachType.Simple -> SimpleReach(
+            parseInt(parameters, combine(reachParam, NUMBER), 1),
+        )
 
-    ReachType.Undefined -> UndefinedReach
+        ReachType.Range -> ReachRange(
+            parseInt(parameters, combine(reachParam, MIN), 1),
+            parseInt(parameters, combine(reachParam, MAX), 2),
+        )
+
+        ReachType.Undefined -> UndefinedReach
+    }
 }

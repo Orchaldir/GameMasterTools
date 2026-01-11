@@ -850,6 +850,21 @@ fun State.sortRaceGroups(
             SortRaceGroup.Races -> compareByDescending { it.races.size }
         })
 
+// ranged weapon types
+
+fun State.sortRangedWeaponTypes(sort: SortRangedWeaponType = SortRangedWeaponType.Name) =
+    sortRangedWeaponTypes(getRangedWeaponTypeStorage().getAll(), sort)
+
+fun State.sortRangedWeaponTypes(
+    weapons: Collection<RangedWeaponType>,
+    sort: SortRangedWeaponType = SortRangedWeaponType.Name,
+) = weapons
+    .sortedWith(
+        when (sort) {
+            SortRangedWeaponType.Name -> compareBy { it.name.text }
+            SortRangedWeaponType.Equipment -> compareByDescending { getRangedWeapons(it.id).size }
+        })
+
 // realm
 
 fun State.sortRealms(sort: SortRealm = SortRealm.Name) =

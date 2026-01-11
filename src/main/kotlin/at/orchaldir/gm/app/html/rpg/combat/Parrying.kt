@@ -35,20 +35,22 @@ fun HtmlBlockTag.displayParrying(
 
 fun HtmlBlockTag.editParrying(
     parrying: Parrying,
-    param: String = PARRYING,
+    param: String,
 ) {
+    val parryingParam = combine(param, PARRYING)
+
     showDetails("Parrying", true) {
         selectValue(
             "Type",
-            combine(param, TYPE),
+            combine(parryingParam, TYPE),
             ParryingType.entries,
             parrying.getType(),
         )
 
         when (parrying) {
             NoParrying -> doNothing()
-            is NormalParrying -> selectModifier(param, parrying.modifier)
-            is UnbalancedParrying -> selectModifier(param, parrying.modifier)
+            is NormalParrying -> selectModifier(parryingParam, parrying.modifier)
+            is UnbalancedParrying -> selectModifier(parryingParam, parrying.modifier)
             UndefinedParrying -> doNothing()
         }
     }
@@ -73,17 +75,21 @@ private fun DETAILS.selectModifier(
 fun parseParrying(
     parameters: Parameters,
     param: String = PARRYING,
-) = when (parse(parameters, combine(param, TYPE), ParryingType.Undefined)) {
-    ParryingType.Normal -> NormalParrying(
-        parseModifier(parameters, param),
-    )
+): Parrying {
+    val parryingParam = combine(param, PARRYING)
 
-    ParryingType.None -> NoParrying
-    ParryingType.Unbalanced -> UnbalancedParrying(
-        parseModifier(parameters, param),
-    )
+    return when (parse(parameters, combine(parryingParam, TYPE), ParryingType.Undefined)) {
+        ParryingType.Normal -> NormalParrying(
+            parseModifier(parameters, parryingParam),
+        )
 
-    ParryingType.Undefined -> UndefinedParrying
+        ParryingType.None -> NoParrying
+        ParryingType.Unbalanced -> UnbalancedParrying(
+            parseModifier(parameters, parryingParam),
+        )
+
+        ParryingType.Undefined -> UndefinedParrying
+    }
 }
 
 private fun parseModifier(parameters: Parameters, param: String) =

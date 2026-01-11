@@ -6,11 +6,13 @@ import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.item.equipment.EquipmentIdMap
 import at.orchaldir.gm.core.model.rpg.combat.MeleeAttack
 import at.orchaldir.gm.core.model.rpg.combat.Protection
+import at.orchaldir.gm.core.model.rpg.combat.RangedAttack
 import at.orchaldir.gm.core.model.rpg.statblock.StatblockLookup
 import at.orchaldir.gm.core.selector.item.equipment.getEquipmentMap
 import at.orchaldir.gm.core.selector.rpg.getEquipmentModifierEffects
 import at.orchaldir.gm.core.selector.rpg.statblock.resolveMeleeAttacks
 import at.orchaldir.gm.core.selector.rpg.statblock.resolveProtection
+import at.orchaldir.gm.core.selector.rpg.statblock.resolveRangedAttacks
 
 // get armors
 
@@ -53,6 +55,29 @@ fun getMeleeAttacks(state: State, map: EquipmentIdMap): Map<Equipment, List<Mele
         val effects = state.getEquipmentModifierEffects(stats.modifiers)
 
         meleeAttackMap[equipment] = resolveMeleeAttacks(effects, type.attacks)
+    }
+
+    return meleeAttackMap
+}
+
+// get melee attacks
+
+fun getRangedAttacks(
+    state: State,
+    equipped: Equipped,
+    lookup: StatblockLookup,
+) = getRangedAttacks(state, state.getEquipmentMap(equipped, lookup))
+
+fun getRangedAttacks(state: State, map: EquipmentIdMap): Map<Equipment, List<RangedAttack>> {
+    val meleeAttackMap = mutableMapOf<Equipment, List<RangedAttack>>()
+
+    map.getAllEquipment().forEach { (id, _) ->
+        val equipment = state.getEquipmentStorage().getOrThrow(id)
+        val stats = equipment.data.getRangedWeaponStats() ?: return@forEach
+        val type = state.getRangedWeaponTypeStorage().getOptional(stats.type) ?: return@forEach
+        val effects = state.getEquipmentModifierEffects(stats.modifiers)
+
+        meleeAttackMap[equipment] = resolveRangedAttacks(effects, type.attacks)
     }
 
     return meleeAttackMap

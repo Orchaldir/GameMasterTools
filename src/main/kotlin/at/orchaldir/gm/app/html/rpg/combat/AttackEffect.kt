@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.html.rpg.combat
 
 import at.orchaldir.gm.app.AMOUNT
 import at.orchaldir.gm.app.DAMAGE
+import at.orchaldir.gm.app.EFFECT
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
@@ -48,21 +49,23 @@ fun HtmlBlockTag.editAttackEffect(
     effect: AttackEffect,
     param: String,
 ) {
+    val effectParam = combine(param, EFFECT)
+
     showDetails("Effect", true) {
         selectValue(
             "Type",
-            combine(param, TYPE),
+            combine(effectParam, TYPE),
             AttackEffectType.entries,
             effect.getType(),
         )
 
         when (effect) {
             is Damage -> {
-                editDamageAmount(state, effect.amount, combine(param, AMOUNT))
+                editDamageAmount(state, effect.amount, combine(effectParam, AMOUNT))
                 selectElement(
                     state,
                     DAMAGE_TYPE_TYPE,
-                    combine(param, DAMAGE, TYPE),
+                    combine(effectParam, DAMAGE, TYPE),
                     state.sortDamageTypes(),
                     effect.damageType,
                 )
@@ -78,12 +81,16 @@ fun HtmlBlockTag.editAttackEffect(
 fun parseAttackEffect(
     parameters: Parameters,
     param: String,
-) = when (parse(parameters, combine(param, TYPE), AttackEffectType.Undefined)) {
-    AttackEffectType.Damage -> Damage(
-        parseDamageAmount(parameters, combine(param, AMOUNT)),
-        parseDamageTypeId(parameters, combine(param, DAMAGE, TYPE)),
-    )
+): AttackEffect {
+    val effectParam = combine(param, EFFECT)
 
-    AttackEffectType.Undefined -> UndefinedAttackEffect
+    return when (parse(parameters, combine(effectParam, TYPE), AttackEffectType.Undefined)) {
+        AttackEffectType.Damage -> Damage(
+            parseDamageAmount(parameters, combine(effectParam, AMOUNT)),
+            parseDamageTypeId(parameters, combine(effectParam, DAMAGE, TYPE)),
+        )
+
+        AttackEffectType.Undefined -> UndefinedAttackEffect
+    }
 }
 

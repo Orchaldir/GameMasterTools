@@ -72,7 +72,7 @@ fun parseOneHandedClub(
     parse(parameters, SIZE, Size.Medium),
     parseHeadFixation(parameters, FIXATION),
     parseShaft(parameters),
-    parseMeleeWeaponStats(state, parameters),
+    parseMeleeWeaponStats(parameters),
 )
 
 fun parseTwoHandedClub(
@@ -83,5 +83,5 @@ fun parseTwoHandedClub(
     parse(parameters, SIZE, Size.Medium),
     parseHeadFixation(parameters, FIXATION),
     parseShaft(parameters),
-    parseMeleeWeaponStats(state, parameters),
+    parseMeleeWeaponStats(parameters),
 )

@@ -39,6 +39,9 @@
    }
   ]
  },
+ "rpg": {
+  "musclePoweredStatistic": 0
+ },
  "time": {
   "currentDate": {
    "day": 262080

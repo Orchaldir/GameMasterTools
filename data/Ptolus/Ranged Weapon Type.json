@@ -1,0 +1,34 @@
+{
+ "version": 1,
+ "elements": {
+  "0": {
+   "id": 0,
+   "name": "Short Bow",
+   "attacks": [
+    {
+     "accuracy": {
+      "#type": "Simple",
+      "modifier": 1
+     },
+     "effect": {
+      "#type": "Damage",
+      "amount": {
+       "#type": "StatisticBased",
+       "base": 14
+      },
+      "damageType": 6
+     },
+     "range": {
+      "#type": "MusclePoweredHalfAndMax",
+      "half": 100000,
+      "max": 150000
+     },
+     "shots": {
+      "#type": "SingleShot",
+      "roundsOfReload": 2
+     }
+    }
+   ]
+  }
+ }
+}

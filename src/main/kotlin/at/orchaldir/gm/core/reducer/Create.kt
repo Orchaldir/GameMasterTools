@@ -141,6 +141,7 @@ fun reduceCreateElement(
     is RaceId -> createElement(state, Race(id))
     is RaceAppearanceId -> createElement(state, RaceAppearance(id))
     is RaceGroupId -> createElement(state, RaceGroup(id))
+    is RangedWeaponTypeId -> createElement(state, RangedWeaponType(id))
     is RealmId -> createElement(state, Realm(id))
     is RegionId -> createElement(state, Region(id))
     is RiverId -> createElement(state, River(id))

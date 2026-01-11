@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.render.COLOR_SCHEME_TYPE
 import at.orchaldir.gm.core.reducer.rpg.validateArmorStats
 import at.orchaldir.gm.core.reducer.rpg.validateMeleeWeaponStats
+import at.orchaldir.gm.core.reducer.rpg.validateRangedWeaponStats
 import at.orchaldir.gm.core.reducer.rpg.validateShieldStats
 import at.orchaldir.gm.core.selector.item.equipment.canDeleteEquipment
 import at.orchaldir.gm.utils.doNothing
@@ -57,6 +58,7 @@ fun validateEquipment(
 
     equipment.data.getArmorStats()?.let { validateArmorStats(state, it) }
     equipment.data.getMeleeWeaponStats()?.let { validateMeleeWeaponStats(state, it) }
+    equipment.data.getRangedWeaponStats()?.let { validateRangedWeaponStats(state, it) }
     equipment.data.getShieldStats()?.let { validateShieldStats(state, it) }
 }
 

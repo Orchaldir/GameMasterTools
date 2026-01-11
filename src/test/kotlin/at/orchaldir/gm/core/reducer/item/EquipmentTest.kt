@@ -11,6 +11,7 @@ import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.item.equipment.style.ScaleArmour
 import at.orchaldir.gm.core.model.rpg.combat.ArmorStats
 import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponStats
+import at.orchaldir.gm.core.model.rpg.combat.RangedWeaponStats
 import at.orchaldir.gm.core.model.rpg.combat.ShieldStats
 import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
 import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
@@ -136,6 +137,24 @@ class EquipmentTest {
                 val action = UpdateAction(item)
 
                 assertIllegalArgument("Requires unknown Melee Weapon Type 99!") { REDUCER.invoke(STATE, action) }
+            }
+
+            @Test
+            fun `Ranged weapon stats must have valid modifiers`() {
+                val data = Bow(stats = RangedWeaponStats(null, setOf(UNKNOWN_EQUIPMENT_MODIFIER)))
+                val item = Equipment(EQUIPMENT_ID_0, data = data)
+                val action = UpdateAction(item)
+
+                assertIllegalArgument("Requires unknown Equipment Modifier 99!") { REDUCER.invoke(STATE, action) }
+            }
+
+            @Test
+            fun `Ranged weapon type must exist`() {
+                val data = Bow(stats = RangedWeaponStats(UNKNOWN_RANGED_WEAPON_TYPE))
+                val item = Equipment(EQUIPMENT_ID_0, data = data)
+                val action = UpdateAction(item)
+
+                assertIllegalArgument("Requires unknown Ranged Weapon Type 99!") { REDUCER.invoke(STATE, action) }
             }
 
             @Test

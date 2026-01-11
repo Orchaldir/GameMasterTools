@@ -7,4 +7,5 @@ import at.orchaldir.gm.core.model.rpg.combat.DamageTypeId
 fun State.canDeleteDamageType(type: DamageTypeId) = DeleteResult(type)
     .addElements(getArmorTypes(type))
     .addElements(getMeleeWeaponTypes(type))
+    .addElements(getRangedWeaponTypes(type))
 

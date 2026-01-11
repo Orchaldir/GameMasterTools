@@ -8,10 +8,7 @@ import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.item.Uniform
 import at.orchaldir.gm.core.model.item.UniformId
 import at.orchaldir.gm.core.model.item.equipment.*
-import at.orchaldir.gm.core.model.rpg.combat.ArmorTypeId
-import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifierId
-import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponTypeId
-import at.orchaldir.gm.core.model.rpg.combat.ShieldTypeId
+import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.core.model.rpg.statblock.StatblockLookup
 import at.orchaldir.gm.core.model.rpg.statblock.UndefinedStatblockLookup
 import at.orchaldir.gm.core.model.util.render.ColorSchemeId
@@ -140,6 +137,10 @@ fun State.getArmors(type: ArmorTypeId) = getEquipmentStorage()
 fun State.getMeleeWeapons(type: MeleeWeaponTypeId) = getEquipmentStorage()
     .getAll()
     .filter { it.data.getMeleeWeaponStats()?.type == type }
+
+fun State.getRangedWeapons(type: RangedWeaponTypeId) = getEquipmentStorage()
+    .getAll()
+    .filter { it.data.getRangedWeaponStats()?.type == type }
 
 fun State.getShields(type: ShieldTypeId) = getEquipmentStorage()
     .getAll()
