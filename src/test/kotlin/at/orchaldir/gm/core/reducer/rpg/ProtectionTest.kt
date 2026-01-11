@@ -13,7 +13,7 @@ class ProtectionTest {
 
     private val STATE = State(
         listOf(
-            Storage(listOf(DamageType(DAMAGE_TYPE_ID_0))),
+            Storage(DamageType(DAMAGE_TYPE_ID_0)),
         )
     )
 

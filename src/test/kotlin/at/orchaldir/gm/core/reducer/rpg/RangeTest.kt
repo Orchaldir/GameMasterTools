@@ -1,9 +1,11 @@
 package at.orchaldir.gm.core.reducer.rpg
 
 import at.orchaldir.gm.DAMAGE_TYPE_ID_0
+import at.orchaldir.gm.STATISTIC_ID_0
 import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.combat.*
+import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.DOUBLE
 import at.orchaldir.gm.utils.math.ONE
@@ -15,7 +17,7 @@ class RangeTest {
 
     private val STATE = State(
         listOf(
-            Storage(listOf(DamageType(DAMAGE_TYPE_ID_0))),
+            Storage(Statistic(STATISTIC_ID_0)),
         )
     )
 
@@ -60,6 +62,28 @@ class RangeTest {
         @Test
         fun `Test valid range`() {
             validateRange(STATE, MusclePoweredHalfAndMaxRange(ONE, DOUBLE))
+        }
+    }
+
+    @Nested
+    inner class StatisticBasedHalfAndMaxRangeTest {
+        @Test
+        fun `Half Range must be greater 0`() {
+            val range = StatisticBasedHalfAndMaxRange(STATISTIC_ID_0, ZERO, ONE)
+
+            assertInvalidRange(range, "Half range must be > 0%!")
+        }
+
+        @Test
+        fun `Max Range must be greater than the half range`() {
+            val range = StatisticBasedHalfAndMaxRange(STATISTIC_ID_0, ONE, ONE)
+
+            assertInvalidRange(range, "Max range must be > half range!")
+        }
+
+        @Test
+        fun `Test valid range`() {
+            validateRange(STATE, StatisticBasedHalfAndMaxRange(STATISTIC_ID_0, ONE, DOUBLE))
         }
     }
 
