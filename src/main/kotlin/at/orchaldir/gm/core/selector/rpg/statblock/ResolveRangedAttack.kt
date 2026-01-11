@@ -47,7 +47,10 @@ fun resolveRangedAttack(
     state: State,
     statblock: Statblock,
     attack: RangedAttack,
-) = attack.copy(effect = resolveAttackEffect(state, statblock, attack.effect))
+) = attack.copy(
+    effect = resolveAttackEffect(state, statblock, attack.effect),
+    range = resolveRange(state, statblock, attack.range),
+)
 
 // resolve ranged attack with modifier effects
 
