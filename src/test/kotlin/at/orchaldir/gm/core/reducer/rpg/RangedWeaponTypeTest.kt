@@ -34,7 +34,7 @@ class RangedWeaponTypeTest {
         val range = StatisticBasedHalfAndMaxRange(UNKNOWN_STATISTIC_ID, ONE, DOUBLE)
         val attack = RangedAttack(range = range)
 
-        assertInvalidWeapon(attack, "Requires unknown Damage Type 99!")
+        assertInvalidWeapon(attack, "Requires unknown Statistic 99!")
     }
 
     @Test
