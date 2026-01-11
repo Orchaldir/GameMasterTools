@@ -10,12 +10,17 @@ import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.rpg.combat.Damage
 import at.orchaldir.gm.core.model.rpg.combat.MeleeAttack
 import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponType
+import at.orchaldir.gm.core.model.rpg.combat.RangedAttack
+import at.orchaldir.gm.core.model.rpg.combat.RangedWeaponType
 import at.orchaldir.gm.core.model.rpg.combat.StatisticBasedDamage
+import at.orchaldir.gm.core.model.rpg.combat.StatisticBasedHalfAndMaxRange
 import at.orchaldir.gm.core.model.rpg.statblock.StatblockUpdate
 import at.orchaldir.gm.core.model.rpg.statblock.UniqueStatblock
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
+import at.orchaldir.gm.utils.math.DOUBLE
+import at.orchaldir.gm.utils.math.ONE
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
@@ -65,6 +70,26 @@ class StatisticTest {
             val newState = state.updateStorage(element)
 
             failCanDelete(newState, MELEE_WEAPON_TYPE_ID_0)
+        }
+
+        @Test
+        fun `Cannot delete a statistic used by a ranged weapon's damage`() {
+            val amount = StatisticBasedDamage(STATISTIC_ID_0)
+            val attack = RangedAttack(effect = Damage(amount, DAMAGE_TYPE_ID_0))
+            val element = RangedWeaponType(RANGED_WEAPON_TYPE_ID_0, attacks = listOf(attack))
+            val newState = state.updateStorage(element)
+
+            failCanDelete(newState, RANGED_WEAPON_TYPE_ID_0)
+        }
+
+        @Test
+        fun `Cannot delete a statistic used by a ranged weapon's range`() {
+            val range = StatisticBasedHalfAndMaxRange(STATISTIC_ID_0, ONE, DOUBLE)
+            val attack = RangedAttack(range = range)
+            val element = RangedWeaponType(RANGED_WEAPON_TYPE_ID_0, attacks = listOf(attack))
+            val newState = state.updateStorage(element)
+
+            failCanDelete(newState, RANGED_WEAPON_TYPE_ID_0)
         }
 
         private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {
