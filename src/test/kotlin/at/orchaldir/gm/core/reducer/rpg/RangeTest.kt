@@ -5,6 +5,9 @@ import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.utils.Storage
+import at.orchaldir.gm.utils.math.DOUBLE
+import at.orchaldir.gm.utils.math.ONE
+import at.orchaldir.gm.utils.math.ZERO
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
@@ -35,6 +38,28 @@ class RangeTest {
         @Test
         fun `Test valid range`() {
             validateRange(STATE, FixedHalfAndMaxRange(10, 20))
+        }
+    }
+
+    @Nested
+    inner class MusclePoweredHalfAndMaxRangeTest {
+        @Test
+        fun `Half Range must be greater 0`() {
+            val range = MusclePoweredHalfAndMaxRange(ZERO, ONE)
+
+            assertInvalidRange(range, "Half range must be > 0%!")
+        }
+
+        @Test
+        fun `Max Range must be greater than the half range`() {
+            val range = MusclePoweredHalfAndMaxRange(ONE, ONE)
+
+            assertInvalidRange(range, "Max range must be > half range!")
+        }
+
+        @Test
+        fun `Test valid range`() {
+            validateRange(STATE, MusclePoweredHalfAndMaxRange(ONE, DOUBLE))
         }
     }
 
