@@ -19,8 +19,7 @@
       "damageType": 6
      },
      "range": {
-      "#type": "StatisticBasedHalfAndMax",
-      "statistic": 0,
+      "#type": "MusclePoweredHalfAndMax",
       "half": 100000,
       "max": 150000
      },
