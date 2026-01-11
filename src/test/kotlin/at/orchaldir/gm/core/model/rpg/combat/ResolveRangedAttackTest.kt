@@ -4,11 +4,11 @@ import at.orchaldir.gm.DAMAGE_TYPE_ID_0
 import at.orchaldir.gm.STATISTIC_ID_0
 import at.orchaldir.gm.core.model.rpg.SimpleModifiedDice
 import at.orchaldir.gm.core.selector.rpg.statblock.resolveAttackEffect
-import at.orchaldir.gm.core.selector.rpg.statblock.resolveMeleeAttack
+import at.orchaldir.gm.core.selector.rpg.statblock.resolveRangedAttack
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
-class ResolveMeleeAttackTest {
+class ResolveRangedAttackTest {
 
     val simple = SimpleRandomDamage(SimpleModifiedDice(1, 2))
     val simpleAttack = createAttack(simple)
@@ -50,13 +50,13 @@ class ResolveMeleeAttackTest {
 
     private fun assertResolve(
         effect: EquipmentModifierEffect,
-        input: MeleeAttack,
-        output: MeleeAttack,
+        input: RangedAttack,
+        output: RangedAttack,
     ) {
-        assertEquals(resolveMeleeAttack(effect, input), output)
+        assertEquals(resolveRangedAttack(effect, input), output)
     }
 
-    fun createAttack(amount: DamageAmount) = MeleeAttack(Damage(amount, DAMAGE_TYPE_ID_0))
+    fun createAttack(amount: DamageAmount) = RangedAttack(effect = Damage(amount, DAMAGE_TYPE_ID_0))
 
 
 }
