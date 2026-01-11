@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.reducer.rpg
 
 import at.orchaldir.gm.DAMAGE_TYPE_ID_0
 import at.orchaldir.gm.STATISTIC_ID_0
+import at.orchaldir.gm.UNKNOWN_STATISTIC_ID
 import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.combat.*
@@ -67,6 +68,13 @@ class RangeTest {
 
     @Nested
     inner class StatisticBasedHalfAndMaxRangeTest {
+        @Test
+        fun `Unknown statistic`() {
+            val range = StatisticBasedHalfAndMaxRange(UNKNOWN_STATISTIC_ID, ZERO, ONE)
+
+            assertInvalidRange(range, "Requires unknown Statistic 99!")
+        }
+
         @Test
         fun `Half Range must be greater 0`() {
             val range = StatisticBasedHalfAndMaxRange(STATISTIC_ID_0, ZERO, ONE)

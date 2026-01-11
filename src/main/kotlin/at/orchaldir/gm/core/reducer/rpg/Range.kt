@@ -13,7 +13,10 @@ fun validateRange(
     when (range) {
         is FixedHalfAndMaxRange -> validateRange(range.half, range.max)
         is MusclePoweredHalfAndMaxRange -> validateRange(range.half, range.max)
-        is StatisticBasedHalfAndMaxRange -> validateRange(range.half, range.max)
+        is StatisticBasedHalfAndMaxRange -> {
+            state.getStatisticStorage().require(range.statistic)
+            validateRange(range.half, range.max)
+        }
         UndefinedRange -> doNothing()
     }
 }
