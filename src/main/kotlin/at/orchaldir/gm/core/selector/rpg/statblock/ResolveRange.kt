@@ -1,9 +1,11 @@
 package at.orchaldir.gm.core.selector.rpg.statblock
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.item.equipment.Equipment
-import at.orchaldir.gm.core.model.rpg.combat.*
-import at.orchaldir.gm.core.model.rpg.statblock.*
+import at.orchaldir.gm.core.model.rpg.combat.FixedHalfAndMaxRange
+import at.orchaldir.gm.core.model.rpg.combat.MusclePoweredHalfAndMaxRange
+import at.orchaldir.gm.core.model.rpg.combat.Range
+import at.orchaldir.gm.core.model.rpg.combat.StatisticBasedHalfAndMaxRange
+import at.orchaldir.gm.core.model.rpg.statblock.Statblock
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.utils.math.Factor
 
@@ -19,6 +21,7 @@ fun resolveRange(
 
         resolve(state, statblock, statistic, range.half, range.max)
     }
+
     is StatisticBasedHalfAndMaxRange -> resolve(state, statblock, range.statistic, range.half, range.max)
     else -> range
 }

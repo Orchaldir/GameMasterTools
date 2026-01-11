@@ -17,6 +17,7 @@ fun validateRange(
             state.getStatisticStorage().require(range.statistic)
             validateRange(range.half, range.max)
         }
+
         UndefinedRange -> doNothing()
     }
 }

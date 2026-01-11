@@ -1,6 +1,5 @@
 package at.orchaldir.gm.app.html.rpg.combat
 
-import at.orchaldir.gm.app.ACCURACY
 import at.orchaldir.gm.app.AMOUNT
 import at.orchaldir.gm.app.DAMAGE
 import at.orchaldir.gm.app.EFFECT

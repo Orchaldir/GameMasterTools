@@ -1,6 +1,9 @@
 package at.orchaldir.gm.app.html.rpg.combat
 
-import at.orchaldir.gm.app.*
+import at.orchaldir.gm.app.ACCURACY
+import at.orchaldir.gm.app.MODIFIER
+import at.orchaldir.gm.app.NUMBER
+import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.utils.doNothing
@@ -24,7 +27,7 @@ fun HtmlBlockTag.displayAccuracy(
     when (accuracy) {
         is SimpleAccuracy -> +accuracy.modifier.toString()
         is AccuracyWithScope -> +"${accuracy.base}+${accuracy.scope}"
-        UndefinedAccuracy -> if(showUndefined) {
+        UndefinedAccuracy -> if (showUndefined) {
             +"Undefined"
         }
     }

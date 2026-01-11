@@ -1,6 +1,8 @@
 package at.orchaldir.gm.app.html.rpg.combat
 
-import at.orchaldir.gm.app.*
+import at.orchaldir.gm.app.NUMBER
+import at.orchaldir.gm.app.SHOTS
+import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.utils.doNothing
@@ -25,7 +27,7 @@ fun HtmlBlockTag.displayShots(
     when (shots) {
         is SingleShot -> +"1(${shots.roundsOfReload})"
         is Thrown -> +"T(${shots.roundsOfReload})"
-        UndefinedShots -> if(showUndefined) {
+        UndefinedShots -> if (showUndefined) {
             +"Undefined"
         }
     }
@@ -82,9 +84,11 @@ fun parseShots(
         ShotsType.Thrown -> Thrown(
             parseRoundsOfReload(parameters, shotsParam),
         )
+
         ShotsType.SingleShot -> SingleShot(
             parseRoundsOfReload(parameters, shotsParam),
         )
+
         ShotsType.Undefined -> UndefinedShots
     }
 }

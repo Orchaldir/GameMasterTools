@@ -2,11 +2,7 @@ package at.orchaldir.gm.core.model.item.equipment
 
 import at.orchaldir.gm.core.model.item.equipment.EquipmentSlot.*
 import at.orchaldir.gm.core.model.item.equipment.style.*
-import at.orchaldir.gm.core.model.rpg.combat.ArmorStats
-import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifierId
-import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponStats
-import at.orchaldir.gm.core.model.rpg.combat.RangedWeaponStats
-import at.orchaldir.gm.core.model.rpg.combat.ShieldStats
+import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.part.ColorItemPart
 import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart

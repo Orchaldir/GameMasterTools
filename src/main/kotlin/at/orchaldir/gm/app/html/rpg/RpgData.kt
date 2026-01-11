@@ -2,7 +2,6 @@ package at.orchaldir.gm.app.html.rpg
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.realm.parseOptionalCatastropheId
 import at.orchaldir.gm.app.html.rpg.statistic.parseOptionalStatisticId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.DieType

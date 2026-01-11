@@ -1,21 +1,13 @@
 package at.orchaldir.gm.core.selector.rpg
 
 import at.orchaldir.gm.*
-import at.orchaldir.gm.core.model.Data
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterTemplate
 import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.race.Race
-import at.orchaldir.gm.core.model.rpg.RpgData
-import at.orchaldir.gm.core.model.rpg.combat.Damage
-import at.orchaldir.gm.core.model.rpg.combat.MeleeAttack
-import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponType
-import at.orchaldir.gm.core.model.rpg.combat.RangedAttack
-import at.orchaldir.gm.core.model.rpg.combat.RangedWeaponType
-import at.orchaldir.gm.core.model.rpg.combat.StatisticBasedDamage
-import at.orchaldir.gm.core.model.rpg.combat.StatisticBasedHalfAndMaxRange
+import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.core.model.rpg.statblock.StatblockUpdate
 import at.orchaldir.gm.core.model.rpg.statblock.UniqueStatblock
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic

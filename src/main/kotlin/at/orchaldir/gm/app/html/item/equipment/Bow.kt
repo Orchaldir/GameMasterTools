@@ -8,7 +8,6 @@ import at.orchaldir.gm.app.html.item.equipment.style.editBowGrip
 import at.orchaldir.gm.app.html.item.equipment.style.parseBowGrip
 import at.orchaldir.gm.app.html.item.equipment.style.showBowGrip
 import at.orchaldir.gm.app.html.parse
-import at.orchaldir.gm.app.html.rpg.combat.parseMeleeWeaponStats
 import at.orchaldir.gm.app.html.rpg.combat.parseRangedWeaponStats
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.util.math.fieldFactor

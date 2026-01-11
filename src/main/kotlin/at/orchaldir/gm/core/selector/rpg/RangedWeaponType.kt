@@ -5,7 +5,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.combat.DamageTypeId
 import at.orchaldir.gm.core.model.rpg.combat.RangedWeaponTypeId
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
-import at.orchaldir.gm.core.selector.item.equipment.getMeleeWeapons
 import at.orchaldir.gm.core.selector.item.equipment.getRangedWeapons
 
 fun State.canDeleteRangedWeaponType(type: RangedWeaponTypeId) = DeleteResult(type)

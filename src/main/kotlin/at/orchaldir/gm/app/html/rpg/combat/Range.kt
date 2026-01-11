@@ -36,13 +36,14 @@ fun HtmlBlockTag.displayRange(
 ) {
     when (range) {
         is FixedHalfAndMaxRange -> +"${range.half}/${range.max}"
-        is MusclePoweredHalfAndMaxRange -> if (state.data.rpg.musclePoweredStatistic != null){
+        is MusclePoweredHalfAndMaxRange -> if (state.data.rpg.musclePoweredStatistic != null) {
             displayHalfAndMaxRange(call, range.half, range.max, state.data.rpg.musclePoweredStatistic)
         } else {
             error("Muscle-Powered Half And Max Range is not supported!")
         }
+
         is StatisticBasedHalfAndMaxRange -> displayHalfAndMaxRange(call, range.half, range.max, range.statistic)
-        UndefinedRange -> if(showUndefined) {
+        UndefinedRange -> if (showUndefined) {
             +"Undefined"
         }
 
@@ -75,12 +76,12 @@ fun HtmlBlockTag.editRange(
             RangeType.entries,
             range.getType(),
         ) { type ->
-               when (type) {
-               RangeType.FixedHalfAndMax -> false
-               RangeType.MusclePoweredHalfAndMax -> state.data.rpg.musclePoweredStatistic == null
-               RangeType.StatisticBasedHalfAndMax -> state.getStatisticStorage().isEmpty()
-               RangeType.Undefined -> false
-           }
+            when (type) {
+                RangeType.FixedHalfAndMax -> false
+                RangeType.MusclePoweredHalfAndMax -> state.data.rpg.musclePoweredStatistic == null
+                RangeType.StatisticBasedHalfAndMax -> state.getStatisticStorage().isEmpty()
+                RangeType.Undefined -> false
+            }
         }
 
         when (range) {
@@ -102,6 +103,7 @@ fun HtmlBlockTag.editRange(
                     combine(rangeParam, MAX),
                 )
             }
+
             is MusclePoweredHalfAndMaxRange -> editHalfAndMaxRange(rangeParam, range.half, range.max)
             is StatisticBasedHalfAndMaxRange -> {
                 selectElement(
