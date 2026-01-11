@@ -21,4 +21,5 @@ private fun validateRange(
     max: Int,
 ) {
     require(half > 0) { "Half range must be > 0!" }
+    require(max > half) { "Max range must be > half range!" }
 }

@@ -24,6 +24,18 @@ class RangeTest {
 
             assertInvalidRange(range, "Half range must be > 0!")
         }
+
+        @Test
+        fun `Max Range must be greater than the half range`() {
+            val range = FixedHalfAndMaxRange(10, 10)
+
+            assertInvalidRange(range, "Max range must be > half range!")
+        }
+
+        @Test
+        fun `Test valid range`() {
+            validateRange(STATE, FixedHalfAndMaxRange(10, 20))
+        }
     }
 
     private fun assertInvalidRange(range: Range, message: String) {
