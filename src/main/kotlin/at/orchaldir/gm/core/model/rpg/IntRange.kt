@@ -3,7 +3,7 @@ package at.orchaldir.gm.core.model.rpg
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Range(
+data class IntRange(
     val min: Int,
     val max: Int,
 ) {

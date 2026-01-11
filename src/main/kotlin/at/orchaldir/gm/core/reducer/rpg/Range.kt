@@ -1,11 +1,24 @@
 package at.orchaldir.gm.core.reducer.rpg
 
-import at.orchaldir.gm.core.model.rpg.Range
+import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.rpg.combat.*
+import at.orchaldir.gm.utils.doNothing
 
-fun validateIsInside(value: Int, text: String, range: Range) =
-    validateIsInside(value, text, range.min, range.max)
+fun validateRange(
+    state: State,
+    range: Range,
+) {
+    when (range) {
+        is FixedHalfAndMaxRange -> validateRange(range.half, range.max)
+        is MusclePoweredHalfAndMaxRange -> TODO()
+        is StatisticBasedHalfAndMaxRange -> TODO()
+        UndefinedRange -> doNothing()
+    }
+}
 
-fun validateIsInside(value: Int, text: String, min: Int, max: Int) {
-    require(value >= min) { "$text needs to be >= $min!" }
-    require(value <= max) { "$text needs to be <= $max!" }
+private fun validateRange(
+    half: Int,
+    max: Int,
+) {
+    require(half > 0) { "Half range must be > 0!" }
 }
