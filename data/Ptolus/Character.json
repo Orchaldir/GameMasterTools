@@ -14,34 +14,10 @@
     "#type": "LifeStage",
     "lifeStage": 5
    },
-   "equipped": {
-    "#type": "Unique",
-    "map": {
-     "list": [
-      {
-       "data": {
-        "first": 0,
-        "second": null
-       },
-       "sets": [
-        [
-         "HeldInLeftHand",
-         "HeldInRightHand"
-        ]
-       ]
-      }
-     ]
-    }
-   },
    "housingStatus": {
     "current": {
      "#type": "District",
      "district": 0
-    }
-   },
-   "statblock": {
-    "#type": "Unique",
-    "statblock": {
     }
    }
   }
