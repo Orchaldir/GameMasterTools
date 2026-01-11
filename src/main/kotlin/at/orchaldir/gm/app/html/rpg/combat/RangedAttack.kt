@@ -121,7 +121,7 @@ fun HtmlBlockTag.editRangedAttack(
     param: String,
 ) {
     showDetails(label, true) {
-        editAttackEffect(state, attack.effect, combine(param, EFFECT))
+        editAttackEffect(state, attack.effect, param)
         editAccuracy(attack.accuracy, param)
         editRange(state, attack.range, param)
         editShots(attack.shots, param)
@@ -135,7 +135,7 @@ fun parseRangedAttack(
     param: String,
 ) = RangedAttack(
     parseAccuracy(parameters, param),
-    parseAttackEffect(parameters, combine(param, EFFECT)),
+    parseAttackEffect(parameters, param),
     parseRange(parameters, param),
     parseShots(parameters, param),
 )

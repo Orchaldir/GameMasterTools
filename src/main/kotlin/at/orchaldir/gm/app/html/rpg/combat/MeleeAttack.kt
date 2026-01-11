@@ -118,9 +118,9 @@ fun HtmlBlockTag.editMeleeAttack(
     param: String,
 ) {
     showDetails(label, true) {
-        editAttackEffect(state, attack.effect, combine(param, EFFECT))
-        editReach(attack.reach, combine(param, REACH))
-        editParrying(attack.parrying, combine(param, PARRYING))
+        editAttackEffect(state, attack.effect, param)
+        editReach(attack.reach, param)
+        editParrying(attack.parrying, param)
     }
 }
 
@@ -130,7 +130,7 @@ fun parseMeleeAttack(
     parameters: Parameters,
     param: String,
 ) = MeleeAttack(
-    parseAttackEffect(parameters, combine(param, EFFECT)),
-    parseReach(parameters, combine(param, REACH)),
-    parseParrying(parameters, combine(param, PARRYING)),
+    parseAttackEffect(parameters, param),
+    parseReach(parameters, param),
+    parseParrying(parameters, param),
 )
