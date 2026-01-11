@@ -8,6 +8,7 @@ import at.orchaldir.gm.app.html.economy.money.fieldPrice
 import at.orchaldir.gm.app.html.item.parseUniformId
 import at.orchaldir.gm.app.html.rpg.combat.showMeleeAttackTable
 import at.orchaldir.gm.app.html.rpg.combat.showProtectionTable
+import at.orchaldir.gm.app.html.rpg.combat.showRangedAttackTable
 import at.orchaldir.gm.app.html.util.math.fieldWeight
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
@@ -18,10 +19,12 @@ import at.orchaldir.gm.core.model.rpg.statblock.Statblock
 import at.orchaldir.gm.core.model.rpg.statblock.StatblockLookup
 import at.orchaldir.gm.core.selector.character.getArmors
 import at.orchaldir.gm.core.selector.character.getMeleeAttacks
+import at.orchaldir.gm.core.selector.character.getRangedAttacks
 import at.orchaldir.gm.core.selector.character.getShields
 import at.orchaldir.gm.core.selector.item.equipment.*
 import at.orchaldir.gm.core.selector.rpg.statblock.resolveMeleeAttackMap
 import at.orchaldir.gm.core.selector.rpg.statblock.resolveProtectionMap
+import at.orchaldir.gm.core.selector.rpg.statblock.resolveRangedAttackMap
 import at.orchaldir.gm.core.selector.util.sortUniforms
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
@@ -118,12 +121,16 @@ fun HtmlBlockTag.showEquippedDetails(
 
         val amorMap = getArmors(state, equipped, lookup)
         val meleeAttackMap = getMeleeAttacks(state, equipped, lookup)
+        val rangedAttackMap = getRangedAttacks(state, equipped, lookup)
         val shieldMap = getShields(state, equipped, lookup)
 
         val resolvedMeleeAttackMap = resolveMeleeAttackMap(state, base, lookup, meleeAttackMap)
+        val resolvedRangedAttackMap = resolveRangedAttackMap(state, base, lookup, rangedAttackMap)
         val resolvedProtectionMap = resolveProtectionMap(state, lookup, amorMap + shieldMap)
 
         showMeleeAttackTable(call, state, resolvedMeleeAttackMap)
+        br { }
+        showRangedAttackTable(call, state, resolvedRangedAttackMap)
         br { }
         showProtectionTable(call, state, resolvedProtectionMap)
     }
