@@ -37,6 +37,24 @@ class RangedWeaponTypeTest {
         assertInvalidWeapon(attack, "Requires unknown Statistic 99!")
     }
 
+    @Nested
+    inner class ShotsTest {
+
+        @Test
+        fun `Validate rounds of reload for Thrown`() {
+            val attack = RangedAttack(shots = Thrown(-1))
+
+            assertInvalidWeapon(attack, "Rounds of reload must be >= 0!")
+        }
+
+        @Test
+        fun `Validate rounds of reload for SingleShot`() {
+            val attack = RangedAttack(shots = SingleShot(-1))
+
+            assertInvalidWeapon(attack, "Rounds of reload must be >= 0!")
+        }
+    }
+
     @Test
     fun `A valid ranged weapon`() {
         val attack = RangedAttack(

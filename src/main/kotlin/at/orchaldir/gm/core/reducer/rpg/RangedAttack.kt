@@ -11,4 +11,5 @@ fun validateRangedAttack(
 ) {
     validateAttackEffect(state, attack.effect)
     validateRange(state, attack.range)
+    validateShots(attack.shots)
 }
