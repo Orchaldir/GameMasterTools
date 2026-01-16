@@ -32,11 +32,13 @@ val COMBAT_GEAR = setOf(
     EquipmentDataType.OneHandedAxe,
     EquipmentDataType.TwoHandedAxe,
     EquipmentDataType.BodyArmour,
+    EquipmentDataType.Bow,
     EquipmentDataType.OneHandedClub,
     EquipmentDataType.TwoHandedClub,
     EquipmentDataType.Helmet,
     EquipmentDataType.Polearm,
     EquipmentDataType.Shield,
+    EquipmentDataType.Sling,
     EquipmentDataType.OneHandedSword,
     EquipmentDataType.TwoHandedSword,
 )
@@ -66,6 +68,7 @@ enum class EquipmentDataType {
     Shield,
     Shirt,
     Skirt,
+    Sling,
     Socks,
     SuitJacket,
     OneHandedSword,
@@ -96,6 +99,7 @@ enum class EquipmentDataType {
         Shield -> setOf(HeldInOneHandSlot)
         Shirt -> setOf(InnerTopSlot)
         Skirt -> setOf(BottomSlot)
+        Sling -> setOf(HeldInOneHandSlot)
         Socks -> setOf(FootUnderwearSlot)
         SuitJacket -> setOf(TopSlot)
         OneHandedSword -> setOf(HeldInOneHandSlot)
@@ -131,6 +135,7 @@ sealed class EquipmentData : MadeFromParts {
         is Shield -> EquipmentDataType.Shield
         is Shirt -> EquipmentDataType.Shirt
         is Skirt -> EquipmentDataType.Skirt
+        is Sling -> EquipmentDataType.Sling
         is Socks -> EquipmentDataType.Socks
         is SuitJacket -> EquipmentDataType.SuitJacket
         is OneHandedSword -> EquipmentDataType.OneHandedSword
@@ -478,6 +483,18 @@ data class Skirt(
     constructor(style: SkirtStyle, color: Color) : this(style, FillLookupItemPart(color))
 
     override fun parts() = listOf(main)
+}
+
+@Serializable
+@SerialName("Sling")
+data class Sling(
+    val length: Factor = HALF,
+    val cord: ColorSchemeItemPart = ColorSchemeItemPart(Color.SaddleBrown),
+    val cradle: FillLookupItemPart = FillLookupItemPart(),
+    val stats: RangedWeaponStats = RangedWeaponStats(),
+) : EquipmentData() {
+
+    override fun parts() = listOf(cord, cradle)
 }
 
 @Serializable
