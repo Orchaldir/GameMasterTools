@@ -10,6 +10,7 @@ import kotlinx.serialization.Serializable
 enum class LineStyleType {
     Chain,
     Ornament,
+    Rope,
     Wire,
 }
 
@@ -19,18 +20,21 @@ sealed class LineStyle : MadeFromParts {
     fun getType() = when (this) {
         is Chain -> LineStyleType.Chain
         is OrnamentLine -> LineStyleType.Ornament
+        is Rope -> LineStyleType.Rope
         is Wire -> LineStyleType.Wire
     }
 
     fun getSizeOfSub() = when (this) {
         is Chain -> thickness
         is OrnamentLine -> size
+        is Rope -> thickness
         is Wire -> thickness
     }
 
     override fun parts() = when (this) {
         is Chain -> listOf(main)
         is OrnamentLine -> ornament.parts()
+        is Rope -> listOf(main)
         is Wire -> listOf(main)
     }
 }
@@ -47,6 +51,13 @@ data class Chain(
 data class OrnamentLine(
     val ornament: Ornament,
     val size: Size = Size.Medium,
+) : LineStyle()
+
+@Serializable
+@SerialName("Rope")
+data class Rope(
+    val main: ColorSchemeItemPart,
+    val thickness: Size = Size.Medium,
 ) : LineStyle()
 
 @Serializable

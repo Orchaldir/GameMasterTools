@@ -11,8 +11,10 @@ import at.orchaldir.gm.app.html.util.part.showColorSchemeItemPart
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.Size
+import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
 import io.ktor.http.*
 import io.ktor.server.application.*
+import kotlinx.html.DETAILS
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -27,22 +29,25 @@ fun HtmlBlockTag.showLineStyle(
         field("Style", line.getType())
 
         when (line) {
-            is Chain -> {
-                field("Thickness", line.thickness)
-                showColorSchemeItemPart(call, state, line.main, "Main")
-            }
-
+            is Chain -> showThicknessAndPart(call, state, line.thickness, line.main)
             is OrnamentLine -> {
                 showOrnament(call, state, line.ornament)
                 field("Size", line.size)
             }
-
-            is Wire -> {
-                field("Thickness", line.thickness)
-                showColorSchemeItemPart(call, state, line.main, "Main")
-            }
+            is Rope -> showThicknessAndPart(call, state, line.thickness, line.main)
+            is Wire -> showThicknessAndPart(call, state, line.thickness, line.main)
         }
     }
+}
+
+private fun DETAILS.showThicknessAndPart(
+    call: ApplicationCall,
+    state: State,
+    thickness: Size,
+    part: ColorSchemeItemPart,
+) {
+    field("Thickness", thickness)
+    showColorSchemeItemPart(call, state, part, "Main")
 }
 
 // edit
@@ -57,22 +62,25 @@ fun HtmlBlockTag.editLineStyle(
         selectValue("Style", combine(param, STYLE), LineStyleType.entries, line.getType())
 
         when (line) {
-            is Chain -> {
-                selectValue("Thickness", combine(param, SIZE), Size.entries, line.thickness)
-                editColorSchemeItemPart(state, line.main, combine(param, MAIN), "Main")
-            }
-
+            is Chain -> selectThicknessAndPart(state, param, line.thickness, line.main)
             is OrnamentLine -> {
                 editOrnament(state, line.ornament, param = combine(param, ORNAMENT))
                 selectValue("Size", combine(param, SIZE), Size.entries, line.size)
             }
-
-            is Wire -> {
-                selectValue("Thickness", combine(param, SIZE), Size.entries, line.thickness)
-                editColorSchemeItemPart(state, line.main, combine(param, MAIN), "Main")
-            }
+            is Rope -> selectThicknessAndPart(state, param, line.thickness, line.main)
+            is Wire -> selectThicknessAndPart(state, param, line.thickness, line.main)
         }
     }
+}
+
+private fun DETAILS.selectThicknessAndPart(
+    state: State,
+    param: String,
+    thickness: Size,
+    part: ColorSchemeItemPart,
+) {
+    selectValue("Thickness", combine(param, SIZE), Size.entries, thickness)
+    editColorSchemeItemPart(state, part, combine(param, MAIN), "Main")
 }
 
 // parse
@@ -82,19 +90,30 @@ fun parseLineStyle(parameters: Parameters, param: String): LineStyle {
 
     return when (type) {
         LineStyleType.Chain -> Chain(
-            parse(parameters, combine(param, SIZE), Size.Medium),
-            parseColorSchemeItemPart(parameters, combine(param, MAIN)),
+            parseThickness(parameters, param),
+            parseItemPart(parameters, param),
         )
 
         LineStyleType.Ornament -> OrnamentLine(
             parseOrnament(parameters, combine(param, ORNAMENT)),
-            parse(parameters, combine(param, SIZE), Size.Medium),
+            parseThickness(parameters, param),
+        )
+
+        LineStyleType.Rope -> Rope(
+            parseItemPart(parameters, param),
+            parseThickness(parameters, param),
         )
 
         LineStyleType.Wire -> Wire(
-            parse(parameters, combine(param, SIZE), Size.Medium),
-            parseColorSchemeItemPart(parameters, combine(param, MAIN)),
+            parseThickness(parameters, param),
+            parseItemPart(parameters, param),
         )
     }
 }
+
+private fun parseItemPart(parameters: Parameters, param: String, ) =
+    parseColorSchemeItemPart(parameters, combine(param, MAIN))
+
+private fun parseThickness(parameters: Parameters, param: String) =
+    parse(parameters, combine(param, SIZE), Size.Medium)
 

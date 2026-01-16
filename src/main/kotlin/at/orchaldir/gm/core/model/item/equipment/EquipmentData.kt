@@ -489,12 +489,12 @@ data class Skirt(
 @SerialName("Sling")
 data class Sling(
     val length: Factor = HALF,
-    val cord: ColorSchemeItemPart = ColorSchemeItemPart(Color.SaddleBrown),
+    val cord: LineStyle,
     val cradle: FillLookupItemPart = FillLookupItemPart(),
     val stats: RangedWeaponStats = RangedWeaponStats(),
 ) : EquipmentData() {
 
-    override fun parts() = listOf(cord, cradle)
+    override fun parts() = cord.parts() + cradle
 }
 
 @Serializable
