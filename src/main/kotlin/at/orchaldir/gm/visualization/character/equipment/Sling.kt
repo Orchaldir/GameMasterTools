@@ -27,7 +27,7 @@ fun visualizeSling(
 ) {
     val (leftHand, rightHand) = state.config.body.getMirroredArmPoint(state, END)
     val hand = state.getCenter(leftHand, rightHand, set, BodySlot.HeldInRightHand)
-    val maxLength = state.fullAABB.getPoint(CENTER, state.config.body.getFootY(state)).y - hand.y
+    val maxLength = state.fullAABB.getEnd().y - hand.y
 
     state.getLayer(HELD_EQUIPMENT_LAYER)
         .createGroup(hand) { movedRenderer ->
