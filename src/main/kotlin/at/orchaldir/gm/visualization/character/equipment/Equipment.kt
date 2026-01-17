@@ -40,6 +40,7 @@ data class EquipmentConfig(
     val shield: ShieldConfig,
     val shirt: ShirtConfig,
     val skirt: SkirtConfig,
+    val sling: SlingConfig,
     val sock: SockConfig,
     val sword: SwordConfig,
     val tie: TieConfig,
@@ -192,6 +193,7 @@ fun visualizeBodyEquipment(state: CharacterRenderState<Body>) {
                 is Shield -> visualizeShield(newState, data, set)
                 is Shirt -> visualizeShirt(newState, data)
                 is Skirt -> visualizeSkirt(newState, data)
+                is Sling -> visualizeSling(newState, data, set)
                 is Socks -> visualizeSocks(newState, data)
                 is SuitJacket -> visualizeCoat(newState, data.convert(), JACKET_LAYER)
                 is OneHandedSword -> visualizeSword(newState, data.blade, data.hilt, true, set)
