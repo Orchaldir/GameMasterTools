@@ -252,6 +252,10 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
             fromPercentage(10),
             fromPercentage(50),
             fromPercentage(20),
+            SwingConfig(
+                fromDegrees(5),
+                8.0,
+            ),
         ),
         SockConfig(
             fromPercentage(1),

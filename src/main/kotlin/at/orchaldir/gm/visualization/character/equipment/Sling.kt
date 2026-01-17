@@ -10,6 +10,7 @@ import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.toRender
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.HELD_EQUIPMENT_LAYER
+import at.orchaldir.gm.visualization.character.equipment.part.SwingConfig
 import at.orchaldir.gm.visualization.character.equipment.part.visualizeLineStyle
 
 data class SlingConfig(
@@ -21,6 +22,7 @@ data class SlingConfig(
     val cradleWidth: Factor,
     // Relative to hand radius
     val cradleHeight: Factor,
+    val swing: SwingConfig,
 )
 
 fun visualizeSling(
@@ -32,10 +34,11 @@ fun visualizeSling(
     val hand = state.getCenter(leftHand, rightHand, set, BodySlot.HeldInRightHand)
     val maxLength = state.fullAABB.getEnd().y - hand.y
 
-    state.getLayer(HELD_EQUIPMENT_LAYER)
-        .createGroup(hand) { movedRenderer ->
-            visualizeSling(state, movedRenderer, sling, maxLength)
+    state.renderer.createGroup(hand, HELD_EQUIPMENT_LAYER) { movedRenderer ->
+        state.config.equipment.sling.swing.createSwingGroup(movedRenderer) { renderer ->
+            visualizeSling(state, renderer, sling, maxLength)
         }
+    }
 }
 
 private fun visualizeSling(
