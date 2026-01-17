@@ -246,7 +246,7 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
         SlingConfig(
             HALF,
             fromPercentage(50),
-            fromPercentage(30),
+            fromPercentage(20),
         ),
         SockConfig(
             fromPercentage(1),

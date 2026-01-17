@@ -11,6 +11,8 @@ import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.util.render.HorizontalStripesLookup
 import at.orchaldir.gm.core.model.util.render.SolidLookup
+import at.orchaldir.gm.core.model.util.render.VerticalStripes
+import at.orchaldir.gm.core.model.util.render.VerticalStripesLookup
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTableWithoutColorScheme
@@ -18,6 +20,10 @@ import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.HALF
 import at.orchaldir.gm.utils.math.QUARTER
 import at.orchaldir.gm.utils.math.THREE_QUARTER
+import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromCentimeters
+import at.orchaldir.gm.utils.math.unit.ONE_CM
+import at.orchaldir.gm.utils.math.unit.ONE_DM
+import at.orchaldir.gm.utils.math.unit.ONE_MM
 
 fun main() {
     val cords = listOf(
@@ -28,7 +34,7 @@ fun main() {
     val cradles = listOf(
         Pair("Blue", SolidLookup(Color.Blue)),
         Pair("Green", SolidLookup(Color.Green)),
-        Pair("Stripped", HorizontalStripesLookup(Color.Red, Color.Yellow)),
+        Pair("Stripped", VerticalStripesLookup(Color.Red, Color.Yellow, fromCentimeters(3))),
     )
 
     renderCharacterTableWithoutColorScheme(
