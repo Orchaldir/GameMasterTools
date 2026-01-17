@@ -37,6 +37,7 @@ import at.orchaldir.gm.visualization.character.equipment.part.GripConfig
 import at.orchaldir.gm.visualization.character.equipment.part.LamellarArmourConfig
 import at.orchaldir.gm.visualization.character.equipment.part.NecklineConfig
 import at.orchaldir.gm.visualization.character.equipment.part.OpeningConfig
+import at.orchaldir.gm.visualization.character.equipment.part.SwingConfig
 
 val CHARACTER_CONFIG = CharacterRenderConfig(
     fromMillimeters(500),
@@ -119,8 +120,10 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
             fromPercentage(80),
             fromPercentages(30, 50, 70),
             fromPercentage(5),
+            SwingConfig(
             fromDegrees(5),
             8.0,
+            ),
         ),
         CoatConfig(
             fromPermille(5),

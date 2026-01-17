@@ -14,6 +14,7 @@ import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.HELD_EQUIPMENT_LAYER
+import at.orchaldir.gm.visualization.character.equipment.part.SwingConfig
 import at.orchaldir.gm.visualization.character.equipment.part.visualizeHeadFixation
 import at.orchaldir.gm.visualization.character.equipment.part.visualizeLineStyle
 import at.orchaldir.gm.visualization.character.equipment.part.visualizeSpike
@@ -28,8 +29,7 @@ data class ClubConfig(
     val twoHandedHeight: Factor,
     val connectionThickness: SizeConfig<Factor>,
     val shaftThickness: Factor,
-    val flailMaxRotation: Orientation,
-    val flailSwingDuration: Double,
+    val swing: SwingConfig,
 ) {
     fun shaftAabb(
         state: CharacterRenderState<Body>,
@@ -261,12 +261,9 @@ private fun visualizeFlail(
     val end = Point2d.yAxis(shaftAabb.convertHeight(THIRD + diameterFactor))
     val thicknessFactor = config.connectionThickness.convert(head.connection.getSizeOfSub())
     val thickness = shaftAabb.convertWidth(thicknessFactor)
-    val orientations = listOf(config.flailMaxRotation, -config.flailMaxRotation, config.flailMaxRotation)
 
     state.renderer.createGroup(start, state.getLayerIndex(layer + 1)) { translate ->
-        translate.createGroup(config.flailMaxRotation) { renderer ->
-            renderer.animate(orientations, config.flailSwingDuration)
-
+        config.swing.createSwingGroup(translate) { renderer ->
             visualizeLineStyle(
                 state,
                 renderer,
