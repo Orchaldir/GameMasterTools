@@ -16,6 +16,7 @@ import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPermille
 import at.orchaldir.gm.utils.math.HALF
+import at.orchaldir.gm.utils.math.THREE_QUARTER
 import at.orchaldir.gm.utils.math.shape.CircularShape.*
 import at.orchaldir.gm.utils.math.shape.RectangularShape.Cross
 import at.orchaldir.gm.utils.math.shape.RectangularShape.Teardrop
@@ -244,7 +245,8 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
             fromPercentage(5),
         ),
         SlingConfig(
-            HALF,
+            THREE_QUARTER,
+            fromPercentage(10),
             fromPercentage(50),
             fromPercentage(20),
         ),

@@ -10,10 +10,13 @@ import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.toRender
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.HELD_EQUIPMENT_LAYER
+import at.orchaldir.gm.visualization.character.equipment.part.visualizeLineStyle
 
 data class SlingConfig(
     // Relative to max length
     val cordLength: Factor,
+    // Relative to hand radius
+    val cordThickness: Factor,
     // Relative to hand radius
     val cradleWidth: Factor,
     // Relative to hand radius
@@ -43,6 +46,7 @@ private fun visualizeSling(
 ) {
     val config = state.config.equipment.sling
     val handRadius = state.config.body.getHandRadius(state)
+    val cradleThickness = handRadius * config.cordThickness
     val cradleCenter = Point2d.yAxis(maxLength * config.cordLength)
     val cradleSize = Size2d.square(handRadius * 2)
         .scale(config.cradleWidth, config.cradleHeight)
@@ -51,4 +55,16 @@ private fun visualizeSling(
     val cradleOptions = FillAndBorder(cradleFill.toRender(), state.config.line)
 
     renderer.renderRectangle(cradleAabb, cradleOptions)
+
+    cradleAabb.getMirroredPoints(FULL, HALF)
+        .toList()
+        .forEach { end ->
+            visualizeLineStyle(
+                state,
+                renderer,
+                sling.cord,
+                Line2d(Point2d(), end),
+                cradleThickness,
+            )
+        }
 }
