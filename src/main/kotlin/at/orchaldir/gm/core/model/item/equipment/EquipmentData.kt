@@ -164,6 +164,7 @@ sealed class EquipmentData : MadeFromParts {
 
     fun getRangedWeaponStats() = when (this) {
         is Bow -> stats
+        is Sling -> stats
         else -> null
     }
 
