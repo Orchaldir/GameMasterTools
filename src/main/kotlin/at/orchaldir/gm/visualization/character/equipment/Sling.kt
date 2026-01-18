@@ -37,10 +37,10 @@ fun visualizeSling(
 
     state.getLayer(HELD_EQUIPMENT_LAYER)
         .createGroup(hand) { movedRenderer ->
-        state.config.equipment.sling.swing.createSwingGroup(movedRenderer) { renderer ->
-            visualizeSling(state, renderer, sling, maxLength)
+            state.config.equipment.sling.swing.createSwingGroup(movedRenderer) { renderer ->
+                visualizeSling(state, renderer, sling, maxLength)
+            }
         }
-    }
 }
 
 private fun visualizeSling(

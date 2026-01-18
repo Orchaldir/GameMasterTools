@@ -14,11 +14,7 @@ import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.HELD_EQUIPMENT_LAYER
-import at.orchaldir.gm.visualization.character.equipment.part.SwingConfig
-import at.orchaldir.gm.visualization.character.equipment.part.visualizeHeadFixation
-import at.orchaldir.gm.visualization.character.equipment.part.visualizeLineStyle
-import at.orchaldir.gm.visualization.character.equipment.part.visualizeSpike
-import at.orchaldir.gm.visualization.character.equipment.part.visualizeTopDownSpike
+import at.orchaldir.gm.visualization.character.equipment.part.*
 import at.orchaldir.gm.visualization.utils.visualizeCircularArrangement
 import at.orchaldir.gm.visualization.utils.visualizeComplexShape
 import at.orchaldir.gm.visualization.utils.visualizeRotatedShape

@@ -34,6 +34,7 @@ fun HtmlBlockTag.showLineStyle(
                 showOrnament(call, state, line.ornament)
                 field("Size", line.size)
             }
+
             is Rope -> showThicknessAndPart(call, state, line.thickness, line.main)
             is Wire -> showThicknessAndPart(call, state, line.thickness, line.main)
         }
@@ -67,6 +68,7 @@ fun HtmlBlockTag.editLineStyle(
                 editOrnament(state, line.ornament, param = combine(param, ORNAMENT))
                 selectValue("Size", combine(param, SIZE), Size.entries, line.size)
             }
+
             is Rope -> selectThicknessAndPart(state, param, line.thickness, line.main)
             is Wire -> selectThicknessAndPart(state, param, line.thickness, line.main)
         }
@@ -111,7 +113,7 @@ fun parseLineStyle(parameters: Parameters, param: String): LineStyle {
     }
 }
 
-private fun parseItemPart(parameters: Parameters, param: String, ) =
+private fun parseItemPart(parameters: Parameters, param: String) =
     parseColorSchemeItemPart(parameters, combine(param, MAIN))
 
 private fun parseThickness(parameters: Parameters, param: String) =

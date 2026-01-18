@@ -15,7 +15,6 @@ import at.orchaldir.gm.core.model.util.SizeConfig.Companion.withFactor
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPermille
-import at.orchaldir.gm.utils.math.HALF
 import at.orchaldir.gm.utils.math.THREE_QUARTER
 import at.orchaldir.gm.utils.math.shape.CircularShape.*
 import at.orchaldir.gm.utils.math.shape.RectangularShape.Cross
@@ -33,11 +32,7 @@ import at.orchaldir.gm.visualization.character.appearance.hair.HairConfig
 import at.orchaldir.gm.visualization.character.appearance.horn.HornConfig
 import at.orchaldir.gm.visualization.character.appearance.mouth.MouthConfig
 import at.orchaldir.gm.visualization.character.equipment.*
-import at.orchaldir.gm.visualization.character.equipment.part.GripConfig
-import at.orchaldir.gm.visualization.character.equipment.part.LamellarArmourConfig
-import at.orchaldir.gm.visualization.character.equipment.part.NecklineConfig
-import at.orchaldir.gm.visualization.character.equipment.part.OpeningConfig
-import at.orchaldir.gm.visualization.character.equipment.part.SwingConfig
+import at.orchaldir.gm.visualization.character.equipment.part.*
 
 val CHARACTER_CONFIG = CharacterRenderConfig(
     fromMillimeters(500),
@@ -121,8 +116,8 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
             fromPercentages(30, 50, 70),
             fromPercentage(5),
             SwingConfig(
-            fromDegrees(5),
-            8.0,
+                fromDegrees(5),
+                8.0,
             ),
         ),
         CoatConfig(
