@@ -488,6 +488,7 @@ data class Skirt(
 @Serializable
 @SerialName("Sling")
 data class Sling(
+    val size: Size,
     val cord: LineStyle,
     val cradle: FillLookupItemPart = FillLookupItemPart(),
     val stats: RangedWeaponStats = RangedWeaponStats(),

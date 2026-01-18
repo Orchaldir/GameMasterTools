@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap.Companion.from
 import at.orchaldir.gm.core.model.item.equipment.Sling
 import at.orchaldir.gm.core.model.item.equipment.style.*
+import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
 import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
 import at.orchaldir.gm.core.model.util.render.Color
@@ -26,11 +27,6 @@ import at.orchaldir.gm.utils.math.unit.ONE_DM
 import at.orchaldir.gm.utils.math.unit.ONE_MM
 
 fun main() {
-    val cords = listOf(
-        Color.Black,
-        Color.SaddleBrown,
-        Color.Gray,
-    )
     val cradles = listOf(
         Pair("Blue", SolidLookup(Color.Blue)),
         Pair("Green", SolidLookup(Color.Green)),
@@ -42,10 +38,11 @@ fun main() {
         "slings.svg",
         CHARACTER_CONFIG,
         cradles,
-        addNames( cords),
-    ) { distance, cord, cradle ->
+        addNames( Size.entries),
+    ) { distance, size, cradle ->
         val polearm = Sling(
-            Rope(ColorSchemeItemPart(cord)),
+            size,
+            Rope(ColorSchemeItemPart(Color.SaddleBrown)),
             FillLookupItemPart(MaterialId(0), cradle),
         )
         Pair(createAppearance(distance), from(polearm))

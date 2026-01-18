@@ -250,8 +250,8 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
         SlingConfig(
             THREE_QUARTER,
             fromPercentage(10),
-            fromPercentage(50),
-            fromPercentage(20),
+            fromPercentages(40, 50, 60),
+            fromPercentage(40),
             SwingConfig(
                 fromDegrees(5),
                 8.0,

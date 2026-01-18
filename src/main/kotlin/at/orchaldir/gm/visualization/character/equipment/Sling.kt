@@ -3,6 +3,7 @@ package at.orchaldir.gm.visualization.character.equipment
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.BodySlot
 import at.orchaldir.gm.core.model.item.equipment.Sling
+import at.orchaldir.gm.core.model.util.SizeConfig
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.LayerRenderer
@@ -19,8 +20,8 @@ data class SlingConfig(
     // Relative to hand radius
     val cordThickness: Factor,
     // Relative to hand radius
-    val cradleWidth: Factor,
-    // Relative to hand radius
+    val cradleWidth: SizeConfig<Factor>,
+    // Relative to width
     val cradleHeight: Factor,
     val swing: SwingConfig,
 )
@@ -51,8 +52,9 @@ private fun visualizeSling(
     val handRadius = state.config.body.getHandRadius(state)
     val cradleThickness = handRadius * config.cordThickness
     val cradleCenter = Point2d.yAxis(maxLength * config.cordLength)
+    val cradleWidth = config.cradleWidth.convert(sling.size)
     val cradleSize = Size2d.square(handRadius * 2)
-        .scale(config.cradleWidth, config.cradleHeight)
+        .scale(cradleWidth, cradleWidth * config.cradleHeight)
     val cradleAabb = AABB.fromCenter(cradleCenter, cradleSize)
     val cradleFill = sling.cradle.getFill(state.state, state.colors)
     val cradleOptions = FillAndBorder(cradleFill.toRender(), state.config.line)
