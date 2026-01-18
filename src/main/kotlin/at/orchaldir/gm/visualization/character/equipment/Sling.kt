@@ -35,7 +35,8 @@ fun visualizeSling(
     val hand = state.getCenter(leftHand, rightHand, set, BodySlot.HeldInRightHand)
     val maxLength = state.fullAABB.getEnd().y - hand.y
 
-    state.renderer.createGroup(hand, HELD_EQUIPMENT_LAYER) { movedRenderer ->
+    state.getLayer(HELD_EQUIPMENT_LAYER)
+        .createGroup(hand) { movedRenderer ->
         state.config.equipment.sling.swing.createSwingGroup(movedRenderer) { renderer ->
             visualizeSling(state, renderer, sling, maxLength)
         }
