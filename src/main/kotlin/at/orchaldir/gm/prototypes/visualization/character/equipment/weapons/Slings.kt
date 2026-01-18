@@ -3,41 +3,40 @@ package at.orchaldir.gm.prototypes.visualization.character.equipment.weapons
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.Material
 import at.orchaldir.gm.core.model.economy.material.MaterialId
-import at.orchaldir.gm.core.model.item.equipment.Bow
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap.Companion.from
-import at.orchaldir.gm.core.model.item.equipment.style.*
+import at.orchaldir.gm.core.model.item.equipment.Sling
+import at.orchaldir.gm.core.model.item.equipment.style.Rope
 import at.orchaldir.gm.core.model.util.Size
+import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
 import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
 import at.orchaldir.gm.core.model.util.render.Color
+import at.orchaldir.gm.core.model.util.render.SolidLookup
+import at.orchaldir.gm.core.model.util.render.VerticalStripesLookup
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTableWithoutColorScheme
 import at.orchaldir.gm.utils.Storage
-import at.orchaldir.gm.utils.math.FULL
+import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromCentimeters
 
 fun main() {
-    val grip0 = SimpleGrip(GripShape.Oval, FillLookupItemPart(Color.Red))
-    val grip1 = SimpleGrip(GripShape.Straight, FillLookupItemPart(Color.Green))
-    val grip2 = SimpleGrip(GripShape.Waisted, FillLookupItemPart(Color.Blue))
-    val grips = listOf(
-        Pair("No Grip", NoBowGrip),
-        Pair("Small Grip", SimpleBowGrip(Size.Small, grip0)),
-        Pair("Medium Grip", SimpleBowGrip(Size.Medium, grip1)),
-        Pair("Large Grip", SimpleBowGrip(Size.Large, grip2)),
+    val cradles = listOf(
+        Pair("Blue", SolidLookup(Color.Blue)),
+        Pair("Green", SolidLookup(Color.Green)),
+        Pair("Stripped", VerticalStripesLookup(Color.Red, Color.Yellow, fromCentimeters(3))),
     )
 
     renderCharacterTableWithoutColorScheme(
         State(Storage(Material(MaterialId(0), color = Color.Gray))),
-        "bows.svg",
+        "slings.svg",
         CHARACTER_CONFIG,
-        addNames(BowShape.entries),
-        grips,
-    ) { distance, grip, shape ->
-        val bow = Bow(
-            shape,
-            FULL,
-            grip,
+        cradles,
+        addNames(Size.entries),
+    ) { distance, size, cradle ->
+        val polearm = Sling(
+            size,
+            Rope(ColorSchemeItemPart(Color.SaddleBrown)),
+            FillLookupItemPart(MaterialId(0), cradle),
         )
-        Pair(createAppearance(distance), from(bow))
+        Pair(createAppearance(distance), from(polearm))
     }
 }

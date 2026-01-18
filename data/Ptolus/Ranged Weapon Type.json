@@ -29,6 +29,67 @@
      }
     }
    ]
+  },
+  "1": {
+   "id": 1,
+   "name": "Sling",
+   "attacks": [
+    {
+     "accuracy": {
+      "#type": "Simple",
+      "modifier": 0
+     },
+     "effect": {
+      "#type": "Damage",
+      "amount": {
+       "#type": "StatisticBased",
+       "base": 15
+      },
+      "damageType": 8
+     },
+     "range": {
+      "#type": "MusclePoweredHalfAndMax",
+      "half": 60000,
+      "max": 100000
+     },
+     "shots": {
+      "#type": "SingleShot",
+      "roundsOfReload": 2
+     }
+    }
+   ]
+  },
+  "2": {
+   "id": 2,
+   "name": "Heavy Sling",
+   "attacks": [
+    {
+     "accuracy": {
+      "#type": "Simple",
+      "modifier": 1
+     },
+     "effect": {
+      "#type": "Damage",
+      "amount": {
+       "#type": "StatisticBased",
+       "base": 15,
+       "modifier": {
+        "modifier": 2
+       }
+      },
+      "damageType": 3
+     },
+     "range": {
+      "#type": "MusclePoweredHalfAndMax",
+      "half": 30000,
+      "max": 60000
+     },
+     "shots": {
+      "#type": "SingleShot",
+      "roundsOfReload": 2
+     }
+    }
+   ]
   }
  }
 }

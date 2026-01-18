@@ -1,9 +1,7 @@
 package at.orchaldir.gm.visualization.character.equipment.part
 
-import at.orchaldir.gm.core.model.item.equipment.style.Chain
-import at.orchaldir.gm.core.model.item.equipment.style.LineStyle
-import at.orchaldir.gm.core.model.item.equipment.style.OrnamentLine
-import at.orchaldir.gm.core.model.item.equipment.style.Wire
+import at.orchaldir.gm.core.model.item.equipment.style.*
+import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.math.Line2d
 import at.orchaldir.gm.utils.math.Point2d
@@ -21,12 +19,7 @@ fun <T> visualizeLineStyle(
     thickness: Distance,
 ) {
     when (style) {
-        is Chain -> {
-            val color = style.main.getColor(state.state, state.colors)
-            val wireOptions = LineOptions(color.toRender(), thickness)
-            renderer.renderLine(line, wireOptions)
-        }
-
+        is Chain -> visualizeSimpleLine(state, renderer, line, thickness, style.main)
         is OrnamentLine -> {
             val radius = thickness / 2.0f
 
@@ -35,12 +28,21 @@ fun <T> visualizeLineStyle(
             }
         }
 
-        is Wire -> {
-            val color = style.main.getColor(state.state, state.colors)
-            val wireOptions = LineOptions(color.toRender(), thickness)
-            renderer.renderLine(line, wireOptions)
-        }
+        is Rope -> visualizeSimpleLine(state, renderer, line, thickness, style.main)
+        is Wire -> visualizeSimpleLine(state, renderer, line, thickness, style.main)
     }
+}
+
+private fun <T> visualizeSimpleLine(
+    state: CharacterRenderState<T>,
+    renderer: LayerRenderer,
+    line: Line2d,
+    thickness: Distance,
+    part: ColorSchemeItemPart,
+) {
+    val color = part.getColor(state.state, state.colors)
+    val wireOptions = LineOptions(color.toRender(), thickness)
+    renderer.renderLine(line, wireOptions)
 }
 
 

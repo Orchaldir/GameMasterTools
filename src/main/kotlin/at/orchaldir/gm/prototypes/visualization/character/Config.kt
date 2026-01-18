@@ -15,6 +15,7 @@ import at.orchaldir.gm.core.model.util.SizeConfig.Companion.withFactor
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPermille
+import at.orchaldir.gm.utils.math.THREE_QUARTER
 import at.orchaldir.gm.utils.math.shape.CircularShape.*
 import at.orchaldir.gm.utils.math.shape.RectangularShape.Cross
 import at.orchaldir.gm.utils.math.shape.RectangularShape.Teardrop
@@ -31,10 +32,7 @@ import at.orchaldir.gm.visualization.character.appearance.hair.HairConfig
 import at.orchaldir.gm.visualization.character.appearance.horn.HornConfig
 import at.orchaldir.gm.visualization.character.appearance.mouth.MouthConfig
 import at.orchaldir.gm.visualization.character.equipment.*
-import at.orchaldir.gm.visualization.character.equipment.part.GripConfig
-import at.orchaldir.gm.visualization.character.equipment.part.LamellarArmourConfig
-import at.orchaldir.gm.visualization.character.equipment.part.NecklineConfig
-import at.orchaldir.gm.visualization.character.equipment.part.OpeningConfig
+import at.orchaldir.gm.visualization.character.equipment.part.*
 
 val CHARACTER_CONFIG = CharacterRenderConfig(
     fromMillimeters(500),
@@ -117,8 +115,10 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
             fromPercentage(80),
             fromPercentages(30, 50, 70),
             fromPercentage(5),
-            fromDegrees(5),
-            8.0,
+            SwingConfig(
+                fromDegrees(5),
+                8.0,
+            ),
         ),
         CoatConfig(
             fromPermille(5),
@@ -241,6 +241,16 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
             fromPercentage(140),
             fromPercentage(180),
             fromPercentage(5),
+        ),
+        SlingConfig(
+            THREE_QUARTER,
+            fromPercentage(10),
+            fromPercentages(40, 50, 60),
+            fromPercentage(40),
+            SwingConfig(
+                fromDegrees(5),
+                8.0,
+            ),
         ),
         SockConfig(
             fromPercentage(1),

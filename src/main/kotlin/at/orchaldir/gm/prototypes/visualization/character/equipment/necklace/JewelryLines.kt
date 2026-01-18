@@ -9,6 +9,8 @@ import at.orchaldir.gm.core.model.item.equipment.EquipmentMap.Companion.from
 import at.orchaldir.gm.core.model.item.equipment.Necklace
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.Size
+import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
+import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.util.render.Color.White
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
@@ -29,6 +31,7 @@ fun main() {
         val jewelryLine = when (type) {
             LineStyleType.Chain -> Chain(size)
             LineStyleType.Ornament -> OrnamentLine(pearl, size)
+            LineStyleType.Rope -> Rope(ColorSchemeItemPart(Color.SaddleBrown), size)
             LineStyleType.Wire -> Wire(size)
         }
         val style = StrandNecklace(1, jewelryLine)
