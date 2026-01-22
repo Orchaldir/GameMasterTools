@@ -22,7 +22,6 @@ value class AmmunitionTypeId(val value: Int) : Id<AmmunitionTypeId> {
 data class AmmunitionType(
     val id: AmmunitionTypeId,
     val name: Name = Name.init(id),
-    val modifiers: Set<EquipmentModifierId> = emptySet(),
 ) : ElementWithSimpleName<AmmunitionTypeId> {
 
     override fun id() = id
