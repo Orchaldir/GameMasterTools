@@ -30,6 +30,8 @@ import at.orchaldir.gm.core.model.health.Disease
 import at.orchaldir.gm.core.model.health.DiseaseId
 import at.orchaldir.gm.core.model.item.Uniform
 import at.orchaldir.gm.core.model.item.UniformId
+import at.orchaldir.gm.core.model.item.equipment.Ammunition
+import at.orchaldir.gm.core.model.item.equipment.AmmunitionId
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.model.item.periodical.*
@@ -93,6 +95,8 @@ fun reduceCreateElement(
     state: State,
     id: Id<*>,
 ): Pair<State, List<Action>> = when (id) {
+    is AmmunitionId -> createElement(state, Ammunition(id))
+    is AmmunitionTypeId -> createElement(state, AmmunitionType(id))
     is ArchitecturalStyleId -> createElement(state, ArchitecturalStyle(id))
     is ArmorTypeId -> createElement(state, ArmorType(id))
     is ArticleId -> createElement(state, Article(id))

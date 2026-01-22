@@ -23,8 +23,8 @@ value class AmmunitionId(val value: Int) : Id<AmmunitionId> {
 @Serializable
 data class Ammunition(
     val id: AmmunitionId,
-    val type: AmmunitionTypeId,
     val name: Name = Name.init(id),
+    val type: AmmunitionTypeId = AmmunitionTypeId(0),
     val modifiers: Set<EquipmentModifierId> = emptySet(),
 ) : ElementWithSimpleName<AmmunitionId> {
 

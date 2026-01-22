@@ -31,6 +31,9 @@ import at.orchaldir.gm.core.model.health.DiseaseId
 import at.orchaldir.gm.core.model.item.UNIFORM_TYPE
 import at.orchaldir.gm.core.model.item.Uniform
 import at.orchaldir.gm.core.model.item.UniformId
+import at.orchaldir.gm.core.model.item.equipment.AMMUNITION_TYPE
+import at.orchaldir.gm.core.model.item.equipment.Ammunition
+import at.orchaldir.gm.core.model.item.equipment.AmmunitionId
 import at.orchaldir.gm.core.model.item.equipment.EQUIPMENT_TYPE
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
@@ -104,6 +107,8 @@ private val logger = KotlinLogging.logger {}
 
 val ELEMENTS =
     setOf(
+        AMMUNITION_TYPE,
+        AMMUNITION_TYPE_TYPE,
         ARCHITECTURAL_STYLE_TYPE,
         ARMOR_TYPE_TYPE,
         ARTICLE_TYPE,
@@ -189,6 +194,8 @@ data class State(
         rarityGenerator: RarityGenerator = RarityGenerator.empty(5),
     ) : this(storageList.associateBy { it.getType() }, path, data, rarityGenerator)
 
+    fun getAmmunitionStorage() = getStorage<AmmunitionId, Ammunition>(AMMUNITION_TYPE)
+    fun getAmmunitionTypeStorage() = getStorage<AmmunitionTypeId, AmmunitionType>(AMMUNITION_TYPE_TYPE)
     fun getArchitecturalStyleStorage() = getStorage<ArchitecturalStyleId, ArchitecturalStyle>(ARCHITECTURAL_STYLE_TYPE)
     fun getArmorTypeStorage() = getStorage<ArmorTypeId, ArmorType>(ARMOR_TYPE_TYPE)
     fun getArticleStorage() = getStorage<ArticleId, Article>(ARTICLE_TYPE)
@@ -349,6 +356,8 @@ data class State(
     fun save() {
         logger.info { "Save to $path" }
 
+        saveStorage(path, getAmmunitionStorage())
+        saveStorage(path, getAmmunitionTypeStorage())
         saveStorage(path, getArchitecturalStyleStorage())
         saveStorage(path, getArmorTypeStorage())
         saveStorage(path, getArticleStorage())
@@ -416,6 +425,8 @@ data class State(
 }
 
 fun createStorage(type: String) = when (type) {
+    AMMUNITION_TYPE -> Storage(AmmunitionId(0))
+    AMMUNITION_TYPE_TYPE -> Storage(AmmunitionTypeId(0))
     ARCHITECTURAL_STYLE_TYPE -> Storage(ArchitecturalStyleId(0))
     ARMOR_TYPE_TYPE -> Storage(ArmorTypeId(0))
     ARTICLE_TYPE -> Storage(ArticleId(0))
@@ -482,6 +493,8 @@ fun createStorage(type: String) = when (type) {
 }
 
 fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) {
+    AMMUNITION_TYPE -> loadStorage<AmmunitionId, Ammunition>(path, AmmunitionId(0))
+    AMMUNITION_TYPE_TYPE -> loadStorage<AmmunitionTypeId, AmmunitionType>(path, AmmunitionTypeId(0))
     ARCHITECTURAL_STYLE_TYPE -> loadStorage<ArchitecturalStyleId, ArchitecturalStyle>(path, ArchitecturalStyleId(0))
     ARMOR_TYPE_TYPE -> loadStorage<ArmorTypeId, ArmorType>(path, ArmorTypeId(0))
     ARTICLE_TYPE -> loadStorage<ArticleId, Article>(path, ArticleId(0))
