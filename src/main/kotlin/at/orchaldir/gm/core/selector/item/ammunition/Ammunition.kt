@@ -7,6 +7,6 @@ import at.orchaldir.gm.core.model.rpg.combat.AmmunitionTypeId
 
 fun State.canDeleteAmmunition(type: AmmunitionId) = DeleteResult(type)
 
-fun State.getAmmunitions(type: AmmunitionTypeId) = getAmmunitionStorage()
+fun State.getAmmunition(type: AmmunitionTypeId) = getAmmunitionStorage()
     .getAll()
     .filter { it.type == type }
