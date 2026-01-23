@@ -87,6 +87,7 @@ fun Application.configureRouting() {
                     h3 { +"Health" }
                     fieldStorageLink(call, state.getDiseaseStorage(), DiseaseRoutes())
                     h3 { +"Items" }
+                    fieldStorageLink(call, state.getAmmunitionStorage(), AmmunitionRoutes())
                     fieldStorageLink(call, state.getEquipmentStorage(), EquipmentRoutes())
                     fieldStorageLink(call, state.getMaterialStorage(), MaterialRoutes())
                     fieldStorageLink(call, state.getTextStorage(), TextRoutes())
@@ -120,6 +121,7 @@ fun Application.configureRouting() {
                     fieldStorageLink(call, state.getGodStorage(), GodRoutes())
                     fieldStorageLink(call, state.getPantheonStorage(), PantheonRoutes())
                     h3 { +"Rpg" }
+                    fieldStorageLink(call, state.getAmmunitionTypeStorage(), AmmunitionTypeRoutes())
                     fieldStorageLink(call, state.getArmorTypeStorage(), ArmorTypeRoutes())
                     fieldStorageLink(call, state.getDamageTypeStorage(), DamageTypeRoutes())
                     fieldStorageLink(call, state.getEquipmentModifierStorage(), EquipmentModifierRoutes())

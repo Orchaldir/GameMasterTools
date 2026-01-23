@@ -1,5 +1,17 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "Arrow"
+  },
+  "1": {
+   "id": 1,
+   "name": "Sling"
+  },
+  "2": {
+   "id": 2,
+   "name": "Heavy Sling"
+  }
  }
 }
