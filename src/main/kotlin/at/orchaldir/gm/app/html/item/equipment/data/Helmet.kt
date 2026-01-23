@@ -1,4 +1,4 @@
-package at.orchaldir.gm.app.html.item.equipment
+package at.orchaldir.gm.app.html.item.equipment.data
 
 import at.orchaldir.gm.app.BODY_SHAPE
 import at.orchaldir.gm.app.HELMET

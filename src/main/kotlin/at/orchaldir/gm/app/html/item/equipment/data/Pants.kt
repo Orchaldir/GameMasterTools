@@ -1,7 +1,7 @@
-package at.orchaldir.gm.app.html.item.equipment
+package at.orchaldir.gm.app.html.item.equipment.data
 
 import at.orchaldir.gm.app.MAIN
-import at.orchaldir.gm.app.SKIRT_STYLE
+import at.orchaldir.gm.app.PANTS
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.parse
 import at.orchaldir.gm.app.html.selectValue
@@ -9,36 +9,36 @@ import at.orchaldir.gm.app.html.util.part.editFillLookupItemPart
 import at.orchaldir.gm.app.html.util.part.parseFillLookupItemPart
 import at.orchaldir.gm.app.html.util.part.showFillLookupItemPart
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.item.equipment.Skirt
-import at.orchaldir.gm.core.model.item.equipment.style.SkirtStyle
+import at.orchaldir.gm.core.model.item.equipment.Pants
+import at.orchaldir.gm.core.model.item.equipment.style.PantsStyle
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
 
 // show
 
-fun HtmlBlockTag.showSkirt(
+fun HtmlBlockTag.showPants(
     call: ApplicationCall,
     state: State,
-    skirt: Skirt,
+    pants: Pants,
 ) {
-    field("Style", skirt.style)
-    showFillLookupItemPart(call, state, skirt.main, "Main")
+    field("Style", pants.style)
+    showFillLookupItemPart(call, state, pants.main, "Main")
 }
 
 // edit
 
-fun HtmlBlockTag.editSkirt(
+fun HtmlBlockTag.editPants(
     state: State,
-    skirt: Skirt,
+    pants: Pants,
 ) {
-    selectValue("Style", SKIRT_STYLE, SkirtStyle.entries, skirt.style)
-    editFillLookupItemPart(state, skirt.main, MAIN, "Main")
+    selectValue("Style", PANTS, PantsStyle.entries, pants.style)
+    editFillLookupItemPart(state, pants.main, MAIN, "Main")
 }
 
 // parse
 
-fun parseSkirt(parameters: Parameters): Skirt = Skirt(
-    parse(parameters, SKIRT_STYLE, SkirtStyle.Sheath),
+fun parsePants(parameters: Parameters) = Pants(
+    parse(parameters, PANTS, PantsStyle.Regular),
     parseFillLookupItemPart(parameters, MAIN),
 )

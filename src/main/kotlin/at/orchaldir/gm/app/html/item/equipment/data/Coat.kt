@@ -1,30 +1,29 @@
-package at.orchaldir.gm.app.html.item.equipment
+package at.orchaldir.gm.app.html.item.equipment.data
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.combine
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.item.equipment.style.*
 import at.orchaldir.gm.app.html.parse
+import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.util.part.editFillLookupItemPart
 import at.orchaldir.gm.app.html.util.part.parseFillLookupItemPart
 import at.orchaldir.gm.app.html.util.part.showFillLookupItemPart
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.item.equipment.SuitJacket
-import at.orchaldir.gm.core.model.item.equipment.style.NECKLINES_WITH_SLEEVES
-import at.orchaldir.gm.core.model.item.equipment.style.NecklineStyle
-import at.orchaldir.gm.core.model.item.equipment.style.PocketStyle
-import at.orchaldir.gm.core.model.item.equipment.style.SleeveStyle
+import at.orchaldir.gm.core.model.item.equipment.Coat
+import at.orchaldir.gm.core.model.item.equipment.style.*
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
 
 // show
 
-fun HtmlBlockTag.showSuitJacket(
+fun HtmlBlockTag.showCoat(
     call: ApplicationCall,
     state: State,
-    data: SuitJacket,
+    data: Coat,
 ) {
+    field("Length", data.length)
     field("Neckline Style", data.necklineStyle)
     field("Sleeve Style", data.sleeveStyle)
     showOpeningStyle(call, state, data.openingStyle)
@@ -34,10 +33,11 @@ fun HtmlBlockTag.showSuitJacket(
 
 // edit
 
-fun HtmlBlockTag.editSuitJacket(
+fun HtmlBlockTag.editCoat(
     state: State,
-    data: SuitJacket,
+    data: Coat,
 ) {
+    selectValue("Length", LENGTH, OuterwearLength.entries, data.length)
     selectNecklineStyle(NECKLINES_WITH_SLEEVES, data.necklineStyle)
     selectSleeveStyle(SleeveStyle.entries, data.sleeveStyle)
     selectOpeningStyle(state, data.openingStyle)
@@ -45,14 +45,13 @@ fun HtmlBlockTag.editSuitJacket(
     editFillLookupItemPart(state, data.main, MAIN)
 }
 
-
 // parse
 
-fun parseSuitJacket(parameters: Parameters) = SuitJacket(
+fun parseCoat(parameters: Parameters) = Coat(
+    parse(parameters, LENGTH, OuterwearLength.Hip),
     parse(parameters, combine(NECKLINE, STYLE), NecklineStyle.DeepV),
     parse(parameters, combine(SLEEVE, STYLE), SleeveStyle.Long),
     parseOpeningStyle(parameters),
     parse(parameters, combine(POCKET, STYLE), PocketStyle.None),
     parseFillLookupItemPart(parameters, MAIN),
 )
-
