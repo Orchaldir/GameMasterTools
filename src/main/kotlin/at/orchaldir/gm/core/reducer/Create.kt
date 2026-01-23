@@ -30,8 +30,8 @@ import at.orchaldir.gm.core.model.health.Disease
 import at.orchaldir.gm.core.model.health.DiseaseId
 import at.orchaldir.gm.core.model.item.Uniform
 import at.orchaldir.gm.core.model.item.UniformId
-import at.orchaldir.gm.core.model.item.equipment.Ammunition
-import at.orchaldir.gm.core.model.item.equipment.AmmunitionId
+import at.orchaldir.gm.core.model.item.ammunition.Ammunition
+import at.orchaldir.gm.core.model.item.ammunition.AmmunitionId
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.model.item.periodical.*

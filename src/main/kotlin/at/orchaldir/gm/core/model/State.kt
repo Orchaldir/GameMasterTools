@@ -31,9 +31,9 @@ import at.orchaldir.gm.core.model.health.DiseaseId
 import at.orchaldir.gm.core.model.item.UNIFORM_TYPE
 import at.orchaldir.gm.core.model.item.Uniform
 import at.orchaldir.gm.core.model.item.UniformId
-import at.orchaldir.gm.core.model.item.equipment.AMMUNITION_TYPE
-import at.orchaldir.gm.core.model.item.equipment.Ammunition
-import at.orchaldir.gm.core.model.item.equipment.AmmunitionId
+import at.orchaldir.gm.core.model.item.ammunition.AMMUNITION_TYPE
+import at.orchaldir.gm.core.model.item.ammunition.Ammunition
+import at.orchaldir.gm.core.model.item.ammunition.AmmunitionId
 import at.orchaldir.gm.core.model.item.equipment.EQUIPMENT_TYPE
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId

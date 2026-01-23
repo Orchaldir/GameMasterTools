@@ -4,7 +4,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.combat.AmmunitionType
 import at.orchaldir.gm.core.model.rpg.combat.AmmunitionTypeId
-import at.orchaldir.gm.core.selector.item.equipment.getAmmunitions
+import at.orchaldir.gm.core.selector.item.ammunition.getAmmunitions
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag

@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.model.item.equipment
+package at.orchaldir.gm.core.model.item.ammunition
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.CalculatedPrice

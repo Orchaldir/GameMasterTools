@@ -17,7 +17,7 @@ import at.orchaldir.gm.core.model.economy.money.CurrencyId
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnitId
 import at.orchaldir.gm.core.model.health.DiseaseId
 import at.orchaldir.gm.core.model.item.UniformId
-import at.orchaldir.gm.core.model.item.equipment.AmmunitionId
+import at.orchaldir.gm.core.model.item.ammunition.AmmunitionId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.model.item.periodical.ArticleId
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalId
@@ -70,7 +70,7 @@ import at.orchaldir.gm.core.selector.economy.money.canDeleteCurrencyUnit
 import at.orchaldir.gm.core.selector.health.canDeleteDisease
 import at.orchaldir.gm.core.selector.item.canDeleteText
 import at.orchaldir.gm.core.selector.item.canDeleteUniform
-import at.orchaldir.gm.core.selector.item.equipment.canDeleteAmmunition
+import at.orchaldir.gm.core.selector.item.ammunition.canDeleteAmmunition
 import at.orchaldir.gm.core.selector.item.equipment.canDeleteEquipment
 import at.orchaldir.gm.core.selector.item.periodical.canDeleteArticle
 import at.orchaldir.gm.core.selector.item.periodical.canDeletePeriodical
