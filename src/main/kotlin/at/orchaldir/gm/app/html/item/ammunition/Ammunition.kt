@@ -19,6 +19,7 @@ import at.orchaldir.gm.core.model.item.equipment.MAX_EQUIPMENT_PRICE
 import at.orchaldir.gm.core.model.item.equipment.MAX_EQUIPMENT_WEIGHT
 import at.orchaldir.gm.core.model.item.equipment.MIN_EQUIPMENT_PRICE
 import at.orchaldir.gm.core.model.item.equipment.MIN_EQUIPMENT_WEIGHT
+import at.orchaldir.gm.core.selector.util.sortAmmunitionTypes
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.unit.VolumePerMaterial
@@ -50,6 +51,13 @@ fun HtmlBlockTag.editAmmunition(
     ammunition: Ammunition,
 ) {
     selectName(ammunition.name)
+    selectElement(
+        state,
+        "Type",
+        TYPE,
+        state.sortAmmunitionTypes(),
+        ammunition.type,
+    )
     selectElements(
         state,
         "Modifiers",

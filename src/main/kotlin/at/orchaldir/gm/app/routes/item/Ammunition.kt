@@ -64,7 +64,6 @@ fun Application.configureAmmunitionRouting() {
                 state.sortAmmunition(all.sort),
                 listOf(
                     createNameColumn(call, state),
-                    countCollectionColumn("Variants") { state.getAmmunition(it.type) },
                 ),
             )
         }

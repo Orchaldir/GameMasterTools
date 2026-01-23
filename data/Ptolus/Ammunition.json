@@ -4,6 +4,7 @@
   "0": {
    "id": 0,
    "name": "Lead Bullet",
+   "type": 1,
    "weight": {
     "#type": "User",
     "weight": 10000
