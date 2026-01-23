@@ -28,6 +28,7 @@ data class Thrown(
 @Serializable
 @SerialName("SingleShot")
 data class SingleShot(
+    val ammunition: AmmunitionTypeId,
     val roundsOfReload: Int = 1,
 ) : Shots()
 

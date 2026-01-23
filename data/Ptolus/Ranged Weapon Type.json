@@ -25,6 +25,7 @@
      },
      "shots": {
       "#type": "SingleShot",
+      "ammunition": 0,
       "roundsOfReload": 2
      }
     }
@@ -54,6 +55,7 @@
      },
      "shots": {
       "#type": "SingleShot",
+      "ammunition": 1,
       "roundsOfReload": 2
      }
     }
@@ -86,6 +88,7 @@
      },
      "shots": {
       "#type": "SingleShot",
+      "ammunition": 2,
       "roundsOfReload": 2
      }
     }

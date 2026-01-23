@@ -104,7 +104,7 @@ fun HtmlBlockTag.showRangedAttack(
         fieldAttackEffect(call, state, attack.effect)
         fieldAccuracy(attack.accuracy)
         fieldRange(call, state, attack.range)
-        fieldShots(attack.shots)
+        showShotsDetails(call, state, attack.shots)
     }
 }
 
@@ -120,7 +120,7 @@ fun HtmlBlockTag.editRangedAttack(
         editAttackEffect(state, attack.effect, param)
         editAccuracy(attack.accuracy, param)
         editRange(state, attack.range, param)
-        editShots(attack.shots, param)
+        editShots(state, attack.shots, param)
     }
 }
 
