@@ -79,7 +79,7 @@ private fun TR.sharedColumns(
     td { displayAttackEffect(call, state, attack.effect) }
     td { displayAccuracy(attack.accuracy) }
     td { displayRange(call, state, attack.range) }
-    td { displayShots(attack.shots) }
+    td { displayShots(call, state, attack.shots) }
 }
 
 fun HtmlBlockTag.showRangedAttacks(

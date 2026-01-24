@@ -17,19 +17,26 @@ import kotlinx.html.HtmlBlockTag
 // show
 
 fun HtmlBlockTag.fieldShots(
+    call: ApplicationCall,
+    state: State,
     shots: Shots,
 ) {
     field("Shots") {
-        displayShots(shots, true)
+        displayShots(call, state, shots, true)
     }
 }
 
 fun HtmlBlockTag.displayShots(
+    call: ApplicationCall,
+    state: State,
     shots: Shots,
     showUndefined: Boolean = false,
 ) {
     when (shots) {
-        is SingleShot -> +"1(${shots.roundsOfReload})"
+        is SingleShot -> {
+            +"1(${shots.roundsOfReload}) "
+            link(call, state, shots.ammunition)
+        }
         is Thrown -> +"T(${shots.roundsOfReload})"
         UndefinedShots -> if (showUndefined) {
             +"Undefined"

@@ -82,7 +82,7 @@ fun Application.configureRangedWeaponTypeRouting() {
                     },
                     tdColumn("Shots") {
                         showMultiLine(it.attacks) { attack ->
-                            displayShots(attack.shots)
+                            displayShots(call, state, attack.shots)
                         }
                     },
                     countCollectionColumn("Equipment") { state.getRangedWeapons(it.id) },
