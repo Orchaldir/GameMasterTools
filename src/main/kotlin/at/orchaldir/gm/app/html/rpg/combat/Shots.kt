@@ -5,12 +5,12 @@ import at.orchaldir.gm.app.NUMBER
 import at.orchaldir.gm.app.SHOTS
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.core.selector.util.sortAmmunitionTypes
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
-import io.ktor.server.application.ApplicationCall
+import io.ktor.server.application.*
 import kotlinx.html.DETAILS
 import kotlinx.html.HtmlBlockTag
 
@@ -37,6 +37,7 @@ fun HtmlBlockTag.displayShots(
             +"1(${shots.roundsOfReload}) "
             link(call, state, shots.ammunition)
         }
+
         is Thrown -> +"T(${shots.roundsOfReload})"
         UndefinedShots -> if (showUndefined) {
             +"Undefined"
@@ -58,6 +59,7 @@ fun HtmlBlockTag.showShotsDetails(
                 fieldLink("Ammunition", call, state, shots.ammunition)
                 showRoundsOfReload(shots.roundsOfReload)
             }
+
             is Thrown -> showRoundsOfReload(shots.roundsOfReload)
             UndefinedShots -> doNothing()
         }
@@ -97,6 +99,7 @@ fun HtmlBlockTag.editShots(
                 )
                 selectRoundsOfReload(shotsParam, shots.roundsOfReload)
             }
+
             is Thrown -> selectRoundsOfReload(shotsParam, shots.roundsOfReload)
             UndefinedShots -> doNothing()
         }

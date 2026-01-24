@@ -1,7 +1,6 @@
 package at.orchaldir.gm.app.routes.item
 
 import at.orchaldir.gm.app.STORE
-import at.orchaldir.gm.app.html.countCollectionColumn
 import at.orchaldir.gm.app.html.createNameColumn
 import at.orchaldir.gm.app.html.item.ammunition.editAmmunition
 import at.orchaldir.gm.app.html.item.ammunition.parseAmmunition
@@ -10,7 +9,6 @@ import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.core.model.item.ammunition.AMMUNITION_TYPE
 import at.orchaldir.gm.core.model.item.ammunition.AmmunitionId
 import at.orchaldir.gm.core.model.util.SortAmmunition
-import at.orchaldir.gm.core.selector.item.ammunition.getAmmunition
 import at.orchaldir.gm.core.selector.util.sortAmmunition
 import io.ktor.resources.*
 import io.ktor.server.application.*

@@ -16,6 +16,7 @@ fun validateShots(
             state.getAmmunitionTypeStorage().require(shots.ammunition)
             validateRoundsOfReload(shots.roundsOfReload)
         }
+
         is Thrown -> validateRoundsOfReload(shots.roundsOfReload)
         UndefinedShots -> doNothing()
     }

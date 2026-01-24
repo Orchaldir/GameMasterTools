@@ -2,10 +2,7 @@ package at.orchaldir.gm.core.selector.rpg
 
 import at.orchaldir.gm.AMMUNITION_ID_0
 import at.orchaldir.gm.AMMUNITION_TYPE_ID_0
-import at.orchaldir.gm.ARMOR_TYPE_ID_0
-import at.orchaldir.gm.EQUIPMENT_ID_0
 import at.orchaldir.gm.RANGED_WEAPON_TYPE_ID_0
-import at.orchaldir.gm.UNKNOWN_AMMUNITION_TYPE
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.ammunition.Ammunition
