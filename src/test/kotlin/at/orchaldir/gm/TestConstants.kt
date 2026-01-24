@@ -17,6 +17,7 @@ import at.orchaldir.gm.core.model.economy.money.Denomination
 import at.orchaldir.gm.core.model.economy.standard.StandardOfLivingId
 import at.orchaldir.gm.core.model.health.DiseaseId
 import at.orchaldir.gm.core.model.item.UniformId
+import at.orchaldir.gm.core.model.item.ammunition.AmmunitionId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.model.item.periodical.ArticleId
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalId
@@ -59,6 +60,10 @@ import at.orchaldir.gm.core.model.world.terrain.RegionId
 import at.orchaldir.gm.core.model.world.terrain.RiverId
 import at.orchaldir.gm.core.model.world.town.TownMapId
 
+val AMMUNITION_ID_0 = AmmunitionId(0)
+val UNKNOWN_AMMUNITION = AmmunitionId(99)
+val AMMUNITION_TYPE_ID_0 = AmmunitionTypeId(0)
+val UNKNOWN_AMMUNITION_TYPE = AmmunitionTypeId(99)
 val ARCHITECTURAL_ID_0 = ArchitecturalStyleId(0)
 val ARCHITECTURAL_ID_1 = ArchitecturalStyleId(1)
 val UNKNOWN_ARCHITECTURAL_ID = ArchitecturalStyleId(99)
