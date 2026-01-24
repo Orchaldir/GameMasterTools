@@ -1,0 +1,115 @@
+package at.orchaldir.gm.app.html.item.equipment.data
+
+import at.orchaldir.gm.app.*
+import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.item.equipment.style.*
+import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.equipment.Necklace
+import at.orchaldir.gm.core.model.item.equipment.style.*
+import at.orchaldir.gm.core.model.util.Size
+import io.ktor.http.*
+import io.ktor.server.application.*
+import kotlinx.html.HtmlBlockTag
+
+// show
+
+fun HtmlBlockTag.showNecklace(
+    call: ApplicationCall,
+    state: State,
+    necklace: Necklace,
+) {
+    field("Style", necklace.style.getType())
+    field("Length", necklace.length)
+
+    when (val style = necklace.style) {
+        is DangleNecklace -> {
+            showDangleEarring(call, state, style.dangle)
+            showLineStyle(call, state, style.line, "Line")
+        }
+
+        is DropNecklace -> {
+            showDropEarring(call, state, style.drop)
+            showLineStyle(call, state, style.line, "Line")
+        }
+
+        is PendantNecklace -> {
+            showOrnament(call, state, style.ornament)
+            field("Size", style.size)
+            showLineStyle(call, state, style.line, "Line")
+        }
+
+        is StrandNecklace -> {
+            field("Number of Strands", style.strands)
+            showLineStyle(call, state, style.line, "Strands")
+            field("Padding between Strands", style.padding)
+        }
+    }
+}
+
+// edit
+
+fun HtmlBlockTag.editNecklace(
+    state: State,
+    necklace: Necklace,
+) {
+    selectValue("Style", STYLE, NecklaceStyleType.entries, necklace.style.getType())
+    selectValue("Length", LENGTH, NecklaceLength.entries, necklace.length)
+
+    when (val style = necklace.style) {
+        is DangleNecklace -> {
+            editDangleEarring(state, style.dangle)
+            editLineStyle(state, style.line, "Line", LINE)
+        }
+
+        is DropNecklace -> {
+            editDropEarring(state, style.drop)
+            editLineStyle(state, style.line, "Line", LINE)
+        }
+
+        is PendantNecklace -> {
+            editOrnament(state, style.ornament)
+            selectValue("Size", SIZE, Size.entries, style.size)
+            editLineStyle(state, style.line, "Line", LINE)
+        }
+
+        is StrandNecklace -> {
+            selectInt("Number of Strands", style.strands, 1, 3, 1, NUMBER)
+            editLineStyle(state, style.line, "Strands", LINE)
+            selectValue("Padding between Strands", SIZE, Size.entries, style.padding)
+        }
+    }
+}
+
+// parse
+
+fun parseNecklace(parameters: Parameters): Necklace {
+    val type = parse(parameters, STYLE, NecklaceStyleType.Pendant)
+
+    return Necklace(
+        when (type) {
+            NecklaceStyleType.Dangle -> DangleNecklace(
+                parseDangleEarring(parameters),
+                parseLineStyle(parameters, LINE),
+            )
+
+            NecklaceStyleType.Drop -> DropNecklace(
+                parseDropEarring(parameters),
+                parseLineStyle(parameters, LINE),
+            )
+
+            NecklaceStyleType.Pendant -> PendantNecklace(
+                parseOrnament(parameters),
+                parseLineStyle(parameters, LINE),
+                parse(parameters, SIZE, Size.Medium),
+            )
+
+            NecklaceStyleType.Strand -> StrandNecklace(
+                parseInt(parameters, NUMBER, 1),
+                parseLineStyle(parameters, LINE),
+                parse(parameters, SIZE, Size.Medium),
+            )
+        },
+        parse(parameters, LENGTH, NecklaceLength.Matinee),
+    )
+}
+

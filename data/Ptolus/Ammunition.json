@@ -1,0 +1,18 @@
+{
+ "version": 1,
+ "elements": {
+  "0": {
+   "id": 0,
+   "name": "Lead Bullet",
+   "type": 1,
+   "weight": {
+    "#type": "User",
+    "weight": 10000
+   },
+   "price": {
+    "#type": "User",
+    "price": 0
+   }
+  }
+ }
+}

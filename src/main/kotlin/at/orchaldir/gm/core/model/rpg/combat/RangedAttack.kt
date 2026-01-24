@@ -10,6 +10,7 @@ data class RangedAttack(
     val range: Range = UndefinedRange,
     val shots: Shots = UndefinedShots,
 ) {
+    fun contains(type: AmmunitionTypeId) = shots.contains(type)
     fun contains(type: DamageTypeId) = effect.contains(type)
     fun contains(statistic: StatisticId) = effect.contains(statistic) || range.contains(statistic)
 }

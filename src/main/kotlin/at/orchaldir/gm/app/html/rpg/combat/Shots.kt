@@ -1,31 +1,43 @@
 package at.orchaldir.gm.app.html.rpg.combat
 
+import at.orchaldir.gm.app.AMMUNITION
 import at.orchaldir.gm.app.NUMBER
 import at.orchaldir.gm.app.SHOTS
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.combat.*
+import at.orchaldir.gm.core.selector.util.sortAmmunitionTypes
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
+import io.ktor.server.application.*
 import kotlinx.html.DETAILS
 import kotlinx.html.HtmlBlockTag
 
 // show
 
 fun HtmlBlockTag.fieldShots(
+    call: ApplicationCall,
+    state: State,
     shots: Shots,
 ) {
     field("Shots") {
-        displayShots(shots, true)
+        displayShots(call, state, shots, true)
     }
 }
 
 fun HtmlBlockTag.displayShots(
+    call: ApplicationCall,
+    state: State,
     shots: Shots,
     showUndefined: Boolean = false,
 ) {
     when (shots) {
-        is SingleShot -> +"1(${shots.roundsOfReload})"
+        is SingleShot -> {
+            +"1(${shots.roundsOfReload}) "
+            link(call, state, shots.ammunition)
+        }
+
         is Thrown -> +"T(${shots.roundsOfReload})"
         UndefinedShots -> if (showUndefined) {
             +"Undefined"
@@ -33,9 +45,35 @@ fun HtmlBlockTag.displayShots(
     }
 }
 
+fun HtmlBlockTag.showShotsDetails(
+    call: ApplicationCall,
+    state: State,
+    shots: Shots,
+) {
+    showDetails("Shots", true) {
+        field("Type", shots.getType())
+
+        when (shots) {
+
+            is SingleShot -> {
+                fieldLink("Ammunition", call, state, shots.ammunition)
+                showRoundsOfReload(shots.roundsOfReload)
+            }
+
+            is Thrown -> showRoundsOfReload(shots.roundsOfReload)
+            UndefinedShots -> doNothing()
+        }
+    }
+}
+
+private fun DETAILS.showRoundsOfReload(
+    roundsOfReload: Int,
+) = field("Rounds Of Reload", roundsOfReload)
+
 // edit
 
 fun HtmlBlockTag.editShots(
+    state: State,
     shots: Shots,
     param: String,
 ) {
@@ -51,7 +89,17 @@ fun HtmlBlockTag.editShots(
 
         when (shots) {
 
-            is SingleShot -> selectRoundsOfReload(shotsParam, shots.roundsOfReload)
+            is SingleShot -> {
+                selectElement(
+                    state,
+                    "Ammunition",
+                    combine(shotsParam, AMMUNITION),
+                    state.sortAmmunitionTypes(),
+                    shots.ammunition,
+                )
+                selectRoundsOfReload(shotsParam, shots.roundsOfReload)
+            }
+
             is Thrown -> selectRoundsOfReload(shotsParam, shots.roundsOfReload)
             UndefinedShots -> doNothing()
         }
@@ -86,6 +134,7 @@ fun parseShots(
         )
 
         ShotsType.SingleShot -> SingleShot(
+            parseAmmunitionTypeId(parameters, combine(shotsParam, AMMUNITION)),
             parseRoundsOfReload(parameters, shotsParam),
         )
 

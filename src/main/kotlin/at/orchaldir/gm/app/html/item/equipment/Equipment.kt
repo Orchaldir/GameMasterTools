@@ -8,6 +8,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.economy.money.parsePriceLookup
 import at.orchaldir.gm.app.html.economy.money.selectPriceLookup
 import at.orchaldir.gm.app.html.economy.money.showPriceLookupDetails
+import at.orchaldir.gm.app.html.item.equipment.data.*
 import at.orchaldir.gm.app.html.rpg.combat.*
 import at.orchaldir.gm.app.html.util.color.parseColorSchemeId
 import at.orchaldir.gm.app.html.util.math.parseWeightLookup

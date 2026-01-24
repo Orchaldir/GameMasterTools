@@ -16,7 +16,8 @@ class RangedWeaponTypeTest {
 
     private val STATE = State(
         listOf(
-            Storage(listOf(DamageType(DAMAGE_TYPE_ID_0))),
+            Storage(AmmunitionType(AMMUNITION_TYPE_ID_0)),
+            Storage(DamageType(DAMAGE_TYPE_ID_0)),
             Storage(listOf(Statistic(STATISTIC_ID_0, data = BaseDamage()), Statistic(STATISTIC_ID_1))),
         )
     )
@@ -49,9 +50,16 @@ class RangedWeaponTypeTest {
 
         @Test
         fun `Validate rounds of reload for SingleShot`() {
-            val attack = RangedAttack(shots = SingleShot(-1))
+            val attack = RangedAttack(shots = SingleShot(AMMUNITION_TYPE_ID_0, -1))
 
             assertInvalidWeapon(attack, "Rounds of reload must be >= 0!")
+        }
+
+        @Test
+        fun `Validate an unknown ammunition type`() {
+            val attack = RangedAttack(shots = SingleShot(UNKNOWN_AMMUNITION_TYPE, 1))
+
+            assertInvalidWeapon(attack, "Requires unknown Ammunition Type 99!")
         }
     }
 
@@ -61,7 +69,7 @@ class RangedWeaponTypeTest {
             SimpleAccuracy(2),
             Damage(validDamageAmount, DAMAGE_TYPE_ID_0),
             FixedHalfAndMaxRange(10, 20),
-            SingleShot(2),
+            SingleShot(AMMUNITION_TYPE_ID_0, 2),
         )
 
         assertValidWeapon(attack)

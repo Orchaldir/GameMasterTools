@@ -46,6 +46,7 @@ import at.orchaldir.gm.core.model.economy.money.CurrencyUnitId
 import at.orchaldir.gm.core.model.economy.standard.StandardOfLivingId
 import at.orchaldir.gm.core.model.health.DiseaseId
 import at.orchaldir.gm.core.model.item.UniformId
+import at.orchaldir.gm.core.model.item.ammunition.AmmunitionId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.model.item.periodical.ArticleId
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalId
@@ -377,6 +378,8 @@ fun href(
     call: ApplicationCall,
     id: Id<*>,
 ) = when (id) {
+    is AmmunitionId -> call.application.href(AmmunitionRoutes.Details(id))
+    is AmmunitionTypeId -> call.application.href(AmmunitionTypeRoutes.Details(id))
     is ArchitecturalStyleId -> call.application.href(ArchitecturalStyleRoutes.Details(id))
     is ArmorTypeId -> call.application.href(ArmorTypeRoutes.Details(id))
     is ArticleId -> call.application.href(ArticleRoutes.Details(id))

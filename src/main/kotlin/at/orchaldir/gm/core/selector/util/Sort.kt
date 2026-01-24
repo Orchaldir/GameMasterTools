@@ -15,6 +15,7 @@ import at.orchaldir.gm.core.model.economy.money.Currency
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnit
 import at.orchaldir.gm.core.model.health.Disease
 import at.orchaldir.gm.core.model.item.Uniform
+import at.orchaldir.gm.core.model.item.ammunition.Ammunition
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.item.periodical.Article
 import at.orchaldir.gm.core.model.item.periodical.Periodical
@@ -62,6 +63,7 @@ import at.orchaldir.gm.core.selector.economy.calculateTotalNumberInEconomy
 import at.orchaldir.gm.core.selector.economy.getBusinesses
 import at.orchaldir.gm.core.selector.economy.money.calculateWeight
 import at.orchaldir.gm.core.selector.economy.money.countCurrencyUnits
+import at.orchaldir.gm.core.selector.item.ammunition.getAmmunition
 import at.orchaldir.gm.core.selector.item.countTexts
 import at.orchaldir.gm.core.selector.item.equipment.*
 import at.orchaldir.gm.core.selector.race.countRaceAppearancesMadeOf
@@ -70,6 +72,7 @@ import at.orchaldir.gm.core.selector.realm.countOwnedTowns
 import at.orchaldir.gm.core.selector.realm.countRealmsWithCurrencyAtAnyTime
 import at.orchaldir.gm.core.selector.realm.countRealmsWithLegalCodeAtAnyTime
 import at.orchaldir.gm.core.selector.rpg.getMeleeWeaponTypes
+import at.orchaldir.gm.core.selector.rpg.getRangedWeaponTypes
 import at.orchaldir.gm.core.selector.time.date.createSorter
 import at.orchaldir.gm.core.selector.time.getDefaultCalendar
 import at.orchaldir.gm.core.selector.world.countBuildings
@@ -107,6 +110,36 @@ fun <T> State.getDateComparator(
         }
     }
 }
+
+// ammunition
+
+fun State.sortAmmunition(sort: SortAmmunition = SortAmmunition.Name) =
+    sortAmmunition(getAmmunitionStorage().getAll(), sort)
+
+fun State.sortAmmunition(
+    weapons: Collection<Ammunition>,
+    sort: SortAmmunition = SortAmmunition.Name,
+) = weapons
+    .sortedWith(
+        when (sort) {
+            SortAmmunition.Name -> compareBy { it.name.text }
+        })
+
+// ammunition types
+
+fun State.sortAmmunitionTypes(sort: SortAmmunitionType = SortAmmunitionType.Name) =
+    sortAmmunitionTypes(getAmmunitionTypeStorage().getAll(), sort)
+
+fun State.sortAmmunitionTypes(
+    weapons: Collection<AmmunitionType>,
+    sort: SortAmmunitionType = SortAmmunitionType.Name,
+) = weapons
+    .sortedWith(
+        when (sort) {
+            SortAmmunitionType.Name -> compareBy { it.name.text }
+            SortAmmunitionType.Variants -> compareByDescending { getAmmunition(it.id).size }
+            SortAmmunitionType.Weapons -> compareByDescending { getRangedWeaponTypes(it.id).size }
+        })
 
 // architectural style
 

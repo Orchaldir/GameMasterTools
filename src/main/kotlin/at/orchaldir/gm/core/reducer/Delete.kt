@@ -17,6 +17,7 @@ import at.orchaldir.gm.core.model.economy.money.CurrencyId
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnitId
 import at.orchaldir.gm.core.model.health.DiseaseId
 import at.orchaldir.gm.core.model.item.UniformId
+import at.orchaldir.gm.core.model.item.ammunition.AmmunitionId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.model.item.periodical.ArticleId
 import at.orchaldir.gm.core.model.item.periodical.PeriodicalId
@@ -67,6 +68,7 @@ import at.orchaldir.gm.core.selector.economy.canDeleteMaterial
 import at.orchaldir.gm.core.selector.economy.money.canDeleteCurrency
 import at.orchaldir.gm.core.selector.economy.money.canDeleteCurrencyUnit
 import at.orchaldir.gm.core.selector.health.canDeleteDisease
+import at.orchaldir.gm.core.selector.item.ammunition.canDeleteAmmunition
 import at.orchaldir.gm.core.selector.item.canDeleteText
 import at.orchaldir.gm.core.selector.item.canDeleteUniform
 import at.orchaldir.gm.core.selector.item.equipment.canDeleteEquipment
@@ -97,6 +99,8 @@ fun reduceDeleteElement(
     state: State,
     id: Id<*>,
 ): Pair<State, List<Action>> = when (id) {
+    is AmmunitionId -> deleteElement(state, id, State::canDeleteAmmunition)
+    is AmmunitionTypeId -> deleteElement(state, id, State::canDeleteAmmunitionType)
     is ArchitecturalStyleId -> deleteElement(state, id, State::canDeleteArchitecturalStyle)
     is ArmorTypeId -> deleteElement(state, id, State::canDeleteArmorType)
     is ArticleId -> deleteElement(state, id, State::canDeleteArticle)

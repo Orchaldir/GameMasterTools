@@ -17,6 +17,12 @@ sealed class Shots {
         is SingleShot -> ShotsType.SingleShot
         is UndefinedShots -> ShotsType.Undefined
     }
+
+    fun contains(type: AmmunitionTypeId) = when (this) {
+        is SingleShot -> ammunition == type
+        is Thrown -> false
+        UndefinedShots -> false
+    }
 }
 
 @Serializable
@@ -28,6 +34,7 @@ data class Thrown(
 @Serializable
 @SerialName("SingleShot")
 data class SingleShot(
+    val ammunition: AmmunitionTypeId,
     val roundsOfReload: Int = 1,
 ) : Shots()
 

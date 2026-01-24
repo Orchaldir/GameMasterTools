@@ -16,6 +16,7 @@ import at.orchaldir.gm.core.model.economy.money.Currency
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnit
 import at.orchaldir.gm.core.model.health.Disease
 import at.orchaldir.gm.core.model.item.Uniform
+import at.orchaldir.gm.core.model.item.ammunition.Ammunition
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.item.periodical.Article
 import at.orchaldir.gm.core.model.item.periodical.Periodical
@@ -65,6 +66,8 @@ fun reduceUpdateElement(
     state: State,
     element: Element<*>,
 ): Pair<State, List<Action>> = when (element) {
+    is Ammunition -> updateElement(state, element)
+    is AmmunitionType -> updateElement(state, element)
     is ArchitecturalStyle -> updateElement(state, element)
     is ArmorType -> updateElement(state, element)
     is Article -> updateElement(state, element)

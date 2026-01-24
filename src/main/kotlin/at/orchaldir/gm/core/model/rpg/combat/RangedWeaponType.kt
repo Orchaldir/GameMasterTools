@@ -34,6 +34,7 @@ data class RangedWeaponType(
         attacks.forEach { validateRangedAttack(state, it) }
     }
 
+    fun contains(type: AmmunitionTypeId) = attacks.any { it.contains(type) }
     fun contains(type: DamageTypeId) = attacks.any { it.contains(type) }
     fun contains(statistic: StatisticId) = attacks.any { it.contains(statistic) }
 

@@ -1,5 +1,15 @@
 package at.orchaldir.gm.core.model.util
 
+enum class SortAmmunition {
+    Name,
+}
+
+enum class SortAmmunitionType {
+    Name,
+    Variants,
+    Weapons,
+}
+
 enum class SortArchitecturalStyle {
     Name,
     Start,
