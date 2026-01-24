@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.model.rpg.combat.DEFAULT_MODIFIER_COST_FACTOR
 import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifier
 import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifierEffectType
 import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifierId
+import at.orchaldir.gm.core.selector.item.ammunition.getAmmunition
 import at.orchaldir.gm.core.selector.item.equipment.getEquipment
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -34,14 +35,16 @@ private fun HtmlBlockTag.showUsages(
     state: State,
     modifier: EquipmentModifierId,
 ) {
+    val ammunition = state.getAmmunition(modifier)
     val equipment = state.getEquipment(modifier)
 
-    if (equipment.isEmpty()) {
+    if (ammunition.isEmpty() && equipment.isEmpty()) {
         return
     }
 
     h2 { +"Usage" }
 
+    fieldElements(call, state, ammunition)
     fieldElements(call, state, equipment)
 }
 
