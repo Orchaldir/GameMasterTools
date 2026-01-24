@@ -1,9 +1,11 @@
 package at.orchaldir.gm.core.selector.rpg
 
+import at.orchaldir.gm.AMMUNITION_ID_0
 import at.orchaldir.gm.EQUIPMENT_ID_0
 import at.orchaldir.gm.EQUIPMENT_MODIFIER_ID_0
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.ammunition.Ammunition
 import at.orchaldir.gm.core.model.item.equipment.BodyArmour
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.item.equipment.OneHandedAxe
@@ -29,6 +31,14 @@ class EquipmentModifierTest {
                 Storage(type),
             )
         )
+
+        @Test
+        fun `Cannot delete an equipment modifier used by an ammunition`() {
+            val element = Ammunition(AMMUNITION_ID_0, modifiers = setOf(EQUIPMENT_MODIFIER_ID_0))
+            val newState = state.updateStorage(element)
+
+            failCanDelete(newState, AMMUNITION_ID_0)
+        }
 
         @Test
         fun `Cannot delete an equipment modifier used by an armor`() {
