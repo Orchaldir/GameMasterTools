@@ -39,6 +39,7 @@ data class Ammunition(
 
     override fun validate(state: State) {
         state.getAmmunitionTypeStorage().require(type)
+        state.getEquipmentModifierStorage().require(modifiers)
     }
 
 }

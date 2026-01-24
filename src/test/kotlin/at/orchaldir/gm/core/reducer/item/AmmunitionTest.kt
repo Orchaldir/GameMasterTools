@@ -6,6 +6,7 @@ import at.orchaldir.gm.ARTICLE_ID_0
 import at.orchaldir.gm.EQUIPMENT_MODIFIER_ID_0
 import at.orchaldir.gm.UNKNOWN_AMMUNITION_TYPE
 import at.orchaldir.gm.UNKNOWN_ARTICLE_ID
+import at.orchaldir.gm.UNKNOWN_EQUIPMENT_MODIFIER
 import at.orchaldir.gm.UNKNOWN_QUOTE_ID
 import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.core.action.UpdateAction
@@ -35,5 +36,19 @@ class AmmunitionTest {
         val ammunition = Ammunition(AMMUNITION_ID_0, type = UNKNOWN_AMMUNITION_TYPE)
 
         assertIllegalArgument("Requires unknown Ammunition Type 99!") { ammunition.validate(STATE) }
+    }
+
+    @Test
+    fun `Unknown modifier type`() {
+        val ammunition = Ammunition(AMMUNITION_ID_0, modifiers = setOf(UNKNOWN_EQUIPMENT_MODIFIER))
+
+        assertIllegalArgument("Requires unknown Equipment Modifier 99!") { ammunition.validate(STATE) }
+    }
+
+    @Test
+    fun `A valid ammunition`() {
+        val ammunition = Ammunition(AMMUNITION_ID_0, type = AMMUNITION_TYPE_ID_0, modifiers = setOf(EQUIPMENT_MODIFIER_ID_0))
+
+        ammunition.validate(STATE)
     }
 }
