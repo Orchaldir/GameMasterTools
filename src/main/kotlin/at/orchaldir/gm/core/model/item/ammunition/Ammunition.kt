@@ -38,6 +38,7 @@ data class Ammunition(
     override fun name() = name.text
 
     override fun validate(state: State) {
+        state.getAmmunitionTypeStorage().require(type)
     }
 
 }

@@ -1,0 +1,39 @@
+package at.orchaldir.gm.core.reducer.item
+
+import at.orchaldir.gm.AMMUNITION_ID_0
+import at.orchaldir.gm.AMMUNITION_TYPE_ID_0
+import at.orchaldir.gm.ARTICLE_ID_0
+import at.orchaldir.gm.EQUIPMENT_MODIFIER_ID_0
+import at.orchaldir.gm.UNKNOWN_AMMUNITION_TYPE
+import at.orchaldir.gm.UNKNOWN_ARTICLE_ID
+import at.orchaldir.gm.UNKNOWN_QUOTE_ID
+import at.orchaldir.gm.assertIllegalArgument
+import at.orchaldir.gm.core.action.UpdateAction
+import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.ammunition.Ammunition
+import at.orchaldir.gm.core.model.item.periodical.Article
+import at.orchaldir.gm.core.model.item.periodical.FullArticleContent
+import at.orchaldir.gm.core.model.item.text.content.LinkedQuote
+import at.orchaldir.gm.core.model.rpg.combat.AmmunitionType
+import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifier
+import at.orchaldir.gm.core.reducer.REDUCER
+import at.orchaldir.gm.utils.Storage
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
+
+class AmmunitionTest {
+
+    private val STATE = State(
+        listOf(
+            Storage(AmmunitionType(AMMUNITION_TYPE_ID_0)),
+            Storage(EquipmentModifier(EQUIPMENT_MODIFIER_ID_0)),
+        )
+    )
+
+    @Test
+    fun `Unknown ammunition type`() {
+        val ammunition = Ammunition(AMMUNITION_ID_0, type = UNKNOWN_AMMUNITION_TYPE)
+
+        assertIllegalArgument("Requires unknown Ammunition Type 99!") { ammunition.validate(STATE) }
+    }
+}
