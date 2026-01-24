@@ -54,6 +54,13 @@ class RangedWeaponTypeTest {
 
             assertInvalidWeapon(attack, "Rounds of reload must be >= 0!")
         }
+
+        @Test
+        fun `Validate an unknown ammunition type`() {
+            val attack = RangedAttack(shots = SingleShot(UNKNOWN_AMMUNITION_TYPE, 1))
+
+            assertInvalidWeapon(attack, "Requires unknown Ammunition Type 99!")
+        }
     }
 
     @Test
