@@ -17,6 +17,12 @@ sealed class Shots {
         is SingleShot -> ShotsType.SingleShot
         is UndefinedShots -> ShotsType.Undefined
     }
+
+    fun contains(type: AmmunitionTypeId) = when (this) {
+        is SingleShot -> ammunition == type
+        is Thrown -> false
+        UndefinedShots -> false
+    }
 }
 
 @Serializable

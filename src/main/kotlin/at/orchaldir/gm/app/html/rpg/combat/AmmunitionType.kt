@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.combat.AmmunitionType
 import at.orchaldir.gm.core.model.rpg.combat.AmmunitionTypeId
 import at.orchaldir.gm.core.selector.item.ammunition.getAmmunition
+import at.orchaldir.gm.core.selector.rpg.getRangedWeaponTypes
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -25,15 +26,17 @@ private fun HtmlBlockTag.showUsages(
     state: State,
     type: AmmunitionTypeId,
 ) {
-    val ammunitions = state.getAmmunition(type)
+    val ammunition = state.getAmmunition(type)
+    val rangedWeaponTypes = state.getRangedWeaponTypes(type)
 
-    if (ammunitions.isEmpty()) {
+    if (ammunition.isEmpty() && rangedWeaponTypes.isEmpty()) {
         return
     }
 
     h2 { +"Usage" }
 
-    fieldElements(call, state, ammunitions)
+    fieldElements(call, state, ammunition)
+    fieldElements(call, state, rangedWeaponTypes)
 }
 
 // edit
