@@ -7,6 +7,7 @@ enum class SortAmmunition {
 enum class SortAmmunitionType {
     Name,
     Variants,
+    Weapons,
 }
 
 enum class SortArchitecturalStyle {

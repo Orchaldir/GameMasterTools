@@ -72,6 +72,7 @@ import at.orchaldir.gm.core.selector.realm.countOwnedTowns
 import at.orchaldir.gm.core.selector.realm.countRealmsWithCurrencyAtAnyTime
 import at.orchaldir.gm.core.selector.realm.countRealmsWithLegalCodeAtAnyTime
 import at.orchaldir.gm.core.selector.rpg.getMeleeWeaponTypes
+import at.orchaldir.gm.core.selector.rpg.getRangedWeaponTypes
 import at.orchaldir.gm.core.selector.time.date.createSorter
 import at.orchaldir.gm.core.selector.time.getDefaultCalendar
 import at.orchaldir.gm.core.selector.world.countBuildings
@@ -137,6 +138,7 @@ fun State.sortAmmunitionTypes(
         when (sort) {
             SortAmmunitionType.Name -> compareBy { it.name.text }
             SortAmmunitionType.Variants -> compareByDescending { getAmmunition(it.id).size }
+            SortAmmunitionType.Weapons -> compareByDescending { getRangedWeaponTypes(it.id).size }
         })
 
 // architectural style
