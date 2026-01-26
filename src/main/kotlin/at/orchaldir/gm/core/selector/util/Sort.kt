@@ -71,6 +71,7 @@ import at.orchaldir.gm.core.selector.realm.calculateTotalPopulation
 import at.orchaldir.gm.core.selector.realm.countOwnedTowns
 import at.orchaldir.gm.core.selector.realm.countRealmsWithCurrencyAtAnyTime
 import at.orchaldir.gm.core.selector.realm.countRealmsWithLegalCodeAtAnyTime
+import at.orchaldir.gm.core.selector.rpg.getEquipmentModifier
 import at.orchaldir.gm.core.selector.rpg.getMeleeWeaponTypes
 import at.orchaldir.gm.core.selector.rpg.getRangedWeaponTypes
 import at.orchaldir.gm.core.selector.time.date.createSorter
@@ -525,6 +526,9 @@ fun State.sortEquipmentList(
 
 fun State.sortEquipmentModifiers(sort: SortEquipmentModifier = SortEquipmentModifier.Name) =
     sortEquipmentModifiers(getEquipmentModifierStorage().getAll(), sort)
+
+fun State.sortEquipmentModifiers(category: EquipmentModifierCategory, sort: SortEquipmentModifier = SortEquipmentModifier.Name) =
+    sortEquipmentModifiers(getEquipmentModifier(category), sort)
 
 fun State.sortEquipmentModifiers(
     weapons: Collection<EquipmentModifier>,

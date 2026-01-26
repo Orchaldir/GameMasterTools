@@ -6,6 +6,7 @@ import at.orchaldir.gm.app.WEAPON
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.MaterialId
+import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifierCategory
 import at.orchaldir.gm.core.model.rpg.combat.RangedWeaponStats
 import at.orchaldir.gm.core.selector.rpg.getEquipmentModifierEffects
 import at.orchaldir.gm.core.selector.rpg.statblock.resolveRangedAttacks
@@ -58,13 +59,7 @@ fun HtmlBlockTag.editRangedWeaponStats(
             state.getRangedWeaponTypeStorage().getAll(),
             stats.type,
         )
-        selectElements(
-            state,
-            "Modifiers",
-            combine(WEAPON, MODIFIER),
-            state.getEquipmentModifierStorage().getAll(),
-            stats.modifiers,
-        )
+        selectEquipmentModifier(state, EquipmentModifierCategory.RangedWeapons, stats.modifiers)
         updatedRangedWeaponStats(call, state, stats)
     }
 }
@@ -75,9 +70,5 @@ fun parseRangedWeaponStats(
     parameters: Parameters,
 ) = RangedWeaponStats(
     parseOptionalRangedWeaponTypeId(parameters, combine(WEAPON, TYPE)),
-    parseElements(
-        parameters,
-        combine(WEAPON, MODIFIER),
-        ::parseEquipmentModifierId,
-    ),
+    parseEquipmentModifiers(parameters),
 )

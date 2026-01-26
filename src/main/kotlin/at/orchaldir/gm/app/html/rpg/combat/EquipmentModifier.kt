@@ -1,7 +1,10 @@
 package at.orchaldir.gm.app.html.rpg.combat
 
+import at.orchaldir.gm.app.ARMOR
 import at.orchaldir.gm.app.COST
 import at.orchaldir.gm.app.EFFECT
+import at.orchaldir.gm.app.EQUIPMENT
+import at.orchaldir.gm.app.MODIFIER
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.math.parseFactor
@@ -13,8 +16,10 @@ import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifierEffectType
 import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifierId
 import at.orchaldir.gm.core.selector.item.ammunition.getAmmunition
 import at.orchaldir.gm.core.selector.item.equipment.getEquipment
+import at.orchaldir.gm.core.selector.util.sortEquipmentModifiers
 import io.ktor.http.*
 import io.ktor.server.application.*
+import kotlinx.html.DETAILS
 import kotlinx.html.HtmlBlockTag
 import kotlinx.html.h2
 
@@ -53,6 +58,18 @@ private fun HtmlBlockTag.showUsages(
 
 // edit
 
+fun HtmlBlockTag.selectEquipmentModifier(
+    state: State,
+    category: EquipmentModifierCategory,
+    modifiers: Set<EquipmentModifierId>,
+) = selectElements(
+    state,
+    "Modifiers",
+    combine(EQUIPMENT, MODIFIER),
+    state.sortEquipmentModifiers(category),
+    modifiers,
+)
+
 fun HtmlBlockTag.editEquipmentModifier(
     call: ApplicationCall,
     state: State,
@@ -75,6 +92,12 @@ fun HtmlBlockTag.editEquipmentModifier(
 }
 
 // parse
+
+fun parseEquipmentModifiers(parameters: Parameters) = parseElements(
+    parameters,
+    combine(EQUIPMENT, MODIFIER),
+    ::parseEquipmentModifierId,
+)
 
 fun parseEquipmentModifierId(parameters: Parameters, param: String) =
     EquipmentModifierId(parseInt(parameters, param))

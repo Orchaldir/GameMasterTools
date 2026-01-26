@@ -9,6 +9,8 @@ import at.orchaldir.gm.app.html.economy.money.selectPriceLookup
 import at.orchaldir.gm.app.html.economy.money.showPriceLookupDetails
 import at.orchaldir.gm.app.html.rpg.combat.parseAmmunitionTypeId
 import at.orchaldir.gm.app.html.rpg.combat.parseEquipmentModifierId
+import at.orchaldir.gm.app.html.rpg.combat.parseEquipmentModifiers
+import at.orchaldir.gm.app.html.rpg.combat.selectEquipmentModifier
 import at.orchaldir.gm.app.html.util.math.parseWeightLookup
 import at.orchaldir.gm.app.html.util.math.selectWeightLookup
 import at.orchaldir.gm.app.html.util.math.showWeightLookupDetails
@@ -19,6 +21,7 @@ import at.orchaldir.gm.core.model.item.equipment.MAX_EQUIPMENT_PRICE
 import at.orchaldir.gm.core.model.item.equipment.MAX_EQUIPMENT_WEIGHT
 import at.orchaldir.gm.core.model.item.equipment.MIN_EQUIPMENT_PRICE
 import at.orchaldir.gm.core.model.item.equipment.MIN_EQUIPMENT_WEIGHT
+import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifierCategory
 import at.orchaldir.gm.core.selector.util.sortAmmunitionTypes
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.math.Factor
@@ -58,13 +61,7 @@ fun HtmlBlockTag.editAmmunition(
         state.sortAmmunitionTypes(),
         ammunition.type,
     )
-    selectElements(
-        state,
-        "Modifiers",
-        combine(AMMUNITION, MODIFIER),
-        state.getEquipmentModifierStorage().getAll(),
-        ammunition.modifiers,
-    )
+    selectEquipmentModifier(state, EquipmentModifierCategory.Ammunition, ammunition.modifiers)
     selectWeightLookup(state, ammunition.weight, MIN_EQUIPMENT_WEIGHT, MAX_EQUIPMENT_WEIGHT)
     selectPriceLookup(state, ammunition.price, MIN_EQUIPMENT_PRICE, MAX_EQUIPMENT_PRICE)
 }
@@ -83,11 +80,7 @@ fun parseAmmunition(
     id,
     parseName(parameters),
     parseAmmunitionTypeId(parameters, TYPE),
-    parseElements(
-        parameters,
-        combine(AMMUNITION, MODIFIER),
-        ::parseEquipmentModifierId,
-    ),
+    parseEquipmentModifiers(parameters),
     parseWeightLookup(parameters, MIN_EQUIPMENT_WEIGHT),
     parsePriceLookup(state, parameters),
 )
