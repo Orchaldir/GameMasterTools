@@ -523,19 +523,19 @@ fun State.sortEquipmentList(
 
 // equipment modifiers
 
-fun State.sortEquipmentModifiers(sort: SortArmorModifier = SortArmorModifier.Name) =
+fun State.sortEquipmentModifiers(sort: SortEquipmentModifier = SortEquipmentModifier.Name) =
     sortEquipmentModifiers(getEquipmentModifierStorage().getAll(), sort)
 
 fun State.sortEquipmentModifiers(
     weapons: Collection<EquipmentModifier>,
-    sort: SortArmorModifier = SortArmorModifier.Name,
+    sort: SortEquipmentModifier = SortEquipmentModifier.Name,
 ) = weapons
     .sortedWith(
         when (sort) {
-            SortArmorModifier.Name -> compareBy { it.name.text }
-            SortArmorModifier.Category -> compareBy { it.category.name }
-            SortArmorModifier.Cost -> compareByDescending { it.cost.toPermyriad() }
-            SortArmorModifier.Equipment -> compareByDescending { getEquipment(it.id).size }
+            SortEquipmentModifier.Name -> compareBy { it.name.text }
+            SortEquipmentModifier.Category -> compareBy { it.category.name }
+            SortEquipmentModifier.Cost -> compareByDescending { it.cost.toPermyriad() }
+            SortEquipmentModifier.Equipment -> compareByDescending { getEquipment(it.id).size }
         })
 
 // fashion
