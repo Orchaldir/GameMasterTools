@@ -2,11 +2,13 @@ package at.orchaldir.gm.app.html.rpg.combat
 
 import at.orchaldir.gm.app.COST
 import at.orchaldir.gm.app.EFFECT
+import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.math.parseFactor
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.combat.DEFAULT_MODIFIER_COST_FACTOR
 import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifier
+import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifierCategory
 import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifierEffectType
 import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifierId
 import at.orchaldir.gm.core.selector.item.ammunition.getAmmunition
@@ -23,6 +25,7 @@ fun HtmlBlockTag.showEquipmentModifier(
     state: State,
     modifier: EquipmentModifier,
 ) {
+    field("Category", modifier.category)
     fieldList("Effects", modifier.effects) {
         displayEquipmentModifierEffect(call, state, it)
     }
@@ -56,6 +59,12 @@ fun HtmlBlockTag.editEquipmentModifier(
     modifier: EquipmentModifier,
 ) {
     selectName(modifier.name)
+    selectValue(
+        "category",
+        TYPE,
+        EquipmentModifierCategory.entries,
+        modifier.category,
+    )
 
     val allowedTypes = EquipmentModifierEffectType.entries.toSet() - modifier.effects.map { it.getType() }.toSet()
 
@@ -79,6 +88,7 @@ fun parseEquipmentModifier(
 ) = EquipmentModifier(
     id,
     parseName(parameters),
+    parse(parameters, TYPE, EquipmentModifierCategory.All),
     parseList(parameters, EFFECT, 0) { _, effectParam ->
         parseEquipmentModifierEffect(parameters, effectParam)
     },
