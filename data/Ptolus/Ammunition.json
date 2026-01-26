@@ -13,6 +13,19 @@
     "#type": "User",
     "price": 0
    }
+  },
+  "1": {
+   "id": 1,
+   "name": "Shaped Stone",
+   "type": 1,
+   "weight": {
+    "#type": "User",
+    "weight": 10000
+   },
+   "price": {
+    "#type": "User",
+    "price": 0
+   }
   }
  }
 }
