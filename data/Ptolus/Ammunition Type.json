@@ -12,6 +12,14 @@
   "2": {
    "id": 2,
    "name": "Heavy Sling Ammunition"
+  },
+  "3": {
+   "id": 3,
+   "name": "Bolt"
+  },
+  "4": {
+   "id": 4,
+   "name": "Dart"
   }
  }
 }
