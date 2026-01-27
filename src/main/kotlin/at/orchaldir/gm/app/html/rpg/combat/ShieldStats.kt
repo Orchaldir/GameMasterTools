@@ -1,6 +1,5 @@
 package at.orchaldir.gm.app.html.rpg.combat
 
-import at.orchaldir.gm.app.MODIFIER
 import at.orchaldir.gm.app.SHIELD
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*

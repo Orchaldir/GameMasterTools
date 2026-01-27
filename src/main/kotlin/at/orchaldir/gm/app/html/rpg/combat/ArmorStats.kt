@@ -1,15 +1,12 @@
 package at.orchaldir.gm.app.html.rpg.combat
 
 import at.orchaldir.gm.app.ARMOR
-import at.orchaldir.gm.app.EQUIPMENT
-import at.orchaldir.gm.app.MODIFIER
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.rpg.combat.ArmorStats
 import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifierCategory
-import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifierId
 import at.orchaldir.gm.core.selector.rpg.getEquipmentModifierEffects
 import at.orchaldir.gm.core.selector.rpg.statblock.resolveProtection
 import io.ktor.http.*

@@ -17,6 +17,7 @@ enum class EquipmentModifierCategory {
             Weapons -> true
             else -> false
         }
+
         else -> this == category
     }
 }

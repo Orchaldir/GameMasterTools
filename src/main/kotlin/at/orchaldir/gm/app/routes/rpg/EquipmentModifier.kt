@@ -1,14 +1,10 @@
 package at.orchaldir.gm.app.routes.rpg
 
 import at.orchaldir.gm.app.STORE
-import at.orchaldir.gm.app.html.Column
-import at.orchaldir.gm.app.html.countCollectionColumn
-import at.orchaldir.gm.app.html.createCostFactorColumn
-import at.orchaldir.gm.app.html.createNameColumn
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.rpg.combat.editEquipmentModifier
 import at.orchaldir.gm.app.html.rpg.combat.parseEquipmentModifier
 import at.orchaldir.gm.app.html.rpg.combat.showEquipmentModifier
-import at.orchaldir.gm.app.html.tdEnum
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.rpg.combat.EQUIPMENT_MODIFIER_TYPE

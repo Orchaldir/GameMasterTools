@@ -1,25 +1,15 @@
 package at.orchaldir.gm.app.html.rpg.combat
 
-import at.orchaldir.gm.app.ARMOR
-import at.orchaldir.gm.app.COST
-import at.orchaldir.gm.app.EFFECT
-import at.orchaldir.gm.app.EQUIPMENT
-import at.orchaldir.gm.app.MODIFIER
-import at.orchaldir.gm.app.TYPE
+import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.math.parseFactor
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.rpg.combat.DEFAULT_MODIFIER_COST_FACTOR
-import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifier
-import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifierCategory
-import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifierEffectType
-import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifierId
+import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.core.selector.item.ammunition.getAmmunition
 import at.orchaldir.gm.core.selector.item.equipment.getEquipment
 import at.orchaldir.gm.core.selector.util.sortEquipmentModifiers
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.DETAILS
 import kotlinx.html.HtmlBlockTag
 import kotlinx.html.h2
 

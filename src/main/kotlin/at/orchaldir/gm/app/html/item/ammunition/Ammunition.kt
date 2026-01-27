@@ -1,14 +1,11 @@
 package at.orchaldir.gm.app.html.item.ammunition
 
-import at.orchaldir.gm.app.AMMUNITION
-import at.orchaldir.gm.app.MODIFIER
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.economy.money.parsePriceLookup
 import at.orchaldir.gm.app.html.economy.money.selectPriceLookup
 import at.orchaldir.gm.app.html.economy.money.showPriceLookupDetails
 import at.orchaldir.gm.app.html.rpg.combat.parseAmmunitionTypeId
-import at.orchaldir.gm.app.html.rpg.combat.parseEquipmentModifierId
 import at.orchaldir.gm.app.html.rpg.combat.parseEquipmentModifiers
 import at.orchaldir.gm.app.html.rpg.combat.selectEquipmentModifier
 import at.orchaldir.gm.app.html.util.math.parseWeightLookup

@@ -527,7 +527,10 @@ fun State.sortEquipmentList(
 fun State.sortEquipmentModifiers(sort: SortEquipmentModifier = SortEquipmentModifier.Name) =
     sortEquipmentModifiers(getEquipmentModifierStorage().getAll(), sort)
 
-fun State.sortEquipmentModifiers(category: EquipmentModifierCategory, sort: SortEquipmentModifier = SortEquipmentModifier.Name) =
+fun State.sortEquipmentModifiers(
+    category: EquipmentModifierCategory,
+    sort: SortEquipmentModifier = SortEquipmentModifier.Name,
+) =
     sortEquipmentModifiers(getEquipmentModifier(category), sort)
 
 fun State.sortEquipmentModifiers(
