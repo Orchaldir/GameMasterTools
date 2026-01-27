@@ -1,12 +1,12 @@
 package at.orchaldir.gm.app.html.rpg.combat
 
 import at.orchaldir.gm.app.ARMOR
-import at.orchaldir.gm.app.MODIFIER
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.rpg.combat.ArmorStats
+import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifierCategory
 import at.orchaldir.gm.core.selector.rpg.getEquipmentModifierEffects
 import at.orchaldir.gm.core.selector.rpg.statblock.resolveProtection
 import io.ktor.http.*
@@ -58,13 +58,7 @@ fun HtmlBlockTag.editArmorStats(
             state.getArmorTypeStorage().getAll(),
             stats.type,
         )
-        selectElements(
-            state,
-            "Modifiers",
-            combine(ARMOR, MODIFIER),
-            state.getEquipmentModifierStorage().getAll(),
-            stats.modifiers,
-        )
+        selectEquipmentModifier(state, EquipmentModifierCategory.Armor, stats.modifiers)
         showUpdatedArmorStats(call, state, stats)
     }
 }
@@ -75,9 +69,5 @@ fun parseArmorStats(
     parameters: Parameters,
 ) = ArmorStats(
     parseOptionalArmorTypeId(parameters, combine(ARMOR, TYPE)),
-    parseElements(
-        parameters,
-        combine(ARMOR, MODIFIER),
-        ::parseEquipmentModifierId,
-    ),
+    parseEquipmentModifiers(parameters),
 )

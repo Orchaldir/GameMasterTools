@@ -1,7 +1,7 @@
 package at.orchaldir.gm.app.html.economy.money
 
+import at.orchaldir.gm.app.PRICE
 import at.orchaldir.gm.app.TYPE
-import at.orchaldir.gm.app.WEIGHT
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.*
@@ -153,7 +153,7 @@ fun HtmlBlockTag.selectPriceLookup(
     lookup: PriceLookup,
     minPrice: Int,
     maxPrice: Int,
-    param: String = WEIGHT,
+    param: String = PRICE,
 ) {
     showDetails("Price", true) {
         selectValue("Type", combine(param, TYPE), PriceLookupType.entries, lookup.getType())
@@ -177,7 +177,7 @@ fun HtmlBlockTag.selectPriceLookup(
 fun parsePriceLookup(
     state: State,
     parameters: Parameters,
-    param: String = WEIGHT,
+    param: String = PRICE,
 ) = when (parse(parameters, combine(param, TYPE), PriceLookupType.Calculated)) {
     PriceLookupType.Calculated -> CalculatedPrice
     PriceLookupType.UserDefined -> UserDefinedPrice(

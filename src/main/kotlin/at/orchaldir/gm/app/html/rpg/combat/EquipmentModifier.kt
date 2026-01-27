@@ -1,16 +1,13 @@
 package at.orchaldir.gm.app.html.rpg.combat
 
-import at.orchaldir.gm.app.COST
-import at.orchaldir.gm.app.EFFECT
+import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.math.parseFactor
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.rpg.combat.DEFAULT_MODIFIER_COST_FACTOR
-import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifier
-import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifierEffectType
-import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifierId
+import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.core.selector.item.ammunition.getAmmunition
 import at.orchaldir.gm.core.selector.item.equipment.getEquipment
+import at.orchaldir.gm.core.selector.util.sortEquipmentModifiers
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -23,6 +20,7 @@ fun HtmlBlockTag.showEquipmentModifier(
     state: State,
     modifier: EquipmentModifier,
 ) {
+    field("Category", modifier.category)
     fieldList("Effects", modifier.effects) {
         displayEquipmentModifierEffect(call, state, it)
     }
@@ -50,12 +48,30 @@ private fun HtmlBlockTag.showUsages(
 
 // edit
 
+fun HtmlBlockTag.selectEquipmentModifier(
+    state: State,
+    category: EquipmentModifierCategory,
+    modifiers: Set<EquipmentModifierId>,
+) = selectElements(
+    state,
+    "Modifiers",
+    combine(EQUIPMENT, MODIFIER),
+    state.sortEquipmentModifiers(category),
+    modifiers,
+)
+
 fun HtmlBlockTag.editEquipmentModifier(
     call: ApplicationCall,
     state: State,
     modifier: EquipmentModifier,
 ) {
     selectName(modifier.name)
+    selectValue(
+        "category",
+        TYPE,
+        EquipmentModifierCategory.entries,
+        modifier.category,
+    )
 
     val allowedTypes = EquipmentModifierEffectType.entries.toSet() - modifier.effects.map { it.getType() }.toSet()
 
@@ -66,6 +82,12 @@ fun HtmlBlockTag.editEquipmentModifier(
 }
 
 // parse
+
+fun parseEquipmentModifiers(parameters: Parameters) = parseElements(
+    parameters,
+    combine(EQUIPMENT, MODIFIER),
+    ::parseEquipmentModifierId,
+)
 
 fun parseEquipmentModifierId(parameters: Parameters, param: String) =
     EquipmentModifierId(parseInt(parameters, param))
@@ -79,6 +101,7 @@ fun parseEquipmentModifier(
 ) = EquipmentModifier(
     id,
     parseName(parameters),
+    parse(parameters, TYPE, EquipmentModifierCategory.All),
     parseList(parameters, EFFECT, 0) { _, effectParam ->
         parseEquipmentModifierEffect(parameters, effectParam)
     },

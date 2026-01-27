@@ -23,6 +23,7 @@ value class EquipmentModifierId(val value: Int) : Id<EquipmentModifierId> {
 data class EquipmentModifier(
     val id: EquipmentModifierId,
     val name: Name = Name.init(id),
+    val category: EquipmentModifierCategory = EquipmentModifierCategory.All,
     val effects: List<EquipmentModifierEffect> = emptyList(),
     val cost: Factor = DEFAULT_MODIFIER_COST_FACTOR,
 ) : ElementWithSimpleName<EquipmentModifierId> {

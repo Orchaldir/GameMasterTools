@@ -1,9 +1,7 @@
 package at.orchaldir.gm.app.routes.rpg
 
 import at.orchaldir.gm.app.STORE
-import at.orchaldir.gm.app.html.countCollectionColumn
-import at.orchaldir.gm.app.html.createCostFactorColumn
-import at.orchaldir.gm.app.html.createNameColumn
+import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.rpg.combat.editEquipmentModifier
 import at.orchaldir.gm.app.html.rpg.combat.parseEquipmentModifier
 import at.orchaldir.gm.app.html.rpg.combat.showEquipmentModifier
@@ -11,7 +9,7 @@ import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.rpg.combat.EQUIPMENT_MODIFIER_TYPE
 import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifierId
-import at.orchaldir.gm.core.model.util.SortArmorModifier
+import at.orchaldir.gm.core.model.util.SortEquipmentModifier
 import at.orchaldir.gm.core.selector.item.equipment.getEquipment
 import at.orchaldir.gm.core.selector.util.sortEquipmentModifiers
 import io.ktor.resources.*
@@ -22,10 +20,10 @@ import io.ktor.server.routing.*
 import kotlinx.html.HtmlBlockTag
 
 @Resource("/$EQUIPMENT_MODIFIER_TYPE")
-class EquipmentModifierRoutes : Routes<EquipmentModifierId, SortArmorModifier> {
+class EquipmentModifierRoutes : Routes<EquipmentModifierId, SortEquipmentModifier> {
     @Resource("all")
     class All(
-        val sort: SortArmorModifier = SortArmorModifier.Name,
+        val sort: SortEquipmentModifier = SortEquipmentModifier.Name,
         val parent: EquipmentModifierRoutes = EquipmentModifierRoutes(),
     )
 
@@ -48,7 +46,7 @@ class EquipmentModifierRoutes : Routes<EquipmentModifierId, SortArmorModifier> {
     class Update(val id: EquipmentModifierId, val parent: EquipmentModifierRoutes = EquipmentModifierRoutes())
 
     override fun all(call: ApplicationCall) = call.application.href(All())
-    override fun all(call: ApplicationCall, sort: SortArmorModifier) = call.application.href(All(sort))
+    override fun all(call: ApplicationCall, sort: SortEquipmentModifier) = call.application.href(All(sort))
     override fun delete(call: ApplicationCall, id: EquipmentModifierId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: EquipmentModifierId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())
@@ -66,6 +64,7 @@ fun Application.configureEquipmentModifierRouting() {
                 state.sortEquipmentModifiers(all.sort),
                 listOf(
                     createNameColumn(call, state),
+                    Column("Name") { tdEnum(it.category) },
                     createCostFactorColumn { it.cost },
                     countCollectionColumn("Equipment") { state.getEquipment(it.id) },
                 ),

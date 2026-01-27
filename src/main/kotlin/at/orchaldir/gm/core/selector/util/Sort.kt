@@ -71,6 +71,7 @@ import at.orchaldir.gm.core.selector.realm.calculateTotalPopulation
 import at.orchaldir.gm.core.selector.realm.countOwnedTowns
 import at.orchaldir.gm.core.selector.realm.countRealmsWithCurrencyAtAnyTime
 import at.orchaldir.gm.core.selector.realm.countRealmsWithLegalCodeAtAnyTime
+import at.orchaldir.gm.core.selector.rpg.getEquipmentModifier
 import at.orchaldir.gm.core.selector.rpg.getMeleeWeaponTypes
 import at.orchaldir.gm.core.selector.rpg.getRangedWeaponTypes
 import at.orchaldir.gm.core.selector.time.date.createSorter
@@ -523,18 +524,25 @@ fun State.sortEquipmentList(
 
 // equipment modifiers
 
-fun State.sortEquipmentModifiers(sort: SortArmorModifier = SortArmorModifier.Name) =
+fun State.sortEquipmentModifiers(sort: SortEquipmentModifier = SortEquipmentModifier.Name) =
     sortEquipmentModifiers(getEquipmentModifierStorage().getAll(), sort)
 
 fun State.sortEquipmentModifiers(
+    category: EquipmentModifierCategory,
+    sort: SortEquipmentModifier = SortEquipmentModifier.Name,
+) =
+    sortEquipmentModifiers(getEquipmentModifier(category), sort)
+
+fun State.sortEquipmentModifiers(
     weapons: Collection<EquipmentModifier>,
-    sort: SortArmorModifier = SortArmorModifier.Name,
+    sort: SortEquipmentModifier = SortEquipmentModifier.Name,
 ) = weapons
     .sortedWith(
         when (sort) {
-            SortArmorModifier.Name -> compareBy { it.name.text }
-            SortArmorModifier.Cost -> compareByDescending { it.cost.toPermyriad() }
-            SortArmorModifier.Equipment -> compareByDescending { getEquipment(it.id).size }
+            SortEquipmentModifier.Name -> compareBy { it.name.text }
+            SortEquipmentModifier.Category -> compareBy { it.category.name }
+            SortEquipmentModifier.Cost -> compareByDescending { it.cost.toPermyriad() }
+            SortEquipmentModifier.Equipment -> compareByDescending { getEquipment(it.id).size }
         })
 
 // fashion

@@ -38,6 +38,27 @@
    "id": 3,
    "name": "Fine",
    "cost": 30000
+  },
+  "4": {
+   "id": 4,
+   "name": "Inaccurate",
+   "category": "Ammunition",
+   "cost": -10000
+  },
+  "5": {
+   "id": 5,
+   "name": "Bodkin Point",
+   "category": "Ammunition"
+  },
+  "6": {
+   "id": 6,
+   "name": "Cutting Point",
+   "category": "Ammunition"
+  },
+  "7": {
+   "id": 7,
+   "name": "Flaming",
+   "category": "Ammunition"
   }
  }
 }

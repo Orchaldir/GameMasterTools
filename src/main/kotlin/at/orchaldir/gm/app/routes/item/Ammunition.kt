@@ -1,10 +1,13 @@
 package at.orchaldir.gm.app.routes.item
 
 import at.orchaldir.gm.app.STORE
+import at.orchaldir.gm.app.html.Column.Companion.tdColumn
+import at.orchaldir.gm.app.html.createIdColumn
 import at.orchaldir.gm.app.html.createNameColumn
 import at.orchaldir.gm.app.html.item.ammunition.editAmmunition
 import at.orchaldir.gm.app.html.item.ammunition.parseAmmunition
 import at.orchaldir.gm.app.html.item.ammunition.showAmmunition
+import at.orchaldir.gm.app.html.showInlineIds
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.core.model.item.ammunition.AMMUNITION_TYPE
 import at.orchaldir.gm.core.model.item.ammunition.AmmunitionId
@@ -62,6 +65,10 @@ fun Application.configureAmmunitionRouting() {
                 state.sortAmmunition(all.sort),
                 listOf(
                     createNameColumn(call, state),
+                    createIdColumn(call, state, "Type") { it.type },
+                    tdColumn("Modifiers") {
+                        showInlineIds(call, state, it.modifiers)
+                    }
                 ),
             )
         }

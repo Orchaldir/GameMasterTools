@@ -16,12 +16,6 @@ enum class SortArchitecturalStyle {
     End,
 }
 
-enum class SortArmorModifier {
-    Name,
-    Cost,
-    Equipment,
-}
-
 enum class SortArmorType {
     Name,
     Cost,
@@ -143,6 +137,13 @@ enum class SortEquipment {
     Name,
     Weight,
     Price,
+}
+
+enum class SortEquipmentModifier {
+    Name,
+    Category,
+    Cost,
+    Equipment,
 }
 
 enum class SortFashion {
