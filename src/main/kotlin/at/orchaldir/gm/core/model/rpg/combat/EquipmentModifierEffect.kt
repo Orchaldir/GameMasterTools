@@ -3,13 +3,20 @@ package at.orchaldir.gm.core.model.rpg.combat
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.SimpleModifiedDice
 import at.orchaldir.gm.core.reducer.rpg.validateIsInside
+import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
+import at.orchaldir.gm.utils.math.validateFactor
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+
+val MIN_RANGE_MODIFIER = fromPercentage(-99)
+val MAX_RANGE_MODIFIER = fromPercentage(10000)
 
 enum class EquipmentModifierEffectType {
     Damage,
     DamageResistance,
     DefenseBonus,
+    Range,
 }
 
 @Serializable
@@ -19,6 +26,7 @@ sealed class EquipmentModifierEffect {
         is ModifyDamage -> EquipmentModifierEffectType.Damage
         is ModifyDamageResistance -> EquipmentModifierEffectType.DamageResistance
         is ModifyDefenseBonus -> EquipmentModifierEffectType.DefenseBonus
+        is ModifyRange -> EquipmentModifierEffectType.Range
     }
 
     fun validate(state: State) {
@@ -34,6 +42,7 @@ sealed class EquipmentModifierEffect {
             )
 
             is ModifyDefenseBonus -> validateIsInside(amount, "Defense Bonus Modifier", 1, rpg.maxDefenseBonus)
+            is ModifyRange -> validateFactor(factor, "range", MIN_RANGE_MODIFIER, MAX_RANGE_MODIFIER)
         }
     }
 }
@@ -54,4 +63,10 @@ data class ModifyDamageResistance(
 @SerialName("DefenseBonus")
 data class ModifyDefenseBonus(
     val amount: Int,
+) : EquipmentModifierEffect()
+
+@Serializable
+@SerialName("Range")
+data class ModifyRange(
+    val factor: Factor,
 ) : EquipmentModifierEffect()

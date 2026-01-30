@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.html.rpg.combat
 
 import at.orchaldir.gm.app.DAMAGE
 import at.orchaldir.gm.app.DEFENSE
+import at.orchaldir.gm.app.RANGE
 import at.orchaldir.gm.app.RESISTANCE
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
@@ -9,8 +10,11 @@ import at.orchaldir.gm.app.html.rpg.parseSimpleModifiedDice
 import at.orchaldir.gm.app.html.rpg.selectDiceModifier
 import at.orchaldir.gm.app.html.rpg.selectDiceNumber
 import at.orchaldir.gm.app.html.rpg.selectFromRange
+import at.orchaldir.gm.app.html.util.math.parseFactor
+import at.orchaldir.gm.app.html.util.math.selectFactor
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.combat.*
+import at.orchaldir.gm.utils.math.Factor
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -40,6 +44,7 @@ fun HtmlBlockTag.displayEquipmentModifierEffect(
 
         is ModifyDamageResistance -> +"Modifies Damage Resistance by ${effect.amount}"
         is ModifyDefenseBonus -> +"Modifies Defense Bonus by ${effect.amount}"
+        is ModifyRange -> +"Modifies Range by ${effect.factor}"
     }
 }
 
@@ -79,6 +84,14 @@ fun HtmlBlockTag.editEquipmentModifierEffect(
                 effect.amount,
                 combine(param, DEFENSE),
             )
+
+            is ModifyRange -> selectFactor(
+                "Factor",
+                combine(param, RANGE),
+                effect.factor,
+                MIN_RANGE_MODIFIER,
+                MAX_RANGE_MODIFIER,
+            )
         }
     }
 }
@@ -99,5 +112,9 @@ fun parseEquipmentModifierEffect(
 
     EquipmentModifierEffectType.DefenseBonus -> ModifyDefenseBonus(
         parseInt(parameters, combine(param, DEFENSE)),
+    )
+
+    EquipmentModifierEffectType.Range -> ModifyRange(
+        parseFactor(parameters, combine(param, RANGE)),
     )
 }

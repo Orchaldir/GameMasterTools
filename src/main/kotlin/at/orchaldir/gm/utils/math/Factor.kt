@@ -82,7 +82,7 @@ value class Factor private constructor(private val permyriad: Int) {
 
 }
 
-fun checkFactor(
+fun validateFactor(
     factor: Factor,
     label: String,
     min: Factor,

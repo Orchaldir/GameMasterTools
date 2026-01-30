@@ -14,7 +14,7 @@ data class Distribution<T : SiUnit<T>>(
     val offset: Factor = DEFAULT_DISTRIBUTION_FACTOR,
 ) {
     init {
-        checkFactor(offset, "distribution offset", MIN_DISTRIBUTION_FACTOR, MAX_DISTRIBUTION_FACTOR)
+        validateFactor(offset, "distribution offset", MIN_DISTRIBUTION_FACTOR, MAX_DISTRIBUTION_FACTOR)
     }
 
     companion object {
