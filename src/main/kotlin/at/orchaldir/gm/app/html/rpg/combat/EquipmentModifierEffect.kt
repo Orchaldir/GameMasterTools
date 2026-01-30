@@ -4,8 +4,10 @@ import at.orchaldir.gm.app.DAMAGE
 import at.orchaldir.gm.app.DEFENSE
 import at.orchaldir.gm.app.RANGE
 import at.orchaldir.gm.app.RESISTANCE
+import at.orchaldir.gm.app.STATISTIC
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.rpg.parseDiceModifier
 import at.orchaldir.gm.app.html.rpg.parseSimpleModifiedDice
 import at.orchaldir.gm.app.html.rpg.selectDiceModifier
 import at.orchaldir.gm.app.html.rpg.selectDiceNumber
@@ -45,6 +47,7 @@ fun HtmlBlockTag.displayEquipmentModifierEffect(
         is ModifyDamageResistance -> +"Modifies Damage Resistance by ${effect.amount}"
         is ModifyDefenseBonus -> +"Modifies Defense Bonus by ${effect.amount}"
         is ModifyRange -> +"Modifies Range by ${effect.factor}"
+        is ModifySkill -> +"Modifies Skill by ${effect.amount}"
     }
 }
 
@@ -92,6 +95,13 @@ fun HtmlBlockTag.editEquipmentModifierEffect(
                 MIN_RANGE_MODIFIER,
                 MAX_RANGE_MODIFIER,
             )
+
+            is ModifySkill -> selectFromRange(
+                "Modifier",
+                state.data.rpg.skillModifier,
+                effect.amount,
+                combine(param, STATISTIC),
+            )
         }
     }
 }
@@ -116,5 +126,9 @@ fun parseEquipmentModifierEffect(
 
     EquipmentModifierEffectType.Range -> ModifyRange(
         parseFactor(parameters, combine(param, RANGE)),
+    )
+
+    EquipmentModifierEffectType.Skill -> ModifySkill(
+        parseInt(parameters, combine(param, STATISTIC)),
     )
 }

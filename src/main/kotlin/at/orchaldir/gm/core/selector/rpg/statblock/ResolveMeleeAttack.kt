@@ -72,6 +72,6 @@ fun resolveMeleeAttack(
     effect: EquipmentModifierEffect,
     attack: MeleeAttack,
 ) = when (effect) {
-    is ModifyDamageResistance, is ModifyDefenseBonus, is ModifyRange -> attack
+    is ModifyDamageResistance, is ModifyDefenseBonus, is ModifyRange, is ModifySkill -> attack
     is ModifyDamage -> attack.copy(effect = resolveAttackEffect(effect, attack.effect))
 }

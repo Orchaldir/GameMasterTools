@@ -13,4 +13,5 @@ data class RpgData(
     val maxDefenseBonus: Int = 10,
     val defenseBonusModifier: IntRange = IntRange(-5, 5),
     val musclePoweredStatistic: StatisticId? = null,
+    val skillModifier: IntRange = IntRange(-2, 2),
 )

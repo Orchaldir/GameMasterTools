@@ -44,5 +44,5 @@ fun resolveProtection(
         protection
     }
 
-    is ModifyDamage, is ModifyRange -> protection
+    is ModifyDamage, is ModifyRange, is ModifySkill -> protection
 }

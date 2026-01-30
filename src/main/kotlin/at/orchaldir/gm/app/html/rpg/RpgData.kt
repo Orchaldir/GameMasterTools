@@ -29,6 +29,7 @@ fun HtmlBlockTag.showRpgData(
     field("Max Defense Bonus", data.maxDefenseBonus)
     fieldRange("Defense Bonus Modifier", data.defenseBonusModifier)
     optionalFieldLink("Muscle-Powered Statistic", call, state, data.musclePoweredStatistic)
+    fieldRange("Skill Modifier", data.skillModifier)
 }
 
 
@@ -76,6 +77,11 @@ fun HtmlBlockTag.editRpgData(
         state.sortStatistics(),
         data.musclePoweredStatistic,
     )
+    editRange(
+        "Skill Modifier",
+        data.skillModifier,
+        combine(STATISTIC, MODIFIER),
+    )
 }
 
 // parse
@@ -91,4 +97,5 @@ fun parseRpgData(
     parseInt(parameters, DEFENSE),
     parseRange(parameters, combine(DEFENSE, MODIFIER)),
     parseOptionalStatisticId(parameters, STATISTIC),
+    parseRange(parameters, combine(STATISTIC, MODIFIER)),
 )

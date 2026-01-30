@@ -75,7 +75,7 @@ fun resolveRangedAttack(
     effect: EquipmentModifierEffect,
     attack: RangedAttack,
 ) = when (effect) {
-    is ModifyDamageResistance, is ModifyDefenseBonus -> attack
+    is ModifyDamageResistance, is ModifyDefenseBonus, is ModifySkill -> attack
     is ModifyDamage -> attack.copy(effect = resolveAttackEffect(effect, attack.effect))
     is ModifyRange -> attack.copy(range = resolveRange(effect, attack.range))
 }
