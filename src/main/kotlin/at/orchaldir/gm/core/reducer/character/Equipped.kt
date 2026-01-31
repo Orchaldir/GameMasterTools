@@ -8,8 +8,8 @@ import at.orchaldir.gm.core.model.item.equipment.EquipmentIdMap
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMapUpdate
 import at.orchaldir.gm.core.model.item.equipment.getAllBodySlotCombinations
 import at.orchaldir.gm.core.model.rpg.statblock.StatblockLookup
-import at.orchaldir.gm.core.selector.item.equipment.getEquipmentMap
-import at.orchaldir.gm.core.selector.item.equipment.getEquipmentMapForLookup
+import at.orchaldir.gm.core.selector.item.equipment.getEquipmentIdMap
+import at.orchaldir.gm.core.selector.item.equipment.getEquipmentIdMapForLookup
 import at.orchaldir.gm.utils.doNothing
 
 fun validateEquipped(
@@ -26,13 +26,13 @@ fun validateEquipped(
 
     is ModifyUniform -> {
         validateUniformId(equipped.uniform, element)
-        validateEquipmentMapUpdate(state, state.getEquipmentMap(equipped.uniform), equipped.update)
+        validateEquipmentMapUpdate(state, state.getEquipmentIdMap(equipped.uniform), equipped.update)
     }
 
     UseEquipmentFromTemplate -> validateTemplate(lookup)
     is ModifyEquipmentFromTemplate -> {
         validateTemplate(lookup)
-        validateEquipmentMapUpdate(state, state.getEquipmentMapForLookup(lookup), equipped.update)
+        validateEquipmentMapUpdate(state, state.getEquipmentIdMapForLookup(lookup), equipped.update)
     }
 
     UndefinedEquipped -> doNothing()

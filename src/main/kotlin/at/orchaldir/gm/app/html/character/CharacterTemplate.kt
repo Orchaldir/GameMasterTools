@@ -22,7 +22,7 @@ import at.orchaldir.gm.core.model.character.CharacterTemplateId
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.selector.character.getCharacterTemplates
 import at.orchaldir.gm.core.selector.character.getCharactersUsing
-import at.orchaldir.gm.core.selector.item.equipment.getEquipmentMapForLookup
+import at.orchaldir.gm.core.selector.item.equipment.getEquipmentIdMapForLookup
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -94,7 +94,7 @@ fun parseCharacterTemplate(
     id: CharacterTemplateId,
 ): CharacterTemplate {
     val lookup = parseStatblockLookup(state, parameters)
-    val baseEquipment = state.getEquipmentMapForLookup(lookup)
+    val baseEquipment = state.getEquipmentIdMapForLookup(lookup)
 
     return CharacterTemplate(
         id,

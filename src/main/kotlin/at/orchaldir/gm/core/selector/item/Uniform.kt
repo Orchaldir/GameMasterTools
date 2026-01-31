@@ -8,7 +8,7 @@ import at.orchaldir.gm.core.model.item.equipment.containsId
 import at.orchaldir.gm.core.selector.character.getCharacterTemplates
 import at.orchaldir.gm.core.selector.character.getCharactersWith
 import at.orchaldir.gm.core.selector.economy.getJobs
-import at.orchaldir.gm.core.selector.item.equipment.getEquipmentMap
+import at.orchaldir.gm.core.selector.item.equipment.getEquipmentIdMap
 
 fun State.canDeleteUniform(uniform: UniformId) = DeleteResult(uniform)
     .addElements(getCharactersWith(uniform))
@@ -19,7 +19,7 @@ fun State.canDeleteUniform(uniform: UniformId) = DeleteResult(uniform)
 fun State.getUniforms(equipment: EquipmentId) = getUniformStorage()
     .getAll()
     .filter {
-        getEquipmentMap(it).containsId(equipment)
+        getEquipmentIdMap(it).containsId(equipment)
     }
 
 fun State.getUniformsBasedOn(uniform: UniformId) = getUniformStorage()

@@ -8,7 +8,7 @@ import at.orchaldir.gm.core.model.rpg.combat.MeleeAttack
 import at.orchaldir.gm.core.model.rpg.combat.Protection
 import at.orchaldir.gm.core.model.rpg.combat.RangedAttack
 import at.orchaldir.gm.core.model.rpg.statblock.StatblockLookup
-import at.orchaldir.gm.core.selector.item.equipment.getEquipmentMap
+import at.orchaldir.gm.core.selector.item.equipment.getEquipmentIdMap
 import at.orchaldir.gm.core.selector.rpg.getEquipmentModifierEffects
 import at.orchaldir.gm.core.selector.rpg.statblock.resolveMeleeAttacks
 import at.orchaldir.gm.core.selector.rpg.statblock.resolveProtection
@@ -20,7 +20,7 @@ fun getArmors(
     state: State,
     equipped: Equipped,
     lookup: StatblockLookup,
-) = getArmors(state, state.getEquipmentMap(equipped, lookup))
+) = getArmors(state, state.getEquipmentIdMap(equipped, lookup))
 
 fun getArmors(state: State, map: EquipmentIdMap): Map<Equipment, Protection> {
     val armorMap = mutableMapOf<Equipment, Protection>()
@@ -43,7 +43,7 @@ fun getMeleeAttacks(
     state: State,
     equipped: Equipped,
     lookup: StatblockLookup,
-) = getMeleeAttacks(state, state.getEquipmentMap(equipped, lookup))
+) = getMeleeAttacks(state, state.getEquipmentIdMap(equipped, lookup))
 
 fun getMeleeAttacks(state: State, map: EquipmentIdMap): Map<Equipment, List<MeleeAttack>> {
     val meleeAttackMap = mutableMapOf<Equipment, List<MeleeAttack>>()
@@ -66,7 +66,7 @@ fun getRangedAttacks(
     state: State,
     equipped: Equipped,
     lookup: StatblockLookup,
-) = getRangedAttacks(state, state.getEquipmentMap(equipped, lookup))
+) = getRangedAttacks(state, state.getEquipmentIdMap(equipped, lookup))
 
 fun getRangedAttacks(state: State, map: EquipmentIdMap): Map<Equipment, List<RangedAttack>> {
     val meleeAttackMap = mutableMapOf<Equipment, List<RangedAttack>>()
@@ -89,7 +89,7 @@ fun getShields(
     state: State,
     equipped: Equipped,
     lookup: StatblockLookup,
-) = getShields(state, state.getEquipmentMap(equipped, lookup))
+) = getShields(state, state.getEquipmentIdMap(equipped, lookup))
 
 fun getShields(state: State, map: EquipmentIdMap): Map<Equipment, Protection> {
     val armorMap = mutableMapOf<Equipment, Protection>()
