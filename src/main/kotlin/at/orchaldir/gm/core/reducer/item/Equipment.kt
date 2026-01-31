@@ -12,8 +12,8 @@ import at.orchaldir.gm.core.reducer.rpg.validateShieldStats
 import at.orchaldir.gm.core.selector.item.equipment.canDeleteEquipment
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.math.validateFactor
 import at.orchaldir.gm.utils.math.checkInt
+import at.orchaldir.gm.utils.math.validateFactor
 import at.orchaldir.gm.utils.redux.noFollowUps
 
 fun updateEquipment(state: State, equipment: Equipment): Pair<State, List<Action>> {

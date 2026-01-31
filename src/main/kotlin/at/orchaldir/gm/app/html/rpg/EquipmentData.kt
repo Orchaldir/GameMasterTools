@@ -4,13 +4,11 @@ import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.rpg.statistic.parseOptionalStatisticId
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.rpg.DieType
 import at.orchaldir.gm.core.model.rpg.EquipmentData
 import at.orchaldir.gm.core.selector.util.sortStatistics
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
-import kotlinx.html.h2
 import kotlinx.html.h3
 
 // show

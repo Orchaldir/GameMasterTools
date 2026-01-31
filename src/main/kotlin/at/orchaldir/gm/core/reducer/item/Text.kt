@@ -11,9 +11,9 @@ import at.orchaldir.gm.core.model.util.part.Segments
 import at.orchaldir.gm.core.selector.util.requireExists
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
-import at.orchaldir.gm.utils.math.validateFactor
 import at.orchaldir.gm.utils.math.checkSize
 import at.orchaldir.gm.utils.math.unit.checkDistance
+import at.orchaldir.gm.utils.math.validateFactor
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
 import at.orchaldir.gm.visualization.text.TextRenderConfig
 import at.orchaldir.gm.visualization.text.TextRenderState

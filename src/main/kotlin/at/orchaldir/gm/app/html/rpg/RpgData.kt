@@ -1,12 +1,13 @@
 package at.orchaldir.gm.app.html.rpg
 
-import at.orchaldir.gm.app.*
-import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.rpg.statistic.parseOptionalStatisticId
+import at.orchaldir.gm.app.DAMAGE
+import at.orchaldir.gm.app.DIE
+import at.orchaldir.gm.app.html.field
+import at.orchaldir.gm.app.html.parse
+import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.DieType
 import at.orchaldir.gm.core.model.rpg.RpgData
-import at.orchaldir.gm.core.selector.util.sortStatistics
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag

@@ -2,7 +2,6 @@ package at.orchaldir.gm.core.model.rpg.combat
 
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.math.Factor.Companion.fromNumber
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -30,18 +29,21 @@ sealed class Range {
 
     operator fun times(factor: Factor) = when (this) {
         is FixedHalfAndMaxRange -> FixedHalfAndMaxRange(
-        factor.apply(half),
-        factor.apply(max),
+            factor.apply(half),
+            factor.apply(max),
         )
+
         is MusclePoweredHalfAndMaxRange -> MusclePoweredHalfAndMaxRange(
             half * factor,
             max * factor,
         )
+
         is StatisticBasedHalfAndMaxRange -> StatisticBasedHalfAndMaxRange(
             statistic,
             half * factor,
             max * factor,
         )
+
         UndefinedRange -> this
     }
 }

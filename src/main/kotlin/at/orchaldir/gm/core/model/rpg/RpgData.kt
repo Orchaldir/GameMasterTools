@@ -1,6 +1,5 @@
 package at.orchaldir.gm.core.model.rpg
 
-import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import kotlinx.serialization.Serializable
 
 @Serializable

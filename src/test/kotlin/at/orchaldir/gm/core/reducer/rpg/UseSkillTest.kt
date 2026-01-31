@@ -4,16 +4,10 @@ import at.orchaldir.gm.STATISTIC_ID_0
 import at.orchaldir.gm.UNKNOWN_STATISTIC_ID
 import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.rpg.combat.FixedHalfAndMaxRange
-import at.orchaldir.gm.core.model.rpg.combat.MusclePoweredHalfAndMaxRange
 import at.orchaldir.gm.core.model.rpg.combat.SimpleUsedSkill
-import at.orchaldir.gm.core.model.rpg.combat.StatisticBasedHalfAndMaxRange
 import at.orchaldir.gm.core.model.rpg.combat.UsedSkill
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.utils.Storage
-import at.orchaldir.gm.utils.math.DOUBLE
-import at.orchaldir.gm.utils.math.ONE
-import at.orchaldir.gm.utils.math.ZERO
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 

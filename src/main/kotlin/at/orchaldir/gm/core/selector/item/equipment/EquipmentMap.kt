@@ -15,7 +15,9 @@ fun State.getEquipmentElementMap(character: CharacterId) =
     getEquipmentElementMap(getCharacterStorage().getOrThrow(character))
 
 fun State.getEquipmentElementMap(character: Character) = getEquipmentElementMap(character.equipped, character.statblock)
-fun State.getEquipmentElementMap(template: CharacterTemplate) = getEquipmentElementMap(template.equipped, template.statblock)
+fun State.getEquipmentElementMap(template: CharacterTemplate) =
+    getEquipmentElementMap(template.equipped, template.statblock)
+
 fun State.getEquipmentElementMap(uniform: Uniform) = getEquipmentElementMap(uniform.equipped, UndefinedStatblockLookup)
 
 fun State.getEquipmentElementMap(

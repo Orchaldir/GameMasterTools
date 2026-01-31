@@ -2,7 +2,6 @@ package at.orchaldir.gm.app.html.rpg.combat
 
 import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.app.html.showDetails
-import at.orchaldir.gm.app.html.thMultiLines
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.rpg.combat.MeleeAttack

@@ -4,9 +4,9 @@ import at.orchaldir.gm.core.model.economy.money.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.ZERO
-import at.orchaldir.gm.utils.math.validateFactor
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.checkDistance
+import at.orchaldir.gm.utils.math.validateFactor
 
 fun validateFormat(
     format: CurrencyFormat,

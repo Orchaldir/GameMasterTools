@@ -1,14 +1,7 @@
 package at.orchaldir.gm.app.html.rpg.combat
 
-import at.orchaldir.gm.app.DAMAGE
-import at.orchaldir.gm.app.DEFENSE
-import at.orchaldir.gm.app.PARRYING
-import at.orchaldir.gm.app.RANGE
-import at.orchaldir.gm.app.RESISTANCE
-import at.orchaldir.gm.app.STATISTIC
-import at.orchaldir.gm.app.TYPE
+import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.rpg.parseDiceModifier
 import at.orchaldir.gm.app.html.rpg.parseSimpleModifiedDice
 import at.orchaldir.gm.app.html.rpg.selectDiceModifier
 import at.orchaldir.gm.app.html.rpg.selectDiceNumber
@@ -17,7 +10,6 @@ import at.orchaldir.gm.app.html.util.math.parseFactor
 import at.orchaldir.gm.app.html.util.math.selectFactor
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.combat.*
-import at.orchaldir.gm.utils.math.Factor
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
