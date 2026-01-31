@@ -11,7 +11,10 @@ fun validateUsedSkill(
     skill: UsedSkill,
 ) {
     when (skill) {
-        is SimpleUsedSkill -> state.getStatisticStorage().require(skill.skill)
+        is SimpleUsedSkill -> {
+            state.getStatisticStorage().require(skill.skill)
+            validateIsInside(skill.modifier, "Used Skill Modifier", state.data.rpg.equipment.skillModifier)
+        }
         UndefinedUsedSkill -> doNothing()
     }
 }
