@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.html.rpg.combat
 
 import at.orchaldir.gm.app.html.link
 import at.orchaldir.gm.app.html.showDetails
+import at.orchaldir.gm.app.html.thMultiLines
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.rpg.combat.MeleeAttack
@@ -68,6 +69,7 @@ private fun TR.sharedHeaders() {
     th { +"Damage" }
     th { +"Reach" }
     th { +"Parrying" }
+    th { +"Skill" }
 }
 
 private fun TR.sharedColumns(
@@ -78,6 +80,7 @@ private fun TR.sharedColumns(
     td { displayAttackEffect(call, state, attack.effect) }
     td { displayReach(attack.reach) }
     td { displayParrying(attack.parrying) }
+    td { displayUsedSkill(call, state, attack.skill) }
 }
 
 fun HtmlBlockTag.showMeleeAttacks(
@@ -102,6 +105,7 @@ fun HtmlBlockTag.showMeleeAttack(
         fieldAttackEffect(call, state, attack.effect)
         fieldReach(attack.reach)
         fieldParrying(attack.parrying)
+        fieldUsedSkill(call, state, attack.skill)
     }
 }
 
@@ -117,6 +121,7 @@ fun HtmlBlockTag.editMeleeAttack(
         editAttackEffect(state, attack.effect, param)
         editReach(attack.reach, param)
         editParrying(attack.parrying, param)
+        editUsedSkill(state, attack.skill, param)
     }
 }
 
@@ -129,4 +134,5 @@ fun parseMeleeAttack(
     parseAttackEffect(parameters, param),
     parseReach(parameters, param),
     parseParrying(parameters, param),
+    parseUsedSkill(parameters, param),
 )
