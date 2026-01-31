@@ -30,7 +30,8 @@
      },
      "skill": {
       "#type": "Simple",
-      "skill": 7
+      "skill": 7,
+      "modifier": 1
      }
     }
    ]

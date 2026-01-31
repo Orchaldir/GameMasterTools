@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.html.rpg.combat
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.rpg.selectFromRange
 import at.orchaldir.gm.app.html.rpg.statistic.parseStatisticId
 import at.orchaldir.gm.app.html.util.math.parseFactor
 import at.orchaldir.gm.app.html.util.math.selectFactor
@@ -83,6 +84,12 @@ fun HtmlBlockTag.editUsedSkill(
                     combine(skillParam, STATISTIC),
                     state.sortStatistics(),
                     skill.skill,
+                )
+                selectFromRange(
+                    "Modifier",
+                    state.data.rpg.equipment.skillModifier,
+                    skill.modifier,
+                    combine(skillParam, NUMBER),
                 )
             }
             UndefinedUsedSkill -> doNothing()
