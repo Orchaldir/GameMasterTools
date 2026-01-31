@@ -11,5 +11,5 @@ data class MeleeAttack(
     val skill: UsedSkill = UndefinedUsedSkill,
 ) {
     fun contains(type: DamageTypeId) = effect.contains(type)
-    fun contains(statistic: StatisticId) = effect.contains(statistic)
+    fun contains(statistic: StatisticId) = effect.contains(statistic) || skill.contains(statistic)
 }

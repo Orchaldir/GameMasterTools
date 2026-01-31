@@ -14,6 +14,7 @@ import at.orchaldir.gm.core.selector.rpg.getMeleeWeaponTypes
 import at.orchaldir.gm.core.selector.rpg.getRangedWeaponTypes
 import at.orchaldir.gm.core.selector.rpg.getStatisticsBasedOn
 import at.orchaldir.gm.core.selector.rpg.statblock.getStatblocksWith
+import at.orchaldir.gm.utils.Id
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.resources.*
@@ -67,6 +68,17 @@ private fun HtmlBlockTag.showUsage(
         }
     }
 
+    if (statblocks.isNotEmpty()) {
+        showStatblocks(call, state, statistic, statblocks)
+    }
+}
+
+private fun HtmlBlockTag.showStatblocks(
+    call: ApplicationCall,
+    state: State,
+    statistic: Statistic,
+    statblocks: List<Pair<Id<*>, Int>>,
+) {
     table {
         tr {
             th { +"Statblocks" }

@@ -16,6 +16,11 @@ sealed class UsedSkill {
         is SimpleUsedSkill -> UsedSkillType.Simple
         is UndefinedUsedSkill -> UsedSkillType.Undefined
     }
+
+    fun contains(statistic: StatisticId) = when (this) {
+        is SimpleUsedSkill -> skill == statistic
+        is UndefinedUsedSkill -> false
+    }
 }
 
 @Serializable

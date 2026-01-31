@@ -13,5 +13,5 @@ data class RangedAttack(
 ) {
     fun contains(type: AmmunitionTypeId) = shots.contains(type)
     fun contains(type: DamageTypeId) = effect.contains(type)
-    fun contains(statistic: StatisticId) = effect.contains(statistic) || range.contains(statistic)
+    fun contains(statistic: StatisticId) = effect.contains(statistic) || range.contains(statistic) || skill.contains(statistic)
 }
