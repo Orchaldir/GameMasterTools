@@ -35,6 +35,20 @@ class UseSkillTest {
         }
 
         @Test
+        fun `Modifier must greater or equal the minimum`() {
+            val skill = SimpleUsedSkill(STATISTIC_ID_0, -10)
+
+            assertInvalidSkill(skill, "Used Skill Modifier needs to be >= -2!")
+        }
+
+        @Test
+        fun `Modifier must less or equal the maximum`() {
+            val skill = SimpleUsedSkill(STATISTIC_ID_0, 10)
+
+            assertInvalidSkill(skill, "Used Skill Modifier needs to be <= 2!")
+        }
+
+        @Test
         fun `Test valid skill`() {
             validateUsedSkill(STATE, SimpleUsedSkill(STATISTIC_ID_0))
         }
