@@ -96,7 +96,7 @@ fun parseUsedSkill(
     parameters: Parameters,
     param: String,
 ): UsedSkill {
-    val skillParam = combine(param, RANGE)
+    val skillParam = combine(param, STATISTIC)
 
     return when (parse(parameters, combine(skillParam, TYPE), UsedSkillType.Undefined)) {
         UsedSkillType.Simple -> SimpleUsedSkill(

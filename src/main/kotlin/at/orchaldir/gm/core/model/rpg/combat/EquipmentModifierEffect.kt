@@ -32,20 +32,20 @@ sealed class EquipmentModifierEffect {
     }
 
     fun validate(state: State) {
-        val rpg = state.data.rpg
+        val data = state.data.rpg.equipment
 
         when (this) {
-            is ModifyDamage -> amount.validate("ModifyDamage", rpg.damageModifier)
+            is ModifyDamage -> amount.validate("ModifyDamage", data.damageModifier)
             is ModifyDamageResistance -> validateIsInside(
                 amount,
                 "Damage Resistance Modifier",
                 1,
-                rpg.maxDamageResistance
+                data.maxDamageResistance
             )
 
-            is ModifyDefenseBonus -> validateIsInside(amount, "Defense Bonus Modifier", 1, rpg.maxDefenseBonus)
+            is ModifyDefenseBonus -> validateIsInside(amount, "Defense Bonus Modifier", 1, data.maxDefenseBonus)
             is ModifyRange -> validateFactor(factor, "range", MIN_RANGE_MODIFIER, MAX_RANGE_MODIFIER)
-            is ModifySkill -> validateIsInside(amount, "Skill Modifier", rpg.skillModifier)
+            is ModifySkill -> validateIsInside(amount, "Skill Modifier", data.skillModifier)
         }
     }
 }

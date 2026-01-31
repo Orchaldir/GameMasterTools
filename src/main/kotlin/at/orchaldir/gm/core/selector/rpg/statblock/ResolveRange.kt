@@ -18,7 +18,8 @@ fun resolveRange(
     range: Range,
 ) = when (range) {
     is MusclePoweredHalfAndMaxRange -> {
-        val statistic = state.data.rpg.musclePoweredStatistic ?: error("MusclePoweredHalfAndMaxRange is unsupported!")
+        val data = state.data.rpg.equipment
+        val statistic = data.musclePoweredStatistic ?: error("MusclePoweredHalfAndMaxRange is unsupported!")
 
         resolve(state, statblock, statistic, range.half, range.max)
     }

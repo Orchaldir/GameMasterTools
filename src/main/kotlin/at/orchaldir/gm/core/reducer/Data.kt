@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.action.UpdateData
 import at.orchaldir.gm.core.model.Data
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.EconomyData
+import at.orchaldir.gm.core.model.rpg.EquipmentData
 import at.orchaldir.gm.core.model.rpg.RpgData
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.selector.economy.getRequiredStandards
@@ -48,11 +49,15 @@ private fun validateEconomy(state: State, economy: EconomyData) {
     }
 }
 
-private fun validateRpg(rpg: RpgData) {
-    rpg.damage.validate()
-    rpg.damageModifier.validate()
-    require(rpg.maxDamageResistance > 0) { "Max Damage Resistance must be greater than 0!" }
-    rpg.damageResistanceModifier.validate()
-    require(rpg.maxDefenseBonus > 0) { "Max Defense Bonus must be greater than 0!" }
-    rpg.defenseBonusModifier.validate()
+private fun validateRpg(data: RpgData) {
+    validateEquipment(data.equipment)
+    data.damage.validate()
+}
+
+private fun validateEquipment(data: EquipmentData) {
+    data.damageModifier.validate()
+    require(data.maxDamageResistance > 0) { "Max Damage Resistance must be greater than 0!" }
+    data.damageResistanceModifier.validate()
+    require(data.maxDefenseBonus > 0) { "Max Defense Bonus must be greater than 0!" }
+    data.defenseBonusModifier.validate()
 }

@@ -27,6 +27,10 @@
       "#type": "SingleShot",
       "ammunition": 0,
       "roundsOfReload": 2
+     },
+     "skill": {
+      "#type": "Simple",
+      "skill": 7
      }
     }
    ]

@@ -34,12 +34,16 @@ fun HtmlBlockTag.displayRange(
     range: Range,
     showUndefined: Boolean = false,
 ) {
+    val data = state.data.rpg.equipment
+
     when (range) {
         is FixedHalfAndMaxRange -> +"${range.half}/${range.max}"
-        is MusclePoweredHalfAndMaxRange -> if (state.data.rpg.musclePoweredStatistic != null) {
-            displayHalfAndMaxRange(call, range.half, range.max, state.data.rpg.musclePoweredStatistic)
-        } else {
-            error("Muscle-Powered Half And Max Range is not supported!")
+        is MusclePoweredHalfAndMaxRange -> {
+            if (data.musclePoweredStatistic != null) {
+                displayHalfAndMaxRange(call, range.half, range.max, data.musclePoweredStatistic)
+            } else {
+                error("Muscle-Powered Half And Max Range is not supported!")
+            }
         }
 
         is StatisticBasedHalfAndMaxRange -> displayHalfAndMaxRange(call, range.half, range.max, range.statistic)
@@ -67,6 +71,7 @@ fun HtmlBlockTag.editRange(
     range: Range,
     param: String,
 ) {
+    val data = state.data.rpg.equipment
     val rangeParam = combine(param, RANGE)
 
     showDetails("Range", true) {
@@ -78,7 +83,7 @@ fun HtmlBlockTag.editRange(
         ) { type ->
             when (type) {
                 RangeType.FixedHalfAndMax -> false
-                RangeType.MusclePoweredHalfAndMax -> state.data.rpg.musclePoweredStatistic == null
+                RangeType.MusclePoweredHalfAndMax -> data.musclePoweredStatistic == null
                 RangeType.StatisticBasedHalfAndMax -> state.getStatisticStorage().isEmpty()
                 RangeType.Undefined -> false
             }

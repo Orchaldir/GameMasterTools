@@ -40,7 +40,9 @@
   ]
  },
  "rpg": {
-  "musclePoweredStatistic": 0
+  "equipment": {
+   "musclePoweredStatistic": 0
+  }
  },
  "time": {
   "currentDate": {

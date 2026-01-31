@@ -60,6 +60,8 @@ fun HtmlBlockTag.editEquipmentModifierEffect(
     param: String,
     allowedTypes: Set<EquipmentModifierEffectType>,
 ) {
+    val data = state.data.rpg.equipment
+
     showDetails("Effect", true) {
         selectValue(
             "Type",
@@ -70,20 +72,20 @@ fun HtmlBlockTag.editEquipmentModifierEffect(
 
         when (effect) {
             is ModifyDamage -> {
-                selectDiceNumber(effect.amount, param, state.data.rpg.damageModifier)
-                selectDiceModifier(effect.amount, param, state.data.rpg.damageModifier)
+                selectDiceNumber(effect.amount, param, data.damageModifier)
+                selectDiceModifier(effect.amount, param, data.damageModifier)
             }
 
             is ModifyDamageResistance -> selectFromRange(
                 "Damage Resistance",
-                state.data.rpg.damageResistanceModifier,
+                data.damageResistanceModifier,
                 effect.amount,
                 combine(param, DAMAGE, RESISTANCE),
             )
 
             is ModifyDefenseBonus -> selectFromRange(
                 "Defense Bonus",
-                state.data.rpg.defenseBonusModifier,
+                data.defenseBonusModifier,
                 effect.amount,
                 combine(param, DEFENSE),
             )
@@ -98,7 +100,7 @@ fun HtmlBlockTag.editEquipmentModifierEffect(
 
             is ModifySkill -> selectFromRange(
                 "Modifier",
-                state.data.rpg.skillModifier,
+                data.skillModifier,
                 effect.amount,
                 combine(param, STATISTIC),
             )

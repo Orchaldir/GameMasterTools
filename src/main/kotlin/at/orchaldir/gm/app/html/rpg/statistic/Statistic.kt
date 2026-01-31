@@ -42,7 +42,7 @@ private fun HtmlBlockTag.showUsage(
     val rangedWeapons = state.getRangedWeaponTypes(statistic.id)
     val statblocks = state.getStatblocksWith(statistic.id)
     val statistics = state.getStatisticsBasedOn(statistic.id)
-    val isMusclePowered = state.data.rpg.musclePoweredStatistic == statistic.id
+    val isMusclePowered = state.data.rpg.equipment.musclePoweredStatistic == statistic.id
 
     if (jobs.isEmpty() && meleeWeapons.isEmpty() && rangedWeapons.isEmpty() && statblocks.isEmpty() && statistics.isEmpty() && !isMusclePowered) {
         return
