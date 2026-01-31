@@ -33,7 +33,7 @@ import at.orchaldir.gm.core.model.util.wasIn
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.town.TownMapId
 import at.orchaldir.gm.core.selector.culture.getKnownLanguages
-import at.orchaldir.gm.core.selector.item.equipment.getEquipmentMap
+import at.orchaldir.gm.core.selector.item.equipment.getEquipmentIdMap
 import at.orchaldir.gm.core.selector.organization.getOrganizations
 import at.orchaldir.gm.core.selector.realm.getBattlesLedBy
 import at.orchaldir.gm.core.selector.util.canDeleteCreator
@@ -137,7 +137,7 @@ fun State.getCharacters(culture: CultureId) = getCharacterStorage()
 
 fun State.getCharactersWith(equipment: EquipmentId) = getCharacterStorage()
     .getAll()
-    .filter { getEquipmentMap(it).containsId(equipment) }
+    .filter { getEquipmentIdMap(it).containsId(equipment) }
 
 fun State.getCharactersWith(uniform: UniformId) = getCharacterStorage()
     .getAll()

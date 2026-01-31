@@ -33,9 +33,9 @@ fun resolveDamageAmount(
 // resolve attack effect with modifier effects
 
 fun resolveAttackEffect(
-    modifyDamage: ModifyDamage,
+    modifier: ModifyDamage,
     attackEffect: AttackEffect,
 ) = when (attackEffect) {
-    is Damage -> attackEffect.copy(amount = attackEffect.amount.apply(modifyDamage))
+    is Damage -> attackEffect.copy(amount = attackEffect.amount.apply(modifier))
     UndefinedAttackEffect -> attackEffect
 }

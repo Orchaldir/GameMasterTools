@@ -87,7 +87,7 @@ fun HtmlBlockTag.showEquippedDetails(
     base: Statblock,
     lookup: StatblockLookup,
 ) {
-    val equipmentMap = state.getEquipmentMap(equipped, lookup)
+    val equipmentMap = state.getEquipmentIdMap(equipped, lookup)
 
     showDetails("Equipped", true) {
         field("Type", equipped.getType())
@@ -109,7 +109,7 @@ fun HtmlBlockTag.showEquippedDetails(
             is ModifyEquipmentFromTemplate -> showEquipmentMapUpdate(
                 call,
                 state,
-                state.getEquipmentMapForLookup(lookup),
+                state.getEquipmentIdMapForLookup(lookup),
                 equipped.update,
             )
 
@@ -151,7 +151,7 @@ fun HtmlBlockTag.editEquipped(
     } else {
         EquippedType.entries - EquippedType.UseTemplate - EquippedType.ModifyTemplate
     }
-    val equipmentMap = state.getEquipmentMap(equipped, lookup)
+    val equipmentMap = state.getEquipmentIdMap(equipped, lookup)
 
     showDetails("Equipped", true) {
         selectValue("Type", param, allowedTypes, equipped.getType()) { type ->
@@ -188,7 +188,7 @@ fun HtmlBlockTag.editEquipped(
             is ModifyEquipmentFromTemplate -> editEquipmentMapUpdate(
                 call,
                 state,
-                state.getEquipmentMapForLookup(lookup),
+                state.getEquipmentIdMapForLookup(lookup),
                 equipped.update,
                 combine(param, UPDATE),
             )
@@ -240,7 +240,7 @@ fun parseEquipped(
 
         EquippedType.ModifyUniform -> {
             val uniformId = parseUniformId(parameters, combine(param, UNIFORM))
-            val uniform = state.getEquipmentMap(uniformId)
+            val uniform = state.getEquipmentIdMap(uniformId)
 
             ModifyUniform(
                 uniformId,

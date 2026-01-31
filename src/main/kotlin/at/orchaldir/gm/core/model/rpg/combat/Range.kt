@@ -26,6 +26,26 @@ sealed class Range {
         is StatisticBasedHalfAndMaxRange -> statistic == other
         else -> false
     }
+
+    operator fun times(factor: Factor) = when (this) {
+        is FixedHalfAndMaxRange -> FixedHalfAndMaxRange(
+            factor.apply(half),
+            factor.apply(max),
+        )
+
+        is MusclePoweredHalfAndMaxRange -> MusclePoweredHalfAndMaxRange(
+            half * factor,
+            max * factor,
+        )
+
+        is StatisticBasedHalfAndMaxRange -> StatisticBasedHalfAndMaxRange(
+            statistic,
+            half * factor,
+            max * factor,
+        )
+
+        UndefinedRange -> this
+    }
 }
 
 @Serializable

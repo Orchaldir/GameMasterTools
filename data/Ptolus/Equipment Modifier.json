@@ -22,13 +22,10 @@
   "2": {
    "id": 2,
    "name": "Dwarven",
+   "category": "Armor",
    "effects": [
     {
      "#type": "DamageResistance",
-     "amount": 1
-    },
-    {
-     "#type": "DefenseBonus",
      "amount": 1
     }
    ],
@@ -59,6 +56,18 @@
    "id": 7,
    "name": "Flaming",
    "category": "Ammunition"
+  },
+  "8": {
+   "id": 8,
+   "name": "Dwarven",
+   "category": "MeleeWeapons",
+   "effects": [
+    {
+     "#type": "Parrying",
+     "amount": 0
+    }
+   ],
+   "cost": 40000
   }
  }
 }

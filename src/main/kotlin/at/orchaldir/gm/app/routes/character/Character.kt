@@ -18,7 +18,7 @@ import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
 import at.orchaldir.gm.core.model.race.aging.LifeStageId
 import at.orchaldir.gm.core.model.time.date.Day
 import at.orchaldir.gm.core.selector.character.getAppearanceForAge
-import at.orchaldir.gm.core.selector.item.equipment.getEquipment
+import at.orchaldir.gm.core.selector.item.equipment.getEquipmentElementMap
 import at.orchaldir.gm.core.selector.organization.getOrganizations
 import at.orchaldir.gm.core.selector.time.getDefaultCalendarId
 import at.orchaldir.gm.core.selector.util.sortCharacters
@@ -100,7 +100,7 @@ fun Application.configureCharacterRouting() {
                 sortedCharacters,
                 gallery.sort,
             ) { character ->
-                val equipment = state.getEquipment(character)
+                val equipment = state.getEquipmentElementMap(character)
                 val appearance = state.getAppearanceForAge(character)
                 val paddedSize = calculatePaddedSize(CHARACTER_CONFIG, appearance)
 
@@ -221,7 +221,7 @@ private fun HtmlBlockTag.showCharacterFrontAndBack(
     state: State,
     character: Character,
 ) {
-    val equipment = state.getEquipment(character)
+    val equipment = state.getEquipmentElementMap(character)
     val frontSvg = visualizeCharacter(CHARACTER_CONFIG, state, character, equipment)
     val backSvg = visualizeCharacter(CHARACTER_CONFIG, state, character, equipment, false)
 

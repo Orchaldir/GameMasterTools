@@ -4,9 +4,9 @@ import at.orchaldir.gm.core.model.economy.money.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.ZERO
-import at.orchaldir.gm.utils.math.checkFactor
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.checkDistance
+import at.orchaldir.gm.utils.math.validateFactor
 
 fun validateFormat(
     format: CurrencyFormat,
@@ -41,7 +41,7 @@ private fun checkThickness(thickness: Distance) =
     checkDistance(thickness, "thickness", MIN_THICKNESS, MAX_THICKNESS)
 
 private fun checkRimFactor(factor: Factor) =
-    checkFactor(factor, "rim", ZERO, MAX_RIM_FACTOR)
+    validateFactor(factor, "rim", ZERO, MAX_RIM_FACTOR)
 
 private fun checkRadiusFactor(factor: Factor, label: String) =
-    checkFactor(factor, label, MIN_RADIUS_FACTOR, MAX_RADIUS_FACTOR)
+    validateFactor(factor, label, MIN_RADIUS_FACTOR, MAX_RADIUS_FACTOR)

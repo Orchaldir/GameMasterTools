@@ -1,14 +1,13 @@
 package at.orchaldir.gm.app.html.rpg.combat
 
-import at.orchaldir.gm.app.DAMAGE
-import at.orchaldir.gm.app.DEFENSE
-import at.orchaldir.gm.app.RESISTANCE
-import at.orchaldir.gm.app.TYPE
+import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.rpg.parseSimpleModifiedDice
 import at.orchaldir.gm.app.html.rpg.selectDiceModifier
 import at.orchaldir.gm.app.html.rpg.selectDiceNumber
 import at.orchaldir.gm.app.html.rpg.selectFromRange
+import at.orchaldir.gm.app.html.util.math.parseFactor
+import at.orchaldir.gm.app.html.util.math.selectFactor
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.combat.*
 import io.ktor.http.*
@@ -40,6 +39,9 @@ fun HtmlBlockTag.displayEquipmentModifierEffect(
 
         is ModifyDamageResistance -> +"Modifies Damage Resistance by ${effect.amount}"
         is ModifyDefenseBonus -> +"Modifies Defense Bonus by ${effect.amount}"
+        is ModifyParrying -> +"Modifies Parrying by ${effect.amount}"
+        is ModifyRange -> +"Modifies Range by ${effect.factor}"
+        is ModifySkill -> +"Modifies Skill by ${effect.amount}"
     }
 }
 
@@ -52,6 +54,8 @@ fun HtmlBlockTag.editEquipmentModifierEffect(
     param: String,
     allowedTypes: Set<EquipmentModifierEffectType>,
 ) {
+    val data = state.data.rpg.equipment
+
     showDetails("Effect", true) {
         selectValue(
             "Type",
@@ -62,22 +66,44 @@ fun HtmlBlockTag.editEquipmentModifierEffect(
 
         when (effect) {
             is ModifyDamage -> {
-                selectDiceNumber(effect.amount, param, state.data.rpg.damageModifier)
-                selectDiceModifier(effect.amount, param, state.data.rpg.damageModifier)
+                selectDiceNumber(effect.amount, param, data.damageModifier)
+                selectDiceModifier(effect.amount, param, data.damageModifier)
             }
 
             is ModifyDamageResistance -> selectFromRange(
                 "Damage Resistance",
-                state.data.rpg.damageResistanceModifier,
+                data.damageResistanceModifier,
                 effect.amount,
                 combine(param, DAMAGE, RESISTANCE),
             )
 
             is ModifyDefenseBonus -> selectFromRange(
                 "Defense Bonus",
-                state.data.rpg.defenseBonusModifier,
+                data.defenseBonusModifier,
                 effect.amount,
                 combine(param, DEFENSE),
+            )
+
+            is ModifyParrying -> selectFromRange(
+                "Parrying",
+                data.parryingModifier,
+                effect.amount,
+                combine(param, PARRYING),
+            )
+
+            is ModifyRange -> selectFactor(
+                "Factor",
+                combine(param, RANGE),
+                effect.factor,
+                MIN_RANGE_MODIFIER,
+                MAX_RANGE_MODIFIER,
+            )
+
+            is ModifySkill -> selectFromRange(
+                "Modifier",
+                data.skillModifier,
+                effect.amount,
+                combine(param, STATISTIC),
             )
         }
     }
@@ -99,5 +125,17 @@ fun parseEquipmentModifierEffect(
 
     EquipmentModifierEffectType.DefenseBonus -> ModifyDefenseBonus(
         parseInt(parameters, combine(param, DEFENSE)),
+    )
+
+    EquipmentModifierEffectType.Parrying -> ModifyParrying(
+        parseInt(parameters, combine(param, PARRYING)),
+    )
+
+    EquipmentModifierEffectType.Range -> ModifyRange(
+        parseFactor(parameters, combine(param, RANGE)),
+    )
+
+    EquipmentModifierEffectType.Skill -> ModifySkill(
+        parseInt(parameters, combine(param, STATISTIC)),
     )
 }

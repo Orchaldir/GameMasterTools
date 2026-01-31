@@ -19,7 +19,7 @@ import at.orchaldir.gm.core.model.item.Uniform
 import at.orchaldir.gm.core.model.item.UniformId
 import at.orchaldir.gm.core.model.rpg.statblock.UndefinedStatblockLookup
 import at.orchaldir.gm.core.model.util.SortUniform
-import at.orchaldir.gm.core.selector.item.equipment.getEquipment
+import at.orchaldir.gm.core.selector.item.equipment.getEquipmentElementMap
 import at.orchaldir.gm.core.selector.util.sortUniforms
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMeters
@@ -100,7 +100,7 @@ fun Application.configureUniformRouting() {
                 state.sortUniforms(gallery.sort),
                 gallery.sort,
             ) { uniform ->
-                val equipped = state.getEquipment(uniform)
+                val equipped = state.getEquipmentElementMap(uniform)
                 visualizeCharacter(state, CHARACTER_CONFIG, appearance, equipped)
             }
         }
@@ -146,7 +146,7 @@ private fun HtmlBlockTag.showUniformRight(
     state: State,
     uniform: Uniform,
 ) {
-    val equipped = state.getEquipment(uniform)
+    val equipped = state.getEquipmentElementMap(uniform)
     val svg = visualizeCharacter(state, CHARACTER_CONFIG, appearance, equipped)
 
     svg(svg, 50)

@@ -12,8 +12,8 @@ import at.orchaldir.gm.core.reducer.rpg.validateShieldStats
 import at.orchaldir.gm.core.selector.item.equipment.canDeleteEquipment
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.math.checkFactor
 import at.orchaldir.gm.utils.math.checkInt
+import at.orchaldir.gm.utils.math.validateFactor
 import at.orchaldir.gm.utils.redux.noFollowUps
 
 fun updateEquipment(state: State, equipment: Equipment): Pair<State, List<Action>> {
@@ -71,7 +71,7 @@ private fun checkBodyArmour(armour: BodyArmour) = when (armour.style) {
     }
 
     is ScaleArmour -> {
-        checkFactor(armour.style.overlap, "Overlap", MIN_SCALE_OVERLAP, MAX_SCALE_OVERLAP)
+        validateFactor(armour.style.overlap, "Overlap", MIN_SCALE_OVERLAP, MAX_SCALE_OVERLAP)
         checkArmourColumns(armour.style.columns)
     }
 
@@ -92,16 +92,16 @@ private fun checkLamellarLacing(lacing: LamellarLacing) = when (lacing) {
     is LacingAndStripe -> {
         checkLacingLength(lacing.lacingLength)
         checkLacingThickness(lacing.lacingThickness)
-        checkFactor(lacing.stripeWidth, "Stripe Width", MIN_STRIPE_WIDTH, MAX_STRIPE_WIDTH)
+        validateFactor(lacing.stripeWidth, "Stripe Width", MIN_STRIPE_WIDTH, MAX_STRIPE_WIDTH)
     }
 }
 
 private fun checkLacingLength(length: Factor) {
-    checkFactor(length, "Lacing Length", MIN_LENGTH, MAX_LENGTH)
+    validateFactor(length, "Lacing Length", MIN_LENGTH, MAX_LENGTH)
 }
 
 private fun checkLacingThickness(thickness: Factor) {
-    checkFactor(thickness, "Lacing Thickness", MIN_THICKNESS, MAX_THICKNESS)
+    validateFactor(thickness, "Lacing Thickness", MIN_THICKNESS, MAX_THICKNESS)
 }
 
 private fun checkArmourColumns(columns: Int) {
@@ -123,16 +123,16 @@ private fun checkPolearmHead(head: PolearmHead) = when (head) {
 private fun checkPolearmFixation(fixation: HeadFixation) = when (fixation) {
     NoHeadFixation -> doNothing()
     is BoundHeadHead -> checkFixationLength(fixation.length)
-    is Langets -> checkFactor(fixation.length, "Langets Length", MIN_LANGETS_LENGTH, MAX_LANGETS_LENGTH)
+    is Langets -> validateFactor(fixation.length, "Langets Length", MIN_LANGETS_LENGTH, MAX_LANGETS_LENGTH)
     is SocketedHeadHead -> checkFixationLength(fixation.length)
 }
 
 private fun checkFixationLength(length: Factor) =
-    checkFactor(length, "Fixation Length", MIN_FIXATION_LENGTH, MAX_FIXATION_LENGTH)
+    validateFactor(length, "Fixation Length", MIN_FIXATION_LENGTH, MAX_FIXATION_LENGTH)
 
 private fun checkSpearHead(head: SpearHead) {
-    checkFactor(head.length, "Spearhead Length", MIN_SPEAR_LENGTH, MAX_SPEAR_LENGTH)
-    checkFactor(head.width, "Spearhead Width", MIN_SPEAR_WIDTH, MAX_SPEAR_WIDTH)
+    validateFactor(head.length, "Spearhead Length", MIN_SPEAR_LENGTH, MAX_SPEAR_LENGTH)
+    validateFactor(head.width, "Spearhead Width", MIN_SPEAR_WIDTH, MAX_SPEAR_WIDTH)
 }
 
 private fun checkOneHandedSword(sword: OneHandedSword) {
@@ -151,8 +151,8 @@ private fun checkBlade(
     maxLength: Factor,
 ) = when (blade) {
     is SimpleBlade -> {
-        checkFactor(blade.length, "Blade Length", minLength, maxLength)
-        checkFactor(blade.width, "Blade Width", MIN_BLADE_WIDTH, MAX_BLADE_WIDTH)
+        validateFactor(blade.length, "Blade Length", minLength, maxLength)
+        validateFactor(blade.width, "Blade Width", MIN_BLADE_WIDTH, MAX_BLADE_WIDTH)
     }
 }
 
@@ -166,8 +166,8 @@ private fun checkSwordHilt(hilt: SwordHilt) = when (hilt) {
 private fun checkSwordGuard(guard: SwordGuard) = when (guard) {
     NoSwordGuard -> doNothing()
     is SimpleSwordGuard -> {
-        checkFactor(guard.height, "Guard Height", MIN_GUARD_HEIGHT, MAX_GUARD_HEIGHT)
-        checkFactor(guard.width, "Guard Width", MIN_GUARD_WIDTH, MAX_GUARD_WIDTH)
+        validateFactor(guard.height, "Guard Height", MIN_GUARD_HEIGHT, MAX_GUARD_HEIGHT)
+        validateFactor(guard.width, "Guard Width", MIN_GUARD_WIDTH, MAX_GUARD_WIDTH)
     }
 }
 

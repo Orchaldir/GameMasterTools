@@ -18,7 +18,7 @@ import at.orchaldir.gm.core.model.character.CharacterTemplateId
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.util.SortCharacterTemplate
 import at.orchaldir.gm.core.selector.culture.getAppearanceFashion
-import at.orchaldir.gm.core.selector.item.equipment.getEquipment
+import at.orchaldir.gm.core.selector.item.equipment.getEquipmentElementMap
 import at.orchaldir.gm.core.selector.util.sortCharacterTemplates
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.visualization.character.appearance.visualizeCharacter
@@ -139,7 +139,7 @@ private fun HtmlBlockTag.showCharacterTemplateRight(
         gender,
         state.getAppearanceFashion(gender, template.culture),
     )
-    val equipped = state.getEquipment(template)
+    val equipped = state.getEquipmentElementMap(template)
     val svg = visualizeCharacter(state, CHARACTER_CONFIG, appearance, equipped)
 
     svg(svg, 80)

@@ -1,15 +1,12 @@
 package at.orchaldir.gm.core.selector.rpg.statblock
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.rpg.combat.FixedHalfAndMaxRange
-import at.orchaldir.gm.core.model.rpg.combat.MusclePoweredHalfAndMaxRange
-import at.orchaldir.gm.core.model.rpg.combat.Range
-import at.orchaldir.gm.core.model.rpg.combat.StatisticBasedHalfAndMaxRange
+import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.core.model.rpg.statblock.Statblock
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.utils.math.Factor
 
-// resolve attack range with statblock
+// resolve range with statblock
 
 fun resolveRange(
     state: State,
@@ -17,7 +14,8 @@ fun resolveRange(
     range: Range,
 ) = when (range) {
     is MusclePoweredHalfAndMaxRange -> {
-        val statistic = state.data.rpg.musclePoweredStatistic ?: error("MusclePoweredHalfAndMaxRange is unsupported!")
+        val data = state.data.rpg.equipment
+        val statistic = data.musclePoweredStatistic ?: error("MusclePoweredHalfAndMaxRange is unsupported!")
 
         resolve(state, statblock, statistic, range.half, range.max)
     }
@@ -41,3 +39,10 @@ private fun resolve(
         max.apply(value),
     )
 }
+
+// resolve range with modifier effects
+
+fun resolveRange(
+    modifier: ModifyRange,
+    range: Range,
+) = range * modifier.factor

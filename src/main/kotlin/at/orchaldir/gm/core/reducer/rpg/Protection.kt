@@ -8,20 +8,20 @@ fun validateProtection(
     state: State,
     protection: Protection,
 ) {
-    val rpg = state.data.rpg
+    val data = state.data.rpg.equipment
 
     when (protection) {
-        is DamageResistance -> validateIsInside(protection.amount, "Damage Resistance", 1, rpg.maxDamageResistance)
+        is DamageResistance -> validateIsInside(protection.amount, "Damage Resistance", 1, data.maxDamageResistance)
         is DamageResistances -> {
-            validateIsInside(protection.amount, "Damage Resistance", 0, rpg.maxDamageResistance)
+            validateIsInside(protection.amount, "Damage Resistance", 0, data.maxDamageResistance)
 
             protection.damageTypes.forEach { (type, dr) ->
                 state.getDamageTypeStorage().require(type)
-                validateIsInside(dr, "Damage Resistance for ${type.print()}", 0, rpg.maxDamageResistance)
+                validateIsInside(dr, "Damage Resistance for ${type.print()}", 0, data.maxDamageResistance)
             }
         }
 
-        is DefenseBonus -> validateIsInside(protection.bonus, "Defense Bonus", 1, rpg.maxDefenseBonus)
+        is DefenseBonus -> validateIsInside(protection.bonus, "Defense Bonus", 1, data.maxDefenseBonus)
         UndefinedProtection -> doNothing()
     }
 }

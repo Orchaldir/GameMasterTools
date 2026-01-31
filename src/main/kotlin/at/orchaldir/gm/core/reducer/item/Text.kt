@@ -11,9 +11,9 @@ import at.orchaldir.gm.core.model.util.part.Segments
 import at.orchaldir.gm.core.selector.util.requireExists
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
-import at.orchaldir.gm.utils.math.checkFactor
 import at.orchaldir.gm.utils.math.checkSize
 import at.orchaldir.gm.utils.math.unit.checkDistance
+import at.orchaldir.gm.utils.math.validateFactor
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
 import at.orchaldir.gm.visualization.text.TextRenderConfig
 import at.orchaldir.gm.visualization.text.TextRenderState
@@ -64,7 +64,7 @@ fun validateTextFormat(format: TextFormat) {
         is Scroll -> {
             checkDistance(format.rollLength, "rollLength", MIN_TEXT_SIZE, MAX_TEXT_SIZE)
             checkDistance(format.rollDiameter, "rollDiameter", MIN_TEXT_SIZE, MAX_TEXT_SIZE)
-            checkFactor(format.pageWidth, "page width", MIN_PAGE_WIDTH_FACTOR, MAX_PAGE_WIDTH_FACTOR)
+            validateFactor(format.pageWidth, "page width", MIN_PAGE_WIDTH_FACTOR, MAX_PAGE_WIDTH_FACTOR)
             checkScrollFormat(format.format)
         }
 
@@ -88,8 +88,8 @@ private fun checkScrollHandle(handle: Segments) {
 }
 
 private fun checkHandleSegment(segment: Segment, number: Int) {
-    checkFactor(segment.length, "$number.segment's length", MIN_SEGMENT_DISTANCE, MAX_SEGMENT_DISTANCE)
-    checkFactor(segment.diameter, "$number.segment's diameter", MIN_SEGMENT_DISTANCE, MAX_SEGMENT_DISTANCE)
+    validateFactor(segment.length, "$number.segment's length", MIN_SEGMENT_DISTANCE, MAX_SEGMENT_DISTANCE)
+    validateFactor(segment.diameter, "$number.segment's diameter", MIN_SEGMENT_DISTANCE, MAX_SEGMENT_DISTANCE)
 }
 
 fun validateTextContent(

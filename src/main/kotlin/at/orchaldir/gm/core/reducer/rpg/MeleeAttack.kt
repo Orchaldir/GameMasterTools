@@ -11,6 +11,7 @@ fun validateMeleeAttack(
 ) {
     validateAttackEffect(state, attack.effect)
     validateReach(attack.reach)
+    validateUsedSkill(state, attack.skill)
 }
 
 fun validateAttackEffect(

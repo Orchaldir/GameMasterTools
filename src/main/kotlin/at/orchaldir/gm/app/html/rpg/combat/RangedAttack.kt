@@ -69,6 +69,7 @@ private fun TR.sharedHeaders() {
     th { +"Accuracy" }
     th { +"Range" }
     th { +"Shots" }
+    th { +"Skill" }
 }
 
 private fun TR.sharedColumns(
@@ -80,6 +81,7 @@ private fun TR.sharedColumns(
     td { displayAccuracy(attack.accuracy) }
     td { displayRange(call, state, attack.range) }
     td { displayShots(call, state, attack.shots) }
+    td { displayUsedSkill(call, state, attack.skill) }
 }
 
 fun HtmlBlockTag.showRangedAttacks(
@@ -105,6 +107,7 @@ fun HtmlBlockTag.showRangedAttack(
         fieldAccuracy(attack.accuracy)
         fieldRange(call, state, attack.range)
         showShotsDetails(call, state, attack.shots)
+        fieldUsedSkill(call, state, attack.skill)
     }
 }
 
@@ -121,6 +124,7 @@ fun HtmlBlockTag.editRangedAttack(
         editAccuracy(attack.accuracy, param)
         editRange(state, attack.range, param)
         editShots(state, attack.shots, param)
+        editUsedSkill(state, attack.skill, param)
     }
 }
 
@@ -134,4 +138,5 @@ fun parseRangedAttack(
     parseAttackEffect(parameters, param),
     parseRange(parameters, param),
     parseShots(parameters, param),
+    parseUsedSkill(parameters, param),
 )
