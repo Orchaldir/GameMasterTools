@@ -92,6 +92,14 @@ class MeleeWeaponTypeTest {
     }
 
     @Test
+    fun `Check if used skill is validated`() {
+        val skill = SimpleUsedSkill(UNKNOWN_STATISTIC_ID)
+        val attack = MeleeAttack(skill = skill)
+
+        assertInvalidWeapon(attack, "Requires unknown Statistic 99!")
+    }
+
+    @Test
     fun `A valid melee weapon`() {
         val attack = MeleeAttack(Damage(validDamageAmount, DAMAGE_TYPE_ID_0), ReachRange(1, 2))
 
