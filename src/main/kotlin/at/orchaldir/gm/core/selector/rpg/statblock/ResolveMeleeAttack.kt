@@ -74,5 +74,6 @@ fun resolveMeleeAttack(
 ) = when (effect) {
     is ModifyDamageResistance, is ModifyDefenseBonus, is ModifyRange -> attack
     is ModifyDamage -> attack.copy(effect = resolveAttackEffect(effect, attack.effect))
+    is ModifyParrying -> attack.copy(parrying = resolveParrying(effect, attack.parrying))
     is ModifySkill -> attack.copy(skill = resolveUsedSkill(effect, attack.skill))
 }

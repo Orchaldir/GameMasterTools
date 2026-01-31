@@ -16,6 +16,7 @@ enum class EquipmentModifierEffectType {
     Damage,
     DamageResistance,
     DefenseBonus,
+    Parrying,
     Range,
     Skill,
 }
@@ -27,6 +28,7 @@ sealed class EquipmentModifierEffect {
         is ModifyDamage -> EquipmentModifierEffectType.Damage
         is ModifyDamageResistance -> EquipmentModifierEffectType.DamageResistance
         is ModifyDefenseBonus -> EquipmentModifierEffectType.DefenseBonus
+        is ModifyParrying -> EquipmentModifierEffectType.Parrying
         is ModifyRange -> EquipmentModifierEffectType.Range
         is ModifySkill -> EquipmentModifierEffectType.Skill
     }
@@ -44,6 +46,7 @@ sealed class EquipmentModifierEffect {
             )
 
             is ModifyDefenseBonus -> validateIsInside(amount, "Defense Bonus Modifier", 1, data.maxDefenseBonus)
+            is ModifyParrying -> validateIsInside(amount, "Parrying Modifier", data.parryingModifier)
             is ModifyRange -> validateFactor(factor, "range", MIN_RANGE_MODIFIER, MAX_RANGE_MODIFIER)
             is ModifySkill -> validateIsInside(amount, "Skill Modifier", data.skillModifier)
         }
@@ -65,6 +68,12 @@ data class ModifyDamageResistance(
 @Serializable
 @SerialName("DefenseBonus")
 data class ModifyDefenseBonus(
+    val amount: Int,
+) : EquipmentModifierEffect()
+
+@Serializable
+@SerialName("Parrying")
+data class ModifyParrying(
     val amount: Int,
 ) : EquipmentModifierEffect()
 

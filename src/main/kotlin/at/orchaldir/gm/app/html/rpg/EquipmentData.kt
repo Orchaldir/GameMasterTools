@@ -28,6 +28,7 @@ fun HtmlBlockTag.showEquipmentData(
     field("Max Defense Bonus", data.maxDefenseBonus)
     fieldRange("Defense Bonus Modifier", data.defenseBonusModifier)
     optionalFieldLink("Muscle-Powered Statistic", call, state, data.musclePoweredStatistic)
+    fieldRange("Parrying Modifier", data.parryingModifier)
     fieldRange("Skill Modifier", data.skillModifier)
 }
 
@@ -75,6 +76,11 @@ fun HtmlBlockTag.editEquipmentData(
         data.musclePoweredStatistic,
     )
     editRange(
+        "Parrying Modifier",
+        data.parryingModifier,
+        combine(PARRYING, MODIFIER),
+    )
+    editRange(
         "Skill Modifier",
         data.skillModifier,
         combine(STATISTIC, MODIFIER),
@@ -92,5 +98,6 @@ fun parseEquipmentData(
     parseInt(parameters, DEFENSE),
     parseRange(parameters, combine(DEFENSE, MODIFIER)),
     parseOptionalStatisticId(parameters, STATISTIC),
+    parseRange(parameters, combine(PARRYING, MODIFIER)),
     parseRange(parameters, combine(STATISTIC, MODIFIER)),
 )

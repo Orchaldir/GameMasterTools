@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.html.rpg.combat
 
 import at.orchaldir.gm.app.DAMAGE
 import at.orchaldir.gm.app.DEFENSE
+import at.orchaldir.gm.app.PARRYING
 import at.orchaldir.gm.app.RANGE
 import at.orchaldir.gm.app.RESISTANCE
 import at.orchaldir.gm.app.STATISTIC
@@ -46,6 +47,7 @@ fun HtmlBlockTag.displayEquipmentModifierEffect(
 
         is ModifyDamageResistance -> +"Modifies Damage Resistance by ${effect.amount}"
         is ModifyDefenseBonus -> +"Modifies Defense Bonus by ${effect.amount}"
+        is ModifyParrying -> +"Modifies Parrying by ${effect.amount}"
         is ModifyRange -> +"Modifies Range by ${effect.factor}"
         is ModifySkill -> +"Modifies Skill by ${effect.amount}"
     }
@@ -90,6 +92,13 @@ fun HtmlBlockTag.editEquipmentModifierEffect(
                 combine(param, DEFENSE),
             )
 
+            is ModifyParrying -> selectFromRange(
+                "Parrying",
+                data.parryingModifier,
+                effect.amount,
+                combine(param, PARRYING),
+            )
+
             is ModifyRange -> selectFactor(
                 "Factor",
                 combine(param, RANGE),
@@ -124,6 +133,10 @@ fun parseEquipmentModifierEffect(
 
     EquipmentModifierEffectType.DefenseBonus -> ModifyDefenseBonus(
         parseInt(parameters, combine(param, DEFENSE)),
+    )
+
+    EquipmentModifierEffectType.Parrying -> ModifyParrying(
+        parseInt(parameters, combine(param, PARRYING)),
     )
 
     EquipmentModifierEffectType.Range -> ModifyRange(

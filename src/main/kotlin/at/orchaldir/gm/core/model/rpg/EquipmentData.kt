@@ -11,5 +11,6 @@ data class EquipmentData(
     val maxDefenseBonus: Int = 10,
     val defenseBonusModifier: IntRange = IntRange(-5, 5),
     val musclePoweredStatistic: StatisticId? = null,
+    val parryingModifier: IntRange = IntRange(-2, 2),
     val skillModifier: IntRange = IntRange(-2, 2),
 )
