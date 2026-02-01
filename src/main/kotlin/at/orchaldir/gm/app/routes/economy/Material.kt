@@ -10,6 +10,7 @@ import at.orchaldir.gm.app.html.economy.money.displayPrice
 import at.orchaldir.gm.app.html.economy.properties.displayHardness
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
+import at.orchaldir.gm.core.model.economy.material.CrystalSystem
 import at.orchaldir.gm.core.model.economy.material.MATERIAL_TYPE
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.util.SortMaterial
@@ -74,7 +75,15 @@ fun Application.configureMaterialRouting() {
                 listOf(
                     createNameColumn(call, state),
                     Column("Category") { tdEnum(it.properties.category) },
-                    Column(listOf("Crystal", "System")) { tdEnum(it.properties.crystalSystem) },
+                    Column(listOf("Crystal", "System")) {
+                        tdEnum(
+                            if (it.properties.crystalSystem != CrystalSystem.None) {
+                                it.properties.crystalSystem
+                            } else {
+                                null
+                            }
+                        )
+                    },
                     tdColumn("Color") { showColor(it.properties.color) },
                     Column("Transparency") { tdEnum(it.properties.transparency) },
                     Column("Density") { td(it.properties.density) },

@@ -36,7 +36,7 @@ fun HtmlBlockTag.showMaterialProperties(
     properties: MaterialProperties,
 ) {
     field("Category", properties.category)
-    optionalField("Crystal System", properties.crystalSystem)
+    field("Crystal System", properties.crystalSystem)
     fieldColor(properties.color)
     field("Transparency", properties.transparency)
     fieldWeight("Density", properties.density)
