@@ -194,7 +194,13 @@ enum class SortMagicTradition {
 
 enum class SortMaterial {
     Name,
+    Category,
+    CrystalSystem,
     Density,
+    Hardness,
+    Fracture,
+    Luster,
+    Tenacity,
     Price,
     Currencies,
     Equipment,

@@ -6,7 +6,11 @@
    "name": "Copper",
    "properties": {
     "color": "OrangeRed",
-    "density": 8940000000
+    "crystalSystem": "Cubic",
+    "density": 8940000000,
+    "hardness": 3.0,
+    "luster": "Metallic",
+    "tenacity": "Ductile"
    }
   },
   "1": {

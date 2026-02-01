@@ -686,7 +686,13 @@ fun State.sortMaterials(
     .sortedWith(
         when (sort) {
             SortMaterial.Name -> compareBy { it.name.text }
+            SortMaterial.Category -> compareByDescending { it.properties.category }
+            SortMaterial.CrystalSystem -> compareByDescending { it.properties.crystalSystem }
             SortMaterial.Density -> compareByDescending { it.properties.density.value() }
+            SortMaterial.Hardness -> compareByDescending { it.properties.hardness }
+            SortMaterial.Fracture -> compareByDescending { it.properties.fracture }
+            SortMaterial.Luster -> compareByDescending { it.properties.luster }
+            SortMaterial.Tenacity -> compareByDescending { it.properties.tenacity }
             SortMaterial.Price -> compareByDescending { it.pricePerKilogram.value }
             SortMaterial.Currencies -> compareByDescending { countCurrencyUnits(it.id) }
             SortMaterial.Equipment -> compareByDescending { countEquipment(it.id) }
