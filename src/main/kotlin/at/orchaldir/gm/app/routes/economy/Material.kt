@@ -7,6 +7,7 @@ import at.orchaldir.gm.app.html.economy.material.editMaterial
 import at.orchaldir.gm.app.html.economy.material.parseMaterial
 import at.orchaldir.gm.app.html.economy.material.showMaterial
 import at.orchaldir.gm.app.html.economy.money.displayPrice
+import at.orchaldir.gm.app.html.economy.properties.displayHardness
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.economy.material.MATERIAL_TYPE
@@ -73,8 +74,14 @@ fun Application.configureMaterialRouting() {
                 listOf(
                     createNameColumn(call, state),
                     Column("Category") { tdEnum(it.properties.category) },
+                    Column(listOf("Crystal", "System")) { tdEnum(it.properties.crystalSystem) },
                     tdColumn("Color") { showColor(it.properties.color) },
+                    Column("Transparency") { tdEnum(it.properties.transparency) },
                     Column("Density") { td(it.properties.density) },
+                    tdColumn("Hardness") { +displayHardness(it.properties) },
+                    Column("Fracture") { tdEnum(it.properties.fracture) },
+                    Column("Luster") { tdEnum(it.properties.luster) },
+                    Column("Tenacity") { tdEnum(it.properties.tenacity) },
                     tdColumn(listOf("Price", "per", "kg")) { displayPrice(call, currency, it.pricePerKilogram) },
                     countColumnForId("Currency", state::countCurrencyUnits),
                     countColumnForId("Equipment", state::countEquipment),

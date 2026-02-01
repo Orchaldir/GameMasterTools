@@ -40,11 +40,14 @@ fun HtmlBlockTag.showMaterialProperties(
     fieldColor(properties.color)
     field("Transparency", properties.transparency)
     fieldWeight("Density", properties.density)
-    field("Hardness", String.format(Locale.US, "%.1f", properties.hardness))
+    field("Hardness", displayHardness(properties))
     field("Fracture", properties.fracture)
     field("Luster", properties.luster)
     field("Tenacity", properties.tenacity)
 }
+
+fun displayHardness(properties: MaterialProperties) =
+    String.format(Locale.US, "%.1f", properties.hardness)
 
 // edit
 
