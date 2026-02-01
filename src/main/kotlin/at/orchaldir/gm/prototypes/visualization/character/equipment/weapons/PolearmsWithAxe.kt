@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.util.Size.*
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.renderEquipmentDataTable
+import at.orchaldir.gm.prototypes.visualization.mockMaterial
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.unit.Distance
 
@@ -37,7 +38,7 @@ fun main() {
     }
 
     renderEquipmentDataTable(
-        State(Storage(Material(MaterialId(0), color = Color.Gray))),
+        State(Storage(mockMaterial(Color.Gray))),
         "polearms-axe.svg",
         CHARACTER_CONFIG,
         createAppearance(Distance.fromCentimeters(180)),

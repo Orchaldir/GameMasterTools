@@ -10,6 +10,7 @@ import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.unit.Weight
 import kotlinx.serialization.Serializable
+import java.util.Properties
 
 const val MATERIAL_TYPE = "Material"
 
@@ -27,9 +28,7 @@ value class MaterialId(val value: Int) : Id<MaterialId> {
 data class Material(
     val id: MaterialId,
     val name: Name = Name.init(id),
-    val category: MaterialCategory = MaterialCategory.Metal,
-    val color: Color = Color.Pink,
-    val density: Weight = Weight.fromKilograms(1000),
+    val properties: MaterialProperties = MaterialProperties(),
     val pricePerKilogram: Price = FREE,
 ) : ElementWithSimpleName<MaterialId> {
 

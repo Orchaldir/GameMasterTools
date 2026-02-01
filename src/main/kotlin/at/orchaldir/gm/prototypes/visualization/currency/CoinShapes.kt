@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.economy.money.*
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.prototypes.visualization.addNames
+import at.orchaldir.gm.prototypes.visualization.mockMaterial
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.shape.*
 import at.orchaldir.gm.utils.math.unit.Distance
@@ -16,8 +17,8 @@ fun main() {
     val silver = MaterialId(1)
     val materialStorage = Storage(
         listOf(
-            Material(gold, color = Color.Gold),
-            Material(silver, color = Color.Silver),
+            mockMaterial(Color.Gold, gold),
+            mockMaterial(Color.Silver, silver),
         )
     )
     val holeShapes = mutableListOf<ComplexShape?>(null)

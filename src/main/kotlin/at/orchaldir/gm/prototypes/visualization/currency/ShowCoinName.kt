@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.economy.money.ShowName
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.prototypes.visualization.addNames
+import at.orchaldir.gm.prototypes.visualization.mockMaterial
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.visualization.currency.ResolvedCurrencyData
@@ -20,8 +21,8 @@ fun main() {
     val silver = MaterialId(1)
     val materialStorage = Storage(
         listOf(
-            Material(gold, color = Color.Gold),
-            Material(silver, color = Color.Silver),
+            mockMaterial(Color.Gold, gold),
+            mockMaterial(Color.Silver, silver),
         )
     )
 

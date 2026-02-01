@@ -12,12 +12,13 @@ import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTableWithoutColorScheme
+import at.orchaldir.gm.prototypes.visualization.mockMaterial
 import at.orchaldir.gm.utils.Storage
 
 
 fun main() {
     renderCharacterTableWithoutColorScheme(
-        State(Storage(Material(MaterialId(0), color = Color.Gray))),
+        State(Storage(mockMaterial(Color.Gray))),
         "spears.svg",
         CHARACTER_CONFIG,
         addNames(SpearShape.entries),

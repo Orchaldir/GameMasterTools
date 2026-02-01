@@ -50,6 +50,7 @@ data class CharacterRenderConfig(
             is MaterialSkin -> state
                 .getMaterialStorage()
                 .getOrThrow(skin.material)
+                .properties
                 .color
                 .toRender()
 

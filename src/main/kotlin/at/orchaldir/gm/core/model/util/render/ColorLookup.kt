@@ -38,7 +38,7 @@ sealed interface ColorLookup {
     }
 
     fun lookup(state: State, colors: Colors, material: MaterialId) = lookup(colors)
-        ?: state.getMaterialStorage().get(material)?.color ?: Color.Pink
+        ?: state.getMaterialStorage().get(material)?.properties?.color ?: Color.Pink
 
     fun getOtherColors() = if (this is FixedColor) {
         Color.entries - color

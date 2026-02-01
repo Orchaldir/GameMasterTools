@@ -29,7 +29,7 @@ class VolumePerMaterial(
     fun getWeightPerMaterial(state: State) = map.mapValues { (id, volume) ->
         val material = state.getMaterialStorage().getOrThrow(id)
 
-        Weight.fromVolume(volume, material.density)
+        Weight.fromVolume(volume, material.properties.density)
     }
 
     fun getWeight(state: State) = getWeightPerMaterial(state).values

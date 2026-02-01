@@ -686,7 +686,7 @@ fun State.sortMaterials(
     .sortedWith(
         when (sort) {
             SortMaterial.Name -> compareBy { it.name.text }
-            SortMaterial.Density -> compareByDescending { it.density.value() }
+            SortMaterial.Density -> compareByDescending { it.properties.density.value() }
             SortMaterial.Price -> compareByDescending { it.pricePerKilogram.value }
             SortMaterial.Currencies -> compareByDescending { countCurrencyUnits(it.id) }
             SortMaterial.Equipment -> compareByDescending { countEquipment(it.id) }

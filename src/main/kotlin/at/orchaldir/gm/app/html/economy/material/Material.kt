@@ -8,6 +8,9 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.economy.money.fieldPrice
 import at.orchaldir.gm.app.html.economy.money.parsePrice
 import at.orchaldir.gm.app.html.economy.money.selectPrice
+import at.orchaldir.gm.app.html.economy.properties.editMaterialProperties
+import at.orchaldir.gm.app.html.economy.properties.parseMaterialProperties
+import at.orchaldir.gm.app.html.economy.properties.showMaterialProperties
 import at.orchaldir.gm.app.html.util.math.fieldWeight
 import at.orchaldir.gm.app.html.util.math.parseWeight
 import at.orchaldir.gm.app.html.util.math.selectWeight
@@ -37,9 +40,7 @@ fun HtmlBlockTag.showMaterial(
     material: Material,
 ) {
     fieldName(material.name)
-    field("Category", material.category)
-    fieldColor(material.color)
-    fieldWeight("Density", material.density)
+    showMaterialProperties(material.properties)
     fieldPrice(call, state, "Price Per Kilogram", material.pricePerKilogram)
 
     showUsage(call, state, material)
@@ -83,16 +84,7 @@ fun HtmlBlockTag.editMaterial(
     material: Material,
 ) {
     selectName(material.name)
-    selectValue("Category", CATEGORY, MaterialCategory.entries, material.category)
-    selectColor(material.color)
-    selectWeight(
-        "Density",
-        DENSITY,
-        material.density,
-        1,
-        25000,
-        SiPrefix.Kilo,
-    )
+    editMaterialProperties(material.properties)
     selectPrice(
         state,
         "Price Per Kilogram",
@@ -117,8 +109,6 @@ fun parseMaterial(
 ) = Material(
     id,
     parseName(parameters),
-    parse(parameters, CATEGORY, MaterialCategory.Metal),
-    parse(parameters, COLOR, Color.Pink),
-    parseWeight(parameters, DENSITY, SiPrefix.Kilo),
+    parseMaterialProperties(parameters),
     parsePrice(state, parameters, PRICE),
 )

@@ -17,6 +17,7 @@ import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTableWithoutColorScheme
+import at.orchaldir.gm.prototypes.visualization.mockMaterial
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.shape.CircularShape.Heater
 import at.orchaldir.gm.utils.math.shape.UsingCircularShape
@@ -31,7 +32,7 @@ fun main() {
     )
 
     renderCharacterTableWithoutColorScheme(
-        State(Storage(Material(MaterialId(0), color = Color.Gray))),
+        State(Storage(mockMaterial(Color.Gray))),
         "shield-borders.svg",
         CHARACTER_CONFIG,
         addNames(Size.entries),

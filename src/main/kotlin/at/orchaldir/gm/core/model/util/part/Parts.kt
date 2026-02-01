@@ -28,7 +28,7 @@ data class ColorItemPart(
             return color
         }
 
-        return state.getMaterialStorage().get(material)?.color ?: Color.Pink
+        return state.getMaterialStorage().get(material)?.properties?.color ?: Color.Pink
     }
 
     override fun contains(id: MaterialId) = material == id
@@ -49,7 +49,7 @@ data class FillItemPart(
             return fill
         }
 
-        return Solid(state.getMaterialStorage().get(material)?.color ?: Color.Pink)
+        return Solid(state.getMaterialStorage().get(material)?.properties?.color ?: Color.Pink)
     }
 
     override fun contains(id: MaterialId) = material == id

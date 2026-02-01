@@ -1,17 +1,36 @@
 package at.orchaldir.gm.prototypes.visualization
 
+import at.orchaldir.gm.core.model.economy.material.Material
+import at.orchaldir.gm.core.model.economy.material.MaterialId
+import at.orchaldir.gm.core.model.economy.material.MaterialProperties
 import at.orchaldir.gm.core.model.util.HorizontalAlignment.End
+import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.unit.Orientation
+import at.orchaldir.gm.utils.math.unit.Weight
 import at.orchaldir.gm.utils.math.unit.ZERO_ORIENTATION
 import at.orchaldir.gm.utils.renderer.MultiLayerRenderer
 import at.orchaldir.gm.utils.renderer.model.RenderStringOptions
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
 import at.orchaldir.gm.visualization.character.appearance.TEXT_LAYER
 import java.io.File
+
+fun mockMaterial(
+    color: Color,
+    id: Int = 0,
+) = mockMaterial(color, MaterialId(id))
+
+fun mockMaterial(
+    color: Color,
+    id: MaterialId,
+): Material {
+    val properties = MaterialProperties(color = color)
+
+    return Material(id,  properties = properties)
+}
 
 fun <T> renderTable(
     filename: String,

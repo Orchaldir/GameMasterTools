@@ -57,12 +57,12 @@ fun HtmlBlockTag.showVolumePerMaterial(
         }
         vpm.getMap().forEach { (id, volume) ->
             val material = state.getMaterialStorage().getOrThrow(id)
-            val weight = Weight.fromVolume(volume, material.density)
+            val weight = Weight.fromVolume(volume, material.properties.density)
 
             tr {
                 tdLink(call, state, material)
                 tdString(volume.toString())
-                tdString(material.density.toString())
+                tdString(material.properties.density.toString())
                 tdString(weight.toString())
             }
         }
