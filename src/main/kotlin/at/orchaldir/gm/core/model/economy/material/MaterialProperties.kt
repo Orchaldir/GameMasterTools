@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.economy.material
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.math.unit.Weight
 import kotlinx.serialization.Serializable
@@ -21,4 +22,11 @@ data class MaterialProperties(
     val luster: Luster = Luster.Dull,
     val tenacity: Tenacity = Tenacity.Brittle,
     val transparency: Transparency = Transparency.Opaque,
-)
+) {
+
+    fun validate(state: State) {
+        require(hardness >= MIN_HARDNESS) { "Hardness $hardness is below minimum $MIN_HARDNESS!" }
+        require(hardness <= MAX_HARDNESS) { "Hardness $hardness is above maximum $MAX_HARDNESS!" }
+    }
+
+}
