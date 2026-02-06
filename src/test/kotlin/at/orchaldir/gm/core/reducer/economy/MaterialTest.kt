@@ -21,6 +21,14 @@ class MaterialTest {
     }
 
     @Test
+    fun `Hardness is too hig`() {
+        val properties = MaterialProperties(hardness = 20.1f)
+        val material = Material(MATERIAL_ID_0, properties = properties)
+
+        assertIllegalArgument("Hardness 20.1 is above maximum 20.0!") { material.validate(state) }
+    }
+
+    @Test
     fun `Material is valid`() {
         val properties = MaterialProperties(color = Color.Green)
         val material = Material(MATERIAL_ID_0, properties = properties)
