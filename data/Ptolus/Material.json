@@ -18,7 +18,12 @@
    "name": "Silver",
    "properties": {
     "color": "Silver",
-    "density": 10500000000
+    "crystalSystem": "Cubic",
+    "density": 10500000000,
+    "fracture": "Hackly",
+    "hardness": 2.5,
+    "luster": "Metallic",
+    "tenacity": "Ductile"
    }
   },
   "2": {
@@ -26,7 +31,12 @@
    "name": "Gold",
    "properties": {
     "color": "Gold",
-    "density": 19320000000
+    "crystalSystem": "Cubic",
+    "density": 19320000000,
+    "fracture": "Hackly",
+    "hardness": 2.5,
+    "luster": "Metallic",
+    "tenacity": "Sectile"
    }
   },
   "3": {
@@ -34,7 +44,12 @@
    "name": "Platinum",
    "properties": {
     "color": "AliceBlue",
-    "density": 21450000000
+    "crystalSystem": "Cubic",
+    "density": 21450000000,
+    "fracture": "Hackly",
+    "hardness": 3.5,
+    "luster": "Metallic",
+    "tenacity": "Ductile"
    }
   },
   "4": {
@@ -148,6 +163,19 @@
     "category": "Stone",
     "color": "Lime",
     "density": 2500000000
+   }
+  },
+  "18": {
+   "id": 18,
+   "name": "Diamond",
+   "properties": {
+    "category": "Crystal",
+    "color": "White",
+    "crystalSystem": "Cubic",
+    "density": 3500000000,
+    "hardness": 10.0,
+    "luster": "Adamantine",
+    "transparency": "Transparent"
    }
   }
  }
