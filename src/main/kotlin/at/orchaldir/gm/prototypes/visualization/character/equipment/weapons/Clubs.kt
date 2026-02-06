@@ -1,7 +1,6 @@
 package at.orchaldir.gm.prototypes.visualization.character.equipment.weapons
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.economy.material.Material
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap.Companion.from
 import at.orchaldir.gm.core.model.item.equipment.OneHandedClub
