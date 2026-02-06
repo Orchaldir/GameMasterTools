@@ -1,8 +1,6 @@
 package at.orchaldir.gm.prototypes.visualization.character.equipment.weapons
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.economy.material.Material
-import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap.Companion.from
 import at.orchaldir.gm.core.model.item.equipment.Polearm
 import at.orchaldir.gm.core.model.item.equipment.style.*
@@ -14,6 +12,7 @@ import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.util.render.HorizontalStripesLookup
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTableWithoutColorScheme
+import at.orchaldir.gm.prototypes.visualization.mockMaterial
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 
@@ -39,7 +38,7 @@ fun main() {
     )
 
     renderCharacterTableWithoutColorScheme(
-        State(Storage(Material(MaterialId(0), color = Color.Gray))),
+        State(Storage(mockMaterial(Color.Gray))),
         "polearms.svg",
         CHARACTER_CONFIG,
         shafts,

@@ -7,8 +7,10 @@ import at.orchaldir.gm.app.html.economy.material.editMaterial
 import at.orchaldir.gm.app.html.economy.material.parseMaterial
 import at.orchaldir.gm.app.html.economy.material.showMaterial
 import at.orchaldir.gm.app.html.economy.money.displayPrice
+import at.orchaldir.gm.app.html.economy.properties.displayHardness
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
+import at.orchaldir.gm.core.model.economy.material.CrystalSystem
 import at.orchaldir.gm.core.model.economy.material.MATERIAL_TYPE
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.util.SortMaterial
@@ -72,9 +74,23 @@ fun Application.configureMaterialRouting() {
                 state.sortMaterials(all.sort),
                 listOf(
                     createNameColumn(call, state),
-                    Column("Category") { tdEnum(it.category) },
-                    tdColumn("Color") { showColor(it.color) },
-                    Column("Density") { td(it.density) },
+                    Column("Category") { tdEnum(it.properties.category) },
+                    Column(listOf("Crystal", "System")) {
+                        tdEnum(
+                            if (it.properties.crystalSystem != CrystalSystem.None) {
+                                it.properties.crystalSystem
+                            } else {
+                                null
+                            }
+                        )
+                    },
+                    tdColumn("Color") { showColor(it.properties.color) },
+                    Column("Transparency") { tdEnum(it.properties.transparency) },
+                    Column("Density") { td(it.properties.density) },
+                    tdColumn("Hardness") { +displayHardness(it.properties) },
+                    Column("Fracture") { tdEnum(it.properties.fracture) },
+                    Column("Luster") { tdEnum(it.properties.luster) },
+                    Column("Tenacity") { tdEnum(it.properties.tenacity) },
                     tdColumn(listOf("Price", "per", "kg")) { displayPrice(call, currency, it.pricePerKilogram) },
                     countColumnForId("Currency", state::countCurrencyUnits),
                     countColumnForId("Equipment", state::countEquipment),

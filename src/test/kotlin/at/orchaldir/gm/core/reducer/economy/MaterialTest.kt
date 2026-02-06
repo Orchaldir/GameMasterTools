@@ -2,36 +2,38 @@ package at.orchaldir.gm.core.reducer.economy
 
 import at.orchaldir.gm.MATERIAL_ID_0
 import at.orchaldir.gm.assertIllegalArgument
-import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.Material
+import at.orchaldir.gm.core.model.economy.material.MaterialProperties
 import at.orchaldir.gm.core.model.util.render.Color
-import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
-import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import kotlin.test.assertEquals
 
 class MaterialTest {
+    val state = State(Storage(Material(MATERIAL_ID_0)))
 
-    @Nested
-    inner class UpdateTest {
+    @Test
+    fun `Hardness is too low`() {
+        val properties = MaterialProperties(hardness = -0.1f)
+        val material = Material(MATERIAL_ID_0, properties = properties)
 
-        @Test
-        fun `Cannot update unknown id`() {
-            val action = UpdateAction(Material(MATERIAL_ID_0))
+        assertIllegalArgument("Hardness -0.1 is below minimum 0.0!") { material.validate(state) }
+    }
 
-            assertIllegalArgument("Requires unknown Material 0!") { REDUCER.invoke(State(), action) }
-        }
+    @Test
+    fun `Hardness is too hig`() {
+        val properties = MaterialProperties(hardness = 20.1f)
+        val material = Material(MATERIAL_ID_0, properties = properties)
 
-        @Test
-        fun `Material exists`() {
-            val state = State(Storage(Material(MATERIAL_ID_0)))
-            val material = Material(MATERIAL_ID_0, color = Color.Green)
-            val action = UpdateAction(material)
+        assertIllegalArgument("Hardness 20.1 is above maximum 20.0!") { material.validate(state) }
+    }
 
-            assertEquals(material, REDUCER.invoke(state, action).first.getMaterialStorage().get(MATERIAL_ID_0))
-        }
+    @Test
+    fun `Material is valid`() {
+        val properties = MaterialProperties(color = Color.Green)
+        val material = Material(MATERIAL_ID_0, properties = properties)
+
+        material.validate(state)
     }
 
 }

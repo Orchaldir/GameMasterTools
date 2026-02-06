@@ -79,7 +79,7 @@ fun HtmlBlockTag.showPricePerMaterial(
         }
         vpm.getMap().forEach { (id, volume) ->
             val material = state.getMaterialStorage().getOrThrow(id)
-            val weight = Weight.fromVolume(volume, material.density)
+            val weight = Weight.fromVolume(volume, material.properties.density)
             val price = Price.fromWeight(weight, material.pricePerKilogram)
 
             tr {

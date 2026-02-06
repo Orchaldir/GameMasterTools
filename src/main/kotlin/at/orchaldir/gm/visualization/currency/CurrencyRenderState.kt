@@ -32,5 +32,5 @@ data class CurrencyRenderState(
         NoBorder(color(material).toRender())
 
     private fun color(material: MaterialId): Color =
-        state.getMaterialStorage().get(material)?.color ?: Color.Pink
+        state.getMaterialStorage().get(material)?.properties?.color ?: Color.Pink
 }

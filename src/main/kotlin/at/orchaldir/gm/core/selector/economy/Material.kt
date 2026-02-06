@@ -22,11 +22,11 @@ fun State.canDeleteMaterial(material: MaterialId) = DeleteResult(material)
     .addElements(getTextsMadeOf(material))
 
 fun countEachMaterialCategory(materials: Collection<Material>) = materials
-    .groupingBy { it.category }
+    .groupingBy { it.properties.category }
     .eachCount()
 
 fun State.calculateWeight(id: MaterialId, volume: Volume): Weight {
     val material = getMaterialStorage().getOrThrow(id)
 
-    return Weight.fromVolume(volume, material.density)
+    return Weight.fromVolume(volume, material.properties.density)
 }

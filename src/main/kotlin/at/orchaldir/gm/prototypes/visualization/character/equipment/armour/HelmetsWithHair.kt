@@ -8,8 +8,6 @@ import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
 import at.orchaldir.gm.core.model.character.appearance.hair.NormalHair
 import at.orchaldir.gm.core.model.character.appearance.hair.ShortHairCut
 import at.orchaldir.gm.core.model.character.appearance.hair.ShortHairStyle
-import at.orchaldir.gm.core.model.economy.material.Material
-import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap.Companion.from
 import at.orchaldir.gm.core.model.item.equipment.Helmet
 import at.orchaldir.gm.core.model.item.equipment.style.ChainmailHood
@@ -21,6 +19,7 @@ import at.orchaldir.gm.core.model.util.render.Color.Yellow
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTableWithoutColorScheme
+import at.orchaldir.gm.prototypes.visualization.mockMaterial
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.unit.Distance
 
@@ -34,7 +33,7 @@ fun main() {
 
 
     renderCharacterTableWithoutColorScheme(
-        State(Storage(Material(MaterialId(0), color = Color.Silver))),
+        State(Storage(mockMaterial(Color.Silver))),
         "helmets-with-hair.svg",
         CHARACTER_CONFIG,
         addNames(ShortHairStyle.entries),

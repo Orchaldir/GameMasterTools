@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.economy.material.Material
 import at.orchaldir.gm.core.model.economy.material.MaterialId
+import at.orchaldir.gm.core.model.economy.material.MaterialProperties
 import at.orchaldir.gm.core.model.economy.money.Currency
 import at.orchaldir.gm.core.model.economy.money.CurrencyId
 import at.orchaldir.gm.core.model.economy.money.Denomination
@@ -111,4 +112,8 @@ private fun createMaterial(
     name: String,
     color: Color,
     weight: Long,
-) = Material(MaterialId(id), Name.init(name), color = color, density = Weight.fromKilograms(weight))
+): Material {
+    val properties = MaterialProperties(color = color, density = Weight.fromKilograms(weight))
+
+    return Material(MaterialId(id), Name.init(name), properties)
+}

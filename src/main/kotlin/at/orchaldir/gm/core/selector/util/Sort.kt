@@ -112,6 +112,9 @@ fun <T> State.getDateComparator(
     }
 }
 
+private fun <T, E : Enum<E>> compareByEnum(map: (T) -> E): Comparator<T> =
+    compareBy { map(it).name }
+
 // ammunition
 
 fun State.sortAmmunition(sort: SortAmmunition = SortAmmunition.Name) =
@@ -540,7 +543,7 @@ fun State.sortEquipmentModifiers(
     .sortedWith(
         when (sort) {
             SortEquipmentModifier.Name -> compareBy { it.name.text }
-            SortEquipmentModifier.Category -> compareBy { it.category.name }
+            SortEquipmentModifier.Category -> compareByEnum { it.category }
             SortEquipmentModifier.Cost -> compareByDescending { it.cost.toPermyriad() }
             SortEquipmentModifier.Equipment -> compareByDescending { getEquipment(it.id).size }
         })
@@ -617,7 +620,7 @@ fun State.sortJobs(
     .sortedWith(
         when (sort) {
             SortJob.Name -> compareBy { it.name.text }
-            SortJob.EmployerType -> compareBy { it.employerType }
+            SortJob.EmployerType -> compareByEnum { it.employerType }
             SortJob.Income -> compareByDescending {
                 it.income.sortValue(this)
             }
@@ -686,7 +689,13 @@ fun State.sortMaterials(
     .sortedWith(
         when (sort) {
             SortMaterial.Name -> compareBy { it.name.text }
-            SortMaterial.Density -> compareByDescending { it.density.value() }
+            SortMaterial.Category -> compareByEnum { it.properties.category }
+            SortMaterial.CrystalSystem -> compareByEnum { it.properties.crystalSystem }
+            SortMaterial.Density -> compareByDescending { it.properties.density.value() }
+            SortMaterial.Hardness -> compareByDescending { it.properties.hardness }
+            SortMaterial.Fracture -> compareByEnum { it.properties.fracture }
+            SortMaterial.Luster -> compareByEnum { it.properties.luster }
+            SortMaterial.Tenacity -> compareByEnum { it.properties.tenacity }
             SortMaterial.Price -> compareByDescending { it.pricePerKilogram.value }
             SortMaterial.Currencies -> compareByDescending { countCurrencyUnits(it.id) }
             SortMaterial.Equipment -> compareByDescending { countEquipment(it.id) }

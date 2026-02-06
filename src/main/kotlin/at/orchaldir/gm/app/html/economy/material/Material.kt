@@ -1,21 +1,16 @@
 package at.orchaldir.gm.app.html.economy.material
 
-import at.orchaldir.gm.app.CATEGORY
-import at.orchaldir.gm.app.COLOR
-import at.orchaldir.gm.app.DENSITY
 import at.orchaldir.gm.app.PRICE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.economy.money.fieldPrice
 import at.orchaldir.gm.app.html.economy.money.parsePrice
 import at.orchaldir.gm.app.html.economy.money.selectPrice
-import at.orchaldir.gm.app.html.util.math.fieldWeight
-import at.orchaldir.gm.app.html.util.math.parseWeight
-import at.orchaldir.gm.app.html.util.math.selectWeight
+import at.orchaldir.gm.app.html.economy.properties.editMaterialProperties
+import at.orchaldir.gm.app.html.economy.properties.parseMaterialProperties
+import at.orchaldir.gm.app.html.economy.properties.showMaterialProperties
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.Material
-import at.orchaldir.gm.core.model.economy.material.MaterialCategory
 import at.orchaldir.gm.core.model.economy.material.MaterialId
-import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.selector.economy.money.getCurrencyUnits
 import at.orchaldir.gm.core.selector.item.equipment.getEquipmentMadeOf
 import at.orchaldir.gm.core.selector.item.getTextsMadeOf
@@ -23,7 +18,6 @@ import at.orchaldir.gm.core.selector.race.getRaceAppearancesMadeOf
 import at.orchaldir.gm.core.selector.world.getMoonsContaining
 import at.orchaldir.gm.core.selector.world.getRegionsContaining
 import at.orchaldir.gm.core.selector.world.getStreetTemplatesMadeOf
-import at.orchaldir.gm.utils.math.unit.SiPrefix
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -37,9 +31,7 @@ fun HtmlBlockTag.showMaterial(
     material: Material,
 ) {
     fieldName(material.name)
-    field("Category", material.category)
-    fieldColor(material.color)
-    fieldWeight("Density", material.density)
+    showMaterialProperties(material.properties)
     fieldPrice(call, state, "Price Per Kilogram", material.pricePerKilogram)
 
     showUsage(call, state, material)
@@ -83,16 +75,7 @@ fun HtmlBlockTag.editMaterial(
     material: Material,
 ) {
     selectName(material.name)
-    selectValue("Category", CATEGORY, MaterialCategory.entries, material.category)
-    selectColor(material.color)
-    selectWeight(
-        "Density",
-        DENSITY,
-        material.density,
-        1,
-        25000,
-        SiPrefix.Kilo,
-    )
+    editMaterialProperties(material.properties)
     selectPrice(
         state,
         "Price Per Kilogram",
@@ -117,8 +100,6 @@ fun parseMaterial(
 ) = Material(
     id,
     parseName(parameters),
-    parse(parameters, CATEGORY, MaterialCategory.Metal),
-    parse(parameters, COLOR, Color.Pink),
-    parseWeight(parameters, DENSITY, SiPrefix.Kilo),
+    parseMaterialProperties(parameters),
     parsePrice(state, parameters, PRICE),
 )
