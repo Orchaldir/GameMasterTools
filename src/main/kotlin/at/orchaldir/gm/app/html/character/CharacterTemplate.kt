@@ -9,6 +9,7 @@ import at.orchaldir.gm.app.html.culture.showKnownLanguages
 import at.orchaldir.gm.app.html.race.editRaceLookup
 import at.orchaldir.gm.app.html.race.parseRaceLookup
 import at.orchaldir.gm.app.html.race.showRaceLookup
+import at.orchaldir.gm.app.html.race.showRaceLookupDetails
 import at.orchaldir.gm.app.html.rpg.statblock.editStatblockLookup
 import at.orchaldir.gm.app.html.rpg.statblock.parseStatblockLookup
 import at.orchaldir.gm.app.html.rpg.statblock.showStatblockLookupDetails
@@ -40,7 +41,7 @@ fun HtmlBlockTag.showCharacterTemplate(
 ) {
     val race = template.race.defaultRace()
 
-    showRaceLookup(call, state, template.race)
+    showRaceLookupDetails(call, state, template.race)
     optionalField("Gender", template.gender)
     optionalFieldLink(call, state, template.culture)
     showKnownLanguages(call, state, template)

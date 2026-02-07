@@ -134,7 +134,10 @@ private fun HtmlBlockTag.showCharacterTemplateRight(
     template: CharacterTemplate,
 ) {
     val gender = template.gender ?: Gender.Male
-    template.race.defaultRace()?.let {
+    val races = template.race.races()
+    val width = if (races.size > 1) { 40 } else { 80 }
+
+    races.forEach {
         val appearance = generateAppearance(
             state,
             state.getRaceStorage().getOrThrow(it),
@@ -144,6 +147,6 @@ private fun HtmlBlockTag.showCharacterTemplateRight(
         val equipped = state.getEquipmentElementMap(template)
         val svg = visualizeCharacter(state, CHARACTER_CONFIG, appearance, equipped)
 
-        svg(svg, 80)
+        svg(svg, width)
     }
 }
