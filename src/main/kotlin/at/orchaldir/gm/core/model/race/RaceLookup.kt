@@ -19,6 +19,12 @@ sealed class RaceLookup {
         is UseRace -> RaceLookupType.Race
         is UseRaceRarityMap -> RaceLookupType.Race
     }
+
+    fun races() = when(this) {
+        UndefinedRaceLookup -> emptySet()
+        is UseRace -> setOf(race)
+        is UseRaceRarityMap -> map.getValidValues()
+    }
 }
 
 @Serializable
