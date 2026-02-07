@@ -20,6 +20,18 @@ sealed class RaceLookup {
         is UseRaceRarityMap -> RaceLookupType.Race
     }
 
+    fun contains(id: RaceId) = when(this) {
+        UndefinedRaceLookup -> false
+        is UseRace -> race == id
+        is UseRaceRarityMap -> map.contains(id)
+    }
+
+    fun defaultRace() = when(this) {
+        UndefinedRaceLookup -> null
+        is UseRace -> race
+        is UseRaceRarityMap -> map.getMostCommon()
+    }
+
     fun races() = when(this) {
         UndefinedRaceLookup -> emptySet()
         is UseRace -> setOf(race)

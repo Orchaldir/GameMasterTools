@@ -7,6 +7,7 @@ import at.orchaldir.gm.app.html.character.editCharacterTemplate
 import at.orchaldir.gm.app.html.character.parseCharacterTemplate
 import at.orchaldir.gm.app.html.character.showCharacterTemplate
 import at.orchaldir.gm.app.html.character.showEquipped
+import at.orchaldir.gm.app.html.race.showRaceLookup
 import at.orchaldir.gm.app.html.rpg.statblock.showStatblockLookup
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
@@ -78,7 +79,7 @@ fun Application.configureCharacterTemplateRouting() {
                 state.sortCharacterTemplates(all.sort),
                 listOf(
                     createNameColumn(call, state),
-                    Column("Race") { tdLink(call, state, it.race) },
+                    tdColumn("Race") { showRaceLookup(call, state, it.race) },
                     Column("Culture") { tdLink(call, state, it.culture) },
                     createBeliefColumn(call, state),
                     tdColumn("Statblock") { showStatblockLookup(call, state, it.statblock) },
@@ -133,14 +134,16 @@ private fun HtmlBlockTag.showCharacterTemplateRight(
     template: CharacterTemplate,
 ) {
     val gender = template.gender ?: Gender.Male
-    val appearance = generateAppearance(
-        state,
-        state.getRaceStorage().getOrThrow(template.race),
-        gender,
-        state.getAppearanceFashion(gender, template.culture),
-    )
-    val equipped = state.getEquipmentElementMap(template)
-    val svg = visualizeCharacter(state, CHARACTER_CONFIG, appearance, equipped)
+    template.race.defaultRace()?.let {
+        val appearance = generateAppearance(
+            state,
+            state.getRaceStorage().getOrThrow(it),
+            gender,
+            state.getAppearanceFashion(gender, template.culture),
+        )
+        val equipped = state.getEquipmentElementMap(template)
+        val svg = visualizeCharacter(state, CHARACTER_CONFIG, appearance, equipped)
 
-    svg(svg, 80)
+        svg(svg, 80)
+    }
 }

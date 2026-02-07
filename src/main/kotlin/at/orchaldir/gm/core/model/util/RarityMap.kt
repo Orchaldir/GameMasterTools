@@ -63,6 +63,10 @@ value class OneOf<T>(private val map: Map<T, Rarity>) : RarityMap<T> {
 
     override fun isAvailable(value: T) = (map[value] ?: Rarity.Unavailable) != Rarity.Unavailable
 
+    fun getMostCommon() = map.entries.sortedBy { it.value.ordinal }
+        .map { it.key }
+        .first()
+
 }
 
 /**

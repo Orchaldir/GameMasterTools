@@ -44,6 +44,7 @@ import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceGroup
 import at.orchaldir.gm.core.model.race.RaceGroupId
 import at.orchaldir.gm.core.model.race.RaceId
+import at.orchaldir.gm.core.model.race.UseRace
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.realm.*
@@ -109,7 +110,7 @@ fun reduceCreateElement(
     is CharacterId -> createElement(state, Character(id))
     is CharacterTemplateId -> {
         val race = state.getRaceStorage().getIds().first()
-        createElement(state, CharacterTemplate(id, race = race))
+        createElement(state, CharacterTemplate(id, race = UseRace(race)))
     }
 
     is ColorSchemeId -> createElement(state, ColorScheme(id))

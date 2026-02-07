@@ -92,6 +92,7 @@ fun HtmlBlockTag.showStatblockLookupDetails(
 }
 
 // edit
+
 fun HtmlBlockTag.editStatblockLookup(
     call: ApplicationCall,
     state: State,

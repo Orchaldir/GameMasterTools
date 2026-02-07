@@ -12,7 +12,7 @@ fun validateStatblockLookup(
     lookup: StatblockLookup,
 ) = validateStatblockLookup(
     state,
-    state.getRaceStorage().getOrThrow(race).lifeStages.statblock(),
+    state.getStatblock(race),
     lookup,
 )
 
