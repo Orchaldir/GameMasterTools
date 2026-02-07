@@ -35,7 +35,7 @@ fun HtmlBlockTag.editDomain(
     domain: Domain,
 ) {
     selectName(domain.name)
-    selectRarityMap("Spells", SPELLS, state.getSpellStorage(), domain.spells) { it.name.text }
+    selectRarityMap("Spells", SPELLS, state.getSpellStorage(), domain.spells)
     selectElements(state, "Jobs", JOB, state.getJobStorage().getAll(), domain.jobs)
 }
 
