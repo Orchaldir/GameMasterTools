@@ -17,7 +17,7 @@ sealed class RaceLookup {
     fun getType() = when (this) {
         UndefinedRaceLookup -> RaceLookupType.Undefined
         is UseRace -> RaceLookupType.Race
-        is UseRaceRarityMap -> RaceLookupType.Race
+        is UseRaceRarityMap -> RaceLookupType.Rarity
     }
 
     fun contains(id: RaceId) = when(this) {

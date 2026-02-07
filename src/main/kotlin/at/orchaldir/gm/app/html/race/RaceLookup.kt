@@ -86,6 +86,7 @@ fun HtmlBlockTag.editRaceLookup(
 
 fun parseRaceLookup(
     parameters: Parameters,
+    state: State,
     param: String = RACE,
 ) = when (parse(parameters, param, RaceLookupType.Undefined)) {
     RaceLookupType.Undefined -> UndefinedRaceLookup
@@ -97,6 +98,7 @@ fun parseRaceLookup(
             parameters,
             combine(param, REFERENCE, LIST),
             ::parseRaceId,
+            listOf(state.getRaceStorage().getAll().first().id),
         )
     )
 }
