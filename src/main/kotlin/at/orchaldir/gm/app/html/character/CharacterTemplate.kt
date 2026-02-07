@@ -121,7 +121,7 @@ fun parseCharacterTemplate(
     return CharacterTemplate(
         id,
         parseName(parameters),
-        parseRaceLookup(parameters),
+        parseRaceLookup(parameters, state),
         parse<Gender>(parameters, GENDER),
         parseOptionalCultureId(parameters, CULTURE),
         parseKnownLanguages(parameters, state),
