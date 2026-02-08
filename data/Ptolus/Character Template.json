@@ -1,5 +1,35 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "race": {
+    "#type": "Rarity",
+    "map": {
+     "0": "Common",
+     "1": "Rare",
+     "9": "Common"
+    }
+   },
+   "equipped": {
+    "#type": "Unique",
+    "map": {
+     "list": [
+      {
+       "data": {
+        "first": 0,
+        "second": null
+       },
+       "sets": [
+        [
+         "HeldInLeftHand",
+         "HeldInRightHand"
+        ]
+       ]
+      }
+     ]
+    }
+   }
+  }
  }
 }

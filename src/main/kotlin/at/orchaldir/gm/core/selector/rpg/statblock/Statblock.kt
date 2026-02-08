@@ -2,10 +2,8 @@ package at.orchaldir.gm.core.selector.rpg.statblock
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterTemplateId
-import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.RaceLookup
-import at.orchaldir.gm.core.model.race.UndefinedRaceLookup
 import at.orchaldir.gm.core.model.race.UseRace
 import at.orchaldir.gm.core.model.race.UseRaceRarityMap
 import at.orchaldir.gm.core.model.rpg.statblock.*
@@ -20,7 +18,6 @@ fun State.getStatblock(base: Statblock, id: CharacterTemplateId): Statblock {
 fun State.getStatblock(
     lookup: RaceLookup,
 ) = when (lookup) {
-    UndefinedRaceLookup -> Statblock()
     is UseRace -> getStatblock(lookup.race)
     is UseRaceRarityMap -> getStatblock(lookup.map.getMostCommon())
 }

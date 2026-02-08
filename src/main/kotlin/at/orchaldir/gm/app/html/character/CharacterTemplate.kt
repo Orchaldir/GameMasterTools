@@ -8,7 +8,6 @@ import at.orchaldir.gm.app.html.culture.parseOptionalCultureId
 import at.orchaldir.gm.app.html.culture.showKnownLanguages
 import at.orchaldir.gm.app.html.race.editRaceLookup
 import at.orchaldir.gm.app.html.race.parseRaceLookup
-import at.orchaldir.gm.app.html.race.showRaceLookup
 import at.orchaldir.gm.app.html.race.showRaceLookupDetails
 import at.orchaldir.gm.app.html.rpg.statblock.editStatblockLookup
 import at.orchaldir.gm.app.html.rpg.statblock.parseStatblockLookup
@@ -40,20 +39,15 @@ fun HtmlBlockTag.showCharacterTemplate(
     template: CharacterTemplate,
 ) {
     val race = template.race.defaultRace()
+    val statblock = state.getStatblock(race)
 
     showRaceLookupDetails(call, state, template.race)
     optionalField("Gender", template.gender)
     optionalFieldLink(call, state, template.culture)
     showKnownLanguages(call, state, template)
     fieldBeliefStatus(call, state, template.belief)
-
-    if (race != null) {
-        val statblock = state.getStatblock(race)
-
-        showStatblockLookupDetails(call, state, statblock, template.statblock)
-        showEquippedDetails(call, state, template.equipped, statblock, template.statblock)
-    }
-
+    showStatblockLookupDetails(call, state, statblock, template.statblock)
+    showEquippedDetails(call, state, template.equipped, statblock, template.statblock)
     showDataSources(call, state, template.sources)
     showUsage(call, state, template)
 }
@@ -84,26 +78,17 @@ fun HtmlBlockTag.editCharacterTemplate(
     template: CharacterTemplate,
 ) {
     val raceId = template.race.defaultRace()
-    val race = state.getRaceStorage().getOptional(raceId)
+    val race = state.getRaceStorage().getOrThrow(raceId)
+    val statblock = race.lifeStages.statblock()
 
     selectName(template.name)
     editRaceLookup(state, template.race)
-
-    if (race != null) {
-        selectOptionalFromOneOf("Gender", GENDER, race.genders, template.gender)
-    }
-
+    selectOptionalFromOneOf("Gender", GENDER, race.genders, template.gender)
     editOptionalElement(state, CULTURE, state.getCultureStorage().getAll(), template.culture)
     editKnownLanguages(state, template.languages)
     selectBeliefStatus(state, BELIEVE, template.belief)
-
-    if (race != null) {
-        val statblock = race.lifeStages.statblock()
-
-        editStatblockLookup(call, state, statblock, template.statblock, setOf(template.id))
-        editEquipped(call, state, EQUIPPED, template.equipped, template.statblock)
-    }
-
+    editStatblockLookup(call, state, statblock, template.statblock, setOf(template.id))
+    editEquipped(call, state, EQUIPPED, template.equipped, template.statblock)
     editDataSources(state, template.sources)
 }
 

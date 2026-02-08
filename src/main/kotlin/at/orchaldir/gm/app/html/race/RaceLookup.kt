@@ -18,14 +18,10 @@ fun HtmlBlockTag.showRaceLookup(
     call: ApplicationCall,
     state: State,
     lookup: RaceLookup,
-    showUndefined: Boolean = false,
 ) {
     when (lookup) {
         is UseRace -> link(call, state, lookup.race)
         is UseRaceRarityMap -> showInlineIds(call, state, lookup.map.getValidValues())
-        UndefinedRaceLookup -> if (showUndefined) {
-            +"Undefined"
-        }
     }
 }
 
@@ -42,7 +38,6 @@ fun HtmlBlockTag.showRaceLookupDetails(
             is UseRaceRarityMap -> showRarityMap("Races", lookup.map, true) {
                 link(call, state, it)
             }
-            UndefinedRaceLookup -> doNothing()
         }
     }
 }
@@ -76,7 +71,6 @@ fun HtmlBlockTag.editRaceLookup(
                 state.getRaceStorage(),
                 lookup.map,
             )
-            UndefinedRaceLookup -> doNothing()
         }
     }
 }
@@ -88,8 +82,7 @@ fun parseRaceLookup(
     parameters: Parameters,
     state: State,
     param: String = RACE,
-) = when (parse(parameters, param, RaceLookupType.Undefined)) {
-    RaceLookupType.Undefined -> UndefinedRaceLookup
+) = when (parse(parameters, param, RaceLookupType.Race)) {
     RaceLookupType.Race -> UseRace(
         parseRaceId(parameters, combine(param, REFERENCE)),
     )
