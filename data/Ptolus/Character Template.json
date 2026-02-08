@@ -11,6 +11,15 @@
      "9": "Common"
     }
    },
+   "statblock": {
+    "#type": "Unique",
+    "statblock": {
+     "statistics": {
+      "0": 2,
+      "7": 2
+     }
+    }
+   },
    "equipped": {
     "#type": "Unique",
     "map": {

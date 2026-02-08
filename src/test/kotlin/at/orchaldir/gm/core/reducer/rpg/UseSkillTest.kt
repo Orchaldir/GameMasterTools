@@ -4,7 +4,7 @@ import at.orchaldir.gm.STATISTIC_ID_0
 import at.orchaldir.gm.UNKNOWN_STATISTIC_ID
 import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.rpg.combat.SimpleUsedSkill
+import at.orchaldir.gm.core.model.rpg.combat.ModifiedUsedSkill
 import at.orchaldir.gm.core.model.rpg.combat.UsedSkill
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.utils.Storage
@@ -23,28 +23,28 @@ class UseSkillTest {
     inner class SimpleUsedSkillTest {
         @Test
         fun `Skill must exist`() {
-            val skill = SimpleUsedSkill(UNKNOWN_STATISTIC_ID)
+            val skill = ModifiedUsedSkill(UNKNOWN_STATISTIC_ID)
 
             assertInvalidSkill(skill, "Requires unknown Statistic 99!")
         }
 
         @Test
         fun `Modifier must greater or equal the minimum`() {
-            val skill = SimpleUsedSkill(STATISTIC_ID_0, -10)
+            val skill = ModifiedUsedSkill(STATISTIC_ID_0, -10)
 
             assertInvalidSkill(skill, "Used Skill Modifier needs to be >= -2!")
         }
 
         @Test
         fun `Modifier must less or equal the maximum`() {
-            val skill = SimpleUsedSkill(STATISTIC_ID_0, 10)
+            val skill = ModifiedUsedSkill(STATISTIC_ID_0, 10)
 
             assertInvalidSkill(skill, "Used Skill Modifier needs to be <= 2!")
         }
 
         @Test
         fun `Test valid skill`() {
-            validateUsedSkill(STATE, SimpleUsedSkill(STATISTIC_ID_0))
+            validateUsedSkill(STATE, ModifiedUsedSkill(STATISTIC_ID_0))
         }
     }
 
