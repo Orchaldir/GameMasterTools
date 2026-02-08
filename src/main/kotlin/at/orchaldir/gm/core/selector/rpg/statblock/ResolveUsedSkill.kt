@@ -16,7 +16,7 @@ fun resolveUsedSkill(
     skill: UsedSkill,
 ) = when (skill) {
     is ModifiedUsedSkill -> {
-        val base = statblock.resolve(state, skill.skill)
+        val base = statblock.resolve(state, skill.skill, true)
             ?: error("Failed to resolve ${skill.skill.print()} with UsedSkill!")
         ResolvedUsedSkill(skill.skill, base + skill.modifier)
     }

@@ -12,19 +12,34 @@ data class Statblock(
 ) {
     fun calculateCost(state: State) = calculateStatisticCost(state, statistics) + calculateTraitCost(state, traits)
 
-    fun resolve(state: State, statistics: List<Statistic>) = statistics.mapNotNull { statistic ->
-        resolve(state, statistic)?.let { Pair(statistic, it) }
+    fun resolve(
+        state: State,
+        statistics: List<Statistic>,
+        allowUntrainedSkill: Boolean = false,
+    ) = statistics.mapNotNull { statistic ->
+        resolve(state, statistic, allowUntrainedSkill)?.let { Pair(statistic, it) }
     }
 
-    fun resolve(state: State, statistic: StatisticId) =
-        resolve(state, state.getStatisticStorage().getOrThrow(statistic))
+    fun resolve(
+        state: State,
+        statistic: StatisticId,
+        allowUntrainedSkill: Boolean = false,
+    ) = resolve(
+        state,
+        state.getStatisticStorage().getOrThrow(statistic),
+        allowUntrainedSkill,
+    )
 
-    fun resolve(state: State, statistic: Statistic): Int? {
+    fun resolve(
+        state: State,
+        statistic: Statistic,
+        allowUntrainedSkill: Boolean = false,
+    ): Int? {
         return when (statistic.data) {
             is Attribute -> resolveAttribute(state, statistic.id, statistic.data.base)
             is BaseDamage -> resolveAttribute(state, statistic.id, statistic.data.base)
             is DerivedAttribute -> resolveAttribute(state, statistic.id, statistic.data.base)
-            is Skill -> resolveSkill(state, statistic.id, statistic.data.base)
+            is Skill -> resolveSkill(state, statistic.id, statistic.data.base, allowUntrainedSkill)
         }
     }
 
@@ -43,9 +58,14 @@ data class Statblock(
         state: State,
         statistic: StatisticId,
         value: BaseValue,
+        allowUntrainedSkill: Boolean,
     ): Int? {
         val base = resolve(state, value) ?: return null
-        val offset = statistics[statistic] ?: return null
+        val offset = statistics[statistic] ?: if (allowUntrainedSkill) {
+            0
+        } else {
+            return null
+        }
 
         return base + offset
     }
