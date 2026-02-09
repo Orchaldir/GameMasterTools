@@ -11,10 +11,12 @@ import at.orchaldir.gm.core.model.culture.language.ComprehensionLevel.Native
 import at.orchaldir.gm.core.model.culture.language.Language
 import at.orchaldir.gm.core.model.item.Uniform
 import at.orchaldir.gm.core.model.race.Race
+import at.orchaldir.gm.core.model.race.UseRaceRarityMap
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.rpg.statblock.StatblockUpdate
 import at.orchaldir.gm.core.model.rpg.statblock.UniqueStatblock
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
+import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.util.WorshipOfGod
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.reducer.REDUCER
@@ -51,6 +53,15 @@ class CharacterTemplateTest {
         @Test
         fun `Using an unknown race`() {
             val template = CharacterTemplate(CHARACTER_TEMPLATE_ID_0, race = UNKNOWN_RACE_LOOKUP)
+            val action = UpdateAction(template)
+
+            assertIllegalArgument("Requires unknown Race 99!") { REDUCER.invoke(STATE, action) }
+        }
+
+        @Test
+        fun `Using an unknown race with rarity`() {
+            val map = OneOf(UNKNOWN_RACE_ID)
+            val template = CharacterTemplate(CHARACTER_TEMPLATE_ID_0, race = UseRaceRarityMap(map))
             val action = UpdateAction(template)
 
             assertIllegalArgument("Requires unknown Race 99!") { REDUCER.invoke(STATE, action) }
