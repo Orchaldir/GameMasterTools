@@ -29,6 +29,7 @@ import at.orchaldir.gm.core.model.magic.SpellId
 import at.orchaldir.gm.core.model.organization.OrganizationId
 import at.orchaldir.gm.core.model.race.RaceGroupId
 import at.orchaldir.gm.core.model.race.RaceId
+import at.orchaldir.gm.core.model.race.UseRace
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.religion.DomainId
@@ -164,7 +165,11 @@ val UNKNOWN_QUOTE_ID = QuoteId(99)
 val RACE_ID_0 = RaceId(0)
 val RACE_ID_1 = RaceId(1)
 val RACE_ID_2 = RaceId(2)
+val RACE_LOOKUP_0 = UseRace(RACE_ID_0)
+val RACE_LOOKUP_1 = UseRace(RACE_ID_1)
+val RACE_LOOKUP_2 = UseRace(RACE_ID_2)
 val UNKNOWN_RACE_ID = RaceId(99)
+val UNKNOWN_RACE_LOOKUP = UseRace(UNKNOWN_RACE_ID)
 val RACE_APPEARANCE_ID_0 = RaceAppearanceId(0)
 val RACE_GROUP_ID_0 = RaceGroupId(0)
 val UNKNOWN_RACE_GROUP_ID = RaceGroupId(99)

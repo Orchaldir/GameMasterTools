@@ -43,7 +43,7 @@ class RaceTest {
 
         @Test
         fun `Cannot delete a race used by a character template`() {
-            val template = CharacterTemplate(CHARACTER_TEMPLATE_ID_0, race = RACE_ID_0)
+            val template = CharacterTemplate(CHARACTER_TEMPLATE_ID_0, race = RACE_LOOKUP_0)
             val newState = state.updateStorage(template)
 
             failCanDelete(newState, CHARACTER_TEMPLATE_ID_0)

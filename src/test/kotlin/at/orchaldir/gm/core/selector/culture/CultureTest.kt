@@ -45,7 +45,7 @@ class CultureTest {
 
         @Test
         fun `Cannot delete a culture used by a character template`() {
-            val template = CharacterTemplate(CHARACTER_TEMPLATE_ID_0, race = RACE_ID_0, culture = CULTURE_ID_0)
+            val template = CharacterTemplate(CHARACTER_TEMPLATE_ID_0, race = RACE_LOOKUP_0, culture = CULTURE_ID_0)
             val newState = state.updateStorage(template)
 
             failCanDelete(newState, CHARACTER_TEMPLATE_ID_0)

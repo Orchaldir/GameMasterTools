@@ -62,7 +62,7 @@ class LanguageTest {
 
         @Test
         fun `Cannot delete a language known by a character template`() {
-            val template = CharacterTemplate(CHARACTER_TEMPLATE_ID_0, race = RACE_ID_0, languages = languages)
+            val template = CharacterTemplate(CHARACTER_TEMPLATE_ID_0, race = RACE_LOOKUP_0, languages = languages)
             val newState = state.updateStorage(template)
 
             failCanDelete(newState, CHARACTER_TEMPLATE_ID_0)

@@ -50,7 +50,7 @@ class StatisticTest {
 
         @Test
         fun `Cannot delete a statistic used a character template`() {
-            val element = CharacterTemplate(CHARACTER_TEMPLATE_ID_0, race = RACE_ID_0, statblock = statblock)
+            val element = CharacterTemplate(CHARACTER_TEMPLATE_ID_0, race = RACE_LOOKUP_0, statblock = statblock)
             val newState = state.updateStorage(element)
 
             failCanDelete(newState, CHARACTER_TEMPLATE_ID_0)
