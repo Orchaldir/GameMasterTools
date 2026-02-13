@@ -135,7 +135,11 @@ private fun HtmlBlockTag.showCharacterTemplateRight(
 ) {
     val gender = template.gender ?: Gender.Male
     val races = template.race.races()
-    val width = if (races.size > 1) { 40 } else { 80 }
+    val width = if (races.size > 1) {
+        40
+    } else {
+        80
+    }
 
     races.forEach {
         val appearance = generateAppearance(

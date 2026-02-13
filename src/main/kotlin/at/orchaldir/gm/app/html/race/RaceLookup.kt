@@ -5,9 +5,11 @@ import at.orchaldir.gm.app.RACE
 import at.orchaldir.gm.app.REFERENCE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.race.*
+import at.orchaldir.gm.core.model.race.RaceLookup
+import at.orchaldir.gm.core.model.race.RaceLookupType
+import at.orchaldir.gm.core.model.race.UseRace
+import at.orchaldir.gm.core.model.race.UseRaceRarityMap
 import at.orchaldir.gm.core.selector.util.sortRaces
-import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -65,6 +67,7 @@ fun HtmlBlockTag.editRaceLookup(
                 state.sortRaces(),
                 lookup.race,
             )
+
             is UseRaceRarityMap -> selectRarityMap(
                 "Races",
                 combine(param, REFERENCE, LIST),
@@ -86,6 +89,7 @@ fun parseRaceLookup(
     RaceLookupType.Race -> UseRace(
         parseRaceId(parameters, combine(param, REFERENCE)),
     )
+
     RaceLookupType.Rarity -> UseRaceRarityMap(
         parseOneOf(
             parameters,

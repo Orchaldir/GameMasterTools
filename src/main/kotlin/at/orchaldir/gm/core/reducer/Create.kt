@@ -40,11 +40,7 @@ import at.orchaldir.gm.core.model.item.text.TextId
 import at.orchaldir.gm.core.model.magic.*
 import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.organization.OrganizationId
-import at.orchaldir.gm.core.model.race.Race
-import at.orchaldir.gm.core.model.race.RaceGroup
-import at.orchaldir.gm.core.model.race.RaceGroupId
-import at.orchaldir.gm.core.model.race.RaceId
-import at.orchaldir.gm.core.model.race.UseRace
+import at.orchaldir.gm.core.model.race.*
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.realm.*

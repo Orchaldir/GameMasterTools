@@ -4,7 +4,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.culture.language.LanguageId
-import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.RaceLookup
 import at.orchaldir.gm.core.model.rpg.statblock.StatblockLookup
 import at.orchaldir.gm.core.model.rpg.statblock.UndefinedStatblockLookup

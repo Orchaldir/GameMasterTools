@@ -15,6 +15,7 @@ fun validateUsedSkill(
         is ResolvedUsedSkill -> {
             state.getStatisticStorage().require(skill.skill)
         }
+
         is ModifiedUsedSkill -> {
             state.getStatisticStorage().require(skill.skill)
             validateIsInside(skill.modifier, "Used Skill Modifier", state.data.rpg.equipment.skillModifier)

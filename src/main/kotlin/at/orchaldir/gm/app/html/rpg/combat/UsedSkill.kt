@@ -7,11 +7,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.rpg.selectFromRange
 import at.orchaldir.gm.app.html.rpg.statistic.parseStatisticId
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.rpg.combat.ModifiedUsedSkill
-import at.orchaldir.gm.core.model.rpg.combat.ResolvedUsedSkill
-import at.orchaldir.gm.core.model.rpg.combat.UndefinedUsedSkill
-import at.orchaldir.gm.core.model.rpg.combat.UsedSkill
-import at.orchaldir.gm.core.model.rpg.combat.UsedSkillType
+import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.selector.util.sortStatistics
 import at.orchaldir.gm.utils.doNothing
@@ -88,14 +84,15 @@ fun HtmlBlockTag.editUsedSkill(
             is ResolvedUsedSkill -> {
                 selectUsedSkill(state, skillParam, skill.skill)
                 selectInt(
-                    "Value"
-,                    skill.value,
+                    "Value",
+                    skill.value,
                     0,
                     20,
                     1,
                     combine(skillParam, NUMBER),
                 )
             }
+
             is ModifiedUsedSkill -> {
                 selectUsedSkill(state, skillParam, skill.skill)
                 selectFromRange(
@@ -136,6 +133,7 @@ fun parseUsedSkill(
             parseSkillId(parameters, skillParam),
             parseSkillNumber(parameters, skillParam),
         )
+
         UsedSkillType.Modified -> ModifiedUsedSkill(
             parseSkillId(parameters, skillParam),
             parseSkillNumber(parameters, skillParam),
@@ -145,7 +143,8 @@ fun parseUsedSkill(
     }
 }
 
-private fun parseSkillNumber(parameters: Parameters, skillParam: String): Int = parseInt(parameters, combine(skillParam, NUMBER))
+private fun parseSkillNumber(parameters: Parameters, skillParam: String): Int =
+    parseInt(parameters, combine(skillParam, NUMBER))
 
 private fun parseSkillId(
     parameters: Parameters,

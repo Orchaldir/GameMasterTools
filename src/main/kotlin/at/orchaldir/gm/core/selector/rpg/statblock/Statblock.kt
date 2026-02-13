@@ -4,8 +4,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterTemplateId
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.RaceLookup
-import at.orchaldir.gm.core.model.race.UseRace
-import at.orchaldir.gm.core.model.race.UseRaceRarityMap
 import at.orchaldir.gm.core.model.rpg.statblock.*
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.utils.Id

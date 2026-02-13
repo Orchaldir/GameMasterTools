@@ -1,7 +1,6 @@
 package at.orchaldir.gm.core.model.race
 
 import at.orchaldir.gm.core.model.util.OneOf
-import at.orchaldir.gm.core.model.util.RarityMap
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -18,17 +17,17 @@ sealed class RaceLookup {
         is UseRaceRarityMap -> RaceLookupType.Rarity
     }
 
-    fun contains(id: RaceId) = when(this) {
+    fun contains(id: RaceId) = when (this) {
         is UseRace -> race == id
         is UseRaceRarityMap -> map.contains(id)
     }
 
-    fun defaultRace() = when(this) {
+    fun defaultRace() = when (this) {
         is UseRace -> race
         is UseRaceRarityMap -> map.getMostCommon()
     }
 
-    fun races() = when(this) {
+    fun races() = when (this) {
         is UseRace -> setOf(race)
         is UseRaceRarityMap -> map.getValidValues()
     }

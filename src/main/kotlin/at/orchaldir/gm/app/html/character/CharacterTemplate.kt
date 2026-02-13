@@ -1,6 +1,9 @@
 package at.orchaldir.gm.app.html.character
 
-import at.orchaldir.gm.app.*
+import at.orchaldir.gm.app.BELIEVE
+import at.orchaldir.gm.app.CULTURE
+import at.orchaldir.gm.app.EQUIPPED
+import at.orchaldir.gm.app.GENDER
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.culture.editKnownLanguages
 import at.orchaldir.gm.app.html.culture.parseKnownLanguages

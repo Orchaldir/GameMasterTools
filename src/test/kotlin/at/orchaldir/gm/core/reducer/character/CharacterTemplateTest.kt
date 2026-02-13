@@ -69,7 +69,8 @@ class CharacterTemplateTest {
 
         @Test
         fun `Using an unknown culture`() {
-            val template = CharacterTemplate(CHARACTER_TEMPLATE_ID_0, race = RACE_LOOKUP_0, culture = UNKNOWN_CULTURE_ID)
+            val template =
+                CharacterTemplate(CHARACTER_TEMPLATE_ID_0, race = RACE_LOOKUP_0, culture = UNKNOWN_CULTURE_ID)
             val action = UpdateAction(template)
 
             assertIllegalArgument("Requires unknown Culture 99!") { REDUCER.invoke(STATE, action) }

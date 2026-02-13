@@ -2,7 +2,6 @@ package at.orchaldir.gm.core.model.rpg.statblock
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterTemplateId
-import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.RaceLookup
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
@@ -66,11 +65,11 @@ sealed class StatblockLookup {
         contains(trait) || state.getStatblock(race, this).traits.contains(trait)
 
     private fun contains(trait: CharacterTraitId): Boolean = when (this) {
-            UndefinedStatblockLookup -> false
-            is UniqueStatblock -> statblock.contains(trait)
-            is UseStatblockOfTemplate -> false
-            is ModifyStatblockOfTemplate -> update.contains(trait)
-        }
+        UndefinedStatblockLookup -> false
+        is UniqueStatblock -> statblock.contains(trait)
+        is UseStatblockOfTemplate -> false
+        is ModifyStatblockOfTemplate -> update.contains(trait)
+    }
 }
 
 @Serializable
