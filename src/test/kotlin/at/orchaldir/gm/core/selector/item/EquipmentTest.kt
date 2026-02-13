@@ -43,7 +43,7 @@ class EquipmentTest {
             val map = EquipmentMap
                 .from(BodySlot.Head, EQUIPMENT_ID_0, COLOR_SCHEME_ID_0)
             val template =
-                CharacterTemplate(CHARACTER_TEMPLATE_ID_0, race = RACE_ID_0, equipped = UniqueEquipment(map))
+                CharacterTemplate(CHARACTER_TEMPLATE_ID_0, race = RACE_LOOKUP_0, equipped = UniqueEquipment(map))
             val newState = state.updateStorage(template)
 
             failCanDelete(newState, CHARACTER_TEMPLATE_ID_0)

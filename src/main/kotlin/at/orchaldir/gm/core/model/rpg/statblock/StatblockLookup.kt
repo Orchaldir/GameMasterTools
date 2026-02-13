@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.model.rpg.statblock
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterTemplateId
 import at.orchaldir.gm.core.model.race.RaceId
+import at.orchaldir.gm.core.model.race.RaceLookup
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitId
 import at.orchaldir.gm.core.selector.rpg.statblock.getStatblock
@@ -40,7 +41,12 @@ sealed class StatblockLookup {
         is ModifyStatblockOfTemplate -> true
     }
 
-    fun calculateCost(raceId: RaceId, state: State) = state.getStatblock(raceId, this).calculateCost(state)
+    fun calculateCost(raceId: RaceId, state: State) = state.getStatblock(raceId, this)
+        .calculateCost(state)
+
+    fun calculateCost(lookup: RaceLookup, state: State) = state
+        .getStatblock(lookup, this)
+        .calculateCost(state)
 
 
     fun contains(statistic: StatisticId) = when (this) {
@@ -52,12 +58,18 @@ sealed class StatblockLookup {
 
     fun contains(template: CharacterTemplateId) = template() == template
 
-    fun contains(state: State, race: RaceId, trait: CharacterTraitId) = when (this) {
+    fun contains(state: State, race: RaceId, trait: CharacterTraitId) =
+        contains(trait) || state.getStatblock(race, this).traits.contains(trait)
+
+    fun contains(state: State, race: RaceLookup, trait: CharacterTraitId) =
+        contains(trait) || state.getStatblock(race, this).traits.contains(trait)
+
+    private fun contains(trait: CharacterTraitId): Boolean = when (this) {
         UndefinedStatblockLookup -> false
         is UniqueStatblock -> statblock.contains(trait)
         is UseStatblockOfTemplate -> false
         is ModifyStatblockOfTemplate -> update.contains(trait)
-    } || state.getStatblock(race, this).traits.contains(trait)
+    }
 }
 
 @Serializable

@@ -29,7 +29,7 @@
       "roundsOfReload": 2
      },
      "skill": {
-      "#type": "Simple",
+      "#type": "Modified",
       "skill": 7,
       "modifier": 1
      }

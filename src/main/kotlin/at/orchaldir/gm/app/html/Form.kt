@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.character.appearance.SkinColor
 import at.orchaldir.gm.core.model.character.appearance.hair.NormalHairColorEnum
 import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.util.RarityMap
+import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.util.reverseAndSort
 import at.orchaldir.gm.utils.Element
@@ -271,6 +272,15 @@ inline fun <reified T : Enum<T>> HtmlBlockTag.selectRarityMap(
     selectId: String,
     rarityMap: RarityMap<T>,
 ) = selectRarityMap(enum, selectId, rarityMap, enumValues<T>().toSet())
+
+fun <ID : Id<ID>, ELEMENT : ElementWithSimpleName<ID>> HtmlBlockTag.selectRarityMap(
+    enum: String,
+    selectId: String,
+    storage: Storage<ID, ELEMENT>,
+    rarityMap: RarityMap<ID>,
+) = selectRarityMap(enum, selectId, storage, storage.getIds(), rarityMap) {
+    it.name()
+}
 
 fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectRarityMap(
     enum: String,

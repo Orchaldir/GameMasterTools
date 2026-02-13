@@ -1,12 +1,17 @@
 package at.orchaldir.gm.app.html.character
 
-import at.orchaldir.gm.app.*
+import at.orchaldir.gm.app.BELIEVE
+import at.orchaldir.gm.app.CULTURE
+import at.orchaldir.gm.app.EQUIPPED
+import at.orchaldir.gm.app.GENDER
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.culture.editKnownLanguages
 import at.orchaldir.gm.app.html.culture.parseKnownLanguages
 import at.orchaldir.gm.app.html.culture.parseOptionalCultureId
 import at.orchaldir.gm.app.html.culture.showKnownLanguages
-import at.orchaldir.gm.app.html.race.parseRaceId
+import at.orchaldir.gm.app.html.race.editRaceLookup
+import at.orchaldir.gm.app.html.race.parseRaceLookup
+import at.orchaldir.gm.app.html.race.showRaceLookupDetails
 import at.orchaldir.gm.app.html.rpg.statblock.editStatblockLookup
 import at.orchaldir.gm.app.html.rpg.statblock.parseStatblockLookup
 import at.orchaldir.gm.app.html.rpg.statblock.showStatblockLookupDetails
@@ -23,6 +28,7 @@ import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.selector.character.getCharacterTemplates
 import at.orchaldir.gm.core.selector.character.getCharactersUsing
 import at.orchaldir.gm.core.selector.item.equipment.getEquipmentIdMapForLookup
+import at.orchaldir.gm.core.selector.rpg.statblock.getStatblock
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -35,13 +41,16 @@ fun HtmlBlockTag.showCharacterTemplate(
     state: State,
     template: CharacterTemplate,
 ) {
-    fieldLink(call, state, template.race)
+    val race = template.race.defaultRace()
+    val statblock = state.getStatblock(race)
+
+    showRaceLookupDetails(call, state, template.race)
     optionalField("Gender", template.gender)
     optionalFieldLink(call, state, template.culture)
     showKnownLanguages(call, state, template)
     fieldBeliefStatus(call, state, template.belief)
-    showStatblockLookupDetails(call, state, template.race, template.statblock)
-    showEquippedDetails(call, state, template.equipped, template.race, template.statblock)
+    showStatblockLookupDetails(call, state, statblock, template.statblock)
+    showEquippedDetails(call, state, template.equipped, statblock, template.statblock)
     showDataSources(call, state, template.sources)
     showUsage(call, state, template)
 }
@@ -71,15 +80,17 @@ fun HtmlBlockTag.editCharacterTemplate(
     state: State,
     template: CharacterTemplate,
 ) {
-    val race = state.getRaceStorage().getOrThrow(template.race)
+    val raceId = template.race.defaultRace()
+    val race = state.getRaceStorage().getOrThrow(raceId)
+    val statblock = race.lifeStages.statblock()
 
     selectName(template.name)
-    selectElement(state, RACE, state.getRaceStorage().getAll(), template.race)
+    editRaceLookup(state, template.race)
     selectOptionalFromOneOf("Gender", GENDER, race.genders, template.gender)
     editOptionalElement(state, CULTURE, state.getCultureStorage().getAll(), template.culture)
     editKnownLanguages(state, template.languages)
     selectBeliefStatus(state, BELIEVE, template.belief)
-    editStatblockLookup(call, state, template.race, template.statblock, setOf(template.id))
+    editStatblockLookup(call, state, statblock, template.statblock, setOf(template.id))
     editEquipped(call, state, EQUIPPED, template.equipped, template.statblock)
     editDataSources(state, template.sources)
 }
@@ -99,7 +110,7 @@ fun parseCharacterTemplate(
     return CharacterTemplate(
         id,
         parseName(parameters),
-        parseRaceId(parameters, RACE),
+        parseRaceLookup(parameters, state),
         parse<Gender>(parameters, GENDER),
         parseOptionalCultureId(parameters, CULTURE),
         parseKnownLanguages(parameters, state),

@@ -497,7 +497,7 @@ private fun HtmlBlockTag.editSkinInternal(state: State, options: SkinOptions, pa
             combine(param, MATERIAL),
             state.getMaterialStorage(),
             options.materials,
-        ) { element -> element.name.text }
+        )
     }
 
     if (options.skinTypes.isAvailable(SkinType.Normal)) {

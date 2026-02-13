@@ -7,8 +7,10 @@ import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterTemplate
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceGroup
+import at.orchaldir.gm.core.model.race.UseRaceRarityMap
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.population.PopulationWithPercentages
+import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.util.PercentageDistribution
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
@@ -43,7 +45,16 @@ class RaceTest {
 
         @Test
         fun `Cannot delete a race used by a character template`() {
-            val template = CharacterTemplate(CHARACTER_TEMPLATE_ID_0, race = RACE_ID_0)
+            val template = CharacterTemplate(CHARACTER_TEMPLATE_ID_0, race = RACE_LOOKUP_0)
+            val newState = state.updateStorage(template)
+
+            failCanDelete(newState, CHARACTER_TEMPLATE_ID_0)
+        }
+
+        @Test
+        fun `Cannot delete a race used by a character template with rarity`() {
+            val lookup = UseRaceRarityMap(OneOf(RACE_ID_0))
+            val template = CharacterTemplate(CHARACTER_TEMPLATE_ID_0, race = lookup)
             val newState = state.updateStorage(template)
 
             failCanDelete(newState, CHARACTER_TEMPLATE_ID_0)

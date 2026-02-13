@@ -58,7 +58,7 @@ class CharacterTraitTest {
 
         private fun testTemplate(update: StatblockUpdate) {
             val statblock = UniqueStatblock(update)
-            val character = CharacterTemplate(CHARACTER_TEMPLATE_ID_0, race = RACE_ID_0, statblock = statblock)
+            val character = CharacterTemplate(CHARACTER_TEMPLATE_ID_0, race = RACE_LOOKUP_0, statblock = statblock)
             val newState = state.updateStorage(character)
 
             failCanDelete(newState, CHARACTER_TEMPLATE_ID_0)

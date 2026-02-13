@@ -176,7 +176,7 @@ fun HtmlBlockTag.editCulture(
         LANGUAGES,
         state.getLanguageStorage(),
         culture.languages,
-    ) { it.name.text }
+    )
     editHolidays(state, culture.holidays)
     editDataSources(state, culture.sources)
     editNamingConvention(culture.namingConvention, state)

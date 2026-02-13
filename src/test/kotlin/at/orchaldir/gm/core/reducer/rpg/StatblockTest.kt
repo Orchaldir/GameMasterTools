@@ -20,7 +20,7 @@ class StatblockTest {
             Storage(
                 CharacterTemplate(
                     CHARACTER_TEMPLATE_ID_0,
-                    race = RACE_ID_0,
+                    race = RACE_LOOKUP_0,
                     statblock = UniqueStatblock(StatblockUpdate(validStatblock))
                 )
             ),

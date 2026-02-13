@@ -92,6 +92,7 @@ fun HtmlBlockTag.showStatblockLookupDetails(
 }
 
 // edit
+
 fun HtmlBlockTag.editStatblockLookup(
     call: ApplicationCall,
     state: State,
@@ -110,7 +111,7 @@ fun HtmlBlockTag.editStatblockLookup(
 fun HtmlBlockTag.editStatblockLookup(
     call: ApplicationCall,
     state: State,
-    statblock: Statblock,
+    base: Statblock,
     lookup: StatblockLookup,
     ignoredTemplates: Set<CharacterTemplateId> = emptySet(),
 ) {
@@ -125,14 +126,14 @@ fun HtmlBlockTag.editStatblockLookup(
         when (lookup) {
             UndefinedStatblockLookup -> doNothing()
             is UniqueStatblock -> {
-                val resolved = lookup.statblock.applyTo(statblock)
+                val resolved = lookup.statblock.applyTo(base)
 
-                editStatblockUpdate(call, state, statblock, lookup.statblock, resolved)
+                editStatblockUpdate(call, state, base, lookup.statblock, resolved)
             }
 
             is UseStatblockOfTemplate -> selectCharacterTemplate(state, ignoredTemplates, lookup.template)
             is ModifyStatblockOfTemplate -> {
-                val statblock = state.getStatblock(statblock, lookup.template)
+                val statblock = state.getStatblock(base, lookup.template)
                 val resolved = lookup.update.applyTo(statblock)
 
                 selectCharacterTemplate(state, ignoredTemplates, lookup.template)

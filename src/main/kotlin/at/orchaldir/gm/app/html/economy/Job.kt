@@ -90,7 +90,7 @@ fun HtmlBlockTag.editJob(
     selectGenderMap("Uniforms", job.uniforms, UNIFORM) { genderParam, uniform ->
         selectOptionalElement(state, genderParam, state.getUniformStorage().getAll(), uniform)
     }
-    selectRarityMap("Spells", SPELLS, state.getSpellStorage(), job.spells) { it.name.text }
+    selectRarityMap("Spells", SPELLS, state.getSpellStorage(), job.spells)
 }
 
 // parse

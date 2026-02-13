@@ -2,7 +2,7 @@ package at.orchaldir.gm.core.selector.character
 
 import at.orchaldir.gm.CHARACTER_ID_1
 import at.orchaldir.gm.CHARACTER_TEMPLATE_ID_0
-import at.orchaldir.gm.RACE_ID_0
+import at.orchaldir.gm.RACE_LOOKUP_0
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
@@ -18,7 +18,7 @@ class CharacterTemplateTest {
 
     @Nested
     inner class CanDeleteTest {
-        private val template = CharacterTemplate(CHARACTER_TEMPLATE_ID_0, race = RACE_ID_0)
+        private val template = CharacterTemplate(CHARACTER_TEMPLATE_ID_0, race = RACE_LOOKUP_0)
         private val state = State(
             listOf(
                 Storage(template),

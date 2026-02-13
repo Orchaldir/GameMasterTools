@@ -16,7 +16,7 @@ class EquippedTest {
     private val state = State(
         listOf(
             Storage(Character(CHARACTER_ID_0)),
-            Storage(CharacterTemplate(CHARACTER_TEMPLATE_ID_0, race = RACE_ID_0)),
+            Storage(CharacterTemplate(CHARACTER_TEMPLATE_ID_0, race = RACE_LOOKUP_0)),
             Storage(ColorScheme(COLOR_SCHEME_ID_0)),
             Storage(listOf(Equipment(EQUIPMENT_ID_0, data = Hat()), Equipment(EQUIPMENT_ID_1, data = Footwear()))),
             Storage(Uniform(UNIFORM_ID_0)),

@@ -41,7 +41,7 @@ fun State.getCharacterTemplates(language: LanguageId) = getCharacterTemplateStor
 
 fun State.getCharacterTemplates(race: RaceId) = getCharacterTemplateStorage()
     .getAll()
-    .filter { it.race == race }
+    .filter { it.race.contains(race) }
 
 fun State.getCharacterTemplates(statistic: StatisticId) = getCharacterTemplateStorage()
     .getAll()

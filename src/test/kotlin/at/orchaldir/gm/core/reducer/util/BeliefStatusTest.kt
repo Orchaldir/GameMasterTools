@@ -108,7 +108,7 @@ class BeliefStatusTest {
         }
 
         private fun <ID : Id<ID>> assertCharacterTemplate(beliefStatus: BeliefStatus, id: ID) {
-            val template = CharacterTemplate(CHARACTER_TEMPLATE_ID_0, race = RACE_ID_0, belief = beliefStatus)
+            val template = CharacterTemplate(CHARACTER_TEMPLATE_ID_0, race = RACE_LOOKUP_0, belief = beliefStatus)
             val newState = state.updateStorage(template)
 
             failCanDelete(newState, id, CHARACTER_TEMPLATE_ID_0)
