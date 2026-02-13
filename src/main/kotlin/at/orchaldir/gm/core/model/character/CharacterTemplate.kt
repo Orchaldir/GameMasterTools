@@ -20,6 +20,7 @@ import at.orchaldir.gm.core.reducer.character.validateEquipped
 import at.orchaldir.gm.core.reducer.race.validateRaceLookup
 import at.orchaldir.gm.core.reducer.rpg.validateStatblockLookup
 import at.orchaldir.gm.core.reducer.util.checkBeliefStatus
+import at.orchaldir.gm.core.selector.rpg.statblock.getStatblock
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
@@ -63,7 +64,7 @@ data class CharacterTemplate(
         state.getLanguageStorage().require(languages.keys)
         validateRaceLookup(state, race)
         validateEquipped(state, equipped, statblock)
-        //validateStatblockLookup(state, race, statblock) TODO
+        validateStatblockLookup(state, state.getStatblock(race), statblock)
         checkBeliefStatus(state, belief)
     }
 }

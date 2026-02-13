@@ -17,10 +17,7 @@ fun State.getStatblock(base: Statblock, id: CharacterTemplateId): Statblock {
 
 fun State.getStatblock(
     lookup: RaceLookup,
-) = when (lookup) {
-    is UseRace -> getStatblock(lookup.race)
-    is UseRaceRarityMap -> getStatblock(lookup.map.getMostCommon())
-}
+) = getStatblock(lookup.defaultRace())
 
 fun State.getStatblock(
     race: RaceId,
