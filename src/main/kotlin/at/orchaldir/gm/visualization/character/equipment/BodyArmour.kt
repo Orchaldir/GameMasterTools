@@ -46,7 +46,7 @@ fun visualizeBodyArmour(
     armour: BodyArmour,
 ) = when (armour.style) {
     is ChainMail -> visualizeChainMail(state, armour, armour.style)
-    is Cuirass -> doNothing()
+    is Cuirass -> visualizeCuirass(state, armour, armour.style)
     is LamellarArmour -> visualizeLamellarArmour(state, armour, armour.style)
     is ScaleArmour -> visualizeScaleArmour(state, armour, armour.style)
     is SegmentedArmour -> visualizeSegmentedArmour(state, armour, armour.style)
