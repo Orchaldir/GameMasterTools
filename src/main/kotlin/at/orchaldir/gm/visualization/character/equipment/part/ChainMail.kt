@@ -3,8 +3,13 @@ package at.orchaldir.gm.visualization.character.equipment.part
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.BodyArmour
 import at.orchaldir.gm.core.model.item.equipment.style.ChainMail
+import at.orchaldir.gm.core.model.util.render.Color
+import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.QUARTER
+import at.orchaldir.gm.utils.math.TEN_PERCENTS
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
+import at.orchaldir.gm.utils.renderer.model.RenderTiles
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.JACKET_LAYER
 import at.orchaldir.gm.visualization.character.equipment.createOuterwearBuilder
@@ -15,8 +20,14 @@ fun visualizeChainMail(
     armour: BodyArmour,
     style: ChainMail,
 ) {
-    val fill = style.chain.getColor(state.state, state.colors)
-    val options = FillAndBorder(fill.toRender(), state.config.line)
+    val color = style.chain.getColor(state.state, state.colors)
+    val fill = RenderTiles(
+        Color.Black.toRender(),
+        color.toRender(),
+        0.02f,
+        Factor.fromPercentage(75),
+    )
+    val options = FillAndBorder(fill, state.config.line)
 
     visualizeChainMailBody(state, options, armour)
     visualizeArmourSleeves(state, options, armour)
