@@ -7,6 +7,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 enum class FillType {
+    Circles,
     Solid,
     Transparent,
     VerticalStripes,
@@ -18,6 +19,7 @@ enum class FillType {
 sealed class Fill {
 
     fun getType() = when (this) {
+        is Circles -> FillType.Circles
         is Solid -> FillType.Solid
         is Transparent -> FillType.Transparent
         is VerticalStripes -> FillType.VerticalStripes
@@ -25,6 +27,15 @@ sealed class Fill {
         is Tiles -> FillType.Tiles
     }
 }
+
+@Serializable
+@SerialName("Circles")
+data class Circles(
+    val circle: Color,
+    val background: Color?,
+    val width: Distance,
+    val radiusPercentage: Factor,
+) : Fill()
 
 @Serializable
 @SerialName("Solid")
@@ -60,7 +71,7 @@ data class HorizontalStripes(
 data class Tiles(
     val fill: Color,
     val background: Color?,
-    val width: Float,
+    val width: Distance,
     val borderPercentage: Factor,
 ) : Fill()
 

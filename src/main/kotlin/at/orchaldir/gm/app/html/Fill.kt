@@ -4,6 +4,7 @@ import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.util.math.*
 import at.orchaldir.gm.core.model.util.render.*
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
+import at.orchaldir.gm.utils.math.HALF
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.SiPrefix
 import io.ktor.http.*
@@ -33,6 +34,10 @@ fun HtmlBlockTag.showFill(label: String, fill: Fill) {
 
 fun HtmlBlockTag.showFill(fill: Fill) {
     when (fill) {
+        is Circles -> {
+            fieldColor(fill.circle, "Circle Color")
+            fieldOptionalColor(fill.background, "Background Color")
+        }
         is Solid -> fieldColor(fill.color, "Solid Fill")
         is Transparent -> {
             fieldColor(fill.color, "Solid Fill")
@@ -90,6 +95,23 @@ private fun HtmlBlockTag.selectFillData(
     param: String,
 ) {
     when (fill) {
+        is Circles -> {
+            selectFillAndBackgroundColors(
+                fill.circle,
+                fill.background,
+                param,
+                "Circle Color",
+            )
+            selectWidth(combine(param, PATTERN, TILE), fill.width)
+            selectPercentage(
+                "Radius",
+                combine(param, PATTERN, RADIUS),
+                fill.radiusPercentage,
+                1,
+                90,
+                1,
+            )
+        }
         is Solid -> selectColor(fill.color, combine(param, COLOR, 0))
         is Transparent -> {
             selectColor(fill.color, combine(param, COLOR, 0))
@@ -106,21 +128,15 @@ private fun HtmlBlockTag.selectFillData(
         is VerticalStripes -> selectStripes(fill.color0, fill.color1, fill.width, param)
         is HorizontalStripes -> selectStripes(fill.color0, fill.color1, fill.width, param)
         is Tiles -> {
-            val availableTileColors = if (fill.background != null) {
-                Color.entries - fill.background
-            } else {
-                Color.entries
-            }
-            selectColor(fill.fill, combine(param, COLOR, 0), "Tile Color", availableTileColors)
-            selectOptionalColor(
+            selectFillAndBackgroundColors(
+                fill.fill,
                 fill.background,
-                combine(param, COLOR, 1),
-                "Background Color",
-                Color.entries - fill.fill,
+                param,
+                "Tile Color",
             )
-            selectFloat("Tile in Meter", fill.width, 0.001f, 100f, 0.01f, combine(param, PATTERN, TILE))
+            selectWidth(combine(param, PATTERN, TILE), fill.width)
             selectPercentage(
-                "Border in Percentage",
+                "Border",
                 combine(param, PATTERN, BORDER),
                 fill.borderPercentage,
                 1,
@@ -131,22 +147,46 @@ private fun HtmlBlockTag.selectFillData(
     }
 }
 
+private fun HtmlBlockTag.selectFillAndBackgroundColors(
+    shape: Color,
+    background: Color?,
+    param: String,
+    shapeLabel: String,
+) {
+    val availableTileColors = if (background != null) {
+        Color.entries - background
+    } else {
+        Color.entries
+    }
+    selectColor(shape, combine(param, COLOR, 0), shapeLabel, availableTileColors)
+    selectOptionalColor(
+        background,
+        combine(param, COLOR, 1),
+        "Background Color",
+        Color.entries - shape,
+    )
+}
+
 fun HtmlBlockTag.selectStripes(color0: Color, color1: Color, width: Distance, param: String) {
     selectColor(color0, combine(param, COLOR, 0), "1.Stripe Color", Color.entries - color1)
     selectColor(color1, combine(param, COLOR, 1), "2.Stripe Color", Color.entries - color0)
     selectStripeWidth(param, width)
 }
 
-fun HtmlBlockTag.selectStripeWidth(param: String, width: Distance) {
-    selectDistance(
-        "Stripe Width",
-        combine(param, PATTERN, WIDTH),
-        width,
-        1,
-        100,
-        SiPrefix.Centi,
-    )
-}
+fun HtmlBlockTag.selectStripeWidth(param: String, width: Distance) = selectWidth(
+    param,
+    width,
+    "Stripe Width",
+)
+
+fun HtmlBlockTag.selectWidth(param: String, width: Distance, label: String = "Width") = selectDistance(
+    label,
+    combine(param, PATTERN, WIDTH),
+    width,
+    1,
+    100,
+    SiPrefix.Centi,
+)
 
 // parse
 
@@ -171,6 +211,12 @@ private fun parseFillOfType(
     param: String,
     type: FillType,
 ) = when (type) {
+    FillType.Circles -> Circles(
+        parse(parameters, combine(param, COLOR, 0), Color.Black),
+        parse<Color>(parameters, combine(param, COLOR, 1)),
+        parseWidth(parameters, param),
+        parseFactor(parameters, combine(param, PATTERN, RADIUS), HALF)
+    )
     FillType.Solid -> Solid(parse(parameters, combine(param, COLOR, 0), Color.SkyBlue))
     FillType.Transparent -> Transparent(
         parse(parameters, combine(param, COLOR, 0), Color.SkyBlue),
@@ -180,24 +226,24 @@ private fun parseFillOfType(
     FillType.VerticalStripes -> VerticalStripes(
         parse(parameters, combine(param, COLOR, 0), Color.Black),
         parse(parameters, combine(param, COLOR, 1), Color.White),
-        parseStripeWidth(parameters, param),
+        parseWidth(parameters, param),
     )
 
     FillType.HorizontalStripes -> HorizontalStripes(
         parse(parameters, combine(param, COLOR, 0), Color.Black),
         parse(parameters, combine(param, COLOR, 1), Color.White),
-        parseStripeWidth(parameters, param),
+        parseWidth(parameters, param),
     )
 
     FillType.Tiles -> Tiles(
         parse(parameters, combine(param, COLOR, 0), Color.Black),
         parse<Color>(parameters, combine(param, COLOR, 1)),
-        parseFloat(parameters, combine(param, PATTERN, TILE), 1.0f),
+        parseWidth(parameters, param),
         parseFactor(parameters, combine(param, PATTERN, BORDER), fromPercentage(10))
     )
 }
 
-fun parseStripeWidth(parameters: Parameters, param: String) = parseDistance(
+fun parseWidth(parameters: Parameters, param: String) = parseDistance(
     parameters,
     combine(param, PATTERN, WIDTH),
     SiPrefix.Centi,

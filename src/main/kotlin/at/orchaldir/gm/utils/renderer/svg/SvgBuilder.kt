@@ -5,6 +5,7 @@ import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Polygon2d
 import at.orchaldir.gm.utils.math.Size2d
+import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Orientation
 import at.orchaldir.gm.utils.renderer.AdvancedRenderer
@@ -146,6 +147,7 @@ class SvgBuilder(private val size: Size2d) : AdvancedRenderer {
 
     private fun addPatternLines(renderer: SvgRenderer, fill: RenderFill, name: String) {
         when (fill) {
+            is RenderCircles -> addCircles(renderer, name, fill)
             is RenderSolid -> error("Solid is not a pattern!")
             is RenderTransparent -> error("Transparent is not a pattern!")
             is RenderVerticalStripes -> addStripes(renderer, name, fill.color0, fill.color1, fill.width)
@@ -190,6 +192,27 @@ class SvgBuilder(private val size: Size2d) : AdvancedRenderer {
         renderer.selfClosingTag("stop", "offset=\"%.2f\" stop-color=\"%s\"", offset, toSvg(color))
     }
 
+    private fun addCircles(
+        renderer: SvgRenderer,
+        name: String,
+        circles: RenderCircles,
+    ) {
+        renderer.tag(
+            "pattern",
+            "id=\"%s\" viewBox=\"0,0,100,100\" width=\"%s\" height=\"%s\" patternUnits=\"userSpaceOnUse\"",
+            name, circles.width, circles.width
+        ) { tag ->
+            val full = AABB(Size2d.square(Distance.fromMeters(100)))
+            val tile = full.shrink(FULL - circles.radiusPercentage)
+
+            if (circles.background != null) {
+                tag.renderRectangle(full, NoBorder(RenderSolid(circles.background)))
+            }
+
+            tag.renderCircle(tile, NoBorder(RenderSolid(circles.circle)))
+        }
+    }
+
     private fun addTiles(
         renderer: SvgRenderer,
         name: String,
@@ -208,7 +231,6 @@ class SvgBuilder(private val size: Size2d) : AdvancedRenderer {
             }
 
             tag.renderRectangle(tile, NoBorder(RenderSolid(tiles.fill)))
-
         }
     }
 

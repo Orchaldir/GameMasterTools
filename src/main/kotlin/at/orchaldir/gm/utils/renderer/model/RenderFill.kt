@@ -6,6 +6,13 @@ import at.orchaldir.gm.utils.math.unit.Distance
 
 sealed class RenderFill
 
+data class RenderCircles(
+    val circle: RenderColor,
+    val background: RenderColor?,
+    val width: Distance,
+    val radiusPercentage: Factor,
+) : RenderFill()
+
 data class RenderSolid(
     val color: RenderColor,
 ) : RenderFill()
@@ -30,11 +37,12 @@ data class RenderHorizontalStripes(
 data class RenderTiles(
     val fill: RenderColor,
     val background: RenderColor?,
-    val width: Float,
+    val width: Distance,
     val borderPercentage: Factor,
 ) : RenderFill()
 
 fun Fill.toRender(): RenderFill = when (this) {
+    is Circles -> RenderCircles(circle.toRender(), background?.toRender(), width, radiusPercentage)
     is Solid -> RenderSolid(color.toRender())
     is Transparent -> RenderTransparent(color.toRender(), opacity)
     is VerticalStripes -> RenderVerticalStripes(color0.toRender(), color1.toRender(), width)
