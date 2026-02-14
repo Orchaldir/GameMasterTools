@@ -11,6 +11,7 @@ import at.orchaldir.gm.app.html.util.part.parseColorSchemeItemPart
 import at.orchaldir.gm.app.html.util.part.showColorSchemeItemPart
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.style.*
+import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.DETAILS
@@ -28,6 +29,7 @@ fun HtmlBlockTag.showArmourStyle(
 
         when (armour) {
             is ChainMail -> showChainMail(call, state, armour)
+            is Cuirass -> doNothing()
             is LamellarArmour -> showLamellarArmour(call, state, armour)
             is ScaleArmour -> showScaleArmour(call, state, armour)
             is SegmentedArmour -> showSegmentedArmour(call, state, armour)
@@ -85,6 +87,7 @@ fun HtmlBlockTag.editArmourStyle(state: State, armour: ArmourStyle, param: Strin
 
         when (armour) {
             is ChainMail -> editChainMail(state, param, armour)
+            is Cuirass -> doNothing()
             is LamellarArmour -> editLamellarArmour(state, param, armour)
             is ScaleArmour -> editScaleArmour(state, param, armour)
             is SegmentedArmour -> editSegmentedArmour(state, param, armour)
@@ -176,6 +179,8 @@ fun parseArmourStyle(parameters: Parameters, param: String = STYLE): ArmourStyle
         ArmourType.Chain -> ChainMail(
             parseColorSchemeItemPart(parameters, combine(param, MAIN)),
         )
+
+        ArmourType.Cuirass -> Cuirass()
 
         ArmourType.Lamellar -> LamellarArmour(
             parseColorSchemeItemPart(parameters, combine(param, MAIN)),

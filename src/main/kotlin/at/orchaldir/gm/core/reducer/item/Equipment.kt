@@ -64,6 +64,7 @@ fun validateEquipment(
 
 private fun checkBodyArmour(armour: BodyArmour) = when (armour.style) {
     is ChainMail -> doNothing()
+    is Cuirass -> doNothing()
 
     is LamellarArmour -> {
         checkLamellarLacing(armour.style.lacing)
