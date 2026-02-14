@@ -9,6 +9,7 @@ import at.orchaldir.gm.utils.math.QUARTER
 import at.orchaldir.gm.utils.math.TEN_PERCENTS
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
+import at.orchaldir.gm.utils.renderer.model.RenderCircles
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.utils.renderer.model.RenderTiles
 import at.orchaldir.gm.visualization.character.CharacterRenderState
@@ -22,11 +23,11 @@ fun visualizeChainMail(
     style: ChainMail,
 ) {
     val color = style.chain.getColor(state.state, state.colors)
-    val fill = RenderTiles(
+    val fill = RenderCircles(
         Color.Black.toRender(),
         color.toRender(),
         Distance.fromMeters(0.02f),
-        Factor.fromPercentage(75),
+        Factor.fromPercentage(35),
     )
     val options = FillAndBorder(fill, state.config.line)
 

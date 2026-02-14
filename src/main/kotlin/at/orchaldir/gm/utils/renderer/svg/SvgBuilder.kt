@@ -197,10 +197,12 @@ class SvgBuilder(private val size: Size2d) : AdvancedRenderer {
         name: String,
         circles: RenderCircles,
     ) {
+        val width = circles.width.toMeters()
+
         renderer.tag(
             "pattern",
             "id=\"%s\" viewBox=\"0,0,100,100\" width=\"%s\" height=\"%s\" patternUnits=\"userSpaceOnUse\"",
-            name, circles.width, circles.width
+            name, width, width
         ) { tag ->
             val full = AABB(Size2d.square(Distance.fromMeters(100)))
             val tile = full.shrink(FULL - circles.radiusPercentage)
@@ -218,10 +220,12 @@ class SvgBuilder(private val size: Size2d) : AdvancedRenderer {
         name: String,
         tiles: RenderTiles,
     ) {
+        val width = tiles.width.toMeters()
+
         renderer.tag(
             "pattern",
             "id=\"%s\" viewBox=\"0,0,100,100\" width=\"%s\" height=\"%s\" patternUnits=\"userSpaceOnUse\"",
-            name, tiles.width, tiles.width
+            name, width, width
         ) { tag ->
             val full = AABB(Size2d.square(Distance.fromMeters(100)))
             val tile = full.shrink(tiles.borderPercentage)
