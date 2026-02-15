@@ -19,6 +19,12 @@ sealed class LegArmourStyle : MadeFromParts {
         is DifferentLegArmour -> LegArmourStyleType.Different
     }
 
+    fun length() = when (this) {
+        is NoLegArmour -> OuterwearLength.Hip
+        is ContinueLegArmour -> length
+        is DifferentLegArmour -> length
+    }
+
     override fun parts() = when (this) {
         is NoLegArmour -> emptyList()
         is ContinueLegArmour -> emptyList()

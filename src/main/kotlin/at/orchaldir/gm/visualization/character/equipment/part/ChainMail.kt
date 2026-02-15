@@ -40,7 +40,7 @@ private fun visualizeChainMailBody(
     options: RenderOptions,
     armour: BodyArmour,
 ) {
-    val builder = createOuterwearBuilder(state, armour.length)
+    val builder = createOuterwearBuilder(state, armour.legStyle.length())
 
     renderBuilder(state.renderer, builder, options, JACKET_LAYER)
 }

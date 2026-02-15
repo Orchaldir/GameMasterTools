@@ -40,7 +40,7 @@ private fun visualizeScaleArmourBody(
     val scaleWidth = calculateArmourScaleWidth(state, style.columns)
     val scaleSize = style.shape.calculateSizeFromWidth(scaleWidth)
     val top = torso.getPoint(CENTER, START)
-    val bottomFactor = getOuterwearBottomY(state, armour.length, THREE_QUARTER)
+    val bottomFactor = getOuterwearBottomY(state, armour.legStyle.length(), THREE_QUARTER)
     val bottom = state.fullAABB.getPoint(CENTER, bottomFactor)
 
     visualizeRows(
