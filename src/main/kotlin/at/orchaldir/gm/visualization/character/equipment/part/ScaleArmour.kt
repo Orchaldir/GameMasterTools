@@ -2,6 +2,8 @@ package at.orchaldir.gm.visualization.character.equipment.part
 
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.BodyArmour
+import at.orchaldir.gm.core.model.item.equipment.style.ChainMail
+import at.orchaldir.gm.core.model.item.equipment.style.OuterwearLength
 import at.orchaldir.gm.core.model.item.equipment.style.ScaleArmour
 import at.orchaldir.gm.core.model.item.equipment.style.SleeveStyle
 import at.orchaldir.gm.utils.math.*
@@ -9,7 +11,9 @@ import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.JACKET_LAYER
+import at.orchaldir.gm.visualization.character.equipment.createOuterwearBottom
 import at.orchaldir.gm.visualization.character.equipment.getOuterwearBottomY
+import at.orchaldir.gm.visualization.renderBuilder
 import at.orchaldir.gm.visualization.utils.visualizeComplexShape
 import at.orchaldir.gm.visualization.utils.visualizeRows
 
@@ -40,7 +44,7 @@ private fun visualizeScaleArmourBody(
     val scaleWidth = calculateArmourScaleWidth(state, style.columns)
     val scaleSize = style.shape.calculateSizeFromWidth(scaleWidth)
     val top = torso.getPoint(CENTER, START)
-    val bottomFactor = getOuterwearBottomY(state, armour.legStyle.length(), THREE_QUARTER)
+    val bottomFactor = getOuterwearBottomY(state, armour.legStyle.upperBodyLength(), THREE_QUARTER)
     val bottom = state.fullAABB.getPoint(CENTER, bottomFactor)
 
     visualizeRows(
@@ -104,3 +108,16 @@ private fun visualizeScaleArmourSleeve(
         }
     )
 }
+
+/*
+fun visualizeScaleArmourLowerBody(
+    state: CharacterRenderState<Body>,
+    style: ScaleArmour,
+    length: OuterwearLength,
+) {
+    val options = getRenderOptions(state, style)
+    val builder = createOuterwearBottom(state, length)
+
+    renderBuilder(state.renderer, builder, options, JACKET_LAYER)
+}
+*/

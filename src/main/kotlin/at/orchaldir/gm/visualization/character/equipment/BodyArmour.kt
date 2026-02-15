@@ -44,11 +44,39 @@ data class BodyArmourConfig(
 fun visualizeBodyArmour(
     state: CharacterRenderState<Body>,
     armour: BodyArmour,
+) {
+    visualizeUpperBodyArmour(state, armour)
+    visualizeLowerBodyArmour(state, armour)
+}
+
+private fun visualizeUpperBodyArmour(
+    state: CharacterRenderState<Body>,
+    armour: BodyArmour,
 ) = when (armour.style) {
     is ChainMail -> visualizeChainMail(state, armour, armour.style)
     is Cuirass -> visualizeCuirass(state, armour, armour.style)
     is LamellarArmour -> visualizeLamellarArmour(state, armour, armour.style)
     is ScaleArmour -> visualizeScaleArmour(state, armour, armour.style)
     is SegmentedArmour -> visualizeSegmentedArmour(state, armour, armour.style)
+}
+
+private fun visualizeLowerBodyArmour(
+    state: CharacterRenderState<Body>,
+    armour: BodyArmour,
+) = when (armour.legStyle) {
+    is ContinueLegArmour -> doNothing()
+    is DifferentLegArmour -> visualizeLowerBodyArmour(state, armour.legStyle.style, armour.legStyle.length)
+}
+
+private fun visualizeLowerBodyArmour(
+    state: CharacterRenderState<Body>,
+    style: ArmourStyle,
+    length: OuterwearLength,
+) = when (style) {
+    is ChainMail -> visualizeChainMailLowerBody(state, style, length)
+    is Cuirass -> doNothing()
+    is LamellarArmour -> doNothing()
+    is ScaleArmour -> doNothing()
+    is SegmentedArmour -> doNothing()
 }
 

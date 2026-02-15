@@ -27,7 +27,7 @@ private fun visualizeCuirassBody(
     options: RenderOptions,
     armour: BodyArmour,
 ) {
-    val builder = createOuterwearBuilder(state, armour.legStyle.length())
+    val builder = createOuterwearBuilder(state, armour.legStyle.upperBodyLength())
 
     renderBuilder(state.renderer, builder, options, JACKET_LAYER)
 }
