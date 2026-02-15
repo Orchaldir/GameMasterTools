@@ -5,7 +5,6 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 enum class LegArmourStyleType {
-    None,
     Continue,
     Different,
 }
@@ -14,27 +13,20 @@ enum class LegArmourStyleType {
 sealed class LegArmourStyle : MadeFromParts {
 
     fun getType() = when (this) {
-        is NoLegArmour -> LegArmourStyleType.None
         is ContinueLegArmour -> LegArmourStyleType.Continue
         is DifferentLegArmour -> LegArmourStyleType.Different
     }
 
     fun length() = when (this) {
-        is NoLegArmour -> OuterwearLength.Hip
         is ContinueLegArmour -> length
         is DifferentLegArmour -> length
     }
 
     override fun parts() = when (this) {
-        is NoLegArmour -> emptyList()
         is ContinueLegArmour -> emptyList()
         is DifferentLegArmour -> style.parts()
     }
 }
-
-@Serializable
-@SerialName("None")
-data object NoLegArmour : LegArmourStyle()
 
 @Serializable
 @SerialName("Continue")

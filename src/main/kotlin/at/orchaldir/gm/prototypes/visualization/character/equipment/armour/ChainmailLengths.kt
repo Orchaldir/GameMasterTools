@@ -28,7 +28,7 @@ fun main() {
 
     OuterwearLength.entries.forEach {
         val armour = DifferentLegArmour(ScaleArmour(), it)
-        legStyles.add(Pair("Scales " + it.name, armour))
+        legStyles.add(Pair("Scales + " + it.name, armour))
     }
 
     renderCharacterTableWithoutColorScheme(
