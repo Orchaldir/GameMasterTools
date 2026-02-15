@@ -76,7 +76,7 @@ private fun visualizeLowerBodyArmour(
     is ChainMail -> visualizeChainMailLowerBody(state, style, length)
     is Cuirass -> doNothing()
     is LamellarArmour -> doNothing()
-    is ScaleArmour -> doNothing()
+    is ScaleArmour -> visualizeScaleArmourLowerBody(state, style, length)
     is SegmentedArmour -> doNothing()
 }
 

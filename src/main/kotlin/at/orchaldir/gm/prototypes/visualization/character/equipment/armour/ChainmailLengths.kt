@@ -27,7 +27,7 @@ fun main() {
     }
 
     OuterwearLength.entries.forEach {
-        val armour = DifferentLegArmour(ChainMail(), it)
+        val armour = DifferentLegArmour(ScaleArmour(), it)
         legStyles.add(Pair("Scales + " + it.name, armour))
     }
 

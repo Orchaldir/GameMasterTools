@@ -24,15 +24,16 @@ fun visualizeScaleArmour(
 ) {
     val renderer = state.renderer.getLayer(JACKET_LAYER)
 
-    visualizeScaleArmourBody(state, renderer, armour, style)
+    visualizeScaleArmourBody(state, renderer, style, armour.legStyle.upperBodyLength(), START)
     visualizeScaleArmourSleeves(state, renderer, armour, style)
 }
 
 private fun visualizeScaleArmourBody(
     state: CharacterRenderState<Body>,
     renderer: LayerRenderer,
-    armour: BodyArmour,
     style: ScaleArmour,
+    length: OuterwearLength,
+    startY: Factor,
 ) {
     val clipping = createClippingPolygonForArmourBody(state)
     val clippingName = state.renderer.createClipping(clipping)
@@ -43,8 +44,8 @@ private fun visualizeScaleArmourBody(
     val maxWidth = torso.convertWidth(maxWidthFactor)
     val scaleWidth = calculateArmourScaleWidth(state, style.columns)
     val scaleSize = style.shape.calculateSizeFromWidth(scaleWidth)
-    val top = torso.getPoint(CENTER, START)
-    val bottomFactor = getOuterwearBottomY(state, armour.legStyle.upperBodyLength(), THREE_QUARTER)
+    val top = torso.getPoint(CENTER, startY)
+    val bottomFactor = getOuterwearBottomY(state, length, THREE_QUARTER)
     val bottom = state.fullAABB.getPoint(CENTER, bottomFactor)
 
     visualizeRows(
@@ -109,15 +110,12 @@ private fun visualizeScaleArmourSleeve(
     )
 }
 
-/*
 fun visualizeScaleArmourLowerBody(
     state: CharacterRenderState<Body>,
     style: ScaleArmour,
     length: OuterwearLength,
 ) {
-    val options = getRenderOptions(state, style)
-    val builder = createOuterwearBottom(state, length)
+    val renderer = state.renderer.getLayer(JACKET_LAYER)
 
-    renderBuilder(state.renderer, builder, options, JACKET_LAYER)
+    visualizeScaleArmourBody(state, renderer, style, length, state.config.body.hipY)
 }
-*/
