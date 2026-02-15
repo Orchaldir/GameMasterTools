@@ -45,8 +45,8 @@ fun visualizeBodyArmour(
     state: CharacterRenderState<Body>,
     armour: BodyArmour,
 ) {
-    visualizeUpperBodyArmour(state, armour)
     visualizeLowerBodyArmour(state, armour)
+    visualizeUpperBodyArmour(state, armour)
 }
 
 private fun visualizeUpperBodyArmour(
