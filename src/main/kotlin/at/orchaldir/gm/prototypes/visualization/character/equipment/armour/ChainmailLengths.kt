@@ -9,6 +9,8 @@ import at.orchaldir.gm.core.model.item.equipment.BodyArmour
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap.Companion.from
 import at.orchaldir.gm.core.model.item.equipment.style.ChainMail
 import at.orchaldir.gm.core.model.item.equipment.style.ContinueLegArmour
+import at.orchaldir.gm.core.model.item.equipment.style.DifferentLegArmour
+import at.orchaldir.gm.core.model.item.equipment.style.LegArmourStyle
 import at.orchaldir.gm.core.model.item.equipment.style.OuterwearLength
 import at.orchaldir.gm.core.model.item.equipment.style.ScaleArmour
 import at.orchaldir.gm.core.model.item.equipment.style.SleeveStyle
@@ -18,16 +20,27 @@ import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTableWi
 import at.orchaldir.gm.utils.math.unit.Distance
 
 fun main() {
+    val legStyles = mutableListOf<Pair<String, LegArmourStyle>>()
+
+    OuterwearLength.entries.forEach {
+        legStyles.add(Pair(it.name, ContinueLegArmour(it)))
+    }
+
+    OuterwearLength.entries.forEach {
+        val armour = DifferentLegArmour(ScaleArmour(), it)
+        legStyles.add(Pair("Scales " + it.name, armour))
+    }
+
     renderCharacterTableWithoutColorScheme(
         State(),
         "chainmail-length.svg",
         CHARACTER_CONFIG,
         addNames(BodyShape.entries),
-        addNames(OuterwearLength.entries),
-    ) { distance, length, bodyShape ->
+        legStyles,
+    ) { distance, legStyle, bodyShape ->
         val armour = BodyArmour(
             ChainMail(),
-            ContinueLegArmour(length),
+            legStyle,
             SleeveStyle.Short,
         )
 
