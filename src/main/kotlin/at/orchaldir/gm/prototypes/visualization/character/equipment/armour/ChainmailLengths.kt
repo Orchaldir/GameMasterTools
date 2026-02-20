@@ -14,6 +14,7 @@ import at.orchaldir.gm.core.model.item.equipment.style.DifferentLegArmour
 import at.orchaldir.gm.core.model.item.equipment.style.LegArmourStyle
 import at.orchaldir.gm.core.model.item.equipment.style.OuterwearLength
 import at.orchaldir.gm.core.model.item.equipment.style.ScaleArmour
+import at.orchaldir.gm.core.model.item.equipment.style.SegmentedArmour
 import at.orchaldir.gm.core.model.item.equipment.style.SleeveStyle
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
@@ -21,15 +22,21 @@ import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTableWi
 import at.orchaldir.gm.utils.math.unit.Distance
 
 fun main() {
+    val lengths = listOf(OuterwearLength.Knee, OuterwearLength.Ankle)
     val legStyles = mutableListOf<Pair<String, LegArmourStyle>>()
 
     OuterwearLength.entries.forEach {
         legStyles.add(Pair(it.name, ContinueLegArmour(it)))
     }
 
-    listOf(OuterwearLength.Knee, OuterwearLength.Ankle).forEach {
+    lengths.forEach {
         val armour = DifferentLegArmour(ScaleArmour(), it)
         legStyles.add(Pair("Scales + " + it.name, armour))
+    }
+
+    lengths.forEach {
+        val armour = DifferentLegArmour(SegmentedArmour(), it)
+        legStyles.add(Pair("Segmented + " + it.name, armour))
     }
 
     renderCharacterTableWithoutColorScheme(
