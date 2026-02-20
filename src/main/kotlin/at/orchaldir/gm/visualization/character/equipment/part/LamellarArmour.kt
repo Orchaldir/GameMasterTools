@@ -220,10 +220,8 @@ private fun visualizeArmourSleeve(
     style: LamellarArmour,
     scaleSize: Size2d,
 ) {
-    val clipping = Polygon2d(clip)
-    val clippingName = state.renderer.createClipping(clipping)
-    val color = style.scale.getColor(state.state, state.colors)
-    val options = FillAndBorder(color.toRender(), state.config.line, clippingName)
+    val options = getClippingRenderOptions(state, clip, style.scale)
+    val clippingName = options.clipping() ?: error("Requires clipping name!")
     val top = aabb.getPoint(CENTER, START)
     val bottom = aabb.getPoint(CENTER, FULL)
     val overlap = state.config.equipment.armor.lamellar.overlap

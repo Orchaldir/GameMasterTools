@@ -86,7 +86,7 @@ private fun visualizeScaleArmourSleeve(
     style: ScaleArmour,
     scaleSize: Size2d,
 ) {
-    val options = getClippingRenderOptionsForArmourBody(state, style.scale)
+    val options = getClippingRenderOptions(state, clip, style.scale)
     val top = aabb.getPoint(CENTER, START)
     val bottom = aabb.getPoint(CENTER, FULL)
 

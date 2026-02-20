@@ -2,6 +2,7 @@ package at.orchaldir.gm.visualization.character.equipment.part
 
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
+import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.CENTER
 import at.orchaldir.gm.utils.math.END
 import at.orchaldir.gm.utils.math.Polygon2d
@@ -46,6 +47,18 @@ fun getClippingRenderOptionsForArmourBody(
     part: ColorSchemeItemPart,
 ): RenderOptions {
     val clipping = createClippingPolygonForArmourBody(state)
+    val clippingName = state.renderer.createClipping(clipping)
+    val color = part.getColor(state.state, state.colors)
+
+    return FillAndBorder(color.toRender(), state.config.line, clippingName)
+}
+
+fun getClippingRenderOptions(
+    state: CharacterRenderState<Body>,
+    clip: AABB,
+    part: ColorSchemeItemPart,
+): RenderOptions {
+    val clipping = Polygon2d(clip)
     val clippingName = state.renderer.createClipping(clipping)
     val color = part.getColor(state.state, state.colors)
 
