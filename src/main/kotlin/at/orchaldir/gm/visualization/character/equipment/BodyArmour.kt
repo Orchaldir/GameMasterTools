@@ -75,7 +75,7 @@ private fun visualizeLowerBodyArmour(
 ) = when (style) {
     is ChainMail -> visualizeChainMailLowerBody(state, style, length)
     is Cuirass -> doNothing()
-    is LamellarArmour -> doNothing()
+    is LamellarArmour -> visualizeLamellarArmourLowerBody(state, style, length)
     is ScaleArmour -> visualizeScaleArmourLowerBody(state, style, length)
     is SegmentedArmour -> visualizeSegmentedArmourLowerBody(state, style, length)
 }

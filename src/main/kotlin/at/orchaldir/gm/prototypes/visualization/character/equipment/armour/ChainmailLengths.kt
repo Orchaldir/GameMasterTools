@@ -11,6 +11,7 @@ import at.orchaldir.gm.core.model.item.equipment.EquipmentMap.Companion.from
 import at.orchaldir.gm.core.model.item.equipment.style.ChainMail
 import at.orchaldir.gm.core.model.item.equipment.style.ContinueLegArmour
 import at.orchaldir.gm.core.model.item.equipment.style.DifferentLegArmour
+import at.orchaldir.gm.core.model.item.equipment.style.LamellarArmour
 import at.orchaldir.gm.core.model.item.equipment.style.LegArmourStyle
 import at.orchaldir.gm.core.model.item.equipment.style.OuterwearLength
 import at.orchaldir.gm.core.model.item.equipment.style.ScaleArmour
@@ -31,12 +32,17 @@ fun main() {
 
     lengths.forEach {
         val armour = DifferentLegArmour(ScaleArmour(), it)
-        legStyles.add(Pair("Scales + " + it.name, armour))
+        legStyles.add(Pair("Scales to " + it.name, armour))
     }
 
     lengths.forEach {
         val armour = DifferentLegArmour(SegmentedArmour(), it)
-        legStyles.add(Pair("Segmented + " + it.name, armour))
+        legStyles.add(Pair("Segmented to " + it.name, armour))
+    }
+
+    lengths.forEach {
+        val armour = DifferentLegArmour(LamellarArmour(), it)
+        legStyles.add(Pair("Lamellar to " + it.name, armour))
     }
 
     renderCharacterTableWithoutColorScheme(
