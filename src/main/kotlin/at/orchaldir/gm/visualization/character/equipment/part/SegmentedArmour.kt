@@ -39,7 +39,7 @@ fun visualizeSegmentedArmourLowerBody(
     val maxWidthFactor = state.config.body.getMaxWidth(state)
     val segmentWidth = torso.convertWidth(maxWidthFactor)
     val start = torso.getPoint(CENTER, END)
-    val bottomFactor = getOuterwearBottomY(state, length, THREE_QUARTER)
+    val bottomFactor = getOuterwearBottomY(state, length)
     val bottom = state.fullAABB.getPoint(CENTER, bottomFactor)
     val rowHeight = (bottom.y - start.y) / style.rows.toFloat()
     val center = bottom
@@ -59,7 +59,7 @@ private fun visualizeSegmentedArmourBody(
     val maxWidthFactor = state.config.body.getMaxWidth(state)
     val segmentWidth = torso.convertWidth(maxWidthFactor)
     val start = torso.getPoint(CENTER, START)
-    val bottomFactor = getOuterwearBottomY(state, armour.legStyle.upperBodyLength(), THREE_QUARTER)
+    val bottomFactor = getOuterwearBottomY(state, armour.legStyle.upperBodyLength())
     val bottom = state.fullAABB.getPoint(CENTER, bottomFactor)
     val rowHeight = (bottom - start).y / style.rows.toFloat()
     val center = torso.getPoint(CENTER, START)
