@@ -71,7 +71,7 @@ private fun DETAILS.selectLength(
     selectValue(
         "Length",
         combine(param, LENGTH),
-        listOf(OuterwearLength.Hip, OuterwearLength.Ankle),
+        listOf(OuterwearLength.Knee, OuterwearLength.Ankle),
         length,
     )
 }

@@ -28,9 +28,9 @@ fun HtmlBlockTag.showBodyArmour(
     state: State,
     armour: BodyArmour,
 ) {
-    showLegArmourStyle(call, state, armour.legStyle)
-    field("Sleeve Style", armour.sleeveStyle)
     showArmourStyle(call, state, armour.style)
+    field("Sleeve Style", armour.sleeveStyle)
+    showLegArmourStyle(call, state, armour.legStyle)
 }
 
 // edit
@@ -39,9 +39,9 @@ fun HtmlBlockTag.editBodyArmour(
     state: State,
     armour: BodyArmour,
 ) {
-    editLegArmourStyle(state, armour.legStyle)
-    selectSleeveStyle(SleeveStyle.entries, armour.sleeveStyle)
     editArmourStyle(state, armour.style)
+    selectSleeveStyle(SleeveStyle.entries, armour.sleeveStyle)
+    editLegArmourStyle(state, armour.legStyle)
 }
 
 // parse
