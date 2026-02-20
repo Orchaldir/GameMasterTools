@@ -33,7 +33,7 @@ fun visualizeSegmentedArmourLowerBody(
     style: SegmentedArmour,
     length: OuterwearLength,
 ) {
-    val options = getRenderOptions(state, style)
+    val options = getClippingRenderOptionsForArmourBody(state, style.segment)
     val builder = createOuterwearBottom(state, length)
 
     renderBuilder(state.renderer, builder, options, JACKET_LAYER)
@@ -45,7 +45,7 @@ private fun visualizeSegmentedArmourBody(
     armour: BodyArmour,
     style: SegmentedArmour,
 ) {
-    val options = getRenderOptions(state, style)
+    val options = getClippingRenderOptionsForArmourBody(state, style.segment)
     val torso = state.torsoAABB()
     val maxWidthFactor = state.config.body.getMaxWidth(state)
     val segmentWidth = torso.convertWidth(maxWidthFactor)
@@ -66,17 +66,6 @@ private fun visualizeSegmentedArmourBody(
 
     renderBreastPlate(style, renderer, options, torso, rowHeight, segmentWidth)
     visualizeArmourSleeves(state, renderer, armour, style, rowHeight)
-}
-
-private fun getRenderOptions(
-    state: CharacterRenderState<Body>,
-    style: SegmentedArmour,
-): RenderOptions {
-    val clipping = createClippingPolygonForArmourBody(state)
-    val clippingName = state.renderer.createClipping(clipping)
-    val color = style.segment.getColor(state.state, state.colors)
-
-    return FillAndBorder(color.toRender(), state.config.line, clippingName)
 }
 
 private fun renderBreastPlate(

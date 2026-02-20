@@ -35,10 +35,7 @@ private fun visualizeScaleArmourBody(
     length: OuterwearLength,
     startY: Factor,
 ) {
-    val clipping = createClippingPolygonForArmourBody(state)
-    val clippingName = state.renderer.createClipping(clipping)
-    val color = style.scale.getColor(state.state, state.colors)
-    val options = FillAndBorder(color.toRender(), state.config.line, clippingName)
+    val options = getClippingRenderOptionsForArmourBody(state, style.scale)
     val torso = state.torsoAABB()
     val maxWidthFactor = state.config.body.getMaxWidth(state)
     val maxWidth = torso.convertWidth(maxWidthFactor)
@@ -89,10 +86,7 @@ private fun visualizeScaleArmourSleeve(
     style: ScaleArmour,
     scaleSize: Size2d,
 ) {
-    val clipping = Polygon2d(clip)
-    val clippingName = state.renderer.createClipping(clipping)
-    val color = style.scale.getColor(state.state, state.colors)
-    val options = FillAndBorder(color.toRender(), state.config.line, clippingName)
+    val options = getClippingRenderOptionsForArmourBody(state, style.scale)
     val top = aabb.getPoint(CENTER, START)
     val bottom = aabb.getPoint(CENTER, FULL)
 
