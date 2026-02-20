@@ -2,18 +2,14 @@ package at.orchaldir.gm.visualization.character.equipment.part
 
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.BodyArmour
-import at.orchaldir.gm.core.model.item.equipment.style.ChainMail
 import at.orchaldir.gm.core.model.item.equipment.style.OuterwearLength
 import at.orchaldir.gm.core.model.item.equipment.style.ScaleArmour
 import at.orchaldir.gm.core.model.item.equipment.style.SleeveStyle
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.LayerRenderer
-import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.JACKET_LAYER
-import at.orchaldir.gm.visualization.character.equipment.createOuterwearBottom
 import at.orchaldir.gm.visualization.character.equipment.getOuterwearBottomY
-import at.orchaldir.gm.visualization.renderBuilder
 import at.orchaldir.gm.visualization.utils.visualizeComplexShape
 import at.orchaldir.gm.visualization.utils.visualizeRows
 

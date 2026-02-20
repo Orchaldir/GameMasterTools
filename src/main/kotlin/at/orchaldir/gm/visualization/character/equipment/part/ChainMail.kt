@@ -2,7 +2,6 @@ package at.orchaldir.gm.visualization.character.equipment.part
 
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.BodyArmour
-import at.orchaldir.gm.core.model.item.equipment.style.ArmourStyle
 import at.orchaldir.gm.core.model.item.equipment.style.ChainMail
 import at.orchaldir.gm.core.model.item.equipment.style.OuterwearLength
 import at.orchaldir.gm.core.model.util.render.Color

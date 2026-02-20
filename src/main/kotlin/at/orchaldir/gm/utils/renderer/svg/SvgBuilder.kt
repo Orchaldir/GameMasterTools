@@ -1,11 +1,7 @@
 package at.orchaldir.gm.utils.renderer.svg
 
 import at.orchaldir.gm.core.model.util.font.Font
-import at.orchaldir.gm.utils.math.AABB
-import at.orchaldir.gm.utils.math.Point2d
-import at.orchaldir.gm.utils.math.Polygon2d
-import at.orchaldir.gm.utils.math.Size2d
-import at.orchaldir.gm.utils.math.FULL
+import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Orientation
 import at.orchaldir.gm.utils.renderer.AdvancedRenderer

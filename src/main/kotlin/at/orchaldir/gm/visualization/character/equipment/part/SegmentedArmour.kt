@@ -2,7 +2,6 @@ package at.orchaldir.gm.visualization.character.equipment.part
 
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.BodyArmour
-import at.orchaldir.gm.core.model.item.equipment.style.ChainMail
 import at.orchaldir.gm.core.model.item.equipment.style.OuterwearLength
 import at.orchaldir.gm.core.model.item.equipment.style.SegmentedArmour
 import at.orchaldir.gm.core.model.item.equipment.style.SegmentedPlateShape
@@ -10,13 +9,10 @@ import at.orchaldir.gm.core.model.item.equipment.style.SleeveStyle
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.LayerRenderer
-import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.JACKET_LAYER
-import at.orchaldir.gm.visualization.character.equipment.createOuterwearBottom
 import at.orchaldir.gm.visualization.character.equipment.getOuterwearBottomY
-import at.orchaldir.gm.visualization.renderBuilder
 
 fun visualizeSegmentedArmour(
     state: CharacterRenderState<Body>,

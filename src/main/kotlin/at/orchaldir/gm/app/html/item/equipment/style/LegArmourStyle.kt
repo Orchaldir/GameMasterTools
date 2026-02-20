@@ -1,12 +1,10 @@
 package at.orchaldir.gm.app.html.item.equipment.style
 
-import at.orchaldir.gm.app.*
+import at.orchaldir.gm.app.LEG
+import at.orchaldir.gm.app.LENGTH
+import at.orchaldir.gm.app.STYLE
+import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.math.*
-import at.orchaldir.gm.app.html.util.math.parseFactor
-import at.orchaldir.gm.app.html.util.math.selectFactor
-import at.orchaldir.gm.app.html.util.part.editColorSchemeItemPart
-import at.orchaldir.gm.app.html.util.part.parseColorSchemeItemPart
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import io.ktor.http.*
@@ -85,6 +83,7 @@ fun parseLegArmourStyle(parameters: Parameters, param: String = LEG): LegArmourS
         LegArmourStyleType.Same -> SameLegArmour(
             parseLength(parameters, param),
         )
+
         LegArmourStyleType.Different -> DifferentLegArmour(
             parseArmourStyle(parameters, combine(param, STYLE)),
             parseLength(parameters, param),

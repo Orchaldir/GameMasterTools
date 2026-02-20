@@ -38,6 +38,7 @@ fun HtmlBlockTag.showFill(fill: Fill) {
             fieldColor(fill.circle, "Circle Color")
             fieldOptionalColor(fill.background, "Background Color")
         }
+
         is Solid -> fieldColor(fill.color, "Solid Fill")
         is Transparent -> {
             fieldColor(fill.color, "Solid Fill")
@@ -112,6 +113,7 @@ private fun HtmlBlockTag.selectFillData(
                 1,
             )
         }
+
         is Solid -> selectColor(fill.color, combine(param, COLOR, 0))
         is Transparent -> {
             selectColor(fill.color, combine(param, COLOR, 0))
@@ -217,6 +219,7 @@ private fun parseFillOfType(
         parseWidth(parameters, param),
         parseFactor(parameters, combine(param, PATTERN, RADIUS), HALF)
     )
+
     FillType.Solid -> Solid(parse(parameters, combine(param, COLOR, 0), Color.SkyBlue))
     FillType.Transparent -> Transparent(
         parse(parameters, combine(param, COLOR, 0), Color.SkyBlue),

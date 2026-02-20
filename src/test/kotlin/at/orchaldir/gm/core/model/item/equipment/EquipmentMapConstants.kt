@@ -4,7 +4,6 @@ import at.orchaldir.gm.EQUIPMENT_ID_0
 import at.orchaldir.gm.EQUIPMENT_ID_1
 import at.orchaldir.gm.UNKNOWN_EQUIPMENT_ID
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap.Companion.fromSlotAsValueMap
-import org.junit.jupiter.api.Assertions.*
 
 
 val sets = setOf(setOf(BodySlot.Foot), setOf(BodySlot.Head))
