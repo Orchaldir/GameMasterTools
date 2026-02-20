@@ -29,7 +29,7 @@ fun HtmlBlockTag.showArmourStyle(
 
         when (armour) {
             is ChainMail -> showChainMail(call, state, armour)
-            is Cuirass -> doNothing()
+            is Cuirass -> showCuirass(call, state, armour)
             is LamellarArmour -> showLamellarArmour(call, state, armour)
             is ScaleArmour -> showScaleArmour(call, state, armour)
             is SegmentedArmour -> showSegmentedArmour(call, state, armour)
@@ -43,6 +43,14 @@ private fun DETAILS.showChainMail(
     armour: ChainMail,
 ) {
     showColorSchemeItemPart(call, state, armour.chain, "Chain")
+}
+
+private fun DETAILS.showCuirass(
+    call: ApplicationCall,
+    state: State,
+    armour: Cuirass,
+) {
+    showColorSchemeItemPart(call, state, armour.main, "Main")
 }
 
 private fun DETAILS.showLamellarArmour(
@@ -81,9 +89,19 @@ private fun DETAILS.showSegmentedArmour(
 
 // edit
 
-fun HtmlBlockTag.editArmourStyle(state: State, armour: ArmourStyle, param: String = STYLE) {
+fun HtmlBlockTag.editArmourStyle(
+    state: State,
+    armour: ArmourStyle,
+    availableTypes: Collection<ArmourType> = ArmourType.entries,
+    param: String = STYLE,
+) {
     showDetails("Armour Style", true) {
-        selectValue("Type", combine(param, TYPE), ArmourType.entries, armour.getType())
+        selectValue(
+            "Type",
+            combine(param, TYPE),
+            availableTypes,
+            armour.getType(),
+        )
 
         when (armour) {
             is ChainMail -> editChainMail(state, param, armour)
@@ -101,6 +119,14 @@ private fun DETAILS.editChainMail(
     armour: ChainMail,
 ) {
     editColorSchemeItemPart(state, armour.chain, combine(param, MAIN), "Chain")
+}
+
+private fun DETAILS.editCuirass(
+    state: State,
+    param: String,
+    armour: Cuirass,
+) {
+    editColorSchemeItemPart(state, armour.main, combine(param, MAIN), "Main")
 }
 
 private fun DETAILS.editLamellarArmour(
@@ -180,7 +206,9 @@ fun parseArmourStyle(parameters: Parameters, param: String = STYLE): ArmourStyle
             parseColorSchemeItemPart(parameters, combine(param, MAIN)),
         )
 
-        ArmourType.Cuirass -> Cuirass()
+        ArmourType.Cuirass -> Cuirass(
+            parseColorSchemeItemPart(parameters, combine(param, MAIN)),
+        )
 
         ArmourType.Lamellar -> LamellarArmour(
             parseColorSchemeItemPart(parameters, combine(param, MAIN)),

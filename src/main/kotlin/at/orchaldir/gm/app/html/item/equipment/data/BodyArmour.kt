@@ -5,9 +5,12 @@ import at.orchaldir.gm.app.STYLE
 import at.orchaldir.gm.app.html.combine
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.item.equipment.style.editArmourStyle
+import at.orchaldir.gm.app.html.item.equipment.style.editLegArmourStyle
 import at.orchaldir.gm.app.html.item.equipment.style.parseArmourStyle
+import at.orchaldir.gm.app.html.item.equipment.style.parseLegArmourStyle
 import at.orchaldir.gm.app.html.item.equipment.style.selectSleeveStyle
 import at.orchaldir.gm.app.html.item.equipment.style.showArmourStyle
+import at.orchaldir.gm.app.html.item.equipment.style.showLegArmourStyle
 import at.orchaldir.gm.app.html.parse
 import at.orchaldir.gm.app.html.rpg.combat.parseArmorStats
 import at.orchaldir.gm.core.model.State
@@ -25,7 +28,7 @@ fun HtmlBlockTag.showBodyArmour(
     state: State,
     armour: BodyArmour,
 ) {
-    //field("Length", armour.length) TODO
+    showLegArmourStyle(call, state, armour.legStyle)
     field("Sleeve Style", armour.sleeveStyle)
     showArmourStyle(call, state, armour.style)
 }
@@ -36,7 +39,7 @@ fun HtmlBlockTag.editBodyArmour(
     state: State,
     armour: BodyArmour,
 ) {
-    //selectValue("Length", LENGTH, OuterwearLength.entries, armour.length)
+    editLegArmourStyle(state, armour.legStyle)
     selectSleeveStyle(SleeveStyle.entries, armour.sleeveStyle)
     editArmourStyle(state, armour.style)
 }
@@ -45,7 +48,7 @@ fun HtmlBlockTag.editBodyArmour(
 
 fun parseBodyArmour(parameters: Parameters) = BodyArmour(
     parseArmourStyle(parameters),
-    SameLegArmour(),
+    parseLegArmourStyle(parameters),
     parse(parameters, combine(SLEEVE, STYLE), SleeveStyle.Long),
     parseArmorStats(parameters),
 )

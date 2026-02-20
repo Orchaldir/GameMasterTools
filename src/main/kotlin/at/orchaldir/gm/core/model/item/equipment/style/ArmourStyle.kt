@@ -27,6 +27,7 @@ val DEFAULT_SCALE_OVERLAP = HALF
 val MAX_SCALE_OVERLAP = THREE_QUARTER
 
 val LAMELLAR_SHAPES = SHAPES_WITHOUT_CROSS - ReverseTeardrop - Teardrop
+val LOWER_BODY_ARMOR_TYPES = ArmourType.entries - ArmourType.Cuirass
 
 enum class ArmourType {
     Chain,
