@@ -33,10 +33,19 @@ fun visualizeSegmentedArmourLowerBody(
     style: SegmentedArmour,
     length: OuterwearLength,
 ) {
+    val renderer = state.renderer.getLayer(JACKET_LAYER)
     val options = getClippingRenderOptionsForArmourBody(state, style.segment)
-    val builder = createOuterwearBottom(state, length)
+    val torso = state.torsoAABB()
+    val maxWidthFactor = state.config.body.getMaxWidth(state)
+    val segmentWidth = torso.convertWidth(maxWidthFactor)
+    val start = torso.getPoint(CENTER, END)
+    val bottomFactor = getOuterwearBottomY(state, length, THREE_QUARTER)
+    val bottom = state.fullAABB.getPoint(CENTER, bottomFactor)
+    val rowHeight = (bottom.y - start.y) / style.rows.toFloat()
+    val center = bottom
+        .minusHeight(rowHeight * 0.5f)
 
-    renderBuilder(state.renderer, builder, options, JACKET_LAYER)
+    renderSegments(style, renderer, options, center, rowHeight, segmentWidth, style.rows)
 }
 
 private fun visualizeSegmentedArmourBody(
@@ -53,19 +62,32 @@ private fun visualizeSegmentedArmourBody(
     val bottomFactor = getOuterwearBottomY(state, armour.legStyle.upperBodyLength(), THREE_QUARTER)
     val bottom = state.fullAABB.getPoint(CENTER, bottomFactor)
     val rowHeight = (bottom - start).y / style.rows.toFloat()
-    var center = torso.getPoint(CENTER, START)
+    val center = torso.getPoint(CENTER, START)
         .addHeight(rowHeight * (0.5f + style.rows - 1))
 
-    repeat(style.rows - style.breastplateRows) { row ->
+    renderSegments(style, renderer, options, center, rowHeight, segmentWidth, style.rows - style.breastplateRows)
+    renderBreastPlate(style, renderer, options, torso, rowHeight, segmentWidth)
+    visualizeArmourSleeves(state, renderer, armour, style, rowHeight)
+}
+
+private fun renderSegments(
+    style: SegmentedArmour,
+    renderer: LayerRenderer,
+    options: RenderOptions,
+    start: Point2d,
+    rowHeight: Distance,
+    segmentWidth: Distance,
+    rows: Int,
+) {
+    var center = start
+
+    repeat(rows) {
         val polygon = createSegmentPolygon(center, segmentWidth, rowHeight, style.shape)
 
         renderer.renderRoundedPolygon(polygon, options)
 
         center = center.minusHeight(rowHeight)
     }
-
-    renderBreastPlate(style, renderer, options, torso, rowHeight, segmentWidth)
-    visualizeArmourSleeves(state, renderer, armour, style, rowHeight)
 }
 
 private fun renderBreastPlate(
