@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
 import at.orchaldir.gm.core.model.item.equipment.BodyArmour
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap.Companion.from
 import at.orchaldir.gm.core.model.item.equipment.style.OuterwearLength
+import at.orchaldir.gm.core.model.item.equipment.style.SameLegArmour
 import at.orchaldir.gm.core.model.item.equipment.style.ScaleArmour
 import at.orchaldir.gm.core.model.item.equipment.style.SleeveStyle
 import at.orchaldir.gm.prototypes.visualization.addNames
@@ -25,7 +26,7 @@ fun main() {
     ) { distance, length, bodyShape ->
         val armour = BodyArmour(
             ScaleArmour(),
-            length,
+            SameLegArmour(length),
             SleeveStyle.Short,
         )
 

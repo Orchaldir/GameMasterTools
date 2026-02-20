@@ -95,7 +95,7 @@ fun createOuterwearBuilder(
 fun createOuterwearBottom(
     state: CharacterRenderState<Body>,
     length: OuterwearLength,
-    paddedWidth: Factor,
+    paddedWidth: Factor = FULL,
 ): Polygon2dBuilder {
     val builder = Polygon2dBuilder()
 

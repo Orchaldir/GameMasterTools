@@ -178,7 +178,7 @@ fun parsePriceLookup(
     state: State,
     parameters: Parameters,
     param: String = PRICE,
-) = when (parse(parameters, combine(param, TYPE), PriceLookupType.Calculated)) {
+) = when (parse(parameters, combine(param, TYPE), PriceLookupType.UserDefined)) {
     PriceLookupType.Calculated -> CalculatedPrice
     PriceLookupType.UserDefined -> UserDefinedPrice(
         parsePrice(state, parameters, param),

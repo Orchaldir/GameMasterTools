@@ -2,11 +2,11 @@ package at.orchaldir.gm.visualization.character.equipment.part
 
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.BodyArmour
+import at.orchaldir.gm.core.model.item.equipment.style.OuterwearLength
 import at.orchaldir.gm.core.model.item.equipment.style.ScaleArmour
 import at.orchaldir.gm.core.model.item.equipment.style.SleeveStyle
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.LayerRenderer
-import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.JACKET_LAYER
 import at.orchaldir.gm.visualization.character.equipment.getOuterwearBottomY
@@ -20,27 +20,25 @@ fun visualizeScaleArmour(
 ) {
     val renderer = state.renderer.getLayer(JACKET_LAYER)
 
-    visualizeScaleArmourBody(state, renderer, armour, style)
+    visualizeScaleArmourBody(state, renderer, style, armour.legStyle.upperBodyLength(), START)
     visualizeScaleArmourSleeves(state, renderer, armour, style)
 }
 
 private fun visualizeScaleArmourBody(
     state: CharacterRenderState<Body>,
     renderer: LayerRenderer,
-    armour: BodyArmour,
     style: ScaleArmour,
+    length: OuterwearLength,
+    startY: Factor,
 ) {
-    val clipping = createClippingPolygonForArmourBody(state)
-    val clippingName = state.renderer.createClipping(clipping)
-    val color = style.scale.getColor(state.state, state.colors)
-    val options = FillAndBorder(color.toRender(), state.config.line, clippingName)
+    val options = getClippingRenderOptionsForArmourBody(state, style.scale)
     val torso = state.torsoAABB()
     val maxWidthFactor = state.config.body.getMaxWidth(state)
     val maxWidth = torso.convertWidth(maxWidthFactor)
     val scaleWidth = calculateArmourScaleWidth(state, style.columns)
     val scaleSize = style.shape.calculateSizeFromWidth(scaleWidth)
-    val top = torso.getPoint(CENTER, START)
-    val bottomFactor = getOuterwearBottomY(state, armour.length, THREE_QUARTER)
+    val top = torso.getPoint(CENTER, startY)
+    val bottomFactor = getOuterwearBottomY(state, length)
     val bottom = state.fullAABB.getPoint(CENTER, bottomFactor)
 
     visualizeRows(
@@ -84,10 +82,7 @@ private fun visualizeScaleArmourSleeve(
     style: ScaleArmour,
     scaleSize: Size2d,
 ) {
-    val clipping = Polygon2d(clip)
-    val clippingName = state.renderer.createClipping(clipping)
-    val color = style.scale.getColor(state.state, state.colors)
-    val options = FillAndBorder(color.toRender(), state.config.line, clippingName)
+    val options = getClippingRenderOptions(state, clip, style.scale)
     val top = aabb.getPoint(CENTER, START)
     val bottom = aabb.getPoint(CENTER, FULL)
 
@@ -103,4 +98,14 @@ private fun visualizeScaleArmourSleeve(
             visualizeComplexShape(renderer, scaleAabb, style.shape, options)
         }
     )
+}
+
+fun visualizeScaleArmourLowerBody(
+    state: CharacterRenderState<Body>,
+    style: ScaleArmour,
+    length: OuterwearLength,
+) {
+    val renderer = state.renderer.getLayer(JACKET_LAYER)
+
+    visualizeScaleArmourBody(state, renderer, style, length, state.config.body.hipY)
 }

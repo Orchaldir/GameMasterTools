@@ -198,7 +198,9 @@ private fun calculateVolumePerMaterialForBody(
         }
 
         is BodyArmour -> {
-            val volume = config.equipment.armor.getVolume(config, data.style, data.length, data.sleeveStyle)
+            // TODO
+            val volume =
+                config.equipment.armor.getVolume(config, data.style, data.legStyle.upperBodyLength(), data.sleeveStyle)
 
             vpm.add(data.style.mainMaterial(), volume)
         }

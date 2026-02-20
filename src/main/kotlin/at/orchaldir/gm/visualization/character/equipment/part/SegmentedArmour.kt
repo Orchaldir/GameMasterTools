@@ -2,13 +2,14 @@ package at.orchaldir.gm.visualization.character.equipment.part
 
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.BodyArmour
+import at.orchaldir.gm.core.model.item.equipment.style.OuterwearLength
 import at.orchaldir.gm.core.model.item.equipment.style.SegmentedArmour
 import at.orchaldir.gm.core.model.item.equipment.style.SegmentedPlateShape
 import at.orchaldir.gm.core.model.item.equipment.style.SleeveStyle
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.LayerRenderer
-import at.orchaldir.gm.utils.renderer.model.FillAndBorder
+import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.JACKET_LAYER
 import at.orchaldir.gm.visualization.character.equipment.getOuterwearBottomY
@@ -23,42 +24,72 @@ fun visualizeSegmentedArmour(
     visualizeSegmentedArmourBody(state, renderer, armour, style)
 }
 
+fun visualizeSegmentedArmourLowerBody(
+    state: CharacterRenderState<Body>,
+    style: SegmentedArmour,
+    length: OuterwearLength,
+) {
+    val renderer = state.renderer.getLayer(JACKET_LAYER)
+    val options = getClippingRenderOptionsForArmourBody(state, style.segment)
+    val torso = state.torsoAABB()
+    val maxWidthFactor = state.config.body.getMaxWidth(state)
+    val segmentWidth = torso.convertWidth(maxWidthFactor)
+    val start = torso.getPoint(CENTER, END)
+    val bottomFactor = getOuterwearBottomY(state, length)
+    val bottom = state.fullAABB.getPoint(CENTER, bottomFactor)
+    val rowHeight = (bottom.y - start.y) / style.rows.toFloat()
+    val center = bottom
+        .minusHeight(rowHeight * 0.5f)
+
+    renderSegments(style, renderer, options, center, rowHeight, segmentWidth, style.rows)
+}
+
 private fun visualizeSegmentedArmourBody(
     state: CharacterRenderState<Body>,
     renderer: LayerRenderer,
     armour: BodyArmour,
     style: SegmentedArmour,
 ) {
-    val clipping = createClippingPolygonForArmourBody(state)
-    val clippingName = state.renderer.createClipping(clipping)
-    val color = style.segment.getColor(state.state, state.colors)
-    val options = FillAndBorder(color.toRender(), state.config.line, clippingName)
+    val options = getClippingRenderOptionsForArmourBody(state, style.segment)
     val torso = state.torsoAABB()
     val maxWidthFactor = state.config.body.getMaxWidth(state)
     val segmentWidth = torso.convertWidth(maxWidthFactor)
     val start = torso.getPoint(CENTER, START)
-    val bottomFactor = getOuterwearBottomY(state, armour.length, THREE_QUARTER)
+    val bottomFactor = getOuterwearBottomY(state, armour.legStyle.upperBodyLength())
     val bottom = state.fullAABB.getPoint(CENTER, bottomFactor)
     val rowHeight = (bottom - start).y / style.rows.toFloat()
-    var center = torso.getPoint(CENTER, START)
+    val center = torso.getPoint(CENTER, START)
         .addHeight(rowHeight * (0.5f + style.rows - 1))
 
-    repeat(style.rows - style.breastplateRows) { row ->
+    renderSegments(style, renderer, options, center, rowHeight, segmentWidth, style.rows - style.breastplateRows)
+    renderBreastPlate(style, renderer, options, torso, rowHeight, segmentWidth)
+    visualizeArmourSleeves(state, renderer, armour, style, rowHeight)
+}
+
+private fun renderSegments(
+    style: SegmentedArmour,
+    renderer: LayerRenderer,
+    options: RenderOptions,
+    start: Point2d,
+    rowHeight: Distance,
+    segmentWidth: Distance,
+    rows: Int,
+) {
+    var center = start
+
+    repeat(rows) {
         val polygon = createSegmentPolygon(center, segmentWidth, rowHeight, style.shape)
 
         renderer.renderRoundedPolygon(polygon, options)
 
         center = center.minusHeight(rowHeight)
     }
-
-    renderBreastPlate(style, renderer, options, torso, rowHeight, segmentWidth)
-    visualizeArmourSleeves(state, renderer, armour, style, rowHeight)
 }
 
 private fun renderBreastPlate(
     style: SegmentedArmour,
     renderer: LayerRenderer,
-    options: FillAndBorder,
+    options: RenderOptions,
     torso: AABB,
     rowHeight: Distance,
     segmentWidth: Distance,

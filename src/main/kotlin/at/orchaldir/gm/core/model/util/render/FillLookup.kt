@@ -118,7 +118,7 @@ data class HorizontalStripesLookup(
 data class TilesLookup(
     val fill: ColorLookup,
     val background: ColorLookup,
-    val width: Float,
+    val width: Distance,
     val borderPercentage: Factor,
 ) : FillLookup()
 

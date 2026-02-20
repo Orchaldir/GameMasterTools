@@ -105,7 +105,7 @@ private fun HtmlBlockTag.selectFillData(
                 "Tile Color",
                 "Background Color",
             )
-            selectFloat("Tile in Meter", fill.width, 0.001f, 100f, 0.01f, combine(param, PATTERN, TILE))
+            selectWidth(combine(param, PATTERN, TILE), fill.width)
             selectPercentage(
                 "Border in Percentage",
                 combine(param, PATTERN, BORDER),
@@ -188,19 +188,19 @@ private fun parseFillLookupOfType(
     FillLookupType.VerticalStripes -> VerticalStripesLookup(
         parseColorLookup(parameters, combine(param, COLOR, 0), Color.Black),
         parseColorLookup(parameters, combine(param, COLOR, 1), Color.White),
-        parseStripeWidth(parameters, param),
+        parseWidth(parameters, param),
     )
 
     FillLookupType.HorizontalStripes -> HorizontalStripesLookup(
         parseColorLookup(parameters, combine(param, COLOR, 0), Color.Black),
         parseColorLookup(parameters, combine(param, COLOR, 1), Color.White),
-        parseStripeWidth(parameters, param),
+        parseWidth(parameters, param),
     )
 
     FillLookupType.Tiles -> TilesLookup(
         parseColorLookup(parameters, combine(param, COLOR, 0), Color.Black),
         parseColorLookup(parameters, combine(param, COLOR, 1), Color.White),
-        parseFloat(parameters, combine(param, PATTERN, TILE), 1.0f),
+        parseWidth(parameters, param),
         parseFactor(parameters, combine(param, PATTERN, BORDER), fromPercentage(10))
     )
 }

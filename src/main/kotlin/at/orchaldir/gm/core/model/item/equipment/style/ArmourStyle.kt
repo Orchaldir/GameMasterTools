@@ -27,9 +27,11 @@ val DEFAULT_SCALE_OVERLAP = HALF
 val MAX_SCALE_OVERLAP = THREE_QUARTER
 
 val LAMELLAR_SHAPES = SHAPES_WITHOUT_CROSS - ReverseTeardrop - Teardrop
+val LOWER_BODY_ARMOR_TYPES = ArmourType.entries - ArmourType.Cuirass
 
 enum class ArmourType {
     Chain,
+    Cuirass,
     Lamellar,
     Scale,
     Segmented,
@@ -40,6 +42,7 @@ sealed class ArmourStyle : MadeFromParts {
 
     fun getType() = when (this) {
         is ChainMail -> ArmourType.Chain
+        is Cuirass -> ArmourType.Cuirass
         is LamellarArmour -> ArmourType.Lamellar
         is ScaleArmour -> ArmourType.Scale
         is SegmentedArmour -> ArmourType.Segmented
@@ -47,6 +50,7 @@ sealed class ArmourStyle : MadeFromParts {
 
     override fun parts() = when (this) {
         is ChainMail -> listOf(chain)
+        is Cuirass -> listOf(main)
         is LamellarArmour -> lacing.parts() + scale
         is ScaleArmour -> listOf(scale)
         is SegmentedArmour -> listOf(segment)
@@ -54,6 +58,7 @@ sealed class ArmourStyle : MadeFromParts {
 
     override fun mainMaterial() = when (this) {
         is ChainMail -> chain.material
+        is Cuirass -> main.material
         is LamellarArmour -> scale.material
         is ScaleArmour -> scale.material
         is SegmentedArmour -> segment.material
@@ -64,6 +69,12 @@ sealed class ArmourStyle : MadeFromParts {
 @SerialName("Chain")
 data class ChainMail(
     val chain: ColorSchemeItemPart = ColorSchemeItemPart(Color.Silver),
+) : ArmourStyle()
+
+@Serializable
+@SerialName("Cuirass")
+data class Cuirass(
+    val main: ColorSchemeItemPart = ColorSchemeItemPart(Color.Silver),
 ) : ArmourStyle()
 
 @Serializable
