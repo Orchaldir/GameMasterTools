@@ -5,11 +5,10 @@ import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.character.appearance.BodyShape
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
-import at.orchaldir.gm.core.model.item.equipment.Belt
 import at.orchaldir.gm.core.model.item.equipment.BodyArmour
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap.Companion.from
 import at.orchaldir.gm.core.model.item.equipment.style.ChainMail
-import at.orchaldir.gm.core.model.item.equipment.style.ContinueLegArmour
+import at.orchaldir.gm.core.model.item.equipment.style.SameLegArmour
 import at.orchaldir.gm.core.model.item.equipment.style.DifferentLegArmour
 import at.orchaldir.gm.core.model.item.equipment.style.LamellarArmour
 import at.orchaldir.gm.core.model.item.equipment.style.LegArmourStyle
@@ -27,7 +26,7 @@ fun main() {
     val legStyles = mutableListOf<Pair<String, LegArmourStyle>>()
 
     OuterwearLength.entries.forEach {
-        legStyles.add(Pair(it.name, ContinueLegArmour(it)))
+        legStyles.add(Pair(it.name, SameLegArmour(it)))
     }
 
     lengths.forEach {

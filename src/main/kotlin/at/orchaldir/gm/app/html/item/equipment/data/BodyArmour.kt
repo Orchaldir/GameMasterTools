@@ -1,6 +1,5 @@
 package at.orchaldir.gm.app.html.item.equipment.data
 
-import at.orchaldir.gm.app.LENGTH
 import at.orchaldir.gm.app.SLEEVE
 import at.orchaldir.gm.app.STYLE
 import at.orchaldir.gm.app.html.combine
@@ -11,11 +10,9 @@ import at.orchaldir.gm.app.html.item.equipment.style.selectSleeveStyle
 import at.orchaldir.gm.app.html.item.equipment.style.showArmourStyle
 import at.orchaldir.gm.app.html.parse
 import at.orchaldir.gm.app.html.rpg.combat.parseArmorStats
-import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.BodyArmour
-import at.orchaldir.gm.core.model.item.equipment.style.ContinueLegArmour
-import at.orchaldir.gm.core.model.item.equipment.style.OuterwearLength
+import at.orchaldir.gm.core.model.item.equipment.style.SameLegArmour
 import at.orchaldir.gm.core.model.item.equipment.style.SleeveStyle
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -48,7 +45,7 @@ fun HtmlBlockTag.editBodyArmour(
 
 fun parseBodyArmour(parameters: Parameters) = BodyArmour(
     parseArmourStyle(parameters),
-    ContinueLegArmour(),
+    SameLegArmour(),
     parse(parameters, combine(SLEEVE, STYLE), SleeveStyle.Long),
     parseArmorStats(parameters),
 )

@@ -238,7 +238,7 @@ data class Belt(
 @SerialName("Armour")
 data class BodyArmour(
     val style: ArmourStyle,
-    val legStyle: LegArmourStyle = ContinueLegArmour(),
+    val legStyle: LegArmourStyle = SameLegArmour(),
     val sleeveStyle: SleeveStyle = SleeveStyle.Short,
     val stats: ArmorStats = ArmorStats(),
 ) : EquipmentData() {

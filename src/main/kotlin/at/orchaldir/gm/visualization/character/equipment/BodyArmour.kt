@@ -64,7 +64,7 @@ private fun visualizeLowerBodyArmour(
     state: CharacterRenderState<Body>,
     armour: BodyArmour,
 ) = when (armour.legStyle) {
-    is ContinueLegArmour -> doNothing()
+    is SameLegArmour -> doNothing()
     is DifferentLegArmour -> visualizeLowerBodyArmour(state, armour.legStyle.style, armour.legStyle.length)
 }
 
@@ -74,7 +74,7 @@ private fun visualizeLowerBodyArmour(
     length: OuterwearLength,
 ) = when (style) {
     is ChainMail -> visualizeChainMailLowerBody(state, style, length)
-    is Cuirass -> doNothing()
+    is Cuirass -> error("Cuirass is not supported for lower body armour!")
     is LamellarArmour -> visualizeLamellarArmourLowerBody(state, style, length)
     is ScaleArmour -> visualizeScaleArmourLowerBody(state, style, length)
     is SegmentedArmour -> visualizeSegmentedArmourLowerBody(state, style, length)
