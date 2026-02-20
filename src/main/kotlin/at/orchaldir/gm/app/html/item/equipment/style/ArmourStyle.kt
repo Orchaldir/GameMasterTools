@@ -105,7 +105,7 @@ fun HtmlBlockTag.editArmourStyle(
 
         when (armour) {
             is ChainMail -> editChainMail(state, param, armour)
-            is Cuirass -> doNothing()
+            is Cuirass -> editCuirass(state, param, armour)
             is LamellarArmour -> editLamellarArmour(state, param, armour)
             is ScaleArmour -> editScaleArmour(state, param, armour)
             is SegmentedArmour -> editSegmentedArmour(state, param, armour)

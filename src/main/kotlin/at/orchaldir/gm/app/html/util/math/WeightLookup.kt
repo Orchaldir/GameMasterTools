@@ -101,7 +101,7 @@ fun parseWeightLookup(
     parameters: Parameters,
     minWeight: Long,
     param: String = WEIGHT,
-) = when (parse(parameters, combine(param, TYPE), WeightLookupType.Calculated)) {
+) = when (parse(parameters, combine(param, TYPE), WeightLookupType.UserDefined)) {
     WeightLookupType.Calculated -> CalculatedWeight
     WeightLookupType.UserDefined -> UserDefinedWeight(
         parseWeight(parameters, param, SiPrefix.Base, minWeight),

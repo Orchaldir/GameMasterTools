@@ -43,8 +43,7 @@ fun HtmlBlockTag.showEquipment(
     val costFactors = calculateCostFactors(state, equipment.data)
     val vpm = calculateVolumePerMaterial(CalculateVolumeConfig.from(CHARACTER_CONFIG), equipment.data)
 
-    showWeightLookupDetails(call, state, equipment.weight, vpm)
-    showPriceLookupDetails(call, state, equipment.price, vpm, costFactors)
+    showEquipmentData(call, state, equipment.data)
     fieldIds(call, state, equipment.colorSchemes)
     equipment.data.getArmorStats()?.let {
         showArmorStats(call, state, it, material)
@@ -58,7 +57,8 @@ fun HtmlBlockTag.showEquipment(
     equipment.data.getShieldStats()?.let {
         showShieldStats(call, state, it, material)
     }
-    showEquipmentData(call, state, equipment.data)
+    showWeightLookupDetails(call, state, equipment.weight, vpm)
+    showPriceLookupDetails(call, state, equipment.price, vpm, costFactors)
     showUsages(call, state, equipment.id)
 }
 
@@ -134,14 +134,14 @@ fun HtmlBlockTag.editEquipment(
     equipment: Equipment,
 ) {
     selectName(equipment.name)
-    selectWeightLookup(state, equipment.weight, MIN_EQUIPMENT_WEIGHT, MAX_EQUIPMENT_WEIGHT)
-    selectPriceLookup(state, equipment.price, MIN_EQUIPMENT_PRICE, MAX_EQUIPMENT_PRICE)
+    editEquipmentData(state, equipment.data)
     selectColorSchemes(state, equipment)
     equipment.data.getArmorStats()?.let { editArmorStats(call, state, it) }
     equipment.data.getMeleeWeaponStats()?.let { editMeleeWeaponStats(call, state, it) }
     equipment.data.getRangedWeaponStats()?.let { editRangedWeaponStats(call, state, it) }
     equipment.data.getShieldStats()?.let { editShieldStats(call, state, it) }
-    editEquipmentData(state, equipment.data)
+    selectWeightLookup(state, equipment.weight, MIN_EQUIPMENT_WEIGHT, MAX_EQUIPMENT_WEIGHT)
+    selectPriceLookup(state, equipment.price, MIN_EQUIPMENT_PRICE, MAX_EQUIPMENT_PRICE)
 }
 
 private fun HtmlBlockTag.selectColorSchemes(

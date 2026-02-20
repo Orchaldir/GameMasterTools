@@ -41,7 +41,7 @@ fun HtmlBlockTag.editLegArmourStyle(
     armour: LegArmourStyle,
     param: String = LEG,
 ) {
-    showDetails("Armour Style", true) {
+    showDetails("Leg Armour Style", true) {
         selectValue(
             "Type",
             combine(param, TYPE),

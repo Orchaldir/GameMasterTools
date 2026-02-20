@@ -34,6 +34,42 @@
     "#type": "User",
     "price": 0
    }
+  },
+  "1": {
+   "id": 1,
+   "data": {
+    "#type": "Armour",
+    "style": {
+     "#type": "Cuirass",
+     "main": {
+      "material": 5
+     }
+    },
+    "legStyle": {
+     "#type": "Different",
+     "style": {
+      "#type": "Scale",
+      "scale": {
+      },
+      "shape": {
+       "#type": "Circular"
+      }
+     },
+     "length": "Ankle"
+    },
+    "sleeveStyle": "Long",
+    "stats": {
+     "type": 1
+    }
+   },
+   "weight": {
+    "#type": "User",
+    "weight": 10000
+   },
+   "price": {
+    "#type": "User",
+    "price": 100
+   }
   }
  }
 }
