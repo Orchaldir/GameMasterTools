@@ -35,8 +35,11 @@
     "current": 0
    },
    "population": {
-    "#type": "Abstract",
-    "density": "Small",
+    "#type": "Set",
+    "total": {
+     "#type": "Density",
+     "density": "Small"
+    },
     "races": [
      6,
      9
@@ -51,7 +54,10 @@
     "year": 699
    },
    "population": {
-    "#type": "Abstract",
+    "#type": "Set",
+    "total": {
+     "#type": "Density"
+    },
     "races": [
      8
     ]
@@ -73,7 +79,10 @@
     "current": 0
    },
    "population": {
-    "#type": "Abstract",
+    "#type": "Set",
+    "total": {
+     "#type": "Density"
+    },
     "races": [
      0,
      9,
@@ -117,7 +126,10 @@
     "current": 0
    },
    "population": {
-    "#type": "Abstract",
+    "#type": "Set",
+    "total": {
+     "#type": "Density"
+    },
     "races": [
      11,
      9,
@@ -142,7 +154,10 @@
     "current": 0
    },
    "population": {
-    "#type": "Abstract",
+    "#type": "Set",
+    "total": {
+     "#type": "Density"
+    },
     "races": [
      2
     ]
@@ -164,7 +179,10 @@
     "current": 0
    },
    "population": {
-    "#type": "Abstract",
+    "#type": "Set",
+    "total": {
+     "#type": "Density"
+    },
     "races": [
      10,
      9
@@ -191,7 +209,10 @@
     "current": 0
    },
    "population": {
-    "#type": "Abstract",
+    "#type": "Set",
+    "total": {
+     "#type": "Density"
+    },
     "races": [
      0,
      9

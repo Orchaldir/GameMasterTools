@@ -18,7 +18,10 @@
    },
    "population": {
     "#type": "Set",
-    "total": 2000,
+    "total": {
+     "#type": "Number",
+     "number": 2000
+    },
     "income": {
      "#type": "SoL",
      "standard": 1
@@ -45,7 +48,10 @@
    },
    "population": {
     "#type": "Set",
-    "total": 9000,
+    "total": {
+     "#type": "Number",
+     "number": 9000
+    },
     "income": {
      "#type": "SoL",
      "standard": 1
@@ -65,7 +71,10 @@
    },
    "population": {
     "#type": "Set",
-    "total": 14000,
+    "total": {
+     "#type": "Number",
+     "number": 14000
+    },
     "income": {
      "#type": "SoL",
      "standard": 2
@@ -85,7 +94,10 @@
    },
    "population": {
     "#type": "Set",
-    "total": 0
+    "total": {
+     "#type": "Number",
+     "number": 0
+    }
    }
   },
   "4": {
@@ -101,7 +113,10 @@
    },
    "population": {
     "#type": "Set",
-    "total": 3000,
+    "total": {
+     "#type": "Number",
+     "number": 3000
+    },
     "income": {
      "#type": "SoL",
      "standard": 5
@@ -121,7 +136,10 @@
    },
    "population": {
     "#type": "Set",
-    "total": 9000,
+    "total": {
+     "#type": "Number",
+     "number": 9000
+    },
     "income": {
      "#type": "SoL",
      "standard": 2
@@ -141,7 +159,10 @@
    },
    "population": {
     "#type": "Set",
-    "total": 10000,
+    "total": {
+     "#type": "Number",
+     "number": 10000
+    },
     "income": {
      "#type": "SoL",
      "standard": 3
@@ -161,7 +182,10 @@
    },
    "population": {
     "#type": "Set",
-    "total": 10000,
+    "total": {
+     "#type": "Number",
+     "number": 10000
+    },
     "income": {
      "#type": "SoL",
      "standard": 3
@@ -181,7 +205,10 @@
    },
    "population": {
     "#type": "Set",
-    "total": 8000,
+    "total": {
+     "#type": "Number",
+     "number": 8000
+    },
     "income": {
      "#type": "SoL",
      "standard": 3
@@ -201,7 +228,10 @@
    },
    "population": {
     "#type": "Set",
-    "total": 8000,
+    "total": {
+     "#type": "Number",
+     "number": 8000
+    },
     "income": {
      "#type": "SoL",
      "standard": 3
@@ -221,7 +251,10 @@
    },
    "population": {
     "#type": "Set",
-    "total": 2000,
+    "total": {
+     "#type": "Number",
+     "number": 2000
+    },
     "income": {
      "#type": "SoL",
      "standard": 0
@@ -238,7 +271,10 @@
    "type": "Neighborhood",
    "population": {
     "#type": "Set",
-    "total": 1000,
+    "total": {
+     "#type": "Number",
+     "number": 1000
+    },
     "income": {
      "#type": "SoL",
      "standard": 3
@@ -255,7 +291,10 @@
    "type": "Neighborhood",
    "population": {
     "#type": "Set",
-    "total": 1000,
+    "total": {
+     "#type": "Number",
+     "number": 1000
+    },
     "races": [
      6,
      2
@@ -321,8 +360,11 @@
    },
    "type": "Neighborhood",
    "population": {
-    "#type": "Abstract",
-    "density": "Small",
+    "#type": "Set",
+    "total": {
+     "#type": "Density",
+     "density": "Small"
+    },
     "income": {
      "#type": "SoL",
      "standard": 1
