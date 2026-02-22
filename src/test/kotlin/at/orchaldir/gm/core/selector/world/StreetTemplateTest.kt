@@ -1,14 +1,14 @@
 package at.orchaldir.gm.core.selector.world
 
+import at.orchaldir.gm.SETTLEMENT_MAP_ID_0
 import at.orchaldir.gm.STREET_ID_0
 import at.orchaldir.gm.STREET_TEMPLATE_ID_0
-import at.orchaldir.gm.SETTLEMENT_MAP_ID_0
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.world.street.StreetTemplate
-import at.orchaldir.gm.core.model.world.settlement.StreetTile
 import at.orchaldir.gm.core.model.world.settlement.SettlementMap
 import at.orchaldir.gm.core.model.world.settlement.SettlementTile
+import at.orchaldir.gm.core.model.world.settlement.StreetTile
+import at.orchaldir.gm.core.model.world.street.StreetTemplate
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.map.TileMap2d

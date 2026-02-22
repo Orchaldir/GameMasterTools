@@ -2,11 +2,11 @@ package at.orchaldir.gm.app.routes.world.settlement
 
 import at.orchaldir.gm.app.routes.Routes
 import at.orchaldir.gm.core.model.util.SortSettlementMap
+import at.orchaldir.gm.core.model.world.settlement.SETTLEMENT_MAP_TYPE
+import at.orchaldir.gm.core.model.world.settlement.SettlementMapId
+import at.orchaldir.gm.core.model.world.settlement.TerrainType
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.street.StreetTemplateId
-import at.orchaldir.gm.core.model.world.settlement.SETTLEMENT_MAP_TYPE
-import at.orchaldir.gm.core.model.world.settlement.TerrainType
-import at.orchaldir.gm.core.model.world.settlement.SettlementMapId
 import at.orchaldir.gm.utils.map.MapSize2d
 import io.ktor.resources.*
 import io.ktor.server.application.*

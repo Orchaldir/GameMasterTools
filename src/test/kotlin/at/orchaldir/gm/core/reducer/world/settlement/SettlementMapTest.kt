@@ -4,10 +4,10 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.Settlement
+import at.orchaldir.gm.core.model.world.settlement.*
 import at.orchaldir.gm.core.model.world.street.Street
 import at.orchaldir.gm.core.model.world.street.StreetTemplate
 import at.orchaldir.gm.core.model.world.terrain.Region
-import at.orchaldir.gm.core.model.world.settlement.*
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.map.TileMap2d
@@ -125,7 +125,10 @@ class SettlementMapTest {
             val settlement = SettlementMap(SETTLEMENT_MAP_ID_0, date = DAY0)
             val action = UpdateAction(settlement)
 
-            assertEquals(settlement, REDUCER.invoke(STATE, action).first.getSettlementMapStorage().get(SETTLEMENT_MAP_ID_0))
+            assertEquals(
+                settlement,
+                REDUCER.invoke(STATE, action).first.getSettlementMapStorage().get(SETTLEMENT_MAP_ID_0)
+            )
         }
     }
 

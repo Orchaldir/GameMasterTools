@@ -89,11 +89,11 @@ import at.orchaldir.gm.core.model.world.moon.MoonId
 import at.orchaldir.gm.core.model.world.plane.PLANE_TYPE
 import at.orchaldir.gm.core.model.world.plane.Plane
 import at.orchaldir.gm.core.model.world.plane.PlaneId
-import at.orchaldir.gm.core.model.world.street.*
-import at.orchaldir.gm.core.model.world.terrain.*
 import at.orchaldir.gm.core.model.world.settlement.SETTLEMENT_MAP_TYPE
 import at.orchaldir.gm.core.model.world.settlement.SettlementMap
 import at.orchaldir.gm.core.model.world.settlement.SettlementMapId
+import at.orchaldir.gm.core.model.world.street.*
+import at.orchaldir.gm.core.model.world.terrain.*
 import at.orchaldir.gm.core.reducer.util.color.validateColorSchemes
 import at.orchaldir.gm.core.reducer.validateData
 import at.orchaldir.gm.core.save

@@ -8,10 +8,10 @@ import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.InRegion
 import at.orchaldir.gm.core.model.util.Position
-import at.orchaldir.gm.core.model.world.terrain.Region
 import at.orchaldir.gm.core.model.world.settlement.MountainTerrain
 import at.orchaldir.gm.core.model.world.settlement.SettlementMap
 import at.orchaldir.gm.core.model.world.settlement.SettlementTile
+import at.orchaldir.gm.core.model.world.terrain.Region
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.map.TileMap2d

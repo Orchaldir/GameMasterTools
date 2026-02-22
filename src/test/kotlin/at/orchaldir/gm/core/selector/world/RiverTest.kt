@@ -4,10 +4,10 @@ import at.orchaldir.gm.RIVER_ID_0
 import at.orchaldir.gm.SETTLEMENT_MAP_ID_0
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.world.terrain.River
 import at.orchaldir.gm.core.model.world.settlement.RiverTerrain
 import at.orchaldir.gm.core.model.world.settlement.SettlementMap
 import at.orchaldir.gm.core.model.world.settlement.SettlementTile
+import at.orchaldir.gm.core.model.world.terrain.River
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.map.TileMap2d
@@ -25,7 +25,12 @@ class RiverTest {
             val state = State(
                 listOf(
                     Storage(River(RIVER_ID_0)),
-                    Storage(SettlementMap(SETTLEMENT_MAP_ID_0, map = TileMap2d(SettlementTile(RiverTerrain(RIVER_ID_0)))))
+                    Storage(
+                        SettlementMap(
+                            SETTLEMENT_MAP_ID_0,
+                            map = TileMap2d(SettlementTile(RiverTerrain(RIVER_ID_0)))
+                        )
+                    )
                 )
             )
 

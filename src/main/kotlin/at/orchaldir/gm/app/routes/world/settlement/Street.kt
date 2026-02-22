@@ -9,9 +9,9 @@ import at.orchaldir.gm.core.action.AddStreetTile
 import at.orchaldir.gm.core.action.RemoveStreetTile
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.render.Color
+import at.orchaldir.gm.core.model.world.settlement.SettlementMap
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.street.StreetTemplateId
-import at.orchaldir.gm.core.model.world.settlement.SettlementMap
 import at.orchaldir.gm.core.selector.util.getBuildingsIn
 import at.orchaldir.gm.visualization.settlement.visualizeSettlementMap
 import io.ktor.http.*
@@ -122,7 +122,14 @@ fun visualizeStreetEditor(
     settlementMap, state.getBuildingsIn(settlementMap.id),
     tileLinkLookup = { index, tile ->
         if (tile.canBuild()) {
-            call.application.href(SettlementMapRoutes.StreetRoutes.Add(settlementMap.id, index, selectedType, selectedStreet))
+            call.application.href(
+                SettlementMapRoutes.StreetRoutes.Add(
+                    settlementMap.id,
+                    index,
+                    selectedType,
+                    selectedStreet
+                )
+            )
         } else {
             null
         }
@@ -137,7 +144,14 @@ fun visualizeStreetEditor(
         }
     },
     streetLinkLookup = { _, index ->
-        call.application.href(SettlementMapRoutes.StreetRoutes.Remove(settlementMap.id, index, selectedType, selectedStreet))
+        call.application.href(
+            SettlementMapRoutes.StreetRoutes.Remove(
+                settlementMap.id,
+                index,
+                selectedType,
+                selectedStreet
+            )
+        )
     },
     streetTooltipLookup = { street, _ ->
         state.getStreetStorage().getOptional(street.streetId)?.name(state)

@@ -1,8 +1,8 @@
 package at.orchaldir.gm.app.html.world
 
 import at.orchaldir.gm.app.DATE
-import at.orchaldir.gm.app.TERRAIN
 import at.orchaldir.gm.app.SETTLEMENT
+import at.orchaldir.gm.app.TERRAIN
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.realm.parseOptionalSettlementId
@@ -13,9 +13,9 @@ import at.orchaldir.gm.app.html.util.showEmployees
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.realm.SettlementId
-import at.orchaldir.gm.core.model.world.settlement.TerrainType
 import at.orchaldir.gm.core.model.world.settlement.SettlementMap
 import at.orchaldir.gm.core.model.world.settlement.SettlementMapId
+import at.orchaldir.gm.core.model.world.settlement.TerrainType
 import at.orchaldir.gm.core.selector.character.getEmployees
 import at.orchaldir.gm.core.selector.character.getResidents
 import at.orchaldir.gm.core.selector.character.getWorkingIn
@@ -97,7 +97,13 @@ fun HtmlBlockTag.editSettlementMap(
     state: State,
     settlementMap: SettlementMap,
 ) {
-    selectOptionalElement(state, "Settlement", SETTLEMENT, state.getSettlementStorage().getAll(), settlementMap.settlement)
+    selectOptionalElement(
+        state,
+        "Settlement",
+        SETTLEMENT,
+        state.getSettlementStorage().getAll(),
+        settlementMap.settlement
+    )
     selectOptionalDate(state, "Date", settlementMap.date, DATE)
 }
 

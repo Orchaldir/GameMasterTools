@@ -117,14 +117,22 @@ class EmploymentStatusTest {
         @Test
         fun `Cannot use unknown job`() {
             assertIllegalArgument("Requires unknown Job 99!") {
-                checkEmploymentStatusHistory(state, History(EmployedBySettlement(UNKNOWN_JOB_ID, SETTLEMENT_ID_0)), DAY0)
+                checkEmploymentStatusHistory(
+                    state,
+                    History(EmployedBySettlement(UNKNOWN_JOB_ID, SETTLEMENT_ID_0)),
+                    DAY0
+                )
             }
         }
 
         @Test
         fun `Cannot use unknown settlement`() {
             assertIllegalArgument("Requires unknown Settlement 99!") {
-                checkEmploymentStatusHistory(state, History(EmployedBySettlement(JOB_ID_2, UNKNOWN_SETTLEMENT_ID)), DAY0)
+                checkEmploymentStatusHistory(
+                    state,
+                    History(EmployedBySettlement(JOB_ID_2, UNKNOWN_SETTLEMENT_ID)),
+                    DAY0
+                )
             }
         }
 

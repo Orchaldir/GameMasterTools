@@ -17,9 +17,9 @@ import at.orchaldir.gm.core.model.time.date.Year
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.world.building.*
+import at.orchaldir.gm.core.model.world.settlement.*
 import at.orchaldir.gm.core.model.world.street.Street
 import at.orchaldir.gm.core.model.world.street.StreetId
-import at.orchaldir.gm.core.model.world.settlement.*
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.map.MapSize2d
@@ -188,7 +188,10 @@ class BuildingTest {
             val settlement =
                 SettlementMap(
                     SETTLEMENT_MAP_ID_0,
-                    map = TileMap2d(BIG_SQUARE, listOf(BUILDING_TILE_0, BUILDING_TILE_0, SettlementTile(), SettlementTile()))
+                    map = TileMap2d(
+                        BIG_SQUARE,
+                        listOf(BUILDING_TILE_0, BUILDING_TILE_0, SettlementTile(), SettlementTile())
+                    )
                 )
             val state = State(listOf(Storage(building), Storage(settlement)))
 
@@ -203,7 +206,10 @@ class BuildingTest {
             val settlement =
                 SettlementMap(
                     SETTLEMENT_MAP_ID_0,
-                    map = TileMap2d(BIG_SQUARE, listOf(BUILDING_TILE_0, SettlementTile(), SettlementTile(), BUILDING_TILE_0))
+                    map = TileMap2d(
+                        BIG_SQUARE,
+                        listOf(BUILDING_TILE_0, SettlementTile(), SettlementTile(), BUILDING_TILE_0)
+                    )
                 )
             val state = State(listOf(Storage(building), Storage(settlement)))
 
@@ -221,9 +227,12 @@ class BuildingTest {
         private val STREET_NOT_IN_SETTLEMENT = StreetId(199)
         private val STYLE = ArchitecturalStyleId(0)
         private val mapSize = MapSize2d(2, 2)
-        private val emptyMap = TileMap2d(mapSize, listOf(STREET_TILE_0, STREET_TILE_1, SettlementTile(), SettlementTile()))
-        private val firstMap = TileMap2d(mapSize, listOf(STREET_TILE_0, STREET_TILE_1, BUILDING_TILE_0, SettlementTile()))
-        private val secondMap = TileMap2d(mapSize, listOf(STREET_TILE_0, STREET_TILE_1, SettlementTile(), BUILDING_TILE_0))
+        private val emptyMap =
+            TileMap2d(mapSize, listOf(STREET_TILE_0, STREET_TILE_1, SettlementTile(), SettlementTile()))
+        private val firstMap =
+            TileMap2d(mapSize, listOf(STREET_TILE_0, STREET_TILE_1, BUILDING_TILE_0, SettlementTile()))
+        private val secondMap =
+            TileMap2d(mapSize, listOf(STREET_TILE_0, STREET_TILE_1, SettlementTile(), BUILDING_TILE_0))
         private val emptySettlementMap = SettlementMap(SETTLEMENT_MAP_ID_0, map = emptyMap)
         private val firstSettlementMap = SettlementMap(SETTLEMENT_MAP_ID_0, map = firstMap)
         private val secondSettlementMap = SettlementMap(SETTLEMENT_MAP_ID_0, map = secondMap)
@@ -575,7 +584,10 @@ class BuildingTest {
                 Storage(
                     SettlementMap(
                         SETTLEMENT_MAP_ID_0,
-                        map = TileMap2d(square(2), listOf(BUILDING_TILE_0, SettlementTile(), SettlementTile(), BUILDING_TILE_1))
+                        map = TileMap2d(
+                            square(2),
+                            listOf(BUILDING_TILE_0, SettlementTile(), SettlementTile(), BUILDING_TILE_1)
+                        )
                     )
                 ),
             )

@@ -109,4 +109,5 @@ fun History<EmploymentStatus>.isOrWasEmployedAt(realm: RealmId) = current.isEmpl
 fun History<EmploymentStatus>.wasEmployedAt(settlement: SettlementId) = previousEntries
     .any { it.entry.isEmployedAt(settlement) }
 
-fun History<EmploymentStatus>.isOrWasEmployedAt(settlement: SettlementId) = current.isEmployedAt(settlement) || wasEmployedAt(settlement)
+fun History<EmploymentStatus>.isOrWasEmployedAt(settlement: SettlementId) =
+    current.isEmployedAt(settlement) || wasEmployedAt(settlement)

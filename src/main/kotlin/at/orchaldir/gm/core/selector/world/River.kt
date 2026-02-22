@@ -2,8 +2,8 @@ package at.orchaldir.gm.core.selector.world
 
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.world.terrain.RiverId
 import at.orchaldir.gm.core.model.world.settlement.SettlementMapId
+import at.orchaldir.gm.core.model.world.terrain.RiverId
 
 fun State.canDeleteRiver(river: RiverId) = DeleteResult(river)
     .addElements(getSettlementMaps(river))

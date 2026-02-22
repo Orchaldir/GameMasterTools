@@ -1,8 +1,8 @@
 package at.orchaldir.gm.core.selector.world
 
 import at.orchaldir.gm.core.model.world.building.Building
-import at.orchaldir.gm.core.model.world.building.StreetAddress
 import at.orchaldir.gm.core.model.world.building.SettlementAddress
+import at.orchaldir.gm.core.model.world.building.StreetAddress
 import at.orchaldir.gm.core.model.world.street.StreetId
 
 fun getHouseNumbersUsedByOthers(buildings: Collection<Building>, address: StreetAddress) =

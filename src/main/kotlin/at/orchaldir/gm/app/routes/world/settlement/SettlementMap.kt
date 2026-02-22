@@ -50,7 +50,11 @@ fun Application.configureSettlementMapRouting() {
             )
         }
         get<SettlementMapRoutes.Details> { details ->
-            handleShowElementSplit(details.id, SettlementMapRoutes(), HtmlBlockTag::showSettlementDetails) { _, state, settlementMap ->
+            handleShowElementSplit(
+                details.id,
+                SettlementMapRoutes(),
+                HtmlBlockTag::showSettlementDetails
+            ) { _, state, settlementMap ->
                 svg(visualizeSettlementMapWithLinks(call, state, settlementMap), 90)
             }
         }
@@ -72,7 +76,13 @@ fun Application.configureSettlementMapRouting() {
             handlePreviewElementSplit(
                 preview.id,
                 SettlementMapRoutes(),
-                { state, parameters, id -> parseSettlementMap(state, parameters, state.getSettlementMapStorage().getOrThrow(id)) },
+                { state, parameters, id ->
+                    parseSettlementMap(
+                        state,
+                        parameters,
+                        state.getSettlementMapStorage().getOrThrow(id)
+                    )
+                },
                 HtmlBlockTag::editSettlementMap,
                 HtmlBlockTag::showSettlementMapEditorRight,
             )

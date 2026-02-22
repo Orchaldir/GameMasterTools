@@ -4,8 +4,8 @@ import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.InSettlementMap
 import at.orchaldir.gm.core.model.util.Position
-import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.settlement.SettlementMapId
+import at.orchaldir.gm.core.model.world.street.StreetId
 
 fun State.canDeleteStreet(street: StreetId) = DeleteResult(street)
     .addElements(getBuildingsForStreet(street))

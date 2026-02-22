@@ -6,9 +6,9 @@ import at.orchaldir.gm.core.action.SetTerrainTile
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.InSettlementMap
 import at.orchaldir.gm.core.model.world.building.Building
+import at.orchaldir.gm.core.model.world.settlement.*
 import at.orchaldir.gm.core.model.world.terrain.Region
 import at.orchaldir.gm.core.model.world.terrain.River
-import at.orchaldir.gm.core.model.world.settlement.*
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
@@ -97,7 +97,10 @@ class TerrainTest {
             val state = State(listOf(Storage(element), Storage(oldSettlement)))
             val action = SetTerrainTile(SETTLEMENT_MAP_ID_0, type, 0, 1)
 
-            assertEquals(newSettlement, REDUCER.invoke(state, action).first.getSettlementMapStorage().get(SETTLEMENT_MAP_ID_0))
+            assertEquals(
+                newSettlement,
+                REDUCER.invoke(state, action).first.getSettlementMapStorage().get(SETTLEMENT_MAP_ID_0)
+            )
         }
 
         private fun <ID : Id<ID>, ELEMENT : Element<ID>> testOutside(
@@ -292,7 +295,10 @@ class TerrainTest {
             val oldSettlement = SettlementMap(SETTLEMENT_MAP_ID_0, map = oldMap)
             val state = State(listOf(Storage(River(RIVER_ID_0)), Storage(Region(REGION_ID_1)), Storage(oldSettlement)))
 
-            assertEquals(newMap, REDUCER.invoke(state, action).first.getSettlementMapStorage().getOrThrow(SETTLEMENT_MAP_ID_0).map)
+            assertEquals(
+                newMap,
+                REDUCER.invoke(state, action).first.getSettlementMapStorage().getOrThrow(SETTLEMENT_MAP_ID_0).map
+            )
         }
 
     }

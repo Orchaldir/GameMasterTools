@@ -34,7 +34,10 @@ class SettlementMapTest {
         }
 
         private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {
-            assertEquals(DeleteResult(SETTLEMENT_MAP_ID_0).addId(blockingId), state.canDeleteSettlementMap(SETTLEMENT_MAP_ID_0))
+            assertEquals(
+                DeleteResult(SETTLEMENT_MAP_ID_0).addId(blockingId),
+                state.canDeleteSettlementMap(SETTLEMENT_MAP_ID_0)
+            )
         }
     }
 

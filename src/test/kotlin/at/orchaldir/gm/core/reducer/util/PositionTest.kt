@@ -15,8 +15,8 @@ import at.orchaldir.gm.core.model.world.building.BuildingPurpose
 import at.orchaldir.gm.core.model.world.building.SingleFamilyHouse
 import at.orchaldir.gm.core.model.world.moon.Moon
 import at.orchaldir.gm.core.model.world.plane.Plane
-import at.orchaldir.gm.core.model.world.terrain.Region
 import at.orchaldir.gm.core.model.world.settlement.SettlementMap
+import at.orchaldir.gm.core.model.world.terrain.Region
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test

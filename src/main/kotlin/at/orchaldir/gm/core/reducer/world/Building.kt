@@ -7,10 +7,10 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.InSettlementMap
 import at.orchaldir.gm.core.model.util.Position
 import at.orchaldir.gm.core.model.world.building.*
-import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.settlement.BuildingTile
 import at.orchaldir.gm.core.model.world.settlement.SettlementMap
 import at.orchaldir.gm.core.model.world.settlement.SettlementMapId
+import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.selector.character.getCharactersLivingIn
 import at.orchaldir.gm.core.selector.time.getCurrentDate
 import at.orchaldir.gm.core.selector.util.getBuildingsForPosition
@@ -88,7 +88,13 @@ fun updateBuilding(state: State, newBuilding: Building): Pair<State, List<Action
     } else if (newBuilding.position is InSettlementMap) {
         val newSettlementMap = state.getSettlementMapStorage().getOrThrow(newBuilding.position.map)
 
-        updatedSettlementMaps.add(newSettlementMap.updateBuilding(newBuilding.id, newBuilding.position.tileIndex, newBuilding.size))
+        updatedSettlementMaps.add(
+            newSettlementMap.updateBuilding(
+                newBuilding.id,
+                newBuilding.position.tileIndex,
+                newBuilding.size
+            )
+        )
     }
 
     return noFollowUps(

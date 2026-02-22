@@ -9,8 +9,8 @@ import at.orchaldir.gm.core.model.realm.Settlement
 import at.orchaldir.gm.core.model.world.World
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.moon.Moon
-import at.orchaldir.gm.core.model.world.terrain.Region
 import at.orchaldir.gm.core.model.world.settlement.SettlementMap
+import at.orchaldir.gm.core.model.world.terrain.Region
 import at.orchaldir.gm.core.selector.character.getCharactersLivingIn
 import at.orchaldir.gm.core.selector.character.getCharactersPreviouslyLivingIn
 import at.orchaldir.gm.core.selector.util.*
@@ -33,7 +33,8 @@ fun HtmlBlockTag.showLocalElements(
     emptySet(),
     state.getRegionsIn(settlement.id).toSet() + state.getRegionsIn(settlementMap.id).toSet(),
     state.getCharactersLivingIn(settlement.id).toSet() + state.getCharactersLivingIn(settlementMap.id).toSet(),
-    state.getCharactersPreviouslyLivingIn(settlement.id).toSet() + state.getCharactersPreviouslyLivingIn(settlementMap.id).toSet(),
+    state.getCharactersPreviouslyLivingIn(settlement.id)
+        .toSet() + state.getCharactersPreviouslyLivingIn(settlementMap.id).toSet(),
     emptySet(),
 )
 
