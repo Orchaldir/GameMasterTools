@@ -23,7 +23,7 @@ value class SettlementSizeId(val value: Int) : Id<SettlementSizeId> {
 data class SettlementSize(
     val id: SettlementSizeId,
     val name: Name = Name.init(id),
-    val maxPopulation: Int,
+    val maxPopulation: Int = 1000,
 ) : ElementWithSimpleName<SettlementSizeId> {
 
     override fun id() = id
