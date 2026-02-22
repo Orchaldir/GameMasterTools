@@ -73,7 +73,7 @@ fun <ID : Id<ID>, ELEMENT> getAbstractPopulations(
             is AbstractPopulation -> contains(population)
             is PopulationWithNumbers -> false
             is PopulationWithPercentages -> false
-            is PopulationWithSet -> contains(population)
+            is PopulationWithSets -> contains(population)
             UndefinedPopulation -> false
         }
     }

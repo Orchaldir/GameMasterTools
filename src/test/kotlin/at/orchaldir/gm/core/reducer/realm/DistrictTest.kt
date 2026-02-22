@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.EconomyWithPercentages
 import at.orchaldir.gm.core.model.realm.District
 import at.orchaldir.gm.core.model.realm.Settlement
-import at.orchaldir.gm.core.model.realm.population.PopulationWithSet
+import at.orchaldir.gm.core.model.realm.population.PopulationWithSets
 import at.orchaldir.gm.core.model.util.CharacterReference
 import at.orchaldir.gm.core.model.util.InSettlement
 import at.orchaldir.gm.core.model.util.name.Name
@@ -52,7 +52,7 @@ class DistrictTest {
 
         @Test
         fun `The population is validated`() {
-            val action = UpdateAction(District(DISTRICT_ID_0, population = PopulationWithSet(-1)))
+            val action = UpdateAction(District(DISTRICT_ID_0, population = PopulationWithSets(-1)))
 
             assertIllegalArgument("The total population must be >= 0!") { REDUCER.invoke(STATE, action) }
         }

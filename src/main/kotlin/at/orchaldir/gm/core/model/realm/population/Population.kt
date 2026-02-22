@@ -27,7 +27,7 @@ sealed class Population {
         is AbstractPopulation -> PopulationType.Abstract
         is PopulationWithNumbers -> PopulationType.Numbers
         is PopulationWithPercentages -> PopulationType.Percentages
-        is PopulationWithSet -> PopulationType.Sets
+        is PopulationWithSets -> PopulationType.Sets
         UndefinedPopulation -> PopulationType.Undefined
     }
 
@@ -35,7 +35,7 @@ sealed class Population {
         is AbstractPopulation -> income
         is PopulationWithNumbers -> income
         is PopulationWithPercentages -> income
-        is PopulationWithSet -> income
+        is PopulationWithSets -> income
         UndefinedPopulation -> null
     }
 
@@ -54,7 +54,7 @@ sealed class Population {
     fun getPopulation(standard: StandardOfLivingId): Int? = when (this) {
         is PopulationWithNumbers -> getPopulation(income, standard, calculateTotal())
         is PopulationWithPercentages -> getPopulation(income, standard, total)
-        is PopulationWithSet -> getPopulation(income, standard, total)
+        is PopulationWithSets -> getPopulation(income, standard, total)
         else -> null
     }
 
@@ -66,7 +66,7 @@ sealed class Population {
         }
 
     fun getTotalPopulation() = when (this) {
-        is PopulationWithSet -> total
+        is PopulationWithSets -> total
         is PopulationWithNumbers -> calculateTotal()
         is PopulationWithPercentages -> total
         is AbstractPopulation, UndefinedPopulation -> null
@@ -76,7 +76,7 @@ sealed class Population {
         is AbstractPopulation -> cultures.contains(culture)
         is PopulationWithNumbers -> cultures.map.containsKey(culture)
         is PopulationWithPercentages -> cultures.map.containsKey(culture)
-        is PopulationWithSet -> cultures.contains(culture)
+        is PopulationWithSets -> cultures.contains(culture)
         else -> false
     }
 
@@ -84,7 +84,7 @@ sealed class Population {
         is AbstractPopulation -> races.contains(race)
         is PopulationWithNumbers -> races.map.containsKey(race)
         is PopulationWithPercentages -> races.map.containsKey(race)
-        is PopulationWithSet -> races.contains(race)
+        is PopulationWithSets -> races.contains(race)
         else -> false
     }
 
@@ -92,7 +92,7 @@ sealed class Population {
         is AbstractPopulation -> cultures
         is PopulationWithNumbers -> cultures.map.keys
         is PopulationWithPercentages -> cultures.map.keys
-        is PopulationWithSet -> cultures
+        is PopulationWithSets -> cultures
         else -> emptySet()
     }
 
@@ -100,7 +100,7 @@ sealed class Population {
         is AbstractPopulation -> races
         is PopulationWithNumbers -> races.map.keys
         is PopulationWithPercentages -> races.map.keys
-        is PopulationWithSet -> races
+        is PopulationWithSets -> races
         else -> emptySet()
     }
 
@@ -150,7 +150,7 @@ data class PopulationWithPercentages(
 
 @Serializable
 @SerialName("Set")
-data class PopulationWithSet(
+data class PopulationWithSets(
     val total: Int,
     val races: Set<RaceId> = emptySet(),
     val cultures: Set<CultureId> = emptySet(),

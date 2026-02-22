@@ -38,7 +38,7 @@ fun validatePopulation(
         population.income.validate(state)
     }
 
-    is PopulationWithSet -> {
+    is PopulationWithSets -> {
         validateTotalPopulation(population.total)
 
         state.getCultureStorage().require(population.cultures)
