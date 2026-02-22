@@ -998,6 +998,21 @@ fun State.sortSettlementMaps(
                 .thenComparing(getStartDateComparator())
         })
 
+// settlement size
+
+fun State.sortSettlementSizes(sort: SortSettlementSize = SortSettlementSize.Name) =
+    sortSettlementSizes(getSettlementSizeStorage().getAll(), sort)
+
+fun State.sortSettlementSizes(
+    sizes: Collection<SettlementSize>,
+    sort: SortSettlementSize = SortSettlementSize.Name,
+) = sizes
+    .sortedWith(
+        when (sort) {
+            SortSettlementSize.Name -> compareBy { it.name.text }
+            SortSettlementSize.MaxPopulation -> compareByDescending { it.maxPopulation }
+        })
+
 // shield types
 
 fun State.sortShieldTypes(sort: SortShieldType = SortShieldType.Name) =

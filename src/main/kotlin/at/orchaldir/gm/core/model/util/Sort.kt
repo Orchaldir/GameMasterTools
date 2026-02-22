@@ -315,6 +315,11 @@ enum class SortSettlementMap {
     Name,
 }
 
+enum class SortSettlementSize {
+    Name,
+    MaxPopulation,
+}
+
 enum class SortShieldType {
     Name,
     Equipment,

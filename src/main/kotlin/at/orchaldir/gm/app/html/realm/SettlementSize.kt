@@ -1,5 +1,6 @@
 package at.orchaldir.gm.app.html.realm
 
+import at.orchaldir.gm.app.MAX
 import at.orchaldir.gm.app.NAME
 import at.orchaldir.gm.app.POPULATION
 import at.orchaldir.gm.app.html.*
@@ -24,19 +25,18 @@ fun HtmlBlockTag.showSettlementSize(
 // edit
 
 fun HtmlBlockTag.editSettlementSize(
+    call: ApplicationCall,
     state: State,
     size: SettlementSize,
-    param: String,
-    minMaxPopulation: Int,
 ) {
-    selectName(size.name, combine(param, NAME))
+    selectName(size.name, NAME)
     selectInt(
         "Max Population",
         size.maxPopulation,
-        minMaxPopulation,
+        0,
         10000000,
-        10,
-        combine(param, POPULATION),
+        1,
+        combine(MAX, POPULATION),
     )
 }
 
@@ -45,11 +45,11 @@ fun HtmlBlockTag.editSettlementSize(
 fun parseSettlementSizeId(parameters: Parameters, param: String) = SettlementSizeId(parseInt(parameters, param))
 
 fun parseSettlementSize(
-    id: SettlementSizeId,
+    state: State,
     parameters: Parameters,
-    param: String,
+    id: SettlementSizeId,
 ) = SettlementSize(
     id,
-    parseOptionalName(parameters, combine(param, NAME)) ?: Name.init(id),
-    parseInt(parameters, combine(param, POPULATION)),
+    parseOptionalName(parameters, NAME) ?: Name.init(id),
+    parseInt(parameters, combine(MAX, POPULATION)),
 )

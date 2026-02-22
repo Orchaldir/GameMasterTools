@@ -159,6 +159,7 @@ val ELEMENTS =
         RIVER_TYPE,
         SETTLEMENT_TYPE,
         SETTLEMENT_MAP_TYPE,
+        SETTLEMENT_SIZE_TYPE,
         SHIELD_TYPE_TYPE,
         SPELL_TYPE,
         SPELL_GROUP_TYPE,
@@ -246,6 +247,7 @@ data class State(
     fun getRiverStorage() = getStorage<RiverId, River>(RIVER_TYPE)
     fun getSettlementStorage() = getStorage<SettlementId, Settlement>(SETTLEMENT_TYPE)
     fun getSettlementMapStorage() = getStorage<SettlementMapId, SettlementMap>(SETTLEMENT_MAP_TYPE)
+    fun getSettlementSizeStorage() = getStorage<SettlementSizeId, SettlementSize>(SETTLEMENT_SIZE_TYPE)
     fun getShieldTypeStorage() = getStorage<ShieldTypeId, ShieldType>(SHIELD_TYPE_TYPE)
     fun getSpellStorage() = getStorage<SpellId, Spell>(SPELL_TYPE)
     fun getSpellGroupStorage() = getStorage<SpellGroupId, SpellGroup>(SPELL_GROUP_TYPE)
@@ -407,6 +409,8 @@ data class State(
         saveStorage(path, getRegionStorage())
         saveStorage(path, getRiverStorage())
         saveStorage(path, getSettlementStorage())
+        saveStorage(path, getSettlementMapStorage())
+        saveStorage(path, getSettlementSizeStorage())
         saveStorage(path, getShieldTypeStorage())
         saveStorage(path, getSpellStorage())
         saveStorage(path, getSpellGroupStorage())
@@ -415,7 +419,6 @@ data class State(
         saveStorage(path, getStreetTemplateStorage())
         saveStorage(path, getTextStorage())
         saveStorage(path, getTitleStorage())
-        saveStorage(path, getSettlementMapStorage())
         saveStorage(path, getTreatyStorage())
         saveStorage(path, getUniformStorage())
         saveStorage(path, getWarStorage())
@@ -477,6 +480,7 @@ fun createStorage(type: String) = when (type) {
     RIVER_TYPE -> Storage(RiverId(0))
     SETTLEMENT_TYPE -> Storage(SettlementId(0))
     SETTLEMENT_MAP_TYPE -> Storage(SettlementMapId(0))
+    SETTLEMENT_SIZE_TYPE -> Storage(SettlementSizeId(0))
     SHIELD_TYPE_TYPE -> Storage(ShieldTypeId(0))
     SPELL_TYPE -> Storage(SpellId(0))
     SPELL_GROUP_TYPE -> Storage(SpellGroupId(0))
@@ -543,6 +547,9 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     REALM_TYPE -> loadStorage<RealmId, Realm>(path, RealmId(0))
     REGION_TYPE -> loadStorage<RegionId, Region>(path, RegionId(0))
     RIVER_TYPE -> loadStorage<RiverId, River>(path, RiverId(0))
+    SETTLEMENT_TYPE -> loadStorage<SettlementId, Settlement>(path, SettlementId(0))
+    SETTLEMENT_MAP_TYPE -> loadStorage<SettlementMapId, SettlementMap>(path, SettlementMapId(0))
+    SETTLEMENT_SIZE_TYPE -> loadStorage<SettlementSizeId, SettlementSize>(path, SettlementSizeId(0))
     SHIELD_TYPE_TYPE -> loadStorage<ShieldTypeId, ShieldType>(path, ShieldTypeId(0))
     SPELL_TYPE -> loadStorage<SpellId, Spell>(path, SpellId(0))
     SPELL_GROUP_TYPE -> loadStorage<SpellGroupId, SpellGroup>(path, SpellGroupId(0))
@@ -551,8 +558,6 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     STREET_TEMPLATE_TYPE -> loadStorage<StreetTemplateId, StreetTemplate>(path, StreetTemplateId(0))
     TEXT_TYPE -> loadStorage<TextId, Text>(path, TextId(0))
     TITLE_TYPE -> loadStorage<TitleId, Title>(path, TitleId(0))
-    SETTLEMENT_TYPE -> loadStorage<SettlementId, Settlement>(path, SettlementId(0))
-    SETTLEMENT_MAP_TYPE -> loadStorage<SettlementMapId, SettlementMap>(path, SettlementMapId(0))
     TREATY_TYPE -> loadStorage<TreatyId, Treaty>(path, TreatyId(0))
     UNIFORM_TYPE -> loadStorage<UniformId, Uniform>(path, UniformId(0))
     WAR_TYPE -> loadStorage<WarId, War>(path, WarId(0))
