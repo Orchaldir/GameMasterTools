@@ -39,25 +39,6 @@
    }
   ]
  },
- "realm": {
-  "settlementSizes": [
-   {
-    "id": 0,
-    "name": "Single Dwelling",
-    "maxPopulation": 20
-   },
-   {
-    "id": 1,
-    "name": "Thorp",
-    "maxPopulation": 80
-   },
-   {
-    "id": 2,
-    "name": "Hamlet",
-    "maxPopulation": 400
-   }
-  ]
- },
  "rpg": {
   "equipment": {
    "musclePoweredStatistic": 0
