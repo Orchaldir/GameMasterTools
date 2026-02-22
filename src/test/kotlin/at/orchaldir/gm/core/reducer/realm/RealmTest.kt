@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.EconomyWithPercentages
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.RealmId
-import at.orchaldir.gm.core.model.realm.population.TotalPopulation
+import at.orchaldir.gm.core.model.realm.population.PopulationWithSet
 import at.orchaldir.gm.core.model.util.CharacterReference
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.HistoryEntry
@@ -115,7 +115,7 @@ class RealmTest {
 
         @Test
         fun `The population is validated`() {
-            val action = UpdateAction(Realm(REALM_ID_0, population = TotalPopulation(-1)))
+            val action = UpdateAction(Realm(REALM_ID_0, population = PopulationWithSet(-1)))
 
             assertIllegalArgument("The total population must be >= 0!") { REDUCER.invoke(STATE, action) }
         }

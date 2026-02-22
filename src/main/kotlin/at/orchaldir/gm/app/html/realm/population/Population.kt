@@ -38,7 +38,7 @@ fun HtmlBlockTag.showPopulation(population: Population) {
         is AbstractPopulation -> +population.density.toString()
         is PopulationWithNumbers -> +population.calculateTotal().toString()
         is PopulationWithPercentages -> +population.total.toString()
-        is TotalPopulation -> +population.total.toString()
+        is PopulationWithSet -> +population.total.toString()
         UndefinedPopulation -> doNothing()
     }
 }
@@ -108,7 +108,7 @@ fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showPopulationDetails(
                 showPercentageDistribution(call, state, "Culture", population.cultures, totalOrZero)
             }
 
-            is TotalPopulation -> {
+            is PopulationWithSet -> {
                 showIncome(call, state, population.income)
                 fieldIds(call, state, population.races)
                 fieldIds(call, state, population.cultures)
@@ -196,7 +196,7 @@ fun HtmlBlockTag.editPopulation(
                 )
             }
 
-            is TotalPopulation -> {
+            is PopulationWithSet -> {
                 selectTotalPopulation(param, population.total)
                 editIncome(state, population.income, combine(param, INCOME))
                 selectRaceSet(state, param, population.races)
@@ -292,7 +292,7 @@ fun parsePopulation(
         parseIncome(state, parameters, combine(param, INCOME)),
     )
 
-    PopulationType.Total -> TotalPopulation(
+    PopulationType.Sets -> PopulationWithSet(
         parseTotalPopulation(parameters, param),
         parseRaceSet(parameters, param),
         parseCultureSet(parameters, param),

@@ -16,7 +16,7 @@ enum class PopulationType {
     Abstract,
     Numbers,
     Percentages,
-    Total,
+    Sets,
     Undefined,
 }
 
@@ -27,7 +27,7 @@ sealed class Population {
         is AbstractPopulation -> PopulationType.Abstract
         is PopulationWithNumbers -> PopulationType.Numbers
         is PopulationWithPercentages -> PopulationType.Percentages
-        is TotalPopulation -> PopulationType.Total
+        is PopulationWithSet -> PopulationType.Sets
         UndefinedPopulation -> PopulationType.Undefined
     }
 
@@ -35,7 +35,7 @@ sealed class Population {
         is AbstractPopulation -> income
         is PopulationWithNumbers -> income
         is PopulationWithPercentages -> income
-        is TotalPopulation -> income
+        is PopulationWithSet -> income
         UndefinedPopulation -> null
     }
 
@@ -54,7 +54,7 @@ sealed class Population {
     fun getPopulation(standard: StandardOfLivingId): Int? = when (this) {
         is PopulationWithNumbers -> getPopulation(income, standard, calculateTotal())
         is PopulationWithPercentages -> getPopulation(income, standard, total)
-        is TotalPopulation -> getPopulation(income, standard, total)
+        is PopulationWithSet -> getPopulation(income, standard, total)
         else -> null
     }
 
@@ -66,7 +66,7 @@ sealed class Population {
         }
 
     fun getTotalPopulation() = when (this) {
-        is TotalPopulation -> total
+        is PopulationWithSet -> total
         is PopulationWithNumbers -> calculateTotal()
         is PopulationWithPercentages -> total
         is AbstractPopulation, UndefinedPopulation -> null
@@ -76,7 +76,7 @@ sealed class Population {
         is AbstractPopulation -> cultures.contains(culture)
         is PopulationWithNumbers -> cultures.map.containsKey(culture)
         is PopulationWithPercentages -> cultures.map.containsKey(culture)
-        is TotalPopulation -> cultures.contains(culture)
+        is PopulationWithSet -> cultures.contains(culture)
         else -> false
     }
 
@@ -84,7 +84,7 @@ sealed class Population {
         is AbstractPopulation -> races.contains(race)
         is PopulationWithNumbers -> races.map.containsKey(race)
         is PopulationWithPercentages -> races.map.containsKey(race)
-        is TotalPopulation -> races.contains(race)
+        is PopulationWithSet -> races.contains(race)
         else -> false
     }
 
@@ -92,7 +92,7 @@ sealed class Population {
         is AbstractPopulation -> cultures
         is PopulationWithNumbers -> cultures.map.keys
         is PopulationWithPercentages -> cultures.map.keys
-        is TotalPopulation -> cultures
+        is PopulationWithSet -> cultures
         else -> emptySet()
     }
 
@@ -100,7 +100,7 @@ sealed class Population {
         is AbstractPopulation -> races
         is PopulationWithNumbers -> races.map.keys
         is PopulationWithPercentages -> races.map.keys
-        is TotalPopulation -> races
+        is PopulationWithSet -> races
         else -> emptySet()
     }
 
@@ -149,8 +149,8 @@ data class PopulationWithPercentages(
 }
 
 @Serializable
-@SerialName("Total")
-data class TotalPopulation(
+@SerialName("Set")
+data class PopulationWithSet(
     val total: Int,
     val races: Set<RaceId> = emptySet(),
     val cultures: Set<CultureId> = emptySet(),

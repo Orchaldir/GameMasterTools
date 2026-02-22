@@ -17,7 +17,7 @@
     "area": 64752.0
    },
    "population": {
-    "#type": "Total",
+    "#type": "Set",
     "total": 2000,
     "income": {
      "#type": "SoL",
@@ -44,7 +44,7 @@
     "area": 1246476.0
    },
    "population": {
-    "#type": "Total",
+    "#type": "Set",
     "total": 9000,
     "income": {
      "#type": "SoL",
@@ -64,7 +64,7 @@
     "area": 1914231.0
    },
    "population": {
-    "#type": "Total",
+    "#type": "Set",
     "total": 14000,
     "income": {
      "#type": "SoL",
@@ -84,7 +84,7 @@
     "area": 263055.0
    },
    "population": {
-    "#type": "Total",
+    "#type": "Set",
     "total": 0
    }
   },
@@ -100,7 +100,7 @@
     "area": 493734.0
    },
    "population": {
-    "#type": "Total",
+    "#type": "Set",
     "total": 3000,
     "income": {
      "#type": "SoL",
@@ -120,7 +120,7 @@
     "area": 918669.0
    },
    "population": {
-    "#type": "Total",
+    "#type": "Set",
     "total": 9000,
     "income": {
      "#type": "SoL",
@@ -140,7 +140,7 @@
     "area": 1068408.0
    },
    "population": {
-    "#type": "Total",
+    "#type": "Set",
     "total": 10000,
     "income": {
      "#type": "SoL",
@@ -160,7 +160,7 @@
     "area": 319713.0
    },
    "population": {
-    "#type": "Total",
+    "#type": "Set",
     "total": 10000,
     "income": {
      "#type": "SoL",
@@ -180,7 +180,7 @@
     "area": 963186.0
    },
    "population": {
-    "#type": "Total",
+    "#type": "Set",
     "total": 8000,
     "income": {
      "#type": "SoL",
@@ -200,7 +200,7 @@
     "area": 445170.0
    },
    "population": {
-    "#type": "Total",
+    "#type": "Set",
     "total": 8000,
     "income": {
      "#type": "SoL",
@@ -220,7 +220,7 @@
     "area": 52611.0
    },
    "population": {
-    "#type": "Total",
+    "#type": "Set",
     "total": 2000,
     "income": {
      "#type": "SoL",
@@ -237,7 +237,7 @@
    },
    "type": "Neighborhood",
    "population": {
-    "#type": "Total",
+    "#type": "Set",
     "total": 1000,
     "income": {
      "#type": "SoL",
@@ -254,7 +254,7 @@
    },
    "type": "Neighborhood",
    "population": {
-    "#type": "Total",
+    "#type": "Set",
     "total": 1000,
     "races": [
      6,

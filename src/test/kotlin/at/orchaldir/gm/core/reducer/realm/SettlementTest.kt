@@ -5,7 +5,7 @@ import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.EconomyWithPercentages
 import at.orchaldir.gm.core.model.realm.Settlement
-import at.orchaldir.gm.core.model.realm.population.TotalPopulation
+import at.orchaldir.gm.core.model.realm.population.PopulationWithSet
 import at.orchaldir.gm.core.model.util.CharacterReference
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.VitalStatusType
@@ -76,7 +76,7 @@ class SettlementTest {
 
         @Test
         fun `The population is validated`() {
-            val action = UpdateAction(Settlement(SETTLEMENT_ID_0, population = TotalPopulation(-1)))
+            val action = UpdateAction(Settlement(SETTLEMENT_ID_0, population = PopulationWithSet(-1)))
 
             assertIllegalArgument("The total population must be >= 0!") { REDUCER.invoke(STATE, action) }
         }
