@@ -101,7 +101,8 @@ class DataTest {
 
             private fun <ID : Id<ID>, ELEMENT : Element<ID>> assertDelete(storage: Storage<ID, ELEMENT>) {
                 val newState = state.updateStorage(storage)
-                val config = Config(economy = EconomyConfig(standardsOfLiving = listOf(StandardOfLiving(STANDARD_ID_0))))
+                val config =
+                    Config(economy = EconomyConfig(standardsOfLiving = listOf(StandardOfLiving(STANDARD_ID_0))))
                 val action = UpdateData(config)
 
                 assertIllegalArgument("The number of required Standards of Living is 2!") {
