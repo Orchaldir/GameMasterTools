@@ -107,7 +107,7 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> createDestroyedColumns(
     state: State,
 ): List<Column<ELEMENT>> = listOf(
     countColumnForId(listOf("Destroyed", "Realms"), state::countDestroyedRealms),
-    countColumnForId(listOf("Destroyed", "Towns"), state::countDestroyedSettlements),
+    countColumnForId(listOf("Destroyed", "Settlements"), state::countDestroyedSettlements),
     countColumnForId(listOf("Killed", "Characters"), state::countKilledCharacters),
 )
 

@@ -92,9 +92,9 @@ class VitalStatusTest {
         testCanDeleteDestroyer(
             CHARACTER_ID_0,
             killedBy,
-            DeleteResult(CHARACTER_ID_0).addId(TOWN_ID_0),
+            DeleteResult(CHARACTER_ID_0).addId(SETTLEMENT_ID_0),
         ) { status ->
-            Settlement(TOWN_ID_0, status = status)
+            Settlement(SETTLEMENT_ID_0, status = status)
         }
     }
 }

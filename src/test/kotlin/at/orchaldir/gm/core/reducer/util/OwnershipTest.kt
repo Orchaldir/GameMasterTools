@@ -26,16 +26,16 @@ class OwnerTest {
             Storage(Race(RACE_ID_0)),
             Storage(Realm(REALM_ID_0, date = DAY0)),
             Storage(listOf(StreetTemplate(STREET_TEMPLATE_ID_0), StreetTemplate(STREET_TEMPLATE_ID_0))),
-            Storage(Settlement(TOWN_ID_0, date = DAY0)),
+            Storage(Settlement(SETTLEMENT_ID_0, date = DAY0)),
         )
     )
     private val OWNED_BY_BUSINESS = History<Reference>(BusinessReference(BUSINESS_ID_0))
     private val OWNED_BY_CHARACTER = History<Reference>(CharacterReference(CHARACTER_ID_2))
     private val OWNED_BY_ORGANIZATION = History<Reference>(OrganizationReference(ORGANIZATION_ID_0))
     private val OWNED_BY_REALM = History<Reference>(RealmReference(REALM_ID_0))
-    private val OWNED_BY_TOWN = History<Reference>(SettlementReference(TOWN_ID_0))
+    private val OWNED_BY_TOWN = History<Reference>(SettlementReference(SETTLEMENT_ID_0))
     private val CHARACTER_AS_PREVIOUS = History(
-        SettlementReference(TOWN_ID_0),
+        SettlementReference(SETTLEMENT_ID_0),
         HistoryEntry(CharacterReference(CHARACTER_ID_2), DAY1),
     )
     private val ORGANIZATION_AS_PREVIOUS = History(
@@ -44,7 +44,7 @@ class OwnerTest {
     )
     private val TOWN_AS_PREVIOUS = History(
         CharacterReference(CHARACTER_ID_2),
-        HistoryEntry(SettlementReference(TOWN_ID_0), DAY1),
+        HistoryEntry(SettlementReference(SETTLEMENT_ID_0), DAY1),
     )
 
     @Nested
@@ -88,7 +88,7 @@ class OwnerTest {
 
         @Test
         fun `Reference is an unknown town`() {
-            val state = STATE.removeStorage(TOWN_ID_0)
+            val state = STATE.removeStorage(SETTLEMENT_ID_0)
 
             assertIllegalArgument("Requires unknown owner (Town 0)!") {
                 checkOwnership(state, OWNED_BY_TOWN, DAY0)
@@ -115,7 +115,7 @@ class OwnerTest {
 
         @Test
         fun `Previous owner is an unknown town`() {
-            val state = STATE.removeStorage(TOWN_ID_0)
+            val state = STATE.removeStorage(SETTLEMENT_ID_0)
 
             assertIllegalArgument("Requires unknown 1.previous owner (Town 0)!") {
                 checkOwnership(state, TOWN_AS_PREVIOUS, DAY0)
@@ -136,10 +136,10 @@ class OwnerTest {
         @Test
         fun `A previous ownership ended before the one before it`() {
             val ownership = History(
-                SettlementReference(TOWN_ID_0),
+                SettlementReference(SETTLEMENT_ID_0),
                 listOf(
                     HistoryEntry(CharacterReference(CHARACTER_ID_2), DAY2),
-                    HistoryEntry(SettlementReference(TOWN_ID_0), DAY1)
+                    HistoryEntry(SettlementReference(SETTLEMENT_ID_0), DAY1)
                 )
             )
 
@@ -160,7 +160,7 @@ class OwnerTest {
 
         @Test
         fun `First owner didn't exist yet`() {
-            val state = STATE.updateStorage(Settlement(TOWN_ID_0, date = DAY1))
+            val state = STATE.updateStorage(Settlement(SETTLEMENT_ID_0, date = DAY1))
 
             assertIllegalArgument("The 1.previous owner (Town 0) doesn't exist at the required date!") {
                 checkOwnership(state, TOWN_AS_PREVIOUS, DAY0)
@@ -172,7 +172,7 @@ class OwnerTest {
             val ownership = History(
                 NoReference,
                 listOf(
-                    HistoryEntry(SettlementReference(TOWN_ID_0), DAY1),
+                    HistoryEntry(SettlementReference(SETTLEMENT_ID_0), DAY1),
                     HistoryEntry(CharacterReference(CHARACTER_ID_2), DAY2)
                 )
             )
@@ -230,7 +230,7 @@ class OwnerTest {
                 History(
                     NoReference,
                     listOf(
-                        HistoryEntry(SettlementReference(TOWN_ID_0), DAY1),
+                        HistoryEntry(SettlementReference(SETTLEMENT_ID_0), DAY1),
                         HistoryEntry(CharacterReference(CHARACTER_ID_2), DAY2)
                     )
                 )

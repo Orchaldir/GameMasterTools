@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.selector.world
 
 import at.orchaldir.gm.RIVER_ID_0
-import at.orchaldir.gm.TOWN_MAP_ID_0
+import at.orchaldir.gm.SETTLEMENT_MAP_ID_0
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.terrain.River
@@ -25,11 +25,11 @@ class RiverTest {
             val state = State(
                 listOf(
                     Storage(River(RIVER_ID_0)),
-                    Storage(SettlementMap(TOWN_MAP_ID_0, map = TileMap2d(SettlementTile(RiverTerrain(RIVER_ID_0)))))
+                    Storage(SettlementMap(SETTLEMENT_MAP_ID_0, map = TileMap2d(SettlementTile(RiverTerrain(RIVER_ID_0)))))
                 )
             )
 
-            failCanDelete(state, TOWN_MAP_ID_0)
+            failCanDelete(state, SETTLEMENT_MAP_ID_0)
         }
 
         private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {

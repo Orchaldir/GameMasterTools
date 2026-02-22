@@ -95,8 +95,8 @@ class DataTest {
             }
 
             @Test
-            fun `Cannot delete a standard of living used by a town`() {
-                assertDelete(Storage(Settlement(TOWN_ID_0, population = population)))
+            fun `Cannot delete a standard of living used by a settlement`() {
+                assertDelete(Storage(Settlement(SETTLEMENT_ID_0, population = population)))
             }
 
             private fun <ID : Id<ID>, ELEMENT : Element<ID>> assertDelete(storage: Storage<ID, ELEMENT>) {

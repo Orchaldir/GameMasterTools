@@ -22,7 +22,7 @@ class DistrictTest {
         listOf(
             Storage(CALENDAR0),
             Storage(District(DISTRICT_ID_0)),
-            Storage(Settlement(TOWN_ID_0)),
+            Storage(Settlement(SETTLEMENT_ID_0)),
         )
     )
 
@@ -45,7 +45,7 @@ class DistrictTest {
 
         @Test
         fun `Position must exist`() {
-            val action = UpdateAction(District(DISTRICT_ID_0, position = InSettlement(UNKNOWN_TOWN_ID)))
+            val action = UpdateAction(District(DISTRICT_ID_0, position = InSettlement(UNKNOWN_SETTLEMENT_ID)))
 
             assertIllegalArgument("Requires unknown position!") { REDUCER.invoke(STATE, action) }
         }

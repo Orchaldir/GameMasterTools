@@ -3,7 +3,7 @@ package at.orchaldir.gm.core.selector.world
 import at.orchaldir.gm.BUILDING_ID_0
 import at.orchaldir.gm.STREET_ID_0
 import at.orchaldir.gm.STREET_TEMPLATE_ID_0
-import at.orchaldir.gm.TOWN_MAP_ID_0
+import at.orchaldir.gm.SETTLEMENT_MAP_ID_0
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.building.Building
@@ -32,10 +32,10 @@ class StreetTest {
         @Test
         fun `Cannot delete, if used by a town`() {
             val tile = StreetTile(STREET_TEMPLATE_ID_0, STREET_ID_0)
-            val settlementMap = SettlementMap(TOWN_MAP_ID_0, map = TileMap2d(SettlementTile(construction = tile)))
+            val settlementMap = SettlementMap(SETTLEMENT_MAP_ID_0, map = TileMap2d(SettlementTile(construction = tile)))
             val newState = state.updateStorage(settlementMap)
 
-            failCanDelete(newState, TOWN_MAP_ID_0)
+            failCanDelete(newState, SETTLEMENT_MAP_ID_0)
         }
 
         @Test

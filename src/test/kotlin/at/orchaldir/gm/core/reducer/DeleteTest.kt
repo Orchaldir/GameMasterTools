@@ -31,10 +31,10 @@ class DeleteTest {
 
     @Test
     fun `Cannot delete element, if it is used`() {
-        val storage = Storage(SettlementMap(TOWN_MAP_ID_0, map = TileMap2d(SettlementTile(RiverTerrain(RIVER_ID_0)))))
+        val storage = Storage(SettlementMap(SETTLEMENT_MAP_ID_0, map = TileMap2d(SettlementTile(RiverTerrain(RIVER_ID_0)))))
         val newState = state.updateStorage(storage)
 
-        assertCannotDelete(DeleteResult(RIVER_ID_0).addId(TOWN_MAP_ID_0)) {
+        assertCannotDelete(DeleteResult(RIVER_ID_0).addId(SETTLEMENT_MAP_ID_0)) {
             REDUCER.invoke(newState, action)
         }
     }

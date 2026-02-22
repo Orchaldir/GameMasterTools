@@ -30,9 +30,9 @@ private fun checkEmploymentStatus(
             state.requireExists(state.getRealmStorage(), status.realm, date)
         }
 
-        is EmployedByTown -> {
+        is EmployedBySettlement -> {
             checkEmployed(state, date, EmployerType.Town, status.job, status.optionalBusiness)
-            state.requireExists(state.getSettlementStorage(), status.town, date)
+            state.requireExists(state.getSettlementStorage(), status.settlement, date)
         }
     }
 }

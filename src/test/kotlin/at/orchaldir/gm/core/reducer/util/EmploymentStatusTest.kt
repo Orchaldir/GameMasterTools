@@ -4,7 +4,7 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Employed
 import at.orchaldir.gm.core.model.character.EmployedByRealm
-import at.orchaldir.gm.core.model.character.EmployedByTown
+import at.orchaldir.gm.core.model.character.EmployedBySettlement
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.job.EmployerType
 import at.orchaldir.gm.core.model.economy.job.Job
@@ -29,7 +29,7 @@ class EmploymentStatusTest {
                 )
             ),
             Storage(Realm(REALM_ID_0, date = YEAR0)),
-            Storage(Settlement(TOWN_ID_0, date = YEAR0)),
+            Storage(Settlement(SETTLEMENT_ID_0, date = YEAR0)),
         )
     )
 
@@ -117,36 +117,36 @@ class EmploymentStatusTest {
         @Test
         fun `Cannot use unknown job`() {
             assertIllegalArgument("Requires unknown Job 99!") {
-                checkEmploymentStatusHistory(state, History(EmployedByTown(UNKNOWN_JOB_ID, TOWN_ID_0)), DAY0)
+                checkEmploymentStatusHistory(state, History(EmployedBySettlement(UNKNOWN_JOB_ID, SETTLEMENT_ID_0)), DAY0)
             }
         }
 
         @Test
         fun `Cannot use unknown town`() {
             assertIllegalArgument("Requires unknown Town 99!") {
-                checkEmploymentStatusHistory(state, History(EmployedByTown(JOB_ID_2, UNKNOWN_TOWN_ID)), DAY0)
+                checkEmploymentStatusHistory(state, History(EmployedBySettlement(JOB_ID_2, UNKNOWN_SETTLEMENT_ID)), DAY0)
             }
         }
 
         @Test
         fun `Cannot use wrong employer type`() {
             assertIllegalArgument("Job 0 has the wrong type of employer!") {
-                checkEmploymentStatusHistory(state, History(EmployedByTown(JOB_ID_0, TOWN_ID_0)), DAY0)
+                checkEmploymentStatusHistory(state, History(EmployedBySettlement(JOB_ID_0, SETTLEMENT_ID_0)), DAY0)
             }
         }
 
         @Test
         fun `Character employed by a town before its founding`() {
-            val newState = state.updateStorage(Settlement(TOWN_ID_0, date = DAY1))
+            val newState = state.updateStorage(Settlement(SETTLEMENT_ID_0, date = DAY1))
 
             assertIllegalArgument("The Town 0 doesn't exist at the required date!") {
-                checkEmploymentStatusHistory(newState, History(EmployedByTown(JOB_ID_2, TOWN_ID_0)), DAY0)
+                checkEmploymentStatusHistory(newState, History(EmployedBySettlement(JOB_ID_2, SETTLEMENT_ID_0)), DAY0)
             }
         }
 
         @Test
         fun `Character has a valid job at a town`() {
-            checkEmploymentStatusHistory(state, History(EmployedByTown(JOB_ID_2, TOWN_ID_0)), DAY0)
+            checkEmploymentStatusHistory(state, History(EmployedBySettlement(JOB_ID_2, SETTLEMENT_ID_0)), DAY0)
         }
     }
 

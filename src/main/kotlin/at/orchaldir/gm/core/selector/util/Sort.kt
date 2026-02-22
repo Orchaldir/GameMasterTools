@@ -931,7 +931,7 @@ fun State.sortRealms(
             SortRealm.End -> getEndDateComparator()
             SortRealm.Age -> compareByDescending { it.getAgeInYears(this) }
             SortRealm.Population -> compareByDescending { it.population.getTotalPopulation() }
-            SortRealm.Towns -> compareByDescending { countOwnedSettlements(it.id) }
+            SortRealm.Settlement -> compareByDescending { countOwnedSettlements(it.id) }
         })
 
 // region
@@ -989,9 +989,9 @@ fun State.sortSettlementMaps(sort: SortSettlementMap = SortSettlementMap.Name) =
     sortSettlementMaps(getSettlementMapStorage().getAll(), sort)
 
 fun State.sortSettlementMaps(
-    towns: Collection<SettlementMap>,
+    settlements: Collection<SettlementMap>,
     sort: SortSettlementMap = SortSettlementMap.Name,
-) = towns
+) = settlements
     .sortedWith(
         when (sort) {
             SortSettlementMap.Name -> compareByDescending<SettlementMap> { it.name(this) }

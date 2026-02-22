@@ -231,7 +231,7 @@ private fun HtmlBlockTag.selectPositionIntern(
 
         is InSettlement -> selectElement(
             state,
-            combine(param, TOWN),
+            combine(param, SETTLEMENT),
             towns,
             position.settlement,
         )
@@ -239,7 +239,7 @@ private fun HtmlBlockTag.selectPositionIntern(
         is InSettlementMap -> {
             selectElement(
                 state,
-                combine(param, TOWN),
+                combine(param, SETTLEMENT),
                 townMaps,
                 position.map,
             )
@@ -328,11 +328,11 @@ fun parsePosition(parameters: Parameters, state: State, param: String = POSITION
         )
 
         PositionType.Settlement -> InSettlement(
-            parseSettlementId(parameters, combine(param, TOWN)),
+            parseSettlementId(parameters, combine(param, SETTLEMENT)),
         )
 
         PositionType.SettlementMap -> InSettlementMap(
-            parseSettlementMapId(parameters, combine(param, TOWN)),
+            parseSettlementMapId(parameters, combine(param, SETTLEMENT)),
             parseInt(parameters, combine(param, TILE)),
         )
 

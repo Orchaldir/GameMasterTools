@@ -170,8 +170,8 @@ fun HtmlBlockTag.showSpellOriginCount(characters: Collection<Spell>) =
 fun HtmlBlockTag.showStreetTemplateCount(
     call: ApplicationCall,
     state: State,
-    townMap: SettlementMapId,
-) = showCount(call, state, "Street Templates", state.countEachStreetTemplate(townMap))
+    map: SettlementMapId,
+) = showCount(call, state, "Street Templates", state.countEachStreetTemplate(map))
 
 fun <ID : Id<ID>> HtmlBlockTag.showCount(
     call: ApplicationCall,

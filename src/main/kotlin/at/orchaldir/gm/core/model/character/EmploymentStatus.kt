@@ -25,33 +25,33 @@ sealed class EmploymentStatus {
         Unemployed -> EmploymentStatusType.Unemployed
         is Employed -> EmploymentStatusType.Employed
         is EmployedByRealm -> EmploymentStatusType.EmployedByRealm
-        is EmployedByTown -> EmploymentStatusType.EmployedByTown
+        is EmployedBySettlement -> EmploymentStatusType.EmployedByTown
         Retired -> EmploymentStatusType.Retired
     }
 
     fun getBusiness() = when (this) {
         is Employed -> business
-        is EmployedByTown -> optionalBusiness
+        is EmployedBySettlement -> optionalBusiness
         else -> null
     }
 
     fun getJob() = when (this) {
         is Employed -> job
         is EmployedByRealm -> job
-        is EmployedByTown -> job
+        is EmployedBySettlement -> job
         else -> null
     }
 
     fun hasJob(job: JobId) = when (this) {
         is Employed -> job == this.job
         is EmployedByRealm -> job == this.job
-        is EmployedByTown -> job == this.job
+        is EmployedBySettlement -> job == this.job
         else -> false
     }
 
     fun isEmployedAt(business: BusinessId) = when (this) {
         is Employed -> business == this.business
-        is EmployedByTown -> business == this.optionalBusiness
+        is EmployedBySettlement -> business == this.optionalBusiness
         else -> false
     }
 
@@ -61,7 +61,7 @@ sealed class EmploymentStatus {
     }
 
     fun isEmployedAt(town: SettlementId) = when (this) {
-        is EmployedByTown -> town == this.town
+        is EmployedBySettlement -> town == this.settlement
         else -> false
     }
 
@@ -82,10 +82,10 @@ data class EmployedByRealm(
 ) : EmploymentStatus()
 
 @Serializable
-@SerialName("ByTown")
-data class EmployedByTown(
+@SerialName("BySettlement")
+data class EmployedBySettlement(
     val job: JobId,
-    val town: SettlementId,
+    val settlement: SettlementId,
     val optionalBusiness: BusinessId? = null,
 ) : EmploymentStatus()
 

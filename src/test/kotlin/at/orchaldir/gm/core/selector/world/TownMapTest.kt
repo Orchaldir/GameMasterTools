@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.selector.world
 
 import at.orchaldir.gm.BUILDING_ID_0
-import at.orchaldir.gm.TOWN_MAP_ID_0
+import at.orchaldir.gm.SETTLEMENT_MAP_ID_0
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.InSettlementMap
@@ -17,13 +17,13 @@ class TownMapTest {
 
     @Nested
     inner class CanDeleteTest {
-        private val settlementMap = SettlementMap(TOWN_MAP_ID_0)
+        private val settlementMap = SettlementMap(SETTLEMENT_MAP_ID_0)
         private val state = State(
             listOf(
                 Storage(settlementMap),
             )
         )
-        private val position = InSettlementMap(TOWN_MAP_ID_0, 0)
+        private val position = InSettlementMap(SETTLEMENT_MAP_ID_0, 0)
 
         @Test
         fun `Cannot delete an element used as a position`() {
@@ -34,7 +34,7 @@ class TownMapTest {
         }
 
         private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {
-            assertEquals(DeleteResult(TOWN_MAP_ID_0).addId(blockingId), state.canDeleteSettlementMap(TOWN_MAP_ID_0))
+            assertEquals(DeleteResult(SETTLEMENT_MAP_ID_0).addId(blockingId), state.canDeleteSettlementMap(SETTLEMENT_MAP_ID_0))
         }
     }
 

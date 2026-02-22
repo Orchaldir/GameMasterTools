@@ -34,9 +34,9 @@ class RegionTest {
         @Test
         fun `Cannot delete, if used by a town map`() {
             val map = TileMap2d(SettlementTile(MountainTerrain(REGION_ID_0)))
-            val newState = state.updateStorage(SettlementMap(TOWN_MAP_ID_0, map = map))
+            val newState = state.updateStorage(SettlementMap(SETTLEMENT_MAP_ID_0, map = map))
 
-            failCanDelete(newState, TOWN_MAP_ID_0)
+            failCanDelete(newState, SETTLEMENT_MAP_ID_0)
         }
 
         @Test

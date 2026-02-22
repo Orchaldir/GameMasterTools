@@ -45,7 +45,7 @@ class CreatorTest {
             Storage(Organization(ORGANIZATION_ID_0, date = DAY1)),
             Storage(Race(RACE_ID_0)),
             Storage(Realm(REALM_ID_0, date = DAY1)),
-            Storage(Settlement(TOWN_ID_0, date = DAY1)),
+            Storage(Settlement(SETTLEMENT_ID_0, date = DAY1)),
         )
     )
 
@@ -55,7 +55,7 @@ class CreatorTest {
     private val createdByGod = GodReference(GOD_ID_0)
     private val createdByOrganization = OrganizationReference(ORGANIZATION_ID_0)
     private val createdByRealm = RealmReference(REALM_ID_0)
-    private val createdByTown = SettlementReference(TOWN_ID_0)
+    private val createdByTown = SettlementReference(SETTLEMENT_ID_0)
 
     @Nested
     inner class CanDeleteCreatorTest {
@@ -127,7 +127,7 @@ class CreatorTest {
 
         @Test
         fun `Created a town`() {
-            test(Settlement(TOWN_ID_0, founder = createdByCharacter))
+            test(Settlement(SETTLEMENT_ID_0, founder = createdByCharacter))
         }
 
         private fun <ID : Id<ID>, ELEMENT : Element<ID>> test(element: ELEMENT) {
@@ -302,7 +302,7 @@ class CreatorTest {
 
             @Test
             fun `Creator is an unknown town`() {
-                val state = STATE.removeStorage(TOWN_ID_0)
+                val state = STATE.removeStorage(SETTLEMENT_ID_0)
 
                 assertIllegalArgument("Requires unknown Builder (Town 0)!") {
                     validateCreator(state, createdByTown, BUILDING_ID_0, DAY0, "Builder")
@@ -312,7 +312,7 @@ class CreatorTest {
             @Test
             fun `Creator cannot create itself`() {
                 assertIllegalArgument("The Builder (Town 0) cannot create itself!") {
-                    validateCreator(STATE, createdByTown, TOWN_ID_0, null, "Builder")
+                    validateCreator(STATE, createdByTown, SETTLEMENT_ID_0, null, "Builder")
                 }
             }
 

@@ -76,17 +76,17 @@ fun HtmlBlockTag.showEmploymentStatus(
             }
         }
 
-        is EmployedByTown -> if (showTown) {
+        is EmployedBySettlement -> if (showTown) {
             if (status.optionalBusiness != null && showOptionalBusiness) {
                 link(call, state, status.job)
                 +" at "
-                link(call, state, status.town)
+                link(call, state, status.settlement)
                 +"'s "
                 link(call, state, status.optionalBusiness)
             } else {
                 link(call, state, status.job)
                 +" of "
-                link(call, state, status.town)
+                link(call, state, status.settlement)
             }
         } else {
             if (status.optionalBusiness != null && showOptionalBusiness) {
@@ -153,12 +153,12 @@ fun HtmlBlockTag.selectEmploymentStatus(
             selectJob(state, param, EmployerType.Realm, status.job)
         }
 
-        is EmployedByTown -> {
+        is EmployedBySettlement -> {
             selectElement(
                 state,
-                combine(param, TOWN),
+                combine(param, SETTLEMENT),
                 state.getExistingSettlements(start),
-                status.town,
+                status.settlement,
             )
             selectJob(state, param, EmployerType.Town, status.job)
             selectOptionalElement(
@@ -201,9 +201,9 @@ fun parseEmploymentStatus(parameters: Parameters, state: State, param: String): 
             parseRealmId(parameters, combine(param, REALM)),
         )
 
-        EmploymentStatusType.EmployedByTown -> EmployedByTown(
+        EmploymentStatusType.EmployedByTown -> EmployedBySettlement(
             parseJobId(parameters, combine(param, JOB)),
-            parseSettlementId(parameters, combine(param, TOWN)),
+            parseSettlementId(parameters, combine(param, SETTLEMENT)),
             parseOptionalBusinessId(parameters, combine(param, BUSINESS)),
         )
 

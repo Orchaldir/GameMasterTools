@@ -86,7 +86,7 @@ fun HtmlBlockTag.editRealm(
         ALLOWED_VITAL_STATUS_FOR_REALM,
         ALLOWED_CAUSES_OF_DEATH_FOR_REALM,
     )
-    selectHistory(state, TOWN, realm.capital, "Capital", realm.date) { _, param, town, start ->
+    selectHistory(state, SETTLEMENT, realm.capital, "Capital", realm.date) { _, param, town, start ->
         selectOptionalElement(
             state,
             "Town",
@@ -146,7 +146,7 @@ fun parseRealm(
         parseCreator(parameters),
         date,
         parseVitalStatus(parameters, state),
-        parseHistory(parameters, TOWN, state, date) { _, _, param ->
+        parseHistory(parameters, SETTLEMENT, state, date) { _, _, param ->
             parseOptionalSettlementId(parameters, param)
         },
         parseHistory(parameters, OWNER, state, date) { _, _, param ->

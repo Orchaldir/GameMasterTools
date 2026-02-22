@@ -41,7 +41,7 @@ class RegionTest {
 
         @Test
         fun `Cannot use an invalid type as position`() {
-            val region = Region(REGION_ID_0, position = InSettlement(TOWN_ID_0))
+            val region = Region(REGION_ID_0, position = InSettlement(SETTLEMENT_ID_0))
             val action = UpdateAction(region)
 
             assertIllegalArgument("Position has invalid type Town!") { REDUCER.invoke(state, action) }

@@ -30,8 +30,8 @@ class PositionTest {
     private val inPlane = InPlane(PLANE_ID_0)
     private val inRealm = InRealm(REALM_ID_0)
     private val inRegion = InRegion(REGION_ID_0)
-    private val inSettlement = InSettlement(TOWN_ID_0)
-    private val inSettlementMap = InSettlementMap(TOWN_MAP_ID_0, 0)
+    private val inSettlement = InSettlement(SETTLEMENT_ID_0)
+    private val inSettlementMap = InSettlementMap(SETTLEMENT_MAP_ID_0, 0)
     private val longTermCare = LongTermCareIn(BUSINESS_ID_0)
     private val onMoon = OnMoon(MOON_ID_0)
     private val onWorld = OnWorld(WORLD_ID_0)
@@ -330,7 +330,7 @@ class PositionTest {
 
         @Test
         fun `Cannot use unknown town as home`() {
-            val history = History<Position>(InSettlement(UNKNOWN_TOWN_ID))
+            val history = History<Position>(InSettlement(UNKNOWN_SETTLEMENT_ID))
 
             assertIllegalArgument("Requires unknown home!") {
                 checkPositionHistory(createState(), history, DAY0)
@@ -339,7 +339,7 @@ class PositionTest {
 
         @Test
         fun `Cannot use unknown town as a previous home`() {
-            val entry = HistoryEntry<Position>(InSettlement(UNKNOWN_TOWN_ID), DAY1)
+            val entry = HistoryEntry<Position>(InSettlement(UNKNOWN_SETTLEMENT_ID), DAY1)
             val history = History(inHome, entry)
 
             assertIllegalArgument("Requires unknown 1.previous home!") {
@@ -365,14 +365,14 @@ class PositionTest {
             listOf(
                 Storage(Building(BUILDING_ID_0)),
                 Storage(CALENDAR0),
-                Storage(Settlement(TOWN_ID_0, date = date)),
+                Storage(Settlement(SETTLEMENT_ID_0, date = date)),
             )
         )
     }
 
     @Nested
     inner class TownMapTest {
-        val inUnknownTownMap = InSettlementMap(UNKNOWN_TOWN_MAP_ID, 0)
+        val inUnknownTownMap = InSettlementMap(UNKNOWN_SETTLEMENT_MAP_ID, 0)
 
         @Test
         fun `Cannot use unknown town map as home`() {
@@ -405,7 +405,7 @@ class PositionTest {
         @Test
         fun `Tile index must be positive`() {
             val state = createTownMapState()
-            val inSettlementMap = InSettlementMap(TOWN_MAP_ID_0, -1)
+            val inSettlementMap = InSettlementMap(SETTLEMENT_MAP_ID_0, -1)
 
             assertIllegalArgument("The home's tile index -1 is outside the town map!") {
                 checkPositionHistory(state, History(inSettlementMap), DAY0)
@@ -415,7 +415,7 @@ class PositionTest {
         @Test
         fun `Tile index must be smaller than the size`() {
             val state = createTownMapState()
-            val inSettlementMap = InSettlementMap(TOWN_MAP_ID_0, 100)
+            val inSettlementMap = InSettlementMap(SETTLEMENT_MAP_ID_0, 100)
 
             assertIllegalArgument("The home's tile index 100 is outside the town map!") {
                 checkPositionHistory(state, History(inSettlementMap), DAY0)
@@ -431,7 +431,7 @@ class PositionTest {
             listOf(
                 Storage(Building(BUILDING_ID_0)),
                 Storage(CALENDAR0),
-                Storage(SettlementMap(TOWN_MAP_ID_0, date = date)),
+                Storage(SettlementMap(SETTLEMENT_MAP_ID_0, date = date)),
             )
         )
     }

@@ -2,7 +2,7 @@ package at.orchaldir.gm.app.html.world
 
 import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.TERRAIN
-import at.orchaldir.gm.app.TOWN
+import at.orchaldir.gm.app.SETTLEMENT
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.realm.parseOptionalSettlementId
@@ -97,7 +97,7 @@ fun HtmlBlockTag.editSettlementMap(
     state: State,
     settlementMap: SettlementMap,
 ) {
-    selectOptionalElement(state, "Town", TOWN, state.getSettlementStorage().getAll(), settlementMap.settlement)
+    selectOptionalElement(state, "Town", SETTLEMENT, state.getSettlementStorage().getAll(), settlementMap.settlement)
     selectOptionalDate(state, "Date", settlementMap.date, DATE)
 }
 
@@ -110,6 +110,6 @@ fun parseOptionalSettlementMapId(parameters: Parameters, param: String) =
 fun parseTerrainType(parameters: Parameters) = parse(parameters, combine(TERRAIN, TYPE), TerrainType.Plain)
 
 fun parseSettlementMap(state: State, parameters: Parameters, oldSettlementMap: SettlementMap) = oldSettlementMap.copy(
-    settlement = parseOptionalSettlementId(parameters, TOWN),
+    settlement = parseOptionalSettlementId(parameters, SETTLEMENT),
     date = parseOptionalDate(parameters, state, DATE),
 )

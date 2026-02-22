@@ -49,7 +49,7 @@ class RealmTest {
 
         @Test
         fun `The Capital must exist`() {
-            val realm = Realm(REALM_ID_0, capital = History(UNKNOWN_TOWN_ID))
+            val realm = Realm(REALM_ID_0, capital = History(UNKNOWN_SETTLEMENT_ID))
             val action = UpdateAction(realm)
 
             assertIllegalArgument("Requires unknown Town 99!") { REDUCER.invoke(STATE, action) }

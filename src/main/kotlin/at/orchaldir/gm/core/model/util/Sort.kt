@@ -289,7 +289,7 @@ enum class SortRealm {
     End,
     Age,
     Population,
-    Towns,
+    Settlement,
 }
 
 enum class SortRegion {

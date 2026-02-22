@@ -18,14 +18,14 @@ import kotlin.test.assertFailsWith
 
 class TownMapTest {
 
-    val settlementMap = SettlementMap(TOWN_MAP_ID_0)
+    val settlementMap = SettlementMap(SETTLEMENT_MAP_ID_0)
     private val STATE = State(
         listOf(
             Storage(CALENDAR0),
             Storage(Region(REGION_ID_0)),
             Storage(Street(STREET_ID_0)),
             Storage(StreetTemplate(STREET_TEMPLATE_ID_0)),
-            Storage(Settlement(TOWN_ID_0)),
+            Storage(Settlement(SETTLEMENT_ID_0)),
             Storage(settlementMap),
         )
     )
@@ -94,7 +94,7 @@ class TownMapTest {
 
             private fun testValid(tile: SettlementTile, message: String) {
                 val map = TileMap2d(tile)
-                val action = UpdateAction(SettlementMap(TOWN_MAP_ID_0, map = map))
+                val action = UpdateAction(SettlementMap(SETTLEMENT_MAP_ID_0, map = map))
 
                 assertIllegalArgument(message) { REDUCER.invoke(STATE, action) }
             }
@@ -102,7 +102,7 @@ class TownMapTest {
 
         @Test
         fun `Town must exist`() {
-            val town = SettlementMap(TOWN_MAP_ID_0, settlement = UNKNOWN_TOWN_ID)
+            val town = SettlementMap(SETTLEMENT_MAP_ID_0, settlement = UNKNOWN_SETTLEMENT_ID)
             val action = UpdateAction(town)
 
             assertIllegalArgument("Requires unknown Town 99!") { REDUCER.invoke(STATE, action) }
@@ -110,8 +110,8 @@ class TownMapTest {
 
         @Test
         fun `Town and date combination must be unique`() {
-            val map0 = SettlementMap(TOWN_MAP_ID_0, settlement = TOWN_ID_0, date = DAY0)
-            val map1 = SettlementMap(TOWN_MAP_ID_1, settlement = TOWN_ID_0, date = DAY0)
+            val map0 = SettlementMap(SETTLEMENT_MAP_ID_0, settlement = SETTLEMENT_ID_0, date = DAY0)
+            val map1 = SettlementMap(SETTLEMENT_MAP_ID_1, settlement = SETTLEMENT_ID_0, date = DAY0)
             val state = STATE.updateStorage(Storage(listOf(settlementMap, map1)))
             val action = UpdateAction(map0)
 
@@ -122,10 +122,10 @@ class TownMapTest {
 
         @Test
         fun `Update is valid`() {
-            val town = SettlementMap(TOWN_MAP_ID_0, date = DAY0)
+            val town = SettlementMap(SETTLEMENT_MAP_ID_0, date = DAY0)
             val action = UpdateAction(town)
 
-            assertEquals(town, REDUCER.invoke(STATE, action).first.getSettlementMapStorage().get(TOWN_MAP_ID_0))
+            assertEquals(town, REDUCER.invoke(STATE, action).first.getSettlementMapStorage().get(SETTLEMENT_MAP_ID_0))
         }
     }
 

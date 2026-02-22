@@ -151,7 +151,7 @@ fun HtmlBlockTag.selectReference(
         is SettlementReference -> selectElement(
             state,
             label,
-            combine(param, TOWN),
+            combine(param, SETTLEMENT),
             towns,
             reference.settlement,
         )
@@ -194,7 +194,7 @@ fun parseReference(
         )
 
         ReferenceType.Settlement -> SettlementReference(
-            parseSettlementId(parameters, combine(param, TOWN)),
+            parseSettlementId(parameters, combine(param, SETTLEMENT)),
         )
     }
 }

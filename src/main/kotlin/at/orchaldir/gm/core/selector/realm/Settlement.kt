@@ -2,7 +2,7 @@ package at.orchaldir.gm.core.selector.realm
 
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.EmployedByTown
+import at.orchaldir.gm.core.model.character.EmployedBySettlement
 import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.realm.RealmId
 import at.orchaldir.gm.core.model.realm.SettlementId
@@ -65,8 +65,8 @@ fun State.getSettlements(job: JobId) = getCharacterStorage()
     .mapNotNull {
         val employmentStatus = it.employmentStatus.current
 
-        if (employmentStatus is EmployedByTown && employmentStatus.job == job) {
-            employmentStatus.town
+        if (employmentStatus is EmployedBySettlement && employmentStatus.job == job) {
+            employmentStatus.settlement
         } else {
             null
         }
