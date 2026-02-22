@@ -53,7 +53,7 @@ fun HtmlBlockTag.editIncome(
         selectValue(
             "Type",
             combine(param, TYPE),
-            state.data.economy.defaultIncomeType.getValidTypes(),
+            state.config.economy.defaultIncomeType.getValidTypes(),
             income.getType(),
         )
         when (income) {
@@ -61,7 +61,7 @@ fun HtmlBlockTag.editIncome(
             is AffordableStandardOfLiving -> selectElement(
                 state,
                 combine(param, STANDARD),
-                state.data.economy.standardsOfLiving,
+                state.config.economy.standardsOfLiving,
                 income.standard,
             )
 

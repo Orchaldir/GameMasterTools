@@ -2,9 +2,9 @@ package at.orchaldir.gm.core.reducer
 
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.UpdateData
-import at.orchaldir.gm.core.model.Data
+import at.orchaldir.gm.core.model.Config
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.economy.EconomyData
+import at.orchaldir.gm.core.model.economy.EconomyConfig
 import at.orchaldir.gm.core.model.economy.job.AffordableStandardOfLiving
 import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.economy.money.Currency
@@ -39,7 +39,7 @@ class DataTest {
 
     @Test
     fun `Cannot use an unknown calendar`() {
-        val action = UpdateData(Data(time = Time(UNKNOWN_CALENDAR_ID)))
+        val action = UpdateData(Config(time = Time(UNKNOWN_CALENDAR_ID)))
 
         assertIllegalArgument("Requires unknown Calendar 99!") { REDUCER.invoke(state, action) }
     }
@@ -49,7 +49,7 @@ class DataTest {
 
         @Test
         fun `Cannot use an unknown currency`() {
-            val action = UpdateData(Data(economy = EconomyData(UNKNOWN_CURRENCY_ID)))
+            val action = UpdateData(Config(economy = EconomyConfig(UNKNOWN_CURRENCY_ID)))
 
             assertIllegalArgument("Requires unknown Currency 99!") { REDUCER.invoke(state, action) }
         }
@@ -57,7 +57,7 @@ class DataTest {
         @Test
         fun `Cannot reuse standard of living names`() {
             val standards = listOf(StandardOfLiving(STANDARD_ID_0, name0), StandardOfLiving(STANDARD_ID_1, name0))
-            val action = UpdateData(Data(economy = EconomyData(standardsOfLiving = standards)))
+            val action = UpdateData(Config(economy = EconomyConfig(standardsOfLiving = standards)))
 
             assertIllegalArgument("Name 'A' is duplicated for standards of living!") { REDUCER.invoke(state, action) }
         }
@@ -69,7 +69,7 @@ class DataTest {
                 StandardOfLiving(STANDARD_ID_0, name0, income),
                 StandardOfLiving(STANDARD_ID_1, name1, income),
             )
-            val action = UpdateData(Data(economy = EconomyData(standardsOfLiving = standards)))
+            val action = UpdateData(Config(economy = EconomyConfig(standardsOfLiving = standards)))
 
             assertIllegalArgument("Standard of Living 'B' must have a greater income than the last one!") {
                 REDUCER.invoke(state, action)
@@ -101,8 +101,8 @@ class DataTest {
 
             private fun <ID : Id<ID>, ELEMENT : Element<ID>> assertDelete(storage: Storage<ID, ELEMENT>) {
                 val newState = state.updateStorage(storage)
-                val data = Data(economy = EconomyData(standardsOfLiving = listOf(StandardOfLiving(STANDARD_ID_0))))
-                val action = UpdateData(data)
+                val config = Config(economy = EconomyConfig(standardsOfLiving = listOf(StandardOfLiving(STANDARD_ID_0))))
+                val action = UpdateData(config)
 
                 assertIllegalArgument("The number of required Standards of Living is 2!") {
                     REDUCER.invoke(newState, action)
@@ -116,10 +116,10 @@ class DataTest {
                 StandardOfLiving(STANDARD_ID_0, name0, Price(100)),
                 StandardOfLiving(STANDARD_ID_1, name1, Price(200)),
             )
-            val data = Data(economy = EconomyData(standardsOfLiving = standards))
-            val action = UpdateData(data)
+            val config = Config(economy = EconomyConfig(standardsOfLiving = standards))
+            val action = UpdateData(config)
 
-            assertEquals(data, REDUCER.invoke(state, action).first.data)
+            assertEquals(config, REDUCER.invoke(state, action).first.config)
         }
     }
 

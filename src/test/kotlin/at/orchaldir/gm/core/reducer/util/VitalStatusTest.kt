@@ -2,7 +2,7 @@ package at.orchaldir.gm.core.reducer.util
 
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.UpdateAction
-import at.orchaldir.gm.core.model.Data
+import at.orchaldir.gm.core.model.Config
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.AgeViaBirthdate
 import at.orchaldir.gm.core.model.character.Character
@@ -43,7 +43,7 @@ class VitalStatusTest {
             Storage(Race(RACE_ID_0)),
             Storage(War(WAR_ID_0)),
         ),
-        data = Data(time = Time(currentDate = Day(10))),
+        config = Config(time = Time(currentDate = Day(10))),
     )
 
     @Nested

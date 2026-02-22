@@ -7,7 +7,7 @@ import at.orchaldir.gm.app.html.parse
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.DieType
-import at.orchaldir.gm.core.model.rpg.RpgData
+import at.orchaldir.gm.core.model.rpg.RpgConfig
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -15,40 +15,40 @@ import kotlinx.html.h2
 
 // show
 
-fun HtmlBlockTag.showRpgData(
+fun HtmlBlockTag.showRpgConfig(
     call: ApplicationCall,
     state: State,
-    data: RpgData,
+    config: RpgConfig,
 ) {
     h2 { +"RPG" }
 
-    field("Default Die Type", data.defaultDieType)
-    showSimpleModifiedDiceRange("Damage", data.damage)
+    field("Default Die Type", config.defaultDieType)
+    showSimpleModifiedDiceRange("Damage", config.damage)
 
-    showEquipmentData(call, state, data.equipment)
+    showEquipmentConfig(call, state, config.equipment)
 }
 
 
 // edit
 
-fun HtmlBlockTag.editRpgData(
+fun HtmlBlockTag.editRpgConfig(
     state: State,
-    data: RpgData,
+    config: RpgConfig,
 ) {
     h2 { +"RPG" }
 
-    selectValue("Default Die Type", DIE, DieType.entries, data.defaultDieType)
-    editSimpleModifiedDiceRange("Damage", data.damage, DAMAGE)
+    selectValue("Default Die Type", DIE, DieType.entries, config.defaultDieType)
+    editSimpleModifiedDiceRange("Damage", config.damage, DAMAGE)
 
-    editEquipmentData(state, data.equipment)
+    editEquipmentConfig(state, config.equipment)
 }
 
 // parse
 
-fun parseRpgData(
+fun parseRpgConfig(
     parameters: Parameters,
-) = RpgData(
-    parseEquipmentData(parameters),
+) = RpgConfig(
+    parseEquipmentConfig(parameters),
     parse(parameters, DIE, DieType.D6),
     parseSimpleModifiedDiceRange(parameters, DAMAGE),
 )

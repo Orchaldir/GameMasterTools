@@ -39,7 +39,7 @@ class MeleeWeaponTypeTest {
 
         @Test
         fun `A valid amount of dice for statistic based damage`() {
-            STATE.data.rpg.damage.dice.toIntRange().forEach {
+            STATE.config.rpg.damage.dice.toIntRange().forEach {
                 val amount = StatisticBasedDamage(STATISTIC_ID_0, SimpleModifiedDice(it))
                 val attack = MeleeAttack(Damage(amount, DAMAGE_TYPE_ID_0))
 
@@ -49,7 +49,7 @@ class MeleeWeaponTypeTest {
 
         @Test
         fun `Too many dice for statistic based damage`() {
-            val modifiedDice = SimpleModifiedDice(STATE.data.rpg.damage.dice.max + 1)
+            val modifiedDice = SimpleModifiedDice(STATE.config.rpg.damage.dice.max + 1)
             val amount = StatisticBasedDamage(STATISTIC_ID_0, modifiedDice)
             val attack = MeleeAttack(Damage(amount, DAMAGE_TYPE_ID_0))
 
@@ -58,7 +58,7 @@ class MeleeWeaponTypeTest {
 
         @Test
         fun `Too few dice for statistic based damage`() {
-            val modifiedDice = SimpleModifiedDice(STATE.data.rpg.damage.dice.min - 1)
+            val modifiedDice = SimpleModifiedDice(STATE.config.rpg.damage.dice.min - 1)
             val amount = StatisticBasedDamage(STATISTIC_ID_0, modifiedDice)
             val attack = MeleeAttack(Damage(amount, DAMAGE_TYPE_ID_0))
 

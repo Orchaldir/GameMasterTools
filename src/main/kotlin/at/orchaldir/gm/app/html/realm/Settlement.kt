@@ -150,7 +150,7 @@ fun HtmlBlockTag.editSettlement(
             owner,
         )
     }
-    selectAreaLookup(settlement.area, state.data.largeAreaUnit)
+    selectAreaLookup(settlement.area, state.config.largeAreaUnit)
     editPopulation(call, state, settlement.population)
     editEconomy(call, state, settlement.economy)
     editDataSources(state, settlement.sources)
@@ -179,7 +179,7 @@ fun parseSettlement(
         parseHistory(parameters, OWNER, state, date) { _, _, param ->
             parseOptionalRealmId(parameters, param)
         },
-        parseAreaLookup(parameters, state.data.largeAreaUnit),
+        parseAreaLookup(parameters, state.config.largeAreaUnit),
         parsePopulation(parameters, state),
         parseEconomy(parameters, state),
         parseDataSources(parameters),

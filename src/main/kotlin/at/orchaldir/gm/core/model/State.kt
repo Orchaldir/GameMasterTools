@@ -172,27 +172,27 @@ val ELEMENTS =
         WAR_TYPE,
         WORLD_TYPE,
     )
-private const val DATA = "Data"
+private const val CONFIG = "Config"
 
 data class State(
     val storageMap: Map<String, Storage<*, *>> = emptyMap(),
     val path: String = "data",
-    val data: Data = Data(),
+    val config: Config = Config(),
     val rarityGenerator: RarityGenerator = RarityGenerator.empty(5),
 ) {
     constructor(
         storage: Storage<*, *>,
         path: String = "data",
-        data: Data = Data(),
+        config: Config = Config(),
         rarityGenerator: RarityGenerator = RarityGenerator.empty(5),
-    ) : this(mapOf(storage.getType() to storage), path, data, rarityGenerator)
+    ) : this(mapOf(storage.getType() to storage), path, config, rarityGenerator)
 
     constructor(
         storageList: List<Storage<*, *>>,
         path: String = "data",
-        data: Data = Data(),
+        config: Config = Config(),
         rarityGenerator: RarityGenerator = RarityGenerator.empty(5),
-    ) : this(storageList.associateBy { it.getType() }, path, data, rarityGenerator)
+    ) : this(storageList.associateBy { it.getType() }, path, config, rarityGenerator)
 
     fun getAmmunitionStorage() = getStorage<AmmunitionId, Ammunition>(AMMUNITION_TYPE)
     fun getAmmunitionTypeStorage() = getStorage<AmmunitionTypeId, AmmunitionType>(AMMUNITION_TYPE_TYPE)
@@ -279,7 +279,7 @@ data class State(
         if (storage != null) {
             return storage.getName(id, this)
         } else if (id is StandardOfLivingId) {
-            return data.economy.getStandardOfLiving(id).name()
+            return config.economy.getStandardOfLiving(id).name()
         }
 
         return "Unknown"
@@ -321,7 +321,7 @@ data class State(
             return State(
                 ELEMENTS.associateWith { loadStorageForType(path, it) },
                 path,
-                load(path, DATA)
+                load(path, CONFIG)
             )
         }
     }
@@ -337,7 +337,7 @@ data class State(
             .filter { it.key != COLOR_SCHEME_TYPE }
             .forEach { (_, storage) -> validate(storage) }
 
-        validateData(this, data)
+        validateData(this, config)
     }
 
     private fun <ID : Id<ID>, ELEMENT : Element<ID>> validate(
@@ -420,7 +420,7 @@ data class State(
         saveStorage(path, getUniformStorage())
         saveStorage(path, getWarStorage())
         saveStorage(path, getWorldStorage())
-        save(path, DATA, data)
+        save(path, CONFIG, config)
     }
 }
 

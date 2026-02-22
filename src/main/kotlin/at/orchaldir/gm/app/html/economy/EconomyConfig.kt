@@ -7,7 +7,7 @@ import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.economy.money.parseCurrencyId
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.economy.EconomyData
+import at.orchaldir.gm.core.model.economy.EconomyConfig
 import at.orchaldir.gm.core.model.economy.job.IncomeType
 import at.orchaldir.gm.core.model.economy.standard.StandardOfLivingId
 import at.orchaldir.gm.core.selector.economy.countJobs
@@ -21,17 +21,17 @@ import kotlinx.html.*
 
 // show
 
-fun HtmlBlockTag.showEconomyData(
+fun HtmlBlockTag.showEconomyConfig(
     call: ApplicationCall,
     state: State,
-    economy: EconomyData,
+    config: EconomyConfig,
 ) {
     val currency = state.getDefaultCurrency()
 
     h2 { +"Economy" }
 
-    fieldLink("Default Currency", call, state, economy.defaultCurrency)
-    field("Default Income Type", economy.defaultIncomeType)
+    fieldLink("Default Currency", call, state, config.defaultCurrency)
+    field("Default Income Type", config.defaultIncomeType)
 
     table {
         tr {
@@ -43,7 +43,7 @@ fun HtmlBlockTag.showEconomyData(
             th { +"Realms" }
             th { +"Settlements" }
         }
-        economy.standardsOfLiving.forEach { standard ->
+        config.standardsOfLiving.forEach { standard ->
             tr {
                 tdLink(call, state, standard)
                 td { +currency.print(standard.maxYearlyIncome) }
@@ -59,9 +59,9 @@ fun HtmlBlockTag.showEconomyData(
 
 // edit
 
-fun HtmlBlockTag.editEconomyData(
+fun HtmlBlockTag.editEconomyConfig(
     state: State,
-    economy: EconomyData,
+    config: EconomyConfig,
 ) {
     h2 { +"Economy" }
 
@@ -70,13 +70,13 @@ fun HtmlBlockTag.editEconomyData(
         "Default Currency",
         CURRENCY,
         state.getCurrencyStorage().getAll(),
-        economy.defaultCurrency,
+        config.defaultCurrency,
     )
     selectValue(
         "Default Income Type",
         combine(PRICE, TYPE),
         IncomeType.entries,
-        economy.defaultIncomeType,
+        config.defaultIncomeType,
     )
 
     var minIncome = 0
@@ -84,7 +84,7 @@ fun HtmlBlockTag.editEconomyData(
     editList(
         "Standards of Living",
         STANDARD,
-        economy.standardsOfLiving,
+        config.standardsOfLiving,
         1,
         10,
         1,
@@ -96,10 +96,10 @@ fun HtmlBlockTag.editEconomyData(
 
 // parse
 
-fun parseEconomyData(
+fun parseEconomyConfig(
     state: State,
     parameters: Parameters,
-) = EconomyData(
+) = EconomyConfig(
     parseCurrencyId(parameters, CURRENCY),
     parse(parameters, combine(PRICE, TYPE), IncomeType.Undefined),
     parseList(parameters, STANDARD, 1) { index, param ->

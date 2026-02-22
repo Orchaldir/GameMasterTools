@@ -13,7 +13,7 @@ import kotlinx.html.HtmlBlockTag
 fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.displayAreaLookup(
     state: State,
     element: ELEMENT,
-    unit: AreaUnit = state.data.largeAreaUnit,
+    unit: AreaUnit = state.config.largeAreaUnit,
 ) where
         ELEMENT : Element<ID>,
         ELEMENT : HasArea = displayAreaLookup(element.area(), unit) {
@@ -23,7 +23,7 @@ fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.displayAreaLookup(
 fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showAreaLookupDetails(
     state: State,
     element: ELEMENT,
-    unit: AreaUnit = state.data.largeAreaUnit,
+    unit: AreaUnit = state.config.largeAreaUnit,
 ) where
         ELEMENT : Element<ID>,
         ELEMENT : HasArea = showAreaLookupDetails(element.area(), unit) {

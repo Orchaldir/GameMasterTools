@@ -7,7 +7,7 @@ import at.orchaldir.gm.core.model.economy.standard.StandardOfLivingId
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class EconomyData(
+data class EconomyConfig(
     val defaultCurrency: CurrencyId = CurrencyId(0),
     val defaultIncomeType: IncomeType = IncomeType.Undefined,
     val standardsOfLiving: List<StandardOfLiving> = emptyList(),

@@ -3,7 +3,7 @@ package at.orchaldir.gm.core.selector.util
 import at.orchaldir.gm.CALENDAR0
 import at.orchaldir.gm.CALENDAR_ID_0
 import at.orchaldir.gm.QUOTE_ID_0
-import at.orchaldir.gm.core.model.Data
+import at.orchaldir.gm.core.model.Config
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.Time
 import at.orchaldir.gm.core.model.time.date.Day
@@ -29,7 +29,7 @@ class HasStartDateTest {
         val lateRange = DayRange(1, 10)
         val state = State(
             Storage(CALENDAR0),
-            data = Data(time = Time(CALENDAR_ID_0)),
+            config = Config(time = Time(CALENDAR_ID_0)),
         )
         val elementWithNull = Quote(QUOTE_ID_0)
         val elementWithStartDay = Quote(QUOTE_ID_0, date = day1)

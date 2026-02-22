@@ -1,6 +1,6 @@
 package at.orchaldir.gm.core.action
 
-import at.orchaldir.gm.core.model.Data
+import at.orchaldir.gm.core.model.Config
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.InterpersonalRelationship
 import at.orchaldir.gm.core.model.character.appearance.Appearance
@@ -28,7 +28,7 @@ data class DeleteAction<ID : Id<ID>>(val id: ID) : Action()
 data class UpdateAction<ID : Id<ID>, ELEMENT : Element<ID>>(val element: ELEMENT) : Action()
 
 // data
-data class UpdateData(val data: Data) : Action()
+data class UpdateData(val config: Config) : Action()
 
 //-- characters --
 

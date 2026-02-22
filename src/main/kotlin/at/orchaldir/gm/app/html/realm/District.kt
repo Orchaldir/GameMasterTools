@@ -65,7 +65,7 @@ fun HtmlBlockTag.editDistrict(
     )
     selectOptionalDate(state, "Date", district.foundingDate, DATE)
     selectCreator(state, district.founder, district.id, district.foundingDate, "Founder")
-    selectAreaLookup(district.area, state.data.largeAreaUnit)
+    selectAreaLookup(district.area, state.config.largeAreaUnit)
     editPopulation(call, state, district.population)
     editEconomy(call, state, district.economy)
     editDataSources(state, district.sources)
@@ -88,7 +88,7 @@ fun parseDistrict(
     parsePosition(parameters, state),
     parseOptionalDate(parameters, state, DATE),
     parseCreator(parameters),
-    parseAreaLookup(parameters, state.data.largeAreaUnit),
+    parseAreaLookup(parameters, state.config.largeAreaUnit),
     parse(parameters, TYPE, DistrictType.District),
     parsePopulation(parameters, state),
     parseEconomy(parameters, state),

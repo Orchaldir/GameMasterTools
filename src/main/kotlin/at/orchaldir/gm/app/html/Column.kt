@@ -53,7 +53,7 @@ fun <ELEMENT : HasStartAndEndDate> createAgeColumn(
 
 fun <ID : Id<ID>, ELEMENT> createAreaColumn(
     state: State,
-    unit: AreaUnit = state.data.largeAreaUnit,
+    unit: AreaUnit = state.config.largeAreaUnit,
 ): Column<ELEMENT> where
         ELEMENT : Element<ID>,
         ELEMENT : HasArea = tdColumn("Area") {
@@ -155,7 +155,7 @@ fun <ELEMENT : HasPopulation> createPopulationColumn(): Column<ELEMENT> =
 
 fun <ID : Id<ID>, ELEMENT> createPopulationDensityColumn(
     state: State,
-    unit: AreaUnit = state.data.largeAreaUnit,
+    unit: AreaUnit = state.config.largeAreaUnit,
 ): Column<ELEMENT> where
         ELEMENT : Element<ID>,
         ELEMENT : HasArea,
