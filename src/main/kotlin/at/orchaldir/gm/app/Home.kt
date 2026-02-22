@@ -140,9 +140,9 @@ fun Application.configureRouting() {
                     fieldStorageLink(call, state.getPlaneStorage(), PlaneRoutes())
                     fieldStorageLink(call, state.getRegionStorage(), RegionRoutes())
                     fieldStorageLink(call, state.getRiverStorage(), RiverRoutes())
+                    fieldStorageLink(call, state.getSettlementMapStorage(), SettlementMapRoutes())
                     fieldStorageLink(call, state.getStreetStorage(), StreetRoutes())
                     fieldStorageLink(call, state.getStreetTemplateStorage(), StreetTemplateRoutes())
-                    fieldStorageLink(call, state.getSettlementMapStorage(), SettlementMapRoutes())
                     fieldStorageLink(call, state.getWorldStorage(), WorldRoutes())
                 }
             }
