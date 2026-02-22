@@ -34,13 +34,13 @@ sealed class Income {
 
     fun sortValue(state: State) = when (this) {
         UndefinedIncome -> 0
-        is AffordableStandardOfLiving -> state.data.economy.getStandardOfLiving(standard).maxYearlyIncome.value
+        is AffordableStandardOfLiving -> state.config.economy.getStandardOfLiving(standard).maxYearlyIncome.value
         is Salary -> yearlySalary.value
     }
 
     fun validate(state: State) {
         if (this is AffordableStandardOfLiving) {
-            state.data.economy.requireStandardOfLiving(standard)
+            state.config.economy.requireStandardOfLiving(standard)
         }
     }
 }

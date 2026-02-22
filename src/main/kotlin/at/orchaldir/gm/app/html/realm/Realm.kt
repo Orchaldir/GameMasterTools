@@ -73,7 +73,7 @@ fun HtmlBlockTag.editRealm(
     realm: Realm,
 ) {
     selectName(realm.name)
-    selectAreaLookup(realm.area, state.data.largeAreaUnit)
+    selectAreaLookup(realm.area, state.config.largeAreaUnit)
     editPopulation(call, state, realm.population)
     editEconomy(call, state, realm.economy)
     selectCreator(state, realm.founder, realm.id, realm.date, "Founder")
@@ -158,7 +158,7 @@ fun parseRealm(
         parseHistory(parameters, LEGAL_CODE, state, date) { _, _, param ->
             parseOptionalLegalCodeId(parameters, param)
         },
-        parseAreaLookup(parameters, state.data.largeAreaUnit),
+        parseAreaLookup(parameters, state.config.largeAreaUnit),
         parsePopulation(parameters, state),
         parseEconomy(parameters, state),
         parseDataSources(parameters),

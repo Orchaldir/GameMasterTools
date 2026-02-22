@@ -5,7 +5,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.source.editDataSources
 import at.orchaldir.gm.app.html.util.source.parseDataSources
 import at.orchaldir.gm.app.html.util.source.showDataSources
-import at.orchaldir.gm.app.routes.DataRoutes
+import at.orchaldir.gm.app.routes.ConfigRoutes
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
@@ -43,7 +43,7 @@ private fun HtmlBlockTag.showUsage(
     val rangedWeapons = state.getRangedWeaponTypes(statistic.id)
     val statblocks = state.getStatblocksWith(statistic.id)
     val statistics = state.getStatisticsBasedOn(statistic.id)
-    val isMusclePowered = state.data.rpg.equipment.musclePoweredStatistic == statistic.id
+    val isMusclePowered = state.config.rpg.equipment.musclePoweredStatistic == statistic.id
 
     if (jobs.isEmpty() && meleeWeapons.isEmpty() && rangedWeapons.isEmpty() && statblocks.isEmpty() && statistics.isEmpty() && !isMusclePowered) {
         return
@@ -57,7 +57,7 @@ private fun HtmlBlockTag.showUsage(
     fieldElements(call, state, statistics)
 
     if (isMusclePowered) {
-        val dataLink = call.application.href(DataRoutes())
+        val dataLink = call.application.href(ConfigRoutes())
 
         field("Other") {
             ul {

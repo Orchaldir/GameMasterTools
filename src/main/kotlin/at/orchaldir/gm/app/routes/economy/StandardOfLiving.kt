@@ -4,7 +4,7 @@ import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.back
 import at.orchaldir.gm.app.html.economy.showStandardOfLiving
 import at.orchaldir.gm.app.html.simpleHtmlDetails
-import at.orchaldir.gm.app.routes.DataRoutes
+import at.orchaldir.gm.app.routes.ConfigRoutes
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.standard.STANDARD_TYPE
 import at.orchaldir.gm.core.model.economy.standard.StandardOfLiving
@@ -33,7 +33,7 @@ fun Application.configureStandardOfLivingRouting() {
             logger.info { "Get details of standard ${details.id.value}" }
 
             val state = STORE.getState()
-            val standard = state.data.economy.getStandardOfLiving(details.id)
+            val standard = state.config.economy.getStandardOfLiving(details.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showStandardOfLivingDetails(call, state, standard)
@@ -47,7 +47,7 @@ private fun HTML.showStandardOfLivingDetails(
     state: State,
     standard: StandardOfLiving,
 ) {
-    val backLink = call.application.href(DataRoutes())
+    val backLink = call.application.href(ConfigRoutes())
 
     simpleHtmlDetails(standard) {
         showStandardOfLiving(call, state, standard)

@@ -15,7 +15,7 @@ fun State.getAgeInYears(date: Date) = getDefaultCalendar().getDurationInYears(da
 fun State.getCurrentYear() = getDefaultCalendar()
     .getStartYear(getCurrentDate())
 
-fun State.getDefaultCalendarId() = data.time.defaultCalendar
+fun State.getDefaultCalendarId() = config.time.defaultCalendar
 
-fun State.getCurrentDate() = data.time.currentDate
+fun State.getCurrentDate() = config.time.currentDate
 

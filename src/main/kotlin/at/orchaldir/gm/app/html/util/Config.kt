@@ -1,19 +1,19 @@
 package at.orchaldir.gm.app.html.util
 
 import at.orchaldir.gm.app.AREA
-import at.orchaldir.gm.app.html.economy.editEconomyData
-import at.orchaldir.gm.app.html.economy.parseEconomyData
-import at.orchaldir.gm.app.html.economy.showEconomyData
+import at.orchaldir.gm.app.html.economy.editEconomyConfig
+import at.orchaldir.gm.app.html.economy.parseEconomyConfig
+import at.orchaldir.gm.app.html.economy.showEconomyConfig
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.parse
-import at.orchaldir.gm.app.html.rpg.editRpgData
-import at.orchaldir.gm.app.html.rpg.parseRpgData
-import at.orchaldir.gm.app.html.rpg.showRpgData
+import at.orchaldir.gm.app.html.rpg.editRpgConfig
+import at.orchaldir.gm.app.html.rpg.parseRpgConfig
+import at.orchaldir.gm.app.html.rpg.showRpgConfig
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.time.editTime
 import at.orchaldir.gm.app.html.time.parseTime
 import at.orchaldir.gm.app.html.time.showTime
-import at.orchaldir.gm.core.model.Data
+import at.orchaldir.gm.core.model.Config
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.selector.time.getDefaultCalendar
 import at.orchaldir.gm.utils.math.unit.AreaUnit
@@ -24,40 +24,40 @@ import kotlinx.html.HtmlBlockTag
 
 // show
 
-fun HtmlBlockTag.showData(
+fun HtmlBlockTag.showConfig(
     call: ApplicationCall,
     state: State,
-    data: Data,
+    config: Config,
 ) {
-    field("Large Area Unit", data.largeAreaUnit)
-    showEconomyData(call, state, data.economy)
-    showRpgData(call, state, data.rpg)
-    showTime(call, state, data.time)
+    field("Large Area Unit", config.largeAreaUnit)
+    showEconomyConfig(call, state, config.economy)
+    showRpgConfig(call, state, config.rpg)
+    showTime(call, state, config.time)
 }
 
 
 // edit
 
-fun HtmlBlockTag.editData(state: State, data: Data) {
+fun HtmlBlockTag.editConfig(state: State, config: Config) {
     selectValue(
         "Large Area Unit",
         AREA,
         LARGE_AREA_UNITS,
-        data.largeAreaUnit,
+        config.largeAreaUnit,
     )
-    editEconomyData(state, data.economy)
-    editRpgData(state, data.rpg)
-    editTime(state, data.time)
+    editEconomyConfig(state, config.economy)
+    editRpgConfig(state, config.rpg)
+    editTime(state, config.time)
 }
 
 // parse
 
-fun parseData(
+fun parseConfig(
     state: State,
     parameters: Parameters,
-) = Data(
-    parseEconomyData(state, parameters),
-    parseRpgData(parameters),
+) = Config(
+    parseEconomyConfig(state, parameters),
+    parseRpgConfig(parameters),
     parseTime(parameters, state.getDefaultCalendar()),
     parse(parameters, AREA, AreaUnit.Hectare),
 )

@@ -5,7 +5,7 @@ import at.orchaldir.gm.app.routes.character.configureCharacterRelationshipRoutin
 import at.orchaldir.gm.app.routes.character.configureCharacterRouting
 import at.orchaldir.gm.app.routes.character.configureCharacterTemplateRouting
 import at.orchaldir.gm.app.routes.character.title.configureTitleRouting
-import at.orchaldir.gm.app.routes.configureDataRouting
+import at.orchaldir.gm.app.routes.configureConfigRouting
 import at.orchaldir.gm.app.routes.culture.configureCultureRouting
 import at.orchaldir.gm.app.routes.culture.configureFashionRouting
 import at.orchaldir.gm.app.routes.culture.configureLanguageRouting
@@ -62,7 +62,7 @@ fun Application.module() {
     configureSerialization()
     configureRouting()
     configureStatusPages()
-    configureDataRouting()
+    configureConfigRouting()
     // elements
     configureAbstractBuildingEditorRouting()
     configureAmmunitionRouting()

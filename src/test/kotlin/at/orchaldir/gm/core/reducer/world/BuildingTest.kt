@@ -5,7 +5,7 @@ import at.orchaldir.gm.core.action.AddBuilding
 import at.orchaldir.gm.core.action.DeleteAction
 import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.action.UpdateActionLot
-import at.orchaldir.gm.core.model.Data
+import at.orchaldir.gm.core.model.Config
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CHARACTER_TYPE
 import at.orchaldir.gm.core.model.character.Character
@@ -40,7 +40,7 @@ class BuildingTest {
     private val BIG_SIZE = MapSize2d(2, 1)
     private val BIG_SQUARE = square(2)
     private val OWNERSHIP = History<Reference>(UndefinedReference)
-    private val data = Data(time = Time(currentDate = Day(42)))
+    private val config = Config(time = Time(currentDate = Day(42)))
 
     @Nested
     inner class AddBuildingTest {
@@ -112,7 +112,7 @@ class BuildingTest {
         fun `Successfully added a building`() {
             val map = TileMap2d(SettlementTile())
             val settlement = SettlementMap(SETTLEMENT_MAP_ID_0, map = map)
-            val state = State(Storage(settlement), data = data)
+            val state = State(Storage(settlement), config = config)
             val action = AddBuilding(SETTLEMENT_MAP_ID_0, 0, square(1))
 
             val result = REDUCER.invoke(state, action).first
@@ -131,7 +131,7 @@ class BuildingTest {
         fun `Successfully added a big building`() {
             val map = TileMap2d(BIG_SQUARE, SettlementTile())
             val settlement = SettlementMap(SETTLEMENT_MAP_ID_0, map = map)
-            val state = State(Storage(settlement), data = data)
+            val state = State(Storage(settlement), config = config)
             val action = AddBuilding(SETTLEMENT_MAP_ID_0, 0, BIG_SIZE)
 
             val result = REDUCER.invoke(state, action).first

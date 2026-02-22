@@ -3,7 +3,7 @@ package at.orchaldir.gm.app
 import at.orchaldir.gm.app.html.action
 import at.orchaldir.gm.app.html.fieldStorageLink
 import at.orchaldir.gm.app.html.simpleHtml
-import at.orchaldir.gm.app.routes.DataRoutes
+import at.orchaldir.gm.app.routes.ConfigRoutes
 import at.orchaldir.gm.app.routes.character.CharacterRoutes
 import at.orchaldir.gm.app.routes.character.CharacterTemplateRoutes
 import at.orchaldir.gm.app.routes.character.title.TitleRoutes
@@ -60,12 +60,12 @@ fun Application.configureRouting() {
         get("/") {
             logger.info { "Root" }
             val state = STORE.getState()
-            val dataLink = call.application.href(DataRoutes())
+            val dataLink = call.application.href(ConfigRoutes())
             val eventsLink = call.application.href(TimeRoutes.ShowEvents())
 
             call.respondHtml(HttpStatusCode.OK) {
                 simpleHtml(APP_TITLE) {
-                    action(dataLink, "Data")
+                    action(dataLink, "Config")
                     h2 { +"Elements" }
                     fieldStorageLink(call, state.getColorSchemeStorage(), ColorSchemeRoutes())
                     fieldStorageLink(call, state.getDataSourceStorage(), DataSourceRoutes())

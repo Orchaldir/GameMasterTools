@@ -34,7 +34,7 @@ fun HtmlBlockTag.displayRange(
     range: Range,
     showUndefined: Boolean = false,
 ) {
-    val data = state.data.rpg.equipment
+    val data = state.config.rpg.equipment
 
     when (range) {
         is FixedHalfAndMaxRange -> +"${range.half}/${range.max}"
@@ -71,7 +71,7 @@ fun HtmlBlockTag.editRange(
     range: Range,
     param: String,
 ) {
-    val data = state.data.rpg.equipment
+    val data = state.config.rpg.equipment
     val rangeParam = combine(param, RANGE)
 
     showDetails("Range", true) {

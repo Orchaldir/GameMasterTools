@@ -2,12 +2,12 @@ package at.orchaldir.gm.core.reducer.item
 
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.UpdateAction
-import at.orchaldir.gm.core.model.Data
+import at.orchaldir.gm.core.model.Config
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.ModifyUniform
 import at.orchaldir.gm.core.model.character.UniqueEquipment
 import at.orchaldir.gm.core.model.character.UseUniform
-import at.orchaldir.gm.core.model.economy.EconomyData
+import at.orchaldir.gm.core.model.economy.EconomyConfig
 import at.orchaldir.gm.core.model.economy.standard.StandardOfLiving
 import at.orchaldir.gm.core.model.item.Uniform
 import at.orchaldir.gm.core.model.item.equipment.*
@@ -29,7 +29,7 @@ class UniformTest {
             Storage(Uniform(UNIFORM_ID_0)),
             Storage(Spell(SPELL_ID_0)),
         ),
-        data = Data(EconomyData(standardsOfLiving = listOf(StandardOfLiving(STANDARD_ID_0)))),
+        config = Config(EconomyConfig(standardsOfLiving = listOf(StandardOfLiving(STANDARD_ID_0)))),
     )
 
     @Nested

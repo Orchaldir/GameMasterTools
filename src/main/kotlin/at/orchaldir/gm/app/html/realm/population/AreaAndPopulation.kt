@@ -32,7 +32,7 @@ fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.fieldPopulationDensity(
         ELEMENT : HasArea,
         ELEMENT : HasPopulation = fieldDensity(
     "Population Density",
-    state.calculatePopulationDensity(element, state.data.largeAreaUnit),
+    state.calculatePopulationDensity(element, state.config.largeAreaUnit),
     "people",
-    state.data.largeAreaUnit,
+    state.config.largeAreaUnit,
 )

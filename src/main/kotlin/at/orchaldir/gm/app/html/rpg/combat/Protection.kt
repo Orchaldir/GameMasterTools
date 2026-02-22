@@ -84,7 +84,7 @@ fun HtmlBlockTag.editProtection(
     protection: Protection,
     param: String = PROTECTION,
 ) {
-    val data = state.data.rpg.equipment
+    val data = state.config.rpg.equipment
 
     showDetails("Protection", true) {
         selectValue(

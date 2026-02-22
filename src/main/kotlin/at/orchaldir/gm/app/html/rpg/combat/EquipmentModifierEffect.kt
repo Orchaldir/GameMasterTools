@@ -54,7 +54,7 @@ fun HtmlBlockTag.editEquipmentModifierEffect(
     param: String,
     allowedTypes: Set<EquipmentModifierEffectType>,
 ) {
-    val data = state.data.rpg.equipment
+    val data = state.config.rpg.equipment
 
     showDetails("Effect", true) {
         selectValue(

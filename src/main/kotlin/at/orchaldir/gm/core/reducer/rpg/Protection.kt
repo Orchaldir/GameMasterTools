@@ -8,7 +8,7 @@ fun validateProtection(
     state: State,
     protection: Protection,
 ) {
-    val data = state.data.rpg.equipment
+    val data = state.config.rpg.equipment
 
     when (protection) {
         is DamageResistance -> validateIsInside(protection.amount, "Damage Resistance", 1, data.maxDamageResistance)

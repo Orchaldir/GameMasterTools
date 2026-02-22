@@ -82,10 +82,10 @@ fun HtmlBlockTag.editBaseDamageLookup(
                     100,
                     listOf(
                         Pair("Dice") { entryParam, entry ->
-                            selectDiceNumber(entry, entryParam, state.data.rpg.damage)
+                            selectDiceNumber(entry, entryParam, state.config.rpg.damage)
                         },
                         Pair("Modifier") { entryParam, entry ->
-                            selectDiceModifier(entry, entryParam, state.data.rpg.damage)
+                            selectDiceModifier(entry, entryParam, state.config.rpg.damage)
                         },
                     ),
                 )

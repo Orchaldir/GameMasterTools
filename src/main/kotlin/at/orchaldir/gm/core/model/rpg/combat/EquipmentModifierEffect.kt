@@ -34,7 +34,7 @@ sealed class EquipmentModifierEffect {
     }
 
     fun validate(state: State) {
-        val data = state.data.rpg.equipment
+        val data = state.config.rpg.equipment
 
         when (this) {
             is ModifyDamage -> amount.validate("ModifyDamage", data.damageModifier)

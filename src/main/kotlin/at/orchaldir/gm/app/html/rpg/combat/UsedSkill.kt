@@ -97,7 +97,7 @@ fun HtmlBlockTag.editUsedSkill(
                 selectUsedSkill(state, skillParam, skill.skill)
                 selectFromRange(
                     "Modifier",
-                    state.data.rpg.equipment.skillModifier,
+                    state.config.rpg.equipment.skillModifier,
                     skill.modifier,
                     combine(skillParam, NUMBER),
                 )
