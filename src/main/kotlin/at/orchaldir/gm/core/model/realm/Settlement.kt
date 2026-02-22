@@ -14,30 +14,30 @@ import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.name.NotEmptyString
 import at.orchaldir.gm.core.model.util.source.DataSourceId
 import at.orchaldir.gm.core.model.util.source.HasDataSources
-import at.orchaldir.gm.core.reducer.realm.validateTown
+import at.orchaldir.gm.core.reducer.realm.validateSettlement
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.math.unit.AreaLookup
 import at.orchaldir.gm.utils.math.unit.CalculatedArea
 import at.orchaldir.gm.utils.math.unit.HasArea
 import kotlinx.serialization.Serializable
 
-const val TOWN_TYPE = "Town"
-val ALLOWED_VITAL_STATUS_FOR_TOWN = ALLOWED_VITAL_STATUS_FOR_REALM
-val ALLOWED_CAUSES_OF_DEATH_FOR_TOWN = ALLOWED_CAUSES_OF_DEATH_FOR_REALM
+const val SETTLEMENT_TYPE = "Settlement"
+val ALLOWED_VITAL_STATUS_FOR_SETTLEMENT = ALLOWED_VITAL_STATUS_FOR_REALM
+val ALLOWED_CAUSES_OF_DEATH_FOR_SETTLEMENT = ALLOWED_CAUSES_OF_DEATH_FOR_REALM
 
 @JvmInline
 @Serializable
-value class TownId(val value: Int) : Id<TownId> {
+value class SettlementId(val value: Int) : Id<SettlementId> {
 
-    override fun next() = TownId(value + 1)
-    override fun type() = TOWN_TYPE
+    override fun next() = SettlementId(value + 1)
+    override fun type() = SETTLEMENT_TYPE
     override fun value() = value
 
 }
 
 @Serializable
-data class Town(
-    val id: TownId,
+data class Settlement(
+    val id: SettlementId,
     val name: Name = Name.init(id),
     val title: NotEmptyString? = null,
     val founder: Reference = UndefinedReference,
@@ -48,7 +48,7 @@ data class Town(
     val population: Population = UndefinedPopulation,
     val economy: Economy = UndefinedEconomy,
     val sources: Set<DataSourceId> = emptySet(),
-) : ElementWithSimpleName<TownId>, Creation, HasArea, HasDataSources, HasEconomy, HasPopulation, HasPosition,
+) : ElementWithSimpleName<SettlementId>, Creation, HasArea, HasDataSources, HasEconomy, HasPopulation, HasPosition,
     HasVitalStatus {
 
     override fun id() = id
@@ -68,5 +68,5 @@ data class Town(
     override fun sources() = sources
     override fun startDate(state: State) = date
     override fun vitalStatus() = status
-    override fun validate(state: State) = validateTown(state, this)
+    override fun validate(state: State) = validateSettlement(state, this)
 }

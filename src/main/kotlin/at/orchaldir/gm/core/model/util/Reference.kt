@@ -5,7 +5,7 @@ import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.organization.OrganizationId
 import at.orchaldir.gm.core.model.realm.RealmId
-import at.orchaldir.gm.core.model.realm.TownId
+import at.orchaldir.gm.core.model.realm.SettlementId
 import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.SerialName
@@ -85,4 +85,4 @@ data class RealmReference(val realm: RealmId) : Reference()
 
 @Serializable
 @SerialName("Town")
-data class TownReference(val town: TownId) : Reference()
+data class TownReference(val town: SettlementId) : Reference()

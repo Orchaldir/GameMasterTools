@@ -15,7 +15,7 @@ fun validateRealm(state: State, realm: Realm) {
     validateCreator(state, realm.founder, realm.id, realm.date, "founder")
     validateHistory(state, realm.capital, realm.date, "capital") { _, townId, _, date ->
         if (townId != null) {
-            state.requireExists(state.getTownStorage(), townId, date)
+            state.requireExists(state.getSettlementStorage(), townId, date)
         }
     }
     validateHistory(state, realm.currency, realm.date, "currency") { _, code, _, date ->

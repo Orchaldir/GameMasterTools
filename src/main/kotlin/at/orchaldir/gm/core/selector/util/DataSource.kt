@@ -23,7 +23,7 @@ fun State.canDeleteDataSource(id: DataSourceId) = DeleteResult(id)
     .addElements(getElementsInDataSource(getRealmStorage(), id))
     .addElements(getElementsInDataSource(getSpellStorage(), id))
     .addElements(getElementsInDataSource(getTextStorage(), id))
-    .addElements(getElementsInDataSource(getTownStorage(), id))
+    .addElements(getElementsInDataSource(getSettlementStorage(), id))
     .addElements(getElementsInDataSource(getTreatyStorage(), id))
     .addElements(getElementsInDataSource(getWarStorage(), id))
 

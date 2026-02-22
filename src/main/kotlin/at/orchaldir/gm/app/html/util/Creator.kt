@@ -36,7 +36,7 @@ fun <ID : Id<ID>> HtmlBlockTag.showCreated(
     val spells = getCreatedBy(state.getSpellStorage(), id)
     val texts = getCreatedBy(state.getTextStorage(), id)
     val publishedTexts = state.getTextsPublishedBy(id)
-    val towns = getCreatedBy(state.getTownStorage(), id)
+    val towns = getCreatedBy(state.getSettlementStorage(), id)
     val treaties = getCreatedBy(state.getTreatyStorage(), id)
 
     if (!alwaysShowTitle && articles.isEmpty() && buildings.isEmpty() && businesses.isEmpty() && catastrophes.isEmpty() && magicTraditions.isEmpty() &&

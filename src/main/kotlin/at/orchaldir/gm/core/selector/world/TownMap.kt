@@ -2,7 +2,7 @@ package at.orchaldir.gm.core.selector.world
 
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.realm.TownId
+import at.orchaldir.gm.core.model.realm.SettlementId
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.street.StreetTemplateId
 import at.orchaldir.gm.core.model.world.terrain.RegionId
@@ -17,12 +17,12 @@ fun State.canDeleteTownMap(town: TownMapId) = DeleteResult(town)
 
 // get
 
-fun State.getCurrentTownMap(town: TownId): TownMap? {
+fun State.getCurrentTownMap(town: SettlementId): TownMap? {
     return getTownMaps(town)
         .maxWithOrNull(getStartDateComparator())
 }
 
-fun State.getTownMaps(town: TownId) = getTownMapStorage()
+fun State.getTownMaps(town: SettlementId) = getTownMapStorage()
     .getAll()
     .filter { it.town == town }
 

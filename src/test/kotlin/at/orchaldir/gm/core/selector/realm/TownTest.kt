@@ -12,7 +12,7 @@ import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.town.TownMap
-import at.orchaldir.gm.core.selector.realm.canDeleteTown
+import at.orchaldir.gm.core.selector.realm.canDeleteSettlement
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -23,10 +23,10 @@ class TownTest {
 
     @Nested
     inner class CanDeleteTest {
-        private val town = Town(TOWN_ID_0)
+        private val settlement = Settlement(TOWN_ID_0)
         private val state = State(
             listOf(
-                Storage(town),
+                Storage(settlement),
             )
         )
 
@@ -135,7 +135,7 @@ class TownTest {
         }
 
         private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {
-            assertEquals(DeleteResult(TOWN_ID_0).addId(blockingId), state.canDeleteTown(TOWN_ID_0))
+            assertEquals(DeleteResult(TOWN_ID_0).addId(blockingId), state.canDeleteSettlement(TOWN_ID_0))
         }
     }
 

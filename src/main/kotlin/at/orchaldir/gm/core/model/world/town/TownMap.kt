@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.model.world.town
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.realm.TownId
+import at.orchaldir.gm.core.model.realm.SettlementId
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.HasStartDate
 import at.orchaldir.gm.core.model.world.building.BuildingId
@@ -32,7 +32,7 @@ value class TownMapId(val value: Int) : Id<TownMapId> {
 @Serializable
 data class TownMap(
     val id: TownMapId,
-    val town: TownId? = null,
+    val town: SettlementId? = null,
     val date: Date? = null,
     val map: TileMap2d<TownTile> = TileMap2d(square(10), TownTile()),
 ) : Element<TownMapId>, HasStartDate {
@@ -42,7 +42,7 @@ data class TownMap(
         if (town == null) {
             "Town Map ${id.value}"
         } else {
-            val town = state.getTownStorage().getOrThrow(town)
+            val town = state.getSettlementStorage().getOrThrow(town)
 
             if (date != null) {
                 val calendar = state.getDefaultCalendar()
@@ -170,7 +170,7 @@ data class TownMap(
         .build(tileIndex, size, BuildingTile(building))
 
     override fun validate(state: State) {
-        state.getTownStorage().requireOptional(town)
+        state.getSettlementStorage().requireOptional(town)
         require(!hasDuplicateTownAndDate(state, this)) { "Multiple maps have the same town & date combination!" }
         map.tiles.forEach { validateTownTile(state, it) }
     }

@@ -11,7 +11,7 @@ import at.orchaldir.gm.core.model.economy.EconomyWithNumbers
 import at.orchaldir.gm.core.model.economy.EconomyWithPercentages
 import at.orchaldir.gm.core.model.realm.District
 import at.orchaldir.gm.core.model.realm.Realm
-import at.orchaldir.gm.core.model.realm.Town
+import at.orchaldir.gm.core.model.realm.Settlement
 import at.orchaldir.gm.core.model.util.NumberDistribution
 import at.orchaldir.gm.core.model.util.PercentageDistribution
 import at.orchaldir.gm.utils.Id
@@ -49,8 +49,8 @@ class HasEconomyTest {
 
         @Test
         fun `Cannot delete a race used by a population with numbers`() {
-            val town = Town(TOWN_ID_0, economy = numbers)
-            val newState = state.updateStorage(town)
+            val settlement = Settlement(TOWN_ID_0, economy = numbers)
+            val newState = state.updateStorage(settlement)
 
             failCanDelete(newState, TOWN_ID_0)
         }

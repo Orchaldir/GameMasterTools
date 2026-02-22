@@ -5,7 +5,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.economy.parseBusinessId
 import at.orchaldir.gm.app.html.realm.parseDistrictId
 import at.orchaldir.gm.app.html.realm.parseRealmId
-import at.orchaldir.gm.app.html.realm.parseTownId
+import at.orchaldir.gm.app.html.realm.parseSettlementId
 import at.orchaldir.gm.app.html.world.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.date.Date
@@ -137,7 +137,7 @@ private fun HtmlBlockTag.selectPositionIntern(
     val planes = state.getPlaneStorage().getAll()
     val realms = state.getExistingElements(state.getRealmStorage(), start)
     val regions = state.getRegionStorage().getAll()
-    val towns = state.getExistingElements(state.getTownStorage(), start)
+    val towns = state.getExistingElements(state.getSettlementStorage(), start)
     val townMaps = state.getExistingElements(state.getTownMapStorage(), start)
     val worlds = state.getWorldStorage().getAll()
 
@@ -328,7 +328,7 @@ fun parsePosition(parameters: Parameters, state: State, param: String = POSITION
         )
 
         PositionType.Town -> InTown(
-            parseTownId(parameters, combine(param, TOWN)),
+            parseSettlementId(parameters, combine(param, TOWN)),
         )
 
         PositionType.TownMap -> InTownMap(

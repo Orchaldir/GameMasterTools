@@ -6,7 +6,7 @@ import at.orchaldir.gm.app.html.economy.parseBusinessId
 import at.orchaldir.gm.app.html.economy.parseJobId
 import at.orchaldir.gm.app.html.economy.parseOptionalBusinessId
 import at.orchaldir.gm.app.html.realm.parseRealmId
-import at.orchaldir.gm.app.html.realm.parseTownId
+import at.orchaldir.gm.app.html.realm.parseSettlementId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.economy.job.EmployerType
@@ -16,7 +16,7 @@ import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.selector.economy.getJobs
 import at.orchaldir.gm.core.selector.economy.getOpenBusinesses
 import at.orchaldir.gm.core.selector.realm.getExistingRealms
-import at.orchaldir.gm.core.selector.realm.getExistingTowns
+import at.orchaldir.gm.core.selector.realm.getExistingSettlements
 import at.orchaldir.gm.core.selector.util.sortCharacters
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
@@ -157,7 +157,7 @@ fun HtmlBlockTag.selectEmploymentStatus(
             selectElement(
                 state,
                 combine(param, TOWN),
-                state.getExistingTowns(start),
+                state.getExistingSettlements(start),
                 status.town,
             )
             selectJob(state, param, EmployerType.Town, status.job)
@@ -203,7 +203,7 @@ fun parseEmploymentStatus(parameters: Parameters, state: State, param: String): 
 
         EmploymentStatusType.EmployedByTown -> EmployedByTown(
             parseJobId(parameters, combine(param, JOB)),
-            parseTownId(parameters, combine(param, TOWN)),
+            parseSettlementId(parameters, combine(param, TOWN)),
             parseOptionalBusinessId(parameters, combine(param, BUSINESS)),
         )
 

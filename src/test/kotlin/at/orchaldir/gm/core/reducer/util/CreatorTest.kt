@@ -17,7 +17,7 @@ import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.realm.Catastrophe
 import at.orchaldir.gm.core.model.realm.CreatedCatastrophe
 import at.orchaldir.gm.core.model.realm.Realm
-import at.orchaldir.gm.core.model.realm.Town
+import at.orchaldir.gm.core.model.realm.Settlement
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.util.origin.CreatedElement
@@ -45,7 +45,7 @@ class CreatorTest {
             Storage(Organization(ORGANIZATION_ID_0, date = DAY1)),
             Storage(Race(RACE_ID_0)),
             Storage(Realm(REALM_ID_0, date = DAY1)),
-            Storage(Town(TOWN_ID_0, date = DAY1)),
+            Storage(Settlement(TOWN_ID_0, date = DAY1)),
         )
     )
 
@@ -127,7 +127,7 @@ class CreatorTest {
 
         @Test
         fun `Created a town`() {
-            test(Town(TOWN_ID_0, founder = createdByCharacter))
+            test(Settlement(TOWN_ID_0, founder = createdByCharacter))
         }
 
         private fun <ID : Id<ID>, ELEMENT : Element<ID>> test(element: ELEMENT) {

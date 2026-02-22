@@ -154,7 +154,7 @@ fun reduceCreateElement(
     is StreetTemplateId -> createElement(state, StreetTemplate(id))
     is TextId -> createElement(state, Text(id))
     is TitleId -> createElement(state, Title(id))
-    is TownId -> createElement(state, Town(id))
+    is SettlementId -> createElement(state, Settlement(id))
     is TownMapId -> createElement(state, TownMap(id))
     is TreatyId -> createElement(state, Treaty(id))
     is UniformId -> createElement(state, Uniform(id))

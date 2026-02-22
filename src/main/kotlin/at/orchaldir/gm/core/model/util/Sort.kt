@@ -300,6 +300,17 @@ enum class SortRiver {
     Name,
 }
 
+enum class SortSettlement {
+    Name,
+    Start,
+    End,
+    Age,
+    Population,
+    Density,
+    Buildings,
+    Residents,
+}
+
 enum class SortShieldType {
     Name,
     Equipment,
@@ -339,17 +350,6 @@ enum class SortText {
 enum class SortTitle {
     Name,
     Characters,
-}
-
-enum class SortTown {
-    Name,
-    Start,
-    End,
-    Age,
-    Population,
-    Density,
-    Buildings,
-    Residents,
 }
 
 enum class SortTownMap {

@@ -5,7 +5,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.EmployedByTown
 import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.realm.RealmId
-import at.orchaldir.gm.core.model.realm.TownId
+import at.orchaldir.gm.core.model.realm.SettlementId
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.selector.character.getEmployees
 import at.orchaldir.gm.core.selector.character.getPreviousEmployees
@@ -13,7 +13,7 @@ import at.orchaldir.gm.core.selector.util.*
 import at.orchaldir.gm.core.selector.world.getTownMaps
 import at.orchaldir.gm.utils.Id
 
-fun State.canDeleteTown(town: TownId) = DeleteResult(town)
+fun State.canDeleteSettlement(town: SettlementId) = DeleteResult(town)
     .addElements(getRealmsWithCapital(town))
     .addElements(getRealmsWithPreviousCapital(town))
     .addElements(getDistricts(town))
@@ -28,39 +28,39 @@ fun State.canDeleteTown(town: TownId) = DeleteResult(town)
 
 // count
 
-fun State.countOwnedTowns(realm: RealmId) = getTownStorage()
+fun State.countOwnedSettlements(realm: RealmId) = getSettlementStorage()
     .getAll()
     .count { it.owner.current == realm }
 
 // get
 
-fun State.getExistingTowns(date: Date?) = getExistingElements(getTownStorage().getAll(), date)
+fun State.getExistingSettlements(date: Date?) = getExistingElements(getSettlementStorage().getAll(), date)
 
-fun <ID : Id<ID>> State.countDestroyedTowns(id: ID) = getTownStorage()
+fun <ID : Id<ID>> State.countDestroyedSettlements(id: ID) = getSettlementStorage()
     .getAll()
     .count { it.status.isDestroyedBy(id) }
 
-fun <ID : Id<ID>> State.getOwnedTowns(id: ID) = if (id is RealmId) {
-    getOwnedTowns(id)
+fun <ID : Id<ID>> State.getOwnedSettlements(id: ID) = if (id is RealmId) {
+    getOwnedSettlements(id)
 } else {
     emptyList()
 }
 
-fun State.getOwnedTowns(realm: RealmId) = getTownStorage()
+fun State.getOwnedSettlements(realm: RealmId) = getSettlementStorage()
     .getAll()
     .filter { it.owner.current == realm }
 
-fun <ID : Id<ID>> State.getPreviousOwnedTowns(id: ID) = if (id is RealmId) {
-    getPreviousOwnedTowns(id)
+fun <ID : Id<ID>> State.getPreviousOwnedSettlements(id: ID) = if (id is RealmId) {
+    getPreviousOwnedSettlements(id)
 } else {
     emptyList()
 }
 
-fun State.getPreviousOwnedTowns(realm: RealmId) = getTownStorage()
+fun State.getPreviousOwnedSettlements(realm: RealmId) = getSettlementStorage()
     .getAll()
     .filter { it.owner.previousEntries.any { it.entry == realm } }
 
-fun State.getTowns(job: JobId) = getCharacterStorage()
+fun State.getSettlements(job: JobId) = getCharacterStorage()
     .getAll()
     .mapNotNull {
         val employmentStatus = it.employmentStatus.current

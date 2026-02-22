@@ -125,7 +125,7 @@ fun reduceUpdateElement(
     is Text -> updateElement(state, element)
     is Title -> updateElement(state, element)
     is Treaty -> updateElement(state, element)
-    is Town -> updateElement(state, element)
+    is Settlement -> updateElement(state, element)
     is TownMap -> updateElement(state, element)
     is Uniform -> updateElement(state, element)
     is War -> updateElement(state, element)

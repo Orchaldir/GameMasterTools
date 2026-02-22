@@ -8,7 +8,7 @@ import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.realm.Realm
-import at.orchaldir.gm.core.model.realm.Town
+import at.orchaldir.gm.core.model.realm.Settlement
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.street.StreetTemplate
 import at.orchaldir.gm.utils.Storage
@@ -26,7 +26,7 @@ class OwnerTest {
             Storage(Race(RACE_ID_0)),
             Storage(Realm(REALM_ID_0, date = DAY0)),
             Storage(listOf(StreetTemplate(STREET_TEMPLATE_ID_0), StreetTemplate(STREET_TEMPLATE_ID_0))),
-            Storage(Town(TOWN_ID_0, date = DAY0)),
+            Storage(Settlement(TOWN_ID_0, date = DAY0)),
         )
     )
     private val OWNED_BY_BUSINESS = History<Reference>(BusinessReference(BUSINESS_ID_0))
@@ -160,7 +160,7 @@ class OwnerTest {
 
         @Test
         fun `First owner didn't exist yet`() {
-            val state = STATE.updateStorage(Town(TOWN_ID_0, date = DAY1))
+            val state = STATE.updateStorage(Settlement(TOWN_ID_0, date = DAY1))
 
             assertIllegalArgument("The 1.previous owner (Town 0) doesn't exist at the required date!") {
                 checkOwnership(state, TOWN_AS_PREVIOUS, DAY0)

@@ -4,7 +4,7 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.EconomyWithPercentages
-import at.orchaldir.gm.core.model.realm.Town
+import at.orchaldir.gm.core.model.realm.Settlement
 import at.orchaldir.gm.core.model.realm.population.TotalPopulation
 import at.orchaldir.gm.core.model.util.CharacterReference
 import at.orchaldir.gm.core.model.util.History
@@ -22,7 +22,7 @@ class TownTest {
     private val STATE = State(
         listOf(
             Storage(CALENDAR0),
-            Storage(Town(TOWN_ID_0)),
+            Storage(Settlement(TOWN_ID_0)),
         )
     )
 
@@ -31,7 +31,7 @@ class TownTest {
 
         @Test
         fun `Cannot update unknown id`() {
-            val action = UpdateAction(Town(UNKNOWN_TOWN_ID))
+            val action = UpdateAction(Settlement(UNKNOWN_TOWN_ID))
 
             assertIllegalArgument("Requires unknown Town 99!") { REDUCER.invoke(State(), action) }
         }
@@ -49,51 +49,51 @@ class TownTest {
                     VitalStatusType.Vanished to false,
                 ),
             ) { status ->
-                Town(TOWN_ID_0, date = DAY0, status = status)
+                Settlement(TOWN_ID_0, date = DAY0, status = status)
             }
         }
 
         @Test
         fun `Founder must exist`() {
-            val action = UpdateAction(Town(TOWN_ID_0, founder = CharacterReference(UNKNOWN_CHARACTER_ID)))
+            val action = UpdateAction(Settlement(TOWN_ID_0, founder = CharacterReference(UNKNOWN_CHARACTER_ID)))
 
             assertIllegalArgument("Requires unknown founder (Character 99)!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
         fun `Owner must exist`() {
-            val action = UpdateAction(Town(TOWN_ID_0, owner = History(UNKNOWN_REALM_ID)))
+            val action = UpdateAction(Settlement(TOWN_ID_0, owner = History(UNKNOWN_REALM_ID)))
 
             assertIllegalArgument("Requires unknown Realm 99!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
         fun `Date is in the future`() {
-            val action = UpdateAction(Town(TOWN_ID_0, date = FUTURE_DAY_0))
+            val action = UpdateAction(Settlement(TOWN_ID_0, date = FUTURE_DAY_0))
 
             assertIllegalArgument("Date (Town) is in the future!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
         fun `The population is validated`() {
-            val action = UpdateAction(Town(TOWN_ID_0, population = TotalPopulation(-1)))
+            val action = UpdateAction(Settlement(TOWN_ID_0, population = TotalPopulation(-1)))
 
             assertIllegalArgument("The total population must be >= 0!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
         fun `The economy is validated`() {
-            val action = UpdateAction(Town(TOWN_ID_0, economy = EconomyWithPercentages(-1)))
+            val action = UpdateAction(Settlement(TOWN_ID_0, economy = EconomyWithPercentages(-1)))
 
             assertIllegalArgument("The total number of businesses must be >= 0!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
         fun `Update is valid`() {
-            val town = Town(TOWN_ID_0, Name.init("Test"))
-            val action = UpdateAction(town)
+            val settlement = Settlement(TOWN_ID_0, Name.init("Test"))
+            val action = UpdateAction(settlement)
 
-            assertEquals(town, REDUCER.invoke(STATE, action).first.getTownStorage().get(TOWN_ID_0))
+            assertEquals(settlement, REDUCER.invoke(STATE, action).first.getSettlementStorage().get(TOWN_ID_0))
         }
     }
 

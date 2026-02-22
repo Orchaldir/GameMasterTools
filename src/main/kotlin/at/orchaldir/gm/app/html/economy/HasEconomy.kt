@@ -57,7 +57,7 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.showEconomyOfElement(
 
     showEconomyOfElement(call, state, getPercentage, state.getDistrictStorage(), totalOrZero, contains)
     showEconomyOfElement(call, state, getPercentage, state.getRealmStorage(), totalOrZero, contains)
-    showEconomyOfElement(call, state, getPercentage, state.getTownStorage(), totalOrZero, contains)
+    showEconomyOfElement(call, state, getPercentage, state.getSettlementStorage(), totalOrZero, contains)
 }
 
 private fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showEconomyOfElement(

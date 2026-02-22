@@ -7,7 +7,7 @@ import at.orchaldir.gm.app.html.culture.parseCultureId
 import at.orchaldir.gm.app.html.economy.parseBusinessId
 import at.orchaldir.gm.app.html.organization.parseOrganizationId
 import at.orchaldir.gm.app.html.realm.parseRealmId
-import at.orchaldir.gm.app.html.realm.parseTownId
+import at.orchaldir.gm.app.html.realm.parseSettlementId
 import at.orchaldir.gm.app.html.religion.parseGodId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.date.Date
@@ -16,7 +16,7 @@ import at.orchaldir.gm.core.selector.character.getLiving
 import at.orchaldir.gm.core.selector.economy.getOpenBusinesses
 import at.orchaldir.gm.core.selector.organization.getExistingOrganizations
 import at.orchaldir.gm.core.selector.realm.getExistingRealms
-import at.orchaldir.gm.core.selector.realm.getExistingTowns
+import at.orchaldir.gm.core.selector.realm.getExistingSettlements
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
@@ -83,7 +83,7 @@ fun HtmlBlockTag.selectReference(
         .filter { filter(it) }
     val realms = state.getExistingRealms(date)
         .filter { filter(it) }
-    val towns = state.getExistingTowns(date)
+    val towns = state.getExistingSettlements(date)
         .filter { filter(it) }
 
     selectValue("$label Type", param, allowedTypes, reference.getType()) { type ->
@@ -194,7 +194,7 @@ fun parseReference(
         )
 
         ReferenceType.Town -> TownReference(
-            parseTownId(parameters, combine(param, TOWN)),
+            parseSettlementId(parameters, combine(param, TOWN)),
         )
     }
 }

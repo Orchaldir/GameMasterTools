@@ -34,38 +34,38 @@ import kotlinx.html.*
 
 // show
 
-fun HtmlBlockTag.showTown(
+fun HtmlBlockTag.showSettlement(
     call: ApplicationCall,
     state: State,
-    town: Town,
+    settlement: Settlement,
 ) {
-    optionalField("Title", town.title)
-    fieldReference(call, state, town.founder, "Founder")
-    optionalField(call, state, "Founding Date", town.date)
-    showVitalStatus(call, state, town.status)
-    showHistory(call, state, town.owner, "Owner", "Independent") { _, _, owner ->
+    optionalField("Title", settlement.title)
+    fieldReference(call, state, settlement.founder, "Founder")
+    optionalField(call, state, "Founding Date", settlement.date)
+    showVitalStatus(call, state, settlement.status)
+    showHistory(call, state, settlement.owner, "Owner", "Independent") { _, _, owner ->
         link(call, state, owner)
     }
-    fieldElements(call, state, "Capital of", state.getRealmsWithCapital(town.id))
-    fieldElements(call, state, "Previous Capital of", state.getRealmsWithPreviousCapital(town.id))
-    showAreaAndPopulation(call, state, town)
-    showEconomyDetails(call, state, town)
-    showSubDistricts(call, state, state.getDistricts(town.id), town.population)
-    showDataSources(call, state, town.sources)
+    fieldElements(call, state, "Capital of", state.getRealmsWithCapital(settlement.id))
+    fieldElements(call, state, "Previous Capital of", state.getRealmsWithPreviousCapital(settlement.id))
+    showAreaAndPopulation(call, state, settlement)
+    showEconomyDetails(call, state, settlement)
+    showSubDistricts(call, state, state.getDistricts(settlement.id), settlement.population)
+    showDataSources(call, state, settlement.sources)
 
-    val currentTownMap = state.getCurrentTownMap(town.id)
+    val currentTownMap = state.getCurrentTownMap(settlement.id)
 
     if (currentTownMap != null) {
         optionalFieldLink(call, state, currentTownMap.id)
-        fieldElements(call, state, "Previous Town Maps", state.getTownMaps(town.id) - currentTownMap)
-        showLocalElements(call, state, town, currentTownMap)
+        fieldElements(call, state, "Previous Town Maps", state.getTownMaps(settlement.id) - currentTownMap)
+        showLocalElements(call, state, settlement, currentTownMap)
     } else {
-        showLocalElements(call, state, town.id)
+        showLocalElements(call, state, settlement.id)
     }
-    showCharactersOfTownMap(call, state, town.id, currentTownMap?.id)
+    showCharactersOfTownMap(call, state, settlement.id, currentTownMap?.id)
 
-    showCreated(call, state, town.id)
-    showOwnedElements(call, state, town.id)
+    showCreated(call, state, settlement.id)
+    showOwnedElements(call, state, settlement.id)
 }
 
 fun HtmlBlockTag.showSubDistricts(
@@ -124,24 +124,24 @@ fun HtmlBlockTag.showSubDistricts(
 
 // edit
 
-fun HtmlBlockTag.editTown(
+fun HtmlBlockTag.editSettlement(
     call: ApplicationCall,
     state: State,
-    town: Town,
+    settlement: Settlement,
 ) {
-    selectName(town.name)
-    selectOptionalNotEmptyString("Optional Title", town.title, TITLE)
-    selectCreator(state, town.founder, town.id, town.date, "Founder")
-    selectOptionalDate(state, "Founding Date", town.date, DATE)
+    selectName(settlement.name)
+    selectOptionalNotEmptyString("Optional Title", settlement.title, TITLE)
+    selectCreator(state, settlement.founder, settlement.id, settlement.date, "Founder")
+    selectOptionalDate(state, "Founding Date", settlement.date, DATE)
     selectVitalStatus(
         state,
-        town.id,
-        town.date,
-        town.status,
-        ALLOWED_VITAL_STATUS_FOR_TOWN,
-        ALLOWED_CAUSES_OF_DEATH_FOR_TOWN,
+        settlement.id,
+        settlement.date,
+        settlement.status,
+        ALLOWED_VITAL_STATUS_FOR_SETTLEMENT,
+        ALLOWED_CAUSES_OF_DEATH_FOR_SETTLEMENT,
     )
-    selectHistory(state, OWNER, town.owner, "Owner", town.date) { _, param, owner, start ->
+    selectHistory(state, OWNER, settlement.owner, "Owner", settlement.date) { _, param, owner, start ->
         selectOptionalElement(
             state,
             "Realm",
@@ -150,26 +150,26 @@ fun HtmlBlockTag.editTown(
             owner,
         )
     }
-    selectAreaLookup(town.area, state.data.largeAreaUnit)
-    editPopulation(call, state, town.population)
-    editEconomy(call, state, town.economy)
-    editDataSources(state, town.sources)
+    selectAreaLookup(settlement.area, state.data.largeAreaUnit)
+    editPopulation(call, state, settlement.population)
+    editEconomy(call, state, settlement.economy)
+    editDataSources(state, settlement.sources)
 }
 
 // parse
 
-fun parseTownId(parameters: Parameters, param: String) = TownId(parseInt(parameters, param))
-fun parseOptionalTownId(parameters: Parameters, param: String) =
-    parseSimpleOptionalInt(parameters, param)?.let { TownId(it) }
+fun parseSettlementId(parameters: Parameters, param: String) = SettlementId(parseInt(parameters, param))
+fun parseOptionalSettlementId(parameters: Parameters, param: String) =
+    parseSimpleOptionalInt(parameters, param)?.let { SettlementId(it) }
 
-fun parseTown(
+fun parseSettlement(
     state: State,
     parameters: Parameters,
-    id: TownId,
-): Town {
+    id: SettlementId,
+): Settlement {
     val date = parseOptionalDate(parameters, state, DATE)
 
-    return Town(
+    return Settlement(
         id,
         parseName(parameters),
         parseOptionalNotEmptyString(parameters, TITLE),

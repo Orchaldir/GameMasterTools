@@ -3,7 +3,7 @@ package at.orchaldir.gm.core.model.util
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.realm.DistrictId
 import at.orchaldir.gm.core.model.realm.RealmId
-import at.orchaldir.gm.core.model.realm.TownId
+import at.orchaldir.gm.core.model.realm.SettlementId
 import at.orchaldir.gm.core.model.world.WorldId
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.moon.MoonId
@@ -104,7 +104,7 @@ sealed class Position {
     open fun isIn(district: DistrictId) = false
     open fun isIn(plane: PlaneId) = false
     open fun isIn(realm: RealmId) = false
-    open fun isIn(town: TownId) = false
+    open fun isIn(town: SettlementId) = false
     open fun isIn(townMap: TownMapId) = false
 
 }
@@ -178,9 +178,9 @@ data class InRegion(val region: RegionId) : Position()
 
 @Serializable
 @SerialName("Town")
-data class InTown(val town: TownId) : Position() {
+data class InTown(val town: SettlementId) : Position() {
 
-    override fun isIn(town: TownId) = this.town == town
+    override fun isIn(town: SettlementId) = this.town == town
 
 }
 

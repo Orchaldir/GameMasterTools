@@ -5,7 +5,7 @@ import at.orchaldir.gm.app.html.showDetails
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.economy.business.Business
-import at.orchaldir.gm.core.model.realm.Town
+import at.orchaldir.gm.core.model.realm.Settlement
 import at.orchaldir.gm.core.model.world.World
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.moon.Moon
@@ -23,17 +23,17 @@ import kotlinx.html.HtmlBlockTag
 fun HtmlBlockTag.showLocalElements(
     call: ApplicationCall,
     state: State,
-    town: Town,
+    settlement: Settlement,
     townMap: TownMap,
 ) = showLocalElementsInternal(
     call,
     state,
-    state.getBuildingsIn(town.id).toSet() + state.getBuildingsIn(townMap.id).toSet(),
-    state.getBusinessesIn(town.id).toSet() + state.getBusinessesIn(townMap.id).toSet(),
+    state.getBuildingsIn(settlement.id).toSet() + state.getBuildingsIn(townMap.id).toSet(),
+    state.getBusinessesIn(settlement.id).toSet() + state.getBusinessesIn(townMap.id).toSet(),
     emptySet(),
-    state.getRegionsIn(town.id).toSet() + state.getRegionsIn(townMap.id).toSet(),
-    state.getCharactersLivingIn(town.id).toSet() + state.getCharactersLivingIn(townMap.id).toSet(),
-    state.getCharactersPreviouslyLivingIn(town.id).toSet() + state.getCharactersPreviouslyLivingIn(townMap.id).toSet(),
+    state.getRegionsIn(settlement.id).toSet() + state.getRegionsIn(townMap.id).toSet(),
+    state.getCharactersLivingIn(settlement.id).toSet() + state.getCharactersLivingIn(townMap.id).toSet(),
+    state.getCharactersPreviouslyLivingIn(settlement.id).toSet() + state.getCharactersPreviouslyLivingIn(townMap.id).toSet(),
     emptySet(),
 )
 

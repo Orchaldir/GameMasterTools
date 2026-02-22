@@ -7,7 +7,7 @@ import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.realm.Realm
-import at.orchaldir.gm.core.model.realm.Town
+import at.orchaldir.gm.core.model.realm.Settlement
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.moon.Moon
@@ -94,7 +94,7 @@ class VitalStatusTest {
             killedBy,
             DeleteResult(CHARACTER_ID_0).addId(TOWN_ID_0),
         ) { status ->
-            Town(TOWN_ID_0, status = status)
+            Settlement(TOWN_ID_0, status = status)
         }
     }
 }

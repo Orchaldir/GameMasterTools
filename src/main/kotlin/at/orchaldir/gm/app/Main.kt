@@ -132,7 +132,7 @@ fun Application.module() {
     configureTimeRouting()
     configureTitleRouting()
     configureTownMapRouting()
-    configureTownRouting()
+    configureSettlementRouting()
     configureTreatyRouting()
     configureUniformRouting()
     configureWarRouting()

@@ -10,7 +10,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CHARACTER_TYPE
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.race.Race
-import at.orchaldir.gm.core.model.realm.Town
+import at.orchaldir.gm.core.model.realm.Settlement
 import at.orchaldir.gm.core.model.time.Time
 import at.orchaldir.gm.core.model.time.date.Day
 import at.orchaldir.gm.core.model.time.date.Year
@@ -235,7 +235,7 @@ class BuildingTest {
                 Storage(Character(CHARACTER_ID_0)),
                 Storage(Race(RACE_ID_0)),
                 Storage(listOf(Street(STREET_ID_0), Street(STREET_ID_1), Street(STREET_NOT_IN_TOWN))),
-                Storage(Town(TOWN_ID_0)),
+                Storage(Settlement(TOWN_ID_0)),
                 Storage(emptyTownMap),
             )
         )

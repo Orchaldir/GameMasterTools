@@ -91,7 +91,7 @@ fun HtmlBlockTag.editRealm(
             state,
             "Town",
             param,
-            state.getExistingTowns(start),
+            state.getExistingSettlements(start),
             town,
         )
     }
@@ -147,7 +147,7 @@ fun parseRealm(
         date,
         parseVitalStatus(parameters, state),
         parseHistory(parameters, TOWN, state, date) { _, _, param ->
-            parseOptionalTownId(parameters, param)
+            parseOptionalSettlementId(parameters, param)
         },
         parseHistory(parameters, OWNER, state, date) { _, _, param ->
             parseOptionalRealmId(parameters, param)

@@ -32,7 +32,7 @@ private fun checkEmploymentStatus(
 
         is EmployedByTown -> {
             checkEmployed(state, date, EmployerType.Town, status.job, status.optionalBusiness)
-            state.requireExists(state.getTownStorage(), status.town, date)
+            state.requireExists(state.getSettlementStorage(), status.town, date)
         }
     }
 }

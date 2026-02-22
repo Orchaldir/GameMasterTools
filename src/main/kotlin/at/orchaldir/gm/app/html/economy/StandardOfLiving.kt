@@ -26,7 +26,7 @@ fun HtmlBlockTag.showStandardOfLiving(
     fieldElements(call, state, getPopulationsWith(state.getDistrictStorage(), standard.id))
     fieldElements(call, state, state.getJobs(standard.id))
     fieldElements(call, state, getPopulationsWith(state.getRealmStorage(), standard.id))
-    fieldElements(call, state, getPopulationsWith(state.getTownStorage(), standard.id))
+    fieldElements(call, state, getPopulationsWith(state.getSettlementStorage(), standard.id))
 }
 
 // edit

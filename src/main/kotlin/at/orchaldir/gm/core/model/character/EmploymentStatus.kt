@@ -3,7 +3,7 @@ package at.orchaldir.gm.core.model.character
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.realm.RealmId
-import at.orchaldir.gm.core.model.realm.TownId
+import at.orchaldir.gm.core.model.realm.SettlementId
 import at.orchaldir.gm.core.model.util.History
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -60,7 +60,7 @@ sealed class EmploymentStatus {
         else -> false
     }
 
-    fun isEmployedAt(town: TownId) = when (this) {
+    fun isEmployedAt(town: SettlementId) = when (this) {
         is EmployedByTown -> town == this.town
         else -> false
     }
@@ -85,7 +85,7 @@ data class EmployedByRealm(
 @SerialName("ByTown")
 data class EmployedByTown(
     val job: JobId,
-    val town: TownId,
+    val town: SettlementId,
     val optionalBusiness: BusinessId? = null,
 ) : EmploymentStatus()
 
@@ -106,7 +106,7 @@ fun History<EmploymentStatus>.wasEmployedAt(realm: RealmId) = previousEntries
 
 fun History<EmploymentStatus>.isOrWasEmployedAt(realm: RealmId) = current.isEmployedAt(realm) || wasEmployedAt(realm)
 
-fun History<EmploymentStatus>.wasEmployedAt(town: TownId) = previousEntries
+fun History<EmploymentStatus>.wasEmployedAt(town: SettlementId) = previousEntries
     .any { it.entry.isEmployedAt(town) }
 
-fun History<EmploymentStatus>.isOrWasEmployedAt(town: TownId) = current.isEmployedAt(town) || wasEmployedAt(town)
+fun History<EmploymentStatus>.isOrWasEmployedAt(town: SettlementId) = current.isEmployedAt(town) || wasEmployedAt(town)

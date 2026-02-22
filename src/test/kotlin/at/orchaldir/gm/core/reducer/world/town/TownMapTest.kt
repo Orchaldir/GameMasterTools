@@ -3,7 +3,7 @@ package at.orchaldir.gm.core.reducer.world.town
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.realm.Town
+import at.orchaldir.gm.core.model.realm.Settlement
 import at.orchaldir.gm.core.model.world.street.Street
 import at.orchaldir.gm.core.model.world.street.StreetTemplate
 import at.orchaldir.gm.core.model.world.terrain.Region
@@ -25,7 +25,7 @@ class TownMapTest {
             Storage(Region(REGION_ID_0)),
             Storage(Street(STREET_ID_0)),
             Storage(StreetTemplate(STREET_TEMPLATE_ID_0)),
-            Storage(Town(TOWN_ID_0)),
+            Storage(Settlement(TOWN_ID_0)),
             Storage(townMap),
         )
     )

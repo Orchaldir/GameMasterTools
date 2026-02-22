@@ -9,7 +9,7 @@ import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.job.EmployerType
 import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.realm.Realm
-import at.orchaldir.gm.core.model.realm.Town
+import at.orchaldir.gm.core.model.realm.Settlement
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -29,7 +29,7 @@ class EmploymentStatusTest {
                 )
             ),
             Storage(Realm(REALM_ID_0, date = YEAR0)),
-            Storage(Town(TOWN_ID_0, date = YEAR0)),
+            Storage(Settlement(TOWN_ID_0, date = YEAR0)),
         )
     )
 
@@ -137,7 +137,7 @@ class EmploymentStatusTest {
 
         @Test
         fun `Character employed by a town before its founding`() {
-            val newState = state.updateStorage(Town(TOWN_ID_0, date = DAY1))
+            val newState = state.updateStorage(Settlement(TOWN_ID_0, date = DAY1))
 
             assertIllegalArgument("The Town 0 doesn't exist at the required date!") {
                 checkEmploymentStatusHistory(newState, History(EmployedByTown(JOB_ID_2, TOWN_ID_0)), DAY0)

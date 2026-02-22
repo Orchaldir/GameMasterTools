@@ -22,7 +22,7 @@ fun State.canDeleteEconomyOf(
 ) = result
     .addElements(getEconomies(getDistrictStorage(), check))
     .addElements(getEconomies(getRealmStorage(), check))
-    .addElements(getEconomies(getTownStorage(), check))
+    .addElements(getEconomies(getSettlementStorage(), check))
 
 fun <ID : Id<ID>, ELEMENT> getEconomies(
     storage: Storage<ID, ELEMENT>,
@@ -69,7 +69,7 @@ fun State.calculateTotalNumberInEconomy(getNumber: (Economy) -> Int?): Int? {
     val realms = getRealmStorage()
         .getAll()
         .sumOf { getNumber(it.economy) ?: 0 }
-    val towns = getTownStorage()
+    val towns = getSettlementStorage()
         .getAll()
         .sumOf { getNumber(it.economy) ?: 0 }
     val total = districts + realms + towns

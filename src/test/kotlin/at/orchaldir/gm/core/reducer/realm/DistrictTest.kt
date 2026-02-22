@@ -5,7 +5,7 @@ import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.EconomyWithPercentages
 import at.orchaldir.gm.core.model.realm.District
-import at.orchaldir.gm.core.model.realm.Town
+import at.orchaldir.gm.core.model.realm.Settlement
 import at.orchaldir.gm.core.model.realm.population.TotalPopulation
 import at.orchaldir.gm.core.model.util.CharacterReference
 import at.orchaldir.gm.core.model.util.InTown
@@ -22,7 +22,7 @@ class DistrictTest {
         listOf(
             Storage(CALENDAR0),
             Storage(District(DISTRICT_ID_0)),
-            Storage(Town(TOWN_ID_0)),
+            Storage(Settlement(TOWN_ID_0)),
         )
     )
 

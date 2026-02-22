@@ -5,14 +5,14 @@ import at.orchaldir.gm.app.TERRAIN
 import at.orchaldir.gm.app.TOWN
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.realm.parseOptionalTownId
+import at.orchaldir.gm.app.html.realm.parseOptionalSettlementId
 import at.orchaldir.gm.app.html.util.optionalField
 import at.orchaldir.gm.app.html.util.parseOptionalDate
 import at.orchaldir.gm.app.html.util.selectOptionalDate
 import at.orchaldir.gm.app.html.util.showEmployees
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.realm.TownId
+import at.orchaldir.gm.core.model.realm.SettlementId
 import at.orchaldir.gm.core.model.world.town.TerrainType
 import at.orchaldir.gm.core.model.world.town.TownMap
 import at.orchaldir.gm.core.model.world.town.TownMapId
@@ -39,7 +39,7 @@ fun HtmlBlockTag.showTownMap(
 fun HtmlBlockTag.showCharactersOfTownMap(
     call: ApplicationCall,
     state: State,
-    town: TownId?,
+    town: SettlementId?,
     townMap: TownMapId?,
 ) {
     val employees = if (town != null) {
@@ -97,7 +97,7 @@ fun HtmlBlockTag.editTownMap(
     state: State,
     townMap: TownMap,
 ) {
-    selectOptionalElement(state, "Town", TOWN, state.getTownStorage().getAll(), townMap.town)
+    selectOptionalElement(state, "Town", TOWN, state.getSettlementStorage().getAll(), townMap.town)
     selectOptionalDate(state, "Date", townMap.date, DATE)
 }
 
@@ -109,6 +109,6 @@ fun parseOptionalTownMapId(parameters: Parameters, param: String) =
 fun parseTerrainType(parameters: Parameters) = parse(parameters, combine(TERRAIN, TYPE), TerrainType.Plain)
 
 fun parseTownMap(state: State, parameters: Parameters, oldTownMap: TownMap) = oldTownMap.copy(
-    town = parseOptionalTownId(parameters, TOWN),
+    town = parseOptionalSettlementId(parameters, TOWN),
     date = parseOptionalDate(parameters, state, DATE),
 )

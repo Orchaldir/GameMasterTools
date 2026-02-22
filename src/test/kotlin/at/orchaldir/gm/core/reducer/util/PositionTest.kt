@@ -5,7 +5,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.realm.District
 import at.orchaldir.gm.core.model.realm.Realm
-import at.orchaldir.gm.core.model.realm.Town
+import at.orchaldir.gm.core.model.realm.Settlement
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.World
@@ -365,7 +365,7 @@ class PositionTest {
             listOf(
                 Storage(Building(BUILDING_ID_0)),
                 Storage(CALENDAR0),
-                Storage(Town(TOWN_ID_0, date = date)),
+                Storage(Settlement(TOWN_ID_0, date = date)),
             )
         )
     }

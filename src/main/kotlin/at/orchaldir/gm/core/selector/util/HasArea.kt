@@ -23,7 +23,7 @@ fun <ID : Id<ID>, ELEMENT> State.calculateArea(element: ELEMENT): Area where
         }
 
         if (element.useTownsForAreaCalculation()) {
-            area += calculateArea(getTownStorage(), element.id())
+            area += calculateArea(getSettlementStorage(), element.id())
         }
 
         area

@@ -7,8 +7,8 @@ import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.ALLOWED_OWNERS
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.Reference
-import at.orchaldir.gm.core.selector.realm.getOwnedTowns
-import at.orchaldir.gm.core.selector.realm.getPreviousOwnedTowns
+import at.orchaldir.gm.core.selector.realm.getOwnedSettlements
+import at.orchaldir.gm.core.selector.realm.getPreviousOwnedSettlements
 import at.orchaldir.gm.core.selector.realm.getPreviousSubRealms
 import at.orchaldir.gm.core.selector.realm.getSubRealms
 import at.orchaldir.gm.core.selector.util.getOwned
@@ -35,8 +35,8 @@ fun <ID : Id<ID>> HtmlBlockTag.showOwnedElements(
     val previousPeriodicals = getPreviouslyOwned(state.getPeriodicalStorage(), owner) - periodicals
     val realms = state.getSubRealms(owner)
     val previousRealms = state.getPreviousSubRealms(owner) - realms
-    val towns = state.getOwnedTowns(owner)
-    val previousTowns = state.getPreviousOwnedTowns(owner) - towns
+    val towns = state.getOwnedSettlements(owner)
+    val previousTowns = state.getPreviousOwnedSettlements(owner) - towns
 
     if (!alwaysShowTitle &&
         buildings.isEmpty() && previousBuildings.isEmpty() &&

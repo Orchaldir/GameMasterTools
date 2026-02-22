@@ -7,7 +7,7 @@ import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.economy.money.CurrencyId
 import at.orchaldir.gm.core.model.realm.LegalCodeId
 import at.orchaldir.gm.core.model.realm.RealmId
-import at.orchaldir.gm.core.model.realm.TownId
+import at.orchaldir.gm.core.model.realm.SettlementId
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.selector.character.getEmployees
 import at.orchaldir.gm.core.selector.character.getPreviousEmployees
@@ -20,8 +20,8 @@ fun State.canDeleteRealm(realm: RealmId) = DeleteResult(realm)
     .addElements(getPreviousEmployees(realm))
     .addElements(getSubRealms(realm))
     .addElements(getPreviousSubRealms(realm))
-    .addElements(getOwnedTowns(realm))
-    .addElements(getPreviousOwnedTowns(realm))
+    .addElements(getOwnedSettlements(realm))
+    .addElements(getPreviousOwnedSettlements(realm))
     .addElements(getWarsWithParticipant(realm))
     .apply { canDeleteCreator(realm, it) }
     .apply { canDeleteDestroyer(realm, it) }
@@ -62,11 +62,11 @@ fun State.getRealmsWithPreviousCurrency(code: CurrencyId) = getRealmStorage()
     .getAll()
     .filter { it.currency.previousEntries.any { it.entry == code } }
 
-fun State.getRealmsWithCapital(town: TownId) = getRealmStorage()
+fun State.getRealmsWithCapital(town: SettlementId) = getRealmStorage()
     .getAll()
     .filter { it.capital.current == town }
 
-fun State.getRealmsWithPreviousCapital(town: TownId) = getRealmStorage()
+fun State.getRealmsWithPreviousCapital(town: SettlementId) = getRealmStorage()
     .getAll()
     .filter { it.capital.previousEntries.any { it.entry == town } }
 

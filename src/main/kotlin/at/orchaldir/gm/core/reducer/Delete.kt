@@ -157,7 +157,7 @@ fun reduceDeleteElement(
     is StreetTemplateId -> deleteElement(state, id, State::canDeleteStreetTemplate)
     is TextId -> deleteElement(state, id, State::canDeleteText)
     is TitleId -> deleteElement(state, id, State::canDeleteTitle)
-    is TownId -> deleteElement(state, id, State::canDeleteTown)
+    is SettlementId -> deleteElement(state, id, State::canDeleteSettlement)
     is TownMapId -> deleteElement(state, id, State::canDeleteTownMap)
     is TreatyId -> deleteElement(state, id, State::canDeleteTreaty)
     is UniformId -> deleteElement(state, id, State::canDeleteUniform)

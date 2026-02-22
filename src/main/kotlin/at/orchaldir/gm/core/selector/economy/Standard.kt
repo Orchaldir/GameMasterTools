@@ -16,7 +16,7 @@ fun State.getMaxStandardUsedByJob(): Int? {
     addIncomes(incomes, getDistrictStorage())
     incomes.addAll(getJobStorage().getAll().map { it.income })
     addIncomes(incomes, getRealmStorage())
-    addIncomes(incomes, getTownStorage())
+    addIncomes(incomes, getSettlementStorage())
 
     return incomes
         .maxOfOrNull {

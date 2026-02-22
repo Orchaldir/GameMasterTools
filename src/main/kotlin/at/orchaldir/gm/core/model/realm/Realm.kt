@@ -51,7 +51,7 @@ data class Realm(
     val founder: Reference = UndefinedReference,
     val date: Date? = null,
     val status: VitalStatus = Alive,
-    val capital: History<TownId?> = History(null),
+    val capital: History<SettlementId?> = History(null),
     val owner: History<RealmId?> = History(null),
     val currency: History<CurrencyId?> = History(null),
     val legalCode: History<LegalCodeId?> = History(null),
