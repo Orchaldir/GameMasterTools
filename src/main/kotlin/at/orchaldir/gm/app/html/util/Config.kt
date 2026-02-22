@@ -6,6 +6,9 @@ import at.orchaldir.gm.app.html.economy.parseEconomyConfig
 import at.orchaldir.gm.app.html.economy.showEconomyConfig
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.parse
+import at.orchaldir.gm.app.html.realm.editRealmConfig
+import at.orchaldir.gm.app.html.realm.parseRealmConfig
+import at.orchaldir.gm.app.html.realm.showRealmConfig
 import at.orchaldir.gm.app.html.rpg.editRpgConfig
 import at.orchaldir.gm.app.html.rpg.parseRpgConfig
 import at.orchaldir.gm.app.html.rpg.showRpgConfig
@@ -31,6 +34,7 @@ fun HtmlBlockTag.showConfig(
 ) {
     field("Large Area Unit", config.largeAreaUnit)
     showEconomyConfig(call, state, config.economy)
+    showRealmConfig(call, state, config.realm)
     showRpgConfig(call, state, config.rpg)
     showTime(call, state, config.time)
 }
@@ -46,6 +50,7 @@ fun HtmlBlockTag.editConfig(state: State, config: Config) {
         config.largeAreaUnit,
     )
     editEconomyConfig(state, config.economy)
+    editRealmConfig(state, config.realm)
     editRpgConfig(state, config.rpg)
     editTime(state, config.time)
 }
@@ -57,6 +62,7 @@ fun parseConfig(
     parameters: Parameters,
 ) = Config(
     parseEconomyConfig(state, parameters),
+    parseRealmConfig(parameters),
     parseRpgConfig(parameters),
     parseTime(parameters, state.getDefaultCalendar()),
     parse(parameters, AREA, AreaUnit.Hectare),

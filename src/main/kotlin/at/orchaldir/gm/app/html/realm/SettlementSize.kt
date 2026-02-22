@@ -27,13 +27,13 @@ fun HtmlBlockTag.editSettlementSize(
     state: State,
     size: SettlementSize,
     param: String,
-    minPopulation: Int,
+    minMaxPopulation: Int,
 ) {
     selectName(size.name, combine(param, NAME))
     selectInt(
         "Max Population",
         size.maxPopulation,
-        minPopulation,
+        minMaxPopulation,
         10000000,
         10,
         combine(param, POPULATION),
@@ -45,7 +45,6 @@ fun HtmlBlockTag.editSettlementSize(
 fun parseSettlementSizeId(parameters: Parameters, param: String) = SettlementSizeId(parseInt(parameters, param))
 
 fun parseSettlementSize(
-    state: State,
     id: SettlementSizeId,
     parameters: Parameters,
     param: String,
