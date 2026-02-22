@@ -55,7 +55,7 @@ class CreatorTest {
     private val createdByGod = GodReference(GOD_ID_0)
     private val createdByOrganization = OrganizationReference(ORGANIZATION_ID_0)
     private val createdByRealm = RealmReference(REALM_ID_0)
-    private val createdByTown = TownReference(TOWN_ID_0)
+    private val createdByTown = SettlementReference(TOWN_ID_0)
 
     @Nested
     inner class CanDeleteCreatorTest {

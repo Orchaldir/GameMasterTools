@@ -20,7 +20,7 @@ enum class ReferenceType {
     God,
     Organization,
     Realm,
-    Town,
+    Settlement,
 }
 
 @Serializable
@@ -35,7 +35,7 @@ sealed class Reference {
         is GodReference -> ReferenceType.God
         is OrganizationReference -> ReferenceType.Organization
         is RealmReference -> ReferenceType.Realm
-        is TownReference -> ReferenceType.Town
+        is SettlementReference -> ReferenceType.Settlement
     }
 
     fun <ID : Id<ID>> isId(id: ID) = when (this) {
@@ -46,7 +46,7 @@ sealed class Reference {
         is GodReference -> god == id
         is OrganizationReference -> organization == id
         is RealmReference -> realm == id
-        is TownReference -> town == id
+        is SettlementReference -> settlement == id
     }
 
 }
@@ -84,5 +84,5 @@ data class OrganizationReference(val organization: OrganizationId) : Reference()
 data class RealmReference(val realm: RealmId) : Reference()
 
 @Serializable
-@SerialName("Town")
-data class TownReference(val town: SettlementId) : Reference()
+@SerialName("Settlement")
+data class SettlementReference(val settlement: SettlementId) : Reference()

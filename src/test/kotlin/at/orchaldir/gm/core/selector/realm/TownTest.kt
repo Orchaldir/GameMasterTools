@@ -32,7 +32,7 @@ class TownTest {
 
         @Test
         fun `Cannot delete a town that killed a character`() {
-            val dead = Dead(DAY0, KilledBy(TownReference(TOWN_ID_0)))
+            val dead = Dead(DAY0, KilledBy(SettlementReference(TOWN_ID_0)))
             val character = Character(CHARACTER_ID_0, status = dead)
             val newState = state.updateStorage(character)
 
@@ -41,7 +41,7 @@ class TownTest {
 
         @Test
         fun `Cannot delete a town that created another element`() {
-            val building = Building(BUILDING_ID_0, builder = TownReference(TOWN_ID_0))
+            val building = Building(BUILDING_ID_0, builder = SettlementReference(TOWN_ID_0))
             val newState = state.updateStorage(building)
 
             failCanDelete(newState, BUILDING_ID_0)
@@ -49,7 +49,7 @@ class TownTest {
 
         @Test
         fun `Cannot delete a town that owns another element`() {
-            val ownership = History<Reference>(TownReference(TOWN_ID_0))
+            val ownership = History<Reference>(SettlementReference(TOWN_ID_0))
             val building = Building(BUILDING_ID_0, ownership = ownership)
             val newState = state.updateStorage(building)
 
@@ -91,7 +91,7 @@ class TownTest {
 
         @Test
         fun `Cannot delete a town that participated in a war`() {
-            val participant = WarParticipant(TownReference(TOWN_ID_0))
+            val participant = WarParticipant(SettlementReference(TOWN_ID_0))
             val war = War(WAR_ID_0, participants = listOf(participant))
             val newState = state.updateStorage(war)
 

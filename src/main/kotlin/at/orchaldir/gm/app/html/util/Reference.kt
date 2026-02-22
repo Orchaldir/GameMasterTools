@@ -49,7 +49,7 @@ fun HtmlBlockTag.showReference(
         is GodReference -> link(call, state, reference.god)
         is OrganizationReference -> link(call, state, reference.organization)
         is RealmReference -> link(call, state, reference.realm)
-        is TownReference -> link(call, state, reference.town)
+        is SettlementReference -> link(call, state, reference.settlement)
         NoReference -> +"None"
         UndefinedReference -> if (showUndefined) {
             +"Undefined"
@@ -95,7 +95,7 @@ fun HtmlBlockTag.selectReference(
             ReferenceType.God -> gods.isEmpty()
             ReferenceType.Organization -> organizations.isEmpty()
             ReferenceType.Realm -> realms.isEmpty()
-            ReferenceType.Town -> towns.isEmpty()
+            ReferenceType.Settlement -> towns.isEmpty()
         }
     }
 
@@ -148,12 +148,12 @@ fun HtmlBlockTag.selectReference(
             reference.realm,
         )
 
-        is TownReference -> selectElement(
+        is SettlementReference -> selectElement(
             state,
             label,
             combine(param, TOWN),
             towns,
-            reference.town,
+            reference.settlement,
         )
 
         NoReference, UndefinedReference -> doNothing()
@@ -193,7 +193,7 @@ fun parseReference(
             parseRealmId(parameters, combine(param, REALM)),
         )
 
-        ReferenceType.Town -> TownReference(
+        ReferenceType.Settlement -> SettlementReference(
             parseSettlementId(parameters, combine(param, TOWN)),
         )
     }

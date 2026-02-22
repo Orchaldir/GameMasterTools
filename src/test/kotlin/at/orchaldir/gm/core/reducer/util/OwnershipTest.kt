@@ -33,9 +33,9 @@ class OwnerTest {
     private val OWNED_BY_CHARACTER = History<Reference>(CharacterReference(CHARACTER_ID_2))
     private val OWNED_BY_ORGANIZATION = History<Reference>(OrganizationReference(ORGANIZATION_ID_0))
     private val OWNED_BY_REALM = History<Reference>(RealmReference(REALM_ID_0))
-    private val OWNED_BY_TOWN = History<Reference>(TownReference(TOWN_ID_0))
+    private val OWNED_BY_TOWN = History<Reference>(SettlementReference(TOWN_ID_0))
     private val CHARACTER_AS_PREVIOUS = History(
-        TownReference(TOWN_ID_0),
+        SettlementReference(TOWN_ID_0),
         HistoryEntry(CharacterReference(CHARACTER_ID_2), DAY1),
     )
     private val ORGANIZATION_AS_PREVIOUS = History(
@@ -44,7 +44,7 @@ class OwnerTest {
     )
     private val TOWN_AS_PREVIOUS = History(
         CharacterReference(CHARACTER_ID_2),
-        HistoryEntry(TownReference(TOWN_ID_0), DAY1),
+        HistoryEntry(SettlementReference(TOWN_ID_0), DAY1),
     )
 
     @Nested
@@ -136,10 +136,10 @@ class OwnerTest {
         @Test
         fun `A previous ownership ended before the one before it`() {
             val ownership = History(
-                TownReference(TOWN_ID_0),
+                SettlementReference(TOWN_ID_0),
                 listOf(
                     HistoryEntry(CharacterReference(CHARACTER_ID_2), DAY2),
-                    HistoryEntry(TownReference(TOWN_ID_0), DAY1)
+                    HistoryEntry(SettlementReference(TOWN_ID_0), DAY1)
                 )
             )
 
@@ -172,7 +172,7 @@ class OwnerTest {
             val ownership = History(
                 NoReference,
                 listOf(
-                    HistoryEntry(TownReference(TOWN_ID_0), DAY1),
+                    HistoryEntry(SettlementReference(TOWN_ID_0), DAY1),
                     HistoryEntry(CharacterReference(CHARACTER_ID_2), DAY2)
                 )
             )
@@ -230,7 +230,7 @@ class OwnerTest {
                 History(
                     NoReference,
                     listOf(
-                        HistoryEntry(TownReference(TOWN_ID_0), DAY1),
+                        HistoryEntry(SettlementReference(TOWN_ID_0), DAY1),
                         HistoryEntry(CharacterReference(CHARACTER_ID_2), DAY2)
                     )
                 )
