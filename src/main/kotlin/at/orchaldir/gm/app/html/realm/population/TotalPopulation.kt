@@ -63,7 +63,7 @@ fun HtmlBlockTag.editTotalPopulation(
                 1,
                 combine(totalParam, NUMBER),
             )
-            is TotalPopulationAsSettlementSize -> selectElement(
+            is TotalPopulationAsSettlementSize -> selectUnsortedElement(
                 state,
                 "Settlement Size",
                 combine(totalParam, SIZE),
