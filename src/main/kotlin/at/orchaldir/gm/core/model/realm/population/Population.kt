@@ -13,7 +13,6 @@ import kotlinx.serialization.Serializable
 import kotlin.math.max
 
 enum class PopulationType {
-    Abstract,
     Numbers,
     Percentages,
     Sets,
@@ -24,7 +23,6 @@ enum class PopulationType {
 sealed class Population {
 
     fun getType() = when (this) {
-        is AbstractPopulation -> PopulationType.Abstract
         is PopulationWithNumbers -> PopulationType.Numbers
         is PopulationWithPercentages -> PopulationType.Percentages
         is PopulationWithSets -> PopulationType.Sets
@@ -32,7 +30,6 @@ sealed class Population {
     }
 
     fun income() = when (this) {
-        is AbstractPopulation -> income
         is PopulationWithNumbers -> income
         is PopulationWithPercentages -> income
         is PopulationWithSets -> income
@@ -58,6 +55,9 @@ sealed class Population {
         else -> null
     }
 
+    private fun getPopulation(income: Income, standard: StandardOfLivingId, total: TotalPopulation) =
+        total.getTotal()?.let { getPopulation(income, standard, it) }
+
     private fun getPopulation(income: Income, standard: StandardOfLivingId, total: Int) =
         if (income.hasStandard(standard)) {
             total
@@ -66,14 +66,13 @@ sealed class Population {
         }
 
     fun getTotalPopulation() = when (this) {
-        is PopulationWithSets -> total
+        is PopulationWithSets -> total.getTotal()
         is PopulationWithNumbers -> calculateTotal()
-        is PopulationWithPercentages -> total
-        is AbstractPopulation, UndefinedPopulation -> null
+        is PopulationWithPercentages -> total.getTotal()
+        is UndefinedPopulation -> null
     }
 
     fun contains(culture: CultureId) = when (this) {
-        is AbstractPopulation -> cultures.contains(culture)
         is PopulationWithNumbers -> cultures.map.containsKey(culture)
         is PopulationWithPercentages -> cultures.map.containsKey(culture)
         is PopulationWithSets -> cultures.contains(culture)
@@ -81,7 +80,6 @@ sealed class Population {
     }
 
     fun contains(race: RaceId) = when (this) {
-        is AbstractPopulation -> races.contains(race)
         is PopulationWithNumbers -> races.map.containsKey(race)
         is PopulationWithPercentages -> races.map.containsKey(race)
         is PopulationWithSets -> races.contains(race)
@@ -89,7 +87,6 @@ sealed class Population {
     }
 
     fun cultures() = when (this) {
-        is AbstractPopulation -> cultures
         is PopulationWithNumbers -> cultures.map.keys
         is PopulationWithPercentages -> cultures.map.keys
         is PopulationWithSets -> cultures
@@ -97,7 +94,6 @@ sealed class Population {
     }
 
     fun races() = when (this) {
-        is AbstractPopulation -> races
         is PopulationWithNumbers -> races.map.keys
         is PopulationWithPercentages -> races.map.keys
         is PopulationWithSets -> races
@@ -114,15 +110,6 @@ interface IPopulationWithSets {
 }
 
 @Serializable
-@SerialName("Abstract")
-data class AbstractPopulation(
-    val density: Size = Size.Medium,
-    val races: Set<RaceId> = emptySet(),
-    val cultures: Set<CultureId> = emptySet(),
-    val income: Income = UndefinedIncome,
-) : Population(), IPopulationWithSets
-
-@Serializable
 @SerialName("Numbers")
 data class PopulationWithNumbers(
     val races: NumberDistribution<RaceId> = NumberDistribution(),
@@ -137,21 +124,21 @@ data class PopulationWithNumbers(
 @Serializable
 @SerialName("Percentages")
 data class PopulationWithPercentages(
-    val total: Int,
+    val total: TotalPopulation,
     val races: PercentageDistribution<RaceId> = PercentageDistribution(),
     val cultures: PercentageDistribution<CultureId> = PercentageDistribution(),
     val income: Income = UndefinedIncome,
 ) : Population() {
 
-    fun getNumber(race: RaceId) = races.getNumber(total, race)
-    fun getNumber(culture: CultureId) = cultures.getNumber(total, culture)
+    fun getNumber(race: RaceId) = races.getNumber(total.getTotal(), race)
+    fun getNumber(culture: CultureId) = cultures.getNumber(total.getTotal(), culture)
 
 }
 
 @Serializable
 @SerialName("Set")
 data class PopulationWithSets(
-    val total: Int,
+    val total: TotalPopulation,
     val races: Set<RaceId> = emptySet(),
     val cultures: Set<CultureId> = emptySet(),
     val income: Income = UndefinedIncome,

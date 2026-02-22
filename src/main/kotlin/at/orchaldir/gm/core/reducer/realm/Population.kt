@@ -15,13 +15,6 @@ fun validatePopulation(
     state: State,
     population: Population,
 ) = when (population) {
-    is AbstractPopulation -> {
-        state.getCultureStorage().require(population.cultures)
-        state.getRaceStorage().require(population.races)
-
-        population.income.validate(state)
-    }
-
     is PopulationWithNumbers -> {
         validateNumberDistribution(state.getCultureStorage(), population.cultures)
         validateNumberDistribution(state.getRaceStorage(), population.races)
@@ -30,7 +23,7 @@ fun validatePopulation(
     }
 
     is PopulationWithPercentages -> {
-        validateTotalPopulation(population.total)
+        validateTotalPopulation(state, population.total)
 
         validatePercentageDistribution(state.getCultureStorage(), population.cultures)
         validatePercentageDistribution(state.getRaceStorage(), population.races)
@@ -39,7 +32,7 @@ fun validatePopulation(
     }
 
     is PopulationWithSets -> {
-        validateTotalPopulation(population.total)
+        validateTotalPopulation(state, population.total)
 
         state.getCultureStorage().require(population.cultures)
         state.getRaceStorage().require(population.races)
@@ -71,6 +64,15 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> validatePercentageDistribution(
     }
 
     require(distribution.getDefinedPercentages() <= ONE) { "The total population of all ${storage.getPlural()} must be <= 100%!" }
+}
+
+fun validateTotalPopulation(
+    state: State,
+    total: TotalPopulation,
+) = when(total) {
+    is TotalPopulationAsDensity -> doNothing()
+    is TotalPopulationAsNumber -> validateTotalPopulation(total.number)
+    is TotalPopulationAsSettlementSize -> state.getSettlementSizeStorage().remove(total.size)
 }
 
 fun validateTotalPopulation(
