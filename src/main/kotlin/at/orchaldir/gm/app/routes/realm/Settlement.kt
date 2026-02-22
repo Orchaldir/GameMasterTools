@@ -76,7 +76,7 @@ fun Application.configureSettlementRouting() {
                     createIdColumn(call, state, "Owner") { it.owner.current },
                     createIdColumn(call, state, "Map") { state.getCurrentSettlementMap(it.id)?.id },
                     createAreaColumn(state),
-                    createPopulationColumn(),
+                    createPopulationColumn(call, state),
                     createPopulationDensityColumn(state),
                     createRacesOfPopulationColumn(call, state),
                     createCulturesOfPopulationColumn(call, state),

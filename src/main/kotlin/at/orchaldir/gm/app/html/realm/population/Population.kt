@@ -32,11 +32,15 @@ import kotlinx.html.br
 
 // show
 
-fun HtmlBlockTag.showPopulation(population: Population) {
+fun HtmlBlockTag.displayPopulation(
+    call: ApplicationCall,
+    state: State,
+    population: Population,
+) {
     when (population) {
         is PopulationWithNumbers -> +population.calculateTotal().toString()
-        is PopulationWithPercentages -> +population.total.toString()
-        is PopulationWithSets -> +population.total.toString()
+        is PopulationWithPercentages -> displayTotalPopulation(call, state, population.total)
+        is PopulationWithSets -> displayTotalPopulation(call, state, population.total)
         UndefinedPopulation -> doNothing()
     }
 }
