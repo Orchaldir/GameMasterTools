@@ -171,7 +171,7 @@ data class SettlementMap(
 
     override fun validate(state: State) {
         state.getSettlementStorage().requireOptional(settlement)
-        require(!hasDuplicateSettlementAndDate(state, this)) { "Multiple maps have the same town & date combination!" }
+        require(!hasDuplicateSettlementAndDate(state, this)) { "Multiple maps have the same settlement & date combination!" }
         map.tiles.forEach { validateSettlementTile(state, it) }
     }
 }

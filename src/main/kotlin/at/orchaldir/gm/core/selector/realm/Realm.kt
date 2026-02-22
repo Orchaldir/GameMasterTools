@@ -62,13 +62,13 @@ fun State.getRealmsWithPreviousCurrency(code: CurrencyId) = getRealmStorage()
     .getAll()
     .filter { it.currency.previousEntries.any { it.entry == code } }
 
-fun State.getRealmsWithCapital(town: SettlementId) = getRealmStorage()
+fun State.getRealmsWithCapital(settlement: SettlementId) = getRealmStorage()
     .getAll()
-    .filter { it.capital.current == town }
+    .filter { it.capital.current == settlement }
 
-fun State.getRealmsWithPreviousCapital(town: SettlementId) = getRealmStorage()
+fun State.getRealmsWithPreviousCapital(settlement: SettlementId) = getRealmStorage()
     .getAll()
-    .filter { it.capital.previousEntries.any { it.entry == town } }
+    .filter { it.capital.previousEntries.any { it.entry == settlement } }
 
 fun <ID : Id<ID>> State.getSubRealms(id: ID) = if (id is RealmId) {
     getSubRealms(id)

@@ -17,7 +17,7 @@ fun State.getRegions(type: RegionDataType) = getRegionStorage()
     .getAll()
     .filter { it.data.getType() == type }
 
-fun State.getRegions(town: SettlementMapId) = getRegionStorage().get(getRegionsIds(town))
+fun State.getRegions(settlement: SettlementMapId) = getRegionStorage().get(getRegionsIds(settlement))
 
 fun State.getRegionsContaining(material: MaterialId) = getRegionStorage()
     .getAll()
@@ -27,8 +27,8 @@ fun <ID : Id<ID>> State.getRegionsCreatedBy(id: ID) = getRegionStorage()
     .getAll()
     .filter { it.data.isCreatedBy(id) }
 
-fun State.getRegionsIds(town: SettlementMapId) = getSettlementMapStorage()
-    .getOrThrow(town)
+fun State.getRegionsIds(settlement: SettlementMapId) = getSettlementMapStorage()
+    .getOrThrow(settlement)
     .map.tiles.mapNotNull { it.terrain.getMountain() }
     .distinct()
 

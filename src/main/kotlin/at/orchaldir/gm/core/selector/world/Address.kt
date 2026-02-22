@@ -2,13 +2,13 @@ package at.orchaldir.gm.core.selector.world
 
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.building.StreetAddress
-import at.orchaldir.gm.core.model.world.building.TownAddress
+import at.orchaldir.gm.core.model.world.building.SettlementAddress
 import at.orchaldir.gm.core.model.world.street.StreetId
 
 fun getHouseNumbersUsedByOthers(buildings: Collection<Building>, address: StreetAddress) =
     getUsedHouseNumbers(buildings, address.street) - address.houseNumber
 
-fun getHouseNumbersUsedByOthers(buildings: Collection<Building>, address: TownAddress) =
+fun getHouseNumbersUsedByOthers(buildings: Collection<Building>, address: SettlementAddress) =
     getUsedHouseNumbers(buildings) - address.houseNumber
 
 fun getUsedHouseNumbers(buildings: Collection<Building>, street: StreetId) = buildings
@@ -23,7 +23,7 @@ fun getUsedHouseNumbers(buildings: Collection<Building>, street: StreetId) = bui
 
 fun getUsedHouseNumbers(buildings: Collection<Building>) = buildings
     .mapNotNull {
-        if (it.address is TownAddress) {
+        if (it.address is SettlementAddress) {
             it.address.houseNumber
         } else {
             null

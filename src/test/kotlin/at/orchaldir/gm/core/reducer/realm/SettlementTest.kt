@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
-class TownTest {
+class SettlementTest {
 
     private val STATE = State(
         listOf(
@@ -33,7 +33,7 @@ class TownTest {
         fun `Cannot update unknown id`() {
             val action = UpdateAction(Settlement(UNKNOWN_SETTLEMENT_ID))
 
-            assertIllegalArgument("Requires unknown Town 99!") { REDUCER.invoke(State(), action) }
+            assertIllegalArgument("Requires unknown Settlement 99!") { REDUCER.invoke(State(), action) }
         }
 
         @Test
@@ -71,7 +71,7 @@ class TownTest {
         fun `Date is in the future`() {
             val action = UpdateAction(Settlement(SETTLEMENT_ID_0, date = FUTURE_DAY_0))
 
-            assertIllegalArgument("Date (Town) is in the future!") { REDUCER.invoke(STATE, action) }
+            assertIllegalArgument("Date (Settlement) is in the future!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test

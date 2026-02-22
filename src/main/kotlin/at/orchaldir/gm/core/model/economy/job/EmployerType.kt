@@ -4,5 +4,5 @@ enum class EmployerType {
     Business,
     Household,
     Realm,
-    Town,
+    Settlement,
 }

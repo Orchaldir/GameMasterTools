@@ -78,13 +78,13 @@ fun State.countCurrentOrFormerEmployees(realm: RealmId) = getCharacterStorage()
     .getAll()
     .count { it.checkCurrentOrPreviousEmploymentStatus { it.isEmployedAt(realm) } }
 
-fun State.countCurrentOrFormerEmployees(town: SettlementId) = getCharacterStorage()
+fun State.countCurrentOrFormerEmployees(settlement: SettlementId) = getCharacterStorage()
     .getAll()
-    .count { it.checkCurrentOrPreviousEmploymentStatus { it.isEmployedAt(town) } }
+    .count { it.checkCurrentOrPreviousEmploymentStatus { it.isEmployedAt(settlement) } }
 
-fun State.countEmployees(town: SettlementId) = getCharacterStorage()
+fun State.countEmployees(settlement: SettlementId) = getCharacterStorage()
     .getAll()
-    .count { it.checkEmploymentStatus { it.isEmployedAt(town) } }
+    .count { it.checkEmploymentStatus { it.isEmployedAt(settlement) } }
 
 fun State.countResidents(settlementId: SettlementId): Int {
     val townMap = getCurrentSettlementMap(settlementId)
@@ -93,9 +93,9 @@ fun State.countResidents(settlementId: SettlementId): Int {
     return countResidents(townMap.id)
 }
 
-fun State.countResidents(town: SettlementMapId) = getCharacterStorage()
+fun State.countResidents(settlement: SettlementMapId) = getCharacterStorage()
     .getAll()
-    .count { isResident(it, town) }
+    .count { isResident(it, settlement) }
 
 // count each
 
@@ -201,9 +201,9 @@ fun <ID : Id<ID>> State.getCharactersPreviouslyLivingIn(ids: Collection<ID>) = g
     .getAll()
     .filter { ids.any { id -> it.housingStatus.wasIn(id) } }
 
-fun State.getResidents(town: SettlementId?, townMap: SettlementMapId?): List<Character> {
-    val residents = if (town != null) {
-        getCharactersLivingIn(town)
+fun State.getResidents(settlement: SettlementId?, townMap: SettlementMapId?): List<Character> {
+    val residents = if (settlement != null) {
+        getCharactersLivingIn(settlement)
     } else {
         emptyList()
     }
@@ -215,8 +215,8 @@ fun State.getResidents(town: SettlementId?, townMap: SettlementMapId?): List<Cha
     }
 }
 
-fun State.isResident(character: Character, town: SettlementMapId) = character.housingStatus.current.getBuilding()
-    ?.let { getBuildingStorage().getOrThrow(it).position.isIn(town) }
+fun State.isResident(character: Character, settlement: SettlementMapId) = character.housingStatus.current.getBuilding()
+    ?.let { getBuildingStorage().getOrThrow(it).position.isIn(settlement) }
     ?: false
 
 // employment status
@@ -233,9 +233,9 @@ fun State.getEmployees(realm: RealmId) = getCharacterStorage()
     .getAll()
     .filter { it.checkEmploymentStatus { it.isEmployedAt(realm) } }
 
-fun State.getEmployees(town: SettlementId) = getCharacterStorage()
+fun State.getEmployees(settlement: SettlementId) = getCharacterStorage()
     .getAll()
-    .filter { it.checkEmploymentStatus { it.isEmployedAt(town) } }
+    .filter { it.checkEmploymentStatus { it.isEmployedAt(settlement) } }
 
 fun State.getPreviousEmployees(job: JobId) = getCharacterStorage()
     .getAll()
@@ -249,17 +249,17 @@ fun State.getPreviousEmployees(realm: RealmId) = getCharacterStorage()
     .getAll()
     .filter { it.checkPreviousEmploymentStatus { it.isEmployedAt(realm) } }
 
-fun State.getPreviousEmployees(town: SettlementId) = getCharacterStorage()
+fun State.getPreviousEmployees(settlement: SettlementId) = getCharacterStorage()
     .getAll()
-    .filter { it.checkPreviousEmploymentStatus { it.isEmployedAt(town) } }
+    .filter { it.checkPreviousEmploymentStatus { it.isEmployedAt(settlement) } }
 
-fun State.getWorkingIn(town: SettlementMapId) = getCharacterStorage()
+fun State.getWorkingIn(settlement: SettlementMapId) = getCharacterStorage()
     .getAll()
-    .filter { isWorkingIn(it, town) }
+    .filter { isWorkingIn(it, settlement) }
 
-fun State.isWorkingIn(character: Character, town: SettlementMapId) = getBusinessStorage()
+fun State.isWorkingIn(character: Character, settlement: SettlementMapId) = getBusinessStorage()
     .getOptional(character.getBusiness())
-    ?.position?.isIn(town)
+    ?.position?.isIn(settlement)
     ?: false
 
 // get relatives

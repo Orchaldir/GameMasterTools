@@ -12,14 +12,14 @@ val ADD_STREET_TILE: Reducer<AddStreetTile, State> = { state, action ->
 
     state.getStreetStorage().requireOptional(action.street)
 
-    val oldMap = state.getSettlementMapStorage().getOrThrow(action.town)
+    val oldMap = state.getSettlementMapStorage().getOrThrow(action.settlement)
     val map = oldMap.build(action.tileIndex, StreetTile(action.type, action.street))
 
     noFollowUps(state.updateStorage(state.getSettlementMapStorage().update(map)))
 }
 
 val REMOVE_STREET_TILE: Reducer<RemoveStreetTile, State> = { state, action ->
-    val oldMap = state.getSettlementMapStorage().getOrThrow(action.town)
+    val oldMap = state.getSettlementMapStorage().getOrThrow(action.settlement)
     val map = oldMap.removeStreet(action.tileIndex)
 
     noFollowUps(state.updateStorage(state.getSettlementMapStorage().update(map)))

@@ -34,7 +34,7 @@ private val logger = KotlinLogging.logger {}
 fun Application.configureAbstractBuildingEditorRouting() {
     routing {
         get<Edit> { edit ->
-            logger.info { "Get the abstract building editor for town map ${edit.id.value}" }
+            logger.info { "Get the abstract building editor for settlement map ${edit.id.value}" }
 
             val state = STORE.getState()
             val townMap = state.getSettlementMapStorage().getOrThrow(edit.id)
@@ -44,7 +44,7 @@ fun Application.configureAbstractBuildingEditorRouting() {
             }
         }
         post<Preview> { preview ->
-            logger.info { "Preview the abstract building editor for town map ${preview.id.value}" }
+            logger.info { "Preview the abstract building editor for settlement map ${preview.id.value}" }
 
             val state = STORE.getState()
             val townMap = state.getSettlementMapStorage().getOrThrow(preview.id)
@@ -59,7 +59,7 @@ fun Application.configureAbstractBuildingEditorRouting() {
             }
         }
         get<Add> { add ->
-            logger.info { "Add a new abstract building to town map ${add.settlement.value}" }
+            logger.info { "Add a new abstract building to settlement map ${add.settlement.value}" }
 
             STORE.dispatch(AddAbstractBuilding(add.settlement, add.tileIndex, add.size))
             STORE.getState().save()
@@ -67,7 +67,7 @@ fun Application.configureAbstractBuildingEditorRouting() {
             redirectToEdit(add.settlement, add.size)
         }
         get<Remove> { remove ->
-            logger.info { "Remove an abstract building from town map ${remove.settlement.value}" }
+            logger.info { "Remove an abstract building from settlement map ${remove.settlement.value}" }
 
             STORE.dispatch(RemoveAbstractBuilding(remove.settlement, remove.tileIndex))
             STORE.getState().save()
@@ -93,7 +93,7 @@ private fun HTML.showAbstractBuildingEditor(
     val backLink = href(call, settlementMap.id)
     val previewLink = call.application.href(Preview(settlementMap.id))
 
-    simpleHtml("Edit Abstract Buildings of Town ${settlementMap.name(state)}") {
+    simpleHtml("Edit Abstract Buildings of Settlement ${settlementMap.name(state)}") {
         split({
             form {
                 id = "editor"
@@ -112,16 +112,16 @@ private fun HTML.showAbstractBuildingEditor(
 fun visualizeAbstractBuildingEditor(
     call: ApplicationCall,
     state: State,
-    town: SettlementMap,
+    settlement: SettlementMap,
     size: MapSize2d,
 ): Svg {
     return visualizeSettlementMap(
-        town, state.getBuildingsIn(town.id),
+        settlement, state.getBuildingsIn(settlement.id),
         tileLinkLookup = { index, tile ->
             when (tile.construction) {
-                NoConstruction -> call.application.href(Add(town.id, index, size))
+                NoConstruction -> call.application.href(Add(settlement.id, index, size))
                 AbstractBuildingTile, is AbstractLargeBuildingStart, AbstractLargeBuildingTile ->
-                    call.application.href(Remove(town.id, index))
+                    call.application.href(Remove(settlement.id, index))
 
                 else -> null
             }

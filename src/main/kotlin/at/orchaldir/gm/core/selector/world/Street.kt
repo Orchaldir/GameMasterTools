@@ -16,9 +16,9 @@ fun State.getStreets(position: Position) = when (position) {
     else -> getStreetStorage().getAll()
 }
 
-fun State.getStreets(town: SettlementMapId) = getStreetStorage().get(getStreetIds(town))
+fun State.getStreets(settlement: SettlementMapId) = getStreetStorage().get(getStreetIds(settlement))
 
-fun State.getStreetIds(town: SettlementMapId) = getSettlementMapStorage()
-    .getOrThrow(town)
+fun State.getStreetIds(settlement: SettlementMapId) = getSettlementMapStorage()
+    .getOrThrow(settlement)
     .map.tiles.mapNotNull { it.construction.getOptionalStreet() }
     .distinct()

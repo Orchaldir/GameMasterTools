@@ -21,9 +21,9 @@ import at.orchaldir.gm.utils.redux.noFollowUps
 
 val ADD_BUILDING: Reducer<AddBuilding, State> = { state, action ->
     val buildingId = state.getBuildingStorage().nextId
-    val oldTownMap = state.getSettlementMapStorage().getOrThrow(action.town)
+    val oldTownMap = state.getSettlementMapStorage().getOrThrow(action.settlement)
     val townMap = oldTownMap.build(action.tileIndex, action.size, BuildingTile(buildingId))
-    val position = InSettlementMap(action.town, action.tileIndex)
+    val position = InSettlementMap(action.settlement, action.tileIndex)
     val building =
         Building(buildingId, position = position, size = action.size, constructionDate = state.getCurrentDate())
 
@@ -164,7 +164,7 @@ fun checkAddress(
             }
         }
 
-        is TownAddress -> {
+        is SettlementAddress -> {
             val buildings = state.getBuildingsForPosition(position)
                 .filter { it.id != building }
             require(!getUsedHouseNumbers(buildings).contains(address.houseNumber)) {

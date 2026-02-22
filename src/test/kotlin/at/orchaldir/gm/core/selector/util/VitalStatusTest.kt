@@ -88,7 +88,7 @@ class VitalStatusTest {
     }
 
     @Test
-    fun `Cannot delete a character that destroyed a town`() {
+    fun `Cannot delete a character that destroyed a settlement`() {
         testCanDeleteDestroyer(
             CHARACTER_ID_0,
             killedBy,

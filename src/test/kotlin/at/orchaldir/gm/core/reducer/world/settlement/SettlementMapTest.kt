@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
-class TownMapTest {
+class SettlementMapTest {
 
     val settlementMap = SettlementMap(SETTLEMENT_MAP_ID_0)
     private val STATE = State(
@@ -101,31 +101,31 @@ class TownMapTest {
         }
 
         @Test
-        fun `Town must exist`() {
-            val town = SettlementMap(SETTLEMENT_MAP_ID_0, settlement = UNKNOWN_SETTLEMENT_ID)
-            val action = UpdateAction(town)
+        fun `Settlement must exist`() {
+            val settlement = SettlementMap(SETTLEMENT_MAP_ID_0, settlement = UNKNOWN_SETTLEMENT_ID)
+            val action = UpdateAction(settlement)
 
-            assertIllegalArgument("Requires unknown Town 99!") { REDUCER.invoke(STATE, action) }
+            assertIllegalArgument("Requires unknown Settlement 99!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
-        fun `Town and date combination must be unique`() {
+        fun `Settlement and date combination must be unique`() {
             val map0 = SettlementMap(SETTLEMENT_MAP_ID_0, settlement = SETTLEMENT_ID_0, date = DAY0)
             val map1 = SettlementMap(SETTLEMENT_MAP_ID_1, settlement = SETTLEMENT_ID_0, date = DAY0)
             val state = STATE.updateStorage(Storage(listOf(settlementMap, map1)))
             val action = UpdateAction(map0)
 
-            assertIllegalArgument("Multiple maps have the same town & date combination!") {
+            assertIllegalArgument("Multiple maps have the same settlement & date combination!") {
                 REDUCER.invoke(state, action)
             }
         }
 
         @Test
         fun `Update is valid`() {
-            val town = SettlementMap(SETTLEMENT_MAP_ID_0, date = DAY0)
-            val action = UpdateAction(town)
+            val settlement = SettlementMap(SETTLEMENT_MAP_ID_0, date = DAY0)
+            val action = UpdateAction(settlement)
 
-            assertEquals(town, REDUCER.invoke(STATE, action).first.getSettlementMapStorage().get(SETTLEMENT_MAP_ID_0))
+            assertEquals(settlement, REDUCER.invoke(STATE, action).first.getSettlementMapStorage().get(SETTLEMENT_MAP_ID_0))
         }
     }
 

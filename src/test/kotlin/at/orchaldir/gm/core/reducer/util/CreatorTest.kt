@@ -55,7 +55,7 @@ class CreatorTest {
     private val createdByGod = GodReference(GOD_ID_0)
     private val createdByOrganization = OrganizationReference(ORGANIZATION_ID_0)
     private val createdByRealm = RealmReference(REALM_ID_0)
-    private val createdByTown = SettlementReference(SETTLEMENT_ID_0)
+    private val createdBySettlement = SettlementReference(SETTLEMENT_ID_0)
 
     @Nested
     inner class CanDeleteCreatorTest {
@@ -126,7 +126,7 @@ class CreatorTest {
         }
 
         @Test
-        fun `Created a town`() {
+        fun `Created a settlement`() {
             test(Settlement(SETTLEMENT_ID_0, founder = createdByCharacter))
         }
 
@@ -298,34 +298,34 @@ class CreatorTest {
         }
 
         @Nested
-        inner class CreatedByTownTest {
+        inner class CreatedBySettlementTest {
 
             @Test
-            fun `Creator is an unknown town`() {
+            fun `Creator is an unknown settlement`() {
                 val state = STATE.removeStorage(SETTLEMENT_ID_0)
 
-                assertIllegalArgument("Requires unknown Builder (Town 0)!") {
-                    validateCreator(state, createdByTown, BUILDING_ID_0, DAY0, "Builder")
+                assertIllegalArgument("Requires unknown Builder (Settlement 0)!") {
+                    validateCreator(state, createdBySettlement, BUILDING_ID_0, DAY0, "Builder")
                 }
             }
 
             @Test
             fun `Creator cannot create itself`() {
-                assertIllegalArgument("The Builder (Town 0) cannot create itself!") {
-                    validateCreator(STATE, createdByTown, SETTLEMENT_ID_0, null, "Builder")
+                assertIllegalArgument("The Builder (Settlement 0) cannot create itself!") {
+                    validateCreator(STATE, createdBySettlement, SETTLEMENT_ID_0, null, "Builder")
                 }
             }
 
             @Test
             fun `Creator doesn't exist yet`() {
-                assertIllegalArgument("The Builder (Town 0) doesn't exist at the required date!") {
-                    validateCreator(STATE, createdByTown, BUILDING_ID_0, DAY0, "Builder")
+                assertIllegalArgument("The Builder (Settlement 0) doesn't exist at the required date!") {
+                    validateCreator(STATE, createdBySettlement, BUILDING_ID_0, DAY0, "Builder")
                 }
             }
 
             @Test
             fun `Creator is valid`() {
-                validateCreator(STATE, createdByTown, BUILDING_ID_0, DAY2, "Builder")
+                validateCreator(STATE, createdBySettlement, BUILDING_ID_0, DAY2, "Builder")
             }
         }
     }

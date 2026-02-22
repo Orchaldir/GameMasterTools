@@ -52,7 +52,7 @@ class RealmTest {
             val realm = Realm(REALM_ID_0, capital = History(UNKNOWN_SETTLEMENT_ID))
             val action = UpdateAction(realm)
 
-            assertIllegalArgument("Requires unknown Town 99!") { REDUCER.invoke(STATE, action) }
+            assertIllegalArgument("Requires unknown Settlement 99!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test

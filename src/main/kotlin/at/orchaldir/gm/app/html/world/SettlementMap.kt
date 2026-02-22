@@ -39,15 +39,15 @@ fun HtmlBlockTag.showSettlementMap(
 fun HtmlBlockTag.showCharactersOfSettlementMap(
     call: ApplicationCall,
     state: State,
-    town: SettlementId?,
+    settlement: SettlementId?,
     townMap: SettlementMapId?,
 ) {
-    val employees = if (town != null) {
-        state.getEmployees(town)
+    val employees = if (settlement != null) {
+        state.getEmployees(settlement)
     } else {
         emptyList()
     }
-    val residents = state.getResidents(town, townMap)
+    val residents = state.getResidents(settlement, townMap)
     val workers = if (townMap != null) {
         state.getWorkingIn(townMap) - residents
     } else {
@@ -76,7 +76,7 @@ private fun HtmlBlockTag.showCharactersOfSettlementMap(
 
     h2 { +"Characters" }
 
-    showEmployees(call, state, employees, showTown = false)
+    showEmployees(call, state, employees, showSettlement = false)
     fieldElements(call, state, "Residents", residents)
     fieldElements(call, state, "Workers, but not Residents", workers)
 
@@ -97,7 +97,7 @@ fun HtmlBlockTag.editSettlementMap(
     state: State,
     settlementMap: SettlementMap,
 ) {
-    selectOptionalElement(state, "Town", SETTLEMENT, state.getSettlementStorage().getAll(), settlementMap.settlement)
+    selectOptionalElement(state, "Settlement", SETTLEMENT, state.getSettlementStorage().getAll(), settlementMap.settlement)
     selectOptionalDate(state, "Date", settlementMap.date, DATE)
 }
 

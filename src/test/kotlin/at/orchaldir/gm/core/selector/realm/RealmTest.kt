@@ -71,7 +71,7 @@ class RealmTest {
         }
 
         @Test
-        fun `Cannot delete a realm that owns a town`() {
+        fun `Cannot delete a realm that owns a settlement`() {
             val settlement = Settlement(SETTLEMENT_ID_0, owner = History(REALM_ID_0))
             val newState = state.updateStorage(settlement)
 
@@ -79,7 +79,7 @@ class RealmTest {
         }
 
         @Test
-        fun `Cannot delete a realm that owned a town`() {
+        fun `Cannot delete a realm that owned a settlement`() {
             val history = History(null, HistoryEntry(REALM_ID_0, DAY0))
             val settlement = Settlement(SETTLEMENT_ID_0, owner = history)
             val newState = state.updateStorage(settlement)

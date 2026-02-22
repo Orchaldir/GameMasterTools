@@ -114,7 +114,7 @@ data class Building(
 
         is StreetAddress -> state.getElementName(address.street) + " ${address.houseNumber}"
 
-        is TownAddress -> when (position) {
+        is SettlementAddress -> when (position) {
             is InDistrict -> state.getElementName(position.district)
             is InPlane -> state.getElementName(position.plane)
             is InRealm -> state.getElementName(position.realm)

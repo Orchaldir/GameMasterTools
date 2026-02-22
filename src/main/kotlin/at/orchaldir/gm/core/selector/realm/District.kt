@@ -16,9 +16,9 @@ fun State.getDistricts(district: DistrictId) = getDistrictStorage()
     .getAll()
     .filter { it.position.isIn(district) }
 
-fun State.getDistricts(town: SettlementId) = getDistrictStorage()
+fun State.getDistricts(settlement: SettlementId) = getDistrictStorage()
     .getAll()
-    .filter { it.position.isIn(town) }
+    .filter { it.position.isIn(settlement) }
 
 fun State.getExistingDistricts(date: Date?) = getExistingElements(getDistrictStorage().getAll(), date)
 

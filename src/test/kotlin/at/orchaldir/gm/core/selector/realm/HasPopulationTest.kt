@@ -45,7 +45,7 @@ class HasPopulationTest {
         }
 
         @Test
-        fun `Cannot delete a race used by the population of a town`() {
+        fun `Cannot delete a race used by the population of a settlement`() {
             val settlement = Settlement(SETTLEMENT_ID_0, population = totalPopulation)
             val newState = state.updateStorage(settlement)
 

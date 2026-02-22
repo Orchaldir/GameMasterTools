@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
-class TownMapTest {
+class SettlementMapTest {
 
     @Nested
     inner class CanDeleteTest {

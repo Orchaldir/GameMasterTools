@@ -30,7 +30,7 @@ private val logger = KotlinLogging.logger {}
 fun Application.configureBuildingEditorRouting() {
     routing {
         get<SettlementMapRoutes.BuildingRoutes.Edit> { edit ->
-            logger.info { "Get the building editor for town map ${edit.id.value}" }
+            logger.info { "Get the building editor for settlement map ${edit.id.value}" }
 
             val state = STORE.getState()
             val townMap = state.getSettlementMapStorage().getOrThrow(edit.id)
@@ -40,7 +40,7 @@ fun Application.configureBuildingEditorRouting() {
             }
         }
         post<SettlementMapRoutes.BuildingRoutes.Preview> { preview ->
-            logger.info { "Preview the building editor for town map ${preview.id.value}" }
+            logger.info { "Preview the building editor for settlement map ${preview.id.value}" }
 
             val state = STORE.getState()
             val townMap = state.getSettlementMapStorage().getOrThrow(preview.id)
@@ -55,7 +55,7 @@ fun Application.configureBuildingEditorRouting() {
             }
         }
         get<SettlementMapRoutes.BuildingRoutes.Add> { add ->
-            logger.info { "Add a new building to town map ${add.settlement.value}" }
+            logger.info { "Add a new building to settlement map ${add.settlement.value}" }
 
             STORE.dispatch(AddBuilding(add.settlement, add.tileIndex, add.size))
 
@@ -79,7 +79,7 @@ private fun HTML.showBuildingEditor(
     val backLink = href(call, settlementMap.id)
     val previewLink = call.application.href(SettlementMapRoutes.BuildingRoutes.Preview(settlementMap.id))
 
-    simpleHtml("Edit Buildings of Town Map ${settlementMap.name(state)}") {
+    simpleHtml("Edit Buildings of Settlement Map ${settlementMap.name(state)}") {
         split({
             form {
                 id = "editor"

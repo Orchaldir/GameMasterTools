@@ -53,16 +53,16 @@ fun HtmlBlockTag.showSettlement(
     showSubDistricts(call, state, state.getDistricts(settlement.id), settlement.population)
     showDataSources(call, state, settlement.sources)
 
-    val currentTownMap = state.getCurrentSettlementMap(settlement.id)
+    val currentMap = state.getCurrentSettlementMap(settlement.id)
 
-    if (currentTownMap != null) {
-        optionalFieldLink(call, state, currentTownMap.id)
-        fieldElements(call, state, "Previous Town Maps", state.getSettlementMaps(settlement.id) - currentTownMap)
-        showLocalElements(call, state, settlement, currentTownMap)
+    if (currentMap != null) {
+        optionalFieldLink(call, state, currentMap.id)
+        fieldElements(call, state, "Previous Settlement Maps", state.getSettlementMaps(settlement.id) - currentMap)
+        showLocalElements(call, state, settlement, currentMap)
     } else {
         showLocalElements(call, state, settlement.id)
     }
-    showCharactersOfSettlementMap(call, state, settlement.id, currentTownMap?.id)
+    showCharactersOfSettlementMap(call, state, settlement.id, currentMap?.id)
 
     showCreated(call, state, settlement.id)
     showOwnedElements(call, state, settlement.id)
@@ -80,7 +80,7 @@ fun HtmlBlockTag.showSubDistricts(
         return
     }
 
-    val townPopulation = population.getTotalPopulation() ?: 0
+    val settlementPopulation = population.getTotalPopulation() ?: 0
 
     br { }
     table {
@@ -110,7 +110,7 @@ fun HtmlBlockTag.showSubDistricts(
             tdSkipZero(totalPopulation)
         }
 
-        val missing = townPopulation - totalPopulation
+        val missing = settlementPopulation - totalPopulation
 
         if (missing != 0) {
             tr {

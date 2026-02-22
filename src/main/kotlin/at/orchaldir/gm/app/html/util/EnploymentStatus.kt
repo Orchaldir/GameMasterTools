@@ -31,7 +31,7 @@ fun HtmlBlockTag.showEmployees(
     employees: Collection<Character>,
     label: String = "Employees",
     showOptionalBusiness: Boolean = true,
-    showTown: Boolean = true,
+    showSettlement: Boolean = true,
 ) {
     fieldList(label, state.sortCharacters(employees)) { employee ->
         link(call, state, employee)
@@ -41,7 +41,7 @@ fun HtmlBlockTag.showEmployees(
             state,
             employee.employmentStatus.current,
             showOptionalBusiness = showOptionalBusiness,
-            showTown = showTown,
+            showSettlement = showSettlement,
         )
     }
 }
@@ -58,7 +58,7 @@ fun HtmlBlockTag.showEmploymentStatus(
     status: EmploymentStatus,
     showUndefined: Boolean = true,
     showOptionalBusiness: Boolean = true,
-    showTown: Boolean = true,
+    showSettlement: Boolean = true,
 ) {
     when (status) {
         is Employed -> {
@@ -70,13 +70,13 @@ fun HtmlBlockTag.showEmploymentStatus(
         is EmployedByRealm -> {
             link(call, state, status.job)
 
-            if (showTown) {
+            if (showSettlement) {
                 +" of "
                 link(call, state, status.realm)
             }
         }
 
-        is EmployedBySettlement -> if (showTown) {
+        is EmployedBySettlement -> if (showSettlement) {
             if (status.optionalBusiness != null && showOptionalBusiness) {
                 link(call, state, status.job)
                 +" at "
@@ -160,7 +160,7 @@ fun HtmlBlockTag.selectEmploymentStatus(
                 state.getExistingSettlements(start),
                 status.settlement,
             )
-            selectJob(state, param, EmployerType.Town, status.job)
+            selectJob(state, param, EmployerType.Settlement, status.job)
             selectOptionalElement(
                 state,
                 "Business",
@@ -201,7 +201,7 @@ fun parseEmploymentStatus(parameters: Parameters, state: State, param: String): 
             parseRealmId(parameters, combine(param, REALM)),
         )
 
-        EmploymentStatusType.EmployedByTown -> EmployedBySettlement(
+        EmploymentStatusType.EmployedBySettlement -> EmployedBySettlement(
             parseJobId(parameters, combine(param, JOB)),
             parseSettlementId(parameters, combine(param, SETTLEMENT)),
             parseOptionalBusinessId(parameters, combine(param, BUSINESS)),

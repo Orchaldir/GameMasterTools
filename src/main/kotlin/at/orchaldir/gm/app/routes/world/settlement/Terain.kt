@@ -38,17 +38,17 @@ private val logger = KotlinLogging.logger {}
 fun Application.configureTerrainRouting() {
     routing {
         get<SettlementMapRoutes.TerrainRoutes.Edit> { edit ->
-            logger.info { "Get the terrain editor for town map ${edit.id.value}" }
+            logger.info { "Get the terrain editor for settlement map ${edit.id.value}" }
 
             val state = STORE.getState()
-            val town = state.getSettlementMapStorage().getOrThrow(edit.id)
+            val settlement = state.getSettlementMapStorage().getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showTerrainEditor(call, state, town, TerrainType.Plain, 0)
+                showTerrainEditor(call, state, settlement, TerrainType.Plain, 0)
             }
         }
         post<SettlementMapRoutes.TerrainRoutes.Preview> { preview ->
-            logger.info { "Preview the terrain editor for town map ${preview.id.value}" }
+            logger.info { "Preview the terrain editor for settlement map ${preview.id.value}" }
 
             val state = STORE.getState()
             val townMap = state.getSettlementMapStorage().getOrThrow(preview.id)
@@ -61,7 +61,7 @@ fun Application.configureTerrainRouting() {
             }
         }
         get<SettlementMapRoutes.TerrainRoutes.Update> { update ->
-            logger.info { "Update the terrain to ${update.terrainType} with id ${update.terrainId} for tile ${update.tileIndex} for town map ${update.id.value}" }
+            logger.info { "Update the terrain to ${update.terrainType} with id ${update.terrainId} for tile ${update.tileIndex} for settlement map ${update.id.value}" }
 
             STORE.dispatch(SetTerrainTile(update.id, update.terrainType, update.terrainId, update.tileIndex))
 
@@ -74,7 +74,7 @@ fun Application.configureTerrainRouting() {
             }
         }
         post<SettlementMapRoutes.TerrainRoutes.Resize> { update ->
-            logger.info { "Resize the terrain of town map ${update.id.value}" }
+            logger.info { "Resize the terrain of settlement map ${update.id.value}" }
 
             val params = call.receiveParameters()
             val terrainType = parseTerrainType(params)
@@ -107,7 +107,7 @@ private fun HTML.showTerrainEditor(
     val previewLink = call.application.href(SettlementMapRoutes.TerrainRoutes.Preview(settlementMap.id))
     val resizeLink = call.application.href(SettlementMapRoutes.TerrainRoutes.Resize(settlementMap.id))
 
-    simpleHtml("Edit Terrain of Town Map ${settlementMap.name(state)}") {
+    simpleHtml("Edit Terrain of Settlement Map ${settlementMap.name(state)}") {
         split({
             formWithPreview(previewLink, resizeLink, backLink, "Resize") {
                 editTerrain(call, state, terrainType, terrainId, settlementMap)

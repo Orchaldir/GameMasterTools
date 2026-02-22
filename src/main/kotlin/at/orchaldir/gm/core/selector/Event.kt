@@ -131,8 +131,8 @@ fun State.getEvents(calendar: Calendar): List<Event<*>> {
         }
     }
 
-    getSettlementStorage().getAll().forEach { town ->
-        handleStartAndEnd(events, default, calendar, town)
+    getSettlementStorage().getAll().forEach { settlement ->
+        handleStartAndEnd(events, default, calendar, settlement)
     }
 
     getTreatyStorage().getAll().forEach { treaty ->

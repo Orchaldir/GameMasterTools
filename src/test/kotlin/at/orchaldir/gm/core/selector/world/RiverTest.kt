@@ -21,7 +21,7 @@ class RiverTest {
     inner class CanDeleteTest {
 
         @Test
-        fun `Cannot delete, if used by a town`() {
+        fun `Cannot delete, if used by a settlement`() {
             val state = State(
                 listOf(
                     Storage(River(RIVER_ID_0)),

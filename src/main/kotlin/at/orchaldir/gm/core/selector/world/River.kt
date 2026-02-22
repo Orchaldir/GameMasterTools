@@ -8,10 +8,10 @@ import at.orchaldir.gm.core.model.world.settlement.SettlementMapId
 fun State.canDeleteRiver(river: RiverId) = DeleteResult(river)
     .addElements(getSettlementMaps(river))
 
-fun State.getRivers(town: SettlementMapId) = getRiverStorage().get(getRiverIds(town))
+fun State.getRivers(settlement: SettlementMapId) = getRiverStorage().get(getRiverIds(settlement))
 
-fun State.getRiverIds(town: SettlementMapId) = getSettlementMapStorage()
-    .getOrThrow(town)
+fun State.getRiverIds(settlement: SettlementMapId) = getSettlementMapStorage()
+    .getOrThrow(settlement)
     .map.tiles.mapNotNull { it.terrain.getRiver() }
     .distinct()
 

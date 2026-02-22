@@ -129,10 +129,10 @@ private fun HtmlBlockTag.showSettlementMapEditorRight(
 private fun visualizeSettlementMapWithLinks(
     call: ApplicationCall,
     state: State,
-    town: SettlementMap,
+    settlement: SettlementMap,
 ) = visualizeSettlementMap(
-    town,
-    state.getBuildingsIn(town.id),
+    settlement,
+    state.getBuildingsIn(settlement.id),
     tileTooltipLookup = showTerrainName(state),
     buildingLinkLookup = { building ->
         call.application.href(BuildingRoutes.Details(building.id))

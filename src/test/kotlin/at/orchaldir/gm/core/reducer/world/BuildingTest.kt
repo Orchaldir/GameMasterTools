@@ -46,16 +46,16 @@ class BuildingTest {
     inner class AddBuildingTest {
 
         @Test
-        fun `Cannot update unknown town`() {
+        fun `Cannot update unknown settlement`() {
             val action = AddBuilding(SETTLEMENT_MAP_ID_0, 0, square(1))
 
-            assertIllegalArgument("Requires unknown Town Map 0!") { REDUCER.invoke(State(), action) }
+            assertIllegalArgument("Requires unknown Settlement Map 0!") { REDUCER.invoke(State(), action) }
         }
 
         @Test
         fun `Tile is outside the map`() {
-            val town = SettlementMap(SETTLEMENT_MAP_ID_0)
-            val state = State(Storage(town))
+            val settlement = SettlementMap(SETTLEMENT_MAP_ID_0)
+            val state = State(Storage(settlement))
             val action = AddBuilding(SETTLEMENT_MAP_ID_0, 100, square(1))
 
             assertIllegalState("Lot with index 100 & size 1 x 1 is outside the map!") { REDUCER.invoke(state, action) }
@@ -63,8 +63,8 @@ class BuildingTest {
 
         @Test
         fun `Big lot is outside the map`() {
-            val town = SettlementMap(SETTLEMENT_MAP_ID_0)
-            val state = State(Storage(town))
+            val settlement = SettlementMap(SETTLEMENT_MAP_ID_0)
+            val state = State(Storage(settlement))
             val action = AddBuilding(SETTLEMENT_MAP_ID_0, 9, square(2))
 
             assertIllegalState("Lot with index 9 & size 2 x 2 is outside the map!") { REDUCER.invoke(state, action) }
@@ -82,8 +82,8 @@ class BuildingTest {
 
         private fun testTileNotEmpty(settlementTile: SettlementTile) {
             val map = TileMap2d(settlementTile)
-            val town = SettlementMap(SETTLEMENT_MAP_ID_0, map = map)
-            val state = State(listOf(Storage(listOf(Street(STREET_ID_0))), Storage(town)))
+            val settlement = SettlementMap(SETTLEMENT_MAP_ID_0, map = map)
+            val state = State(listOf(Storage(listOf(Street(STREET_ID_0))), Storage(settlement)))
             val action = AddBuilding(SETTLEMENT_MAP_ID_0, 0, square(1))
 
             assertIllegalArgument("Tile 0 is not empty!") { REDUCER.invoke(state, action) }
@@ -101,8 +101,8 @@ class BuildingTest {
 
         private fun testBigLotNotEmpty(settlementTile: SettlementTile) {
             val map = TileMap2d(BIG_SIZE, listOf(SettlementTile(), settlementTile))
-            val town = SettlementMap(SETTLEMENT_MAP_ID_0, map = map)
-            val state = State(listOf(Storage(listOf(Street(STREET_ID_0))), Storage(town)))
+            val settlement = SettlementMap(SETTLEMENT_MAP_ID_0, map = map)
+            val state = State(listOf(Storage(listOf(Street(STREET_ID_0))), Storage(settlement)))
             val action = AddBuilding(SETTLEMENT_MAP_ID_0, 0, BIG_SIZE)
 
             assertIllegalArgument("Tile 1 is not empty!") { REDUCER.invoke(state, action) }
@@ -111,8 +111,8 @@ class BuildingTest {
         @Test
         fun `Successfully added a building`() {
             val map = TileMap2d(SettlementTile())
-            val town = SettlementMap(SETTLEMENT_MAP_ID_0, map = map)
-            val state = State(Storage(town), data = data)
+            val settlement = SettlementMap(SETTLEMENT_MAP_ID_0, map = map)
+            val state = State(Storage(settlement), data = data)
             val action = AddBuilding(SETTLEMENT_MAP_ID_0, 0, square(1))
 
             val result = REDUCER.invoke(state, action).first
@@ -130,8 +130,8 @@ class BuildingTest {
         @Test
         fun `Successfully added a big building`() {
             val map = TileMap2d(BIG_SQUARE, SettlementTile())
-            val town = SettlementMap(SETTLEMENT_MAP_ID_0, map = map)
-            val state = State(Storage(town), data = data)
+            val settlement = SettlementMap(SETTLEMENT_MAP_ID_0, map = map)
+            val state = State(Storage(settlement), data = data)
             val action = AddBuilding(SETTLEMENT_MAP_ID_0, 0, BIG_SIZE)
 
             val result = REDUCER.invoke(state, action).first
@@ -155,21 +155,21 @@ class BuildingTest {
     inner class DeleteBuildingTest {
 
         private val building = Building(BUILDING_ID_0, position = InSettlementMap(SETTLEMENT_MAP_ID_0, 0))
-        private val town = SettlementMap(SETTLEMENT_MAP_ID_0, map = TileMap2d(BUILDING_TILE_0))
-        private val state = State(listOf(Storage(building), Storage(town)))
+        private val settlement = SettlementMap(SETTLEMENT_MAP_ID_0, map = TileMap2d(BUILDING_TILE_0))
+        private val state = State(listOf(Storage(building), Storage(settlement)))
         private val action = DeleteAction(BUILDING_ID_0)
 
         @Test
-        fun `Cannot update unknown town`() {
+        fun `Cannot update unknown settlement`() {
             val state = State(listOf(Storage(building)))
 
-            assertIllegalArgument("Requires unknown Town Map 0!") { REDUCER.invoke(state, action) }
+            assertIllegalArgument("Requires unknown Settlement Map 0!") { REDUCER.invoke(state, action) }
         }
 
         @Test
         fun `Tile delete unknown building`() {
-            val town = SettlementMap(SETTLEMENT_MAP_ID_0)
-            val state = State(Storage(town))
+            val settlement = SettlementMap(SETTLEMENT_MAP_ID_0)
+            val state = State(Storage(settlement))
 
             assertIllegalArgument("Requires unknown Building 0!") { REDUCER.invoke(state, action) }
         }
@@ -185,12 +185,12 @@ class BuildingTest {
         @Test
         fun `Successfully removed a big building`() {
             val building = Building(BUILDING_ID_0, position = InSettlementMap(SETTLEMENT_MAP_ID_0, 0), size = BIG_SIZE)
-            val town =
+            val settlement =
                 SettlementMap(
                     SETTLEMENT_MAP_ID_0,
                     map = TileMap2d(BIG_SQUARE, listOf(BUILDING_TILE_0, BUILDING_TILE_0, SettlementTile(), SettlementTile()))
                 )
-            val state = State(listOf(Storage(building), Storage(town)))
+            val state = State(listOf(Storage(building), Storage(settlement)))
 
             val result = REDUCER.invoke(state, action).first
 
@@ -200,12 +200,12 @@ class BuildingTest {
 
         @Test
         fun `Successfully removed a building in multiple places`() {
-            val town =
+            val settlement =
                 SettlementMap(
                     SETTLEMENT_MAP_ID_0,
                     map = TileMap2d(BIG_SQUARE, listOf(BUILDING_TILE_0, SettlementTile(), SettlementTile(), BUILDING_TILE_0))
                 )
-            val state = State(listOf(Storage(building), Storage(town)))
+            val state = State(listOf(Storage(building), Storage(settlement)))
 
             val result = REDUCER.invoke(state, action).first
 
@@ -282,7 +282,7 @@ class BuildingTest {
         }
 
         @Test
-        fun `Cannot use an unknown town as location`() {
+        fun `Cannot use an unknown settlement as location`() {
             val newBuilding = building.copy(position = InSettlement(UNKNOWN_SETTLEMENT_ID))
 
             failUpdate(newBuilding, "Requires unknown position!")
@@ -352,10 +352,10 @@ class BuildingTest {
             }
 
             @Test
-            fun `Street of crossing must be part of the town`() {
+            fun `Street of crossing must be part of the settlement`() {
                 val address = CrossingAddress(listOf(STREET_ID_0, STREET_NOT_IN_TOWN))
 
-                failUpdate(building.copy(address = address), "Street 199 is not part of Town Map 0!")
+                failUpdate(building.copy(address = address), "Street 199 is not part of Settlement Map 0!")
             }
 
             @Test
@@ -378,10 +378,10 @@ class BuildingTest {
             }
 
             @Test
-            fun `Street must be part of the town`() {
+            fun `Street must be part of the settlement`() {
                 val address = StreetAddress(STREET_NOT_IN_TOWN, 1)
 
-                failUpdate(building.copy(address = address), "Street 199 is not part of Town Map 0!")
+                failUpdate(building.copy(address = address), "Street 199 is not part of Settlement Map 0!")
             }
 
             @Test
@@ -410,22 +410,22 @@ class BuildingTest {
             }
 
             @Test
-            fun `Updated town address`() {
-                testSuccessful(TownAddress(1))
+            fun `Updated settlement address`() {
+                testSuccessful(SettlementAddress(1))
             }
 
             @Test
-            fun `Cannot reuse the same town address`() {
-                val address = TownAddress(1)
+            fun `Cannot reuse the same settlement address`() {
+                val address = SettlementAddress(1)
                 val state = testSuccessful(address)
                 val otherBuilding = building.copy(id = BUILDING_ID_1, address = address)
 
-                failUpdate(state, otherBuilding, "House number 1 already used for Town Map 0!")
+                failUpdate(state, otherBuilding, "House number 1 already used for Settlement Map 0!")
             }
 
             @Test
-            fun `Can reuse the same town address for the same house`() {
-                val address = TownAddress(1)
+            fun `Can reuse the same settlement address for the same house`() {
+                val address = SettlementAddress(1)
                 val state = testSuccessful(address)
 
                 testSuccessful(address, state)
@@ -454,7 +454,7 @@ class BuildingTest {
         inner class PositionTest {
 
             @Test
-            fun `New position is not a town map now`() {
+            fun `New position is not a settlement map now`() {
                 val newBuilding = building.copy(position = firstPosition)
 
                 val result = REDUCER.invoke(STATE, UpdateAction(newBuilding)).first
@@ -463,7 +463,7 @@ class BuildingTest {
             }
 
             @Test
-            fun `New position is not a town map anymore`() {
+            fun `New position is not a settlement map anymore`() {
                 val newState = STATE.updateStorage(
                     listOf(
                         Storage(building.copy(position = firstPosition)),

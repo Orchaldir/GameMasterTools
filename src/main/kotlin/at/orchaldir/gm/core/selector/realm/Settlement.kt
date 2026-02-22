@@ -13,18 +13,18 @@ import at.orchaldir.gm.core.selector.util.*
 import at.orchaldir.gm.core.selector.world.getSettlementMaps
 import at.orchaldir.gm.utils.Id
 
-fun State.canDeleteSettlement(town: SettlementId) = DeleteResult(town)
-    .addElements(getRealmsWithCapital(town))
-    .addElements(getRealmsWithPreviousCapital(town))
-    .addElements(getDistricts(town))
-    .addElements(getEmployees(town))
-    .addElements(getPreviousEmployees(town))
-    .addElements(getSettlementMaps(town))
-    .addElements(getWarsWithParticipant(town))
-    .apply { canDeleteCreator(town, it) }
-    .apply { canDeleteDestroyer(town, it) }
-    .apply { canDeleteOwner(town, it) }
-    .apply { canDeleteWithPositions(town, it) }
+fun State.canDeleteSettlement(settlement: SettlementId) = DeleteResult(settlement)
+    .addElements(getRealmsWithCapital(settlement))
+    .addElements(getRealmsWithPreviousCapital(settlement))
+    .addElements(getDistricts(settlement))
+    .addElements(getEmployees(settlement))
+    .addElements(getPreviousEmployees(settlement))
+    .addElements(getSettlementMaps(settlement))
+    .addElements(getWarsWithParticipant(settlement))
+    .apply { canDeleteCreator(settlement, it) }
+    .apply { canDeleteDestroyer(settlement, it) }
+    .apply { canDeleteOwner(settlement, it) }
+    .apply { canDeleteWithPositions(settlement, it) }
 
 // count
 

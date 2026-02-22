@@ -12,7 +12,7 @@ import at.orchaldir.gm.core.reducer.util.validateVitalStatus
 import at.orchaldir.gm.core.selector.util.requireExists
 
 fun validateSettlement(state: State, settlement: Settlement) {
-    validateDate(state, settlement.date, "Town")
+    validateDate(state, settlement.date, "Settlement")
     validateCreator(state, settlement.founder, settlement.id, settlement.date, "founder")
     validateVitalStatus(
         state,

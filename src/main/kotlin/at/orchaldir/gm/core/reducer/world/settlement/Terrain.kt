@@ -12,7 +12,7 @@ import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
 val SET_TERRAIN_TILE: Reducer<SetTerrainTile, State> = { state, action ->
-    val oldMap = state.getSettlementMapStorage().getOrThrow(action.town)
+    val oldMap = state.getSettlementMapStorage().getOrThrow(action.settlement)
     val terrain = createTerrain(state, action.terrainType, action.terrainId)
     val map = oldMap.setTerrain(action.tileIndex, terrain)
 
@@ -20,13 +20,13 @@ val SET_TERRAIN_TILE: Reducer<SetTerrainTile, State> = { state, action ->
 }
 
 val RESIZE_TERRAIN: Reducer<ResizeTerrain, State> = { state, action ->
-    val oldMap = state.getSettlementMapStorage().getOrThrow(action.town)
+    val oldMap = state.getSettlementMapStorage().getOrThrow(action.settlement)
     val terrain = createTerrain(state, action.terrainType, action.terrainId)
     val tile = SettlementTile(terrain)
 
     val newTileMap = oldMap.map.resize(action.resize, tile)
     val newMap = oldMap.copy(map = newTileMap)
-    val newBuildings = state.getBuildingsIn(action.town)
+    val newBuildings = state.getBuildingsIn(action.settlement)
         .map { building ->
             if (building.position is InSettlementMap) {
                 val newIndex = oldMap.map.getIndexAfterResize(building.position.tileIndex, action.resize)

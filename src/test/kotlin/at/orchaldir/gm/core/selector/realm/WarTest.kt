@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.selector.town
+package at.orchaldir.gm.core.selector.settlement
 
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.DeleteResult

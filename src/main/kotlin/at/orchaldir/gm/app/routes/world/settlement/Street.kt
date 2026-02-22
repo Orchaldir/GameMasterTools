@@ -29,7 +29,7 @@ private val logger = KotlinLogging.logger {}
 fun Application.configureStreetEditorRouting() {
     routing {
         get<SettlementMapRoutes.StreetRoutes.Edit> { edit ->
-            logger.info { "Get the street editor for town ${edit.id.value}" }
+            logger.info { "Get the street editor for settlement ${edit.id.value}" }
 
             val state = STORE.getState()
             val townMap = state.getSettlementMapStorage().getOrThrow(edit.id)
@@ -39,7 +39,7 @@ fun Application.configureStreetEditorRouting() {
             }
         }
         post<SettlementMapRoutes.StreetRoutes.Preview> { preview ->
-            logger.info { "Preview the street editor for town ${preview.id.value}" }
+            logger.info { "Preview the street editor for settlement ${preview.id.value}" }
 
             val state = STORE.getState()
             val townMap = state.getSettlementMapStorage().getOrThrow(preview.id)
@@ -52,7 +52,7 @@ fun Application.configureStreetEditorRouting() {
             }
         }
         get<SettlementMapRoutes.StreetRoutes.Add> { add ->
-            logger.info { "Set tile ${add.tileIndex} to street ${add.typeId.value} for town ${add.id.value}" }
+            logger.info { "Set tile ${add.tileIndex} to street ${add.typeId.value} for settlement ${add.id.value}" }
 
             STORE.dispatch(AddStreetTile(add.id, add.tileIndex, add.typeId, add.streetId))
 
@@ -60,12 +60,12 @@ fun Application.configureStreetEditorRouting() {
 
             call.respondHtml(HttpStatusCode.OK) {
                 val state = STORE.getState()
-                val town = state.getSettlementMapStorage().getOrThrow(add.id)
-                showStreetEditor(call, state, town, add.typeId, add.streetId)
+                val settlement = state.getSettlementMapStorage().getOrThrow(add.id)
+                showStreetEditor(call, state, settlement, add.typeId, add.streetId)
             }
         }
         get<SettlementMapRoutes.StreetRoutes.Remove> { remove ->
-            logger.info { "Remove street from tile ${remove.tileIndex} for town ${remove.id.value}" }
+            logger.info { "Remove street from tile ${remove.tileIndex} for settlement ${remove.id.value}" }
 
             STORE.dispatch(RemoveStreetTile(remove.id, remove.tileIndex))
 
@@ -73,8 +73,8 @@ fun Application.configureStreetEditorRouting() {
 
             call.respondHtml(HttpStatusCode.OK) {
                 val state = STORE.getState()
-                val town = state.getSettlementMapStorage().getOrThrow(remove.id)
-                showStreetEditor(call, state, town, remove.typeId, remove.streetId)
+                val settlement = state.getSettlementMapStorage().getOrThrow(remove.id)
+                showStreetEditor(call, state, settlement, remove.typeId, remove.streetId)
             }
         }
     }
@@ -92,7 +92,7 @@ private fun HTML.showStreetEditor(
     val previewLink = call.application.href(SettlementMapRoutes.StreetRoutes.Preview(settlementMap.id))
     val createLink = call.application.href(StreetRoutes.New())
 
-    simpleHtml("Edit Streets of Town Map ${settlementMap.name(state)}") {
+    simpleHtml("Edit Streets of Settlement Map ${settlementMap.name(state)}") {
         split({
             formWithPreview(previewLink, createLink, backLink, "Create new Street") {
                 selectElement(state, "Type", TYPE, state.getStreetTemplateStorage().getAll(), selectedType)

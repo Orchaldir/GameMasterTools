@@ -30,7 +30,7 @@ class StreetTest {
         )
 
         @Test
-        fun `Cannot delete, if used by a town`() {
+        fun `Cannot delete, if used by a settlement`() {
             val tile = StreetTile(STREET_TEMPLATE_ID_0, STREET_ID_0)
             val settlementMap = SettlementMap(SETTLEMENT_MAP_ID_0, map = TileMap2d(SettlementTile(construction = tile)))
             val newState = state.updateStorage(settlementMap)

@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.selector.town
+package at.orchaldir.gm.core.selector.settlement
 
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.DeleteResult
@@ -19,7 +19,7 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
-class TownTest {
+class SettlementTest {
 
     @Nested
     inner class CanDeleteTest {
@@ -31,7 +31,7 @@ class TownTest {
         )
 
         @Test
-        fun `Cannot delete a town that killed a character`() {
+        fun `Cannot delete a settlement that killed a character`() {
             val dead = Dead(DAY0, KilledBy(SettlementReference(SETTLEMENT_ID_0)))
             val character = Character(CHARACTER_ID_0, status = dead)
             val newState = state.updateStorage(character)
@@ -40,7 +40,7 @@ class TownTest {
         }
 
         @Test
-        fun `Cannot delete a town that created another element`() {
+        fun `Cannot delete a settlement that created another element`() {
             val building = Building(BUILDING_ID_0, builder = SettlementReference(SETTLEMENT_ID_0))
             val newState = state.updateStorage(building)
 
@@ -48,7 +48,7 @@ class TownTest {
         }
 
         @Test
-        fun `Cannot delete a town that owns another element`() {
+        fun `Cannot delete a settlement that owns another element`() {
             val ownership = History<Reference>(SettlementReference(SETTLEMENT_ID_0))
             val building = Building(BUILDING_ID_0, ownership = ownership)
             val newState = state.updateStorage(building)
@@ -57,7 +57,7 @@ class TownTest {
         }
 
         @Test
-        fun `Cannot delete a town that has districts`() {
+        fun `Cannot delete a settlement that has districts`() {
             val district = District(DISTRICT_ID_0, position = InSettlement(SETTLEMENT_ID_0))
             val newState = state.updateStorage(district)
 
@@ -65,7 +65,7 @@ class TownTest {
         }
 
         @Test
-        fun `Cannot delete a town that has a town map`() {
+        fun `Cannot delete a settlement that has a settlement map`() {
             val map = SettlementMap(SETTLEMENT_MAP_ID_0, SETTLEMENT_ID_0)
             val newState = state.updateStorage(map)
 
@@ -73,7 +73,7 @@ class TownTest {
         }
 
         @Test
-        fun `Cannot delete a town that is a capital`() {
+        fun `Cannot delete a settlement that is a capital`() {
             val capital = Realm(REALM_ID_0, capital = History(SETTLEMENT_ID_0))
             val newState = state.updateStorage(capital)
 
@@ -81,7 +81,7 @@ class TownTest {
         }
 
         @Test
-        fun `Cannot delete a town that was a capital`() {
+        fun `Cannot delete a settlement that was a capital`() {
             val history = History(null, HistoryEntry(SETTLEMENT_ID_0, DAY0))
             val capital = Realm(REALM_ID_0, capital = history)
             val newState = state.updateStorage(capital)
@@ -90,7 +90,7 @@ class TownTest {
         }
 
         @Test
-        fun `Cannot delete a town that participated in a war`() {
+        fun `Cannot delete a settlement that participated in a war`() {
             val participant = WarParticipant(SettlementReference(SETTLEMENT_ID_0))
             val war = War(WAR_ID_0, participants = listOf(participant))
             val newState = state.updateStorage(war)
@@ -99,7 +99,7 @@ class TownTest {
         }
 
         @Test
-        fun `Cannot delete a town that is the home of a character`() {
+        fun `Cannot delete a settlement that is the home of a character`() {
             val housingStatus = History<Position>(InSettlement(SETTLEMENT_ID_0))
             val character = Character(CHARACTER_ID_0, housingStatus = housingStatus)
             val newState = state.updateStorage(character)
@@ -108,7 +108,7 @@ class TownTest {
         }
 
         @Test
-        fun `Cannot delete a town that employs a character`() {
+        fun `Cannot delete a settlement that employs a character`() {
             val employmentStatus = History<EmploymentStatus>(EmployedBySettlement(JOB_ID_0, SETTLEMENT_ID_0))
             val character = Character(CHARACTER_ID_0, employmentStatus = employmentStatus)
             val newState = state.updateStorage(character)
@@ -117,7 +117,7 @@ class TownTest {
         }
 
         @Test
-        fun `Cannot delete a town that employed a character`() {
+        fun `Cannot delete a settlement that employed a character`() {
             val historyEntry = HistoryEntry<EmploymentStatus>(EmployedBySettlement(JOB_ID_0, SETTLEMENT_ID_0), DAY0)
             val employmentStatus = History(Unemployed, listOf(historyEntry))
             val character = Character(CHARACTER_ID_0, employmentStatus = employmentStatus)
@@ -127,7 +127,7 @@ class TownTest {
         }
 
         @Test
-        fun `Cannot delete a town used as a position`() {
+        fun `Cannot delete a settlement used as a position`() {
             val business = Business(BUSINESS_ID_0, position = InSettlement(SETTLEMENT_ID_0))
             val newState = state.updateStorage(business)
 

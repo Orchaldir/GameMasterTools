@@ -87,10 +87,10 @@ class OwnerTest {
         }
 
         @Test
-        fun `Reference is an unknown town`() {
+        fun `Reference is an unknown settlement`() {
             val state = STATE.removeStorage(SETTLEMENT_ID_0)
 
-            assertIllegalArgument("Requires unknown owner (Town 0)!") {
+            assertIllegalArgument("Requires unknown owner (Settlement 0)!") {
                 checkOwnership(state, OWNED_BY_TOWN, DAY0)
             }
         }
@@ -114,10 +114,10 @@ class OwnerTest {
         }
 
         @Test
-        fun `Previous owner is an unknown town`() {
+        fun `Previous owner is an unknown settlement`() {
             val state = STATE.removeStorage(SETTLEMENT_ID_0)
 
-            assertIllegalArgument("Requires unknown 1.previous owner (Town 0)!") {
+            assertIllegalArgument("Requires unknown 1.previous owner (Settlement 0)!") {
                 checkOwnership(state, TOWN_AS_PREVIOUS, DAY0)
             }
         }
@@ -162,7 +162,7 @@ class OwnerTest {
         fun `First owner didn't exist yet`() {
             val state = STATE.updateStorage(Settlement(SETTLEMENT_ID_0, date = DAY1))
 
-            assertIllegalArgument("The 1.previous owner (Town 0) doesn't exist at the required date!") {
+            assertIllegalArgument("The 1.previous owner (Settlement 0) doesn't exist at the required date!") {
                 checkOwnership(state, TOWN_AS_PREVIOUS, DAY0)
             }
         }
@@ -205,7 +205,7 @@ class OwnerTest {
         }
 
         @Test
-        fun `Successfully updated with town as owner`() {
+        fun `Successfully updated with settlement as owner`() {
             testSuccess(OWNED_BY_TOWN)
         }
 
@@ -220,7 +220,7 @@ class OwnerTest {
         }
 
         @Test
-        fun `Successfully updated with town as previous owner`() {
+        fun `Successfully updated with settlement as previous owner`() {
             testSuccess(TOWN_AS_PREVIOUS)
         }
 

@@ -41,7 +41,7 @@ fun HtmlBlockTag.showEconomyData(
             th { +"Jobs" }
             th { +"Population" }
             th { +"Realms" }
-            th { +"Towns" }
+            th { +"Settlements" }
         }
         economy.standardsOfLiving.forEach { standard ->
             tr {

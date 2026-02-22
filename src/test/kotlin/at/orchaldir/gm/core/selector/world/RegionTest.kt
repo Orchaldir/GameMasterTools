@@ -32,7 +32,7 @@ class RegionTest {
         private val position = InRegion(REGION_ID_0)
 
         @Test
-        fun `Cannot delete, if used by a town map`() {
+        fun `Cannot delete, if used by a settlement map`() {
             val map = TileMap2d(SettlementTile(MountainTerrain(REGION_ID_0)))
             val newState = state.updateStorage(SettlementMap(SETTLEMENT_MAP_ID_0, map = map))
 

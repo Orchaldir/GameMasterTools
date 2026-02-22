@@ -33,10 +33,10 @@ class StreetTest {
     inner class AddStreetTileTest {
 
         @Test
-        fun `Cannot update unknown town`() {
+        fun `Cannot update unknown settlement`() {
             val action = AddStreetTile(UNKNOWN_SETTLEMENT_MAP_ID, 0, STREET_TEMPLATE_ID_0, STREET_ID_0)
 
-            assertIllegalArgument("Requires unknown Town Map 99!") { REDUCER.invoke(STATE, action) }
+            assertIllegalArgument("Requires unknown Settlement Map 99!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
@@ -82,8 +82,8 @@ class StreetTest {
 
         private fun testTileNotEmpty(settlementTile: SettlementTile) {
             val map = TileMap2d(settlementTile)
-            val town = SettlementMap(SETTLEMENT_MAP_ID_0, map = map)
-            val state = STATE.updateStorage(town)
+            val settlement = SettlementMap(SETTLEMENT_MAP_ID_0, map = map)
+            val state = STATE.updateStorage(settlement)
             val action = AddStreetTile(SETTLEMENT_MAP_ID_0, 0, STREET_TEMPLATE_ID_0, STREET_ID_0)
 
             assertIllegalArgument("Tile 0 is not empty!") { REDUCER.invoke(state, action) }
@@ -92,8 +92,8 @@ class StreetTest {
         @Test
         fun `Successfully set a street`() {
             val map = TileMap2d(EMPTY)
-            val town = SettlementMap(SETTLEMENT_MAP_ID_0, map = map)
-            val state = STATE.updateStorage(town)
+            val settlement = SettlementMap(SETTLEMENT_MAP_ID_0, map = map)
+            val state = STATE.updateStorage(settlement)
             val action = AddStreetTile(SETTLEMENT_MAP_ID_0, 0, STREET_TEMPLATE_ID_0, STREET_ID_0)
 
             assertEquals(
@@ -107,10 +107,10 @@ class StreetTest {
     inner class RemoveStreetTileTest {
 
         @Test
-        fun `Cannot update unknown town`() {
+        fun `Cannot update unknown settlement`() {
             val action = RemoveStreetTile(SETTLEMENT_MAP_ID_0, 0)
 
-            assertIllegalArgument("Requires unknown Town Map 0!") { REDUCER.invoke(State(), action) }
+            assertIllegalArgument("Requires unknown Settlement Map 0!") { REDUCER.invoke(State(), action) }
         }
 
         @Test
@@ -138,8 +138,8 @@ class StreetTest {
         }
 
         private fun testWrongType(tile: SettlementTile) {
-            val town = SettlementMap(SETTLEMENT_MAP_ID_0, map = TileMap2d(tile))
-            val state = State(Storage(town))
+            val settlement = SettlementMap(SETTLEMENT_MAP_ID_0, map = TileMap2d(tile))
+            val state = State(Storage(settlement))
             val action = RemoveStreetTile(SETTLEMENT_MAP_ID_0, 0)
 
             assertIllegalArgument("Tile 0 is not a street!") { REDUCER.invoke(state, action) }
@@ -147,8 +147,8 @@ class StreetTest {
 
         @Test
         fun `Successfully removed a street`() {
-            val town = SettlementMap(SETTLEMENT_MAP_ID_0, map = TileMap2d(STREET_TILE))
-            val state = State(Storage(town))
+            val settlement = SettlementMap(SETTLEMENT_MAP_ID_0, map = TileMap2d(STREET_TILE))
+            val state = State(Storage(settlement))
             val action = RemoveStreetTile(SETTLEMENT_MAP_ID_0, 0)
 
             assertEquals(

@@ -13,7 +13,7 @@ enum class EmploymentStatusType {
     Unemployed,
     Employed,
     EmployedByRealm,
-    EmployedByTown,
+    EmployedBySettlement,
     Retired,
 }
 
@@ -25,7 +25,7 @@ sealed class EmploymentStatus {
         Unemployed -> EmploymentStatusType.Unemployed
         is Employed -> EmploymentStatusType.Employed
         is EmployedByRealm -> EmploymentStatusType.EmployedByRealm
-        is EmployedBySettlement -> EmploymentStatusType.EmployedByTown
+        is EmployedBySettlement -> EmploymentStatusType.EmployedBySettlement
         Retired -> EmploymentStatusType.Retired
     }
 
@@ -60,8 +60,8 @@ sealed class EmploymentStatus {
         else -> false
     }
 
-    fun isEmployedAt(town: SettlementId) = when (this) {
-        is EmployedBySettlement -> town == this.settlement
+    fun isEmployedAt(settlement: SettlementId) = when (this) {
+        is EmployedBySettlement -> settlement == this.settlement
         else -> false
     }
 
@@ -106,7 +106,7 @@ fun History<EmploymentStatus>.wasEmployedAt(realm: RealmId) = previousEntries
 
 fun History<EmploymentStatus>.isOrWasEmployedAt(realm: RealmId) = current.isEmployedAt(realm) || wasEmployedAt(realm)
 
-fun History<EmploymentStatus>.wasEmployedAt(town: SettlementId) = previousEntries
-    .any { it.entry.isEmployedAt(town) }
+fun History<EmploymentStatus>.wasEmployedAt(settlement: SettlementId) = previousEntries
+    .any { it.entry.isEmployedAt(settlement) }
 
-fun History<EmploymentStatus>.isOrWasEmployedAt(town: SettlementId) = current.isEmployedAt(town) || wasEmployedAt(town)
+fun History<EmploymentStatus>.isOrWasEmployedAt(settlement: SettlementId) = current.isEmployedAt(settlement) || wasEmployedAt(settlement)

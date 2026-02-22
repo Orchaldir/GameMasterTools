@@ -25,7 +25,7 @@ class EmploymentStatusTest {
                 listOf(
                     Job(JOB_ID_0),
                     Job(JOB_ID_1, employerType = EmployerType.Realm),
-                    Job(JOB_ID_2, employerType = EmployerType.Town),
+                    Job(JOB_ID_2, employerType = EmployerType.Settlement),
                 )
             ),
             Storage(Realm(REALM_ID_0, date = YEAR0)),
@@ -106,13 +106,13 @@ class EmploymentStatusTest {
         }
 
         @Test
-        fun `Character has a valid job at a town`() {
+        fun `Character has a valid job at a settlement`() {
             checkEmploymentStatusHistory(state, History(EmployedByRealm(JOB_ID_1, REALM_ID_0)), DAY0)
         }
     }
 
     @Nested
-    inner class EmployedByTownTest {
+    inner class EmployedBySettlementTest {
 
         @Test
         fun `Cannot use unknown job`() {
@@ -122,8 +122,8 @@ class EmploymentStatusTest {
         }
 
         @Test
-        fun `Cannot use unknown town`() {
-            assertIllegalArgument("Requires unknown Town 99!") {
+        fun `Cannot use unknown settlement`() {
+            assertIllegalArgument("Requires unknown Settlement 99!") {
                 checkEmploymentStatusHistory(state, History(EmployedBySettlement(JOB_ID_2, UNKNOWN_SETTLEMENT_ID)), DAY0)
             }
         }
@@ -136,16 +136,16 @@ class EmploymentStatusTest {
         }
 
         @Test
-        fun `Character employed by a town before its founding`() {
+        fun `Character employed by a settlement before its founding`() {
             val newState = state.updateStorage(Settlement(SETTLEMENT_ID_0, date = DAY1))
 
-            assertIllegalArgument("The Town 0 doesn't exist at the required date!") {
+            assertIllegalArgument("The Settlement 0 doesn't exist at the required date!") {
                 checkEmploymentStatusHistory(newState, History(EmployedBySettlement(JOB_ID_2, SETTLEMENT_ID_0)), DAY0)
             }
         }
 
         @Test
-        fun `Character has a valid job at a town`() {
+        fun `Character has a valid job at a settlement`() {
             checkEmploymentStatusHistory(state, History(EmployedBySettlement(JOB_ID_2, SETTLEMENT_ID_0)), DAY0)
         }
     }

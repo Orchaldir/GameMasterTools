@@ -17,8 +17,8 @@ fun State.getStreetTemplatesMadeOf(material: MaterialId) = getStreetTemplateStor
     .getAll()
     .filter { it.materialCost.contains(material) }
 
-fun State.countEachStreetTemplate(town: SettlementMapId) = getSettlementMapStorage()
-    .getOrThrow(town)
+fun State.countEachStreetTemplate(settlement: SettlementMapId) = getSettlementMapStorage()
+    .getOrThrow(settlement)
     .map.tiles
     .mapNotNull { it.construction.getOptionalStreetTemplate() }
     .groupingBy { it }

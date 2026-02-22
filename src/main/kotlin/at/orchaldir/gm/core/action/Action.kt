@@ -49,23 +49,23 @@ data class UpdateRelationships(
 
 sealed class WorldAction : Action()
 
-// town's abstract buildings
+// settlement's abstract buildings
 
 data class AddAbstractBuilding(
-    val town: SettlementMapId,
+    val settlement: SettlementMapId,
     val tileIndex: Int,
     val size: MapSize2d = MapSize2d.square(1),
 ) : WorldAction()
 
 data class RemoveAbstractBuilding(
-    val town: SettlementMapId,
+    val settlement: SettlementMapId,
     val tileIndex: Int,
 ) : WorldAction()
 
-// town's buildings
+// settlement's buildings
 
 data class AddBuilding(
-    val town: SettlementMapId,
+    val settlement: SettlementMapId,
     val tileIndex: Int,
     val size: MapSize2d,
 ) : WorldAction()
@@ -86,31 +86,31 @@ data class UpdateActionLot(
     }
 }
 
-// town's streets
+// settlement's streets
 
 data class AddStreetTile(
-    val town: SettlementMapId,
+    val settlement: SettlementMapId,
     val tileIndex: Int,
     val type: StreetTemplateId,
     val street: StreetId?,
 ) : WorldAction()
 
 data class RemoveStreetTile(
-    val town: SettlementMapId,
+    val settlement: SettlementMapId,
     val tileIndex: Int,
 ) : WorldAction()
 
-// town's terrain
+// settlement's terrain
 
 data class ResizeTerrain(
-    val town: SettlementMapId,
+    val settlement: SettlementMapId,
     val resize: Resize,
     val terrainType: TerrainType = TerrainType.Plain,
     val terrainId: Int = 0,
 ) : WorldAction()
 
 data class SetTerrainTile(
-    val town: SettlementMapId,
+    val settlement: SettlementMapId,
     val terrainType: TerrainType,
     val terrainId: Int,
     val tileIndex: Int,
