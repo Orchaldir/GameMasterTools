@@ -18,7 +18,7 @@ fun HtmlBlockTag.showStreet(
     street: Street,
 ) {
     fieldName(street.name)
-    fieldList("Towns", state.getSettlementMaps(street.id)) { settlement ->
+    fieldList("Settlements", state.getSettlementMaps(street.id)) { settlement ->
         val buildings = state.getBuildingsIn(settlement.id)
             .filter { it.address.contains(street.id) }
 

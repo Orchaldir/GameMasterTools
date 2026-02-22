@@ -66,7 +66,7 @@ fun Application.configureRiverRouting() {
                 state.sortRivers(all.sort),
                 listOf(
                     createNameColumn(call, state),
-                    Column("Towns") { tdInlineElements(call, state, state.getSettlementMaps(it.id)) }
+                    Column("Settlements") { tdInlineElements(call, state, state.getSettlementMaps(it.id)) }
                 ),
             )
         }

@@ -69,10 +69,10 @@ fun State.calculateTotalNumberInEconomy(getNumber: (Economy) -> Int?): Int? {
     val realms = getRealmStorage()
         .getAll()
         .sumOf { getNumber(it.economy) ?: 0 }
-    val towns = getSettlementStorage()
+    val settlements = getSettlementStorage()
         .getAll()
         .sumOf { getNumber(it.economy) ?: 0 }
-    val total = districts + realms + towns
+    val total = districts + realms + settlements
 
     return if (total > 0) {
         total

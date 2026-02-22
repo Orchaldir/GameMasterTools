@@ -79,7 +79,7 @@ fun Application.configureRealmRouting() {
                     createRacesOfPopulationColumn(call, state),
                     createCulturesOfPopulationColumn(call, state),
                     createEconomyColumn(),
-                    countColumnForId("Towns", state::countOwnedSettlements),
+                    countColumnForId("Settlements", state::countOwnedSettlements),
                 ),
             ) {
                 showCreatorCount(call, state, it, "Founders")

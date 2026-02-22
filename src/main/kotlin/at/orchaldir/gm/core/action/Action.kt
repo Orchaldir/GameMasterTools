@@ -82,7 +82,7 @@ data class UpdateActionLot(
             size = size,
         )
     } else {
-        error("UpdateActionLot requires InTownMap!")
+        error("UpdateActionLot requires InSettlementMap!")
     }
 }
 

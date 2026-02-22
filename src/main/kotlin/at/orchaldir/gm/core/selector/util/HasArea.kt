@@ -22,7 +22,7 @@ fun <ID : Id<ID>, ELEMENT> State.calculateArea(element: ELEMENT): Area where
             area += calculateArea(getRealmStorage(), element.id())
         }
 
-        if (element.useTownsForAreaCalculation()) {
+        if (element.useSettlementsForAreaCalculation()) {
             area += calculateArea(getSettlementStorage(), element.id())
         }
 

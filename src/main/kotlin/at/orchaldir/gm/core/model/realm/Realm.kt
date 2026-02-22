@@ -67,7 +67,7 @@ data class Realm(
 
     override fun area() = area
     override fun useRealmsForAreaCalculation() = true
-    override fun useTownsForAreaCalculation() = true
+    override fun useSettlementsForAreaCalculation() = true
     override fun creator() = founder
     override fun economy() = economy
     override fun population() = population

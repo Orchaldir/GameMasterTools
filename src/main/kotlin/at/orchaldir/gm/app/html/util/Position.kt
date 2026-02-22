@@ -137,7 +137,7 @@ private fun HtmlBlockTag.selectPositionIntern(
     val planes = state.getPlaneStorage().getAll()
     val realms = state.getExistingElements(state.getRealmStorage(), start)
     val regions = state.getRegionStorage().getAll()
-    val towns = state.getExistingElements(state.getSettlementStorage(), start)
+    val settlements = state.getExistingElements(state.getSettlementStorage(), start)
     val townMaps = state.getExistingElements(state.getSettlementMapStorage(), start)
     val worlds = state.getWorldStorage().getAll()
 
@@ -154,7 +154,7 @@ private fun HtmlBlockTag.selectPositionIntern(
             PositionType.Plane -> planes.isEmpty()
             PositionType.Realm -> realms.isEmpty()
             PositionType.Region -> regions.isEmpty()
-            PositionType.Settlement -> towns.isEmpty()
+            PositionType.Settlement -> settlements.isEmpty()
             PositionType.SettlementMap -> townMaps.isEmpty()
             PositionType.World -> worlds.isEmpty()
         }
@@ -232,7 +232,7 @@ private fun HtmlBlockTag.selectPositionIntern(
         is InSettlement -> selectElement(
             state,
             combine(param, SETTLEMENT),
-            towns,
+            settlements,
             position.settlement,
         )
 

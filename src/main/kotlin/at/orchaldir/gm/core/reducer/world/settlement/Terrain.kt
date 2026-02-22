@@ -37,7 +37,7 @@ val RESIZE_TERRAIN: Reducer<ResizeTerrain, State> = { state, action ->
                     error("Resize would remove building ${building.id.value}!")
                 }
             } else {
-                error("Resize requires InTownMap!")
+                error("Resize requires InSettlementMap!")
             }
         }
 

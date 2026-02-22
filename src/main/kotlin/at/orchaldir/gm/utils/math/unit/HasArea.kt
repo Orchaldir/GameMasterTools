@@ -4,5 +4,5 @@ interface HasArea {
     fun area(): AreaLookup
     fun useDistrictsForAreaCalculation(): Boolean = false
     fun useRealmsForAreaCalculation(): Boolean = false
-    fun useTownsForAreaCalculation(): Boolean = false
+    fun useSettlementsForAreaCalculation(): Boolean = false
 }

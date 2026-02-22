@@ -79,9 +79,9 @@ fun Application.configureSettlementMapRouting() {
         }
         post<SettlementMapRoutes.Update> { update ->
             handleUpdateElement(update.id) { state, parameters, id ->
-                val oldTownMap = state.getSettlementMapStorage().getOrThrow(id)
+                val oldSettlementMap = state.getSettlementMapStorage().getOrThrow(id)
 
-                parseSettlementMap(state, parameters, oldTownMap)
+                parseSettlementMap(state, parameters, oldSettlementMap)
             }
         }
     }

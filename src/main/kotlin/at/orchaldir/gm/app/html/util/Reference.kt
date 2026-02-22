@@ -83,7 +83,7 @@ fun HtmlBlockTag.selectReference(
         .filter { filter(it) }
     val realms = state.getExistingRealms(date)
         .filter { filter(it) }
-    val towns = state.getExistingSettlements(date)
+    val settlements = state.getExistingSettlements(date)
         .filter { filter(it) }
 
     selectValue("$label Type", param, allowedTypes, reference.getType()) { type ->
@@ -95,7 +95,7 @@ fun HtmlBlockTag.selectReference(
             ReferenceType.God -> gods.isEmpty()
             ReferenceType.Organization -> organizations.isEmpty()
             ReferenceType.Realm -> realms.isEmpty()
-            ReferenceType.Settlement -> towns.isEmpty()
+            ReferenceType.Settlement -> settlements.isEmpty()
         }
     }
 
@@ -152,7 +152,7 @@ fun HtmlBlockTag.selectReference(
             state,
             label,
             combine(param, SETTLEMENT),
-            towns,
+            settlements,
             reference.settlement,
         )
 
