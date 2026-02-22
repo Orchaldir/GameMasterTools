@@ -218,7 +218,7 @@ class BuildingTest {
     inner class UpdateTest {
 
         private val UNKNOWN_STREET = StreetId(99)
-        private val STREET_NOT_IN_TOWN = StreetId(199)
+        private val STREET_NOT_IN_SETTLEMENT = StreetId(199)
         private val STYLE = ArchitecturalStyleId(0)
         private val mapSize = MapSize2d(2, 2)
         private val emptyMap = TileMap2d(mapSize, listOf(STREET_TILE_0, STREET_TILE_1, SettlementTile(), SettlementTile()))
@@ -234,7 +234,7 @@ class BuildingTest {
                 Storage(CALENDAR0),
                 Storage(Character(CHARACTER_ID_0)),
                 Storage(Race(RACE_ID_0)),
-                Storage(listOf(Street(STREET_ID_0), Street(STREET_ID_1), Street(STREET_NOT_IN_TOWN))),
+                Storage(listOf(Street(STREET_ID_0), Street(STREET_ID_1), Street(STREET_NOT_IN_SETTLEMENT))),
                 Storage(Settlement(SETTLEMENT_ID_0)),
                 Storage(emptySettlementMap),
             )
@@ -353,7 +353,7 @@ class BuildingTest {
 
             @Test
             fun `Street of crossing must be part of the settlement`() {
-                val address = CrossingAddress(listOf(STREET_ID_0, STREET_NOT_IN_TOWN))
+                val address = CrossingAddress(listOf(STREET_ID_0, STREET_NOT_IN_SETTLEMENT))
 
                 failUpdate(building.copy(address = address), "Street 199 is not part of Settlement Map 0!")
             }
@@ -379,7 +379,7 @@ class BuildingTest {
 
             @Test
             fun `Street must be part of the settlement`() {
-                val address = StreetAddress(STREET_NOT_IN_TOWN, 1)
+                val address = StreetAddress(STREET_NOT_IN_SETTLEMENT, 1)
 
                 failUpdate(building.copy(address = address), "Street 199 is not part of Settlement Map 0!")
             }

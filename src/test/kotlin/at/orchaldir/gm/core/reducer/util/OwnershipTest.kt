@@ -33,7 +33,7 @@ class OwnerTest {
     private val OWNED_BY_CHARACTER = History<Reference>(CharacterReference(CHARACTER_ID_2))
     private val OWNED_BY_ORGANIZATION = History<Reference>(OrganizationReference(ORGANIZATION_ID_0))
     private val OWNED_BY_REALM = History<Reference>(RealmReference(REALM_ID_0))
-    private val OWNED_BY_TOWN = History<Reference>(SettlementReference(SETTLEMENT_ID_0))
+    private val OWNED_BY_SETTLEMENT = History<Reference>(SettlementReference(SETTLEMENT_ID_0))
     private val CHARACTER_AS_PREVIOUS = History(
         SettlementReference(SETTLEMENT_ID_0),
         HistoryEntry(CharacterReference(CHARACTER_ID_2), DAY1),
@@ -42,7 +42,7 @@ class OwnerTest {
         CharacterReference(CHARACTER_ID_2),
         HistoryEntry(OrganizationReference(ORGANIZATION_ID_0), DAY1),
     )
-    private val TOWN_AS_PREVIOUS = History(
+    private val SETTLEMENT_AS_PREVIOUS = History(
         CharacterReference(CHARACTER_ID_2),
         HistoryEntry(SettlementReference(SETTLEMENT_ID_0), DAY1),
     )
@@ -91,7 +91,7 @@ class OwnerTest {
             val state = STATE.removeStorage(SETTLEMENT_ID_0)
 
             assertIllegalArgument("Requires unknown owner (Settlement 0)!") {
-                checkOwnership(state, OWNED_BY_TOWN, DAY0)
+                checkOwnership(state, OWNED_BY_SETTLEMENT, DAY0)
             }
         }
 
@@ -118,7 +118,7 @@ class OwnerTest {
             val state = STATE.removeStorage(SETTLEMENT_ID_0)
 
             assertIllegalArgument("Requires unknown 1.previous owner (Settlement 0)!") {
-                checkOwnership(state, TOWN_AS_PREVIOUS, DAY0)
+                checkOwnership(state, SETTLEMENT_AS_PREVIOUS, DAY0)
             }
         }
 
@@ -163,7 +163,7 @@ class OwnerTest {
             val state = STATE.updateStorage(Settlement(SETTLEMENT_ID_0, date = DAY1))
 
             assertIllegalArgument("The 1.previous owner (Settlement 0) doesn't exist at the required date!") {
-                checkOwnership(state, TOWN_AS_PREVIOUS, DAY0)
+                checkOwnership(state, SETTLEMENT_AS_PREVIOUS, DAY0)
             }
         }
 
@@ -206,7 +206,7 @@ class OwnerTest {
 
         @Test
         fun `Successfully updated with settlement as owner`() {
-            testSuccess(OWNED_BY_TOWN)
+            testSuccess(OWNED_BY_SETTLEMENT)
         }
 
         @Test
@@ -221,7 +221,7 @@ class OwnerTest {
 
         @Test
         fun `Successfully updated with settlement as previous owner`() {
-            testSuccess(TOWN_AS_PREVIOUS)
+            testSuccess(SETTLEMENT_AS_PREVIOUS)
         }
 
         @Test
