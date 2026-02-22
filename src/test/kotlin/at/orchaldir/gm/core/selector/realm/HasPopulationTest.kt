@@ -5,7 +5,7 @@ import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.District
 import at.orchaldir.gm.core.model.realm.Realm
-import at.orchaldir.gm.core.model.realm.Town
+import at.orchaldir.gm.core.model.realm.Settlement
 import at.orchaldir.gm.core.model.realm.population.*
 import at.orchaldir.gm.core.model.util.NumberDistribution
 import at.orchaldir.gm.core.model.util.PercentageDistribution
@@ -45,19 +45,19 @@ class HasPopulationTest {
         }
 
         @Test
-        fun `Cannot delete a race used by the population of a town`() {
-            val town = Town(TOWN_ID_0, population = totalPopulation)
-            val newState = state.updateStorage(town)
+        fun `Cannot delete a race used by the population of a settlement`() {
+            val settlement = Settlement(SETTLEMENT_ID_0, population = totalPopulation)
+            val newState = state.updateStorage(settlement)
 
-            failCanDelete(newState, TOWN_ID_0)
+            failCanDelete(newState, SETTLEMENT_ID_0)
         }
 
         @Test
         fun `Cannot delete a race used by a population with numbers`() {
-            val town = Town(TOWN_ID_0, population = numbers)
-            val newState = state.updateStorage(town)
+            val settlement = Settlement(SETTLEMENT_ID_0, population = numbers)
+            val newState = state.updateStorage(settlement)
 
-            failCanDelete(newState, TOWN_ID_0)
+            failCanDelete(newState, SETTLEMENT_ID_0)
         }
 
         private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {

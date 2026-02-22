@@ -55,7 +55,7 @@ val ALLOWED_HOUSING_TYPES = listOf(
     PositionType.Plane,
     PositionType.Realm,
     PositionType.Region,
-    PositionType.Town,
+    PositionType.Settlement,
     PositionType.World,
 )
 val ALLOWED_VITAL_STATUS_FOR_CHARACTER = setOf(

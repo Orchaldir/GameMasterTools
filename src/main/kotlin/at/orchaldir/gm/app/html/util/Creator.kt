@@ -36,12 +36,12 @@ fun <ID : Id<ID>> HtmlBlockTag.showCreated(
     val spells = getCreatedBy(state.getSpellStorage(), id)
     val texts = getCreatedBy(state.getTextStorage(), id)
     val publishedTexts = state.getTextsPublishedBy(id)
-    val towns = getCreatedBy(state.getTownStorage(), id)
+    val settlements = getCreatedBy(state.getSettlementStorage(), id)
     val treaties = getCreatedBy(state.getTreatyStorage(), id)
 
     if (!alwaysShowTitle && articles.isEmpty() && buildings.isEmpty() && businesses.isEmpty() && catastrophes.isEmpty() && magicTraditions.isEmpty() &&
         languages.isEmpty() && organizations.isEmpty() && planes.isEmpty() && quotes.isEmpty() && races.isEmpty() && realms.isEmpty() && spells.isEmpty() &&
-        texts.isEmpty() && publishedTexts.isEmpty() && towns.isEmpty() && treaties.isEmpty()
+        texts.isEmpty() && publishedTexts.isEmpty() && settlements.isEmpty() && treaties.isEmpty()
     ) {
         return
     }
@@ -62,7 +62,7 @@ fun <ID : Id<ID>> HtmlBlockTag.showCreated(
     fieldElements(call, state, spells)
     fieldElements(call, state, texts)
     fieldElements(call, state, "Published Texts", publishedTexts)
-    fieldElements(call, state, towns)
+    fieldElements(call, state, settlements)
     fieldElements(call, state, treaties)
 }
 

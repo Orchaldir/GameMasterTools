@@ -10,7 +10,7 @@ val ALLOWED_CREATORS = listOf(
     ReferenceType.God,
     ReferenceType.Organization,
     ReferenceType.Realm,
-    ReferenceType.Town,
+    ReferenceType.Settlement,
 )
 
 interface ComplexCreation {

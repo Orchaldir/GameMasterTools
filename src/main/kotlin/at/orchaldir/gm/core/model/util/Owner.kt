@@ -9,7 +9,7 @@ val ALLOWED_OWNERS = listOf(
     ReferenceType.Character,
     ReferenceType.Organization,
     ReferenceType.Realm,
-    ReferenceType.Town,
+    ReferenceType.Settlement,
 )
 
 interface HasOwner {

@@ -2,7 +2,7 @@ package at.orchaldir.gm.core.selector.world
 
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.realm.TownId
+import at.orchaldir.gm.core.model.realm.SettlementId
 import at.orchaldir.gm.core.model.world.building.ApartmentHouse
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
 import at.orchaldir.gm.core.model.world.building.Building
@@ -16,10 +16,10 @@ import at.orchaldir.gm.core.selector.util.getStartDateComparator
 fun State.canDeleteBuilding(building: BuildingId) = DeleteResult(building)
     .apply { canDeleteWithPositions(building, it) }
 
-fun State.countBuildings(townId: TownId): Int {
-    val countInTownMap = getCurrentTownMap(townId)?.let { countBuildingsIn(it.id) } ?: 0
+fun State.countBuildings(settlementId: SettlementId): Int {
+    val countInSettlementMap = getCurrentSettlementMap(settlementId)?.let { countBuildingsIn(it.id) } ?: 0
 
-    return countInTownMap + countBuildingsIn(townId)
+    return countInSettlementMap + countBuildingsIn(settlementId)
 }
 
 fun countEachPurpose(buildings: Collection<Building>) = buildings

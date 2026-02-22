@@ -77,7 +77,7 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.showPopulationOfElement(
 
     showPopulationOfElement(call, state, getPercentage, state.getDistrictStorage(), totalOrZero, contains)
     showPopulationOfElement(call, state, getPercentage, state.getRealmStorage(), totalOrZero, contains)
-    showPopulationOfElement(call, state, getPercentage, state.getTownStorage(), totalOrZero, contains)
+    showPopulationOfElement(call, state, getPercentage, state.getSettlementStorage(), totalOrZero, contains)
 }
 
 private fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showPopulationOfElement(

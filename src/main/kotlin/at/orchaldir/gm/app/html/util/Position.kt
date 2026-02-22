@@ -5,13 +5,13 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.economy.parseBusinessId
 import at.orchaldir.gm.app.html.realm.parseDistrictId
 import at.orchaldir.gm.app.html.realm.parseRealmId
-import at.orchaldir.gm.app.html.realm.parseTownId
+import at.orchaldir.gm.app.html.realm.parseSettlementId
 import at.orchaldir.gm.app.html.world.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.ApartmentHouse
-import at.orchaldir.gm.core.model.world.town.TownMapId
+import at.orchaldir.gm.core.model.world.settlement.SettlementMapId
 import at.orchaldir.gm.core.selector.util.getExistingElements
 import at.orchaldir.gm.core.selector.world.getApartmentHouses
 import at.orchaldir.gm.core.selector.world.getHomes
@@ -61,8 +61,8 @@ fun HtmlBlockTag.showPosition(
         is InPlane -> link(call, state, position.plane)
         is InRealm -> link(call, state, position.realm)
         is InRegion -> link(call, state, position.region)
-        is InTown -> link(call, state, position.town)
-        is InTownMap -> link(call, state, position.townMap)
+        is InSettlement -> link(call, state, position.settlement)
+        is InSettlementMap -> link(call, state, position.map)
         is LongTermCareIn -> {
             +"Patient in "
             link(call, state, position.business)
@@ -84,7 +84,7 @@ fun HtmlBlockTag.selectPositionHistory(
     startDate: Date,
     allowedTypes: Collection<PositionType>,
     label: String = POSITION,
-    getTiles: (TownMapId) -> List<Int> = { emptyList() },
+    getTiles: (SettlementMapId) -> List<Int> = { emptyList() },
 ) = selectHistory(state, HOME, history, label, startDate, null) { state, param, position, date ->
     selectPositionIntern(
         state,
@@ -104,7 +104,7 @@ fun HtmlBlockTag.selectPosition(
     allowedTypes: Collection<PositionType>,
     param: String = POSITION,
     noun: String = POSITION_TEXT,
-    getTiles: (TownMapId) -> List<Int> = { emptyList() },
+    getTiles: (SettlementMapId) -> List<Int> = { emptyList() },
 ) {
     showDetails(noun, true) {
         selectPositionIntern(
@@ -126,7 +126,7 @@ private fun HtmlBlockTag.selectPositionIntern(
     start: Date?,
     allowedTypes: Collection<PositionType>,
     noun: String = POSITION_TEXT,
-    getTiles: (TownMapId) -> List<Int> = { emptyList() },
+    getTiles: (SettlementMapId) -> List<Int> = { emptyList() },
 ) {
     val apartments = state.getExistingElements(state.getApartmentHouses(), start)
     val homes = state.getExistingElements(state.getHomes(), start)
@@ -137,8 +137,8 @@ private fun HtmlBlockTag.selectPositionIntern(
     val planes = state.getPlaneStorage().getAll()
     val realms = state.getExistingElements(state.getRealmStorage(), start)
     val regions = state.getRegionStorage().getAll()
-    val towns = state.getExistingElements(state.getTownStorage(), start)
-    val townMaps = state.getExistingElements(state.getTownMapStorage(), start)
+    val settlements = state.getExistingElements(state.getSettlementStorage(), start)
+    val settlementMaps = state.getExistingElements(state.getSettlementMapStorage(), start)
     val worlds = state.getWorldStorage().getAll()
 
     selectValue(noun, param, allowedTypes, position.getType()) { type ->
@@ -154,8 +154,8 @@ private fun HtmlBlockTag.selectPositionIntern(
             PositionType.Plane -> planes.isEmpty()
             PositionType.Realm -> realms.isEmpty()
             PositionType.Region -> regions.isEmpty()
-            PositionType.Town -> towns.isEmpty()
-            PositionType.TownMap -> townMaps.isEmpty()
+            PositionType.Settlement -> settlements.isEmpty()
+            PositionType.SettlementMap -> settlementMaps.isEmpty()
             PositionType.World -> worlds.isEmpty()
         }
     }
@@ -229,24 +229,24 @@ private fun HtmlBlockTag.selectPositionIntern(
             position.region,
         )
 
-        is InTown -> selectElement(
+        is InSettlement -> selectElement(
             state,
-            combine(param, TOWN),
-            towns,
-            position.town,
+            combine(param, SETTLEMENT),
+            settlements,
+            position.settlement,
         )
 
-        is InTownMap -> {
+        is InSettlementMap -> {
             selectElement(
                 state,
-                combine(param, TOWN),
-                townMaps,
-                position.townMap,
+                combine(param, SETTLEMENT),
+                settlementMaps,
+                position.map,
             )
             selectValue(
                 "Tile",
                 combine(param, TILE),
-                getTiles(position.townMap),
+                getTiles(position.map),
             ) { tile ->
                 label = tile.toString()
                 value = tile.toString()
@@ -327,12 +327,12 @@ fun parsePosition(parameters: Parameters, state: State, param: String = POSITION
             parseRegionId(parameters, combine(param, REGION)),
         )
 
-        PositionType.Town -> InTown(
-            parseTownId(parameters, combine(param, TOWN)),
+        PositionType.Settlement -> InSettlement(
+            parseSettlementId(parameters, combine(param, SETTLEMENT)),
         )
 
-        PositionType.TownMap -> InTownMap(
-            parseTownMapId(parameters, combine(param, TOWN)),
+        PositionType.SettlementMap -> InSettlementMap(
+            parseSettlementMapId(parameters, combine(param, SETTLEMENT)),
             parseInt(parameters, combine(param, TILE)),
         )
 

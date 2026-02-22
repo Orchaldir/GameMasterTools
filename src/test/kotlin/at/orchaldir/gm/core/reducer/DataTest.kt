@@ -12,7 +12,7 @@ import at.orchaldir.gm.core.model.economy.money.Price
 import at.orchaldir.gm.core.model.economy.standard.StandardOfLiving
 import at.orchaldir.gm.core.model.realm.District
 import at.orchaldir.gm.core.model.realm.Realm
-import at.orchaldir.gm.core.model.realm.Town
+import at.orchaldir.gm.core.model.realm.Settlement
 import at.orchaldir.gm.core.model.realm.population.AbstractPopulation
 import at.orchaldir.gm.core.model.time.Time
 import at.orchaldir.gm.core.model.time.calendar.Calendar
@@ -95,8 +95,8 @@ class DataTest {
             }
 
             @Test
-            fun `Cannot delete a standard of living used by a town`() {
-                assertDelete(Storage(Town(TOWN_ID_0, population = population)))
+            fun `Cannot delete a standard of living used by a settlement`() {
+                assertDelete(Storage(Settlement(SETTLEMENT_ID_0, population = population)))
             }
 
             private fun <ID : Id<ID>, ELEMENT : Element<ID>> assertDelete(storage: Storage<ID, ELEMENT>) {

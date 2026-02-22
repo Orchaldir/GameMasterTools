@@ -49,11 +49,11 @@ import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.moon.Moon
 import at.orchaldir.gm.core.model.world.plane.Plane
+import at.orchaldir.gm.core.model.world.settlement.SettlementMap
 import at.orchaldir.gm.core.model.world.street.Street
 import at.orchaldir.gm.core.model.world.street.StreetTemplate
 import at.orchaldir.gm.core.model.world.terrain.Region
 import at.orchaldir.gm.core.model.world.terrain.River
-import at.orchaldir.gm.core.model.world.town.TownMap
 import at.orchaldir.gm.core.selector.character.countCharacters
 import at.orchaldir.gm.core.selector.character.countCharactersWithJob
 import at.orchaldir.gm.core.selector.character.countResidents
@@ -68,7 +68,7 @@ import at.orchaldir.gm.core.selector.item.countTexts
 import at.orchaldir.gm.core.selector.item.equipment.*
 import at.orchaldir.gm.core.selector.race.countRaceAppearancesMadeOf
 import at.orchaldir.gm.core.selector.realm.calculateTotalPopulation
-import at.orchaldir.gm.core.selector.realm.countOwnedTowns
+import at.orchaldir.gm.core.selector.realm.countOwnedSettlements
 import at.orchaldir.gm.core.selector.realm.countRealmsWithCurrencyAtAnyTime
 import at.orchaldir.gm.core.selector.realm.countRealmsWithLegalCodeAtAnyTime
 import at.orchaldir.gm.core.selector.rpg.getEquipmentModifier
@@ -931,7 +931,7 @@ fun State.sortRealms(
             SortRealm.End -> getEndDateComparator()
             SortRealm.Age -> compareByDescending { it.getAgeInYears(this) }
             SortRealm.Population -> compareByDescending { it.population.getTotalPopulation() }
-            SortRealm.Towns -> compareByDescending { countOwnedTowns(it.id) }
+            SortRealm.Settlement -> compareByDescending { countOwnedSettlements(it.id) }
         })
 
 // region
@@ -960,6 +960,42 @@ fun State.sortRivers(
     .sortedWith(
         when (sort) {
             SortRiver.Name -> compareBy { it.name.text }
+        })
+
+// settlement
+
+fun State.sortSettlements(sort: SortSettlement = SortSettlement.Name) =
+    sortSettlements(getSettlementStorage().getAll(), sort)
+
+fun State.sortSettlements(
+    settlements: Collection<Settlement>,
+    sort: SortSettlement = SortSettlement.Name,
+) = settlements
+    .sortedWith(
+        when (sort) {
+            SortSettlement.Name -> compareBy { it.name.text }
+            SortSettlement.Start -> getStartDateComparator()
+            SortSettlement.End -> getEndDateComparator()
+            SortSettlement.Age -> compareByDescending { it.getAgeInYears(this) }
+            SortSettlement.Population -> compareByDescending { it.population.getTotalPopulation() }
+            SortSettlement.Density -> compareByDescending { calculatePopulationDensity(it, data.largeAreaUnit) }
+            SortSettlement.Buildings -> compareByDescending { countBuildings(it.id) }
+            SortSettlement.Residents -> compareByDescending { countResidents(it.id) }
+        })
+
+// settlement map
+
+fun State.sortSettlementMaps(sort: SortSettlementMap = SortSettlementMap.Name) =
+    sortSettlementMaps(getSettlementMapStorage().getAll(), sort)
+
+fun State.sortSettlementMaps(
+    settlements: Collection<SettlementMap>,
+    sort: SortSettlementMap = SortSettlementMap.Name,
+) = settlements
+    .sortedWith(
+        when (sort) {
+            SortSettlementMap.Name -> compareByDescending<SettlementMap> { it.name(this) }
+                .thenComparing(getStartDateComparator())
         })
 
 // shield types
@@ -1087,42 +1123,6 @@ fun State.sortTitles(
             SortTitle.Characters -> compareByDescending { countCharacters(it.id) }
         }
     )
-
-// town
-
-fun State.sortTowns(sort: SortTown = SortTown.Name) =
-    sortTowns(getTownStorage().getAll(), sort)
-
-fun State.sortTowns(
-    towns: Collection<Town>,
-    sort: SortTown = SortTown.Name,
-) = towns
-    .sortedWith(
-        when (sort) {
-            SortTown.Name -> compareBy { it.name.text }
-            SortTown.Start -> getStartDateComparator()
-            SortTown.End -> getEndDateComparator()
-            SortTown.Age -> compareByDescending { it.getAgeInYears(this) }
-            SortTown.Population -> compareByDescending { it.population.getTotalPopulation() }
-            SortTown.Density -> compareByDescending { calculatePopulationDensity(it, data.largeAreaUnit) }
-            SortTown.Buildings -> compareByDescending { countBuildings(it.id) }
-            SortTown.Residents -> compareByDescending { countResidents(it.id) }
-        })
-
-// town map
-
-fun State.sortTownMaps(sort: SortTownMap = SortTownMap.Name) =
-    sortTownMaps(getTownMapStorage().getAll(), sort)
-
-fun State.sortTownMaps(
-    towns: Collection<TownMap>,
-    sort: SortTownMap = SortTownMap.Name,
-) = towns
-    .sortedWith(
-        when (sort) {
-            SortTownMap.Name -> compareByDescending<TownMap> { it.name(this) }
-                .thenComparing(getStartDateComparator())
-        })
 
 // treaty
 

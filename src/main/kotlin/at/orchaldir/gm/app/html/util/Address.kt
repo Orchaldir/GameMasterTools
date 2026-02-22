@@ -59,7 +59,7 @@ fun HtmlBlockTag.showAddress(
             +" ${address.houseNumber}"
         }
 
-        is TownAddress -> {
+        is SettlementAddress -> {
             showPosition(call, state, building.position)
             +" ${address.houseNumber}"
         }
@@ -108,7 +108,7 @@ fun HtmlBlockTag.selectAddress(state: State, building: Building) {
                 )
             }
 
-            is TownAddress -> selectHouseNumber(
+            is SettlementAddress -> selectHouseNumber(
                 address.houseNumber,
                 getHouseNumbersUsedByOthers(state.getBuildingsForPosition(building.position), address),
             )
@@ -129,7 +129,7 @@ private fun HtmlBlockTag.selectHouseNumber(currentHouseNumber: Int, usedHouseNum
 // parse
 
 fun parseAddress(parameters: Parameters): Address = when (parameters[combine(ADDRESS, TYPE)]) {
-    AddressType.Town.toString() -> TownAddress(parseInt(parameters, combine(ADDRESS, NUMBER), 1))
+    AddressType.Settlement.toString() -> SettlementAddress(parseInt(parameters, combine(ADDRESS, NUMBER), 1))
     AddressType.Street.toString() -> StreetAddress(
         parseStreetId(parameters, combine(ADDRESS, STREET)),
         parseInt(parameters, combine(ADDRESS, NUMBER), 1),

@@ -7,7 +7,7 @@ import at.orchaldir.gm.app.html.culture.parseCultureId
 import at.orchaldir.gm.app.html.economy.parseBusinessId
 import at.orchaldir.gm.app.html.organization.parseOrganizationId
 import at.orchaldir.gm.app.html.realm.parseRealmId
-import at.orchaldir.gm.app.html.realm.parseTownId
+import at.orchaldir.gm.app.html.realm.parseSettlementId
 import at.orchaldir.gm.app.html.religion.parseGodId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.time.date.Date
@@ -16,7 +16,7 @@ import at.orchaldir.gm.core.selector.character.getLiving
 import at.orchaldir.gm.core.selector.economy.getOpenBusinesses
 import at.orchaldir.gm.core.selector.organization.getExistingOrganizations
 import at.orchaldir.gm.core.selector.realm.getExistingRealms
-import at.orchaldir.gm.core.selector.realm.getExistingTowns
+import at.orchaldir.gm.core.selector.realm.getExistingSettlements
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
@@ -49,7 +49,7 @@ fun HtmlBlockTag.showReference(
         is GodReference -> link(call, state, reference.god)
         is OrganizationReference -> link(call, state, reference.organization)
         is RealmReference -> link(call, state, reference.realm)
-        is TownReference -> link(call, state, reference.town)
+        is SettlementReference -> link(call, state, reference.settlement)
         NoReference -> +"None"
         UndefinedReference -> if (showUndefined) {
             +"Undefined"
@@ -83,7 +83,7 @@ fun HtmlBlockTag.selectReference(
         .filter { filter(it) }
     val realms = state.getExistingRealms(date)
         .filter { filter(it) }
-    val towns = state.getExistingTowns(date)
+    val settlements = state.getExistingSettlements(date)
         .filter { filter(it) }
 
     selectValue("$label Type", param, allowedTypes, reference.getType()) { type ->
@@ -95,7 +95,7 @@ fun HtmlBlockTag.selectReference(
             ReferenceType.God -> gods.isEmpty()
             ReferenceType.Organization -> organizations.isEmpty()
             ReferenceType.Realm -> realms.isEmpty()
-            ReferenceType.Town -> towns.isEmpty()
+            ReferenceType.Settlement -> settlements.isEmpty()
         }
     }
 
@@ -148,12 +148,12 @@ fun HtmlBlockTag.selectReference(
             reference.realm,
         )
 
-        is TownReference -> selectElement(
+        is SettlementReference -> selectElement(
             state,
             label,
-            combine(param, TOWN),
-            towns,
-            reference.town,
+            combine(param, SETTLEMENT),
+            settlements,
+            reference.settlement,
         )
 
         NoReference, UndefinedReference -> doNothing()
@@ -193,8 +193,8 @@ fun parseReference(
             parseRealmId(parameters, combine(param, REALM)),
         )
 
-        ReferenceType.Town -> TownReference(
-            parseTownId(parameters, combine(param, TOWN)),
+        ReferenceType.Settlement -> SettlementReference(
+            parseSettlementId(parameters, combine(param, SETTLEMENT)),
         )
     }
 }

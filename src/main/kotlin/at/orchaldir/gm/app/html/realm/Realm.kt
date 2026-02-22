@@ -41,8 +41,8 @@ fun HtmlBlockTag.showRealm(
     fieldReference(call, state, realm.founder, "Founder")
     optionalField(call, state, "Date", realm.date)
     showVitalStatus(call, state, realm.status)
-    showHistory(call, state, realm.capital, "Capital", "None") { _, _, town ->
-        link(call, state, town)
+    showHistory(call, state, realm.capital, "Capital", "None") { _, _, settlement ->
+        link(call, state, settlement)
     }
     showHistory(call, state, realm.owner, "Owner", "Independent") { _, _, owner ->
         link(call, state, owner)
@@ -54,8 +54,8 @@ fun HtmlBlockTag.showRealm(
         link(call, state, code)
     }
     showLocalElements(call, state, realm.id)
-    showEmployees(call, state, state.getEmployees(realm.id), showTown = false)
-    showEmployees(call, state, state.getPreviousEmployees(realm.id), "Previous Employees", showTown = false)
+    showEmployees(call, state, state.getEmployees(realm.id), showSettlement = false)
+    showEmployees(call, state, state.getPreviousEmployees(realm.id), "Previous Employees", showSettlement = false)
     fieldElements(call, state, "Residents", state.getCharactersLivingIn(realm.id))
     fieldElements(call, state, state.getBattles(realm.id))
     fieldElements(call, state, state.getWarsWithParticipant(realm.id))
@@ -86,13 +86,13 @@ fun HtmlBlockTag.editRealm(
         ALLOWED_VITAL_STATUS_FOR_REALM,
         ALLOWED_CAUSES_OF_DEATH_FOR_REALM,
     )
-    selectHistory(state, TOWN, realm.capital, "Capital", realm.date) { _, param, town, start ->
+    selectHistory(state, SETTLEMENT, realm.capital, "Capital", realm.date) { _, param, settlement, start ->
         selectOptionalElement(
             state,
-            "Town",
+            "Settlement",
             param,
-            state.getExistingTowns(start),
-            town,
+            state.getExistingSettlements(start),
+            settlement,
         )
     }
     selectHistory(state, OWNER, realm.owner, "Owner", realm.date) { _, param, owner, start ->
@@ -146,8 +146,8 @@ fun parseRealm(
         parseCreator(parameters),
         date,
         parseVitalStatus(parameters, state),
-        parseHistory(parameters, TOWN, state, date) { _, _, param ->
-            parseOptionalTownId(parameters, param)
+        parseHistory(parameters, SETTLEMENT, state, date) { _, _, param ->
+            parseOptionalSettlementId(parameters, param)
         },
         parseHistory(parameters, OWNER, state, date) { _, _, param ->
             parseOptionalRealmId(parameters, param)

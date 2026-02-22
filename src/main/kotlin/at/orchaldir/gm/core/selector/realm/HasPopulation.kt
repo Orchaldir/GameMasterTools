@@ -28,7 +28,7 @@ fun State.canDeletePopulationOf(
 ) = result
     .addElements(getPopulations(getDistrictStorage(), check))
     .addElements(getPopulations(getRealmStorage(), check))
-    .addElements(getPopulations(getTownStorage(), check))
+    .addElements(getPopulations(getSettlementStorage(), check))
 
 fun <ID : Id<ID>, ELEMENT> getPopulationsWith(
     storage: Storage<ID, ELEMENT>,
@@ -85,10 +85,10 @@ fun State.calculateTotalPopulation(getPopulation: (Population) -> Int?): Int? {
     val realms = getRealmStorage()
         .getAll()
         .sumOf { getPopulation(it.population) ?: 0 }
-    val towns = getTownStorage()
+    val settlements = getSettlementStorage()
         .getAll()
         .sumOf { getPopulation(it.population) ?: 0 }
-    val total = districts + realms + towns
+    val total = districts + realms + settlements
 
     return if (total > 0) {
         total

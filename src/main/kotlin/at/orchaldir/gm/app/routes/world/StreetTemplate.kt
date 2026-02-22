@@ -24,8 +24,8 @@ import at.orchaldir.gm.utils.renderer.model.NoBorder
 import at.orchaldir.gm.utils.renderer.model.toRender
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
-import at.orchaldir.gm.visualization.town.TILE_SIZE
-import at.orchaldir.gm.visualization.town.renderStreet
+import at.orchaldir.gm.visualization.settlement.TILE_SIZE
+import at.orchaldir.gm.visualization.settlement.renderStreet
 import io.ktor.resources.*
 import io.ktor.server.application.*
 import io.ktor.server.resources.*

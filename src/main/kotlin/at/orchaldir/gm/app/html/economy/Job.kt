@@ -17,7 +17,7 @@ import at.orchaldir.gm.core.selector.character.getEmployees
 import at.orchaldir.gm.core.selector.character.getPreviousEmployees
 import at.orchaldir.gm.core.selector.economy.getBusinesses
 import at.orchaldir.gm.core.selector.realm.getRealms
-import at.orchaldir.gm.core.selector.realm.getTowns
+import at.orchaldir.gm.core.selector.realm.getSettlements
 import at.orchaldir.gm.core.selector.religion.getDomainsAssociatedWith
 import at.orchaldir.gm.core.selector.religion.getGodsAssociatedWith
 import io.ktor.http.*
@@ -56,7 +56,7 @@ private fun HtmlBlockTag.showJobUsage(
     val gods = state.getGodsAssociatedWith(job.id)
 
     fieldIds(call, state, state.getBusinesses(job.id))
-    fieldIds(call, state, state.getTowns(job.id))
+    fieldIds(call, state, state.getSettlements(job.id))
     fieldIds(call, state, state.getRealms(job.id))
     fieldElements(call, state, "Current Characters", characters)
     fieldElements(call, state, "Previous Characters", previousCharacters)

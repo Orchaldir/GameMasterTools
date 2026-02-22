@@ -13,7 +13,7 @@ import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.action.UpdateActionLot
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.util.InTownMap
+import at.orchaldir.gm.core.model.util.InSettlementMap
 import at.orchaldir.gm.core.model.util.SortBuilding
 import at.orchaldir.gm.core.model.world.building.BUILDING_TYPE
 import at.orchaldir.gm.core.model.world.building.Building
@@ -23,8 +23,8 @@ import at.orchaldir.gm.core.selector.util.getBuildingsIn
 import at.orchaldir.gm.core.selector.util.sortBuildings
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.renderer.svg.Svg
-import at.orchaldir.gm.visualization.town.showSelectedBuilding
-import at.orchaldir.gm.visualization.town.visualizeTown
+import at.orchaldir.gm.visualization.settlement.showSelectedBuilding
+import at.orchaldir.gm.visualization.settlement.visualizeSettlementMap
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -123,7 +123,7 @@ fun Application.configureBuildingRouting() {
                 BuildingRoutes(),
                 HtmlBlockTag::showBuildingDetails
             ) { _, state, building ->
-                if (building.position is InTownMap) {
+                if (building.position is InSettlementMap) {
                     svg(visualizeBuildingLot(call, state, building, building.position), 90)
                 }
             }
@@ -206,7 +206,7 @@ private fun HtmlBlockTag.showBuildingEditorRight(
     state: State,
     building: Building,
 ) {
-    if (building.position is InTownMap) {
+    if (building.position is InSettlementMap) {
         svg(visualizeBuildingLot(call, state, building, building.position), 90)
     }
 }
@@ -231,7 +231,7 @@ private fun HTML.showBuildingLotEditor(
             }
             back(backLink)
         }, {
-            if (building.position is InTownMap) {
+            if (building.position is InSettlementMap) {
                 svg(visualizeBuildingLotEditor(call, state, building, building.position, size), 90)
             }
         })
@@ -242,13 +242,13 @@ private fun visualizeBuildingLot(
     call: ApplicationCall,
     state: State,
     selected: Building,
-    position: InTownMap,
+    position: InSettlementMap,
 ): Svg {
-    val townMap = state.getTownMapStorage().getOrThrow(position.townMap)
+    val settlementMap = state.getSettlementMapStorage().getOrThrow(position.map)
 
-    return visualizeTown(
-        townMap,
-        state.getBuildingsIn(townMap.id)
+    return visualizeSettlementMap(
+        settlementMap,
+        state.getBuildingsIn(settlementMap.id)
             .filter { it.id != selected.id } + selected,
         buildingColorLookup = showSelectedBuilding(selected),
         buildingLinkLookup = { b ->
@@ -264,16 +264,16 @@ private fun visualizeBuildingLotEditor(
     call: ApplicationCall,
     state: State,
     building: Building,
-    position: InTownMap,
+    position: InSettlementMap,
     size: MapSize2d,
 ): Svg {
-    val townMap = state.getTownMapStorage().getOrThrow(position.townMap)
+    val settlementMap = state.getSettlementMapStorage().getOrThrow(position.map)
 
-    return visualizeTown(
-        townMap,
-        state.getBuildingsIn(townMap.id),
+    return visualizeSettlementMap(
+        settlementMap,
+        state.getBuildingsIn(settlementMap.id),
         tileLinkLookup = { index, _ ->
-            if (townMap.canResize(index, size, building.id)) {
+            if (settlementMap.canResize(index, size, building.id)) {
                 call.application.href(BuildingRoutes.Lot.Update(building.id, index, size))
             } else {
                 null

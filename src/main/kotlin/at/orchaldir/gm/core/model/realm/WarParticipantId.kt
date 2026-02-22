@@ -9,7 +9,7 @@ enum class WarParticipantIdType {
     God,
     Organization,
     Realm,
-    Town,
+    Settlement,
 }
 
 @Serializable
@@ -19,7 +19,7 @@ sealed class WarParticipantId {
         is ParticipatingGod -> WarParticipantIdType.God
         is ParticipatingOrganization -> WarParticipantIdType.Organization
         is ParticipatingRealm -> WarParticipantIdType.Realm
-        is ParticipatingTown -> WarParticipantIdType.Town
+        is ParticipatingSettlement -> WarParticipantIdType.Settlement
     }
 }
 
@@ -42,7 +42,7 @@ data class ParticipatingRealm(
 ) : WarParticipantId()
 
 @Serializable
-@SerialName("Town")
-data class ParticipatingTown(
-    val town: TownId,
+@SerialName("Settlement")
+data class ParticipatingSettlement(
+    val settlement: SettlementId,
 ) : WarParticipantId()

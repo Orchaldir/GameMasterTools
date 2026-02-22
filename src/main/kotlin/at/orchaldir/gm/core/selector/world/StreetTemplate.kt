@@ -3,11 +3,11 @@ package at.orchaldir.gm.core.selector.world
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.MaterialId
+import at.orchaldir.gm.core.model.world.settlement.SettlementMapId
 import at.orchaldir.gm.core.model.world.street.StreetTemplateId
-import at.orchaldir.gm.core.model.world.town.TownMapId
 
 fun State.canDeleteStreetTemplate(template: StreetTemplateId) = DeleteResult(template)
-    .addElements(getTowns(template))
+    .addElements(getSettlementMaps(template))
 
 fun State.countStreetTemplatesMadeOf(material: MaterialId) = getStreetTemplateStorage()
     .getAll()
@@ -17,8 +17,8 @@ fun State.getStreetTemplatesMadeOf(material: MaterialId) = getStreetTemplateStor
     .getAll()
     .filter { it.materialCost.contains(material) }
 
-fun State.countEachStreetTemplate(town: TownMapId) = getTownMapStorage()
-    .getOrThrow(town)
+fun State.countEachStreetTemplate(settlement: SettlementMapId) = getSettlementMapStorage()
+    .getOrThrow(settlement)
     .map.tiles
     .mapNotNull { it.construction.getOptionalStreetTemplate() }
     .groupingBy { it }

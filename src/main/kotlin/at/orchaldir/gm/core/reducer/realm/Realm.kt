@@ -13,9 +13,9 @@ import at.orchaldir.gm.core.selector.util.requireExists
 
 fun validateRealm(state: State, realm: Realm) {
     validateCreator(state, realm.founder, realm.id, realm.date, "founder")
-    validateHistory(state, realm.capital, realm.date, "capital") { _, townId, _, date ->
-        if (townId != null) {
-            state.requireExists(state.getTownStorage(), townId, date)
+    validateHistory(state, realm.capital, realm.date, "capital") { _, settlementId, _, date ->
+        if (settlementId != null) {
+            state.requireExists(state.getSettlementStorage(), settlementId, date)
         }
     }
     validateHistory(state, realm.currency, realm.date, "currency") { _, code, _, date ->

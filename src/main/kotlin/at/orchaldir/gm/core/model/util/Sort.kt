@@ -289,7 +289,7 @@ enum class SortRealm {
     End,
     Age,
     Population,
-    Towns,
+    Settlement,
 }
 
 enum class SortRegion {
@@ -297,6 +297,21 @@ enum class SortRegion {
 }
 
 enum class SortRiver {
+    Name,
+}
+
+enum class SortSettlement {
+    Name,
+    Start,
+    End,
+    Age,
+    Population,
+    Density,
+    Buildings,
+    Residents,
+}
+
+enum class SortSettlementMap {
     Name,
 }
 
@@ -339,21 +354,6 @@ enum class SortText {
 enum class SortTitle {
     Name,
     Characters,
-}
-
-enum class SortTown {
-    Name,
-    Start,
-    End,
-    Age,
-    Population,
-    Density,
-    Buildings,
-    Residents,
-}
-
-enum class SortTownMap {
-    Name,
 }
 
 enum class SortTreaty {

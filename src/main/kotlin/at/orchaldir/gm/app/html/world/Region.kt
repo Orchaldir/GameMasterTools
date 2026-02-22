@@ -10,7 +10,7 @@ import at.orchaldir.gm.app.html.util.showLocalElements
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.terrain.Region
 import at.orchaldir.gm.core.model.world.terrain.RegionId
-import at.orchaldir.gm.core.selector.world.getTowns
+import at.orchaldir.gm.core.selector.world.getSettlementMaps
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -25,7 +25,7 @@ fun HtmlBlockTag.showRegion(
     showRegionData(call, state, region.data)
     fieldPosition(call, state, region.position)
     fieldIds(call, state, "Resources", region.resources)
-    fieldElements(call, state, state.getTowns(region.id))
+    fieldElements(call, state, state.getSettlementMaps(region.id))
     showLocalElements(call, state, region.id)
 }
 

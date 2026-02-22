@@ -41,7 +41,7 @@ fun HtmlBlockTag.showEconomyData(
             th { +"Jobs" }
             th { +"Population" }
             th { +"Realms" }
-            th { +"Towns" }
+            th { +"Settlements" }
         }
         economy.standardsOfLiving.forEach { standard ->
             tr {
@@ -51,7 +51,7 @@ fun HtmlBlockTag.showEconomyData(
                 tdSkipZero(state.countJobs(standard.id))
                 tdSkipZero(state.calculateTotalPopulation({ it.getPopulation(standard.id) }))
                 tdSkipZero(getPopulationsWith(state.getRealmStorage(), standard.id))
-                tdSkipZero(getPopulationsWith(state.getTownStorage(), standard.id))
+                tdSkipZero(getPopulationsWith(state.getSettlementStorage(), standard.id))
             }
         }
     }

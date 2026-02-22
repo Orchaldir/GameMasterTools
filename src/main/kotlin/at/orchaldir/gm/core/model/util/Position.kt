@@ -3,13 +3,13 @@ package at.orchaldir.gm.core.model.util
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.realm.DistrictId
 import at.orchaldir.gm.core.model.realm.RealmId
-import at.orchaldir.gm.core.model.realm.TownId
+import at.orchaldir.gm.core.model.realm.SettlementId
 import at.orchaldir.gm.core.model.world.WorldId
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.moon.MoonId
 import at.orchaldir.gm.core.model.world.plane.PlaneId
+import at.orchaldir.gm.core.model.world.settlement.SettlementMapId
 import at.orchaldir.gm.core.model.world.terrain.RegionId
-import at.orchaldir.gm.core.model.world.town.TownMapId
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -26,8 +26,8 @@ enum class PositionType {
     Plane,
     Realm,
     Region,
-    Town,
-    TownMap,
+    Settlement,
+    SettlementMap,
     World,
 }
 
@@ -43,8 +43,8 @@ sealed class Position {
         is InPlane -> PositionType.Plane
         is InRealm -> PositionType.Realm
         is InRegion -> PositionType.Region
-        is InTown -> PositionType.Town
-        is InTownMap -> PositionType.TownMap
+        is InSettlement -> PositionType.Settlement
+        is InSettlementMap -> PositionType.SettlementMap
         is LongTermCareIn -> PositionType.LongTermCare
         is OnMoon -> PositionType.Moon
         is OnWorld -> PositionType.World
@@ -60,8 +60,8 @@ sealed class Position {
         is InPlane -> plane
         is InRealm -> realm
         is InRegion -> region
-        is InTown -> town
-        is InTownMap -> townMap
+        is InSettlement -> settlement
+        is InSettlementMap -> map
         is LongTermCareIn -> business
         is OnMoon -> moon
         is OnWorld -> world
@@ -89,8 +89,8 @@ sealed class Position {
         is InPlane -> plane == id
         is InRealm -> realm == id
         is InRegion -> region == id
-        is InTown -> town == id
-        is InTownMap -> townMap == id
+        is InSettlement -> settlement == id
+        is InSettlementMap -> map == id
         is LongTermCareIn -> business == id
         is OnMoon -> moon == id
         is OnWorld -> world == id
@@ -104,8 +104,8 @@ sealed class Position {
     open fun isIn(district: DistrictId) = false
     open fun isIn(plane: PlaneId) = false
     open fun isIn(realm: RealmId) = false
-    open fun isIn(town: TownId) = false
-    open fun isIn(townMap: TownMapId) = false
+    open fun isIn(settlement: SettlementId) = false
+    open fun isIn(settlementMap: SettlementMapId) = false
 
 }
 
@@ -177,21 +177,21 @@ data class InRealm(val realm: RealmId) : Position() {
 data class InRegion(val region: RegionId) : Position()
 
 @Serializable
-@SerialName("Town")
-data class InTown(val town: TownId) : Position() {
+@SerialName("Settlement")
+data class InSettlement(val settlement: SettlementId) : Position() {
 
-    override fun isIn(town: TownId) = this.town == town
+    override fun isIn(settlement: SettlementId) = this.settlement == settlement
 
 }
 
 @Serializable
-@SerialName("TownMap")
-data class InTownMap(
-    val townMap: TownMapId,
+@SerialName("SettlementMap")
+data class InSettlementMap(
+    val map: SettlementMapId,
     val tileIndex: Int,
 ) : Position() {
 
-    override fun isIn(townMap: TownMapId) = this.townMap == townMap
+    override fun isIn(map: SettlementMapId) = this.map == map
 
 }
 

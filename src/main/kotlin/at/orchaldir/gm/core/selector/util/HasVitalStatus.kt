@@ -14,7 +14,7 @@ fun <ID : Id<ID>> State.canDeleteDestroyer(id: ID, result: DeleteResult) = resul
     .addElements(getDestroyedBy(getMoonStorage(), id))
     .addElements(getDestroyedBy(getOrganizationStorage(), id))
     .addElements(getDestroyedBy(getRealmStorage(), id))
-    .addElements(getDestroyedBy(getTownStorage(), id))
+    .addElements(getDestroyedBy(getSettlementStorage(), id))
 
 fun <ID : Id<ID>, ELEMENT, DESTROYER : Id<DESTROYER>> isDestroyer(
     storage: Storage<ID, ELEMENT>,

@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 
 enum class AddressType {
     None,
-    Town,
+    Settlement,
     Street,
     Crossing,
 }
@@ -17,8 +17,8 @@ sealed class Address {
     fun getType() = when (this) {
         is CrossingAddress -> AddressType.Crossing
         NoAddress -> AddressType.None
+        is SettlementAddress -> AddressType.Settlement
         is StreetAddress -> AddressType.Street
-        is TownAddress -> AddressType.Town
     }
 
     fun getHouseNumber(other: StreetId) = when (this) {
@@ -40,8 +40,8 @@ sealed class Address {
 data object NoAddress : Address()
 
 @Serializable
-@SerialName("Town")
-data class TownAddress(val houseNumber: Int) : Address()
+@SerialName("Settlement")
+data class SettlementAddress(val houseNumber: Int) : Address()
 
 @Serializable
 @SerialName("Street")

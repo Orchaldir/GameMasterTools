@@ -54,10 +54,10 @@ fun checkPosition(
         is InRealm -> state.requireExists(state.getRealmStorage(), position.realm, date) { noun }
         is InRegion -> requires(state.getRegionStorage(), position.region, noun)
         is InPlane -> requires(state.getPlaneStorage(), position.plane, noun)
-        is InTown -> state.requireExists(state.getTownStorage(), position.town, date) { noun }
-        is InTownMap -> {
-            val townMap = state.requireExists(state.getTownMapStorage(), position.townMap, date) { noun }
-            require(position.tileIndex in 0..<townMap.map.size.tiles()) { "The $noun's tile index ${position.tileIndex} is outside the town map!" }
+        is InSettlement -> state.requireExists(state.getSettlementStorage(), position.settlement, date) { noun }
+        is InSettlementMap -> {
+            val settlementMap = state.requireExists(state.getSettlementMapStorage(), position.map, date) { noun }
+            require(position.tileIndex in 0..<settlementMap.map.size.tiles()) { "The $noun's tile index ${position.tileIndex} is outside the settlement map!" }
         }
 
         is LongTermCareIn -> state.requireExists(state.getBusinessStorage(), position.business, date) { noun }

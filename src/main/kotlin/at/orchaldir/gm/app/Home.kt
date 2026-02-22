@@ -35,7 +35,7 @@ import at.orchaldir.gm.app.routes.time.HolidayRoutes
 import at.orchaldir.gm.app.routes.time.TimeRoutes
 import at.orchaldir.gm.app.routes.utls.*
 import at.orchaldir.gm.app.routes.world.*
-import at.orchaldir.gm.app.routes.world.town.TownMapRoutes
+import at.orchaldir.gm.app.routes.world.settlement.SettlementMapRoutes
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
@@ -113,7 +113,7 @@ fun Application.configureRouting() {
                     fieldStorageLink(call, state.getLegalCodeStorage(), LegalCodeRoutes())
                     fieldStorageLink(call, state.getOrganizationStorage(), OrganizationRoutes())
                     fieldStorageLink(call, state.getRealmStorage(), RealmRoutes())
-                    fieldStorageLink(call, state.getTownStorage(), TownRoutes())
+                    fieldStorageLink(call, state.getSettlementStorage(), SettlementRoutes())
                     fieldStorageLink(call, state.getTreatyStorage(), TreatyRoutes())
                     fieldStorageLink(call, state.getWarStorage(), WarRoutes())
                     h3 { +"Religions" }
@@ -140,9 +140,9 @@ fun Application.configureRouting() {
                     fieldStorageLink(call, state.getPlaneStorage(), PlaneRoutes())
                     fieldStorageLink(call, state.getRegionStorage(), RegionRoutes())
                     fieldStorageLink(call, state.getRiverStorage(), RiverRoutes())
+                    fieldStorageLink(call, state.getSettlementMapStorage(), SettlementMapRoutes())
                     fieldStorageLink(call, state.getStreetStorage(), StreetRoutes())
                     fieldStorageLink(call, state.getStreetTemplateStorage(), StreetTemplateRoutes())
-                    fieldStorageLink(call, state.getTownMapStorage(), TownMapRoutes())
                     fieldStorageLink(call, state.getWorldStorage(), WorldRoutes())
                 }
             }

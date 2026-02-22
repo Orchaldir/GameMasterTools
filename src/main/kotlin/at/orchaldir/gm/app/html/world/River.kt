@@ -4,7 +4,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.terrain.River
 import at.orchaldir.gm.core.model.world.terrain.RiverId
-import at.orchaldir.gm.core.selector.world.getTowns
+import at.orchaldir.gm.core.selector.world.getSettlementMaps
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -18,7 +18,7 @@ fun HtmlBlockTag.showRiver(
 ) {
 
     fieldName(river.name)
-    fieldElements(call, state, state.getTowns(river.id))
+    fieldElements(call, state, state.getSettlementMaps(river.id))
 }
 
 // edit

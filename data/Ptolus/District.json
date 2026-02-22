@@ -5,8 +5,8 @@
    "id": 0,
    "name": "Docks",
    "position": {
-    "#type": "Town",
-    "town": 0
+    "#type": "Settlement",
+    "settlement": 0
    },
    "foundingDate": {
     "#type": "~Year",
@@ -36,8 +36,8 @@
    "id": 1,
    "name": "Guildsman District",
    "position": {
-    "#type": "Town",
-    "town": 0
+    "#type": "Settlement",
+    "settlement": 0
    },
    "area": {
     "#type": "User",
@@ -56,8 +56,8 @@
    "id": 2,
    "name": "Midtown",
    "position": {
-    "#type": "Town",
-    "town": 0
+    "#type": "Settlement",
+    "settlement": 0
    },
    "area": {
     "#type": "User",
@@ -76,8 +76,8 @@
    "id": 3,
    "name": "Necropolis",
    "position": {
-    "#type": "Town",
-    "town": 0
+    "#type": "Settlement",
+    "settlement": 0
    },
    "area": {
     "#type": "User",
@@ -92,8 +92,8 @@
    "id": 4,
    "name": "Nobles’ Quarter",
    "position": {
-    "#type": "Town",
-    "town": 0
+    "#type": "Settlement",
+    "settlement": 0
    },
    "area": {
     "#type": "User",
@@ -112,8 +112,8 @@
    "id": 5,
    "name": "North Market",
    "position": {
-    "#type": "Town",
-    "town": 0
+    "#type": "Settlement",
+    "settlement": 0
    },
    "area": {
     "#type": "User",
@@ -132,8 +132,8 @@
    "id": 6,
    "name": "Oldtown",
    "position": {
-    "#type": "Town",
-    "town": 0
+    "#type": "Settlement",
+    "settlement": 0
    },
    "area": {
     "#type": "User",
@@ -152,8 +152,8 @@
    "id": 7,
    "name": "Rivergate District",
    "position": {
-    "#type": "Town",
-    "town": 0
+    "#type": "Settlement",
+    "settlement": 0
    },
    "area": {
     "#type": "User",
@@ -172,8 +172,8 @@
    "id": 8,
    "name": "South Market",
    "position": {
-    "#type": "Town",
-    "town": 0
+    "#type": "Settlement",
+    "settlement": 0
    },
    "area": {
     "#type": "User",
@@ -192,8 +192,8 @@
    "id": 9,
    "name": "Temple District",
    "position": {
-    "#type": "Town",
-    "town": 0
+    "#type": "Settlement",
+    "settlement": 0
    },
    "area": {
     "#type": "User",
@@ -212,8 +212,8 @@
    "id": 10,
    "name": "Warrens",
    "position": {
-    "#type": "Town",
-    "town": 0
+    "#type": "Settlement",
+    "settlement": 0
    },
    "area": {
     "#type": "User",

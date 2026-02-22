@@ -3,7 +3,7 @@ package at.orchaldir.gm.core.selector.realm
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.DistrictId
-import at.orchaldir.gm.core.model.realm.TownId
+import at.orchaldir.gm.core.model.realm.SettlementId
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.selector.util.canDeleteWithPositions
 import at.orchaldir.gm.core.selector.util.getExistingElements
@@ -16,9 +16,9 @@ fun State.getDistricts(district: DistrictId) = getDistrictStorage()
     .getAll()
     .filter { it.position.isIn(district) }
 
-fun State.getDistricts(town: TownId) = getDistrictStorage()
+fun State.getDistricts(settlement: SettlementId) = getDistrictStorage()
     .getAll()
-    .filter { it.position.isIn(town) }
+    .filter { it.position.isIn(settlement) }
 
 fun State.getExistingDistricts(date: Date?) = getExistingElements(getDistrictStorage().getAll(), date)
 

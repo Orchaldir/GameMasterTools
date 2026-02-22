@@ -55,11 +55,11 @@ import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.moon.MoonId
 import at.orchaldir.gm.core.model.world.plane.PlaneId
+import at.orchaldir.gm.core.model.world.settlement.SettlementMapId
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.street.StreetTemplateId
 import at.orchaldir.gm.core.model.world.terrain.RegionId
 import at.orchaldir.gm.core.model.world.terrain.RiverId
-import at.orchaldir.gm.core.model.world.town.TownMapId
 
 val AMMUNITION_ID_0 = AmmunitionId(0)
 val UNKNOWN_AMMUNITION = AmmunitionId(99)
@@ -207,12 +207,12 @@ val TEXT_ID_1 = TextId(1)
 val UNKNOWN_TEXT_ID = TextId(99)
 val TITLE_ID_0 = TitleId(0)
 val UNKNOWN_TITLE_ID = TitleId(99)
-val TOWN_ID_0 = TownId(0)
-val TOWN_ID_1 = TownId(1)
-val UNKNOWN_TOWN_ID = TownId(99)
-val TOWN_MAP_ID_0 = TownMapId(0)
-val TOWN_MAP_ID_1 = TownMapId(1)
-val UNKNOWN_TOWN_MAP_ID = TownMapId(99)
+val SETTLEMENT_ID_0 = SettlementId(0)
+val SETTLEMENT_ID_1 = SettlementId(1)
+val UNKNOWN_SETTLEMENT_ID = SettlementId(99)
+val SETTLEMENT_MAP_ID_0 = SettlementMapId(0)
+val SETTLEMENT_MAP_ID_1 = SettlementMapId(1)
+val UNKNOWN_SETTLEMENT_MAP_ID = SettlementMapId(99)
 val TREATY_ID_0 = TreatyId(0)
 val UNKNOWN_TREATY_ID = TreatyId(99)
 val UNIFORM_ID_0 = UniformId(0)

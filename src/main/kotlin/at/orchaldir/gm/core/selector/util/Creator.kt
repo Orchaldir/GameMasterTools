@@ -23,7 +23,7 @@ fun <ID : Id<ID>> State.canDeleteCreator(id: ID, result: DeleteResult) = result
     .addElements(getCreatedBy(getRaceStorage(), id))
     .addElements(getCreatedBy(getSpellStorage(), id))
     .addElements(getCreatedBy(getTextStorage(), id))
-    .addElements(getCreatedBy(getTownStorage(), id))
+    .addElements(getCreatedBy(getSettlementStorage(), id))
     .addElements(getCreatedBy(getTreatyStorage(), id))
 
 fun <ID : Id<ID>> State.isCreator(id: ID) = isCreator(getArticleStorage(), id)
@@ -40,7 +40,7 @@ fun <ID : Id<ID>> State.isCreator(id: ID) = isCreator(getArticleStorage(), id)
         || isCreator(getRaceStorage(), id)
         || isCreator(getSpellStorage(), id)
         || isCreator(getTextStorage(), id)
-        || isCreator(getTownStorage(), id)
+        || isCreator(getSettlementStorage(), id)
         || isCreator(getTreatyStorage(), id)
 
 fun <ID : Id<ID>, ELEMENT, CREATOR : Id<CREATOR>> isCreator(storage: Storage<ID, ELEMENT>, id: CREATOR) where

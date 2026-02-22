@@ -11,7 +11,7 @@ val ALLOWED_WAR_PARTICIPANTS = listOf(
     ReferenceType.God,
     ReferenceType.Organization,
     ReferenceType.Realm,
-    ReferenceType.Town,
+    ReferenceType.Settlement,
 )
 
 @Serializable

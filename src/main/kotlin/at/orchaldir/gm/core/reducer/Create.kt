@@ -74,6 +74,8 @@ import at.orchaldir.gm.core.model.world.moon.Moon
 import at.orchaldir.gm.core.model.world.moon.MoonId
 import at.orchaldir.gm.core.model.world.plane.Plane
 import at.orchaldir.gm.core.model.world.plane.PlaneId
+import at.orchaldir.gm.core.model.world.settlement.SettlementMap
+import at.orchaldir.gm.core.model.world.settlement.SettlementMapId
 import at.orchaldir.gm.core.model.world.street.Street
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.street.StreetTemplate
@@ -82,8 +84,6 @@ import at.orchaldir.gm.core.model.world.terrain.Region
 import at.orchaldir.gm.core.model.world.terrain.RegionId
 import at.orchaldir.gm.core.model.world.terrain.River
 import at.orchaldir.gm.core.model.world.terrain.RiverId
-import at.orchaldir.gm.core.model.world.town.TownMap
-import at.orchaldir.gm.core.model.world.town.TownMapId
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.redux.noFollowUps
@@ -154,8 +154,8 @@ fun reduceCreateElement(
     is StreetTemplateId -> createElement(state, StreetTemplate(id))
     is TextId -> createElement(state, Text(id))
     is TitleId -> createElement(state, Title(id))
-    is TownId -> createElement(state, Town(id))
-    is TownMapId -> createElement(state, TownMap(id))
+    is SettlementId -> createElement(state, Settlement(id))
+    is SettlementMapId -> createElement(state, SettlementMap(id))
     is TreatyId -> createElement(state, Treaty(id))
     is UniformId -> createElement(state, Uniform(id))
     is WarId -> createElement(state, War(id))

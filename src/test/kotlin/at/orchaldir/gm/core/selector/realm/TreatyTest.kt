@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.selector.town
+package at.orchaldir.gm.core.selector.settlement
 
 import at.orchaldir.gm.DAY0
 import at.orchaldir.gm.HOLIDAY_ID_0

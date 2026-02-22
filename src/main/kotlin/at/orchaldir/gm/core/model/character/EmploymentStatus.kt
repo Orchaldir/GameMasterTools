@@ -3,7 +3,7 @@ package at.orchaldir.gm.core.model.character
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.realm.RealmId
-import at.orchaldir.gm.core.model.realm.TownId
+import at.orchaldir.gm.core.model.realm.SettlementId
 import at.orchaldir.gm.core.model.util.History
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -13,7 +13,7 @@ enum class EmploymentStatusType {
     Unemployed,
     Employed,
     EmployedByRealm,
-    EmployedByTown,
+    EmployedBySettlement,
     Retired,
 }
 
@@ -25,33 +25,33 @@ sealed class EmploymentStatus {
         Unemployed -> EmploymentStatusType.Unemployed
         is Employed -> EmploymentStatusType.Employed
         is EmployedByRealm -> EmploymentStatusType.EmployedByRealm
-        is EmployedByTown -> EmploymentStatusType.EmployedByTown
+        is EmployedBySettlement -> EmploymentStatusType.EmployedBySettlement
         Retired -> EmploymentStatusType.Retired
     }
 
     fun getBusiness() = when (this) {
         is Employed -> business
-        is EmployedByTown -> optionalBusiness
+        is EmployedBySettlement -> optionalBusiness
         else -> null
     }
 
     fun getJob() = when (this) {
         is Employed -> job
         is EmployedByRealm -> job
-        is EmployedByTown -> job
+        is EmployedBySettlement -> job
         else -> null
     }
 
     fun hasJob(job: JobId) = when (this) {
         is Employed -> job == this.job
         is EmployedByRealm -> job == this.job
-        is EmployedByTown -> job == this.job
+        is EmployedBySettlement -> job == this.job
         else -> false
     }
 
     fun isEmployedAt(business: BusinessId) = when (this) {
         is Employed -> business == this.business
-        is EmployedByTown -> business == this.optionalBusiness
+        is EmployedBySettlement -> business == this.optionalBusiness
         else -> false
     }
 
@@ -60,8 +60,8 @@ sealed class EmploymentStatus {
         else -> false
     }
 
-    fun isEmployedAt(town: TownId) = when (this) {
-        is EmployedByTown -> town == this.town
+    fun isEmployedAt(settlement: SettlementId) = when (this) {
+        is EmployedBySettlement -> settlement == this.settlement
         else -> false
     }
 
@@ -82,10 +82,10 @@ data class EmployedByRealm(
 ) : EmploymentStatus()
 
 @Serializable
-@SerialName("ByTown")
-data class EmployedByTown(
+@SerialName("BySettlement")
+data class EmployedBySettlement(
     val job: JobId,
-    val town: TownId,
+    val settlement: SettlementId,
     val optionalBusiness: BusinessId? = null,
 ) : EmploymentStatus()
 
@@ -106,7 +106,8 @@ fun History<EmploymentStatus>.wasEmployedAt(realm: RealmId) = previousEntries
 
 fun History<EmploymentStatus>.isOrWasEmployedAt(realm: RealmId) = current.isEmployedAt(realm) || wasEmployedAt(realm)
 
-fun History<EmploymentStatus>.wasEmployedAt(town: TownId) = previousEntries
-    .any { it.entry.isEmployedAt(town) }
+fun History<EmploymentStatus>.wasEmployedAt(settlement: SettlementId) = previousEntries
+    .any { it.entry.isEmployedAt(settlement) }
 
-fun History<EmploymentStatus>.isOrWasEmployedAt(town: TownId) = current.isEmployedAt(town) || wasEmployedAt(town)
+fun History<EmploymentStatus>.isOrWasEmployedAt(settlement: SettlementId) =
+    current.isEmployedAt(settlement) || wasEmployedAt(settlement)

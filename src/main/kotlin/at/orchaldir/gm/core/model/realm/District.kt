@@ -27,7 +27,7 @@ const val DISTRICT_TYPE = "District"
 val ALLOWED_DISTRICT_POSITIONS = listOf(
     PositionType.Undefined,
     PositionType.District,
-    PositionType.Town,
+    PositionType.Settlement,
 )
 
 @JvmInline

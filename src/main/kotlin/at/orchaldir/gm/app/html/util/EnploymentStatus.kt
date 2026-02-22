@@ -6,7 +6,7 @@ import at.orchaldir.gm.app.html.economy.parseBusinessId
 import at.orchaldir.gm.app.html.economy.parseJobId
 import at.orchaldir.gm.app.html.economy.parseOptionalBusinessId
 import at.orchaldir.gm.app.html.realm.parseRealmId
-import at.orchaldir.gm.app.html.realm.parseTownId
+import at.orchaldir.gm.app.html.realm.parseSettlementId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.economy.job.EmployerType
@@ -16,7 +16,7 @@ import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.selector.economy.getJobs
 import at.orchaldir.gm.core.selector.economy.getOpenBusinesses
 import at.orchaldir.gm.core.selector.realm.getExistingRealms
-import at.orchaldir.gm.core.selector.realm.getExistingTowns
+import at.orchaldir.gm.core.selector.realm.getExistingSettlements
 import at.orchaldir.gm.core.selector.util.sortCharacters
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
@@ -31,7 +31,7 @@ fun HtmlBlockTag.showEmployees(
     employees: Collection<Character>,
     label: String = "Employees",
     showOptionalBusiness: Boolean = true,
-    showTown: Boolean = true,
+    showSettlement: Boolean = true,
 ) {
     fieldList(label, state.sortCharacters(employees)) { employee ->
         link(call, state, employee)
@@ -41,7 +41,7 @@ fun HtmlBlockTag.showEmployees(
             state,
             employee.employmentStatus.current,
             showOptionalBusiness = showOptionalBusiness,
-            showTown = showTown,
+            showSettlement = showSettlement,
         )
     }
 }
@@ -58,7 +58,7 @@ fun HtmlBlockTag.showEmploymentStatus(
     status: EmploymentStatus,
     showUndefined: Boolean = true,
     showOptionalBusiness: Boolean = true,
-    showTown: Boolean = true,
+    showSettlement: Boolean = true,
 ) {
     when (status) {
         is Employed -> {
@@ -70,23 +70,23 @@ fun HtmlBlockTag.showEmploymentStatus(
         is EmployedByRealm -> {
             link(call, state, status.job)
 
-            if (showTown) {
+            if (showSettlement) {
                 +" of "
                 link(call, state, status.realm)
             }
         }
 
-        is EmployedByTown -> if (showTown) {
+        is EmployedBySettlement -> if (showSettlement) {
             if (status.optionalBusiness != null && showOptionalBusiness) {
                 link(call, state, status.job)
                 +" at "
-                link(call, state, status.town)
+                link(call, state, status.settlement)
                 +"'s "
                 link(call, state, status.optionalBusiness)
             } else {
                 link(call, state, status.job)
                 +" of "
-                link(call, state, status.town)
+                link(call, state, status.settlement)
             }
         } else {
             if (status.optionalBusiness != null && showOptionalBusiness) {
@@ -153,14 +153,14 @@ fun HtmlBlockTag.selectEmploymentStatus(
             selectJob(state, param, EmployerType.Realm, status.job)
         }
 
-        is EmployedByTown -> {
+        is EmployedBySettlement -> {
             selectElement(
                 state,
-                combine(param, TOWN),
-                state.getExistingTowns(start),
-                status.town,
+                combine(param, SETTLEMENT),
+                state.getExistingSettlements(start),
+                status.settlement,
             )
-            selectJob(state, param, EmployerType.Town, status.job)
+            selectJob(state, param, EmployerType.Settlement, status.job)
             selectOptionalElement(
                 state,
                 "Business",
@@ -201,9 +201,9 @@ fun parseEmploymentStatus(parameters: Parameters, state: State, param: String): 
             parseRealmId(parameters, combine(param, REALM)),
         )
 
-        EmploymentStatusType.EmployedByTown -> EmployedByTown(
+        EmploymentStatusType.EmployedBySettlement -> EmployedBySettlement(
             parseJobId(parameters, combine(param, JOB)),
-            parseTownId(parameters, combine(param, TOWN)),
+            parseSettlementId(parameters, combine(param, SETTLEMENT)),
             parseOptionalBusinessId(parameters, combine(param, BUSINESS)),
         )
 

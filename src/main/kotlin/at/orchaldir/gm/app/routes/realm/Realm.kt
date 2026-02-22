@@ -10,7 +10,7 @@ import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.realm.REALM_TYPE
 import at.orchaldir.gm.core.model.realm.RealmId
 import at.orchaldir.gm.core.model.util.SortRealm
-import at.orchaldir.gm.core.selector.realm.countOwnedTowns
+import at.orchaldir.gm.core.selector.realm.countOwnedSettlements
 import at.orchaldir.gm.core.selector.util.sortRealms
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -79,7 +79,7 @@ fun Application.configureRealmRouting() {
                     createRacesOfPopulationColumn(call, state),
                     createCulturesOfPopulationColumn(call, state),
                     createEconomyColumn(),
-                    countColumnForId("Towns", state::countOwnedTowns),
+                    countColumnForId("Settlements", state::countOwnedSettlements),
                 ),
             ) {
                 showCreatorCount(call, state, it, "Founders")

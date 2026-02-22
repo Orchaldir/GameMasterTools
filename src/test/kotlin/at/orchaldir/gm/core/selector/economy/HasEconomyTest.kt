@@ -3,7 +3,7 @@ package at.orchaldir.gm.core.selector.economy
 import at.orchaldir.gm.BUSINESS_TEMPLATE_ID_0
 import at.orchaldir.gm.DISTRICT_ID_0
 import at.orchaldir.gm.REALM_ID_0
-import at.orchaldir.gm.TOWN_ID_0
+import at.orchaldir.gm.SETTLEMENT_ID_0
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.CommonBusinesses
@@ -11,7 +11,7 @@ import at.orchaldir.gm.core.model.economy.EconomyWithNumbers
 import at.orchaldir.gm.core.model.economy.EconomyWithPercentages
 import at.orchaldir.gm.core.model.realm.District
 import at.orchaldir.gm.core.model.realm.Realm
-import at.orchaldir.gm.core.model.realm.Town
+import at.orchaldir.gm.core.model.realm.Settlement
 import at.orchaldir.gm.core.model.util.NumberDistribution
 import at.orchaldir.gm.core.model.util.PercentageDistribution
 import at.orchaldir.gm.utils.Id
@@ -49,10 +49,10 @@ class HasEconomyTest {
 
         @Test
         fun `Cannot delete a race used by a population with numbers`() {
-            val town = Town(TOWN_ID_0, economy = numbers)
-            val newState = state.updateStorage(town)
+            val settlement = Settlement(SETTLEMENT_ID_0, economy = numbers)
+            val newState = state.updateStorage(settlement)
 
-            failCanDelete(newState, TOWN_ID_0)
+            failCanDelete(newState, SETTLEMENT_ID_0)
         }
 
         private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {

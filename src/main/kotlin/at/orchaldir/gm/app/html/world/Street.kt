@@ -5,7 +5,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.street.Street
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.selector.util.getBuildingsIn
-import at.orchaldir.gm.core.selector.world.getTowns
+import at.orchaldir.gm.core.selector.world.getSettlementMaps
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -18,11 +18,11 @@ fun HtmlBlockTag.showStreet(
     street: Street,
 ) {
     fieldName(street.name)
-    fieldList("Towns", state.getTowns(street.id)) { town ->
-        val buildings = state.getBuildingsIn(town.id)
+    fieldList("Settlements", state.getSettlementMaps(street.id)) { settlement ->
+        val buildings = state.getBuildingsIn(settlement.id)
             .filter { it.address.contains(street.id) }
 
-        link(call, state, town)
+        link(call, state, settlement)
         fieldElements(call, state, buildings)
     }
 }

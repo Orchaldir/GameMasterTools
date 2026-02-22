@@ -15,7 +15,7 @@ import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.selector.character.countKilledCharacters
 import at.orchaldir.gm.core.selector.realm.countDestroyedRealms
-import at.orchaldir.gm.core.selector.realm.countDestroyedTowns
+import at.orchaldir.gm.core.selector.realm.countDestroyedSettlements
 import at.orchaldir.gm.core.selector.rpg.getMeleeWeaponType
 import at.orchaldir.gm.core.selector.time.getAgeInYears
 import at.orchaldir.gm.core.selector.util.calculatePopulationDensity
@@ -107,7 +107,7 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> createDestroyedColumns(
     state: State,
 ): List<Column<ELEMENT>> = listOf(
     countColumnForId(listOf("Destroyed", "Realms"), state::countDestroyedRealms),
-    countColumnForId(listOf("Destroyed", "Towns"), state::countDestroyedTowns),
+    countColumnForId(listOf("Destroyed", "Settlements"), state::countDestroyedSettlements),
     countColumnForId(listOf("Killed", "Characters"), state::countKilledCharacters),
 )
 
