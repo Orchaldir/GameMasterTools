@@ -50,8 +50,8 @@ fun Application.configureSettlementMapRouting() {
             )
         }
         get<SettlementMapRoutes.Details> { details ->
-            handleShowElementSplit(details.id, SettlementMapRoutes(), HtmlBlockTag::showSettlementDetails) { _, state, townMap ->
-                svg(visualizeSettlementMapWithLinks(call, state, townMap), 90)
+            handleShowElementSplit(details.id, SettlementMapRoutes(), HtmlBlockTag::showSettlementDetails) { _, state, settlementMap ->
+                svg(visualizeSettlementMapWithLinks(call, state, settlementMap), 90)
             }
         }
         get<SettlementMapRoutes.New> {

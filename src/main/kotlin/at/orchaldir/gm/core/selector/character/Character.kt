@@ -87,10 +87,10 @@ fun State.countEmployees(settlement: SettlementId) = getCharacterStorage()
     .count { it.checkEmploymentStatus { it.isEmployedAt(settlement) } }
 
 fun State.countResidents(settlementId: SettlementId): Int {
-    val townMap = getCurrentSettlementMap(settlementId)
+    val settlementMap = getCurrentSettlementMap(settlementId)
         ?: return 0
 
-    return countResidents(townMap.id)
+    return countResidents(settlementMap.id)
 }
 
 fun State.countResidents(settlement: SettlementMapId) = getCharacterStorage()
@@ -201,15 +201,15 @@ fun <ID : Id<ID>> State.getCharactersPreviouslyLivingIn(ids: Collection<ID>) = g
     .getAll()
     .filter { ids.any { id -> it.housingStatus.wasIn(id) } }
 
-fun State.getResidents(settlement: SettlementId?, townMap: SettlementMapId?): List<Character> {
+fun State.getResidents(settlement: SettlementId?, settlementMap: SettlementMapId?): List<Character> {
     val residents = if (settlement != null) {
         getCharactersLivingIn(settlement)
     } else {
         emptyList()
     }
 
-    return if (townMap != null) {
-        residents + getCharactersLivingIn(townMap)
+    return if (settlementMap != null) {
+        residents + getCharactersLivingIn(settlementMap)
     } else {
         residents
     }

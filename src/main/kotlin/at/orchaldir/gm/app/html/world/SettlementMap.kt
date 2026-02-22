@@ -40,16 +40,16 @@ fun HtmlBlockTag.showCharactersOfSettlementMap(
     call: ApplicationCall,
     state: State,
     settlement: SettlementId?,
-    townMap: SettlementMapId?,
+    settlementMap: SettlementMapId?,
 ) {
     val employees = if (settlement != null) {
         state.getEmployees(settlement)
     } else {
         emptyList()
     }
-    val residents = state.getResidents(settlement, townMap)
-    val workers = if (townMap != null) {
-        state.getWorkingIn(townMap) - residents
+    val residents = state.getResidents(settlement, settlementMap)
+    val workers = if (settlementMap != null) {
+        state.getWorkingIn(settlementMap) - residents
     } else {
         emptyList()
     }

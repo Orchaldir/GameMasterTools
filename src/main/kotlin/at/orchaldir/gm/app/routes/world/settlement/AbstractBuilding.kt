@@ -37,17 +37,17 @@ fun Application.configureAbstractBuildingEditorRouting() {
             logger.info { "Get the abstract building editor for settlement map ${edit.id.value}" }
 
             val state = STORE.getState()
-            val townMap = state.getSettlementMapStorage().getOrThrow(edit.id)
+            val settlementMap = state.getSettlementMapStorage().getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAbstractBuildingEditor(call, state, townMap, edit.size)
+                showAbstractBuildingEditor(call, state, settlementMap, edit.size)
             }
         }
         post<Preview> { preview ->
             logger.info { "Preview the abstract building editor for settlement map ${preview.id.value}" }
 
             val state = STORE.getState()
-            val townMap = state.getSettlementMapStorage().getOrThrow(preview.id)
+            val settlementMap = state.getSettlementMapStorage().getOrThrow(preview.id)
             val params = call.receiveParameters()
             val size = MapSize2d(
                 parseInt(params, WIDTH, 1),
@@ -55,7 +55,7 @@ fun Application.configureAbstractBuildingEditorRouting() {
             )
 
             call.respondHtml(HttpStatusCode.OK) {
-                showAbstractBuildingEditor(call, state, townMap, size)
+                showAbstractBuildingEditor(call, state, settlementMap, size)
             }
         }
         get<Add> { add ->

@@ -32,23 +32,23 @@ fun Application.configureStreetEditorRouting() {
             logger.info { "Get the street editor for settlement ${edit.id.value}" }
 
             val state = STORE.getState()
-            val townMap = state.getSettlementMapStorage().getOrThrow(edit.id)
+            val settlementMap = state.getSettlementMapStorage().getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showStreetEditor(call, state, townMap, StreetTemplateId(0), null)
+                showStreetEditor(call, state, settlementMap, StreetTemplateId(0), null)
             }
         }
         post<SettlementMapRoutes.StreetRoutes.Preview> { preview ->
             logger.info { "Preview the street editor for settlement ${preview.id.value}" }
 
             val state = STORE.getState()
-            val townMap = state.getSettlementMapStorage().getOrThrow(preview.id)
+            val settlementMap = state.getSettlementMapStorage().getOrThrow(preview.id)
             val params = call.receiveParameters()
             val typeId = parseInt(params, TYPE, 0)
             val streetId = parseSimpleOptionalInt(params, STREET)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showStreetEditor(call, state, townMap, StreetTemplateId(typeId), streetId?.let { StreetId(it) })
+                showStreetEditor(call, state, settlementMap, StreetTemplateId(typeId), streetId?.let { StreetId(it) })
             }
         }
         get<SettlementMapRoutes.StreetRoutes.Add> { add ->

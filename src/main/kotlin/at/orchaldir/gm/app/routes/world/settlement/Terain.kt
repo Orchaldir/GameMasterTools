@@ -51,13 +51,13 @@ fun Application.configureTerrainRouting() {
             logger.info { "Preview the terrain editor for settlement map ${preview.id.value}" }
 
             val state = STORE.getState()
-            val townMap = state.getSettlementMapStorage().getOrThrow(preview.id)
+            val settlementMap = state.getSettlementMapStorage().getOrThrow(preview.id)
             val params = call.receiveParameters()
             val terrainType = parseTerrainType(params)
             val terrainId: Int = parseInt(params, TERRAIN, 0)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showTerrainEditor(call, state, townMap, terrainType, terrainId)
+                showTerrainEditor(call, state, settlementMap, terrainType, terrainId)
             }
         }
         get<SettlementMapRoutes.TerrainRoutes.Update> { update ->
@@ -67,10 +67,10 @@ fun Application.configureTerrainRouting() {
 
             val state = STORE.getState()
             state.save()
-            val townMap = state.getSettlementMapStorage().getOrThrow(update.id)
+            val settlementMap = state.getSettlementMapStorage().getOrThrow(update.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showTerrainEditor(call, state, townMap, update.terrainType, update.terrainId)
+                showTerrainEditor(call, state, settlementMap, update.terrainType, update.terrainId)
             }
         }
         post<SettlementMapRoutes.TerrainRoutes.Resize> { update ->

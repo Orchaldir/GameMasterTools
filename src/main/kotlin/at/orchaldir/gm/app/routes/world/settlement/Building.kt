@@ -33,17 +33,17 @@ fun Application.configureBuildingEditorRouting() {
             logger.info { "Get the building editor for settlement map ${edit.id.value}" }
 
             val state = STORE.getState()
-            val townMap = state.getSettlementMapStorage().getOrThrow(edit.id)
+            val settlementMap = state.getSettlementMapStorage().getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showBuildingEditor(call, state, townMap, MapSize2d.square(1))
+                showBuildingEditor(call, state, settlementMap, MapSize2d.square(1))
             }
         }
         post<SettlementMapRoutes.BuildingRoutes.Preview> { preview ->
             logger.info { "Preview the building editor for settlement map ${preview.id.value}" }
 
             val state = STORE.getState()
-            val townMap = state.getSettlementMapStorage().getOrThrow(preview.id)
+            val settlementMap = state.getSettlementMapStorage().getOrThrow(preview.id)
             val params = call.receiveParameters()
             val size = MapSize2d(
                 parseInt(params, WIDTH, 1),
@@ -51,7 +51,7 @@ fun Application.configureBuildingEditorRouting() {
             )
 
             call.respondHtml(HttpStatusCode.OK) {
-                showBuildingEditor(call, state, townMap, size)
+                showBuildingEditor(call, state, settlementMap, size)
             }
         }
         get<SettlementMapRoutes.BuildingRoutes.Add> { add ->
@@ -63,8 +63,8 @@ fun Application.configureBuildingEditorRouting() {
 
             call.respondHtml(HttpStatusCode.OK) {
                 val state = STORE.getState()
-                val townMap = state.getSettlementMapStorage().getOrThrow(add.settlement)
-                showBuildingEditor(call, state, townMap, add.size)
+                val settlementMap = state.getSettlementMapStorage().getOrThrow(add.settlement)
+                showBuildingEditor(call, state, settlementMap, add.size)
             }
         }
     }

@@ -105,7 +105,7 @@ sealed class Position {
     open fun isIn(plane: PlaneId) = false
     open fun isIn(realm: RealmId) = false
     open fun isIn(settlement: SettlementId) = false
-    open fun isIn(townMap: SettlementMapId) = false
+    open fun isIn(settlementMap: SettlementMapId) = false
 
 }
 

@@ -244,11 +244,11 @@ private fun visualizeBuildingLot(
     selected: Building,
     position: InSettlementMap,
 ): Svg {
-    val townMap = state.getSettlementMapStorage().getOrThrow(position.map)
+    val settlementMap = state.getSettlementMapStorage().getOrThrow(position.map)
 
     return visualizeSettlementMap(
-        townMap,
-        state.getBuildingsIn(townMap.id)
+        settlementMap,
+        state.getBuildingsIn(settlementMap.id)
             .filter { it.id != selected.id } + selected,
         buildingColorLookup = showSelectedBuilding(selected),
         buildingLinkLookup = { b ->
@@ -267,13 +267,13 @@ private fun visualizeBuildingLotEditor(
     position: InSettlementMap,
     size: MapSize2d,
 ): Svg {
-    val townMap = state.getSettlementMapStorage().getOrThrow(position.map)
+    val settlementMap = state.getSettlementMapStorage().getOrThrow(position.map)
 
     return visualizeSettlementMap(
-        townMap,
-        state.getBuildingsIn(townMap.id),
+        settlementMap,
+        state.getBuildingsIn(settlementMap.id),
         tileLinkLookup = { index, _ ->
-            if (townMap.canResize(index, size, building.id)) {
+            if (settlementMap.canResize(index, size, building.id)) {
                 call.application.href(BuildingRoutes.Lot.Update(building.id, index, size))
             } else {
                 null

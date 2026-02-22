@@ -22,7 +22,7 @@ import at.orchaldir.gm.utils.redux.noFollowUps
 val ADD_BUILDING: Reducer<AddBuilding, State> = { state, action ->
     val buildingId = state.getBuildingStorage().nextId
     val oldSettlementMap = state.getSettlementMapStorage().getOrThrow(action.settlement)
-    val townMap = oldSettlementMap.build(action.tileIndex, action.size, BuildingTile(buildingId))
+    val settlementMap = oldSettlementMap.build(action.tileIndex, action.size, BuildingTile(buildingId))
     val position = InSettlementMap(action.settlement, action.tileIndex)
     val building =
         Building(buildingId, position = position, size = action.size, constructionDate = state.getCurrentDate())
@@ -31,7 +31,7 @@ val ADD_BUILDING: Reducer<AddBuilding, State> = { state, action ->
         state.updateStorage(
             listOf(
                 state.getBuildingStorage().add(building),
-                state.getSettlementMapStorage().update(townMap),
+                state.getSettlementMapStorage().update(settlementMap),
             )
         )
     )
@@ -44,13 +44,13 @@ fun deleteBuilding(state: State, id: BuildingId): Pair<State, List<Action>> {
 
     return if (building.position is InSettlementMap) {
         val oldSettlementMap = state.getSettlementMapStorage().getOrThrow(building.position.map)
-        val townMap = oldSettlementMap.removeBuilding(building.id)
+        val settlementMap = oldSettlementMap.removeBuilding(building.id)
 
         noFollowUps(
             state.updateStorage(
                 listOf(
                     state.getBuildingStorage().remove(id),
-                    state.getSettlementMapStorage().update(townMap),
+                    state.getSettlementMapStorage().update(settlementMap),
                 )
             )
         )
@@ -108,13 +108,13 @@ val UPDATE_BUILDING_LOT: Reducer<UpdateActionLot, State> = { state, action ->
         val oldSettlementMap = state.getSettlementMapStorage().getOrThrow(oldBuilding.position.map)
         val building = action.applyTo(oldBuilding)
 
-        val townMap = oldSettlementMap.updateBuilding(action.id, action.tileIndex, action.size)
+        val settlementMap = oldSettlementMap.updateBuilding(action.id, action.tileIndex, action.size)
 
         noFollowUps(
             state.updateStorage(
                 listOf(
                     state.getBuildingStorage().update(building),
-                    state.getSettlementMapStorage().update(townMap),
+                    state.getSettlementMapStorage().update(settlementMap),
                 )
             )
         )
