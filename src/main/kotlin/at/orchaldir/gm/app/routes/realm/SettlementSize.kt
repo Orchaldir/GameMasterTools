@@ -24,7 +24,7 @@ import kotlinx.html.HtmlBlockTag
 class SettlementSizeRoutes : Routes<SettlementSizeId, SortSettlementSize> {
     @Resource("all")
     class All(
-        val sort: SortSettlementSize = SortSettlementSize.Name,
+        val sort: SortSettlementSize = SortSettlementSize.MaxPopulation,
         val parent: SettlementSizeRoutes = SettlementSizeRoutes(),
     )
 

@@ -1000,12 +1000,12 @@ fun State.sortSettlementMaps(
 
 // settlement size
 
-fun State.sortSettlementSizes(sort: SortSettlementSize = SortSettlementSize.Name) =
+fun State.sortSettlementSizes(sort: SortSettlementSize = SortSettlementSize.MaxPopulation) =
     sortSettlementSizes(getSettlementSizeStorage().getAll(), sort)
 
 fun State.sortSettlementSizes(
     sizes: Collection<SettlementSize>,
-    sort: SortSettlementSize = SortSettlementSize.Name,
+    sort: SortSettlementSize = SortSettlementSize.MaxPopulation,
 ) = sizes
     .sortedWith(
         when (sort) {
