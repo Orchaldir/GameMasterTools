@@ -52,7 +52,7 @@ import at.orchaldir.gm.core.model.world.street.Street
 import at.orchaldir.gm.core.model.world.street.StreetTemplate
 import at.orchaldir.gm.core.model.world.terrain.Region
 import at.orchaldir.gm.core.model.world.terrain.River
-import at.orchaldir.gm.core.model.world.town.TownMap
+import at.orchaldir.gm.core.model.world.settlement.SettlementMap
 import at.orchaldir.gm.core.reducer.culture.updateCulture
 import at.orchaldir.gm.core.reducer.culture.updateFashion
 import at.orchaldir.gm.core.reducer.item.updateEquipment
@@ -126,7 +126,7 @@ fun reduceUpdateElement(
     is Title -> updateElement(state, element)
     is Treaty -> updateElement(state, element)
     is Settlement -> updateElement(state, element)
-    is TownMap -> updateElement(state, element)
+    is SettlementMap -> updateElement(state, element)
     is Uniform -> updateElement(state, element)
     is War -> updateElement(state, element)
     is World -> updateElement(state, element)

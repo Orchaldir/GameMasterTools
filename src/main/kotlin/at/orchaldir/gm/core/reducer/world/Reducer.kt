@@ -2,7 +2,7 @@ package at.orchaldir.gm.core.reducer.world
 
 import at.orchaldir.gm.core.action.*
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.reducer.world.town.*
+import at.orchaldir.gm.core.reducer.world.settlement.*
 import at.orchaldir.gm.utils.redux.Reducer
 
 val WORLD_REDUCER: Reducer<WorldAction, State> = { state, action ->

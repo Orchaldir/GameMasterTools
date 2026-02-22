@@ -10,7 +10,7 @@ import at.orchaldir.gm.core.model.world.World
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.moon.Moon
 import at.orchaldir.gm.core.model.world.terrain.Region
-import at.orchaldir.gm.core.model.world.town.TownMap
+import at.orchaldir.gm.core.model.world.settlement.SettlementMap
 import at.orchaldir.gm.core.selector.character.getCharactersLivingIn
 import at.orchaldir.gm.core.selector.character.getCharactersPreviouslyLivingIn
 import at.orchaldir.gm.core.selector.util.*
@@ -24,16 +24,16 @@ fun HtmlBlockTag.showLocalElements(
     call: ApplicationCall,
     state: State,
     settlement: Settlement,
-    townMap: TownMap,
+    settlementMap: SettlementMap,
 ) = showLocalElementsInternal(
     call,
     state,
-    state.getBuildingsIn(settlement.id).toSet() + state.getBuildingsIn(townMap.id).toSet(),
-    state.getBusinessesIn(settlement.id).toSet() + state.getBusinessesIn(townMap.id).toSet(),
+    state.getBuildingsIn(settlement.id).toSet() + state.getBuildingsIn(settlementMap.id).toSet(),
+    state.getBusinessesIn(settlement.id).toSet() + state.getBusinessesIn(settlementMap.id).toSet(),
     emptySet(),
-    state.getRegionsIn(settlement.id).toSet() + state.getRegionsIn(townMap.id).toSet(),
-    state.getCharactersLivingIn(settlement.id).toSet() + state.getCharactersLivingIn(townMap.id).toSet(),
-    state.getCharactersPreviouslyLivingIn(settlement.id).toSet() + state.getCharactersPreviouslyLivingIn(townMap.id).toSet(),
+    state.getRegionsIn(settlement.id).toSet() + state.getRegionsIn(settlementMap.id).toSet(),
+    state.getCharactersLivingIn(settlement.id).toSet() + state.getCharactersLivingIn(settlementMap.id).toSet(),
+    state.getCharactersPreviouslyLivingIn(settlement.id).toSet() + state.getCharactersPreviouslyLivingIn(settlementMap.id).toSet(),
     emptySet(),
 )
 

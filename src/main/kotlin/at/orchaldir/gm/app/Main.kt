@@ -31,7 +31,7 @@ import at.orchaldir.gm.app.routes.time.configureHolidayRouting
 import at.orchaldir.gm.app.routes.time.configureTimeRouting
 import at.orchaldir.gm.app.routes.utls.*
 import at.orchaldir.gm.app.routes.world.*
-import at.orchaldir.gm.app.routes.world.town.*
+import at.orchaldir.gm.app.routes.world.settlement.*
 import at.orchaldir.gm.core.action.LoadData
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.reducer.REDUCER
@@ -119,6 +119,8 @@ fun Application.module() {
     configureRealmRouting()
     configureRegionRouting()
     configureRiverRouting()
+    configureSettlementMapRouting()
+    configureSettlementRouting()
     configureShieldTypeRouting()
     configureSpellGroupRouting()
     configureSpellRouting()
@@ -131,8 +133,6 @@ fun Application.module() {
     configureTextRouting()
     configureTimeRouting()
     configureTitleRouting()
-    configureTownMapRouting()
-    configureSettlementRouting()
     configureTreatyRouting()
     configureUniformRouting()
     configureWarRouting()

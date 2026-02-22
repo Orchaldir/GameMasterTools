@@ -10,7 +10,7 @@ import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.selector.character.getEmployees
 import at.orchaldir.gm.core.selector.character.getPreviousEmployees
 import at.orchaldir.gm.core.selector.util.*
-import at.orchaldir.gm.core.selector.world.getTownMaps
+import at.orchaldir.gm.core.selector.world.getSettlementMaps
 import at.orchaldir.gm.utils.Id
 
 fun State.canDeleteSettlement(town: SettlementId) = DeleteResult(town)
@@ -19,7 +19,7 @@ fun State.canDeleteSettlement(town: SettlementId) = DeleteResult(town)
     .addElements(getDistricts(town))
     .addElements(getEmployees(town))
     .addElements(getPreviousEmployees(town))
-    .addElements(getTownMaps(town))
+    .addElements(getSettlementMaps(town))
     .addElements(getWarsWithParticipant(town))
     .apply { canDeleteCreator(town, it) }
     .apply { canDeleteDestroyer(town, it) }

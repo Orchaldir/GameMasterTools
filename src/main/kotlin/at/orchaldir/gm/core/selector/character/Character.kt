@@ -31,7 +31,7 @@ import at.orchaldir.gm.core.model.util.isIn
 import at.orchaldir.gm.core.model.util.origin.BornElement
 import at.orchaldir.gm.core.model.util.wasIn
 import at.orchaldir.gm.core.model.world.building.BuildingId
-import at.orchaldir.gm.core.model.world.town.TownMapId
+import at.orchaldir.gm.core.model.world.settlement.SettlementMapId
 import at.orchaldir.gm.core.selector.culture.getKnownLanguages
 import at.orchaldir.gm.core.selector.item.equipment.getEquipmentIdMap
 import at.orchaldir.gm.core.selector.organization.getOrganizations
@@ -39,7 +39,7 @@ import at.orchaldir.gm.core.selector.realm.getBattlesLedBy
 import at.orchaldir.gm.core.selector.util.canDeleteCreator
 import at.orchaldir.gm.core.selector.util.canDeleteDestroyer
 import at.orchaldir.gm.core.selector.util.canDeleteOwner
-import at.orchaldir.gm.core.selector.world.getCurrentTownMap
+import at.orchaldir.gm.core.selector.world.getCurrentSettlementMap
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.math.unit.Distance
 
@@ -87,13 +87,13 @@ fun State.countEmployees(town: SettlementId) = getCharacterStorage()
     .count { it.checkEmploymentStatus { it.isEmployedAt(town) } }
 
 fun State.countResidents(settlementId: SettlementId): Int {
-    val townMap = getCurrentTownMap(settlementId)
+    val townMap = getCurrentSettlementMap(settlementId)
         ?: return 0
 
     return countResidents(townMap.id)
 }
 
-fun State.countResidents(town: TownMapId) = getCharacterStorage()
+fun State.countResidents(town: SettlementMapId) = getCharacterStorage()
     .getAll()
     .count { isResident(it, town) }
 
@@ -201,7 +201,7 @@ fun <ID : Id<ID>> State.getCharactersPreviouslyLivingIn(ids: Collection<ID>) = g
     .getAll()
     .filter { ids.any { id -> it.housingStatus.wasIn(id) } }
 
-fun State.getResidents(town: SettlementId?, townMap: TownMapId?): List<Character> {
+fun State.getResidents(town: SettlementId?, townMap: SettlementMapId?): List<Character> {
     val residents = if (town != null) {
         getCharactersLivingIn(town)
     } else {
@@ -215,7 +215,7 @@ fun State.getResidents(town: SettlementId?, townMap: TownMapId?): List<Character
     }
 }
 
-fun State.isResident(character: Character, town: TownMapId) = character.housingStatus.current.getBuilding()
+fun State.isResident(character: Character, town: SettlementMapId) = character.housingStatus.current.getBuilding()
     ?.let { getBuildingStorage().getOrThrow(it).position.isIn(town) }
     ?: false
 
@@ -253,11 +253,11 @@ fun State.getPreviousEmployees(town: SettlementId) = getCharacterStorage()
     .getAll()
     .filter { it.checkPreviousEmploymentStatus { it.isEmployedAt(town) } }
 
-fun State.getWorkingIn(town: TownMapId) = getCharacterStorage()
+fun State.getWorkingIn(town: SettlementMapId) = getCharacterStorage()
     .getAll()
     .filter { isWorkingIn(it, town) }
 
-fun State.isWorkingIn(character: Character, town: TownMapId) = getBusinessStorage()
+fun State.isWorkingIn(character: Character, town: SettlementMapId) = getBusinessStorage()
     .getOptional(character.getBusiness())
     ?.position?.isIn(town)
     ?: false

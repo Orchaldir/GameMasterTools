@@ -4,13 +4,13 @@ import at.orchaldir.gm.core.action.Action
 import at.orchaldir.gm.core.action.AddBuilding
 import at.orchaldir.gm.core.action.UpdateActionLot
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.util.InTownMap
+import at.orchaldir.gm.core.model.util.InSettlementMap
 import at.orchaldir.gm.core.model.util.Position
 import at.orchaldir.gm.core.model.world.building.*
 import at.orchaldir.gm.core.model.world.street.StreetId
-import at.orchaldir.gm.core.model.world.town.BuildingTile
-import at.orchaldir.gm.core.model.world.town.TownMap
-import at.orchaldir.gm.core.model.world.town.TownMapId
+import at.orchaldir.gm.core.model.world.settlement.BuildingTile
+import at.orchaldir.gm.core.model.world.settlement.SettlementMap
+import at.orchaldir.gm.core.model.world.settlement.SettlementMapId
 import at.orchaldir.gm.core.selector.character.getCharactersLivingIn
 import at.orchaldir.gm.core.selector.time.getCurrentDate
 import at.orchaldir.gm.core.selector.util.getBuildingsForPosition
@@ -21,9 +21,9 @@ import at.orchaldir.gm.utils.redux.noFollowUps
 
 val ADD_BUILDING: Reducer<AddBuilding, State> = { state, action ->
     val buildingId = state.getBuildingStorage().nextId
-    val oldTownMap = state.getTownMapStorage().getOrThrow(action.town)
+    val oldTownMap = state.getSettlementMapStorage().getOrThrow(action.town)
     val townMap = oldTownMap.build(action.tileIndex, action.size, BuildingTile(buildingId))
-    val position = InTownMap(action.town, action.tileIndex)
+    val position = InSettlementMap(action.town, action.tileIndex)
     val building =
         Building(buildingId, position = position, size = action.size, constructionDate = state.getCurrentDate())
 
@@ -31,7 +31,7 @@ val ADD_BUILDING: Reducer<AddBuilding, State> = { state, action ->
         state.updateStorage(
             listOf(
                 state.getBuildingStorage().add(building),
-                state.getTownMapStorage().update(townMap),
+                state.getSettlementMapStorage().update(townMap),
             )
         )
     )
@@ -42,15 +42,15 @@ fun deleteBuilding(state: State, id: BuildingId): Pair<State, List<Action>> {
 
     val building = state.getBuildingStorage().getOrThrow(id)
 
-    return if (building.position is InTownMap) {
-        val oldTownMap = state.getTownMapStorage().getOrThrow(building.position.townMap)
+    return if (building.position is InSettlementMap) {
+        val oldTownMap = state.getSettlementMapStorage().getOrThrow(building.position.map)
         val townMap = oldTownMap.removeBuilding(building.id)
 
         noFollowUps(
             state.updateStorage(
                 listOf(
                     state.getBuildingStorage().remove(id),
-                    state.getTownMapStorage().update(townMap),
+                    state.getSettlementMapStorage().update(townMap),
                 )
             )
         )
@@ -61,21 +61,21 @@ fun deleteBuilding(state: State, id: BuildingId): Pair<State, List<Action>> {
 
 fun updateBuilding(state: State, newBuilding: Building): Pair<State, List<Action>> {
     val oldBuilding = state.getBuildingStorage().getOrThrow(newBuilding.id)
-    val updatedTownMaps = mutableListOf<TownMap>()
+    val updatedSettlementMaps = mutableListOf<SettlementMap>()
 
     newBuilding.validate(state)
 
-    if (oldBuilding.position is InTownMap) {
-        val oldTownMap = state.getTownMapStorage().getOrThrow(oldBuilding.position.townMap)
+    if (oldBuilding.position is InSettlementMap) {
+        val oldTownMap = state.getSettlementMapStorage().getOrThrow(oldBuilding.position.map)
 
-        if (newBuilding.position is InTownMap) {
-            val newTownMap = state.getTownMapStorage().getOrThrow(newBuilding.position.townMap)
+        if (newBuilding.position is InSettlementMap) {
+            val newTownMap = state.getSettlementMapStorage().getOrThrow(newBuilding.position.map)
 
             if (newTownMap.id != oldTownMap.id) {
-                updatedTownMaps.add(oldTownMap.removeBuilding(oldBuilding.id))
+                updatedSettlementMaps.add(oldTownMap.removeBuilding(oldBuilding.id))
             }
 
-            updatedTownMaps.add(
+            updatedSettlementMaps.add(
                 oldTownMap.updateBuilding(
                     newBuilding.id,
                     newBuilding.position.tileIndex,
@@ -83,19 +83,19 @@ fun updateBuilding(state: State, newBuilding: Building): Pair<State, List<Action
                 )
             )
         } else {
-            updatedTownMaps.add(oldTownMap.removeBuilding(oldBuilding.id))
+            updatedSettlementMaps.add(oldTownMap.removeBuilding(oldBuilding.id))
         }
-    } else if (newBuilding.position is InTownMap) {
-        val newTownMap = state.getTownMapStorage().getOrThrow(newBuilding.position.townMap)
+    } else if (newBuilding.position is InSettlementMap) {
+        val newTownMap = state.getSettlementMapStorage().getOrThrow(newBuilding.position.map)
 
-        updatedTownMaps.add(newTownMap.updateBuilding(newBuilding.id, newBuilding.position.tileIndex, newBuilding.size))
+        updatedSettlementMaps.add(newTownMap.updateBuilding(newBuilding.id, newBuilding.position.tileIndex, newBuilding.size))
     }
 
     return noFollowUps(
         state.updateStorage(
             listOf(
                 state.getBuildingStorage().update(newBuilding),
-                state.getTownMapStorage().update(updatedTownMaps),
+                state.getSettlementMapStorage().update(updatedSettlementMaps),
             )
         )
     )
@@ -104,8 +104,8 @@ fun updateBuilding(state: State, newBuilding: Building): Pair<State, List<Action
 val UPDATE_BUILDING_LOT: Reducer<UpdateActionLot, State> = { state, action ->
     val oldBuilding = state.getBuildingStorage().getOrThrow(action.id)
 
-    if (oldBuilding.position is InTownMap) {
-        val oldTownMap = state.getTownMapStorage().getOrThrow(oldBuilding.position.townMap)
+    if (oldBuilding.position is InSettlementMap) {
+        val oldTownMap = state.getSettlementMapStorage().getOrThrow(oldBuilding.position.map)
         val building = action.applyTo(oldBuilding)
 
         val townMap = oldTownMap.updateBuilding(action.id, action.tileIndex, action.size)
@@ -114,7 +114,7 @@ val UPDATE_BUILDING_LOT: Reducer<UpdateActionLot, State> = { state, action ->
             state.updateStorage(
                 listOf(
                     state.getBuildingStorage().update(building),
-                    state.getTownMapStorage().update(townMap),
+                    state.getSettlementMapStorage().update(townMap),
                 )
             )
         )
@@ -142,9 +142,9 @@ fun checkAddress(
             require(address.streets.toSet().size == address.streets.size) { "List of streets contains duplicates!" }
             state.getStreetStorage().require(address.streets)
 
-            if (position is InTownMap) {
+            if (position is InSettlementMap) {
                 address.streets.forEach { street ->
-                    checkIfStreetIsPartOfTown(state, position.townMap, street)
+                    checkIfStreetIsPartOfTown(state, position.map, street)
                 }
             }
         }
@@ -159,8 +159,8 @@ fun checkAddress(
                 "House number ${address.houseNumber} already used for ${address.street.print()}!"
             }
 
-            if (position is InTownMap) {
-                checkIfStreetIsPartOfTown(state, position.townMap, address.street)
+            if (position is InSettlementMap) {
+                checkIfStreetIsPartOfTown(state, position.map, address.street)
             }
         }
 
@@ -176,11 +176,11 @@ fun checkAddress(
 
 private fun checkIfStreetIsPartOfTown(
     state: State,
-    townMapId: TownMapId,
+    settlementMapId: SettlementMapId,
     streetId: StreetId,
 ) {
-    require(state.getStreetIds(townMapId).contains(streetId)) {
-        "Street ${streetId.value} is not part of ${townMapId.print()}!"
+    require(state.getStreetIds(settlementMapId).contains(streetId)) {
+        "Street ${streetId.value} is not part of ${settlementMapId.print()}!"
     }
 }
 

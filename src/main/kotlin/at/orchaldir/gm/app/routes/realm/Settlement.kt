@@ -14,7 +14,7 @@ import at.orchaldir.gm.core.selector.character.countResidents
 import at.orchaldir.gm.core.selector.realm.getDistricts
 import at.orchaldir.gm.core.selector.util.sortSettlements
 import at.orchaldir.gm.core.selector.world.countBuildings
-import at.orchaldir.gm.core.selector.world.getCurrentTownMap
+import at.orchaldir.gm.core.selector.world.getCurrentSettlementMap
 import io.ktor.resources.*
 import io.ktor.server.application.*
 import io.ktor.server.resources.*
@@ -74,7 +74,7 @@ fun Application.configureSettlementRouting() {
                     createAgeColumn(state),
                     createVitalColumn(call, state, true),
                     createIdColumn(call, state, "Owner") { it.owner.current },
-                    createIdColumn(call, state, "Map") { state.getCurrentTownMap(it.id)?.id },
+                    createIdColumn(call, state, "Map") { state.getCurrentSettlementMap(it.id)?.id },
                     createAreaColumn(state),
                     createPopulationColumn(),
                     createPopulationDensityColumn(state),

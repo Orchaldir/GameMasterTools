@@ -1,19 +1,19 @@
-package at.orchaldir.gm.app.routes.world.town
+package at.orchaldir.gm.app.routes.world.settlement
 
 import at.orchaldir.gm.app.HEIGHT
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.WIDTH
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.routes.world.BuildingRoutes
-import at.orchaldir.gm.app.routes.world.town.TownMapRoutes.AbstractBuildingRoutes.*
+import at.orchaldir.gm.app.routes.world.settlement.SettlementMapRoutes.AbstractBuildingRoutes.*
 import at.orchaldir.gm.core.action.AddAbstractBuilding
 import at.orchaldir.gm.core.action.RemoveAbstractBuilding
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.world.town.*
+import at.orchaldir.gm.core.model.world.settlement.*
 import at.orchaldir.gm.core.selector.util.getBuildingsIn
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.renderer.svg.Svg
-import at.orchaldir.gm.visualization.town.visualizeTown
+import at.orchaldir.gm.visualization.settlement.visualizeSettlementMap
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
@@ -37,7 +37,7 @@ fun Application.configureAbstractBuildingEditorRouting() {
             logger.info { "Get the abstract building editor for town map ${edit.id.value}" }
 
             val state = STORE.getState()
-            val townMap = state.getTownMapStorage().getOrThrow(edit.id)
+            val townMap = state.getSettlementMapStorage().getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showAbstractBuildingEditor(call, state, townMap, edit.size)
@@ -47,7 +47,7 @@ fun Application.configureAbstractBuildingEditorRouting() {
             logger.info { "Preview the abstract building editor for town map ${preview.id.value}" }
 
             val state = STORE.getState()
-            val townMap = state.getTownMapStorage().getOrThrow(preview.id)
+            val townMap = state.getSettlementMapStorage().getOrThrow(preview.id)
             val params = call.receiveParameters()
             val size = MapSize2d(
                 parseInt(params, WIDTH, 1),
@@ -59,41 +59,41 @@ fun Application.configureAbstractBuildingEditorRouting() {
             }
         }
         get<Add> { add ->
-            logger.info { "Add a new abstract building to town map ${add.town.value}" }
+            logger.info { "Add a new abstract building to town map ${add.settlement.value}" }
 
-            STORE.dispatch(AddAbstractBuilding(add.town, add.tileIndex, add.size))
+            STORE.dispatch(AddAbstractBuilding(add.settlement, add.tileIndex, add.size))
             STORE.getState().save()
 
-            redirectToEdit(add.town, add.size)
+            redirectToEdit(add.settlement, add.size)
         }
         get<Remove> { remove ->
-            logger.info { "Remove an abstract building from town map ${remove.town.value}" }
+            logger.info { "Remove an abstract building from town map ${remove.settlement.value}" }
 
-            STORE.dispatch(RemoveAbstractBuilding(remove.town, remove.tileIndex))
+            STORE.dispatch(RemoveAbstractBuilding(remove.settlement, remove.tileIndex))
             STORE.getState().save()
 
-            redirectToEdit(remove.town)
+            redirectToEdit(remove.settlement)
         }
     }
 }
 
 private suspend fun PipelineContext<Unit, ApplicationCall>.redirectToEdit(
-    townMapId: TownMapId,
+    settlementMapId: SettlementMapId,
     size: MapSize2d = MapSize2d.square(1),
 ) {
-    call.respondRedirect(call.application.href(Edit(townMapId, size)))
+    call.respondRedirect(call.application.href(Edit(settlementMapId, size)))
 }
 
 private fun HTML.showAbstractBuildingEditor(
     call: ApplicationCall,
     state: State,
-    townMap: TownMap,
+    settlementMap: SettlementMap,
     size: MapSize2d = MapSize2d.square(1),
 ) {
-    val backLink = href(call, townMap.id)
-    val previewLink = call.application.href(Preview(townMap.id))
+    val backLink = href(call, settlementMap.id)
+    val previewLink = call.application.href(Preview(settlementMap.id))
 
-    simpleHtml("Edit Abstract Buildings of Town ${townMap.name(state)}") {
+    simpleHtml("Edit Abstract Buildings of Town ${settlementMap.name(state)}") {
         split({
             form {
                 id = "editor"
@@ -104,7 +104,7 @@ private fun HTML.showAbstractBuildingEditor(
             }
             back(backLink)
         }, {
-            svg(visualizeAbstractBuildingEditor(call, state, townMap, size), 90)
+            svg(visualizeAbstractBuildingEditor(call, state, settlementMap, size), 90)
         })
     }
 }
@@ -112,10 +112,10 @@ private fun HTML.showAbstractBuildingEditor(
 fun visualizeAbstractBuildingEditor(
     call: ApplicationCall,
     state: State,
-    town: TownMap,
+    town: SettlementMap,
     size: MapSize2d,
 ): Svg {
-    return visualizeTown(
+    return visualizeSettlementMap(
         town, state.getBuildingsIn(town.id),
         tileLinkLookup = { index, tile ->
             when (tile.construction) {

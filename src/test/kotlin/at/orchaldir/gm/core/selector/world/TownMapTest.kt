@@ -4,9 +4,9 @@ import at.orchaldir.gm.BUILDING_ID_0
 import at.orchaldir.gm.TOWN_MAP_ID_0
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.util.InTownMap
+import at.orchaldir.gm.core.model.util.InSettlementMap
 import at.orchaldir.gm.core.model.world.building.Building
-import at.orchaldir.gm.core.model.world.town.TownMap
+import at.orchaldir.gm.core.model.world.settlement.SettlementMap
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -17,13 +17,13 @@ class TownMapTest {
 
     @Nested
     inner class CanDeleteTest {
-        private val townMap = TownMap(TOWN_MAP_ID_0)
+        private val settlementMap = SettlementMap(TOWN_MAP_ID_0)
         private val state = State(
             listOf(
-                Storage(townMap),
+                Storage(settlementMap),
             )
         )
-        private val position = InTownMap(TOWN_MAP_ID_0, 0)
+        private val position = InSettlementMap(TOWN_MAP_ID_0, 0)
 
         @Test
         fun `Cannot delete an element used as a position`() {
@@ -34,7 +34,7 @@ class TownMapTest {
         }
 
         private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {
-            assertEquals(DeleteResult(TOWN_MAP_ID_0).addId(blockingId), state.canDeleteTownMap(TOWN_MAP_ID_0))
+            assertEquals(DeleteResult(TOWN_MAP_ID_0).addId(blockingId), state.canDeleteSettlementMap(TOWN_MAP_ID_0))
         }
     }
 

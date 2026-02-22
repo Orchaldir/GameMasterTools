@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.reducer.world.town
+package at.orchaldir.gm.core.reducer.world.settlement
 
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.UpdateAction
@@ -7,7 +7,7 @@ import at.orchaldir.gm.core.model.realm.Settlement
 import at.orchaldir.gm.core.model.world.street.Street
 import at.orchaldir.gm.core.model.world.street.StreetTemplate
 import at.orchaldir.gm.core.model.world.terrain.Region
-import at.orchaldir.gm.core.model.world.town.*
+import at.orchaldir.gm.core.model.world.settlement.*
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.map.TileMap2d
@@ -18,7 +18,7 @@ import kotlin.test.assertFailsWith
 
 class TownMapTest {
 
-    val townMap = TownMap(TOWN_MAP_ID_0)
+    val settlementMap = SettlementMap(TOWN_MAP_ID_0)
     private val STATE = State(
         listOf(
             Storage(CALENDAR0),
@@ -26,7 +26,7 @@ class TownMapTest {
             Storage(Street(STREET_ID_0)),
             Storage(StreetTemplate(STREET_TEMPLATE_ID_0)),
             Storage(Settlement(TOWN_ID_0)),
-            Storage(townMap),
+            Storage(settlementMap),
         )
     )
 
@@ -35,7 +35,7 @@ class TownMapTest {
 
         @Test
         fun `Cannot update unknown id`() {
-            val action = UpdateAction(townMap)
+            val action = UpdateAction(settlementMap)
 
             assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
         }
@@ -45,56 +45,56 @@ class TownMapTest {
 
             @Test
             fun `Building must exist`() {
-                testValid("Building", TownTile(construction = BuildingTile(UNKNOWN_BUILDING_ID)))
+                testValid("Building", SettlementTile(construction = BuildingTile(UNKNOWN_BUILDING_ID)))
             }
 
             @Test
             fun `Hill must exist`() {
                 val terrain = HillTerrain(UNKNOWN_REGION_ID)
-                testValid("Region", TownTile(terrain))
+                testValid("Region", SettlementTile(terrain))
             }
 
             @Test
             fun `Hill's region must be a mountain'`() {
                 val terrain = HillTerrain(REGION_ID_0)
-                testValid(TownTile(terrain), "Region 0 must be a mountain!")
+                testValid(SettlementTile(terrain), "Region 0 must be a mountain!")
             }
 
             @Test
             fun `Mountain must exist`() {
                 val terrain = MountainTerrain(UNKNOWN_REGION_ID)
-                testValid("Region", TownTile(terrain))
+                testValid("Region", SettlementTile(terrain))
             }
 
             @Test
             fun `Mountain's region must be a mountain'`() {
                 val terrain = MountainTerrain(REGION_ID_0)
-                testValid(TownTile(terrain), "Region 0 must be a mountain!")
+                testValid(SettlementTile(terrain), "Region 0 must be a mountain!")
             }
 
             @Test
             fun `River must exist`() {
                 val terrain = RiverTerrain(UNKNOWN_RIVER_ID)
-                testValid("River", TownTile(terrain))
+                testValid("River", SettlementTile(terrain))
             }
 
             @Test
             fun `Street template must exist`() {
-                testValid("Street Template", TownTile(construction = StreetTile(UNKNOWN_STREET_TEMPLATE_ID)))
+                testValid("Street Template", SettlementTile(construction = StreetTile(UNKNOWN_STREET_TEMPLATE_ID)))
             }
 
             @Test
             fun `Street must exist`() {
                 val construction = StreetTile(STREET_TEMPLATE_ID_0, UNKNOWN_STREET_ID)
-                testValid("Street", TownTile(construction = construction))
+                testValid("Street", SettlementTile(construction = construction))
             }
 
-            private fun testValid(noun: String, tile: TownTile) =
+            private fun testValid(noun: String, tile: SettlementTile) =
                 testValid(tile, "Requires unknown $noun 99!")
 
-            private fun testValid(tile: TownTile, message: String) {
+            private fun testValid(tile: SettlementTile, message: String) {
                 val map = TileMap2d(tile)
-                val action = UpdateAction(TownMap(TOWN_MAP_ID_0, map = map))
+                val action = UpdateAction(SettlementMap(TOWN_MAP_ID_0, map = map))
 
                 assertIllegalArgument(message) { REDUCER.invoke(STATE, action) }
             }
@@ -102,7 +102,7 @@ class TownMapTest {
 
         @Test
         fun `Town must exist`() {
-            val town = TownMap(TOWN_MAP_ID_0, town = UNKNOWN_TOWN_ID)
+            val town = SettlementMap(TOWN_MAP_ID_0, settlement = UNKNOWN_TOWN_ID)
             val action = UpdateAction(town)
 
             assertIllegalArgument("Requires unknown Town 99!") { REDUCER.invoke(STATE, action) }
@@ -110,9 +110,9 @@ class TownMapTest {
 
         @Test
         fun `Town and date combination must be unique`() {
-            val map0 = TownMap(TOWN_MAP_ID_0, town = TOWN_ID_0, date = DAY0)
-            val map1 = TownMap(TOWN_MAP_ID_1, town = TOWN_ID_0, date = DAY0)
-            val state = STATE.updateStorage(Storage(listOf(townMap, map1)))
+            val map0 = SettlementMap(TOWN_MAP_ID_0, settlement = TOWN_ID_0, date = DAY0)
+            val map1 = SettlementMap(TOWN_MAP_ID_1, settlement = TOWN_ID_0, date = DAY0)
+            val state = STATE.updateStorage(Storage(listOf(settlementMap, map1)))
             val action = UpdateAction(map0)
 
             assertIllegalArgument("Multiple maps have the same town & date combination!") {
@@ -122,10 +122,10 @@ class TownMapTest {
 
         @Test
         fun `Update is valid`() {
-            val town = TownMap(TOWN_MAP_ID_0, date = DAY0)
+            val town = SettlementMap(TOWN_MAP_ID_0, date = DAY0)
             val action = UpdateAction(town)
 
-            assertEquals(town, REDUCER.invoke(STATE, action).first.getTownMapStorage().get(TOWN_MAP_ID_0))
+            assertEquals(town, REDUCER.invoke(STATE, action).first.getSettlementMapStorage().get(TOWN_MAP_ID_0))
         }
     }
 

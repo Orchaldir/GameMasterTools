@@ -29,7 +29,7 @@ import at.orchaldir.gm.app.routes.time.HolidayRoutes
 import at.orchaldir.gm.app.routes.time.TimeRoutes
 import at.orchaldir.gm.app.routes.utls.*
 import at.orchaldir.gm.app.routes.world.*
-import at.orchaldir.gm.app.routes.world.town.TownMapRoutes
+import at.orchaldir.gm.app.routes.world.settlement.SettlementMapRoutes
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.CharacterTemplateId
@@ -85,7 +85,7 @@ import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.street.StreetTemplateId
 import at.orchaldir.gm.core.model.world.terrain.RegionId
 import at.orchaldir.gm.core.model.world.terrain.RiverId
-import at.orchaldir.gm.core.model.world.town.TownMapId
+import at.orchaldir.gm.core.model.world.settlement.SettlementMapId
 import at.orchaldir.gm.core.selector.time.date.display
 import at.orchaldir.gm.core.selector.time.date.resolve
 import at.orchaldir.gm.core.selector.time.getCurrentDate
@@ -438,7 +438,7 @@ fun href(
     is StreetTemplateId -> call.application.href(StreetTemplateRoutes.Details(id))
     is TextId -> call.application.href(TextRoutes.Details(id))
     is TitleId -> call.application.href(TitleRoutes.Details(id))
-    is TownMapId -> call.application.href(TownMapRoutes.Details(id))
+    is SettlementMapId -> call.application.href(SettlementMapRoutes.Details(id))
     is TreatyId -> call.application.href(TreatyRoutes.Details(id))
     is UniformId -> call.application.href(UniformRoutes.Details(id))
     is WarId -> call.application.href(WarRoutes.Details(id))

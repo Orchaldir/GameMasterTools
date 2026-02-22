@@ -53,7 +53,7 @@ import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.street.StreetTemplateId
 import at.orchaldir.gm.core.model.world.terrain.RegionId
 import at.orchaldir.gm.core.model.world.terrain.RiverId
-import at.orchaldir.gm.core.model.world.town.TownMapId
+import at.orchaldir.gm.core.model.world.settlement.SettlementMapId
 import at.orchaldir.gm.core.reducer.world.deleteBuilding
 import at.orchaldir.gm.core.selector.character.canDeleteCharacter
 import at.orchaldir.gm.core.selector.character.canDeleteCharacterTemplate
@@ -158,7 +158,7 @@ fun reduceDeleteElement(
     is TextId -> deleteElement(state, id, State::canDeleteText)
     is TitleId -> deleteElement(state, id, State::canDeleteTitle)
     is SettlementId -> deleteElement(state, id, State::canDeleteSettlement)
-    is TownMapId -> deleteElement(state, id, State::canDeleteTownMap)
+    is SettlementMapId -> deleteElement(state, id, State::canDeleteSettlementMap)
     is TreatyId -> deleteElement(state, id, State::canDeleteTreaty)
     is UniformId -> deleteElement(state, id, State::canDeleteUniform)
     is WarId -> deleteElement(state, id, State::canDeleteWar)

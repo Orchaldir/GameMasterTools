@@ -9,9 +9,9 @@ import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.InRegion
 import at.orchaldir.gm.core.model.util.Position
 import at.orchaldir.gm.core.model.world.terrain.Region
-import at.orchaldir.gm.core.model.world.town.MountainTerrain
-import at.orchaldir.gm.core.model.world.town.TownMap
-import at.orchaldir.gm.core.model.world.town.TownTile
+import at.orchaldir.gm.core.model.world.settlement.MountainTerrain
+import at.orchaldir.gm.core.model.world.settlement.SettlementMap
+import at.orchaldir.gm.core.model.world.settlement.SettlementTile
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.map.TileMap2d
@@ -33,8 +33,8 @@ class RegionTest {
 
         @Test
         fun `Cannot delete, if used by a town map`() {
-            val map = TileMap2d(TownTile(MountainTerrain(REGION_ID_0)))
-            val newState = state.updateStorage(TownMap(TOWN_MAP_ID_0, map = map))
+            val map = TileMap2d(SettlementTile(MountainTerrain(REGION_ID_0)))
+            val newState = state.updateStorage(SettlementMap(TOWN_MAP_ID_0, map = map))
 
             failCanDelete(newState, TOWN_MAP_ID_0)
         }

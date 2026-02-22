@@ -47,7 +47,7 @@ fun HtmlBlockTag.editBuilding(
         building.constructionDate,
         ALLOWED_BUILDING_POSITIONS,
     ) { townMapId ->
-        val townMap = state.getTownMapStorage().getOrThrow(townMapId)
+        val townMap = state.getSettlementMapStorage().getOrThrow(townMapId)
 
         (0..<townMap.map.size.tiles()).filter { index ->
             townMap.canResize(index, building.size, building.id)

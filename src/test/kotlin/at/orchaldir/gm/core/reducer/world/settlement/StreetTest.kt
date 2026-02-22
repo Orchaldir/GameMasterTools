@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.reducer.world.town
+package at.orchaldir.gm.core.reducer.world.settlement
 
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.AddStreetTile
@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.action.RemoveStreetTile
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.street.Street
 import at.orchaldir.gm.core.model.world.street.StreetTemplate
-import at.orchaldir.gm.core.model.world.town.*
+import at.orchaldir.gm.core.model.world.settlement.*
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.map.TileMap2d
@@ -16,16 +16,16 @@ import kotlin.test.assertEquals
 
 class StreetTest {
 
-    private val ABSTRACT_TILE = TownTile(construction = AbstractBuildingTile)
-    private val BUILDING_TILE = TownTile(construction = BuildingTile(BUILDING_ID_0))
-    private val STREET_TILE = TownTile(construction = StreetTile(STREET_TEMPLATE_ID_0, STREET_ID_0))
-    private val EMPTY = TownTile()
+    private val ABSTRACT_TILE = SettlementTile(construction = AbstractBuildingTile)
+    private val BUILDING_TILE = SettlementTile(construction = BuildingTile(BUILDING_ID_0))
+    private val STREET_TILE = SettlementTile(construction = StreetTile(STREET_TEMPLATE_ID_0, STREET_ID_0))
+    private val EMPTY = SettlementTile()
     private val STATE = State(
         listOf(
             Storage(CALENDAR0),
             Storage(Street(STREET_ID_0)),
             Storage(StreetTemplate(STREET_TEMPLATE_ID_0)),
-            Storage(TownMap(TOWN_MAP_ID_0)),
+            Storage(SettlementMap(TOWN_MAP_ID_0)),
         )
     )
 
@@ -80,9 +80,9 @@ class StreetTest {
             testTileNotEmpty(STREET_TILE)
         }
 
-        private fun testTileNotEmpty(townTile: TownTile) {
-            val map = TileMap2d(townTile)
-            val town = TownMap(TOWN_MAP_ID_0, map = map)
+        private fun testTileNotEmpty(settlementTile: SettlementTile) {
+            val map = TileMap2d(settlementTile)
+            val town = SettlementMap(TOWN_MAP_ID_0, map = map)
             val state = STATE.updateStorage(town)
             val action = AddStreetTile(TOWN_MAP_ID_0, 0, STREET_TEMPLATE_ID_0, STREET_ID_0)
 
@@ -92,13 +92,13 @@ class StreetTest {
         @Test
         fun `Successfully set a street`() {
             val map = TileMap2d(EMPTY)
-            val town = TownMap(TOWN_MAP_ID_0, map = map)
+            val town = SettlementMap(TOWN_MAP_ID_0, map = map)
             val state = STATE.updateStorage(town)
             val action = AddStreetTile(TOWN_MAP_ID_0, 0, STREET_TEMPLATE_ID_0, STREET_ID_0)
 
             assertEquals(
                 STREET_TILE,
-                REDUCER.invoke(state, action).first.getTownMapStorage().get(TOWN_MAP_ID_0)?.map?.getTile(0)
+                REDUCER.invoke(state, action).first.getSettlementMapStorage().get(TOWN_MAP_ID_0)?.map?.getTile(0)
             )
         }
     }
@@ -137,8 +137,8 @@ class StreetTest {
             testWrongType(BUILDING_TILE)
         }
 
-        private fun testWrongType(tile: TownTile) {
-            val town = TownMap(TOWN_MAP_ID_0, map = TileMap2d(tile))
+        private fun testWrongType(tile: SettlementTile) {
+            val town = SettlementMap(TOWN_MAP_ID_0, map = TileMap2d(tile))
             val state = State(Storage(town))
             val action = RemoveStreetTile(TOWN_MAP_ID_0, 0)
 
@@ -147,13 +147,13 @@ class StreetTest {
 
         @Test
         fun `Successfully removed a street`() {
-            val town = TownMap(TOWN_MAP_ID_0, map = TileMap2d(STREET_TILE))
+            val town = SettlementMap(TOWN_MAP_ID_0, map = TileMap2d(STREET_TILE))
             val state = State(Storage(town))
             val action = RemoveStreetTile(TOWN_MAP_ID_0, 0)
 
             assertEquals(
                 EMPTY,
-                REDUCER.invoke(state, action).first.getTownMapStorage().get(TOWN_MAP_ID_0)?.map?.getTile(0)
+                REDUCER.invoke(state, action).first.getSettlementMapStorage().get(TOWN_MAP_ID_0)?.map?.getTile(0)
             )
         }
 

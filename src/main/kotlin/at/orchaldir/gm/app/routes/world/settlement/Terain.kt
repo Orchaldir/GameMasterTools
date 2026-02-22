@@ -1,4 +1,4 @@
-package at.orchaldir.gm.app.routes.world.town
+package at.orchaldir.gm.app.routes.world.settlement
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
@@ -10,15 +10,15 @@ import at.orchaldir.gm.core.action.SetTerrainTile
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.world.terrain.RegionDataType
-import at.orchaldir.gm.core.model.world.town.TerrainType
-import at.orchaldir.gm.core.model.world.town.TownMap
+import at.orchaldir.gm.core.model.world.settlement.TerrainType
+import at.orchaldir.gm.core.model.world.settlement.SettlementMap
 import at.orchaldir.gm.core.selector.util.getBuildingsIn
 import at.orchaldir.gm.core.selector.world.*
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.map.Resize
-import at.orchaldir.gm.visualization.town.showTerrainName
-import at.orchaldir.gm.visualization.town.visualizeTown
+import at.orchaldir.gm.visualization.settlement.showTerrainName
+import at.orchaldir.gm.visualization.settlement.visualizeSettlementMap
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
@@ -37,21 +37,21 @@ private val logger = KotlinLogging.logger {}
 
 fun Application.configureTerrainRouting() {
     routing {
-        get<TownMapRoutes.TerrainRoutes.Edit> { edit ->
+        get<SettlementMapRoutes.TerrainRoutes.Edit> { edit ->
             logger.info { "Get the terrain editor for town map ${edit.id.value}" }
 
             val state = STORE.getState()
-            val town = state.getTownMapStorage().getOrThrow(edit.id)
+            val town = state.getSettlementMapStorage().getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showTerrainEditor(call, state, town, TerrainType.Plain, 0)
             }
         }
-        post<TownMapRoutes.TerrainRoutes.Preview> { preview ->
+        post<SettlementMapRoutes.TerrainRoutes.Preview> { preview ->
             logger.info { "Preview the terrain editor for town map ${preview.id.value}" }
 
             val state = STORE.getState()
-            val townMap = state.getTownMapStorage().getOrThrow(preview.id)
+            val townMap = state.getSettlementMapStorage().getOrThrow(preview.id)
             val params = call.receiveParameters()
             val terrainType = parseTerrainType(params)
             val terrainId: Int = parseInt(params, TERRAIN, 0)
@@ -60,20 +60,20 @@ fun Application.configureTerrainRouting() {
                 showTerrainEditor(call, state, townMap, terrainType, terrainId)
             }
         }
-        get<TownMapRoutes.TerrainRoutes.Update> { update ->
+        get<SettlementMapRoutes.TerrainRoutes.Update> { update ->
             logger.info { "Update the terrain to ${update.terrainType} with id ${update.terrainId} for tile ${update.tileIndex} for town map ${update.id.value}" }
 
             STORE.dispatch(SetTerrainTile(update.id, update.terrainType, update.terrainId, update.tileIndex))
 
             val state = STORE.getState()
             state.save()
-            val townMap = state.getTownMapStorage().getOrThrow(update.id)
+            val townMap = state.getSettlementMapStorage().getOrThrow(update.id)
 
             call.respondHtml(HttpStatusCode.OK) {
                 showTerrainEditor(call, state, townMap, update.terrainType, update.terrainId)
             }
         }
-        post<TownMapRoutes.TerrainRoutes.Resize> { update ->
+        post<SettlementMapRoutes.TerrainRoutes.Resize> { update ->
             logger.info { "Resize the terrain of town map ${update.id.value}" }
 
             val params = call.receiveParameters()
@@ -91,7 +91,7 @@ fun Application.configureTerrainRouting() {
 
             STORE.getState().save()
 
-            call.respondRedirect(call.application.href(TownMapRoutes.TerrainRoutes.Edit(update.id)))
+            call.respondRedirect(call.application.href(SettlementMapRoutes.TerrainRoutes.Edit(update.id)))
         }
     }
 }
@@ -99,27 +99,27 @@ fun Application.configureTerrainRouting() {
 private fun HTML.showTerrainEditor(
     call: ApplicationCall,
     state: State,
-    townMap: TownMap,
+    settlementMap: SettlementMap,
     terrainType: TerrainType,
     terrainId: Int,
 ) {
-    val backLink = href(call, townMap.id)
-    val previewLink = call.application.href(TownMapRoutes.TerrainRoutes.Preview(townMap.id))
-    val resizeLink = call.application.href(TownMapRoutes.TerrainRoutes.Resize(townMap.id))
+    val backLink = href(call, settlementMap.id)
+    val previewLink = call.application.href(SettlementMapRoutes.TerrainRoutes.Preview(settlementMap.id))
+    val resizeLink = call.application.href(SettlementMapRoutes.TerrainRoutes.Resize(settlementMap.id))
 
-    simpleHtml("Edit Terrain of Town Map ${townMap.name(state)}") {
+    simpleHtml("Edit Terrain of Town Map ${settlementMap.name(state)}") {
         split({
             formWithPreview(previewLink, resizeLink, backLink, "Resize") {
-                editTerrain(call, state, terrainType, terrainId, townMap)
+                editTerrain(call, state, terrainType, terrainId, settlementMap)
             }
         }, {
             svg(
-                visualizeTown(
-                    townMap, state.getBuildingsIn(townMap.id),
+                visualizeSettlementMap(
+                    settlementMap, state.getBuildingsIn(settlementMap.id),
                     tileLinkLookup = { index, _ ->
                         call.application.href(
-                            TownMapRoutes.TerrainRoutes.Update(
-                                townMap.id,
+                            SettlementMapRoutes.TerrainRoutes.Update(
+                                settlementMap.id,
                                 terrainType,
                                 terrainId,
                                 index
@@ -138,7 +138,7 @@ private fun HtmlBlockTag.editTerrain(
     state: State,
     terrainType: TerrainType,
     terrainId: Int,
-    townMap: TownMap,
+    settlementMap: SettlementMap,
 ) {
     val createMountainLink = call.application.href(RegionRoutes.New())
     val createRiverLink = call.application.href(RiverRoutes.New())
@@ -175,19 +175,19 @@ private fun HtmlBlockTag.editTerrain(
 
     h2 { +"Resize" }
 
-    field("Size", townMap.map.size.format())
+    field("Size", settlementMap.map.size.format())
     val maxDelta = 100
     selectInt(
         "Add/Remove Columns At Start",
         0,
-        getMinWidthStart(townMap),
+        getMinWidthStart(settlementMap),
         maxDelta,
         1,
         combine(WIDTH, START)
     )
-    selectInt("Add/Remove Columns At End", 0, getMinWidthEnd(townMap), maxDelta, 1, combine(WIDTH, END))
-    selectInt("Add/Remove Rows At Start", 0, getMinHeightStart(townMap), maxDelta, 1, combine(HEIGHT, START))
-    selectInt("Add/Remove Rows At End", 0, getMinHeightEnd(townMap), maxDelta, 1, combine(HEIGHT, END))
+    selectInt("Add/Remove Columns At End", 0, getMinWidthEnd(settlementMap), maxDelta, 1, combine(WIDTH, END))
+    selectInt("Add/Remove Rows At Start", 0, getMinHeightStart(settlementMap), maxDelta, 1, combine(HEIGHT, START))
+    selectInt("Add/Remove Rows At End", 0, getMinHeightEnd(settlementMap), maxDelta, 1, combine(HEIGHT, END))
 }
 
 private fun <ID : Id<ID>> HtmlBlockTag.selectTerrain(

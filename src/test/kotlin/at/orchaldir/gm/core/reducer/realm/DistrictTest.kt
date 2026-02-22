@@ -8,7 +8,7 @@ import at.orchaldir.gm.core.model.realm.District
 import at.orchaldir.gm.core.model.realm.Settlement
 import at.orchaldir.gm.core.model.realm.population.TotalPopulation
 import at.orchaldir.gm.core.model.util.CharacterReference
-import at.orchaldir.gm.core.model.util.InTown
+import at.orchaldir.gm.core.model.util.InSettlement
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
@@ -45,7 +45,7 @@ class DistrictTest {
 
         @Test
         fun `Position must exist`() {
-            val action = UpdateAction(District(DISTRICT_ID_0, position = InTown(UNKNOWN_TOWN_ID)))
+            val action = UpdateAction(District(DISTRICT_ID_0, position = InSettlement(UNKNOWN_TOWN_ID)))
 
             assertIllegalArgument("Requires unknown position!") { REDUCER.invoke(STATE, action) }
         }

@@ -1,12 +1,12 @@
-package at.orchaldir.gm.core.model.world.town
+package at.orchaldir.gm.core.model.world.settlement
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.SettlementId
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.HasStartDate
 import at.orchaldir.gm.core.model.world.building.BuildingId
-import at.orchaldir.gm.core.reducer.world.town.hasDuplicateTownAndDate
-import at.orchaldir.gm.core.reducer.world.town.validateTownTile
+import at.orchaldir.gm.core.reducer.world.settlement.hasDuplicateSettlementAndDate
+import at.orchaldir.gm.core.reducer.world.settlement.validateSettlementTile
 import at.orchaldir.gm.core.selector.time.date.display
 import at.orchaldir.gm.core.selector.time.getDefaultCalendar
 import at.orchaldir.gm.utils.Element
@@ -17,39 +17,39 @@ import at.orchaldir.gm.utils.map.TileMap2d
 import at.orchaldir.gm.utils.update
 import kotlinx.serialization.Serializable
 
-const val TOWN_MAP_TYPE = "Town Map"
+const val SETTLEMENT_MAP_TYPE = "Settlement Map"
 
 @JvmInline
 @Serializable
-value class TownMapId(val value: Int) : Id<TownMapId> {
+value class SettlementMapId(val value: Int) : Id<SettlementMapId> {
 
-    override fun next() = TownMapId(value + 1)
-    override fun type() = TOWN_MAP_TYPE
+    override fun next() = SettlementMapId(value + 1)
+    override fun type() = SETTLEMENT_MAP_TYPE
     override fun value() = value
 
 }
 
 @Serializable
-data class TownMap(
-    val id: TownMapId,
-    val town: SettlementId? = null,
+data class SettlementMap(
+    val id: SettlementMapId,
+    val settlement: SettlementId? = null,
     val date: Date? = null,
-    val map: TileMap2d<TownTile> = TileMap2d(square(10), TownTile()),
-) : Element<TownMapId>, HasStartDate {
+    val map: TileMap2d<SettlementTile> = TileMap2d(square(10), SettlementTile()),
+) : Element<SettlementMapId>, HasStartDate {
 
     override fun id() = id
     override fun name(state: State) =
-        if (town == null) {
-            "Town Map ${id.value}"
+        if (settlement == null) {
+            "$SETTLEMENT_MAP_TYPE ${id.value}"
         } else {
-            val town = state.getSettlementStorage().getOrThrow(town)
+            val settlement = state.getSettlementStorage().getOrThrow(settlement)
 
             if (date != null) {
                 val calendar = state.getDefaultCalendar()
                 val dateText = display(calendar, date)
-                "${town.name.text} ($dateText)"
+                "${settlement.name.text} ($dateText)"
             } else {
-                town.name()
+                settlement.name()
             }
         }
 
@@ -59,17 +59,17 @@ data class TownMap(
     fun canResize(index: Int, size: MapSize2d, building: BuildingId) =
         checkTiles(index, size) { it.canResize(building) }
 
-    fun checkTile(x: Int, y: Int, check: (TownTile) -> Boolean) = map
+    fun checkTile(x: Int, y: Int, check: (SettlementTile) -> Boolean) = map
         .getTile(x, y)
         ?.let(check)
         ?: false
 
-    fun checkTiles(index: Int, size: MapSize2d, check: (TownTile) -> Boolean) = map
+    fun checkTiles(index: Int, size: MapSize2d, check: (SettlementTile) -> Boolean) = map
         .size.toIndices(index, size)
         ?.all { check(map.getRequiredTile(it)) }
         ?: false
 
-    fun build(index: Int, construction: Construction): TownMap {
+    fun build(index: Int, construction: Construction): SettlementMap {
         val oldTile = map.getRequiredTile(index)
 
         require(oldTile.canBuild()) { "Tile $index is not empty!" }
@@ -82,8 +82,8 @@ data class TownMap(
     fun build(index: Int, size: MapSize2d, construction: Construction) =
         build(index, size, { construction })
 
-    fun build(index: Int, size: MapSize2d, lookup: (Int) -> Construction): TownMap {
-        val tiles = mutableMapOf<Int, TownTile>()
+    fun build(index: Int, size: MapSize2d, lookup: (Int) -> Construction): SettlementMap {
+        val tiles = mutableMapOf<Int, SettlementTile>()
 
         map.size.toIndices(index, size)?.forEach { tileIndex ->
             val oldTile = map.getRequiredTile(tileIndex)
@@ -108,8 +108,8 @@ data class TownMap(
         }
     }
 
-    fun removeAbstractBuilding(index: Int): TownMap {
-        val tiles = mutableMapOf<Int, TownTile>()
+    fun removeAbstractBuilding(index: Int): SettlementMap {
+        val tiles = mutableMapOf<Int, SettlementTile>()
         val oldTile = map.getRequiredTile(index)
 
         when (oldTile.construction) {
@@ -129,7 +129,7 @@ data class TownMap(
         return updateTiles(tiles)
     }
 
-    fun removeBuilding(building: BuildingId): TownMap {
+    fun removeBuilding(building: BuildingId): SettlementMap {
         return copy(map = map.copy(tiles = map.tiles.map { tile ->
             if (tile.construction is BuildingTile && tile.construction.building == building) {
                 tile.copy(construction = NoConstruction)
@@ -139,7 +139,7 @@ data class TownMap(
         }))
     }
 
-    fun removeStreet(index: Int): TownMap {
+    fun removeStreet(index: Int): SettlementMap {
         val oldTile = map.getRequiredTile(index)
 
         require(oldTile.construction is StreetTile) { "Tile $index is not a street!" }
@@ -149,20 +149,20 @@ data class TownMap(
         return updateTile(index, tile)
     }
 
-    fun setTerrain(index: Int, terrain: Terrain): TownMap {
+    fun setTerrain(index: Int, terrain: Terrain): SettlementMap {
         val oldTile = map.getRequiredTile(index)
         val tile = oldTile.copy(terrain = terrain)
 
         return updateTile(index, tile)
     }
 
-    private fun updateTile(index: Int, tile: TownTile): TownMap {
+    private fun updateTile(index: Int, tile: SettlementTile): SettlementMap {
         val tiles = map.tiles.update(index, tile)
 
         return copy(map = map.copy(tiles = tiles))
     }
 
-    private fun updateTiles(tiles: Map<Int, TownTile>): TownMap {
+    private fun updateTiles(tiles: Map<Int, SettlementTile>): SettlementMap {
         return copy(map = map.copy(tiles = map.tiles.update(tiles)))
     }
 
@@ -170,8 +170,8 @@ data class TownMap(
         .build(tileIndex, size, BuildingTile(building))
 
     override fun validate(state: State) {
-        state.getSettlementStorage().requireOptional(town)
-        require(!hasDuplicateTownAndDate(state, this)) { "Multiple maps have the same town & date combination!" }
-        map.tiles.forEach { validateTownTile(state, it) }
+        state.getSettlementStorage().requireOptional(settlement)
+        require(!hasDuplicateSettlementAndDate(state, this)) { "Multiple maps have the same town & date combination!" }
+        map.tiles.forEach { validateSettlementTile(state, it) }
     }
 }

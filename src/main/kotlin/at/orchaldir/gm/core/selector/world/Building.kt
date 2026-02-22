@@ -17,7 +17,7 @@ fun State.canDeleteBuilding(building: BuildingId) = DeleteResult(building)
     .apply { canDeleteWithPositions(building, it) }
 
 fun State.countBuildings(settlementId: SettlementId): Int {
-    val countInTownMap = getCurrentTownMap(settlementId)?.let { countBuildingsIn(it.id) } ?: 0
+    val countInTownMap = getCurrentSettlementMap(settlementId)?.let { countBuildingsIn(it.id) } ?: 0
 
     return countInTownMap + countBuildingsIn(settlementId)
 }

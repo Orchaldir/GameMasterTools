@@ -1,24 +1,24 @@
-package at.orchaldir.gm.core.reducer.world.town
+package at.orchaldir.gm.core.reducer.world.settlement
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.terrain.RegionDataType
 import at.orchaldir.gm.core.model.world.terrain.RegionId
-import at.orchaldir.gm.core.model.world.town.*
+import at.orchaldir.gm.core.model.world.settlement.*
 import at.orchaldir.gm.utils.doNothing
 
-fun hasDuplicateTownAndDate(state: State, townMap: TownMap) = state
-    .getTownMapStorage()
+fun hasDuplicateSettlementAndDate(state: State, map: SettlementMap) = state
+    .getSettlementMapStorage()
     .getAll()
-    .filter { it.id != townMap.id }
+    .filter { it.id != map.id }
     .any {
-        if (it.town != null) {
-            it.town == townMap.town && it.date == townMap.date
+        if (it.settlement != null) {
+            it.settlement == map.settlement && it.date == map.date
         } else {
             false
         }
     }
 
-fun validateTownTile(state: State, tile: TownTile) {
+fun validateSettlementTile(state: State, tile: SettlementTile) {
     validateConstruction(state, tile.construction)
     validateTerrain(state, tile.terrain)
 }

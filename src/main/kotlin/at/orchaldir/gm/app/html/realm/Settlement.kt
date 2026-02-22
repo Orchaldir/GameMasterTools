@@ -17,7 +17,7 @@ import at.orchaldir.gm.app.html.util.math.selectAreaLookup
 import at.orchaldir.gm.app.html.util.source.editDataSources
 import at.orchaldir.gm.app.html.util.source.parseDataSources
 import at.orchaldir.gm.app.html.util.source.showDataSources
-import at.orchaldir.gm.app.html.world.showCharactersOfTownMap
+import at.orchaldir.gm.app.html.world.showCharactersOfSettlementMap
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.realm.population.Population
@@ -26,8 +26,8 @@ import at.orchaldir.gm.core.selector.realm.getExistingRealms
 import at.orchaldir.gm.core.selector.realm.getRealmsWithCapital
 import at.orchaldir.gm.core.selector.realm.getRealmsWithPreviousCapital
 import at.orchaldir.gm.core.selector.util.sortDistricts
-import at.orchaldir.gm.core.selector.world.getCurrentTownMap
-import at.orchaldir.gm.core.selector.world.getTownMaps
+import at.orchaldir.gm.core.selector.world.getCurrentSettlementMap
+import at.orchaldir.gm.core.selector.world.getSettlementMaps
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.*
@@ -53,16 +53,16 @@ fun HtmlBlockTag.showSettlement(
     showSubDistricts(call, state, state.getDistricts(settlement.id), settlement.population)
     showDataSources(call, state, settlement.sources)
 
-    val currentTownMap = state.getCurrentTownMap(settlement.id)
+    val currentTownMap = state.getCurrentSettlementMap(settlement.id)
 
     if (currentTownMap != null) {
         optionalFieldLink(call, state, currentTownMap.id)
-        fieldElements(call, state, "Previous Town Maps", state.getTownMaps(settlement.id) - currentTownMap)
+        fieldElements(call, state, "Previous Town Maps", state.getSettlementMaps(settlement.id) - currentTownMap)
         showLocalElements(call, state, settlement, currentTownMap)
     } else {
         showLocalElements(call, state, settlement.id)
     }
-    showCharactersOfTownMap(call, state, settlement.id, currentTownMap?.id)
+    showCharactersOfSettlementMap(call, state, settlement.id, currentTownMap?.id)
 
     showCreated(call, state, settlement.id)
     showOwnedElements(call, state, settlement.id)

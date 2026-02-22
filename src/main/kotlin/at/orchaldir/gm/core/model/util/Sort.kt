@@ -311,6 +311,10 @@ enum class SortSettlement {
     Residents,
 }
 
+enum class SortSettlementMap {
+    Name,
+}
+
 enum class SortShieldType {
     Name,
     Equipment,
@@ -350,10 +354,6 @@ enum class SortText {
 enum class SortTitle {
     Name,
     Characters,
-}
-
-enum class SortTownMap {
-    Name,
 }
 
 enum class SortTreaty {

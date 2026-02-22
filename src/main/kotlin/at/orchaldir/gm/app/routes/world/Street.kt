@@ -13,7 +13,7 @@ import at.orchaldir.gm.core.model.util.SortStreet
 import at.orchaldir.gm.core.model.world.street.STREET_TYPE
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.selector.util.sortStreets
-import at.orchaldir.gm.core.selector.world.getTowns
+import at.orchaldir.gm.core.selector.world.getSettlementMaps
 import io.ktor.resources.*
 import io.ktor.server.application.*
 import io.ktor.server.resources.*
@@ -66,7 +66,7 @@ fun Application.configureStreetRouting() {
                 state.sortStreets(all.sort),
                 listOf(
                     createNameColumn(call, state),
-                    Column("Towns") { tdInlineElements(call, state, state.getTowns(it.id)) }
+                    Column("Towns") { tdInlineElements(call, state, state.getSettlementMaps(it.id)) }
                 ),
             )
         }

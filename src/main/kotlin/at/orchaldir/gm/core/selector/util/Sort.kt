@@ -53,7 +53,7 @@ import at.orchaldir.gm.core.model.world.street.Street
 import at.orchaldir.gm.core.model.world.street.StreetTemplate
 import at.orchaldir.gm.core.model.world.terrain.Region
 import at.orchaldir.gm.core.model.world.terrain.River
-import at.orchaldir.gm.core.model.world.town.TownMap
+import at.orchaldir.gm.core.model.world.settlement.SettlementMap
 import at.orchaldir.gm.core.selector.character.countCharacters
 import at.orchaldir.gm.core.selector.character.countCharactersWithJob
 import at.orchaldir.gm.core.selector.character.countResidents
@@ -983,6 +983,21 @@ fun State.sortSettlements(
             SortSettlement.Residents -> compareByDescending { countResidents(it.id) }
         })
 
+// settlement map
+
+fun State.sortSettlementMaps(sort: SortSettlementMap = SortSettlementMap.Name) =
+    sortSettlementMaps(getSettlementMapStorage().getAll(), sort)
+
+fun State.sortSettlementMaps(
+    towns: Collection<SettlementMap>,
+    sort: SortSettlementMap = SortSettlementMap.Name,
+) = towns
+    .sortedWith(
+        when (sort) {
+            SortSettlementMap.Name -> compareByDescending<SettlementMap> { it.name(this) }
+                .thenComparing(getStartDateComparator())
+        })
+
 // shield types
 
 fun State.sortShieldTypes(sort: SortShieldType = SortShieldType.Name) =
@@ -1108,21 +1123,6 @@ fun State.sortTitles(
             SortTitle.Characters -> compareByDescending { countCharacters(it.id) }
         }
     )
-
-// town map
-
-fun State.sortTownMaps(sort: SortTownMap = SortTownMap.Name) =
-    sortTownMaps(getTownMapStorage().getAll(), sort)
-
-fun State.sortTownMaps(
-    towns: Collection<TownMap>,
-    sort: SortTownMap = SortTownMap.Name,
-) = towns
-    .sortedWith(
-        when (sort) {
-            SortTownMap.Name -> compareByDescending<TownMap> { it.name(this) }
-                .thenComparing(getStartDateComparator())
-        })
 
 // treaty
 

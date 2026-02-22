@@ -9,7 +9,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.world.street.StreetTemplate
 import at.orchaldir.gm.core.model.world.street.StreetTemplateId
-import at.orchaldir.gm.core.selector.world.getTowns
+import at.orchaldir.gm.core.selector.world.getSettlementMaps
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -23,7 +23,7 @@ fun HtmlBlockTag.showStreetTemplate(
 ) {
     fieldColor(template.color)
     showMaterialCost(call, state, template.materialCost)
-    fieldElements(call, state, state.getTowns(template.id))
+    fieldElements(call, state, state.getSettlementMaps(template.id))
 }
 
 // edit

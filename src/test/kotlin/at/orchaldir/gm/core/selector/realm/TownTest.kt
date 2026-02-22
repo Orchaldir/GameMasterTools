@@ -11,7 +11,7 @@ import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.Building
-import at.orchaldir.gm.core.model.world.town.TownMap
+import at.orchaldir.gm.core.model.world.settlement.SettlementMap
 import at.orchaldir.gm.core.selector.realm.canDeleteSettlement
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
@@ -58,7 +58,7 @@ class TownTest {
 
         @Test
         fun `Cannot delete a town that has districts`() {
-            val district = District(DISTRICT_ID_0, position = InTown(TOWN_ID_0))
+            val district = District(DISTRICT_ID_0, position = InSettlement(TOWN_ID_0))
             val newState = state.updateStorage(district)
 
             failCanDelete(newState, DISTRICT_ID_0)
@@ -66,7 +66,7 @@ class TownTest {
 
         @Test
         fun `Cannot delete a town that has a town map`() {
-            val map = TownMap(TOWN_MAP_ID_0, TOWN_ID_0)
+            val map = SettlementMap(TOWN_MAP_ID_0, TOWN_ID_0)
             val newState = state.updateStorage(map)
 
             failCanDelete(newState, TOWN_MAP_ID_0)
@@ -100,7 +100,7 @@ class TownTest {
 
         @Test
         fun `Cannot delete a town that is the home of a character`() {
-            val housingStatus = History<Position>(InTown(TOWN_ID_0))
+            val housingStatus = History<Position>(InSettlement(TOWN_ID_0))
             val character = Character(CHARACTER_ID_0, housingStatus = housingStatus)
             val newState = state.updateStorage(character)
 
@@ -128,7 +128,7 @@ class TownTest {
 
         @Test
         fun `Cannot delete a town used as a position`() {
-            val business = Business(BUSINESS_ID_0, position = InTown(TOWN_ID_0))
+            val business = Business(BUSINESS_ID_0, position = InSettlement(TOWN_ID_0))
             val newState = state.updateStorage(business)
 
             failCanDelete(newState, BUSINESS_ID_0)

@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.model.world.town
+package at.orchaldir.gm.core.model.world.settlement
 
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.street.StreetId

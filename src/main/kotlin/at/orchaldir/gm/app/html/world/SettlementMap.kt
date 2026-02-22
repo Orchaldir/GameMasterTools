@@ -13,9 +13,9 @@ import at.orchaldir.gm.app.html.util.showEmployees
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.realm.SettlementId
-import at.orchaldir.gm.core.model.world.town.TerrainType
-import at.orchaldir.gm.core.model.world.town.TownMap
-import at.orchaldir.gm.core.model.world.town.TownMapId
+import at.orchaldir.gm.core.model.world.settlement.TerrainType
+import at.orchaldir.gm.core.model.world.settlement.SettlementMap
+import at.orchaldir.gm.core.model.world.settlement.SettlementMapId
 import at.orchaldir.gm.core.selector.character.getEmployees
 import at.orchaldir.gm.core.selector.character.getResidents
 import at.orchaldir.gm.core.selector.character.getWorkingIn
@@ -26,21 +26,21 @@ import kotlinx.html.h2
 
 // show
 
-fun HtmlBlockTag.showTownMap(
+fun HtmlBlockTag.showSettlementMap(
     call: ApplicationCall,
     state: State,
-    townMap: TownMap,
+    settlementMap: SettlementMap,
 ) {
-    optionalFieldLink(call, state, townMap.town)
-    optionalField(call, state, "Date", townMap.date)
-    field("Size", townMap.map.size.format())
+    optionalFieldLink(call, state, settlementMap.settlement)
+    optionalField(call, state, "Date", settlementMap.date)
+    field("Size", settlementMap.map.size.format())
 }
 
-fun HtmlBlockTag.showCharactersOfTownMap(
+fun HtmlBlockTag.showCharactersOfSettlementMap(
     call: ApplicationCall,
     state: State,
     town: SettlementId?,
-    townMap: TownMapId?,
+    townMap: SettlementMapId?,
 ) {
     val employees = if (town != null) {
         state.getEmployees(town)
@@ -54,7 +54,7 @@ fun HtmlBlockTag.showCharactersOfTownMap(
         emptyList()
     }
 
-    showCharactersOfTownMap(
+    showCharactersOfSettlementMap(
         call,
         state,
         employees,
@@ -63,7 +63,7 @@ fun HtmlBlockTag.showCharactersOfTownMap(
     )
 }
 
-private fun HtmlBlockTag.showCharactersOfTownMap(
+private fun HtmlBlockTag.showCharactersOfSettlementMap(
     call: ApplicationCall,
     state: State,
     employees: List<Character>,
@@ -92,23 +92,24 @@ private fun HtmlBlockTag.showCharactersOfTownMap(
 
 // edit
 
-fun HtmlBlockTag.editTownMap(
+fun HtmlBlockTag.editSettlementMap(
     call: ApplicationCall,
     state: State,
-    townMap: TownMap,
+    settlementMap: SettlementMap,
 ) {
-    selectOptionalElement(state, "Town", TOWN, state.getSettlementStorage().getAll(), townMap.town)
-    selectOptionalDate(state, "Date", townMap.date, DATE)
+    selectOptionalElement(state, "Town", TOWN, state.getSettlementStorage().getAll(), settlementMap.settlement)
+    selectOptionalDate(state, "Date", settlementMap.date, DATE)
 }
 
 // parse
-fun parseTownMapId(parameters: Parameters, param: String) = TownMapId(parseInt(parameters, param))
-fun parseOptionalTownMapId(parameters: Parameters, param: String) =
-    parseSimpleOptionalInt(parameters, param)?.let { TownMapId(it) }
+
+fun parseSettlementMapId(parameters: Parameters, param: String) = SettlementMapId(parseInt(parameters, param))
+fun parseOptionalSettlementMapId(parameters: Parameters, param: String) =
+    parseSimpleOptionalInt(parameters, param)?.let { SettlementMapId(it) }
 
 fun parseTerrainType(parameters: Parameters) = parse(parameters, combine(TERRAIN, TYPE), TerrainType.Plain)
 
-fun parseTownMap(state: State, parameters: Parameters, oldTownMap: TownMap) = oldTownMap.copy(
-    town = parseOptionalSettlementId(parameters, TOWN),
+fun parseSettlementMap(state: State, parameters: Parameters, oldSettlementMap: SettlementMap) = oldSettlementMap.copy(
+    settlement = parseOptionalSettlementId(parameters, TOWN),
     date = parseOptionalDate(parameters, state, DATE),
 )

@@ -27,8 +27,8 @@ val ALLOWED_BUILDING_POSITIONS = listOf(
     PositionType.Plane,
     PositionType.Realm,
     PositionType.Region,
-    PositionType.Town,
-    PositionType.TownMap,
+    PositionType.Settlement,
+    PositionType.SettlementMap,
     PositionType.World,
 )
 
@@ -118,8 +118,8 @@ data class Building(
             is InDistrict -> state.getElementName(position.district)
             is InPlane -> state.getElementName(position.plane)
             is InRealm -> state.getElementName(position.realm)
-            is InTown -> state.getElementName(position.town)
-            is InTownMap -> state.getElementName(position.townMap)
+            is InSettlement -> state.getElementName(position.settlement)
+            is InSettlementMap -> state.getElementName(position.map)
             is OnMoon -> state.getElementName(position.moon)
             else -> error("Unsupported Position Type ${position.getType()} for Address")
         } + " ${address.houseNumber}"

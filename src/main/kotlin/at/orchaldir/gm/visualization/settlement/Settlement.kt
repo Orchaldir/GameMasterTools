@@ -1,10 +1,10 @@
-package at.orchaldir.gm.visualization.town
+package at.orchaldir.gm.visualization.settlement
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.util.InTownMap
+import at.orchaldir.gm.core.model.util.InSettlementMap
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.world.building.Building
-import at.orchaldir.gm.core.model.world.town.*
+import at.orchaldir.gm.core.model.world.settlement.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.math.AABB
@@ -23,30 +23,30 @@ private val DEFAULT_BUILDING_COLOR: (Building) -> Color = { _ -> Color.Black }
 private val DEFAULT_BUILDING_TEXT: (Building) -> String? = { _ -> null }
 private val DEFAULT_STREET_COLOR: (StreetTile, Int) -> Color = { _, _ -> Color.Gray }
 private val DEFAULT_STREET_TEXT: (StreetTile, Int) -> String? = { _, _ -> null }
-private val DEFAULT_TILE_TEXT: (Int, TownTile) -> String? = { _, _ -> null }
+private val DEFAULT_TILE_TEXT: (Int, SettlementTile) -> String? = { _, _ -> null }
 
-data class TownRenderer(
+data class SettlementRenderer(
     private val tileRenderer: TileMap2dRenderer,
     private val svgBuilder: SvgBuilder,
-    private val town: TownMap,
+    private val settlement: SettlementMap,
 ) {
-    constructor(tileMapRenderer: TileMap2dRenderer, town: TownMap) : this(
+    constructor(tileMapRenderer: TileMap2dRenderer, settlement: SettlementMap) : this(
         tileMapRenderer,
-        SvgBuilder(tileMapRenderer.calculateMapSize(town.map)),
-        town,
+        SvgBuilder(tileMapRenderer.calculateMapSize(settlement.map)),
+        settlement,
     )
 
-    constructor(town: TownMap) : this(
+    constructor(settlement: SettlementMap) : this(
         TileMap2dRenderer(TILE_SIZE, Distance.fromMeters(1.0f)),
-        town,
+        settlement,
     )
 
     fun renderTiles(
-        colorLookup: (TownTile) -> Color = TownTile::getColor,
-        linkLookup: (Int, TownTile) -> String? = DEFAULT_TILE_TEXT,
-        tooltipLookup: (Int, TownTile) -> String? = DEFAULT_TILE_TEXT,
+        colorLookup: (SettlementTile) -> Color = SettlementTile::getColor,
+        linkLookup: (Int, SettlementTile) -> String? = DEFAULT_TILE_TEXT,
+        tooltipLookup: (Int, SettlementTile) -> String? = DEFAULT_TILE_TEXT,
     ) {
-        tileRenderer.renderWithLinksAndTooltips(svgBuilder, town.map, colorLookup, linkLookup, tooltipLookup)
+        tileRenderer.renderWithLinksAndTooltips(svgBuilder, settlement.map, colorLookup, linkLookup, tooltipLookup)
     }
 
     fun renderAbstractBuildings(
@@ -54,7 +54,7 @@ data class TownRenderer(
     ) {
         val size = MapSize2d.square(1)
 
-        tileRenderer.render(town.map) { index, _, _, _, tile ->
+        tileRenderer.render(settlement.map) { index, _, _, _, tile ->
             when (tile.construction) {
                 AbstractBuildingTile -> renderBuilding(svgBuilder.getLayer(), index, size, color)
                 is AbstractLargeBuildingStart -> renderBuilding(
@@ -104,14 +104,14 @@ data class TownRenderer(
         val right = Point2d.xAxis(tileRenderer.tileSize / 2)
         val down = Point2d.yAxis(tileRenderer.tileSize / 2)
 
-        tileRenderer.render(town.map) { index, x, y, aabb, tile ->
+        tileRenderer.render(settlement.map) { index, x, y, aabb, tile ->
             if (tile.construction is StreetTile) {
-                if (town.checkTile(x + 1, y) { it.construction is StreetTile }) {
+                if (settlement.checkTile(x + 1, y) { it.construction is StreetTile }) {
                     val rightAABB = aabb + right
                     render(rightAABB, tile.construction, index)
                 }
 
-                if (town.checkTile(x, y + 1) { it.construction is StreetTile }) {
+                if (settlement.checkTile(x, y + 1) { it.construction is StreetTile }) {
                     val downAABB = aabb + down
                     render(downAABB, tile.construction, index)
                 }
@@ -126,7 +126,7 @@ data class TownRenderer(
         building: Building,
         color: Color,
     ) {
-        if (building.position is InTownMap) {
+        if (building.position is InSettlementMap) {
             renderBuilding(layer, building.position.tileIndex, building.size, color)
         }
     }
@@ -137,7 +137,7 @@ data class TownRenderer(
         size: MapSize2d,
         color: Color,
     ) {
-        val start = tileRenderer.calculateTilePosition(town.map, tileIndex)
+        val start = tileRenderer.calculateTilePosition(settlement.map, tileIndex)
         val size = tileRenderer.calculateLotSize(size)
         val aabb = AABB(start, size).shrink(HALF)
         val style = NoBorder(color.toRender())
@@ -154,12 +154,12 @@ fun renderStreet(renderer: LayerRenderer, tile: AABB, color: Color) {
     renderer.renderRectangle(tile.shrink(HALF), style)
 }
 
-fun visualizeTown(
-    town: TownMap,
+fun visualizeSettlementMap(
+    settlement: SettlementMap,
     buildings: List<Building> = emptyList(),
-    tileColorLookup: (TownTile) -> Color = TownTile::getColor,
-    tileLinkLookup: (Int, TownTile) -> String? = DEFAULT_TILE_TEXT,
-    tileTooltipLookup: (Int, TownTile) -> String? = DEFAULT_TILE_TEXT,
+    tileColorLookup: (SettlementTile) -> Color = SettlementTile::getColor,
+    tileLinkLookup: (Int, SettlementTile) -> String? = DEFAULT_TILE_TEXT,
+    tileTooltipLookup: (Int, SettlementTile) -> String? = DEFAULT_TILE_TEXT,
     buildingColorLookup: (Building) -> Color = DEFAULT_BUILDING_COLOR,
     buildingLinkLookup: (Building) -> String? = DEFAULT_BUILDING_TEXT,
     buildingTooltipLookup: (Building) -> String? = DEFAULT_BUILDING_TEXT,
@@ -167,17 +167,17 @@ fun visualizeTown(
     streetLinkLookup: (StreetTile, Int) -> String? = DEFAULT_STREET_TEXT,
     streetTooltipLookup: (StreetTile, Int) -> String? = DEFAULT_STREET_TEXT,
 ): Svg {
-    val townRenderer = TownRenderer(town)
+    val settlementRenderer = SettlementRenderer(settlement)
 
-    townRenderer.renderTiles(tileColorLookup, tileLinkLookup, tileTooltipLookup)
-    townRenderer.renderAbstractBuildings()
-    townRenderer.renderBuildings(buildings, buildingColorLookup, buildingLinkLookup, buildingTooltipLookup)
-    townRenderer.renderStreets(streetColorLookup, streetLinkLookup, streetTooltipLookup)
+    settlementRenderer.renderTiles(tileColorLookup, tileLinkLookup, tileTooltipLookup)
+    settlementRenderer.renderAbstractBuildings()
+    settlementRenderer.renderBuildings(buildings, buildingColorLookup, buildingLinkLookup, buildingTooltipLookup)
+    settlementRenderer.renderStreets(streetColorLookup, streetLinkLookup, streetTooltipLookup)
 
-    return townRenderer.finish()
+    return settlementRenderer.finish()
 }
 
-fun TownTile.getColor() = when (terrain) {
+fun SettlementTile.getColor() = when (terrain) {
     is HillTerrain -> Color.SaddleBrown
     is MountainTerrain -> Color.Gray
     PlainTerrain -> Color.Green
@@ -199,7 +199,7 @@ fun showSelectedBuilding(selected: Building): (Building) -> Color = { building -
     }
 }
 
-fun showTerrainName(state: State): (Int, TownTile) -> String? = { _, tile ->
+fun showTerrainName(state: State): (Int, SettlementTile) -> String? = { _, tile ->
     when (tile.terrain) {
         is HillTerrain -> state.getRegionStorage().getOrThrow(tile.terrain.mountain).name.text
         is MountainTerrain -> state.getRegionStorage().getOrThrow(tile.terrain.mountain).name.text

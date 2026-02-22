@@ -4,13 +4,13 @@ import at.orchaldir.gm.core.model.Data
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.InterpersonalRelationship
 import at.orchaldir.gm.core.model.character.appearance.Appearance
-import at.orchaldir.gm.core.model.util.InTownMap
+import at.orchaldir.gm.core.model.util.InSettlementMap
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.street.StreetTemplateId
-import at.orchaldir.gm.core.model.world.town.TerrainType
-import at.orchaldir.gm.core.model.world.town.TownMapId
+import at.orchaldir.gm.core.model.world.settlement.TerrainType
+import at.orchaldir.gm.core.model.world.settlement.SettlementMapId
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.map.MapSize2d
@@ -52,20 +52,20 @@ sealed class WorldAction : Action()
 // town's abstract buildings
 
 data class AddAbstractBuilding(
-    val town: TownMapId,
+    val town: SettlementMapId,
     val tileIndex: Int,
     val size: MapSize2d = MapSize2d.square(1),
 ) : WorldAction()
 
 data class RemoveAbstractBuilding(
-    val town: TownMapId,
+    val town: SettlementMapId,
     val tileIndex: Int,
 ) : WorldAction()
 
 // town's buildings
 
 data class AddBuilding(
-    val town: TownMapId,
+    val town: SettlementMapId,
     val tileIndex: Int,
     val size: MapSize2d,
 ) : WorldAction()
@@ -76,7 +76,7 @@ data class UpdateActionLot(
     val size: MapSize2d,
 ) : WorldAction() {
 
-    fun applyTo(building: Building) = if (building.position is InTownMap) {
+    fun applyTo(building: Building) = if (building.position is InSettlementMap) {
         building.copy(
             position = building.position.copy(tileIndex = tileIndex),
             size = size,
@@ -89,28 +89,28 @@ data class UpdateActionLot(
 // town's streets
 
 data class AddStreetTile(
-    val town: TownMapId,
+    val town: SettlementMapId,
     val tileIndex: Int,
     val type: StreetTemplateId,
     val street: StreetId?,
 ) : WorldAction()
 
 data class RemoveStreetTile(
-    val town: TownMapId,
+    val town: SettlementMapId,
     val tileIndex: Int,
 ) : WorldAction()
 
 // town's terrain
 
 data class ResizeTerrain(
-    val town: TownMapId,
+    val town: SettlementMapId,
     val resize: Resize,
     val terrainType: TerrainType = TerrainType.Plain,
     val terrainId: Int = 0,
 ) : WorldAction()
 
 data class SetTerrainTile(
-    val town: TownMapId,
+    val town: SettlementMapId,
     val terrainType: TerrainType,
     val terrainId: Int,
     val tileIndex: Int,

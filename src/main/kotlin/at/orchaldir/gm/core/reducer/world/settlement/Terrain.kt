@@ -1,34 +1,34 @@
-package at.orchaldir.gm.core.reducer.world.town
+package at.orchaldir.gm.core.reducer.world.settlement
 
 import at.orchaldir.gm.core.action.ResizeTerrain
 import at.orchaldir.gm.core.action.SetTerrainTile
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.util.InTownMap
+import at.orchaldir.gm.core.model.util.InSettlementMap
 import at.orchaldir.gm.core.model.world.terrain.RegionId
 import at.orchaldir.gm.core.model.world.terrain.RiverId
-import at.orchaldir.gm.core.model.world.town.*
+import at.orchaldir.gm.core.model.world.settlement.*
 import at.orchaldir.gm.core.selector.util.getBuildingsIn
 import at.orchaldir.gm.utils.redux.Reducer
 import at.orchaldir.gm.utils.redux.noFollowUps
 
 val SET_TERRAIN_TILE: Reducer<SetTerrainTile, State> = { state, action ->
-    val oldMap = state.getTownMapStorage().getOrThrow(action.town)
+    val oldMap = state.getSettlementMapStorage().getOrThrow(action.town)
     val terrain = createTerrain(state, action.terrainType, action.terrainId)
     val map = oldMap.setTerrain(action.tileIndex, terrain)
 
-    noFollowUps(state.updateStorage(state.getTownMapStorage().update(map)))
+    noFollowUps(state.updateStorage(state.getSettlementMapStorage().update(map)))
 }
 
 val RESIZE_TERRAIN: Reducer<ResizeTerrain, State> = { state, action ->
-    val oldMap = state.getTownMapStorage().getOrThrow(action.town)
+    val oldMap = state.getSettlementMapStorage().getOrThrow(action.town)
     val terrain = createTerrain(state, action.terrainType, action.terrainId)
-    val tile = TownTile(terrain)
+    val tile = SettlementTile(terrain)
 
     val newTileMap = oldMap.map.resize(action.resize, tile)
     val newMap = oldMap.copy(map = newTileMap)
     val newBuildings = state.getBuildingsIn(action.town)
         .map { building ->
-            if (building.position is InTownMap) {
+            if (building.position is InSettlementMap) {
                 val newIndex = oldMap.map.getIndexAfterResize(building.position.tileIndex, action.resize)
 
                 if (newIndex != null) {
@@ -45,7 +45,7 @@ val RESIZE_TERRAIN: Reducer<ResizeTerrain, State> = { state, action ->
         state.updateStorage(
             listOf(
                 state.getBuildingStorage().update(newBuildings),
-                state.getTownMapStorage().update(newMap),
+                state.getSettlementMapStorage().update(newMap),
             )
         )
     )

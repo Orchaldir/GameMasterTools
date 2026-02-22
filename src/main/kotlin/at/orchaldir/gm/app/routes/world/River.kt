@@ -13,7 +13,7 @@ import at.orchaldir.gm.core.model.util.SortRiver
 import at.orchaldir.gm.core.model.world.terrain.RIVER_TYPE
 import at.orchaldir.gm.core.model.world.terrain.RiverId
 import at.orchaldir.gm.core.selector.util.sortRivers
-import at.orchaldir.gm.core.selector.world.getTowns
+import at.orchaldir.gm.core.selector.world.getSettlementMaps
 import io.ktor.resources.*
 import io.ktor.server.application.*
 import io.ktor.server.resources.*
@@ -66,7 +66,7 @@ fun Application.configureRiverRouting() {
                 state.sortRivers(all.sort),
                 listOf(
                     createNameColumn(call, state),
-                    Column("Towns") { tdInlineElements(call, state, state.getTowns(it.id)) }
+                    Column("Towns") { tdInlineElements(call, state, state.getSettlementMaps(it.id)) }
                 ),
             )
         }

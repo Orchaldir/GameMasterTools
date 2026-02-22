@@ -27,7 +27,7 @@ val ALLOWED_BUSINESS_POSITIONS = listOf(
     PositionType.Plane,
     PositionType.Realm,
     PositionType.Region,
-    PositionType.Town,
+    PositionType.Settlement,
     PositionType.World,
 )
 

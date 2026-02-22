@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.reducer.world.town
+package at.orchaldir.gm.core.reducer.world.settlement
 
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.AddAbstractBuilding
@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.action.RemoveAbstractBuilding
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.street.Street
 import at.orchaldir.gm.core.model.world.street.StreetTemplate
-import at.orchaldir.gm.core.model.world.town.*
+import at.orchaldir.gm.core.model.world.settlement.*
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.map.MapSize2d
@@ -17,16 +17,16 @@ import kotlin.test.assertEquals
 
 class AbstractBuildingTest {
 
-    private val ABSTRACT_TILE = TownTile(construction = AbstractBuildingTile)
-    private val BUILDING_TILE = TownTile(construction = BuildingTile(BUILDING_ID_0))
-    private val STREET_TILE = TownTile(construction = StreetTile(STREET_TEMPLATE_ID_0, STREET_ID_0))
-    private val EMPTY = TownTile()
+    private val ABSTRACT_TILE = SettlementTile(construction = AbstractBuildingTile)
+    private val BUILDING_TILE = SettlementTile(construction = BuildingTile(BUILDING_ID_0))
+    private val STREET_TILE = SettlementTile(construction = StreetTile(STREET_TEMPLATE_ID_0, STREET_ID_0))
+    private val EMPTY = SettlementTile()
     private val STATE = State(
         listOf(
             Storage(CALENDAR0),
             Storage(Street(STREET_ID_0)),
             Storage(StreetTemplate(STREET_TEMPLATE_ID_0)),
-            Storage(TownMap(TOWN_MAP_ID_0)),
+            Storage(SettlementMap(TOWN_MAP_ID_0)),
         )
     )
 
@@ -71,9 +71,9 @@ class AbstractBuildingTest {
             assertIllegalState("Lot with index 9 & size 2 x 2 is outside the map!") { REDUCER.invoke(STATE, action) }
         }
 
-        private fun testTileNotEmpty(townTile: TownTile) {
-            val map = TileMap2d(townTile)
-            val town = TownMap(TOWN_MAP_ID_0, map = map)
+        private fun testTileNotEmpty(settlementTile: SettlementTile) {
+            val map = TileMap2d(settlementTile)
+            val town = SettlementMap(TOWN_MAP_ID_0, map = map)
             val state = STATE.updateStorage(town)
             val action = AddAbstractBuilding(TOWN_MAP_ID_0, 0)
 
@@ -83,13 +83,13 @@ class AbstractBuildingTest {
         @Test
         fun `Successfully set an abstract building`() {
             val map = TileMap2d(EMPTY)
-            val town = TownMap(TOWN_MAP_ID_0, map = map)
+            val town = SettlementMap(TOWN_MAP_ID_0, map = map)
             val state = STATE.updateStorage(town)
             val action = AddAbstractBuilding(TOWN_MAP_ID_0, 0)
 
             assertEquals(
                 AbstractBuildingTile,
-                REDUCER.invoke(state, action).first.getTownMapStorage()
+                REDUCER.invoke(state, action).first.getSettlementMapStorage()
                     .getOrThrow(TOWN_MAP_ID_0).map.getTile(0)?.construction
             )
         }
@@ -129,8 +129,8 @@ class AbstractBuildingTest {
             testWrongType(STREET_TILE)
         }
 
-        private fun testWrongType(tile: TownTile) {
-            val town = TownMap(TOWN_MAP_ID_0, map = TileMap2d(tile))
+        private fun testWrongType(tile: SettlementTile) {
+            val town = SettlementMap(TOWN_MAP_ID_0, map = TileMap2d(tile))
             val state = State(Storage(town))
             val action = RemoveAbstractBuilding(TOWN_MAP_ID_0, 0)
 
@@ -139,13 +139,13 @@ class AbstractBuildingTest {
 
         @Test
         fun `Successfully removed an abstract building`() {
-            val town = TownMap(TOWN_MAP_ID_0, map = TileMap2d(ABSTRACT_TILE))
+            val town = SettlementMap(TOWN_MAP_ID_0, map = TileMap2d(ABSTRACT_TILE))
             val state = State(Storage(town))
             val action = RemoveAbstractBuilding(TOWN_MAP_ID_0, 0)
 
             assertEquals(
                 EMPTY,
-                REDUCER.invoke(state, action).first.getTownMapStorage().get(TOWN_MAP_ID_0)?.map?.getTile(0)
+                REDUCER.invoke(state, action).first.getSettlementMapStorage().get(TOWN_MAP_ID_0)?.map?.getTile(0)
             )
         }
 

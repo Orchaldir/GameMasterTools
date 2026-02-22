@@ -35,7 +35,7 @@ import at.orchaldir.gm.app.routes.time.HolidayRoutes
 import at.orchaldir.gm.app.routes.time.TimeRoutes
 import at.orchaldir.gm.app.routes.utls.*
 import at.orchaldir.gm.app.routes.world.*
-import at.orchaldir.gm.app.routes.world.town.TownMapRoutes
+import at.orchaldir.gm.app.routes.world.settlement.SettlementMapRoutes
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
@@ -142,7 +142,7 @@ fun Application.configureRouting() {
                     fieldStorageLink(call, state.getRiverStorage(), RiverRoutes())
                     fieldStorageLink(call, state.getStreetStorage(), StreetRoutes())
                     fieldStorageLink(call, state.getStreetTemplateStorage(), StreetTemplateRoutes())
-                    fieldStorageLink(call, state.getTownMapStorage(), TownMapRoutes())
+                    fieldStorageLink(call, state.getSettlementMapStorage(), SettlementMapRoutes())
                     fieldStorageLink(call, state.getWorldStorage(), WorldRoutes())
                 }
             }
