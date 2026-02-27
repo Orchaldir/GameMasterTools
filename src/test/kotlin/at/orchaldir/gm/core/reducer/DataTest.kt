@@ -13,7 +13,7 @@ import at.orchaldir.gm.core.model.economy.standard.StandardOfLiving
 import at.orchaldir.gm.core.model.realm.District
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.Settlement
-import at.orchaldir.gm.core.model.realm.population.AbstractPopulation
+import at.orchaldir.gm.core.model.realm.population.PopulationWithSets
 import at.orchaldir.gm.core.model.time.Time
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.util.name.Name
@@ -29,7 +29,7 @@ class DataTest {
     private val name0 = Name.init("A")
     private val name1 = Name.init("B")
     private val usedIncome = AffordableStandardOfLiving(STANDARD_ID_1)
-    private val population = AbstractPopulation(income = usedIncome)
+    private val population = PopulationWithSets(income = usedIncome)
     private val state = State(
         listOf(
             Storage(Calendar(CALENDAR_ID_0)),

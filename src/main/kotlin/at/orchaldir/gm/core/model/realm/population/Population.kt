@@ -145,7 +145,7 @@ data class PopulationWithPercentages(
 @Serializable
 @SerialName("Set")
 data class PopulationWithSets(
-    val total: TotalPopulation,
+    val total: TotalPopulation = TotalPopulationAsDensity(),
     val races: Set<RaceId> = emptySet(),
     val cultures: Set<CultureId> = emptySet(),
     val income: Income = UndefinedIncome,

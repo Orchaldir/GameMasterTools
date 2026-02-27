@@ -5,3 +5,4 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.SettlementSizeId
 
 fun State.canDeleteSettlementSize(size: SettlementSizeId) = DeleteResult(size)
+    .addElements(getSettlements(size))

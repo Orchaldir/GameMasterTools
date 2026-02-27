@@ -29,40 +29,8 @@ class PopulationTest {
         )
     )
     private val income = AffordableStandardOfLiving(UNKNOWN_STANDARD_ID)
-
-    @Nested
-    inner class AbstractPopulationTest {
-
-        @Test
-        fun `With an unknown culture`() {
-            assertPopulation(
-                AbstractPopulation(cultures = setOf(UNKNOWN_CULTURE_ID)),
-                "Requires unknown Culture 99!",
-            )
-        }
-
-        @Test
-        fun `With an unknown race`() {
-            assertPopulation(
-                AbstractPopulation(races = setOf(UNKNOWN_RACE_ID)),
-                "Requires unknown Race 99!",
-            )
-        }
-
-        @Test
-        fun `With an unknown standard of living`() {
-            assertPopulation(
-                AbstractPopulation(income = income),
-                "Requires unknown Standard Of Living 99!",
-            )
-        }
-
-        @Test
-        fun `A valid population`() {
-            validatePopulation(state, AbstractPopulation(races = setOf(RACE_ID_0)))
-        }
-
-    }
+    private val total = TotalPopulationAsNumber(100)
+    private val invalidTotal = TotalPopulationAsNumber(-1)
 
     @Nested
     inner class PopulationWithNumbersTest {
@@ -111,13 +79,13 @@ class PopulationTest {
 
         @Test
         fun `The total population must be greater or equal 0`() {
-            assertTotalPopulation(PopulationWithPercentages(-1, PercentageDistribution()))
+            assertTotalPopulation(PopulationWithPercentages(invalidTotal, PercentageDistribution()))
         }
 
         @Test
         fun `With an unknown culture`() {
             assertPopulation(
-                PopulationWithPercentages(100, cultures = PercentageDistribution(mapOf(UNKNOWN_CULTURE_ID to HALF))),
+                PopulationWithPercentages(total, cultures = PercentageDistribution(mapOf(UNKNOWN_CULTURE_ID to HALF))),
                 "Requires unknown Culture 99!",
             )
         }
@@ -125,7 +93,7 @@ class PopulationTest {
         @Test
         fun `With an unknown race`() {
             assertPopulation(
-                PopulationWithPercentages(100, PercentageDistribution(mapOf(UNKNOWN_RACE_ID to HALF))),
+                PopulationWithPercentages(total, PercentageDistribution(mapOf(UNKNOWN_RACE_ID to HALF))),
                 "Requires unknown Race 99!",
             )
         }
@@ -133,7 +101,7 @@ class PopulationTest {
         @Test
         fun `With an unknown standard of living`() {
             assertPopulation(
-                PopulationWithPercentages(100, income = income),
+                PopulationWithPercentages(total, income = income),
                 "Requires unknown Standard Of Living 99!",
             )
         }
@@ -142,7 +110,7 @@ class PopulationTest {
         fun `A valid population`() {
             val cultures = PercentageDistribution(mapOf(CULTURE_ID_0 to HALF))
             val races = PercentageDistribution(mapOf(RACE_ID_0 to HALF, RACE_ID_1 to HALF))
-            val distribution = PopulationWithPercentages(100, races, cultures)
+            val distribution = PopulationWithPercentages(total, races, cultures)
 
             validatePopulation(state, distribution)
         }
@@ -154,13 +122,13 @@ class PopulationTest {
 
         @Test
         fun `The total population must be greater or equal 0`() {
-            assertTotalPopulation(PopulationWithSets(-1))
+            assertTotalPopulation(PopulationWithSets(invalidTotal))
         }
 
         @Test
         fun `With an unknown culture`() {
             assertPopulation(
-                PopulationWithSets(100, cultures = setOf(UNKNOWN_CULTURE_ID)),
+                PopulationWithSets(total, cultures = setOf(UNKNOWN_CULTURE_ID)),
                 "Requires unknown Culture 99!",
             )
         }
@@ -168,7 +136,7 @@ class PopulationTest {
         @Test
         fun `With an unknown race`() {
             assertPopulation(
-                PopulationWithSets(100, setOf(UNKNOWN_RACE_ID)),
+                PopulationWithSets(total, setOf(UNKNOWN_RACE_ID)),
                 "Requires unknown Race 99!",
             )
         }
@@ -176,19 +144,19 @@ class PopulationTest {
         @Test
         fun `With an unknown standard of living`() {
             assertPopulation(
-                PopulationWithSets(100, income = income),
+                PopulationWithSets(total, income = income),
                 "Requires unknown Standard Of Living 99!",
             )
         }
 
         @Test
         fun `A valid population`() {
-            validatePopulation(state, PopulationWithSets(100, races = setOf(RACE_ID_0)))
+            validatePopulation(state, PopulationWithSets(total, races = setOf(RACE_ID_0)))
         }
 
     }
 
-    private fun assertTotalPopulation(population: Population) =
+    fun assertTotalPopulation(population: Population) =
         assertPopulation(population, "The total population must be >= 0!")
 
     private fun assertPopulation(population: Population, message: String) {
