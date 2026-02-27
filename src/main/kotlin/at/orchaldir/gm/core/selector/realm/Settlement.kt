@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.character.EmployedBySettlement
 import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.realm.RealmId
 import at.orchaldir.gm.core.model.realm.SettlementId
+import at.orchaldir.gm.core.model.realm.SettlementSizeId
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.selector.character.getEmployees
 import at.orchaldir.gm.core.selector.character.getPreviousEmployees
@@ -72,3 +73,7 @@ fun State.getSettlements(job: JobId) = getCharacterStorage()
         }
     }
     .toSet()
+
+fun State.getSettlements(size: SettlementSizeId) = getSettlementStorage()
+    .getAll()
+    .filter { it.population.isSize(size) }

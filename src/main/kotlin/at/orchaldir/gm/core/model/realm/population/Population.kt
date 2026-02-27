@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.economy.job.Income
 import at.orchaldir.gm.core.model.economy.job.UndefinedIncome
 import at.orchaldir.gm.core.model.economy.standard.StandardOfLivingId
 import at.orchaldir.gm.core.model.race.RaceId
+import at.orchaldir.gm.core.model.realm.SettlementSizeId
 import at.orchaldir.gm.core.model.util.NumberDistribution
 import at.orchaldir.gm.core.model.util.PercentageDistribution
 import at.orchaldir.gm.core.model.util.Size
@@ -98,6 +99,12 @@ sealed class Population {
         is PopulationWithPercentages -> races.map.keys
         is PopulationWithSets -> races
         else -> emptySet()
+    }
+
+    fun isSize(size: SettlementSizeId) = when (this) {
+        is PopulationWithPercentages -> total.isSize(size)
+        is PopulationWithSets -> total.isSize(size)
+        else -> false
     }
 
 }

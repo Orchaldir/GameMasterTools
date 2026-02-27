@@ -8,9 +8,11 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.SettlementSize
 import at.orchaldir.gm.core.model.realm.SettlementSizeId
 import at.orchaldir.gm.core.model.util.name.Name
+import at.orchaldir.gm.core.selector.realm.getSettlements
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
+import kotlinx.html.h2
 
 // show
 
@@ -19,7 +21,25 @@ fun HtmlBlockTag.showSettlementSize(
     state: State,
     size: SettlementSize,
 ) {
-    field("Max Yearly Income", size.maxPopulation)
+    field("Max Population", size.maxPopulation)
+
+    showUsages(call, state, size.id)
+}
+
+private fun HtmlBlockTag.showUsages(
+    call: ApplicationCall,
+    state: State,
+    size: SettlementSizeId,
+) {
+    val settlements = state.getSettlements(size)
+
+    if (settlements.isEmpty()) {
+        return
+    }
+
+    h2 { +"Usage" }
+
+    fieldElements(call, state, settlements)
 }
 
 // edit

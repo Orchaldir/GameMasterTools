@@ -26,6 +26,11 @@ sealed class TotalPopulation {
         is TotalPopulationAsSettlementSize -> null
     }
 
+    fun isSize(size: SettlementSizeId) = when (this) {
+        is TotalPopulationAsSettlementSize -> id == size
+        else -> false
+    }
+
 }
 
 @Serializable
