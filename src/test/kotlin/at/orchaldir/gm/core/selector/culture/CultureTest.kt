@@ -34,7 +34,10 @@ class CultureTest {
                 Storage(culture),
             )
         )
-        val population = PopulationWithPercentages(TotalPopulationAsNumber(100), cultures = PercentageDistribution(mapOf(CULTURE_ID_0 to HALF)))
+        val population = PopulationWithPercentages(
+            TotalPopulationAsNumber(100),
+            cultures = PercentageDistribution(mapOf(CULTURE_ID_0 to HALF))
+        )
 
         @Test
         fun `Cannot delete a culture that with a character`() {

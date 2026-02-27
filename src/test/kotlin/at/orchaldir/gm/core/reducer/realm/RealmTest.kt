@@ -128,7 +128,12 @@ class RealmTest {
             val total = TotalPopulationAsSettlementSize(SETTLEMENT_SIZE_ID_0)
             val action = UpdateAction(Realm(REALM_ID_0, population = PopulationWithSets(total)))
 
-            assertIllegalArgument("Total Population Type SettlementSize is not supported!") { REDUCER.invoke(STATE, action) }
+            assertIllegalArgument("Total Population Type SettlementSize is not supported!") {
+                REDUCER.invoke(
+                    STATE,
+                    action
+                )
+            }
         }
 
         @Test

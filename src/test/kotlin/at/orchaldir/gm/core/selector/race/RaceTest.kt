@@ -26,7 +26,8 @@ class RaceTest {
     inner class CanDeleteTest {
         private val race = Race(RACE_ID_0)
         private val state = State(Storage(race))
-        private val population = PopulationWithPercentages(TotalPopulationAsNumber(100), PercentageDistribution(mapOf(RACE_ID_0 to HALF)))
+        private val population =
+            PopulationWithPercentages(TotalPopulationAsNumber(100), PercentageDistribution(mapOf(RACE_ID_0 to HALF)))
 
         @Test
         fun `Cannot delete a race part of a group`() {

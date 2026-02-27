@@ -7,7 +7,6 @@ import at.orchaldir.gm.app.TOTAL
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.realm.parseSettlementSizeId
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.appearance.hair.HairColorType
 import at.orchaldir.gm.core.model.realm.population.*
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.selector.util.sortSettlementSizes
@@ -57,6 +56,7 @@ fun HtmlBlockTag.editTotalPopulation(
                 Size.entries,
                 total.density,
             )
+
             is TotalPopulationAsNumber -> selectInt(
                 "Number",
                 total.number,
@@ -65,6 +65,7 @@ fun HtmlBlockTag.editTotalPopulation(
                 1,
                 combine(totalParam, NUMBER),
             )
+
             is TotalPopulationAsSettlementSize -> selectUnsortedElement(
                 state,
                 "Settlement Size",
@@ -92,6 +93,7 @@ fun parseTotalPopulation(
         TotalPopulationType.Number -> TotalPopulationAsNumber(
             parseInt(parameters, combine(totalParam, NUMBER), 0),
         )
+
         TotalPopulationType.SettlementSize -> TotalPopulationAsSettlementSize(
             parseSettlementSizeId(parameters, combine(totalParam, SIZE)),
         )

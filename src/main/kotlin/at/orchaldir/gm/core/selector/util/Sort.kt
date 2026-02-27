@@ -67,11 +67,7 @@ import at.orchaldir.gm.core.selector.item.ammunition.getAmmunition
 import at.orchaldir.gm.core.selector.item.countTexts
 import at.orchaldir.gm.core.selector.item.equipment.*
 import at.orchaldir.gm.core.selector.race.countRaceAppearancesMadeOf
-import at.orchaldir.gm.core.selector.realm.calculateTotalPopulation
-import at.orchaldir.gm.core.selector.realm.countOwnedSettlements
-import at.orchaldir.gm.core.selector.realm.countRealmsWithCurrencyAtAnyTime
-import at.orchaldir.gm.core.selector.realm.countRealmsWithLegalCodeAtAnyTime
-import at.orchaldir.gm.core.selector.realm.getSettlements
+import at.orchaldir.gm.core.selector.realm.*
 import at.orchaldir.gm.core.selector.rpg.getEquipmentModifier
 import at.orchaldir.gm.core.selector.rpg.getMeleeWeaponTypes
 import at.orchaldir.gm.core.selector.rpg.getRangedWeaponTypes

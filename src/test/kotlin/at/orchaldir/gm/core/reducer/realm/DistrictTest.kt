@@ -5,7 +5,6 @@ import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.EconomyWithPercentages
 import at.orchaldir.gm.core.model.realm.District
-import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.Settlement
 import at.orchaldir.gm.core.model.realm.population.PopulationWithSets
 import at.orchaldir.gm.core.model.realm.population.TotalPopulationAsNumber
@@ -58,7 +57,12 @@ class DistrictTest {
             val total = TotalPopulationAsSettlementSize(SETTLEMENT_SIZE_ID_0)
             val action = UpdateAction(District(DISTRICT_ID_0, population = PopulationWithSets(total)))
 
-            assertIllegalArgument("Total Population Type SettlementSize is not supported!") { REDUCER.invoke(STATE, action) }
+            assertIllegalArgument("Total Population Type SettlementSize is not supported!") {
+                REDUCER.invoke(
+                    STATE,
+                    action
+                )
+            }
         }
 
         @Test

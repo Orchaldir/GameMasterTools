@@ -4,7 +4,6 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.EconomyWithPercentages
-import at.orchaldir.gm.core.model.realm.District
 import at.orchaldir.gm.core.model.realm.Settlement
 import at.orchaldir.gm.core.model.realm.SettlementSize
 import at.orchaldir.gm.core.model.realm.population.PopulationWithSets

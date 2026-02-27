@@ -36,7 +36,10 @@ class SettlementSizeTest {
         }
 
         private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {
-            assertEquals(DeleteResult(SETTLEMENT_SIZE_ID_0).addId(blockingId), state.canDeleteSettlementSize(SETTLEMENT_SIZE_ID_0))
+            assertEquals(
+                DeleteResult(SETTLEMENT_SIZE_ID_0).addId(blockingId),
+                state.canDeleteSettlementSize(SETTLEMENT_SIZE_ID_0)
+            )
         }
     }
 

@@ -85,7 +85,12 @@ fun Application.configureSettlementSizeRouting() {
             handleEditElement(edit.id, SettlementSizeRoutes(), HtmlBlockTag::editSettlementSize)
         }
         post<SettlementSizeRoutes.Preview> { preview ->
-            handlePreviewElement(preview.id, SettlementSizeRoutes(), ::parseSettlementSize, HtmlBlockTag::editSettlementSize)
+            handlePreviewElement(
+                preview.id,
+                SettlementSizeRoutes(),
+                ::parseSettlementSize,
+                HtmlBlockTag::editSettlementSize
+            )
         }
         post<SettlementSizeRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseSettlementSize)

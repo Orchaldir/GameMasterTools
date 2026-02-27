@@ -1,9 +1,14 @@
 package at.orchaldir.gm.core.reducer.realm.population
 
-import at.orchaldir.gm.*
+import at.orchaldir.gm.SETTLEMENT_SIZE_ID_0
+import at.orchaldir.gm.UNKNOWN_SETTLEMENT_SIZE_ID
+import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.SettlementSize
-import at.orchaldir.gm.core.model.realm.population.*
+import at.orchaldir.gm.core.model.realm.population.TotalPopulation
+import at.orchaldir.gm.core.model.realm.population.TotalPopulationAsNumber
+import at.orchaldir.gm.core.model.realm.population.TotalPopulationAsSettlementSize
+import at.orchaldir.gm.core.model.realm.population.TotalPopulationType
 import at.orchaldir.gm.core.reducer.realm.validateTotalPopulation
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -34,7 +39,10 @@ class TotalPopulationTest {
     inner class TotalPopulationAsSettlementSizeTest {
         @Test
         fun `An unknown size is invalid`() {
-            assertInvalid(TotalPopulationAsSettlementSize(UNKNOWN_SETTLEMENT_SIZE_ID), "Requires unknown Settlement Size 99!")
+            assertInvalid(
+                TotalPopulationAsSettlementSize(UNKNOWN_SETTLEMENT_SIZE_ID),
+                "Requires unknown Settlement Size 99!"
+            )
         }
 
         @Test

@@ -1,6 +1,9 @@
 package at.orchaldir.gm.app.html.realm.population
 
-import at.orchaldir.gm.app.*
+import at.orchaldir.gm.app.CULTURE
+import at.orchaldir.gm.app.INCOME
+import at.orchaldir.gm.app.POPULATION
+import at.orchaldir.gm.app.RACE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.culture.parseCultureId
 import at.orchaldir.gm.app.html.economy.editIncome
