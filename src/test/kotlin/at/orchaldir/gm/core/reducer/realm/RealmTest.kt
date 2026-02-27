@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.RealmId
 import at.orchaldir.gm.core.model.realm.population.PopulationWithSets
 import at.orchaldir.gm.core.model.realm.population.TotalPopulationAsNumber
+import at.orchaldir.gm.core.model.realm.population.TotalPopulationAsSettlementSize
 import at.orchaldir.gm.core.model.util.CharacterReference
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.HistoryEntry
@@ -120,6 +121,14 @@ class RealmTest {
             val action = UpdateAction(Realm(REALM_ID_0, population = PopulationWithSets(total)))
 
             assertIllegalArgument("The total population must be >= 0!") { REDUCER.invoke(STATE, action) }
+        }
+
+        @Test
+        fun `Realms cannot use settlement sizes`() {
+            val total = TotalPopulationAsSettlementSize(SETTLEMENT_SIZE_ID_0)
+            val action = UpdateAction(Realm(REALM_ID_0, population = PopulationWithSets(total)))
+
+            assertIllegalArgument("Total Population Type SettlementSize is not supported!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test

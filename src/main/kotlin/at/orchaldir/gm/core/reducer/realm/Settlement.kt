@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.ALLOWED_CAUSES_OF_DEATH_FOR_SETTLEMENT
 import at.orchaldir.gm.core.model.realm.ALLOWED_VITAL_STATUS_FOR_SETTLEMENT
 import at.orchaldir.gm.core.model.realm.Settlement
+import at.orchaldir.gm.core.model.realm.population.TotalPopulationType
 import at.orchaldir.gm.core.reducer.economy.validateEconomy
 import at.orchaldir.gm.core.reducer.util.validateCreator
 import at.orchaldir.gm.core.reducer.util.validateDate
@@ -28,6 +29,6 @@ fun validateSettlement(state: State, settlement: Settlement) {
             state.requireExists(state.getRealmStorage(), realmId, date)
         }
     }
-    validatePopulation(state, settlement.population)
+    validatePopulation(state, TotalPopulationType.entries, settlement.population)
     validateEconomy(state, settlement.economy)
 }

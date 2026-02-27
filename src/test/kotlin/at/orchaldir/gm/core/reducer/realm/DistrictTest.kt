@@ -5,9 +5,11 @@ import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.EconomyWithPercentages
 import at.orchaldir.gm.core.model.realm.District
+import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.Settlement
 import at.orchaldir.gm.core.model.realm.population.PopulationWithSets
 import at.orchaldir.gm.core.model.realm.population.TotalPopulationAsNumber
+import at.orchaldir.gm.core.model.realm.population.TotalPopulationAsSettlementSize
 import at.orchaldir.gm.core.model.util.CharacterReference
 import at.orchaldir.gm.core.model.util.InSettlement
 import at.orchaldir.gm.core.model.util.name.Name
@@ -49,6 +51,14 @@ class DistrictTest {
             val action = UpdateAction(District(DISTRICT_ID_0, position = InSettlement(UNKNOWN_SETTLEMENT_ID)))
 
             assertIllegalArgument("Requires unknown position!") { REDUCER.invoke(STATE, action) }
+        }
+
+        @Test
+        fun `Districts cannot use settlement sizes`() {
+            val total = TotalPopulationAsSettlementSize(SETTLEMENT_SIZE_ID_0)
+            val action = UpdateAction(District(DISTRICT_ID_0, population = PopulationWithSets(total)))
+
+            assertIllegalArgument("Total Population Type SettlementSize is not supported!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test

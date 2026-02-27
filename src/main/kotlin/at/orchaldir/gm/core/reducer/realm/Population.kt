@@ -13,6 +13,7 @@ import at.orchaldir.gm.utils.math.ONE
 
 fun validatePopulation(
     state: State,
+    allowedTotalPopulationTypes: Collection<TotalPopulationType>,
     population: Population,
 ) = when (population) {
     is PopulationWithNumbers -> {
@@ -23,7 +24,7 @@ fun validatePopulation(
     }
 
     is PopulationWithPercentages -> {
-        validateTotalPopulation(state, population.total)
+        validateTotalPopulation(state, allowedTotalPopulationTypes, population.total)
 
         validatePercentageDistribution(state.getCultureStorage(), population.cultures)
         validatePercentageDistribution(state.getRaceStorage(), population.races)
@@ -32,7 +33,7 @@ fun validatePopulation(
     }
 
     is PopulationWithSets -> {
-        validateTotalPopulation(state, population.total)
+        validateTotalPopulation(state, allowedTotalPopulationTypes, population.total)
 
         state.getCultureStorage().require(population.cultures)
         state.getRaceStorage().require(population.races)
@@ -68,11 +69,19 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> validatePercentageDistribution(
 
 fun validateTotalPopulation(
     state: State,
+    allowedTotalPopulationTypes: Collection<TotalPopulationType>,
     total: TotalPopulation,
-) = when(total) {
-    is TotalPopulationAsDensity -> doNothing()
-    is TotalPopulationAsNumber -> validateTotalPopulation(total.number)
-    is TotalPopulationAsSettlementSize -> state.getSettlementSizeStorage().require(total.id)
+) {
+    val type = total.getType()
+    require(allowedTotalPopulationTypes.contains(type)) {
+        "Total Population Type $type is not supported!"
+    }
+
+    when (total) {
+        is TotalPopulationAsDensity -> doNothing()
+        is TotalPopulationAsNumber -> validateTotalPopulation(total.number)
+        is TotalPopulationAsSettlementSize -> state.getSettlementSizeStorage().require(total.id)
+    }
 }
 
 fun validateTotalPopulation(

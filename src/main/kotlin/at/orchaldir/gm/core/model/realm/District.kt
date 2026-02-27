@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.economy.UndefinedEconomy
 import at.orchaldir.gm.core.model.realm.population.HasPopulation
 import at.orchaldir.gm.core.model.realm.population.Population
 import at.orchaldir.gm.core.model.realm.population.UndefinedPopulation
+import at.orchaldir.gm.core.model.realm.population.WITHOUT_SETTLEMENT_SIZE
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
@@ -70,7 +71,7 @@ data class District(
     override fun validate(state: State) {
         checkPosition(state, position, "position", null, ALLOWED_DISTRICT_POSITIONS)
         validateCreator(state, founder, id, foundingDate, "founder")
-        validatePopulation(state, population)
+        validatePopulation(state, WITHOUT_SETTLEMENT_SIZE, population)
         validateEconomy(state, economy)
     }
 
