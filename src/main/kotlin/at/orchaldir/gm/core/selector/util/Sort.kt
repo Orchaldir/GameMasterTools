@@ -71,6 +71,7 @@ import at.orchaldir.gm.core.selector.realm.calculateTotalPopulation
 import at.orchaldir.gm.core.selector.realm.countOwnedSettlements
 import at.orchaldir.gm.core.selector.realm.countRealmsWithCurrencyAtAnyTime
 import at.orchaldir.gm.core.selector.realm.countRealmsWithLegalCodeAtAnyTime
+import at.orchaldir.gm.core.selector.realm.getSettlements
 import at.orchaldir.gm.core.selector.rpg.getEquipmentModifier
 import at.orchaldir.gm.core.selector.rpg.getMeleeWeaponTypes
 import at.orchaldir.gm.core.selector.rpg.getRangedWeaponTypes
@@ -1011,6 +1012,7 @@ fun State.sortSettlementSizes(
         when (sort) {
             SortSettlementSize.Name -> compareBy { it.name.text }
             SortSettlementSize.MaxPopulation -> compareByDescending { it.maxPopulation }
+            SortSettlementSize.Settlements -> compareByDescending { getSettlements(it.id).size }
         })
 
 // shield types
