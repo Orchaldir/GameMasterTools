@@ -430,6 +430,7 @@ fun href(
     is RiverId -> call.application.href(RiverRoutes.Details(id))
     is SettlementId -> call.application.href(SettlementRoutes.Details(id))
     is SettlementMapId -> call.application.href(SettlementMapRoutes.Details(id))
+    is SettlementSizeId -> call.application.href(SettlementSizeRoutes.Details(id))
     is ShieldTypeId -> call.application.href(ShieldTypeRoutes.Details(id))
     is SpellId -> call.application.href(SpellRoutes.Details(id))
     is SpellGroupId -> call.application.href(SpellGroupRoutes.Details(id))

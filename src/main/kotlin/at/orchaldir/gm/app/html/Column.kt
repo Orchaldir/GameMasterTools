@@ -2,8 +2,8 @@ package at.orchaldir.gm.app.html
 
 import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.economy.displayIncome
+import at.orchaldir.gm.app.html.realm.population.displayPopulation
 import at.orchaldir.gm.app.html.realm.population.showCulturesOfPopulation
-import at.orchaldir.gm.app.html.realm.population.showPopulation
 import at.orchaldir.gm.app.html.realm.population.showRacesOfPopulation
 import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.core.model.State
@@ -150,8 +150,11 @@ fun <ELEMENT : HasOwner> createOwnerColumn(
     state: State,
 ): Column<ELEMENT> = tdColumn("Owner") { showReference(call, state, it.owner().current, false) }
 
-fun <ELEMENT : HasPopulation> createPopulationColumn(): Column<ELEMENT> =
-    tdColumn("Population") { showPopulation(it.population()) }
+fun <ELEMENT : HasPopulation> createPopulationColumn(
+    call: ApplicationCall,
+    state: State,
+): Column<ELEMENT> =
+    tdColumn("Population") { displayPopulation(call, state, it.population()) }
 
 fun <ID : Id<ID>, ELEMENT> createPopulationDensityColumn(
     state: State,

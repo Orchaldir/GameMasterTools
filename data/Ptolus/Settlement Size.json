@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "elements": {
+  "0": {
+   "id": 0,
+   "name": "Hamlet",
+   "maxPopulation": 400
+  },
+  "1": {
+   "id": 1,
+   "name": "Village",
+   "maxPopulation": 900
+  },
+  "2": {
+   "id": 2,
+   "name": "Town",
+   "maxPopulation": 6500
+  },
+  "3": {
+   "id": 3,
+   "name": "Thorp",
+   "maxPopulation": 80
+  },
+  "4": {
+   "id": 4,
+   "name": "City",
+   "maxPopulation": 60000
+  }
+ }
+}

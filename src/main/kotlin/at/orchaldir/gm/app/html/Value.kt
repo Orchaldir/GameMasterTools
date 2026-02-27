@@ -99,8 +99,22 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectElement(
     selectId: String,
     elements: Collection<ELEMENT>,
     current: ID,
+) = selectUnsortedElement(
+    state,
+    labelText,
+    selectId,
+    state.sortElements(elements),
+    current,
+)
+
+fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectUnsortedElement(
+    state: State,
+    labelText: String,
+    selectId: String,
+    elements: Collection<ELEMENT>,
+    current: ID,
 ) {
-    selectValue(labelText, selectId, state.sortElements(elements)) { element ->
+    selectValue(labelText, selectId, elements) { element ->
         label = element.name(state)
         value = element.id().value().toString()
         selected = element.id() == current

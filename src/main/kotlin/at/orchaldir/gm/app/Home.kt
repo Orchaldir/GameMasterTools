@@ -114,6 +114,7 @@ fun Application.configureRouting() {
                     fieldStorageLink(call, state.getOrganizationStorage(), OrganizationRoutes())
                     fieldStorageLink(call, state.getRealmStorage(), RealmRoutes())
                     fieldStorageLink(call, state.getSettlementStorage(), SettlementRoutes())
+                    fieldStorageLink(call, state.getSettlementSizeStorage(), SettlementSizeRoutes())
                     fieldStorageLink(call, state.getTreatyStorage(), TreatyRoutes())
                     fieldStorageLink(call, state.getWarStorage(), WarRoutes())
                     h3 { +"Religions" }

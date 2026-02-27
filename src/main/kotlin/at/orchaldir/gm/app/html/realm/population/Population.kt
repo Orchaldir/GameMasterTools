@@ -1,6 +1,9 @@
 package at.orchaldir.gm.app.html.realm.population
 
-import at.orchaldir.gm.app.*
+import at.orchaldir.gm.app.CULTURE
+import at.orchaldir.gm.app.INCOME
+import at.orchaldir.gm.app.POPULATION
+import at.orchaldir.gm.app.RACE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.culture.parseCultureId
 import at.orchaldir.gm.app.html.economy.editIncome
@@ -16,7 +19,6 @@ import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.realm.population.*
 import at.orchaldir.gm.core.model.realm.population.PopulationType.Undefined
-import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.selector.character.getCharactersLivingIn
 import at.orchaldir.gm.core.selector.realm.calculateRankOfElementWithPopulation
 import at.orchaldir.gm.core.selector.util.sortCultures
@@ -33,12 +35,15 @@ import kotlinx.html.br
 
 // show
 
-fun HtmlBlockTag.showPopulation(population: Population) {
+fun HtmlBlockTag.displayPopulation(
+    call: ApplicationCall,
+    state: State,
+    population: Population,
+) {
     when (population) {
-        is AbstractPopulation -> +population.density.toString()
         is PopulationWithNumbers -> +population.calculateTotal().toString()
-        is PopulationWithPercentages -> +population.total.toString()
-        is TotalPopulation -> +population.total.toString()
+        is PopulationWithPercentages -> displayTotalPopulation(call, state, population.total)
+        is PopulationWithSets -> displayTotalPopulation(call, state, population.total)
         UndefinedPopulation -> doNothing()
     }
 }
@@ -87,13 +92,6 @@ fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showPopulationDetails(
         optionalField("Rank", state.calculateRankOfElementWithPopulation(element))
 
         when (population) {
-            is AbstractPopulation -> {
-                showIncome(call, state, population.income)
-                field("Density", population.density)
-                fieldIds(call, state, population.races)
-                fieldIds(call, state, population.cultures)
-            }
-
             is PopulationWithNumbers -> {
                 showIncome(call, state, population.income)
                 showNumberDistribution(call, state, "Race", population.races, totalOrZero)
@@ -102,13 +100,15 @@ fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showPopulationDetails(
             }
 
             is PopulationWithPercentages -> {
+                fieldTotalPopulation(call, state, population.total)
                 showIncome(call, state, population.income)
                 showPercentageDistribution(call, state, "Race", population.races, totalOrZero)
                 br { }
                 showPercentageDistribution(call, state, "Culture", population.cultures, totalOrZero)
             }
 
-            is TotalPopulation -> {
+            is PopulationWithSets -> {
+                fieldTotalPopulation(call, state, population.total)
                 showIncome(call, state, population.income)
                 fieldIds(call, state, population.races)
                 fieldIds(call, state, population.cultures)
@@ -127,6 +127,7 @@ fun HtmlBlockTag.editPopulation(
     call: ApplicationCall,
     state: State,
     population: Population,
+    allowedTotalPopulationTypes: Collection<TotalPopulationType>,
     param: String = POPULATION,
 ) {
     val total = population.getTotalPopulation() ?: 0
@@ -135,18 +136,6 @@ fun HtmlBlockTag.editPopulation(
         selectValue("Type", param, PopulationType.entries, population.getType())
 
         when (population) {
-            is AbstractPopulation -> {
-                selectValue(
-                    "Density",
-                    combine(param, DENSITY),
-                    Size.entries,
-                    population.density,
-                )
-                editIncome(state, population.income, combine(param, INCOME))
-                selectRaceSet(state, param, population.races)
-                selectCultureSet(state, param, population.cultures)
-            }
-
             is PopulationWithNumbers -> {
                 editIncome(state, population.income, combine(param, INCOME))
 
@@ -172,7 +161,7 @@ fun HtmlBlockTag.editPopulation(
             }
 
             is PopulationWithPercentages -> {
-                selectTotalPopulation(param, population.total)
+                editTotalPopulation(state, population.total, param, allowedTotalPopulationTypes)
                 editIncome(state, population.income, combine(param, INCOME))
 
                 editPercentageDistribution(
@@ -196,8 +185,8 @@ fun HtmlBlockTag.editPopulation(
                 )
             }
 
-            is TotalPopulation -> {
-                selectTotalPopulation(param, population.total)
+            is PopulationWithSets -> {
+                editTotalPopulation(state, population.total, param, allowedTotalPopulationTypes)
                 editIncome(state, population.income, combine(param, INCOME))
                 selectRaceSet(state, param, population.races)
                 selectCultureSet(state, param, population.cultures)
@@ -236,16 +225,6 @@ private fun DETAILS.selectRaceSet(
     )
 }
 
-private fun DETAILS.selectTotalPopulation(param: String, totalPopulation: Int) {
-    selectInt(
-        "Total Population",
-        totalPopulation,
-        0,
-        Int.MAX_VALUE,
-        1,
-        combine(param, NUMBER),
-    )
-}
 
 // parse
 
@@ -254,13 +233,6 @@ fun parsePopulation(
     state: State,
     param: String = POPULATION,
 ) = when (parse(parameters, param, Undefined)) {
-    PopulationType.Abstract -> AbstractPopulation(
-        parse(parameters, combine(param, DENSITY), Size.Medium),
-        parseRaceSet(parameters, param),
-        parseCultureSet(parameters, param),
-        parseIncome(state, parameters, combine(param, INCOME)),
-    )
-
     PopulationType.Numbers -> PopulationWithNumbers(
         parseNumberDistribution(
             state.getRaceStorage(),
@@ -292,7 +264,7 @@ fun parsePopulation(
         parseIncome(state, parameters, combine(param, INCOME)),
     )
 
-    PopulationType.Total -> TotalPopulation(
+    PopulationType.Sets -> PopulationWithSets(
         parseTotalPopulation(parameters, param),
         parseRaceSet(parameters, param),
         parseCultureSet(parameters, param),
@@ -307,9 +279,6 @@ private fun parseCultureSet(parameters: Parameters, param: String) =
 
 private fun parseRaceSet(parameters: Parameters, param: String) =
     parseElements(parameters, combine(param, RACE), ::parseRaceId)
-
-private fun parseTotalPopulation(parameters: Parameters, param: String): Int =
-    parseInt(parameters, combine(param, NUMBER), 0)
 
 fun parsePercentageOfCulture(parameters: Parameters, param: String, culture: Culture) =
     parseFactor(parameters, combine(param, CULTURE, culture.id.value), ZERO)

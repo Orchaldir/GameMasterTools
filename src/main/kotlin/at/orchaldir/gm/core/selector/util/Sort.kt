@@ -67,10 +67,7 @@ import at.orchaldir.gm.core.selector.item.ammunition.getAmmunition
 import at.orchaldir.gm.core.selector.item.countTexts
 import at.orchaldir.gm.core.selector.item.equipment.*
 import at.orchaldir.gm.core.selector.race.countRaceAppearancesMadeOf
-import at.orchaldir.gm.core.selector.realm.calculateTotalPopulation
-import at.orchaldir.gm.core.selector.realm.countOwnedSettlements
-import at.orchaldir.gm.core.selector.realm.countRealmsWithCurrencyAtAnyTime
-import at.orchaldir.gm.core.selector.realm.countRealmsWithLegalCodeAtAnyTime
+import at.orchaldir.gm.core.selector.realm.*
 import at.orchaldir.gm.core.selector.rpg.getEquipmentModifier
 import at.orchaldir.gm.core.selector.rpg.getMeleeWeaponTypes
 import at.orchaldir.gm.core.selector.rpg.getRangedWeaponTypes
@@ -996,6 +993,22 @@ fun State.sortSettlementMaps(
         when (sort) {
             SortSettlementMap.Name -> compareByDescending<SettlementMap> { it.name(this) }
                 .thenComparing(getStartDateComparator())
+        })
+
+// settlement size
+
+fun State.sortSettlementSizes(sort: SortSettlementSize = SortSettlementSize.MaxPopulation) =
+    sortSettlementSizes(getSettlementSizeStorage().getAll(), sort)
+
+fun State.sortSettlementSizes(
+    sizes: Collection<SettlementSize>,
+    sort: SortSettlementSize = SortSettlementSize.MaxPopulation,
+) = sizes
+    .sortedWith(
+        when (sort) {
+            SortSettlementSize.Name -> compareBy { it.name.text }
+            SortSettlementSize.MaxPopulation -> compareByDescending { it.maxPopulation }
+            SortSettlementSize.Settlements -> compareByDescending { getSettlements(it.id).size }
         })
 
 // shield types

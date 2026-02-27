@@ -5,7 +5,10 @@ import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.EconomyWithPercentages
 import at.orchaldir.gm.core.model.realm.Settlement
-import at.orchaldir.gm.core.model.realm.population.TotalPopulation
+import at.orchaldir.gm.core.model.realm.SettlementSize
+import at.orchaldir.gm.core.model.realm.population.PopulationWithSets
+import at.orchaldir.gm.core.model.realm.population.TotalPopulationAsNumber
+import at.orchaldir.gm.core.model.realm.population.TotalPopulationAsSettlementSize
 import at.orchaldir.gm.core.model.util.CharacterReference
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.VitalStatusType
@@ -23,6 +26,7 @@ class SettlementTest {
         listOf(
             Storage(CALENDAR0),
             Storage(Settlement(SETTLEMENT_ID_0)),
+            Storage(SettlementSize(SETTLEMENT_SIZE_ID_0)),
         )
     )
 
@@ -75,8 +79,17 @@ class SettlementTest {
         }
 
         @Test
+        fun `Settlements can use settlement sizes`() {
+            val total = TotalPopulationAsSettlementSize(SETTLEMENT_SIZE_ID_0)
+            val action = UpdateAction(Settlement(SETTLEMENT_ID_0, population = PopulationWithSets(total)))
+
+            REDUCER.invoke(STATE, action)
+        }
+
+        @Test
         fun `The population is validated`() {
-            val action = UpdateAction(Settlement(SETTLEMENT_ID_0, population = TotalPopulation(-1)))
+            val total = TotalPopulationAsNumber(-1)
+            val action = UpdateAction(Settlement(SETTLEMENT_ID_0, population = PopulationWithSets(total)))
 
             assertIllegalArgument("The total population must be >= 0!") { REDUCER.invoke(STATE, action) }
         }

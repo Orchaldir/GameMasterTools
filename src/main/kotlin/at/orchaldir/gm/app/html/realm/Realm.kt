@@ -20,6 +20,7 @@ import at.orchaldir.gm.core.model.realm.ALLOWED_CAUSES_OF_DEATH_FOR_REALM
 import at.orchaldir.gm.core.model.realm.ALLOWED_VITAL_STATUS_FOR_REALM
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.RealmId
+import at.orchaldir.gm.core.model.realm.population.WITHOUT_SETTLEMENT_SIZE
 import at.orchaldir.gm.core.selector.character.getCharactersLivingIn
 import at.orchaldir.gm.core.selector.character.getEmployees
 import at.orchaldir.gm.core.selector.character.getPreviousEmployees
@@ -74,7 +75,7 @@ fun HtmlBlockTag.editRealm(
 ) {
     selectName(realm.name)
     selectAreaLookup(realm.area, state.config.largeAreaUnit)
-    editPopulation(call, state, realm.population)
+    editPopulation(call, state, realm.population, WITHOUT_SETTLEMENT_SIZE)
     editEconomy(call, state, realm.economy)
     selectCreator(state, realm.founder, realm.id, realm.date, "Founder")
     selectOptionalDate(state, "Date", realm.date, DATE)

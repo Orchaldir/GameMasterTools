@@ -18,10 +18,11 @@ import kotlin.test.assertEquals
 
 class HasPopulationTest {
 
-    private val abstractPopulation = AbstractPopulation(races = setOf(RACE_ID_0))
+    private val abstractPopulation = PopulationWithSets(races = setOf(RACE_ID_0))
     private val numbers = PopulationWithNumbers(NumberDistribution(mapOf(RACE_ID_0 to 100)))
-    private val percentages = PopulationWithPercentages(100, PercentageDistribution(mapOf(RACE_ID_0 to HALF)))
-    private val totalPopulation = TotalPopulation(100, setOf(RACE_ID_0))
+    val total = TotalPopulationAsNumber(100)
+    private val percentages = PopulationWithPercentages(total, PercentageDistribution(mapOf(RACE_ID_0 to HALF)))
+    private val populationWithSets = PopulationWithSets(total, setOf(RACE_ID_0))
 
     @Nested
     inner class CanDeletePopulationOfTest {
@@ -46,7 +47,7 @@ class HasPopulationTest {
 
         @Test
         fun `Cannot delete a race used by the population of a settlement`() {
-            val settlement = Settlement(SETTLEMENT_ID_0, population = totalPopulation)
+            val settlement = Settlement(SETTLEMENT_ID_0, population = populationWithSets)
             val newState = state.updateStorage(settlement)
 
             failCanDelete(newState, SETTLEMENT_ID_0)
@@ -85,7 +86,7 @@ class HasPopulationTest {
 
         @Test
         fun `Test total population`() {
-            assertGetPopulations(totalPopulation)
+            assertGetPopulations(populationWithSets)
         }
 
         private fun assertGetPopulations(population: Population) {

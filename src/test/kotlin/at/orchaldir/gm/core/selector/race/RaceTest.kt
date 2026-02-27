@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.race.RaceGroup
 import at.orchaldir.gm.core.model.race.UseRaceRarityMap
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.realm.population.PopulationWithPercentages
+import at.orchaldir.gm.core.model.realm.population.TotalPopulationAsNumber
 import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.util.PercentageDistribution
 import at.orchaldir.gm.utils.Id
@@ -25,7 +26,8 @@ class RaceTest {
     inner class CanDeleteTest {
         private val race = Race(RACE_ID_0)
         private val state = State(Storage(race))
-        private val population = PopulationWithPercentages(100, PercentageDistribution(mapOf(RACE_ID_0 to HALF)))
+        private val population =
+            PopulationWithPercentages(TotalPopulationAsNumber(100), PercentageDistribution(mapOf(RACE_ID_0 to HALF)))
 
         @Test
         fun `Cannot delete a race part of a group`() {
