@@ -124,6 +124,7 @@ fun HtmlBlockTag.editPopulation(
     call: ApplicationCall,
     state: State,
     population: Population,
+    allowedTotalPopulationTypes: Collection<TotalPopulationType>,
     param: String = POPULATION,
 ) {
     val total = population.getTotalPopulation() ?: 0
@@ -157,7 +158,7 @@ fun HtmlBlockTag.editPopulation(
             }
 
             is PopulationWithPercentages -> {
-                editTotalPopulation(state, population.total, param)
+                editTotalPopulation(state, population.total, param, allowedTotalPopulationTypes)
                 editIncome(state, population.income, combine(param, INCOME))
 
                 editPercentageDistribution(
@@ -182,7 +183,7 @@ fun HtmlBlockTag.editPopulation(
             }
 
             is PopulationWithSets -> {
-                editTotalPopulation(state, population.total, param)
+                editTotalPopulation(state, population.total, param, allowedTotalPopulationTypes)
                 editIncome(state, population.income, combine(param, INCOME))
                 selectRaceSet(state, param, population.races)
                 selectCultureSet(state, param, population.cultures)

@@ -20,6 +20,7 @@ import at.orchaldir.gm.core.model.realm.ALLOWED_DISTRICT_POSITIONS
 import at.orchaldir.gm.core.model.realm.District
 import at.orchaldir.gm.core.model.realm.DistrictId
 import at.orchaldir.gm.core.model.realm.DistrictType
+import at.orchaldir.gm.core.model.realm.population.WITHOUT_SETTLEMENT_SIZE
 import at.orchaldir.gm.core.selector.realm.getDistricts
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -66,7 +67,7 @@ fun HtmlBlockTag.editDistrict(
     selectOptionalDate(state, "Date", district.foundingDate, DATE)
     selectCreator(state, district.founder, district.id, district.foundingDate, "Founder")
     selectAreaLookup(district.area, state.config.largeAreaUnit)
-    editPopulation(call, state, district.population)
+    editPopulation(call, state, district.population, WITHOUT_SETTLEMENT_SIZE)
     editEconomy(call, state, district.economy)
     editDataSources(state, district.sources)
 }

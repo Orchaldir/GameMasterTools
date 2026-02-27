@@ -7,6 +7,7 @@ import at.orchaldir.gm.app.TOTAL
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.realm.parseSettlementSizeId
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.appearance.hair.HairColorType
 import at.orchaldir.gm.core.model.realm.population.*
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.selector.util.sortSettlementSizes
@@ -42,11 +43,12 @@ fun HtmlBlockTag.editTotalPopulation(
     state: State,
     total: TotalPopulation,
     param: String,
+    allowedTypes: Collection<TotalPopulationType>,
 ) {
     val totalParam = combine(param, TOTAL)
 
     showDetails("Total Population", true) {
-        selectValue("Type", totalParam, TotalPopulationType.entries, total.getType())
+        selectValue("Type", totalParam, allowedTypes, total.getType())
 
         when (total) {
             is TotalPopulationAsDensity -> selectValue(

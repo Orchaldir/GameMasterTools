@@ -21,6 +21,7 @@ import at.orchaldir.gm.app.html.world.showCharactersOfSettlementMap
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.realm.population.Population
+import at.orchaldir.gm.core.model.realm.population.TotalPopulationType
 import at.orchaldir.gm.core.selector.realm.getDistricts
 import at.orchaldir.gm.core.selector.realm.getExistingRealms
 import at.orchaldir.gm.core.selector.realm.getRealmsWithCapital
@@ -151,7 +152,7 @@ fun HtmlBlockTag.editSettlement(
         )
     }
     selectAreaLookup(settlement.area, state.config.largeAreaUnit)
-    editPopulation(call, state, settlement.population)
+    editPopulation(call, state, settlement.population, TotalPopulationType.entries)
     editEconomy(call, state, settlement.economy)
     editDataSources(state, settlement.sources)
 }
