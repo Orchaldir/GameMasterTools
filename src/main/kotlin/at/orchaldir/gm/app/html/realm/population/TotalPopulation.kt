@@ -24,7 +24,7 @@ fun HtmlBlockTag.displayTotalPopulation(
     when (total) {
         is TotalPopulationAsDensity -> +total.density.toString()
         is TotalPopulationAsNumber -> +total.number.toString()
-        is TotalPopulationAsSettlementSize -> link(call, state, total.size)
+        is TotalPopulationAsSettlementSize -> link(call, state, total.id)
     }
 }
 
@@ -68,7 +68,7 @@ fun HtmlBlockTag.editTotalPopulation(
                 "Settlement Size",
                 combine(totalParam, SIZE),
                 state.sortSettlementSizes(),
-                total.size,
+                total.id,
             )
         }
     }

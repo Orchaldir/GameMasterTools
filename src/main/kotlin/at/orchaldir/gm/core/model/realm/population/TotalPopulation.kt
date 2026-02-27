@@ -43,5 +43,5 @@ data class TotalPopulationAsNumber(
 @Serializable
 @SerialName("SettlementSize")
 data class TotalPopulationAsSettlementSize(
-    val size: SettlementSizeId,
+    val id: SettlementSizeId,
 ) : TotalPopulation()

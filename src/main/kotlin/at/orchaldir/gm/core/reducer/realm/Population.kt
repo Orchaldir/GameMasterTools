@@ -72,7 +72,7 @@ fun validateTotalPopulation(
 ) = when(total) {
     is TotalPopulationAsDensity -> doNothing()
     is TotalPopulationAsNumber -> validateTotalPopulation(total.number)
-    is TotalPopulationAsSettlementSize -> state.getSettlementSizeStorage().remove(total.size)
+    is TotalPopulationAsSettlementSize -> state.getSettlementSizeStorage().remove(total.id)
 }
 
 fun validateTotalPopulation(
