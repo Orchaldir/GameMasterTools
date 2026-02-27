@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.routes.realm
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.Column
+import at.orchaldir.gm.app.html.countCollectionColumn
 import at.orchaldir.gm.app.html.createNameColumn
 import at.orchaldir.gm.app.html.realm.editSettlementSize
 import at.orchaldir.gm.app.html.realm.parseSettlementSize
@@ -12,6 +13,7 @@ import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.realm.SETTLEMENT_SIZE_TYPE
 import at.orchaldir.gm.core.model.realm.SettlementSizeId
 import at.orchaldir.gm.core.model.util.SortSettlementSize
+import at.orchaldir.gm.core.selector.realm.getSettlements
 import at.orchaldir.gm.core.selector.util.sortSettlementSizes
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -66,6 +68,7 @@ fun Application.configureSettlementSizeRouting() {
                 listOf(
                     createNameColumn(call, state),
                     Column("Max Population") { tdSkipZero(it.maxPopulation) },
+                    countCollectionColumn("Settlements") { state.getSettlements(it.id) },
                 ),
             )
         }
