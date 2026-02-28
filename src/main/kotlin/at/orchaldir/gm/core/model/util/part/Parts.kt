@@ -93,6 +93,7 @@ data class FillLookupItemPart(
 data class Fabric(
     val material: MaterialId = MaterialId(0),
     val weight: FabricWeight = FabricWeight.Medium,
+    val type: FabricType = FabricType.Woven,
     val fill: FillLookup = SolidLookup(LookupMaterial),
 ) : ItemPart {
 
