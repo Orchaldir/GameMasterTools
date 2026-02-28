@@ -10,7 +10,7 @@ const val MAX_HARDNESS = 20.0f
 
 @Serializable
 data class MaterialProperties(
-    val category: MaterialCategory = MaterialCategory.Metal,
+    val category: MaterialCategory = UndefinedMaterialCategory,
     val color: Color = Color.Pink,
     val crystalSystem: CrystalSystem = CrystalSystem.None,
     val density: Weight = Weight.fromKilograms(1000),
