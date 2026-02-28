@@ -89,26 +89,3 @@ data class FillLookupItemPart(
 
 }
 
-interface MadeFromParts {
-
-    fun parts(): List<ItemPart> = emptyList()
-
-    fun contains(id: MaterialId): Boolean = parts().any { it.contains(id) }
-
-    fun materials(): Set<MaterialId> {
-        val sum: MutableSet<MaterialId> = mutableSetOf()
-
-        parts().forEach { sum.addAll(it.materials()) }
-
-        return sum
-    }
-
-    /**
-     * The main material of an equipment is relevant for the RPG stats.
-     */
-    fun mainMaterial(): MaterialId? = null
-
-    fun requiredSchemaColors() = parts()
-        .maxOfOrNull { it.requiredSchemaColors() } ?: 0
-
-}
