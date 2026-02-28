@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.economy.material
 
 import at.orchaldir.gm.core.model.util.PercentageDistribution
+import at.orchaldir.gm.core.model.util.Size
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -32,6 +33,7 @@ data class Alloy(
 @SerialName("Fiber")
 data class Fiber(
     val components: PercentageDistribution<MaterialId>,
+    val weight: Size = Size.Medium,
 ) : MaterialCategory()
 
 @Serializable

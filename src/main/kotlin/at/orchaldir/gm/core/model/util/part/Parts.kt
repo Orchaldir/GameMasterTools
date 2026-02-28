@@ -89,3 +89,20 @@ data class FillLookupItemPart(
 
 }
 
+@Serializable
+data class Fabric(
+    val material: MaterialId = MaterialId(0),
+    val weight: FabricWeight = FabricWeight.Medium,
+    val fill: FillLookup = SolidLookup(LookupMaterial),
+) : ItemPart {
+
+    constructor(color: Color) : this(fill = SolidLookup(color))
+
+    fun getFill(state: State, colors: Colors) = fill.lookup(state, colors, material)
+
+    override fun contains(id: MaterialId) = material == id
+    override fun materials() = setOf(material)
+    override fun requiredSchemaColors() = fill.requiredSchemaColors()
+
+}
+
