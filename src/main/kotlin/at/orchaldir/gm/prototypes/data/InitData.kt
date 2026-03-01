@@ -23,7 +23,7 @@ import java.nio.file.Paths
 private val logger = KotlinLogging.logger {}
 
 fun main(args: Array<String>) {
-    logger.info { "Command line args: $args" }
+    logger.info { "Command line args: '${args.joinToString()}'" }
     val path = args[0]
     logger.info { "Path: $path" }
 
