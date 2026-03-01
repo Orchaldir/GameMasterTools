@@ -5,40 +5,78 @@
    "id": 0,
    "name": "Copper",
    "properties": {
+    "category": {
+     "#type": "Metal"
+    },
     "color": "OrangeRed",
-    "density": 8940000000
+    "crystalSystem": "Cubic",
+    "density": 8940000000,
+    "fracture": "Uneven",
+    "hardness": 3.0,
+    "luster": "Metallic",
+    "tenacity": "Ductile"
    }
   },
   "1": {
    "id": 1,
    "name": "Silver",
    "properties": {
+    "category": {
+     "#type": "Metal"
+    },
     "color": "Silver",
-    "density": 10500000000
+    "crystalSystem": "Cubic",
+    "density": 10500000000,
+    "fracture": "Hackly",
+    "hardness": 2.5,
+    "luster": "Metallic",
+    "tenacity": "Ductile"
    }
   },
   "2": {
    "id": 2,
    "name": "Gold",
    "properties": {
+    "category": {
+     "#type": "Metal"
+    },
     "color": "Gold",
-    "density": 19320000000
+    "crystalSystem": "Cubic",
+    "density": 19320000000,
+    "fracture": "Hackly",
+    "hardness": 2.5,
+    "luster": "Metallic",
+    "tenacity": "Sectile"
    }
   },
   "3": {
    "id": 3,
    "name": "Platinum",
    "properties": {
+    "category": {
+     "#type": "Metal"
+    },
     "color": "AliceBlue",
-    "density": 21450000000
+    "crystalSystem": "Cubic",
+    "density": 21450000000,
+    "fracture": "Hackly",
+    "hardness": 3.5,
+    "luster": "Metallic",
+    "tenacity": "Ductile"
    }
   },
   "4": {
    "id": 4,
    "name": "Iron",
    "properties": {
+    "category": {
+     "#type": "Metal"
+    },
     "color": "DimGray",
-    "density": 7870000000
+    "crystalSystem": "Cubic",
+    "density": 7870000000,
+    "hardness": 4.0,
+    "luster": "Metallic"
    }
   },
   "5": {
@@ -53,8 +91,16 @@
    "id": 6,
    "name": "Brass",
    "properties": {
+    "category": {
+     "#type": "Alloy",
+     "components": {
+     }
+    },
     "color": "Gold",
-    "density": 8600000000
+    "crystalSystem": "Cubic",
+    "density": 8600000000,
+    "luster": "Metallic",
+    "tenacity": "Ductile"
    }
   },
   "7": {
@@ -63,6 +109,20 @@
    "properties": {
     "color": "Orange",
     "density": 8770000000
+   }
+  },
+  "9": {
+   "id": 9,
+   "name": "Zinc",
+   "properties": {
+    "category": {
+     "#type": "Metal"
+    },
+    "color": "LightGray",
+    "crystalSystem": "Hexagonal",
+    "density": 7139000000,
+    "hardness": 2.5,
+    "luster": "Metallic"
    }
   }
  }
