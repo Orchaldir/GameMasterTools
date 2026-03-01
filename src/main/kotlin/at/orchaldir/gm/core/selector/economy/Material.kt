@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.selector.economy
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.Material
+import at.orchaldir.gm.core.model.economy.material.MaterialCategoryType
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.selector.economy.money.getCurrencyUnits
 import at.orchaldir.gm.core.selector.item.equipment.getEquipmentMadeOf
@@ -31,6 +32,10 @@ fun State.calculateWeight(id: MaterialId, volume: Volume): Weight {
 
     return Weight.fromVolume(volume, material.properties.density)
 }
+
+fun State.getMaterials(categories: Set<MaterialCategoryType>) = getMaterialStorage()
+    .getAll()
+    .filter { categories.contains(it.properties.category.getType()) }
 
 fun State.getMaterialsMadeOf(other: MaterialId) = getMaterialStorage()
     .getAll()

@@ -22,6 +22,8 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.economy.job.*
 import at.orchaldir.gm.core.model.economy.material.Alloy
+import at.orchaldir.gm.core.model.economy.material.CATEGORIES_FOR_ALLOY
+import at.orchaldir.gm.core.model.economy.material.CATEGORIES_FOR_ROCK
 import at.orchaldir.gm.core.model.economy.material.Fiber
 import at.orchaldir.gm.core.model.economy.material.Hide
 import at.orchaldir.gm.core.model.economy.material.Leather
@@ -104,7 +106,7 @@ fun HtmlBlockTag.editMaterialCategory(
                 state,
                 "Components",
                 combine(CATEGORY, MATERIAL),
-                state.sortMaterials(), // get metals
+                state.sortMaterials(CATEGORIES_FOR_ALLOY),
                 category.components,
             )
             is Fiber -> selectValue(
@@ -142,9 +144,9 @@ fun HtmlBlockTag.editMaterialCategory(
                 )
                 selectElements(
                     state,
-                    "Hide",
+                    "Components",
                     combine(CATEGORY, MATERIAL, LIST),
-                    state.sortMaterials(), // get minerals
+                    state.sortMaterials(CATEGORIES_FOR_ROCK),
                     category.components,
                 )
             }

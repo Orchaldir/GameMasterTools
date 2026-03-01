@@ -5,6 +5,9 @@ import at.orchaldir.gm.core.model.util.Size
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+val CATEGORIES_FOR_ALLOY = setOf(MaterialCategoryType.Metal)
+val CATEGORIES_FOR_ROCK = setOf(MaterialCategoryType.Mineral)
+
 enum class MaterialCategoryType {
     Undefined,
     Alloy,
