@@ -215,4 +215,4 @@ private fun parseThickness(parameters: Parameters): LeatherThickness =
     parse(parameters, combine(CATEGORY, THICKNESS), LeatherThickness.Medium)
 
 fun parsePercentageOfMaterial(parameters: Parameters, param: String, material: Material) =
-    parseFactor(parameters, combine(param, MATERIAL, material.id.value), ZERO)
+    parseFactor(parameters, combine(param, material.id.value), ZERO)

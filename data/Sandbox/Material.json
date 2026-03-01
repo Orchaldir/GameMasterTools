@@ -94,6 +94,8 @@
     "category": {
      "#type": "Alloy",
      "components": {
+      "0": 6600,
+      "9": 3300
      }
     },
     "color": "Gold",

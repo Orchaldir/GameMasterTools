@@ -62,7 +62,7 @@ fun <ID : Id<ID>> DETAILS.showPercentageDistribution(
                 remaining -= percentage
             }
 
-        showRemainingPopulation(total, remaining)
+        showRemainingPercentage(total, remaining)
     }
 }
 
@@ -72,6 +72,8 @@ fun <ID : Id<ID>> DETAILS.showPercentageDistribution(
     label: String,
     distribution: PercentageDistribution<ID>,
 ) {
+    var remaining = Factor.fromPercentage(100)
+
     table {
         tr {
             th { +label }
@@ -86,11 +88,24 @@ fun <ID : Id<ID>> DETAILS.showPercentageDistribution(
                     tdLink(call, state, raceId)
                     tdPercentage(percentage)
                 }
+
+                remaining -= percentage
             }
+
+        showRemainingPercentage(remaining)
     }
 }
 
-private fun TABLE.showRemainingPopulation(
+private fun TABLE.showRemainingPercentage(remaining: Factor) {
+    if (remaining.isGreaterZero()) {
+        tr {
+            tdString("Other")
+            tdPercentage(remaining)
+        }
+    }
+}
+
+private fun TABLE.showRemainingPercentage(
     total: Int,
     remaining: Factor,
 ) {
@@ -164,7 +179,10 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> DETAILS.editPercentageDistribution(
         }
 
         if (total != null) {
-            showRemainingPopulation(total, remaining)
+            showRemainingPercentage(total, remaining)
+        }
+        else {
+            showRemainingPercentage(remaining)
         }
     }
 }

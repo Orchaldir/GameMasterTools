@@ -59,12 +59,12 @@ fun <ID : Id<ID>> DETAILS.showNumberDistribution(
                 remaining -= number
             }
 
-        showRemainingPopulation(total, remaining)
+        showRemainingPercentage(total, remaining)
         showTotalPopulation(total)
     }
 }
 
-private fun TABLE.showRemainingPopulation(
+private fun TABLE.showRemainingPercentage(
     total: Int,
     remaining: Int,
 ) {
@@ -153,7 +153,7 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> DETAILS.editNumberDistribution(
 
         remaining -= distribution.unknown
 
-        showRemainingPopulation(total, remaining)
+        showRemainingPercentage(total, remaining)
         showTotalPopulation(total)
     }
 }
