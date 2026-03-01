@@ -16,6 +16,7 @@ import at.orchaldir.gm.utils.math.unit.Weight
 fun State.canDeleteMaterial(material: MaterialId) = DeleteResult(material)
     .addElements(getCurrencyUnits(material))
     .addElements(getEquipmentMadeOf(material))
+    .addElements(getMaterialsMadeOf(material))
     .addElements(getMoonsContaining(material))
     .addElements(getRegionsContaining(material))
     .addElements(getStreetTemplatesMadeOf(material))

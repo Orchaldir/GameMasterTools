@@ -3,8 +3,11 @@ package at.orchaldir.gm.core.selector.economy
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.economy.material.Alloy
 import at.orchaldir.gm.core.model.economy.material.Material
 import at.orchaldir.gm.core.model.economy.material.MaterialCost
+import at.orchaldir.gm.core.model.economy.material.MaterialProperties
+import at.orchaldir.gm.core.model.economy.material.Rock
 import at.orchaldir.gm.core.model.economy.money.Coin
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnit
 import at.orchaldir.gm.core.model.item.equipment.Equipment
@@ -40,6 +43,15 @@ class MaterialTest {
             val newState = state.updateStorage(unit)
 
             failCanDelete(newState, CURRENCY_UNIT_ID_0)
+        }
+
+        @Test
+        fun `Cannot delete a material that is a component of another material`() {
+            val category = Rock(components = setOf(MATERIAL_ID_0))
+            val material1 = Material(MATERIAL_ID_1, properties = MaterialProperties(category))
+            val newState = state.updateStorage(listOf(material, material1))
+
+            failCanDelete(newState, MATERIAL_ID_1)
         }
 
         @Test
