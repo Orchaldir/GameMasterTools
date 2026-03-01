@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.util.part
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.economy.material.LeatherGrade
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.util.render.*
 import kotlinx.serialization.Serializable
@@ -108,9 +109,9 @@ data class Fabric(
 }
 
 @Serializable
-data class Leather(
+data class MadeFromLeather(
     val material: MaterialId = MaterialId(0),
-    val grade: LeatherGrade = LeatherGrade.TopGrain,
+    val grade: LeatherGrade = LeatherGrade.Undefined,
     val color: ColorLookup = LookupMaterial,
 ) : ItemPart {
 

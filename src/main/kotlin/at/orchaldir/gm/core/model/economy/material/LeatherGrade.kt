@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.model.util.part
+package at.orchaldir.gm.core.model.economy.material
 
 enum class LeatherGrade {
     FullGrain,
@@ -6,4 +6,5 @@ enum class LeatherGrade {
     CorrectedGrain,
     SplitGrain,
     Bonded,
+    Undefined
 }

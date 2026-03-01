@@ -11,6 +11,7 @@ enum class MaterialCategoryType {
     Crystal,
     Fiber,
     Hide,
+    Leather,
     Metal,
     Paper,
     Stone,
@@ -24,6 +25,7 @@ sealed class MaterialCategory {
         is Alloy -> MaterialCategoryType.Alloy
         is Fiber -> MaterialCategoryType.Fiber
         is Hide -> MaterialCategoryType.Hide
+        is Leather -> MaterialCategoryType.Leather
         is Metal -> MaterialCategoryType.Metal
         is UndefinedMaterialCategory -> MaterialCategoryType.Undefined
     }
@@ -46,6 +48,14 @@ data class Fiber(
 @SerialName("Hide")
 data class Hide(
     val components: PercentageDistribution<MaterialId>,
+    val thickness: LeatherThickness = LeatherThickness.Medium,
+) : MaterialCategory()
+
+@Serializable
+@SerialName("Leather")
+data class Leather(
+    val hide: MaterialId? = null,
+    val grade: LeatherGrade = LeatherGrade.Undefined,
     val thickness: LeatherThickness = LeatherThickness.Medium,
 ) : MaterialCategory()
 
