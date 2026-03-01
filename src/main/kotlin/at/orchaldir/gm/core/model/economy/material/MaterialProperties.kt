@@ -14,13 +14,13 @@ data class MaterialProperties(
     val color: Color = Color.Pink,
     val crystalSystem: CrystalSystem = CrystalSystem.Amorphous,
     val density: Weight = Weight.fromKilograms(1000),
-    val fracture: Fracture = Fracture.Uneven,
+    val fracture: Fracture = Fracture.Undefined,
     /**
      * Using Mohs scale. See https://en.wikipedia.org/wiki/Mohs_scale
      */
     val hardness: Float = 1.0f,
     val luster: Luster = Luster.Dull,
-    val tenacity: Tenacity = Tenacity.Brittle,
+    val tenacity: Tenacity = Tenacity.Undefined,
     val transparency: Transparency = Transparency.Opaque,
 ) {
 

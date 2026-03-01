@@ -66,6 +66,30 @@ fun <ID : Id<ID>> DETAILS.showPercentageDistribution(
     }
 }
 
+fun <ID : Id<ID>> DETAILS.showPercentageDistribution(
+    call: ApplicationCall,
+    state: State,
+    label: String,
+    distribution: PercentageDistribution<ID>,
+) {
+    table {
+        tr {
+            th { +label }
+            th { +"Percentage" }
+        }
+        distribution
+            .map
+            .toList()
+            .sortedByDescending { it.second.toPermyriad() }
+            .forEach { (raceId, percentage) ->
+                tr {
+                    tdLink(call, state, raceId)
+                    tdPercentage(percentage)
+                }
+            }
+    }
+}
+
 private fun TABLE.showRemainingPopulation(
     total: Int,
     remaining: Factor,
@@ -102,7 +126,7 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> DETAILS.editPercentageDistribution(
     param: String,
     allElements: List<ELEMENT>,
     distribution: PercentageDistribution<ID>,
-    total: Int,
+    total: Int? = null,
 ) {
     val remaining = distribution.getUndefinedPercentages()
 
@@ -110,7 +134,9 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> DETAILS.editPercentageDistribution(
         tr {
             th { +label }
             th { +"Percentage" }
-            th { +"Number" }
+            if (total != null) {
+                th { +"Number" }
+            }
         }
         allElements.forEach { element ->
             val percentage = distribution.getPercentage(element.id())
@@ -131,11 +157,15 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> DETAILS.editPercentageDistribution(
                         ONE_TENTH_PERCENT,
                     )
                 }
-                showElementNumber(total, percentage)
+                if (total != null) {
+                    showElementNumber(total, percentage)
+                }
             }
         }
 
-        showRemainingPopulation(total, remaining)
+        if (total != null) {
+            showRemainingPopulation(total, remaining)
+        }
     }
 }
 

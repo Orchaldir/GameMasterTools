@@ -31,7 +31,7 @@ fun HtmlBlockTag.showMaterial(
     material: Material,
 ) {
     fieldName(material.name)
-    showMaterialProperties(material.properties)
+    showMaterialProperties(call, state, material.properties)
     fieldPrice(call, state, "Price Per Kilogram", material.pricePerKilogram)
 
     showUsage(call, state, material)
@@ -75,7 +75,7 @@ fun HtmlBlockTag.editMaterial(
     material: Material,
 ) {
     selectName(material.name)
-    editMaterialProperties(material.properties)
+    editMaterialProperties(call, state, material.properties)
     selectPrice(
         state,
         "Price Per Kilogram",
@@ -100,6 +100,6 @@ fun parseMaterial(
 ) = Material(
     id,
     parseName(parameters),
-    parseMaterialProperties(parameters),
+    parseMaterialProperties(state, parameters),
     parsePrice(state, parameters, PRICE),
 )

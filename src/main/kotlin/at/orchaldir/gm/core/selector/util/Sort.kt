@@ -686,7 +686,7 @@ fun State.sortMaterials(
     .sortedWith(
         when (sort) {
             SortMaterial.Name -> compareBy { it.name.text }
-            SortMaterial.Category -> compareByEnum { it.properties.category }
+            SortMaterial.Category -> compareByEnum { it.properties.category.getType() }
             SortMaterial.CrystalSystem -> compareByEnum { it.properties.crystalSystem }
             SortMaterial.Density -> compareByDescending { it.properties.density.value() }
             SortMaterial.Hardness -> compareByDescending { it.properties.hardness }

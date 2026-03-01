@@ -2,22 +2,29 @@ package at.orchaldir.gm.app.html.economy.properties
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.economy.material.editMaterialCategory
+import at.orchaldir.gm.app.html.economy.material.parseMaterialCategory
+import at.orchaldir.gm.app.html.economy.material.showMaterialCategory
 import at.orchaldir.gm.app.html.util.math.fieldWeight
 import at.orchaldir.gm.app.html.util.math.parseWeight
 import at.orchaldir.gm.app.html.util.math.selectWeight
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.*
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.math.unit.SiPrefix
 import io.ktor.http.*
+import io.ktor.server.application.ApplicationCall
 import kotlinx.html.HtmlBlockTag
 import java.util.*
 
 // show
 
 fun HtmlBlockTag.showMaterialProperties(
+    call: ApplicationCall,
+    state: State,
     properties: MaterialProperties,
 ) {
-    field("Category", properties.category)
+    showMaterialCategory(call, state, properties.category)
     field("Crystal System", properties.crystalSystem)
     fieldColor(properties.color)
     field("Transparency", properties.transparency)
@@ -34,9 +41,11 @@ fun displayHardness(properties: MaterialProperties) =
 // edit
 
 fun HtmlBlockTag.editMaterialProperties(
+    call: ApplicationCall,
+    state: State,
     properties: MaterialProperties,
 ) {
-    selectValue("Category", CATEGORY, MaterialCategory.entries, properties.category)
+    editMaterialCategory(call, state, properties.category)
     selectOptionalValue(
         "Crystal System",
         CRYSTAl,
@@ -69,11 +78,12 @@ fun HtmlBlockTag.editMaterialProperties(
 // parse
 
 fun parseMaterialProperties(
+    state: State,
     parameters: Parameters,
 ) = MaterialProperties(
-    parse(parameters, CATEGORY, MaterialCategory.Metal),
+    parseMaterialCategory(state, parameters),
     parse(parameters, COLOR, Color.Pink),
-    parse(parameters, CRYSTAl, CrystalSystem.None),
+    parse(parameters, CRYSTAl, CrystalSystem.Amorphous),
     parseWeight(parameters, DENSITY, SiPrefix.Kilo),
     parse(parameters, FRACTURE, Fracture.Uneven),
     parseFloat(parameters, HARDNESS),

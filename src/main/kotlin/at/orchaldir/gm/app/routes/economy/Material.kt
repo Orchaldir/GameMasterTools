@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.routes.economy
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.Column.Companion.tdColumn
+import at.orchaldir.gm.app.html.economy.material.displayMaterialCategory
 import at.orchaldir.gm.app.html.economy.material.editMaterial
 import at.orchaldir.gm.app.html.economy.material.parseMaterial
 import at.orchaldir.gm.app.html.economy.material.showMaterial
@@ -74,15 +75,9 @@ fun Application.configureMaterialRouting() {
                 state.sortMaterials(all.sort),
                 listOf(
                     createNameColumn(call, state),
-                    Column("Category") { tdEnum(it.properties.category) },
+                    tdColumn("Category") { displayMaterialCategory(it.properties.category) },
                     Column(listOf("Crystal", "System")) {
-                        tdEnum(
-                            if (it.properties.crystalSystem != CrystalSystem.None) {
-                                it.properties.crystalSystem
-                            } else {
-                                null
-                            }
-                        )
+                        tdEnum(it.properties.crystalSystem)
                     },
                     tdColumn("Color") { showColor(it.properties.color) },
                     Column("Transparency") { tdEnum(it.properties.transparency) },

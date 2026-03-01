@@ -44,14 +44,12 @@ data class Alloy(
 @Serializable
 @SerialName("Fiber")
 data class Fiber(
-    val components: PercentageDistribution<MaterialId>,
     val weight: Size = Size.Medium,
 ) : MaterialCategory()
 
 @Serializable
 @SerialName("Hide")
 data class Hide(
-    val components: PercentageDistribution<MaterialId>,
     val thickness: LeatherThickness = LeatherThickness.Medium,
 ) : MaterialCategory()
 
@@ -69,9 +67,7 @@ data object Metal : MaterialCategory()
 
 @Serializable
 @SerialName("Mineral")
-data class Mineral(
-    val components: PercentageDistribution<MaterialId>,
-) : MaterialCategory()
+data object Mineral : MaterialCategory()
 
 @Serializable
 @SerialName("Paper")
@@ -80,7 +76,7 @@ data object Paper : MaterialCategory()
 @Serializable
 @SerialName("Rock")
 data class Rock(
-    val components: PercentageDistribution<MaterialId>,
+    val components: Set<MaterialId>,
     val type: RockType = RockType.Undefined,
 ) : MaterialCategory()
 
