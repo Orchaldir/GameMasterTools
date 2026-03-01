@@ -107,3 +107,20 @@ data class Fabric(
 
 }
 
+@Serializable
+data class Leather(
+    val material: MaterialId = MaterialId(0),
+    val grade: LeatherGrade = LeatherGrade.TopGrain,
+    val color: ColorLookup = LookupMaterial,
+) : ItemPart {
+
+    constructor(color: Color) : this(color = FixedColor(color))
+
+    fun getFill(state: State, colors: Colors) = SolidLookup(color.lookup(state, colors, material))
+
+    override fun contains(id: MaterialId) = material == id
+    override fun materials() = setOf(material)
+    override fun requiredSchemaColors() = color.requiredSchemaColors()
+
+}
+
