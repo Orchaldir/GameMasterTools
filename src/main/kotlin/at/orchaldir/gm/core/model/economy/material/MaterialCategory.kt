@@ -8,13 +8,13 @@ import kotlinx.serialization.Serializable
 enum class MaterialCategoryType {
     Undefined,
     Alloy,
-    Crystal,
     Fiber,
     Hide,
     Leather,
     Metal,
+    Mineral,
     Paper,
-    Stone,
+    Rock,
     Wood;
 }
 
@@ -27,6 +27,10 @@ sealed class MaterialCategory {
         is Hide -> MaterialCategoryType.Hide
         is Leather -> MaterialCategoryType.Leather
         is Metal -> MaterialCategoryType.Metal
+        is Mineral -> MaterialCategoryType.Mineral
+        is Paper -> MaterialCategoryType.Paper
+        is Rock -> MaterialCategoryType.Rock
+        is Wood -> MaterialCategoryType.Wood
         is UndefinedMaterialCategory -> MaterialCategoryType.Undefined
     }
 }
@@ -62,6 +66,27 @@ data class Leather(
 @Serializable
 @SerialName("Metal")
 data object Metal : MaterialCategory()
+
+@Serializable
+@SerialName("Mineral")
+data class Mineral(
+    val components: PercentageDistribution<MaterialId>,
+) : MaterialCategory()
+
+@Serializable
+@SerialName("Paper")
+data object Paper : MaterialCategory()
+
+@Serializable
+@SerialName("Rock")
+data class Rock(
+    val components: PercentageDistribution<MaterialId>,
+    val type: RockType = RockType.Undefined,
+) : MaterialCategory()
+
+@Serializable
+@SerialName("Wood")
+data object Wood : MaterialCategory()
 
 @Serializable
 @SerialName("Undefined")
