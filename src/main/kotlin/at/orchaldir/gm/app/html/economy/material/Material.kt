@@ -11,6 +11,7 @@ import at.orchaldir.gm.app.html.economy.properties.showMaterialProperties
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.Material
 import at.orchaldir.gm.core.model.economy.material.MaterialId
+import at.orchaldir.gm.core.selector.economy.getMaterialsMadeOf
 import at.orchaldir.gm.core.selector.economy.money.getCurrencyUnits
 import at.orchaldir.gm.core.selector.item.equipment.getEquipmentMadeOf
 import at.orchaldir.gm.core.selector.item.getTextsMadeOf
@@ -44,13 +45,14 @@ private fun HtmlBlockTag.showUsage(
 ) {
     val currencyUnits = state.getCurrencyUnits(material.id)
     val equipmentList = state.getEquipmentMadeOf(material.id)
+    val materials = state.getMaterialsMadeOf(material.id)
     val moons = state.getMoonsContaining(material.id)
     val regions = state.getRegionsContaining(material.id)
     val raceAppearances = state.getRaceAppearancesMadeOf(material.id)
     val streetTemplates = state.getStreetTemplatesMadeOf(material.id)
     val texts = state.getTextsMadeOf(material.id)
 
-    if (currencyUnits.isEmpty() && equipmentList.isEmpty() && moons.isEmpty() && regions.isEmpty() && raceAppearances.isEmpty() && streetTemplates.isEmpty() && texts.isEmpty()) {
+    if (currencyUnits.isEmpty() && equipmentList.isEmpty() && materials.isEmpty() && moons.isEmpty() && regions.isEmpty() && raceAppearances.isEmpty() && streetTemplates.isEmpty() && texts.isEmpty()) {
         return
     }
 
@@ -58,6 +60,7 @@ private fun HtmlBlockTag.showUsage(
 
     fieldElements(call, state, currencyUnits)
     fieldElements(call, state, equipmentList)
+    fieldElements(call, state, materials)
     fieldElements(call, state, moons)
     fieldElements(call, state, regions)
     fieldElements(call, state, raceAppearances)

@@ -24,6 +24,8 @@ data class MaterialProperties(
     val transparency: Transparency = Transparency.Opaque,
 ) {
 
+    fun contains(material: MaterialId) = category.contains(material)
+
     fun validate(state: State) {
         require(hardness >= MIN_HARDNESS) { "Hardness $hardness is below minimum $MIN_HARDNESS!" }
         require(hardness <= MAX_HARDNESS) { "Hardness $hardness is above maximum $MAX_HARDNESS!" }

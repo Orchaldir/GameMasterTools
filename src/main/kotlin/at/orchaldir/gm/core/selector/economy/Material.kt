@@ -30,3 +30,7 @@ fun State.calculateWeight(id: MaterialId, volume: Volume): Weight {
 
     return Weight.fromVolume(volume, material.properties.density)
 }
+
+fun State.getMaterialsMadeOf(other: MaterialId) = getMaterialStorage()
+    .getAll()
+    .filter { it.properties.contains(other) }

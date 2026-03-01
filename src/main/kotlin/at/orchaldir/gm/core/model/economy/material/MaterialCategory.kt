@@ -33,6 +33,13 @@ sealed class MaterialCategory {
         is Wood -> MaterialCategoryType.Wood
         is UndefinedMaterialCategory -> MaterialCategoryType.Undefined
     }
+
+    fun contains(material: MaterialId) = when (this) {
+        is Alloy -> components.map.containsKey(material)
+        is Leather -> hide == material
+        is Rock -> components.contains(material)
+        else -> false
+    }
 }
 
 @Serializable
