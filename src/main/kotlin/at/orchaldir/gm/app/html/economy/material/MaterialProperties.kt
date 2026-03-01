@@ -11,6 +11,7 @@ import at.orchaldir.gm.app.html.util.math.selectWeight
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.*
 import at.orchaldir.gm.core.model.util.render.Color
+import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.unit.SiPrefix
 import io.ktor.http.*
 import io.ktor.server.application.ApplicationCall
@@ -37,6 +38,16 @@ fun HtmlBlockTag.showMaterialProperties(
 
 fun displayHardness(properties: MaterialProperties) =
     String.format(Locale.US, "%.1f", properties.hardness)
+
+fun HtmlBlockTag.displayFracture(fracture: Fracture) = when (fracture) {
+    Fracture.Undefined -> doNothing()
+    else -> +fracture.name
+}
+
+fun HtmlBlockTag.displayTenacity(tenacity: Tenacity) = when (tenacity) {
+    Tenacity.Undefined -> doNothing()
+    else -> +tenacity.name
+}
 
 // edit
 
