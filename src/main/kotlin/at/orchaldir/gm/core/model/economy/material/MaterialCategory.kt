@@ -8,8 +8,13 @@ import kotlinx.serialization.Serializable
 enum class MaterialCategoryType {
     Undefined,
     Alloy,
+    Crystal,
     Fiber,
-    Metal;
+    Hide,
+    Metal,
+    Paper,
+    Stone,
+    Wood;
 }
 
 @Serializable
@@ -18,6 +23,7 @@ sealed class MaterialCategory {
     fun getType() = when (this) {
         is Alloy -> MaterialCategoryType.Alloy
         is Fiber -> MaterialCategoryType.Fiber
+        is Hide -> MaterialCategoryType.Hide
         is Metal -> MaterialCategoryType.Metal
         is UndefinedMaterialCategory -> MaterialCategoryType.Undefined
     }
@@ -34,6 +40,13 @@ data class Alloy(
 data class Fiber(
     val components: PercentageDistribution<MaterialId>,
     val weight: Size = Size.Medium,
+) : MaterialCategory()
+
+@Serializable
+@SerialName("Hide")
+data class Hide(
+    val components: PercentageDistribution<MaterialId>,
+    val thickness: LeatherThickness = LeatherThickness.Medium,
 ) : MaterialCategory()
 
 @Serializable

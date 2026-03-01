@@ -4,6 +4,5 @@ enum class FabricType {
     Crochet,
     Felt,
     Knitted,
-    Lace,
     Woven,
 }
