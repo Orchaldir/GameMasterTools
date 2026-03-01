@@ -1,6 +1,7 @@
 package at.orchaldir.gm.app.html.util
 
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.util.math.parseFactor
 import at.orchaldir.gm.app.html.util.math.selectFactor
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.PercentageDistribution
@@ -193,12 +194,14 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> parsePercentageDistribution(
     storage: Storage<ID, ELEMENT>,
     parameters: Parameters,
     param: String,
-    parsePopulation: (Parameters, String, ELEMENT) -> Factor,
 ): PercentageDistribution<ID> = PercentageDistribution(
     storage
         .getAll()
         .associate { element ->
-            Pair(element.id(), parsePopulation(parameters, param, element))
+            Pair(
+                element.id(),
+                parseFactor(parameters, combine(param, element.id().value()), ZERO),
+            )
         }
         .filter { it.value.isGreaterZero() }
 )

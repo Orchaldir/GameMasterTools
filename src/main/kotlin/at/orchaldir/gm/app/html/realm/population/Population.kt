@@ -252,14 +252,12 @@ fun parsePopulation(
         parsePercentageDistribution(
             state.getRaceStorage(),
             parameters,
-            param,
-            ::parsePercentageOfRace,
+            combine(param, RACE),
         ),
         parsePercentageDistribution(
             state.getCultureStorage(),
             parameters,
-            param,
-            ::parsePercentageOfCulture,
+            combine(param, CULTURE),
         ),
         parseIncome(state, parameters, combine(param, INCOME)),
     )
@@ -279,9 +277,3 @@ private fun parseCultureSet(parameters: Parameters, param: String) =
 
 private fun parseRaceSet(parameters: Parameters, param: String) =
     parseElements(parameters, combine(param, RACE), ::parseRaceId)
-
-fun parsePercentageOfCulture(parameters: Parameters, param: String, culture: Culture) =
-    parseFactor(parameters, combine(param, CULTURE, culture.id.value), ZERO)
-
-fun parsePercentageOfRace(parameters: Parameters, param: String, race: Race) =
-    parseFactor(parameters, combine(param, RACE, race.id.value), ZERO)

@@ -174,7 +174,6 @@ fun parseMaterialCategory(
             state.getMaterialStorage(),
             parameters,
             combine(CATEGORY, MATERIAL),
-            ::parsePercentageOfMaterial,
         )
     )
     MaterialCategoryType.Fiber -> Fiber(
@@ -213,6 +212,3 @@ fun parseMaterialCategory(
 
 private fun parseThickness(parameters: Parameters): LeatherThickness =
     parse(parameters, combine(CATEGORY, THICKNESS), LeatherThickness.Medium)
-
-fun parsePercentageOfMaterial(parameters: Parameters, param: String, material: Material) =
-    parseFactor(parameters, combine(param, material.id.value), ZERO)
