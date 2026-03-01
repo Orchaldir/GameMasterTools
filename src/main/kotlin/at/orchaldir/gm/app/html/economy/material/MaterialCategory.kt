@@ -1,48 +1,15 @@
 package at.orchaldir.gm.app.html.economy.material
 
-import at.orchaldir.gm.app.CATEGORY
-import at.orchaldir.gm.app.CULTURE
-import at.orchaldir.gm.app.INCOME
-import at.orchaldir.gm.app.LEATHER
-import at.orchaldir.gm.app.LIST
-import at.orchaldir.gm.app.MATERIAL
-import at.orchaldir.gm.app.PRICE
-import at.orchaldir.gm.app.SIZE
-import at.orchaldir.gm.app.STANDARD
-import at.orchaldir.gm.app.THICKNESS
-import at.orchaldir.gm.app.TYPE
+import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.economy.money.parsePrice
-import at.orchaldir.gm.app.html.economy.parseStandardOfLivingId
 import at.orchaldir.gm.app.html.util.editPercentageDistribution
-import at.orchaldir.gm.app.html.util.math.parseFactor
 import at.orchaldir.gm.app.html.util.parsePercentageDistribution
 import at.orchaldir.gm.app.html.util.showPercentageDistribution
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.culture.Culture
-import at.orchaldir.gm.core.model.economy.job.*
-import at.orchaldir.gm.core.model.economy.material.Alloy
-import at.orchaldir.gm.core.model.economy.material.CATEGORIES_FOR_ALLOY
-import at.orchaldir.gm.core.model.economy.material.CATEGORIES_FOR_ROCK
-import at.orchaldir.gm.core.model.economy.material.Fiber
-import at.orchaldir.gm.core.model.economy.material.Hide
-import at.orchaldir.gm.core.model.economy.material.Leather
-import at.orchaldir.gm.core.model.economy.material.LeatherGrade
-import at.orchaldir.gm.core.model.economy.material.LeatherThickness
-import at.orchaldir.gm.core.model.economy.material.Material
-import at.orchaldir.gm.core.model.economy.material.MaterialCategory
-import at.orchaldir.gm.core.model.economy.material.MaterialCategoryType
-import at.orchaldir.gm.core.model.economy.material.Metal
-import at.orchaldir.gm.core.model.economy.material.Mineral
-import at.orchaldir.gm.core.model.economy.material.Paper
-import at.orchaldir.gm.core.model.economy.material.Rock
-import at.orchaldir.gm.core.model.economy.material.RockType
-import at.orchaldir.gm.core.model.economy.material.UndefinedMaterialCategory
-import at.orchaldir.gm.core.model.economy.material.Wood
+import at.orchaldir.gm.core.model.economy.material.*
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.selector.util.sortMaterials
 import at.orchaldir.gm.utils.doNothing
-import at.orchaldir.gm.utils.math.ZERO
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.DETAILS
@@ -50,7 +17,7 @@ import kotlinx.html.HtmlBlockTag
 
 // show
 
-fun HtmlBlockTag.displayMaterialCategory(category: MaterialCategory, ) = when (category) {
+fun HtmlBlockTag.displayMaterialCategory(category: MaterialCategory) = when (category) {
     is UndefinedMaterialCategory -> doNothing()
     is Rock -> +"${category.type} ${category.type}"
     else -> +category.getType().name
@@ -73,13 +40,15 @@ fun HtmlBlockTag.showMaterialCategory(
                 field("Grade", category.grade)
                 field("Thickness", category.thickness)
             }
+
             Metal -> doNothing()
             Mineral -> doNothing()
             Paper -> doNothing()
             is Rock -> {
                 field("Type", category.type)
-                fieldIds( call, state, "Components", category.components)
+                fieldIds(call, state, "Components", category.components)
             }
+
             Wood -> doNothing()
             UndefinedMaterialCategory -> doNothing()
         }
@@ -93,28 +62,40 @@ fun HtmlBlockTag.editMaterialCategory(
     state: State,
     category: MaterialCategory,
 ) {
+    val materialsForAlloy = state.sortMaterials(CATEGORIES_FOR_ALLOY)
+    val materialsForRock = state.sortMaterials(CATEGORIES_FOR_ROCK)
+
     showDetails("Category", true) {
         selectValue(
             "Type",
             combine(CATEGORY, TYPE),
             MaterialCategoryType.entries,
             category.getType(),
-        )
+        ) {
+            when (it) {
+                MaterialCategoryType.Alloy -> materialsForAlloy.size < 2
+                MaterialCategoryType.Rock -> materialsForRock.size < 2
+                else -> false
+            }
+        }
+
         when (category) {
             is Alloy -> editPercentageDistribution(
                 call,
                 state,
                 "Components",
                 combine(CATEGORY, MATERIAL),
-                state.sortMaterials(CATEGORIES_FOR_ALLOY),
+                materialsForAlloy,
                 category.components,
             )
+
             is Fiber -> selectValue(
                 "Weight",
                 combine(CATEGORY, SIZE),
                 Size.entries,
                 category.weight,
             )
+
             is Hide -> selectLeatherThickness(category.thickness)
             is Leather -> {
                 selectOptionalElement(
@@ -132,6 +113,7 @@ fun HtmlBlockTag.editMaterialCategory(
                 )
                 selectLeatherThickness(category.thickness)
             }
+
             Metal -> doNothing()
             Mineral -> doNothing()
             Paper -> doNothing()
@@ -146,10 +128,11 @@ fun HtmlBlockTag.editMaterialCategory(
                     state,
                     "Components",
                     combine(CATEGORY, MATERIAL, LIST),
-                    state.sortMaterials(CATEGORIES_FOR_ROCK),
+                    materialsForRock,
                     category.components,
                 )
             }
+
             Wood -> doNothing()
             UndefinedMaterialCategory -> doNothing()
         }
@@ -178,12 +161,15 @@ fun parseMaterialCategory(
             combine(CATEGORY, MATERIAL),
         )
     )
+
     MaterialCategoryType.Fiber -> Fiber(
         parse(parameters, combine(CATEGORY, SIZE), Size.Medium),
     )
+
     MaterialCategoryType.Hide -> Hide(
         parseThickness(parameters),
     )
+
     MaterialCategoryType.Leather -> Leather(
         parseOptionalMaterialId(parameters, combine(CATEGORY, MATERIAL)),
         parse(
@@ -193,6 +179,7 @@ fun parseMaterialCategory(
         ),
         parseThickness(parameters),
     )
+
     MaterialCategoryType.Metal -> Metal
     MaterialCategoryType.Mineral -> Mineral
     MaterialCategoryType.Paper -> Paper
@@ -208,6 +195,7 @@ fun parseMaterialCategory(
             RockType.Undefined,
         ),
     )
+
     MaterialCategoryType.Wood -> Wood
     MaterialCategoryType.Undefined -> UndefinedMaterialCategory
 }
