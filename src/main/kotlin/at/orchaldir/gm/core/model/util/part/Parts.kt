@@ -10,7 +10,6 @@ import kotlinx.serialization.Serializable
 val CLOTHING_MATERIALS = listOf(
     ItemPartType.Fabric,
     ItemPartType.Leather,
-    ItemPartType.Undefined,
 )
 
 enum class ItemPartType {
@@ -19,8 +18,7 @@ enum class ItemPartType {
     Fill,
     FillLookup,
     Fabric,
-    Leather,
-    Undefined;
+    Leather;
 }
 
 @Serializable
@@ -33,12 +31,11 @@ sealed class ItemPart {
         is FillLookupItemPart -> ItemPartType.FillLookup
         is MadeFromFabric -> ItemPartType.Fabric
         is MadeFromLeather -> ItemPartType.Leather
-        is UndefinedItemPart -> ItemPartType.Undefined
     }
 
     abstract fun contains(id: MaterialId): Boolean
 
-    abstract fun materials(): Set<MaterialId>
+    abstract fun material(): MaterialId
 
     open fun requiredSchemaColors() = 0
 }
@@ -60,7 +57,7 @@ data class ColorItemPart(
     }
 
     override fun contains(id: MaterialId) = material == id
-    override fun materials() = setOf(material)
+    override fun material() = material
 
 }
 
@@ -81,7 +78,7 @@ data class FillItemPart(
     }
 
     override fun contains(id: MaterialId) = material == id
-    override fun materials() = setOf(material)
+    override fun material() = material
 
 }
 
@@ -96,7 +93,7 @@ data class ColorSchemeItemPart(
     fun getColor(state: State, colors: Colors) = lookup.lookup(state, colors, material)
 
     override fun contains(id: MaterialId) = material == id
-    override fun materials() = setOf(material)
+    override fun material() = material
     override fun requiredSchemaColors() = lookup.requiredSchemaColors()
 
 }
@@ -112,7 +109,7 @@ data class FillLookupItemPart(
     fun getFill(state: State, colors: Colors) = fill.lookup(state, colors, material)
 
     override fun contains(id: MaterialId) = material == id
-    override fun materials() = setOf(material)
+    override fun material() = material
     override fun requiredSchemaColors() = fill.requiredSchemaColors()
 
 }
@@ -130,7 +127,7 @@ data class MadeFromFabric(
     fun getFill(state: State, colors: Colors) = fill.lookup(state, colors, material)
 
     override fun contains(id: MaterialId) = material == id
-    override fun materials() = setOf(material)
+    override fun material() = material
     override fun requiredSchemaColors() = fill.requiredSchemaColors()
 
 }
@@ -147,17 +144,7 @@ data class MadeFromLeather(
     fun getColor(state: State, colors: Colors) = color.lookup(state, colors, material)
 
     override fun contains(id: MaterialId) = material == id
-    override fun materials() = setOf(material)
+    override fun material() = material
     override fun requiredSchemaColors() = color.requiredSchemaColors()
 
 }
-
-@Serializable
-@SerialName("Undefined")
-data object UndefinedItemPart : ItemPart() {
-
-    override fun contains(id: MaterialId) = false
-
-    override fun materials() = emptySet<MaterialId>()
-}
-

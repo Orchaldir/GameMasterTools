@@ -258,7 +258,7 @@ private fun calculateVolumePerMaterialForBody(
         is Socks -> {
             val volume = config.equipment.sock.getVolume(config, data.style)
 
-            vpm.add(data.main, volume)
+            vpm.add(data.main.material(), volume)
         }
 
         is SuitJacket -> {

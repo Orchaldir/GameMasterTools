@@ -28,7 +28,6 @@ import at.orchaldir.gm.core.model.util.part.ItemPart
 import at.orchaldir.gm.core.model.util.part.ItemPartType
 import at.orchaldir.gm.core.model.util.part.MadeFromFabric
 import at.orchaldir.gm.core.model.util.part.MadeFromLeather
-import at.orchaldir.gm.core.model.util.part.UndefinedItemPart
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
@@ -77,8 +76,6 @@ fun HtmlBlockTag.showItemPart(
                 field("Leather Grade", part.grade)
                 fieldColorLookup("Color", part.color)
             }
-
-            UndefinedItemPart -> doNothing()
         }
     }
 }
@@ -203,7 +200,6 @@ fun HtmlBlockTag.editItemPart(
                     Color.entries,
                 )
             }
-            UndefinedItemPart -> doNothing()
         }
     }
 }
@@ -269,7 +265,7 @@ fun HtmlBlockTag.editFillLookupItemPart(
 fun parseItemPart(
     parameters: Parameters,
     param: String,
-) = when (parse(parameters, combine(param, TYPE), ItemPartType.Undefined)) {
+) = when (parse(parameters, combine(param, TYPE), ItemPartType.Color)) {
     ItemPartType.Color -> parseColorItemPart(parameters, param)
     ItemPartType.ColorScheme -> parseColorSchemeItemPart(parameters, param)
     ItemPartType.Fill -> parseFillItemPart(parameters, param)
@@ -285,7 +281,6 @@ fun parseItemPart(
         parse(parameters, combine(param, LEATHER, TYPE), LeatherGrade.Undefined),
         parseColorLookup(parameters, combine(param, COLOR)),
     )
-    ItemPartType.Undefined -> UndefinedItemPart
 }
 
 fun parseColorItemPart(parameters: Parameters, param: String) = ColorItemPart(

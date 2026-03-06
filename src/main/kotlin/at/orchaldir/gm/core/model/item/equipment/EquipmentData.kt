@@ -9,7 +9,6 @@ import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
 import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
 import at.orchaldir.gm.core.model.util.part.ItemPart
 import at.orchaldir.gm.core.model.util.part.MadeFromParts
-import at.orchaldir.gm.core.model.util.part.UndefinedItemPart
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.HALF
@@ -503,11 +502,11 @@ data class Sling(
 @Serializable
 @SerialName("Socks")
 data class Socks(
+    val main: ItemPart,
     val style: SocksStyle = SocksStyle.Quarter,
-    val main: ItemPart = UndefinedItemPart,
 ) : EquipmentData() {
 
-    constructor(style: SocksStyle, color: Color) : this(style, FillLookupItemPart(color))
+    constructor(style: SocksStyle, color: Color) : this(FillLookupItemPart(color), style)
 
     override fun parts() = listOf(main)
 }

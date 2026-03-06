@@ -11,7 +11,7 @@ interface MadeFromParts {
     fun materials(): Set<MaterialId> {
         val sum: MutableSet<MaterialId> = mutableSetOf()
 
-        parts().forEach { sum.addAll(it.materials()) }
+        parts().forEach { sum.add(it.material()) }
 
         return sum
     }
