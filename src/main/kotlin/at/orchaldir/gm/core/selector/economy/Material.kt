@@ -24,7 +24,7 @@ fun State.canDeleteMaterial(material: MaterialId) = DeleteResult(material)
     .addElements(getTextsMadeOf(material))
 
 fun countEachMaterialCategory(materials: Collection<Material>) = materials
-    .groupingBy { it.properties.category }
+    .groupingBy { it.properties.category.getType() }
     .eachCount()
 
 fun State.calculateWeight(id: MaterialId, volume: Volume): Weight {
