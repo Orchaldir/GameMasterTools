@@ -289,12 +289,12 @@ data class TwoHandedClub(
 @Serializable
 @SerialName("Coat")
 data class Coat(
+    val main: ItemPart,
     val length: OuterwearLength = OuterwearLength.Hip,
     val necklineStyle: NecklineStyle = NecklineStyle.None,
     val sleeveStyle: SleeveStyle = SleeveStyle.Long,
     val openingStyle: OpeningStyle = SingleBreasted(),
     val pocketStyle: PocketStyle = PocketStyle.None,
-    val main: FillLookupItemPart = FillLookupItemPart(Color.SaddleBrown),
 ) : EquipmentData() {
 
     override fun parts() = openingStyle.parts() + main
@@ -514,11 +514,11 @@ data class Socks(
 @Serializable
 @SerialName("SuitJacket")
 data class SuitJacket(
+    val main: ItemPart,
     val necklineStyle: NecklineStyle = NecklineStyle.None,
     val sleeveStyle: SleeveStyle = SleeveStyle.Long,
     val openingStyle: OpeningStyle = SingleBreasted(),
     val pocketStyle: PocketStyle = PocketStyle.None,
-    val main: FillLookupItemPart = FillLookupItemPart(Color.SaddleBrown),
 ) : EquipmentData() {
 
     override fun parts() = openingStyle.parts() + main

@@ -27,9 +27,9 @@ fun main() {
         addNames(BodyShape.entries)
     ) { distance, shape, length ->
         val coat = Coat(
+            FillLookupItemPart(Blue),
             length,
             openingStyle = DoubleBreasted(ButtonColumn(Button(Size.Medium, ColorSchemeItemPart(Gold)), 5u)),
-            main = FillLookupItemPart(Blue),
         )
         Pair(createAppearance(distance, shape), from(coat))
     }

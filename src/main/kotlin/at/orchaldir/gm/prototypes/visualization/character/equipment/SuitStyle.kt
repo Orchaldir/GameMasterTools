@@ -47,7 +47,11 @@ private fun createSuite(
         Pants(main = FillLookupItemPart(Color.Silver)),
         Shirt(),
         SuitJacket(
-            NecklineStyle.DeepV, SleeveStyle.Long, opening, pocket, FillLookupItemPart(Gray)
+            FillLookupItemPart(Gray),
+            NecklineStyle.DeepV,
+            SleeveStyle.Long,
+            opening,
+            pocket,
         ),
         Tie(),
     )

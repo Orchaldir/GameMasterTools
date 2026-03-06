@@ -50,7 +50,11 @@ private fun createCoat(
     neckline: NecklineStyle,
     opening: OpeningStyle,
 ) = Coat(
-    Hip, neckline, SleeveStyle.Long, opening, main = FillLookupItemPart(Blue)
+    FillLookupItemPart(Blue),
+    Hip,
+    neckline,
+    SleeveStyle.Long,
+    opening,
 )
 
 private fun createAppearance(distance: Distance) =

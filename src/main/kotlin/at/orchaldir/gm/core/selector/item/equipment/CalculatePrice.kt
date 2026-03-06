@@ -41,6 +41,11 @@ fun calculatePrice(
     costFactors: Map<Id<*>, Factor> = emptyMap(),
 ): Price {
     val materialCost = vpm.getPrice(state)
+
+    if (costFactors.entries.isEmpty()) {
+        return materialCost
+    }
+
     val totalCostFactor = costFactors.entries
         .map { it.value }
         .reduce { total, factor -> total + factor }
