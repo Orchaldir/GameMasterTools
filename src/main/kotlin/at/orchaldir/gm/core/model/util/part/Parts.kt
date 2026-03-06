@@ -6,21 +6,39 @@ import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.util.render.*
 import kotlinx.serialization.Serializable
 
-interface ItemPart {
+enum class ItemPartType {
+    Color,
+    ColorScheme,
+    Fill,
+    FillLookup,
+    Fabric,
+    Leather;
+}
 
-    fun contains(id: MaterialId): Boolean
+@Serializable
+sealed class ItemPart {
 
-    fun materials(): Set<MaterialId>
+    fun getType() = when (this) {
+        is ColorItemPart -> ItemPartType.Color
+        is ColorSchemeItemPart -> ItemPartType.ColorScheme
+        is FillItemPart -> ItemPartType.Fill
+        is FillLookupItemPart -> ItemPartType.FillLookup
+        is MadeFromFabric -> ItemPartType.Fabric
+        is MadeFromLeather -> ItemPartType.Leather
+    }
 
-    fun requiredSchemaColors() = 0
+    abstract fun contains(id: MaterialId): Boolean
 
+    abstract fun materials(): Set<MaterialId>
+
+    open fun requiredSchemaColors() = 0
 }
 
 @Serializable
 data class ColorItemPart(
     val material: MaterialId = MaterialId(0),
     val color: Color? = null,
-) : ItemPart {
+) : ItemPart() {
 
     constructor(color: Color) : this(MaterialId(0), color)
 
@@ -41,7 +59,7 @@ data class ColorItemPart(
 data class FillItemPart(
     val material: MaterialId = MaterialId(0),
     val fill: Fill? = null,
-) : ItemPart {
+) : ItemPart() {
 
     constructor(color: Color) : this(fill = Solid(color))
 
@@ -62,7 +80,7 @@ data class FillItemPart(
 data class ColorSchemeItemPart(
     val material: MaterialId = MaterialId(0),
     val lookup: ColorLookup = LookupMaterial,
-) : ItemPart {
+) : ItemPart() {
 
     constructor(color: Color) : this(MaterialId(0), FixedColor(color))
 
@@ -78,7 +96,7 @@ data class ColorSchemeItemPart(
 data class FillLookupItemPart(
     val material: MaterialId = MaterialId(0),
     val fill: FillLookup = SolidLookup(LookupMaterial),
-) : ItemPart {
+) : ItemPart() {
 
     constructor(color: Color) : this(fill = SolidLookup(color))
 
@@ -91,12 +109,12 @@ data class FillLookupItemPart(
 }
 
 @Serializable
-data class Fabric(
+data class MadeFromFabric(
     val material: MaterialId = MaterialId(0),
     val weight: FabricWeight = FabricWeight.Medium,
     val type: FabricType = FabricType.Woven,
     val fill: FillLookup = SolidLookup(LookupMaterial),
-) : ItemPart {
+) : ItemPart() {
 
     constructor(color: Color) : this(fill = SolidLookup(color))
 
@@ -113,7 +131,7 @@ data class MadeFromLeather(
     val material: MaterialId = MaterialId(0),
     val grade: LeatherGrade = LeatherGrade.Undefined,
     val color: ColorLookup = LookupMaterial,
-) : ItemPart {
+) : ItemPart() {
 
     constructor(color: Color) : this(color = FixedColor(color))
 
