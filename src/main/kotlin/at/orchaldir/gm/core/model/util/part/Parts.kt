@@ -2,8 +2,10 @@ package at.orchaldir.gm.core.model.util.part
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.LeatherGrade
+import at.orchaldir.gm.core.model.economy.material.MaterialCategory
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.util.render.*
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 enum class ItemPartType {
@@ -12,7 +14,8 @@ enum class ItemPartType {
     Fill,
     FillLookup,
     Fabric,
-    Leather;
+    Leather,
+    Undefined;
 }
 
 @Serializable
@@ -25,6 +28,7 @@ sealed class ItemPart {
         is FillLookupItemPart -> ItemPartType.FillLookup
         is MadeFromFabric -> ItemPartType.Fabric
         is MadeFromLeather -> ItemPartType.Leather
+        is UndefinedItemPart -> ItemPartType.Undefined
     }
 
     abstract fun contains(id: MaterialId): Boolean
@@ -110,13 +114,13 @@ data class FillLookupItemPart(
 
 @Serializable
 data class MadeFromFabric(
-    val material: MaterialId = MaterialId(0),
+    val material: MaterialId,
     val weight: FabricWeight = FabricWeight.Medium,
     val type: FabricType = FabricType.Woven,
     val fill: FillLookup = SolidLookup(LookupMaterial),
 ) : ItemPart() {
 
-    constructor(color: Color) : this(fill = SolidLookup(color))
+    constructor(color: Color) : this(MaterialId(0), fill = SolidLookup(color))
 
     fun getFill(state: State, colors: Colors) = fill.lookup(state, colors, material)
 
@@ -128,12 +132,12 @@ data class MadeFromFabric(
 
 @Serializable
 data class MadeFromLeather(
-    val material: MaterialId = MaterialId(0),
+    val material: MaterialId,
     val grade: LeatherGrade = LeatherGrade.Undefined,
     val color: ColorLookup = LookupMaterial,
 ) : ItemPart() {
 
-    constructor(color: Color) : this(color = FixedColor(color))
+    constructor(color: Color) : this(MaterialId(0), color =  FixedColor(color))
 
     fun getFill(state: State, colors: Colors) = SolidLookup(color.lookup(state, colors, material))
 
@@ -141,5 +145,14 @@ data class MadeFromLeather(
     override fun materials() = setOf(material)
     override fun requiredSchemaColors() = color.requiredSchemaColors()
 
+}
+
+@Serializable
+@SerialName("Undefined")
+data object UndefinedItemPart : ItemPart() {
+
+    override fun contains(id: MaterialId) = false
+
+    override fun materials() = emptySet<MaterialId>()
 }
 

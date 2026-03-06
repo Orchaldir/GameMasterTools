@@ -28,7 +28,9 @@ import at.orchaldir.gm.core.model.util.part.ItemPart
 import at.orchaldir.gm.core.model.util.part.ItemPartType
 import at.orchaldir.gm.core.model.util.part.MadeFromFabric
 import at.orchaldir.gm.core.model.util.part.MadeFromLeather
+import at.orchaldir.gm.core.model.util.part.UndefinedItemPart
 import at.orchaldir.gm.core.model.util.render.Color
+import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.DETAILS
@@ -73,6 +75,8 @@ fun HtmlBlockTag.showItemPart(
                 field("Leather Grade", part.grade)
                 fieldColorLookup("Color", part.color)
             }
+
+            UndefinedItemPart -> doNothing()
         }
     }
 }
@@ -196,6 +200,7 @@ fun HtmlBlockTag.showItemPart(
                     Color.entries,
                 )
             }
+            UndefinedItemPart -> doNothing()
         }
     }
 }
@@ -262,7 +267,7 @@ fun parseItemPart(
     state: State,
     parameters: Parameters,
     param: String,
-) = when (parse(parameters, combine(param, TYPE), ItemPartType.Color)) {
+) = when (parse(parameters, combine(param, TYPE), ItemPartType.Undefined)) {
     ItemPartType.Color -> parseColorItemPart(parameters, param)
     ItemPartType.ColorScheme -> parseColorSchemeItemPart(parameters, param)
     ItemPartType.Fill -> parseFillItemPart(parameters, param)
@@ -278,6 +283,7 @@ fun parseItemPart(
         parse(parameters, combine(param, LEATHER, TYPE), LeatherGrade.Undefined),
         parseColorLookup(parameters, combine(param, COLOR)),
     )
+    ItemPartType.Undefined -> UndefinedItemPart
 }
 
 fun parseColorItemPart(parameters: Parameters, param: String) = ColorItemPart(
