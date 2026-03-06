@@ -36,13 +36,15 @@ import io.ktor.server.application.*
 import kotlinx.html.DETAILS
 import kotlinx.html.HtmlBlockTag
 
+private const val TEXT = "Made Out Of"
+
 // show
 
 fun HtmlBlockTag.showItemPart(
     call: ApplicationCall,
     state: State,
     part: ItemPart,
-    label: String? = null,
+    label: String = TEXT,
 ) {
     showDetails(label, true) {
         field("Type", part.getType())
@@ -131,17 +133,18 @@ fun HtmlBlockTag.showFillLookupItemPart(
 
 // edit
 
-fun HtmlBlockTag.showItemPart(
+fun HtmlBlockTag.editItemPart(
     state: State,
     part: ItemPart,
     param: String,
-    label: String? = null,
+    label: String = TEXT,
+    allowedTypes: Collection<ItemPartType> = ItemPartType.entries,
 ) {
     showDetails(label, true) {
         selectValue(
             "Type",
             combine(param, TYPE),
-            ItemPartType.entries,
+            allowedTypes,
             part.getType(),
         )
 
@@ -264,7 +267,6 @@ fun HtmlBlockTag.editFillLookupItemPart(
 // parse
 
 fun parseItemPart(
-    state: State,
     parameters: Parameters,
     param: String,
 ) = when (parse(parameters, combine(param, TYPE), ItemPartType.Undefined)) {

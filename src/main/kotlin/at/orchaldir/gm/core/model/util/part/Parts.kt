@@ -2,11 +2,16 @@ package at.orchaldir.gm.core.model.util.part
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.LeatherGrade
-import at.orchaldir.gm.core.model.economy.material.MaterialCategory
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.util.render.*
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+
+val CLOTHING_MATERIALS = listOf(
+    ItemPartType.Fabric,
+    ItemPartType.Leather,
+    ItemPartType.Undefined,
+)
 
 enum class ItemPartType {
     Color,
@@ -139,7 +144,7 @@ data class MadeFromLeather(
 
     constructor(color: Color) : this(MaterialId(0), color =  FixedColor(color))
 
-    fun getFill(state: State, colors: Colors) = SolidLookup(color.lookup(state, colors, material))
+    fun getColor(state: State, colors: Colors) = color.lookup(state, colors, material)
 
     override fun contains(id: MaterialId) = material == id
     override fun materials() = setOf(material)
