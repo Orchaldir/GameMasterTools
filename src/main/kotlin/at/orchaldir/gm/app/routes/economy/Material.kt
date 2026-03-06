@@ -77,16 +77,13 @@ fun Application.configureMaterialRouting() {
                 state.sortMaterials(all.sort),
                 listOf(
                     createNameColumn(call, state),
-                    tdColumn("Category") { displayMaterialCategory(it.properties.category) },
-                    Column(listOf("Crystal", "System")) {
-                        tdEnum(it.properties.crystalSystem)
-                    },
+                    tdColumn("Category") { displayMaterialCategory(call, state, it.properties.category) },
                     tdColumn("Color") { showColor(it.properties.color) },
                     Column("Transparency") { tdEnum(it.properties.transparency) },
+                    Column("Luster") { tdEnum(it.properties.luster) },
                     Column("Density") { td(it.properties.density) },
                     tdColumn("Hardness") { +displayHardness(it.properties) },
                     tdColumn("Fracture") { displayFracture(it.properties.fracture) },
-                    Column("Luster") { tdEnum(it.properties.luster) },
                     tdColumn("Tenacity") { displayTenacity(it.properties.tenacity) },
                     tdColumn(listOf("Price", "per", "kg")) { displayPrice(call, currency, it.pricePerKilogram) },
                     countColumnForId("Currency", state::countCurrencyUnits),

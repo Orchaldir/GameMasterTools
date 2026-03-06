@@ -17,8 +17,16 @@ import kotlinx.html.HtmlBlockTag
 
 // show
 
-fun HtmlBlockTag.displayMaterialCategory(category: MaterialCategory) = when (category) {
+fun HtmlBlockTag.displayMaterialCategory(
+    call: ApplicationCall,
+    state: State,
+    category: MaterialCategory,
+) = when (category) {
     is UndefinedMaterialCategory -> doNothing()
+    is Alloy -> {
+        +"Alloy of "
+        showInlineIds(call, state, category.components.map.keys)
+    }
     is Rock -> +"${category.type} ${category.type}"
     else -> +category.getType().name
 }
