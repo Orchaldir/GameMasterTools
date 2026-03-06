@@ -76,15 +76,26 @@
     "crystalSystem": "Cubic",
     "density": 7870000000,
     "hardness": 4.0,
-    "luster": "Metallic"
+    "luster": "Metallic",
+    "tenacity": "Ductile"
    }
   },
   "5": {
    "id": 5,
    "name": "Steel",
    "properties": {
+    "category": {
+     "#type": "Alloy",
+     "components": {
+      "4": 9900
+     }
+    },
     "color": "Gray",
-    "density": 7850000000
+    "crystalSystem": "Cubic",
+    "density": 7850000000,
+    "hardness": 4.5,
+    "luster": "Metallic",
+    "tenacity": "Ductile"
    }
   },
   "6": {
@@ -101,6 +112,7 @@
     "color": "Gold",
     "crystalSystem": "Cubic",
     "density": 8600000000,
+    "hardness": 3.0,
     "luster": "Metallic",
     "tenacity": "Ductile"
    }
@@ -109,8 +121,19 @@
    "id": 7,
    "name": "Bronze",
    "properties": {
+    "category": {
+     "#type": "Alloy",
+     "components": {
+      "0": 8800,
+      "9": 1200
+     }
+    },
     "color": "Orange",
-    "density": 8770000000
+    "crystalSystem": "Cubic",
+    "density": 8770000000,
+    "hardness": 4.0,
+    "luster": "Metallic",
+    "tenacity": "Ductile"
    }
   },
   "9": {
@@ -124,7 +147,8 @@
     "crystalSystem": "Hexagonal",
     "density": 7139000000,
     "hardness": 2.5,
-    "luster": "Metallic"
+    "luster": "Metallic",
+    "tenacity": "Ductile"
    }
   }
  }
