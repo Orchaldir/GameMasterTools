@@ -53,7 +53,7 @@ fun HtmlBlockTag.editSuitJacket(
 // parse
 
 fun parseSuitJacket(parameters: Parameters) = SuitJacket(
-    parseItemPart(parameters, MAIN),
+    parseItemPart(parameters, MAIN, CLOTHING_MATERIALS),
     parse(parameters, combine(NECKLINE, STYLE), NecklineStyle.DeepV),
     parse(parameters, combine(SLEEVE, STYLE), SleeveStyle.Long),
     parseOpeningStyle(parameters),

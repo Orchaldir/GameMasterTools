@@ -273,7 +273,18 @@ fun HtmlBlockTag.editFillLookupItemPart(
 fun parseItemPart(
     parameters: Parameters,
     param: String,
-) = when (parse(parameters, combine(param, TYPE), ItemPartType.Color)) {
+    allowedTypes: List<ItemPartType>,
+) = parseItemPart(
+    parameters,
+    param,
+    allowedTypes.first(),
+)
+
+fun parseItemPart(
+    parameters: Parameters,
+    param: String,
+    default: ItemPartType = ItemPartType.Color,
+) = when (parse(parameters, combine(param, TYPE), default)) {
     ItemPartType.Color -> parseColorItemPart(parameters, param)
     ItemPartType.ColorScheme -> parseColorSchemeItemPart(parameters, param)
     ItemPartType.Fill -> parseFillItemPart(parameters, param)
