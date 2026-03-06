@@ -171,6 +171,33 @@
     "color": "Maroon",
     "hardness": 4.0
    }
+  },
+  "12": {
+   "id": 12,
+   "name": "Linen",
+   "properties": {
+    "category": {
+     "#type": "Fiber"
+    }
+   }
+  },
+  "13": {
+   "id": 13,
+   "name": "Silk",
+   "properties": {
+    "category": {
+     "#type": "Fiber"
+    }
+   }
+  },
+  "14": {
+   "id": 14,
+   "name": "Cotton",
+   "properties": {
+    "category": {
+     "#type": "Fiber"
+    }
+   }
   }
  }
 }

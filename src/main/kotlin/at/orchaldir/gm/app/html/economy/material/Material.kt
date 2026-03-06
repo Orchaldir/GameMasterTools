@@ -1,5 +1,6 @@
 package at.orchaldir.gm.app.html.economy.material
 
+import at.orchaldir.gm.app.MATERIAL
 import at.orchaldir.gm.app.PRICE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.economy.money.fieldPrice
@@ -16,6 +17,7 @@ import at.orchaldir.gm.core.selector.economy.money.getCurrencyUnits
 import at.orchaldir.gm.core.selector.item.equipment.getEquipmentMadeOf
 import at.orchaldir.gm.core.selector.item.getTextsMadeOf
 import at.orchaldir.gm.core.selector.race.getRaceAppearancesMadeOf
+import at.orchaldir.gm.core.selector.util.sortMaterials
 import at.orchaldir.gm.core.selector.world.getMoonsContaining
 import at.orchaldir.gm.core.selector.world.getRegionsContaining
 import at.orchaldir.gm.core.selector.world.getStreetTemplatesMadeOf
@@ -87,6 +89,29 @@ fun HtmlBlockTag.editMaterial(
         0,
         Int.MAX_VALUE,
     )
+}
+
+fun HtmlBlockTag.selectMaterial(
+    state: State,
+    current: MaterialId,
+    param: String = MATERIAL,
+    label: String = "Material",
+) = selectMaterial(
+    state,
+    state.sortMaterials(),
+    current,
+    param,
+    label,
+)
+
+fun HtmlBlockTag.selectMaterial(
+    state: State,
+    materials: Collection<Material>,
+    current: MaterialId,
+    param: String = MATERIAL,
+    label: String = "Material",
+) {
+    selectElement(state, label, param, materials, current)
 }
 
 // parse

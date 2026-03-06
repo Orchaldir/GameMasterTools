@@ -90,15 +90,6 @@ fun HtmlBlockTag.selectPocketStyle(options: Collection<PocketStyle>, current: Po
     selectValue("Pocket Style", combine(POCKET, STYLE), options, current)
 }
 
-fun HtmlBlockTag.selectMaterial(
-    state: State,
-    materialId: MaterialId,
-    param: String = MATERIAL,
-    label: String = "Material",
-) {
-    selectElement(state, label, param, state.getMaterialStorage().getAll(), materialId)
-}
-
 // parse
 
 fun parseOpeningStyle(parameters: Parameters): OpeningStyle {

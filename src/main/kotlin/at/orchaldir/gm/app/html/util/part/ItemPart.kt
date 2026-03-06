@@ -1,6 +1,5 @@
 package at.orchaldir.gm.app.html.util.part
 
-import at.orchaldir.gm.app.CATEGORY
 import at.orchaldir.gm.app.COLOR
 import at.orchaldir.gm.app.FABRIC
 import at.orchaldir.gm.app.FILL
@@ -10,12 +9,11 @@ import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.WEIGHT
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.economy.material.parseMaterialId
-import at.orchaldir.gm.app.html.item.equipment.style.selectMaterial
+import at.orchaldir.gm.app.html.economy.material.selectMaterial
 import at.orchaldir.gm.app.html.util.color.*
-import at.orchaldir.gm.app.html.util.parsePercentageDistribution
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.economy.material.Alloy
 import at.orchaldir.gm.core.model.economy.material.LeatherGrade
+import at.orchaldir.gm.core.model.economy.material.Material
 import at.orchaldir.gm.core.model.economy.material.MaterialCategoryType
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.util.part.ColorItemPart
@@ -29,7 +27,7 @@ import at.orchaldir.gm.core.model.util.part.ItemPartType
 import at.orchaldir.gm.core.model.util.part.MadeFromFabric
 import at.orchaldir.gm.core.model.util.part.MadeFromLeather
 import at.orchaldir.gm.core.model.util.render.Color
-import at.orchaldir.gm.utils.doNothing
+import at.orchaldir.gm.core.selector.util.sortMaterials
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.DETAILS
@@ -137,21 +135,30 @@ fun HtmlBlockTag.editItemPart(
     label: String = TEXT,
     allowedTypes: Collection<ItemPartType> = ItemPartType.entries,
 ) {
+    val fibers = state.sortMaterials(MaterialCategoryType.Fiber)
+    val leathers = state.sortMaterials(MaterialCategoryType.Leather)
+    
     showDetails(label, true) {
         selectValue(
             "Type",
             combine(param, TYPE),
             allowedTypes,
             part.getType(),
-        )
+        ) { 
+            when (it) {
+                ItemPartType.Fabric -> fibers.isEmpty()
+                ItemPartType.Leather -> leathers.isEmpty()
+                else -> false
+            }
+        }
 
         when (part) {
             is ColorItemPart -> {
-                selectMaterial(state, param, part.material)
+                selectMaterial(state, part.material, param)
                 selectOptionalColor(part.color, combine(param, COLOR))
             }
             is ColorSchemeItemPart -> {
-                selectMaterial(state, param, part.material)
+                selectMaterial(state, part.material, param)
                 editColorLookup(
                     state,
                     "Color Lookup",
@@ -161,15 +168,15 @@ fun HtmlBlockTag.editItemPart(
                 )
             }
             is FillItemPart -> {
-                selectMaterial(state, param, part.material)
+                selectMaterial(state, part.material, param)
                 selectOptionalFill(part.fill, combine(param, FILL))
             }
             is FillLookupItemPart -> {
-                selectMaterial(state, param, part.material)
+                selectMaterial(state, part.material, param)
                 selectFillLookup(state, part.fill, combine(param, FILL))
             }
             is MadeFromFabric -> {
-                selectMaterial(state, param, part.material)
+                selectMaterial(state, param, part.material, fibers)
                 selectValue(
                     "Fabric Weight",
                     combine(param, FABRIC, WEIGHT),
@@ -185,7 +192,7 @@ fun HtmlBlockTag.editItemPart(
                 selectFillLookup(state, part.fill, combine(param, FILL))
             }
             is MadeFromLeather -> {
-                selectMaterial(state, param, part.material)
+                selectMaterial(state, param, part.material, leathers)
                 selectValue(
                     "Leather Grade",
                     combine(param, LEATHER, TYPE),
@@ -207,9 +214,10 @@ fun HtmlBlockTag.editItemPart(
 private fun DETAILS.selectMaterial(
     state: State,
     param: String,
-    materialId: MaterialId,
+    current: MaterialId,
+    materials: Collection<Material>,
 ) {
-    selectMaterial(state, materialId, combine(param, MATERIAL))
+    selectMaterial(state, materials, current, combine(param, MATERIAL))
 }
 
 fun HtmlBlockTag.editColorItemPart(

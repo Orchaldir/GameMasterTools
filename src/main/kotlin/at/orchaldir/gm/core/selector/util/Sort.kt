@@ -681,6 +681,9 @@ fun State.sortMagicTraditions(
 fun State.sortMaterials(sort: SortMaterial = SortMaterial.Name) =
     sortMaterials(getMaterialStorage().getAll(), sort)
 
+fun State.sortMaterials(category: MaterialCategoryType, sort: SortMaterial = SortMaterial.Name) =
+    sortMaterials(setOf(category), sort)
+
 fun State.sortMaterials(categories: Set<MaterialCategoryType>, sort: SortMaterial = SortMaterial.Name) =
     sortMaterials(getMaterials(categories), sort)
 
