@@ -150,6 +150,27 @@
     "luster": "Metallic",
     "tenacity": "Ductile"
    }
+  },
+  "10": {
+   "id": 10,
+   "name": "Wood",
+   "properties": {
+    "category": {
+     "#type": "Wood"
+    },
+    "color": "Peru"
+   }
+  },
+  "11": {
+   "id": 11,
+   "name": "Iron Wood",
+   "properties": {
+    "category": {
+     "#type": "Wood"
+    },
+    "color": "Maroon",
+    "hardness": 4.0
+   }
   }
  }
 }
