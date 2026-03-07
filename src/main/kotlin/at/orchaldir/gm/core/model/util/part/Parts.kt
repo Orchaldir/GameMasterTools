@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.model.util.part
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.LeatherGrade
 import at.orchaldir.gm.core.model.economy.material.MaterialId
+import at.orchaldir.gm.core.model.util.part.MadeFromFabric
 import at.orchaldir.gm.core.model.util.render.*
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -14,6 +15,10 @@ val CLOTHING_MATERIALS = listOf(
 val MADE_FROM_METALS = listOf(
     ItemPartType.Metal,
 )
+val SOLID_MATERIALS = listOf(
+    ItemPartType.Metal,
+    ItemPartType.Wood,
+)
 
 enum class ItemPartType {
     Color,
@@ -22,7 +27,8 @@ enum class ItemPartType {
     FillLookup,
     Fabric,
     Leather,
-    Metal;
+    Metal,
+    Wood;
 }
 
 @Serializable
@@ -36,6 +42,7 @@ sealed class ItemPart {
         is MadeFromFabric -> ItemPartType.Fabric
         is MadeFromLeather -> ItemPartType.Leather
         is MadeFromMetal -> ItemPartType.Metal
+        is MadeFromWood -> ItemPartType.Wood
     }
 
     abstract fun contains(id: MaterialId): Boolean
@@ -167,5 +174,21 @@ data class MadeFromMetal(
     override fun contains(id: MaterialId) = material == id
     override fun material() = material
     override fun requiredSchemaColors() = color.requiredSchemaColors()
+
+}
+
+@Serializable
+data class MadeFromWood(
+    val material: MaterialId,
+    val fill: FillLookup = SolidLookup(LookupMaterial),
+) : ItemPart() {
+
+    constructor(color: Color) : this(MaterialId(0), fill = SolidLookup(color))
+
+    fun getFill(state: State, colors: Colors) = fill.lookup(state, colors, material)
+
+    override fun contains(id: MaterialId) = material == id
+    override fun material() = material
+    override fun requiredSchemaColors() = fill.requiredSchemaColors()
 
 }

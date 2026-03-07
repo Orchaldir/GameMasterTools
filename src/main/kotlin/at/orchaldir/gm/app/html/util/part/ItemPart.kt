@@ -28,6 +28,7 @@ import at.orchaldir.gm.core.model.util.part.ItemPartType
 import at.orchaldir.gm.core.model.util.part.MadeFromFabric
 import at.orchaldir.gm.core.model.util.part.MadeFromLeather
 import at.orchaldir.gm.core.model.util.part.MadeFromMetal
+import at.orchaldir.gm.core.model.util.part.MadeFromWood
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.selector.util.sortMaterials
 import io.ktor.http.*
@@ -79,6 +80,10 @@ fun HtmlBlockTag.showItemPart(
             is MadeFromMetal -> {
                 fieldLink("Material", call, state, part.material)
                 fieldColorLookup("Color", part.color)
+            }
+            is MadeFromWood -> {
+                fieldLink("Material", call, state, part.material)
+                showFillLookup(part.fill)
             }
         }
     }
@@ -225,6 +230,10 @@ fun HtmlBlockTag.editItemPart(
                     Color.entries,
                 )
             }
+            is MadeFromWood -> {
+                selectMaterial(state, param, part.material, fibers)
+                selectFillLookup(state, part.fill, combine(param, FILL))
+            }
         }
     }
 }
@@ -321,6 +330,10 @@ fun parseItemPart(
     ItemPartType.Metal -> MadeFromMetal(
         parseMaterialId(parameters, combine(param, MATERIAL)),
         parseColorLookup(parameters, combine(param, COLOR)),
+    )
+    ItemPartType.Wood -> MadeFromWood(
+        parseMaterialId(parameters, combine(param, MATERIAL)),
+        parseFillLookup(parameters, combine(param, FILL)),
     )
 }
 
