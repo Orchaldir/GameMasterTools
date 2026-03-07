@@ -8,10 +8,14 @@ import at.orchaldir.gm.app.html.util.math.fieldFactor
 import at.orchaldir.gm.app.html.util.math.parseFactor
 import at.orchaldir.gm.app.html.util.math.selectFactor
 import at.orchaldir.gm.app.html.util.part.editFillLookupItemPart
+import at.orchaldir.gm.app.html.util.part.editItemPart
 import at.orchaldir.gm.app.html.util.part.parseFillLookupItemPart
+import at.orchaldir.gm.app.html.util.part.parseItemPart
 import at.orchaldir.gm.app.html.util.part.showFillLookupItemPart
+import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.style.*
+import at.orchaldir.gm.core.model.util.part.MADE_FROM_METALS
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -43,7 +47,7 @@ private fun DETAILS.showSimpleSwordGuard(
 ) {
     fieldFactor("Height relative to Character", guard.height)
     fieldFactor("Width relative to Grip", guard.width)
-    showFillLookupItemPart(call, state, guard.part)
+    showItemPart(call, state, guard.part)
 }
 
 // edit
@@ -83,7 +87,7 @@ private fun DETAILS.editSimpleSwordGuard(
         MIN_GUARD_WIDTH,
         MAX_GUARD_WIDTH,
     )
-    editFillLookupItemPart(state, guard.part, param)
+    editItemPart(state, guard.part, param, allowedTypes = MADE_FROM_METALS)
 }
 
 // parse
@@ -99,7 +103,7 @@ fun parseSwordGuard(
 private fun parseSimpleSwordGuard(parameters: Parameters, param: String) = SimpleSwordGuard(
     parseGuardWidth(parameters, param),
     parseGuardHeight(parameters, param),
-    parseFillLookupItemPart(parameters, param),
+    parseItemPart(parameters, param),
 )
 
 private fun parseGuardHeight(parameters: Parameters, param: String) =

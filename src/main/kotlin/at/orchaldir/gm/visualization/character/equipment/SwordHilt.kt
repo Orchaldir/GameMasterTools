@@ -58,8 +58,7 @@ private fun visualizeSimpleGuard(
     )
     val bottom = gripAabb.getPoint(CENTER, START)
     val guardAabb = AABB.fromBottom(bottom, guardSize)
-    val fill = guard.part.getFill(state.state, state.colors)
-    val options = FillAndBorder(fill.toRender(), state.config.line)
+    val options = state.getRenderOptions(guard.part)
 
     renderer.renderRectangle(guardAabb, options)
 

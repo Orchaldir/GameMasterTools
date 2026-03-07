@@ -7,6 +7,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.part.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.style.*
+import at.orchaldir.gm.core.model.util.part.MADE_FROM_METALS
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -24,7 +25,7 @@ fun HtmlBlockTag.showGrip(
         when (grip) {
             is SimpleGrip -> {
                 field("Shape", grip.shape)
-                showFillLookupItemPart(call, state, grip.part)
+                showItemPart(call, state, grip.part)
             }
 
             is BoundGrip -> {
@@ -53,7 +54,7 @@ fun HtmlBlockTag.editGrip(
                     GripShape.entries,
                     grip.shape,
                 )
-                editFillLookupItemPart(state, grip.part, param)
+                editItemPart(state, grip.part, param, allowedTypes = MADE_FROM_METALS)
             }
 
             is BoundGrip -> {

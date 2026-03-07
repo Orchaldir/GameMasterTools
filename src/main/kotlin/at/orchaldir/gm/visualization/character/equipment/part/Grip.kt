@@ -46,8 +46,7 @@ private fun visualizeSimpleGrip(
     grip: SimpleGrip,
     aabb: AABB,
 ) {
-    val fill = grip.part.getFill(state.state, state.colors)
-    val options = FillAndBorder(fill.toRender(), state.config.line)
+    val options = state.getRenderOptions(grip.part)
     val polygon = createSimpleGripPolygon(config, grip, aabb)
 
     renderer.renderRoundedPolygon(polygon, options)
