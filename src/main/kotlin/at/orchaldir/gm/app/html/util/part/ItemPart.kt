@@ -149,6 +149,7 @@ fun HtmlBlockTag.editItemPart(
     val fibers = state.sortMaterials(MaterialCategoryType.Fiber)
     val leathers = state.sortMaterials(MaterialCategoryType.Leather)
     val metals = state.sortMaterials(ALLOYS_OR_METALS)
+    val woods = state.sortMaterials(MaterialCategoryType.Wood)
 
     showDetails(label, true) {
         selectValue(
@@ -161,6 +162,7 @@ fun HtmlBlockTag.editItemPart(
                 ItemPartType.Fabric -> fibers.isEmpty()
                 ItemPartType.Leather -> leathers.isEmpty()
                 ItemPartType.Metal -> metals.isEmpty()
+                ItemPartType.Wood -> woods.isEmpty()
                 else -> false
             }
         }
@@ -231,7 +233,7 @@ fun HtmlBlockTag.editItemPart(
                 )
             }
             is MadeFromWood -> {
-                selectMaterial(state, param, part.material, fibers)
+                selectMaterial(state, param, part.material, woods)
                 selectFillLookup(state, part.fill, combine(param, FILL))
             }
         }
