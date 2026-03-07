@@ -11,6 +11,9 @@ val CLOTHING_MATERIALS = listOf(
     ItemPartType.Fabric,
     ItemPartType.Leather,
 )
+val MADE_FROM_METALS = listOf(
+    ItemPartType.Metal,
+)
 
 enum class ItemPartType {
     Color,

@@ -82,8 +82,7 @@ private fun visualizeSimpleBlade(
     blade: SimpleBlade,
     aabb: AABB,
 ) {
-    val color = blade.part.getColor(state.state, state.colors)
-    val options = state.config.getLineOptions(color)
+    val options = state.getRenderOptions(blade.part)
     val polygon = createSimplyBladePolygon(state, config, blade, aabb)
 
     renderer.renderRoundedPolygon(polygon, options)

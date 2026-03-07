@@ -9,10 +9,15 @@ import at.orchaldir.gm.app.html.util.math.fieldFactor
 import at.orchaldir.gm.app.html.util.math.parseFactor
 import at.orchaldir.gm.app.html.util.math.selectFactor
 import at.orchaldir.gm.app.html.util.part.editColorSchemeItemPart
+import at.orchaldir.gm.app.html.util.part.editItemPart
 import at.orchaldir.gm.app.html.util.part.parseColorSchemeItemPart
+import at.orchaldir.gm.app.html.util.part.parseItemPart
 import at.orchaldir.gm.app.html.util.part.showColorSchemeItemPart
+import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.style.*
+import at.orchaldir.gm.core.model.util.part.ItemPartType
+import at.orchaldir.gm.core.model.util.part.MADE_FROM_METALS
 import at.orchaldir.gm.utils.math.Factor
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -44,7 +49,7 @@ private fun DETAILS.showSimpleBlade(
     field("Shape", blade.shape)
     fieldFactor("Length relative to Character", blade.length)
     fieldFactor("Width relative to Grip", blade.width)
-    showColorSchemeItemPart(call, state, blade.part)
+    showItemPart(call, state, blade.part)
 }
 
 // edit
@@ -93,7 +98,7 @@ private fun DETAILS.editSimpleBlade(
         MIN_BLADE_WIDTH,
         MAX_BLADE_WIDTH,
     )
-    editColorSchemeItemPart(state, blade.part, param)
+    editItemPart(state, blade.part, param, allowedTypes = MADE_FROM_METALS)
 }
 
 // parse
@@ -114,7 +119,7 @@ private fun parseSimpleBlade(
     parseBladeLength(parameters, defaultLength, param),
     parseBladeWidth(parameters, param),
     parse(parameters, combine(param, SHAPE), BladeShape.Straight),
-    parseColorSchemeItemPart(parameters, param),
+    parseItemPart(parameters, param),
 )
 
 private fun parseBladeLength(parameters: Parameters, defaultLength: Factor, param: String) =
