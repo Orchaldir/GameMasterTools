@@ -5,16 +5,16 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.math.fieldFactor
 import at.orchaldir.gm.app.html.util.math.parseFactor
 import at.orchaldir.gm.app.html.util.math.selectFactor
-import at.orchaldir.gm.app.html.util.part.editColorSchemeItemPart
 import at.orchaldir.gm.app.html.util.part.editItemPart
 import at.orchaldir.gm.app.html.util.part.parseColorSchemeItemPart
 import at.orchaldir.gm.app.html.util.part.parseItemPart
-import at.orchaldir.gm.app.html.util.part.showColorSchemeItemPart
+import at.orchaldir.gm.app.html.util.part.selectColorSchemeItemParts
 import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.economy.material.CATEGORIES_FOR_CLOTHING
 import at.orchaldir.gm.core.model.item.equipment.style.*
-import at.orchaldir.gm.core.model.util.part.MADE_FROM_METALS
 import at.orchaldir.gm.core.model.util.part.SOLID_MATERIALS
+import at.orchaldir.gm.core.selector.util.sortMaterials
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Factor
 import io.ktor.http.*
@@ -59,14 +59,21 @@ fun HtmlBlockTag.editHeadFixation(
     fixation: HeadFixation,
     param: String,
 ) {
+    val boundMaterials = state.sortMaterials(CATEGORIES_FOR_CLOTHING)
+
     showDetails("Fixation", true) {
-        selectValue("Type", param, HeadFixationType.entries, fixation.getType())
+        selectValue("Type", param, HeadFixationType.entries, fixation.getType()) {
+            when (it) {
+                HeadFixationType.Bound -> boundMaterials.isEmpty()
+                else -> false
+            }
+        }
 
         when (fixation) {
             NoHeadFixation -> doNothing()
             is BoundHeadHead -> {
                 selectLength(param, fixation.length)
-                editColorSchemeItemPart(state, fixation.part, param)
+                selectColorSchemeItemParts(state, fixation.part, param, boundMaterials)
             }
 
             is Langets -> {

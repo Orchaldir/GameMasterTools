@@ -30,6 +30,8 @@ import at.orchaldir.gm.core.model.util.part.MadeFromLeather
 import at.orchaldir.gm.core.model.util.part.MadeFromMetal
 import at.orchaldir.gm.core.model.util.part.MadeFromWood
 import at.orchaldir.gm.core.model.util.render.Color
+import at.orchaldir.gm.core.selector.economy.getMaterials
+import at.orchaldir.gm.core.selector.economy.getMaterialsMadeOf
 import at.orchaldir.gm.core.selector.util.sortMaterials
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -172,16 +174,7 @@ fun HtmlBlockTag.editItemPart(
                 selectMaterial(state, part.material, param)
                 selectOptionalColor(part.color, combine(param, COLOR))
             }
-            is ColorSchemeItemPart -> {
-                selectMaterial(state, part.material, param)
-                editColorLookup(
-                    state,
-                    "Color Lookup",
-                    part.lookup,
-                    combine(param, COLOR),
-                    Color.entries,
-                )
-            }
+            is ColorSchemeItemPart -> selectColorSchemeItemParts(state, part, param, state.getMaterialStorage().getAll())
             is FillItemPart -> {
                 selectMaterial(state, part.material, param)
                 selectOptionalFill(part.fill, combine(param, FILL))
@@ -240,7 +233,7 @@ fun HtmlBlockTag.editItemPart(
     }
 }
 
-private fun DETAILS.selectMaterial(
+private fun HtmlBlockTag.selectMaterial(
     state: State,
     param: String,
     current: MaterialId,
@@ -259,6 +252,22 @@ fun HtmlBlockTag.editColorItemPart(
         selectMaterial(state, part.material, combine(param, MATERIAL))
         selectOptionalColor(part.color, combine(param, COLOR))
     }
+}
+
+fun HtmlBlockTag.selectColorSchemeItemParts(
+    state: State,
+    part: ColorSchemeItemPart,
+    param: String,
+    materials: Collection<Material>
+) {
+    selectMaterial(state, param, part.material, materials)
+    editColorLookup(
+        state,
+        "Color Lookup",
+        part.lookup,
+        combine(param, COLOR),
+        Color.entries,
+    )
 }
 
 fun HtmlBlockTag.editColorSchemeItemPart(
