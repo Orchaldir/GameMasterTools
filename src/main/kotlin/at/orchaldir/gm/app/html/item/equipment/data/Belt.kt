@@ -3,12 +3,16 @@ package at.orchaldir.gm.app.html.item.equipment.data
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.part.editFillLookupItemPart
+import at.orchaldir.gm.app.html.util.part.editItemPart
 import at.orchaldir.gm.app.html.util.part.parseFillLookupItemPart
+import at.orchaldir.gm.app.html.util.part.parseItemPart
 import at.orchaldir.gm.app.html.util.part.showFillLookupItemPart
+import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.Belt
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.Size
+import at.orchaldir.gm.core.model.util.part.CLOTHING_MATERIALS
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
@@ -24,7 +28,7 @@ fun HtmlBlockTag.showBelt(
     belt: Belt,
 ) {
     showBuckle(call, state, belt.buckle)
-    showFillLookupItemPart(call, state, belt.strap, "Strap")
+    showItemPart(call, state, belt.strap, "Strap")
     showBeltHoles(belt.holes)
 }
 
@@ -71,7 +75,7 @@ fun HtmlBlockTag.editBelt(
     belt: Belt,
 ) {
     editBuckle(state, belt.buckle)
-    editFillLookupItemPart(state, belt.strap, STRAP)
+    editItemPart(state, belt.strap, STRAP, "Strap", CLOTHING_MATERIALS)
     editBeltHoles(belt.holes)
 }
 
@@ -120,7 +124,7 @@ private fun DETAILS.selectBorderColor(color: Color?) {
 
 fun parseBelt(parameters: Parameters) = Belt(
     parseBuckle(parameters),
-    parseFillLookupItemPart(parameters, STRAP),
+    parseItemPart(parameters, STRAP),
     parseBeltHoles(parameters),
 )
 

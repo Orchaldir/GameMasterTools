@@ -27,8 +27,7 @@ fun visualizeShirt(
     state: CharacterRenderState<Body>,
     shirt: Shirt,
 ) {
-    val fill = shirt.main.getFill(state.state, state.colors)
-    val options = FillAndBorder(fill.toRender(), state.config.line)
+    val options = state.getRenderOptions(shirt.main)
 
     visualizeSleeves(state, options, shirt.sleeveStyle)
     visualizeTorso(state, options, shirt.necklineStyle, LOWER_EQUIPMENT_LAYER)

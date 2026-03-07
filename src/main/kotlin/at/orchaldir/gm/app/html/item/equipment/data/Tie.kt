@@ -50,8 +50,8 @@ fun HtmlBlockTag.editTie(
 // parse
 
 fun parseTie(parameters: Parameters) = Tie(
-    parseItemPart(parameters, MAIN),
-    parseItemPart(parameters, KNOT),
     parse(parameters, STYLE, TieStyle.Tie),
     parse(parameters, SIZE, Size.Medium),
+    parseItemPart(parameters, MAIN),
+    parseItemPart(parameters, KNOT),
 )

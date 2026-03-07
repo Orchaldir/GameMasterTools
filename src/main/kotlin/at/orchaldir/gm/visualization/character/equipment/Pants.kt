@@ -62,8 +62,7 @@ fun visualizePants(
     state: CharacterRenderState<Body>,
     pants: Pants,
 ) {
-    val fill = pants.main.getFill(state.state, state.colors)
-    val options = FillAndBorder(fill.toRender(), state.config.line)
+    val options = state.getRenderOptions(pants.main)
     val height = state.equipment().pants.getPantlegHeightFactor(pants.style)
     val polygon = if (height != null) {
         getPantsWithHeight(state, height)

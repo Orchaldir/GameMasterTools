@@ -43,6 +43,6 @@ fun HtmlBlockTag.editSkirt(
 // parse
 
 fun parseSkirt(parameters: Parameters): Skirt = Skirt(
-    parseItemPart(parameters, MAIN),
     parse(parameters, SKIRT_STYLE, SkirtStyle.Sheath),
+    parseItemPart(parameters, MAIN),
 )

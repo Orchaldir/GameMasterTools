@@ -7,11 +7,15 @@ import at.orchaldir.gm.app.html.parse
 import at.orchaldir.gm.app.html.rpg.combat.parseArmorStats
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.util.part.editFillLookupItemPart
+import at.orchaldir.gm.app.html.util.part.editItemPart
 import at.orchaldir.gm.app.html.util.part.parseFillLookupItemPart
+import at.orchaldir.gm.app.html.util.part.parseItemPart
 import at.orchaldir.gm.app.html.util.part.showFillLookupItemPart
+import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.Gloves
 import at.orchaldir.gm.core.model.item.equipment.style.GloveStyle
+import at.orchaldir.gm.core.model.util.part.CLOTHING_MATERIALS
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -24,7 +28,7 @@ fun HtmlBlockTag.showGloves(
     gloves: Gloves,
 ) {
     field("Style", gloves.style)
-    showFillLookupItemPart(call, state, gloves.main, "Main")
+    showItemPart(call, state, gloves.main)
 }
 
 // edit
@@ -34,13 +38,13 @@ fun HtmlBlockTag.editGloves(
     data: Gloves,
 ) {
     selectValue("Style", GLOVES, GloveStyle.entries, data.style)
-    editFillLookupItemPart(state, data.main, MAIN, "Main")
+    editItemPart(state, data.main, MAIN, allowedTypes = CLOTHING_MATERIALS)
 }
 
 // parse
 
 fun parseGloves(parameters: Parameters): Gloves = Gloves(
     parse(parameters, GLOVES, GloveStyle.Hand),
-    parseFillLookupItemPart(parameters, MAIN),
+    parseItemPart(parameters, MAIN),
     parseArmorStats(parameters),
 )

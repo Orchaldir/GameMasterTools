@@ -100,8 +100,7 @@ fun visualizeFootwear(
     state: CharacterRenderState<Body>,
     footwear: Footwear,
 ) {
-    val fill = footwear.shaft.getFill(state.state, state.colors)
-    val options = FillAndBorder(fill.toRender(), state.config.line)
+    val options = state.getRenderOptions(footwear.shaft)
 
     visualizeBootShaft(state, footwear, options)
 
@@ -153,8 +152,7 @@ fun visualizeSoles(
     footwear: Footwear,
 ) {
     val config = state.config
-    val color = footwear.sole.getColor(state.state)
-    val options = FillAndBorder(color.toRender(), config.line)
+    val options = state.getRenderOptions(footwear.sole)
     val (left, right) = config.body.getMirroredLegPoint(state, END)
     val size = config.equipment.footwear.getSoleFrontSize(state)
     val offset = Point2d.yAxis(size.height / 2.0f)

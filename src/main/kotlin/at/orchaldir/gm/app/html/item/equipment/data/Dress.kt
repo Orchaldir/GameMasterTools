@@ -12,12 +12,16 @@ import at.orchaldir.gm.app.html.item.equipment.style.selectSleeveStyle
 import at.orchaldir.gm.app.html.parse
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.util.part.editFillLookupItemPart
+import at.orchaldir.gm.app.html.util.part.editItemPart
 import at.orchaldir.gm.app.html.util.part.parseFillLookupItemPart
+import at.orchaldir.gm.app.html.util.part.parseItemPart
 import at.orchaldir.gm.app.html.util.part.showFillLookupItemPart
+import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.Dress
 import at.orchaldir.gm.core.model.item.equipment.style.NecklineStyle
 import at.orchaldir.gm.core.model.item.equipment.style.SkirtStyle
+import at.orchaldir.gm.core.model.util.part.CLOTHING_MATERIALS
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -32,7 +36,7 @@ fun HtmlBlockTag.showDress(
     field("Neckline Style", dress.necklineStyle)
     field("Skirt Style", dress.skirtStyle)
     field("Sleeve Style", dress.sleeveStyle)
-    showFillLookupItemPart(call, state, dress.main, "Main")
+    showItemPart(call, state, dress.main)
 }
 
 // edit
@@ -47,7 +51,7 @@ fun HtmlBlockTag.editDress(
         dress.necklineStyle.getSupportsSleevesStyles(),
         dress.sleeveStyle,
     )
-    editFillLookupItemPart(state, dress.main, MAIN)
+    editItemPart(state, dress.main, MAIN, allowedTypes = CLOTHING_MATERIALS)
 }
 
 // parse
@@ -59,6 +63,6 @@ fun parseDress(parameters: Parameters): Dress {
         neckline,
         parse(parameters, SKIRT_STYLE, SkirtStyle.Sheath),
         parseSleeveStyle(parameters, neckline),
-        parseFillLookupItemPart(parameters, MAIN),
+        parseItemPart(parameters, MAIN),
     )
 }

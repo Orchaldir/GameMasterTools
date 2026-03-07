@@ -6,11 +6,15 @@ import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.parse
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.util.part.editFillLookupItemPart
+import at.orchaldir.gm.app.html.util.part.editItemPart
 import at.orchaldir.gm.app.html.util.part.parseFillLookupItemPart
+import at.orchaldir.gm.app.html.util.part.parseItemPart
 import at.orchaldir.gm.app.html.util.part.showFillLookupItemPart
+import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.Pants
 import at.orchaldir.gm.core.model.item.equipment.style.PantsStyle
+import at.orchaldir.gm.core.model.util.part.CLOTHING_MATERIALS
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -23,7 +27,7 @@ fun HtmlBlockTag.showPants(
     pants: Pants,
 ) {
     field("Style", pants.style)
-    showFillLookupItemPart(call, state, pants.main, "Main")
+    showItemPart(call, state, pants.main)
 }
 
 // edit
@@ -33,12 +37,12 @@ fun HtmlBlockTag.editPants(
     pants: Pants,
 ) {
     selectValue("Style", PANTS, PantsStyle.entries, pants.style)
-    editFillLookupItemPart(state, pants.main, MAIN, "Main")
+    editItemPart(state, pants.main, MAIN, allowedTypes = CLOTHING_MATERIALS)
 }
 
 // parse
 
 fun parsePants(parameters: Parameters) = Pants(
     parse(parameters, PANTS, PantsStyle.Regular),
-    parseFillLookupItemPart(parameters, MAIN),
+    parseItemPart(parameters, MAIN),
 )

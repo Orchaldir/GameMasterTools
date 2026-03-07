@@ -43,6 +43,6 @@ fun HtmlBlockTag.editSocks(
 // parse
 
 fun parseSocks(parameters: Parameters): Socks = Socks(
-    parseItemPart(parameters, MAIN, CLOTHING_MATERIALS),
     parse(parameters, STYLE, SocksStyle.Quarter),
+    parseItemPart(parameters, MAIN, CLOTHING_MATERIALS),
 )

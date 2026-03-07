@@ -30,7 +30,7 @@ fun main() {
             fromSlotAsKeyMap(
                 mapOf(
                     BodySlot.Top to Shirt(main = part),
-                    BodySlot.Bottom to Skirt(part, style),
+                    BodySlot.Bottom to Skirt(style, part),
                 )
             )
         )
