@@ -13,6 +13,7 @@ import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
 import at.orchaldir.gm.core.model.util.part.ItemPart
 import at.orchaldir.gm.core.model.util.part.MadeFromFabric
 import at.orchaldir.gm.core.model.util.part.MadeFromLeather
+import at.orchaldir.gm.core.model.util.part.MadeFromMetal
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.util.render.Colors
 import at.orchaldir.gm.core.model.util.render.UndefinedColors
@@ -60,6 +61,7 @@ data class CharacterRenderState<T>(
         is FillLookupItemPart -> config.getLineOptions(part.getFill(state, colors))
         is MadeFromFabric ->  config.getLineOptions(part.getFill(state, colors))
         is MadeFromLeather -> config.getLineOptions(part.getColor(state, colors))
+        is MadeFromMetal -> config.getLineOptions(part.getColor(state, colors))
     }
 
     fun getBeardLayer() = getLayer(ABOVE_EQUIPMENT_LAYER)

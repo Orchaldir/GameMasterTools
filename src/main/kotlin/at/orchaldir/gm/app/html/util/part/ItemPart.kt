@@ -12,6 +12,7 @@ import at.orchaldir.gm.app.html.economy.material.parseMaterialId
 import at.orchaldir.gm.app.html.economy.material.selectMaterial
 import at.orchaldir.gm.app.html.util.color.*
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.economy.material.ALLOYS_OR_METALS
 import at.orchaldir.gm.core.model.economy.material.LeatherGrade
 import at.orchaldir.gm.core.model.economy.material.Material
 import at.orchaldir.gm.core.model.economy.material.MaterialCategoryType
@@ -26,6 +27,7 @@ import at.orchaldir.gm.core.model.util.part.ItemPart
 import at.orchaldir.gm.core.model.util.part.ItemPartType
 import at.orchaldir.gm.core.model.util.part.MadeFromFabric
 import at.orchaldir.gm.core.model.util.part.MadeFromLeather
+import at.orchaldir.gm.core.model.util.part.MadeFromMetal
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.selector.util.sortMaterials
 import io.ktor.http.*
@@ -72,6 +74,10 @@ fun HtmlBlockTag.showItemPart(
             is MadeFromLeather -> {
                 fieldLink("Material", call, state, part.material)
                 field("Leather Grade", part.grade)
+                fieldColorLookup("Color", part.color)
+            }
+            is MadeFromMetal -> {
+                fieldLink("Material", call, state, part.material)
                 fieldColorLookup("Color", part.color)
             }
         }
@@ -137,7 +143,8 @@ fun HtmlBlockTag.editItemPart(
 ) {
     val fibers = state.sortMaterials(MaterialCategoryType.Fiber)
     val leathers = state.sortMaterials(MaterialCategoryType.Leather)
-    
+    val metals = state.sortMaterials(ALLOYS_OR_METALS)
+
     showDetails(label, true) {
         selectValue(
             "Type",
@@ -148,6 +155,7 @@ fun HtmlBlockTag.editItemPart(
             when (it) {
                 ItemPartType.Fabric -> fibers.isEmpty()
                 ItemPartType.Leather -> leathers.isEmpty()
+                ItemPartType.Metal -> metals.isEmpty()
                 else -> false
             }
         }
@@ -199,6 +207,16 @@ fun HtmlBlockTag.editItemPart(
                     LeatherGrade.entries,
                     part.grade,
                 )
+                editColorLookup(
+                    state,
+                    "Color Lookup",
+                    part.color,
+                    combine(param, COLOR),
+                    Color.entries,
+                )
+            }
+            is MadeFromMetal -> {
+                selectMaterial(state, param, part.material, metals)
                 editColorLookup(
                     state,
                     "Color Lookup",
@@ -298,6 +316,10 @@ fun parseItemPart(
     ItemPartType.Leather -> MadeFromLeather(
         parseMaterialId(parameters, combine(param, MATERIAL)),
         parse(parameters, combine(param, LEATHER, TYPE), LeatherGrade.Undefined),
+        parseColorLookup(parameters, combine(param, COLOR)),
+    )
+    ItemPartType.Metal -> MadeFromMetal(
+        parseMaterialId(parameters, combine(param, MATERIAL)),
         parseColorLookup(parameters, combine(param, COLOR)),
     )
 }

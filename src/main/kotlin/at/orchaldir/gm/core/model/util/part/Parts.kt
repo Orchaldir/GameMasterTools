@@ -18,7 +18,8 @@ enum class ItemPartType {
     Fill,
     FillLookup,
     Fabric,
-    Leather;
+    Leather,
+    Metal;
 }
 
 @Serializable
@@ -31,6 +32,7 @@ sealed class ItemPart {
         is FillLookupItemPart -> ItemPartType.FillLookup
         is MadeFromFabric -> ItemPartType.Fabric
         is MadeFromLeather -> ItemPartType.Leather
+        is MadeFromMetal -> ItemPartType.Metal
     }
 
     abstract fun contains(id: MaterialId): Boolean
@@ -136,6 +138,22 @@ data class MadeFromFabric(
 data class MadeFromLeather(
     val material: MaterialId,
     val grade: LeatherGrade = LeatherGrade.Undefined,
+    val color: ColorLookup = LookupMaterial,
+) : ItemPart() {
+
+    constructor(color: Color) : this(MaterialId(0), color =  FixedColor(color))
+
+    fun getColor(state: State, colors: Colors) = color.lookup(state, colors, material)
+
+    override fun contains(id: MaterialId) = material == id
+    override fun material() = material
+    override fun requiredSchemaColors() = color.requiredSchemaColors()
+
+}
+
+@Serializable
+data class MadeFromMetal(
+    val material: MaterialId,
     val color: ColorLookup = LookupMaterial,
 ) : ItemPart() {
 
