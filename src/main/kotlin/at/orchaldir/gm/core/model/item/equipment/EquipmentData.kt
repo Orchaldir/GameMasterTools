@@ -478,11 +478,11 @@ data class Shirt(
 @Serializable
 @SerialName("Skirt")
 data class Skirt(
+    val main: ItemPart,
     val style: SkirtStyle = SkirtStyle.Sheath,
-    val main: FillLookupItemPart = FillLookupItemPart(Color.SaddleBrown),
 ) : EquipmentData() {
 
-    constructor(style: SkirtStyle, color: Color) : this(style, FillLookupItemPart(color))
+    constructor(style: SkirtStyle, color: Color) : this(FillLookupItemPart(color), style)
 
     override fun parts() = listOf(main)
 }

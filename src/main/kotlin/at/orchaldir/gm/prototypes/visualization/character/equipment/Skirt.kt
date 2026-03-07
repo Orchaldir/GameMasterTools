@@ -16,6 +16,8 @@ import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTableWi
 import at.orchaldir.gm.utils.math.unit.Distance
 
 fun main() {
+    val part = FillLookupItemPart(White)
+
     renderCharacterTableWithoutColorScheme(
         State(),
         "skirts.svg",
@@ -27,8 +29,8 @@ fun main() {
             createAppearance(distance, shape),
             fromSlotAsKeyMap(
                 mapOf(
-                    BodySlot.Top to Shirt(main = FillLookupItemPart(White)),
-                    BodySlot.Bottom to Skirt(style),
+                    BodySlot.Top to Shirt(main = part),
+                    BodySlot.Bottom to Skirt(part, style),
                 )
             )
         )
