@@ -8,6 +8,8 @@ import at.orchaldir.gm.app.html.util.math.selectFactor
 import at.orchaldir.gm.app.html.util.part.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.style.*
+import at.orchaldir.gm.core.model.util.part.MADE_FROM_METALS
+import at.orchaldir.gm.core.model.util.part.SOLID_MATERIALS
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -52,7 +54,7 @@ private fun DETAILS.showSpearHead(
     field("Shape", head.shape)
     fieldFactor("Length", head.length)
     fieldFactor("Width", head.width)
-    showColorSchemeItemPart(call, state, head.part, "Spear")
+    showItemPart(call, state, head.part)
 }
 
 // edit
@@ -118,7 +120,7 @@ private fun DETAILS.editSpearHead(
         MIN_SPEAR_WIDTH,
         MAX_SPEAR_WIDTH,
     )
-    editColorSchemeItemPart(state, head.part, param, "Spear")
+    editItemPart(state, head.part, param, allowedTypes = SOLID_MATERIALS)
 }
 
 // parse
@@ -149,7 +151,7 @@ private fun parseSpearHead(parameters: Parameters, param: String) = SpearHead(
     parse(parameters, combine(param, SHAPE), SpearShape.Leaf),
     parseSpearLength(parameters, param),
     parseSpearWidth(parameters, param),
-    parseColorSchemeItemPart(parameters, param),
+    parseItemPart(parameters, param),
 )
 
 private fun parseSpearLength(parameters: Parameters, param: String) =

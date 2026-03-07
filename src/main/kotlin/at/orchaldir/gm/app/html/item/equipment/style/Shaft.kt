@@ -4,12 +4,16 @@ import at.orchaldir.gm.app.MAIN
 import at.orchaldir.gm.app.SHAFT
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.part.editFillLookupItemPart
+import at.orchaldir.gm.app.html.util.part.editItemPart
 import at.orchaldir.gm.app.html.util.part.parseFillLookupItemPart
+import at.orchaldir.gm.app.html.util.part.parseItemPart
 import at.orchaldir.gm.app.html.util.part.showFillLookupItemPart
+import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.style.Shaft
 import at.orchaldir.gm.core.model.item.equipment.style.ShaftType
 import at.orchaldir.gm.core.model.item.equipment.style.SimpleShaft
+import at.orchaldir.gm.core.model.util.part.SOLID_MATERIALS
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -25,7 +29,7 @@ fun HtmlBlockTag.showShaft(
         field("Style", shaft.getType())
 
         when (shaft) {
-            is SimpleShaft -> showFillLookupItemPart(call, state, shaft.part)
+            is SimpleShaft -> showItemPart(call, state, shaft.part)
         }
     }
 }
@@ -41,7 +45,12 @@ fun HtmlBlockTag.editShaft(
         selectValue("Type", param, ShaftType.entries, shaft.getType())
 
         when (shaft) {
-            is SimpleShaft -> editFillLookupItemPart(state, shaft.part, combine(param, MAIN))
+            is SimpleShaft -> editItemPart(
+                state,
+                shaft.part,
+                combine(param, MAIN),
+                allowedTypes = SOLID_MATERIALS,
+            )
         }
     }
 }
@@ -53,6 +62,6 @@ fun parseShaft(
     param: String = SHAFT,
 ) = when (parse(parameters, param, ShaftType.Simple)) {
     ShaftType.Simple -> SimpleShaft(
-        parseFillLookupItemPart(parameters, combine(param, MAIN)),
+        parseItemPart(parameters, combine(param, MAIN)),
     )
 }

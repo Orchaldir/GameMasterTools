@@ -8,6 +8,7 @@ import at.orchaldir.gm.app.html.util.math.fieldFactor
 import at.orchaldir.gm.app.html.util.math.parseFactor
 import at.orchaldir.gm.app.html.util.math.selectFactor
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.util.part.SOLID_MATERIALS
 import at.orchaldir.gm.core.model.util.part.Segment
 import at.orchaldir.gm.core.model.util.part.SegmentShape
 import at.orchaldir.gm.core.model.util.part.Segments
@@ -31,7 +32,7 @@ fun HtmlBlockTag.showSegments(
     fieldList(label, segments.segments) { segment ->
         fieldFactor("Length", segment.length)
         fieldFactor("Diameter", segment.diameter)
-        showColorItemPart(call, state, segment.main)
+        showItemPart(call, state, segment.main)
         field("Shape", segment.shape)
     }
 }
@@ -84,7 +85,7 @@ private fun HtmlBlockTag.editSegment(
         minSegmentDiameter,
         maxSegmentDiameter,
     )
-    editColorItemPart(state, segment.main, param)
+    editItemPart(state, segment.main, param, allowedTypes = SOLID_MATERIALS)
     selectValue("Shape", combine(param, SHAPE), SegmentShape.entries, segment.shape)
 }
 

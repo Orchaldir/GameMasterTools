@@ -56,8 +56,7 @@ fun visualizeLangets(
         .addMirroredPoints(shaftAabb, HALF, START)
         .addMirroredPoints(shaftAabb, HALF, fixation.length + extraHeight)
         .build()
-    val color = fixation.part.getColor(state.state, state.colors)
-    val options = state.config.getLineOptions(color)
+    val options = state.getRenderOptions(fixation.part)
 
     renderer.renderPolygon(polygon, options)
 }
@@ -76,8 +75,7 @@ fun visualizeSocketedFixation(
         .addMirroredPoints(shaftAabb, FULL + doublePadding, START)
         .addMirroredPoints(shaftAabb, FULL + doublePadding, fixation.length + extraHeight)
         .build()
-    val color = fixation.part.getColor(state.state, state.colors)
-    val options = state.config.getLineOptions(color)
+    val options = state.getRenderOptions(fixation.part)
 
     renderer.renderPolygon(polygon, options)
 }

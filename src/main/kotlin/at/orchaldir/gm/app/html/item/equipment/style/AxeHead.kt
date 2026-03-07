@@ -3,11 +3,16 @@ package at.orchaldir.gm.app.html.item.equipment.style
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.part.editColorSchemeItemPart
+import at.orchaldir.gm.app.html.util.part.editItemPart
 import at.orchaldir.gm.app.html.util.part.parseColorSchemeItemPart
+import at.orchaldir.gm.app.html.util.part.parseItemPart
+import at.orchaldir.gm.app.html.util.part.parseMadeFromMetal
 import at.orchaldir.gm.app.html.util.part.showColorSchemeItemPart
+import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.Size
+import at.orchaldir.gm.core.model.util.part.MADE_FROM_METALS
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -42,18 +47,18 @@ private fun HtmlBlockTag.showAxeBlade(
                 field("Shape", blade.shape)
                 field("Size", blade.size)
                 field("Length", blade.length)
-                showColorSchemeItemPart(call, state, blade.part, "Blade")
+                showItemPart(call, state, blade.part)
             }
 
             is DaggerAxeBlade -> {
                 field("Size", blade.size)
-                showColorSchemeItemPart(call, state, blade.part, "Blade")
+                showItemPart(call, state, blade.part)
             }
 
             is SymmetricAxeBlade -> {
                 field("Shape", blade.shape)
                 field("Size", blade.size)
-                showColorSchemeItemPart(call, state, blade.part, "Blade")
+                showItemPart(call, state, blade.part)
             }
         }
     }
@@ -105,7 +110,7 @@ private fun HtmlBlockTag.editAxeBlade(
                     Size.entries,
                     blade.length,
                 )
-                editColorSchemeItemPart(state, blade.part, param, "Blade")
+                editItemPart(state, blade.part, param, allowedTypes = MADE_FROM_METALS)
             }
 
             is DaggerAxeBlade -> {
@@ -115,7 +120,7 @@ private fun HtmlBlockTag.editAxeBlade(
                     Size.entries,
                     blade.size,
                 )
-                editColorSchemeItemPart(state, blade.part, param, "Blade")
+                editItemPart(state, blade.part, param, allowedTypes = MADE_FROM_METALS)
             }
 
             is SymmetricAxeBlade -> {
@@ -131,7 +136,7 @@ private fun HtmlBlockTag.editAxeBlade(
                     Size.entries,
                     blade.size,
                 )
-                editColorSchemeItemPart(state, blade.part, param, "Blade")
+                editItemPart(state, blade.part, param, allowedTypes = MADE_FROM_METALS)
             }
         }
     }
@@ -164,18 +169,18 @@ private fun parseAxeBlade(
             parse(parameters, combine(param, SHAPE), BroadAxeShape.Curved),
             parse(parameters, combine(param, SIZE), Size.Medium),
             parse(parameters, combine(param, LENGTH), Size.Medium),
-            parseColorSchemeItemPart(parameters, param),
+            parseItemPart(parameters, param),
         )
 
         AxeBladeType.Dagger -> DaggerAxeBlade(
             parse(parameters, combine(param, SIZE), Size.Medium),
-            parseColorSchemeItemPart(parameters, param),
+            parseItemPart(parameters, param),
         )
 
         AxeBladeType.Symmetric -> SymmetricAxeBlade(
             parse(parameters, combine(param, SHAPE), SymmetricAxeShape.HalfCircle),
             parse(parameters, combine(param, SIZE), Size.Medium),
-            parseColorSchemeItemPart(parameters, param),
+            parseItemPart(parameters, param),
         )
     }
 }

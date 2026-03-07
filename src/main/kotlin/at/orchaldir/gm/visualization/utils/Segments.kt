@@ -7,6 +7,7 @@ import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
+import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.visualization.RenderState
 
 fun visualizeSegments(
@@ -21,8 +22,7 @@ fun visualizeSegments(
     var current = start
 
     segments.segments.forEach { segment ->
-        val color = segment.main.getColor(state.state())
-        val options = FillAndBorder(color.toRender(), state.lineOptions())
+        val options = state.getRenderOptions(segment.main)
         val segmentLength = segment.calculateLength(baseLength)
         val segmentDiameter = segment.calculateDiameter(baseDiameter)
         val segmentSize = Size2d(segmentDiameter, segmentLength)
@@ -43,7 +43,7 @@ fun visualizeSegments(
 
 fun visualizeSegment(
     renderer: LayerRenderer,
-    options: FillAndBorder,
+    options: RenderOptions,
     aabb: AABB,
     isUp: Boolean,
     segment: Segment,

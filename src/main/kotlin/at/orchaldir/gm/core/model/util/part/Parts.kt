@@ -128,7 +128,7 @@ data class FillLookupItemPart(
 
 @Serializable
 data class MadeFromFabric(
-    val material: MaterialId,
+    val material: MaterialId = MaterialId(0),
     val weight: FabricWeight = FabricWeight.Medium,
     val type: FabricType = FabricType.Woven,
     val fill: FillLookup = SolidLookup(LookupMaterial),
@@ -146,7 +146,7 @@ data class MadeFromFabric(
 
 @Serializable
 data class MadeFromLeather(
-    val material: MaterialId,
+    val material: MaterialId = MaterialId(0),
     val grade: LeatherGrade = LeatherGrade.Undefined,
     val color: ColorLookup = LookupMaterial,
 ) : ItemPart() {
@@ -163,7 +163,7 @@ data class MadeFromLeather(
 
 @Serializable
 data class MadeFromMetal(
-    val material: MaterialId,
+    val material: MaterialId = MaterialId(0),
     val color: ColorLookup = LookupMaterial,
 ) : ItemPart() {
 
@@ -179,7 +179,7 @@ data class MadeFromMetal(
 
 @Serializable
 data class MadeFromWood(
-    val material: MaterialId,
+    val material: MaterialId = MaterialId(0),
     val fill: FillLookup = SolidLookup(LookupMaterial),
 ) : ItemPart() {
 

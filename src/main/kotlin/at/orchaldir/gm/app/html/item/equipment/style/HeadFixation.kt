@@ -6,10 +6,15 @@ import at.orchaldir.gm.app.html.util.math.fieldFactor
 import at.orchaldir.gm.app.html.util.math.parseFactor
 import at.orchaldir.gm.app.html.util.math.selectFactor
 import at.orchaldir.gm.app.html.util.part.editColorSchemeItemPart
+import at.orchaldir.gm.app.html.util.part.editItemPart
 import at.orchaldir.gm.app.html.util.part.parseColorSchemeItemPart
+import at.orchaldir.gm.app.html.util.part.parseItemPart
 import at.orchaldir.gm.app.html.util.part.showColorSchemeItemPart
+import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.style.*
+import at.orchaldir.gm.core.model.util.part.MADE_FROM_METALS
+import at.orchaldir.gm.core.model.util.part.SOLID_MATERIALS
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Factor
 import io.ktor.http.*
@@ -31,17 +36,17 @@ fun HtmlBlockTag.showHeadFixation(
             NoHeadFixation -> doNothing()
             is BoundHeadHead -> {
                 fieldFactor("Length", fixation.length)
-                showColorSchemeItemPart(call, state, fixation.part)
+                showItemPart(call, state, fixation.part)
             }
 
             is Langets -> {
                 fieldFactor("Length", fixation.length)
-                showColorSchemeItemPart(call, state, fixation.part)
+                showItemPart(call, state, fixation.part)
             }
 
             is SocketedHeadHead -> {
                 fieldFactor("Length", fixation.length)
-                showColorSchemeItemPart(call, state, fixation.part)
+                showItemPart(call, state, fixation.part)
             }
         }
     }
@@ -66,12 +71,12 @@ fun HtmlBlockTag.editHeadFixation(
 
             is Langets -> {
                 selectLength(param, fixation.length, MIN_LANGETS_LENGTH, MAX_LANGETS_LENGTH)
-                editColorSchemeItemPart(state, fixation.part, param)
+                editItemPart(state, fixation.part, param, allowedTypes = SOLID_MATERIALS)
             }
 
             is SocketedHeadHead -> {
                 selectLength(param, fixation.length)
-                editColorSchemeItemPart(state, fixation.part, param)
+                editItemPart(state, fixation.part, param, allowedTypes = SOLID_MATERIALS)
             }
         }
     }
@@ -106,12 +111,12 @@ fun parseHeadFixation(
 
     HeadFixationType.Langets -> Langets(
         parseLength(parameters, param, DEFAULT_LANGETS_LENGTH),
-        parseColorSchemeItemPart(parameters, param),
+        parseItemPart(parameters, param),
     )
 
     HeadFixationType.Socketed -> SocketedHeadHead(
         parseLength(parameters, param),
-        parseColorSchemeItemPart(parameters, param),
+        parseItemPart(parameters, param),
     )
 }
 

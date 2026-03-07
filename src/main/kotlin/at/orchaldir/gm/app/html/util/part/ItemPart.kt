@@ -327,15 +327,20 @@ fun parseItemPart(
         parse(parameters, combine(param, LEATHER, TYPE), LeatherGrade.Undefined),
         parseColorLookup(parameters, combine(param, COLOR)),
     )
-    ItemPartType.Metal -> MadeFromMetal(
-        parseMaterialId(parameters, combine(param, MATERIAL)),
-        parseColorLookup(parameters, combine(param, COLOR)),
-    )
+    ItemPartType.Metal -> parseMadeFromMetal(parameters, param)
     ItemPartType.Wood -> MadeFromWood(
         parseMaterialId(parameters, combine(param, MATERIAL)),
         parseFillLookup(parameters, combine(param, FILL)),
     )
 }
+
+fun parseMadeFromMetal(
+    parameters: Parameters,
+    param: String,
+) = MadeFromMetal(
+    parseMaterialId(parameters, combine(param, MATERIAL)),
+    parseColorLookup(parameters, combine(param, COLOR)),
+)
 
 fun parseColorItemPart(parameters: Parameters, param: String) = ColorItemPart(
     parseMaterialId(parameters, combine(param, MATERIAL)),

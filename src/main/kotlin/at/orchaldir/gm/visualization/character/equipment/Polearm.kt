@@ -85,8 +85,7 @@ fun visualizePolearmShaft(
 ) {
     when (shaft) {
         is SimpleShaft -> {
-            val fill = shaft.part.getFill(state.state, state.colors)
-            val options = FillAndBorder(fill.toRender(), state.config.line)
+            val options = state.getRenderOptions(shaft.part)
             val polygon = createSimpleShaftPolygon(aabb, polearmHead)
 
             renderer.renderRoundedPolygon(polygon, options)

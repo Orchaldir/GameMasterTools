@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.item.equipment.style
 
 import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
+import at.orchaldir.gm.core.model.util.part.ItemPart
 import at.orchaldir.gm.core.model.util.part.MadeFromParts
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -17,14 +18,14 @@ sealed class Shaft : MadeFromParts {
     }
 
     override fun mainMaterial() = when (this) {
-        is SimpleShaft -> part.material
+        is SimpleShaft -> part.material()
     }
 }
 
 @Serializable
 @SerialName("Simple")
 data class SimpleShaft(
-    val part: FillLookupItemPart = FillLookupItemPart(),
+    val part: ItemPart = FillLookupItemPart(),
 ) : Shaft() {
 
     override fun parts() = listOf(part)
