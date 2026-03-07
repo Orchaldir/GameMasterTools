@@ -178,7 +178,8 @@
    "properties": {
     "category": {
      "#type": "Fiber"
-    }
+    },
+    "color": "White"
    }
   },
   "13": {
@@ -187,7 +188,8 @@
    "properties": {
     "category": {
      "#type": "Fiber"
-    }
+    },
+    "color": "White"
    }
   },
   "14": {
@@ -196,7 +198,8 @@
    "properties": {
     "category": {
      "#type": "Fiber"
-    }
+    },
+    "color": "White"
    }
   }
  }
