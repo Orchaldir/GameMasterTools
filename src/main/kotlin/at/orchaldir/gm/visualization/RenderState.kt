@@ -12,6 +12,6 @@ interface RenderState {
     fun renderer(): MultiLayerRenderer
     fun lineOptions(): LineOptions
 
-    fun getRenderOptions(part: ItemPart): RenderOptions
+    fun getRenderOptions(part: ItemPart, clipping: String? = null): RenderOptions
 
 }

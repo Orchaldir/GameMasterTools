@@ -15,8 +15,7 @@ fun visualizeCuirass(
     armour: BodyArmour,
     style: Cuirass,
 ) {
-    val fill = style.main.getColor(state.state, state.colors)
-    val options = FillAndBorder(fill.toRender(), state.config.line)
+    val options = state.getRenderOptions(style.main)
 
     visualizeCuirassBody(state, options, armour)
     visualizeArmourSleeves(state, options, armour)

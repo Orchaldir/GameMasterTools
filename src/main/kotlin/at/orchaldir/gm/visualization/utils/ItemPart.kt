@@ -14,16 +14,19 @@ fun convertToRenderOptions(
     line: LineOptions, 
     part: ItemPart,
     state: State,
+    clipping: String?,
 ) = when (part) {
-    is ColorItemPart -> getLineOptions(line, part.getColor(state))
-    is ColorSchemeItemPart -> getLineOptions(line, part.getColor(state, colors))
-    is FillItemPart -> getLineOptions(line, part.getFill(state))
-    is FillLookupItemPart -> getLineOptions(line, part.getFill(state, colors))
-    is MadeFromFabric ->  getLineOptions(line, part.getFill(state, colors))
-    is MadeFromLeather -> getLineOptions(line, part.getColor(state, colors))
-    is MadeFromMetal -> getLineOptions(line, part.getColor(state, colors))
-    is MadeFromWood ->  getLineOptions(line, part.getFill(state, colors))
+    is ColorItemPart -> getLineOptions(line, part.getColor(state), clipping)
+    is ColorSchemeItemPart -> getLineOptions(line, part.getColor(state, colors), clipping)
+    is FillItemPart -> getLineOptions(line, part.getFill(state), clipping)
+    is FillLookupItemPart -> getLineOptions(line, part.getFill(state, colors), clipping)
+    is MadeFromFabric ->  getLineOptions(line, part.getFill(state, colors), clipping)
+    is MadeFromLeather -> getLineOptions(line, part.getColor(state, colors), clipping)
+    is MadeFromMetal -> getLineOptions(line, part.getColor(state, colors), clipping)
+    is MadeFromWood ->  getLineOptions(line, part.getFill(state, colors), clipping)
 }
 
-fun getLineOptions(line: LineOptions, color: Color) = FillAndBorder(color.toRender(), line)
-fun getLineOptions(line: LineOptions, fill: Fill) = FillAndBorder(fill.toRender(), line)
+fun getLineOptions(line: LineOptions, color: Color, clipping: String?) =
+    FillAndBorder(color.toRender(), line, clipping)
+fun getLineOptions(line: LineOptions, fill: Fill, clipping: String?) =
+    FillAndBorder(fill.toRender(), line, clipping)

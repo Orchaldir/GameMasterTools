@@ -1,6 +1,8 @@
 package at.orchaldir.gm.core.model.item.equipment.style
 
 import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
+import at.orchaldir.gm.core.model.util.part.ItemPart
+import at.orchaldir.gm.core.model.util.part.MadeFromMetal
 import at.orchaldir.gm.core.model.util.part.MadeFromParts
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.math.Factor
@@ -57,30 +59,30 @@ sealed class ArmourStyle : MadeFromParts {
     }
 
     override fun mainMaterial() = when (this) {
-        is ChainMail -> chain.material
-        is Cuirass -> main.material
-        is LamellarArmour -> scale.material
-        is ScaleArmour -> scale.material
-        is SegmentedArmour -> segment.material
+        is ChainMail -> chain.material()
+        is Cuirass -> main.material()
+        is LamellarArmour -> scale.material()
+        is ScaleArmour -> scale.material()
+        is SegmentedArmour -> segment.material()
     }
 }
 
 @Serializable
 @SerialName("Chain")
 data class ChainMail(
-    val chain: ColorSchemeItemPart = ColorSchemeItemPart(Color.Silver),
+    val chain: MadeFromMetal = MadeFromMetal(Color.Silver),
 ) : ArmourStyle()
 
 @Serializable
 @SerialName("Cuirass")
 data class Cuirass(
-    val main: ColorSchemeItemPart = ColorSchemeItemPart(Color.Silver),
+    val main: ItemPart = ColorSchemeItemPart(Color.Silver),
 ) : ArmourStyle()
 
 @Serializable
 @SerialName("Lamellar")
 data class LamellarArmour(
-    val scale: ColorSchemeItemPart = ColorSchemeItemPart(Color.Silver),
+    val scale: ItemPart = ColorSchemeItemPart(Color.Silver),
     val shape: UsingRectangularShape = UsingRectangularShape(RectangularShape.Ellipse),
     val lacing: LamellarLacing = FourSidesLacing(),
     val columns: Int = DEFAULT_SCALE_COLUMNS,
@@ -89,7 +91,7 @@ data class LamellarArmour(
 @Serializable
 @SerialName("Scale")
 data class ScaleArmour(
-    val scale: ColorSchemeItemPart = ColorSchemeItemPart(Color.Silver),
+    val scale: ItemPart = ColorSchemeItemPart(Color.Silver),
     val shape: ComplexShape = UsingRectangularShape(RectangularShape.Heater),
     val columns: Int = DEFAULT_SCALE_COLUMNS,
     val overlap: Factor = DEFAULT_SCALE_OVERLAP,
@@ -98,7 +100,7 @@ data class ScaleArmour(
 @Serializable
 @SerialName("Segmented")
 data class SegmentedArmour(
-    val segment: ColorSchemeItemPart = ColorSchemeItemPart(Color.Silver),
+    val segment: ItemPart = ColorSchemeItemPart(Color.Silver),
     val shape: SegmentedPlateShape = SegmentedPlateShape.Straight,
     val rows: Int = DEFAULT_SCALE_COLUMNS,
     val breastplateRows: Int = DEFAULT_BREASTPLATE_ROWS,

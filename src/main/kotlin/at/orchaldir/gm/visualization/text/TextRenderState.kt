@@ -32,11 +32,12 @@ data class TextRenderState(
     override fun renderer() = renderer
     override fun lineOptions() = config.line
 
-    override fun getRenderOptions(part: ItemPart) = convertToRenderOptions(
+    override fun getRenderOptions(part: ItemPart, clipping: String?) = convertToRenderOptions(
         UndefinedColors,
         lineOptions(),
         part,
         state,
+        clipping,
     )
 
     fun calculateMargin(style: ContentStyle) = aabb.convertMinSide(style.margin)

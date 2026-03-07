@@ -44,11 +44,12 @@ data class CharacterRenderState<T>(
     override fun equipment() = config.equipment
     override fun head() = config.head
 
-    override fun getRenderOptions(part: ItemPart) = convertToRenderOptions(
+    override fun getRenderOptions(part: ItemPart, clipping: String?) = convertToRenderOptions(
         colors,
         lineOptions(),
         part,
         state,
+        clipping,
     )
 
     fun getColor(part: ColorSchemeItemPart) = part.getColor(state, colors)

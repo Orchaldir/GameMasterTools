@@ -167,8 +167,7 @@ private fun visualizeArmourSleeve(
     style: SegmentedArmour,
     rowHeight: Distance,
 ) {
-    val color = style.segment.getColor(state.state, state.colors)
-    val options = state.config.getLineOptions(color)
+    val options = state.getRenderOptions(style.segment)
     val top = aabb.getPoint(CENTER, START)
     val bottom = aabb.getPoint(CENTER, FULL)
     var center = top
