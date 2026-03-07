@@ -8,12 +8,16 @@ import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.parse
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.util.part.editFillLookupItemPart
+import at.orchaldir.gm.app.html.util.part.editItemPart
 import at.orchaldir.gm.app.html.util.part.parseFillLookupItemPart
+import at.orchaldir.gm.app.html.util.part.parseItemPart
 import at.orchaldir.gm.app.html.util.part.showFillLookupItemPart
+import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.Tie
 import at.orchaldir.gm.core.model.item.equipment.style.TieStyle
 import at.orchaldir.gm.core.model.util.Size
+import at.orchaldir.gm.core.model.util.part.CLOTHING_MATERIALS
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -27,8 +31,8 @@ fun HtmlBlockTag.showTie(
 ) {
     field("Style", tie.style)
     field("Size", tie.size)
-    showFillLookupItemPart(call, state, tie.main, "Main")
-    showFillLookupItemPart(call, state, tie.knot, "Knot")
+    showItemPart(call, state, tie.main, "Main")
+    showItemPart(call, state, tie.knot, "Knot")
 }
 
 // edit
@@ -39,15 +43,15 @@ fun HtmlBlockTag.editTie(
 ) {
     selectValue("Style", STYLE, TieStyle.entries, tie.style)
     selectValue("Size", SIZE, Size.entries, tie.size)
-    editFillLookupItemPart(state, tie.main, MAIN, "Main")
-    editFillLookupItemPart(state, tie.knot, KNOT, "Knot")
+    editItemPart(state, tie.main, MAIN, "Main", CLOTHING_MATERIALS)
+    editItemPart(state, tie.knot, KNOT, "Knot", CLOTHING_MATERIALS)
 }
 
 // parse
 
 fun parseTie(parameters: Parameters) = Tie(
+    parseItemPart(parameters, MAIN),
+    parseItemPart(parameters, KNOT),
     parse(parameters, STYLE, TieStyle.Tie),
     parse(parameters, SIZE, Size.Medium),
-    parseFillLookupItemPart(parameters, MAIN),
-    parseFillLookupItemPart(parameters, KNOT),
 )

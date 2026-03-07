@@ -53,7 +53,10 @@ private fun createSuite(
             opening,
             pocket,
         ),
-        Tie(),
+        Tie(
+            FillLookupItemPart(Color.Navy),
+            FillLookupItemPart(Color.Navy),
+        ),
     )
 )
 

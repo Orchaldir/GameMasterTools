@@ -549,14 +549,14 @@ data class TwoHandedSword(
 @Serializable
 @SerialName("Tie")
 data class Tie(
+    val main: ItemPart,
+    val knot: ItemPart,
     val style: TieStyle = TieStyle.Tie,
     val size: Size = Size.Medium,
-    val main: FillLookupItemPart = FillLookupItemPart(Color.Navy),
-    val knot: FillLookupItemPart = FillLookupItemPart(Color.Navy),
 ) : EquipmentData() {
 
     constructor(style: TieStyle, size: Size, tie: Color, knot: Color) :
-            this(style, size, FillLookupItemPart(tie), FillLookupItemPart(knot))
+            this(FillLookupItemPart(tie), FillLookupItemPart(knot), style, size)
 
     override fun parts() = listOf(main, knot)
 }
