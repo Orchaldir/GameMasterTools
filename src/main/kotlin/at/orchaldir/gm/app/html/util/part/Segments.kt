@@ -103,6 +103,6 @@ private fun parseSegment(
 ) = Segment(
     parseFactor(parameters, combine(param, LENGTH)),
     parseFactor(parameters, combine(param, DIAMETER)),
-    parseColorItemPart(parameters, param),
+    parseItemPart(parameters, param),
     parse(parameters, combine(param, SHAPE), SegmentShape.Cylinder),
 )

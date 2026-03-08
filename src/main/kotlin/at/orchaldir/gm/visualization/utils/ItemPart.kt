@@ -32,7 +32,6 @@ fun convertToRenderFill(
     colors: Colors,
     part: ItemPart,
 ): RenderFill = when (part) {
-    is ColorItemPart -> convert(state, part, colors)
     is ColorSchemeItemPart -> convert(state, part, colors)
     is FillItemPart -> convertFill(state, part, colors)
     is FillLookupItemPart -> convertFill(state, part, colors)

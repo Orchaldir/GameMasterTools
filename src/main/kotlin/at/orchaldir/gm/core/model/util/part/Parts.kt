@@ -34,7 +34,6 @@ val COVER_MATERIALS = listOf(
 )
 
 enum class ItemPartType {
-    Color,
     ColorScheme,
     Fill,
     FillLookup,
@@ -58,7 +57,6 @@ interface HasColor {
 sealed class ItemPart : HasColor {
 
     fun getType() = when (this) {
-        is ColorItemPart -> ItemPartType.Color
         is ColorSchemeItemPart -> ItemPartType.ColorScheme
         is FillItemPart -> ItemPartType.Fill
         is FillLookupItemPart -> ItemPartType.FillLookup
@@ -84,30 +82,6 @@ sealed class ItemPart : HasColor {
 interface HasFill {
 
     fun getFill(state: State, colors: Colors): Fill
-
-}
-
-@Serializable
-data class ColorItemPart(
-    val material: MaterialId = MaterialId(0),
-    val color: Color? = null,
-) : ItemPart() {
-
-    constructor(color: Color) : this(MaterialId(0), color)
-
-    fun getColor(state: State): Color {
-        if (color != null) {
-            return color
-        }
-
-        return state.getMaterialStorage().get(material)?.properties?.color ?: Color.Pink
-    }
-
-    override fun getColor(state: State, colors: Colors) = getColor(state)
-
-    override fun contains(id: MaterialId) = material == id
-    override fun material() = material
-
 
 }
 

@@ -33,11 +33,6 @@ fun HtmlBlockTag.showItemPart(
         field("Type", part.getType())
 
         when (part) {
-            is ColorItemPart -> {
-                fieldLink("Material", call, state, part.material)
-                fieldOptionalColor(part.color)
-            }
-
             is ColorSchemeItemPart -> {
                 fieldLink("Material", call, state, part.material)
                 fieldColorLookup("Color", part.lookup)
@@ -89,18 +84,6 @@ fun HtmlBlockTag.showItemPart(
                 showFillLookup(part.fill)
             }
         }
-    }
-}
-
-fun HtmlBlockTag.showColorItemPart(
-    call: ApplicationCall,
-    state: State,
-    part: ColorItemPart,
-    label: String? = null,
-) {
-    showDetails(label, true) {
-        fieldLink("Material", call, state, part.material)
-        fieldOptionalColor(part.color)
     }
 }
 
@@ -192,11 +175,6 @@ fun HtmlBlockTag.editItemPart(
         }
 
         when (part) {
-            is ColorItemPart -> {
-                selectMaterial(state, part.material, param)
-                selectOptionalColor(part.color, combine(param, COLOR))
-            }
-
             is ColorSchemeItemPart -> selectColorSchemeItemParts(
                 state,
                 part,
@@ -287,18 +265,6 @@ private fun HtmlBlockTag.selectMaterial(
     materials: Collection<Material>,
 ) = selectMaterial(state, materials, current, combine(param, MATERIAL))
 
-fun HtmlBlockTag.editColorItemPart(
-    state: State,
-    part: ColorItemPart,
-    param: String,
-    label: String? = null,
-) {
-    showDetails(label, true) {
-        selectMaterial(state, part.material, combine(param, MATERIAL))
-        selectOptionalColor(part.color, combine(param, COLOR))
-    }
-}
-
 fun HtmlBlockTag.selectColorSchemeItemParts(
     state: State,
     part: ColorSchemeItemPart,
@@ -366,9 +332,8 @@ fun parseItemPart(
 fun parseItemPart(
     parameters: Parameters,
     param: String,
-    default: ItemPartType = ItemPartType.Color,
+    default: ItemPartType = ItemPartType.Metal, //  TODO
 ) = when (parse(parameters, combine(param, TYPE), default)) {
-    ItemPartType.Color -> parseColorItemPart(parameters, param)
     ItemPartType.ColorScheme -> parseColorSchemeItemPart(parameters, param)
     ItemPartType.Fill -> parseFillItemPart(parameters, param)
     ItemPartType.FillLookup -> parseFillLookupItemPart(parameters, param)
@@ -437,11 +402,6 @@ fun parsePaper(
 ) = MadeFromPaper(
     parseMaterialId(parameters, combine(param, MATERIAL)),
     parseColorLookup(parameters, combine(param, COLOR)),
-)
-
-fun parseColorItemPart(parameters: Parameters, param: String) = ColorItemPart(
-    parseMaterialId(parameters, combine(param, MATERIAL)),
-    parse<Color>(parameters, combine(param, COLOR)),
 )
 
 fun parseColorSchemeItemPart(parameters: Parameters, param: String) = ColorSchemeItemPart(

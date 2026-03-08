@@ -337,7 +337,7 @@ data class Footwear(
 ) : EquipmentData() {
 
     constructor(style: FootwearStyle, shaft: Color, sole: Color) :
-            this(style, FillLookupItemPart(shaft), ColorItemPart(sole))
+            this(style, MadeFromFabric(shaft), MadeFromLeather(sole))
 
     override fun parts() = listOf(shaft, sole)
 }
