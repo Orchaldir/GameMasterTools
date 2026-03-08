@@ -14,6 +14,7 @@ import at.orchaldir.gm.core.model.item.equipment.style.Ornament
 import at.orchaldir.gm.core.model.item.equipment.style.OrnamentType
 import at.orchaldir.gm.core.model.item.equipment.style.OrnamentWithBorder
 import at.orchaldir.gm.core.model.item.equipment.style.SimpleOrnament
+import at.orchaldir.gm.core.model.util.part.SOLID_MATERIALS
 import at.orchaldir.gm.utils.math.shape.SHAPES_WITHOUT_CROSS
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -33,13 +34,13 @@ fun HtmlBlockTag.showOrnament(
         when (ornament) {
             is SimpleOrnament -> {
                 showComplexShape(ornament.shape)
-                showFillLookupItemPart(call, state, ornament.part)
+                showItemPart(call, state, ornament.part)
             }
 
             is OrnamentWithBorder -> {
                 showComplexShape(ornament.shape)
-                showFillLookupItemPart(call, state, ornament.center, "Center")
-                showColorSchemeItemPart(call, state, ornament.border, "Border")
+                showItemPart(call, state, ornament.center, "Center")
+                showItemPart(call, state, ornament.border, "Border")
             }
         }
     }
@@ -59,7 +60,7 @@ fun HtmlBlockTag.editOrnament(
         when (ornament) {
             is SimpleOrnament -> {
                 selectComplexShape(ornament.shape, combine(param, SHAPE))
-                editFillLookupItemPart(state, ornament.part, param)
+                editItemPart(state, ornament.part, param, allowedTypes = SOLID_MATERIALS)
             }
 
             is OrnamentWithBorder -> {
@@ -68,17 +69,19 @@ fun HtmlBlockTag.editOrnament(
                     combine(param, SHAPE),
                     SHAPES_WITHOUT_CROSS,
                 )
-                editFillLookupItemPart(
+                editItemPart(
                     state,
                     ornament.center,
                     param,
                     "Center",
+                    SOLID_MATERIALS,
                 )
-                editColorSchemeItemPart(
+                editItemPart(
                     state,
                     ornament.border,
                     combine(param, BORDER),
                     "Border",
+                    SOLID_MATERIALS,
                 )
             }
         }
