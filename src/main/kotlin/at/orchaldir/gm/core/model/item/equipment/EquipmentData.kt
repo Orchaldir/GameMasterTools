@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
 import at.orchaldir.gm.core.model.util.part.ItemPart
 import at.orchaldir.gm.core.model.util.part.MadeFromGem
 import at.orchaldir.gm.core.model.util.part.MadeFromGlass
+import at.orchaldir.gm.core.model.util.part.MadeFromLeather
 import at.orchaldir.gm.core.model.util.part.MadeFromMetal
 import at.orchaldir.gm.core.model.util.part.MadeFromParts
 import at.orchaldir.gm.core.model.util.part.MadeFromWood
@@ -496,7 +497,7 @@ data class Skirt(
 data class Sling(
     val size: Size,
     val cord: LineStyle,
-    val cradle: FillLookupItemPart = FillLookupItemPart(),
+    val cradle: ItemPart = MadeFromLeather(),
     val stats: RangedWeaponStats = RangedWeaponStats(),
 ) : EquipmentData() {
 
