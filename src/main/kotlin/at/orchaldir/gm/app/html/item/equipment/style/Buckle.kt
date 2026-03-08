@@ -1,16 +1,9 @@
 package at.orchaldir.gm.app.html.item.equipment.style
 
-import at.orchaldir.gm.app.BUCKLE
-import at.orchaldir.gm.app.MAIN
-import at.orchaldir.gm.app.SHAPE
-import at.orchaldir.gm.app.SIZE
-import at.orchaldir.gm.app.TYPE
+import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.util.part.editFillLookupItemPart
 import at.orchaldir.gm.app.html.util.part.editItemPart
-import at.orchaldir.gm.app.html.util.part.parseFillLookupItemPart
 import at.orchaldir.gm.app.html.util.part.parseItemPart
-import at.orchaldir.gm.app.html.util.part.showFillLookupItemPart
 import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.style.*

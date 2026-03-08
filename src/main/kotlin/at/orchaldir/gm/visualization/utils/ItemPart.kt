@@ -2,16 +2,8 @@ package at.orchaldir.gm.visualization.utils
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.part.*
-import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.util.render.Colors
-import at.orchaldir.gm.core.model.util.render.Fill
-import at.orchaldir.gm.utils.renderer.model.FillAndBorder
-import at.orchaldir.gm.utils.renderer.model.LineOptions
-import at.orchaldir.gm.utils.renderer.model.NoBorder
-import at.orchaldir.gm.utils.renderer.model.RenderFill
-import at.orchaldir.gm.utils.renderer.model.RenderSolid
-import at.orchaldir.gm.utils.renderer.model.RenderTransparent
-import at.orchaldir.gm.utils.renderer.model.toRender
+import at.orchaldir.gm.utils.renderer.model.*
 
 fun convertToFillAndBorder(
     colors: Colors,
@@ -45,13 +37,13 @@ fun convertToRenderFill(
     is FillItemPart -> convertFill(state, part, colors)
     is FillLookupItemPart -> convertFill(state, part, colors)
     is MadeFromCord -> convert(state, part, colors)
-    is MadeFromFabric ->  convertFill(state, part, colors)
-    is MadeFromGem ->  convert(state, part, colors)
+    is MadeFromFabric -> convertFill(state, part, colors)
+    is MadeFromGem -> convert(state, part, colors)
     is MadeFromGlass -> RenderTransparent(part.getColor(state, colors).toRender(), part.opacity)
     is MadeFromLeather -> convert(state, part, colors)
     is MadeFromMetal -> convert(state, part, colors)
     is MadeFromPaper -> convert(state, part, colors)
-    is MadeFromWood ->  convertFill(state, part, colors)
+    is MadeFromWood -> convertFill(state, part, colors)
 }
 
 private fun convert(

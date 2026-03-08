@@ -4,16 +4,7 @@ import at.orchaldir.gm.core.model.item.equipment.EquipmentSlot.*
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.core.model.util.Size
-import at.orchaldir.gm.core.model.util.part.ColorItemPart
-import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
-import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
-import at.orchaldir.gm.core.model.util.part.ItemPart
-import at.orchaldir.gm.core.model.util.part.MadeFromGem
-import at.orchaldir.gm.core.model.util.part.MadeFromGlass
-import at.orchaldir.gm.core.model.util.part.MadeFromLeather
-import at.orchaldir.gm.core.model.util.part.MadeFromMetal
-import at.orchaldir.gm.core.model.util.part.MadeFromParts
-import at.orchaldir.gm.core.model.util.part.MadeFromWood
+import at.orchaldir.gm.core.model.util.part.*
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.HALF
@@ -340,8 +331,8 @@ data class EyePatch(
 @SerialName("Footwear")
 data class Footwear(
     val style: FootwearStyle = FootwearStyle.Shoes,
-    val shaft: ItemPart = FillLookupItemPart(Color.SaddleBrown),
-    val sole: ItemPart = ColorItemPart(Color.Black),
+    val shaft: ItemPart = MadeFromFabric(Color.SaddleBrown),
+    val sole: ItemPart = MadeFromLeather(Color.Black),
     val stats: ArmorStats = ArmorStats(),
 ) : EquipmentData() {
 
@@ -429,7 +420,7 @@ data class Necklace(
 @SerialName("Pants")
 data class Pants(
     val style: PantsStyle = PantsStyle.Regular,
-    val main:ItemPart = FillLookupItemPart(Color.Navy),
+    val main: ItemPart = FillLookupItemPart(Color.Navy),
 ) : EquipmentData() {
 
     constructor(style: PantsStyle, color: Color) : this(style, FillLookupItemPart(color))

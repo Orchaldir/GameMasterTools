@@ -9,11 +9,8 @@ import at.orchaldir.gm.app.html.item.equipment.style.parseSleeveStyle
 import at.orchaldir.gm.app.html.item.equipment.style.selectNecklineStyle
 import at.orchaldir.gm.app.html.item.equipment.style.selectSleeveStyle
 import at.orchaldir.gm.app.html.parse
-import at.orchaldir.gm.app.html.util.part.editFillLookupItemPart
 import at.orchaldir.gm.app.html.util.part.editItemPart
-import at.orchaldir.gm.app.html.util.part.parseFillLookupItemPart
 import at.orchaldir.gm.app.html.util.part.parseItemPart
-import at.orchaldir.gm.app.html.util.part.showFillLookupItemPart
 import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.Shirt

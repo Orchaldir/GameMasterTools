@@ -3,13 +3,10 @@ package at.orchaldir.gm.app.html.item.equipment.data
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.character.appearance.editNormalEye
-import at.orchaldir.gm.app.html.item.equipment.style.editLineStyle
-import at.orchaldir.gm.app.html.item.equipment.style.editOrnament
-import at.orchaldir.gm.app.html.item.equipment.style.parseLineStyle
-import at.orchaldir.gm.app.html.item.equipment.style.parseOrnament
-import at.orchaldir.gm.app.html.item.equipment.style.showLineStyle
-import at.orchaldir.gm.app.html.item.equipment.style.showOrnament
-import at.orchaldir.gm.app.html.util.part.*
+import at.orchaldir.gm.app.html.item.equipment.style.*
+import at.orchaldir.gm.app.html.util.part.editItemPart
+import at.orchaldir.gm.app.html.util.part.parseItemPart
+import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.eye.EyeShape
 import at.orchaldir.gm.core.model.character.appearance.eye.NormalEye
@@ -17,9 +14,7 @@ import at.orchaldir.gm.core.model.character.appearance.eye.PupilShape
 import at.orchaldir.gm.core.model.item.equipment.EyePatch
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.race.appearance.EyeOptions
-import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.part.CLOTHING_MATERIALS
-import at.orchaldir.gm.core.model.util.part.ItemPart
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*

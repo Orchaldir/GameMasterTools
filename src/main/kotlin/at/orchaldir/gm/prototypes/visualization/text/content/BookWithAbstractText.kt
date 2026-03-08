@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.item.text.TextId
 import at.orchaldir.gm.core.model.item.text.book.Hardcover
 import at.orchaldir.gm.core.model.item.text.content.*
-import at.orchaldir.gm.core.model.util.part.ColorItemPart
+import at.orchaldir.gm.core.model.util.part.MadeFromPaper
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.prototypes.visualization.text.TEXT_CONFIG
 import at.orchaldir.gm.utils.math.Size2d
@@ -18,7 +18,7 @@ private val ID = TextId(0)
 fun main() {
     val book = Book(
         Hardcover(),
-        page = ColorItemPart(Color.AntiqueWhite),
+        page = MadeFromPaper(Color.AntiqueWhite),
         size = Size2d.fromMillimeters(125, 190)
     )
     val content = AbstractText(

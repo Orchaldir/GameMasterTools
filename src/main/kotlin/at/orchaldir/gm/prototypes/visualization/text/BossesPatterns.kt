@@ -6,8 +6,8 @@ import at.orchaldir.gm.core.model.item.text.book.BossesShape
 import at.orchaldir.gm.core.model.item.text.book.Hardcover
 import at.orchaldir.gm.core.model.item.text.book.SimpleBossesPattern
 import at.orchaldir.gm.core.model.util.Size
-import at.orchaldir.gm.core.model.util.part.ColorItemPart
 import at.orchaldir.gm.core.model.util.part.FillItemPart
+import at.orchaldir.gm.core.model.util.part.MadeFromMetal
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
@@ -38,7 +38,7 @@ fun main() {
         ),
     ) { (shape, size), pattern ->
         val cover = FillItemPart(Color.SaddleBrown)
-        val bosses = SimpleBossesPattern(pattern, shape, size, ColorItemPart(Color.Gray))
+        val bosses = SimpleBossesPattern(pattern, shape, size, MadeFromMetal())
         val binding = Hardcover(cover, bosses = bosses)
 
         Book(binding, size = bookSize)

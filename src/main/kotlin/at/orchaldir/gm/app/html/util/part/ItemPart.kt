@@ -1,13 +1,6 @@
 package at.orchaldir.gm.app.html.util.part
 
-import at.orchaldir.gm.app.COLOR
-import at.orchaldir.gm.app.FABRIC
-import at.orchaldir.gm.app.FILL
-import at.orchaldir.gm.app.LEATHER
-import at.orchaldir.gm.app.MATERIAL
-import at.orchaldir.gm.app.OPACITY
-import at.orchaldir.gm.app.TYPE
-import at.orchaldir.gm.app.WEIGHT
+import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.economy.material.parseMaterialId
 import at.orchaldir.gm.app.html.economy.material.selectMaterial
@@ -16,28 +9,8 @@ import at.orchaldir.gm.app.html.util.math.fieldFactor
 import at.orchaldir.gm.app.html.util.math.parseFactor
 import at.orchaldir.gm.app.html.util.math.selectFactor
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.economy.material.ALLOYS_OR_METALS
-import at.orchaldir.gm.core.model.economy.material.CATEGORIES_FOR_GEM
-import at.orchaldir.gm.core.model.economy.material.LeatherGrade
-import at.orchaldir.gm.core.model.economy.material.Material
-import at.orchaldir.gm.core.model.economy.material.MaterialCategoryType
-import at.orchaldir.gm.core.model.economy.material.MaterialId
-import at.orchaldir.gm.core.model.util.part.ColorItemPart
-import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
-import at.orchaldir.gm.core.model.util.part.FabricType
-import at.orchaldir.gm.core.model.util.part.FabricWeight
-import at.orchaldir.gm.core.model.util.part.FillItemPart
-import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
-import at.orchaldir.gm.core.model.util.part.ItemPart
-import at.orchaldir.gm.core.model.util.part.ItemPartType
-import at.orchaldir.gm.core.model.util.part.MadeFromCord
-import at.orchaldir.gm.core.model.util.part.MadeFromFabric
-import at.orchaldir.gm.core.model.util.part.MadeFromGem
-import at.orchaldir.gm.core.model.util.part.MadeFromGlass
-import at.orchaldir.gm.core.model.util.part.MadeFromLeather
-import at.orchaldir.gm.core.model.util.part.MadeFromMetal
-import at.orchaldir.gm.core.model.util.part.MadeFromPaper
-import at.orchaldir.gm.core.model.util.part.MadeFromWood
+import at.orchaldir.gm.core.model.economy.material.*
+import at.orchaldir.gm.core.model.util.part.*
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.util.render.ColorLookup
 import at.orchaldir.gm.core.selector.util.sortMaterials
@@ -64,44 +37,53 @@ fun HtmlBlockTag.showItemPart(
                 fieldLink("Material", call, state, part.material)
                 fieldOptionalColor(part.color)
             }
+
             is ColorSchemeItemPart -> {
                 fieldLink("Material", call, state, part.material)
                 fieldColorLookup("Color", part.lookup)
             }
+
             is FillItemPart -> {
                 fieldLink("Material", call, state, part.material)
                 showOptionalFill(part.fill)
             }
+
             is FillLookupItemPart -> {
                 fieldLink("Material", call, state, part.material)
                 showFillLookup(part.fill)
             }
+
             is MadeFromCord -> {
                 fieldLink("Material", call, state, part.material)
                 fieldColorLookup("Color", part.color)
             }
+
             is MadeFromFabric -> {
                 fieldLink("Material", call, state, part.material)
                 field("Fabric Weight", part.weight)
                 field("Fabric Type", part.type)
                 showFillLookup(part.fill)
             }
+
             is MadeFromGem -> fieldLink("Material", call, state, part.material)
             is MadeFromGlass -> {
                 fieldLink("Material", call, state, part.material)
                 fieldColorLookup("Color", part.color)
                 fieldFactor("Opacity", part.opacity)
             }
+
             is MadeFromLeather -> {
                 fieldLink("Material", call, state, part.material)
                 field("Leather Grade", part.grade)
                 fieldColorLookup("Color", part.color)
             }
+
             is MadeFromMetal -> fieldLink("Material", call, state, part.material)
             is MadeFromPaper -> {
                 fieldLink("Material", call, state, part.material)
                 fieldColorLookup("Color", part.color)
             }
+
             is MadeFromWood -> {
                 fieldLink("Material", call, state, part.material)
                 showFillLookup(part.fill)
@@ -195,7 +177,7 @@ fun HtmlBlockTag.editItemPart(
             combine(param, TYPE),
             allowedTypes,
             part.getType(),
-        ) { 
+        ) {
             when (it) {
                 ItemPartType.Cord -> fibers.isEmpty() && leathers.isEmpty()
                 ItemPartType.Fabric -> fibers.isEmpty()
@@ -214,19 +196,29 @@ fun HtmlBlockTag.editItemPart(
                 selectMaterial(state, part.material, param)
                 selectOptionalColor(part.color, combine(param, COLOR))
             }
-            is ColorSchemeItemPart -> selectColorSchemeItemParts(state, part, param, state.getMaterialStorage().getAll())
+
+            is ColorSchemeItemPart -> selectColorSchemeItemParts(
+                state,
+                part,
+                param,
+                state.getMaterialStorage().getAll()
+            )
+
             is FillItemPart -> {
                 selectMaterial(state, part.material, param)
                 selectOptionalFill(part.fill, combine(param, FILL))
             }
+
             is FillLookupItemPart -> {
                 selectMaterial(state, part.material, param)
                 selectFillLookup(state, part.fill, combine(param, FILL))
             }
+
             is MadeFromCord -> {
                 selectMaterial(state, param, part.material, fibers + leathers)
                 selectColor(state, param, part.color)
             }
+
             is MadeFromFabric -> {
                 selectMaterial(state, param, part.material, fibers)
                 selectValue(
@@ -243,12 +235,14 @@ fun HtmlBlockTag.editItemPart(
                 )
                 selectFillLookup(state, part.fill, combine(param, FILL))
             }
+
             is MadeFromGem -> selectMaterial(state, param, part.material, gems)
             is MadeFromGlass -> {
                 selectMaterial(state, param, part.material, glasses)
                 selectColor(state, param, part.color)
                 selectFactor("Opacity", combine(param, OPACITY), part.opacity)
             }
+
             is MadeFromLeather -> {
                 selectMaterial(state, param, part.material, leathers)
                 selectValue(
@@ -259,11 +253,13 @@ fun HtmlBlockTag.editItemPart(
                 )
                 selectColor(state, param, part.color)
             }
+
             is MadeFromMetal -> selectMaterial(state, param, part.material, metals)
             is MadeFromPaper -> {
                 selectMaterial(state, param, part.material, papers)
                 selectColor(state, param, part.color)
             }
+
             is MadeFromWood -> {
                 selectMaterial(state, param, part.material, woods)
                 selectFillLookup(state, part.fill, combine(param, FILL))
@@ -307,7 +303,7 @@ fun HtmlBlockTag.selectColorSchemeItemParts(
     state: State,
     part: ColorSchemeItemPart,
     param: String,
-    materials: Collection<Material>
+    materials: Collection<Material>,
 ) {
     selectMaterial(state, param, part.material, materials)
     editColorLookup(
@@ -383,6 +379,7 @@ fun parseItemPart(
         parse(parameters, combine(param, FABRIC, TYPE), FabricType.Woven),
         parseFillLookup(parameters, combine(param, FILL)),
     )
+
     ItemPartType.Gem -> parseMadeFromGem(parameters, param)
     ItemPartType.Glass -> parseGlass(parameters, param)
     ItemPartType.Leather -> parseLeather(parameters, param)

@@ -40,6 +40,7 @@ data class TextRenderState(
         state,
         clipping,
     )
+
     override fun getNoBorder(part: ItemPart, clipping: String?) = convertToNoBorder(
         state,
         UndefinedColors,

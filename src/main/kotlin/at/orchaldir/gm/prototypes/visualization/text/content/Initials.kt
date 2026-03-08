@@ -5,7 +5,7 @@ import at.orchaldir.gm.core.model.item.text.Book
 import at.orchaldir.gm.core.model.item.text.book.Hardcover
 import at.orchaldir.gm.core.model.item.text.content.*
 import at.orchaldir.gm.core.model.util.font.SolidFont
-import at.orchaldir.gm.core.model.util.part.ColorItemPart
+import at.orchaldir.gm.core.model.util.part.MadeFromPaper
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.text.TEXT_CONFIG
@@ -17,7 +17,7 @@ import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 fun main() {
     val book = Book(
         Hardcover(),
-        page = ColorItemPart(Color.AntiqueWhite),
+        page = MadeFromPaper(Color.AntiqueWhite),
         size = Size2d.fromMillimeters(125, 190)
     )
     val font = SolidFont(

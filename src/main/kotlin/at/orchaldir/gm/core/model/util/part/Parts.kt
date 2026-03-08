@@ -55,7 +55,7 @@ interface HasColor {
 }
 
 @Serializable
-sealed class ItemPart: HasColor {
+sealed class ItemPart : HasColor {
 
     fun getType() = when (this) {
         is ColorItemPart -> ItemPartType.Color
@@ -102,6 +102,7 @@ data class ColorItemPart(
 
         return state.getMaterialStorage().get(material)?.properties?.color ?: Color.Pink
     }
+
     override fun getColor(state: State, colors: Colors) = getColor(state)
 
     override fun contains(id: MaterialId) = material == id
@@ -125,6 +126,7 @@ data class FillItemPart(
 
         return Solid(state.getMaterialStorage().get(material)?.properties?.color ?: Color.Pink)
     }
+
     override fun getFill(state: State, colors: Colors) = getFill(state)
 
     override fun contains(id: MaterialId) = material == id
@@ -171,7 +173,7 @@ data class MadeFromCord(
     val color: ColorLookup = LookupMaterial,
 ) : ItemPart(), HasColor {
 
-    constructor(color: Color) : this(MaterialId(0), color =  FixedColor(color))
+    constructor(color: Color) : this(MaterialId(0), color = FixedColor(color))
 
     override fun getColor(state: State, colors: Colors) = color.lookup(state, colors, material)
 
@@ -218,7 +220,7 @@ data class MadeFromGlass(
     val opacity: Factor = HALF,
 ) : ItemPart(), HasColor {
 
-    constructor(color: Color) : this(MaterialId(0), color =  FixedColor(color))
+    constructor(color: Color) : this(MaterialId(0), color = FixedColor(color))
 
     override fun getColor(state: State, colors: Colors) = color.lookup(state, colors, material)
 
@@ -235,7 +237,7 @@ data class MadeFromLeather(
     val color: ColorLookup = LookupMaterial,
 ) : ItemPart(), HasColor {
 
-    constructor(color: Color) : this(MaterialId(0), color =  FixedColor(color))
+    constructor(color: Color) : this(MaterialId(0), color = FixedColor(color))
 
     override fun getColor(state: State, colors: Colors) = color.lookup(state, colors, material)
 
@@ -263,7 +265,7 @@ data class MadeFromPaper(
     val color: ColorLookup = LookupMaterial,
 ) : ItemPart(), HasColor {
 
-    constructor(color: Color) : this(MaterialId(0), color =  FixedColor(color))
+    constructor(color: Color) : this(MaterialId(0), color = FixedColor(color))
 
     override fun getColor(state: State, colors: Colors) = color.lookup(state, colors, material)
 

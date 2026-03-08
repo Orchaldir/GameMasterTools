@@ -5,12 +5,7 @@ import at.orchaldir.gm.core.model.character.appearance.NoEars
 import at.orchaldir.gm.core.model.character.appearance.NormalEars
 import at.orchaldir.gm.core.model.item.equipment.BodySlot
 import at.orchaldir.gm.core.model.item.equipment.Earring
-import at.orchaldir.gm.core.model.item.equipment.style.DangleEarring
-import at.orchaldir.gm.core.model.item.equipment.style.DropEarring
-import at.orchaldir.gm.core.model.item.equipment.style.HoopEarring
-import at.orchaldir.gm.core.model.item.equipment.style.LineStyle
-import at.orchaldir.gm.core.model.item.equipment.style.StudEarring
-import at.orchaldir.gm.core.model.item.equipment.style.Wire
+import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.SizeConfig
 import at.orchaldir.gm.utils.math.FULL

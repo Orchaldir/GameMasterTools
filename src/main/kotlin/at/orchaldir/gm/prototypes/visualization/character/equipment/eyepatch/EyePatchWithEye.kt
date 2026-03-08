@@ -13,7 +13,6 @@ import at.orchaldir.gm.core.model.item.equipment.style.EyePatchWithEye
 import at.orchaldir.gm.core.model.item.equipment.style.OneBand
 import at.orchaldir.gm.core.model.item.equipment.style.VALID_LENSES
 import at.orchaldir.gm.core.model.util.Size
-import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.util.render.Color.Red
 import at.orchaldir.gm.core.model.util.render.Color.Yellow
 import at.orchaldir.gm.prototypes.visualization.addNames

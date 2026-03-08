@@ -7,8 +7,8 @@ import at.orchaldir.gm.core.model.item.text.book.ComplexSewingPattern
 import at.orchaldir.gm.core.model.item.text.book.ComplexStitch
 import at.orchaldir.gm.core.model.item.text.book.CopticBinding
 import at.orchaldir.gm.core.model.util.Size
-import at.orchaldir.gm.core.model.util.part.ColorItemPart
 import at.orchaldir.gm.core.model.util.part.FillItemPart
+import at.orchaldir.gm.core.model.util.part.MadeFromCord
 import at.orchaldir.gm.core.model.util.render.Color.*
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.visualization.text.visualizeTextFormat
@@ -19,9 +19,9 @@ private val ID = MaterialId(0)
 fun main() {
     val cover = FillItemPart(SaddleBrown)
     val stitches = listOf(
-        ComplexStitch(ColorItemPart(Red), Size.Small, Size.Large),
-        ComplexStitch(ColorItemPart(Green), Size.Medium, Size.Small),
-        ComplexStitch(ColorItemPart(Blue), Size.Large, Size.Medium),
+        ComplexStitch(MadeFromCord(Red), Size.Small, Size.Large),
+        ComplexStitch(MadeFromCord(Green), Size.Medium, Size.Small),
+        ComplexStitch(MadeFromCord(Blue), Size.Large, Size.Medium),
     )
     val binding = CopticBinding(cover, sewingPattern = ComplexSewingPattern(stitches))
 

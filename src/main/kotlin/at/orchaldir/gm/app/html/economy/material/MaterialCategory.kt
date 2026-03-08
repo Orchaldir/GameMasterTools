@@ -27,6 +27,7 @@ fun HtmlBlockTag.displayMaterialCategory(
         +"Alloy of "
         showInlineIds(call, state, category.components.map.keys)
     }
+
     is Rock -> +"${category.type} ${category.type}"
     else -> +category.getType().name
 }
@@ -179,6 +180,7 @@ fun parseMaterialCategory(
     MaterialCategoryType.Hide -> Hide(
         parseThickness(parameters),
     )
+
     MaterialCategoryType.Glass -> Glass
     MaterialCategoryType.Leather -> Leather(
         parseOptionalMaterialId(parameters, combine(CATEGORY, MATERIAL)),

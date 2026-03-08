@@ -318,8 +318,7 @@ inline fun <reified T : Enum<T>> parse(parameters: Parameters, param: String, de
     parameters[param]?.let {
         try {
             java.lang.Enum.valueOf(T::class.java, it)
-        }
-        catch (e: IllegalArgumentException) {
+        } catch (e: IllegalArgumentException) {
             default
         }
     } ?: default

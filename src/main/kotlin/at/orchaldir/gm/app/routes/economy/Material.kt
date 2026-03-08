@@ -13,7 +13,6 @@ import at.orchaldir.gm.app.html.economy.properties.displayHardness
 import at.orchaldir.gm.app.html.economy.properties.displayTenacity
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.model.economy.material.CrystalSystem
 import at.orchaldir.gm.core.model.economy.material.MATERIAL_TYPE
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.util.SortMaterial

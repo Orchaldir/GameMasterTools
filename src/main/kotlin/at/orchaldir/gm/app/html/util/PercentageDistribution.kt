@@ -181,8 +181,7 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> DETAILS.editPercentageDistribution(
 
         if (total != null) {
             showRemainingPercentage(total, remaining)
-        }
-        else {
+        } else {
             showRemainingPercentage(remaining)
         }
     }

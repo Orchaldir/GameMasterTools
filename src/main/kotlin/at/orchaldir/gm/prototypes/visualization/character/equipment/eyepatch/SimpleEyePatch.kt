@@ -24,7 +24,7 @@ val FIXATIONS: List<Pair<String, EyePatchFixation>> = listOf(
     Pair("DiagonalBand + Small", DiagonalBand(Small)),
     Pair("DiagonalBand + Medium", DiagonalBand(Medium)),
     Pair("DiagonalBand + Large", DiagonalBand(Large, SaddleBrown)),
-    Pair("TwoBands", TwoBands(Size.Medium)),
+    Pair("TwoBands", TwoBands(Medium)),
 )
 
 fun main() {

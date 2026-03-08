@@ -2,13 +2,8 @@ package at.orchaldir.gm.app.html.util.math
 
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.selectValue
-import at.orchaldir.gm.utils.math.FULL
-import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
-import at.orchaldir.gm.utils.math.ONE
-import at.orchaldir.gm.utils.math.ONE_PERCENT
-import at.orchaldir.gm.utils.math.ZERO
-import at.orchaldir.gm.utils.math.formatAsFactor
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag
 
