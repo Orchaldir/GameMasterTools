@@ -25,13 +25,13 @@ import at.orchaldir.gm.core.model.util.part.FillItemPart
 import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
 import at.orchaldir.gm.core.model.util.part.ItemPart
 import at.orchaldir.gm.core.model.util.part.ItemPartType
+import at.orchaldir.gm.core.model.util.part.MadeFromCord
 import at.orchaldir.gm.core.model.util.part.MadeFromFabric
 import at.orchaldir.gm.core.model.util.part.MadeFromLeather
 import at.orchaldir.gm.core.model.util.part.MadeFromMetal
 import at.orchaldir.gm.core.model.util.part.MadeFromWood
 import at.orchaldir.gm.core.model.util.render.Color
-import at.orchaldir.gm.core.selector.economy.getMaterials
-import at.orchaldir.gm.core.selector.economy.getMaterialsMadeOf
+import at.orchaldir.gm.core.model.util.render.ColorLookup
 import at.orchaldir.gm.core.selector.util.sortMaterials
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -67,6 +67,10 @@ fun HtmlBlockTag.showItemPart(
             is FillLookupItemPart -> {
                 fieldLink("Material", call, state, part.material)
                 showFillLookup(part.fill)
+            }
+            is MadeFromCord -> {
+                fieldLink("Material", call, state, part.material)
+                fieldColorLookup("Color", part.color)
             }
             is MadeFromFabric -> {
                 fieldLink("Material", call, state, part.material)
@@ -161,6 +165,7 @@ fun HtmlBlockTag.editItemPart(
             part.getType(),
         ) { 
             when (it) {
+                ItemPartType.Cord -> fibers.isEmpty() && leathers.isEmpty()
                 ItemPartType.Fabric -> fibers.isEmpty()
                 ItemPartType.Leather -> leathers.isEmpty()
                 ItemPartType.Metal -> metals.isEmpty()
@@ -182,6 +187,10 @@ fun HtmlBlockTag.editItemPart(
             is FillLookupItemPart -> {
                 selectMaterial(state, part.material, param)
                 selectFillLookup(state, part.fill, combine(param, FILL))
+            }
+            is MadeFromCord -> {
+                selectMaterial(state, param, part.material, fibers + leathers)
+                selectColor(state, param, part.color)
             }
             is MadeFromFabric -> {
                 selectMaterial(state, param, part.material, fibers)
@@ -207,23 +216,11 @@ fun HtmlBlockTag.editItemPart(
                     LeatherGrade.entries,
                     part.grade,
                 )
-                editColorLookup(
-                    state,
-                    "Color Lookup",
-                    part.color,
-                    combine(param, COLOR),
-                    Color.entries,
-                )
+                selectColor(state, param, part.color)
             }
             is MadeFromMetal -> {
                 selectMaterial(state, param, part.material, metals)
-                editColorLookup(
-                    state,
-                    "Color Lookup",
-                    part.color,
-                    combine(param, COLOR),
-                    Color.entries,
-                )
+                selectColor(state, param, part.color)
             }
             is MadeFromWood -> {
                 selectMaterial(state, param, part.material, woods)
@@ -233,14 +230,24 @@ fun HtmlBlockTag.editItemPart(
     }
 }
 
+private fun DETAILS.selectColor(
+    state: State,
+    param: String,
+    lookup: ColorLookup,
+) = editColorLookup(
+    state,
+    "Color Lookup",
+    lookup,
+    combine(param, COLOR),
+    Color.entries,
+)
+
 private fun HtmlBlockTag.selectMaterial(
     state: State,
     param: String,
     current: MaterialId,
     materials: Collection<Material>,
-) {
-    selectMaterial(state, materials, current, combine(param, MATERIAL))
-}
+) = selectMaterial(state, materials, current, combine(param, MATERIAL))
 
 fun HtmlBlockTag.editColorItemPart(
     state: State,
@@ -327,6 +334,7 @@ fun parseItemPart(
     ItemPartType.ColorScheme -> parseColorSchemeItemPart(parameters, param)
     ItemPartType.Fill -> parseFillItemPart(parameters, param)
     ItemPartType.FillLookup -> parseFillLookupItemPart(parameters, param)
+    ItemPartType.Cord -> parseMadeFromCord(parameters, param)
     ItemPartType.Fabric -> MadeFromFabric(
         parseMaterialId(parameters, combine(param, MATERIAL)),
         parse(parameters, combine(param, FABRIC, WEIGHT), FabricWeight.Medium),
@@ -344,6 +352,14 @@ fun parseItemPart(
         parseFillLookup(parameters, combine(param, FILL)),
     )
 }
+
+fun parseMadeFromCord(
+    parameters: Parameters,
+    param: String,
+) = MadeFromCord(
+    parseMaterialId(parameters, combine(param, MATERIAL)),
+    parseColorLookup(parameters, combine(param, COLOR)),
+)
 
 fun parseMadeFromMetal(
     parameters: Parameters,

@@ -20,6 +20,7 @@ fun convertToRenderOptions(
     is ColorSchemeItemPart -> getLineOptions(line, part.getColor(state, colors), clipping)
     is FillItemPart -> getLineOptions(line, part.getFill(state), clipping)
     is FillLookupItemPart -> getLineOptions(line, part.getFill(state, colors), clipping)
+    is MadeFromCord -> getLineOptions(line, part.getColor(state, colors), clipping)
     is MadeFromFabric ->  getLineOptions(line, part.getFill(state, colors), clipping)
     is MadeFromLeather -> getLineOptions(line, part.getColor(state, colors), clipping)
     is MadeFromMetal -> getLineOptions(line, part.getColor(state, colors), clipping)
