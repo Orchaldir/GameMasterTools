@@ -193,7 +193,7 @@ private fun calculateVolumePerMaterialForBody(
 
             if (data.buckle is SimpleBuckle) {
                 val buckleVolume = config.equipment.belt.getBuckleVolume(config, data.buckle.shape, data.buckle.size)
-                vpm.add(data.buckle.part.material, buckleVolume)
+                vpm.add(data.buckle.part.material(), buckleVolume)
             }
         }
 
