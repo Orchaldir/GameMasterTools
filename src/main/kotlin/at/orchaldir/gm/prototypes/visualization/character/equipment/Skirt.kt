@@ -8,7 +8,7 @@ import at.orchaldir.gm.core.model.item.equipment.Shirt
 import at.orchaldir.gm.core.model.item.equipment.Skirt
 import at.orchaldir.gm.core.model.item.equipment.style.SkirtStyle
 import at.orchaldir.gm.core.model.util.Size
-import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
+import at.orchaldir.gm.core.model.util.part.MadeFromFabric
 import at.orchaldir.gm.core.model.util.render.Color.White
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
@@ -16,7 +16,7 @@ import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTableWi
 import at.orchaldir.gm.utils.math.unit.Distance
 
 fun main() {
-    val part = FillLookupItemPart(White)
+    val part = MadeFromFabric(White)
 
     renderCharacterTableWithoutColorScheme(
         State(),

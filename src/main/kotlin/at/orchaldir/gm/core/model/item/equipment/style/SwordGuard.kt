@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.model.item.equipment.style
 
-import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
 import at.orchaldir.gm.core.model.util.part.ItemPart
+import at.orchaldir.gm.core.model.util.part.MadeFromMetal
 import at.orchaldir.gm.core.model.util.part.MadeFromParts
 import at.orchaldir.gm.utils.math.Factor
 import kotlinx.serialization.SerialName
@@ -49,5 +49,5 @@ data class SimpleSwordGuard(
      * Relative to the character's height
      */
     val height: Factor = DEFAULT_GUARD_HEIGHT,
-    val part: ItemPart = FillLookupItemPart(),
+    val part: ItemPart = MadeFromMetal(),
 ) : SwordGuard()

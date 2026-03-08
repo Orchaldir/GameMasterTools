@@ -1,6 +1,5 @@
 package at.orchaldir.gm.core.model.item.equipment.style
 
-import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
 import at.orchaldir.gm.core.model.util.part.ItemPart
 import at.orchaldir.gm.core.model.util.part.MadeFromGem
 import at.orchaldir.gm.core.model.util.part.MadeFromMetal
@@ -39,10 +38,10 @@ sealed class Ornament : MadeFromParts {
 @SerialName("Simple")
 data class SimpleOrnament(
     val shape: ComplexShape = UsingCircularShape(CircularShape.Circle),
-    val part: ItemPart = FillLookupItemPart(Color.Gold),
+    val part: ItemPart = MadeFromMetal(),
 ) : Ornament() {
 
-    constructor(shape: ComplexShape, color: Color) : this(shape, FillLookupItemPart(color))
+    constructor(shape: ComplexShape, color: Color) : this(shape, MadeFromWood(color))
     constructor(shape: CircularShape, color: Color) : this(UsingCircularShape(shape), color)
     constructor(shape: RectangularShape, color: Color) : this(UsingRectangularShape(shape), color)
 

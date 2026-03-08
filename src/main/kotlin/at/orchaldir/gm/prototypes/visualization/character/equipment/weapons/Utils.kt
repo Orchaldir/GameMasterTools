@@ -5,7 +5,6 @@ import at.orchaldir.gm.core.model.character.appearance.BodyShape
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
 import at.orchaldir.gm.core.model.item.equipment.style.*
-import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
 import at.orchaldir.gm.core.model.util.part.MadeFromWood
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.math.unit.Distance
@@ -18,7 +17,7 @@ val FIXATION = listOf(
     Pair("Socketed", SocketedHeadHead()),
 )
 val SIMPLE_SHAFT = SimpleShaft(
-    FillLookupItemPart(Color.SaddleBrown)
+    MadeFromWood(Color.SaddleBrown)
 )
 
 fun createAppearance(height: Distance) =

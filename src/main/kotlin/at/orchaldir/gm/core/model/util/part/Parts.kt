@@ -34,7 +34,6 @@ val COVER_MATERIALS = listOf(
 )
 
 enum class ItemPartType {
-    FillLookup,
     Cord,
     Fabric,
     Gem,
@@ -55,7 +54,6 @@ interface HasColor {
 sealed class ItemPart : HasColor {
 
     fun getType() = when (this) {
-        is FillLookupItemPart -> ItemPartType.FillLookup
         is MadeFromCord -> ItemPartType.Cord
         is MadeFromFabric -> ItemPartType.Fabric
         is MadeFromGem -> ItemPartType.Gem
@@ -78,22 +76,6 @@ sealed class ItemPart : HasColor {
 interface HasFill {
 
     fun getFill(state: State, colors: Colors): Fill
-
-}
-
-@Serializable
-data class FillLookupItemPart(
-    val material: MaterialId = MaterialId(0),
-    val fill: FillLookup = SolidLookup(LookupMaterial),
-) : ItemPart(), HasFill {
-
-    constructor(color: Color) : this(fill = SolidLookup(color))
-
-    override fun getFill(state: State, colors: Colors) = fill.lookup(state, colors, material)
-
-    override fun contains(id: MaterialId) = material == id
-    override fun material() = material
-    override fun requiredSchemaColors() = fill.requiredSchemaColors()
 
 }
 

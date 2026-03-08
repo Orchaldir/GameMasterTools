@@ -33,11 +33,6 @@ fun HtmlBlockTag.showItemPart(
         field("Type", part.getType())
 
         when (part) {
-            is FillLookupItemPart -> {
-                fieldLink("Material", call, state, part.material)
-                showFillLookup(part.fill)
-            }
-
             is MadeFromCord -> {
                 fieldLink("Material", call, state, part.material)
                 fieldColorLookup("Color", part.color)
@@ -124,16 +119,10 @@ fun HtmlBlockTag.editItemPart(
                 ItemPartType.Metal -> metals.isEmpty()
                 ItemPartType.Paper -> papers.isEmpty()
                 ItemPartType.Wood -> woods.isEmpty()
-                else -> false
             }
         }
 
         when (part) {
-            is FillLookupItemPart -> {
-                selectMaterial(state, part.material, param)
-                selectFillLookup(state, part.fill, combine(param, FILL))
-            }
-
             is MadeFromCord -> {
                 selectMaterial(state, param, part.material, fibers + leathers)
                 selectColor(state, param, part.color)
@@ -224,7 +213,6 @@ fun parseItemPart(
     param: String,
     default: ItemPartType = ItemPartType.Metal, //  TODO
 ) = when (parse(parameters, combine(param, TYPE), default)) {
-    ItemPartType.FillLookup -> parseFillLookupItemPart(parameters, param)
     ItemPartType.Cord -> parseMadeFromCord(parameters, param)
     ItemPartType.Fabric -> MadeFromFabric(
         parseMaterialId(parameters, combine(param, MATERIAL)),
@@ -290,9 +278,4 @@ fun parsePaper(
 ) = MadeFromPaper(
     parseMaterialId(parameters, combine(param, MATERIAL)),
     parseColorLookup(parameters, combine(param, COLOR)),
-)
-
-fun parseFillLookupItemPart(parameters: Parameters, param: String) = FillLookupItemPart(
-    parseMaterialId(parameters, combine(param, MATERIAL)),
-    parseFillLookup(parameters, combine(param, FILL)),
 )

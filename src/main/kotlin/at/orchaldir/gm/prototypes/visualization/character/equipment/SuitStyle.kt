@@ -10,7 +10,7 @@ import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap.Companion.from
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.Size
-import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
+import at.orchaldir.gm.core.model.util.part.MadeFromFabric
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.util.render.Color.Gray
 import at.orchaldir.gm.prototypes.visualization.addNames
@@ -44,14 +44,14 @@ private fun createSuite(
 ) = from(
     listOf(
         Footwear(),
-        Pants(main = FillLookupItemPart(Color.Silver)),
+        Pants(main = MadeFromFabric(Color.Silver)),
         Shirt(),
         SuitJacket(
             NecklineStyle.DeepV,
             SleeveStyle.Long,
             opening,
             pocket,
-            FillLookupItemPart(Gray),
+            MadeFromFabric(Gray),
         ),
         Tie(),
     )

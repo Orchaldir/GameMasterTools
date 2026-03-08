@@ -15,7 +15,7 @@ import at.orchaldir.gm.core.model.item.equipment.Shirt
 import at.orchaldir.gm.core.model.item.text.Book
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.item.text.book.Hardcover
-import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
+import at.orchaldir.gm.core.model.util.part.MadeFromFabric
 import at.orchaldir.gm.core.model.world.moon.Moon
 import at.orchaldir.gm.core.model.world.street.StreetTemplate
 import at.orchaldir.gm.core.model.world.terrain.Region
@@ -56,7 +56,7 @@ class MaterialTest {
 
         @Test
         fun `Cannot delete a material used by an equipment`() {
-            val equipment = Equipment(EQUIPMENT_ID_0, data = Shirt(main = FillLookupItemPart(MATERIAL_ID_0)))
+            val equipment = Equipment(EQUIPMENT_ID_0, data = Shirt(main = MadeFromFabric(MATERIAL_ID_0)))
             val newState = state.updateStorage(equipment)
 
             failCanDelete(newState, EQUIPMENT_ID_0)
@@ -105,8 +105,8 @@ class MaterialTest {
 
     @Test
     fun `Get all item templates using a material`() {
-        val template0 = Equipment(EQUIPMENT_ID_0, data = Shirt(main = FillLookupItemPart(MATERIAL_ID_0)))
-        val template1 = Equipment(EQUIPMENT_ID_1, data = Shirt(main = FillLookupItemPart(MATERIAL_ID_0)))
+        val template0 = Equipment(EQUIPMENT_ID_0, data = Shirt(main = MadeFromFabric(MATERIAL_ID_0)))
+        val template1 = Equipment(EQUIPMENT_ID_1, data = Shirt(main = MadeFromFabric(MATERIAL_ID_0)))
         val state = State(
             listOf(
                 Storage(listOf(template0, template1)),

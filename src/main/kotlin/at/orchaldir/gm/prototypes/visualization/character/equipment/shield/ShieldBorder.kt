@@ -10,7 +10,7 @@ import at.orchaldir.gm.core.model.item.equipment.Shield
 import at.orchaldir.gm.core.model.item.equipment.style.NoShieldBorder
 import at.orchaldir.gm.core.model.item.equipment.style.SimpleShieldBorder
 import at.orchaldir.gm.core.model.util.Size
-import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
+import at.orchaldir.gm.core.model.util.part.MadeFromWood
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
@@ -40,7 +40,7 @@ fun main() {
             UsingCircularShape(Heater),
             size,
             border,
-            front = FillLookupItemPart(Color.Red)
+            front = MadeFromWood(Color.Red)
         )
         Pair(createAppearance(distance), from(necklace))
     }

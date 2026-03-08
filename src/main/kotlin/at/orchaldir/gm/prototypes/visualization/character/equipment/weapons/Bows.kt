@@ -5,7 +5,8 @@ import at.orchaldir.gm.core.model.item.equipment.Bow
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap.Companion.from
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.Size
-import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
+import at.orchaldir.gm.core.model.util.part.MadeFromFabric
+import at.orchaldir.gm.core.model.util.part.MadeFromWood
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
@@ -15,9 +16,9 @@ import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.FULL
 
 fun main() {
-    val grip0 = SimpleGrip(GripShape.Oval, FillLookupItemPart(Color.Red))
-    val grip1 = SimpleGrip(GripShape.Straight, FillLookupItemPart(Color.Green))
-    val grip2 = SimpleGrip(GripShape.Waisted, FillLookupItemPart(Color.Blue))
+    val grip0 = SimpleGrip(GripShape.Oval, MadeFromWood(Color.Red))
+    val grip1 = SimpleGrip(GripShape.Straight, MadeFromWood(Color.Green))
+    val grip2 = SimpleGrip(GripShape.Waisted, MadeFromWood(Color.Blue))
     val grips = listOf(
         Pair("No Grip", NoBowGrip),
         Pair("Small Grip", SimpleBowGrip(Size.Small, grip0)),
