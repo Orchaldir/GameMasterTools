@@ -4,20 +4,10 @@
   "0": {
    "id": 0,
    "data": {
-    "#type": "Helmet",
-    "style": {
-     "#type": "SkullCap",
-     "front": {
-      "#type": "Nose",
-      "main": {
-       "#type": "at.orchaldir.gm.core.model.util.part.MadeFromMetal",
-       "material": 5
-      }
-     },
-     "main": {
-      "#type": "at.orchaldir.gm.core.model.util.part.MadeFromMetal",
-      "material": 4
-     }
+    "#type": "IounStone",
+    "main": {
+     "#type": "at.orchaldir.gm.core.model.util.part.MadeFromMetal",
+     "material": 2
     }
    }
   }

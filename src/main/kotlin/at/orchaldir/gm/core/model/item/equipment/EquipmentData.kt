@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.util.part.ColorItemPart
 import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
 import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
 import at.orchaldir.gm.core.model.util.part.ItemPart
+import at.orchaldir.gm.core.model.util.part.MadeFromGem
 import at.orchaldir.gm.core.model.util.part.MadeFromGlass
 import at.orchaldir.gm.core.model.util.part.MadeFromParts
 import at.orchaldir.gm.core.model.util.render.Color
@@ -405,7 +406,7 @@ data class Helmet(
 data class IounStone(
     val shape: ComplexShape = UsingCircularShape(),
     val size: Size = Size.Medium,
-    val main: ColorSchemeItemPart = ColorSchemeItemPart(Color.Red),
+    val main: ItemPart = MadeFromGem(),
 ) : EquipmentData() {
 
     override fun parts() = listOf(main)

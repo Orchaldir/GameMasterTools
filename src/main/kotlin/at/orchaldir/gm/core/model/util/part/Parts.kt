@@ -21,6 +21,7 @@ val MADE_FROM_METALS = listOf(
 )
 val SOLID_MATERIALS = listOf(
     ItemPartType.Gem,
+    ItemPartType.Glass,
     ItemPartType.Metal,
     ItemPartType.Wood,
 )
