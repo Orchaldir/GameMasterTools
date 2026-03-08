@@ -10,6 +10,7 @@ import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.utils.renderer.model.NoBorder
 import at.orchaldir.gm.utils.renderer.model.RenderFill
 import at.orchaldir.gm.utils.renderer.model.RenderSolid
+import at.orchaldir.gm.utils.renderer.model.RenderTransparent
 import at.orchaldir.gm.utils.renderer.model.toRender
 
 fun convertToFillAndBorder(
@@ -46,7 +47,7 @@ fun convertToRenderFill(
     is MadeFromCord -> convert(state, part, colors)
     is MadeFromFabric ->  convertFill(state, part, colors)
     is MadeFromGem ->  convert(state, part, colors)
-    is MadeFromGlass ->  convert(state, part, colors)
+    is MadeFromGlass -> RenderTransparent(part.getColor(state, colors).toRender(), part.opacity)
     is MadeFromLeather -> convert(state, part, colors)
     is MadeFromMetal -> convert(state, part, colors)
     is MadeFromWood ->  convertFill(state, part, colors)

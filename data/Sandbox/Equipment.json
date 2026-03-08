@@ -4,30 +4,15 @@
   "0": {
    "id": 0,
    "data": {
-    "#type": "EyePatch",
-    "style": {
-     "#type": "Simple",
-     "shape": "Circle",
-     "main": {
-      "#type": "at.orchaldir.gm.core.model.util.part.MadeFromFabric",
-      "material": 14,
-      "fill": {
-       "#type": "Solid",
-       "color": {
-        "#type": "Fixed",
-        "color": "Black"
-       }
-      }
-     }
+    "#type": "Glasses",
+    "lensShape": "Circle",
+    "lens": {
+     "material": 16,
+     "opacity": 1000
     },
-    "fixation": {
-     "#type": "TwoBands",
-     "band": {
-      "#type": "Cord",
-      "main": {
-       "material": 14
-      }
-     }
+    "frame": {
+     "#type": "at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart",
+     "material": 4
     }
    }
   }

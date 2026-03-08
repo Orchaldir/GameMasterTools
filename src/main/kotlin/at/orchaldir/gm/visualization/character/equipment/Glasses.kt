@@ -9,6 +9,7 @@ import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.model.*
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.EQUIPMENT_LAYER
+import at.orchaldir.gm.visualization.utils.convertToRenderFill
 
 data class GlassesConfig(
     val size: SizeConfig<Factor>,
@@ -35,11 +36,11 @@ fun visualizeGlasses(
     val width = state.headAABB().convertHeight(widthFactor)
     val frameColor = glasses.frame.getColor(state.state, state.colors)
     val lineOptions = LineOptions(frameColor.toRender(), width)
-    val lensFill = glasses.lens.getColor(state.state, state.colors)
+    val lensFill = convertToRenderFill(state.state, state.colors, glasses.lens)
     val options = if (glasses.frameType == FrameType.Rimless) {
-        NoBorder(lensFill.toRender())
+        NoBorder(lensFill)
     } else {
-        FillAndBorder(lensFill.toRender(), lineOptions)
+        FillAndBorder(lensFill, lineOptions)
     }
 
     if (glasses.lensShape == LensShape.WarpAround) {
