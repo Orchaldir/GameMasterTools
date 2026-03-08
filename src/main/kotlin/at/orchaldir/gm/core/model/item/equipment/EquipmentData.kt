@@ -10,7 +10,9 @@ import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
 import at.orchaldir.gm.core.model.util.part.ItemPart
 import at.orchaldir.gm.core.model.util.part.MadeFromGem
 import at.orchaldir.gm.core.model.util.part.MadeFromGlass
+import at.orchaldir.gm.core.model.util.part.MadeFromMetal
 import at.orchaldir.gm.core.model.util.part.MadeFromParts
+import at.orchaldir.gm.core.model.util.part.MadeFromWood
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.HALF
@@ -452,8 +454,8 @@ data class Shield(
     val size: Size = Size.Medium,
     val border: ShieldBorder = NoShieldBorder,
     val boss: ShieldBoss = NoShieldBoss,
-    val front: FillLookupItemPart = FillLookupItemPart(Color.SaddleBrown),
-    val back: FillLookupItemPart = FillLookupItemPart(Color.SaddleBrown),
+    val front: ItemPart = MadeFromMetal(),
+    val back: ItemPart = MadeFromWood(),
     val stats: ShieldStats = ShieldStats(),
 ) : EquipmentData() {
 

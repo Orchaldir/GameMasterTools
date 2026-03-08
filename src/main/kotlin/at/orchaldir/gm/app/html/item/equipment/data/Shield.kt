@@ -13,11 +13,15 @@ import at.orchaldir.gm.app.html.parse
 import at.orchaldir.gm.app.html.rpg.combat.parseShieldStats
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.util.part.editFillLookupItemPart
+import at.orchaldir.gm.app.html.util.part.editItemPart
 import at.orchaldir.gm.app.html.util.part.parseFillLookupItemPart
+import at.orchaldir.gm.app.html.util.part.parseItemPart
 import at.orchaldir.gm.app.html.util.part.showFillLookupItemPart
+import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.Shield
 import at.orchaldir.gm.core.model.util.Size
+import at.orchaldir.gm.core.model.util.part.SOLID_MATERIALS
 import at.orchaldir.gm.utils.math.shape.SHAPES_WITHOUT_CROSS
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -34,8 +38,8 @@ fun HtmlBlockTag.showShield(
     field("Size", shield.size)
     showShieldBorder(call, state, shield.border)
     showShieldBoss(call, state, shield.boss)
-    showFillLookupItemPart(call, state, shield.front, "Front")
-    showFillLookupItemPart(call, state, shield.back, "Back")
+    showItemPart(call, state, shield.front, "Front")
+    showItemPart(call, state, shield.back, "Back")
 }
 
 // edit
@@ -48,8 +52,8 @@ fun HtmlBlockTag.editShield(
     selectValue("Size", SIZE, Size.entries, shield.size)
     editShieldBorder(state, shield.border)
     editShieldBoss(state, shield.boss)
-    editFillLookupItemPart(state, shield.front, MAIN, "Front")
-    editFillLookupItemPart(state, shield.back, BACK, "Back")
+    editItemPart(state, shield.front, MAIN, "Front", SOLID_MATERIALS)
+    editItemPart(state, shield.back, BACK, "Back", SOLID_MATERIALS)
 }
 
 // parse
@@ -59,7 +63,7 @@ fun parseShield(parameters: Parameters) = Shield(
     parse(parameters, SIZE, Size.Medium),
     parseShieldBorder(parameters),
     parseShieldBoss(parameters),
-    parseFillLookupItemPart(parameters, MAIN),
-    parseFillLookupItemPart(parameters, BACK),
+    parseItemPart(parameters, MAIN),
+    parseItemPart(parameters, BACK),
     parseShieldStats(parameters),
 )

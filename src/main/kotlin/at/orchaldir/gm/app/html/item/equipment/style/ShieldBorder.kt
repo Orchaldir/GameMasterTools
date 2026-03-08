@@ -1,17 +1,22 @@
 package at.orchaldir.gm.app.html.item.equipment.style
 
 import at.orchaldir.gm.app.BORDER
+import at.orchaldir.gm.app.MAIN
 import at.orchaldir.gm.app.SIZE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.part.editColorSchemeItemPart
+import at.orchaldir.gm.app.html.util.part.editItemPart
 import at.orchaldir.gm.app.html.util.part.parseColorSchemeItemPart
+import at.orchaldir.gm.app.html.util.part.parseItemPart
 import at.orchaldir.gm.app.html.util.part.showColorSchemeItemPart
+import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.style.NoShieldBorder
 import at.orchaldir.gm.core.model.item.equipment.style.ShieldBorder
 import at.orchaldir.gm.core.model.item.equipment.style.ShieldBorderType
 import at.orchaldir.gm.core.model.item.equipment.style.SimpleShieldBorder
 import at.orchaldir.gm.core.model.util.Size
+import at.orchaldir.gm.core.model.util.part.SOLID_MATERIALS
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -31,7 +36,7 @@ fun HtmlBlockTag.showShieldBorder(
             NoShieldBorder -> doNothing()
             is SimpleShieldBorder -> {
                 field("Size", border.size)
-                showColorSchemeItemPart(call, state, border.part)
+                showItemPart(call, state, border.main)
             }
         }
     }
@@ -47,7 +52,12 @@ fun HtmlBlockTag.editShieldBorder(state: State, border: ShieldBorder) {
             NoShieldBorder -> doNothing()
             is SimpleShieldBorder -> {
                 selectValue("Size", combine(BORDER, SIZE), Size.entries, border.size)
-                editColorSchemeItemPart(state, border.part, BORDER)
+                editItemPart(
+                    state,
+                    border.main,
+                    combine(BORDER, MAIN),
+                    allowedTypes = SOLID_MATERIALS,
+                )
             }
         }
     }
@@ -59,6 +69,6 @@ fun parseShieldBorder(parameters: Parameters) = when (parse(parameters, BORDER, 
     ShieldBorderType.None -> NoShieldBorder
     ShieldBorderType.Simple -> SimpleShieldBorder(
         parse(parameters, combine(BORDER, SIZE), Size.Medium),
-        parseColorSchemeItemPart(parameters, BORDER),
+        parseItemPart(parameters, combine(BORDER, MAIN)),
     )
 }

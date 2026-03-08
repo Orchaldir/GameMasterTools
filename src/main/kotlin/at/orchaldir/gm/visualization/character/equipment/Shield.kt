@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.SizeConfig
 import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
 import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
+import at.orchaldir.gm.core.model.util.part.ItemPart
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.END
 import at.orchaldir.gm.utils.math.FULL
@@ -70,10 +71,9 @@ private fun visualizeShieldBody(
     center: Point2d,
     radius: Distance,
     shape: ComplexShape,
-    part: FillLookupItemPart,
+    part: ItemPart,
 ) {
-    val fill = part.getFill(state.state, state.colors)
-    val options = FillAndBorder(fill.toRender(), state.config.line)
+    val options = state.getFillAndBorder(part)
 
     visualizeComplexShape(renderer, center, radius, shape, options)
 }
@@ -88,7 +88,7 @@ private fun visualizeShieldBorder(
     when (val border = shield.border) {
         NoShieldBorder -> doNothing()
         is SimpleShieldBorder -> {
-            val fill = border.part.getColor(state.state, state.colors)
+            val fill = border.main.getColor(state.state, state.colors)
             val options = FillAndBorder(fill.toRender(), state.config.line)
             val innerRadius = radius * state.config.equipment.shield.borderFactor.convert(border.size)
 
@@ -114,7 +114,7 @@ private fun visualizeShieldBoss(
     when (boss) {
         NoShieldBoss -> doNothing()
         is SimpleShieldBoss -> {
-            visualizeShieldBoss(state, renderer, center, boss.shape, boss.part)
+            visualizeShieldBoss(state, renderer, center, boss.shape, boss.main)
         }
 
         is ShieldBossWithBorder -> {
@@ -122,11 +122,11 @@ private fun visualizeShieldBoss(
                 state,
                 renderer,
                 center,
+                boss.borderShape,
                 boss.border,
-                boss.borderPart,
                 state.config.equipment.shield.bossBorderFactor,
             )
-            visualizeShieldBoss(state, renderer, center, boss.shape, boss.part)
+            visualizeShieldBoss(state, renderer, center, boss.bossShape, boss.boss)
         }
     }
 }
@@ -136,12 +136,11 @@ private fun visualizeShieldBoss(
     renderer: LayerRenderer,
     center: Point2d,
     shape: CircularShape,
-    part: ColorSchemeItemPart,
+    part: ItemPart,
     factor: Factor = FULL,
 ) {
     val bossRadius = state.config.equipment.shield.getBossRadius(state) * factor
-    val fill = part.getColor(state.state, state.colors)
-    val options = FillAndBorder(fill.toRender(), state.config.line)
+    val options = state.getFillAndBorder(part)
 
     visualizeCircularShape(renderer, center, bossRadius, shape, options)
 }
