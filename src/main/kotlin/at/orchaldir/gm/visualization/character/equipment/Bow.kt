@@ -115,8 +115,7 @@ private fun visualizeBowShape(
     centerAabb: AABB,
     bow: Bow,
 ) {
-    val fill = bow.fill.getFill(state.state, state.colors)
-    val options = FillAndBorder(fill.toRender(), state.config.line)
+    val options = state.getFillAndBorder(bow.main)
 
     when (bow.shape) {
         BowShape.Angular -> {

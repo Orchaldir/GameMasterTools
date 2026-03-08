@@ -7,7 +7,9 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.part.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.style.*
+import at.orchaldir.gm.core.model.util.part.ItemPartType
 import at.orchaldir.gm.core.model.util.part.MADE_FROM_METALS
+import at.orchaldir.gm.core.model.util.part.SOLID_MATERIALS
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -30,7 +32,7 @@ fun HtmlBlockTag.showGrip(
 
             is BoundGrip -> {
                 field("Rows", grip.rows)
-                showColorSchemeItemPart(call, state, grip.part)
+                showItemPart(call, state, grip.part)
             }
         }
     }
@@ -54,7 +56,7 @@ fun HtmlBlockTag.editGrip(
                     GripShape.entries,
                     grip.shape,
                 )
-                editItemPart(state, grip.part, param, allowedTypes = MADE_FROM_METALS)
+                editItemPart(state, grip.part, param, allowedTypes = SOLID_MATERIALS)
             }
 
             is BoundGrip -> {
@@ -66,7 +68,7 @@ fun HtmlBlockTag.editGrip(
                     1,
                     combine(param, NUMBER),
                 )
-                editColorSchemeItemPart(state, grip.part, param)
+                editItemPart(state, grip.part, param, allowedType = ItemPartType.Cord)
             }
         }
     }
@@ -81,11 +83,11 @@ fun parseGrip(
 ) = when (parse(parameters, param, GripType.Simple)) {
     GripType.Simple -> SimpleGrip(
         parse(parameters, combine(param, SHAPE), GripShape.Straight),
-        parseFillLookupItemPart(parameters, param),
+        parseItemPart(parameters, param),
     )
 
     GripType.Bound -> BoundGrip(
         parseInt(parameters, combine(param, NUMBER), DEFAULT_GRIP_ROWS),
-        parseColorSchemeItemPart(parameters, param),
+        parseMadeFromCord(parameters, param),
     )
 }

@@ -1,8 +1,6 @@
 package at.orchaldir.gm.core.model.item.equipment
 
 import at.orchaldir.gm.core.model.item.equipment.EquipmentSlot.*
-import at.orchaldir.gm.core.model.item.equipment.Socks
-import at.orchaldir.gm.core.model.item.equipment.Tie
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.core.model.util.Size
@@ -255,11 +253,11 @@ data class Bow(
     val shape: BowShape = BowShape.Straight,
     val height: Factor = HALF,
     val grip: BowGrip = NoBowGrip,
-    val fill: FillLookupItemPart = FillLookupItemPart(),
+    val main: ItemPart = FillLookupItemPart(),
     val stats: RangedWeaponStats = RangedWeaponStats(),
 ) : EquipmentData() {
 
-    override fun parts() = grip.parts() + fill
+    override fun parts() = grip.parts() + main
 }
 
 @Serializable
