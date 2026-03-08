@@ -216,6 +216,20 @@
     "luster": "Adamantine",
     "tenacity": "Brittle"
    }
+  },
+  "16": {
+   "id": 16,
+   "name": "Glass",
+   "properties": {
+    "category": {
+     "#type": "Glass"
+    },
+    "color": "AliceBlue",
+    "hardness": 5.5,
+    "luster": "Vitreous",
+    "tenacity": "Brittle",
+    "transparency": "Transparent"
+   }
   }
  }
 }

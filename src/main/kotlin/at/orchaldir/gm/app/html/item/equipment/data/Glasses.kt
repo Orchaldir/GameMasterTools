@@ -12,6 +12,8 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.Glasses
 import at.orchaldir.gm.core.model.item.equipment.style.FrameType
 import at.orchaldir.gm.core.model.item.equipment.style.LensShape
+import at.orchaldir.gm.core.model.util.part.ItemPartType
+import at.orchaldir.gm.core.model.util.part.SOLID_MATERIALS
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -25,11 +27,11 @@ fun HtmlBlockTag.showGlasses(
 ) {
     showDetails("Lenses") {
         field("Shape", glasses.lensShape)
-        showFillLookupItemPart(call, state, glasses.lens)
+        showItemPart(call, state, glasses.lens)
     }
     showDetails("Frame") {
         field("Type", glasses.frameType)
-        showColorSchemeItemPart(call, state, glasses.frame)
+        showItemPart(call, state, glasses.frame)
     }
 }
 
@@ -41,11 +43,11 @@ fun HtmlBlockTag.editGlasses(
 ) {
     showDetails("Lenses", true) {
         selectValue("Shape", SHAPE, LensShape.entries, glasses.lensShape)
-        editFillLookupItemPart(state, glasses.lens, LENS)
+        editItemPart(state, glasses.lens, LENS, allowedType = ItemPartType.Glass)
     }
     showDetails("Frame", true) {
         selectValue("Shape", FRAME, FrameType.entries, glasses.frameType)
-        editColorSchemeItemPart(state, glasses.frame, FRAME)
+        editItemPart(state, glasses.frame, FRAME, allowedTypes = SOLID_MATERIALS)
     }
 }
 
@@ -54,6 +56,6 @@ fun HtmlBlockTag.editGlasses(
 fun parseGlasses(parameters: Parameters) = Glasses(
     parse(parameters, SHAPE, LensShape.Rectangle),
     parse(parameters, FRAME, FrameType.FullRimmed),
-    parseFillLookupItemPart(parameters, LENS),
+    parseGlass(parameters, LENS),
     parseColorSchemeItemPart(parameters, FRAME),
 )

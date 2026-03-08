@@ -5,7 +5,9 @@ import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
+import at.orchaldir.gm.utils.math.ONE
 import at.orchaldir.gm.utils.math.ONE_PERCENT
+import at.orchaldir.gm.utils.math.ZERO
 import at.orchaldir.gm.utils.math.formatAsFactor
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag
@@ -38,8 +40,8 @@ fun HtmlBlockTag.selectFactor(
     label: String,
     param: String,
     current: Factor,
-    minValue: Factor,
-    maxValue: Factor,
+    minValue: Factor = ZERO,
+    maxValue: Factor = ONE,
     step: Factor = ONE_PERCENT,
 ) {
     field(label) {

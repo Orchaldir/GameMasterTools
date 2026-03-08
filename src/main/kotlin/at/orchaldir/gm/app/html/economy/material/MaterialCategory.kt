@@ -42,6 +42,7 @@ fun HtmlBlockTag.showMaterialCategory(
         when (category) {
             is Alloy -> showPercentageDistribution(call, state, "Components", category.components)
             is Fiber -> field("Weight", category.weight)
+            is Glass -> doNothing()
             is Hide -> field("Thickness", category.thickness)
             is Leather -> {
                 optionalFieldLink("Hide", call, state, category.hide)
@@ -104,6 +105,7 @@ fun HtmlBlockTag.editMaterialCategory(
                 category.weight,
             )
 
+            is Glass -> doNothing()
             is Hide -> selectLeatherThickness(category.thickness)
             is Leather -> {
                 selectOptionalElement(
@@ -177,7 +179,7 @@ fun parseMaterialCategory(
     MaterialCategoryType.Hide -> Hide(
         parseThickness(parameters),
     )
-
+    MaterialCategoryType.Glass -> Glass
     MaterialCategoryType.Leather -> Leather(
         parseOptionalMaterialId(parameters, combine(CATEGORY, MATERIAL)),
         parse(

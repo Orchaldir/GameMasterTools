@@ -5,12 +5,16 @@ import at.orchaldir.gm.app.FABRIC
 import at.orchaldir.gm.app.FILL
 import at.orchaldir.gm.app.LEATHER
 import at.orchaldir.gm.app.MATERIAL
+import at.orchaldir.gm.app.OPACITY
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.WEIGHT
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.economy.material.parseMaterialId
 import at.orchaldir.gm.app.html.economy.material.selectMaterial
 import at.orchaldir.gm.app.html.util.color.*
+import at.orchaldir.gm.app.html.util.math.fieldFactor
+import at.orchaldir.gm.app.html.util.math.parseFactor
+import at.orchaldir.gm.app.html.util.math.selectFactor
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.ALLOYS_OR_METALS
 import at.orchaldir.gm.core.model.economy.material.CATEGORIES_FOR_GEM
@@ -29,6 +33,7 @@ import at.orchaldir.gm.core.model.util.part.ItemPartType
 import at.orchaldir.gm.core.model.util.part.MadeFromCord
 import at.orchaldir.gm.core.model.util.part.MadeFromFabric
 import at.orchaldir.gm.core.model.util.part.MadeFromGem
+import at.orchaldir.gm.core.model.util.part.MadeFromGlass
 import at.orchaldir.gm.core.model.util.part.MadeFromLeather
 import at.orchaldir.gm.core.model.util.part.MadeFromMetal
 import at.orchaldir.gm.core.model.util.part.MadeFromWood
@@ -81,6 +86,11 @@ fun HtmlBlockTag.showItemPart(
                 showFillLookup(part.fill)
             }
             is MadeFromGem -> fieldLink("Material", call, state, part.material)
+            is MadeFromGlass -> {
+                fieldLink("Material", call, state, part.material)
+                fieldColorLookup("Color", part.color)
+                fieldFactor("Opacity", part.opacity)
+            }
             is MadeFromLeather -> {
                 fieldLink("Material", call, state, part.material)
                 field("Leather Grade", part.grade)
@@ -168,6 +178,7 @@ fun HtmlBlockTag.editItemPart(
 ) {
     val fibers = state.sortMaterials(MaterialCategoryType.Fiber)
     val gems = state.sortMaterials(CATEGORIES_FOR_GEM)
+    val glasses = state.sortMaterials(MaterialCategoryType.Glass)
     val leathers = state.sortMaterials(MaterialCategoryType.Leather)
     val metals = state.sortMaterials(ALLOYS_OR_METALS)
     val woods = state.sortMaterials(MaterialCategoryType.Wood)
@@ -183,6 +194,7 @@ fun HtmlBlockTag.editItemPart(
                 ItemPartType.Cord -> fibers.isEmpty() && leathers.isEmpty()
                 ItemPartType.Fabric -> fibers.isEmpty()
                 ItemPartType.Gem -> gems.isEmpty()
+                ItemPartType.Glass -> glasses.isEmpty()
                 ItemPartType.Leather -> leathers.isEmpty()
                 ItemPartType.Metal -> metals.isEmpty()
                 ItemPartType.Wood -> woods.isEmpty()
@@ -225,6 +237,11 @@ fun HtmlBlockTag.editItemPart(
                 selectFillLookup(state, part.fill, combine(param, FILL))
             }
             is MadeFromGem -> selectMaterial(state, param, part.material, gems)
+            is MadeFromGlass -> {
+                selectMaterial(state, param, part.material, glasses)
+                selectColor(state, param, part.color)
+                selectFactor("Opacity", combine(param, OPACITY), part.opacity)
+            }
             is MadeFromLeather -> {
                 selectMaterial(state, param, part.material, leathers)
                 selectValue(
@@ -356,11 +373,8 @@ fun parseItemPart(
         parseFillLookup(parameters, combine(param, FILL)),
     )
     ItemPartType.Gem -> parseMadeFromGem(parameters, param)
-    ItemPartType.Leather -> MadeFromLeather(
-        parseMaterialId(parameters, combine(param, MATERIAL)),
-        parse(parameters, combine(param, LEATHER, TYPE), LeatherGrade.Undefined),
-        parseColorLookup(parameters, combine(param, COLOR)),
-    )
+    ItemPartType.Glass -> parseGlass(parameters, param)
+    ItemPartType.Leather -> parseLeather(parameters, param)
     ItemPartType.Metal -> parseMadeFromMetal(parameters, param)
     ItemPartType.Wood -> MadeFromWood(
         parseMaterialId(parameters, combine(param, MATERIAL)),
@@ -381,6 +395,24 @@ fun parseMadeFromGem(
     param: String,
 ) = MadeFromGem(
     parseMaterialId(parameters, combine(param, MATERIAL)),
+)
+
+fun parseGlass(
+    parameters: Parameters,
+    param: String,
+) = MadeFromGlass(
+    parseMaterialId(parameters, combine(param, MATERIAL)),
+    parseColorLookup(parameters, combine(param, COLOR)),
+    parseFactor(parameters, combine(param, OPACITY)),
+)
+
+fun parseLeather(
+    parameters: Parameters,
+    param: String,
+) = MadeFromLeather(
+    parseMaterialId(parameters, combine(param, MATERIAL)),
+    parse(parameters, combine(param, LEATHER, TYPE), LeatherGrade.Undefined),
+    parseColorLookup(parameters, combine(param, COLOR)),
 )
 
 fun parseMadeFromMetal(

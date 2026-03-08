@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.util.part.ColorItemPart
 import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
 import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
 import at.orchaldir.gm.core.model.util.part.ItemPart
+import at.orchaldir.gm.core.model.util.part.MadeFromGlass
 import at.orchaldir.gm.core.model.util.part.MadeFromParts
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.math.Factor
@@ -351,8 +352,8 @@ data class Footwear(
 data class Glasses(
     val lensShape: LensShape = LensShape.RoundedRectangle,
     val frameType: FrameType = FrameType.FullRimmed,
-    val lens: FillLookupItemPart = FillLookupItemPart(Color.SkyBlue),
-    val frame: ColorSchemeItemPart = ColorSchemeItemPart(Color.Navy),
+    val lens: MadeFromGlass = MadeFromGlass(),
+    val frame: ItemPart = ColorSchemeItemPart(Color.Navy),
 ) : EquipmentData() {
 
     override fun parts() = listOf(lens, frame)

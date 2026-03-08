@@ -7,6 +7,8 @@ import at.orchaldir.gm.core.model.util.part.MadeFromFabric
 import at.orchaldir.gm.core.model.util.part.MadeFromMetal
 import at.orchaldir.gm.core.model.util.render.*
 import at.orchaldir.gm.core.selector.economy.getMaterialColor
+import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.HALF
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -31,13 +33,20 @@ enum class ItemPartType {
     Cord,
     Fabric,
     Gem,
+    Glass,
     Leather,
     Metal,
     Wood;
 }
 
+interface HasColor {
+
+    fun getColor(state: State, colors: Colors): Color
+
+}
+
 @Serializable
-sealed class ItemPart {
+sealed class ItemPart: HasColor {
 
     fun getType() = when (this) {
         is ColorItemPart -> ItemPartType.Color
@@ -47,6 +56,7 @@ sealed class ItemPart {
         is MadeFromCord -> ItemPartType.Cord
         is MadeFromFabric -> ItemPartType.Fabric
         is MadeFromGem -> ItemPartType.Gem
+        is MadeFromGlass -> ItemPartType.Glass
         is MadeFromLeather -> ItemPartType.Leather
         is MadeFromMetal -> ItemPartType.Metal
         is MadeFromWood -> ItemPartType.Wood
@@ -56,13 +66,9 @@ sealed class ItemPart {
 
     abstract fun material(): MaterialId
 
+    open override fun getColor(state: State, colors: Colors): Color = error("Unsupported!")
+
     open fun requiredSchemaColors() = 0
-}
-
-interface HasColor {
-
-    fun getColor(state: State, colors: Colors): Color
-
 }
 
 interface HasFill {
@@ -75,7 +81,7 @@ interface HasFill {
 data class ColorItemPart(
     val material: MaterialId = MaterialId(0),
     val color: Color? = null,
-) : ItemPart(), HasColor {
+) : ItemPart() {
 
     constructor(color: Color) : this(MaterialId(0), color)
 
@@ -196,6 +202,23 @@ data class MadeFromGem(
 }
 
 @Serializable
+data class MadeFromGlass(
+    val material: MaterialId = MaterialId(0),
+    val color: ColorLookup = LookupMaterial,
+    val opacity: Factor = HALF,
+) : ItemPart(), HasColor {
+
+    constructor(color: Color) : this(MaterialId(0), color =  FixedColor(color))
+
+    override fun getColor(state: State, colors: Colors) = color.lookup(state, colors, material)
+
+    override fun contains(id: MaterialId) = material == id
+    override fun material() = material
+    override fun requiredSchemaColors() = color.requiredSchemaColors()
+
+}
+
+@Serializable
 data class MadeFromLeather(
     val material: MaterialId = MaterialId(0),
     val grade: LeatherGrade = LeatherGrade.Undefined,
@@ -231,6 +254,9 @@ data class MadeFromWood(
 ) : ItemPart(), HasFill {
 
     constructor(color: Color) : this(MaterialId(0), fill = SolidLookup(color))
+
+    override fun getColor(state: State, colors: Colors) = fill.getColor(state, colors, material)
+        ?: error("Not supported by Fill!")
 
     override fun getFill(state: State, colors: Colors) = fill.lookup(state, colors, material)
 

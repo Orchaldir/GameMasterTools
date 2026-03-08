@@ -15,6 +15,7 @@ enum class MaterialCategoryType {
     Undefined,
     Alloy,
     Fiber,
+    Glass,
     Hide,
     Leather,
     Metal,
@@ -30,6 +31,7 @@ sealed class MaterialCategory {
     fun getType() = when (this) {
         is Alloy -> MaterialCategoryType.Alloy
         is Fiber -> MaterialCategoryType.Fiber
+        is Glass -> MaterialCategoryType.Glass
         is Hide -> MaterialCategoryType.Hide
         is Leather -> MaterialCategoryType.Leather
         is Metal -> MaterialCategoryType.Metal
@@ -59,6 +61,10 @@ data class Alloy(
 data class Fiber(
     val weight: Size = Size.Medium,
 ) : MaterialCategory()
+
+@Serializable
+@SerialName("Glass")
+data object Glass : MaterialCategory()
 
 @Serializable
 @SerialName("Hide")

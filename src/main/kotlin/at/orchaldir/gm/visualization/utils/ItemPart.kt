@@ -41,14 +41,15 @@ fun convertToRenderFill(
 ): RenderFill = when (part) {
     is ColorItemPart -> convert(state, part, colors)
     is ColorSchemeItemPart -> convert(state, part, colors)
-    is FillItemPart -> convert(state, part, colors)
-    is FillLookupItemPart -> convert(state, part, colors)
+    is FillItemPart -> convertFill(state, part, colors)
+    is FillLookupItemPart -> convertFill(state, part, colors)
     is MadeFromCord -> convert(state, part, colors)
-    is MadeFromFabric ->  convert(state, part, colors)
+    is MadeFromFabric ->  convertFill(state, part, colors)
     is MadeFromGem ->  convert(state, part, colors)
+    is MadeFromGlass ->  convert(state, part, colors)
     is MadeFromLeather -> convert(state, part, colors)
     is MadeFromMetal -> convert(state, part, colors)
-    is MadeFromWood ->  convert(state, part, colors)
+    is MadeFromWood ->  convertFill(state, part, colors)
 }
 
 private fun convert(
@@ -57,7 +58,7 @@ private fun convert(
     colors: Colors,
 ) = RenderSolid(hasColor.getColor(state, colors).toRender())
 
-private fun convert(
+private fun convertFill(
     state: State,
     hasFill: HasFill,
     colors: Colors,
