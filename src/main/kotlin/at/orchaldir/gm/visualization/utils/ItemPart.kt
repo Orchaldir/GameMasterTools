@@ -45,6 +45,7 @@ fun convertToRenderFill(
     is FillLookupItemPart -> convert(state, part, colors)
     is MadeFromCord -> convert(state, part, colors)
     is MadeFromFabric ->  convert(state, part, colors)
+    is MadeFromGem ->  convert(state, part, colors)
     is MadeFromLeather -> convert(state, part, colors)
     is MadeFromMetal -> convert(state, part, colors)
     is MadeFromWood ->  convert(state, part, colors)

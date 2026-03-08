@@ -18,6 +18,7 @@ val MADE_FROM_METALS = listOf(
     ItemPartType.Metal,
 )
 val SOLID_MATERIALS = listOf(
+    ItemPartType.Gem,
     ItemPartType.Metal,
     ItemPartType.Wood,
 )
@@ -29,6 +30,7 @@ enum class ItemPartType {
     FillLookup,
     Cord,
     Fabric,
+    Gem,
     Leather,
     Metal,
     Wood;
@@ -44,6 +46,7 @@ sealed class ItemPart {
         is FillLookupItemPart -> ItemPartType.FillLookup
         is MadeFromCord -> ItemPartType.Cord
         is MadeFromFabric -> ItemPartType.Fabric
+        is MadeFromGem -> ItemPartType.Gem
         is MadeFromLeather -> ItemPartType.Leather
         is MadeFromMetal -> ItemPartType.Metal
         is MadeFromWood -> ItemPartType.Wood
@@ -177,6 +180,18 @@ data class MadeFromFabric(
     override fun contains(id: MaterialId) = material == id
     override fun material() = material
     override fun requiredSchemaColors() = fill.requiredSchemaColors()
+
+}
+
+@Serializable
+data class MadeFromGem(
+    val material: MaterialId = MaterialId(0),
+) : ItemPart(), HasColor {
+
+    override fun getColor(state: State, colors: Colors) = state.getMaterialColor(material)
+
+    override fun contains(id: MaterialId) = material == id
+    override fun material() = material
 
 }
 

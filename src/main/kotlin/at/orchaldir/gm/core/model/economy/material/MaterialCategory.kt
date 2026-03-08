@@ -7,8 +7,9 @@ import kotlinx.serialization.Serializable
 
 val ALLOYS_OR_METALS = setOf(MaterialCategoryType.Alloy, MaterialCategoryType.Metal)
 val CATEGORIES_FOR_ALLOY = setOf(MaterialCategoryType.Metal)
-val CATEGORIES_FOR_ROCK = setOf(MaterialCategoryType.Mineral)
 val CATEGORIES_FOR_CLOTHING = setOf(MaterialCategoryType.Fiber, MaterialCategoryType.Leather)
+val CATEGORIES_FOR_GEM = setOf(MaterialCategoryType.Mineral)
+val CATEGORIES_FOR_ROCK = setOf(MaterialCategoryType.Mineral)
 
 enum class MaterialCategoryType {
     Undefined,

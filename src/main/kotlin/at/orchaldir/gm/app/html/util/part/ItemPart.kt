@@ -13,6 +13,7 @@ import at.orchaldir.gm.app.html.economy.material.selectMaterial
 import at.orchaldir.gm.app.html.util.color.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.ALLOYS_OR_METALS
+import at.orchaldir.gm.core.model.economy.material.CATEGORIES_FOR_GEM
 import at.orchaldir.gm.core.model.economy.material.LeatherGrade
 import at.orchaldir.gm.core.model.economy.material.Material
 import at.orchaldir.gm.core.model.economy.material.MaterialCategoryType
@@ -27,6 +28,7 @@ import at.orchaldir.gm.core.model.util.part.ItemPart
 import at.orchaldir.gm.core.model.util.part.ItemPartType
 import at.orchaldir.gm.core.model.util.part.MadeFromCord
 import at.orchaldir.gm.core.model.util.part.MadeFromFabric
+import at.orchaldir.gm.core.model.util.part.MadeFromGem
 import at.orchaldir.gm.core.model.util.part.MadeFromLeather
 import at.orchaldir.gm.core.model.util.part.MadeFromMetal
 import at.orchaldir.gm.core.model.util.part.MadeFromWood
@@ -78,6 +80,7 @@ fun HtmlBlockTag.showItemPart(
                 field("Fabric Type", part.type)
                 showFillLookup(part.fill)
             }
+            is MadeFromGem -> fieldLink("Material", call, state, part.material)
             is MadeFromLeather -> {
                 fieldLink("Material", call, state, part.material)
                 field("Leather Grade", part.grade)
@@ -164,6 +167,7 @@ fun HtmlBlockTag.editItemPart(
     allowedTypes: Collection<ItemPartType> = ItemPartType.entries,
 ) {
     val fibers = state.sortMaterials(MaterialCategoryType.Fiber)
+    val gems = state.sortMaterials(CATEGORIES_FOR_GEM)
     val leathers = state.sortMaterials(MaterialCategoryType.Leather)
     val metals = state.sortMaterials(ALLOYS_OR_METALS)
     val woods = state.sortMaterials(MaterialCategoryType.Wood)
@@ -178,6 +182,7 @@ fun HtmlBlockTag.editItemPart(
             when (it) {
                 ItemPartType.Cord -> fibers.isEmpty() && leathers.isEmpty()
                 ItemPartType.Fabric -> fibers.isEmpty()
+                ItemPartType.Gem -> gems.isEmpty()
                 ItemPartType.Leather -> leathers.isEmpty()
                 ItemPartType.Metal -> metals.isEmpty()
                 ItemPartType.Wood -> woods.isEmpty()
@@ -219,6 +224,7 @@ fun HtmlBlockTag.editItemPart(
                 )
                 selectFillLookup(state, part.fill, combine(param, FILL))
             }
+            is MadeFromGem -> selectMaterial(state, param, part.material, gems)
             is MadeFromLeather -> {
                 selectMaterial(state, param, part.material, leathers)
                 selectValue(
@@ -349,6 +355,7 @@ fun parseItemPart(
         parse(parameters, combine(param, FABRIC, TYPE), FabricType.Woven),
         parseFillLookup(parameters, combine(param, FILL)),
     )
+    ItemPartType.Gem -> parseMadeFromGem(parameters, param)
     ItemPartType.Leather -> MadeFromLeather(
         parseMaterialId(parameters, combine(param, MATERIAL)),
         parse(parameters, combine(param, LEATHER, TYPE), LeatherGrade.Undefined),
@@ -367,6 +374,13 @@ fun parseMadeFromCord(
 ) = MadeFromCord(
     parseMaterialId(parameters, combine(param, MATERIAL)),
     parseColorLookup(parameters, combine(param, COLOR)),
+)
+
+fun parseMadeFromGem(
+    parameters: Parameters,
+    param: String,
+) = MadeFromGem(
+    parseMaterialId(parameters, combine(param, MATERIAL)),
 )
 
 fun parseMadeFromMetal(
