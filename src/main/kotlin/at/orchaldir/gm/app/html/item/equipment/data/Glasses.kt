@@ -57,5 +57,5 @@ fun parseGlasses(parameters: Parameters) = Glasses(
     parse(parameters, SHAPE, LensShape.Rectangle),
     parse(parameters, FRAME, FrameType.FullRimmed),
     parseGlass(parameters, LENS),
-    parseColorSchemeItemPart(parameters, FRAME),
+    parseItemPart(parameters, FRAME),
 )
