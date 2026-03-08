@@ -45,10 +45,11 @@ class PaddedSize(
         right += padding
     }
 
-    fun getInnerSize() = baseSize.addWidth(left + right).addHeight(top + bottom)
-    fun getInnerAABB() = AABB(Point2d.square(universial), getInnerSize())
-    fun getFullSize() = getInnerSize() + universial * 2.0f
-    fun getFullAABB() = AABB(getFullSize())
+    fun getInnerAABB() = AABB(Point2d(universial + left, universial + top), baseSize)
+
+    fun getFullSize() = baseSize
+        .addWidth(left + right)
+        .addHeight(top + bottom) + universial * 2.0f
 }
 
 fun calculatePaddedSize(
