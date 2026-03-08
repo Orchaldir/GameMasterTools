@@ -10,10 +10,11 @@ import at.orchaldir.gm.core.model.item.text.book.*
 import at.orchaldir.gm.core.model.item.text.book.typography.Typography
 import at.orchaldir.gm.core.model.item.text.scroll.*
 import at.orchaldir.gm.core.model.util.Size
+import at.orchaldir.gm.core.model.util.part.COVER_MATERIALS
 import at.orchaldir.gm.core.model.util.part.FillItemPart
 import at.orchaldir.gm.core.model.util.part.ItemPart
 import at.orchaldir.gm.core.model.util.part.Segments
-import at.orchaldir.gm.core.model.util.part.WRITING_MATERIALS
+import at.orchaldir.gm.core.model.util.part.PAGE_MATERIALS
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.unit.SiPrefix
 import io.ktor.http.*
@@ -63,19 +64,19 @@ private fun HtmlBlockTag.showBinding(
 
         when (binding) {
             is CopticBinding -> {
-                showFillItemPart(call, state, binding.cover, "Cover")
+                showItemPart(call, state, binding.cover, "Cover")
                 showSewingPattern(call, state, binding.sewingPattern)
             }
 
             is Hardcover -> {
-                showFillItemPart(call, state, binding.cover, "Cover")
+                showItemPart(call, state, binding.cover, "Cover")
                 showBossesPattern(call, state, binding.bosses)
                 showEdgeProtection(call, state, binding.protection)
             }
 
             is LeatherBinding -> {
-                showFillItemPart(call, state, binding.cover, "Cover")
-                showColorItemPart(call, state, binding.leather, "Leather")
+                showItemPart(call, state, binding.cover, "Cover")
+                showItemPart(call, state, binding.leather, "Leather")
                 field("Leather Binding", binding.style)
             }
         }
@@ -185,7 +186,7 @@ fun HtmlBlockTag.editTextFormat(
             UndefinedTextFormat -> doNothing()
             is Book -> {
                 selectInt("Pages", format.pages, MIN_PAGES, 10000, 1, PAGES)
-                editItemPart(state, format.page, PAGE, "Page", WRITING_MATERIALS)
+                editItemPart(state, format.page, PAGE, "Page", PAGE_MATERIALS)
                 editBinding(state, format.binding, hasAuthor)
                 selectSize(SIZE, format.size, MIN_TEXT_SIZE, MAX_TEXT_SIZE, prefix)
             }
@@ -214,7 +215,7 @@ fun HtmlBlockTag.editTextFormat(
                     MIN_PAGE_WIDTH_FACTOR,
                     MAX_PAGE_WIDTH_FACTOR,
                 )
-                editItemPart(state, format.main, SCROLL, allowedTypes = WRITING_MATERIALS)
+                editItemPart(state, format.main, SCROLL, allowedTypes = PAGE_MATERIALS)
                 editScrollFormat(state, format.format)
             }
         }
@@ -243,7 +244,7 @@ private fun HtmlBlockTag.editBinding(
 
             is LeatherBinding -> {
                 editCover(state, binding.cover, binding.typography, hasAuthor)
-                editColorItemPart(state, binding.leather, LEATHER)
+                editItemPart(state, binding.leather, LEATHER, "Leather", COVER_MATERIALS)
                 selectValue(
                     "Leather Binding",
                     combine(LEATHER, BINDING),
@@ -257,12 +258,12 @@ private fun HtmlBlockTag.editBinding(
 
 private fun HtmlBlockTag.editCover(
     state: State,
-    cover: FillItemPart,
+    cover: ItemPart,
     typography: Typography,
     hasAuthor: Boolean,
 ) {
     showDetails("Cover", true) {
-        editFillItemPart(state, cover, COVER)
+        editItemPart(state, cover, COVER, allowedTypes = COVER_MATERIALS)
         editTypography(state, typography, hasAuthor)
     }
 }
@@ -417,13 +418,13 @@ fun parseTextFormat(parameters: Parameters) = when (parse(parameters, FORMAT, Te
 
 private fun parseBinding(parameters: Parameters) = when (parse(parameters, BINDING, BookBindingType.Hardcover)) {
     BookBindingType.Coptic -> CopticBinding(
-        parseFillItemPart(parameters, COVER),
+        parseItemPart(parameters, COVER),
         parseTextTypography(parameters),
         parseSewing(parameters),
     )
 
     BookBindingType.Hardcover -> Hardcover(
-        parseFillItemPart(parameters, COVER),
+        parseItemPart(parameters, COVER),
         parseTextTypography(parameters),
         parseBosses(parameters),
         parseEdgeProtection(parameters),
@@ -431,8 +432,8 @@ private fun parseBinding(parameters: Parameters) = when (parse(parameters, BINDI
 
     BookBindingType.Leather -> LeatherBinding(
         parse(parameters, combine(LEATHER, BINDING), LeatherBindingStyle.Half),
-        parseFillItemPart(parameters, COVER),
-        parseColorItemPart(parameters, LEATHER),
+        parseItemPart(parameters, COVER),
+        parseItemPart(parameters, LEATHER),
         parseTextTypography(parameters),
     )
 }

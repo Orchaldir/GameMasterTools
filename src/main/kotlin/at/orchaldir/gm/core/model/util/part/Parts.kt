@@ -3,13 +3,10 @@ package at.orchaldir.gm.core.model.util.part
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.LeatherGrade
 import at.orchaldir.gm.core.model.economy.material.MaterialId
-import at.orchaldir.gm.core.model.util.part.MadeFromFabric
-import at.orchaldir.gm.core.model.util.part.MadeFromMetal
 import at.orchaldir.gm.core.model.util.render.*
 import at.orchaldir.gm.core.selector.economy.getMaterialColor
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.HALF
-import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 val CLOTHING_MATERIALS = listOf(
@@ -25,9 +22,15 @@ val SOLID_MATERIALS = listOf(
     ItemPartType.Metal,
     ItemPartType.Wood,
 )
-val WRITING_MATERIALS = listOf(
+val PAGE_MATERIALS = listOf(
     ItemPartType.Leather,
     ItemPartType.Paper,
+)
+val COVER_MATERIALS = listOf(
+    ItemPartType.Fabric,
+    ItemPartType.Leather,
+    ItemPartType.Paper,
+    ItemPartType.Wood,
 )
 
 enum class ItemPartType {

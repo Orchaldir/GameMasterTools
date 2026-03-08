@@ -4,25 +4,40 @@
   "0": {
    "id": 0,
    "format": {
-    "#type": "Scroll",
-    "format": {
-     "#type": "OneRod",
-     "handle": {
-      "segments": [
-       {
-        "length": 2000,
-        "diameter": 5000,
-        "main": {
-         "#type": "at.orchaldir.gm.core.model.util.part.ColorItemPart"
-        }
+    "#type": "Book",
+    "binding": {
+     "#type": "Leather",
+     "style": "Quarter",
+     "cover": {
+      "#type": "at.orchaldir.gm.core.model.util.part.MadeFromWood",
+      "material": 11,
+      "fill": {
+       "#type": "Solid",
+       "color": {
+        "#type": "Fixed",
+        "color": "Gray"
        }
-      ]
+      }
+     },
+     "leather": {
+      "#type": "at.orchaldir.gm.core.model.util.part.MadeFromWood",
+      "material": 11,
+      "fill": {
+       "#type": "Solid",
+       "color": {
+        "#type": "Fixed",
+        "color": "SkyBlue"
+       }
+      }
      }
     },
-    "rollDiameter": 59000,
-    "main": {
+    "page": {
      "#type": "at.orchaldir.gm.core.model.util.part.MadeFromPaper",
      "material": 17
+    },
+    "size": {
+     "width": 100000,
+     "height": 150000
     }
    },
    "content": {
