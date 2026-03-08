@@ -4,7 +4,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.text.Book
 import at.orchaldir.gm.core.model.item.text.book.Hardcover
 import at.orchaldir.gm.core.model.item.text.book.ProtectedEdge
-import at.orchaldir.gm.core.model.util.part.FillItemPart
 import at.orchaldir.gm.core.model.util.part.MadeFromLeather
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.prototypes.visualization.addNames
@@ -24,7 +23,7 @@ fun main() {
         addNames(listOf(Color.Gray, Color.Gold)),
     ) { size, color ->
         val protection = ProtectedEdge(fromPercentage(size), MadeFromLeather(color))
-        val binding = Hardcover(FillItemPart(Color.Green), protection = protection)
+        val binding = Hardcover(MadeFromLeather(Color.Green), protection = protection)
 
         Book(binding, size = bookSize)
     }

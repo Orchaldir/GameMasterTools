@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.model.item.text.book.BossesShape
 import at.orchaldir.gm.core.model.item.text.book.Hardcover
 import at.orchaldir.gm.core.model.item.text.book.SimpleBossesPattern
 import at.orchaldir.gm.core.model.util.Size
-import at.orchaldir.gm.core.model.util.part.FillItemPart
+import at.orchaldir.gm.core.model.util.part.MadeFromLeather
 import at.orchaldir.gm.core.model.util.part.MadeFromMetal
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.math.Size2d
@@ -37,7 +37,7 @@ fun main() {
             Pair("3", listOf(1)),
         ),
     ) { (shape, size), pattern ->
-        val cover = FillItemPart(Color.SaddleBrown)
+        val cover = MadeFromLeather(Color.SaddleBrown)
         val bosses = SimpleBossesPattern(pattern, shape, size, MadeFromMetal())
         val binding = Hardcover(cover, bosses = bosses)
 

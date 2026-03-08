@@ -38,11 +38,6 @@ fun HtmlBlockTag.showItemPart(
                 fieldColorLookup("Color", part.lookup)
             }
 
-            is FillItemPart -> {
-                fieldLink("Material", call, state, part.material)
-                showOptionalFill(part.fill)
-            }
-
             is FillLookupItemPart -> {
                 fieldLink("Material", call, state, part.material)
                 showFillLookup(part.fill)
@@ -84,42 +79,6 @@ fun HtmlBlockTag.showItemPart(
                 showFillLookup(part.fill)
             }
         }
-    }
-}
-
-fun HtmlBlockTag.showColorSchemeItemPart(
-    call: ApplicationCall,
-    state: State,
-    part: ColorSchemeItemPart,
-    label: String? = null,
-) {
-    showDetails(label, true) {
-        fieldLink("Material", call, state, part.material)
-        fieldColorLookup("Color", part.lookup)
-    }
-}
-
-fun HtmlBlockTag.showFillItemPart(
-    call: ApplicationCall,
-    state: State,
-    part: FillItemPart,
-    label: String? = null,
-) {
-    showDetails(label, true) {
-        fieldLink("Material", call, state, part.material)
-        showOptionalFill(part.fill)
-    }
-}
-
-fun HtmlBlockTag.showFillLookupItemPart(
-    call: ApplicationCall,
-    state: State,
-    part: FillLookupItemPart,
-    label: String? = null,
-) {
-    showDetails(label, true) {
-        fieldLink("Material", call, state, part.material)
-        showFillLookup(part.fill)
     }
 }
 
@@ -181,11 +140,6 @@ fun HtmlBlockTag.editItemPart(
                 param,
                 state.getMaterialStorage().getAll()
             )
-
-            is FillItemPart -> {
-                selectMaterial(state, part.material, param)
-                selectOptionalFill(part.fill, combine(param, FILL))
-            }
 
             is FillLookupItemPart -> {
                 selectMaterial(state, part.material, param)
@@ -293,18 +247,6 @@ fun HtmlBlockTag.editColorSchemeItemPart(
     }
 }
 
-fun HtmlBlockTag.editFillItemPart(
-    state: State,
-    part: FillItemPart,
-    param: String,
-    label: String? = null,
-) {
-    showDetails(label, true) {
-        selectMaterial(state, part.material, combine(param, MATERIAL))
-        selectOptionalFill(part.fill, combine(param, FILL))
-    }
-}
-
 fun HtmlBlockTag.editFillLookupItemPart(
     state: State,
     part: FillLookupItemPart,
@@ -335,7 +277,6 @@ fun parseItemPart(
     default: ItemPartType = ItemPartType.Metal, //  TODO
 ) = when (parse(parameters, combine(param, TYPE), default)) {
     ItemPartType.ColorScheme -> parseColorSchemeItemPart(parameters, param)
-    ItemPartType.Fill -> parseFillItemPart(parameters, param)
     ItemPartType.FillLookup -> parseFillLookupItemPart(parameters, param)
     ItemPartType.Cord -> parseMadeFromCord(parameters, param)
     ItemPartType.Fabric -> MadeFromFabric(
@@ -407,11 +348,6 @@ fun parsePaper(
 fun parseColorSchemeItemPart(parameters: Parameters, param: String) = ColorSchemeItemPart(
     parseMaterialId(parameters, combine(param, MATERIAL)),
     parseColorLookup(parameters, combine(param, COLOR)),
-)
-
-fun parseFillItemPart(parameters: Parameters, param: String) = FillItemPart(
-    parseMaterialId(parameters, combine(param, MATERIAL)),
-    parseOptionalFill(parameters, combine(param, FILL)),
 )
 
 fun parseFillLookupItemPart(parameters: Parameters, param: String) = FillLookupItemPart(

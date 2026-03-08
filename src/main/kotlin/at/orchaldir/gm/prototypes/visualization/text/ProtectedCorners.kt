@@ -5,7 +5,7 @@ import at.orchaldir.gm.core.model.item.text.Book
 import at.orchaldir.gm.core.model.item.text.book.CornerShape
 import at.orchaldir.gm.core.model.item.text.book.Hardcover
 import at.orchaldir.gm.core.model.item.text.book.ProtectedCorners
-import at.orchaldir.gm.core.model.util.part.FillItemPart
+import at.orchaldir.gm.core.model.util.part.MadeFromLeather
 import at.orchaldir.gm.core.model.util.part.MadeFromMetal
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.prototypes.visualization.addNames
@@ -25,7 +25,7 @@ fun main() {
         addNames(CornerShape.entries),
     ) { size, shape ->
         val protection = ProtectedCorners(shape, fromPercentage(size), MadeFromMetal())
-        val binding = Hardcover(FillItemPart(Color.Green), protection = protection)
+        val binding = Hardcover(MadeFromLeather(Color.Green), protection = protection)
 
         Book(binding, size = bookSize)
     }

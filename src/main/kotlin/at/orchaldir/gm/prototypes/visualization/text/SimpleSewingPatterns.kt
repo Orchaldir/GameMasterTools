@@ -7,8 +7,8 @@ import at.orchaldir.gm.core.model.item.text.book.SimpleSewingPattern
 import at.orchaldir.gm.core.model.item.text.book.StitchType.Empty
 import at.orchaldir.gm.core.model.item.text.book.StitchType.Kettle
 import at.orchaldir.gm.core.model.util.Size
-import at.orchaldir.gm.core.model.util.part.FillItemPart
 import at.orchaldir.gm.core.model.util.part.MadeFromCord
+import at.orchaldir.gm.core.model.util.part.MadeFromLeather
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
@@ -39,7 +39,7 @@ fun main() {
         ),
     ) { (sewingSize, sewingLength), pattern ->
         val sewingPattern = SimpleSewingPattern(MadeFromCord(Color.Red), sewingSize, sewingLength, pattern)
-        val binding = CopticBinding(FillItemPart(Color.SaddleBrown), sewingPattern = sewingPattern)
+        val binding = CopticBinding(MadeFromLeather(Color.SaddleBrown), sewingPattern = sewingPattern)
 
         Book(binding, size = size)
     }

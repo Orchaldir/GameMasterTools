@@ -3,7 +3,6 @@ package at.orchaldir.gm.prototypes.visualization.text
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.text.Book
 import at.orchaldir.gm.core.model.item.text.book.*
-import at.orchaldir.gm.core.model.util.part.FillItemPart
 import at.orchaldir.gm.core.model.util.part.MadeFromCord
 import at.orchaldir.gm.core.model.util.part.MadeFromLeather
 import at.orchaldir.gm.core.model.util.render.Color
@@ -24,7 +23,7 @@ fun main() {
         addNames(listOf(Color.Blue, Color.Red, Color.Black, Color.Green)),
         addNames(BookBindingType.entries),
     ) { color, type ->
-        val cover = FillItemPart(color)
+        val cover = MadeFromLeather(color)
         val binding = when (type) {
             BookBindingType.Coptic -> CopticBinding(cover, sewingPattern = sewingPattern)
             BookBindingType.Hardcover -> Hardcover(cover)
