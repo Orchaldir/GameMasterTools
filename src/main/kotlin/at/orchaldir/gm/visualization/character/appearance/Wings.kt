@@ -53,7 +53,7 @@ private fun visualizeWing(
     color: Color,
     createLeftWing: (CharacterRenderState<Body>) -> Polygon2d,
 ) {
-    val options = state.config.getLineOptions(color)
+    val options = state.config.getFillAndBorder(color)
 
     visualizeWing(state, side, options, createLeftWing)
 }

@@ -48,7 +48,7 @@ private fun visualizeParrot(state: CharacterRenderState<Head>, beak: Beak) {
     val upperHeight = fromPercentage(25)
     val peakHeight = fromPercentage(35)
     val y = state.config.head.mouth.y
-    val options = state.config.getLineOptions(beak.color)
+    val options = state.config.getFillAndBorder(beak.color)
     val aabb = state.headAABB()
     val upperPolygon = Polygon2dBuilder()
         .addMirroredPoints(aabb, width * 0.5f, y - upperHeight)
@@ -70,7 +70,7 @@ private fun visualizeSharpBeak(
     isSharp: Boolean,
 ) {
     val y = state.config.head.mouth.y
-    val options = state.config.getLineOptions(beak.color)
+    val options = state.config.getFillAndBorder(beak.color)
     val aabb = state.headAABB()
     val lowerPolygon = Polygon2dBuilder()
         .addMirroredPoints(aabb, width, y, true)
@@ -96,7 +96,7 @@ private fun visualizeDuckBeak(state: CharacterRenderState<Head>, beak: Beak) {
     val upperHeight1 = fromPercentage(10)
     val upperWidth = fromPercentage(50)
     val y = state.config.head.mouth.y
-    val options = state.config.getLineOptions(beak.color)
+    val options = state.config.getFillAndBorder(beak.color)
     val aabb = state.headAABB()
     val lowerPolygon = Polygon2dBuilder()
         .addMirroredPoints(aabb, lowerWidth, y, true)
