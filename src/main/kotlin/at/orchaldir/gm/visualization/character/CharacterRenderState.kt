@@ -99,6 +99,16 @@ data class CharacterRenderState<T>(
             right
         }
     }
+
+    fun getPosition(
+        front: Point2d,
+        back: Point2d,
+    ) = if (renderFront) {
+        front
+    } else {
+        back
+    }
+
 }
 
 
