@@ -2,13 +2,15 @@ package at.orchaldir.gm.app.html.item.equipment.style
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.util.part.editColorSchemeItemPart
-import at.orchaldir.gm.app.html.util.part.parseColorSchemeItemPart
-import at.orchaldir.gm.app.html.util.part.showColorSchemeItemPart
+import at.orchaldir.gm.app.html.util.part.editItemPart
+import at.orchaldir.gm.app.html.util.part.parseItemPart
+import at.orchaldir.gm.app.html.util.part.parseMadeFromMetal
+import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.Size
+import at.orchaldir.gm.core.model.util.part.ItemPartType
+import at.orchaldir.gm.core.model.util.part.SOLID_MATERIALS
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -32,7 +34,7 @@ fun HtmlBlockTag.showOpeningStyle(
                 field("Space between Columns", openingStyle.spaceBetweenColumns)
             }
 
-            is Zipper -> showColorSchemeItemPart(call, state, openingStyle.part, "Zipper")
+            is Zipper -> showItemPart(call, state, openingStyle.main, "Zipper")
         }
     }
 }
@@ -44,7 +46,7 @@ private fun HtmlBlockTag.showButtons(
 ) {
     field("Button Count", buttonColumn.count.toString())
     field("Button Size", buttonColumn.button.size)
-    showColorSchemeItemPart(call, state, buttonColumn.button.part, "Button")
+    showItemPart(call, state, buttonColumn.button.main, "Button")
 }
 
 // edit
@@ -66,7 +68,13 @@ fun HtmlBlockTag.selectOpeningStyle(state: State, openingStyle: OpeningStyle) {
                 )
             }
 
-            is Zipper -> editColorSchemeItemPart(state, openingStyle.part, ZIPPER, "Zipper")
+            is Zipper -> editItemPart(
+                state,
+                openingStyle.main,
+                ZIPPER,
+                "Zipper",
+                SOLID_MATERIALS,
+            )
         }
     }
 }
@@ -74,7 +82,13 @@ fun HtmlBlockTag.selectOpeningStyle(state: State, openingStyle: OpeningStyle) {
 private fun HtmlBlockTag.selectButtons(state: State, buttonColumn: ButtonColumn) {
     selectInt("Button Count", buttonColumn.count.toInt(), 1, 20, 1, combine(BUTTON, NUMBER))
     selectValue("Button Size", combine(BUTTON, SIZE), Size.entries, buttonColumn.button.size)
-    editColorSchemeItemPart(state, buttonColumn.button.part, BUTTON, "Button")
+    editItemPart(
+        state,
+        buttonColumn.button.main,
+        BUTTON,
+        "Button",
+        ItemPartType.Metal
+    )
 }
 
 
@@ -103,14 +117,14 @@ fun parseOpeningStyle(parameters: Parameters): OpeningStyle {
             parse(parameters, SPACE_BETWEEN_COLUMNS, Size.Medium)
         )
 
-        OpeningType.Zipper -> Zipper(parseColorSchemeItemPart(parameters, ZIPPER))
+        OpeningType.Zipper -> Zipper(parseMadeFromMetal(parameters, ZIPPER))
     }
 }
 
 private fun parseButtonColumn(parameters: Parameters) = ButtonColumn(
     Button(
         parse(parameters, combine(BUTTON, SIZE), Size.Medium),
-        parseColorSchemeItemPart(parameters, BUTTON),
+        parseItemPart(parameters, BUTTON),
     ),
     parameters[combine(BUTTON, NUMBER)]?.toUByte() ?: 1u,
 )

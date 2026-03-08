@@ -2,6 +2,8 @@ package at.orchaldir.gm.core.model.item.equipment.style
 
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
+import at.orchaldir.gm.core.model.util.part.ItemPart
+import at.orchaldir.gm.core.model.util.part.MadeFromMetal
 import at.orchaldir.gm.core.model.util.part.MadeFromParts
 import at.orchaldir.gm.core.model.util.render.Color
 import kotlinx.serialization.SerialName
@@ -28,7 +30,7 @@ sealed class OpeningStyle : MadeFromParts {
         NoOpening -> emptyList()
         is SingleBreasted -> buttons.parts()
         is DoubleBreasted -> buttons.parts()
-        is Zipper -> listOf(part)
+        is Zipper -> listOf(main)
     }
 }
 
@@ -52,5 +54,5 @@ data class DoubleBreasted(
 @Serializable
 @SerialName("Zipper")
 data class Zipper(
-    val part: ColorSchemeItemPart = ColorSchemeItemPart(Color.Silver),
+    val main: MadeFromMetal = MadeFromMetal(),
 ) : OpeningStyle()
