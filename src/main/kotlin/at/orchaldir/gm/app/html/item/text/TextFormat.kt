@@ -16,6 +16,7 @@ import at.orchaldir.gm.core.model.util.part.ItemPart
 import at.orchaldir.gm.core.model.util.part.ItemPartType
 import at.orchaldir.gm.core.model.util.part.Segments
 import at.orchaldir.gm.core.model.util.part.PAGE_MATERIALS
+import at.orchaldir.gm.core.model.util.part.SOLID_MATERIALS
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.unit.SiPrefix
 import io.ktor.http.*
@@ -98,7 +99,7 @@ private fun HtmlBlockTag.showBossesPattern(
             is SimpleBossesPattern -> {
                 field("Shape", pattern.shape)
                 field("Size", pattern.size)
-                showColorItemPart(call, state, pattern.boss)
+                showItemPart(call, state, pattern.boss)
                 field("Pattern", pattern.pattern.toString())
             }
         }
@@ -281,7 +282,7 @@ private fun HtmlBlockTag.editBossesPattern(
             is SimpleBossesPattern -> {
                 selectValue("Bosses Shape", combine(BOSSES, SHAPE), BossesShape.entries, bosses.shape)
                 selectValue("Bosses Size", combine(BOSSES, SIZE), Size.entries, bosses.size)
-                editColorItemPart(state, bosses.boss, BOSSES)
+                editItemPart(state, bosses.boss, BOSSES, allowedTypes = SOLID_MATERIALS)
                 selectInt("Bosses Pattern Size", bosses.pattern.size, 1, 20, 1, combine(BOSSES, NUMBER))
 
                 showListWithIndex(bosses.pattern) { index, count ->
@@ -444,7 +445,7 @@ private fun parseBosses(parameters: Parameters) = when (parse(parameters, BOSSES
         parseBossesPattern(parameters),
         parse(parameters, combine(BOSSES, SHAPE), BossesShape.Circle),
         parse(parameters, combine(BOSSES, SIZE), Size.Medium),
-        parseColorItemPart(parameters, BOSSES),
+        parseItemPart(parameters, BOSSES),
     )
 
     BossesPatternType.None -> NoBosses
