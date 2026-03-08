@@ -13,6 +13,7 @@ import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.part.COVER_MATERIALS
 import at.orchaldir.gm.core.model.util.part.FillItemPart
 import at.orchaldir.gm.core.model.util.part.ItemPart
+import at.orchaldir.gm.core.model.util.part.ItemPartType
 import at.orchaldir.gm.core.model.util.part.Segments
 import at.orchaldir.gm.core.model.util.part.PAGE_MATERIALS
 import at.orchaldir.gm.utils.doNothing
@@ -138,7 +139,7 @@ private fun HtmlBlockTag.showSewingPattern(
 
         when (pattern) {
             is SimpleSewingPattern -> {
-                showColorItemPart(call, state, pattern.thread)
+                showItemPart(call, state, pattern.thread)
                 field("Size", pattern.size)
                 field("Distance Between Edge & Hole", pattern.length)
                 fieldList("Stitches", pattern.stitches) { stitch ->
@@ -148,7 +149,7 @@ private fun HtmlBlockTag.showSewingPattern(
 
             is ComplexSewingPattern -> {
                 showList(pattern.stitches) { complex ->
-                    showColorItemPart(call, state, complex.thread)
+                    showItemPart(call, state, complex.thread)
                     field("Size", complex.size)
                     field("Distance Between Edge & Hole", complex.length)
                     field("Stitch", complex.stitch)
@@ -335,7 +336,7 @@ private fun HtmlBlockTag.editSewingPattern(state: State, pattern: SewingPattern)
 
         when (pattern) {
             is SimpleSewingPattern -> {
-                editColorItemPart(state, pattern.thread, SEWING, "Thread")
+                editItemPart(state, pattern.thread, SEWING, allowedType = ItemPartType.Cord)
                 selectValue("Size", combine(SEWING, SIZE), Size.entries, pattern.size)
                 selectValue("Distance Between Edge & Hole", combine(SEWING, LENGTH), Size.entries, pattern.length)
                 editSewingPattern(pattern.stitches) { elementParam, element ->
@@ -345,7 +346,7 @@ private fun HtmlBlockTag.editSewingPattern(state: State, pattern: SewingPattern)
 
             is ComplexSewingPattern -> {
                 editSewingPattern(pattern.stitches) { elementParam, element ->
-                    editColorItemPart(state, element.thread, elementParam, "Thread")
+                    editItemPart(state, element.thread, elementParam, allowedType = ItemPartType.Cord)
                     selectValue("Size", combine(elementParam, SIZE), Size.entries, element.size)
                     selectValue(
                         "Distance Between Edge & Hole",
@@ -474,7 +475,7 @@ private fun parseEdgeProtection(parameters: Parameters) = when (parse(parameters
 
 private fun parseSewing(parameters: Parameters) = when (parse(parameters, SEWING, SewingPatternType.Simple)) {
     SewingPatternType.Simple -> SimpleSewingPattern(
-        parseColorItemPart(parameters, SEWING),
+        parseItemPart(parameters, SEWING),
         parse(parameters, combine(SEWING, SIZE), Size.Medium),
         parse(parameters, combine(SEWING, LENGTH), Size.Medium),
         parseSimplePattern(parameters),
@@ -489,7 +490,7 @@ private fun parseSimplePattern(parameters: Parameters) = parseList(parameters, S
 
 private fun parseComplexPattern(parameters: Parameters) = parseList(parameters, SEWING, 2) { _, param ->
     ComplexStitch(
-        parseColorItemPart(parameters, param),
+        parseItemPart(parameters, param),
         parse(parameters, combine(param, SIZE), Size.Medium),
         parse(parameters, combine(param, LENGTH), Size.Medium),
         parse(parameters, param, StitchType.Kettle),

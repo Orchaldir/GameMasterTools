@@ -6,8 +6,7 @@
    "format": {
     "#type": "Book",
     "binding": {
-     "#type": "Leather",
-     "style": "Quarter",
+     "#type": "Coptic",
      "cover": {
       "#type": "at.orchaldir.gm.core.model.util.part.MadeFromWood",
       "material": 11,
@@ -19,16 +18,23 @@
        }
       }
      },
-     "leather": {
-      "#type": "at.orchaldir.gm.core.model.util.part.MadeFromWood",
-      "material": 11,
-      "fill": {
-       "#type": "Solid",
+     "sewingPattern": {
+      "#type": "Simple",
+      "thread": {
+       "#type": "at.orchaldir.gm.core.model.util.part.MadeFromCord",
+       "material": 14,
        "color": {
         "#type": "Fixed",
-        "color": "SkyBlue"
+        "color": "Aqua"
        }
-      }
+      },
+      "size": "Large",
+      "length": "Large",
+      "stitches": [
+       "Kettle",
+       "Empty",
+       "Kettle"
+      ]
      }
     },
     "page": {
