@@ -2,7 +2,30 @@
  "version": 1,
  "elements": {
   "0": {
-   "id": 0
+   "id": 0,
+   "data": {
+    "#type": "Necklace",
+    "style": {
+     "#type": "Pendant",
+     "ornament": {
+      "#type": "Border",
+      "center": {
+       "#type": "at.orchaldir.gm.core.model.util.part.MadeFromMetal"
+      },
+      "border": {
+       "#type": "at.orchaldir.gm.core.model.util.part.MadeFromMetal",
+       "material": 2
+      }
+     },
+     "line": {
+      "#type": "Wire",
+      "main": {
+       "material": 2
+      }
+     }
+    },
+    "length": "Matinee"
+   }
   }
  }
 }

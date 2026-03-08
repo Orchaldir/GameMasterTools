@@ -193,7 +193,7 @@ private fun HtmlBlockTag.editNamingConvention(
     when (namingConvention) {
         is FamilyConvention -> {
             selectValue("Name Order", combine(NAME, ORDER), NameOrder.entries, namingConvention.nameOrder)
-            selectRarityMap("Middle Name Options", MIDDLE_NAME, namingConvention.middleNameOptions)
+            selectRarityMap("Middle Name Options", combine(MIDDLE, NAME), namingConvention.middleNameOptions)
             selectNamesByGender(state, "Given Names", namingConvention.givenNames, NAMES)
             field("Family Names") {
                 selectNameList(FAMILY_NAMES, state, namingConvention.familyNames)
@@ -327,7 +327,12 @@ fun parseNamingConvention(
 
         Family.toString() -> FamilyConvention(
             parse(parameters, combine(NAME, ORDER), GivenNameFirst),
-            parseOneOf(parameters, MIDDLE_NAME, MiddleNameOption::valueOf, MiddleNameOption.entries),
+            parseOneOf(
+                parameters,
+                combine(MIDDLE, NAME),
+                MiddleNameOption::valueOf,
+                MiddleNameOption.entries,
+            ),
             parseNamesByGender(parameters, NAMES),
             parseNameListId(parameters, FAMILY_NAMES)
         )

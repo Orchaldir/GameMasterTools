@@ -1,6 +1,8 @@
 package at.orchaldir.gm.app.html.item.equipment.style
 
 import at.orchaldir.gm.app.BORDER
+import at.orchaldir.gm.app.MAIN
+import at.orchaldir.gm.app.MIDDLE
 import at.orchaldir.gm.app.ORNAMENT
 import at.orchaldir.gm.app.SHAPE
 import at.orchaldir.gm.app.TYPE
@@ -60,7 +62,12 @@ fun HtmlBlockTag.editOrnament(
         when (ornament) {
             is SimpleOrnament -> {
                 selectComplexShape(ornament.shape, combine(param, SHAPE))
-                editItemPart(state, ornament.part, param, allowedTypes = SOLID_MATERIALS)
+                editItemPart(
+                    state,
+                    ornament.part,
+                    combine(param, MAIN),
+                    allowedTypes = SOLID_MATERIALS,
+                )
             }
 
             is OrnamentWithBorder -> {
@@ -72,14 +79,14 @@ fun HtmlBlockTag.editOrnament(
                 editItemPart(
                     state,
                     ornament.center,
-                    param,
+                    combine(param, MIDDLE),
                     "Center",
                     SOLID_MATERIALS,
                 )
                 editItemPart(
                     state,
                     ornament.border,
-                    combine(param, BORDER),
+                    combine(param, MAIN),
                     "Border",
                     SOLID_MATERIALS,
                 )
@@ -96,13 +103,13 @@ fun parseOrnament(parameters: Parameters, param: String = ORNAMENT): Ornament {
     return when (type) {
         OrnamentType.Simple -> SimpleOrnament(
             parseComplexShape(parameters, combine(param, SHAPE)),
-            parseFillLookupItemPart(parameters, param),
+            parseItemPart(parameters, combine(param, MAIN)),
         )
 
         OrnamentType.Border -> OrnamentWithBorder(
             parseComplexShape(parameters, combine(param, SHAPE)),
-            parseFillLookupItemPart(parameters, param),
-            parseColorSchemeItemPart(parameters, combine(param, BORDER)),
+            parseItemPart(parameters, combine(param, MIDDLE)),
+            parseItemPart(parameters, combine(param, MAIN)),
         )
     }
 }
