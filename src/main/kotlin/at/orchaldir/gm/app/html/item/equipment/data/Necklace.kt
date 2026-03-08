@@ -83,7 +83,7 @@ fun HtmlBlockTag.editNecklace(
 // parse
 
 fun parseNecklace(parameters: Parameters): Necklace {
-    val type = parse(parameters, STYLE, NecklaceStyleType.Pendant)
+    val type = parse(parameters, combine(NECKLACE, STYLE), NecklaceStyleType.Pendant)
 
     return Necklace(
         when (type) {

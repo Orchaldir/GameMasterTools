@@ -44,7 +44,7 @@ fun main() {
             Factor.fromPercentage(100),
             SimpleOrnament(Circle, Silver),
             OrnamentWithBorder(Teardrop, Blue, Silver),
-            ColorSchemeItemPart(Silver),
+            Wire(),
         ),
         Cord(MadeFromCord(Silver), Small),
     )

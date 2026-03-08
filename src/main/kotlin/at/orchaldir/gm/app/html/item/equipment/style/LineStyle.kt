@@ -64,9 +64,15 @@ fun HtmlBlockTag.editLineStyle(
     line: LineStyle,
     label: String,
     param: String,
+    allowedTypes: Collection<LineStyleType> = LineStyleType.entries,
 ) {
     showDetails(label, true) {
-        selectValue("Style", combine(param, STYLE), LineStyleType.entries, line.getType())
+        selectValue(
+            "Style",
+            combine(param, STYLE),
+            allowedTypes,
+            line.getType(),
+        )
 
         when (line) {
             is Chain -> selectThicknessAndPart(state, param, line.thickness, line.main, ItemPartType.Metal)
@@ -113,12 +119,17 @@ fun parseLineStyle(parameters: Parameters, param: String): LineStyle {
             parseThickness(parameters, param),
         )
 
-        LineStyleType.Wire -> Wire(
-            parseThickness(parameters, param),
-            parseMadeFromMetal(parameters, combine(param, MAIN)),
-        )
+        LineStyleType.Wire -> parseWire(parameters, param)
     }
 }
+
+fun parseWire(
+    parameters: Parameters,
+    param: String,
+): Wire = Wire(
+    parseThickness(parameters, param),
+    parseMadeFromMetal(parameters, combine(param, MAIN)),
+)
 
 private fun parseThickness(parameters: Parameters, param: String) =
     parse(parameters, combine(param, SIZE), Size.Medium)
