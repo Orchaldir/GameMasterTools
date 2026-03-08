@@ -32,7 +32,6 @@ fun convertToRenderFill(
     colors: Colors,
     part: ItemPart,
 ): RenderFill = when (part) {
-    is ColorSchemeItemPart -> convert(state, part, colors)
     is FillLookupItemPart -> convertFill(state, part, colors)
     is MadeFromCord -> convert(state, part, colors)
     is MadeFromFabric -> convertFill(state, part, colors)

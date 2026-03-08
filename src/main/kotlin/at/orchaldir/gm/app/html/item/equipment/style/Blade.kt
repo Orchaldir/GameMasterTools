@@ -45,7 +45,7 @@ private fun DETAILS.showSimpleBlade(
     field("Shape", blade.shape)
     fieldFactor("Length relative to Character", blade.length)
     fieldFactor("Width relative to Grip", blade.width)
-    showItemPart(call, state, blade.part)
+    showItemPart(call, state, blade.main)
 }
 
 // edit
@@ -94,7 +94,7 @@ private fun DETAILS.editSimpleBlade(
         MIN_BLADE_WIDTH,
         MAX_BLADE_WIDTH,
     )
-    editItemPart(state, blade.part, param, allowedTypes = MADE_FROM_METALS)
+    editItemPart(state, blade.main, param, allowedTypes = MADE_FROM_METALS)
 }
 
 // parse

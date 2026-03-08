@@ -1,8 +1,8 @@
 package at.orchaldir.gm.core.model.item.equipment.style
 
 import at.orchaldir.gm.core.model.economy.material.MaterialId
-import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
 import at.orchaldir.gm.core.model.util.part.ItemPart
+import at.orchaldir.gm.core.model.util.part.MadeFromMetal
 import at.orchaldir.gm.core.model.util.part.MadeFromParts
 import at.orchaldir.gm.utils.math.CircularArrangement
 import at.orchaldir.gm.utils.math.FULL
@@ -72,21 +72,21 @@ data object NoClubHead : ClubHead
 @SerialName("Simple")
 data class SimpleClubHead(
     val shape: ComplexShape = UsingCircularShape(),
-    val main: ItemPart = ColorSchemeItemPart(),
+    val main: ItemPart = MadeFromMetal(),
 ) : ClubHead
 
 @Serializable
 @SerialName("SimpleFlanged")
 data class SimpleFlangedHead(
     val shape: ComplexShape = UsingCircularShape(),
-    val main: ItemPart = ColorSchemeItemPart(),
+    val main: ItemPart = MadeFromMetal(),
 ) : ClubHead
 
 @Serializable
 @SerialName("ComplexFlanged")
 data class ComplexFlangedHead(
     val shape: RotatedShape,
-    val main: ItemPart = ColorSchemeItemPart(),
+    val main: ItemPart = MadeFromMetal(),
 ) : ClubHead
 
 @Serializable
@@ -100,7 +100,7 @@ data class SpikedMaceHead(
 @SerialName("MorningStar")
 data class MorningStarHead(
     val spikes: CircularArrangement<Spike>,
-    val main: ItemPart = ColorSchemeItemPart(),
+    val main: ItemPart = MadeFromMetal(),
 ) : ClubHead
 
 @Serializable
@@ -115,5 +115,5 @@ data class FlailHead(
 data class WarhammerHead(
     val spike: Spike,
     val shape: ComplexShape = UsingRectangularShape(RectangularShape.Rectangle, FULL),
-    val main: ItemPart = ColorSchemeItemPart(),
+    val main: ItemPart = MadeFromMetal(),
 ) : ClubHead

@@ -1,10 +1,8 @@
 package at.orchaldir.gm.core.model.item.equipment.style
 
-import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
 import at.orchaldir.gm.core.model.util.part.ItemPart
 import at.orchaldir.gm.core.model.util.part.MadeFromMetal
 import at.orchaldir.gm.core.model.util.part.MadeFromParts
-import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.HALF
 import at.orchaldir.gm.utils.math.QUARTER
@@ -76,13 +74,13 @@ data class ChainMail(
 @Serializable
 @SerialName("Cuirass")
 data class Cuirass(
-    val main: ItemPart = ColorSchemeItemPart(Color.Silver),
+    val main: ItemPart = MadeFromMetal(),
 ) : ArmourStyle()
 
 @Serializable
 @SerialName("Lamellar")
 data class LamellarArmour(
-    val scale: ItemPart = ColorSchemeItemPart(Color.Silver),
+    val scale: ItemPart = MadeFromMetal(),
     val shape: UsingRectangularShape = UsingRectangularShape(RectangularShape.Ellipse),
     val lacing: LamellarLacing = FourSidesLacing(),
     val columns: Int = DEFAULT_SCALE_COLUMNS,
@@ -91,7 +89,7 @@ data class LamellarArmour(
 @Serializable
 @SerialName("Scale")
 data class ScaleArmour(
-    val scale: ItemPart = ColorSchemeItemPart(Color.Silver),
+    val scale: ItemPart = MadeFromMetal(),
     val shape: ComplexShape = UsingRectangularShape(RectangularShape.Heater),
     val columns: Int = DEFAULT_SCALE_COLUMNS,
     val overlap: Factor = DEFAULT_SCALE_OVERLAP,
@@ -100,7 +98,7 @@ data class ScaleArmour(
 @Serializable
 @SerialName("Segmented")
 data class SegmentedArmour(
-    val segment: ItemPart = ColorSchemeItemPart(Color.Silver),
+    val segment: ItemPart = MadeFromMetal(),
     val shape: SegmentedPlateShape = SegmentedPlateShape.Straight,
     val rows: Int = DEFAULT_SCALE_COLUMNS,
     val breastplateRows: Int = DEFAULT_BREASTPLATE_ROWS,

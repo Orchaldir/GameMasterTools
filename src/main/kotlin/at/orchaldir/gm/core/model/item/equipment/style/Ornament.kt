@@ -1,9 +1,11 @@
 package at.orchaldir.gm.core.model.item.equipment.style
 
-import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
 import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
 import at.orchaldir.gm.core.model.util.part.ItemPart
+import at.orchaldir.gm.core.model.util.part.MadeFromGem
+import at.orchaldir.gm.core.model.util.part.MadeFromMetal
 import at.orchaldir.gm.core.model.util.part.MadeFromParts
+import at.orchaldir.gm.core.model.util.part.MadeFromWood
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.math.shape.*
 import kotlinx.serialization.SerialName
@@ -50,12 +52,12 @@ data class SimpleOrnament(
 @SerialName("Border")
 data class OrnamentWithBorder(
     val shape: ComplexShape = UsingCircularShape(CircularShape.Circle),
-    val center: ItemPart = FillLookupItemPart(Color.Red),
-    val border: ItemPart = ColorSchemeItemPart(Color.Gold),
+    val center: ItemPart = MadeFromGem(),
+    val border: ItemPart = MadeFromMetal(),
 ) : Ornament() {
 
     constructor(shape: ComplexShape, center: Color, border: Color = Color.Gold) :
-            this(shape, FillLookupItemPart(center), ColorSchemeItemPart(border))
+            this(shape, MadeFromWood(center), MadeFromWood(border))
 
     constructor(shape: CircularShape, color: Color, border: Color = Color.Gold) :
             this(UsingCircularShape(shape), color, border)

@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.model.item.equipment.style
 
-import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
 import at.orchaldir.gm.core.model.util.part.ItemPart
+import at.orchaldir.gm.core.model.util.part.MadeFromMetal
 import at.orchaldir.gm.utils.math.Factor
 import kotlinx.serialization.Serializable
 
@@ -9,5 +9,5 @@ import kotlinx.serialization.Serializable
 data class Spike(
     val length: Factor,
     val width: Factor,
-    val main: ItemPart = ColorSchemeItemPart(),
+    val main: ItemPart = MadeFromMetal(),
 )

@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.model.item.equipment.style
 
-import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
 import at.orchaldir.gm.core.model.util.part.ItemPart
+import at.orchaldir.gm.core.model.util.part.MadeFromMetal
 import at.orchaldir.gm.core.model.util.part.MadeFromParts
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
@@ -20,7 +20,7 @@ data class SpearHead(
     val shape: SpearShape = SpearShape.Leaf,
     val length: Factor = DEFAULT_SPEAR_LENGTH,
     val width: Factor = DEFAULT_SPEAR_WIDTH,
-    val part: ItemPart = ColorSchemeItemPart(),
+    val part: ItemPart = MadeFromMetal(),
 ) : MadeFromParts {
 
     override fun parts() = listOf(part)

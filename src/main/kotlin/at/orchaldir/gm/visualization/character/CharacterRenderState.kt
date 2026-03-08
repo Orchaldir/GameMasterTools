@@ -6,7 +6,6 @@ import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.item.equipment.BodySlot
 import at.orchaldir.gm.core.model.item.equipment.EquipmentElementMap
-import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
 import at.orchaldir.gm.core.model.util.part.ItemPart
 import at.orchaldir.gm.core.model.util.render.Colors
 import at.orchaldir.gm.core.model.util.render.UndefinedColors
@@ -59,8 +58,6 @@ data class CharacterRenderState<T>(
         part,
         clipping,
     )
-
-    fun getColor(part: ColorSchemeItemPart) = part.getColor(state, colors)
 
     fun getBeardLayer() = getLayer(ABOVE_EQUIPMENT_LAYER)
     fun getTailLayer() = getLayer(-ABOVE_EQUIPMENT_LAYER)

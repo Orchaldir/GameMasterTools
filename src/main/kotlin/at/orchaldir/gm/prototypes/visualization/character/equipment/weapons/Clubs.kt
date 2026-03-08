@@ -6,7 +6,6 @@ import at.orchaldir.gm.core.model.item.equipment.EquipmentMap.Companion.from
 import at.orchaldir.gm.core.model.item.equipment.OneHandedClub
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.Size
-import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
 import at.orchaldir.gm.core.model.util.part.MadeFromMetal
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.prototypes.visualization.addNames
@@ -32,8 +31,8 @@ fun main() {
             Pair(60, 40),
         )
     )
-    val bigSpike = Spike(FULL, THIRD, ColorSchemeItemPart(ironId))
-    val smallSpike = Spike(HALF, THIRD, ColorSchemeItemPart(ironId))
+    val bigSpike = Spike(FULL, THIRD, MadeFromMetal(ironId))
+    val smallSpike = Spike(HALF, THIRD, MadeFromMetal(ironId))
     val morningStar = MorningStarHead(CircularArrangement(smallSpike, 9))
     val chain = Chain(main = MadeFromMetal(ironId))
     val spiked = SpikedMaceHead(spike = smallSpike, 3)
@@ -65,7 +64,7 @@ fun main() {
         val fixation = if (head is NoClubHead) {
             NoHeadFixation
         } else {
-            SocketedHeadHead(part = ColorSchemeItemPart(ironId))
+            SocketedHeadHead(part = MadeFromMetal(ironId))
         }
         val polearm = OneHandedClub(
             head,

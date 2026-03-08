@@ -33,11 +33,6 @@ fun HtmlBlockTag.showItemPart(
         field("Type", part.getType())
 
         when (part) {
-            is ColorSchemeItemPart -> {
-                fieldLink("Material", call, state, part.material)
-                fieldColorLookup("Color", part.lookup)
-            }
-
             is FillLookupItemPart -> {
                 fieldLink("Material", call, state, part.material)
                 showFillLookup(part.fill)
@@ -134,13 +129,6 @@ fun HtmlBlockTag.editItemPart(
         }
 
         when (part) {
-            is ColorSchemeItemPart -> selectColorSchemeItemParts(
-                state,
-                part,
-                param,
-                state.getMaterialStorage().getAll()
-            )
-
             is FillLookupItemPart -> {
                 selectMaterial(state, part.material, param)
                 selectFillLookup(state, part.fill, combine(param, FILL))
@@ -219,46 +207,6 @@ private fun HtmlBlockTag.selectMaterial(
     materials: Collection<Material>,
 ) = selectMaterial(state, materials, current, combine(param, MATERIAL))
 
-fun HtmlBlockTag.selectColorSchemeItemParts(
-    state: State,
-    part: ColorSchemeItemPart,
-    param: String,
-    materials: Collection<Material>,
-) {
-    selectMaterial(state, param, part.material, materials)
-    editColorLookup(
-        state,
-        "Color Lookup",
-        part.lookup,
-        combine(param, COLOR),
-        Color.entries,
-    )
-}
-
-fun HtmlBlockTag.editColorSchemeItemPart(
-    state: State,
-    part: ColorSchemeItemPart,
-    param: String,
-    label: String? = null,
-) {
-    showDetails(label, true) {
-        selectMaterial(state, part.material, combine(param, MATERIAL))
-        editColorLookup(state, "Color Lookup", part.lookup, combine(param, COLOR), Color.entries)
-    }
-}
-
-fun HtmlBlockTag.editFillLookupItemPart(
-    state: State,
-    part: FillLookupItemPart,
-    param: String,
-    label: String? = null,
-) {
-    showDetails(label, true) {
-        selectMaterial(state, part.material, combine(param, MATERIAL))
-        selectFillLookup(state, part.fill, combine(param, FILL))
-    }
-}
-
 // parse
 
 fun parseItemPart(
@@ -276,7 +224,6 @@ fun parseItemPart(
     param: String,
     default: ItemPartType = ItemPartType.Metal, //  TODO
 ) = when (parse(parameters, combine(param, TYPE), default)) {
-    ItemPartType.ColorScheme -> parseColorSchemeItemPart(parameters, param)
     ItemPartType.FillLookup -> parseFillLookupItemPart(parameters, param)
     ItemPartType.Cord -> parseMadeFromCord(parameters, param)
     ItemPartType.Fabric -> MadeFromFabric(
@@ -341,11 +288,6 @@ fun parsePaper(
     parameters: Parameters,
     param: String,
 ) = MadeFromPaper(
-    parseMaterialId(parameters, combine(param, MATERIAL)),
-    parseColorLookup(parameters, combine(param, COLOR)),
-)
-
-fun parseColorSchemeItemPart(parameters: Parameters, param: String) = ColorSchemeItemPart(
     parseMaterialId(parameters, combine(param, MATERIAL)),
     parseColorLookup(parameters, combine(param, COLOR)),
 )

@@ -13,8 +13,8 @@ import at.orchaldir.gm.core.model.rpg.combat.ArmorStats
 import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponStats
 import at.orchaldir.gm.core.model.rpg.combat.RangedWeaponStats
 import at.orchaldir.gm.core.model.rpg.combat.ShieldStats
-import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
 import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
+import at.orchaldir.gm.core.model.util.part.MadeFromCord
 import at.orchaldir.gm.core.model.util.render.*
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
@@ -264,7 +264,7 @@ class EquipmentTest {
         ) = Equipment(
             EQUIPMENT_ID_0,
             colorSchemes = setOf(scheme),
-            data = Glasses(frame = ColorSchemeItemPart(material, lookup)),
+            data = Glasses(frame = MadeFromCord(material, lookup)),
         )
     }
 
