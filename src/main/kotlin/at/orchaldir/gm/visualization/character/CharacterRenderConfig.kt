@@ -83,7 +83,6 @@ data class CharacterRenderConfig(
 
     fun getLineOptions(color: Color) = FillAndBorder(color.toRender(), line)
     fun getLineOptions(hairColor: HairColor) = FillAndBorder(getHairColor(hairColor), line)
-    fun getLineOptions(fill: Fill) = FillAndBorder(fill.toRender(), line)
 
     fun getHairColor(hairColor: NormalHairColorEnum) = hairColors[hairColor] ?: Color.Purple.toRender()
     fun getSkinColor(skinColor: SkinColor) = skinColors[skinColor] ?: Color.Purple.toRender()

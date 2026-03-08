@@ -1,6 +1,8 @@
 package at.orchaldir.gm.core.model.item.text.book
 
 import at.orchaldir.gm.core.model.util.part.ColorItemPart
+import at.orchaldir.gm.core.model.util.part.ItemPart
+import at.orchaldir.gm.core.model.util.part.MadeFromMetal
 import at.orchaldir.gm.core.model.util.part.MadeFromParts
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
@@ -35,7 +37,7 @@ data object NoEdgeProtection : EdgeProtection()
 data class ProtectedCorners(
     val shape: CornerShape = CornerShape.Triangle,
     val size: Factor = DEFAULT_PROTECTED_CORNER_SIZE,
-    val main: ColorItemPart = ColorItemPart(),
+    val main: ItemPart = MadeFromMetal(),
 ) : EdgeProtection() {
 
     override fun parts() = listOf(main)
@@ -46,7 +48,7 @@ data class ProtectedCorners(
 @SerialName("Edge")
 data class ProtectedEdge(
     val width: Factor = DEFAULT_PROTECTED_EDGE_WIDTH,
-    val main: ColorItemPart = ColorItemPart(),
+    val main: ItemPart = MadeFromMetal(),
 ) : EdgeProtection() {
 
     override fun parts() = listOf(main)

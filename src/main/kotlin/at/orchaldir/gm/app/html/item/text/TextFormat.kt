@@ -14,6 +14,7 @@ import at.orchaldir.gm.core.model.util.part.COVER_MATERIALS
 import at.orchaldir.gm.core.model.util.part.FillItemPart
 import at.orchaldir.gm.core.model.util.part.ItemPart
 import at.orchaldir.gm.core.model.util.part.ItemPartType
+import at.orchaldir.gm.core.model.util.part.MADE_FROM_METALS
 import at.orchaldir.gm.core.model.util.part.Segments
 import at.orchaldir.gm.core.model.util.part.PAGE_MATERIALS
 import at.orchaldir.gm.core.model.util.part.SOLID_MATERIALS
@@ -119,12 +120,12 @@ private fun HtmlBlockTag.showEdgeProtection(
             is ProtectedCorners -> {
                 field("Corner Shape", protection.shape)
                 fieldFactor("Corner Size", protection.size)
-                showColorItemPart(call, state, protection.main)
+                showItemPart(call, state, protection.main)
             }
 
             is ProtectedEdge -> {
                 fieldFactor("Edge Width", protection.width)
-                showColorItemPart(call, state, protection.main)
+                showItemPart(call, state, protection.main)
             }
         }
     }
@@ -282,7 +283,7 @@ private fun HtmlBlockTag.editBossesPattern(
             is SimpleBossesPattern -> {
                 selectValue("Bosses Shape", combine(BOSSES, SHAPE), BossesShape.entries, bosses.shape)
                 selectValue("Bosses Size", combine(BOSSES, SIZE), Size.entries, bosses.size)
-                editItemPart(state, bosses.boss, BOSSES, allowedTypes = SOLID_MATERIALS)
+                editItemPart(state, bosses.boss, BOSSES, allowedTypes = MADE_FROM_METALS)
                 selectInt("Bosses Pattern Size", bosses.pattern.size, 1, 20, 1, combine(BOSSES, NUMBER))
 
                 showListWithIndex(bosses.pattern) { index, count ->
@@ -313,7 +314,7 @@ private fun HtmlBlockTag.editEdgeProtection(
                     50,
                     1,
                 )
-                editColorItemPart(state, protection.main, EDGE)
+                editItemPart(state, protection.main, EDGE, allowedTypes = MADE_FROM_METALS)
             }
 
             is ProtectedEdge -> {
@@ -325,7 +326,7 @@ private fun HtmlBlockTag.editEdgeProtection(
                     20,
                     1,
                 )
-                editColorItemPart(state, protection.main, EDGE)
+                editItemPart(state, protection.main, EDGE, allowedTypes = MADE_FROM_METALS)
             }
         }
     }
@@ -465,12 +466,12 @@ private fun parseEdgeProtection(parameters: Parameters) = when (parse(parameters
     EdgeProtectionType.Corners -> ProtectedCorners(
         parse(parameters, combine(EDGE, SHAPE), CornerShape.Triangle),
         parseFactor(parameters, combine(EDGE, SIZE), DEFAULT_PROTECTED_CORNER_SIZE),
-        parseColorItemPart(parameters, EDGE),
+        parseItemPart(parameters, EDGE),
     )
 
     EdgeProtectionType.Edge -> ProtectedEdge(
         parseFactor(parameters, combine(EDGE, SIZE), DEFAULT_PROTECTED_EDGE_WIDTH),
-        parseColorItemPart(parameters, EDGE),
+        parseItemPart(parameters, EDGE),
     )
 }
 

@@ -48,7 +48,4 @@ data class TextRenderConfig(
         UndefinedTextFormat -> square(padding * 2)
     }
 
-    fun getLineOptions(color: Color) = FillAndBorder(color.toRender(), line)
-    fun getLineOptions(fill: Fill) = FillAndBorder(fill.toRender(), line)
-
 }

@@ -100,8 +100,7 @@ private fun visualizeEyeProtection(
     config: HelmetConfig,
     protection: EyeProtection,
 ) {
-    val color = protection.main.getColor(state.state, state.colors)
-    val options = state.config.getLineOptions(color)
+    val options = state.getFillAndBorder(protection.main)
     val (left, right) = state.config.head.eyes.getTwoEyesCenter(state)
     val eyeSize = state.config.head.eyes.getEyeSize(state, EyeShape.Ellipse, Size.Medium)
     val polygon = createEyeProtectionPolygon(state, config, protection.shape)
@@ -180,8 +179,7 @@ private fun visualizeFaceProtection(
     config: HelmetConfig,
     protection: FaceProtection,
 ) {
-    val color = protection.main.getColor(state.state, state.colors)
-    val options = state.config.getLineOptions(color)
+    val options = state.getFillAndBorder(protection.main)
     val polygon = createFaceProtectionPolygon(state, config, protection.shape)
     visualizeHelmWithEyeHoles(state, renderer, config, options, polygon, protection.eyeHole)
 }

@@ -31,8 +31,7 @@ private fun visualizeBoundGrip(
     grip: BoundGrip,
     aabb: AABB,
 ) {
-    val color = grip.part.getColor(state.state, state.colors)
-    val options = state.config.getLineOptions(color)
+    val options = state.getFillAndBorder(grip.part)
 
     visualizeBoundRows(renderer, options, aabb, grip.rows)
 }
