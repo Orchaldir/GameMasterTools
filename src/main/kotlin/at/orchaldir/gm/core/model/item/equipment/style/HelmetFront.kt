@@ -1,6 +1,8 @@
 package at.orchaldir.gm.core.model.item.equipment.style
 
 import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
+import at.orchaldir.gm.core.model.util.part.ItemPart
+import at.orchaldir.gm.core.model.util.part.MadeFromMetal
 import at.orchaldir.gm.core.model.util.part.MadeFromParts
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -24,9 +26,9 @@ sealed class HelmetFront : MadeFromParts {
 
     override fun parts() = when (this) {
         is NoHelmetFront -> emptyList()
-        is NoseProtection -> listOf(part)
-        is EyeProtection -> listOf(part)
-        is FaceProtection -> listOf(part)
+        is NoseProtection -> listOf(main)
+        is EyeProtection -> listOf(main)
+        is FaceProtection -> listOf(main)
     }
 }
 
@@ -38,7 +40,7 @@ data object NoHelmetFront : HelmetFront()
 @SerialName("Nose")
 data class NoseProtection(
     val shape: NoseProtectionShape = NoseProtectionShape.Rectangle,
-    val part: ColorSchemeItemPart = ColorSchemeItemPart(),
+    val main: ItemPart = MadeFromMetal(),
 ) : HelmetFront()
 
 @Serializable
@@ -47,7 +49,7 @@ data class EyeProtection(
     val shape: EyeProtectionShape = EyeProtectionShape.RoundedRectangle,
     val hole: EyeHoleShape = EyeHoleShape.Almond,
     val nose: NoseProtectionShape? = null,
-    val part: ColorSchemeItemPart = ColorSchemeItemPart(),
+    val main: ItemPart = MadeFromMetal(),
 ) : HelmetFront()
 
 @Serializable
@@ -55,5 +57,5 @@ data class EyeProtection(
 data class FaceProtection(
     val shape: FaceProtectionShape = FaceProtectionShape.Heater,
     val eyeHole: EyeHoleShape = EyeHoleShape.Almond,
-    val part: ColorSchemeItemPart = ColorSchemeItemPart(),
+    val main: ItemPart = MadeFromMetal(),
 ) : HelmetFront()

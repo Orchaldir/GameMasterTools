@@ -4,15 +4,20 @@
   "0": {
    "id": 0,
    "data": {
-    "#type": "Glasses",
-    "lensShape": "Circle",
-    "lens": {
-     "material": 16,
-     "opacity": 1000
-    },
-    "frame": {
-     "#type": "at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart",
-     "material": 4
+    "#type": "Helmet",
+    "style": {
+     "#type": "SkullCap",
+     "front": {
+      "#type": "Nose",
+      "main": {
+       "#type": "at.orchaldir.gm.core.model.util.part.MadeFromMetal",
+       "material": 5
+      }
+     },
+     "main": {
+      "#type": "at.orchaldir.gm.core.model.util.part.MadeFromMetal",
+      "material": 4
+     }
     }
    }
   }

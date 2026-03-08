@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.character.appearance.eye.EyeShape
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
+import at.orchaldir.gm.core.model.util.part.ItemPart
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.LayerRenderer
@@ -28,7 +29,7 @@ fun visualizeHelmetFront(
             visualizeEyeProtection(state, eyeRenderer, config, front)
 
             if (front.nose != null) {
-                visualizeNoseProtection(state, noseRenderer, config, front.nose, front.part)
+                visualizeNoseProtection(state, noseRenderer, config, front.nose, front.main)
             }
         }
 
@@ -41,17 +42,16 @@ private fun visualizeNoseProtection(
     renderer: LayerRenderer,
     config: HelmetConfig,
     protection: NoseProtection,
-) = visualizeNoseProtection(state, renderer, config, protection.shape, protection.part)
+) = visualizeNoseProtection(state, renderer, config, protection.shape, protection.main)
 
 private fun visualizeNoseProtection(
     state: CharacterRenderState<Head>,
     renderer: LayerRenderer,
     config: HelmetConfig,
     shape: NoseProtectionShape,
-    part: ColorSchemeItemPart,
+    part: ItemPart,
 ) {
-    val color = part.getColor(state.state, state.colors)
-    val options = state.config.getLineOptions(color)
+    val options = state.getFillAndBorder(part)
     val polygon = createNoseProtectionPolygon(state.headAABB(), config, shape)
 
     renderer.renderRoundedPolygon(polygon, options)
@@ -100,7 +100,7 @@ private fun visualizeEyeProtection(
     config: HelmetConfig,
     protection: EyeProtection,
 ) {
-    val color = protection.part.getColor(state.state, state.colors)
+    val color = protection.main.getColor(state.state, state.colors)
     val options = state.config.getLineOptions(color)
     val (left, right) = state.config.head.eyes.getTwoEyesCenter(state)
     val eyeSize = state.config.head.eyes.getEyeSize(state, EyeShape.Ellipse, Size.Medium)
@@ -180,7 +180,7 @@ private fun visualizeFaceProtection(
     config: HelmetConfig,
     protection: FaceProtection,
 ) {
-    val color = protection.part.getColor(state.state, state.colors)
+    val color = protection.main.getColor(state.state, state.colors)
     val options = state.config.getLineOptions(color)
     val polygon = createFaceProtectionPolygon(state, config, protection.shape)
     visualizeHelmWithEyeHoles(state, renderer, config, options, polygon, protection.eyeHole)

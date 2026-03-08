@@ -8,11 +8,17 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.item.equipment.style.*
 import at.orchaldir.gm.app.html.rpg.combat.parseArmorStats
 import at.orchaldir.gm.app.html.util.part.editColorSchemeItemPart
+import at.orchaldir.gm.app.html.util.part.editItemPart
 import at.orchaldir.gm.app.html.util.part.parseColorSchemeItemPart
+import at.orchaldir.gm.app.html.util.part.parseItemPart
+import at.orchaldir.gm.app.html.util.part.parseMadeFromMetal
 import at.orchaldir.gm.app.html.util.part.showColorSchemeItemPart
+import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.Helmet
 import at.orchaldir.gm.core.model.item.equipment.style.*
+import at.orchaldir.gm.core.model.util.part.ItemPartType
+import at.orchaldir.gm.core.model.util.part.SOLID_MATERIALS
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -29,18 +35,18 @@ fun HtmlBlockTag.showHelmet(
     when (val style = helmet.style) {
         is ChainmailHood -> {
             optionalField("Body Shape", style.shape)
-            showColorSchemeItemPart(call, state, style.part, "Chainmail")
+            showItemPart(call, state, style.main)
         }
 
         is GreatHelm -> {
             field("Helmet Shape", style.shape)
             field("Eye Holes", style.eyeHole)
-            showColorSchemeItemPart(call, state, style.part, "Helmet")
+            showItemPart(call, state, style.main)
         }
 
         is SkullCap -> {
             field("Helmet Shape", style.shape)
-            showColorSchemeItemPart(call, state, style.part, "Helmet")
+            showItemPart(call, state, style.main)
             showHelmetFront(call, state, style.front)
         }
     }
@@ -57,18 +63,18 @@ fun HtmlBlockTag.editHelmet(
     when (val style = helmet.style) {
         is ChainmailHood -> {
             selectOptionalValue("Body Shape", BODY_SHAPE, style.shape, HoodBodyShape.entries)
-            editColorSchemeItemPart(state, style.part, HELMET, "Chainmail")
+            editItemPart(state, style.main, HELMET, allowedType = ItemPartType.Metal)
         }
 
         is GreatHelm -> {
             selectValue("Helmet Shape", SHAPE, HelmetShape.entries, style.shape)
-            editColorSchemeItemPart(state, style.part, HELMET, "Helmet")
+            editItemPart(state, style.main, HELMET, allowedTypes = SOLID_MATERIALS)
             selectEyeHoles(style.eyeHole, HELMET)
         }
 
         is SkullCap -> {
             selectValue("Helmet Shape", SHAPE, HelmetShape.entries, style.shape)
-            editColorSchemeItemPart(state, style.part, HELMET, "Helmet")
+            editItemPart(state, style.main, HELMET, allowedTypes = SOLID_MATERIALS)
             editHelmetFront(state, style.front)
         }
     }
@@ -86,18 +92,18 @@ fun parseHelmetStyle(
 ) = when (parse(parameters, STYLE, HelmetStyleType.SkullCap)) {
     HelmetStyleType.ChainmailHood -> ChainmailHood(
         parse<HoodBodyShape>(parameters, BODY_SHAPE),
-        parseColorSchemeItemPart(parameters, HELMET),
+        parseMadeFromMetal(parameters, HELMET),
     )
 
     HelmetStyleType.GreatHelm -> GreatHelm(
         parse(parameters, SHAPE, HelmetShape.Round),
         parseEyeHoles(parameters, HELMET),
-        parseColorSchemeItemPart(parameters, HELMET),
+        parseItemPart(parameters, HELMET),
     )
 
     HelmetStyleType.SkullCap -> SkullCap(
         parse(parameters, SHAPE, HelmetShape.Round),
         parseHelmetFront(parameters),
-        parseColorSchemeItemPart(parameters, HELMET),
+        parseItemPart(parameters, HELMET),
     )
 }

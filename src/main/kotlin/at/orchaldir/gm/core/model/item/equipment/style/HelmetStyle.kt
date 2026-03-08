@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.item.equipment.style
 
-import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
+import at.orchaldir.gm.core.model.util.part.ItemPart
+import at.orchaldir.gm.core.model.util.part.MadeFromMetal
 import at.orchaldir.gm.core.model.util.part.MadeFromParts
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -21,15 +22,15 @@ sealed class HelmetStyle : MadeFromParts {
     }
 
     override fun parts() = when (this) {
-        is ChainmailHood -> listOf(part)
-        is GreatHelm -> listOf(part)
-        is SkullCap -> listOf(part)
+        is ChainmailHood -> listOf(main)
+        is GreatHelm -> listOf(main)
+        is SkullCap -> listOf(main)
     }
 
     override fun mainMaterial() = when (this) {
-        is ChainmailHood -> part.material
-        is GreatHelm -> part.material
-        is SkullCap -> part.material
+        is ChainmailHood -> main.material
+        is GreatHelm -> main.material()
+        is SkullCap -> main.material()
     }
 }
 
@@ -37,7 +38,7 @@ sealed class HelmetStyle : MadeFromParts {
 @SerialName("Hood")
 data class ChainmailHood(
     val shape: HoodBodyShape? = HoodBodyShape.Straight,
-    val part: ColorSchemeItemPart = ColorSchemeItemPart(),
+    val main: MadeFromMetal = MadeFromMetal(),
 ) : HelmetStyle()
 
 @Serializable
@@ -45,7 +46,7 @@ data class ChainmailHood(
 data class GreatHelm(
     val shape: HelmetShape = HelmetShape.Round,
     val eyeHole: EyeHoleShape = EyeHoleShape.Almond,
-    val part: ColorSchemeItemPart = ColorSchemeItemPart(),
+    val main: ItemPart = MadeFromMetal(),
 ) : HelmetStyle()
 
 @Serializable
@@ -53,5 +54,5 @@ data class GreatHelm(
 data class SkullCap(
     val shape: HelmetShape = HelmetShape.Round,
     val front: HelmetFront = NoHelmetFront,
-    val part: ColorSchemeItemPart = ColorSchemeItemPart(),
+    val main: ItemPart = MadeFromMetal(),
 ) : HelmetStyle()
