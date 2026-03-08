@@ -114,9 +114,7 @@ private fun visualizeSimpleClubHead(
     val radiusFactor = config.simpleHeight.convert(size) / 2
     val radius = shaftAabb.convertHeight(radiusFactor)
     val center = shaftAabb.getPoint(CENTER, -radiusFactor)
-
-    val color = state.getColor(head.part)
-    val options = state.config.getLineOptions(color)
+    val options = state.getFillAndBorder(head.main)
 
     visualizeComplexShape(renderer, center, radius, head.shape, options)
 }
@@ -129,8 +127,7 @@ private fun visualizeSimpleFlangedHead(
     head: SimpleFlangedHead,
     size: Size,
 ) {
-    val color = state.getColor(head.part)
-    val options = state.config.getLineOptions(color)
+    val options = state.getFillAndBorder(head.main)
 
     visualizeSimpleSideFlanges(state, options, layer, config, shaftAabb, head, size)
     visualizeMiddleFlange(state, options, layer, config, shaftAabb, size)
@@ -178,8 +175,7 @@ private fun visualizeComplexFlangedHead(
     head: ComplexFlangedHead,
     size: Size,
 ) {
-    val color = state.getColor(head.part)
-    val options = state.config.getLineOptions(color)
+    val options = state.getFillAndBorder(head.main)
 
     visualizeComplexSideFlanges(state, options, layer, config, shaftAabb, head, size)
     visualizeMiddleFlange(state, options, layer, config, shaftAabb, size)
@@ -234,7 +230,7 @@ private fun visualizeSpikesForSpikedMace(
     val half = aabb.size.width / 2
     val start = aabb.getPoint(CENTER, START)
     val end = aabb.getPoint(CENTER, END)
-    val splitter = SegmentSplitter.fromStartAndEnd(start, end, head.rows)
+    val splitter = SegmentSplitter.fromStartAndEnd(start, end, head.main)
 
     splitter.getCenters().forEach { center ->
         visualizeSpike(state, renderer, head.spike, center.addWidth(half), ZERO_ORIENTATION, diameter)
@@ -270,8 +266,7 @@ private fun visualizeFlail(
 
             when (head.head) {
                 is SimpleClubHead -> {
-                    val color = state.getColor(head.head.part)
-                    val options = state.config.getLineOptions(color)
+                    val options = state.getFillAndBorder(head.head.main)
 
                     visualizeComplexShape(renderer, end, radius, head.head.shape, options)
                 }
@@ -279,8 +274,7 @@ private fun visualizeFlail(
                 is MorningStarHead -> visualizeMorningStarHead(state, renderer, head.head, end, radius, QUARTER_CIRCLE)
                 is SpikedMaceHead -> {
                     val headAabb = AABB.fromCenter(end, Size2d(radius, diameter))
-                    val color = state.getColor(head.head.spike.part)
-                    val options = state.config.getLineOptions(color)
+                    val options = state.getFillAndBorder(head.head.spike.main)
 
                     renderer.renderRectangle(headAabb, options)
 
@@ -325,9 +319,7 @@ private fun visualizeMorningStarHead(
     orientation: Orientation,
 ) {
     val diameter = radius * 2
-
-    val color = state.getColor(head.part)
-    val options = state.config.getLineOptions(color)
+    val options = state.getFillAndBorder(head.main)
 
     visualizeComplexShape(renderer, center, radius, UsingCircularShape(), options)
 
@@ -352,9 +344,7 @@ private fun visualizeWarhammerHead(
     val diameter = shaftAabb.convertHeight(diameterFactor)
     val radius = diameter / 2
     val center = shaftAabb.getPoint(CENTER, -radiusFactor)
-
-    val color = state.getColor(head.part)
-    val options = state.config.getLineOptions(color)
+    val options = state.getFillAndBorder(head.main)
 
     visualizeComplexShape(renderer, center, radius, head.shape, options)
 

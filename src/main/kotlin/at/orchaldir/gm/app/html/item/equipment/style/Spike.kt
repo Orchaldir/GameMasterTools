@@ -7,11 +7,12 @@ import at.orchaldir.gm.app.html.showDetails
 import at.orchaldir.gm.app.html.util.math.fieldFactor
 import at.orchaldir.gm.app.html.util.math.parseFactor
 import at.orchaldir.gm.app.html.util.math.selectFactor
-import at.orchaldir.gm.app.html.util.part.editColorSchemeItemPart
-import at.orchaldir.gm.app.html.util.part.parseColorSchemeItemPart
-import at.orchaldir.gm.app.html.util.part.showColorSchemeItemPart
+import at.orchaldir.gm.app.html.util.part.editItemPart
+import at.orchaldir.gm.app.html.util.part.parseItemPart
+import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.style.Spike
+import at.orchaldir.gm.core.model.util.part.SOLID_MATERIALS
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.HALF
@@ -30,7 +31,7 @@ fun HtmlBlockTag.showSpike(
     showDetails("Spike") {
         fieldFactor("Length", spike.length)
         fieldFactor("Width", spike.width)
-        showColorSchemeItemPart(call, state, spike.part, "Part")
+        showItemPart(call, state, spike.main)
     }
 }
 
@@ -56,7 +57,7 @@ fun HtmlBlockTag.editSpike(
             fromPercentage(10),
             fromPercentage(50),
         )
-        editColorSchemeItemPart(state, spike.part, param, "Part")
+        editItemPart(state, spike.main, param, allowedTypes = SOLID_MATERIALS)
     }
 }
 
@@ -69,5 +70,5 @@ fun parseSpike(
 ) = Spike(
     parseFactor(parameters, combine(param, LENGTH), defaultLength),
     parseFactor(parameters, combine(param, WIDTH), THIRD),
-    parseColorSchemeItemPart(parameters, param),
+    parseItemPart(parameters, param),
 )

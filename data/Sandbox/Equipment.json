@@ -4,28 +4,41 @@
   "0": {
    "id": 0,
    "data": {
-    "#type": "Necklace",
-    "style": {
-     "#type": "Pendant",
-     "ornament": {
-      "#type": "Border",
-      "center": {
-       "#type": "at.orchaldir.gm.core.model.util.part.MadeFromGem",
-       "material": 15
+    "#type": "Club1",
+    "head": {
+     "#type": "Flail",
+     "head": {
+      "#type": "MorningStar",
+      "spikes": {
+       "item": {
+        "length": 5000,
+        "width": 3300,
+        "main": {
+         "#type": "at.orchaldir.gm.core.model.util.part.MadeFromGem",
+         "material": 15
+        }
+       },
+       "number": 7
       },
-      "border": {
+      "main": {
        "#type": "at.orchaldir.gm.core.model.util.part.MadeFromMetal",
-       "material": 2
+       "material": 5
       }
      },
-     "line": {
-      "#type": "Wire",
+     "connection": {
+      "#type": "Chain",
       "main": {
-       "material": 2
+       "material": 4
       }
      }
     },
-    "length": "Matinee"
+    "shaft": {
+     "#type": "Simple",
+     "part": {
+      "#type": "at.orchaldir.gm.core.model.util.part.MadeFromWood",
+      "material": 10
+     }
+    }
    }
   }
  }

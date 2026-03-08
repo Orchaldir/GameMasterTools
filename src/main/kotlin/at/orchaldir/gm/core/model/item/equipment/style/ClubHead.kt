@@ -43,24 +43,24 @@ sealed interface ClubHead : MadeFromParts {
 
     override fun parts(): List<ItemPart> = when (this) {
         is NoClubHead -> emptyList()
-        is SimpleClubHead -> listOf(part)
-        is SimpleFlangedHead -> listOf(part)
-        is ComplexFlangedHead -> listOf(part)
-        is SpikedMaceHead -> listOf(spike.part)
+        is SimpleClubHead -> listOf(main)
+        is SimpleFlangedHead -> listOf(main)
+        is ComplexFlangedHead -> listOf(main)
+        is SpikedMaceHead -> listOf(spike.main)
         is FlailHead -> connection.parts() + head.parts()
-        is MorningStarHead -> listOf(part, spikes.item.part)
-        is WarhammerHead -> listOf(part, spike.part)
+        is MorningStarHead -> listOf(main, spikes.item.main)
+        is WarhammerHead -> listOf(main, spike.main)
     }
 
     override fun mainMaterial(): MaterialId? = when (this) {
         is NoClubHead -> null
-        is SimpleClubHead -> part.material
-        is SimpleFlangedHead -> part.material
-        is ComplexFlangedHead -> part.material
-        is SpikedMaceHead -> spike.part.material
+        is SimpleClubHead -> main.material()
+        is SimpleFlangedHead -> main.material()
+        is ComplexFlangedHead -> main.material()
+        is SpikedMaceHead -> spike.main.material()
         is FlailHead -> head.mainMaterial()
-        is MorningStarHead -> spikes.item.part.material
-        is WarhammerHead -> part.material
+        is MorningStarHead -> spikes.item.main.material()
+        is WarhammerHead -> main.material()
     }
 }
 
@@ -72,35 +72,35 @@ data object NoClubHead : ClubHead
 @SerialName("Simple")
 data class SimpleClubHead(
     val shape: ComplexShape = UsingCircularShape(),
-    val part: ColorSchemeItemPart = ColorSchemeItemPart(),
+    val main: ItemPart = ColorSchemeItemPart(),
 ) : ClubHead
 
 @Serializable
 @SerialName("SimpleFlanged")
 data class SimpleFlangedHead(
     val shape: ComplexShape = UsingCircularShape(),
-    val part: ColorSchemeItemPart = ColorSchemeItemPart(),
+    val main: ItemPart = ColorSchemeItemPart(),
 ) : ClubHead
 
 @Serializable
 @SerialName("ComplexFlanged")
 data class ComplexFlangedHead(
     val shape: RotatedShape,
-    val part: ColorSchemeItemPart = ColorSchemeItemPart(),
+    val main: ItemPart = ColorSchemeItemPart(),
 ) : ClubHead
 
 @Serializable
 @SerialName("SpikedMace")
 data class SpikedMaceHead(
     val spike: Spike,
-    val rows: Int,
+    val main: Int,
 ) : ClubHead
 
 @Serializable
 @SerialName("MorningStar")
 data class MorningStarHead(
     val spikes: CircularArrangement<Spike>,
-    val part: ColorSchemeItemPart = ColorSchemeItemPart(),
+    val main: ItemPart = ColorSchemeItemPart(),
 ) : ClubHead
 
 @Serializable
@@ -115,5 +115,5 @@ data class FlailHead(
 data class WarhammerHead(
     val spike: Spike,
     val shape: ComplexShape = UsingRectangularShape(RectangularShape.Rectangle, FULL),
-    val part: ColorSchemeItemPart = ColorSchemeItemPart(),
+    val main: ItemPart = ColorSchemeItemPart(),
 ) : ClubHead
