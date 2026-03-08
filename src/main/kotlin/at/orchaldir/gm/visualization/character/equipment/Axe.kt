@@ -146,7 +146,7 @@ private fun visualizeAxeBlade(
     } else {
         shaftAabb.mirrorVertically(rightPolygon)
     }
-    val options = state.getRenderOptions(blade.part())
+    val options = state.getFillAndBorder(blade.part())
 
     renderer.renderRoundedPolygon(polygon, options)
 }

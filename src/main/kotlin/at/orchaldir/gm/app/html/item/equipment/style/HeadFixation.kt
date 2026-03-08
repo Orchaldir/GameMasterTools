@@ -13,6 +13,7 @@ import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.CATEGORIES_FOR_CLOTHING
 import at.orchaldir.gm.core.model.item.equipment.style.*
+import at.orchaldir.gm.core.model.util.part.ItemPartType
 import at.orchaldir.gm.core.model.util.part.SOLID_MATERIALS
 import at.orchaldir.gm.core.selector.util.sortMaterials
 import at.orchaldir.gm.utils.doNothing
@@ -36,7 +37,7 @@ fun HtmlBlockTag.showHeadFixation(
             NoHeadFixation -> doNothing()
             is BoundHeadHead -> {
                 fieldFactor("Length", fixation.length)
-                showItemPart(call, state, fixation.part)
+                showItemPart(call, state, fixation.cord)
             }
 
             is Langets -> {
@@ -73,7 +74,7 @@ fun HtmlBlockTag.editHeadFixation(
             NoHeadFixation -> doNothing()
             is BoundHeadHead -> {
                 selectLength(param, fixation.length)
-                selectColorSchemeItemParts(state, fixation.part, param, boundMaterials)
+                editItemPart(state, fixation.cord, param, "Cord", ItemPartType.Cord)
             }
 
             is Langets -> {
@@ -113,7 +114,7 @@ fun parseHeadFixation(
     HeadFixationType.None -> NoHeadFixation
     HeadFixationType.Bound -> BoundHeadHead(
         parseLength(parameters, param),
-        parseColorSchemeItemPart(parameters, param),
+        parseItemPart(parameters, param),
     )
 
     HeadFixationType.Langets -> Langets(

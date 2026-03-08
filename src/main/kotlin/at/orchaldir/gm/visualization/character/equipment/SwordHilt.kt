@@ -5,8 +5,6 @@ import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.LayerRenderer
-import at.orchaldir.gm.utils.renderer.model.FillAndBorder
-import at.orchaldir.gm.utils.renderer.model.toRender
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.equipment.part.visualizeGrip
 import at.orchaldir.gm.visualization.character.equipment.part.visualizeOrnament
@@ -58,7 +56,7 @@ private fun visualizeSimpleGuard(
     )
     val bottom = gripAabb.getPoint(CENTER, START)
     val guardAabb = AABB.fromBottom(bottom, guardSize)
-    val options = state.getRenderOptions(guard.part)
+    val options = state.getFillAndBorder(guard.part)
 
     renderer.renderRectangle(guardAabb, options)
 

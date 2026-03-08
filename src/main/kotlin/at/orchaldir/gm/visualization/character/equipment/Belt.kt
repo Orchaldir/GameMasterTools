@@ -81,7 +81,7 @@ private fun visualizeBeltBand(
     state: CharacterRenderState<Body>,
     belt: Belt,
 ) {
-    val options = state.getRenderOptions(belt.strap)
+    val options = state.getFillAndBorder(belt.strap)
     val beltConfig = state.config.equipment.belt
     val bandAabb = AABB.fromCenter(
         beltConfig.getBandCenter(state),

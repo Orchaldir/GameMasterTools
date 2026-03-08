@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.model.util.render
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.MaterialId
+import at.orchaldir.gm.core.selector.economy.getMaterialColor
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -38,7 +39,7 @@ sealed interface ColorLookup {
     }
 
     fun lookup(state: State, colors: Colors, material: MaterialId) = lookup(colors)
-        ?: state.getMaterialStorage().get(material)?.properties?.color ?: Color.Pink
+        ?: state.getMaterialColor(material)
 
     fun getOtherColors() = if (this is FixedColor) {
         Color.entries - color

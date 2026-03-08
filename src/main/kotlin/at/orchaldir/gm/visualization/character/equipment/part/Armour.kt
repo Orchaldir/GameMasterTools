@@ -1,11 +1,9 @@
 package at.orchaldir.gm.visualization.character.equipment.part
 
 import at.orchaldir.gm.core.model.character.appearance.Body
-import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
 import at.orchaldir.gm.core.model.util.part.ItemPart
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.unit.Distance
-import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.ICharacterConfig
@@ -46,7 +44,7 @@ fun getClippingRenderOptionsForArmourBody(
     val clipping = createClippingPolygonForArmourBody(state)
     val clippingName = state.renderer.createClipping(clipping)
 
-    return state.getRenderOptions(part, clippingName)
+    return state.getFillAndBorder(part, clippingName)
 }
 
 fun getClippingRenderOptions(
@@ -57,5 +55,5 @@ fun getClippingRenderOptions(
     val clipping = Polygon2d(clip)
     val clippingName = state.renderer.createClipping(clipping)
 
-    return state.getRenderOptions(part, clippingName)
+    return state.getFillAndBorder(part, clippingName)
 }

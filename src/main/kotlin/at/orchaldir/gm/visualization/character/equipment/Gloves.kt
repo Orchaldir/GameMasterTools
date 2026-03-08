@@ -6,9 +6,7 @@ import at.orchaldir.gm.core.model.item.equipment.style.GloveStyle
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.unit.Volume
-import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
-import at.orchaldir.gm.utils.renderer.model.toRender
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.ICharacterConfig
 import at.orchaldir.gm.visualization.character.appearance.HIGHER_EQUIPMENT_LAYER
@@ -47,7 +45,7 @@ fun visualizeGloves(
     state: CharacterRenderState<Body>,
     gloves: Gloves,
 ) {
-    val options = state.getRenderOptions(gloves.main)
+    val options = state.getFillAndBorder(gloves.main)
 
     when (gloves.style) {
         GloveStyle.Hand -> doNothing()

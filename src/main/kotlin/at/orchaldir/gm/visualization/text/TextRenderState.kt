@@ -10,7 +10,8 @@ import at.orchaldir.gm.core.selector.item.getAuthorName
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.renderer.MultiLayerRenderer
 import at.orchaldir.gm.visualization.RenderState
-import at.orchaldir.gm.visualization.utils.convertToRenderOptions
+import at.orchaldir.gm.visualization.utils.convertToFillAndBorder
+import at.orchaldir.gm.visualization.utils.convertToNoBorder
 
 data class ResolvedTextData(
     val title: String = "Title",
@@ -32,11 +33,17 @@ data class TextRenderState(
     override fun renderer() = renderer
     override fun lineOptions() = config.line
 
-    override fun getRenderOptions(part: ItemPart, clipping: String?) = convertToRenderOptions(
+    override fun getFillAndBorder(part: ItemPart, clipping: String?) = convertToFillAndBorder(
         UndefinedColors,
         lineOptions(),
         part,
         state,
+        clipping,
+    )
+    override fun getNoBorder(part: ItemPart, clipping: String?) = convertToNoBorder(
+        state,
+        UndefinedColors,
+        part,
         clipping,
     )
 

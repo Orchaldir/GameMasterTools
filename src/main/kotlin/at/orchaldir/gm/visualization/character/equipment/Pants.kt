@@ -7,8 +7,6 @@ import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Volume
 import at.orchaldir.gm.utils.math.unit.ZERO_VOLUME
-import at.orchaldir.gm.utils.renderer.model.FillAndBorder
-import at.orchaldir.gm.utils.renderer.model.toRender
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.ICharacterConfig
 import at.orchaldir.gm.visualization.character.appearance.EQUIPMENT_LAYER
@@ -62,7 +60,7 @@ fun visualizePants(
     state: CharacterRenderState<Body>,
     pants: Pants,
 ) {
-    val options = state.getRenderOptions(pants.main)
+    val options = state.getFillAndBorder(pants.main)
     val height = state.equipment().pants.getPantlegHeightFactor(pants.style)
     val polygon = if (height != null) {
         getPantsWithHeight(state, height)

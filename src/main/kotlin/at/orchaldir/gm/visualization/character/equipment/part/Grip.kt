@@ -7,8 +7,6 @@ import at.orchaldir.gm.core.model.item.equipment.style.GripShape
 import at.orchaldir.gm.core.model.item.equipment.style.SimpleGrip
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.LayerRenderer
-import at.orchaldir.gm.utils.renderer.model.FillAndBorder
-import at.orchaldir.gm.utils.renderer.model.toRender
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.utils.visualizeBoundRows
 
@@ -46,7 +44,7 @@ private fun visualizeSimpleGrip(
     grip: SimpleGrip,
     aabb: AABB,
 ) {
-    val options = state.getRenderOptions(grip.part)
+    val options = state.getFillAndBorder(grip.part)
     val polygon = createSimpleGripPolygon(config, grip, aabb)
 
     renderer.renderRoundedPolygon(polygon, options)

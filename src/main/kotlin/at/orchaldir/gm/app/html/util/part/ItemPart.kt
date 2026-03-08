@@ -83,10 +83,7 @@ fun HtmlBlockTag.showItemPart(
                 field("Leather Grade", part.grade)
                 fieldColorLookup("Color", part.color)
             }
-            is MadeFromMetal -> {
-                fieldLink("Material", call, state, part.material)
-                fieldColorLookup("Color", part.color)
-            }
+            is MadeFromMetal -> fieldLink("Material", call, state, part.material)
             is MadeFromWood -> {
                 fieldLink("Material", call, state, part.material)
                 showFillLookup(part.fill)
@@ -144,6 +141,20 @@ fun HtmlBlockTag.showFillLookupItemPart(
 }
 
 // edit
+
+fun HtmlBlockTag.editItemPart(
+    state: State,
+    part: ItemPart,
+    param: String,
+    label: String = TEXT,
+    allowedType: ItemPartType,
+) = editItemPart(
+    state,
+    part,
+    param,
+    label,
+    setOf(allowedType),
+)
 
 fun HtmlBlockTag.editItemPart(
     state: State,
@@ -218,10 +229,7 @@ fun HtmlBlockTag.editItemPart(
                 )
                 selectColor(state, param, part.color)
             }
-            is MadeFromMetal -> {
-                selectMaterial(state, param, part.material, metals)
-                selectColor(state, param, part.color)
-            }
+            is MadeFromMetal -> selectMaterial(state, param, part.material, metals)
             is MadeFromWood -> {
                 selectMaterial(state, param, part.material, woods)
                 selectFillLookup(state, part.fill, combine(param, FILL))
@@ -366,7 +374,6 @@ fun parseMadeFromMetal(
     param: String,
 ) = MadeFromMetal(
     parseMaterialId(parameters, combine(param, MATERIAL)),
-    parseColorLookup(parameters, combine(param, COLOR)),
 )
 
 fun parseColorItemPart(parameters: Parameters, param: String) = ColorItemPart(

@@ -7,9 +7,7 @@ import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Volume
 import at.orchaldir.gm.utils.math.unit.ZERO_VOLUME
-import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
-import at.orchaldir.gm.utils.renderer.model.toRender
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.ICharacterConfig
 import at.orchaldir.gm.visualization.character.appearance.BEHIND_LAYER
@@ -100,7 +98,7 @@ fun visualizeFootwear(
     state: CharacterRenderState<Body>,
     footwear: Footwear,
 ) {
-    val options = state.getRenderOptions(footwear.shaft)
+    val options = state.getFillAndBorder(footwear.shaft)
 
     visualizeBootShaft(state, footwear, options)
 
@@ -152,7 +150,7 @@ fun visualizeSoles(
     footwear: Footwear,
 ) {
     val config = state.config
-    val options = state.getRenderOptions(footwear.sole)
+    val options = state.getFillAndBorder(footwear.sole)
     val (left, right) = config.body.getMirroredLegPoint(state, END)
     val size = config.equipment.footwear.getSoleFrontSize(state)
     val offset = Point2d.yAxis(size.height / 2.0f)

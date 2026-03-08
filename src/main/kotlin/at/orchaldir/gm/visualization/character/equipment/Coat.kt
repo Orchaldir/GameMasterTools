@@ -7,7 +7,6 @@ import at.orchaldir.gm.core.model.item.equipment.style.OuterwearLength
 import at.orchaldir.gm.core.model.item.equipment.style.SleeveStyle
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
-import at.orchaldir.gm.utils.renderer.model.toRender
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.ICharacterConfig
 import at.orchaldir.gm.visualization.character.appearance.addHip
@@ -49,7 +48,7 @@ fun visualizeCoat(
     coat: Coat,
     layer: Int,
 ) {
-    val options = state.getRenderOptions(coat.main)
+    val options = state.getFillAndBorder(coat.main)
 
     visualizeSleeves(state, options, coat.sleeveStyle, layer)
     visualizeCoatBody(state, options, coat, layer)

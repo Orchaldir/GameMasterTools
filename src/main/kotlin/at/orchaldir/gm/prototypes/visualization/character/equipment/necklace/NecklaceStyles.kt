@@ -11,6 +11,7 @@ import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.Size.*
 import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
+import at.orchaldir.gm.core.model.util.part.MadeFromCord
 import at.orchaldir.gm.core.model.util.render.Color.*
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
@@ -40,11 +41,11 @@ fun main() {
             OrnamentWithBorder(Teardrop, Blue, Silver),
             ColorSchemeItemPart(Silver),
         ),
-        Wire(Small, Silver),
+        Cord(MadeFromCord(Silver), Small),
     )
     val crossNecklace = PendantNecklace(
         SimpleOrnament(Cross, Silver),
-        Wire(Small, Black),
+        Cord(MadeFromCord(Black), Small),
     )
     val styles: MutableList<Pair<String, NecklaceStyle>> = mutableListOf(
         Pair("Pearl", StrandNecklace(1, OrnamentLine(pearl))),

@@ -5,11 +5,14 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.math.fieldFactor
 import at.orchaldir.gm.app.html.util.math.parseFactor
 import at.orchaldir.gm.app.html.util.math.selectFactor
-import at.orchaldir.gm.app.html.util.part.editColorSchemeItemPart
-import at.orchaldir.gm.app.html.util.part.parseColorSchemeItemPart
-import at.orchaldir.gm.app.html.util.part.showColorSchemeItemPart
+import at.orchaldir.gm.app.html.util.part.editItemPart
+import at.orchaldir.gm.app.html.util.part.parseItemPart
+import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.style.*
+import at.orchaldir.gm.core.model.util.part.CLOTHING_MATERIALS
+import at.orchaldir.gm.core.model.util.part.ItemPart
+import at.orchaldir.gm.core.model.util.part.ItemPartType
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Factor
 import io.ktor.http.*
@@ -30,14 +33,14 @@ fun HtmlBlockTag.showLamellarLacing(
         when (lacing) {
             NoLacing -> doNothing()
             is DiagonalLacing -> {
-                showColorSchemeItemPart(call, state, lacing.lacing, "Lacing")
+                showItemPart(call, state, lacing.lacing)
                 fieldFactor("Thickness", lacing.thickness)
             }
 
-            is FourSidesLacing -> showColorSchemeItemPart(call, state, lacing.lacing, "Lacing")
+            is FourSidesLacing -> showItemPart(call, state, lacing.lacing)
             is LacingAndStripe -> {
-                showColorSchemeItemPart(call, state, lacing.lacing, "Lacing")
-                showColorSchemeItemPart(call, state, lacing.stripe, "Stripe")
+                showItemPart(call, state, lacing.lacing, "Lacing")
+                showItemPart(call, state, lacing.stripe, "Stripe")
                 fieldFactor("Stripe Width", lacing.stripeWidth)
             }
         }
@@ -53,21 +56,27 @@ fun HtmlBlockTag.editLamellarLacing(state: State, param: String, lacing: Lamella
         when (lacing) {
             NoLacing -> doNothing()
             is DiagonalLacing -> {
-                editColorSchemeItemPart(state, lacing.lacing, combine(param, LACING), "Lacing")
+                selectLacing(state, param, lacing.lacing)
                 selectLacingThickness(lacing.thickness, param)
             }
 
             is FourSidesLacing -> {
-                editColorSchemeItemPart(state, lacing.lacing, combine(param, LACING), "Lacing")
+                selectLacing(state, param, lacing.lacing)
                 selectLacingLength(lacing.lacingLength, param)
                 selectLacingThickness(lacing.lacingThickness, param)
             }
 
             is LacingAndStripe -> {
-                editColorSchemeItemPart(state, lacing.lacing, combine(param, LACING), "Lacing")
+                selectLacing(state, param, lacing.lacing)
                 selectLacingLength(lacing.lacingLength, param)
                 selectLacingThickness(lacing.lacingThickness, param)
-                editColorSchemeItemPart(state, lacing.stripe, combine(param, STRIPE), "Stripe")
+                editItemPart(
+                    state,
+                    lacing.stripe,
+                    combine(param, STRIPE),
+                    "Stripe",
+                    CLOTHING_MATERIALS,
+                )
                 selectFactor(
                     "Stripe Width",
                     combine(param, STRIPE, WIDTH),
@@ -79,6 +88,17 @@ fun HtmlBlockTag.editLamellarLacing(state: State, param: String, lacing: Lamella
         }
     }
 }
+
+private fun DETAILS.selectLacing(
+    state: State,
+    param: String,
+    lacing: ItemPart,
+) = editItemPart(
+    state,
+    lacing,
+    combine(param, LACING),
+    allowedType = ItemPartType.Cord,
+)
 
 private fun DETAILS.selectLacingThickness(thickness: Factor, param: String) {
     selectFactor(
@@ -108,21 +128,21 @@ fun parseLamellarLacing(parameters: Parameters, param: String): LamellarLacing {
     return when (type) {
         LamellarLacingType.None -> NoLacing
         LamellarLacingType.Diagonal -> DiagonalLacing(
-            parseColorSchemeItemPart(parameters, combine(param, LACING)),
+            parseItemPart(parameters, combine(param, LACING)),
             parseLacingThickness(parameters, param),
         )
 
         LamellarLacingType.FourSides -> FourSidesLacing(
-            parseColorSchemeItemPart(parameters, combine(param, LACING)),
+            parseItemPart(parameters, combine(param, LACING)),
             parseLacingLength(parameters, param),
             parseLacingThickness(parameters, param),
         )
 
         LamellarLacingType.Stripe -> LacingAndStripe(
-            parseColorSchemeItemPart(parameters, combine(param, LACING)),
+            parseItemPart(parameters, combine(param, LACING)),
             parseLacingLength(parameters, param),
             parseLacingThickness(parameters, param),
-            parseColorSchemeItemPart(parameters, combine(param, STRIPE)),
+            parseItemPart(parameters, combine(param, STRIPE)),
             parseStripeWidth(parameters, param),
         )
     }

@@ -94,8 +94,7 @@ private fun createScaleRenderer(
 
         is DiagonalLacing -> {
             val thickness = scaleSize.width * lacing.thickness
-            val color = lacing.lacing.getColor(state.state, state.colors)
-            val lacingOptions = NoBorder(color.toRender(), clippingName)
+            val lacingOptions = state.getNoBorder(lacing.lacing, clippingName)
             val topY = HALF - config.diagonalOffset
             val bottomY = HALF + config.diagonalOffset
             val leftOffset = Point2d().createPolar(thickness / 2, fromDegrees(-135L))
@@ -120,8 +119,7 @@ private fun createScaleRenderer(
         }
 
         is FourSidesLacing -> {
-            val color = lacing.lacing.getColor(state.state, state.colors)
-            val lacingOptions = NoBorder(color.toRender(), clippingName)
+            val lacingOptions = state.getNoBorder(lacing.lacing, clippingName)
             val length = scaleSize.width * lacing.lacingLength
             val thickness = scaleSize.width * lacing.lacingThickness
             val bottomY = FULL - overlap / 2
@@ -143,8 +141,7 @@ private fun createScaleRenderer(
         }
 
         is LacingAndStripe -> {
-            val color = lacing.lacing.getColor(state.state, state.colors)
-            val lacingOptions = NoBorder(color.toRender(), clippingName)
+            val lacingOptions = state.getNoBorder(lacing.lacing, clippingName)
             val length = scaleSize.width * lacing.lacingLength
             val thickness = scaleSize.width * lacing.lacingThickness
             val leftSize = Size2d(thickness, length)
@@ -178,8 +175,7 @@ private fun createStripeRenderer(
         }
 
         is LacingAndStripe -> {
-            val color = lacing.stripe.getColor(state.state, state.colors)
-            val lacingOptions = FillAndBorder(color.toRender(), state.config.line, clippingName)
+            val lacingOptions = state.getNoBorder(lacing.lacing, clippingName)
             val stripeHeight = scaleSize.width * lacing.stripeWidth
             val size = Size2d(rowWidth, stripeHeight)
 

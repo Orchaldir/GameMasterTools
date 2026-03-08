@@ -7,8 +7,6 @@ import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.LayerRenderer
-import at.orchaldir.gm.utils.renderer.model.FillAndBorder
-import at.orchaldir.gm.utils.renderer.model.toRender
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.ICharacterConfig
 import at.orchaldir.gm.visualization.character.appearance.HELD_EQUIPMENT_LAYER
@@ -85,7 +83,7 @@ fun visualizePolearmShaft(
 ) {
     when (shaft) {
         is SimpleShaft -> {
-            val options = state.getRenderOptions(shaft.part)
+            val options = state.getFillAndBorder(shaft.part)
             val polygon = createSimpleShaftPolygon(aabb, polearmHead)
 
             renderer.renderRoundedPolygon(polygon, options)

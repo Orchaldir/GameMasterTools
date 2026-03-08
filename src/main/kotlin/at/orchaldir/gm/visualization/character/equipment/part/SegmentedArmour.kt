@@ -167,7 +167,7 @@ private fun visualizeArmourSleeve(
     style: SegmentedArmour,
     rowHeight: Distance,
 ) {
-    val options = state.getRenderOptions(style.segment)
+    val options = state.getFillAndBorder(style.segment)
     val top = aabb.getPoint(CENTER, START)
     val bottom = aabb.getPoint(CENTER, FULL)
     var center = top

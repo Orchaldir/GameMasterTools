@@ -4,10 +4,11 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap.Companion.from
 import at.orchaldir.gm.core.model.item.equipment.Sling
-import at.orchaldir.gm.core.model.item.equipment.style.Rope
+import at.orchaldir.gm.core.model.item.equipment.style.Cord
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
 import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
+import at.orchaldir.gm.core.model.util.part.MadeFromCord
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.util.render.SolidLookup
 import at.orchaldir.gm.core.model.util.render.VerticalStripesLookup
@@ -34,7 +35,7 @@ fun main() {
     ) { distance, size, cradle ->
         val polearm = Sling(
             size,
-            Rope(ColorSchemeItemPart(Color.SaddleBrown)),
+            Cord(MadeFromCord(Color.SaddleBrown)),
             FillLookupItemPart(MaterialId(0), cradle),
         )
         Pair(createAppearance(distance), from(polearm))

@@ -82,7 +82,7 @@ private fun visualizeSimpleBlade(
     blade: SimpleBlade,
     aabb: AABB,
 ) {
-    val options = state.getRenderOptions(blade.part)
+    val options = state.getFillAndBorder(blade.part)
     val polygon = createSimplyBladePolygon(state, config, blade, aabb)
 
     renderer.renderRoundedPolygon(polygon, options)
