@@ -7,6 +7,8 @@ import at.orchaldir.gm.core.model.item.text.scroll.ScrollWithTwoRods
 import at.orchaldir.gm.core.model.item.text.scroll.ScrollWithoutRod
 import at.orchaldir.gm.core.model.util.font.FontId
 import at.orchaldir.gm.core.model.util.part.ColorItemPart
+import at.orchaldir.gm.core.model.util.part.ItemPart
+import at.orchaldir.gm.core.model.util.part.MadeFromPaper
 import at.orchaldir.gm.core.model.util.part.MadeFromParts
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
@@ -59,7 +61,7 @@ sealed class TextFormat : MadeFromParts {
 data class Book(
     val binding: BookBinding,
     val pages: Int = DEFAULT_PAGES,
-    val page: ColorItemPart = ColorItemPart(),
+    val page: ItemPart = MadeFromPaper(),
     val size: Size2d = Size2d.square(DEFAULT_BOOK_SIZE),
 ) : TextFormat() {
 
@@ -74,7 +76,7 @@ data class Scroll(
     val rollLength: Distance = DEFAULT_ROLL_LENGTH,
     val rollDiameter: Distance = DEFAULT_ROLL_DIAMETER,
     val pageWidth: Factor = DEFAULT_PAGE_WIDTH_FACTOR,
-    val main: ColorItemPart = ColorItemPart(),
+    val main: ItemPart = MadeFromPaper(),
 ) : TextFormat() {
 
     fun calculateWidthOfOneRod() = format.calculateWidthOfOneRod(rollDiameter)

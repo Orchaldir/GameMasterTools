@@ -36,6 +36,7 @@ import at.orchaldir.gm.core.model.util.part.MadeFromGem
 import at.orchaldir.gm.core.model.util.part.MadeFromGlass
 import at.orchaldir.gm.core.model.util.part.MadeFromLeather
 import at.orchaldir.gm.core.model.util.part.MadeFromMetal
+import at.orchaldir.gm.core.model.util.part.MadeFromPaper
 import at.orchaldir.gm.core.model.util.part.MadeFromWood
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.util.render.ColorLookup
@@ -97,6 +98,10 @@ fun HtmlBlockTag.showItemPart(
                 fieldColorLookup("Color", part.color)
             }
             is MadeFromMetal -> fieldLink("Material", call, state, part.material)
+            is MadeFromPaper -> {
+                fieldLink("Material", call, state, part.material)
+                fieldColorLookup("Color", part.color)
+            }
             is MadeFromWood -> {
                 fieldLink("Material", call, state, part.material)
                 showFillLookup(part.fill)
@@ -181,6 +186,7 @@ fun HtmlBlockTag.editItemPart(
     val glasses = state.sortMaterials(MaterialCategoryType.Glass)
     val leathers = state.sortMaterials(MaterialCategoryType.Leather)
     val metals = state.sortMaterials(ALLOYS_OR_METALS)
+    val papers = state.sortMaterials(MaterialCategoryType.Paper)
     val woods = state.sortMaterials(MaterialCategoryType.Wood)
 
     showDetails(label, true) {
@@ -197,6 +203,7 @@ fun HtmlBlockTag.editItemPart(
                 ItemPartType.Glass -> glasses.isEmpty()
                 ItemPartType.Leather -> leathers.isEmpty()
                 ItemPartType.Metal -> metals.isEmpty()
+                ItemPartType.Paper -> papers.isEmpty()
                 ItemPartType.Wood -> woods.isEmpty()
                 else -> false
             }
@@ -253,6 +260,10 @@ fun HtmlBlockTag.editItemPart(
                 selectColor(state, param, part.color)
             }
             is MadeFromMetal -> selectMaterial(state, param, part.material, metals)
+            is MadeFromPaper -> {
+                selectMaterial(state, param, part.material, papers)
+                selectColor(state, param, part.color)
+            }
             is MadeFromWood -> {
                 selectMaterial(state, param, part.material, woods)
                 selectFillLookup(state, part.fill, combine(param, FILL))
@@ -376,6 +387,7 @@ fun parseItemPart(
     ItemPartType.Glass -> parseGlass(parameters, param)
     ItemPartType.Leather -> parseLeather(parameters, param)
     ItemPartType.Metal -> parseMadeFromMetal(parameters, param)
+    ItemPartType.Paper -> parsePaper(parameters, param)
     ItemPartType.Wood -> MadeFromWood(
         parseMaterialId(parameters, combine(param, MATERIAL)),
         parseFillLookup(parameters, combine(param, FILL)),
@@ -420,6 +432,14 @@ fun parseMadeFromMetal(
     param: String,
 ) = MadeFromMetal(
     parseMaterialId(parameters, combine(param, MATERIAL)),
+)
+
+fun parsePaper(
+    parameters: Parameters,
+    param: String,
+) = MadeFromPaper(
+    parseMaterialId(parameters, combine(param, MATERIAL)),
+    parseColorLookup(parameters, combine(param, COLOR)),
 )
 
 fun parseColorItemPart(parameters: Parameters, param: String) = ColorItemPart(

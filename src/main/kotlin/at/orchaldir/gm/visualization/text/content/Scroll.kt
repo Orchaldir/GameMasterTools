@@ -88,8 +88,7 @@ fun visualizeScrollContent(
 
     visualizeOpenScroll(state, scroll)
 
-    val pageColor = scroll.main.getColor(state.state)
-    val pageOptions = FillAndBorder(pageColor.toRender(), state.config.line)
+    val pageOptions = state.getFillAndBorder(scroll.main)
     val pagesStart = scrollAabb.start + Point2d(scroll.calculateWidthOfOneRod(), scroll.calculateHandleLength())
     val pagesSize = pageSize.replaceWidth(pageSize.width * numberOfPages)
     val pagesAabb = AABB(pagesStart, pagesSize)

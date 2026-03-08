@@ -11,7 +11,9 @@ import at.orchaldir.gm.core.model.item.text.book.typography.Typography
 import at.orchaldir.gm.core.model.item.text.scroll.*
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.part.FillItemPart
+import at.orchaldir.gm.core.model.util.part.ItemPart
 import at.orchaldir.gm.core.model.util.part.Segments
+import at.orchaldir.gm.core.model.util.part.WRITING_MATERIALS
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.unit.SiPrefix
 import io.ktor.http.*
@@ -36,7 +38,7 @@ fun HtmlBlockTag.showTextFormat(
             UndefinedTextFormat -> doNothing()
             is Book -> {
                 field("Pages", format.pages)
-                showColorItemPart(call, state, format.page, "Page")
+                showItemPart(call, state, format.page, "Page")
                 showBinding(call, state, format.binding)
                 fieldSize("Size", format.size)
             }
@@ -44,7 +46,7 @@ fun HtmlBlockTag.showTextFormat(
             is Scroll -> {
                 fieldDistance("Roll Length", format.rollLength)
                 fieldDistance("Roll Diameter", format.rollDiameter)
-                showColorItemPart(call, state, format.main)
+                showItemPart(call, state, format.main)
                 showScrollFormat(call, state, format.format)
             }
         }
@@ -183,7 +185,7 @@ fun HtmlBlockTag.editTextFormat(
             UndefinedTextFormat -> doNothing()
             is Book -> {
                 selectInt("Pages", format.pages, MIN_PAGES, 10000, 1, PAGES)
-                editColorItemPart(state, format.page, PAGE, "Page")
+                editItemPart(state, format.page, PAGE, "Page", WRITING_MATERIALS)
                 editBinding(state, format.binding, hasAuthor)
                 selectSize(SIZE, format.size, MIN_TEXT_SIZE, MAX_TEXT_SIZE, prefix)
             }
@@ -212,7 +214,7 @@ fun HtmlBlockTag.editTextFormat(
                     MIN_PAGE_WIDTH_FACTOR,
                     MAX_PAGE_WIDTH_FACTOR,
                 )
-                editColorItemPart(state, format.main, SCROLL)
+                editItemPart(state, format.main, SCROLL, allowedTypes = WRITING_MATERIALS)
                 editScrollFormat(state, format.format)
             }
         }
@@ -398,7 +400,7 @@ fun parseTextFormat(parameters: Parameters) = when (parse(parameters, FORMAT, Te
     TextFormatType.Book -> Book(
         parseBinding(parameters),
         parseInt(parameters, PAGES, DEFAULT_PAGES),
-        parseColorItemPart(parameters, PAGE),
+        parseItemPart(parameters, PAGE),
         parseSize(parameters, SIZE, prefix, DEFAULT_BOOK_SIZE),
     )
 
@@ -407,7 +409,7 @@ fun parseTextFormat(parameters: Parameters) = when (parse(parameters, FORMAT, Te
         parseDistance(parameters, LENGTH, prefix, DEFAULT_ROLL_LENGTH),
         parseDistance(parameters, DIAMETER, prefix, DEFAULT_ROLL_DIAMETER),
         parseFactor(parameters, WIDTH, DEFAULT_PAGE_WIDTH_FACTOR),
-        parseColorItemPart(parameters, SCROLL),
+        parseItemPart(parameters, SCROLL),
     )
 
     TextFormatType.Undefined -> UndefinedTextFormat

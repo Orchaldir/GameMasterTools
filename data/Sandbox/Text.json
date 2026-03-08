@@ -1,5 +1,41 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "format": {
+    "#type": "Scroll",
+    "format": {
+     "#type": "OneRod",
+     "handle": {
+      "segments": [
+       {
+        "length": 2000,
+        "diameter": 5000,
+        "main": {
+         "#type": "at.orchaldir.gm.core.model.util.part.ColorItemPart"
+        }
+       }
+      ]
+     }
+    },
+    "rollDiameter": 59000,
+    "main": {
+     "#type": "at.orchaldir.gm.core.model.util.part.MadeFromPaper",
+     "material": 17
+    }
+   },
+   "content": {
+    "#type": "Abstract",
+    "style": {
+     "isJustified": false,
+     "generation": {
+      "rarity": {
+       "Paragraph": "Common"
+      }
+     }
+    }
+   }
+  }
  }
 }

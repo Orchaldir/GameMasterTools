@@ -230,6 +230,16 @@
     "tenacity": "Brittle",
     "transparency": "Transparent"
    }
+  },
+  "17": {
+   "id": 17,
+   "name": "Paper",
+   "properties": {
+    "category": {
+     "#type": "Paper"
+    },
+    "color": "White"
+   }
   }
  }
 }

@@ -50,6 +50,7 @@ fun convertToRenderFill(
     is MadeFromGlass -> RenderTransparent(part.getColor(state, colors).toRender(), part.opacity)
     is MadeFromLeather -> convert(state, part, colors)
     is MadeFromMetal -> convert(state, part, colors)
+    is MadeFromPaper -> convert(state, part, colors)
     is MadeFromWood ->  convertFill(state, part, colors)
 }
 

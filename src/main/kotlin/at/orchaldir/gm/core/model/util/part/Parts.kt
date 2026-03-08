@@ -25,6 +25,10 @@ val SOLID_MATERIALS = listOf(
     ItemPartType.Metal,
     ItemPartType.Wood,
 )
+val WRITING_MATERIALS = listOf(
+    ItemPartType.Leather,
+    ItemPartType.Paper,
+)
 
 enum class ItemPartType {
     Color,
@@ -37,6 +41,7 @@ enum class ItemPartType {
     Glass,
     Leather,
     Metal,
+    Paper,
     Wood;
 }
 
@@ -60,6 +65,7 @@ sealed class ItemPart: HasColor {
         is MadeFromGlass -> ItemPartType.Glass
         is MadeFromLeather -> ItemPartType.Leather
         is MadeFromMetal -> ItemPartType.Metal
+        is MadeFromPaper -> ItemPartType.Paper
         is MadeFromWood -> ItemPartType.Wood
     }
 
@@ -67,7 +73,7 @@ sealed class ItemPart: HasColor {
 
     abstract fun material(): MaterialId
 
-    open override fun getColor(state: State, colors: Colors): Color = error("Unsupported!")
+    override fun getColor(state: State, colors: Colors): Color = error("Unsupported!")
 
     open fun requiredSchemaColors() = 0
 }
@@ -245,6 +251,22 @@ data class MadeFromMetal(
 
     override fun contains(id: MaterialId) = material == id
     override fun material() = material
+
+}
+
+@Serializable
+data class MadeFromPaper(
+    val material: MaterialId = MaterialId(0),
+    val color: ColorLookup = LookupMaterial,
+) : ItemPart(), HasColor {
+
+    constructor(color: Color) : this(MaterialId(0), color =  FixedColor(color))
+
+    override fun getColor(state: State, colors: Colors) = color.lookup(state, colors, material)
+
+    override fun contains(id: MaterialId) = material == id
+    override fun material() = material
+    override fun requiredSchemaColors() = color.requiredSchemaColors()
 
 }
 
