@@ -4,39 +4,29 @@
   "0": {
    "id": 0,
    "data": {
-    "#type": "Club1",
-    "head": {
-     "#type": "Flail",
-     "head": {
-      "#type": "MorningStar",
-      "spikes": {
-       "item": {
-        "length": 5000,
-        "width": 3300,
-        "main": {
-         "#type": "at.orchaldir.gm.core.model.util.part.MadeFromGem",
-         "material": 15
-        }
-       },
-       "number": 7
-      },
-      "main": {
-       "#type": "at.orchaldir.gm.core.model.util.part.MadeFromMetal",
-       "material": 5
-      }
-     },
-     "connection": {
-      "#type": "Chain",
-      "main": {
-       "material": 4
+    "#type": "EyePatch",
+    "style": {
+     "#type": "Simple",
+     "shape": "Circle",
+     "main": {
+      "#type": "at.orchaldir.gm.core.model.util.part.MadeFromFabric",
+      "material": 14,
+      "fill": {
+       "#type": "Solid",
+       "color": {
+        "#type": "Fixed",
+        "color": "Black"
+       }
       }
      }
     },
-    "shaft": {
-     "#type": "Simple",
-     "part": {
-      "#type": "at.orchaldir.gm.core.model.util.part.MadeFromWood",
-      "material": 10
+    "fixation": {
+     "#type": "TwoBands",
+     "band": {
+      "#type": "Cord",
+      "main": {
+       "material": 14
+      }
      }
     }
    }

@@ -15,6 +15,7 @@ import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.EQUIPMENT_LAYER
 import at.orchaldir.gm.visualization.character.appearance.EyesConfig
 import at.orchaldir.gm.visualization.character.appearance.visualizeEye
+import at.orchaldir.gm.visualization.character.equipment.part.visualizeLineStyle
 import at.orchaldir.gm.visualization.character.equipment.part.visualizeOrnament
 
 private val xPair = Pair(START, END)
@@ -25,8 +26,8 @@ data class EyePatchConfig(
     val ornamentRadius: Factor,
     val teardropRadius: Factor,
 ) {
-    fun getFixationOptions(aabb: AABB, color: Color, size: Size) =
-        LineOptions(color.toRender(), aabb.convertHeight(fixationSize.convert(size)))
+    fun getFixationThickness(aabb: AABB, size: Size) =
+        aabb.convertHeight(fixationSize.convert(size))
 
     fun getOneBandPoints(eyesConfig: EyesConfig, aabb: AABB, side: Side) = Pair(
         aabb.getPoint(side.flip().get(xPair), eyesConfig.twoEyesY),
@@ -70,20 +71,21 @@ fun visualizeEyePatchForTwoEyes(
 
     when (eyePatch.style) {
         is SimpleEyePatch -> {
-            val fill = eyePatch.style.main.getFill(state.state, state.colors)
-            val options = state.config.getLineOptions(fill)
+            val options = state.getFillAndBorder(eyePatch.style.main)
+
             visualizeLens(state, options, center, eyePatch.style.shape)
         }
 
         is OrnamentAsEyePatch -> {
             val config = state.config.equipment.eyePatch
             val radius = state.headAABB().convertHeight(config.ornamentRadius)
+
             visualizeOrnament(state, state.getLayer(EQUIPMENT_LAYER), eyePatch.style.ornament, center, radius)
         }
 
         is EyePatchWithEye -> {
-            val fill = eyePatch.style.main.getFill(state.state, state.colors)
-            val options = state.config.getLineOptions(fill)
+            val options = state.getFillAndBorder(eyePatch.style.main)
+
             visualizeLens(state, options, center, eyePatch.style.shape)
             visualizeEye(state, center, eyePatch.style.eye, EQUIPMENT_LAYER)
         }
@@ -114,18 +116,18 @@ private fun visualizeFixationForTwoEyes(
         NoFixation -> doNothing()
         is OneBand -> {
             val (closeEnd, distantEnd) = eyePatchConfig.getOneBandPoints(eyesConfig, aabb, side)
-            val color = fixation.band.getColor(state.state, state.colors)
-            val options = eyePatchConfig.getFixationOptions(aabb, color, fixation.size)
+            val line = Line2d(listOf(closeEnd, center, distantEnd))
+            val thickness = eyePatchConfig.getFixationThickness(aabb, fixation.band.getSizeOfSub())
 
-            renderer.renderLine(listOf(closeEnd, center, distantEnd), options)
+            visualizeLineStyle(state, renderer, fixation.band, line, thickness)
         }
 
         is DiagonalBand -> {
             val (closeEnd, distantEnd) = eyePatchConfig.getDiagonalBandPoints(eyesConfig, aabb, side)
-            val color = fixation.band.getColor(state.state, state.colors)
-            val options = eyePatchConfig.getFixationOptions(aabb, color, fixation.size)
+            val line = Line2d(listOf(closeEnd, center, distantEnd))
+            val thickness = eyePatchConfig.getFixationThickness(aabb, fixation.band.getSizeOfSub())
 
-            renderer.renderLine(listOf(closeEnd, center, distantEnd), options)
+            visualizeLineStyle(state, renderer, fixation.band, line, thickness)
         }
 
         is TwoBands -> {
@@ -133,11 +135,12 @@ private fun visualizeFixationForTwoEyes(
                 .getMirroredPoints(FULL, eyesConfig.twoEyesY - eyePatchConfig.fixationDeltaY)
             val (bottomLeft, bottomRight) = aabb
                 .getMirroredPoints(FULL, eyesConfig.twoEyesY + eyePatchConfig.fixationDeltaY)
-            val color = fixation.band.getColor(state.state, state.colors)
-            val options = eyePatchConfig.getFixationOptions(aabb, color, Size.Small)
+            val topLine = Line2d(listOf(topLeft, center.minusHeight(offsetY), topRight))
+            val bottomLine = Line2d(listOf(bottomLeft, center.addHeight(offsetY), bottomRight))
+            val thickness = eyePatchConfig.getFixationThickness(aabb, fixation.band.getSizeOfSub())
 
-            renderer.renderLine(listOf(topLeft, center.minusHeight(offsetY), topRight), options)
-            renderer.renderLine(listOf(bottomLeft, center.addHeight(offsetY), bottomRight), options)
+            visualizeLineStyle(state, renderer, fixation.band, topLine, thickness)
+            visualizeLineStyle(state, renderer, fixation.band, bottomLine, thickness)
         }
     }
 }
@@ -150,23 +153,24 @@ private fun visualizeFixationForTwoEyesAndBehind(
     val eyesConfig = state.config.head.eyes
     val eyePatchConfig = state.config.equipment.eyePatch
     val renderer = state.renderer.getLayer(EQUIPMENT_LAYER)
+    val aabb = state.headAABB()
 
     when (fixation) {
         NoFixation, is TwoBands -> doNothing()
         is OneBand -> {
             val (closeEnd, distantEnd) = eyePatchConfig.getOneBandPoints(eyesConfig, state.headAABB(), side)
-            val color = fixation.band.getColor(state.state, state.colors)
-            val options = eyePatchConfig.getFixationOptions(state.headAABB(), color, fixation.size)
+            val line = Line2d(listOf(closeEnd, distantEnd))
+            val thickness = eyePatchConfig.getFixationThickness(aabb, fixation.band.getSizeOfSub())
 
-            renderer.renderLine(listOf(closeEnd, distantEnd), options)
+            visualizeLineStyle(state, renderer, fixation.band, line, thickness)
         }
 
         is DiagonalBand -> {
             val (closeEnd, distantEnd) = eyePatchConfig.getDiagonalBandPoints(eyesConfig, state.headAABB(), side)
-            val color = fixation.band.getColor(state.state, state.colors)
-            val options = eyePatchConfig.getFixationOptions(state.headAABB(), color, fixation.size)
+            val line = Line2d(listOf(closeEnd, distantEnd))
+            val thickness = eyePatchConfig.getFixationThickness(aabb, fixation.band.getSizeOfSub())
 
-            renderer.renderLine(listOf(closeEnd, distantEnd), options)
+            visualizeLineStyle(state, renderer, fixation.band, line, thickness)
         }
 
     }

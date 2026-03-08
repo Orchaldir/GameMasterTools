@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.model.item.equipment.style
 
 import at.orchaldir.gm.core.model.character.appearance.eye.NormalEye
 import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
+import at.orchaldir.gm.core.model.util.part.ItemPart
 import at.orchaldir.gm.core.model.util.part.MadeFromParts
 import at.orchaldir.gm.core.model.util.render.Color
 import kotlinx.serialization.SerialName
@@ -36,7 +37,7 @@ sealed class EyePatchStyle : MadeFromParts {
 @SerialName("Simple")
 data class SimpleEyePatch(
     val shape: LensShape = LensShape.Rectangle,
-    val main: FillLookupItemPart = FillLookupItemPart(Color.Black),
+    val main: ItemPart = FillLookupItemPart(Color.Black),
 ) : EyePatchStyle() {
 
     constructor(shape: LensShape, color: Color) : this(shape, FillLookupItemPart(color))
@@ -57,7 +58,7 @@ data class OrnamentAsEyePatch(
 data class EyePatchWithEye(
     val eye: NormalEye,
     val shape: LensShape = LensShape.Rectangle,
-    val main: FillLookupItemPart = FillLookupItemPart(Color.Black),
+    val main: ItemPart = FillLookupItemPart(Color.Black),
 ) : EyePatchStyle() {
 
     init {

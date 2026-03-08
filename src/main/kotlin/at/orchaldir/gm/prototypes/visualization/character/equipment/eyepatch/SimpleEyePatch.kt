@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
 import at.orchaldir.gm.core.model.character.appearance.mouth.NormalMouth
 import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.item.equipment.style.*
+import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.Size.*
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.util.render.Color.SaddleBrown
@@ -23,7 +24,7 @@ val FIXATIONS: List<Pair<String, EyePatchFixation>> = listOf(
     Pair("DiagonalBand + Small", DiagonalBand(Small)),
     Pair("DiagonalBand + Medium", DiagonalBand(Medium)),
     Pair("DiagonalBand + Large", DiagonalBand(Large, SaddleBrown)),
-    Pair("TwoBands", TwoBands()),
+    Pair("TwoBands", TwoBands(Size.Medium)),
 )
 
 fun main() {

@@ -12,6 +12,8 @@ import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.item.equipment.style.EyePatchWithEye
 import at.orchaldir.gm.core.model.item.equipment.style.OneBand
 import at.orchaldir.gm.core.model.item.equipment.style.VALID_LENSES
+import at.orchaldir.gm.core.model.util.Size
+import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.util.render.Color.Red
 import at.orchaldir.gm.core.model.util.render.Color.Yellow
 import at.orchaldir.gm.prototypes.visualization.addNames
@@ -28,7 +30,7 @@ fun main() {
         addNames(VALID_LENSES),
     ) { distance, shape, eyeShape ->
         val eye = NormalEye(eyeShape, VerticalSlit, Red, Yellow)
-        val eyePatch = EyePatch(EyePatchWithEye(eye, shape), OneBand())
+        val eyePatch = EyePatch(EyePatchWithEye(eye, shape), OneBand(Size.Medium))
         val entry = EquipmentMapEntry<EquipmentData>(eyePatch, BodySlot.LeftEye)
 
         Pair(createAppearance(distance), EquipmentMap(entry))

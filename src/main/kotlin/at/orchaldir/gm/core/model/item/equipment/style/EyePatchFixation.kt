@@ -1,7 +1,10 @@
 package at.orchaldir.gm.core.model.item.equipment.style
 
+import at.orchaldir.gm.core.model.item.equipment.style.DiagonalBand
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
+import at.orchaldir.gm.core.model.util.part.ItemPart
+import at.orchaldir.gm.core.model.util.part.MadeFromCord
 import at.orchaldir.gm.core.model.util.part.MadeFromParts
 import at.orchaldir.gm.core.model.util.render.Color
 import kotlinx.serialization.SerialName
@@ -25,10 +28,10 @@ sealed class EyePatchFixation : MadeFromParts {
     }
 
     override fun parts() = when (this) {
-        is DiagonalBand -> listOf(band)
         NoFixation -> emptyList()
-        is OneBand -> listOf(band)
-        is TwoBands -> listOf(band)
+        is OneBand -> band.parts()
+        is DiagonalBand -> band.parts()
+        is TwoBands -> band.parts()
     }
 }
 
@@ -39,32 +42,30 @@ data object NoFixation : EyePatchFixation()
 @Serializable
 @SerialName("OneBand")
 data class OneBand(
-    val size: Size = Size.Small,
-    val band: ColorSchemeItemPart = ColorSchemeItemPart(Color.Black),
+    val band: LineStyle,
 ) : EyePatchFixation() {
 
-    constructor(size: Size, color: Color) : this(size, ColorSchemeItemPart(color))
+    constructor(size: Size, color: Color = Color.Black) : this(Cord(MadeFromCord(color), size))
 
 }
 
 @Serializable
 @SerialName("DiagonalBand")
 data class DiagonalBand(
-    val size: Size = Size.Small,
-    val band: ColorSchemeItemPart = ColorSchemeItemPart(Color.Black),
+    val band: LineStyle,
 ) : EyePatchFixation() {
 
-    constructor(size: Size, color: Color) : this(size, ColorSchemeItemPart(color))
+    constructor(size: Size, color: Color = Color.Black) : this(Cord(MadeFromCord(color), size))
 
 }
 
 @Serializable
 @SerialName("TwoBands")
 data class TwoBands(
-    val band: ColorSchemeItemPart = ColorSchemeItemPart(Color.Black),
+    val band: LineStyle,
 ) : EyePatchFixation() {
 
-    constructor(color: Color) : this(ColorSchemeItemPart(color))
+    constructor(size: Size, color: Color = Color.Black) : this(Cord(MadeFromCord(color), size))
 
 }
 

@@ -3,8 +3,11 @@ package at.orchaldir.gm.app.html.item.equipment.data
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.character.appearance.editNormalEye
+import at.orchaldir.gm.app.html.item.equipment.style.editLineStyle
 import at.orchaldir.gm.app.html.item.equipment.style.editOrnament
+import at.orchaldir.gm.app.html.item.equipment.style.parseLineStyle
 import at.orchaldir.gm.app.html.item.equipment.style.parseOrnament
+import at.orchaldir.gm.app.html.item.equipment.style.showLineStyle
 import at.orchaldir.gm.app.html.item.equipment.style.showOrnament
 import at.orchaldir.gm.app.html.util.part.*
 import at.orchaldir.gm.core.model.State
@@ -15,10 +18,13 @@ import at.orchaldir.gm.core.model.item.equipment.EyePatch
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.race.appearance.EyeOptions
 import at.orchaldir.gm.core.model.util.Size
+import at.orchaldir.gm.core.model.util.part.CLOTHING_MATERIALS
+import at.orchaldir.gm.core.model.util.part.ItemPart
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
+import kotlinx.html.DETAILS
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -43,13 +49,13 @@ private fun HtmlBlockTag.showStyle(
         when (style) {
             is SimpleEyePatch -> {
                 field("Shape", style.shape)
-                showFillLookupItemPart(call, state, style.main, "Main")
+                showItemPart(call, state, style.main)
             }
 
             is OrnamentAsEyePatch -> showOrnament(call, state, style.ornament)
             is EyePatchWithEye -> {
                 field("Shape", style.shape)
-                showFillLookupItemPart(call, state, style.main, "Main")
+                showItemPart(call, state, style.main)
             }
         }
     }
@@ -65,17 +71,9 @@ private fun HtmlBlockTag.showFixation(
 
         when (fixation) {
             NoFixation -> doNothing()
-            is OneBand -> {
-                field("Size", fixation.size)
-                showColorSchemeItemPart(call, state, fixation.band, "Band")
-            }
-
-            is DiagonalBand -> {
-                field("Size", fixation.size)
-                showColorSchemeItemPart(call, state, fixation.band, "Band")
-            }
-
-            is TwoBands -> showColorSchemeItemPart(call, state, fixation.band, "Band")
+            is OneBand -> showLineStyle(call, state, fixation.band, "Band")
+            is DiagonalBand -> showLineStyle(call, state, fixation.band, "Band")
+            is TwoBands -> showLineStyle(call, state, fixation.band, "Band")
         }
     }
 }
@@ -100,14 +98,14 @@ private fun HtmlBlockTag.editStyle(
         when (style) {
             is SimpleEyePatch -> {
                 selectValue("Shape", SHAPE, VALID_LENSES, style.shape)
-                editFillLookupItemPart(state, style.main, MAIN, "Main")
+                editItemPart(state, style.main, MAIN, allowedTypes = CLOTHING_MATERIALS)
             }
 
             is OrnamentAsEyePatch -> editOrnament(state, style.ornament)
             is EyePatchWithEye -> {
                 editNormalEye(EyeOptions(), style.eye)
                 selectValue("Shape", SHAPE, VALID_LENSES, style.shape)
-                editFillLookupItemPart(state, style.main, MAIN, "Main")
+                editItemPart(state, style.main, MAIN, allowedTypes = CLOTHING_MATERIALS)
             }
         }
     }
@@ -122,19 +120,18 @@ private fun HtmlBlockTag.editFixation(
 
         when (fixation) {
             NoFixation -> doNothing()
-            is OneBand -> {
-                selectValue("Size", combine(FIXATION, SIZE), Size.entries, fixation.size)
-                editColorSchemeItemPart(state, fixation.band, FIXATION, "Band")
-            }
-
-            is DiagonalBand -> {
-                selectValue("Size", combine(FIXATION, SIZE), Size.entries, fixation.size)
-                editColorSchemeItemPart(state, fixation.band, FIXATION, "Band")
-            }
-
-            is TwoBands -> editColorSchemeItemPart(state, fixation.band, FIXATION, "Band")
+            is OneBand -> selectBand(state, fixation.band)
+            is DiagonalBand -> selectBand(state, fixation.band)
+            is TwoBands -> selectBand(state, fixation.band)
         }
     }
+}
+
+private fun DETAILS.selectBand(
+    state: State,
+    band: LineStyle,
+) {
+    editLineStyle(state, band, "Band", FIXATION, WITHOUT_ORNAMENT_LINE)
 }
 
 // parse
@@ -148,7 +145,7 @@ private fun parseStyle(parameters: Parameters) =
     when (parse(parameters, STYLE, EyePatchStyleType.Simple)) {
         EyePatchStyleType.Simple -> SimpleEyePatch(
             parse(parameters, SHAPE, LensShape.Circle),
-            parseFillLookupItemPart(parameters, MAIN),
+            parseItemPart(parameters, MAIN),
         )
 
         EyePatchStyleType.Ornament -> OrnamentAsEyePatch(
@@ -163,24 +160,22 @@ private fun parseStyle(parameters: Parameters) =
                 parse(parameters, combine(PUPIL, SCLERA), Color.White),
             ),
             parse(parameters, SHAPE, LensShape.Circle),
-            parseFillLookupItemPart(parameters, MAIN),
+            parseItemPart(parameters, MAIN),
         )
     }
 
 private fun parseFixation(parameters: Parameters) = when (parse(parameters, FIXATION, EyePatchFixationType.None)) {
     EyePatchFixationType.None -> NoFixation
     EyePatchFixationType.OneBand -> OneBand(
-        parse(parameters, combine(FIXATION, SIZE), Size.Small),
-        parseColorSchemeItemPart(parameters, FIXATION),
+        parseLineStyle(parameters, FIXATION),
     )
 
     EyePatchFixationType.DiagonalBand -> DiagonalBand(
-        parse(parameters, combine(FIXATION, SIZE), Size.Small),
-        parseColorSchemeItemPart(parameters, FIXATION),
+        parseLineStyle(parameters, FIXATION),
     )
 
     EyePatchFixationType.TwoBands -> TwoBands(
-        parseColorSchemeItemPart(parameters, FIXATION),
+        parseLineStyle(parameters, FIXATION),
     )
 }
 
