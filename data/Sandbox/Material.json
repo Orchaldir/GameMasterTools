@@ -201,6 +201,21 @@
     },
     "color": "White"
    }
+  },
+  "15": {
+   "id": 15,
+   "name": "Diamond",
+   "properties": {
+    "category": {
+     "#type": "Mineral"
+    },
+    "color": "White",
+    "crystalSystem": "Cubic",
+    "density": 3500000000,
+    "hardness": 10.0,
+    "luster": "Adamantine",
+    "tenacity": "Brittle"
+   }
   }
  }
 }

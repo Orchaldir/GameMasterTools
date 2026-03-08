@@ -10,7 +10,8 @@
      "ornament": {
       "#type": "Border",
       "center": {
-       "#type": "at.orchaldir.gm.core.model.util.part.MadeFromMetal"
+       "#type": "at.orchaldir.gm.core.model.util.part.MadeFromGem",
+       "material": 15
       },
       "border": {
        "#type": "at.orchaldir.gm.core.model.util.part.MadeFromMetal",
