@@ -10,11 +10,14 @@ import at.orchaldir.gm.app.html.util.part.editItemPart
 import at.orchaldir.gm.app.html.util.part.parseItemPart
 import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.equipment.CLUB_HEAD_MATERIALS
 import at.orchaldir.gm.core.model.item.equipment.style.*
+import at.orchaldir.gm.core.model.util.part.ItemPart
 import at.orchaldir.gm.core.model.util.part.SOLID_MATERIALS
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
+import kotlinx.html.DETAILS
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -84,17 +87,17 @@ fun HtmlBlockTag.editClubHead(
             NoClubHead -> doNothing()
             is SimpleClubHead -> {
                 selectComplexShape(head.shape, combine(param, SHAPE))
-                editItemPart(state, head.main, param, allowedTypes = SOLID_MATERIALS)
+                selectMadeFrom(state, param, head.main)
             }
 
             is SimpleFlangedHead -> {
                 selectComplexShape(head.shape, combine(param, SHAPE))
-                editItemPart(state, head.main, param, allowedTypes = SOLID_MATERIALS)
+                selectMadeFrom(state, param, head.main)
             }
 
             is ComplexFlangedHead -> {
                 editRotatedShape(head.shape, combine(param, SHAPE))
-                editItemPart(state, head.main, param, allowedTypes = SOLID_MATERIALS)
+                selectMadeFrom(state, param, head.main)
             }
 
             is SpikedMaceHead -> {
@@ -129,16 +132,24 @@ fun HtmlBlockTag.editClubHead(
                 editCircularArrangement("Spikes", head.spikes, combine(param, SPIKE)) { spike, spikeParam ->
                     editSpike(state, spike, spikeParam)
                 }
-                editItemPart(state, head.main, param, allowedTypes = SOLID_MATERIALS)
+                selectMadeFrom(state, param, head.main)
             }
 
             is WarhammerHead -> {
                 selectComplexShape(head.shape, combine(param, SHAPE))
                 editSpike(state, head.spike, combine(param, SPIKE))
-                editItemPart(state, head.main, param, allowedTypes = SOLID_MATERIALS)
+                selectMadeFrom(state, param, head.main)
             }
         }
     }
+}
+
+private fun DETAILS.selectMadeFrom(
+    state: State,
+    param: String,
+    part: ItemPart,
+) {
+    editItemPart(state, part, param, allowedTypes = CLUB_HEAD_MATERIALS)
 }
 
 // parse
@@ -151,17 +162,17 @@ fun parseClubHead(
     ClubHeadType.None -> NoClubHead
     ClubHeadType.Simple -> SimpleClubHead(
         parseComplexShape(parameters, combine(param, SHAPE)),
-        parseItemPart(parameters, param),
+        parseMadeFrom(parameters, param),
     )
 
     ClubHeadType.SimpleFlanged -> SimpleFlangedHead(
         parseComplexShape(parameters, combine(param, SHAPE)),
-        parseItemPart(parameters, param),
+        parseMadeFrom(parameters, param),
     )
 
     ClubHeadType.ComplexFlanged -> ComplexFlangedHead(
         parseRotatedShape(parameters, combine(param, SHAPE)),
-        parseItemPart(parameters, param),
+        parseMadeFrom(parameters, param),
     )
 
     ClubHeadType.SpikedMace -> SpikedMaceHead(
@@ -178,12 +189,17 @@ fun parseClubHead(
         parseCircularArrangement(parameters, combine(param, SPIKE), 7) {
             parseSpike(parameters, it)
         },
-        parseItemPart(parameters, param),
+        parseMadeFrom(parameters, param),
     )
 
     ClubHeadType.Warhammer -> WarhammerHead(
         parseSpike(parameters, combine(param, SPIKE)),
         parseComplexShape(parameters, combine(param, SHAPE)),
-        parseItemPart(parameters, param),
+        parseMadeFrom(parameters, param),
     )
 }
+
+private fun parseMadeFrom(
+    parameters: Parameters,
+    param: String,
+) = parseItemPart(parameters, param, CLUB_HEAD_MATERIALS)

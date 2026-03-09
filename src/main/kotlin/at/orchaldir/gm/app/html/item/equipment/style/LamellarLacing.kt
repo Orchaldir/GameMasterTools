@@ -9,10 +9,12 @@ import at.orchaldir.gm.app.html.util.part.editItemPart
 import at.orchaldir.gm.app.html.util.part.parseItemPart
 import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.equipment.LAMELLAR_STRIPE_MATERIALS
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.part.CLOTHING_MATERIALS
 import at.orchaldir.gm.core.model.util.part.ItemPart
 import at.orchaldir.gm.core.model.util.part.ItemPartType
+import at.orchaldir.gm.core.model.util.part.LINE_MATERIALS
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Factor
 import io.ktor.http.*
@@ -75,7 +77,7 @@ fun HtmlBlockTag.editLamellarLacing(state: State, param: String, lacing: Lamella
                     lacing.stripe,
                     combine(param, STRIPE),
                     "Stripe",
-                    CLOTHING_MATERIALS,
+                    LAMELLAR_STRIPE_MATERIALS,
                 )
                 selectFactor(
                     "Stripe Width",
@@ -97,7 +99,7 @@ private fun DETAILS.selectLacing(
     state,
     lacing,
     combine(param, LACING),
-    allowedType = ItemPartType.Cord,
+    allowedTypes = LINE_MATERIALS,
 )
 
 private fun DETAILS.selectLacingThickness(thickness: Factor, param: String) {
@@ -128,25 +130,28 @@ fun parseLamellarLacing(parameters: Parameters, param: String): LamellarLacing {
     return when (type) {
         LamellarLacingType.None -> NoLacing
         LamellarLacingType.Diagonal -> DiagonalLacing(
-            parseItemPart(parameters, combine(param, LACING)),
+            parseLacing(parameters, param),
             parseLacingThickness(parameters, param),
         )
 
         LamellarLacingType.FourSides -> FourSidesLacing(
-            parseItemPart(parameters, combine(param, LACING)),
+            parseLacing(parameters, param),
             parseLacingLength(parameters, param),
             parseLacingThickness(parameters, param),
         )
 
         LamellarLacingType.Stripe -> LacingAndStripe(
-            parseItemPart(parameters, combine(param, LACING)),
+            parseLacing(parameters, param),
             parseLacingLength(parameters, param),
             parseLacingThickness(parameters, param),
-            parseItemPart(parameters, combine(param, STRIPE)),
+            parseItemPart(parameters, combine(param, STRIPE), LAMELLAR_STRIPE_MATERIALS),
             parseStripeWidth(parameters, param),
         )
     }
 }
+
+private fun parseLacing(parameters: Parameters, param: String) =
+    parseItemPart(parameters, combine(param, LACING), LINE_MATERIALS)
 
 private fun parseLacingLength(parameters: Parameters, param: String) =
     parseFactor(parameters, combine(param, LACING, LENGTH), DEFAULT_LENGTH)

@@ -8,6 +8,7 @@ import at.orchaldir.gm.app.html.util.part.editItemPart
 import at.orchaldir.gm.app.html.util.part.parseItemPart
 import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.equipment.SHIELD_MATERIALS
 import at.orchaldir.gm.core.model.item.equipment.style.NoShieldBorder
 import at.orchaldir.gm.core.model.item.equipment.style.ShieldBorder
 import at.orchaldir.gm.core.model.item.equipment.style.ShieldBorderType
@@ -53,7 +54,7 @@ fun HtmlBlockTag.editShieldBorder(state: State, border: ShieldBorder) {
                     state,
                     border.main,
                     combine(BORDER, MAIN),
-                    allowedTypes = SOLID_MATERIALS,
+                    allowedTypes = SHIELD_MATERIALS,
                 )
             }
         }
@@ -66,6 +67,6 @@ fun parseShieldBorder(parameters: Parameters) = when (parse(parameters, BORDER, 
     ShieldBorderType.None -> NoShieldBorder
     ShieldBorderType.Simple -> SimpleShieldBorder(
         parse(parameters, combine(BORDER, SIZE), Size.Medium),
-        parseItemPart(parameters, combine(BORDER, MAIN)),
+        parseItemPart(parameters, combine(BORDER, MAIN), SHIELD_MATERIALS),
     )
 }

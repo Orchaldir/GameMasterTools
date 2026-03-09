@@ -11,6 +11,7 @@ import at.orchaldir.gm.app.html.util.part.editItemPart
 import at.orchaldir.gm.app.html.util.part.parseItemPart
 import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.equipment.TIE_MATERIALS
 import at.orchaldir.gm.core.model.item.equipment.Tie
 import at.orchaldir.gm.core.model.item.equipment.style.TieStyle
 import at.orchaldir.gm.core.model.util.Size
@@ -40,8 +41,8 @@ fun HtmlBlockTag.editTie(
 ) {
     selectValue("Style", STYLE, TieStyle.entries, tie.style)
     selectValue("Size", SIZE, Size.entries, tie.size)
-    editItemPart(state, tie.main, MAIN, "Main", CLOTHING_MATERIALS)
-    editItemPart(state, tie.knot, KNOT, "Knot", CLOTHING_MATERIALS)
+    editItemPart(state, tie.main, MAIN, "Main", TIE_MATERIALS)
+    editItemPart(state, tie.knot, KNOT, "Knot", TIE_MATERIALS)
 }
 
 // parse
@@ -49,6 +50,6 @@ fun HtmlBlockTag.editTie(
 fun parseTie(parameters: Parameters) = Tie(
     parse(parameters, STYLE, TieStyle.Tie),
     parse(parameters, SIZE, Size.Medium),
-    parseItemPart(parameters, MAIN),
-    parseItemPart(parameters, KNOT),
+    parseItemPart(parameters, MAIN, TIE_MATERIALS),
+    parseItemPart(parameters, KNOT, TIE_MATERIALS),
 )

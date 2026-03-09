@@ -11,6 +11,7 @@ import at.orchaldir.gm.app.html.util.part.editItemPart
 import at.orchaldir.gm.app.html.util.part.parseItemPart
 import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.equipment.SPIKE_MATERIALS
 import at.orchaldir.gm.core.model.item.equipment.style.Spike
 import at.orchaldir.gm.core.model.util.part.SOLID_MATERIALS
 import at.orchaldir.gm.utils.math.Factor
@@ -57,7 +58,7 @@ fun HtmlBlockTag.editSpike(
             fromPercentage(10),
             fromPercentage(50),
         )
-        editItemPart(state, spike.main, param, allowedTypes = SOLID_MATERIALS)
+        editItemPart(state, spike.main, param, allowedTypes = SPIKE_MATERIALS)
     }
 }
 
@@ -70,5 +71,5 @@ fun parseSpike(
 ) = Spike(
     parseFactor(parameters, combine(param, LENGTH), defaultLength),
     parseFactor(parameters, combine(param, WIDTH), THIRD),
-    parseItemPart(parameters, param),
+    parseItemPart(parameters, param, SPIKE_MATERIALS),
 )

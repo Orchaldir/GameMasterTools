@@ -9,6 +9,7 @@ import at.orchaldir.gm.app.html.util.part.editItemPart
 import at.orchaldir.gm.app.html.util.part.parseItemPart
 import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.equipment.PANTS_MATERIALS
 import at.orchaldir.gm.core.model.item.equipment.Pants
 import at.orchaldir.gm.core.model.item.equipment.style.PantsStyle
 import at.orchaldir.gm.core.model.util.part.CLOTHING_MATERIALS
@@ -34,12 +35,12 @@ fun HtmlBlockTag.editPants(
     pants: Pants,
 ) {
     selectValue("Style", PANTS, PantsStyle.entries, pants.style)
-    editItemPart(state, pants.main, MAIN, allowedTypes = CLOTHING_MATERIALS)
+    editItemPart(state, pants.main, MAIN, allowedTypes = PANTS_MATERIALS)
 }
 
 // parse
 
 fun parsePants(parameters: Parameters) = Pants(
     parse(parameters, PANTS, PantsStyle.Regular),
-    parseItemPart(parameters, MAIN),
+    parseItemPart(parameters, MAIN, PANTS_MATERIALS),
 )

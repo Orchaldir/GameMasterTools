@@ -12,6 +12,8 @@ import at.orchaldir.gm.app.html.util.part.parseItemPart
 import at.orchaldir.gm.app.html.util.part.parseMadeFromMetal
 import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.equipment.CHAIN_MAIL_MATERIALS
+import at.orchaldir.gm.core.model.item.equipment.HELMET_MATERIALS
 import at.orchaldir.gm.core.model.item.equipment.Helmet
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.part.ItemPartType
@@ -60,18 +62,18 @@ fun HtmlBlockTag.editHelmet(
     when (val style = helmet.style) {
         is ChainmailHood -> {
             selectOptionalValue("Body Shape", BODY_SHAPE, style.shape, HoodBodyShape.entries)
-            editItemPart(state, style.main, HELMET, allowedType = ItemPartType.Metal)
+            editItemPart(state, style.main, HELMET, allowedTypes = CHAIN_MAIL_MATERIALS)
         }
 
         is GreatHelm -> {
             selectValue("Helmet Shape", SHAPE, HelmetShape.entries, style.shape)
-            editItemPart(state, style.main, HELMET, allowedTypes = SOLID_MATERIALS)
+            editItemPart(state, style.main, HELMET, allowedTypes = HELMET_MATERIALS)
             selectEyeHoles(style.eyeHole, HELMET)
         }
 
         is SkullCap -> {
             selectValue("Helmet Shape", SHAPE, HelmetShape.entries, style.shape)
-            editItemPart(state, style.main, HELMET, allowedTypes = SOLID_MATERIALS)
+            editItemPart(state, style.main, HELMET, allowedTypes = HELMET_MATERIALS)
             editHelmetFront(state, style.front)
         }
     }
@@ -89,18 +91,18 @@ fun parseHelmetStyle(
 ) = when (parse(parameters, STYLE, HelmetStyleType.SkullCap)) {
     HelmetStyleType.ChainmailHood -> ChainmailHood(
         parse<HoodBodyShape>(parameters, BODY_SHAPE),
-        parseMadeFromMetal(parameters, HELMET),
+        parseItemPart(parameters, HELMET, CHAIN_MAIL_MATERIALS),
     )
 
     HelmetStyleType.GreatHelm -> GreatHelm(
         parse(parameters, SHAPE, HelmetShape.Round),
         parseEyeHoles(parameters, HELMET),
-        parseItemPart(parameters, HELMET),
+        parseItemPart(parameters, HELMET, HELMET_MATERIALS),
     )
 
     HelmetStyleType.SkullCap -> SkullCap(
         parse(parameters, SHAPE, HelmetShape.Round),
         parseHelmetFront(parameters),
-        parseItemPart(parameters, HELMET),
+        parseItemPart(parameters, HELMET, HELMET_MATERIALS),
     )
 }

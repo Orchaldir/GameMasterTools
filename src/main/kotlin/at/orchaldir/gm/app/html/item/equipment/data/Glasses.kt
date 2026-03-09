@@ -12,6 +12,7 @@ import at.orchaldir.gm.app.html.util.part.parseGlass
 import at.orchaldir.gm.app.html.util.part.parseItemPart
 import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.equipment.GLASSES_FRAME_MATERIALS
 import at.orchaldir.gm.core.model.item.equipment.Glasses
 import at.orchaldir.gm.core.model.item.equipment.style.FrameType
 import at.orchaldir.gm.core.model.item.equipment.style.LensShape
@@ -50,7 +51,7 @@ fun HtmlBlockTag.editGlasses(
     }
     showDetails("Frame", true) {
         selectValue("Shape", FRAME, FrameType.entries, glasses.frameType)
-        editItemPart(state, glasses.frame, FRAME, allowedTypes = SOLID_MATERIALS)
+        editItemPart(state, glasses.frame, FRAME, allowedTypes = GLASSES_FRAME_MATERIALS)
     }
 }
 
@@ -60,5 +61,5 @@ fun parseGlasses(parameters: Parameters) = Glasses(
     parse(parameters, SHAPE, LensShape.Rectangle),
     parse(parameters, FRAME, FrameType.FullRimmed),
     parseGlass(parameters, LENS),
-    parseItemPart(parameters, FRAME),
+    parseItemPart(parameters, FRAME, GLASSES_FRAME_MATERIALS),
 )

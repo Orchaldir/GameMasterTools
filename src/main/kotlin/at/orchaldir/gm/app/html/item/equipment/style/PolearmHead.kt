@@ -7,6 +7,7 @@ import at.orchaldir.gm.app.html.util.math.parseFactor
 import at.orchaldir.gm.app.html.util.math.selectFactor
 import at.orchaldir.gm.app.html.util.part.*
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.equipment.SPEAR_MATERIALS
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.part.SOLID_MATERIALS
 import at.orchaldir.gm.utils.doNothing
@@ -119,7 +120,7 @@ private fun DETAILS.editSpearHead(
         MIN_SPEAR_WIDTH,
         MAX_SPEAR_WIDTH,
     )
-    editItemPart(state, head.part, param, allowedTypes = SOLID_MATERIALS)
+    editItemPart(state, head.part, param, allowedTypes = SPEAR_MATERIALS)
 }
 
 // parse
@@ -150,7 +151,7 @@ private fun parseSpearHead(parameters: Parameters, param: String) = SpearHead(
     parse(parameters, combine(param, SHAPE), SpearShape.Leaf),
     parseSpearLength(parameters, param),
     parseSpearWidth(parameters, param),
-    parseItemPart(parameters, param),
+    parseItemPart(parameters, param, SPEAR_MATERIALS),
 )
 
 private fun parseSpearLength(parameters: Parameters, param: String) =

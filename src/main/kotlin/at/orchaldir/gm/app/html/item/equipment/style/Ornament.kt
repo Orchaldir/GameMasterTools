@@ -9,6 +9,7 @@ import at.orchaldir.gm.app.html.util.part.editItemPart
 import at.orchaldir.gm.app.html.util.part.parseItemPart
 import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.equipment.ORNAMENT_MATERIALS
 import at.orchaldir.gm.core.model.item.equipment.style.Ornament
 import at.orchaldir.gm.core.model.item.equipment.style.OrnamentType
 import at.orchaldir.gm.core.model.item.equipment.style.OrnamentWithBorder
@@ -63,7 +64,7 @@ fun HtmlBlockTag.editOrnament(
                     state,
                     ornament.part,
                     combine(param, MAIN),
-                    allowedTypes = SOLID_MATERIALS,
+                    allowedTypes = ORNAMENT_MATERIALS,
                 )
             }
 
@@ -78,14 +79,14 @@ fun HtmlBlockTag.editOrnament(
                     ornament.center,
                     combine(param, MIDDLE),
                     "Center",
-                    SOLID_MATERIALS,
+                    ORNAMENT_MATERIALS,
                 )
                 editItemPart(
                     state,
                     ornament.border,
                     combine(param, MAIN),
                     "Border",
-                    SOLID_MATERIALS,
+                    ORNAMENT_MATERIALS,
                 )
             }
         }
@@ -100,13 +101,13 @@ fun parseOrnament(parameters: Parameters, param: String = ORNAMENT): Ornament {
     return when (type) {
         OrnamentType.Simple -> SimpleOrnament(
             parseComplexShape(parameters, combine(param, SHAPE)),
-            parseItemPart(parameters, combine(param, MAIN)),
+            parseItemPart(parameters, combine(param, MAIN), ORNAMENT_MATERIALS),
         )
 
         OrnamentType.Border -> OrnamentWithBorder(
             parseComplexShape(parameters, combine(param, SHAPE)),
-            parseItemPart(parameters, combine(param, MIDDLE)),
-            parseItemPart(parameters, combine(param, MAIN)),
+            parseItemPart(parameters, combine(param, MIDDLE), ORNAMENT_MATERIALS),
+            parseItemPart(parameters, combine(param, MAIN), ORNAMENT_MATERIALS),
         )
     }
 }

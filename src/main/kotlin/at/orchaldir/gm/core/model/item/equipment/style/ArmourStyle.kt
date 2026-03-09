@@ -68,7 +68,7 @@ sealed class ArmourStyle : MadeFromParts {
 @Serializable
 @SerialName("Chain")
 data class ChainMail(
-    val chain: MadeFromMetal = MadeFromMetal(),
+    val chain: ItemPart = MadeFromMetal(),
 ) : ArmourStyle()
 
 @Serializable

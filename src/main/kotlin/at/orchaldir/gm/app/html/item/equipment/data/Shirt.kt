@@ -13,6 +13,7 @@ import at.orchaldir.gm.app.html.util.part.editItemPart
 import at.orchaldir.gm.app.html.util.part.parseItemPart
 import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.equipment.SHIRT_MATERIALS
 import at.orchaldir.gm.core.model.item.equipment.Shirt
 import at.orchaldir.gm.core.model.item.equipment.style.NECKLINES_WITH_SLEEVES
 import at.orchaldir.gm.core.model.item.equipment.style.NecklineStyle
@@ -45,7 +46,7 @@ fun HtmlBlockTag.editShirt(
         SleeveStyle.entries,
         shirt.sleeveStyle,
     )
-    editItemPart(state, shirt.main, MAIN, allowedTypes = CLOTHING_MATERIALS)
+    editItemPart(state, shirt.main, MAIN, allowedTypes = SHIRT_MATERIALS)
 }
 
 // parse
@@ -56,6 +57,6 @@ fun parseShirt(parameters: Parameters): Shirt {
     return Shirt(
         neckline,
         parseSleeveStyle(parameters, neckline),
-        parseItemPart(parameters, MAIN),
+        parseItemPart(parameters, MAIN, SHIRT_MATERIALS),
     )
 }

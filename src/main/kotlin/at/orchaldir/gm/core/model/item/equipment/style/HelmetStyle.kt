@@ -28,7 +28,7 @@ sealed class HelmetStyle : MadeFromParts {
     }
 
     override fun mainMaterial() = when (this) {
-        is ChainmailHood -> main.material
+        is ChainmailHood -> main.material()
         is GreatHelm -> main.material()
         is SkullCap -> main.material()
     }
@@ -38,7 +38,7 @@ sealed class HelmetStyle : MadeFromParts {
 @SerialName("Hood")
 data class ChainmailHood(
     val shape: HoodBodyShape? = HoodBodyShape.Straight,
-    val main: MadeFromMetal = MadeFromMetal(),
+    val main: ItemPart = MadeFromMetal(),
 ) : HelmetStyle()
 
 @Serializable

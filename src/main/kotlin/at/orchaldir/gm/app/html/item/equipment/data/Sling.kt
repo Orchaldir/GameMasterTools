@@ -14,6 +14,7 @@ import at.orchaldir.gm.app.html.util.part.editItemPart
 import at.orchaldir.gm.app.html.util.part.parseItemPart
 import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.equipment.SLING_MATERIALS
 import at.orchaldir.gm.core.model.item.equipment.Sling
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.part.CLOTHING_MATERIALS
@@ -41,7 +42,7 @@ fun HtmlBlockTag.editSling(
 ) {
     selectValue("Size", SIZE, Size.entries, sling.size)
     editLineStyle(state, sling.cord, "Cord", LINE)
-    editItemPart(state, sling.cradle, MAIN, "Cradle", CLOTHING_MATERIALS)
+    editItemPart(state, sling.cradle, MAIN, "Cradle", SLING_MATERIALS)
 }
 
 // parse
@@ -49,6 +50,6 @@ fun HtmlBlockTag.editSling(
 fun parseSling(parameters: Parameters) = Sling(
     parse(parameters, SIZE, Size.Medium),
     parseLineStyle(parameters, LINE),
-    parseItemPart(parameters, MAIN),
+    parseItemPart(parameters, MAIN, SLING_MATERIALS),
     parseRangedWeaponStats(parameters),
 )

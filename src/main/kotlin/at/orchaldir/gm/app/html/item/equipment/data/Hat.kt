@@ -9,6 +9,7 @@ import at.orchaldir.gm.app.html.util.part.editItemPart
 import at.orchaldir.gm.app.html.util.part.parseItemPart
 import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.equipment.HAT_MATERIALS
 import at.orchaldir.gm.core.model.item.equipment.Hat
 import at.orchaldir.gm.core.model.item.equipment.style.HatStyle
 import at.orchaldir.gm.core.model.util.part.CLOTHING_MATERIALS
@@ -34,12 +35,12 @@ fun HtmlBlockTag.editHat(
     hat: Hat,
 ) {
     selectValue("Style", HAT, HatStyle.entries, hat.style)
-    editItemPart(state, hat.main, MAIN, allowedTypes = CLOTHING_MATERIALS)
+    editItemPart(state, hat.main, MAIN, allowedTypes = HAT_MATERIALS)
 }
 
 // parse
 
 fun parseHat(parameters: Parameters): Hat = Hat(
     parse(parameters, HAT, HatStyle.TopHat),
-    parseItemPart(parameters, MAIN),
+    parseItemPart(parameters, MAIN, HAT_MATERIALS),
 )

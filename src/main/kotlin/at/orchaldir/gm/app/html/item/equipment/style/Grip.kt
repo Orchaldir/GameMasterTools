@@ -9,8 +9,10 @@ import at.orchaldir.gm.app.html.util.part.parseItemPart
 import at.orchaldir.gm.app.html.util.part.parseMadeFromCord
 import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.equipment.GRIP_MATERIALS
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.part.ItemPartType
+import at.orchaldir.gm.core.model.util.part.LINE_MATERIALS
 import at.orchaldir.gm.core.model.util.part.SOLID_MATERIALS
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -58,7 +60,7 @@ fun HtmlBlockTag.editGrip(
                     GripShape.entries,
                     grip.shape,
                 )
-                editItemPart(state, grip.part, param, allowedTypes = SOLID_MATERIALS)
+                editItemPart(state, grip.part, param, allowedTypes = GRIP_MATERIALS)
             }
 
             is BoundGrip -> {
@@ -70,7 +72,7 @@ fun HtmlBlockTag.editGrip(
                     1,
                     combine(param, NUMBER),
                 )
-                editItemPart(state, grip.part, param, allowedType = ItemPartType.Cord)
+                editItemPart(state, grip.part, param, allowedTypes = LINE_MATERIALS)
             }
         }
     }
@@ -85,11 +87,11 @@ fun parseGrip(
 ) = when (parse(parameters, param, GripType.Simple)) {
     GripType.Simple -> SimpleGrip(
         parse(parameters, combine(param, SHAPE), GripShape.Straight),
-        parseItemPart(parameters, param),
+        parseItemPart(parameters, param, GRIP_MATERIALS),
     )
 
     GripType.Bound -> BoundGrip(
         parseInt(parameters, combine(param, NUMBER), DEFAULT_GRIP_ROWS),
-        parseMadeFromCord(parameters, param),
+        parseItemPart(parameters, param, LINE_MATERIALS),
     )
 }

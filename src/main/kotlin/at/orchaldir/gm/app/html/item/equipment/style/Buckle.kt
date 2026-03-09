@@ -6,6 +6,7 @@ import at.orchaldir.gm.app.html.util.part.editItemPart
 import at.orchaldir.gm.app.html.util.part.parseItemPart
 import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.equipment.BUCKLE_MATERIALS
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.part.SOLID_MATERIALS
@@ -51,7 +52,7 @@ fun HtmlBlockTag.editBuckle(
                     state,
                     buckle.part,
                     combine(BUCKLE, MAIN),
-                    allowedTypes = SOLID_MATERIALS,
+                    allowedTypes = BUCKLE_MATERIALS,
                 )
             }
         }
@@ -68,7 +69,7 @@ fun parseBuckle(parameters: Parameters): Buckle {
         BuckleType.Simple -> SimpleBuckle(
             parse(parameters, combine(BUCKLE, SHAPE), BuckleShape.Rectangle),
             parse(parameters, combine(BUCKLE, SIZE), Size.Small),
-            parseItemPart(parameters, combine(BUCKLE, MAIN)),
+            parseItemPart(parameters, combine(BUCKLE, MAIN), BUCKLE_MATERIALS),
         )
     }
 }

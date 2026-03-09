@@ -10,8 +10,10 @@ import at.orchaldir.gm.app.html.util.part.parseItemPart
 import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.CATEGORIES_FOR_CLOTHING
+import at.orchaldir.gm.core.model.item.equipment.HEAD_FIXATION_MATERIALS
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.part.ItemPartType
+import at.orchaldir.gm.core.model.util.part.LINE_MATERIALS
 import at.orchaldir.gm.core.model.util.part.SOLID_MATERIALS
 import at.orchaldir.gm.core.selector.util.sortMaterials
 import at.orchaldir.gm.utils.doNothing
@@ -72,17 +74,17 @@ fun HtmlBlockTag.editHeadFixation(
             NoHeadFixation -> doNothing()
             is BoundHeadHead -> {
                 selectLength(param, fixation.length)
-                editItemPart(state, fixation.cord, param, "Cord", ItemPartType.Cord)
+                editItemPart(state, fixation.cord, param, "Cord", LINE_MATERIALS)
             }
 
             is Langets -> {
                 selectLength(param, fixation.length, MIN_LANGETS_LENGTH, MAX_LANGETS_LENGTH)
-                editItemPart(state, fixation.part, param, allowedTypes = SOLID_MATERIALS)
+                editItemPart(state, fixation.part, param, allowedTypes = HEAD_FIXATION_MATERIALS)
             }
 
             is SocketedHeadHead -> {
                 selectLength(param, fixation.length)
-                editItemPart(state, fixation.part, param, allowedTypes = SOLID_MATERIALS)
+                editItemPart(state, fixation.part, param, allowedTypes = HEAD_FIXATION_MATERIALS)
             }
         }
     }
@@ -112,17 +114,17 @@ fun parseHeadFixation(
     HeadFixationType.None -> NoHeadFixation
     HeadFixationType.Bound -> BoundHeadHead(
         parseLength(parameters, param),
-        parseItemPart(parameters, param),
+        parseItemPart(parameters, param, LINE_MATERIALS),
     )
 
     HeadFixationType.Langets -> Langets(
         parseLength(parameters, param, DEFAULT_LANGETS_LENGTH),
-        parseItemPart(parameters, param),
+        parseItemPart(parameters, param, HEAD_FIXATION_MATERIALS),
     )
 
     HeadFixationType.Socketed -> SocketedHeadHead(
         parseLength(parameters, param),
-        parseItemPart(parameters, param),
+        parseItemPart(parameters, param, HEAD_FIXATION_MATERIALS),
     )
 }
 

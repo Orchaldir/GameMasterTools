@@ -12,6 +12,7 @@ import at.orchaldir.gm.app.html.util.part.editItemPart
 import at.orchaldir.gm.app.html.util.part.parseItemPart
 import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.equipment.BLADE_MATERIALS
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.part.MADE_FROM_METALS
 import at.orchaldir.gm.utils.math.Factor
@@ -94,7 +95,7 @@ private fun DETAILS.editSimpleBlade(
         MIN_BLADE_WIDTH,
         MAX_BLADE_WIDTH,
     )
-    editItemPart(state, blade.main, param, allowedTypes = MADE_FROM_METALS)
+    editItemPart(state, blade.main, param, allowedTypes = BLADE_MATERIALS)
 }
 
 // parse
@@ -115,7 +116,7 @@ private fun parseSimpleBlade(
     parseBladeLength(parameters, defaultLength, param),
     parseBladeWidth(parameters, param),
     parse(parameters, combine(param, SHAPE), BladeShape.Straight),
-    parseItemPart(parameters, param),
+    parseItemPart(parameters, param, BLADE_MATERIALS),
 )
 
 private fun parseBladeLength(parameters: Parameters, defaultLength: Factor, param: String) =

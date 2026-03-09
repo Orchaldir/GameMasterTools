@@ -6,6 +6,7 @@ import at.orchaldir.gm.app.html.util.part.editItemPart
 import at.orchaldir.gm.app.html.util.part.parseItemPart
 import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.equipment.BELT_STRAP_MATERIALS
 import at.orchaldir.gm.core.model.item.equipment.Belt
 import at.orchaldir.gm.core.model.util.part.CLOTHING_MATERIALS
 import io.ktor.http.*
@@ -31,7 +32,7 @@ fun HtmlBlockTag.editBelt(
     belt: Belt,
 ) {
     editBuckle(state, belt.buckle)
-    editItemPart(state, belt.strap, STRAP, "Strap", CLOTHING_MATERIALS)
+    editItemPart(state, belt.strap, STRAP, "Strap", BELT_STRAP_MATERIALS)
     editBeltHoles(belt.holes)
 }
 
@@ -39,6 +40,6 @@ fun HtmlBlockTag.editBelt(
 
 fun parseBelt(parameters: Parameters) = Belt(
     parseBuckle(parameters),
-    parseItemPart(parameters, STRAP),
+    parseItemPart(parameters, STRAP, BELT_STRAP_MATERIALS),
     parseBeltHoles(parameters),
 )

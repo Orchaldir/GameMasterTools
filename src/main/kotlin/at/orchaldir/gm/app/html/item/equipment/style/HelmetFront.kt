@@ -9,6 +9,7 @@ import at.orchaldir.gm.app.html.util.part.editItemPart
 import at.orchaldir.gm.app.html.util.part.parseItemPart
 import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.equipment.HELMET_MATERIALS
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.part.SOLID_MATERIALS
 import at.orchaldir.gm.utils.doNothing
@@ -67,7 +68,7 @@ fun HtmlBlockTag.editHelmetFront(
                     NoseProtectionShape.entries,
                     front.shape,
                 )
-                editItemPart(state, front.main, FRONT, allowedTypes = SOLID_MATERIALS)
+                editItemPart(state, front.main, FRONT, allowedTypes = HELMET_MATERIALS)
             }
 
             is EyeProtection -> {
@@ -84,7 +85,7 @@ fun HtmlBlockTag.editHelmetFront(
                     front.nose,
                     NoseProtectionShape.entries,
                 )
-                editItemPart(state, front.main, FRONT, allowedTypes = SOLID_MATERIALS)
+                editItemPart(state, front.main, FRONT, allowedTypes = HELMET_MATERIALS)
             }
 
             is FaceProtection -> {
@@ -95,7 +96,7 @@ fun HtmlBlockTag.editHelmetFront(
                     front.shape,
                 )
                 selectEyeHoles(front.eyeHole, FRONT)
-                editItemPart(state, front.main, FRONT, allowedTypes = SOLID_MATERIALS)
+                editItemPart(state, front.main, FRONT, allowedTypes = HELMET_MATERIALS)
             }
         }
     }
@@ -122,20 +123,20 @@ fun parseHelmetFront(
     HelmetFrontType.None -> NoHelmetFront
     HelmetFrontType.Nose -> NoseProtection(
         parse(parameters, combine(FRONT, NOSE), NoseProtectionShape.Rectangle),
-        parseItemPart(parameters, FRONT),
+        parseItemPart(parameters, FRONT, HELMET_MATERIALS),
     )
 
     HelmetFrontType.Eye -> EyeProtection(
         parse(parameters, combine(FRONT, SHAPE), EyeProtectionShape.Glasses),
         parseEyeHoles(parameters, FRONT),
         parse<NoseProtectionShape>(parameters, combine(FRONT, NOSE)),
-        parseItemPart(parameters, FRONT),
+        parseItemPart(parameters, FRONT, HELMET_MATERIALS),
     )
 
     HelmetFrontType.Face -> FaceProtection(
         parse(parameters, combine(FRONT, SHAPE), FaceProtectionShape.Oval),
         parseEyeHoles(parameters, FRONT),
-        parseItemPart(parameters, FRONT),
+        parseItemPart(parameters, FRONT, HELMET_MATERIALS),
     )
 }
 

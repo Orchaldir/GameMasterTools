@@ -11,9 +11,12 @@ import at.orchaldir.gm.app.html.util.part.parseItemPart
 import at.orchaldir.gm.app.html.util.part.parseMadeFromMetal
 import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.equipment.ARMOR_PLATE_MATERIALS
+import at.orchaldir.gm.core.model.item.equipment.ARMOR_SCALE_MATERIALS
+import at.orchaldir.gm.core.model.item.equipment.CHAIN_MAIL_MATERIALS
 import at.orchaldir.gm.core.model.item.equipment.style.*
+import at.orchaldir.gm.core.model.util.part.ItemPart
 import at.orchaldir.gm.core.model.util.part.MADE_FROM_METALS
-import at.orchaldir.gm.core.model.util.part.SOLID_MATERIALS
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.DETAILS
@@ -124,7 +127,7 @@ private fun DETAILS.editChainMail(
         state,
         armour.chain,
         combine(param, MAIN),
-        allowedTypes = MADE_FROM_METALS,
+        allowedTypes = CHAIN_MAIL_MATERIALS,
     )
 }
 
@@ -137,7 +140,7 @@ private fun DETAILS.editCuirass(
         state,
         armour.main,
         combine(param, MAIN),
-        allowedTypes = MADE_FROM_METALS,
+        allowedTypes = ARMOR_PLATE_MATERIALS,
     )
 }
 
@@ -146,13 +149,7 @@ private fun DETAILS.editLamellarArmour(
     param: String,
     armour: LamellarArmour,
 ) {
-    editItemPart(
-        state,
-        armour.scale,
-        combine(param, MAIN),
-        "Scale",
-        SOLID_MATERIALS,
-    )
+    selectScale(state, param, armour.scale)
     selectUsingRectangularShape(armour.shape, combine(param, SCALE), LAMELLAR_SHAPES)
     editLamellarLacing(state, combine(param, LACING), armour.lacing)
     selectInt(
@@ -170,13 +167,7 @@ private fun DETAILS.editScaleArmour(
     param: String,
     armour: ScaleArmour,
 ) {
-    editItemPart(
-        state,
-        armour.scale,
-        combine(param, MAIN),
-        "Scale",
-        SOLID_MATERIALS,
-    )
+    selectScale(state, param, armour.scale)
     selectComplexShape(armour.shape, combine(param, SCALE))
     selectInt(
         "Columns",
@@ -205,7 +196,7 @@ private fun DETAILS.editSegmentedArmour(
         armour.segment,
         combine(param, MAIN),
         "Segment",
-        MADE_FROM_METALS,
+        ARMOR_PLATE_MATERIALS,
     )
     selectValue("Segment Shape", combine(param, SHAPE), SegmentedPlateShape.entries, armour.shape)
     selectInt(
@@ -226,6 +217,20 @@ private fun DETAILS.editSegmentedArmour(
     )
 }
 
+private fun DETAILS.selectScale(
+    state: State,
+    param: String,
+    scale: ItemPart,
+) {
+    editItemPart(
+        state,
+        scale,
+        combine(param, MAIN),
+        "Scale",
+        ARMOR_SCALE_MATERIALS,
+    )
+}
+
 // parse
 
 fun parseArmourStyle(parameters: Parameters, param: String = STYLE): ArmourStyle {
@@ -233,29 +238,29 @@ fun parseArmourStyle(parameters: Parameters, param: String = STYLE): ArmourStyle
 
     return when (type) {
         ArmourType.Chain -> ChainMail(
-            parseMadeFromMetal(parameters, combine(param, MAIN)),
+            parseItemPart(parameters, combine(param, MAIN), CHAIN_MAIL_MATERIALS),
         )
 
         ArmourType.Cuirass -> Cuirass(
-            parseItemPart(parameters, combine(param, MAIN)),
+            parsePlate(parameters, param),
         )
 
         ArmourType.Lamellar -> LamellarArmour(
-            parseItemPart(parameters, combine(param, MAIN)),
+            parseScale(parameters, param),
             parseUsingRectangularShape(parameters, combine(param, SCALE)),
             parseLamellarLacing(parameters, combine(param, LACING)),
             parseInt(parameters, combine(param, COLUMNS), DEFAULT_SCALE_COLUMNS),
         )
 
         ArmourType.Scale -> ScaleArmour(
-            parseItemPart(parameters, combine(param, MAIN)),
+            parseScale(parameters, param),
             parseComplexShape(parameters, combine(param, SCALE)),
             parseInt(parameters, combine(param, COLUMNS), DEFAULT_SCALE_COLUMNS),
             parseFactor(parameters, combine(param, OFFSET), DEFAULT_SCALE_OVERLAP),
         )
 
         ArmourType.Segmented -> SegmentedArmour(
-            parseItemPart(parameters, combine(param, MAIN)),
+            parsePlate(parameters, param),
             parse(parameters, combine(param, SHAPE), SegmentedPlateShape.Straight),
             parseInt(parameters, combine(param, NUMBER), DEFAULT_SCALE_COLUMNS),
             parseInt(
@@ -266,3 +271,13 @@ fun parseArmourStyle(parameters: Parameters, param: String = STYLE): ArmourStyle
         )
     }
 }
+
+private fun parseScale(
+    parameters: Parameters,
+    param: String,
+) = parseItemPart(parameters, combine(param, MAIN), ARMOR_SCALE_MATERIALS)
+
+private fun parsePlate(
+    parameters: Parameters,
+    param: String,
+) = parseItemPart(parameters, combine(param, MAIN), ARMOR_PLATE_MATERIALS)

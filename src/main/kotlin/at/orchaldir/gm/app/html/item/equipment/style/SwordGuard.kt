@@ -11,6 +11,7 @@ import at.orchaldir.gm.app.html.util.part.editItemPart
 import at.orchaldir.gm.app.html.util.part.parseItemPart
 import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.equipment.GUARD_MATERIALS
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.part.MADE_FROM_METALS
 import at.orchaldir.gm.utils.doNothing
@@ -84,7 +85,7 @@ private fun DETAILS.editSimpleSwordGuard(
         MIN_GUARD_WIDTH,
         MAX_GUARD_WIDTH,
     )
-    editItemPart(state, guard.part, param, allowedTypes = MADE_FROM_METALS)
+    editItemPart(state, guard.part, param, allowedTypes = GUARD_MATERIALS)
 }
 
 // parse
@@ -100,7 +101,7 @@ fun parseSwordGuard(
 private fun parseSimpleSwordGuard(parameters: Parameters, param: String) = SimpleSwordGuard(
     parseGuardWidth(parameters, param),
     parseGuardHeight(parameters, param),
-    parseItemPart(parameters, param),
+    parseItemPart(parameters, param, GUARD_MATERIALS),
 )
 
 private fun parseGuardHeight(parameters: Parameters, param: String) =

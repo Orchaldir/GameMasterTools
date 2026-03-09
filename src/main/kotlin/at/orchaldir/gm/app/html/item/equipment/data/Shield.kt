@@ -16,6 +16,7 @@ import at.orchaldir.gm.app.html.util.part.editItemPart
 import at.orchaldir.gm.app.html.util.part.parseItemPart
 import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.equipment.SHIELD_MATERIALS
 import at.orchaldir.gm.core.model.item.equipment.Shield
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.part.SOLID_MATERIALS
@@ -49,8 +50,8 @@ fun HtmlBlockTag.editShield(
     selectValue("Size", SIZE, Size.entries, shield.size)
     editShieldBorder(state, shield.border)
     editShieldBoss(state, shield.boss)
-    editItemPart(state, shield.front, MAIN, "Front", SOLID_MATERIALS)
-    editItemPart(state, shield.back, BACK, "Back", SOLID_MATERIALS)
+    editItemPart(state, shield.front, MAIN, "Front", SHIELD_MATERIALS)
+    editItemPart(state, shield.back, BACK, "Back", SHIELD_MATERIALS)
 }
 
 // parse
@@ -60,7 +61,7 @@ fun parseShield(parameters: Parameters) = Shield(
     parse(parameters, SIZE, Size.Medium),
     parseShieldBorder(parameters),
     parseShieldBoss(parameters),
-    parseItemPart(parameters, MAIN),
-    parseItemPart(parameters, BACK),
+    parseItemPart(parameters, MAIN, SHIELD_MATERIALS),
+    parseItemPart(parameters, BACK, SHIELD_MATERIALS),
     parseShieldStats(parameters),
 )

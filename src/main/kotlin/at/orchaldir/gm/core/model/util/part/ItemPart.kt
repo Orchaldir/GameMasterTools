@@ -9,27 +9,35 @@ import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.HALF
 import kotlinx.serialization.Serializable
 
+val BOOK_COVER_MATERIALS = listOf(
+    ItemPartType.Fabric,
+    ItemPartType.Leather,
+    ItemPartType.Paper,
+    ItemPartType.Wood,
+)
 val CLOTHING_MATERIALS = listOf(
     ItemPartType.Fabric,
     ItemPartType.Leather,
 )
-val MADE_FROM_METALS = listOf(
-    ItemPartType.Metal,
-)
-val SOLID_MATERIALS = listOf(
+val FRAGILE_MATERIALS = listOf(
     ItemPartType.Gem,
     ItemPartType.Glass,
     ItemPartType.Metal,
     ItemPartType.Wood,
 )
+val LINE_MATERIALS = listOf(
+    ItemPartType.Cord,
+    ItemPartType.Leather,
+)
+val MADE_FROM_METALS = listOf(
+    ItemPartType.Metal,
+)
 val PAGE_MATERIALS = listOf(
     ItemPartType.Leather,
     ItemPartType.Paper,
 )
-val COVER_MATERIALS = listOf(
-    ItemPartType.Fabric,
-    ItemPartType.Leather,
-    ItemPartType.Paper,
+val SOLID_MATERIALS = listOf(
+    ItemPartType.Metal,
     ItemPartType.Wood,
 )
 

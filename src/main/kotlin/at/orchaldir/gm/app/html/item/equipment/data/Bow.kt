@@ -17,6 +17,7 @@ import at.orchaldir.gm.app.html.util.part.editItemPart
 import at.orchaldir.gm.app.html.util.part.parseItemPart
 import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.equipment.BOW_MATERIALS
 import at.orchaldir.gm.core.model.item.equipment.Bow
 import at.orchaldir.gm.core.model.item.equipment.style.BowShape
 import at.orchaldir.gm.core.model.util.part.SOLID_MATERIALS
@@ -59,7 +60,7 @@ fun HtmlBlockTag.editBow(
         FULL,
     )
     editBowGrip(state, bow.grip)
-    editItemPart(state, bow.main, MAIN, allowedTypes = SOLID_MATERIALS)
+    editItemPart(state, bow.main, MAIN, allowedTypes = BOW_MATERIALS)
 }
 
 // parse
@@ -68,6 +69,6 @@ fun parseBow(parameters: Parameters) = Bow(
     parse(parameters, SHAPE, BowShape.Straight),
     parseFactor(parameters, HEIGHT),
     parseBowGrip(parameters),
-    parseItemPart(parameters, MAIN),
+    parseItemPart(parameters, MAIN, BOW_MATERIALS),
     parseRangedWeaponStats(parameters),
 )

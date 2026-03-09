@@ -42,5 +42,5 @@ data class SimpleGrip(
 @SerialName("Bound")
 data class BoundGrip(
     val rows: Int = DEFAULT_GRIP_ROWS,
-    val part: MadeFromCord = MadeFromCord(Color.Red),
+    val part: ItemPart = MadeFromCord(Color.Red),
 ) : Grip

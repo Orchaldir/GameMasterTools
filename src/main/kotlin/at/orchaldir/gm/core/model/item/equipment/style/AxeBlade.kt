@@ -23,17 +23,17 @@ sealed interface AxeBlade : MadeFromParts {
     }
 
     fun part() = when (this) {
-        is BroadAxeBlade -> part
-        is DaggerAxeBlade -> part
-        is SymmetricAxeBlade -> part
+        is BroadAxeBlade -> blade
+        is DaggerAxeBlade -> blade
+        is SymmetricAxeBlade -> blade
     }
 
     override fun parts() = listOf(part())
 
     override fun mainMaterial() = when (this) {
-        is BroadAxeBlade -> part.material()
-        is DaggerAxeBlade -> part.material()
-        is SymmetricAxeBlade -> part.material()
+        is BroadAxeBlade -> blade.material()
+        is DaggerAxeBlade -> blade.material()
+        is SymmetricAxeBlade -> blade.material()
     }
 }
 
@@ -43,14 +43,14 @@ data class BroadAxeBlade(
     val shape: BroadAxeShape = BroadAxeShape.Straight,
     val size: Size = Size.Medium,
     val length: Size = Size.Medium,
-    val part: ItemPart = MadeFromMetal(),
+    val blade: ItemPart = MadeFromMetal(),
 ) : AxeBlade
 
 @Serializable
 @SerialName("Dagger")
 data class DaggerAxeBlade(
     val size: Size = Size.Medium,
-    val part: ItemPart = MadeFromMetal(),
+    val blade: ItemPart = MadeFromMetal(),
 ) : AxeBlade
 
 @Serializable
@@ -58,5 +58,5 @@ data class DaggerAxeBlade(
 data class SymmetricAxeBlade(
     val shape: SymmetricAxeShape = SymmetricAxeShape.HalfCircle,
     val size: Size = Size.Medium,
-    val part: ItemPart = MadeFromMetal(),
+    val blade: ItemPart = MadeFromMetal(),
 ) : AxeBlade

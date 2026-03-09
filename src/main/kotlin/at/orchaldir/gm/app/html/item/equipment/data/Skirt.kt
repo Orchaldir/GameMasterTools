@@ -9,6 +9,7 @@ import at.orchaldir.gm.app.html.util.part.editItemPart
 import at.orchaldir.gm.app.html.util.part.parseItemPart
 import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.equipment.SKIRT_MATERIALS
 import at.orchaldir.gm.core.model.item.equipment.Skirt
 import at.orchaldir.gm.core.model.item.equipment.style.SkirtStyle
 import at.orchaldir.gm.core.model.util.part.CLOTHING_MATERIALS
@@ -34,12 +35,12 @@ fun HtmlBlockTag.editSkirt(
     skirt: Skirt,
 ) {
     selectValue("Style", SKIRT_STYLE, SkirtStyle.entries, skirt.style)
-    editItemPart(state, skirt.main, MAIN, allowedTypes = CLOTHING_MATERIALS)
+    editItemPart(state, skirt.main, MAIN, allowedTypes = SKIRT_MATERIALS)
 }
 
 // parse
 
 fun parseSkirt(parameters: Parameters): Skirt = Skirt(
     parse(parameters, SKIRT_STYLE, SkirtStyle.Sheath),
-    parseItemPart(parameters, MAIN),
+    parseItemPart(parameters, MAIN, SKIRT_MATERIALS),
 )

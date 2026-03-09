@@ -211,7 +211,7 @@ fun parseItemPart(
 fun parseItemPart(
     parameters: Parameters,
     param: String,
-    default: ItemPartType = ItemPartType.Metal, //  TODO
+    default: ItemPartType,
 ) = when (parse(parameters, combine(param, TYPE), default)) {
     ItemPartType.Cord -> parseMadeFromCord(parameters, param)
     ItemPartType.Fabric -> MadeFromFabric(

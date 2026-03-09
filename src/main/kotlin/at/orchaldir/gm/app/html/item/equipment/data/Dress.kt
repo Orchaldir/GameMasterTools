@@ -15,6 +15,7 @@ import at.orchaldir.gm.app.html.util.part.editItemPart
 import at.orchaldir.gm.app.html.util.part.parseItemPart
 import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.equipment.DRESS_MATERIALS
 import at.orchaldir.gm.core.model.item.equipment.Dress
 import at.orchaldir.gm.core.model.item.equipment.style.NecklineStyle
 import at.orchaldir.gm.core.model.item.equipment.style.SkirtStyle
@@ -48,7 +49,7 @@ fun HtmlBlockTag.editDress(
         dress.necklineStyle.getSupportsSleevesStyles(),
         dress.sleeveStyle,
     )
-    editItemPart(state, dress.main, MAIN, allowedTypes = CLOTHING_MATERIALS)
+    editItemPart(state, dress.main, MAIN, allowedTypes = DRESS_MATERIALS)
 }
 
 // parse
@@ -60,6 +61,6 @@ fun parseDress(parameters: Parameters): Dress {
         neckline,
         parse(parameters, SKIRT_STYLE, SkirtStyle.Sheath),
         parseSleeveStyle(parameters, neckline),
-        parseItemPart(parameters, MAIN),
+        parseItemPart(parameters, MAIN, DRESS_MATERIALS),
     )
 }

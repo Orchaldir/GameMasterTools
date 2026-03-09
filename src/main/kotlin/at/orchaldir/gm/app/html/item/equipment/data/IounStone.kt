@@ -13,6 +13,7 @@ import at.orchaldir.gm.app.html.util.part.editItemPart
 import at.orchaldir.gm.app.html.util.part.parseItemPart
 import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.equipment.IOUN_STONE_MATERIALS
 import at.orchaldir.gm.core.model.item.equipment.IounStone
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.part.SOLID_MATERIALS
@@ -41,7 +42,7 @@ fun HtmlBlockTag.editIounStone(
 ) {
     selectComplexShape(stone.shape, SHAPE, SHAPES_WITHOUT_CROSS)
     selectValue("Size", SIZE, Size.entries, stone.size)
-    editItemPart(state, stone.main, MAIN, allowedTypes = SOLID_MATERIALS)
+    editItemPart(state, stone.main, MAIN, allowedTypes = IOUN_STONE_MATERIALS)
 }
 
 // parse
@@ -49,5 +50,5 @@ fun HtmlBlockTag.editIounStone(
 fun parseIounStone(parameters: Parameters) = IounStone(
     parseComplexShape(parameters, SHAPE),
     parse(parameters, SIZE, Size.Medium),
-    parseItemPart(parameters, MAIN),
+    parseItemPart(parameters, MAIN, IOUN_STONE_MATERIALS),
 )

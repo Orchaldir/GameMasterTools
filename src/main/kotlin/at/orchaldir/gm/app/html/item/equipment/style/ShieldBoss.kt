@@ -11,6 +11,7 @@ import at.orchaldir.gm.app.html.util.part.editItemPart
 import at.orchaldir.gm.app.html.util.part.parseItemPart
 import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.equipment.SHIELD_MATERIALS
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.part.SOLID_MATERIALS
 import at.orchaldir.gm.utils.doNothing
@@ -55,19 +56,19 @@ fun HtmlBlockTag.editShieldBoss(state: State, boss: ShieldBoss) {
             NoShieldBoss -> doNothing()
             is SimpleShieldBoss -> {
                 selectCircularShape(boss.shape, combine(BOSS, SHAPE))
-                editItemPart(state, boss.main, BOSS, allowedTypes = SOLID_MATERIALS)
+                editItemPart(state, boss.main, BOSS, allowedTypes = SHIELD_MATERIALS)
             }
 
             is ShieldBossWithBorder -> {
                 selectCircularShape(boss.bossShape, combine(BOSS, SHAPE), "Boss Shape")
                 selectCircularShape(boss.bossShape, combine(BOSS, BORDER), "Border Shape")
-                editItemPart(state, boss.boss, BOSS, "Boss", SOLID_MATERIALS)
+                editItemPart(state, boss.boss, BOSS, "Boss", SHIELD_MATERIALS)
                 editItemPart(
                     state,
                     boss.border,
                     combine(BOSS, BORDER),
                     "Border",
-                    SOLID_MATERIALS,
+                    SHIELD_MATERIALS,
                 )
             }
         }
@@ -80,13 +81,13 @@ fun parseShieldBoss(parameters: Parameters) = when (parse(parameters, BOSS, Shie
     ShieldBossType.None -> NoShieldBoss
     ShieldBossType.Simple -> SimpleShieldBoss(
         parseCircularShape(parameters, combine(BOSS, SHAPE)),
-        parseItemPart(parameters, BOSS),
+        parseItemPart(parameters, BOSS, SHIELD_MATERIALS),
     )
 
     ShieldBossType.Border -> ShieldBossWithBorder(
         parseCircularShape(parameters, combine(BOSS, SHAPE)),
         parseCircularShape(parameters, combine(BOSS, BORDER)),
-        parseItemPart(parameters, BOSS),
-        parseItemPart(parameters, combine(BOSS, BORDER)),
+        parseItemPart(parameters, BOSS, SHIELD_MATERIALS),
+        parseItemPart(parameters, combine(BOSS, BORDER), SHIELD_MATERIALS),
     )
 }

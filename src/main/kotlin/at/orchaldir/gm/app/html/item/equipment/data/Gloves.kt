@@ -10,6 +10,7 @@ import at.orchaldir.gm.app.html.util.part.editItemPart
 import at.orchaldir.gm.app.html.util.part.parseItemPart
 import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.equipment.GLOVES_MATERIALS
 import at.orchaldir.gm.core.model.item.equipment.Gloves
 import at.orchaldir.gm.core.model.item.equipment.style.GloveStyle
 import at.orchaldir.gm.core.model.util.part.CLOTHING_MATERIALS
@@ -35,13 +36,13 @@ fun HtmlBlockTag.editGloves(
     data: Gloves,
 ) {
     selectValue("Style", GLOVES, GloveStyle.entries, data.style)
-    editItemPart(state, data.main, MAIN, allowedTypes = CLOTHING_MATERIALS)
+    editItemPart(state, data.main, MAIN, allowedTypes = GLOVES_MATERIALS)
 }
 
 // parse
 
 fun parseGloves(parameters: Parameters): Gloves = Gloves(
     parse(parameters, GLOVES, GloveStyle.Hand),
-    parseItemPart(parameters, MAIN),
+    parseItemPart(parameters, MAIN, GLOVES_MATERIALS),
     parseArmorStats(parameters),
 )

@@ -8,6 +8,7 @@ import at.orchaldir.gm.app.html.util.math.fieldFactor
 import at.orchaldir.gm.app.html.util.math.parseFactor
 import at.orchaldir.gm.app.html.util.math.selectFactor
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.equipment.SEGMENT_MATERIALS
 import at.orchaldir.gm.core.model.util.part.SOLID_MATERIALS
 import at.orchaldir.gm.core.model.util.part.Segment
 import at.orchaldir.gm.core.model.util.part.SegmentShape
@@ -85,7 +86,7 @@ private fun HtmlBlockTag.editSegment(
         minSegmentDiameter,
         maxSegmentDiameter,
     )
-    editItemPart(state, segment.main, param, allowedTypes = SOLID_MATERIALS)
+    editItemPart(state, segment.main, param, allowedTypes = SEGMENT_MATERIALS)
     selectValue("Shape", combine(param, SHAPE), SegmentShape.entries, segment.shape)
 }
 
@@ -103,6 +104,6 @@ private fun parseSegment(
 ) = Segment(
     parseFactor(parameters, combine(param, LENGTH)),
     parseFactor(parameters, combine(param, DIAMETER)),
-    parseItemPart(parameters, param),
+    parseItemPart(parameters, param, SEGMENT_MATERIALS),
     parse(parameters, combine(param, SHAPE), SegmentShape.Cylinder),
 )

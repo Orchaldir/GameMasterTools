@@ -7,6 +7,7 @@ import at.orchaldir.gm.app.html.util.part.editItemPart
 import at.orchaldir.gm.app.html.util.part.parseItemPart
 import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.equipment.SHAFT_MATERIALS
 import at.orchaldir.gm.core.model.item.equipment.style.Shaft
 import at.orchaldir.gm.core.model.item.equipment.style.ShaftType
 import at.orchaldir.gm.core.model.item.equipment.style.SimpleShaft
@@ -46,7 +47,7 @@ fun HtmlBlockTag.editShaft(
                 state,
                 shaft.part,
                 combine(param, MAIN),
-                allowedTypes = SOLID_MATERIALS,
+                allowedTypes = SHAFT_MATERIALS,
             )
         }
     }
@@ -59,6 +60,6 @@ fun parseShaft(
     param: String = SHAFT,
 ) = when (parse(parameters, param, ShaftType.Simple)) {
     ShaftType.Simple -> SimpleShaft(
-        parseItemPart(parameters, combine(param, MAIN)),
+        parseItemPart(parameters, combine(param, MAIN), SHAFT_MATERIALS),
     )
 }

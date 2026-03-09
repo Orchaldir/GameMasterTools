@@ -7,6 +7,8 @@ import at.orchaldir.gm.app.html.util.part.parseItemPart
 import at.orchaldir.gm.app.html.util.part.parseMadeFromMetal
 import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.equipment.BUTTON_MATERIALS
+import at.orchaldir.gm.core.model.item.equipment.ZIPPER_MATERIALS
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.part.ItemPartType
@@ -73,7 +75,7 @@ fun HtmlBlockTag.selectOpeningStyle(state: State, openingStyle: OpeningStyle) {
                 openingStyle.main,
                 ZIPPER,
                 "Zipper",
-                SOLID_MATERIALS,
+                ZIPPER_MATERIALS,
             )
         }
     }
@@ -87,7 +89,7 @@ private fun HtmlBlockTag.selectButtons(state: State, buttonColumn: ButtonColumn)
         buttonColumn.button.main,
         BUTTON,
         "Button",
-        ItemPartType.Metal
+        BUTTON_MATERIALS,
     )
 }
 
@@ -117,14 +119,16 @@ fun parseOpeningStyle(parameters: Parameters): OpeningStyle {
             parse(parameters, SPACE_BETWEEN_COLUMNS, Size.Medium)
         )
 
-        OpeningType.Zipper -> Zipper(parseMadeFromMetal(parameters, ZIPPER))
+        OpeningType.Zipper -> Zipper(
+            parseItemPart(parameters, ZIPPER, ZIPPER_MATERIALS),
+        )
     }
 }
 
 private fun parseButtonColumn(parameters: Parameters) = ButtonColumn(
     Button(
         parse(parameters, combine(BUTTON, SIZE), Size.Medium),
-        parseItemPart(parameters, BUTTON),
+        parseItemPart(parameters, BUTTON, BUTTON_MATERIALS),
     ),
     parameters[combine(BUTTON, NUMBER)]?.toUByte() ?: 1u,
 )
