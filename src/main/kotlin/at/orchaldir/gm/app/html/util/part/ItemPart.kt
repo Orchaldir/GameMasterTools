@@ -201,18 +201,18 @@ private fun HtmlBlockTag.selectMaterial(
 fun parseItemPart(
     parameters: Parameters,
     param: String,
-    allowedTypes: List<ItemPartType>,
+    default: ItemPartType,
 ) = parseItemPart(
     parameters,
     param,
-    allowedTypes.first(),
+    listOf(default),
 )
 
 fun parseItemPart(
     parameters: Parameters,
     param: String,
-    default: ItemPartType,
-) = when (parse(parameters, combine(param, TYPE), default)) {
+    allowedTypes: List<ItemPartType>,
+) = when (parse(parameters, combine(param, TYPE), allowedTypes)) {
     ItemPartType.Cord -> parseMadeFromCord(parameters, param)
     ItemPartType.Fabric -> MadeFromFabric(
         parseMaterialId(parameters, combine(param, MATERIAL)),
