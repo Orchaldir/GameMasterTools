@@ -4,7 +4,6 @@ import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.part.editItemPart
 import at.orchaldir.gm.app.html.util.part.parseItemPart
-import at.orchaldir.gm.app.html.util.part.parseMadeFromMetal
 import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.BUTTON_MATERIALS
@@ -108,27 +107,33 @@ fun HtmlBlockTag.selectPocketStyle(options: Collection<PocketStyle>, current: Po
 
 // parse
 
-fun parseOpeningStyle(parameters: Parameters): OpeningStyle {
+fun parseOpeningStyle(
+    state: State,
+    parameters: Parameters,
+): OpeningStyle {
     val type = parse(parameters, combine(OPENING, STYLE), OpeningType.NoOpening)
 
     return when (type) {
         OpeningType.NoOpening -> NoOpening
-        OpeningType.SingleBreasted -> SingleBreasted(parseButtonColumn(parameters))
+        OpeningType.SingleBreasted -> SingleBreasted(parseButtonColumn(state, parameters))
         OpeningType.DoubleBreasted -> DoubleBreasted(
-            parseButtonColumn(parameters),
+            parseButtonColumn(state, parameters),
             parse(parameters, SPACE_BETWEEN_COLUMNS, Size.Medium)
         )
 
         OpeningType.Zipper -> Zipper(
-            parseItemPart(parameters, ZIPPER, ZIPPER_MATERIALS),
+            parseItemPart(state, parameters, ZIPPER, ZIPPER_MATERIALS),
         )
     }
 }
 
-private fun parseButtonColumn(parameters: Parameters) = ButtonColumn(
+private fun parseButtonColumn(
+    state: State,
+    parameters: Parameters,
+) = ButtonColumn(
     Button(
         parse(parameters, combine(BUTTON, SIZE), Size.Medium),
-        parseItemPart(parameters, BUTTON, BUTTON_MATERIALS),
+        parseItemPart(state, parameters, BUTTON, BUTTON_MATERIALS),
     ),
     parameters[combine(BUTTON, NUMBER)]?.toUByte() ?: 1u,
 )

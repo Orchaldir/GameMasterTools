@@ -101,14 +101,16 @@ private fun DETAILS.editSimpleBlade(
 // parse
 
 fun parseBlade(
+    state: State,
     parameters: Parameters,
     defaultLength: Factor,
     param: String = BLADE,
 ) = when (parse(parameters, param, BladeType.Simple)) {
-    BladeType.Simple -> parseSimpleBlade(parameters, defaultLength, param)
+    BladeType.Simple -> parseSimpleBlade(state, parameters, defaultLength, param)
 }
 
 private fun parseSimpleBlade(
+    state: State,
     parameters: Parameters,
     defaultLength: Factor,
     param: String,
@@ -116,7 +118,7 @@ private fun parseSimpleBlade(
     parseBladeLength(parameters, defaultLength, param),
     parseBladeWidth(parameters, param),
     parse(parameters, combine(param, SHAPE), BladeShape.Straight),
-    parseItemPart(parameters, param, BLADE_MATERIALS),
+    parseItemPart(state, parameters, param, BLADE_MATERIALS),
 )
 
 private fun parseBladeLength(parameters: Parameters, defaultLength: Factor, param: String) =

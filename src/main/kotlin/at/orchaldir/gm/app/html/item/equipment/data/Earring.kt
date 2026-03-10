@@ -122,41 +122,50 @@ private fun HtmlBlockTag.selectDropSize(label: String, size: Factor, param: Stri
 
 // parse
 
-fun parseEarring(parameters: Parameters): Earring {
+fun parseEarring(
+    state: State,
+    parameters: Parameters,
+): Earring {
     val type = parse(parameters, STYLE, EarringStyleType.Stud)
 
     return Earring(
         when (type) {
-            EarringStyleType.Dangle -> parseDangleEarring(parameters)
-            EarringStyleType.Drop -> parseDropEarring(parameters)
+            EarringStyleType.Dangle -> parseDangleEarring(state, parameters)
+            EarringStyleType.Drop -> parseDropEarring(state, parameters)
             EarringStyleType.Hoop -> HoopEarring(
                 parseFactor(parameters, LENGTH),
-                parseWire(parameters, WIRE),
+                parseWire(state, parameters, WIRE),
             )
 
             EarringStyleType.Stud -> StudEarring(
-                parseOrnament(parameters),
+                parseOrnament(state, parameters),
                 parse(parameters, SIZE, Size.Medium),
             )
         }
     )
 }
 
-fun parseDangleEarring(parameters: Parameters) = DangleEarring(
-    parseOrnament(parameters, TOP),
-    parseOrnament(parameters, BOTTOM),
+fun parseDangleEarring(
+    state: State,
+    parameters: Parameters,
+) = DangleEarring(
+    parseOrnament(state, parameters, TOP),
+    parseOrnament(state, parameters, BOTTOM),
     parseList(parameters, SIZE, 1) { _, param ->
         parse(parameters, param, Size.Medium)
     },
-    parseLineStyle(parameters, WIRE),
+    parseLineStyle(state, parameters, WIRE),
 )
 
-fun parseDropEarring(parameters: Parameters) = DropEarring(
+fun parseDropEarring(
+    state: State,
+    parameters: Parameters,
+) = DropEarring(
     parseFactor(parameters, combine(TOP, SIZE)),
     parseFactor(parameters, combine(BOTTOM, SIZE)),
     parseFactor(parameters, LENGTH),
-    parseOrnament(parameters, TOP),
-    parseOrnament(parameters, BOTTOM),
-    parseLineStyle(parameters, WIRE),
+    parseOrnament(state, parameters, TOP),
+    parseOrnament(state, parameters, BOTTOM),
+    parseLineStyle(state, parameters, WIRE),
 )
 

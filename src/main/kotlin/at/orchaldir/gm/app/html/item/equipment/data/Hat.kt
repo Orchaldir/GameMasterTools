@@ -40,7 +40,10 @@ fun HtmlBlockTag.editHat(
 
 // parse
 
-fun parseHat(parameters: Parameters): Hat = Hat(
+fun parseHat(
+    state: State,
+    parameters: Parameters,
+): Hat = Hat(
     parse(parameters, HAT, HatStyle.TopHat),
-    parseItemPart(parameters, MAIN, HAT_MATERIALS),
+    parseItemPart(state, parameters, MAIN, HAT_MATERIALS),
 )

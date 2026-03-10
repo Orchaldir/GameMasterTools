@@ -55,9 +55,12 @@ fun HtmlBlockTag.editGlasses(
 
 // parse
 
-fun parseGlasses(parameters: Parameters) = Glasses(
+fun parseGlasses(
+    state: State,
+    parameters: Parameters,
+) = Glasses(
     parse(parameters, SHAPE, LensShape.Rectangle),
     parse(parameters, FRAME, FrameType.FullRimmed),
-    parseItemPart(parameters, LENS, ItemPartType.Glass),
-    parseItemPart(parameters, FRAME, GLASSES_FRAME_MATERIALS),
+    parseItemPart(state, parameters, LENS, ItemPartType.Glass),
+    parseItemPart(state, parameters, FRAME, GLASSES_FRAME_MATERIALS),
 )

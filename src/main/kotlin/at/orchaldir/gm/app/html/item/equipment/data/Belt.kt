@@ -38,8 +38,11 @@ fun HtmlBlockTag.editBelt(
 
 // parse
 
-fun parseBelt(parameters: Parameters) = Belt(
-    parseBuckle(parameters),
-    parseItemPart(parameters, STRAP, BELT_STRAP_MATERIALS),
+fun parseBelt(
+    state: State,
+    parameters: Parameters,
+) = Belt(
+    parseBuckle(state, parameters),
+    parseItemPart(state, parameters, STRAP, BELT_STRAP_MATERIALS),
     parseBeltHoles(parameters),
 )

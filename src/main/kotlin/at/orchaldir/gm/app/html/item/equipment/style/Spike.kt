@@ -65,11 +65,12 @@ fun HtmlBlockTag.editSpike(
 // parse
 
 fun parseSpike(
+    state: State,
     parameters: Parameters,
     param: String,
     defaultLength: Factor = HALF,
 ) = Spike(
     parseFactor(parameters, combine(param, LENGTH), defaultLength),
     parseFactor(parameters, combine(param, WIDTH), THIRD),
-    parseItemPart(parameters, param, SPIKE_MATERIALS),
+    parseItemPart(state, parameters, param, SPIKE_MATERIALS),
 )

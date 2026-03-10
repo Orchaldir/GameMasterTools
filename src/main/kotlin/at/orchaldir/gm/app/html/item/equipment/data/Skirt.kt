@@ -40,7 +40,10 @@ fun HtmlBlockTag.editSkirt(
 
 // parse
 
-fun parseSkirt(parameters: Parameters): Skirt = Skirt(
+fun parseSkirt(
+    state: State,
+    parameters: Parameters,
+): Skirt = Skirt(
     parse(parameters, SKIRT_STYLE, SkirtStyle.Sheath),
-    parseItemPart(parameters, MAIN, SKIRT_MATERIALS),
+    parseItemPart(state, parameters, MAIN, SKIRT_MATERIALS),
 )

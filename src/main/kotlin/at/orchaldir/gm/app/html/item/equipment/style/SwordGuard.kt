@@ -91,17 +91,22 @@ private fun DETAILS.editSimpleSwordGuard(
 // parse
 
 fun parseSwordGuard(
+    state: State,
     parameters: Parameters,
     param: String = GUARD,
 ) = when (parse(parameters, param, SwordGuardType.Simple)) {
     SwordGuardType.None -> NoSwordGuard
-    SwordGuardType.Simple -> parseSimpleSwordGuard(parameters, param)
+    SwordGuardType.Simple -> parseSimpleSwordGuard(state, parameters, param)
 }
 
-private fun parseSimpleSwordGuard(parameters: Parameters, param: String) = SimpleSwordGuard(
+private fun parseSimpleSwordGuard(
+    state: State,
+    parameters: Parameters,
+    param: String,
+) = SimpleSwordGuard(
     parseGuardWidth(parameters, param),
     parseGuardHeight(parameters, param),
-    parseItemPart(parameters, param, GUARD_MATERIALS),
+    parseItemPart(state, parameters, param, GUARD_MATERIALS),
 )
 
 private fun parseGuardHeight(parameters: Parameters, param: String) =

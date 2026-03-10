@@ -9,15 +9,12 @@ import at.orchaldir.gm.app.html.item.equipment.style.*
 import at.orchaldir.gm.app.html.rpg.combat.parseArmorStats
 import at.orchaldir.gm.app.html.util.part.editItemPart
 import at.orchaldir.gm.app.html.util.part.parseItemPart
-import at.orchaldir.gm.app.html.util.part.parseMadeFromMetal
 import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.CHAIN_MAIL_MATERIALS
 import at.orchaldir.gm.core.model.item.equipment.HELMET_MATERIALS
 import at.orchaldir.gm.core.model.item.equipment.Helmet
 import at.orchaldir.gm.core.model.item.equipment.style.*
-import at.orchaldir.gm.core.model.util.part.ItemPartType
-import at.orchaldir.gm.core.model.util.part.SOLID_MATERIALS
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -81,28 +78,32 @@ fun HtmlBlockTag.editHelmet(
 
 // parse
 
-fun parseHelmet(parameters: Parameters) = Helmet(
-    parseHelmetStyle(parameters),
+fun parseHelmet(
+    state: State,
+    parameters: Parameters,
+) = Helmet(
+    parseHelmetStyle(state, parameters),
     parseArmorStats(parameters),
 )
 
 fun parseHelmetStyle(
+    state: State,
     parameters: Parameters,
 ) = when (parse(parameters, STYLE, HelmetStyleType.SkullCap)) {
     HelmetStyleType.ChainmailHood -> ChainmailHood(
         parse<HoodBodyShape>(parameters, BODY_SHAPE),
-        parseItemPart(parameters, HELMET, CHAIN_MAIL_MATERIALS),
+        parseItemPart(state, parameters, HELMET, CHAIN_MAIL_MATERIALS),
     )
 
     HelmetStyleType.GreatHelm -> GreatHelm(
         parse(parameters, SHAPE, HelmetShape.Round),
         parseEyeHoles(parameters, HELMET),
-        parseItemPart(parameters, HELMET, HELMET_MATERIALS),
+        parseItemPart(state, parameters, HELMET, HELMET_MATERIALS),
     )
 
     HelmetStyleType.SkullCap -> SkullCap(
         parse(parameters, SHAPE, HelmetShape.Round),
-        parseHelmetFront(parameters),
-        parseItemPart(parameters, HELMET, HELMET_MATERIALS),
+        parseHelmetFront(state, parameters),
+        parseItemPart(state, parameters, HELMET, HELMET_MATERIALS),
     )
 }

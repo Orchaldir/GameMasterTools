@@ -118,25 +118,26 @@ fun HtmlBlockTag.selectEyeHoles(
 // parse
 
 fun parseHelmetFront(
+    state: State,
     parameters: Parameters,
 ) = when (parse(parameters, FRONT, HelmetFrontType.None)) {
     HelmetFrontType.None -> NoHelmetFront
     HelmetFrontType.Nose -> NoseProtection(
         parse(parameters, combine(FRONT, NOSE), NoseProtectionShape.Rectangle),
-        parseItemPart(parameters, FRONT, HELMET_MATERIALS),
+        parseItemPart(state, parameters, FRONT, HELMET_MATERIALS),
     )
 
     HelmetFrontType.Eye -> EyeProtection(
         parse(parameters, combine(FRONT, SHAPE), EyeProtectionShape.Glasses),
         parseEyeHoles(parameters, FRONT),
         parse<NoseProtectionShape>(parameters, combine(FRONT, NOSE)),
-        parseItemPart(parameters, FRONT, HELMET_MATERIALS),
+        parseItemPart(state, parameters, FRONT, HELMET_MATERIALS),
     )
 
     HelmetFrontType.Face -> FaceProtection(
         parse(parameters, combine(FRONT, SHAPE), FaceProtectionShape.Oval),
         parseEyeHoles(parameters, FRONT),
-        parseItemPart(parameters, FRONT, HELMET_MATERIALS),
+        parseItemPart(state, parameters, FRONT, HELMET_MATERIALS),
     )
 }
 

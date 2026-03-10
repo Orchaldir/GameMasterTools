@@ -74,15 +74,18 @@ fun HtmlBlockTag.editEyePatchStyle(
 
 // parse
 
-fun parseEyePatchStyle(parameters: Parameters) =
+fun parseEyePatchStyle(
+    state: State,
+    parameters: Parameters,
+) =
     when (parse(parameters, STYLE, EyePatchStyleType.Simple)) {
         EyePatchStyleType.Simple -> SimpleEyePatch(
             parse(parameters, SHAPE, LensShape.Circle),
-            parseItemPart(parameters, MAIN, EYE_PATCH_MATERIALS),
+            parseItemPart(state, parameters, MAIN, EYE_PATCH_MATERIALS),
         )
 
         EyePatchStyleType.Ornament -> OrnamentAsEyePatch(
-            parseOrnament(parameters),
+            parseOrnament(state, parameters),
         )
 
         EyePatchStyleType.Eye -> EyePatchWithEye(
@@ -93,6 +96,6 @@ fun parseEyePatchStyle(parameters: Parameters) =
                 parse(parameters, combine(PUPIL, SCLERA), Color.White),
             ),
             parse(parameters, SHAPE, LensShape.Circle),
-            parseItemPart(parameters, MAIN, EYE_PATCH_MATERIALS),
+            parseItemPart(state, parameters, MAIN, EYE_PATCH_MATERIALS),
         )
     }

@@ -64,8 +64,11 @@ private fun HtmlBlockTag.editScrollSegments(
 
 // parse
 
-fun parseScrollFormat(parameters: Parameters) = when (parse(parameters, SCROLL, ScrollFormatType.NoRod)) {
+fun parseScrollFormat(
+    state: State,
+    parameters: Parameters,
+) = when (parse(parameters, SCROLL, ScrollFormatType.NoRod)) {
     ScrollFormatType.NoRod -> ScrollWithoutRod
-    ScrollFormatType.OneRod -> ScrollWithOneRod(parseSegments(parameters, HANDLE))
-    ScrollFormatType.TwoRods -> ScrollWithTwoRods(parseSegments(parameters, HANDLE))
+    ScrollFormatType.OneRod -> ScrollWithOneRod(parseSegments(state, parameters, HANDLE))
+    ScrollFormatType.TwoRods -> ScrollWithTwoRods(parseSegments(state, parameters, HANDLE))
 }

@@ -77,17 +77,20 @@ fun HtmlBlockTag.editShieldBoss(state: State, boss: ShieldBoss) {
 
 // parse
 
-fun parseShieldBoss(parameters: Parameters) = when (parse(parameters, BOSS, ShieldBossType.None)) {
+fun parseShieldBoss(
+    state: State,
+    parameters: Parameters,
+) = when (parse(parameters, BOSS, ShieldBossType.None)) {
     ShieldBossType.None -> NoShieldBoss
     ShieldBossType.Simple -> SimpleShieldBoss(
         parseCircularShape(parameters, combine(BOSS, SHAPE)),
-        parseItemPart(parameters, BOSS, SHIELD_MATERIALS),
+        parseItemPart(state, parameters, BOSS, SHIELD_MATERIALS),
     )
 
     ShieldBossType.Border -> ShieldBossWithBorder(
         parseCircularShape(parameters, combine(BOSS, SHAPE)),
         parseCircularShape(parameters, combine(BOSS, BORDER)),
-        parseItemPart(parameters, BOSS, SHIELD_MATERIALS),
-        parseItemPart(parameters, combine(BOSS, BORDER), SHIELD_MATERIALS),
+        parseItemPart(state, parameters, BOSS, SHIELD_MATERIALS),
+        parseItemPart(state, parameters, combine(BOSS, BORDER), SHIELD_MATERIALS),
     )
 }

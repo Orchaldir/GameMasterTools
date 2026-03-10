@@ -63,10 +63,13 @@ fun HtmlBlockTag.editShieldBorder(state: State, border: ShieldBorder) {
 
 // parse
 
-fun parseShieldBorder(parameters: Parameters) = when (parse(parameters, BORDER, ShieldBorderType.None)) {
+fun parseShieldBorder(
+    state: State,
+    parameters: Parameters,
+) = when (parse(parameters, BORDER, ShieldBorderType.None)) {
     ShieldBorderType.None -> NoShieldBorder
     ShieldBorderType.Simple -> SimpleShieldBorder(
         parse(parameters, combine(BORDER, SIZE), Size.Medium),
-        parseItemPart(parameters, combine(BORDER, MAIN), SHIELD_MATERIALS),
+        parseItemPart(state, parameters, combine(BORDER, MAIN), SHIELD_MATERIALS),
     )
 }

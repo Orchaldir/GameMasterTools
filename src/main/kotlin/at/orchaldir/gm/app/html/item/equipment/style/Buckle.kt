@@ -61,7 +61,10 @@ fun HtmlBlockTag.editBuckle(
 
 // parse
 
-fun parseBuckle(parameters: Parameters): Buckle {
+fun parseBuckle(
+    state: State,
+    parameters: Parameters,
+): Buckle {
     val type = parse(parameters, combine(BUCKLE, TYPE), BuckleType.NoBuckle)
 
     return when (type) {
@@ -69,7 +72,7 @@ fun parseBuckle(parameters: Parameters): Buckle {
         BuckleType.Simple -> SimpleBuckle(
             parse(parameters, combine(BUCKLE, SHAPE), BuckleShape.Rectangle),
             parse(parameters, combine(BUCKLE, SIZE), Size.Small),
-            parseItemPart(parameters, combine(BUCKLE, MAIN), BUCKLE_MATERIALS),
+            parseItemPart(state, parameters, combine(BUCKLE, MAIN), BUCKLE_MATERIALS),
         )
     }
 }

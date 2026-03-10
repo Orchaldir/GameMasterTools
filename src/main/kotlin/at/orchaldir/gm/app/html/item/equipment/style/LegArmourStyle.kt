@@ -76,7 +76,11 @@ private fun DETAILS.selectLength(
 
 // parse
 
-fun parseLegArmourStyle(parameters: Parameters, param: String = LEG): LegArmourStyle {
+fun parseLegArmourStyle(
+    state: State,
+    parameters: Parameters,
+    param: String = LEG,
+): LegArmourStyle {
     val type = parse(parameters, combine(param, TYPE), LegArmourStyleType.Same)
 
     return when (type) {
@@ -85,7 +89,7 @@ fun parseLegArmourStyle(parameters: Parameters, param: String = LEG): LegArmourS
         )
 
         LegArmourStyleType.Different -> DifferentLegArmour(
-            parseArmourStyle(parameters, combine(param, STYLE)),
+            parseArmourStyle(state, parameters, combine(param, STYLE)),
             parseLength(parameters, param),
         )
     }

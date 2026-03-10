@@ -47,9 +47,12 @@ fun HtmlBlockTag.editSling(
 
 // parse
 
-fun parseSling(parameters: Parameters) = Sling(
+fun parseSling(
+    state: State,
+    parameters: Parameters,
+) = Sling(
     parse(parameters, SIZE, Size.Medium),
-    parseLineStyle(parameters, LINE),
-    parseItemPart(parameters, MAIN, SLING_MATERIALS),
+    parseLineStyle(state, parameters, LINE),
+    parseItemPart(state, parameters, MAIN, SLING_MATERIALS),
     parseRangedWeaponStats(parameters),
 )

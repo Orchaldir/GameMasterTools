@@ -48,11 +48,14 @@ fun HtmlBlockTag.editCoat(
 
 // parse
 
-fun parseCoat(parameters: Parameters) = Coat(
-    parseItemPart(parameters, MAIN, CLOTHING_MATERIALS),
+fun parseCoat(
+    state: State,
+    parameters: Parameters,
+) = Coat(
+    parseItemPart(state, parameters, MAIN, CLOTHING_MATERIALS),
     parse(parameters, LENGTH, OuterwearLength.Hip),
     parse(parameters, combine(NECKLINE, STYLE), NecklineStyle.DeepV),
     parse(parameters, combine(SLEEVE, STYLE), SleeveStyle.Long),
-    parseOpeningStyle(parameters),
+    parseOpeningStyle(state, parameters),
     parse(parameters, combine(POCKET, STYLE), PocketStyle.None),
 )

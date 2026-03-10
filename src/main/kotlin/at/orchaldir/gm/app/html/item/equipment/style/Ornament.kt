@@ -95,19 +95,23 @@ fun HtmlBlockTag.editOrnament(
 
 // parse
 
-fun parseOrnament(parameters: Parameters, param: String = ORNAMENT): Ornament {
+fun parseOrnament(
+    state: State,
+    parameters: Parameters,
+    param: String = ORNAMENT,
+): Ornament {
     val type = parse(parameters, combine(param, TYPE), OrnamentType.Simple)
 
     return when (type) {
         OrnamentType.Simple -> SimpleOrnament(
             parseComplexShape(parameters, combine(param, SHAPE)),
-            parseItemPart(parameters, combine(param, MAIN), ORNAMENT_MATERIALS),
+            parseItemPart(state, parameters, combine(param, MAIN), ORNAMENT_MATERIALS),
         )
 
         OrnamentType.Border -> OrnamentWithBorder(
             parseComplexShape(parameters, combine(param, SHAPE)),
-            parseItemPart(parameters, combine(param, MIDDLE), ORNAMENT_MATERIALS),
-            parseItemPart(parameters, combine(param, MAIN), ORNAMENT_MATERIALS),
+            parseItemPart(state, parameters, combine(param, MIDDLE), ORNAMENT_MATERIALS),
+            parseItemPart(state, parameters, combine(param, MAIN), ORNAMENT_MATERIALS),
         )
     }
 }

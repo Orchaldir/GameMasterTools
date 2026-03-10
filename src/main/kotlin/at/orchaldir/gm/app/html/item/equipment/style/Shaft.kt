@@ -56,10 +56,11 @@ fun HtmlBlockTag.editShaft(
 // parse
 
 fun parseShaft(
+    state: State,
     parameters: Parameters,
     param: String = SHAFT,
 ) = when (parse(parameters, param, ShaftType.Simple)) {
     ShaftType.Simple -> SimpleShaft(
-        parseItemPart(parameters, combine(param, MAIN), SHAFT_MATERIALS),
+        parseItemPart(state, parameters, combine(param, MAIN), SHAFT_MATERIALS),
     )
 }

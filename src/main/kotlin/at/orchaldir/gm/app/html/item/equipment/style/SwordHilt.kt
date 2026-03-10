@@ -56,11 +56,12 @@ fun HtmlBlockTag.editSwordHilt(
 // parse
 
 fun parseSwordHilt(
+    state: State,
     parameters: Parameters,
 ) = when (parse(parameters, HILT, SwordHiltType.Simple)) {
     SwordHiltType.Simple -> SimpleSwordHilt(
-        parseSwordGuard(parameters),
-        parseGrip(parameters),
-        parsePommel(parameters),
+        parseSwordGuard(state, parameters),
+        parseGrip(state, parameters),
+        parsePommel(state, parameters),
     )
 }

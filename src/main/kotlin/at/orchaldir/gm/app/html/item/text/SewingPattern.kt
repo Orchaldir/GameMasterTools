@@ -94,24 +94,32 @@ private fun <T> DETAILS.editSewingPattern(
 
 // parse
 
-fun parseSewing(parameters: Parameters) = when (parse(parameters, SEWING, SewingPatternType.Simple)) {
+fun parseSewing(
+    state: State,
+    parameters: Parameters,
+) = when (parse(parameters, SEWING, SewingPatternType.Simple)) {
     SewingPatternType.Simple -> SimpleSewingPattern(
-        parseItemPart(parameters, SEWING, LINE_MATERIALS),
+        parseItemPart(state, parameters, SEWING, LINE_MATERIALS),
         parse(parameters, combine(SEWING, SIZE), Size.Medium),
         parse(parameters, combine(SEWING, LENGTH), Size.Medium),
         parseSimplePattern(parameters),
     )
 
-    SewingPatternType.Complex -> ComplexSewingPattern(parseComplexPattern(parameters))
+    SewingPatternType.Complex -> ComplexSewingPattern(
+        parseComplexPattern(state, parameters),
+    )
 }
 
 private fun parseSimplePattern(parameters: Parameters) = parseList(parameters, SEWING, 2) { _, param ->
     parse(parameters, param, StitchType.Kettle)
 }
 
-private fun parseComplexPattern(parameters: Parameters) = parseList(parameters, SEWING, 2) { _, param ->
+private fun parseComplexPattern(
+    state: State,
+    parameters: Parameters,
+) = parseList(parameters, SEWING, 2) { _, param ->
     ComplexStitch(
-        parseItemPart(parameters, param, LINE_MATERIALS),
+        parseItemPart(state, parameters, param, LINE_MATERIALS),
         parse(parameters, combine(param, SIZE), Size.Medium),
         parse(parameters, combine(param, LENGTH), Size.Medium),
         parse(parameters, param, StitchType.Kettle),

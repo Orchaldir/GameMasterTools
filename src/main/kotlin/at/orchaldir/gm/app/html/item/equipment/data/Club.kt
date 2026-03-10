@@ -68,10 +68,10 @@ fun parseOneHandedClub(
     state: State,
     parameters: Parameters,
 ) = OneHandedClub(
-    parseClubHead(parameters, CLUB),
+    parseClubHead(state, parameters, CLUB),
     parse(parameters, SIZE, Size.Medium),
-    parseHeadFixation(parameters, FIXATION),
-    parseShaft(parameters),
+    parseHeadFixation(state, parameters, FIXATION),
+    parseShaft(state, parameters),
     parseMeleeWeaponStats(parameters),
 )
 
@@ -79,9 +79,9 @@ fun parseTwoHandedClub(
     state: State,
     parameters: Parameters,
 ) = TwoHandedClub(
-    parseClubHead(parameters, CLUB),
+    parseClubHead(state, parameters, CLUB),
     parse(parameters, SIZE, Size.Medium),
-    parseHeadFixation(parameters, FIXATION),
-    parseShaft(parameters),
+    parseHeadFixation(state, parameters, FIXATION),
+    parseShaft(state, parameters),
     parseMeleeWeaponStats(parameters),
 )

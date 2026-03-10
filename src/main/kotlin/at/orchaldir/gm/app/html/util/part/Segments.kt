@@ -92,18 +92,23 @@ private fun HtmlBlockTag.editSegment(
 
 // parse
 
-fun parseSegments(parameters: Parameters, param: String) = Segments(
+fun parseSegments(
+    state: State,
+    parameters: Parameters,
+    param: String,
+) = Segments(
     parseList(parameters, param, 1) { _, param ->
-        parseSegment(parameters, param)
+        parseSegment(state, parameters, param)
     }
 )
 
 private fun parseSegment(
+    state: State,
     parameters: Parameters,
     param: String,
 ) = Segment(
     parseFactor(parameters, combine(param, LENGTH)),
     parseFactor(parameters, combine(param, DIAMETER)),
-    parseItemPart(parameters, param, SEGMENT_MATERIALS),
+    parseItemPart(state, parameters, param, SEGMENT_MATERIALS),
     parse(parameters, combine(param, SHAPE), SegmentShape.Cylinder),
 )

@@ -126,6 +126,7 @@ private fun DETAILS.editSpearHead(
 // parse
 
 fun parsePolearmHead(
+    state: State,
     parameters: Parameters,
     param: String,
 ) = when (parse(parameters, param, PolearmHeadType.None)) {
@@ -133,25 +134,29 @@ fun parsePolearmHead(
     PolearmHeadType.Rounded -> RoundedPolearmHead
     PolearmHeadType.Sharpened -> SharpenedPolearmHead
     PolearmHeadType.Segments -> PolearmHeadWithSegments(
-        parseSegments(parameters, combine(param, SEGMENT)),
+        parseSegments(state, parameters, combine(param, SEGMENT)),
     )
 
     PolearmHeadType.Axe -> PolearmHeadWithAxeHead(
-        parseAxeHead(parameters, combine(param, AXE)),
-        parseHeadFixation(parameters, combine(param, FIXATION)),
+        parseAxeHead(state, parameters, combine(param, AXE)),
+        parseHeadFixation(state, parameters, combine(param, FIXATION)),
     )
 
     PolearmHeadType.Spear -> PolearmHeadWithSpearHead(
-        parseSpearHead(parameters, param),
-        parseHeadFixation(parameters, combine(param, FIXATION)),
+        parseSpearHead(state, parameters, param),
+        parseHeadFixation(state, parameters, combine(param, FIXATION)),
     )
 }
 
-private fun parseSpearHead(parameters: Parameters, param: String) = SpearHead(
+private fun parseSpearHead(
+    state: State,
+    parameters: Parameters,
+    param: String,
+) = SpearHead(
     parse(parameters, combine(param, SHAPE), SpearShape.Leaf),
     parseSpearLength(parameters, param),
     parseSpearWidth(parameters, param),
-    parseItemPart(parameters, param, SPEAR_MATERIALS),
+    parseItemPart(state, parameters, param, SPEAR_MATERIALS),
 )
 
 private fun parseSpearLength(parameters: Parameters, param: String) =

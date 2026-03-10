@@ -54,13 +54,16 @@ fun HtmlBlockTag.editDress(
 
 // parse
 
-fun parseDress(parameters: Parameters): Dress {
+fun parseDress(
+    state: State,
+    parameters: Parameters,
+): Dress {
     val neckline = parse(parameters, combine(NECKLINE, STYLE), NecklineStyle.None)
 
     return Dress(
         neckline,
         parse(parameters, SKIRT_STYLE, SkirtStyle.Sheath),
         parseSleeveStyle(parameters, neckline),
-        parseItemPart(parameters, MAIN, DRESS_MATERIALS),
+        parseItemPart(state, parameters, MAIN, DRESS_MATERIALS),
     )
 }

@@ -64,12 +64,13 @@ fun HtmlBlockTag.editPommel(
 // parse
 
 fun parsePommel(
+    state: State,
     parameters: Parameters,
     param: String = POMMEL,
 ) = when (parse(parameters, param, PommelType.Ornament)) {
     PommelType.None -> NoPommel
     PommelType.Ornament -> PommelWithOrnament(
-        parseOrnament(parameters, combine(param, ORNAMENT)),
+        parseOrnament(state, parameters, combine(param, ORNAMENT)),
         parse(parameters, combine(param, SIZE), Size.Medium),
     )
 }

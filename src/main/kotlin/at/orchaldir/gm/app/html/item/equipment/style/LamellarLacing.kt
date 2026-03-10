@@ -124,34 +124,41 @@ private fun DETAILS.selectLacingLength(length: Factor, param: String) {
 
 // parse
 
-fun parseLamellarLacing(parameters: Parameters, param: String): LamellarLacing {
+fun parseLamellarLacing(
+    state: State,
+    parameters: Parameters,
+    param: String,
+): LamellarLacing {
     val type = parse(parameters, combine(param, TYPE), LamellarLacingType.FourSides)
 
     return when (type) {
         LamellarLacingType.None -> NoLacing
         LamellarLacingType.Diagonal -> DiagonalLacing(
-            parseLacing(parameters, param),
+            parseLacing(state, parameters, param),
             parseLacingThickness(parameters, param),
         )
 
         LamellarLacingType.FourSides -> FourSidesLacing(
-            parseLacing(parameters, param),
+            parseLacing(state, parameters, param),
             parseLacingLength(parameters, param),
             parseLacingThickness(parameters, param),
         )
 
         LamellarLacingType.Stripe -> LacingAndStripe(
-            parseLacing(parameters, param),
+            parseLacing(state, parameters, param),
             parseLacingLength(parameters, param),
             parseLacingThickness(parameters, param),
-            parseItemPart(parameters, combine(param, STRIPE), LAMELLAR_STRIPE_MATERIALS),
+            parseItemPart(state, parameters, combine(param, STRIPE), LAMELLAR_STRIPE_MATERIALS),
             parseStripeWidth(parameters, param),
         )
     }
 }
 
-private fun parseLacing(parameters: Parameters, param: String) =
-    parseItemPart(parameters, combine(param, LACING), LINE_MATERIALS)
+private fun parseLacing(
+    state: State,
+    parameters: Parameters,
+    param: String,
+) = parseItemPart(state, parameters, combine(param, LACING), LINE_MATERIALS)
 
 private fun parseLacingLength(parameters: Parameters, param: String) =
     parseFactor(parameters, combine(param, LACING, LENGTH), DEFAULT_LENGTH)

@@ -102,20 +102,23 @@ fun HtmlBlockTag.editTextFormat(
 
 // parse
 
-fun parseTextFormat(parameters: Parameters) = when (parse(parameters, FORMAT, TextFormatType.Undefined)) {
+fun parseTextFormat(
+    state: State,
+    parameters: Parameters,
+) = when (parse(parameters, FORMAT, TextFormatType.Undefined)) {
     TextFormatType.Book -> Book(
-        parseBinding(parameters),
+        parseBinding(state, parameters),
         parseInt(parameters, PAGES, DEFAULT_PAGES),
-        parseItemPart(parameters, PAGE, PAGE_MATERIALS),
+        parseItemPart(state, parameters, PAGE, PAGE_MATERIALS),
         parseSize(parameters, SIZE, prefix, DEFAULT_BOOK_SIZE),
     )
 
     TextFormatType.Scroll -> Scroll(
-        parseScrollFormat(parameters),
+        parseScrollFormat(state, parameters),
         parseDistance(parameters, LENGTH, prefix, DEFAULT_ROLL_LENGTH),
         parseDistance(parameters, DIAMETER, prefix, DEFAULT_ROLL_DIAMETER),
         parseFactor(parameters, WIDTH, DEFAULT_PAGE_WIDTH_FACTOR),
-        parseItemPart(parameters, SCROLL, PAGE_MATERIALS),
+        parseItemPart(state, parameters, SCROLL, PAGE_MATERIALS),
     )
 
     TextFormatType.Undefined -> UndefinedTextFormat

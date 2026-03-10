@@ -56,12 +56,15 @@ fun HtmlBlockTag.editShield(
 
 // parse
 
-fun parseShield(parameters: Parameters) = Shield(
+fun parseShield(
+    state: State,
+    parameters: Parameters,
+) = Shield(
     parseComplexShape(parameters, SHAPE),
     parse(parameters, SIZE, Size.Medium),
-    parseShieldBorder(parameters),
-    parseShieldBoss(parameters),
-    parseItemPart(parameters, MAIN, SHIELD_MATERIALS),
-    parseItemPart(parameters, BACK, SHIELD_MATERIALS),
+    parseShieldBorder(state, parameters),
+    parseShieldBoss(state, parameters),
+    parseItemPart(state, parameters, MAIN, SHIELD_MATERIALS),
+    parseItemPart(state, parameters, BACK, SHIELD_MATERIALS),
     parseShieldStats(parameters),
 )

@@ -41,8 +41,11 @@ fun HtmlBlockTag.editGloves(
 
 // parse
 
-fun parseGloves(parameters: Parameters): Gloves = Gloves(
+fun parseGloves(
+    state: State,
+    parameters: Parameters,
+): Gloves = Gloves(
     parse(parameters, GLOVES, GloveStyle.Hand),
-    parseItemPart(parameters, MAIN, GLOVES_MATERIALS),
+    parseItemPart(state, parameters, MAIN, GLOVES_MATERIALS),
     parseArmorStats(parameters),
 )

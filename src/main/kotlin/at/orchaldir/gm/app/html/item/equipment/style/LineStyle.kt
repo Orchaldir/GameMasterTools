@@ -97,35 +97,40 @@ private fun DETAILS.selectThicknessAndPart(
 
 // parse
 
-fun parseLineStyle(parameters: Parameters, param: String): LineStyle {
+fun parseLineStyle(
+    state: State,
+    parameters: Parameters,
+    param: String,
+): LineStyle {
     val type = parse(parameters, combine(param, STYLE), LineStyleType.Wire)
 
     return when (type) {
         LineStyleType.Chain -> Chain(
             parseThickness(parameters, param),
-            parseItemPart(parameters, combine(param, MAIN), MADE_FROM_METALS),
+            parseItemPart(state, parameters, combine(param, MAIN), MADE_FROM_METALS),
         )
 
         LineStyleType.Cord -> Cord(
-            parseItemPart(parameters, combine(param, MAIN), CLOTHING_MATERIALS),
+            parseItemPart(state, parameters, combine(param, MAIN), CLOTHING_MATERIALS),
             parseThickness(parameters, param),
         )
 
         LineStyleType.Ornament -> OrnamentLine(
-            parseOrnament(parameters, combine(param, ORNAMENT)),
+            parseOrnament(state, parameters, combine(param, ORNAMENT)),
             parseThickness(parameters, param),
         )
 
-        LineStyleType.Wire -> parseWire(parameters, param)
+        LineStyleType.Wire -> parseWire(state, parameters, param)
     }
 }
 
 fun parseWire(
+    state: State,
     parameters: Parameters,
     param: String,
 ): Wire = Wire(
     parseThickness(parameters, param),
-    parseItemPart(parameters, combine(param, MAIN), MADE_FROM_METALS),
+    parseItemPart(state, parameters, combine(param, MAIN), MADE_FROM_METALS),
 )
 
 private fun parseThickness(parameters: Parameters, param: String) =

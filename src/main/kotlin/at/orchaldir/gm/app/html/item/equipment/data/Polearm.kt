@@ -36,7 +36,7 @@ fun parsePolearm(
     state: State,
     parameters: Parameters,
 ) = Polearm(
-    parsePolearmHead(parameters, TOP),
-    parseShaft(parameters),
+    parsePolearmHead(state, parameters, TOP),
+    parseShaft(state, parameters),
     parseMeleeWeaponStats(parameters),
 )

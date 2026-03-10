@@ -155,6 +155,7 @@ private fun DETAILS.selectMadeFrom(
 // parse
 
 fun parseClubHead(
+    state: State,
     parameters: Parameters,
     param: String,
     defaultType: ClubHeadType = ClubHeadType.None,
@@ -162,44 +163,45 @@ fun parseClubHead(
     ClubHeadType.None -> NoClubHead
     ClubHeadType.Simple -> SimpleClubHead(
         parseComplexShape(parameters, combine(param, SHAPE)),
-        parseMadeFrom(parameters, param),
+        parseMadeFrom(state, parameters, param),
     )
 
     ClubHeadType.SimpleFlanged -> SimpleFlangedHead(
         parseComplexShape(parameters, combine(param, SHAPE)),
-        parseMadeFrom(parameters, param),
+        parseMadeFrom(state, parameters, param),
     )
 
     ClubHeadType.ComplexFlanged -> ComplexFlangedHead(
         parseRotatedShape(parameters, combine(param, SHAPE)),
-        parseMadeFrom(parameters, param),
+        parseMadeFrom(state, parameters, param),
     )
 
     ClubHeadType.SpikedMace -> SpikedMaceHead(
-        parseSpike(parameters, combine(param, SPIKE)),
+        parseSpike(state, parameters, combine(param, SPIKE)),
         parseInt(parameters, combine(param, NUMBER), 3),
     )
 
     ClubHeadType.Flail -> FlailHead(
-        parseClubHead(parameters, combine(param, SUB), ClubHeadType.MorningStar),
-        parseLineStyle(parameters, combine(param, LINE)),
+        parseClubHead(state, parameters, combine(param, SUB), ClubHeadType.MorningStar),
+        parseLineStyle(state, parameters, combine(param, LINE)),
     )
 
     ClubHeadType.MorningStar -> MorningStarHead(
         parseCircularArrangement(parameters, combine(param, SPIKE), 7) {
-            parseSpike(parameters, it)
+            parseSpike(state, parameters, it)
         },
-        parseMadeFrom(parameters, param),
+        parseMadeFrom(state, parameters, param),
     )
 
     ClubHeadType.Warhammer -> WarhammerHead(
-        parseSpike(parameters, combine(param, SPIKE)),
+        parseSpike(state, parameters, combine(param, SPIKE)),
         parseComplexShape(parameters, combine(param, SHAPE)),
-        parseMadeFrom(parameters, param),
+        parseMadeFrom(state, parameters, param),
     )
 }
 
 private fun parseMadeFrom(
+    state: State,
     parameters: Parameters,
     param: String,
-) = parseItemPart(parameters, param, CLUB_HEAD_MATERIALS)
+) = parseItemPart(state, parameters, param, CLUB_HEAD_MATERIALS)

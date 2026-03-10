@@ -86,17 +86,20 @@ fun HtmlBlockTag.editEdgeProtection(
 
 // parse
 
-fun parseEdgeProtection(parameters: Parameters) = when (parse(parameters, EDGE, EdgeProtectionType.None)) {
+fun parseEdgeProtection(
+    state: State,
+    parameters: Parameters,
+) = when (parse(parameters, EDGE, EdgeProtectionType.None)) {
     EdgeProtectionType.None -> NoEdgeProtection
     EdgeProtectionType.Corners -> ProtectedCorners(
         parse(parameters, combine(EDGE, SHAPE), CornerShape.Triangle),
         parseFactor(parameters, combine(EDGE, SIZE), DEFAULT_PROTECTED_CORNER_SIZE),
-        parseItemPart(parameters, EDGE, BOOK_PROTECTION_MATERIALS),
+        parseItemPart(state, parameters, EDGE, BOOK_PROTECTION_MATERIALS),
     )
 
     EdgeProtectionType.Edge -> ProtectedEdge(
         parseFactor(parameters, combine(EDGE, SIZE), DEFAULT_PROTECTED_EDGE_WIDTH),
-        parseItemPart(parameters, EDGE, BOOK_PROTECTION_MATERIALS),
+        parseItemPart(state, parameters, EDGE, BOOK_PROTECTION_MATERIALS),
     )
 }
 

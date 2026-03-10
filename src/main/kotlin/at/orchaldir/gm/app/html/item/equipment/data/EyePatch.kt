@@ -38,7 +38,10 @@ fun HtmlBlockTag.editEyePatch(
 
 // parse
 
-fun parseEyePatch(parameters: Parameters) = EyePatch(
-    parseEyePatchStyle(parameters),
-    parseEyePatchFixation(parameters),
+fun parseEyePatch(
+    state: State,
+    parameters: Parameters,
+) = EyePatch(
+    parseEyePatchStyle(state, parameters),
+    parseEyePatchFixation(state, parameters),
 )

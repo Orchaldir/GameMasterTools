@@ -40,7 +40,10 @@ fun HtmlBlockTag.editPants(
 
 // parse
 
-fun parsePants(parameters: Parameters) = Pants(
+fun parsePants(
+    state: State,
+    parameters: Parameters,
+) = Pants(
     parse(parameters, PANTS, PantsStyle.Regular),
-    parseItemPart(parameters, MAIN, PANTS_MATERIALS),
+    parseItemPart(state, parameters, MAIN, PANTS_MATERIALS),
 )

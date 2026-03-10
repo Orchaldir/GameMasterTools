@@ -59,9 +59,9 @@ fun parseOneHandedAxe(
     state: State,
     parameters: Parameters,
 ) = OneHandedAxe(
-    parseAxeHead(parameters, AXE),
-    parseHeadFixation(parameters, FIXATION),
-    parseShaft(parameters),
+    parseAxeHead(state, parameters, AXE),
+    parseHeadFixation(state, parameters, FIXATION),
+    parseShaft(state, parameters),
     parseMeleeWeaponStats(parameters),
 )
 
@@ -69,8 +69,8 @@ fun parseTwoHandedAxe(
     state: State,
     parameters: Parameters,
 ) = TwoHandedAxe(
-    parseAxeHead(parameters, AXE),
-    parseHeadFixation(parameters, FIXATION),
-    parseShaft(parameters),
+    parseAxeHead(state, parameters, AXE),
+    parseHeadFixation(state, parameters, FIXATION),
+    parseShaft(state, parameters),
     parseMeleeWeaponStats(parameters),
 )

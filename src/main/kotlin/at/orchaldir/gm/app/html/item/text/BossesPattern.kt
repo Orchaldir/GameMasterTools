@@ -62,12 +62,15 @@ fun HtmlBlockTag.editBossesPattern(
 
 // parse
 
-fun parseBosses(parameters: Parameters) = when (parse(parameters, BOSSES, BossesPatternType.None)) {
+fun parseBosses(
+    state: State,
+    parameters: Parameters,
+) = when (parse(parameters, BOSSES, BossesPatternType.None)) {
     BossesPatternType.Simple -> SimpleBossesPattern(
         parseBossesPattern(parameters),
         parse(parameters, combine(BOSSES, SHAPE), BossesShape.Circle),
         parse(parameters, combine(BOSSES, SIZE), Size.Medium),
-        parseItemPart(parameters, BOSSES, BOOK_PROTECTION_MATERIALS),
+        parseItemPart(state, parameters, BOSSES, BOOK_PROTECTION_MATERIALS),
     )
 
     BossesPatternType.None -> NoBosses

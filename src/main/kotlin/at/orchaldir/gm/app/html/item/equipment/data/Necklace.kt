@@ -82,30 +82,33 @@ fun HtmlBlockTag.editNecklace(
 
 // parse
 
-fun parseNecklace(parameters: Parameters): Necklace {
+fun parseNecklace(
+    state: State,
+    parameters: Parameters,
+): Necklace {
     val type = parse(parameters, combine(NECKLACE, STYLE), NecklaceStyleType.Pendant)
 
     return Necklace(
         when (type) {
             NecklaceStyleType.Dangle -> DangleNecklace(
-                parseDangleEarring(parameters),
-                parseLineStyle(parameters, LINE),
+                parseDangleEarring(state, parameters),
+                parseLineStyle(state, parameters, LINE),
             )
 
             NecklaceStyleType.Drop -> DropNecklace(
-                parseDropEarring(parameters),
-                parseLineStyle(parameters, LINE),
+                parseDropEarring(state, parameters),
+                parseLineStyle(state, parameters, LINE),
             )
 
             NecklaceStyleType.Pendant -> PendantNecklace(
-                parseOrnament(parameters),
-                parseLineStyle(parameters, LINE),
+                parseOrnament(state, parameters),
+                parseLineStyle(state, parameters, LINE),
                 parse(parameters, SIZE, Size.Medium),
             )
 
             NecklaceStyleType.Strand -> StrandNecklace(
                 parseInt(parameters, NUMBER, 1),
-                parseLineStyle(parameters, LINE),
+                parseLineStyle(state, parameters, LINE),
                 parse(parameters, SIZE, Size.Medium),
             )
         },

@@ -81,16 +81,17 @@ fun HtmlBlockTag.editGrip(
 // parse
 
 fun parseGrip(
+    state: State,
     parameters: Parameters,
     param: String = GRIP,
 ) = when (parse(parameters, param, GripType.Simple)) {
     GripType.Simple -> SimpleGrip(
         parse(parameters, combine(param, SHAPE), GripShape.Straight),
-        parseItemPart(parameters, param, GRIP_MATERIALS),
+        parseItemPart(state, parameters, param, GRIP_MATERIALS),
     )
 
     GripType.Bound -> BoundGrip(
         parseInt(parameters, combine(param, NUMBER), DEFAULT_GRIP_ROWS),
-        parseItemPart(parameters, param, LINE_MATERIALS),
+        parseItemPart(state, parameters, param, LINE_MATERIALS),
     )
 }

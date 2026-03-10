@@ -108,23 +108,24 @@ private fun DETAILS.selectLength(
 // parse
 
 fun parseHeadFixation(
+    state: State,
     parameters: Parameters,
     param: String,
 ) = when (parse(parameters, param, HeadFixationType.None)) {
     HeadFixationType.None -> NoHeadFixation
     HeadFixationType.Bound -> BoundHeadHead(
         parseLength(parameters, param),
-        parseItemPart(parameters, param, LINE_MATERIALS),
+        parseItemPart(state, parameters, param, LINE_MATERIALS),
     )
 
     HeadFixationType.Langets -> Langets(
         parseLength(parameters, param, DEFAULT_LANGETS_LENGTH),
-        parseItemPart(parameters, param, HEAD_FIXATION_MATERIALS),
+        parseItemPart(state, parameters, param, HEAD_FIXATION_MATERIALS),
     )
 
     HeadFixationType.Socketed -> SocketedHeadHead(
         parseLength(parameters, param),
-        parseItemPart(parameters, param, HEAD_FIXATION_MATERIALS),
+        parseItemPart(state, parameters, param, HEAD_FIXATION_MATERIALS),
     )
 }
 

@@ -142,19 +142,21 @@ private fun HtmlBlockTag.editAxeBlade(
 // parse
 
 fun parseAxeHead(
+    state: State,
     parameters: Parameters,
     param: String = AXE,
 ) = when (parse(parameters, param, AxeHeadType.SingleBit)) {
     AxeHeadType.SingleBit -> SingleBitAxeHead(
-        parseAxeBlade(parameters, param),
+        parseAxeBlade(state, parameters, param),
     )
 
     AxeHeadType.DoubleBit -> DoubleBitAxeHead(
-        parseAxeBlade(parameters, param),
+        parseAxeBlade(state, parameters, param),
     )
 }
 
 private fun parseAxeBlade(
+    state: State,
     parameters: Parameters,
     param: String,
 ): AxeBlade {
@@ -165,18 +167,18 @@ private fun parseAxeBlade(
             parse(parameters, combine(param, SHAPE), BroadAxeShape.Curved),
             parse(parameters, combine(param, SIZE), Size.Medium),
             parse(parameters, combine(param, LENGTH), Size.Medium),
-            parseItemPart(parameters, param, BLADE_MATERIALS),
+            parseItemPart(state, parameters, param, BLADE_MATERIALS),
         )
 
         AxeBladeType.Dagger -> DaggerAxeBlade(
             parse(parameters, combine(param, SIZE), Size.Medium),
-            parseItemPart(parameters, param, BLADE_MATERIALS),
+            parseItemPart(state, parameters, param, BLADE_MATERIALS),
         )
 
         AxeBladeType.Symmetric -> SymmetricAxeBlade(
             parse(parameters, combine(param, SHAPE), SymmetricAxeShape.HalfCircle),
             parse(parameters, combine(param, SIZE), Size.Medium),
-            parseItemPart(parameters, param, BLADE_MATERIALS),
+            parseItemPart(state, parameters, param, BLADE_MATERIALS),
         )
     }
 }

@@ -65,10 +65,13 @@ fun HtmlBlockTag.editBow(
 
 // parse
 
-fun parseBow(parameters: Parameters) = Bow(
+fun parseBow(
+    state: State,
+    parameters: Parameters,
+) = Bow(
     parse(parameters, SHAPE, BowShape.Straight),
     parseFactor(parameters, HEIGHT),
-    parseBowGrip(parameters),
-    parseItemPart(parameters, MAIN, BOW_MATERIALS),
+    parseBowGrip(state, parameters),
+    parseItemPart(state, parameters, MAIN, BOW_MATERIALS),
     parseRangedWeaponStats(parameters),
 )

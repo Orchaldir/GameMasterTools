@@ -48,9 +48,12 @@ fun HtmlBlockTag.editFootwear(
 
 // parse
 
-fun parseFootwear(parameters: Parameters) = Footwear(
+fun parseFootwear(
+    state: State,
+    parameters: Parameters,
+) = Footwear(
     parse(parameters, FOOTWEAR, FootwearStyle.Shoes),
-    parseItemPart(parameters, SHAFT, FOOTWEAR_MATERIALS),
-    parseItemPart(parameters, SOLE, FOOTWEAR_MATERIALS),
+    parseItemPart(state, parameters, SHAFT, FOOTWEAR_MATERIALS),
+    parseItemPart(state, parameters, SOLE, FOOTWEAR_MATERIALS),
     parseArmorStats(parameters),
 )

@@ -47,8 +47,11 @@ fun HtmlBlockTag.editIounStone(
 
 // parse
 
-fun parseIounStone(parameters: Parameters) = IounStone(
+fun parseIounStone(
+    state: State,
+    parameters: Parameters,
+) = IounStone(
     parseComplexShape(parameters, SHAPE),
     parse(parameters, SIZE, Size.Medium),
-    parseItemPart(parameters, MAIN, IOUN_STONE_MATERIALS),
+    parseItemPart(state, parameters, MAIN, IOUN_STONE_MATERIALS),
 )

@@ -99,24 +99,27 @@ private fun HtmlBlockTag.editCover(
 
 // parse
 
-fun parseBinding(parameters: Parameters) = when (parse(parameters, BINDING, BookBindingType.Hardcover)) {
+fun parseBinding(
+    state: State,
+    parameters: Parameters,
+) = when (parse(parameters, BINDING, BookBindingType.Hardcover)) {
     BookBindingType.Coptic -> CopticBinding(
-        parseItemPart(parameters, COVER, BOOK_COVER_MATERIALS),
+        parseItemPart(state, parameters, COVER, BOOK_COVER_MATERIALS),
         parseTextTypography(parameters),
-        parseSewing(parameters),
+        parseSewing(state, parameters),
     )
 
     BookBindingType.Hardcover -> Hardcover(
-        parseItemPart(parameters, COVER, BOOK_COVER_MATERIALS),
+        parseItemPart(state, parameters, COVER, BOOK_COVER_MATERIALS),
         parseTextTypography(parameters),
-        parseBosses(parameters),
-        parseEdgeProtection(parameters),
+        parseBosses(state, parameters),
+        parseEdgeProtection(state, parameters),
     )
 
     BookBindingType.Leather -> LeatherBinding(
         parse(parameters, combine(LEATHER, BINDING), LeatherBindingStyle.Half),
-        parseItemPart(parameters, COVER, BOOK_COVER_MATERIALS),
-        parseItemPart(parameters, LEATHER, BOOK_COVER_MATERIALS),
+        parseItemPart(state, parameters, COVER, BOOK_COVER_MATERIALS),
+        parseItemPart(state, parameters, LEATHER, BOOK_COVER_MATERIALS),
         parseTextTypography(parameters),
     )
 }

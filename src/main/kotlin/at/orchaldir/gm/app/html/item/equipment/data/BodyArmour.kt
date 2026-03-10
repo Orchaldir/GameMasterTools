@@ -39,9 +39,12 @@ fun HtmlBlockTag.editBodyArmour(
 
 // parse
 
-fun parseBodyArmour(parameters: Parameters) = BodyArmour(
-    parseArmourStyle(parameters),
-    parseLegArmourStyle(parameters),
+fun parseBodyArmour(
+    state: State,
+    parameters: Parameters,
+) = BodyArmour(
+    parseArmourStyle(state, parameters),
+    parseLegArmourStyle(state, parameters),
     parse(parameters, combine(SLEEVE, STYLE), SleeveStyle.Long),
     parseArmorStats(parameters),
 )

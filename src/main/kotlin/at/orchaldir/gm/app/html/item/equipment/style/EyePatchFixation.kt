@@ -68,18 +68,21 @@ private fun DETAILS.selectBand(
 
 // parse
 
-fun parseEyePatchFixation(parameters: Parameters) = when (parse(parameters, FIXATION, EyePatchFixationType.None)) {
+fun parseEyePatchFixation(
+    state: State,
+    parameters: Parameters,
+) = when (parse(parameters, FIXATION, EyePatchFixationType.None)) {
     EyePatchFixationType.None -> NoFixation
     EyePatchFixationType.OneBand -> OneBand(
-        parseLineStyle(parameters, FIXATION),
+        parseLineStyle(state, parameters, FIXATION),
     )
 
     EyePatchFixationType.DiagonalBand -> DiagonalBand(
-        parseLineStyle(parameters, FIXATION),
+        parseLineStyle(state, parameters, FIXATION),
     )
 
     EyePatchFixationType.TwoBands -> TwoBands(
-        parseLineStyle(parameters, FIXATION),
+        parseLineStyle(state, parameters, FIXATION),
     )
 }
 

@@ -33,6 +33,14 @@ fun State.calculateWeight(id: MaterialId, volume: Volume): Weight {
     return Weight.fromVolume(volume, material.properties.density)
 }
 
+fun State.getFirstMaterial(category: MaterialCategoryType) = getMaterialStorage()
+    .getAll()
+    .first() { it.properties.category.getType() == category }
+
+fun State.getFirstMaterial(categories: Set<MaterialCategoryType>) = getMaterialStorage()
+    .getAll()
+    .first() { categories.contains(it.properties.category.getType()) }
+
 fun State.getMaterials(categories: Set<MaterialCategoryType>) = getMaterialStorage()
     .getAll()
     .filter { categories.contains(it.properties.category.getType()) }

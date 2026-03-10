@@ -2,7 +2,7 @@ package at.orchaldir.gm.app.html.util.part
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.economy.material.parseMaterialId
+import at.orchaldir.gm.app.html.economy.material.parseOptionalMaterialId
 import at.orchaldir.gm.app.html.economy.material.selectMaterial
 import at.orchaldir.gm.app.html.util.color.*
 import at.orchaldir.gm.app.html.util.math.fieldFactor
@@ -10,9 +10,12 @@ import at.orchaldir.gm.app.html.util.math.parseFactor
 import at.orchaldir.gm.app.html.util.math.selectFactor
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.*
+import at.orchaldir.gm.core.model.economy.material.MaterialCategoryType
 import at.orchaldir.gm.core.model.util.part.*
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.util.render.ColorLookup
+import at.orchaldir.gm.core.selector.economy.getFirstMaterial
+import at.orchaldir.gm.core.selector.economy.getMaterials
 import at.orchaldir.gm.core.selector.util.sortMaterials
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -199,53 +202,72 @@ private fun HtmlBlockTag.selectMaterial(
 // parse
 
 fun parseItemPart(
+    state: State,
     parameters: Parameters,
     param: String,
     default: ItemPartType,
 ) = parseItemPart(
+    state,
     parameters,
     param,
     listOf(default),
 )
 
 fun parseItemPart(
+    state: State,
     parameters: Parameters,
     param: String,
     allowedTypes: List<ItemPartType>,
 ) = when (parse(parameters, combine(param, TYPE), allowedTypes)) {
     ItemPartType.Cord -> MadeFromCord(
-        parseMaterialId(parameters, combine(param, MATERIAL)),
+        parseId(state, parameters, param, MaterialCategoryType.Fiber),
         parseColorLookup(parameters, combine(param, COLOR)),
     )
     ItemPartType.Fabric -> MadeFromFabric(
-        parseMaterialId(parameters, combine(param, MATERIAL)),
+        parseId(state, parameters, param, MaterialCategoryType.Fiber),
         parse(parameters, combine(param, FABRIC, WEIGHT), FabricWeight.Medium),
         parse(parameters, combine(param, FABRIC, TYPE), FabricType.Woven),
         parseFillLookup(parameters, combine(param, FILL)),
     )
     ItemPartType.Gem -> MadeFromGem(
-        parseMaterialId(parameters, combine(param, MATERIAL)),
+        parseId(state, parameters, param, CATEGORIES_FOR_GEM),
     )
     ItemPartType.Glass -> MadeFromGlass(
-        parseMaterialId(parameters, combine(param, MATERIAL)),
+        parseId(state, parameters, param, MaterialCategoryType.Glass),
         parseColorLookup(parameters, combine(param, COLOR)),
         parseFactor(parameters, combine(param, OPACITY)),
     )
     ItemPartType.Leather -> MadeFromLeather(
-        parseMaterialId(parameters, combine(param, MATERIAL)),
+        parseId(state, parameters, param, MaterialCategoryType.Leather),
         parse(parameters, combine(param, LEATHER, TYPE), LeatherGrade.Undefined),
         parseColorLookup(parameters, combine(param, COLOR)),
     )
     ItemPartType.Metal -> MadeFromMetal(
-        parseMaterialId(parameters, combine(param, MATERIAL)),
+        parseId(state, parameters, param, ALLOYS_OR_METALS),
     )
     ItemPartType.Paper -> MadeFromPaper(
-        parseMaterialId(parameters, combine(param, MATERIAL)),
+        parseId(state, parameters, param, MaterialCategoryType.Paper),
         parseColorLookup(parameters, combine(param, COLOR)),
     )
     ItemPartType.Wood -> MadeFromWood(
-        parseMaterialId(parameters, combine(param, MATERIAL)),
+        parseId(state, parameters, param, MaterialCategoryType.Wood),
         parseFillLookup(parameters, combine(param, FILL)),
     )
 }
+
+private fun parseId(
+    state: State,
+    parameters: Parameters,
+    param: String,
+    category: MaterialCategoryType,
+) = parseOptionalMaterialId(parameters, combine(param, MATERIAL))
+    ?: state.getFirstMaterial(category).id
+
+private fun parseId(
+    state: State,
+    parameters: Parameters,
+    param: String,
+    categories: Set<MaterialCategoryType>,
+) = parseOptionalMaterialId(parameters, combine(param, MATERIAL))
+    ?: state.getFirstMaterial(categories).id
 
