@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.html.util.part
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.economy.material.parseMaterialId
 import at.orchaldir.gm.app.html.economy.material.parseOptionalMaterialId
 import at.orchaldir.gm.app.html.economy.material.selectMaterial
 import at.orchaldir.gm.app.html.util.color.*
@@ -107,11 +108,14 @@ fun HtmlBlockTag.editItemPart(
     val woods = state.sortMaterials(MaterialCategoryType.Wood)
 
     showDetails(label, true) {
+        val type = part.getType()
+        val materialParam = combine(param, type.ordinal)
+        
         selectValue(
             "Type",
             combine(param, TYPE),
             allowedTypes,
-            part.getType(),
+            type,
         ) {
             when (it) {
                 ItemPartType.Cord -> fibers.isEmpty() && leathers.isEmpty()
@@ -127,12 +131,12 @@ fun HtmlBlockTag.editItemPart(
 
         when (part) {
             is MadeFromCord -> {
-                selectMaterial(state, param, part.material, fibers + leathers)
+                selectMaterial(state, materialParam, part.material, fibers + leathers)
                 selectColor(state, param, part.color)
             }
 
             is MadeFromFabric -> {
-                selectMaterial(state, param, part.material, fibers)
+                selectMaterial(state, materialParam, part.material, fibers)
                 selectValue(
                     "Fabric Weight",
                     combine(param, FABRIC, WEIGHT),
@@ -148,15 +152,15 @@ fun HtmlBlockTag.editItemPart(
                 selectFillLookup(state, part.fill, combine(param, FILL))
             }
 
-            is MadeFromGem -> selectMaterial(state, param, part.material, gems)
+            is MadeFromGem -> selectMaterial(state, materialParam, part.material, gems)
             is MadeFromGlass -> {
-                selectMaterial(state, param, part.material, glasses)
+                selectMaterial(state, materialParam, part.material, glasses)
                 selectColor(state, param, part.color)
                 selectFactor("Opacity", combine(param, OPACITY), part.opacity)
             }
 
             is MadeFromLeather -> {
-                selectMaterial(state, param, part.material, leathers)
+                selectMaterial(state, materialParam, part.material, leathers)
                 selectValue(
                     "Leather Grade",
                     combine(param, LEATHER, TYPE),
@@ -166,14 +170,14 @@ fun HtmlBlockTag.editItemPart(
                 selectColor(state, param, part.color)
             }
 
-            is MadeFromMetal -> selectMaterial(state, param, part.material, metals)
+            is MadeFromMetal -> selectMaterial(state, materialParam, part.material, metals)
             is MadeFromPaper -> {
-                selectMaterial(state, param, part.material, papers)
+                selectMaterial(state, materialParam, part.material, papers)
                 selectColor(state, param, part.color)
             }
 
             is MadeFromWood -> {
-                selectMaterial(state, param, part.material, woods)
+                selectMaterial(state, materialParam, part.material, woods)
                 selectFillLookup(state, part.fill, combine(param, FILL))
             }
         }
@@ -218,41 +222,53 @@ fun parseItemPart(
     parameters: Parameters,
     param: String,
     allowedTypes: List<ItemPartType>,
-) = when (parse(parameters, combine(param, TYPE), allowedTypes)) {
-    ItemPartType.Cord -> MadeFromCord(
-        parseId(state, parameters, param, MaterialCategoryType.Fiber),
-        parseColorLookup(parameters, combine(param, COLOR)),
-    )
-    ItemPartType.Fabric -> MadeFromFabric(
-        parseId(state, parameters, param, MaterialCategoryType.Fiber),
-        parse(parameters, combine(param, FABRIC, WEIGHT), FabricWeight.Medium),
-        parse(parameters, combine(param, FABRIC, TYPE), FabricType.Woven),
-        parseFillLookup(parameters, combine(param, FILL)),
-    )
-    ItemPartType.Gem -> MadeFromGem(
-        parseId(state, parameters, param, CATEGORIES_FOR_GEM),
-    )
-    ItemPartType.Glass -> MadeFromGlass(
-        parseId(state, parameters, param, MaterialCategoryType.Glass),
-        parseColorLookup(parameters, combine(param, COLOR)),
-        parseFactor(parameters, combine(param, OPACITY)),
-    )
-    ItemPartType.Leather -> MadeFromLeather(
-        parseId(state, parameters, param, MaterialCategoryType.Leather),
-        parse(parameters, combine(param, LEATHER, TYPE), LeatherGrade.Undefined),
-        parseColorLookup(parameters, combine(param, COLOR)),
-    )
-    ItemPartType.Metal -> MadeFromMetal(
-        parseId(state, parameters, param, ALLOYS_OR_METALS),
-    )
-    ItemPartType.Paper -> MadeFromPaper(
-        parseId(state, parameters, param, MaterialCategoryType.Paper),
-        parseColorLookup(parameters, combine(param, COLOR)),
-    )
-    ItemPartType.Wood -> MadeFromWood(
-        parseId(state, parameters, param, MaterialCategoryType.Wood),
-        parseFillLookup(parameters, combine(param, FILL)),
-    )
+): ItemPart {
+    val type = parse(parameters, combine(param, TYPE), allowedTypes)
+    val materialParam = combine(param, type.ordinal)
+    
+    return when (type) {
+        ItemPartType.Cord -> MadeFromCord(
+            parseId(state, parameters, materialParam, MaterialCategoryType.Fiber),
+            parseColorLookup(parameters, combine(param, COLOR)),
+        )
+
+        ItemPartType.Fabric -> MadeFromFabric(
+            parseId(state, parameters, materialParam, MaterialCategoryType.Fiber),
+            parse(parameters, combine(param, FABRIC, WEIGHT), FabricWeight.Medium),
+            parse(parameters, combine(param, FABRIC, TYPE), FabricType.Woven),
+            parseFillLookup(parameters, combine(param, FILL)),
+        )
+
+        ItemPartType.Gem -> MadeFromGem(
+            parseId(state, parameters, materialParam, CATEGORIES_FOR_GEM),
+        )
+
+        ItemPartType.Glass -> MadeFromGlass(
+            parseId(state, parameters, materialParam, MaterialCategoryType.Glass),
+            parseColorLookup(parameters, combine(param, COLOR)),
+            parseFactor(parameters, combine(param, OPACITY)),
+        )
+
+        ItemPartType.Leather -> MadeFromLeather(
+            parseId(state, parameters, materialParam, MaterialCategoryType.Leather),
+            parse(parameters, combine(param, LEATHER, TYPE), LeatherGrade.Undefined),
+            parseColorLookup(parameters, combine(param, COLOR)),
+        )
+
+        ItemPartType.Metal -> MadeFromMetal(
+            parseId(state, parameters, materialParam, ALLOYS_OR_METALS),
+        )
+
+        ItemPartType.Paper -> MadeFromPaper(
+            parseId(state, parameters, materialParam, MaterialCategoryType.Paper),
+            parseColorLookup(parameters, combine(param, COLOR)),
+        )
+
+        ItemPartType.Wood -> MadeFromWood(
+            parseId(state, parameters, materialParam, MaterialCategoryType.Wood),
+            parseFillLookup(parameters, combine(param, FILL)),
+        )
+    }
 }
 
 private fun parseId(
