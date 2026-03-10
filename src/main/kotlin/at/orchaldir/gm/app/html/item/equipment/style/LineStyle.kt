@@ -6,14 +6,15 @@ import at.orchaldir.gm.app.SIZE
 import at.orchaldir.gm.app.STYLE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.part.editItemPart
-import at.orchaldir.gm.app.html.util.part.parseMadeFromCord
-import at.orchaldir.gm.app.html.util.part.parseMadeFromMetal
+import at.orchaldir.gm.app.html.util.part.parseItemPart
 import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.Size
+import at.orchaldir.gm.core.model.util.part.CLOTHING_MATERIALS
 import at.orchaldir.gm.core.model.util.part.ItemPart
 import at.orchaldir.gm.core.model.util.part.ItemPartType
+import at.orchaldir.gm.core.model.util.part.MADE_FROM_METALS
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.DETAILS
@@ -71,14 +72,14 @@ fun HtmlBlockTag.editLineStyle(
         )
 
         when (line) {
-            is Chain -> selectThicknessAndPart(state, param, line.thickness, line.main, ItemPartType.Metal)
-            is Cord -> selectThicknessAndPart(state, param, line.thickness, line.main, ItemPartType.Cord)
+            is Chain -> selectThicknessAndPart(state, param, line.thickness, line.main, MADE_FROM_METALS)
+            is Cord -> selectThicknessAndPart(state, param, line.thickness, line.main, CLOTHING_MATERIALS)
             is OrnamentLine -> {
                 editOrnament(state, line.ornament, param = combine(param, ORNAMENT))
                 selectValue("Size", combine(param, SIZE), Size.entries, line.size)
             }
 
-            is Wire -> selectThicknessAndPart(state, param, line.thickness, line.main, ItemPartType.Metal)
+            is Wire -> selectThicknessAndPart(state, param, line.thickness, line.main, MADE_FROM_METALS)
         }
     }
 }
@@ -88,10 +89,10 @@ private fun DETAILS.selectThicknessAndPart(
     param: String,
     thickness: Size,
     part: ItemPart,
-    allowedType: ItemPartType,
+    allowedTypes: Collection<ItemPartType>,
 ) {
     selectValue("Thickness", combine(param, SIZE), Size.entries, thickness)
-    editItemPart(state, part, combine(param, MAIN), allowedTypes = setOf(allowedType))
+    editItemPart(state, part, combine(param, MAIN), allowedTypes = allowedTypes)
 }
 
 // parse
@@ -102,11 +103,11 @@ fun parseLineStyle(parameters: Parameters, param: String): LineStyle {
     return when (type) {
         LineStyleType.Chain -> Chain(
             parseThickness(parameters, param),
-            parseMadeFromMetal(parameters, combine(param, MAIN)),
+            parseItemPart(parameters, combine(param, MAIN), MADE_FROM_METALS),
         )
 
         LineStyleType.Cord -> Cord(
-            parseMadeFromCord(parameters, combine(param, MAIN)),
+            parseItemPart(parameters, combine(param, MAIN), CLOTHING_MATERIALS),
             parseThickness(parameters, param),
         )
 
@@ -124,7 +125,7 @@ fun parseWire(
     param: String,
 ): Wire = Wire(
     parseThickness(parameters, param),
-    parseMadeFromMetal(parameters, combine(param, MAIN)),
+    parseItemPart(parameters, combine(param, MAIN), MADE_FROM_METALS),
 )
 
 private fun parseThickness(parameters: Parameters, param: String) =

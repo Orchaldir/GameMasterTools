@@ -213,69 +213,39 @@ fun parseItemPart(
     param: String,
     allowedTypes: List<ItemPartType>,
 ) = when (parse(parameters, combine(param, TYPE), allowedTypes)) {
-    ItemPartType.Cord -> parseMadeFromCord(parameters, param)
+    ItemPartType.Cord -> MadeFromCord(
+        parseMaterialId(parameters, combine(param, MATERIAL)),
+        parseColorLookup(parameters, combine(param, COLOR)),
+    )
     ItemPartType.Fabric -> MadeFromFabric(
         parseMaterialId(parameters, combine(param, MATERIAL)),
         parse(parameters, combine(param, FABRIC, WEIGHT), FabricWeight.Medium),
         parse(parameters, combine(param, FABRIC, TYPE), FabricType.Woven),
         parseFillLookup(parameters, combine(param, FILL)),
     )
-
-    ItemPartType.Gem -> parseMadeFromGem(parameters, param)
-    ItemPartType.Glass -> parseGlass(parameters, param)
-    ItemPartType.Leather -> parseLeather(parameters, param)
-    ItemPartType.Metal -> parseMadeFromMetal(parameters, param)
-    ItemPartType.Paper -> parsePaper(parameters, param)
+    ItemPartType.Gem -> MadeFromGem(
+        parseMaterialId(parameters, combine(param, MATERIAL)),
+    )
+    ItemPartType.Glass -> MadeFromGlass(
+        parseMaterialId(parameters, combine(param, MATERIAL)),
+        parseColorLookup(parameters, combine(param, COLOR)),
+        parseFactor(parameters, combine(param, OPACITY)),
+    )
+    ItemPartType.Leather -> MadeFromLeather(
+        parseMaterialId(parameters, combine(param, MATERIAL)),
+        parse(parameters, combine(param, LEATHER, TYPE), LeatherGrade.Undefined),
+        parseColorLookup(parameters, combine(param, COLOR)),
+    )
+    ItemPartType.Metal -> MadeFromMetal(
+        parseMaterialId(parameters, combine(param, MATERIAL)),
+    )
+    ItemPartType.Paper -> MadeFromPaper(
+        parseMaterialId(parameters, combine(param, MATERIAL)),
+        parseColorLookup(parameters, combine(param, COLOR)),
+    )
     ItemPartType.Wood -> MadeFromWood(
         parseMaterialId(parameters, combine(param, MATERIAL)),
         parseFillLookup(parameters, combine(param, FILL)),
     )
 }
 
-fun parseMadeFromCord(
-    parameters: Parameters,
-    param: String,
-) = MadeFromCord(
-    parseMaterialId(parameters, combine(param, MATERIAL)),
-    parseColorLookup(parameters, combine(param, COLOR)),
-)
-
-fun parseMadeFromGem(
-    parameters: Parameters,
-    param: String,
-) = MadeFromGem(
-    parseMaterialId(parameters, combine(param, MATERIAL)),
-)
-
-fun parseGlass(
-    parameters: Parameters,
-    param: String,
-) = MadeFromGlass(
-    parseMaterialId(parameters, combine(param, MATERIAL)),
-    parseColorLookup(parameters, combine(param, COLOR)),
-    parseFactor(parameters, combine(param, OPACITY)),
-)
-
-fun parseLeather(
-    parameters: Parameters,
-    param: String,
-) = MadeFromLeather(
-    parseMaterialId(parameters, combine(param, MATERIAL)),
-    parse(parameters, combine(param, LEATHER, TYPE), LeatherGrade.Undefined),
-    parseColorLookup(parameters, combine(param, COLOR)),
-)
-
-fun parseMadeFromMetal(
-    parameters: Parameters,
-    param: String,
-) = MadeFromMetal(
-    parseMaterialId(parameters, combine(param, MATERIAL)),
-)
-
-fun parsePaper(
-    parameters: Parameters,
-    param: String,
-) = MadeFromPaper(
-    parseMaterialId(parameters, combine(param, MATERIAL)),
-    parseColorLookup(parameters, combine(param, COLOR)),
-)

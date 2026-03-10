@@ -347,7 +347,7 @@ data class Footwear(
 data class Glasses(
     val lensShape: LensShape = LensShape.RoundedRectangle,
     val frameType: FrameType = FrameType.FullRimmed,
-    val lens: MadeFromGlass = MadeFromGlass(),
+    val lens: ItemPart = MadeFromGlass(),
     val frame: ItemPart = MadeFromWood(Color.Navy),
 ) : EquipmentData() {
 

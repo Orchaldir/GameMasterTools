@@ -8,7 +8,6 @@ import at.orchaldir.gm.app.html.parse
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.showDetails
 import at.orchaldir.gm.app.html.util.part.editItemPart
-import at.orchaldir.gm.app.html.util.part.parseGlass
 import at.orchaldir.gm.app.html.util.part.parseItemPart
 import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
@@ -17,7 +16,6 @@ import at.orchaldir.gm.core.model.item.equipment.Glasses
 import at.orchaldir.gm.core.model.item.equipment.style.FrameType
 import at.orchaldir.gm.core.model.item.equipment.style.LensShape
 import at.orchaldir.gm.core.model.util.part.ItemPartType
-import at.orchaldir.gm.core.model.util.part.SOLID_MATERIALS
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -60,6 +58,6 @@ fun HtmlBlockTag.editGlasses(
 fun parseGlasses(parameters: Parameters) = Glasses(
     parse(parameters, SHAPE, LensShape.Rectangle),
     parse(parameters, FRAME, FrameType.FullRimmed),
-    parseGlass(parameters, LENS),
+    parseItemPart(parameters, LENS, ItemPartType.Glass),
     parseItemPart(parameters, FRAME, GLASSES_FRAME_MATERIALS),
 )

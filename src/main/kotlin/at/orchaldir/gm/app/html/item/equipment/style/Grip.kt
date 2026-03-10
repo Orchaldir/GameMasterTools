@@ -6,7 +6,6 @@ import at.orchaldir.gm.app.SHAPE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.part.editItemPart
 import at.orchaldir.gm.app.html.util.part.parseItemPart
-import at.orchaldir.gm.app.html.util.part.parseMadeFromCord
 import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.GRIP_MATERIALS

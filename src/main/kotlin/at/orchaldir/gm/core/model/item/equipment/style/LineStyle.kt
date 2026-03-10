@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.item.equipment.style
 
 import at.orchaldir.gm.core.model.util.Size
+import at.orchaldir.gm.core.model.util.part.ItemPart
 import at.orchaldir.gm.core.model.util.part.MadeFromCord
 import at.orchaldir.gm.core.model.util.part.MadeFromMetal
 import at.orchaldir.gm.core.model.util.part.MadeFromParts
@@ -45,13 +46,13 @@ sealed class LineStyle : MadeFromParts {
 @SerialName("Chain")
 data class Chain(
     val thickness: Size = Size.Medium,
-    val main: MadeFromMetal = MadeFromMetal(),
+    val main: ItemPart = MadeFromMetal(),
 ) : LineStyle()
 
 @Serializable
 @SerialName("Cord")
 data class Cord(
-    val main: MadeFromCord,
+    val main: ItemPart,
     val thickness: Size = Size.Medium,
 ) : LineStyle()
 
@@ -66,6 +67,6 @@ data class OrnamentLine(
 @SerialName("Wire")
 data class Wire(
     val thickness: Size = Size.Medium,
-    val main: MadeFromMetal = MadeFromMetal(),
+    val main: ItemPart = MadeFromMetal(),
 ) : LineStyle()
 
