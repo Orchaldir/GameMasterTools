@@ -69,6 +69,30 @@
      "None": "Common"
     }
    }
+  },
+  "3": {
+   "id": 3,
+   "name": "Grimalkin",
+   "languages": {
+    "0": "Common",
+    "4": "Everyone",
+    "5": "Everyone",
+    "6": "Rare",
+    "8": "Rare"
+   },
+   "namingConvention": {
+    "#type": "Random",
+    "givenNames": {
+     "#type": "MaleAndFemale",
+     "male": 3,
+     "female": 4,
+     "unisex": 5
+    },
+    "lastNames": 6,
+    "middleNameOptions": {
+     "None": "Common"
+    }
+   }
   }
  }
 }

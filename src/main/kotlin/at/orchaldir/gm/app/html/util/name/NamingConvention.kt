@@ -6,10 +6,14 @@ import at.orchaldir.gm.app.html.util.parseGenderMap
 import at.orchaldir.gm.app.html.util.selectGenderMap
 import at.orchaldir.gm.app.html.util.showGenderMap
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.culture.name.*
+import at.orchaldir.gm.core.model.culture.name.GivenNamesType.MaleAndFemale
+import at.orchaldir.gm.core.model.culture.name.GivenNamesType.NonGendered
 import at.orchaldir.gm.core.model.culture.name.NameOrder.GivenNameFirst
 import at.orchaldir.gm.core.model.culture.name.NamingConventionType.*
 import at.orchaldir.gm.core.model.util.GenderMap
+import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.util.name.NameListId
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
@@ -59,6 +63,11 @@ fun HtmlBlockTag.showNamingConvention(
             namingConvention.style,
             namingConvention.names
         )
+        is RandomGivenAndLastName -> {
+            showGivenNames(call, state, namingConvention.givenNames)
+            showRarityMap("Middle Name Options", namingConvention.middleNameOptions)
+            fieldLink("Last Names", call, state, namingConvention.lastNames)
+        }
     }
 }
 
@@ -102,8 +111,8 @@ fun HtmlBlockTag.editNamingConvention(
     when (namingConvention) {
         is FamilyConvention -> {
             selectValue("Name Order", combine(NAME, ORDER), NameOrder.entries, namingConvention.nameOrder)
-            selectRarityMap("Middle Name Options", combine(MIDDLE, NAME), namingConvention.middleNameOptions)
             editGivenNames(state, namingConvention.givenNames)
+            selectRarityMap("Middle Name Options", combine(MIDDLE, NAME), namingConvention.middleNameOptions)
             field("Family Names") {
                 selectNameList(FAMILY_NAMES, state, namingConvention.familyNames)
             }
@@ -132,6 +141,13 @@ fun HtmlBlockTag.editNamingConvention(
             namingConvention.style,
             namingConvention.names
         )
+        is RandomGivenAndLastName -> {
+            editGivenNames(state, namingConvention.givenNames)
+            selectRarityMap("Middle Name Options", combine(MIDDLE, NAME), namingConvention.middleNameOptions)
+            field("Last Names") {
+                selectNameList(FAMILY_NAMES, state, namingConvention.lastNames)
+            }
+        }
     }
 }
 
@@ -181,45 +197,44 @@ private fun HtmlBlockTag.selectWordsByGender(label: String, genderMap: GenderMap
 
 // parse
 
-fun parseNamingConvention(
-    parameters: Parameters,
-): NamingConvention {
-    return when (parameters[NAMING_CONVENTION]) {
-        Mononym.toString() -> MononymConvention(parseGivenNames(parameters))
-
-        Family.toString() -> FamilyConvention(
+fun parseNamingConvention(parameters: Parameters) =
+    when (parse(parameters, NAMING_CONVENTION, None)) {
+        None -> NoNamingConvention
+        Mononym -> MononymConvention(parseGivenNames(parameters))
+        Random -> RandomGivenAndLastName(
+            parseGivenNames(parameters),
+            parseNameListId(parameters, FAMILY_NAMES),
+            parseMiddleName(parameters),
+        )
+        Family -> FamilyConvention(
             parseGivenNames(parameters),
             parseNameListId(parameters, FAMILY_NAMES),
             parse(parameters, combine(NAME, ORDER), GivenNameFirst),
-            parseOneOf(
-                parameters,
-                combine(MIDDLE, NAME),
-                MiddleNameOption::valueOf,
-                MiddleNameOption.entries,
-            ),
+            parseMiddleName(parameters),
         )
-
-        Patronym.toString() -> PatronymConvention(
+        Patronym -> PatronymConvention(
             parseGivenNames(parameters),
             parse(parameters, LOOKUP_DISTANCE, GenonymicLookupDistance.OneGeneration),
             parseGenonymicStyle(parameters),
         )
-
-        Matronym.toString() -> MatronymConvention(
+        Matronym -> MatronymConvention(
             parseGivenNames(parameters),
             parse(parameters, LOOKUP_DISTANCE, GenonymicLookupDistance.OneGeneration),
             parseGenonymicStyle(parameters),
         )
-
-        Genonym.toString() -> GenonymConvention(
+        Genonym -> GenonymConvention(
             parseGivenNames(parameters),
             parse(parameters, LOOKUP_DISTANCE, GenonymicLookupDistance.OneGeneration),
             parseGenonymicStyle(parameters),
         )
-
-        else -> NoNamingConvention
     }
-}
+
+private fun parseMiddleName(parameters: Parameters) = parseOneOf(
+    parameters,
+    combine(MIDDLE, NAME),
+    MiddleNameOption::valueOf,
+    MiddleNameOption.entries,
+)
 
 fun parseGenonymicStyle(
     parameters: Parameters,

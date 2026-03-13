@@ -6,14 +6,16 @@ import at.orchaldir.gm.core.model.character.title.AbstractTitle
 import at.orchaldir.gm.core.model.character.title.NoTitle
 import at.orchaldir.gm.core.model.culture.name.GenonymicLookupDistance.OneGeneration
 import at.orchaldir.gm.core.model.util.OneOf
-import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.name.NameListId
+import at.orchaldir.gm.core.selector.culture.getDefaultFamilyName
+import at.orchaldir.gm.core.selector.culture.getFamilyName
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 enum class NamingConventionType {
     None,
     Mononym,
+    Random,
     Family,
     Patronym,
     Matronym,
@@ -27,21 +29,13 @@ sealed class NamingConvention {
 
     abstract fun getNameLists(): Set<NameListId>
 
-    fun getFamilyName(name: FamilyName, gender: Gender, title: AbstractTitle = NoTitle): String {
+    fun getFamilyName(name: FamilyName, gender: Gender, title: AbstractTitle = NoTitle): String =
         when (this) {
-            is FamilyConvention -> return when (nameOrder) {
-                NameOrder.GivenNameFirst -> getDefaultFamilyName(name, gender, title)
-
-                NameOrder.FamilyNameFirst -> getFamilyName(
-                    title.resolveFamilyName(name.family.text, gender),
-                    name.middle,
-                    name.given.text
-                )
-            }
+            is FamilyConvention -> getFamilyName(nameOrder, name, gender, title)
+            is RandomGivenAndLastName -> getDefaultFamilyName(name, gender, title)
 
             else -> error("A family name requires a family convention!")
         }
-    }
 
     fun getType() = when (this) {
         is FamilyConvention -> NamingConventionType.Family
@@ -50,23 +44,8 @@ sealed class NamingConvention {
         is MononymConvention -> NamingConventionType.Mononym
         NoNamingConvention -> NamingConventionType.None
         is PatronymConvention -> NamingConventionType.Patronym
+        is RandomGivenAndLastName -> NamingConventionType.Random
     }
-}
-
-fun getDefaultFamilyName(
-    name: FamilyName,
-    gender: Gender,
-    title: AbstractTitle,
-): String = getFamilyName(
-    name.given.text,
-    name.middle,
-    title.resolveFamilyName(name.family.text, gender)
-)
-
-private fun getFamilyName(first: String, middle: Name?, last: String) = if (middle != null) {
-    "$first ${middle.text} $last"
-} else {
-    "$first $last"
 }
 
 @Serializable
@@ -88,6 +67,19 @@ data class MononymConvention(
     override fun contains(id: NameListId) = names.contains(id)
 
     override fun getNameLists() = names.getNameLists()
+}
+
+@Serializable
+@SerialName("Random")
+data class RandomGivenAndLastName(
+    val givenNames: GivenNames,
+    val lastNames: NameListId,
+    val middleNameOptions: OneOf<MiddleNameOption> = OneOf(MiddleNameOption.entries),
+) : NamingConvention() {
+
+    override fun contains(id: NameListId) = givenNames.contains(id) || lastNames == id
+
+    override fun getNameLists() = givenNames.getNameLists() + setOf(lastNames)
 }
 
 @Serializable
