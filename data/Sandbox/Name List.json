@@ -1,5 +1,83 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "Breggle - Male",
+   "names": [
+    "Aele",
+    "Braembel",
+    "Broob",
+    "Crump",
+    "Drerdl",
+    "Frennig",
+    "Grerg",
+    "Gripe",
+    "Llerg",
+    "Llrod",
+    "Lope",
+    "Mashker",
+    "Olledg",
+    "Rheg",
+    "Shadgore",
+    "Shadwell",
+    "Shadwicke",
+    "Shandor",
+    "Shank",
+    "Snerd"
+   ]
+  },
+  "1": {
+   "id": 1,
+   "name": "Breggle - Female",
+   "names": [
+    "Aedel",
+    "Berrild",
+    "Bredhr",
+    "Draed",
+    "Fannigrew",
+    "Frandorup",
+    "Grendilore",
+    "Grendl",
+    "Grewigg",
+    "Hildrup",
+    "Hraigl",
+    "Hwendl",
+    "Maybel",
+    "Myrkle",
+    "Nannigrew",
+    "Pettigrew",
+    "Rrhimbr",
+    "Shord",
+    "Smethra",
+    "Wheld"
+   ]
+  },
+  "2": {
+   "id": 2,
+   "name": "Breggle - Surname",
+   "names": [
+    "Blathergripe",
+    "Bluegouge",
+    "Bockbrugh",
+    "Bockstump",
+    "Elbowgen",
+    "Forlocke",
+    "Hwodlow",
+    "Lankshorn",
+    "Lockehorn",
+    "Longbeard",
+    "Longshanks",
+    "Shankwold",
+    "Smallbuck",
+    "Snicklebock",
+    "Snidebleat",
+    "Snoode",
+    "Underbleat",
+    "Underbuck",
+    "Wolder",
+    "Woldleap"
+   ]
+  }
  }
 }

@@ -1,5 +1,49 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "Breggle",
+   "earShapes": {
+    "PointedSideways": "Common"
+   },
+   "eye": {
+    "eyeColors": {
+     "Chocolate": "Common",
+     "Maroon": "Common",
+     "Peru": "Common",
+     "SaddleBrown": "Common"
+    }
+   },
+   "hair": {
+    "beardTypes": {
+     "None": "Common"
+    },
+    "hairTypes": {
+     "None": "Common"
+    }
+   },
+   "horn": {
+    "layouts": {
+     "Two": "Common"
+    },
+    "simpleTypes": {
+     "Gemsbok": "Common"
+    }
+   },
+   "skin": {
+    "skinTypes": {
+     "Fur": "Common"
+    },
+    "furColors": {
+     "normal": {
+      "Blond": "Common",
+      "DarkBlond": "Common",
+      "LightBrown": "Common",
+      "MediumBrown": "Common"
+     }
+    }
+   }
+  }
  }
 }
