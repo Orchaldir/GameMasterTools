@@ -7,6 +7,7 @@ import io.ktor.http.*
 import io.ktor.server.util.*
 import kotlinx.html.*
 import kotlin.math.max
+import kotlin.math.min
 
 // show
 
@@ -291,11 +292,13 @@ private fun HtmlBlockTag.selectString(
     minLength: Int = 1,
     maxLength: Int? = null,
 ) {
-    val size = max(text.length, maxLength ?: 100)
+    val maxLength = max(text.length, maxLength ?: 100)
+    val size = min(text.length + 1, maxLength)
 
     textInput(name = param) {
         this.minLength = "$minLength"
-        this.maxLength = "$size"
+        this.maxLength = "$maxLength"
+        this.size = "$size"
         value = text
         onChange = ON_CHANGE_SCRIPT
     }

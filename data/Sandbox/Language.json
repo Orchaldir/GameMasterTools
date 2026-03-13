@@ -2,7 +2,119 @@
  "version": 1,
  "elements": {
   "0": {
-   "id": 0
+   "id": 0,
+   "name": "Woldish",
+   "title": "Common",
+   "origin": {
+    "#type": "Evolved",
+    "parent": 1
+   }
+  },
+  "1": {
+   "id": 1,
+   "name": "Old Woldish"
+  },
+  "2": {
+   "id": 2,
+   "name": "The Immortal Tongue of Fairy",
+   "origin": {
+    "#type": "Planar"
+   }
+  },
+  "3": {
+   "id": 3,
+   "name": "High Elfsh",
+   "origin": {
+    "#type": "Evolved",
+    "parent": 2
+   }
+  },
+  "4": {
+   "id": 4,
+   "name": "Mewl",
+   "title": "The Secret Language of Cats",
+   "origin": {
+    "#type": "Planar"
+   }
+  },
+  "5": {
+   "id": 5,
+   "name": "Sylvan",
+   "title": "Demi-fey common tongue",
+   "origin": {
+    "#type": "Evolved",
+    "parent": 3
+   }
+  },
+  "6": {
+   "id": 6,
+   "name": "Dwelve",
+   "origin": {
+    "#type": "Evolved",
+    "parent": 3
+   }
+  },
+  "7": {
+   "id": 7,
+   "name": "Old Gaﬀe",
+   "origin": {
+    "#type": "Original"
+   }
+  },
+  "8": {
+   "id": 8,
+   "name": "Gaﬀe",
+   "title": "Breggle common tongue",
+   "origin": {
+    "#type": "Combined",
+    "parents": [
+     7,
+     5,
+     0
+    ]
+   }
+  },
+  "9": {
+   "id": 9,
+   "name": "Caprice",
+   "title": "Breggle noble tongue",
+   "origin": {
+    "#type": "Combined",
+    "parents": [
+     3,
+     7
+    ]
+   }
+  },
+  "10": {
+   "id": 10,
+   "name": "Liturgic",
+   "title": "The holy language of the Pluritine Church",
+   "origin": {
+    "#type": "Original"
+   }
+  },
+  "11": {
+   "id": 11,
+   "name": "Mulch",
+   "origin": {
+    "#type": "Original"
+   }
+  },
+  "12": {
+   "id": 12,
+   "name": "Old Drunic",
+   "origin": {
+    "#type": "Original"
+   }
+  },
+  "13": {
+   "id": 13,
+   "name": "Drunic",
+   "origin": {
+    "#type": "Evolved",
+    "parent": 12
+   }
   }
  }
 }
