@@ -44,6 +44,79 @@
      }
     }
    }
+  },
+  "1": {
+   "id": 1,
+   "name": "Grimalkin",
+   "earShapes": {
+    "PointedUpwards": "Common"
+   },
+   "eye": {
+    "eyeShapes": {
+     "Almond": "Common"
+    },
+    "eyeColors": {
+     "Black": "Common"
+    },
+    "pupilShapes": {
+     "VerticalSlit": "Common"
+    },
+    "scleraColors": {
+     "Gold": "Common",
+     "White": "Common",
+     "Yellow": "Common"
+    }
+   },
+   "foot": {
+    "footTypes": {
+     "Clawed": "Common"
+    },
+    "clawNumber": 4,
+    "clawSizes": {
+     "Small": "Common"
+    }
+   },
+   "hair": {
+    "beardTypes": {
+     "None": "Common"
+    },
+    "hairTypes": {
+     "None": "Common"
+    }
+   },
+   "mouth": {
+    "mouthTypes": {
+     "Snout": "Common"
+    },
+    "snoutColors": {
+     "Black": "Common"
+    },
+    "snoutShapes": {
+     "Cat": "Common"
+    }
+   },
+   "skin": {
+    "skinTypes": {
+     "Fur": "Common"
+    },
+    "furColors": {
+     "types": {
+      "Exotic": "Common"
+     },
+     "exotic": {
+      "Chocolate": "Common",
+      "DimGray": "Common",
+      "SaddleBrown": "Common",
+      "Silver": "Common",
+      "White": "Common"
+     }
+    }
+   },
+   "tail": {
+    "layouts": {
+     "Simple": "Common"
+    }
+   }
   }
  }
 }

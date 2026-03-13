@@ -16,6 +16,18 @@
      "color": "LightGray"
     }
    }
+  },
+  "1": {
+   "id": 1,
+   "name": "Grimalkin",
+   "height": {
+    "center": 900000
+   },
+   "weight": 30000000,
+   "lifeStages": {
+    "#type": "Default",
+    "appearance": 1
+   }
   }
  }
 }
