@@ -6,8 +6,8 @@ import org.junit.jupiter.api.Test
 class DataTest {
 
     @Test
-    fun `Load Ptolus`() {
-        test("data/Ptolus")
+    fun `Load Sandbox`() {
+        test("data/Sandbox")
     }
 
     private fun test(path: String) {
