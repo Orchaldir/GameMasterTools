@@ -296,7 +296,6 @@ private fun HtmlBlockTag.selectString(
     textInput(name = param) {
         this.minLength = "$minLength"
         this.maxLength = "$size"
-        this.size = "$size"
         value = text
         onChange = ON_CHANGE_SCRIPT
     }
