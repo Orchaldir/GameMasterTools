@@ -8,7 +8,6 @@ import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
 import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
 import at.orchaldir.gm.core.model.item.equipment.EquipmentElementMap
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap
-import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.util.render.Color.Black
 import at.orchaldir.gm.core.selector.character.getAppearanceForAge
 import at.orchaldir.gm.utils.math.AABB
@@ -16,7 +15,6 @@ import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.unit.Orientation
 import at.orchaldir.gm.utils.renderer.model.BorderOnly
-import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.utils.renderer.model.RenderStringOptions
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
@@ -60,8 +58,11 @@ fun visualizeAppearance(
     renderFront: Boolean = true,
 ): Svg {
     val aabb = paddedSize.getInnerAABB()
-    val builder = SvgBuilder(paddedSize.getFullSize())
+    val renderSize = paddedSize.getFullSize()
+    val builder = SvgBuilder(renderSize)
     val renderState = CharacterRenderState(state, appearance, aabb, config, builder, renderFront, equipped)
+
+    renderState.renderer.getLayer().renderRectangle(AABB(renderSize), BorderOnly(renderState.config.line))
 
     visualizeAppearance(renderState)
 
@@ -80,11 +81,11 @@ fun visualizeAppearance(
     val aabb = AABB(renderSize)
     val builder = SvgBuilder(renderSize)
     val fullAABB = paddedSize.getInnerAABB(renderSize)
-    val state = CharacterRenderState(state, appearance, fullAABB, config, builder, renderFront, equipped)
+    val renderState = CharacterRenderState(state, appearance, fullAABB, config, builder, renderFront, equipped)
 
-    state.renderer.getLayer().renderRectangle(aabb, BorderOnly(state.config.line))
+    renderState.renderer.getLayer().renderRectangle(aabb, BorderOnly(renderState.config.line))
 
-    visualizeAppearance(state)
+    visualizeAppearance(renderState)
 
     return builder.finish()
 }
