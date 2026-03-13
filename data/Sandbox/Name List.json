@@ -3,7 +3,7 @@
  "elements": {
   "0": {
    "id": 0,
-   "name": "Breggle - Male",
+   "name": "Shorthorn - Male",
    "names": [
     "Aele",
     "Braembel",
@@ -29,7 +29,7 @@
   },
   "1": {
    "id": 1,
-   "name": "Breggle - Female",
+   "name": "Shorthorn - Female",
    "names": [
     "Aedel",
     "Berrild",
@@ -55,7 +55,7 @@
   },
   "2": {
    "id": 2,
-   "name": "Breggle - Last Name",
+   "name": "Shorthorn - Last Name",
    "names": [
     "Blathergripe",
     "Bluegouge",
@@ -223,6 +223,110 @@
     "Tolmen",
     "Weavilman",
     "Wolder"
+   ]
+  },
+  "10": {
+   "id": 10,
+   "name": "Longhorn - Male",
+   "names": [
+    "Amshred",
+    "Craglow",
+    "Eriggwen",
+    "Fennig",
+    "Frannidore",
+    "Ghrend",
+    "Gryphius",
+    "Gwellith",
+    "Hgrlleld",
+    "Hmardrus",
+    "Hwardlow",
+    "Hwoldwen",
+    "Llandred",
+    "Maindr",
+    "Nodlore",
+    "Olligore",
+    "Shadgore",
+    "Smerigore",
+    "Snide",
+    "Wllannoth"
+   ]
+  },
+  "11": {
+   "id": 11,
+   "name": "Longhorn - Female",
+   "names": [
+    "Aedel",
+    "Berryld",
+    "Bethla",
+    "Crandragrew",
+    "Dweldra",
+    "Fannigrew",
+    "Fredreth",
+    "Grendilore",
+    "Hlleth",
+    "Howand",
+    "Hraigl",
+    "Hrannilde",
+    "Lindra",
+    "Llemberith",
+    "Llemmeth",
+    "Mmereth",
+    "Mregginor",
+    "Pettigrew",
+    "Pwettig",
+    "Wendliore"
+   ]
+  },
+  "12": {
+   "id": 12,
+   "name": "Longhorn - Last Name",
+   "names": [
+    "Barbicant",
+    "Canticreed",
+    "Cllern",
+    "Cornicus",
+    "Furroughby",
+    "Hoblewort",
+    "Houndswort",
+    "Hraiglent",
+    "Llhraigl",
+    "Lockehorn",
+    "Lockelope",
+    "Malbleat",
+    "Murkin",
+    "Overlocke",
+    "Pellicorn",
+    "Ramius",
+    "Shankhollow",
+    "Snidebleat",
+    "Wealdleap",
+    "Wealdlore"
+   ]
+  },
+  "13": {
+   "id": 13,
+   "name": "Longhorn - Unisex",
+   "names": [
+    "Aegll",
+    "Andred",
+    "Bllennith",
+    "Crewwin",
+    "Drangwen",
+    "Grennigore",
+    "Gwendl",
+    "Hgwennith",
+    "Hmenidore",
+    "Hwandilore",
+    "Llaind",
+    "Merrild",
+    "Pllandred",
+    "Pwenth",
+    "Shennithold",
+    "Smenthard",
+    "Snerg",
+    "Thannidreth",
+    "Wendlow",
+    "Windor"
    ]
   }
  }

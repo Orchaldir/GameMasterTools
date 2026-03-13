@@ -3,7 +3,66 @@
  "elements": {
   "0": {
    "id": 0,
-   "name": "Brackenwold"
+   "name": "Brackenwold",
+   "languages": {
+    "0": "Everyone",
+    "1": "Rare",
+    "5": "Rare",
+    "8": "Common"
+   },
+   "namingConvention": {
+    "#type": "Family",
+    "middleNameOptions": {
+     "None": "Common"
+    },
+    "givenNames": {
+     "female": 8,
+     "genderless": 7,
+     "male": 7
+    },
+    "familyNames": 9
+   }
+  },
+  "1": {
+   "id": 1,
+   "name": "Shorthorn",
+   "languages": {
+    "0": "Common",
+    "5": "Rare",
+    "8": "Everyone",
+    "9": "Rare"
+   },
+   "namingConvention": {
+    "#type": "Family",
+    "middleNameOptions": {
+     "None": "Common"
+    },
+    "givenNames": {
+     "female": 1,
+     "genderless": 0,
+     "male": 0
+    },
+    "familyNames": 2
+   }
+  },
+  "2": {
+   "id": 2,
+   "name": "Longhorn",
+   "languages": {
+    "0": "Everyone",
+    "5": "Uncommon",
+    "8": "Rare",
+    "9": "Everyone"
+   },
+   "namingConvention": {
+    "#type": "Family",
+    "givenNames": {
+     "female": 11,
+     "genderless": 10,
+     "male": 10
+    },
+    "familyNames": 12
+   }
   }
  }
 }
