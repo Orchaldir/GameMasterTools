@@ -15,11 +15,11 @@ class LifeStagesTest {
         private val appearance = RaceAppearanceId(3)
         val a = LifeStage(NAME0, 2, fromPercentage(1000))
         val b = LifeStage(NAME1, 4, fromPercentage(2000))
-        private val simpleAging = SimpleAging(appearance, listOf(a, b))
+        private val customAging = CustomAging(appearance, listOf(a, b))
 
         @Test
         fun `Always get the same appearance`() {
-            assertEquals(appearance, simpleAging.getRaceAppearance())
+            assertEquals(appearance, customAging.getRaceAppearance())
         }
 
         @Nested
@@ -27,21 +27,21 @@ class LifeStagesTest {
 
             @Test
             fun `Get life stage before being born`() {
-                assertEquals(a, simpleAging.getLifeStageForAge(-1))
+                assertEquals(a, customAging.getLifeStageForAge(-1))
             }
 
             @Test
             fun `Get life stage`() {
-                assertEquals(a, simpleAging.getLifeStageForAge(0))
-                assertEquals(a, simpleAging.getLifeStageForAge(1))
-                assertEquals(a, simpleAging.getLifeStageForAge(2))
-                assertEquals(b, simpleAging.getLifeStageForAge(3))
-                assertEquals(b, simpleAging.getLifeStageForAge(4))
+                assertEquals(a, customAging.getLifeStageForAge(0))
+                assertEquals(a, customAging.getLifeStageForAge(1))
+                assertEquals(a, customAging.getLifeStageForAge(2))
+                assertEquals(b, customAging.getLifeStageForAge(3))
+                assertEquals(b, customAging.getLifeStageForAge(4))
             }
 
             @Test
             fun `Get last life stage if too old`() {
-                assertEquals(b, simpleAging.getLifeStageForAge(5))
+                assertEquals(b, customAging.getLifeStageForAge(5))
             }
         }
 
@@ -68,7 +68,7 @@ class LifeStagesTest {
             }
 
             private fun assertRelativeSize(age: Int, relativeSize: Int) {
-                assertEquals(fromPercentage(relativeSize), simpleAging.getRelativeSize(age))
+                assertEquals(fromPercentage(relativeSize), customAging.getRelativeSize(age))
             }
 
         }

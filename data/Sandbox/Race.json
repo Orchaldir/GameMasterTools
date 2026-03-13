@@ -6,7 +6,7 @@
    "name": "Breggle",
    "weight": 70000000,
    "lifeStages": {
-    "#type": "Default",
+    "#type": "Aging",
     "oldAgeHairColor": {
      "#type": "Exotic",
      "color": "Gray"
@@ -25,7 +25,7 @@
    },
    "weight": 30000000,
    "lifeStages": {
-    "#type": "Default",
+    "#type": "Aging",
     "appearance": 1
    }
   }

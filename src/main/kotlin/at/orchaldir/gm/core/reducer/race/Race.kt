@@ -17,7 +17,11 @@ fun validateLifeStages(state: State, lifeStages: LifeStages) {
             validateMaxAge(lifeStages.getAllLifeStages())
         }
 
-        is SimpleAging -> validateMaxAge(lifeStages.lifeStages)
+        is CustomAging -> validateMaxAge(lifeStages.lifeStages)
+        is DefaultImmortal -> {
+            require(lifeStages.maxAges.size == IMMORTAL_MAX_AGES.size) { "Invalid number of max ages!" }
+            validateMaxAge(lifeStages.getAllLifeStages())
+        }
 
         is ImmutableLifeStage -> doNothing()
     }
