@@ -3,30 +3,30 @@
  "elements": {
   "0": {
    "id": 0,
-   "name": "Default Calendar",
+   "name": "Brackenwold Calendar",
    "days": {
     "#type": "Weekdays",
     "weekDays": [
      {
-      "name": "Monday"
+      "name": "Colly"
      },
      {
-      "name": "Tuesday"
+      "name": "Chime"
      },
      {
-      "name": "Wednesday"
+      "name": "Hayme"
      },
      {
-      "name": "Thursday"
+      "name": "Moot"
      },
      {
-      "name": "Friday"
+      "name": "Frisk"
      },
      {
-      "name": "Saturday"
+      "name": "Eggfast"
      },
      {
-      "name": "Sunday"
+      "name": "Sunning"
      }
     ]
    },
