@@ -10,8 +10,6 @@ import at.orchaldir.gm.core.model.item.equipment.BUTTON_MATERIALS
 import at.orchaldir.gm.core.model.item.equipment.ZIPPER_MATERIALS
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.Size
-import at.orchaldir.gm.core.model.util.part.ItemPartType
-import at.orchaldir.gm.core.model.util.part.SOLID_MATERIALS
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*

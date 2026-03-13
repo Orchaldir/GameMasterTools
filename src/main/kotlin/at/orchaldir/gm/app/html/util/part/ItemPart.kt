@@ -2,7 +2,6 @@ package at.orchaldir.gm.app.html.util.part
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.economy.material.parseMaterialId
 import at.orchaldir.gm.app.html.economy.material.parseOptionalMaterialId
 import at.orchaldir.gm.app.html.economy.material.selectMaterial
 import at.orchaldir.gm.app.html.util.color.*
@@ -11,12 +10,10 @@ import at.orchaldir.gm.app.html.util.math.parseFactor
 import at.orchaldir.gm.app.html.util.math.selectFactor
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.*
-import at.orchaldir.gm.core.model.economy.material.MaterialCategoryType
 import at.orchaldir.gm.core.model.util.part.*
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.util.render.ColorLookup
 import at.orchaldir.gm.core.selector.economy.getFirstMaterial
-import at.orchaldir.gm.core.selector.economy.getMaterials
 import at.orchaldir.gm.core.selector.util.sortMaterials
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -110,7 +107,7 @@ fun HtmlBlockTag.editItemPart(
     showDetails(label, true) {
         val type = part.getType()
         val materialParam = combine(param, type.ordinal)
-        
+
         selectValue(
             "Type",
             combine(param, TYPE),
@@ -225,7 +222,7 @@ fun parseItemPart(
 ): ItemPart {
     val type = parse(parameters, combine(param, TYPE), allowedTypes)
     val materialParam = combine(param, type.ordinal)
-    
+
     return when (type) {
         ItemPartType.Cord -> MadeFromCord(
             parseId(state, parameters, materialParam, MaterialCategoryType.Fiber),

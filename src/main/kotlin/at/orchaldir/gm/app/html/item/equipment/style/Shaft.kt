@@ -11,7 +11,6 @@ import at.orchaldir.gm.core.model.item.equipment.SHAFT_MATERIALS
 import at.orchaldir.gm.core.model.item.equipment.style.Shaft
 import at.orchaldir.gm.core.model.item.equipment.style.ShaftType
 import at.orchaldir.gm.core.model.item.equipment.style.SimpleShaft
-import at.orchaldir.gm.core.model.util.part.SOLID_MATERIALS
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag

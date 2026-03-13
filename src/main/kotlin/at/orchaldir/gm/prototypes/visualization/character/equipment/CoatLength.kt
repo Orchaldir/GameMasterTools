@@ -10,7 +10,6 @@ import at.orchaldir.gm.core.model.item.equipment.style.DoubleBreasted
 import at.orchaldir.gm.core.model.item.equipment.style.OuterwearLength
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.part.MadeFromFabric
-import at.orchaldir.gm.core.model.util.part.MadeFromMetal
 import at.orchaldir.gm.core.model.util.part.MadeFromWood
 import at.orchaldir.gm.core.model.util.render.Color.Blue
 import at.orchaldir.gm.core.model.util.render.Color.Gold

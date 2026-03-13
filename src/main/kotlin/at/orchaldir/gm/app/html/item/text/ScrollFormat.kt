@@ -1,21 +1,19 @@
 package at.orchaldir.gm.app.html.item.text
 
-import at.orchaldir.gm.app.*
-import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.util.math.*
-import at.orchaldir.gm.app.html.util.part.*
+import at.orchaldir.gm.app.HANDLE
+import at.orchaldir.gm.app.SCROLL
+import at.orchaldir.gm.app.html.field
+import at.orchaldir.gm.app.html.parse
+import at.orchaldir.gm.app.html.selectValue
+import at.orchaldir.gm.app.html.util.part.editSegments
+import at.orchaldir.gm.app.html.util.part.parseSegments
+import at.orchaldir.gm.app.html.util.part.showSegments
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.item.text.*
-import at.orchaldir.gm.core.model.item.text.book.*
-import at.orchaldir.gm.core.model.item.text.book.typography.Typography
 import at.orchaldir.gm.core.model.item.text.scroll.*
-import at.orchaldir.gm.core.model.util.Size
-import at.orchaldir.gm.core.model.util.part.*
+import at.orchaldir.gm.core.model.util.part.Segments
 import at.orchaldir.gm.utils.doNothing
-import at.orchaldir.gm.utils.math.unit.SiPrefix
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.DETAILS
 import kotlinx.html.HtmlBlockTag
 
 // show

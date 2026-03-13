@@ -14,7 +14,6 @@ import at.orchaldir.gm.core.model.item.equipment.style.ShieldBorder
 import at.orchaldir.gm.core.model.item.equipment.style.ShieldBorderType
 import at.orchaldir.gm.core.model.item.equipment.style.SimpleShieldBorder
 import at.orchaldir.gm.core.model.util.Size
-import at.orchaldir.gm.core.model.util.part.SOLID_MATERIALS
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*

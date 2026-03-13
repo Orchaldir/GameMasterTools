@@ -19,7 +19,6 @@ import at.orchaldir.gm.core.model.item.equipment.DRESS_MATERIALS
 import at.orchaldir.gm.core.model.item.equipment.Dress
 import at.orchaldir.gm.core.model.item.equipment.style.NecklineStyle
 import at.orchaldir.gm.core.model.item.equipment.style.SkirtStyle
-import at.orchaldir.gm.core.model.util.part.CLOTHING_MATERIALS
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag

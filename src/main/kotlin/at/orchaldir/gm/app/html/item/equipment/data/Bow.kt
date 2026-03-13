@@ -20,7 +20,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.BOW_MATERIALS
 import at.orchaldir.gm.core.model.item.equipment.Bow
 import at.orchaldir.gm.core.model.item.equipment.style.BowShape
-import at.orchaldir.gm.core.model.util.part.SOLID_MATERIALS
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.THIRD
 import io.ktor.http.*

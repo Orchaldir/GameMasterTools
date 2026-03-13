@@ -15,7 +15,6 @@ import at.orchaldir.gm.core.model.item.equipment.ARMOR_SCALE_MATERIALS
 import at.orchaldir.gm.core.model.item.equipment.CHAIN_MAIL_MATERIALS
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.part.ItemPart
-import at.orchaldir.gm.core.model.util.part.MADE_FROM_METALS
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.DETAILS

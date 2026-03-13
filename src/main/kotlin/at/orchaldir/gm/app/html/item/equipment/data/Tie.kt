@@ -15,7 +15,6 @@ import at.orchaldir.gm.core.model.item.equipment.TIE_MATERIALS
 import at.orchaldir.gm.core.model.item.equipment.Tie
 import at.orchaldir.gm.core.model.item.equipment.style.TieStyle
 import at.orchaldir.gm.core.model.util.Size
-import at.orchaldir.gm.core.model.util.part.CLOTHING_MATERIALS
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag

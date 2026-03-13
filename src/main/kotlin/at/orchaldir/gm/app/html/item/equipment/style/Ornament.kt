@@ -14,7 +14,6 @@ import at.orchaldir.gm.core.model.item.equipment.style.Ornament
 import at.orchaldir.gm.core.model.item.equipment.style.OrnamentType
 import at.orchaldir.gm.core.model.item.equipment.style.OrnamentWithBorder
 import at.orchaldir.gm.core.model.item.equipment.style.SimpleOrnament
-import at.orchaldir.gm.core.model.util.part.SOLID_MATERIALS
 import at.orchaldir.gm.utils.math.shape.SHAPES_WITHOUT_CROSS
 import io.ktor.http.*
 import io.ktor.server.application.*

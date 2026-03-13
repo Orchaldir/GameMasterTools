@@ -11,9 +11,7 @@ import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.LAMELLAR_STRIPE_MATERIALS
 import at.orchaldir.gm.core.model.item.equipment.style.*
-import at.orchaldir.gm.core.model.util.part.CLOTHING_MATERIALS
 import at.orchaldir.gm.core.model.util.part.ItemPart
-import at.orchaldir.gm.core.model.util.part.ItemPartType
 import at.orchaldir.gm.core.model.util.part.LINE_MATERIALS
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Factor

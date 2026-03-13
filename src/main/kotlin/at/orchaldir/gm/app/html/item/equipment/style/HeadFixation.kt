@@ -12,9 +12,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.CATEGORIES_FOR_CLOTHING
 import at.orchaldir.gm.core.model.item.equipment.HEAD_FIXATION_MATERIALS
 import at.orchaldir.gm.core.model.item.equipment.style.*
-import at.orchaldir.gm.core.model.util.part.ItemPartType
 import at.orchaldir.gm.core.model.util.part.LINE_MATERIALS
-import at.orchaldir.gm.core.model.util.part.SOLID_MATERIALS
 import at.orchaldir.gm.core.selector.util.sortMaterials
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Factor

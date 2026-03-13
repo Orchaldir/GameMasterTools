@@ -1,21 +1,19 @@
 package at.orchaldir.gm.app.html.item.text
 
-import at.orchaldir.gm.app.*
+import at.orchaldir.gm.app.BINDING
+import at.orchaldir.gm.app.COVER
+import at.orchaldir.gm.app.LEATHER
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.util.math.*
-import at.orchaldir.gm.app.html.util.part.*
+import at.orchaldir.gm.app.html.util.part.editItemPart
+import at.orchaldir.gm.app.html.util.part.parseItemPart
+import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.item.text.*
 import at.orchaldir.gm.core.model.item.text.book.*
 import at.orchaldir.gm.core.model.item.text.book.typography.Typography
-import at.orchaldir.gm.core.model.item.text.scroll.*
-import at.orchaldir.gm.core.model.util.Size
-import at.orchaldir.gm.core.model.util.part.*
-import at.orchaldir.gm.utils.doNothing
-import at.orchaldir.gm.utils.math.unit.SiPrefix
+import at.orchaldir.gm.core.model.util.part.BOOK_COVER_MATERIALS
+import at.orchaldir.gm.core.model.util.part.ItemPart
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.DETAILS
 import kotlinx.html.HtmlBlockTag
 
 // show

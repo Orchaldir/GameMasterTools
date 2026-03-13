@@ -1,10 +1,6 @@
 package at.orchaldir.gm.core.model.item.equipment.style
 
-import at.orchaldir.gm.core.model.util.part.ItemPart
-import at.orchaldir.gm.core.model.util.part.MadeFromGem
-import at.orchaldir.gm.core.model.util.part.MadeFromMetal
-import at.orchaldir.gm.core.model.util.part.MadeFromParts
-import at.orchaldir.gm.core.model.util.part.MadeFromWood
+import at.orchaldir.gm.core.model.util.part.*
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.math.shape.*
 import kotlinx.serialization.SerialName

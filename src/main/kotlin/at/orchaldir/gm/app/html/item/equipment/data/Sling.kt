@@ -17,7 +17,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.SLING_MATERIALS
 import at.orchaldir.gm.core.model.item.equipment.Sling
 import at.orchaldir.gm.core.model.util.Size
-import at.orchaldir.gm.core.model.util.part.CLOTHING_MATERIALS
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
