@@ -71,7 +71,7 @@ fun HtmlBlockTag.editGivenNames(
 ) {
     val nameLists = state.sortNameLists()
 
-    showDetails("Given Names") {
+    showDetails("Given Names", true) {
         selectValue("Type", GIVEN_NAME, GivenNamesType.entries, names.getType())
 
         when (names) {
