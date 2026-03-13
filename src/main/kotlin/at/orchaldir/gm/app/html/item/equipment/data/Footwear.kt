@@ -7,8 +7,11 @@ import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.parse
 import at.orchaldir.gm.app.html.rpg.combat.parseArmorStats
 import at.orchaldir.gm.app.html.selectValue
-import at.orchaldir.gm.app.html.util.part.*
+import at.orchaldir.gm.app.html.util.part.editItemPart
+import at.orchaldir.gm.app.html.util.part.parseItemPart
+import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.equipment.FOOTWEAR_MATERIALS
 import at.orchaldir.gm.core.model.item.equipment.Footwear
 import at.orchaldir.gm.core.model.item.equipment.style.FootwearStyle
 import io.ktor.http.*
@@ -23,9 +26,9 @@ fun HtmlBlockTag.showFootwear(
     footwear: Footwear,
 ) {
     field("Style", footwear.style)
-    showFillLookupItemPart(call, state, footwear.shaft, "Shaft")
+    showItemPart(call, state, footwear.shaft, "Shaft")
     if (footwear.style.hasSole()) {
-        showColorItemPart(call, state, footwear.sole, "Sole")
+        showItemPart(call, state, footwear.sole, "Sole")
     }
 }
 
@@ -36,17 +39,20 @@ fun HtmlBlockTag.editFootwear(
     footwear: Footwear,
 ) {
     selectValue("Style", FOOTWEAR, FootwearStyle.entries, footwear.style)
-    editFillLookupItemPart(state, footwear.shaft, SHAFT, "Shaft")
+    editItemPart(state, footwear.shaft, SHAFT, "Shaft", FOOTWEAR_MATERIALS)
     if (footwear.style.hasSole()) {
-        editColorItemPart(state, footwear.sole, SOLE, "Sole")
+        editItemPart(state, footwear.sole, SOLE, "Sole", FOOTWEAR_MATERIALS)
     }
 }
 
 // parse
 
-fun parseFootwear(parameters: Parameters) = Footwear(
+fun parseFootwear(
+    state: State,
+    parameters: Parameters,
+) = Footwear(
     parse(parameters, FOOTWEAR, FootwearStyle.Shoes),
-    parseFillLookupItemPart(parameters, SHAFT),
-    parseColorItemPart(parameters, SOLE),
+    parseItemPart(state, parameters, SHAFT, FOOTWEAR_MATERIALS),
+    parseItemPart(state, parameters, SOLE, FOOTWEAR_MATERIALS),
     parseArmorStats(parameters),
 )

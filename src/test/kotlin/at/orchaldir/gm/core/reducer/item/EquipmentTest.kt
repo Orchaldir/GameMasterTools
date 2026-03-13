@@ -13,8 +13,8 @@ import at.orchaldir.gm.core.model.rpg.combat.ArmorStats
 import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponStats
 import at.orchaldir.gm.core.model.rpg.combat.RangedWeaponStats
 import at.orchaldir.gm.core.model.rpg.combat.ShieldStats
-import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
-import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
+import at.orchaldir.gm.core.model.util.part.MadeFromCord
+import at.orchaldir.gm.core.model.util.part.MadeFromFabric
 import at.orchaldir.gm.core.model.util.render.*
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
@@ -54,8 +54,8 @@ class EquipmentTest {
 
         @Test
         fun `Cannot change equipment type while equipped`() {
-            val oldItem = Equipment(EQUIPMENT_ID_0, data = Pants(main = FillLookupItemPart(MATERIAL_ID_0)))
-            val newItem = Equipment(EQUIPMENT_ID_0, data = Shirt(main = FillLookupItemPart(MATERIAL_ID_0)))
+            val oldItem = Equipment(EQUIPMENT_ID_0, data = Pants(main = MadeFromFabric(MATERIAL_ID_0)))
+            val newItem = Equipment(EQUIPMENT_ID_0, data = Shirt(main = MadeFromFabric(MATERIAL_ID_0)))
             val state = State(
                 listOf(
                     Storage(oldItem),
@@ -70,8 +70,8 @@ class EquipmentTest {
 
         @Test
         fun `Can change equipment details while equipped`() {
-            val oldItem = Equipment(EQUIPMENT_ID_0, data = Shirt(main = FillLookupItemPart(MATERIAL_ID_0)))
-            val newItem = Equipment(EQUIPMENT_ID_0, data = Shirt(main = FillLookupItemPart(MATERIAL_ID_1)))
+            val oldItem = Equipment(EQUIPMENT_ID_0, data = Shirt(main = MadeFromFabric(MATERIAL_ID_0)))
+            val newItem = Equipment(EQUIPMENT_ID_0, data = Shirt(main = MadeFromFabric(MATERIAL_ID_1)))
             val state = State(
                 listOf(
                     Storage(oldItem),
@@ -264,7 +264,7 @@ class EquipmentTest {
         ) = Equipment(
             EQUIPMENT_ID_0,
             colorSchemes = setOf(scheme),
-            data = Glasses(frame = ColorSchemeItemPart(material, lookup)),
+            data = Glasses(frame = MadeFromCord(material, lookup)),
         )
     }
 

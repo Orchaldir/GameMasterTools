@@ -7,10 +7,11 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.math.parseCircularShape
 import at.orchaldir.gm.app.html.math.selectCircularShape
 import at.orchaldir.gm.app.html.math.showCircularShape
-import at.orchaldir.gm.app.html.util.part.editColorSchemeItemPart
-import at.orchaldir.gm.app.html.util.part.parseColorSchemeItemPart
-import at.orchaldir.gm.app.html.util.part.showColorSchemeItemPart
+import at.orchaldir.gm.app.html.util.part.editItemPart
+import at.orchaldir.gm.app.html.util.part.parseItemPart
+import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.equipment.SHIELD_MATERIALS
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
@@ -31,14 +32,14 @@ fun HtmlBlockTag.showShieldBoss(
             NoShieldBoss -> doNothing()
             is SimpleShieldBoss -> {
                 showCircularShape(boss.shape)
-                showColorSchemeItemPart(call, state, boss.part)
+                showItemPart(call, state, boss.main)
             }
 
             is ShieldBossWithBorder -> {
-                showCircularShape(boss.shape)
-                showCircularShape(boss.border, "Border Shape")
-                showColorSchemeItemPart(call, state, boss.part, "Main")
-                showColorSchemeItemPart(call, state, boss.borderPart, "Border")
+                showCircularShape(boss.bossShape, "Boss Shape")
+                showCircularShape(boss.borderShape, "Border Shape")
+                showItemPart(call, state, boss.boss, "Boss")
+                showItemPart(call, state, boss.border, "Border")
             }
         }
     }
@@ -54,14 +55,20 @@ fun HtmlBlockTag.editShieldBoss(state: State, boss: ShieldBoss) {
             NoShieldBoss -> doNothing()
             is SimpleShieldBoss -> {
                 selectCircularShape(boss.shape, combine(BOSS, SHAPE))
-                editColorSchemeItemPart(state, boss.part, BOSS)
+                editItemPart(state, boss.main, BOSS, allowedTypes = SHIELD_MATERIALS)
             }
 
             is ShieldBossWithBorder -> {
-                selectCircularShape(boss.shape, combine(BOSS, SHAPE))
-                selectCircularShape(boss.shape, combine(BOSS, BORDER), "Border Shape")
-                editColorSchemeItemPart(state, boss.part, BOSS, "Main")
-                editColorSchemeItemPart(state, boss.borderPart, combine(BOSS, BORDER), "Border")
+                selectCircularShape(boss.bossShape, combine(BOSS, SHAPE), "Boss Shape")
+                selectCircularShape(boss.bossShape, combine(BOSS, BORDER), "Border Shape")
+                editItemPart(state, boss.boss, BOSS, "Boss", SHIELD_MATERIALS)
+                editItemPart(
+                    state,
+                    boss.border,
+                    combine(BOSS, BORDER),
+                    "Border",
+                    SHIELD_MATERIALS,
+                )
             }
         }
     }
@@ -69,17 +76,20 @@ fun HtmlBlockTag.editShieldBoss(state: State, boss: ShieldBoss) {
 
 // parse
 
-fun parseShieldBoss(parameters: Parameters) = when (parse(parameters, BOSS, ShieldBossType.None)) {
+fun parseShieldBoss(
+    state: State,
+    parameters: Parameters,
+) = when (parse(parameters, BOSS, ShieldBossType.None)) {
     ShieldBossType.None -> NoShieldBoss
     ShieldBossType.Simple -> SimpleShieldBoss(
         parseCircularShape(parameters, combine(BOSS, SHAPE)),
-        parseColorSchemeItemPart(parameters, BOSS),
+        parseItemPart(state, parameters, BOSS, SHIELD_MATERIALS),
     )
 
     ShieldBossType.Border -> ShieldBossWithBorder(
         parseCircularShape(parameters, combine(BOSS, SHAPE)),
         parseCircularShape(parameters, combine(BOSS, BORDER)),
-        parseColorSchemeItemPart(parameters, BOSS),
-        parseColorSchemeItemPart(parameters, combine(BOSS, BORDER)),
+        parseItemPart(state, parameters, BOSS, SHIELD_MATERIALS),
+        parseItemPart(state, parameters, combine(BOSS, BORDER), SHIELD_MATERIALS),
     )
 }

@@ -46,8 +46,7 @@ private fun visualizeBeanie(
     state: CharacterRenderState<Head>,
     hat: Hat,
 ) {
-    val fill = hat.main.getFill(state.state, state.colors)
-    val options = state.config.getLineOptions(fill)
+    val options = state.getFillAndBorder(hat.main)
     val y = if (state.renderFront) {
         state.config.head.hatY
     } else {
@@ -62,8 +61,7 @@ private fun visualizeBoater(
     state: CharacterRenderState<Head>,
     hat: Hat,
 ) {
-    val fill = hat.main.getFill(state.state, state.colors)
-    val options = state.config.getLineOptions(fill)
+    val options = state.getFillAndBorder(hat.main)
 
     renderBuilder(state.renderer, buildCrown(state), options, EQUIPMENT_LAYER)
     renderBrim(state, options, state.config.equipment.hat.widthBrimWide)
@@ -73,8 +71,7 @@ private fun visualizeBowler(
     state: CharacterRenderState<Head>,
     hat: Hat,
 ) {
-    val fill = hat.main.getFill(state.state, state.colors)
-    val options = state.config.getLineOptions(fill)
+    val options = state.getFillAndBorder(hat.main)
 
     val crown = buildCrown(state)
     crown.createSharpCorners(0)
@@ -87,8 +84,7 @@ private fun visualizeCoolie(
     state: CharacterRenderState<Head>,
     hat: Hat,
 ) {
-    val fill = hat.main.getFill(state.state, state.colors)
-    val options = state.config.getLineOptions(fill)
+    val options = state.getFillAndBorder(hat.main)
     val y = state.config.head.hatY
 
     val builder = Polygon2dBuilder()
@@ -103,8 +99,7 @@ private fun visualizeCowboy(
     state: CharacterRenderState<Head>,
     hat: Hat,
 ) {
-    val fill = hat.main.getFill(state.state, state.colors)
-    val options = state.config.getLineOptions(fill)
+    val options = state.getFillAndBorder(hat.main)
 
     val crown = buildCrown(state)
     crown.addLeftPoint(state.headAABB(), CENTER, fromPercentage(-10))
@@ -118,8 +113,7 @@ private fun visualizeFez(
     state: CharacterRenderState<Head>,
     hat: Hat,
 ) {
-    val fill = hat.main.getFill(state.state, state.colors)
-    val options = state.config.getLineOptions(fill)
+    val options = state.getFillAndBorder(hat.main)
 
     renderBuilder(
         state.renderer,
@@ -133,8 +127,7 @@ private fun visualizePillbox(
     state: CharacterRenderState<Head>,
     hat: Hat,
 ) {
-    val fill = hat.main.getFill(state.state, state.colors)
-    val options = state.config.getLineOptions(fill)
+    val options = state.getFillAndBorder(hat.main)
 
     renderBuilder(state.renderer, buildCrown(state), options, EQUIPMENT_LAYER)
 }
@@ -143,8 +136,7 @@ private fun visualizeTopHat(
     state: CharacterRenderState<Head>,
     hat: Hat,
 ) {
-    val fill = hat.main.getFill(state.state, state.colors)
-    val options = state.config.getLineOptions(fill)
+    val options = state.getFillAndBorder(hat.main)
 
     renderBuilder(
         state.renderer,

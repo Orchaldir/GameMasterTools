@@ -4,7 +4,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap.Companion.from
 import at.orchaldir.gm.core.model.item.equipment.Polearm
 import at.orchaldir.gm.core.model.item.equipment.style.*
-import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
+import at.orchaldir.gm.core.model.util.part.MadeFromWood
 import at.orchaldir.gm.core.model.util.part.Segment
 import at.orchaldir.gm.core.model.util.part.SegmentShape
 import at.orchaldir.gm.core.model.util.part.Segments
@@ -34,7 +34,7 @@ fun main() {
     val stripes = HorizontalStripesLookup(Color.Red, Color.Gold)
     val shafts = listOf(
         Pair("Wood", SIMPLE_SHAFT),
-        Pair("Stripped", SimpleShaft(FillLookupItemPart(fill = stripes))),
+        Pair("Stripped", SimpleShaft(MadeFromWood(fill = stripes))),
     )
 
     renderCharacterTableWithoutColorScheme(

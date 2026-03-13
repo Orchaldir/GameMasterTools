@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.model.item.equipment.EquipmentMap.Companion.from
 import at.orchaldir.gm.core.model.item.equipment.Socks
 import at.orchaldir.gm.core.model.item.equipment.style.SocksStyle
 import at.orchaldir.gm.core.model.util.Size
-import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
+import at.orchaldir.gm.core.model.util.part.MadeFromFabric
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.util.render.HorizontalStripesLookup
 import at.orchaldir.gm.prototypes.visualization.addNames
@@ -23,7 +23,7 @@ fun main() {
         addNames(SocksStyle.entries),
         true,
     ) { distance, style, shape ->
-        val itemPart = FillLookupItemPart(fill = HorizontalStripesLookup(Color.White, Color.Blue))
+        val itemPart = MadeFromFabric(fill = HorizontalStripesLookup(Color.White, Color.Blue))
         val socks = Socks(style, itemPart)
 
         Pair(createAppearance(distance, shape), from(socks))

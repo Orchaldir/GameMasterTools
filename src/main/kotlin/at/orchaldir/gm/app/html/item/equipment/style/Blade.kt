@@ -8,10 +8,11 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.math.fieldFactor
 import at.orchaldir.gm.app.html.util.math.parseFactor
 import at.orchaldir.gm.app.html.util.math.selectFactor
-import at.orchaldir.gm.app.html.util.part.editColorSchemeItemPart
-import at.orchaldir.gm.app.html.util.part.parseColorSchemeItemPart
-import at.orchaldir.gm.app.html.util.part.showColorSchemeItemPart
+import at.orchaldir.gm.app.html.util.part.editItemPart
+import at.orchaldir.gm.app.html.util.part.parseItemPart
+import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.equipment.BLADE_MATERIALS
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.utils.math.Factor
 import io.ktor.http.*
@@ -44,7 +45,7 @@ private fun DETAILS.showSimpleBlade(
     field("Shape", blade.shape)
     fieldFactor("Length relative to Character", blade.length)
     fieldFactor("Width relative to Grip", blade.width)
-    showColorSchemeItemPart(call, state, blade.part)
+    showItemPart(call, state, blade.main)
 }
 
 // edit
@@ -93,20 +94,22 @@ private fun DETAILS.editSimpleBlade(
         MIN_BLADE_WIDTH,
         MAX_BLADE_WIDTH,
     )
-    editColorSchemeItemPart(state, blade.part, param)
+    editItemPart(state, blade.main, param, allowedTypes = BLADE_MATERIALS)
 }
 
 // parse
 
 fun parseBlade(
+    state: State,
     parameters: Parameters,
     defaultLength: Factor,
     param: String = BLADE,
 ) = when (parse(parameters, param, BladeType.Simple)) {
-    BladeType.Simple -> parseSimpleBlade(parameters, defaultLength, param)
+    BladeType.Simple -> parseSimpleBlade(state, parameters, defaultLength, param)
 }
 
 private fun parseSimpleBlade(
+    state: State,
     parameters: Parameters,
     defaultLength: Factor,
     param: String,
@@ -114,7 +117,7 @@ private fun parseSimpleBlade(
     parseBladeLength(parameters, defaultLength, param),
     parseBladeWidth(parameters, param),
     parse(parameters, combine(param, SHAPE), BladeShape.Straight),
-    parseColorSchemeItemPart(parameters, param),
+    parseItemPart(state, parameters, param, BLADE_MATERIALS),
 )
 
 private fun parseBladeLength(parameters: Parameters, defaultLength: Factor, param: String) =

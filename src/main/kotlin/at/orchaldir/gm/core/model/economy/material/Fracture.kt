@@ -28,4 +28,5 @@ enum class Fracture {
      * rough and random
      */
     Uneven,
+    Undefined,
 }

@@ -7,10 +7,6 @@ import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.LayerRenderer
-import at.orchaldir.gm.utils.renderer.model.FillAndBorder
-import at.orchaldir.gm.utils.renderer.model.LineOptions
-import at.orchaldir.gm.utils.renderer.model.NoBorder
-import at.orchaldir.gm.utils.renderer.model.toRender
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.utils.visualizeComplexShape
 
@@ -49,11 +45,10 @@ private fun <T> visualizeSimpleOrnament(
     radius: Distance,
     showBorder: Boolean = false,
 ) {
-    val fill = ornament.part.getFill(state.state, state.colors)
     val options = if (showBorder) {
-        state.config.getLineOptions(fill)
+        state.getFillAndBorder(ornament.part)
     } else {
-        NoBorder(fill.toRender())
+        state.getNoBorder(ornament.part)
     }
 
     visualizeComplexShape(renderer, position, radius, ornament.shape, options)
@@ -66,10 +61,10 @@ private fun <T> visualizeBorderOrnament(
     position: Point2d,
     radius: Distance,
 ) {
-    val centerFill = ornament.center.getFill(state.state, state.colors)
-    val borderColor = ornament.border.getColor(state.state, state.colors)
-    val options = FillAndBorder(centerFill.toRender(), LineOptions(borderColor.toRender(), radius / 3.0f))
+    val centerFill = state.getNoBorder(ornament.center)
+    val borderColor = state.getNoBorder(ornament.border)
 
-    visualizeComplexShape(renderer, position, radius, ornament.shape, options)
+    visualizeComplexShape(renderer, position, radius, ornament.shape, borderColor)
+    visualizeComplexShape(renderer, position, radius * 0.66f, ornament.shape, centerFill)
 }
 

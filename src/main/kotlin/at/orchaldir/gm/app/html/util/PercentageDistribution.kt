@@ -1,6 +1,7 @@
 package at.orchaldir.gm.app.html.util
 
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.util.math.parseFactor
 import at.orchaldir.gm.app.html.util.math.selectFactor
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.PercentageDistribution
@@ -62,11 +63,50 @@ fun <ID : Id<ID>> DETAILS.showPercentageDistribution(
                 remaining -= percentage
             }
 
-        showRemainingPopulation(total, remaining)
+        showRemainingPercentage(total, remaining)
     }
 }
 
-private fun TABLE.showRemainingPopulation(
+fun <ID : Id<ID>> DETAILS.showPercentageDistribution(
+    call: ApplicationCall,
+    state: State,
+    label: String,
+    distribution: PercentageDistribution<ID>,
+) {
+    var remaining = Factor.fromPercentage(100)
+
+    table {
+        tr {
+            th { +label }
+            th { +"Percentage" }
+        }
+        distribution
+            .map
+            .toList()
+            .sortedByDescending { it.second.toPermyriad() }
+            .forEach { (raceId, percentage) ->
+                tr {
+                    tdLink(call, state, raceId)
+                    tdPercentage(percentage)
+                }
+
+                remaining -= percentage
+            }
+
+        showRemainingPercentage(remaining)
+    }
+}
+
+private fun TABLE.showRemainingPercentage(remaining: Factor) {
+    if (remaining.isGreaterZero()) {
+        tr {
+            tdString("Other")
+            tdPercentage(remaining)
+        }
+    }
+}
+
+private fun TABLE.showRemainingPercentage(
     total: Int,
     remaining: Factor,
 ) {
@@ -102,7 +142,7 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> DETAILS.editPercentageDistribution(
     param: String,
     allElements: List<ELEMENT>,
     distribution: PercentageDistribution<ID>,
-    total: Int,
+    total: Int? = null,
 ) {
     val remaining = distribution.getUndefinedPercentages()
 
@@ -110,7 +150,9 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> DETAILS.editPercentageDistribution(
         tr {
             th { +label }
             th { +"Percentage" }
-            th { +"Number" }
+            if (total != null) {
+                th { +"Number" }
+            }
         }
         allElements.forEach { element ->
             val percentage = distribution.getPercentage(element.id())
@@ -131,11 +173,17 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> DETAILS.editPercentageDistribution(
                         ONE_TENTH_PERCENT,
                     )
                 }
-                showElementNumber(total, percentage)
+                if (total != null) {
+                    showElementNumber(total, percentage)
+                }
             }
         }
 
-        showRemainingPopulation(total, remaining)
+        if (total != null) {
+            showRemainingPercentage(total, remaining)
+        } else {
+            showRemainingPercentage(remaining)
+        }
     }
 }
 
@@ -145,12 +193,14 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> parsePercentageDistribution(
     storage: Storage<ID, ELEMENT>,
     parameters: Parameters,
     param: String,
-    parsePopulation: (Parameters, String, ELEMENT) -> Factor,
 ): PercentageDistribution<ID> = PercentageDistribution(
     storage
         .getAll()
         .associate { element ->
-            Pair(element.id(), parsePopulation(parameters, param, element))
+            Pair(
+                element.id(),
+                parseFactor(parameters, combine(param, element.id().value()), ZERO),
+            )
         }
         .filter { it.value.isGreaterZero() }
 )

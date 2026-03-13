@@ -50,7 +50,7 @@ fun visualizeAppearance(
     equipped: EquipmentElementMap = EquipmentMap(),
     renderFront: Boolean = true,
 ): Svg {
-    val aabb = paddedSize.getFullAABB()
+    val aabb = paddedSize.getInnerAABB()
     val builder = SvgBuilder(paddedSize.getFullSize())
     val renderState = CharacterRenderState(state, appearance, aabb, config, builder, renderFront, equipped)
 

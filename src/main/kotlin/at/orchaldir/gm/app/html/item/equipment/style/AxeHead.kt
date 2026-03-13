@@ -2,10 +2,11 @@ package at.orchaldir.gm.app.html.item.equipment.style
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.util.part.editColorSchemeItemPart
-import at.orchaldir.gm.app.html.util.part.parseColorSchemeItemPart
-import at.orchaldir.gm.app.html.util.part.showColorSchemeItemPart
+import at.orchaldir.gm.app.html.util.part.editItemPart
+import at.orchaldir.gm.app.html.util.part.parseItemPart
+import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.equipment.BLADE_MATERIALS
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.Size
 import io.ktor.http.*
@@ -42,18 +43,18 @@ private fun HtmlBlockTag.showAxeBlade(
                 field("Shape", blade.shape)
                 field("Size", blade.size)
                 field("Length", blade.length)
-                showColorSchemeItemPart(call, state, blade.part, "Blade")
+                showItemPart(call, state, blade.blade)
             }
 
             is DaggerAxeBlade -> {
                 field("Size", blade.size)
-                showColorSchemeItemPart(call, state, blade.part, "Blade")
+                showItemPart(call, state, blade.blade)
             }
 
             is SymmetricAxeBlade -> {
                 field("Shape", blade.shape)
                 field("Size", blade.size)
-                showColorSchemeItemPart(call, state, blade.part, "Blade")
+                showItemPart(call, state, blade.blade)
             }
         }
     }
@@ -105,7 +106,7 @@ private fun HtmlBlockTag.editAxeBlade(
                     Size.entries,
                     blade.length,
                 )
-                editColorSchemeItemPart(state, blade.part, param, "Blade")
+                editItemPart(state, blade.blade, param, allowedTypes = BLADE_MATERIALS)
             }
 
             is DaggerAxeBlade -> {
@@ -115,7 +116,7 @@ private fun HtmlBlockTag.editAxeBlade(
                     Size.entries,
                     blade.size,
                 )
-                editColorSchemeItemPart(state, blade.part, param, "Blade")
+                editItemPart(state, blade.blade, param, allowedTypes = BLADE_MATERIALS)
             }
 
             is SymmetricAxeBlade -> {
@@ -131,7 +132,7 @@ private fun HtmlBlockTag.editAxeBlade(
                     Size.entries,
                     blade.size,
                 )
-                editColorSchemeItemPart(state, blade.part, param, "Blade")
+                editItemPart(state, blade.blade, param, allowedTypes = BLADE_MATERIALS)
             }
         }
     }
@@ -141,19 +142,21 @@ private fun HtmlBlockTag.editAxeBlade(
 // parse
 
 fun parseAxeHead(
+    state: State,
     parameters: Parameters,
     param: String = AXE,
 ) = when (parse(parameters, param, AxeHeadType.SingleBit)) {
     AxeHeadType.SingleBit -> SingleBitAxeHead(
-        parseAxeBlade(parameters, param),
+        parseAxeBlade(state, parameters, param),
     )
 
     AxeHeadType.DoubleBit -> DoubleBitAxeHead(
-        parseAxeBlade(parameters, param),
+        parseAxeBlade(state, parameters, param),
     )
 }
 
 private fun parseAxeBlade(
+    state: State,
     parameters: Parameters,
     param: String,
 ): AxeBlade {
@@ -164,18 +167,18 @@ private fun parseAxeBlade(
             parse(parameters, combine(param, SHAPE), BroadAxeShape.Curved),
             parse(parameters, combine(param, SIZE), Size.Medium),
             parse(parameters, combine(param, LENGTH), Size.Medium),
-            parseColorSchemeItemPart(parameters, param),
+            parseItemPart(state, parameters, param, BLADE_MATERIALS),
         )
 
         AxeBladeType.Dagger -> DaggerAxeBlade(
             parse(parameters, combine(param, SIZE), Size.Medium),
-            parseColorSchemeItemPart(parameters, param),
+            parseItemPart(state, parameters, param, BLADE_MATERIALS),
         )
 
         AxeBladeType.Symmetric -> SymmetricAxeBlade(
             parse(parameters, combine(param, SHAPE), SymmetricAxeShape.HalfCircle),
             parse(parameters, combine(param, SIZE), Size.Medium),
-            parseColorSchemeItemPart(parameters, param),
+            parseItemPart(state, parameters, param, BLADE_MATERIALS),
         )
     }
 }

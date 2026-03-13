@@ -226,10 +226,10 @@ fun visualizeHeadEquipment(
 }
 
 private fun SuitJacket.convert() = Coat(
+    main,
     OuterwearLength.Hip,
     necklineStyle,
     sleeveStyle,
     openingStyle,
-    pocketStyle,
-    main
+    pocketStyle
 )

@@ -9,10 +9,11 @@ import at.orchaldir.gm.app.html.math.selectComplexShape
 import at.orchaldir.gm.app.html.math.showComplexShape
 import at.orchaldir.gm.app.html.parse
 import at.orchaldir.gm.app.html.selectValue
-import at.orchaldir.gm.app.html.util.part.editColorSchemeItemPart
-import at.orchaldir.gm.app.html.util.part.parseColorSchemeItemPart
-import at.orchaldir.gm.app.html.util.part.showColorSchemeItemPart
+import at.orchaldir.gm.app.html.util.part.editItemPart
+import at.orchaldir.gm.app.html.util.part.parseItemPart
+import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.equipment.IOUN_STONE_MATERIALS
 import at.orchaldir.gm.core.model.item.equipment.IounStone
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.math.shape.SHAPES_WITHOUT_CROSS
@@ -29,7 +30,7 @@ fun HtmlBlockTag.showIounStone(
 ) {
     showComplexShape(stone.shape)
     field("Size", stone.size)
-    showColorSchemeItemPart(call, state, stone.main, "Main")
+    showItemPart(call, state, stone.main)
 }
 
 // edit
@@ -40,13 +41,16 @@ fun HtmlBlockTag.editIounStone(
 ) {
     selectComplexShape(stone.shape, SHAPE, SHAPES_WITHOUT_CROSS)
     selectValue("Size", SIZE, Size.entries, stone.size)
-    editColorSchemeItemPart(state, stone.main, MAIN, "Main")
+    editItemPart(state, stone.main, MAIN, allowedTypes = IOUN_STONE_MATERIALS)
 }
 
 // parse
 
-fun parseIounStone(parameters: Parameters) = IounStone(
+fun parseIounStone(
+    state: State,
+    parameters: Parameters,
+) = IounStone(
     parseComplexShape(parameters, SHAPE),
     parse(parameters, SIZE, Size.Medium),
-    parseColorSchemeItemPart(parameters, MAIN),
+    parseItemPart(state, parameters, MAIN, IOUN_STONE_MATERIALS),
 )

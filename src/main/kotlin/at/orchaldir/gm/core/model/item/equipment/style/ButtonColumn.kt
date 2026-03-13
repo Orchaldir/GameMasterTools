@@ -9,6 +9,6 @@ data class ButtonColumn(
     val count: UByte = 3u,
 ) : MadeFromParts {
 
-    override fun parts() = listOf(button.part)
+    override fun parts() = listOf(button.main)
 
 }

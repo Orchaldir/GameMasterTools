@@ -12,7 +12,7 @@ import at.orchaldir.gm.core.model.item.equipment.style.ShieldBossWithBorder
 import at.orchaldir.gm.core.model.item.equipment.style.SimpleShieldBorder
 import at.orchaldir.gm.core.model.item.equipment.style.SimpleShieldBoss
 import at.orchaldir.gm.core.model.util.Size
-import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
+import at.orchaldir.gm.core.model.util.part.MadeFromWood
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.util.render.FixedColor
 import at.orchaldir.gm.core.model.util.render.HorizontalStripesLookup
@@ -45,7 +45,7 @@ fun main() {
             size,
             SimpleShieldBorder(),
             boss,
-            FillLookupItemPart(
+            MadeFromWood(
                 fill = HorizontalStripesLookup(
                     FixedColor(Color.Blue),
                     FixedColor(Color.Yellow),

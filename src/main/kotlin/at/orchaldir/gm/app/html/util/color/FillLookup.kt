@@ -75,7 +75,7 @@ private fun HtmlBlockTag.selectFillData(
     param: String,
 ) {
     when (fill) {
-        is SolidLookup -> editColorLookup(state, "SolidFill", fill.color, combine(param, COLOR, 0), Color.entries)
+        is SolidLookup -> editColorLookup(state, "Solid Fill", fill.color, combine(param, COLOR, 0), Color.entries)
         is TransparentLookup -> {
             editColorLookup(
                 state,

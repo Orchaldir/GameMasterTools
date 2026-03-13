@@ -1,7 +1,8 @@
 package at.orchaldir.gm.core.model.item.text.book
 
 import at.orchaldir.gm.core.model.util.Size
-import at.orchaldir.gm.core.model.util.part.ColorItemPart
+import at.orchaldir.gm.core.model.util.part.ItemPart
+import at.orchaldir.gm.core.model.util.part.MadeFromMetal
 import at.orchaldir.gm.core.model.util.part.MadeFromParts
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -30,7 +31,7 @@ data class SimpleBossesPattern(
     val pattern: List<Int> = listOf(2, 1, 2),
     val shape: BossesShape = BossesShape.Circle,
     val size: Size = Size.Medium,
-    val boss: ColorItemPart = ColorItemPart(),
+    val boss: ItemPart = MadeFromMetal(),
 ) : BossesPattern() {
 
     override fun parts() = listOf(boss)

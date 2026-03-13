@@ -12,7 +12,7 @@ import at.orchaldir.gm.visualization.character.appearance.HAIR_LAYER
 
 fun visualizeBun(state: CharacterRenderState<Head>, hair: NormalHair, bun: Bun) {
     val config = state.config
-    val options = config.getLineOptions(hair.color)
+    val options = config.getFillAndBorder(hair.color)
     val radiusFactor = config.head.hair.bunRadius.convert(bun.size)
     val aabb = state.headAABB()
     val radius = aabb.convertHeight(radiusFactor)

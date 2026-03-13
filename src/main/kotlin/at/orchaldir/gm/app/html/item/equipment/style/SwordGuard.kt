@@ -7,10 +7,11 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.math.fieldFactor
 import at.orchaldir.gm.app.html.util.math.parseFactor
 import at.orchaldir.gm.app.html.util.math.selectFactor
-import at.orchaldir.gm.app.html.util.part.editFillLookupItemPart
-import at.orchaldir.gm.app.html.util.part.parseFillLookupItemPart
-import at.orchaldir.gm.app.html.util.part.showFillLookupItemPart
+import at.orchaldir.gm.app.html.util.part.editItemPart
+import at.orchaldir.gm.app.html.util.part.parseItemPart
+import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.equipment.GUARD_MATERIALS
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
@@ -43,7 +44,7 @@ private fun DETAILS.showSimpleSwordGuard(
 ) {
     fieldFactor("Height relative to Character", guard.height)
     fieldFactor("Width relative to Grip", guard.width)
-    showFillLookupItemPart(call, state, guard.part)
+    showItemPart(call, state, guard.part)
 }
 
 // edit
@@ -83,23 +84,28 @@ private fun DETAILS.editSimpleSwordGuard(
         MIN_GUARD_WIDTH,
         MAX_GUARD_WIDTH,
     )
-    editFillLookupItemPart(state, guard.part, param)
+    editItemPart(state, guard.part, param, allowedTypes = GUARD_MATERIALS)
 }
 
 // parse
 
 fun parseSwordGuard(
+    state: State,
     parameters: Parameters,
     param: String = GUARD,
 ) = when (parse(parameters, param, SwordGuardType.Simple)) {
     SwordGuardType.None -> NoSwordGuard
-    SwordGuardType.Simple -> parseSimpleSwordGuard(parameters, param)
+    SwordGuardType.Simple -> parseSimpleSwordGuard(state, parameters, param)
 }
 
-private fun parseSimpleSwordGuard(parameters: Parameters, param: String) = SimpleSwordGuard(
+private fun parseSimpleSwordGuard(
+    state: State,
+    parameters: Parameters,
+    param: String,
+) = SimpleSwordGuard(
     parseGuardWidth(parameters, param),
     parseGuardHeight(parameters, param),
-    parseFillLookupItemPart(parameters, param),
+    parseItemPart(state, parameters, param, GUARD_MATERIALS),
 )
 
 private fun parseGuardHeight(parameters: Parameters, param: String) =

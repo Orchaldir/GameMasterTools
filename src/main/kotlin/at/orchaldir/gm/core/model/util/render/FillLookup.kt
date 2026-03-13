@@ -55,6 +55,11 @@ sealed class FillLookup {
         )
     }
 
+    fun getColor(state: State, colors: Colors, material: MaterialId) = when (this) {
+        is SolidLookup -> color.lookup(state, colors, material)
+        else -> null
+    }
+
     fun requiredSchemaColors() = when (this) {
         is SolidLookup -> color.requiredSchemaColors()
         is TransparentLookup -> color.requiredSchemaColors()

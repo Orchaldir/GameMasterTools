@@ -6,10 +6,11 @@ import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.parse
 import at.orchaldir.gm.app.html.rpg.combat.parseArmorStats
 import at.orchaldir.gm.app.html.selectValue
-import at.orchaldir.gm.app.html.util.part.editFillLookupItemPart
-import at.orchaldir.gm.app.html.util.part.parseFillLookupItemPart
-import at.orchaldir.gm.app.html.util.part.showFillLookupItemPart
+import at.orchaldir.gm.app.html.util.part.editItemPart
+import at.orchaldir.gm.app.html.util.part.parseItemPart
+import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.equipment.GLOVES_MATERIALS
 import at.orchaldir.gm.core.model.item.equipment.Gloves
 import at.orchaldir.gm.core.model.item.equipment.style.GloveStyle
 import io.ktor.http.*
@@ -24,7 +25,7 @@ fun HtmlBlockTag.showGloves(
     gloves: Gloves,
 ) {
     field("Style", gloves.style)
-    showFillLookupItemPart(call, state, gloves.main, "Main")
+    showItemPart(call, state, gloves.main)
 }
 
 // edit
@@ -34,13 +35,16 @@ fun HtmlBlockTag.editGloves(
     data: Gloves,
 ) {
     selectValue("Style", GLOVES, GloveStyle.entries, data.style)
-    editFillLookupItemPart(state, data.main, MAIN, "Main")
+    editItemPart(state, data.main, MAIN, allowedTypes = GLOVES_MATERIALS)
 }
 
 // parse
 
-fun parseGloves(parameters: Parameters): Gloves = Gloves(
+fun parseGloves(
+    state: State,
+    parameters: Parameters,
+): Gloves = Gloves(
     parse(parameters, GLOVES, GloveStyle.Hand),
-    parseFillLookupItemPart(parameters, MAIN),
+    parseItemPart(state, parameters, MAIN, GLOVES_MATERIALS),
     parseArmorStats(parameters),
 )

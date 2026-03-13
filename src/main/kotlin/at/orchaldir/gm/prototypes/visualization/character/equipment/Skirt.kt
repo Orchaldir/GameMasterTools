@@ -8,7 +8,7 @@ import at.orchaldir.gm.core.model.item.equipment.Shirt
 import at.orchaldir.gm.core.model.item.equipment.Skirt
 import at.orchaldir.gm.core.model.item.equipment.style.SkirtStyle
 import at.orchaldir.gm.core.model.util.Size
-import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
+import at.orchaldir.gm.core.model.util.part.MadeFromFabric
 import at.orchaldir.gm.core.model.util.render.Color.White
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
@@ -16,6 +16,8 @@ import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTableWi
 import at.orchaldir.gm.utils.math.unit.Distance
 
 fun main() {
+    val part = MadeFromFabric(White)
+
     renderCharacterTableWithoutColorScheme(
         State(),
         "skirts.svg",
@@ -27,8 +29,8 @@ fun main() {
             createAppearance(distance, shape),
             fromSlotAsKeyMap(
                 mapOf(
-                    BodySlot.Top to Shirt(main = FillLookupItemPart(White)),
-                    BodySlot.Bottom to Skirt(style),
+                    BodySlot.Top to Shirt(main = part),
+                    BodySlot.Bottom to Skirt(style, part),
                 )
             )
         )

@@ -60,7 +60,7 @@ private fun visualizeCow(state: CharacterRenderState<Head>, snout: Snout) =
     )
 
 private fun visualizeDog(state: CharacterRenderState<Head>, snout: Snout) {
-    val options = state.config.getLineOptions(snout.color)
+    val options = state.config.getFillAndBorder(snout.color)
     val lineThickness = fromPercentage(4)
     val lineHalf = lineThickness / 2.0f
     val mouthY = fromPercentage(85)
@@ -116,7 +116,7 @@ private fun visualizeRoundedSnoutWithCircleNostrils(
     nostrilY: Factor,
     nostrilRadius: Factor,
 ) {
-    val options = state.config.getLineOptions(snout.color)
+    val options = state.config.getFillAndBorder(snout.color)
     val nostrilOptions = NoBorder(Color.Black.toRender())
     val aabb = state.headAABB()
     val polygon = Polygon2dBuilder()

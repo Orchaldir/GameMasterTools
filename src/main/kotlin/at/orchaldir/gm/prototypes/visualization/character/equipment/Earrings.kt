@@ -44,9 +44,9 @@ fun main() {
             DropEarring(topSize, fromPercentage(60), fromPercentage(60), bottom = SimpleOrnament(Teardrop, Blue)),
         ),
         listOf(
-            HoopEarring(fromPercentage(40), Small),
-            HoopEarring(fromPercentage(60), Medium),
-            HoopEarring(fromPercentage(80), Large),
+            HoopEarring(fromPercentage(40), Wire(Small)),
+            HoopEarring(fromPercentage(60), Wire(Medium)),
+            HoopEarring(fromPercentage(80), Wire(Large)),
         ),
     ).map { row ->
         row.map {

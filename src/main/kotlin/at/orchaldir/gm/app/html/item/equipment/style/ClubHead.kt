@@ -6,14 +6,17 @@ import at.orchaldir.gm.app.html.math.*
 import at.orchaldir.gm.app.html.util.math.editCircularArrangement
 import at.orchaldir.gm.app.html.util.math.parseCircularArrangement
 import at.orchaldir.gm.app.html.util.math.showCircularArrangement
-import at.orchaldir.gm.app.html.util.part.editColorSchemeItemPart
-import at.orchaldir.gm.app.html.util.part.parseColorSchemeItemPart
-import at.orchaldir.gm.app.html.util.part.showColorSchemeItemPart
+import at.orchaldir.gm.app.html.util.part.editItemPart
+import at.orchaldir.gm.app.html.util.part.parseItemPart
+import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.equipment.CLUB_HEAD_MATERIALS
 import at.orchaldir.gm.core.model.item.equipment.style.*
+import at.orchaldir.gm.core.model.util.part.ItemPart
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
+import kotlinx.html.DETAILS
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -30,22 +33,22 @@ fun HtmlBlockTag.showClubHead(
             NoClubHead -> doNothing()
             is SimpleClubHead -> {
                 showComplexShape(head.shape)
-                showColorSchemeItemPart(call, state, head.part, "Head")
+                showItemPart(call, state, head.main)
             }
 
             is SimpleFlangedHead -> {
                 showComplexShape(head.shape)
-                showColorSchemeItemPart(call, state, head.part, "Head")
+                showItemPart(call, state, head.main)
             }
 
             is ComplexFlangedHead -> {
                 showRotatedShape(head.shape)
-                showColorSchemeItemPart(call, state, head.part, "Head")
+                showItemPart(call, state, head.main)
             }
 
             is SpikedMaceHead -> {
                 showSpike(call, state, head.spike)
-                field("Rows", head.rows)
+                field("Rows", head.main)
             }
 
             is FlailHead -> {
@@ -57,13 +60,13 @@ fun HtmlBlockTag.showClubHead(
                 showCircularArrangement("Spikes", head.spikes) {
                     showSpike(call, state, it)
                 }
-                showColorSchemeItemPart(call, state, head.part, "Head")
+                showItemPart(call, state, head.main)
             }
 
             is WarhammerHead -> {
                 showComplexShape(head.shape)
                 showSpike(call, state, head.spike)
-                showColorSchemeItemPart(call, state, head.part, "Head")
+                showItemPart(call, state, head.main)
             }
         }
     }
@@ -83,25 +86,25 @@ fun HtmlBlockTag.editClubHead(
             NoClubHead -> doNothing()
             is SimpleClubHead -> {
                 selectComplexShape(head.shape, combine(param, SHAPE))
-                editColorSchemeItemPart(state, head.part, param, "Head")
+                selectMadeFrom(state, param, head.main)
             }
 
             is SimpleFlangedHead -> {
                 selectComplexShape(head.shape, combine(param, SHAPE))
-                editColorSchemeItemPart(state, head.part, param, "Head")
+                selectMadeFrom(state, param, head.main)
             }
 
             is ComplexFlangedHead -> {
                 editRotatedShape(head.shape, combine(param, SHAPE))
-                editColorSchemeItemPart(state, head.part, param, "Head")
+                selectMadeFrom(state, param, head.main)
             }
 
             is SpikedMaceHead -> {
                 editSpike(state, head.spike, combine(param, SPIKE))
-                field("Rows", head.rows)
+                field("Rows", head.main)
                 selectInt(
                     "Rows",
-                    head.rows,
+                    head.main,
                     2,
                     10,
                     1,
@@ -128,21 +131,30 @@ fun HtmlBlockTag.editClubHead(
                 editCircularArrangement("Spikes", head.spikes, combine(param, SPIKE)) { spike, spikeParam ->
                     editSpike(state, spike, spikeParam)
                 }
-                editColorSchemeItemPart(state, head.part, param, "Head")
+                selectMadeFrom(state, param, head.main)
             }
 
             is WarhammerHead -> {
                 selectComplexShape(head.shape, combine(param, SHAPE))
                 editSpike(state, head.spike, combine(param, SPIKE))
-                editColorSchemeItemPart(state, head.part, param, "Head")
+                selectMadeFrom(state, param, head.main)
             }
         }
     }
 }
 
+private fun DETAILS.selectMadeFrom(
+    state: State,
+    param: String,
+    part: ItemPart,
+) {
+    editItemPart(state, part, param, allowedTypes = CLUB_HEAD_MATERIALS)
+}
+
 // parse
 
 fun parseClubHead(
+    state: State,
     parameters: Parameters,
     param: String,
     defaultType: ClubHeadType = ClubHeadType.None,
@@ -150,39 +162,45 @@ fun parseClubHead(
     ClubHeadType.None -> NoClubHead
     ClubHeadType.Simple -> SimpleClubHead(
         parseComplexShape(parameters, combine(param, SHAPE)),
-        parseColorSchemeItemPart(parameters, param),
+        parseMadeFrom(state, parameters, param),
     )
 
     ClubHeadType.SimpleFlanged -> SimpleFlangedHead(
         parseComplexShape(parameters, combine(param, SHAPE)),
-        parseColorSchemeItemPart(parameters, param),
+        parseMadeFrom(state, parameters, param),
     )
 
     ClubHeadType.ComplexFlanged -> ComplexFlangedHead(
         parseRotatedShape(parameters, combine(param, SHAPE)),
-        parseColorSchemeItemPart(parameters, param),
+        parseMadeFrom(state, parameters, param),
     )
 
     ClubHeadType.SpikedMace -> SpikedMaceHead(
-        parseSpike(parameters, combine(param, SPIKE)),
+        parseSpike(state, parameters, combine(param, SPIKE)),
         parseInt(parameters, combine(param, NUMBER), 3),
     )
 
     ClubHeadType.Flail -> FlailHead(
-        parseClubHead(parameters, combine(param, SUB), ClubHeadType.MorningStar),
-        parseLineStyle(parameters, combine(param, LINE)),
+        parseClubHead(state, parameters, combine(param, SUB), ClubHeadType.MorningStar),
+        parseLineStyle(state, parameters, combine(param, LINE)),
     )
 
     ClubHeadType.MorningStar -> MorningStarHead(
         parseCircularArrangement(parameters, combine(param, SPIKE), 7) {
-            parseSpike(parameters, it)
+            parseSpike(state, parameters, it)
         },
-        parseColorSchemeItemPart(parameters, param),
+        parseMadeFrom(state, parameters, param),
     )
 
     ClubHeadType.Warhammer -> WarhammerHead(
-        parseSpike(parameters, combine(param, SPIKE)),
+        parseSpike(state, parameters, combine(param, SPIKE)),
         parseComplexShape(parameters, combine(param, SHAPE)),
-        parseColorSchemeItemPart(parameters, param),
+        parseMadeFrom(state, parameters, param),
     )
 }
+
+private fun parseMadeFrom(
+    state: State,
+    parameters: Parameters,
+    param: String,
+) = parseItemPart(state, parameters, param, CLUB_HEAD_MATERIALS)

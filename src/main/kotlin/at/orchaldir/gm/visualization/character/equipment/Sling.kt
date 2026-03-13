@@ -7,8 +7,6 @@ import at.orchaldir.gm.core.model.util.SizeConfig
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.LayerRenderer
-import at.orchaldir.gm.utils.renderer.model.FillAndBorder
-import at.orchaldir.gm.utils.renderer.model.toRender
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.HELD_EQUIPMENT_LAYER
 import at.orchaldir.gm.visualization.character.equipment.part.SwingConfig
@@ -57,8 +55,7 @@ private fun visualizeSling(
     val cradleSize = Size2d.square(handRadius * 2)
         .scale(cradleWidth, cradleWidth * config.cradleHeight)
     val cradleAabb = AABB.fromCenter(cradleCenter, cradleSize)
-    val cradleFill = sling.cradle.getFill(state.state, state.colors)
-    val cradleOptions = FillAndBorder(cradleFill.toRender(), state.config.line)
+    val cradleOptions = state.getFillAndBorder(sling.cradle)
 
     renderer.renderRectangle(cradleAabb, cradleOptions)
 

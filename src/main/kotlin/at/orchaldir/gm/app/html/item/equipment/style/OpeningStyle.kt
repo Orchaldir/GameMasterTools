@@ -2,11 +2,12 @@ package at.orchaldir.gm.app.html.item.equipment.style
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.util.part.editColorSchemeItemPart
-import at.orchaldir.gm.app.html.util.part.parseColorSchemeItemPart
-import at.orchaldir.gm.app.html.util.part.showColorSchemeItemPart
+import at.orchaldir.gm.app.html.util.part.editItemPart
+import at.orchaldir.gm.app.html.util.part.parseItemPart
+import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.economy.material.MaterialId
+import at.orchaldir.gm.core.model.item.equipment.BUTTON_MATERIALS
+import at.orchaldir.gm.core.model.item.equipment.ZIPPER_MATERIALS
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.doNothing
@@ -32,7 +33,7 @@ fun HtmlBlockTag.showOpeningStyle(
                 field("Space between Columns", openingStyle.spaceBetweenColumns)
             }
 
-            is Zipper -> showColorSchemeItemPart(call, state, openingStyle.part, "Zipper")
+            is Zipper -> showItemPart(call, state, openingStyle.main, "Zipper")
         }
     }
 }
@@ -44,7 +45,7 @@ private fun HtmlBlockTag.showButtons(
 ) {
     field("Button Count", buttonColumn.count.toString())
     field("Button Size", buttonColumn.button.size)
-    showColorSchemeItemPart(call, state, buttonColumn.button.part, "Button")
+    showItemPart(call, state, buttonColumn.button.main, "Button")
 }
 
 // edit
@@ -66,7 +67,13 @@ fun HtmlBlockTag.selectOpeningStyle(state: State, openingStyle: OpeningStyle) {
                 )
             }
 
-            is Zipper -> editColorSchemeItemPart(state, openingStyle.part, ZIPPER, "Zipper")
+            is Zipper -> editItemPart(
+                state,
+                openingStyle.main,
+                ZIPPER,
+                "Zipper",
+                ZIPPER_MATERIALS,
+            )
         }
     }
 }
@@ -74,7 +81,13 @@ fun HtmlBlockTag.selectOpeningStyle(state: State, openingStyle: OpeningStyle) {
 private fun HtmlBlockTag.selectButtons(state: State, buttonColumn: ButtonColumn) {
     selectInt("Button Count", buttonColumn.count.toInt(), 1, 20, 1, combine(BUTTON, NUMBER))
     selectValue("Button Size", combine(BUTTON, SIZE), Size.entries, buttonColumn.button.size)
-    editColorSchemeItemPart(state, buttonColumn.button.part, BUTTON, "Button")
+    editItemPart(
+        state,
+        buttonColumn.button.main,
+        BUTTON,
+        "Button",
+        BUTTON_MATERIALS,
+    )
 }
 
 
@@ -90,36 +103,35 @@ fun HtmlBlockTag.selectPocketStyle(options: Collection<PocketStyle>, current: Po
     selectValue("Pocket Style", combine(POCKET, STYLE), options, current)
 }
 
-fun HtmlBlockTag.selectMaterial(
-    state: State,
-    materialId: MaterialId,
-    param: String = MATERIAL,
-    label: String = "Material",
-) {
-    selectElement(state, label, param, state.getMaterialStorage().getAll(), materialId)
-}
-
 // parse
 
-fun parseOpeningStyle(parameters: Parameters): OpeningStyle {
+fun parseOpeningStyle(
+    state: State,
+    parameters: Parameters,
+): OpeningStyle {
     val type = parse(parameters, combine(OPENING, STYLE), OpeningType.NoOpening)
 
     return when (type) {
         OpeningType.NoOpening -> NoOpening
-        OpeningType.SingleBreasted -> SingleBreasted(parseButtonColumn(parameters))
+        OpeningType.SingleBreasted -> SingleBreasted(parseButtonColumn(state, parameters))
         OpeningType.DoubleBreasted -> DoubleBreasted(
-            parseButtonColumn(parameters),
+            parseButtonColumn(state, parameters),
             parse(parameters, SPACE_BETWEEN_COLUMNS, Size.Medium)
         )
 
-        OpeningType.Zipper -> Zipper(parseColorSchemeItemPart(parameters, ZIPPER))
+        OpeningType.Zipper -> Zipper(
+            parseItemPart(state, parameters, ZIPPER, ZIPPER_MATERIALS),
+        )
     }
 }
 
-private fun parseButtonColumn(parameters: Parameters) = ButtonColumn(
+private fun parseButtonColumn(
+    state: State,
+    parameters: Parameters,
+) = ButtonColumn(
     Button(
         parse(parameters, combine(BUTTON, SIZE), Size.Medium),
-        parseColorSchemeItemPart(parameters, BUTTON),
+        parseItemPart(state, parameters, BUTTON, BUTTON_MATERIALS),
     ),
     parameters[combine(BUTTON, NUMBER)]?.toUByte() ?: 1u,
 )

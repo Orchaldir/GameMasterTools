@@ -7,7 +7,7 @@ import at.orchaldir.gm.core.model.item.text.scroll.ScrollFormatType
 import at.orchaldir.gm.core.model.item.text.scroll.ScrollWithOneRod
 import at.orchaldir.gm.core.model.item.text.scroll.ScrollWithTwoRods
 import at.orchaldir.gm.core.model.item.text.scroll.ScrollWithoutRod
-import at.orchaldir.gm.core.model.util.part.ColorItemPart
+import at.orchaldir.gm.core.model.util.part.MadeFromPaper
 import at.orchaldir.gm.core.model.util.part.Segment
 import at.orchaldir.gm.core.model.util.part.SegmentShape.RoundedCylinder
 import at.orchaldir.gm.core.model.util.part.Segments
@@ -46,7 +46,7 @@ fun main() {
             },
             rollLength,
             rollDiameter,
-            main = ColorItemPart(color),
+            main = MadeFromPaper(color),
         )
     }
 }

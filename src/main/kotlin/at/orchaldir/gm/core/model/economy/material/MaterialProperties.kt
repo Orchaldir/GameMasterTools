@@ -10,19 +10,21 @@ const val MAX_HARDNESS = 20.0f
 
 @Serializable
 data class MaterialProperties(
-    val category: MaterialCategory = MaterialCategory.Metal,
+    val category: MaterialCategory = UndefinedMaterialCategory,
     val color: Color = Color.Pink,
-    val crystalSystem: CrystalSystem = CrystalSystem.None,
+    val crystalSystem: CrystalSystem = CrystalSystem.Amorphous,
     val density: Weight = Weight.fromKilograms(1000),
-    val fracture: Fracture = Fracture.Uneven,
+    val fracture: Fracture = Fracture.Undefined,
     /**
      * Using Mohs scale. See https://en.wikipedia.org/wiki/Mohs_scale
      */
     val hardness: Float = 1.0f,
     val luster: Luster = Luster.Dull,
-    val tenacity: Tenacity = Tenacity.Brittle,
+    val tenacity: Tenacity = Tenacity.Undefined,
     val transparency: Transparency = Transparency.Opaque,
 ) {
+
+    fun contains(material: MaterialId) = category.contains(material)
 
     fun validate(state: State) {
         require(hardness >= MIN_HARDNESS) { "Hardness $hardness is below minimum $MIN_HARDNESS!" }

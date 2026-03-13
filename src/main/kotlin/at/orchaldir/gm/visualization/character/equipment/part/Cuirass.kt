@@ -3,7 +3,6 @@ package at.orchaldir.gm.visualization.character.equipment.part
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.BodyArmour
 import at.orchaldir.gm.core.model.item.equipment.style.Cuirass
-import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.JACKET_LAYER
@@ -15,8 +14,7 @@ fun visualizeCuirass(
     armour: BodyArmour,
     style: Cuirass,
 ) {
-    val fill = style.main.getColor(state.state, state.colors)
-    val options = FillAndBorder(fill.toRender(), state.config.line)
+    val options = state.getFillAndBorder(style.main)
 
     visualizeCuirassBody(state, options, armour)
     visualizeArmourSleeves(state, options, armour)

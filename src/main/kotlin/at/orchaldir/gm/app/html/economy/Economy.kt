@@ -5,17 +5,14 @@ import at.orchaldir.gm.app.ECONOMY
 import at.orchaldir.gm.app.NUMBER
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.*
-import at.orchaldir.gm.app.html.util.math.parseFactor
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.*
-import at.orchaldir.gm.core.model.economy.business.BusinessTemplate
 import at.orchaldir.gm.core.selector.economy.calculateRankOfElementWithEconomy
 import at.orchaldir.gm.core.selector.util.getBusinessesIn
 import at.orchaldir.gm.core.selector.util.sortBusinessTemplates
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
-import at.orchaldir.gm.utils.math.ZERO
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.DETAILS
@@ -153,8 +150,7 @@ fun parseEconomy(
         parsePercentageDistribution(
             state.getBusinessTemplateStorage(),
             parameters,
-            param,
-            ::parsePercentageOfBusiness,
+            combine(param, BUSINESS),
         ),
     )
 
@@ -163,6 +159,3 @@ fun parseEconomy(
 
 private fun parseTotalNumber(parameters: Parameters, param: String): Int =
     parseInt(parameters, combine(param, NUMBER), 0)
-
-fun parsePercentageOfBusiness(parameters: Parameters, param: String, template: BusinessTemplate) =
-    parseFactor(parameters, combine(param, BUSINESS, template.id.value), ZERO)

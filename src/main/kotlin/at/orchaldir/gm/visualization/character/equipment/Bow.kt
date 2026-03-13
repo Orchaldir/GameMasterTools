@@ -16,7 +16,6 @@ import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.QUARTER_CIRCLE
 import at.orchaldir.gm.utils.renderer.TransformRenderer
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
-import at.orchaldir.gm.utils.renderer.model.toRender
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.HELD_EQUIPMENT_LAYER
 import at.orchaldir.gm.visualization.character.equipment.part.GripConfig
@@ -115,8 +114,7 @@ private fun visualizeBowShape(
     centerAabb: AABB,
     bow: Bow,
 ) {
-    val fill = bow.fill.getFill(state.state, state.colors)
-    val options = FillAndBorder(fill.toRender(), state.config.line)
+    val options = state.getFillAndBorder(bow.main)
 
     when (bow.shape) {
         BowShape.Angular -> {

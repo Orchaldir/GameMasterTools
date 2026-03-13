@@ -5,10 +5,11 @@ import at.orchaldir.gm.app.MAIN
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.parse
 import at.orchaldir.gm.app.html.selectValue
-import at.orchaldir.gm.app.html.util.part.editFillLookupItemPart
-import at.orchaldir.gm.app.html.util.part.parseFillLookupItemPart
-import at.orchaldir.gm.app.html.util.part.showFillLookupItemPart
+import at.orchaldir.gm.app.html.util.part.editItemPart
+import at.orchaldir.gm.app.html.util.part.parseItemPart
+import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.equipment.HAT_MATERIALS
 import at.orchaldir.gm.core.model.item.equipment.Hat
 import at.orchaldir.gm.core.model.item.equipment.style.HatStyle
 import io.ktor.http.*
@@ -23,7 +24,7 @@ fun HtmlBlockTag.showHat(
     hat: Hat,
 ) {
     field("Style", hat.style)
-    showFillLookupItemPart(call, state, hat.main, "Main")
+    showItemPart(call, state, hat.main)
 }
 
 // edit
@@ -33,12 +34,15 @@ fun HtmlBlockTag.editHat(
     hat: Hat,
 ) {
     selectValue("Style", HAT, HatStyle.entries, hat.style)
-    editFillLookupItemPart(state, hat.main, MAIN, "Main")
+    editItemPart(state, hat.main, MAIN, allowedTypes = HAT_MATERIALS)
 }
 
 // parse
 
-fun parseHat(parameters: Parameters): Hat = Hat(
+fun parseHat(
+    state: State,
+    parameters: Parameters,
+): Hat = Hat(
     parse(parameters, HAT, HatStyle.TopHat),
-    parseFillLookupItemPart(parameters, MAIN),
+    parseItemPart(state, parameters, MAIN, HAT_MATERIALS),
 )

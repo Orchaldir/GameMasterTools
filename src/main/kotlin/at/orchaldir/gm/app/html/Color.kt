@@ -71,11 +71,15 @@ fun HtmlBlockTag.selectColor(
     labelText: String = "Color",
     values: Collection<Color> = Color.entries,
 ) {
-    selectValue(labelText, selectId, values) { c ->
-        label = c.name
-        value = c.toString()
-        selected = current == c
-        style = "background-color:$c"
+    field(labelText) {
+        showColorBlock(current.name)
+        +" "
+        selectValue(selectId, values) { c ->
+            label = c.name
+            value = c.toString()
+            selected = current == c
+            style = "background-color:$c"
+        }
     }
 }
 

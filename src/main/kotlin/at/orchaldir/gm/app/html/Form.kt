@@ -314,8 +314,30 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectRarityMap(
 
 // parse
 
+inline fun <reified T : Enum<T>> parse(parameters: Parameters, param: String, allowed: Collection<T>): T =
+    parameters[param]?.let {
+        try {
+            val value = java.lang.Enum.valueOf(T::class.java, it)
+
+            if (allowed.contains(value)) {
+                value
+            } else {
+                null
+            }
+
+        } catch (e: IllegalArgumentException) {
+            null
+        }
+    } ?: allowed.first()
+
 inline fun <reified T : Enum<T>> parse(parameters: Parameters, param: String, default: T): T =
-    parameters[param]?.let { java.lang.Enum.valueOf(T::class.java, it) } ?: default
+    parameters[param]?.let {
+        try {
+            java.lang.Enum.valueOf(T::class.java, it)
+        } catch (e: IllegalArgumentException) {
+            default
+        }
+    } ?: default
 
 inline fun <reified T : Enum<T>> parse(parameters: Parameters, param: String): T? =
     parameters[param]

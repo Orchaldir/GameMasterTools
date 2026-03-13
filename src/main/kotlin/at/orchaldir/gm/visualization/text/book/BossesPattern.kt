@@ -25,8 +25,7 @@ private fun visualizeSimpleBossesPattern(
     state: TextRenderState,
     simple: SimpleBossesPattern,
 ) {
-    val color = simple.boss.getColor(state.state)
-    val options = state.config.getLineOptions(color)
+    val options = state.getFillAndBorder(simple.boss)
     val parts = simple.pattern.size
     val segmentHeight = fromNumber(1.0f / parts.toFloat())
     val radius = state.aabb.convertHeight(state.config.bossesRadius.convert(simple.size))

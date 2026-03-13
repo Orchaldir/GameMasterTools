@@ -4,9 +4,13 @@ import at.orchaldir.gm.app.GRIP
 import at.orchaldir.gm.app.NUMBER
 import at.orchaldir.gm.app.SHAPE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.util.part.*
+import at.orchaldir.gm.app.html.util.part.editItemPart
+import at.orchaldir.gm.app.html.util.part.parseItemPart
+import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.equipment.GRIP_MATERIALS
 import at.orchaldir.gm.core.model.item.equipment.style.*
+import at.orchaldir.gm.core.model.util.part.LINE_MATERIALS
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -24,12 +28,12 @@ fun HtmlBlockTag.showGrip(
         when (grip) {
             is SimpleGrip -> {
                 field("Shape", grip.shape)
-                showFillLookupItemPart(call, state, grip.part)
+                showItemPart(call, state, grip.part)
             }
 
             is BoundGrip -> {
                 field("Rows", grip.rows)
-                showColorSchemeItemPart(call, state, grip.part)
+                showItemPart(call, state, grip.part)
             }
         }
     }
@@ -53,7 +57,7 @@ fun HtmlBlockTag.editGrip(
                     GripShape.entries,
                     grip.shape,
                 )
-                editFillLookupItemPart(state, grip.part, param)
+                editItemPart(state, grip.part, param, allowedTypes = GRIP_MATERIALS)
             }
 
             is BoundGrip -> {
@@ -65,7 +69,7 @@ fun HtmlBlockTag.editGrip(
                     1,
                     combine(param, NUMBER),
                 )
-                editColorSchemeItemPart(state, grip.part, param)
+                editItemPart(state, grip.part, param, allowedTypes = LINE_MATERIALS)
             }
         }
     }
@@ -75,16 +79,17 @@ fun HtmlBlockTag.editGrip(
 // parse
 
 fun parseGrip(
+    state: State,
     parameters: Parameters,
     param: String = GRIP,
 ) = when (parse(parameters, param, GripType.Simple)) {
     GripType.Simple -> SimpleGrip(
         parse(parameters, combine(param, SHAPE), GripShape.Straight),
-        parseFillLookupItemPart(parameters, param),
+        parseItemPart(state, parameters, param, GRIP_MATERIALS),
     )
 
     GripType.Bound -> BoundGrip(
         parseInt(parameters, combine(param, NUMBER), DEFAULT_GRIP_ROWS),
-        parseColorSchemeItemPart(parameters, param),
+        parseItemPart(state, parameters, param, LINE_MATERIALS),
     )
 }

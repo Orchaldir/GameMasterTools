@@ -32,7 +32,7 @@ fun HtmlBlockTag.selectCharacterName(
         selectName("Given Name", character.getGivenName(), GIVEN_NAME)
 
         if (character.name is FamilyName) {
-            selectOptionalName("Middle Name", character.name.middle, MIDDLE_NAME)
+            selectOptionalName("Middle Name", character.name.middle, combine(MIDDLE, NAME))
             selectName("Family Name", character.name.family, FAMILY_NAME)
         }
     }
@@ -46,7 +46,7 @@ fun parseCharacterName(parameters: Parameters): CharacterName {
     return when (parse(parameters, combine(NAME, TYPE), CharacterNameType.Mononym)) {
         CharacterNameType.Family -> FamilyName(
             given,
-            parseOptionalName(parameters, MIDDLE_NAME),
+            parseOptionalName(parameters, combine(MIDDLE, NAME)),
             parseName(parameters, FAMILY_NAME, "Unknown"),
         )
 

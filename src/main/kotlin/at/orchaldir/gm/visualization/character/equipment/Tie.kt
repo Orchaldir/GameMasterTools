@@ -28,10 +28,8 @@ fun visualizeTie(
         return
     }
 
-    val mainFill = tie.main.getFill(state.state, state.colors)
-    val knotFill = tie.knot.getFill(state.state, state.colors)
-    val tieOptions = state.config.getLineOptions(mainFill)
-    val knotOptions = state.config.getLineOptions(knotFill)
+    val tieOptions = state.getFillAndBorder(tie.main)
+    val knotOptions = state.getFillAndBorder(tie.knot)
     val torso = state.torsoAABB()
     val tieBuilder = createTie(state, torso, tie)
     val knotBuilder = createKnot(state, torso, tie)

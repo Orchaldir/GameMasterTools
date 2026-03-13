@@ -22,8 +22,7 @@ private fun visualizeProtectedCorners(
     state: TextRenderState,
     data: ProtectedCorners,
 ) {
-    val color = data.main.getColor(state.state)
-    val options = state.config.getLineOptions(color)
+    val options = state.getFillAndBorder(data.main)
     val length = state.aabb.convertMinSide(data.size)
 
     when (data.shape) {
@@ -49,8 +48,7 @@ private fun visualizeProtectedEdge(
     state: TextRenderState,
     data: ProtectedEdge,
 ) {
-    val color = data.main.getColor(state.state)
-    val options = state.config.getLineOptions(color)
+    val options = state.getFillAndBorder(data.main)
     val width = state.aabb.convertMinSide(data.width)
 
     val topLeft = state.aabb.getPoint(START, START)

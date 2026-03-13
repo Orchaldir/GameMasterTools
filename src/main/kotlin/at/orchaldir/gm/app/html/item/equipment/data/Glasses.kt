@@ -7,11 +7,15 @@ import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.parse
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.showDetails
-import at.orchaldir.gm.app.html.util.part.*
+import at.orchaldir.gm.app.html.util.part.editItemPart
+import at.orchaldir.gm.app.html.util.part.parseItemPart
+import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.equipment.GLASSES_FRAME_MATERIALS
 import at.orchaldir.gm.core.model.item.equipment.Glasses
 import at.orchaldir.gm.core.model.item.equipment.style.FrameType
 import at.orchaldir.gm.core.model.item.equipment.style.LensShape
+import at.orchaldir.gm.core.model.util.part.ItemPartType
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -25,11 +29,11 @@ fun HtmlBlockTag.showGlasses(
 ) {
     showDetails("Lenses") {
         field("Shape", glasses.lensShape)
-        showFillLookupItemPart(call, state, glasses.lens)
+        showItemPart(call, state, glasses.lens)
     }
     showDetails("Frame") {
         field("Type", glasses.frameType)
-        showColorSchemeItemPart(call, state, glasses.frame)
+        showItemPart(call, state, glasses.frame)
     }
 }
 
@@ -41,19 +45,22 @@ fun HtmlBlockTag.editGlasses(
 ) {
     showDetails("Lenses", true) {
         selectValue("Shape", SHAPE, LensShape.entries, glasses.lensShape)
-        editFillLookupItemPart(state, glasses.lens, LENS)
+        editItemPart(state, glasses.lens, LENS, allowedType = ItemPartType.Glass)
     }
     showDetails("Frame", true) {
         selectValue("Shape", FRAME, FrameType.entries, glasses.frameType)
-        editColorSchemeItemPart(state, glasses.frame, FRAME)
+        editItemPart(state, glasses.frame, FRAME, allowedTypes = GLASSES_FRAME_MATERIALS)
     }
 }
 
 // parse
 
-fun parseGlasses(parameters: Parameters) = Glasses(
+fun parseGlasses(
+    state: State,
+    parameters: Parameters,
+) = Glasses(
     parse(parameters, SHAPE, LensShape.Rectangle),
     parse(parameters, FRAME, FrameType.FullRimmed),
-    parseFillLookupItemPart(parameters, LENS),
-    parseColorSchemeItemPart(parameters, FRAME),
+    parseItemPart(state, parameters, LENS, ItemPartType.Glass),
+    parseItemPart(state, parameters, FRAME, GLASSES_FRAME_MATERIALS),
 )

@@ -1,6 +1,8 @@
 package at.orchaldir.gm.core.model.item.equipment.style
 
-import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
+import at.orchaldir.gm.core.model.util.part.ItemPart
+import at.orchaldir.gm.core.model.util.part.MadeFromCord
+import at.orchaldir.gm.core.model.util.part.MadeFromMetal
 import at.orchaldir.gm.core.model.util.part.MadeFromParts
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
@@ -34,7 +36,7 @@ sealed class HeadFixation : MadeFromParts {
 
     override fun parts() = when (this) {
         NoHeadFixation -> emptyList()
-        is BoundHeadHead -> listOf(part)
+        is BoundHeadHead -> listOf(cord)
         is Langets -> listOf(part)
         is SocketedHeadHead -> listOf(part)
     }
@@ -48,21 +50,21 @@ data object NoHeadFixation : HeadFixation()
 @SerialName("Bound")
 data class BoundHeadHead(
     val length: Factor = DEFAULT_FIXATION_LENGTH,
-    val part: ColorSchemeItemPart = ColorSchemeItemPart(),
+    val cord: ItemPart = MadeFromCord(),
 ) : HeadFixation()
 
 @Serializable
 @SerialName("Langets")
 data class Langets(
     val length: Factor = DEFAULT_LANGETS_LENGTH,
-    val part: ColorSchemeItemPart = ColorSchemeItemPart(),
+    val part: ItemPart = MadeFromMetal(),
 ) : HeadFixation()
 
 @Serializable
 @SerialName("Socketed")
 data class SocketedHeadHead(
     val length: Factor = DEFAULT_FIXATION_LENGTH,
-    val part: ColorSchemeItemPart = ColorSchemeItemPart(),
+    val part: ItemPart = MadeFromMetal(),
 ) : HeadFixation()
 
 

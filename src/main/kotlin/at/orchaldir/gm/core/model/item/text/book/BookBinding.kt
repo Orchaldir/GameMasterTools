@@ -3,8 +3,8 @@ package at.orchaldir.gm.core.model.item.text.book
 import at.orchaldir.gm.core.model.item.text.book.typography.NoTypography
 import at.orchaldir.gm.core.model.item.text.book.typography.Typography
 import at.orchaldir.gm.core.model.util.font.FontId
-import at.orchaldir.gm.core.model.util.part.ColorItemPart
-import at.orchaldir.gm.core.model.util.part.FillItemPart
+import at.orchaldir.gm.core.model.util.part.ItemPart
+import at.orchaldir.gm.core.model.util.part.MadeFromLeather
 import at.orchaldir.gm.core.model.util.part.MadeFromParts
 import at.orchaldir.gm.core.model.util.render.Color
 import kotlinx.serialization.SerialName
@@ -35,7 +35,7 @@ sealed class BookBinding : MadeFromParts {
 @Serializable
 @SerialName("Coptic")
 data class CopticBinding(
-    val cover: FillItemPart = FillItemPart(Color.Blue),
+    val cover: ItemPart = MadeFromLeather(Color.Blue),
     val typography: Typography = NoTypography,
     val sewingPattern: SewingPattern,
 ) : BookBinding() {
@@ -47,7 +47,7 @@ data class CopticBinding(
 @Serializable
 @SerialName("Hardcover")
 data class Hardcover(
-    val cover: FillItemPart = FillItemPart(Color.Blue),
+    val cover: ItemPart = MadeFromLeather(Color.Blue),
     val typography: Typography = NoTypography,
     val bosses: BossesPattern = NoBosses,
     val protection: EdgeProtection = NoEdgeProtection,
@@ -61,8 +61,8 @@ data class Hardcover(
 @SerialName("Leather")
 data class LeatherBinding(
     val style: LeatherBindingStyle = LeatherBindingStyle.Half,
-    val cover: FillItemPart = FillItemPart(Color.Blue),
-    val leather: ColorItemPart = ColorItemPart(),
+    val cover: ItemPart = MadeFromLeather(Color.Blue),
+    val leather: ItemPart = MadeFromLeather(),
     val typography: Typography = NoTypography,
 ) : BookBinding() {
 

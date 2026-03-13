@@ -86,7 +86,7 @@ fun parseText(
         parseOptionalBusinessId(parameters, BUSINESS),
         parseOptionalDate(parameters, state, DATE),
         parseLanguageId(parameters, LANGUAGE),
-        parseTextFormat(parameters),
+        parseTextFormat(state, parameters),
         parseTextContent(parameters),
         parseDataSources(parameters),
     )

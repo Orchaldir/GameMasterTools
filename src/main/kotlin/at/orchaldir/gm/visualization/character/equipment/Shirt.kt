@@ -5,8 +5,6 @@ import at.orchaldir.gm.core.model.item.equipment.Shirt
 import at.orchaldir.gm.core.model.item.equipment.style.OuterwearLength
 import at.orchaldir.gm.core.model.item.equipment.style.SleeveStyle
 import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.renderer.model.FillAndBorder
-import at.orchaldir.gm.utils.renderer.model.toRender
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.ICharacterConfig
 import at.orchaldir.gm.visualization.character.appearance.LOWER_EQUIPMENT_LAYER
@@ -27,8 +25,7 @@ fun visualizeShirt(
     state: CharacterRenderState<Body>,
     shirt: Shirt,
 ) {
-    val fill = shirt.main.getFill(state.state, state.colors)
-    val options = FillAndBorder(fill.toRender(), state.config.line)
+    val options = state.getFillAndBorder(shirt.main)
 
     visualizeSleeves(state, options, shirt.sleeveStyle)
     visualizeTorso(state, options, shirt.necklineStyle, LOWER_EQUIPMENT_LAYER)

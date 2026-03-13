@@ -1,15 +1,15 @@
 package at.orchaldir.gm.app.html.item.equipment.style
 
-import at.orchaldir.gm.app.BORDER
-import at.orchaldir.gm.app.ORNAMENT
-import at.orchaldir.gm.app.SHAPE
-import at.orchaldir.gm.app.TYPE
+import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.math.parseComplexShape
 import at.orchaldir.gm.app.html.math.selectComplexShape
 import at.orchaldir.gm.app.html.math.showComplexShape
-import at.orchaldir.gm.app.html.util.part.*
+import at.orchaldir.gm.app.html.util.part.editItemPart
+import at.orchaldir.gm.app.html.util.part.parseItemPart
+import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.equipment.ORNAMENT_MATERIALS
 import at.orchaldir.gm.core.model.item.equipment.style.Ornament
 import at.orchaldir.gm.core.model.item.equipment.style.OrnamentType
 import at.orchaldir.gm.core.model.item.equipment.style.OrnamentWithBorder
@@ -33,13 +33,13 @@ fun HtmlBlockTag.showOrnament(
         when (ornament) {
             is SimpleOrnament -> {
                 showComplexShape(ornament.shape)
-                showFillLookupItemPart(call, state, ornament.part)
+                showItemPart(call, state, ornament.part)
             }
 
             is OrnamentWithBorder -> {
                 showComplexShape(ornament.shape)
-                showFillLookupItemPart(call, state, ornament.center, "Center")
-                showColorSchemeItemPart(call, state, ornament.border, "Border")
+                showItemPart(call, state, ornament.center, "Center")
+                showItemPart(call, state, ornament.border, "Border")
             }
         }
     }
@@ -59,7 +59,12 @@ fun HtmlBlockTag.editOrnament(
         when (ornament) {
             is SimpleOrnament -> {
                 selectComplexShape(ornament.shape, combine(param, SHAPE))
-                editFillLookupItemPart(state, ornament.part, param)
+                editItemPart(
+                    state,
+                    ornament.part,
+                    combine(param, MAIN),
+                    allowedTypes = ORNAMENT_MATERIALS,
+                )
             }
 
             is OrnamentWithBorder -> {
@@ -68,17 +73,19 @@ fun HtmlBlockTag.editOrnament(
                     combine(param, SHAPE),
                     SHAPES_WITHOUT_CROSS,
                 )
-                editFillLookupItemPart(
+                editItemPart(
                     state,
                     ornament.center,
-                    param,
+                    combine(param, MIDDLE),
                     "Center",
+                    ORNAMENT_MATERIALS,
                 )
-                editColorSchemeItemPart(
+                editItemPart(
                     state,
                     ornament.border,
-                    combine(param, BORDER),
+                    combine(param, MAIN),
                     "Border",
+                    ORNAMENT_MATERIALS,
                 )
             }
         }
@@ -87,19 +94,23 @@ fun HtmlBlockTag.editOrnament(
 
 // parse
 
-fun parseOrnament(parameters: Parameters, param: String = ORNAMENT): Ornament {
+fun parseOrnament(
+    state: State,
+    parameters: Parameters,
+    param: String = ORNAMENT,
+): Ornament {
     val type = parse(parameters, combine(param, TYPE), OrnamentType.Simple)
 
     return when (type) {
         OrnamentType.Simple -> SimpleOrnament(
             parseComplexShape(parameters, combine(param, SHAPE)),
-            parseFillLookupItemPart(parameters, param),
+            parseItemPart(state, parameters, combine(param, MAIN), ORNAMENT_MATERIALS),
         )
 
         OrnamentType.Border -> OrnamentWithBorder(
             parseComplexShape(parameters, combine(param, SHAPE)),
-            parseFillLookupItemPart(parameters, param),
-            parseColorSchemeItemPart(parameters, combine(param, BORDER)),
+            parseItemPart(state, parameters, combine(param, MIDDLE), ORNAMENT_MATERIALS),
+            parseItemPart(state, parameters, combine(param, MAIN), ORNAMENT_MATERIALS),
         )
     }
 }

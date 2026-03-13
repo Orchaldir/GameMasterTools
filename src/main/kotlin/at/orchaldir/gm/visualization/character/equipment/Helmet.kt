@@ -71,8 +71,7 @@ private fun visualizeChainmailHood(
     config: HelmetConfig,
     hood: ChainmailHood,
 ) {
-    val color = hood.part.getColor(state.state, state.colors)
-    val options = state.config.getLineOptions(color)
+    val options = state.getFillAndBorder(hood.main)
     val aabb = state.headAABB()
 
     if (state.renderFront) {
@@ -97,8 +96,7 @@ private fun visualizeGreatHelm(
     config: HelmetConfig,
     helm: GreatHelm,
 ) {
-    val color = helm.part.getColor(state.state, state.colors)
-    val options = state.config.getLineOptions(color)
+    val options = state.getFillAndBorder(helm.main)
     val polygon = createGreatHelmPolygon(state.headAABB(), config, helm)
 
     if (state.renderFront) {
@@ -130,8 +128,7 @@ private fun visualizeSkullCap(
     config: HelmetConfig,
     cap: SkullCap,
 ) {
-    val color = cap.part.getColor(state.state, state.colors)
-    val options = state.config.getLineOptions(color)
+    val options = state.getFillAndBorder(cap.main)
     val polygon = createSkullCapPolygon(state.headAABB(), config, cap)
 
     renderer.renderRoundedPolygon(polygon, options)
@@ -190,8 +187,7 @@ private fun visualizeChainmailHoodForBody(
         return
     }
 
-    val color = hood.part.getColor(state.state, state.colors)
-    val options = state.config.getLineOptions(color)
+    val options = state.getFillAndBorder(hood.main)
     val polygon = createChainmailHoodForBodyPolygon(state, hood.shape)
 
     renderer.renderRoundedPolygon(polygon, options)

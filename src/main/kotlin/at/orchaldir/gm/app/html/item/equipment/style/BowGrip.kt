@@ -62,11 +62,12 @@ fun HtmlBlockTag.editBowGrip(
 // parse
 
 fun parseBowGrip(
+    state: State,
     parameters: Parameters,
 ) = when (parse(parameters, GRIP, BowGripType.Simple)) {
     BowGripType.None -> NoBowGrip
     BowGripType.Simple -> SimpleBowGrip(
         parse(parameters, combine(GRIP, SIZE), Size.Medium),
-        parseGrip(parameters, combine(GRIP, GRIP)),
+        parseGrip(state, parameters, combine(GRIP, GRIP)),
     )
 }

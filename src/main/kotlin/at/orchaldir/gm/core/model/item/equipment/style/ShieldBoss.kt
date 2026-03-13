@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.item.equipment.style
 
-import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
+import at.orchaldir.gm.core.model.util.part.ItemPart
+import at.orchaldir.gm.core.model.util.part.MadeFromMetal
 import at.orchaldir.gm.core.model.util.part.MadeFromParts
 import at.orchaldir.gm.utils.math.shape.CircularShape
 import kotlinx.serialization.SerialName
@@ -23,8 +24,8 @@ sealed class ShieldBoss : MadeFromParts {
 
     override fun parts() = when (this) {
         is NoShieldBoss -> emptyList()
-        is SimpleShieldBoss -> listOf(part)
-        is ShieldBossWithBorder -> listOf(part, borderPart)
+        is SimpleShieldBoss -> listOf(main)
+        is ShieldBossWithBorder -> listOf(boss, border)
     }
 }
 
@@ -36,15 +37,15 @@ data object NoShieldBoss : ShieldBoss()
 @SerialName("Simple")
 data class SimpleShieldBoss(
     val shape: CircularShape = CircularShape.Circle,
-    val part: ColorSchemeItemPart = ColorSchemeItemPart(),
+    val main: ItemPart = MadeFromMetal(),
 ) : ShieldBoss()
 
 @Serializable
 @SerialName("Border")
 data class ShieldBossWithBorder(
-    val shape: CircularShape = CircularShape.Circle,
-    val border: CircularShape = CircularShape.Circle,
-    val part: ColorSchemeItemPart = ColorSchemeItemPart(),
-    val borderPart: ColorSchemeItemPart = ColorSchemeItemPart(),
+    val bossShape: CircularShape = CircularShape.Circle,
+    val borderShape: CircularShape = CircularShape.Circle,
+    val boss: ItemPart = MadeFromMetal(),
+    val border: ItemPart = MadeFromMetal(),
 ) : ShieldBoss()
 

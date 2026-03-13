@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.reducer.rpg.validateArmorStats
 import at.orchaldir.gm.core.reducer.rpg.validateMeleeWeaponStats
 import at.orchaldir.gm.core.reducer.rpg.validateRangedWeaponStats
 import at.orchaldir.gm.core.reducer.rpg.validateShieldStats
+import at.orchaldir.gm.core.reducer.util.part.validateItemPart
 import at.orchaldir.gm.core.selector.item.equipment.canDeleteEquipment
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Factor
@@ -49,7 +50,7 @@ fun validateEquipment(
         }
 
     when (equipment.data) {
-        is BodyArmour -> checkBodyArmour(equipment.data)
+        is BodyArmour -> checkBodyArmour(state, equipment.data)
         is Polearm -> checkPolearmHead(equipment.data.head)
         is OneHandedSword -> checkOneHandedSword(equipment.data)
         is TwoHandedSword -> checkTwoHandedSword(equipment.data)
@@ -62,23 +63,34 @@ fun validateEquipment(
     equipment.data.getShieldStats()?.let { validateShieldStats(state, it) }
 }
 
-private fun checkBodyArmour(armour: BodyArmour) = when (armour.style) {
-    is ChainMail -> doNothing()
-    is Cuirass -> doNothing()
+private fun checkBodyArmour(
+    state: State,
+    armour: BodyArmour,
+) = checkArmourStyle(state, armour.style)
+
+private fun checkArmourStyle(
+    state: State,
+    style: ArmourStyle,
+) = when (style) {
+    is ChainMail -> validateItemPart(state, style.chain, CHAIN_MAIL_MATERIALS)
+    is Cuirass -> validateItemPart(state, style.main, ARMOR_PLATE_MATERIALS)
 
     is LamellarArmour -> {
-        checkLamellarLacing(armour.style.lacing)
-        checkArmourColumns(armour.style.columns)
+        checkLamellarLacing(style.lacing)
+        checkArmourColumns(style.columns)
+        validateItemPart(state, style.scale, ARMOR_SCALE_MATERIALS)
     }
 
     is ScaleArmour -> {
-        validateFactor(armour.style.overlap, "Overlap", MIN_SCALE_OVERLAP, MAX_SCALE_OVERLAP)
-        checkArmourColumns(armour.style.columns)
+        validateFactor(style.overlap, "Overlap", MIN_SCALE_OVERLAP, MAX_SCALE_OVERLAP)
+        checkArmourColumns(style.columns)
+        validateItemPart(state, style.scale, ARMOR_SCALE_MATERIALS)
     }
 
     is SegmentedArmour -> {
-        checkArmourColumns(armour.style.rows)
-        checkInt(armour.style.breastplateRows, "Breastplate Rows", 1, armour.style.rows - 1)
+        checkArmourColumns(style.rows)
+        checkInt(style.breastplateRows, "Breastplate Rows", 1, style.rows - 1)
+        validateItemPart(state, style.segment, ARMOR_PLATE_MATERIALS)
     }
 }
 

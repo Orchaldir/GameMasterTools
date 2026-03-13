@@ -13,10 +13,11 @@ import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.util.math.fieldFactor
 import at.orchaldir.gm.app.html.util.math.parseFactor
 import at.orchaldir.gm.app.html.util.math.selectFactor
-import at.orchaldir.gm.app.html.util.part.editFillLookupItemPart
-import at.orchaldir.gm.app.html.util.part.parseFillLookupItemPart
-import at.orchaldir.gm.app.html.util.part.showFillLookupItemPart
+import at.orchaldir.gm.app.html.util.part.editItemPart
+import at.orchaldir.gm.app.html.util.part.parseItemPart
+import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.equipment.BOW_MATERIALS
 import at.orchaldir.gm.core.model.item.equipment.Bow
 import at.orchaldir.gm.core.model.item.equipment.style.BowShape
 import at.orchaldir.gm.utils.math.FULL
@@ -35,7 +36,7 @@ fun HtmlBlockTag.showBow(
     field("Shape", bow.shape)
     fieldFactor("Height", bow.height)
     showBowGrip(call, state, bow.grip)
-    showFillLookupItemPart(call, state, bow.fill, "Main")
+    showItemPart(call, state, bow.main)
 }
 
 // edit
@@ -58,15 +59,18 @@ fun HtmlBlockTag.editBow(
         FULL,
     )
     editBowGrip(state, bow.grip)
-    editFillLookupItemPart(state, bow.fill, MAIN, "Main")
+    editItemPart(state, bow.main, MAIN, allowedTypes = BOW_MATERIALS)
 }
 
 // parse
 
-fun parseBow(parameters: Parameters) = Bow(
+fun parseBow(
+    state: State,
+    parameters: Parameters,
+) = Bow(
     parse(parameters, SHAPE, BowShape.Straight),
     parseFactor(parameters, HEIGHT),
-    parseBowGrip(parameters),
-    parseFillLookupItemPart(parameters, MAIN),
+    parseBowGrip(state, parameters),
+    parseItemPart(state, parameters, MAIN, BOW_MATERIALS),
     parseRangedWeaponStats(parameters),
 )

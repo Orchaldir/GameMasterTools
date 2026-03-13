@@ -12,7 +12,7 @@ import at.orchaldir.gm.core.model.item.equipment.style.EyeHoleShape
 import at.orchaldir.gm.core.model.item.equipment.style.FaceProtection
 import at.orchaldir.gm.core.model.item.equipment.style.FaceProtectionShape
 import at.orchaldir.gm.core.model.item.equipment.style.SkullCap
-import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
+import at.orchaldir.gm.core.model.util.part.MadeFromMetal
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
@@ -29,7 +29,7 @@ fun main() {
         addNames(EyeHoleShape.entries),
         addNames(FaceProtectionShape.entries),
     ) { distance, shape, hole ->
-        val protection = FaceProtection(shape, hole, ColorSchemeItemPart())
+        val protection = FaceProtection(shape, hole, MadeFromMetal())
         val helmet = Helmet(SkullCap(front = protection))
         Pair(createAppearance(distance), from(helmet))
     }

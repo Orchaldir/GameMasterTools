@@ -4,9 +4,7 @@ import at.orchaldir.gm.core.model.item.text.Book
 import at.orchaldir.gm.core.model.item.text.book.CopticBinding
 import at.orchaldir.gm.core.model.item.text.book.Hardcover
 import at.orchaldir.gm.core.model.item.text.book.LeatherBinding
-import at.orchaldir.gm.core.model.util.part.FillItemPart
-import at.orchaldir.gm.utils.renderer.model.FillAndBorder
-import at.orchaldir.gm.utils.renderer.model.toRender
+import at.orchaldir.gm.core.model.util.part.ItemPart
 import at.orchaldir.gm.visualization.text.TextRenderState
 
 fun visualizeBook(
@@ -37,10 +35,9 @@ fun visualizeBook(
 
 private fun visualizeCover(
     state: TextRenderState,
-    cover: FillItemPart,
+    cover: ItemPart,
 ) {
-    val fill = cover.getFill(state.state)
-    val options = FillAndBorder(fill.toRender(), state.config.line)
+    val options = state.getFillAndBorder(cover)
     state.renderer.getLayer().renderRectangle(state.aabb, options)
 }
 
@@ -48,8 +45,7 @@ private fun visualizeLeatherBinding(
     state: TextRenderState,
     binding: LeatherBinding,
 ) {
-    val color = binding.leather.getColor(state.state)
-    val options = state.config.getLineOptions(color)
+    val options = state.getFillAndBorder(binding.leather)
     val config = state.config.leatherBindingMap.getValue(binding.style)
 
     val spineWidth = state.aabb.convertWidth(config.spine)

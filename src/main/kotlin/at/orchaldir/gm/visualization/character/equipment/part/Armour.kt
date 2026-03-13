@@ -1,10 +1,9 @@
 package at.orchaldir.gm.visualization.character.equipment.part
 
 import at.orchaldir.gm.core.model.character.appearance.Body
-import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
+import at.orchaldir.gm.core.model.util.part.ItemPart
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.unit.Distance
-import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.ICharacterConfig
@@ -40,23 +39,21 @@ fun createClippingPolygonForArmourBody(
 
 fun getClippingRenderOptionsForArmourBody(
     state: CharacterRenderState<Body>,
-    part: ColorSchemeItemPart,
+    part: ItemPart,
 ): RenderOptions {
     val clipping = createClippingPolygonForArmourBody(state)
     val clippingName = state.renderer.createClipping(clipping)
-    val color = part.getColor(state.state, state.colors)
 
-    return FillAndBorder(color.toRender(), state.config.line, clippingName)
+    return state.getFillAndBorder(part, clippingName)
 }
 
 fun getClippingRenderOptions(
     state: CharacterRenderState<Body>,
     clip: AABB,
-    part: ColorSchemeItemPart,
+    part: ItemPart,
 ): RenderOptions {
     val clipping = Polygon2d(clip)
     val clippingName = state.renderer.createClipping(clipping)
-    val color = part.getColor(state.state, state.colors)
 
-    return FillAndBorder(color.toRender(), state.config.line, clippingName)
+    return state.getFillAndBorder(part, clippingName)
 }

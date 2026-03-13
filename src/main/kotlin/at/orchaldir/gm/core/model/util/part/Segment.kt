@@ -10,11 +10,11 @@ import kotlinx.serialization.Serializable
 data class Segment(
     val length: Factor,
     val diameter: Factor,
-    val main: ColorItemPart = ColorItemPart(Color.Blue),
+    val main: ItemPart = MadeFromWood(Color.Blue),
     val shape: SegmentShape = SegmentShape.Cylinder,
 ) : MadeFromParts {
     constructor(length: Factor, diameter: Factor, color: Color, shape: SegmentShape = SegmentShape.Cylinder) :
-            this(length, diameter, ColorItemPart(color), shape)
+            this(length, diameter, MadeFromWood(color), shape)
 
     fun calculateLength(baseLength: Distance) = baseLength * length
     fun calculateDiameter(baseDiameter: Distance) = baseDiameter * diameter

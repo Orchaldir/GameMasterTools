@@ -11,6 +11,7 @@ import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.business.BusinessTemplate
 import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.economy.material.Material
+import at.orchaldir.gm.core.model.economy.material.MaterialCategoryType
 import at.orchaldir.gm.core.model.economy.money.Currency
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnit
 import at.orchaldir.gm.core.model.health.Disease
@@ -61,6 +62,7 @@ import at.orchaldir.gm.core.selector.character.getEmployees
 import at.orchaldir.gm.core.selector.culture.countCultures
 import at.orchaldir.gm.core.selector.economy.calculateTotalNumberInEconomy
 import at.orchaldir.gm.core.selector.economy.getBusinesses
+import at.orchaldir.gm.core.selector.economy.getMaterials
 import at.orchaldir.gm.core.selector.economy.money.calculateWeight
 import at.orchaldir.gm.core.selector.economy.money.countCurrencyUnits
 import at.orchaldir.gm.core.selector.item.ammunition.getAmmunition
@@ -679,6 +681,12 @@ fun State.sortMagicTraditions(
 fun State.sortMaterials(sort: SortMaterial = SortMaterial.Name) =
     sortMaterials(getMaterialStorage().getAll(), sort)
 
+fun State.sortMaterials(category: MaterialCategoryType, sort: SortMaterial = SortMaterial.Name) =
+    sortMaterials(setOf(category), sort)
+
+fun State.sortMaterials(categories: Set<MaterialCategoryType>, sort: SortMaterial = SortMaterial.Name) =
+    sortMaterials(getMaterials(categories), sort)
+
 fun State.sortMaterials(
     planes: Collection<Material>,
     sort: SortMaterial = SortMaterial.Name,
@@ -686,7 +694,7 @@ fun State.sortMaterials(
     .sortedWith(
         when (sort) {
             SortMaterial.Name -> compareBy { it.name.text }
-            SortMaterial.Category -> compareByEnum { it.properties.category }
+            SortMaterial.Category -> compareByEnum { it.properties.category.getType() }
             SortMaterial.CrystalSystem -> compareByEnum { it.properties.crystalSystem }
             SortMaterial.Density -> compareByDescending { it.properties.density.value() }
             SortMaterial.Hardness -> compareByDescending { it.properties.hardness }

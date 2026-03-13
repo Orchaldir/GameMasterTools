@@ -1,6 +1,8 @@
 package at.orchaldir.gm.core.model.item.equipment.style
 
-import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
+import at.orchaldir.gm.core.model.util.part.ItemPart
+import at.orchaldir.gm.core.model.util.part.MadeFromCord
+import at.orchaldir.gm.core.model.util.part.MadeFromLeather
 import at.orchaldir.gm.core.model.util.part.MadeFromParts
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.math.Factor
@@ -52,14 +54,14 @@ data object NoLacing : LamellarLacing()
 @Serializable
 @SerialName("Diagonal")
 data class DiagonalLacing(
-    val lacing: ColorSchemeItemPart = ColorSchemeItemPart(Color.Red),
+    val lacing: ItemPart = MadeFromCord(Color.Red),
     val thickness: Factor = DEFAULT_THICKNESS,
 ) : LamellarLacing()
 
 @Serializable
 @SerialName("4")
 data class FourSidesLacing(
-    val lacing: ColorSchemeItemPart = ColorSchemeItemPart(Color.Red),
+    val lacing: ItemPart = MadeFromCord(Color.Red),
     val lacingLength: Factor = DEFAULT_LENGTH,
     val lacingThickness: Factor = DEFAULT_THICKNESS,
 ) : LamellarLacing()
@@ -67,9 +69,9 @@ data class FourSidesLacing(
 @Serializable
 @SerialName("Stripe")
 data class LacingAndStripe(
-    val lacing: ColorSchemeItemPart = ColorSchemeItemPart(Color.Red),
+    val lacing: ItemPart = MadeFromCord(Color.Red),
     val lacingLength: Factor = DEFAULT_LENGTH,
     val lacingThickness: Factor = DEFAULT_THICKNESS,
-    val stripe: ColorSchemeItemPart = ColorSchemeItemPart(Color.SaddleBrown),
+    val stripe: ItemPart = MadeFromLeather(Color.SaddleBrown),
     val stripeWidth: Factor = DEFAULT_STRIPE_WIDTH,
 ) : LamellarLacing()

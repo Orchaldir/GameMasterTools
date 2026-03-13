@@ -11,11 +11,8 @@ import at.orchaldir.gm.app.html.economy.parseIncome
 import at.orchaldir.gm.app.html.economy.showIncome
 import at.orchaldir.gm.app.html.race.parseRaceId
 import at.orchaldir.gm.app.html.util.*
-import at.orchaldir.gm.app.html.util.math.parseFactor
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
-import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.realm.population.*
 import at.orchaldir.gm.core.model.realm.population.PopulationType.Undefined
@@ -26,7 +23,6 @@ import at.orchaldir.gm.core.selector.util.sortRaces
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
-import at.orchaldir.gm.utils.math.ZERO
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.DETAILS
@@ -252,14 +248,12 @@ fun parsePopulation(
         parsePercentageDistribution(
             state.getRaceStorage(),
             parameters,
-            param,
-            ::parsePercentageOfRace,
+            combine(param, RACE),
         ),
         parsePercentageDistribution(
             state.getCultureStorage(),
             parameters,
-            param,
-            ::parsePercentageOfCulture,
+            combine(param, CULTURE),
         ),
         parseIncome(state, parameters, combine(param, INCOME)),
     )
@@ -279,9 +273,3 @@ private fun parseCultureSet(parameters: Parameters, param: String) =
 
 private fun parseRaceSet(parameters: Parameters, param: String) =
     parseElements(parameters, combine(param, RACE), ::parseRaceId)
-
-fun parsePercentageOfCulture(parameters: Parameters, param: String, culture: Culture) =
-    parseFactor(parameters, combine(param, CULTURE, culture.id.value), ZERO)
-
-fun parsePercentageOfRace(parameters: Parameters, param: String, race: Race) =
-    parseFactor(parameters, combine(param, RACE, race.id.value), ZERO)

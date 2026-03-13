@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "elements": {
+  "0": {
+   "id": 0,
+   "data": {
+    "#type": "Shield",
+    "border": {
+     "#type": "Simple"
+    },
+    "boss": {
+     "#type": "Border",
+     "boss": {
+      "#type": "at.orchaldir.gm.core.model.util.part.MadeFromMetal",
+      "material": 2
+     },
+     "border": {
+      "#type": "at.orchaldir.gm.core.model.util.part.MadeFromMetal",
+      "material": 1
+     }
+    },
+    "front": {
+     "#type": "at.orchaldir.gm.core.model.util.part.MadeFromMetal",
+     "material": 4
+    },
+    "back": {
+     "#type": "at.orchaldir.gm.core.model.util.part.MadeFromWood",
+     "material": 10,
+     "fill": {
+      "#type": "VerticalStripes",
+      "color0": {
+       "#type": "Material"
+      },
+      "color1": {
+       "#type": "Fixed",
+       "color": "White"
+      }
+     }
+    }
+   }
+  }
+ }
+}

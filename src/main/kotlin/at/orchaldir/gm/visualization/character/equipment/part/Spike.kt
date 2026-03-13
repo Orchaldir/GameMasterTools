@@ -18,9 +18,7 @@ fun <T> visualizeSpike(
     orientation: Orientation,
     parentSize: Distance,
 ) {
-    val color = state.getColor(spike.part)
-    val options = state.config.getLineOptions(color)
-
+    val options = state.getFillAndBorder(spike.main)
     val length = parentSize * spike.length
     val halfWidth = length * spike.width * HALF
     val end = start.createPolar(length, orientation)
@@ -38,9 +36,7 @@ fun <T> visualizeTopDownSpike(
     position: Point2d,
     parentSize: Distance,
 ) {
-    val color = state.getColor(spike.part)
-    val options = state.config.getLineOptions(color)
-
+    val options = state.getFillAndBorder(spike.main)
     val length = parentSize * spike.length
     val halfWidth = length * spike.width * HALF
 

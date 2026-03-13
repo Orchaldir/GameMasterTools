@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.item.equipment.BodySlot
 import at.orchaldir.gm.core.model.item.equipment.EquipmentElementMap
-import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
+import at.orchaldir.gm.core.model.util.part.ItemPart
 import at.orchaldir.gm.core.model.util.render.Colors
 import at.orchaldir.gm.core.model.util.render.UndefinedColors
 import at.orchaldir.gm.utils.math.AABB
@@ -15,6 +15,8 @@ import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.renderer.MultiLayerRenderer
 import at.orchaldir.gm.visualization.RenderState
 import at.orchaldir.gm.visualization.character.appearance.ABOVE_EQUIPMENT_LAYER
+import at.orchaldir.gm.visualization.utils.convertToFillAndBorder
+import at.orchaldir.gm.visualization.utils.convertToNoBorder
 
 data class CharacterRenderState<T>(
     val state: State,
@@ -42,7 +44,20 @@ data class CharacterRenderState<T>(
     override fun equipment() = config.equipment
     override fun head() = config.head
 
-    fun getColor(part: ColorSchemeItemPart) = part.getColor(state, colors)
+    override fun getFillAndBorder(part: ItemPart, clipping: String?) = convertToFillAndBorder(
+        colors,
+        lineOptions(),
+        part,
+        state,
+        clipping,
+    )
+
+    override fun getNoBorder(part: ItemPart, clipping: String?) = convertToNoBorder(
+        state,
+        colors,
+        part,
+        clipping,
+    )
 
     fun getBeardLayer() = getLayer(ABOVE_EQUIPMENT_LAYER)
     fun getTailLayer() = getLayer(-ABOVE_EQUIPMENT_LAYER)
@@ -80,6 +95,16 @@ data class CharacterRenderState<T>(
             right
         }
     }
+
+    fun getPosition(
+        front: Point2d,
+        back: Point2d,
+    ) = if (renderFront) {
+        front
+    } else {
+        back
+    }
+
 }
 
 

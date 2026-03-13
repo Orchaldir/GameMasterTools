@@ -1,5 +1,6 @@
 package at.orchaldir.gm.app.html.economy.material
 
+import at.orchaldir.gm.app.MATERIAL
 import at.orchaldir.gm.app.PRICE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.economy.money.fieldPrice
@@ -11,10 +12,12 @@ import at.orchaldir.gm.app.html.economy.properties.showMaterialProperties
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.Material
 import at.orchaldir.gm.core.model.economy.material.MaterialId
+import at.orchaldir.gm.core.selector.economy.getMaterialsMadeOf
 import at.orchaldir.gm.core.selector.economy.money.getCurrencyUnits
 import at.orchaldir.gm.core.selector.item.equipment.getEquipmentMadeOf
 import at.orchaldir.gm.core.selector.item.getTextsMadeOf
 import at.orchaldir.gm.core.selector.race.getRaceAppearancesMadeOf
+import at.orchaldir.gm.core.selector.util.sortMaterials
 import at.orchaldir.gm.core.selector.world.getMoonsContaining
 import at.orchaldir.gm.core.selector.world.getRegionsContaining
 import at.orchaldir.gm.core.selector.world.getStreetTemplatesMadeOf
@@ -31,7 +34,7 @@ fun HtmlBlockTag.showMaterial(
     material: Material,
 ) {
     fieldName(material.name)
-    showMaterialProperties(material.properties)
+    showMaterialProperties(call, state, material.properties)
     fieldPrice(call, state, "Price Per Kilogram", material.pricePerKilogram)
 
     showUsage(call, state, material)
@@ -44,13 +47,14 @@ private fun HtmlBlockTag.showUsage(
 ) {
     val currencyUnits = state.getCurrencyUnits(material.id)
     val equipmentList = state.getEquipmentMadeOf(material.id)
+    val materials = state.getMaterialsMadeOf(material.id)
     val moons = state.getMoonsContaining(material.id)
     val regions = state.getRegionsContaining(material.id)
     val raceAppearances = state.getRaceAppearancesMadeOf(material.id)
     val streetTemplates = state.getStreetTemplatesMadeOf(material.id)
     val texts = state.getTextsMadeOf(material.id)
 
-    if (currencyUnits.isEmpty() && equipmentList.isEmpty() && moons.isEmpty() && regions.isEmpty() && raceAppearances.isEmpty() && streetTemplates.isEmpty() && texts.isEmpty()) {
+    if (currencyUnits.isEmpty() && equipmentList.isEmpty() && materials.isEmpty() && moons.isEmpty() && regions.isEmpty() && raceAppearances.isEmpty() && streetTemplates.isEmpty() && texts.isEmpty()) {
         return
     }
 
@@ -58,6 +62,7 @@ private fun HtmlBlockTag.showUsage(
 
     fieldElements(call, state, currencyUnits)
     fieldElements(call, state, equipmentList)
+    fieldElements(call, state, materials)
     fieldElements(call, state, moons)
     fieldElements(call, state, regions)
     fieldElements(call, state, raceAppearances)
@@ -75,7 +80,7 @@ fun HtmlBlockTag.editMaterial(
     material: Material,
 ) {
     selectName(material.name)
-    editMaterialProperties(material.properties)
+    editMaterialProperties(call, state, material.properties)
     selectPrice(
         state,
         "Price Per Kilogram",
@@ -84,6 +89,29 @@ fun HtmlBlockTag.editMaterial(
         0,
         Int.MAX_VALUE,
     )
+}
+
+fun HtmlBlockTag.selectMaterial(
+    state: State,
+    current: MaterialId,
+    param: String = MATERIAL,
+    label: String = "Material",
+) = selectMaterial(
+    state,
+    state.sortMaterials(),
+    current,
+    param,
+    label,
+)
+
+fun HtmlBlockTag.selectMaterial(
+    state: State,
+    materials: Collection<Material>,
+    current: MaterialId,
+    param: String = MATERIAL,
+    label: String = "Material",
+) {
+    selectElement(state, label, param, materials, current)
 }
 
 // parse
@@ -100,6 +128,6 @@ fun parseMaterial(
 ) = Material(
     id,
     parseName(parameters),
-    parseMaterialProperties(parameters),
+    parseMaterialProperties(state, parameters),
     parsePrice(state, parameters, PRICE),
 )

@@ -1,7 +1,8 @@
 package at.orchaldir.gm.core.model.item.equipment.style
 
 import at.orchaldir.gm.core.model.util.Size
-import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
+import at.orchaldir.gm.core.model.util.part.ItemPart
+import at.orchaldir.gm.core.model.util.part.MadeFromMetal
 import at.orchaldir.gm.core.model.util.part.MadeFromParts
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -21,7 +22,7 @@ sealed class ShieldBorder : MadeFromParts {
 
     override fun parts() = when (this) {
         is NoShieldBorder -> emptyList()
-        is SimpleShieldBorder -> listOf(part)
+        is SimpleShieldBorder -> listOf(main)
     }
 }
 
@@ -33,6 +34,6 @@ data object NoShieldBorder : ShieldBorder()
 @SerialName("Simple")
 data class SimpleShieldBorder(
     val size: Size = Size.Medium,
-    val part: ColorSchemeItemPart = ColorSchemeItemPart(),
+    val main: ItemPart = MadeFromMetal(),
 ) : ShieldBorder()
 

@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.model.economy.material
 
 enum class CrystalSystem {
-    None,
+    Amorphous,
     Cubic,
     Monoclinic,
     Triclinic,

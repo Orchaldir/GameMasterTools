@@ -59,8 +59,7 @@ fun visualizeSocks(
     state: CharacterRenderState<Body>,
     socks: Socks,
 ) {
-    val fill = socks.main.getFill(state.state, state.colors)
-    val options = state.config.getLineOptions(fill)
+    val options = state.getFillAndBorder(socks.main)
 
     visualizeSocksShaft(state, socks, options)
 

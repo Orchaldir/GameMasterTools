@@ -8,7 +8,6 @@ import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.renderer.model.BorderOnly
-import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
 import at.orchaldir.gm.visualization.text.TextRenderConfig
@@ -88,8 +87,7 @@ fun visualizeScrollContent(
 
     visualizeOpenScroll(state, scroll)
 
-    val pageColor = scroll.main.getColor(state.state)
-    val pageOptions = FillAndBorder(pageColor.toRender(), state.config.line)
+    val pageOptions = state.getFillAndBorder(scroll.main)
     val pagesStart = scrollAabb.start + Point2d(scroll.calculateWidthOfOneRod(), scroll.calculateHandleLength())
     val pagesSize = pageSize.replaceWidth(pageSize.width * numberOfPages)
     val pagesAabb = AABB(pagesStart, pagesSize)

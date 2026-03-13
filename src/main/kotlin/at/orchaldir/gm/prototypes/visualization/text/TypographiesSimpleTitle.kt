@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.model.item.text.book.Hardcover
 import at.orchaldir.gm.core.model.item.text.book.typography.SimpleTitleTypography
 import at.orchaldir.gm.core.model.item.text.book.typography.TypographyLayout
 import at.orchaldir.gm.core.model.util.font.SolidFont
-import at.orchaldir.gm.core.model.util.part.FillItemPart
+import at.orchaldir.gm.core.model.util.part.MadeFromLeather
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.utils.math.Size2d
@@ -34,7 +34,7 @@ fun main() {
             layout,
         )
         val binding = Hardcover(
-            FillItemPart(Color.Black),
+            MadeFromLeather(Color.Black),
             typography = typography
         )
 

@@ -10,10 +10,11 @@ import at.orchaldir.gm.app.html.item.equipment.style.showLineStyle
 import at.orchaldir.gm.app.html.parse
 import at.orchaldir.gm.app.html.rpg.combat.parseRangedWeaponStats
 import at.orchaldir.gm.app.html.selectValue
-import at.orchaldir.gm.app.html.util.part.editFillLookupItemPart
-import at.orchaldir.gm.app.html.util.part.parseFillLookupItemPart
-import at.orchaldir.gm.app.html.util.part.showFillLookupItemPart
+import at.orchaldir.gm.app.html.util.part.editItemPart
+import at.orchaldir.gm.app.html.util.part.parseItemPart
+import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.equipment.SLING_MATERIALS
 import at.orchaldir.gm.core.model.item.equipment.Sling
 import at.orchaldir.gm.core.model.util.Size
 import io.ktor.http.*
@@ -29,7 +30,7 @@ fun HtmlBlockTag.showSling(
 ) {
     field("Size", sling.size)
     showLineStyle(call, state, sling.cord, "Cord")
-    showFillLookupItemPart(call, state, sling.cradle, "Cradle")
+    showItemPart(call, state, sling.cradle, "Cradle")
 }
 
 // edit
@@ -40,14 +41,17 @@ fun HtmlBlockTag.editSling(
 ) {
     selectValue("Size", SIZE, Size.entries, sling.size)
     editLineStyle(state, sling.cord, "Cord", LINE)
-    editFillLookupItemPart(state, sling.cradle, MAIN, "Cradle")
+    editItemPart(state, sling.cradle, MAIN, "Cradle", SLING_MATERIALS)
 }
 
 // parse
 
-fun parseSling(parameters: Parameters) = Sling(
+fun parseSling(
+    state: State,
+    parameters: Parameters,
+) = Sling(
     parse(parameters, SIZE, Size.Medium),
-    parseLineStyle(parameters, LINE),
-    parseFillLookupItemPart(parameters, MAIN),
+    parseLineStyle(state, parameters, LINE),
+    parseItemPart(state, parameters, MAIN, SLING_MATERIALS),
     parseRangedWeaponStats(parameters),
 )

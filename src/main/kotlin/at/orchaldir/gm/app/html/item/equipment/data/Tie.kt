@@ -7,10 +7,11 @@ import at.orchaldir.gm.app.STYLE
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.parse
 import at.orchaldir.gm.app.html.selectValue
-import at.orchaldir.gm.app.html.util.part.editFillLookupItemPart
-import at.orchaldir.gm.app.html.util.part.parseFillLookupItemPart
-import at.orchaldir.gm.app.html.util.part.showFillLookupItemPart
+import at.orchaldir.gm.app.html.util.part.editItemPart
+import at.orchaldir.gm.app.html.util.part.parseItemPart
+import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.equipment.TIE_MATERIALS
 import at.orchaldir.gm.core.model.item.equipment.Tie
 import at.orchaldir.gm.core.model.item.equipment.style.TieStyle
 import at.orchaldir.gm.core.model.util.Size
@@ -27,8 +28,8 @@ fun HtmlBlockTag.showTie(
 ) {
     field("Style", tie.style)
     field("Size", tie.size)
-    showFillLookupItemPart(call, state, tie.main, "Main")
-    showFillLookupItemPart(call, state, tie.knot, "Knot")
+    showItemPart(call, state, tie.main, "Main")
+    showItemPart(call, state, tie.knot, "Knot")
 }
 
 // edit
@@ -39,15 +40,18 @@ fun HtmlBlockTag.editTie(
 ) {
     selectValue("Style", STYLE, TieStyle.entries, tie.style)
     selectValue("Size", SIZE, Size.entries, tie.size)
-    editFillLookupItemPart(state, tie.main, MAIN, "Main")
-    editFillLookupItemPart(state, tie.knot, KNOT, "Knot")
+    editItemPart(state, tie.main, MAIN, "Main", TIE_MATERIALS)
+    editItemPart(state, tie.knot, KNOT, "Knot", TIE_MATERIALS)
 }
 
 // parse
 
-fun parseTie(parameters: Parameters) = Tie(
+fun parseTie(
+    state: State,
+    parameters: Parameters,
+) = Tie(
     parse(parameters, STYLE, TieStyle.Tie),
     parse(parameters, SIZE, Size.Medium),
-    parseFillLookupItemPart(parameters, MAIN),
-    parseFillLookupItemPart(parameters, KNOT),
+    parseItemPart(state, parameters, MAIN, TIE_MATERIALS),
+    parseItemPart(state, parameters, KNOT, TIE_MATERIALS),
 )

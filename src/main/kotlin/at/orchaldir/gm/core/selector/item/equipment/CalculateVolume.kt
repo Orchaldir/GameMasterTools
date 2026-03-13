@@ -189,11 +189,11 @@ private fun calculateVolumePerMaterialForBody(
 ) {
     when (data) {
         is Belt -> {
-            vpm.add(data.strap.material, config.equipment.belt.getBandVolume(config))
+            vpm.add(data.strap.material(), config.equipment.belt.getBandVolume(config))
 
             if (data.buckle is SimpleBuckle) {
                 val buckleVolume = config.equipment.belt.getBuckleVolume(config, data.buckle.shape, data.buckle.size)
-                vpm.add(data.buckle.part.material, buckleVolume)
+                vpm.add(data.buckle.part.material(), buckleVolume)
             }
         }
 
@@ -208,27 +208,27 @@ private fun calculateVolumePerMaterialForBody(
         is Coat -> {
             val volume = config.equipment.coat.getVolume(config, data.length, data.sleeveStyle)
 
-            vpm.add(data.main.material, volume)
+            vpm.add(data.main.material(), volume)
         }
 
         is Dress -> {
             val volume = config.equipment.dress.getVolume(config, data.skirtStyle, data.sleeveStyle)
 
-            vpm.add(data.main.material, volume)
+            vpm.add(data.main.material(), volume)
         }
 
         is Footwear -> {
             val shafts = config.equipment.footwear.getShaftVolume(config, data.style)
             val soles = config.equipment.footwear.getSoleVolume(config, data.style)
 
-            vpm.add(data.shaft.material, shafts)
-            vpm.add(data.sole.material, soles)
+            vpm.add(data.shaft.material(), shafts)
+            vpm.add(data.sole.material(), soles)
         }
 
         is Gloves -> {
             val volume = config.equipment.gloves.getVolume(config, data.style)
 
-            vpm.add(data.main.material, volume)
+            vpm.add(data.main.material(), volume)
         }
 
         is Necklace -> doNothing()
@@ -238,7 +238,7 @@ private fun calculateVolumePerMaterialForBody(
         is Pants -> {
             val volume = config.equipment.pants.getVolume(config, data.style)
 
-            vpm.add(data.main.material, volume)
+            vpm.add(data.main.material(), volume)
         }
 
         is Polearm -> doNothing()
@@ -246,25 +246,25 @@ private fun calculateVolumePerMaterialForBody(
         is Shirt -> {
             val volume = config.equipment.shirt.getVolume(config, data.sleeveStyle)
 
-            vpm.add(data.main.material, volume)
+            vpm.add(data.main.material(), volume)
         }
 
         is Skirt -> {
             val volume = config.equipment.skirt.getVolume(config, data.style)
 
-            vpm.add(data.main.material, volume)
+            vpm.add(data.main.material(), volume)
         }
 
         is Socks -> {
             val volume = config.equipment.sock.getVolume(config, data.style)
 
-            vpm.add(data.main.material, volume)
+            vpm.add(data.main.material(), volume)
         }
 
         is SuitJacket -> {
             val volume = config.equipment.coat.getVolume(config, OuterwearLength.Hip, data.sleeveStyle)
 
-            vpm.add(data.main.material, volume)
+            vpm.add(data.main.material(), volume)
         }
 
         is Tie -> doNothing()

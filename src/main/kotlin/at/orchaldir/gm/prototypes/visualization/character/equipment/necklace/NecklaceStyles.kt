@@ -5,16 +5,20 @@ import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.character.appearance.BodyShape.Hourglass
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
+import at.orchaldir.gm.core.model.economy.material.Material
+import at.orchaldir.gm.core.model.economy.material.MaterialId
+import at.orchaldir.gm.core.model.economy.material.MaterialProperties
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap.Companion.from
 import at.orchaldir.gm.core.model.item.equipment.Necklace
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.Size.*
-import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
+import at.orchaldir.gm.core.model.util.part.MadeFromCord
 import at.orchaldir.gm.core.model.util.render.Color.*
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTableWithoutColorScheme
+import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.shape.CircularShape.Circle
 import at.orchaldir.gm.utils.math.shape.RectangularShape.Cross
@@ -38,13 +42,13 @@ fun main() {
             Factor.fromPercentage(100),
             SimpleOrnament(Circle, Silver),
             OrnamentWithBorder(Teardrop, Blue, Silver),
-            ColorSchemeItemPart(Silver),
+            Wire(),
         ),
-        Wire(Small, Silver),
+        Cord(MadeFromCord(Silver), Small),
     )
     val crossNecklace = PendantNecklace(
         SimpleOrnament(Cross, Silver),
-        Wire(Small, Black),
+        Cord(MadeFromCord(Black), Small),
     )
     val styles: MutableList<Pair<String, NecklaceStyle>> = mutableListOf(
         Pair("Pearl", StrandNecklace(1, OrnamentLine(pearl))),
@@ -56,8 +60,14 @@ fun main() {
         styles.add(Pair("$size Pendant", PendantNecklace(OrnamentWithBorder(), Wire(size), size)))
     }
 
+    val silver = Material(
+        MaterialId(0),
+        properties = MaterialProperties(
+            color = Silver,
+        )
+    )
     renderCharacterTableWithoutColorScheme(
-        State(),
+        State(Storage(silver)),
         "necklaces-styles.svg",
         CHARACTER_CONFIG,
         styles,

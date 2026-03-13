@@ -23,8 +23,7 @@ fun visualizeIounStone(
     set: Set<BodySlot>,
 ) {
     val config = state.config.equipment.iounStone
-    val color = stone.main.getColor(state.state, state.colors)
-    val options = state.config.getLineOptions(color)
+    val options = state.getFillAndBorder(stone.main)
     val (start, end) = state.headAABB().getMirroredPoints(config.orbitWidth, -config.orbitY)
     val radius = state.headAABB().convertHeight(config.size.convert(stone.size))
     val slot = set.first()

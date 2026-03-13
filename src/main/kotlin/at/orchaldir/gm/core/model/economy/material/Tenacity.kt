@@ -33,4 +33,5 @@ enum class Tenacity {
      * Stays in the new shape after bending.
      */
     Plastic,
+    Undefined,
 }

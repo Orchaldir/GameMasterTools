@@ -1,7 +1,8 @@
 package at.orchaldir.gm.core.model.item.equipment.style
 
-import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
-import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
+import at.orchaldir.gm.core.model.util.part.ItemPart
+import at.orchaldir.gm.core.model.util.part.MadeFromCord
+import at.orchaldir.gm.core.model.util.part.MadeFromMetal
 import at.orchaldir.gm.core.model.util.part.MadeFromParts
 import at.orchaldir.gm.core.model.util.render.Color
 import kotlinx.serialization.SerialName
@@ -34,12 +35,12 @@ sealed interface Grip : MadeFromParts {
 @SerialName("Simple")
 data class SimpleGrip(
     val shape: GripShape = GripShape.Straight,
-    val part: FillLookupItemPart = FillLookupItemPart(),
+    val part: ItemPart = MadeFromMetal(),
 ) : Grip
 
 @Serializable
 @SerialName("Bound")
 data class BoundGrip(
     val rows: Int = DEFAULT_GRIP_ROWS,
-    val part: ColorSchemeItemPart = ColorSchemeItemPart(Color.Red),
+    val part: ItemPart = MadeFromCord(Color.Red),
 ) : Grip

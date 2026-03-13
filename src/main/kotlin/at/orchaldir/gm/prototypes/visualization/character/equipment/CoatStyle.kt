@@ -11,7 +11,7 @@ import at.orchaldir.gm.core.model.item.equipment.EquipmentMap.Companion.from
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.item.equipment.style.OuterwearLength.Hip
 import at.orchaldir.gm.core.model.util.Size
-import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
+import at.orchaldir.gm.core.model.util.part.MadeFromFabric
 import at.orchaldir.gm.core.model.util.render.Color.Blue
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
@@ -50,7 +50,11 @@ private fun createCoat(
     neckline: NecklineStyle,
     opening: OpeningStyle,
 ) = Coat(
-    Hip, neckline, SleeveStyle.Long, opening, main = FillLookupItemPart(Blue)
+    MadeFromFabric(Blue),
+    Hip,
+    neckline,
+    SleeveStyle.Long,
+    opening,
 )
 
 private fun createAppearance(distance: Distance) =

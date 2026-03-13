@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.item.equipment.style
 
-import at.orchaldir.gm.core.model.util.part.ColorSchemeItemPart
+import at.orchaldir.gm.core.model.util.part.ItemPart
+import at.orchaldir.gm.core.model.util.part.MadeFromMetal
 import at.orchaldir.gm.core.model.util.part.MadeFromParts
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.unit.Distance
@@ -31,11 +32,11 @@ sealed class Blade : MadeFromParts {
     }
 
     override fun parts() = when (this) {
-        is SimpleBlade -> listOf(part)
+        is SimpleBlade -> listOf(main)
     }
 
     override fun mainMaterial() = when (this) {
-        is SimpleBlade -> part.material
+        is SimpleBlade -> main.material()
     }
 
     fun size(characterHeight: Distance, gripAabb: AABB) = when (this) {
@@ -58,5 +59,5 @@ data class SimpleBlade(
      */
     val width: Factor = DEFAULT_BLADE_WIDTH,
     val shape: BladeShape = BladeShape.Straight,
-    val part: ColorSchemeItemPart = ColorSchemeItemPart(),
+    val main: ItemPart = MadeFromMetal(),
 ) : Blade()

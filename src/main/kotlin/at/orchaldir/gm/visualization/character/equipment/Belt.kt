@@ -14,7 +14,6 @@ import at.orchaldir.gm.utils.math.unit.Volume
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.utils.renderer.model.NoBorder
-import at.orchaldir.gm.utils.renderer.model.toRender
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.ICharacterConfig
 import at.orchaldir.gm.visualization.character.appearance.HIGHER_EQUIPMENT_LAYER
@@ -81,8 +80,7 @@ private fun visualizeBeltBand(
     state: CharacterRenderState<Body>,
     belt: Belt,
 ) {
-    val fill = belt.strap.getFill(state.state, state.colors)
-    val options = FillAndBorder(fill.toRender(), state.config.line)
+    val options = state.getFillAndBorder(belt.strap)
     val beltConfig = state.config.equipment.belt
     val bandAabb = AABB.fromCenter(
         beltConfig.getBandCenter(state),
@@ -159,8 +157,7 @@ private fun visualizeSimpleBuckle(
     state: CharacterRenderState<Body>,
     buckle: SimpleBuckle,
 ) {
-    val fill = buckle.part.getFill(state.state, state.colors)
-    val options = FillAndBorder(fill.toRender(), state.config.line)
+    val options = state.getFillAndBorder(buckle.part)
     val beltConfig = state.config.equipment.belt
     val height = beltConfig.getBuckleHeight(state, buckle.size)
     val half = height / 2.0f

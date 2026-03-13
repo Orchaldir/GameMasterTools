@@ -1,0 +1,245 @@
+{
+ "version": 1,
+ "elements": {
+  "0": {
+   "id": 0,
+   "name": "Copper",
+   "properties": {
+    "category": {
+     "#type": "Metal"
+    },
+    "color": "OrangeRed",
+    "crystalSystem": "Cubic",
+    "density": 8940000000,
+    "fracture": "Uneven",
+    "hardness": 3.0,
+    "luster": "Metallic",
+    "tenacity": "Ductile"
+   }
+  },
+  "1": {
+   "id": 1,
+   "name": "Silver",
+   "properties": {
+    "category": {
+     "#type": "Metal"
+    },
+    "color": "Silver",
+    "crystalSystem": "Cubic",
+    "density": 10500000000,
+    "fracture": "Hackly",
+    "hardness": 2.5,
+    "luster": "Metallic",
+    "tenacity": "Ductile"
+   }
+  },
+  "2": {
+   "id": 2,
+   "name": "Gold",
+   "properties": {
+    "category": {
+     "#type": "Metal"
+    },
+    "color": "Gold",
+    "crystalSystem": "Cubic",
+    "density": 19320000000,
+    "fracture": "Hackly",
+    "hardness": 2.5,
+    "luster": "Metallic",
+    "tenacity": "Sectile"
+   }
+  },
+  "3": {
+   "id": 3,
+   "name": "Platinum",
+   "properties": {
+    "category": {
+     "#type": "Metal"
+    },
+    "color": "AliceBlue",
+    "crystalSystem": "Cubic",
+    "density": 21450000000,
+    "fracture": "Hackly",
+    "hardness": 3.5,
+    "luster": "Metallic",
+    "tenacity": "Ductile"
+   }
+  },
+  "4": {
+   "id": 4,
+   "name": "Iron",
+   "properties": {
+    "category": {
+     "#type": "Metal"
+    },
+    "color": "DimGray",
+    "crystalSystem": "Cubic",
+    "density": 7870000000,
+    "hardness": 4.0,
+    "luster": "Metallic",
+    "tenacity": "Ductile"
+   }
+  },
+  "5": {
+   "id": 5,
+   "name": "Steel",
+   "properties": {
+    "category": {
+     "#type": "Alloy",
+     "components": {
+      "4": 9900
+     }
+    },
+    "color": "Gray",
+    "crystalSystem": "Cubic",
+    "density": 7850000000,
+    "hardness": 4.5,
+    "luster": "Metallic",
+    "tenacity": "Ductile"
+   }
+  },
+  "6": {
+   "id": 6,
+   "name": "Brass",
+   "properties": {
+    "category": {
+     "#type": "Alloy",
+     "components": {
+      "0": 6600,
+      "9": 3300
+     }
+    },
+    "color": "Gold",
+    "crystalSystem": "Cubic",
+    "density": 8600000000,
+    "hardness": 3.0,
+    "luster": "Metallic",
+    "tenacity": "Ductile"
+   }
+  },
+  "7": {
+   "id": 7,
+   "name": "Bronze",
+   "properties": {
+    "category": {
+     "#type": "Alloy",
+     "components": {
+      "0": 8800,
+      "9": 1200
+     }
+    },
+    "color": "Orange",
+    "crystalSystem": "Cubic",
+    "density": 8770000000,
+    "hardness": 4.0,
+    "luster": "Metallic",
+    "tenacity": "Ductile"
+   }
+  },
+  "9": {
+   "id": 9,
+   "name": "Zinc",
+   "properties": {
+    "category": {
+     "#type": "Metal"
+    },
+    "color": "LightGray",
+    "crystalSystem": "Hexagonal",
+    "density": 7139000000,
+    "hardness": 2.5,
+    "luster": "Metallic",
+    "tenacity": "Ductile"
+   }
+  },
+  "10": {
+   "id": 10,
+   "name": "Wood",
+   "properties": {
+    "category": {
+     "#type": "Wood"
+    },
+    "color": "Peru"
+   }
+  },
+  "11": {
+   "id": 11,
+   "name": "Iron Wood",
+   "properties": {
+    "category": {
+     "#type": "Wood"
+    },
+    "color": "Maroon",
+    "hardness": 4.0
+   }
+  },
+  "12": {
+   "id": 12,
+   "name": "Linen",
+   "properties": {
+    "category": {
+     "#type": "Fiber"
+    },
+    "color": "White"
+   }
+  },
+  "13": {
+   "id": 13,
+   "name": "Silk",
+   "properties": {
+    "category": {
+     "#type": "Fiber"
+    },
+    "color": "White"
+   }
+  },
+  "14": {
+   "id": 14,
+   "name": "Cotton",
+   "properties": {
+    "category": {
+     "#type": "Fiber"
+    },
+    "color": "White"
+   }
+  },
+  "15": {
+   "id": 15,
+   "name": "Diamond",
+   "properties": {
+    "category": {
+     "#type": "Mineral"
+    },
+    "color": "White",
+    "crystalSystem": "Cubic",
+    "density": 3500000000,
+    "hardness": 10.0,
+    "luster": "Adamantine",
+    "tenacity": "Brittle"
+   }
+  },
+  "16": {
+   "id": 16,
+   "name": "Glass",
+   "properties": {
+    "category": {
+     "#type": "Glass"
+    },
+    "color": "AliceBlue",
+    "hardness": 5.5,
+    "luster": "Vitreous",
+    "tenacity": "Brittle",
+    "transparency": "Transparent"
+   }
+  },
+  "17": {
+   "id": 17,
+   "name": "Paper",
+   "properties": {
+    "category": {
+     "#type": "Paper"
+    },
+    "color": "White"
+   }
+  }
+ }
+}

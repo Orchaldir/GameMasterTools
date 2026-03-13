@@ -5,7 +5,7 @@ import at.orchaldir.gm.core.model.item.equipment.EquipmentMap.Companion.from
 import at.orchaldir.gm.core.model.item.equipment.OneHandedSword
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.item.equipment.style.GripShape.*
-import at.orchaldir.gm.core.model.util.part.FillLookupItemPart
+import at.orchaldir.gm.core.model.util.part.MadeFromWood
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
@@ -20,7 +20,7 @@ fun main() {
         NoPommel,
     )
     val boundHilt = SimpleSwordHilt(
-        SimpleSwordGuard(part = FillLookupItemPart(Color.Gold)),
+        SimpleSwordGuard(part = MadeFromWood(Color.Gold)),
         BoundGrip(6),
     )
     val hilts = listOf(
@@ -45,4 +45,4 @@ fun main() {
     }
 }
 
-private fun createGrip(shape: GripShape) = SimpleGrip(shape, FillLookupItemPart(Color.Black))
+private fun createGrip(shape: GripShape) = SimpleGrip(shape, MadeFromWood(Color.Black))

@@ -146,9 +146,7 @@ private fun visualizeAxeBlade(
     } else {
         shaftAabb.mirrorVertically(rightPolygon)
     }
-    val color = blade.part().getColor(state.state, state.colors)
-    val options = state.config.getLineOptions(color)
-
+    val options = state.getFillAndBorder(blade.part())
 
     renderer.renderRoundedPolygon(polygon, options)
 }

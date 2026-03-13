@@ -4,7 +4,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.hair.*
 import at.orchaldir.gm.core.model.util.render.Color
-import at.orchaldir.gm.core.model.util.render.Fill
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.unit.Distance
@@ -75,15 +74,14 @@ data class CharacterRenderConfig(
         is OverwriteFeatureColor -> getOptions(state, featureColor.skin)
         ReuseHairColor -> when (hair) {
             NoHair -> error("Cannot reuse hair color without hair!")
-            is NormalHair -> getLineOptions(hair.color)
+            is NormalHair -> getFillAndBorder(hair.color)
         }
 
         ReuseSkinColor -> getOptions(state, skin)
     }
 
-    fun getLineOptions(color: Color) = FillAndBorder(color.toRender(), line)
-    fun getLineOptions(hairColor: HairColor) = FillAndBorder(getHairColor(hairColor), line)
-    fun getLineOptions(fill: Fill) = FillAndBorder(fill.toRender(), line)
+    fun getFillAndBorder(color: Color) = FillAndBorder(color.toRender(), line)
+    fun getFillAndBorder(hairColor: HairColor) = FillAndBorder(getHairColor(hairColor), line)
 
     fun getHairColor(hairColor: NormalHairColorEnum) = hairColors[hairColor] ?: Color.Purple.toRender()
     fun getSkinColor(skinColor: SkinColor) = skinColors[skinColor] ?: Color.Purple.toRender()
