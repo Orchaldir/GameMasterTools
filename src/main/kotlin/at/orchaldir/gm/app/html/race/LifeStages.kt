@@ -56,7 +56,7 @@ fun HtmlBlockTag.showLifeStages(
 
         is DefaultImmortal -> {
             showAppearance(call, state, lifeStages.appearance)
-            showMaxAges(lifeStages.maxAges)
+            showMaxAges(lifeStages.maxAges + Int.MAX_VALUE)
             showStatblock(call, state, lifeStages.statblock)
         }
     }
@@ -65,8 +65,16 @@ fun HtmlBlockTag.showLifeStages(
 private fun HtmlBlockTag.showMaxAges(maxAges: List<Int>) {
     fieldList("Max Ages", maxAges.withIndex().toList()) { indexed ->
         val maxAge = indexed.value
-        val stage = DefaultLifeStages.entries[indexed.index].name
-        field(stage, "$maxAge years")
+
+        if (maxAge < Int.MAX_VALUE) {
+            val stage = DefaultLifeStages.entries[indexed.index].name
+            field(stage, "$maxAge years")
+        }
+        else {
+            p {
+                b { +DefaultLifeStages.Ageless.name }
+            }
+        }
     }
 }
 
@@ -168,7 +176,7 @@ fun HtmlBlockTag.editLifeStages(
 
         is DefaultImmortal -> {
             selectAppearance(state, lifeStages.appearance, 0)
-            selectMaxAges(lifeStages.getAllLifeStages(), lifeStages.maxAges)
+            selectMaxAges(lifeStages.getAllLifeStages().dropLast(1), lifeStages.maxAges)
             editStatblock(call, state, lifeStages.statblock)
         }
     }

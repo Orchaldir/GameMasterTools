@@ -13,7 +13,7 @@ fun validateLifeStages(state: State, lifeStages: LifeStages) {
 
     when (lifeStages) {
         is DefaultAging -> {
-            require(lifeStages.maxAges.size == DefaultLifeStages.entries.size) { "Invalid number of max ages!" }
+            require(lifeStages.maxAges.size == DEFAULT_MAX_AGES.size) { "Invalid number of max ages!" }
             validateMaxAge(lifeStages.getAllLifeStages())
         }
 

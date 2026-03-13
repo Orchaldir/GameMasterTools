@@ -65,7 +65,7 @@ sealed class LifeStages {
 
     fun countLifeStages() = when (this) {
         is ImmutableLifeStage -> 1
-        is DefaultAging -> DefaultLifeStages.entries.size
+        is DefaultAging -> DEFAULT_MAX_AGES.size
         is CustomAging -> lifeStages.size
         is DefaultImmortal -> IMMORTAL_MAX_AGES.size + 1
     }
@@ -259,7 +259,7 @@ data class DefaultImmortal(
         createLifeStage(2),
         createLifeStage(3),
         LifeStage(
-            Name.init("Ageless"),
+            Name.init(DefaultLifeStages.Ageless.name),
             Int.MAX_VALUE,
             FULL,
             true,

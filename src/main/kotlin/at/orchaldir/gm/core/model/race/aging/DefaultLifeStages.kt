@@ -9,4 +9,5 @@ enum class DefaultLifeStages {
     MiddleAge,
     OldAge,
     Venerable,
+    Ageless,
 }
