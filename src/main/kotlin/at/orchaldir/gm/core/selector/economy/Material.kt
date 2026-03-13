@@ -45,6 +45,9 @@ fun State.getMaterials(categories: Set<MaterialCategoryType>) = getMaterialStora
     .getAll()
     .filter { categories.contains(it.properties.category.getType()) }
 
+fun State.getMaterialIds(categories: Set<MaterialCategoryType>) = getMaterials(categories)
+    .map { it.id }
+
 fun State.getMaterialsMadeOf(other: MaterialId) = getMaterialStorage()
     .getAll()
     .filter { it.properties.contains(other) }
