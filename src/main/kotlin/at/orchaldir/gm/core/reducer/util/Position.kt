@@ -63,6 +63,7 @@ fun checkPosition(
         is LongTermCareIn -> state.requireExists(state.getBusinessStorage(), position.business, date) { noun }
         is OnMoon -> requires(state.getMoonStorage(), position.moon, noun)
         is OnWorld -> requires(state.getWorldStorage(), position.world, noun)
+        is RelativeToRegion -> requires(state.getRegionStorage(), position.region, noun)
     }
 }
 

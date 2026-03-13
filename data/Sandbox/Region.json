@@ -110,6 +110,11 @@
    "name": "Northern Scratch",
    "data": {
     "#type": "Wetland"
+   },
+   "position": {
+    "#type": "RelativeToRegion",
+    "direction": "NorthWest",
+    "region": 0
    }
   },
   "11": {
@@ -117,6 +122,11 @@
    "name": "The Table Downs",
    "data": {
     "#type": "Hills"
+   },
+   "position": {
+    "#type": "RelativeToRegion",
+    "direction": "North",
+    "region": 0
    }
   },
   "12": {
@@ -124,6 +134,11 @@
    "name": "The Tithelands",
    "data": {
     "#type": "Plains"
+   },
+   "position": {
+    "#type": "RelativeToRegion",
+    "direction": "SouthEast",
+    "region": 0
    }
   },
   "13": {

@@ -26,6 +26,7 @@ enum class PositionType {
     Plane,
     Realm,
     Region,
+    RelativeToRegion,
     Settlement,
     SettlementMap,
     World,
@@ -48,6 +49,7 @@ sealed class Position {
         is LongTermCareIn -> PositionType.LongTermCare
         is OnMoon -> PositionType.Moon
         is OnWorld -> PositionType.World
+        is RelativeToRegion -> PositionType.RelativeToRegion
         UndefinedPosition -> PositionType.Undefined
     }
 
@@ -65,6 +67,7 @@ sealed class Position {
         is LongTermCareIn -> business
         is OnMoon -> moon
         is OnWorld -> world
+        is RelativeToRegion -> region
         UndefinedPosition -> null
     }
 
@@ -94,6 +97,7 @@ sealed class Position {
         is LongTermCareIn -> business == id
         is OnMoon -> moon == id
         is OnWorld -> world == id
+        is RelativeToRegion -> region == id
         UndefinedPosition -> false
     }
 
@@ -210,6 +214,13 @@ data class OnMoon(val moon: MoonId) : Position()
 @Serializable
 @SerialName("World")
 data class OnWorld(val world: WorldId) : Position()
+
+@Serializable
+@SerialName("RelativeToRegion")
+data class RelativeToRegion(
+    val direction: Direction,
+    val region: RegionId,
+) : Position()
 
 @Serializable
 @SerialName("Undefined")

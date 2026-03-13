@@ -21,7 +21,7 @@ val ALLOWED_CONTINENT_POSITIONS = listOf(
     PositionType.Plane,
     PositionType.World,
 )
-val ALLOWED_REGION_POSITIONS = ALLOWED_CONTINENT_POSITIONS + PositionType.Region
+val ALLOWED_REGION_POSITIONS = ALLOWED_CONTINENT_POSITIONS + PositionType.Region + PositionType.RelativeToRegion
 
 @JvmInline
 @Serializable
