@@ -1,5 +1,72 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "House Brackenwold"
+  },
+  "1": {
+   "id": 1,
+   "name": "House Guillefer",
+   "owner": {
+    "current": 0
+   }
+  },
+  "2": {
+   "id": 2,
+   "name": "House Harrowmoor",
+   "owner": {
+    "current": 0
+   }
+  },
+  "3": {
+   "id": 3,
+   "name": "House Hogwarsh",
+   "owner": {
+    "current": 0
+   }
+  },
+  "4": {
+   "id": 4,
+   "name": "House Mulbreck",
+   "owner": {
+    "current": 0
+   }
+  },
+  "5": {
+   "id": 5,
+   "name": "House Nodlock",
+   "owner": {
+    "current": 3
+   }
+  },
+  "6": {
+   "id": 6,
+   "name": "House Malbleat",
+   "owner": {
+    "current": 3
+   }
+  },
+  "7": {
+   "id": 7,
+   "name": "House Murkin",
+   "owner": {
+    "current": 3
+   }
+  },
+  "8": {
+   "id": 8,
+   "name": "House Ramius",
+   "owner": {
+    "current": 3
+   }
+  },
+  "9": {
+   "id": 9,
+   "name": "Church Lands",
+   "owner": {
+    "current": 0
+   }
+  }
  }
 }
