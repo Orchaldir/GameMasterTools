@@ -57,7 +57,7 @@ data class Region(
                 ALLOWED_BATTLEFIELD_CAUSES,
             )
 
-            Continent, Desert, Forrest, Lake, Plains, Mountain, Sea, UndefinedRegionData -> doNothing()
+            Continent, Desert, Forrest, Hills, Lake, Plains, Mountain, Sea, UndefinedRegionData, Wetland -> doNothing()
             is Wasteland -> validateEventReference(
                 state,
                 data.cause,

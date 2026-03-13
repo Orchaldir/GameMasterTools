@@ -52,6 +52,9 @@
   "5": {
    "id": 5,
    "name": "Fever Marsh",
+   "data": {
+    "#type": "Wetland"
+   },
    "position": {
     "#type": "Region",
     "region": 0
@@ -60,6 +63,9 @@
   "6": {
    "id": 6,
    "name": "Hag’s Addle",
+   "data": {
+    "#type": "Wetland"
+   },
    "position": {
     "#type": "Region",
     "region": 0
@@ -97,11 +103,17 @@
   },
   "10": {
    "id": 10,
-   "name": "Northern Scratch"
+   "name": "Northern Scratch",
+   "data": {
+    "#type": "Wetland"
+   }
   },
   "11": {
    "id": 11,
-   "name": "The Table Downs"
+   "name": "The Table Downs",
+   "data": {
+    "#type": "Hills"
+   }
   },
   "12": {
    "id": 12,
