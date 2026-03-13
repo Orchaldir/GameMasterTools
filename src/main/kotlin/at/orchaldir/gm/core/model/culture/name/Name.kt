@@ -5,7 +5,6 @@ import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.character.title.AbstractTitle
 import at.orchaldir.gm.core.model.character.title.NoTitle
 import at.orchaldir.gm.core.model.culture.name.GenonymicLookupDistance.OneGeneration
-import at.orchaldir.gm.core.model.util.GenderMap
 import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.name.NameListId
@@ -81,53 +80,55 @@ data object NoNamingConvention : NamingConvention() {
 
 @Serializable
 @SerialName("Mononym")
-data class MononymConvention(val names: GenderMap<NameListId> = GenderMap(NameListId(0))) : NamingConvention() {
-    constructor(id: NameListId) : this(GenderMap(id))
+data class MononymConvention(
+    val names: GivenNames,
+) : NamingConvention() {
+    constructor(id: NameListId) : this(NonGenderedGivenNames(id))
 
     override fun contains(id: NameListId) = names.contains(id)
 
-    override fun getNameLists() = names.getValues()
+    override fun getNameLists() = names.getNameLists()
 }
 
 @Serializable
 @SerialName("Family")
 data class FamilyConvention(
+    val givenNames: GivenNames,
+    val familyNames: NameListId,
     val nameOrder: NameOrder = NameOrder.GivenNameFirst,
     val middleNameOptions: OneOf<MiddleNameOption> = OneOf(MiddleNameOption.entries),
-    val givenNames: GenderMap<NameListId> = GenderMap(NameListId(0)),
-    val familyNames: NameListId = NameListId(0),
 ) : NamingConvention() {
 
     override fun contains(id: NameListId) = givenNames.contains(id) || familyNames == id
 
-    override fun getNameLists() = givenNames.getValues() + setOf(familyNames)
+    override fun getNameLists() = givenNames.getNameLists() + setOf(familyNames)
 }
 
 
 @Serializable
 @SerialName("Patronym")
 data class PatronymConvention(
+    val names: GivenNames,
     val lookupDistance: GenonymicLookupDistance = OneGeneration,
     val style: GenonymicStyle = NamesOnlyStyle,
-    val names: GenderMap<NameListId> = GenderMap(NameListId(0)),
 ) : NamingConvention() {
 
     override fun contains(id: NameListId) = names.contains(id)
 
-    override fun getNameLists() = names.getValues()
+    override fun getNameLists() = names.getNameLists()
 }
 
 @Serializable
 @SerialName("Matronym")
 data class MatronymConvention(
+    val names: GivenNames,
     val lookupDistance: GenonymicLookupDistance = OneGeneration,
     val style: GenonymicStyle = NamesOnlyStyle,
-    val names: GenderMap<NameListId> = GenderMap(NameListId(0)),
 ) : NamingConvention() {
 
     override fun contains(id: NameListId) = names.contains(id)
 
-    override fun getNameLists() = names.getValues()
+    override fun getNameLists() = names.getNameLists()
 }
 
 /**
@@ -136,14 +137,14 @@ data class MatronymConvention(
 @Serializable
 @SerialName("Genonym")
 data class GenonymConvention(
+    val names: GivenNames,
     val lookupDistance: GenonymicLookupDistance = OneGeneration,
     val style: GenonymicStyle = NamesOnlyStyle,
-    val names: GenderMap<NameListId> = GenderMap(NameListId(0)),
 ) : NamingConvention() {
 
     override fun contains(id: NameListId) = names.contains(id)
 
-    override fun getNameLists() = names.getValues()
+    override fun getNameLists() = names.getNameLists()
 }
 
 fun NamingConvention.isAnyGenonym() = when (this) {

@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.html.util.name
 import at.orchaldir.gm.app.NAMES
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.util.name.NameList
 import at.orchaldir.gm.core.model.util.name.NameListId
 import at.orchaldir.gm.core.model.util.name.parseNames
@@ -51,6 +52,9 @@ fun parseNameListId(
     parameters: Parameters,
     param: String,
 ) = NameListId(parseInt(parameters, param))
+
+fun parseOptionalNameListId(parameters: Parameters, param: String) =
+    parseSimpleOptionalInt(parameters, param)?.let { NameListId(it) }
 
 fun parseNameList(state: State, parameters: Parameters, id: NameListId) = NameList(
     id,
