@@ -6,6 +6,10 @@
    "name": "Dolmenwood",
    "data": {
     "#type": "Forrest"
+   },
+   "position": {
+    "#type": "Plane",
+    "plane": 0
    }
   },
   "1": {
