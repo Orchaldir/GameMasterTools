@@ -57,16 +57,15 @@ fun calculatePaddedSize(
     equipmentMap: EquipmentElementMap = EquipmentElementMap(),
 ): PaddedSize {
     val padded = when (appearance) {
-        is HeadOnly -> {
-            val padded = PaddedSize(Size2d.square(appearance.height))
-            handleHead(config, appearance.head, equipmentMap, padded, appearance.height)
-            padded
-        }
+        is HeadOnly -> handleHead(config, appearance.head, equipmentMap, appearance.height)
 
         is HumanoidBody -> {
             val padded = PaddedSize(Size2d.square(appearance.height))
             val headHeight = appearance.height * config.body.headHeight
-            handleHead(config, appearance.head, equipmentMap, padded, headHeight)
+            val paddedHead = handleHead(config, appearance.head, equipmentMap, headHeight)
+
+            padded.addToTop(paddedHead.top)
+
             padded
         }
 
@@ -82,12 +81,15 @@ private fun handleHead(
     config: CharacterRenderConfig,
     head: Head,
     equipmentMap: EquipmentElementMap,
-    paddedSize: PaddedSize,
     headHeight: Distance,
-) {
+): PaddedSize {
+    val paddedSize = PaddedSize(Size2d.square(headHeight))
+
     handleEars(config, head.ears, paddedSize, headHeight)
     handleHorns(config, head.horns, paddedSize, headHeight)
     handleHeadEquipment(config, equipmentMap, paddedSize, headHeight)
+
+    return paddedSize
 }
 
 private fun handleEars(

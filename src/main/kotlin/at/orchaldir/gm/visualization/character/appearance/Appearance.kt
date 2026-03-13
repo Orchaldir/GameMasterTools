@@ -56,8 +56,6 @@ fun visualizeAppearance(
     val builder = SvgBuilder(paddedSize.getFullSize())
     val renderState = CharacterRenderState(state, appearance, aabb, config, builder, renderFront, equipped)
 
-    renderState.renderer.getLayer().renderRectangle(AABB(paddedSize.getFullSize()), BorderOnly(LineOptions(Color.Red.toRender(), 0.01f)))
-
     visualizeAppearance(renderState)
 
     return builder.finish()
@@ -84,11 +82,7 @@ fun visualizeAppearance(
 fun visualizeAppearance(
     state: CharacterRenderState<Appearance>,
 ) {
-    val appearance = state.get()
-
-    state.renderer.getLayer().renderRectangle(state.fullAABB, BorderOnly(state.config.line))
-
-    when (appearance) {
+    when (val appearance = state.get()) {
         is HeadOnly -> {
             val headState = state.convert(appearance.head, state.fullAABB)
             visualizeHead(headState, appearance.head, appearance.skin)
