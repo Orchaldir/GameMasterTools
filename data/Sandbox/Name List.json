@@ -146,6 +146,84 @@
     "Whipsy",
     "Whiskers"
    ]
+  },
+  "7": {
+   "id": 7,
+   "name": "Human - Male",
+   "names": [
+    "Arfred",
+    "Brom",
+    "Bunk",
+    "Chydewick",
+    "Crump",
+    "Dimothy",
+    "Guillem",
+    "Henrick",
+    "Hogrid",
+    "Jappser",
+    "Joremey",
+    "Josprey",
+    "Jymes",
+    "Mollequip",
+    "Rodger",
+    "Rogbert",
+    "Samwise",
+    "Shadwell",
+    "Shank",
+    "Sidley"
+   ]
+  },
+  "8": {
+   "id": 8,
+   "name": "Human - Female",
+   "names": [
+    "Agnel",
+    "Amonie",
+    "Celenia",
+    "Emelda",
+    "Gertwinne",
+    "Gilly",
+    "Gretchen",
+    "Gwendolyne",
+    "Hilda",
+    "Illabell",
+    "Katerynne",
+    "Lillibeth",
+    "Lillith",
+    "Lisabeth",
+    "Mabel",
+    "Maydrid",
+    "Melysse",
+    "Molly",
+    "Pansy",
+    "Roese"
+   ]
+  },
+  "9": {
+   "id": 9,
+   "name": "Human - Surname",
+   "names": [
+    "Addercapper",
+    "Burl",
+    "Candleswick",
+    "Crumwaller",
+    "Dogoode",
+    "Dregger",
+    "Dunwallow",
+    "Fraggleton",
+    "Gruewater",
+    "Harper",
+    "Lank",
+    "Logueweave",
+    "Loomer",
+    "Malksmilk",
+    "Smith",
+    "Sunderman",
+    "Swinney",
+    "Tolmen",
+    "Weavilman",
+    "Wolder"
+   ]
   }
  }
 }

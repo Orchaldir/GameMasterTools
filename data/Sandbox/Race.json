@@ -28,6 +28,14 @@
     "#type": "Immortal",
     "appearance": 1
    }
+  },
+  "2": {
+   "id": 2,
+   "name": "Human",
+   "lifeStages": {
+    "#type": "Aging",
+    "appearance": 2
+   }
   }
  }
 }

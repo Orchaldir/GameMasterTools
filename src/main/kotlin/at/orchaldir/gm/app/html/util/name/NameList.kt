@@ -20,6 +20,7 @@ fun HtmlBlockTag.showNameList(
     state: State,
     nameList: NameList,
 ) {
+    field("Count", nameList.names.size)
     fieldList("Names", nameList.names) { name ->
         +name.text
     }
@@ -35,6 +36,7 @@ fun HtmlBlockTag.editNameList(
 ) {
     selectName(nameList.name)
     h2 { +"Names" }
+    field("Count", nameList.names.size)
     editTextArea(
         NAMES,
         30,

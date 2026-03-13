@@ -117,6 +117,44 @@
      "Simple": "Common"
     }
    }
+  },
+  "2": {
+   "id": 2,
+   "name": "Human",
+   "eye": {
+    "eyeColors": {
+     "Blue": "Common",
+     "Green": "Common",
+     "LightGray": "Uncommon",
+     "SaddleBrown": "Common"
+    }
+   },
+   "hair": {
+    "colors": {
+     "normal": {
+      "LightestBlond": "VeryRare",
+      "VeryLightBlond": "Rare",
+      "LightBlond": "Uncommon",
+      "Blond": "Common",
+      "DarkBlond": "Common",
+      "LightBrown": "Common",
+      "MediumBrown": "Common",
+      "DarkBrown": "Uncommon",
+      "Black": "Uncommon",
+      "Orange": "Uncommon",
+      "Red": "Rare",
+      "Auburn": "Uncommon"
+     }
+    }
+   },
+   "skin": {
+    "normalColors": {
+     "Fair": "Uncommon",
+     "Light": "Common",
+     "Medium": "Uncommon",
+     "Tan": "Rare"
+    }
+   }
   }
  }
 }
