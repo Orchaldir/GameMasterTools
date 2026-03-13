@@ -31,18 +31,17 @@ class PaddedSize(
     }
 
     fun addToSide(padding: Distance) {
-        left += padding
-        right += padding
+        left = left.max(padding)
+        right = right.max(padding)
     }
 
     fun addToTop(padding: Distance) {
-        top += padding
+        top = top.max(padding)
     }
 
     fun addToTopAndSide(padding: Distance) {
-        top += padding
-        left += padding
-        right += padding
+        addToTop(padding)
+        addToSide(padding)
     }
 
     fun getInnerAABB() = AABB(Point2d(universial + left, universial + top), baseSize)

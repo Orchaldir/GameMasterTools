@@ -34,7 +34,7 @@ fun visualizeGroup(
         val aabb = AABB(start - Point2d.yAxis(size.height), size)
         val renderState = CharacterRenderState(state, appearance, aabb, config, builder, renderFront, equipped)
 
-        visualizeAppearance(renderState, paddedSizeMap.getValue(appearance))
+        visualizeAppearance(renderState)
 
         start += Point2d.xAxis(size.width)
     }

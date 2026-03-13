@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
 import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
 import at.orchaldir.gm.core.model.item.equipment.EquipmentElementMap
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap
+import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.util.render.Color.Black
 import at.orchaldir.gm.core.selector.character.getAppearanceForAge
 import at.orchaldir.gm.utils.math.AABB
@@ -15,6 +16,7 @@ import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.unit.Orientation
 import at.orchaldir.gm.utils.renderer.model.BorderOnly
+import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.utils.renderer.model.RenderStringOptions
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
@@ -54,7 +56,9 @@ fun visualizeAppearance(
     val builder = SvgBuilder(paddedSize.getFullSize())
     val renderState = CharacterRenderState(state, appearance, aabb, config, builder, renderFront, equipped)
 
-    visualizeAppearance(renderState, paddedSize)
+    renderState.renderer.getLayer().renderRectangle(AABB(paddedSize.getFullSize()), BorderOnly(LineOptions(Color.Red.toRender(), 0.01f)))
+
+    visualizeAppearance(renderState)
 
     return builder.finish()
 }
@@ -72,34 +76,29 @@ fun visualizeAppearance(
     val builder = SvgBuilder(renderSize)
     val state = CharacterRenderState(state, appearance, aabb, config, builder, renderFront, equipped)
 
-    visualizeAppearance(state, paddedSize)
+    visualizeAppearance(state)
 
     return builder.finish()
 }
 
 fun visualizeAppearance(
     state: CharacterRenderState<Appearance>,
-    paddedSize: PaddedSize,
 ) {
-    val offset = Point2d(paddedSize.left + paddedSize.universial, paddedSize.top + paddedSize.universial)
-    val paddedAabb = AABB.fromCenter(state.fullAABB.getCenter(), paddedSize.getFullSize())
     val appearance = state.get()
-    val fullAabb = AABB(paddedAabb.start + offset, appearance.getSize2d())
-    val fullState = state.copy(fullAABB = fullAabb)
 
     state.renderer.getLayer().renderRectangle(state.fullAABB, BorderOnly(state.config.line))
 
     when (appearance) {
         is HeadOnly -> {
-            val headState = fullState.convert(appearance.head, state.fullAABB)
+            val headState = state.convert(appearance.head, state.fullAABB)
             visualizeHead(headState, appearance.head, appearance.skin)
         }
 
         is HumanoidBody -> {
-            val torsoAabb = state.config.body.getTorsoAabb(fullAabb, appearance.body)
-            val bodyState = fullState.convert(appearance.body, torsoAabb)
-            val headAabb = state.config.body.getHeadAabb(fullAabb)
-            val headState = fullState.convert(appearance.head, headAabb)
+            val torsoAabb = state.config.body.getTorsoAabb(state.fullAABB, appearance.body)
+            val bodyState = state.convert(appearance.body, torsoAabb)
+            val headAabb = state.config.body.getHeadAabb(state.fullAABB)
+            val headState = state.convert(appearance.head, headAabb)
 
             visualizeBody(bodyState, appearance.skin)
             visualizeHead(headState, appearance.head, appearance.skin)
