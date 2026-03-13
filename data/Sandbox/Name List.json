@@ -328,6 +328,58 @@
     "Wendlow",
     "Windor"
    ]
+  },
+  "14": {
+   "id": 14,
+   "name": "Shorthorn - Unisex",
+   "names": [
+    "Addle",
+    "Andred",
+    "Blocke",
+    "Clover",
+    "Crewwin",
+    "Curlip",
+    "Eleye",
+    "Ellip",
+    "Frannidore",
+    "Ghrend",
+    "Grennigore",
+    "Gwendl",
+    "Hrannick",
+    "Hwoldrup",
+    "Lindor",
+    "Merrild",
+    "Smenthard",
+    "Snerg",
+    "Wendlow",
+    "Windor"
+   ]
+  },
+  "15": {
+   "id": 15,
+   "name": "Human - Unisex",
+   "names": [
+    "Andred",
+    "Arda",
+    "Aubrey",
+    "Clement",
+    "Clewyd",
+    "Dayle",
+    "Gemrand",
+    "Hank",
+    "Lyren",
+    "Maude",
+    "Megynne",
+    "Moss",
+    "Robyn",
+    "Rowan",
+    "Sage",
+    "Tamrin",
+    "Ursequine",
+    "Waldra",
+    "Waydred",
+    "Wendlow"
+   ]
   }
  }
 }
