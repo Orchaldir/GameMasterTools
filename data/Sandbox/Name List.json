@@ -55,7 +55,7 @@
   },
   "2": {
    "id": 2,
-   "name": "Breggle - Surname",
+   "name": "Breggle - Last Name",
    "names": [
     "Blathergripe",
     "Bluegouge",
@@ -81,7 +81,7 @@
   },
   "3": {
    "id": 3,
-   "name": "Grimalkin - First Name - Male",
+   "name": "Grimalkin - Male",
    "names": [
     "Jack",
     "Lord",
@@ -91,7 +91,7 @@
   },
   "4": {
    "id": 4,
-   "name": "Grimalkin - First Name - Female",
+   "name": "Grimalkin - Female",
    "names": [
     "Jill",
     "Lady",
@@ -101,7 +101,7 @@
   },
   "5": {
    "id": 5,
-   "name": "Grimalkin - First Name - Unisex",
+   "name": "Grimalkin - Unisex",
    "names": [
     "Boots",
     "Fripple",
@@ -201,7 +201,7 @@
   },
   "9": {
    "id": 9,
-   "name": "Human - Surname",
+   "name": "Human - Last Name",
    "names": [
     "Addercapper",
     "Burl",
