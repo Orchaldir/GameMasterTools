@@ -42,7 +42,14 @@ fun visualizeCharacter(
     appearance: Appearance,
     equipped: EquipmentElementMap = EquipmentMap(),
     renderFront: Boolean = true,
-) = visualizeAppearance(state, config, calculatePaddedSize(config, appearance), appearance, equipped, renderFront)
+) = visualizeAppearance(
+    state,
+    config,
+    calculatePaddedSize(config, appearance, equipped),
+    appearance,
+    equipped,
+    renderFront,
+)
 
 fun visualizeAppearance(
     state: State,
@@ -72,7 +79,9 @@ fun visualizeAppearance(
 ): Svg {
     val aabb = AABB(renderSize)
     val builder = SvgBuilder(renderSize)
-    val state = CharacterRenderState(state, appearance, aabb, config, builder, renderFront, equipped)
+    val state = CharacterRenderState(state, appearance, paddedSize.getInnerAABB(), config, builder, renderFront, equipped)
+
+    state.renderer.getLayer().renderRectangle(aabb, BorderOnly(state.config.line))
 
     visualizeAppearance(state)
 
