@@ -2,7 +2,20 @@
  "version": 1,
  "elements": {
   "0": {
-   "id": 0
+   "id": 0,
+   "name": "Breggle",
+   "weight": 70000000,
+   "lifeStages": {
+    "#type": "Default",
+    "oldAgeHairColor": {
+     "#type": "Exotic",
+     "color": "Gray"
+    },
+    "venerableAgeHairColor": {
+     "#type": "Exotic",
+     "color": "LightGray"
+    }
+   }
   }
  }
 }
