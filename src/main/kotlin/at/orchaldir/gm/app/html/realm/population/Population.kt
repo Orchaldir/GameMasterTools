@@ -6,7 +6,7 @@ import at.orchaldir.gm.app.POPULATION
 import at.orchaldir.gm.app.RACE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.culture.parseCultureId
-import at.orchaldir.gm.app.html.economy.editIncome
+import at.orchaldir.gm.app.html.economy.editIncomeDetails
 import at.orchaldir.gm.app.html.economy.parseIncome
 import at.orchaldir.gm.app.html.economy.showIncome
 import at.orchaldir.gm.app.html.race.parseRaceId
@@ -153,7 +153,7 @@ fun HtmlBlockTag.editPopulation(
 
         when (population) {
             is PopulationWithNumbers -> {
-                editIncome(state, population.income, combine(param, INCOME))
+                editIncomeDetails(state, population.income, combine(param, INCOME))
 
                 editNumberDistribution(
                     call,
@@ -178,7 +178,7 @@ fun HtmlBlockTag.editPopulation(
 
             is PopulationWithPercentages -> {
                 editTotalPopulation(state, population.total, param, allowedTotalPopulationTypes)
-                editIncome(state, population.income, combine(param, INCOME))
+                editIncomeDetails(state, population.income, combine(param, INCOME))
 
                 editPercentageDistribution(
                     call,
@@ -203,7 +203,7 @@ fun HtmlBlockTag.editPopulation(
 
             is PopulationWithSets -> {
                 editTotalPopulation(state, population.total, param, allowedTotalPopulationTypes)
-                editIncome(state, population.income, combine(param, INCOME))
+                editIncomeDetails(state, population.income, combine(param, INCOME))
                 selectRaceSet(state, param, population.races)
                 selectCultureSet(state, param, population.cultures)
             }
@@ -292,7 +292,7 @@ fun parsePopulation(
 
     PopulationType.UnitsWithPercentages -> PopulationUnitsWithPercentages(
         parseTotalPopulation(parameters, param),
-        parsePopulationUnitsWithPercentages(parameters, param),
+        parsePopulationUnitsWithPercentages(state, parameters, param),
     )
 
     Undefined -> UndefinedPopulation

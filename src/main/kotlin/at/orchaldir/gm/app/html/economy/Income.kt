@@ -44,12 +44,21 @@ fun HtmlBlockTag.showIncome(
 
 // edit
 
-fun HtmlBlockTag.editIncome(
+fun HtmlBlockTag.editIncomeDetails(
     state: State,
     income: Income,
     param: String = INCOME,
 ) {
     showDetails("Income", true) {
+        editIncome(state, income, param)
+    }
+}
+
+fun HtmlBlockTag.editIncome(
+    state: State,
+    income: Income,
+    param: String = INCOME,
+) {
         selectValue(
             "Type",
             combine(param, TYPE),
@@ -74,7 +83,6 @@ fun HtmlBlockTag.editIncome(
                 100000,
             )
         }
-    }
 }
 
 // parse

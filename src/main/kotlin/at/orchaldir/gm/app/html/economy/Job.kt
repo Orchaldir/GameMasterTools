@@ -78,7 +78,7 @@ fun HtmlBlockTag.editJob(
 ) {
     selectName(job.name)
     selectValue("Employer Type", EMPLOYMENT, EmployerType.entries, job.employerType)
-    editIncome(state, job.income)
+    editIncomeDetails(state, job.income)
     selectOptionalValue("Preferred Gender", GENDER, job.preferredGender, Gender.entries)
     selectElements(
         state,

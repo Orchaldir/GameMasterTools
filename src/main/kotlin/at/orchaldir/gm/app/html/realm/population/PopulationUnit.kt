@@ -1,10 +1,14 @@
 package at.orchaldir.gm.app.html.realm.population
 
 import at.orchaldir.gm.app.CULTURE
+import at.orchaldir.gm.app.INCOME
 import at.orchaldir.gm.app.NUMBER
 import at.orchaldir.gm.app.RACE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.culture.parseCultureId
+import at.orchaldir.gm.app.html.economy.displayIncome
+import at.orchaldir.gm.app.html.economy.editIncome
+import at.orchaldir.gm.app.html.economy.parseIncome
 import at.orchaldir.gm.app.html.race.parseRaceId
 import at.orchaldir.gm.app.html.util.math.parseFactor
 import at.orchaldir.gm.app.html.util.math.selectFactor
@@ -36,6 +40,7 @@ fun HtmlBlockTag.showPopulationUnitsWithPercentages(
         tr {
             th { +"Race" }
             th { +"Culture" }
+            th { +"Income" }
             th { +"Percentage" }
             th { +"Number" }
         }
@@ -45,6 +50,9 @@ fun HtmlBlockTag.showPopulationUnitsWithPercentages(
                 tr {
                     tdLink(call, state, unit.race)
                     tdLink(call, state, unit.culture)
+                    td {
+                        displayIncome(call, state, unit.income)
+                    }
                     showPercentageAndNumber(total, unit.value)
                 }
 
@@ -54,7 +62,7 @@ fun HtmlBlockTag.showPopulationUnitsWithPercentages(
         if (remaining.isGreaterZero()) {
             tr {
                 td {
-                    colSpan = "2"
+                    colSpan = "3"
                     +"Other"
                 }
                 showPercentageAndNumber(total, remaining)
@@ -88,6 +96,7 @@ fun HtmlBlockTag.editPopulationUnitsWithPercentages(
         tr {
             th { +"Race" }
             th { +"Culture" }
+            th { +"Income" }
             th { +"Percentage" }
             if (total != null) {
                 th { +"Number" }
@@ -117,6 +126,9 @@ fun HtmlBlockTag.editPopulationUnitsWithPercentages(
                         cultures,
                         unit.culture,
                     )
+                }
+                td {
+                    editIncome(state, unit.income, combine(unitParam, INCOME))
                 }
                 td {
                     selectFactor(
@@ -153,6 +165,7 @@ fun HtmlBlockTag.editPopulationUnitsWithPercentages(
 // parse
 
 fun parsePopulationUnitsWithPercentages(
+    state: State,
     parameters: Parameters,
     param: String,
 ) = parseList(
@@ -164,5 +177,6 @@ fun parsePopulationUnitsWithPercentages(
         parseFactor(parameters, combine(unitParam, NUMBER), ONE_PERCENT),
         parseRaceId(parameters, combine(unitParam, RACE)),
         parseCultureId(parameters, combine(unitParam, CULTURE)),
+        parseIncome(state, parameters, combine(unitParam, INCOME))
     )
 }
