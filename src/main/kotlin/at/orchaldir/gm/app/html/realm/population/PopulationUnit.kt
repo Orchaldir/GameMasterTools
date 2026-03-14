@@ -53,7 +53,7 @@ fun HtmlBlockTag.showPopulationUnitsWithPercentages(
         if (remaining.isGreaterZero()) {
             tr {
                 td {
-                    rowSpan = "2"
+                    colSpan = "2"
                     +"Other"
                 }
                 showPercentageAndNumber(total, remaining)
@@ -135,7 +135,7 @@ fun HtmlBlockTag.editPopulationUnitsWithPercentages(
         if (remaining.isGreaterZero()) {
             tr {
                 td {
-                    rowSpan = "2"
+                    colSpan = "2"
                     +"Other"
                 }
                 if (total != null) {

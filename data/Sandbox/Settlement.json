@@ -201,19 +201,23 @@
     ]
    },
    "population": {
-    "#type": "Percentages",
+    "#type": "UnitsWithPercentages",
     "total": {
      "#type": "Number",
      "number": 1100
     },
-    "races": {
-     "0": 1000,
-     "2": 8000
-    },
-    "cultures": {
-     "0": 8000,
-     "1": 1000
-    }
+    "units": [
+     {
+      "value": 1000,
+      "race": 0,
+      "culture": 1
+     },
+     {
+      "value": 8000,
+      "race": 2,
+      "culture": 0
+     }
+    ]
    }
   }
  }
