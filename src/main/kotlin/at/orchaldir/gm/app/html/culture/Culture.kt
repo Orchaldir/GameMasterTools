@@ -89,21 +89,29 @@ fun HtmlBlockTag.editCulture(
     state: State,
     culture: Culture,
 ) {
+    val languages = state.sortLanguages()
+
     selectName(culture.name)
     selectElement(state, CALENDAR_TYPE, state.sortCalendars(), culture.calendar)
     selectElement(
         state,
         "Mother Tongue",
         LANGUAGE,
-        state.sortLanguages(),
+        languages,
         culture.motherTongue,
     )
     selectRarityMap(
         "Other Languages",
         LANGUAGES,
         state.getLanguageStorage(),
+        languages
+            .map { it.id }
+            .filter { it != culture.motherTongue }
+            .toSet(),
         culture.languages,
-    )
+    ) {
+        it.name()
+    }
     editHolidays(state, culture.holidays)
     editDataSources(state, culture.sources)
     editNamingConvention(state, culture.namingConvention)
