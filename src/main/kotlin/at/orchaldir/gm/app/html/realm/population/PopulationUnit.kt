@@ -15,6 +15,7 @@ import at.orchaldir.gm.core.selector.util.sortCultures
 import at.orchaldir.gm.core.selector.util.sortRaces
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.ONE_PERCENT
 import at.orchaldir.gm.utils.math.ONE_TENTH_PERCENT
 import at.orchaldir.gm.utils.math.ZERO
 import io.ktor.http.*
@@ -160,7 +161,7 @@ fun parsePopulationUnitsWithPercentages(
     1,
 ) { _, unitParam ->
     PopulationUnit(
-        parseFactor(parameters, combine(unitParam, NUMBER)),
+        parseFactor(parameters, combine(unitParam, NUMBER), ONE_PERCENT),
         parseRaceId(parameters, combine(unitParam, RACE)),
         parseCultureId(parameters, combine(unitParam, CULTURE)),
     )
