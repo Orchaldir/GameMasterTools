@@ -67,9 +67,9 @@ class CultureTest {
 
         @Test
         fun `Cannot update culture with unknown language`() {
-            val action = UpdateAction(Culture(CULTURE_ID_0, languages = SomeOf(LANGUAGE_ID_0)))
+            val action = UpdateAction(Culture(CULTURE_ID_0, languages = SomeOf(LANGUAGE_ID_1)))
 
-            assertIllegalArgument("Requires unknown Language 0!") { REDUCER.invoke(STATE, action) }
+            assertIllegalArgument("Requires unknown Language 1!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
@@ -231,6 +231,7 @@ class CultureTest {
                     Storage(Calendar(CALENDAR_ID_0)),
                     Storage(listOf(character0, character1)),
                     Storage(Culture(CULTURE_ID_0, namingConvention = old)),
+                    Storage(Language(LANGUAGE_ID_0)),
                     Storage(nameList)
                 )
             )
