@@ -170,28 +170,42 @@ data class PopulationUnitsWithPercentages(
     val units: List<PopulationUnit<Factor>>,
 ) : Population() {
 
-    fun getFactor(race: RaceId) = units
+    fun getData(culture: CultureId) = getData(getFactorOrNull(culture))
+
+    fun getData(race: RaceId) = getData(getFactorOrNull(race))
+
+    private fun getData(factorOrNull: Factor?): Pair<Int, Factor>? {
+        val factor = factorOrNull ?: return null
+        val number = factor.apply(total.getTotalOrZero())
+
+        return Pair(number, factor)
+    }
+
+    fun getFactor(race: RaceId) = getFactorOrNull(race) ?: ZERO
+
+    fun getFactor(culture: CultureId) = getFactorOrNull(culture) ?: ZERO
+
+    fun getFactorOrNull(race: RaceId) = units
         .filter { it.race == race }
         .map { it.value }
-        .reduceOrNull { acc, factor -> acc + factor } ?: ZERO
+        .reduceOrNull { acc, factor -> acc + factor }
 
-    fun getFactor(culture: CultureId) = units
+    fun getFactorOrNull(culture: CultureId) = units
         .filter { it.culture == culture }
         .map { it.value }
-        .reduceOrNull { acc, factor -> acc + factor } ?: ZERO
+        .reduceOrNull { acc, factor -> acc + factor }
 
     fun getNumber(race: RaceId) = getFactor(race)
-        .apply(total.getTotal() ?: 0)
+        .apply(total.getTotalOrZero())
 
     fun getNumber(culture: CultureId) = getFactor(culture)
-        .apply(total.getTotal() ?: 0)
+        .apply(total.getTotalOrZero())
 
     fun getDefinedPercentages() = units
         .map { it.value }
         .reduceOrNull { sum, percentage -> sum + percentage } ?: ZERO
 
     fun getUndefinedPercentages() = ONE - getDefinedPercentages()
-
 }
 
 @Serializable

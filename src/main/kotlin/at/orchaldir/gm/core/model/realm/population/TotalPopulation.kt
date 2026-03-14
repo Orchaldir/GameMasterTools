@@ -31,6 +31,8 @@ sealed class TotalPopulation {
         is TotalPopulationAsSettlementSize -> null
     }
 
+    fun getTotalOrZero() = getTotal() ?: 0
+
     fun isSize(size: SettlementSizeId) = when (this) {
         is TotalPopulationAsSettlementSize -> id == size
         else -> false

@@ -33,6 +33,7 @@ fun HtmlBlockTag.showPopulationOfCulture(
         when (val population = it.population()) {
             is PopulationWithNumbers -> population.cultures.getData(culture.id)
             is PopulationWithPercentages -> population.cultures.getData(culture.id, population.total.getTotal())
+            is PopulationUnitsWithPercentages -> population.getData(culture.id)
             else -> null
         }
     },
@@ -52,6 +53,7 @@ fun HtmlBlockTag.showPopulationOfRace(
         when (val population = it.population()) {
             is PopulationWithNumbers -> population.races.getData(race.id)
             is PopulationWithPercentages -> population.races.getData(race.id, population.total.getTotal())
+            is PopulationUnitsWithPercentages -> population.getData(race.id)
             else -> null
         }
     },
