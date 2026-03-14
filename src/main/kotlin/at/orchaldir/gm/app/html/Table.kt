@@ -111,6 +111,21 @@ fun <T> TR.tdInline(
     }
 }
 
+fun TR.showPercentageAndNumber(
+    total: Int,
+    percentage: Factor,
+) {
+    tdPercentage(percentage)
+    showElementNumber(total, percentage)
+}
+
+fun TR.showElementNumber(
+    total: Int,
+    percentage: Factor,
+) {
+    tdSkipZero(percentage.apply(total))
+}
+
 fun TR.tdPercentage(factor: Factor) = tdString(factor.toString())
 
 fun TR.tdPercentage(value: Int) {

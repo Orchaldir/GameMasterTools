@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.model.realm.SettlementSizeId
 import at.orchaldir.gm.core.model.util.NumberDistribution
 import at.orchaldir.gm.core.model.util.PercentageDistribution
 import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.ONE
 import at.orchaldir.gm.utils.math.ZERO
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -184,6 +185,12 @@ data class PopulationUnitsWithPercentages(
 
     fun getNumber(culture: CultureId) = getFactor(culture)
         .apply(total.getTotal() ?: 0)
+
+    fun getDefinedPercentages() = units
+        .map { it.value }
+        .reduceOrNull { sum, percentage -> sum + percentage } ?: ZERO
+
+    fun getUndefinedPercentages() = ONE - getDefinedPercentages()
 
 }
 

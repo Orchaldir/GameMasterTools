@@ -130,21 +130,6 @@ private fun TABLE.showRemainingPercentage(
     }
 }
 
-private fun TR.showPercentageAndNumber(
-    total: Int,
-    percentage: Factor,
-) {
-    tdPercentage(percentage)
-    showElementNumber(total, percentage)
-}
-
-private fun TR.showElementNumber(
-    total: Int,
-    percentage: Factor,
-) {
-    tdSkipZero(percentage.apply(total))
-}
-
 // edit
 
 fun <ID : Id<ID>, ELEMENT : Element<ID>> DETAILS.editPercentageDistribution(

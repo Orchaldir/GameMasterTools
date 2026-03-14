@@ -127,6 +127,7 @@ fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showPopulationDetails(
 
             is PopulationUnitsWithPercentages -> {
                 fieldTotalPopulation(call, state, population.total)
+                showPopulationUnitsWithPercentages(call, state, population.units, totalOrZero)
             }
 
             UndefinedPopulation -> doNothing()
@@ -208,6 +209,7 @@ fun HtmlBlockTag.editPopulation(
             }
             is PopulationUnitsWithPercentages -> {
                 editTotalPopulation(state, population.total, param, allowedTotalPopulationTypes)
+                editPopulationUnitsWithPercentages(state, param, population, total)
             }
 
 
@@ -290,7 +292,7 @@ fun parsePopulation(
 
     PopulationType.UnitsWithPercentages -> PopulationUnitsWithPercentages(
         parseTotalPopulation(parameters, param),
-        emptyList(),
+        parsePopulationUnitsWithPercentages(parameters, param),
     )
 
     Undefined -> UndefinedPopulation
