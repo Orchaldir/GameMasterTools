@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.model.realm.SettlementSize
 import at.orchaldir.gm.core.model.realm.SettlementSizeId
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.selector.realm.getSettlements
+import at.orchaldir.gm.core.selector.realm.getSettlementsBelow
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -23,13 +24,13 @@ fun HtmlBlockTag.showSettlementSize(
 ) {
     field("Max Population", size.maxPopulation)
 
-    showUsages(call, state, size.id)
+    showUsages(call, state, size)
 }
 
 private fun HtmlBlockTag.showUsages(
     call: ApplicationCall,
     state: State,
-    size: SettlementSizeId,
+    size: SettlementSize,
 ) {
     val settlements = state.getSettlements(size)
 
