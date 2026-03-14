@@ -5,8 +5,8 @@ import at.orchaldir.gm.app.REVIVAL
 import at.orchaldir.gm.app.START
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.optionalField
-import at.orchaldir.gm.app.html.util.parseOptionalYear
-import at.orchaldir.gm.app.html.util.selectOptionalYear
+import at.orchaldir.gm.app.html.util.parseOptionalDate
+import at.orchaldir.gm.app.html.util.selectOptionalDate
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
@@ -43,8 +43,8 @@ fun HtmlBlockTag.editArchitecturalStyle(
 ) {
     val minDate = state.getEarliestBuilding(state.getBuildings(style.id))?.constructionDate
     selectName(style.name)
-    selectOptionalYear(state, "Start", style.start, START, null, minDate)
-    selectOptionalYear(state, "End", style.end, END, style.start?.nextYear())
+    selectOptionalDate(state, "Start", style.start, START, minDate)
+    selectOptionalDate(state, "End", style.end, END, style.start)
     selectOptionalElement(
         state,
         "Revival Of",
@@ -64,7 +64,7 @@ fun parseOptionalArchitecturalStyleId(parameters: Parameters, param: String) =
 fun parseArchitecturalStyle(state: State, parameters: Parameters, id: ArchitecturalStyleId) = ArchitecturalStyle(
     id,
     parseName(parameters),
-    parseOptionalYear(parameters, state, START),
-    parseOptionalYear(parameters, state, END),
+    parseOptionalDate(parameters, state, START),
+    parseOptionalDate(parameters, state, END),
     parseOptionalArchitecturalStyleId(parameters, REVIVAL),
 )

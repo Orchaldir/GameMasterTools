@@ -189,7 +189,16 @@
    "id": 9,
    "name": "Lankshorn",
    "owner": {
-    "current": 6
+    "current": 6,
+    "previousEntries": [
+     {
+      "entry": 8,
+      "until": {
+       "#type": "Year",
+       "year": 1066
+      }
+     }
+    ]
    },
    "population": {
     "#type": "Percentages",

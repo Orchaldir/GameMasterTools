@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.world.building
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.time.date.Year
 import at.orchaldir.gm.core.model.util.HasStartAndEndDate
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
@@ -29,8 +30,8 @@ value class ArchitecturalStyleId(val value: Int) : Id<ArchitecturalStyleId> {
 data class ArchitecturalStyle(
     val id: ArchitecturalStyleId,
     val name: Name = Name.init(id),
-    val start: Year? = null,
-    val end: Year? = null,
+    val start: Date? = null,
+    val end: Date? = null,
     val revival: ArchitecturalStyleId? = null,
 ) : ElementWithSimpleName<ArchitecturalStyleId>, HasStartAndEndDate {
 
