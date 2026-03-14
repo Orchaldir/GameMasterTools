@@ -66,6 +66,13 @@ class CultureTest {
         }
 
         @Test
+        fun `Cannot update culture with unknown mother tongue`() {
+            val action = UpdateAction(Culture(CULTURE_ID_0, motherTongue = LANGUAGE_ID_1))
+
+            assertIllegalArgument("Requires unknown Language 1!") { REDUCER.invoke(STATE, action) }
+        }
+
+        @Test
         fun `Cannot update culture with unknown language`() {
             val action = UpdateAction(Culture(CULTURE_ID_0, languages = SomeOf(LANGUAGE_ID_1)))
 
