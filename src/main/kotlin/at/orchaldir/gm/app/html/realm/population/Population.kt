@@ -41,6 +41,7 @@ fun HtmlBlockTag.displayPopulation(
         is PopulationWithNumbers -> +population.calculateTotal().toString()
         is PopulationWithPercentages -> displayTotalPopulation(call, state, population.total)
         is PopulationWithSets -> displayTotalPopulation(call, state, population.total)
+        is PopulationUnitsWithPercentages -> displayTotalPopulation(call, state, population.total)
         UndefinedPopulation -> doNothing()
     }
 }
@@ -53,6 +54,12 @@ fun HtmlBlockTag.showCulturesOfPopulation(
 ) = when (population) {
     is PopulationWithNumbers -> showInlineNumberDistribution(call, state, population.cultures, max)
     is PopulationWithPercentages -> showInlinePercentageDistribution(call, state, population.cultures, max)
+    is PopulationUnitsWithPercentages -> showInlinePercentageDistribution(
+        call,
+        state,
+        population.units.associate { Pair(it.culture, it.value) },
+        max,
+    )
     UndefinedPopulation -> doNothing()
     else -> showInlineIds(call, state, population.cultures(), max)
 }
@@ -65,6 +72,12 @@ fun HtmlBlockTag.showRacesOfPopulation(
 ) = when (population) {
     is PopulationWithNumbers -> showInlineNumberDistribution(call, state, population.races, max)
     is PopulationWithPercentages -> showInlinePercentageDistribution(call, state, population.races, max)
+    is PopulationUnitsWithPercentages -> showInlinePercentageDistribution(
+        call,
+        state,
+        population.units.associate { Pair(it.race, it.value) },
+        max,
+    )
     UndefinedPopulation -> doNothing()
     else -> showInlineIds(call, state, population.races(), max)
 }
@@ -110,6 +123,10 @@ fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showPopulationDetails(
                 showIncome(call, state, population.income)
                 fieldIds(call, state, population.races)
                 fieldIds(call, state, population.cultures)
+            }
+
+            is PopulationUnitsWithPercentages -> {
+                fieldTotalPopulation(call, state, population.total)
             }
 
             UndefinedPopulation -> doNothing()
@@ -189,6 +206,10 @@ fun HtmlBlockTag.editPopulation(
                 selectRaceSet(state, param, population.races)
                 selectCultureSet(state, param, population.cultures)
             }
+            is PopulationUnitsWithPercentages -> {
+                editTotalPopulation(state, population.total, param, allowedTotalPopulationTypes)
+            }
+
 
             UndefinedPopulation -> doNothing()
         }
@@ -265,6 +286,11 @@ fun parsePopulation(
         parseRaceSet(parameters, param),
         parseCultureSet(parameters, param),
         parseIncome(state, parameters, combine(param, INCOME)),
+    )
+
+    PopulationType.UnitsWithPercentages -> PopulationUnitsWithPercentages(
+        parseTotalPopulation(parameters, param),
+        emptyList(),
     )
 
     Undefined -> UndefinedPopulation

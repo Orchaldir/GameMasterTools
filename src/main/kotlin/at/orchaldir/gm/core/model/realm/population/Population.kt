@@ -8,6 +8,8 @@ import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.realm.SettlementSizeId
 import at.orchaldir.gm.core.model.util.NumberDistribution
 import at.orchaldir.gm.core.model.util.PercentageDistribution
+import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.ZERO
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlin.math.max
@@ -16,6 +18,7 @@ enum class PopulationType {
     Numbers,
     Percentages,
     Sets,
+    UnitsWithPercentages,
     Undefined,
 }
 
@@ -26,6 +29,7 @@ sealed class Population {
         is PopulationWithNumbers -> PopulationType.Numbers
         is PopulationWithPercentages -> PopulationType.Percentages
         is PopulationWithSets -> PopulationType.Sets
+        is PopulationUnitsWithPercentages -> PopulationType.UnitsWithPercentages
         UndefinedPopulation -> PopulationType.Undefined
     }
 
@@ -33,18 +37,21 @@ sealed class Population {
         is PopulationWithNumbers -> income
         is PopulationWithPercentages -> income
         is PopulationWithSets -> income
+        is PopulationUnitsWithPercentages -> null
         UndefinedPopulation -> null
     }
 
     fun getPopulation(culture: CultureId) = when (this) {
         is PopulationWithNumbers -> cultures.getNumber(culture)
         is PopulationWithPercentages -> getNumber(culture)
+        is PopulationUnitsWithPercentages -> getNumber(culture)
         else -> null
     }
 
     fun getPopulation(race: RaceId) = when (this) {
         is PopulationWithNumbers -> races.getNumber(race)
         is PopulationWithPercentages -> getNumber(race)
+        is PopulationUnitsWithPercentages -> getNumber(race)
         else -> null
     }
 
@@ -69,6 +76,7 @@ sealed class Population {
         is PopulationWithSets -> total.getTotal()
         is PopulationWithNumbers -> calculateTotal()
         is PopulationWithPercentages -> total.getTotal()
+        is PopulationUnitsWithPercentages -> total.getTotal()
         is UndefinedPopulation -> null
     }
 
@@ -76,34 +84,38 @@ sealed class Population {
         is PopulationWithNumbers -> cultures.map.containsKey(culture)
         is PopulationWithPercentages -> cultures.map.containsKey(culture)
         is PopulationWithSets -> cultures.contains(culture)
-        else -> false
+        is PopulationUnitsWithPercentages -> units.any { it.culture == culture }
+        is UndefinedPopulation -> false
     }
 
     fun contains(race: RaceId) = when (this) {
         is PopulationWithNumbers -> races.map.containsKey(race)
         is PopulationWithPercentages -> races.map.containsKey(race)
         is PopulationWithSets -> races.contains(race)
-        else -> false
+        is PopulationUnitsWithPercentages -> units.any { it.race == race }
+        is UndefinedPopulation -> false
     }
 
     fun cultures() = when (this) {
         is PopulationWithNumbers -> cultures.map.keys
         is PopulationWithPercentages -> cultures.map.keys
         is PopulationWithSets -> cultures
-        else -> emptySet()
+        is PopulationUnitsWithPercentages -> units.map { it.culture }.toSet()
+        is UndefinedPopulation -> emptySet()
     }
 
     fun races() = when (this) {
         is PopulationWithNumbers -> races.map.keys
         is PopulationWithPercentages -> races.map.keys
         is PopulationWithSets -> races
-        else -> emptySet()
+        is PopulationUnitsWithPercentages -> units.map { it.race }.toSet()
+        is UndefinedPopulation -> emptySet()
     }
 
     fun isSize(size: SettlementSizeId) = when (this) {
+        is PopulationWithNumbers, is PopulationUnitsWithPercentages, is UndefinedPopulation -> false
         is PopulationWithPercentages -> total.isSize(size)
         is PopulationWithSets -> total.isSize(size)
-        else -> false
     }
 
 }
@@ -149,6 +161,31 @@ data class PopulationWithSets(
     val cultures: Set<CultureId> = emptySet(),
     val income: Income = UndefinedIncome,
 ) : Population(), IPopulationWithSets
+
+@Serializable
+@SerialName("UnitsWithPercentages")
+data class PopulationUnitsWithPercentages(
+    val total: TotalPopulation,
+    val units: List<PopulationUnit<Factor>>,
+) : Population() {
+
+    fun getFactor(race: RaceId) = units
+        .filter { it.race == race }
+        .map { it.value }
+        .reduceOrNull { acc, factor -> acc + factor } ?: ZERO
+
+    fun getFactor(culture: CultureId) = units
+        .filter { it.culture == culture }
+        .map { it.value }
+        .reduceOrNull { acc, factor -> acc + factor } ?: ZERO
+
+    fun getNumber(race: RaceId) = getFactor(race)
+        .apply(total.getTotal() ?: 0)
+
+    fun getNumber(culture: CultureId) = getFactor(culture)
+        .apply(total.getTotal() ?: 0)
+
+}
 
 @Serializable
 @SerialName("Undefined")

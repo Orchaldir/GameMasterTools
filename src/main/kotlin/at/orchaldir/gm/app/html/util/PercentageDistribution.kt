@@ -23,8 +23,20 @@ fun <ID : Id<ID>> HtmlBlockTag.showInlinePercentageDistribution(
     state: State,
     distribution: PercentageDistribution<ID>,
     max: Int = 2,
+) = showInlinePercentageDistribution(
+    call,
+    state,
+    distribution.map,
+    max,
+)
+
+fun <ID : Id<ID>> HtmlBlockTag.showInlinePercentageDistribution(
+    call: ApplicationCall,
+    state: State,
+    distribution: Map<ID, Factor>,
+    max: Int = 2,
 ) {
-    val sorted = distribution.map.entries
+    val sorted = distribution.entries
         .sortedByDescending { it.value.toPermyriad() }
 
     showInlineList(sorted, max) { (id, factor) ->
