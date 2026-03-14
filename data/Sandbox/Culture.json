@@ -115,6 +115,29 @@
      "None": "Common"
     }
    }
+  },
+  "5": {
+   "id": 5,
+   "name": "Drune",
+   "languages": {
+    "0": "Everyone",
+    "5": "Common",
+    "12": "Uncommon",
+    "13": "Everyone"
+   },
+   "namingConvention": {
+    "#type": "Family",
+    "givenNames": {
+     "#type": "MaleAndFemale",
+     "male": 20,
+     "female": 21,
+     "unisex": 22
+    },
+    "familyNames": 23,
+    "middleNameOptions": {
+     "None": "Common"
+    }
+   }
   }
  }
 }

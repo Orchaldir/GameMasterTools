@@ -484,6 +484,110 @@
     "Waldermost",
     "Woldeleigh"
    ]
+  },
+  "20": {
+   "id": 20,
+   "name": "Drune - Male",
+   "names": [
+    "Abram",
+    "Aestgrym",
+    "Brackborne",
+    "Brimgord",
+    "Cantcor",
+    "Celleddach",
+    "Dhrimmlon",
+    "Forroth",
+    "Grimlocke",
+    "Hecator",
+    "Hestith",
+    "Hestobraithe",
+    "Illforridh",
+    "Majorus",
+    "Malrubius",
+    "Mirroddor",
+    "Molloch",
+    "Mordoch",
+    "Oglimoth",
+    "Waykehald"
+   ]
+  },
+  "21": {
+   "id": 21,
+   "name": "Drune - Female",
+   "names": [
+    "Aembgyth",
+    "Andramath",
+    "Braithlynne",
+    "Caendrgald",
+    "Deregbra",
+    "Eolenn",
+    "Eostra",
+    "Estembra",
+    "Frigdra",
+    "Glana",
+    "Gremlith",
+    "Gwentmarg",
+    "Gwordlith",
+    "Haelleth",
+    "Idralynne",
+    "Lagwynne",
+    "Lestwith",
+    "Polldra",
+    "Pollith",
+    "Sigdra"
+   ]
+  },
+  "22": {
+   "id": 22,
+   "name": "Drune - Unisex",
+   "names": [
+    "Agred",
+    "Ambe",
+    "Athe",
+    "Eld",
+    "Frig",
+    "Gremd",
+    "Haldrime",
+    "Hancith",
+    "Hestor",
+    "Jhaellen",
+    "Jhorhen",
+    "Limnis",
+    "Lolldhrimm",
+    "Mandra",
+    "Mirrod",
+    "Morda",
+    "Oblith",
+    "Obwynd",
+    "Oed",
+    "Wakehyld"
+   ]
+  },
+  "23": {
+   "id": 23,
+   "name": "Drune - Last Name",
+   "names": [
+    "Astraleth",
+    "Bonewort",
+    "Broodmoot",
+    "Broomewith",
+    "Canker",
+    "Casket",
+    "Chancter",
+    "Dolmward",
+    "Doome",
+    "Duskwith",
+    "Hallow",
+    "Loome",
+    "Moonewer",
+    "Owlhame",
+    "Unction",
+    "Unlight",
+    "Vaunte",
+    "Wicker",
+    "Wraithmord",
+    "Wyrd"
+   ]
   }
  }
 }

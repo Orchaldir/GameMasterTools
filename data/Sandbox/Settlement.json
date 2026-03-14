@@ -20,6 +20,26 @@
      0
     ]
    }
+  },
+  "1": {
+   "id": 1,
+   "name": "Odd",
+   "owner": {
+    "current": 1
+   },
+   "population": {
+    "#type": "Set",
+    "total": {
+     "#type": "Number",
+     "number": 90
+    },
+    "races": [
+     2
+    ],
+    "cultures": [
+     0
+    ]
+   }
   }
  }
 }
