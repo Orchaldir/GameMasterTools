@@ -60,6 +60,9 @@ data class Culture(
         state.getHolidayStorage().require(holidays)
         state.getLanguageStorage().require(motherTongue)
         state.getLanguageStorage().require(languages.getValidValues())
+        require(!languages.contains(motherTongue)) {
+            "Mother tongue must not be in languages!"
+        }
         state.getNameListStorage().require(namingConvention.getNameLists())
         state.getDataSourceStorage().require(sources)
     }

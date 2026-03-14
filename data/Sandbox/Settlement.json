@@ -40,6 +40,172 @@
      0
     ]
    }
+  },
+  "2": {
+   "id": 2,
+   "name": "Meagre’s Reach",
+   "population": {
+    "#type": "Set",
+    "total": {
+     "#type": "Number",
+     "number": 120
+    },
+    "races": [
+     2
+    ],
+    "cultures": [
+     0
+    ]
+   }
+  },
+  "3": {
+   "id": 3,
+   "name": "Fort Vulgar",
+   "owner": {
+    "current": 0
+   },
+   "population": {
+    "#type": "Set",
+    "total": {
+     "#type": "Number",
+     "number": 90
+    },
+    "races": [
+     2
+    ],
+    "cultures": [
+     0
+    ]
+   }
+  },
+  "4": {
+   "id": 4,
+   "name": "Woodcutters’ Encampment",
+   "title": "The Camp",
+   "owner": {
+    "current": 4
+   },
+   "population": {
+    "#type": "Set",
+    "total": {
+     "#type": "Number",
+     "number": 180
+    },
+    "races": [
+     2
+    ],
+    "cultures": [
+     0
+    ]
+   }
+  },
+  "5": {
+   "id": 5,
+   "name": "Blackeswell",
+   "owner": {
+    "current": 1
+   },
+   "population": {
+    "#type": "Set",
+    "total": {
+     "#type": "Number",
+     "number": 90
+    },
+    "races": [
+     2
+    ],
+    "cultures": [
+     0
+    ]
+   }
+  },
+  "6": {
+   "id": 6,
+   "name": "Castle Brackenwold",
+   "owner": {
+    "current": 0
+   },
+   "population": {
+    "#type": "Percentages",
+    "total": {
+     "#type": "Number",
+     "number": 8700
+    },
+    "races": {
+     "0": 1500,
+     "2": 8000
+    },
+    "cultures": {
+     "0": 8000,
+     "1": 1500
+    }
+   }
+  },
+  "7": {
+   "id": 7,
+   "name": "Dreg",
+   "owner": {
+    "current": 6
+   },
+   "population": {
+    "#type": "Percentages",
+    "total": {
+     "#type": "Number",
+     "number": 300
+    },
+    "races": {
+     "0": 2000,
+     "2": 7000
+    },
+    "cultures": {
+     "0": 7000,
+     "1": 2000
+    }
+   }
+  },
+  "8": {
+   "id": 8,
+   "name": "High-Hankle",
+   "owner": {
+    "current": 3
+   },
+   "population": {
+    "#type": "Percentages",
+    "total": {
+     "#type": "Number",
+     "number": 5300
+    },
+    "races": {
+     "0": 5000,
+     "2": 4000
+    },
+    "cultures": {
+     "0": 4000,
+     "1": 5000
+    }
+   }
+  },
+  "9": {
+   "id": 9,
+   "name": "Lankshorn",
+   "owner": {
+    "current": 6
+   },
+   "population": {
+    "#type": "Percentages",
+    "total": {
+     "#type": "Number",
+     "number": 1100
+    },
+    "races": {
+     "0": 1000,
+     "2": 8000
+    },
+    "cultures": {
+     "0": 8000,
+     "1": 1000
+    }
+   }
   }
  }
 }
