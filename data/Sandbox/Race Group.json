@@ -1,5 +1,24 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "Mortal",
+   "races": [
+    0,
+    2
+   ]
+  },
+  "1": {
+   "id": 1,
+   "name": "Fairy",
+   "races": [
+    1
+   ]
+  },
+  "2": {
+   "id": 2,
+   "name": "Demi-fey"
+  }
  }
 }

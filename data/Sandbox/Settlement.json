@@ -1,5 +1,25 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "Prigwort",
+   "owner": {
+    "current": 2
+   },
+   "population": {
+    "#type": "Set",
+    "total": {
+     "#type": "Number",
+     "number": 2800
+    },
+    "races": [
+     2
+    ],
+    "cultures": [
+     0
+    ]
+   }
+  }
  }
 }
