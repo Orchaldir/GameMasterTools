@@ -1,6 +1,7 @@
 package at.orchaldir.gm.app.html.culture
 
 import at.orchaldir.gm.app.FASHION
+import at.orchaldir.gm.app.LANGUAGE
 import at.orchaldir.gm.app.LANGUAGES
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.realm.population.showPopulationOfCulture
@@ -24,6 +25,8 @@ import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.time.calendar.CALENDAR_TYPE
 import at.orchaldir.gm.core.selector.character.getCharacterTemplates
 import at.orchaldir.gm.core.selector.character.getCharacters
+import at.orchaldir.gm.core.selector.util.sortCalendars
+import at.orchaldir.gm.core.selector.util.sortLanguages
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -37,7 +40,8 @@ fun HtmlBlockTag.showCulture(
     culture: Culture,
 ) {
     fieldLink("Calendar", call, state, culture.calendar)
-    showRarityMap("Languages", culture.languages, true) {
+    fieldLink("Mother Tongue", call, state, culture.motherTongue)
+    showRarityMap("Other Languages", culture.languages, true) {
         link(call, state, it)
     }
     showHolidays(call, state, culture.holidays)
@@ -86,9 +90,16 @@ fun HtmlBlockTag.editCulture(
     culture: Culture,
 ) {
     selectName(culture.name)
-    selectElement(state, CALENDAR_TYPE, state.getCalendarStorage().getAll(), culture.calendar)
+    selectElement(state, CALENDAR_TYPE, state.sortCalendars(), culture.calendar)
+    selectElement(
+        state,
+        "Mother Tongue",
+        LANGUAGE,
+        state.sortLanguages(),
+        culture.motherTongue,
+    )
     selectRarityMap(
-        "Languages",
+        "Other Languages",
         LANGUAGES,
         state.getLanguageStorage(),
         culture.languages,
@@ -130,6 +141,7 @@ fun parseCulture(
     id,
     parseName(parameters),
     parseCalendarId(parameters, CALENDAR_TYPE),
+    parseLanguageId(parameters, LANGUAGE),
     parseSomeOf(parameters, LANGUAGES, ::parseLanguageId),
     parseNamingConvention(parameters),
     parseClothingStyles(parameters),

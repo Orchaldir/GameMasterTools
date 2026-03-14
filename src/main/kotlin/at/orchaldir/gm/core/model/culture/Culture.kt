@@ -35,6 +35,7 @@ data class Culture(
     val id: CultureId,
     val name: Name = Name.init(id),
     val calendar: CalendarId = CalendarId(0),
+    val motherTongue: LanguageId = LanguageId(0),
     val languages: SomeOf<LanguageId> = SomeOf(emptyMap()),
     val namingConvention: NamingConvention = NoNamingConvention,
     val fashion: GenderMap<FashionId?> = GenderMap(null),
@@ -47,6 +48,8 @@ data class Culture(
     override fun sources() = sources
     override fun startDate(state: State) = null
 
+    fun contains(language: LanguageId) = motherTongue == language || languages.isAvailable(language)
+
     fun getFashion(character: Character) = fashion.get(character.gender)
 
     override fun clone(cloneId: CultureId) = copy(id = cloneId, name = Name.init("Clone ${cloneId.value}"))
@@ -55,6 +58,7 @@ data class Culture(
         state.getCalendarStorage().require(calendar)
         state.getFashionStorage().require(fashion.getValues().filterNotNull())
         state.getHolidayStorage().require(holidays)
+        state.getLanguageStorage().require(motherTongue)
         state.getLanguageStorage().require(languages.getValidValues())
         state.getNameListStorage().require(namingConvention.getNameLists())
         state.getDataSourceStorage().require(sources)

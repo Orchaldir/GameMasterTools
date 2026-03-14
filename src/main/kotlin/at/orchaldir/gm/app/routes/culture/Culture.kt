@@ -70,7 +70,8 @@ fun Application.configureCultureRouting() {
                 listOf(
                     createNameColumn(call, state),
                     Column("Calendar") { tdLink(call, state, it.calendar) },
-                    Column("Languages") {
+                    Column(listOf("Mother", "Tongue")) { tdLink(call, state, it.motherTongue) },
+                    Column(listOf("Other", "Languages")) {
                         val languages = it.languages.getRarityMap()
                             .entries
                             .sortedBy { it.value }
