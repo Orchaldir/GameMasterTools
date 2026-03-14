@@ -141,7 +141,7 @@ fun <C, R> renderCharacterTable(
     }
 
     renderTable(filename, maxSize, rows, columns, backToo) { aabb, renderer, renderFront, column, row ->
-        val (appearance, equipment, paddedSize) = dataMap.getValue(Pair(row, column))
+        val (appearance, equipment, _) = dataMap.getValue(Pair(row, column))
         val renderState = CharacterRenderState(state, appearance, aabb, config, renderer, renderFront, equipment)
 
         visualizeAppearance(renderState)

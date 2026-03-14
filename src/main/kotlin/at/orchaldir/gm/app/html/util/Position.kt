@@ -67,6 +67,7 @@ fun HtmlBlockTag.showPosition(
             +"Patient in "
             link(call, state, position.business)
         }
+
         is OnMoon -> link(call, state, position.moon)
         is OnWorld -> link(call, state, position.world)
 
@@ -75,6 +76,7 @@ fun HtmlBlockTag.showPosition(
             +" of "
             link(call, state, position.region)
         }
+
         UndefinedPosition -> if (showUndefined) {
             +"Undefined"
         }
@@ -367,6 +369,7 @@ fun parsePosition(parameters: Parameters, state: State, param: String = POSITION
         PositionType.World -> OnWorld(
             parseWorldId(parameters, combine(param, WORD)),
         )
+
         PositionType.Undefined -> UndefinedPosition
     }
 }

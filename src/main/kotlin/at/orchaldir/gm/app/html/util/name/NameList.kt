@@ -3,7 +3,6 @@ package at.orchaldir.gm.app.html.util.name
 import at.orchaldir.gm.app.NAMES
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.util.name.NameList
 import at.orchaldir.gm.core.model.util.name.NameListId
 import at.orchaldir.gm.core.model.util.name.parseNames

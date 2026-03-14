@@ -4,7 +4,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.hair.ExoticHairColor
 import at.orchaldir.gm.core.model.character.appearance.hair.HairColor
 import at.orchaldir.gm.core.model.character.appearance.hair.NoHairColor
-import at.orchaldir.gm.core.model.race.aging.DEFAULT_LIFE_STAGE_ID
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.rpg.statblock.Statblock
 import at.orchaldir.gm.core.model.time.date.Date

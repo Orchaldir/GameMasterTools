@@ -9,7 +9,6 @@ import at.orchaldir.gm.core.model.realm.SettlementSize
 import at.orchaldir.gm.core.model.realm.SettlementSizeId
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.selector.realm.getSettlements
-import at.orchaldir.gm.core.selector.realm.getSettlementsBelow
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag

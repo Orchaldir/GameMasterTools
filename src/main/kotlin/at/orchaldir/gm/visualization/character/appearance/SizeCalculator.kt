@@ -47,7 +47,7 @@ class PaddedSize(
     fun getInnerAABB() = AABB(Point2d(universial + left, universial + top), baseSize)
     fun getInnerAABB(full: Size2d) = AABB(
         Point2d(
-            (full.width - baseSize.width)  / 2,
+            (full.width - baseSize.width) / 2,
             full.height - baseSize.height - bottom,
         ),
         baseSize,

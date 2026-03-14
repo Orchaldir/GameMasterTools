@@ -69,8 +69,7 @@ private fun HtmlBlockTag.showMaxAges(maxAges: List<Int>) {
         if (maxAge < Int.MAX_VALUE) {
             val stage = DefaultLifeStages.entries[indexed.index].name
             field(stage, "$maxAge years")
-        }
-        else {
+        } else {
             p {
                 b { +DefaultLifeStages.Ageless.name }
             }
@@ -264,6 +263,7 @@ fun parseLifeStages(
         parseSimpleLifeStages(parameters),
         parseStatblock(state, parameters),
     )
+
     LifeStagesType.Immortal -> DefaultImmortal(
         parseAppearanceId(parameters, 0),
         parseMaxAges(parameters, IMMORTAL_MAX_AGES),

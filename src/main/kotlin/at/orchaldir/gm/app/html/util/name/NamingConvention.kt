@@ -15,7 +15,9 @@ import at.orchaldir.gm.core.selector.util.sortNameLists
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.*
+import kotlinx.html.HtmlBlockTag
+import kotlinx.html.h2
+import kotlinx.html.textInput
 
 // show
 
@@ -60,6 +62,7 @@ fun HtmlBlockTag.showNamingConvention(
             convention.style,
             convention.names
         )
+
         is RandomGivenAndLastName -> {
             showGivenNames(call, state, convention.givenNames)
             showRarityMap("Middle Name Options", convention.middleNameOptions)
@@ -136,6 +139,7 @@ fun HtmlBlockTag.editNamingConvention(
             convention.style,
             convention.names
         )
+
         is RandomGivenAndLastName -> {
             editGivenNames(state, convention.givenNames)
             selectRarityMap("Middle Name Options", combine(MIDDLE, NAME), convention.middleNameOptions)
@@ -194,22 +198,26 @@ fun parseNamingConvention(parameters: Parameters) =
             parseNameListId(parameters, FAMILY_NAMES),
             parseMiddleName(parameters),
         )
+
         Family -> FamilyConvention(
             parseGivenNames(parameters),
             parseNameListId(parameters, FAMILY_NAMES),
             parse(parameters, combine(NAME, ORDER), GivenNameFirst),
             parseMiddleName(parameters),
         )
+
         Patronym -> PatronymConvention(
             parseGivenNames(parameters),
             parse(parameters, LOOKUP_DISTANCE, GenonymicLookupDistance.OneGeneration),
             parseGenonymicStyle(parameters),
         )
+
         Matronym -> MatronymConvention(
             parseGivenNames(parameters),
             parse(parameters, LOOKUP_DISTANCE, GenonymicLookupDistance.OneGeneration),
             parseGenonymicStyle(parameters),
         )
+
         Genonym -> GenonymConvention(
             parseGivenNames(parameters),
             parse(parameters, LOOKUP_DISTANCE, GenonymicLookupDistance.OneGeneration),

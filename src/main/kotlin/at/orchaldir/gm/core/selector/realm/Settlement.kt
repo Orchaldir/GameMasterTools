@@ -4,11 +4,7 @@ import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.EmployedBySettlement
 import at.orchaldir.gm.core.model.economy.job.JobId
-import at.orchaldir.gm.core.model.realm.RealmId
-import at.orchaldir.gm.core.model.realm.Settlement
-import at.orchaldir.gm.core.model.realm.SettlementId
-import at.orchaldir.gm.core.model.realm.SettlementSize
-import at.orchaldir.gm.core.model.realm.SettlementSizeId
+import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.selector.character.getEmployees
 import at.orchaldir.gm.core.selector.character.getPreviousEmployees

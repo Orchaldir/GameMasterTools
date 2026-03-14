@@ -82,5 +82,6 @@ fun parseRegionData(parameters: Parameters) = when (parse(parameters, TYPE, Regi
     RegionDataType.Wasteland -> Wasteland(
         parseEventReference(parameters, REFERENCE),
     )
+
     RegionDataType.Wetland -> Wetland
 }
