@@ -93,6 +93,28 @@
      "None": "Common"
     }
    }
+  },
+  "4": {
+   "id": 4,
+   "name": "Nobility",
+   "languages": {
+    "0": "Everyone",
+    "1": "Uncommon",
+    "10": "Rare"
+   },
+   "namingConvention": {
+    "#type": "Family",
+    "givenNames": {
+     "#type": "MaleAndFemale",
+     "male": 16,
+     "female": 17,
+     "unisex": 18
+    },
+    "familyNames": 19,
+    "middleNameOptions": {
+     "None": "Common"
+    }
+   }
   }
  }
 }
