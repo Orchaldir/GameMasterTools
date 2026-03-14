@@ -69,6 +69,14 @@ class LanguageTest {
         }
 
         @Test
+        fun `Cannot delete a language used by a culture as mother tongue`() {
+            val culture = Culture(CULTURE_ID_0, motherTongue = LANGUAGE_ID_0)
+            val newState = state.updateStorage(culture)
+
+            failCanDelete(newState, CULTURE_ID_0)
+        }
+
+        @Test
         fun `Cannot delete a language used by a culture`() {
             val culture = Culture(CULTURE_ID_0, languages = SomeOf(LANGUAGE_ID_0))
             val newState = state.updateStorage(culture)
