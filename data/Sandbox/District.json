@@ -1,5 +1,66 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "The Outer City",
+   "position": {
+    "#type": "Settlement",
+    "settlement": 6
+   }
+  },
+  "1": {
+   "id": 1,
+   "name": "The Inner City",
+   "position": {
+    "#type": "Settlement",
+    "settlement": 6
+   },
+   "population": {
+    "#type": "Set",
+    "total": {
+     "#type": "Number",
+     "number": 1000
+    },
+    "races": [
+     2
+    ],
+    "cultures": [
+     0
+    ]
+   }
+  },
+  "2": {
+   "id": 2,
+   "name": "Castle Hill",
+   "position": {
+    "#type": "Settlement",
+    "settlement": 6
+   }
+  },
+  "3": {
+   "id": 3,
+   "name": "Hangleton",
+   "position": {
+    "#type": "Settlement",
+    "settlement": 8
+   }
+  },
+  "4": {
+   "id": 4,
+   "name": "The Walled Town",
+   "position": {
+    "#type": "Settlement",
+    "settlement": 8
+   }
+  },
+  "5": {
+   "id": 5,
+   "name": "The Escalade",
+   "position": {
+    "#type": "Settlement",
+    "settlement": 8
+   }
+  }
  }
 }

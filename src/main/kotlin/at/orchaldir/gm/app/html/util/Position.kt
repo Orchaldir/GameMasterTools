@@ -70,6 +70,13 @@ fun HtmlBlockTag.showPosition(
 
         is OnMoon -> link(call, state, position.moon)
         is OnWorld -> link(call, state, position.world)
+
+        is RelativeToRegion -> {
+            +position.direction.name
+            +" of "
+            link(call, state, position.region)
+        }
+
         UndefinedPosition -> if (showUndefined) {
             +"Undefined"
         }
@@ -154,6 +161,7 @@ private fun HtmlBlockTag.selectPositionIntern(
             PositionType.Plane -> planes.isEmpty()
             PositionType.Realm -> realms.isEmpty()
             PositionType.Region -> regions.isEmpty()
+            PositionType.RelativeToRegion -> regions.isEmpty()
             PositionType.Settlement -> settlements.isEmpty()
             PositionType.SettlementMap -> settlementMaps.isEmpty()
             PositionType.World -> worlds.isEmpty()
@@ -274,6 +282,21 @@ private fun HtmlBlockTag.selectPositionIntern(
             worlds,
             position.world,
         )
+
+        is RelativeToRegion -> {
+            selectValue(
+                "Direction",
+                combine(param, DIRECTION),
+                Direction.entries,
+                position.direction,
+            )
+            selectElement(
+                state,
+                combine(param, REGION),
+                regions,
+                position.region,
+            )
+        }
     }
 }
 
@@ -307,6 +330,8 @@ fun parsePosition(parameters: Parameters, state: State, param: String = POSITION
                 state.getHomes().minOfOrNull { it.id.value } ?: 0),
         )
 
+        PositionType.Homeless -> Homeless
+
         PositionType.LongTermCare -> LongTermCareIn(
             parseBusinessId(parameters, combine(param, BUSINESS)),
         )
@@ -327,6 +352,11 @@ fun parsePosition(parameters: Parameters, state: State, param: String = POSITION
             parseRegionId(parameters, combine(param, REGION)),
         )
 
+        PositionType.RelativeToRegion -> RelativeToRegion(
+            parse(parameters, combine(param, DIRECTION), Direction.North),
+            parseRegionId(parameters, combine(param, REGION)),
+        )
+
         PositionType.Settlement -> InSettlement(
             parseSettlementId(parameters, combine(param, SETTLEMENT)),
         )
@@ -340,7 +370,6 @@ fun parsePosition(parameters: Parameters, state: State, param: String = POSITION
             parseWorldId(parameters, combine(param, WORD)),
         )
 
-        PositionType.Homeless -> Homeless
         PositionType.Undefined -> UndefinedPosition
     }
 }

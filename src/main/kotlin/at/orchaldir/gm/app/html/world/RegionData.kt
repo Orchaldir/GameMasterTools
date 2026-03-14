@@ -26,7 +26,7 @@ fun HtmlBlockTag.showRegionData(
     field("Type", data.getType())
 
     when (data) {
-        Continent, Desert, Forrest, Lake, Plains, Mountain, Sea, UndefinedRegionData -> doNothing()
+        Continent, Desert, Forrest, Hills, Lake, Plains, Mountain, Sea, UndefinedRegionData, Wetland -> doNothing()
         is Battlefield -> fieldEventReference(call, state, data.cause, "Caused by")
         is Wasteland -> fieldEventReference(call, state, data.cause, "Caused by")
     }
@@ -42,7 +42,7 @@ fun HtmlBlockTag.editRegionData(
     selectValue("Type", TYPE, RegionDataType.entries, data.getType())
 
     when (data) {
-        Continent, Desert, Forrest, Lake, Plains, Mountain, Sea, UndefinedRegionData -> doNothing()
+        Continent, Desert, Forrest, Hills, Lake, Plains, Mountain, Sea, UndefinedRegionData, Wetland -> doNothing()
         is Battlefield -> selectEventReference(
             state,
             "Caused By",
@@ -73,6 +73,7 @@ fun parseRegionData(parameters: Parameters) = when (parse(parameters, TYPE, Regi
     RegionDataType.Continent -> Continent
     RegionDataType.Desert -> Desert
     RegionDataType.Forrest -> Forrest
+    RegionDataType.Hills -> Hills
     RegionDataType.Lake -> Lake
     RegionDataType.Plains -> Plains
     RegionDataType.Mountain -> Mountain
@@ -82,4 +83,5 @@ fun parseRegionData(parameters: Parameters) = when (parse(parameters, TYPE, Regi
         parseEventReference(parameters, REFERENCE),
     )
 
+    RegionDataType.Wetland -> Wetland
 }

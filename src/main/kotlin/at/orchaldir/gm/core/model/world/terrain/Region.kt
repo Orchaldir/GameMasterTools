@@ -21,7 +21,7 @@ val ALLOWED_CONTINENT_POSITIONS = listOf(
     PositionType.Plane,
     PositionType.World,
 )
-val ALLOWED_REGION_POSITIONS = ALLOWED_CONTINENT_POSITIONS + PositionType.Region
+val ALLOWED_REGION_POSITIONS = ALLOWED_CONTINENT_POSITIONS + PositionType.Region + PositionType.RelativeToRegion
 
 @JvmInline
 @Serializable
@@ -57,7 +57,7 @@ data class Region(
                 ALLOWED_BATTLEFIELD_CAUSES,
             )
 
-            Continent, Desert, Forrest, Lake, Plains, Mountain, Sea, UndefinedRegionData -> doNothing()
+            Continent, Desert, Forrest, Hills, Lake, Plains, Mountain, Sea, UndefinedRegionData, Wetland -> doNothing()
             is Wasteland -> validateEventReference(
                 state,
                 data.cause,

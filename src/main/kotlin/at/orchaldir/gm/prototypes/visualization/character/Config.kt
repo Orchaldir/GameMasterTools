@@ -35,7 +35,7 @@ import at.orchaldir.gm.visualization.character.equipment.*
 import at.orchaldir.gm.visualization.character.equipment.part.*
 
 val CHARACTER_CONFIG = CharacterRenderConfig(
-    fromMillimeters(500),
+    fromMillimeters(100),
     LineOptions(Color.Black.toRender(), fromMillimeters(5)),
     BodyConfig(
         fromPercentage(10),

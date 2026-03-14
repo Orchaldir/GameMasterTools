@@ -1,2 +1,31 @@
 {
+ "economy": {
+  "standardsOfLiving": [
+   {
+    "id": 0,
+    "name": "Broke",
+    "maxYearlyIncome": 1500
+   },
+   {
+    "id": 1,
+    "name": "Poor",
+    "maxYearlyIncome": 15000
+   },
+   {
+    "id": 2,
+    "name": "Common",
+    "maxYearlyIncome": 150000
+   },
+   {
+    "id": 3,
+    "name": "Fancy",
+    "maxYearlyIncome": 1500000
+   }
+  ]
+ },
+ "time": {
+  "currentDate": {
+   "day": 382976
+  }
+ }
 }

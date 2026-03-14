@@ -59,7 +59,7 @@ fun HtmlBlockTag.editPeriodical(
     selectOwnership(state, periodical.ownership, date)
     selectElement(state, LANGUAGE, state.getLanguageStorage().getAll(), periodical.language)
     selectElement(state, CALENDAR, state.getCalendarStorage().getAll(), periodical.calendar)
-    selectOptionalDate(calendar, "Date", periodical.date, DATE)
+    selectOptionalDate(state, calendar, "Date", periodical.date, DATE)
     selectValue("Frequency", FREQUENCY, frequencies, periodical.frequency)
 }
 

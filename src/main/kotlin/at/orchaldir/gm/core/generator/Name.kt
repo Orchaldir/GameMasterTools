@@ -3,7 +3,7 @@ package at.orchaldir.gm.core.generator
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.culture.name.*
-import at.orchaldir.gm.core.model.util.GenderMap
+import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.name.NameListId
 import at.orchaldir.gm.core.model.util.origin.BornElement
@@ -27,11 +27,12 @@ class NameGenerator(
         is GenonymConvention -> generateGenonym(namingConvention.names)
         is MatronymConvention -> generateGenonym(namingConvention.names)
         is PatronymConvention -> generateGenonym(namingConvention.names)
+        is RandomGivenAndLastName -> generateRandomName(namingConvention)
     }
 
     private fun generateFamilyName(convention: FamilyConvention) = FamilyName(
         generateName(convention.givenNames),
-        generateMiddleName(convention),
+        generateMiddleName(convention.middleNameOptions, convention.givenNames),
         if (character.name is FamilyName && character.origin is BornElement) {
             character.name.family
         } else {
@@ -39,19 +40,45 @@ class NameGenerator(
         }
     )
 
-    private fun generateGenonym(names: GenderMap<NameListId>) = Genonym(generateName(names))
+    private fun generateRandomName(convention: RandomGivenAndLastName) = FamilyName(
+        generateName(convention.givenNames),
+        generateMiddleName(convention.middleNameOptions, convention.givenNames),
+        generateName(convention.lastNames),
+    )
 
-    private fun generateMiddleName(convention: FamilyConvention): Name? {
-        val middleNameOption = state.rarityGenerator.generate(convention.middleNameOptions, numberGenerator)
+    private fun generateGenonym(names: GivenNames) = Genonym(generateName(names))
+
+    private fun generateMiddleName(
+        options: OneOf<MiddleNameOption>,
+        givenNames: GivenNames,
+    ): Name? {
+        val middleNameOption = state.rarityGenerator.generate(options, numberGenerator)
 
         return when (middleNameOption) {
             MiddleNameOption.None -> null
-            MiddleNameOption.Random -> generateName(convention.givenNames)
+            MiddleNameOption.Random -> generateName(givenNames)
         }
     }
 
-    private fun generateName(genderMap: GenderMap<NameListId>) =
-        generateName(genderMap.get(character.gender))
+    private fun generateName(names: GivenNames) = when (names) {
+        is NonGenderedGivenNames -> generateName(names.list)
+        is MaleAndFemaleGivenNames -> when (character.gender) {
+            Gender.Female -> generateName(names.female, names.unisex)
+            Gender.Genderless -> TODO()
+            Gender.Male -> generateName(names.female, names.unisex)
+        }
+    }
+
+    private fun generateName(list: NameListId, optional: NameListId?): Name {
+        val listNames = state.getNameListStorage()
+            .getOrThrow(list)
+            .names
+        val optionalNames = state.getNameListStorage()
+            .getOptional(optional)
+            ?.names ?: emptyList()
+
+        return numberGenerator.select(listNames + optionalNames)
+    }
 
     private fun generateName(nameListId: NameListId): Name {
         val nameList = state.getNameListStorage().getOrThrow(nameListId)

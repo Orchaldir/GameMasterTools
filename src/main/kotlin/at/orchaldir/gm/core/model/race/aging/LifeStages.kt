@@ -18,7 +18,8 @@ import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-val DEFAULT_MAX_AGES = listOf(2, 5, 12, 18, 45, 60, 90, 120)
+val IMMORTAL_MAX_AGES = listOf(2, 5, 12, 18)
+val DEFAULT_MAX_AGES = IMMORTAL_MAX_AGES + listOf(45, 60, 90, 120)
 val DEFAULT_OLD_AGE_HAIR_COLOR = ExoticHairColor(Color.LightGray)
 val DEFAULT_VENERABLE_AGE_HAIR_COLOR = ExoticHairColor(Color.White)
 val DEFAULT_LIFE_STAGE_ID = LifeStageId(4)
@@ -26,11 +27,13 @@ val DEFAULT_LIFE_STAGE_ID = LifeStageId(4)
 private val immutable = LifeStage(Name.init("Immutable"), Int.MAX_VALUE)
 private val defaultRelativeSizes = listOf(20, 40, 60, 95, 100, 100, 95, 90)
 private val defaultLifeStagesMap = mutableMapOf<DefaultAging, List<LifeStage>>()
+private val immortalLifeStagesMap = mutableMapOf<DefaultImmortal, List<LifeStage>>()
 
 enum class LifeStagesType {
     ImmutableLifeStage,
-    DefaultAging,
-    SimpleAging,
+    Aging,
+    CustomAging,
+    Immortal,
 }
 
 @Serializable
@@ -38,8 +41,9 @@ sealed class LifeStages {
 
     fun getType() = when (this) {
         is ImmutableLifeStage -> LifeStagesType.ImmutableLifeStage
-        is DefaultAging -> LifeStagesType.DefaultAging
-        is SimpleAging -> LifeStagesType.SimpleAging
+        is DefaultAging -> LifeStagesType.Aging
+        is CustomAging -> LifeStagesType.CustomAging
+        is DefaultImmortal -> LifeStagesType.Immortal
     }
 
     abstract fun contains(id: RaceAppearanceId): Boolean
@@ -47,31 +51,36 @@ sealed class LifeStages {
     fun getRaceAppearance() = when (this) {
         is ImmutableLifeStage -> this.appearance
         is DefaultAging -> this.appearance
-        is SimpleAging -> this.appearance
+        is CustomAging -> this.appearance
+        is DefaultImmortal -> this.appearance
     }
 
     fun getMaxAge() = when (this) {
         is ImmutableLifeStage -> null
         is DefaultAging -> maxAges.last()
-        is SimpleAging -> lifeStages.last().maxAge
+        is CustomAging -> lifeStages.last().maxAge
+        is DefaultImmortal -> null
     }
 
     fun countLifeStages() = when (this) {
         is ImmutableLifeStage -> 1
-        is DefaultAging -> DefaultLifeStages.entries.size
-        is SimpleAging -> lifeStages.size
+        is DefaultAging -> DEFAULT_MAX_AGES.size
+        is CustomAging -> lifeStages.size
+        is DefaultImmortal -> IMMORTAL_MAX_AGES.size + 1
     }
 
     fun statblock() = when (this) {
-        is DefaultAging -> statblock
         is ImmutableLifeStage -> statblock
-        is SimpleAging -> statblock
+        is DefaultAging -> statblock
+        is CustomAging -> statblock
+        is DefaultImmortal -> statblock
     }
 
     fun getDefaultLifeStageId() = when (this) {
-        is DefaultAging -> DEFAULT_LIFE_STAGE_ID
         is ImmutableLifeStage -> null
-        is SimpleAging -> defaultLifeStage
+        is DefaultAging -> DEFAULT_LIFE_STAGE_ID
+        is CustomAging -> defaultLifeStage
+        is DefaultImmortal -> DEFAULT_LIFE_STAGE_ID
     }
 
     fun getLifeStage(id: LifeStageId) = getLifeStage(id.value)
@@ -79,7 +88,8 @@ sealed class LifeStages {
     private fun getLifeStage(id: Int) = when (this) {
         is DefaultAging -> getAllLifeStages()[id]
         is ImmutableLifeStage -> error("Cannot get Life Stage $id for ImmutableLifeStage!")
-        is SimpleAging -> lifeStages[id]
+        is CustomAging -> lifeStages[id]
+        is DefaultImmortal -> getAllLifeStages()[id]
     }
 
     fun getLifeStageStartAge(id: LifeStageId) = when (this) {
@@ -112,7 +122,7 @@ sealed class LifeStages {
 }
 
 @Serializable
-@SerialName("Default")
+@SerialName("Aging")
 data class DefaultAging(
     val appearance: RaceAppearanceId = RaceAppearanceId(0),
     val maxAges: List<Int> = DEFAULT_MAX_AGES,
@@ -156,8 +166,8 @@ data class DefaultAging(
 }
 
 @Serializable
-@SerialName("Simple")
-data class SimpleAging(
+@SerialName("CustomAging")
+data class CustomAging(
     val appearance: RaceAppearanceId = RaceAppearanceId(0),
     val lifeStages: List<LifeStage>,
     val statblock: Statblock = Statblock(),
@@ -222,4 +232,48 @@ private fun getRelativeSize(age: Int, lifeStages: List<LifeStage>): Factor {
     }
 
     return previousHeight
+}
+
+@Serializable
+@SerialName("Immortal")
+data class DefaultImmortal(
+    val appearance: RaceAppearanceId = RaceAppearanceId(0),
+    val maxAges: List<Int> = IMMORTAL_MAX_AGES,
+    val statblock: Statblock = Statblock(),
+) : LifeStages() {
+
+    override fun contains(id: RaceAppearanceId) = id == appearance
+
+    override fun getAllLifeStages() = immortalLifeStagesMap.computeIfAbsent(this) { createLifeStages() }
+
+    override fun getLifeStageForAge(age: Int) = getLifeStage(age, getAllLifeStages())
+
+    override fun getStartAgeOfCurrentLifeStage(age: Int) = getStartAgeOfCurrentLifeStage(age, getAllLifeStages())
+
+    override fun getRelativeSize(age: Int) = getRelativeSize(age, getAllLifeStages())
+
+    private fun createLifeStages() = listOf(
+        createLifeStage(0),
+        createLifeStage(1),
+        createLifeStage(2),
+        createLifeStage(3),
+        LifeStage(
+            Name.init(DefaultLifeStages.Ageless.name),
+            Int.MAX_VALUE,
+            FULL,
+            true,
+        ),
+    )
+
+    private fun createLifeStage(
+        index: Int,
+        hasBeard: Boolean = false,
+        hairColor: HairColor = NoHairColor,
+    ) = LifeStage(
+        Name.init(DefaultLifeStages.entries[index].name),
+        maxAges[index],
+        fromPercentage(defaultRelativeSizes[index]),
+        hasBeard,
+        hairColor,
+    )
 }

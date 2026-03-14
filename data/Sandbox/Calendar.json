@@ -3,30 +3,30 @@
  "elements": {
   "0": {
    "id": 0,
-   "name": "Default Calendar",
+   "name": "Brackenwold Calendar",
    "days": {
     "#type": "Weekdays",
     "weekDays": [
      {
-      "name": "Monday"
+      "name": "Colly"
      },
      {
-      "name": "Tuesday"
+      "name": "Chime"
      },
      {
-      "name": "Wednesday"
+      "name": "Hayme"
      },
      {
-      "name": "Thursday"
+      "name": "Moot"
      },
      {
-      "name": "Friday"
+      "name": "Frisk"
      },
      {
-      "name": "Saturday"
+      "name": "Eggfast"
      },
      {
-      "name": "Sunday"
+      "name": "Sunning"
      }
     ]
    },
@@ -34,50 +34,74 @@
     "#type": "Complex",
     "months": [
      {
-      "name": "January",
-      "days": 31
+      "name": "Grimvold",
+      "title": "The onset of winter"
      },
      {
-      "name": "February",
-      "days": 28
+      "name": "Lymewald",
+      "days": 28,
+      "title": "Deep winter"
      },
      {
-      "name": "March",
-      "days": 31
+      "name": "Haggryme",
+      "title": "The fading of winter"
      },
      {
-      "name": "April"
+      "name": "Symswald",
+      "days": 29,
+      "title": "The onset of spring"
      },
      {
-      "name": "May",
-      "days": 31
+      "name": "Harchment",
+      "days": 29,
+      "title": "High spring"
      },
      {
-      "name": "June"
+      "name": "Iggwyld",
+      "title": "The fading of spring"
      },
      {
-      "name": "July",
-      "days": 31
+      "name": "Chysting",
+      "days": 31,
+      "title": "The onset of summer"
      },
      {
-      "name": "August",
-      "days": 31
+      "name": "Lillipythe",
+      "days": 29,
+      "title": "High summer"
      },
      {
-      "name": "September"
+      "name": "Haelhold",
+      "days": 28,
+      "title": "The fading of summer"
      },
      {
-      "name": "October",
-      "days": 31
+      "name": "Reedwryme",
+      "title": "The onset of autumn"
      },
      {
-      "name": "November"
+      "name": "Obthryme",
+      "days": 28,
+      "title": "Deep autumn"
      },
      {
-      "name": "December",
-      "days": 31
+      "name": "Braghold",
+      "title": "The fading of autumn"
      }
     ]
+   },
+   "eras": {
+    "before": {
+     "text": "BF",
+     "isPrefix": true
+    },
+    "first": {
+     "startDay": {
+      "day": 0
+     },
+     "text": "AF",
+     "isPrefix": false
+    }
    }
   }
  }

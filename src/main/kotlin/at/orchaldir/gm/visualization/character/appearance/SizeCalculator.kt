@@ -31,21 +31,27 @@ class PaddedSize(
     }
 
     fun addToSide(padding: Distance) {
-        left += padding
-        right += padding
+        left = left.max(padding)
+        right = right.max(padding)
     }
 
     fun addToTop(padding: Distance) {
-        top += padding
+        top = top.max(padding)
     }
 
     fun addToTopAndSide(padding: Distance) {
-        top += padding
-        left += padding
-        right += padding
+        addToTop(padding)
+        addToSide(padding)
     }
 
     fun getInnerAABB() = AABB(Point2d(universial + left, universial + top), baseSize)
+    fun getInnerAABB(full: Size2d) = AABB(
+        Point2d(
+            (full.width - baseSize.width) / 2,
+            full.height - baseSize.height - bottom,
+        ),
+        baseSize,
+    )
 
     fun getFullSize() = baseSize
         .addWidth(left + right)
@@ -58,16 +64,15 @@ fun calculatePaddedSize(
     equipmentMap: EquipmentElementMap = EquipmentElementMap(),
 ): PaddedSize {
     val padded = when (appearance) {
-        is HeadOnly -> {
-            val padded = PaddedSize(Size2d.square(appearance.height))
-            handleHead(config, appearance.head, equipmentMap, padded, appearance.height)
-            padded
-        }
+        is HeadOnly -> handleHead(config, appearance.head, equipmentMap, appearance.height)
 
         is HumanoidBody -> {
             val padded = PaddedSize(Size2d.square(appearance.height))
             val headHeight = appearance.height * config.body.headHeight
-            handleHead(config, appearance.head, equipmentMap, padded, headHeight)
+            val paddedHead = handleHead(config, appearance.head, equipmentMap, headHeight)
+
+            padded.addToTop(paddedHead.top)
+
             padded
         }
 
@@ -83,12 +88,15 @@ private fun handleHead(
     config: CharacterRenderConfig,
     head: Head,
     equipmentMap: EquipmentElementMap,
-    paddedSize: PaddedSize,
     headHeight: Distance,
-) {
+): PaddedSize {
+    val paddedSize = PaddedSize(Size2d.square(headHeight))
+
     handleEars(config, head.ears, paddedSize, headHeight)
     handleHorns(config, head.horns, paddedSize, headHeight)
     handleHeadEquipment(config, equipmentMap, paddedSize, headHeight)
+
+    return paddedSize
 }
 
 private fun handleEars(

@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.selector
 import at.orchaldir.gm.NAME0
 import at.orchaldir.gm.NAME1
 import at.orchaldir.gm.NAME2
+import at.orchaldir.gm.NAME_LIST_ID0
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.character.Gender.*
@@ -35,6 +36,7 @@ class NameTest {
     private val middle = Name.init("Middle")
     private val child = Name.init("Child")
     private val father = Name.init("Father")
+    private val givenNames = NonGenderedGivenNames(NAME_LIST_ID0)
 
     @Test
     fun `Get Mononym independent of culture`() {
@@ -78,10 +80,10 @@ class NameTest {
         fun `Family name is incompatible with other conventions`() {
             listOf(
                 NoNamingConvention,
-                MononymConvention(),
-                PatronymConvention(),
-                MatronymConvention(),
-                GenonymConvention()
+                MononymConvention(givenNames),
+                PatronymConvention(givenNames),
+                MatronymConvention(givenNames),
+                GenonymConvention(givenNames)
             ).forEach {
                 val state = init(it, null)
 
@@ -89,7 +91,8 @@ class NameTest {
             }
         }
 
-        private fun init(nameOrder: NameOrder, middle: Name?) = init(FamilyConvention(nameOrder), middle)
+        private fun init(nameOrder: NameOrder, middle: Name?) =
+            init(FamilyConvention(givenNames, NAME_LIST_ID0, nameOrder), middle)
 
         private fun init(convention: NamingConvention, middle: Name?) = State(
             listOf(
@@ -108,7 +111,7 @@ class NameTest {
             val state = State(
                 listOf(
                     Storage(Character(ID0, Genonym(given), culture = CULTURE0)),
-                    Storage(Culture(CULTURE0, namingConvention = PatronymConvention())),
+                    Storage(Culture(CULTURE0, namingConvention = PatronymConvention(givenNames))),
                 )
             )
 
@@ -128,7 +131,7 @@ class NameTest {
                                 Character(ID1, Genonym(father), culture = CULTURE0)
                             )
                         ),
-                        Storage(Culture(CULTURE0, namingConvention = PatronymConvention())),
+                        Storage(Culture(CULTURE0, namingConvention = PatronymConvention(givenNames))),
                     )
                 )
 
@@ -179,7 +182,7 @@ class NameTest {
 
             private fun init(gender: Gender, style: GenonymicStyle): State {
                 val origin = BornElement(OTHER, ID1)
-                val convention = PatronymConvention(style = style)
+                val convention = PatronymConvention(givenNames, style = style)
                 return State(
                     listOf(
                         Storage(
@@ -198,7 +201,7 @@ class NameTest {
         fun `Two generations`() {
             val origin0 = BornElement(OTHER, ID1)
             val origin1 = BornElement(OTHER, ID2)
-            val convention = PatronymConvention(TwoGenerations, ChildOfStyle(GENDER_MAP))
+            val convention = PatronymConvention(givenNames, TwoGenerations, ChildOfStyle(GENDER_MAP))
             val state = State(
                 listOf(
                     Storage(
@@ -220,7 +223,7 @@ class NameTest {
     fun `Test Matronym`() {
         val origin0 = BornElement(ID1, OTHER)
         val origin1 = BornElement(ID2, OTHER)
-        val convention = MatronymConvention(TwoGenerations, ChildOfStyle(GENDER_MAP))
+        val convention = MatronymConvention(givenNames, TwoGenerations, ChildOfStyle(GENDER_MAP))
         val state = State(
             listOf(
                 Storage(
@@ -256,7 +259,7 @@ class NameTest {
 
         private fun init(gender: Gender): State {
             val origin = BornElement(ID1, ID2)
-            val convention = GenonymConvention(OneGeneration, ChildOfStyle(GENDER_MAP))
+            val convention = GenonymConvention(givenNames, OneGeneration, ChildOfStyle(GENDER_MAP))
             return State(
                 listOf(
                     Storage(

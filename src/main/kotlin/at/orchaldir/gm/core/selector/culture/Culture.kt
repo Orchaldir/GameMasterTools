@@ -25,7 +25,7 @@ fun State.canDeleteCulture(culture: CultureId) = DeleteResult(culture)
 
 fun State.countCultures(language: LanguageId) = getCultureStorage()
     .getAll()
-    .count { it.languages.isAvailable(language) }
+    .count { it.contains(language) }
 
 fun State.getCultures(calendar: CalendarId) = getCultureStorage().getAll()
     .filter { it.calendar == calendar }
@@ -37,7 +37,7 @@ fun State.getCultures(holiday: HolidayId) = getCultureStorage().getAll()
     .filter { it.holidays.contains(holiday) }
 
 fun State.getCultures(language: LanguageId) = getCultureStorage().getAll()
-    .filter { it.languages.isAvailable(language) }
+    .filter { it.contains(language) }
 
 fun State.getCultures(nameList: NameListId) = getCultureStorage().getAll()
     .filter { it.namingConvention.contains(nameList) }

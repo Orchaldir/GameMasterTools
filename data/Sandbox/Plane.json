@@ -1,5 +1,24 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "The Mortal Realm"
+  },
+  "1": {
+   "id": 1,
+   "name": "Fairy",
+   "purpose": {
+    "#type": "Reflective",
+    "plane": 0
+   },
+   "languages": [
+    6,
+    3,
+    4,
+    5,
+    2
+   ]
+  }
  }
 }

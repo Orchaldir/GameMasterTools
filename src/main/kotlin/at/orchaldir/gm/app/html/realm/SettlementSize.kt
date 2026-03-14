@@ -23,13 +23,13 @@ fun HtmlBlockTag.showSettlementSize(
 ) {
     field("Max Population", size.maxPopulation)
 
-    showUsages(call, state, size.id)
+    showUsages(call, state, size)
 }
 
 private fun HtmlBlockTag.showUsages(
     call: ApplicationCall,
     state: State,
-    size: SettlementSizeId,
+    size: SettlementSize,
 ) {
     val settlements = state.getSettlements(size)
 

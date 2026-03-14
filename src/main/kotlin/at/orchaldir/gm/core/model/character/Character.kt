@@ -9,7 +9,6 @@ import at.orchaldir.gm.core.model.character.title.TitleId
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.language.ComprehensionLevel
 import at.orchaldir.gm.core.model.culture.language.LanguageId
-import at.orchaldir.gm.core.model.culture.name.getDefaultFamilyName
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.rpg.statblock.StatblockLookup
 import at.orchaldir.gm.core.model.rpg.statblock.UndefinedStatblockLookup
@@ -25,6 +24,7 @@ import at.orchaldir.gm.core.model.util.source.HasDataSources
 import at.orchaldir.gm.core.reducer.character.validateCharacterAppearance
 import at.orchaldir.gm.core.reducer.character.validateCharacterData
 import at.orchaldir.gm.core.reducer.character.validateEquipped
+import at.orchaldir.gm.core.selector.culture.getDefaultFamilyName
 import at.orchaldir.gm.core.selector.time.date.getStartDay
 import at.orchaldir.gm.core.selector.time.getCurrentDate
 import at.orchaldir.gm.core.selector.time.getDefaultCalendar

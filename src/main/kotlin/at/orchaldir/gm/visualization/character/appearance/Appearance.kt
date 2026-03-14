@@ -40,7 +40,14 @@ fun visualizeCharacter(
     appearance: Appearance,
     equipped: EquipmentElementMap = EquipmentMap(),
     renderFront: Boolean = true,
-) = visualizeAppearance(state, config, calculatePaddedSize(config, appearance), appearance, equipped, renderFront)
+) = visualizeAppearance(
+    state,
+    config,
+    calculatePaddedSize(config, appearance, equipped),
+    appearance,
+    equipped,
+    renderFront,
+)
 
 fun visualizeAppearance(
     state: State,
@@ -51,10 +58,13 @@ fun visualizeAppearance(
     renderFront: Boolean = true,
 ): Svg {
     val aabb = paddedSize.getInnerAABB()
-    val builder = SvgBuilder(paddedSize.getFullSize())
+    val renderSize = paddedSize.getFullSize()
+    val builder = SvgBuilder(renderSize)
     val renderState = CharacterRenderState(state, appearance, aabb, config, builder, renderFront, equipped)
 
-    visualizeAppearance(renderState, paddedSize)
+    renderState.renderer.getLayer().renderRectangle(AABB(renderSize), BorderOnly(renderState.config.line))
+
+    visualizeAppearance(renderState)
 
     return builder.finish()
 }
@@ -70,36 +80,30 @@ fun visualizeAppearance(
 ): Svg {
     val aabb = AABB(renderSize)
     val builder = SvgBuilder(renderSize)
-    val state = CharacterRenderState(state, appearance, aabb, config, builder, renderFront, equipped)
+    val fullAABB = paddedSize.getInnerAABB(renderSize)
+    val renderState = CharacterRenderState(state, appearance, fullAABB, config, builder, renderFront, equipped)
 
-    visualizeAppearance(state, paddedSize)
+    renderState.renderer.getLayer().renderRectangle(aabb, BorderOnly(renderState.config.line))
+
+    visualizeAppearance(renderState)
 
     return builder.finish()
 }
 
 fun visualizeAppearance(
     state: CharacterRenderState<Appearance>,
-    paddedSize: PaddedSize,
 ) {
-    val offset = Point2d(paddedSize.left + paddedSize.universial, paddedSize.top + paddedSize.universial)
-    val paddedAabb = AABB.fromCenter(state.fullAABB.getCenter(), paddedSize.getFullSize())
-    val appearance = state.get()
-    val fullAabb = AABB(paddedAabb.start + offset, appearance.getSize2d())
-    val fullState = state.copy(fullAABB = fullAabb)
-
-    state.renderer.getLayer().renderRectangle(state.fullAABB, BorderOnly(state.config.line))
-
-    when (appearance) {
+    when (val appearance = state.get()) {
         is HeadOnly -> {
-            val headState = fullState.convert(appearance.head, state.fullAABB)
+            val headState = state.convert(appearance.head, state.fullAABB)
             visualizeHead(headState, appearance.head, appearance.skin)
         }
 
         is HumanoidBody -> {
-            val torsoAabb = state.config.body.getTorsoAabb(fullAabb, appearance.body)
-            val bodyState = fullState.convert(appearance.body, torsoAabb)
-            val headAabb = state.config.body.getHeadAabb(fullAabb)
-            val headState = fullState.convert(appearance.head, headAabb)
+            val torsoAabb = state.config.body.getTorsoAabb(state.fullAABB, appearance.body)
+            val bodyState = state.convert(appearance.body, torsoAabb)
+            val headAabb = state.config.body.getHeadAabb(state.fullAABB)
+            val headState = state.convert(appearance.head, headAabb)
 
             visualizeBody(bodyState, appearance.skin)
             visualizeHead(headState, appearance.head, appearance.skin)

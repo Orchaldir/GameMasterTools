@@ -50,6 +50,7 @@ private fun HtmlBlockTag.selectIssueNumber(
     val dateTypes = periodical.frequency.getValidDateTypes(calendar)
 
     selectDate(
+        state,
         calendar,
         "Publication Date",
         issue.date,

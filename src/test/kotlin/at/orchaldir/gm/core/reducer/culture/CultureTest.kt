@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.culture.Culture
+import at.orchaldir.gm.core.model.culture.language.Language
 import at.orchaldir.gm.core.model.culture.name.*
 import at.orchaldir.gm.core.model.time.calendar.Calendar
 import at.orchaldir.gm.core.model.util.GenderMap
@@ -22,12 +23,19 @@ class CultureTest {
         listOf(
             Storage(Calendar(CALENDAR_ID_0)),
             Storage(Culture(CULTURE_ID_0)),
+            Storage(Language(LANGUAGE_ID_0)),
         )
     )
     private val STATE_WITH_NAMES = STATE.updateStorage(nameList)
 
     @Nested
     inner class UpdateTest {
+
+        private val givenNames = NonGenderedGivenNames(NAME_LIST_ID0)
+        private val familyConvention = FamilyConvention(givenNames, NAME_LIST_ID0)
+        private val genonymConvention = GenonymConvention(givenNames)
+        private val patronymConvention = PatronymConvention(givenNames)
+        private val matronymConvention = MatronymConvention(givenNames)
 
         @Test
         fun `Cannot update unknown id`() {
@@ -58,10 +66,17 @@ class CultureTest {
         }
 
         @Test
-        fun `Cannot update culture with unknown language`() {
-            val action = UpdateAction(Culture(CULTURE_ID_0, languages = SomeOf(LANGUAGE_ID_0)))
+        fun `Cannot update culture with unknown mother tongue`() {
+            val action = UpdateAction(Culture(CULTURE_ID_0, motherTongue = LANGUAGE_ID_1))
 
-            assertIllegalArgument("Requires unknown Language 0!") { REDUCER.invoke(STATE, action) }
+            assertIllegalArgument("Requires unknown Language 1!") { REDUCER.invoke(STATE, action) }
+        }
+
+        @Test
+        fun `Cannot update culture with unknown language`() {
+            val action = UpdateAction(Culture(CULTURE_ID_0, languages = SomeOf(LANGUAGE_ID_1)))
+
+            assertIllegalArgument("Requires unknown Language 1!") { REDUCER.invoke(STATE, action) }
         }
 
         @Test
@@ -84,27 +99,27 @@ class CultureTest {
 
             @Test
             fun `Keep Mononym`() {
-                changeToNo(FamilyConvention(), Mononym(NAME0))
+                changeToNo(familyConvention, Mononym(NAME0))
             }
 
             @Test
             fun `From family to no convention`() {
-                changeToNo(FamilyConvention(), FamilyName(NAME0, null, NAME1))
+                changeToNo(familyConvention, FamilyName(NAME0, null, NAME1))
             }
 
             @Test
             fun `From genonym to no convention`() {
-                changeToNo(GenonymConvention(), Genonym(NAME0))
+                changeToNo(genonymConvention, Genonym(NAME0))
             }
 
             @Test
             fun `From patronym to no convention`() {
-                changeToNo(PatronymConvention(), Genonym(NAME0))
+                changeToNo(patronymConvention, Genonym(NAME0))
             }
 
             @Test
             fun `From matronym to no convention`() {
-                changeToNo(MatronymConvention(), Genonym(NAME0))
+                changeToNo(matronymConvention, Genonym(NAME0))
             }
 
             private fun changeToNo(old: NamingConvention, name: CharacterName) =
@@ -116,31 +131,31 @@ class CultureTest {
 
             @Test
             fun `Keep Mononym`() {
-                changeToMononym(FamilyConvention(), Mononym(NAME0))
+                changeToMononym(familyConvention, Mononym(NAME0))
             }
 
             @Test
             fun `From family to no convention`() {
-                changeToMononym(FamilyConvention(), FamilyName(NAME0, null, NAME1))
+                changeToMononym(familyConvention, FamilyName(NAME0, null, NAME1))
             }
 
             @Test
             fun `From genonym to no convention`() {
-                changeToMononym(GenonymConvention(), Genonym(NAME0))
+                changeToMononym(genonymConvention, Genonym(NAME0))
             }
 
             @Test
             fun `From patronym to no convention`() {
-                changeToMononym(PatronymConvention(), Genonym(NAME0))
+                changeToMononym(patronymConvention, Genonym(NAME0))
             }
 
             @Test
             fun `From matronym to no convention`() {
-                changeToMononym(MatronymConvention(), Genonym(NAME0))
+                changeToMononym(matronymConvention, Genonym(NAME0))
             }
 
             private fun changeToMononym(old: NamingConvention, name: CharacterName) =
-                changeConvention(old, MononymConvention(), name, Mononym(NAME0))
+                changeConvention(old, MononymConvention(givenNames), name, Mononym(NAME0))
         }
 
         @Nested
@@ -148,34 +163,34 @@ class CultureTest {
 
             @Test
             fun `Keep Mononym`() {
-                changeToFamily(FamilyConvention(), Mononym(NAME0))
+                changeToFamily(familyConvention, Mononym(NAME0))
             }
 
             @Test
             fun `Keep family name`() {
                 val familyName = FamilyName(NAME0, null, NAME1)
-                val convention = FamilyConvention()
+                val convention = familyConvention
 
                 changeConvention(convention, convention, familyName, familyName)
             }
 
             @Test
             fun `From genonym to no convention`() {
-                changeToFamily(GenonymConvention(), Genonym(NAME0))
+                changeToFamily(genonymConvention, Genonym(NAME0))
             }
 
             @Test
             fun `From patronym to no convention`() {
-                changeToFamily(PatronymConvention(), Genonym(NAME0))
+                changeToFamily(patronymConvention, Genonym(NAME0))
             }
 
             @Test
             fun `From matronym to no convention`() {
-                changeToFamily(MatronymConvention(), Genonym(NAME0))
+                changeToFamily(matronymConvention, Genonym(NAME0))
             }
 
             private fun changeToFamily(old: NamingConvention, oldName: CharacterName) =
-                changeConvention(old, FamilyConvention(), oldName, Mononym(NAME0))
+                changeConvention(old, familyConvention, oldName, Mononym(NAME0))
         }
 
 
@@ -184,31 +199,31 @@ class CultureTest {
 
             @Test
             fun `Change mononym to genonym`() {
-                changeToPatronym(FamilyConvention(), Mononym(NAME0))
+                changeToPatronym(familyConvention, Mononym(NAME0))
             }
 
             @Test
             fun `Change family name to genonym`() {
-                changeToPatronym(FamilyConvention(), FamilyName(NAME0, null, NAME1))
+                changeToPatronym(familyConvention, FamilyName(NAME0, null, NAME1))
             }
 
             @Test
             fun `Keep for genonym`() {
-                changeToPatronym(GenonymConvention(), Genonym(NAME0))
+                changeToPatronym(genonymConvention, Genonym(NAME0))
             }
 
             @Test
             fun `Keep for patronym`() {
-                changeToPatronym(PatronymConvention(), Genonym(NAME0))
+                changeToPatronym(patronymConvention, Genonym(NAME0))
             }
 
             @Test
             fun `Keep for matronym`() {
-                changeToPatronym(MatronymConvention(), Genonym(NAME0))
+                changeToPatronym(matronymConvention, Genonym(NAME0))
             }
 
             private fun changeToPatronym(old: NamingConvention, oldName: CharacterName) =
-                changeConvention(old, PatronymConvention(), oldName, Genonym(NAME0))
+                changeConvention(old, patronymConvention, oldName, Genonym(NAME0))
         }
 
         private fun changeConvention(
@@ -223,6 +238,7 @@ class CultureTest {
                     Storage(Calendar(CALENDAR_ID_0)),
                     Storage(listOf(character0, character1)),
                     Storage(Culture(CULTURE_ID_0, namingConvention = old)),
+                    Storage(Language(LANGUAGE_ID_0)),
                     Storage(nameList)
                 )
             )

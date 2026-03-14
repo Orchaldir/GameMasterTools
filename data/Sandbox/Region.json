@@ -1,5 +1,156 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "Dolmenwood",
+   "data": {
+    "#type": "Forrest"
+   },
+   "position": {
+    "#type": "Plane",
+    "plane": 0
+   }
+  },
+  "1": {
+   "id": 1,
+   "name": "Aldweald",
+   "data": {
+    "#type": "Forrest"
+   },
+   "position": {
+    "#type": "Region",
+    "region": 0
+   }
+  },
+  "2": {
+   "id": 2,
+   "name": "The Groaning Loch",
+   "data": {
+    "#type": "Lake"
+   },
+   "position": {
+    "#type": "Region",
+    "region": 1
+   }
+  },
+  "3": {
+   "id": 3,
+   "name": "Dwelmfurgh",
+   "position": {
+    "#type": "Region",
+    "region": 0
+   }
+  },
+  "4": {
+   "id": 4,
+   "name": "Lake Longmere",
+   "data": {
+    "#type": "Lake"
+   },
+   "position": {
+    "#type": "Region",
+    "region": 3
+   }
+  },
+  "5": {
+   "id": 5,
+   "name": "Fever Marsh",
+   "data": {
+    "#type": "Wetland"
+   },
+   "position": {
+    "#type": "Region",
+    "region": 0
+   }
+  },
+  "6": {
+   "id": 6,
+   "name": "Hag’s Addle",
+   "data": {
+    "#type": "Wetland"
+   },
+   "position": {
+    "#type": "Region",
+    "region": 0
+   }
+  },
+  "7": {
+   "id": 7,
+   "name": "Mulchgrove",
+   "data": {
+    "#type": "Forrest"
+   },
+   "position": {
+    "#type": "Region",
+    "region": 0
+   }
+  },
+  "8": {
+   "id": 8,
+   "name": "The High Wold",
+   "position": {
+    "#type": "Region",
+    "region": 0
+   }
+  },
+  "9": {
+   "id": 9,
+   "name": "The Nagwood",
+   "data": {
+    "#type": "Forrest"
+   },
+   "position": {
+    "#type": "Region",
+    "region": 0
+   }
+  },
+  "10": {
+   "id": 10,
+   "name": "Northern Scratch",
+   "data": {
+    "#type": "Wetland"
+   },
+   "position": {
+    "#type": "RelativeToRegion",
+    "direction": "NorthWest",
+    "region": 0
+   }
+  },
+  "11": {
+   "id": 11,
+   "name": "The Table Downs",
+   "data": {
+    "#type": "Hills"
+   },
+   "position": {
+    "#type": "RelativeToRegion",
+    "direction": "North",
+    "region": 0
+   }
+  },
+  "12": {
+   "id": 12,
+   "name": "The Tithelands",
+   "data": {
+    "#type": "Plains"
+   },
+   "position": {
+    "#type": "RelativeToRegion",
+    "direction": "SouthEast",
+    "region": 0
+   }
+  },
+  "13": {
+   "id": 13,
+   "name": "The Valley of the Wise Beasts",
+   "data": {
+    "#type": "Forrest"
+   },
+   "position": {
+    "#type": "Region",
+    "region": 0
+   }
+  }
  }
 }

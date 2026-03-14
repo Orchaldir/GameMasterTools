@@ -5,6 +5,8 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.createStorage
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.CultureId
+import at.orchaldir.gm.core.model.culture.language.Language
+import at.orchaldir.gm.core.model.culture.language.LanguageId
 import at.orchaldir.gm.core.model.economy.material.Material
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.economy.material.MaterialProperties
@@ -42,6 +44,7 @@ fun createDefaultState(path: String): State = State(
         Storage(createDefaultCalendar()),
         Storage(createDefaultCulture()),
         Storage(createDefaultCurrency()),
+        Storage(Language(LanguageId(0))),
         Storage(createDefaultMaterials()),
     )
 )

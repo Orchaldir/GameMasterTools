@@ -40,22 +40,39 @@ fun HtmlBlockTag.showLifeStages(
 
         is DefaultAging -> {
             showAppearance(call, state, lifeStages.appearance)
-            fieldList("Max Ages", lifeStages.maxAges.withIndex().toList()) { indexed ->
-                val maxAge = indexed.value
-                val stage = DefaultLifeStages.entries[indexed.index].name
-                field(stage, "$maxAge years")
-            }
+            showMaxAges(lifeStages.maxAges)
             fieldHairColor(lifeStages.oldAgeHairColor, "Old Age Hair Color")
             fieldHairColor(lifeStages.venerableAgeHairColor, "Venerable Hair Color")
             showStatblock(call, state, lifeStages.statblock)
         }
 
-        is SimpleAging -> {
+        is CustomAging -> {
             showAppearance(call, state, lifeStages.appearance)
             details {
                 showList(lifeStages.lifeStages, HtmlBlockTag::showLifeStage)
             }
             showStatblock(call, state, lifeStages.statblock)
+        }
+
+        is DefaultImmortal -> {
+            showAppearance(call, state, lifeStages.appearance)
+            showMaxAges(lifeStages.maxAges + Int.MAX_VALUE)
+            showStatblock(call, state, lifeStages.statblock)
+        }
+    }
+}
+
+private fun HtmlBlockTag.showMaxAges(maxAges: List<Int>) {
+    fieldList("Max Ages", maxAges.withIndex().toList()) { indexed ->
+        val maxAge = indexed.value
+
+        if (maxAge < Int.MAX_VALUE) {
+            val stage = DefaultLifeStages.entries[indexed.index].name
+            field(stage, "$maxAge years")
+        } else {
+            p {
+                b { +DefaultLifeStages.Ageless.name }
+            }
         }
     }
 }
@@ -119,18 +136,13 @@ fun HtmlBlockTag.editLifeStages(
 
         is DefaultAging -> {
             selectAppearance(state, lifeStages.appearance, 0)
-            var minMaxAge = 1
-            showListWithIndex(lifeStages.getAllLifeStages()) { index, stage ->
-                val nextMaxAge = lifeStages.maxAges.getOrNull(index + 1) ?: 10001
-                selectMaxAge(stage.name.text, index, stage.maxAge, minMaxAge, nextMaxAge - 1)
-                minMaxAge = stage.maxAge + 1
-            }
+            selectMaxAges(lifeStages.getAllLifeStages(), lifeStages.maxAges)
             selectHairColor("Old Age Hair Color", 6, lifeStages.oldAgeHairColor)
             selectHairColor("Venerable Hair Color", 7, lifeStages.venerableAgeHairColor)
             editStatblock(call, state, lifeStages.statblock)
         }
 
-        is SimpleAging -> {
+        is CustomAging -> {
             selectAppearance(state, lifeStages.appearance, 0)
             selectNumberOfLifeStages(lifeStages.lifeStages.size)
             var minMaxAge = 1
@@ -160,6 +172,24 @@ fun HtmlBlockTag.editLifeStages(
             }
             editStatblock(call, state, lifeStages.statblock)
         }
+
+        is DefaultImmortal -> {
+            selectAppearance(state, lifeStages.appearance, 0)
+            selectMaxAges(lifeStages.getAllLifeStages().dropLast(1), lifeStages.maxAges)
+            editStatblock(call, state, lifeStages.statblock)
+        }
+    }
+}
+
+private fun HtmlBlockTag.selectMaxAges(
+    stages: List<LifeStage>,
+    maxAges: List<Int>,
+) {
+    var minMaxAge = 1
+    showListWithIndex(stages) { index, stage ->
+        val nextMaxAge = maxAges.getOrNull(index + 1) ?: 10001
+        selectMaxAge(stage.name.text, index, stage.maxAge, minMaxAge, nextMaxAge - 1)
+        minMaxAge = stage.maxAge + 1
     }
 }
 
@@ -214,29 +244,35 @@ private fun HtmlBlockTag.selectAppearance(
 fun parseLifeStages(
     state: State,
     parameters: Parameters,
-) = when (parse(parameters, combine(LIFE_STAGE, TYPE), LifeStagesType.DefaultAging)) {
+) = when (parse(parameters, combine(LIFE_STAGE, TYPE), LifeStagesType.Aging)) {
     LifeStagesType.ImmutableLifeStage -> ImmutableLifeStage(
         parseAppearanceId(parameters, 0),
         parseStatblock(state, parameters),
     )
 
-    LifeStagesType.DefaultAging -> DefaultAging(
+    LifeStagesType.Aging -> DefaultAging(
         parseAppearanceId(parameters, 0),
-        parseMaxAges(parameters),
+        parseMaxAges(parameters, DEFAULT_MAX_AGES),
         parseHairColor(parameters, 6),
         parseHairColor(parameters, 7),
         parseStatblock(state, parameters),
     )
 
-    LifeStagesType.SimpleAging -> SimpleAging(
+    LifeStagesType.CustomAging -> CustomAging(
         parseAppearanceId(parameters, 0),
         parseSimpleLifeStages(parameters),
         parseStatblock(state, parameters),
     )
+
+    LifeStagesType.Immortal -> DefaultImmortal(
+        parseAppearanceId(parameters, 0),
+        parseMaxAges(parameters, IMMORTAL_MAX_AGES),
+        parseStatblock(state, parameters),
+    )
 }
 
-private fun parseMaxAges(parameters: Parameters): List<Int> = (0..<DefaultLifeStages.entries.size)
-    .map { parseMaxAge(parameters, it, DEFAULT_MAX_AGES[it]) }
+private fun parseMaxAges(parameters: Parameters, defaultMaxAges: List<Int>): List<Int> = (0..<defaultMaxAges.size)
+    .map { parseMaxAge(parameters, it, defaultMaxAges[it]) }
 
 private fun parseSimpleLifeStages(parameters: Parameters): List<LifeStage> {
     val count = parseInt(parameters, LIFE_STAGE, 2)

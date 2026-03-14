@@ -68,7 +68,7 @@ fun Application.configureSettlementSizeRouting() {
                 listOf(
                     createNameColumn(call, state),
                     Column("Max Population") { tdSkipZero(it.maxPopulation) },
-                    countCollectionColumn("Settlements") { state.getSettlements(it.id) },
+                    countCollectionColumn("Settlements") { state.getSettlements(it) },
                 ),
             )
         }

@@ -3,7 +3,139 @@
  "elements": {
   "0": {
    "id": 0,
-   "name": "Default Culture"
+   "name": "Commoner",
+   "languages": {
+    "1": "Rare",
+    "5": "Rare",
+    "8": "Common"
+   },
+   "namingConvention": {
+    "#type": "Family",
+    "givenNames": {
+     "#type": "MaleAndFemale",
+     "male": 7,
+     "female": 8,
+     "unisex": 15
+    },
+    "familyNames": 9,
+    "middleNameOptions": {
+     "None": "Common"
+    }
+   }
+  },
+  "1": {
+   "id": 1,
+   "name": "Shorthorn",
+   "motherTongue": 8,
+   "languages": {
+    "9": "Rare",
+    "5": "Rare",
+    "0": "Everyone"
+   },
+   "namingConvention": {
+    "#type": "Family",
+    "givenNames": {
+     "#type": "MaleAndFemale",
+     "male": 10,
+     "female": 1,
+     "unisex": 14
+    },
+    "familyNames": 12,
+    "middleNameOptions": {
+     "None": "Common"
+    }
+   }
+  },
+  "2": {
+   "id": 2,
+   "name": "Longhorn",
+   "motherTongue": 9,
+   "languages": {
+    "8": "Rare",
+    "5": "Uncommon",
+    "0": "Everyone"
+   },
+   "namingConvention": {
+    "#type": "Family",
+    "givenNames": {
+     "#type": "MaleAndFemale",
+     "male": 10,
+     "female": 11,
+     "unisex": 13
+    },
+    "familyNames": 12,
+    "middleNameOptions": {
+     "None": "Common"
+    }
+   }
+  },
+  "3": {
+   "id": 3,
+   "name": "Grimalkin",
+   "motherTongue": 4,
+   "languages": {
+    "6": "Rare",
+    "8": "Rare",
+    "5": "Everyone",
+    "0": "Common"
+   },
+   "namingConvention": {
+    "#type": "Random",
+    "givenNames": {
+     "#type": "MaleAndFemale",
+     "male": 3,
+     "female": 4,
+     "unisex": 5
+    },
+    "lastNames": 6,
+    "middleNameOptions": {
+     "None": "Common"
+    }
+   }
+  },
+  "4": {
+   "id": 4,
+   "name": "Nobility",
+   "languages": {
+    "10": "Rare",
+    "1": "Uncommon"
+   },
+   "namingConvention": {
+    "#type": "Family",
+    "givenNames": {
+     "#type": "MaleAndFemale",
+     "male": 16,
+     "female": 17,
+     "unisex": 18
+    },
+    "familyNames": 19,
+    "middleNameOptions": {
+     "None": "Common"
+    }
+   }
+  },
+  "5": {
+   "id": 5,
+   "name": "Drune",
+   "motherTongue": 13,
+   "languages": {
+    "12": "Uncommon",
+    "5": "Common",
+    "0": "Everyone"
+   },
+   "namingConvention": {
+    "#type": "Family",
+    "givenNames": {
+     "#type": "MaleAndFemale",
+     "male": 20,
+     "female": 21,
+     "unisex": 22
+    },
+    "familyNames": 23,
+    "middleNameOptions": {
+     "None": "Common"
+    }
+   }
   }
  }
 }

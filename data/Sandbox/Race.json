@@ -1,5 +1,41 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "Breggle",
+   "weight": 70000000,
+   "lifeStages": {
+    "#type": "Aging",
+    "oldAgeHairColor": {
+     "#type": "Exotic",
+     "color": "Gray"
+    },
+    "venerableAgeHairColor": {
+     "#type": "Exotic",
+     "color": "LightGray"
+    }
+   }
+  },
+  "1": {
+   "id": 1,
+   "name": "Grimalkin",
+   "height": {
+    "center": 900000
+   },
+   "weight": 30000000,
+   "lifeStages": {
+    "#type": "Immortal",
+    "appearance": 1
+   }
+  },
+  "2": {
+   "id": 2,
+   "name": "Human",
+   "lifeStages": {
+    "#type": "Aging",
+    "appearance": 2
+   }
+  }
  }
 }

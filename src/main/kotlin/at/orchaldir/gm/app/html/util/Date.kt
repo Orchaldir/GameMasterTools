@@ -132,10 +132,11 @@ fun HtmlBlockTag.selectOptionalDate(
     param: String,
     minDate: Date? = null,
 ) {
-    selectOptionalDate(state.getDefaultCalendar(), fieldLabel, date, param, minDate)
+    selectOptionalDate(state, state.getDefaultCalendar(), fieldLabel, date, param, minDate)
 }
 
 fun HtmlBlockTag.selectOptionalDate(
+    state: State,
     calendar: Calendar,
     fieldLabel: String,
     date: Date?,
@@ -143,76 +144,9 @@ fun HtmlBlockTag.selectOptionalDate(
     minDate: Date? = null,
 ) {
     selectOptional(fieldLabel, date, param) {
-        selectDate(calendar, it, param, minDate)
+        selectDate(state, calendar, it, param, minDate)
     }
 }
-
-fun HtmlBlockTag.selectOptionalYear(
-    state: State,
-    fieldLabel: String,
-    year: Year?,
-    param: String,
-    minDate: Date? = null,
-    maxDate: Date? = null,
-) {
-    selectOptionalYear(state.getDefaultCalendar(), fieldLabel, year, param, minDate, maxDate)
-}
-
-fun HtmlBlockTag.selectOptionalYear(
-    calendar: Calendar,
-    fieldLabel: String,
-    year: Year?,
-    param: String,
-    minDate: Date? = null,
-    maxDate: Date? = null,
-) {
-    selectOptional(fieldLabel, year, param) {
-        val displayYear = resolveYear(it)
-        selectYear(param, calendar, displayYear, minDate, maxDate)
-    }
-}
-
-fun HtmlBlockTag.selectOptionalMonth(
-    calendar: Calendar,
-    fieldLabel: String,
-    month: Month?,
-    param: String,
-    minDate: Date? = null,
-    maxDate: Date? = null,
-) {
-    selectOptional(fieldLabel, month, param) {
-        val displayMonth = calendar.resolveMonth(it)
-        selectMonth(param, calendar, displayMonth, minDate, maxDate)
-    }
-}
-
-fun HtmlBlockTag.selectOptionalWeek(
-    calendar: Calendar,
-    fieldLabel: String,
-    week: Week?,
-    param: String,
-    minDate: Date? = null,
-) {
-    selectOptional(fieldLabel, week, param) {
-        val displayWeek = calendar.resolveWeek(it)
-        selectWeek(param, calendar, displayWeek, minDate)
-    }
-}
-
-fun HtmlBlockTag.selectOptionalDay(
-    calendar: Calendar,
-    fieldLabel: String,
-    day: Day?,
-    param: String,
-    minDate: Date? = null,
-    maxDate: Date? = null,
-) {
-    selectOptional(fieldLabel, day, param) {
-        val displayDay = calendar.resolveDay(it)
-        selectDay(param, calendar, displayDay, minDate, maxDate)
-    }
-}
-
 
 // select
 
@@ -225,10 +159,11 @@ fun HtmlBlockTag.selectDate(
     maxDate: Date? = null,
     optionalDateTypes: Set<DateType>? = null,
 ) {
-    selectDate(state.getDefaultCalendar(), fieldLabel, date, param, minDate, maxDate, optionalDateTypes)
+    selectDate(state, state.getDefaultCalendar(), fieldLabel, date, param, minDate, maxDate, optionalDateTypes)
 }
 
 fun HtmlBlockTag.selectDate(
+    state: State,
     calendar: Calendar,
     fieldLabel: String,
     date: Date,
@@ -238,11 +173,12 @@ fun HtmlBlockTag.selectDate(
     optionalDateTypes: Set<DateType>? = null,
 ) {
     field(fieldLabel) {
-        selectDate(calendar, date, param, minDate, maxDate, optionalDateTypes)
+        selectDate(state, calendar, date, param, minDate, maxDate, optionalDateTypes)
     }
 }
 
 private fun HtmlBlockTag.selectDate(
+    state: State,
     calendar: Calendar,
     date: Date,
     param: String,
@@ -251,6 +187,7 @@ private fun HtmlBlockTag.selectDate(
     optionalDateTypes: Set<DateType>? = null,
 ) {
     val displayDate = calendar.resolve(date)
+    val yearsAgo = state.getAgeInYears(date)
     val dateTypeParam = combine(param, DATE)
     val dateTypes = optionalDateTypes ?: calendar.getValidDateTypes()
 
@@ -271,8 +208,8 @@ private fun HtmlBlockTag.selectDate(
         is DisplayDayRange -> error("Day Range is not supported!")
         is DisplayWeek -> selectWeek(param, calendar, displayDate, minDate) // TODO
         is DisplayMonth -> selectMonth(param, calendar, displayDate, minDate, maxDate)
-        is DisplayYear -> selectYear(param, calendar, displayDate, minDate, maxDate)
-        is DisplayApproximateYear -> selectYear(param, calendar, displayDate, minDate, maxDate)
+        is DisplayYear -> selectYear(param, calendar, displayDate, yearsAgo, minDate, maxDate)
+        is DisplayApproximateYear -> selectYear(param, calendar, displayDate, yearsAgo, minDate, maxDate)
         is DisplayDecade -> selectDecade(param, calendar, displayDate, minDate, maxDate)
         is DisplayCentury -> selectCentury(param, calendar, displayDate, minDate, maxDate)
         is DisplayMillennium -> selectMillennium(param, calendar, displayDate, minDate, maxDate)
@@ -325,17 +262,19 @@ fun HtmlBlockTag.selectYear(
     state: State,
     fieldLabel: String,
     year: Year,
+    yearsAgo: Int,
     param: String,
     minDate: Date? = null,
     maxDate: Date? = null,
 ) {
-    selectYear(fieldLabel, state.getDefaultCalendar(), year, param, minDate, maxDate)
+    selectYear(fieldLabel, state.getDefaultCalendar(), year, yearsAgo, param, minDate, maxDate)
 }
 
 fun HtmlBlockTag.selectYear(
     fieldLabel: String,
     calendar: Calendar,
     year: Year,
+    yearsAgo: Int,
     param: String,
     minDate: Date? = null,
     maxDate: Date? = null,
@@ -343,7 +282,7 @@ fun HtmlBlockTag.selectYear(
     val displayDate = resolveYear(year)
 
     field(fieldLabel) {
-        selectYear(param, calendar, displayDate, minDate, maxDate)
+        selectYear(param, calendar, displayDate, yearsAgo, minDate, maxDate)
     }
 }
 
@@ -351,6 +290,7 @@ private fun <D : DisplayDate> HtmlBlockTag.selectYear(
     param: String,
     calendar: Calendar,
     year: D,
+    yearsAgo: Int,
     minDate: Date? = null,
     maxDate: Date? = null,
 ) {
@@ -359,6 +299,7 @@ private fun <D : DisplayDate> HtmlBlockTag.selectYear(
 
     selectEraIndex(param, calendar, year.eraIndex(), displayMinYear, displayMaxYear)
     selectYearIndex(param, year, displayMinYear, displayMaxYear)
+    +" $yearsAgo years ago"
 }
 
 fun HtmlBlockTag.selectWeek(
@@ -758,44 +699,6 @@ fun parseOptionalDate(
     param: String,
 ): Date? = parseOptional(parameters, param) {
     parseDate(parameters, calendar, param)
-}
-
-fun parseOptionalYear(
-    parameters: Parameters,
-    state: State,
-    param: String,
-): Year? = parseOptionalYear(parameters, state.getDefaultCalendar(), param)
-
-fun parseOptionalYear(
-    parameters: Parameters,
-    calendar: Calendar,
-    param: String,
-): Year? = parseOptional(parameters, param) {
-    parseYear(parameters, param)
-}
-
-fun parseOptionalMonth(
-    parameters: Parameters,
-    calendar: Calendar,
-    param: String,
-): Month? = parseOptional(parameters, param) {
-    parseMonth(parameters, calendar, param)
-}
-
-fun parseOptionalWeek(
-    parameters: Parameters,
-    calendar: Calendar,
-    param: String,
-): Week? = parseOptional(parameters, param) {
-    parseWeek(parameters, calendar, param)
-}
-
-fun parseOptionalDay(
-    parameters: Parameters,
-    calendar: Calendar,
-    param: String,
-): Day? = parseOptional(parameters, param) {
-    parseDay(parameters, calendar, param)
 }
 
 // parse

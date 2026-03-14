@@ -25,12 +25,14 @@ enum class RegionDataType {
     Continent,
     Desert,
     Forrest,
+    Hills,
     Lake,
     Mountain,
     Plains,
     Sea,
     Undefined,
     Wasteland,
+    Wetland,
 }
 
 @Serializable
@@ -41,12 +43,14 @@ sealed class RegionData {
         Continent -> RegionDataType.Continent
         Desert -> RegionDataType.Desert
         Forrest -> RegionDataType.Forrest
+        Hills -> RegionDataType.Hills
         Lake -> RegionDataType.Lake
         Plains -> RegionDataType.Plains
         Mountain -> RegionDataType.Mountain
         Sea -> RegionDataType.Sea
         UndefinedRegionData -> RegionDataType.Undefined
         is Wasteland -> RegionDataType.Wasteland
+        Wetland -> RegionDataType.Wetland
     }
 
     fun getAllowedRegionTypes() = if (this is Continent) {
@@ -81,6 +85,10 @@ data object Desert : RegionData()
 data object Forrest : RegionData()
 
 @Serializable
+@SerialName("Hills")
+data object Hills : RegionData()
+
+@Serializable
 @SerialName("Lake")
 data object Lake : RegionData()
 
@@ -106,4 +114,7 @@ data class Wasteland(
     val cause: EventReference = UndefinedEventReference,
 ) : RegionData()
 
+@Serializable
+@SerialName("Wetland")
+data object Wetland : RegionData()
 

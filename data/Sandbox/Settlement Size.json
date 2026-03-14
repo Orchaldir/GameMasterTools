@@ -1,5 +1,29 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "Hamlet",
+   "maxPopulation": 50
+  },
+  "1": {
+   "id": 1,
+   "name": "Village"
+  },
+  "2": {
+   "id": 2,
+   "name": "Small Town",
+   "maxPopulation": 4000
+  },
+  "3": {
+   "id": 3,
+   "name": "Large Town",
+   "maxPopulation": 8000
+  },
+  "4": {
+   "id": 4,
+   "name": "City",
+   "maxPopulation": 16000
+  }
  }
 }

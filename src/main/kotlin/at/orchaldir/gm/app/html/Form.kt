@@ -17,6 +17,7 @@ import kotlinx.html.*
 
 const val ON_CHANGE_SCRIPT = "updateEditor();"
 
+inline fun <reified T : Enum<T>> combine(param: String, value: T) = combine(param, value.name)
 fun combine(param0: String, param1: String) = "$param0-$param1"
 fun combine(param0: String, param1: String, param2: String) = "$param0-$param1-$param2"
 fun combine(param: String, number: Int) = combine(param, number.toString())

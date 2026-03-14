@@ -444,7 +444,9 @@ private fun HtmlBlockTag.editHorns(state: State, appearance: RaceAppearance) {
     }
 
     if (requiresNormalHorns || requiresCrown) {
-        editFeatureColor(state, options.colors, appearance.hair, combine(HORN, COLOR))
+        showDetails("Horn Color", true) {
+            editFeatureColor(state, options.colors, appearance.hair, combine(HORN, COLOR))
+        }
     }
 }
 

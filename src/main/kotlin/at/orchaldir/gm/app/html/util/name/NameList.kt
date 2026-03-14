@@ -20,6 +20,7 @@ fun HtmlBlockTag.showNameList(
     state: State,
     nameList: NameList,
 ) {
+    field("Count", nameList.names.size)
     fieldList("Names", nameList.names) { name ->
         +name.text
     }
@@ -35,6 +36,7 @@ fun HtmlBlockTag.editNameList(
 ) {
     selectName(nameList.name)
     h2 { +"Names" }
+    field("Count", nameList.names.size)
     editTextArea(
         NAMES,
         30,
@@ -49,6 +51,9 @@ fun parseNameListId(
     parameters: Parameters,
     param: String,
 ) = NameListId(parseInt(parameters, param))
+
+fun parseOptionalNameListId(parameters: Parameters, param: String) =
+    parseSimpleOptionalInt(parameters, param)?.let { NameListId(it) }
 
 fun parseNameList(state: State, parameters: Parameters, id: NameListId) = NameList(
     id,

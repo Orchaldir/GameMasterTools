@@ -24,7 +24,7 @@ import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
 import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
-import at.orchaldir.gm.core.model.race.aging.SimpleAging
+import at.orchaldir.gm.core.model.race.aging.CustomAging
 import at.orchaldir.gm.core.model.time.date.Date
 import at.orchaldir.gm.core.model.time.date.Year
 import at.orchaldir.gm.core.model.util.Dead
@@ -265,7 +265,7 @@ private fun HtmlBlockTag.selectOrigin(
 ) {
     editOrigin(state, character.id, character.origin, birthdate, ALLOWED_CHARACTER_ORIGINS, ::CharacterId)
 
-    if (race.lifeStages is SimpleAging) {
+    if (race.lifeStages is CustomAging) {
         selectOptionalValue(
             "Random Age Within Life Stage",
             LIFE_STAGE,
