@@ -133,6 +133,8 @@ fun State.getEvents(calendar: Calendar): List<Event<*>> {
 
     getSettlementStorage().getAll().forEach { settlement ->
         handleStartAndEnd(events, default, calendar, settlement)
+
+        addHistoricEvents(events, default, calendar, settlement.id, settlement.owner, HistoryEventType.OwnerRealm)
     }
 
     getTreatyStorage().getAll().forEach { treaty ->
