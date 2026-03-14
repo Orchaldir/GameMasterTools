@@ -42,7 +42,7 @@ fun HtmlBlockTag.showCulture(
     }
     showHolidays(call, state, culture.holidays)
     showDataSources(call, state, culture.sources)
-    showNamingConvention(culture.namingConvention, call, state)
+    showNamingConvention(call, state, culture.namingConvention)
     showClothingOptions(call, state, culture)
     showPopulationOfCulture(call, state, culture)
     showUsages(call, state, culture.id)
@@ -95,7 +95,7 @@ fun HtmlBlockTag.editCulture(
     )
     editHolidays(state, culture.holidays)
     editDataSources(state, culture.sources)
-    editNamingConvention(culture.namingConvention, state)
+    editNamingConvention(state, culture.namingConvention)
     editClothingOptions(state, culture)
 }
 

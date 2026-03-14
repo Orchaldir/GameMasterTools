@@ -6,15 +6,12 @@ import at.orchaldir.gm.app.html.util.parseGenderMap
 import at.orchaldir.gm.app.html.util.selectGenderMap
 import at.orchaldir.gm.app.html.util.showGenderMap
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.culture.name.*
-import at.orchaldir.gm.core.model.culture.name.GivenNamesType.MaleAndFemale
-import at.orchaldir.gm.core.model.culture.name.GivenNamesType.NonGendered
 import at.orchaldir.gm.core.model.culture.name.NameOrder.GivenNameFirst
 import at.orchaldir.gm.core.model.culture.name.NamingConventionType.*
 import at.orchaldir.gm.core.model.util.GenderMap
-import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.util.name.NameListId
+import at.orchaldir.gm.core.selector.util.sortNameLists
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -23,50 +20,50 @@ import kotlinx.html.*
 // show
 
 fun HtmlBlockTag.showNamingConvention(
-    namingConvention: NamingConvention,
     call: ApplicationCall,
     state: State,
+    convention: NamingConvention,
 ) {
     h2 { +"Naming Convention" }
-    field("Type", namingConvention.getType())
-    when (namingConvention) {
+    field("Type", convention.getType())
+    when (convention) {
         is FamilyConvention -> {
-            field("Name Order", namingConvention.nameOrder)
-            showRarityMap("Middle Name Options", namingConvention.middleNameOptions)
-            showGivenNames(call, state, namingConvention.givenNames)
-            fieldLink("Family Names", call, state, namingConvention.familyNames)
+            field("Name Order", convention.nameOrder)
+            showRarityMap("Middle Name Options", convention.middleNameOptions)
+            showGivenNames(call, state, convention.givenNames)
+            fieldLink("Family Names", call, state, convention.familyNames)
         }
 
         is GenonymConvention -> showGenonymConvention(
             call,
             state,
-            namingConvention.lookupDistance,
-            namingConvention.style,
-            namingConvention.names
+            convention.lookupDistance,
+            convention.style,
+            convention.names
         )
 
         is MatronymConvention -> showGenonymConvention(
             call,
             state,
-            namingConvention.lookupDistance,
-            namingConvention.style,
-            namingConvention.names
+            convention.lookupDistance,
+            convention.style,
+            convention.names
         )
 
-        is MononymConvention -> showGivenNames(call, state, namingConvention.names)
+        is MononymConvention -> showGivenNames(call, state, convention.names)
 
         NoNamingConvention -> doNothing()
         is PatronymConvention -> showGenonymConvention(
             call,
             state,
-            namingConvention.lookupDistance,
-            namingConvention.style,
-            namingConvention.names
+            convention.lookupDistance,
+            convention.style,
+            convention.names
         )
         is RandomGivenAndLastName -> {
-            showGivenNames(call, state, namingConvention.givenNames)
-            showRarityMap("Middle Name Options", namingConvention.middleNameOptions)
-            fieldLink("Last Names", call, state, namingConvention.lastNames)
+            showGivenNames(call, state, convention.givenNames)
+            showRarityMap("Middle Name Options", convention.middleNameOptions)
+            fieldLink("Last Names", call, state, convention.lastNames)
         }
     }
 }
@@ -102,51 +99,47 @@ private fun HtmlBlockTag.showStyleByGender(
 // edit
 
 fun HtmlBlockTag.editNamingConvention(
-    namingConvention: NamingConvention,
     state: State,
+    convention: NamingConvention,
 ) {
     h2 { +"Naming Convention" }
-    selectValue("Type", NAMING_CONVENTION, NamingConventionType.entries, namingConvention.getType())
+    selectValue("Type", NAMING_CONVENTION, NamingConventionType.entries, convention.getType())
 
-    when (namingConvention) {
+    when (convention) {
         is FamilyConvention -> {
-            selectValue("Name Order", combine(NAME, ORDER), NameOrder.entries, namingConvention.nameOrder)
-            editGivenNames(state, namingConvention.givenNames)
-            selectRarityMap("Middle Name Options", combine(MIDDLE, NAME), namingConvention.middleNameOptions)
-            field("Family Names") {
-                selectNameList(FAMILY_NAMES, state, namingConvention.familyNames)
-            }
+            selectValue("Name Order", combine(NAME, ORDER), NameOrder.entries, convention.nameOrder)
+            editGivenNames(state, convention.givenNames)
+            selectRarityMap("Middle Name Options", combine(MIDDLE, NAME), convention.middleNameOptions)
+            selectNameList(state, convention.familyNames)
         }
 
         is GenonymConvention -> selectGenonymConvention(
             state,
-            namingConvention.lookupDistance,
-            namingConvention.style,
-            namingConvention.names
+            convention.lookupDistance,
+            convention.style,
+            convention.names
         )
 
         is MatronymConvention -> selectGenonymConvention(
             state,
-            namingConvention.lookupDistance,
-            namingConvention.style,
-            namingConvention.names
+            convention.lookupDistance,
+            convention.style,
+            convention.names
         )
 
-        is MononymConvention -> editGivenNames(state, namingConvention.names)
+        is MononymConvention -> editGivenNames(state, convention.names)
 
         NoNamingConvention -> doNothing()
         is PatronymConvention -> selectGenonymConvention(
             state,
-            namingConvention.lookupDistance,
-            namingConvention.style,
-            namingConvention.names
+            convention.lookupDistance,
+            convention.style,
+            convention.names
         )
         is RandomGivenAndLastName -> {
-            editGivenNames(state, namingConvention.givenNames)
-            selectRarityMap("Middle Name Options", combine(MIDDLE, NAME), namingConvention.middleNameOptions)
-            field("Last Names") {
-                selectNameList(FAMILY_NAMES, state, namingConvention.lastNames)
-            }
+            editGivenNames(state, convention.givenNames)
+            selectRarityMap("Middle Name Options", combine(MIDDLE, NAME), convention.middleNameOptions)
+            selectNameList(state, convention.lastNames)
         }
     }
 }
@@ -170,21 +163,16 @@ private fun HtmlBlockTag.selectGenonymConvention(
 }
 
 private fun HtmlBlockTag.selectNameList(
-    selectId: String,
     state: State,
     nameListId: NameListId,
 ) {
-    select {
-        id = selectId
-        name = selectId
-        state.getNameListStorage().getAll().forEach { nameList ->
-            option {
-                label = nameList.name.text
-                value = nameList.id.value.toString()
-                selected = nameList.id == nameListId
-            }
-        }
-    }
+    selectElement(
+        state,
+        "Family Names",
+        FAMILY_NAMES,
+        state.sortNameLists(),
+        nameListId,
+    )
 }
 
 private fun HtmlBlockTag.selectWordsByGender(label: String, genderMap: GenderMap<String>, param: String) {
