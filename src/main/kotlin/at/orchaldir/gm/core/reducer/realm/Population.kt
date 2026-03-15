@@ -8,6 +8,7 @@ import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.doNothing
+import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.ONE
 import at.orchaldir.gm.utils.math.ZERO
 import kotlin.text.compareTo
@@ -56,6 +57,10 @@ fun validatePopulation(
 
         validatePopulationUnits(state, population.units) { number, population ->
             require(population > ZERO) { "$number.unit's population must be > 0%!" }
+        }
+
+        require(population.units.map { it.value }.reduce { acc, factor -> acc + factor } <= FULL) {
+            "The total percentage of all units is > 100%!"
         }
     }
 

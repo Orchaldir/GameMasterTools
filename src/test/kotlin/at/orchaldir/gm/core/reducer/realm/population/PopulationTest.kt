@@ -266,7 +266,7 @@ class PopulationTest {
         }
 
         @Test
-        fun `With an negative population`() {
+        fun `With an negative percentage`() {
             assertInvalid(
                 validUnit0.copy(value = fromPercentage(-1)),
                 "1.unit's population must be > 0%!",
@@ -274,10 +274,20 @@ class PopulationTest {
         }
 
         @Test
-        fun `With a population of 0`() {
+        fun `With a percentage of 0`() {
             assertInvalid(
                 validUnit0.copy(value = ZERO),
                 "1.unit's population must be > 0%!",
+            )
+        }
+
+        @Test
+        fun `With a total percentage greater 100`() {
+            val units = listOf(validUnit0, validUnit1.copy(value = fromPercentage(90)))
+
+            assertInvalid(
+                PopulationUnitsWithPercentages(total, units),
+                "The total percentage of all units is > 100%!",
             )
         }
 
