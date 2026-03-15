@@ -12,7 +12,6 @@ import at.orchaldir.gm.core.model.util.PercentageDistribution
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.HALF
-import io.ktor.client.request.invoke
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
@@ -25,7 +24,8 @@ class HasPopulationTest {
     private val percentages = PopulationWithPercentages(total, PercentageDistribution(mapOf(RACE_ID_0 to HALF)))
     private val populationWithSets = PopulationWithSets(total, setOf(RACE_ID_0))
     private val unitsWithNumbers = PopulationUnitsWithNumbers(PopulationUnit(100, RACE_ID_0, CULTURE_ID_0))
-    private val unitsWithPercentages = PopulationUnitsWithPercentages(total, PopulationUnit(HALF, RACE_ID_0, CULTURE_ID_0))
+    private val unitsWithPercentages =
+        PopulationUnitsWithPercentages(total, PopulationUnit(HALF, RACE_ID_0, CULTURE_ID_0))
 
     @Nested
     inner class CanDeletePopulationOfTest {

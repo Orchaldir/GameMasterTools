@@ -6,7 +6,6 @@ import at.orchaldir.gm.core.model.economy.job.UndefinedIncome
 import at.orchaldir.gm.core.model.economy.standard.StandardOfLivingId
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.realm.SettlementSizeId
-import at.orchaldir.gm.core.model.realm.population.PopulationUnitsWithNumbers
 import at.orchaldir.gm.core.model.util.NumberDistribution
 import at.orchaldir.gm.core.model.util.PercentageDistribution
 import at.orchaldir.gm.utils.math.Factor
@@ -183,7 +182,7 @@ data class PopulationUnitsWithNumbers(
     val undefined: Int = 0,
 ) : Population() {
 
-    constructor(unit: PopulationUnit<Int>, undefined: Int = 0): this(listOf(unit), undefined)
+    constructor(unit: PopulationUnit<Int>, undefined: Int = 0) : this(listOf(unit), undefined)
 
     fun getData(culture: CultureId) = getData(getNumber(culture))
 
@@ -207,7 +206,7 @@ data class PopulationUnitsWithNumbers(
         .filter { it.culture == culture }
         .sumOf { it.value }
 
-    fun getTotal() = getDefinedNumber()  + undefined
+    fun getTotal() = getDefinedNumber() + undefined
 
     fun getDefinedNumber() = units
         .sumOf { it.value }
@@ -228,7 +227,7 @@ data class PopulationUnitsWithPercentages(
     val units: List<PopulationUnit<Factor>>,
 ) : Population() {
 
-    constructor(total: TotalPopulation, unit: PopulationUnit<Factor>): this(total, listOf(unit))
+    constructor(total: TotalPopulation, unit: PopulationUnit<Factor>) : this(total, listOf(unit))
 
     fun getData(culture: CultureId) = getData(getFactorOrNull(culture))
 

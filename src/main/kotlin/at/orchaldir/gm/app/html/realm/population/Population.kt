@@ -61,12 +61,14 @@ fun HtmlBlockTag.showCulturesOfPopulation(
         population.units.associate { Pair(it.culture, it.value) },
         max,
     )
+
     is PopulationUnitsWithPercentages -> showInlinePercentageDistribution(
         call,
         state,
         population.units.associate { Pair(it.culture, it.value) },
         max,
     )
+
     UndefinedPopulation -> doNothing()
     else -> showInlineIds(call, state, population.cultures(), max)
 }
@@ -85,12 +87,14 @@ fun HtmlBlockTag.showRacesOfPopulation(
         population.units.associate { Pair(it.race, it.value) },
         max,
     )
+
     is PopulationUnitsWithPercentages -> showInlinePercentageDistribution(
         call,
         state,
         population.units.associate { Pair(it.race, it.value) },
         max,
     )
+
     UndefinedPopulation -> doNothing()
     else -> showInlineIds(call, state, population.races(), max)
 }
@@ -222,6 +226,7 @@ fun HtmlBlockTag.editPopulation(
                 selectRaceSet(state, param, population.races)
                 selectCultureSet(state, param, population.cultures)
             }
+
             is PopulationUnitsWithNumbers -> editPopulationUnitsWithNumbers(state, param, population, total)
 
             is PopulationUnitsWithPercentages -> {

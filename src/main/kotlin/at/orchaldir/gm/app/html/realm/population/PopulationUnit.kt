@@ -30,6 +30,10 @@ import at.orchaldir.gm.utils.math.ZERO
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.*
+import kotlin.collections.List
+import kotlin.collections.forEach
+import kotlin.collections.sortedByDescending
+import kotlin.collections.withIndex
 
 // show
 
@@ -243,7 +247,7 @@ private fun HtmlBlockTag.selectNumberOfUnits(
     )
 }
 
-private  fun <T> TR.editUnit(
+private fun <T> TR.editUnit(
     state: State,
     unitParam: String,
     unit: PopulationUnit<T>,
@@ -279,17 +283,17 @@ fun parsePopulationUnitsWithNumbers(
     param: String,
 ) = PopulationUnitsWithNumbers(
     parseList(
-    parameters,
-    param,
-    1,
-) { _, unitParam ->
-    PopulationUnit(
-        parseInt(parameters, combine(unitParam, NUMBER), 100),
-        parseRaceId(parameters, combine(unitParam, RACE)),
-        parseCultureId(parameters, combine(unitParam, CULTURE)),
-        parseIncome(state, parameters, combine(unitParam, INCOME))
-    )
-}
+        parameters,
+        param,
+        1,
+    ) { _, unitParam ->
+        PopulationUnit(
+            parseInt(parameters, combine(unitParam, NUMBER), 100),
+            parseRaceId(parameters, combine(unitParam, RACE)),
+            parseCultureId(parameters, combine(unitParam, CULTURE)),
+            parseIncome(state, parameters, combine(unitParam, INCOME))
+        )
+    }
 )
 
 fun parsePopulationUnitsWithPercentages(

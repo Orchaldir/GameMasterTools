@@ -224,7 +224,7 @@ class PopulationTest {
         }
 
         private fun assertInvalid(unit: PopulationUnit<Int>, text: String) {
-            assertInvalid(PopulationUnitsWithNumbers(unit), text,)
+            assertInvalid(PopulationUnitsWithNumbers(unit), text)
         }
 
     }
@@ -297,7 +297,7 @@ class PopulationTest {
         }
 
         private fun assertInvalid(unit: PopulationUnit<Factor>, text: String) {
-            assertInvalid(PopulationUnitsWithPercentages(total, unit), text,)
+            assertInvalid(PopulationUnitsWithPercentages(total, unit), text)
         }
 
     }

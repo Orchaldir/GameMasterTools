@@ -11,7 +11,6 @@ import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.ONE
 import at.orchaldir.gm.utils.math.ZERO
-import kotlin.text.compareTo
 
 
 fun validatePopulation(
@@ -44,7 +43,7 @@ fun validatePopulation(
         population.income.validate(state)
     }
 
-    is PopulationUnitsWithNumbers ->  {
+    is PopulationUnitsWithNumbers -> {
         validatePopulationUnits(state, population.units) { number, population ->
             require(population > 0) { "$number.unit's population must be > 0!" }
         }
