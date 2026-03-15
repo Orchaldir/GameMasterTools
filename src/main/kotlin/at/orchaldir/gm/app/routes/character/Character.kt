@@ -17,7 +17,7 @@ import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
 import at.orchaldir.gm.core.model.race.aging.LifeStageId
 import at.orchaldir.gm.core.model.time.date.Day
-import at.orchaldir.gm.core.selector.character.getAppearanceForAge
+import at.orchaldir.gm.core.selector.character.getAppearanceOfCharacter
 import at.orchaldir.gm.core.selector.item.equipment.getEquipmentElementMap
 import at.orchaldir.gm.core.selector.organization.getOrganizations
 import at.orchaldir.gm.core.selector.time.getDefaultCalendarId
@@ -101,7 +101,7 @@ fun Application.configureCharacterRouting() {
                 gallery.sort,
             ) { character ->
                 val equipment = state.getEquipmentElementMap(character)
-                val appearance = state.getAppearanceForAge(character)
+                val appearance = state.getAppearanceOfCharacter(character)
                 val paddedSize = calculatePaddedSize(CHARACTER_CONFIG, appearance)
 
                 visualizeAppearance(state, CHARACTER_CONFIG, maxSize, appearance, paddedSize, equipment)

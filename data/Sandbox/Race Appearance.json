@@ -101,7 +101,8 @@
     },
     "furColors": {
      "types": {
-      "Exotic": "Common"
+      "Exotic": "Common",
+      "Stripped": "Uncommon"
      },
      "exotic": {
       "Chocolate": "Common",

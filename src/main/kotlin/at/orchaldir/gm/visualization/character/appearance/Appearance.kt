@@ -9,7 +9,7 @@ import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
 import at.orchaldir.gm.core.model.item.equipment.EquipmentElementMap
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap
 import at.orchaldir.gm.core.model.util.render.Color.Black
-import at.orchaldir.gm.core.selector.character.getAppearanceForAge
+import at.orchaldir.gm.core.selector.character.getAppearanceOfCharacter
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Size2d
@@ -29,7 +29,7 @@ fun visualizeCharacter(
     equipped: EquipmentElementMap = EquipmentMap(),
     renderFront: Boolean = true,
 ): Svg {
-    val appearance = state.getAppearanceForAge(character)
+    val appearance = state.getAppearanceOfCharacter(character)
 
     return visualizeCharacter(state, config, appearance, equipped, renderFront)
 }

@@ -17,7 +17,8 @@ import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.util.SortRace
 import at.orchaldir.gm.core.selector.character.countCharacters
-import at.orchaldir.gm.core.selector.character.getAppearanceForAge
+import at.orchaldir.gm.core.selector.character.updateAppearanceForAge
+import at.orchaldir.gm.core.selector.character.updateAppearanceForLifeStage
 import at.orchaldir.gm.core.selector.race.getRaceGroups
 import at.orchaldir.gm.core.selector.realm.calculateTotalPopulation
 import at.orchaldir.gm.core.selector.util.sortRaces
@@ -126,7 +127,7 @@ fun Application.configureRaceRouting() {
             ) { race ->
                 val lifeStage = race.lifeStages.getAllLifeStages().maxBy { it.relativeSize.toPermyriad() }
                 val appearance = generateAppearance(state, race, race.genders.getValidValues().first())
-                val appearanceForAge = getAppearanceForAge(race, appearance, lifeStage.maxAge)
+                val appearanceForAge = updateAppearanceForLifeStage(appearance, lifeStage)
                 val paddedSize = calculatePaddedSize(CHARACTER_CONFIG, appearanceForAge)
 
                 visualizeAppearance(state, CHARACTER_CONFIG, maxSize, appearanceForAge, paddedSize)
@@ -180,7 +181,7 @@ private fun HtmlBlockTag.visualizeLifeStages(
     val appearance = generateAppearance(state, race, gender)
 
     val svg = visualizeGroup(state, CHARACTER_CONFIG, race.lifeStages.getAllLifeStages().map {
-        getAppearanceForAge(race, appearance, it.maxAge)
+        updateAppearanceForAge(race, appearance, it.maxAge)
     })
 
     p {

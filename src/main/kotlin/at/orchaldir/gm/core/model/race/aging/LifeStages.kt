@@ -228,7 +228,10 @@ private fun getRelativeSize(age: Int, lifeStages: List<LifeStage>): Factor {
     }
 
     lifeStages.forEach { stage ->
-        if (age <= stage.maxAge) {
+        if (stage.maxAge == Int.MAX_VALUE) {
+            return stage.relativeSize
+        }
+        else if (age <= stage.maxAge) {
             val ageDiff = age - previousAge
             val maxAgeDiff = stage.maxAge - previousAge
             val factor = fromNumber(ageDiff / maxAgeDiff.toFloat())
