@@ -23,6 +23,19 @@ import kotlinx.html.HtmlBlockTag
 
 // show
 
+private fun getAgeInYearsText(
+    lifeStage: LifeStage,
+    start: Int,
+): String {
+    val years = if (lifeStage.maxAge == Int.MAX_VALUE) {
+        "$start+"
+    } else {
+        "$start-${lifeStage.maxAge}"
+    }
+
+    return "$years years"
+}
+
 fun HtmlBlockTag.inlineCharacterAge(
     state: State,
     character: Character,
@@ -44,7 +57,7 @@ private fun HtmlBlockTag.inlineCharacterAge(
         val lifeStage = race.lifeStages.getLifeStage(lifeStageId)
         val start = race.lifeStages.getLifeStageStartAge(lifeStageId)
 
-        showTooltip("$start-${lifeStage.maxAge} years") {
+        showTooltip(getAgeInYearsText(lifeStage, start)) {
             +lifeStage.name.text
         }
     }
@@ -104,12 +117,8 @@ private fun DETAILS.showLifeStage(
     lifeStage: LifeStage,
     start: Int,
 ) {
-    val years = if (lifeStage.maxAge == Int.MAX_VALUE) {
-        "$start+"
-    } else {
-        "$start-${lifeStage.maxAge}"
-    }
-    field("Life Stage", "${lifeStage.name.text} ($years years)")
+    val yearsText = getAgeInYearsText(lifeStage, start)
+    field("Life Stage", "${lifeStage.name.text} ($yearsText years)")
 }
 
 // edit
