@@ -44,27 +44,19 @@ data class CharacterRenderConfig(
 
     fun getOptions(state: State, skin: Skin): RenderOptions = FillAndBorder(
         when (skin) {
-            is ExoticSkin -> skin.color.toRender()
-            is Fur -> getHairColor(skin.color)
-            is MaterialSkin -> state
+            is ExoticSkin -> RenderSolid(skin.color)
+            is Fur -> getFurFill(skin.color)
+            is MaterialSkin -> RenderSolid(state
                 .getMaterialStorage()
                 .getOrThrow(skin.material)
                 .properties
-                .color
-                .toRender()
+                .color)
 
-            is NormalSkin -> getSkinColor(skin.color)
-            is Scales -> skin.color.toRender()
+            is NormalSkin -> RenderSolid(getSkinColor(skin.color))
+            is Scales -> RenderSolid(skin.color)
         },
         line,
     )
-
-    fun getHairColor(hairColor: HairColor): RenderColor = when (hairColor) {
-        is NormalHairColor -> getHairColor(hairColor.color)
-        is ExoticHairColor -> hairColor.color.toRender()
-        is StrippedHairColor -> error("StrippedHairColor None is unsupported!")
-        NoHairColor -> error("HairColorType None is unsupported!")
-    }
 
     fun getFeatureOptions(
         state: State,
@@ -82,8 +74,25 @@ data class CharacterRenderConfig(
     }
 
     fun getFillAndBorder(color: Color) = FillAndBorder(color.toRender(), line)
-    fun getFillAndBorder(hairColor: HairColor) = FillAndBorder(getHairColor(hairColor), line)
+    fun getFillAndBorder(hairColor: HairColor) = FillAndBorder(getFurFill(hairColor), line)
 
+    fun getFurFill(hairColor: HairColor): RenderFill = when (hairColor) {
+        is NormalHairColor -> RenderSolid(getHairColor(hairColor.color))
+        is ExoticHairColor -> RenderSolid(hairColor.color.toRender())
+        is StrippedHairColor -> RenderHorizontalStripes(
+            hairColor.color0.toRender(),
+            hairColor.color1.toRender(),
+            Distance.fromCentimeters(5),
+        )
+        NoHairColor -> error("HairColorType None is unsupported!")
+    }
+    fun getHairColor(hairColor: HairColor): RenderColor = when (hairColor) {
+        is NormalHairColor -> getHairColor(hairColor.color)
+        is ExoticHairColor -> hairColor.color.toRender()
+        is StrippedHairColor -> error("StrippedHairColor None is unsupported!")
+        NoHairColor -> error("HairColorType None is unsupported!")
+    }
     fun getHairColor(hairColor: NormalHairColorEnum) = hairColors[hairColor] ?: Color.Purple.toRender()
+
     fun getSkinColor(skinColor: SkinColor) = skinColors[skinColor] ?: Color.Purple.toRender()
 }
