@@ -104,7 +104,12 @@ private fun DETAILS.showLifeStage(
     lifeStage: LifeStage,
     start: Int,
 ) {
-    field("Life Stage", "${lifeStage.name.text} ($start-${lifeStage.maxAge} years)")
+    val years = if (lifeStage.maxAge == Int.MAX_VALUE) {
+        "$start+"
+    } else {
+        "$start-${lifeStage.maxAge}"
+    }
+    field("Life Stage", "${lifeStage.name.text} ($years years)")
 }
 
 // edit
