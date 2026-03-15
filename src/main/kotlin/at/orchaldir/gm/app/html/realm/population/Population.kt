@@ -6,7 +6,7 @@ import at.orchaldir.gm.app.POPULATION
 import at.orchaldir.gm.app.RACE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.culture.parseCultureId
-import at.orchaldir.gm.app.html.economy.editIncome
+import at.orchaldir.gm.app.html.economy.editIncomeDetails
 import at.orchaldir.gm.app.html.economy.parseIncome
 import at.orchaldir.gm.app.html.economy.showIncome
 import at.orchaldir.gm.app.html.race.parseRaceId
@@ -41,6 +41,8 @@ fun HtmlBlockTag.displayPopulation(
         is PopulationWithNumbers -> +population.calculateTotal().toString()
         is PopulationWithPercentages -> displayTotalPopulation(call, state, population.total)
         is PopulationWithSets -> displayTotalPopulation(call, state, population.total)
+        is PopulationUnitsWithNumbers -> +population.getTotal().toString()
+        is PopulationUnitsWithPercentages -> displayTotalPopulation(call, state, population.total)
         UndefinedPopulation -> doNothing()
     }
 }
@@ -53,6 +55,20 @@ fun HtmlBlockTag.showCulturesOfPopulation(
 ) = when (population) {
     is PopulationWithNumbers -> showInlineNumberDistribution(call, state, population.cultures, max)
     is PopulationWithPercentages -> showInlinePercentageDistribution(call, state, population.cultures, max)
+    is PopulationUnitsWithNumbers -> showInlineNumberDistribution(
+        call,
+        state,
+        population.units.associate { Pair(it.culture, it.value) },
+        max,
+    )
+
+    is PopulationUnitsWithPercentages -> showInlinePercentageDistribution(
+        call,
+        state,
+        population.units.associate { Pair(it.culture, it.value) },
+        max,
+    )
+
     UndefinedPopulation -> doNothing()
     else -> showInlineIds(call, state, population.cultures(), max)
 }
@@ -65,6 +81,20 @@ fun HtmlBlockTag.showRacesOfPopulation(
 ) = when (population) {
     is PopulationWithNumbers -> showInlineNumberDistribution(call, state, population.races, max)
     is PopulationWithPercentages -> showInlinePercentageDistribution(call, state, population.races, max)
+    is PopulationUnitsWithNumbers -> showInlineNumberDistribution(
+        call,
+        state,
+        population.units.associate { Pair(it.race, it.value) },
+        max,
+    )
+
+    is PopulationUnitsWithPercentages -> showInlinePercentageDistribution(
+        call,
+        state,
+        population.units.associate { Pair(it.race, it.value) },
+        max,
+    )
+
     UndefinedPopulation -> doNothing()
     else -> showInlineIds(call, state, population.races(), max)
 }
@@ -112,6 +142,13 @@ fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showPopulationDetails(
                 fieldIds(call, state, population.cultures)
             }
 
+            is PopulationUnitsWithNumbers -> showPopulationUnitsWithNumbers(call, state, population, totalOrZero)
+
+            is PopulationUnitsWithPercentages -> {
+                fieldTotalPopulation(call, state, population.total)
+                showPopulationUnitsWithPercentages(call, state, population.units, totalOrZero)
+            }
+
             UndefinedPopulation -> doNothing()
         }
 
@@ -135,7 +172,7 @@ fun HtmlBlockTag.editPopulation(
 
         when (population) {
             is PopulationWithNumbers -> {
-                editIncome(state, population.income, combine(param, INCOME))
+                editIncomeDetails(state, population.income, combine(param, INCOME))
 
                 editNumberDistribution(
                     call,
@@ -160,7 +197,7 @@ fun HtmlBlockTag.editPopulation(
 
             is PopulationWithPercentages -> {
                 editTotalPopulation(state, population.total, param, allowedTotalPopulationTypes)
-                editIncome(state, population.income, combine(param, INCOME))
+                editIncomeDetails(state, population.income, combine(param, INCOME))
 
                 editPercentageDistribution(
                     call,
@@ -185,10 +222,18 @@ fun HtmlBlockTag.editPopulation(
 
             is PopulationWithSets -> {
                 editTotalPopulation(state, population.total, param, allowedTotalPopulationTypes)
-                editIncome(state, population.income, combine(param, INCOME))
+                editIncomeDetails(state, population.income, combine(param, INCOME))
                 selectRaceSet(state, param, population.races)
                 selectCultureSet(state, param, population.cultures)
             }
+
+            is PopulationUnitsWithNumbers -> editPopulationUnitsWithNumbers(state, param, population, total)
+
+            is PopulationUnitsWithPercentages -> {
+                editTotalPopulation(state, population.total, param, allowedTotalPopulationTypes)
+                editPopulationUnitsWithPercentages(state, param, population, total)
+            }
+
 
             UndefinedPopulation -> doNothing()
         }
@@ -265,6 +310,13 @@ fun parsePopulation(
         parseRaceSet(parameters, param),
         parseCultureSet(parameters, param),
         parseIncome(state, parameters, combine(param, INCOME)),
+    )
+
+    PopulationType.UnitsWithNumbers -> parsePopulationUnitsWithNumbers(state, parameters, param)
+
+    PopulationType.UnitsWithPercentages -> PopulationUnitsWithPercentages(
+        parseTotalPopulation(parameters, param),
+        parsePopulationUnitsWithPercentages(state, parameters, param),
     )
 
     Undefined -> UndefinedPopulation

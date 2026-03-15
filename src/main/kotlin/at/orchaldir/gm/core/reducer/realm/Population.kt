@@ -8,7 +8,9 @@ import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.doNothing
+import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.ONE
+import at.orchaldir.gm.utils.math.ZERO
 
 
 fun validatePopulation(
@@ -41,7 +43,47 @@ fun validatePopulation(
         population.income.validate(state)
     }
 
+    is PopulationUnitsWithNumbers -> {
+        validatePopulationUnits(state, population.units) { number, population ->
+            require(population > 0) { "$number.unit's population must be > 0!" }
+        }
+
+        require(population.undefined >= 0) { "Undefined population must not be negative!" }
+    }
+
+    is PopulationUnitsWithPercentages -> {
+        validateTotalPopulation(state, allowedTotalPopulationTypes, population.total)
+
+        validatePopulationUnits(state, population.units) { number, population ->
+            require(population > ZERO) { "$number.unit's population must be > 0%!" }
+        }
+
+        require(population.units.map { it.value }.reduce { acc, factor -> acc + factor } <= FULL) {
+            "The total percentage of all units is > 100%!"
+        }
+    }
+
     UndefinedPopulation -> doNothing()
+}
+
+private fun <T> validatePopulationUnits(
+    state: State,
+    units: List<PopulationUnit<T>>,
+    validateValue: (Int, T) -> Unit,
+) {
+    units.withIndex().forEach { (index, unit) ->
+        val number = index + 1
+
+        state.getCultureStorage().require(unit.culture) {
+            "$number.unit requires unknown ${unit.culture.print()}!"
+        }
+        state.getRaceStorage().require(unit.race) {
+            "$number.unit requires unknown ${unit.race.print()}!"
+        }
+        unit.income.validate(state)
+
+        validateValue(number, unit.value)
+    }
 }
 
 fun <ID : Id<ID>, ELEMENT : Element<ID>> validateNumberDistribution(

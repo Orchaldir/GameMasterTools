@@ -23,8 +23,20 @@ fun <ID : Id<ID>> HtmlBlockTag.showInlinePercentageDistribution(
     state: State,
     distribution: PercentageDistribution<ID>,
     max: Int = 2,
+) = showInlinePercentageDistribution(
+    call,
+    state,
+    distribution.map,
+    max,
+)
+
+fun <ID : Id<ID>> HtmlBlockTag.showInlinePercentageDistribution(
+    call: ApplicationCall,
+    state: State,
+    distribution: Map<ID, Factor>,
+    max: Int = 2,
 ) {
-    val sorted = distribution.map.entries
+    val sorted = distribution.entries
         .sortedByDescending { it.value.toPermyriad() }
 
     showInlineList(sorted, max) { (id, factor) ->
@@ -116,21 +128,6 @@ private fun TABLE.showRemainingPercentage(
             showPercentageAndNumber(total, remaining)
         }
     }
-}
-
-private fun TR.showPercentageAndNumber(
-    total: Int,
-    percentage: Factor,
-) {
-    tdPercentage(percentage)
-    showElementNumber(total, percentage)
-}
-
-private fun TR.showElementNumber(
-    total: Int,
-    percentage: Factor,
-) {
-    tdSkipZero(percentage.apply(total))
 }
 
 // edit

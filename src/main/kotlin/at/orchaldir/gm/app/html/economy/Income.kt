@@ -44,36 +44,44 @@ fun HtmlBlockTag.showIncome(
 
 // edit
 
-fun HtmlBlockTag.editIncome(
+fun HtmlBlockTag.editIncomeDetails(
     state: State,
     income: Income,
     param: String = INCOME,
 ) {
     showDetails("Income", true) {
-        selectValue(
-            "Type",
-            combine(param, TYPE),
-            state.config.economy.defaultIncomeType.getValidTypes(),
-            income.getType(),
-        )
-        when (income) {
-            UndefinedIncome -> doNothing()
-            is AffordableStandardOfLiving -> selectElement(
-                state,
-                combine(param, STANDARD),
-                state.config.economy.standardsOfLiving,
-                income.standard,
-            )
+        editIncome(state, income, param)
+    }
+}
 
-            is Salary -> selectPrice(
-                state,
-                "Average Yearly Salary",
-                income.yearlySalary,
-                combine(param, PRICE),
-                1,
-                100000,
-            )
-        }
+fun HtmlBlockTag.editIncome(
+    state: State,
+    income: Income,
+    param: String = INCOME,
+) {
+    selectValue(
+        "Type",
+        combine(param, TYPE),
+        state.config.economy.defaultIncomeType.getValidTypes(),
+        income.getType(),
+    )
+    when (income) {
+        UndefinedIncome -> doNothing()
+        is AffordableStandardOfLiving -> selectElement(
+            state,
+            combine(param, STANDARD),
+            state.config.economy.standardsOfLiving,
+            income.standard,
+        )
+
+        is Salary -> selectPrice(
+            state,
+            "Average Yearly Salary",
+            income.yearlySalary,
+            combine(param, PRICE),
+            1,
+            100000,
+        )
     }
 }
 

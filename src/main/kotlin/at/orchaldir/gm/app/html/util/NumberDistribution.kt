@@ -19,8 +19,20 @@ fun <ID : Id<ID>> HtmlBlockTag.showInlineNumberDistribution(
     state: State,
     distribution: NumberDistribution<ID>,
     max: Int = 2,
+) = showInlineNumberDistribution(
+    call,
+    state,
+    distribution.map,
+    max,
+)
+
+fun <ID : Id<ID>> HtmlBlockTag.showInlineNumberDistribution(
+    call: ApplicationCall,
+    state: State,
+    distribution: Map<ID, Int>,
+    max: Int = 2,
 ) {
-    val sorted = distribution.map.entries
+    val sorted = distribution.entries
         .sortedByDescending { it.value }
 
     showInlineList(sorted, max) { (id, factor) ->
@@ -81,14 +93,6 @@ private fun TABLE.showTotalPopulation(total: Int) {
         tdString("Total")
         showPercentageAndNumber(total, total)
     }
-}
-
-private fun TR.showPercentageAndNumber(
-    total: Int,
-    number: Int,
-) {
-    tdPercentage(Factor.divideTwoInts(number, total))
-    tdSkipZero(number)
 }
 
 
