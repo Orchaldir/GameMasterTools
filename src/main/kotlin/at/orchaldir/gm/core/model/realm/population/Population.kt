@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.economy.job.UndefinedIncome
 import at.orchaldir.gm.core.model.economy.standard.StandardOfLivingId
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.realm.SettlementSizeId
+import at.orchaldir.gm.core.model.realm.population.PopulationUnitsWithNumbers
 import at.orchaldir.gm.core.model.util.NumberDistribution
 import at.orchaldir.gm.core.model.util.PercentageDistribution
 import at.orchaldir.gm.utils.math.Factor
@@ -226,6 +227,8 @@ data class PopulationUnitsWithPercentages(
     val total: TotalPopulation,
     val units: List<PopulationUnit<Factor>>,
 ) : Population() {
+
+    constructor(total: TotalPopulation, unit: PopulationUnit<Factor>): this(total, listOf(unit))
 
     fun getData(culture: CultureId) = getData(getFactorOrNull(culture))
 

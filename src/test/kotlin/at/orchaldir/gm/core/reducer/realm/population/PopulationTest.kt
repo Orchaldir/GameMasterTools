@@ -10,7 +10,11 @@ import at.orchaldir.gm.core.model.util.NumberDistribution
 import at.orchaldir.gm.core.model.util.PercentageDistribution
 import at.orchaldir.gm.core.reducer.realm.validatePopulation
 import at.orchaldir.gm.utils.Storage
+import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.HALF
+import at.orchaldir.gm.utils.math.QUARTER
+import at.orchaldir.gm.utils.math.ZERO
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
@@ -164,7 +168,7 @@ class PopulationTest {
         @Test
         fun `With an unknown culture`() {
             assertInvalid(
-                PopulationUnitsWithNumbers(PopulationUnit(100, RACE_ID_0, UNKNOWN_CULTURE_ID)),
+                validUnit0.copy(culture = UNKNOWN_CULTURE_ID),
                 "1.unit requires unknown Culture 99!",
             )
         }
@@ -172,7 +176,7 @@ class PopulationTest {
         @Test
         fun `With an unknown race`() {
             assertInvalid(
-                PopulationUnit(100, UNKNOWN_RACE_ID, CULTURE_ID_0),
+                validUnit0.copy(race = UNKNOWN_RACE_ID),
                 "1.unit requires unknown Race 99!",
             )
         }
@@ -188,7 +192,7 @@ class PopulationTest {
         @Test
         fun `With an negative population`() {
             assertInvalid(
-                PopulationUnitsWithNumbers(validUnit0.copy(-1)),
+                validUnit0.copy(value = -1),
                 "1.unit's population must be > 0!",
             )
         }
@@ -196,7 +200,7 @@ class PopulationTest {
         @Test
         fun `With a population of 0`() {
             assertInvalid(
-                PopulationUnitsWithNumbers(validUnit0.copy(0)),
+                validUnit0.copy(value = 0),
                 "1.unit's population must be > 0!",
             )
         }
@@ -221,6 +225,69 @@ class PopulationTest {
 
         private fun assertInvalid(unit: PopulationUnit<Int>, text: String) {
             assertInvalid(PopulationUnitsWithNumbers(unit), text,)
+        }
+
+    }
+
+    @Nested
+    inner class PopulationUnitsWithPercentagesTest {
+        private val validUnit0 = PopulationUnit(QUARTER, RACE_ID_0, CULTURE_ID_0)
+        private val validUnit1 = PopulationUnit(HALF, RACE_ID_1, CULTURE_ID_1)
+        private val validUnits = listOf(validUnit0, validUnit1)
+        private val valid = PopulationUnitsWithPercentages(total, validUnits)
+
+        @Test
+        fun `The total population must be greater or equal 0`() {
+            assertTotalPopulation(PopulationUnitsWithPercentages(invalidTotal, validUnits))
+        }
+
+        @Test
+        fun `With an unknown culture`() {
+            assertInvalid(
+                validUnit0.copy(culture = UNKNOWN_CULTURE_ID),
+                "1.unit requires unknown Culture 99!",
+            )
+        }
+
+        @Test
+        fun `With an unknown race`() {
+            assertInvalid(
+                validUnit0.copy(race = UNKNOWN_RACE_ID),
+                "1.unit requires unknown Race 99!",
+            )
+        }
+
+        @Test
+        fun `With an unknown standard of living`() {
+            assertInvalid(
+                validUnit0.copy(income = invalidIncome),
+                "Requires unknown Standard Of Living 99!"
+            )
+        }
+
+        @Test
+        fun `With an negative population`() {
+            assertInvalid(
+                validUnit0.copy(value = fromPercentage(-1)),
+                "1.unit's population must be > 0%!",
+            )
+        }
+
+        @Test
+        fun `With a population of 0`() {
+            assertInvalid(
+                validUnit0.copy(value = ZERO),
+                "1.unit's population must be > 0%!",
+            )
+        }
+
+        @Test
+        fun `A valid population`() {
+            assertValid(valid)
+        }
+
+        private fun assertInvalid(unit: PopulationUnit<Factor>, text: String) {
+            assertInvalid(PopulationUnitsWithPercentages(total, unit), text,)
         }
 
     }
