@@ -41,7 +41,22 @@ fun validatePopulation(
         population.income.validate(state)
     }
 
-    is PopulationUnitsWithNumbers ->  doNothing()
+    is PopulationUnitsWithNumbers ->  {
+        population.units.withIndex().forEach { (index, unit) ->
+            val number = index + 1
+
+            require(unit.value > 0) { "$number.unit's population must be > 0!" }
+            state.getCultureStorage().require(unit.culture) {
+                "$number.unit requires unknown ${unit.culture.print()}!"
+            }
+            state.getRaceStorage().require(unit.race) {
+                "$number.unit requires unknown ${unit.race.print()}!"
+            }
+            unit.income.validate(state)
+        }
+
+        require(population.undefined >= 0) { "Undefined population must not be negative!" }
+    }
 
     is PopulationUnitsWithPercentages -> {
         validateTotalPopulation(state, allowedTotalPopulationTypes, population.total)

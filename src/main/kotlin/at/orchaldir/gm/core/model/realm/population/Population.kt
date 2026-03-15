@@ -182,6 +182,8 @@ data class PopulationUnitsWithNumbers(
     val undefined: Int = 0,
 ) : Population() {
 
+    constructor(unit: PopulationUnit<Int>, undefined: Int = 0): this(listOf(unit), undefined)
+
     fun getData(culture: CultureId) = getData(getNumber(culture))
 
     fun getData(race: RaceId) = getData(getNumber(race))

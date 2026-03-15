@@ -18,7 +18,7 @@ import kotlin.test.assertEquals
 class PopulationTest {
     private val state = State(
         listOf(
-            Storage(Culture(CULTURE_ID_0)),
+            Storage(listOf(Culture(CULTURE_ID_0), Culture(CULTURE_ID_1))),
             Storage(
                 listOf(
                     Race(RACE_ID_0),
@@ -28,7 +28,7 @@ class PopulationTest {
             )
         )
     )
-    private val income = AffordableStandardOfLiving(UNKNOWN_STANDARD_ID)
+    private val invalidIncome = AffordableStandardOfLiving(UNKNOWN_STANDARD_ID)
     private val total = TotalPopulationAsNumber(100)
     private val invalidTotal = TotalPopulationAsNumber(-1)
 
@@ -57,7 +57,7 @@ class PopulationTest {
         @Test
         fun `With an unknown standard of living`() {
             assertInvalid(
-                PopulationWithNumbers(income = income),
+                PopulationWithNumbers(income = invalidIncome),
                 "Requires unknown Standard Of Living 99!",
             )
         }
@@ -101,7 +101,7 @@ class PopulationTest {
         @Test
         fun `With an unknown standard of living`() {
             assertInvalid(
-                PopulationWithPercentages(total, income = income),
+                PopulationWithPercentages(total, income = invalidIncome),
                 "Requires unknown Standard Of Living 99!",
             )
         }
@@ -117,7 +117,7 @@ class PopulationTest {
     }
 
     @Nested
-    inner class TotalPopulationTest {
+    inner class PopulationWithSetsTest {
 
         @Test
         fun `The total population must be greater or equal 0`() {
@@ -143,7 +143,7 @@ class PopulationTest {
         @Test
         fun `With an unknown standard of living`() {
             assertInvalid(
-                PopulationWithSets(total, income = income),
+                PopulationWithSets(total, income = invalidIncome),
                 "Requires unknown Standard Of Living 99!",
             )
         }
@@ -151,6 +151,60 @@ class PopulationTest {
         @Test
         fun `A valid population`() {
             assertValid(PopulationWithSets(total, races = setOf(RACE_ID_0)))
+        }
+
+    }
+
+    @Nested
+    inner class PopulationUnitsWithNumbersTest {
+        private val validUnit0 = PopulationUnit(100, RACE_ID_0, CULTURE_ID_0)
+        private val validUnit1 = PopulationUnit(200, RACE_ID_1, CULTURE_ID_1)
+        private val valid = PopulationUnitsWithNumbers(listOf(validUnit0, validUnit1), 20)
+
+        @Test
+        fun `With an unknown culture`() {
+            assertInvalid(
+                PopulationUnitsWithNumbers(PopulationUnit(100, RACE_ID_0, UNKNOWN_CULTURE_ID)),
+                "1.unit requires unknown Culture 99!",
+            )
+        }
+
+        @Test
+        fun `With an unknown race`() {
+            assertInvalid(
+                PopulationUnit(100, UNKNOWN_RACE_ID, CULTURE_ID_0),
+                "1.unit requires unknown Race 99!",
+            )
+        }
+
+        @Test
+        fun `With an unknown standard of living`() {
+            assertInvalid(
+                PopulationUnit(100, RACE_ID_0, CULTURE_ID_0, invalidIncome),
+                "Requires unknown Standard Of Living 99!"
+            )
+        }
+
+        @Test
+        fun `With an negative undefined`() {
+            assertInvalid(
+                PopulationUnitsWithNumbers(validUnit0, -10),
+                "Undefined population must not be negative!",
+            )
+        }
+
+        @Test
+        fun `A valid population`() {
+            assertValid(valid)
+        }
+
+        @Test
+        fun `Calculate the total population`() {
+            assertEquals(320, valid.getTotal())
+        }
+
+        private fun assertInvalid(unit: PopulationUnit<Int>, text: String) {
+            assertInvalid(PopulationUnitsWithNumbers(unit), text,)
         }
 
     }
