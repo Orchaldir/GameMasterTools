@@ -42,7 +42,24 @@ data class CharacterRenderConfig(
         body.getDistanceFromNeckToBottom(config.headAABB()) *
                 head.hair.getLength(length)
 
-    fun getOptions(state: State, skin: Skin): RenderOptions = FillAndBorder(
+    fun getFeatureOptions(
+        state: State,
+        featureColor: FeatureColor,
+        hair: Hair,
+        skin: Skin,
+    ) = when (featureColor) {
+        is OverwriteFeatureColor -> getFillAndBorder(state, featureColor.skin)
+        ReuseHairColor -> when (hair) {
+            NoHair -> error("Cannot reuse hair color without hair!")
+            is NormalHair -> getFillAndBorder(hair.color)
+        }
+
+        ReuseSkinColor -> getFillAndBorder(state, skin)
+    }
+
+    fun getFillAndBorder(color: Color) = FillAndBorder(color.toRender(), line)
+    fun getFillAndBorder(hairColor: HairColor) = FillAndBorder(getFurFill(hairColor), line)
+    fun getFillAndBorder(state: State, skin: Skin) = FillAndBorder(
         when (skin) {
             is ExoticSkin -> RenderSolid(skin.color)
             is Fur -> getFurFill(skin.color)
@@ -57,24 +74,6 @@ data class CharacterRenderConfig(
         },
         line,
     )
-
-    fun getFeatureOptions(
-        state: State,
-        featureColor: FeatureColor,
-        hair: Hair,
-        skin: Skin,
-    ) = when (featureColor) {
-        is OverwriteFeatureColor -> getOptions(state, featureColor.skin)
-        ReuseHairColor -> when (hair) {
-            NoHair -> error("Cannot reuse hair color without hair!")
-            is NormalHair -> getFillAndBorder(hair.color)
-        }
-
-        ReuseSkinColor -> getOptions(state, skin)
-    }
-
-    fun getFillAndBorder(color: Color) = FillAndBorder(color.toRender(), line)
-    fun getFillAndBorder(hairColor: HairColor) = FillAndBorder(getFurFill(hairColor), line)
 
     fun getFurFill(hairColor: HairColor): RenderFill = when (hairColor) {
         is NormalHairColor -> RenderSolid(getHairColor(hairColor.color))
