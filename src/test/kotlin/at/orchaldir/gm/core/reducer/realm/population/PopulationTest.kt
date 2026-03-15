@@ -186,7 +186,23 @@ class PopulationTest {
         }
 
         @Test
-        fun `With an negative undefined`() {
+        fun `With an negative population`() {
+            assertInvalid(
+                PopulationUnitsWithNumbers(validUnit0.copy(-1)),
+                "1.unit's population must be > 0!",
+            )
+        }
+
+        @Test
+        fun `With a population of 0`() {
+            assertInvalid(
+                PopulationUnitsWithNumbers(validUnit0.copy(0)),
+                "1.unit's population must be > 0!",
+            )
+        }
+
+        @Test
+        fun `With an negative undefined population`() {
             assertInvalid(
                 PopulationUnitsWithNumbers(validUnit0, -10),
                 "Undefined population must not be negative!",
