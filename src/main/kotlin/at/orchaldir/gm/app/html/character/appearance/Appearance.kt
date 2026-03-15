@@ -231,7 +231,7 @@ private fun parseFoot(
         ClawedFoot(
             options.clawNumber,
             parseAppearanceOption(parameters, combine(FOOT, CLAWS, SIZE), config, options.clawSizes),
-            parseAppearanceColor(parameters, combine(FOOT, CLAWS), config, options.clawColors),
+            parseAppearanceColor(parameters, combine(FOOT, CLAWS, COLOR), config, options.clawColors),
         )
     }
 
@@ -294,11 +294,11 @@ private fun parseWing(
         )
 
         WingType.Bird.toString() -> BirdWing(
-            parseAppearanceColor(parameters, param, config, wingOptions.birdColors),
+            parseAppearanceColor(parameters, combine(param, COLOR), config, wingOptions.birdColors),
         )
 
         WingType.Butterfly.toString() -> ButterflyWing(
-            parseAppearanceColor(parameters, param, config, wingOptions.butterflyColors),
+            parseAppearanceColor(parameters, combine(param, COLOR), config, wingOptions.butterflyColors),
         )
 
         else -> generateWing(config)
@@ -310,7 +310,7 @@ fun parseAppearanceColor(
     param: String,
     config: AppearanceGeneratorConfig,
     colors: RarityMap<Color>,
-) = parseAppearanceOption(parameters, combine(param, COLOR), config, colors)
+) = parseAppearanceOption(parameters, param, config, colors)
 
 inline fun <reified T : Enum<T>> parseAppearanceOption(
     parameters: Parameters,

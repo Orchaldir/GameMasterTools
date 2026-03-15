@@ -417,15 +417,15 @@ private fun parseEye(parameters: Parameters, config: AppearanceGeneratorConfig):
     return when (parameters[combine(EYE, TYPE)]) {
         EyeType.Simple.toString() -> SimpleEye(
             parseEyeShape(parameters, config, options),
-            parseAppearanceColor(parameters, PUPIL, config, options.eyeColors),
+            parseAppearanceColor(parameters, combine(PUPIL, COLOR), config, options.eyeColors),
         )
 
         EyeType.Normal.toString() -> {
             NormalEye(
                 parseEyeShape(parameters, config, options),
                 parseAppearanceOption(parameters, combine(PUPIL, SHAPE), config, options.pupilShapes),
-                parseAppearanceColor(parameters, PUPIL, config, options.eyeColors),
-                parseAppearanceColor(parameters, SCLERA, config, options.scleraColors),
+                parseAppearanceColor(parameters, combine(PUPIL, COLOR), config, options.eyeColors),
+                parseAppearanceColor(parameters, combine(SCLERA, COLOR), config, options.scleraColors),
             )
         }
 
@@ -530,7 +530,7 @@ private fun parseMouth(
             if (character.gender == Gender.Female) {
                 return FemaleMouth(
                     parse(parameters, combine(MOUTH, WIDTH), Size.Medium),
-                    parseAppearanceColor(parameters, LIP, config, config.appearanceFashion.lipColors),
+                    parseAppearanceColor(parameters, combine(LIP, COLOR), config, config.appearanceFashion.lipColors),
                     parse(parameters, TEETH_COLOR, TeethColor.White),
                 )
             }
@@ -543,12 +543,12 @@ private fun parseMouth(
 
         MouthType.Beak.toString() -> Beak(
             parseAppearanceOption(parameters, combine(BEAK, SHAPE), config, mouthOptions.beakShapes),
-            parseAppearanceColor(parameters, BEAK, config, mouthOptions.beakColors),
+            parseAppearanceColor(parameters, combine(BEAK, COLOR), config, mouthOptions.beakColors),
         )
 
         MouthType.Snout.toString() -> Snout(
             parseAppearanceOption(parameters, combine(SNOUT, SHAPE), config, mouthOptions.snoutShapes),
-            parseAppearanceColor(parameters, SNOUT, config, mouthOptions.snoutColors),
+            parseAppearanceColor(parameters, combine(SNOUT, COLOR), config, mouthOptions.snoutColors),
         )
 
         else -> generateMouth(config, hair)

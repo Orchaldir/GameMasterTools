@@ -38,8 +38,8 @@
      "#type": "Fur",
      "color": {
       "#type": "Stripped",
-      "color0": "White",
-      "color1": "Chocolate"
+      "color0": "Chocolate",
+      "color1": "White"
      }
     },
     "tails": {
