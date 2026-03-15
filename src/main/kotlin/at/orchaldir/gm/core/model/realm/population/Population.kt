@@ -182,6 +182,20 @@ data class PopulationUnitsWithNumbers(
     val undefined: Int = 0,
 ) : Population() {
 
+    fun getData(culture: CultureId) = getData(getNumber(culture))
+
+    fun getData(race: RaceId) = getData(getNumber(race))
+
+    private fun getData(number: Int): Pair<Int, Factor>? {
+        if (number == 0) {
+            return null
+        }
+
+        val factor = Factor.divideTwoInts(number, getTotal())
+
+        return Pair(number, factor)
+    }
+
     fun getNumber(race: RaceId) = units
         .filter { it.race == race }
         .sumOf { it.value }
