@@ -25,12 +25,13 @@
        "#type": "Normal",
        "eyeShape": "Almond",
        "pupilShape": "VerticalSlit",
-       "pupilColor": "Black"
+       "pupilColor": "Black",
+       "scleraColor": "Gold"
       }
      },
      "mouth": {
       "#type": "Snout",
-      "color": "Black"
+      "color": "Pink"
      }
     },
     "height": 900000,
@@ -38,14 +39,14 @@
      "#type": "Fur",
      "color": {
       "#type": "Stripped",
-      "color0": "Chocolate",
-      "color1": "White"
+      "color0": "Orange",
+      "color1": "Black"
      }
     },
     "tails": {
      "#type": "Simple",
      "shape": "Cat",
-     "size": "Medium",
+     "size": "Small",
      "color": {
       "#type": "Skin"
      }

@@ -63,7 +63,6 @@
     },
     "scleraColors": {
      "Gold": "Common",
-     "White": "Common",
      "Yellow": "Common"
     }
    },
@@ -89,7 +88,8 @@
      "Snout": "Common"
     },
     "snoutColors": {
-     "Black": "Common"
+     "Black": "Common",
+     "Pink": "Uncommon"
     },
     "snoutShapes": {
      "Cat": "Common"
@@ -105,8 +105,10 @@
       "Stripped": "Uncommon"
      },
      "exotic": {
+      "Black": "Common",
       "Chocolate": "Common",
       "DimGray": "Common",
+      "Orange": "Common",
       "SaddleBrown": "Common",
       "Silver": "Common",
       "White": "Common"
