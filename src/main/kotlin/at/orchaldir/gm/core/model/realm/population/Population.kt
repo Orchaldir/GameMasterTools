@@ -19,6 +19,7 @@ enum class PopulationType {
     Numbers,
     Percentages,
     Sets,
+    UnitsWithNumbers,
     UnitsWithPercentages,
     Undefined,
 }
@@ -30,6 +31,7 @@ sealed class Population {
         is PopulationWithNumbers -> PopulationType.Numbers
         is PopulationWithPercentages -> PopulationType.Percentages
         is PopulationWithSets -> PopulationType.Sets
+        is PopulationUnitsWithNumbers -> PopulationType.UnitsWithNumbers
         is PopulationUnitsWithPercentages -> PopulationType.UnitsWithPercentages
         UndefinedPopulation -> PopulationType.Undefined
     }
@@ -38,6 +40,7 @@ sealed class Population {
         is PopulationWithNumbers -> income
         is PopulationWithPercentages -> income
         is PopulationWithSets -> income
+        is PopulationUnitsWithNumbers -> null
         is PopulationUnitsWithPercentages -> null
         UndefinedPopulation -> null
     }
@@ -45,6 +48,7 @@ sealed class Population {
     fun getPopulation(culture: CultureId) = when (this) {
         is PopulationWithNumbers -> cultures.getNumber(culture)
         is PopulationWithPercentages -> getNumber(culture)
+        is PopulationUnitsWithNumbers -> getNumber(culture)
         is PopulationUnitsWithPercentages -> getNumber(culture)
         else -> null
     }
@@ -52,6 +56,7 @@ sealed class Population {
     fun getPopulation(race: RaceId) = when (this) {
         is PopulationWithNumbers -> races.getNumber(race)
         is PopulationWithPercentages -> getNumber(race)
+        is PopulationUnitsWithNumbers -> getNumber(race)
         is PopulationUnitsWithPercentages -> getNumber(race)
         else -> null
     }
@@ -77,6 +82,7 @@ sealed class Population {
         is PopulationWithSets -> total.getTotal()
         is PopulationWithNumbers -> calculateTotal()
         is PopulationWithPercentages -> total.getTotal()
+        is PopulationUnitsWithNumbers -> getTotal()
         is PopulationUnitsWithPercentages -> total.getTotal()
         is UndefinedPopulation -> null
     }
@@ -85,6 +91,7 @@ sealed class Population {
         is PopulationWithNumbers -> cultures.map.containsKey(culture)
         is PopulationWithPercentages -> cultures.map.containsKey(culture)
         is PopulationWithSets -> cultures.contains(culture)
+        is PopulationUnitsWithNumbers -> units.any { it.culture == culture }
         is PopulationUnitsWithPercentages -> units.any { it.culture == culture }
         is UndefinedPopulation -> false
     }
@@ -93,6 +100,7 @@ sealed class Population {
         is PopulationWithNumbers -> races.map.containsKey(race)
         is PopulationWithPercentages -> races.map.containsKey(race)
         is PopulationWithSets -> races.contains(race)
+        is PopulationUnitsWithNumbers -> units.any { it.race == race }
         is PopulationUnitsWithPercentages -> units.any { it.race == race }
         is UndefinedPopulation -> false
     }
@@ -101,6 +109,7 @@ sealed class Population {
         is PopulationWithNumbers -> cultures.map.keys
         is PopulationWithPercentages -> cultures.map.keys
         is PopulationWithSets -> cultures
+        is PopulationUnitsWithNumbers -> units.map { it.culture }.toSet()
         is PopulationUnitsWithPercentages -> units.map { it.culture }.toSet()
         is UndefinedPopulation -> emptySet()
     }
@@ -109,12 +118,13 @@ sealed class Population {
         is PopulationWithNumbers -> races.map.keys
         is PopulationWithPercentages -> races.map.keys
         is PopulationWithSets -> races
+        is PopulationUnitsWithNumbers -> units.map { it.race }.toSet()
         is PopulationUnitsWithPercentages -> units.map { it.race }.toSet()
         is UndefinedPopulation -> emptySet()
     }
 
     fun isSize(size: SettlementSizeId) = when (this) {
-        is PopulationWithNumbers, is PopulationUnitsWithPercentages, is UndefinedPopulation -> false
+        is PopulationWithNumbers, is PopulationUnitsWithNumbers, is PopulationUnitsWithPercentages, is UndefinedPopulation -> false
         is PopulationWithPercentages -> total.isSize(size)
         is PopulationWithSets -> total.isSize(size)
     }
@@ -162,6 +172,35 @@ data class PopulationWithSets(
     val cultures: Set<CultureId> = emptySet(),
     val income: Income = UndefinedIncome,
 ) : Population(), IPopulationWithSets
+
+@Serializable
+@SerialName("UnitsWithNumbers")
+data class PopulationUnitsWithNumbers(
+    val units: List<PopulationUnit<Int>>,
+    val undefined: Int = 0,
+) : Population() {
+
+    fun getNumber(race: RaceId) = units
+        .filter { it.race == race }
+        .sumOf { it.value }
+
+    fun getNumber(culture: CultureId) = units
+        .filter { it.culture == culture }
+        .sumOf { it.value }
+
+    fun getTotal() = getDefinedNumber()  + undefined
+
+    fun getDefinedNumber() = units
+        .sumOf { it.value }
+
+    fun getDefinedPercentages(): Factor {
+        val defined = getDefinedNumber()
+
+        return Factor.divideTwoInts(defined, defined + undefined)
+    }
+
+    fun getUndefinedPercentages() = Factor.divideTwoInts(undefined, getTotal())
+}
 
 @Serializable
 @SerialName("UnitsWithPercentages")

@@ -41,6 +41,8 @@ fun validatePopulation(
         population.income.validate(state)
     }
 
+    is PopulationUnitsWithNumbers ->  doNothing()
+
     is PopulationUnitsWithPercentages -> {
         validateTotalPopulation(state, allowedTotalPopulationTypes, population.total)
     }
