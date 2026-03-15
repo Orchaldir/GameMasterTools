@@ -408,7 +408,7 @@ private fun HtmlBlockTag.editHairColors(
                 options.normal,
             )
         }
-        if (options.types.contains(HairColorType.Exotic)) {
+        if (options.types.contains(HairColorType.Exotic) || options.types.contains(HairColorType.Stripped)) {
             selectColorRarityMap(
                 "Exotic Colors",
                 combine(param, EXOTIC, COLOR),

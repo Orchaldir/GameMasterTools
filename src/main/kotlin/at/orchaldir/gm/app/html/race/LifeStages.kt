@@ -195,9 +195,7 @@ private fun HtmlBlockTag.selectMaxAges(
 
 private fun HtmlBlockTag.selectHairColor(label: String, index: Int, color: HairColor) {
     selectHairColor(
-        OneOf(setOf(HairColorType.None, HairColorType.Exotic)),
-        OneOf(NormalHairColorEnum.entries),
-        OneOf(Color.entries),
+        HAIR_COLOR_OPTIONS,
         color,
         combine(LIFE_STAGE, HAIR, index),
         label,
@@ -297,13 +295,10 @@ private fun parseHairColor(parameters: Parameters, index: Int, default: Color? =
 
     return when (parse(parameters, combine(colorParam, TYPE), HairColorType.Normal)) {
         HairColorType.None -> NoHairColor
-        HairColorType.Normal -> NormalHairColor(
-            parse(parameters, colorParam, NormalHairColorEnum.MediumBrown),
-        )
-
         HairColorType.Exotic -> ExoticHairColor(
             parse(parameters, combine(colorParam, EXOTIC), Color.Blue),
         )
+        else -> error("Unsupported!")
     }
 }
 

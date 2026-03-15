@@ -3,10 +3,14 @@ package at.orchaldir.gm.core.model.race.aging
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.hair.ExoticHairColor
 import at.orchaldir.gm.core.model.character.appearance.hair.HairColor
+import at.orchaldir.gm.core.model.character.appearance.hair.HairColorType
 import at.orchaldir.gm.core.model.character.appearance.hair.NoHairColor
+import at.orchaldir.gm.core.model.character.appearance.hair.NormalHairColorEnum
+import at.orchaldir.gm.core.model.race.appearance.HairColorOptions
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.rpg.statblock.Statblock
 import at.orchaldir.gm.core.model.time.date.Date
+import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.selector.time.getCurrentDate
@@ -22,6 +26,11 @@ val IMMORTAL_MAX_AGES = listOf(2, 5, 12, 18)
 val DEFAULT_MAX_AGES = IMMORTAL_MAX_AGES + listOf(45, 60, 90, 120)
 val DEFAULT_OLD_AGE_HAIR_COLOR = ExoticHairColor(Color.LightGray)
 val DEFAULT_VENERABLE_AGE_HAIR_COLOR = ExoticHairColor(Color.White)
+val HAIR_COLOR_OPTIONS = HairColorOptions(
+    OneOf(setOf(HairColorType.None, HairColorType.Exotic)),
+    OneOf(NormalHairColorEnum.entries),
+    OneOf(Color.entries),
+)
 val DEFAULT_LIFE_STAGE_ID = LifeStageId(4)
 
 private val immutable = LifeStage(Name.init("Immutable"), Int.MAX_VALUE)

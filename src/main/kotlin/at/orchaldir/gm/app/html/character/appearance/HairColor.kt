@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.html.character.appearance
 
 import at.orchaldir.gm.app.COLOR
 import at.orchaldir.gm.app.EXOTIC
+import at.orchaldir.gm.app.STRIPE
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.generator.AppearanceGeneratorConfig
@@ -28,6 +29,11 @@ fun HtmlBlockTag.displayHairColor(hairColor: HairColor) = when (hairColor) {
     is NoHairColor -> +"None"
     is NormalHairColor -> showHairColor(CHARACTER_CONFIG, hairColor.color)
     is ExoticHairColor -> showColor(hairColor.color)
+    is StrippedHairColor -> {
+        showColor(hairColor.color0)
+        +" & "
+        showColor(hairColor.color1)
+    }
 }
 
 fun HtmlBlockTag.showHairColor(
@@ -39,8 +45,12 @@ fun HtmlBlockTag.showHairColor(
 
         when (hairColor) {
             is NoHairColor -> doNothing()
-            is NormalHairColor -> field("Color", hairColor.color)
-            is ExoticHairColor -> field("Color", hairColor.color)
+            is NormalHairColor -> fieldNormalHairColor(CHARACTER_CONFIG, hairColor.color)
+            is ExoticHairColor -> fieldColor(hairColor.color)
+            is StrippedHairColor -> {
+                fieldColor(hairColor.color0, "1.Color")
+                fieldColor(hairColor.color1, "1.Color")
+            }
         }
     }
 }
@@ -52,22 +62,6 @@ fun HtmlBlockTag.selectHairColor(
     hairColor: HairColor,
     param: String,
     text: String = "Hair Color",
-) = selectHairColor(
-    options.types,
-    options.normal,
-    options.exotic,
-    hairColor,
-    param,
-    text,
-)
-
-fun HtmlBlockTag.selectHairColor(
-    allowedTypes: OneOf<HairColorType>,
-    allowedNormalColors: OneOf<NormalHairColorEnum>,
-    allowedExoticColors: OneOf<Color>,
-    hairColor: HairColor,
-    param: String,
-    text: String = "Hair Color",
 ) {
     val colorParam = combine(param, COLOR)
 
@@ -75,7 +69,7 @@ fun HtmlBlockTag.selectHairColor(
         selectFromOneOf(
             "Type",
             combine(colorParam, TYPE),
-            allowedTypes,
+            options.types,
             hairColor.getType(),
         )
 
@@ -84,7 +78,7 @@ fun HtmlBlockTag.selectHairColor(
             is NormalHairColor -> selectFromOneOf(
                 "Color",
                 colorParam,
-                allowedNormalColors,
+                options.normal,
                 hairColor.color,
             ) { skinColor ->
                 label = skinColor.name
@@ -96,9 +90,24 @@ fun HtmlBlockTag.selectHairColor(
             is ExoticHairColor -> selectColor(
                 "Color",
                 combine(colorParam, EXOTIC),
-                allowedExoticColors,
+                options.exotic,
                 hairColor.color,
             )
+
+            is StrippedHairColor -> {
+                selectColor(
+                    "1.Color",
+                    combine(colorParam, STRIPE, 0),
+                    options.exotic - hairColor.color1,
+                    hairColor.color0,
+                )
+                selectColor(
+                    "2.Color",
+                    combine(colorParam, STRIPE, 1),
+                    options.exotic - hairColor.color0,
+                    hairColor.color1,
+                )
+            }
         }
     }
 }
@@ -132,5 +141,22 @@ fun parseHairColor(
                 options.exotic,
             ),
         )
+        HairColorType.Stripped -> {
+            val color0 = parseAppearanceColor(
+                parameters,
+                combine(colorParam, STRIPE, 0),
+                config,
+                options.exotic,
+            )
+            StrippedHairColor(
+                color0,
+                parseAppearanceColor(
+                    parameters,
+                    combine(colorParam, STRIPE, 1),
+                    config,
+                    options.exotic - color0,
+                )
+            )
+        }
     }
 }

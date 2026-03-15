@@ -206,6 +206,15 @@ fun generateHairColor(config: AppearanceGeneratorConfig, options: HairColorOptio
             config.generate(options.exotic)
         )
 
+        HairColorType.Stripped -> {
+            val color0 = config.generate(options.exotic)
+
+            StrippedHairColor(
+                color0,
+                config.generate(options.exotic - color0),
+            )
+        }
+
         HairColorType.None -> error("HairColorType None is unsupported!")
     }
 }

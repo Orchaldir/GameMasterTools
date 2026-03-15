@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.html
 
 import at.orchaldir.gm.app.COLOR
 import at.orchaldir.gm.core.model.character.appearance.SkinColor
+import at.orchaldir.gm.core.model.character.appearance.hair.HairColor
 import at.orchaldir.gm.core.model.character.appearance.hair.NormalHairColorEnum
 import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.util.render.Color
@@ -11,6 +12,12 @@ import kotlinx.html.span
 import kotlinx.html.style
 
 // show
+
+fun HtmlBlockTag.fieldNormalHairColor(config: CharacterRenderConfig, color: NormalHairColorEnum, label: String = "Color") {
+    field(label) {
+        showHairColor(config, color)
+    }
+}
 
 fun HtmlBlockTag.fieldOptionalColor(color: Color?, label: String = "Color") {
     if (color != null) {

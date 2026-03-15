@@ -62,6 +62,7 @@ data class CharacterRenderConfig(
     fun getHairColor(hairColor: HairColor): RenderColor = when (hairColor) {
         is NormalHairColor -> getHairColor(hairColor.color)
         is ExoticHairColor -> hairColor.color.toRender()
+        is StrippedHairColor -> error("StrippedHairColor None is unsupported!")
         NoHairColor -> error("HairColorType None is unsupported!")
     }
 
