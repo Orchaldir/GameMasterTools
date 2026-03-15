@@ -113,6 +113,14 @@ fun <T> TR.tdInline(
 
 fun TR.showPercentageAndNumber(
     total: Int,
+    number: Int,
+) {
+    tdPercentage(Factor.divideTwoInts(number, total))
+    tdSkipZero(number)
+}
+
+fun TR.showPercentageAndNumber(
+    total: Int,
     percentage: Factor,
 ) {
     tdPercentage(percentage)

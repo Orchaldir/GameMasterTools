@@ -15,6 +15,8 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlin.math.max
 
+const val MAX_POPULATION = 100_000_000
+
 enum class PopulationType {
     Numbers,
     Percentages,

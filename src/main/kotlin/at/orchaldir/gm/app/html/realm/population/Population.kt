@@ -138,9 +138,7 @@ fun <ID : Id<ID>, ELEMENT> HtmlBlockTag.showPopulationDetails(
                 fieldIds(call, state, population.cultures)
             }
 
-            is PopulationUnitsWithNumbers -> {
-
-            }
+            is PopulationUnitsWithNumbers -> showPopulationUnitsWithNumbers(call, state, population, totalOrZero)
 
             is PopulationUnitsWithPercentages -> {
                 fieldTotalPopulation(call, state, population.total)
@@ -224,9 +222,8 @@ fun HtmlBlockTag.editPopulation(
                 selectRaceSet(state, param, population.races)
                 selectCultureSet(state, param, population.cultures)
             }
-            is PopulationUnitsWithNumbers -> {
+            is PopulationUnitsWithNumbers -> editPopulationUnitsWithNumbers(state, param, population, total)
 
-            }
             is PopulationUnitsWithPercentages -> {
                 editTotalPopulation(state, population.total, param, allowedTotalPopulationTypes)
                 editPopulationUnitsWithPercentages(state, param, population, total)
@@ -310,9 +307,7 @@ fun parsePopulation(
         parseIncome(state, parameters, combine(param, INCOME)),
     )
 
-    PopulationType.UnitsWithNumbers -> PopulationUnitsWithNumbers(
-        emptyList(),
-    )
+    PopulationType.UnitsWithNumbers -> parsePopulationUnitsWithNumbers(state, parameters, param)
 
     PopulationType.UnitsWithPercentages -> PopulationUnitsWithPercentages(
         parseTotalPopulation(parameters, param),

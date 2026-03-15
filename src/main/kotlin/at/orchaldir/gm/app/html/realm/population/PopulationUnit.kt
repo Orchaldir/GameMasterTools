@@ -4,6 +4,7 @@ import at.orchaldir.gm.app.CULTURE
 import at.orchaldir.gm.app.INCOME
 import at.orchaldir.gm.app.NUMBER
 import at.orchaldir.gm.app.RACE
+import at.orchaldir.gm.app.TOTAL
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.culture.parseCultureId
 import at.orchaldir.gm.app.html.economy.displayIncome
@@ -13,7 +14,11 @@ import at.orchaldir.gm.app.html.race.parseRaceId
 import at.orchaldir.gm.app.html.util.math.parseFactor
 import at.orchaldir.gm.app.html.util.math.selectFactor
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.culture.Culture
+import at.orchaldir.gm.core.model.race.Race
+import at.orchaldir.gm.core.model.realm.population.MAX_POPULATION
 import at.orchaldir.gm.core.model.realm.population.PopulationUnit
+import at.orchaldir.gm.core.model.realm.population.PopulationUnitsWithNumbers
 import at.orchaldir.gm.core.model.realm.population.PopulationUnitsWithPercentages
 import at.orchaldir.gm.core.selector.util.sortCultures
 import at.orchaldir.gm.core.selector.util.sortRaces
@@ -28,6 +33,39 @@ import kotlinx.html.*
 
 // show
 
+fun HtmlBlockTag.showPopulationUnitsWithNumbers(
+    call: ApplicationCall,
+    state: State,
+    population: PopulationUnitsWithNumbers,
+    total: Int,
+) {
+    table {
+        showHeader()
+        population.units
+            .sortedByDescending { it.value }
+            .forEach { unit ->
+                tr {
+                    tdLink(call, state, unit.race)
+                    tdLink(call, state, unit.culture)
+                    td {
+                        displayIncome(call, state, unit.income)
+                    }
+                    showPercentageAndNumber(total, unit.value)
+                }
+            }
+
+        if (population.undefined > 0) {
+            tr {
+                td {
+                    colSpan = "3"
+                    +"Other"
+                }
+                showPercentageAndNumber(total, population.undefined)
+            }
+        }
+    }
+}
+
 fun HtmlBlockTag.showPopulationUnitsWithPercentages(
     call: ApplicationCall,
     state: State,
@@ -37,13 +75,7 @@ fun HtmlBlockTag.showPopulationUnitsWithPercentages(
     var remaining = Factor.fromPercentage(100)
 
     table {
-        tr {
-            th { +"Race" }
-            th { +"Culture" }
-            th { +"Income" }
-            th { +"Percentage" }
-            th { +"Number" }
-        }
+        showHeader()
         units
             .sortedByDescending { it.value.toPermyriad() }
             .forEach { unit ->
@@ -71,7 +103,67 @@ fun HtmlBlockTag.showPopulationUnitsWithPercentages(
     }
 }
 
+private fun TABLE.showHeader() {
+    tr {
+        th { +"Race" }
+        th { +"Culture" }
+        th { +"Income" }
+        th { +"Percentage" }
+        th { +"Number" }
+    }
+}
+
 // edit
+
+fun HtmlBlockTag.editPopulationUnitsWithNumbers(
+    state: State,
+    param: String,
+    population: PopulationUnitsWithNumbers,
+    total: Int,
+) {
+    val races = state.sortRaces()
+    val cultures = state.sortCultures()
+
+    selectNumberOfUnits(param, population.units.size)
+
+    table {
+        showHeader()
+        population.units.withIndex().forEach { (index, unit) ->
+            val unitParam = combine(param, index)
+
+            tr {
+                editUnit(state, unitParam, unit, cultures, races)
+                tdPercentage(Factor.divideTwoInts(unit.value, total))
+                td {
+                    selectInt(
+                        unit.value,
+                        1,
+                        MAX_POPULATION,
+                        1,
+                        combine(unitParam, NUMBER),
+                    )
+                }
+            }
+        }
+
+        tr {
+            td {
+                colSpan = "2"
+                +"Other"
+            }
+            tdPercentage(Factor.divideTwoInts(population.undefined, total))
+            td {
+                selectInt(
+                    population.undefined,
+                    0,
+                    MAX_POPULATION,
+                    1,
+                    combine(param, TOTAL, NUMBER),
+                )
+            }
+        }
+    }
+}
 
 fun HtmlBlockTag.editPopulationUnitsWithPercentages(
     state: State,
@@ -83,14 +175,7 @@ fun HtmlBlockTag.editPopulationUnitsWithPercentages(
     val races = state.sortRaces()
     val cultures = state.sortCultures()
 
-    selectInt(
-        "Units",
-        population.units.size,
-        1,
-        100,
-        1,
-        combine(param, NUMBER),
-    )
+    selectNumberOfUnits(param, population.units.size)
 
     table {
         tr {
@@ -111,25 +196,7 @@ fun HtmlBlockTag.editPopulationUnitsWithPercentages(
             }
 
             tr {
-                td {
-                    selectElement(
-                        state,
-                        combine(unitParam, RACE),
-                        races,
-                        unit.race,
-                    )
-                }
-                td {
-                    selectElement(
-                        state,
-                        combine(unitParam, CULTURE),
-                        cultures,
-                        unit.culture,
-                    )
-                }
-                td {
-                    editIncome(state, unit.income, combine(unitParam, INCOME))
-                }
+                editUnit(state, unitParam, unit, cultures, races)
                 td {
                     selectFactor(
                         combine(unitParam, NUMBER),
@@ -162,7 +229,68 @@ fun HtmlBlockTag.editPopulationUnitsWithPercentages(
     }
 }
 
+private fun HtmlBlockTag.selectNumberOfUnits(
+    param: String,
+    number: Int,
+) {
+    selectInt(
+        "Units",
+        number,
+        1,
+        100,
+        1,
+        combine(param, NUMBER),
+    )
+}
+
+private  fun <T> TR.editUnit(
+    state: State,
+    unitParam: String,
+    unit: PopulationUnit<T>,
+    cultures: List<Culture>,
+    races: List<Race>,
+) {
+    td {
+        selectElement(
+            state,
+            combine(unitParam, RACE),
+            races,
+            unit.race,
+        )
+    }
+    td {
+        selectElement(
+            state,
+            combine(unitParam, CULTURE),
+            cultures,
+            unit.culture,
+        )
+    }
+    td {
+        editIncome(state, unit.income, combine(unitParam, INCOME))
+    }
+}
+
 // parse
+
+fun parsePopulationUnitsWithNumbers(
+    state: State,
+    parameters: Parameters,
+    param: String,
+) = PopulationUnitsWithNumbers(
+    parseList(
+    parameters,
+    param,
+    1,
+) { _, unitParam ->
+    PopulationUnit(
+        parseInt(parameters, combine(unitParam, NUMBER), 100),
+        parseRaceId(parameters, combine(unitParam, RACE)),
+        parseCultureId(parameters, combine(unitParam, CULTURE)),
+        parseIncome(state, parameters, combine(unitParam, INCOME))
+    )
+}
+)
 
 fun parsePopulationUnitsWithPercentages(
     state: State,

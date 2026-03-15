@@ -95,14 +95,6 @@ private fun TABLE.showTotalPopulation(total: Int) {
     }
 }
 
-private fun TR.showPercentageAndNumber(
-    total: Int,
-    number: Int,
-) {
-    tdPercentage(Factor.divideTwoInts(number, total))
-    tdSkipZero(number)
-}
-
 
 // edit
 
