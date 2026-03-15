@@ -131,7 +131,7 @@ private fun HtmlBlockTag.showHairColors(options: HairColorOptions, label: String
         if (options.types.contains(HairColorType.Normal)) {
             showHairColorRarityMap(CHARACTER_CONFIG, "Normal Colors", options.normal)
         }
-        if (options.types.contains(HairColorType.Exotic)) {
+        if (options.types.contains(HairColorType.Exotic) || options.types.contains(HairColorType.Stripped)) {
             showColorRarityMap("Exotics Colors", options.exotic)
         }
     }
@@ -489,7 +489,7 @@ private fun HtmlBlockTag.editSkinInternal(state: State, options: SkinOptions, pa
             options.furColors,
             combine(param, FUR),
             "Fur Colors",
-            ALLOWED_HAIR_COLOR_TYPES,
+            ALLOWED_FUR_COLOR_TYPES,
         )
     }
 

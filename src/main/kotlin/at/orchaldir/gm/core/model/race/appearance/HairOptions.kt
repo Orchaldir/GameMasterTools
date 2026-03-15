@@ -9,8 +9,8 @@ import kotlinx.serialization.Serializable
 val ALLOWED_HAIR_COLOR_TYPES = setOf(
     HairColorType.Normal,
     HairColorType.Exotic,
-    HairColorType.Stripped,
 )
+val ALLOWED_FUR_COLOR_TYPES = ALLOWED_HAIR_COLOR_TYPES + HairColorType.Stripped
 
 @Serializable
 data class HairOptions(
