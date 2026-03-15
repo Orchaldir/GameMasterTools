@@ -25,8 +25,7 @@
        "#type": "Normal",
        "eyeShape": "Almond",
        "pupilShape": "VerticalSlit",
-       "pupilColor": "Black",
-       "scleraColor": "Yellow"
+       "pupilColor": "Black"
       }
      },
      "mouth": {
@@ -36,7 +35,12 @@
     },
     "height": 900000,
     "skin": {
-     "#type": "Fur"
+     "#type": "Fur",
+     "color": {
+      "#type": "Stripped",
+      "color0": "White",
+      "color1": "Chocolate"
+     }
     },
     "tails": {
      "#type": "Simple",
