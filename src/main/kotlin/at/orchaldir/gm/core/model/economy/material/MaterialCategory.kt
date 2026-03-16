@@ -1,5 +1,10 @@
 package at.orchaldir.gm.core.model.economy.material
 
+import at.orchaldir.gm.core.model.character.appearance.hair.HairColor
+import at.orchaldir.gm.core.model.character.appearance.hair.NormalHairColor
+import at.orchaldir.gm.core.model.character.appearance.hair.NormalHairColorEnum
+import at.orchaldir.gm.core.model.race.appearance.HairColorOptions
+import at.orchaldir.gm.core.model.race.appearance.HairOptions
 import at.orchaldir.gm.core.model.util.PercentageDistribution
 import at.orchaldir.gm.core.model.util.Size
 import kotlinx.serialization.SerialName
@@ -15,6 +20,7 @@ enum class MaterialCategoryType {
     Undefined,
     Alloy,
     Fiber,
+    Fur,
     Glass,
     Hide,
     Leather,
@@ -31,6 +37,7 @@ sealed class MaterialCategory {
     fun getType() = when (this) {
         is Alloy -> MaterialCategoryType.Alloy
         is Fiber -> MaterialCategoryType.Fiber
+        is Fur -> MaterialCategoryType.Fur
         is Glass -> MaterialCategoryType.Glass
         is Hide -> MaterialCategoryType.Hide
         is Leather -> MaterialCategoryType.Leather
@@ -60,6 +67,13 @@ data class Alloy(
 @SerialName("Fiber")
 data class Fiber(
     val weight: Size = Size.Medium,
+) : MaterialCategory()
+
+@Serializable
+@SerialName("Fur")
+data class Fur(
+    val colors: HairColorOptions,
+    val thickness: LeatherThickness = LeatherThickness.Medium,
 ) : MaterialCategory()
 
 @Serializable

@@ -2,13 +2,19 @@ package at.orchaldir.gm.app.html.economy.material
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.character.appearance.showHairColor
+import at.orchaldir.gm.app.html.race.editHairColorOptions
+import at.orchaldir.gm.app.html.race.parseHairColorOptions
+import at.orchaldir.gm.app.html.race.showHairColorOptions
 import at.orchaldir.gm.app.html.util.editPercentageDistribution
 import at.orchaldir.gm.app.html.util.parsePercentageDistribution
 import at.orchaldir.gm.app.html.util.showPercentageDistribution
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.*
+import at.orchaldir.gm.core.model.race.appearance.ALLOWED_FUR_COLOR_TYPES
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.selector.util.sortMaterials
+import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -43,6 +49,10 @@ fun HtmlBlockTag.showMaterialCategory(
         when (category) {
             is Alloy -> showPercentageDistribution(call, state, "Components", category.components)
             is Fiber -> field("Weight", category.weight)
+            is Fur -> {
+                showHairColorOptions(category.colors, "Fur Color")
+                field("Thickness", category.thickness)
+            }
             is Glass -> doNothing()
             is Hide -> field("Thickness", category.thickness)
             is Leather -> {
@@ -105,6 +115,15 @@ fun HtmlBlockTag.editMaterialCategory(
                 Size.entries,
                 category.weight,
             )
+            is Fur -> {
+                editHairColorOptions(
+                    category.colors,
+                    combine(CATEGORY, FUR),
+                    "Fur Colors",
+                    ALLOWED_FUR_COLOR_TYPES,
+                )
+                selectLeatherThickness(category.thickness)
+            }
 
             is Glass -> doNothing()
             is Hide -> selectLeatherThickness(category.thickness)
@@ -175,6 +194,10 @@ fun parseMaterialCategory(
 
     MaterialCategoryType.Fiber -> Fiber(
         parse(parameters, combine(CATEGORY, SIZE), Size.Medium),
+    )
+    MaterialCategoryType.Fur -> Fur(
+        parseHairColorOptions(parameters, combine(CATEGORY, FUR)),
+        parseThickness(parameters),
     )
 
     MaterialCategoryType.Hide -> Hide(

@@ -120,11 +120,11 @@ private fun HtmlBlockTag.showHair(appearance: RaceAppearance) {
     showRarityMap("Hair", appearance.hair.hairTypes)
 
     if (requiresHairColor(appearance)) {
-        showHairColors(appearance.hair.colors, "Hair Colors")
+        showHairColorOptions(appearance.hair.colors, "Hair Colors")
     }
 }
 
-private fun HtmlBlockTag.showHairColors(options: HairColorOptions, label: String) {
+fun HtmlBlockTag.showHairColorOptions(options: HairColorOptions, label: String) {
     showDetails(label) {
         showRarityMap("Types", options.types)
 
@@ -224,7 +224,7 @@ private fun HtmlBlockTag.showSkinInternal(
     }
 
     if (options.skinTypes.isAvailable(SkinType.Fur)) {
-        showHairColors(options.furColors, "Fur Colors")
+        showHairColorOptions(options.furColors, "Fur Colors")
     }
 
     if (options.skinTypes.isAvailable(SkinType.Scales)) {
@@ -377,7 +377,7 @@ private fun HtmlBlockTag.editHair(appearance: RaceAppearance) {
     selectRarityMap("Hair", HAIR, appearance.hair.hairTypes)
 
     if (requiresHairColor(appearance)) {
-        editHairColors(
+        editHairColorOptions(
             appearance.hair.colors,
             HAIR,
             "Hair Colors",
@@ -386,7 +386,7 @@ private fun HtmlBlockTag.editHair(appearance: RaceAppearance) {
     }
 }
 
-private fun HtmlBlockTag.editHairColors(
+fun HtmlBlockTag.editHairColorOptions(
     options: HairColorOptions,
     param: String,
     label: String,
@@ -485,7 +485,7 @@ private fun HtmlBlockTag.editSkinInternal(state: State, options: SkinOptions, pa
     }
 
     if (options.skinTypes.isAvailable(SkinType.Fur)) {
-        editHairColors(
+        editHairColorOptions(
             options.furColors,
             combine(param, FUR),
             "Fur Colors",
@@ -640,10 +640,10 @@ private fun parseFootOptions(parameters: Parameters): FootOptions {
 private fun parseHairOptions(parameters: Parameters) = HairOptions(
     parseOneOf(parameters, BEARD, BeardType::valueOf),
     parseOneOf(parameters, HAIR, HairType::valueOf),
-    parseHairColors(parameters, HAIR),
+    parseHairColorOptions(parameters, HAIR),
 )
 
-private fun parseHairColors(parameters: Parameters, param: String) = HairColorOptions(
+fun parseHairColorOptions(parameters: Parameters, param: String) = HairColorOptions(
     parseOneOf(
         parameters,
         combine(param, COLOR, TYPE),
@@ -686,7 +686,7 @@ private fun parseMouthOptions(parameters: Parameters) = MouthOptions(
 private fun parseSkinOptions(parameters: Parameters, param: String) = SkinOptions(
     parseOneOf(parameters, combine(param, TYPE), SkinType::valueOf, setOf(SkinType.Normal)),
     parseOneOf(parameters, combine(param, EXOTIC, COLOR), Color::valueOf, setOf(DEFAULT_EXOTIC_COLOR)),
-    parseHairColors(parameters, combine(param, FUR)),
+    parseHairColorOptions(parameters, combine(param, FUR)),
     parseOneOf(parameters, combine(param, MATERIAL), ::parseMaterialId, setOf(MaterialId(0))),
     parseOneOf(parameters, combine(param, NORMAL, COLOR), SkinColor::valueOf, SkinColor.entries),
     parseOneOf(parameters, combine(param, SCALE, COLOR), Color::valueOf, setOf(DEFAULT_SCALE_COLOR)),
