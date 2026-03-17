@@ -85,8 +85,7 @@ private fun visualizeShieldBorder(
     when (val border = shield.border) {
         NoShieldBorder -> doNothing()
         is SimpleShieldBorder -> {
-            val fill = border.main.getColor(state.state, state.colors)
-            val options = FillAndBorder(fill.toRender(), state.config.line)
+            val options = state.getFillAndBorder(border.main)
             val innerRadius = radius * state.config.equipment.shield.borderFactor.convert(border.size)
 
             visualizeHoledComplexShape(

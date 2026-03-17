@@ -82,7 +82,7 @@ private fun HtmlBlockTag.editSkinInternal(
         ) { skinColor ->
             label = skinColor.name
             value = skinColor.toString()
-            val bgColor = CHARACTER_CONFIG.getSkinColor(skinColor).toCode()
+            val bgColor = CHARACTER_CONFIG.colors.getSkinColor(skinColor).toCode()
             style = "background-color:${bgColor}"
         }
 

@@ -62,7 +62,7 @@ fun visualizeAppearance(
     val builder = SvgBuilder(renderSize)
     val renderState = CharacterRenderState(state, appearance, aabb, config, builder, renderFront, equipped)
 
-    renderState.renderer.getLayer().renderRectangle(AABB(renderSize), BorderOnly(renderState.config.line))
+    renderState.renderer.getLayer().renderRectangle(AABB(renderSize), renderState.config.colors.getBorderOnly())
 
     visualizeAppearance(renderState)
 
@@ -83,7 +83,7 @@ fun visualizeAppearance(
     val fullAABB = paddedSize.getInnerAABB(renderSize)
     val renderState = CharacterRenderState(state, appearance, fullAABB, config, builder, renderFront, equipped)
 
-    renderState.renderer.getLayer().renderRectangle(aabb, BorderOnly(renderState.config.line))
+    renderState.renderer.getLayer().renderRectangle(aabb, renderState.config.colors.getBorderOnly())
 
     visualizeAppearance(renderState)
 

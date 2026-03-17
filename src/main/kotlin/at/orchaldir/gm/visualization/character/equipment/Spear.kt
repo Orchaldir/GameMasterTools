@@ -22,7 +22,8 @@ fun visualizeSpearHead(
         listOf(
             headAabb.getPoint(CENTER, START),
             headAabb.getPoint(CENTER, END),
-        ), state.config.line
+        ),
+        state.lineOptions(),
     )
 }
 

@@ -33,7 +33,7 @@ data class CharacterRenderState<T>(
 
     override fun state() = state
     override fun renderer() = renderer
-    override fun lineOptions() = config.line
+    override fun lineOptions() = config.colors.line
 
     override fun get() = appearance
     override fun fullAABB() = fullAABB

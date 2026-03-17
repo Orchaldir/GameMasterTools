@@ -186,7 +186,7 @@ fun visualizeBody(
     state: CharacterRenderState<Body>,
     skin: Skin,
 ) {
-    val options = state.config.getFillAndBorder(state.state, skin)
+    val options = state.config.colors.getFillAndBorder(state.state, skin)
 
     visualizeArms(state, options)
     visualizeHands(state, options)

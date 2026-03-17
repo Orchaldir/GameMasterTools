@@ -83,7 +83,7 @@ fun HtmlBlockTag.selectHairColor(
             ) { skinColor ->
                 label = skinColor.name
                 value = skinColor.toString()
-                val bgColor = CHARACTER_CONFIG.getHairColor(skinColor).toCode()
+                val bgColor = CHARACTER_CONFIG.colors.getHairColor(skinColor).toCode()
                 style = "background-color:${bgColor}"
             }
 

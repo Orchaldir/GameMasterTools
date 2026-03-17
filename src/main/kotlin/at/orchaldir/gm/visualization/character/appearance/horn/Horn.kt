@@ -49,7 +49,8 @@ fun visualizeComplexHorn(
     skin: Skin,
     hair: Hair,
 ) {
-    val options = state.config.getFeatureOptions(state.state, horn.color, hair, skin)
+    val options = state.config.colors
+        .getFeatureOptions(state.state, horn.color, hair, skin)
     val layer = state.config.head.hornConfig.getLayer(state.renderFront)
 
     var polygon = createLeftHorn(state, horn)

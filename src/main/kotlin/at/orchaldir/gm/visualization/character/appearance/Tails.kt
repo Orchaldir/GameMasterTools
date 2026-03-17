@@ -35,7 +35,8 @@ fun visualizeTails(state: CharacterRenderState<Body>, tails: Tails, skin: Skin, 
 }
 
 private fun visualizeSimpleTail(state: CharacterRenderState<Body>, tail: SimpleTail, skin: Skin, hair: Hair) {
-    val options = state.config.getFeatureOptions(state.state, tail.color, hair, skin)
+    val options = state.config.colors
+        .getFeatureOptions(state.state, tail.color, hair, skin)
 
     when (tail.shape) {
         SimpleTailShape.Bunny -> visualizeBunny(state, options, tail)

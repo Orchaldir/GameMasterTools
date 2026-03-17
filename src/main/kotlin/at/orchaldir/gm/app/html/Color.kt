@@ -40,10 +40,10 @@ fun HtmlBlockTag.showOptionalColor(color: Color?) {
 fun HtmlBlockTag.showColor(color: Color) = showColor(color.name, color.name)
 
 fun HtmlBlockTag.showHairColor(config: CharacterRenderConfig, color: NormalHairColorEnum) =
-    showColor(color.name, config.getHairColor(color).toCode())
+    showColor(color.name, config.colors.getHairColor(color).toCode())
 
 fun HtmlBlockTag.showSkinColor(config: CharacterRenderConfig, color: SkinColor) =
-    showColor(color.name, config.getSkinColor(color).toCode())
+    showColor(color.name, config.colors.getSkinColor(color).toCode())
 
 fun HtmlBlockTag.showColor(name: String, code: String) {
     showColorBlock(code)
