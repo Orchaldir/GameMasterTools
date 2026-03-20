@@ -122,7 +122,7 @@ fun parseSkinOptions(
 ): SkinOptions {
     val skinTypes = parseOneOf(parameters, combine(param, TYPE), SkinType::valueOf, setOf(SkinType.Normal))
     val fur = if (skinTypes.contains(SkinType.Fur)) {
-        parseMaterialId(state, parameters, combine(param, MATERIAL), MaterialCategoryType.Fur)
+        parseMaterialId(state, parameters, combine(param, FUR), MaterialCategoryType.Fur)
     } else {
         null
     }
