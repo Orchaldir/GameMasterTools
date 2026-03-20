@@ -16,7 +16,8 @@ fun visualizeCrownOfHorns(
     skin: Skin,
     hair: Hair,
 ) {
-    val options = state.config.getFeatureOptions(state.state, crown.color, hair, skin)
+    val options = state.config.colors
+        .getFeatureOptions(state.state, crown.color, hair, skin)
     val aabb = state.headAABB()
     val length = aabb.convertHeight(crown.length)
     val half = aabb.convertHeight(crown.width) / 2.0f

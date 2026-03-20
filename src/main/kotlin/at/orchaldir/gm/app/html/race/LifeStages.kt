@@ -13,10 +13,12 @@ import at.orchaldir.gm.app.html.util.math.parseFactor
 import at.orchaldir.gm.app.html.util.math.selectPercentage
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.beard.BeardType
-import at.orchaldir.gm.core.model.character.appearance.hair.*
+import at.orchaldir.gm.core.model.character.appearance.hair.ExoticHairColor
+import at.orchaldir.gm.core.model.character.appearance.hair.HairColor
+import at.orchaldir.gm.core.model.character.appearance.hair.HairColorType
+import at.orchaldir.gm.core.model.character.appearance.hair.NoHairColor
 import at.orchaldir.gm.core.model.race.aging.*
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
-import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.math.Factor
 import io.ktor.http.*
@@ -195,9 +197,7 @@ private fun HtmlBlockTag.selectMaxAges(
 
 private fun HtmlBlockTag.selectHairColor(label: String, index: Int, color: HairColor) {
     selectHairColor(
-        OneOf(setOf(HairColorType.None, HairColorType.Exotic)),
-        OneOf(NormalHairColorEnum.entries),
-        OneOf(Color.entries),
+        HAIR_COLOR_OPTIONS,
         color,
         combine(LIFE_STAGE, HAIR, index),
         label,
@@ -297,13 +297,11 @@ private fun parseHairColor(parameters: Parameters, index: Int, default: Color? =
 
     return when (parse(parameters, combine(colorParam, TYPE), HairColorType.Normal)) {
         HairColorType.None -> NoHairColor
-        HairColorType.Normal -> NormalHairColor(
-            parse(parameters, colorParam, NormalHairColorEnum.MediumBrown),
-        )
-
         HairColorType.Exotic -> ExoticHairColor(
             parse(parameters, combine(colorParam, EXOTIC), Color.Blue),
         )
+
+        else -> error("Unsupported!")
     }
 }
 

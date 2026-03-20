@@ -23,6 +23,7 @@ enum class HairColorType {
     None,
     Normal,
     Exotic,
+    Stripped,
 }
 
 @Serializable
@@ -32,6 +33,7 @@ sealed class HairColor {
         is NoHairColor -> HairColorType.None
         is NormalHairColor -> HairColorType.Normal
         is ExoticHairColor -> HairColorType.Exotic
+        is StrippedHairColor -> HairColorType.Stripped
     }
 
 }
@@ -51,3 +53,11 @@ data class NormalHairColor(
 data class ExoticHairColor(
     val color: Color,
 ) : HairColor()
+
+@Serializable
+@SerialName("Stripped")
+data class StrippedHairColor(
+    val color0: Color,
+    val color1: Color,
+) : HairColor()
+

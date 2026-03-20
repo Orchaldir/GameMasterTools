@@ -179,22 +179,23 @@ private fun HtmlBlockTag.selectWingType(
 // parse
 
 fun parseAppearance(
+    state: State,
     parameters: Parameters,
     config: AppearanceGeneratorConfig,
     character: Character,
 ): Appearance {
     val height = parseHeight(parameters, config)
-    val skin = parseSkin(parameters, config)
+    val skin = parseSkin(state, parameters, config)
 
     return when (parameters[APPEARANCE]) {
-        AppearanceType.HeadOnly.toString() -> HeadOnly(parseHead(parameters, config, character), height, skin)
+        AppearanceType.HeadOnly.toString() -> HeadOnly(parseHead(state, parameters, config, character), height, skin)
         AppearanceType.Body.toString() -> HumanoidBody(
             parseBody(parameters, config),
-            parseHead(parameters, config, character),
+            parseHead(state, parameters, config, character),
             height,
             skin,
-            parseTails(parameters, config),
-            parseWings(parameters, config),
+            parseTails(state, parameters, config),
+            parseWings(state, parameters, config),
         )
 
         else -> UndefinedAppearance
@@ -231,7 +232,7 @@ private fun parseFoot(
         ClawedFoot(
             options.clawNumber,
             parseAppearanceOption(parameters, combine(FOOT, CLAWS, SIZE), config, options.clawSizes),
-            parseAppearanceColor(parameters, combine(FOOT, CLAWS), config, options.clawColors),
+            parseAppearanceColor(parameters, combine(FOOT, CLAWS, COLOR), config, options.clawColors),
         )
     }
 
@@ -239,6 +240,7 @@ private fun parseFoot(
 }
 
 private fun parseTails(
+    state: State,
     parameters: Parameters,
     config: AppearanceGeneratorConfig,
 ) = when (parameters[combine(TAIL, LAYOUT)]) {
@@ -247,7 +249,7 @@ private fun parseTails(
         val options = config.appearanceOptions.tail
         val shape = parseAppearanceOption(parameters, combine(TAIL, SHAPE), config, options.simpleShapes)
         val shapeOptions = options.getFeatureColorOptions(shape)
-        val featureColor = parseFeatureColor(parameters, config, shapeOptions, TAIL)
+        val featureColor = parseFeatureColor(state, parameters, config, shapeOptions, TAIL)
 
         SimpleTail(
             shape,
@@ -260,28 +262,30 @@ private fun parseTails(
 }
 
 private fun parseWings(
+    state: State,
     parameters: Parameters,
     config: AppearanceGeneratorConfig,
 ) = when (parameters[combine(WING, LAYOUT)]) {
     WingsLayout.None.toString() -> NoWings
     WingsLayout.One.toString() -> OneWing(
-        parseWing(parameters, config, WING),
+        parseWing(state, parameters, config, WING),
         parse(parameters, combine(WING, SIDE), Side.Right),
     )
 
     WingsLayout.Two.toString() -> TwoWings(
-        parseWing(parameters, config, WING),
+        parseWing(state, parameters, config, WING),
     )
 
     WingsLayout.Different.toString() -> DifferentWings(
-        parseWing(parameters, config, combine(LEFT, WING)),
-        parseWing(parameters, config, combine(RIGHT, WING)),
+        parseWing(state, parameters, config, combine(LEFT, WING)),
+        parseWing(state, parameters, config, combine(RIGHT, WING)),
     )
 
     else -> generateWings(config)
 }
 
 private fun parseWing(
+    state: State,
     parameters: Parameters,
     config: AppearanceGeneratorConfig,
     param: String,
@@ -290,15 +294,15 @@ private fun parseWing(
 
     return when (parameters[combine(param, TYPE)]) {
         WingType.Bat.toString() -> BatWing(
-            parseFeatureColor(parameters, config, wingOptions.batColors, combine(param, COLOR))
+            parseFeatureColor(state, parameters, config, wingOptions.batColors, combine(param, COLOR))
         )
 
         WingType.Bird.toString() -> BirdWing(
-            parseAppearanceColor(parameters, param, config, wingOptions.birdColors),
+            parseAppearanceColor(parameters, combine(param, COLOR), config, wingOptions.birdColors),
         )
 
         WingType.Butterfly.toString() -> ButterflyWing(
-            parseAppearanceColor(parameters, param, config, wingOptions.butterflyColors),
+            parseAppearanceColor(parameters, combine(param, COLOR), config, wingOptions.butterflyColors),
         )
 
         else -> generateWing(config)
@@ -310,7 +314,7 @@ fun parseAppearanceColor(
     param: String,
     config: AppearanceGeneratorConfig,
     colors: RarityMap<Color>,
-) = parseAppearanceOption(parameters, combine(param, COLOR), config, colors)
+) = parseAppearanceOption(parameters, param, config, colors)
 
 inline fun <reified T : Enum<T>> parseAppearanceOption(
     parameters: Parameters,

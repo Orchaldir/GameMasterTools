@@ -9,8 +9,10 @@ import at.orchaldir.gm.app.html.math.selectComplexShape
 import at.orchaldir.gm.app.html.math.showComplexShape
 import at.orchaldir.gm.app.html.util.math.*
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.economy.material.ALLOYS_OR_METALS
 import at.orchaldir.gm.core.model.economy.money.*
 import at.orchaldir.gm.core.selector.economy.money.calculateWeight
+import at.orchaldir.gm.core.selector.util.sortMaterials
 import at.orchaldir.gm.prototypes.visualization.currency.CURRENCY_CONFIG
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Factor
@@ -153,6 +155,8 @@ fun HtmlBlockTag.editCurrencyFormat(
     state: State,
     format: CurrencyFormat,
 ) {
+    val metals = state.sortMaterials(ALLOYS_OR_METALS)
+
     showDetails("Format", true) {
         selectValue(
             "Type",
@@ -164,7 +168,7 @@ fun HtmlBlockTag.editCurrencyFormat(
         when (format) {
             UndefinedCurrencyFormat -> doNothing()
             is Coin -> {
-                selectMaterial(state, format.material, MATERIAL)
+                selectMaterial(state, metals, format.material, MATERIAL)
                 selectCoinShape(format.shape, SHAPE)
                 selectRadius(format.radius)
                 selectThickness(format.thickness)
@@ -173,7 +177,7 @@ fun HtmlBlockTag.editCurrencyFormat(
             }
 
             is HoledCoin -> {
-                selectMaterial(state, format.material, MATERIAL)
+                selectMaterial(state, metals, format.material, MATERIAL)
                 selectCoinShape(format.shape, SHAPE)
                 selectRadius(format.radius)
                 selectThickness(format.thickness)
@@ -187,14 +191,14 @@ fun HtmlBlockTag.editCurrencyFormat(
 
             is BiMetallicCoin -> {
                 showDetails("Outer", true) {
-                    selectMaterial(state, format.material, MATERIAL)
+                    selectMaterial(state, metals, format.material, MATERIAL)
                     selectCoinShape(format.shape, SHAPE)
                     selectRadius(format.radius)
                     selectRimFactor(format.rimFactor)
                 }
                 selectThickness(format.thickness)
                 showDetails("Inner", true) {
-                    selectMaterial(state, format.innerMaterial, combine(HOLE, MATERIAL))
+                    selectMaterial(state, metals, format.innerMaterial, combine(HOLE, MATERIAL))
                     selectCoinShape(format.innerShape, combine(HOLE, SHAPE))
                     selectRadiusFactor(format.innerFactor)
                 }

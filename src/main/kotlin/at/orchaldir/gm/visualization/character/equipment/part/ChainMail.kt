@@ -28,7 +28,7 @@ private fun getRenderOptions(
         Factor.fromPercentage(35),
     )
 
-    return FillAndBorder(fill, state.config.line)
+    return FillAndBorder(fill, state.lineOptions())
 }
 
 fun visualizeChainMail(

@@ -15,7 +15,11 @@ data class RenderCircles(
 
 data class RenderSolid(
     val color: RenderColor,
-) : RenderFill()
+) : RenderFill() {
+
+    constructor(color: Color) : this(color.toRender())
+
+}
 
 data class RenderTransparent(
     val color: RenderColor,

@@ -35,14 +35,7 @@
     "skinTypes": {
      "Fur": "Common"
     },
-    "furColors": {
-     "normal": {
-      "Blond": "Common",
-      "DarkBlond": "Common",
-      "LightBrown": "Common",
-      "MediumBrown": "Common"
-     }
-    }
+    "fur": 19
    }
   },
   "1": {
@@ -63,7 +56,6 @@
     },
     "scleraColors": {
      "Gold": "Common",
-     "White": "Common",
      "Yellow": "Common"
     }
    },
@@ -89,7 +81,8 @@
      "Snout": "Common"
     },
     "snoutColors": {
-     "Black": "Common"
+     "Black": "Common",
+     "Pink": "Uncommon"
     },
     "snoutShapes": {
      "Cat": "Common"
@@ -99,18 +92,7 @@
     "skinTypes": {
      "Fur": "Common"
     },
-    "furColors": {
-     "types": {
-      "Exotic": "Common"
-     },
-     "exotic": {
-      "Chocolate": "Common",
-      "DimGray": "Common",
-      "SaddleBrown": "Common",
-      "Silver": "Common",
-      "White": "Common"
-     }
-    }
+    "fur": 18
    },
    "tail": {
     "layouts": {

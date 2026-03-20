@@ -10,7 +10,6 @@ import at.orchaldir.gm.app.html.util.math.parseWeight
 import at.orchaldir.gm.app.html.util.math.selectWeight
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.*
-import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.unit.SiPrefix
 import io.ktor.http.*
@@ -27,8 +26,6 @@ fun HtmlBlockTag.showMaterialProperties(
 ) {
     showMaterialCategory(call, state, properties.category)
     field("Crystal System", properties.crystalSystem)
-    fieldColor(properties.color)
-    field("Transparency", properties.transparency)
     fieldWeight("Density", properties.density)
     field("Hardness", displayHardness(properties))
     field("Fracture", properties.fracture)
@@ -63,8 +60,6 @@ fun HtmlBlockTag.editMaterialProperties(
         properties.crystalSystem,
         CrystalSystem.entries,
     )
-    selectColor(properties.color)
-    selectValue("Transparency", OPACITY, Transparency.entries, properties.transparency)
     selectWeight(
         "Density",
         DENSITY,
@@ -93,12 +88,10 @@ fun parseMaterialProperties(
     parameters: Parameters,
 ) = MaterialProperties(
     parseMaterialCategory(state, parameters),
-    parse(parameters, COLOR, Color.Pink),
     parse(parameters, CRYSTAl, CrystalSystem.Amorphous),
     parseWeight(parameters, DENSITY, SiPrefix.Kilo),
     parse(parameters, FRACTURE, Fracture.Uneven),
     parseFloat(parameters, HARDNESS),
     parse(parameters, LUSTER, Luster.Dull),
     parse(parameters, TENACITY, Tenacity.Brittle),
-    parse(parameters, OPACITY, Transparency.Opaque),
 )

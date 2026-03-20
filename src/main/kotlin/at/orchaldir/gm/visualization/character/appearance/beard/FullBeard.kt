@@ -15,7 +15,7 @@ fun visualizeFullBeard(
     color: HairColor,
 ) {
     val layer = state.getBeardLayer()
-    val options = state.config.getFillAndBorder(color)
+    val options = state.config.colors.getFillAndBorder(color)
     val distance = state.config.getHairLength(state, length)
     val polygon = when (style) {
         FullBeardStyle.Forked -> getFork(state, distance, HALF)

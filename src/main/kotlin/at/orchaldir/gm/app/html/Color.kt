@@ -6,11 +6,22 @@ import at.orchaldir.gm.core.model.character.appearance.hair.NormalHairColorEnum
 import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.visualization.character.CharacterRenderConfig
+import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag
 import kotlinx.html.span
 import kotlinx.html.style
 
 // show
+
+fun HtmlBlockTag.fieldNormalHairColor(
+    config: CharacterRenderConfig,
+    color: NormalHairColorEnum,
+    label: String = "Color",
+) {
+    field(label) {
+        showHairColor(config, color)
+    }
+}
 
 fun HtmlBlockTag.fieldOptionalColor(color: Color?, label: String = "Color") {
     if (color != null) {
@@ -33,10 +44,10 @@ fun HtmlBlockTag.showOptionalColor(color: Color?) {
 fun HtmlBlockTag.showColor(color: Color) = showColor(color.name, color.name)
 
 fun HtmlBlockTag.showHairColor(config: CharacterRenderConfig, color: NormalHairColorEnum) =
-    showColor(color.name, config.getHairColor(color).toCode())
+    showColor(color.name, config.colors.getHairColor(color).toCode())
 
 fun HtmlBlockTag.showSkinColor(config: CharacterRenderConfig, color: SkinColor) =
-    showColor(color.name, config.getSkinColor(color).toCode())
+    showColor(color.name, config.colors.getSkinColor(color).toCode())
 
 fun HtmlBlockTag.showColor(name: String, code: String) {
     showColorBlock(code)
@@ -102,4 +113,18 @@ fun HtmlBlockTag.selectOptionalColor(
 }
 
 // parse
+
+fun parseColorOneOf(
+    parameters: Parameters,
+    selectId: String,
+    default: Collection<Color> = Color.entries,
+): OneOf<Color> {
+    val map = parseRarityMap(parameters, selectId, Color::valueOf)
+
+    if (map != null) {
+        return OneOf.init(map)
+    }
+
+    return OneOf(default)
+}
 

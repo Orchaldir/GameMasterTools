@@ -1,8 +1,6 @@
 package at.orchaldir.gm.prototypes.visualization
 
-import at.orchaldir.gm.core.model.economy.material.Material
-import at.orchaldir.gm.core.model.economy.material.MaterialId
-import at.orchaldir.gm.core.model.economy.material.MaterialProperties
+import at.orchaldir.gm.core.model.economy.material.*
 import at.orchaldir.gm.core.model.util.HorizontalAlignment.End
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.math.AABB
@@ -24,8 +22,13 @@ fun mockMaterial(
 fun mockMaterial(
     color: Color,
     id: MaterialId,
+) = mockMaterial(id, Metal(color))
+
+fun mockMaterial(
+    id: MaterialId,
+    category: MaterialCategory,
 ): Material {
-    val properties = MaterialProperties(color = color)
+    val properties = MaterialProperties(category)
 
     return Material(id, properties = properties)
 }

@@ -201,6 +201,7 @@ fun createGeneratorConfig(
     gender: Gender,
     height: Distribution<Distance>,
 ) = AppearanceGeneratorConfig(
+    state,
     RandomNumberGenerator(Random),
     state.rarityGenerator,
     gender,

@@ -6,9 +6,9 @@
    "name": "Copper",
    "properties": {
     "category": {
-     "#type": "Metal"
+     "#type": "Metal",
+     "color": "OrangeRed"
     },
-    "color": "OrangeRed",
     "crystalSystem": "Cubic",
     "density": 8940000000,
     "fracture": "Uneven",
@@ -22,9 +22,9 @@
    "name": "Silver",
    "properties": {
     "category": {
-     "#type": "Metal"
+     "#type": "Metal",
+     "color": "Silver"
     },
-    "color": "Silver",
     "crystalSystem": "Cubic",
     "density": 10500000000,
     "fracture": "Hackly",
@@ -38,9 +38,9 @@
    "name": "Gold",
    "properties": {
     "category": {
-     "#type": "Metal"
+     "#type": "Metal",
+     "color": "Gold"
     },
-    "color": "Gold",
     "crystalSystem": "Cubic",
     "density": 19320000000,
     "fracture": "Hackly",
@@ -54,9 +54,9 @@
    "name": "Platinum",
    "properties": {
     "category": {
-     "#type": "Metal"
+     "#type": "Metal",
+     "color": "AliceBlue"
     },
-    "color": "AliceBlue",
     "crystalSystem": "Cubic",
     "density": 21450000000,
     "fracture": "Hackly",
@@ -70,9 +70,9 @@
    "name": "Iron",
    "properties": {
     "category": {
-     "#type": "Metal"
+     "#type": "Metal",
+     "color": "DimGray"
     },
-    "color": "DimGray",
     "crystalSystem": "Cubic",
     "density": 7870000000,
     "hardness": 4.0,
@@ -86,11 +86,11 @@
    "properties": {
     "category": {
      "#type": "Alloy",
+     "color": "Gray",
      "components": {
       "4": 9900
      }
     },
-    "color": "Gray",
     "crystalSystem": "Cubic",
     "density": 7850000000,
     "hardness": 4.5,
@@ -104,12 +104,12 @@
    "properties": {
     "category": {
      "#type": "Alloy",
+     "color": "Gold",
      "components": {
       "0": 6600,
       "9": 3300
      }
     },
-    "color": "Gold",
     "crystalSystem": "Cubic",
     "density": 8600000000,
     "hardness": 3.0,
@@ -123,12 +123,12 @@
    "properties": {
     "category": {
      "#type": "Alloy",
+     "color": "Orange",
      "components": {
       "0": 8800,
       "9": 1200
      }
     },
-    "color": "Orange",
     "crystalSystem": "Cubic",
     "density": 8770000000,
     "hardness": 4.0,
@@ -141,9 +141,9 @@
    "name": "Zinc",
    "properties": {
     "category": {
-     "#type": "Metal"
+     "#type": "Metal",
+     "color": "LightGray"
     },
-    "color": "LightGray",
     "crystalSystem": "Hexagonal",
     "density": 7139000000,
     "hardness": 2.5,
@@ -156,9 +156,9 @@
    "name": "Wood",
    "properties": {
     "category": {
-     "#type": "Wood"
-    },
-    "color": "Peru"
+     "#type": "Wood",
+     "color": "Peru"
+    }
    }
   },
   "11": {
@@ -166,9 +166,9 @@
    "name": "Iron Wood",
    "properties": {
     "category": {
-     "#type": "Wood"
+     "#type": "Wood",
+     "color": "Maroon"
     },
-    "color": "Maroon",
     "hardness": 4.0
    }
   },
@@ -177,9 +177,9 @@
    "name": "Linen",
    "properties": {
     "category": {
-     "#type": "Fiber"
-    },
-    "color": "White"
+     "#type": "Fiber",
+     "color": "White"
+    }
    }
   },
   "13": {
@@ -187,9 +187,9 @@
    "name": "Silk",
    "properties": {
     "category": {
-     "#type": "Fiber"
-    },
-    "color": "White"
+     "#type": "Fiber",
+     "color": "White"
+    }
    }
   },
   "14": {
@@ -197,9 +197,9 @@
    "name": "Cotton",
    "properties": {
     "category": {
-     "#type": "Fiber"
-    },
-    "color": "White"
+     "#type": "Fiber",
+     "color": "White"
+    }
    }
   },
   "15": {
@@ -207,9 +207,11 @@
    "name": "Diamond",
    "properties": {
     "category": {
-     "#type": "Mineral"
+     "#type": "Mineral",
+     "colors": {
+      "White": "Common"
+     }
     },
-    "color": "White",
     "crystalSystem": "Cubic",
     "density": 3500000000,
     "hardness": 10.0,
@@ -222,13 +224,12 @@
    "name": "Glass",
    "properties": {
     "category": {
-     "#type": "Glass"
+     "#type": "Glass",
+     "color": "AliceBlue"
     },
-    "color": "AliceBlue",
     "hardness": 5.5,
     "luster": "Vitreous",
-    "tenacity": "Brittle",
-    "transparency": "Transparent"
+    "tenacity": "Brittle"
    }
   },
   "17": {
@@ -237,8 +238,48 @@
    "properties": {
     "category": {
      "#type": "Paper"
-    },
-    "color": "White"
+    }
+   }
+  },
+  "18": {
+   "id": 18,
+   "name": "Grimalkin Fur",
+   "properties": {
+    "category": {
+     "#type": "Fur",
+     "colors": {
+      "types": {
+       "Exotic": "Common",
+       "Stripped": "Common"
+      },
+      "exotic": {
+       "Black": "Common",
+       "Chocolate": "Common",
+       "DimGray": "Common",
+       "Orange": "Common",
+       "SaddleBrown": "Common",
+       "Silver": "Common",
+       "White": "Common"
+      }
+     }
+    }
+   }
+  },
+  "19": {
+   "id": 19,
+   "name": "Breggle Fur",
+   "properties": {
+    "category": {
+     "#type": "Fur",
+     "colors": {
+      "normal": {
+       "Blond": "Common",
+       "DarkBlond": "Common",
+       "LightBrown": "Common",
+       "MediumBrown": "Common"
+      }
+     }
+    }
    }
   }
  }

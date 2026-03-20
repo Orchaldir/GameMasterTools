@@ -16,7 +16,6 @@ import at.orchaldir.gm.utils.math.shape.ComplexShape
 import at.orchaldir.gm.utils.math.shape.UsingCircularShape
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.LayerRenderer
-import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.ICharacterConfig
 import at.orchaldir.gm.visualization.character.appearance.ABOVE_HAND_LAYER
@@ -85,8 +84,7 @@ private fun visualizeShieldBorder(
     when (val border = shield.border) {
         NoShieldBorder -> doNothing()
         is SimpleShieldBorder -> {
-            val fill = border.main.getColor(state.state, state.colors)
-            val options = FillAndBorder(fill.toRender(), state.config.line)
+            val options = state.getFillAndBorder(border.main)
             val innerRadius = radius * state.config.equipment.shield.borderFactor.convert(border.size)
 
             visualizeHoledComplexShape(

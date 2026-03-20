@@ -6,7 +6,11 @@ import at.orchaldir.gm.core.model.character.appearance.hair.HairType
 import at.orchaldir.gm.core.model.util.OneOf
 import kotlinx.serialization.Serializable
 
-val ALLOWED_HAIR_COLOR_TYPES = setOf(HairColorType.Normal, HairColorType.Exotic)
+val ALLOWED_HAIR_COLOR_TYPES = setOf(
+    HairColorType.Normal,
+    HairColorType.Exotic,
+)
+val ALLOWED_FUR_COLOR_TYPES = ALLOWED_HAIR_COLOR_TYPES + HairColorType.Stripped
 
 @Serializable
 data class HairOptions(

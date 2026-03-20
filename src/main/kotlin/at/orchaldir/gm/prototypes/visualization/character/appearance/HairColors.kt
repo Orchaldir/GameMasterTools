@@ -14,6 +14,6 @@ fun main() {
     )
 
     renderTableWithNames("hair_colors.svg", Size2d.fromMeters(1.0f), colors) { aabb, renderer, color ->
-        renderer.getLayer().renderRectangle(aabb, NoBorder(CHARACTER_CONFIG.getHairColor(color)))
+        renderer.getLayer().renderRectangle(aabb, NoBorder(CHARACTER_CONFIG.colors.getHairColor(color)))
     }
 }

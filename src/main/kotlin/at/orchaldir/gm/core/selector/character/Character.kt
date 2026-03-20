@@ -2,10 +2,7 @@ package at.orchaldir.gm.core.selector.character
 
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.character.CharacterId
-import at.orchaldir.gm.core.model.character.CharacterTemplateId
-import at.orchaldir.gm.core.model.character.Gender
+import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.character.appearance.beard.NoBeard
 import at.orchaldir.gm.core.model.character.appearance.hair.NoHairColor
@@ -21,6 +18,8 @@ import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.model.item.equipment.containsId
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
+import at.orchaldir.gm.core.model.race.aging.LifeStage
+import at.orchaldir.gm.core.model.race.aging.LifeStageId
 import at.orchaldir.gm.core.model.realm.RealmId
 import at.orchaldir.gm.core.model.realm.SettlementId
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
@@ -339,10 +338,22 @@ fun State.getLiving(date: Date) = getCharacterStorage()
 // height
 
 fun State.scaleHeightByAge(character: Character, height: Distance): Distance {
-    val age = character.getAgeInYears(this)
     val race = getRaceStorage().getOrThrow(character.race)
 
-    return scaleHeightByAge(race, height, age)
+    return when (character.age) {
+        is AgeViaBirthdate -> {
+            val age = character.getAgeInYears(this)
+
+            scaleHeightByAge(race, height, age)
+        }
+
+        AgeViaDefaultLifeStage -> {
+            val lifeStage = race.lifeStages.getDefaultLifeStageId() ?: error("Invalid default life stage id!")
+            scaleHeightByAge(race, height, lifeStage)
+        }
+
+        is AgeViaLifeStage -> scaleHeightByAge(race, height, character.age.lifeStage)
+    }
 }
 
 fun scaleHeightByAge(race: Race, height: Distance, age: Int): Distance {
@@ -351,25 +362,50 @@ fun scaleHeightByAge(race: Race, height: Distance, age: Int): Distance {
     return height * relativeSize
 }
 
+fun scaleHeightByAge(race: Race, height: Distance, lifeStageId: LifeStageId): Distance {
+    val lifeStage = race.lifeStages.getLifeStage(lifeStageId)
+
+    return height * lifeStage.relativeSize
+}
+
 // appearance
 
-fun State.getAppearanceForAge(character: Character): Appearance {
-    val age = character.getAgeInYears(this)
+fun State.getAppearanceOfCharacter(character: Character): Appearance {
     val race = getRaceStorage().getOrThrow(character.race)
-    val height = scaleHeightByAge(race, character.appearance.getHeightFromSub(), age)
 
-    return getAppearanceForAge(race, character.appearance, age, height)
+    return when (character.age) {
+        is AgeViaBirthdate -> {
+            val age = character.getAgeInYears(this)
+
+            updateAppearanceForAge(race, character.appearance, age)
+        }
+
+        AgeViaDefaultLifeStage -> {
+            val lifeStage = race.lifeStages.getDefaultLifeStageId() ?: error("Invalid default life stage id!")
+            updateAppearanceForLifeStage(race, character.appearance, lifeStage)
+        }
+
+        is AgeViaLifeStage -> updateAppearanceForLifeStage(race, character.appearance, character.age.lifeStage)
+    }
 }
 
-fun getAppearanceForAge(race: Race, appearance: Appearance, age: Int): Appearance {
+fun updateAppearanceForAge(race: Race, appearance: Appearance, age: Int): Appearance {
     val height = scaleHeightByAge(race, appearance.getHeightFromSub(), age)
 
-    return getAppearanceForAge(race, appearance, age, height)
+    return updateAppearanceForAge(race, appearance, age, height)
 }
 
-private fun getAppearanceForAge(race: Race, appearance: Appearance, age: Int, height: Distance): Appearance {
+private fun updateAppearanceForAge(race: Race, appearance: Appearance, age: Int, height: Distance) =
+    updateAppearance(appearance, race.lifeStages.getLifeStageForAge(age), height)
+
+fun updateAppearanceForLifeStage(race: Race, appearance: Appearance, lifeStage: LifeStageId) =
+    updateAppearanceForLifeStage(appearance, race.lifeStages.getLifeStage(lifeStage))
+
+fun updateAppearanceForLifeStage(appearance: Appearance, lifeStage: LifeStage?) =
+    updateAppearance(appearance, lifeStage, appearance.getHeightFromSub())
+
+private fun updateAppearance(appearance: Appearance, stage: LifeStage?, height: Distance): Appearance {
     var updatedAppearance = appearance.with(height)
-    val stage = race.lifeStages.getLifeStageForAge(age)
 
     if (stage != null) {
         if (!stage.hasBeard) {

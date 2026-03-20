@@ -2,7 +2,7 @@ package at.orchaldir.gm.app.html.util.part
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.economy.material.parseOptionalMaterialId
+import at.orchaldir.gm.app.html.economy.material.parseMaterialId
 import at.orchaldir.gm.app.html.economy.material.selectMaterial
 import at.orchaldir.gm.app.html.util.color.*
 import at.orchaldir.gm.app.html.util.math.fieldFactor
@@ -13,7 +13,6 @@ import at.orchaldir.gm.core.model.economy.material.*
 import at.orchaldir.gm.core.model.util.part.*
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.util.render.ColorLookup
-import at.orchaldir.gm.core.selector.economy.getFirstMaterial
 import at.orchaldir.gm.core.selector.util.sortMaterials
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -273,14 +272,12 @@ private fun parseId(
     parameters: Parameters,
     param: String,
     category: MaterialCategoryType,
-) = parseOptionalMaterialId(parameters, combine(param, MATERIAL))
-    ?: state.getFirstMaterial(category).id
+) = parseMaterialId(state, parameters, combine(param, MATERIAL), category)
 
 private fun parseId(
     state: State,
     parameters: Parameters,
     param: String,
     categories: Set<MaterialCategoryType>,
-) = parseOptionalMaterialId(parameters, combine(param, MATERIAL))
-    ?: state.getFirstMaterial(categories).id
+) = parseMaterialId(state, parameters, combine(param, MATERIAL), categories)
 

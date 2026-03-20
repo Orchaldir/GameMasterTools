@@ -14,6 +14,6 @@ fun main() {
     )
 
     renderTableWithNames("skin_colors.svg", Size2d.fromMeters(1.0f), colors) { aabb, renderer, color ->
-        renderer.getLayer().renderRectangle(aabb, NoBorder(CHARACTER_CONFIG.getSkinColor(color)))
+        renderer.getLayer().renderRectangle(aabb, NoBorder(CHARACTER_CONFIG.colors.getSkinColor(color)))
     }
 }

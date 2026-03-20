@@ -67,6 +67,8 @@ value class OneOf<T>(private val map: Map<T, Rarity>) : RarityMap<T> {
         .map { it.key }
         .first()
 
+    operator fun minus(value: T) = OneOf(map - value)
+
 }
 
 /**

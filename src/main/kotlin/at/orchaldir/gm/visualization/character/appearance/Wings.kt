@@ -39,7 +39,8 @@ private fun visualizeWing(
     hair: Hair,
 ) = when (wing) {
     is BatWing -> {
-        val options = state.config.getFeatureOptions(state.state, wing.color, hair, skin)
+        val options = state.config.colors
+            .getFeatureOptions(state.state, wing.color, hair, skin)
         visualizeWing(state, side, options, ::createLeftBatWing)
     }
 
@@ -53,7 +54,7 @@ private fun visualizeWing(
     color: Color,
     createLeftWing: (CharacterRenderState<Body>) -> Polygon2d,
 ) {
-    val options = state.config.getFillAndBorder(color)
+    val options = state.config.colors.getFillAndBorder(color)
 
     visualizeWing(state, side, options, createLeftWing)
 }

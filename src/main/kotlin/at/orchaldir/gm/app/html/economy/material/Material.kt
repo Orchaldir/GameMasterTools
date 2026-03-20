@@ -11,7 +11,9 @@ import at.orchaldir.gm.app.html.economy.properties.parseMaterialProperties
 import at.orchaldir.gm.app.html.economy.properties.showMaterialProperties
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.Material
+import at.orchaldir.gm.core.model.economy.material.MaterialCategoryType
 import at.orchaldir.gm.core.model.economy.material.MaterialId
+import at.orchaldir.gm.core.selector.economy.getFirstMaterial
 import at.orchaldir.gm.core.selector.economy.getMaterialsMadeOf
 import at.orchaldir.gm.core.selector.economy.money.getCurrencyUnits
 import at.orchaldir.gm.core.selector.item.equipment.getEquipmentMadeOf
@@ -120,6 +122,22 @@ fun parseMaterialId(value: String) = MaterialId(value.toInt())
 fun parseMaterialId(parameters: Parameters, param: String) = MaterialId(parseInt(parameters, param))
 fun parseOptionalMaterialId(parameters: Parameters, param: String) =
     parseSimpleOptionalInt(parameters, param)?.let { MaterialId(it) }
+
+fun parseMaterialId(
+    state: State,
+    parameters: Parameters,
+    param: String,
+    category: MaterialCategoryType,
+) = parseOptionalMaterialId(parameters, param)
+    ?: state.getFirstMaterial(category).id
+
+fun parseMaterialId(
+    state: State,
+    parameters: Parameters,
+    param: String,
+    categories: Set<MaterialCategoryType>,
+) = parseOptionalMaterialId(parameters, param)
+    ?: state.getFirstMaterial(categories).id
 
 fun parseMaterial(
     state: State,

@@ -55,7 +55,7 @@ fun visualizePocket(
                 position.addWidth(half),
             )
 
-            renderer.renderLine(line, state.config.line)
+            renderer.renderLine(line, state.lineOptions())
         }
 
         PocketStyle.None -> doNothing()

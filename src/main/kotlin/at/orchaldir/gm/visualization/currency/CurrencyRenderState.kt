@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.economy.money.Denomination
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.render.Color
+import at.orchaldir.gm.core.selector.economy.getMaterialColor
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.renderer.MultiLayerRenderer
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
@@ -32,5 +33,5 @@ data class CurrencyRenderState(
         NoBorder(color(material).toRender())
 
     private fun color(material: MaterialId): Color =
-        state.getMaterialStorage().get(material)?.properties?.color ?: Color.Pink
+        state.getMaterialColor(material)
 }

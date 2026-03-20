@@ -17,7 +17,7 @@ import kotlin.math.max
 
 fun visualizePonytail(state: CharacterRenderState<Head>, hair: NormalHair, ponytail: Ponytail) {
     val config = state.config
-    val options = config.getFillAndBorder(hair.color)
+    val options = config.colors.getFillAndBorder(hair.color)
     val layer = state.getLayerIndex(HAIR_LAYER)
     val y = Factor.fromPercentage(20)
     val length = state.config.getHairLength(state, ponytail.length)

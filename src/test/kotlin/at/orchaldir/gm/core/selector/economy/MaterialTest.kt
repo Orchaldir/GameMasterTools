@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.selector.economy
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.appearance.SkinType
 import at.orchaldir.gm.core.model.economy.material.Material
 import at.orchaldir.gm.core.model.economy.material.MaterialCost
 import at.orchaldir.gm.core.model.economy.material.MaterialProperties
@@ -14,7 +15,11 @@ import at.orchaldir.gm.core.model.item.equipment.Shirt
 import at.orchaldir.gm.core.model.item.text.Book
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.item.text.book.Hardcover
+import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
+import at.orchaldir.gm.core.model.race.appearance.SkinOptions
+import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.util.part.MadeFromFabric
+import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.world.moon.Moon
 import at.orchaldir.gm.core.model.world.street.StreetTemplate
 import at.orchaldir.gm.core.model.world.terrain.Region
@@ -46,7 +51,7 @@ class MaterialTest {
 
         @Test
         fun `Cannot delete a material that is a component of another material`() {
-            val category = Rock(components = setOf(MATERIAL_ID_0))
+            val category = Rock(OneOf(Color.Gray), setOf(MATERIAL_ID_0))
             val material1 = Material(MATERIAL_ID_1, properties = MaterialProperties(category))
             val newState = state.updateStorage(listOf(material, material1))
 
@@ -59,6 +64,24 @@ class MaterialTest {
             val newState = state.updateStorage(equipment)
 
             failCanDelete(newState, EQUIPMENT_ID_0)
+        }
+
+        @Test
+        fun `Cannot delete a material used by a race as skin`() {
+            val options = SkinOptions(OneOf(SkinType.Material), materials = OneOf(MATERIAL_ID_0))
+            val template = RaceAppearance(RACE_APPEARANCE_ID_0, skin = options)
+            val newState = state.updateStorage(template)
+
+            failCanDelete(newState, RACE_APPEARANCE_ID_0)
+        }
+
+        @Test
+        fun `Cannot delete a material used by a race as fur`() {
+            val options = SkinOptions(fur = MATERIAL_ID_0)
+            val template = RaceAppearance(RACE_APPEARANCE_ID_0, skin = options)
+            val newState = state.updateStorage(template)
+
+            failCanDelete(newState, RACE_APPEARANCE_ID_0)
         }
 
         @Test

@@ -26,6 +26,7 @@ fun HtmlBlockTag.selectFeatureColor(
 // parse
 
 fun parseFeatureColor(
+    state: State,
     parameters: Parameters,
     config: AppearanceGeneratorConfig,
     options: FeatureColorOptions,
@@ -33,7 +34,7 @@ fun parseFeatureColor(
 ) = when (options.type) {
     FeatureColorType.Hair -> ReuseHairColor
     FeatureColorType.Overwrite -> OverwriteFeatureColor(
-        parseSkin(parameters, config, options.skin, param)
+        parseSkin(state, parameters, config, options.skin, param)
     )
 
     FeatureColorType.Skin -> ReuseSkinColor

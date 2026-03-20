@@ -11,8 +11,6 @@ import at.orchaldir.gm.core.generator.generateSkin
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.race.appearance.SkinOptions
-import at.orchaldir.gm.core.model.util.OneOf
-import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag
@@ -53,12 +51,25 @@ private fun HtmlBlockTag.editSkinInternal(
     when (skin) {
         is ExoticSkin -> selectColor(
             "Color",
-            combine(param, EXOTIC, COLOR),
+            combine(param, EXOTIC),
             options.exoticColors,
             skin.color
         )
 
-        is Fur -> selectHairColor(options.furColors, skin.color, combine(param, FUR))
+        is Fur -> {
+            val fur = state.getMaterialStorage()
+                .getOptional(options.fur)
+
+            if (fur != null && fur.properties.category is at.orchaldir.gm.core.model.economy.material.Fur) {
+                selectHairColor(
+                    fur.properties.category.colors,
+                    skin.color,
+                    combine(param, FUR),
+                )
+            } else {
+                error("Fur is not supported by $fur!")
+            }
+        }
 
         is MaterialSkin -> selectFromOneOf(
             "Material",
@@ -68,33 +79,38 @@ private fun HtmlBlockTag.editSkinInternal(
             skin.material,
         ) { material -> material.name.text }
 
-        is NormalSkin -> {
-            selectFromOneOf(
-                "Color",
-                combine(param, COLOR),
-                options.normalColors,
-                skin.color,
-            ) { skinColor ->
-                label = skinColor.name
-                value = skinColor.toString()
-                val bgColor = CHARACTER_CONFIG.getSkinColor(skinColor).toCode()
-                style = "background-color:${bgColor}"
-            }
+        is NormalSkin -> selectFromOneOf(
+            "Color",
+            combine(param, NORMAL),
+            options.normalColors,
+            skin.color,
+        ) { skinColor ->
+            label = skinColor.name
+            value = skinColor.toString()
+            val bgColor = CHARACTER_CONFIG.colors.getSkinColor(skinColor).toCode()
+            style = "background-color:${bgColor}"
         }
 
-        is Scales -> selectColor("Color", combine(param, EXOTIC, COLOR), options.scalesColors, skin.color)
+        is Scales -> selectColor(
+            "Color",
+            combine(param, SCALE),
+            options.scalesColors,
+            skin.color,
+        )
     }
 }
 
 // parse
 
 fun parseSkin(
+    state: State,
     parameters: Parameters,
     config: AppearanceGeneratorConfig,
     param: String = SKIN,
-) = parseSkin(parameters, config, config.appearanceOptions.skin, param)
+) = parseSkin(state, parameters, config, config.appearanceOptions.skin, param)
 
 fun parseSkin(
+    state: State,
     parameters: Parameters,
     config: AppearanceGeneratorConfig,
     options: SkinOptions,
@@ -102,32 +118,41 @@ fun parseSkin(
 ): Skin {
 
     return when (parameters[combine(param, TYPE)]) {
-        SkinType.Exotic.toString() -> {
-            return ExoticSkin(parseExoticColor(parameters, config, options.exoticColors, param))
-        }
+        SkinType.Exotic.toString() -> ExoticSkin(
+            parseAppearanceColor(parameters, combine(param, EXOTIC), config, options.exoticColors)
+        )
 
         SkinType.Fur.toString() -> {
-            return Fur(parseHairColor(parameters, config, options.furColors, param))
+            val fur = state.getMaterialStorage()
+                .getOptional(options.fur)
+
+            if (fur != null && fur.properties.category is at.orchaldir.gm.core.model.economy.material.Fur) {
+                Fur(
+                    parseHairColor(
+                        parameters,
+                        config,
+                        fur.properties.category.colors,
+                        combine(param, FUR),
+                    ),
+                )
+            } else {
+                error("Fur is not supported by $fur!")
+            }
+
         }
 
-        SkinType.Material.toString() -> MaterialSkin(parseMaterialId(parameters, combine(param, MATERIAL)))
+        SkinType.Material.toString() -> MaterialSkin(
+            parseMaterialId(parameters, combine(param, MATERIAL)),
+        )
 
-        SkinType.Normal.toString() -> {
-            val color = parseAppearanceOption(parameters, combine(param, COLOR), config, options.normalColors)
-            return NormalSkin(color)
-        }
+        SkinType.Normal.toString() -> NormalSkin(
+            parseAppearanceOption(parameters, combine(param, NORMAL), config, options.normalColors),
+        )
 
-        SkinType.Scales.toString() -> {
-            return Scales(parseExoticColor(parameters, config, options.scalesColors, param))
-        }
+        SkinType.Scales.toString() -> Scales(
+            parseAppearanceColor(parameters, combine(param, SCALE), config, options.scalesColors),
+        )
 
         else -> generateSkin(config)
     }
 }
-
-private fun parseExoticColor(
-    parameters: Parameters,
-    config: AppearanceGeneratorConfig,
-    colors: OneOf<Color>,
-    param: String,
-) = parseAppearanceColor(parameters, combine(param, EXOTIC), config, colors)
