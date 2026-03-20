@@ -14,7 +14,9 @@ import at.orchaldir.gm.core.model.item.equipment.Shirt
 import at.orchaldir.gm.core.model.item.text.Book
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.item.text.book.Hardcover
+import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.util.part.MadeFromFabric
+import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.world.moon.Moon
 import at.orchaldir.gm.core.model.world.street.StreetTemplate
 import at.orchaldir.gm.core.model.world.terrain.Region
@@ -46,7 +48,7 @@ class MaterialTest {
 
         @Test
         fun `Cannot delete a material that is a component of another material`() {
-            val category = Rock(components = setOf(MATERIAL_ID_0))
+            val category = Rock(OneOf(Color.Gray), setOf(MATERIAL_ID_0))
             val material1 = Material(MATERIAL_ID_1, properties = MaterialProperties(category))
             val newState = state.updateStorage(listOf(material, material1))
 
