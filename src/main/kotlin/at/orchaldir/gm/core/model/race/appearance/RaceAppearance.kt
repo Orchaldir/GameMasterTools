@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
+import at.orchaldir.gm.core.reducer.race.validateSkin
 import at.orchaldir.gm.core.reducer.race.validateTails
 import at.orchaldir.gm.core.reducer.race.validateWings
 import at.orchaldir.gm.utils.Id
@@ -54,6 +55,7 @@ data class RaceAppearance(
     override fun clone(cloneId: RaceAppearanceId) = copy(id = cloneId, name = Name.init("Clone ${cloneId.value}"))
 
     override fun validate(state: State) {
+        validateSkin(state, this)
         validateTails(this)
         validateWings(wing)
     }

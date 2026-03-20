@@ -1,9 +1,23 @@
 package at.orchaldir.gm.core.reducer.race
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.FeatureColorType
 import at.orchaldir.gm.core.model.character.appearance.hair.HairType
+import at.orchaldir.gm.core.model.economy.material.Fur
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.race.appearance.WingOptions
+
+fun validateSkin(state: State, appearance: RaceAppearance) {
+    val options = appearance.skin
+
+    if (options.fur != null) {
+        val fur = state.getMaterialStorage().getOrThrow(options.fur)
+
+        require(fur.properties.category is Fur) {
+            "${fur.id.print()} is not a fur!"
+        }
+    }
+}
 
 fun validateTails(appearance: RaceAppearance) {
     val options = appearance.tail
