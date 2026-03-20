@@ -17,6 +17,14 @@ val CATEGORIES_FOR_ALLOY = setOf(MaterialCategoryType.Metal)
 val CATEGORIES_FOR_CLOTHING = setOf(MaterialCategoryType.Fiber, MaterialCategoryType.Leather)
 val CATEGORIES_FOR_GEM = setOf(MaterialCategoryType.Mineral)
 val CATEGORIES_FOR_ROCK = setOf(MaterialCategoryType.Mineral)
+val SOLDI_CATEGORIES = setOf(
+    MaterialCategoryType.Alloy,
+    MaterialCategoryType.Glass,
+    MaterialCategoryType.Metal,
+    MaterialCategoryType.Mineral,
+    MaterialCategoryType.Rock,
+    MaterialCategoryType.Wood,
+)
 
 enum class MaterialCategoryType {
     Undefined,

@@ -9,6 +9,7 @@ import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.FeatureColorType.Hair
+import at.orchaldir.gm.core.model.character.appearance.SkinType
 import at.orchaldir.gm.core.model.character.appearance.hair.HairType
 import at.orchaldir.gm.core.model.character.appearance.tail.SimpleTailShape.Cat
 import at.orchaldir.gm.core.model.character.appearance.tail.SimpleTailShape.Rat
@@ -74,28 +75,56 @@ class RaceAppearanceTest {
             assertIllegalArgument("Tail options for Cat require hair!") { REDUCER.invoke(state, action) }
         }
 
-        @Test
-        fun `Fur exists`() {
-            val options = SkinOptions(fur = UNKNOWN_MATERIAL_ID)
-            val action = UpdateAction(RaceAppearance(RACE_APPEARANCE_ID_0, skin = options))
+        @Nested
+        inner class SkinOptionsTest {
 
-            assertIllegalArgument("Requires unknown Material 99!") { REDUCER.invoke(state, action) }
-        }
+            @Test
+            fun `Material skin exists`() {
+                val options = SkinOptions(OneOf(SkinType.Material), materials = OneOf(UNKNOWN_MATERIAL_ID))
+                val action = UpdateAction(RaceAppearance(RACE_APPEARANCE_ID_0, skin = options))
 
-        @Test
-        fun `Fur is not a fur`() {
-            val options = SkinOptions(fur = MATERIAL_ID_1)
-            val action = UpdateAction(RaceAppearance(RACE_APPEARANCE_ID_0, skin = options))
+                assertIllegalArgument("Requires unknown Material 99!") { REDUCER.invoke(state, action) }
+            }
 
-            assertIllegalArgument("Material 1 is not a fur!") { REDUCER.invoke(state, action) }
-        }
+            @Test
+            fun `Material skin must be solid`() {
+                val options = SkinOptions(OneOf(SkinType.Material), materials = OneOf(MATERIAL_ID_0))
+                val action = UpdateAction(RaceAppearance(RACE_APPEARANCE_ID_0, skin = options))
 
-        @Test
-        fun `Valid Fur`() {
-            val options = SkinOptions(fur = MATERIAL_ID_0)
-            val action = UpdateAction(RaceAppearance(RACE_APPEARANCE_ID_0, skin = options))
+                assertIllegalArgument("Material 0 must be solid!") { REDUCER.invoke(state, action) }
+            }
 
-            REDUCER.invoke(state, action)
+            @Test
+            fun `Material skin is valid`() {
+                val options = SkinOptions(OneOf(SkinType.Material), materials = OneOf(MATERIAL_ID_1))
+                val action = UpdateAction(RaceAppearance(RACE_APPEARANCE_ID_0, skin = options))
+
+                REDUCER.invoke(state, action)
+            }
+
+            @Test
+            fun `Fur exists`() {
+                val options = SkinOptions(fur = UNKNOWN_MATERIAL_ID)
+                val action = UpdateAction(RaceAppearance(RACE_APPEARANCE_ID_0, skin = options))
+
+                assertIllegalArgument("Requires unknown Material 99!") { REDUCER.invoke(state, action) }
+            }
+
+            @Test
+            fun `Fur is not a fur`() {
+                val options = SkinOptions(fur = MATERIAL_ID_1)
+                val action = UpdateAction(RaceAppearance(RACE_APPEARANCE_ID_0, skin = options))
+
+                assertIllegalArgument("Material 1 is not a fur!") { REDUCER.invoke(state, action) }
+            }
+
+            @Test
+            fun `Valid Fur`() {
+                val options = SkinOptions(fur = MATERIAL_ID_0)
+                val action = UpdateAction(RaceAppearance(RACE_APPEARANCE_ID_0, skin = options))
+
+                REDUCER.invoke(state, action)
+            }
         }
 
         @Test
