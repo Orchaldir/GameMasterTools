@@ -17,7 +17,7 @@ data class RenderSolid(
     val color: RenderColor,
 ) : RenderFill() {
 
-    constructor(color: Color): this(color.toRender())
+    constructor(color: Color) : this(color.toRender())
 
 }
 

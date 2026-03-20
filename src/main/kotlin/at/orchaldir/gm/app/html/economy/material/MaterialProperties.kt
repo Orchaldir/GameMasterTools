@@ -10,7 +10,6 @@ import at.orchaldir.gm.app.html.util.math.parseWeight
 import at.orchaldir.gm.app.html.util.math.selectWeight
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.*
-import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.unit.SiPrefix
 import io.ktor.http.*

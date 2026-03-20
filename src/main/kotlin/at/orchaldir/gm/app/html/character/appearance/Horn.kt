@@ -210,7 +210,8 @@ fun parseHorns(
 private fun parseHorn(
     state: State,
     parameters: Parameters,
-    param: String, config:
+    param: String,
+    config:
     AppearanceGeneratorConfig,
 ): Horn {
     val options = config.appearanceOptions.horn

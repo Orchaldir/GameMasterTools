@@ -1,10 +1,6 @@
 package at.orchaldir.gm.core.model.economy.material
 
-import at.orchaldir.gm.core.model.character.appearance.hair.HairColor
-import at.orchaldir.gm.core.model.character.appearance.hair.NormalHairColor
-import at.orchaldir.gm.core.model.character.appearance.hair.NormalHairColorEnum
 import at.orchaldir.gm.core.model.race.appearance.HairColorOptions
-import at.orchaldir.gm.core.model.race.appearance.HairOptions
 import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.util.PercentageDistribution
 import at.orchaldir.gm.core.model.util.Size
@@ -65,7 +61,7 @@ sealed class MaterialCategory {
         is Rock -> components.contains(material)
         else -> false
     }
-    
+
     fun getMostCommonColor() = when (this) {
         is Alloy -> color
         is Fiber -> color

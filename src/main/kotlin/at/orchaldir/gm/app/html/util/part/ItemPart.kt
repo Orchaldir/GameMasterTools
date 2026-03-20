@@ -3,7 +3,6 @@ package at.orchaldir.gm.app.html.util.part
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.economy.material.parseMaterialId
-import at.orchaldir.gm.app.html.economy.material.parseOptionalMaterialId
 import at.orchaldir.gm.app.html.economy.material.selectMaterial
 import at.orchaldir.gm.app.html.util.color.*
 import at.orchaldir.gm.app.html.util.math.fieldFactor
@@ -14,7 +13,6 @@ import at.orchaldir.gm.core.model.economy.material.*
 import at.orchaldir.gm.core.model.util.part.*
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.util.render.ColorLookup
-import at.orchaldir.gm.core.selector.economy.getFirstMaterial
 import at.orchaldir.gm.core.selector.util.sortMaterials
 import io.ktor.http.*
 import io.ktor.server.application.*

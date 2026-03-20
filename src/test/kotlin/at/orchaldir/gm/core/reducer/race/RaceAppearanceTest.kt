@@ -1,11 +1,6 @@
 package at.orchaldir.gm.core.reducer.race
 
-import at.orchaldir.gm.MATERIAL_ID_0
-import at.orchaldir.gm.MATERIAL_ID_1
-import at.orchaldir.gm.NAME
-import at.orchaldir.gm.RACE_APPEARANCE_ID_0
-import at.orchaldir.gm.UNKNOWN_MATERIAL_ID
-import at.orchaldir.gm.assertIllegalArgument
+import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.FeatureColorType.Hair
@@ -15,7 +10,6 @@ import at.orchaldir.gm.core.model.character.appearance.tail.SimpleTailShape.Cat
 import at.orchaldir.gm.core.model.character.appearance.tail.SimpleTailShape.Rat
 import at.orchaldir.gm.core.model.character.appearance.wing.WingsLayout
 import at.orchaldir.gm.core.model.economy.material.Fur
-import at.orchaldir.gm.core.model.economy.material.Material
 import at.orchaldir.gm.core.model.economy.material.Metal
 import at.orchaldir.gm.core.model.race.appearance.*
 import at.orchaldir.gm.core.model.util.OneOf
@@ -30,13 +24,17 @@ class RaceAppearanceTest {
 
     @Nested
     inner class UpdateTest {
-        val state = State(listOf(
-            Storage(listOf(
-                mockMaterial(MATERIAL_ID_0, Fur(HairColorOptions())),
-                mockMaterial(MATERIAL_ID_1, Metal()),
-            )),
-            Storage(RaceAppearance(RACE_APPEARANCE_ID_0)),
-        ))
+        val state = State(
+            listOf(
+                Storage(
+                    listOf(
+                        mockMaterial(MATERIAL_ID_0, Fur(HairColorOptions())),
+                        mockMaterial(MATERIAL_ID_1, Metal()),
+                    )
+                ),
+                Storage(RaceAppearance(RACE_APPEARANCE_ID_0)),
+            )
+        )
 
         @Test
         fun `Cannot update unknown id`() {

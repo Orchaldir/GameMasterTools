@@ -3,7 +3,6 @@ package at.orchaldir.gm.core.model.race.appearance
 import at.orchaldir.gm.core.model.character.appearance.hair.HairColorType
 import at.orchaldir.gm.core.model.character.appearance.hair.NormalHairColorEnum
 import at.orchaldir.gm.core.model.util.OneOf
-import at.orchaldir.gm.core.model.util.Rarity
 import at.orchaldir.gm.core.model.util.render.Color
 import kotlinx.serialization.Serializable
 
@@ -15,4 +14,4 @@ data class HairColorOptions(
     val types: OneOf<HairColorType> = OneOf(HairColorType.Normal),
     val normal: OneOf<NormalHairColorEnum> = OneOf(DEFAULT_NORMAL_HAIR_COLORS),
     val exotic: OneOf<Color> = OneOf(DEFAULT_EXOTIC_HAIR_COLORS),
-) {}
+)

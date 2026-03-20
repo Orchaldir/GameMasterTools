@@ -295,11 +295,11 @@ fun generateSkin(config: AppearanceGeneratorConfig, options: SkinOptions) = when
 
         if (material != null && material.properties.category is at.orchaldir.gm.core.model.economy.material.Fur) {
             Fur(generateHairColor(config, material.properties.category.colors))
-        }
-        else {
+        } else {
             error("Fur is not supported by $material!")
         }
     }
+
     SkinType.Material -> MaterialSkin(config.generate(options.materials))
     SkinType.Normal -> NormalSkin(config.generate(options.normalColors))
     SkinType.Scales -> Scales(config.generate(options.scalesColors))

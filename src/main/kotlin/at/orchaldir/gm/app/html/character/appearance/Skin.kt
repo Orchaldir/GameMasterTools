@@ -1,10 +1,8 @@
 package at.orchaldir.gm.app.html.character.appearance
 
 import at.orchaldir.gm.app.*
-import at.orchaldir.gm.app.html.character.appearance.selectHairColor
 import at.orchaldir.gm.app.html.combine
 import at.orchaldir.gm.app.html.economy.material.parseMaterialId
-import at.orchaldir.gm.app.html.parse
 import at.orchaldir.gm.app.html.selectColor
 import at.orchaldir.gm.app.html.selectFromOneOf
 import at.orchaldir.gm.app.html.showDetails
@@ -12,10 +10,7 @@ import at.orchaldir.gm.core.generator.AppearanceGeneratorConfig
 import at.orchaldir.gm.core.generator.generateSkin
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.*
-import at.orchaldir.gm.core.model.character.appearance.hair.HairColorType
 import at.orchaldir.gm.core.model.race.appearance.SkinOptions
-import at.orchaldir.gm.core.model.util.OneOf
-import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag
@@ -126,6 +121,7 @@ fun parseSkin(
         SkinType.Exotic.toString() -> ExoticSkin(
             parseAppearanceColor(parameters, combine(param, EXOTIC), config, options.exoticColors)
         )
+
         SkinType.Fur.toString() -> {
             val fur = state.getMaterialStorage()
                 .getOptional(options.fur)
@@ -144,9 +140,11 @@ fun parseSkin(
             }
 
         }
+
         SkinType.Material.toString() -> MaterialSkin(
             parseMaterialId(parameters, combine(param, MATERIAL)),
         )
+
         SkinType.Normal.toString() -> NormalSkin(
             parseAppearanceOption(parameters, combine(param, NORMAL), config, options.normalColors),
         )

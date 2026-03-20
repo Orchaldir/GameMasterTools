@@ -1,11 +1,7 @@
 package at.orchaldir.gm.core.model.race.aging
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.appearance.hair.ExoticHairColor
-import at.orchaldir.gm.core.model.character.appearance.hair.HairColor
-import at.orchaldir.gm.core.model.character.appearance.hair.HairColorType
-import at.orchaldir.gm.core.model.character.appearance.hair.NoHairColor
-import at.orchaldir.gm.core.model.character.appearance.hair.NormalHairColorEnum
+import at.orchaldir.gm.core.model.character.appearance.hair.*
 import at.orchaldir.gm.core.model.race.appearance.HairColorOptions
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.rpg.statblock.Statblock
@@ -230,8 +226,7 @@ private fun getRelativeSize(age: Int, lifeStages: List<LifeStage>): Factor {
     lifeStages.forEach { stage ->
         if (stage.maxAge == Int.MAX_VALUE) {
             return stage.relativeSize
-        }
-        else if (age <= stage.maxAge) {
+        } else if (age <= stage.maxAge) {
             val ageDiff = age - previousAge
             val maxAgeDiff = stage.maxAge - previousAge
             val factor = fromNumber(ageDiff / maxAgeDiff.toFloat())

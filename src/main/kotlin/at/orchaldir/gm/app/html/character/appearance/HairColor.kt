@@ -8,8 +8,6 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.generator.AppearanceGeneratorConfig
 import at.orchaldir.gm.core.model.character.appearance.hair.*
 import at.orchaldir.gm.core.model.race.appearance.HairColorOptions
-import at.orchaldir.gm.core.model.util.OneOf
-import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
@@ -141,6 +139,7 @@ fun parseHairColor(
                 options.exotic,
             ),
         )
+
         HairColorType.Stripped -> {
             val color0 = parseAppearanceColor(
                 parameters,

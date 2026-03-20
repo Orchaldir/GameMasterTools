@@ -5,13 +5,8 @@ import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.hair.*
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.selector.economy.getMaterialColor
-import at.orchaldir.gm.utils.math.AABB
-import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.model.*
-import at.orchaldir.gm.visualization.character.appearance.BodyConfig
-import at.orchaldir.gm.visualization.character.appearance.HeadConfig
-import at.orchaldir.gm.visualization.character.equipment.EquipmentConfig
 
 data class ColorRenderConfig(
     val line: LineOptions,
@@ -56,14 +51,17 @@ data class ColorRenderConfig(
             hairColor.color1.toRender(),
             Distance.fromCentimeters(5),
         )
+
         NoHairColor -> error("HairColorType None is unsupported!")
     }
+
     fun getHairColor(hairColor: HairColor): RenderColor = when (hairColor) {
         is NormalHairColor -> getHairColor(hairColor.color)
         is ExoticHairColor -> hairColor.color.toRender()
         is StrippedHairColor -> error("StrippedHairColor None is unsupported!")
         NoHairColor -> error("HairColorType None is unsupported!")
     }
+
     fun getHairColor(hairColor: NormalHairColorEnum) = hairColors[hairColor] ?: Color.Purple.toRender()
 
     fun getSkinColor(skinColor: SkinColor) = skinColors[skinColor] ?: Color.Purple.toRender()

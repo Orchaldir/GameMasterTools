@@ -2,13 +2,7 @@ package at.orchaldir.gm.core.selector.character
 
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.AgeViaBirthdate
-import at.orchaldir.gm.core.model.character.AgeViaDefaultLifeStage
-import at.orchaldir.gm.core.model.character.AgeViaLifeStage
-import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.character.CharacterId
-import at.orchaldir.gm.core.model.character.CharacterTemplateId
-import at.orchaldir.gm.core.model.character.Gender
+import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.character.appearance.beard.NoBeard
 import at.orchaldir.gm.core.model.character.appearance.hair.NoHairColor
@@ -352,10 +346,12 @@ fun State.scaleHeightByAge(character: Character, height: Distance): Distance {
 
             scaleHeightByAge(race, height, age)
         }
+
         AgeViaDefaultLifeStage -> {
             val lifeStage = race.lifeStages.getDefaultLifeStageId() ?: error("Invalid default life stage id!")
             scaleHeightByAge(race, height, lifeStage)
         }
+
         is AgeViaLifeStage -> scaleHeightByAge(race, height, character.age.lifeStage)
     }
 }
@@ -383,10 +379,12 @@ fun State.getAppearanceOfCharacter(character: Character): Appearance {
 
             updateAppearanceForAge(race, character.appearance, age)
         }
+
         AgeViaDefaultLifeStage -> {
             val lifeStage = race.lifeStages.getDefaultLifeStageId() ?: error("Invalid default life stage id!")
             updateAppearanceForLifeStage(race, character.appearance, lifeStage)
         }
+
         is AgeViaLifeStage -> updateAppearanceForLifeStage(race, character.appearance, character.age.lifeStage)
     }
 }

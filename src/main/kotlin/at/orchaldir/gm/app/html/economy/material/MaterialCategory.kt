@@ -51,22 +51,27 @@ fun HtmlBlockTag.showMaterialCategory(
                 fieldColor(category.color)
                 showPercentageDistribution(call, state, "Components", category.components)
             }
+
             is Fiber -> {
                 fieldColor(category.color)
                 field("Weight", category.weight)
             }
+
             is Fur -> {
                 showHairColorOptions(category.colors, "Fur Color")
                 field("Thickness", category.thickness)
             }
+
             is Glass -> {
                 fieldColor(category.color)
                 field("Transparency", category.transparency)
             }
+
             is Hide -> {
                 fieldColor(category.color)
                 field("Thickness", category.thickness)
             }
+
             is Leather -> {
                 fieldColor(category.color)
                 optionalFieldLink("Hide", call, state, category.hide)
@@ -79,6 +84,7 @@ fun HtmlBlockTag.showMaterialCategory(
                 showColorRarityMap("Colors", category.colors)
                 field("Transparency", category.transparency)
             }
+
             is Paper -> fieldColor(category.color)
             is Rock -> {
                 showColorRarityMap("Colors", category.colors)
@@ -138,6 +144,7 @@ fun HtmlBlockTag.editMaterialCategory(
                     category.weight,
                 )
             }
+
             is Fur -> {
                 editHairColorOptions(
                     category.colors,
@@ -152,10 +159,12 @@ fun HtmlBlockTag.editMaterialCategory(
                 selectMaterialColor(category.color)
                 selectTransparency(category.transparency)
             }
+
             is Hide -> {
                 selectMaterialColor(category.color)
                 selectLeatherThickness(category.thickness)
             }
+
             is Leather -> {
                 selectMaterialColor(category.color)
                 selectOptionalElement(
@@ -179,6 +188,7 @@ fun HtmlBlockTag.editMaterialCategory(
                 selectMaterialColors(category.colors)
                 selectTransparency(category.transparency)
             }
+
             is Paper -> selectMaterialColor(category.color)
             is Rock -> {
                 selectMaterialColors(category.colors)
@@ -255,6 +265,7 @@ fun parseMaterialCategory(
         parseMaterialColor(parameters, Color.White),
         parse(parameters, combine(CATEGORY, SIZE), Size.Medium),
     )
+
     MaterialCategoryType.Fur -> Fur(
         parseHairColorOptions(parameters, combine(CATEGORY, FUR)),
         parseThickness(parameters),
@@ -269,6 +280,7 @@ fun parseMaterialCategory(
         parseMaterialColor(parameters, Color.SaddleBrown),
         parseThickness(parameters),
     )
+
     MaterialCategoryType.Leather -> Leather(
         parseMaterialColor(parameters, Color.SaddleBrown),
         parseOptionalMaterialId(parameters, combine(CATEGORY, MATERIAL)),
@@ -283,13 +295,16 @@ fun parseMaterialCategory(
     MaterialCategoryType.Metal -> Metal(
         parseMaterialColor(parameters, Color.SkyBlue),
     )
+
     MaterialCategoryType.Mineral -> Mineral(
         parseMaterialColors(parameters, Color.Gray),
         selectTransparency(parameters, Transparency.Opaque),
     )
+
     MaterialCategoryType.Paper -> Paper(
         parseMaterialColor(parameters, Color.SkyBlue),
     )
+
     MaterialCategoryType.Rock -> Rock(
         parseMaterialColors(parameters, Color.Gray),
         parseElements(
@@ -307,6 +322,7 @@ fun parseMaterialCategory(
     MaterialCategoryType.Wood -> Wood(
         parseMaterialColor(parameters, Color.Teal),
     )
+
     MaterialCategoryType.Undefined -> UndefinedMaterialCategory
 }
 
