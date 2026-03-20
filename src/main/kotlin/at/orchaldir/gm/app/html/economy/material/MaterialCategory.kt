@@ -59,7 +59,10 @@ fun HtmlBlockTag.showMaterialCategory(
                 showHairColorOptions(category.colors, "Fur Color")
                 field("Thickness", category.thickness)
             }
-            is Glass -> fieldColor(category.color)
+            is Glass -> {
+                fieldColor(category.color)
+                field("Transparency", category.transparency)
+            }
             is Hide -> {
                 fieldColor(category.color)
                 field("Thickness", category.thickness)
@@ -145,7 +148,10 @@ fun HtmlBlockTag.editMaterialCategory(
                 selectLeatherThickness(category.thickness)
             }
 
-            is Glass -> selectMaterialColor(category.color)
+            is Glass -> {
+                selectMaterialColor(category.color)
+                selectTransparency(category.transparency)
+            }
             is Hide -> {
                 selectMaterialColor(category.color)
                 selectLeatherThickness(category.thickness)
@@ -171,12 +177,7 @@ fun HtmlBlockTag.editMaterialCategory(
             is Metal -> selectMaterialColor(category.color)
             is Mineral -> {
                 selectMaterialColors(category.colors)
-                selectValue(
-                    "Transparency",
-                    combine(CATEGORY, OPACITY),
-                    Transparency.entries,
-                    category.transparency,
-                )
+                selectTransparency(category.transparency)
             }
             is Paper -> selectMaterialColor(category.color)
             is Rock -> {
@@ -200,6 +201,15 @@ fun HtmlBlockTag.editMaterialCategory(
             UndefinedMaterialCategory -> doNothing()
         }
     }
+}
+
+private fun DETAILS.selectTransparency(transparency: Transparency) {
+    selectValue(
+        "Transparency",
+        combine(CATEGORY, OPACITY),
+        Transparency.entries,
+        transparency,
+    )
 }
 
 private fun DETAILS.selectMaterialColors(colors: OneOf<Color>) {
@@ -252,6 +262,7 @@ fun parseMaterialCategory(
 
     MaterialCategoryType.Glass -> Glass(
         parseMaterialColor(parameters, Color.SkyBlue),
+        selectTransparency(parameters, Transparency.Transparent),
     )
 
     MaterialCategoryType.Hide -> Hide(
@@ -274,7 +285,7 @@ fun parseMaterialCategory(
     )
     MaterialCategoryType.Mineral -> Mineral(
         parseMaterialColors(parameters, Color.Gray),
-        parse(parameters, combine(CATEGORY, OPACITY), Transparency.Opaque),
+        selectTransparency(parameters, Transparency.Opaque),
     )
     MaterialCategoryType.Paper -> Paper(
         parseMaterialColor(parameters, Color.SkyBlue),
@@ -298,6 +309,11 @@ fun parseMaterialCategory(
     )
     MaterialCategoryType.Undefined -> UndefinedMaterialCategory
 }
+
+private fun selectTransparency(
+    parameters: Parameters,
+    default: Transparency,
+) = parse(parameters, combine(CATEGORY, OPACITY), default)
 
 private fun parseMaterialColors(parameters: Parameters, default: Color): OneOf<Color> =
     parseColorOneOf(parameters, combine(CATEGORY, COLOR, MAP), setOf(default))

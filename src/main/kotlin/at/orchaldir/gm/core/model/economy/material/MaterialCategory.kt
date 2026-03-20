@@ -99,6 +99,7 @@ data class Fur(
 @SerialName("Glass")
 data class Glass(
     val color: Color,
+    val transparency: Transparency = Transparency.Transparent,
 ) : MaterialCategory()
 
 @Serializable
