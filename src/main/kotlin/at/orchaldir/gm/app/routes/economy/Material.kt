@@ -77,7 +77,7 @@ fun Application.configureMaterialRouting() {
                 listOf(
                     createNameColumn(call, state),
                     tdColumn("Category") { displayMaterialCategory(call, state, it.properties.category) },
-                    tdColumn("Color") { showColor(it.properties.color) },
+                    tdColumn("Color") { showOptionalColor(it.properties.category.getMostCommonColor()) },
                     Column("Transparency") { tdEnum(it.properties.transparency) },
                     Column("Luster") { tdEnum(it.properties.luster) },
                     Column("Density") { td(it.properties.density) },

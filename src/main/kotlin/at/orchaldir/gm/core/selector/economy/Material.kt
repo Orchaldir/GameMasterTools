@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.Material
 import at.orchaldir.gm.core.model.economy.material.MaterialCategoryType
 import at.orchaldir.gm.core.model.economy.material.MaterialId
+import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.selector.economy.money.getCurrencyUnits
 import at.orchaldir.gm.core.selector.item.equipment.getEquipmentMadeOf
 import at.orchaldir.gm.core.selector.item.getTextsMadeOf
@@ -52,4 +53,8 @@ fun State.getMaterialsMadeOf(other: MaterialId) = getMaterialStorage()
     .getAll()
     .filter { it.properties.contains(other) }
 
-fun State.getMaterialColor(id: MaterialId) = getMaterialStorage().getOrThrow(id).properties.color
+fun State.getMaterialColor(id: MaterialId) = getMaterialStorage()
+    .getOrThrow(id)
+    .properties
+    .category
+    .getMostCommonColor() ?: Color.Pink

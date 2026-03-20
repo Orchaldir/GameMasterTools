@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.hair.*
 import at.orchaldir.gm.core.model.util.render.Color
+import at.orchaldir.gm.core.selector.economy.getMaterialColor
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.unit.Distance
@@ -40,12 +41,7 @@ data class ColorRenderConfig(
         when (skin) {
             is ExoticSkin -> RenderSolid(skin.color)
             is Fur -> getFurFill(skin.color)
-            is MaterialSkin -> RenderSolid(state
-                .getMaterialStorage()
-                .getOrThrow(skin.material)
-                .properties
-                .color)
-
+            is MaterialSkin -> RenderSolid(state.getMaterialColor(skin.material))
             is NormalSkin -> RenderSolid(getSkinColor(skin.color))
             is Scales -> RenderSolid(skin.color)
         },

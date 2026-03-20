@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.character.appearance.hair.NormalHairColorEnum
 import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.visualization.character.CharacterRenderConfig
+import io.ktor.http.Parameters
 import kotlinx.html.HtmlBlockTag
 import kotlinx.html.span
 import kotlinx.html.style
@@ -109,4 +110,18 @@ fun HtmlBlockTag.selectOptionalColor(
 }
 
 // parse
+
+fun parseColorOneOf(
+    parameters: Parameters,
+    selectId: String,
+    default: Collection<Color> = Color.entries,
+): OneOf<Color> {
+    val map = parseRarityMap(parameters, selectId, Color::valueOf)
+
+    if (map != null) {
+        return OneOf.init(map)
+    }
+
+    return OneOf(default)
+}
 

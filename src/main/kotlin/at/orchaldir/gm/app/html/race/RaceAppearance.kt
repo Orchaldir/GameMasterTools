@@ -617,8 +617,8 @@ private fun parseEyeOptions(parameters: Parameters): EyeOptions {
     val eyeTypes = parseOneOf(parameters, combine(EYE, TYPE), EyeType::valueOf, EyeType.entries)
     val eyeShapes = parseOneOf(parameters, combine(EYE, SHAPE), EyeShape::valueOf, EyeShape.entries)
     val pupilShapes = parseOneOf(parameters, combine(PUPIL, SHAPE), PupilShape::valueOf, PupilShape.entries)
-    val eyeColors = parseOneOf(parameters, combine(PUPIL, COLOR), Color::valueOf, Color.entries)
-    val scleraColors = parseOneOf(parameters, combine(SCLERA, COLOR), Color::valueOf, Color.entries)
+    val eyeColors = parseColorOneOf(parameters, combine(PUPIL, COLOR))
+    val scleraColors = parseColorOneOf(parameters, combine(SCLERA, COLOR))
 
     return EyeOptions(eyeTypes, eyeShapes, eyeColors, pupilShapes, scleraColors)
 }
@@ -626,7 +626,7 @@ private fun parseEyeOptions(parameters: Parameters): EyeOptions {
 private fun parseFootOptions(parameters: Parameters): FootOptions {
     val footTypes = parseOneOf(parameters, FOOT, FootType::valueOf)
     val clawNumber = parseInt(parameters, combine(FOOT, CLAWS, NUMBER), DEFAULT_CLAW_NUMBER)
-    val clawColors = parseOneOf(parameters, combine(FOOT, CLAWS, COLOR), Color::valueOf, setOf(DEFAULT_CLAW_COLOR))
+    val clawColors = parseColorOneOf(parameters, combine(FOOT, CLAWS, COLOR), setOf(DEFAULT_CLAW_COLOR))
     val clawSizes = parseOneOf(parameters, combine(FOOT, CLAWS, SIZE), Size::valueOf, setOf(DEFAULT_CLAW_SIZE))
 
     return FootOptions(
@@ -656,10 +656,9 @@ fun parseHairColorOptions(parameters: Parameters, param: String) = HairColorOpti
         NormalHairColorEnum::valueOf,
         DEFAULT_NORMAL_HAIR_COLORS,
     ),
-    parseOneOf(
+    parseColorOneOf(
         parameters,
         combine(param, EXOTIC, COLOR),
-        Color::valueOf,
         DEFAULT_EXOTIC_HAIR_COLORS,
     ),
 )
@@ -676,20 +675,20 @@ private fun parseHornOptions(parameters: Parameters) = HornOptions(
 )
 
 private fun parseMouthOptions(parameters: Parameters) = MouthOptions(
-    parseOneOf(parameters, combine(BEAK, COLOR), Color::valueOf, setOf(DEFAULT_BEAK_COLOR)),
+    parseColorOneOf(parameters, combine(BEAK, COLOR), setOf(DEFAULT_BEAK_COLOR)),
     parseOneOf(parameters, combine(BEAK, SHAPE), BeakShape::valueOf, BeakShape.entries),
     parseOneOf(parameters, combine(MOUTH, TYPE), MouthType::valueOf),
-    parseOneOf(parameters, combine(SNOUT, COLOR), Color::valueOf, setOf(DEFAULT_SNOUT_COLOR)),
+    parseColorOneOf(parameters, combine(SNOUT, COLOR), setOf(DEFAULT_SNOUT_COLOR)),
     parseOneOf(parameters, combine(SNOUT, SHAPE), SnoutShape::valueOf, SnoutShape.entries),
 )
 
 private fun parseSkinOptions(parameters: Parameters, param: String) = SkinOptions(
     parseOneOf(parameters, combine(param, TYPE), SkinType::valueOf, setOf(SkinType.Normal)),
-    parseOneOf(parameters, combine(param, EXOTIC, COLOR), Color::valueOf, setOf(DEFAULT_EXOTIC_COLOR)),
+    parseColorOneOf(parameters, combine(param, EXOTIC, COLOR), setOf(DEFAULT_EXOTIC_COLOR)),
     parseHairColorOptions(parameters, combine(param, FUR)),
     parseOneOf(parameters, combine(param, MATERIAL), ::parseMaterialId, setOf(MaterialId(0))),
     parseOneOf(parameters, combine(param, NORMAL, COLOR), SkinColor::valueOf, SkinColor.entries),
-    parseOneOf(parameters, combine(param, SCALE, COLOR), Color::valueOf, setOf(DEFAULT_SCALE_COLOR)),
+    parseColorOneOf(parameters, combine(param, SCALE, COLOR), setOf(DEFAULT_SCALE_COLOR)),
 )
 
 private fun parseTailOptions(parameters: Parameters): TailOptions {
@@ -721,6 +720,6 @@ private fun parseWingOptions(parameters: Parameters) = WingOptions(
     parseOneOf(parameters, combine(WING, LAYOUT), WingsLayout::valueOf),
     parseOneOrNone(parameters, combine(WING, TYPE), WingType::valueOf, emptySet()),
     parseFeatureColor(parameters, combine(WING, BAT)),
-    parseOneOf(parameters, combine(WING, BIRD, COLOR), Color::valueOf, setOf(DEFAULT_BIRD_COLOR)),
-    parseOneOf(parameters, combine(WING, BUTTERFLY, COLOR), Color::valueOf, setOf(DEFAULT_BUTTERFLY_COLOR)),
+    parseColorOneOf(parameters, combine(WING, BIRD, COLOR), setOf(DEFAULT_BIRD_COLOR)),
+    parseColorOneOf(parameters, combine(WING, BUTTERFLY, COLOR), setOf(DEFAULT_BUTTERFLY_COLOR)),
 )

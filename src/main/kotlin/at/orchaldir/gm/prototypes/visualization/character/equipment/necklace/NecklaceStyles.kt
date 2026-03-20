@@ -18,6 +18,7 @@ import at.orchaldir.gm.core.model.util.render.Color.*
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTableWithoutColorScheme
+import at.orchaldir.gm.prototypes.visualization.mockMaterial
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.shape.CircularShape.Circle
@@ -60,11 +61,9 @@ fun main() {
         styles.add(Pair("$size Pendant", PendantNecklace(OrnamentWithBorder(), Wire(size), size)))
     }
 
-    val silver = Material(
+    val silver = mockMaterial(
+        Silver,
         MaterialId(0),
-        properties = MaterialProperties(
-            color = Silver,
-        )
     )
     renderCharacterTableWithoutColorScheme(
         State(Storage(silver)),

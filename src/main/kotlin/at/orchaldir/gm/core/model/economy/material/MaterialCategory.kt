@@ -5,8 +5,10 @@ import at.orchaldir.gm.core.model.character.appearance.hair.NormalHairColor
 import at.orchaldir.gm.core.model.character.appearance.hair.NormalHairColorEnum
 import at.orchaldir.gm.core.model.race.appearance.HairColorOptions
 import at.orchaldir.gm.core.model.race.appearance.HairOptions
+import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.util.PercentageDistribution
 import at.orchaldir.gm.core.model.util.Size
+import at.orchaldir.gm.core.model.util.render.Color
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -55,17 +57,34 @@ sealed class MaterialCategory {
         is Rock -> components.contains(material)
         else -> false
     }
+    
+    fun getMostCommonColor() = when (this) {
+        is Alloy -> color
+        is Fiber -> color
+        is Fur -> null
+        is Glass -> color
+        is Hide -> color
+        is Leather -> color
+        is Metal -> color
+        is Mineral -> colors.getMostCommon()
+        is Paper -> color
+        is Rock -> colors.getMostCommon()
+        is Wood -> color
+        UndefinedMaterialCategory -> null
+    }
 }
 
 @Serializable
 @SerialName("Alloy")
 data class Alloy(
+    val color: Color,
     val components: PercentageDistribution<MaterialId>,
 ) : MaterialCategory()
 
 @Serializable
 @SerialName("Fiber")
 data class Fiber(
+    val color: Color,
     val weight: Size = Size.Medium,
 ) : MaterialCategory()
 
@@ -78,17 +97,21 @@ data class Fur(
 
 @Serializable
 @SerialName("Glass")
-data object Glass : MaterialCategory()
+data class Glass(
+    val color: Color,
+) : MaterialCategory()
 
 @Serializable
 @SerialName("Hide")
 data class Hide(
+    val color: Color,
     val thickness: LeatherThickness = LeatherThickness.Medium,
 ) : MaterialCategory()
 
 @Serializable
 @SerialName("Leather")
 data class Leather(
+    val color: Color,
     val hide: MaterialId? = null,
     val grade: LeatherGrade = LeatherGrade.Undefined,
     val thickness: LeatherThickness = LeatherThickness.Medium,
@@ -96,26 +119,35 @@ data class Leather(
 
 @Serializable
 @SerialName("Metal")
-data object Metal : MaterialCategory()
+data class Metal(
+    val color: Color = Color.Gray,
+) : MaterialCategory()
 
 @Serializable
 @SerialName("Mineral")
-data object Mineral : MaterialCategory()
+data class Mineral(
+    val colors: OneOf<Color>,
+) : MaterialCategory()
 
 @Serializable
 @SerialName("Paper")
-data object Paper : MaterialCategory()
+data class Paper(
+    val color: Color = Color.White,
+) : MaterialCategory()
 
 @Serializable
 @SerialName("Rock")
 data class Rock(
+    val colors: OneOf<Color>,
     val components: Set<MaterialId>,
     val type: RockType = RockType.Undefined,
 ) : MaterialCategory()
 
 @Serializable
 @SerialName("Wood")
-data object Wood : MaterialCategory()
+data class Wood(
+    val color: Color,
+) : MaterialCategory()
 
 @Serializable
 @SerialName("Undefined")

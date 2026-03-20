@@ -2,7 +2,6 @@ package at.orchaldir.gm.app.html.economy.material
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.character.appearance.showHairColor
 import at.orchaldir.gm.app.html.race.editHairColorOptions
 import at.orchaldir.gm.app.html.race.parseHairColorOptions
 import at.orchaldir.gm.app.html.race.showHairColorOptions
@@ -12,9 +11,10 @@ import at.orchaldir.gm.app.html.util.showPercentageDistribution
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.*
 import at.orchaldir.gm.core.model.race.appearance.ALLOWED_FUR_COLOR_TYPES
+import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.util.Size
+import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.selector.util.sortMaterials
-import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -47,29 +47,40 @@ fun HtmlBlockTag.showMaterialCategory(
         field("Type", category.getType())
 
         when (category) {
-            is Alloy -> showPercentageDistribution(call, state, "Components", category.components)
-            is Fiber -> field("Weight", category.weight)
+            is Alloy -> {
+                fieldColor(category.color)
+                showPercentageDistribution(call, state, "Components", category.components)
+            }
+            is Fiber -> {
+                fieldColor(category.color)
+                field("Weight", category.weight)
+            }
             is Fur -> {
                 showHairColorOptions(category.colors, "Fur Color")
                 field("Thickness", category.thickness)
             }
-            is Glass -> doNothing()
-            is Hide -> field("Thickness", category.thickness)
+            is Glass -> fieldColor(category.color)
+            is Hide -> {
+                fieldColor(category.color)
+                field("Thickness", category.thickness)
+            }
             is Leather -> {
+                fieldColor(category.color)
                 optionalFieldLink("Hide", call, state, category.hide)
                 field("Grade", category.grade)
                 field("Thickness", category.thickness)
             }
 
-            Metal -> doNothing()
-            Mineral -> doNothing()
-            Paper -> doNothing()
+            is Metal -> fieldColor(category.color)
+            is Mineral -> showColorRarityMap("Colors", category.colors)
+            is Paper -> fieldColor(category.color)
             is Rock -> {
+                showColorRarityMap("Colors", category.colors)
                 field("Type", category.type)
                 fieldIds(call, state, "Components", category.components)
             }
 
-            Wood -> doNothing()
+            is Wood -> fieldColor(category.color)
             UndefinedMaterialCategory -> doNothing()
         }
     }
@@ -100,21 +111,27 @@ fun HtmlBlockTag.editMaterialCategory(
         }
 
         when (category) {
-            is Alloy -> editPercentageDistribution(
-                call,
-                state,
-                "Components",
-                combine(CATEGORY, MATERIAL),
-                materialsForAlloy,
-                category.components,
-            )
+            is Alloy -> {
+                selectMaterialColor(category.color)
+                editPercentageDistribution(
+                    call,
+                    state,
+                    "Components",
+                    combine(CATEGORY, MATERIAL),
+                    materialsForAlloy,
+                    category.components,
+                )
+            }
 
-            is Fiber -> selectValue(
-                "Weight",
-                combine(CATEGORY, SIZE),
-                Size.entries,
-                category.weight,
-            )
+            is Fiber -> {
+                selectMaterialColor(category.color)
+                selectValue(
+                    "Weight",
+                    combine(CATEGORY, SIZE),
+                    Size.entries,
+                    category.weight,
+                )
+            }
             is Fur -> {
                 editHairColorOptions(
                     category.colors,
@@ -125,9 +142,13 @@ fun HtmlBlockTag.editMaterialCategory(
                 selectLeatherThickness(category.thickness)
             }
 
-            is Glass -> doNothing()
-            is Hide -> selectLeatherThickness(category.thickness)
+            is Glass -> selectMaterialColor(category.color)
+            is Hide -> {
+                selectMaterialColor(category.color)
+                selectLeatherThickness(category.thickness)
+            }
             is Leather -> {
+                selectMaterialColor(category.color)
                 selectOptionalElement(
                     state,
                     "Hide",
@@ -144,10 +165,11 @@ fun HtmlBlockTag.editMaterialCategory(
                 selectLeatherThickness(category.thickness)
             }
 
-            Metal -> doNothing()
-            Mineral -> doNothing()
-            Paper -> doNothing()
+            is Metal -> selectMaterialColor(category.color)
+            is Mineral -> selectMaterialColors(category.colors)
+            is Paper -> selectMaterialColor(category.color)
             is Rock -> {
+                selectMaterialColors(category.colors)
                 selectValue(
                     "Rock Type",
                     combine(CATEGORY, TYPE, TYPE),
@@ -163,10 +185,25 @@ fun HtmlBlockTag.editMaterialCategory(
                 )
             }
 
-            Wood -> doNothing()
+            is Wood -> selectMaterialColor(category.color)
             UndefinedMaterialCategory -> doNothing()
         }
     }
+}
+
+private fun DETAILS.selectMaterialColors(colors: OneOf<Color>) {
+    selectColorRarityMap(
+        "Colors",
+        combine(CATEGORY, COLOR, MAP),
+        colors,
+    )
+}
+
+private fun DETAILS.selectMaterialColor(color: Color) {
+    selectColor(
+        color,
+        combine(CATEGORY, COLOR),
+    )
 }
 
 private fun DETAILS.selectLeatherThickness(thickness: LeatherThickness) {
@@ -185,6 +222,7 @@ fun parseMaterialCategory(
     parameters: Parameters,
 ) = when (parse(parameters, combine(CATEGORY, TYPE), MaterialCategoryType.Undefined)) {
     MaterialCategoryType.Alloy -> Alloy(
+        parseMaterialColor(parameters, Color.Gray),
         parsePercentageDistribution(
             state.getMaterialStorage(),
             parameters,
@@ -193,6 +231,7 @@ fun parseMaterialCategory(
     )
 
     MaterialCategoryType.Fiber -> Fiber(
+        parseMaterialColor(parameters, Color.White),
         parse(parameters, combine(CATEGORY, SIZE), Size.Medium),
     )
     MaterialCategoryType.Fur -> Fur(
@@ -200,12 +239,16 @@ fun parseMaterialCategory(
         parseThickness(parameters),
     )
 
-    MaterialCategoryType.Hide -> Hide(
-        parseThickness(parameters),
+    MaterialCategoryType.Glass -> Glass(
+        parseMaterialColor(parameters, Color.SkyBlue),
     )
 
-    MaterialCategoryType.Glass -> Glass
+    MaterialCategoryType.Hide -> Hide(
+        parseMaterialColor(parameters, Color.SaddleBrown),
+        parseThickness(parameters),
+    )
     MaterialCategoryType.Leather -> Leather(
+        parseMaterialColor(parameters, Color.SaddleBrown),
         parseOptionalMaterialId(parameters, combine(CATEGORY, MATERIAL)),
         parse(
             parameters,
@@ -215,10 +258,17 @@ fun parseMaterialCategory(
         parseThickness(parameters),
     )
 
-    MaterialCategoryType.Metal -> Metal
-    MaterialCategoryType.Mineral -> Mineral
-    MaterialCategoryType.Paper -> Paper
+    MaterialCategoryType.Metal -> Metal(
+        parseMaterialColor(parameters, Color.SkyBlue),
+    )
+    MaterialCategoryType.Mineral -> Mineral(
+        parseMaterialColors(parameters, Color.Gray),
+    )
+    MaterialCategoryType.Paper -> Paper(
+        parseMaterialColor(parameters, Color.SkyBlue),
+    )
     MaterialCategoryType.Rock -> Rock(
+        parseMaterialColors(parameters, Color.Gray),
         parseElements(
             parameters,
             combine(CATEGORY, MATERIAL, LIST),
@@ -231,9 +281,17 @@ fun parseMaterialCategory(
         ),
     )
 
-    MaterialCategoryType.Wood -> Wood
+    MaterialCategoryType.Wood -> Wood(
+        parseMaterialColor(parameters, Color.Teal),
+    )
     MaterialCategoryType.Undefined -> UndefinedMaterialCategory
 }
+
+private fun parseMaterialColors(parameters: Parameters, default: Color): OneOf<Color> =
+    parseColorOneOf(parameters, combine(CATEGORY, COLOR, MAP), setOf(default))
+
+private fun parseMaterialColor(parameters: Parameters, default: Color) =
+    parse(parameters, combine(CATEGORY, COLOR), default)
 
 private fun parseThickness(parameters: Parameters): LeatherThickness =
     parse(parameters, combine(CATEGORY, THICKNESS), LeatherThickness.Medium)

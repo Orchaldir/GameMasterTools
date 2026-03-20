@@ -27,7 +27,6 @@ fun HtmlBlockTag.showMaterialProperties(
 ) {
     showMaterialCategory(call, state, properties.category)
     field("Crystal System", properties.crystalSystem)
-    fieldColor(properties.color)
     field("Transparency", properties.transparency)
     fieldWeight("Density", properties.density)
     field("Hardness", displayHardness(properties))
@@ -63,7 +62,6 @@ fun HtmlBlockTag.editMaterialProperties(
         properties.crystalSystem,
         CrystalSystem.entries,
     )
-    selectColor(properties.color)
     selectValue("Transparency", OPACITY, Transparency.entries, properties.transparency)
     selectWeight(
         "Density",
@@ -93,7 +91,6 @@ fun parseMaterialProperties(
     parameters: Parameters,
 ) = MaterialProperties(
     parseMaterialCategory(state, parameters),
-    parse(parameters, COLOR, Color.Pink),
     parse(parameters, CRYSTAl, CrystalSystem.Amorphous),
     parseWeight(parameters, DENSITY, SiPrefix.Kilo),
     parse(parameters, FRACTURE, Fracture.Uneven),

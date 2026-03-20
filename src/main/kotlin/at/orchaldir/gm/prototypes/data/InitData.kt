@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.culture.language.LanguageId
 import at.orchaldir.gm.core.model.economy.material.Material
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.economy.material.MaterialProperties
+import at.orchaldir.gm.core.model.economy.material.Metal
 import at.orchaldir.gm.core.model.economy.money.Currency
 import at.orchaldir.gm.core.model.economy.money.CurrencyId
 import at.orchaldir.gm.core.model.economy.money.Denomination
@@ -100,23 +101,23 @@ private fun createDefaultCurrency() = Currency(
 )
 
 private fun createDefaultMaterials() = listOf(
-    createMaterial(0, "Copper", Color.OrangeRed, 8940),
-    createMaterial(1, "Silver", Color.Silver, 10500),
-    createMaterial(2, "Gold", Color.Gold, 19320),
-    createMaterial(3, "Platinum", Color.AliceBlue, 21450),
-    createMaterial(4, "Iron", Color.DimGray, 7870),
-    createMaterial(5, "Steel", Color.Gray, 7850),
-    createMaterial(6, "Brass", Color.Gold, 8600),
-    createMaterial(7, "Bronze", Color.Orange, 8770),
+    createMetal(0, "Copper", Color.OrangeRed, 8940),
+    createMetal(1, "Silver", Color.Silver, 10500),
+    createMetal(2, "Gold", Color.Gold, 19320),
+    createMetal(3, "Platinum", Color.AliceBlue, 21450),
+    createMetal(4, "Iron", Color.DimGray, 7870),
+    createMetal(5, "Steel", Color.Gray, 7850),
+    createMetal(6, "Brass", Color.Gold, 8600),
+    createMetal(7, "Bronze", Color.Orange, 8770),
 )
 
-private fun createMaterial(
+private fun createMetal(
     id: Int,
     name: String,
     color: Color,
     weight: Long,
 ): Material {
-    val properties = MaterialProperties(color = color, density = Weight.fromKilograms(weight))
+    val properties = MaterialProperties(category = Metal(color), density = Weight.fromKilograms(weight))
 
     return Material(MaterialId(id), Name.init(name), properties)
 }

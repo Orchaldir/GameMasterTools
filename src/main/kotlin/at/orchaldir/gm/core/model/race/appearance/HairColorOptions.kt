@@ -15,4 +15,4 @@ data class HairColorOptions(
     val types: OneOf<HairColorType> = OneOf(HairColorType.Normal),
     val normal: OneOf<NormalHairColorEnum> = OneOf(DEFAULT_NORMAL_HAIR_COLORS),
     val exotic: OneOf<Color> = OneOf(DEFAULT_EXOTIC_HAIR_COLORS),
-)
+) {}

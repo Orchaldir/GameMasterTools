@@ -92,7 +92,7 @@ fun <T> HtmlBlockTag.showRarityMap(
     }
 }
 
-// edit
+// parse
 
 fun <T> parseOneOf(
     parameters: Parameters,
@@ -139,7 +139,7 @@ fun <T> parseSomeOf(
     return SomeOf(default)
 }
 
-private fun <T> parseRarityMap(
+fun <T> parseRarityMap(
     parameters: Parameters,
     selectId: String,
     converter: (String) -> T,

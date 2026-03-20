@@ -1,7 +1,6 @@
 package at.orchaldir.gm.core.model.economy.material
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.math.unit.Weight
 import kotlinx.serialization.Serializable
 
@@ -11,7 +10,6 @@ const val MAX_HARDNESS = 20.0f
 @Serializable
 data class MaterialProperties(
     val category: MaterialCategory = UndefinedMaterialCategory,
-    val color: Color = Color.Pink,
     val crystalSystem: CrystalSystem = CrystalSystem.Amorphous,
     val density: Weight = Weight.fromKilograms(1000),
     val fracture: Fracture = Fracture.Undefined,
