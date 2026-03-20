@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.economy.money
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.economy.material.ALLOYS_OR_METALS
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.reducer.economy.validateFormat
@@ -40,7 +41,13 @@ data class CurrencyUnit(
     override fun validate(state: State) {
         val currency = state.getCurrencyStorage().getOrThrow(currency)
         currency.getDenomination(denomination)
-        format.getMaterials().forEach { state.getMaterialStorage().require(it) }
+        format.getMaterials().forEach {
+            val material = state.getMaterialStorage().getOrThrow(it)
+
+            require(ALLOYS_OR_METALS.contains(material.properties.category.getType())) {
+                "${material.id.print()} is not a metal or alloy!"
+            }
+        }
         validateFormat(format)
     }
 
