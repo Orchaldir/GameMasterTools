@@ -237,8 +237,51 @@
    "name": "Paper",
    "properties": {
     "category": {
-     "#type": "Paper",
-     "color": "White"
+     "#type": "Paper"
+    }
+   }
+  },
+  "18": {
+   "id": 18,
+   "name": "Grimalkin Fur",
+   "properties": {
+    "category": {
+     "#type": "Fur",
+     "colors": {
+      "types": {
+       "Exotic": "Common",
+       "Stripped": "Common"
+      },
+      "exotic": {
+       "Black": "Common",
+       "Gold": "Common",
+       "SaddleBrown": "Common"
+      }
+     }
+    }
+   }
+  },
+  "19": {
+   "id": 19,
+   "name": "Breggle Fur",
+   "properties": {
+    "category": {
+     "#type": "Fur",
+     "colors": {
+      "normal": {
+       "LightestBlond": "Common",
+       "VeryLightBlond": "Common",
+       "LightBlond": "Common",
+       "Blond": "Common",
+       "DarkBlond": "Common",
+       "LightBrown": "Common",
+       "MediumBrown": "Common",
+       "DarkBrown": "Common",
+       "Black": "Common",
+       "Orange": "Common",
+       "Auburn": "Common"
+      }
+     }
     }
    }
   }

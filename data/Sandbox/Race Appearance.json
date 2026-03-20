@@ -35,14 +35,7 @@
     "skinTypes": {
      "Fur": "Common"
     },
-    "furColors": {
-     "normal": {
-      "Blond": "Common",
-      "DarkBlond": "Common",
-      "LightBrown": "Common",
-      "MediumBrown": "Common"
-     }
-    }
+    "fur": 18
    }
   },
   "1": {
@@ -99,21 +92,7 @@
     "skinTypes": {
      "Fur": "Common"
     },
-    "furColors": {
-     "types": {
-      "Exotic": "Common",
-      "Stripped": "Uncommon"
-     },
-     "exotic": {
-      "Black": "Common",
-      "Chocolate": "Common",
-      "DimGray": "Common",
-      "Orange": "Common",
-      "SaddleBrown": "Common",
-      "Silver": "Common",
-      "White": "Common"
-     }
-    }
+    "fur": 18
    },
    "tail": {
     "layouts": {
