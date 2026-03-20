@@ -2,9 +2,9 @@ package at.orchaldir.gm.app.html.economy.material
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.race.editHairColorOptions
-import at.orchaldir.gm.app.html.race.parseHairColorOptions
-import at.orchaldir.gm.app.html.race.showHairColorOptions
+import at.orchaldir.gm.app.html.race.appearance.editHairColorOptions
+import at.orchaldir.gm.app.html.race.appearance.parseHairColorOptions
+import at.orchaldir.gm.app.html.race.appearance.showHairColorOptions
 import at.orchaldir.gm.app.html.util.editPercentageDistribution
 import at.orchaldir.gm.app.html.util.parsePercentageDistribution
 import at.orchaldir.gm.app.html.util.showPercentageDistribution

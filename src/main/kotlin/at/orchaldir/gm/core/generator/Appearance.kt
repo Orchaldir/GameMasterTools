@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.generator
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.beard.*
@@ -22,6 +23,7 @@ import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Distribution
 
 data class AppearanceGeneratorConfig(
+    val state: State,
     val numberGenerator: NumberGenerator,
     val rarityGenerator: RarityGenerator,
     val gender: Gender,
@@ -288,7 +290,16 @@ fun generateSkin(config: AppearanceGeneratorConfig) = generateSkin(config, confi
 
 fun generateSkin(config: AppearanceGeneratorConfig, options: SkinOptions) = when (config.generate(options.skinTypes)) {
     SkinType.Exotic -> ExoticSkin(config.generate(options.exoticColors))
-    SkinType.Fur -> Fur(generateHairColor(config, options.furColors))
+    SkinType.Fur -> {
+        val material = config.state.getMaterialStorage().getOptional(options.fur)
+
+        if (material != null && material.properties.category is at.orchaldir.gm.core.model.economy.material.Fur) {
+            Fur(generateHairColor(config, material.properties.category.colors))
+        }
+        else {
+            error("Fur is not supported by $material!")
+        }
+    }
     SkinType.Material -> MaterialSkin(config.generate(options.materials))
     SkinType.Normal -> NormalSkin(config.generate(options.normalColors))
     SkinType.Scales -> Scales(config.generate(options.scalesColors))

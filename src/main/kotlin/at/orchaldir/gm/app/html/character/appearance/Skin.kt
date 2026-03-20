@@ -1,6 +1,7 @@
 package at.orchaldir.gm.app.html.character.appearance
 
 import at.orchaldir.gm.app.*
+import at.orchaldir.gm.app.html.character.appearance.selectHairColor
 import at.orchaldir.gm.app.html.combine
 import at.orchaldir.gm.app.html.economy.material.parseMaterialId
 import at.orchaldir.gm.app.html.parse
@@ -60,11 +61,20 @@ private fun HtmlBlockTag.editSkinInternal(
             skin.color
         )
 
-        is Fur -> selectHairColor(
-            options.furColors,
-            skin.color,
-            combine(param, FUR),
-        )
+        is Fur -> {
+            val fur = state.getMaterialStorage()
+                .getOptional(options.fur)
+
+            if (fur != null && fur.properties.category is at.orchaldir.gm.core.model.economy.material.Fur) {
+                selectHairColor(
+                    fur.properties.category.colors,
+                    skin.color,
+                    combine(param, FUR),
+                )
+            } else {
+                error("Fur is not supported by $fur!")
+            }
+        }
 
         is MaterialSkin -> selectFromOneOf(
             "Material",
@@ -98,12 +108,14 @@ private fun HtmlBlockTag.editSkinInternal(
 // parse
 
 fun parseSkin(
+    state: State,
     parameters: Parameters,
     config: AppearanceGeneratorConfig,
     param: String = SKIN,
-) = parseSkin(parameters, config, config.appearanceOptions.skin, param)
+) = parseSkin(state, parameters, config, config.appearanceOptions.skin, param)
 
 fun parseSkin(
+    state: State,
     parameters: Parameters,
     config: AppearanceGeneratorConfig,
     options: SkinOptions,
@@ -114,9 +126,24 @@ fun parseSkin(
         SkinType.Exotic.toString() -> ExoticSkin(
             parseAppearanceColor(parameters, combine(param, EXOTIC), config, options.exoticColors)
         )
-        SkinType.Fur.toString() -> Fur(
-            parseHairColor(parameters, config, options.furColors, combine(param, FUR)),
-        )
+        SkinType.Fur.toString() -> {
+            val fur = state.getMaterialStorage()
+                .getOptional(options.fur)
+
+            if (fur != null && fur.properties.category is at.orchaldir.gm.core.model.economy.material.Fur) {
+                Fur(
+                    parseHairColor(
+                        parameters,
+                        config,
+                        fur.properties.category.colors,
+                        combine(param, FUR),
+                    ),
+                )
+            } else {
+                error("Fur is not supported by $fur!")
+            }
+
+        }
         SkinType.Material.toString() -> MaterialSkin(
             parseMaterialId(parameters, combine(param, MATERIAL)),
         )

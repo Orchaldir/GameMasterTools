@@ -177,15 +177,19 @@ fun HtmlBlockTag.selectCrownLength(length: Factor) {
 
 // parse
 
-fun parseHorns(parameters: Parameters, config: AppearanceGeneratorConfig): Horns {
+fun parseHorns(
+    state: State,
+    parameters: Parameters,
+    config: AppearanceGeneratorConfig,
+): Horns {
     val options = config.appearanceOptions.horn
 
     return when (parameters[combine(HORN, LAYOUT)]) {
         HornsLayout.None.toString() -> NoHorns
-        HornsLayout.Two.toString() -> TwoHorns(parseHorn(parameters, HORN, config))
+        HornsLayout.Two.toString() -> TwoHorns(parseHorn(state, parameters, HORN, config))
         HornsLayout.Different.toString() -> DifferentHorns(
-            parseHorn(parameters, combine(HORN, LEFT), config),
-            parseHorn(parameters, combine(HORN, RIGHT), config),
+            parseHorn(state, parameters, combine(HORN, LEFT), config),
+            parseHorn(state, parameters, combine(HORN, RIGHT), config),
         )
 
         HornsLayout.Crown.toString() -> {
@@ -195,7 +199,7 @@ fun parseHorns(parameters: Parameters, config: AppearanceGeneratorConfig): Horns
                 true,
                 parseFactor(parameters, combine(CROWN, LENGTH), DEFAULT_CROWN_LENGTH),
                 parseFactor(parameters, combine(CROWN, WIDTH), DEFAULT_CROWN_WIDTH),
-                parseFeatureColor(parameters, config, options.colors, combine(CROWN, COLOR)),
+                parseFeatureColor(state, parameters, config, options.colors, combine(CROWN, COLOR)),
             )
         }
 
@@ -203,14 +207,19 @@ fun parseHorns(parameters: Parameters, config: AppearanceGeneratorConfig): Horns
     }
 }
 
-private fun parseHorn(parameters: Parameters, param: String, config: AppearanceGeneratorConfig): Horn {
+private fun parseHorn(
+    state: State,
+    parameters: Parameters,
+    param: String, config:
+    AppearanceGeneratorConfig,
+): Horn {
     val options = config.appearanceOptions.horn
 
     return when (parameters[combine(param, TYPE)]) {
         HornType.Simple.toString() -> SimpleHorn(
             parseFactor(parameters, combine(param, LENGTH), DEFAULT_SIMPLE_LENGTH),
             parseAppearanceOption(parameters, combine(param, SHAPE), config, options.simpleTypes),
-            parseFeatureColor(parameters, config, options.colors, combine(param, COLOR)),
+            parseFeatureColor(state, parameters, config, options.colors, combine(param, COLOR)),
         )
 
         HornType.Complex.toString() -> ComplexHorn(
@@ -219,7 +228,7 @@ private fun parseHorn(parameters: Parameters, param: String, config: AppearanceG
             parse(parameters, combine(param, POSITION), HornPosition.Top),
             parseOrientation(parameters, combine(param, ORIENTATION)),
             parseHornShape(parameters, param),
-            parseFeatureColor(parameters, config, options.colors, combine(param, COLOR)),
+            parseFeatureColor(state, parameters, config, options.colors, combine(param, COLOR)),
         )
 
         else -> generateHorn(config, options)

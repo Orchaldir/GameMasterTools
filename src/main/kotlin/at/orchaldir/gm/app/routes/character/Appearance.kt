@@ -49,7 +49,7 @@ fun Application.configureAppearanceRouting() {
             val character = state.getCharacterStorage().getOrThrow(preview.id)
             val formParameters = call.receiveParameters()
             val config = createGenerationConfig(state, character)
-            val appearance = parseAppearance(formParameters, config, character)
+            val appearance = parseAppearance(state, formParameters, config, character)
             val updatedCharacter = character.copy(appearance = appearance)
 
             call.respondHtml(HttpStatusCode.OK) {
@@ -63,7 +63,7 @@ fun Application.configureAppearanceRouting() {
             val character = state.getCharacterStorage().getOrThrow(update.id)
             val formParameters = call.receiveParameters()
             val config = createGenerationConfig(state, character)
-            val appearance = parseAppearance(formParameters, config, character)
+            val appearance = parseAppearance(state, formParameters, config, character)
 
             STORE.dispatch(UpdateAppearance(update.id, appearance))
 
@@ -76,8 +76,7 @@ fun Application.configureAppearanceRouting() {
 
             val state = STORE.getState()
             val character = state.getCharacterStorage().getOrThrow(update.id)
-            val config = createGenerationConfig(state, character)
-            val appearance = generateAppearance(config, character)
+            val appearance = generateAppearance(state, character)
             val updatedCharacter = character.copy(appearance = appearance)
 
             call.respondHtml(HttpStatusCode.OK) {
@@ -121,6 +120,7 @@ fun createGenerationConfig(state: State, character: Character): AppearanceGenera
     val race = state.getRaceStorage().getOrThrow(character.race)
 
     return AppearanceGeneratorConfig(
+        state,
         RandomNumberGenerator(Random),
         state.rarityGenerator,
         character.gender,
@@ -131,11 +131,12 @@ fun createGenerationConfig(state: State, character: Character): AppearanceGenera
 }
 
 fun generateAppearance(
-    config: AppearanceGeneratorConfig,
+    state: State,
     character: Character,
 ): Appearance {
+    val config = createGenerationConfig(state, character)
     val type = config.generate(config.appearanceOptions.appearanceTypes)
     val parameters = parametersOf(APPEARANCE, type.toString())
 
-    return parseAppearance(parameters, config, character)
+    return parseAppearance(state, parameters, config, character)
 }

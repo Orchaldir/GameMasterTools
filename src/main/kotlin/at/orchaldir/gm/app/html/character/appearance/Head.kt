@@ -312,6 +312,7 @@ private fun HtmlBlockTag.editSimpleMouth(size: Size, teethColor: TeethColor) {
 // parse
 
 fun parseHead(
+    state: State,
     parameters: Parameters,
     config: AppearanceGeneratorConfig,
     character: Character,
@@ -319,7 +320,7 @@ fun parseHead(
     val ears = parseEars(parameters, config)
     val eyes = parseEyes(parameters, config)
     val hair = parseHair(parameters, config)
-    val horns = parseHorns(parameters, config)
+    val horns = parseHorns(state, parameters, config)
     val mouth = parseMouth(parameters, config, character, hair)
 
     return Head(ears, eyes, hair, horns, mouth)
