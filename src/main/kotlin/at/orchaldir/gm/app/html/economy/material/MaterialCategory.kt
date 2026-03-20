@@ -72,7 +72,10 @@ fun HtmlBlockTag.showMaterialCategory(
             }
 
             is Metal -> fieldColor(category.color)
-            is Mineral -> showColorRarityMap("Colors", category.colors)
+            is Mineral -> {
+                showColorRarityMap("Colors", category.colors)
+                field("Transparency", category.transparency)
+            }
             is Paper -> fieldColor(category.color)
             is Rock -> {
                 showColorRarityMap("Colors", category.colors)
@@ -166,7 +169,15 @@ fun HtmlBlockTag.editMaterialCategory(
             }
 
             is Metal -> selectMaterialColor(category.color)
-            is Mineral -> selectMaterialColors(category.colors)
+            is Mineral -> {
+                selectMaterialColors(category.colors)
+                selectValue(
+                    "Transparency",
+                    combine(CATEGORY, OPACITY),
+                    Transparency.entries,
+                    category.transparency,
+                )
+            }
             is Paper -> selectMaterialColor(category.color)
             is Rock -> {
                 selectMaterialColors(category.colors)
@@ -263,6 +274,7 @@ fun parseMaterialCategory(
     )
     MaterialCategoryType.Mineral -> Mineral(
         parseMaterialColors(parameters, Color.Gray),
+        parse(parameters, combine(CATEGORY, OPACITY), Transparency.Opaque),
     )
     MaterialCategoryType.Paper -> Paper(
         parseMaterialColor(parameters, Color.SkyBlue),

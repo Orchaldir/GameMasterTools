@@ -127,6 +127,7 @@ data class Metal(
 @SerialName("Mineral")
 data class Mineral(
     val colors: OneOf<Color>,
+    val transparency: Transparency = Transparency.Opaque,
 ) : MaterialCategory()
 
 @Serializable

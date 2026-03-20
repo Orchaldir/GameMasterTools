@@ -19,7 +19,6 @@ data class MaterialProperties(
     val hardness: Float = 1.0f,
     val luster: Luster = Luster.Dull,
     val tenacity: Tenacity = Tenacity.Undefined,
-    val transparency: Transparency = Transparency.Opaque,
 ) {
 
     fun contains(material: MaterialId) = category.contains(material)
