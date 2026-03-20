@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.selector.economy.money.getCurrencyUnits
 import at.orchaldir.gm.core.selector.item.equipment.getEquipmentMadeOf
 import at.orchaldir.gm.core.selector.item.getTextsMadeOf
+import at.orchaldir.gm.core.selector.race.getRaceAppearancesMadeOf
 import at.orchaldir.gm.core.selector.world.getMoonsContaining
 import at.orchaldir.gm.core.selector.world.getRegionsContaining
 import at.orchaldir.gm.core.selector.world.getStreetTemplatesMadeOf
@@ -20,6 +21,7 @@ fun State.canDeleteMaterial(material: MaterialId) = DeleteResult(material)
     .addElements(getEquipmentMadeOf(material))
     .addElements(getMaterialsMadeOf(material))
     .addElements(getMoonsContaining(material))
+    .addElements(getRaceAppearancesMadeOf(material))
     .addElements(getRegionsContaining(material))
     .addElements(getStreetTemplatesMadeOf(material))
     .addElements(getTextsMadeOf(material))

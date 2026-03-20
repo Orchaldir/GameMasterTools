@@ -26,7 +26,7 @@ data class SkinOptions(
             return materials.contains(material)
         }
 
-        return false
+        return fur == material
     }
 
 }
