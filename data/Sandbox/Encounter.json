@@ -5,27 +5,53 @@
    "id": 0,
    "name": "Everyday Mortal",
    "entry": {
-    "#type": "Combined",
-    "list": [
-     {
-      "#type": "Template",
-      "amount": {
-       "#type": "Dice",
-       "dice": 1,
-       "modifier": 1
+    "#type": "Table",
+    "table": {
+     "entries": [
+      {
+       "value": {
+        "#type": "Template",
+        "amount": {
+         "#type": "Standard",
+         "dice": 2
+        },
+        "template": 0
+       },
+       "until": 2
       },
-      "template": 0
-     },
-     {
-      "#type": "Template",
-      "amount": {
-       "#type": "Dice",
-       "dice": 2,
-       "type": "D4"
+      {
+       "value": {
+        "#type": "None"
+       },
+       "until": 3
       },
-      "template": 1
-     }
-    ]
+      {
+       "value": {
+        "#type": "Combined",
+        "list": [
+         {
+          "#type": "Template",
+          "amount": {
+           "#type": "Not",
+           "number": 2
+          },
+          "template": 0
+         },
+         {
+          "#type": "Template",
+          "amount": {
+           "#type": "Dice",
+           "dice": 2,
+           "type": "D4"
+          },
+          "template": 1
+         }
+        ]
+       },
+       "until": 4
+      }
+     ]
+    }
    }
   }
  }
