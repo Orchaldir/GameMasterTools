@@ -1,9 +1,12 @@
 package at.orchaldir.gm.core.model.rpg.encounter
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterTemplateId
 import at.orchaldir.gm.core.model.rpg.dice.NotRandomNumber
 import at.orchaldir.gm.core.model.rpg.dice.RandomNumber
 import at.orchaldir.gm.core.model.util.Lookup
+import at.orchaldir.gm.core.reducer.race.validateRaceLookup
+import at.orchaldir.gm.utils.doNothing
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -29,6 +32,13 @@ sealed class EncounterEntry {
         is CharacterTemplateEncounter -> template == id
         is CombinedEncounter -> list.any { it.contains(id) }
         is EncounterTable -> table.entries.any { it.value.contains(id) }
+    }
+
+    fun validate(state: State): Unit = when (this) {
+        NoEncounter -> doNothing()
+        is CharacterTemplateEncounter -> state.getCharacterTemplateStorage().require(template)
+        is CombinedEncounter -> list.forEach { it.validate(state) }
+        is EncounterTable -> table.entries.forEach { it.value.validate(state) }
     }
 }
 

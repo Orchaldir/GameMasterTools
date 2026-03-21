@@ -29,5 +29,6 @@ data class Encounter(
     override fun name() = name.text
 
     override fun validate(state: State) {
+        entry.validate(state)
     }
 }
