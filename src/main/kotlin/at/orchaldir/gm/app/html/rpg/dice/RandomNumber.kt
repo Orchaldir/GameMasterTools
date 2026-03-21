@@ -1,6 +1,7 @@
 package at.orchaldir.gm.app.html.rpg.dice
 
 import at.orchaldir.gm.app.DIE
+import at.orchaldir.gm.app.MODIFIER
 import at.orchaldir.gm.app.NUMBER
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
@@ -93,7 +94,7 @@ fun HtmlBlockTag.selectDiceModifier(
         "Modifier",
         range.modifier,
         modifier,
-        combine(param, NUMBER),
+        combine(param, MODIFIER),
     )
 }
 
@@ -140,4 +141,4 @@ private fun parseDice(parameters: Parameters, param: String) =
     parseInt(parameters, combine(param, DIE), 1)
 
 private fun parseDiceModifier(parameters: Parameters, param: String) =
-    parseInt(parameters, combine(param, NUMBER), 0)
+    parseInt(parameters, combine(param, MODIFIER), 0)
