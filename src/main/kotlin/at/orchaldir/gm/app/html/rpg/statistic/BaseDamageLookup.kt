@@ -36,15 +36,11 @@ fun HtmlBlockTag.showBaseDamageLookup(
                         th { +"Until" }
                         th { +"Damage" }
                     }
-                    lookup.lookup.previousEntries.forEach { entry ->
+                    lookup.lookup.entries.forEach { entry ->
                         tr {
                             tdInt(entry.until)
                             tdString(entry.value.display())
                         }
-                    }
-                    tr {
-                        tdString(">")
-                        tdString(lookup.lookup.current.display())
                     }
                 }
             }
