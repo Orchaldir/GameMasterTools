@@ -19,6 +19,17 @@ fun HtmlBlockTag.editRandomNumber(
     range: ModifiedDiceRange,
     number: RandomNumber,
     param: String,
+    label: String,
+) {
+    showDetails(label, true) {
+        editRandomNumber(range, number, param)
+    }
+}
+
+fun HtmlBlockTag.editRandomNumber(
+    range: ModifiedDiceRange,
+    number: RandomNumber,
+    param: String,
 ) {
     selectValue(
         "Type",
@@ -29,10 +40,14 @@ fun HtmlBlockTag.editRandomNumber(
 
     when (number) {
         is NotRandomNumber -> selectDiceModifier(range, param, number.number)
-        is StandardDice -> editDice(range, param, number.dice, number.modifier)
+        is StandardDice -> {
+            selectDiceNumber(range, param, number.dice)
+            selectDiceModifier(range, param, number.modifier)
+        }
         is Dice -> {
-            editDice(range, param, number.dice, number.modifier)
+            selectDiceNumber(range, param, number.dice)
             selectDieType(param, number.type)
+            selectDiceModifier(range, param, number.modifier)
         }
         is MixedDice -> {
             editMap("Dice", param, number.dice, 1, range.dice.max) { _, diceParam, type, dice ->
@@ -54,16 +69,6 @@ private fun HtmlBlockTag.selectDieType(
         DieType.entries,
         type,
     )
-}
-
-fun HtmlBlockTag.editDice(
-    range: ModifiedDiceRange,
-    param: String,
-    dice: Int,
-    modifier: Int,
-) {
-    selectDiceNumber(range, param, dice)
-    selectDiceModifier(range, param, modifier)
 }
 
 fun HtmlBlockTag.selectDiceNumber(

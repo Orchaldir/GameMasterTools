@@ -80,7 +80,12 @@ fun HtmlBlockTag.editEncounterEntry(
         when (encounter) {
             NoEncounter -> doNothing()
             is CharacterTemplateEncounter -> {
-                editRandomNumber(range, encounter.amount, combine(param, NUMBER))
+                editRandomNumber(
+                    range,
+                    encounter.amount,
+                    combine(param, NUMBER),
+                    "Amount",
+                )
                 selectElement(
                     state,
                     combine(param, TEMPLATE),
