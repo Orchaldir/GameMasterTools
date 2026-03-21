@@ -113,7 +113,6 @@ fun HtmlBlockTag.editEncounterEntryIntern(
         }
 
         is CombinedEncounter -> editList(
-            "Encounter",
             combine(param, LIST),
             encounter.list,
             2,
