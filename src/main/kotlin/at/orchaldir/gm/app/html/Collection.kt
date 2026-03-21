@@ -269,15 +269,19 @@ fun <ID : Id<ID>, V> parseIdMap(
 fun <K, V> parseMap(
     parameters: Parameters,
     param: String,
-    parseKey: (Int, String) -> K,
+    keys: Collection<K>,
+    parseKey: (Int, String) -> K?,
     parseValue: (K, Int, String) -> V,
 ): Map<K, V> {
     val count = parseInt(parameters, combine(param, NUMBER), 0)
     val map = mutableMapOf<K, V>()
+    val remaining = keys.toMutableSet()
 
     for (index in 0..<count) {
         val indexParam = combine(param, index)
-        val key = parseKey(index, indexParam)
+        val key = parseKey(index, indexParam) ?: remaining.firstOrNull() ?: break
+
+        remaining.remove(key)
 
         map[key] = parseValue(key, index, indexParam)
     }

@@ -117,7 +117,8 @@ fun parseRandomNumber(
         parseMap(
             parameters,
             param,
-            { _, keyParam -> parseDieType(parameters, keyParam) },
+            DieType.entries,
+            { _, keyParam -> parseOptionalDieType(parameters, keyParam) },
             { _, _, valueParam -> parseDice(parameters, valueParam) },
         ),
         parseDiceModifier(parameters, param),
@@ -136,6 +137,11 @@ private fun parseDieType(
     parameters: Parameters,
     param: String,
 ) = parse(parameters, combine(param, DIE, TYPE), DieType.D6)
+
+private fun parseOptionalDieType(
+    parameters: Parameters,
+    param: String,
+) = parse<DieType>(parameters, combine(param, DIE, TYPE))
 
 private fun parseDice(parameters: Parameters, param: String) =
     parseInt(parameters, combine(param, DIE), 1)

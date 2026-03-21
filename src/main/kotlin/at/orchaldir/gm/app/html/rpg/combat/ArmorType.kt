@@ -68,6 +68,6 @@ fun parseArmorType(
 ) = ArmorType(
     id,
     parseName(parameters),
-    parseProtection(parameters),
+    parseProtection(state, parameters),
     parseFactor(parameters, COST, DEFAULT_TYPE_COST_FACTOR),
 )

@@ -145,6 +145,7 @@ private fun HtmlBlockTag.selectDR(
 // parse
 
 fun parseProtection(
+    state: State,
     parameters: Parameters,
     param: String = PROTECTION,
 ) = when (parse(parameters, combine(param, TYPE), ProtectionType.Undefined)) {
@@ -157,6 +158,7 @@ fun parseProtection(
         parseMap(
             parameters,
             combine(param, DAMAGE),
+            state.getDamageTypeStorage().getIds(),
             { _, keyParam -> parseDamageTypeId(parameters, combine(keyParam, TYPE)) },
             { _, _, valueParam -> parseDR(parameters, valueParam) },
         ),
