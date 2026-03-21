@@ -9,6 +9,7 @@ import at.orchaldir.gm.app.html.rpg.dice.selectDiceModifier
 import at.orchaldir.gm.app.html.rpg.dice.selectDiceNumber
 import at.orchaldir.gm.app.html.util.editLookupTable
 import at.orchaldir.gm.app.html.util.parseLookup
+import at.orchaldir.gm.app.html.util.showLookupTable
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.dice.DieType
 import at.orchaldir.gm.core.model.rpg.statistic.BaseDamageDicePool
@@ -31,18 +32,14 @@ fun HtmlBlockTag.showBaseDamageLookup(
             is SimpleBaseDamageLookup -> {
                 fieldDiceType(lookup.dieType)
 
-                table {
-                    tr {
-                        th { +"Until" }
-                        th { +"Damage" }
-                    }
-                    lookup.lookup.entries.forEach { entry ->
-                        tr {
-                            tdInt(entry.until)
-                            tdString(entry.value.display())
-                        }
-                    }
-                }
+                showLookupTable(
+                    lookup.lookup,
+                    listOf(
+                        Pair("Damage") { entry ->
+                            +entry.display()
+                        },
+                    ),
+                )
             }
         }
     }

@@ -7,8 +7,7 @@ import at.orchaldir.gm.app.html.rpg.dice.editRandomNumber
 import at.orchaldir.gm.app.html.rpg.dice.parseRandomNumber
 import at.orchaldir.gm.app.html.util.editLookupTable
 import at.orchaldir.gm.app.html.util.parseLookup
-import at.orchaldir.gm.app.html.util.showLookup
-import at.orchaldir.gm.app.html.util.showLookupDetails
+import at.orchaldir.gm.app.html.util.showLookupTable
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.IntRange
 import at.orchaldir.gm.core.model.rpg.dice.ModifiedDiceRange
@@ -36,9 +35,7 @@ fun HtmlBlockTag.showEncounterEntryDetails(
             showEncounterEntryInternal(call, state, entry)
         }
 
-        is EncounterTable -> showLookupDetails(encounter.table, "Encounter") { entry ->
-            showEncounterEntryInternal(call, state, entry)
-        }
+        is EncounterTable -> showEncounterTable(encounter, call, state)
     }
 }
 
@@ -54,9 +51,7 @@ private fun HtmlBlockTag.showEncounterEntryInternal(
             showEncounterEntryInternal(call, state, entry)
         }
 
-        is EncounterTable -> showLookup(encounter.table) { entry ->
-            showEncounterEntryInternal(call, state, entry)
-        }
+        is EncounterTable -> showEncounterTable(encounter, call, state)
     }
 }
 
@@ -69,6 +64,19 @@ private fun HtmlBlockTag.showCharacterTemplateEncounter(
     +" "
     link(call, state, encounter.template)
 }
+
+private fun HtmlBlockTag.showEncounterTable(
+    encounter: EncounterTable,
+    call: ApplicationCall,
+    state: State,
+) = showLookupTable(
+    encounter.table,
+    listOf(
+        Pair("Encounter") { entry ->
+            showEncounterEntryInternal(call, state, entry)
+        },
+    ),
+)
 
 // edit
 

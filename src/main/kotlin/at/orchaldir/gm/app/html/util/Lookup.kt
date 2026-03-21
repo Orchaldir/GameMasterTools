@@ -11,23 +11,27 @@ import kotlinx.html.*
 
 // show
 
-fun <T> HtmlBlockTag.showLookupDetails(
+fun <T> HtmlBlockTag.showLookupTable(
     lookup: Lookup<T>,
-    label: String,
-    showValue: HtmlBlockTag.(T) -> Unit,
+    columns: List<Pair<String, HtmlBlockTag.(T) -> Unit>>,
 ) {
-    showDetails(label, true) {
-        showLookup( lookup, showValue)
-    }
-}
-
-fun <T> HtmlBlockTag.showLookup(
-    lookup: Lookup<T>,
-    showValue: HtmlBlockTag.(T) -> Unit,
-) {
-    showList( lookup.entries) { previous ->
-        +"Until ${previous.until}: "
-        showValue(previous.value)
+    table {
+        tr {
+            th { +"Until" }
+            columns.forEach { (label, _) ->
+                th { +label }
+            }
+        }
+        lookup.entries.forEach { entry ->
+            tr {
+                tdInt(entry.until)
+                columns.forEach { (_, showValue) ->
+                    td {
+                        showValue(entry.value)
+                    }
+                }
+            }
+        }
     }
 }
 
