@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.model.rpg.statistic
 
-import at.orchaldir.gm.core.model.rpg.DieType
-import at.orchaldir.gm.core.model.rpg.SimpleModifiedDice
+import at.orchaldir.gm.core.model.rpg.dice.DieType
+import at.orchaldir.gm.core.model.rpg.dice.SimpleModifiedDice
 import at.orchaldir.gm.core.model.util.Lookup
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

@@ -4,8 +4,8 @@ import at.orchaldir.gm.app.DIE
 import at.orchaldir.gm.app.NUMBER
 import at.orchaldir.gm.app.html.combine
 import at.orchaldir.gm.app.html.parseInt
-import at.orchaldir.gm.core.model.rpg.SimpleModifiedDice
-import at.orchaldir.gm.core.model.rpg.SimpleModifiedDiceRange
+import at.orchaldir.gm.core.model.rpg.dice.SimpleModifiedDice
+import at.orchaldir.gm.core.model.rpg.dice.ModifiedDiceRange
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag
 
@@ -15,7 +15,7 @@ import kotlinx.html.HtmlBlockTag
 // edit
 
 fun HtmlBlockTag.editSimpleModifiedDice(
-    range: SimpleModifiedDiceRange,
+    range: ModifiedDiceRange,
     dice: SimpleModifiedDice,
     param: String,
 ) {
@@ -26,7 +26,7 @@ fun HtmlBlockTag.editSimpleModifiedDice(
 fun HtmlBlockTag.selectDiceNumber(
     entry: SimpleModifiedDice,
     param: String,
-    range: SimpleModifiedDiceRange,
+    range: ModifiedDiceRange,
 ) {
     selectFromRange(
         "Dice",
@@ -39,13 +39,13 @@ fun HtmlBlockTag.selectDiceNumber(
 fun HtmlBlockTag.selectDiceModifier(
     entry: SimpleModifiedDice,
     param: String,
-    range: SimpleModifiedDiceRange,
+    range: ModifiedDiceRange,
 ) = selectDiceModifier(param, entry.modifier, range)
 
 fun HtmlBlockTag.selectDiceModifier(
     param: String,
     modifier: Int,
-    range: SimpleModifiedDiceRange,
+    range: ModifiedDiceRange,
 ) {
     selectFromRange(
         "Modifier",

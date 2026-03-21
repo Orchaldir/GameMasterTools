@@ -2,7 +2,7 @@ package at.orchaldir.gm.core.model.rpg.combat
 
 import at.orchaldir.gm.DAMAGE_TYPE_ID_0
 import at.orchaldir.gm.STATISTIC_ID_0
-import at.orchaldir.gm.core.model.rpg.SimpleModifiedDice
+import at.orchaldir.gm.core.model.rpg.dice.SimpleModifiedDice
 import at.orchaldir.gm.core.selector.rpg.statblock.resolveRangedAttack
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test

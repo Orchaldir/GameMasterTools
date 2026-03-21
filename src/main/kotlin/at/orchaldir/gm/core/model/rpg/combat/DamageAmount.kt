@@ -1,6 +1,6 @@
 package at.orchaldir.gm.core.model.rpg.combat
 
-import at.orchaldir.gm.core.model.rpg.SimpleModifiedDice
+import at.orchaldir.gm.core.model.rpg.dice.SimpleModifiedDice
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

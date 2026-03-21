@@ -6,7 +6,7 @@ import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.parse
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.rpg.DieType
+import at.orchaldir.gm.core.model.rpg.dice.DieType
 import at.orchaldir.gm.core.model.rpg.RpgConfig
 import io.ktor.http.*
 import io.ktor.server.application.*

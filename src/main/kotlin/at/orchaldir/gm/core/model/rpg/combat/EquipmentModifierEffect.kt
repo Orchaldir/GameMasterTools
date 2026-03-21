@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.model.rpg.combat
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.rpg.SimpleModifiedDice
+import at.orchaldir.gm.core.model.rpg.dice.SimpleModifiedDice
 import at.orchaldir.gm.core.reducer.rpg.validateIsInside
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage

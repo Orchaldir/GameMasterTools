@@ -10,7 +10,7 @@ import at.orchaldir.gm.app.html.rpg.selectDiceNumber
 import at.orchaldir.gm.app.html.util.editLookupTable
 import at.orchaldir.gm.app.html.util.parseLookup
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.rpg.DieType
+import at.orchaldir.gm.core.model.rpg.dice.DieType
 import at.orchaldir.gm.core.model.rpg.statistic.BaseDamageDicePool
 import at.orchaldir.gm.core.model.rpg.statistic.BaseDamageLookup
 import at.orchaldir.gm.core.model.rpg.statistic.BaseDamageLookupType
