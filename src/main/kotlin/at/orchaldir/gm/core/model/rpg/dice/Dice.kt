@@ -19,7 +19,7 @@ enum class DieType {
         D100 -> 100
     }
 
-    fun display(dieText: String = "d") = "$dieText+${getNumber()}"
+    fun display(dieText: String = "d") = "$dieText${getNumber()}"
 }
 
 fun display(
