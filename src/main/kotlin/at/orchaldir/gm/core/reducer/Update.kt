@@ -34,6 +34,7 @@ import at.orchaldir.gm.core.model.religion.Domain
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.religion.Pantheon
 import at.orchaldir.gm.core.model.rpg.combat.*
+import at.orchaldir.gm.core.model.rpg.encounter.Encounter
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTrait
 import at.orchaldir.gm.core.model.time.calendar.Calendar
@@ -88,6 +89,7 @@ fun reduceUpdateElement(
     is Disease -> updateElement(state, element)
     is District -> updateElement(state, element)
     is Domain -> updateElement(state, element)
+    is Encounter -> updateElement(state, element)
     is Equipment -> updateEquipment(state, element)
     is EquipmentModifier -> updateElement(state, element)
     is Fashion -> updateFashion(state, element)

@@ -1,5 +1,23 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "Shorthorn",
+   "race": {
+    "#type": "Race",
+    "race": 0
+   },
+   "culture": 1
+  },
+  "1": {
+   "id": 1,
+   "name": "Commoner",
+   "race": {
+    "#type": "Race",
+    "race": 2
+   },
+   "culture": 0
+  }
  }
 }

@@ -1,5 +1,18 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "Everyday Mortal",
+   "entry": {
+    "#type": "Template",
+    "amount": {
+     "#type": "Dice",
+     "dice": 2,
+     "type": "D4"
+    },
+    "template": 1
+   }
+  }
  }
 }
