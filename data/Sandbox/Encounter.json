@@ -5,13 +5,27 @@
    "id": 0,
    "name": "Everyday Mortal",
    "entry": {
-    "#type": "Template",
-    "amount": {
-     "#type": "Dice",
-     "dice": 2,
-     "type": "D4"
-    },
-    "template": 1
+    "#type": "Combined",
+    "list": [
+     {
+      "#type": "Template",
+      "amount": {
+       "#type": "Dice",
+       "dice": 1,
+       "modifier": 1
+      },
+      "template": 0
+     },
+     {
+      "#type": "Template",
+      "amount": {
+       "#type": "Dice",
+       "dice": 2,
+       "type": "D4"
+      },
+      "template": 1
+     }
+    ]
    }
   }
  }

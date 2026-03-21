@@ -1,25 +1,17 @@
 package at.orchaldir.gm.app.html.rpg.encounter
 
 import at.orchaldir.gm.app.NUMBER
-import at.orchaldir.gm.app.REFERENCE
-import at.orchaldir.gm.app.STATBLOCK
 import at.orchaldir.gm.app.TEMPLATE
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.character.parseCharacterTemplateId
 import at.orchaldir.gm.app.html.rpg.dice.editRandomNumber
 import at.orchaldir.gm.app.html.rpg.dice.parseRandomNumber
-import at.orchaldir.gm.app.html.rpg.dice.selectDiceModifier
-import at.orchaldir.gm.app.html.rpg.dice.selectDiceNumber
-import at.orchaldir.gm.app.html.rpg.statblock.editStatblockUpdate
-import at.orchaldir.gm.app.html.rpg.statblock.parseStatblockUpdate
 import at.orchaldir.gm.app.html.util.editLookupTable
 import at.orchaldir.gm.app.html.util.parseLookup
-import at.orchaldir.gm.app.html.util.selectLookup
 import at.orchaldir.gm.app.html.util.showLookup
+import at.orchaldir.gm.app.html.util.showLookupDetails
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.CharacterTemplateId
-import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.rpg.IntRange
 import at.orchaldir.gm.core.model.rpg.dice.ModifiedDiceRange
 import at.orchaldir.gm.core.model.rpg.encounter.CharacterTemplateEncounter
@@ -28,13 +20,10 @@ import at.orchaldir.gm.core.model.rpg.encounter.EncounterEntry
 import at.orchaldir.gm.core.model.rpg.encounter.EncounterEntryType
 import at.orchaldir.gm.core.model.rpg.encounter.EncounterTable
 import at.orchaldir.gm.core.model.rpg.encounter.NoEncounter
-import at.orchaldir.gm.core.model.rpg.statblock.*
-import at.orchaldir.gm.core.selector.rpg.statblock.getStatblock
 import at.orchaldir.gm.core.selector.util.sortCharacterTemplates
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.DETAILS
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -47,17 +36,42 @@ fun HtmlBlockTag.showEncounterEntryDetails(
     when (encounter) {
         NoEncounter -> field("Encounter", "None")
         is CharacterTemplateEncounter -> field("Encounter") {
-            +encounter.amount.display()
-            +" "
-            link(call, state, encounter.template)
+            showCharacterTemplateEncounter(call, state, encounter)
         }
         is CombinedEncounter -> fieldList("Encounter", encounter.list) { entry ->
+            showEncounterEntryInternal(call, state, entry)
+        }
+        is EncounterTable -> showLookupDetails(encounter.table, "Encounter") { entry ->
+            showEncounterEntryInternal(call, state, entry)
+        }
+    }
+}
+
+private fun HtmlBlockTag.showEncounterEntryInternal(
+    call: ApplicationCall,
+    state: State,
+    encounter: EncounterEntry,
+) {
+    when (encounter) {
+        NoEncounter -> +"None"
+        is CharacterTemplateEncounter -> showCharacterTemplateEncounter(call, state, encounter)
+        is CombinedEncounter -> showList( encounter.list) { entry ->
             showEncounterEntryDetails(call, state, entry)
         }
-        is EncounterTable -> showLookup(encounter.table, "Encounter") { entry ->
+        is EncounterTable -> showLookup(encounter.table) { entry ->
             showEncounterEntryDetails(call, state, entry)
         }
     }
+}
+
+private fun HtmlBlockTag.showCharacterTemplateEncounter(
+    call: ApplicationCall,
+    state: State,
+    encounter: CharacterTemplateEncounter,
+) {
+    +encounter.amount.display()
+    +" "
+    link(call, state, encounter.template)
 }
 
 // edit
