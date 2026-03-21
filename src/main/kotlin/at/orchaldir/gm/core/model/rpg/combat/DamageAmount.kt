@@ -1,6 +1,6 @@
 package at.orchaldir.gm.core.model.rpg.combat
 
-import at.orchaldir.gm.core.model.rpg.dice.Number
+import at.orchaldir.gm.core.model.rpg.dice.RandomNumber
 import at.orchaldir.gm.core.model.rpg.dice.StandardDice
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import kotlinx.serialization.SerialName
@@ -35,11 +35,11 @@ sealed class DamageAmount {
 @SerialName("StatisticBased")
 data class StatisticBasedDamage(
     val base: StatisticId,
-    val modifier: Number = StandardDice(0, 0),
+    val modifier: RandomNumber = StandardDice(0, 0),
 ) : DamageAmount()
 
 @Serializable
 @SerialName("SimpleRandom")
 data class SimpleRandomDamage(
-    val amount: Number = StandardDice(1, 0),
+    val amount: RandomNumber = StandardDice(1, 0),
 ) : DamageAmount()

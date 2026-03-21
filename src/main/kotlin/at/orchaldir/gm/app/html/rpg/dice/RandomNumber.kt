@@ -5,9 +5,8 @@ import at.orchaldir.gm.app.NUMBER
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.rpg.selectFromRange
-import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.dice.*
-import at.orchaldir.gm.core.model.rpg.dice.Number
+import at.orchaldir.gm.core.model.rpg.dice.RandomNumber
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag
 
@@ -16,20 +15,20 @@ import kotlinx.html.HtmlBlockTag
 
 // edit
 
-fun HtmlBlockTag.editNumber(
+fun HtmlBlockTag.editRandomNumber(
     range: ModifiedDiceRange,
-    number: Number,
+    number: RandomNumber,
     param: String,
 ) {
     selectValue(
         "Type",
         combine(param, TYPE),
-        NumberType.entries,
+        RandomNumberType.entries,
         number.getType(),
     )
 
     when (number) {
-        is FixedNumber -> selectDiceModifier(range, param, number.number)
+        is NotRandomNumber -> selectDiceModifier(range, param, number.number)
         is StandardDice -> editDice(range, param, number.dice, number.modifier)
         is Dice -> {
             editDice(range, param, number.dice, number.modifier)
@@ -95,20 +94,20 @@ fun HtmlBlockTag.selectDiceModifier(
 
 // parse
 
-fun parseNumber(
+fun parseRandomNumber(
     parameters: Parameters,
     param: String,
-) = when (parse(parameters, combine(param, TYPE), NumberType.Fixed)) {
-    NumberType.Fixed -> FixedNumber(
+) = when (parse(parameters, combine(param, TYPE), RandomNumberType.NotRandom)) {
+    RandomNumberType.NotRandom -> NotRandomNumber(
         parseDiceModifier(parameters, param),
     )
-    NumberType.StandardDice -> parseStandardDice(parameters, param)
-    NumberType.Dice -> Dice(
+    RandomNumberType.StandardDice -> parseStandardDice(parameters, param)
+    RandomNumberType.Dice -> Dice(
         parseDice(parameters, param),
         parseDieType(parameters, param),
         parseDiceModifier(parameters, param),
     )
-    NumberType.MixedDice -> MixedDice(
+    RandomNumberType.MixedDice -> MixedDice(
         parseMap(
             parameters,
             param,

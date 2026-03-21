@@ -4,7 +4,6 @@ import at.orchaldir.gm.app.DAMAGE
 import at.orchaldir.gm.app.DIE
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.rpg.dice.parseNumber
 import at.orchaldir.gm.app.html.rpg.dice.parseStandardDice
 import at.orchaldir.gm.app.html.rpg.dice.selectDiceModifier
 import at.orchaldir.gm.app.html.rpg.dice.selectDiceNumber

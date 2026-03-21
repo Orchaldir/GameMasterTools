@@ -7,47 +7,47 @@ import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
-class NumberTest {
+class RandomNumberTest {
 
     private val standardType = DieType.D6
     private val otherType = DieType.D20
     private val state = State(config = Config(rpg = RpgConfig(defaultDieType = standardType)))
     // input
-    private val fixed = FixedNumber(42)
+    private val notRandom = NotRandomNumber(42)
     private val standard = StandardDice(3, 1)
     private val diceWithStandardType = Dice(30, standardType, 10)
     private val diceWithOtherType = Dice(300, otherType, 100)
     private val mixed = MixedDice(mapOf(standardType to 4000, otherType to 3000), 1000)
     // results
-    private val fixedPlusStandard = StandardDice(3, 43)
-    private val fixedPlusDice = Dice(300, otherType, 142)
-    private val fixedPlusMixed = MixedDice(mixed.dice, 1042)
+    private val notRandomPlusStandard = StandardDice(3, 43)
+    private val notRandomPlusDice = Dice(300, otherType, 142)
+    private val notRandomPlusMixed = MixedDice(mixed.dice, 1042)
     private val standardPlusWithStandard = StandardDice(33, 11)
     private val standardPlusWithOther = MixedDice(mapOf(standardType to 3, otherType to 300), 101)
     private val standardPlusMixed = MixedDice(mapOf(standardType to 4003, otherType to 3000), 1001)
     private val dicePlusMixed = MixedDice(mapOf(standardType to 4000, otherType to 3300), 1100)
 
     @Nested
-    inner class FixedNumberTest {
+    inner class NotRandomNumberTest {
 
         @Test
-        fun `Add fixed number`() {
-            assertEquals(FixedNumber(84), fixed.addNumber(fixed))
+        fun `Add not random number`() {
+            assertEquals(NotRandomNumber(84), notRandom.addNumber(notRandom))
         }
 
         @Test
         fun `Add standard dice`() {
-            assertEquals(fixedPlusStandard, fixed.addNumber(standard))
+            assertEquals(notRandomPlusStandard, notRandom.addNumber(standard))
         }
 
         @Test
         fun `Add dice`() {
-            assertEquals(fixedPlusDice, fixed.addNumber(diceWithOtherType))
+            assertEquals(notRandomPlusDice, notRandom.addNumber(diceWithOtherType))
         }
 
         @Test
         fun `Add mixed dice`() {
-            assertEquals(fixedPlusMixed, fixed.addNumber(mixed))
+            assertEquals(notRandomPlusMixed, notRandom.addNumber(mixed))
         }
 
     }
@@ -56,8 +56,8 @@ class NumberTest {
     inner class StandardDiceTest {
 
         @Test
-        fun `Add fixed number`() {
-            assertEquals(fixedPlusStandard, standard.addNumber(state, fixed))
+        fun `Add not random number`() {
+            assertEquals(notRandomPlusStandard, standard.addNumber(state, notRandom))
         }
 
         @Test
@@ -86,8 +86,8 @@ class NumberTest {
     inner class DiceTest {
 
         @Test
-        fun `Add fixed number`() {
-            assertEquals(fixedPlusDice, diceWithOtherType.addNumber(state, fixed))
+        fun `Add not random number`() {
+            assertEquals(notRandomPlusDice, diceWithOtherType.addNumber(state, notRandom))
         }
 
         @Test
@@ -118,8 +118,8 @@ class NumberTest {
     inner class MixedDiceTest {
 
         @Test
-        fun `Add fixed number`() {
-            assertEquals(fixedPlusMixed, mixed.addNumber(state, fixed))
+        fun `Add not random number`() {
+            assertEquals(notRandomPlusMixed, mixed.addNumber(state, notRandom))
         }
 
         @Test
