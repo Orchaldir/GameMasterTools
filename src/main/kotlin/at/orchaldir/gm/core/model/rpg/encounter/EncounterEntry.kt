@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.rpg.encounter
 
 import at.orchaldir.gm.core.model.character.CharacterTemplateId
+import at.orchaldir.gm.core.model.rpg.dice.NotRandomNumber
 import at.orchaldir.gm.core.model.rpg.dice.RandomNumber
 import at.orchaldir.gm.core.model.util.Lookup
 import kotlinx.serialization.SerialName
@@ -40,7 +41,11 @@ data object NoEncounter : EncounterEntry()
 data class CharacterTemplateEncounter(
     val amount: RandomNumber,
     val template: CharacterTemplateId,
-) : EncounterEntry()
+) : EncounterEntry() {
+
+    constructor(template: CharacterTemplateId): this(NotRandomNumber(1), template)
+
+}
 
 @Serializable
 @SerialName("Combined")

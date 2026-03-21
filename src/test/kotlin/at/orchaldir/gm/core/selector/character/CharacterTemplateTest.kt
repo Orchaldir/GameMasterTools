@@ -3,11 +3,14 @@ package at.orchaldir.gm.core.selector.character
 import at.orchaldir.gm.CHARACTER_ID_1
 import at.orchaldir.gm.CHARACTER_TEMPLATE_ID_0
 import at.orchaldir.gm.CHARACTER_TEMPLATE_ID_1
+import at.orchaldir.gm.ENCOUNTER_ID_0
 import at.orchaldir.gm.RACE_LOOKUP_0
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterTemplate
+import at.orchaldir.gm.core.model.rpg.encounter.CharacterTemplateEncounter
+import at.orchaldir.gm.core.model.rpg.encounter.Encounter
 import at.orchaldir.gm.core.model.rpg.statblock.UseStatblockOfTemplate
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
@@ -44,6 +47,14 @@ class CharacterTemplateTest {
             val newState = state.updateStorage(listOf(template, template1))
 
             failCanDelete(newState, CHARACTER_TEMPLATE_ID_1)
+        }
+
+        @Test
+        fun `Cannot delete a template that is used by an encounter`() {
+            val element = Encounter(ENCOUNTER_ID_0, entry = CharacterTemplateEncounter(CHARACTER_TEMPLATE_ID_0))
+            val newState = state.updateStorage(element)
+
+            failCanDelete(newState, ENCOUNTER_ID_0)
         }
 
         private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {
