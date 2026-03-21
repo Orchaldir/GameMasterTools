@@ -28,6 +28,7 @@ import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.selector.character.getCharacterTemplates
 import at.orchaldir.gm.core.selector.character.getCharactersUsing
 import at.orchaldir.gm.core.selector.item.equipment.getEquipmentIdMapForLookup
+import at.orchaldir.gm.core.selector.rpg.encounter.getEncountersWith
 import at.orchaldir.gm.core.selector.rpg.statblock.getStatblock
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -61,15 +62,17 @@ private fun HtmlBlockTag.showUsage(
     template: CharacterTemplate,
 ) {
     val characters = state.getCharactersUsing(template.id)
+    val encounters = state.getEncountersWith(template.id)
     val templates = state.getCharacterTemplates(template.id)
 
-    if (characters.isEmpty() && templates.isEmpty()) {
+    if (characters.isEmpty() && encounters.isEmpty() && templates.isEmpty()) {
         return
     }
 
     h2 { +"Usage" }
 
     fieldElements(call, state, characters)
+    fieldElements(call, state, encounters)
     fieldElements(call, state, templates)
 }
 

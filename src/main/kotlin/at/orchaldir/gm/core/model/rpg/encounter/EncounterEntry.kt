@@ -22,6 +22,13 @@ sealed class EncounterEntry {
         is CombinedEncounter -> EncounterEntryType.Combined
         is EncounterTable -> EncounterEntryType.Table
     }
+
+    fun contains(id: CharacterTemplateId): Boolean = when (this) {
+        NoEncounter -> false
+        is CharacterTemplateEncounter -> template == id
+        is CombinedEncounter -> list.any { it.contains(id) }
+        is EncounterTable -> table.entries.any { it.value.contains(id) }
+    }
 }
 
 @Serializable
