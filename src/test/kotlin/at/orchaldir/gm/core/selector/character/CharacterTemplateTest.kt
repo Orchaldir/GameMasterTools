@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.selector.character
 
 import at.orchaldir.gm.CHARACTER_ID_1
 import at.orchaldir.gm.CHARACTER_TEMPLATE_ID_0
+import at.orchaldir.gm.CHARACTER_TEMPLATE_ID_1
 import at.orchaldir.gm.RACE_LOOKUP_0
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
@@ -31,6 +32,18 @@ class CharacterTemplateTest {
             val newState = state.updateStorage(element)
 
             failCanDelete(newState, CHARACTER_ID_1)
+        }
+
+        @Test
+        fun `Cannot delete a template that is used by another template as statblock`() {
+            val template1 = CharacterTemplate(
+                CHARACTER_TEMPLATE_ID_1,
+                race = RACE_LOOKUP_0,
+                statblock = UseStatblockOfTemplate(CHARACTER_TEMPLATE_ID_0),
+            )
+            val newState = state.updateStorage(listOf(template, template1))
+
+            failCanDelete(newState, CHARACTER_TEMPLATE_ID_1)
         }
 
         private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {
