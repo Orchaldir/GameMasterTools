@@ -114,4 +114,32 @@ class NumberTest {
 
     }
 
+    @Nested
+    inner class MixedDiceTest {
+
+        @Test
+        fun `Add fixed number`() {
+            assertEquals(fixedPlusMixed, mixed.addNumber(state, fixed))
+        }
+
+        @Test
+        fun `Add standard dice`() {
+            assertEquals(standardPlusMixed, mixed.addNumber(state, standard))
+        }
+
+        @Test
+        fun `Add dice`() {
+            assertEquals(dicePlusMixed, mixed.addNumber(state, diceWithOtherType))
+        }
+
+        @Test
+        fun `Add mixed dice`() {
+            val input = MixedDice(mapOf(standardType to 500, DieType.D100 to 50), 5)
+            val result = MixedDice(mapOf(standardType to 4500, otherType to 3000, DieType.D100 to 50), 1005)
+
+            assertEquals(result, mixed.addNumber(state, input))
+        }
+
+    }
+
 }

@@ -106,6 +106,35 @@ data class MixedDice(
     val modifier: Int = 0,
 ): Number() {
 
+    fun addNumber(state: State, other: Number) = when (other) {
+        is FixedNumber -> copy(modifier = other.number + modifier)
+        is StandardDice -> add(other.dice, state.config.rpg.defaultDieType, other.modifier)
+        is Dice -> add(other.dice, other.type, other.modifier)
+        is MixedDice -> {
+            val combined = other.dice.toMutableMap()
+
+            dice.forEach { (type, number) ->
+                combined.merge(type, number) { a, b ->
+                    a + b
+                }
+            }
+
+            MixedDice(
+                combined,
+                modifier + other.modifier,
+            )
+        }
+    }
+
+    fun add(otherDice: Int, otherType: DieType, otherModifier: Int): MixedDice{
+        val defaultDice = dice[otherType] ?:0
+
+        return MixedDice(
+            dice + mapOf(otherType to defaultDice + otherDice),
+            modifier + otherModifier,
+        )
+    }
+
     fun displayMixedDice(dieSymbol: String = "d"): String {
         var string = ""
         var isFirst = true
@@ -123,15 +152,6 @@ data class MixedDice(
             }
 
         return string + display(0, modifier)
-    }
-
-    fun add(otherDice: Int, otherType: DieType, otherModifier: Int): MixedDice{
-        val defaultDice = dice[otherType] ?:0
-
-        return MixedDice(
-            dice + mapOf(otherType to defaultDice + otherDice),
-            modifier + otherModifier,
-        )
     }
 
 }
