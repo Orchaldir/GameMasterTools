@@ -35,6 +35,7 @@ import at.orchaldir.gm.core.model.religion.DomainId
 import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.religion.PantheonId
 import at.orchaldir.gm.core.model.rpg.combat.*
+import at.orchaldir.gm.core.model.rpg.encounter.EncounterId
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitId
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
@@ -87,6 +88,7 @@ import at.orchaldir.gm.core.selector.religion.canDeleteDomain
 import at.orchaldir.gm.core.selector.religion.canDeleteGod
 import at.orchaldir.gm.core.selector.religion.canDeletePantheon
 import at.orchaldir.gm.core.selector.rpg.*
+import at.orchaldir.gm.core.selector.rpg.encounter.canDeleteEncounter
 import at.orchaldir.gm.core.selector.time.canDeleteCalendar
 import at.orchaldir.gm.core.selector.time.canDeleteHoliday
 import at.orchaldir.gm.core.selector.util.*
@@ -121,6 +123,7 @@ fun reduceDeleteElement(
     is DiseaseId -> deleteElement(state, id, State::canDeleteDisease)
     is DistrictId -> deleteElement(state, id, State::canDeleteDistrict)
     is DomainId -> deleteElement(state, id, State::canDeleteDomain)
+    is EncounterId -> deleteElement(state, id, State::canDeleteEncounter)
     is EquipmentId -> deleteElement(state, id, State::canDeleteEquipment)
     is EquipmentModifierId -> deleteElement(state, id, State::canDeleteEquipmentModifier)
     is FashionId -> deleteElement(state, id, State::canDeleteFashion)

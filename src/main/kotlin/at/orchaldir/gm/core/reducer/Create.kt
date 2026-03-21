@@ -46,6 +46,8 @@ import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.religion.*
 import at.orchaldir.gm.core.model.rpg.combat.*
+import at.orchaldir.gm.core.model.rpg.encounter.Encounter
+import at.orchaldir.gm.core.model.rpg.encounter.EncounterId
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTrait
@@ -118,6 +120,7 @@ fun reduceCreateElement(
     is DiseaseId -> createElement(state, Disease(id))
     is DistrictId -> createElement(state, District(id))
     is DomainId -> createElement(state, Domain(id))
+    is EncounterId -> createElement(state, Encounter(id))
     is EquipmentId -> createElement(state, Equipment(id))
     is EquipmentModifierId -> createElement(state, EquipmentModifier(id))
     is FashionId -> createElement(state, Fashion(id))

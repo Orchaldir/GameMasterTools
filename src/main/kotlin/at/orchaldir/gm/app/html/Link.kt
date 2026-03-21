@@ -64,6 +64,7 @@ import at.orchaldir.gm.core.model.religion.DomainId
 import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.religion.PantheonId
 import at.orchaldir.gm.core.model.rpg.combat.*
+import at.orchaldir.gm.core.model.rpg.encounter.EncounterId
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitId
 import at.orchaldir.gm.core.model.time.calendar.Calendar
@@ -400,6 +401,7 @@ fun href(
     is DiseaseId -> call.application.href(DiseaseRoutes.Details(id))
     is DistrictId -> call.application.href(DistrictRoutes.Details(id))
     is DomainId -> call.application.href(DomainRoutes.Details(id))
+    is EncounterId -> call.application.href(EncounterRoutes.Details(id))
     is EquipmentId -> call.application.href(EquipmentRoutes.Details(id))
     is EquipmentModifierId -> call.application.href(EquipmentModifierRoutes.Details(id))
     is FashionId -> call.application.href(FashionRoutes.Details(id))
