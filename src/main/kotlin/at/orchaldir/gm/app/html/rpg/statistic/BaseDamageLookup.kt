@@ -34,11 +34,9 @@ fun HtmlBlockTag.showBaseDamageLookup(
 
                 showLookupTable(
                     lookup.lookup,
-                    listOf(
-                        Pair("Damage") { entry ->
-                            +entry.display()
-                        },
-                    ),
+                    Pair("Damage") { entry ->
+                        +entry.display()
+                    },
                 )
             }
         }

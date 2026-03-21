@@ -71,11 +71,9 @@ private fun HtmlBlockTag.showEncounterTable(
     state: State,
 ) = showLookupTable(
     encounter.table,
-    listOf(
-        Pair("Encounter") { entry ->
-            showEncounterEntryInternal(call, state, entry)
-        },
-    ),
+    Pair("Encounter") { entry ->
+        showEncounterEntryInternal(call, state, entry)
+    },
 )
 
 // edit
@@ -134,11 +132,9 @@ fun HtmlBlockTag.editEncounterEntryIntern(
             encounter.table,
             2,
             100,
-            listOf(
-                Pair("Encounter") { entryParam, entry ->
-                    editEncounterEntryIntern(call, state, entry, entryParam)
-                },
-            ),
+            Pair("Encounter") { entryParam, entry ->
+                editEncounterEntryIntern(call, state, entry, entryParam)
+            },
         )
     }
 }

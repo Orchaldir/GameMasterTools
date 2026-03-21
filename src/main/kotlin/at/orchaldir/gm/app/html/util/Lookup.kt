@@ -13,6 +13,11 @@ import kotlinx.html.*
 
 fun <T> HtmlBlockTag.showLookupTable(
     lookup: Lookup<T>,
+    column: Pair<String, HtmlBlockTag.(T) -> Unit>,
+) = showLookupTable(lookup, listOf(column))
+
+fun <T> HtmlBlockTag.showLookupTable(
+    lookup: Lookup<T>,
     columns: List<Pair<String, HtmlBlockTag.(T) -> Unit>>,
 ) {
     table {
@@ -36,6 +41,20 @@ fun <T> HtmlBlockTag.showLookupTable(
 }
 
 // edit
+
+fun <T> HtmlBlockTag.editLookupTable(
+    param: String,
+    lookup: Lookup<T>,
+    start: Int,
+    end: Int,
+    column: Pair<String, HtmlBlockTag.(String, T) -> Unit>,
+) = editLookupTable(
+    param,
+    lookup,
+    start,
+    end,
+    listOf(column),
+)
 
 fun <T> HtmlBlockTag.editLookupTable(
     param: String,
