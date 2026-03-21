@@ -51,7 +51,7 @@ fun HtmlBlockTag.editRandomNumber(
             selectDiceModifier(range, param, number.modifier)
         }
         is MixedDice -> {
-            editMap("Dice", param, number.dice, 1, range.dice.max) { _, diceParam, type, dice ->
+            editMap("Dice", param, number.dice, 1, DieType.entries.size) { _, diceParam, type, dice ->
                 selectDiceNumber(range, diceParam, dice)
                 selectDieType(diceParam, type)
             }
