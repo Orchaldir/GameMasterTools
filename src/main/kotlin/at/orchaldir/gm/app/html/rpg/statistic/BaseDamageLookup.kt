@@ -69,8 +69,9 @@ fun HtmlBlockTag.editBaseDamageLookup(
                 editLookupTable(
                     DAMAGE,
                     lookup.lookup,
-                    0,
+                    2,
                     100,
+                    1,
                     listOf(
                         Pair("Dice") { entryParam, entry ->
                             selectDiceNumber(state.config.rpg.damage, entryParam, entry.dice)

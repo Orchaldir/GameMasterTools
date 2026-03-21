@@ -132,6 +132,7 @@ fun HtmlBlockTag.editEncounterEntryIntern(
             encounter.table,
             2,
             100,
+            1,
             Pair("Encounter") { entryParam, entry ->
                 editEncounterEntryIntern(call, state, entry, entryParam)
             },

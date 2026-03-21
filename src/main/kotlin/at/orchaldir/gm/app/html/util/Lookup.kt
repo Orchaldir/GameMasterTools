@@ -1,7 +1,6 @@
 package at.orchaldir.gm.app.html.util
 
 import at.orchaldir.gm.app.DATE
-import at.orchaldir.gm.app.HISTORY
 import at.orchaldir.gm.app.NUMBER
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.util.Lookup
@@ -45,30 +44,34 @@ fun <T> HtmlBlockTag.showLookupTable(
 fun <T> HtmlBlockTag.editLookupTable(
     param: String,
     lookup: Lookup<T>,
-    start: Int,
-    end: Int,
+    minEntries: Int,
+    maxEntries: Int,
+    startUntil: Int,
     column: Pair<String, HtmlBlockTag.(String, T) -> Unit>,
 ) = editLookupTable(
     param,
     lookup,
-    start,
-    end,
+    minEntries,
+    maxEntries,
+    startUntil,
     listOf(column),
 )
 
 fun <T> HtmlBlockTag.editLookupTable(
     param: String,
     lookup: Lookup<T>,
-    start: Int,
-    end: Int,
+    minEntries: Int,
+    maxEntries: Int,
+    startUntil: Int,
     columns: List<Pair<String, HtmlBlockTag.(String, T) -> Unit>>,
 ) {
-    var minUntil = start
+    var minUntil = startUntil
 
     selectInt(
         "Entries",
         lookup.entries.size,
-        0, 100,
+        minEntries,
+        maxEntries,
         1,
         combine(param, NUMBER),
     )
@@ -89,7 +92,7 @@ fun <T> HtmlBlockTag.editLookupTable(
                         "Until",
                         entry.until,
                         minUntil,
-                        end,
+                        Int.MAX_VALUE,
                         1,
                         combine(entryParam, DATE),
                     )
