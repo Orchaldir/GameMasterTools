@@ -3,7 +3,7 @@ package at.orchaldir.gm.core.model.rpg.dice
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import at.orchaldir.gm.core.model.State
-import kotlin.collections.plus
+import at.orchaldir.gm.core.reducer.rpg.validateIsInside
 
 enum class NumberType {
     Fixed,
@@ -14,6 +14,13 @@ enum class NumberType {
 
 @Serializable
 sealed class Number {
+
+    fun add(state: State, other: Number): Number = when(this) {
+        is FixedNumber -> addNumber(other)
+        is Dice -> addNumber(state, other)
+        is StandardDice -> addNumber(state, other)
+        is MixedDice -> addNumber(state, other)
+    }
 
     fun getType() = when (this) {
         is FixedNumber -> NumberType.Fixed
@@ -27,6 +34,13 @@ sealed class Number {
         is StandardDice -> display(dice, modifier, dieSymbol)
         is Dice -> display(dice, modifier, type.display(dieSymbol))
         is MixedDice -> displayMixedDice(dieSymbol)
+    }
+
+    fun validate(text: String, range: ModifiedDiceRange) = when(this) {
+        is FixedNumber -> validateIsInside(number, "$text's number", range.modifier)
+        is StandardDice -> validateDiceAndModifier(text, range, dice, modifier)
+        is Dice -> validateDiceAndModifier(text, range, dice, modifier)
+        is MixedDice -> validateDiceAndModifier(text, range, dice.entries.sumOf { it.value }, modifier)
     }
 }
 
@@ -154,4 +168,9 @@ data class MixedDice(
         return string + display(0, modifier)
     }
 
+}
+
+private fun validateDiceAndModifier(text: String, range: ModifiedDiceRange, dice: Int, modifier: Int) {
+    validateIsInside(dice, "$text's dice", range.dice)
+    validateIsInside(modifier, "$text's modifier", range.modifier)
 }

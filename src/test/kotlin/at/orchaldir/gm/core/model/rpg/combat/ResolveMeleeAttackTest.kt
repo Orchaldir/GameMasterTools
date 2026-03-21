@@ -2,22 +2,24 @@ package at.orchaldir.gm.core.model.rpg.combat
 
 import at.orchaldir.gm.DAMAGE_TYPE_ID_0
 import at.orchaldir.gm.STATISTIC_ID_0
-import at.orchaldir.gm.core.model.rpg.dice.SimpleModifiedDice
+import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.rpg.dice.StandardDice
 import at.orchaldir.gm.core.selector.rpg.statblock.resolveMeleeAttack
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 class ResolveMeleeAttackTest {
 
-    val simple = SimpleRandomDamage(SimpleModifiedDice(1, 2))
-    val simpleAttack = createAttack(simple)
-    val based = StatisticBasedDamage(STATISTIC_ID_0, SimpleModifiedDice(1, 2))
-    val basedAttack = createAttack(based)
-    val updatedDice = SimpleModifiedDice(11, 22)
+    private val simple = SimpleRandomDamage(StandardDice(1, 2))
+    private val simpleAttack = createAttack(simple)
+    private val based = StatisticBasedDamage(STATISTIC_ID_0, StandardDice(1, 2))
+    private val basedAttack = createAttack(based)
+    private val updatedDice = StandardDice(11, 22)
+    private val state = State()
 
     @Test
     fun `Modify Simple Random Damage`() {
-        val effect = ModifyDamage(SimpleModifiedDice(10, 20))
+        val effect = ModifyDamage(StandardDice(10, 20))
         val updateAttack = createAttack(SimpleRandomDamage(updatedDice))
 
         assertResolve(effect, simpleAttack, updateAttack)
@@ -25,7 +27,7 @@ class ResolveMeleeAttackTest {
 
     @Test
     fun `Modify Modified Base Damage`() {
-        val effect = ModifyDamage(SimpleModifiedDice(10, 20))
+        val effect = ModifyDamage(StandardDice(10, 20))
         val updateAttack = createAttack(StatisticBasedDamage(STATISTIC_ID_0, updatedDice))
 
         assertResolve(effect, basedAttack, updateAttack)
@@ -52,7 +54,7 @@ class ResolveMeleeAttackTest {
         input: MeleeAttack,
         output: MeleeAttack,
     ) {
-        assertEquals(resolveMeleeAttack(effect, input), output)
+        assertEquals(resolveMeleeAttack(state, effect, input), output)
     }
 
     fun createAttack(amount: DamageAmount) = MeleeAttack(Damage(amount, DAMAGE_TYPE_ID_0))

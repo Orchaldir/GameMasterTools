@@ -1,9 +1,11 @@
 package at.orchaldir.gm.core.model.rpg.combat
 
-import at.orchaldir.gm.core.model.rpg.dice.SimpleModifiedDice
+import at.orchaldir.gm.core.model.rpg.dice.Number
+import at.orchaldir.gm.core.model.rpg.dice.StandardDice
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import at.orchaldir.gm.core.model.State
 
 enum class DamageAmountType {
     StatisticBased,
@@ -23,9 +25,9 @@ sealed class DamageAmount {
         is StatisticBasedDamage -> base == statistic
     }
 
-    fun apply(effect: ModifyDamage) = when (this) {
-        is StatisticBasedDamage -> copy(modifier = modifier + effect.amount)
-        is SimpleRandomDamage -> SimpleRandomDamage(amount + effect.amount)
+    fun apply(state: State, effect: ModifyDamage) = when (this) {
+        is StatisticBasedDamage -> copy(modifier = modifier.add(state, effect.amount))
+        is SimpleRandomDamage -> SimpleRandomDamage(amount.add(state, effect.amount))
     }
 }
 
@@ -33,11 +35,11 @@ sealed class DamageAmount {
 @SerialName("StatisticBased")
 data class StatisticBasedDamage(
     val base: StatisticId,
-    val modifier: SimpleModifiedDice = SimpleModifiedDice(0, 0),
+    val modifier: Number = StandardDice(0, 0),
 ) : DamageAmount()
 
 @Serializable
 @SerialName("SimpleRandom")
 data class SimpleRandomDamage(
-    val amount: SimpleModifiedDice = SimpleModifiedDice(1, 0),
+    val amount: Number = StandardDice(1, 0),
 ) : DamageAmount()

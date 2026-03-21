@@ -2,7 +2,7 @@ package at.orchaldir.gm.core.reducer.rpg
 
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.rpg.dice.SimpleModifiedDice
+import at.orchaldir.gm.core.model.rpg.dice.StandardDice
 import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.core.model.rpg.statistic.BaseDamage
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
@@ -18,7 +18,7 @@ class MeleeWeaponTypeTest {
             Storage(listOf(Statistic(STATISTIC_ID_0, data = BaseDamage()), Statistic(STATISTIC_ID_1))),
         )
     )
-    private val validDamageAmount = SimpleRandomDamage(SimpleModifiedDice(1, 0))
+    private val validDamageAmount = SimpleRandomDamage(StandardDice(1, 0))
 
     @Nested
     inner class DamageTest {
@@ -40,7 +40,7 @@ class MeleeWeaponTypeTest {
         @Test
         fun `A valid amount of dice for statistic based damage`() {
             STATE.config.rpg.damage.dice.toIntRange().forEach {
-                val amount = StatisticBasedDamage(STATISTIC_ID_0, SimpleModifiedDice(it))
+                val amount = StatisticBasedDamage(STATISTIC_ID_0, StandardDice(it))
                 val attack = MeleeAttack(Damage(amount, DAMAGE_TYPE_ID_0))
 
                 assertValidWeapon(attack)
@@ -49,7 +49,7 @@ class MeleeWeaponTypeTest {
 
         @Test
         fun `Too many dice for statistic based damage`() {
-            val modifiedDice = SimpleModifiedDice(STATE.config.rpg.damage.dice.max + 1)
+            val modifiedDice = StandardDice(STATE.config.rpg.damage.dice.max + 1)
             val amount = StatisticBasedDamage(STATISTIC_ID_0, modifiedDice)
             val attack = MeleeAttack(Damage(amount, DAMAGE_TYPE_ID_0))
 
@@ -58,7 +58,7 @@ class MeleeWeaponTypeTest {
 
         @Test
         fun `Too few dice for statistic based damage`() {
-            val modifiedDice = SimpleModifiedDice(STATE.config.rpg.damage.dice.min - 1)
+            val modifiedDice = StandardDice(STATE.config.rpg.damage.dice.min - 1)
             val amount = StatisticBasedDamage(STATISTIC_ID_0, modifiedDice)
             val attack = MeleeAttack(Damage(amount, DAMAGE_TYPE_ID_0))
 

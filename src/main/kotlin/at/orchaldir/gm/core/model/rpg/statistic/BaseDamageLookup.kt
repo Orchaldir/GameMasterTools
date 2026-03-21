@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.model.rpg.statistic
 
 import at.orchaldir.gm.core.model.rpg.dice.DieType
-import at.orchaldir.gm.core.model.rpg.dice.SimpleModifiedDice
+import at.orchaldir.gm.core.model.rpg.dice.StandardDice
 import at.orchaldir.gm.core.model.util.Lookup
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -25,7 +25,7 @@ sealed class BaseDamageLookup {
     }
 
     fun resolveDamage(value: Int) = when (this) {
-        is BaseDamageDicePool -> SimpleModifiedDice(value)
+        is BaseDamageDicePool -> StandardDice(value)
         is SimpleBaseDamageLookup -> lookup.get(value)
     }
 }
@@ -39,6 +39,6 @@ data class BaseDamageDicePool(
 @Serializable
 @SerialName("SimpleLookup")
 data class SimpleBaseDamageLookup(
-    val lookup: Lookup<SimpleModifiedDice>,
+    val lookup: Lookup<StandardDice>,
     val dieType: DieType = DieType.D6,
 ) : BaseDamageLookup()

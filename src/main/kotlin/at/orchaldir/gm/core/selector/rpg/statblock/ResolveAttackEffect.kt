@@ -26,16 +26,17 @@ fun resolveDamageAmount(
         val value =
             statblock.resolve(state, statistic) ?: error("Failed to resolve ${amount.base.print()} with statblock!")
 
-        SimpleRandomDamage(statistic.data.resolveDamage(value) + amount.modifier)
+        SimpleRandomDamage(statistic.data.resolveDamage(value).addNumber(state, amount.modifier))
     }
 }
 
 // resolve attack effect with modifier effects
 
 fun resolveAttackEffect(
+    state: State,
     modifier: ModifyDamage,
     attackEffect: AttackEffect,
 ) = when (attackEffect) {
-    is Damage -> attackEffect.copy(amount = attackEffect.amount.apply(modifier))
+    is Damage -> attackEffect.copy(amount = attackEffect.amount.apply(state, modifier))
     UndefinedAttackEffect -> attackEffect
 }
