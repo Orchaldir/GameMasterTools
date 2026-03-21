@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.model.rpg.dice
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import at.orchaldir.gm.core.model.State
 
 enum class NumberType {
     Fixed,
@@ -20,7 +21,7 @@ sealed class Number {
         is MixedDice -> NumberType.MixedDice
     }
 
-    fun display(dieSymbol: String = "d") = when (this) {
+    fun display(dieSymbol: String = "d"): String = when (this) {
         is FixedNumber -> number.toString()
         is StandardDice -> display(dice, modifier, dieSymbol)
         is Dice -> display(dice, modifier, type.display(dieSymbol))
@@ -34,6 +35,12 @@ data class FixedNumber(
     val number: Int,
 ): Number() {
 
+    fun addNumber(other: Number) = when (other) {
+        is FixedNumber -> FixedNumber(number + other.number)
+        is StandardDice -> other.copy(modifier = number + other.modifier)
+        is Dice -> other.copy(modifier = number + other.modifier)
+        is MixedDice -> other.copy(modifier = number + other.modifier)
+    }
 
 }
 
@@ -44,7 +51,28 @@ data class StandardDice(
     val modifier: Int = 0,
 ): Number() {
 
-
+    fun addNumber(state: State, other: Number) = when (other) {
+        is FixedNumber -> copy(modifier = other.number + modifier)
+        is StandardDice -> StandardDice(dice + other.dice, modifier + other.modifier)
+        is Dice -> if (state.config.rpg.defaultDieType == other.type) {
+            StandardDice(dice + other.dice, modifier + other.modifier)
+        } else {
+            MixedDice(
+                mapOf(
+                    state.config.rpg.defaultDieType to dice,
+                    other.type to other.dice,
+                ),
+                modifier + other.modifier,
+            )
+        }
+        is MixedDice -> {
+            val defaultDice = other.dice[state.config.rpg.defaultDieType] ?:0
+            MixedDice(
+                other.dice + mapOf(state.config.rpg.defaultDieType to defaultDice + dice),
+                modifier + other.modifier,
+            )
+        }
+    }
 
 }
 
