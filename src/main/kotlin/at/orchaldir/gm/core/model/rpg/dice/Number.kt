@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.model.rpg.dice
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import at.orchaldir.gm.core.model.State
+import kotlin.collections.plus
 
 enum class NumberType {
     Fixed,
@@ -54,24 +55,8 @@ data class StandardDice(
     fun addNumber(state: State, other: Number) = when (other) {
         is FixedNumber -> copy(modifier = other.number + modifier)
         is StandardDice -> StandardDice(dice + other.dice, modifier + other.modifier)
-        is Dice -> if (state.config.rpg.defaultDieType == other.type) {
-            StandardDice(dice + other.dice, modifier + other.modifier)
-        } else {
-            MixedDice(
-                mapOf(
-                    state.config.rpg.defaultDieType to dice,
-                    other.type to other.dice,
-                ),
-                modifier + other.modifier,
-            )
-        }
-        is MixedDice -> {
-            val defaultDice = other.dice[state.config.rpg.defaultDieType] ?:0
-            MixedDice(
-                other.dice + mapOf(state.config.rpg.defaultDieType to defaultDice + dice),
-                modifier + other.modifier,
-            )
-        }
+        is Dice -> other.addStandard(state, this)
+        is MixedDice -> other.add(dice, state.config.rpg.defaultDieType, modifier)
     }
 
 }
@@ -84,7 +69,34 @@ data class Dice(
     val modifier: Int = 0,
 ): Number() {
 
+    fun addNumber(state: State, other: Number) = when (other) {
+        is FixedNumber -> copy(modifier = other.number + modifier)
+        is StandardDice -> addStandard(state, other)
+        is Dice -> if (type == other.type) {
+            Dice(dice + other.dice, type, modifier + other.modifier)
+        } else {
+            MixedDice(
+                mapOf(
+                    type to dice,
+                    other.type to other.dice,
+                ),
+                modifier + other.modifier,
+            )
+        }
+        is MixedDice -> other.add(dice, type, modifier)
+    }
 
+    fun addStandard(state: State, other: StandardDice) = if (state.config.rpg.defaultDieType == type) {
+        StandardDice(dice + other.dice, modifier + other.modifier)
+    } else {
+        MixedDice(
+            mapOf(
+                state.config.rpg.defaultDieType to other.dice,
+                type to dice,
+            ),
+            modifier + other.modifier,
+        )
+    }
 }
 
 @Serializable
@@ -111,6 +123,15 @@ data class MixedDice(
             }
 
         return string + display(0, modifier)
+    }
+
+    fun add(otherDice: Int, otherType: DieType, otherModifier: Int): MixedDice{
+        val defaultDice = dice[otherType] ?:0
+
+        return MixedDice(
+            dice + mapOf(otherType to defaultDice + otherDice),
+            modifier + otherModifier,
+        )
     }
 
 }

@@ -25,6 +25,7 @@ class NumberTest {
     private val standardPlusWithStandard = StandardDice(33, 11)
     private val standardPlusWithOther = MixedDice(mapOf(standardType to 3, otherType to 300), 101)
     private val standardPlusMixed = MixedDice(mapOf(standardType to 4003, otherType to 3000), 1001)
+    private val dicePlusMixed = MixedDice(mapOf(standardType to 4000, otherType to 3300), 1100)
 
     @Nested
     inner class FixedNumberTest {
@@ -77,6 +78,38 @@ class NumberTest {
         @Test
         fun `Add mixed dice`() {
             assertEquals(standardPlusMixed, standard.addNumber(state, mixed))
+        }
+
+    }
+
+    @Nested
+    inner class DiceTest {
+
+        @Test
+        fun `Add fixed number`() {
+            assertEquals(fixedPlusDice, diceWithOtherType.addNumber(state, fixed))
+        }
+
+        @Test
+        fun `Add standard dice`() {
+            assertEquals(standardPlusWithOther, diceWithOtherType.addNumber(state, standard))
+        }
+
+        @Test
+        fun `Add dice with same type`() {
+            assertEquals(Dice(600, otherType, 200), diceWithOtherType.addNumber(state, diceWithOtherType))
+        }
+
+        @Test
+        fun `Add dice with other type`() {
+            val expected = MixedDice(mapOf(standardType to 30, otherType to 300), 110)
+
+            assertEquals(expected, diceWithOtherType.addNumber(state, diceWithStandardType))
+        }
+
+        @Test
+        fun `Add mixed dice`() {
+            assertEquals(dicePlusMixed, diceWithOtherType.addNumber(state, mixed))
         }
 
     }
