@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.html.util
 
 import at.orchaldir.gm.app.DATE
 import at.orchaldir.gm.app.HISTORY
+import at.orchaldir.gm.app.NUMBER
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.util.Lookup
 import at.orchaldir.gm.core.model.util.LookupEntry
@@ -32,36 +33,6 @@ fun <T> HtmlBlockTag.showLookup(
 
 // edit
 
-fun <T> HtmlBlockTag.selectLookup(
-    param: String,
-    lookup: Lookup<T>,
-    label: String,
-    start: Int,
-    end: Int,
-    selectValue: HtmlBlockTag.(String, T) -> Unit,
-) {
-    val previousOwnersParam = combine(param, HISTORY)
-    var minUntil = start
-
-    showDetails(label, true) {
-        editList(previousOwnersParam, lookup.entries, 0, 100, 1) { index, param, entry ->
-            val entryParam = combine(previousOwnersParam, index)
-
-            selectValue(entryParam, entry.value)
-            selectInt(
-                "Until",
-                entry.until,
-                minUntil,
-                end,
-                1,
-                combine(entryParam, DATE),
-            )
-
-            minUntil = entry.until + 1
-        }
-    }
-}
-
 fun <T> HtmlBlockTag.editLookupTable(
     param: String,
     lookup: Lookup<T>,
@@ -69,10 +40,15 @@ fun <T> HtmlBlockTag.editLookupTable(
     end: Int,
     columns: List<Pair<String, HtmlBlockTag.(String, T) -> Unit>>,
 ) {
-    val previousOwnersParam = combine(param, HISTORY)
     var minUntil = start
 
-    selectInt("Previously", lookup.entries.size, 0, 100, 1, previousOwnersParam)
+    selectInt(
+        "Entries",
+        lookup.entries.size,
+        0, 100,
+        1,
+        combine(param, NUMBER),
+    )
 
     table {
         tr {
@@ -82,7 +58,7 @@ fun <T> HtmlBlockTag.editLookupTable(
             }
         }
         lookup.entries.withIndex().forEach { (index, entry) ->
-            val previousParam = combine(previousOwnersParam, index)
+            val entryParam = combine(param, index)
 
             tr {
                 td {
@@ -92,12 +68,12 @@ fun <T> HtmlBlockTag.editLookupTable(
                         minUntil,
                         end,
                         1,
-                        combine(previousParam, DATE),
+                        combine(entryParam, DATE),
                     )
                 }
                 columns.forEach { (_, selectValue) ->
                     td {
-                        selectValue(previousParam, entry.value)
+                        selectValue(entryParam, entry.value)
                     }
                 }
             }
@@ -117,8 +93,8 @@ fun <T> parseLookup(
 ): Lookup<T> {
     var minDate = start
 
-    return Lookup<T>(
-        parseList<LookupEntry<T>>(parameters, combine(param, HISTORY), 0) { _, entryParam ->
+    return Lookup(
+        parseList<LookupEntry<T>>(parameters, param, 0) { _, entryParam ->
             val entry = parseLookupEntry(parameters, entryParam, minDate, parseValue)
 
             minDate = entry.until + 1

@@ -196,7 +196,14 @@ fun <T> HtmlBlockTag.editList(
     step: Int = 1,
     editElement: HtmlBlockTag.(Int, String, T) -> Unit,
 ) {
-    selectInt("Number", elements.size, minSize, maxSize, step, combine(param, NUMBER))
+    selectInt(
+        "Number",
+        elements.size,
+        minSize,
+        maxSize,
+        step,
+        combine(param, NUMBER),
+    )
 
     showListWithIndex(elements) { index, element ->
         val elementParam = combine(param, index)
@@ -214,7 +221,14 @@ fun <K, V> HtmlBlockTag.editMap(
     editElement: HtmlBlockTag.(Int, String, K, V) -> Unit,
 ) {
     showDetails(label, true) {
-        selectInt("Number", elements.size, minSize, maxSize, step, combine(param, NUMBER))
+        selectInt(
+            "Number",
+            elements.size,
+            minSize,
+            maxSize,
+            step,
+            combine(param, NUMBER),
+        )
 
         showListWithIndex(elements.entries) { index, (key, value) ->
             val elementParam = combine(param, index)

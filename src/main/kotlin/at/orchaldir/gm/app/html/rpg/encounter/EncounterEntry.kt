@@ -1,5 +1,7 @@
 package at.orchaldir.gm.app.html.rpg.encounter
 
+import at.orchaldir.gm.app.LIST
+import at.orchaldir.gm.app.LOOKUP
 import at.orchaldir.gm.app.NUMBER
 import at.orchaldir.gm.app.TEMPLATE
 import at.orchaldir.gm.app.TYPE
@@ -109,7 +111,7 @@ fun HtmlBlockTag.editEncounterEntry(
             }
             is CombinedEncounter -> editList(
                 "Encounter",
-                param,
+                combine(param, LIST),
                 encounter.list,
                 2,
                 100,
@@ -117,7 +119,7 @@ fun HtmlBlockTag.editEncounterEntry(
                 editEncounterEntry(call, state, entry, entryParam)
             }
             is EncounterTable -> editLookupTable(
-                param,
+                combine(param, LOOKUP),
                 encounter.table,
                 2,
                 100,
@@ -144,12 +146,12 @@ fun parseEncounterEntry(
         parseCharacterTemplateId(parameters, combine(param, TEMPLATE)),
     )
     EncounterEntryType.Combined -> CombinedEncounter(
-        parseList(parameters, param, 2) { _, entryParam ->
+        parseList(parameters, combine(param, LIST), 2) { _, entryParam ->
             parseEncounterEntry(parameters, entryParam)
         }
     )
     EncounterEntryType.Table -> EncounterTable(
-        parseLookup(parameters, param, 1) { entryParam ->
+        parseLookup(parameters, combine(param, LOOKUP), 1) { entryParam ->
             parseEncounterEntry(parameters, entryParam)
         }
     )
