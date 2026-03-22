@@ -324,26 +324,3 @@ fun parseCharacter(
 }
 
 fun parseGender(parameters: Parameters) = Gender.valueOf(parameters.getOrFail(GENDER))
-
-private fun parseBirthday(
-    parameters: Parameters,
-    state: State,
-    raceId: RaceId,
-): Date {
-    val index = parameters[LIFE_STAGE]?.toIntOrNull()
-
-    if (index != null) {
-        val race = state.getRaceStorage().getOrThrow(raceId)
-        val minAge = if (index > 0) {
-            race.lifeStages.getAllLifeStages()[index - 1].maxAge
-        } else {
-            0
-        }
-        val maxAge = race.lifeStages.getAllLifeStages()[index].maxAge
-        val age = Random.nextInt(minAge, maxAge)
-
-        return Year(state.getCurrentYear().year - age)
-    }
-
-    return parseDate(parameters, state.getDefaultCalendar(), combine(ORIGIN, DATE))
-}
