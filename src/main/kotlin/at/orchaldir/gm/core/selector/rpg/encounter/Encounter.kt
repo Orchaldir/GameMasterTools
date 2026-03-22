@@ -4,8 +4,10 @@ import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterTemplateId
 import at.orchaldir.gm.core.model.rpg.encounter.EncounterId
+import at.orchaldir.gm.core.selector.character.getCharacters
 
 fun State.canDeleteEncounter(encounter: EncounterId) = DeleteResult(encounter)
+    .addElements(getEncountersWith(encounter))
 
 fun State.getEncountersWith(encounter: EncounterId) = getEncounterStorage()
     .getAll()
