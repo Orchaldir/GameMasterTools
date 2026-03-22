@@ -96,9 +96,10 @@ private fun HtmlBlockTag.selectEquipment(
                     selected = id == currentId
                 }
 
-                if (optionalEquipment != null && currentSchema != null) {
-                    selectElement(
+                if (optionalEquipment != null) {
+                    selectOptionalElement(
                         state,
+                        "Color Scheme",
                         combine(COLOR, slotsParam),
                         state.getColorSchemeStorage().get(optionalEquipment.colorSchemes),
                         currentSchema,
