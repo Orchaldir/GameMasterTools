@@ -47,6 +47,62 @@
     1,
     0
    ]
+  },
+  "2": {
+   "id": 2,
+   "name": "Belt",
+   "data": {
+    "#type": "Belt",
+    "buckle": {
+     "#type": "Simple",
+     "part": {
+      "#type": "Metal",
+      "material": 4
+     }
+    },
+    "strap": {
+     "#type": "Leather",
+     "material": 21
+    },
+    "holes": {
+     "#type": "OneRow"
+    }
+   }
+  },
+  "3": {
+   "id": 3,
+   "name": "Leather Boots",
+   "data": {
+    "#type": "Footwear",
+    "style": "Boots",
+    "shaft": {
+     "#type": "Leather",
+     "material": 21
+    },
+    "sole": {
+     "#type": "Leather",
+     "material": 21,
+     "color": {
+      "#type": "Fixed",
+      "color": "Black"
+     }
+    }
+   }
+  },
+  "4": {
+   "id": 4,
+   "name": "Simple Leather Shoes",
+   "data": {
+    "#type": "Footwear",
+    "shaft": {
+     "#type": "Leather",
+     "material": 21
+    },
+    "sole": {
+     "#type": "Leather",
+     "material": 21
+    }
+   }
   }
  }
 }
