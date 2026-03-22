@@ -18,7 +18,7 @@ fun HtmlBlockTag.showEncounter(
     state: State,
     encounter: Encounter,
 ) {
-    showEncounterEntryDetails(call, state, encounter.entry)
+    showEncounterEntry(call, state, encounter.entry)
 
     showUsage(call, state, encounter)
 }
@@ -47,7 +47,7 @@ fun HtmlBlockTag.editEncounter(
     encounter: Encounter,
 ) {
     selectName(encounter.name)
-    editEncounterEntry(call, state, encounter.entry, ENCOUNTER, encounter.id)
+    editEncounterEntry(state, encounter.entry, ENCOUNTER, encounter.id)
 }
 
 // parse

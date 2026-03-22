@@ -1,8 +1,12 @@
 package at.orchaldir.gm.app.html.world
 
+import at.orchaldir.gm.app.ENCOUNTER
 import at.orchaldir.gm.app.MATERIAL
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.economy.material.parseMaterialId
+import at.orchaldir.gm.app.html.rpg.encounter.editEncounterEntry
+import at.orchaldir.gm.app.html.rpg.encounter.parseEncounterEntry
+import at.orchaldir.gm.app.html.rpg.encounter.showEncounterEntry
 import at.orchaldir.gm.app.html.util.fieldPosition
 import at.orchaldir.gm.app.html.util.parsePosition
 import at.orchaldir.gm.app.html.util.selectPosition
@@ -25,6 +29,7 @@ fun HtmlBlockTag.showRegion(
     showRegionData(call, state, region.data)
     fieldPosition(call, state, region.position)
     fieldIds(call, state, "Resources", region.resources)
+    showEncounterEntry(call, state, region.encounter)
     fieldElements(call, state, state.getSettlementMaps(region.id))
     showLocalElements(call, state, region.id)
 }
@@ -45,6 +50,7 @@ fun HtmlBlockTag.editRegion(
         region.data.getAllowedRegionTypes(),
     )
     selectElements(state, "Resources", MATERIAL, state.getMaterialStorage().getAll(), region.resources)
+    editEncounterEntry(state, region.encounter, ENCOUNTER, null)
 }
 
 
@@ -60,5 +66,6 @@ fun parseRegion(state: State, parameters: Parameters, id: RegionId) = Region(
     parseRegionData(parameters),
     parsePosition(parameters, state),
     parseElements(parameters, MATERIAL, ::parseMaterialId),
+    parseEncounterEntry(parameters, ENCOUNTER),
 )
 
