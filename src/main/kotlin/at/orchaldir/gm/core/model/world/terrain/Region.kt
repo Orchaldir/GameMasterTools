@@ -73,6 +73,7 @@ data class Region(
 
         checkPosition(state, position, "position", null, data.getAllowedRegionTypes())
         state.getMaterialStorage().require(resources)
+        encounter.validate(state, null)
     }
 
 }

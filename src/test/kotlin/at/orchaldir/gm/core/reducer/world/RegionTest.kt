@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.reducer.world
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.rpg.encounter.EncounterLookup
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.terrain.Battlefield
 import at.orchaldir.gm.core.model.world.terrain.Region
@@ -45,6 +46,14 @@ class RegionTest {
             val action = UpdateAction(region)
 
             assertIllegalArgument("Position has invalid type Settlement!") { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `Cannot use an invalid encounter`() {
+            val region = Region(REGION_ID_0, encounter = EncounterLookup(UNKNOWN_ENCOUNTER_ID))
+            val action = UpdateAction(region)
+
+            assertIllegalArgument("Requires unknown Encounter 99!") { REDUCER.invoke(state, action) }
         }
 
         @Test
