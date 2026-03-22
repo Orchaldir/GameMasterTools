@@ -25,7 +25,30 @@
    ]
   },
   "1": {
-   "id": 1
+   "id": 1,
+   "name": "Simple Wool Tunic",
+   "data": {
+    "#type": "Tunic",
+    "main": {
+     "#type": "at.orchaldir.gm.core.model.util.part.MadeFromFabric",
+     "material": 20,
+     "fill": {
+      "#type": "Solid",
+      "color": {
+       "#type": "0"
+      }
+     }
+    },
+    "length": "Knee",
+    "necklineStyle": "DeepV",
+    "pocketStyle": "Patch"
+   },
+   "colorSchemes": [
+    3,
+    2,
+    1,
+    0
+   ]
   }
  }
 }

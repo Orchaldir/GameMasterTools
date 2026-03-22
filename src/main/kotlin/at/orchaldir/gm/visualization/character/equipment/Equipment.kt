@@ -3,6 +3,7 @@ package at.orchaldir.gm.visualization.character.equipment
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.item.equipment.*
+import at.orchaldir.gm.core.model.item.equipment.style.NoOpening
 import at.orchaldir.gm.core.model.item.equipment.style.OuterwearLength
 import at.orchaldir.gm.core.model.item.equipment.style.SleeveStyle
 import at.orchaldir.gm.utils.doNothing
@@ -199,6 +200,7 @@ fun visualizeBodyEquipment(state: CharacterRenderState<Body>) {
                 is OneHandedSword -> visualizeSword(newState, data.blade, data.hilt, true, set)
                 is TwoHandedSword -> visualizeSword(newState, data.blade, data.hilt, false, set)
                 is Tie -> visualizeTie(newState, data)
+                is Tunic -> visualizeCoat(newState, data.convert(), JACKET_LAYER)
                 else -> doNothing()
             }
         }
@@ -231,5 +233,14 @@ private fun SuitJacket.convert() = Coat(
     necklineStyle,
     sleeveStyle,
     openingStyle,
+    pocketStyle
+)
+
+private fun Tunic.convert() = Coat(
+    main,
+    length,
+    necklineStyle,
+    sleeveStyle,
+    NoOpening,
     pocketStyle
 )
