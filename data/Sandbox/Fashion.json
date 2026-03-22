@@ -52,12 +52,11 @@
    },
    "clothing": {
     "clothingSets": {
-     "Naked": "VeryRare",
      "PantsAndTunic": "Common"
     },
     "accessories": {
      "Belt": "Common",
-     "Footwear": "Common"
+     "Footwear": "Everyone"
     },
     "equipmentRarityMap": {
      "Belt": {
