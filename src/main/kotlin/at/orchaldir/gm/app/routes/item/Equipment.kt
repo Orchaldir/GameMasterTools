@@ -12,6 +12,7 @@ import at.orchaldir.gm.app.html.rpg.combat.displayAttackEffect
 import at.orchaldir.gm.app.html.rpg.combat.displayParrying
 import at.orchaldir.gm.app.html.rpg.combat.displayProtection
 import at.orchaldir.gm.app.html.rpg.combat.displayReach
+import at.orchaldir.gm.app.html.util.color.selectColorScheme
 import at.orchaldir.gm.app.html.util.color.parseOptionalColorSchemeId
 import at.orchaldir.gm.app.html.util.math.displayWeightLookup
 import at.orchaldir.gm.app.routes.*
@@ -267,7 +268,7 @@ fun Application.configureEquipmentRouting() {
             }
         }
         get<EquipmentRoutes.Details> { details ->
-            handleShowElement(details.id, EquipmentRoutes(), HtmlBlockTag::showEquipmentDetails)
+            handleShowElement(details.id, EquipmentRoutes(), HtmlBlockTag::showEquipmentWithColorScheme)
         }
         post<EquipmentRoutes.Scheme> { details ->
             val parameters = call.receiveParameters()
@@ -277,7 +278,7 @@ fun Application.configureEquipmentRouting() {
                 details.id,
                 EquipmentRoutes()
             ) { call, state, equipment ->
-                showEquipmentDetails(call, state, equipment, colorSchemeId)
+                showEquipmentWithColorScheme(call, state, equipment, colorSchemeId)
             }
         }
         get<EquipmentRoutes.New> {
@@ -303,10 +304,13 @@ fun Application.configureEquipmentRouting() {
                 parameters,
                 EquipmentRoutes(),
                 ::parseEquipment,
-                HtmlBlockTag::editEquipment,
-            ) { call, state, equipment ->
-                showEquipmentEditorRight(call, state, equipment, colorSchemeId)
-            }
+                { call, state, equipment ->
+                    editEquipmentAndColorScheme(call, state, equipment, colorSchemeId)
+                },
+                { call, state, equipment ->
+                    showEquipmentEditorRight(call, state, equipment, colorSchemeId)
+                },
+            )
         }
         post<EquipmentRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseEquipment)
@@ -314,26 +318,38 @@ fun Application.configureEquipmentRouting() {
     }
 }
 
-private fun HtmlBlockTag.showEquipmentDetails(
+fun HtmlBlockTag.editEquipmentAndColorScheme(
     call: ApplicationCall,
     state: State,
     equipment: Equipment,
     optionalColorSchemeId: ColorSchemeId? = null,
 ) {
-    val previewLink = call.application.href(EquipmentRoutes.Scheme(equipment.id))
+    selectColorScheme(state, equipment.colorSchemes, optionalColorSchemeId)
+    editEquipment(call, state, equipment)
+}
 
-    if (equipment.colorSchemes.isNotEmpty()) {
+private fun HtmlBlockTag.showEquipmentWithColorScheme(
+    call: ApplicationCall,
+    state: State,
+    equipment: Equipment,
+    colorSchemeId: ColorSchemeId? = null,
+) {
+    val previewLink = call.application.href(EquipmentRoutes.Scheme(equipment.id))
+    val colors = if (equipment.colorSchemes.isNotEmpty()) {
         form {
             id = "editor"
             action = previewLink
             method = FormMethod.post
 
-            selectColorSchemeToVisualizeEquipment(state, equipment, optionalColorSchemeId, 20)
+            selectColorScheme(state, equipment.colorSchemes, colorSchemeId)
         }
+
+        getColors(state, equipment, colorSchemeId)
     } else {
-        visualizeEquipment(state, equipment, UndefinedColors, 20)
+        UndefinedColors
     }
 
+    visualizeEquipment(state, equipment, colors, 20)
     showEquipment(call, state, equipment)
 }
 
@@ -341,33 +357,26 @@ private fun HtmlBlockTag.showEquipmentEditorRight(
     call: ApplicationCall,
     state: State,
     equipment: Equipment,
-    optionalColorSchemeId: ColorSchemeId? = null,
+    colorSchemeId: ColorSchemeId? = null,
 ) {
-    if (equipment.colorSchemes.isNotEmpty()) {
-        selectColorSchemeToVisualizeEquipment(state, equipment, optionalColorSchemeId, 60)
+    val colors = if (equipment.colorSchemes.isNotEmpty()) {
+        getColors(state, equipment, colorSchemeId)
     } else {
-        visualizeEquipment(state, equipment, UndefinedColors, 60)
+        UndefinedColors
     }
+
+    visualizeEquipment(state, equipment, colors, 60)
 }
 
-private fun HtmlBlockTag.selectColorSchemeToVisualizeEquipment(
+private fun getColors(
     state: State,
     equipment: Equipment,
     optionalColorSchemeId: ColorSchemeId?,
-    width: Int,
-) {
+): Colors {
     val colorSchemeId = optionalColorSchemeId ?: equipment.colorSchemes.first()
     val colorScheme = state.getColorSchemeStorage().getOrThrow(colorSchemeId)
-    val colorSchemes = state.getColorSchemeStorage().get(equipment.colorSchemes)
 
-    selectElement(
-        state,
-        SCHEME,
-        colorSchemes,
-        colorSchemeId,
-    )
-
-    visualizeEquipment(state, equipment, colorScheme.data, width)
+    return colorScheme.data
 }
 
 private fun HtmlBlockTag.visualizeEquipment(

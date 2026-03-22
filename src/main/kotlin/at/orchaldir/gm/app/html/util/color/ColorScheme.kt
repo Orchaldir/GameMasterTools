@@ -1,6 +1,7 @@
 package at.orchaldir.gm.app.html.util.color
 
 import at.orchaldir.gm.app.COLOR
+import at.orchaldir.gm.app.SCHEME
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
@@ -34,6 +35,23 @@ fun HtmlBlockTag.showColorScheme(
 }
 
 // edit
+
+fun HtmlBlockTag.selectColorScheme(
+    state: State,
+    availableSchemes: Set<ColorSchemeId>,
+    currentSchemes: ColorSchemeId?,
+    param: String = SCHEME,
+) {
+    val colorSchemeId = currentSchemes ?: availableSchemes.first()
+    val colorSchemes = state.getColorSchemeStorage().get(availableSchemes)
+
+    selectElement(
+        state,
+        param,
+        colorSchemes,
+        colorSchemeId,
+    )
+}
 
 fun HtmlBlockTag.editColorScheme(
     call: ApplicationCall,
