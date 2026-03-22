@@ -30,6 +30,7 @@ import at.orchaldir.gm.core.selector.character.getCharactersUsing
 import at.orchaldir.gm.core.selector.item.equipment.getEquipmentIdMapForLookup
 import at.orchaldir.gm.core.selector.rpg.encounter.getEncountersWith
 import at.orchaldir.gm.core.selector.rpg.statblock.getStatblock
+import at.orchaldir.gm.core.selector.world.getRegionsWithEncounter
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -63,9 +64,10 @@ private fun HtmlBlockTag.showUsage(
 ) {
     val characters = state.getCharactersUsing(template.id)
     val encounters = state.getEncountersWith(template.id)
+    val regions = state.getRegionsWithEncounter(template.id)
     val templates = state.getCharacterTemplates(template.id)
 
-    if (characters.isEmpty() && encounters.isEmpty() && templates.isEmpty()) {
+    if (characters.isEmpty() && encounters.isEmpty() && regions.isEmpty() && templates.isEmpty()) {
         return
     }
 
@@ -73,6 +75,7 @@ private fun HtmlBlockTag.showUsage(
 
     fieldElements(call, state, characters)
     fieldElements(call, state, encounters)
+    fieldElements(call, state, regions)
     fieldElements(call, state, templates)
 }
 

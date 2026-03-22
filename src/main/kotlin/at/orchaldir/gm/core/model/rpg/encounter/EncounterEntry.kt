@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.rpg.dice.NotRandomNumber
 import at.orchaldir.gm.core.model.rpg.dice.RandomNumber
 import at.orchaldir.gm.core.model.util.Lookup
 import at.orchaldir.gm.core.reducer.race.validateRaceLookup
+import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
 import com.sun.java.accessibility.util.EventID
 import kotlinx.serialization.SerialName
@@ -30,18 +31,10 @@ sealed class EncounterEntry {
         is EncounterTable -> EncounterEntryType.Table
     }
 
-    fun contains(id: CharacterTemplateId): Boolean = when (this) {
-        NoEncounter -> false
-        is EncounterLookup -> false
-        is CharacterTemplateEncounter -> template == id
-        is CombinedEncounter -> list.any { it.contains(id) }
-        is EncounterTable -> table.entries.any { it.value.contains(id) }
-    }
-
-    fun contains(id: EncounterId): Boolean = when (this) {
+    fun <ID : Id<ID>>contains(id: ID): Boolean = when (this) {
         NoEncounter -> false
         is EncounterLookup -> encounter == id
-        is CharacterTemplateEncounter -> false
+        is CharacterTemplateEncounter -> template == id
         is CombinedEncounter -> list.any { it.contains(id) }
         is EncounterTable -> table.entries.any { it.value.contains(id) }
     }
