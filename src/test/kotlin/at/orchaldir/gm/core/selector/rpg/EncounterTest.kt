@@ -8,10 +8,12 @@ import at.orchaldir.gm.core.model.character.CharacterTemplate
 import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.rpg.combat.*
+import at.orchaldir.gm.core.model.rpg.encounter.CharacterTemplateEncounter
 import at.orchaldir.gm.core.model.rpg.encounter.Encounter
 import at.orchaldir.gm.core.model.rpg.encounter.EncounterLookup
 import at.orchaldir.gm.core.model.rpg.statblock.StatblockUpdate
 import at.orchaldir.gm.core.model.rpg.statblock.UniqueStatblock
+import at.orchaldir.gm.core.model.world.terrain.Region
 import at.orchaldir.gm.core.selector.rpg.encounter.canDeleteEncounter
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
@@ -34,6 +36,14 @@ class EncounterTest {
             val newState = state.updateStorage(listOf(encounter, element))
 
             failCanDelete(newState, ENCOUNTER_ID_1)
+        }
+
+        @Test
+        fun `Cannot delete an encounter that is used by a regional encounter`() {
+            val element = Region(REGION_ID_0, encounter = EncounterLookup(ENCOUNTER_ID_0))
+            val newState = state.updateStorage(element)
+
+            failCanDelete(newState, REGION_ID_0)
         }
 
         private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {
