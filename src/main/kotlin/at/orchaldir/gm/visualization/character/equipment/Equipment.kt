@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.item.equipment.style.NoOpening
 import at.orchaldir.gm.core.model.item.equipment.style.OuterwearLength
+import at.orchaldir.gm.core.model.item.equipment.style.PocketStyle
 import at.orchaldir.gm.core.model.item.equipment.style.SleeveStyle
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
@@ -242,5 +243,4 @@ private fun Tunic.convert() = Coat(
     necklineStyle,
     sleeveStyle,
     NoOpening,
-    pocketStyle
 )

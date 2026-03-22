@@ -565,7 +565,6 @@ data class Tunic(
     val length: OuterwearLength = OuterwearLength.Hip,
     val necklineStyle: NecklineStyle = NecklineStyle.None,
     val sleeveStyle: SleeveStyle = SleeveStyle.Long,
-    val pocketStyle: PocketStyle = PocketStyle.None,
 ) : EquipmentData() {
 
     override fun parts() = listOf(main)

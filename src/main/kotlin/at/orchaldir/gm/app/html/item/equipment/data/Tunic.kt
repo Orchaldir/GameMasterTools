@@ -27,7 +27,6 @@ fun HtmlBlockTag.showTunic(
     field("Length", data.length)
     field("Neckline Style", data.necklineStyle)
     field("Sleeve Style", data.sleeveStyle)
-    field("Pocket Style", data.pocketStyle)
     showItemPart(call, state, data.main)
 }
 
@@ -40,7 +39,6 @@ fun HtmlBlockTag.editTunic(
     selectValue("Length", LENGTH, OuterwearLength.entries, data.length)
     selectNecklineStyle(NECKLINES_WITH_SLEEVES, data.necklineStyle)
     selectSleeveStyle(SleeveStyle.entries, data.sleeveStyle)
-    selectPocketStyle(PocketStyle.entries, data.pocketStyle)
     editItemPart(state, data.main, MAIN, allowedTypes = CLOTHING_MATERIALS)
 }
 
@@ -54,5 +52,4 @@ fun parseTunic(
     parse(parameters, LENGTH, OuterwearLength.Hip),
     parse(parameters, combine(NECKLINE, STYLE), NecklineStyle.DeepV),
     parse(parameters, combine(SLEEVE, STYLE), SleeveStyle.Long),
-    parse(parameters, combine(POCKET, STYLE), PocketStyle.None),
 )
