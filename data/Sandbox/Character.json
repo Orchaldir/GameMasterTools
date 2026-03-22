@@ -3,53 +3,54 @@
  "elements": {
   "0": {
    "id": 0,
-   "race": 1,
+   "race": 2,
+   "culture": 0,
    "appearance": {
     "#type": "Humanoid",
     "body": {
-     "bodyShape": "Fat",
-     "foot": {
-      "#type": "Clawed",
-      "size": "Small"
-     },
-     "width": "Large"
+     "bodyShape": "Fat"
     },
     "head": {
      "ears": {
       "#type": "Normal",
-      "shape": "PointedUpwards"
+      "size": "Small"
      },
      "eyes": {
       "#type": "Two",
       "eye": {
        "#type": "Normal",
-       "eyeShape": "Almond",
-       "pupilShape": "VerticalSlit",
-       "pupilColor": "Black",
-       "scleraColor": "Gold"
+       "pupilColor": "Blue"
+      }
+     },
+     "hair": {
+      "#type": "Normal",
+      "cut": {
+       "#type": "Short",
+       "style": "SidePartLeft"
+      },
+      "color": {
+       "#type": "Normal",
+       "color": "Orange"
       }
      },
      "mouth": {
-      "#type": "Snout",
-      "color": "Pink"
+      "#type": "Normal",
+      "beard": {
+       "#type": "Normal",
+       "style": {
+        "#type": "Shaved"
+       },
+       "color": {
+        "#type": "Normal",
+        "color": "Orange"
+       }
+      },
+      "width": "Large"
      }
     },
-    "height": 900000,
     "skin": {
-     "#type": "Fur",
-     "color": {
-      "#type": "Stripped",
-      "color0": "Orange",
-      "color1": "Black"
-     }
-    },
-    "tails": {
-     "#type": "Simple",
-     "shape": "Cat",
-     "size": "Small",
-     "color": {
-      "#type": "Skin"
-     }
+     "#type": "Normal",
+     "color": "Light"
     }
    }
   }
