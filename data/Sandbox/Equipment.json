@@ -7,7 +7,7 @@
    "data": {
     "#type": "Pants",
     "main": {
-     "#type": "at.orchaldir.gm.core.model.util.part.MadeFromFabric",
+     "#type": "Fabric",
      "material": 20,
      "fill": {
       "#type": "Solid",
@@ -30,7 +30,7 @@
    "data": {
     "#type": "Tunic",
     "main": {
-     "#type": "at.orchaldir.gm.core.model.util.part.MadeFromFabric",
+     "#type": "Fabric",
      "material": 20,
      "fill": {
       "#type": "Solid",

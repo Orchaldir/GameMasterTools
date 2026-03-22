@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.util.render.*
 import at.orchaldir.gm.core.selector.economy.getMaterialColor
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.HALF
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 val BOOK_COVER_MATERIALS = listOf(
@@ -88,6 +89,7 @@ interface HasFill {
 }
 
 @Serializable
+@SerialName("Cord")
 data class MadeFromCord(
     val material: MaterialId = MaterialId(0),
     val color: ColorLookup = LookupMaterial,
@@ -104,6 +106,7 @@ data class MadeFromCord(
 }
 
 @Serializable
+@SerialName("Fabric")
 data class MadeFromFabric(
     val material: MaterialId = MaterialId(0),
     val weight: FabricWeight = FabricWeight.Medium,
@@ -122,6 +125,7 @@ data class MadeFromFabric(
 }
 
 @Serializable
+@SerialName("Gem")
 data class MadeFromGem(
     val material: MaterialId = MaterialId(0),
 ) : ItemPart(), HasColor {
@@ -134,6 +138,7 @@ data class MadeFromGem(
 }
 
 @Serializable
+@SerialName("Glass")
 data class MadeFromGlass(
     val material: MaterialId = MaterialId(0),
     val color: ColorLookup = LookupMaterial,
@@ -151,6 +156,7 @@ data class MadeFromGlass(
 }
 
 @Serializable
+@SerialName("Leather")
 data class MadeFromLeather(
     val material: MaterialId = MaterialId(0),
     val grade: LeatherGrade = LeatherGrade.Undefined,
@@ -168,6 +174,7 @@ data class MadeFromLeather(
 }
 
 @Serializable
+@SerialName("Metal")
 data class MadeFromMetal(
     val material: MaterialId = MaterialId(0),
 ) : ItemPart(), HasColor {
@@ -180,6 +187,7 @@ data class MadeFromMetal(
 }
 
 @Serializable
+@SerialName("Paper")
 data class MadeFromPaper(
     val material: MaterialId = MaterialId(0),
     val color: ColorLookup = LookupMaterial,
@@ -196,6 +204,7 @@ data class MadeFromPaper(
 }
 
 @Serializable
+@SerialName("Wood")
 data class MadeFromWood(
     val material: MaterialId = MaterialId(0),
     val fill: FillLookup = SolidLookup(LookupMaterial),
