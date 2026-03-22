@@ -16,7 +16,7 @@ fun Application.configureInventoryRouting() {
         get<CharacterRoutes.Inventory.Edit> { edit ->
             handleEditElementSplit(
                 edit.id,
-                CharacterRoutes(),
+                CharacterRoutes.Inventory(),
                 HtmlBlockTag::editInventory,
                 HtmlBlockTag::showCharacterFrontAndBack,
             )
@@ -24,7 +24,7 @@ fun Application.configureInventoryRouting() {
         post<CharacterRoutes.Inventory.Preview> { preview ->
             handlePreviewElementSplit(
                 preview.id,
-                CharacterRoutes(),
+                CharacterRoutes.Inventory(),
                 ::parseInventory,
                 HtmlBlockTag::editInventory,
                 HtmlBlockTag::showCharacterFrontAndBack,

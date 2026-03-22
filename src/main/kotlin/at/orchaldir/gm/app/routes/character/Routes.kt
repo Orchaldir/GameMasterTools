@@ -1,6 +1,9 @@
 package at.orchaldir.gm.app.routes.character
 
+import at.orchaldir.gm.app.routes.EditRoutes
 import at.orchaldir.gm.app.routes.Routes
+import at.orchaldir.gm.app.routes.character.CharacterRoutes.Preview
+import at.orchaldir.gm.app.routes.character.CharacterRoutes.Update
 import at.orchaldir.gm.core.model.character.CHARACTER_TYPE
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.util.SortCharacter
@@ -67,7 +70,7 @@ class CharacterRoutes : Routes<CharacterId, SortCharacter> {
     }
 
     @Resource("/inventory")
-    class Inventory(val parent: CharacterRoutes = CharacterRoutes()) {
+    class Inventory(val parent: CharacterRoutes = CharacterRoutes()) : EditRoutes<CharacterId> {
 
         @Resource("edit")
         class Edit(val id: CharacterId, val parent: Inventory = Inventory())
@@ -80,6 +83,10 @@ class CharacterRoutes : Routes<CharacterId, SortCharacter> {
 
         @Resource("generate")
         class Generate(val id: CharacterId, val parent: Inventory = Inventory())
+
+
+        override fun preview(call: ApplicationCall, id: CharacterId) = call.application.href(Preview(id))
+        override fun update(call: ApplicationCall, id: CharacterId) = call.application.href(Update(id))
     }
 
     @Resource("/birthday")

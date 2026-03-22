@@ -21,7 +21,13 @@ import io.ktor.server.response.*
 import io.ktor.util.pipeline.*
 import kotlinx.html.*
 
-interface Routes<ID : Id<ID>, T> {
+interface EditRoutes<ID : Id<ID>> {
+
+    fun preview(call: ApplicationCall, id: ID): String
+    fun update(call: ApplicationCall, id: ID): String
+}
+
+interface Routes<ID : Id<ID>, T>: EditRoutes<ID> {
 
     fun all(call: ApplicationCall): String
     fun all(call: ApplicationCall, sort: T): String
@@ -31,8 +37,6 @@ interface Routes<ID : Id<ID>, T> {
     fun gallery(call: ApplicationCall): String? = null
     fun gallery(call: ApplicationCall, sort: T): String? = null
     fun new(call: ApplicationCall): String
-    fun preview(call: ApplicationCall, id: ID): String
-    fun update(call: ApplicationCall, id: ID): String
 }
 
 suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>, reified T : Enum<T>> PipelineContext<Unit, ApplicationCall>.handleShowAllElements(
@@ -179,9 +183,9 @@ suspend inline fun <ID : Id<ID>, reified T : Enum<T>> PipelineContext<Unit, Appl
     }
 }
 
-suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>, T> PipelineContext<Unit, ApplicationCall>.handleEditElement(
+suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>> PipelineContext<Unit, ApplicationCall>.handleEditElement(
     id: ID,
-    routes: Routes<ID, T>,
+    routes: EditRoutes<ID>,
     noinline editDetails: HtmlBlockTag.(ApplicationCall, State, ELEMENT) -> Unit,
 ) {
     logger.info { "Edit ${id.print()}" }
@@ -193,9 +197,9 @@ suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>, T> PipelineContext<Unit,
     showEditor(routes, state, element, editDetails)
 }
 
-suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>, T> PipelineContext<Unit, ApplicationCall>.handleEditElementSplit(
+suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>> PipelineContext<Unit, ApplicationCall>.handleEditElementSplit(
     id: ID,
-    routes: Routes<ID, T>,
+    routes: EditRoutes<ID>,
     noinline editDetails: HtmlBlockTag.(ApplicationCall, State, ELEMENT) -> Unit,
     noinline showRight: HtmlBlockTag.(ApplicationCall, State, ELEMENT) -> Unit,
 ) {
@@ -208,9 +212,9 @@ suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>, T> PipelineContext<Unit,
     showSplitEditor(routes, state, element, editDetails, showRight)
 }
 
-suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>, T> PipelineContext<Unit, ApplicationCall>.handlePreviewElement(
+suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>> PipelineContext<Unit, ApplicationCall>.handlePreviewElement(
     id: ID,
-    routes: Routes<ID, T>,
+    routes: EditRoutes<ID>,
     parse: (State, Parameters, ID) -> ELEMENT,
     noinline editDetails: HtmlBlockTag.(ApplicationCall, State, ELEMENT) -> Unit,
 ) {
@@ -223,9 +227,9 @@ suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>, T> PipelineContext<Unit,
     showEditor(routes, state, element, editDetails)
 }
 
-suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>, T> PipelineContext<Unit, ApplicationCall>.handlePreviewElementSplit(
+suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>> PipelineContext<Unit, ApplicationCall>.handlePreviewElementSplit(
     id: ID,
-    routes: Routes<ID, T>,
+    routes: EditRoutes<ID>,
     parse: (State, Parameters, ID) -> ELEMENT,
     noinline editDetails: HtmlBlockTag.(ApplicationCall, State, ELEMENT) -> Unit,
     noinline showRight: HtmlBlockTag.(ApplicationCall, State, ELEMENT) -> Unit,
@@ -238,10 +242,10 @@ suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>, T> PipelineContext<Unit,
     showRight,
 )
 
-suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>, T> PipelineContext<Unit, ApplicationCall>.handlePreviewElementSplit(
+suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>> PipelineContext<Unit, ApplicationCall>.handlePreviewElementSplit(
     id: ID,
     parameters: Parameters,
-    routes: Routes<ID, T>,
+    routes: EditRoutes<ID>,
     parse: (State, Parameters, ID) -> ELEMENT,
     noinline editDetails: HtmlBlockTag.(ApplicationCall, State, ELEMENT) -> Unit,
     noinline showRight: HtmlBlockTag.(ApplicationCall, State, ELEMENT) -> Unit,
@@ -367,8 +371,8 @@ suspend fun <ID : Id<ID>, ELEMENT : Element<ID>> PipelineContext<Unit, Applicati
     STORE.getState().save()
 }
 
-suspend fun <ELEMENT : Element<ID>, ID : Id<ID>, T> PipelineContext<Unit, ApplicationCall>.showEditor(
-    routes: Routes<ID, T>,
+suspend fun <ELEMENT : Element<ID>, ID : Id<ID>> PipelineContext<Unit, ApplicationCall>.showEditor(
+    routes: EditRoutes<ID>,
     state: State,
     element: ELEMENT,
     editDetails: HtmlBlockTag.(ApplicationCall, State, ELEMENT) -> Unit,
@@ -388,8 +392,8 @@ suspend fun <ELEMENT : Element<ID>, ID : Id<ID>, T> PipelineContext<Unit, Applic
     }
 }
 
-suspend fun <ELEMENT : Element<ID>, ID : Id<ID>, T> PipelineContext<Unit, ApplicationCall>.showSplitEditor(
-    routes: Routes<ID, T>,
+suspend fun <ELEMENT : Element<ID>, ID : Id<ID>> PipelineContext<Unit, ApplicationCall>.showSplitEditor(
+    routes: EditRoutes<ID>,
     state: State,
     element: ELEMENT,
     editDetails: HtmlBlockTag.(ApplicationCall, State, ELEMENT) -> Unit,
