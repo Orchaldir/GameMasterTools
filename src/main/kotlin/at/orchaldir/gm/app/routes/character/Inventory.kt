@@ -1,15 +1,22 @@
 package at.orchaldir.gm.app.routes.character
 
+import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.character.editInventory
 import at.orchaldir.gm.app.html.character.parseInventory
 import at.orchaldir.gm.app.routes.handleEditElementSplit
 import at.orchaldir.gm.app.routes.handlePreviewElementSplit
 import at.orchaldir.gm.app.routes.handleUpdateElement
+import at.orchaldir.gm.app.routes.showSplitEditor
+import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.*
+import io.ktor.server.html.respondHtml
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
 import kotlinx.html.HtmlBlockTag
+import mu.KotlinLogging
+
+private val logger = KotlinLogging.logger {}
 
 fun Application.configureInventoryRouting() {
     routing {
@@ -34,6 +41,22 @@ fun Application.configureInventoryRouting() {
         }
         post<CharacterRoutes.Inventory.Update> { update ->
             handleUpdateElement(update.id, ::parseInventory, "Update inventory of")
+        }
+        post<CharacterRoutes.Inventory.Generate> { update ->
+            logger.info { "Generate ${update.id.print()}'s inventory" }
+
+            val state = STORE.getState()
+            val character = state.getCharacterStorage().getOrThrow(update.id)
+            val appearance = generateAppearance(state, character)
+            val updatedCharacter = character.copy(appearance = appearance)
+
+            showSplitEditor(
+                CharacterRoutes.Inventory(),
+                state,
+                updatedCharacter,
+                HtmlBlockTag::editInventory,
+                HtmlBlockTag::showCharacterFrontAndBack,
+            )
         }
     }
 }

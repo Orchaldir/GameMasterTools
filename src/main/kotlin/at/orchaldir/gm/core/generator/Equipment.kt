@@ -42,12 +42,8 @@ data class EquipmentGenerator(
     fun generate(): EquipmentIdMap {
         val result = mutableMapOf<EquipmentId, EquipmentDataType>()
 
-        when (generate(fashion.clothing.clothingSets)) {
-            ClothingSet.Dress -> generate(result, EquipmentDataType.Dress)
-            ClothingSet.Naked -> doNothing()
-            ClothingSet.PantsAndShirt -> generatePantsAndShirt(result)
-            ClothingSet.ShirtAndSkirt -> generateShirtAndSkirt(result)
-            ClothingSet.Suit -> generateSuit(result)
+        generate(fashion.clothing.clothingSets).getTypes().forEach { type ->
+            generate(result, type)
         }
 
         ACCESSORIES.forEach { accessory ->
@@ -60,30 +56,14 @@ data class EquipmentGenerator(
                 .mapValues { setOf(it.value.slots().getAllBodySlotCombinations().first()) })
     }
 
-    private fun generateColorScheme(id: EquipmentId): ColorSchemeId {
+    private fun generateColorScheme(id: EquipmentId): ColorSchemeId? {
         val equipment = state.getEquipmentStorage().getOrThrow(id)
 
         return if (equipment.colorSchemes.isEmpty()) {
-            ColorSchemeId(0)
+            null
         } else {
             numberGenerator.select(equipment.colorSchemes.toList())
         }
-    }
-
-    private fun generatePantsAndShirt(result: MutableMap<EquipmentId, EquipmentDataType>) {
-        generate(result, EquipmentDataType.Pants)
-        generate(result, EquipmentDataType.Shirt)
-    }
-
-    private fun generateShirtAndSkirt(result: MutableMap<EquipmentId, EquipmentDataType>) {
-        generate(result, EquipmentDataType.Shirt)
-        generate(result, EquipmentDataType.Skirt)
-    }
-
-    private fun generateSuit(result: MutableMap<EquipmentId, EquipmentDataType>) {
-        generate(result, EquipmentDataType.Pants)
-        generate(result, EquipmentDataType.Shirt)
-        generate(result, EquipmentDataType.SuitJacket)
     }
 
     private fun generateAccessory(result: MutableMap<EquipmentId, EquipmentDataType>, type: EquipmentDataType) {

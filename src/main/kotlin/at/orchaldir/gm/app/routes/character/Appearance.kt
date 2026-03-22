@@ -72,7 +72,7 @@ fun Application.configureAppearanceRouting() {
             STORE.getState().save()
         }
         post<CharacterRoutes.Appearance.Generate> { update ->
-            logger.info { "Generate character ${update.id.value}'s appearance" }
+            logger.info { "Generate ${update.id.print()}'s appearance" }
 
             val state = STORE.getState()
             val character = state.getCharacterStorage().getOrThrow(update.id)

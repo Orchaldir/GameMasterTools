@@ -1,12 +1,15 @@
 package at.orchaldir.gm.app.html.character
 
 import at.orchaldir.gm.app.EQUIPPED
+import at.orchaldir.gm.app.html.button
+import at.orchaldir.gm.app.routes.character.CharacterRoutes
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.selector.item.equipment.getEquipmentIdMapForLookup
 import io.ktor.http.*
 import io.ktor.server.application.*
+import io.ktor.server.resources.href
 import kotlinx.html.HtmlBlockTag
 
 // edit
@@ -16,6 +19,9 @@ fun HtmlBlockTag.editInventory(
     state: State,
     character: Character,
 ) {
+    val generateLink = call.application.href(CharacterRoutes.Inventory.Generate(character.id))
+
+    button("Random", generateLink)
     editEquipped(call, state, EQUIPPED, character.equipped, character.statblock)
 }
 
