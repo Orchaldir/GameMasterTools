@@ -1,14 +1,6 @@
 package at.orchaldir.gm.core.reducer.rpg
 
-import at.orchaldir.gm.CHARACTER_TEMPLATE_ID_0
-import at.orchaldir.gm.ENCOUNTER_ID_0
-import at.orchaldir.gm.ENCOUNTER_ID_1
-import at.orchaldir.gm.RACE_ID_0
-import at.orchaldir.gm.STATISTIC_ID_0
-import at.orchaldir.gm.STATISTIC_ID_1
-import at.orchaldir.gm.UNKNOWN_CHARACTER_TEMPLATE_ID
-import at.orchaldir.gm.UNKNOWN_ENCOUNTER_ID
-import at.orchaldir.gm.assertIllegalArgument
+import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterTemplate
@@ -16,14 +8,10 @@ import at.orchaldir.gm.core.model.race.UseRace
 import at.orchaldir.gm.core.model.rpg.encounter.CharacterTemplateEncounter
 import at.orchaldir.gm.core.model.rpg.encounter.Encounter
 import at.orchaldir.gm.core.model.rpg.encounter.EncounterLookup
-import at.orchaldir.gm.core.model.rpg.statistic.Attribute
-import at.orchaldir.gm.core.model.rpg.statistic.BasedOnStatistic
-import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import kotlin.test.assertEquals
 
 class EncounterTest {
 

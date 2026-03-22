@@ -3,7 +3,7 @@ package at.orchaldir.gm.core.model.rpg.dice
 import at.orchaldir.gm.core.model.Config
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.RpgConfig
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
@@ -12,12 +12,14 @@ class RandomNumberTest {
     private val standardType = DieType.D6
     private val otherType = DieType.D20
     private val state = State(config = Config(rpg = RpgConfig(defaultDieType = standardType)))
+
     // input
     private val notRandom = NotRandomNumber(42)
     private val standard = StandardDice(3, 1)
     private val diceWithStandardType = Dice(30, standardType, 10)
     private val diceWithOtherType = Dice(300, otherType, 100)
     private val mixed = MixedDice(mapOf(standardType to 4000, otherType to 3000), 1000)
+
     // results
     private val notRandomPlusStandard = StandardDice(3, 43)
     private val notRandomPlusDice = Dice(300, otherType, 142)

@@ -2,7 +2,6 @@ package at.orchaldir.gm.core.model.world.terrain
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.MaterialId
-import at.orchaldir.gm.core.model.rpg.encounter.Encounter
 import at.orchaldir.gm.core.model.rpg.encounter.EncounterEntry
 import at.orchaldir.gm.core.model.rpg.encounter.NoEncounter
 import at.orchaldir.gm.core.model.util.HasPosition

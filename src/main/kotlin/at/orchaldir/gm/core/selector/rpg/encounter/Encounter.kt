@@ -4,7 +4,6 @@ import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterTemplateId
 import at.orchaldir.gm.core.model.rpg.encounter.EncounterId
-import at.orchaldir.gm.core.selector.character.getCharacters
 import at.orchaldir.gm.core.selector.world.getRegionsWithEncounter
 
 fun State.canDeleteEncounter(encounter: EncounterId) = DeleteResult(encounter)

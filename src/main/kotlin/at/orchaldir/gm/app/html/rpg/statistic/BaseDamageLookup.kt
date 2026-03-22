@@ -17,7 +17,8 @@ import at.orchaldir.gm.core.model.rpg.statistic.BaseDamageLookup
 import at.orchaldir.gm.core.model.rpg.statistic.BaseDamageLookupType
 import at.orchaldir.gm.core.model.rpg.statistic.SimpleBaseDamageLookup
 import io.ktor.http.*
-import kotlinx.html.*
+import kotlinx.html.DETAILS
+import kotlinx.html.HtmlBlockTag
 
 // show
 

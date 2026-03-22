@@ -1,9 +1,9 @@
 package at.orchaldir.gm.core.model.rpg.dice
 
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.reducer.rpg.validateIsInside
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 enum class RandomNumberType {
     NotRandom,
@@ -15,7 +15,7 @@ enum class RandomNumberType {
 @Serializable
 sealed class RandomNumber {
 
-    fun add(state: State, other: RandomNumber): RandomNumber = when(this) {
+    fun add(state: State, other: RandomNumber): RandomNumber = when (this) {
         is NotRandomNumber -> addNumber(other)
         is Dice -> addNumber(state, other)
         is StandardDice -> addNumber(state, other)
@@ -36,7 +36,7 @@ sealed class RandomNumber {
         is MixedDice -> displayMixedDice(dieSymbol)
     }
 
-    fun validate(text: String, range: ModifiedDiceRange) = when(this) {
+    fun validate(text: String, range: ModifiedDiceRange) = when (this) {
         is NotRandomNumber -> validateIsInside(number, "$text's number", range.modifier)
         is StandardDice -> validateDiceAndModifier(text, range, dice, modifier)
         is Dice -> validateDiceAndModifier(text, range, dice, modifier)
@@ -48,7 +48,7 @@ sealed class RandomNumber {
 @SerialName("Not")
 data class NotRandomNumber(
     val number: Int,
-): RandomNumber() {
+) : RandomNumber() {
 
     fun addNumber(other: RandomNumber) = when (other) {
         is NotRandomNumber -> NotRandomNumber(number + other.number)
@@ -64,7 +64,7 @@ data class NotRandomNumber(
 data class StandardDice(
     val dice: Int = 0,
     val modifier: Int = 0,
-): RandomNumber() {
+) : RandomNumber() {
 
     fun addNumber(state: State, other: RandomNumber) = when (other) {
         is NotRandomNumber -> copy(modifier = other.number + modifier)
@@ -81,7 +81,7 @@ data class Dice(
     val dice: Int = 0,
     val type: DieType = DieType.D6,
     val modifier: Int = 0,
-): RandomNumber() {
+) : RandomNumber() {
 
     fun addNumber(state: State, other: RandomNumber) = when (other) {
         is NotRandomNumber -> copy(modifier = other.number + modifier)
@@ -97,6 +97,7 @@ data class Dice(
                 modifier + other.modifier,
             )
         }
+
         is MixedDice -> other.add(dice, type, modifier)
     }
 
@@ -116,9 +117,9 @@ data class Dice(
 @Serializable
 @SerialName("MixedDice")
 data class MixedDice(
-    val dice: Map<DieType,Int>,
+    val dice: Map<DieType, Int>,
     val modifier: Int = 0,
-): RandomNumber() {
+) : RandomNumber() {
 
     fun addNumber(state: State, other: RandomNumber) = when (other) {
         is NotRandomNumber -> copy(modifier = other.number + modifier)
@@ -140,8 +141,8 @@ data class MixedDice(
         }
     }
 
-    fun add(otherDice: Int, otherType: DieType, otherModifier: Int): MixedDice{
-        val defaultDice = dice[otherType] ?:0
+    fun add(otherDice: Int, otherType: DieType, otherModifier: Int): MixedDice {
+        val defaultDice = dice[otherType] ?: 0
 
         return MixedDice(
             dice + mapOf(otherType to defaultDice + otherDice),
@@ -158,7 +159,7 @@ data class MixedDice(
             .forEach { (type, number) ->
                 if (isFirst) {
                     isFirst = false
-                } else  if (number > 0) {
+                } else if (number > 0) {
                     string += "+"
                 }
 

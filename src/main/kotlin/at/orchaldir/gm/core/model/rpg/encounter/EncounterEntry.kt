@@ -5,10 +5,8 @@ import at.orchaldir.gm.core.model.character.CharacterTemplateId
 import at.orchaldir.gm.core.model.rpg.dice.NotRandomNumber
 import at.orchaldir.gm.core.model.rpg.dice.RandomNumber
 import at.orchaldir.gm.core.model.util.Lookup
-import at.orchaldir.gm.core.reducer.race.validateRaceLookup
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
-import com.sun.java.accessibility.util.EventID
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -31,7 +29,7 @@ sealed class EncounterEntry {
         is EncounterTable -> EncounterEntryType.Table
     }
 
-    fun <ID : Id<ID>>contains(id: ID): Boolean = when (this) {
+    fun <ID : Id<ID>> contains(id: ID): Boolean = when (this) {
         NoEncounter -> false
         is EncounterLookup -> encounter == id
         is CharacterTemplateEncounter -> template == id
@@ -45,6 +43,7 @@ sealed class EncounterEntry {
             state.getEncounterStorage().require(encounter)
             require(id != encounter) { "Cannot be based on itself!" }
         }
+
         is CharacterTemplateEncounter -> state.getCharacterTemplateStorage().require(template)
         is CombinedEncounter -> list.forEach { it.validate(state, id) }
         is EncounterTable -> table.entries.forEach { it.value.validate(state, id) }
@@ -62,7 +61,7 @@ data class CharacterTemplateEncounter(
     val template: CharacterTemplateId,
 ) : EncounterEntry() {
 
-    constructor(template: CharacterTemplateId): this(NotRandomNumber(1), template)
+    constructor(template: CharacterTemplateId) : this(NotRandomNumber(1), template)
 
 }
 

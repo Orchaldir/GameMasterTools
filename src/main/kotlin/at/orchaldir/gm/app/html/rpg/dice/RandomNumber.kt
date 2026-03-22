@@ -2,12 +2,10 @@ package at.orchaldir.gm.app.html.rpg.dice
 
 import at.orchaldir.gm.app.DIE
 import at.orchaldir.gm.app.MODIFIER
-import at.orchaldir.gm.app.NUMBER
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.rpg.selectFromRange
 import at.orchaldir.gm.core.model.rpg.dice.*
-import at.orchaldir.gm.core.model.rpg.dice.RandomNumber
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag
 
@@ -45,11 +43,13 @@ fun HtmlBlockTag.editRandomNumber(
             selectDiceNumber(range, param, number.dice)
             selectDiceModifier(range, param, number.modifier)
         }
+
         is Dice -> {
             selectDiceNumber(range, param, number.dice)
             selectDieType(param, number.type)
             selectDiceModifier(range, param, number.modifier)
         }
+
         is MixedDice -> {
             editMap("Dice", param, number.dice, 1, DieType.entries.size) { _, diceParam, type, dice ->
                 selectDiceNumber(range, diceParam, dice)
@@ -107,12 +107,14 @@ fun parseRandomNumber(
     RandomNumberType.NotRandom -> NotRandomNumber(
         parseDiceModifier(parameters, param),
     )
+
     RandomNumberType.StandardDice -> parseStandardDice(parameters, param)
     RandomNumberType.Dice -> Dice(
         parseDice(parameters, param),
         parseDieType(parameters, param),
         parseDiceModifier(parameters, param),
     )
+
     RandomNumberType.MixedDice -> MixedDice(
         parseMap(
             parameters,

@@ -1,11 +1,11 @@
 package at.orchaldir.gm.core.model.rpg.combat
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.dice.RandomNumber
 import at.orchaldir.gm.core.model.rpg.dice.StandardDice
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import at.orchaldir.gm.core.model.State
 
 enum class DamageAmountType {
     StatisticBased,

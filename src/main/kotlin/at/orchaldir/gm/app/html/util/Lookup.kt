@@ -8,7 +8,6 @@ import at.orchaldir.gm.core.model.util.LookupEntry
 import io.ktor.http.*
 import kotlinx.html.*
 import kotlin.math.max
-import kotlin.math.min
 
 // show
 

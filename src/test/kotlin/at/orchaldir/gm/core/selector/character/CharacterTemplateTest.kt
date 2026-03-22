@@ -1,11 +1,6 @@
 package at.orchaldir.gm.core.selector.character
 
-import at.orchaldir.gm.CHARACTER_ID_1
-import at.orchaldir.gm.CHARACTER_TEMPLATE_ID_0
-import at.orchaldir.gm.CHARACTER_TEMPLATE_ID_1
-import at.orchaldir.gm.ENCOUNTER_ID_0
-import at.orchaldir.gm.RACE_LOOKUP_0
-import at.orchaldir.gm.REGION_ID_0
+import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
