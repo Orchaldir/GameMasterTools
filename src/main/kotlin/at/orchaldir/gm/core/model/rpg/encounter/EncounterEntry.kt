@@ -7,12 +7,14 @@ import at.orchaldir.gm.core.model.rpg.dice.RandomNumber
 import at.orchaldir.gm.core.model.util.Lookup
 import at.orchaldir.gm.core.reducer.race.validateRaceLookup
 import at.orchaldir.gm.utils.doNothing
+import com.sun.java.accessibility.util.EventID
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 enum class EncounterEntryType {
     None,
     CharacterTemplate,
+    Lookup,
     Combined,
     Table,
 }
@@ -22,6 +24,7 @@ sealed class EncounterEntry {
 
     fun getType() = when (this) {
         NoEncounter -> EncounterEntryType.None
+        is EncounterLookup -> EncounterEntryType.Lookup
         is CharacterTemplateEncounter -> EncounterEntryType.CharacterTemplate
         is CombinedEncounter -> EncounterEntryType.Combined
         is EncounterTable -> EncounterEntryType.Table
@@ -29,13 +32,23 @@ sealed class EncounterEntry {
 
     fun contains(id: CharacterTemplateId): Boolean = when (this) {
         NoEncounter -> false
+        is EncounterLookup -> false
         is CharacterTemplateEncounter -> template == id
+        is CombinedEncounter -> list.any { it.contains(id) }
+        is EncounterTable -> table.entries.any { it.value.contains(id) }
+    }
+
+    fun contains(id: EncounterId): Boolean = when (this) {
+        NoEncounter -> false
+        is EncounterLookup -> encounter == id
+        is CharacterTemplateEncounter -> false
         is CombinedEncounter -> list.any { it.contains(id) }
         is EncounterTable -> table.entries.any { it.value.contains(id) }
     }
 
     fun validate(state: State): Unit = when (this) {
         NoEncounter -> doNothing()
+        is EncounterLookup -> state.getEncounterStorage().require(encounter)
         is CharacterTemplateEncounter -> state.getCharacterTemplateStorage().require(template)
         is CombinedEncounter -> list.forEach { it.validate(state) }
         is EncounterTable -> table.entries.forEach { it.value.validate(state) }
@@ -56,6 +69,12 @@ data class CharacterTemplateEncounter(
     constructor(template: CharacterTemplateId): this(NotRandomNumber(1), template)
 
 }
+
+@Serializable
+@SerialName("Lookup")
+data class EncounterLookup(
+    val encounter: EncounterId,
+) : EncounterEntry()
 
 @Serializable
 @SerialName("Combined")
