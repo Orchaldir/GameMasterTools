@@ -117,6 +117,7 @@ private fun HtmlBlockTag.selectEquipment(
 // parse
 
 fun parseEquipmentMap(
+    state: State,
     parameters: Parameters,
     param: String,
 ): EquipmentIdMap {
@@ -126,7 +127,7 @@ fun parseEquipmentMap(
         if (parameter.startsWith(param)) {
             val slotsString = parameter.removePrefix(param)
             val scheme = parseOptionalColorSchemeId(parameters, combine(COLOR, parameter))
-            tryParse(map, slotsString, ids, scheme)
+            tryParse(state, map, slotsString, ids, scheme)
         }
     }
 
@@ -134,14 +135,21 @@ fun parseEquipmentMap(
 }
 
 private fun tryParse(
+    state: State,
     map: MutableMap<EquipmentIdPair, MutableSet<Set<BodySlot>>>,
     slotsString: String,
     ids: List<String>,
-    scheme: ColorSchemeId?,
+    optionalScheme: ColorSchemeId?,
 ) {
     val filteredIds = ids.filter { it.isNotEmpty() }
     require(filteredIds.size <= 1) { "Slots $slotsString has too many items!" }
     val id = EquipmentId(filteredIds.firstOrNull()?.toInt() ?: return)
+    val equipment = state.getEquipmentStorage().getOrThrow(id)
+    val scheme = if (equipment.colorSchemes.isNotEmpty() && optionalScheme == null) {
+        equipment.colorSchemes.first()
+    } else {
+        optionalScheme
+    }
     val pair = Pair(id, scheme)
 
     val slots = slotsString.split("_")

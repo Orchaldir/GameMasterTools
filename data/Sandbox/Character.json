@@ -8,7 +8,7 @@
    "appearance": {
     "#type": "Humanoid",
     "body": {
-     "bodyShape": "Fat"
+     "bodyShape": "Muscular"
     },
     "head": {
      "ears": {
@@ -59,12 +59,45 @@
      "list": [
       {
        "data": {
-        "first": 0,
+        "first": 2,
         "second": null
        },
        "sets": [
         [
+         "Belt"
+        ]
+       ]
+      },
+      {
+       "data": {
+        "first": 4,
+        "second": null
+       },
+       "sets": [
+        [
+         "Foot"
+        ]
+       ]
+      },
+      {
+       "data": {
+        "first": 0,
+        "second": 4
+       },
+       "sets": [
+        [
          "Bottom"
+        ]
+       ]
+      },
+      {
+       "data": {
+        "first": 1,
+        "second": 3
+       },
+       "sets": [
+        [
+         "Top"
         ]
        ]
       }

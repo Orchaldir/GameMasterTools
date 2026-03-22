@@ -226,12 +226,12 @@ fun parseEquipped(
     when (parse(parameters, param, EquippedType.Undefined)) {
         EquippedType.Undefined -> UndefinedEquipped
         EquippedType.Unique -> UniqueEquipment(
-            parseEquipmentMap(parameters, combine(param, EQUIPMENT)),
+            parseEquipmentMap(state, parameters, combine(param, EQUIPMENT)),
         )
 
         EquippedType.UseTemplate -> UseEquipmentFromTemplate
         EquippedType.ModifyTemplate -> ModifyEquipmentFromTemplate(
-            parseEquipmentMapUpdate(parameters, combine(param, UPDATE), base),
+            parseEquipmentMapUpdate(state, parameters, combine(param, UPDATE), base),
         )
 
         EquippedType.UseUniform -> UseUniform(
@@ -244,7 +244,7 @@ fun parseEquipped(
 
             ModifyUniform(
                 uniformId,
-                parseEquipmentMapUpdate(parameters, combine(param, UPDATE), uniform),
+                parseEquipmentMapUpdate(state, parameters, combine(param, UPDATE), uniform),
             )
         }
 

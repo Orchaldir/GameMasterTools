@@ -50,6 +50,7 @@ fun HtmlBlockTag.editEquipmentMapUpdate(
 // parse
 
 fun parseEquipmentMapUpdate(
+    state: State,
     parameters: Parameters,
     param: String,
     base: EquipmentIdMap,
@@ -59,7 +60,7 @@ fun parseEquipmentMapUpdate(
         return EquipmentMapUpdate()
     }
 
-    val updated = parseEquipmentMap(parameters, paramStart)
+    val updated = parseEquipmentMap(state, parameters, paramStart)
 
     return EquipmentMapUpdate.calculateUpdate(base, updated)
 }
