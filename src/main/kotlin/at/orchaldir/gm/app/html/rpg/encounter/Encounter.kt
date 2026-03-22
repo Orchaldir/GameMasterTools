@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.encounter.Encounter
 import at.orchaldir.gm.core.model.rpg.encounter.EncounterId
 import at.orchaldir.gm.core.selector.rpg.encounter.getEncountersWith
+import at.orchaldir.gm.core.selector.world.getRegionsWith
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -29,14 +30,16 @@ private fun HtmlBlockTag.showUsage(
     encounter: Encounter,
 ) {
     val encounters = state.getEncountersWith(encounter.id)
+    val regions = state.getRegionsWith(encounter.id)
 
-    if (encounters.isEmpty()) {
+    if (encounters.isEmpty() && regions.isEmpty()) {
         return
     }
 
     h2 { +"Usage" }
 
     fieldElements(call, state, encounters)
+    fieldElements(call, state, regions)
 }
 
 // edit

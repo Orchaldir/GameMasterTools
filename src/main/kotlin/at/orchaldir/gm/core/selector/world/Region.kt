@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.selector.world
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.MaterialId
+import at.orchaldir.gm.core.model.rpg.encounter.EncounterId
 import at.orchaldir.gm.core.model.world.settlement.SettlementMapId
 import at.orchaldir.gm.core.model.world.terrain.RegionDataType
 import at.orchaldir.gm.core.model.world.terrain.RegionId
@@ -22,6 +23,10 @@ fun State.getRegions(settlement: SettlementMapId) = getRegionStorage().get(getRe
 fun State.getRegionsContaining(material: MaterialId) = getRegionStorage()
     .getAll()
     .filter { it.resources.contains(material) }
+
+fun State.getRegionsWith(encounter: EncounterId) = getRegionStorage()
+    .getAll()
+    .filter { it.encounter.contains(encounter) }
 
 fun <ID : Id<ID>> State.getRegionsCreatedBy(id: ID) = getRegionStorage()
     .getAll()
