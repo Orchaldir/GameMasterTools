@@ -1,5 +1,50 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "Squire",
+   "text": {
+    "female": "Squire",
+    "genderless": "Squire",
+    "male": "Squire"
+   }
+  },
+  "1": {
+   "id": 1,
+   "name": "Knight",
+   "text": {
+    "female": "Dame",
+    "genderless": "Sir",
+    "male": "Sir"
+   }
+  },
+  "2": {
+   "id": 2,
+   "name": "Lord",
+   "text": {
+    "female": "Lady",
+    "genderless": "Lord",
+    "male": "Lord"
+   }
+  },
+  "3": {
+   "id": 3,
+   "name": "Baron",
+   "text": {
+    "female": "Baroness",
+    "genderless": "Baron",
+    "male": "Baron"
+   }
+  },
+  "4": {
+   "id": 4,
+   "name": "Duke",
+   "text": {
+    "female": "Duchess",
+    "genderless": "Duke",
+    "male": "Duke"
+   }
+  }
  }
 }

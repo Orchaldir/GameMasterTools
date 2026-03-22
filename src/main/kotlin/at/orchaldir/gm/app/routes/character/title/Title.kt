@@ -66,7 +66,7 @@ fun Application.configureTitleRouting() {
                     createNameColumn(call, state),
                     Column("Text") {
                         tdInline(it.text.getValues()) { text ->
-                            text.text
+                            +text.text
                         }
                     },
                     Column("Position") { tdEnum(it.position) },
