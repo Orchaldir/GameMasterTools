@@ -341,9 +341,15 @@ private fun <ID : Id<ID>, ELEMENT : Element<ID>, T> HtmlBlockTag.showDetailsActi
 suspend fun <ID : Id<ID>, ELEMENT : Element<ID>> PipelineContext<Unit, ApplicationCall>.handleUpdateElement(
     id: ID,
     parse: (State, Parameters, ID) -> ELEMENT,
+) = handleUpdateElement(id, parse, "Update")
+
+suspend fun <ID : Id<ID>, ELEMENT : Element<ID>> PipelineContext<Unit, ApplicationCall>.handleUpdateElement(
+    id: ID,
+    parse: (State, Parameters, ID) -> ELEMENT,
+    text: String,
 ) {
     val parameters = call.receiveParameters()
-    handleUpdateElement(id, { state, id -> parse(state, parameters, id) })
+    handleUpdateElement(id, { state, id -> parse(state, parameters, id) }, text)
 }
 
 suspend fun <ID : Id<ID>, ELEMENT : Element<ID>> PipelineContext<Unit, ApplicationCall>.handleUpdateElement(

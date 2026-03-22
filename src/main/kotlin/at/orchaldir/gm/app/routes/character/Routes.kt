@@ -66,6 +66,22 @@ class CharacterRoutes : Routes<CharacterId, SortCharacter> {
         class Generate(val id: CharacterId, val parent: Appearance = Appearance())
     }
 
+    @Resource("/inventory")
+    class Inventory(val parent: CharacterRoutes = CharacterRoutes()) {
+
+        @Resource("edit")
+        class Edit(val id: CharacterId, val parent: Inventory = Inventory())
+
+        @Resource("preview")
+        class Preview(val id: CharacterId, val parent: Inventory = Inventory())
+
+        @Resource("update")
+        class Update(val id: CharacterId, val parent: Inventory = Inventory())
+
+        @Resource("generate")
+        class Generate(val id: CharacterId, val parent: Inventory = Inventory())
+    }
+
     @Resource("/birthday")
     class Birthday(val parent: CharacterRoutes = CharacterRoutes()) {
 

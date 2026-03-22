@@ -1,0 +1,34 @@
+package at.orchaldir.gm.app.html.character
+
+import at.orchaldir.gm.app.EQUIPPED
+import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.Character
+import at.orchaldir.gm.core.model.character.CharacterId
+import at.orchaldir.gm.core.selector.item.equipment.getEquipmentIdMapForLookup
+import io.ktor.http.*
+import io.ktor.server.application.*
+import kotlinx.html.HtmlBlockTag
+
+// edit
+
+fun HtmlBlockTag.editInventory(
+    call: ApplicationCall,
+    state: State,
+    character: Character,
+) {
+    editEquipped(call, state, EQUIPPED, character.equipped, character.statblock)
+}
+
+// parse
+
+fun parseInventory(
+    state: State,
+    parameters: Parameters,
+    id: CharacterId,
+): Character {
+    val character = state.getCharacterStorage().getOrThrow(id)
+    val baseEquipment = state.getEquipmentIdMapForLookup(character.statblock)
+    val equipped = parseEquipped(parameters, state, EQUIPPED, baseEquipment)
+
+    return character.copy(equipped = equipped)
+}

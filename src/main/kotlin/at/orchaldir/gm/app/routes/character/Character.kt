@@ -115,10 +115,12 @@ fun Application.configureCharacterRouting() {
             )
             { call, state, character ->
                 val editAppearanceLink = call.application.href(CharacterRoutes.Appearance.Edit(character.id))
+                val editInventoryLink = call.application.href(CharacterRoutes.Inventory.Edit(character.id))
 
                 showCharacterFrontAndBack(call, state, character)
 
                 action(editAppearanceLink, "Edit Appearance")
+                action(editInventoryLink, "Edit Inventory")
             }
         }
         get<CharacterRoutes.New> {
@@ -216,7 +218,7 @@ private fun HtmlBlockTag.showCharacterDetails(
     showDestroyed(call, state, character.id)
 }
 
-private fun HtmlBlockTag.showCharacterFrontAndBack(
+fun HtmlBlockTag.showCharacterFrontAndBack(
     call: ApplicationCall,
     state: State,
     character: Character,
