@@ -187,8 +187,9 @@ suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>> PipelineContext<Unit, Ap
     id: ID,
     routes: EditRoutes<ID>,
     noinline editDetails: HtmlBlockTag.(ApplicationCall, State, ELEMENT) -> Unit,
+    text: String = "Edit",
 ) {
-    logger.info { "Edit ${id.print()}" }
+    logger.info { "$text ${id.print()}" }
 
     val state = STORE.getState()
     val storage = state.getStorage<ID, ELEMENT>(id)
@@ -202,8 +203,9 @@ suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>> PipelineContext<Unit, Ap
     routes: EditRoutes<ID>,
     noinline editDetails: HtmlBlockTag.(ApplicationCall, State, ELEMENT) -> Unit,
     noinline showRight: HtmlBlockTag.(ApplicationCall, State, ELEMENT) -> Unit,
+    text: String = "Edit",
 ) {
-    logger.info { "Edit ${id.print()}" }
+    logger.info { "$text ${id.print()}" }
 
     val state = STORE.getState()
     val storage = state.getStorage<ID, ELEMENT>(id)
@@ -233,6 +235,7 @@ suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>> PipelineContext<Unit, Ap
     parse: (State, Parameters, ID) -> ELEMENT,
     noinline editDetails: HtmlBlockTag.(ApplicationCall, State, ELEMENT) -> Unit,
     noinline showRight: HtmlBlockTag.(ApplicationCall, State, ELEMENT) -> Unit,
+    text: String = "Update",
 ) = handlePreviewElementSplit(
     id,
     call.receiveParameters(),
@@ -240,6 +243,7 @@ suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>> PipelineContext<Unit, Ap
     parse,
     editDetails,
     showRight,
+    text,
 )
 
 suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>> PipelineContext<Unit, ApplicationCall>.handlePreviewElementSplit(
@@ -249,8 +253,9 @@ suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>> PipelineContext<Unit, Ap
     parse: (State, Parameters, ID) -> ELEMENT,
     noinline editDetails: HtmlBlockTag.(ApplicationCall, State, ELEMENT) -> Unit,
     noinline showRight: HtmlBlockTag.(ApplicationCall, State, ELEMENT) -> Unit,
+    text: String,
 ) {
-    logger.info { "Preview ${id.print()}" }
+    logger.info { "$text ${id.print()}" }
 
     val state = STORE.getState()
     val element = parse(state, parameters, id)
@@ -359,7 +364,7 @@ suspend fun <ID : Id<ID>, ELEMENT : Element<ID>> PipelineContext<Unit, Applicati
 suspend fun <ID : Id<ID>, ELEMENT : Element<ID>> PipelineContext<Unit, ApplicationCall>.handleUpdateElement(
     id: ID,
     parse: (State, ID) -> ELEMENT,
-    text: String = "Update",
+    text: String,
 ) {
     logger.info { "$text ${id.print()}" }
 

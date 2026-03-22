@@ -19,6 +19,7 @@ fun Application.configureInventoryRouting() {
                 CharacterRoutes.Inventory(),
                 HtmlBlockTag::editInventory,
                 HtmlBlockTag::showCharacterFrontAndBack,
+                "Edit inventory of",
             )
         }
         post<CharacterRoutes.Inventory.Preview> { preview ->
@@ -28,6 +29,7 @@ fun Application.configureInventoryRouting() {
                 ::parseInventory,
                 HtmlBlockTag::editInventory,
                 HtmlBlockTag::showCharacterFrontAndBack,
+                "Preview inventory of",
             )
         }
         post<CharacterRoutes.Inventory.Update> { update ->

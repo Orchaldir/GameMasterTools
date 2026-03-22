@@ -52,6 +52,24 @@
      "#type": "Normal",
      "color": "Light"
     }
+   },
+   "equipped": {
+    "#type": "Unique",
+    "map": {
+     "list": [
+      {
+       "data": {
+        "first": 0,
+        "second": null
+       },
+       "sets": [
+        [
+         "Bottom"
+        ]
+       ]
+      }
+     ]
+    }
    }
   }
  }

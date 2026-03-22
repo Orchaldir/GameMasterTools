@@ -124,11 +124,12 @@ fun Application.configureCurrencyUnitRouting() {
         get<CurrencyUnitRoutes.Edit> { edit ->
             handleEditElement<CurrencyUnitId, CurrencyUnit>(
                 edit.id,
-                CurrencyUnitRoutes()
-            ) { call, state, unit ->
-                visualizeCurrencyUnit(state, unit)
-                editCurrencyUnit(call, state, unit)
-            }
+                CurrencyUnitRoutes(),
+                { call, state, unit ->
+                    visualizeCurrencyUnit(state, unit)
+                    editCurrencyUnit(call, state, unit)
+                }
+            )
         }
         post<CurrencyUnitRoutes.Preview> { preview ->
             handlePreviewElement(preview.id, CurrencyUnitRoutes(), ::parseCurrencyUnit) { call, state, unit ->
