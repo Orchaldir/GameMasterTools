@@ -3,41 +3,26 @@
  "elements": {
   "0": {
    "id": 0,
+   "name": "Simple Wool Pants",
    "data": {
-    "#type": "Shield",
-    "border": {
-     "#type": "Simple"
-    },
-    "boss": {
-     "#type": "Border",
-     "boss": {
-      "#type": "at.orchaldir.gm.core.model.util.part.MadeFromMetal",
-      "material": 2
-     },
-     "border": {
-      "#type": "at.orchaldir.gm.core.model.util.part.MadeFromMetal",
-      "material": 1
-     }
-    },
-    "front": {
-     "#type": "at.orchaldir.gm.core.model.util.part.MadeFromMetal",
-     "material": 4
-    },
-    "back": {
-     "#type": "at.orchaldir.gm.core.model.util.part.MadeFromWood",
-     "material": 10,
+    "#type": "Pants",
+    "main": {
+     "#type": "at.orchaldir.gm.core.model.util.part.MadeFromFabric",
+     "material": 20,
      "fill": {
-      "#type": "VerticalStripes",
-      "color0": {
-       "#type": "Material"
-      },
-      "color1": {
-       "#type": "Fixed",
-       "color": "White"
+      "#type": "Solid",
+      "color": {
+       "#type": "0"
       }
      }
     }
-   }
+   },
+   "colorSchemes": [
+    3,
+    2,
+    1,
+    0
+   ]
   }
  }
 }

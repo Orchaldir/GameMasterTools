@@ -281,6 +281,16 @@
      }
     }
    }
+  },
+  "20": {
+   "id": 20,
+   "name": "Wool",
+   "properties": {
+    "category": {
+     "#type": "Fiber",
+     "color": "White"
+    }
+   }
   }
  }
 }
