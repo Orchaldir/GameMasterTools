@@ -28,6 +28,13 @@
     "#type": "1",
     "color": "DimGray"
    }
+  },
+  "4": {
+   "id": 4,
+   "data": {
+    "#type": "1",
+    "color": "Peru"
+   }
   }
  }
 }

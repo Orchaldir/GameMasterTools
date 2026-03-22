@@ -1,5 +1,77 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "Poor - Male",
+   "appearance": {
+    "beard": {
+     "beardStyles": {
+      "Full": "Uncommon",
+      "Moustache": "Uncommon",
+      "Shaved": "Common"
+     },
+     "beardLength": {
+      "MidBack": "Common",
+      "Waist": "Common",
+      "Classic": "Common"
+     },
+     "fullBeardStyles": {
+      "Rectangle": "Uncommon",
+      "Triangle": "Common"
+     },
+     "goateeStyles": {
+     },
+     "moustacheStyles": {
+      "Pyramid": "Common",
+      "Walrus": "Common"
+     }
+    },
+    "hair": {
+     "hairStyles": {
+      "Short": "Common"
+     },
+     "bunStyles": {
+     },
+     "longHairStyles": {
+     },
+     "ponytailStyles": {
+     },
+     "ponytailPositions": {
+     },
+     "shortHairStyles": {
+      "BowlCut": "Common",
+      "BuzzCut": "Common",
+      "MiddlePart": "Common",
+      "SidePartLeft": "Common",
+      "SidePartRight": "Common"
+     },
+     "hairLengths": {
+     }
+    }
+   },
+   "clothing": {
+    "accessories": {
+     "Belt": "Common",
+     "Footwear": "Common"
+    },
+    "equipmentRarityMap": {
+     "Belt": {
+      "2": "Common"
+     },
+     "Footwear": {
+      "3": "VeryRare",
+      "4": "Common",
+      "5": "Rare"
+     },
+     "Pants": {
+      "0": "Common"
+     },
+     "Tunic": {
+      "1": "Common"
+     }
+    }
+   }
+  }
  }
 }

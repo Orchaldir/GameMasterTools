@@ -21,6 +21,7 @@
     3,
     2,
     1,
+    4,
     0
    ]
   },
@@ -45,6 +46,7 @@
     3,
     2,
     1,
+    4,
     0
    ]
   },
@@ -94,13 +96,33 @@
    "name": "Simple Leather Shoes",
    "data": {
     "#type": "Footwear",
+    "style": "SimpleShoes",
+    "shaft": {
+     "#type": "Leather",
+     "material": 21
+    },
+    "sole": {
+     "#type": "Fabric",
+     "material": 12
+    }
+   }
+  },
+  "5": {
+   "id": 5,
+   "name": "Leather Shoes",
+   "data": {
+    "#type": "Footwear",
     "shaft": {
      "#type": "Leather",
      "material": 21
     },
     "sole": {
      "#type": "Leather",
-     "material": 21
+     "material": 21,
+     "color": {
+      "#type": "Fixed",
+      "color": "Black"
+     }
     }
    }
   }
