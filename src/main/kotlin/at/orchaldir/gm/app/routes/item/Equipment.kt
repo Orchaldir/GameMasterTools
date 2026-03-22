@@ -324,7 +324,10 @@ fun HtmlBlockTag.editEquipmentAndColorScheme(
     equipment: Equipment,
     optionalColorSchemeId: ColorSchemeId? = null,
 ) {
-    selectColorScheme(state, equipment.colorSchemes, optionalColorSchemeId)
+    if (equipment.colorSchemes.isNotEmpty()) {
+        selectColorScheme(state, equipment.colorSchemes, optionalColorSchemeId)
+    }
+
     editEquipment(call, state, equipment)
 }
 
