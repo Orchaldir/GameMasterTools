@@ -9,6 +9,7 @@ const val ABOVE_EQUIPMENT_LAYER = 50
 const val OUTERWEAR_LAYER = 45
 const val JACKET_LAYER = 40
 const val TIE_LAYER = 35
+const val BELT_LAYER = 32
 const val HIGHER_EQUIPMENT_LAYER = 30
 const val EQUIPMENT_LAYER = 20
 const val LOWER_EQUIPMENT_LAYER = 10

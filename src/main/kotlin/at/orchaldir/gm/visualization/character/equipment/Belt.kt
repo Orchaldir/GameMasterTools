@@ -16,7 +16,7 @@ import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.utils.renderer.model.NoBorder
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.ICharacterConfig
-import at.orchaldir.gm.visualization.character.appearance.HIGHER_EQUIPMENT_LAYER
+import at.orchaldir.gm.visualization.character.appearance.BELT_LAYER
 
 data class BeltConfig(
     val bandHeight: Factor,
@@ -90,7 +90,7 @@ private fun visualizeBeltBand(
         .addRectangle(bandAabb)
         .build()
 
-    state.renderer.getLayer(HIGHER_EQUIPMENT_LAYER)
+    state.renderer.getLayer(BELT_LAYER)
         .renderPolygon(polygon, options)
 }
 
@@ -132,7 +132,7 @@ private fun visualizeRowOfBeltHoles(
     }
     val hipWidth = state.config.equipment.pants.getHipWidth(state)
     val splitter = SegmentSplitter.fromStartAndEnd(state.torsoAABB().getMirroredPoints(hipWidth, y), 10)
-    val renderer = state.renderer.getLayer(HIGHER_EQUIPMENT_LAYER)
+    val renderer = state.renderer.getLayer(BELT_LAYER)
 
     splitter.getCenters().forEach { center ->
         renderer.renderCircle(center, radius, options)
@@ -163,7 +163,7 @@ private fun visualizeSimpleBuckle(
     val half = height / 2.0f
     val double = height * 2.0f
     val center = state.torsoAABB().getPoint(CENTER, beltConfig.y)
-    val renderer = state.renderer.getLayer(HIGHER_EQUIPMENT_LAYER)
+    val renderer = state.renderer.getLayer(BELT_LAYER)
 
     when (buckle.shape) {
         BuckleShape.Circle -> renderer.renderCircle(center, half, options)

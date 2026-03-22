@@ -13,6 +13,7 @@ import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Volume
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.ICharacterConfig
+import at.orchaldir.gm.visualization.character.appearance.HIGHER_EQUIPMENT_LAYER
 import at.orchaldir.gm.visualization.character.appearance.JACKET_LAYER
 import at.orchaldir.gm.visualization.character.appearance.OUTERWEAR_LAYER
 import at.orchaldir.gm.visualization.character.equipment.part.NecklineConfig
@@ -201,7 +202,7 @@ fun visualizeBodyEquipment(state: CharacterRenderState<Body>) {
                 is OneHandedSword -> visualizeSword(newState, data.blade, data.hilt, true, set)
                 is TwoHandedSword -> visualizeSword(newState, data.blade, data.hilt, false, set)
                 is Tie -> visualizeTie(newState, data)
-                is Tunic -> visualizeCoat(newState, data.convert(), JACKET_LAYER)
+                is Tunic -> visualizeCoat(newState, data.convert(), HIGHER_EQUIPMENT_LAYER)
                 else -> doNothing()
             }
         }
