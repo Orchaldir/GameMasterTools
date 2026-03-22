@@ -30,7 +30,7 @@ fun HtmlBlockTag.editEncounter(
     encounter: Encounter,
 ) {
     selectName(encounter.name)
-    editEncounterEntry(call, state, encounter.entry, ENCOUNTER)
+    editEncounterEntry(call, state, encounter.entry, ENCOUNTER, encounter.id)
 }
 
 // parse

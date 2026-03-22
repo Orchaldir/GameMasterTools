@@ -86,8 +86,9 @@ fun HtmlBlockTag.editEncounterEntry(
     state: State,
     encounter: EncounterEntry,
     param: String,
+    id: EncounterId?,
 ) = showDetails("Encounter", true) {
-    editEncounterEntryIntern(call, state, encounter, param)
+    editEncounterEntryIntern(call, state, encounter, param, id)
 }
 
 fun HtmlBlockTag.editEncounterEntryIntern(
@@ -95,9 +96,11 @@ fun HtmlBlockTag.editEncounterEntryIntern(
     state: State,
     encounter: EncounterEntry,
     param: String,
+    id: EncounterId?,
 ) {
     val range = ModifiedDiceRange(IntRange(0, 10), IntRange(0, 10))
     val encounters = state.sortEncounters()
+        .filter { it.id != id }
     val templates = state.sortCharacterTemplates()
     val allEmpty = encounters.isEmpty() && templates.isEmpty()
 
@@ -148,7 +151,7 @@ fun HtmlBlockTag.editEncounterEntryIntern(
             2,
             100,
         ) { _, entryParam, entry ->
-            editEncounterEntryIntern(call, state, entry, entryParam)
+            editEncounterEntryIntern(call, state, entry, entryParam, id)
         }
 
         is EncounterTable -> editLookupTable(
@@ -158,7 +161,7 @@ fun HtmlBlockTag.editEncounterEntryIntern(
             100,
             1,
             Pair("Encounter") { entryParam, entry ->
-                editEncounterEntryIntern(call, state, entry, entryParam)
+                editEncounterEntryIntern(call, state, entry, entryParam, id)
             },
         )
     }
