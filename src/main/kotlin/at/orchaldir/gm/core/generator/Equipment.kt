@@ -27,6 +27,11 @@ data class EquipmentGenerator(
     companion object {
         fun create(state: State, characterId: CharacterId): EquipmentGenerator? {
             val character = state.getCharacterStorage().getOptional(characterId) ?: return null
+
+            return create(state, character)
+        }
+
+        fun create(state: State, character: Character): EquipmentGenerator? {
             val fashion = state.getFashion(character) ?: return null
 
             return EquipmentGenerator(
