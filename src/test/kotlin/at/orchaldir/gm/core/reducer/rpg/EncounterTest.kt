@@ -56,6 +56,15 @@ class EncounterTest {
         }
 
         @Test
+        fun `Cannot be based on itself`() {
+            val entry = EncounterLookup(ENCOUNTER_ID_0)
+            val encounter = Encounter(ENCOUNTER_ID_0, entry = entry)
+            val action = UpdateAction(encounter)
+
+            assertIllegalArgument("Cannot be based on itself!") { REDUCER.invoke(stat, action) }
+        }
+
+        @Test
         fun `Update with all values set`() {
             val entry = CharacterTemplateEncounter(CHARACTER_TEMPLATE_ID_0)
             val encounter = Encounter(ENCOUNTER_ID_0, entry = entry)

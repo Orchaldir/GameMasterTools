@@ -46,12 +46,15 @@ sealed class EncounterEntry {
         is EncounterTable -> table.entries.any { it.value.contains(id) }
     }
 
-    fun validate(state: State): Unit = when (this) {
+    fun validate(state: State, id: EncounterId?): Unit = when (this) {
         NoEncounter -> doNothing()
-        is EncounterLookup -> state.getEncounterStorage().require(encounter)
+        is EncounterLookup -> {
+            state.getEncounterStorage().require(encounter)
+            require(id != encounter) { "Cannot be based on itself!" }
+        }
         is CharacterTemplateEncounter -> state.getCharacterTemplateStorage().require(template)
-        is CombinedEncounter -> list.forEach { it.validate(state) }
-        is EncounterTable -> table.entries.forEach { it.value.validate(state) }
+        is CombinedEncounter -> list.forEach { it.validate(state, id) }
+        is EncounterTable -> table.entries.forEach { it.value.validate(state, id) }
     }
 }
 
