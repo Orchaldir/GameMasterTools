@@ -4,7 +4,7 @@ import at.orchaldir.gm.app.DIE
 import at.orchaldir.gm.app.NUMBER
 import at.orchaldir.gm.app.html.combine
 import at.orchaldir.gm.app.html.showDetails
-import at.orchaldir.gm.core.model.rpg.SimpleModifiedDiceRange
+import at.orchaldir.gm.core.model.rpg.dice.ModifiedDiceRange
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag
 
@@ -12,7 +12,7 @@ import kotlinx.html.HtmlBlockTag
 
 fun HtmlBlockTag.showSimpleModifiedDiceRange(
     label: String,
-    range: SimpleModifiedDiceRange,
+    range: ModifiedDiceRange,
 ) {
     showDetails(label) {
         fieldRange("Dice", range.dice)
@@ -24,7 +24,7 @@ fun HtmlBlockTag.showSimpleModifiedDiceRange(
 
 fun HtmlBlockTag.editSimpleModifiedDiceRange(
     label: String,
-    range: SimpleModifiedDiceRange,
+    range: ModifiedDiceRange,
     param: String,
 ) {
     showDetails(label, true) {
@@ -46,7 +46,7 @@ fun HtmlBlockTag.editSimpleModifiedDiceRange(
 fun parseSimpleModifiedDiceRange(
     parameters: Parameters,
     param: String,
-) = SimpleModifiedDiceRange(
+) = ModifiedDiceRange(
     parseRange(parameters, combine(param, DIE)),
     parseRange(parameters, combine(param, NUMBER)),
 )

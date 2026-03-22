@@ -23,6 +23,10 @@ fun State.getRegionsContaining(material: MaterialId) = getRegionStorage()
     .getAll()
     .filter { it.resources.contains(material) }
 
+fun <ID : Id<ID>> State.getRegionsWithEncounter(id: ID) = getRegionStorage()
+    .getAll()
+    .filter { it.encounter.contains(id) }
+
 fun <ID : Id<ID>> State.getRegionsCreatedBy(id: ID) = getRegionStorage()
     .getAll()
     .filter { it.data.isCreatedBy(id) }

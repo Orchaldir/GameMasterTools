@@ -37,7 +37,7 @@ private fun DETAILS.updatedMeleeWeaponStats(
 ) {
     state.getMeleeWeaponTypeStorage().getOptional(stats.type)?.let { type ->
         val effects = state.getEquipmentModifierEffects(stats.modifiers)
-        val updatedAttacks = resolveMeleeAttacks(effects, type.attacks)
+        val updatedAttacks = resolveMeleeAttacks(state, effects, type.attacks)
 
         showMeleeAttackTable(call, state, updatedAttacks)
     }

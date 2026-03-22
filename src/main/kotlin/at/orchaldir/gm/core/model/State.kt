@@ -52,6 +52,9 @@ import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.religion.*
 import at.orchaldir.gm.core.model.rpg.combat.*
+import at.orchaldir.gm.core.model.rpg.encounter.ENCOUNTER_TYPE
+import at.orchaldir.gm.core.model.rpg.encounter.Encounter
+import at.orchaldir.gm.core.model.rpg.encounter.EncounterId
 import at.orchaldir.gm.core.model.rpg.statistic.STATISTIC_TYPE
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
@@ -130,6 +133,7 @@ val ELEMENTS =
         DISEASE_TYPE,
         DISTRICT_TYPE,
         DOMAIN_TYPE,
+        ENCOUNTER_TYPE,
         EQUIPMENT_TYPE,
         EQUIPMENT_MODIFIER_TYPE,
         FASHION_TYPE,
@@ -218,6 +222,7 @@ data class State(
     fun getDiseaseStorage() = getStorage<DiseaseId, Disease>(DISEASE_TYPE)
     fun getDistrictStorage() = getStorage<DistrictId, District>(DISTRICT_TYPE)
     fun getDomainStorage() = getStorage<DomainId, Domain>(DOMAIN_TYPE)
+    fun getEncounterStorage() = getStorage<EncounterId, Encounter>(ENCOUNTER_TYPE)
     fun getEquipmentStorage() = getStorage<EquipmentId, Equipment>(EQUIPMENT_TYPE)
     fun getEquipmentModifierStorage() = getStorage<EquipmentModifierId, EquipmentModifier>(EQUIPMENT_MODIFIER_TYPE)
     fun getFashionStorage() = getStorage<FashionId, Fashion>(FASHION_TYPE)
@@ -382,6 +387,7 @@ data class State(
         saveStorage(path, getDiseaseStorage())
         saveStorage(path, getDistrictStorage())
         saveStorage(path, getDomainStorage())
+        saveStorage(path, getEncounterStorage())
         saveStorage(path, getEquipmentStorage())
         saveStorage(path, getEquipmentModifierStorage())
         saveStorage(path, getFashionStorage())
@@ -452,6 +458,7 @@ fun createStorage(type: String) = when (type) {
     DISEASE_TYPE -> Storage(DiseaseId(0))
     DISTRICT_TYPE -> Storage(DistrictId(0))
     DOMAIN_TYPE -> Storage(DomainId(0))
+    ENCOUNTER_TYPE -> Storage(EncounterId(0))
     EQUIPMENT_TYPE -> Storage(EquipmentId(0))
     EQUIPMENT_MODIFIER_TYPE -> Storage(EquipmentModifierId(0))
     FASHION_TYPE -> Storage(FashionId(0))
@@ -521,6 +528,7 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     DISEASE_TYPE -> loadStorage<DiseaseId, Disease>(path, DiseaseId(0))
     DISTRICT_TYPE -> loadStorage<DistrictId, District>(path, DistrictId(0))
     DOMAIN_TYPE -> loadStorage<DomainId, Domain>(path, DomainId(0))
+    ENCOUNTER_TYPE -> loadStorage<EncounterId, Encounter>(path, EncounterId(0))
     EQUIPMENT_TYPE -> loadStorage<EquipmentId, Equipment>(path, EquipmentId(0))
     EQUIPMENT_MODIFIER_TYPE -> loadStorage<EquipmentModifierId, EquipmentModifier>(path, EquipmentModifierId(0))
     FASHION_TYPE -> loadStorage<FashionId, Fashion>(path, FashionId(0))

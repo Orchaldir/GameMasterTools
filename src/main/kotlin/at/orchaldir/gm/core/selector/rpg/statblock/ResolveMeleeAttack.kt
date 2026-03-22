@@ -51,29 +51,35 @@ fun resolveMeleeAttack(
 
 // resolve melee attack with modifier effects
 
-fun resolveMeleeAttacks(effects: List<EquipmentModifierEffect>, attacks: List<MeleeAttack>) = attacks.map { attack ->
-    resolveMeleeAttack(effects, attack)
+fun resolveMeleeAttacks(
+    state: State,
+    effects: List<EquipmentModifierEffect>,
+    attacks: List<MeleeAttack>,
+) = attacks.map { attack ->
+    resolveMeleeAttack(state, effects, attack)
 }
 
 fun resolveMeleeAttack(
+    state: State,
     effects: List<EquipmentModifierEffect>,
     attack: MeleeAttack,
 ): MeleeAttack {
     var resolved = attack
 
     effects.forEach { effect ->
-        resolved = resolveMeleeAttack(effect, resolved)
+        resolved = resolveMeleeAttack(state, effect, resolved)
     }
 
     return resolved
 }
 
 fun resolveMeleeAttack(
+    state: State,
     effect: EquipmentModifierEffect,
     attack: MeleeAttack,
 ) = when (effect) {
     is ModifyDamageResistance, is ModifyDefenseBonus, is ModifyRange -> attack
-    is ModifyDamage -> attack.copy(effect = resolveAttackEffect(effect, attack.effect))
+    is ModifyDamage -> attack.copy(effect = resolveAttackEffect(state, effect, attack.effect))
     is ModifyParrying -> attack.copy(parrying = resolveParrying(effect, attack.parrying))
     is ModifySkill -> attack.copy(skill = resolveUsedSkill(effect, attack.skill))
 }

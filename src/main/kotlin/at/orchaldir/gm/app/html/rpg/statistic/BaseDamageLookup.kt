@@ -4,19 +4,21 @@ import at.orchaldir.gm.app.DAMAGE
 import at.orchaldir.gm.app.DIE
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.rpg.parseSimpleModifiedDice
-import at.orchaldir.gm.app.html.rpg.selectDiceModifier
-import at.orchaldir.gm.app.html.rpg.selectDiceNumber
+import at.orchaldir.gm.app.html.rpg.dice.parseStandardDice
+import at.orchaldir.gm.app.html.rpg.dice.selectDiceModifier
+import at.orchaldir.gm.app.html.rpg.dice.selectDiceNumber
 import at.orchaldir.gm.app.html.util.editLookupTable
 import at.orchaldir.gm.app.html.util.parseLookup
+import at.orchaldir.gm.app.html.util.showLookupTable
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.rpg.DieType
+import at.orchaldir.gm.core.model.rpg.dice.DieType
 import at.orchaldir.gm.core.model.rpg.statistic.BaseDamageDicePool
 import at.orchaldir.gm.core.model.rpg.statistic.BaseDamageLookup
 import at.orchaldir.gm.core.model.rpg.statistic.BaseDamageLookupType
 import at.orchaldir.gm.core.model.rpg.statistic.SimpleBaseDamageLookup
 import io.ktor.http.*
-import kotlinx.html.*
+import kotlinx.html.DETAILS
+import kotlinx.html.HtmlBlockTag
 
 // show
 
@@ -31,22 +33,12 @@ fun HtmlBlockTag.showBaseDamageLookup(
             is SimpleBaseDamageLookup -> {
                 fieldDiceType(lookup.dieType)
 
-                table {
-                    tr {
-                        th { +"Until" }
-                        th { +"Damage" }
-                    }
-                    lookup.lookup.previousEntries.forEach { entry ->
-                        tr {
-                            tdInt(entry.until)
-                            tdString(entry.value.display())
-                        }
-                    }
-                    tr {
-                        tdString(">")
-                        tdString(lookup.lookup.current.display())
-                    }
-                }
+                showLookupTable(
+                    lookup.lookup,
+                    Pair("Damage") { entry ->
+                        +entry.display()
+                    },
+                )
             }
         }
     }
@@ -78,14 +70,15 @@ fun HtmlBlockTag.editBaseDamageLookup(
                 editLookupTable(
                     DAMAGE,
                     lookup.lookup,
-                    0,
+                    2,
                     100,
+                    1,
                     listOf(
                         Pair("Dice") { entryParam, entry ->
-                            selectDiceNumber(entry, entryParam, state.config.rpg.damage)
+                            selectDiceNumber(state.config.rpg.damage, entryParam, entry.dice)
                         },
                         Pair("Modifier") { entryParam, entry ->
-                            selectDiceModifier(entry, entryParam, state.config.rpg.damage)
+                            selectDiceModifier(state.config.rpg.damage, entryParam, entry.modifier)
                         },
                     ),
                 )
@@ -114,7 +107,7 @@ fun parseBaseDamageLookup(
 
     BaseDamageLookupType.SimpleLookup -> SimpleBaseDamageLookup(
         parseLookup(parameters, DAMAGE, 1) { entryParam ->
-            parseSimpleModifiedDice(parameters, entryParam)
+            parseStandardDice(parameters, entryParam)
         },
         parse(parameters, DIE, DieType.D6),
     )

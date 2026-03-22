@@ -36,6 +36,7 @@ import at.orchaldir.gm.core.model.religion.DomainId
 import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.religion.PantheonId
 import at.orchaldir.gm.core.model.rpg.combat.*
+import at.orchaldir.gm.core.model.rpg.encounter.EncounterId
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitId
 import at.orchaldir.gm.core.model.time.calendar.Calendar
@@ -91,6 +92,7 @@ val CHARACTER_ID_1 = CharacterId(1)
 val CHARACTER_ID_2 = CharacterId(2)
 val UNKNOWN_CHARACTER_ID = CharacterId(99)
 val CHARACTER_TEMPLATE_ID_0 = CharacterTemplateId(0)
+val CHARACTER_TEMPLATE_ID_1 = CharacterTemplateId(1)
 val UNKNOWN_CHARACTER_TEMPLATE_ID = CharacterTemplateId(99)
 val CHARACTER_TRAIT_ID_0 = CharacterTraitId(0)
 val CHARACTER_TRAIT_ID_1 = CharacterTraitId(1)
@@ -116,6 +118,9 @@ val DISTRICT_ID_1 = DistrictId(1)
 val UNKNOWN_DISTRICT_ID = DistrictId(99)
 val DOMAIN_ID_0 = DomainId(0)
 val UNKNOWN_DOMAIN_ID = DomainId(99)
+val ENCOUNTER_ID_0 = EncounterId(0)
+val ENCOUNTER_ID_1 = EncounterId(1)
+val UNKNOWN_ENCOUNTER_ID = EncounterId(99)
 val EQUIPMENT_ID_0 = EquipmentId(0)
 val EQUIPMENT_ID_1 = EquipmentId(1)
 val UNKNOWN_EQUIPMENT_ID = EquipmentId(99)

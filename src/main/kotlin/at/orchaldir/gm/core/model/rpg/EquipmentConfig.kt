@@ -1,11 +1,12 @@
 package at.orchaldir.gm.core.model.rpg
 
+import at.orchaldir.gm.core.model.rpg.dice.ModifiedDiceRange
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class EquipmentConfig(
-    val damageModifier: SimpleModifiedDiceRange = SimpleModifiedDiceRange(IntRange(-2, 2), IntRange(-6, 6)),
+    val damageModifier: ModifiedDiceRange = ModifiedDiceRange(IntRange(-2, 2), IntRange(-6, 6)),
     val maxDamageResistance: Int = 20,
     val damageResistanceModifier: IntRange = IntRange(-5, 5),
     val maxDefenseBonus: Int = 10,

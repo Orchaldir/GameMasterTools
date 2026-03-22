@@ -154,7 +154,7 @@ private fun HtmlBlockTag.selectGenonymConvention(
     style: GenonymicStyle,
     names: GivenNames,
 ) {
-    selectValue("Lookup Distance", LOOKUP_DISTANCE, GenonymicLookupDistance.entries, lookupDistance)
+    selectValue("Lookup Distance", LOOKUP, GenonymicLookupDistance.entries, lookupDistance)
     selectValue("Genonymic Style", GENONYMIC_STYLE, GenonymicStyleType.entries, style.getType())
 
     when (style) {
@@ -208,19 +208,19 @@ fun parseNamingConvention(parameters: Parameters) =
 
         Patronym -> PatronymConvention(
             parseGivenNames(parameters),
-            parse(parameters, LOOKUP_DISTANCE, GenonymicLookupDistance.OneGeneration),
+            parse(parameters, LOOKUP, GenonymicLookupDistance.OneGeneration),
             parseGenonymicStyle(parameters),
         )
 
         Matronym -> MatronymConvention(
             parseGivenNames(parameters),
-            parse(parameters, LOOKUP_DISTANCE, GenonymicLookupDistance.OneGeneration),
+            parse(parameters, LOOKUP, GenonymicLookupDistance.OneGeneration),
             parseGenonymicStyle(parameters),
         )
 
         Genonym -> GenonymConvention(
             parseGivenNames(parameters),
-            parse(parameters, LOOKUP_DISTANCE, GenonymicLookupDistance.OneGeneration),
+            parse(parameters, LOOKUP, GenonymicLookupDistance.OneGeneration),
             parseGenonymicStyle(parameters),
         )
     }

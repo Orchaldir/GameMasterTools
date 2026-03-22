@@ -63,5 +63,5 @@ fun parseShieldType(
 ) = ShieldType(
     id,
     parseName(parameters),
-    parseProtection(parameters),
+    parseProtection(state, parameters),
 )

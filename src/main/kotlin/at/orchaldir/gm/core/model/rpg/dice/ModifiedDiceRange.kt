@@ -1,9 +1,10 @@
-package at.orchaldir.gm.core.model.rpg
+package at.orchaldir.gm.core.model.rpg.dice
 
+import at.orchaldir.gm.core.model.rpg.IntRange
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class SimpleModifiedDiceRange(
+data class ModifiedDiceRange(
     val dice: IntRange,
     val modifier: IntRange,
 ) {

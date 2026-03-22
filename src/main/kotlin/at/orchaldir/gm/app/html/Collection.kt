@@ -196,7 +196,14 @@ fun <T> HtmlBlockTag.editList(
     step: Int = 1,
     editElement: HtmlBlockTag.(Int, String, T) -> Unit,
 ) {
-    selectInt("Number", elements.size, minSize, maxSize, step, combine(param, NUMBER))
+    selectInt(
+        "Number",
+        elements.size,
+        minSize,
+        maxSize,
+        step,
+        combine(param, NUMBER),
+    )
 
     showListWithIndex(elements) { index, element ->
         val elementParam = combine(param, index)
@@ -214,7 +221,14 @@ fun <K, V> HtmlBlockTag.editMap(
     editElement: HtmlBlockTag.(Int, String, K, V) -> Unit,
 ) {
     showDetails(label, true) {
-        selectInt("Number", elements.size, minSize, maxSize, step, combine(param, NUMBER))
+        selectInt(
+            "Number",
+            elements.size,
+            minSize,
+            maxSize,
+            step,
+            combine(param, NUMBER),
+        )
 
         showListWithIndex(elements.entries) { index, (key, value) ->
             val elementParam = combine(param, index)
@@ -269,15 +283,19 @@ fun <ID : Id<ID>, V> parseIdMap(
 fun <K, V> parseMap(
     parameters: Parameters,
     param: String,
-    parseKey: (Int, String) -> K,
+    keys: Collection<K>,
+    parseKey: (Int, String) -> K?,
     parseValue: (K, Int, String) -> V,
 ): Map<K, V> {
     val count = parseInt(parameters, combine(param, NUMBER), 0)
     val map = mutableMapOf<K, V>()
+    val remaining = keys.toMutableSet()
 
     for (index in 0..<count) {
         val indexParam = combine(param, index)
-        val key = parseKey(index, indexParam)
+        val key = parseKey(index, indexParam) ?: remaining.firstOrNull() ?: break
+
+        remaining.remove(key)
 
         map[key] = parseValue(key, index, indexParam)
     }

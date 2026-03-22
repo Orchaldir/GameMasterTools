@@ -2,9 +2,8 @@ package at.orchaldir.gm.app.html.rpg.combat
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.rpg.parseSimpleModifiedDice
-import at.orchaldir.gm.app.html.rpg.selectDiceModifier
-import at.orchaldir.gm.app.html.rpg.selectDiceNumber
+import at.orchaldir.gm.app.html.rpg.dice.editRandomNumber
+import at.orchaldir.gm.app.html.rpg.dice.parseRandomNumber
 import at.orchaldir.gm.app.html.rpg.selectFromRange
 import at.orchaldir.gm.app.html.util.math.parseFactor
 import at.orchaldir.gm.app.html.util.math.selectFactor
@@ -65,10 +64,7 @@ fun HtmlBlockTag.editEquipmentModifierEffect(
         )
 
         when (effect) {
-            is ModifyDamage -> {
-                selectDiceNumber(effect.amount, param, data.damageModifier)
-                selectDiceModifier(effect.amount, param, data.damageModifier)
-            }
+            is ModifyDamage -> editRandomNumber(data.damageModifier, effect.amount, param)
 
             is ModifyDamageResistance -> selectFromRange(
                 "Damage Resistance",
@@ -116,7 +112,7 @@ fun parseEquipmentModifierEffect(
     param: String,
 ) = when (parse(parameters, combine(param, TYPE), EquipmentModifierEffectType.Damage)) {
     EquipmentModifierEffectType.Damage -> ModifyDamage(
-        parseSimpleModifiedDice(parameters, param),
+        parseRandomNumber(parameters, param),
     )
 
     EquipmentModifierEffectType.DamageResistance -> ModifyDamageResistance(

@@ -1,78 +1,81 @@
 package at.orchaldir.gm.app.html.util
 
-import at.orchaldir.gm.app.CURRENT
 import at.orchaldir.gm.app.DATE
-import at.orchaldir.gm.app.HISTORY
+import at.orchaldir.gm.app.NUMBER
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.util.Lookup
 import at.orchaldir.gm.core.model.util.LookupEntry
 import io.ktor.http.*
 import kotlinx.html.*
+import kotlin.math.max
 
 // show
 
-fun <T> HtmlBlockTag.showLookup(
+fun <T> HtmlBlockTag.showLookupTable(
     lookup: Lookup<T>,
-    label: String,
-    showValue: HtmlBlockTag.(T) -> Unit,
+    column: Pair<String, HtmlBlockTag.(T) -> Unit>,
+) = showLookupTable(lookup, listOf(column))
+
+fun <T> HtmlBlockTag.showLookupTable(
+    lookup: Lookup<T>,
+    columns: List<Pair<String, HtmlBlockTag.(T) -> Unit>>,
 ) {
-    showDetails(label, true) {
-        fieldList("Previously", lookup.previousEntries) { previous ->
-            +"Until ${previous.until}: "
-            showValue(previous.value)
+    table {
+        tr {
+            th { +"Until" }
+            columns.forEach { (label, _) ->
+                th { +label }
+            }
         }
-        field("Currently") {
-            showValue(lookup.current)
+        lookup.entries.forEach { entry ->
+            tr {
+                tdInt(entry.until)
+                columns.forEach { (_, showValue) ->
+                    td {
+                        showValue(entry.value)
+                    }
+                }
+            }
         }
     }
 }
 
 // edit
 
-fun <T> HtmlBlockTag.selectLookup(
+fun <T> HtmlBlockTag.editLookupTable(
     param: String,
     lookup: Lookup<T>,
-    label: String,
-    start: Int,
-    end: Int,
-    selectValue: HtmlBlockTag.(String, T) -> Unit,
-) {
-    val previousOwnersParam = combine(param, HISTORY)
-    var minUntil = start
-
-    showDetails(label, true) {
-        selectInt("Previously", lookup.previousEntries.size, 0, 100, 1, previousOwnersParam)
-
-        showListWithIndex(lookup.previousEntries) { index, previous ->
-            val previousParam = combine(previousOwnersParam, index)
-            selectValue(previousParam, previous.value)
-            selectInt(
-                "Until",
-                previous.until,
-                minUntil,
-                end,
-                1,
-                combine(previousParam, DATE),
-            )
-
-            minUntil = previous.until + 1
-        }
-
-        selectValue(combine(param, CURRENT), lookup.current)
-    }
-}
+    minEntries: Int,
+    maxEntries: Int,
+    startUntil: Int,
+    column: Pair<String, HtmlBlockTag.(String, T) -> Unit>,
+) = editLookupTable(
+    param,
+    lookup,
+    minEntries,
+    maxEntries,
+    startUntil,
+    listOf(column),
+)
 
 fun <T> HtmlBlockTag.editLookupTable(
     param: String,
     lookup: Lookup<T>,
-    start: Int,
-    end: Int,
+    minEntries: Int,
+    maxEntries: Int,
+    startUntil: Int,
     columns: List<Pair<String, HtmlBlockTag.(String, T) -> Unit>>,
 ) {
-    val previousOwnersParam = combine(param, HISTORY)
-    var minUntil = start
+    var minUntil = startUntil
 
-    selectInt("Previously", lookup.previousEntries.size, 0, 100, 1, previousOwnersParam)
+    selectInt(
+        "Entries",
+        lookup.entries.size,
+        minEntries,
+        maxEntries,
+        1,
+        combine(param, NUMBER),
+    )
 
     table {
         tr {
@@ -81,8 +84,8 @@ fun <T> HtmlBlockTag.editLookupTable(
                 th { +label }
             }
         }
-        lookup.previousEntries.withIndex().forEach { (index, entry) ->
-            val previousParam = combine(previousOwnersParam, index)
+        lookup.entries.withIndex().forEach { (index, entry) ->
+            val entryParam = combine(param, index)
 
             tr {
                 td {
@@ -90,28 +93,19 @@ fun <T> HtmlBlockTag.editLookupTable(
                         "Until",
                         entry.until,
                         minUntil,
-                        end,
+                        Int.MAX_VALUE,
                         1,
-                        combine(previousParam, DATE),
+                        combine(entryParam, DATE),
                     )
                 }
                 columns.forEach { (_, selectValue) ->
                     td {
-                        selectValue(previousParam, entry.value)
+                        selectValue(entryParam, entry.value)
                     }
                 }
             }
 
             minUntil = entry.until + 1
-        }
-
-        tr {
-            tdString(">")
-            columns.forEach { (_, selectValue) ->
-                td {
-                    selectValue(combine(param, CURRENT), lookup.current)
-                }
-            }
         }
     }
 }
@@ -123,28 +117,18 @@ fun <T> parseLookup(
     param: String,
     start: Int,
     parseValue: (String) -> T,
-) = Lookup(
-    parseValue(combine(param, CURRENT)),
-    parseLookupEntries(parameters, param, start, parseValue),
-)
-
-private fun <T> parseLookupEntries(
-    parameters: Parameters,
-    param: String,
-    start: Int,
-    parseValue: (String) -> T,
-): List<LookupEntry<T>> {
-    val historyParam = combine(param, HISTORY)
-    val count = parseInt(parameters, historyParam, 0)
+): Lookup<T> {
     var minDate = start
 
-    return (0..<count)
-        .map {
-            val previousOwner = parseLookupEntry(parameters, combine(historyParam, it), minDate, parseValue)
-            minDate = previousOwner.until + 1
+    return Lookup(
+        parseList<LookupEntry<T>>(parameters, param, 0) { _, entryParam ->
+            val entry = parseLookupEntry(parameters, entryParam, minDate, parseValue)
 
-            previousOwner
+            minDate = entry.until + 1
+
+            entry
         }
+    )
 }
 
 private fun <T> parseLookupEntry(
@@ -154,5 +138,5 @@ private fun <T> parseLookupEntry(
     parseValue: (String) -> T,
 ) = LookupEntry(
     parseValue(param),
-    parseInt(parameters, combine(param, DATE), minDate),
+    max(minDate, parseInt(parameters, combine(param, DATE), minDate)),
 )

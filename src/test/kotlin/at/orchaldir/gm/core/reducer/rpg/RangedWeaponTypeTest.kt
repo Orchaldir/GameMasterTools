@@ -2,8 +2,8 @@ package at.orchaldir.gm.core.reducer.rpg
 
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.rpg.SimpleModifiedDice
 import at.orchaldir.gm.core.model.rpg.combat.*
+import at.orchaldir.gm.core.model.rpg.dice.StandardDice
 import at.orchaldir.gm.core.model.rpg.statistic.BaseDamage
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.utils.Storage
@@ -21,7 +21,7 @@ class RangedWeaponTypeTest {
             Storage(listOf(Statistic(STATISTIC_ID_0, data = BaseDamage()), Statistic(STATISTIC_ID_1))),
         )
     )
-    private val validDamageAmount = SimpleRandomDamage(SimpleModifiedDice(1, 0))
+    private val validDamageAmount = SimpleRandomDamage(StandardDice(1, 0))
 
     @Test
     fun `Check if damage is validated`() {

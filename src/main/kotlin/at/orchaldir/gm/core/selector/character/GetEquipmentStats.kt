@@ -54,7 +54,7 @@ fun getMeleeAttacks(state: State, map: EquipmentIdMap): Map<Equipment, List<Mele
         val type = state.getMeleeWeaponTypeStorage().getOptional(stats.type) ?: return@forEach
         val effects = state.getEquipmentModifierEffects(stats.modifiers)
 
-        meleeAttackMap[equipment] = resolveMeleeAttacks(effects, type.attacks)
+        meleeAttackMap[equipment] = resolveMeleeAttacks(state, effects, type.attacks)
     }
 
     return meleeAttackMap
@@ -77,7 +77,7 @@ fun getRangedAttacks(state: State, map: EquipmentIdMap): Map<Equipment, List<Ran
         val type = state.getRangedWeaponTypeStorage().getOptional(stats.type) ?: return@forEach
         val effects = state.getEquipmentModifierEffects(stats.modifiers)
 
-        meleeAttackMap[equipment] = resolveRangedAttacks(effects, type.attacks)
+        meleeAttackMap[equipment] = resolveRangedAttacks(state, effects, type.attacks)
     }
 
     return meleeAttackMap

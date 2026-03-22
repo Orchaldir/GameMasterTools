@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.model.rpg.combat
 
 import at.orchaldir.gm.DAMAGE_TYPE_ID_0
-import at.orchaldir.gm.core.model.rpg.SimpleModifiedDice
+import at.orchaldir.gm.core.model.rpg.dice.StandardDice
 import at.orchaldir.gm.core.selector.rpg.statblock.resolveProtection
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -14,7 +14,7 @@ class ResolveProtectionTest {
 
     @Test
     fun `Test Modify Damage`() {
-        val effect = ModifyDamage(SimpleModifiedDice(1, 2))
+        val effect = ModifyDamage(StandardDice(1, 2))
 
         assertResolve(effect, damageResistance, damageResistance)
         assertResolve(effect, damageResistances, damageResistances)

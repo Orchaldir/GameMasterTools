@@ -34,6 +34,7 @@ import at.orchaldir.gm.core.model.religion.Domain
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.religion.Pantheon
 import at.orchaldir.gm.core.model.rpg.combat.*
+import at.orchaldir.gm.core.model.rpg.encounter.Encounter
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTrait
 import at.orchaldir.gm.core.model.time.calendar.Calendar
@@ -503,6 +504,20 @@ fun State.sortDomains(
         when (sort) {
             SortDomain.Name -> compareBy { it.name.text }
             SortDomain.Spells -> compareByDescending { it.spells.getSize() }
+        })
+
+// encounter
+
+fun State.sortEncounters(sort: SortEncounter = SortEncounter.Name) =
+    sortEncounters(getEncounterStorage().getAll(), sort)
+
+fun State.sortEncounters(
+    encounters: Collection<Encounter>,
+    sort: SortEncounter = SortEncounter.Name,
+) = encounters
+    .sortedWith(
+        when (sort) {
+            SortEncounter.Name -> compareBy { it.name.text }
         })
 
 // equipment
@@ -1071,9 +1086,9 @@ fun State.sortStatistics(sort: SortStatistic = SortStatistic.Name) =
     sortStatistics(getStatisticStorage().getAll(), sort)
 
 fun State.sortStatistics(
-    templates: Collection<Statistic>,
+    statistics: Collection<Statistic>,
     sort: SortStatistic = SortStatistic.Name,
-) = templates
+) = statistics
     .sortedWith(
         when (sort) {
             SortStatistic.Name -> compareBy { it.name.text }

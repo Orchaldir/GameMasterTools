@@ -133,6 +133,10 @@ enum class SortDomain {
     Spells,
 }
 
+enum class SortEncounter {
+    Name,
+}
+
 enum class SortEquipment {
     Name,
     Weight,

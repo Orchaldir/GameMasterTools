@@ -102,6 +102,8 @@ fun Application.configureRouting() {
                     fieldStorageLink(call, state.getCurrencyStorage(), CurrencyRoutes())
                     fieldStorageLink(call, state.getCurrencyUnitStorage(), CurrencyUnitRoutes())
                     fieldStorageLink(call, state.getJobStorage(), JobRoutes())
+                    h3 { +"GM" }
+                    fieldStorageLink(call, state.getEncounterStorage(), EncounterRoutes())
                     h3 { +"Magic" }
                     fieldStorageLink(call, state.getMagicTraditionStorage(), MagicTraditionRoutes())
                     fieldStorageLink(call, state.getSpellStorage(), SpellRoutes())

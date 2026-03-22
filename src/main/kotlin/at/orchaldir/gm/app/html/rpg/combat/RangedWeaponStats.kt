@@ -37,7 +37,7 @@ private fun DETAILS.updatedRangedWeaponStats(
 ) {
     state.getRangedWeaponTypeStorage().getOptional(stats.type)?.let { type ->
         val effects = state.getEquipmentModifierEffects(stats.modifiers)
-        val updatedAttacks = resolveRangedAttacks(effects, type.attacks)
+        val updatedAttacks = resolveRangedAttacks(state, effects, type.attacks)
 
         showRangedAttackTable(call, state, updatedAttacks)
     }

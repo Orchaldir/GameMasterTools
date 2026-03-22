@@ -10,21 +10,20 @@ data class LookupEntry<T>(
 
 @Serializable
 data class Lookup<T>(
-    val current: T,
-    val previousEntries: List<LookupEntry<T>> = emptyList(),
+    val entries: List<LookupEntry<T>> = emptyList(),
 ) {
-    constructor(current: T) : this(current, emptyList())
+    constructor(value: T) : this(listOf(LookupEntry(value, 1)))
 
-    constructor(current: T, previousEntry: LookupEntry<T>) : this(current, listOf(previousEntry))
+    constructor(current: T, previous: LookupEntry<T>) : this(listOf(previous, LookupEntry(current, previous.until + 1)))
 
     fun get(number: Int): T {
-        previousEntries.forEach { (value, until) ->
+        entries.forEach { (value, until) ->
             if (number <= until) {
                 return value
             }
         }
 
-        return current
+        return entries.last().value
     }
 
 }

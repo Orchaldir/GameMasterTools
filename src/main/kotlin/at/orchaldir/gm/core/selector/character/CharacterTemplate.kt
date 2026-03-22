@@ -12,10 +12,15 @@ import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitId
 import at.orchaldir.gm.core.selector.item.equipment.getEquipmentIdMap
+import at.orchaldir.gm.core.selector.rpg.encounter.getEncountersWith
 import at.orchaldir.gm.core.selector.rpg.statblock.getStatblock
+import at.orchaldir.gm.core.selector.world.getRegionsWithEncounter
 
 fun State.canDeleteCharacterTemplate(template: CharacterTemplateId) = DeleteResult(template)
     .addElements(getCharactersUsing(template))
+    .addElements(getCharacterTemplates(template))
+    .addElements(getEncountersWith(template))
+    .addElements(getRegionsWithEncounter(template))
 
 // get characters
 
