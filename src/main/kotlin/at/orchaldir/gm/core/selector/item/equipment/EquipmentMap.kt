@@ -41,7 +41,7 @@ fun State.getEquipmentIdMap(
         getEquipmentIdMap(equipped.update, lookup)
     }
 
-    UndefinedEquipped -> EquipmentIdMap()
+    UseFashionFromCulture, UndefinedEquipped -> EquipmentIdMap()
 }
 
 fun State.getEquipmentIdMap(

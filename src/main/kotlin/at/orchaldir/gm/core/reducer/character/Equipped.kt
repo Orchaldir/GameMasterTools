@@ -19,6 +19,7 @@ fun validateEquipped(
     element: UniformId? = null,
 ) = when (equipped) {
     is UniqueEquipment -> validateEquipmentMap(state, equipped.map)
+    is UseFashionFromCulture -> doNothing()
     is UseUniform -> {
         state.getUniformStorage().require(equipped.uniform)
         validateUniformId(equipped.uniform, element)

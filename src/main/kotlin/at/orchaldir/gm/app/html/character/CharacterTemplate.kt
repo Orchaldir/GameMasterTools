@@ -27,6 +27,7 @@ import at.orchaldir.gm.core.model.character.CharacterTemplateId
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.selector.character.getCharacterTemplates
 import at.orchaldir.gm.core.selector.character.getCharactersUsing
+import at.orchaldir.gm.core.selector.culture.hasFashion
 import at.orchaldir.gm.core.selector.item.equipment.getEquipmentIdMapForLookup
 import at.orchaldir.gm.core.selector.rpg.encounter.getEncountersWith
 import at.orchaldir.gm.core.selector.rpg.statblock.getStatblock
@@ -97,7 +98,7 @@ fun HtmlBlockTag.editCharacterTemplate(
     editKnownLanguages(state, template.languages)
     selectBeliefStatus(state, BELIEVE, template.belief)
     editStatblockLookup(call, state, statblock, template.statblock, setOf(template.id))
-    editEquipped(call, state, EQUIPPED, template.equipped, template.statblock)
+    editEquipped(call, state, EQUIPPED, template.equipped, template.statblock, state.hasFashion(template))
     editDataSources(state, template.sources)
 }
 

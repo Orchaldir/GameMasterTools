@@ -11,6 +11,7 @@ enum class EquippedType {
     Unique,
     ModifyTemplate,
     ModifyUniform,
+    UseCulture,
     UseTemplate,
     UseUniform,
 }
@@ -24,6 +25,7 @@ sealed class Equipped {
         is ModifyEquipmentFromTemplate -> EquippedType.ModifyTemplate
         is ModifyUniform -> EquippedType.ModifyUniform
         is UseEquipmentFromTemplate -> EquippedType.UseTemplate
+        is UseFashionFromCulture -> EquippedType.UseCulture
         is UseUniform -> EquippedType.UseUniform
     }
 
@@ -77,6 +79,10 @@ data object UseEquipmentFromTemplate : Equipped()
 data class ModifyEquipmentFromTemplate(
     val update: EquipmentMapUpdate,
 ) : Equipped()
+
+@Serializable
+@SerialName("UseCulture")
+data object UseFashionFromCulture : Equipped()
 
 @Serializable
 @SerialName("Undefined")

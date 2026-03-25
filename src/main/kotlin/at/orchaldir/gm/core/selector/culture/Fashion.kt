@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.selector.culture
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
+import at.orchaldir.gm.core.model.character.CharacterTemplate
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.fashion.AppearanceFashion
@@ -18,6 +19,13 @@ fun State.getFashions(id: EquipmentId): List<Fashion> {
 
     return getFashionStorage().getAll()
         .filter { it.clothing.getOptions(equipment.data.getType()).isAvailable(id) }
+}
+
+fun State.hasFashion(character: Character) = getFashion(character) != null
+fun State.hasFashion(template: CharacterTemplate): Boolean  {
+    val culture = getCultureStorage().getOptional(template.culture) ?: return false
+
+    return culture.hasFashion(template)
 }
 
 fun State.getFashion(character: Character): Fashion? {
