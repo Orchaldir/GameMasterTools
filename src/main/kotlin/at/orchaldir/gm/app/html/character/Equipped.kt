@@ -158,7 +158,7 @@ fun HtmlBlockTag.editEquipped(
         allowedTypes.remove(EquippedType.ModifyTemplate)
     }
 
-    if (hasFashion) {
+    if (!hasFashion) {
         allowedTypes.remove(EquippedType.UseCulture)
     }
 

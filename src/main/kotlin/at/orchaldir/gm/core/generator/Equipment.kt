@@ -3,7 +3,9 @@ package at.orchaldir.gm.core.generator
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
-import at.orchaldir.gm.core.model.culture.fashion.ClothingSet
+import at.orchaldir.gm.core.model.character.CharacterTemplate
+import at.orchaldir.gm.core.model.character.Gender
+import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.fashion.Fashion
 import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.util.OneOf
@@ -13,14 +15,12 @@ import at.orchaldir.gm.core.model.util.render.ColorSchemeId
 import at.orchaldir.gm.core.selector.culture.getFashion
 import at.orchaldir.gm.utils.NumberGenerator
 import at.orchaldir.gm.utils.RandomNumberGenerator
-import at.orchaldir.gm.utils.doNothing
 import kotlin.random.Random
 
 data class EquipmentGenerator(
     val state: State,
     val numberGenerator: NumberGenerator,
     val rarityGenerator: RarityGenerator,
-    val character: Character,
     val fashion: Fashion,
 ) {
 
@@ -31,14 +31,16 @@ data class EquipmentGenerator(
             return create(state, character)
         }
 
-        fun create(state: State, character: Character): EquipmentGenerator? {
-            val fashion = state.getFashion(character) ?: return null
+        fun create(state: State, character: Character) =
+            create(state, character.culture, character.gender)
+
+        fun create(state: State, culture: CultureId?, gender: Gender): EquipmentGenerator? {
+            val fashion = state.getFashion(culture, gender) ?: return null
 
             return EquipmentGenerator(
                 state,
                 RandomNumberGenerator(Random),
                 state.rarityGenerator,
-                character,
                 fashion,
             )
         }

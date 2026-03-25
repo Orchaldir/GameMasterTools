@@ -34,6 +34,12 @@ fun State.getFashion(character: Character): Fashion? {
     return getFashionStorage().getOptional(culture.getFashion(character))
 }
 
+fun State.getFashion(culture: CultureId?, gender: Gender): Fashion? {
+    val culture = getCultureStorage().getOptional(culture) ?: return null
+
+    return getFashionStorage().getOptional(culture.fashion.get(gender))
+}
+
 fun State.getAppearanceFashion(gender: Gender, culture: CultureId?): AppearanceFashion {
     val culture = getCultureStorage().getOptional(culture) ?: return AppearanceFashion()
 
