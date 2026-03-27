@@ -28,5 +28,5 @@ fun visualizeShirt(
     val options = state.getFillAndBorder(shirt.main)
 
     visualizeSleeves(state, options, shirt.sleeveStyle)
-    visualizeTorso(state, options, shirt.necklineStyle, LOWER_EQUIPMENT_LAYER)
+    visualizeTorso(state, options, shirt.neckline, LOWER_EQUIPMENT_LAYER)
 }

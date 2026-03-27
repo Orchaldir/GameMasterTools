@@ -11,7 +11,7 @@ import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.SuitJacket
 import at.orchaldir.gm.core.model.item.equipment.style.NECKLINES_WITH_SLEEVES
-import at.orchaldir.gm.core.model.item.equipment.style.NecklineStyle
+import at.orchaldir.gm.core.model.item.equipment.style.NecklineType
 import at.orchaldir.gm.core.model.item.equipment.style.PocketStyle
 import at.orchaldir.gm.core.model.item.equipment.style.SleeveStyle
 import at.orchaldir.gm.core.model.util.part.CLOTHING_MATERIALS
@@ -26,7 +26,7 @@ fun HtmlBlockTag.showSuitJacket(
     state: State,
     data: SuitJacket,
 ) {
-    field("Neckline Style", data.necklineStyle)
+    showNeckline(call, state, data.neckline)
     field("Sleeve Style", data.sleeveStyle)
     showOpeningStyle(call, state, data.openingStyle)
     field("Pocket Style", data.pocketStyle)
@@ -39,7 +39,7 @@ fun HtmlBlockTag.editSuitJacket(
     state: State,
     data: SuitJacket,
 ) {
-    selectNecklineStyle(NECKLINES_WITH_SLEEVES, data.necklineStyle)
+    editNeckline(state, data.neckline, NECKLINES_WITH_SLEEVES)
     selectSleeveStyle(SleeveStyle.entries, data.sleeveStyle)
     selectOpeningStyle(state, data.openingStyle)
     selectPocketStyle(PocketStyle.entries, data.pocketStyle)
@@ -53,7 +53,7 @@ fun parseSuitJacket(
     state: State,
     parameters: Parameters,
 ) = SuitJacket(
-    parse(parameters, combine(NECKLINE, STYLE), NecklineStyle.DeepV),
+    parseNeckline(parameters, NecklineType.V),
     parse(parameters, combine(SLEEVE, STYLE), SleeveStyle.Long),
     parseOpeningStyle(state, parameters),
     parse(parameters, combine(POCKET, STYLE), PocketStyle.None),

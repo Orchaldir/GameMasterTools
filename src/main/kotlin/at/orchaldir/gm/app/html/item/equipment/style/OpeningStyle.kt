@@ -91,10 +91,6 @@ private fun HtmlBlockTag.selectButtons(state: State, buttonColumn: ButtonColumn)
 }
 
 
-fun HtmlBlockTag.selectNecklineStyle(options: Collection<NecklineStyle>, current: NecklineStyle) {
-    selectValue("Neckline Style", combine(NECKLINE, STYLE), options, current)
-}
-
 fun HtmlBlockTag.selectSleeveStyle(options: Collection<SleeveStyle>, current: SleeveStyle) {
     selectValue("Sleeve Style", combine(SLEEVE, STYLE), options, current)
 }
@@ -138,7 +134,7 @@ private fun parseButtonColumn(
 
 fun parseSleeveStyle(
     parameters: Parameters,
-    neckline: NecklineStyle,
+    neckline: Neckline,
 ) = if (neckline.supportsSleeves()) {
     parse(parameters, combine(SLEEVE, STYLE), SleeveStyle.Long)
 } else {

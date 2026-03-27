@@ -25,7 +25,7 @@ fun HtmlBlockTag.showCoat(
     data: Coat,
 ) {
     field("Length", data.length)
-    field("Neckline Style", data.necklineStyle)
+    showNeckline(call, state, data.neckline)
     field("Sleeve Style", data.sleeveStyle)
     showOpeningStyle(call, state, data.openingStyle)
     field("Pocket Style", data.pocketStyle)
@@ -39,7 +39,7 @@ fun HtmlBlockTag.editCoat(
     data: Coat,
 ) {
     selectValue("Length", LENGTH, OuterwearLength.entries, data.length)
-    selectNecklineStyle(NECKLINES_WITH_SLEEVES, data.necklineStyle)
+    editNeckline(state, data.neckline, NECKLINES_WITH_SLEEVES)
     selectSleeveStyle(SleeveStyle.entries, data.sleeveStyle)
     selectOpeningStyle(state, data.openingStyle)
     selectPocketStyle(PocketStyle.entries, data.pocketStyle)
@@ -54,7 +54,7 @@ fun parseCoat(
 ) = Coat(
     parseItemPart(state, parameters, MAIN, CLOTHING_MATERIALS),
     parse(parameters, LENGTH, OuterwearLength.Hip),
-    parse(parameters, combine(NECKLINE, STYLE), NecklineStyle.DeepV),
+    parseNeckline(parameters, NecklineType.V),
     parse(parameters, combine(SLEEVE, STYLE), SleeveStyle.Long),
     parseOpeningStyle(state, parameters),
     parse(parameters, combine(POCKET, STYLE), PocketStyle.None),

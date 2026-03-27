@@ -54,7 +54,7 @@ fun visualizeCoat(
     visualizeCoatBody(state, options, coat, layer)
 
     if (state.renderFront) {
-        val necklineHeight = state.config.equipment.neckline.getHeight(coat.necklineStyle)
+        val necklineHeight = state.config.equipment.neckline.getHeight(coat.neckline)
         val bottomY = getOuterwearBottomY(state, coat.length)
         val topY = state.config.body.torsoY + state.config.body.torsoHeight * necklineHeight
         val torsoWidth = state.config.body.getTorsoWidth(state)
@@ -73,8 +73,8 @@ private fun visualizeCoatBody(
     layer: Int,
 ) {
     val paddedWidth = state.config.equipment.coat.getPaddedWidth()
-    val builder = createOuterwearBuilder(state, coat.length, coat.necklineStyle, paddedWidth)
-    addNeckline(state, builder, coat.necklineStyle)
+    val builder = createOuterwearBuilder(state, coat.length, coat.neckline, paddedWidth)
+    addNeckline(state, builder, coat.neckline)
 
     renderBuilder(state.renderer, builder, options, layer)
 }
