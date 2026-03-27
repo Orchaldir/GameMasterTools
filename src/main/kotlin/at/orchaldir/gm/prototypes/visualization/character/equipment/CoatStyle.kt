@@ -19,6 +19,12 @@ import at.orchaldir.gm.prototypes.visualization.character.renderCharacterTableWi
 import at.orchaldir.gm.utils.math.unit.Distance
 
 fun main() {
+    val necklines = listOf(
+        Crew,
+        NoNeckline,
+        VNeck(),
+    )
+
     renderCharacterTableWithoutColorScheme(
         State(),
         "coat-style.svg",
@@ -33,7 +39,7 @@ fun main() {
             createDouble(Size.Large),
             Pair("Zipper", Zipper()),
         ),
-        addNames(NECKLINES_WITH_SLEEVES)
+        addNames(necklines)
     ) { distance, neckline, opening ->
         Pair(createAppearance(distance), from(createCoat(neckline, opening)))
     }
@@ -47,7 +53,7 @@ private fun createDouble(space: Size) =
     Pair("DoubleBreasted - $space", DoubleBreasted(ButtonColumn(Button(), 4u), space))
 
 private fun createCoat(
-    neckline: NecklineStyle,
+    neckline: Neckline,
     opening: OpeningStyle,
 ) = Coat(
     MadeFromFabric(Blue),

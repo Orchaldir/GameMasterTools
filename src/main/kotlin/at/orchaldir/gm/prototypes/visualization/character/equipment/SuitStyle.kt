@@ -47,7 +47,7 @@ private fun createSuite(
         Pants(main = MadeFromFabric(Color.Silver)),
         Shirt(),
         SuitJacket(
-            NecklineStyle.DeepV,
+            VNeck(),
             SleeveStyle.Long,
             opening,
             pocket,

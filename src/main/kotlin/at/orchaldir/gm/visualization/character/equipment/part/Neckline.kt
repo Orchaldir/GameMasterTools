@@ -1,26 +1,28 @@
 package at.orchaldir.gm.visualization.character.equipment.part
 
 import at.orchaldir.gm.core.model.character.appearance.Body
-import at.orchaldir.gm.core.model.item.equipment.style.NecklineStyle
-import at.orchaldir.gm.core.model.item.equipment.style.NecklineStyle.*
+import at.orchaldir.gm.core.model.item.equipment.style.Asymmetrical
+import at.orchaldir.gm.core.model.item.equipment.style.Crew
+import at.orchaldir.gm.core.model.item.equipment.style.Halter
+import at.orchaldir.gm.core.model.item.equipment.style.Neckline
+import at.orchaldir.gm.core.model.item.equipment.style.NoNeckline
+import at.orchaldir.gm.core.model.item.equipment.style.Strapless
+import at.orchaldir.gm.core.model.item.equipment.style.VNeck
+import at.orchaldir.gm.core.model.util.SizeConfig
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 
 data class NecklineConfig(
     val heightCrew: Factor,
-    val heightV: Factor,
-    val heightDeepV: Factor,
-    val heightVeryDeepV: Factor,
+    val heightV: SizeConfig<Factor>,
     val widthCrew: Factor,
     val widthV: Factor,
 ) {
-    fun getHeight(style: NecklineStyle) = when (style) {
+    fun getHeight(neckline: Neckline) = when (neckline) {
         Crew -> heightCrew
         Halter -> TODO()
         Strapless -> TODO()
-        V -> heightV
-        DeepV -> heightDeepV
-        VeryDeepV -> heightVeryDeepV
+        is VNeck -> heightV.convert(neckline.size)
         else -> ZERO
     }
 }
@@ -28,23 +30,21 @@ data class NecklineConfig(
 fun addNeckline(
     state: CharacterRenderState<Body>,
     builder: Polygon2dBuilder,
-    style: NecklineStyle,
+    neckline: Neckline,
 ) {
-    if (!state.renderFront && !style.renderBack()) {
+    if (!state.renderFront && !neckline.renderBack()) {
         return
     }
 
     val torsoAabb = state.torsoAABB()
-    val neckline = state.config.equipment.neckline
+    val config = state.config.equipment.neckline
 
-    when (style) {
+    when (neckline) {
         Asymmetrical -> addAsymmetrical(state, builder, torsoAabb)
-        Crew -> addRound(builder, torsoAabb, neckline.widthCrew, neckline.heightCrew)
+        Crew -> addRound(builder, torsoAabb, config.widthCrew, config.heightCrew)
         Halter -> addHalter(state, builder, torsoAabb)
-        None, Strapless -> return
-        V -> addV(builder, torsoAabb, neckline.widthV, neckline.heightV)
-        DeepV -> addV(builder, torsoAabb, neckline.widthV, neckline.heightDeepV)
-        VeryDeepV -> addV(builder, torsoAabb, neckline.widthV, neckline.heightVeryDeepV)
+        NoNeckline, Strapless -> return
+        is VNeck -> addV(builder, torsoAabb, config.widthV, config.heightV.convert(neckline.size))
     }
 }
 
