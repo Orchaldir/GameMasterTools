@@ -14,15 +14,8 @@ import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.app.routes.race.generateAppearance
 import at.orchaldir.gm.core.generator.EquipmentGenerator
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.CHARACTER_TEMPLATE_TYPE
-import at.orchaldir.gm.core.model.character.CharacterTemplate
-import at.orchaldir.gm.core.model.character.CharacterTemplateId
-import at.orchaldir.gm.core.model.character.Gender
-import at.orchaldir.gm.core.model.character.UniqueEquipment
-import at.orchaldir.gm.core.model.character.UseFashionFromCulture
-import at.orchaldir.gm.core.model.item.equipment.EquipmentElementMap
+import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.item.equipment.EquipmentIdMap
-import at.orchaldir.gm.core.model.item.equipment.EquipmentMap
 import at.orchaldir.gm.core.model.util.SortCharacterTemplate
 import at.orchaldir.gm.core.selector.culture.getAppearanceFashion
 import at.orchaldir.gm.core.selector.item.equipment.getEquipmentElementMap

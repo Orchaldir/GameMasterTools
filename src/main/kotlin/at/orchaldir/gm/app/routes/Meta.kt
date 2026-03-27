@@ -27,7 +27,7 @@ interface EditRoutes<ID : Id<ID>> {
     fun update(call: ApplicationCall, id: ID): String
 }
 
-interface Routes<ID : Id<ID>, T>: EditRoutes<ID> {
+interface Routes<ID : Id<ID>, T> : EditRoutes<ID> {
 
     fun all(call: ApplicationCall): String
     fun all(call: ApplicationCall, sort: T): String

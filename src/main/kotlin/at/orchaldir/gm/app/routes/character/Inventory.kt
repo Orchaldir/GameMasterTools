@@ -7,20 +7,14 @@ import at.orchaldir.gm.app.routes.handleEditElementSplit
 import at.orchaldir.gm.app.routes.handlePreviewElementSplit
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.app.routes.showSplitEditor
-import at.orchaldir.gm.core.generator.DateGenerator
 import at.orchaldir.gm.core.generator.EquipmentGenerator
 import at.orchaldir.gm.core.model.character.UniqueEquipment
-import at.orchaldir.gm.core.selector.time.getDefaultCalendarId
-import at.orchaldir.gm.utils.RandomNumberGenerator
-import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.*
-import io.ktor.server.html.respondHtml
 import io.ktor.server.resources.*
 import io.ktor.server.resources.post
 import io.ktor.server.routing.*
 import kotlinx.html.HtmlBlockTag
 import mu.KotlinLogging
-import kotlin.random.Random
 
 private val logger = KotlinLogging.logger {}
 

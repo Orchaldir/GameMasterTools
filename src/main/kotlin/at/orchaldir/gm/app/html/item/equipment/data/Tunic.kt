@@ -3,7 +3,8 @@ package at.orchaldir.gm.app.html.item.equipment.data
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.combine
 import at.orchaldir.gm.app.html.field
-import at.orchaldir.gm.app.html.item.equipment.style.*
+import at.orchaldir.gm.app.html.item.equipment.style.selectNecklineStyle
+import at.orchaldir.gm.app.html.item.equipment.style.selectSleeveStyle
 import at.orchaldir.gm.app.html.parse
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.util.part.editItemPart
@@ -11,7 +12,10 @@ import at.orchaldir.gm.app.html.util.part.parseItemPart
 import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.Tunic
-import at.orchaldir.gm.core.model.item.equipment.style.*
+import at.orchaldir.gm.core.model.item.equipment.style.NECKLINES_WITH_SLEEVES
+import at.orchaldir.gm.core.model.item.equipment.style.NecklineStyle
+import at.orchaldir.gm.core.model.item.equipment.style.OuterwearLength
+import at.orchaldir.gm.core.model.item.equipment.style.SleeveStyle
 import at.orchaldir.gm.core.model.util.part.CLOTHING_MATERIALS
 import io.ktor.http.*
 import io.ktor.server.application.*
