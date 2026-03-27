@@ -44,11 +44,8 @@ fun HtmlBlockTag.showEquipped(
 ) {
     when (equipped) {
         is UniqueEquipment -> +"${equipped.map.size()} items"
-        is UseUniform -> link(call, state, equipped.uniform)
-        is ModifyUniform -> {
-            +"Modify "
-            link(call, state, equipped.uniform)
-        }
+
+        is UseFashionFromCulture -> +"Use Culture"
 
         is UseEquipmentFromTemplate -> {
             +"Use "
@@ -58,6 +55,11 @@ fun HtmlBlockTag.showEquipped(
         is ModifyEquipmentFromTemplate -> {
             +"Modify "
             optionalLink(call, state, lookup.template())
+        }
+        is UseUniform -> link(call, state, equipped.uniform)
+        is ModifyUniform -> {
+            +"Modify "
+            link(call, state, equipped.uniform)
         }
 
         UndefinedEquipped -> if (showUndefined) {
@@ -94,6 +96,16 @@ fun HtmlBlockTag.showEquippedDetails(
 
         when (equipped) {
             is UniqueEquipment -> showEquipmentMap(call, state, "Equipment", equipped.map)
+
+            is UseFashionFromCulture -> doNothing()
+            is UseEquipmentFromTemplate -> doNothing()
+            is ModifyEquipmentFromTemplate -> showEquipmentMapUpdate(
+                call,
+                state,
+                state.getEquipmentIdMapForLookup(lookup),
+                equipped.update,
+            )
+
             is UseUniform -> fieldLink(call, state, equipped.uniform)
             is ModifyUniform -> {
                 fieldLink(call, state, equipped.uniform)
@@ -104,14 +116,6 @@ fun HtmlBlockTag.showEquippedDetails(
                     equipped.update,
                 )
             }
-
-            is UseEquipmentFromTemplate -> doNothing()
-            is ModifyEquipmentFromTemplate -> showEquipmentMapUpdate(
-                call,
-                state,
-                state.getEquipmentIdMapForLookup(lookup),
-                equipped.update,
-            )
 
             UndefinedEquipped -> doNothing()
         }
@@ -144,20 +148,26 @@ fun HtmlBlockTag.editEquipped(
     param: String,
     equipped: Equipped,
     lookup: StatblockLookup,
+    hasFashion: Boolean,
     elementId: UniformId? = null,
 ) {
-    val allowedTypes = if (lookup.hasTemplate()) {
-        EquippedType.entries
-    } else {
-        EquippedType.entries - EquippedType.UseTemplate - EquippedType.ModifyTemplate
+    val allowedTypes = EquippedType.entries.toMutableList()
+
+    if (!lookup.hasTemplate()) {
+        allowedTypes.remove(EquippedType.UseTemplate)
+        allowedTypes.remove(EquippedType.ModifyTemplate)
     }
+
+    if (!hasFashion) {
+        allowedTypes.remove(EquippedType.UseCulture)
+    }
+
     val equipmentMap = state.getEquipmentIdMap(equipped, lookup)
 
     showDetails("Equipped", true) {
         selectValue("Type", param, allowedTypes, equipped.getType()) { type ->
             when (type) {
-                EquippedType.Undefined -> false
-                EquippedType.Unique -> false
+                EquippedType.Undefined, EquippedType.Unique, EquippedType.UseCulture -> false
                 EquippedType.UseTemplate, EquippedType.ModifyTemplate -> state.getCharacterTemplateStorage().isEmpty()
                 EquippedType.UseUniform, EquippedType.ModifyUniform -> state.getUniformStorage()
                     .isEmptyWithout(elementId)
@@ -193,6 +203,7 @@ fun HtmlBlockTag.editEquipped(
                 combine(param, UPDATE),
             )
 
+            UseFashionFromCulture -> doNothing()
             UndefinedEquipped -> doNothing()
         }
 
@@ -226,12 +237,13 @@ fun parseEquipped(
     when (parse(parameters, param, EquippedType.Undefined)) {
         EquippedType.Undefined -> UndefinedEquipped
         EquippedType.Unique -> UniqueEquipment(
-            parseEquipmentMap(parameters, combine(param, EQUIPMENT)),
+            parseEquipmentMap(state, parameters, combine(param, EQUIPMENT)),
         )
 
+        EquippedType.UseCulture -> UseFashionFromCulture
         EquippedType.UseTemplate -> UseEquipmentFromTemplate
         EquippedType.ModifyTemplate -> ModifyEquipmentFromTemplate(
-            parseEquipmentMapUpdate(parameters, combine(param, UPDATE), base),
+            parseEquipmentMapUpdate(state, parameters, combine(param, UPDATE), base),
         )
 
         EquippedType.UseUniform -> UseUniform(
@@ -244,7 +256,7 @@ fun parseEquipped(
 
             ModifyUniform(
                 uniformId,
-                parseEquipmentMapUpdate(parameters, combine(param, UPDATE), uniform),
+                parseEquipmentMapUpdate(state, parameters, combine(param, UPDATE), uniform),
             )
         }
 

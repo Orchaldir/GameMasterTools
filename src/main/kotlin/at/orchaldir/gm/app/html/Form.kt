@@ -44,7 +44,7 @@ fun HtmlBlockTag.formWithPreview(
     back(backLink)
 }
 
-fun FORM.button(text: String, updateLink: String, isDisabled: Boolean = false) {
+fun HtmlBlockTag.button(text: String, updateLink: String, isDisabled: Boolean = false) {
     p {
         submitInput {
             value = text

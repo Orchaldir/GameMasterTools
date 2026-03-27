@@ -17,7 +17,10 @@
     "#type": "Race",
     "race": 2
    },
-   "culture": 0
+   "culture": 0,
+   "equipped": {
+    "#type": "UseCulture"
+   }
   }
  }
 }

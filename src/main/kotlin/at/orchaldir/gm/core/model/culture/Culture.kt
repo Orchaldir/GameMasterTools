@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.model.culture
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
+import at.orchaldir.gm.core.model.character.CharacterTemplate
 import at.orchaldir.gm.core.model.culture.fashion.FashionId
 import at.orchaldir.gm.core.model.culture.language.LanguageId
 import at.orchaldir.gm.core.model.culture.name.NamingConvention
@@ -51,6 +52,12 @@ data class Culture(
     fun contains(language: LanguageId) = motherTongue == language || languages.isAvailable(language)
 
     fun getFashion(character: Character) = fashion.get(character.gender)
+
+    fun hasFashion(template: CharacterTemplate) = if (template.gender != null) {
+        fashion.get(template.gender) != null
+    } else {
+        fashion.male != null || fashion.female != null || fashion.genderless != null
+    }
 
     override fun clone(cloneId: CultureId) = copy(id = cloneId, name = Name.init("Clone ${cloneId.value}"))
 

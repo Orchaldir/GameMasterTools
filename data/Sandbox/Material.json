@@ -281,6 +281,26 @@
      }
     }
    }
+  },
+  "20": {
+   "id": 20,
+   "name": "Wool",
+   "properties": {
+    "category": {
+     "#type": "Fiber",
+     "color": "White"
+    }
+   }
+  },
+  "21": {
+   "id": 21,
+   "name": "Leather",
+   "properties": {
+    "category": {
+     "#type": "Leather",
+     "color": "SaddleBrown"
+    }
+   }
   }
  }
 }

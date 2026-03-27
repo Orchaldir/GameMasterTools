@@ -1,57 +1,5 @@
 {
  "version": 1,
  "elements": {
-  "0": {
-   "id": 0,
-   "race": 1,
-   "appearance": {
-    "#type": "Humanoid",
-    "body": {
-     "bodyShape": "Fat",
-     "foot": {
-      "#type": "Clawed",
-      "size": "Small"
-     },
-     "width": "Large"
-    },
-    "head": {
-     "ears": {
-      "#type": "Normal",
-      "shape": "PointedUpwards"
-     },
-     "eyes": {
-      "#type": "Two",
-      "eye": {
-       "#type": "Normal",
-       "eyeShape": "Almond",
-       "pupilShape": "VerticalSlit",
-       "pupilColor": "Black",
-       "scleraColor": "Gold"
-      }
-     },
-     "mouth": {
-      "#type": "Snout",
-      "color": "Pink"
-     }
-    },
-    "height": 900000,
-    "skin": {
-     "#type": "Fur",
-     "color": {
-      "#type": "Stripped",
-      "color0": "Orange",
-      "color1": "Black"
-     }
-    },
-    "tails": {
-     "#type": "Simple",
-     "shape": "Cat",
-     "size": "Small",
-     "color": {
-      "#type": "Skin"
-     }
-    }
-   }
-  }
  }
 }

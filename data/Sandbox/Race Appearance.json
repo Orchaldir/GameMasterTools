@@ -107,7 +107,6 @@
     "eyeColors": {
      "Blue": "Common",
      "Green": "Common",
-     "LightGray": "Uncommon",
      "SaddleBrown": "Common"
     }
    },
@@ -132,9 +131,8 @@
    "skin": {
     "normalColors": {
      "Fair": "Uncommon",
-     "Light": "Common",
-     "Medium": "Uncommon",
-     "Tan": "Rare"
+     "Light": "Uncommon",
+     "Medium": "Rare"
     }
    }
   }

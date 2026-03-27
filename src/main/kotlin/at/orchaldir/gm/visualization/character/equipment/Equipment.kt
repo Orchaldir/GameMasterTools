@@ -3,7 +3,9 @@ package at.orchaldir.gm.visualization.character.equipment
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.character.appearance.Head
 import at.orchaldir.gm.core.model.item.equipment.*
+import at.orchaldir.gm.core.model.item.equipment.style.NoOpening
 import at.orchaldir.gm.core.model.item.equipment.style.OuterwearLength
+import at.orchaldir.gm.core.model.item.equipment.style.PocketStyle
 import at.orchaldir.gm.core.model.item.equipment.style.SleeveStyle
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
@@ -11,6 +13,7 @@ import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Volume
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.ICharacterConfig
+import at.orchaldir.gm.visualization.character.appearance.HIGHER_EQUIPMENT_LAYER
 import at.orchaldir.gm.visualization.character.appearance.JACKET_LAYER
 import at.orchaldir.gm.visualization.character.appearance.OUTERWEAR_LAYER
 import at.orchaldir.gm.visualization.character.equipment.part.NecklineConfig
@@ -199,6 +202,7 @@ fun visualizeBodyEquipment(state: CharacterRenderState<Body>) {
                 is OneHandedSword -> visualizeSword(newState, data.blade, data.hilt, true, set)
                 is TwoHandedSword -> visualizeSword(newState, data.blade, data.hilt, false, set)
                 is Tie -> visualizeTie(newState, data)
+                is Tunic -> visualizeCoat(newState, data.convert(), HIGHER_EQUIPMENT_LAYER)
                 else -> doNothing()
             }
         }
@@ -232,4 +236,12 @@ private fun SuitJacket.convert() = Coat(
     sleeveStyle,
     openingStyle,
     pocketStyle
+)
+
+private fun Tunic.convert() = Coat(
+    main,
+    length,
+    necklineStyle,
+    sleeveStyle,
+    NoOpening,
 )

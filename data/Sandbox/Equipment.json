@@ -3,38 +3,125 @@
  "elements": {
   "0": {
    "id": 0,
+   "name": "Simple Wool Pants",
    "data": {
-    "#type": "Shield",
-    "border": {
-     "#type": "Simple"
-    },
-    "boss": {
-     "#type": "Border",
-     "boss": {
-      "#type": "at.orchaldir.gm.core.model.util.part.MadeFromMetal",
-      "material": 2
-     },
-     "border": {
-      "#type": "at.orchaldir.gm.core.model.util.part.MadeFromMetal",
-      "material": 1
+    "#type": "Pants",
+    "main": {
+     "#type": "Fabric",
+     "material": 20,
+     "fill": {
+      "#type": "Solid",
+      "color": {
+       "#type": "0"
+      }
+     }
+    }
+   },
+   "colorSchemes": [
+    3,
+    2,
+    1,
+    4,
+    0
+   ]
+  },
+  "1": {
+   "id": 1,
+   "name": "Simple Wool Tunic",
+   "data": {
+    "#type": "Tunic",
+    "main": {
+     "#type": "Fabric",
+     "material": 20,
+     "fill": {
+      "#type": "Solid",
+      "color": {
+       "#type": "0"
+      }
      }
     },
-    "front": {
-     "#type": "at.orchaldir.gm.core.model.util.part.MadeFromMetal",
-     "material": 4
+    "length": "Knee"
+   },
+   "colorSchemes": [
+    3,
+    2,
+    1,
+    4,
+    0
+   ]
+  },
+  "2": {
+   "id": 2,
+   "name": "Belt",
+   "data": {
+    "#type": "Belt",
+    "buckle": {
+     "#type": "Simple",
+     "part": {
+      "#type": "Metal",
+      "material": 4
+     }
     },
-    "back": {
-     "#type": "at.orchaldir.gm.core.model.util.part.MadeFromWood",
-     "material": 10,
-     "fill": {
-      "#type": "VerticalStripes",
-      "color0": {
-       "#type": "Material"
-      },
-      "color1": {
-       "#type": "Fixed",
-       "color": "White"
-      }
+    "strap": {
+     "#type": "Leather",
+     "material": 21
+    },
+    "holes": {
+     "#type": "OneRow"
+    }
+   }
+  },
+  "3": {
+   "id": 3,
+   "name": "Leather Boots",
+   "data": {
+    "#type": "Footwear",
+    "style": "Boots",
+    "shaft": {
+     "#type": "Leather",
+     "material": 21
+    },
+    "sole": {
+     "#type": "Leather",
+     "material": 21,
+     "color": {
+      "#type": "Fixed",
+      "color": "Black"
+     }
+    }
+   }
+  },
+  "4": {
+   "id": 4,
+   "name": "Simple Leather Shoes",
+   "data": {
+    "#type": "Footwear",
+    "style": "SimpleShoes",
+    "shaft": {
+     "#type": "Leather",
+     "material": 21
+    },
+    "sole": {
+     "#type": "Fabric",
+     "material": 12
+    }
+   }
+  },
+  "5": {
+   "id": 5,
+   "name": "Leather Shoes",
+   "data": {
+    "#type": "Footwear",
+    "shaft": {
+     "#type": "Leather",
+     "material": 21
+    },
+    "sole": {
+     "#type": "Leather",
+     "material": 21,
+     "color": {
+      "#type": "Fixed",
+      "color": "Black"
      }
     }
    }

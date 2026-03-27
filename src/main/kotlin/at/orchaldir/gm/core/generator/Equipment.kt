@@ -3,7 +3,9 @@ package at.orchaldir.gm.core.generator
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterId
-import at.orchaldir.gm.core.model.culture.fashion.ClothingSet
+import at.orchaldir.gm.core.model.character.CharacterTemplate
+import at.orchaldir.gm.core.model.character.Gender
+import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.fashion.Fashion
 import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.util.OneOf
@@ -13,27 +15,32 @@ import at.orchaldir.gm.core.model.util.render.ColorSchemeId
 import at.orchaldir.gm.core.selector.culture.getFashion
 import at.orchaldir.gm.utils.NumberGenerator
 import at.orchaldir.gm.utils.RandomNumberGenerator
-import at.orchaldir.gm.utils.doNothing
 import kotlin.random.Random
 
 data class EquipmentGenerator(
     val state: State,
     val numberGenerator: NumberGenerator,
     val rarityGenerator: RarityGenerator,
-    val character: Character,
     val fashion: Fashion,
 ) {
 
     companion object {
         fun create(state: State, characterId: CharacterId): EquipmentGenerator? {
             val character = state.getCharacterStorage().getOptional(characterId) ?: return null
-            val fashion = state.getFashion(character) ?: return null
+
+            return create(state, character)
+        }
+
+        fun create(state: State, character: Character) =
+            create(state, character.culture, character.gender)
+
+        fun create(state: State, culture: CultureId?, gender: Gender): EquipmentGenerator? {
+            val fashion = state.getFashion(culture, gender) ?: return null
 
             return EquipmentGenerator(
                 state,
                 RandomNumberGenerator(Random),
                 state.rarityGenerator,
-                character,
                 fashion,
             )
         }
@@ -42,12 +49,8 @@ data class EquipmentGenerator(
     fun generate(): EquipmentIdMap {
         val result = mutableMapOf<EquipmentId, EquipmentDataType>()
 
-        when (generate(fashion.clothing.clothingSets)) {
-            ClothingSet.Dress -> generate(result, EquipmentDataType.Dress)
-            ClothingSet.Naked -> doNothing()
-            ClothingSet.PantsAndShirt -> generatePantsAndShirt(result)
-            ClothingSet.ShirtAndSkirt -> generateShirtAndSkirt(result)
-            ClothingSet.Suit -> generateSuit(result)
+        generate(fashion.clothing.clothingSets).getTypes().forEach { type ->
+            generate(result, type)
         }
 
         ACCESSORIES.forEach { accessory ->
@@ -60,30 +63,14 @@ data class EquipmentGenerator(
                 .mapValues { setOf(it.value.slots().getAllBodySlotCombinations().first()) })
     }
 
-    private fun generateColorScheme(id: EquipmentId): ColorSchemeId {
+    private fun generateColorScheme(id: EquipmentId): ColorSchemeId? {
         val equipment = state.getEquipmentStorage().getOrThrow(id)
 
         return if (equipment.colorSchemes.isEmpty()) {
-            ColorSchemeId(0)
+            null
         } else {
             numberGenerator.select(equipment.colorSchemes.toList())
         }
-    }
-
-    private fun generatePantsAndShirt(result: MutableMap<EquipmentId, EquipmentDataType>) {
-        generate(result, EquipmentDataType.Pants)
-        generate(result, EquipmentDataType.Shirt)
-    }
-
-    private fun generateShirtAndSkirt(result: MutableMap<EquipmentId, EquipmentDataType>) {
-        generate(result, EquipmentDataType.Shirt)
-        generate(result, EquipmentDataType.Skirt)
-    }
-
-    private fun generateSuit(result: MutableMap<EquipmentId, EquipmentDataType>) {
-        generate(result, EquipmentDataType.Pants)
-        generate(result, EquipmentDataType.Shirt)
-        generate(result, EquipmentDataType.SuitJacket)
     }
 
     private fun generateAccessory(result: MutableMap<EquipmentId, EquipmentDataType>, type: EquipmentDataType) {

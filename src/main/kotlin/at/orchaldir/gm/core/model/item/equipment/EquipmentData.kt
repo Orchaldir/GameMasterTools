@@ -70,7 +70,8 @@ enum class EquipmentDataType {
     SuitJacket,
     OneHandedSword,
     TwoHandedSword,
-    Tie;
+    Tie,
+    Tunic;
 
     fun slots(): Set<EquipmentSlot> = when (this) {
         OneHandedAxe -> setOf(HeldInOneHandSlot)
@@ -102,6 +103,7 @@ enum class EquipmentDataType {
         OneHandedSword -> setOf(HeldInOneHandSlot)
         TwoHandedSword -> setOf(HeldInTwoHandsSlot)
         Tie -> setOf(NeckSlot)
+        Tunic -> setOf(TopSlot)
     }
 }
 
@@ -138,6 +140,7 @@ sealed class EquipmentData : MadeFromParts {
         is OneHandedSword -> EquipmentDataType.OneHandedSword
         is TwoHandedSword -> EquipmentDataType.TwoHandedSword
         is Tie -> EquipmentDataType.Tie
+        is Tunic -> EquipmentDataType.Tunic
     }
 
     fun getArmorStats() = when (this) {
@@ -555,4 +558,15 @@ data class Tie(
     override fun parts() = listOf(main, knot)
 }
 
+@Serializable
+@SerialName("Tunic")
+data class Tunic(
+    val main: ItemPart = MadeFromFabric(Color.SaddleBrown),
+    val length: OuterwearLength = OuterwearLength.Hip,
+    val necklineStyle: NecklineStyle = NecklineStyle.None,
+    val sleeveStyle: SleeveStyle = SleeveStyle.Long,
+) : EquipmentData() {
+
+    override fun parts() = listOf(main)
+}
 

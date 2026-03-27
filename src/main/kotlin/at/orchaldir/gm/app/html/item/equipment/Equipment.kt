@@ -122,6 +122,7 @@ private fun HtmlBlockTag.showEquipmentData(
             is OneHandedSword -> showOneHandedSword(call, state, data)
             is TwoHandedSword -> showTwoHandedSword(call, state, data)
             is Tie -> showTie(call, state, data)
+            is Tunic -> showTunic(call, state, data)
         }
     }
 }
@@ -206,6 +207,7 @@ private fun HtmlBlockTag.editEquipmentData(
             is OneHandedSword -> editOneHandedSword(state, data)
             is TwoHandedSword -> editTwoHandedSword(state, data)
             is Tie -> editTie(state, data)
+            is Tunic -> editTunic(state, data)
         }
     }
 }
@@ -281,4 +283,5 @@ fun parseEquipmentData(
         EquipmentDataType.OneHandedSword -> parseOneHandedSword(state, parameters)
         EquipmentDataType.TwoHandedSword -> parseTwoHandedSword(state, parameters)
         EquipmentDataType.Tie -> parseTie(state, parameters)
+        EquipmentDataType.Tunic -> parseTunic(state, parameters)
     }
