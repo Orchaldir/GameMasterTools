@@ -131,9 +131,8 @@
    "skin": {
     "normalColors": {
      "Fair": "Uncommon",
-     "Light": "Common",
-     "Medium": "Uncommon",
-     "Tan": "Rare"
+     "Light": "Uncommon",
+     "Medium": "Rare"
     }
    }
   }
