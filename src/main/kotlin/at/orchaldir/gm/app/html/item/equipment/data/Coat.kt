@@ -54,7 +54,7 @@ fun parseCoat(
 ) = Coat(
     parseItemPart(state, parameters, MAIN, CLOTHING_MATERIALS),
     parse(parameters, LENGTH, OuterwearLength.Hip),
-    parseNeckline(parameters, NecklineType.V),
+    parseNeckline(state, parameters, NecklineType.V),
     parse(parameters, combine(SLEEVE, STYLE), SleeveStyle.Long),
     parseOpeningStyle(state, parameters),
     parse(parameters, combine(POCKET, STYLE), PocketStyle.None),

@@ -50,18 +50,27 @@ private fun HtmlBlockTag.showButtons(
 
 // edit
 
-fun HtmlBlockTag.selectOpeningStyle(state: State, openingStyle: OpeningStyle) {
+fun HtmlBlockTag.selectOpeningStyle(
+    state: State,
+    openingStyle: OpeningStyle,
+    param: String = OPENING,
+) {
     showDetails("Opening Style", true) {
-        selectValue("Type", combine(OPENING, STYLE), OpeningType.entries, openingStyle.getType())
+        selectValue(
+            "Type", 
+            combine(param, STYLE),
+            OpeningType.entries, 
+            openingStyle.getType(),
+        )
 
         when (openingStyle) {
             NoOpening -> doNothing()
-            is SingleBreasted -> selectButtons(state, openingStyle.buttons)
+            is SingleBreasted -> selectButtons(state, openingStyle.buttons, param)
             is DoubleBreasted -> {
-                selectButtons(state, openingStyle.buttons)
+                selectButtons(state, openingStyle.buttons, param)
                 selectValue(
                     "Space between Columns",
-                    SPACE_BETWEEN_COLUMNS,
+                    combine(param, SPACE_BETWEEN_COLUMNS),
                     Size.entries,
                     openingStyle.spaceBetweenColumns,
                 )
@@ -70,7 +79,7 @@ fun HtmlBlockTag.selectOpeningStyle(state: State, openingStyle: OpeningStyle) {
             is Zipper -> editItemPart(
                 state,
                 openingStyle.main,
-                ZIPPER,
+                combine(param, ZIPPER),
                 "Zipper",
                 ZIPPER_MATERIALS,
             )
@@ -78,13 +87,29 @@ fun HtmlBlockTag.selectOpeningStyle(state: State, openingStyle: OpeningStyle) {
     }
 }
 
-private fun HtmlBlockTag.selectButtons(state: State, buttonColumn: ButtonColumn) {
-    selectInt("Button Count", buttonColumn.count.toInt(), 1, 20, 1, combine(BUTTON, NUMBER))
-    selectValue("Button Size", combine(BUTTON, SIZE), Size.entries, buttonColumn.button.size)
+private fun HtmlBlockTag.selectButtons(
+    state: State, 
+    buttonColumn: ButtonColumn,
+    param: String,
+) {
+    selectInt(
+        "Button Count", 
+        buttonColumn.count.toInt(), 
+        1, 
+        20, 
+        1, 
+        combine(param, BUTTON, NUMBER),
+    )
+    selectValue(
+        "Button Size", 
+        combine(param, BUTTON, SIZE), 
+        Size.entries, 
+        buttonColumn.button.size,
+    )
     editItemPart(
         state,
         buttonColumn.button.main,
-        BUTTON,
+        combine(param, BUTTON),
         "Button",
         BUTTON_MATERIALS,
     )
@@ -104,19 +129,21 @@ fun HtmlBlockTag.selectPocketStyle(options: Collection<PocketStyle>, current: Po
 fun parseOpeningStyle(
     state: State,
     parameters: Parameters,
+    param: String = OPENING,
 ): OpeningStyle {
-    val type = parse(parameters, combine(OPENING, STYLE), OpeningType.NoOpening)
+    val type = parse(parameters, combine(param, STYLE), OpeningType.NoOpening)
 
     return when (type) {
         OpeningType.NoOpening -> NoOpening
-        OpeningType.SingleBreasted -> SingleBreasted(parseButtonColumn(state, parameters))
-        OpeningType.DoubleBreasted -> DoubleBreasted(
-            parseButtonColumn(state, parameters),
-            parse(parameters, SPACE_BETWEEN_COLUMNS, Size.Medium)
+        OpeningType.SingleBreasted -> SingleBreasted(
+            parseButtonColumn(state, parameters, param),
         )
-
+        OpeningType.DoubleBreasted -> DoubleBreasted(
+            parseButtonColumn(state, parameters, param),
+            parse(parameters, combine(param, SPACE_BETWEEN_COLUMNS), Size.Medium)
+        )
         OpeningType.Zipper -> Zipper(
-            parseItemPart(state, parameters, ZIPPER, ZIPPER_MATERIALS),
+            parseItemPart(state, parameters, combine(param, ZIPPER), ZIPPER_MATERIALS),
         )
     }
 }
@@ -124,12 +151,13 @@ fun parseOpeningStyle(
 private fun parseButtonColumn(
     state: State,
     parameters: Parameters,
+    param: String,
 ) = ButtonColumn(
     Button(
-        parse(parameters, combine(BUTTON, SIZE), Size.Medium),
-        parseItemPart(state, parameters, BUTTON, BUTTON_MATERIALS),
+        parse(parameters, combine(param, BUTTON, SIZE), Size.Medium),
+        parseItemPart(state, parameters, combine(param, BUTTON), BUTTON_MATERIALS),
     ),
-    parameters[combine(BUTTON, NUMBER)]?.toUByte() ?: 1u,
+    parameters[combine(param, BUTTON, NUMBER)]?.toUByte() ?: 1u,
 )
 
 fun parseSleeveStyle(

@@ -51,7 +51,7 @@ fun parseDress(
     state: State,
     parameters: Parameters,
 ): Dress {
-    val neckline = parseNeckline(parameters)
+    val neckline = parseNeckline(state, parameters)
 
     return Dress(
         neckline,

@@ -53,7 +53,7 @@ fun parseSuitJacket(
     state: State,
     parameters: Parameters,
 ) = SuitJacket(
-    parseNeckline(parameters, NecklineType.V),
+    parseNeckline(state, parameters, NecklineType.V),
     parse(parameters, combine(SLEEVE, STYLE), SleeveStyle.Long),
     parseOpeningStyle(state, parameters),
     parse(parameters, combine(POCKET, STYLE), PocketStyle.None),

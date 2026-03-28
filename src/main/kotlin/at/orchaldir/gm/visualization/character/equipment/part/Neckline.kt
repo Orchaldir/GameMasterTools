@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.item.equipment.style.Asymmetrical
 import at.orchaldir.gm.core.model.item.equipment.style.Crew
 import at.orchaldir.gm.core.model.item.equipment.style.Halter
 import at.orchaldir.gm.core.model.item.equipment.style.Neckline
+import at.orchaldir.gm.core.model.item.equipment.style.NecklineWithOpening
 import at.orchaldir.gm.core.model.item.equipment.style.NoNeckline
 import at.orchaldir.gm.core.model.item.equipment.style.Strapless
 import at.orchaldir.gm.core.model.item.equipment.style.VNeck
@@ -44,6 +45,7 @@ fun addNeckline(
         Crew -> addRound(builder, torsoAabb, config.widthCrew, config.heightCrew)
         Halter -> addHalter(state, builder, torsoAabb)
         NoNeckline, Strapless -> return
+        is NecklineWithOpening -> return
         is VNeck -> addV(builder, torsoAabb, config.widthV, config.heightV.convert(neckline.size))
     }
 }

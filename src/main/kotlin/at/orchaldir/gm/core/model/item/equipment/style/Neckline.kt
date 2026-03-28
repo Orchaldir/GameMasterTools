@@ -17,6 +17,7 @@ enum class NecklineType {
     Crew,
     Halter,
     None,
+    Opening,
     Strapless,
     V,
 }
@@ -29,15 +30,17 @@ sealed class Neckline : MadeFromParts {
         Crew -> NecklineType.Crew
         Halter -> NecklineType.Halter
         NoNeckline -> NecklineType.None
+        is NecklineWithOpening -> NecklineType.Opening
         Strapless -> NecklineType.Strapless
         is VNeck -> NecklineType.V
     }
 
-    override fun parts(): List<ItemPart> = when (this) {
+    override fun parts() = when (this) {
         Asymmetrical -> emptyList()
         Crew -> emptyList()
         Halter -> emptyList()
         NoNeckline -> emptyList()
+        is NecklineWithOpening -> opening.parts()
         Strapless -> emptyList()
         is VNeck -> emptyList()
     }
@@ -62,26 +65,27 @@ sealed class Neckline : MadeFromParts {
 @SerialName("Asymmetrical")
 data object Asymmetrical : Neckline()
 
-
 @Serializable
 @SerialName("Crew")
 data object Crew : Neckline()
-
 
 @Serializable
 @SerialName("Halter")
 data object Halter : Neckline()
 
-
 @Serializable
 @SerialName("None")
 data object NoNeckline : Neckline()
 
+@Serializable
+@SerialName("Opening")
+data class NecklineWithOpening(
+    val opening: OpeningStyle,
+) : Neckline()
 
 @Serializable
 @SerialName("Strapless")
 data object Strapless : Neckline()
-
 
 @Serializable
 @SerialName("V")
