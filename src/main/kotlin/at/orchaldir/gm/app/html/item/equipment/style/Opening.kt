@@ -96,7 +96,7 @@ private fun HtmlBlockTag.selectButtons(
     selectInt(
         "Button Count", 
         buttonColumn.count.toInt(), 
-        1, 
+        2,
         20, 
         1, 
         combine(param, BUTTON, NUMBER),
