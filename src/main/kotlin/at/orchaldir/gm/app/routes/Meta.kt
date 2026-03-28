@@ -253,7 +253,7 @@ suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>> PipelineContext<Unit, Ap
     parse: (State, Parameters, ID) -> ELEMENT,
     noinline editDetails: HtmlBlockTag.(ApplicationCall, State, ELEMENT) -> Unit,
     noinline showRight: HtmlBlockTag.(ApplicationCall, State, ELEMENT) -> Unit,
-    text: String,
+    text: String = "Update",
 ) {
     logger.info { "$text ${id.print()}" }
 

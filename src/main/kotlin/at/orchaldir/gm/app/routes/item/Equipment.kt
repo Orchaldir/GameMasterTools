@@ -301,6 +301,7 @@ fun Application.configureEquipmentRouting() {
 
             handlePreviewElementSplit(
                 preview.id,
+                parameters,
                 EquipmentRoutes(),
                 ::parseEquipment,
                 { call, state, equipment ->
