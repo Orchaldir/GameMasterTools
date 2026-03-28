@@ -54,7 +54,7 @@ private fun createDouble(space: Size) =
 
 private fun createCoat(
     neckline: Neckline,
-    opening: OpeningStyle,
+    opening: Opening,
 ) = Coat(
     MadeFromFabric(Blue),
     Hip,

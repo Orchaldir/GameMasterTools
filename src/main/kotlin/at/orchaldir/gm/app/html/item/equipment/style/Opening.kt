@@ -17,23 +17,23 @@ import kotlinx.html.HtmlBlockTag
 
 // show
 
-fun HtmlBlockTag.showOpeningStyle(
+fun HtmlBlockTag.showOpening(
     call: ApplicationCall,
     state: State,
-    openingStyle: OpeningStyle,
+    opening: Opening,
 ) {
     showDetails("Opening Style") {
-        field("Type", openingStyle.javaClass.simpleName)
+        field("Type", opening.javaClass.simpleName)
 
-        when (openingStyle) {
+        when (opening) {
             NoOpening -> doNothing()
-            is SingleBreasted -> showButtons(call, state, openingStyle.buttons)
+            is SingleBreasted -> showButtons(call, state, opening.buttons)
             is DoubleBreasted -> {
-                showButtons(call, state, openingStyle.buttons)
-                field("Space between Columns", openingStyle.spaceBetweenColumns)
+                showButtons(call, state, opening.buttons)
+                field("Space between Columns", opening.spaceBetweenColumns)
             }
 
-            is Zipper -> showItemPart(call, state, openingStyle.main, "Zipper")
+            is Zipper -> showItemPart(call, state, opening.main, "Zipper")
         }
     }
 }
@@ -50,9 +50,9 @@ private fun HtmlBlockTag.showButtons(
 
 // edit
 
-fun HtmlBlockTag.selectOpeningStyle(
+fun HtmlBlockTag.editOpening(
     state: State,
-    openingStyle: OpeningStyle,
+    opening: Opening,
     param: String = OPENING,
 ) {
     showDetails("Opening Style", true) {
@@ -60,25 +60,25 @@ fun HtmlBlockTag.selectOpeningStyle(
             "Type", 
             combine(param, STYLE),
             OpeningType.entries, 
-            openingStyle.getType(),
+            opening.getType(),
         )
 
-        when (openingStyle) {
+        when (opening) {
             NoOpening -> doNothing()
-            is SingleBreasted -> selectButtons(state, openingStyle.buttons, param)
+            is SingleBreasted -> selectButtons(state, opening.buttons, param)
             is DoubleBreasted -> {
-                selectButtons(state, openingStyle.buttons, param)
+                selectButtons(state, opening.buttons, param)
                 selectValue(
                     "Space between Columns",
                     combine(param, SPACE_BETWEEN_COLUMNS),
                     Size.entries,
-                    openingStyle.spaceBetweenColumns,
+                    opening.spaceBetweenColumns,
                 )
             }
 
             is Zipper -> editItemPart(
                 state,
-                openingStyle.main,
+                opening.main,
                 combine(param, ZIPPER),
                 "Zipper",
                 ZIPPER_MATERIALS,
@@ -126,11 +126,11 @@ fun HtmlBlockTag.selectPocketStyle(options: Collection<PocketStyle>, current: Po
 
 // parse
 
-fun parseOpeningStyle(
+fun parseOpening(
     state: State,
     parameters: Parameters,
     param: String = OPENING,
-): OpeningStyle {
+): Opening {
     val type = parse(parameters, combine(param, STYLE), OpeningType.NoOpening)
 
     return when (type) {

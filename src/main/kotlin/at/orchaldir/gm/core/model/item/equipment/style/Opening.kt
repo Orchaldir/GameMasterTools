@@ -15,7 +15,7 @@ enum class OpeningType {
 }
 
 @Serializable
-sealed class OpeningStyle : MadeFromParts {
+sealed class Opening : MadeFromParts {
 
     fun getType() = when (this) {
         NoOpening -> OpeningType.NoOpening
@@ -34,23 +34,23 @@ sealed class OpeningStyle : MadeFromParts {
 
 @Serializable
 @SerialName("NoOpening")
-data object NoOpening : OpeningStyle()
+data object NoOpening : Opening()
 
 @Serializable
 @SerialName("SingleBreasted")
 data class SingleBreasted(
     val buttons: ButtonColumn = ButtonColumn(),
-) : OpeningStyle()
+) : Opening()
 
 @Serializable
 @SerialName("DoubleBreasted")
 data class DoubleBreasted(
     val buttons: ButtonColumn = ButtonColumn(),
     val spaceBetweenColumns: Size = Size.Medium,
-) : OpeningStyle()
+) : Opening()
 
 @Serializable
 @SerialName("Zipper")
 data class Zipper(
     val main: ItemPart = MadeFromMetal(),
-) : OpeningStyle()
+) : Opening()

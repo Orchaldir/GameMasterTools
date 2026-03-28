@@ -292,11 +292,11 @@ data class Coat(
     val length: OuterwearLength = OuterwearLength.Hip,
     val neckline: Neckline = NoNeckline,
     val sleeveStyle: SleeveStyle = SleeveStyle.Long,
-    val openingStyle: OpeningStyle = SingleBreasted(),
+    val opening: Opening = SingleBreasted(),
     val pocketStyle: PocketStyle = PocketStyle.None,
 ) : EquipmentData() {
 
-    override fun parts() = openingStyle.parts() + main
+    override fun parts() = opening.parts() + main
 }
 
 @Serializable
@@ -513,12 +513,12 @@ data class Socks(
 data class SuitJacket(
     val neckline: Neckline = NoNeckline,
     val sleeveStyle: SleeveStyle = SleeveStyle.Long,
-    val openingStyle: OpeningStyle = SingleBreasted(),
+    val opening: Opening = SingleBreasted(),
     val pocketStyle: PocketStyle = PocketStyle.None,
     val main: ItemPart = MadeFromFabric(Color.LightGray),
 ) : EquipmentData() {
 
-    override fun parts() = openingStyle.parts() + main
+    override fun parts() = opening.parts() + main
 }
 
 @Serializable

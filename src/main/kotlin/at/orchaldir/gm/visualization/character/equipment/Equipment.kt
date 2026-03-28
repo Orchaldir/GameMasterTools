@@ -233,7 +233,7 @@ private fun SuitJacket.convert() = Coat(
     OuterwearLength.Hip,
     neckline,
     sleeveStyle,
-    openingStyle,
+    opening,
     pocketStyle
 )
 

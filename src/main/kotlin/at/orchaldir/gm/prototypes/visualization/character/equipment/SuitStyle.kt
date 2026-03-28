@@ -40,7 +40,7 @@ private fun createDouble(space: Size) =
 
 private fun createSuite(
     pocket: PocketStyle,
-    opening: OpeningStyle,
+    opening: Opening,
 ) = from(
     listOf(
         Footwear(),

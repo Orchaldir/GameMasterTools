@@ -1,7 +1,6 @@
 package at.orchaldir.gm.core.model.item.equipment.style
 
 import at.orchaldir.gm.core.model.util.Size
-import at.orchaldir.gm.core.model.util.part.ItemPart
 import at.orchaldir.gm.core.model.util.part.MadeFromParts
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -80,7 +79,7 @@ data object NoNeckline : Neckline()
 @Serializable
 @SerialName("Opening")
 data class NecklineWithOpening(
-    val opening: OpeningStyle,
+    val opening: Opening,
 ) : Neckline()
 
 @Serializable

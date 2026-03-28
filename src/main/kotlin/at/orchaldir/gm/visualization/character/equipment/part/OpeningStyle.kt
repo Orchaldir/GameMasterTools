@@ -22,22 +22,22 @@ fun visualizeOpening(
     x: Factor,
     topY: Factor,
     bottomY: Factor,
-    openingStyle: OpeningStyle,
+    opening: Opening,
     layer: Int,
 ) {
-    when (openingStyle) {
+    when (opening) {
         NoOpening -> doNothing()
         is DoubleBreasted -> {
             val spaceBetweenColumns = state.config.equipment.opening.spaceBetweenColumns
-                .convert(openingStyle.spaceBetweenColumns)
+                .convert(opening.spaceBetweenColumns)
             val half = spaceBetweenColumns * 0.5f
 
-            visualizeButtons(state, aabb, x - half, topY, bottomY, openingStyle.buttons, layer)
-            visualizeButtons(state, aabb, x + half, topY, bottomY, openingStyle.buttons, layer)
+            visualizeButtons(state, aabb, x - half, topY, bottomY, opening.buttons, layer)
+            visualizeButtons(state, aabb, x + half, topY, bottomY, opening.buttons, layer)
         }
 
-        is SingleBreasted -> visualizeButtons(state, aabb, x, topY, bottomY, openingStyle.buttons, layer)
-        is Zipper -> visualizeZipper(state, aabb, x, topY, bottomY, openingStyle, layer)
+        is SingleBreasted -> visualizeButtons(state, aabb, x, topY, bottomY, opening.buttons, layer)
+        is Zipper -> visualizeZipper(state, aabb, x, topY, bottomY, opening, layer)
     }
 }
 

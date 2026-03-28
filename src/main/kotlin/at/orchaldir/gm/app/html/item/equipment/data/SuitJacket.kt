@@ -28,7 +28,7 @@ fun HtmlBlockTag.showSuitJacket(
 ) {
     showNeckline(call, state, data.neckline)
     field("Sleeve Style", data.sleeveStyle)
-    showOpeningStyle(call, state, data.openingStyle)
+    showOpening(call, state, data.opening)
     field("Pocket Style", data.pocketStyle)
     showItemPart(call, state, data.main)
 }
@@ -41,7 +41,7 @@ fun HtmlBlockTag.editSuitJacket(
 ) {
     editNeckline(state, data.neckline, NECKLINES_WITH_SLEEVES)
     selectSleeveStyle(SleeveStyle.entries, data.sleeveStyle)
-    selectOpeningStyle(state, data.openingStyle)
+    editOpening(state, data.opening)
     selectPocketStyle(PocketStyle.entries, data.pocketStyle)
     editItemPart(state, data.main, MAIN, allowedTypes = CLOTHING_MATERIALS)
 }
@@ -55,7 +55,7 @@ fun parseSuitJacket(
 ) = SuitJacket(
     parseNeckline(state, parameters, NecklineType.V),
     parse(parameters, combine(SLEEVE, STYLE), SleeveStyle.Long),
-    parseOpeningStyle(state, parameters),
+    parseOpening(state, parameters),
     parse(parameters, combine(POCKET, STYLE), PocketStyle.None),
     parseItemPart(state, parameters, MAIN, CLOTHING_MATERIALS),
 )
