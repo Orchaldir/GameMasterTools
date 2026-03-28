@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.item.text.book.Hardcover
 import at.orchaldir.gm.core.model.item.text.book.LeatherBinding
 import at.orchaldir.gm.core.model.util.part.ItemPart
 import at.orchaldir.gm.visualization.text.TextRenderState
+import at.orchaldir.gm.visualization.utils.visualizeSewingPattern
 
 fun visualizeBook(
     state: TextRenderState,

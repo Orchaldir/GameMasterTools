@@ -1,6 +1,6 @@
-package at.orchaldir.gm.core.model.item.text.book
+package at.orchaldir.gm.core.model.item.common
 
-import at.orchaldir.gm.core.model.item.text.book.StitchType.Kettle
+import at.orchaldir.gm.core.model.item.common.StitchType.Kettle
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.part.ItemPart
 import at.orchaldir.gm.core.model.util.part.MadeFromCord

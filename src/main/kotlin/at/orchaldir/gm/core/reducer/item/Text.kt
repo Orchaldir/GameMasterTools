@@ -1,6 +1,9 @@
 package at.orchaldir.gm.core.reducer.item
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.common.ComplexSewingPattern
+import at.orchaldir.gm.core.model.item.common.MIN_STITCHES
+import at.orchaldir.gm.core.model.item.common.SimpleSewingPattern
 import at.orchaldir.gm.core.model.item.text.*
 import at.orchaldir.gm.core.model.item.text.book.*
 import at.orchaldir.gm.core.model.item.text.content.*
@@ -53,7 +56,7 @@ fun validateTextFormat(format: TextFormat) {
                         is ComplexSewingPattern -> sewing.stitches.size
                         is SimpleSewingPattern -> sewing.stitches.size
                     }
-                    require(stitches >= MIN_STITCHES) { "The sewing pattern requires at least $MIN_STITCHES stitches!" }
+                    require(stitches >= MIN_STITCHES) { "The sewing pattern requires at least ${MIN_STITCHES} stitches!" }
                 }
 
                 is Hardcover -> doNothing()

@@ -4,6 +4,9 @@ import at.orchaldir.gm.app.BINDING
 import at.orchaldir.gm.app.COVER
 import at.orchaldir.gm.app.LEATHER
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.item.common.editSewingPattern
+import at.orchaldir.gm.app.html.item.common.parseSewing
+import at.orchaldir.gm.app.html.item.common.showSewingPattern
 import at.orchaldir.gm.app.html.util.part.editItemPart
 import at.orchaldir.gm.app.html.util.part.parseItemPart
 import at.orchaldir.gm.app.html.util.part.showItemPart

@@ -1,4 +1,4 @@
-package at.orchaldir.gm.app.html.item.text
+package at.orchaldir.gm.app.html.item.common
 
 import at.orchaldir.gm.app.LENGTH
 import at.orchaldir.gm.app.SEWING
@@ -8,7 +8,13 @@ import at.orchaldir.gm.app.html.util.part.editItemPart
 import at.orchaldir.gm.app.html.util.part.parseItemPart
 import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.item.text.book.*
+import at.orchaldir.gm.core.model.item.common.ComplexSewingPattern
+import at.orchaldir.gm.core.model.item.common.ComplexStitch
+import at.orchaldir.gm.core.model.item.common.MIN_STITCHES
+import at.orchaldir.gm.core.model.item.common.SewingPattern
+import at.orchaldir.gm.core.model.item.common.SewingPatternType
+import at.orchaldir.gm.core.model.item.common.SimpleSewingPattern
+import at.orchaldir.gm.core.model.item.common.StitchType
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.part.LINE_MATERIALS
 import io.ktor.http.*
