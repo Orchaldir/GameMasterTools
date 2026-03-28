@@ -4,11 +4,16 @@ import at.orchaldir.gm.core.model.item.common.ComplexSewingPattern
 import at.orchaldir.gm.core.model.item.common.SewingPattern
 import at.orchaldir.gm.core.model.item.common.SimpleSewingPattern
 import at.orchaldir.gm.core.model.item.common.StitchType
+import at.orchaldir.gm.core.model.util.Side
 import at.orchaldir.gm.core.model.util.SizeConfig
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Factor.Companion.fromNumber
+import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.START
+import at.orchaldir.gm.utils.math.SegmentSplitter.Companion.fromStartAndEnd
+import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.visualization.RenderState
 import at.orchaldir.gm.visualization.renderRoundedPolygon
 import at.orchaldir.gm.visualization.text.TextRenderState
 
@@ -70,26 +75,36 @@ private fun visualizeSimpleSewingPattern(
 }
 
 private fun visualizeComplexSewingPattern(
-    state: TextRenderState,
+    state: RenderState,
     config: SewingPatternConfig,
+    start: Point2d,
+    end: Point2d,
+    width: Distance,
     complex: ComplexSewingPattern,
+    side: Side?,
 ) {
-    val parts = complex.stitches.size
-    val length = fromNumber(1.0f / parts.toFloat())
-    val half = length / 2.0f
-    var y = half
-    val renderer = state.renderer.getLayer()
+    val renderer = state.renderer().getLayer()
+    val splitter = fromStartAndEnd(start, end, complex.stitches.size)
+    val centers = splitter.getCenters()
 
-    complex.stitches.forEach { element ->
-        val options = state.getFillAndBorder(element.thread)
-        val radius = state.aabb.convertHeight(config.sewingRadius.convert(element.size))
-        val sewingLength = config.sewingLength.convert(element.length)
+    centers
+        .zip(complex.stitches)
+        .forEach { (center, stitch) ->
+
+        val options = state.getFillAndBorder(stitch.thread)
+        val radius = width * config.sewingRadius.convert(stitch.size)
+        val lengthFactor = config.sewingLength.convert(stitch.length)
+        val length = width * lengthFactor
         val diameter = radius * 2
 
-        when (element.stitch) {
+        when (stitch.stitch) {
             StitchType.Kettle -> {
-                val start = state.aabb.getPoint(START, y)
-                val hole = state.aabb.getPoint(sewingLength, y)
+                val start = when (side) {
+                    Side.Left -> center.minus(length)
+                    Side.Right -> center
+                    null -> center.minus(length / 2)
+                }
+                val hole = start.addWidth(length)
 
                 val corner0 = start - radius
                 val corner1 = hole.minusHeight(radius)
@@ -101,7 +116,5 @@ private fun visualizeComplexSewingPattern(
 
             StitchType.Empty -> doNothing()
         }
-
-        y += length
     }
 }
