@@ -86,9 +86,9 @@ private fun visualizeSimpleSewingPattern(
     val radius = width * config.sewingRadius.convert(pattern.size)
     val lengthFactor = config.sewingLength.convert(pattern.length)
     val length = width * lengthFactor
-    val splitter = fromStartAndEnd(start, end, pattern.stitches.size)
 
-    splitter.getCenters()
+    fromStartAndEnd(start, end, pattern.stitches.size)
+        .getCenters()
         .zip(pattern.stitches)
         .forEach { (center, stitch) ->
             visualizeStitch(renderer, options, stitch, center, length, radius, side)
@@ -106,12 +106,11 @@ private fun visualizeComplexSewingPattern(
     side: Side?,
 ) {
     val renderer = state.renderer().getLayer(layer)
-    val splitter = fromStartAndEnd(start, end, pattern.stitches.size)
 
-    splitter.getCenters()
+    fromStartAndEnd(start, end, pattern.stitches.size)
+        .getCenters()
         .zip(pattern.stitches)
         .forEach { (center, complexStitch) ->
-
         val options = state.getFillAndBorder(complexStitch.thread)
         val radius = width * config.sewingRadius.convert(complexStitch.size)
         val lengthFactor = config.sewingLength.convert(complexStitch.length)
@@ -132,9 +131,9 @@ private fun visualizeStitch(
 ) = when (stitch) {
     StitchType.Kettle -> {
         val start = when (side) {
-            Side.Left -> center.minus(length)
+            Side.Left -> center.minusWidth(length)
             Side.Right -> center
-            null -> center.minus(length / 2)
+            null -> center.minusWidth(length / 2)
         }
         val hole = start.addWidth(length)
 
