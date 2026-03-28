@@ -32,7 +32,7 @@ fun visualizeSewingPattern(
     state,
     state.config.sewing,
     state.aabb.getPoint(START, START),
-    state.aabb.getPoint(END, START),
+    state.aabb.getPoint(START, END),
     state.aabb.size.width,
     Side.Right,
     pattern,
