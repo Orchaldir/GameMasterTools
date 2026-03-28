@@ -28,9 +28,10 @@ fun HtmlBlockTag.showSewingPattern(
     call: ApplicationCall,
     state: State,
     pattern: SewingPattern,
+    label: String = "Sewing Pattern",
 ) {
-    showDetails("Sewing") {
-        field("Pattern", pattern.getType())
+    showDetails(label) {
+        field("Type", pattern.getType())
 
         when (pattern) {
             is SimpleSewingPattern -> {
@@ -56,22 +57,27 @@ fun HtmlBlockTag.showSewingPattern(
 
 // edit
 
-fun HtmlBlockTag.editSewingPattern(state: State, pattern: SewingPattern) {
-    showDetails("Sewing Pattern", true) {
-        selectValue("Type", SEWING, SewingPatternType.entries, pattern.getType())
+fun HtmlBlockTag.editSewingPattern(
+    state: State,
+    pattern: SewingPattern,
+    param: String = SEWING,
+    label: String = "Sewing Pattern",
+) {
+    showDetails(label, true) {
+        selectValue("Type", param, SewingPatternType.entries, pattern.getType())
 
         when (pattern) {
             is SimpleSewingPattern -> {
-                editItemPart(state, pattern.thread, SEWING, allowedTypes = LINE_MATERIALS)
-                selectValue("Size", combine(SEWING, SIZE), Size.entries, pattern.size)
-                selectValue("Distance Between Edge & Hole", combine(SEWING, LENGTH), Size.entries, pattern.length)
-                editSewingPattern(pattern.stitches) { elementParam, element ->
+                editItemPart(state, pattern.thread, param, allowedTypes = LINE_MATERIALS)
+                selectValue("Size", combine(param, SIZE), Size.entries, pattern.size)
+                selectValue("Distance Between Edge & Hole", combine(param, LENGTH), Size.entries, pattern.length)
+                editSewingPattern(pattern.stitches, param) { elementParam, element ->
                     selectValue("Stitch", elementParam, StitchType.entries, element)
                 }
             }
 
             is ComplexSewingPattern -> {
-                editSewingPattern(pattern.stitches) { elementParam, element ->
+                editSewingPattern(pattern.stitches, param) { elementParam, element ->
                     editItemPart(state, element.thread, elementParam, allowedTypes = LINE_MATERIALS)
                     selectValue("Size", combine(elementParam, SIZE), Size.entries, element.size)
                     selectValue(
@@ -89,9 +95,10 @@ fun HtmlBlockTag.editSewingPattern(state: State, pattern: SewingPattern) {
 
 private fun <T> DETAILS.editSewingPattern(
     elements: Collection<T>,
+    param: String,
     editElement: HtmlBlockTag.(String, T) -> Unit,
 ) {
-    editList("Stitch", SEWING, elements, MIN_STITCHES, 20, 1) { _, param, element ->
+    editList("Stitch", param, elements, MIN_STITCHES, 20, 1) { _, param, element ->
         editElement(param, element)
     }
 }
@@ -101,31 +108,36 @@ private fun <T> DETAILS.editSewingPattern(
 fun parseSewing(
     state: State,
     parameters: Parameters,
-) = when (parse(parameters, SEWING, SewingPatternType.Simple)) {
+    param: String = SEWING,
+) = when (parse(parameters, param, SewingPatternType.Simple)) {
     SewingPatternType.Simple -> SimpleSewingPattern(
-        parseItemPart(state, parameters, SEWING, LINE_MATERIALS),
-        parse(parameters, combine(SEWING, SIZE), Size.Medium),
-        parse(parameters, combine(SEWING, LENGTH), Size.Medium),
-        parseSimplePattern(parameters),
+        parseItemPart(state, parameters, param, LINE_MATERIALS),
+        parse(parameters, combine(param, SIZE), Size.Medium),
+        parse(parameters, combine(param, LENGTH), Size.Medium),
+        parseSimplePattern(parameters, param),
     )
 
     SewingPatternType.Complex -> ComplexSewingPattern(
-        parseComplexPattern(state, parameters),
+        parseComplexPattern(state, parameters, param),
     )
 }
 
-private fun parseSimplePattern(parameters: Parameters) = parseList(parameters, SEWING, 2) { _, param ->
+private fun parseSimplePattern(
+    parameters: Parameters,
+    param: String,
+) = parseList(parameters, param, 2) { _, param ->
     parse(parameters, param, StitchType.Kettle)
 }
 
 private fun parseComplexPattern(
     state: State,
     parameters: Parameters,
-) = parseList(parameters, SEWING, 2) { _, param ->
+    param: String,
+) = parseList(parameters, param, 2) { _, stitchParam ->
     ComplexStitch(
-        parseItemPart(state, parameters, param, LINE_MATERIALS),
-        parse(parameters, combine(param, SIZE), Size.Medium),
-        parse(parameters, combine(param, LENGTH), Size.Medium),
-        parse(parameters, param, StitchType.Kettle),
+        parseItemPart(state, parameters, stitchParam, LINE_MATERIALS),
+        parse(parameters, combine(stitchParam, SIZE), Size.Medium),
+        parse(parameters, combine(stitchParam, LENGTH), Size.Medium),
+        parse(parameters, stitchParam, StitchType.Kettle),
     )
 }

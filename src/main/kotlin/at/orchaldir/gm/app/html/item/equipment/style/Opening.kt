@@ -2,6 +2,9 @@ package at.orchaldir.gm.app.html.item.equipment.style
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.item.common.editSewingPattern
+import at.orchaldir.gm.app.html.item.common.parseSewing
+import at.orchaldir.gm.app.html.item.common.showSewingPattern
 import at.orchaldir.gm.app.html.util.part.editItemPart
 import at.orchaldir.gm.app.html.util.part.parseItemPart
 import at.orchaldir.gm.app.html.util.part.showItemPart
@@ -33,6 +36,7 @@ fun HtmlBlockTag.showOpening(
                 field("Space between Columns", opening.spaceBetweenColumns)
             }
 
+            is LaceUp -> showSewingPattern(call, state, opening.pattern, "Pattern")
             is Zipper -> showItemPart(call, state, opening.main, "Zipper")
         }
     }
@@ -76,6 +80,13 @@ fun HtmlBlockTag.editOpening(
                     opening.spaceBetweenColumns,
                 )
             }
+
+            is LaceUp -> editSewingPattern(
+                state,
+                opening.pattern,
+                combine(param, SEWING),
+                "Pattern",
+            )
 
             is Zipper -> editItemPart(
                 state,
@@ -143,6 +154,9 @@ fun parseOpening(
         OpeningType.DoubleBreasted -> DoubleBreasted(
             parseButtonColumn(state, parameters, param),
             parse(parameters, combine(param, SPACE_BETWEEN_COLUMNS), Size.Medium)
+        )
+        OpeningType.LaceUp -> LaceUp(
+            parseSewing(state, parameters, combine(param, SEWING)),
         )
         OpeningType.Zipper -> Zipper(
             parseItemPart(state, parameters, combine(param, ZIPPER), ZIPPER_MATERIALS),

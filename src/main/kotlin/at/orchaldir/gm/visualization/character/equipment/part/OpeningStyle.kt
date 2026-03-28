@@ -37,6 +37,7 @@ fun visualizeOpening(
         }
 
         is SingleBreasted -> visualizeButtons(state, aabb, x, topY, bottomY, opening.buttons, layer)
+        is LaceUp -> doNothing()
         is Zipper -> visualizeZipper(state, aabb, x, topY, bottomY, opening, layer)
     }
 }

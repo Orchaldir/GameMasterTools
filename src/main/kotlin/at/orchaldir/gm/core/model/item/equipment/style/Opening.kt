@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.item.equipment.style
 
+import at.orchaldir.gm.core.model.item.common.SewingPattern
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.part.ItemPart
 import at.orchaldir.gm.core.model.util.part.MadeFromMetal
@@ -13,6 +14,7 @@ enum class OpeningType {
     NoOpening,
     SingleBreasted,
     DoubleBreasted,
+    LaceUp,
     Zipper,
 }
 
@@ -23,6 +25,7 @@ sealed class Opening : MadeFromParts {
         NoOpening -> OpeningType.NoOpening
         is SingleBreasted -> OpeningType.SingleBreasted
         is DoubleBreasted -> OpeningType.DoubleBreasted
+        is LaceUp -> OpeningType.LaceUp
         is Zipper -> OpeningType.Zipper
     }
 
@@ -30,6 +33,7 @@ sealed class Opening : MadeFromParts {
         NoOpening -> emptyList()
         is SingleBreasted -> buttons.parts()
         is DoubleBreasted -> buttons.parts()
+        is LaceUp -> pattern.parts()
         is Zipper -> listOf(main)
     }
 }
@@ -49,6 +53,12 @@ data class SingleBreasted(
 data class DoubleBreasted(
     val buttons: ButtonColumn = ButtonColumn(),
     val spaceBetweenColumns: Size = Size.Medium,
+) : Opening()
+
+@Serializable
+@SerialName("Lace")
+data class LaceUp(
+    val pattern: SewingPattern,
 ) : Opening()
 
 @Serializable
