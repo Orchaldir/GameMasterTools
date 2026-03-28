@@ -52,6 +52,7 @@ fun visualizeOpening(
             aabb.getPoint(x, bottomY),
             config.getWidth(aabb, opening.width),
             opening.pattern,
+            layer,
         )
         is Zipper -> visualizeZipper(state, aabb, x, topY, bottomY, opening, layer)
     }

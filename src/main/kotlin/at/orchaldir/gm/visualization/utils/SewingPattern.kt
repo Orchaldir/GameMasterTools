@@ -35,6 +35,7 @@ fun visualizeSewingPattern(
     state.aabb.getPoint(START, END),
     state.aabb.size.width,
     pattern,
+    0,
     Side.Right,
 )
 
@@ -45,6 +46,7 @@ fun visualizeSewingPattern(
     end: Point2d,
     width: Distance,
     pattern: SewingPattern,
+    layer: Int,
     side: Side? = null,
 ) = when (pattern) {
     is SimpleSewingPattern -> visualizeSimpleSewingPattern(
@@ -54,6 +56,7 @@ fun visualizeSewingPattern(
         end,
         width,
         pattern,
+        layer,
         side,
     )
     is ComplexSewingPattern -> visualizeComplexSewingPattern(
@@ -63,6 +66,7 @@ fun visualizeSewingPattern(
         end,
         width,
         pattern,
+        layer,
         side,
     )
 }
@@ -74,9 +78,10 @@ private fun visualizeSimpleSewingPattern(
     end: Point2d,
     width: Distance,
     pattern: SimpleSewingPattern,
+    layer: Int,
     side: Side?,
 ) {
-    val renderer = state.renderer().getLayer()
+    val renderer = state.renderer().getLayer(layer)
     val options = state.getFillAndBorder(pattern.thread)
     val radius = width * config.sewingRadius.convert(pattern.size)
     val lengthFactor = config.sewingLength.convert(pattern.length)
@@ -97,9 +102,10 @@ private fun visualizeComplexSewingPattern(
     end: Point2d,
     width: Distance,
     pattern: ComplexSewingPattern,
+    layer: Int,
     side: Side?,
 ) {
-    val renderer = state.renderer().getLayer()
+    val renderer = state.renderer().getLayer(layer)
     val splitter = fromStartAndEnd(start, end, pattern.stitches.size)
 
     splitter.getCenters()
