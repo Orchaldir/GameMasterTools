@@ -39,7 +39,7 @@ fun visualizeSewingPattern(
 )
 
 fun visualizeSewingPattern(
-    state: TextRenderState,
+    state: RenderState,
     config: SewingPatternConfig,
     start: Point2d,
     end: Point2d,
