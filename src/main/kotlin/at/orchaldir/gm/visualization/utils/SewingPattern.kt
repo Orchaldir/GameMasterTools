@@ -34,8 +34,8 @@ fun visualizeSewingPattern(
     state.aabb.getPoint(START, START),
     state.aabb.getPoint(START, END),
     state.aabb.size.width,
-    Side.Right,
     pattern,
+    Side.Right,
 )
 
 fun visualizeSewingPattern(
@@ -44,8 +44,8 @@ fun visualizeSewingPattern(
     start: Point2d,
     end: Point2d,
     width: Distance,
-    side: Side?,
     pattern: SewingPattern,
+    side: Side? = null,
 ) = when (pattern) {
     is SimpleSewingPattern -> visualizeSimpleSewingPattern(
         state,

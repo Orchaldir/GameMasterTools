@@ -2,6 +2,7 @@ package at.orchaldir.gm.visualization.character.equipment.part
 
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.style.*
+import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.SizeConfig
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
@@ -9,12 +10,18 @@ import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.HALF
 import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.visualization.character.CharacterRenderState
+import at.orchaldir.gm.visualization.utils.SewingPatternConfig
+import at.orchaldir.gm.visualization.utils.visualizeSewingPattern
 
 data class OpeningConfig(
     val buttonRadius: SizeConfig<Factor>,
+    val laceUp: SewingPatternConfig,
     val spaceBetweenColumns: SizeConfig<Factor>,
     val zipperWidth: Factor,
-)
+) {
+    fun getWidthFactor(size: Size) = spaceBetweenColumns.convert(size)
+    fun getWidth(aabb: AABB, size: Size) = aabb.convertWidth(getWidthFactor(size))
+}
 
 fun visualizeOpening(
     state: CharacterRenderState<Body>,
@@ -25,19 +32,27 @@ fun visualizeOpening(
     opening: Opening,
     layer: Int,
 ) {
+    val config = state.config.equipment.opening
+
     when (opening) {
         NoOpening -> doNothing()
         is DoubleBreasted -> {
-            val spaceBetweenColumns = state.config.equipment.opening.spaceBetweenColumns
-                .convert(opening.spaceBetweenColumns)
-            val half = spaceBetweenColumns * 0.5f
+            val width = config.getWidthFactor(opening.spaceBetweenColumns)
+            val half = width * 0.5f
 
             visualizeButtons(state, aabb, x - half, topY, bottomY, opening.buttons, layer)
             visualizeButtons(state, aabb, x + half, topY, bottomY, opening.buttons, layer)
         }
 
         is SingleBreasted -> visualizeButtons(state, aabb, x, topY, bottomY, opening.buttons, layer)
-        is LaceUp -> doNothing()
+        is LaceUp -> visualizeSewingPattern(
+            state,
+            config.laceUp,
+            aabb.getPoint(x, topY),
+            aabb.getPoint(x, bottomY),
+            config.getWidth(aabb, opening.width),
+            opening.pattern,
+        )
         is Zipper -> visualizeZipper(state, aabb, x, topY, bottomY, opening, layer)
     }
 }
