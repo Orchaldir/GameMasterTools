@@ -54,7 +54,8 @@ fun visualizeButtons(
     val distance = bottomY - topY
     val step = distance / buttons.count.toFloat()
     var y = topY + step * HALF
-    val radius = aabb.convertHeight(state.config.equipment.opening.buttonRadius.convert(buttons.button.size))
+    val sizeFactor = state.config.equipment.opening.buttonRadius.convert(buttons.button.size)
+    val radius = state.fullAABB.convertHeight(sizeFactor)
     val renderer = state.renderer.getLayer(layer)
 
     for (i in 0..<buttons.count.toInt()) {
