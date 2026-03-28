@@ -8,6 +8,7 @@ import kotlinx.serialization.Serializable
 val NECKLINES_WITH_SLEEVES = setOf(
     NecklineType.Crew,
     NecklineType.None,
+    NecklineType.Opening,
     NecklineType.V,
 )
 

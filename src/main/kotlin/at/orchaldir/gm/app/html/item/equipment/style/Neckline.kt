@@ -11,6 +11,7 @@ import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
+import kotlinx.html.DETAILS
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -28,9 +29,12 @@ fun HtmlBlockTag.showNeckline(
             Crew -> doNothing()
             Halter -> doNothing()
             NoNeckline -> doNothing()
-            is NecklineWithOpening -> showOpening(call, state, neckline.opening)
+            is NecklineWithOpening -> {
+                field("Height", neckline.height)
+                showOpening(call, state, neckline.opening)
+            }
             Strapless -> doNothing()
-            is VNeck -> field("Depth", neckline.height)
+            is VNeck -> field("Height", neckline.height)
         }
     }
 }
@@ -56,21 +60,31 @@ fun HtmlBlockTag.editNeckline(
             Crew -> doNothing()
             Halter -> doNothing()
             NoNeckline -> doNothing()
-            is NecklineWithOpening -> editOpening(
-                state,
-                neckline.opening,
-                ALL_OPENINGS,
-                combine(param, OPENING),
-            )
+            is NecklineWithOpening -> {
+                selectHeight(param, neckline.height)
+                editOpening(
+                    state,
+                    neckline.opening,
+                    ALL_OPENINGS,
+                    combine(param, OPENING),
+                )
+            }
             Strapless -> doNothing()
-            is VNeck -> selectValue(
-                "Depth",
-                combine(param, SIZE),
-                Size.entries,
-                neckline.height,
-            )
+            is VNeck -> selectHeight(param, neckline.height)
         }
     }
+}
+
+private fun DETAILS.selectHeight(
+    param: String,
+    height: Size,
+) {
+    selectValue(
+        "Height",
+        combine(param, SIZE),
+        Size.entries,
+        height,
+    )
 }
 
 // parse
@@ -95,10 +109,14 @@ fun parseNeckline(
                 combine(param, OPENING),
                 OpeningType.SingleBreasted,
             ),
+            parseHeight(parameters, param),
         )
         NecklineType.Strapless -> Strapless
         NecklineType.V -> VNeck(
-            parse(parameters, combine(param, SIZE), Size.Medium),
+            parseHeight(parameters, param),
         )
     }
 }
+
+private fun parseHeight(parameters: Parameters, param: String) =
+    parse(parameters, combine(param, SIZE), Size.Medium)
