@@ -32,14 +32,13 @@ data class NecklineConfig(
 
 fun visualizeNeckline(
     state: CharacterRenderState<Body>,
-    aabb: AABB,
     neckline: Neckline,
     layer: Int,
 ) = when (neckline) {
     is NecklineWithOpening -> {
-        val start = state.config.body.torsoY
+        val aabb = state.torsoAABB()
         val height = state.config.equipment.neckline.heightV.convert(neckline.height)
-        visualizeOpening(state, aabb, HALF, start, start + height, neckline.opening, layer)
+        visualizeOpening(state, aabb, HALF, START, START + height, neckline.opening, layer)
     }
     else -> doNothing()
 }
