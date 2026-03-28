@@ -56,7 +56,12 @@ fun HtmlBlockTag.editNeckline(
             Crew -> doNothing()
             Halter -> doNothing()
             NoNeckline -> doNothing()
-            is NecklineWithOpening -> editOpening( state, neckline.opening)
+            is NecklineWithOpening -> editOpening(
+                state,
+                neckline.opening,
+                ALL_OPENINGS,
+                combine(param, OPENING),
+            )
             Strapless -> doNothing()
             is VNeck -> selectValue(
                 "Depth",
@@ -84,7 +89,12 @@ fun parseNeckline(
         NecklineType.Halter -> Halter
         NecklineType.None -> NoNeckline
         NecklineType.Opening -> NecklineWithOpening(
-            parseOpening(state, parameters, combine(param, OPENING)),
+            parseOpening(
+                state,
+                parameters,
+                combine(param, OPENING),
+                OpeningType.SingleBreasted,
+            ),
         )
         NecklineType.Strapless -> Strapless
         NecklineType.V -> VNeck(

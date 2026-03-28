@@ -53,13 +53,14 @@ private fun HtmlBlockTag.showButtons(
 fun HtmlBlockTag.editOpening(
     state: State,
     opening: Opening,
+    allowedTypes: Collection<OpeningType> = OpeningType.entries,
     param: String = OPENING,
 ) {
     showDetails("Opening Style", true) {
         selectValue(
             "Type", 
             combine(param, STYLE),
-            OpeningType.entries, 
+            allowedTypes,
             opening.getType(),
         )
 
@@ -130,8 +131,9 @@ fun parseOpening(
     state: State,
     parameters: Parameters,
     param: String = OPENING,
+    default: OpeningType = OpeningType.NoOpening,
 ): Opening {
-    val type = parse(parameters, combine(param, STYLE), OpeningType.NoOpening)
+    val type = parse(parameters, combine(param, STYLE), default)
 
     return when (type) {
         OpeningType.NoOpening -> NoOpening

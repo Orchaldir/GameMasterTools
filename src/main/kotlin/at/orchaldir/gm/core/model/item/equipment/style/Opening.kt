@@ -7,6 +7,8 @@ import at.orchaldir.gm.core.model.util.part.MadeFromParts
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+val ALL_OPENINGS = OpeningType.entries - OpeningType.NoOpening
+
 enum class OpeningType {
     NoOpening,
     SingleBreasted,
