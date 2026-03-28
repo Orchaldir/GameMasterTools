@@ -37,7 +37,7 @@ fun visualizeOpening(
     when (opening) {
         NoOpening -> doNothing()
         is DoubleBreasted -> {
-            val width = config.getWidthFactor(opening.spaceBetweenColumns)
+            val width = config.getWidthFactor(opening.width)
             val half = width * 0.5f
 
             visualizeButtons(state, aabb, x - half, topY, bottomY, opening.buttons, layer)

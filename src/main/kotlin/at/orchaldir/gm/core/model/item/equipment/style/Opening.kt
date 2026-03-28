@@ -52,7 +52,7 @@ data class SingleBreasted(
 @SerialName("DoubleBreasted")
 data class DoubleBreasted(
     val buttons: ButtonColumn = ButtonColumn(),
-    val spaceBetweenColumns: Size = Size.Medium,
+    val width: Size = Size.Medium,
 ) : Opening()
 
 @Serializable

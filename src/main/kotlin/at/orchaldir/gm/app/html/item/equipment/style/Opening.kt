@@ -16,6 +16,7 @@ import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
+import kotlinx.html.DETAILS
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -33,10 +34,13 @@ fun HtmlBlockTag.showOpening(
             is SingleBreasted -> showButtons(call, state, opening.buttons)
             is DoubleBreasted -> {
                 showButtons(call, state, opening.buttons)
-                field("Space between Columns", opening.spaceBetweenColumns)
+                field("Space between Columns", opening.width)
             }
 
-            is LaceUp -> showSewingPattern(call, state, opening.pattern, "Pattern")
+            is LaceUp -> {
+                showSewingPattern(call, state, opening.pattern, "Pattern")
+                field("Width", opening.width)
+            }
             is Zipper -> showItemPart(call, state, opening.main, "Zipper")
         }
     }
@@ -73,20 +77,18 @@ fun HtmlBlockTag.editOpening(
             is SingleBreasted -> selectButtons(state, opening.buttons, param)
             is DoubleBreasted -> {
                 selectButtons(state, opening.buttons, param)
-                selectValue(
-                    "Space between Columns",
-                    combine(param, SPACE_BETWEEN_COLUMNS),
-                    Size.entries,
-                    opening.spaceBetweenColumns,
-                )
+                selectWidth(param, opening.width, "Space between Columns")
             }
 
-            is LaceUp -> editSewingPattern(
-                state,
-                opening.pattern,
-                combine(param, SEWING),
-                "Pattern",
-            )
+            is LaceUp -> {
+                editSewingPattern(
+                    state,
+                    opening.pattern,
+                    combine(param, SEWING),
+                    "Pattern",
+                )
+                selectWidth(param, opening.width, "Width")
+            }
 
             is Zipper -> editItemPart(
                 state,
@@ -97,6 +99,19 @@ fun HtmlBlockTag.editOpening(
             )
         }
     }
+}
+
+private fun DETAILS.selectWidth(
+    param: String,
+    width: Size,
+    label: String,
+) {
+    selectValue(
+        label,
+        combine(param, SPACE_BETWEEN_COLUMNS),
+        Size.entries,
+        width,
+    )
 }
 
 private fun HtmlBlockTag.selectButtons(
@@ -153,16 +168,20 @@ fun parseOpening(
         )
         OpeningType.DoubleBreasted -> DoubleBreasted(
             parseButtonColumn(state, parameters, param),
-            parse(parameters, combine(param, SPACE_BETWEEN_COLUMNS), Size.Medium)
+            parseWidth(parameters, param),
         )
         OpeningType.LaceUp -> LaceUp(
             parseSewing(state, parameters, combine(param, SEWING)),
+            parseWidth(parameters, param),
         )
         OpeningType.Zipper -> Zipper(
             parseItemPart(state, parameters, combine(param, ZIPPER), ZIPPER_MATERIALS),
         )
     }
 }
+
+private fun parseWidth(parameters: Parameters, param: String) =
+    parse(parameters, combine(param, SPACE_BETWEEN_COLUMNS), Size.Medium)
 
 private fun parseButtonColumn(
     state: State,
