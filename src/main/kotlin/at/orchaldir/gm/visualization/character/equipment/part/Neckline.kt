@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.item.equipment.style.NoNeckline
 import at.orchaldir.gm.core.model.item.equipment.style.Strapless
 import at.orchaldir.gm.core.model.item.equipment.style.VNeck
 import at.orchaldir.gm.core.model.util.SizeConfig
+import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 
@@ -22,10 +23,24 @@ data class NecklineConfig(
     fun getHeight(neckline: Neckline) = when (neckline) {
         Crew -> heightCrew
         Halter -> TODO()
+        is NecklineWithOpening -> heightV.convert(neckline.height)
         Strapless -> TODO()
-        is VNeck -> heightV.convert(neckline.size)
+        is VNeck -> heightV.convert(neckline.height)
         else -> ZERO
     }
+}
+
+fun visualizeNeckline(
+    state: CharacterRenderState<Body>,
+    aabb: AABB,
+    neckline: Neckline,
+    layer: Int,
+) = when (neckline) {
+    is NecklineWithOpening -> {
+        val height = state.config.equipment.neckline.heightV.convert(neckline.height)
+        visualizeOpening(state, aabb, HALF, START, START + height, neckline.opening, layer)
+    }
+    else -> doNothing()
 }
 
 fun addNeckline(
@@ -46,7 +61,7 @@ fun addNeckline(
         Halter -> addHalter(state, builder, torsoAabb)
         NoNeckline, Strapless -> return
         is NecklineWithOpening -> return
-        is VNeck -> addV(builder, torsoAabb, config.widthV, config.heightV.convert(neckline.size))
+        is VNeck -> addV(builder, torsoAabb, config.widthV, config.heightV.convert(neckline.height))
     }
 }
 

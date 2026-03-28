@@ -13,6 +13,7 @@ import at.orchaldir.gm.visualization.character.ICharacterConfig
 import at.orchaldir.gm.visualization.character.appearance.addHip
 import at.orchaldir.gm.visualization.character.appearance.addTorso
 import at.orchaldir.gm.visualization.character.equipment.part.addNeckline
+import at.orchaldir.gm.visualization.character.equipment.part.visualizeNeckline
 import at.orchaldir.gm.visualization.character.equipment.part.visualizeOpening
 import at.orchaldir.gm.visualization.character.equipment.part.visualizeSleeves
 import at.orchaldir.gm.visualization.character.equipment.part.visualizeTopPockets
@@ -62,6 +63,7 @@ fun visualizeCoat(
         val size = state.fullAABB.size.scale(torsoWidth, FULL)
         val aabb = AABB.fromCenter(state.fullAABB.getCenter(), size)
 
+        visualizeNeckline(state, aabb, coat.neckline, layer)
         visualizeOpening(state, aabb, HALF, topY, bottomY, coat.opening, layer)
         visualizeTopPockets(state, options, coat.pocketStyle, layer)
     }

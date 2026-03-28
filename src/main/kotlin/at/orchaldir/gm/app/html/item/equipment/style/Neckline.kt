@@ -30,7 +30,7 @@ fun HtmlBlockTag.showNeckline(
             NoNeckline -> doNothing()
             is NecklineWithOpening -> showOpening(call, state, neckline.opening)
             Strapless -> doNothing()
-            is VNeck -> field("Depth", neckline.size)
+            is VNeck -> field("Depth", neckline.height)
         }
     }
 }
@@ -67,7 +67,7 @@ fun HtmlBlockTag.editNeckline(
                 "Depth",
                 combine(param, SIZE),
                 Size.entries,
-                neckline.size,
+                neckline.height,
             )
         }
     }

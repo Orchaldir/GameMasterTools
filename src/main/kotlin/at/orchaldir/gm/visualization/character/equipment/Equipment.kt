@@ -193,7 +193,7 @@ fun visualizeBodyEquipment(state: CharacterRenderState<Body>) {
                 is Pants -> visualizePants(newState, data)
                 is Polearm -> visualizePolearm(newState, data, set)
                 is Shield -> visualizeShield(newState, data, set)
-                is Shirt -> visualizeShirt(newState, data)
+                is Shirt -> visualizeCoat(newState, data.convert(), HIGHER_EQUIPMENT_LAYER)
                 is Skirt -> visualizeSkirt(newState, data)
                 is Sling -> visualizeSling(newState, data, set)
                 is Socks -> visualizeSocks(newState, data)
@@ -227,6 +227,14 @@ fun visualizeHeadEquipment(
         }
     }
 }
+
+private fun Shirt.convert() = Coat(
+    main,
+    OuterwearLength.Hip,
+    neckline,
+    sleeveStyle,
+    NoOpening,
+)
 
 private fun SuitJacket.convert() = Coat(
     main,

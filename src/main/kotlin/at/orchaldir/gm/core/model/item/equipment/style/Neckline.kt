@@ -80,6 +80,7 @@ data object NoNeckline : Neckline()
 @SerialName("Opening")
 data class NecklineWithOpening(
     val opening: Opening,
+    val height: Size = Size.Medium,
 ) : Neckline()
 
 @Serializable
@@ -89,5 +90,5 @@ data object Strapless : Neckline()
 @Serializable
 @SerialName("V")
 data class VNeck(
-    val size: Size = Size.Medium,
+    val height: Size = Size.Medium,
 ) : Neckline()
