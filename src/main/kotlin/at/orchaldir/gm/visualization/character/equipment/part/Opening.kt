@@ -50,7 +50,7 @@ fun visualizeOpening(
             config.laceUp,
             aabb.getPoint(x, topY),
             aabb.getPoint(x, bottomY),
-            config.getWidth(aabb, opening.width),
+            config.getWidth(aabb, Size.Medium),
             opening.pattern,
             layer,
         )

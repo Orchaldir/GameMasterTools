@@ -24,6 +24,9 @@ import kotlinx.html.HtmlBlockTag
 
 // show
 
+private const val CORD_RADIUS = "Cord Radius"
+private const val STITCH_WIDTH = "Stitch Width"
+
 fun HtmlBlockTag.showSewingPattern(
     call: ApplicationCall,
     state: State,
@@ -36,8 +39,8 @@ fun HtmlBlockTag.showSewingPattern(
         when (pattern) {
             is SimpleSewingPattern -> {
                 showItemPart(call, state, pattern.thread)
-                field("Size", pattern.size)
-                field("Distance Between Edge & Hole", pattern.length)
+                field(CORD_RADIUS, pattern.size)
+                field(STITCH_WIDTH, pattern.length)
                 fieldList("Stitches", pattern.stitches) { stitch ->
                     +stitch.name
                 }
@@ -46,8 +49,8 @@ fun HtmlBlockTag.showSewingPattern(
             is ComplexSewingPattern -> {
                 showList(pattern.stitches) { complex ->
                     showItemPart(call, state, complex.thread)
-                    field("Size", complex.size)
-                    field("Distance Between Edge & Hole", complex.length)
+                    field(CORD_RADIUS, complex.size)
+                    field(STITCH_WIDTH, complex.length)
                     field("Stitch", complex.stitch)
                 }
             }
@@ -69,8 +72,8 @@ fun HtmlBlockTag.editSewingPattern(
         when (pattern) {
             is SimpleSewingPattern -> {
                 editItemPart(state, pattern.thread, param, allowedTypes = LINE_MATERIALS)
-                selectValue("Size", combine(param, SIZE), Size.entries, pattern.size)
-                selectValue("Distance Between Edge & Hole", combine(param, LENGTH), Size.entries, pattern.length)
+                selectValue(CORD_RADIUS, combine(param, SIZE), Size.entries, pattern.size)
+                selectValue(STITCH_WIDTH, combine(param, LENGTH), Size.entries, pattern.length)
                 editSewingPattern(pattern.stitches, param) { elementParam, element ->
                     selectValue("Stitch", elementParam, StitchType.entries, element)
                 }
@@ -79,9 +82,9 @@ fun HtmlBlockTag.editSewingPattern(
             is ComplexSewingPattern -> {
                 editSewingPattern(pattern.stitches, param) { elementParam, element ->
                     editItemPart(state, element.thread, elementParam, allowedTypes = LINE_MATERIALS)
-                    selectValue("Size", combine(elementParam, SIZE), Size.entries, element.size)
+                    selectValue(CORD_RADIUS, combine(elementParam, SIZE), Size.entries, element.size)
                     selectValue(
-                        "Distance Between Edge & Hole",
+                        STITCH_WIDTH,
                         combine(elementParam, LENGTH),
                         Size.entries,
                         element.length,

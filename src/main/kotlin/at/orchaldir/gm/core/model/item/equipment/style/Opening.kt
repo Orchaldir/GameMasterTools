@@ -59,7 +59,6 @@ data class DoubleBreasted(
 @SerialName("Lace")
 data class LaceUp(
     val pattern: SewingPattern,
-    val width: Size = Size.Medium,
 ) : Opening()
 
 @Serializable

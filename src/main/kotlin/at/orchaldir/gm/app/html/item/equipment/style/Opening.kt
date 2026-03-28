@@ -37,10 +37,7 @@ fun HtmlBlockTag.showOpening(
                 field("Space between Columns", opening.width)
             }
 
-            is LaceUp -> {
-                showSewingPattern(call, state, opening.pattern, "Pattern")
-                field("Width", opening.width)
-            }
+            is LaceUp -> showSewingPattern(call, state, opening.pattern, "Pattern")
             is Zipper -> showItemPart(call, state, opening.main, "Zipper")
         }
     }
@@ -77,18 +74,20 @@ fun HtmlBlockTag.editOpening(
             is SingleBreasted -> selectButtons(state, opening.buttons, param)
             is DoubleBreasted -> {
                 selectButtons(state, opening.buttons, param)
-                selectWidth(param, opening.width, "Space between Columns")
+                selectValue(
+                    "Space between Columns",
+                    combine(param, SPACE_BETWEEN_COLUMNS),
+                    Size.entries,
+                    opening.width,
+                )
             }
 
-            is LaceUp -> {
-                editSewingPattern(
-                    state,
-                    opening.pattern,
-                    combine(param, SEWING),
-                    "Pattern",
-                )
-                selectWidth(param, opening.width, "Width")
-            }
+            is LaceUp -> editSewingPattern(
+                state,
+                opening.pattern,
+                combine(param, SEWING),
+                "Pattern",
+            )
 
             is Zipper -> editItemPart(
                 state,
@@ -99,19 +98,6 @@ fun HtmlBlockTag.editOpening(
             )
         }
     }
-}
-
-private fun DETAILS.selectWidth(
-    param: String,
-    width: Size,
-    label: String,
-) {
-    selectValue(
-        label,
-        combine(param, SPACE_BETWEEN_COLUMNS),
-        Size.entries,
-        width,
-    )
 }
 
 private fun HtmlBlockTag.selectButtons(
@@ -172,7 +158,6 @@ fun parseOpening(
         )
         OpeningType.LaceUp -> LaceUp(
             parseSewing(state, parameters, combine(param, SEWING)),
-            parseWidth(parameters, param),
         )
         OpeningType.Zipper -> Zipper(
             parseItemPart(state, parameters, combine(param, ZIPPER), ZIPPER_MATERIALS),
