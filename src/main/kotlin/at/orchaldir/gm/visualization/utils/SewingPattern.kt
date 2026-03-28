@@ -82,7 +82,7 @@ private fun visualizeSimpleSewingPattern(
     side: Side?,
 ) {
     val renderer = state.renderer().getLayer(layer)
-    val options = state.getFillAndBorder(pattern.thread)
+    val options = state.getNoBorder(pattern.thread)
     val radius = width * config.sewingRadius.convert(pattern.size)
     val lengthFactor = config.sewingLength.convert(pattern.length)
     val length = width * lengthFactor
@@ -111,7 +111,7 @@ private fun visualizeComplexSewingPattern(
         .getCenters()
         .zip(pattern.stitches)
         .forEach { (center, complexStitch) ->
-        val options = state.getFillAndBorder(complexStitch.thread)
+        val options = state.getNoBorder(complexStitch.thread)
         val radius = width * config.sewingRadius.convert(complexStitch.size)
         val lengthFactor = config.sewingLength.convert(complexStitch.length)
         val length = width * lengthFactor
