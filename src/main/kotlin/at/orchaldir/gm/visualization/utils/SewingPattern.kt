@@ -4,32 +4,46 @@ import at.orchaldir.gm.core.model.item.common.ComplexSewingPattern
 import at.orchaldir.gm.core.model.item.common.SewingPattern
 import at.orchaldir.gm.core.model.item.common.SimpleSewingPattern
 import at.orchaldir.gm.core.model.item.common.StitchType
+import at.orchaldir.gm.core.model.util.SizeConfig
 import at.orchaldir.gm.utils.doNothing
+import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Factor.Companion.fromNumber
 import at.orchaldir.gm.utils.math.START
 import at.orchaldir.gm.visualization.renderRoundedPolygon
 import at.orchaldir.gm.visualization.text.TextRenderState
 
+data class SewingPatternConfig(
+    val sewingRadius: SizeConfig<Factor>,
+    val sewingLength: SizeConfig<Factor>,
+)
+
 fun visualizeSewingPattern(
     state: TextRenderState,
-    sewingPattern: SewingPattern,
+    pattern: SewingPattern,
+)  = visualizeSewingPattern( state, state.config.sewing, pattern)
+
+fun visualizeSewingPattern(
+    state: TextRenderState,
+    config: SewingPatternConfig,
+    pattern: SewingPattern,
 ) {
-    when (sewingPattern) {
-        is SimpleSewingPattern -> visualizeSimpleSewingPattern(state, sewingPattern)
-        is ComplexSewingPattern -> visualizeComplexSewingPattern(state, sewingPattern)
+    when (pattern) {
+        is SimpleSewingPattern -> visualizeSimpleSewingPattern(state, config, pattern)
+        is ComplexSewingPattern -> visualizeComplexSewingPattern(state, config, pattern)
     }
 }
 
 private fun visualizeSimpleSewingPattern(
     state: TextRenderState,
+    config: SewingPatternConfig,
     simple: SimpleSewingPattern,
 ) {
     val options = state.getFillAndBorder(simple.thread)
     val parts = simple.stitches.size
     val length = fromNumber(1.0f / parts.toFloat())
     val half = length / 2.0f
-    val radius = state.aabb.convertHeight(state.config.sewingRadius.convert(simple.size))
-    val sewingLength = state.config.sewingLength.convert(simple.length)
+    val radius = state.aabb.convertHeight(config.sewingRadius.convert(simple.size))
+    val sewingLength = config.sewingLength.convert(simple.length)
     var y = half
     val diameter = radius * 2
     val renderer = state.renderer.getLayer()
@@ -57,6 +71,7 @@ private fun visualizeSimpleSewingPattern(
 
 private fun visualizeComplexSewingPattern(
     state: TextRenderState,
+    config: SewingPatternConfig,
     complex: ComplexSewingPattern,
 ) {
     val parts = complex.stitches.size
@@ -67,8 +82,8 @@ private fun visualizeComplexSewingPattern(
 
     complex.stitches.forEach { element ->
         val options = state.getFillAndBorder(element.thread)
-        val radius = state.aabb.convertHeight(state.config.sewingRadius.convert(element.size))
-        val sewingLength = state.config.sewingLength.convert(element.length)
+        val radius = state.aabb.convertHeight(config.sewingRadius.convert(element.size))
+        val sewingLength = config.sewingLength.convert(element.length)
         val diameter = radius * 2
 
         when (element.stitch) {
