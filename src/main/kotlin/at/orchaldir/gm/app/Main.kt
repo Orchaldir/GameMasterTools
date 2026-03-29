@@ -1,10 +1,6 @@
 package at.orchaldir.gm.app
 
-import at.orchaldir.gm.app.routes.character.configureAppearanceRouting
-import at.orchaldir.gm.app.routes.character.configureCharacterRelationshipRouting
-import at.orchaldir.gm.app.routes.character.configureCharacterRouting
-import at.orchaldir.gm.app.routes.character.configureCharacterTemplateRouting
-import at.orchaldir.gm.app.routes.character.configureInventoryRouting
+import at.orchaldir.gm.app.routes.character.*
 import at.orchaldir.gm.app.routes.character.title.configureTitleRouting
 import at.orchaldir.gm.app.routes.configureConfigRouting
 import at.orchaldir.gm.app.routes.culture.configureCultureRouting

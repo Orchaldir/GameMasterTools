@@ -1,14 +1,8 @@
 package at.orchaldir.gm.app.html.item.equipment.data
 
 import at.orchaldir.gm.app.MAIN
-import at.orchaldir.gm.app.NECKLINE
-import at.orchaldir.gm.app.STYLE
-import at.orchaldir.gm.app.html.combine
 import at.orchaldir.gm.app.html.field
-import at.orchaldir.gm.app.html.item.equipment.style.parseSleeveStyle
-import at.orchaldir.gm.app.html.item.equipment.style.selectNecklineStyle
-import at.orchaldir.gm.app.html.item.equipment.style.selectSleeveStyle
-import at.orchaldir.gm.app.html.parse
+import at.orchaldir.gm.app.html.item.equipment.style.*
 import at.orchaldir.gm.app.html.util.part.editItemPart
 import at.orchaldir.gm.app.html.util.part.parseItemPart
 import at.orchaldir.gm.app.html.util.part.showItemPart
@@ -16,7 +10,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.SHIRT_MATERIALS
 import at.orchaldir.gm.core.model.item.equipment.Shirt
 import at.orchaldir.gm.core.model.item.equipment.style.NECKLINES_WITH_SLEEVES
-import at.orchaldir.gm.core.model.item.equipment.style.NecklineStyle
 import at.orchaldir.gm.core.model.item.equipment.style.SleeveStyle
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -29,7 +22,7 @@ fun HtmlBlockTag.showShirt(
     state: State,
     shirt: Shirt,
 ) {
-    field("Neckline Style", shirt.necklineStyle)
+    showNeckline(call, state, shirt.neckline)
     field("Sleeve Style", shirt.sleeveStyle)
     showItemPart(call, state, shirt.main)
 }
@@ -40,7 +33,7 @@ fun HtmlBlockTag.editShirt(
     state: State,
     shirt: Shirt,
 ) {
-    selectNecklineStyle(NECKLINES_WITH_SLEEVES, shirt.necklineStyle)
+    editNeckline(state, shirt.neckline, NECKLINES_WITH_SLEEVES)
     selectSleeveStyle(
         SleeveStyle.entries,
         shirt.sleeveStyle,
@@ -54,7 +47,7 @@ fun parseShirt(
     state: State,
     parameters: Parameters,
 ): Shirt {
-    val neckline = parse(parameters, combine(NECKLINE, STYLE), NecklineStyle.None)
+    val neckline = parseNeckline(state, parameters)
 
     return Shirt(
         neckline,

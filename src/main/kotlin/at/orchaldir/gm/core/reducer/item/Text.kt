@@ -1,8 +1,14 @@
 package at.orchaldir.gm.core.reducer.item
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.common.ComplexSewingPattern
+import at.orchaldir.gm.core.model.item.common.MIN_STITCHES
+import at.orchaldir.gm.core.model.item.common.RepeatedStitch
+import at.orchaldir.gm.core.model.item.common.SimpleSewingPattern
 import at.orchaldir.gm.core.model.item.text.*
-import at.orchaldir.gm.core.model.item.text.book.*
+import at.orchaldir.gm.core.model.item.text.book.CopticBinding
+import at.orchaldir.gm.core.model.item.text.book.Hardcover
+import at.orchaldir.gm.core.model.item.text.book.LeatherBinding
 import at.orchaldir.gm.core.model.item.text.content.*
 import at.orchaldir.gm.core.model.item.text.scroll.*
 import at.orchaldir.gm.core.model.util.font.FontOption
@@ -50,10 +56,11 @@ fun validateTextFormat(format: TextFormat) {
             when (format.binding) {
                 is CopticBinding -> {
                     val stitches = when (val sewing = format.binding.sewingPattern) {
+                        is RepeatedStitch -> sewing.count
                         is ComplexSewingPattern -> sewing.stitches.size
                         is SimpleSewingPattern -> sewing.stitches.size
                     }
-                    require(stitches >= MIN_STITCHES) { "The sewing pattern requires at least $MIN_STITCHES stitches!" }
+                    require(stitches >= MIN_STITCHES) { "The sewing pattern requires at least ${MIN_STITCHES} stitches!" }
                 }
 
                 is Hardcover -> doNothing()

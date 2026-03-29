@@ -1,6 +1,9 @@
 package at.orchaldir.gm.app.html.item.equipment.data
 
-import at.orchaldir.gm.app.*
+import at.orchaldir.gm.app.MAIN
+import at.orchaldir.gm.app.POCKET
+import at.orchaldir.gm.app.SLEEVE
+import at.orchaldir.gm.app.STYLE
 import at.orchaldir.gm.app.html.combine
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.item.equipment.style.*
@@ -11,7 +14,7 @@ import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.SuitJacket
 import at.orchaldir.gm.core.model.item.equipment.style.NECKLINES_WITH_SLEEVES
-import at.orchaldir.gm.core.model.item.equipment.style.NecklineStyle
+import at.orchaldir.gm.core.model.item.equipment.style.NecklineType
 import at.orchaldir.gm.core.model.item.equipment.style.PocketStyle
 import at.orchaldir.gm.core.model.item.equipment.style.SleeveStyle
 import at.orchaldir.gm.core.model.util.part.CLOTHING_MATERIALS
@@ -26,9 +29,9 @@ fun HtmlBlockTag.showSuitJacket(
     state: State,
     data: SuitJacket,
 ) {
-    field("Neckline Style", data.necklineStyle)
+    showNeckline(call, state, data.neckline)
     field("Sleeve Style", data.sleeveStyle)
-    showOpeningStyle(call, state, data.openingStyle)
+    showOpening(call, state, data.opening)
     field("Pocket Style", data.pocketStyle)
     showItemPart(call, state, data.main)
 }
@@ -39,9 +42,9 @@ fun HtmlBlockTag.editSuitJacket(
     state: State,
     data: SuitJacket,
 ) {
-    selectNecklineStyle(NECKLINES_WITH_SLEEVES, data.necklineStyle)
+    editNeckline(state, data.neckline, NECKLINES_WITH_SLEEVES)
     selectSleeveStyle(SleeveStyle.entries, data.sleeveStyle)
-    selectOpeningStyle(state, data.openingStyle)
+    editOpening(state, data.opening)
     selectPocketStyle(PocketStyle.entries, data.pocketStyle)
     editItemPart(state, data.main, MAIN, allowedTypes = CLOTHING_MATERIALS)
 }
@@ -53,9 +56,9 @@ fun parseSuitJacket(
     state: State,
     parameters: Parameters,
 ) = SuitJacket(
-    parse(parameters, combine(NECKLINE, STYLE), NecklineStyle.DeepV),
+    parseNeckline(state, parameters, NecklineType.V),
     parse(parameters, combine(SLEEVE, STYLE), SleeveStyle.Long),
-    parseOpeningStyle(state, parameters),
+    parseOpening(state, parameters),
     parse(parameters, combine(POCKET, STYLE), PocketStyle.None),
     parseItemPart(state, parameters, MAIN, CLOTHING_MATERIALS),
 )

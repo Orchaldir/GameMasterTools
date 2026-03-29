@@ -2,8 +2,6 @@ package at.orchaldir.gm.app.routes.character
 
 import at.orchaldir.gm.app.routes.EditRoutes
 import at.orchaldir.gm.app.routes.Routes
-import at.orchaldir.gm.app.routes.character.CharacterRoutes.Preview
-import at.orchaldir.gm.app.routes.character.CharacterRoutes.Update
 import at.orchaldir.gm.core.model.character.CHARACTER_TYPE
 import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.util.SortCharacter

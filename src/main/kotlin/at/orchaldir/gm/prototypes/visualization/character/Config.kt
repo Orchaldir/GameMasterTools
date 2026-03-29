@@ -29,6 +29,7 @@ import at.orchaldir.gm.visualization.character.appearance.horn.HornConfig
 import at.orchaldir.gm.visualization.character.appearance.mouth.MouthConfig
 import at.orchaldir.gm.visualization.character.equipment.*
 import at.orchaldir.gm.visualization.character.equipment.part.*
+import at.orchaldir.gm.visualization.utils.SewingPatternConfig
 
 val CHARACTER_CONFIG = CharacterRenderConfig(
     fromMillimeters(100),
@@ -195,14 +196,17 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
         ),
         NecklineConfig(
             fromPercentage(10),
-            fromPercentage(20),
-            fromPercentage(40),
-            fromPercentage(60),
+            fromPercentages(20, 40, 60),
             fromPercentage(30),
             fromPercentage(50),
+            fromPercentage(5),
         ),
         OpeningConfig(
             withFactor(0.01f, 0.015f, 0.02f),
+            SewingPatternConfig(
+                withFactor(0.03f, 0.04f, 0.05f),
+                fromPercentages(30, 50, 70),
+            ),
             withFactor(0.2f, 0.3f, 0.4f),
             fromPercentage(1),
         ),

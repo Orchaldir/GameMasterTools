@@ -56,6 +56,7 @@ fun HtmlBlockTag.showEquipped(
             +"Modify "
             optionalLink(call, state, lookup.template())
         }
+
         is UseUniform -> link(call, state, equipped.uniform)
         is ModifyUniform -> {
             +"Modify "

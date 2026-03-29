@@ -1,14 +1,9 @@
 package at.orchaldir.gm.app.html.item.equipment.data
 
 import at.orchaldir.gm.app.MAIN
-import at.orchaldir.gm.app.NECKLINE
 import at.orchaldir.gm.app.SKIRT_STYLE
-import at.orchaldir.gm.app.STYLE
-import at.orchaldir.gm.app.html.combine
 import at.orchaldir.gm.app.html.field
-import at.orchaldir.gm.app.html.item.equipment.style.parseSleeveStyle
-import at.orchaldir.gm.app.html.item.equipment.style.selectNecklineStyle
-import at.orchaldir.gm.app.html.item.equipment.style.selectSleeveStyle
+import at.orchaldir.gm.app.html.item.equipment.style.*
 import at.orchaldir.gm.app.html.parse
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.util.part.editItemPart
@@ -17,7 +12,6 @@ import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.DRESS_MATERIALS
 import at.orchaldir.gm.core.model.item.equipment.Dress
-import at.orchaldir.gm.core.model.item.equipment.style.NecklineStyle
 import at.orchaldir.gm.core.model.item.equipment.style.SkirtStyle
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -30,7 +24,7 @@ fun HtmlBlockTag.showDress(
     state: State,
     dress: Dress,
 ) {
-    field("Neckline Style", dress.necklineStyle)
+    showNeckline(call, state, dress.neckline)
     field("Skirt Style", dress.skirtStyle)
     field("Sleeve Style", dress.sleeveStyle)
     showItemPart(call, state, dress.main)
@@ -42,10 +36,10 @@ fun HtmlBlockTag.editDress(
     state: State,
     dress: Dress,
 ) {
-    selectNecklineStyle(NecklineStyle.entries, dress.necklineStyle)
+    editNeckline(state, dress.neckline)
     selectValue("Skirt Style", SKIRT_STYLE, SkirtStyle.entries, dress.skirtStyle)
     selectSleeveStyle(
-        dress.necklineStyle.getSupportsSleevesStyles(),
+        dress.neckline.getSupportedSleevesStyles(),
         dress.sleeveStyle,
     )
     editItemPart(state, dress.main, MAIN, allowedTypes = DRESS_MATERIALS)
@@ -57,7 +51,7 @@ fun parseDress(
     state: State,
     parameters: Parameters,
 ): Dress {
-    val neckline = parse(parameters, combine(NECKLINE, STYLE), NecklineStyle.None)
+    val neckline = parseNeckline(state, parameters)
 
     return Dress(
         neckline,

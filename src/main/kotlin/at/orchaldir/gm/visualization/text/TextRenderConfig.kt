@@ -11,6 +11,7 @@ import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.Size2d.Companion.square
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.model.LineOptions
+import at.orchaldir.gm.visualization.utils.SewingPatternConfig
 
 data class LeatherBindingConfig(
     val spine: Factor,
@@ -22,8 +23,7 @@ data class TextRenderConfig(
     val line: LineOptions,
     val leatherBindingMap: Map<LeatherBindingStyle, LeatherBindingConfig>,
     val bossesRadius: SizeConfig<Factor>,
-    val sewingRadius: SizeConfig<Factor>,
-    val sewingLength: SizeConfig<Factor>,
+    val sewing: SewingPatternConfig,
     val exampleStrings: List<String>,
     val lastPageFillFactor: Factor,
 ) {

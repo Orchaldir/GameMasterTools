@@ -1,50 +1,77 @@
 package at.orchaldir.gm.visualization.character.equipment.part
 
 import at.orchaldir.gm.core.model.character.appearance.Body
-import at.orchaldir.gm.core.model.item.equipment.style.NecklineStyle
-import at.orchaldir.gm.core.model.item.equipment.style.NecklineStyle.*
+import at.orchaldir.gm.core.model.item.equipment.style.*
+import at.orchaldir.gm.core.model.util.SizeConfig
+import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 
 data class NecklineConfig(
     val heightCrew: Factor,
-    val heightV: Factor,
-    val heightDeepV: Factor,
-    val heightVeryDeepV: Factor,
+    val heightV: SizeConfig<Factor>,
     val widthCrew: Factor,
     val widthV: Factor,
+    val openingPadding: Factor,
 ) {
-    fun getHeight(style: NecklineStyle) = when (style) {
+    fun getHeight(neckline: Neckline) = when (neckline) {
         Crew -> heightCrew
         Halter -> TODO()
+        is NecklineWithOpening -> heightV.convert(neckline.height)
         Strapless -> TODO()
-        V -> heightV
-        DeepV -> heightDeepV
-        VeryDeepV -> heightVeryDeepV
+        is VNeck -> heightV.convert(neckline.height)
         else -> ZERO
     }
+}
+
+fun visualizeNeckline(
+    state: CharacterRenderState<Body>,
+    neckline: Neckline,
+    layer: Int,
+) = when (neckline) {
+    is NecklineWithOpening -> {
+        val padding = state.config.equipment.neckline.openingPadding
+        val aabb = state.torsoAABB()
+        val height = state.config.equipment.neckline.heightV.convert(neckline.height)
+        val start = aabb.getPoint(HALF, START)
+        val end = aabb.getPoint(HALF, START + height + padding * 2)
+
+        state.renderer.getLayer(layer)
+            .renderLine(start, end, state.config.colors.line)
+
+        visualizeOpening(
+            state,
+            aabb,
+            HALF,
+            START + padding,
+            START + height + padding,
+            neckline.opening,
+            layer,
+        )
+    }
+
+    else -> doNothing()
 }
 
 fun addNeckline(
     state: CharacterRenderState<Body>,
     builder: Polygon2dBuilder,
-    style: NecklineStyle,
+    neckline: Neckline,
 ) {
-    if (!state.renderFront && !style.renderBack()) {
+    if (!state.renderFront && !neckline.renderBack()) {
         return
     }
 
     val torsoAabb = state.torsoAABB()
-    val neckline = state.config.equipment.neckline
+    val config = state.config.equipment.neckline
 
-    when (style) {
+    when (neckline) {
         Asymmetrical -> addAsymmetrical(state, builder, torsoAabb)
-        Crew -> addRound(builder, torsoAabb, neckline.widthCrew, neckline.heightCrew)
+        Crew -> addRound(builder, torsoAabb, config.widthCrew, config.heightCrew)
         Halter -> addHalter(state, builder, torsoAabb)
-        None, Strapless -> return
-        V -> addV(builder, torsoAabb, neckline.widthV, neckline.heightV)
-        DeepV -> addV(builder, torsoAabb, neckline.widthV, neckline.heightDeepV)
-        VeryDeepV -> addV(builder, torsoAabb, neckline.widthV, neckline.heightVeryDeepV)
+        NoNeckline, Strapless -> return
+        is NecklineWithOpening -> return
+        is VNeck -> addV(builder, torsoAabb, config.widthV, config.heightV.convert(neckline.height))
     }
 }
 

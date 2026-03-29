@@ -23,19 +23,14 @@ import at.orchaldir.gm.core.model.character.appearance.HeadOnly
 import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
 import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
 import at.orchaldir.gm.core.model.race.Race
-import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.aging.CustomAging
 import at.orchaldir.gm.core.model.time.date.Date
-import at.orchaldir.gm.core.model.time.date.Year
 import at.orchaldir.gm.core.model.util.Dead
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.selector.character.*
-import at.orchaldir.gm.core.selector.item.equipment.getEquipmentIdMapForLookup
 import at.orchaldir.gm.core.selector.organization.getOrganizations
 import at.orchaldir.gm.core.selector.race.getExistingRaces
 import at.orchaldir.gm.core.selector.realm.getBattlesLedBy
-import at.orchaldir.gm.core.selector.time.getCurrentYear
-import at.orchaldir.gm.core.selector.time.getDefaultCalendar
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.unit.Distance
 import io.ktor.http.*
@@ -46,7 +41,6 @@ import kotlinx.html.HtmlBlockTag
 import kotlinx.html.TD
 import kotlinx.html.del
 import kotlinx.html.h2
-import kotlin.random.Random
 
 // show
 

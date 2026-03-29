@@ -4,7 +4,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap.Companion.from
 import at.orchaldir.gm.core.model.item.equipment.Shirt
-import at.orchaldir.gm.core.model.item.equipment.style.NecklineStyle.None
+import at.orchaldir.gm.core.model.item.equipment.style.NoNeckline
 import at.orchaldir.gm.core.model.item.equipment.style.SleeveStyle
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.render.Color.Blue
@@ -23,7 +23,7 @@ fun main() {
     ) { distance, shape, style ->
         Pair(
             createAppearance(distance, shape),
-            from(Shirt(None, style, Blue))
+            from(Shirt(NoNeckline, style, Blue))
         )
     }
 }

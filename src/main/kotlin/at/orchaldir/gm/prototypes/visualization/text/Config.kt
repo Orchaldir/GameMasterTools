@@ -9,6 +9,7 @@ import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.visualization.text.LeatherBindingConfig
 import at.orchaldir.gm.visualization.text.TextRenderConfig
+import at.orchaldir.gm.visualization.utils.SewingPatternConfig
 
 val TEXT_CONFIG = TextRenderConfig(
     fromMillimeters(20),
@@ -19,8 +20,10 @@ val TEXT_CONFIG = TextRenderConfig(
         LeatherBindingStyle.Quarter to createConfig(20, 20),
     ),
     fromPercentages(2, 3, 4),
-    withFactor(0.015f, 0.02f, 0.025f),
-    fromPercentages(10, 15, 20),
+    SewingPatternConfig(
+        withFactor(0.015f, 0.02f, 0.025f),
+        fromPercentages(10, 15, 20),
+    ),
     listOf(
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
         "Nulla dapibus mauris vitae metus gravida sodales.",

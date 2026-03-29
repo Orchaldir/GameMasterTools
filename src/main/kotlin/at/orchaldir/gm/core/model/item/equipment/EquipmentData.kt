@@ -290,19 +290,19 @@ data class TwoHandedClub(
 data class Coat(
     val main: ItemPart = MadeFromFabric(Color.SaddleBrown),
     val length: OuterwearLength = OuterwearLength.Hip,
-    val necklineStyle: NecklineStyle = NecklineStyle.None,
+    val neckline: Neckline = NoNeckline,
     val sleeveStyle: SleeveStyle = SleeveStyle.Long,
-    val openingStyle: OpeningStyle = SingleBreasted(),
+    val opening: Opening = SingleBreasted(),
     val pocketStyle: PocketStyle = PocketStyle.None,
 ) : EquipmentData() {
 
-    override fun parts() = openingStyle.parts() + main
+    override fun parts() = opening.parts() + main
 }
 
 @Serializable
 @SerialName("Dress")
 data class Dress(
-    val necklineStyle: NecklineStyle = NecklineStyle.None,
+    val neckline: Neckline = NoNeckline,
     val skirtStyle: SkirtStyle = SkirtStyle.Sheath,
     val sleeveStyle: SleeveStyle = SleeveStyle.Long,
     val main: ItemPart = MadeFromFabric(Color.Red),
@@ -463,12 +463,12 @@ data class Shield(
 @Serializable
 @SerialName("Shirt")
 data class Shirt(
-    val necklineStyle: NecklineStyle = NecklineStyle.None,
+    val neckline: Neckline = NoNeckline,
     val sleeveStyle: SleeveStyle = SleeveStyle.Long,
     val main: ItemPart = MadeFromFabric(Color.White),
 ) : EquipmentData() {
 
-    constructor(neckline: NecklineStyle, sleeve: SleeveStyle, color: Color) :
+    constructor(neckline: Neckline, sleeve: SleeveStyle, color: Color) :
             this(neckline, sleeve, MadeFromFabric(color))
 
     override fun parts() = listOf(main)
@@ -511,14 +511,14 @@ data class Socks(
 @Serializable
 @SerialName("SuitJacket")
 data class SuitJacket(
-    val necklineStyle: NecklineStyle = NecklineStyle.None,
+    val neckline: Neckline = NoNeckline,
     val sleeveStyle: SleeveStyle = SleeveStyle.Long,
-    val openingStyle: OpeningStyle = SingleBreasted(),
+    val opening: Opening = SingleBreasted(),
     val pocketStyle: PocketStyle = PocketStyle.None,
     val main: ItemPart = MadeFromFabric(Color.LightGray),
 ) : EquipmentData() {
 
-    override fun parts() = openingStyle.parts() + main
+    override fun parts() = opening.parts() + main
 }
 
 @Serializable
@@ -563,7 +563,7 @@ data class Tie(
 data class Tunic(
     val main: ItemPart = MadeFromFabric(Color.SaddleBrown),
     val length: OuterwearLength = OuterwearLength.Hip,
-    val necklineStyle: NecklineStyle = NecklineStyle.None,
+    val neckline: Neckline = NoNeckline,
     val sleeveStyle: SleeveStyle = SleeveStyle.Long,
 ) : EquipmentData() {
 

@@ -29,7 +29,7 @@ fun main() {
         val coat = Coat(
             MadeFromFabric(Blue),
             length,
-            openingStyle = DoubleBreasted(ButtonColumn(Button(Size.Medium, MadeFromWood(Gold)), 5u)),
+            opening = DoubleBreasted(ButtonColumn(Button(Size.Medium, MadeFromWood(Gold)), 5u)),
         )
         Pair(createAppearance(distance, shape), from(coat))
     }

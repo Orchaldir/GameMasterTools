@@ -12,8 +12,8 @@ import at.orchaldir.gm.app.html.rpg.combat.displayAttackEffect
 import at.orchaldir.gm.app.html.rpg.combat.displayParrying
 import at.orchaldir.gm.app.html.rpg.combat.displayProtection
 import at.orchaldir.gm.app.html.rpg.combat.displayReach
-import at.orchaldir.gm.app.html.util.color.selectColorScheme
 import at.orchaldir.gm.app.html.util.color.parseOptionalColorSchemeId
+import at.orchaldir.gm.app.html.util.color.selectColorScheme
 import at.orchaldir.gm.app.html.util.math.displayWeightLookup
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
@@ -301,6 +301,7 @@ fun Application.configureEquipmentRouting() {
 
             handlePreviewElementSplit(
                 preview.id,
+                parameters,
                 EquipmentRoutes(),
                 ::parseEquipment,
                 { call, state, equipment ->

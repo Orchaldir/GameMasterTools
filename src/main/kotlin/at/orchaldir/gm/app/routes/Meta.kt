@@ -27,7 +27,7 @@ interface EditRoutes<ID : Id<ID>> {
     fun update(call: ApplicationCall, id: ID): String
 }
 
-interface Routes<ID : Id<ID>, T>: EditRoutes<ID> {
+interface Routes<ID : Id<ID>, T> : EditRoutes<ID> {
 
     fun all(call: ApplicationCall): String
     fun all(call: ApplicationCall, sort: T): String
@@ -253,7 +253,7 @@ suspend inline fun <ID : Id<ID>, ELEMENT : Element<ID>> PipelineContext<Unit, Ap
     parse: (State, Parameters, ID) -> ELEMENT,
     noinline editDetails: HtmlBlockTag.(ApplicationCall, State, ELEMENT) -> Unit,
     noinline showRight: HtmlBlockTag.(ApplicationCall, State, ELEMENT) -> Unit,
-    text: String,
+    text: String = "Update",
 ) {
     logger.info { "$text ${id.print()}" }
 

@@ -2,7 +2,8 @@ package at.orchaldir.gm.visualization.character.equipment
 
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.Coat
-import at.orchaldir.gm.core.model.item.equipment.style.NecklineStyle
+import at.orchaldir.gm.core.model.item.equipment.style.Neckline
+import at.orchaldir.gm.core.model.item.equipment.style.NoNeckline
 import at.orchaldir.gm.core.model.item.equipment.style.OuterwearLength
 import at.orchaldir.gm.core.model.item.equipment.style.SleeveStyle
 import at.orchaldir.gm.utils.math.*
@@ -11,10 +12,7 @@ import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.ICharacterConfig
 import at.orchaldir.gm.visualization.character.appearance.addHip
 import at.orchaldir.gm.visualization.character.appearance.addTorso
-import at.orchaldir.gm.visualization.character.equipment.part.addNeckline
-import at.orchaldir.gm.visualization.character.equipment.part.visualizeOpening
-import at.orchaldir.gm.visualization.character.equipment.part.visualizeSleeves
-import at.orchaldir.gm.visualization.character.equipment.part.visualizeTopPockets
+import at.orchaldir.gm.visualization.character.equipment.part.*
 import at.orchaldir.gm.visualization.renderBuilder
 
 data class CoatConfig(
@@ -54,14 +52,15 @@ fun visualizeCoat(
     visualizeCoatBody(state, options, coat, layer)
 
     if (state.renderFront) {
-        val necklineHeight = state.config.equipment.neckline.getHeight(coat.necklineStyle)
+        val necklineHeight = state.config.equipment.neckline.getHeight(coat.neckline)
         val bottomY = getOuterwearBottomY(state, coat.length)
         val topY = state.config.body.torsoY + state.config.body.torsoHeight * necklineHeight
         val torsoWidth = state.config.body.getTorsoWidth(state)
         val size = state.fullAABB.size.scale(torsoWidth, FULL)
         val aabb = AABB.fromCenter(state.fullAABB.getCenter(), size)
 
-        visualizeOpening(state, aabb, HALF, topY, bottomY, coat.openingStyle, layer)
+        visualizeNeckline(state, coat.neckline, layer)
+        visualizeOpening(state, aabb, HALF, topY, bottomY, coat.opening, layer)
         visualizeTopPockets(state, options, coat.pocketStyle, layer)
     }
 }
@@ -73,8 +72,8 @@ private fun visualizeCoatBody(
     layer: Int,
 ) {
     val paddedWidth = state.config.equipment.coat.getPaddedWidth()
-    val builder = createOuterwearBuilder(state, coat.length, coat.necklineStyle, paddedWidth)
-    addNeckline(state, builder, coat.necklineStyle)
+    val builder = createOuterwearBuilder(state, coat.length, coat.neckline, paddedWidth)
+    addNeckline(state, builder, coat.neckline)
 
     renderBuilder(state.renderer, builder, options, layer)
 }
@@ -82,11 +81,11 @@ private fun visualizeCoatBody(
 fun createOuterwearBuilder(
     state: CharacterRenderState<Body>,
     length: OuterwearLength,
-    necklineStyle: NecklineStyle = NecklineStyle.None,
+    neckline: Neckline = NoNeckline,
     paddedWidth: Factor = FULL,
 ): Polygon2dBuilder {
     val builder = createOuterwearBottom(state, length, paddedWidth)
-    addTorso(state, builder, necklineStyle.addTop(), paddedWidth)
+    addTorso(state, builder, neckline.addTop(), paddedWidth)
     return builder
 }
 

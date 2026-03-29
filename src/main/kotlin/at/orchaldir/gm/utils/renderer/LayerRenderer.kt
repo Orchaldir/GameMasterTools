@@ -46,7 +46,11 @@ interface LayerRenderer {
             options,
         )
 
-    fun renderLine(line: Line2d, options: LineOptions) = renderLine(line.points, options)
+    fun renderLine(start: Point2d, end: Point2d, options: LineOptions) =
+        renderLine(listOf(start, end), options)
+
+    fun renderLine(line: Line2d, options: LineOptions) =
+        renderLine(line.points, options)
 
     fun renderLine(line: List<Point2d>, options: LineOptions): LayerRenderer
 

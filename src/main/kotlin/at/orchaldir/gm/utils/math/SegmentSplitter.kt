@@ -1,5 +1,7 @@
 package at.orchaldir.gm.utils.math
 
+import at.orchaldir.gm.utils.math.unit.Distance
+
 class SegmentSplitter private constructor(
     private val start: Point2d,
     private val diff: Point2d,
@@ -37,6 +39,22 @@ class SegmentSplitter private constructor(
             val center = startOfSegment + step / 2.0f
 
             points.add(center)
+
+            startOfSegment += step
+        }
+
+        return points
+    }
+
+    fun getCentersAndWidths(): List<Pair<Point2d, Distance>> {
+        val points = mutableListOf<Pair<Point2d, Distance>>()
+        var startOfSegment = start
+
+        repeat(weightCalculator.segments()) {
+            val step = diff * weightCalculator.calculate(it)
+            val center = startOfSegment + step / 2.0f
+
+            points.add(Pair(center, step.length()))
 
             startOfSegment += step
         }

@@ -22,7 +22,7 @@ fun State.getFashions(id: EquipmentId): List<Fashion> {
 }
 
 fun State.hasFashion(character: Character) = getFashion(character) != null
-fun State.hasFashion(template: CharacterTemplate): Boolean  {
+fun State.hasFashion(template: CharacterTemplate): Boolean {
     val culture = getCultureStorage().getOptional(template.culture) ?: return false
 
     return culture.hasFashion(template)

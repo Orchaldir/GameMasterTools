@@ -130,9 +130,10 @@ fun convertRoundedPolygonToPath(corners: List<Point2d>, builder: PathBuilder): S
             continue
         }
 
+        val middle = previous.calculateMiddle(corner)
+
         if (isStart) {
             isStart = false
-            val middle = (previous + corner) / 2.0f
 
             if (isSharp) {
                 isSharp = false
@@ -144,10 +145,8 @@ fun convertRoundedPolygonToPath(corners: List<Point2d>, builder: PathBuilder): S
             }
         } else if (isSharp) {
             isSharp = false
-            val middle = (previous + corner) / 2.0f
             builder.lineTo(middle)
         } else {
-            val middle = (previous + corner) / 2.0f
             builder.curveTo(previous, middle)
         }
 
