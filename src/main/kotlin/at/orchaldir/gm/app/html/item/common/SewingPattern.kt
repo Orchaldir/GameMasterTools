@@ -1,8 +1,10 @@
 package at.orchaldir.gm.app.html.item.common
 
-import at.orchaldir.gm.app.LENGTH
+import at.orchaldir.gm.app.NUMBER
 import at.orchaldir.gm.app.SEWING
-import at.orchaldir.gm.app.SIZE
+import at.orchaldir.gm.app.THICKNESS
+import at.orchaldir.gm.app.TYPE
+import at.orchaldir.gm.app.WIDTH
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.part.editItemPart
 import at.orchaldir.gm.app.html.util.part.parseItemPart
@@ -10,12 +12,15 @@ import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.common.ComplexSewingPattern
 import at.orchaldir.gm.core.model.item.common.ComplexStitch
+import at.orchaldir.gm.core.model.item.common.MAX_STITCHES
 import at.orchaldir.gm.core.model.item.common.MIN_STITCHES
 import at.orchaldir.gm.core.model.item.common.SewingPattern
 import at.orchaldir.gm.core.model.item.common.SewingPatternType
 import at.orchaldir.gm.core.model.item.common.SimpleSewingPattern
+import at.orchaldir.gm.core.model.item.common.RepeatedStitch
 import at.orchaldir.gm.core.model.item.common.StitchType
 import at.orchaldir.gm.core.model.util.Size
+import at.orchaldir.gm.core.model.util.part.ItemPart
 import at.orchaldir.gm.core.model.util.part.LINE_MATERIALS
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -24,7 +29,7 @@ import kotlinx.html.HtmlBlockTag
 
 // show
 
-private const val CORD_RADIUS = "Cord Radius"
+private const val CORD_THICKNESS = "Cord Thickness"
 private const val STITCH_WIDTH = "Stitch Width"
 
 fun HtmlBlockTag.showSewingPattern(
@@ -37,10 +42,17 @@ fun HtmlBlockTag.showSewingPattern(
         field("Type", pattern.getType())
 
         when (pattern) {
+            is RepeatedStitch -> {
+                showItemPart(call, state, pattern.cord)
+                field(CORD_THICKNESS, pattern.thickness)
+                field(STITCH_WIDTH, pattern.width)
+                field("Stitch", pattern.stitch)
+                field("Count", pattern.count)
+            }
             is SimpleSewingPattern -> {
-                showItemPart(call, state, pattern.thread)
-                field(CORD_RADIUS, pattern.size)
-                field(STITCH_WIDTH, pattern.length)
+                showItemPart(call, state, pattern.cord)
+                field(CORD_THICKNESS, pattern.thickness)
+                field(STITCH_WIDTH, pattern.width)
                 fieldList("Stitches", pattern.stitches) { stitch ->
                     +stitch.name
                 }
@@ -48,9 +60,9 @@ fun HtmlBlockTag.showSewingPattern(
 
             is ComplexSewingPattern -> {
                 showList(pattern.stitches) { complex ->
-                    showItemPart(call, state, complex.thread)
-                    field(CORD_RADIUS, complex.size)
-                    field(STITCH_WIDTH, complex.length)
+                    showItemPart(call, state, complex.cord)
+                    field(CORD_THICKNESS, complex.thickness)
+                    field(STITCH_WIDTH, complex.width)
                     field("Stitch", complex.stitch)
                 }
             }
@@ -70,38 +82,83 @@ fun HtmlBlockTag.editSewingPattern(
         selectValue("Type", param, SewingPatternType.entries, pattern.getType())
 
         when (pattern) {
+            is RepeatedStitch -> {
+                selectCordMaterial(state, param, pattern.cord)
+                selectCordThickness(param, pattern.thickness)
+                selectStitchWidth(param, pattern.width)
+                selectStitchType(param, pattern.stitch)
+                selectInt(
+                    "Count",
+                    pattern.count,
+                    MIN_STITCHES,
+                    MAX_STITCHES,
+                    1,
+                    combine(param, NUMBER),
+                )
+            }
             is SimpleSewingPattern -> {
-                editItemPart(state, pattern.thread, param, allowedTypes = LINE_MATERIALS)
-                selectValue(CORD_RADIUS, combine(param, SIZE), Size.entries, pattern.size)
-                selectValue(STITCH_WIDTH, combine(param, LENGTH), Size.entries, pattern.length)
+                selectCordMaterial(state, param, pattern.cord)
+                selectCordThickness(param, pattern.thickness)
+                selectStitchWidth(param, pattern.width)
                 editSewingPattern(pattern.stitches, param) { elementParam, element ->
-                    selectValue("Stitch", elementParam, StitchType.entries, element)
+                    selectStitchType(elementParam, element)
                 }
             }
 
             is ComplexSewingPattern -> {
                 editSewingPattern(pattern.stitches, param) { elementParam, element ->
-                    editItemPart(state, element.thread, elementParam, allowedTypes = LINE_MATERIALS)
-                    selectValue(CORD_RADIUS, combine(elementParam, SIZE), Size.entries, element.size)
-                    selectValue(
-                        STITCH_WIDTH,
-                        combine(elementParam, LENGTH),
-                        Size.entries,
-                        element.length,
-                    )
-                    selectValue("Stitch", elementParam, StitchType.entries, element.stitch)
+                    selectCordMaterial(state, elementParam, element.cord)
+                    selectCordThickness(elementParam, element.thickness)
+                    selectStitchWidth(elementParam, element.width)
+                    selectStitchType(elementParam, element.stitch)
                 }
             }
         }
     }
 }
 
+private fun HtmlBlockTag.selectCordMaterial(
+    state: State,
+    param: String,
+    cord: ItemPart,
+) = editItemPart(state, cord, param, allowedTypes = LINE_MATERIALS)
+
+private fun HtmlBlockTag.selectCordThickness(
+    param: String,
+    radius: Size,
+) = selectValue(
+    CORD_THICKNESS,
+    combine(param, THICKNESS),
+    Size.entries,
+    radius,
+)
+
+private fun HtmlBlockTag.selectStitchWidth(
+    param: String,
+    width: Size,
+) = selectValue(
+    STITCH_WIDTH,
+    combine(param, WIDTH),
+    Size.entries,
+    width,
+)
+
+private fun HtmlBlockTag.selectStitchType(
+    param: String,
+    type: StitchType,
+) = selectValue(
+    "Stitch",
+    combine(param, TYPE),
+    StitchType.entries,
+    type,
+)
+
 private fun <T> DETAILS.editSewingPattern(
     elements: Collection<T>,
     param: String,
     editElement: HtmlBlockTag.(String, T) -> Unit,
 ) {
-    editList("Stitch", param, elements, MIN_STITCHES, 20, 1) { _, param, element ->
+    editList("Stitch", param, elements, MIN_STITCHES, MAX_STITCHES, 1) { _, param, element ->
         editElement(param, element)
     }
 }
@@ -113,10 +170,17 @@ fun parseSewing(
     parameters: Parameters,
     param: String = SEWING,
 ) = when (parse(parameters, param, SewingPatternType.Simple)) {
+    SewingPatternType.Repeated -> RepeatedStitch(
+        parseCordMaterial(state, parameters, param),
+        parseCordThickness(parameters, param),
+        parseStitchWidth(parameters, param),
+        parseStitchType(parameters, param),
+        parseInt(parameters, combine(param, NUMBER), 2),
+    )
     SewingPatternType.Simple -> SimpleSewingPattern(
-        parseItemPart(state, parameters, param, LINE_MATERIALS),
-        parse(parameters, combine(param, SIZE), Size.Medium),
-        parse(parameters, combine(param, LENGTH), Size.Medium),
+        parseCordMaterial(state, parameters, param),
+        parseCordThickness(parameters, param),
+        parseStitchWidth(parameters, param),
         parseSimplePattern(parameters, param),
     )
 
@@ -128,8 +192,8 @@ fun parseSewing(
 private fun parseSimplePattern(
     parameters: Parameters,
     param: String,
-) = parseList(parameters, param, 2) { _, param ->
-    parse(parameters, param, StitchType.Kettle)
+) = parseList(parameters, param, 2) { _, stitchParam ->
+    parseStitchType(parameters, stitchParam)
 }
 
 private fun parseComplexPattern(
@@ -138,9 +202,24 @@ private fun parseComplexPattern(
     param: String,
 ) = parseList(parameters, param, 2) { _, stitchParam ->
     ComplexStitch(
-        parseItemPart(state, parameters, stitchParam, LINE_MATERIALS),
-        parse(parameters, combine(stitchParam, SIZE), Size.Medium),
-        parse(parameters, combine(stitchParam, LENGTH), Size.Medium),
-        parse(parameters, stitchParam, StitchType.Kettle),
+        parseCordMaterial(state, parameters, stitchParam),
+        parseCordThickness(parameters, stitchParam),
+        parseStitchWidth(parameters, stitchParam),
+        parseStitchType(parameters, stitchParam),
     )
 }
+
+private fun parseCordMaterial(
+    state: State,
+    parameters: Parameters,
+    stitchParam: String,
+): ItemPart = parseItemPart(state, parameters, stitchParam, LINE_MATERIALS)
+
+private fun parseCordThickness(parameters: Parameters, param: String) =
+    parse(parameters, combine(param, THICKNESS), Size.Medium)
+
+private fun parseStitchWidth(parameters: Parameters, param: String) =
+    parse(parameters, combine(param, WIDTH), Size.Medium)
+
+private fun parseStitchType(parameters: Parameters, param: String) =
+    parse(parameters, combine(param, TYPE), StitchType.Kettle)

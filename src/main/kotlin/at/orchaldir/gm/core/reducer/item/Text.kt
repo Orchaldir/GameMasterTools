@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.reducer.item
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.common.ComplexSewingPattern
 import at.orchaldir.gm.core.model.item.common.MIN_STITCHES
+import at.orchaldir.gm.core.model.item.common.RepeatedStitch
 import at.orchaldir.gm.core.model.item.common.SimpleSewingPattern
 import at.orchaldir.gm.core.model.item.text.*
 import at.orchaldir.gm.core.model.item.text.book.*
@@ -53,6 +54,7 @@ fun validateTextFormat(format: TextFormat) {
             when (format.binding) {
                 is CopticBinding -> {
                     val stitches = when (val sewing = format.binding.sewingPattern) {
+                        is RepeatedStitch -> sewing.count
                         is ComplexSewingPattern -> sewing.stitches.size
                         is SimpleSewingPattern -> sewing.stitches.size
                     }

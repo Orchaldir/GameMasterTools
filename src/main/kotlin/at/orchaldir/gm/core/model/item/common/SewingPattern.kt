@@ -9,8 +9,10 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 const val MIN_STITCHES = 2
+const val MAX_STITCHES = 20
 
 enum class SewingPatternType {
+    Repeated,
     Simple,
     Complex,
 }
@@ -19,29 +21,44 @@ enum class SewingPatternType {
 sealed class SewingPattern : MadeFromParts {
 
     fun getType() = when (this) {
+        is RepeatedStitch -> SewingPatternType.Repeated
         is SimpleSewingPattern -> SewingPatternType.Simple
         is ComplexSewingPattern -> SewingPatternType.Complex
     }
 }
 
 @Serializable
+@SerialName("Repeated")
+data class RepeatedStitch(
+    val cord: ItemPart = MadeFromCord(),
+    val thickness: Size = Size.Medium,
+    val width: Size = Size.Medium,
+    val stitch: StitchType = Kettle,
+    val count: Int = 2,
+) : SewingPattern() {
+
+    override fun parts() = listOf(cord)
+
+}
+
+@Serializable
 @SerialName("Simple")
 data class SimpleSewingPattern(
-    val thread: ItemPart = MadeFromCord(),
-    val size: Size = Size.Medium,
-    val length: Size = Size.Medium,
+    val cord: ItemPart = MadeFromCord(),
+    val thickness: Size = Size.Medium,
+    val width: Size = Size.Medium,
     val stitches: List<StitchType> = listOf(Kettle, Kettle, Kettle, Kettle),
 ) : SewingPattern() {
 
-    override fun parts() = listOf(thread)
+    override fun parts() = listOf(cord)
 
 }
 
 @Serializable
 data class ComplexStitch(
-    val thread: ItemPart = MadeFromCord(),
-    val size: Size = Size.Medium,
-    val length: Size = Size.Medium,
+    val cord: ItemPart = MadeFromCord(),
+    val thickness: Size = Size.Medium,
+    val width: Size = Size.Medium,
     val stitch: StitchType = Kettle,
 )
 
@@ -51,6 +68,6 @@ data class ComplexSewingPattern(
     val stitches: List<ComplexStitch>,
 ) : SewingPattern() {
 
-    override fun parts() = stitches.map { it.thread }
+    override fun parts() = stitches.map { it.cord }
 
 }

@@ -1,6 +1,7 @@
 package at.orchaldir.gm.visualization.utils
 
 import at.orchaldir.gm.core.model.item.common.ComplexSewingPattern
+import at.orchaldir.gm.core.model.item.common.RepeatedStitch
 import at.orchaldir.gm.core.model.item.common.SewingPattern
 import at.orchaldir.gm.core.model.item.common.SimpleSewingPattern
 import at.orchaldir.gm.core.model.item.common.StitchType
@@ -9,7 +10,6 @@ import at.orchaldir.gm.core.model.util.SizeConfig
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.END
 import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.math.Factor.Companion.fromNumber
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.START
 import at.orchaldir.gm.utils.math.SegmentSplitter.Companion.fromStartAndEnd
@@ -49,6 +49,21 @@ fun visualizeSewingPattern(
     layer: Int,
     side: Side? = null,
 ) = when (pattern) {
+    is RepeatedStitch -> visualizeSimpleSewingPattern(
+        state,
+        config,
+        start,
+        end,
+        width,
+        SimpleSewingPattern(
+            pattern.cord,
+            pattern.thickness,
+            pattern.width,
+            List(pattern.count) { pattern.stitch },
+        ),
+        layer,
+        side,
+    )
     is SimpleSewingPattern -> visualizeSimpleSewingPattern(
         state,
         config,
@@ -82,9 +97,9 @@ private fun visualizeSimpleSewingPattern(
     side: Side?,
 ) {
     val renderer = state.renderer().getLayer(layer)
-    val options = state.getNoBorder(pattern.thread)
-    val radius = width * config.sewingRadius.convert(pattern.size)
-    val lengthFactor = config.sewingLength.convert(pattern.length)
+    val options = state.getNoBorder(pattern.cord)
+    val radius = width * config.sewingRadius.convert(pattern.thickness)
+    val lengthFactor = config.sewingLength.convert(pattern.width)
     val length = width * lengthFactor
 
     fromStartAndEnd(start, end, pattern.stitches.size)
@@ -111,9 +126,9 @@ private fun visualizeComplexSewingPattern(
         .getCenters()
         .zip(pattern.stitches)
         .forEach { (center, complexStitch) ->
-        val options = state.getNoBorder(complexStitch.thread)
-        val radius = width * config.sewingRadius.convert(complexStitch.size)
-        val lengthFactor = config.sewingLength.convert(complexStitch.length)
+        val options = state.getNoBorder(complexStitch.cord)
+        val radius = width * config.sewingRadius.convert(complexStitch.thickness)
+        val lengthFactor = config.sewingLength.convert(complexStitch.width)
         val length = width * lengthFactor
 
         visualizeStitch(renderer, options, complexStitch.stitch, center, length, radius, side)
