@@ -168,18 +168,31 @@ private fun visualizeStitch(
     width: Distance,
     radius: Distance,
     side: Side?,
-) = when (stitch) {
-    StitchType.Kettle -> {
-        val diff = stitchEnd - stitchStart
-        val normal = diff.normal()
-        val center = (stitchStart + stitchEnd) / 2.0f
-        val start = getOffsetForSide(normal, side, center, width)
-        val end = start - normal.resize(width)
+) {
+    val diff = stitchEnd - stitchStart
+    val normal = diff.normal()
 
-        visualizeLine(renderer, options, start, end, radius)
+    when (stitch) {
+        StitchType.Kettle -> {
+            val center = (stitchStart + stitchEnd) / 2.0f
+            val start = getOffsetForSide(normal, side, center, width)
+            val end = start - normal.resize(width)
+
+            visualizeLine(renderer, options, start, end, radius)
+        }
+
+        StitchType.Cross -> {
+            val start0 = getOffsetForSide(normal, side, stitchStart, width)
+            val start1 = getOffsetForSide(normal, side, stitchEnd, width)
+            val end0 = start0 - normal.resize(width)
+            val end1 = start1 - normal.resize(width)
+
+            visualizeLine(renderer, options, start0, end1, radius)
+            visualizeLine(renderer, options, start1, end0, radius)
+        }
+
+        StitchType.Empty -> doNothing()
     }
-    StitchType.Cross -> doNothing()
-    StitchType.Empty -> doNothing()
 }
 
 private fun getOffsetForSide(

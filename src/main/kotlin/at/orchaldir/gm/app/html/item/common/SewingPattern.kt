@@ -1,5 +1,6 @@
 package at.orchaldir.gm.app.html.item.common
 
+import at.orchaldir.gm.app.MATERIAL
 import at.orchaldir.gm.app.NUMBER
 import at.orchaldir.gm.app.SEWING
 import at.orchaldir.gm.app.THICKNESS
@@ -100,8 +101,8 @@ fun HtmlBlockTag.editSewingPattern(
                 selectCordMaterial(state, param, pattern.cord)
                 selectCordThickness(param, pattern.thickness)
                 selectStitchWidth(param, pattern.width)
-                editSewingPattern(pattern.stitches, param) { elementParam, element ->
-                    selectStitchType(elementParam, element)
+                editSewingPattern(pattern.stitches, param) { elementParam, stitch ->
+                    selectStitchType(elementParam, stitch)
                 }
             }
 
@@ -121,7 +122,12 @@ private fun HtmlBlockTag.selectCordMaterial(
     state: State,
     param: String,
     cord: ItemPart,
-) = editItemPart(state, cord, param, allowedTypes = LINE_MATERIALS)
+) = editItemPart(
+    state,
+    cord,
+    combine(param, MATERIAL),
+    allowedTypes = LINE_MATERIALS,
+)
 
 private fun HtmlBlockTag.selectCordThickness(
     param: String,
@@ -145,12 +151,12 @@ private fun HtmlBlockTag.selectStitchWidth(
 
 private fun HtmlBlockTag.selectStitchType(
     param: String,
-    type: StitchType,
+    stitch: StitchType,
 ) = selectValue(
     "Stitch",
     combine(param, TYPE),
     StitchType.entries,
-    type,
+    stitch,
 )
 
 private fun <T> DETAILS.editSewingPattern(
@@ -212,8 +218,8 @@ private fun parseComplexPattern(
 private fun parseCordMaterial(
     state: State,
     parameters: Parameters,
-    stitchParam: String,
-): ItemPart = parseItemPart(state, parameters, stitchParam, LINE_MATERIALS)
+    param: String,
+) = parseItemPart(state, parameters, combine(param, MATERIAL), LINE_MATERIALS)
 
 private fun parseCordThickness(parameters: Parameters, param: String) =
     parse(parameters, combine(param, THICKNESS), Size.Medium)
