@@ -38,6 +38,12 @@ fun visualizeNeckline(
     is NecklineWithOpening -> {
         val aabb = state.torsoAABB()
         val height = state.config.equipment.neckline.heightV.convert(neckline.height)
+        val start = aabb.getPoint(HALF, START)
+        val end = aabb.getPoint(HALF, START + height)
+
+        state.renderer.getLayer(layer)
+            .renderLine(start, end, state.config.colors.line)
+
         visualizeOpening(state, aabb, HALF, START, START + height, neckline.opening, layer)
     }
     else -> doNothing()
