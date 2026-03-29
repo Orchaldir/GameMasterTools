@@ -169,7 +169,7 @@ fun parseSewing(
     state: State,
     parameters: Parameters,
     param: String = SEWING,
-) = when (parse(parameters, param, SewingPatternType.Simple)) {
+) = when (parse(parameters, param, SewingPatternType.Repeated)) {
     SewingPatternType.Repeated -> RepeatedStitch(
         parseCordMaterial(state, parameters, param),
         parseCordThickness(parameters, param),
