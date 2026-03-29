@@ -163,14 +163,14 @@ private fun visualizeStitch(
     renderer: LayerRenderer,
     options: RenderOptions,
     stitch: StitchType,
-    start: Point2d,
-    end: Point2d,
+    stitchStart: Point2d,
+    stitchEnd: Point2d,
     width: Distance,
     radius: Distance,
     side: Side?,
 ) = when (stitch) {
     StitchType.Kettle -> {
-        val center = (start + end) / 2.0f
+        val center = (stitchStart + stitchEnd) / 2.0f
         val start = when (side) {
             Side.Left -> center.minusWidth(width)
             Side.Right -> center
@@ -178,13 +178,23 @@ private fun visualizeStitch(
         }
         val hole = start.addWidth(width)
 
-        val corner0 = start - radius
-        val corner1 = hole.minusHeight(radius)
-        val corner2 = hole.addHeight(radius)
-        val corner3 = corner0.addHeight(radius * 2)
-
-        renderRoundedPolygon(renderer, options, listOf(corner0, corner1, corner2, corner3))
+        visualizeLine(renderer, start, options, hole, radius)
     }
     StitchType.Cross -> doNothing()
     StitchType.Empty -> doNothing()
+}
+
+private fun visualizeLine(
+    renderer: LayerRenderer,
+    start: Point2d,
+    options: RenderOptions,
+    end: Point2d,
+    radius: Distance,
+) {
+    val corner0 = start - radius
+    val corner1 = end.minusHeight(radius)
+    val corner2 = end.addHeight(radius)
+    val corner3 = corner0.addHeight(radius * 2)
+
+    renderRoundedPolygon(renderer, options, listOf(corner0, corner1, corner2, corner3))
 }
