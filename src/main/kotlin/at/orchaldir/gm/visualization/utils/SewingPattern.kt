@@ -219,6 +219,16 @@ private fun visualizeLine(
     val corner1 = end + diff - normal
     val corner2 = end + diff + normal
     val corner3 = start - diff + normal
+    val corners = listOf(
+        corner0,
+        corner0.calculateMiddle(corner1),
+        corner1,
+        corner1.calculateMiddle(corner2),
+        corner2,
+        corner2.calculateMiddle(corner3),
+        corner3,
+        corner3.calculateMiddle(corner0),
+    )
 
-    renderRoundedPolygon(renderer, options, listOf(corner0, corner1, corner2, corner3))
+    renderRoundedPolygon(renderer, options, corners)
 }
