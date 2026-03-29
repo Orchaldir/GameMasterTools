@@ -45,11 +45,13 @@ data class Point2d(val x: Distance = ZERO_DISTANCE, val y: Distance = ZERO_DISTA
 
     fun normal() = Point2d(-y, x)
 
-    fun normalize(): Point2d {
-        val length = length()
+    fun normalize() = resize(Distance.fromMeters(1))
 
-        if (length.value() > 0) {
-            return this / length
+    fun resize(length: Distance): Point2d {
+        val factor = length / length()
+
+        if (factor.isGreaterZero()) {
+            return this * factor
         }
 
         return square(0.0f)
@@ -74,7 +76,9 @@ data class Point2d(val x: Distance = ZERO_DISTANCE, val y: Distance = ZERO_DISTA
 
     operator fun times(factor: Int) = Point2d(x * factor, y * factor)
     operator fun times(factor: Float) = Point2d(x * factor, y * factor)
+    operator fun times(factor: Factor) = times(factor.toNumber())
     operator fun times(distance: Distance) = times(distance.toMeters())
+
     operator fun div(factor: Float) = Point2d(x / factor, y / factor)
     operator fun div(factor: Factor) = div(factor.toNumber())
     operator fun div(distance: Distance) = div(distance.toMeters())

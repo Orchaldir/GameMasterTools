@@ -178,7 +178,7 @@ private fun visualizeStitch(
         }
         val hole = start.addWidth(width)
 
-        visualizeLine(renderer, start, options, hole, radius)
+        visualizeLine(renderer, options, start, hole, radius)
     }
     StitchType.Cross -> doNothing()
     StitchType.Empty -> doNothing()
@@ -186,15 +186,17 @@ private fun visualizeStitch(
 
 private fun visualizeLine(
     renderer: LayerRenderer,
-    start: Point2d,
     options: RenderOptions,
+    start: Point2d,
     end: Point2d,
     radius: Distance,
 ) {
-    val corner0 = start - radius
-    val corner1 = end.minusHeight(radius)
-    val corner2 = end.addHeight(radius)
-    val corner3 = corner0.addHeight(radius * 2)
+    val diff = (end - start).resize(radius)
+    val normal = diff.normal()
+    val corner0 = start - diff - normal
+    val corner1 = end + diff - normal
+    val corner2 = end + diff + normal
+    val corner3 = start - diff + normal
 
     renderRoundedPolygon(renderer, options, listOf(corner0, corner1, corner2, corner3))
 }
