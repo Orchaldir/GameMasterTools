@@ -33,6 +33,7 @@ fun HtmlBlockTag.showNeckline(
                 field("Height", neckline.height)
                 showOpening(call, state, neckline.opening)
             }
+
             Strapless -> doNothing()
             is VNeck -> field("Height", neckline.height)
         }
@@ -49,7 +50,7 @@ fun HtmlBlockTag.editNeckline(
 ) {
     showDetails("Neckline", true) {
         selectValue(
-            "Type", 
+            "Type",
             combine(param, STYLE),
             allowedTypes,
             neckline.getType(),
@@ -69,6 +70,7 @@ fun HtmlBlockTag.editNeckline(
                     combine(param, OPENING),
                 )
             }
+
             Strapless -> doNothing()
             is VNeck -> selectHeight(param, neckline.height)
         }
@@ -111,6 +113,7 @@ fun parseNeckline(
             ),
             parseHeight(parameters, param),
         )
+
         NecklineType.Strapless -> Strapless
         NecklineType.V -> VNeck(
             parseHeight(parameters, param),

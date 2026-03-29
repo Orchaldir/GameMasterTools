@@ -12,11 +12,7 @@ import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.ICharacterConfig
 import at.orchaldir.gm.visualization.character.appearance.addHip
 import at.orchaldir.gm.visualization.character.appearance.addTorso
-import at.orchaldir.gm.visualization.character.equipment.part.addNeckline
-import at.orchaldir.gm.visualization.character.equipment.part.visualizeNeckline
-import at.orchaldir.gm.visualization.character.equipment.part.visualizeOpening
-import at.orchaldir.gm.visualization.character.equipment.part.visualizeSleeves
-import at.orchaldir.gm.visualization.character.equipment.part.visualizeTopPockets
+import at.orchaldir.gm.visualization.character.equipment.part.*
 import at.orchaldir.gm.visualization.renderBuilder
 
 data class CoatConfig(

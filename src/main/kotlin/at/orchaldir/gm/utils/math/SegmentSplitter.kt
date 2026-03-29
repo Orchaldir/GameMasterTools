@@ -54,7 +54,7 @@ class SegmentSplitter private constructor(
             val step = diff * weightCalculator.calculate(it)
             val center = startOfSegment + step / 2.0f
 
-            points.add(Pair(center,step.length()))
+            points.add(Pair(center, step.length()))
 
             startOfSegment += step
         }

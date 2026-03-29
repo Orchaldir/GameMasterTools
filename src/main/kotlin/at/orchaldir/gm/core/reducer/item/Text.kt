@@ -6,7 +6,9 @@ import at.orchaldir.gm.core.model.item.common.MIN_STITCHES
 import at.orchaldir.gm.core.model.item.common.RepeatedStitch
 import at.orchaldir.gm.core.model.item.common.SimpleSewingPattern
 import at.orchaldir.gm.core.model.item.text.*
-import at.orchaldir.gm.core.model.item.text.book.*
+import at.orchaldir.gm.core.model.item.text.book.CopticBinding
+import at.orchaldir.gm.core.model.item.text.book.Hardcover
+import at.orchaldir.gm.core.model.item.text.book.LeatherBinding
 import at.orchaldir.gm.core.model.item.text.content.*
 import at.orchaldir.gm.core.model.item.text.scroll.*
 import at.orchaldir.gm.core.model.util.font.FontOption

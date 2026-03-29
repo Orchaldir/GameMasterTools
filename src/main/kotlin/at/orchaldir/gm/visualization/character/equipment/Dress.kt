@@ -15,7 +15,6 @@ import at.orchaldir.gm.visualization.character.ICharacterConfig
 import at.orchaldir.gm.visualization.character.appearance.EQUIPMENT_LAYER
 import at.orchaldir.gm.visualization.character.appearance.addTorso
 import at.orchaldir.gm.visualization.character.equipment.part.addNeckline
-import at.orchaldir.gm.visualization.character.equipment.part.visualizeNeckline
 import at.orchaldir.gm.visualization.character.equipment.part.visualizeSleeves
 import at.orchaldir.gm.visualization.renderBuilder
 

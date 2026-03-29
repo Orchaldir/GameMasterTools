@@ -1,14 +1,7 @@
 package at.orchaldir.gm.visualization.character.equipment.part
 
 import at.orchaldir.gm.core.model.character.appearance.Body
-import at.orchaldir.gm.core.model.item.equipment.style.Asymmetrical
-import at.orchaldir.gm.core.model.item.equipment.style.Crew
-import at.orchaldir.gm.core.model.item.equipment.style.Halter
-import at.orchaldir.gm.core.model.item.equipment.style.Neckline
-import at.orchaldir.gm.core.model.item.equipment.style.NecklineWithOpening
-import at.orchaldir.gm.core.model.item.equipment.style.NoNeckline
-import at.orchaldir.gm.core.model.item.equipment.style.Strapless
-import at.orchaldir.gm.core.model.item.equipment.style.VNeck
+import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.SizeConfig
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
@@ -56,6 +49,7 @@ fun visualizeNeckline(
             layer,
         )
     }
+
     else -> doNothing()
 }
 

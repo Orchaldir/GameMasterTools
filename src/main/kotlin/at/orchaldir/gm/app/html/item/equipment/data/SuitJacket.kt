@@ -1,6 +1,9 @@
 package at.orchaldir.gm.app.html.item.equipment.data
 
-import at.orchaldir.gm.app.*
+import at.orchaldir.gm.app.MAIN
+import at.orchaldir.gm.app.POCKET
+import at.orchaldir.gm.app.SLEEVE
+import at.orchaldir.gm.app.STYLE
 import at.orchaldir.gm.app.html.combine
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.item.equipment.style.*

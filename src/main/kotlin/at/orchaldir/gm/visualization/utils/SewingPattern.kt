@@ -1,10 +1,6 @@
 package at.orchaldir.gm.visualization.utils
 
-import at.orchaldir.gm.core.model.item.common.ComplexSewingPattern
-import at.orchaldir.gm.core.model.item.common.RepeatedStitch
-import at.orchaldir.gm.core.model.item.common.SewingPattern
-import at.orchaldir.gm.core.model.item.common.SimpleSewingPattern
-import at.orchaldir.gm.core.model.item.common.StitchType
+import at.orchaldir.gm.core.model.item.common.*
 import at.orchaldir.gm.core.model.util.Side
 import at.orchaldir.gm.core.model.util.SizeConfig
 import at.orchaldir.gm.utils.doNothing
@@ -64,6 +60,7 @@ fun visualizeSewingPattern(
         layer,
         side,
     )
+
     is SimpleSewingPattern -> visualizeSimpleSewingPattern(
         state,
         config,
@@ -74,6 +71,7 @@ fun visualizeSewingPattern(
         layer,
         side,
     )
+
     is ComplexSewingPattern -> visualizeComplexSewingPattern(
         state,
         config,
@@ -140,23 +138,23 @@ private fun visualizeComplexSewingPattern(
         .drop(1)
         .zip(pattern.stitches)
         .forEach { (end, complexStitch) ->
-        val options = state.getNoBorder(complexStitch.cord)
-        val radius = width * config.sewingRadius.convert(complexStitch.thickness)
-        val stitchWidth = width * config.sewingLength.convert(complexStitch.width)
+            val options = state.getNoBorder(complexStitch.cord)
+            val radius = width * config.sewingRadius.convert(complexStitch.thickness)
+            val stitchWidth = width * config.sewingLength.convert(complexStitch.width)
 
-        visualizeStitch(
-            renderer,
-            options,
-            complexStitch.stitch,
-            start,
-            end,
-            stitchWidth,
-            radius,
-            side,
-        )
+            visualizeStitch(
+                renderer,
+                options,
+                complexStitch.stitch,
+                start,
+                end,
+                stitchWidth,
+                radius,
+                side,
+            )
 
-        start = end
-    }
+            start = end
+        }
 }
 
 private fun visualizeStitch(

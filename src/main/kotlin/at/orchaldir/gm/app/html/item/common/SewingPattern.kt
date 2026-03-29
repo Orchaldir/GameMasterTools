@@ -1,25 +1,12 @@
 package at.orchaldir.gm.app.html.item.common
 
-import at.orchaldir.gm.app.MATERIAL
-import at.orchaldir.gm.app.NUMBER
-import at.orchaldir.gm.app.SEWING
-import at.orchaldir.gm.app.THICKNESS
-import at.orchaldir.gm.app.TYPE
-import at.orchaldir.gm.app.WIDTH
+import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.part.editItemPart
 import at.orchaldir.gm.app.html.util.part.parseItemPart
 import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.item.common.ComplexSewingPattern
-import at.orchaldir.gm.core.model.item.common.ComplexStitch
-import at.orchaldir.gm.core.model.item.common.MAX_STITCHES
-import at.orchaldir.gm.core.model.item.common.MIN_STITCHES
-import at.orchaldir.gm.core.model.item.common.SewingPattern
-import at.orchaldir.gm.core.model.item.common.SewingPatternType
-import at.orchaldir.gm.core.model.item.common.SimpleSewingPattern
-import at.orchaldir.gm.core.model.item.common.RepeatedStitch
-import at.orchaldir.gm.core.model.item.common.StitchType
+import at.orchaldir.gm.core.model.item.common.*
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.part.ItemPart
 import at.orchaldir.gm.core.model.util.part.LINE_MATERIALS
@@ -50,6 +37,7 @@ fun HtmlBlockTag.showSewingPattern(
                 field("Stitch", pattern.stitch)
                 field("Count", pattern.count)
             }
+
             is SimpleSewingPattern -> {
                 showItemPart(call, state, pattern.cord)
                 field(CORD_THICKNESS, pattern.thickness)
@@ -97,6 +85,7 @@ fun HtmlBlockTag.editSewingPattern(
                     combine(param, NUMBER),
                 )
             }
+
             is SimpleSewingPattern -> {
                 selectCordMaterial(state, param, pattern.cord)
                 selectCordThickness(param, pattern.thickness)
@@ -183,6 +172,7 @@ fun parseSewing(
         parseStitchType(parameters, param),
         parseInt(parameters, combine(param, NUMBER), 2),
     )
+
     SewingPatternType.Simple -> SimpleSewingPattern(
         parseCordMaterial(state, parameters, param),
         parseCordThickness(parameters, param),

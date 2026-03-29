@@ -54,6 +54,7 @@ fun visualizeOpening(
             opening.pattern,
             layer,
         )
+
         is Zipper -> visualizeZipper(state, aabb, x, topY, bottomY, opening, layer)
     }
 }

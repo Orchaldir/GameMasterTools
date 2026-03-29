@@ -16,7 +16,6 @@ import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.DETAILS
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -63,7 +62,7 @@ fun HtmlBlockTag.editOpening(
 ) {
     showDetails("Opening Style", true) {
         selectValue(
-            "Type", 
+            "Type",
             combine(param, STYLE),
             allowedTypes,
             opening.getType(),
@@ -101,22 +100,22 @@ fun HtmlBlockTag.editOpening(
 }
 
 private fun HtmlBlockTag.selectButtons(
-    state: State, 
+    state: State,
     buttonColumn: ButtonColumn,
     param: String,
 ) {
     selectInt(
-        "Button Count", 
-        buttonColumn.count.toInt(), 
+        "Button Count",
+        buttonColumn.count.toInt(),
         2,
-        20, 
-        1, 
+        20,
+        1,
         combine(param, BUTTON, NUMBER),
     )
     selectValue(
-        "Button Size", 
-        combine(param, BUTTON, SIZE), 
-        Size.entries, 
+        "Button Size",
+        combine(param, BUTTON, SIZE),
+        Size.entries,
         buttonColumn.button.size,
     )
     editItemPart(
@@ -152,13 +151,16 @@ fun parseOpening(
         OpeningType.SingleBreasted -> SingleBreasted(
             parseButtonColumn(state, parameters, param),
         )
+
         OpeningType.DoubleBreasted -> DoubleBreasted(
             parseButtonColumn(state, parameters, param),
             parseWidth(parameters, param),
         )
+
         OpeningType.LaceUp -> LaceUp(
             parseSewing(state, parameters, combine(param, SEWING)),
         )
+
         OpeningType.Zipper -> Zipper(
             parseItemPart(state, parameters, combine(param, ZIPPER), ZIPPER_MATERIALS),
         )
