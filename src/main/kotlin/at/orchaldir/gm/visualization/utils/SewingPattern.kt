@@ -171,14 +171,15 @@ private fun visualizeStitch(
 ) = when (stitch) {
     StitchType.Kettle -> {
         val center = (stitchStart + stitchEnd) / 2.0f
+        val normal = (stitchEnd - stitchStart).normal()
         val start = when (side) {
-            Side.Left -> center.minusWidth(width)
+            Side.Left -> center + normal.resize(width)
             Side.Right -> center
-            null -> center.minusWidth(width / 2)
+            null -> center + normal.resize(width / 2)
         }
-        val hole = start.addWidth(width)
+        val end = start.addWidth(width)
 
-        visualizeLine(renderer, options, start, hole, radius)
+        visualizeLine(renderer, options, start, end, radius)
     }
     StitchType.Cross -> doNothing()
     StitchType.Empty -> doNothing()
