@@ -99,14 +99,26 @@ private fun visualizeSimpleSewingPattern(
     val renderer = state.renderer().getLayer(layer)
     val options = state.getNoBorder(pattern.cord)
     val radius = width * config.sewingRadius.convert(pattern.thickness)
-    val lengthFactor = config.sewingLength.convert(pattern.width)
-    val length = width * lengthFactor
+    val stitchWidth = width * config.sewingLength.convert(pattern.width)
+    val corners = fromStartAndEnd(start, end, pattern.stitches.size).getCorners()
+    var start = corners.first()
 
-    fromStartAndEnd(start, end, pattern.stitches.size)
-        .getCenters()
+    corners
+        .drop(1)
         .zip(pattern.stitches)
-        .forEach { (center, stitch) ->
-            visualizeStitch(renderer, options, stitch, center, length, radius, side)
+        .forEach { (end, stitch) ->
+            visualizeStitch(
+                renderer,
+                options,
+                stitch,
+                start,
+                end,
+                stitchWidth,
+                radius,
+                side,
+            )
+
+            start = end
         }
 }
 
@@ -121,17 +133,29 @@ private fun visualizeComplexSewingPattern(
     side: Side?,
 ) {
     val renderer = state.renderer().getLayer(layer)
+    val corners = fromStartAndEnd(start, end, pattern.stitches.size).getCorners()
+    var start = corners.first()
 
-    fromStartAndEnd(start, end, pattern.stitches.size)
-        .getCenters()
+    corners
+        .drop(1)
         .zip(pattern.stitches)
-        .forEach { (center, complexStitch) ->
+        .forEach { (end, complexStitch) ->
         val options = state.getNoBorder(complexStitch.cord)
         val radius = width * config.sewingRadius.convert(complexStitch.thickness)
-        val lengthFactor = config.sewingLength.convert(complexStitch.width)
-        val length = width * lengthFactor
+        val stitchWidth = width * config.sewingLength.convert(complexStitch.width)
 
-        visualizeStitch(renderer, options, complexStitch.stitch, center, length, radius, side)
+        visualizeStitch(
+            renderer,
+            options,
+            complexStitch.stitch,
+            start,
+            end,
+            stitchWidth,
+            radius,
+            side,
+        )
+
+        start = end
     }
 }
 
@@ -139,18 +163,20 @@ private fun visualizeStitch(
     renderer: LayerRenderer,
     options: RenderOptions,
     stitch: StitchType,
-    center: Point2d,
-    length: Distance,
+    start: Point2d,
+    end: Point2d,
+    width: Distance,
     radius: Distance,
     side: Side?,
 ) = when (stitch) {
     StitchType.Kettle -> {
+        val center = (start + end) / 2.0f
         val start = when (side) {
-            Side.Left -> center.minusWidth(length)
+            Side.Left -> center.minusWidth(width)
             Side.Right -> center
-            null -> center.minusWidth(length / 2)
+            null -> center.minusWidth(width / 2)
         }
-        val hole = start.addWidth(length)
+        val hole = start.addWidth(width)
 
         val corner0 = start - radius
         val corner1 = hole.minusHeight(radius)
@@ -159,6 +185,6 @@ private fun visualizeStitch(
 
         renderRoundedPolygon(renderer, options, listOf(corner0, corner1, corner2, corner3))
     }
-
+    StitchType.Cross -> doNothing()
     StitchType.Empty -> doNothing()
 }
