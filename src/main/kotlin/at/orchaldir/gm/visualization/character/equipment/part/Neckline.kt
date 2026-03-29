@@ -19,6 +19,7 @@ data class NecklineConfig(
     val heightV: SizeConfig<Factor>,
     val widthCrew: Factor,
     val widthV: Factor,
+    val openingPadding: Factor,
 ) {
     fun getHeight(neckline: Neckline) = when (neckline) {
         Crew -> heightCrew
@@ -36,15 +37,24 @@ fun visualizeNeckline(
     layer: Int,
 ) = when (neckline) {
     is NecklineWithOpening -> {
+        val padding = state.config.equipment.neckline.openingPadding
         val aabb = state.torsoAABB()
         val height = state.config.equipment.neckline.heightV.convert(neckline.height)
         val start = aabb.getPoint(HALF, START)
-        val end = aabb.getPoint(HALF, START + height)
+        val end = aabb.getPoint(HALF, START + height + padding * 2)
 
         state.renderer.getLayer(layer)
             .renderLine(start, end, state.config.colors.line)
 
-        visualizeOpening(state, aabb, HALF, START, START + height, neckline.opening, layer)
+        visualizeOpening(
+            state,
+            aabb,
+            HALF,
+            START + padding,
+            START + height + padding,
+            neckline.opening,
+            layer,
+        )
     }
     else -> doNothing()
 }
