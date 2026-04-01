@@ -29,7 +29,7 @@ sealed class EmploymentStatus {
         Retired -> EmploymentStatusType.Retired
     }
 
-    fun getBusiness() = when (this) {
+    fun business() = when (this) {
         is Employed -> business
         is EmployedBySettlement -> optionalBusiness
         else -> null
@@ -70,8 +70,8 @@ sealed class EmploymentStatus {
 @Serializable
 @SerialName("Employed")
 data class Employed(
-    val business: BusinessId,
     val job: JobId,
+    val business: BusinessId? = null,
 ) : EmploymentStatus()
 
 @Serializable

@@ -18,5 +18,5 @@ fun State.getDefaultOccupationalName(
 ): String {
     val job = getJobStorage().getOptional(jobId) ?: return given.text
 
-    return "${given.text} The ${job.name.text}"
+    return "${given.text} the ${job.name.text}"
 }

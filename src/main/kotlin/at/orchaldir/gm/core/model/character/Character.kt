@@ -225,7 +225,7 @@ data class Character(
         check(employmentStatus.current) || employmentStatus.previousEntries.any { check(it.entry) }
 
     fun getBusiness() = if (status is Alive) {
-        employmentStatus.current.getBusiness()
+        employmentStatus.current.business()
     } else {
         null
     }

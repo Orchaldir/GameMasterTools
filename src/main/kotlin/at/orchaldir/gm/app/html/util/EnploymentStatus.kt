@@ -63,8 +63,11 @@ fun HtmlBlockTag.showEmploymentStatus(
     when (status) {
         is Employed -> {
             link(call, state, status.job)
-            +" at "
-            link(call, state, status.business)
+
+            if (status.business != null) {
+                +" at "
+                link(call, state, status.business)
+            }
         }
 
         is EmployedByRealm -> {
@@ -134,8 +137,9 @@ fun HtmlBlockTag.selectEmploymentStatus(
         Retired, UndefinedEmploymentStatus, Unemployed -> doNothing()
 
         is Employed -> {
-            selectElement(
+            selectOptionalElement(
                 state,
+                "Business",
                 combine(param, BUSINESS),
                 state.getOpenBusinesses(start),
                 status.business,
@@ -192,8 +196,8 @@ fun parseEmploymentStatusHistory(parameters: Parameters, state: State, startDate
 fun parseEmploymentStatus(parameters: Parameters, state: State, param: String): EmploymentStatus {
     return when (parse(parameters, param, EmploymentStatusType.Undefined)) {
         EmploymentStatusType.Employed -> Employed(
-            parseBusinessId(parameters, combine(param, BUSINESS)),
             parseJobId(parameters, combine(param, JOB)),
+            parseOptionalBusinessId(parameters, combine(param, BUSINESS)),
         )
 
         EmploymentStatusType.EmployedByRealm -> EmployedByRealm(
