@@ -28,7 +28,7 @@ import at.orchaldir.gm.core.selector.culture.getDefaultFamilyName
 import at.orchaldir.gm.core.selector.time.date.getStartDay
 import at.orchaldir.gm.core.selector.time.getCurrentDate
 import at.orchaldir.gm.core.selector.time.getDefaultCalendar
-import at.orchaldir.gm.core.selector.util.getGenonymName
+import at.orchaldir.gm.core.selector.character.name.getGenonymName
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable

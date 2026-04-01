@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.selector.util
+package at.orchaldir.gm.core.selector.character.name
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*

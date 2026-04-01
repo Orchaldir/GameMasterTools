@@ -4,9 +4,9 @@ import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
-import at.orchaldir.gm.core.selector.util.canHaveFamilyName
-import at.orchaldir.gm.core.selector.util.canHaveGenonym
-import at.orchaldir.gm.core.selector.util.getGivenName
+import at.orchaldir.gm.core.selector.character.name.canHaveFamilyName
+import at.orchaldir.gm.core.selector.character.name.canHaveGenonym
+import at.orchaldir.gm.core.selector.character.name.getGivenName
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag
 
