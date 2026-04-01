@@ -7,15 +7,20 @@ import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.selector.character.name.canHaveFamilyName
 import at.orchaldir.gm.core.selector.character.name.canHaveGenonym
 import at.orchaldir.gm.core.selector.character.name.getGivenName
+import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
+import io.ktor.server.application.ApplicationCall
 import kotlinx.html.HtmlBlockTag
 
 // edit
 
 fun HtmlBlockTag.selectCharacterName(
+    call: ApplicationCall,
     state: State,
     character: Character,
 ) {
+    val lastJob = character.employmentStatus.getLastJob()
+
     showDetails("Name", true) {
         selectValue(
             "Type",
@@ -27,13 +32,20 @@ fun HtmlBlockTag.selectCharacterName(
                 CharacterNameType.Family -> !state.canHaveFamilyName(character)
                 CharacterNameType.Genonym -> !state.canHaveGenonym(character)
                 CharacterNameType.Mononym -> false
+                CharacterNameType.Occupational -> lastJob == null
             }
         }
         selectName("Given Name", character.getGivenName(), GIVEN_NAME)
 
-        if (character.name is FamilyName) {
-            selectOptionalName("Middle Name", character.name.middle, combine(MIDDLE, NAME))
-            selectName("Family Name", character.name.family, FAMILY_NAME)
+        when (character.name) {
+            is FamilyName -> {
+                selectOptionalName("Middle Name", character.name.middle, combine(MIDDLE, NAME))
+                selectName("Family Name", character.name.family, FAMILY_NAME)
+            }
+
+            is Genonym -> doNothing()
+            is Mononym -> doNothing()
+            is OccupationalName -> optionalFieldLink("Last Job", call, state, lastJob)
         }
     }
 }
@@ -52,5 +64,6 @@ fun parseCharacterName(parameters: Parameters): CharacterName {
 
         CharacterNameType.Genonym -> Genonym(given)
         CharacterNameType.Mononym -> Mononym(given)
+        CharacterNameType.Occupational -> OccupationalName(given)
     }
 }

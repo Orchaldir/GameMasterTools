@@ -115,4 +115,5 @@ fun Character.getGivenName() = when (name) {
     is FamilyName -> name.given
     is Genonym -> name.given
     is Mononym -> name.name
+    is OccupationalName -> name.given
 }

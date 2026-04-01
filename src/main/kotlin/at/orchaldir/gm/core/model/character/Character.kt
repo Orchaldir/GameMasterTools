@@ -25,6 +25,7 @@ import at.orchaldir.gm.core.reducer.character.validateCharacterAppearance
 import at.orchaldir.gm.core.reducer.character.validateCharacterData
 import at.orchaldir.gm.core.reducer.character.validateEquipped
 import at.orchaldir.gm.core.selector.character.name.getDefaultFamilyName
+import at.orchaldir.gm.core.selector.character.name.getDefaultOccupationalName
 import at.orchaldir.gm.core.selector.time.date.getStartDay
 import at.orchaldir.gm.core.selector.time.getCurrentDate
 import at.orchaldir.gm.core.selector.time.getDefaultCalendar
@@ -117,6 +118,7 @@ data class Character(
 
             is Genonym -> title.resolveFullName(state.getGenonymName(this, name), gender)
             is Mononym -> title.resolveFullName(name.name.text, gender)
+            is OccupationalName -> state.getDefaultOccupationalName(name.given, employmentStatus)
         }
     }
 
@@ -137,6 +139,7 @@ data class Character(
 
             is Genonym -> title.resolveFullName(state.getGenonymName(this, name), gender)
             is Mononym -> title.resolveFullName(name.name.text, gender)
+            is OccupationalName -> state.getDefaultOccupationalName(name.given, employmentStatus)
         }
     }
 

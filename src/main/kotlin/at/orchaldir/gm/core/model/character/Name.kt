@@ -8,6 +8,7 @@ enum class CharacterNameType {
     Family,
     Genonym,
     Mononym,
+    Occupational,
 }
 
 @Serializable
@@ -17,23 +18,15 @@ sealed class CharacterName {
         is FamilyName -> CharacterNameType.Family
         is Genonym -> CharacterNameType.Genonym
         is Mononym -> CharacterNameType.Mononym
+        is OccupationalName -> CharacterNameType.Occupational
     }
 
     fun toSortString() = when (this) {
         is FamilyName -> family.text + given.text + middle?.text
         is Genonym -> given.text
         is Mononym -> name.text
+        is OccupationalName -> given.text
     }.lowercase()
-
-}
-
-@Serializable
-@SerialName("Mononym")
-data class Mononym(val name: Name) : CharacterName() {
-
-    companion object {
-        fun init(name: String) = Mononym(Name.init(name))
-    }
 
 }
 
@@ -48,3 +41,19 @@ data class FamilyName(
 @Serializable
 @SerialName("Genonym")
 data class Genonym(val given: Name) : CharacterName()
+
+@Serializable
+@SerialName("Mononym")
+data class Mononym(val name: Name) : CharacterName() {
+
+    companion object {
+        fun init(name: String) = Mononym(Name.init(name))
+    }
+
+}
+
+@Serializable
+@SerialName("Occupational")
+data class OccupationalName(
+    val given: Name,
+) : CharacterName()

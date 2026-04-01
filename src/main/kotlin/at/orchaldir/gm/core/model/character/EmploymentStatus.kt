@@ -111,3 +111,21 @@ fun History<EmploymentStatus>.wasEmployedAt(settlement: SettlementId) = previous
 
 fun History<EmploymentStatus>.isOrWasEmployedAt(settlement: SettlementId) =
     current.isEmployedAt(settlement) || wasEmployedAt(settlement)
+
+fun History<EmploymentStatus>.getLastJob(): JobId? {
+    val currentJob = current.getJob()
+
+    if (currentJob != null) {
+        return currentJob
+    }
+
+    previousEntries.forEach {
+        val job = it.entry.getJob()
+
+        if (job != null) {
+            return job
+        }
+    }
+
+    return null
+}

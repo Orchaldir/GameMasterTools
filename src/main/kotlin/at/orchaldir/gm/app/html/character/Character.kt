@@ -196,7 +196,7 @@ fun HtmlBlockTag.editCharacter(
     val races = state.getExistingRaces(birthdate)
     val race = state.getRaceStorage().getOrThrow(character.race)
 
-    selectCharacterName(state, character)
+    selectCharacterName(call, state, character)
     selectOptionalElement(state, "Title", TITLE, state.getTitleStorage().getAll(), character.title)
     selectElement(state, RACE, races, character.race)
     selectFromOneOf("Gender", GENDER, race.genders, character.gender)
