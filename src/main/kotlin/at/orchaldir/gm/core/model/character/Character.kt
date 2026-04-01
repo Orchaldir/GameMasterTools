@@ -24,7 +24,7 @@ import at.orchaldir.gm.core.model.util.source.HasDataSources
 import at.orchaldir.gm.core.reducer.character.validateCharacterAppearance
 import at.orchaldir.gm.core.reducer.character.validateCharacterData
 import at.orchaldir.gm.core.reducer.character.validateEquipped
-import at.orchaldir.gm.core.selector.culture.getDefaultFamilyName
+import at.orchaldir.gm.core.selector.character.name.getDefaultFamilyName
 import at.orchaldir.gm.core.selector.time.date.getStartDay
 import at.orchaldir.gm.core.selector.time.getCurrentDate
 import at.orchaldir.gm.core.selector.time.getDefaultCalendar

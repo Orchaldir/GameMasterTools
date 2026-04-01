@@ -7,8 +7,8 @@ import at.orchaldir.gm.core.model.character.title.NoTitle
 import at.orchaldir.gm.core.model.culture.name.GenonymicLookupDistance.OneGeneration
 import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.util.name.NameListId
-import at.orchaldir.gm.core.selector.culture.getDefaultFamilyName
-import at.orchaldir.gm.core.selector.culture.getFamilyName
+import at.orchaldir.gm.core.selector.character.name.getDefaultFamilyName
+import at.orchaldir.gm.core.selector.character.name.getFamilyName
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
