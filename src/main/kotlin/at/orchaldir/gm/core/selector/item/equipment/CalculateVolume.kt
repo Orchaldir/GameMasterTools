@@ -5,8 +5,15 @@ import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.economy.money.CalculatedPrice
 import at.orchaldir.gm.core.model.economy.money.UserDefinedPrice
 import at.orchaldir.gm.core.model.item.equipment.*
+import at.orchaldir.gm.core.model.item.equipment.style.Boot
+import at.orchaldir.gm.core.model.item.equipment.style.KneeHighBoot
 import at.orchaldir.gm.core.model.item.equipment.style.OuterwearLength
+import at.orchaldir.gm.core.model.item.equipment.style.Pumps
+import at.orchaldir.gm.core.model.item.equipment.style.Sandal
+import at.orchaldir.gm.core.model.item.equipment.style.Shoe
 import at.orchaldir.gm.core.model.item.equipment.style.SimpleBuckle
+import at.orchaldir.gm.core.model.item.equipment.style.SimpleShoe
+import at.orchaldir.gm.core.model.item.equipment.style.Slipper
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
@@ -221,8 +228,34 @@ private fun calculateVolumePerMaterialForBody(
             val shafts = config.equipment.footwear.getShaftVolume(config, data.style)
             val soles = config.equipment.footwear.getSoleVolume(config, data.style)
 
-            vpm.add(data.shaft.material(), shafts)
-            vpm.add(data.sole.material(), soles)
+            when (val style = data.style) {
+                is Boot -> {
+                    vpm.add(style.shaft.material(), shafts)
+                    vpm.add(style.sole.material(), soles)
+                }
+                is KneeHighBoot -> {
+                    vpm.add(style.shaft.material(), shafts)
+                    vpm.add(style.sole.material(), soles)
+                }
+                is Pumps -> {
+                    vpm.add(style.main.material(), soles)
+                }
+                is Sandal -> {
+                    vpm.add(style.shaft.material(), shafts)
+                    vpm.add(style.sole.material(), soles)
+                }
+                is Shoe -> {
+                    vpm.add(style.shaft.material(), shafts)
+                    vpm.add(style.sole.material(), soles)
+                }
+                is SimpleShoe -> {
+                    vpm.add(style.main.material(), soles)
+                }
+                is Slipper -> {
+                    vpm.add(style.shaft.material(), shafts)
+                    vpm.add(style.sole.material(), soles)
+                }
+            }
         }
 
         is Gloves -> {

@@ -62,7 +62,7 @@ sealed class FootwearStyle : MadeFromParts {
 }
 
 @Serializable
-@SerialName("Boots")
+@SerialName("Boot")
 data class Boot(
     val shaft: ItemPart = MadeFromLeather(Color.SaddleBrown),
     val sole: ItemPart = MadeFromLeather(Color.Black),
@@ -78,31 +78,31 @@ data class KneeHighBoot(
 @Serializable
 @SerialName("Pumps")
 data class Pumps(
-    val main: ItemPart = MadeFromLeather(Color.SaddleBrown),
+    val main: ItemPart = MadeFromLeather(Color.Red),
 ) : FootwearStyle()
 
 @Serializable
-@SerialName("Sandals")
+@SerialName("Sandal")
 data class Sandal(
     val shaft: ItemPart = MadeFromLeather(Color.SaddleBrown),
     val sole: ItemPart = MadeFromLeather(Color.Black),
 ) : FootwearStyle()
 
 @Serializable
-@SerialName("Shoes")
+@SerialName("Shoe")
 data class Shoe(
     val shaft: ItemPart = MadeFromLeather(Color.SaddleBrown),
     val sole: ItemPart = MadeFromLeather(Color.Black),
 ) : FootwearStyle()
 
 @Serializable
-@SerialName("SimpleShoes")
+@SerialName("SimpleShoe")
 data class SimpleShoe(
     val main: ItemPart = MadeFromLeather(Color.SaddleBrown),
 ) : FootwearStyle()
 
 @Serializable
-@SerialName("Slippers")
+@SerialName("Slipper")
 data class Slipper(
     val shaft: ItemPart = MadeFromLeather(Color.SaddleBrown),
     val sole: ItemPart = MadeFromLeather(Color.Black),

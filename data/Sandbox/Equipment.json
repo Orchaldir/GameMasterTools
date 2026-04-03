@@ -76,17 +76,19 @@
    "name": "Leather Boots",
    "data": {
     "#type": "Footwear",
-    "style": "Boots",
-    "shaft": {
-     "#type": "Leather",
-     "material": 21
-    },
-    "sole": {
-     "#type": "Leather",
-     "material": 21,
-     "color": {
-      "#type": "Fixed",
-      "color": "Black"
+    "style":{
+     "#type": "Boot",
+     "shaft": {
+      "#type": "Leather",
+      "material": 21
+     },
+     "sole": {
+      "#type": "Leather",
+      "material": 21,
+      "color": {
+       "#type": "Fixed",
+       "color": "Black"
+      }
      }
     }
    }
@@ -96,14 +98,12 @@
    "name": "Simple Leather Shoes",
    "data": {
     "#type": "Footwear",
-    "style": "SimpleShoes",
-    "shaft": {
-     "#type": "Leather",
-     "material": 21
-    },
-    "sole": {
-     "#type": "Fabric",
-     "material": 12
+    "style": {
+     "#type": "SimpleShoe",
+     "main": {
+      "#type": "Leather",
+      "material": 21
+     }
     }
    }
   },
@@ -112,16 +112,19 @@
    "name": "Leather Shoes",
    "data": {
     "#type": "Footwear",
-    "shaft": {
-     "#type": "Leather",
-     "material": 21
-    },
-    "sole": {
-     "#type": "Leather",
-     "material": 21,
-     "color": {
-      "#type": "Fixed",
-      "color": "Black"
+    "style":{
+     "#type": "Shoe",
+     "shaft": {
+      "#type": "Leather",
+      "material": 21
+     },
+     "sole": {
+      "#type": "Leather",
+      "material": 21,
+      "color": {
+       "#type": "Fixed",
+       "color": "Black"
+      }
      }
     }
    }
