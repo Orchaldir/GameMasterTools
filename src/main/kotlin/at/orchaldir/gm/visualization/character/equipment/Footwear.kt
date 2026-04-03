@@ -5,6 +5,8 @@ import at.orchaldir.gm.core.model.item.equipment.Footwear
 import at.orchaldir.gm.core.model.item.equipment.style.Boot
 import at.orchaldir.gm.core.model.item.equipment.style.FootwearStyle
 import at.orchaldir.gm.core.model.item.equipment.style.KneeHighBoot
+import at.orchaldir.gm.core.model.item.equipment.style.NoOpening
+import at.orchaldir.gm.core.model.item.equipment.style.Opening
 import at.orchaldir.gm.core.model.item.equipment.style.Pumps
 import at.orchaldir.gm.core.model.item.equipment.style.Sandal
 import at.orchaldir.gm.core.model.item.equipment.style.Shoe
@@ -18,9 +20,9 @@ import at.orchaldir.gm.utils.math.unit.ZERO_VOLUME
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.ICharacterConfig
-import at.orchaldir.gm.visualization.character.appearance.BEHIND_LAYER
 import at.orchaldir.gm.visualization.character.appearance.EQUIPMENT_LAYER
 import at.orchaldir.gm.visualization.character.appearance.visualizeFeet
+import at.orchaldir.gm.visualization.character.equipment.part.visualizeOpening
 
 data class FootwearConfig(
     val heightAnkle: Factor,
@@ -113,12 +115,12 @@ fun visualizeFootwear(
 ) {
     when (val style = footwear.style) {
         is Boot -> {
-            visualizeBootShaft(state, style, style.shaft)
+            visualizeBootShaft(state, style, style.shaft, style.opening)
             visualizeBootFoot(state, style.shaft)
             visualizeSoles(state, style.sole)
         }
         is KneeHighBoot -> {
-            visualizeBootShaft(state, style, style.shaft)
+            visualizeBootShaft(state, style, style.shaft, style.opening)
             visualizeBootFoot(state, style.shaft)
             visualizeSoles(state, style.sole)
         }
@@ -164,11 +166,19 @@ private fun visualizeBootShaft(
     state: CharacterRenderState<Body>,
     style: FootwearStyle,
     shaft: ItemPart,
+    opening: Opening = NoOpening,
 ) {
     val options = state.getFillAndBorder(shaft)
     val height = state.equipment().footwear.getShaftHeightFactor(state, style, state.renderFront) ?: return
 
-    visualizeBootShaft(state, options, height, state.config.equipment.footwear.shaftPadding)
+    visualizeBootShaft(
+        state,
+        options,
+        height,
+        state.config.equipment.footwear.shaftPadding,
+        EQUIPMENT_LAYER,
+        opening,
+    )
 }
 
 fun visualizeBootShaft(
@@ -176,6 +186,8 @@ fun visualizeBootShaft(
     options: RenderOptions,
     scale: Factor,
     padding: Factor,
+    layer: Int,
+    opening: Opening = NoOpening,
 ) {
     val config = state.config.body
     val width = config.getLegWidth(state) + padding
@@ -184,10 +196,33 @@ fun visualizeBootShaft(
     val (left, right) = config.getMirroredLegPoint(state, FULL - scale * 0.5f)
     val leftAabb = AABB.fromCenter(left, size)
     val rightAabb = AABB.fromCenter(right, size)
-    val layer = state.renderer.getLayer(EQUIPMENT_LAYER)
+    val renderer = state.renderer.getLayer(layer)
 
-    layer.renderRectangle(leftAabb, options)
-    layer.renderRectangle(rightAabb, options)
+    renderer.renderRectangle(leftAabb, options)
+    renderer.renderRectangle(rightAabb, options)
+
+    visualizeBootOpening(state, leftAabb, opening, layer)
+    visualizeBootOpening(state, rightAabb, opening, layer)
+}
+
+private fun visualizeBootOpening(
+    state: CharacterRenderState<Body>,
+    aabb: AABB,
+    opening: Opening,
+    layer: Int,
+) {
+    val radius = state.config.body.getFootRadius(state)
+    val radiusFactor = radius / aabb.size.height
+
+    visualizeOpening(
+        state,
+        aabb,
+        HALF,
+        START,
+        END - radiusFactor,
+        opening,
+        layer,
+    )
 }
 
 private fun visualizeSoles(

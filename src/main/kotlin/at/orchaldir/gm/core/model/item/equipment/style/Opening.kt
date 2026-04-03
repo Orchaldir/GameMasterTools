@@ -9,7 +9,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 val NECKLINE_OPENINGS = OpeningType.entries - OpeningType.NoOpening - OpeningType.Shoelace
-val FOOTWEAR_OPENINGS = OpeningType.entries - OpeningType.NoOpening - OpeningType.LaceUp
+val FOOTWEAR_OPENINGS = OpeningType.entries - OpeningType.LaceUp
 
 enum class OpeningType {
     NoOpening,
