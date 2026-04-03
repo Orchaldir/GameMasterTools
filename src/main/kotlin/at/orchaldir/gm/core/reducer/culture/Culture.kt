@@ -2,10 +2,7 @@ package at.orchaldir.gm.core.reducer.culture
 
 import at.orchaldir.gm.core.action.Action
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.character.FamilyName
-import at.orchaldir.gm.core.model.character.Genonym
-import at.orchaldir.gm.core.model.character.Mononym
+import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.name.FamilyConvention
 import at.orchaldir.gm.core.model.culture.name.MononymConvention
@@ -75,6 +72,7 @@ private fun changeToMononym(character: Character): Character {
         is FamilyName -> character.copy(name = Mononym(character.name.given))
         is Genonym -> character.copy(name = Mononym(character.name.given))
         is Mononym -> character
+        is OccupationalName -> character.copy(name = Mononym(character.name.given))
     }
 }
 
@@ -83,5 +81,6 @@ private fun changeToGenonym(character: Character): Character {
         is FamilyName -> character.copy(name = Genonym(character.name.given))
         is Genonym -> character
         is Mononym -> character.copy(name = Genonym(character.name.name))
+        is OccupationalName -> character.copy(name = Genonym(character.name.given))
     }
 }

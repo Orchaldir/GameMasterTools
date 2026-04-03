@@ -1,6 +1,9 @@
 package at.orchaldir.gm.core.selector.economy
 
-import at.orchaldir.gm.*
+import at.orchaldir.gm.CHARACTER_ID_0
+import at.orchaldir.gm.DAY0
+import at.orchaldir.gm.DOMAIN_ID_0
+import at.orchaldir.gm.JOB_ID_0
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
@@ -30,7 +33,7 @@ class JobTest {
 
         @Test
         fun `Cannot delete a job used by a character`() {
-            val employmentStatus = History<EmploymentStatus>(Employed(BUSINESS_ID_0, JOB_ID_0))
+            val employmentStatus = History<EmploymentStatus>(Employed(JOB_ID_0))
             val character = Character(CHARACTER_ID_0, employmentStatus = employmentStatus)
             val newState = state.updateStorage(character)
 
@@ -39,7 +42,7 @@ class JobTest {
 
         @Test
         fun `Cannot delete a job previously used by a character`() {
-            val entry = HistoryEntry<EmploymentStatus>(Employed(BUSINESS_ID_0, JOB_ID_0), DAY0)
+            val entry = HistoryEntry<EmploymentStatus>(Employed(JOB_ID_0), DAY0)
             val character = Character(CHARACTER_ID_0, employmentStatus = History(Unemployed, entry))
             val newState = state.updateStorage(character)
 

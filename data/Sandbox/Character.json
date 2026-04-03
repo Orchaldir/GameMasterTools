@@ -1,5 +1,18 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": {
+    "#type": "Occupational",
+    "given": "Alex"
+   },
+   "employmentStatus": {
+    "current": {
+     "#type": "Employed",
+     "job": 0
+    }
+   }
+  }
  }
 }

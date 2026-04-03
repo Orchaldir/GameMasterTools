@@ -39,21 +39,21 @@ class EmploymentStatusTest {
         @Test
         fun `Cannot use unknown business`() {
             assertIllegalArgument("Requires unknown Business 99!") {
-                checkEmploymentStatusHistory(state, History(Employed(UNKNOWN_BUSINESS_ID, JOB_ID_0)), DAY0)
+                checkEmploymentStatusHistory(state, History(Employed(JOB_ID_0, UNKNOWN_BUSINESS_ID)), DAY0)
             }
         }
 
         @Test
         fun `Cannot use unknown job`() {
             assertIllegalArgument("Requires unknown Job 99!") {
-                checkEmploymentStatusHistory(state, History(Employed(BUSINESS_ID_0, UNKNOWN_JOB_ID)), DAY0)
+                checkEmploymentStatusHistory(state, History(Employed(UNKNOWN_JOB_ID, BUSINESS_ID_0)), DAY0)
             }
         }
 
         @Test
         fun `Cannot use wrong employer type`() {
             assertIllegalArgument("Job 2 has the wrong type of employer!") {
-                checkEmploymentStatusHistory(state, History(Employed(BUSINESS_ID_0, JOB_ID_2)), DAY0)
+                checkEmploymentStatusHistory(state, History(Employed(JOB_ID_2, BUSINESS_ID_0)), DAY0)
             }
         }
 
@@ -62,13 +62,13 @@ class EmploymentStatusTest {
             val newState = state.updateStorage(Business(BUSINESS_ID_0, date = DAY1))
 
             assertIllegalArgument("The Business 0 doesn't exist at the required date!") {
-                checkEmploymentStatusHistory(newState, History(Employed(BUSINESS_ID_0, JOB_ID_0)), DAY0)
+                checkEmploymentStatusHistory(newState, History(Employed(JOB_ID_0, BUSINESS_ID_0)), DAY0)
             }
         }
 
         @Test
         fun `Character has a valid job`() {
-            checkEmploymentStatusHistory(state, History(Employed(BUSINESS_ID_0, JOB_ID_0)), DAY0)
+            checkEmploymentStatusHistory(state, History(Employed(JOB_ID_0, BUSINESS_ID_0)), DAY0)
         }
     }
 

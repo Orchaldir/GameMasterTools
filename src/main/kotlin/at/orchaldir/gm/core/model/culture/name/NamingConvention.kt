@@ -7,8 +7,8 @@ import at.orchaldir.gm.core.model.character.title.NoTitle
 import at.orchaldir.gm.core.model.culture.name.GenonymicLookupDistance.OneGeneration
 import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.util.name.NameListId
-import at.orchaldir.gm.core.selector.culture.getDefaultFamilyName
-import at.orchaldir.gm.core.selector.culture.getFamilyName
+import at.orchaldir.gm.core.selector.character.name.getDefaultFamilyName
+import at.orchaldir.gm.core.selector.character.name.getFamilyName
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -20,6 +20,7 @@ enum class NamingConventionType {
     Patronym,
     Matronym,
     Genonym,
+    Occupational,
 }
 
 @Serializable
@@ -33,7 +34,6 @@ sealed class NamingConvention {
         when (this) {
             is FamilyConvention -> getFamilyName(nameOrder, name, gender, title)
             is RandomGivenAndLastName -> getDefaultFamilyName(name, gender, title)
-
             else -> error("A family name requires a family convention!")
         }
 
@@ -45,6 +45,7 @@ sealed class NamingConvention {
         NoNamingConvention -> NamingConventionType.None
         is PatronymConvention -> NamingConventionType.Patronym
         is RandomGivenAndLastName -> NamingConventionType.Random
+        is OccupationalNamingConvention -> NamingConventionType.Occupational
     }
 }
 
@@ -133,6 +134,18 @@ data class GenonymConvention(
     val lookupDistance: GenonymicLookupDistance = OneGeneration,
     val style: GenonymicStyle = NamesOnlyStyle,
 ) : NamingConvention() {
+
+    override fun contains(id: NameListId) = names.contains(id)
+
+    override fun getNameLists() = names.getNameLists()
+}
+
+@Serializable
+@SerialName("Occupational")
+data class OccupationalNamingConvention(
+    val names: GivenNames,
+) : NamingConvention() {
+    constructor(id: NameListId) : this(NonGenderedGivenNames(id))
 
     override fun contains(id: NameListId) = names.contains(id)
 

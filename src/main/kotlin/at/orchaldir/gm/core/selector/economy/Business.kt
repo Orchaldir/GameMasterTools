@@ -28,7 +28,7 @@ fun State.getBusinesses(job: JobId) = getCharacterStorage()
         val employmentStatus = it.employmentStatus.current
 
         if (employmentStatus.hasJob(job)) {
-            employmentStatus.getBusiness()
+            employmentStatus.business()
         } else {
             null
         }

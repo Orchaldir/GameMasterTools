@@ -29,7 +29,7 @@ sealed class EmploymentStatus {
         Retired -> EmploymentStatusType.Retired
     }
 
-    fun getBusiness() = when (this) {
+    fun business() = when (this) {
         is Employed -> business
         is EmployedBySettlement -> optionalBusiness
         else -> null
@@ -70,8 +70,8 @@ sealed class EmploymentStatus {
 @Serializable
 @SerialName("Employed")
 data class Employed(
-    val business: BusinessId,
     val job: JobId,
+    val business: BusinessId? = null,
 ) : EmploymentStatus()
 
 @Serializable
@@ -111,3 +111,21 @@ fun History<EmploymentStatus>.wasEmployedAt(settlement: SettlementId) = previous
 
 fun History<EmploymentStatus>.isOrWasEmployedAt(settlement: SettlementId) =
     current.isEmployedAt(settlement) || wasEmployedAt(settlement)
+
+fun History<EmploymentStatus>.getLastJob(): JobId? {
+    val currentJob = current.getJob()
+
+    if (currentJob != null) {
+        return currentJob
+    }
+
+    previousEntries.forEach {
+        val job = it.entry.getJob()
+
+        if (job != null) {
+            return job
+        }
+    }
+
+    return null
+}

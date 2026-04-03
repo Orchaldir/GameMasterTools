@@ -8,7 +8,6 @@ import at.orchaldir.gm.core.model.character.Employed
 import at.orchaldir.gm.core.model.character.EmploymentStatus
 import at.orchaldir.gm.core.model.character.Unemployed
 import at.orchaldir.gm.core.model.economy.business.Business
-import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.building.Building
@@ -48,7 +47,7 @@ class BusinessTest {
 
         @Test
         fun `Cannot delete a business where a character is employed`() {
-            val employmentStatus = History<EmploymentStatus>(Employed(BUSINESS_ID_0, JOB_ID_0))
+            val employmentStatus = History<EmploymentStatus>(Employed(JOB_ID_0, BUSINESS_ID_0))
             val character = Character(CHARACTER_ID_0, employmentStatus = employmentStatus)
             val newState = state.updateStorage(character)
 
@@ -57,7 +56,7 @@ class BusinessTest {
 
         @Test
         fun `Cannot delete a business where a character was previously employed`() {
-            val entry = HistoryEntry<EmploymentStatus>(Employed(BUSINESS_ID_0, JobId(0)), DAY0)
+            val entry = HistoryEntry<EmploymentStatus>(Employed(JOB_ID_0, BUSINESS_ID_0), DAY0)
             val character = Character(CHARACTER_ID_0, employmentStatus = History(Unemployed, listOf(entry)))
             val newState = state.updateStorage(character)
 

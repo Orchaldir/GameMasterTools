@@ -17,6 +17,7 @@ fun validateCharacterData(
     state.getCultureStorage().requireOptional(character.culture)
     state.getTitleStorage().requireOptional(character.title)
     validateAge(state, character, race)
+    validateName(state, character)
 
     val birthdate = character.startDate(state)
 
@@ -47,6 +48,15 @@ private fun validateAge(state: State, character: Character, race: Race) {
                 "Age via ${character.age.lifeStage.print()} is not supported by ${race.id.print()}!"
             }
         }
+    }
+}
+
+private fun validateName(state: State, character: Character) {
+    when (character.name) {
+        is FamilyName -> doNothing()
+        is Genonym -> doNothing()
+        is Mononym -> doNothing()
+        is OccupationalName -> doNothing()
     }
 }
 

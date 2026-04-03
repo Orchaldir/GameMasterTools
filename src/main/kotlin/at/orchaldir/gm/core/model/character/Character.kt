@@ -24,11 +24,12 @@ import at.orchaldir.gm.core.model.util.source.HasDataSources
 import at.orchaldir.gm.core.reducer.character.validateCharacterAppearance
 import at.orchaldir.gm.core.reducer.character.validateCharacterData
 import at.orchaldir.gm.core.reducer.character.validateEquipped
-import at.orchaldir.gm.core.selector.culture.getDefaultFamilyName
+import at.orchaldir.gm.core.selector.character.name.getDefaultFamilyName
+import at.orchaldir.gm.core.selector.character.name.getDefaultOccupationalName
+import at.orchaldir.gm.core.selector.character.name.getGenonymName
 import at.orchaldir.gm.core.selector.time.date.getStartDay
 import at.orchaldir.gm.core.selector.time.getCurrentDate
 import at.orchaldir.gm.core.selector.time.getDefaultCalendar
-import at.orchaldir.gm.core.selector.util.getGenonymName
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
@@ -117,6 +118,7 @@ data class Character(
 
             is Genonym -> title.resolveFullName(state.getGenonymName(this, name), gender)
             is Mononym -> title.resolveFullName(name.name.text, gender)
+            is OccupationalName -> state.getDefaultOccupationalName(name.given, employmentStatus)
         }
     }
 
@@ -137,6 +139,7 @@ data class Character(
 
             is Genonym -> title.resolveFullName(state.getGenonymName(this, name), gender)
             is Mononym -> title.resolveFullName(name.name.text, gender)
+            is OccupationalName -> state.getDefaultOccupationalName(name.given, employmentStatus)
         }
     }
 
@@ -222,7 +225,7 @@ data class Character(
         check(employmentStatus.current) || employmentStatus.previousEntries.any { check(it.entry) }
 
     fun getBusiness() = if (status is Alive) {
-        employmentStatus.current.getBusiness()
+        employmentStatus.current.business()
     } else {
         null
     }
