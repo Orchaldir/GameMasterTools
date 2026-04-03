@@ -66,6 +66,7 @@ sealed class FootwearStyle : MadeFromParts {
 data class Boot(
     val shaft: ItemPart = MadeFromLeather(Color.SaddleBrown),
     val sole: ItemPart = MadeFromLeather(Color.Black),
+    val opening: Opening = NoOpening,
 ) : FootwearStyle()
 
 @Serializable
@@ -73,6 +74,7 @@ data class Boot(
 data class KneeHighBoot(
     val shaft: ItemPart = MadeFromLeather(Color.SaddleBrown),
     val sole: ItemPart = MadeFromLeather(Color.Black),
+    val opening: Opening = NoOpening,
 ) : FootwearStyle()
 
 @Serializable

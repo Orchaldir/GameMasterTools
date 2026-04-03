@@ -1,6 +1,7 @@
 package at.orchaldir.gm.visualization.character.equipment.part
 
 import at.orchaldir.gm.core.model.character.appearance.Body
+import at.orchaldir.gm.core.model.item.common.SewingPattern
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.SizeConfig
@@ -45,19 +46,30 @@ fun visualizeOpening(
         }
 
         is SingleBreasted -> visualizeButtons(state, aabb, x, topY, bottomY, opening.buttons, layer)
-        is LaceUp -> visualizeSewingPattern(
-            state,
-            config.laceUp,
-            aabb.getPoint(x, topY),
-            aabb.getPoint(x, bottomY),
-            config.getWidth(aabb, Size.Medium),
-            opening.pattern,
-            layer,
-        )
-
+        is LaceUp -> visualizeLacePattern(state, config, aabb, x, topY, bottomY, layer, opening.pattern)
+        is Shoelace -> visualizeLacePattern(state, config, aabb, x, topY, bottomY, layer, opening.pattern)
         is Zipper -> visualizeZipper(state, aabb, x, topY, bottomY, opening, layer)
     }
 }
+
+private fun visualizeLacePattern(
+    state: CharacterRenderState<Body>,
+    config: OpeningConfig,
+    aabb: AABB,
+    x: Factor,
+    topY: Factor,
+    bottomY: Factor,
+    layer: Int,
+    pattern: SewingPattern,
+) = visualizeSewingPattern(
+    state,
+    config.laceUp,
+    aabb.getPoint(x, topY),
+    aabb.getPoint(x, bottomY),
+    config.getWidth(aabb, Size.Medium),
+    pattern,
+    layer,
+)
 
 fun visualizeButtons(
     state: CharacterRenderState<Body>,

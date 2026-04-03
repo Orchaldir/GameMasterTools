@@ -9,6 +9,7 @@ import at.orchaldir.gm.app.html.util.part.editItemPart
 import at.orchaldir.gm.app.html.util.part.parseItemPart
 import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.common.SewingPattern
 import at.orchaldir.gm.core.model.item.equipment.BUTTON_MATERIALS
 import at.orchaldir.gm.core.model.item.equipment.ZIPPER_MATERIALS
 import at.orchaldir.gm.core.model.item.equipment.style.*
@@ -16,6 +17,7 @@ import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
+import kotlinx.html.DETAILS
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -37,6 +39,7 @@ fun HtmlBlockTag.showOpening(
             }
 
             is LaceUp -> showSewingPattern(call, state, opening.pattern, "Pattern")
+            is Shoelace -> showSewingPattern(call, state, opening.pattern, "Pattern")
             is Zipper -> showItemPart(call, state, opening.main, "Zipper")
         }
     }
@@ -81,12 +84,8 @@ fun HtmlBlockTag.editOpening(
                 )
             }
 
-            is LaceUp -> editSewingPattern(
-                state,
-                opening.pattern,
-                combine(param, SEWING),
-                "Pattern",
-            )
+            is LaceUp -> editLacePattern(state, param, opening.pattern)
+            is Shoelace -> editLacePattern(state, param, opening.pattern)
 
             is Zipper -> editItemPart(
                 state,
@@ -98,6 +97,17 @@ fun HtmlBlockTag.editOpening(
         }
     }
 }
+
+private fun DETAILS.editLacePattern(
+    state: State,
+    param: String,
+    pattern: SewingPattern,
+) = editSewingPattern(
+    state,
+    pattern,
+    combine(param, SEWING),
+    "Pattern",
+)
 
 private fun HtmlBlockTag.selectButtons(
     state: State,
@@ -158,7 +168,11 @@ fun parseOpening(
         )
 
         OpeningType.LaceUp -> LaceUp(
-            parseSewing(state, parameters, combine(param, SEWING)),
+            parseLacePattern(state, parameters, param),
+        )
+
+        OpeningType.Shoelace -> Shoelace(
+            parseLacePattern(state, parameters, param),
         )
 
         OpeningType.Zipper -> Zipper(
@@ -166,6 +180,12 @@ fun parseOpening(
         )
     }
 }
+
+private fun parseLacePattern(
+    state: State,
+    parameters: Parameters,
+    param: String,
+) = parseSewing(state, parameters, combine(param, SEWING))
 
 private fun parseWidth(parameters: Parameters, param: String) =
     parse(parameters, combine(param, SPACE_BETWEEN_COLUMNS), Size.Medium)

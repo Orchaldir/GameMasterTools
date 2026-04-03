@@ -8,13 +8,15 @@ import at.orchaldir.gm.core.model.util.part.MadeFromParts
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-val ALL_OPENINGS = OpeningType.entries - OpeningType.NoOpening
+val NECKLINE_OPENINGS = OpeningType.entries - OpeningType.NoOpening - OpeningType.Shoelace
+val FOOTWEAR_OPENINGS = OpeningType.entries - OpeningType.NoOpening - OpeningType.LaceUp
 
 enum class OpeningType {
     NoOpening,
     SingleBreasted,
     DoubleBreasted,
     LaceUp,
+    Shoelace,
     Zipper,
 }
 
@@ -26,6 +28,7 @@ sealed class Opening : MadeFromParts {
         is SingleBreasted -> OpeningType.SingleBreasted
         is DoubleBreasted -> OpeningType.DoubleBreasted
         is LaceUp -> OpeningType.LaceUp
+        is Shoelace -> OpeningType.Shoelace
         is Zipper -> OpeningType.Zipper
     }
 
@@ -34,6 +37,7 @@ sealed class Opening : MadeFromParts {
         is SingleBreasted -> buttons.parts()
         is DoubleBreasted -> buttons.parts()
         is LaceUp -> pattern.parts()
+        is Shoelace -> pattern.parts()
         is Zipper -> listOf(main)
     }
 }
@@ -58,6 +62,12 @@ data class DoubleBreasted(
 @Serializable
 @SerialName("Lace")
 data class LaceUp(
+    val pattern: SewingPattern,
+) : Opening()
+
+@Serializable
+@SerialName("Shoelace")
+data class Shoelace(
     val pattern: SewingPattern,
 ) : Opening()
 

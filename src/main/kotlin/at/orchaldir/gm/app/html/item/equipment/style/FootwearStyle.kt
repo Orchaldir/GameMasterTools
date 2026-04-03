@@ -11,6 +11,7 @@ import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.part.ItemPart
 import io.ktor.http.*
 import io.ktor.server.application.*
+import kotlinx.html.DETAILS
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -24,8 +25,14 @@ fun HtmlBlockTag.showFootwearStyle(
         field("Type", style.getType())
 
         when (style) {
-            is Boot -> showShaftAndSole(call, state, style.shaft, style.sole)
-            is KneeHighBoot -> showShaftAndSole(call, state, style.shaft, style.sole)
+            is Boot -> {
+                showShaftAndSole(call, state, style.shaft, style.sole)
+                showOpening(call, state, style.opening)
+            }
+            is KneeHighBoot -> {
+                showShaftAndSole(call, state, style.shaft, style.sole)
+                showOpening(call, state, style.opening)
+            }
             is Pumps -> showMain(call, state, style.main)
             is Sandal -> showShaftAndSole(call, state, style.shaft, style.sole)
             is Shoe -> showShaftAndSole(call, state, style.shaft, style.sole)
@@ -69,8 +76,14 @@ fun HtmlBlockTag.editFootwearStyle(
         )
 
         when (style) {
-            is Boot -> editShaftAndSole(state, style.shaft, style.sole)
-            is KneeHighBoot -> editShaftAndSole(state, style.shaft, style.sole)
+            is Boot -> {
+                editShaftAndSole(state, style.shaft, style.sole)
+                editFootwearOpenings(state, param, style.opening)
+            }
+            is KneeHighBoot -> {
+                editShaftAndSole(state, style.shaft, style.sole)
+                editFootwearOpenings(state, param, style.opening)
+            }
             is Pumps -> editMain(state, style.main)
             is Sandal -> editShaftAndSole(state, style.shaft, style.sole)
             is Shoe -> editShaftAndSole(state, style.shaft, style.sole)
@@ -78,6 +91,19 @@ fun HtmlBlockTag.editFootwearStyle(
             is Slipper -> editShaftAndSole(state, style.shaft, style.sole)
         }
     }
+}
+
+private fun DETAILS.editFootwearOpenings(
+    state: State,
+    param: String,
+    opening: Opening,
+) {
+    editOpening(
+        state,
+        opening,
+        FOOTWEAR_OPENINGS,
+        combine(param, OPENING),
+    )
 }
 
 private fun HtmlBlockTag.editShaftAndSole(
@@ -110,10 +136,12 @@ fun parseFootwearStyle(
         FootwearType.Boot -> Boot(
             parseMain(state, parameters),
             parseSole(state, parameters),
+            parseFootwearOpening(state, parameters, param),
         )
         FootwearType.KneeHighBoot -> KneeHighBoot(
             parseMain(state, parameters),
             parseSole(state, parameters),
+            parseFootwearOpening(state, parameters, param),
         )
         FootwearType.Pumps -> Pumps(
             parseMain(state, parameters),
@@ -135,6 +163,12 @@ fun parseFootwearStyle(
         )
     }
 }
+
+private fun parseFootwearOpening(
+    state: State,
+    parameters: Parameters,
+    param: String,
+) = parseOpening(state, parameters, combine(param, OPENING))
 
 private fun parseMain(
     state: State,
