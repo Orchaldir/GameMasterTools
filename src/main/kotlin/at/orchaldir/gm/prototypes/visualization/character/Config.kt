@@ -144,7 +144,7 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
                     withFactor(0.03f, 0.04f, 0.05f),
                     fromPercentages(30, 50, 70),
                 ),
-                withFactor(0.4f, 0.6f, 0.8f),
+                withFactor(0.2f, 0.3f, 0.4f),
                 fromPercentage(1),
             ),
             fromPercentage(2),

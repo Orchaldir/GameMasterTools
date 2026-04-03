@@ -17,10 +17,10 @@ import at.orchaldir.gm.visualization.utils.visualizeSewingPattern
 data class OpeningConfig(
     val buttonRadius: SizeConfig<Factor>,
     val laceUp: SewingPatternConfig,
-    val width: SizeConfig<Factor>,
+    val spaceBetweenColumns: SizeConfig<Factor>,
     val zipperWidth: Factor,
 ) {
-    fun getWidthFactor(size: Size) = width.convert(size)
+    fun getWidthFactor(size: Size) = spaceBetweenColumns.convert(size)
     fun getWidth(aabb: AABB, size: Size) = aabb.convertWidth(getWidthFactor(size))
 }
 
@@ -65,7 +65,7 @@ private fun visualizeLacePattern(
     config.laceUp,
     aabb.getPoint(x, topY),
     aabb.getPoint(x, bottomY),
-    config.getWidth(aabb, Size.Medium),
+    aabb.size.width,
     pattern,
     layer,
 )

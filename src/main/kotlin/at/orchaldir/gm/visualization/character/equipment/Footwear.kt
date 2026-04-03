@@ -203,8 +203,10 @@ fun visualizeBootShaft(
     renderer.renderRectangle(leftAabb, options)
     renderer.renderRectangle(rightAabb, options)
 
-    visualizeBootOpening(state, leftAabb, opening, layer)
-    visualizeBootOpening(state, rightAabb, opening, layer)
+    if (state.renderFront) {
+        visualizeBootOpening(state, leftAabb, opening, layer)
+        visualizeBootOpening(state, rightAabb, opening, layer)
+    }
 }
 
 private fun visualizeBootOpening(
