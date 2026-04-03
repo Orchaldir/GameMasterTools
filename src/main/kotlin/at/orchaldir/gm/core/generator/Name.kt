@@ -28,6 +28,7 @@ class NameGenerator(
         is MatronymConvention -> generateGenonym(namingConvention.names)
         is PatronymConvention -> generateGenonym(namingConvention.names)
         is RandomGivenAndLastName -> generateRandomName(namingConvention)
+        is OccupationalNamingConvention -> OccupationalName(generateName(namingConvention.names))
     }
 
     private fun generateFamilyName(convention: FamilyConvention) = FamilyName(

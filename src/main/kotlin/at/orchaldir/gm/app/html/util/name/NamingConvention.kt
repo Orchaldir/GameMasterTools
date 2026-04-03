@@ -55,6 +55,9 @@ fun HtmlBlockTag.showNamingConvention(
         is MononymConvention -> showGivenNames(call, state, convention.names)
 
         NoNamingConvention -> doNothing()
+
+        is OccupationalNamingConvention -> showGivenNames(call, state, convention.names)
+
         is PatronymConvention -> showGenonymConvention(
             call,
             state,
@@ -133,6 +136,9 @@ fun HtmlBlockTag.editNamingConvention(
         is MononymConvention -> editGivenNames(state, convention.names)
 
         NoNamingConvention -> doNothing()
+
+        is OccupationalNamingConvention -> editGivenNames(state, convention.names)
+
         is PatronymConvention -> selectGenonymConvention(
             state,
             convention.lookupDistance,
@@ -193,6 +199,7 @@ fun parseNamingConvention(parameters: Parameters) =
     when (parse(parameters, NAMING_CONVENTION, None)) {
         None -> NoNamingConvention
         Mononym -> MononymConvention(parseGivenNames(parameters))
+        Occupational -> OccupationalNamingConvention(parseGivenNames(parameters))
         Random -> RandomGivenAndLastName(
             parseGivenNames(parameters),
             parseNameListId(parameters, FAMILY_NAMES),
