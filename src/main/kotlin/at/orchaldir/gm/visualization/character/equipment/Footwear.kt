@@ -14,6 +14,7 @@ import at.orchaldir.gm.core.model.item.equipment.style.SimpleShoe
 import at.orchaldir.gm.core.model.item.equipment.style.Slipper
 import at.orchaldir.gm.core.model.util.part.ItemPart
 import at.orchaldir.gm.utils.math.*
+import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Volume
 import at.orchaldir.gm.utils.math.unit.ZERO_VOLUME
@@ -217,13 +218,14 @@ private fun visualizeBootOpening(
 ) {
     val radius = state.config.body.getFootRadius(state)
     val radiusFactor = radius / aabb.size.height
+    val paddingFactor = radiusFactor / 5
 
     visualizeOpening(
         state,
         state.config.equipment.footwear.opening,
         aabb,
         HALF,
-        START,
+        paddingFactor,
         END - radiusFactor,
         opening,
         layer,
