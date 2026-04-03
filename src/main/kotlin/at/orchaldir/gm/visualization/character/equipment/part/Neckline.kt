@@ -41,6 +41,7 @@ fun visualizeNeckline(
 
         visualizeOpening(
             state,
+            state.config.equipment.opening,
             aabb,
             HALF,
             START + padding,

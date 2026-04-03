@@ -60,7 +60,16 @@ fun visualizeCoat(
         val aabb = AABB.fromCenter(state.fullAABB.getCenter(), size)
 
         visualizeNeckline(state, coat.neckline, layer)
-        visualizeOpening(state, aabb, HALF, topY, bottomY, coat.opening, layer)
+        visualizeOpening(
+            state,
+            state.config.equipment.opening,
+            aabb,
+            HALF,
+            topY,
+            bottomY,
+            coat.opening,
+            layer,
+        )
         visualizeTopPockets(state, options, coat.pocketStyle, layer)
     }
 }

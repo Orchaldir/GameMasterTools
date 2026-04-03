@@ -22,6 +22,7 @@ import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.ICharacterConfig
 import at.orchaldir.gm.visualization.character.appearance.EQUIPMENT_LAYER
 import at.orchaldir.gm.visualization.character.appearance.visualizeFeet
+import at.orchaldir.gm.visualization.character.equipment.part.OpeningConfig
 import at.orchaldir.gm.visualization.character.equipment.part.visualizeOpening
 
 data class FootwearConfig(
@@ -29,6 +30,7 @@ data class FootwearConfig(
     val heightKnee: Factor,
     val heightTight: Factor,
     val heightSole: Factor,
+    val opening: OpeningConfig,
     val shaftPadding: Factor,
     val shaftThickness: Factor,
 ) {
@@ -216,6 +218,7 @@ private fun visualizeBootOpening(
 
     visualizeOpening(
         state,
+        state.config.equipment.footwear.opening,
         aabb,
         HALF,
         START,

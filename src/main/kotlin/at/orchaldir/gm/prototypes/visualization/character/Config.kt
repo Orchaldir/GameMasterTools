@@ -138,6 +138,15 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
             fromPercentage(70),
             fromPercentage(90),
             fromPermille(25),
+            OpeningConfig(
+                withFactor(0.01f, 0.015f, 0.02f),
+                SewingPatternConfig(
+                    withFactor(0.03f, 0.04f, 0.05f),
+                    fromPercentages(30, 50, 70),
+                ),
+                withFactor(0.4f, 0.6f, 0.8f),
+                fromPercentage(1),
+            ),
             fromPercentage(2),
             fromPercentage(2),
         ),
