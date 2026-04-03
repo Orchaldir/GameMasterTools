@@ -48,7 +48,7 @@ class BusinessTest {
 
         @Test
         fun `Cannot delete a business where a character is employed`() {
-            val employmentStatus = History<EmploymentStatus>(Employed(BUSINESS_ID_0, JOB_ID_0))
+            val employmentStatus = History<EmploymentStatus>(Employed(JOB_ID_0, BUSINESS_ID_0))
             val character = Character(CHARACTER_ID_0, employmentStatus = employmentStatus)
             val newState = state.updateStorage(character)
 
@@ -57,7 +57,7 @@ class BusinessTest {
 
         @Test
         fun `Cannot delete a business where a character was previously employed`() {
-            val entry = HistoryEntry<EmploymentStatus>(Employed(BUSINESS_ID_0, JobId(0)), DAY0)
+            val entry = HistoryEntry<EmploymentStatus>(Employed(JOB_ID_0, BUSINESS_ID_0), DAY0)
             val character = Character(CHARACTER_ID_0, employmentStatus = History(Unemployed, listOf(entry)))
             val newState = state.updateStorage(character)
 
