@@ -39,6 +39,9 @@ fun visualizeFeet(
     layerIndex: Int,
     renderClaws: Boolean = false,
 ) {
+    if (!state.renderFront) {
+        return
+    }
     val (left, right) = state.config.body.getMirroredLegPoint(state, END)
     val radius = state.config.body.getFootRadius(state)
     val offset = Orientation.fromDegrees(0)

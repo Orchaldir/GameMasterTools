@@ -83,8 +83,14 @@ data class FootwearConfig(
 
     fun getSoleFrontSize(
         config: ICharacterConfig<Body>,
+        padding: Factor = ZERO,
+        isFront: Boolean = false,
     ): Size2d {
-        val width = config.body().getFootRadius(config) * 2.0f
+        val width = if (isFront) {
+            config.body().getFootRadius(config)  * 2.0f
+        } else {
+            config.fullAABB().convertWidth(config.body().getLegWidth(config) + padding)
+        }
         val height = config.fullAABB().convertHeight(heightSole)
 
         return Size2d(width, height)
@@ -150,13 +156,8 @@ private fun visualizeBootFoot(
     main: ItemPart,
 ) {
     val options = state.getFillAndBorder(main)
-    val layer = if (state.renderFront) {
-        EQUIPMENT_LAYER
-    } else {
-        BEHIND_LAYER
-    }
 
-    visualizeFeet(state, options, layer)
+    visualizeFeet(state, options, EQUIPMENT_LAYER)
 }
 
 private fun visualizeBootShaft(
@@ -196,7 +197,11 @@ private fun visualizeSoles(
     val config = state.config
     val options = state.getFillAndBorder(sole)
     val (left, right) = config.body.getMirroredLegPoint(state, END)
-    val size = config.equipment.footwear.getSoleFrontSize(state)
+    val size = config.equipment.footwear.getSoleFrontSize(
+        state,
+        state.config.equipment.footwear.shaftPadding,
+        state.renderFront,
+    )
     val offset = Point2d.yAxis(size.height / 2.0f)
     val leftAABB = AABB.fromCenter(left + offset, size)
     val rightAABB = AABB.fromCenter(right + offset, size)
