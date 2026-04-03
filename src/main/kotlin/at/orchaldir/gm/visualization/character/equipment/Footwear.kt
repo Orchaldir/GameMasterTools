@@ -2,7 +2,15 @@ package at.orchaldir.gm.visualization.character.equipment
 
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.Footwear
+import at.orchaldir.gm.core.model.item.equipment.style.Boot
 import at.orchaldir.gm.core.model.item.equipment.style.FootwearStyle
+import at.orchaldir.gm.core.model.item.equipment.style.KneeHighBoot
+import at.orchaldir.gm.core.model.item.equipment.style.Pumps
+import at.orchaldir.gm.core.model.item.equipment.style.Sandal
+import at.orchaldir.gm.core.model.item.equipment.style.Shoe
+import at.orchaldir.gm.core.model.item.equipment.style.SimpleShoe
+import at.orchaldir.gm.core.model.item.equipment.style.Slipper
+import at.orchaldir.gm.core.model.util.part.ItemPart
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Volume
@@ -33,17 +41,16 @@ data class FootwearConfig(
         val shoeHeight = config.body().getShoeHeight(config)
 
         return when (style) {
-            FootwearStyle.Boots -> heightAnkle
-            FootwearStyle.KneeHighBoots -> heightKnee
-            FootwearStyle.Pumps -> if (isFront) {
+            is Boot -> heightAnkle
+            is KneeHighBoot -> heightKnee
+            is Pumps -> if (isFront) {
                 null
             } else {
                 shoeHeight
             }
-
-            FootwearStyle.Shoes, FootwearStyle.SimpleShoes -> shoeHeight
-            FootwearStyle.Sandals -> null
-            FootwearStyle.Slippers -> null
+            is Sandal -> null
+            is Shoe, is SimpleShoe -> shoeHeight
+            is Slipper -> null
         }
     }
 
@@ -98,30 +105,67 @@ fun visualizeFootwear(
     state: CharacterRenderState<Body>,
     footwear: Footwear,
 ) {
-    val options = state.getFillAndBorder(footwear.shaft)
-
-    visualizeBootShaft(state, footwear, options)
-
-    if (footwear.style.isFootVisible(state.renderFront)) {
-        val layer = if (state.renderFront) {
-            EQUIPMENT_LAYER
-        } else {
-            BEHIND_LAYER
+    when (val style = footwear.style) {
+        is Boot -> {
+            visualizeBootShaft(state, style, style.shaft)
+            visualizeBootFoot(state, style.shaft)
+            visualizeSoles(state, style.sole)
         }
-        visualizeFeet(state, options, layer)
+        is KneeHighBoot -> {
+            visualizeBootShaft(state, style, style.shaft)
+            visualizeBootFoot(state, style.shaft)
+            visualizeSoles(state, style.sole)
+        }
+        is Pumps -> {
+            visualizeBootShaft(state, style, style.main)
+            visualizeBootFoot(state, style.main)
+        }
+        is Sandal -> {
+            visualizeBootShaft(state, style, style.shaft)
+            visualizeSoles(state, style.sole)
+        }
+        is Shoe -> {
+            visualizeBootShaft(state, style, style.shaft)
+            visualizeBootFoot(state, style.shaft)
+            visualizeSoles(state, style.sole)
+        }
+        is SimpleShoe -> {
+            visualizeBootShaft(state, style, style.main)
+            visualizeBootFoot(state, style.main)
+        }
+        is Slipper -> {
+            visualizeBootShaft(state, style, style.shaft)
+
+            if (state.renderFront) {
+                visualizeBootFoot(state, style.shaft)
+            }
+
+            visualizeSoles(state, style.sole)
+        }
+    }
+}
+
+private fun visualizeBootFoot(
+    state: CharacterRenderState<Body>,
+    main: ItemPart,
+) {
+    val options = state.getFillAndBorder(main)
+    val layer = if (state.renderFront) {
+        EQUIPMENT_LAYER
+    } else {
+        BEHIND_LAYER
     }
 
-    if (footwear.style.hasSole()) {
-        visualizeSoles(state, footwear)
-    }
+    visualizeFeet(state, options, layer)
 }
 
 private fun visualizeBootShaft(
     state: CharacterRenderState<Body>,
-    footwear: Footwear,
-    options: RenderOptions,
+    style: FootwearStyle,
+    shaft: ItemPart,
 ) {
-    val height = state.equipment().footwear.getShaftHeightFactor(state, footwear.style, state.renderFront) ?: return
+    val options = state.getFillAndBorder(shaft)
+    val height = state.equipment().footwear.getShaftHeightFactor(state, style, state.renderFront) ?: return
 
     visualizeBootShaft(state, options, height, state.config.equipment.footwear.shaftPadding)
 }
@@ -145,12 +189,12 @@ fun visualizeBootShaft(
     layer.renderRectangle(rightAabb, options)
 }
 
-fun visualizeSoles(
+private fun visualizeSoles(
     state: CharacterRenderState<Body>,
-    footwear: Footwear,
+    sole: ItemPart,
 ) {
     val config = state.config
-    val options = state.getFillAndBorder(footwear.sole)
+    val options = state.getFillAndBorder(sole)
     val (left, right) = config.body.getMirroredLegPoint(state, END)
     val size = config.equipment.footwear.getSoleFrontSize(state)
     val offset = Point2d.yAxis(size.height / 2.0f)

@@ -14,17 +14,7 @@ enum class FootwearType {
     Sandal,
     Shoe,
     SimpleShoe,
-    Slipper;
-
-    fun hasShaft() = this != Sandal && this != Slipper
-
-    fun hasSole() = this != Pumps && this != SimpleShoe
-
-    fun isFootVisible(fromFront: Boolean) = when (this) {
-        Sandal -> false
-        Slipper -> fromFront
-        else -> true
-    }
+    Slipper,
 }
 
 @Serializable
@@ -58,6 +48,16 @@ sealed class FootwearStyle : MadeFromParts {
         is Shoe -> shaft.material()
         is SimpleShoe -> main.material()
         is Slipper -> shaft.material()
+    }
+
+    fun hasShaft() = this !is Sandal && this !is Slipper
+
+    fun hasSole() = this !is Pumps && this !is SimpleShoe
+
+    fun isFootVisible(fromFront: Boolean) = when (this) {
+        is Sandal -> false
+        is Slipper -> fromFront
+        else -> true
     }
 }
 
