@@ -26,7 +26,7 @@ fun HtmlBlockTag.showOpening(
     opening: Opening,
 ) {
     showDetails("Opening Style") {
-        field("Type", opening.javaClass.simpleName)
+        field("Type", opening.getType())
 
         when (opening) {
             NoOpening -> doNothing()
