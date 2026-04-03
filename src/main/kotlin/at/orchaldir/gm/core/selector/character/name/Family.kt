@@ -6,7 +6,8 @@ import at.orchaldir.gm.core.model.character.FamilyName
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.character.title.AbstractTitle
 import at.orchaldir.gm.core.model.character.title.NoTitle
-import at.orchaldir.gm.core.model.culture.name.*
+import at.orchaldir.gm.core.model.culture.name.FamilyConvention
+import at.orchaldir.gm.core.model.culture.name.NameOrder
 import at.orchaldir.gm.core.model.util.name.Name
 
 fun State.canHaveFamilyName(character: Character): Boolean {

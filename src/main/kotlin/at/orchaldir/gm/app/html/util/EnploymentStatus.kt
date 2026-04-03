@@ -2,7 +2,6 @@ package at.orchaldir.gm.app.html.util
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.economy.parseBusinessId
 import at.orchaldir.gm.app.html.economy.parseJobId
 import at.orchaldir.gm.app.html.economy.parseOptionalBusinessId
 import at.orchaldir.gm.app.html.realm.parseRealmId

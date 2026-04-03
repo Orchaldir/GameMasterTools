@@ -3,8 +3,6 @@ package at.orchaldir.gm.core.model.character
 import at.orchaldir.gm.CALENDAR_ID_0
 import at.orchaldir.gm.CHARACTER_ID_0
 import at.orchaldir.gm.JOB_ID_0
-import at.orchaldir.gm.assertIllegalArgument
-import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.time.calendar.Calendar
@@ -13,7 +11,6 @@ import at.orchaldir.gm.core.model.util.Accident
 import at.orchaldir.gm.core.model.util.Dead
 import at.orchaldir.gm.core.model.util.History
 import at.orchaldir.gm.core.model.util.name.Name
-import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Nested

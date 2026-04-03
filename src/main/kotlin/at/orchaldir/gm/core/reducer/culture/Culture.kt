@@ -2,11 +2,7 @@ package at.orchaldir.gm.core.reducer.culture
 
 import at.orchaldir.gm.core.action.Action
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.character.FamilyName
-import at.orchaldir.gm.core.model.character.Genonym
-import at.orchaldir.gm.core.model.character.Mononym
-import at.orchaldir.gm.core.model.character.OccupationalName
+import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.name.FamilyConvention
 import at.orchaldir.gm.core.model.culture.name.MononymConvention

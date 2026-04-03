@@ -1,6 +1,9 @@
 package at.orchaldir.gm.core.selector.economy
 
-import at.orchaldir.gm.*
+import at.orchaldir.gm.CHARACTER_ID_0
+import at.orchaldir.gm.DAY0
+import at.orchaldir.gm.DOMAIN_ID_0
+import at.orchaldir.gm.JOB_ID_0
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character

@@ -26,10 +26,10 @@ import at.orchaldir.gm.core.reducer.character.validateCharacterData
 import at.orchaldir.gm.core.reducer.character.validateEquipped
 import at.orchaldir.gm.core.selector.character.name.getDefaultFamilyName
 import at.orchaldir.gm.core.selector.character.name.getDefaultOccupationalName
+import at.orchaldir.gm.core.selector.character.name.getGenonymName
 import at.orchaldir.gm.core.selector.time.date.getStartDay
 import at.orchaldir.gm.core.selector.time.getCurrentDate
 import at.orchaldir.gm.core.selector.time.getDefaultCalendar
-import at.orchaldir.gm.core.selector.character.name.getGenonymName
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable

@@ -9,7 +9,7 @@ import at.orchaldir.gm.core.selector.character.name.canHaveGenonym
 import at.orchaldir.gm.core.selector.character.name.getGivenName
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
-import io.ktor.server.application.ApplicationCall
+import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
 
 // edit
