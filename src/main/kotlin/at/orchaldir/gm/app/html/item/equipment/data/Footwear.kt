@@ -1,19 +1,11 @@
 package at.orchaldir.gm.app.html.item.equipment.data
 
-import at.orchaldir.gm.app.FOOTWEAR
-import at.orchaldir.gm.app.SHAFT
-import at.orchaldir.gm.app.SOLE
-import at.orchaldir.gm.app.html.field
-import at.orchaldir.gm.app.html.parse
+import at.orchaldir.gm.app.html.item.equipment.style.editFootwearStyle
+import at.orchaldir.gm.app.html.item.equipment.style.parseFootwearStyle
+import at.orchaldir.gm.app.html.item.equipment.style.showFootwearStyle
 import at.orchaldir.gm.app.html.rpg.combat.parseArmorStats
-import at.orchaldir.gm.app.html.selectValue
-import at.orchaldir.gm.app.html.util.part.editItemPart
-import at.orchaldir.gm.app.html.util.part.parseItemPart
-import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.item.equipment.FOOTWEAR_MATERIALS
 import at.orchaldir.gm.core.model.item.equipment.Footwear
-import at.orchaldir.gm.core.model.item.equipment.style.FootwearStyle
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -25,11 +17,7 @@ fun HtmlBlockTag.showFootwear(
     state: State,
     footwear: Footwear,
 ) {
-    field("Style", footwear.style)
-    showItemPart(call, state, footwear.shaft, "Shaft")
-    if (footwear.style.hasSole()) {
-        showItemPart(call, state, footwear.sole, "Sole")
-    }
+    showFootwearStyle(call, state, footwear.style)
 }
 
 // edit
@@ -38,11 +26,7 @@ fun HtmlBlockTag.editFootwear(
     state: State,
     footwear: Footwear,
 ) {
-    selectValue("Style", FOOTWEAR, FootwearStyle.entries, footwear.style)
-    editItemPart(state, footwear.shaft, SHAFT, "Shaft", FOOTWEAR_MATERIALS)
-    if (footwear.style.hasSole()) {
-        editItemPart(state, footwear.sole, SOLE, "Sole", FOOTWEAR_MATERIALS)
-    }
+    editFootwearStyle(state, footwear.style)
 }
 
 // parse
@@ -51,8 +35,6 @@ fun parseFootwear(
     state: State,
     parameters: Parameters,
 ) = Footwear(
-    parse(parameters, FOOTWEAR, FootwearStyle.Shoes),
-    parseItemPart(state, parameters, SHAFT, FOOTWEAR_MATERIALS),
-    parseItemPart(state, parameters, SOLE, FOOTWEAR_MATERIALS),
+    parseFootwearStyle(state, parameters),
     parseArmorStats(parameters),
 )

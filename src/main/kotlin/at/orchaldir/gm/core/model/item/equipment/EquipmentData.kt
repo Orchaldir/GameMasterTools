@@ -189,7 +189,7 @@ sealed class EquipmentData : MadeFromParts {
         is BodyArmour -> style.mainMaterial()
         is OneHandedClub -> head.mainMaterial()
         is TwoHandedClub -> head.mainMaterial()
-        is Footwear -> shaft.material()
+        is Footwear -> style.mainMaterial()
         is Gloves -> main.material()
         is Helmet -> style.mainMaterial()
         is Polearm -> head.mainMaterial() ?: shaft.mainMaterial()
@@ -333,16 +333,11 @@ data class EyePatch(
 @Serializable
 @SerialName("Footwear")
 data class Footwear(
-    val style: FootwearStyle = FootwearStyle.Shoes,
-    val shaft: ItemPart = MadeFromFabric(Color.SaddleBrown),
-    val sole: ItemPart = MadeFromLeather(Color.Black),
+    val style: FootwearStyle = Shoe(),
     val stats: ArmorStats = ArmorStats(),
 ) : EquipmentData() {
 
-    constructor(style: FootwearStyle, shaft: Color, sole: Color) :
-            this(style, MadeFromFabric(shaft), MadeFromLeather(sole))
-
-    override fun parts() = listOf(shaft, sole)
+    override fun parts() = style.parts()
 }
 
 @Serializable

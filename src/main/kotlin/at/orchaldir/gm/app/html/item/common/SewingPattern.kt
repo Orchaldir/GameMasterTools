@@ -66,6 +66,7 @@ fun HtmlBlockTag.editSewingPattern(
     pattern: SewingPattern,
     param: String = SEWING,
     label: String = "Sewing Pattern",
+    allowedStitchTypes: Collection<StitchType> = StitchType.entries,
 ) {
     showDetails(label, true) {
         selectValue("Type", param, SewingPatternType.entries, pattern.getType())
@@ -75,7 +76,7 @@ fun HtmlBlockTag.editSewingPattern(
                 selectCordMaterial(state, param, pattern.cord)
                 selectCordThickness(param, pattern.thickness)
                 selectStitchWidth(param, pattern.width)
-                selectStitchType(param, pattern.stitch)
+                selectStitchType(param, pattern.stitch, allowedStitchTypes - StitchType.Empty)
                 selectInt(
                     "Count",
                     pattern.count,
@@ -91,7 +92,7 @@ fun HtmlBlockTag.editSewingPattern(
                 selectCordThickness(param, pattern.thickness)
                 selectStitchWidth(param, pattern.width)
                 editSewingPattern(pattern.stitches, param) { elementParam, stitch ->
-                    selectStitchType(elementParam, stitch)
+                    selectStitchType(elementParam, stitch, allowedStitchTypes)
                 }
             }
 
@@ -100,7 +101,7 @@ fun HtmlBlockTag.editSewingPattern(
                     selectCordMaterial(state, elementParam, element.cord)
                     selectCordThickness(elementParam, element.thickness)
                     selectStitchWidth(elementParam, element.width)
-                    selectStitchType(elementParam, element.stitch)
+                    selectStitchType(elementParam, element.stitch, allowedStitchTypes)
                 }
             }
         }
@@ -141,10 +142,11 @@ private fun HtmlBlockTag.selectStitchWidth(
 private fun HtmlBlockTag.selectStitchType(
     param: String,
     stitch: StitchType,
+    allowedStitchTypes: Collection<StitchType>,
 ) = selectValue(
     "Stitch",
     combine(param, TYPE),
-    StitchType.entries,
+    allowedStitchTypes,
     stitch,
 )
 

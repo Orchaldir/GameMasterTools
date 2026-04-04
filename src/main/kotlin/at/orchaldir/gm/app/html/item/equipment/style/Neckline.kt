@@ -66,7 +66,7 @@ fun HtmlBlockTag.editNeckline(
                 editOpening(
                     state,
                     neckline.opening,
-                    ALL_OPENINGS,
+                    NECKLINE_OPENINGS,
                     combine(param, OPENING),
                 )
             }

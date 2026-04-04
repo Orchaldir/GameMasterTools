@@ -78,5 +78,5 @@ private fun visualizeSocksShaft(
 ) {
     val height = state.config.equipment.sock.getHeightFactor(state, socks.style) ?: return
 
-    visualizeBootShaft(state, options, height, ZERO)
+    visualizeBootShaft(state, options, height, ZERO, EQUIPMENT_LAYER)
 }
