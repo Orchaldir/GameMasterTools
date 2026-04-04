@@ -29,10 +29,12 @@ fun HtmlBlockTag.showFootwearStyle(
                 showShaftAndSole(call, state, style.shaft, style.sole)
                 showOpening(call, state, style.opening)
             }
+
             is KneeHighBoot -> {
                 showShaftAndSole(call, state, style.shaft, style.sole)
                 showOpening(call, state, style.opening)
             }
+
             is Pumps -> showMain(call, state, style.main)
             is Sandal -> showShaftAndSole(call, state, style.shaft, style.sole)
             is Shoe -> showShaftAndSole(call, state, style.shaft, style.sole)
@@ -80,10 +82,12 @@ fun HtmlBlockTag.editFootwearStyle(
                 editShaftAndSole(state, style.shaft, style.sole)
                 editFootwearOpenings(state, param, style.opening)
             }
+
             is KneeHighBoot -> {
                 editShaftAndSole(state, style.shaft, style.sole)
                 editFootwearOpenings(state, param, style.opening)
             }
+
             is Pumps -> editMain(state, style.main)
             is Sandal -> editShaftAndSole(state, style.shaft, style.sole)
             is Shoe -> editShaftAndSole(state, style.shaft, style.sole)
@@ -138,25 +142,31 @@ fun parseFootwearStyle(
             parseSole(state, parameters),
             parseFootwearOpening(state, parameters, param),
         )
+
         FootwearType.KneeHighBoot -> KneeHighBoot(
             parseMain(state, parameters),
             parseSole(state, parameters),
             parseFootwearOpening(state, parameters, param),
         )
+
         FootwearType.Pumps -> Pumps(
             parseMain(state, parameters),
         )
+
         FootwearType.Sandal -> Sandal(
             parseMain(state, parameters),
             parseSole(state, parameters),
         )
+
         FootwearType.Shoe -> Shoe(
             parseMain(state, parameters),
             parseSole(state, parameters),
         )
+
         FootwearType.SimpleShoe -> SimpleShoe(
             parseMain(state, parameters),
         )
+
         FootwearType.Slipper -> Slipper(
             parseMain(state, parameters),
             parseSole(state, parameters),

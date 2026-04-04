@@ -2,19 +2,9 @@ package at.orchaldir.gm.visualization.character.equipment
 
 import at.orchaldir.gm.core.model.character.appearance.Body
 import at.orchaldir.gm.core.model.item.equipment.Footwear
-import at.orchaldir.gm.core.model.item.equipment.style.Boot
-import at.orchaldir.gm.core.model.item.equipment.style.FootwearStyle
-import at.orchaldir.gm.core.model.item.equipment.style.KneeHighBoot
-import at.orchaldir.gm.core.model.item.equipment.style.NoOpening
-import at.orchaldir.gm.core.model.item.equipment.style.Opening
-import at.orchaldir.gm.core.model.item.equipment.style.Pumps
-import at.orchaldir.gm.core.model.item.equipment.style.Sandal
-import at.orchaldir.gm.core.model.item.equipment.style.Shoe
-import at.orchaldir.gm.core.model.item.equipment.style.SimpleShoe
-import at.orchaldir.gm.core.model.item.equipment.style.Slipper
+import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.part.ItemPart
 import at.orchaldir.gm.utils.math.*
-import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Volume
 import at.orchaldir.gm.utils.math.unit.ZERO_VOLUME
@@ -53,6 +43,7 @@ data class FootwearConfig(
             } else {
                 shoeHeight
             }
+
             is Sandal -> null
             is Shoe, is SimpleShoe -> shoeHeight
             is Slipper -> null
@@ -92,7 +83,7 @@ data class FootwearConfig(
         isFront: Boolean = false,
     ): Size2d {
         val width = if (isFront) {
-            config.body().getFootRadius(config)  * 2.0f
+            config.body().getFootRadius(config) * 2.0f
         } else {
             config.fullAABB().convertWidth(config.body().getLegWidth(config) + padding)
         }
@@ -122,28 +113,34 @@ fun visualizeFootwear(
             visualizeBootFoot(state, style.shaft)
             visualizeSoles(state, style.sole)
         }
+
         is KneeHighBoot -> {
             visualizeBootShaft(state, style, style.shaft, style.opening)
             visualizeBootFoot(state, style.shaft)
             visualizeSoles(state, style.sole)
         }
+
         is Pumps -> {
             visualizeBootShaft(state, style, style.main)
             visualizeBootFoot(state, style.main)
         }
+
         is Sandal -> {
             visualizeBootShaft(state, style, style.shaft)
             visualizeSoles(state, style.sole)
         }
+
         is Shoe -> {
             visualizeBootShaft(state, style, style.shaft)
             visualizeBootFoot(state, style.shaft)
             visualizeSoles(state, style.sole)
         }
+
         is SimpleShoe -> {
             visualizeBootShaft(state, style, style.main)
             visualizeBootFoot(state, style.main)
         }
+
         is Slipper -> {
             visualizeBootShaft(state, style, style.shaft)
 
