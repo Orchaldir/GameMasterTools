@@ -44,9 +44,10 @@ fun visualizeNeckline(
             state.config.equipment.opening,
             aabb,
             HALF,
-            START + padding,
-            START + height + padding,
+            START,
+            START + height,
             neckline.opening,
+            padding,
             layer,
         )
     }

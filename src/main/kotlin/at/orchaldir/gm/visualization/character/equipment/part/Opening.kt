@@ -32,6 +32,7 @@ fun visualizeOpening(
     topY: Factor,
     bottomY: Factor,
     opening: Opening,
+    lacePadding: Factor,
     layer: Int,
 ) {
     when (opening) {
@@ -45,8 +46,8 @@ fun visualizeOpening(
         }
 
         is SingleBreasted -> visualizeButtons(state, config, aabb, x, topY, bottomY, opening.buttons, layer)
-        is LaceUp -> visualizeLacePattern(state, config, aabb, x, topY, bottomY, layer, opening.pattern)
-        is Shoelace -> visualizeLacePattern(state, config, aabb, x, topY, bottomY, layer, opening.pattern)
+        is LaceUp -> visualizeLacePattern(state, config, aabb, x, topY, bottomY, lacePadding, layer, opening.pattern)
+        is Shoelace -> visualizeLacePattern(state, config, aabb, x, topY, bottomY, lacePadding, layer, opening.pattern)
         is Zipper -> visualizeZipper(state, config, aabb, x, topY, bottomY, opening, layer)
     }
 }
@@ -58,13 +59,14 @@ private fun visualizeLacePattern(
     x: Factor,
     topY: Factor,
     bottomY: Factor,
+    padding: Factor,
     layer: Int,
     pattern: SewingPattern,
 ) = visualizeSewingPattern(
     state,
     config.laceUp,
-    aabb.getPoint(x, topY),
-    aabb.getPoint(x, bottomY),
+    aabb.getPoint(x, topY + padding),
+    aabb.getPoint(x, bottomY - padding),
     aabb.size.width,
     pattern,
     layer,

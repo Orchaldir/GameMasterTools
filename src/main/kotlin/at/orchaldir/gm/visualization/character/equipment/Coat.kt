@@ -68,6 +68,7 @@ fun visualizeCoat(
             topY,
             bottomY,
             coat.opening,
+            ZERO,
             layer,
         )
         visualizeTopPockets(state, options, coat.pocketStyle, layer)

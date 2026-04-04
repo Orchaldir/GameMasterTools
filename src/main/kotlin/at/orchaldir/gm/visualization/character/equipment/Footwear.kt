@@ -225,9 +225,10 @@ private fun visualizeBootOpening(
         state.config.equipment.footwear.opening,
         aabb,
         HALF,
-        paddingFactor,
+        START,
         END - radiusFactor,
         opening,
+        paddingFactor,
         layer,
     )
 }
