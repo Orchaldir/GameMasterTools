@@ -33,11 +33,14 @@ fun visualizeNeckline(
         val padding = state.config.equipment.neckline.openingPadding
         val aabb = state.torsoAABB()
         val height = state.config.equipment.neckline.heightV.convert(neckline.height)
-        val start = aabb.getPoint(HALF, START)
-        val end = aabb.getPoint(HALF, START + height + padding * 2)
 
-        state.renderer.getLayer(layer)
-            .renderLine(start, end, state.config.colors.line)
+        if (neckline.opening is LaceUp || neckline.opening is DoubleBreasted) {
+            val start = aabb.getPoint(HALF, START)
+            val end = aabb.getPoint(HALF, START + height)
+
+            state.renderer.getLayer(layer)
+                .renderLine(start, end, state.config.colors.line)
+        }
 
         visualizeOpening(
             state,
