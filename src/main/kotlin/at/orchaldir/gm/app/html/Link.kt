@@ -7,6 +7,7 @@ import at.orchaldir.gm.app.routes.character.title.TitleRoutes
 import at.orchaldir.gm.app.routes.culture.CultureRoutes
 import at.orchaldir.gm.app.routes.culture.FashionRoutes
 import at.orchaldir.gm.app.routes.culture.LanguageRoutes
+import at.orchaldir.gm.app.routes.ecology.plant.PlantRoutes
 import at.orchaldir.gm.app.routes.economy.*
 import at.orchaldir.gm.app.routes.economy.money.CurrencyRoutes
 import at.orchaldir.gm.app.routes.economy.money.CurrencyUnitRoutes
@@ -37,6 +38,7 @@ import at.orchaldir.gm.core.model.character.title.TitleId
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.fashion.FashionId
 import at.orchaldir.gm.core.model.culture.language.LanguageId
+import at.orchaldir.gm.core.model.ecology.plant.PlantId
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.economy.business.BusinessTemplateId
 import at.orchaldir.gm.core.model.economy.job.JobId
@@ -423,6 +425,7 @@ fun href(
     is PeriodicalIssueId -> call.application.href(PeriodicalIssueRoutes.Details(id))
     is CharacterTraitId -> call.application.href(CharacterTraitRoutes.Details(id))
     is PlaneId -> call.application.href(PlaneRoutes.Details(id))
+    is PlantId -> call.application.href(PlantRoutes.Details(id))
     is QuoteId -> call.application.href(QuoteRoutes.Details(id))
     is RaceId -> call.application.href(RaceRoutes.Details(id))
     is RaceAppearanceId -> call.application.href(RaceAppearanceRoutes.Details(id))

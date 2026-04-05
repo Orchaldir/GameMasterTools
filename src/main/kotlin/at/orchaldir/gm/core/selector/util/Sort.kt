@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.character.title.Title
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.fashion.Fashion
 import at.orchaldir.gm.core.model.culture.language.Language
+import at.orchaldir.gm.core.model.ecology.plant.Plant
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.business.BusinessTemplate
 import at.orchaldir.gm.core.model.economy.job.Job
@@ -849,6 +850,21 @@ fun State.sortPlanes(
     .sortedWith(
         when (sort) {
             SortPlane.Name -> compareBy { it.name.text }
+        })
+
+// plant
+
+fun State.sortPlants(sort: SortPlant = SortPlant.Name) =
+    sortPlants(getPlantStorage().getAll(), sort)
+
+fun State.sortPlants(
+    spells: Collection<Plant>,
+    sort: SortPlant = SortPlant.Name,
+) = spells
+    .sortedWith(
+        when (sort) {
+            SortPlant.Name -> compareBy { it.name.text }
+            SortPlant.Date -> getStartDateComparator()
         })
 
 // quote

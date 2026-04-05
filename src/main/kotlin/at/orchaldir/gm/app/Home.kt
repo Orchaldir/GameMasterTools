@@ -10,6 +10,7 @@ import at.orchaldir.gm.app.routes.character.title.TitleRoutes
 import at.orchaldir.gm.app.routes.culture.CultureRoutes
 import at.orchaldir.gm.app.routes.culture.FashionRoutes
 import at.orchaldir.gm.app.routes.culture.LanguageRoutes
+import at.orchaldir.gm.app.routes.ecology.plant.PlantRoutes
 import at.orchaldir.gm.app.routes.economy.BusinessRoutes
 import at.orchaldir.gm.app.routes.economy.BusinessTemplateRoutes
 import at.orchaldir.gm.app.routes.economy.JobRoutes
@@ -96,6 +97,8 @@ fun Application.configureRouting() {
                     fieldStorageLink(call, state.getArticleStorage(), ArticleRoutes())
                     fieldStorageLink(call, state.getPeriodicalStorage(), PeriodicalRoutes())
                     fieldStorageLink(call, state.getPeriodicalIssueStorage(), PeriodicalIssueRoutes())
+                    h3 { +"Ecology" }
+                    fieldStorageLink(call, state.getPlantStorage(), PlantRoutes())
                     h3 { +"Economy" }
                     fieldStorageLink(call, state.getBusinessStorage(), BusinessRoutes())
                     fieldStorageLink(call, state.getBusinessTemplateStorage(), BusinessTemplateRoutes())

@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.model.character.title.TitleId
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.fashion.FashionId
 import at.orchaldir.gm.core.model.culture.language.LanguageId
+import at.orchaldir.gm.core.model.ecology.plant.PlantId
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.economy.business.BusinessTemplateId
 import at.orchaldir.gm.core.model.economy.job.JobId
@@ -62,6 +63,7 @@ import at.orchaldir.gm.core.selector.character.canDeleteTitle
 import at.orchaldir.gm.core.selector.culture.canDeleteCulture
 import at.orchaldir.gm.core.selector.culture.canDeleteFashion
 import at.orchaldir.gm.core.selector.culture.canDeleteLanguage
+import at.orchaldir.gm.core.selector.ecology.plant.canDeletePlant
 import at.orchaldir.gm.core.selector.economy.canDeleteBusiness
 import at.orchaldir.gm.core.selector.economy.canDeleteBusinessTemplate
 import at.orchaldir.gm.core.selector.economy.canDeleteJob
@@ -144,6 +146,7 @@ fun reduceDeleteElement(
     is PeriodicalIssueId -> deleteElement(state, id, State::canDeletePeriodicalIssue)
     is CharacterTraitId -> deleteElement(state, id, State::canDeleteCharacterTrait)
     is PlaneId -> deleteElement(state, id, State::canDeletePlane)
+    is PlantId -> deleteElement(state, id, State::canDeletePlant)
     is QuoteId -> deleteElement(state, id, State::canDeleteQuote)
     is RaceId -> deleteElement(state, id, State::canDeleteRace)
     is RaceAppearanceId -> deleteElement(state, id, State::canDeleteRaceAppearance)

@@ -14,6 +14,8 @@ import at.orchaldir.gm.core.model.culture.fashion.Fashion
 import at.orchaldir.gm.core.model.culture.fashion.FashionId
 import at.orchaldir.gm.core.model.culture.language.Language
 import at.orchaldir.gm.core.model.culture.language.LanguageId
+import at.orchaldir.gm.core.model.ecology.plant.Plant
+import at.orchaldir.gm.core.model.ecology.plant.PlantId
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.economy.business.BusinessTemplate
@@ -141,6 +143,7 @@ fun reduceCreateElement(
     is PeriodicalIssueId -> createElement(state, PeriodicalIssue(id))
     is CharacterTraitId -> createElement(state, CharacterTrait(id))
     is PlaneId -> createElement(state, Plane(id))
+    is PlantId -> createElement(state, Plant(id))
     is QuoteId -> createElement(state, Quote(id))
     is RaceId -> createElement(state, Race(id))
     is RaceAppearanceId -> createElement(state, RaceAppearance(id))
