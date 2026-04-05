@@ -43,6 +43,7 @@ data class Plant(
     val name: Name = Name.init(id),
     val date: Date? = null,
     val origin: Origin = UndefinedOrigin,
+    val appearance: PlantAppearance = UndefinedPlantAppearance,
     val sources: Set<DataSourceId> = emptySet(),
 ) : ElementWithSimpleName<PlantId>, HasDataSources, HasOrigin, HasStartDate {
 
