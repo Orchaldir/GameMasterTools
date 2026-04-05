@@ -25,6 +25,7 @@ fun HtmlBlockTag.showPlant(
 ) {
     optionalField(call, state, "Date", plant.date)
     fieldOrigin(call, state, plant.origin, ::PlantId)
+    showPlantAppearance(call, state, plant.appearance)
     showDataSources(call, state, plant.sources)
 }
 
@@ -38,6 +39,7 @@ fun HtmlBlockTag.editPlant(
     selectName(plant.name)
     selectOptionalDate(state, "Date", plant.date, DATE)
     editOrigin(state, plant.id, plant.origin, plant.date, ALLOWED_SPELL_ORIGINS, ::PlantId)
+    editPlantAppearance(state, plant.appearance)
     editDataSources(state, plant.sources)
 }
 
@@ -56,5 +58,6 @@ fun parsePlant(
     parseName(parameters),
     parseOptionalDate(parameters, state, DATE),
     parseOrigin(parameters),
+    parsePlantAppearance(parameters, state),
     parseDataSources(parameters),
 )
