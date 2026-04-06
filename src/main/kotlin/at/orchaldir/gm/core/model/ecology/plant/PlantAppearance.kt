@@ -2,8 +2,6 @@ package at.orchaldir.gm.core.model.ecology.plant
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.MaterialId
-import at.orchaldir.gm.core.reducer.util.validateDate
-import at.orchaldir.gm.core.reducer.util.validateOrigin
 import at.orchaldir.gm.utils.doNothing
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -26,7 +24,7 @@ sealed class PlantAppearance {
         UndefinedPlantAppearance -> false
     }
 
-    fun validate(state: State)  = when (this) {
+    fun validate(state: State) = when (this) {
         is Tree -> state.getMaterialStorage().requireOptional(wood)
         UndefinedPlantAppearance -> doNothing()
     }

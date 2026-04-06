@@ -58,9 +58,9 @@ fun HtmlBlockTag.editPlantAppearance(
             appearance.getType(),
         ) {
             when (it) {
-            PlantAppearanceType.Tree -> woods.isEmpty()
-            PlantAppearanceType.Undefined -> false
-        }
+                PlantAppearanceType.Tree -> woods.isEmpty()
+                PlantAppearanceType.Undefined -> false
+            }
 
         }
 

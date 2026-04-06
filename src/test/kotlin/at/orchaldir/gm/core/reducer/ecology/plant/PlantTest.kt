@@ -8,13 +8,11 @@ import at.orchaldir.gm.core.model.ecology.plant.Tree
 import at.orchaldir.gm.core.model.util.CharacterReference
 import at.orchaldir.gm.core.model.util.origin.CreatedElement
 import at.orchaldir.gm.core.model.util.origin.ModifiedElement
-import at.orchaldir.gm.core.model.util.origin.TranslatedElement
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
-
 
 
 class PlantTest {
