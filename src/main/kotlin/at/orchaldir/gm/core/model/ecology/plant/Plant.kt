@@ -61,6 +61,7 @@ data class Plant(
     override fun validate(state: State) {
         validateDate(state, date, "Plant")
         validateOrigin(state, id, origin, date, ::PlantId)
+        appearance.validate(state)
         state.getDataSourceStorage().require(sources)
     }
 
