@@ -226,12 +226,10 @@ data class TwoHandedAxe(
 @Serializable
 @SerialName("Belt")
 data class Belt(
-    val buckle: Buckle = SimpleBuckle(),
-    val strap: ItemPart = MadeFromLeather(Color.SaddleBrown),
-    val holes: BeltHoles = NoBeltHoles,
+    val style: BeltStyle = BuckleAndStrap(),
 ) : EquipmentData() {
 
-    override fun parts() = buckle.parts() + strap
+    override fun parts() = style.parts()
 }
 
 @Serializable

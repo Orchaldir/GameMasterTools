@@ -70,6 +70,14 @@ data class BeltConfig(
 fun visualizeBelt(
     state: CharacterRenderState<Body>,
     belt: Belt,
+) = when (belt.style) {
+    is BuckleAndStrap -> visualizeBuckleAndStrap(state, belt.style)
+    is RopeBelt -> doNothing()
+}
+
+private fun visualizeBuckleAndStrap(
+    state: CharacterRenderState<Body>,
+    belt: BuckleAndStrap,
 ) {
     visualizeBeltBand(state, belt)
     visualizeBeltHoles(state, belt.holes)
@@ -78,7 +86,7 @@ fun visualizeBelt(
 
 private fun visualizeBeltBand(
     state: CharacterRenderState<Body>,
-    belt: Belt,
+    belt: BuckleAndStrap,
 ) {
     val options = state.getFillAndBorder(belt.strap)
     val beltConfig = state.config.equipment.belt

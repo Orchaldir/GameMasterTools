@@ -19,9 +19,7 @@ fun HtmlBlockTag.showBelt(
     state: State,
     belt: Belt,
 ) {
-    showBuckle(call, state, belt.buckle)
-    showItemPart(call, state, belt.strap, "Strap")
-    showBeltHoles(belt.holes)
+    showBeltStyle(call, state, belt.style)
 }
 
 // edit
@@ -30,9 +28,7 @@ fun HtmlBlockTag.editBelt(
     state: State,
     belt: Belt,
 ) {
-    editBuckle(state, belt.buckle)
-    editItemPart(state, belt.strap, STRAP, "Strap", BELT_STRAP_MATERIALS)
-    editBeltHoles(belt.holes)
+    editBeltStyle(state, belt.style)
 }
 
 // parse
@@ -41,7 +37,5 @@ fun parseBelt(
     state: State,
     parameters: Parameters,
 ) = Belt(
-    parseBuckle(state, parameters),
-    parseItemPart(state, parameters, STRAP, BELT_STRAP_MATERIALS),
-    parseBeltHoles(parameters),
+    parseBeltStyle(state, parameters),
 )

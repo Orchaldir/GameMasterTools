@@ -3,6 +3,7 @@ package at.orchaldir.gm.prototypes.visualization.character.equipment
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.item.equipment.*
+import at.orchaldir.gm.core.model.item.equipment.style.BuckleAndStrap
 import at.orchaldir.gm.core.model.item.equipment.style.BuckleShape
 import at.orchaldir.gm.core.model.item.equipment.style.SimpleBuckle
 import at.orchaldir.gm.core.model.util.Size
@@ -28,7 +29,7 @@ private fun createBelt(
     size: Size,
 ) = EquipmentMap.fromSlotAsKeyMap(
     mapOf(
-        BodySlot.Belt to Belt(SimpleBuckle(shape, size)),
+        BodySlot.Belt to Belt(BuckleAndStrap(SimpleBuckle(shape, size))),
         BodySlot.Bottom to Pants(),
         BodySlot.Top to Shirt(),
     )
