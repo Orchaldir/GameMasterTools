@@ -55,19 +55,22 @@
    "name": "Belt",
    "data": {
     "#type": "Belt",
-    "buckle": {
-     "#type": "Simple",
-     "part": {
-      "#type": "Metal",
-      "material": 4
+    "style": {
+     "#type": "BuckleAndStrap",
+     "buckle": {
+      "#type": "Simple",
+      "part": {
+       "#type": "Metal",
+       "material": 4
+      }
+     },
+     "strap": {
+      "#type": "Leather",
+      "material": 21
+     },
+     "holes": {
+      "#type": "OneRow"
      }
-    },
-    "strap": {
-     "#type": "Leather",
-     "material": 21
-    },
-    "holes": {
-     "#type": "OneRow"
     }
    }
   },
