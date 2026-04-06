@@ -1,9 +1,11 @@
 package at.orchaldir.gm.app.routes.ecology.plant
 
 import at.orchaldir.gm.app.STORE
+import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.createNameColumn
 import at.orchaldir.gm.app.html.createOriginColumn
 import at.orchaldir.gm.app.html.createStartDateColumn
+import at.orchaldir.gm.app.html.ecology.plant.displayPlantAppearance
 import at.orchaldir.gm.app.html.ecology.plant.editPlant
 import at.orchaldir.gm.app.html.ecology.plant.parsePlant
 import at.orchaldir.gm.app.html.ecology.plant.showPlant
@@ -66,6 +68,7 @@ fun Application.configurePlantRouting() {
                 state.sortPlants(all.sort),
                 listOf(
                     createNameColumn(call, state),
+                    tdColumn("Type") { displayPlantAppearance(it.appearance) },
                     createStartDateColumn(call, state),
                     createOriginColumn(call, state, ::PlantId),
                 ),
