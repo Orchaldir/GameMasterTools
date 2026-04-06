@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.character.title.Title
 import at.orchaldir.gm.core.model.culture.Culture
 import at.orchaldir.gm.core.model.culture.fashion.Fashion
 import at.orchaldir.gm.core.model.culture.language.Language
+import at.orchaldir.gm.core.model.ecology.plant.Plant
 import at.orchaldir.gm.core.model.economy.business.Business
 import at.orchaldir.gm.core.model.economy.business.BusinessTemplate
 import at.orchaldir.gm.core.model.economy.job.Job
@@ -110,6 +111,7 @@ fun reduceUpdateElement(
     is PeriodicalIssue -> updateElement(state, element)
     is CharacterTrait -> updateElement(state, element)
     is Plane -> updateElement(state, element)
+    is Plant -> updateElement(state, element)
     is Quote -> updateElement(state, element)
     is Race -> updateElement(state, element)
     is RaceAppearance -> updateElement(state, element)

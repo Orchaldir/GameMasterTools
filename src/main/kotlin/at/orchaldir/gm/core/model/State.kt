@@ -16,6 +16,9 @@ import at.orchaldir.gm.core.model.culture.fashion.FashionId
 import at.orchaldir.gm.core.model.culture.language.LANGUAGE_TYPE
 import at.orchaldir.gm.core.model.culture.language.Language
 import at.orchaldir.gm.core.model.culture.language.LanguageId
+import at.orchaldir.gm.core.model.ecology.plant.PLANT_TYPE
+import at.orchaldir.gm.core.model.ecology.plant.Plant
+import at.orchaldir.gm.core.model.ecology.plant.PlantId
 import at.orchaldir.gm.core.model.economy.business.*
 import at.orchaldir.gm.core.model.economy.job.JOB_TYPE
 import at.orchaldir.gm.core.model.economy.job.Job
@@ -153,6 +156,7 @@ val ELEMENTS =
         PERIODICAL_TYPE,
         PERIODICAL_ISSUE_TYPE,
         PLANE_TYPE,
+        PLANT_TYPE,
         QUOTE_TYPE,
         RACE_TYPE,
         RACE_APPEARANCE_TYPE,
@@ -242,6 +246,7 @@ data class State(
     fun getPeriodicalStorage() = getStorage<PeriodicalId, Periodical>(PERIODICAL_TYPE)
     fun getPeriodicalIssueStorage() = getStorage<PeriodicalIssueId, PeriodicalIssue>(PERIODICAL_ISSUE_TYPE)
     fun getPlaneStorage() = getStorage<PlaneId, Plane>(PLANE_TYPE)
+    fun getPlantStorage() = getStorage<PlantId, Plant>(PLANT_TYPE)
     fun getQuoteStorage() = getStorage<QuoteId, Quote>(QUOTE_TYPE)
     fun getRaceStorage() = getStorage<RaceId, Race>(RACE_TYPE)
     fun getRaceAppearanceStorage() = getStorage<RaceAppearanceId, RaceAppearance>(RACE_APPEARANCE_TYPE)
@@ -407,6 +412,7 @@ data class State(
         saveStorage(path, getPeriodicalStorage())
         saveStorage(path, getPeriodicalIssueStorage())
         saveStorage(path, getPlaneStorage())
+        saveStorage(path, getPlantStorage())
         saveStorage(path, getQuoteStorage())
         saveStorage(path, getRaceStorage())
         saveStorage(path, getRaceAppearanceStorage())
@@ -478,6 +484,7 @@ fun createStorage(type: String) = when (type) {
     PERIODICAL_TYPE -> Storage(PeriodicalId(0))
     PERIODICAL_ISSUE_TYPE -> Storage(PeriodicalIssueId(0))
     PLANE_TYPE -> Storage(PlaneId(0))
+    PLANT_TYPE -> Storage(PlantId(0))
     QUOTE_TYPE -> Storage(QuoteId(0))
     RACE_TYPE -> Storage(RaceId(0))
     RACE_GROUP_TYPE -> Storage(RaceGroupId(0))
@@ -548,6 +555,7 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     PERIODICAL_TYPE -> loadStorage<PeriodicalId, Periodical>(path, PeriodicalId(0))
     PERIODICAL_ISSUE_TYPE -> loadStorage<PeriodicalIssueId, PeriodicalIssue>(path, PeriodicalIssueId(0))
     PLANE_TYPE -> loadStorage<PlaneId, Plane>(path, PlaneId(0))
+    PLANT_TYPE -> loadStorage<PlantId, Plant>(path, PlantId(0))
     QUOTE_TYPE -> loadStorage<QuoteId, Quote>(path, QuoteId(0))
     RACE_TYPE -> loadStorage<RaceId, Race>(path, RaceId(0))
     RACE_APPEARANCE_TYPE -> loadStorage<RaceAppearanceId, RaceAppearance>(path, RaceAppearanceId(0))

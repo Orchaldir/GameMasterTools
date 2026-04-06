@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.economy.material.Material
 import at.orchaldir.gm.core.model.economy.material.MaterialCategoryType
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.util.render.Color
+import at.orchaldir.gm.core.selector.ecology.plant.getPlantsMadeOf
 import at.orchaldir.gm.core.selector.economy.money.getCurrencyUnits
 import at.orchaldir.gm.core.selector.item.equipment.getEquipmentMadeOf
 import at.orchaldir.gm.core.selector.item.getTextsMadeOf
@@ -21,6 +22,7 @@ fun State.canDeleteMaterial(material: MaterialId) = DeleteResult(material)
     .addElements(getEquipmentMadeOf(material))
     .addElements(getMaterialsMadeOf(material))
     .addElements(getMoonsContaining(material))
+    .addElements(getPlantsMadeOf(material))
     .addElements(getRaceAppearancesMadeOf(material))
     .addElements(getRegionsContaining(material))
     .addElements(getStreetTemplatesMadeOf(material))

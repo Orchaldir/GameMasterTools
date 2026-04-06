@@ -257,6 +257,11 @@ enum class SortPlane {
     Name,
 }
 
+enum class SortPlant {
+    Name,
+    Date,
+}
+
 enum class SortQuote {
     Name,
     Date,

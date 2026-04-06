@@ -6,6 +6,7 @@ import at.orchaldir.gm.app.routes.configureConfigRouting
 import at.orchaldir.gm.app.routes.culture.configureCultureRouting
 import at.orchaldir.gm.app.routes.culture.configureFashionRouting
 import at.orchaldir.gm.app.routes.culture.configureLanguageRouting
+import at.orchaldir.gm.app.routes.ecology.plant.configurePlantRouting
 import at.orchaldir.gm.app.routes.economy.*
 import at.orchaldir.gm.app.routes.economy.money.configureCurrencyRouting
 import at.orchaldir.gm.app.routes.economy.money.configureCurrencyUnitRouting
@@ -108,6 +109,7 @@ fun Application.module() {
     configurePeriodicalIssueRouting()
     configurePeriodicalRouting()
     configurePlaneRouting()
+    configurePlantRouting()
     configureQuoteRouting()
     configureRaceAppearanceRouting()
     configureRaceGroupRouting()

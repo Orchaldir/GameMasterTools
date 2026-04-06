@@ -4,6 +4,8 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.SkinType
+import at.orchaldir.gm.core.model.ecology.plant.Plant
+import at.orchaldir.gm.core.model.ecology.plant.Tree
 import at.orchaldir.gm.core.model.economy.material.Material
 import at.orchaldir.gm.core.model.economy.material.MaterialCost
 import at.orchaldir.gm.core.model.economy.material.MaterialProperties
@@ -64,6 +66,14 @@ class MaterialTest {
             val newState = state.updateStorage(equipment)
 
             failCanDelete(newState, EQUIPMENT_ID_0)
+        }
+
+        @Test
+        fun `Cannot delete a material used by a plant`() {
+            val equipment = Plant(PLANT_ID_0, appearance = Tree(MATERIAL_ID_0))
+            val newState = state.updateStorage(equipment)
+
+            failCanDelete(newState, PLANT_ID_0)
         }
 
         @Test

@@ -76,7 +76,7 @@
    "name": "Leather Boots",
    "data": {
     "#type": "Footwear",
-    "style":{
+    "style": {
      "#type": "Boot",
      "shaft": {
       "#type": "Leather",
@@ -112,7 +112,7 @@
    "name": "Leather Shoes",
    "data": {
     "#type": "Footwear",
-    "style":{
+    "style": {
      "#type": "Shoe",
      "shaft": {
       "#type": "Leather",
