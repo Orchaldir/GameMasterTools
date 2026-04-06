@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.character.title.TitleId
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.culture.fashion.FashionId
 import at.orchaldir.gm.core.model.culture.language.LanguageId
+import at.orchaldir.gm.core.model.ecology.plant.PlantId
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.economy.business.BusinessTemplateId
 import at.orchaldir.gm.core.model.economy.job.JobId
@@ -165,6 +166,9 @@ val UNKNOWN_ISSUE_ID = PeriodicalIssueId(99)
 val PLANE_ID_0 = PlaneId(0)
 val PLANE_ID_1 = PlaneId(1)
 val UNKNOWN_PLANE_ID = PlaneId(99)
+val PLANT_ID_0 = PlantId(0)
+val PLANT_ID_1 = PlantId(1)
+val UNKNOWN_PLANT_ID = PlantId(99)
 val QUOTE_ID_0 = QuoteId(0)
 val UNKNOWN_QUOTE_ID = QuoteId(99)
 val RACE_ID_0 = RaceId(0)

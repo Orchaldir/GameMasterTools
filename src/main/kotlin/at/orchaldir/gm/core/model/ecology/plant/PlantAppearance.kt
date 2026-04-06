@@ -17,6 +17,11 @@ sealed class PlantAppearance {
         UndefinedPlantAppearance -> PlantAppearanceType.Undefined
     }
 
+    fun contains(material: MaterialId) = when (this) {
+        is Tree -> wood == material
+        UndefinedPlantAppearance -> false
+    }
+
 }
 
 @Serializable
