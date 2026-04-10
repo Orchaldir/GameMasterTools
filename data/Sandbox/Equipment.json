@@ -133,10 +133,7 @@
    }
   },
   "6": {
-   "id": 6
-  },
-  "7": {
-   "id": 7,
+   "id": 6,
    "name": "Simple Rope Belt",
    "data": {
     "#type": "Belt",
@@ -144,7 +141,11 @@
      "#type": "Rope",
      "main": {
       "#type": "Cord",
-      "material": 12
+      "material": 12,
+      "color": {
+       "#type": "Fixed",
+       "color": "SaddleBrown"
+      }
      },
      "length": "Large",
      "thickness": "Small"
