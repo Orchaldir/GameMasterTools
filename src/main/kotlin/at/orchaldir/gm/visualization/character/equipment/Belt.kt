@@ -8,7 +8,6 @@ import at.orchaldir.gm.core.model.util.SizeConfig
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
-import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.shape.CircularShape
 import at.orchaldir.gm.utils.math.shape.RectangularShape
 import at.orchaldir.gm.utils.math.unit.Volume
@@ -26,6 +25,7 @@ data class BeltConfig(
     val buckleThicknessRelativeToHeight: Factor,
     val holeRadius: SizeConfig<Factor>,
     val ropeThickness: SizeConfig<Factor>,
+    val ropeKnot: Factor,
     val y: Factor,
 ) {
     fun getBandCenter(config: ICharacterConfig<Body>) =
@@ -43,6 +43,8 @@ data class BeltConfig(
 
         return config.torsoAABB().size.scale(hipWidth,  height)
     }
+
+    fun getRopeKnotRadius(band: Size2d) = band.height * ropeKnot
 
     fun getBandVolume(config: ICharacterConfig<Body>): Volume {
         val bandSize = getBandSize(config)
@@ -98,20 +100,19 @@ private fun visualizeRopeBelt(
     belt: RopeBelt,
 ) {
     val options = state.getFillAndBorder(belt.main)
-    val beltConfig = state.config.equipment.belt
-    val bandAabb = AABB.fromCenter(
-        beltConfig.getBandCenter(state),
-        beltConfig.getRopeSize(state, belt.thickness),
-    )
-    val polygon = Polygon2dBuilder()
-        .addMirroredPoints(bandAabb, FULL, START, true)
-        .addMirroredPoints(bandAabb, FULL + fromPercentage(5), START)
-        .addMirroredPoints(bandAabb, FULL + fromPercentage(5), END)
-        .addMirroredPoints(bandAabb, FULL, END)
+    val config = state.config.equipment.belt
+    val center = config.getBandCenter(state)
+    val bandSize = config.getRopeSize(state, belt.thickness)
+    val knotRadius = config.getRopeKnotRadius(bandSize)
+    val bandAabb = AABB.fromCenter(center, bandSize,)
+    val bandPolygon = Polygon2dBuilder()
+        .addRectangle(bandAabb)
         .build()
 
     state.renderer.getLayer(BELT_LAYER)
-        .renderRoundedPolygon(polygon, options)
+        .renderPolygon(bandPolygon, options)
+    state.renderer.getLayer(BELT_LAYER)
+        .renderCircle(center, knotRadius, options)
 }
 
 private fun visualizeBeltBand(

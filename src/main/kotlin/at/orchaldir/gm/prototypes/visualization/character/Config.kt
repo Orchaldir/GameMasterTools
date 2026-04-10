@@ -99,6 +99,7 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
                 fromPercentage(8),
                 fromPercentage(10),
             ),
+            fromPercentage(80),
             fromPercentage(85),
         ),
         BowConfig(
