@@ -60,7 +60,8 @@
     },
     "equipmentRarityMap": {
      "Belt": {
-      "2": "Common"
+      "2": "Rare",
+      "6": "Common"
      },
      "Footwear": {
       "3": "VeryRare",
