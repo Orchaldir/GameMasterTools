@@ -23,6 +23,14 @@ data class BeltConfig(
     val bandThicknessRelativeToHeight: Factor,
     val buckleHeight: SizeConfig<Factor>,
     val buckleThicknessRelativeToHeight: Factor,
+    /**
+     * Relative to rope thickness
+     */
+    val handingRopeLength: SizeConfig<Factor>,
+    /**
+     * Relative to rope thickness
+     */
+    val handingRopeOffset: Factor,
     val holeRadius: SizeConfig<Factor>,
     val ropeThickness: SizeConfig<Factor>,
     /**
@@ -48,6 +56,10 @@ data class BeltConfig(
     }
 
     fun getRopeKnotRadius(band: Size2d) = band.height * ropeKnot / 2
+
+    fun getHandingRopeOffset(band: Size2d) = band.height * handingRopeOffset
+
+    fun getHandingRopeLength(band: Size2d, length: Size) = band.height * handingRopeLength.convert(length)
 
     fun getBandVolume(config: ICharacterConfig<Body>): Volume {
         val bandSize = getBandSize(config)
@@ -108,12 +120,30 @@ private fun visualizeRopeBelt(
     val bandSize = config.getRopeSize(state, belt.thickness)
     val knotRadius = config.getRopeKnotRadius(bandSize)
     val bandAabb = AABB.fromCenter(center, bandSize,)
+    val handingOffset = config.getHandingRopeOffset(bandSize)
+    val handingLength = config.getHandingRopeLength(bandSize, belt.length)
+    val handingStartTop = bandAabb.getPoint(CENTER, START)
+    val handingStartBottom = bandAabb.getPoint(CENTER,END)
+    val handingCornerOuter = handingStartTop.addWidth(handingOffset)
+    val handingCornerInner = handingStartBottom.addWidth(handingOffset - bandSize.height)
+    val handingBottomOuter = handingCornerOuter.addHeight(handingLength + bandSize.height)
+    val handingBottomInner = handingCornerInner.addHeight(handingLength)
     val bandPolygon = Polygon2dBuilder()
         .addRectangle(bandAabb)
         .build()
+    val handingPolygon = Polygon2d(listOf(
+        handingStartTop,
+        handingCornerOuter,
+        handingBottomOuter,
+        handingBottomInner,
+        handingCornerInner,
+        handingStartBottom,
+    ))
 
     state.renderer.getLayer(BELT_LAYER)
         .renderPolygon(bandPolygon, options)
+    state.renderer.getLayer(BELT_LAYER)
+        .renderPolygon(handingPolygon, options)
     state.renderer.getLayer(BELT_LAYER)
         .renderCircle(center, knotRadius, options)
 }
