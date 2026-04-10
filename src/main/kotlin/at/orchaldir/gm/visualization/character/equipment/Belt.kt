@@ -147,20 +147,24 @@ private fun visualizeRopeBelt(
     val bandSize = config.getRopeSize(state, belt.thickness)
     val knotRadius = config.getRopeKnotRadius(bandSize)
     val bandAabb = AABB.fromCenter(center, bandSize,)
-    val handingPolygon = config.createHangingRopePolygon(bandAabb, belt.length)
     val bandPolygon = Polygon2dBuilder()
         .addRectangle(bandAabb)
         .build()
-    val mirroredPolygon = bandAabb.mirrorVertically(handingPolygon)
 
     state.renderer.getLayer(BELT_LAYER)
         .renderPolygon(bandPolygon, options)
-    state.renderer.getLayer(BELT_LAYER)
-        .renderRoundedPolygon(handingPolygon, options)
-    state.renderer.getLayer(BELT_LAYER)
-        .renderRoundedPolygon(mirroredPolygon, options)
-    state.renderer.getLayer(BELT_LAYER)
-        .renderCircle(center, knotRadius, options)
+
+    if (state.renderFront) {
+        val handingPolygon = config.createHangingRopePolygon(bandAabb, belt.length)
+        val mirroredPolygon = bandAabb.mirrorVertically(handingPolygon)
+
+        state.renderer.getLayer(BELT_LAYER)
+            .renderRoundedPolygon(handingPolygon, options)
+        state.renderer.getLayer(BELT_LAYER)
+            .renderRoundedPolygon(mirroredPolygon, options)
+        state.renderer.getLayer(BELT_LAYER)
+            .renderCircle(center, knotRadius, options)
+    }
 }
 
 private fun visualizeBeltBand(
