@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.util.SizeConfig
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
+import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.shape.CircularShape
 import at.orchaldir.gm.utils.math.shape.RectangularShape
 import at.orchaldir.gm.utils.math.unit.Volume
@@ -72,7 +73,7 @@ fun visualizeBelt(
     belt: Belt,
 ) = when (belt.style) {
     is BuckleAndStrap -> visualizeBuckleAndStrap(state, belt.style)
-    is RopeBelt -> doNothing()
+    is RopeBelt -> visualizeRopeBelt(state, belt.style)
 }
 
 private fun visualizeBuckleAndStrap(
@@ -82,6 +83,27 @@ private fun visualizeBuckleAndStrap(
     visualizeBeltBand(state, belt)
     visualizeBeltHoles(state, belt.holes)
     visualizeBuckle(state, belt.buckle)
+}
+
+private fun visualizeRopeBelt(
+    state: CharacterRenderState<Body>,
+    belt: RopeBelt,
+) {
+    val options = state.getFillAndBorder(belt.main)
+    val beltConfig = state.config.equipment.belt
+    val bandAabb = AABB.fromCenter(
+        beltConfig.getBandCenter(state),
+        beltConfig.getBandSize(state),
+    )
+    val polygon = Polygon2dBuilder()
+        .addMirroredPoints(bandAabb, FULL, START, true)
+        .addMirroredPoints(bandAabb, FULL + fromPercentage(5), START)
+        .addMirroredPoints(bandAabb, FULL + fromPercentage(5), END)
+        .addMirroredPoints(bandAabb, FULL, END)
+        .build()
+
+    state.renderer.getLayer(BELT_LAYER)
+        .renderRoundedPolygon(polygon, options)
 }
 
 private fun visualizeBeltBand(

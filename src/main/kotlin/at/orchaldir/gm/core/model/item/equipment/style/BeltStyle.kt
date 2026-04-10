@@ -40,4 +40,5 @@ data class BuckleAndStrap(
 data class RopeBelt(
     val main: ItemPart,
     val length: Size = Size.Medium,
+    val thickness: Size = Size.Medium,
 ) : BeltStyle()
