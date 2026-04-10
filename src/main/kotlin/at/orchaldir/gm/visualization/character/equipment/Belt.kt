@@ -25,6 +25,7 @@ data class BeltConfig(
     val buckleHeight: SizeConfig<Factor>,
     val buckleThicknessRelativeToHeight: Factor,
     val holeRadius: SizeConfig<Factor>,
+    val ropeThickness: SizeConfig<Factor>,
     val y: Factor,
 ) {
     fun getBandCenter(config: ICharacterConfig<Body>) =
@@ -34,6 +35,13 @@ data class BeltConfig(
         val hipWidth = config.equipment().pants.getHipWidth(config)
 
         return config.torsoAABB().size.scale(hipWidth, bandHeight)
+    }
+
+    fun getRopeSize(config: ICharacterConfig<Body>, thickness: Size): Size2d {
+        val hipWidth = config.equipment().pants.getHipWidth(config)
+        val height = ropeThickness.convert(thickness)
+
+        return config.torsoAABB().size.scale(hipWidth,  height)
     }
 
     fun getBandVolume(config: ICharacterConfig<Body>): Volume {
@@ -93,7 +101,7 @@ private fun visualizeRopeBelt(
     val beltConfig = state.config.equipment.belt
     val bandAabb = AABB.fromCenter(
         beltConfig.getBandCenter(state),
-        beltConfig.getBandSize(state),
+        beltConfig.getRopeSize(state, belt.thickness),
     )
     val polygon = Polygon2dBuilder()
         .addMirroredPoints(bandAabb, FULL, START, true)
