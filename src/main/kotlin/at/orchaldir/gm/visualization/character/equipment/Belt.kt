@@ -139,11 +139,14 @@ private fun visualizeRopeBelt(
         handingCornerInner,
         handingStartBottom,
     ))
+    val mirroredPolygon = bandAabb.mirrorVertically(handingPolygon)
 
     state.renderer.getLayer(BELT_LAYER)
         .renderPolygon(bandPolygon, options)
     state.renderer.getLayer(BELT_LAYER)
         .renderPolygon(handingPolygon, options)
+    state.renderer.getLayer(BELT_LAYER)
+        .renderPolygon(mirroredPolygon, options)
     state.renderer.getLayer(BELT_LAYER)
         .renderCircle(center, knotRadius, options)
 }
