@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.item.equipment.BELT_STRAP_MATERIALS
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.part.ItemPart
+import at.orchaldir.gm.core.model.util.part.ItemPartType
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.DETAILS
@@ -58,11 +59,23 @@ fun HtmlBlockTag.editBeltStyle(
         when (style) {
             is BuckleAndStrap -> {
                 editBuckle(state, style.buckle)
-                editMain(state, param, style.strap, "Strap")
+                editItemPart(
+                    state,
+                    style.strap,
+                    combine(param, STRAP),
+                    "Strap",
+                    BELT_STRAP_MATERIALS,
+                )
                 editBeltHoles(style.holes)
             }
             is RopeBelt -> {
-                editMain(state, param, style.main, "Rope")
+                editItemPart(
+                    state,
+                    style.main,
+                    combine(param, STRAP),
+                    "Rope",
+                    ItemPartType.Cord,
+                )
                 selectValue(
                     "Length",
                     combine(param, LENGTH),
@@ -80,13 +93,6 @@ fun HtmlBlockTag.editBeltStyle(
     }
 }
 
-private fun DETAILS.editMain(
-    state: State,
-    param: String,
-    main: ItemPart,
-    label: String,
-) = editItemPart(state, main, combine(param, STRAP), label, BELT_STRAP_MATERIALS)
-
 // parse
 
 fun parseBeltStyle(
@@ -99,19 +105,23 @@ fun parseBeltStyle(
     return when (type) {
         BeltStyleType.BuckleAndStrap -> BuckleAndStrap(
             parseBuckle(state, parameters),
-            parseMain(state, parameters, param),
+            parseItemPart(
+                state,
+                parameters,
+                combine(param, STRAP),
+                BELT_STRAP_MATERIALS,
+            ),
             parseBeltHoles(parameters),
         )
         BeltStyleType.Rope -> RopeBelt(
-            parseMain(state, parameters, param),
+            parseItemPart(
+                state,
+                parameters,
+                combine(param, STRAP),
+                ItemPartType.Cord,
+            ),
             parse(parameters, combine(param, LENGTH), Size.Medium),
             parse(parameters, combine(param, THICKNESS), Size.Medium),
         )
     }
 }
-
-private fun parseMain(
-    state: State,
-    parameters: Parameters,
-    param: String,
-) = parseItemPart(state, parameters, combine(param, STRAP), BELT_STRAP_MATERIALS)
