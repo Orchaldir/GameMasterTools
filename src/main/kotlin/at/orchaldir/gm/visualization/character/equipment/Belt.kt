@@ -61,6 +61,33 @@ data class BeltConfig(
 
     fun getHandingRopeLength(band: Size2d, length: Size) = band.height * handingRopeLength.convert(length)
 
+    fun createHangingRopePolygon(
+        aabb: AABB,
+        length: Size,
+    ): Polygon2d {
+        val size = aabb.size
+        val handingOffset = getHandingRopeOffset(size)
+        val handingLength = getHandingRopeLength(size, length)
+        val handingStartTop = aabb.getPoint(CENTER, START)
+        val handingStartBottom = aabb.getPoint(CENTER, END)
+        val handingCornerOuter = handingStartTop.addWidth(handingOffset)
+        val handingCornerInner = handingStartBottom.addWidth(handingOffset - size.height)
+        val handingBottomOuter = handingCornerOuter.addHeight(handingLength + size.height)
+        val handingBottomInner = handingCornerInner.addHeight(handingLength)
+
+        return Polygon2d(
+            listOf(
+                handingStartTop,
+                handingCornerOuter,
+                handingBottomOuter,
+                handingBottomOuter.calculateMiddle(handingBottomInner),
+                handingBottomInner,
+                handingCornerInner,
+                handingStartBottom,
+            )
+        )
+    }
+
     fun getBandVolume(config: ICharacterConfig<Body>): Volume {
         val bandSize = getBandSize(config)
         val bandThickness = bandSize.height * bandThicknessRelativeToHeight
@@ -120,26 +147,10 @@ private fun visualizeRopeBelt(
     val bandSize = config.getRopeSize(state, belt.thickness)
     val knotRadius = config.getRopeKnotRadius(bandSize)
     val bandAabb = AABB.fromCenter(center, bandSize,)
-    val handingOffset = config.getHandingRopeOffset(bandSize)
-    val handingLength = config.getHandingRopeLength(bandSize, belt.length)
-    val handingStartTop = bandAabb.getPoint(CENTER, START)
-    val handingStartBottom = bandAabb.getPoint(CENTER,END)
-    val handingCornerOuter = handingStartTop.addWidth(handingOffset)
-    val handingCornerInner = handingStartBottom.addWidth(handingOffset - bandSize.height)
-    val handingBottomOuter = handingCornerOuter.addHeight(handingLength + bandSize.height)
-    val handingBottomInner = handingCornerInner.addHeight(handingLength)
+    val handingPolygon = config.createHangingRopePolygon(bandAabb, belt.length)
     val bandPolygon = Polygon2dBuilder()
         .addRectangle(bandAabb)
         .build()
-    val handingPolygon = Polygon2d(listOf(
-        handingStartTop,
-        handingCornerOuter,
-        handingBottomOuter,
-        handingBottomOuter.calculateMiddle(handingBottomInner),
-        handingBottomInner,
-        handingCornerInner,
-        handingStartBottom,
-    ))
     val mirroredPolygon = bandAabb.mirrorVertically(handingPolygon)
 
     state.renderer.getLayer(BELT_LAYER)
