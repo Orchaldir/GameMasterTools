@@ -135,6 +135,7 @@ private fun visualizeRopeBelt(
         handingStartTop,
         handingCornerOuter,
         handingBottomOuter,
+        handingBottomOuter.calculateMiddle(handingBottomInner),
         handingBottomInner,
         handingCornerInner,
         handingStartBottom,
@@ -144,9 +145,9 @@ private fun visualizeRopeBelt(
     state.renderer.getLayer(BELT_LAYER)
         .renderPolygon(bandPolygon, options)
     state.renderer.getLayer(BELT_LAYER)
-        .renderPolygon(handingPolygon, options)
+        .renderRoundedPolygon(handingPolygon, options)
     state.renderer.getLayer(BELT_LAYER)
-        .renderPolygon(mirroredPolygon, options)
+        .renderRoundedPolygon(mirroredPolygon, options)
     state.renderer.getLayer(BELT_LAYER)
         .renderCircle(center, knotRadius, options)
 }
