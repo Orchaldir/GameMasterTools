@@ -25,6 +25,9 @@ data class BeltConfig(
     val buckleThicknessRelativeToHeight: Factor,
     val holeRadius: SizeConfig<Factor>,
     val ropeThickness: SizeConfig<Factor>,
+    /**
+     * Relative to rope thickness
+     */
     val ropeKnot: Factor,
     val y: Factor,
 ) {
@@ -44,7 +47,7 @@ data class BeltConfig(
         return config.torsoAABB().size.scale(hipWidth,  height)
     }
 
-    fun getRopeKnotRadius(band: Size2d) = band.height * ropeKnot
+    fun getRopeKnotRadius(band: Size2d) = band.height * ropeKnot / 2
 
     fun getBandVolume(config: ICharacterConfig<Body>): Volume {
         val bandSize = getBandSize(config)
