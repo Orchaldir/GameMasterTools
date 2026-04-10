@@ -52,7 +52,7 @@ data class BeltConfig(
         val hipWidth = config.equipment().pants.getHipWidth(config)
         val height = ropeThickness.convert(thickness)
 
-        return config.torsoAABB().size.scale(hipWidth,  height)
+        return config.torsoAABB().size.scale(hipWidth, height)
     }
 
     fun getRopeKnotRadius(band: Size2d) = band.height * ropeKnot / 2
@@ -146,7 +146,7 @@ private fun visualizeRopeBelt(
     val center = config.getBandCenter(state)
     val bandSize = config.getRopeSize(state, belt.thickness)
     val knotRadius = config.getRopeKnotRadius(bandSize)
-    val bandAabb = AABB.fromCenter(center, bandSize,)
+    val bandAabb = AABB.fromCenter(center, bandSize)
     val bandPolygon = Polygon2dBuilder()
         .addRectangle(bandAabb)
         .build()

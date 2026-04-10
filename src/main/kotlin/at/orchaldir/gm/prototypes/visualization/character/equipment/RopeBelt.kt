@@ -3,9 +3,7 @@ package at.orchaldir.gm.prototypes.visualization.character.equipment
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.item.equipment.*
-import at.orchaldir.gm.core.model.item.equipment.style.BuckleAndStrap
 import at.orchaldir.gm.core.model.item.equipment.style.RopeBelt
-import at.orchaldir.gm.core.model.item.equipment.style.SimpleBuckle
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.part.MadeFromCord
 import at.orchaldir.gm.core.model.util.render.Color

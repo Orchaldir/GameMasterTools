@@ -187,15 +187,17 @@ private fun calculateVolumePerMaterialForBody(
     vpm: VolumePerMaterial,
 ) {
     when (data) {
-        is Belt -> when(val style = data.style) {
+        is Belt -> when (val style = data.style) {
             is BuckleAndStrap -> {
                 vpm.add(style.strap.material(), config.equipment.belt.getBandVolume(config))
 
                 if (style.buckle is SimpleBuckle) {
-                    val buckleVolume = config.equipment.belt.getBuckleVolume(config, style.buckle.shape, style.buckle.size)
+                    val buckleVolume =
+                        config.equipment.belt.getBuckleVolume(config, style.buckle.shape, style.buckle.size)
                     vpm.add(style.buckle.part.material(), buckleVolume)
                 }
             }
+
             is RopeBelt -> doNothing()
         }
 

@@ -7,13 +7,14 @@ import at.orchaldir.gm.app.html.util.part.parseItemPart
 import at.orchaldir.gm.app.html.util.part.showItemPart
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.BELT_STRAP_MATERIALS
-import at.orchaldir.gm.core.model.item.equipment.style.*
+import at.orchaldir.gm.core.model.item.equipment.style.BeltStyle
+import at.orchaldir.gm.core.model.item.equipment.style.BeltStyleType
+import at.orchaldir.gm.core.model.item.equipment.style.BuckleAndStrap
+import at.orchaldir.gm.core.model.item.equipment.style.RopeBelt
 import at.orchaldir.gm.core.model.util.Size
-import at.orchaldir.gm.core.model.util.part.ItemPart
 import at.orchaldir.gm.core.model.util.part.ItemPartType
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.DETAILS
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -32,6 +33,7 @@ fun HtmlBlockTag.showBeltStyle(
                 showItemPart(call, state, style.strap, "Strap")
                 showBeltHoles(style.holes)
             }
+
             is RopeBelt -> {
                 showItemPart(call, state, style.main, "Rope")
                 field("Length", style.length)
@@ -68,6 +70,7 @@ fun HtmlBlockTag.editBeltStyle(
                 )
                 editBeltHoles(style.holes)
             }
+
             is RopeBelt -> {
                 editItemPart(
                     state,
@@ -113,6 +116,7 @@ fun parseBeltStyle(
             ),
             parseBeltHoles(parameters),
         )
+
         BeltStyleType.Rope -> RopeBelt(
             parseItemPart(
                 state,
