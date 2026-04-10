@@ -90,10 +90,22 @@ val CHARACTER_CONFIG = CharacterRenderConfig(
             fromPercentages(12, 16, 20),
             fromPercentage(5),
             SizeConfig(
+                fromPercentage(300),
+                fromPercentage(400),
+                fromPercentage(500),
+            ),
+            fromPercentage(200),
+            SizeConfig(
                 fromPercentage(1),
                 fromPercentage(2),
                 fromPermille(25),
             ),
+            SizeConfig(
+                fromPermille(60),
+                fromPermille(75),
+                fromPermille(90),
+            ),
+            fromPercentage(160),
             fromPercentage(85),
         ),
         BowConfig(

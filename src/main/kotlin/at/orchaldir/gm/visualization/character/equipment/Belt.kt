@@ -23,7 +23,20 @@ data class BeltConfig(
     val bandThicknessRelativeToHeight: Factor,
     val buckleHeight: SizeConfig<Factor>,
     val buckleThicknessRelativeToHeight: Factor,
+    /**
+     * Relative to rope thickness
+     */
+    val handingRopeLength: SizeConfig<Factor>,
+    /**
+     * Relative to rope thickness
+     */
+    val handingRopeOffset: Factor,
     val holeRadius: SizeConfig<Factor>,
+    val ropeThickness: SizeConfig<Factor>,
+    /**
+     * Relative to rope thickness
+     */
+    val ropeKnot: Factor,
     val y: Factor,
 ) {
     fun getBandCenter(config: ICharacterConfig<Body>) =
@@ -33,6 +46,46 @@ data class BeltConfig(
         val hipWidth = config.equipment().pants.getHipWidth(config)
 
         return config.torsoAABB().size.scale(hipWidth, bandHeight)
+    }
+
+    fun getRopeSize(config: ICharacterConfig<Body>, thickness: Size): Size2d {
+        val hipWidth = config.equipment().pants.getHipWidth(config)
+        val height = ropeThickness.convert(thickness)
+
+        return config.torsoAABB().size.scale(hipWidth, height)
+    }
+
+    fun getRopeKnotRadius(band: Size2d) = band.height * ropeKnot / 2
+
+    fun getHandingRopeOffset(band: Size2d) = band.height * handingRopeOffset
+
+    fun getHandingRopeLength(band: Size2d, length: Size) = band.height * handingRopeLength.convert(length)
+
+    fun createHangingRopePolygon(
+        aabb: AABB,
+        length: Size,
+    ): Polygon2d {
+        val size = aabb.size
+        val handingOffset = getHandingRopeOffset(size)
+        val handingLength = getHandingRopeLength(size, length)
+        val handingStartTop = aabb.getPoint(CENTER, START)
+        val handingStartBottom = aabb.getPoint(CENTER, END)
+        val handingCornerOuter = handingStartTop.addWidth(handingOffset)
+        val handingCornerInner = handingStartBottom.addWidth(handingOffset - size.height)
+        val handingBottomOuter = handingCornerOuter.addHeight(handingLength + size.height)
+        val handingBottomInner = handingCornerInner.addHeight(handingLength)
+
+        return Polygon2d(
+            listOf(
+                handingStartTop,
+                handingCornerOuter,
+                handingBottomOuter,
+                handingBottomOuter.calculateMiddle(handingBottomInner),
+                handingBottomInner,
+                handingCornerInner,
+                handingStartBottom,
+            )
+        )
     }
 
     fun getBandVolume(config: ICharacterConfig<Body>): Volume {
@@ -70,15 +123,53 @@ data class BeltConfig(
 fun visualizeBelt(
     state: CharacterRenderState<Body>,
     belt: Belt,
+) = when (belt.style) {
+    is BuckleAndStrap -> visualizeBuckleAndStrap(state, belt.style)
+    is RopeBelt -> visualizeRopeBelt(state, belt.style)
+}
+
+private fun visualizeBuckleAndStrap(
+    state: CharacterRenderState<Body>,
+    belt: BuckleAndStrap,
 ) {
     visualizeBeltBand(state, belt)
     visualizeBeltHoles(state, belt.holes)
     visualizeBuckle(state, belt.buckle)
 }
 
+private fun visualizeRopeBelt(
+    state: CharacterRenderState<Body>,
+    belt: RopeBelt,
+) {
+    val options = state.getFillAndBorder(belt.main)
+    val config = state.config.equipment.belt
+    val center = config.getBandCenter(state)
+    val bandSize = config.getRopeSize(state, belt.thickness)
+    val knotRadius = config.getRopeKnotRadius(bandSize)
+    val bandAabb = AABB.fromCenter(center, bandSize)
+    val bandPolygon = Polygon2dBuilder()
+        .addRectangle(bandAabb)
+        .build()
+
+    state.renderer.getLayer(BELT_LAYER)
+        .renderPolygon(bandPolygon, options)
+
+    if (state.renderFront) {
+        val handingPolygon = config.createHangingRopePolygon(bandAabb, belt.length)
+        val mirroredPolygon = bandAabb.mirrorVertically(handingPolygon)
+
+        state.renderer.getLayer(BELT_LAYER)
+            .renderRoundedPolygon(handingPolygon, options)
+        state.renderer.getLayer(BELT_LAYER)
+            .renderRoundedPolygon(mirroredPolygon, options)
+        state.renderer.getLayer(BELT_LAYER)
+            .renderCircle(center, knotRadius, options)
+    }
+}
+
 private fun visualizeBeltBand(
     state: CharacterRenderState<Body>,
-    belt: Belt,
+    belt: BuckleAndStrap,
 ) {
     val options = state.getFillAndBorder(belt.strap)
     val beltConfig = state.config.equipment.belt

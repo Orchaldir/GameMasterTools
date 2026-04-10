@@ -40,15 +40,17 @@ private fun createBelt(
     color: Color?,
 ): EquipmentElementMap {
     val belt = Belt(
-        SimpleBuckle(
-            BuckleShape.Rectangle,
-        ),
-        holes = when (type) {
-            BeltHolesType.NoBeltHoles -> NoBeltHoles
-            BeltHolesType.OneRow -> OneRowOfBeltHoles(size, color)
-            BeltHolesType.TwoRows -> TwoRowsOfBeltHoles(color)
-            BeltHolesType.ThreeRows -> ThreeRowsOfBeltHoles(color)
-        }
+        BuckleAndStrap(
+            SimpleBuckle(
+                BuckleShape.Rectangle,
+            ),
+            holes = when (type) {
+                BeltHolesType.NoBeltHoles -> NoBeltHoles
+                BeltHolesType.OneRow -> OneRowOfBeltHoles(size, color)
+                BeltHolesType.TwoRows -> TwoRowsOfBeltHoles(color)
+                BeltHolesType.ThreeRows -> ThreeRowsOfBeltHoles(color)
+            }
+        )
     )
 
     return fromSlotAsKeyMap(
