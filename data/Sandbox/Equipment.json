@@ -131,6 +131,32 @@
      }
     }
    }
+  },
+  "6": {
+   "id": 6
+  },
+  "7": {
+   "id": 7,
+   "name": "Simple Rope Belt",
+   "data": {
+    "#type": "Belt",
+    "style": {
+     "#type": "Rope",
+     "main": {
+      "#type": "Fabric",
+      "material": 12,
+      "fill": {
+       "#type": "Solid",
+       "color": {
+        "#type": "Fixed",
+        "color": "SaddleBrown"
+       }
+      }
+     },
+     "length": "Large",
+     "thickness": "Small"
+    }
+   }
   }
  }
 }

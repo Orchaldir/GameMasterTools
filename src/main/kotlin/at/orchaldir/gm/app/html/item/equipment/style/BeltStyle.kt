@@ -34,6 +34,7 @@ fun HtmlBlockTag.showBeltStyle(
             is RopeBelt -> {
                 showItemPart(call, state, style.main, "Rope")
                 field("Length", style.length)
+                field("Thickness", style.thickness)
             }
         }
     }
@@ -68,6 +69,12 @@ fun HtmlBlockTag.editBeltStyle(
                     Size.entries,
                     style.length,
                 )
+                selectValue(
+                    "Thickness",
+                    combine(param, THICKNESS),
+                    Size.entries,
+                    style.thickness,
+                )
             }
         }
     }
@@ -92,12 +99,13 @@ fun parseBeltStyle(
     return when (type) {
         BeltStyleType.BuckleAndStrap -> BuckleAndStrap(
             parseBuckle(state, parameters),
-            parseMain(state, parameters),
+            parseMain(state, parameters, param),
             parseBeltHoles(parameters),
         )
         BeltStyleType.Rope -> RopeBelt(
-            parseMain(state, parameters),
-            parse(parameters, param, Size.Medium)
+            parseMain(state, parameters, param),
+            parse(parameters, combine(param, LENGTH), Size.Medium),
+            parse(parameters, combine(param, THICKNESS), Size.Medium),
         )
     }
 }
@@ -105,4 +113,5 @@ fun parseBeltStyle(
 private fun parseMain(
     state: State,
     parameters: Parameters,
-) = parseItemPart(state, parameters, STRAP, BELT_STRAP_MATERIALS)
+    param: String,
+) = parseItemPart(state, parameters, combine(param, STRAP), BELT_STRAP_MATERIALS)
