@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.model.ecology
 
 import at.orchaldir.gm.core.model.ecology.plant.PlantId
 import at.orchaldir.gm.core.model.util.RarityMap
+import at.orchaldir.gm.core.model.util.SomeOf
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -37,7 +38,7 @@ data class EcologyWithSets(
 @Serializable
 @SerialName("Rarity")
 data class EcologyWithRarity(
-    val plants: RarityMap<PlantId>,
+    val plants: SomeOf<PlantId>,
 ) : Ecology()
 
 @Serializable
