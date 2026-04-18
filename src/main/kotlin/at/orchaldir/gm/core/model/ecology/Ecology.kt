@@ -1,8 +1,9 @@
 package at.orchaldir.gm.core.model.ecology
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.ecology.plant.PlantId
-import at.orchaldir.gm.core.model.util.RarityMap
 import at.orchaldir.gm.core.model.util.SomeOf
+import at.orchaldir.gm.utils.doNothing
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -27,6 +28,11 @@ sealed class Ecology {
         UndefinedEcology -> false
     }
 
+    fun validate(state: State) = when (this) {
+        is EcologyWithSets -> state.getPlantStorage().require(plants)
+        is EcologyWithRarity -> state.getPlantStorage().require(plants.getValidValues())
+        UndefinedEcology -> doNothing()
+    }
 }
 
 @Serializable
