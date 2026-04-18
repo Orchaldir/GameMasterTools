@@ -1,6 +1,7 @@
 package at.orchaldir.gm.app.html.ecology.plant
 
 import at.orchaldir.gm.app.DATE
+import at.orchaldir.gm.app.html.ecology.showEcologiesWithPlant
 import at.orchaldir.gm.app.html.parseInt
 import at.orchaldir.gm.app.html.parseName
 import at.orchaldir.gm.app.html.selectName
@@ -27,6 +28,7 @@ fun HtmlBlockTag.showPlant(
     fieldOrigin(call, state, plant.origin, ::PlantId)
     showPlantAppearance(call, state, plant.appearance)
     showDataSources(call, state, plant.sources)
+    showEcologiesWithPlant(call, state, plant)
 }
 
 // edit

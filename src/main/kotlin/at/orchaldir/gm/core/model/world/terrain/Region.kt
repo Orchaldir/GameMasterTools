@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.model.world.terrain
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.ecology.Ecology
+import at.orchaldir.gm.core.model.ecology.HasEcology
 import at.orchaldir.gm.core.model.ecology.UndefinedEcology
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.rpg.encounter.EncounterEntry
@@ -47,10 +48,11 @@ data class Region(
     val ecology: Ecology = UndefinedEcology,
     val resources: Set<MaterialId> = emptySet(),
     val encounter: EncounterEntry = NoEncounter,
-) : ElementWithSimpleName<RegionId>, HasPosition {
+) : ElementWithSimpleName<RegionId>, HasEcology, HasPosition {
 
     override fun id() = id
     override fun name() = name.text
+    override fun ecology() = ecology
     override fun position() = position
 
     override fun validate(state: State) {
