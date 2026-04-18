@@ -1,6 +1,8 @@
 package at.orchaldir.gm.core.model.world.terrain
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.ecology.Ecology
+import at.orchaldir.gm.core.model.ecology.UndefinedEcology
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.rpg.encounter.EncounterEntry
 import at.orchaldir.gm.core.model.rpg.encounter.NoEncounter
@@ -42,6 +44,7 @@ data class Region(
     val name: Name = Name.init(id),
     val data: RegionData = UndefinedRegionData,
     val position: Position = UndefinedPosition,
+    val ecology: Ecology = UndefinedEcology,
     val resources: Set<MaterialId> = emptySet(),
     val encounter: EncounterEntry = NoEncounter,
 ) : ElementWithSimpleName<RegionId>, HasPosition {

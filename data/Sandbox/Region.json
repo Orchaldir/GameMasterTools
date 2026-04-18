@@ -10,6 +10,12 @@
    "position": {
     "#type": "Plane",
     "plane": 0
+   },
+   "ecology": {
+    "#type": "Sets",
+    "plants": [
+     0
+    ]
    }
   },
   "1": {

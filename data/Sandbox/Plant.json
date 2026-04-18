@@ -1,5 +1,21 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "Tree",
+   "appearance": {
+    "#type": "Tree",
+    "wood": 10
+   }
+  },
+  "1": {
+   "id": 1,
+   "name": "Iron Tree",
+   "appearance": {
+    "#type": "Tree",
+    "wood": 11
+   }
+  }
  }
 }
