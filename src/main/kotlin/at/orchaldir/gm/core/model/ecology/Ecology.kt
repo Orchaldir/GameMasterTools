@@ -39,7 +39,11 @@ sealed class Ecology {
 @SerialName("Sets")
 data class EcologyWithSets(
     val plants: Set<PlantId> = emptySet(),
-) : Ecology()
+) : Ecology() {
+
+    constructor(plantId: PlantId): this(setOf(plantId))
+
+}
 
 @Serializable
 @SerialName("Rarity")
