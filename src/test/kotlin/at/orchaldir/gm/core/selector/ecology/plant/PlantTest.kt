@@ -19,7 +19,7 @@ class PlantTest {
     inner class CanDeleteTest {
         private val state = State(
             listOf(
-                Storage( Plant(PLANT_ID_0)),
+                Storage(Plant(PLANT_ID_0)),
             )
         )
 

@@ -28,6 +28,7 @@ fun HtmlBlockTag.showEcology(
             is EcologyWithRarity -> showRarityMap("Plants", ecology.plants, true) { id ->
                 link(call, state, id)
             }
+
             UndefinedEcology -> doNothing()
         }
     }
@@ -56,12 +57,14 @@ fun HtmlBlockTag.editEcology(
                 state.sortPlants(),
                 ecology.plants,
             )
+
             is EcologyWithRarity -> selectRarityMap(
                 "Plants",
                 combine(param, PLANT),
                 state.getPlantStorage(),
                 ecology.plants,
             )
+
             UndefinedEcology -> doNothing()
         }
     }
@@ -76,8 +79,10 @@ fun parseEcology(
     EcologyType.Sets -> EcologyWithSets(
         parseElements(parameters, combine(param, PLANT), ::parsePlantId),
     )
+
     EcologyType.Rarity -> EcologyWithRarity(
         parseSomeOf(parameters, combine(param, PLANT), ::parsePlantId),
     )
+
     EcologyType.Undefined -> UndefinedEcology
 }

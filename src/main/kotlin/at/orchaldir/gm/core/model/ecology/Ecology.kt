@@ -41,7 +41,7 @@ data class EcologyWithSets(
     val plants: Set<PlantId> = emptySet(),
 ) : Ecology() {
 
-    constructor(plantId: PlantId): this(setOf(plantId))
+    constructor(plantId: PlantId) : this(setOf(plantId))
 
 }
 
