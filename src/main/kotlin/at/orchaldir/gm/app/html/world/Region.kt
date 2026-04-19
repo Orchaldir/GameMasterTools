@@ -3,6 +3,9 @@ package at.orchaldir.gm.app.html.world
 import at.orchaldir.gm.app.ENCOUNTER
 import at.orchaldir.gm.app.MATERIAL
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.ecology.editEcology
+import at.orchaldir.gm.app.html.ecology.parseEcology
+import at.orchaldir.gm.app.html.ecology.showEcology
 import at.orchaldir.gm.app.html.economy.material.parseMaterialId
 import at.orchaldir.gm.app.html.rpg.encounter.editEncounterEntry
 import at.orchaldir.gm.app.html.rpg.encounter.parseEncounterEntry
@@ -27,6 +30,7 @@ fun HtmlBlockTag.showRegion(
     region: Region,
 ) {
     showRegionData(call, state, region.data)
+    showEcology(call, state, region.ecology)
     fieldPosition(call, state, region.position)
     fieldIds(call, state, "Resources", region.resources)
     showEncounterEntry(call, state, region.encounter)
@@ -49,6 +53,7 @@ fun HtmlBlockTag.editRegion(
         null,
         region.data.getAllowedRegionTypes(),
     )
+    editEcology(state, region.ecology)
     selectElements(state, "Resources", MATERIAL, state.getMaterialStorage().getAll(), region.resources)
     editEncounterEntry(state, region.encounter, ENCOUNTER, null)
 }
@@ -65,6 +70,7 @@ fun parseRegion(state: State, parameters: Parameters, id: RegionId) = Region(
     parseName(parameters),
     parseRegionData(parameters),
     parsePosition(parameters, state),
+    parseEcology(parameters),
     parseElements(parameters, MATERIAL, ::parseMaterialId),
     parseEncounterEntry(parameters, ENCOUNTER),
 )
