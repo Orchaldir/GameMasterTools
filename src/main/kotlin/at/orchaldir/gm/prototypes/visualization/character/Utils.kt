@@ -36,8 +36,9 @@ fun renderCharacterTable(
         }
     }
 
-    renderTable(filename, size, appearances) { aabb, renderer, appearance ->
-        val renderState = CharacterRenderState(state, appearance, aabb, config, renderer, true, EquipmentMap())
+    renderTable(filename, size, appearances) { renderAabb, renderer, appearance ->
+        val fullAabb = paddedSizeMap[appearance]!!.getInnerAABB(renderAabb)
+        val renderState = CharacterRenderState(state, appearance, fullAabb, config, renderer, true, EquipmentMap())
 
         visualizeAppearance(renderState)
     }
