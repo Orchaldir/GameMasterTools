@@ -28,7 +28,6 @@ fun buildStem(
 
     return StemData(
         position,
-        orientation,
         stem.thickness.calculate(length, ZERO),
         segment,
     )
@@ -47,8 +46,10 @@ private fun buildSegment(
     val segments = mutableListOf<SegmentData>()
 
     if (nextIndex < stem.segments) {
+        val endOrientation = stem.shape.calculate(orientation, stem.segments)
+
         segments.add(
-            buildSegment(stem, stemLength, end, orientation, nextIndex)
+            buildSegment(stem, stemLength, end, endOrientation, nextIndex)
         )
     }
 
