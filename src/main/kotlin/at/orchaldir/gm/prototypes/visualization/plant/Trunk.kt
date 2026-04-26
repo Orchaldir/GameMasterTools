@@ -22,11 +22,13 @@ import java.io.File
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.utils.math.END
 import at.orchaldir.gm.utils.math.HALF
+import at.orchaldir.gm.utils.renderer.model.BorderOnly
 import at.orchaldir.gm.visualization.plant.visualization.visualizePlant
 
 fun main() {
+    val height = Distance.fromMeters(1)
     val trunk = Trunk(
-        Distribution(Distance.fromMeters(10)),
+        Distribution(height),
         Stem(
 3,
             StraightStem,
@@ -37,7 +39,7 @@ fun main() {
     )
     val tree = Tree(trunk)
     val data = buildPlant(tree)
-    val size = Size2d.fromMeters(10.0f) // TODO
+    val size = Size2d.square(height) // TODO
     val aabb = AABB(size)
     val svgBuilder = SvgBuilder(size)
     val state = PlantRenderState(
@@ -46,6 +48,8 @@ fun main() {
         PLANT_CONFIG,
         svgBuilder,
     )
+
+    svgBuilder.getLayer().renderRectangle(aabb, BorderOnly(PLANT_CONFIG.line))
 
     visualizePlant(state, data, aabb.getPoint(HALF, END))
 

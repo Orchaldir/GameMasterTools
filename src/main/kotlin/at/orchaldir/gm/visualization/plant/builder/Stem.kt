@@ -15,7 +15,7 @@ fun buildTrunk(
 ): StemData {
     val length = trunk.length.center
 
-    return buildStem(trunk.stem, position, fromDegrees(90), length)
+    return buildStem(trunk.stem, position, fromDegrees(-90), length)
 }
 
 fun buildStem(
