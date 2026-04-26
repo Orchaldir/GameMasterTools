@@ -1,5 +1,6 @@
 package at.orchaldir.gm.utils
 
+import at.orchaldir.gm.utils.math.Factor
 import kotlinx.serialization.Serializable
 import kotlin.random.Random
 
@@ -10,6 +11,8 @@ sealed class NumberGenerator {
     fun getInt(from: Int, until: Int) = from + getInt(until - from)
 
     fun getFloat(from: Float, until: Float) = from + getInt().toFloat() * (until - from) / Int.MAX_VALUE
+
+    fun isTriggered(probability: Factor) = getFloat(0.0f, 1.0f) < probability.toNumber()
 
     fun <T> select(list: List<T>) = list[getInt(list.size)]
 }

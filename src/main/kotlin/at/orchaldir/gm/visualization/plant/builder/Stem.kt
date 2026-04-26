@@ -52,9 +52,13 @@ private fun buildSegment(
     if (nextIndex < stem.segments) {
         val endOrientation = stem.shape.calculate(numberGenerator, orientation, stem.segments)
 
-        segments.add(
-            buildSegment(numberGenerator, stem, stemLength, end, endOrientation, nextIndex)
-        )
+        stem.splitting
+            .calculateSplits(numberGenerator, endOrientation, index)
+            .forEach { splitOrientation ->
+                segments.add(
+                    buildSegment(numberGenerator, stem, stemLength, end, splitOrientation, nextIndex)
+                )
+            }
     }
 
     return SegmentData(
