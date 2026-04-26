@@ -39,6 +39,8 @@ value class Weight private constructor(private val milligrams: Long) : SiUnit<We
         fun resolveUnit(prefix: SiPrefix) = prefix.resolveUnit() + "g"
     }
 
+    override fun zero() = WEIGHTLESS
+
     override fun value() = milligrams
     override fun convertToLong(prefix: SiPrefix) = when (prefix) {
         SiPrefix.Kilo -> convertToKilograms(milligrams).toLong()

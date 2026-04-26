@@ -65,6 +65,8 @@ value class Volume private constructor(private val cmm: Long) : SiUnit<Volume> {
             fromHollowSphere(radius, radius * (FULL - thickness))
     }
 
+    override fun zero() = ZERO_VOLUME
+
     override fun value() = cmm
 
     fun toCubicMeters() = convertToCubicMeters(cmm)

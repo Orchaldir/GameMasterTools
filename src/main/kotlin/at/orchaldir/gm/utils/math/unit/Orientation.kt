@@ -29,6 +29,8 @@ value class Orientation private constructor(private val millidegrees: Long): Val
         fun zero() = ZERO_ORIENTATION
     }
 
+    override fun zero() = ZERO_ORIENTATION
+
     override fun value() = millidegrees
 
     fun toDegrees() = convertToDegrees(millidegrees)

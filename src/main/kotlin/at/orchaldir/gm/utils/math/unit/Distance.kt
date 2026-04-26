@@ -1,6 +1,7 @@
 package at.orchaldir.gm.utils.math.unit
 
 import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.ZERO
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromCentimeters
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMeters
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMicrometers
@@ -39,6 +40,8 @@ value class Distance private constructor(private val micrometers: Long) : SiUnit
 
         fun resolveUnit(prefix: SiPrefix) = prefix.resolveUnit() + "m"
     }
+
+    override fun zero() = ZERO_DISTANCE
 
     override fun value() = micrometers
     override fun convertToLong(prefix: SiPrefix) = when (prefix) {

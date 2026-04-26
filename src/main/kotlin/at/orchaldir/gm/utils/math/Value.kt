@@ -2,6 +2,8 @@ package at.orchaldir.gm.utils.math
 
 interface Value<T> {
 
+    fun zero(): T
+
     fun value(): Long
 
     operator fun plus(other: T): T
