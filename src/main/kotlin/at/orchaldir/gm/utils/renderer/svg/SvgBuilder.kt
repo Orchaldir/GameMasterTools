@@ -9,7 +9,7 @@ import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.TransformRenderer
 import at.orchaldir.gm.utils.renderer.model.*
 
-private val CLIPPING_PREFIX = "clip_"
+private const val CLIPPING_PREFIX = "clip_"
 
 data class SvgBuilder(
     private val size: Size2d,
@@ -65,16 +65,14 @@ data class SvgBuilder(
 
     // layers
 
-    override fun getLayer(layer: Int) = createRenderer(layers.computeIfAbsent(layer) {
-        mutableListOf()
-    })
+    override fun getLayer(layer: Int) = createRenderer(layer)
 
     // clippings
 
     override fun createClipping(polygon: Polygon2d): String {
         val name = CLIPPING_PREFIX + clippings.size
 
-        clippings.put(name, polygon)
+        clippings[name] = polygon
 
         return name
     }
