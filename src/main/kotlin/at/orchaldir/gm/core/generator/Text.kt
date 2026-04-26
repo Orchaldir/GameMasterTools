@@ -33,7 +33,7 @@ data class TextGenerator(
     fun <T> generate(map: RarityMap<T>) = rarityGenerator.generate(map, generator)
 
     fun generateString(style: ParagraphGeneration): String {
-        val sentences = generator.getNumber(style.minLength, style.maxLength + 1)
+        val sentences = generator.getInt(style.minLength, style.maxLength + 1)
 
         return (0..<sentences)
             .joinToString(" ") { generator.select(exampleStrings) }
@@ -46,7 +46,7 @@ data class TextGenerator(
         Paragraph.fromString(generateString(style.generation.main))
 
     fun generateParagraphs(style: ContentStyle, minParagraphs: Int, maxParagraphs: Int): List<ContentEntry> {
-        val paragraphs = generator.getNumber(minParagraphs, maxParagraphs + 1)
+        val paragraphs = generator.getInt(minParagraphs, maxParagraphs + 1)
 
         return (0..<paragraphs)
             .map { generateParagraph(style) }
@@ -61,7 +61,7 @@ data class TextGenerator(
     }
 
     fun generateEntries(style: ContentStyle, minEntries: Int, maxEntries: Int): List<ContentEntry> {
-        val entries = generator.getNumber(minEntries, maxEntries + 1)
+        val entries = generator.getInt(minEntries, maxEntries + 1)
 
         return (0..<entries)
             .map { generateEntry(style) }

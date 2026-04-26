@@ -61,6 +61,6 @@ class NumberGeneratorTest {
 
 
     private fun assertNumbers(generator: NumberGenerator, numbers: List<Int>) {
-        numbers.forEach { assertEquals(it, generator.getNumber()) }
+        numbers.forEach { assertEquals(it, generator.getInt()) }
     }
 }

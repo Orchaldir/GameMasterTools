@@ -84,7 +84,7 @@ value class Volume private constructor(private val cmm: Long) : SiUnit<Volume> {
     override operator fun plus(other: Volume) = Volume(cmm + other.cmm)
     override operator fun minus(other: Volume) = Volume(cmm - other.cmm)
 
-    operator fun times(factor: Float) = Volume((cmm * factor).toLong())
+    override operator fun times(factor: Float) = Volume((cmm * factor).toLong())
     override operator fun times(factor: Factor) = times(factor.toNumber())
     operator fun times(factor: Int) = Volume(cmm * factor)
     operator fun div(factor: Float) = Volume((cmm / factor).toLong())

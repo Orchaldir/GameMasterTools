@@ -49,7 +49,7 @@ data class RarityGenerator(val values: Map<Rarity, Int>) {
         lookup: List<Pair<Int, T>>,
         numberGenerator: NumberGenerator,
     ): T {
-        val index = numberGenerator.getNumber() % threshold
+        val index = numberGenerator.getInt() % threshold
 
         lookup.forEach {
             if (index < it.first) {

@@ -2,6 +2,7 @@ package at.orchaldir.gm.visualization.plant.builder
 
 import at.orchaldir.gm.core.model.ecology.plant.appearance.Stem
 import at.orchaldir.gm.core.model.ecology.plant.appearance.Trunk
+import at.orchaldir.gm.utils.NumberGenerator
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.ZERO
@@ -10,21 +11,23 @@ import at.orchaldir.gm.utils.math.unit.Orientation
 import at.orchaldir.gm.utils.math.unit.Orientation.Companion.fromDegrees
 
 fun buildTrunk(
+    numberGenerator: NumberGenerator,
     trunk: Trunk,
     position: Point2d,
 ): StemData {
     val length = trunk.length.center
 
-    return buildStem(trunk.stem, position, fromDegrees(-90), length)
+    return buildStem(numberGenerator, trunk.stem, position, fromDegrees(-90), length)
 }
 
 fun buildStem(
+    numberGenerator: NumberGenerator,
     stem: Stem,
     position: Point2d,
     orientation: Orientation,
     length: Distance,
 ): StemData {
-    val segment = buildSegment(stem, length, position, orientation, 0)
+    val segment = buildSegment(numberGenerator, stem, length, position, orientation, 0)
 
     return StemData(
         position,
@@ -34,6 +37,7 @@ fun buildStem(
 }
 
 private fun buildSegment(
+    numberGenerator: NumberGenerator,
     stem: Stem,
     stemLength: Distance,
     start: Point2d,
@@ -46,10 +50,10 @@ private fun buildSegment(
     val segments = mutableListOf<SegmentData>()
 
     if (nextIndex < stem.segments) {
-        val endOrientation = stem.shape.calculate(orientation, stem.segments)
+        val endOrientation = stem.shape.calculate(numberGenerator, orientation, stem.segments)
 
         segments.add(
-            buildSegment(stem, stemLength, end, endOrientation, nextIndex)
+            buildSegment(numberGenerator, stem, stemLength, end, endOrientation, nextIndex)
         )
     }
 

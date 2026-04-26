@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.ecology.plant.PlantAppearance
 import at.orchaldir.gm.core.model.ecology.plant.Tree
 import at.orchaldir.gm.core.model.ecology.plant.UndefinedPlantAppearance
 import at.orchaldir.gm.core.model.util.render.Color
+import at.orchaldir.gm.utils.NumberGenerator
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.ZERO
 
@@ -18,11 +19,12 @@ data class TreeData(
 data object UndefinedPlantData : PlantData()
 
 fun buildPlant(
+    numberGenerator: NumberGenerator,
     plant: PlantAppearance,
     position: Point2d = Point2d(),
 ): PlantData = when (plant) {
     is Tree -> TreeData(
-        buildTrunk(plant.trunk, position),
+        buildTrunk(numberGenerator, plant.trunk, position),
         plant.trunk.bark,
     )
     UndefinedPlantAppearance -> UndefinedPlantData

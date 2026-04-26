@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.ecology.plant.appearance
 
+import at.orchaldir.gm.utils.NumberGenerator
 import at.orchaldir.gm.utils.math.Variance
 import at.orchaldir.gm.utils.math.unit.Orientation
 import kotlinx.serialization.SerialName
@@ -18,9 +19,13 @@ sealed class StemShape {
         is CurvedStem -> StemShapeType.Curved
     }
 
-    fun calculate(orientation: Orientation, segments: Int) = when (this) {
+    fun calculate(
+        numberGenerator: NumberGenerator,
+        orientation: Orientation,
+        segments: Int,
+    ) = when (this) {
         is StraightStem -> orientation
-        is CurvedStem -> orientation + angle.center / (segments - 1)
+        is CurvedStem -> orientation + angle.generate(numberGenerator) / (segments - 1)
     }
 
 }

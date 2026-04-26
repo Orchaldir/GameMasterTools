@@ -1,5 +1,6 @@
 package at.orchaldir.gm.utils.math.unit
 
+import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Value
 import kotlinx.serialization.Serializable
 import java.util.*
@@ -58,7 +59,8 @@ value class Orientation private constructor(private val millidegrees: Long): Val
     override operator fun plus(other: Orientation) = Orientation(millidegrees + other.millidegrees)
     override operator fun minus(other: Orientation) = Orientation(millidegrees - other.millidegrees)
 
-    operator fun times(factor: Float) = Orientation((millidegrees * factor).toLong())
+    override operator fun times(factor: Float) = Orientation((millidegrees * factor).toLong())
+    override operator fun times(factor: Factor) = Orientation((millidegrees * factor.toNumber()).toLong())
     operator fun div(factor: Int) = Orientation(millidegrees / factor)
     operator fun div(factor: Float) = Orientation((millidegrees / factor).toLong())
 

@@ -14,8 +14,6 @@ interface SiUnit<T>: Value<T> {
 
     fun convertToLong(prefix: SiPrefix): Long
 
-    operator fun times(factor: Factor): T
-
 }
 
 fun down(value: Long) = value * SI_STEP

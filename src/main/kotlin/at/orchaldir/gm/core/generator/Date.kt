@@ -17,15 +17,15 @@ class DateGenerator(
             this(numberGenerator, state.getCalendarStorage().getOrThrow(id))
 
     fun generateMonthAndDay(state: State, startYear: Int, endYear: Int): Day {
-        val age = numberGenerator.getNumber(startYear, endYear)
+        val age = numberGenerator.getInt(startYear, endYear)
         val year = state.getCurrentYear() - age
 
         return generateMonthAndDay(year)
     }
 
     fun generateMonthAndDay(date: Date): Day {
-        val monthIndex = numberGenerator.getNumber() % calendar.months.getSize()
-        val dayIndex = numberGenerator.getNumber() % calendar.months.getDaysPerMonth(monthIndex)
+        val monthIndex = numberGenerator.getInt() % calendar.months.getSize()
+        val dayIndex = numberGenerator.getInt() % calendar.months.getDaysPerMonth(monthIndex)
 
         val generatedDisplayDate = when (date) {
             is Day -> {
