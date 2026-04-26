@@ -32,8 +32,7 @@ fun main() {
         Stem(
 3,
             StraightStem,
-            StemSplitting(ZERO, ZERO, Variance(ZERO_ORIENTATION, ZERO_ORIENTATION)),
-            LinearStemThickness(fromPercentage(1)),
+            LinearStemThickness(fromPercentage(5)),
         ),
         Color.SaddleBrown,
     )

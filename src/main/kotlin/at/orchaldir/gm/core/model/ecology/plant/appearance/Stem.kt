@@ -6,6 +6,6 @@ import kotlinx.serialization.Serializable
 data class Stem(
     val segments: Int,
     val shape: StemShape,
-    val splitting: StemSplitting,
     val thickness: StemThickness,
+    val splitting: StemSplitting = NoStemSplitting,
 )
