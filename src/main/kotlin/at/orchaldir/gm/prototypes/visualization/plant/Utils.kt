@@ -13,6 +13,7 @@ import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromCentimeters
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMicrometers
 import at.orchaldir.gm.utils.renderer.model.BorderOnly
 import at.orchaldir.gm.utils.renderer.model.LineOptions
+import at.orchaldir.gm.visualization.character.appearance.PaddedSize
 import at.orchaldir.gm.visualization.plant.PlantRenderConfig
 import at.orchaldir.gm.visualization.plant.PlantRenderState
 import at.orchaldir.gm.visualization.plant.builder.PlantData
@@ -35,28 +36,28 @@ fun renderPlantTable(
     plants: List<List<PlantAppearance>>,
 ) {
     val numberGenerator = RandomNumberGenerator(Random(System.currentTimeMillis()))
-    val dataMap = mutableMapOf<PlantAppearance, PlantData>()
+    val dataMap = mutableMapOf<PlantAppearance, Pair<PlantData, PaddedSize>>()
     val size = plants.fold(MIN_SIZE) { rowSize, list ->
         list.fold(rowSize) { columnSize, plant ->
             val data = buildPlant(numberGenerator, plant)
-            val size = calculateSize(config, data) ?: MIN_SIZE
-            dataMap[plant] = data
+            val size = calculateSize(config, data) ?: PaddedSize(MIN_SIZE)
+            dataMap[plant] = Pair(data, size)
 
-            columnSize.max(size)
+            columnSize.max(size.getFullSize())
         }
     }
 
     renderTable(filename, size, plants) { renderAabb, renderer, plant ->
-        val data = dataMap[plant]!!
+        val (data, paddedSize) = dataMap[plant]!!
+        val innerAabb = paddedSize.getInnerAABB(renderAabb)
         val renderState = PlantRenderState(
             state,
-            renderAabb,
             PLANT_CONFIG,
             renderer,
         )
 
         renderer.getLayer().renderRectangle(renderAabb, BorderOnly(config.line))
 
-        visualizePlant(renderState, data, renderAabb.getPoint(HALF, END))
+        visualizePlant(renderState, data, innerAabb.getPoint(HALF, END))
     }
 }

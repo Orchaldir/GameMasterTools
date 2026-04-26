@@ -3,6 +3,7 @@ package at.orchaldir.gm.visualization.plant
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.Size2dCalculator
+import at.orchaldir.gm.visualization.character.appearance.PaddedSize
 import at.orchaldir.gm.visualization.plant.builder.PlantData
 import at.orchaldir.gm.visualization.plant.builder.SegmentData
 import at.orchaldir.gm.visualization.plant.builder.StemData
@@ -20,15 +21,15 @@ fun calculateSize(
 private fun calculateTreeSize(
     config: PlantRenderConfig,
     tree: TreeData,
-): Size2d {
+): PaddedSize {
     val calculator = Size2dCalculator()
 
     processStem(calculator, tree.trunk)
 
     val size = calculator.calculate()
-    val padding = size.maxSize() * config.padding * 2.0f
+    val padding = size.maxSize() * config.padding
 
-    return size + padding
+    return PaddedSize(size, padding)
 }
 
 private fun processStem(
