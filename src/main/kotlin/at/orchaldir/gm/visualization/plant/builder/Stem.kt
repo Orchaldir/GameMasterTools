@@ -42,12 +42,15 @@ private fun buildSegment(
     index: Int,
 ): SegmentData {
     val end = start.createPolar(stemLength / stem.segments, orientation)
-    val thickness = stem.thickness.calculate(stemLength, FULL * (index + 1) / stem.segments)
+    val nextIndex = index + 1
+    val thickness = stem.thickness.calculate(stemLength, FULL * nextIndex / stem.segments)
     val segments = mutableListOf<SegmentData>()
 
-    segments.add(
-        buildSegment(stem, stemLength, end, orientation, index+1)
-    )
+    if (nextIndex < stem.segments) {
+        segments.add(
+            buildSegment(stem, stemLength, end, orientation, nextIndex)
+        )
+    }
 
     return SegmentData(
         end,
