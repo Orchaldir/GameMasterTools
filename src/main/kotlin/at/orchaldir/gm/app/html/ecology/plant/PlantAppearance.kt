@@ -86,9 +86,12 @@ fun parsePlantAppearance(
     state: State,
     param: String = APPEARANCE,
 ) = when (parse(parameters, param, PlantAppearanceType.Undefined)) {
-    PlantAppearanceType.Tree -> Tree(
+    PlantAppearanceType.Tree -> UndefinedPlantAppearance
+    /*
+    Tree(
         parseOptionalMaterialId(parameters, combine(param, TREE, MATERIAL)),
     )
+    */
 
     PlantAppearanceType.Undefined -> UndefinedPlantAppearance
 }

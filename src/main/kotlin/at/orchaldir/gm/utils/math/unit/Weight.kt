@@ -60,6 +60,8 @@ value class Weight private constructor(private val milligrams: Long) : SiUnit<We
     operator fun div(factor: Float) = Weight((milligrams / factor).toLong())
     operator fun div(factor: Int) = Weight(milligrams / factor)
 
+    override fun compareTo(other: Weight) = milligrams.compareTo(other.milligrams)
+
     fun max(other: Weight) = if (milligrams >= other.milligrams) {
         this
     } else {
