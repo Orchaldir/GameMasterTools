@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.util.font.Font
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Polygon2d
+import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Orientation
 import at.orchaldir.gm.utils.renderer.LayerRenderer
@@ -16,6 +17,7 @@ import java.util.*
 val LOCALE: Locale = Locale.US
 
 open class SvgRenderer(
+    protected val size: Size2d,
     protected val fonts: MutableSet<Font>,
     protected val patterns: MutableMap<RenderFill, String>,
     protected val lines: MutableList<String>,
@@ -341,7 +343,7 @@ open class SvgRenderer(
     fun customTag(start: String, end: String, content: (SvgRenderer) -> Unit) {
         addLine(start)
 
-        content(SvgRenderer(fonts, patterns, lines, indent + step, step, tooltip))
+        content(SvgRenderer(size, fonts, patterns, lines, indent + step, step, tooltip))
 
         addLine(end)
     }

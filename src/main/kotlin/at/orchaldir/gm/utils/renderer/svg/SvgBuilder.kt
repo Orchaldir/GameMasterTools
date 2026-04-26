@@ -11,12 +11,17 @@ import at.orchaldir.gm.utils.renderer.model.*
 
 private val CLIPPING_PREFIX = "clip_"
 
-class SvgBuilder(private val size: Size2d) : AdvancedRenderer {
-    private val fonts: MutableSet<Font> = mutableSetOf()
-    private val clippings: MutableMap<String, Polygon2d> = mutableMapOf()
-    private val patterns: MutableMap<RenderFill, String> = mutableMapOf()
-    private val layers: MutableMap<Int, MutableList<String>> = mutableMapOf()
-    private val step: String = "  "
+data class SvgBuilder(
+    private val size: Size2d,
+    private val fonts: MutableSet<Font> = mutableSetOf(),
+    private val clippings: MutableMap<String, Polygon2d> = mutableMapOf(),
+    private val patterns: MutableMap<RenderFill, String> = mutableMapOf(),
+    private val layers: MutableMap<Int, MutableList<String>> = mutableMapOf(),
+    private val step: String = "  ",
+) : AdvancedRenderer {
+
+    private fun createRenderer(lines: MutableList<String>, tooltip: String? = null) =
+        SvgRenderer(size, fonts, patterns, lines, step, step, tooltip)
 
     fun finish(): Svg {
         val lines: MutableList<String> = mutableListOf()
@@ -27,7 +32,7 @@ class SvgBuilder(private val size: Size2d) : AdvancedRenderer {
             patterns.isNotEmpty()
         ) {
             val patternLines = mutableListOf<String>()
-            val renderer = SvgRenderer(fonts, patterns, patternLines, step, step)
+            val renderer = createRenderer(patternLines)
 
             renderer.tag("defs") { tag ->
                 clippings.forEach { (name, polygon) ->
@@ -57,9 +62,9 @@ class SvgBuilder(private val size: Size2d) : AdvancedRenderer {
 
     // layers
 
-    override fun getLayer(layer: Int) = SvgRenderer(fonts, patterns, layers.computeIfAbsent(layer) {
+    override fun getLayer(layer: Int) = createRenderer(layers.computeIfAbsent(layer) {
         mutableListOf()
-    }, step, step)
+    })
 
     // clippings
 
@@ -92,7 +97,7 @@ class SvgBuilder(private val size: Size2d) : AdvancedRenderer {
     // links
 
     override fun link(link: String, layerIndex: Int, content: (LayerRenderer) -> Unit) {
-        val layer = SvgRenderer(fonts, patterns, layers.computeIfAbsent(layerIndex) { mutableListOf() }, step, step)
+        val layer = createRenderer(layers.computeIfAbsent(layerIndex) { mutableListOf() })
 
         layer.tag("a", "href=\"%s\" target=\"_parent\"", link) {
             content(it)
@@ -100,15 +105,13 @@ class SvgBuilder(private val size: Size2d) : AdvancedRenderer {
     }
 
     override fun tooltip(text: String, layerIndex: Int, content: (LayerRenderer) -> Unit) {
-        val layer =
-            SvgRenderer(fonts, patterns, layers.computeIfAbsent(layerIndex) { mutableListOf() }, step, step, text)
+        val layer = createRenderer(layers.computeIfAbsent(layerIndex) { mutableListOf() }, text)
 
         content(layer)
     }
 
     override fun linkAndTooltip(link: String, tooltip: String, layerIndex: Int, content: (LayerRenderer) -> Unit) {
-        val layer =
-            SvgRenderer(fonts, patterns, layers.computeIfAbsent(layerIndex) { mutableListOf() }, step, step, tooltip)
+        val layer = createRenderer(layers.computeIfAbsent(layerIndex) { mutableListOf() }, tooltip)
 
         layer.tag("a", "href=\"%s\" target=\"_parent\"", link) {
             content(it)
