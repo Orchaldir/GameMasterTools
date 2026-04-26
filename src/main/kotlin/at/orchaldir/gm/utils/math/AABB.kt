@@ -58,6 +58,8 @@ data class AABB(val start: Point2d, val size: Size2d) {
     }
 
     fun getCenter() = start + size / TWO
+    fun getCenterX() = start.x + size.width / 2.0f
+    fun getCenterY() = start.y + size.height / 2.0f
 
     fun getEnd() = start + size
 
@@ -100,22 +102,21 @@ data class AABB(val start: Point2d, val size: Size2d) {
     }
 
     fun mirrorHorizontally(polygon: Polygon2d): Polygon2d {
-        val mirrorY = start.y + size.height / 2.0f
+        val center = getCenterY()
 
-        return Polygon2d(polygon.corners.map { Point2d(it.x, mirrorY * 2.0f - it.y) })
+        return Polygon2d(polygon.corners.map { Point2d(it.x, mirror(center, it.y)) })
     }
 
     fun mirrorVertically(polygon: Polygon2d): Polygon2d {
-        val mirrorX = start.x + size.width / 2.0f
+        val center = getCenterX()
 
-        return Polygon2d(polygon.corners.map { Point2d(mirrorX * 2.0f - it.x, it.y) })
+        return Polygon2d(polygon.corners.map { mirrorVertically(center, it) })
     }
 
-    fun mirrorVertically(point: Point2d): Point2d {
-        val mirrorX = start.x + size.width / 2.0f
+    fun mirrorVertically(point: Point2d) = mirrorVertically(getCenterX(), point)
 
-        return Point2d(mirrorX * 2.0f - point.x, point.y)
-    }
+    private fun mirrorVertically(center: Distance, point: Point2d) =
+        Point2d(mirror(center, point.x), point.y)
 
     operator fun plus(offset: Point2d) = AABB(start + offset, size)
 
@@ -219,6 +220,8 @@ data class AABB(val start: Point2d, val size: Size2d) {
 
     fun createSubAabb(horizontal: Factor, vertical: Factor, width: Factor, height: Factor) =
         fromWidthAndHeight(getPoint(horizontal, vertical), convertWidth(width), convertHeight(height))
+
+    fun createSubAabb(size: Size2d) = fromCenter(getCenter(), size)
 }
 
 /**
@@ -230,3 +233,8 @@ fun getStartX(width: Factor) = fromNumber(0.5f - width.toNumber() / 2.0f)
  * Returns the start x coordinated, if the width is centered.
  */
 fun getEndX(width: Factor) = fromNumber(0.5f + width.toNumber() / 2.0f)
+
+/**
+ * Mirrors the value around the center
+ */
+fun mirror(center: Distance, value: Distance) = center * 2.0f - value

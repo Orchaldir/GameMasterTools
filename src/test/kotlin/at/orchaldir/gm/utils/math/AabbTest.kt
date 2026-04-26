@@ -2,6 +2,7 @@ package at.orchaldir.gm.utils.math
 
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
+import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
@@ -44,12 +45,24 @@ class AabbTest {
         assertEquals(Point2d.fromMeters(17, 18), point)
     }
 
-    @Test
-    fun `Get mirrored points inside AABB`() {
-        val (left, right) = aabb.getMirroredPoints(fromPercentage(50), fromPercentage(25))
+    @Nested
+    inner class MirrorTest {
+        private val desiredLeft = Point2d.fromMeters(9.5f, 18.0f)
+        private val desiredRight = Point2d.fromMeters(24.5f, 18.0f)
 
-        assertEquals(Point2d.fromMeters(9.5f, 18.0f), left)
-        assertEquals(Point2d.fromMeters(24.5f, 18.0f), right)
+        @Test
+        fun `Get mirrored points inside AABB`() {
+            val (left, right) = aabb.getMirroredPoints(fromPercentage(50), fromPercentage(25))
+
+            assertEquals(desiredLeft, left)
+            assertEquals(desiredRight, right)
+        }
+
+        @Test
+        fun `Mirror a point vertically`() {
+            assertEquals(desiredLeft, aabb.mirrorVertically(desiredRight))
+            assertEquals(desiredRight, aabb.mirrorVertically(desiredLeft))
+        }
     }
 
     @Test

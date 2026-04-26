@@ -36,8 +36,9 @@ fun renderCharacterTable(
         }
     }
 
-    renderTable(filename, size, appearances) { aabb, renderer, appearance ->
-        val renderState = CharacterRenderState(state, appearance, aabb, config, renderer, true, EquipmentMap())
+    renderTable(filename, size, appearances) { renderAabb, renderer, appearance ->
+        val fullAabb = paddedSizeMap[appearance]!!.getInnerAABB(renderAabb)
+        val renderState = CharacterRenderState(state, appearance, fullAabb, config, renderer, true, EquipmentMap())
 
         visualizeAppearance(renderState)
     }
@@ -140,9 +141,10 @@ fun <C, R> renderCharacterTable(
         }
     }
 
-    renderTable(filename, maxSize, rows, columns, backToo) { aabb, renderer, renderFront, column, row ->
-        val (appearance, equipment, _) = dataMap.getValue(Pair(row, column))
-        val renderState = CharacterRenderState(state, appearance, aabb, config, renderer, renderFront, equipment)
+    renderTable(filename, maxSize, rows, columns, backToo) { renderAabb, renderer, renderFront, column, row ->
+        val (appearance, equipment, paddedSize) = dataMap.getValue(Pair(row, column))
+        val fullAabb = paddedSize.getInnerAABB(renderAabb)
+        val renderState = CharacterRenderState(state, appearance, fullAabb, config, renderer, renderFront, equipment)
 
         visualizeAppearance(renderState)
     }
