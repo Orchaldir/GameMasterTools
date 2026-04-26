@@ -23,6 +23,9 @@ data class SvgBuilder(
     private fun createRenderer(lines: MutableList<String>, tooltip: String? = null) =
         SvgRenderer(size, fonts, patterns, lines, step, step, tooltip)
 
+    private fun createRenderer(layerIndex: Int, tooltip: String? = null) =
+        createRenderer(layers.computeIfAbsent(layerIndex) { mutableListOf() }, tooltip)
+
     fun finish(): Svg {
         val lines: MutableList<String> = mutableListOf()
         lines.add(getStartLine())
@@ -97,7 +100,7 @@ data class SvgBuilder(
     // links
 
     override fun link(link: String, layerIndex: Int, content: (LayerRenderer) -> Unit) {
-        val layer = createRenderer(layers.computeIfAbsent(layerIndex) { mutableListOf() })
+        val layer = createRenderer(layerIndex)
 
         layer.tag("a", "href=\"%s\" target=\"_parent\"", link) {
             content(it)
@@ -105,13 +108,13 @@ data class SvgBuilder(
     }
 
     override fun tooltip(text: String, layerIndex: Int, content: (LayerRenderer) -> Unit) {
-        val layer = createRenderer(layers.computeIfAbsent(layerIndex) { mutableListOf() }, text)
+        val layer = createRenderer(layerIndex, text)
 
         content(layer)
     }
 
     override fun linkAndTooltip(link: String, tooltip: String, layerIndex: Int, content: (LayerRenderer) -> Unit) {
-        val layer = createRenderer(layers.computeIfAbsent(layerIndex) { mutableListOf() }, tooltip)
+        val layer = createRenderer(layerIndex, tooltip)
 
         layer.tag("a", "href=\"%s\" target=\"_parent\"", link) {
             content(it)
