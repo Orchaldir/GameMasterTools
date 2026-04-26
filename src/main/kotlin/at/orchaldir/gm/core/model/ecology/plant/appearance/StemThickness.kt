@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.ZERO
+import at.orchaldir.gm.utils.math.unit.Distance
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -21,6 +22,10 @@ sealed class StemThickness {
         is LinearStemThickness -> StemThicknessType.Linear
     }
 
+    fun calculate(length: Distance, position: Factor) = when (this) {
+        is ConstantStemThickness -> length * relativeToLength
+        is LinearStemThickness -> length * start.interpolate(end, position)
+    }
 }
 
 @Serializable
@@ -38,7 +43,7 @@ data class LinearStemThickness(
      */
     val start: Factor,
     /*
-     * The thickness at the end of the stem relative to the start.
+     * The thickness at the end of the stem relative to the length of the stem.
      */
     val end: Factor = ZERO,
     val hasRoundedEnd: Boolean = false,
