@@ -20,14 +20,14 @@ import at.orchaldir.gm.visualization.character.equipment.HelmetConfig
 
 class PaddedSize(
     val baseSize: Size2d,
-    var universial: Distance = ZERO_DISTANCE,
+    var universal: Distance = ZERO_DISTANCE,
     var top: Distance = ZERO_DISTANCE,
     var bottom: Distance = ZERO_DISTANCE,
     var left: Distance = ZERO_DISTANCE,
     var right: Distance = ZERO_DISTANCE,
 ) {
-    fun addUniversial(padding: Distance) {
-        universial += padding
+    fun addUniversal(padding: Distance) {
+        universal += padding
     }
 
     fun addToSide(padding: Distance) {
@@ -44,7 +44,7 @@ class PaddedSize(
         addToSide(padding)
     }
 
-    fun getInnerAABB() = AABB(Point2d(universial + left, universial + top), baseSize)
+    fun getInnerAABB() = AABB(Point2d(universal + left, universal + top), baseSize)
     fun getInnerAABB(full: Size2d) = AABB(
         Point2d(
             (full.width - baseSize.width) / 2,
@@ -52,10 +52,11 @@ class PaddedSize(
         ),
         baseSize,
     )
+    fun getInnerAABB(full: AABB) = full.createSubAabb(baseSize)
 
     fun getFullSize() = baseSize
         .addWidth(left + right)
-        .addHeight(top + bottom) + universial * 2.0f
+        .addHeight(top + bottom) + universal * 2.0f
 }
 
 fun calculatePaddedSize(
@@ -79,7 +80,7 @@ fun calculatePaddedSize(
         UndefinedAppearance -> PaddedSize(Size2d.square(config.padding * 2.0f))
     }
 
-    padded.addUniversial(config.padding)
+    padded.addUniversal(config.padding)
 
     return padded
 }

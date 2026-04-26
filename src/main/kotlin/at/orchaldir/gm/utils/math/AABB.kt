@@ -220,6 +220,8 @@ data class AABB(val start: Point2d, val size: Size2d) {
 
     fun createSubAabb(horizontal: Factor, vertical: Factor, width: Factor, height: Factor) =
         fromWidthAndHeight(getPoint(horizontal, vertical), convertWidth(width), convertHeight(height))
+
+    fun createSubAabb(size: Size2d) = fromCenter(getCenter(), size)
 }
 
 /**
