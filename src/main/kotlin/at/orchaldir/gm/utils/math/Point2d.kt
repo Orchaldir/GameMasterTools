@@ -84,4 +84,7 @@ data class Point2d(val x: Distance = ZERO_DISTANCE, val y: Distance = ZERO_DISTA
     operator fun div(factor: Float) = Point2d(x / factor, y / factor)
     operator fun div(factor: Factor) = div(factor.toNumber())
     operator fun div(distance: Distance) = div(distance.toMeters())
+
+    fun max(other: Point2d) = Point2d(x.max(other.x), y.max(other.y))
+    fun min(other: Point2d) = Point2d(x.min(other.x), y.min(other.y))
 }
