@@ -15,18 +15,20 @@ fun buildTrunk(
 ): StemData {
     val length = trunk.length.center
 
-    return buildStem(trunk.stem, position, length)
+    return buildStem(trunk.stem, position, fromDegrees(90), length)
 }
 
 fun buildStem(
     stem: Stem,
     position: Point2d,
+    orientation: Orientation,
     length: Distance,
 ): StemData {
-    val segment = buildSegment(stem, length, position, fromDegrees(90), 0)
+    val segment = buildSegment(stem, length, position, orientation, 0)
 
     return StemData(
         position,
+        orientation,
         stem.thickness.calculate(length, ZERO),
         segment,
     )
@@ -49,6 +51,7 @@ private fun buildSegment(
 
     return SegmentData(
         end,
+        orientation,
         thickness,
         segments,
     )
