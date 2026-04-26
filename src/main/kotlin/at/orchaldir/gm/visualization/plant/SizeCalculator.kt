@@ -25,7 +25,10 @@ private fun calculateTreeSize(
 
     processStem(calculator, tree.trunk)
 
-    return calculator.calculate() * (FULL + config.padding * 2.0f)
+    val size = calculator.calculate()
+    val padding = size.maxSize() * config.padding * 2.0f
+
+    return size + padding
 }
 
 private fun processStem(

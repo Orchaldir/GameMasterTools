@@ -11,6 +11,7 @@ import at.orchaldir.gm.utils.math.HALF
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromCentimeters
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMicrometers
+import at.orchaldir.gm.utils.renderer.model.BorderOnly
 import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.visualization.plant.PlantRenderConfig
 import at.orchaldir.gm.visualization.plant.PlantRenderState
@@ -24,7 +25,7 @@ private val MIN_SIZE = Size2d.square(fromCentimeters(1))
 
 val PLANT_CONFIG = PlantRenderConfig(
     LineOptions(Color.Black.toRender(), fromMicrometers(200)),
-    fromPercentage(200),
+    fromPercentage(20),
 )
 
 fun renderPlantTable(
@@ -53,6 +54,8 @@ fun renderPlantTable(
             PLANT_CONFIG,
             renderer,
         )
+
+        renderer.getLayer().renderRectangle(renderAabb, BorderOnly(config.line))
 
         visualizePlant(renderState, data, renderAabb.getPoint(HALF, END))
     }
