@@ -32,7 +32,10 @@ private fun processStem(
     calculator: Size2dCalculator,
     stem: StemData,
 ) {
-    calculator.process(stem.start)
+    val (left, right) = stem.start.createLeftAndRightPoint(stem.segment.orientation, stem.thickness)
+
+    calculator.process(left)
+    calculator.process(right)
 
     processSegment(calculator, stem.segment)
 }

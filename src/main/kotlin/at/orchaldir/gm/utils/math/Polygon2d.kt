@@ -54,8 +54,7 @@ data class Polygon2dBuilder(
         halfWidth: Distance,
         isSharp: Boolean = false,
     ): Polygon2dBuilder {
-        val right = center.createPolar(halfWidth, orientation - QUARTER_CIRCLE)
-        val left = center.createPolar(halfWidth, orientation + QUARTER_CIRCLE)
+        val (left, right) = center.createLeftAndRightPoint(orientation, halfWidth)
 
         return addPoints(left, right, isSharp)
     }

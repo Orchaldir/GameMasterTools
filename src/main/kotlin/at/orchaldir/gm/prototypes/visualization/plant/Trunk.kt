@@ -11,16 +11,27 @@ import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Distribution
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.ecology.plant.appearance.CurvedStem
+import at.orchaldir.gm.core.model.ecology.plant.appearance.StraightStem
 import at.orchaldir.gm.utils.math.unit.Orientation.Companion.fromDegrees
 
 fun main() {
     val height = Distance.fromMeters(1)
+    val thickness = LinearStemThickness(fromPercentage(5))
+    val straightTrunk = Trunk(
+        Distribution(height),
+        Stem(
+            3,
+            StraightStem,
+            thickness,
+        ),
+        Color.SaddleBrown,
+    )
     val curvedTrunk = Trunk(
         Distribution(height),
         Stem(
 3,
             CurvedStem(Variance(fromDegrees(20), fromDegrees(20))),
-            LinearStemThickness(fromPercentage(5)),
+            thickness,
         ),
         Color.SaddleBrown,
     )
@@ -30,6 +41,7 @@ fun main() {
         "tree-trunk.svg",
         PLANT_CONFIG,
         listOf(listOf(
+            Tree(straightTrunk),
             Tree(curvedTrunk),
         )),
     )

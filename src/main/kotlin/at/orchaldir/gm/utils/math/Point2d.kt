@@ -2,6 +2,7 @@ package at.orchaldir.gm.utils.math
 
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Orientation
+import at.orchaldir.gm.utils.math.unit.QUARTER_CIRCLE
 import at.orchaldir.gm.utils.math.unit.ZERO_DISTANCE
 import kotlinx.serialization.Serializable
 import kotlin.math.atan2
@@ -39,6 +40,16 @@ data class Point2d(val x: Distance = ZERO_DISTANCE, val y: Distance = ZERO_DISTA
         x + distance * orientation.cos(),
         y + distance * orientation.sin(),
     )
+
+    fun createLeftAndRightPoint(
+        orientation: Orientation,
+        halfWidth: Distance,
+    ): Pair<Point2d, Point2d> {
+        val right = createPolar(halfWidth, orientation - QUARTER_CIRCLE)
+        val left = createPolar(halfWidth, orientation + QUARTER_CIRCLE)
+
+        return Pair(left, right)
+    }
 
     fun length() = Distance.fromMeters(hypot(x.toMeters(), y.toMeters()))
     fun calculateDistance(other: Point2d) = minus(other).length()
