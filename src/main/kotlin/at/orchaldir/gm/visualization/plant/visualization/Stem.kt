@@ -10,7 +10,7 @@ fun createStemPolygon(
 ): Polygon2d {
     val builder = Polygon2dBuilder()
 
-    builder.addLeftAndRightPoint(stem.start, stem.segment.orientation, stem.thickness / 2)
+    builder.addLeftAndRightPoint(stem.start, stem.segment.orientation, stem.thickness / 2, true)
 
     addSegment(builder, stem.segment)
 

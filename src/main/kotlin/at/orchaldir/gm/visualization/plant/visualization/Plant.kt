@@ -25,6 +25,6 @@ fun visualizeTree(
     val trunk = createStemPolygon(tree.trunk)
 
     state.renderer.createGroup(position) { renderer ->
-        renderer.renderPolygon(trunk, options)
+        renderer.renderRoundedPolygon(trunk, options)
     }
 }
