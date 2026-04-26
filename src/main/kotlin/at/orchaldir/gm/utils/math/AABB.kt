@@ -23,7 +23,7 @@ data class AABB(val start: Point2d, val size: Size2d) {
 
     companion object {
         fun fromBottom(bottom: Point2d, size: Size2d) = fromCenter(
-            bottom.addHeight(size.height / 2), size
+            bottom.minusHeight(size.height / 2), size
         )
 
         fun fromCenter(center: Point2d, size: Size2d) = AABB(
@@ -33,7 +33,7 @@ data class AABB(val start: Point2d, val size: Size2d) {
         fun fromCenter(center: Point2d, size: Distance) = fromWidthAndHeight(center, size, size)
 
         fun fromTop(top: Point2d, size: Size2d) = fromCenter(
-            top.minusHeight(size.height / 2), size
+            top.addHeight(size.height / 2), size
         )
 
         fun fromCorners(start: Point2d, end: Point2d): AABB {

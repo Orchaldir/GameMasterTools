@@ -21,7 +21,7 @@ data class SvgBuilder(
 ) : AdvancedRenderer {
 
     private fun createRenderer(lines: MutableList<String>, tooltip: String? = null) =
-        SvgRenderer(size, fonts, patterns, lines, step, step, tooltip)
+        SvgRenderer(fonts, patterns, lines, step, step, tooltip)
 
     private fun createRenderer(layerIndex: Int, tooltip: String? = null) =
         createRenderer(layers.computeIfAbsent(layerIndex) { mutableListOf() }, tooltip)

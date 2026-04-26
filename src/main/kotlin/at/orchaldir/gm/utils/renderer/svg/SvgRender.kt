@@ -17,7 +17,6 @@ import java.util.*
 val LOCALE: Locale = Locale.US
 
 open class SvgRenderer(
-    protected val size: Size2d,
     protected val fonts: MutableSet<Font>,
     protected val patterns: MutableMap<RenderFill, String>,
     protected val lines: MutableList<String>,
@@ -343,7 +342,7 @@ open class SvgRenderer(
     fun customTag(start: String, end: String, content: (SvgRenderer) -> Unit) {
         addLine(start)
 
-        content(SvgRenderer(size, fonts, patterns, lines, indent + step, step, tooltip))
+        content(SvgRenderer(fonts, patterns, lines, indent + step, step, tooltip))
 
         addLine(end)
     }
