@@ -23,7 +23,7 @@ data class AABB(val start: Point2d, val size: Size2d) {
 
     companion object {
         fun fromBottom(bottom: Point2d, size: Size2d) = fromCenter(
-            bottom.minusHeight(size.height / 2), size
+            bottom.addHeight(size.height / 2), size
         )
 
         fun fromCenter(center: Point2d, size: Size2d) = AABB(
@@ -33,7 +33,7 @@ data class AABB(val start: Point2d, val size: Size2d) {
         fun fromCenter(center: Point2d, size: Distance) = fromWidthAndHeight(center, size, size)
 
         fun fromTop(top: Point2d, size: Size2d) = fromCenter(
-            top.addHeight(size.height / 2), size
+            top.minusHeight(size.height / 2), size
         )
 
         fun fromCorners(start: Point2d, end: Point2d): AABB {
@@ -58,6 +58,8 @@ data class AABB(val start: Point2d, val size: Size2d) {
     }
 
     fun getCenter() = start + size / TWO
+    fun getCenterX() = start.x + size.width / 2.0f
+    fun getCenterY() = start.y + size.height / 2.0f
 
     fun getEnd() = start + size
 
@@ -100,19 +102,19 @@ data class AABB(val start: Point2d, val size: Size2d) {
     }
 
     fun mirrorHorizontally(polygon: Polygon2d): Polygon2d {
-        val mirrorY = start.y + size.height / 2.0f
+        val mirrorY = getCenterY()
 
         return Polygon2d(polygon.corners.map { Point2d(it.x, mirrorY * 2.0f - it.y) })
     }
 
     fun mirrorVertically(polygon: Polygon2d): Polygon2d {
-        val mirrorX = start.x + size.width / 2.0f
+        val mirrorX = getCenterX()
 
         return Polygon2d(polygon.corners.map { Point2d(mirrorX * 2.0f - it.x, it.y) })
     }
 
     fun mirrorVertically(point: Point2d): Point2d {
-        val mirrorX = start.x + size.width / 2.0f
+        val mirrorX = getCenterX()
 
         return Point2d(mirrorX * 2.0f - point.x, point.y)
     }
