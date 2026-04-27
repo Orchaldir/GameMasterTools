@@ -22,15 +22,45 @@ private fun addSegment(
     segment: SegmentData,
 ) {
     if (segment.next.isEmpty()) {
-        builder.addLeftAndRightPoint(segment.end, segment.orientation, segment.thickness / 2)
+        val (left, right) = segment.end.createLeftAndRightPoint(segment.orientation, segment.thickness / 2)
+
+        builder.addPoint(left)
+        builder.addPoint(right)
     } else if (segment.next.size == 1) {
         val next = segment.next[0]
         val before = segment.end.createPolar(-segment.thickness, segment.orientation)
         val after = segment.end.createPolar(segment.thickness, next.orientation)
+        val (beforeLeft, beforeRight) = before.createLeftAndRightPoint(segment.orientation, segment.thickness / 2)
+        val (afterLeft, afterRight) = after.createLeftAndRightPoint(next.orientation, segment.thickness / 2)
 
-        builder.addLeftAndRightPoint(before, segment.orientation, segment.thickness / 2)
-        builder.addLeftAndRightPoint(after, next.orientation, segment.thickness / 2)
+
+        builder.addPoint(beforeLeft)
+        builder.addPoint(afterLeft)
 
         addSegment(builder, next)
+
+        builder.addPoint(afterRight)
+        builder.addPoint(beforeRight)
+    } else if (segment.next.size == 2) {
+        val next0 = segment.next[0]
+        val next1 = segment.next[1]
+        val before = segment.end.createPolar(-segment.thickness, segment.orientation)
+        val after0 = segment.end.createPolar(segment.thickness, next0.orientation)
+        val after1 = segment.end.createPolar(segment.thickness, next1.orientation)
+        val (beforeLeft, beforeRight) = before.createLeftAndRightPoint(segment.orientation, segment.thickness / 2)
+        val (afterLeft0, afterRight0) = after0.createLeftAndRightPoint(next0.orientation, segment.thickness / 2)
+        val (afterLeft1, afterRight1) = after1.createLeftAndRightPoint(next1.orientation, segment.thickness / 2)
+
+        builder.addPoint(beforeLeft)
+        builder.addPoint(afterLeft0)
+
+        addSegment(builder, next0)
+
+        builder.addPoint(afterRight0.calculateMiddle(afterLeft1))
+
+        addSegment(builder, next1)
+
+        builder.addPoint(afterRight1)
+        builder.addPoint(beforeRight)
     }
 }

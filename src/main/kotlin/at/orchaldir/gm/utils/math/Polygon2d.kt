@@ -71,6 +71,8 @@ data class Polygon2dBuilder(
         return this
     }
 
+    fun addPoint(point: Point2d, isSharp: Boolean = false) = addLeftPoint(point, isSharp)
+
     fun addLeftPoint(aabb: AABB, horizontal: Factor, vertical: Factor, isSharp: Boolean = false) =
         addLeftPoint(aabb.getPoint(horizontal, vertical), isSharp)
 

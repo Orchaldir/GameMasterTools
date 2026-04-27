@@ -67,8 +67,8 @@ sealed class StemSplitting {
     ) = when (count) {
         1 -> noSplits(orientation)
         2 -> listOf(
-            orientation - angle.generate(numberGenerator),
             orientation + angle.generate(numberGenerator),
+            orientation - angle.generate(numberGenerator),
         )
         else -> error("$count splits is not supported by StemSplitting!")
     }
