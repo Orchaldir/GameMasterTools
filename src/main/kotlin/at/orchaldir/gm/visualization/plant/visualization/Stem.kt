@@ -56,7 +56,12 @@ private fun addSegment(
 
         addSegment(builder, next0)
 
-        builder.addPoint(afterRight0.calculateMiddle(afterLeft1))
+        if (after0.calculateDistance(afterLeft1) < segment.thickness / 2) {
+            builder.addPoint(afterRight0.calculateMiddle(afterLeft1))
+        } else {
+            builder.addPoint(afterRight0)
+            builder.addPoint(afterLeft1)
+        }
 
         addSegment(builder, next1)
 
