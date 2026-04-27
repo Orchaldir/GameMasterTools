@@ -24,8 +24,13 @@ private fun addSegment(
     if (segment.next.isEmpty()) {
         builder.addLeftAndRightPoint(segment.end, segment.orientation, segment.thickness / 2)
     } else if (segment.next.size == 1) {
-        builder.addLeftAndRightPoint(segment.end, segment.orientation, segment.thickness / 2)
+        val next = segment.next[0]
+        val before = segment.end.createPolar(-segment.thickness, segment.orientation)
+        val after = segment.end.createPolar(segment.thickness, next.orientation)
 
-        addSegment(builder, segment.next[0])
+        builder.addLeftAndRightPoint(before, segment.orientation, segment.thickness / 2)
+        builder.addLeftAndRightPoint(after, next.orientation, segment.thickness / 2)
+
+        addSegment(builder, next)
     }
 }
