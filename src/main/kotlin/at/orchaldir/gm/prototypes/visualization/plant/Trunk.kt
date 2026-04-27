@@ -10,9 +10,12 @@ import at.orchaldir.gm.utils.math.Variance
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Distribution
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.ecology.plant.appearance.BaseSplitting
 import at.orchaldir.gm.core.model.ecology.plant.appearance.CurvedStem
 import at.orchaldir.gm.core.model.ecology.plant.appearance.StraightStem
+import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.unit.Orientation.Companion.fromDegrees
+import io.ktor.http.invoke
 
 fun main() {
     val height = Distance.fromMeters(1)
@@ -29,9 +32,19 @@ fun main() {
     val curvedTrunk = Trunk(
         Distribution(height),
         Stem(
-3,
+            3,
             CurvedStem(Variance(fromDegrees(20), fromDegrees(20))),
             thickness,
+        ),
+        Color.SaddleBrown,
+    )
+    val baseSplit = Trunk(
+        Distribution(height),
+        Stem(
+            3,
+            StraightStem,
+            thickness,
+            BaseSplitting(FULL, Variance(fromDegrees(30))),
         ),
         Color.SaddleBrown,
     )
@@ -43,6 +56,7 @@ fun main() {
         listOf(listOf(
             Tree(straightTrunk),
             Tree(curvedTrunk),
+            Tree(baseSplit),
         )),
     )
 }

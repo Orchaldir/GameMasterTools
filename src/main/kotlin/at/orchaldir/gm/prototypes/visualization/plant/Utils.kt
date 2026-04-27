@@ -10,7 +10,7 @@ import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.HALF
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromCentimeters
-import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMicrometers
+import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 import at.orchaldir.gm.utils.renderer.model.BorderOnly
 import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.visualization.character.appearance.PaddedSize
@@ -25,7 +25,7 @@ import kotlin.random.Random
 private val MIN_SIZE = Size2d.square(fromCentimeters(1))
 
 val PLANT_CONFIG = PlantRenderConfig(
-    LineOptions(Color.Black.toRender(), fromMicrometers(200)),
+    LineOptions(Color.Black.toRender(), fromMillimeters(5)),
     fromPercentage(20),
 )
 
