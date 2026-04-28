@@ -12,8 +12,10 @@ import at.orchaldir.gm.utils.math.unit.Distribution
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.ecology.plant.appearance.BaseSplitting
 import at.orchaldir.gm.core.model.ecology.plant.appearance.CurvedStem
+import at.orchaldir.gm.core.model.ecology.plant.appearance.SegmentSplitting
 import at.orchaldir.gm.core.model.ecology.plant.appearance.StraightStem
 import at.orchaldir.gm.utils.math.FULL
+import at.orchaldir.gm.utils.math.THREE_QUARTER
 import at.orchaldir.gm.utils.math.unit.Orientation.Companion.fromDegrees
 import io.ktor.http.invoke
 
@@ -48,6 +50,16 @@ fun main() {
         ),
         Color.SaddleBrown,
     )
+    val segmentSplit = Trunk(
+        Distribution(height),
+        Stem(
+            3,
+            StraightStem,
+            thickness,
+            SegmentSplitting(THREE_QUARTER, Variance(fromDegrees(30))),
+        ),
+        Color.SaddleBrown,
+    )
 
     renderPlantTable(
         State(),
@@ -57,6 +69,7 @@ fun main() {
             Tree(straightTrunk),
             Tree(curvedTrunk),
             Tree(baseSplit),
+            Tree(segmentSplit),
         )),
     )
 }
