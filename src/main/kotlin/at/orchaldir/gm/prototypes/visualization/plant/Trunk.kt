@@ -12,65 +12,40 @@ import at.orchaldir.gm.utils.math.unit.Distribution
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.ecology.plant.appearance.BaseSplitting
 import at.orchaldir.gm.core.model.ecology.plant.appearance.CurvedStem
+import at.orchaldir.gm.core.model.ecology.plant.appearance.NoStemSplitting
 import at.orchaldir.gm.core.model.ecology.plant.appearance.SegmentSplitting
+import at.orchaldir.gm.core.model.ecology.plant.appearance.StemShape
+import at.orchaldir.gm.core.model.ecology.plant.appearance.StemSplitting
 import at.orchaldir.gm.core.model.ecology.plant.appearance.StraightStem
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.THREE_QUARTER
 import at.orchaldir.gm.utils.math.unit.Orientation.Companion.fromDegrees
-import io.ktor.http.invoke
 
 fun main() {
-    val height = Distance.fromMeters(1)
-    val thickness = LinearStemThickness(fromPercentage(5))
-    val straightTrunk = Trunk(
-        Distribution(height),
-        Stem(
-            3,
-            StraightStem,
-            thickness,
-        ),
-        Color.SaddleBrown,
-    )
-    val curvedTrunk = Trunk(
-        Distribution(height),
-        Stem(
-            3,
-            CurvedStem(Variance(fromDegrees(20), fromDegrees(20))),
-            thickness,
-        ),
-        Color.SaddleBrown,
-    )
-    val baseSplit = Trunk(
-        Distribution(height),
-        Stem(
-            3,
-            StraightStem,
-            thickness,
-            BaseSplitting(FULL, Variance(fromDegrees(30))),
-        ),
-        Color.SaddleBrown,
-    )
-    val segmentSplit = Trunk(
-        Distribution(height),
-        Stem(
-            3,
-            StraightStem,
-            thickness,
-            SegmentSplitting(THREE_QUARTER, Variance(fromDegrees(30))),
-        ),
-        Color.SaddleBrown,
-    )
+    val baseSplitting = BaseSplitting(FULL, Variance(fromDegrees(30)))
+    val segmentSplitting = SegmentSplitting(THREE_QUARTER, Variance(fromDegrees(30)))
 
     renderPlantTable(
         State(),
         "tree-trunk.svg",
         PLANT_CONFIG,
         listOf(listOf(
-            Tree(straightTrunk),
-            Tree(curvedTrunk),
-            Tree(baseSplit),
-            Tree(segmentSplit),
+            createTree(StraightStem),
+            createTree(CurvedStem(Variance(fromDegrees(20), fromDegrees(20)))),
+            createTree(StraightStem, baseSplitting),
+            createTree(StraightStem, segmentSplitting),
         )),
     )
 }
+
+fun createTree(shape: StemShape, splitting: StemSplitting = NoStemSplitting) = Tree(Trunk(
+    Distribution(Distance.fromMeters(1)),
+    Stem(
+        3,
+        shape,
+        LinearStemThickness(fromPercentage(5)),
+        splitting,
+    ),
+    Color.SaddleBrown,
+))
 
