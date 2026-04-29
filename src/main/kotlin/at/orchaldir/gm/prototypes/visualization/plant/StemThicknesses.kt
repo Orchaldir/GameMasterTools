@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.ecology.plant.Tree
 import at.orchaldir.gm.core.model.ecology.plant.appearance.*
 import at.orchaldir.gm.core.model.util.render.Color
+import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.THREE_QUARTER
@@ -17,22 +18,25 @@ fun main() {
         State(),
         "stem-thicknesses.svg",
         PLANT_CONFIG,
+        addNames(StemThicknessType.entries),
         listOf(
-            listOf(
-                createTree(ConstantStemThickness(fromPercentage(5))),
-                createTree(LinearStemThickness(fromPercentage(5))),
-            )
+            Pair("Rounded", true),
+            Pair("Sharp", false),
         ),
+        ::createTree,
     )
 }
 
-private fun createTree(thickness: StemThickness) = Tree(
+private fun createTree(hasRoundedEnd:Boolean, type: StemThicknessType) = Tree(
     Trunk(
         Distribution(Distance.fromMeters(1)),
         Stem(
             3,
             CurvedStem(Variance(fromDegrees(30))),
-            thickness,
+            when (type) {
+                StemThicknessType.Constant -> ConstantStemThickness(fromPercentage(5))
+                StemThicknessType.Linear -> LinearStemThickness(fromPercentage(5))
+            },
             NoStemSplitting,
         ),
         Color.SaddleBrown,

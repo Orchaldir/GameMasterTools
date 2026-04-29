@@ -29,6 +29,40 @@ val PLANT_CONFIG = PlantRenderConfig(
     fromPercentage(20),
 )
 
+fun <C, R> renderPlantTable(
+    state: State,
+    filename: String,
+    config: PlantRenderConfig,
+    rows: List<Pair<String, R>>,
+    columns: List<Pair<String, C>>,
+    create: (C, R) -> PlantAppearance,
+) {
+    val numberGenerator = RandomNumberGenerator(Random(System.currentTimeMillis()))
+    val dataMap = mutableMapOf<Pair<R, C>, Pair<PlantData, PaddedSize>>()
+    val maxSize = rows.fold(MIN_SIZE) { rowSize, (_, row) ->
+        columns.fold(rowSize) { columnSize, (_, column) ->
+            val plant = create(column, row)
+            val data = buildPlant(numberGenerator, plant)
+            val size = calculateSize(config, data) ?: PaddedSize(MIN_SIZE)
+            dataMap[Pair(row, column)] = Pair(data, size)
+
+            columnSize.max(size.getFullSize())
+        }
+    }
+
+    renderTable(filename, maxSize, rows, columns, false) { renderAabb, renderer, renderFront, column, row ->
+        val (data, paddedSize) = dataMap.getValue(Pair(row, column))
+        val innerAabb = paddedSize.getInnerAABB(renderAabb)
+        val renderState = PlantRenderState(
+            state,
+            PLANT_CONFIG,
+            renderer,
+        )
+
+        visualizePlant(renderState, data, innerAabb.getPoint(HALF, END))
+    }
+}
+
 fun renderPlantTable(
     state: State,
     filename: String,
