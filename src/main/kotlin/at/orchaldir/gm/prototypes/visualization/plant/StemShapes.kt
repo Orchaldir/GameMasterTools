@@ -19,7 +19,7 @@ fun main() {
 
     renderPlantTable(
         State(),
-        "tree-trunk.svg",
+        "stem-shapes.svg",
         PLANT_CONFIG,
         listOf(
             listOf(
