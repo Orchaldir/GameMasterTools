@@ -13,33 +13,27 @@ import at.orchaldir.gm.utils.math.unit.Distribution
 import at.orchaldir.gm.utils.math.unit.Orientation.Companion.fromDegrees
 
 fun main() {
-    val curvedStem = CurvedStem(Variance(fromDegrees(20), fromDegrees(20)))
-    val baseSplitting = BaseSplitting(FULL, Variance(fromDegrees(30)))
-    val segmentSplitting = SegmentSplitting(THREE_QUARTER, Variance(fromDegrees(30)))
-
     renderPlantTable(
         State(),
-        "stem-shapes.svg",
+        "stem-thicknesses.svg",
         PLANT_CONFIG,
         listOf(
             listOf(
-                createTree(StraightStem),
-                createTree(curvedStem),
-                createTree(StraightStem, baseSplitting),
-                createTree(StraightStem, segmentSplitting),
+                createTree(ConstantStemThickness(fromPercentage(5))),
+                createTree(LinearStemThickness(fromPercentage(5))),
             )
         ),
     )
 }
 
-private fun createTree(shape: StemShape, splitting: StemSplitting = NoStemSplitting) = Tree(
+private fun createTree(thickness: StemThickness) = Tree(
     Trunk(
         Distribution(Distance.fromMeters(1)),
         Stem(
             3,
-            shape,
-            LinearStemThickness(fromPercentage(5)),
-            splitting,
+            CurvedStem(Variance(fromDegrees(30))),
+            thickness,
+            NoStemSplitting,
         ),
         Color.SaddleBrown,
     )
