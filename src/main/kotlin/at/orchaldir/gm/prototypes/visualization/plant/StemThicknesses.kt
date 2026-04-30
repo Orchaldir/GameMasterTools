@@ -34,8 +34,8 @@ private fun createTree(hasRoundedEnd:Boolean, type: StemThicknessType) = Tree(
             3,
             CurvedStem(Variance(fromDegrees(30))),
             when (type) {
-                StemThicknessType.Constant -> ConstantStemThickness(fromPercentage(5))
-                StemThicknessType.Linear -> LinearStemThickness(fromPercentage(5))
+                StemThicknessType.Constant -> ConstantStemThickness(fromPercentage(5), hasRoundedEnd)
+                StemThicknessType.Linear -> LinearStemThickness(fromPercentage(5), hasRoundedEnd = hasRoundedEnd)
             },
             NoStemSplitting,
         ),

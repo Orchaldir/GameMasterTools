@@ -12,7 +12,7 @@ fun createStemPolygon(
 
     builder.addLeftAndRightPoint(stem.start, stem.segment.orientation, stem.thickness / 2, true)
 
-    addSegment(builder, stem.segment)
+    addSegment(builder, stem.segment, stem.hasRoundedEnd)
 
     return builder.build()
 }
@@ -20,12 +20,20 @@ fun createStemPolygon(
 private fun addSegment(
     builder: Polygon2dBuilder,
     segment: SegmentData,
+    hasRoundedEnd: Boolean,
 ) {
     if (segment.next.isEmpty()) {
-        val (left, right) = segment.end.createLeftAndRightPoint(segment.orientation, segment.thickness / 2)
+        val isSharp = !hasRoundedEnd
 
-        builder.addPoint(left)
-        builder.addPoint(right)
+        if (segment.thickness.isZero()) {
+            builder.addPoint(segment.end, isSharp)
+        } else {
+            val (left, right) = segment.end.createLeftAndRightPoint(segment.orientation, segment.thickness / 2)
+
+            builder.addPoint(left, isSharp)
+            builder.addPoint(right, isSharp)
+        }
+
     } else if (segment.next.size == 1) {
         val next = segment.next[0]
         val before = segment.end.createPolar(-segment.thickness, segment.orientation)
@@ -37,7 +45,7 @@ private fun addSegment(
         builder.addPoint(beforeLeft)
         builder.addPoint(afterLeft)
 
-        addSegment(builder, next)
+        addSegment(builder, next, hasRoundedEnd)
 
         builder.addPoint(afterRight)
         builder.addPoint(beforeRight)
@@ -54,7 +62,7 @@ private fun addSegment(
         builder.addPoint(beforeLeft)
         builder.addPoint(afterLeft0)
 
-        addSegment(builder, next0)
+        addSegment(builder, next0, hasRoundedEnd)
 
         if (after0.calculateDistance(afterLeft1) < segment.thickness / 2) {
             builder.addPoint(afterRight0.calculateMiddle(afterLeft1))
@@ -63,7 +71,7 @@ private fun addSegment(
             builder.addPoint(afterLeft1)
         }
 
-        addSegment(builder, next1)
+        addSegment(builder, next1, hasRoundedEnd)
 
         builder.addPoint(afterRight1)
         builder.addPoint(beforeRight)

@@ -26,6 +26,11 @@ sealed class StemThickness {
         is ConstantStemThickness -> length * relativeToLength
         is LinearStemThickness -> length * start.interpolate(end, position)
     }
+
+    fun hasRoundedEnd() = when (this) {
+        is ConstantStemThickness -> hasRoundedEnd
+        is LinearStemThickness -> hasRoundedEnd
+    }
 }
 
 @Serializable

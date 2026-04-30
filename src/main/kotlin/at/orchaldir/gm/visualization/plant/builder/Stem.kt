@@ -32,6 +32,7 @@ fun buildStem(
     return StemData(
         position,
         stem.thickness.calculate(length, ZERO),
+        stem.thickness.hasRoundedEnd(),
         segment,
     )
 }
