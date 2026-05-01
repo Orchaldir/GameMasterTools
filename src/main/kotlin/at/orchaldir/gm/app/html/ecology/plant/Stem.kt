@@ -47,7 +47,7 @@ fun HtmlBlockTag.editStem(
 
 fun parseStem(
     parameters: Parameters,
-    param: String = APPEARANCE,
+    param: String,
 ) = Stem(
     parseInt(parameters, combine(param, NUMBER)),
     parseStemShape(parameters, param),

@@ -5,9 +5,12 @@ import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Distribution
 import kotlinx.serialization.Serializable
 
+val MIN_TRUNK_HEIGHT = Distance.fromMeters(1)
+val MAX_TRUNK_HEIGHT = Distance.fromMeters(200)
+
 @Serializable
 data class Trunk(
-    val length: Distribution<Distance>,
+    val height: Distribution<Distance>,
     val stem: Stem,
     val bark: Color,
 )

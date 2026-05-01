@@ -15,9 +15,9 @@ fun buildTrunk(
     trunk: Trunk,
     position: Point2d,
 ): StemData {
-    val length = trunk.length.center
+    val height = trunk.height.center
 
-    return buildStem(numberGenerator, trunk.stem, position, fromDegrees(-90), length)
+    return buildStem(numberGenerator, trunk.stem, position, fromDegrees(-90), height)
 }
 
 fun buildStem(
