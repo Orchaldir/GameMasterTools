@@ -20,7 +20,6 @@ class PlantAppearanceTest {
 
     private val state = State(
         listOf(
-            Storage(CALENDAR0),
             Storage(Material(MATERIAL_ID_0)),
         )
     )
