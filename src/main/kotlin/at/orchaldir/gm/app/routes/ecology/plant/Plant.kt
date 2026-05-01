@@ -9,12 +9,22 @@ import at.orchaldir.gm.app.html.ecology.plant.displayPlantAppearance
 import at.orchaldir.gm.app.html.ecology.plant.editPlant
 import at.orchaldir.gm.app.html.ecology.plant.parsePlant
 import at.orchaldir.gm.app.html.ecology.plant.showPlant
+import at.orchaldir.gm.app.html.svg
 import at.orchaldir.gm.app.routes.*
+import at.orchaldir.gm.app.routes.character.showCharacterFrontAndBack
 import at.orchaldir.gm.app.routes.handleUpdateElement
+import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.ecology.plant.PLANT_TYPE
+import at.orchaldir.gm.core.model.ecology.plant.Plant
 import at.orchaldir.gm.core.model.ecology.plant.PlantId
 import at.orchaldir.gm.core.model.util.SortPlant
+import at.orchaldir.gm.core.selector.item.equipment.getEquipmentElementMap
 import at.orchaldir.gm.core.selector.util.sortPlants
+import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
+import at.orchaldir.gm.prototypes.visualization.plant.PLANT_CONFIG
+import at.orchaldir.gm.visualization.character.appearance.visualizeCharacter
+import at.orchaldir.gm.visualization.plant.visualizePlant
 import io.ktor.resources.*
 import io.ktor.server.application.*
 import io.ktor.server.resources.*
@@ -75,7 +85,12 @@ fun Application.configurePlantRouting() {
             )
         }
         get<PlantRoutes.Details> { details ->
-            handleShowElement(details.id, PlantRoutes(), HtmlBlockTag::showPlant)
+            handleShowElementSplit(
+                details.id,
+                PlantRoutes(),
+                HtmlBlockTag::showPlant,
+                HtmlBlockTag::visualizePlant,
+            )
         }
         get<PlantRoutes.New> {
             handleCreateElement(PlantRoutes(), STORE.getState().getPlantStorage())
@@ -84,7 +99,12 @@ fun Application.configurePlantRouting() {
             handleDeleteElement(PlantRoutes(), delete.id)
         }
         get<PlantRoutes.Edit> { edit ->
-            handleEditElement(edit.id, PlantRoutes(), HtmlBlockTag::editPlant)
+            handleEditElementSplit(
+                edit.id,
+                PlantRoutes(),
+                HtmlBlockTag::editPlant,
+                HtmlBlockTag::visualizePlant,
+            )
         }
         post<PlantRoutes.Preview> { preview ->
             handlePreviewElement(preview.id, PlantRoutes(), ::parsePlant, HtmlBlockTag::editPlant)
@@ -95,3 +115,12 @@ fun Application.configurePlantRouting() {
     }
 }
 
+fun HtmlBlockTag.visualizePlant(
+    call: ApplicationCall,
+    state: State,
+    plant: Plant,
+) {
+    val frontSvg = visualizePlant(PLANT_CONFIG, state, plant.appearance)
+
+    svg(frontSvg, 40)
+}
