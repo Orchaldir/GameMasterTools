@@ -12,6 +12,8 @@ import at.orchaldir.gm.app.html.util.math.selectFactor
 import at.orchaldir.gm.core.model.ecology.plant.appearance.ConstantStemThickness
 import at.orchaldir.gm.core.model.ecology.plant.appearance.DEFAULT_RELATIVE_TO_LENGTH
 import at.orchaldir.gm.core.model.ecology.plant.appearance.LinearStemThickness
+import at.orchaldir.gm.core.model.ecology.plant.appearance.MAX_RELATIVE_TO_LENGTH
+import at.orchaldir.gm.core.model.ecology.plant.appearance.MIN_RELATIVE_TO_LENGTH
 import at.orchaldir.gm.core.model.ecology.plant.appearance.StemThickness
 import at.orchaldir.gm.core.model.ecology.plant.appearance.StemThicknessType
 import at.orchaldir.gm.utils.math.Factor
@@ -87,8 +89,8 @@ private fun DETAILS.editThicknessRelativeToLength(
     label,
     combine(param, START),
     thickness,
-    ZERO,
-    ONE,
+    MIN_RELATIVE_TO_LENGTH,
+    MAX_RELATIVE_TO_LENGTH,
     ONE_TENTH_PERCENT,
 )
 

@@ -17,6 +17,7 @@ data class Stem(
     fun validate(label: String) {
         checkInt(segments, "${label}'s number of segments", MIN_SEGMENTS, MAX_SEGMENTS)
         shape.validate(label)
+        thickness.validate(label)
     }
 
 }

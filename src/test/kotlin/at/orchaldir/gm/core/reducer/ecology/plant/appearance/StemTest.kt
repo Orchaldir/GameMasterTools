@@ -2,17 +2,22 @@ package at.orchaldir.gm.core.reducer.ecology.plant.appearance
 
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.ecology.plant.appearance.ConstantStemThickness
 import at.orchaldir.gm.core.model.ecology.plant.appearance.CurvedStem
 import at.orchaldir.gm.core.model.ecology.plant.appearance.MAX_CURVE_CENTER
 import at.orchaldir.gm.core.model.ecology.plant.appearance.MAX_CURVE_OFFSET
+import at.orchaldir.gm.core.model.ecology.plant.appearance.MAX_RELATIVE_TO_LENGTH
 import at.orchaldir.gm.core.model.ecology.plant.appearance.MAX_SEGMENTS
 import at.orchaldir.gm.core.model.ecology.plant.appearance.MIN_CURVE_CENTER
 import at.orchaldir.gm.core.model.ecology.plant.appearance.MIN_CURVE_OFFSET
+import at.orchaldir.gm.core.model.ecology.plant.appearance.MIN_RELATIVE_TO_LENGTH
 import at.orchaldir.gm.core.model.ecology.plant.appearance.MIN_SEGMENTS
 import at.orchaldir.gm.core.model.ecology.plant.appearance.Stem
 import at.orchaldir.gm.core.model.ecology.plant.appearance.StemShape
+import at.orchaldir.gm.core.model.ecology.plant.appearance.StemThickness
 import at.orchaldir.gm.core.model.economy.material.Material
 import at.orchaldir.gm.utils.Storage
+import at.orchaldir.gm.utils.math.ONE_TENTH_PERCENT
 import at.orchaldir.gm.utils.math.Variance
 import at.orchaldir.gm.utils.math.unit.Orientation.Companion.fromDegrees
 import at.orchaldir.gm.utils.math.unit.ZERO_ORIENTATION
@@ -82,6 +87,34 @@ class StemTest {
 
         fun fail(shape: StemShape, message: String) {
             fail(Stem(MIN_SEGMENTS, shape), message)
+        }
+    }
+
+    @Nested
+    inner class ThicknessTest {
+
+        @Nested
+        inner class ConstantThicknessTest {
+
+            @Test
+            fun `Cannot use a too small curve's center`() {
+                fail(
+                    ConstantStemThickness(MIN_RELATIVE_TO_LENGTH - ONE_TENTH_PERCENT),
+                    "The test's thickness factor is too small!",
+                )
+            }
+
+            @Test
+            fun `Cannot use a too large curve's center`() {
+                fail(
+                    ConstantStemThickness(MAX_RELATIVE_TO_LENGTH + ONE_TENTH_PERCENT),
+                    "The test's thickness factor is too large!",
+                )
+            }
+        }
+
+        fun fail(thickness: StemThickness, message: String) {
+            fail(Stem(MIN_SEGMENTS, thickness = thickness), message)
         }
     }
 
