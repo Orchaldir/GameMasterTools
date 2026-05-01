@@ -33,8 +33,6 @@ import kotlinx.html.HtmlBlockTag
 // show
 
 fun HtmlBlockTag.showStemSplitting(
-    call: ApplicationCall,
-    state: State,
     splitting: StemSplitting,
 ) {
     showDetails("Stem Splitting", true) {
@@ -60,7 +58,6 @@ private fun DETAILS.showProbabilityAndAngle(
 // edit
 
 fun HtmlBlockTag.editStemSplitting(
-    state: State,
     splitting: StemSplitting,
     param: String ,
 ) {
@@ -109,7 +106,6 @@ private fun DETAILS.editProbabilityAndAngle(
 
 fun parseStemSplitting(
     parameters: Parameters,
-    state: State,
     param: String ,
 ): StemSplitting {
     val splitParam = combine(param, SPLIT)

@@ -4,6 +4,7 @@ import at.orchaldir.gm.app.END
 import at.orchaldir.gm.app.ROUND
 import at.orchaldir.gm.app.SPLIT
 import at.orchaldir.gm.app.START
+import at.orchaldir.gm.app.THICKNESS
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.math.fieldFactor
 import at.orchaldir.gm.app.html.util.math.parseFactor
@@ -48,7 +49,7 @@ fun HtmlBlockTag.editStemThickness(
     thickness: StemThickness,
     param: String ,
 ) {
-    val splitParam = combine(param, SPLIT)
+    val splitParam = combine(param, THICKNESS)
 
     showDetails("Stem Thickness", true) {
         selectValue(
@@ -104,7 +105,7 @@ fun parseStemThickness(
     parameters: Parameters,
     param: String ,
 ): StemThickness {
-    val splitParam = combine(param, SPLIT)
+    val splitParam = combine(param, THICKNESS)
 
     return when (parse(parameters, splitParam, StemThicknessType.Linear)) {
         StemThicknessType.Constant -> ConstantStemThickness(
