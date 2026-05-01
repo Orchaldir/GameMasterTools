@@ -4,32 +4,12 @@ import at.orchaldir.gm.app.ORIENTATION
 import at.orchaldir.gm.app.PROBABILITY
 import at.orchaldir.gm.app.SPLIT
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.util.math.fieldFactor
-import at.orchaldir.gm.app.html.util.math.fieldVariance
-import at.orchaldir.gm.app.html.util.math.parseFactor
-import at.orchaldir.gm.app.html.util.math.parseOrientationVariance
-import at.orchaldir.gm.app.html.util.math.selectFactor
-import at.orchaldir.gm.app.html.util.math.selectOrientationVariance
-import at.orchaldir.gm.core.model.ecology.plant.appearance.BaseSplitting
-import at.orchaldir.gm.core.model.ecology.plant.appearance.MAX_SPLITTING_ANGLE
-import at.orchaldir.gm.core.model.ecology.plant.appearance.MAX_SPLITTING_OFFSET
-import at.orchaldir.gm.core.model.ecology.plant.appearance.MAX_SPLITTING_PROBABILITY
-import at.orchaldir.gm.core.model.ecology.plant.appearance.MIN_SPLITTING_ANGLE
-import at.orchaldir.gm.core.model.ecology.plant.appearance.MIN_SPLITTING_OFFSET
-import at.orchaldir.gm.core.model.ecology.plant.appearance.MIN_SPLITTING_PROBABILITY
-import at.orchaldir.gm.core.model.ecology.plant.appearance.NoStemSplitting
-import at.orchaldir.gm.core.model.ecology.plant.appearance.SegmentSplitting
-import at.orchaldir.gm.core.model.ecology.plant.appearance.StemSplitting
-import at.orchaldir.gm.core.model.ecology.plant.appearance.StemSplittingType
+import at.orchaldir.gm.app.html.util.math.*
+import at.orchaldir.gm.core.model.ecology.plant.appearance.*
 import at.orchaldir.gm.utils.doNothing
-import at.orchaldir.gm.utils.math.DOUBLE
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Variance
-import at.orchaldir.gm.utils.math.ZERO
-import at.orchaldir.gm.utils.math.unit.HALF_CIRCLE
 import at.orchaldir.gm.utils.math.unit.Orientation
-import at.orchaldir.gm.utils.math.unit.QUARTER_CIRCLE
-import at.orchaldir.gm.utils.math.unit.ZERO_ORIENTATION
 import io.ktor.http.*
 import kotlinx.html.DETAILS
 import kotlinx.html.HtmlBlockTag
@@ -63,7 +43,7 @@ private fun DETAILS.showProbabilityAndAngle(
 
 fun HtmlBlockTag.editStemSplitting(
     splitting: StemSplitting,
-    param: String ,
+    param: String,
 ) {
     val splitParam = combine(param, SPLIT)
 
@@ -110,7 +90,7 @@ private fun DETAILS.editProbabilityAndAngle(
 
 fun parseStemSplitting(
     parameters: Parameters,
-    param: String ,
+    param: String,
 ): StemSplitting {
     val splitParam = combine(param, SPLIT)
 
@@ -120,6 +100,7 @@ fun parseStemSplitting(
             parseProbability(parameters, splitParam),
             parseAngle(parameters, splitParam),
         )
+
         StemSplittingType.Base -> BaseSplitting(
             parseProbability(parameters, splitParam),
             parseAngle(parameters, splitParam),

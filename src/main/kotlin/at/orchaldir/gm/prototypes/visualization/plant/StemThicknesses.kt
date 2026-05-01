@@ -5,9 +5,7 @@ import at.orchaldir.gm.core.model.ecology.plant.Tree
 import at.orchaldir.gm.core.model.ecology.plant.appearance.*
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.prototypes.visualization.addNames
-import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
-import at.orchaldir.gm.utils.math.THREE_QUARTER
 import at.orchaldir.gm.utils.math.Variance
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Distribution
@@ -27,7 +25,7 @@ fun main() {
     )
 }
 
-private fun createTree(hasRoundedEnd:Boolean, type: StemThicknessType) = Tree(
+private fun createTree(hasRoundedEnd: Boolean, type: StemThicknessType) = Tree(
     Trunk(
         Distribution(Distance.fromMeters(1)),
         Stem(

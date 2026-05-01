@@ -3,7 +3,6 @@ package at.orchaldir.gm.core.model.ecology.plant.appearance
 import at.orchaldir.gm.utils.NumberGenerator
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Variance
-import at.orchaldir.gm.utils.math.checkInt
 import at.orchaldir.gm.utils.math.unit.Orientation
 import at.orchaldir.gm.utils.math.unit.QUARTER_CIRCLE
 import at.orchaldir.gm.utils.math.unit.ZERO_ORIENTATION
@@ -45,7 +44,7 @@ sealed class StemShape {
             MAX_CURVE_CENTER,
             MIN_CURVE_OFFSET,
             MAX_CURVE_OFFSET,
-            )
+        )
     }
 
 }
@@ -63,6 +62,6 @@ data class CurvedStem(
     val angle: Variance<Orientation>,
 ) : StemShape() {
 
-    constructor(angle: Orientation): this(Variance(angle))
+    constructor(angle: Orientation) : this(Variance(angle))
 
 }

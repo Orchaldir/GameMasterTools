@@ -6,7 +6,6 @@ import at.orchaldir.gm.core.model.ecology.plant.UndefinedPlantAppearance
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.NumberGenerator
 import at.orchaldir.gm.utils.math.Point2d
-import at.orchaldir.gm.utils.math.ZERO
 
 
 sealed class PlantData
@@ -27,5 +26,6 @@ fun buildPlant(
         buildTrunk(numberGenerator, plant.trunk, position),
         plant.trunk.bark,
     )
+
     UndefinedPlantAppearance -> UndefinedPlantData
 }

@@ -1,8 +1,8 @@
 package at.orchaldir.gm.core.reducer.ecology.plant.appearance
 
-import at.orchaldir.gm.*
+import at.orchaldir.gm.MATERIAL_ID_0
+import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.ecology.plant.Tree
 import at.orchaldir.gm.core.model.ecology.plant.appearance.MAX_TRUNK_HEIGHT
 import at.orchaldir.gm.core.model.ecology.plant.appearance.MIN_TRUNK_HEIGHT
 import at.orchaldir.gm.core.model.ecology.plant.appearance.Trunk

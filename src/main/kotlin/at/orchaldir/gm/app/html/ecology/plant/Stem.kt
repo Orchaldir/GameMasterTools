@@ -1,6 +1,5 @@
 package at.orchaldir.gm.app.html.ecology.plant
 
-import at.orchaldir.gm.app.APPEARANCE
 import at.orchaldir.gm.app.NUMBER
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.ecology.plant.appearance.MAX_SEGMENTS

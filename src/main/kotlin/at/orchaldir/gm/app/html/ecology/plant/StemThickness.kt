@@ -2,23 +2,14 @@ package at.orchaldir.gm.app.html.ecology.plant
 
 import at.orchaldir.gm.app.END
 import at.orchaldir.gm.app.ROUND
-import at.orchaldir.gm.app.SPLIT
 import at.orchaldir.gm.app.START
 import at.orchaldir.gm.app.THICKNESS
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.math.fieldFactor
 import at.orchaldir.gm.app.html.util.math.parseFactor
 import at.orchaldir.gm.app.html.util.math.selectFactor
-import at.orchaldir.gm.core.model.ecology.plant.appearance.ConstantStemThickness
-import at.orchaldir.gm.core.model.ecology.plant.appearance.DEFAULT_RELATIVE_TO_LENGTH
-import at.orchaldir.gm.core.model.ecology.plant.appearance.LinearStemThickness
-import at.orchaldir.gm.core.model.ecology.plant.appearance.MAX_RELATIVE_TO_LENGTH
-import at.orchaldir.gm.core.model.ecology.plant.appearance.MIN_RELATIVE_TO_LENGTH
-import at.orchaldir.gm.core.model.ecology.plant.appearance.StemThickness
-import at.orchaldir.gm.core.model.ecology.plant.appearance.StemThicknessType
+import at.orchaldir.gm.core.model.ecology.plant.appearance.*
 import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
-import at.orchaldir.gm.utils.math.ONE
 import at.orchaldir.gm.utils.math.ONE_TENTH_PERCENT
 import at.orchaldir.gm.utils.math.ZERO
 import io.ktor.http.*
@@ -38,6 +29,7 @@ fun HtmlBlockTag.showStemThickness(
                 fieldFactor("Thickness relative to Length", thickness.relativeToLength)
                 field("Has Rounded End", thickness.hasRoundedEnd)
             }
+
             is LinearStemThickness -> {
                 fieldFactor("Thickness at Start relative to Length", thickness.start)
                 fieldFactor("Thickness at End relative to Start", thickness.end)
@@ -51,7 +43,7 @@ fun HtmlBlockTag.showStemThickness(
 
 fun HtmlBlockTag.editStemThickness(
     thickness: StemThickness,
-    param: String ,
+    param: String,
 ) {
     val splitParam = combine(param, THICKNESS)
 
@@ -68,6 +60,7 @@ fun HtmlBlockTag.editStemThickness(
                 editThicknessRelativeToLength("Thickness relative to Length", thickness.relativeToLength, splitParam)
                 selectHasRoundedEnd(thickness.hasRoundedEnd, splitParam)
             }
+
             is LinearStemThickness -> {
                 editThicknessRelativeToLength("Thickness at Start relative to Length", thickness.start, splitParam)
                 selectFactor(
@@ -107,7 +100,7 @@ private fun DETAILS.selectHasRoundedEnd(
 
 fun parseStemThickness(
     parameters: Parameters,
-    param: String ,
+    param: String,
 ): StemThickness {
     val splitParam = combine(param, THICKNESS)
 
@@ -116,6 +109,7 @@ fun parseStemThickness(
             parseThicknessRelativeToLength(parameters, splitParam),
             parseHasRoundedEnd(parameters, splitParam),
         )
+
         StemThicknessType.Linear -> LinearStemThickness(
             parseThicknessRelativeToLength(parameters, splitParam),
             parseFactor(parameters, combine(param, END), ZERO),

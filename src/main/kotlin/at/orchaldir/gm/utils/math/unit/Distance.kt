@@ -1,7 +1,6 @@
 package at.orchaldir.gm.utils.math.unit
 
 import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.math.ZERO
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromCentimeters
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMeters
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMicrometers

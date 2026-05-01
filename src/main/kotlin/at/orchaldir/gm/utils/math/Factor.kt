@@ -1,9 +1,5 @@
 package at.orchaldir.gm.utils.math
 
-import at.orchaldir.gm.core.model.ecology.plant.appearance.ConstantStemThickness
-import at.orchaldir.gm.core.model.ecology.plant.appearance.LinearStemThickness
-import at.orchaldir.gm.core.model.ecology.plant.appearance.MAX_SEGMENTS
-import at.orchaldir.gm.core.model.ecology.plant.appearance.MIN_SEGMENTS
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPermille
 import kotlinx.serialization.Serializable

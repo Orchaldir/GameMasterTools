@@ -1,14 +1,8 @@
 package at.orchaldir.gm.visualization.plant
 
-import at.orchaldir.gm.utils.math.FULL
-import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.Size2dCalculator
 import at.orchaldir.gm.visualization.character.appearance.PaddedSize
-import at.orchaldir.gm.visualization.plant.builder.PlantData
-import at.orchaldir.gm.visualization.plant.builder.SegmentData
-import at.orchaldir.gm.visualization.plant.builder.StemData
-import at.orchaldir.gm.visualization.plant.builder.TreeData
-import at.orchaldir.gm.visualization.plant.builder.UndefinedPlantData
+import at.orchaldir.gm.visualization.plant.builder.*
 
 fun calculateSize(
     config: PlantRenderConfig,

@@ -18,7 +18,7 @@ val FULL_CIRCLE = Orientation.fromDegrees(360)
 
 @JvmInline
 @Serializable
-value class Orientation private constructor(private val millidegrees: Long): Value<Orientation> {
+value class Orientation private constructor(private val millidegrees: Long) : Value<Orientation> {
 
     companion object {
         fun fromDegrees(degrees: Float) = Orientation(convertFromDegrees(degrees))

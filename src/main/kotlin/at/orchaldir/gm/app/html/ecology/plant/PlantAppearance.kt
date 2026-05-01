@@ -40,6 +40,7 @@ fun HtmlBlockTag.showPlantAppearance(
                 showTrunk(appearance.trunk)
                 optionalFieldLink("Wood", call, state, appearance.wood)
             }
+
             UndefinedPlantAppearance -> doNothing()
         }
     }

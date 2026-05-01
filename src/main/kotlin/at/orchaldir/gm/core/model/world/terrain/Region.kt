@@ -14,9 +14,7 @@ import at.orchaldir.gm.core.model.util.UndefinedPosition
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.reducer.util.checkPosition
-import at.orchaldir.gm.core.reducer.util.validateEventReference
 import at.orchaldir.gm.utils.Id
-import at.orchaldir.gm.utils.doNothing
 import kotlinx.serialization.Serializable
 
 const val REGION_TYPE = "Region"

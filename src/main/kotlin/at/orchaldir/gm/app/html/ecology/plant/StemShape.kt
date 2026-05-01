@@ -6,16 +6,8 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.math.fieldVariance
 import at.orchaldir.gm.app.html.util.math.parseOrientationVariance
 import at.orchaldir.gm.app.html.util.math.selectOrientationVariance
-import at.orchaldir.gm.core.model.ecology.plant.appearance.CurvedStem
-import at.orchaldir.gm.core.model.ecology.plant.appearance.MAX_CURVE_CENTER
-import at.orchaldir.gm.core.model.ecology.plant.appearance.MAX_CURVE_OFFSET
-import at.orchaldir.gm.core.model.ecology.plant.appearance.MIN_CURVE_CENTER
-import at.orchaldir.gm.core.model.ecology.plant.appearance.MIN_CURVE_OFFSET
-import at.orchaldir.gm.core.model.ecology.plant.appearance.StemShape
-import at.orchaldir.gm.core.model.ecology.plant.appearance.StemShapeType
-import at.orchaldir.gm.core.model.ecology.plant.appearance.StraightStem
+import at.orchaldir.gm.core.model.ecology.plant.appearance.*
 import at.orchaldir.gm.utils.doNothing
-import at.orchaldir.gm.utils.math.unit.QUARTER_CIRCLE
 import at.orchaldir.gm.utils.math.unit.ZERO_ORIENTATION
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag
@@ -39,7 +31,7 @@ fun HtmlBlockTag.showStemShape(
 
 fun HtmlBlockTag.editStemShape(
     shape: StemShape,
-    param: String ,
+    param: String,
 ) {
     val shapeParam = combine(param, SHAPE)
 
@@ -70,7 +62,7 @@ fun HtmlBlockTag.editStemShape(
 
 fun parseStemShape(
     parameters: Parameters,
-    param: String ,
+    param: String,
 ): StemShape {
     val shapeParam = combine(param, SHAPE)
 

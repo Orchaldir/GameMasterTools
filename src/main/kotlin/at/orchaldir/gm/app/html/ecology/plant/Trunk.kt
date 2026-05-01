@@ -37,7 +37,7 @@ fun HtmlBlockTag.editTrunk(
     showDetails("Trunk", true) {
         selectColor(
             trunk.bark,
-                    combine(param, COLOR),
+            combine(param, COLOR),
             "Bark",
         )
         selectDistanceDistribution(
@@ -62,7 +62,7 @@ fun parseTrunk(
         parameters,
         combine(param, HEIGHT),
     ) { _, p, prefix ->
-        parseDistance(parameters,p, prefix, MIN_TRUNK_HEIGHT)
+        parseDistance(parameters, p, prefix, MIN_TRUNK_HEIGHT)
     },
     parseStem(parameters, combine(param, STEM)),
     parse(parameters, param, Color.SaddleBrown),

@@ -1,7 +1,5 @@
 package at.orchaldir.gm.utils.math
 
-import kotlin.text.compareTo
-
 interface Value<T> {
 
     fun zero(): T

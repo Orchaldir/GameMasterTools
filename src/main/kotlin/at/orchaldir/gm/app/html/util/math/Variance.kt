@@ -6,8 +6,9 @@ import at.orchaldir.gm.app.html.combine
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.utils.math.Value
 import at.orchaldir.gm.utils.math.Variance
-import at.orchaldir.gm.utils.math.unit.*
+import at.orchaldir.gm.utils.math.unit.Orientation
 import at.orchaldir.gm.utils.math.unit.Orientation.Companion.fromDegrees
+import at.orchaldir.gm.utils.math.unit.ZERO_ORIENTATION
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag
 

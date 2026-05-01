@@ -1,6 +1,5 @@
 package at.orchaldir.gm.core.model.ecology.plant.appearance
 
-import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.ZERO

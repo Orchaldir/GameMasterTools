@@ -1,6 +1,5 @@
 package at.orchaldir.gm.utils.math.unit
 
-import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Value
 
 const val SI_STEP = 10
@@ -10,7 +9,7 @@ const val SI_FOUR_STEPS = SI_THREE_STEPS * SI_STEP
 const val SI_SIX_STEPS = SI_THREE_STEPS * SI_THREE_STEPS
 const val SI_NINE_STEPS = SI_SIX_STEPS * SI_THREE_STEPS
 
-interface SiUnit<T>: Value<T> {
+interface SiUnit<T> : Value<T> {
 
     fun convertToLong(prefix: SiPrefix): Long
 
