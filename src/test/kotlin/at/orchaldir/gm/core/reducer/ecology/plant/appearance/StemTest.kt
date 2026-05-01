@@ -11,11 +11,15 @@ import at.orchaldir.gm.core.model.ecology.plant.appearance.MAX_CURVE_CENTER
 import at.orchaldir.gm.core.model.ecology.plant.appearance.MAX_CURVE_OFFSET
 import at.orchaldir.gm.core.model.ecology.plant.appearance.MAX_RELATIVE_TO_LENGTH
 import at.orchaldir.gm.core.model.ecology.plant.appearance.MAX_SEGMENTS
+import at.orchaldir.gm.core.model.ecology.plant.appearance.MAX_SPLITTING_ANGLE
+import at.orchaldir.gm.core.model.ecology.plant.appearance.MAX_SPLITTING_OFFSET
 import at.orchaldir.gm.core.model.ecology.plant.appearance.MAX_SPLITTING_PROBABILITY
 import at.orchaldir.gm.core.model.ecology.plant.appearance.MIN_CURVE_CENTER
 import at.orchaldir.gm.core.model.ecology.plant.appearance.MIN_CURVE_OFFSET
 import at.orchaldir.gm.core.model.ecology.plant.appearance.MIN_RELATIVE_TO_LENGTH
 import at.orchaldir.gm.core.model.ecology.plant.appearance.MIN_SEGMENTS
+import at.orchaldir.gm.core.model.ecology.plant.appearance.MIN_SPLITTING_ANGLE
+import at.orchaldir.gm.core.model.ecology.plant.appearance.MIN_SPLITTING_OFFSET
 import at.orchaldir.gm.core.model.ecology.plant.appearance.MIN_SPLITTING_PROBABILITY
 import at.orchaldir.gm.core.model.ecology.plant.appearance.Stem
 import at.orchaldir.gm.core.model.ecology.plant.appearance.StemShape
@@ -26,6 +30,7 @@ import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.ONE_TENTH_PERCENT
 import at.orchaldir.gm.utils.math.Variance
+import at.orchaldir.gm.utils.math.unit.Orientation
 import at.orchaldir.gm.utils.math.unit.Orientation.Companion.fromDegrees
 import at.orchaldir.gm.utils.math.unit.ZERO_ORIENTATION
 import org.junit.jupiter.api.Nested
@@ -182,7 +187,44 @@ class StemTest {
                     "The test's splitting probability factor is too large!",
                 )
             }
+
+            @Test
+            fun `Cannot use a too small angle's center`() {
+                fail(
+                    Variance(MIN_SPLITTING_ANGLE - fromDegrees(1)),
+                    "The test's splitting angle's center is too small!",
+                )
+            }
+
+            @Test
+            fun `Cannot use a too large angle's center`() {
+                fail(
+                    Variance(MAX_SPLITTING_ANGLE + fromDegrees(1)),
+                    "The test's splitting angle's center is too large!",
+                )
+            }
+
+            @Test
+            fun `Cannot use a too small angle's offset`() {
+                fail(
+                    Variance(MIN_SPLITTING_ANGLE, MIN_SPLITTING_OFFSET - fromDegrees(1)),
+                    "The test's splitting angle's offset is too small!",
+                )
+            }
+
+            @Test
+            fun `Cannot use a too large angle's offset`() {
+                fail(
+                    Variance(MIN_SPLITTING_ANGLE, MAX_SPLITTING_OFFSET + fromDegrees(1)),
+                    "The test's splitting angle's offset is too large!",
+                )
+            }
         }
+
+        fun fail(variance: Variance<Orientation>, message: String) = fail(
+            BaseSplitting(MIN_SPLITTING_PROBABILITY, variance),
+            message,
+        )
 
         fun fail(splitting: StemSplitting, message: String) {
             fail(Stem(MIN_SEGMENTS, splitting = splitting), message)

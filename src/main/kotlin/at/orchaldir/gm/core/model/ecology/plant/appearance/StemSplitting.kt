@@ -90,8 +90,14 @@ sealed class StemSplitting {
 
     fun validate(label: String) = when (this) {
         NoStemSplitting -> doNothing()
-        is BaseSplitting -> validateProbability(label, this.probability)
-        is SegmentSplitting -> validateProbability(label, this.probability)
+        is BaseSplitting -> {
+            validateProbability(label, probability)
+            validateAngle(label, angle)
+        }
+        is SegmentSplitting -> {
+            validateProbability(label, probability)
+            validateAngle(label, angle)
+        }
     }
 }
 
@@ -101,6 +107,16 @@ private fun validateProbability(label: String, probability: Factor) {
         "$label's splitting probability",
         MIN_SPLITTING_PROBABILITY,
         MAX_SPLITTING_PROBABILITY,
+    )
+}
+
+private fun validateAngle(label: String, angle: Variance<Orientation>) {
+    angle.validate(
+        "$label's splitting angle",
+        MIN_SPLITTING_ANGLE,
+        MAX_SPLITTING_ANGLE,
+        MIN_SPLITTING_OFFSET,
+        MAX_SPLITTING_OFFSET,
     )
 }
 
