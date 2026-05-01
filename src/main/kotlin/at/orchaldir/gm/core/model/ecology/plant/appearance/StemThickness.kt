@@ -38,7 +38,15 @@ sealed class StemThickness {
 
     fun validate(label: String) = when (this) {
         is ConstantStemThickness -> validateRelativeToLength(label, relativeToLength)
-        is LinearStemThickness -> validateRelativeToLength(label, start)
+        is LinearStemThickness -> {
+            validateRelativeToLength(label, start)
+            validateFactor(
+                end,
+                "$label's end thickness",
+                MIN_RELATIVE_TO_LENGTH,
+                MAX_RELATIVE_TO_LENGTH,
+            )
+        }
     }
 }
 
@@ -66,7 +74,7 @@ data class LinearStemThickness(
 fun validateRelativeToLength(label: String, relativeToLength: Factor) {
     validateFactor(
         relativeToLength,
-        "$label's thickness",
+        "$label's start thickness",
         MIN_RELATIVE_TO_LENGTH,
         MAX_RELATIVE_TO_LENGTH,
     )

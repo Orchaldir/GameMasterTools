@@ -4,6 +4,7 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.ecology.plant.appearance.ConstantStemThickness
 import at.orchaldir.gm.core.model.ecology.plant.appearance.CurvedStem
+import at.orchaldir.gm.core.model.ecology.plant.appearance.DEFAULT_RELATIVE_TO_LENGTH
 import at.orchaldir.gm.core.model.ecology.plant.appearance.LinearStemThickness
 import at.orchaldir.gm.core.model.ecology.plant.appearance.MAX_CURVE_CENTER
 import at.orchaldir.gm.core.model.ecology.plant.appearance.MAX_CURVE_OFFSET
@@ -18,6 +19,7 @@ import at.orchaldir.gm.core.model.ecology.plant.appearance.StemShape
 import at.orchaldir.gm.core.model.ecology.plant.appearance.StemThickness
 import at.orchaldir.gm.core.model.economy.material.Material
 import at.orchaldir.gm.utils.Storage
+import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.ONE_TENTH_PERCENT
 import at.orchaldir.gm.utils.math.Variance
 import at.orchaldir.gm.utils.math.unit.Orientation.Companion.fromDegrees
@@ -98,18 +100,18 @@ class StemTest {
         inner class ConstantThicknessTest {
 
             @Test
-            fun `Cannot use a too small curve's center`() {
+            fun `Cannot use a too small thickness factor`() {
                 fail(
                     ConstantStemThickness(MIN_RELATIVE_TO_LENGTH - ONE_TENTH_PERCENT),
-                    "The test's thickness factor is too small!",
+                    "The test's start thickness factor is too small!",
                 )
             }
 
             @Test
-            fun `Cannot use a too large curve's center`() {
+            fun `Cannot use a too large thickness factor`() {
                 fail(
                     ConstantStemThickness(MAX_RELATIVE_TO_LENGTH + ONE_TENTH_PERCENT),
-                    "The test's thickness factor is too large!",
+                    "The test's start thickness factor is too large!",
                 )
             }
         }
@@ -118,18 +120,34 @@ class StemTest {
         inner class LinearThicknessTest {
 
             @Test
-            fun `Cannot use a too small curve's center`() {
+            fun `Cannot use a too small start thickness factor`() {
                 fail(
                     LinearStemThickness(MIN_RELATIVE_TO_LENGTH - ONE_TENTH_PERCENT),
-                    "The test's thickness factor is too small!",
+                    "The test's start thickness factor is too small!",
                 )
             }
 
             @Test
-            fun `Cannot use a too large curve's center`() {
+            fun `Cannot use a too large start thickness factor`() {
                 fail(
                     LinearStemThickness(MAX_RELATIVE_TO_LENGTH + ONE_TENTH_PERCENT),
-                    "The test's thickness factor is too large!",
+                    "The test's start thickness factor is too large!",
+                )
+            }
+
+            @Test
+            fun `Cannot use a too small end thickness factor`() {
+                fail(
+                    LinearStemThickness(DEFAULT_RELATIVE_TO_LENGTH, -ONE_TENTH_PERCENT),
+                    "The test's end thickness factor is too small!",
+                )
+            }
+
+            @Test
+            fun `Cannot use a too large end thickness factor`() {
+                fail(
+                    LinearStemThickness(DEFAULT_RELATIVE_TO_LENGTH, FULL + ONE_TENTH_PERCENT),
+                    "The test's end thickness factor is too large!",
                 )
             }
         }
