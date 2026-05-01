@@ -1,15 +1,26 @@
 package at.orchaldir.gm.core.model.ecology.plant.appearance
 
 import at.orchaldir.gm.utils.NumberGenerator
+import at.orchaldir.gm.utils.doNothing
+import at.orchaldir.gm.utils.math.DOUBLE
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Variance
 import at.orchaldir.gm.utils.math.ZERO
+import at.orchaldir.gm.utils.math.unit.HALF_CIRCLE
 import at.orchaldir.gm.utils.math.unit.Orientation
+import at.orchaldir.gm.utils.math.unit.QUARTER_CIRCLE
+import at.orchaldir.gm.utils.math.unit.ZERO_ORIENTATION
+import at.orchaldir.gm.utils.math.validateFactor
 import at.orchaldir.gm.utils.toInt
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+val MIN_SPLITTING_PROBABILITY = Factor.fromPercentage(1)
+val MAX_SPLITTING_PROBABILITY = DOUBLE
 val MIN_SPLITTING_ANGLE = Orientation.fromDegrees(5)
+val MAX_SPLITTING_ANGLE = HALF_CIRCLE
+val MIN_SPLITTING_OFFSET = ZERO_ORIENTATION
+val MAX_SPLITTING_OFFSET = QUARTER_CIRCLE
 
 enum class StemSplittingType {
     None,
@@ -76,6 +87,21 @@ sealed class StemSplitting {
     }
 
     private fun noSplits(orientation: Orientation) = listOf(orientation)
+
+    fun validate(label: String) = when (this) {
+        NoStemSplitting -> doNothing()
+        is BaseSplitting -> validateProbability(label, this.probability)
+        is SegmentSplitting -> validateProbability(label, this.probability)
+    }
+}
+
+private fun validateProbability(label: String, probability: Factor) {
+    validateFactor(
+        probability,
+        "$label's splitting probability",
+        MIN_SPLITTING_PROBABILITY,
+        MAX_SPLITTING_PROBABILITY,
+    )
 }
 
 @Serializable
@@ -89,7 +115,7 @@ data class SegmentSplitting(
     /**
      * The angle that all stems of a split rotate away from the original orientation.
      */
-    val angle: Variance<Orientation>,
+    val angle: Variance<Orientation> = Variance(MIN_SPLITTING_ANGLE),
 ) : StemSplitting()
 
 @Serializable
@@ -99,5 +125,5 @@ data class BaseSplitting(
     /**
      * The angle that all stems of a split rotate away from the original orientation.
      */
-    val angle: Variance<Orientation>,
+    val angle: Variance<Orientation> = Variance(MIN_SPLITTING_ANGLE),
 ) : StemSplitting()

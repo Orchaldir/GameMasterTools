@@ -43,7 +43,7 @@ sealed class StemThickness {
             validateFactor(
                 end,
                 "$label's end thickness",
-                MIN_RELATIVE_TO_LENGTH,
+                ZERO,
                 MAX_RELATIVE_TO_LENGTH,
             )
         }

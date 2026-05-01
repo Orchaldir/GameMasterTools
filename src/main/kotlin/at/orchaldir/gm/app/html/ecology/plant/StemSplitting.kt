@@ -11,7 +11,12 @@ import at.orchaldir.gm.app.html.util.math.parseOrientationVariance
 import at.orchaldir.gm.app.html.util.math.selectFactor
 import at.orchaldir.gm.app.html.util.math.selectOrientationVariance
 import at.orchaldir.gm.core.model.ecology.plant.appearance.BaseSplitting
+import at.orchaldir.gm.core.model.ecology.plant.appearance.MAX_SPLITTING_ANGLE
+import at.orchaldir.gm.core.model.ecology.plant.appearance.MAX_SPLITTING_OFFSET
+import at.orchaldir.gm.core.model.ecology.plant.appearance.MAX_SPLITTING_PROBABILITY
 import at.orchaldir.gm.core.model.ecology.plant.appearance.MIN_SPLITTING_ANGLE
+import at.orchaldir.gm.core.model.ecology.plant.appearance.MIN_SPLITTING_OFFSET
+import at.orchaldir.gm.core.model.ecology.plant.appearance.MIN_SPLITTING_PROBABILITY
 import at.orchaldir.gm.core.model.ecology.plant.appearance.NoStemSplitting
 import at.orchaldir.gm.core.model.ecology.plant.appearance.SegmentSplitting
 import at.orchaldir.gm.core.model.ecology.plant.appearance.StemSplitting
@@ -87,17 +92,17 @@ private fun DETAILS.editProbabilityAndAngle(
         "Probability",
         combine(param, PROBABILITY),
         probability,
-        ZERO,
-        DOUBLE,
+        MIN_SPLITTING_PROBABILITY,
+        MAX_SPLITTING_PROBABILITY,
     )
     selectOrientationVariance(
         "Angle Offset",
         combine(param, ORIENTATION),
         angle,
         MIN_SPLITTING_ANGLE,
-        HALF_CIRCLE,
-        ZERO_ORIENTATION,
-        QUARTER_CIRCLE,
+        MAX_SPLITTING_ANGLE,
+        MIN_SPLITTING_OFFSET,
+        MAX_SPLITTING_OFFSET,
     )
 }
 

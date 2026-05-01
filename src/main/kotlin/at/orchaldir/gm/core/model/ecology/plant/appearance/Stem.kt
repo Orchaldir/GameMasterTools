@@ -18,6 +18,7 @@ data class Stem(
         checkInt(segments, "${label}'s number of segments", MIN_SEGMENTS, MAX_SEGMENTS)
         shape.validate(label)
         thickness.validate(label)
+        splitting.validate(label)
     }
 
 }

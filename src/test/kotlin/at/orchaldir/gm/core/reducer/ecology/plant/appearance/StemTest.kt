@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.reducer.ecology.plant.appearance
 
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.ecology.plant.appearance.BaseSplitting
 import at.orchaldir.gm.core.model.ecology.plant.appearance.ConstantStemThickness
 import at.orchaldir.gm.core.model.ecology.plant.appearance.CurvedStem
 import at.orchaldir.gm.core.model.ecology.plant.appearance.DEFAULT_RELATIVE_TO_LENGTH
@@ -10,12 +11,15 @@ import at.orchaldir.gm.core.model.ecology.plant.appearance.MAX_CURVE_CENTER
 import at.orchaldir.gm.core.model.ecology.plant.appearance.MAX_CURVE_OFFSET
 import at.orchaldir.gm.core.model.ecology.plant.appearance.MAX_RELATIVE_TO_LENGTH
 import at.orchaldir.gm.core.model.ecology.plant.appearance.MAX_SEGMENTS
+import at.orchaldir.gm.core.model.ecology.plant.appearance.MAX_SPLITTING_PROBABILITY
 import at.orchaldir.gm.core.model.ecology.plant.appearance.MIN_CURVE_CENTER
 import at.orchaldir.gm.core.model.ecology.plant.appearance.MIN_CURVE_OFFSET
 import at.orchaldir.gm.core.model.ecology.plant.appearance.MIN_RELATIVE_TO_LENGTH
 import at.orchaldir.gm.core.model.ecology.plant.appearance.MIN_SEGMENTS
+import at.orchaldir.gm.core.model.ecology.plant.appearance.MIN_SPLITTING_PROBABILITY
 import at.orchaldir.gm.core.model.ecology.plant.appearance.Stem
 import at.orchaldir.gm.core.model.ecology.plant.appearance.StemShape
+import at.orchaldir.gm.core.model.ecology.plant.appearance.StemSplitting
 import at.orchaldir.gm.core.model.ecology.plant.appearance.StemThickness
 import at.orchaldir.gm.core.model.economy.material.Material
 import at.orchaldir.gm.utils.Storage
@@ -154,6 +158,34 @@ class StemTest {
 
         fun fail(thickness: StemThickness, message: String) {
             fail(Stem(MIN_SEGMENTS, thickness = thickness), message)
+        }
+    }
+
+    @Nested
+    inner class SplittingTest {
+
+        @Nested
+        inner class BaseTest {
+
+            @Test
+            fun `Cannot use a too small thickness factor`() {
+                fail(
+                    BaseSplitting(MIN_SPLITTING_PROBABILITY - ONE_TENTH_PERCENT),
+                    "The test's splitting probability factor is too small!",
+                )
+            }
+
+            @Test
+            fun `Cannot use a too large thickness factor`() {
+                fail(
+                    BaseSplitting(MAX_SPLITTING_PROBABILITY + ONE_TENTH_PERCENT),
+                    "The test's splitting probability factor is too large!",
+                )
+            }
+        }
+
+        fun fail(splitting: StemSplitting, message: String) {
+            fail(Stem(MIN_SEGMENTS, splitting = splitting), message)
         }
     }
 
