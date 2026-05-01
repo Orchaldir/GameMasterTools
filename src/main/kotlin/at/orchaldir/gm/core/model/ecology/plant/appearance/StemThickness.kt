@@ -1,12 +1,9 @@
 package at.orchaldir.gm.core.model.ecology.plant.appearance
 
-import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.ZERO
-import at.orchaldir.gm.utils.math.checkInt
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.validateFactor
 import kotlinx.serialization.SerialName
@@ -40,13 +37,8 @@ sealed class StemThickness {
     }
 
     fun validate(label: String) = when (this) {
-        is ConstantStemThickness -> validateFactor(
-            relativeToLength,
-            "$label's thickness",
-            MIN_RELATIVE_TO_LENGTH,
-            MAX_RELATIVE_TO_LENGTH,
-        )
-        is LinearStemThickness -> doNothing()
+        is ConstantStemThickness -> validateRelativeToLength(label, relativeToLength)
+        is LinearStemThickness -> validateRelativeToLength(label, start)
     }
 }
 
@@ -70,3 +62,12 @@ data class LinearStemThickness(
     val end: Factor = ZERO,
     val hasRoundedEnd: Boolean = false,
 ) : StemThickness()
+
+fun validateRelativeToLength(label: String, relativeToLength: Factor) {
+    validateFactor(
+        relativeToLength,
+        "$label's thickness",
+        MIN_RELATIVE_TO_LENGTH,
+        MAX_RELATIVE_TO_LENGTH,
+    )
+}

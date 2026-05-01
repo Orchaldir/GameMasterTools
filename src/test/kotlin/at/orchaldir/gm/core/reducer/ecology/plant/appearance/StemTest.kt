@@ -4,6 +4,7 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.ecology.plant.appearance.ConstantStemThickness
 import at.orchaldir.gm.core.model.ecology.plant.appearance.CurvedStem
+import at.orchaldir.gm.core.model.ecology.plant.appearance.LinearStemThickness
 import at.orchaldir.gm.core.model.ecology.plant.appearance.MAX_CURVE_CENTER
 import at.orchaldir.gm.core.model.ecology.plant.appearance.MAX_CURVE_OFFSET
 import at.orchaldir.gm.core.model.ecology.plant.appearance.MAX_RELATIVE_TO_LENGTH
@@ -108,6 +109,26 @@ class StemTest {
             fun `Cannot use a too large curve's center`() {
                 fail(
                     ConstantStemThickness(MAX_RELATIVE_TO_LENGTH + ONE_TENTH_PERCENT),
+                    "The test's thickness factor is too large!",
+                )
+            }
+        }
+
+        @Nested
+        inner class LinearThicknessTest {
+
+            @Test
+            fun `Cannot use a too small curve's center`() {
+                fail(
+                    LinearStemThickness(MIN_RELATIVE_TO_LENGTH - ONE_TENTH_PERCENT),
+                    "The test's thickness factor is too small!",
+                )
+            }
+
+            @Test
+            fun `Cannot use a too large curve's center`() {
+                fail(
+                    LinearStemThickness(MAX_RELATIVE_TO_LENGTH + ONE_TENTH_PERCENT),
                     "The test's thickness factor is too large!",
                 )
             }
