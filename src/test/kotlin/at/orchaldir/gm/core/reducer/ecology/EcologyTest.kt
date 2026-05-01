@@ -23,13 +23,13 @@ class EcologyTest {
 
         @Test
         fun `Ecology is valid`() {
-            EcologyWithSets(setOf(PLANT_ID_0)).validate(state)
+            EcologyWithSets(PLANT_ID_0).validate(state)
         }
 
         @Test
         fun `Has unknown plant`() {
             assertEcology(
-                EcologyWithSets(setOf(UNKNOWN_PLANT_ID)),
+                EcologyWithSets(UNKNOWN_PLANT_ID),
                 "Requires unknown Plant 99!",
             )
         }

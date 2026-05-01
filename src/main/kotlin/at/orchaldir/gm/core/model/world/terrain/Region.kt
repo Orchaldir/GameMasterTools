@@ -56,25 +56,8 @@ data class Region(
     override fun position() = position
 
     override fun validate(state: State) {
-        when (data) {
-            is Battlefield -> validateEventReference(
-                state,
-                data.cause,
-                null,
-                "Cause",
-                ALLOWED_BATTLEFIELD_CAUSES,
-            )
-
-            Continent, Desert, Forrest, Hills, Lake, Plains, Mountain, Sea, UndefinedRegionData, Wetland -> doNothing()
-            is Wasteland -> validateEventReference(
-                state,
-                data.cause,
-                null,
-                "Cause",
-                ALLOWED_WASTELAND_CAUSES,
-            )
-        }
-
+        data.validate(state)
+        ecology.validate(state)
         checkPosition(state, position, "position", null, data.getAllowedRegionTypes())
         state.getMaterialStorage().require(resources)
         encounter.validate(state, null)

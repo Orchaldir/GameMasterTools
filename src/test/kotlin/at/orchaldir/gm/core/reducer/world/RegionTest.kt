@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.reducer.world
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.ecology.EcologyWithSets
 import at.orchaldir.gm.core.model.rpg.encounter.EncounterLookup
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.terrain.Battlefield
@@ -99,6 +100,14 @@ class RegionTest {
             val action = UpdateAction(region)
 
             assertIllegalArgument("Requires unknown Cause (War 99)!") { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `Ecology is validated`() {
+            val region = Region(REGION_ID_0, ecology = EcologyWithSets(UNKNOWN_PLANT_ID))
+            val action = UpdateAction(region)
+
+            assertIllegalArgument("Requires unknown Plant 99!") { REDUCER.invoke(state, action) }
         }
 
         @Test

@@ -1,9 +1,12 @@
 package at.orchaldir.gm.core.model.world.terrain
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.EventReference
 import at.orchaldir.gm.core.model.util.EventReferenceType
 import at.orchaldir.gm.core.model.util.UndefinedEventReference
+import at.orchaldir.gm.core.reducer.util.validateEventReference
 import at.orchaldir.gm.utils.Id
+import at.orchaldir.gm.utils.doNothing
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -63,6 +66,25 @@ sealed class RegionData {
         is Battlefield -> this.cause.isId(id)
         is Wasteland -> this.cause.isId(id)
         else -> false
+    }
+
+    fun validate(state: State) = when (this) {
+        is Battlefield -> validateEventReference(
+            state,
+            cause,
+            null,
+            "Cause",
+            ALLOWED_BATTLEFIELD_CAUSES,
+        )
+
+        Continent, Desert, Forrest, Hills, Lake, Plains, Mountain, Sea, UndefinedRegionData, Wetland -> doNothing()
+        is Wasteland -> validateEventReference(
+            state,
+            cause,
+            null,
+            "Cause",
+            ALLOWED_WASTELAND_CAUSES,
+        )
     }
 }
 
