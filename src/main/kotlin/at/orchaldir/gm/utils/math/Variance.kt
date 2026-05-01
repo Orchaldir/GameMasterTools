@@ -18,4 +18,15 @@ data class Variance<T: Value<T>>(
     fun getMax() = center + offset
 
     fun isInside(value: T) = value >= getMin() &&  value <= getMax()
+
+    fun validate(
+        label: String,
+        minCenter: T,
+        maxCenter: T,
+        minOffset: T,
+        maxOffset: T,
+    ) {
+        center.validate("$label's center", minCenter, maxCenter)
+        center.validate("$label's offset", minOffset, maxOffset)
+    }
 }

@@ -7,6 +7,10 @@ import at.orchaldir.gm.app.html.util.math.fieldVariance
 import at.orchaldir.gm.app.html.util.math.parseOrientationVariance
 import at.orchaldir.gm.app.html.util.math.selectOrientationVariance
 import at.orchaldir.gm.core.model.ecology.plant.appearance.CurvedStem
+import at.orchaldir.gm.core.model.ecology.plant.appearance.MAX_CURVE_CENTER
+import at.orchaldir.gm.core.model.ecology.plant.appearance.MAX_CURVE_OFFSET
+import at.orchaldir.gm.core.model.ecology.plant.appearance.MIN_CURVE_CENTER
+import at.orchaldir.gm.core.model.ecology.plant.appearance.MIN_CURVE_OFFSET
 import at.orchaldir.gm.core.model.ecology.plant.appearance.StemShape
 import at.orchaldir.gm.core.model.ecology.plant.appearance.StemShapeType
 import at.orchaldir.gm.core.model.ecology.plant.appearance.StraightStem
@@ -53,10 +57,10 @@ fun HtmlBlockTag.editStemShape(
                 "Angle Offset",
                 combine(shapeParam, ORIENTATION),
                 shape.angle,
-                -QUARTER_CIRCLE,
-                QUARTER_CIRCLE,
-                ZERO_ORIENTATION,
-                QUARTER_CIRCLE,
+                MIN_CURVE_CENTER,
+                MAX_CURVE_CENTER,
+                MIN_CURVE_OFFSET,
+                MAX_CURVE_OFFSET,
             )
         }
     }

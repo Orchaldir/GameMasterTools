@@ -1,10 +1,19 @@
 package at.orchaldir.gm.core.model.ecology.plant.appearance
 
 import at.orchaldir.gm.utils.NumberGenerator
+import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Variance
+import at.orchaldir.gm.utils.math.checkInt
 import at.orchaldir.gm.utils.math.unit.Orientation
+import at.orchaldir.gm.utils.math.unit.QUARTER_CIRCLE
+import at.orchaldir.gm.utils.math.unit.ZERO_ORIENTATION
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+
+val MIN_CURVE_CENTER = -QUARTER_CIRCLE
+val MAX_CURVE_CENTER = QUARTER_CIRCLE
+val MIN_CURVE_OFFSET = ZERO_ORIENTATION
+val MAX_CURVE_OFFSET = QUARTER_CIRCLE
 
 enum class StemShapeType {
     Straight,
@@ -26,6 +35,17 @@ sealed class StemShape {
     ) = when (this) {
         is StraightStem -> orientation
         is CurvedStem -> orientation + angle.generate(numberGenerator) / (segments - 1)
+    }
+
+    fun validate(label: String) = when (this) {
+        is StraightStem -> doNothing()
+        is CurvedStem -> angle.validate(
+            "$label's curve",
+            MIN_CURVE_CENTER,
+            MAX_CURVE_CENTER,
+            MIN_CURVE_OFFSET,
+            MAX_CURVE_OFFSET,
+            )
     }
 
 }

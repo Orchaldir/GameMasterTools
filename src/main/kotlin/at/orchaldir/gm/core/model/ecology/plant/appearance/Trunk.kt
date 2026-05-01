@@ -1,13 +1,7 @@
 package at.orchaldir.gm.core.model.ecology.plant.appearance
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.ecology.plant.Tree
-import at.orchaldir.gm.core.model.ecology.plant.UndefinedPlantAppearance
-import at.orchaldir.gm.core.model.race.MAX_RACE_HEIGHT
-import at.orchaldir.gm.core.model.race.MIN_RACE_HEIGHT
 import at.orchaldir.gm.core.model.util.render.Color
-import at.orchaldir.gm.core.reducer.util.checkIsInside
-import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Distribution
 import at.orchaldir.gm.utils.math.unit.checkDistance
@@ -25,7 +19,7 @@ data class Trunk(
 
     fun validate(state: State) {
         checkDistance(height.center, "trunk's height", MIN_TRUNK_HEIGHT, MAX_TRUNK_HEIGHT)
-        stem.validate(state, "trunk")
+        stem.validate("trunk")
     }
 
 }
