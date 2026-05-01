@@ -6,15 +6,20 @@
    "name": "Tree",
    "appearance": {
     "#type": "Tree",
+    "trunk": {
+     "height": {
+      "center": 1000000,
+      "offset": 0
+     },
+     "stem": {
+      "segments": 4,
+      "splitting": {
+       "#type": "Base",
+       "probability": 10000
+      }
+     }
+    },
     "wood": 10
-   }
-  },
-  "1": {
-   "id": 1,
-   "name": "Iron Tree",
-   "appearance": {
-    "#type": "Tree",
-    "wood": 11
    }
   }
  }

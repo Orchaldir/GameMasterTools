@@ -14,9 +14,7 @@ import at.orchaldir.gm.core.model.util.UndefinedPosition
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.reducer.util.checkPosition
-import at.orchaldir.gm.core.reducer.util.validateEventReference
 import at.orchaldir.gm.utils.Id
-import at.orchaldir.gm.utils.doNothing
 import kotlinx.serialization.Serializable
 
 const val REGION_TYPE = "Region"
@@ -56,25 +54,8 @@ data class Region(
     override fun position() = position
 
     override fun validate(state: State) {
-        when (data) {
-            is Battlefield -> validateEventReference(
-                state,
-                data.cause,
-                null,
-                "Cause",
-                ALLOWED_BATTLEFIELD_CAUSES,
-            )
-
-            Continent, Desert, Forrest, Hills, Lake, Plains, Mountain, Sea, UndefinedRegionData, Wetland -> doNothing()
-            is Wasteland -> validateEventReference(
-                state,
-                data.cause,
-                null,
-                "Cause",
-                ALLOWED_WASTELAND_CAUSES,
-            )
-        }
-
+        data.validate(state)
+        ecology.validate(state)
         checkPosition(state, position, "position", null, data.getAllowedRegionTypes())
         state.getMaterialStorage().require(resources)
         encounter.validate(state, null)

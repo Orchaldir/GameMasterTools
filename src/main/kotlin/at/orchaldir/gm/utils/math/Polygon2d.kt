@@ -2,7 +2,6 @@ package at.orchaldir.gm.utils.math
 
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Orientation
-import at.orchaldir.gm.utils.math.unit.QUARTER_CIRCLE
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -52,11 +51,11 @@ data class Polygon2dBuilder(
         center: Point2d,
         orientation: Orientation,
         halfWidth: Distance,
+        isSharp: Boolean = false,
     ): Polygon2dBuilder {
-        val right = center.createPolar(halfWidth, orientation - QUARTER_CIRCLE)
-        val left = center.createPolar(halfWidth, orientation + QUARTER_CIRCLE)
+        val (left, right) = center.createLeftAndRightPoint(orientation, halfWidth)
 
-        return addPoints(left, right)
+        return addPoints(left, right, isSharp)
     }
 
     fun addPoints(left: Point2d, right: Point2d, isSharp: Boolean = false): Polygon2dBuilder {
@@ -70,6 +69,8 @@ data class Polygon2dBuilder(
 
         return this
     }
+
+    fun addPoint(point: Point2d, isSharp: Boolean = false) = addLeftPoint(point, isSharp)
 
     fun addLeftPoint(aabb: AABB, horizontal: Factor, vertical: Factor, isSharp: Boolean = false) =
         addLeftPoint(aabb.getPoint(horizontal, vertical), isSharp)

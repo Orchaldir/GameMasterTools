@@ -66,7 +66,7 @@ fun HtmlBlockTag.selectDistanceDistribution(
 fun <T : SiUnit<T>> parseDistribution(
     parameters: Parameters,
     param: String,
-    prefix: SiPrefix,
+    prefix: SiPrefix = SiPrefix.Base,
     parseUnit: (Parameters, String, SiPrefix) -> T,
 ) = Distribution(
     parseUnit(parameters, combine(param, CENTER), prefix),

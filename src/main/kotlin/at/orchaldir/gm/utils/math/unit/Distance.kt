@@ -40,6 +40,8 @@ value class Distance private constructor(private val micrometers: Long) : SiUnit
         fun resolveUnit(prefix: SiPrefix) = prefix.resolveUnit() + "m"
     }
 
+    override fun zero() = ZERO_DISTANCE
+
     override fun value() = micrometers
     override fun convertToLong(prefix: SiPrefix) = when (prefix) {
         SiPrefix.Kilo -> convertToKilometers(micrometers).toLong()
@@ -58,7 +60,7 @@ value class Distance private constructor(private val micrometers: Long) : SiUnit
     operator fun unaryMinus() = Distance(-micrometers)
     override operator fun plus(other: Distance) = Distance(micrometers + other.micrometers)
     override operator fun minus(other: Distance) = Distance(micrometers - other.micrometers)
-    operator fun times(factor: Float) = Distance((micrometers * factor).toLong())
+    override operator fun times(factor: Float) = Distance((micrometers * factor).toLong())
     override operator fun times(factor: Factor) = times(factor.toNumber())
     operator fun times(factor: Int) = Distance(micrometers * factor)
     operator fun div(factor: Float) = Distance((micrometers / factor).toLong())
@@ -66,7 +68,7 @@ value class Distance private constructor(private val micrometers: Long) : SiUnit
     operator fun div(factor: Int) = Distance(micrometers / factor)
     operator fun div(other: Distance) = Factor.fromNumber(micrometers / other.micrometers.toFloat())
 
-    operator fun compareTo(other: Distance): Int = micrometers.compareTo(other.micrometers)
+    override operator fun compareTo(other: Distance): Int = micrometers.compareTo(other.micrometers)
 
     fun isZero() = micrometers == 0L
 

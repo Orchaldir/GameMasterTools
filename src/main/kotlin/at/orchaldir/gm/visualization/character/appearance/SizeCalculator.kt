@@ -52,6 +52,7 @@ class PaddedSize(
         ),
         baseSize,
     )
+
     fun getInnerAABB(full: AABB) = full.createSubAabb(baseSize)
 
     fun getFullSize() = baseSize

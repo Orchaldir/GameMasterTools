@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.html.ecology.plant
 import at.orchaldir.gm.app.APPEARANCE
 import at.orchaldir.gm.app.MATERIAL
 import at.orchaldir.gm.app.TREE
+import at.orchaldir.gm.app.TRUNK
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.economy.material.parseOptionalMaterialId
 import at.orchaldir.gm.core.model.State
@@ -35,7 +36,11 @@ fun HtmlBlockTag.showPlantAppearance(
         field("Type", appearance.getType())
 
         when (appearance) {
-            is Tree -> optionalFieldLink("Wood", call, state, appearance.wood)
+            is Tree -> {
+                showTrunk(appearance.trunk)
+                optionalFieldLink("Wood", call, state, appearance.wood)
+            }
+
             UndefinedPlantAppearance -> doNothing()
         }
     }
@@ -65,13 +70,16 @@ fun HtmlBlockTag.editPlantAppearance(
         }
 
         when (appearance) {
-            is Tree -> selectOptionalElement(
-                state,
-                "Wood",
-                combine(param, TREE, MATERIAL),
-                woods,
-                appearance.wood,
-            )
+            is Tree -> {
+                editTrunk(appearance.trunk, combine(param, TRUNK))
+                selectOptionalElement(
+                    state,
+                    "Wood",
+                    combine(param, TREE, MATERIAL),
+                    woods,
+                    appearance.wood,
+                )
+            }
 
             UndefinedPlantAppearance -> doNothing()
         }
@@ -87,6 +95,7 @@ fun parsePlantAppearance(
     param: String = APPEARANCE,
 ) = when (parse(parameters, param, PlantAppearanceType.Undefined)) {
     PlantAppearanceType.Tree -> Tree(
+        parseTrunk(parameters, combine(param, TRUNK)),
         parseOptionalMaterialId(parameters, combine(param, TREE, MATERIAL)),
     )
 

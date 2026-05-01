@@ -1,5 +1,7 @@
 package at.orchaldir.gm.utils.math.unit
 
+import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.Value
 import kotlinx.serialization.Serializable
 import java.util.*
 import kotlin.math.absoluteValue
@@ -16,7 +18,7 @@ val FULL_CIRCLE = Orientation.fromDegrees(360)
 
 @JvmInline
 @Serializable
-value class Orientation private constructor(private val millidegrees: Long) {
+value class Orientation private constructor(private val millidegrees: Long) : Value<Orientation> {
 
     companion object {
         fun fromDegrees(degrees: Float) = Orientation(convertFromDegrees(degrees))
@@ -28,7 +30,9 @@ value class Orientation private constructor(private val millidegrees: Long) {
         fun zero() = ZERO_ORIENTATION
     }
 
-    fun value() = millidegrees
+    override fun zero() = ZERO_ORIENTATION
+
+    override fun value() = millidegrees
 
     fun toDegrees() = convertToDegrees(millidegrees)
     fun toRadians() = Math.toRadians(toDegrees().toDouble()).toFloat()
@@ -52,11 +56,15 @@ value class Orientation private constructor(private val millidegrees: Long) {
 
     operator fun unaryMinus() = Orientation(-millidegrees)
 
-    operator fun plus(other: Orientation) = Orientation(millidegrees + other.millidegrees)
-    operator fun minus(other: Orientation) = Orientation(millidegrees - other.millidegrees)
-    operator fun times(factor: Float) = Orientation((millidegrees * factor).toLong())
+    override operator fun plus(other: Orientation) = Orientation(millidegrees + other.millidegrees)
+    override operator fun minus(other: Orientation) = Orientation(millidegrees - other.millidegrees)
+
+    override operator fun times(factor: Float) = Orientation((millidegrees * factor).toLong())
+    override operator fun times(factor: Factor) = Orientation((millidegrees * factor.toNumber()).toLong())
     operator fun div(factor: Int) = Orientation(millidegrees / factor)
     operator fun div(factor: Float) = Orientation((millidegrees / factor).toLong())
+
+    override fun compareTo(other: Orientation) = millidegrees.compareTo(other.millidegrees)
 
     override fun toString() = formatOrientation(millidegrees)
 }

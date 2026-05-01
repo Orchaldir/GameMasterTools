@@ -39,6 +39,8 @@ value class Weight private constructor(private val milligrams: Long) : SiUnit<We
         fun resolveUnit(prefix: SiPrefix) = prefix.resolveUnit() + "g"
     }
 
+    override fun zero() = WEIGHTLESS
+
     override fun value() = milligrams
     override fun convertToLong(prefix: SiPrefix) = when (prefix) {
         SiPrefix.Kilo -> convertToKilograms(milligrams).toLong()
@@ -54,11 +56,13 @@ value class Weight private constructor(private val milligrams: Long) : SiUnit<We
 
     override operator fun plus(other: Weight) = Weight(milligrams + other.milligrams)
     override operator fun minus(other: Weight) = Weight(milligrams - other.milligrams)
-    operator fun times(factor: Float) = Weight((milligrams * factor).toLong())
+    override operator fun times(factor: Float) = Weight((milligrams * factor).toLong())
     override operator fun times(factor: Factor) = times(factor.toNumber())
     operator fun times(factor: Int) = Weight(milligrams * factor)
     operator fun div(factor: Float) = Weight((milligrams / factor).toLong())
     operator fun div(factor: Int) = Weight(milligrams / factor)
+
+    override fun compareTo(other: Weight) = milligrams.compareTo(other.milligrams)
 
     fun max(other: Weight) = if (milligrams >= other.milligrams) {
         this

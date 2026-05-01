@@ -70,7 +70,7 @@ class MaterialTest {
 
         @Test
         fun `Cannot delete a material used by a plant`() {
-            val equipment = Plant(PLANT_ID_0, appearance = Tree(MATERIAL_ID_0))
+            val equipment = Plant(PLANT_ID_0, appearance = Tree(wood = MATERIAL_ID_0))
             val newState = state.updateStorage(equipment)
 
             failCanDelete(newState, PLANT_ID_0)

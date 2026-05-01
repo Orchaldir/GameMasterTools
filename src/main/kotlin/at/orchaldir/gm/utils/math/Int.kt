@@ -27,6 +27,6 @@ fun checkInt(
     min: Int,
     max: Int,
 ) {
-    require(value >= min) { "The $label factor is too small!" }
-    require(value <= max) { "The $label factor is too large!" }
+    require(value >= min) { "The $label is too small!" }
+    require(value <= max) { "The $label is too large!" }
 }
