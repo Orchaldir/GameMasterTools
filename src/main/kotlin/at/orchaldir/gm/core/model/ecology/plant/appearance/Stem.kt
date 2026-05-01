@@ -1,5 +1,7 @@
 package at.orchaldir.gm.core.model.ecology.plant.appearance
 
+import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.utils.math.checkInt
 import kotlinx.serialization.Serializable
 
 const val MIN_SEGMENTS = 3
@@ -11,4 +13,10 @@ data class Stem(
     val shape: StemShape = StraightStem,
     val thickness: StemThickness = LinearStemThickness(),
     val splitting: StemSplitting = NoStemSplitting,
-)
+) {
+
+    fun validate(state: State, label: String) {
+        checkInt(segments, "${label}'s number of segments", MIN_SEGMENTS, MAX_SEGMENTS)
+    }
+
+}

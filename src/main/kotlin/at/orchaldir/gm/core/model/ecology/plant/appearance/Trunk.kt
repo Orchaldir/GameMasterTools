@@ -25,6 +25,7 @@ data class Trunk(
 
     fun validate(state: State) {
         checkDistance(height.center, "trunk's height", MIN_TRUNK_HEIGHT, MAX_TRUNK_HEIGHT)
+        stem.validate(state, "trunk")
     }
 
 }
