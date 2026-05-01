@@ -81,18 +81,23 @@ fun <T : Value<T>> HtmlBlockTag.selectVariance(
 fun parseOrientationVariance(
     parameters: Parameters,
     param: String,
+    defaultCenter: Orientation,
 ) = parseVariance(
     parameters,
     param,
+    defaultCenter,
+    ZERO_ORIENTATION,
     ::parseOrientation,
 )
 
 fun <T : Value<T>> parseVariance(
     parameters: Parameters,
     param: String,
-    parseUnit: (Parameters, String) -> T,
+    defaultCenter: T,
+    defaultOffset: T,
+    parseUnit: (Parameters, String, T) -> T,
 ) = Variance(
-    parseUnit(parameters, combine(param, CENTER)),
-    parseUnit(parameters, combine(param, OFFSET)),
+    parseUnit(parameters, combine(param, CENTER), defaultCenter),
+    parseUnit(parameters, combine(param, OFFSET), defaultOffset),
 )
 

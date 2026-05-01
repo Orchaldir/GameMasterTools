@@ -23,7 +23,7 @@
        "#type": "Base",
        "probability": 10000,
        "angle": {
-        "center": 7000,
+        "center": 5000,
         "offset": 0
        }
       }

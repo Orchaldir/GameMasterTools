@@ -10,8 +10,8 @@ import at.orchaldir.gm.app.html.util.math.parseFactor
 import at.orchaldir.gm.app.html.util.math.parseOrientationVariance
 import at.orchaldir.gm.app.html.util.math.selectFactor
 import at.orchaldir.gm.app.html.util.math.selectOrientationVariance
-import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.ecology.plant.appearance.BaseSplitting
+import at.orchaldir.gm.core.model.ecology.plant.appearance.MIN_SPLITTING_ANGLE
 import at.orchaldir.gm.core.model.ecology.plant.appearance.NoStemSplitting
 import at.orchaldir.gm.core.model.ecology.plant.appearance.SegmentSplitting
 import at.orchaldir.gm.core.model.ecology.plant.appearance.StemSplitting
@@ -26,7 +26,6 @@ import at.orchaldir.gm.utils.math.unit.Orientation
 import at.orchaldir.gm.utils.math.unit.QUARTER_CIRCLE
 import at.orchaldir.gm.utils.math.unit.ZERO_ORIENTATION
 import io.ktor.http.*
-import io.ktor.server.application.*
 import kotlinx.html.DETAILS
 import kotlinx.html.HtmlBlockTag
 
@@ -95,7 +94,7 @@ private fun DETAILS.editProbabilityAndAngle(
         "Angle Offset",
         combine(param, ORIENTATION),
         angle,
-        ZERO_ORIENTATION,
+        MIN_SPLITTING_ANGLE,
         HALF_CIRCLE,
         ZERO_ORIENTATION,
         QUARTER_CIRCLE,
@@ -129,4 +128,8 @@ private fun parseProbability(parameters: Parameters, param: String) =
 private fun parseAngle(
     parameters: Parameters,
     param: String,
-) = parseOrientationVariance(parameters, combine(param, ORIENTATION))
+) = parseOrientationVariance(
+    parameters,
+    combine(param, ORIENTATION),
+    MIN_SPLITTING_ANGLE,
+)

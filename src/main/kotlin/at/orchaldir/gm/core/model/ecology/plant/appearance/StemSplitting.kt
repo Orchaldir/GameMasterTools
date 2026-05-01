@@ -9,6 +9,8 @@ import at.orchaldir.gm.utils.toInt
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+val MIN_SPLITTING_ANGLE = Orientation.fromDegrees(5)
+
 enum class StemSplittingType {
     None,
     Segment,

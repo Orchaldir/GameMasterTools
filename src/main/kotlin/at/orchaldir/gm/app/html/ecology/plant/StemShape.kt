@@ -73,7 +73,11 @@ fun parseStemShape(
     return when (parse(parameters, shapeParam, StemShapeType.Straight)) {
         StemShapeType.Straight -> StraightStem
         StemShapeType.Curved -> CurvedStem(
-            parseOrientationVariance(parameters, combine(shapeParam, ORIENTATION)),
+            parseOrientationVariance(
+                parameters,
+                combine(shapeParam, ORIENTATION),
+                ZERO_ORIENTATION,
+            ),
         )
     }
 }
