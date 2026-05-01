@@ -22,7 +22,7 @@ class TrunkTest {
     )
 
     @Nested
-    inner class TrunkTest {
+    inner class HeightTest {
 
         @Test
         fun `Cannot use too small height`() {

@@ -24,17 +24,21 @@ class StemTest {
         )
     )
 
-    @Test
-    fun `Cannot use too few segments`() {
-        val tree = Stem(MIN_SEGMENTS - 1)
+    @Nested
+    inner class SegmentsTest {
 
-        assertIllegalArgument("The test's number of segments is too small!") { tree.validate(state, "test") }
-    }
+        @Test
+        fun `Cannot use too few segments`() {
+            val tree = Stem(MIN_SEGMENTS - 1)
 
-    @Test
-    fun `Cannot use too many segments`() {
-        val tree = Stem(MAX_SEGMENTS + 1)
+            assertIllegalArgument("The test's number of segments is too small!") { tree.validate(state, "test") }
+        }
 
-        assertIllegalArgument("The test's number of segments is too large!") { tree.validate(state, "test") }
+        @Test
+        fun `Cannot use too many segments`() {
+            val tree = Stem(MAX_SEGMENTS + 1)
+
+            assertIllegalArgument("The test's number of segments is too large!") { tree.validate(state, "test") }
+        }
     }
 }
