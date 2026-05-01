@@ -1,5 +1,36 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "appearance": {
+    "#type": "Tree",
+    "trunk": {
+     "height": {
+      "center": 1000000,
+      "offset": 0
+     },
+     "stem": {
+      "segments": 4,
+      "shape": {
+       "#type": "Straight"
+      },
+      "thickness": {
+       "#type": "Linear",
+       "start": 500
+      },
+      "splitting": {
+       "#type": "Base",
+       "probability": 10000,
+       "angle": {
+        "center": 7000,
+        "offset": 0
+       }
+      }
+     },
+     "bark": "SaddleBrown"
+    }
+   }
+  }
  }
 }

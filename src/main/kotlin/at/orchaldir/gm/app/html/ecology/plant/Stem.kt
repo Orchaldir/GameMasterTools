@@ -3,6 +3,8 @@ package at.orchaldir.gm.app.html.ecology.plant
 import at.orchaldir.gm.app.APPEARANCE
 import at.orchaldir.gm.app.NUMBER
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.core.model.ecology.plant.appearance.MAX_SEGMENTS
+import at.orchaldir.gm.core.model.ecology.plant.appearance.MIN_SEGMENTS
 import at.orchaldir.gm.core.model.ecology.plant.appearance.Stem
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag
@@ -31,8 +33,8 @@ fun HtmlBlockTag.editStem(
         selectInt(
             "Segments",
             stem.segments,
-            3,
-            100,
+            MIN_SEGMENTS,
+            MAX_SEGMENTS,
             1,
             combine(param, NUMBER),
         )
@@ -49,7 +51,7 @@ fun parseStem(
     parameters: Parameters,
     param: String,
 ) = Stem(
-    parseInt(parameters, combine(param, NUMBER)),
+    parseInt(parameters, combine(param, NUMBER), MIN_SEGMENTS),
     parseStemShape(parameters, param),
     parseStemThickness(parameters, param),
     parseStemSplitting(parameters, param),

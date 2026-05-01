@@ -14,6 +14,7 @@ import at.orchaldir.gm.core.model.ecology.plant.appearance.LinearStemThickness
 import at.orchaldir.gm.core.model.ecology.plant.appearance.StemThickness
 import at.orchaldir.gm.core.model.ecology.plant.appearance.StemThicknessType
 import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.ONE
 import at.orchaldir.gm.utils.math.ONE_TENTH_PERCENT
 import at.orchaldir.gm.utils.math.ZERO
@@ -114,14 +115,14 @@ fun parseStemThickness(
         )
         StemThicknessType.Linear -> LinearStemThickness(
             parseThicknessRelativeToLength(parameters, splitParam),
-            parseFactor(parameters, combine(param, END)),
+            parseFactor(parameters, combine(param, END), ZERO),
             parseHasRoundedEnd(parameters, splitParam),
         )
     }
 }
 
 private fun parseThicknessRelativeToLength(parameters: Parameters, param: String) =
-    parseFactor(parameters, combine(param, START))
+    parseFactor(parameters, combine(param, START), fromPercentage(5))
 
 private fun parseHasRoundedEnd(parameters: Parameters, param: String) =
     parseBool(parameters, combine(param, ROUND))

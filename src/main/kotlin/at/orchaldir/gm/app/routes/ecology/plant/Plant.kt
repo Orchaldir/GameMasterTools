@@ -107,7 +107,13 @@ fun Application.configurePlantRouting() {
             )
         }
         post<PlantRoutes.Preview> { preview ->
-            handlePreviewElement(preview.id, PlantRoutes(), ::parsePlant, HtmlBlockTag::editPlant)
+            handlePreviewElementSplit(
+                preview.id,
+                PlantRoutes(),
+                ::parsePlant,
+                HtmlBlockTag::editPlant,
+                HtmlBlockTag::visualizePlant,
+            )
         }
         post<PlantRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parsePlant)
