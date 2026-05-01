@@ -10,7 +10,7 @@ val MAX_TRUNK_HEIGHT = Distance.fromMeters(200)
 
 @Serializable
 data class Trunk(
-    val height: Distribution<Distance>,
-    val stem: Stem,
-    val bark: Color,
+    val height: Distribution<Distance> = Distribution(MIN_TRUNK_HEIGHT),
+    val stem: Stem = Stem(),
+    val bark: Color = Color.SaddleBrown,
 )

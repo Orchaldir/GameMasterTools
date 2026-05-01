@@ -10,6 +10,7 @@ import at.orchaldir.gm.app.html.util.math.fieldFactor
 import at.orchaldir.gm.app.html.util.math.parseFactor
 import at.orchaldir.gm.app.html.util.math.selectFactor
 import at.orchaldir.gm.core.model.ecology.plant.appearance.ConstantStemThickness
+import at.orchaldir.gm.core.model.ecology.plant.appearance.DEFAULT_RELATIVE_TO_LENGTH
 import at.orchaldir.gm.core.model.ecology.plant.appearance.LinearStemThickness
 import at.orchaldir.gm.core.model.ecology.plant.appearance.StemThickness
 import at.orchaldir.gm.core.model.ecology.plant.appearance.StemThicknessType
@@ -122,7 +123,7 @@ fun parseStemThickness(
 }
 
 private fun parseThicknessRelativeToLength(parameters: Parameters, param: String) =
-    parseFactor(parameters, combine(param, START), fromPercentage(5))
+    parseFactor(parameters, combine(param, START), DEFAULT_RELATIVE_TO_LENGTH)
 
 private fun parseHasRoundedEnd(parameters: Parameters, param: String) =
     parseBool(parameters, combine(param, ROUND))

@@ -71,7 +71,7 @@ class PlantTest {
 
         @Test
         fun `Cannot use unknown material`() {
-            val action = UpdateAction(Plant(PLANT_ID_0, appearance = Tree(UNKNOWN_MATERIAL_ID)))
+            val action = UpdateAction(Plant(PLANT_ID_0, appearance = Tree(wood = UNKNOWN_MATERIAL_ID)))
 
             assertIllegalArgument("Requires unknown Material 99!") { REDUCER.invoke(state, action) }
         }

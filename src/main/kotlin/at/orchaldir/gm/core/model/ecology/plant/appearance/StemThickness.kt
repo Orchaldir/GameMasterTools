@@ -9,6 +9,8 @@ import at.orchaldir.gm.utils.math.unit.Distance
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+val DEFAULT_RELATIVE_TO_LENGTH = Factor.fromPercentage(5)
+
 enum class StemThicknessType {
     Constant,
     Linear,
@@ -36,7 +38,7 @@ sealed class StemThickness {
 @Serializable
 @SerialName("Constant")
 data class ConstantStemThickness(
-    val relativeToLength: Factor,
+    val relativeToLength: Factor = DEFAULT_RELATIVE_TO_LENGTH,
     val hasRoundedEnd: Boolean = false,
 ) : StemThickness()
 
@@ -46,7 +48,7 @@ data class LinearStemThickness(
     /*
      * The thickness at the start of the stem relative to the length of the stem.
      */
-    val start: Factor,
+    val start: Factor = DEFAULT_RELATIVE_TO_LENGTH,
     /*
      * The thickness at the end of the stem relative to the length of the stem.
      */

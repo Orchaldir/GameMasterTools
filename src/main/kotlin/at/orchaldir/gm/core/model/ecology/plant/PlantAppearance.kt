@@ -35,7 +35,7 @@ sealed class PlantAppearance {
 @Serializable
 @SerialName("Tree")
 data class Tree(
-    val trunk: Trunk,
+    val trunk: Trunk = Trunk(),
     val wood: MaterialId? = null,
 ) : PlantAppearance()
 
