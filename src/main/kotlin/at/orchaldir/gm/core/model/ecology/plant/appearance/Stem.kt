@@ -12,6 +12,7 @@ data class Stem(
     val shape: StemShape = StraightStem,
     val thickness: StemThickness = LinearStemThickness(),
     val splitting: StemSplitting = NoStemSplitting,
+    val branching: Branching = NoBranching,
 ) {
 
     fun validate(label: String) {
