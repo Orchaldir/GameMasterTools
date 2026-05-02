@@ -27,7 +27,12 @@ data object NoBranching : Branching()
 @Serializable
 @SerialName("Simple")
 data class SimpleBranching(
-    val stem: Stem = Stem(),
+    val maxCount: Int,
+    val sidePattern: BranchSidePattern,
+    val base: Factor,
+    val maxLength: Factor,
+    val length: BranchLength = BranchLength.Conical,
+    val branch: Stem = Stem(),
     /**
      * The angle between the parent and the children.
      */
