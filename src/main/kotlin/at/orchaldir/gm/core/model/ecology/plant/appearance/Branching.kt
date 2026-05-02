@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.model.ecology.plant.appearance
 
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.unit.Orientation
+import at.orchaldir.gm.utils.math.unit.QUARTER_CIRCLE
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -36,5 +37,5 @@ data class SimpleBranching(
     /**
      * The angle between the parent and the children.
      */
-    val angle: Variance<Orientation>,
+    val angle: Variance<Orientation> = Variance(QUARTER_CIRCLE),
 ) : Branching()
