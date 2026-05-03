@@ -9,4 +9,5 @@ data class SegmentData(
     val orientation: Orientation,
     val thickness: Distance,
     val next: List<SegmentData>,
+    val branches: List<StemData>,
 )

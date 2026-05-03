@@ -20,14 +20,23 @@ fun buildTrunk(
     return buildStem(numberGenerator, trunk.stem, position, fromDegrees(-90), height)
 }
 
-fun buildStem(
+private fun buildStem(
     numberGenerator: NumberGenerator,
     stem: Stem,
     position: Point2d,
     orientation: Orientation,
     length: Distance,
 ): StemData {
-    val segment = buildSegment(numberGenerator, stem, length, position, orientation, 0)
+    val branchBuilder = createBranchBuilder(numberGenerator, stem.branching, position)
+    val segment = buildSegment(
+        numberGenerator,
+        stem,
+        branchBuilder,
+        length,
+        position,
+        orientation,
+        0,
+    )
 
     return StemData(
         position,
@@ -40,6 +49,7 @@ fun buildStem(
 private fun buildSegment(
     numberGenerator: NumberGenerator,
     stem: Stem,
+    branchBuilder: BranchBuilder,
     stemLength: Distance,
     start: Point2d,
     orientation: Orientation,
@@ -48,6 +58,7 @@ private fun buildSegment(
     val end = start.createPolar(stemLength / stem.segments, orientation)
     val nextIndex = index + 1
     val thickness = stem.thickness.calculate(stemLength, FULL * nextIndex / stem.segments)
+    val branches = branchBuilder.processSegment(end)
     val segments = mutableListOf<SegmentData>()
 
     if (nextIndex < stem.segments) {
@@ -57,7 +68,15 @@ private fun buildSegment(
             .calculateSplits(numberGenerator, endOrientation, index)
             .forEach { splitOrientation ->
                 segments.add(
-                    buildSegment(numberGenerator, stem, stemLength, end, splitOrientation, nextIndex)
+                    buildSegment(
+                        numberGenerator,
+                        stem,
+                        branchBuilder.clone(),
+                        stemLength,
+                        end,
+                        splitOrientation,
+                        nextIndex,
+                    )
                 )
             }
     }
@@ -67,5 +86,6 @@ private fun buildSegment(
         orientation,
         thickness,
         segments,
+        branches,
     )
 }
