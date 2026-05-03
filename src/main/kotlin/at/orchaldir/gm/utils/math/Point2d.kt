@@ -68,7 +68,8 @@ data class Point2d(val x: Distance = ZERO_DISTANCE, val y: Distance = ZERO_DISTA
         return square(0.0f)
     }
 
-    fun calculateMiddle(other: Point2d) = (this + other) / 2.0f
+    fun interpolate(other: Point2d, between: Factor) = this * (FULL - between) + other * between
+    fun calculateMiddle(other: Point2d) = interpolate(other, HALF)
 
     fun calculateOrientation() = Orientation.fromRadians(
         atan2(

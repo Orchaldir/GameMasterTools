@@ -20,14 +20,14 @@ fun buildTrunk(
     return buildStem(numberGenerator, trunk.stem, position, fromDegrees(-90), height)
 }
 
-private fun buildStem(
+fun buildStem(
     numberGenerator: NumberGenerator,
     stem: Stem,
     position: Point2d,
     orientation: Orientation,
     length: Distance,
 ): StemData {
-    val branchBuilder = createBranchBuilder(numberGenerator, stem.branching, position)
+    val branchBuilder = createBranchBuilder(numberGenerator, stem.branching, position, length)
     val segment = buildSegment(
         numberGenerator,
         stem,
@@ -58,7 +58,7 @@ private fun buildSegment(
     val end = start.createPolar(stemLength / stem.segments, orientation)
     val nextIndex = index + 1
     val thickness = stem.thickness.calculate(stemLength, FULL * nextIndex / stem.segments)
-    val branches = branchBuilder.processSegment(end)
+    val branches = branchBuilder.processSegment(end, FULL / stem.segments, orientation)
     val segments = mutableListOf<SegmentData>()
 
     if (nextIndex < stem.segments) {
