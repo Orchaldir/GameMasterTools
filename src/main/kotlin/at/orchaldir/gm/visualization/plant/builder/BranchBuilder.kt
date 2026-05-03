@@ -30,21 +30,21 @@ data class SimpleBranchBuilder(
     val numberGenerator: NumberGenerator,
     val branching: SimpleBranching,
     var segmentStart: Point2d,
-    var currentPos: Factor,
-    var branchingPos: Factor,
+    var relativeStart: Factor,
+    var nextBranch: Factor,
     var branchingStep: Factor,
 ) : BranchBuilder() {
 
-    override fun processSegment(segmentEnd: Point2d, segmentStep: Factor): List<StemData> {
+    override fun processSegment(segmentEnd: Point2d, relativeLength: Factor): List<StemData> {
         val branches = mutableListOf<StemData>()
-        val nextPos = currentPos + segmentStep
+        val relativeEnd = relativeStart + relativeLength
 
-        while (branchingPos < nextPos) {
-            branchingPos += branchingStep
+        while (nextBranch < relativeEnd) {
+            nextBranch += branchingStep
         }
 
         segmentStart = segmentEnd
-        currentPos = nextPos
+        relativeStart = relativeEnd
 
         return branches
     }
