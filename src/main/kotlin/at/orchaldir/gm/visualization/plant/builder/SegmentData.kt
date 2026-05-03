@@ -10,4 +10,12 @@ data class SegmentData(
     val thickness: Distance,
     val next: List<SegmentData>,
     val branches: List<StemData>,
-)
+) {
+    fun getBranches(branches: MutableList<StemData>) {
+        branches.addAll(branches)
+
+        next.forEach {
+            it.getBranches(branches)
+        }
+    }
+}

@@ -5,17 +5,14 @@ import at.orchaldir.gm.core.model.ecology.plant.Tree
 import at.orchaldir.gm.core.model.ecology.plant.appearance.*
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.prototypes.visualization.addNames
-import at.orchaldir.gm.utils.RandomNumberGenerator
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.HALF
 import at.orchaldir.gm.utils.math.QUARTER
-import at.orchaldir.gm.utils.math.THREE_QUARTER
 import at.orchaldir.gm.utils.math.Variance
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Distribution
 import at.orchaldir.gm.utils.math.unit.Orientation.Companion.fromDegrees
-import kotlin.random.Random
 
 fun main() {
     val curvedStem = CurvedStem(Variance(fromDegrees(20), fromDegrees(20)))
