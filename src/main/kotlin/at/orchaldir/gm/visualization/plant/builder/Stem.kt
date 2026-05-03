@@ -9,25 +9,31 @@ import at.orchaldir.gm.utils.math.ZERO
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Orientation
 import at.orchaldir.gm.utils.math.unit.Orientation.Companion.fromDegrees
+import at.orchaldir.gm.visualization.plant.PlantRenderConfig
 
 fun buildTrunk(
+    config: PlantRenderConfig,
     numberGenerator: NumberGenerator,
     trunk: Trunk,
     position: Point2d,
-): StemData {
-    val height = trunk.height.center
-
-    return buildStem(numberGenerator, trunk.stem, position, fromDegrees(-90), height)
-}
+) = buildStem(
+    config,
+    numberGenerator,
+    trunk.stem,
+    position,
+    fromDegrees(-90),
+    trunk.height.center,
+)
 
 fun buildStem(
+    config: PlantRenderConfig,
     numberGenerator: NumberGenerator,
     stem: Stem,
     position: Point2d,
     orientation: Orientation,
     length: Distance,
 ): StemData {
-    val branchBuilder = createBranchBuilder(numberGenerator, stem.branching, position, length)
+    val branchBuilder = createBranchBuilder(config, numberGenerator, stem.branching, position, length)
     val segment = buildSegment(
         numberGenerator,
         stem,

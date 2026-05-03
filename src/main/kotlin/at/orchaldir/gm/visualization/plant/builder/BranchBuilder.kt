@@ -10,6 +10,8 @@ import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.ZERO
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Orientation
+import at.orchaldir.gm.visualization.plant.PlantRenderConfig
+import at.orchaldir.gm.visualization.plant.PlantRenderState
 
 sealed class BranchBuilder {
 
@@ -29,6 +31,7 @@ data object NoBranchBuilder : BranchBuilder() {
 }
 
 data class SimpleBranchBuilder(
+    val config: PlantRenderConfig,
     val numberGenerator: NumberGenerator,
     val branching: SimpleBranching,
     val maxLength: Distance,
@@ -48,12 +51,14 @@ data class SimpleBranchBuilder(
 
         while (nextBranch < relativeEnd) {
             val positionAlongSegment = (nextBranch - relativeStart) / relativeLength
+            val relativePositionFromBase = (nextBranch - branching.base) / (FULL - branching.base)
             val branch = buildStem(
+                config,
                 numberGenerator,
                 branching.branch,
                 segmentStart.interpolate(segmentEnd, positionAlongSegment),
                 orientation - branching.angle.generate(numberGenerator),
-                maxLength,
+                maxLength * config.resolveBranchLength(branching.length, relativePositionFromBase),
             )
 
             branches.add(branch)
@@ -70,6 +75,7 @@ data class SimpleBranchBuilder(
 }
 
 fun createBranchBuilder(
+    config: PlantRenderConfig,
     numberGenerator: NumberGenerator,
     branching: Branching,
     start: Point2d,
@@ -77,6 +83,7 @@ fun createBranchBuilder(
 ): BranchBuilder = when (branching) {
     NoBranching -> NoBranchBuilder
     is SimpleBranching -> SimpleBranchBuilder(
+        config,
         numberGenerator,
         branching,
         parentLength * branching.maxLength,

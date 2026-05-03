@@ -27,6 +27,7 @@ private val MIN_SIZE = Size2d.square(fromCentimeters(1))
 val PLANT_CONFIG = PlantRenderConfig(
     LineOptions(Color.Black.toRender(), fromMillimeters(5)),
     fromPercentage(20),
+    fromPercentage(20),
 )
 
 fun <C, R> renderPlantTable(
@@ -42,7 +43,7 @@ fun <C, R> renderPlantTable(
     val maxSize = rows.fold(MIN_SIZE) { rowSize, (_, row) ->
         columns.fold(rowSize) { columnSize, (_, column) ->
             val plant = create(column, row)
-            val data = buildPlant(numberGenerator, plant)
+            val data = buildPlant(config, numberGenerator, plant)
             val size = calculateSize(config, data) ?: PaddedSize(MIN_SIZE)
             dataMap[Pair(row, column)] = Pair(data, size)
 
@@ -73,7 +74,7 @@ fun renderPlantTable(
     val dataMap = mutableMapOf<PlantAppearance, Pair<PlantData, PaddedSize>>()
     val size = plants.fold(MIN_SIZE) { rowSize, list ->
         list.fold(rowSize) { columnSize, plant ->
-            val data = buildPlant(numberGenerator, plant)
+            val data = buildPlant(config, numberGenerator, plant)
             val size = calculateSize(config, data) ?: PaddedSize(MIN_SIZE)
             dataMap[plant] = Pair(data, size)
 
