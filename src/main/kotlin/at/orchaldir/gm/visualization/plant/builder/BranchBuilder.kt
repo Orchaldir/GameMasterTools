@@ -1,21 +1,13 @@
 package at.orchaldir.gm.visualization.plant.builder
 
-import at.orchaldir.gm.core.model.ecology.plant.appearance.BranchLength
-import at.orchaldir.gm.core.model.ecology.plant.appearance.BranchSidePattern
 import at.orchaldir.gm.core.model.ecology.plant.appearance.Branching
-import at.orchaldir.gm.core.model.ecology.plant.appearance.BranchingType
 import at.orchaldir.gm.core.model.ecology.plant.appearance.NoBranching
 import at.orchaldir.gm.core.model.ecology.plant.appearance.SimpleBranching
-import at.orchaldir.gm.core.model.ecology.plant.appearance.Stem
 import at.orchaldir.gm.utils.NumberGenerator
+import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Point2d
-import at.orchaldir.gm.utils.math.Variance
 import at.orchaldir.gm.utils.math.ZERO
-import at.orchaldir.gm.utils.math.unit.Orientation
-import at.orchaldir.gm.utils.math.unit.QUARTER_CIRCLE
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
 
 sealed class BranchBuilder {
 
@@ -24,13 +16,13 @@ sealed class BranchBuilder {
         is SimpleBranchBuilder -> this.copy()
     }
 
-    abstract fun processSegment(segmentEnd: Point2d): List<StemData>
+    abstract fun processSegment(segmentEnd: Point2d, segmentStep: Factor): List<StemData>
 
 }
 
 data object NoBranchBuilder : BranchBuilder() {
 
-    override fun processSegment(segmentEnd: Point2d): List<StemData> = emptyList()
+    override fun processSegment(segmentEnd: Point2d, segmentStep: Factor): List<StemData> = emptyList()
 
 }
 
@@ -38,13 +30,21 @@ data class SimpleBranchBuilder(
     val numberGenerator: NumberGenerator,
     val branching: SimpleBranching,
     var segmentStart: Point2d,
-    var relativePosition: Factor = ZERO,
+    var currentPos: Factor,
+    var branchingPos: Factor,
+    var branchingStep: Factor,
 ) : BranchBuilder() {
 
-    override fun processSegment(segmentEnd: Point2d): List<StemData> {
+    override fun processSegment(segmentEnd: Point2d, segmentStep: Factor): List<StemData> {
         val branches = mutableListOf<StemData>()
+        val nextPos = currentPos + segmentStep
+
+        while (branchingPos < nextPos) {
+            branchingPos += branchingStep
+        }
 
         segmentStart = segmentEnd
+        currentPos = nextPos
 
         return branches
     }
@@ -61,5 +61,8 @@ fun createBranchBuilder(
         numberGenerator,
         branching,
         start,
+        ZERO,
+        branching.base,
+        (FULL - branching.base) / (branching.maxCount + 1),
     )
 }
