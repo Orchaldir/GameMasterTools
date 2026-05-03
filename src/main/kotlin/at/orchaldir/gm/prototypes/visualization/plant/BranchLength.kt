@@ -7,13 +7,11 @@ import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
-import at.orchaldir.gm.utils.math.HALF
 import at.orchaldir.gm.utils.math.QUARTER
 import at.orchaldir.gm.utils.math.Variance
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Distribution
 import at.orchaldir.gm.utils.math.unit.Orientation.Companion.fromDegrees
-import at.orchaldir.gm.utils.math.unit.QUARTER_CIRCLE
 
 fun main() {
     val curvedStem = CurvedStem(Variance(fromDegrees(20), fromDegrees(20)))
@@ -48,7 +46,7 @@ private fun createTree(length: BranchLength, pair: Pair<StemShape,StemSplitting>
                 QUARTER,
                 length,
                 Stem(),
-                Variance(QUARTER_CIRCLE, fromDegrees(10)),
+                Variance(fromDegrees(60), fromDegrees(10)),
             )
         ),
         Color.SaddleBrown,
