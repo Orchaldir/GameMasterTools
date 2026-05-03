@@ -3,7 +3,6 @@ package at.orchaldir.gm.visualization.plant.builder
 import at.orchaldir.gm.core.model.ecology.plant.appearance.Branching
 import at.orchaldir.gm.core.model.ecology.plant.appearance.NoBranching
 import at.orchaldir.gm.core.model.ecology.plant.appearance.SimpleBranching
-import at.orchaldir.gm.core.model.ecology.plant.appearance.Stem
 import at.orchaldir.gm.utils.NumberGenerator
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
@@ -11,7 +10,6 @@ import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.ZERO
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Orientation
-import at.orchaldir.gm.utils.math.unit.Orientation.Companion.fromDegrees
 
 sealed class BranchBuilder {
 
@@ -33,7 +31,7 @@ data object NoBranchBuilder : BranchBuilder() {
 data class SimpleBranchBuilder(
     val numberGenerator: NumberGenerator,
     val branching: SimpleBranching,
-    val parentLength: Distance,
+    val maxLength: Distance,
     var segmentStart: Point2d,
     var relativeStart: Factor,
     var nextBranch: Factor,
@@ -55,7 +53,7 @@ data class SimpleBranchBuilder(
                 branching.branch,
                 segmentStart.interpolate(segmentEnd, positionAlongSegment),
                 orientation - branching.angle.generate(numberGenerator),
-                parentLength,
+                maxLength,
             )
 
             branches.add(branch)
@@ -81,7 +79,7 @@ fun createBranchBuilder(
     is SimpleBranching -> SimpleBranchBuilder(
         numberGenerator,
         branching,
-        parentLength,
+        parentLength * branching.maxLength,
         start,
         ZERO,
         branching.base,
