@@ -11,11 +11,11 @@ data class SegmentData(
     val next: List<SegmentData>,
     val branches: List<StemData>,
 ) {
-    fun getBranches(branches: MutableList<StemData>) {
-        branches.addAll(branches)
+    fun getBranches(total: MutableList<StemData>) {
+        total.addAll(branches)
 
         next.forEach {
-            it.getBranches(branches)
+            it.getBranches(total)
         }
     }
 }
