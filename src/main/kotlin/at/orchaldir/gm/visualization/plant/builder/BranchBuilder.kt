@@ -85,6 +85,6 @@ fun createBranchBuilder(
         start,
         ZERO,
         branching.base,
-        (FULL - branching.base) / (branching.maxCount + 1),
+        (FULL - branching.base) / (branching.maxCount + 0.9f),
     )
 }
