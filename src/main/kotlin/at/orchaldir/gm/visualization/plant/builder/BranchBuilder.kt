@@ -54,7 +54,7 @@ data class SimpleBranchBuilder(
 
         while (nextBranch < relativeEnd && branchIndex < branching.maxCount) {
             val positionAlongSegment = (nextBranch - relativeStart) / relativeLength
-            val relativePositionFromBase = (nextBranch - branching.base) / (FULL - branching.base)
+            val relativePositionFromBase = (nextBranch - branching.base) / (FULL - branching.base - branchingStep)
             val position = segmentStart.interpolate(segmentEnd, positionAlongSegment)
             val length = maxLength * config.resolveBranchLength(branching.length, relativePositionFromBase)
 
