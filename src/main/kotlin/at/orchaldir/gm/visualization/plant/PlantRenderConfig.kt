@@ -26,6 +26,11 @@ data class PlantRenderConfig(
             BranchLength.Spherical -> simpleBranchLength((inverted * PI_FACTOR).sin())
             BranchLength.Hemispherical -> simpleBranchLength((inverted * PI_FACTOR * 0.5f).sin())
             BranchLength.Cylindrical -> FULL
+            BranchLength.Flame -> simpleBranchLength(if (position.toNumber() < 0.3f) {
+                position / 0.3f
+            } else {
+                (FULL - position) / 0.7f
+            })
         }
     }
 

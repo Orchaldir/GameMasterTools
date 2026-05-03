@@ -5,4 +5,5 @@ enum class BranchLength {
     Spherical,
     Hemispherical,
     Cylindrical,
+    Flame,
 }
