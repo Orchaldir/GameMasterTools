@@ -41,7 +41,7 @@ private fun createTree(length: BranchLength, pair: Pair<StemShape,StemSplitting>
             LinearStemThickness(fromPercentage(5)),
             pair.second,
             SimpleBranching(
-                10,
+                2,
                 BranchSidePattern.BothSides,
                 HALF,
                 QUARTER,
