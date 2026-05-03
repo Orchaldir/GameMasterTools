@@ -43,7 +43,7 @@ private fun createTree(length: BranchLength, pair: Pair<StemShape,StemSplitting>
             SimpleBranching(
                 2,
                 BranchSidePattern.BothSides,
-                HALF,
+                QUARTER,
                 QUARTER,
                 length,
             )

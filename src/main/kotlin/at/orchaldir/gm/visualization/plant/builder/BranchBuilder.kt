@@ -39,6 +39,7 @@ data class SimpleBranchBuilder(
     var relativeStart: Factor,
     var nextBranch: Factor,
     var branchingStep: Factor,
+    var branchIndex: Int = 0,
 ) : BranchBuilder() {
 
     override fun processSegment(
@@ -49,7 +50,7 @@ data class SimpleBranchBuilder(
         val branches = mutableListOf<StemData>()
         val relativeEnd = relativeStart + relativeLength
 
-        while (nextBranch < relativeEnd) {
+        while (nextBranch < relativeEnd && branchIndex < branching.maxCount) {
             val positionAlongSegment = (nextBranch - relativeStart) / relativeLength
             val relativePositionFromBase = (nextBranch - branching.base) / (FULL - branching.base)
             val branch = buildStem(
@@ -64,6 +65,7 @@ data class SimpleBranchBuilder(
             branches.add(branch)
 
             nextBranch += branchingStep
+            branchIndex++;
         }
 
         segmentStart = segmentEnd
@@ -90,6 +92,6 @@ fun createBranchBuilder(
         start,
         ZERO,
         branching.base,
-        (FULL - branching.base) / (branching.maxCount + 0.9f),
+        (FULL - branching.base) / branching.maxCount,
     )
 }
