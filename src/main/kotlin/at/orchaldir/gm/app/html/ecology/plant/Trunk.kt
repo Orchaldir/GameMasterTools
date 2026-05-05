@@ -47,7 +47,7 @@ fun HtmlBlockTag.editTrunk(
             MIN_TRUNK_HEIGHT,
             MAX_TRUNK_HEIGHT,
         )
-        editStem(trunk.stem, combine(param, STEM))
+        editStem(trunk.stem, param)
     }
 }
 
@@ -64,6 +64,6 @@ fun parseTrunk(
     ) { _, p, prefix ->
         parseDistance(parameters, p, prefix, MIN_TRUNK_HEIGHT)
     },
-    parseStem(parameters, combine(param, STEM)),
+    parseStem(parameters, param),
     parse(parameters, param, Color.SaddleBrown),
 )

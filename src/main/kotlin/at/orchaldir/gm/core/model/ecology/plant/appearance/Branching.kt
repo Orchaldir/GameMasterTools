@@ -3,8 +3,16 @@ package at.orchaldir.gm.core.model.ecology.plant.appearance
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.unit.Orientation
 import at.orchaldir.gm.utils.math.unit.QUARTER_CIRCLE
+import at.orchaldir.gm.utils.math.unit.ZERO_ORIENTATION
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+
+const val MIN_BRANCHES = 2
+const val MAX_BRANCHES = 100
+val MIN_BRANCH_CENTER = Orientation.fromDegrees(10)
+val MAX_BRANCH_CENTER = Orientation.fromDegrees(170)
+val MAX_BRANCH_OFFSET = Orientation.fromDegrees(20)
+val MIN_BRANCH_OFFSET = -MAX_BRANCH_OFFSET
 
 enum class BranchingType {
     None,
