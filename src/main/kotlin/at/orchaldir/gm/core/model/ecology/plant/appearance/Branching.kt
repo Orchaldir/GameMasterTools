@@ -10,6 +10,7 @@ import kotlinx.serialization.Serializable
 const val MIN_BRANCHES = 2
 const val MAX_BRANCHES = 100
 val MIN_BRANCH_CENTER = Orientation.fromDegrees(10)
+val DEFAULT_BRANCH_CENTER = QUARTER_CIRCLE
 val MAX_BRANCH_CENTER = Orientation.fromDegrees(170)
 val MAX_BRANCH_OFFSET = Orientation.fromDegrees(20)
 val MIN_BRANCH_OFFSET = -MAX_BRANCH_OFFSET
@@ -45,5 +46,5 @@ data class SimpleBranching(
     /**
      * The angle between the parent and the children.
      */
-    val angle: Variance<Orientation> = Variance(QUARTER_CIRCLE),
+    val angle: Variance<Orientation> = Variance(DEFAULT_BRANCH_CENTER),
 ) : Branching()

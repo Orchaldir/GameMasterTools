@@ -139,5 +139,5 @@ private fun parseAngle(
 ) = parseOrientationVariance(
     parameters,
     combine(param, ORIENTATION),
-    MIN_SPLITTING_ANGLE,
+    DEFAULT_BRANCH_CENTER,
 )
