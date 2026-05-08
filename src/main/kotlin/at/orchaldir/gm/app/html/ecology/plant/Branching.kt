@@ -13,6 +13,8 @@ import at.orchaldir.gm.app.html.util.math.*
 import at.orchaldir.gm.core.model.ecology.plant.appearance.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.HALF
+import at.orchaldir.gm.utils.math.QUARTER
+import at.orchaldir.gm.utils.math.THIRD
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag
 
@@ -122,8 +124,8 @@ fun parseBranching(
         BranchingType.Simple -> SimpleBranching(
             parseInt(parameters, combine(branchingParam, NUMBER), 10),
             parse(parameters, combine(branchingParam, SIDE), BranchSidePattern.BothSides),
-            parseFactor(parameters, combine(branchingParam, BASE), HALF),
-            parseFactor(parameters, combine(branchingParam, LENGTH), HALF),
+            parseFactor(parameters, combine(branchingParam, BASE), THIRD),
+            parseFactor(parameters, combine(branchingParam, LENGTH), QUARTER),
             parse(parameters, combine(branchingParam, LENGTH, TYPE), BranchLength.Conical),
             parseStem(parameters, branchingParam),
             parseAngle(parameters, branchingParam),
