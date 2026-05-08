@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.reducer.ecology.plant.appearance
 
+import at.orchaldir.gm.assertFactor
 import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.core.model.ecology.plant.appearance.*
 import at.orchaldir.gm.utils.math.Factor
@@ -30,14 +31,26 @@ class BranchingTest {
         }
 
         @Test
-        fun `Cannot use a too small base`() {
-            fail(
-                SimpleBranching(base = MIN_BRANCHING_BASE - fromPercentage(1)),
-                "The test's branching base factor is too small!",
+        fun `Test the base factor`() {
+            assertFactor(
+                "test's branching base",
+                MIN_BRANCHING_BASE,
+                MAX_BRANCHING_BASE,
+                { base, message ->
+                    fail(SimpleBranching(base = base), message)
+                },
+                { base ->
+                    success(SimpleBranching(base = base))
+                },
             )
         }
     }
 
+    fun success(branching: Branching) {
+        val stem = Stem(MIN_SEGMENTS, branching = branching)
+
+        stem.validate("test")
+    }
 
     fun fail(branching: Branching, message: String) {
         val stem = Stem(MIN_SEGMENTS, branching = branching)

@@ -2,6 +2,7 @@ package at.orchaldir.gm
 
 import at.orchaldir.gm.core.model.CannotDeleteException
 import at.orchaldir.gm.core.model.DeleteResult
+import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Point2d
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -37,4 +38,17 @@ fun assertPoints(expected: List<Point2d>, actual: List<Point2d>, threshold: Floa
             "The points with index $index are too far apart! d=$distance > $threshold"
         }
     }
+}
+
+fun assertFactor(
+    label: String,
+    min: Factor,
+    max: Factor,
+    failure: (Factor, String) -> Unit,
+    success: (Factor) -> Unit,
+) {
+    failure(min - Factor.fromPermille(1), "The $label factor is too small!")
+    success(min)
+    success(max)
+    failure(max + Factor.fromPermille(1), "The $label factor is too large!")
 }
