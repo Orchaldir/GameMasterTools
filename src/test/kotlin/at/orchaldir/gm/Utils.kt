@@ -2,6 +2,7 @@ package at.orchaldir.gm
 
 import at.orchaldir.gm.core.model.CannotDeleteException
 import at.orchaldir.gm.core.model.DeleteResult
+import at.orchaldir.gm.core.model.ecology.plant.appearance.CurvedStem
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Value
@@ -94,14 +95,30 @@ fun <T : Value<T>> assertVariance(
     success: (Variance<T>) -> Unit,
 ) {
     // test center
-    failure(Variance(minCenter - step), "The $label's center is too small!")
-    success(Variance(minCenter))
-    success(Variance(maxCenter))
-    failure(Variance(maxCenter + step), "The $label's center is too large!")
+    assertValue(
+        "$label's center",
+                minCenter,
+        maxCenter,
+        step,
+        { center, message ->
+            failure(Variance(center), message)
+        },
+        { center ->
+            success(Variance(center))
+        },
+    )
 
     // test offset
-    failure(Variance(minCenter, minCenter.zero() - step), "The $label's offset is too small!")
-    success(Variance(minCenter, minCenter.zero()))
-    success(Variance(minCenter, maxOffset))
-    failure(Variance(minCenter, maxOffset + step), "The $label's offset is too large!")
+    assertValue(
+        "$label's offset",
+        maxOffset.zero(),
+        maxOffset,
+        step,
+        { offset, message ->
+            failure(Variance(minCenter, offset), message)
+        },
+        { offset ->
+            success(Variance(minCenter, offset))
+        },
+    )
 }
