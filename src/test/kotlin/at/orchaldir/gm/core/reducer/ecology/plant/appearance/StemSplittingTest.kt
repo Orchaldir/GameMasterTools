@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.reducer.ecology.plant.appearance
 import at.orchaldir.gm.assertFactor
 import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.core.model.ecology.plant.appearance.*
+import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.ONE_TENTH_PERCENT
 import at.orchaldir.gm.utils.math.Variance
 import at.orchaldir.gm.utils.math.unit.Orientation
@@ -72,18 +73,17 @@ class StemSplittingTest {
     inner class SegmentTest {
 
         @Test
-        fun `Cannot use a too small thickness factor`() {
-            fail(
-                SegmentSplitting(MIN_SPLITTING_PROBABILITY - ONE_TENTH_PERCENT),
-                "The test's splitting probability factor is too small!",
-            )
-        }
-
-        @Test
-        fun `Cannot use a too large thickness factor`() {
-            fail(
-                SegmentSplitting(MAX_SPLITTING_PROBABILITY + ONE_TENTH_PERCENT),
-                "The test's splitting probability factor is too large!",
+        fun `Test the thickness factor`() {
+            assertFactor(
+                "test's splitting probability",
+                MIN_SPLITTING_PROBABILITY,
+                MAX_SPLITTING_PROBABILITY,
+                { probability, message ->
+                    fail(BaseSplitting(probability), message)
+                },
+                { probability ->
+                    success(BaseSplitting(probability))
+                },
             )
         }
 

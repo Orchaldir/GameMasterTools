@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.reducer.ecology.plant.appearance
 
+import at.orchaldir.gm.assertFactor
 import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.core.model.ecology.plant.appearance.*
 import at.orchaldir.gm.utils.math.FULL
@@ -13,18 +14,17 @@ class StemThicknessTest {
     inner class ConstantThicknessTest {
 
         @Test
-        fun `Cannot use a too small thickness factor`() {
-            fail(
-                ConstantStemThickness(MIN_RELATIVE_TO_LENGTH - ONE_TENTH_PERCENT),
-                "The test's start thickness factor is too small!",
-            )
-        }
-
-        @Test
-        fun `Cannot use a too large thickness factor`() {
-            fail(
-                ConstantStemThickness(MAX_RELATIVE_TO_LENGTH + ONE_TENTH_PERCENT),
-                "The test's start thickness factor is too large!",
+        fun `Test the thickness factor`() {
+            assertFactor(
+                "test's start thickness",
+                MIN_RELATIVE_TO_LENGTH,
+                MAX_RELATIVE_TO_LENGTH,
+                { thickness, message ->
+                    fail(ConstantStemThickness(thickness), message)
+                },
+                { thickness ->
+                    success(ConstantStemThickness(thickness))
+                },
             )
         }
     }
@@ -33,36 +33,40 @@ class StemThicknessTest {
     inner class LinearThicknessTest {
 
         @Test
-        fun `Cannot use a too small start thickness factor`() {
-            fail(
-                LinearStemThickness(MIN_RELATIVE_TO_LENGTH - ONE_TENTH_PERCENT),
-                "The test's start thickness factor is too small!",
+        fun `Test the start thickness factor`() {
+            assertFactor(
+                "test's start thickness",
+                MIN_RELATIVE_TO_LENGTH,
+                MAX_RELATIVE_TO_LENGTH,
+                { thickness, message ->
+                    fail(LinearStemThickness(thickness), message)
+                },
+                { thickness ->
+                    success(LinearStemThickness(thickness))
+                },
             )
         }
 
         @Test
-        fun `Cannot use a too large start thickness factor`() {
-            fail(
-                LinearStemThickness(MAX_RELATIVE_TO_LENGTH + ONE_TENTH_PERCENT),
-                "The test's start thickness factor is too large!",
+        fun `Test the end thickness factor`() {
+            assertFactor(
+                "test's end thickness",
+                MIN_END_THICKNESS,
+                MAX_END_THICKNESS,
+                { thickness, message ->
+                    fail(LinearStemThickness(end = thickness), message)
+                },
+                { thickness ->
+                    success(LinearStemThickness(end = thickness))
+                },
             )
         }
+    }
 
-        @Test
-        fun `Cannot use a too small end thickness factor`() {
-            fail(
-                LinearStemThickness(DEFAULT_RELATIVE_TO_LENGTH, -ONE_TENTH_PERCENT),
-                "The test's end thickness factor is too small!",
-            )
-        }
+    fun success(thickness: StemThickness) {
+        val stem = Stem(MIN_SEGMENTS, thickness = thickness)
 
-        @Test
-        fun `Cannot use a too large end thickness factor`() {
-            fail(
-                LinearStemThickness(DEFAULT_RELATIVE_TO_LENGTH, FULL + ONE_TENTH_PERCENT),
-                "The test's end thickness factor is too large!",
-            )
-        }
+        stem.validate("test")
     }
 
     fun fail(thickness: StemThickness, message: String) {
