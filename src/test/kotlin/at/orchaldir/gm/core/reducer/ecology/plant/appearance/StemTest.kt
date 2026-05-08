@@ -28,9 +28,13 @@ class StemTest {
                 fail(Stem(segments), message)
             },
             { segments ->
-                Stem(segments)
+                success(Stem(segments))
             },
         )
+    }
+
+    fun success(stem: Stem) {
+        stem.validate("test")
     }
 
     fun fail(stem: Stem, message: String) {
