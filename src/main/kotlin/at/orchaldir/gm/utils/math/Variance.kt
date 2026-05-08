@@ -2,7 +2,6 @@ package at.orchaldir.gm.utils.math
 
 import at.orchaldir.gm.utils.NumberGenerator
 import kotlinx.serialization.Serializable
-import kotlin.math.max
 
 @Serializable
 data class Variance<T : Value<T>>(

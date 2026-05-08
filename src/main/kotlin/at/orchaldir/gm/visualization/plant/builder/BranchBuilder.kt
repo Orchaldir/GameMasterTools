@@ -21,13 +21,21 @@ sealed class BranchBuilder {
         is SimpleBranchBuilder -> this.copy()
     }
 
-    abstract fun processSegment(segmentEnd: Point2d, relativeLength: Factor, segmentOrientation: Orientation): List<StemData>
+    abstract fun processSegment(
+        segmentEnd: Point2d,
+        relativeLength: Factor,
+        segmentOrientation: Orientation,
+    ): List<StemData>
 
 }
 
 data object NoBranchBuilder : BranchBuilder() {
 
-    override fun processSegment(segmentEnd: Point2d, relativeLength: Factor, segmentOrientation: Orientation): List<StemData> = emptyList()
+    override fun processSegment(
+        segmentEnd: Point2d,
+        relativeLength: Factor,
+        segmentOrientation: Orientation,
+    ): List<StemData> = emptyList()
 
 }
 
@@ -72,7 +80,7 @@ data class SimpleBranchBuilder(
             }
 
             nextBranch += branchingStep
-            branchIndex++;
+            branchIndex++
         }
 
         segmentStart = segmentEnd
@@ -86,12 +94,14 @@ data class SimpleBranchBuilder(
             branching.angle.generate(numberGenerator),
             -branching.angle.generate(numberGenerator),
         )
+
         BranchSidePattern.AlternateSides -> when (side) {
             Side.Left -> {
                 side = Side.Right
 
                 listOf(branching.angle.generate(numberGenerator))
             }
+
             Side.Right -> {
                 side = Side.Left
 

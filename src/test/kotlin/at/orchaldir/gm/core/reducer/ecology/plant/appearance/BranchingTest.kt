@@ -5,9 +5,6 @@ import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.assertInt
 import at.orchaldir.gm.assertVariance
 import at.orchaldir.gm.core.model.ecology.plant.appearance.*
-import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
-import at.orchaldir.gm.utils.math.ZERO
 import at.orchaldir.gm.utils.math.unit.Orientation.Companion.fromDegrees
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -15,8 +12,7 @@ import org.junit.jupiter.api.Test
 class BranchingTest {
 
     @Nested
-    inner class SimpleBranchingTest
-    {
+    inner class SimpleBranchingTest {
         @Test
         fun `Test the max branches`() {
             assertInt(

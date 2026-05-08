@@ -3,8 +3,6 @@ package at.orchaldir.gm.core.reducer.ecology.plant.appearance
 import at.orchaldir.gm.assertFactor
 import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.core.model.ecology.plant.appearance.*
-import at.orchaldir.gm.utils.math.FULL
-import at.orchaldir.gm.utils.math.ONE_TENTH_PERCENT
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 

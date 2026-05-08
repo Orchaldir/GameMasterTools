@@ -2,7 +2,6 @@ package at.orchaldir.gm
 
 import at.orchaldir.gm.core.model.CannotDeleteException
 import at.orchaldir.gm.core.model.DeleteResult
-import at.orchaldir.gm.core.model.ecology.plant.appearance.CurvedStem
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Value
@@ -97,7 +96,7 @@ fun <T : Value<T>> assertVariance(
     // test center
     assertValue(
         "$label's center",
-                minCenter,
+        minCenter,
         maxCenter,
         step,
         { center, message ->

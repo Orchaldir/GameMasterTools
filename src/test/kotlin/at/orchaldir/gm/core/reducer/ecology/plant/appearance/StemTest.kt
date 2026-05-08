@@ -1,19 +1,10 @@
 package at.orchaldir.gm.core.reducer.ecology.plant.appearance
 
-import at.orchaldir.gm.MATERIAL_ID_0
 import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.assertInt
-import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.ecology.plant.appearance.*
-import at.orchaldir.gm.core.model.economy.material.Material
-import at.orchaldir.gm.utils.Storage
-import at.orchaldir.gm.utils.math.FULL
-import at.orchaldir.gm.utils.math.ONE_TENTH_PERCENT
-import at.orchaldir.gm.utils.math.Variance
-import at.orchaldir.gm.utils.math.unit.Orientation
-import at.orchaldir.gm.utils.math.unit.Orientation.Companion.fromDegrees
-import at.orchaldir.gm.utils.math.unit.ZERO_ORIENTATION
-import org.junit.jupiter.api.Nested
+import at.orchaldir.gm.core.model.ecology.plant.appearance.MAX_SEGMENTS
+import at.orchaldir.gm.core.model.ecology.plant.appearance.MIN_SEGMENTS
+import at.orchaldir.gm.core.model.ecology.plant.appearance.Stem
 import org.junit.jupiter.api.Test
 
 class StemTest {

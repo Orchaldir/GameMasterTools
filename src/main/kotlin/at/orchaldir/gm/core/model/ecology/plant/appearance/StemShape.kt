@@ -5,7 +5,6 @@ import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Variance
 import at.orchaldir.gm.utils.math.unit.Orientation
 import at.orchaldir.gm.utils.math.unit.QUARTER_CIRCLE
-import at.orchaldir.gm.utils.math.unit.ZERO_ORIENTATION
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

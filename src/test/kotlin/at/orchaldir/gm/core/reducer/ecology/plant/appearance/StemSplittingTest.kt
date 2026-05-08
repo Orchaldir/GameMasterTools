@@ -4,10 +4,6 @@ import at.orchaldir.gm.assertFactor
 import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.assertVariance
 import at.orchaldir.gm.core.model.ecology.plant.appearance.*
-import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.math.ONE_TENTH_PERCENT
-import at.orchaldir.gm.utils.math.Variance
-import at.orchaldir.gm.utils.math.unit.Orientation
 import at.orchaldir.gm.utils.math.unit.Orientation.Companion.fromDegrees
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test

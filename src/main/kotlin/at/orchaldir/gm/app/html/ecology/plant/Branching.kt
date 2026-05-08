@@ -1,20 +1,10 @@
 package at.orchaldir.gm.app.html.ecology.plant
 
-import at.orchaldir.gm.app.BASE
-import at.orchaldir.gm.app.BRANCH
-import at.orchaldir.gm.app.LENGTH
-import at.orchaldir.gm.app.NUMBER
-import at.orchaldir.gm.app.ORIENTATION
-import at.orchaldir.gm.app.PROBABILITY
-import at.orchaldir.gm.app.SIDE
-import at.orchaldir.gm.app.TYPE
+import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.math.*
 import at.orchaldir.gm.core.model.ecology.plant.appearance.*
 import at.orchaldir.gm.utils.doNothing
-import at.orchaldir.gm.utils.math.HALF
-import at.orchaldir.gm.utils.math.QUARTER
-import at.orchaldir.gm.utils.math.THIRD
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag
 
@@ -106,7 +96,7 @@ fun HtmlBlockTag.editBranching(
                     combine(branchingParam, ORIENTATION),
                     branching.angle,
                     MIN_BRANCH_CENTER,
-                            MAX_BRANCH_CENTER,
+                    MAX_BRANCH_CENTER,
                     MAX_BRANCH_OFFSET,
                 )
             }

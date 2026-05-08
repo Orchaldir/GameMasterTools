@@ -7,8 +7,6 @@ import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.PI_FACTOR
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.LineOptions
-import kotlin.math.PI
-import kotlin.math.min
 
 data class PlantRenderConfig(
     val line: LineOptions,
@@ -26,11 +24,13 @@ data class PlantRenderConfig(
             BranchLength.Spherical -> simpleBranchLength((inverted * PI_FACTOR).sin())
             BranchLength.Hemispherical -> simpleBranchLength((inverted * PI_FACTOR * 0.5f).sin())
             BranchLength.Cylindrical -> FULL
-            BranchLength.Flame -> simpleBranchLength(if (position.toNumber() < 0.3f) {
-                position / 0.3f
-            } else {
-                (FULL - position) / 0.7f
-            })
+            BranchLength.Flame -> simpleBranchLength(
+                if (position.toNumber() < 0.3f) {
+                    position / 0.3f
+                } else {
+                    (FULL - position) / 0.7f
+                }
+            )
         }
     }
 

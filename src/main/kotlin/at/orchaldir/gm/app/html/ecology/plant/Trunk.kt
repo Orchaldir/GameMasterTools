@@ -3,7 +3,6 @@ package at.orchaldir.gm.app.html.ecology.plant
 import at.orchaldir.gm.app.APPEARANCE
 import at.orchaldir.gm.app.COLOR
 import at.orchaldir.gm.app.HEIGHT
-import at.orchaldir.gm.app.STEM
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.math.parseDistance
 import at.orchaldir.gm.app.html.util.math.parseDistribution

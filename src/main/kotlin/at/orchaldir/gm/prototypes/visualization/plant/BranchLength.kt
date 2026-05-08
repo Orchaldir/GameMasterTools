@@ -31,7 +31,7 @@ fun main() {
     )
 }
 
-private fun createTree(length: BranchLength, pair: Pair<StemShape,StemSplitting>) = Tree(
+private fun createTree(length: BranchLength, pair: Pair<StemShape, StemSplitting>) = Tree(
     Trunk(
         Distribution(Distance.fromMeters(1)),
         Stem(

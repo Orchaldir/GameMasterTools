@@ -1,12 +1,9 @@
 package at.orchaldir.gm.core.reducer.ecology.plant.appearance
 
-import at.orchaldir.gm.assertFactor
 import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.assertVariance
 import at.orchaldir.gm.core.model.ecology.plant.appearance.*
-import at.orchaldir.gm.utils.math.Variance
 import at.orchaldir.gm.utils.math.unit.Orientation.Companion.fromDegrees
-import at.orchaldir.gm.utils.math.unit.ZERO_ORIENTATION
 import org.junit.jupiter.api.Test
 
 class StemShapeTest {
