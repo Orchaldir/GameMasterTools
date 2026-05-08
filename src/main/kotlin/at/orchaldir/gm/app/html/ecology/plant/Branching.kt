@@ -124,7 +124,7 @@ fun parseBranching(
         BranchingType.Simple -> SimpleBranching(
             parseInt(parameters, combine(branchingParam, NUMBER), 10),
             parse(parameters, combine(branchingParam, SIDE), BranchSidePattern.BothSides),
-            parseFactor(parameters, combine(branchingParam, BASE), THIRD),
+            parseFactor(parameters, combine(branchingParam, BASE), DEFAULT_BRANCHING_BASE),
             parseFactor(parameters, combine(branchingParam, LENGTH), QUARTER),
             parse(parameters, combine(branchingParam, LENGTH, TYPE), BranchLength.Conical),
             parseStem(parameters, branchingParam),
