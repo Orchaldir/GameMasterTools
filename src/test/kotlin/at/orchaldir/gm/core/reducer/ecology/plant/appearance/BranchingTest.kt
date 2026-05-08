@@ -45,6 +45,21 @@ class BranchingTest {
                 },
             )
         }
+
+        @Test
+        fun `Test the max branch length`() {
+            assertFactor(
+                "test's max branch length",
+                MIN_BRANCH_LENGTH,
+                MAX_BRANCH_LENGTH,
+                { maxLength, message ->
+                    fail(SimpleBranching(maxLength = maxLength), message)
+                },
+                { maxLength ->
+                    success(SimpleBranching(maxLength = maxLength))
+                },
+            )
+        }
     }
 
     fun success(branching: Branching) {

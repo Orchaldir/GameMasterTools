@@ -78,11 +78,15 @@ fun HtmlBlockTag.editBranching(
                     "Base",
                     combine(branchingParam, BASE),
                     branching.base,
+                    MIN_BRANCHING_BASE,
+                    MAX_BRANCHING_BASE,
                 )
                 selectFactor(
                     "Max Length",
                     combine(branchingParam, LENGTH),
                     branching.maxLength,
+                    MIN_BRANCH_LENGTH,
+                    MAX_BRANCH_LENGTH,
                 )
                 selectValue(
                     "Side Pattern",
@@ -125,7 +129,7 @@ fun parseBranching(
             parseInt(parameters, combine(branchingParam, NUMBER), 10),
             parse(parameters, combine(branchingParam, SIDE), BranchSidePattern.BothSides),
             parseFactor(parameters, combine(branchingParam, BASE), DEFAULT_BRANCHING_BASE),
-            parseFactor(parameters, combine(branchingParam, LENGTH), QUARTER),
+            parseFactor(parameters, combine(branchingParam, LENGTH), DEFAULT_BRANCH_LENGTH),
             parse(parameters, combine(branchingParam, LENGTH, TYPE), BranchLength.Conical),
             parseStem(parameters, branchingParam),
             parseAngle(parameters, branchingParam),
