@@ -58,7 +58,7 @@ class StemTest {
 
         @Test
         fun `Cannot use a too small curve's offset`() {
-            val angle = Variance(ZERO_ORIENTATION, MIN_CURVE_OFFSET - fromDegrees(1))
+            val angle = Variance(ZERO_ORIENTATION, -fromDegrees(1))
 
             fail(
                 CurvedStem(angle),
@@ -186,7 +186,7 @@ class StemTest {
             @Test
             fun `Cannot use a too small angle's offset`() {
                 fail(
-                    Variance(MIN_SPLITTING_ANGLE, MIN_SPLITTING_OFFSET - fromDegrees(1)),
+                    Variance(MIN_SPLITTING_ANGLE, -fromDegrees(1)),
                     "The test's splitting angle's offset is too small!",
                 )
             }
@@ -243,7 +243,7 @@ class StemTest {
             @Test
             fun `Cannot use a too small angle's offset`() {
                 fail(
-                    Variance(MIN_SPLITTING_ANGLE, MIN_SPLITTING_OFFSET - fromDegrees(1)),
+                    Variance(MIN_SPLITTING_ANGLE, -fromDegrees(1)),
                     "The test's splitting angle's offset is too small!",
                 )
             }
