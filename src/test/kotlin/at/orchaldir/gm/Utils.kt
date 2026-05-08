@@ -2,7 +2,10 @@ package at.orchaldir.gm
 
 import at.orchaldir.gm.core.model.CannotDeleteException
 import at.orchaldir.gm.core.model.DeleteResult
+import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Point2d
+import at.orchaldir.gm.utils.math.Value
+import at.orchaldir.gm.utils.math.Variance
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Assertions.assertTrue
 import kotlin.test.assertEquals
@@ -27,6 +30,34 @@ fun assertIllegalArgument(message: String, block: () -> Unit) =
 fun assertIllegalState(message: String, block: () -> Unit) =
     assertFailMessage<IllegalStateException>(message, block)
 
+// test data types
+
+fun assertFactor(
+    label: String,
+    min: Factor,
+    max: Factor,
+    failure: (Factor, String) -> Unit,
+    success: (Factor) -> Unit,
+) {
+    failure(min - Factor.fromPermille(1), "The $label factor is too small!")
+    success(min)
+    success(max)
+    failure(max + Factor.fromPermille(1), "The $label factor is too large!")
+}
+
+fun assertInt(
+    label: String,
+    min: Int,
+    max: Int,
+    failure: (Int, String) -> Unit,
+    success: (Int) -> Unit,
+) {
+    failure(min - 1, "The $label is too small!")
+    success(min)
+    success(max)
+    failure(max + 1, "The $label is too large!")
+}
+
 fun assertPoints(expected: List<Point2d>, actual: List<Point2d>, threshold: Float = 0.001f) {
     assertEquals(expected.size, actual.size)
 
@@ -37,4 +68,56 @@ fun assertPoints(expected: List<Point2d>, actual: List<Point2d>, threshold: Floa
             "The points with index $index are too far apart! d=$distance > $threshold"
         }
     }
+}
+
+fun <T : Value<T>> assertValue(
+    label: String,
+    min: T,
+    max: T,
+    step: T,
+    failure: (T, String) -> Unit,
+    success: (T) -> Unit,
+) {
+    failure(min - step, "The $label is too small!")
+    success(min)
+    success(max)
+    failure(max + step, "The $label is too large!")
+}
+
+fun <T : Value<T>> assertVariance(
+    label: String,
+    minCenter: T,
+    maxCenter: T,
+    maxOffset: T,
+    step: T,
+    failure: (Variance<T>, String) -> Unit,
+    success: (Variance<T>) -> Unit,
+) {
+    // test center
+    assertValue(
+        "$label's center",
+        minCenter,
+        maxCenter,
+        step,
+        { center, message ->
+            failure(Variance(center), message)
+        },
+        { center ->
+            success(Variance(center))
+        },
+    )
+
+    // test offset
+    assertValue(
+        "$label's offset",
+        maxOffset.zero(),
+        maxOffset,
+        step,
+        { offset, message ->
+            failure(Variance(minCenter, offset), message)
+        },
+        { offset ->
+            success(Variance(minCenter, offset))
+        },
+    )
 }

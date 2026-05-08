@@ -11,6 +11,8 @@ import kotlinx.serialization.Serializable
 val MIN_RELATIVE_TO_LENGTH = Factor.fromPermille(1)
 val DEFAULT_RELATIVE_TO_LENGTH = Factor.fromPercentage(5)
 val MAX_RELATIVE_TO_LENGTH = FULL
+val MIN_END_THICKNESS = ZERO
+val MAX_END_THICKNESS = FULL
 
 enum class StemThicknessType {
     Constant,
@@ -42,8 +44,8 @@ sealed class StemThickness {
             validateFactor(
                 end,
                 "$label's end thickness",
-                ZERO,
-                MAX_RELATIVE_TO_LENGTH,
+                MIN_END_THICKNESS,
+                MAX_END_THICKNESS,
             )
         }
     }
@@ -66,7 +68,7 @@ data class LinearStemThickness(
     /*
      * The thickness at the end of the stem relative to the length of the stem.
      */
-    val end: Factor = ZERO,
+    val end: Factor = MIN_END_THICKNESS,
     val hasRoundedEnd: Boolean = false,
 ) : StemThickness()
 

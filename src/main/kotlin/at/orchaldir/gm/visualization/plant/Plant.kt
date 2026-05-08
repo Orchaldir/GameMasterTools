@@ -21,7 +21,7 @@ fun visualizePlant(
     plant: PlantAppearance,
 ): Svg {
     val numberGenerator = RandomNumberGenerator(Random(System.currentTimeMillis()))
-    val data = buildPlant(numberGenerator, plant)
+    val data = buildPlant(config, numberGenerator, plant)
     val size = calculateSize(config, data) ?: PaddedSize(Size2d.fromMeters(1.0f))
     val innerAabb = size.getInnerAABB()
     val renderer = SvgBuilder(size.getFullSize())

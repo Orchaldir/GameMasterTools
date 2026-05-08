@@ -9,4 +9,13 @@ data class SegmentData(
     val orientation: Orientation,
     val thickness: Distance,
     val next: List<SegmentData>,
-)
+    val branches: List<StemData>,
+) {
+    fun getBranches(total: MutableList<StemData>) {
+        total.addAll(branches)
+
+        next.forEach {
+            it.getBranches(total)
+        }
+    }
+}

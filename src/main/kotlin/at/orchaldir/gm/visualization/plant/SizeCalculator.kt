@@ -47,4 +47,7 @@ private fun processSegment(
     segment.next.forEach {
         processSegment(calculator, it)
     }
+    segment.branches.forEach {
+        processStem(calculator, it)
+    }
 }

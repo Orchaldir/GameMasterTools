@@ -8,4 +8,12 @@ data class StemData(
     val thickness: Distance,
     val hasRoundedEnd: Boolean,
     val segment: SegmentData,
-)
+) {
+    fun getBranches(): List<StemData> {
+        val branches = mutableListOf<StemData>()
+
+        segment.getBranches(branches)
+
+        return branches
+    }
+}
