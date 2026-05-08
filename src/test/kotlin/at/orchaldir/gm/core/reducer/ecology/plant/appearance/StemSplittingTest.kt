@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.reducer.ecology.plant.appearance
 
 import at.orchaldir.gm.assertFactor
 import at.orchaldir.gm.assertIllegalArgument
+import at.orchaldir.gm.assertVariance
 import at.orchaldir.gm.core.model.ecology.plant.appearance.*
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.ONE_TENTH_PERCENT
@@ -32,41 +33,21 @@ class StemSplittingTest {
         }
 
         @Test
-        fun `Cannot use a too small angle's center`() {
-            fail(
-                Variance(MIN_SPLITTING_ANGLE - fromDegrees(1)),
-                "The test's splitting angle's center is too small!",
+        fun `Test the angle`() {
+            assertVariance(
+                "test's splitting angle",
+                MIN_SPLITTING_ANGLE,
+                MAX_SPLITTING_ANGLE,
+                MAX_SPLITTING_OFFSET,
+                fromDegrees(1),
+                { angle, message ->
+                    fail(BaseSplitting(MIN_SPLITTING_PROBABILITY, angle), message)
+                },
+                { angle ->
+                    success(BaseSplitting(MIN_SPLITTING_PROBABILITY, angle))
+                },
             )
         }
-
-        @Test
-        fun `Cannot use a too large angle's center`() {
-            fail(
-                Variance(MAX_SPLITTING_ANGLE + fromDegrees(1)),
-                "The test's splitting angle's center is too large!",
-            )
-        }
-
-        @Test
-        fun `Cannot use a too small angle's offset`() {
-            fail(
-                Variance(MIN_SPLITTING_ANGLE, -fromDegrees(1)),
-                "The test's splitting angle's offset is too small!",
-            )
-        }
-
-        @Test
-        fun `Cannot use a too large angle's offset`() {
-            fail(
-                Variance(MIN_SPLITTING_ANGLE, MAX_SPLITTING_OFFSET + fromDegrees(1)),
-                "The test's splitting angle's offset is too large!",
-            )
-        }
-
-        fun fail(variance: Variance<Orientation>, message: String) = fail(
-            BaseSplitting(MIN_SPLITTING_PROBABILITY, variance),
-            message,
-        )
     }
 
     @Nested
@@ -79,50 +60,30 @@ class StemSplittingTest {
                 MIN_SPLITTING_PROBABILITY,
                 MAX_SPLITTING_PROBABILITY,
                 { probability, message ->
-                    fail(BaseSplitting(probability), message)
+                    fail(SegmentSplitting(probability), message)
                 },
                 { probability ->
-                    success(BaseSplitting(probability))
+                    success(SegmentSplitting(probability))
                 },
             )
         }
 
         @Test
-        fun `Cannot use a too small angle's center`() {
-            fail(
-                Variance(MIN_SPLITTING_ANGLE - fromDegrees(1)),
-                "The test's splitting angle's center is too small!",
+        fun `Test the angle`() {
+            assertVariance(
+                "test's splitting angle",
+                MIN_SPLITTING_ANGLE,
+                MAX_SPLITTING_ANGLE,
+                MAX_SPLITTING_OFFSET,
+                fromDegrees(1),
+                { angle, message ->
+                    fail(SegmentSplitting(MIN_SPLITTING_PROBABILITY, angle), message)
+                },
+                { angle ->
+                    success(SegmentSplitting(MIN_SPLITTING_PROBABILITY, angle))
+                },
             )
         }
-
-        @Test
-        fun `Cannot use a too large angle's center`() {
-            fail(
-                Variance(MAX_SPLITTING_ANGLE + fromDegrees(1)),
-                "The test's splitting angle's center is too large!",
-            )
-        }
-
-        @Test
-        fun `Cannot use a too small angle's offset`() {
-            fail(
-                Variance(MIN_SPLITTING_ANGLE, -fromDegrees(1)),
-                "The test's splitting angle's offset is too small!",
-            )
-        }
-
-        @Test
-        fun `Cannot use a too large angle's offset`() {
-            fail(
-                Variance(MIN_SPLITTING_ANGLE, MAX_SPLITTING_OFFSET + fromDegrees(1)),
-                "The test's splitting angle's offset is too large!",
-            )
-        }
-
-        fun fail(variance: Variance<Orientation>, message: String) = fail(
-            SegmentSplitting(MIN_SPLITTING_PROBABILITY, variance),
-            message,
-        )
     }
 
     fun success(splitting: StemSplitting) {
