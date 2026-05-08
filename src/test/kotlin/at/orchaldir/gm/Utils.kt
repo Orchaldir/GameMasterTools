@@ -40,6 +40,19 @@ fun assertPoints(expected: List<Point2d>, actual: List<Point2d>, threshold: Floa
     }
 }
 
+fun assertInt(
+    label: String,
+    min: Int,
+    max: Int,
+    failure: (Int, String) -> Unit,
+    success: (Int) -> Unit,
+) {
+    failure(min - 1, "The $label is too small!")
+    success(min)
+    success(max)
+    failure(max + 1, "The $label is too large!")
+}
+
 fun assertFactor(
     label: String,
     min: Factor,

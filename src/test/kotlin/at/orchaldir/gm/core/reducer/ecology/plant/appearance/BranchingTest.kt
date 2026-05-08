@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.reducer.ecology.plant.appearance
 
 import at.orchaldir.gm.assertFactor
 import at.orchaldir.gm.assertIllegalArgument
+import at.orchaldir.gm.assertInt
 import at.orchaldir.gm.core.model.ecology.plant.appearance.*
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
@@ -16,18 +17,17 @@ class BranchingTest {
     inner class SimpleBranchingTest
     {
         @Test
-        fun `Cannot use a too few branches`() {
-            fail(
-                SimpleBranching(MIN_BRANCHES - 1),
-                "The test's max branches is too small!",
-            )
-        }
-
-        @Test
-        fun `Cannot use a too many branches`() {
-            fail(
-                SimpleBranching(MAX_BRANCHES + 1),
-                "The test's max branches is too large!",
+        fun `Test the max branches`() {
+            assertInt(
+                "test's max branches",
+                MIN_BRANCHES,
+                MAX_BRANCHES,
+                { branches, message ->
+                    fail(SimpleBranching(branches), message)
+                },
+                { branches ->
+                    success(SimpleBranching(branches))
+                },
             )
         }
 
