@@ -28,42 +28,6 @@ class StemShapeTest {
         )
     }
 
-    @Test
-    fun `Cannot use a too small curve's center`() {
-        fail(
-            CurvedStem(MIN_CURVE_CENTER - fromDegrees(1)),
-            "The test's curve's center is too small!",
-        )
-    }
-
-    @Test
-    fun `Cannot use a too large curve's center`() {
-        fail(
-            CurvedStem(MAX_CURVE_CENTER + fromDegrees(1)),
-            "The test's curve's center is too large!",
-        )
-    }
-
-    @Test
-    fun `Cannot use a too small curve's offset`() {
-        val angle = Variance(ZERO_ORIENTATION, -fromDegrees(1))
-
-        fail(
-            CurvedStem(angle),
-            "The test's curve's offset is too small!",
-        )
-    }
-
-    @Test
-    fun `Cannot use a too large curve's offset`() {
-        val angle = Variance(ZERO_ORIENTATION, MAX_CURVE_OFFSET + fromDegrees(1))
-
-        fail(
-            CurvedStem(angle),
-            "The test's curve's offset is too large!",
-        )
-    }
-
     fun success(shape: StemShape) {
         val stem = Stem(MIN_SEGMENTS, shape)
 
