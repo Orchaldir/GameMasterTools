@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.reducer.ecology.plant.appearance
 
 import at.orchaldir.gm.MATERIAL_ID_0
 import at.orchaldir.gm.assertIllegalArgument
+import at.orchaldir.gm.assertInt
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.ecology.plant.appearance.*
 import at.orchaldir.gm.core.model.economy.material.Material
@@ -17,18 +18,19 @@ import org.junit.jupiter.api.Test
 
 class StemTest {
 
-    @Nested
-    inner class SegmentsTest {
-
-        @Test
-        fun `Cannot use too few segments`() {
-            fail(Stem(MIN_SEGMENTS - 1), "The test's number of segments is too small!")
-        }
-
-        @Test
-        fun `Cannot use too many segments`() {
-            fail(Stem(MAX_SEGMENTS + 1), "The test's number of segments is too large!")
-        }
+    @Test
+    fun `Test the number of segments`() {
+        assertInt(
+            "test's number of segments",
+            MIN_SEGMENTS,
+            MAX_SEGMENTS,
+            { segments, message ->
+                fail(Stem(segments), message)
+            },
+            { segments ->
+                Stem(segments)
+            },
+        )
     }
 
     fun fail(stem: Stem, message: String) {
