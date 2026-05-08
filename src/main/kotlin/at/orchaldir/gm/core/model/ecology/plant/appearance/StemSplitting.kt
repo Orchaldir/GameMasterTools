@@ -15,7 +15,6 @@ val MIN_SPLITTING_PROBABILITY = Factor.fromPercentage(1)
 val MAX_SPLITTING_PROBABILITY = DOUBLE
 val MIN_SPLITTING_ANGLE = Orientation.fromDegrees(5)
 val MAX_SPLITTING_ANGLE = HALF_CIRCLE
-val MIN_SPLITTING_OFFSET = ZERO_ORIENTATION
 val MAX_SPLITTING_OFFSET = QUARTER_CIRCLE
 
 enum class StemSplittingType {
@@ -114,7 +113,6 @@ private fun validateAngle(label: String, angle: Variance<Orientation>) {
         "$label's splitting angle",
         MIN_SPLITTING_ANGLE,
         MAX_SPLITTING_ANGLE,
-        MIN_SPLITTING_OFFSET,
         MAX_SPLITTING_OFFSET,
     )
 }

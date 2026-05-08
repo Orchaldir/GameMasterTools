@@ -81,7 +81,6 @@ private fun DETAILS.editProbabilityAndAngle(
         angle,
         MIN_SPLITTING_ANGLE,
         MAX_SPLITTING_ANGLE,
-        MIN_SPLITTING_OFFSET,
         MAX_SPLITTING_OFFSET,
     )
 }

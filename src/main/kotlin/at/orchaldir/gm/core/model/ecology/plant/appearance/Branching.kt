@@ -13,7 +13,6 @@ val MIN_BRANCH_CENTER = Orientation.fromDegrees(10)
 val DEFAULT_BRANCH_CENTER = QUARTER_CIRCLE
 val MAX_BRANCH_CENTER = Orientation.fromDegrees(170)
 val MAX_BRANCH_OFFSET = Orientation.fromDegrees(20)
-val MIN_BRANCH_OFFSET = -MAX_BRANCH_OFFSET
 
 enum class BranchingType {
     None,

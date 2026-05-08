@@ -11,7 +11,6 @@ import kotlinx.serialization.Serializable
 
 val MIN_CURVE_CENTER = -QUARTER_CIRCLE
 val MAX_CURVE_CENTER = QUARTER_CIRCLE
-val MIN_CURVE_OFFSET = ZERO_ORIENTATION
 val MAX_CURVE_OFFSET = QUARTER_CIRCLE
 
 enum class StemShapeType {
@@ -42,7 +41,6 @@ sealed class StemShape {
             "$label's curve",
             MIN_CURVE_CENTER,
             MAX_CURVE_CENTER,
-            MIN_CURVE_OFFSET,
             MAX_CURVE_OFFSET,
         )
     }

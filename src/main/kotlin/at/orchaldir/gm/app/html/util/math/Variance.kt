@@ -29,7 +29,6 @@ fun HtmlBlockTag.selectOrientationVariance(
     variance: Variance<Orientation>,
     minCenter: Orientation,
     maxCenter: Orientation,
-    minOffset: Orientation,
     maxOffset: Orientation,
     step: Orientation = fromDegrees(1),
 ) = selectVariance(
@@ -38,7 +37,6 @@ fun HtmlBlockTag.selectOrientationVariance(
     variance,
     minCenter,
     maxCenter,
-    minOffset,
     maxOffset,
 ) { param, current, minValue, maxValue ->
     selectOrientation(
@@ -56,7 +54,6 @@ fun <T : Value<T>> HtmlBlockTag.selectVariance(
     variance: Variance<T>,
     minCenter: T,
     maxCenter: T,
-    minOffset: T,
     maxOffset: T,
     selectValue: (String, T, T, T) -> Unit,
 ) {
@@ -71,7 +68,7 @@ fun <T : Value<T>> HtmlBlockTag.selectVariance(
         selectValue(
             combine(param, OFFSET),
             variance.offset,
-            minOffset,
+            maxOffset.zero(),
             maxOffset,
         )
     }

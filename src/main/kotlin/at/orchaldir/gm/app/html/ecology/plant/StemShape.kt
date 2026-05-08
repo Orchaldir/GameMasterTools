@@ -51,7 +51,6 @@ fun HtmlBlockTag.editStemShape(
                 shape.angle,
                 MIN_CURVE_CENTER,
                 MAX_CURVE_CENTER,
-                MIN_CURVE_OFFSET,
                 MAX_CURVE_OFFSET,
             )
         }

@@ -101,8 +101,7 @@ fun HtmlBlockTag.editBranching(
                     branching.angle,
                     MIN_BRANCH_CENTER,
                             MAX_BRANCH_CENTER,
-                            MAX_BRANCH_OFFSET,
-                            MIN_BRANCH_OFFSET,
+                    MAX_BRANCH_OFFSET,
                 )
             }
         }
