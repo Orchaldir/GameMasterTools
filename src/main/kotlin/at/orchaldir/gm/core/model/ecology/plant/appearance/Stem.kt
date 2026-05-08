@@ -20,6 +20,7 @@ data class Stem(
         shape.validate(label)
         thickness.validate(label)
         splitting.validate(label)
+        branching.validate(label)
     }
 
 }

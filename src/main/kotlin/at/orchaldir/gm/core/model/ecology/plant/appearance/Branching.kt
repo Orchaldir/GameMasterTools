@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.ecology.plant.appearance
 
+import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.unit.Orientation
 import at.orchaldir.gm.utils.math.unit.QUARTER_CIRCLE
@@ -27,6 +28,12 @@ sealed class Branching {
         is SimpleBranching -> BranchingType.Simple
     }
 
+    fun validate(label: String) = when (this) {
+        is NoBranching -> doNothing()
+        is SimpleBranching -> {
+            checkInt(maxCount, "${label}'s max branches", MIN_SEGMENTS, MAX_SEGMENTS)
+        }
+    }
 }
 
 @Serializable
@@ -36,10 +43,10 @@ data object NoBranching : Branching()
 @Serializable
 @SerialName("Simple")
 data class SimpleBranching(
-    val maxCount: Int,
-    val sidePattern: BranchSidePattern,
-    val base: Factor,
-    val maxLength: Factor,
+    val maxCount: Int = MIN_BRANCHES,
+    val sidePattern: BranchSidePattern = BranchSidePattern.BothSides,
+    val base: Factor = THIRD,
+    val maxLength: Factor = QUARTER,
     val length: BranchLength = BranchLength.Conical,
     val branch: Stem = Stem(),
     /**
