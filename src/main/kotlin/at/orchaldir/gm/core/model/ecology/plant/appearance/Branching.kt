@@ -44,6 +44,7 @@ sealed class Branching {
             checkInt(maxCount, "${label}'s max branches", MIN_BRANCHES, MAX_BRANCHES)
             validateFactor(base, "${label}'s branching base", MIN_BRANCHING_BASE, MAX_BRANCHING_BASE)
             validateFactor(maxLength, "${label}'s max branch length", MIN_BRANCH_LENGTH, MAX_BRANCH_LENGTH)
+            branch.validate("${label}'s branch")
         }
     }
 }

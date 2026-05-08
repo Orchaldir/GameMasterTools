@@ -62,6 +62,14 @@ class BranchingTest {
         }
     }
 
+    @Test
+    fun `Test the max branch length`() {
+        fail(
+            SimpleBranching(branch = Stem(-1)),
+            "The test's branch's number of segments is too small!",
+        )
+    }
+
     fun success(branching: Branching) {
         val stem = Stem(MIN_SEGMENTS, branching = branching)
 

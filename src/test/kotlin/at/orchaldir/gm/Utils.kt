@@ -28,16 +28,19 @@ fun assertIllegalArgument(message: String, block: () -> Unit) =
 fun assertIllegalState(message: String, block: () -> Unit) =
     assertFailMessage<IllegalStateException>(message, block)
 
-fun assertPoints(expected: List<Point2d>, actual: List<Point2d>, threshold: Float = 0.001f) {
-    assertEquals(expected.size, actual.size)
+// test data types
 
-    expected.zip(actual).withIndex().forEach { (index, pair) ->
-        assertEquals(expected.size, actual.size)
-        val distance = pair.first.calculateDistance(pair.second).toMeters()
-        assertTrue(distance < threshold) {
-            "The points with index $index are too far apart! d=$distance > $threshold"
-        }
-    }
+fun assertFactor(
+    label: String,
+    min: Factor,
+    max: Factor,
+    failure: (Factor, String) -> Unit,
+    success: (Factor) -> Unit,
+) {
+    failure(min - Factor.fromPermille(1), "The $label factor is too small!")
+    success(min)
+    success(max)
+    failure(max + Factor.fromPermille(1), "The $label factor is too large!")
 }
 
 fun assertInt(
@@ -53,15 +56,14 @@ fun assertInt(
     failure(max + 1, "The $label is too large!")
 }
 
-fun assertFactor(
-    label: String,
-    min: Factor,
-    max: Factor,
-    failure: (Factor, String) -> Unit,
-    success: (Factor) -> Unit,
-) {
-    failure(min - Factor.fromPermille(1), "The $label factor is too small!")
-    success(min)
-    success(max)
-    failure(max + Factor.fromPermille(1), "The $label factor is too large!")
+fun assertPoints(expected: List<Point2d>, actual: List<Point2d>, threshold: Float = 0.001f) {
+    assertEquals(expected.size, actual.size)
+
+    expected.zip(actual).withIndex().forEach { (index, pair) ->
+        assertEquals(expected.size, actual.size)
+        val distance = pair.first.calculateDistance(pair.second).toMeters()
+        assertTrue(distance < threshold) {
+            "The points with index $index are too far apart! d=$distance > $threshold"
+        }
+    }
 }
