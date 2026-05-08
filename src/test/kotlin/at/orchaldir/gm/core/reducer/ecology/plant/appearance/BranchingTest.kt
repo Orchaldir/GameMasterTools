@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.reducer.ecology.plant.appearance
 import at.orchaldir.gm.assertFactor
 import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.assertInt
+import at.orchaldir.gm.assertVariance
 import at.orchaldir.gm.core.model.ecology.plant.appearance.*
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
@@ -60,14 +61,31 @@ class BranchingTest {
                 },
             )
         }
-    }
 
-    @Test
-    fun `Test the max branch length`() {
-        fail(
-            SimpleBranching(branch = Stem(-1)),
-            "The test's branch's number of segments is too small!",
-        )
+        @Test
+        fun `Test the branch`() {
+            fail(
+                SimpleBranching(branch = Stem(-1)),
+                "The test's branch's number of segments is too small!",
+            )
+        }
+
+        @Test
+        fun `Test the angle`() {
+            assertVariance(
+                "test's branch angle",
+                MIN_BRANCH_CENTER,
+                MAX_BRANCH_CENTER,
+                MAX_BRANCH_OFFSET,
+                fromDegrees(1),
+                { angle, message ->
+                    fail(SimpleBranching(angle = angle), message)
+                },
+                { angle ->
+                    success(SimpleBranching(angle = angle))
+                },
+            )
+        }
     }
 
     fun success(branching: Branching) {

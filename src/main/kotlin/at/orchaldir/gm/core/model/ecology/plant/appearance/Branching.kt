@@ -45,6 +45,7 @@ sealed class Branching {
             validateFactor(base, "${label}'s branching base", MIN_BRANCHING_BASE, MAX_BRANCHING_BASE)
             validateFactor(maxLength, "${label}'s max branch length", MIN_BRANCH_LENGTH, MAX_BRANCH_LENGTH)
             branch.validate("${label}'s branch")
+            angle.validate("${label}'s branch angle", MIN_BRANCH_CENTER, MAX_BRANCH_CENTER, MAX_BRANCH_OFFSET)
         }
     }
 }
