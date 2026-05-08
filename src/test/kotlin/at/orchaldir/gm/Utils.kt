@@ -4,6 +4,8 @@ import at.orchaldir.gm.core.model.CannotDeleteException
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Point2d
+import at.orchaldir.gm.utils.math.Value
+import at.orchaldir.gm.utils.math.Variance
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Assertions.assertTrue
 import kotlin.test.assertEquals
@@ -66,4 +68,40 @@ fun assertPoints(expected: List<Point2d>, actual: List<Point2d>, threshold: Floa
             "The points with index $index are too far apart! d=$distance > $threshold"
         }
     }
+}
+
+fun <T : Value<T>> assertValue(
+    label: String,
+    min: T,
+    max: T,
+    step: T,
+    failure: (T, String) -> Unit,
+    success: (T) -> Unit,
+) {
+    failure(min - step, "The $label is too small!")
+    success(min)
+    success(max)
+    failure(max + step, "The $label is too large!")
+}
+
+fun <T : Value<T>> assertVariance(
+    label: String,
+    minCenter: T,
+    maxCenter: T,
+    maxOffset: T,
+    step: T,
+    failure: (Variance<T>, String) -> Unit,
+    success: (Variance<T>) -> Unit,
+) {
+    // test center
+    failure(Variance(minCenter - step), "The $label's center is too small!")
+    success(Variance(minCenter))
+    success(Variance(maxCenter))
+    failure(Variance(maxCenter + step), "The $label's center is too large!")
+
+    // test offset
+    failure(Variance(minCenter, minCenter.zero() - step), "The $label's offset is too small!")
+    success(Variance(minCenter, minCenter.zero()))
+    success(Variance(minCenter, maxOffset))
+    failure(Variance(minCenter, maxOffset + step), "The $label's offset is too large!")
 }
