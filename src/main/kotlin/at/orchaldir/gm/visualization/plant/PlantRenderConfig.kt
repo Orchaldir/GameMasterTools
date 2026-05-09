@@ -1,6 +1,6 @@
 package at.orchaldir.gm.visualization.plant
 
-import at.orchaldir.gm.core.model.ecology.plant.appearance.BranchLength
+import at.orchaldir.gm.core.model.ecology.plant.appearance.TreeSilhouetteShape
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
@@ -16,15 +16,15 @@ data class PlantRenderConfig(
 
     fun getFillAndBorder(color: Color) = FillAndBorder(color.toRender(), line)
 
-    fun resolveBranchLength(length: BranchLength, position: Factor): Factor {
+    fun resolveBranchLength(length: TreeSilhouetteShape, position: Factor): Factor {
         val inverted = FULL - position
 
         return when (length) {
-            BranchLength.Conical -> simpleBranchLength(inverted)
-            BranchLength.Spherical -> simpleBranchLength((inverted * PI_FACTOR).sin())
-            BranchLength.Hemispherical -> simpleBranchLength((inverted * PI_FACTOR * 0.5f).sin())
-            BranchLength.Cylindrical -> FULL
-            BranchLength.Flame -> simpleBranchLength(
+            TreeSilhouetteShape.Conical -> simpleBranchLength(inverted)
+            TreeSilhouetteShape.Spherical -> simpleBranchLength((inverted * PI_FACTOR).sin())
+            TreeSilhouetteShape.Hemispherical -> simpleBranchLength((inverted * PI_FACTOR * 0.5f).sin())
+            TreeSilhouetteShape.Cylindrical -> FULL
+            TreeSilhouetteShape.Flame -> simpleBranchLength(
                 if (position.toNumber() < 0.3f) {
                     position / 0.3f
                 } else {

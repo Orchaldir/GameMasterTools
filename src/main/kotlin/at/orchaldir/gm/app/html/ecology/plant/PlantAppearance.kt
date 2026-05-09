@@ -11,6 +11,7 @@ import at.orchaldir.gm.core.model.ecology.plant.PlantAppearance
 import at.orchaldir.gm.core.model.ecology.plant.PlantAppearanceType
 import at.orchaldir.gm.core.model.ecology.plant.Tree
 import at.orchaldir.gm.core.model.ecology.plant.UndefinedPlantAppearance
+import at.orchaldir.gm.core.model.ecology.plant.appearance.NoTreeSilhouette
 import at.orchaldir.gm.core.model.economy.material.MaterialCategoryType
 import at.orchaldir.gm.core.selector.util.sortMaterials
 import at.orchaldir.gm.utils.doNothing
@@ -96,6 +97,7 @@ fun parsePlantAppearance(
 ) = when (parse(parameters, param, PlantAppearanceType.Undefined)) {
     PlantAppearanceType.Tree -> Tree(
         parseTrunk(parameters, combine(param, TRUNK)),
+        NoTreeSilhouette,
         parseOptionalMaterialId(parameters, combine(param, TREE, MATERIAL)),
     )
 
