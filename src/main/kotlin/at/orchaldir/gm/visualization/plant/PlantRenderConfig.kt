@@ -43,30 +43,23 @@ data class PlantRenderConfig(
     private fun resolveTreeSilhouetteShape(shape: TreeSilhouetteShape, min: Factor, position: Factor): Factor {
         val inverted = FULL - position
 
-        return when (shape) {
-            TreeSilhouetteShape.Conical -> resolveTreeSilhouetteShape(min, inverted)
-            TreeSilhouetteShape.Spherical -> resolveTreeSilhouetteShape(
-                min,
-                (inverted * PI_FACTOR).sin(),
-            )
-            TreeSilhouetteShape.Hemispherical -> resolveTreeSilhouetteShape(
-                min,
-                if (position < HALF) {
-                    FULL
-                } else {
-                    calculateCurve(position, HALF)
-                },
-            )
-            TreeSilhouetteShape.Cylindrical -> FULL
-            TreeSilhouetteShape.Flame -> resolveTreeSilhouetteShape(
-                min,
-                if (position < THIRD) {
-                    calculateCurve(position, ZERO, THIRD, PI_2_FACTOR)
-                } else {
-                    calculateCurve(position, THIRD)
-                }
-            )
+        val mapped = when (shape) {
+            TreeSilhouetteShape.Conical -> inverted
+            TreeSilhouetteShape.Spherical -> (inverted * PI_FACTOR).sin()
+            TreeSilhouetteShape.Hemispherical -> if (position < HALF) {
+                FULL
+            } else {
+                calculateCurve(position, HALF)
+            }
+            TreeSilhouetteShape.Cylindrical -> return FULL
+            TreeSilhouetteShape.Flame -> if (position < THIRD) {
+                calculateCurve(position, ZERO, THIRD, PI_2_FACTOR)
+            } else {
+                calculateCurve(position, THIRD)
+            }
         }
+
+        return resolveTreeSilhouetteShape(min,mapped)
     }
 
     private fun calculateCurve(
