@@ -2,13 +2,14 @@ package at.orchaldir.gm.visualization.plant
 
 import at.orchaldir.gm.core.model.ecology.plant.Tree
 import at.orchaldir.gm.core.model.ecology.plant.appearance.TreeSilhouetteShape
-import at.orchaldir.gm.core.model.ecology.plant.appearance.Trunk
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.HALF
 import at.orchaldir.gm.utils.math.PI_FACTOR
+import at.orchaldir.gm.utils.math.THIRD
+import at.orchaldir.gm.utils.math.THREE_QUARTER
+import at.orchaldir.gm.utils.math.TWO_THIRD
 import at.orchaldir.gm.utils.math.ZERO
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.LineOptions
@@ -59,10 +60,12 @@ data class PlantRenderConfig(
             TreeSilhouetteShape.Cylindrical -> FULL
             TreeSilhouetteShape.Flame -> resolveTreeSilhouetteShape(
                 min,
-                if (position.toNumber() < 0.3f) {
-                    position / 0.3f
+                if (position < THIRD) {
+                    position / THIRD
                 } else {
-                    (FULL - position) / 0.7f
+                    val position = (position - THIRD) / TWO_THIRD
+                    val inverted = FULL - position
+                    (inverted * PI_FACTOR * 0.5f).sin()
                 }
             )
         }

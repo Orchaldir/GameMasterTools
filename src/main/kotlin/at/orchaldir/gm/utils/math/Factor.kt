@@ -83,6 +83,7 @@ value class Factor private constructor(private val permyriad: Int) {
     fun interpolate(other: Factor, between: Factor) = this * (FULL - between) + other * between
 
     fun sin() = fromNumber(kotlin.math.sin(toNumber()))
+    fun cos() = fromNumber(kotlin.math.cos(toNumber()))
 
 }
 
