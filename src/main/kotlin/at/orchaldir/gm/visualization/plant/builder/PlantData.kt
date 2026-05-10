@@ -3,7 +3,6 @@ package at.orchaldir.gm.visualization.plant.builder
 import at.orchaldir.gm.core.model.ecology.plant.PlantAppearance
 import at.orchaldir.gm.core.model.ecology.plant.Tree
 import at.orchaldir.gm.core.model.ecology.plant.UndefinedPlantAppearance
-import at.orchaldir.gm.core.model.ecology.plant.appearance.TreeSilhouette
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.NumberGenerator
 import at.orchaldir.gm.utils.math.Point2d
@@ -34,14 +33,15 @@ fun buildPlant(
 private fun buildTree(
     config: PlantRenderConfig,
     numberGenerator: NumberGenerator,
-    plant: Tree,
+    tree: Tree,
     position: Point2d,
 ): TreeData {
-    val trunk = buildTrunk(config, numberGenerator, plant.trunk, position)
+    val trunk = buildTrunk(config, numberGenerator, tree.trunk, position)
+    val silhouette = buildTreeSilhouette(config, tree, tree.silhouette, trunk)
 
     return TreeData(
         trunk,
-        buildTreeSilhouette(config, plant.silhouette, trunk),
-        plant.trunk.bark,
+        silhouette,
+        tree.trunk.bark,
     )
 }

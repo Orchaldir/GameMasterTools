@@ -1,6 +1,7 @@
 package at.orchaldir.gm.visualization.plant.builder
 
 import at.orchaldir.gm.core.logger
+import at.orchaldir.gm.core.model.ecology.plant.Tree
 import at.orchaldir.gm.core.model.ecology.plant.appearance.NoTreeSilhouette
 import at.orchaldir.gm.core.model.ecology.plant.appearance.SimpleTreeSilhouette
 import at.orchaldir.gm.core.model.ecology.plant.appearance.TreeSilhouette
@@ -13,7 +14,6 @@ import at.orchaldir.gm.utils.math.Polygon2dBuilder
 import at.orchaldir.gm.utils.math.THIRD
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Orientation
-import at.orchaldir.gm.utils.math.unit.ZERO_DISTANCE
 import at.orchaldir.gm.visualization.plant.PlantRenderConfig
 
 data class SilhouetteData(
@@ -26,13 +26,41 @@ data class SimpleSilhouetteBuilder(
     val silhouette: SimpleTreeSilhouette,
     val processor: StemProcessor,
     val width: Distance,
+    var nextPoints: Factor,
+    val step: Factor,
     val polygonBuilder: Polygon2dBuilder = Polygon2dBuilder(),
 ) {
+    constructor(
+        config: PlantRenderConfig,
+        silhouette: SimpleTreeSilhouette,
+        trunk: StemData,
+        step: Factor,
+    ): this(
+        config,
+        silhouette,
+        StemProcessor(
+            trunk.start,
+            silhouette.base,
+        ),
+        trunk.length * silhouette.width,
+        silhouette.base,
+        step
+    )
 
     fun processSegment(segment: SegmentData) {
         processor.startSegment(segment.end, segment.relativeLength)
 
-        updatePolygon(segment)
+        while (nextPoints < processor.relativeEnd) {
+            if (FULL - nextPoints > step) {
+                addPoints(nextPoints, segment.orientation)
+            }
+            else {
+                addPoints(FULL, segment.orientation)
+                break
+            }
+
+            nextPoints += step
+        }
 
         processor.endSegment()
     }
@@ -84,12 +112,14 @@ data class SimpleSilhouetteBuilder(
 
 fun buildTreeSilhouette(
     config: PlantRenderConfig,
+    tree: Tree,
     silhouette: TreeSilhouette,
     trunk: StemData,
 ): List<SilhouetteData> = when (silhouette) {
     NoTreeSilhouette -> emptyList()
     is SimpleTreeSilhouette -> buildSimpleTreeSilhouette(
         config,
+        tree,
         silhouette,
         trunk,
     )
@@ -97,17 +127,16 @@ fun buildTreeSilhouette(
 
 private fun buildSimpleTreeSilhouette(
     config: PlantRenderConfig,
+    tree: Tree,
     silhouette: SimpleTreeSilhouette,
     trunk: StemData,
 ): List<SilhouetteData> {
+    val steps = config.calculateSilhouetteSteps(tree)
     val builder = SimpleSilhouetteBuilder(
         config,
         silhouette,
-        StemProcessor(
-            trunk.start,
-            silhouette.base,
-        ),
-        trunk.length * silhouette.width,
+        trunk,
+        FULL / steps,
     )
     var segment: SegmentData? = trunk.segment
 

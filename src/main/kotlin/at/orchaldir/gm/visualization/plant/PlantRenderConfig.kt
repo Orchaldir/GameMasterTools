@@ -1,6 +1,8 @@
 package at.orchaldir.gm.visualization.plant
 
+import at.orchaldir.gm.core.model.ecology.plant.Tree
 import at.orchaldir.gm.core.model.ecology.plant.appearance.TreeSilhouetteShape
+import at.orchaldir.gm.core.model.ecology.plant.appearance.Trunk
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
@@ -13,7 +15,9 @@ data class PlantRenderConfig(
     val line: LineOptions,
     val padding: Factor,
     val minBranchLength: Factor,
+    val silhouetteStepsPerSegment: Int,
 ) {
+    fun calculateSilhouetteSteps(tree: Tree) = tree.trunk.stem.segments * silhouetteStepsPerSegment
 
     fun getFillAndBorder(color: Color) = FillAndBorder(color.toRender(), line)
 
