@@ -61,7 +61,9 @@ data class PlantRenderConfig(
             TreeSilhouetteShape.Flame -> resolveTreeSilhouetteShape(
                 min,
                 if (position < THIRD) {
-                    position / THIRD
+                    val position = position / THIRD
+                    val inverted = FULL - position
+                    (inverted * PI_FACTOR * 0.5f).cos()
                 } else {
                     val position = (position - THIRD) / TWO_THIRD
                     val inverted = FULL - position
