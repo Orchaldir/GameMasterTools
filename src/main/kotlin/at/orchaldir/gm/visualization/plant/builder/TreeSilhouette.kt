@@ -24,19 +24,10 @@ data class SimpleSilhouetteBuilder(
     val polygonBuilder: Polygon2dBuilder = Polygon2dBuilder(),
 ) {
 
-    fun processSegment(
-        segment: SegmentData,
-    ) {
+    fun processSegment(segment: SegmentData) {
         processor.startSegment(segment.end, segment.relativeLength)
 
-        if (processor.relativeEnd > silhouette.base) {
-            return
-        }
-        else if (processor.relativeStart < silhouette.base) {
-            addPoints(silhouette.base, segment.orientation)
-        }
-
-        addPoints(processor.relativeEnd, segment.orientation)
+        updatePolygon(segment)
 
         processor.endSegment()
     }
@@ -45,6 +36,17 @@ data class SimpleSilhouetteBuilder(
         silhouette.color,
         polygonBuilder.build(),
     )
+
+    private fun updatePolygon(segment: SegmentData) {
+        if (processor.relativeEnd <= silhouette.base) {
+            return
+        }
+        else if (processor.relativeStart < silhouette.base) {
+            addPoints(silhouette.base, segment.orientation)
+        }
+
+        addPoints(processor.relativeEnd, segment.orientation)
+    }
 
     private fun addPoints(
         relativePosition: Factor,
