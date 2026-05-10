@@ -6,6 +6,7 @@ import at.orchaldir.gm.utils.renderer.TransformRenderer
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.visualization.plant.PlantRenderState
 import at.orchaldir.gm.visualization.plant.builder.PlantData
+import at.orchaldir.gm.visualization.plant.builder.SilhouetteData
 import at.orchaldir.gm.visualization.plant.builder.StemData
 import at.orchaldir.gm.visualization.plant.builder.TreeData
 import at.orchaldir.gm.visualization.plant.builder.UndefinedPlantData
@@ -32,6 +33,10 @@ fun visualizeTree(
         }
 
         visualizeStem(renderer, options, tree.trunk)
+
+        tree.silhouette.forEach {
+            visualizeSilhouette(state, renderer, it)
+        }
     }
 }
 
@@ -42,4 +47,14 @@ private fun visualizeStem(
 ) {
     val trunk = createStemPolygon(stem)
     renderer.renderRoundedPolygon(trunk, options)
+}
+
+private fun visualizeSilhouette(
+    state: PlantRenderState,
+    renderer: TransformRenderer,
+    data: SilhouetteData,
+) {
+    val options = state.config.getFillAndBorder(data.color)
+
+    renderer.renderRoundedPolygon(data.polygon, options)
 }

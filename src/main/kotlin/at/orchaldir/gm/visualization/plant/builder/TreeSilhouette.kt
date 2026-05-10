@@ -4,10 +4,7 @@ import at.orchaldir.gm.core.model.ecology.plant.appearance.NoTreeSilhouette
 import at.orchaldir.gm.core.model.ecology.plant.appearance.SimpleTreeSilhouette
 import at.orchaldir.gm.core.model.ecology.plant.appearance.TreeSilhouette
 import at.orchaldir.gm.core.model.util.render.Color
-import at.orchaldir.gm.utils.NumberGenerator
-import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Polygon2d
 import at.orchaldir.gm.utils.math.Polygon2dBuilder
 import at.orchaldir.gm.utils.math.unit.Distance
@@ -16,7 +13,7 @@ import at.orchaldir.gm.visualization.plant.PlantRenderConfig
 
 data class SilhouetteData(
     val color: Color,
-    val silhouette: Polygon2d,
+    val polygon: Polygon2d,
 )
 
 data class SimpleSilhouetteBuilder(
