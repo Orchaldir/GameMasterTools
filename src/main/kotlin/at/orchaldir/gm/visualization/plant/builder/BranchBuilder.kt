@@ -9,7 +9,6 @@ import at.orchaldir.gm.utils.NumberGenerator
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Point2d
-import at.orchaldir.gm.utils.math.ZERO
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Orientation
 import at.orchaldir.gm.visualization.plant.PlantRenderConfig
@@ -18,7 +17,7 @@ sealed class BranchBuilder {
 
     fun clone() = when (this) {
         NoBranchBuilder -> NoBranchBuilder
-        is SimpleBranchBuilder -> this.copy()
+        is SimpleBranchBuilder -> this.copy(processor = processor.copy())
     }
 
     abstract fun processSegment(
@@ -43,9 +42,8 @@ data class SimpleBranchBuilder(
     val config: PlantRenderConfig,
     val numberGenerator: NumberGenerator,
     val branching: SimpleBranching,
+    val processor: StemProcessor,
     val maxLength: Distance,
-    var segmentStart: Point2d,
-    var relativeStart: Factor,
     var nextBranch: Factor,
     var branchingStep: Factor,
     var side: Side,
@@ -58,12 +56,11 @@ data class SimpleBranchBuilder(
         segmentOrientation: Orientation,
     ): List<StemData> {
         val branches = mutableListOf<StemData>()
-        val relativeEnd = relativeStart + relativeLength
+        processor.startSegment(segmentEnd, relativeLength, segmentOrientation)
 
-        while (nextBranch < relativeEnd && branchIndex < branching.maxCount) {
-            val positionAlongSegment = (nextBranch - relativeStart) / relativeLength
-            val relativePositionFromBase = (nextBranch - branching.base) / (FULL - branching.base - branchingStep)
-            val position = segmentStart.interpolate(segmentEnd, positionAlongSegment)
+        while (nextBranch < processor.relativeEnd && branchIndex < branching.maxCount) {
+            val position = processor.calculatePositionAlongSegment(nextBranch)
+            val relativePositionFromBase = processor.calculateRelativePositionFromBase(nextBranch)
             val length = maxLength * config.resolveBranchLength(branching.length, relativePositionFromBase)
 
             getBranchOrientation().forEach { branchOrientation ->
@@ -83,8 +80,7 @@ data class SimpleBranchBuilder(
             branchIndex++
         }
 
-        segmentStart = segmentEnd
-        relativeStart = relativeEnd
+        processor.endSegment()
 
         return branches
     }
@@ -120,18 +116,25 @@ fun createBranchBuilder(
     parentLength: Distance,
 ): BranchBuilder = when (branching) {
     NoBranching -> NoBranchBuilder
-    is SimpleBranching -> SimpleBranchBuilder(
-        config,
-        numberGenerator,
-        branching,
-        parentLength * branching.maxLength,
-        start,
-        ZERO,
-        branching.base,
-        (FULL - branching.base) / branching.maxCount,
-        when (branching.sidePattern) {
-            BranchSidePattern.BothSides -> Side.Right
-            BranchSidePattern.AlternateSides -> Side.Left //numberGenerator.select(Side.entries)
-        }
-    )
+    is SimpleBranching -> {
+        val branchingStep = (FULL - branching.base) / branching.maxCount
+
+        SimpleBranchBuilder(
+            config,
+            numberGenerator,
+            branching,
+            StemProcessor(
+                start,
+                branching.base,
+                FULL - branchingStep
+            ),
+            parentLength * branching.maxLength,
+            branching.base,
+            branchingStep,
+            when (branching.sidePattern) {
+                BranchSidePattern.BothSides -> Side.Right
+                BranchSidePattern.AlternateSides -> Side.Left //numberGenerator.select(Side.entries)
+            }
+        )
+    }
 }
