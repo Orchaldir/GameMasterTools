@@ -6,6 +6,8 @@ import at.orchaldir.gm.core.model.ecology.plant.appearance.Trunk
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
+import at.orchaldir.gm.utils.math.HALF
 import at.orchaldir.gm.utils.math.PI_FACTOR
 import at.orchaldir.gm.utils.math.ZERO
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
@@ -25,7 +27,7 @@ data class PlantRenderConfig(
         resolveTreeSilhouetteShape(length, minBranchLength, position)
 
     fun resolveTreeSilhouetteShape(shape: TreeSilhouetteShape, position: Factor) =
-        resolveTreeSilhouetteShape(shape, ZERO, position)
+        resolveTreeSilhouetteShape(shape, fromPercentage(40), position)
 
 
     private fun resolveTreeSilhouetteShape(shape: TreeSilhouetteShape, min: Factor, position: Factor): Factor {
@@ -39,7 +41,13 @@ data class PlantRenderConfig(
             )
             TreeSilhouetteShape.Hemispherical -> resolveTreeSilhouetteShape(
                 min,
-                (inverted * PI_FACTOR * 0.5f).sin(),
+                if (position < HALF) {
+                    FULL
+                } else {
+                    val position = (position - HALF) / HALF
+                    val inverted = FULL - position
+                    (inverted * PI_FACTOR * 0.5f).sin()
+                },
             )
             TreeSilhouetteShape.Cylindrical -> FULL
             TreeSilhouetteShape.Flame -> resolveTreeSilhouetteShape(

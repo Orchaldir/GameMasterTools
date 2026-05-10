@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.ecology.plant.appearance.SimpleTreeSilhouette
 import at.orchaldir.gm.core.model.ecology.plant.appearance.StemThicknessType
 import at.orchaldir.gm.core.model.ecology.plant.appearance.TreeSilhouetteShape
 import at.orchaldir.gm.prototypes.visualization.addNames
+import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.HALF
 import at.orchaldir.gm.utils.math.TEN_PERCENTS
@@ -18,8 +19,9 @@ fun main() {
         "simple-tree-silhouettes.svg",
         PLANT_CONFIG,
         listOf(
-            createSilhouette("Rounded", THIRD, HALF),
-            createSilhouette("Sharp", TEN_PERCENTS, HALF),
+            createSilhouette("Default", THIRD, HALF),
+            createSilhouette("Wide", HALF, FULL),
+            createSilhouette("Tall", TEN_PERCENTS, HALF),
         ),
         addNames(TreeSilhouetteShape.entries),
         ::createSilhouette,
