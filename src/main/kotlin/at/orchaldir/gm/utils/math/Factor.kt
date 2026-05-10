@@ -21,6 +21,7 @@ val FULL = fromPercentage(100)
 val ONE = fromPercentage(100)
 val DOUBLE = fromPercentage(200)
 val PI_FACTOR = Factor.fromNumber(PI.toFloat())
+val PI_2_FACTOR = Factor.fromNumber(PI.toFloat() / 2)
 
 private const val NUMBER_FACTOR = 10000
 private const val PERCENTAGE_FACTOR = 100

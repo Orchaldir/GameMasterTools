@@ -6,10 +6,13 @@ import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.HALF
+import at.orchaldir.gm.utils.math.PI_2_FACTOR
 import at.orchaldir.gm.utils.math.PI_FACTOR
 import at.orchaldir.gm.utils.math.THIRD
 import at.orchaldir.gm.utils.math.TWO_THIRD
 import at.orchaldir.gm.utils.math.ZERO
+import at.orchaldir.gm.utils.math.unit.Orientation
+import at.orchaldir.gm.utils.math.unit.ZERO_ORIENTATION
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.LineOptions
 
@@ -58,9 +61,7 @@ data class PlantRenderConfig(
             TreeSilhouetteShape.Flame -> resolveTreeSilhouetteShape(
                 min,
                 if (position < THIRD) {
-                    val position = position / THIRD
-                    val inverted = FULL - position
-                    (inverted * PI_FACTOR * 0.5f).cos()
+                    calculateCurve(position, ZERO, THIRD, PI_2_FACTOR)
                 } else {
                     calculateCurve(position, THIRD)
                 }
@@ -68,11 +69,16 @@ data class PlantRenderConfig(
         }
     }
 
-    private fun calculateCurve(position: Factor, min: Factor, max: Factor = FULL): Factor {
+    private fun calculateCurve(
+        position: Factor,
+        min: Factor,
+        max: Factor = FULL,
+        offset: Factor = ZERO,
+    ): Factor {
         val scaled = (position - min) / (max - min)
         val inverted = FULL - scaled
 
-        return  (inverted * PI_FACTOR * 0.5f).sin()
+        return  (inverted * PI_FACTOR * 0.5f + offset).sin()
     }
     private fun resolveTreeSilhouetteShape(min: Factor, factor: Factor) = min + (FULL - min) * factor
 
