@@ -18,7 +18,7 @@ fun main() {
         "simple-tree-silhouettes.svg",
         PLANT_CONFIG,
         listOf(
-            createSilhouette("Rounded", THIRD, THIRD),
+            createSilhouette("Rounded", THIRD, HALF),
             createSilhouette("Sharp", TEN_PERCENTS, HALF),
         ),
         addNames(TreeSilhouetteShape.entries),

@@ -5,10 +5,12 @@ import at.orchaldir.gm.core.model.ecology.plant.appearance.NoTreeSilhouette
 import at.orchaldir.gm.core.model.ecology.plant.appearance.SimpleTreeSilhouette
 import at.orchaldir.gm.core.model.ecology.plant.appearance.TreeSilhouette
 import at.orchaldir.gm.core.model.util.render.Color
+import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.ONE_PERCENT
 import at.orchaldir.gm.utils.math.Polygon2d
 import at.orchaldir.gm.utils.math.Polygon2dBuilder
+import at.orchaldir.gm.utils.math.THIRD
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Orientation
 import at.orchaldir.gm.utils.math.unit.ZERO_DISTANCE
@@ -46,9 +48,16 @@ data class SimpleSilhouetteBuilder(
         }
         else if (processor.relativeStart < silhouette.base) {
             addPoints(silhouette.base, segment.orientation)
-        }
 
-        addPoints(processor.relativeEnd, segment.orientation)
+            val baseAlongSegment = processor.calculateRelativePositionAlongSegment(silhouette.base)
+
+            if (FULL - baseAlongSegment > THIRD) {
+                addPoints(processor.relativeEnd, segment.orientation)
+            }
+        }
+        else {
+            addPoints(processor.relativeEnd, segment.orientation)
+        }
     }
 
     private fun addPoints(
