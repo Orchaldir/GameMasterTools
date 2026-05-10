@@ -1,14 +1,17 @@
 package at.orchaldir.gm.visualization.plant.builder
 
+import at.orchaldir.gm.core.logger
 import at.orchaldir.gm.core.model.ecology.plant.appearance.NoTreeSilhouette
 import at.orchaldir.gm.core.model.ecology.plant.appearance.SimpleTreeSilhouette
 import at.orchaldir.gm.core.model.ecology.plant.appearance.TreeSilhouette
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.ONE_PERCENT
 import at.orchaldir.gm.utils.math.Polygon2d
 import at.orchaldir.gm.utils.math.Polygon2dBuilder
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Orientation
+import at.orchaldir.gm.utils.math.unit.ZERO_DISTANCE
 import at.orchaldir.gm.visualization.plant.PlantRenderConfig
 
 data class SilhouetteData(
@@ -53,14 +56,19 @@ data class SimpleSilhouetteBuilder(
         orientation: Orientation,
     ) {
         val position = processor.calculatePositionAlongSegment(relativePosition)
-        val width = width *
-                config.resolveTreeSilhouetteShape(silhouette.shape, relativePosition)
+        val relativeWidth = config.resolveTreeSilhouetteShape(silhouette.shape, relativePosition)
+        val width = width * relativeWidth
+        logger.info { "relativePosition=$relativePosition relativeWidth=$relativeWidth width=$width" }
 
-        polygonBuilder.addLeftAndRightPoint(
-            position,
-            orientation,
-            width / 2,
-        )
+        if (relativeWidth >= ONE_PERCENT) {
+            polygonBuilder.addLeftAndRightPoint(
+                position,
+                orientation,
+                width / 2,
+            )
+        } else {
+            polygonBuilder.addPoint(position, true)
+        }
     }
 }
 

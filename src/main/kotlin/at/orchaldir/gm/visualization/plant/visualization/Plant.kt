@@ -56,5 +56,5 @@ private fun visualizeSilhouette(
 ) {
     val options = state.config.getFillAndBorder(data.color)
 
-    renderer.renderRoundedPolygon(data.polygon, options)
+    renderer.renderPolygon(data.polygon, options)
 }
