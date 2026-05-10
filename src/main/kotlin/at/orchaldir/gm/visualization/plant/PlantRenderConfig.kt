@@ -8,7 +8,6 @@ import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.HALF
 import at.orchaldir.gm.utils.math.PI_FACTOR
 import at.orchaldir.gm.utils.math.THIRD
-import at.orchaldir.gm.utils.math.THREE_QUARTER
 import at.orchaldir.gm.utils.math.TWO_THIRD
 import at.orchaldir.gm.utils.math.ZERO
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
@@ -52,9 +51,7 @@ data class PlantRenderConfig(
                 if (position < HALF) {
                     FULL
                 } else {
-                    val position = (position - HALF) / HALF
-                    val inverted = FULL - position
-                    (inverted * PI_FACTOR * 0.5f).sin()
+                    calculateCurve(position, HALF)
                 },
             )
             TreeSilhouetteShape.Cylindrical -> FULL
@@ -65,14 +62,18 @@ data class PlantRenderConfig(
                     val inverted = FULL - position
                     (inverted * PI_FACTOR * 0.5f).cos()
                 } else {
-                    val position = (position - THIRD) / TWO_THIRD
-                    val inverted = FULL - position
-                    (inverted * PI_FACTOR * 0.5f).sin()
+                    calculateCurve(position, THIRD)
                 }
             )
         }
     }
 
+    private fun calculateCurve(position: Factor, min: Factor, max: Factor = FULL): Factor {
+        val scaled = (position - min) / (max - min)
+        val inverted = FULL - scaled
+
+        return  (inverted * PI_FACTOR * 0.5f).sin()
+    }
     private fun resolveTreeSilhouetteShape(min: Factor, factor: Factor) = min + (FULL - min) * factor
 
 }
