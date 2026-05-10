@@ -29,6 +29,8 @@ val PLANT_CONFIG = PlantRenderConfig(
     fromPercentage(20),
     fromPercentage(20),
     2,
+    fromPercentage(20),
+    fromPercentage(40),
 )
 
 fun <C, R> renderPlantTable(

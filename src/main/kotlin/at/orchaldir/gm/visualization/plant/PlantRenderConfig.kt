@@ -18,6 +18,8 @@ data class PlantRenderConfig(
     val padding: Factor,
     val minBranchLength: Factor,
     val silhouetteStepsPerSegment: Int,
+    val minSilhouetteNarrow: Factor,
+    val minSilhouetteWide: Factor,
 ) {
     fun calculateSilhouetteSteps(tree: Tree) = tree.trunk.stem.segments * silhouetteStepsPerSegment
 
@@ -30,10 +32,9 @@ data class PlantRenderConfig(
         resolveTreeSilhouetteShape(shape, getMin(shape), position)
 
     private fun getMin(shape: TreeSilhouetteShape) = when (shape) {
-        TreeSilhouetteShape.Conical -> ZERO
-        TreeSilhouetteShape.Spherical, TreeSilhouetteShape.Hemispherical -> fromPercentage(40)
+        TreeSilhouetteShape.Conical, TreeSilhouetteShape.Flame -> minSilhouetteNarrow
+        TreeSilhouetteShape.Spherical, TreeSilhouetteShape.Hemispherical -> minSilhouetteWide
         TreeSilhouetteShape.Cylindrical -> ZERO
-        TreeSilhouetteShape.Flame -> ZERO
     }
 
     private fun resolveTreeSilhouetteShape(shape: TreeSilhouetteShape, min: Factor, position: Factor): Factor {
