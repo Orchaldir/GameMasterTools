@@ -56,7 +56,8 @@ data class SimpleSilhouetteBuilder(
         orientation: Orientation,
     ) {
         val position = processor.calculatePositionAlongSegment(relativePosition)
-        val relativeWidth = config.resolveTreeSilhouetteShape(silhouette.shape, relativePosition)
+        val relativePositionFromBase = processor.calculateRelativePositionFromBase(relativePosition)
+        val relativeWidth = config.resolveTreeSilhouetteShape(silhouette.shape, relativePositionFromBase)
         val width = width * relativeWidth
         logger.info { "relativePosition=$relativePosition relativeWidth=$relativeWidth width=$width" }
 
