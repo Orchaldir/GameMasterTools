@@ -27,8 +27,14 @@ data class PlantRenderConfig(
         resolveTreeSilhouetteShape(length, minBranchLength, position)
 
     fun resolveTreeSilhouetteShape(shape: TreeSilhouetteShape, position: Factor) =
-        resolveTreeSilhouetteShape(shape, fromPercentage(40), position)
+        resolveTreeSilhouetteShape(shape, getMin(shape), position)
 
+    private fun getMin(shape: TreeSilhouetteShape) = when (shape) {
+        TreeSilhouetteShape.Conical -> ZERO
+        TreeSilhouetteShape.Spherical, TreeSilhouetteShape.Hemispherical -> fromPercentage(40)
+        TreeSilhouetteShape.Cylindrical -> ZERO
+        TreeSilhouetteShape.Flame -> ZERO
+    }
 
     private fun resolveTreeSilhouetteShape(shape: TreeSilhouetteShape, min: Factor, position: Factor): Factor {
         val inverted = FULL - position
