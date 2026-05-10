@@ -56,7 +56,7 @@ data class SimpleBranchBuilder(
         segmentOrientation: Orientation,
     ): List<StemData> {
         val branches = mutableListOf<StemData>()
-        processor.startSegment(segmentEnd, relativeLength, segmentOrientation)
+        processor.startSegment(segmentEnd, relativeLength)
 
         while (nextBranch < processor.relativeEnd && branchIndex < branching.maxCount) {
             val position = processor.calculatePositionAlongSegment(nextBranch)

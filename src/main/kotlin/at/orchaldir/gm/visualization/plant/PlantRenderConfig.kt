@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.PI_FACTOR
+import at.orchaldir.gm.utils.math.ZERO
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.LineOptions
 
@@ -16,15 +17,29 @@ data class PlantRenderConfig(
 
     fun getFillAndBorder(color: Color) = FillAndBorder(color.toRender(), line)
 
-    fun resolveBranchLength(length: TreeSilhouetteShape, position: Factor): Factor {
+    fun resolveBranchLength(length: TreeSilhouetteShape, position: Factor) =
+        resolveTreeSilhouetteShape(length, minBranchLength, position)
+
+    fun resolveTreeSilhouetteShape(shape: TreeSilhouetteShape, position: Factor) =
+        resolveTreeSilhouetteShape(shape, ZERO, position)
+
+
+    private fun resolveTreeSilhouetteShape(shape: TreeSilhouetteShape, min: Factor, position: Factor): Factor {
         val inverted = FULL - position
 
-        return when (length) {
-            TreeSilhouetteShape.Conical -> simpleBranchLength(inverted)
-            TreeSilhouetteShape.Spherical -> simpleBranchLength((inverted * PI_FACTOR).sin())
-            TreeSilhouetteShape.Hemispherical -> simpleBranchLength((inverted * PI_FACTOR * 0.5f).sin())
+        return when (shape) {
+            TreeSilhouetteShape.Conical -> resolveTreeSilhouetteShape(min, inverted)
+            TreeSilhouetteShape.Spherical -> resolveTreeSilhouetteShape(
+                min,
+                (inverted * PI_FACTOR).sin(),
+            )
+            TreeSilhouetteShape.Hemispherical -> resolveTreeSilhouetteShape(
+                min,
+                (inverted * PI_FACTOR * 0.5f).sin(),
+            )
             TreeSilhouetteShape.Cylindrical -> FULL
-            TreeSilhouetteShape.Flame -> simpleBranchLength(
+            TreeSilhouetteShape.Flame -> resolveTreeSilhouetteShape(
+                min,
                 if (position.toNumber() < 0.3f) {
                     position / 0.3f
                 } else {
@@ -34,6 +49,6 @@ data class PlantRenderConfig(
         }
     }
 
-    private fun simpleBranchLength(factor: Factor) = minBranchLength + (FULL - minBranchLength) * factor
+    private fun resolveTreeSilhouetteShape(min: Factor, factor: Factor) = min + (FULL - min) * factor
 
 }

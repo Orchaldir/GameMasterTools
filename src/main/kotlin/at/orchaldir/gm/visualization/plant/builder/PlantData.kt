@@ -41,7 +41,7 @@ private fun buildTree(
 
     return TreeData(
         trunk,
-        buildTreeSilhouette(config, numberGenerator, plant.silhouette, trunk),
+        buildTreeSilhouette(config, plant.silhouette, trunk),
         plant.trunk.bark,
     )
 }

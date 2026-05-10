@@ -5,7 +5,6 @@ import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.START
 import at.orchaldir.gm.utils.math.ZERO
-import at.orchaldir.gm.utils.math.unit.Orientation
 
 data class StemProcessor(
     var segmentStart: Point2d,
@@ -33,7 +32,6 @@ data class StemProcessor(
     fun startSegment(
         end: Point2d,
         length: Factor,
-        segmentOrientation: Orientation,
     ) {
         segmentEnd = end
         relativeEnd = relativeStart + length

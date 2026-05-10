@@ -49,6 +49,7 @@ fun buildStem(
         stem.thickness.calculate(length, ZERO),
         stem.thickness.hasRoundedEnd(),
         segment,
+        length,
     )
 }
 
@@ -64,7 +65,8 @@ private fun buildSegment(
     val end = start.createPolar(stemLength / stem.segments, orientation)
     val nextIndex = index + 1
     val thickness = stem.thickness.calculate(stemLength, FULL * nextIndex / stem.segments)
-    val branches = branchBuilder.processSegment(end, FULL / stem.segments, orientation)
+    val relativeLength = FULL / stem.segments
+    val branches = branchBuilder.processSegment(end, relativeLength, orientation)
     val segments = mutableListOf<SegmentData>()
 
     if (nextIndex < stem.segments) {
@@ -91,6 +93,7 @@ private fun buildSegment(
         end,
         orientation,
         thickness,
+        relativeLength,
         segments,
         branches,
     )
