@@ -10,6 +10,7 @@ import at.orchaldir.gm.visualization.plant.builder.SilhouetteData
 import at.orchaldir.gm.visualization.plant.builder.StemData
 import at.orchaldir.gm.visualization.plant.builder.TreeData
 import at.orchaldir.gm.visualization.plant.builder.UndefinedPlantData
+import io.ktor.http.BadContentTypeFormatException
 
 fun visualizePlant(
     state: PlantRenderState,
@@ -28,15 +29,15 @@ fun visualizeTree(
     val options = state.config.getFillAndBorder(tree.bark)
 
     state.renderer.createGroup(position) { renderer ->
+        visualizeSilhouettes(state, renderer, tree.silhouette, false)
+
         tree.trunk.getBranches().forEach { branch ->
             visualizeStem(renderer, options, branch)
         }
 
         visualizeStem(renderer, options, tree.trunk)
 
-        tree.silhouette.forEach {
-            visualizeSilhouette(state, renderer, it)
-        }
+        visualizeSilhouettes(state, renderer, tree.silhouette, true)
     }
 }
 
@@ -49,11 +50,27 @@ private fun visualizeStem(
     renderer.renderRoundedPolygon(trunk, options)
 }
 
+private fun visualizeSilhouettes(
+    state: PlantRenderState,
+    renderer: TransformRenderer,
+    silhouettes: List<SilhouetteData>,
+    isFront: Boolean,
+) {
+    silhouettes.forEach {
+        visualizeSilhouette(state, renderer, it, isFront)
+    }
+}
+
 private fun visualizeSilhouette(
     state: PlantRenderState,
     renderer: TransformRenderer,
     data: SilhouetteData,
+    isFront: Boolean,
 ) {
+    if (isFront == data.showStems) {
+        return
+    }
+
     val options = state.config.getFillAndBorder(data.color)
 
     renderer.renderRoundedPolygon(data.polygon, options)

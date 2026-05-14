@@ -24,6 +24,7 @@ fun HtmlBlockTag.showTreeSilhouette(
                 fieldColor(silhouette.color)
                 fieldFactor("Base", silhouette.base)
                 fieldFactor("Width", silhouette.width)
+                field("Show Stems", silhouette.showStems)
             }
         }
     }
@@ -69,6 +70,11 @@ fun HtmlBlockTag.editTreeSilhouette(
                     MIN_SILHOUETTE_WIDTH,
                     MAX_SILHOUETTE_WIDTH,
                 )
+                selectBool(
+                    "Show Stems",
+                    silhouette.showStems,
+                    combine(silhouetteParam, STEM),
+                )
             }
         }
     }
@@ -90,6 +96,7 @@ fun parseTreeSilhouette(
             parse(parameters, combine(silhouetteParam, COLOR), Color.Green),
             parseFactor(parameters, combine(silhouetteParam, BASE), DEFAULT_BRANCHING_BASE),
             parseFactor(parameters, combine(silhouetteParam, WIDTH), DEFAULT_SILHOUETTE_WIDTH),
+            parseBool(parameters, combine(silhouetteParam, STEM)),
         )
     }
 }

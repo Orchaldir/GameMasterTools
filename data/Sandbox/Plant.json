@@ -16,13 +16,29 @@
       "branching": {
        "#type": "Simple",
        "maxCount": 10,
-       "maxLength": 1400
+       "base": 2700,
+       "maxLength": 1400,
+       "branch": {
+        "shape": {
+         "#type": "Curved",
+         "angle": {
+          "center": 40000,
+          "offset": 0
+         }
+        }
+       },
+       "angle": {
+        "center": 89000,
+        "offset": 10000
+       }
       }
      }
     },
     "silhouette": {
      "#type": "Simple",
-     "base": 2000
+     "shape": "Hemispherical",
+     "base": 2000,
+     "showStems": true
     },
     "wood": 10
    }

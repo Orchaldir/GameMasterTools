@@ -19,6 +19,7 @@ import at.orchaldir.gm.visualization.plant.PlantRenderConfig
 data class SilhouetteData(
     val color: Color,
     val polygon: Polygon2d,
+    val showStems: Boolean,
 )
 
 data class SimpleSilhouetteBuilder(
@@ -68,6 +69,7 @@ data class SimpleSilhouetteBuilder(
     fun finish() = SilhouetteData(
         silhouette.color,
         polygonBuilder.build(),
+        silhouette.showStems,
     )
 
     private fun updatePolygon(segment: SegmentData) {

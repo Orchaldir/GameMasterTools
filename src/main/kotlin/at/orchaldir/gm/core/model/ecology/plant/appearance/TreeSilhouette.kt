@@ -34,4 +34,5 @@ data class SimpleTreeSilhouette(
     val color: Color = Color.Green,
     val base: Factor = DEFAULT_BRANCHING_BASE,
     val width: Factor = DEFAULT_SILHOUETTE_WIDTH,
+    val showStems: Boolean = false,
 ) : TreeSilhouette()
