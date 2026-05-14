@@ -63,13 +63,14 @@ data class SimpleBranchBuilder(
             val relativePositionFromBase = processor.calculateRelativePositionFromBase(nextBranch)
             val length = maxLength * config.resolveBranchLength(branching.length, relativePositionFromBase)
 
-            getBranchOrientation().forEach { branchOrientation ->
+            getBranchOrientation().forEach { (branchSide, branchOrientation) ->
                 val branch = buildStem(
                     config,
                     numberGenerator,
                     branching.branch,
                     position,
                     segmentOrientation - branchOrientation,
+                    branchSide,
                     length,
                 )
 
@@ -85,24 +86,22 @@ data class SimpleBranchBuilder(
         return branches
     }
 
-    fun getBranchOrientation(): List<Orientation> = when (branching.sidePattern) {
+    fun getBranchOrientation(): List<Pair<Side,Orientation>> = when (branching.sidePattern) {
         BranchSidePattern.BothSides -> listOf(
-            branching.angle.generate(numberGenerator),
-            -branching.angle.generate(numberGenerator),
+            Pair(Side.Left, branching.angle.generate(numberGenerator)),
+            Pair(Side.Right, -branching.angle.generate(numberGenerator)),
         )
 
-        BranchSidePattern.AlternateSides -> when (side) {
-            Side.Left -> {
-                side = Side.Right
-
-                listOf(branching.angle.generate(numberGenerator))
+        BranchSidePattern.AlternateSides -> {
+            val orientation = when (side) {
+                Side.Left -> branching.angle.generate(numberGenerator)
+                Side.Right -> -branching.angle.generate(numberGenerator)
             }
+            val result = Pair(side, orientation)
 
-            Side.Right -> {
-                side = Side.Left
+            side = side.flip()
 
-                listOf(-branching.angle.generate(numberGenerator))
-            }
+            listOf(result)
         }
     }
 

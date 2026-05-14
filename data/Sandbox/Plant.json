@@ -17,13 +17,14 @@
        "#type": "Simple",
        "maxCount": 10,
        "base": 2700,
-       "maxLength": 1400,
+       "maxLength": 1600,
        "branch": {
+        "segments": 4,
         "shape": {
          "#type": "Curved",
          "angle": {
-          "center": 40000,
-          "offset": 0
+          "center": 20000,
+          "offset": 20000
          }
         }
        },

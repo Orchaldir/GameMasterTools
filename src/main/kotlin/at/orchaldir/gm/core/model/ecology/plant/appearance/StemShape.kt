@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.ecology.plant.appearance
 
+import at.orchaldir.gm.core.model.util.Side
 import at.orchaldir.gm.utils.NumberGenerator
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Variance
@@ -29,9 +30,18 @@ sealed class StemShape {
         numberGenerator: NumberGenerator,
         orientation: Orientation,
         segments: Int,
+        side: Side,
     ) = when (this) {
         is StraightStem -> orientation
-        is CurvedStem -> orientation + angle.generate(numberGenerator) / (segments - 1)
+        is CurvedStem -> {
+            val diff = angle.generate(numberGenerator) / (segments - 1)
+
+            orientation + if (side == Side.Left) {
+                diff
+            } else {
+                -diff
+            }
+        }
     }
 
     fun validate(label: String) = when (this) {

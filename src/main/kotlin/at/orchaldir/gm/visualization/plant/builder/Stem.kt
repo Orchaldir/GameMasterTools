@@ -2,6 +2,7 @@ package at.orchaldir.gm.visualization.plant.builder
 
 import at.orchaldir.gm.core.model.ecology.plant.appearance.Stem
 import at.orchaldir.gm.core.model.ecology.plant.appearance.Trunk
+import at.orchaldir.gm.core.model.util.Side
 import at.orchaldir.gm.utils.NumberGenerator
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Point2d
@@ -22,6 +23,7 @@ fun buildTrunk(
     trunk.stem,
     position,
     fromDegrees(-90),
+    Side.Left,
     trunk.height.center,
 )
 
@@ -31,6 +33,7 @@ fun buildStem(
     stem: Stem,
     position: Point2d,
     orientation: Orientation,
+    side: Side,
     length: Distance,
 ): StemData {
     val branchBuilder = createBranchBuilder(config, numberGenerator, stem.branching, position, length)
@@ -41,6 +44,7 @@ fun buildStem(
         length,
         position,
         orientation,
+        side,
         0,
     )
 
@@ -60,6 +64,7 @@ private fun buildSegment(
     stemLength: Distance,
     start: Point2d,
     orientation: Orientation,
+    side: Side,
     index: Int,
 ): SegmentData {
     val end = start.createPolar(stemLength / stem.segments, orientation)
@@ -70,7 +75,7 @@ private fun buildSegment(
     val segments = mutableListOf<SegmentData>()
 
     if (nextIndex < stem.segments) {
-        val endOrientation = stem.shape.calculate(numberGenerator, orientation, stem.segments)
+        val endOrientation = stem.shape.calculate(numberGenerator, orientation, stem.segments, side)
 
         stem.splitting
             .calculateSplits(numberGenerator, endOrientation, index)
@@ -83,6 +88,7 @@ private fun buildSegment(
                         stemLength,
                         end,
                         splitOrientation,
+                        side,
                         nextIndex,
                     )
                 )
