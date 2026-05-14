@@ -20,6 +20,10 @@ private fun calculateTreeSize(
 
     processStem(calculator, tree.trunk)
 
+    tree.silhouette.forEach {
+        processSilhouette(calculator, it)
+    }
+
     val size = calculator.calculate()
     val padding = size.maxSize() * config.padding
 
@@ -49,5 +53,14 @@ private fun processSegment(
     }
     segment.branches.forEach {
         processStem(calculator, it)
+    }
+}
+
+private fun processSilhouette(
+    calculator: Size2dCalculator,
+    silhouette: SilhouetteData,
+) {
+    silhouette.polygon.corners.forEach {
+        calculator.process(it)
     }
 }

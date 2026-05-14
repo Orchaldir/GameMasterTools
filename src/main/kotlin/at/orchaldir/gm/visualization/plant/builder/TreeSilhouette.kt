@@ -1,0 +1,142 @@
+package at.orchaldir.gm.visualization.plant.builder
+
+import at.orchaldir.gm.core.model.ecology.plant.Tree
+import at.orchaldir.gm.core.model.ecology.plant.appearance.NoTreeSilhouette
+import at.orchaldir.gm.core.model.ecology.plant.appearance.SimpleTreeSilhouette
+import at.orchaldir.gm.core.model.ecology.plant.appearance.TreeSilhouette
+import at.orchaldir.gm.core.model.util.render.Color
+import at.orchaldir.gm.utils.math.*
+import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.Orientation
+import at.orchaldir.gm.visualization.plant.PlantRenderConfig
+
+data class SilhouetteData(
+    val color: Color,
+    val polygon: Polygon2d,
+    val showStems: Boolean,
+)
+
+data class SimpleSilhouetteBuilder(
+    val config: PlantRenderConfig,
+    val silhouette: SimpleTreeSilhouette,
+    val processor: StemProcessor,
+    val width: Distance,
+    var nextPoints: Factor,
+    val step: Factor,
+    val polygonBuilder: Polygon2dBuilder = Polygon2dBuilder(),
+) {
+    constructor(
+        config: PlantRenderConfig,
+        silhouette: SimpleTreeSilhouette,
+        trunk: StemData,
+        step: Factor,
+    ) : this(
+        config,
+        silhouette,
+        StemProcessor(
+            trunk.start,
+            silhouette.base,
+        ),
+        trunk.length * silhouette.width,
+        silhouette.base,
+        step
+    )
+
+    fun processSegment(segment: SegmentData) {
+        processor.startSegment(segment.end, segment.relativeLength)
+
+        while (nextPoints < processor.relativeEnd) {
+            if (FULL - nextPoints > step) {
+                addPoints(nextPoints, segment.orientation)
+            } else {
+                addPoints(FULL, segment.orientation)
+                break
+            }
+
+            nextPoints += step
+        }
+
+        processor.endSegment()
+    }
+
+    fun finish() = SilhouetteData(
+        silhouette.color,
+        polygonBuilder.build(),
+        silhouette.showStems,
+    )
+
+    private fun updatePolygon(segment: SegmentData) {
+        if (processor.relativeEnd <= silhouette.base) {
+            return
+        } else if (processor.relativeStart < silhouette.base) {
+            addPoints(silhouette.base, segment.orientation)
+
+            val baseAlongSegment = processor.calculateRelativePositionAlongSegment(silhouette.base)
+
+            if (FULL - baseAlongSegment > THIRD) {
+                addPoints(processor.relativeEnd, segment.orientation)
+            }
+        } else {
+            addPoints(processor.relativeEnd, segment.orientation)
+        }
+    }
+
+    private fun addPoints(
+        relativePosition: Factor,
+        orientation: Orientation,
+    ) {
+        val position = processor.calculatePositionAlongSegment(relativePosition)
+        val relativePositionFromBase = processor.calculateRelativePositionFromBase(relativePosition)
+        val relativeWidth = config.resolveTreeSilhouetteShape(silhouette.shape, relativePositionFromBase)
+        val width = width * relativeWidth
+
+        if (relativeWidth >= ONE_PERCENT) {
+            polygonBuilder.addLeftAndRightPoint(
+                position,
+                orientation,
+                width / 2,
+            )
+        } else {
+            polygonBuilder.addPoint(position, true)
+        }
+    }
+}
+
+fun buildTreeSilhouette(
+    config: PlantRenderConfig,
+    tree: Tree,
+    silhouette: TreeSilhouette,
+    trunk: StemData,
+): List<SilhouetteData> = when (silhouette) {
+    NoTreeSilhouette -> emptyList()
+    is SimpleTreeSilhouette -> buildSimpleTreeSilhouette(
+        config,
+        tree,
+        silhouette,
+        trunk,
+    )
+}
+
+private fun buildSimpleTreeSilhouette(
+    config: PlantRenderConfig,
+    tree: Tree,
+    silhouette: SimpleTreeSilhouette,
+    trunk: StemData,
+): List<SilhouetteData> {
+    val steps = config.calculateSilhouetteSteps(tree)
+    val builder = SimpleSilhouetteBuilder(
+        config,
+        silhouette,
+        trunk,
+        FULL / steps,
+    )
+    var segment: SegmentData? = trunk.segment
+
+    while (segment != null) {
+        builder.processSegment(segment)
+
+        segment = segment.next.firstOrNull()
+    }
+
+    return listOf(builder.finish())
+}

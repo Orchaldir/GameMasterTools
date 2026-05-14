@@ -13,6 +13,7 @@ sealed class PlantData
 
 data class TreeData(
     val trunk: StemData,
+    val silhouette: List<SilhouetteData>,
     val bark: Color,
 ) : PlantData()
 
@@ -24,10 +25,23 @@ fun buildPlant(
     plant: PlantAppearance,
     position: Point2d = Point2d(),
 ): PlantData = when (plant) {
-    is Tree -> TreeData(
-        buildTrunk(config, numberGenerator, plant.trunk, position),
-        plant.trunk.bark,
-    )
+    is Tree -> buildTree(config, numberGenerator, plant, position)
 
     UndefinedPlantAppearance -> UndefinedPlantData
+}
+
+private fun buildTree(
+    config: PlantRenderConfig,
+    numberGenerator: NumberGenerator,
+    tree: Tree,
+    position: Point2d,
+): TreeData {
+    val trunk = buildTrunk(config, numberGenerator, tree.trunk, position)
+    val silhouette = buildTreeSilhouette(config, tree, tree.silhouette, trunk)
+
+    return TreeData(
+        trunk,
+        silhouette,
+        tree.trunk.bark,
+    )
 }

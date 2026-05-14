@@ -26,12 +26,12 @@ fun main() {
             Pair("Curved", Pair(curvedStem, NoStemSplitting)),
             Pair("Splitting", Pair(StraightStem, baseSplitting)),
         ),
-        addNames(BranchLength.entries),
+        addNames(TreeSilhouetteShape.entries),
         ::createTree,
     )
 }
 
-private fun createTree(length: BranchLength, pair: Pair<StemShape, StemSplitting>) = Tree(
+private fun createTree(length: TreeSilhouetteShape, pair: Pair<StemShape, StemSplitting>) = Tree(
     Trunk(
         Distribution(Distance.fromMeters(1)),
         Stem(

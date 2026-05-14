@@ -24,14 +24,15 @@ fun visualizePlant(
     val data = buildPlant(config, numberGenerator, plant)
     val size = calculateSize(config, data) ?: PaddedSize(Size2d.fromMeters(1.0f))
     val innerAabb = size.getInnerAABB()
-    val renderer = SvgBuilder(size.getFullSize())
+    val fullAABB = size.getFullAABB()
+    val renderer = SvgBuilder(fullAABB.size)
     val renderState = PlantRenderState(
         state,
         PLANT_CONFIG,
         renderer,
     )
 
-    renderer.getLayer().renderRectangle(innerAabb, BorderOnly(config.line))
+    renderer.getLayer().renderRectangle(fullAABB, BorderOnly(config.line))
 
     visualizePlant(renderState, data, innerAabb.getPoint(HALF, END))
 

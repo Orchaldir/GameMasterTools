@@ -13,11 +13,35 @@
      },
      "stem": {
       "segments": 4,
-      "splitting": {
-       "#type": "Base",
-       "probability": 10000
+      "branching": {
+       "#type": "Simple",
+       "maxCount": 10,
+       "sidePattern": "AlternateSides",
+       "base": 2700,
+       "maxLength": 1600,
+       "length": "Hemispherical",
+       "branch": {
+        "segments": 4,
+        "shape": {
+         "#type": "Curved",
+         "angle": {
+          "center": 20000,
+          "offset": 20000
+         }
+        }
+       },
+       "angle": {
+        "center": 89000,
+        "offset": 10000
+       }
       }
      }
+    },
+    "silhouette": {
+     "#type": "Simple",
+     "shape": "Hemispherical",
+     "base": 2000,
+     "showStems": true
     },
     "wood": 10
    }

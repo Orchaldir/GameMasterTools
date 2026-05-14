@@ -28,6 +28,9 @@ val PLANT_CONFIG = PlantRenderConfig(
     LineOptions(Color.Black.toRender(), fromMillimeters(5)),
     fromPercentage(20),
     fromPercentage(20),
+    2,
+    fromPercentage(20),
+    fromPercentage(40),
 )
 
 fun <C, R> renderPlantTable(

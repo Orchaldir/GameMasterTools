@@ -14,7 +14,6 @@ val MIN_BRANCHING_BASE = Factor.fromPercentage(10)
 val DEFAULT_BRANCHING_BASE = THIRD
 val MAX_BRANCHING_BASE = Factor.fromPercentage(90)
 
-
 val MIN_BRANCH_LENGTH = Factor.fromPercentage(10)
 val DEFAULT_BRANCH_LENGTH = QUARTER
 val MAX_BRANCH_LENGTH = Factor.fromPercentage(200)
@@ -60,7 +59,7 @@ data class SimpleBranching(
     val sidePattern: BranchSidePattern = BranchSidePattern.BothSides,
     val base: Factor = DEFAULT_BRANCHING_BASE,
     val maxLength: Factor = DEFAULT_BRANCH_LENGTH,
-    val length: BranchLength = BranchLength.Conical,
+    val length: TreeSilhouetteShape = TreeSilhouetteShape.Conical,
     val branch: Stem = Stem(),
     /**
      * The angle between the parent and the children.

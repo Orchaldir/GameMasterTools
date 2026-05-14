@@ -1,0 +1,52 @@
+package at.orchaldir.gm.core.reducer.ecology.plant.appearance
+
+import at.orchaldir.gm.assertFactor
+import at.orchaldir.gm.assertIllegalArgument
+import at.orchaldir.gm.core.model.ecology.plant.appearance.*
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
+
+class TreeSilhouetteTest {
+
+    @Nested
+    inner class SimpleTreeSilhouetteTest {
+
+        @Test
+        fun `Test the base factor`() {
+            assertFactor(
+                "silhouette's base",
+                MIN_BRANCHING_BASE,
+                MAX_BRANCHING_BASE,
+                { base, message ->
+                    fail(SimpleTreeSilhouette(base = base), message)
+                },
+                { base ->
+                    success(SimpleTreeSilhouette(base = base))
+                },
+            )
+        }
+
+        @Test
+        fun `Test the width factor`() {
+            assertFactor(
+                "silhouette's width",
+                MIN_SILHOUETTE_WIDTH,
+                MAX_SILHOUETTE_WIDTH,
+                { width, message ->
+                    fail(SimpleTreeSilhouette(width = width), message)
+                },
+                { base ->
+                    success(SimpleTreeSilhouette(width = base))
+                },
+            )
+        }
+    }
+
+    fun success(silhouette: TreeSilhouette) {
+        silhouette.validate()
+    }
+
+    fun fail(silhouette: TreeSilhouette, message: String) {
+        assertIllegalArgument(message) { silhouette.validate() }
+    }
+}

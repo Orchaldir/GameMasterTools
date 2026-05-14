@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.model.ecology.plant
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.ecology.plant.appearance.Trunk
+import at.orchaldir.gm.core.model.ecology.plant.appearance.*
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.utils.doNothing
 import kotlinx.serialization.SerialName
@@ -26,7 +26,17 @@ sealed class PlantAppearance {
     }
 
     fun validate(state: State) = when (this) {
-        is Tree -> state.getMaterialStorage().requireOptional(wood)
+        is Tree -> {
+            trunk.validate(state)
+            silhouette.validate()
+
+            if (silhouette is SimpleTreeSilhouette) {
+                require(trunk.stem.splitting is NoStemSplitting) { "SimpleTreeSilhouette doesn't support StemSplitting for the trunk!" }
+            }
+
+            state.getMaterialStorage().requireOptional(wood)
+        }
+
         UndefinedPlantAppearance -> doNothing()
     }
 
@@ -36,6 +46,7 @@ sealed class PlantAppearance {
 @SerialName("Tree")
 data class Tree(
     val trunk: Trunk = Trunk(),
+    val silhouette: TreeSilhouette = NoTreeSilhouette,
     val wood: MaterialId? = null,
 ) : PlantAppearance()
 
