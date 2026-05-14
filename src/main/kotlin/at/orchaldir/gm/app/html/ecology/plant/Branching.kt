@@ -79,12 +79,6 @@ fun HtmlBlockTag.editBranching(
                     MAX_BRANCH_LENGTH,
                 )
                 selectValue(
-                    "Side Pattern",
-                    combine(branchingParam, SIDE),
-                    BranchSidePattern.entries,
-                    branching.sidePattern,
-                )
-                selectValue(
                     "Length",
                     combine(branchingParam, LENGTH, TYPE),
                     TreeSilhouetteShape.entries,
