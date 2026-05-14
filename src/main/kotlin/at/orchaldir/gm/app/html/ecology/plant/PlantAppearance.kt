@@ -39,6 +39,7 @@ fun HtmlBlockTag.showPlantAppearance(
         when (appearance) {
             is Tree -> {
                 showTrunk(appearance.trunk)
+                showTreeSilhouette(appearance.silhouette)
                 optionalFieldLink("Wood", call, state, appearance.wood)
             }
 
@@ -72,7 +73,8 @@ fun HtmlBlockTag.editPlantAppearance(
 
         when (appearance) {
             is Tree -> {
-                editTrunk(appearance.trunk, combine(param, TRUNK))
+                editTrunk(appearance.trunk, param)
+                editTreeSilhouette(appearance.silhouette, param)
                 selectOptionalElement(
                     state,
                     "Wood",
@@ -96,8 +98,8 @@ fun parsePlantAppearance(
     param: String = APPEARANCE,
 ) = when (parse(parameters, param, PlantAppearanceType.Undefined)) {
     PlantAppearanceType.Tree -> Tree(
-        parseTrunk(parameters, combine(param, TRUNK)),
-        NoTreeSilhouette,
+        parseTrunk(parameters, param),
+        parseTreeSilhouette(parameters, param),
         parseOptionalMaterialId(parameters, combine(param, TREE, MATERIAL)),
     )
 

@@ -73,6 +73,7 @@ data class PlantRenderConfig(
 
         return  (inverted * PI_FACTOR * 0.5f + offset).sin()
     }
+
     private fun resolveTreeSilhouetteShape(min: Factor, factor: Factor) = min + (FULL - min) * factor
 
 }

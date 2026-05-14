@@ -13,11 +13,16 @@
      },
      "stem": {
       "segments": 4,
-      "splitting": {
-       "#type": "Base",
-       "probability": 10000
+      "branching": {
+       "#type": "Simple",
+       "maxCount": 10,
+       "maxLength": 1400
       }
      }
+    },
+    "silhouette": {
+     "#type": "Simple",
+     "base": 2000
     },
     "wood": 10
    }

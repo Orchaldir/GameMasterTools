@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.html.ecology.plant
 import at.orchaldir.gm.app.APPEARANCE
 import at.orchaldir.gm.app.COLOR
 import at.orchaldir.gm.app.HEIGHT
+import at.orchaldir.gm.app.TRUNK
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.math.parseDistance
 import at.orchaldir.gm.app.html.util.math.parseDistribution
@@ -33,20 +34,22 @@ fun HtmlBlockTag.editTrunk(
     trunk: Trunk,
     param: String,
 ) {
+    val trunkParam = combine(param, TRUNK)
+
     showDetails("Trunk", true) {
         selectColor(
             trunk.bark,
-            combine(param, COLOR),
+            combine(trunkParam, COLOR),
             "Bark",
         )
         selectDistanceDistribution(
             "Height",
-            combine(param, HEIGHT),
+            combine(trunkParam, HEIGHT),
             trunk.height,
             MIN_TRUNK_HEIGHT,
             MAX_TRUNK_HEIGHT,
         )
-        editStem(trunk.stem, param)
+        editStem(trunk.stem, trunkParam)
     }
 }
 
@@ -56,13 +59,17 @@ fun HtmlBlockTag.editTrunk(
 fun parseTrunk(
     parameters: Parameters,
     param: String = APPEARANCE,
-) = Trunk(
-    parseDistribution(
-        parameters,
-        combine(param, HEIGHT),
-    ) { _, p, prefix ->
-        parseDistance(parameters, p, prefix, MIN_TRUNK_HEIGHT)
-    },
-    parseStem(parameters, param),
-    parse(parameters, param, Color.SaddleBrown),
-)
+): Trunk {
+    val trunkParam = combine(param, TRUNK)
+
+    return Trunk(
+        parseDistribution(
+            parameters,
+            combine(trunkParam, HEIGHT),
+        ) { _, p, prefix ->
+            parseDistance(parameters, p, prefix, MIN_TRUNK_HEIGHT)
+        },
+        parseStem(parameters, trunkParam),
+        parse(parameters, trunkParam, Color.SaddleBrown),
+    )
+}
