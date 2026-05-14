@@ -28,7 +28,11 @@ sealed class PlantAppearance {
     }
 
     fun validate(state: State) = when (this) {
-        is Tree -> state.getMaterialStorage().requireOptional(wood)
+        is Tree -> {
+            trunk.validate(state)
+            silhouette.validate()
+            state.getMaterialStorage().requireOptional(wood)
+        }
         UndefinedPlantAppearance -> doNothing()
     }
 

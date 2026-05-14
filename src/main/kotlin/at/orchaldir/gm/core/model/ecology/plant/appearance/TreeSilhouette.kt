@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.ecology.plant.appearance
 
 import at.orchaldir.gm.core.model.util.render.Color
+import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -21,6 +22,13 @@ sealed class TreeSilhouette {
         NoTreeSilhouette -> TreeSilhouetteType.None
         is SimpleTreeSilhouette -> TreeSilhouetteType.Simple
     }
+    fun validate() = when (this) {
+        NoTreeSilhouette -> doNothing()
+        is SimpleTreeSilhouette -> {
+            validateFactor(base, "silhouette's base", MIN_BRANCHING_BASE, MAX_BRANCHING_BASE)
+        }
+    }
+
 }
 
 @Serializable
