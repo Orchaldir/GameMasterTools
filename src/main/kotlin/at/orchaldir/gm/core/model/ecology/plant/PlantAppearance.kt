@@ -1,11 +1,7 @@
 package at.orchaldir.gm.core.model.ecology.plant
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.ecology.plant.appearance.NoStemSplitting
-import at.orchaldir.gm.core.model.ecology.plant.appearance.NoTreeSilhouette
-import at.orchaldir.gm.core.model.ecology.plant.appearance.SimpleTreeSilhouette
-import at.orchaldir.gm.core.model.ecology.plant.appearance.TreeSilhouette
-import at.orchaldir.gm.core.model.ecology.plant.appearance.Trunk
+import at.orchaldir.gm.core.model.ecology.plant.appearance.*
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.utils.doNothing
 import kotlinx.serialization.SerialName
@@ -40,6 +36,7 @@ sealed class PlantAppearance {
 
             state.getMaterialStorage().requireOptional(wood)
         }
+
         UndefinedPlantAppearance -> doNothing()
     }
 

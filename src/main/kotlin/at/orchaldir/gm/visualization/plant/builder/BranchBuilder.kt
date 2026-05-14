@@ -86,7 +86,7 @@ data class SimpleBranchBuilder(
         return branches
     }
 
-    fun getBranchOrientation(): List<Pair<Side,Orientation>> = when (branching.sidePattern) {
+    fun getBranchOrientation(): List<Pair<Side, Orientation>> = when (branching.sidePattern) {
         BranchSidePattern.BothSides -> listOf(
             Pair(Side.Left, branching.angle.generate(numberGenerator)),
             Pair(Side.Right, -branching.angle.generate(numberGenerator)),

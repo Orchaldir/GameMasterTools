@@ -3,7 +3,6 @@ package at.orchaldir.gm.app.html.ecology.plant
 import at.orchaldir.gm.app.APPEARANCE
 import at.orchaldir.gm.app.MATERIAL
 import at.orchaldir.gm.app.TREE
-import at.orchaldir.gm.app.TRUNK
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.economy.material.parseOptionalMaterialId
 import at.orchaldir.gm.core.model.State
@@ -11,7 +10,6 @@ import at.orchaldir.gm.core.model.ecology.plant.PlantAppearance
 import at.orchaldir.gm.core.model.ecology.plant.PlantAppearanceType
 import at.orchaldir.gm.core.model.ecology.plant.Tree
 import at.orchaldir.gm.core.model.ecology.plant.UndefinedPlantAppearance
-import at.orchaldir.gm.core.model.ecology.plant.appearance.NoTreeSilhouette
 import at.orchaldir.gm.core.model.economy.material.MaterialCategoryType
 import at.orchaldir.gm.core.selector.util.sortMaterials
 import at.orchaldir.gm.utils.doNothing

@@ -3,16 +3,7 @@ package at.orchaldir.gm.visualization.plant
 import at.orchaldir.gm.core.model.ecology.plant.Tree
 import at.orchaldir.gm.core.model.ecology.plant.appearance.TreeSilhouetteShape
 import at.orchaldir.gm.core.model.util.render.Color
-import at.orchaldir.gm.utils.math.FULL
-import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.math.HALF
-import at.orchaldir.gm.utils.math.PI_2_FACTOR
-import at.orchaldir.gm.utils.math.PI_FACTOR
-import at.orchaldir.gm.utils.math.THIRD
-import at.orchaldir.gm.utils.math.TWO_THIRD
-import at.orchaldir.gm.utils.math.ZERO
-import at.orchaldir.gm.utils.math.unit.Orientation
-import at.orchaldir.gm.utils.math.unit.ZERO_ORIENTATION
+import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.LineOptions
 
@@ -51,6 +42,7 @@ data class PlantRenderConfig(
             } else {
                 calculateCurve(position, HALF)
             }
+
             TreeSilhouetteShape.Cylindrical -> return FULL
             TreeSilhouetteShape.Flame -> if (position < THIRD) {
                 calculateCurve(position, ZERO, THIRD, PI_2_FACTOR)
@@ -59,7 +51,7 @@ data class PlantRenderConfig(
             }
         }
 
-        return resolveTreeSilhouetteShape(min,mapped)
+        return resolveTreeSilhouetteShape(min, mapped)
     }
 
     private fun calculateCurve(
@@ -71,7 +63,7 @@ data class PlantRenderConfig(
         val scaled = (position - min) / (max - min)
         val inverted = FULL - scaled
 
-        return  (inverted * PI_FACTOR * 0.5f + offset).sin()
+        return (inverted * PI_FACTOR * 0.5f + offset).sin()
     }
 
     private fun resolveTreeSilhouetteShape(min: Factor, factor: Factor) = min + (FULL - min) * factor

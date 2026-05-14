@@ -1,10 +1,6 @@
 package at.orchaldir.gm.visualization.plant.builder
 
-import at.orchaldir.gm.utils.math.FULL
-import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.math.Point2d
-import at.orchaldir.gm.utils.math.START
-import at.orchaldir.gm.utils.math.ZERO
+import at.orchaldir.gm.utils.math.*
 
 data class StemProcessor(
     var segmentStart: Point2d,
@@ -19,7 +15,7 @@ data class StemProcessor(
         segmentStart: Point2d,
         baseStart: Factor = START,
         baseEnd: Factor = FULL,
-    ): this(
+    ) : this(
         segmentStart,
         segmentStart,
         ZERO,

@@ -1,17 +1,11 @@
 package at.orchaldir.gm.visualization.plant.builder
 
-import at.orchaldir.gm.core.logger
 import at.orchaldir.gm.core.model.ecology.plant.Tree
 import at.orchaldir.gm.core.model.ecology.plant.appearance.NoTreeSilhouette
 import at.orchaldir.gm.core.model.ecology.plant.appearance.SimpleTreeSilhouette
 import at.orchaldir.gm.core.model.ecology.plant.appearance.TreeSilhouette
 import at.orchaldir.gm.core.model.util.render.Color
-import at.orchaldir.gm.utils.math.FULL
-import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.math.ONE_PERCENT
-import at.orchaldir.gm.utils.math.Polygon2d
-import at.orchaldir.gm.utils.math.Polygon2dBuilder
-import at.orchaldir.gm.utils.math.THIRD
+import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Orientation
 import at.orchaldir.gm.visualization.plant.PlantRenderConfig
@@ -36,7 +30,7 @@ data class SimpleSilhouetteBuilder(
         silhouette: SimpleTreeSilhouette,
         trunk: StemData,
         step: Factor,
-    ): this(
+    ) : this(
         config,
         silhouette,
         StemProcessor(
@@ -54,8 +48,7 @@ data class SimpleSilhouetteBuilder(
         while (nextPoints < processor.relativeEnd) {
             if (FULL - nextPoints > step) {
                 addPoints(nextPoints, segment.orientation)
-            }
-            else {
+            } else {
                 addPoints(FULL, segment.orientation)
                 break
             }
@@ -75,8 +68,7 @@ data class SimpleSilhouetteBuilder(
     private fun updatePolygon(segment: SegmentData) {
         if (processor.relativeEnd <= silhouette.base) {
             return
-        }
-        else if (processor.relativeStart < silhouette.base) {
+        } else if (processor.relativeStart < silhouette.base) {
             addPoints(silhouette.base, segment.orientation)
 
             val baseAlongSegment = processor.calculateRelativePositionAlongSegment(silhouette.base)
@@ -84,8 +76,7 @@ data class SimpleSilhouetteBuilder(
             if (FULL - baseAlongSegment > THIRD) {
                 addPoints(processor.relativeEnd, segment.orientation)
             }
-        }
-        else {
+        } else {
             addPoints(processor.relativeEnd, segment.orientation)
         }
     }

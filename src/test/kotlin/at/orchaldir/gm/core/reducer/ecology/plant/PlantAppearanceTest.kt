@@ -5,12 +5,7 @@ import at.orchaldir.gm.UNKNOWN_MATERIAL_ID
 import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.ecology.plant.Tree
-import at.orchaldir.gm.core.model.ecology.plant.appearance.BaseSplitting
-import at.orchaldir.gm.core.model.ecology.plant.appearance.SegmentSplitting
-import at.orchaldir.gm.core.model.ecology.plant.appearance.SimpleTreeSilhouette
-import at.orchaldir.gm.core.model.ecology.plant.appearance.Stem
-import at.orchaldir.gm.core.model.ecology.plant.appearance.StemSplitting
-import at.orchaldir.gm.core.model.ecology.plant.appearance.Trunk
+import at.orchaldir.gm.core.model.ecology.plant.appearance.*
 import at.orchaldir.gm.core.model.economy.material.Material
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
