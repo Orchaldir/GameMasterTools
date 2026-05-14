@@ -5,6 +5,11 @@ import at.orchaldir.gm.UNKNOWN_MATERIAL_ID
 import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.ecology.plant.Tree
+import at.orchaldir.gm.core.model.ecology.plant.appearance.SegmentSplitting
+import at.orchaldir.gm.core.model.ecology.plant.appearance.SimpleTreeSilhouette
+import at.orchaldir.gm.core.model.ecology.plant.appearance.Stem
+import at.orchaldir.gm.core.model.ecology.plant.appearance.StemSplitting
+import at.orchaldir.gm.core.model.ecology.plant.appearance.Trunk
 import at.orchaldir.gm.core.model.economy.material.Material
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -27,6 +32,18 @@ class PlantAppearanceTest {
             val tree = Tree(wood = UNKNOWN_MATERIAL_ID)
 
             assertIllegalArgument("Requires unknown Material 99!") { tree.validate(state) }
+        }
+
+        @Nested
+        inner class SplittingVsSilhouetteTest {
+
+            @Test
+            fun `Cannot have SegmentSplitting with a simple silhouette`() {
+                val trunk = Trunk(stem = Stem(splitting = SegmentSplitting()))
+                val tree = Tree(trunk, SimpleTreeSilhouette())
+
+                assertIllegalArgument("SimpleTreeSilhouette doesn't support StemSplitting for the trunk!") { tree.validate(state) }
+            }
         }
 
         @Test

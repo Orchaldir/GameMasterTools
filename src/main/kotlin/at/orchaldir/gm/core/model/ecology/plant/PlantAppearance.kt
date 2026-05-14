@@ -1,7 +1,9 @@
 package at.orchaldir.gm.core.model.ecology.plant
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.ecology.plant.appearance.NoStemSplitting
 import at.orchaldir.gm.core.model.ecology.plant.appearance.NoTreeSilhouette
+import at.orchaldir.gm.core.model.ecology.plant.appearance.SimpleTreeSilhouette
 import at.orchaldir.gm.core.model.ecology.plant.appearance.TreeSilhouette
 import at.orchaldir.gm.core.model.ecology.plant.appearance.Trunk
 import at.orchaldir.gm.core.model.economy.material.MaterialId
@@ -31,6 +33,11 @@ sealed class PlantAppearance {
         is Tree -> {
             trunk.validate(state)
             silhouette.validate()
+
+            if (silhouette is SimpleTreeSilhouette) {
+                require(trunk.stem.splitting is NoStemSplitting) { "SimpleTreeSilhouette doesn't support StemSplitting for the trunk!" }
+            }
+
             state.getMaterialStorage().requireOptional(wood)
         }
         UndefinedPlantAppearance -> doNothing()

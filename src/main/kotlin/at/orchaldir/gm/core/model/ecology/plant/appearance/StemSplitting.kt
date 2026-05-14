@@ -123,7 +123,7 @@ data object NoStemSplitting : StemSplitting()
 @Serializable
 @SerialName("Segment")
 data class SegmentSplitting(
-    val probability: Factor,
+    val probability: Factor = DOUBLE,
     /**
      * The angle that all stems of a split rotate away from the original orientation.
      */
@@ -133,7 +133,7 @@ data class SegmentSplitting(
 @Serializable
 @SerialName("Base")
 data class BaseSplitting(
-    val probability: Factor,
+    val probability: Factor = DOUBLE,
     /**
      * The angle that all stems of a split rotate away from the original orientation.
      */
