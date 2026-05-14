@@ -26,6 +26,7 @@ sealed class TreeSilhouette {
         NoTreeSilhouette -> doNothing()
         is SimpleTreeSilhouette -> {
             validateFactor(base, "silhouette's base", MIN_BRANCHING_BASE, MAX_BRANCHING_BASE)
+            validateFactor(width, "silhouette's width", MIN_SILHOUETTE_WIDTH, MAX_SILHOUETTE_WIDTH)
         }
     }
 

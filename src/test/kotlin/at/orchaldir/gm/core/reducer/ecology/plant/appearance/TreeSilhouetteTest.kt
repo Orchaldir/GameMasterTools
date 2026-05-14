@@ -28,6 +28,21 @@ class TreeSilhouetteTest {
                 },
             )
         }
+
+        @Test
+        fun `Test the width factor`() {
+            assertFactor(
+                "silhouette's width",
+                MIN_SILHOUETTE_WIDTH,
+                MAX_SILHOUETTE_WIDTH,
+                { width, message ->
+                    fail(SimpleTreeSilhouette(width = width), message)
+                },
+                { base ->
+                    success(SimpleTreeSilhouette(width = base))
+                },
+            )
+        }
     }
 
     fun success(silhouette: TreeSilhouette) {
