@@ -39,24 +39,39 @@ class PlantAppearanceTest {
         inner class SplittingVsSilhouetteTest {
 
             @Test
+            fun `Can have BaseSplitting without silhouette`() {
+                valiWithoutSilhouette(BaseSplitting())
+            }
+
+            @Test
+            fun `Can have SegmentSplitting without silhouette`() {
+                valiWithoutSilhouette(SegmentSplitting())
+            }
+
+            @Test
             fun `Cannot have BaseSplitting with a simple silhouette`() {
-                failWithSilhouette(BaseSplitting())
+                invalidWithSilhouette(BaseSplitting())
             }
 
             @Test
             fun `Cannot have SegmentSplitting with a simple silhouette`() {
-                failWithSilhouette(SegmentSplitting())
+                invalidWithSilhouette(SegmentSplitting())
             }
 
-            private fun failWithSilhouette(splitting: StemSplitting) {
+            private fun invalidWithSilhouette(splitting: StemSplitting) {
                 val trunk = Trunk(stem = Stem(splitting = splitting))
                 val tree = Tree(trunk, SimpleTreeSilhouette())
 
                 assertIllegalArgument("SimpleTreeSilhouette doesn't support StemSplitting for the trunk!") {
-                    tree.validate(
-                        state
-                    )
+                    tree.validate(state)
                 }
+            }
+
+            private fun valiWithoutSilhouette(splitting: StemSplitting) {
+                val trunk = Trunk(stem = Stem(splitting = splitting))
+                val tree = Tree(trunk)
+
+                tree.validate(state)
             }
         }
 
