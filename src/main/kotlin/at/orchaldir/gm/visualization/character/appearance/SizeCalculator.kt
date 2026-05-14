@@ -58,6 +58,7 @@ class PaddedSize(
     fun getFullSize() = baseSize
         .addWidth(left + right)
         .addHeight(top + bottom) + universal * 2.0f
+    fun getFullAABB() = AABB(getFullSize())
 }
 
 fun calculatePaddedSize(

@@ -98,7 +98,6 @@ data class SimpleSilhouetteBuilder(
         val relativePositionFromBase = processor.calculateRelativePositionFromBase(relativePosition)
         val relativeWidth = config.resolveTreeSilhouetteShape(silhouette.shape, relativePositionFromBase)
         val width = width * relativeWidth
-        logger.info { "relativePosition=$relativePosition relativeWidth=$relativeWidth width=$width" }
 
         if (relativeWidth >= ONE_PERCENT) {
             polygonBuilder.addLeftAndRightPoint(
