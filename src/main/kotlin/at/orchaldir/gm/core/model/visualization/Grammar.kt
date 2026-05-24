@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 
 enum class GrammarType {
     RectangularShape,
-    SimpleBrick,
+    SingleBrick,
     DoNothing,
 }
 
@@ -16,7 +16,7 @@ sealed class Grammar {
 
     fun getType() = when (this) {
         is RectangularShapeGrammar -> GrammarType.RectangularShape
-        is SimpleBrickGrammar -> GrammarType.SimpleBrick
+        is SingleBrickGrammar -> GrammarType.SingleBrick
         DoNothingGrammar -> GrammarType.DoNothing
     }
 
@@ -30,9 +30,10 @@ data class RectangularShapeGrammar(
 ) : Grammar()
 
 @Serializable
-@SerialName("SimpleBrick")
-data class SimpleBrickGrammar(
+@SerialName("SingleBrick")
+data class SingleBrickGrammar(
     val brick: Grammar,
+    val pattern: SingleBrickPattern = SingleBrickPattern.RunningHalf,
 ) : Grammar()
 
 @Serializable
