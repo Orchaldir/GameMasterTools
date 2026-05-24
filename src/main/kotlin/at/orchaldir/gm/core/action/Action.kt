@@ -18,6 +18,8 @@ import at.orchaldir.gm.utils.map.Resize
 
 sealed class Action
 
+//-- generic --
+
 // data
 data class LoadData(val path: String) : Action()
 

@@ -1,4 +1,4 @@
-package at.orchaldir.gm.prototypes.visualization.tile
+package at.orchaldir.gm.prototypes.visualization.util
 
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.util.render.Color.Red
