@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.model.visualization
 
 import at.orchaldir.gm.core.model.util.part.ItemPart
 import at.orchaldir.gm.utils.math.Axis
+import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.shape.RectangularShape
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -34,6 +35,7 @@ data class RectangularShapeGrammar(
 @SerialName("SingleBrick")
 data class SingleBrickGrammar(
     val brick: Grammar,
+    val size: Size2d,
     val pattern: SingleBrickPattern = SingleBrickPattern.RunningHalf,
     val axis: Axis = Axis.X,
 ) : Grammar()

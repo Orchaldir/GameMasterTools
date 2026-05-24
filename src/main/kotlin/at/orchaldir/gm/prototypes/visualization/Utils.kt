@@ -81,6 +81,31 @@ fun <T> renderTableWithNames(
 
 fun <C, R> renderTable(
     filename: String,
+    rows: List<Pair<String, R>>,
+    columns: List<Pair<String, C>>,
+    minSize2d: Size2d,
+    backToo: Boolean,
+    calculateSize: (C, R) -> Size2d,
+    render: (AABB, MultiLayerRenderer, Boolean, C, R) -> Unit,
+) {
+    val renderSize = rows.fold(minSize2d) { rowSize, (_, row) ->
+        columns.fold(rowSize) { columnSize, (_, column) ->
+            columnSize.max(calculateSize(column, row))
+        }
+    }
+
+    renderTable(
+        filename,
+        renderSize,
+        rows,
+        columns,
+        backToo,
+        render,
+    )
+}
+
+fun <C, R> renderTable(
+    filename: String,
     renderSize: Size2d,
     rows: List<Pair<String, R>>,
     columns: List<Pair<String, C>>,

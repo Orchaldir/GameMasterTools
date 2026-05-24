@@ -6,8 +6,6 @@ import at.orchaldir.gm.core.selector.economy.getMaterialColor
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-private val DEFAULT_COLOR = Color.Pink
-
 enum class ColorLookupType {
     Fixed,
     Material,
