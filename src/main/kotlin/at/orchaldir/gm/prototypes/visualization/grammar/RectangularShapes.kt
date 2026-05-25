@@ -15,20 +15,20 @@ fun main() {
     renderGrammarTable(
         State(),
         "grammar-rectangular-shapes.svg",
-        addNames(RectangularShape.entries),
         listOf(
-            Pair("Horizontal", Size2d.fromMeters(0.1f, 0.05f)),
-            Pair("Vertical", Size2d.fromMeters( 0.05f, 0.1f)),
-            Pair("Square", Size2d.fromMeters( 0.05f)),
+            Pair("Horizontal", Size2d.fromMeters(1.0f, 0.5f)),
+            Pair("Vertical", Size2d.fromMeters( 0.5f, 1.0f)),
+            Pair("Square", Size2d.fromMeters( 0.5f)),
         ),
+        addNames(RectangularShape.entries),
         ::createGrammar,
     )
 }
 
-private fun createGrammar(size: Size2d, shape: RectangularShape) = Pair(
+private fun createGrammar(shape: RectangularShape, size: Size2d) = Pair(
     RectangularShapeGrammar(
         shape,
         MadeFromWood(color = Color.Gray),
     ),
-    PaddedSize(size, Distance.fromMeters(0.01f)),
+    PaddedSize(size, Distance.fromMeters(0.2f)),
 )
