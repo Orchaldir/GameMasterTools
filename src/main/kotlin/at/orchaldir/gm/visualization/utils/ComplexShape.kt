@@ -123,7 +123,7 @@ private fun createCircularShapePolygon(
     else -> createRegularPolygon(center, radius, shape.getSides())
 }
 
-private fun createRectangularShapePolygon(
+fun createRectangularShapePolygon(
     shape: RectangularShape,
     aabb: AABB,
 ) = when (shape) {

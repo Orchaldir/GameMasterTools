@@ -1,10 +1,17 @@
 package at.orchaldir.gm.prototypes.visualization.grammar
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.visualization.Grammar
 import at.orchaldir.gm.prototypes.visualization.renderTable
 import at.orchaldir.gm.utils.math.Size2d
+import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
+import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.visualization.character.appearance.PaddedSize
+import at.orchaldir.gm.visualization.grammar.GrammarRenderState
+import at.orchaldir.gm.visualization.grammar.visualizeGrammar
+
+val LINE_OPTIONS = LineOptions(Color.Black.toRender(), fromMillimeters(5))
 
 fun <C, R> renderGrammarTable(
     state: State,
@@ -14,14 +21,13 @@ fun <C, R> renderGrammarTable(
     columns: List<Pair<String, C>>,
     create: (C, R) -> Grammar,
 ) {
-    renderTable(
+    renderGrammarTable(
+        state,
         filename,
-        renderSize,
         rows,
         columns,
-        false,
-    ) { renderAabb, renderer, renderFront, column, row ->
-
+    ) { column, row ->
+        Pair(create(column, row), PaddedSize(renderSize))
     }
 }
 
@@ -39,7 +45,9 @@ fun <C, R> renderGrammarTable(
         Size2d.fromMeters(0.1f),
         false,
         process,
-    ) { renderAabb, renderer, renderFront, grammar ->
+    ) { renderAabb, renderer, _, grammar ->
+        val renderState = GrammarRenderState(state, renderer, LINE_OPTIONS)
 
+        visualizeGrammar(renderState, grammar, renderAabb)
     }
 }
