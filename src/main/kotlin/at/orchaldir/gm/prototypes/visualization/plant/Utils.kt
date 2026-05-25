@@ -42,7 +42,6 @@ fun <C, R> renderPlantTable(
     create: (C, R) -> PlantAppearance,
 ) {
     val numberGenerator = RandomNumberGenerator(Random(System.currentTimeMillis()))
-    val dataMap = mutableMapOf<Pair<R, C>, Pair<PlantData, PaddedSize>>()
 
     renderTable(
         filename,
@@ -54,20 +53,17 @@ fun <C, R> renderPlantTable(
             val plant = create(column, row)
             val data = buildPlant(config, numberGenerator, plant)
             val size = calculateSize(config, data) ?: PaddedSize(MIN_SIZE)
-            dataMap[Pair(row, column)] = Pair(data, size)
 
-            size.getFullSize()
+            Pair(data, size)
         },
-        { renderAabb, renderer, renderFront, column, row ->
-            val (data, paddedSize) = dataMap.getValue(Pair(row, column))
-            val innerAabb = paddedSize.getInnerAABB(renderAabb)
+        { renderAabb, renderer, _, data ->
             val renderState = PlantRenderState(
                 state,
                 PLANT_CONFIG,
                 renderer,
             )
 
-            visualizePlant(renderState, data, innerAabb.getPoint(HALF, END))
+            visualizePlant(renderState, data, renderAabb.getPoint(HALF, END))
         },
     )
 }

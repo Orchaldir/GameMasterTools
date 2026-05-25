@@ -139,15 +139,12 @@ fun <C, R> renderCharacterTable(
             val data = create(height, column, row)
             val paddedSize = calculatePaddedSize(config, data.first, data.second)
 
-            dataMap[Pair(row, column)] = Triple(data.first, data.second, paddedSize)
-
-            paddedSize.getFullSize()
+            Pair(data, paddedSize)
         },
-        { renderAabb, renderer, renderFront, column, row ->
-            val (appearance, equipment, paddedSize) = dataMap.getValue(Pair(row, column))
-            val fullAabb = paddedSize.getInnerAABB(renderAabb)
+        { renderAabb, renderer, renderFront, data ->
+            val (appearance, equipment) = data
             val renderState =
-                CharacterRenderState(state, appearance, fullAabb, config, renderer, renderFront, equipment)
+                CharacterRenderState(state, appearance, renderAabb, config, renderer, renderFront, equipment)
 
             visualizeAppearance(renderState)
         }

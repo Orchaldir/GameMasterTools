@@ -3,7 +3,10 @@ package at.orchaldir.gm.prototypes.visualization
 import at.orchaldir.gm.core.model.economy.material.*
 import at.orchaldir.gm.core.model.util.HorizontalAlignment.End
 import at.orchaldir.gm.core.model.util.render.Color
+import at.orchaldir.gm.prototypes.visualization.plant.PLANT_CONFIG
 import at.orchaldir.gm.utils.math.AABB
+import at.orchaldir.gm.utils.math.END
+import at.orchaldir.gm.utils.math.HALF
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.unit.Orientation
@@ -11,7 +14,10 @@ import at.orchaldir.gm.utils.math.unit.ZERO_ORIENTATION
 import at.orchaldir.gm.utils.renderer.MultiLayerRenderer
 import at.orchaldir.gm.utils.renderer.model.RenderStringOptions
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
+import at.orchaldir.gm.visualization.character.appearance.PaddedSize
 import at.orchaldir.gm.visualization.character.appearance.TEXT_LAYER
+import at.orchaldir.gm.visualization.plant.PlantRenderState
+import at.orchaldir.gm.visualization.plant.visualization.visualizePlant
 import java.io.File
 
 fun mockMaterial(
@@ -79,18 +85,23 @@ fun <T> renderTableWithNames(
     }
 }
 
-fun <C, R> renderTable(
+fun <C, R, D> renderTable(
     filename: String,
     rows: List<Pair<String, R>>,
     columns: List<Pair<String, C>>,
     minSize2d: Size2d,
     backToo: Boolean,
-    calculateSize: (C, R) -> Size2d,
-    render: (AABB, MultiLayerRenderer, Boolean, C, R) -> Unit,
+    process: (C, R) -> Pair<D, PaddedSize>,
+    render: (AABB, MultiLayerRenderer, Boolean, D) -> Unit,
 ) {
+    val dataMap = mutableMapOf<Pair<R, C>, Pair<D, PaddedSize>>()
     val renderSize = rows.fold(minSize2d) { rowSize, (_, row) ->
         columns.fold(rowSize) { columnSize, (_, column) ->
-            columnSize.max(calculateSize(column, row))
+            val pair = process(column, row)
+
+            dataMap[Pair(row, column)] = pair
+
+            columnSize.max(pair.second.getFullSize())
         }
     }
 
@@ -100,8 +111,12 @@ fun <C, R> renderTable(
         rows,
         columns,
         backToo,
-        render,
-    )
+    ) { renderAabb, renderer, renderFront, column, row ->
+        val (data, paddedSize) = dataMap.getValue(Pair(row, column))
+        val innerAabb = paddedSize.getInnerAABB(renderAabb)
+
+        render(innerAabb, renderer, renderFront, data)
+    }
 }
 
 fun <C, R> renderTable(
