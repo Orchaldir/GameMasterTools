@@ -4,10 +4,8 @@ import at.orchaldir.gm.core.model.visualization.Grammar
 import at.orchaldir.gm.core.model.visualization.GridSize
 import at.orchaldir.gm.core.model.visualization.SingleBrickGrammar
 import at.orchaldir.gm.core.model.visualization.SingleBrickPattern
-import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.math.AABB
-import at.orchaldir.gm.utils.math.DOUBLE
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Size2d
@@ -22,7 +20,7 @@ fun visualizeSingleBrickGrammar(
     SingleBrickPattern.BasketWeaveSingle -> visualizeBasketWeaveSingle(state, grammar, aabb, layer)
     SingleBrickPattern.BasketWeaveDouble -> visualizeBasketWeaveDouble(state, grammar, aabb, layer)
     SingleBrickPattern.Grid -> visualizeGrid(state, grammar, aabb, layer)
-    SingleBrickPattern.Herringbone -> doNothing()
+    SingleBrickPattern.Herringbone -> visualizeHerringbone(state, grammar, aabb, layer, 2)
     SingleBrickPattern.Running -> visualizeRows(
         state,
         grammar,
@@ -35,12 +33,13 @@ fun visualizeSingleBrickGrammar(
             2
         }
     }
+
     SingleBrickPattern.Stack -> visualizeRows(
         state,
         grammar,
         aabb,
         layer,
-        { _,_ -> 2 },
+        { _, _ -> 2 },
     )
 }
 
@@ -217,6 +216,55 @@ private fun visualizeGrid(
     }
 }
 
+private fun visualizeHerringbone(
+    state: GrammarRenderState,
+    grammar: SingleBrickGrammar,
+    aabb: AABB,
+    layer: Int,
+    length: Int,
+) = grammar.size.process(aabb) { gridStart, gridSize, blockSize ->
+    val horizontalBlocks = MapSize2d(length, 1)
+    val verticalBlocks = MapSize2d(1, length)
+
+    repeat(gridSize.height) { y ->
+        var x = y % (length * 2)
+
+        while (x < gridSize.width) {
+            visualizeGrammar(
+                state,
+                grammar.brick,
+                gridStart,
+                blockSize,
+                x,
+                y,
+                horizontalBlocks,
+                gridSize,
+                layer,
+            )
+
+            x += length
+
+            if (x >= gridSize.width) {
+                break
+            }
+
+            visualizeGrammar(
+                state,
+                grammar.brick,
+                gridStart,
+                blockSize,
+                x,
+                y - length + 1,
+                verticalBlocks,
+                gridSize,
+                layer,
+            )
+
+            x += length
+        }
+    }
+}
+
 private fun visualizeRows(
     state: GrammarRenderState,
     grammar: SingleBrickGrammar,
@@ -230,7 +278,7 @@ private fun visualizeRows(
         var currentBrick = startOfRow
         var x = 0
 
-        while(x < gridSize.width) {
+        while (x < gridSize.width) {
             val length = calculateLength(x, y).coerceAtMost(gridSize.width - x)
             val brickSize = blockSize.replaceWidth(Factor.fromNumber(length))
 
