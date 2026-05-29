@@ -259,25 +259,46 @@ private fun visualizeHerringbone(
                 )
             }
 
-            x += length * 2 - 1
+            if (y == 0) {
+                x += length
 
-            if (x >= gridSize.width) {
-                break
+                repeat(length.coerceAtMost(gridSize.width - x)) { index ->
+                    visualizeGrammar(
+                        state,
+                        grammar.brick,
+                        gridStart,
+                        blockSize,
+                        x,
+                        0,
+                        MapSize2d(1, 1 + index),
+                        gridSize,
+                        layer,
+                    )
+
+                    x += 1
+                }
             }
+            else {
+                x += doubleLength - 1
 
-            visualizeGrammar(
-                state,
-                grammar.brick,
-                gridStart,
-                blockSize,
-                x,
-                y,
-                verticalBlocks,
-                gridSize,
-                layer,
-            )
+                if (x >= gridSize.width) {
+                    break
+                }
 
-            x += 1
+                visualizeGrammar(
+                    state,
+                    grammar.brick,
+                    gridStart,
+                    blockSize,
+                    x,
+                    y,
+                    verticalBlocks,
+                    gridSize,
+                    layer,
+                )
+
+                x += 1
+            }
         }
     }
 }
