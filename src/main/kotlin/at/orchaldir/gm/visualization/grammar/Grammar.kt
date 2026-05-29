@@ -14,6 +14,6 @@ fun visualizeGrammar(
     layer: Int = 0,
 ) = when (grammar) {
     is RectangularShapeGrammar -> visualizeRectangularShapeGrammar(state, grammar, aabb, layer)
-    is SingleBrickGrammar -> doNothing()
+    is SingleBrickGrammar -> visualizeSingleBrickGrammar(state, grammar, aabb, layer)
     DoNothingGrammar -> doNothing()
 }
