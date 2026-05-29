@@ -53,14 +53,24 @@ private fun visualizeBasketWeaveSingle(
     MapSize2d(2, 3),
     aabb,
 ) { x, y, start, blockSize, limits ->
-    val brickSize = blockSize.replaceWidth(DOUBLE)
+    val brickSize = if (limits.width > 1) {
+        blockSize.replaceWidth(DOUBLE)
+    } else {
+        blockSize
+    }
 
     val brickStart = if (x % 2 == 0) {
         visualizeVerticalBasketWeaveDouble(state, grammar, start, blockSize, layer)
 
+        if (limits.height == 1) {
+            return@visualizeSubSections
+        }
+
         start.addHeight(blockSize.height * 2)
     } else {
-        visualizeVerticalBasketWeaveDouble(state, grammar, start.addHeight(blockSize.height), blockSize, layer)
+        if (limits.height > 1) {
+            visualizeVerticalBasketWeaveDouble(state, grammar, start.addHeight(blockSize.height), blockSize, layer)
+        }
 
         start
     }
