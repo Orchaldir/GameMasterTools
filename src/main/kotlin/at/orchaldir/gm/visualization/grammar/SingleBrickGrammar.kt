@@ -18,7 +18,7 @@ fun visualizeSingleBrickGrammar(
     aabb: AABB,
     layer: Int,
 ) = when (grammar.pattern) {
-    SingleBrickPattern.BasketWeaveSingle -> doNothing()
+    SingleBrickPattern.BasketWeaveSingle -> visualizeBasketWeaveSingle(state, grammar, aabb, layer)
     SingleBrickPattern.BasketWeaveDouble -> visualizeBasketWeaveDouble(state, grammar, aabb, layer)
     SingleBrickPattern.Grid -> visualizeGrid(state, grammar, aabb, layer)
     SingleBrickPattern.Herringbone -> doNothing()
@@ -41,6 +41,23 @@ fun visualizeSingleBrickGrammar(
         layer,
         { _,_ -> 2 },
     )
+}
+
+private fun visualizeBasketWeaveSingle(
+    state: GrammarRenderState,
+    grammar: SingleBrickGrammar,
+    aabb: AABB,
+    layer: Int,
+) = visualizeSubSections(
+    grammar.size,
+    MapSize2d(2, 3),
+    aabb,
+) { x, y, start, blockSize, limits ->
+    if ((x + y) % 2 == 0) {
+        visualizeVerticalBasketWeaveDouble(state, grammar, start, blockSize, layer)
+    } else {
+        visualizeVerticalBasketWeaveDouble(state, grammar, start.addHeight(blockSize.height), blockSize, layer)
+    }
 }
 
 private fun visualizeBasketWeaveDouble(
