@@ -20,7 +20,7 @@ fun visualizeSingleBrickGrammar(
     SingleBrickPattern.BasketWeaveSingle -> visualizeBasketWeaveSingle(state, grammar, aabb, layer)
     SingleBrickPattern.BasketWeaveDouble -> visualizeBasketWeaveDouble(state, grammar, aabb, layer)
     SingleBrickPattern.Grid -> visualizeGrid(state, grammar, aabb, layer)
-    SingleBrickPattern.Herringbone -> visualizeHerringbone(state, grammar, aabb, layer, 2)
+    SingleBrickPattern.Herringbone -> visualizeHerringbone(state, grammar, aabb, layer, 3)
     SingleBrickPattern.Running -> visualizeRows(
         state,
         grammar,
@@ -241,6 +241,19 @@ private fun visualizeHerringbone(
                     x,
                     y,
                     horizontalBlocks,
+                    gridSize,
+                    layer,
+                )
+            }
+            else if (x > -length) {
+                visualizeGrammar(
+                    state,
+                    grammar.brick,
+                    gridStart,
+                    blockSize,
+                    0,
+                    y,
+                    MapSize2d(length + x, 1),
                     gridSize,
                     layer,
                 )
