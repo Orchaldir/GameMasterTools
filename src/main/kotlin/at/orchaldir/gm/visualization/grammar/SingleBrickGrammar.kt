@@ -223,26 +223,30 @@ private fun visualizeHerringbone(
     layer: Int,
     length: Int,
 ) = grammar.size.process(aabb) { gridStart, gridSize, blockSize ->
+    val doubleLength = length * 2
     val horizontalBlocks = MapSize2d(length, 1)
     val verticalBlocks = MapSize2d(1, length)
 
     repeat(gridSize.height) { y ->
-        var x = y % (length * 2)
+        val modulo = y % doubleLength
+        var x = if (modulo == 0) { 0 } else { modulo - doubleLength }
 
         while (x < gridSize.width) {
-            visualizeGrammar(
-                state,
-                grammar.brick,
-                gridStart,
-                blockSize,
-                x,
-                y,
-                horizontalBlocks,
-                gridSize,
-                layer,
-            )
+            if (x >= 0) {
+                visualizeGrammar(
+                    state,
+                    grammar.brick,
+                    gridStart,
+                    blockSize,
+                    x,
+                    y,
+                    horizontalBlocks,
+                    gridSize,
+                    layer,
+                )
+            }
 
-            x += length
+            x += length * 2 - 1
 
             if (x >= gridSize.width) {
                 break
@@ -254,13 +258,13 @@ private fun visualizeHerringbone(
                 gridStart,
                 blockSize,
                 x,
-                y - length + 1,
+                y,
                 verticalBlocks,
                 gridSize,
                 layer,
             )
 
-            x += length
+            x += 1
         }
     }
 }
