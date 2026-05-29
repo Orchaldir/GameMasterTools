@@ -77,7 +77,7 @@ private fun visualizeBrickRows(
         var x = 0
 
         while(x < gridSize.width) {
-            val length = calculateLength(x, y)
+            val length = calculateLength(x, y).coerceAtMost(gridSize.width - x)
             val brickSize = blockSize.replaceWidth(Factor.fromNumber(length))
 
             visualizeGrammar(
