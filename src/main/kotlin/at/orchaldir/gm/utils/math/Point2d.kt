@@ -16,6 +16,16 @@ data class Point2d(val x: Distance = ZERO_DISTANCE, val y: Distance = ZERO_DISTA
 
         fun square(distance: Distance) = Point2d(distance, distance)
 
+        fun fromGrid(
+            blockSize: Size2d,
+            start: Point2d,
+            x: Int,
+            y: Int,
+        ) = Point2d(
+            start.x + blockSize.width * x,
+            start.y + blockSize.height * y,
+        )
+
         fun fromMeters(x: Long, y: Long) = Point2d(
             Distance.fromMeters(x),
             Distance.fromMeters(y),

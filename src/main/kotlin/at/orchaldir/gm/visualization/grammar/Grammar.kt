@@ -35,7 +35,7 @@ fun visualizeGrammar(
 ): Unit = when (grammar) {
     is RectangularShapeGrammar -> {
         val limitedBlocks = blocks.limit(x, y, limits)
-        val aabbStart = gridStart + blockSize.scale(x, y)
+        val aabbStart = Point2d.fromGrid(blockSize, gridStart, x, y)
         val aabbSize = blockSize * limitedBlocks
 
         visualizeRectangularShapeGrammar(state, grammar, AABB(aabbStart, aabbSize), layer)
