@@ -53,11 +53,24 @@ private fun visualizeBasketWeaveSingle(
     MapSize2d(2, 3),
     aabb,
 ) { x, y, start, blockSize, limits ->
-    if ((x + y) % 2 == 0) {
+    val brickSize = blockSize.replaceWidth(DOUBLE)
+
+    val brickStart = if (x % 2 == 0) {
         visualizeVerticalBasketWeaveDouble(state, grammar, start, blockSize, layer)
+
+        start.addHeight(blockSize.height * 2)
     } else {
         visualizeVerticalBasketWeaveDouble(state, grammar, start.addHeight(blockSize.height), blockSize, layer)
+
+        start
     }
+
+    visualizeGrammar(
+        state,
+        grammar.brick,
+        AABB(brickStart, brickSize),
+        layer,
+    )
 }
 
 private fun visualizeBasketWeaveDouble(
