@@ -12,7 +12,7 @@ fun visualizeGrammar(
     grammar: Grammar,
     aabb: AABB,
     layer: Int = 0,
-) = when (grammar) {
+): Unit = when (grammar) {
     is RectangularShapeGrammar -> visualizeRectangularShapeGrammar(state, grammar, aabb, layer)
     is SingleBrickGrammar -> visualizeSingleBrickGrammar(state, grammar, aabb, layer)
     DoNothingGrammar -> doNothing()

@@ -1,5 +1,6 @@
 package at.orchaldir.gm.utils.math
 
+import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Volume
 import at.orchaldir.gm.utils.math.unit.checkDistance
@@ -44,6 +45,7 @@ data class Size2d(val width: Distance, val height: Distance) {
     operator fun times(factor: Factor) = Size2d(width * factor, height * factor)
     operator fun times(factor: Float) = Size2d(width * factor, height * factor)
     operator fun div(factor: Factor) = Size2d(width / factor, height / factor)
+    operator fun div(size: MapSize2d) = Size2d(width / size.width, height / size.height)
 
     fun addWidth(distance: Distance) = Size2d(width + distance, height)
     fun addHeight(distance: Distance) = Size2d(width, height + distance)
