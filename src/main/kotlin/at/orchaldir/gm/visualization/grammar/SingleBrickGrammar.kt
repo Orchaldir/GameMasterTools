@@ -20,7 +20,7 @@ fun visualizeSingleBrickGrammar(
     layer: Int,
 ) = when (grammar.pattern) {
     SingleBrickPattern.BasketWeaveSingle -> visualizeBasketWeaveSingle(state, grammar, aabb, layer)
-    SingleBrickPattern.BasketWeaveDouble -> doNothing() //visualizeBasketWeaveDouble(state, grammar, aabb, layer)
+    SingleBrickPattern.BasketWeaveDouble -> visualizeBasketWeaveDouble(state, grammar, aabb, layer)
     SingleBrickPattern.Grid -> visualizeGrid(state, grammar, aabb, layer)
     SingleBrickPattern.Herringbone -> doNothing()
     SingleBrickPattern.Running -> visualizeRows(
@@ -92,7 +92,7 @@ private fun visualizeBasketWeaveSingle(
         )
     }
 }
-/*
+
 private fun visualizeBasketWeaveDouble(
     state: GrammarRenderState,
     grammar: SingleBrickGrammar,
@@ -102,36 +102,54 @@ private fun visualizeBasketWeaveDouble(
     grammar.size,
     MapSize2d.square(2),
     aabb,
-) { x, y, start, blockSize, limits ->
-    if ((x + y) % 2 == 0) {
-        visualizeHorizontalBasketWeaveDouble(state, grammar, start, blockSize, layer)
+) { subSectionX, subSectionY, gridStart, blockSize, limits ->
+    val x = subSectionX * 2
+    val y = subSectionY * 2
+
+    if ((subSectionX + subSectionY) % 2 == 0) {
+        visualizeHorizontalBasketWeaveDouble(state, grammar.brick, gridStart, blockSize, x, y, limits, layer)
     } else {
-        visualizeVerticalBasketWeaveDouble(state, grammar, start, blockSize, limits, layer)
+        visualizeVerticalBasketWeaveDouble(state, grammar.brick, gridStart, blockSize, x, y, limits, layer)
     }
 }
-*/
 
 private fun visualizeHorizontalBasketWeaveDouble(
     state: GrammarRenderState,
-    grammar: SingleBrickGrammar,
-    start: Point2d,
+    grammar: Grammar,
+    gridStart: Point2d,
     blockSize: Size2d,
+    x: Int,
+    y: Int,
+    limits: MapSize2d,
     layer: Int,
 ) {
-    val brickSize = blockSize.replaceWidth(DOUBLE)
+    val blocks = MapSize2d(2, 1)
 
     visualizeGrammar(
         state,
-        grammar.brick,
-        AABB(start, brickSize),
+        grammar,
+        gridStart,
+        blockSize,
+        x,
+        y,
+        blocks,
+        limits,
         layer,
     )
-    visualizeGrammar(
-        state,
-        grammar.brick,
-        AABB(start.addHeight(brickSize.height), brickSize),
-        layer,
-    )
+
+    if (y < limits.height - 1) {
+        visualizeGrammar(
+            state,
+            grammar,
+            gridStart,
+            blockSize,
+            x,
+            y + 1,
+            blocks,
+            limits,
+            layer,
+        )
+    }
 }
 
 private fun visualizeVerticalBasketWeaveDouble(
