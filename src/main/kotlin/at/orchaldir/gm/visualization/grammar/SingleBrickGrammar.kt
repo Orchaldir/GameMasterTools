@@ -57,51 +57,40 @@ private fun visualizeBasketWeaveSingle(
     val startX = subSectionX * 2
     val startY = subSectionY * 3
 
-    val yOffset = if (subSectionX % 2 == 0) {
+    when {
+        subSectionX % 2 == 0 -> 0
+        startY < limits.height - 1 -> 1
+        else -> null
+    }?.let { offset ->
         visualizeVerticalBasketWeaveDouble(
             state,
             grammar.brick,
             gridStart,
             blockSize,
             startX,
-            startY,
+            startY + offset,
             limits,
             layer,
         )
-
-        if (startY >= limits.height - 1) {
-            return@visualizeSubSections
-        }
-
-        2
-    } else {
-        if (startY < limits.height - 1) {
-            visualizeVerticalBasketWeaveDouble(
-                state,
-                grammar.brick,
-                gridStart,
-                blockSize,
-                startX,
-                startY + 1,
-                limits,
-                layer,
-            )
-        }
-
-        0
     }
 
-    visualizeGrammar(
-        state,
-        grammar.brick,
-        gridStart,
-        blockSize,
-        startX,
-        startY + yOffset,
-        MapSize2d(2, 1),
-        limits,
-        layer,
-    )
+    when {
+        subSectionX % 2 == 1 -> 0
+        startY < limits.height - 1 -> 2
+        else -> null
+    }?.let { offset ->
+        visualizeGrammar(
+            state,
+            grammar.brick,
+            gridStart,
+            blockSize,
+            startX,
+            startY + offset,
+            MapSize2d(2, 1),
+            limits,
+            layer,
+        )
+    }
 }
 /*
 private fun visualizeBasketWeaveDouble(
