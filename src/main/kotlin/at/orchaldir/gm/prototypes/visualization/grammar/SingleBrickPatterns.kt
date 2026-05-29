@@ -11,26 +11,31 @@ import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.shape.RectangularShape
 import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.visualization.character.appearance.PaddedSize
 
 fun main() {
     renderGrammarTable(
         State(),
         "grammar-single-brick-patterns.svg",
-        Size2d.square(Distance.fromMeters(1)),
-        addNames(listOf(
-            RectangularShape.Rectangle,
-            RectangularShape.RoundedRectangle,
-        )),
+        addNames(
+            listOf(
+                RectangularShape.Rectangle,
+                RectangularShape.RoundedRectangle,
+            )
+        ),
         addNames(SingleBrickPattern.entries),
         ::createGrammar,
     )
 }
 
-private fun createGrammar(pattern: SingleBrickPattern, shape: RectangularShape) = SingleBrickGrammar(
-    RectangularShapeGrammar(
-        shape,
-        MadeFromWood(color = Color.Gray),
+private fun createGrammar(pattern: SingleBrickPattern, shape: RectangularShape) = Pair(
+    SingleBrickGrammar(
+        RectangularShapeGrammar(
+            shape,
+            MadeFromWood(color = Color.Gray),
+        ),
+        SquareGrid(10),
+        pattern,
     ),
-    SquareGrid(20),
-    pattern,
+    PaddedSize(Size2d.square(Distance.fromMeters(1)), Distance.fromMeters(0.2f)),
 )
