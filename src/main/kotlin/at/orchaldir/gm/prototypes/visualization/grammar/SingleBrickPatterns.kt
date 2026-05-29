@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.visualization.RectangularShapeGrammar
 import at.orchaldir.gm.core.model.visualization.SingleBrickGrammar
 import at.orchaldir.gm.core.model.visualization.SingleBrickPattern
+import at.orchaldir.gm.core.model.visualization.SquareGrid
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.shape.RectangularShape
@@ -30,6 +31,6 @@ private fun createGrammar(pattern: SingleBrickPattern, shape: RectangularShape) 
         shape,
         MadeFromWood(color = Color.Gray),
     ),
-    Size2d.fromMeters(0.1f, 0.05f),
+    SquareGrid(20),
     pattern,
 )
