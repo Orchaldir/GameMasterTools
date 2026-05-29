@@ -35,7 +35,7 @@ data class RectangularShapeGrammar(
 data class SingleBrickGrammar(
     val brick: Grammar,
     val size: GridSize,
-    val pattern: SingleBrickPattern = SingleBrickPattern.RunningHalf,
+    val pattern: SingleBrickPattern = SingleBrickPattern.Running,
     val axis: Axis = Axis.X,
 ) : Grammar()
 

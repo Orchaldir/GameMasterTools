@@ -5,6 +5,6 @@ enum class SingleBrickPattern {
     BasketWeaveDouble,
     Grid,
     Herringbone,
-    RunningHalf,
-    RunningThird,
+    Running,
+    Stack,
 }
