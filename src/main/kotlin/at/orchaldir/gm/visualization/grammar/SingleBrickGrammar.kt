@@ -1,10 +1,16 @@
 package at.orchaldir.gm.visualization.grammar
 
+import at.orchaldir.gm.core.model.visualization.GridSize
 import at.orchaldir.gm.core.model.visualization.SingleBrickGrammar
 import at.orchaldir.gm.core.model.visualization.SingleBrickPattern
 import at.orchaldir.gm.utils.doNothing
+import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.math.AABB
+import at.orchaldir.gm.utils.math.DOUBLE
 import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.Point2d
+import at.orchaldir.gm.utils.math.Size2d
+import kotlin.math.ceil
 
 fun visualizeSingleBrickGrammar(
     state: GrammarRenderState,
@@ -13,10 +19,33 @@ fun visualizeSingleBrickGrammar(
     layer: Int,
 ) = when (grammar.pattern) {
     SingleBrickPattern.BasketWeaveSingle -> doNothing()
-    SingleBrickPattern.BasketWeaveDouble -> doNothing()
+    SingleBrickPattern.BasketWeaveDouble -> visualizeSubSections(
+        grammar.size,
+        MapSize2d.square(2),
+        aabb,
+    ) { x, y, start, blockSize, limits ->
+        if ((x + y) % 2 == 0) {
+            val brickSize = blockSize.replaceWidth(DOUBLE)
+
+            visualizeGrammar(
+                state,
+                grammar.brick,
+                AABB(start, brickSize),
+                layer,
+            )
+            visualizeGrammar(
+                state,
+                grammar.brick,
+                AABB(start.addHeight(brickSize.height), brickSize),
+                layer,
+            )
+        } else {
+
+        }
+    }
     SingleBrickPattern.Grid -> visualizeGrid(state, grammar, aabb, layer)
     SingleBrickPattern.Herringbone -> doNothing()
-    SingleBrickPattern.Running -> visualizeBrickRows(
+    SingleBrickPattern.Running -> visualizeRows(
         state,
         grammar,
         aabb,
@@ -28,7 +57,7 @@ fun visualizeSingleBrickGrammar(
             2
         }
     }
-    SingleBrickPattern.Stack -> visualizeBrickRows(
+    SingleBrickPattern.Stack -> visualizeRows(
         state,
         grammar,
         aabb,
@@ -63,7 +92,7 @@ private fun visualizeGrid(
     }
 }
 
-private fun visualizeBrickRows(
+private fun visualizeRows(
     state: GrammarRenderState,
     grammar: SingleBrickGrammar,
     aabb: AABB,
@@ -92,5 +121,37 @@ private fun visualizeBrickRows(
         }
 
         startOfRow = startOfRow.addHeight(blockSize.height)
+    }
+}
+
+private fun visualizeSubSections(
+    gridSize: GridSize,
+    subSectionSize: MapSize2d,
+    aabb: AABB,
+    visualizeSubSection: (Int, Int, Point2d, Size2d, MapSize2d) -> Unit,
+) = gridSize.process(aabb) { start, gridSize, blockSize ->
+    var startOfRow = start
+    val rows = ceil(gridSize.height / subSectionSize.height.toDouble()).toInt()
+    val columns = ceil(gridSize.width / subSectionSize.width.toDouble()).toInt()
+
+    repeat(rows) { y ->
+        var currentStart = startOfRow
+
+        repeat(columns) { x ->
+            visualizeSubSection(
+                x,
+                y,
+                currentStart,
+                blockSize,
+                subSectionSize.limit(
+                    gridSize.width - x * subSectionSize.width,
+                    gridSize.height - y * subSectionSize.height,
+                ),
+            )
+
+            currentStart = currentStart.addWidth(blockSize.width * subSectionSize.width)
+        }
+
+        startOfRow = startOfRow.addHeight(blockSize.height * subSectionSize.height)
     }
 }

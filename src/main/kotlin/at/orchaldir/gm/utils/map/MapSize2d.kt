@@ -20,6 +20,9 @@ data class MapSize2d(val width: Int, val height: Int) {
     fun apply(resize: Resize) =
         MapSize2d(width + resize.widthStart + resize.widthEnd, height + resize.heightStart + resize.heightEnd)
 
+    fun limit(limitWidth: Int, limitHeight: Int) =
+        MapSize2d(width.coerceAtMost(limitWidth), height.coerceAtMost(limitHeight))
+
     fun isInside(index: Int) = index in 0..<tiles()
 
     fun isInside(x: Int, y: Int) = isXInside(x) && isYInside(y)
