@@ -34,7 +34,7 @@ private fun createGrammar(pattern: SingleBrickPattern, shape: RectangularShape) 
             shape,
             MadeFromWood(color = Color.Gray),
         ),
-        SquareGrid(10),
+        SquareGrid(20),
         pattern,
     ),
     PaddedSize(Size2d.square(Distance.fromMeters(1)), Distance.fromMeters(0.2f)),

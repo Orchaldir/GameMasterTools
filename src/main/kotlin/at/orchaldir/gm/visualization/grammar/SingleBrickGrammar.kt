@@ -1,5 +1,6 @@
 package at.orchaldir.gm.visualization.grammar
 
+import at.orchaldir.gm.core.logger
 import at.orchaldir.gm.core.model.visualization.Grammar
 import at.orchaldir.gm.core.model.visualization.GridSize
 import at.orchaldir.gm.core.model.visualization.SingleBrickGrammar
@@ -75,7 +76,7 @@ private fun visualizeBasketWeaveSingle(
 
     when {
         subSectionX % 2 == 1 -> 0
-        startY < limits.height - 1 -> 2
+        startY < limits.height - 2 -> 2
         else -> null
     }?.let { offset ->
         visualizeGrammar(
