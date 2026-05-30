@@ -18,10 +18,9 @@ fun visualizeSingleBrickGrammar(
     layer: Int,
 ) = when (grammar.pattern) {
     SingleBrickPattern.BasketWeaveSingle -> visualizeBasketWeaveSingle(state, grammar, aabb, layer)
-    SingleBrickPattern.BasketWeaveDouble -> visualizeBasketWeaveN(state, grammar, aabb, layer, 2)
-    SingleBrickPattern.BasketWeaveTriple -> visualizeBasketWeaveN(state, grammar, aabb, layer, 3)
+    SingleBrickPattern.BasketWeave -> visualizeBasketWeaveN(state, grammar, aabb, layer, grammar.length)
     SingleBrickPattern.Grid -> visualizeGrid(state, grammar, aabb, layer)
-    SingleBrickPattern.Herringbone -> visualizeHerringbone(state, grammar, aabb, layer, 3)
+    SingleBrickPattern.Herringbone -> visualizeHerringbone(state, grammar, aabb, layer, grammar.length)
     SingleBrickPattern.Running -> visualizeRows(
         state,
         grammar,

@@ -36,7 +36,7 @@ data class SingleBrickGrammar(
     val brick: Grammar,
     val size: GridSize,
     val pattern: SingleBrickPattern = SingleBrickPattern.Running,
-    val axis: Axis = Axis.X,
+    val length: Int = 2,
 ) : Grammar()
 
 @Serializable

@@ -2,8 +2,7 @@ package at.orchaldir.gm.core.model.visualization
 
 enum class SingleBrickPattern {
     BasketWeaveSingle,
-    BasketWeaveDouble,
-    BasketWeaveTriple,
+    BasketWeave,
     Grid,
     Herringbone,
     Running,

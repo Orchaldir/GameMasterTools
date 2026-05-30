@@ -17,25 +17,21 @@ fun main() {
     renderGrammarTable(
         State(),
         "grammar-single-brick-patterns.svg",
-        addNames(
-            listOf(
-                RectangularShape.Rectangle,
-                RectangularShape.RoundedRectangle,
-            )
-        ),
+        addNames(listOf(2, 3, 4)),
         addNames(SingleBrickPattern.entries),
         ::createGrammar,
     )
 }
 
-private fun createGrammar(pattern: SingleBrickPattern, shape: RectangularShape) = Pair(
+private fun createGrammar(pattern: SingleBrickPattern, length: Int) = Pair(
     SingleBrickGrammar(
         RectangularShapeGrammar(
-            shape,
+            RectangularShape.Rectangle,
             MadeFromWood(color = Color.Gray),
         ),
         SquareGrid(20),
         pattern,
+        length,
     ),
     PaddedSize(Size2d.square(Distance.fromMeters(1)), Distance.fromMeters(0.2f)),
 )
