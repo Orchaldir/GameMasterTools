@@ -6,6 +6,12 @@ import at.orchaldir.gm.utils.math.shape.RectangularShape
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+var MIN_BRICK_LENGTH = 2
+var DEFAULT_BRICK_LENGTH = 2
+var MAX_BRICK_LENGTH = 5
+var MIN_GRID_SIZE = 2
+var MAX_GRID_SIZE = 1000
+
 enum class GrammarType {
     RectangularShape,
     SingleBrick,
@@ -36,7 +42,7 @@ data class SingleBrickGrammar(
     val brick: Grammar,
     val size: GridSize,
     val pattern: SingleBrickPattern = SingleBrickPattern.Running,
-    val length: Int = 2,
+    val length: Int = DEFAULT_BRICK_LENGTH,
 ) : Grammar()
 
 @Serializable
