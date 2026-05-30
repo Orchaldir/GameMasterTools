@@ -18,7 +18,7 @@ fun visualizeSingleBrickGrammar(
     aabb: AABB,
     layer: Int,
 ) = when (grammar.pattern) {
-    SingleBrickPattern.BasketWeaveSingle -> visualizeBasketWeaveSingle(state, grammar, aabb, layer)
+    SingleBrickPattern.BasketWeaveSingle -> visualizeBasketWeaveSingle(state, grammar, aabb, layer, grammar.length)
     SingleBrickPattern.BasketWeave -> visualizeBasketWeaveN(state, grammar, aabb, layer, grammar.length)
     SingleBrickPattern.Grid -> visualizeGrid(state, grammar, aabb, layer)
     SingleBrickPattern.Herringbone -> visualizeHerringbone(state, grammar, aabb, layer, grammar.length)
@@ -49,13 +49,14 @@ private fun visualizeBasketWeaveSingle(
     grammar: SingleBrickGrammar,
     aabb: AABB,
     layer: Int,
+    n: Int,
 ) = visualizeSubSections(
     grammar.size,
-    MapSize2d(2, 3),
+    MapSize2d(n, n + 1),
     aabb,
 ) { subSectionX, subSectionY, gridStart, blockSize, limits ->
-    val startX = subSectionX * 2
-    val startY = subSectionY * 3
+    val startX = subSectionX * n
+    val startY = subSectionY * (n + 1)
 
     when {
         subSectionX % 2 == 0 -> 0
@@ -71,13 +72,13 @@ private fun visualizeBasketWeaveSingle(
             startY + offset,
             limits,
             layer,
-            2,
+            n,
         )
     }
 
     when {
         subSectionX % 2 == 1 -> 0
-        startY < limits.height - 2 -> 2
+        startY < limits.height - 2 -> n
         else -> null
     }?.let { offset ->
         visualizeGrammar(
@@ -87,7 +88,7 @@ private fun visualizeBasketWeaveSingle(
             blockSize,
             startX,
             startY + offset,
-            MapSize2d(2, 1),
+            MapSize2d(n, 1),
             limits,
             layer,
         )
