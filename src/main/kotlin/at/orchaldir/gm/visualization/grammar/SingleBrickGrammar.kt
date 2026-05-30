@@ -10,6 +10,7 @@ import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Size2d
 import kotlin.math.ceil
+import kotlin.math.floor
 
 fun visualizeSingleBrickGrammar(
     state: GrammarRenderState,
@@ -28,9 +29,9 @@ fun visualizeSingleBrickGrammar(
         layer,
     ) { x, y ->
         if (x == 0 && y % 2 == 0) {
-            1
+            floor(grammar.length / 2.0).toInt()
         } else {
-            2
+            grammar.length
         }
     }
 
@@ -39,7 +40,7 @@ fun visualizeSingleBrickGrammar(
         grammar,
         aabb,
         layer,
-        { _, _ -> 2 },
+        { _, _ -> grammar.length },
     )
 }
 
