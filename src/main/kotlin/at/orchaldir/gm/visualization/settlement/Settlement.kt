@@ -122,6 +122,16 @@ data class SettlementRenderer(
     fun renderStreets(
         render: (AABB, StreetTile, Int) -> Unit,
     ) {
+        tileRenderer.render(settlement.map) { index, x, y, aabb, tile ->
+            if (tile.construction is StreetTile) {
+                render(aabb, tile.construction, index)
+            }
+        }
+    }
+
+    fun renderStreetsWithConnections(
+        render: (AABB, StreetTile, Int) -> Unit,
+    ) {
         val right = Point2d.xAxis(tileRenderer.tileSize / 2)
         val down = Point2d.yAxis(tileRenderer.tileSize / 2)
 
