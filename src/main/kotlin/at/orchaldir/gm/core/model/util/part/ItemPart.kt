@@ -39,6 +39,7 @@ val PAGE_MATERIALS = listOf(
 )
 val SOLID_MATERIALS = listOf(
     ItemPartType.Metal,
+    ItemPartType.Stone,
     ItemPartType.Wood,
 )
 
@@ -50,6 +51,7 @@ enum class ItemPartType {
     Leather,
     Metal,
     Paper,
+    Stone,
     Wood;
 }
 
@@ -70,6 +72,7 @@ sealed class ItemPart : HasColor {
         is MadeFromLeather -> ItemPartType.Leather
         is MadeFromMetal -> ItemPartType.Metal
         is MadeFromPaper -> ItemPartType.Paper
+        is MadeFromStone -> ItemPartType.Stone
         is MadeFromWood -> ItemPartType.Wood
     }
 
@@ -189,6 +192,23 @@ data class MadeFromMetal(
 @Serializable
 @SerialName("Paper")
 data class MadeFromPaper(
+    val material: MaterialId = MaterialId(0),
+    val color: ColorLookup = LookupMaterial,
+) : ItemPart(), HasColor {
+
+    constructor(color: Color) : this(MaterialId(0), color = FixedColor(color))
+
+    override fun getColor(state: State, colors: Colors) = color.lookup(state, colors, material)
+
+    override fun contains(id: MaterialId) = material == id
+    override fun material() = material
+    override fun requiredSchemaColors() = color.requiredSchemaColors()
+
+}
+
+@Serializable
+@SerialName("Stone")
+data class MadeFromStone(
     val material: MaterialId = MaterialId(0),
     val color: ColorLookup = LookupMaterial,
 ) : ItemPart(), HasColor {

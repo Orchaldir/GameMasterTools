@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.ALLOYS_OR_METALS
 import at.orchaldir.gm.core.model.economy.material.CATEGORIES_FOR_CLOTHING
 import at.orchaldir.gm.core.model.economy.material.CATEGORIES_FOR_GEM
+import at.orchaldir.gm.core.model.economy.material.CATEGORIES_FOR_STONE
 import at.orchaldir.gm.core.model.economy.material.MaterialCategoryType
 import at.orchaldir.gm.core.model.util.part.*
 import at.orchaldir.gm.core.selector.economy.getMaterialIds
@@ -27,6 +28,7 @@ fun validateItemPart(
         is MadeFromLeather -> setOf(MaterialCategoryType.Leather)
         is MadeFromMetal -> ALLOYS_OR_METALS
         is MadeFromPaper -> setOf(MaterialCategoryType.Paper)
+        is MadeFromStone -> CATEGORIES_FOR_STONE
         is MadeFromWood -> setOf(MaterialCategoryType.Wood)
     }
 

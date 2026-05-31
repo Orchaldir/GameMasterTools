@@ -39,6 +39,7 @@ fun convertToRenderFill(
     is MadeFromLeather -> convert(state, part, colors)
     is MadeFromMetal -> convert(state, part, colors)
     is MadeFromPaper -> convert(state, part, colors)
+    is MadeFromStone -> convert(state, part, colors)
     is MadeFromWood -> convertFill(state, part, colors)
 }
 

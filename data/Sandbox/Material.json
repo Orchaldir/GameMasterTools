@@ -301,6 +301,14 @@
      "color": "SaddleBrown"
     }
    }
+  },
+  "22": {
+   "id": 22,
+   "name": "Granite",
+   "properties": {
+    "density": 2600000000,
+    "hardness": 6.5
+   }
   }
  }
 }

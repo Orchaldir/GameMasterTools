@@ -13,7 +13,7 @@ import at.orchaldir.gm.core.model.economy.material.*
 import at.orchaldir.gm.core.model.util.part.*
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.util.render.ColorLookup
-import at.orchaldir.gm.core.selector.util.sortMaterials
+import at.orchaldir.gm.core.selector.economy.getMaterials
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.DETAILS
@@ -63,6 +63,10 @@ fun HtmlBlockTag.showItemPart(
                 fieldLink("Material", call, state, part.material)
                 fieldColorLookup("Color", part.color)
             }
+            is MadeFromStone -> {
+                fieldLink("Material", call, state, part.material)
+                fieldColorLookup("Color", part.color)
+            }
 
             is MadeFromWood -> {
                 fieldLink("Material", call, state, part.material)
@@ -95,13 +99,14 @@ fun HtmlBlockTag.editItemPart(
     label: String = TEXT,
     allowedTypes: Collection<ItemPartType> = ItemPartType.entries,
 ) {
-    val fibers = state.sortMaterials(MaterialCategoryType.Fiber)
-    val gems = state.sortMaterials(CATEGORIES_FOR_GEM)
-    val glasses = state.sortMaterials(MaterialCategoryType.Glass)
-    val leathers = state.sortMaterials(MaterialCategoryType.Leather)
-    val metals = state.sortMaterials(ALLOYS_OR_METALS)
-    val papers = state.sortMaterials(MaterialCategoryType.Paper)
-    val woods = state.sortMaterials(MaterialCategoryType.Wood)
+    val fibers = state.getMaterials(MaterialCategoryType.Fiber)
+    val gems = state.getMaterials(CATEGORIES_FOR_GEM)
+    val glasses = state.getMaterials(MaterialCategoryType.Glass)
+    val leathers = state.getMaterials(MaterialCategoryType.Leather)
+    val metals = state.getMaterials(ALLOYS_OR_METALS)
+    val papers = state.getMaterials(MaterialCategoryType.Paper)
+    val stones = state.getMaterials(CATEGORIES_FOR_STONE)
+    val woods = state.getMaterials(MaterialCategoryType.Wood)
 
     showDetails(label, true) {
         val type = part.getType()
@@ -121,6 +126,7 @@ fun HtmlBlockTag.editItemPart(
                 ItemPartType.Leather -> leathers.isEmpty()
                 ItemPartType.Metal -> metals.isEmpty()
                 ItemPartType.Paper -> papers.isEmpty()
+                ItemPartType.Stone -> stones.isEmpty()
                 ItemPartType.Wood -> woods.isEmpty()
             }
         }
@@ -168,6 +174,10 @@ fun HtmlBlockTag.editItemPart(
 
             is MadeFromMetal -> selectMaterial(state, materialParam, part.material, metals)
             is MadeFromPaper -> {
+                selectMaterial(state, materialParam, part.material, papers)
+                selectColor(state, param, part.color)
+            }
+            is MadeFromStone -> {
                 selectMaterial(state, materialParam, part.material, papers)
                 selectColor(state, param, part.color)
             }
@@ -257,6 +267,11 @@ fun parseItemPart(
 
         ItemPartType.Paper -> MadeFromPaper(
             parseId(state, parameters, materialParam, MaterialCategoryType.Paper),
+            parseColorLookup(parameters, combine(param, COLOR)),
+        )
+
+        ItemPartType.Stone -> MadeFromStone(
+            parseId(state, parameters, materialParam, CATEGORIES_FOR_STONE),
             parseColorLookup(parameters, combine(param, COLOR)),
         )
 

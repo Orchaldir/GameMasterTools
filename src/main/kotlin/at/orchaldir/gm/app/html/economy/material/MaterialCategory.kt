@@ -14,6 +14,7 @@ import at.orchaldir.gm.core.model.race.appearance.ALLOWED_FUR_COLOR_TYPES
 import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.render.Color
+import at.orchaldir.gm.core.selector.economy.getMaterials
 import at.orchaldir.gm.core.selector.util.sortMaterials
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
@@ -105,8 +106,8 @@ fun HtmlBlockTag.editMaterialCategory(
     state: State,
     category: MaterialCategory,
 ) {
-    val materialsForAlloy = state.sortMaterials(CATEGORIES_FOR_ALLOY)
-    val materialsForRock = state.sortMaterials(CATEGORIES_FOR_ROCK)
+    val materialsForAlloy = state.getMaterials(CATEGORIES_FOR_ALLOY)
+    val materialsForRock = state.getMaterials(CATEGORIES_FOR_ROCK)
 
     showDetails("Category", true) {
         selectValue(
