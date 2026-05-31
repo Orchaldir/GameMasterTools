@@ -9,6 +9,8 @@ import at.orchaldir.gm.assertFailMessage
 import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.Material
+import at.orchaldir.gm.core.model.economy.material.MaterialProperties
+import at.orchaldir.gm.core.model.economy.material.Wood
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.world.street.StreetTemplate
 import at.orchaldir.gm.core.reducer.REDUCER
@@ -20,7 +22,7 @@ import kotlin.test.assertEquals
 
 class StreetTemplateTest {
     val state = State(listOf(
-        Storage(Material(MATERIAL_ID_0)),
+        Storage(Material(MATERIAL_ID_0, properties = MaterialProperties(Wood()))),
         Storage(StreetTemplate(STREET_TEMPLATE_ID_0)),
     ))
 
@@ -29,14 +31,14 @@ class StreetTemplateTest {
 
         @Test
         fun `Cannot update unknown id`() {
-            fail(StreetTemplate(STREET_TEMPLATE_ID_1))
+            fail(StreetTemplate(STREET_TEMPLATE_ID_1), "Requires unknown Street Template 1!")
         }
 
         @Test
         fun `Grammar is invalid`() {
             val grammar = createStreetGrammar(Color.Gold, UNKNOWN_MATERIAL_ID)
 
-            fail(StreetTemplate(STREET_TEMPLATE_ID_0, NAME, grammar))
+            fail(StreetTemplate(STREET_TEMPLATE_ID_0, NAME, grammar), "Requires unknown Material 99!")
         }
 
         @Test
@@ -52,10 +54,10 @@ class StreetTemplateTest {
         }
     }
 
-    private fun fail(template: StreetTemplate) {
+    private fun fail(template: StreetTemplate, message: String) {
         val action = UpdateAction(template)
 
-        assertFailMessage<IllegalArgumentException>("Requires unknown Street Template 1!") {
+        assertFailMessage<IllegalArgumentException>(message) {
             REDUCER.invoke(
                 state,
                 action

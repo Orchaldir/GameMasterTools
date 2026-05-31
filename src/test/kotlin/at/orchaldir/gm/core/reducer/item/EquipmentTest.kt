@@ -7,6 +7,8 @@ import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.UniqueEquipment
 import at.orchaldir.gm.core.model.economy.material.Material
 import at.orchaldir.gm.core.model.economy.material.MaterialId
+import at.orchaldir.gm.core.model.economy.material.MaterialProperties
+import at.orchaldir.gm.core.model.economy.material.Metal
 import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.item.equipment.style.ScaleArmour
 import at.orchaldir.gm.core.model.rpg.combat.ArmorStats
@@ -34,7 +36,7 @@ class EquipmentTest {
                 )
             ),
             Storage(Equipment(EQUIPMENT_ID_0)),
-            Storage(Material(MATERIAL_ID_0))
+            Storage(Material(MATERIAL_ID_0, properties = MaterialProperties(Metal()))),
         ),
     )
     private val EQUIPMENT_MAP = UniqueEquipment(

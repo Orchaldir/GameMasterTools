@@ -31,7 +31,7 @@ data class StreetTemplate(
     override fun name() = name.text
 
     override fun validate(state: State) {
-        // TODO
+        grammar.validate(state, "Grammar")
     }
 
 }
