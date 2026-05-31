@@ -5,6 +5,9 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.economy.material.parseMaterialCost
 import at.orchaldir.gm.app.html.economy.material.selectMaterialCost
 import at.orchaldir.gm.app.html.economy.material.showMaterialCost
+import at.orchaldir.gm.app.html.visualization.editGrammar
+import at.orchaldir.gm.app.html.visualization.parseGrammar
+import at.orchaldir.gm.app.html.visualization.showGrammar
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.world.street.StreetTemplate
@@ -21,7 +24,7 @@ fun HtmlBlockTag.showStreetTemplate(
     state: State,
     template: StreetTemplate,
 ) {
-    fieldColor(template.color)
+    showGrammar(call, state, template.grammar)
     showMaterialCost(call, state, template.materialCost)
     fieldElements(call, state, state.getSettlementMaps(template.id))
 }
@@ -34,7 +37,7 @@ fun HtmlBlockTag.editStreetTemplate(
     template: StreetTemplate,
 ) {
     selectName(template.name)
-    selectColor(template.color)
+    editGrammar(state, template.grammar)
     selectMaterialCost(call, state, template.materialCost)
 }
 
@@ -45,6 +48,6 @@ fun parseStreetTemplateId(parameters: Parameters, param: String) = StreetTemplat
 fun parseStreetTemplate(state: State, parameters: Parameters, id: StreetTemplateId) = StreetTemplate(
     id,
     parseName(parameters),
-    parse(parameters, COLOR, Color.SkyBlue),
+    parseGrammar(state, parameters),
     parseMaterialCost(parameters),
 )

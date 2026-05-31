@@ -18,12 +18,15 @@ import at.orchaldir.gm.core.model.world.street.StreetTemplate
 import at.orchaldir.gm.core.model.world.street.StreetTemplateId
 import at.orchaldir.gm.core.selector.getDefaultCurrency
 import at.orchaldir.gm.core.selector.util.sortStreetTemplates
+import at.orchaldir.gm.prototypes.visualization.grammar.LINE_OPTIONS
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.renderer.model.NoBorder
 import at.orchaldir.gm.utils.renderer.model.toRender
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
+import at.orchaldir.gm.visualization.grammar.GrammarRenderState
+import at.orchaldir.gm.visualization.grammar.visualizeGrammar
 import at.orchaldir.gm.visualization.settlement.TILE_SIZE
 import at.orchaldir.gm.visualization.settlement.renderStreet
 import io.ktor.resources.*
@@ -79,7 +82,6 @@ fun Application.configureStreetTemplateRouting() {
                 state.sortStreetTemplates(all.sort),
                 listOf(
                     createNameColumn(call, state),
-                    tdColumn("Color") { showColor(it.color) },
                     Column("Materials") { tdInlineIds(call, state, it.materialCost.materials()) },
                     tdColumn("Weight") { it.materialCost.calculateWeight()?.let { +it.toString() } },
                     tdColumn("Price") { displayPrice(call, currency, it.materialCost.calculatePrice(state)) },
@@ -128,19 +130,21 @@ private fun HtmlBlockTag.showStreetTemplateEditorRight(
     state: State,
     template: StreetTemplate,
 ) {
-    svg(visualizeStreetTemplate(template), 90)
+    svg(visualizeStreetTemplate(state, template), 90)
 }
 
 private fun visualizeStreetTemplate(
+    state: State,
     streetTemplate: StreetTemplate,
 ): Svg {
     val size = Size2d.square(TILE_SIZE)
     val builder = SvgBuilder(size)
     val aabb = AABB(size)
     val option = NoBorder(Solid(Color.Green).toRender())
+    val renderState = GrammarRenderState(state, builder, LINE_OPTIONS)
 
     builder.getLayer().renderRectangle(aabb, option)
-    renderStreet(builder.getLayer(), aabb, streetTemplate.color)
+    visualizeGrammar(renderState, streetTemplate.grammar, aabb)
 
     return builder.finish()
 }

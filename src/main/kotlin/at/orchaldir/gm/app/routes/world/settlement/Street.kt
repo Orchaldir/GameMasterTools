@@ -136,7 +136,7 @@ fun visualizeStreetEditor(
     },
     streetColorLookup = { street, _ ->
         if (selectedStreet == null) {
-            state.getStreetTemplateStorage().getOrThrow(street.templateId).color
+            Color.Pink // TODO
         } else if (street.streetId == selectedStreet) {
             Color.Gold
         } else {

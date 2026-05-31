@@ -49,7 +49,7 @@ fun HtmlBlockTag.showGrammar(
 fun HtmlBlockTag.editGrammar(
     state: State,
     grammar: Grammar,
-    param: String,
+    param: String = GRAMMAR,
     label: String = "Grammar",
 ) {
     showDetails(label, true) {
@@ -117,7 +117,7 @@ fun HtmlBlockTag.editGrammar(
 fun parseGrammar(
     state: State,
     parameters: Parameters,
-    param: String,
+    param: String = GRAMMAR,
 ): Grammar {
     return when (parse(parameters, param, GrammarType.RectangularShape)) {
         GrammarType.RectangularShape -> RectangularShapeGrammar(
