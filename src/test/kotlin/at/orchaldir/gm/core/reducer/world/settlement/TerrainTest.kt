@@ -144,21 +144,21 @@ class TerrainTest {
         }
 
         @Test
-        fun `Resize would reduce width to 0`() {
+        fun `Resize would reduce width to -1`() {
             val oldMap = TileMap2d(MapSize2d(2, 1), EMPTY)
             val oldSettlement = SettlementMap(SETTLEMENT_MAP_ID_0, map = oldMap)
             val state = State(listOf(Storage(oldSettlement)))
-            val action = ResizeTerrain(SETTLEMENT_MAP_ID_0, Resize(-2), TerrainType.Plain, 0)
+            val action = ResizeTerrain(SETTLEMENT_MAP_ID_0, Resize(-3), TerrainType.Plain, 0)
 
             assertIllegalArgument("Width must be greater or equal 0!") { REDUCER.invoke(state, action) }
         }
 
         @Test
-        fun `Resize would reduce height to 0`() {
+        fun `Resize would reduce height to -1`() {
             val oldMap = TileMap2d(MapSize2d(1, 2), EMPTY)
             val oldSettlement = SettlementMap(SETTLEMENT_MAP_ID_0, map = oldMap)
             val state = State(listOf(Storage(oldSettlement)))
-            val action = ResizeTerrain(SETTLEMENT_MAP_ID_0, Resize(heightEnd = -2), TerrainType.Plain, 0)
+            val action = ResizeTerrain(SETTLEMENT_MAP_ID_0, Resize(heightEnd = -3), TerrainType.Plain, 0)
 
             assertIllegalArgument("Height must be greater or equal 0!") { REDUCER.invoke(state, action) }
         }
