@@ -12,7 +12,6 @@ import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.world.settlement.SettlementMap
 import at.orchaldir.gm.core.model.world.settlement.TerrainType
 import at.orchaldir.gm.core.model.world.terrain.RegionDataType
-import at.orchaldir.gm.core.selector.util.getBuildingsIn
 import at.orchaldir.gm.core.selector.world.*
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
@@ -115,7 +114,8 @@ private fun HTML.showTerrainEditor(
         }, {
             svg(
                 visualizeSettlementMap(
-                    settlementMap, state.getBuildingsIn(settlementMap.id),
+                    state,
+                    settlementMap,
                     tileLinkLookup = { index, _ ->
                         call.application.href(
                             SettlementMapRoutes.TerrainRoutes.Update(

@@ -7,8 +7,8 @@ import kotlinx.serialization.Serializable
 data class MapSize2d(val width: Int, val height: Int) {
 
     init {
-        require(width > 0) { "Width must be greater or equal 0!" }
-        require(height > 0) { "Height must be greater or equal 0!" }
+        require(width >= 0) { "Width must be greater or equal 0!" }
+        require(height >= 0) { "Height must be greater or equal 0!" }
     }
 
     companion object {
@@ -19,6 +19,12 @@ data class MapSize2d(val width: Int, val height: Int) {
 
     fun apply(resize: Resize) =
         MapSize2d(width + resize.widthStart + resize.widthEnd, height + resize.heightStart + resize.heightEnd)
+
+    fun limit(limitWidth: Int, limitHeight: Int) =
+        MapSize2d(width.coerceAtMost(limitWidth), height.coerceAtMost(limitHeight))
+
+    fun limit(x: Int, y: Int, limits: MapSize2d) =
+        limit(limits.width - x, limits.height - y)
 
     fun isInside(index: Int) = index in 0..<tiles()
 

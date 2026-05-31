@@ -19,7 +19,7 @@ import at.orchaldir.gm.visualization.character.appearance.PaddedSize
 import at.orchaldir.gm.visualization.character.appearance.calculatePaddedSize
 import at.orchaldir.gm.visualization.character.appearance.visualizeAppearance
 
-private val MIN_SIZE = fromMillimeters(1)
+private val MIN_SIZE = Size2d.square(fromMillimeters(1))
 
 fun renderCharacterTable(
     state: State,
@@ -28,7 +28,7 @@ fun renderCharacterTable(
     appearances: List<List<Appearance>>,
 ) {
     val paddedSizeMap = mutableMapOf<Appearance, PaddedSize>()
-    val size = appearances.fold(Size2d.square(MIN_SIZE)) { rowSize, list ->
+    val size = appearances.fold(MIN_SIZE) { rowSize, list ->
         list.fold(rowSize) { columnSize, appearance ->
             val paddedSize = calculatePaddedSize(config, appearance)
             paddedSizeMap[appearance] = paddedSize
@@ -127,27 +127,28 @@ fun <C, R> renderCharacterTable(
     create: (Distance, C, R) -> Pair<Appearance, EquipmentElementMap>,
 ) {
     val height = fromMillimeters(2000)
-    val dataMap = mutableMapOf<Pair<R, C>, Triple<Appearance, EquipmentElementMap, PaddedSize>>()
-    var maxSize = Size2d.square(MIN_SIZE)
+    mutableMapOf<Pair<R, C>, Triple<Appearance, EquipmentElementMap, PaddedSize>>()
 
-    rows.forEach { (_, row) ->
-        columns.forEach { (_, column) ->
+    renderTable(
+        filename,
+        rows,
+        columns,
+        MIN_SIZE,
+        backToo,
+        { column, row ->
             val data = create(height, column, row)
             val paddedSize = calculatePaddedSize(config, data.first, data.second)
-            val size = paddedSize.getFullSize()
 
-            dataMap[Pair(row, column)] = Triple(data.first, data.second, paddedSize)
-            maxSize = maxSize.max(size)
+            Pair(data, paddedSize)
+        },
+        { renderAabb, renderer, renderFront, data ->
+            val (appearance, equipment) = data
+            val renderState =
+                CharacterRenderState(state, appearance, renderAabb, config, renderer, renderFront, equipment)
+
+            visualizeAppearance(renderState)
         }
-    }
-
-    renderTable(filename, maxSize, rows, columns, backToo) { renderAabb, renderer, renderFront, column, row ->
-        val (appearance, equipment, paddedSize) = dataMap.getValue(Pair(row, column))
-        val fullAabb = paddedSize.getInnerAABB(renderAabb)
-        val renderState = CharacterRenderState(state, appearance, fullAabb, config, renderer, renderFront, equipment)
-
-        visualizeAppearance(renderState)
-    }
+    )
 }
 
 fun addNamesToBeardStyle(values: List<BeardStyle>) = values.map {

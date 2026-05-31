@@ -11,6 +11,7 @@ import at.orchaldir.gm.utils.math.unit.ZERO_ORIENTATION
 import at.orchaldir.gm.utils.renderer.MultiLayerRenderer
 import at.orchaldir.gm.utils.renderer.model.RenderStringOptions
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
+import at.orchaldir.gm.visualization.character.appearance.PaddedSize
 import at.orchaldir.gm.visualization.character.appearance.TEXT_LAYER
 import java.io.File
 
@@ -76,6 +77,40 @@ fun <T> renderTableWithNames(
         render(aabb, renderer, pair.second)
 
         renderer.getLayer().renderString(pair.first, aabb.getCenter(), ZERO_ORIENTATION, textOptions)
+    }
+}
+
+fun <C, R, D> renderTable(
+    filename: String,
+    rows: List<Pair<String, R>>,
+    columns: List<Pair<String, C>>,
+    minSize2d: Size2d,
+    backToo: Boolean,
+    process: (C, R) -> Pair<D, PaddedSize>,
+    render: (AABB, MultiLayerRenderer, Boolean, D) -> Unit,
+) {
+    val dataMap = mutableMapOf<Pair<R, C>, Pair<D, PaddedSize>>()
+    val renderSize = rows.fold(minSize2d) { rowSize, (_, row) ->
+        columns.fold(rowSize) { columnSize, (_, column) ->
+            val pair = process(column, row)
+
+            dataMap[Pair(row, column)] = pair
+
+            columnSize.max(pair.second.getFullSize())
+        }
+    }
+
+    renderTable(
+        filename,
+        renderSize,
+        rows,
+        columns,
+        backToo,
+    ) { renderAabb, renderer, renderFront, column, row ->
+        val (data, paddedSize) = dataMap.getValue(Pair(row, column))
+        val innerAabb = paddedSize.getInnerAABB(renderAabb)
+
+        render(innerAabb, renderer, renderFront, data)
     }
 }
 

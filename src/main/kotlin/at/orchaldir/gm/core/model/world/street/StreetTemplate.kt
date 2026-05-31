@@ -1,10 +1,10 @@
 package at.orchaldir.gm.core.model.world.street
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.economy.material.MaterialCost
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
-import at.orchaldir.gm.core.model.util.render.Color
+import at.orchaldir.gm.core.model.visualization.DoNothingShapeGrammar
+import at.orchaldir.gm.core.model.visualization.ShapeGrammar
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
@@ -24,15 +24,14 @@ value class StreetTemplateId(val value: Int) : Id<StreetTemplateId> {
 data class StreetTemplate(
     val id: StreetTemplateId,
     val name: Name = Name.init(id),
-    val color: Color = Color.Gray,
-    val materialCost: MaterialCost = MaterialCost(),
+    val grammar: ShapeGrammar = DoNothingShapeGrammar,
 ) : ElementWithSimpleName<StreetTemplateId> {
 
     override fun id() = id
     override fun name() = name.text
 
     override fun validate(state: State) {
-        state.getMaterialStorage().require(materialCost.materials())
+        grammar.validate(state, "Grammar")
     }
 
 }

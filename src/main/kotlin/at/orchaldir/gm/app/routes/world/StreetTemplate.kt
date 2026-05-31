@@ -1,9 +1,8 @@
 package at.orchaldir.gm.app.routes.world
 
 import at.orchaldir.gm.app.STORE
-import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.Column.Companion.tdColumn
-import at.orchaldir.gm.app.html.economy.money.displayPrice
+import at.orchaldir.gm.app.html.createNameColumn
+import at.orchaldir.gm.app.html.svg
 import at.orchaldir.gm.app.html.world.editStreetTemplate
 import at.orchaldir.gm.app.html.world.parseStreetTemplate
 import at.orchaldir.gm.app.html.world.showStreetTemplate
@@ -18,14 +17,16 @@ import at.orchaldir.gm.core.model.world.street.StreetTemplate
 import at.orchaldir.gm.core.model.world.street.StreetTemplateId
 import at.orchaldir.gm.core.selector.getDefaultCurrency
 import at.orchaldir.gm.core.selector.util.sortStreetTemplates
+import at.orchaldir.gm.prototypes.visualization.grammar.LINE_OPTIONS
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.renderer.model.NoBorder
 import at.orchaldir.gm.utils.renderer.model.toRender
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
+import at.orchaldir.gm.visualization.grammar.GrammarRenderState
+import at.orchaldir.gm.visualization.grammar.visualizeShapeGrammar
 import at.orchaldir.gm.visualization.settlement.TILE_SIZE
-import at.orchaldir.gm.visualization.settlement.renderStreet
 import io.ktor.resources.*
 import io.ktor.server.application.*
 import io.ktor.server.resources.*
@@ -72,17 +73,13 @@ fun Application.configureStreetTemplateRouting() {
     routing {
         get<StreetTemplateRoutes.All> { all ->
             val state = STORE.getState()
-            val currency = state.getDefaultCurrency()
+            state.getDefaultCurrency()
 
             handleShowAllElements(
                 StreetTemplateRoutes(),
                 state.sortStreetTemplates(all.sort),
                 listOf(
                     createNameColumn(call, state),
-                    tdColumn("Color") { showColor(it.color) },
-                    Column("Materials") { tdInlineIds(call, state, it.materialCost.materials()) },
-                    tdColumn("Weight") { it.materialCost.calculateWeight()?.let { +it.toString() } },
-                    tdColumn("Price") { displayPrice(call, currency, it.materialCost.calculatePrice(state)) },
                 ),
             )
         }
@@ -128,19 +125,21 @@ private fun HtmlBlockTag.showStreetTemplateEditorRight(
     state: State,
     template: StreetTemplate,
 ) {
-    svg(visualizeStreetTemplate(template), 90)
+    svg(visualizeStreetTemplate(state, template), 90)
 }
 
 private fun visualizeStreetTemplate(
+    state: State,
     streetTemplate: StreetTemplate,
 ): Svg {
     val size = Size2d.square(TILE_SIZE)
     val builder = SvgBuilder(size)
     val aabb = AABB(size)
     val option = NoBorder(Solid(Color.Green).toRender())
+    val renderState = GrammarRenderState(state, builder, LINE_OPTIONS)
 
     builder.getLayer().renderRectangle(aabb, option)
-    renderStreet(builder.getLayer(), aabb, streetTemplate.color)
+    visualizeShapeGrammar(renderState, streetTemplate.grammar, aabb)
 
     return builder.finish()
 }

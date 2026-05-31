@@ -16,12 +16,11 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.settlement.SettlementMap
 import at.orchaldir.gm.core.selector.character.countResidents
 import at.orchaldir.gm.core.selector.util.countBuildingsIn
-import at.orchaldir.gm.core.selector.util.getBuildingsIn
 import at.orchaldir.gm.core.selector.util.sortSettlementMaps
 import at.orchaldir.gm.core.selector.world.getRegions
 import at.orchaldir.gm.core.selector.world.getRivers
 import at.orchaldir.gm.core.selector.world.getStreets
-import at.orchaldir.gm.visualization.settlement.getStreetTemplateFill
+import at.orchaldir.gm.visualization.settlement.getStreetTemplateGrammar
 import at.orchaldir.gm.visualization.settlement.showTerrainName
 import at.orchaldir.gm.visualization.settlement.visualizeSettlementMap
 import io.ktor.server.application.*
@@ -141,8 +140,8 @@ private fun visualizeSettlementMapWithLinks(
     state: State,
     settlement: SettlementMap,
 ) = visualizeSettlementMap(
+    state,
     settlement,
-    state.getBuildingsIn(settlement.id),
     tileTooltipLookup = showTerrainName(state),
     buildingLinkLookup = { building ->
         call.application.href(BuildingRoutes.Details(building.id))
@@ -156,5 +155,5 @@ private fun visualizeSettlementMapWithLinks(
     streetTooltipLookup = { tile, _ ->
         state.getStreetStorage().getOptional(tile.streetId)?.name(state)
     },
-    streetColorLookup = getStreetTemplateFill(state),
+    streetGrammarLookup = getStreetTemplateGrammar(state),
 )

@@ -1,10 +1,16 @@
 package at.orchaldir.gm.visualization.settlement
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.util.InSettlementMap
+import at.orchaldir.gm.core.model.util.part.MadeFromWood
 import at.orchaldir.gm.core.model.util.render.Color
+import at.orchaldir.gm.core.model.visualization.RectangularShapeGrammar
+import at.orchaldir.gm.core.model.visualization.ShapeGrammar
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.settlement.*
+import at.orchaldir.gm.core.selector.util.getBuildingsIn
+import at.orchaldir.gm.prototypes.visualization.grammar.LINE_OPTIONS
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.math.AABB
@@ -16,27 +22,42 @@ import at.orchaldir.gm.utils.renderer.TileMap2dRenderer
 import at.orchaldir.gm.utils.renderer.model.NoBorder
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
+import at.orchaldir.gm.visualization.grammar.GrammarRenderState
+import at.orchaldir.gm.visualization.grammar.visualizeShapeGrammar
 
 val TILE_SIZE = Distance.fromMeters(20)
 
+fun createStreetGrammar(color: Color, material: MaterialId = MaterialId(0)) =
+    RectangularShapeGrammar(MadeFromWood(material, color))
+
 private val DEFAULT_BUILDING_COLOR: (Building) -> Color = { _ -> Color.Black }
 private val DEFAULT_BUILDING_TEXT: (Building) -> String? = { _ -> null }
-private val DEFAULT_STREET_COLOR: (StreetTile, Int) -> Color = { _, _ -> Color.Gray }
+private val DEFAULT_STREET_TYPE_GRAMMAR = createStreetGrammar(Color.Gray)
+private val DEFAULT_STREET_GRAMMAR: (StreetTile, Int) -> ShapeGrammar = { _, _ ->
+    DEFAULT_STREET_TYPE_GRAMMAR
+}
 private val DEFAULT_STREET_TEXT: (StreetTile, Int) -> String? = { _, _ -> null }
 private val DEFAULT_TILE_TEXT: (Int, SettlementTile) -> String? = { _, _ -> null }
 
 data class SettlementRenderer(
+    private val state: State,
     private val tileRenderer: TileMap2dRenderer,
     private val svgBuilder: SvgBuilder,
     private val settlement: SettlementMap,
 ) {
-    constructor(tileMapRenderer: TileMap2dRenderer, settlement: SettlementMap) : this(
+    constructor(
+        state: State,
+        tileMapRenderer: TileMap2dRenderer,
+        settlement: SettlementMap,
+    ) : this(
+        state,
         tileMapRenderer,
         SvgBuilder(tileMapRenderer.calculateMapSize(settlement.map)),
         settlement,
     )
 
-    constructor(settlement: SettlementMap) : this(
+    constructor(state: State, settlement: SettlementMap) : this(
+        state,
         TileMap2dRenderer(TILE_SIZE, Distance.fromMeters(1.0f)),
         settlement,
     )
@@ -84,21 +105,33 @@ data class SettlementRenderer(
         }
     }
 
-    fun renderStreets(
-        colorLookup: (StreetTile, Int) -> Color = DEFAULT_STREET_COLOR,
+    fun renderSimplifiedStreets(
+        colorLookup: (StreetTile, Int) -> ShapeGrammar = DEFAULT_STREET_GRAMMAR,
         linkLookup: (StreetTile, Int) -> String? = DEFAULT_STREET_TEXT,
         tooltipLookup: (StreetTile, Int) -> String? = DEFAULT_STREET_TEXT,
     ) {
+        val renderState = GrammarRenderState(state, svgBuilder, LINE_OPTIONS)
+
         renderStreets { aabb, street, index ->
-            val color = colorLookup(street, index)
+            val grammar = colorLookup(street, index)
 
             svgBuilder.optionalLinkAndTooltip(linkLookup(street, index), tooltipLookup(street, index)) {
-                renderStreet(it, aabb, color)
+                visualizeShapeGrammar(renderState, grammar, aabb)
             }
         }
     }
 
     fun renderStreets(
+        render: (AABB, StreetTile, Int) -> Unit,
+    ) {
+        tileRenderer.render(settlement.map) { index, x, y, aabb, tile ->
+            if (tile.construction is StreetTile) {
+                render(aabb, tile.construction, index)
+            }
+        }
+    }
+
+    fun renderStreetsWithConnections(
         render: (AABB, StreetTile, Int) -> Unit,
     ) {
         val right = Point2d.xAxis(tileRenderer.tileSize / 2)
@@ -149,30 +182,31 @@ data class SettlementRenderer(
     fun finish() = svgBuilder.finish()
 }
 
-fun renderStreet(renderer: LayerRenderer, tile: AABB, color: Color) {
+fun renderSimplifiedStreet(renderer: LayerRenderer, tile: AABB, color: Color) {
     val style = NoBorder(color.toRender())
     renderer.renderRectangle(tile.shrink(HALF), style)
 }
 
 fun visualizeSettlementMap(
+    state: State,
     settlement: SettlementMap,
-    buildings: List<Building> = emptyList(),
     tileColorLookup: (SettlementTile) -> Color = SettlementTile::getColor,
     tileLinkLookup: (Int, SettlementTile) -> String? = DEFAULT_TILE_TEXT,
     tileTooltipLookup: (Int, SettlementTile) -> String? = DEFAULT_TILE_TEXT,
     buildingColorLookup: (Building) -> Color = DEFAULT_BUILDING_COLOR,
     buildingLinkLookup: (Building) -> String? = DEFAULT_BUILDING_TEXT,
     buildingTooltipLookup: (Building) -> String? = DEFAULT_BUILDING_TEXT,
-    streetColorLookup: (StreetTile, Int) -> Color = DEFAULT_STREET_COLOR,
+    streetGrammarLookup: (StreetTile, Int) -> ShapeGrammar = DEFAULT_STREET_GRAMMAR,
     streetLinkLookup: (StreetTile, Int) -> String? = DEFAULT_STREET_TEXT,
     streetTooltipLookup: (StreetTile, Int) -> String? = DEFAULT_STREET_TEXT,
 ): Svg {
-    val settlementRenderer = SettlementRenderer(settlement)
+    val settlementRenderer = SettlementRenderer(state, settlement)
+    val buildings = state.getBuildingsIn(settlement.id)
 
     settlementRenderer.renderTiles(tileColorLookup, tileLinkLookup, tileTooltipLookup)
     settlementRenderer.renderAbstractBuildings()
     settlementRenderer.renderBuildings(buildings, buildingColorLookup, buildingLinkLookup, buildingTooltipLookup)
-    settlementRenderer.renderStreets(streetColorLookup, streetLinkLookup, streetTooltipLookup)
+    settlementRenderer.renderSimplifiedStreets(streetGrammarLookup, streetLinkLookup, streetTooltipLookup)
 
     return settlementRenderer.finish()
 }
@@ -184,11 +218,11 @@ fun SettlementTile.getColor() = when (terrain) {
     is RiverTerrain -> Color.Blue
 }
 
-fun getStreetTemplateFill(state: State): (StreetTile, Int) -> Color = { tile, _ ->
+fun getStreetTemplateGrammar(state: State): (StreetTile, Int) -> ShapeGrammar = { tile, _ ->
     state
         .getStreetTemplateStorage()
         .get(tile.templateId)
-        ?.color ?: Color.Pink
+        ?.grammar ?: DEFAULT_STREET_TYPE_GRAMMAR
 }
 
 fun showSelectedBuilding(selected: Building): (Building) -> Color = { building ->

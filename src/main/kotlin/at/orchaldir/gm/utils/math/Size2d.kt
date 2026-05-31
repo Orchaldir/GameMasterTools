@@ -1,5 +1,6 @@
 package at.orchaldir.gm.utils.math
 
+import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Volume
 import at.orchaldir.gm.utils.math.unit.checkDistance
@@ -10,8 +11,8 @@ import kotlin.math.sqrt
 data class Size2d(val width: Distance, val height: Distance) {
 
     init {
-        require(width.value() > 0) { "Width muster be greater 0!" }
-        require(height.value() > 0) { "Height muster be greater 0!" }
+        require(width.value() > 0) { "Width must be greater 0!" }
+        require(height.value() > 0) { "Height must be greater 0!" }
     }
 
     companion object {
@@ -38,12 +39,17 @@ data class Size2d(val width: Distance, val height: Distance) {
     fun scale(horizontal: Factor, vertical: Factor) =
         Size2d(width * horizontal, height * vertical)
 
+    fun scale(horizontal: Int, vertical: Int) =
+        Size2d(width * horizontal, height * vertical)
+
     operator fun plus(distance: Distance) = Size2d(width + distance, height + distance)
     operator fun plus(size: Size2d) = Size2d(width + size.width, height + size.height)
     operator fun minus(distance: Distance) = Size2d(width - distance, height - distance)
     operator fun times(factor: Factor) = Size2d(width * factor, height * factor)
     operator fun times(factor: Float) = Size2d(width * factor, height * factor)
+    operator fun times(size: MapSize2d) = Size2d(width * size.width, height * size.height)
     operator fun div(factor: Factor) = Size2d(width / factor, height / factor)
+    operator fun div(size: MapSize2d) = Size2d(width / size.width, height / size.height)
 
     fun addWidth(distance: Distance) = Size2d(width + distance, height)
     fun addHeight(distance: Distance) = Size2d(width, height + distance)

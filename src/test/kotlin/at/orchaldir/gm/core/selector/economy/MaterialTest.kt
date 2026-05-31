@@ -7,7 +7,6 @@ import at.orchaldir.gm.core.model.character.appearance.SkinType
 import at.orchaldir.gm.core.model.ecology.plant.Plant
 import at.orchaldir.gm.core.model.ecology.plant.Tree
 import at.orchaldir.gm.core.model.economy.material.Material
-import at.orchaldir.gm.core.model.economy.material.MaterialCost
 import at.orchaldir.gm.core.model.economy.material.MaterialProperties
 import at.orchaldir.gm.core.model.economy.material.Rock
 import at.orchaldir.gm.core.model.economy.money.Coin
@@ -21,7 +20,9 @@ import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.race.appearance.SkinOptions
 import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.util.part.MadeFromFabric
+import at.orchaldir.gm.core.model.util.part.MadeFromWood
 import at.orchaldir.gm.core.model.util.render.Color
+import at.orchaldir.gm.core.model.visualization.RectangularShapeGrammar
 import at.orchaldir.gm.core.model.world.moon.Moon
 import at.orchaldir.gm.core.model.world.street.StreetTemplate
 import at.orchaldir.gm.core.model.world.terrain.Region
@@ -96,7 +97,8 @@ class MaterialTest {
 
         @Test
         fun `Cannot delete a material used by a street template`() {
-            val template = StreetTemplate(STREET_TEMPLATE_ID_0, materialCost = MaterialCost(MATERIAL_ID_0))
+            val grammar = RectangularShapeGrammar(MadeFromWood(MATERIAL_ID_0))
+            val template = StreetTemplate(STREET_TEMPLATE_ID_0, grammar = grammar)
             val newState = state.updateStorage(template)
 
             failCanDelete(newState, STREET_TEMPLATE_ID_0)

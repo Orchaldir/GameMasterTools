@@ -210,7 +210,8 @@ data class MadeFromWood(
     val fill: FillLookup = SolidLookup(LookupMaterial),
 ) : ItemPart(), HasFill {
 
-    constructor(color: Color) : this(MaterialId(0), fill = SolidLookup(color))
+    constructor(material: MaterialId, color: Color) : this(material, fill = SolidLookup(color))
+    constructor(color: Color) : this(MaterialId(0), color)
 
     override fun getColor(state: State, colors: Colors) = fill.getColor(state, colors, material)
         ?: error("Not supported by Fill!")

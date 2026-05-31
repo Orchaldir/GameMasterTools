@@ -152,7 +152,7 @@ data class Rock(
 @Serializable
 @SerialName("Wood")
 data class Wood(
-    val color: Color,
+    val color: Color = Color.SaddleBrown,
 ) : MaterialCategory()
 
 @Serializable

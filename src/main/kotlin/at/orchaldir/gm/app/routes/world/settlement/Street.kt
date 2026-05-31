@@ -12,7 +12,7 @@ import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.world.settlement.SettlementMap
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.street.StreetTemplateId
-import at.orchaldir.gm.core.selector.util.getBuildingsIn
+import at.orchaldir.gm.visualization.settlement.createStreetGrammar
 import at.orchaldir.gm.visualization.settlement.visualizeSettlementMap
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -119,7 +119,8 @@ fun visualizeStreetEditor(
     selectedType: StreetTemplateId,
     selectedStreet: StreetId?,
 ) = visualizeSettlementMap(
-    settlementMap, state.getBuildingsIn(settlementMap.id),
+    state,
+    settlementMap,
     tileLinkLookup = { index, tile ->
         if (tile.canBuild()) {
             call.application.href(
@@ -134,13 +135,13 @@ fun visualizeStreetEditor(
             null
         }
     },
-    streetColorLookup = { street, _ ->
+    streetGrammarLookup = { street, _ ->
         if (selectedStreet == null) {
-            state.getStreetTemplateStorage().getOrThrow(street.templateId).color
+            state.getStreetTemplateStorage().getOrThrow(street.templateId).grammar
         } else if (street.streetId == selectedStreet) {
-            Color.Gold
+            createStreetGrammar(Color.Gold)
         } else {
-            Color.Gray
+            createStreetGrammar(Color.Gray)
         }
     },
     streetLinkLookup = { _, index ->

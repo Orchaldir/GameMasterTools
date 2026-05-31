@@ -11,11 +11,11 @@ fun State.canDeleteStreetTemplate(template: StreetTemplateId) = DeleteResult(tem
 
 fun State.countStreetTemplatesMadeOf(material: MaterialId) = getStreetTemplateStorage()
     .getAll()
-    .count { it.materialCost.contains(material) }
+    .count { it.grammar.contains(material) }
 
 fun State.getStreetTemplatesMadeOf(material: MaterialId) = getStreetTemplateStorage()
     .getAll()
-    .filter { it.materialCost.contains(material) }
+    .filter { it.grammar.contains(material) }
 
 fun State.countEachStreetTemplate(settlement: SettlementMapId) = getSettlementMapStorage()
     .getOrThrow(settlement)
@@ -26,4 +26,4 @@ fun State.countEachStreetTemplate(settlement: SettlementMapId) = getSettlementMa
 
 fun State.countStreetTemplates(material: MaterialId) = getStreetTemplateStorage()
     .getAll()
-    .count { it.materialCost.contains(material) }
+    .count { it.grammar.contains(material) }
