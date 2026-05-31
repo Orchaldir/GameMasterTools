@@ -15,9 +15,12 @@ import at.orchaldir.gm.core.model.util.part.MadeFromMetal
 import at.orchaldir.gm.core.model.visualization.BrickPatternGrammar
 import at.orchaldir.gm.core.model.visualization.DoNothingShapeGrammar
 import at.orchaldir.gm.core.model.visualization.MAX_BRICK_LENGTH
+import at.orchaldir.gm.core.model.visualization.MAX_GRID_SIZE
 import at.orchaldir.gm.core.model.visualization.MIN_BRICK_LENGTH
+import at.orchaldir.gm.core.model.visualization.MIN_GRID_SIZE
 import at.orchaldir.gm.core.model.visualization.ShapeGrammar
 import at.orchaldir.gm.core.model.visualization.RectangularShapeGrammar
+import at.orchaldir.gm.core.model.visualization.SquareGrid
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -39,6 +42,21 @@ class ShapeGrammarTest {
             val grammar = BrickPatternGrammar(brick)
 
             fail(grammar, "Requires unknown Material 99!")
+        }
+
+        @Test
+        fun `Test the grid size`() {
+            assertInt(
+                "test's size",
+                MIN_GRID_SIZE,
+                MAX_GRID_SIZE,
+                { size, message ->
+                    fail(BrickPatternGrammar(size = SquareGrid(size)), message)
+                },
+                { size ->
+                    success(BrickPatternGrammar(size = SquareGrid(size)))
+                },
+            )
         }
 
         @Test
