@@ -5,7 +5,7 @@ import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.util.InSettlementMap
 import at.orchaldir.gm.core.model.util.part.MadeFromWood
 import at.orchaldir.gm.core.model.util.render.Color
-import at.orchaldir.gm.core.model.visualization.Grammar
+import at.orchaldir.gm.core.model.visualization.ShapeGrammar
 import at.orchaldir.gm.core.model.visualization.RectangularShapeGrammar
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.settlement.*
@@ -23,7 +23,7 @@ import at.orchaldir.gm.utils.renderer.model.NoBorder
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
 import at.orchaldir.gm.visualization.grammar.GrammarRenderState
-import at.orchaldir.gm.visualization.grammar.visualizeGrammar
+import at.orchaldir.gm.visualization.grammar.visualizeShapeGrammar
 
 val TILE_SIZE = Distance.fromMeters(20)
 
@@ -33,7 +33,7 @@ fun createStreetGrammar(color: Color, material: MaterialId = MaterialId(0)) =
 private val DEFAULT_BUILDING_COLOR: (Building) -> Color = { _ -> Color.Black }
 private val DEFAULT_BUILDING_TEXT: (Building) -> String? = { _ -> null }
 private val DEFAULT_STREET_TYPE_GRAMMAR = createStreetGrammar(Color.Gray)
-private val DEFAULT_STREET_GRAMMAR: (StreetTile, Int) -> Grammar = { _, _ ->
+private val DEFAULT_STREET_GRAMMAR: (StreetTile, Int) -> ShapeGrammar = { _, _ ->
     DEFAULT_STREET_TYPE_GRAMMAR
 }
 private val DEFAULT_STREET_TEXT: (StreetTile, Int) -> String? = { _, _ -> null }
@@ -106,7 +106,7 @@ data class SettlementRenderer(
     }
 
     fun renderSimplifiedStreets(
-        colorLookup: (StreetTile, Int) -> Grammar = DEFAULT_STREET_GRAMMAR,
+        colorLookup: (StreetTile, Int) -> ShapeGrammar = DEFAULT_STREET_GRAMMAR,
         linkLookup: (StreetTile, Int) -> String? = DEFAULT_STREET_TEXT,
         tooltipLookup: (StreetTile, Int) -> String? = DEFAULT_STREET_TEXT,
     ) {
@@ -116,7 +116,7 @@ data class SettlementRenderer(
             val grammar = colorLookup(street, index)
 
             svgBuilder.optionalLinkAndTooltip(linkLookup(street, index), tooltipLookup(street, index)) {
-                visualizeGrammar(renderState, grammar, aabb)
+                visualizeShapeGrammar(renderState, grammar, aabb)
             }
         }
     }
@@ -196,7 +196,7 @@ fun visualizeSettlementMap(
     buildingColorLookup: (Building) -> Color = DEFAULT_BUILDING_COLOR,
     buildingLinkLookup: (Building) -> String? = DEFAULT_BUILDING_TEXT,
     buildingTooltipLookup: (Building) -> String? = DEFAULT_BUILDING_TEXT,
-    streetGrammarLookup: (StreetTile, Int) -> Grammar = DEFAULT_STREET_GRAMMAR,
+    streetGrammarLookup: (StreetTile, Int) -> ShapeGrammar = DEFAULT_STREET_GRAMMAR,
     streetLinkLookup: (StreetTile, Int) -> String? = DEFAULT_STREET_TEXT,
     streetTooltipLookup: (StreetTile, Int) -> String? = DEFAULT_STREET_TEXT,
 ): Svg {
@@ -218,7 +218,7 @@ fun SettlementTile.getColor() = when (terrain) {
     is RiverTerrain -> Color.Blue
 }
 
-fun getStreetTemplateGrammar(state: State): (StreetTile, Int) -> Grammar = { tile, _ ->
+fun getStreetTemplateGrammar(state: State): (StreetTile, Int) -> ShapeGrammar = { tile, _ ->
     state
         .getStreetTemplateStorage()
         .get(tile.templateId)

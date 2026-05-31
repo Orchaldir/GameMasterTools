@@ -16,17 +16,17 @@ import kotlinx.html.HtmlBlockTag
 
 // show
 
-fun HtmlBlockTag.showGrammar(
+fun HtmlBlockTag.showShapeGrammar(
     call: ApplicationCall,
     state: State,
-    grammar: Grammar,
+    grammar: ShapeGrammar,
     label: String = "Grammar",
 ) {
     showDetails(label, true) {
         field("Type", grammar.getType())
 
         when (grammar) {
-            DoNothingGrammar -> doNothing()
+            DoNothingShapeGrammar -> doNothing()
             is RectangularShapeGrammar -> {
                 field("Shape", grammar.shape)
                 showItemPart(call, state, grammar.part)
@@ -34,7 +34,7 @@ fun HtmlBlockTag.showGrammar(
             is BrickPatternGrammar -> {
                 showGridSize(grammar.size)
                 field("Pattern", grammar.pattern)
-                showGrammar(call, state, grammar.brick, "Brick")
+                showShapeGrammar(call, state, grammar.brick, "Brick")
                 
                 if (grammar.pattern != SingleBrickPattern.Grid) {
                     field("Brick Length", grammar.length)
@@ -46,9 +46,9 @@ fun HtmlBlockTag.showGrammar(
 
 // edit
 
-fun HtmlBlockTag.editGrammar(
+fun HtmlBlockTag.editShapeGrammar(
     state: State,
-    grammar: Grammar,
+    grammar: ShapeGrammar,
     param: String = GRAMMAR,
     label: String = "Grammar",
 ) {
@@ -56,25 +56,12 @@ fun HtmlBlockTag.editGrammar(
         selectValue(
             "Type",
             param,
-            GrammarType.entries,
+            ShapeGrammarType.entries,
             grammar.getType(),
         )
 
         when (grammar) {
-            DoNothingGrammar -> doNothing()
-            is RectangularShapeGrammar -> {
-                selectValue(
-                    "Shape",
-                    combine(param, SHAPE),
-                    RectangularShape.entries,
-                    grammar.shape,
-                )
-                editItemPart(
-                    state,
-                    grammar.part,
-                    combine(param, MATERIAL),
-                )
-            }
+            DoNothingShapeGrammar -> doNothing()
             is BrickPatternGrammar -> {
                 editGridSize(
                     grammar.size,
@@ -89,7 +76,7 @@ fun HtmlBlockTag.editGrammar(
                     SingleBrickPattern.entries,
                     grammar.pattern,
                 )
-                editGrammar(
+                editShapeGrammar(
                     state,
                     grammar.brick,
                     combine(param, SUB),
@@ -107,19 +94,32 @@ fun HtmlBlockTag.editGrammar(
                     )
                 }
             }
+            is RectangularShapeGrammar -> {
+                selectValue(
+                    "Shape",
+                    combine(param, SHAPE),
+                    RectangularShape.entries,
+                    grammar.shape,
+                )
+                editItemPart(
+                    state,
+                    grammar.part,
+                    combine(param, MATERIAL),
+                )
+            }
         }
     }
 }
 
 // parse
 
-fun parseGrammar(
+fun parseShapeGrammar(
     state: State,
     parameters: Parameters,
     param: String = GRAMMAR,
-): Grammar {
-    return when (parse(parameters, param, GrammarType.RectangularShape)) {
-        GrammarType.RectangularShape -> RectangularShapeGrammar(
+): ShapeGrammar {
+    return when (parse(parameters, param, ShapeGrammarType.RectangularShape)) {
+        ShapeGrammarType.RectangularShape -> RectangularShapeGrammar(
             parseItemPart(
                 state,
                 parameters,
@@ -128,8 +128,8 @@ fun parseGrammar(
             ),
             parse(parameters, combine(param, SHAPE), RectangularShape.Rectangle),
         )
-        GrammarType.BrickPattern -> BrickPatternGrammar(
-            parseGrammar(state, parameters, combine(param, SUB)),
+        ShapeGrammarType.BrickPattern -> BrickPatternGrammar(
+            parseShapeGrammar(state, parameters, combine(param, SUB)),
             parseGridSize(parameters, combine(param, SIZE)),
             parse(
                 parameters,
@@ -138,6 +138,6 @@ fun parseGrammar(
             ),
             parseInt(parameters, combine(param, LENGTH), DEFAULT_BRICK_LENGTH),
         )
-        GrammarType.DoNothing -> DoNothingGrammar
+        ShapeGrammarType.DoNothing -> DoNothingShapeGrammar
     }
 }

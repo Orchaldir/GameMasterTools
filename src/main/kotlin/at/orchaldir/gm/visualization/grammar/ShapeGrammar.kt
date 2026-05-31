@@ -1,7 +1,7 @@
 package at.orchaldir.gm.visualization.grammar
 
-import at.orchaldir.gm.core.model.visualization.DoNothingGrammar
-import at.orchaldir.gm.core.model.visualization.Grammar
+import at.orchaldir.gm.core.model.visualization.DoNothingShapeGrammar
+import at.orchaldir.gm.core.model.visualization.ShapeGrammar
 import at.orchaldir.gm.core.model.visualization.RectangularShapeGrammar
 import at.orchaldir.gm.core.model.visualization.BrickPatternGrammar
 import at.orchaldir.gm.utils.doNothing
@@ -10,20 +10,20 @@ import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Size2d
 
-fun visualizeGrammar(
+fun visualizeShapeGrammar(
     state: GrammarRenderState,
-    grammar: Grammar,
+    grammar: ShapeGrammar,
     aabb: AABB,
     layer: Int = 0,
 ): Unit = when (grammar) {
     is RectangularShapeGrammar -> visualizeRectangularShapeGrammar(state, grammar, aabb, layer)
     is BrickPatternGrammar -> visualizeSingleBrickGrammar(state, grammar, aabb, layer)
-    DoNothingGrammar -> doNothing()
+    DoNothingShapeGrammar -> doNothing()
 }
 
-fun visualizeGrammar(
+fun visualizeShapeGrammar(
     state: GrammarRenderState,
-    grammar: Grammar,
+    grammar: ShapeGrammar,
     gridStart: Point2d,
     blockSize: Size2d,
     x: Int,
@@ -40,5 +40,5 @@ fun visualizeGrammar(
         visualizeRectangularShapeGrammar(state, grammar, AABB(aabbStart, aabbSize), layer)
     }
     is BrickPatternGrammar -> doNothing()
-    DoNothingGrammar -> doNothing()
+    DoNothingShapeGrammar -> doNothing()
 }

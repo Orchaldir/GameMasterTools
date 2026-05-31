@@ -1,12 +1,10 @@
 package at.orchaldir.gm.core.model.world.street
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.economy.material.MaterialCost
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
-import at.orchaldir.gm.core.model.util.render.Color
-import at.orchaldir.gm.core.model.visualization.DoNothingGrammar
-import at.orchaldir.gm.core.model.visualization.Grammar
+import at.orchaldir.gm.core.model.visualization.DoNothingShapeGrammar
+import at.orchaldir.gm.core.model.visualization.ShapeGrammar
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
@@ -26,7 +24,7 @@ value class StreetTemplateId(val value: Int) : Id<StreetTemplateId> {
 data class StreetTemplate(
     val id: StreetTemplateId,
     val name: Name = Name.init(id),
-    val grammar: Grammar = DoNothingGrammar,
+    val grammar: ShapeGrammar = DoNothingShapeGrammar,
 ) : ElementWithSimpleName<StreetTemplateId> {
 
     override fun id() = id

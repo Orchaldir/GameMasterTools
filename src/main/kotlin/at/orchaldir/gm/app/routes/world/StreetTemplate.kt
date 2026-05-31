@@ -24,7 +24,7 @@ import at.orchaldir.gm.utils.renderer.model.toRender
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
 import at.orchaldir.gm.visualization.grammar.GrammarRenderState
-import at.orchaldir.gm.visualization.grammar.visualizeGrammar
+import at.orchaldir.gm.visualization.grammar.visualizeShapeGrammar
 import at.orchaldir.gm.visualization.settlement.TILE_SIZE
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -138,7 +138,7 @@ private fun visualizeStreetTemplate(
     val renderState = GrammarRenderState(state, builder, LINE_OPTIONS)
 
     builder.getLayer().renderRectangle(aabb, option)
-    visualizeGrammar(renderState, streetTemplate.grammar, aabb)
+    visualizeShapeGrammar(renderState, streetTemplate.grammar, aabb)
 
     return builder.finish()
 }

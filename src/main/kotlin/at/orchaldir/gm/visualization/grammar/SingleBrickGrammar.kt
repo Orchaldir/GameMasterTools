@@ -1,6 +1,6 @@
 package at.orchaldir.gm.visualization.grammar
 
-import at.orchaldir.gm.core.model.visualization.Grammar
+import at.orchaldir.gm.core.model.visualization.ShapeGrammar
 import at.orchaldir.gm.core.model.visualization.GridSize
 import at.orchaldir.gm.core.model.visualization.BrickPatternGrammar
 import at.orchaldir.gm.core.model.visualization.SingleBrickPattern
@@ -81,7 +81,7 @@ private fun visualizeBasketWeaveSingle(
         startY < limits.height - 2 -> n
         else -> null
     }?.let { offset ->
-        visualizeGrammar(
+        visualizeShapeGrammar(
             state,
             grammar.brick,
             gridStart,
@@ -118,7 +118,7 @@ private fun visualizeBasketWeaveN(
 
 private fun visualizeHorizontalBasketWeaveN(
     state: GrammarRenderState,
-    grammar: Grammar,
+    grammar: ShapeGrammar,
     gridStart: Point2d,
     blockSize: Size2d,
     x: Int,
@@ -133,7 +133,7 @@ private fun visualizeHorizontalBasketWeaveN(
         val currentY = y + offset
 
         if (currentY < limits.height) {
-            visualizeGrammar(
+            visualizeShapeGrammar(
                 state,
                 grammar,
                 gridStart,
@@ -150,7 +150,7 @@ private fun visualizeHorizontalBasketWeaveN(
 
 private fun visualizeVerticalBasketWeaveN(
     state: GrammarRenderState,
-    grammar: Grammar,
+    grammar: ShapeGrammar,
     gridStart: Point2d,
     blockSize: Size2d,
     x: Int,
@@ -165,7 +165,7 @@ private fun visualizeVerticalBasketWeaveN(
         val currentX = x + offset
 
         if (currentX < limits.width) {
-            visualizeGrammar(
+            visualizeShapeGrammar(
                 state,
                 grammar,
                 gridStart,
@@ -192,7 +192,7 @@ private fun visualizeGrid(
         var currentBrick = startOfRow
 
         repeat(gridSize.width) {
-            visualizeGrammar(
+            visualizeShapeGrammar(
                 state,
                 grammar.brick,
                 AABB(currentBrick, brickSize),
@@ -223,7 +223,7 @@ private fun visualizeHerringbone(
 
         while (x < gridSize.width) {
             if (x >= 0) {
-                visualizeGrammar(
+                visualizeShapeGrammar(
                     state,
                     grammar.brick,
                     gridStart,
@@ -236,7 +236,7 @@ private fun visualizeHerringbone(
                 )
             }
             else if (x > -length) {
-                visualizeGrammar(
+                visualizeShapeGrammar(
                     state,
                     grammar.brick,
                     gridStart,
@@ -253,7 +253,7 @@ private fun visualizeHerringbone(
                 x += length
 
                 repeat(length.coerceAtMost(gridSize.width - x)) { index ->
-                    visualizeGrammar(
+                    visualizeShapeGrammar(
                         state,
                         grammar.brick,
                         gridStart,
@@ -275,7 +275,7 @@ private fun visualizeHerringbone(
                     break
                 }
 
-                visualizeGrammar(
+                visualizeShapeGrammar(
                     state,
                     grammar.brick,
                     gridStart,
@@ -310,7 +310,7 @@ private fun visualizeRows(
             val length = calculateLength(x, y).coerceAtMost(gridSize.width - x)
             val brickSize = blockSize.replaceWidth(Factor.fromNumber(length))
 
-            visualizeGrammar(
+            visualizeShapeGrammar(
                 state,
                 grammar.brick,
                 AABB(currentBrick, brickSize),
