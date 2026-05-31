@@ -31,11 +31,12 @@ fun HtmlBlockTag.showShapeGrammar(
                 field("Shape", grammar.shape)
                 showItemPart(call, state, grammar.part)
             }
+
             is BrickPatternGrammar -> {
                 showGridSize(grammar.size)
                 field("Pattern", grammar.pattern)
                 showShapeGrammar(call, state, grammar.brick, "Brick")
-                
+
                 if (grammar.pattern != SingleBrickPattern.Grid) {
                     field("Brick Length", grammar.length)
                 }
@@ -94,6 +95,7 @@ fun HtmlBlockTag.editShapeGrammar(
                     )
                 }
             }
+
             is RectangularShapeGrammar -> {
                 selectValue(
                     "Shape",
@@ -128,6 +130,7 @@ fun parseShapeGrammar(
             ),
             parse(parameters, combine(param, SHAPE), RectangularShape.Rectangle),
         )
+
         ShapeGrammarType.BrickPattern -> BrickPatternGrammar(
             parseShapeGrammar(state, parameters, combine(param, SUB)),
             parseGridSize(parameters, combine(param, SIZE)),
@@ -138,6 +141,7 @@ fun parseShapeGrammar(
             ),
             parseInt(parameters, combine(param, LENGTH), DEFAULT_BRICK_LENGTH),
         )
+
         ShapeGrammarType.DoNothing -> DoNothingShapeGrammar
     }
 }

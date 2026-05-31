@@ -127,7 +127,7 @@ fun <C, R> renderCharacterTable(
     create: (Distance, C, R) -> Pair<Appearance, EquipmentElementMap>,
 ) {
     val height = fromMillimeters(2000)
-    val dataMap = mutableMapOf<Pair<R, C>, Triple<Appearance, EquipmentElementMap, PaddedSize>>()
+    mutableMapOf<Pair<R, C>, Triple<Appearance, EquipmentElementMap, PaddedSize>>()
 
     renderTable(
         filename,

@@ -1,9 +1,5 @@
 package at.orchaldir.gm.core.model.visualization
 
-import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.ecology.plant.appearance.MAX_BRANCHES
-import at.orchaldir.gm.core.model.ecology.plant.appearance.MIN_BRANCHES
-import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Point2d

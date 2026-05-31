@@ -17,8 +17,8 @@ fun main() {
         "grammar-rectangular-shapes.svg",
         listOf(
             Pair("Horizontal", Size2d.fromMeters(1.0f, 0.5f)),
-            Pair("Vertical", Size2d.fromMeters( 0.5f, 1.0f)),
-            Pair("Square", Size2d.fromMeters( 0.5f)),
+            Pair("Vertical", Size2d.fromMeters(0.5f, 1.0f)),
+            Pair("Square", Size2d.fromMeters(0.5f)),
         ),
         addNames(RectangularShape.entries),
         ::createGrammar,

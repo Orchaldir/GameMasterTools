@@ -1,8 +1,8 @@
 package at.orchaldir.gm.visualization.grammar
 
-import at.orchaldir.gm.core.model.visualization.ShapeGrammar
-import at.orchaldir.gm.core.model.visualization.GridSize
 import at.orchaldir.gm.core.model.visualization.BrickPatternGrammar
+import at.orchaldir.gm.core.model.visualization.GridSize
+import at.orchaldir.gm.core.model.visualization.ShapeGrammar
 import at.orchaldir.gm.core.model.visualization.SingleBrickPattern
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.math.AABB
@@ -219,7 +219,11 @@ private fun visualizeHerringbone(
 
     repeat(gridSize.height) { y ->
         val modulo = y % doubleLength
-        var x = if (modulo == 0) { 0 } else { modulo - doubleLength }
+        var x = if (modulo == 0) {
+            0
+        } else {
+            modulo - doubleLength
+        }
 
         while (x < gridSize.width) {
             if (x >= 0) {
@@ -234,8 +238,7 @@ private fun visualizeHerringbone(
                     gridSize,
                     layer,
                 )
-            }
-            else if (x > -length) {
+            } else if (x > -length) {
                 visualizeShapeGrammar(
                     state,
                     grammar.brick,
@@ -267,8 +270,7 @@ private fun visualizeHerringbone(
 
                     x += 1
                 }
-            }
-            else {
+            } else {
                 x += doubleLength - 1
 
                 if (x >= gridSize.width) {

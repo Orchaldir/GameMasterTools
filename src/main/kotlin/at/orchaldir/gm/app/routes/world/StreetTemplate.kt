@@ -1,7 +1,8 @@
 package at.orchaldir.gm.app.routes.world
 
 import at.orchaldir.gm.app.STORE
-import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.createNameColumn
+import at.orchaldir.gm.app.html.svg
 import at.orchaldir.gm.app.html.world.editStreetTemplate
 import at.orchaldir.gm.app.html.world.parseStreetTemplate
 import at.orchaldir.gm.app.html.world.showStreetTemplate
@@ -72,7 +73,7 @@ fun Application.configureStreetTemplateRouting() {
     routing {
         get<StreetTemplateRoutes.All> { all ->
             val state = STORE.getState()
-            val currency = state.getDefaultCurrency()
+            state.getDefaultCurrency()
 
             handleShowAllElements(
                 StreetTemplateRoutes(),

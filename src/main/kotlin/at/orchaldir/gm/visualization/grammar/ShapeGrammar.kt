@@ -1,9 +1,9 @@
 package at.orchaldir.gm.visualization.grammar
 
-import at.orchaldir.gm.core.model.visualization.DoNothingShapeGrammar
-import at.orchaldir.gm.core.model.visualization.ShapeGrammar
-import at.orchaldir.gm.core.model.visualization.RectangularShapeGrammar
 import at.orchaldir.gm.core.model.visualization.BrickPatternGrammar
+import at.orchaldir.gm.core.model.visualization.DoNothingShapeGrammar
+import at.orchaldir.gm.core.model.visualization.RectangularShapeGrammar
+import at.orchaldir.gm.core.model.visualization.ShapeGrammar
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.math.AABB
@@ -39,6 +39,7 @@ fun visualizeShapeGrammar(
 
         visualizeRectangularShapeGrammar(state, grammar, AABB(aabbStart, aabbSize), layer)
     }
+
     is BrickPatternGrammar -> doNothing()
     DoNothingShapeGrammar -> doNothing()
 }

@@ -14,7 +14,7 @@ data class GrammarRenderState(
     val state: State,
     val renderer: MultiLayerRenderer,
     val line: LineOptions,
-    val colors: Colors = UndefinedColors
+    val colors: Colors = UndefinedColors,
 ) : RenderState {
 
     override fun state() = state

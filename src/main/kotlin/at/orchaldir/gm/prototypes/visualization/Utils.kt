@@ -3,10 +3,7 @@ package at.orchaldir.gm.prototypes.visualization
 import at.orchaldir.gm.core.model.economy.material.*
 import at.orchaldir.gm.core.model.util.HorizontalAlignment.End
 import at.orchaldir.gm.core.model.util.render.Color
-import at.orchaldir.gm.prototypes.visualization.plant.PLANT_CONFIG
 import at.orchaldir.gm.utils.math.AABB
-import at.orchaldir.gm.utils.math.END
-import at.orchaldir.gm.utils.math.HALF
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.unit.Orientation
@@ -16,8 +13,6 @@ import at.orchaldir.gm.utils.renderer.model.RenderStringOptions
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
 import at.orchaldir.gm.visualization.character.appearance.PaddedSize
 import at.orchaldir.gm.visualization.character.appearance.TEXT_LAYER
-import at.orchaldir.gm.visualization.plant.PlantRenderState
-import at.orchaldir.gm.visualization.plant.visualization.visualizePlant
 import java.io.File
 
 fun mockMaterial(

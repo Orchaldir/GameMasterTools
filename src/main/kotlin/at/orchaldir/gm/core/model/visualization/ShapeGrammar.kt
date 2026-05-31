@@ -44,9 +44,11 @@ sealed class ShapeGrammar {
             checkInt(length, "${label}'s brick length", MIN_BRICK_LENGTH, MAX_BRICK_LENGTH)
             brick.validate(state, "$label's brick")
         }
+
         is RectangularShapeGrammar -> {
             validateItemPart(state, part, ItemPartType.entries)
         }
+
         DoNothingShapeGrammar -> doNothing()
     }
 

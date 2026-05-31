@@ -1,11 +1,6 @@
 package at.orchaldir.gm.core.reducer.world
 
-import at.orchaldir.gm.MATERIAL_ID_0
-import at.orchaldir.gm.NAME
-import at.orchaldir.gm.STREET_TEMPLATE_ID_0
-import at.orchaldir.gm.STREET_TEMPLATE_ID_1
-import at.orchaldir.gm.UNKNOWN_MATERIAL_ID
-import at.orchaldir.gm.assertFailMessage
+import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.Material
@@ -21,10 +16,12 @@ import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
 class StreetTemplateTest {
-    val state = State(listOf(
-        Storage(Material(MATERIAL_ID_0, properties = MaterialProperties(Wood()))),
-        Storage(StreetTemplate(STREET_TEMPLATE_ID_0)),
-    ))
+    val state = State(
+        listOf(
+            Storage(Material(MATERIAL_ID_0, properties = MaterialProperties(Wood()))),
+            Storage(StreetTemplate(STREET_TEMPLATE_ID_0)),
+        )
+    )
 
     @Nested
     inner class UpdateTest {

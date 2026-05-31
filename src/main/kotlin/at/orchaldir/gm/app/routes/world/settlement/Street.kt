@@ -12,7 +12,6 @@ import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.world.settlement.SettlementMap
 import at.orchaldir.gm.core.model.world.street.StreetId
 import at.orchaldir.gm.core.model.world.street.StreetTemplateId
-import at.orchaldir.gm.core.selector.util.getBuildingsIn
 import at.orchaldir.gm.visualization.settlement.createStreetGrammar
 import at.orchaldir.gm.visualization.settlement.visualizeSettlementMap
 import io.ktor.http.*

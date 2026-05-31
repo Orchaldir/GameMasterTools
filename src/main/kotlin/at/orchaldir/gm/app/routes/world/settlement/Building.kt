@@ -8,7 +8,6 @@ import at.orchaldir.gm.app.routes.world.BuildingRoutes
 import at.orchaldir.gm.core.action.AddBuilding
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.settlement.SettlementMap
-import at.orchaldir.gm.core.selector.util.getBuildingsIn
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.visualization.settlement.visualizeSettlementMap

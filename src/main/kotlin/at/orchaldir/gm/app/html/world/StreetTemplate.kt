@@ -1,6 +1,9 @@
 package at.orchaldir.gm.app.html.world
 
-import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.fieldElements
+import at.orchaldir.gm.app.html.parseInt
+import at.orchaldir.gm.app.html.parseName
+import at.orchaldir.gm.app.html.selectName
 import at.orchaldir.gm.app.html.visualization.editShapeGrammar
 import at.orchaldir.gm.app.html.visualization.parseShapeGrammar
 import at.orchaldir.gm.app.html.visualization.showShapeGrammar

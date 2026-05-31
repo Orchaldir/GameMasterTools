@@ -7,7 +7,6 @@ import at.orchaldir.gm.core.model.character.appearance.SkinType
 import at.orchaldir.gm.core.model.ecology.plant.Plant
 import at.orchaldir.gm.core.model.ecology.plant.Tree
 import at.orchaldir.gm.core.model.economy.material.Material
-import at.orchaldir.gm.core.model.economy.material.MaterialCost
 import at.orchaldir.gm.core.model.economy.material.MaterialProperties
 import at.orchaldir.gm.core.model.economy.material.Rock
 import at.orchaldir.gm.core.model.economy.money.Coin

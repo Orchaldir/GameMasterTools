@@ -14,10 +14,10 @@ private const val MAX = 4
 
 class GridSizeTest {
 
-        @Test
-        fun `Test the SquareGridbrick length`() {
-            test("test's size", ::SquareGrid)
-        }
+    @Test
+    fun `Test the SquareGridbrick length`() {
+        test("test's size", ::SquareGrid)
+    }
 
     @Nested
     inner class RowsAndColumnsTest {

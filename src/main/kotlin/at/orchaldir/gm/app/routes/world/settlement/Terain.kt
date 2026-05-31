@@ -12,7 +12,6 @@ import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.world.settlement.SettlementMap
 import at.orchaldir.gm.core.model.world.settlement.TerrainType
 import at.orchaldir.gm.core.model.world.terrain.RegionDataType
-import at.orchaldir.gm.core.selector.util.getBuildingsIn
 import at.orchaldir.gm.core.selector.world.*
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing

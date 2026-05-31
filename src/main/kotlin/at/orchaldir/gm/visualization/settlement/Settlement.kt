@@ -5,8 +5,8 @@ import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.util.InSettlementMap
 import at.orchaldir.gm.core.model.util.part.MadeFromWood
 import at.orchaldir.gm.core.model.util.render.Color
-import at.orchaldir.gm.core.model.visualization.ShapeGrammar
 import at.orchaldir.gm.core.model.visualization.RectangularShapeGrammar
+import at.orchaldir.gm.core.model.visualization.ShapeGrammar
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.settlement.*
 import at.orchaldir.gm.core.selector.util.getBuildingsIn

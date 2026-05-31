@@ -16,7 +16,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.world.settlement.SettlementMap
 import at.orchaldir.gm.core.selector.character.countResidents
 import at.orchaldir.gm.core.selector.util.countBuildingsIn
-import at.orchaldir.gm.core.selector.util.getBuildingsIn
 import at.orchaldir.gm.core.selector.util.sortSettlementMaps
 import at.orchaldir.gm.core.selector.world.getRegions
 import at.orchaldir.gm.core.selector.world.getRivers

@@ -53,6 +53,7 @@ fun HtmlBlockTag.editGridSize(
                 minSize,
                 maxSize,
             )
+
             is SquareGrid -> selectInt(
                 "Size",
                 size.size,
@@ -77,6 +78,7 @@ fun parseGridSize(
         GridSizeType.RowsAndColumns -> RowsAndColumns(
             parseMapSize(parameters, sizeParam, 10),
         )
+
         GridSizeType.Square -> SquareGrid(
             parseInt(parameters, combine(sizeParam, NUMBER), 10),
         )
