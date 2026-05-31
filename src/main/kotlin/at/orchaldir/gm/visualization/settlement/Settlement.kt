@@ -84,7 +84,7 @@ data class SettlementRenderer(
         }
     }
 
-    fun renderStreets(
+    fun renderSimplifiedStreets(
         colorLookup: (StreetTile, Int) -> Color = DEFAULT_STREET_COLOR,
         linkLookup: (StreetTile, Int) -> String? = DEFAULT_STREET_TEXT,
         tooltipLookup: (StreetTile, Int) -> String? = DEFAULT_STREET_TEXT,
@@ -93,7 +93,7 @@ data class SettlementRenderer(
             val color = colorLookup(street, index)
 
             svgBuilder.optionalLinkAndTooltip(linkLookup(street, index), tooltipLookup(street, index)) {
-                renderStreet(it, aabb, color)
+                renderSimplifiedStreet(it, aabb, color)
             }
         }
     }
@@ -149,7 +149,7 @@ data class SettlementRenderer(
     fun finish() = svgBuilder.finish()
 }
 
-fun renderStreet(renderer: LayerRenderer, tile: AABB, color: Color) {
+fun renderSimplifiedStreet(renderer: LayerRenderer, tile: AABB, color: Color) {
     val style = NoBorder(color.toRender())
     renderer.renderRectangle(tile.shrink(HALF), style)
 }
@@ -172,7 +172,7 @@ fun visualizeSettlementMap(
     settlementRenderer.renderTiles(tileColorLookup, tileLinkLookup, tileTooltipLookup)
     settlementRenderer.renderAbstractBuildings()
     settlementRenderer.renderBuildings(buildings, buildingColorLookup, buildingLinkLookup, buildingTooltipLookup)
-    settlementRenderer.renderStreets(streetColorLookup, streetLinkLookup, streetTooltipLookup)
+    settlementRenderer.renderSimplifiedStreets(streetColorLookup, streetLinkLookup, streetTooltipLookup)
 
     return settlementRenderer.finish()
 }

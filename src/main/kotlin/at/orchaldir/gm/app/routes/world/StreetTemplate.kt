@@ -2,8 +2,6 @@ package at.orchaldir.gm.app.routes.world
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.Column.Companion.tdColumn
-import at.orchaldir.gm.app.html.economy.money.displayPrice
 import at.orchaldir.gm.app.html.world.editStreetTemplate
 import at.orchaldir.gm.app.html.world.parseStreetTemplate
 import at.orchaldir.gm.app.html.world.showStreetTemplate
@@ -28,7 +26,6 @@ import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
 import at.orchaldir.gm.visualization.grammar.GrammarRenderState
 import at.orchaldir.gm.visualization.grammar.visualizeGrammar
 import at.orchaldir.gm.visualization.settlement.TILE_SIZE
-import at.orchaldir.gm.visualization.settlement.renderStreet
 import io.ktor.resources.*
 import io.ktor.server.application.*
 import io.ktor.server.resources.*
