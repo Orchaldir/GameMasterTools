@@ -5,6 +5,8 @@ import at.orchaldir.gm.core.model.economy.material.MaterialCost
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.render.Color
+import at.orchaldir.gm.core.model.visualization.DoNothingGrammar
+import at.orchaldir.gm.core.model.visualization.Grammar
 import at.orchaldir.gm.utils.Id
 import kotlinx.serialization.Serializable
 
@@ -24,7 +26,7 @@ value class StreetTemplateId(val value: Int) : Id<StreetTemplateId> {
 data class StreetTemplate(
     val id: StreetTemplateId,
     val name: Name = Name.init(id),
-    val color: Color = Color.Gray,
+    val grammar: Grammar = DoNothingGrammar,
     val materialCost: MaterialCost = MaterialCost(),
 ) : ElementWithSimpleName<StreetTemplateId> {
 

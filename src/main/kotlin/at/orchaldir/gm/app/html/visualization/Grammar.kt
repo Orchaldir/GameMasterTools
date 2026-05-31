@@ -97,7 +97,6 @@ fun HtmlBlockTag.editGrammar(
                 )
 
                 if (grammar.pattern != SingleBrickPattern.Grid) {
-                    field("Brick Length", grammar.length)
                     selectInt(
                         "Brick Length",
                         grammar.length,

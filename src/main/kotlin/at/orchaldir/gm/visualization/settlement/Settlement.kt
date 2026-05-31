@@ -185,10 +185,7 @@ fun SettlementTile.getColor() = when (terrain) {
 }
 
 fun getStreetTemplateFill(state: State): (StreetTile, Int) -> Color = { tile, _ ->
-    state
-        .getStreetTemplateStorage()
-        .get(tile.templateId)
-        ?.color ?: Color.Pink
+    Color.Pink  // TODO
 }
 
 fun showSelectedBuilding(selected: Building): (Building) -> Color = { building ->

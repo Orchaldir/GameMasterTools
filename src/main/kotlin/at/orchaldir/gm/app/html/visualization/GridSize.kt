@@ -78,7 +78,7 @@ fun parseGridSize(
             parseMapSize(parameters, sizeParam, 10),
         )
         GridSizeType.Square -> SquareGrid(
-            parseInt(parameters, sizeParam, 10),
+            parseInt(parameters, combine(sizeParam, NUMBER), 10),
         )
     }
 }
