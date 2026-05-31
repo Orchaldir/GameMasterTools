@@ -178,7 +178,7 @@ fun HtmlBlockTag.editItemPart(
                 selectColor(state, param, part.color)
             }
             is MadeFromStone -> {
-                selectMaterial(state, materialParam, part.material, papers)
+                selectMaterial(state, materialParam, part.material, stones)
                 selectColor(state, param, part.color)
             }
 
@@ -215,12 +215,12 @@ fun parseItemPart(
     state: State,
     parameters: Parameters,
     param: String,
-    default: ItemPartType,
+    allowedType: ItemPartType,
 ) = parseItemPart(
     state,
     parameters,
     param,
-    listOf(default),
+    listOf(allowedType),
 )
 
 fun parseItemPart(

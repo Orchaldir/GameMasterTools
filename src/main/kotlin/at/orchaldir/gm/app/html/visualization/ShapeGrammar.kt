@@ -70,7 +70,6 @@ fun HtmlBlockTag.editShapeGrammar(
                     MIN_GRID_SIZE,
                     MAX_GRID_SIZE,
                 )
-                field("Pattern", grammar.pattern)
                 selectValue(
                     "Pattern",
                     combine(param, PATTERN),
@@ -126,7 +125,7 @@ fun parseShapeGrammar(
                 state,
                 parameters,
                 combine(param, MATERIAL),
-                ItemPartType.Wood,
+                ItemPartType.entries,
             ),
             parse(parameters, combine(param, SHAPE), RectangularShape.Rectangle),
         )
