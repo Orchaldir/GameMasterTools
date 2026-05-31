@@ -4,12 +4,11 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.part.MadeFromWood
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.visualization.RectangularShapeGrammar
-import at.orchaldir.gm.core.model.visualization.SingleBrickGrammar
+import at.orchaldir.gm.core.model.visualization.BrickPatternGrammar
 import at.orchaldir.gm.core.model.visualization.SingleBrickPattern
 import at.orchaldir.gm.core.model.visualization.SquareGrid
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.utils.math.Size2d
-import at.orchaldir.gm.utils.math.shape.RectangularShape
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.visualization.character.appearance.PaddedSize
 
@@ -24,7 +23,7 @@ fun main() {
 }
 
 private fun createGrammar(pattern: SingleBrickPattern, length: Int) = Pair(
-    SingleBrickGrammar(
+    BrickPatternGrammar(
         RectangularShapeGrammar(
             MadeFromWood(color = Color.Gray),
         ),

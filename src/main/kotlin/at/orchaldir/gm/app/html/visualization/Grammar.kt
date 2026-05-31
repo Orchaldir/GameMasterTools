@@ -31,7 +31,7 @@ fun HtmlBlockTag.showGrammar(
                 field("Shape", grammar.shape)
                 showItemPart(call, state, grammar.part)
             }
-            is SingleBrickGrammar -> {
+            is BrickPatternGrammar -> {
                 showGridSize(grammar.size)
                 field("Pattern", grammar.pattern)
                 showGrammar(call, state, grammar.brick, "Brick")
@@ -75,7 +75,7 @@ fun HtmlBlockTag.editGrammar(
                     combine(param, MATERIAL),
                 )
             }
-            is SingleBrickGrammar -> {
+            is BrickPatternGrammar -> {
                 editGridSize(
                     grammar.size,
                     combine(param, SIZE),
@@ -128,7 +128,7 @@ fun parseGrammar(
             ),
             parse(parameters, combine(param, SHAPE), RectangularShape.Rectangle),
         )
-        GrammarType.SingleBrick -> SingleBrickGrammar(
+        GrammarType.BrickPattern -> BrickPatternGrammar(
             parseGrammar(state, parameters, combine(param, SUB)),
             parseGridSize(parameters, combine(param, SIZE)),
             parse(

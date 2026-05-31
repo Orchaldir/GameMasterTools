@@ -115,7 +115,8 @@ private fun HTML.showTerrainEditor(
         }, {
             svg(
                 visualizeSettlementMap(
-                    settlementMap, state.getBuildingsIn(settlementMap.id),
+                    state,
+                    settlementMap,
                     tileLinkLookup = { index, _ ->
                         call.application.href(
                             SettlementMapRoutes.TerrainRoutes.Update(

@@ -2,7 +2,7 @@ package at.orchaldir.gm.visualization.grammar
 
 import at.orchaldir.gm.core.model.visualization.Grammar
 import at.orchaldir.gm.core.model.visualization.GridSize
-import at.orchaldir.gm.core.model.visualization.SingleBrickGrammar
+import at.orchaldir.gm.core.model.visualization.BrickPatternGrammar
 import at.orchaldir.gm.core.model.visualization.SingleBrickPattern
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.math.AABB
@@ -14,7 +14,7 @@ import kotlin.math.floor
 
 fun visualizeSingleBrickGrammar(
     state: GrammarRenderState,
-    grammar: SingleBrickGrammar,
+    grammar: BrickPatternGrammar,
     aabb: AABB,
     layer: Int,
 ) = when (grammar.pattern) {
@@ -46,7 +46,7 @@ fun visualizeSingleBrickGrammar(
 
 private fun visualizeBasketWeaveSingle(
     state: GrammarRenderState,
-    grammar: SingleBrickGrammar,
+    grammar: BrickPatternGrammar,
     aabb: AABB,
     layer: Int,
     n: Int,
@@ -97,7 +97,7 @@ private fun visualizeBasketWeaveSingle(
 
 private fun visualizeBasketWeaveN(
     state: GrammarRenderState,
-    grammar: SingleBrickGrammar,
+    grammar: BrickPatternGrammar,
     aabb: AABB,
     layer: Int,
     n: Int,
@@ -182,7 +182,7 @@ private fun visualizeVerticalBasketWeaveN(
 
 private fun visualizeGrid(
     state: GrammarRenderState,
-    grammar: SingleBrickGrammar,
+    grammar: BrickPatternGrammar,
     aabb: AABB,
     layer: Int,
 ) = grammar.size.process(aabb) { start, gridSize, brickSize ->
@@ -208,7 +208,7 @@ private fun visualizeGrid(
 
 private fun visualizeHerringbone(
     state: GrammarRenderState,
-    grammar: SingleBrickGrammar,
+    grammar: BrickPatternGrammar,
     aabb: AABB,
     layer: Int,
     length: Int,
@@ -295,7 +295,7 @@ private fun visualizeHerringbone(
 
 private fun visualizeRows(
     state: GrammarRenderState,
-    grammar: SingleBrickGrammar,
+    grammar: BrickPatternGrammar,
     aabb: AABB,
     layer: Int,
     calculateLength: (Int, Int) -> Int,

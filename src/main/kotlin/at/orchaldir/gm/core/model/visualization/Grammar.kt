@@ -13,8 +13,8 @@ var MIN_GRID_SIZE = 2
 var MAX_GRID_SIZE = 1000
 
 enum class GrammarType {
+    BrickPattern,
     RectangularShape,
-    SingleBrick,
     DoNothing,
 }
 
@@ -23,32 +23,32 @@ sealed class Grammar {
 
     fun getType() = when (this) {
         is RectangularShapeGrammar -> GrammarType.RectangularShape
-        is SingleBrickGrammar -> GrammarType.SingleBrick
+        is BrickPatternGrammar -> GrammarType.BrickPattern
         DoNothingGrammar -> GrammarType.DoNothing
     }
 
     fun contains(material: MaterialId): Boolean = when (this) {
+        is BrickPatternGrammar -> brick.contains(material)
         is RectangularShapeGrammar -> part.contains(material)
-        is SingleBrickGrammar -> brick.contains(material)
         DoNothingGrammar -> false
     }
 
 }
 
 @Serializable
-@SerialName("RectangularShape")
-data class RectangularShapeGrammar(
-    val part: ItemPart,
-    val shape: RectangularShape = RectangularShape.Rectangle,
-) : Grammar()
-
-@Serializable
-@SerialName("SingleBrick")
-data class SingleBrickGrammar(
+@SerialName("BrickPattern")
+data class BrickPatternGrammar(
     val brick: Grammar,
     val size: GridSize,
     val pattern: SingleBrickPattern = SingleBrickPattern.Running,
     val length: Int = DEFAULT_BRICK_LENGTH,
+) : Grammar()
+
+@Serializable
+@SerialName("RectangularShape")
+data class RectangularShapeGrammar(
+    val part: ItemPart,
+    val shape: RectangularShape = RectangularShape.Rectangle,
 ) : Grammar()
 
 @Serializable

@@ -19,7 +19,6 @@ import at.orchaldir.gm.core.model.world.building.BUILDING_TYPE
 import at.orchaldir.gm.core.model.world.building.Building
 import at.orchaldir.gm.core.model.world.building.BuildingId
 import at.orchaldir.gm.core.selector.character.countCharactersLivingInHouse
-import at.orchaldir.gm.core.selector.util.getBuildingsIn
 import at.orchaldir.gm.core.selector.util.sortBuildings
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.renderer.svg.Svg
@@ -247,9 +246,8 @@ private fun visualizeBuildingLot(
     val settlementMap = state.getSettlementMapStorage().getOrThrow(position.map)
 
     return visualizeSettlementMap(
+        state,
         settlementMap,
-        state.getBuildingsIn(settlementMap.id)
-            .filter { it.id != selected.id } + selected,
         buildingColorLookup = showSelectedBuilding(selected),
         buildingLinkLookup = { b ->
             call.application.href(BuildingRoutes.Details(b.id))
@@ -270,8 +268,8 @@ private fun visualizeBuildingLotEditor(
     val settlementMap = state.getSettlementMapStorage().getOrThrow(position.map)
 
     return visualizeSettlementMap(
+        state,
         settlementMap,
-        state.getBuildingsIn(settlementMap.id),
         tileLinkLookup = { index, _ ->
             if (settlementMap.canResize(index, size, building.id)) {
                 call.application.href(BuildingRoutes.Lot.Update(building.id, index, size))

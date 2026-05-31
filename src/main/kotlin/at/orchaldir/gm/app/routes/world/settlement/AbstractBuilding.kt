@@ -116,7 +116,8 @@ fun visualizeAbstractBuildingEditor(
     size: MapSize2d,
 ): Svg {
     return visualizeSettlementMap(
-        settlement, state.getBuildingsIn(settlement.id),
+        state,
+        settlement,
         tileLinkLookup = { index, tile ->
             when (tile.construction) {
                 NoConstruction -> call.application.href(Add(settlement.id, index, size))

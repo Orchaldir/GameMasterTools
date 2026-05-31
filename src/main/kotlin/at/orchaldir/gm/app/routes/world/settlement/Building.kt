@@ -102,7 +102,8 @@ fun visualizeBuildingEditor(
     size: MapSize2d,
 ): Svg {
     return visualizeSettlementMap(
-        settlementMap, state.getBuildingsIn(settlementMap.id),
+        state,
+        settlementMap,
         tileLinkLookup = { index, _ ->
             if (settlementMap.canBuild(index, size)) {
                 call.application.href(SettlementMapRoutes.BuildingRoutes.Add(settlementMap.id, index, size))
