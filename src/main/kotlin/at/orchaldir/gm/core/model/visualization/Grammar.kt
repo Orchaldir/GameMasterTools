@@ -1,7 +1,12 @@
 package at.orchaldir.gm.core.model.visualization
 
+import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.util.part.ItemPart
+import at.orchaldir.gm.core.model.util.part.ItemPartType
+import at.orchaldir.gm.core.reducer.util.part.validateItemPart
+import at.orchaldir.gm.utils.doNothing
+import at.orchaldir.gm.utils.math.checkInt
 import at.orchaldir.gm.utils.math.shape.RectangularShape
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -22,8 +27,8 @@ enum class GrammarType {
 sealed class Grammar {
 
     fun getType() = when (this) {
-        is RectangularShapeGrammar -> GrammarType.RectangularShape
         is BrickPatternGrammar -> GrammarType.BrickPattern
+        is RectangularShapeGrammar -> GrammarType.RectangularShape
         DoNothingGrammar -> GrammarType.DoNothing
     }
 
@@ -31,6 +36,18 @@ sealed class Grammar {
         is BrickPatternGrammar -> brick.contains(material)
         is RectangularShapeGrammar -> part.contains(material)
         DoNothingGrammar -> false
+    }
+
+    fun validate(state: State, label: String): Unit = when (this) {
+        is BrickPatternGrammar -> {
+            size.validate(label, MIN_GRID_SIZE, MAX_GRID_SIZE)
+            checkInt(length, "${label}'s brick length", MIN_BRICK_LENGTH, MAX_BRICK_LENGTH)
+            brick.validate(state, "$label's brick")
+        }
+        is RectangularShapeGrammar -> {
+            validateItemPart(state, part, ItemPartType.entries)
+        }
+        DoNothingGrammar -> doNothing()
     }
 
 }

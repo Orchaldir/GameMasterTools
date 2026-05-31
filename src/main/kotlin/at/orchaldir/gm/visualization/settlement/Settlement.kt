@@ -1,6 +1,7 @@
 package at.orchaldir.gm.visualization.settlement
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.util.InSettlementMap
 import at.orchaldir.gm.core.model.util.part.MadeFromWood
 import at.orchaldir.gm.core.model.util.render.Color
@@ -26,7 +27,8 @@ import at.orchaldir.gm.visualization.grammar.visualizeGrammar
 
 val TILE_SIZE = Distance.fromMeters(20)
 
-fun createStreetGrammar(color: Color) = RectangularShapeGrammar(MadeFromWood(color))
+fun createStreetGrammar(color: Color, material: MaterialId = MaterialId(0)) =
+    RectangularShapeGrammar(MadeFromWood(material, color))
 
 private val DEFAULT_BUILDING_COLOR: (Building) -> Color = { _ -> Color.Black }
 private val DEFAULT_BUILDING_TEXT: (Building) -> String? = { _ -> null }

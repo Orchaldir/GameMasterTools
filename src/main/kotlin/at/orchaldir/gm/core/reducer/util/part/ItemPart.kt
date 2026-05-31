@@ -30,5 +30,10 @@ fun validateItemPart(
         is MadeFromWood -> setOf(MaterialCategoryType.Wood)
     }
 
-    state.getMaterialIds(categories).contains(part.material())
+    val material = part.material()
+
+    state.getMaterialStorage().require(material)
+    require(state.getMaterialIds(categories).contains(material)) {
+        "${material.print()} is not of the correct category!"
+    }
 }
