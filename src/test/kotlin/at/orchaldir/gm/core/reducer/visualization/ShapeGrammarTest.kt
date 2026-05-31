@@ -34,6 +34,14 @@ class ShapeGrammarTest {
     inner class BrickPatternGrammarTest {
 
         @Test
+        fun `Test invalid brick`() {
+            val brick = RectangularShapeGrammar(MadeFromMetal(UNKNOWN_MATERIAL_ID))
+            val grammar = BrickPatternGrammar(brick)
+
+            fail(grammar, "Requires unknown Material 99!")
+        }
+
+        @Test
         fun `Test the brick length`() {
             assertInt(
                 "test's brick length",
