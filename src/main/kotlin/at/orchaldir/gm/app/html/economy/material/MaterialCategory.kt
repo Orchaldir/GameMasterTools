@@ -30,12 +30,14 @@ fun HtmlBlockTag.displayMaterialCategory(
     category: MaterialCategory,
 ) = when (category) {
     is UndefinedMaterialCategory -> doNothing()
-    is Alloy -> {
+    is Alloy -> if (category.components.map.isNotEmpty()) {
         +"Alloy of "
         showInlineIds(call, state, category.components.map.keys)
+    } else {
+        +"Alloy"
     }
 
-    is Rock -> +"${category.type} ${category.type}"
+    is Rock -> +"${category.type} ${category.getType()}"
     else -> +category.getType().name
 }
 
@@ -115,13 +117,7 @@ fun HtmlBlockTag.editMaterialCategory(
             combine(CATEGORY, TYPE),
             MaterialCategoryType.entries,
             category.getType(),
-        ) {
-            when (it) {
-                MaterialCategoryType.Alloy -> materialsForAlloy.size < 2
-                MaterialCategoryType.Rock -> materialsForRock.size < 2
-                else -> false
-            }
-        }
+        )
 
         when (category) {
             is Alloy -> {
