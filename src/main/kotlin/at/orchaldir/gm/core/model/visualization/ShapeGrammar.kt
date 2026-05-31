@@ -55,8 +55,8 @@ sealed class ShapeGrammar {
 @Serializable
 @SerialName("BrickPattern")
 data class BrickPatternGrammar(
-    val brick: ShapeGrammar,
-    val size: GridSize,
+    val brick: ShapeGrammar = DoNothingShapeGrammar,
+    val size: GridSize = SquareGrid(10),
     val pattern: SingleBrickPattern = SingleBrickPattern.Running,
     val length: Int = DEFAULT_BRICK_LENGTH,
 ) : ShapeGrammar()

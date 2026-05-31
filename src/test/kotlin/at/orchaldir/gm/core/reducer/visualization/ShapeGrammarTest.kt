@@ -3,11 +3,19 @@ package at.orchaldir.gm.core.reducer.visualization
 import at.orchaldir.gm.MATERIAL_ID_0
 import at.orchaldir.gm.UNKNOWN_MATERIAL_ID
 import at.orchaldir.gm.assertIllegalArgument
+import at.orchaldir.gm.assertInt
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.ecology.plant.appearance.MAX_BRANCHES
+import at.orchaldir.gm.core.model.ecology.plant.appearance.MIN_BRANCHES
+import at.orchaldir.gm.core.model.ecology.plant.appearance.SimpleBranching
 import at.orchaldir.gm.core.model.economy.material.Material
 import at.orchaldir.gm.core.model.economy.material.MaterialProperties
 import at.orchaldir.gm.core.model.economy.material.Metal
 import at.orchaldir.gm.core.model.util.part.MadeFromMetal
+import at.orchaldir.gm.core.model.visualization.BrickPatternGrammar
+import at.orchaldir.gm.core.model.visualization.DoNothingShapeGrammar
+import at.orchaldir.gm.core.model.visualization.MAX_BRICK_LENGTH
+import at.orchaldir.gm.core.model.visualization.MIN_BRICK_LENGTH
 import at.orchaldir.gm.core.model.visualization.ShapeGrammar
 import at.orchaldir.gm.core.model.visualization.RectangularShapeGrammar
 import at.orchaldir.gm.utils.Storage
@@ -21,6 +29,26 @@ class ShapeGrammarTest {
             Storage(Material(MATERIAL_ID_0, properties=MaterialProperties(Metal()))),
         )
     )
+
+    @Nested
+    inner class BrickPatternGrammarTest {
+
+        @Test
+        fun `Test the brick length`() {
+            assertInt(
+                "test's brick length",
+                MIN_BRICK_LENGTH,
+                MAX_BRICK_LENGTH,
+                { length, message ->
+                    fail(BrickPatternGrammar(length = length), message)
+                },
+                { length ->
+                    success(BrickPatternGrammar(length = length))
+                },
+            )
+        }
+
+    }
 
     @Nested
     inner class RectangularShapeGrammarTest {
