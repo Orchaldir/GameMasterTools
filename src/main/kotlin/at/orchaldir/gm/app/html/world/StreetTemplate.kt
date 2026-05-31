@@ -25,7 +25,6 @@ fun HtmlBlockTag.showStreetTemplate(
     template: StreetTemplate,
 ) {
     showGrammar(call, state, template.grammar)
-    showMaterialCost(call, state, template.materialCost)
     fieldElements(call, state, state.getSettlementMaps(template.id))
 }
 
@@ -38,7 +37,6 @@ fun HtmlBlockTag.editStreetTemplate(
 ) {
     selectName(template.name)
     editGrammar(state, template.grammar)
-    selectMaterialCost(call, state, template.materialCost)
 }
 
 // parse
@@ -49,5 +47,4 @@ fun parseStreetTemplate(state: State, parameters: Parameters, id: StreetTemplate
     id,
     parseName(parameters),
     parseGrammar(state, parameters),
-    parseMaterialCost(parameters),
 )

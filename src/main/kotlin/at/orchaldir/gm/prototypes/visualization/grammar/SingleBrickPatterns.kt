@@ -26,7 +26,6 @@ fun main() {
 private fun createGrammar(pattern: SingleBrickPattern, length: Int) = Pair(
     SingleBrickGrammar(
         RectangularShapeGrammar(
-            RectangularShape.Rectangle,
             MadeFromWood(color = Color.Gray),
         ),
         SquareGrid(20),

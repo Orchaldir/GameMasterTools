@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.model.visualization
 
+import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.util.part.ItemPart
-import at.orchaldir.gm.utils.math.Axis
 import at.orchaldir.gm.utils.math.shape.RectangularShape
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -27,13 +27,19 @@ sealed class Grammar {
         DoNothingGrammar -> GrammarType.DoNothing
     }
 
+    fun contains(material: MaterialId): Boolean = when (this) {
+        is RectangularShapeGrammar -> part.contains(material)
+        is SingleBrickGrammar -> brick.contains(material)
+        DoNothingGrammar -> false
+    }
+
 }
 
 @Serializable
 @SerialName("RectangularShape")
 data class RectangularShapeGrammar(
-    val shape: RectangularShape,
     val part: ItemPart,
+    val shape: RectangularShape = RectangularShape.Rectangle,
 ) : Grammar()
 
 @Serializable

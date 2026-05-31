@@ -27,8 +27,8 @@ fun main() {
 
 private fun createGrammar(shape: RectangularShape, size: Size2d) = Pair(
     RectangularShapeGrammar(
-        shape,
         MadeFromWood(color = Color.Gray),
+        shape,
     ),
     PaddedSize(size, Distance.fromMeters(0.2f)),
 )

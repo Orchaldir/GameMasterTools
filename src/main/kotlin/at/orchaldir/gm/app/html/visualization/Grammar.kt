@@ -120,13 +120,13 @@ fun parseGrammar(
 ): Grammar {
     return when (parse(parameters, param, GrammarType.RectangularShape)) {
         GrammarType.RectangularShape -> RectangularShapeGrammar(
-            parse(parameters, combine(param, SHAPE), RectangularShape.Rectangle),
             parseItemPart(
                 state,
                 parameters,
                 combine(param, MATERIAL),
                 ItemPartType.Wood,
             ),
+            parse(parameters, combine(param, SHAPE), RectangularShape.Rectangle),
         )
         GrammarType.SingleBrick -> SingleBrickGrammar(
             parseGrammar(state, parameters, combine(param, SUB)),

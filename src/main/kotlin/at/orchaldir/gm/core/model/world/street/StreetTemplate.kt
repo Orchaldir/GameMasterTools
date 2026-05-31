@@ -27,14 +27,13 @@ data class StreetTemplate(
     val id: StreetTemplateId,
     val name: Name = Name.init(id),
     val grammar: Grammar = DoNothingGrammar,
-    val materialCost: MaterialCost = MaterialCost(),
 ) : ElementWithSimpleName<StreetTemplateId> {
 
     override fun id() = id
     override fun name() = name.text
 
     override fun validate(state: State) {
-        state.getMaterialStorage().require(materialCost.materials())
+        // TODO
     }
 
 }

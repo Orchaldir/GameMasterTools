@@ -82,9 +82,6 @@ fun Application.configureStreetTemplateRouting() {
                 state.sortStreetTemplates(all.sort),
                 listOf(
                     createNameColumn(call, state),
-                    Column("Materials") { tdInlineIds(call, state, it.materialCost.materials()) },
-                    tdColumn("Weight") { it.materialCost.calculateWeight()?.let { +it.toString() } },
-                    tdColumn("Price") { displayPrice(call, currency, it.materialCost.calculatePrice(state)) },
                 ),
             )
         }
