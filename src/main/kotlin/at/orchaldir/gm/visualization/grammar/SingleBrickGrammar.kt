@@ -257,6 +257,7 @@ private fun visualizeHerringbone(
     val doubleLength = length * 2
     val horizontalBlocks = MapSize2d(length, 1)
     val verticalBlocks = MapSize2d(1, length)
+    var index = 0
 
     repeat(gridSize.height) { y ->
         val modulo = y % doubleLength
@@ -269,7 +270,7 @@ private fun visualizeHerringbone(
         while (x < gridSize.width) {
             if (x >= 0) {
                 visualizeShapeGrammar(
-                    state,
+                    state.addSeed(index++),
                     grammar.brick,
                     gridStart,
                     blockSize,
@@ -281,7 +282,7 @@ private fun visualizeHerringbone(
                 )
             } else if (x > -length) {
                 visualizeShapeGrammar(
-                    state,
+                    state.addSeed(index++),
                     grammar.brick,
                     gridStart,
                     blockSize,
@@ -296,15 +297,15 @@ private fun visualizeHerringbone(
             if (y == 0) {
                 x += length
 
-                repeat(length.coerceAtMost(gridSize.width - x)) { index ->
+                repeat(length.coerceAtMost(gridSize.width - x)) { i ->
                     visualizeShapeGrammar(
-                        state,
+                        state.addSeed(index++),
                         grammar.brick,
                         gridStart,
                         blockSize,
                         x,
                         0,
-                        MapSize2d(1, 1 + index),
+                        MapSize2d(1, 1 + i),
                         gridSize,
                         layer,
                     )
@@ -319,7 +320,7 @@ private fun visualizeHerringbone(
                 }
 
                 visualizeShapeGrammar(
-                    state,
+                    state.addSeed(index++),
                     grammar.brick,
                     gridStart,
                     blockSize,
