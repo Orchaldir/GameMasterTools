@@ -175,7 +175,7 @@ data class AABB(val start: Point2d, val size: Size2d) {
      */
     fun shrink(border: Distance) = AABB(start + border, size - border * 2.0f)
 
-    fun shrinkRelativeToSmallerSize(factor: Factor) = shrink(convertMinSide(factor))
+    fun shrinkRelativeToSmallerSide(factor: Factor) = shrink(convertMinSide(factor))
 
     fun shrinkWidth(distance: Distance) = AABB(
         start.addWidth(distance / 2),

@@ -8,11 +8,9 @@ import at.orchaldir.gm.core.model.visualization.ShrinkGrammar
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.math.AABB
-import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Size2d
-import at.orchaldir.gm.utils.math.ZERO
 
 fun visualizeShapeGrammar(
     state: GrammarRenderState,
@@ -51,7 +49,7 @@ fun visualizeShapeGrammar(
         val aabbSize = blockSize * limitedBlocks
         val aabb = AABB(aabbStart, aabbSize)
         val shrunkenAabb = if (shrinkFactor != null) {
-            aabb.shrink(shrinkFactor)
+            aabb.shrinkRelativeToSmallerSide(shrinkFactor)
         } else {
             aabb
         }
