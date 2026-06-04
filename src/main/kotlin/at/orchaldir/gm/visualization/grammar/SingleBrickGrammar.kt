@@ -187,19 +187,21 @@ private fun visualizeGrid(
     layer: Int,
 ) = grammar.size.process(aabb) { start, gridSize, brickSize ->
     var startOfRow = start
+    var index = 0
 
     repeat(gridSize.height) {
         var currentBrick = startOfRow
 
         repeat(gridSize.width) {
             visualizeShapeGrammar(
-                state,
+                state.addSeed(index),
                 grammar.brick,
                 AABB(currentBrick, brickSize),
                 layer,
             )
 
             currentBrick = currentBrick.addWidth(brickSize.width)
+            index++
         }
 
         startOfRow = startOfRow.addHeight(brickSize.height)
@@ -303,6 +305,7 @@ private fun visualizeRows(
     calculateLength: (Int, Int) -> Int,
 ) = grammar.size.process(aabb) { start, gridSize, blockSize ->
     var startOfRow = start
+    var index = 0
 
     repeat(gridSize.height) { y ->
         var currentBrick = startOfRow
@@ -313,7 +316,7 @@ private fun visualizeRows(
             val brickSize = blockSize.replaceWidth(Factor.fromNumber(length))
 
             visualizeShapeGrammar(
-                state,
+                state.addSeed(index),
                 grammar.brick,
                 AABB(currentBrick, brickSize),
                 layer,
@@ -321,6 +324,7 @@ private fun visualizeRows(
 
             currentBrick = currentBrick.addWidth(brickSize.width)
             x += length
+            index++
         }
 
         startOfRow = startOfRow.addHeight(blockSize.height)

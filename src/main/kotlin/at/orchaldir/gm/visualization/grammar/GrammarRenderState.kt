@@ -40,4 +40,6 @@ data class GrammarRenderState(
         part,
         clipping,
     )
+
+    fun addSeed(seed: Int) = copy(numberGenerator = numberGenerator.addSeed(seed))
 }
