@@ -12,6 +12,7 @@ import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.util.render.ColorLookup
 import at.orchaldir.gm.core.model.util.render.FixedColor
 import at.orchaldir.gm.core.model.util.render.LookupMaterial
+import at.orchaldir.gm.core.model.util.render.RandomColor
 import at.orchaldir.gm.core.model.visualization.BrickPatternGrammar
 import at.orchaldir.gm.core.model.visualization.RectangularShapeGrammar
 import at.orchaldir.gm.core.model.visualization.SingleBrickPattern
@@ -28,6 +29,10 @@ fun main() {
         Color.LightGray to Rarity.Rare,
         Color.DimGray to Rarity.VeryRare,
     )))
+    val randomColors = RandomColor(OneOf(mapOf(
+        Color.Blue to Rarity.Common,
+        Color.Green to Rarity.Common,
+    )))
     val material = Material(MaterialId(0), properties = MaterialProperties(rock))
     val state = State(Storage(material))
 
@@ -37,6 +42,7 @@ fun main() {
         listOf(
             Pair("Fixed", FixedColor(Color.Gray)),
             Pair("Material", LookupMaterial),
+            Pair("Lookup", randomColors),
         ),
         addNames(SingleBrickPattern.entries),
         ::createGrammar,

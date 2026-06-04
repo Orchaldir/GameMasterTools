@@ -216,7 +216,8 @@ fun HtmlBlockTag.selectColorRarityMap(
     enum: String,
     selectId: String,
     rarityMap: RarityMap<Color>,
-) = selectColorRarityMap(enum, selectId, rarityMap, HtmlBlockTag::showColor)
+    availableColors: Collection<Color> = Color.entries,
+) = selectColorRarityMap(enum, selectId, rarityMap, availableColors, HtmlBlockTag::showColor)
 
 fun HtmlBlockTag.selectHairColorRarityMap(
     config: CharacterRenderConfig,
@@ -240,17 +241,16 @@ inline fun <reified T : Enum<T>> HtmlBlockTag.selectColorRarityMap(
     enum: String,
     selectId: String,
     rarityMap: RarityMap<T>,
+    availableColors: Collection<T> = enumValues<T>().toSet(),
     crossinline show: TD.(T) -> Unit,
 ) {
-    val colors = enumValues<T>().toSet()
-
     showDetails(enum, true) {
         table {
             tr {
                 th { +"Color" }
                 th { +"Rarity" }
             }
-            rarityMap.getRarityFor(colors).forEach { (currentColor, currentRarity) ->
+            rarityMap.getRarityFor(availableColors).forEach { (currentColor, currentRarity) ->
                 tr {
                     td {
                         show(currentColor)

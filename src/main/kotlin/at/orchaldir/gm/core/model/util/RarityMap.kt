@@ -19,7 +19,7 @@ interface RarityMap<T> {
 
     fun getRarity(value: T): Rarity
 
-    fun getRarityFor(value: Set<T>): Map<T, Rarity> = value.associateWith(::getRarity)
+    fun getRarityFor(value: Collection<T>): Map<T, Rarity> = value.associateWith(::getRarity)
 
     fun getValuesFor(rarity: Rarity): Set<T> = getRarityMap().entries
         .filter { it.value == rarity }
