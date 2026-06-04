@@ -9,10 +9,14 @@ import at.orchaldir.gm.core.model.item.equipment.EquipmentElementMap
 import at.orchaldir.gm.core.model.util.part.ItemPart
 import at.orchaldir.gm.core.model.util.render.Colors
 import at.orchaldir.gm.core.model.util.render.UndefinedColors
+import at.orchaldir.gm.utils.HashNumberGenerator
+import at.orchaldir.gm.utils.RepeatableNumberGenerator
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Point2d
+import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.MultiLayerRenderer
+import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.visualization.RenderState
 import at.orchaldir.gm.visualization.character.appearance.ABOVE_EQUIPMENT_LAYER
 import at.orchaldir.gm.visualization.utils.convertToFillAndBorder
@@ -26,6 +30,7 @@ data class CharacterRenderState<T>(
     val renderer: MultiLayerRenderer,
     val renderFront: Boolean,
     val equipped: EquipmentElementMap,
+    val numberGenerator: RepeatableNumberGenerator = HashNumberGenerator.fromTime(),
     val colors: Colors = UndefinedColors,
     val headAABB: AABB? = null,
     val torsoAABB: AABB? = null,
@@ -44,9 +49,12 @@ data class CharacterRenderState<T>(
     override fun equipment() = config.equipment
     override fun head() = config.head
 
-    override fun getFillAndBorder(part: ItemPart, clipping: String?) = convertToFillAndBorder(
+    override fun getColor(part: ItemPart) = part.getColor(state, numberGenerator, colors)
+
+    override fun getFillAndBorder(part: ItemPart, lineOptions: LineOptions, clipping: String?) = convertToFillAndBorder(
         colors,
-        lineOptions(),
+        numberGenerator,
+        lineOptions,
         part,
         state,
         clipping,
@@ -54,6 +62,7 @@ data class CharacterRenderState<T>(
 
     override fun getNoBorder(part: ItemPart, clipping: String?) = convertToNoBorder(
         state,
+        numberGenerator,
         colors,
         part,
         clipping,
@@ -116,6 +125,7 @@ fun CharacterRenderState<Appearance>.convert(body: Body, aabb: AABB) = Character
     renderer,
     renderFront,
     equipped,
+    numberGenerator,
     colors,
     headAABB,
     aabb,
@@ -129,6 +139,7 @@ fun CharacterRenderState<Appearance>.convert(head: Head, aabb: AABB) = Character
     renderer,
     renderFront,
     equipped,
+    numberGenerator,
     colors,
     aabb,
     torsoAABB,

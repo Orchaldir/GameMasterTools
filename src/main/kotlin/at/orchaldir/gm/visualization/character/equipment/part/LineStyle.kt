@@ -2,6 +2,7 @@ package at.orchaldir.gm.visualization.character.equipment.part
 
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.part.HasColor
+import at.orchaldir.gm.core.model.util.part.ItemPart
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.math.Line2d
 import at.orchaldir.gm.utils.math.Point2d
@@ -38,10 +39,9 @@ private fun <T> visualizeSimpleLine(
     renderer: LayerRenderer,
     line: Line2d,
     thickness: Distance,
-    part: HasColor,
+    part: ItemPart,
 ) {
-    val color = part.getColor(state.state, state.colors)
-    val wireOptions = LineOptions(color.toRender(), thickness)
+    val wireOptions = state.lineOptions(part, thickness)
     renderer.renderLine(line, wireOptions)
 }
 

@@ -3,14 +3,16 @@ package at.orchaldir.gm.utils
 import kotlinx.serialization.Serializable
 import java.time.Instant
 
+const val COLOR_INDEX = 0
+
 @Serializable
 sealed class RepeatableNumberGenerator {
 
-    abstract fun getInt(input: Int): Int
+    abstract fun getInt(index: Int): Int
 
-    fun getInt(input: Int, until: Int) = getInt(input) % until
+    fun getInt(index: Int, until: Int) = getInt(index) % until
 
-    fun getInt(input: Int, from: Int, until: Int) = from + getInt(input, until - from)
+    fun getInt(index: Int, from: Int, until: Int) = from + getInt(index, until - from)
 
     abstract fun addSeed(seed: Int): RepeatableNumberGenerator
 }
@@ -21,7 +23,7 @@ data class NumberLookup(
     var default: Int = 0,
 ) : RepeatableNumberGenerator() {
 
-    override fun getInt(input: Int) = numbers.getOrDefault(input, default)
+    override fun getInt(index: Int) = numbers.getOrDefault(index, default)
 
     override fun addSeed(seed: Int) = copy(unusedSeeds = unusedSeeds + seed)
 
@@ -37,7 +39,7 @@ data class HashNumberGenerator(val seeds: List<Int>) : RepeatableNumberGenerator
 
     }
 
-    override fun getInt(input: Int) = (seeds + input).hashCode()
+    override fun getInt(index: Int) = (seeds + index).hashCode()
 
     override fun addSeed(seed: Int) = copy(seeds = seeds + seed)
 

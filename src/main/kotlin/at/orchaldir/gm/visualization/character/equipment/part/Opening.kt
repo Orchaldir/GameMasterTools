@@ -108,8 +108,7 @@ fun visualizeZipper(
     layer: Int,
 ) {
     val width = aabb.convertHeight(config.zipperWidth)
-    val color = zipper.main.getColor(state.state, state.colors)
-    val options = LineOptions(color.toRender(), width)
+    val options = state.lineOptions(zipper.main, width)
     val top = aabb.getPoint(x, topY)
     val bottom = aabb.getPoint(x, bottomY)
 

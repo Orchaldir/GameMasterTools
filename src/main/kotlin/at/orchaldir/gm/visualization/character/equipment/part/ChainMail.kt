@@ -20,10 +20,9 @@ private fun getRenderOptions(
     state: CharacterRenderState<Body>,
     style: ChainMail,
 ): RenderOptions {
-    val color = style.chain.getColor(state.state, state.colors)
     val fill = RenderCircles(
         Color.Black.toRender(),
-        color.toRender(),
+        state.getColor(style.chain).toRender(),
         Distance.fromMeters(0.02f),
         Factor.fromPercentage(35),
     )

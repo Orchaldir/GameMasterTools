@@ -1,8 +1,10 @@
 package at.orchaldir.gm.core.model.util.render
 
+import at.orchaldir.gm.core.generator.RarityGenerator
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.selector.economy.getMaterialColor
+import at.orchaldir.gm.utils.RepeatableNumberGenerator
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -36,8 +38,12 @@ sealed interface ColorLookup {
         LookupSchema1 -> colors.color0()
     }
 
-    fun lookup(state: State, colors: Colors, material: MaterialId) = lookup(colors)
-        ?: state.getMaterialColor(material)
+    fun lookup(
+        state: State,
+        numberGenerator: RepeatableNumberGenerator,
+        colors: Colors,
+        material: MaterialId,
+    ) = lookup(colors) ?: state.getMaterialColor(numberGenerator, material)
 
     fun getOtherColors() = if (this is FixedColor) {
         Color.entries - color

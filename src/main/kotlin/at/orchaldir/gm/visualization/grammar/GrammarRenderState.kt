@@ -1,6 +1,5 @@
 package at.orchaldir.gm.visualization.grammar
 
-import at.orchaldir.gm.core.generator.RarityGenerator
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.part.ItemPart
 import at.orchaldir.gm.core.model.util.render.Colors
@@ -17,7 +16,6 @@ data class GrammarRenderState(
     val state: State,
     val renderer: MultiLayerRenderer,
     val line: LineOptions,
-    val rarityGenerator: RarityGenerator = RarityGenerator.empty(5),
     val numberGenerator: RepeatableNumberGenerator = HashNumberGenerator.fromTime(),
     val colors: Colors = UndefinedColors,
 ) : RenderState {
@@ -26,9 +24,16 @@ data class GrammarRenderState(
     override fun renderer() = renderer
     override fun lineOptions() = line
 
-    override fun getFillAndBorder(part: ItemPart, clipping: String?) = convertToFillAndBorder(
+    override fun getColor(part: ItemPart) = part.getColor(state, numberGenerator, colors)
+
+    override fun getFillAndBorder(
+        part: ItemPart,
+        lineOptions: LineOptions,
+        clipping: String?,
+    ) = convertToFillAndBorder(
         colors,
-        lineOptions(),
+        numberGenerator,
+        lineOptions,
         part,
         state,
         clipping,
@@ -36,6 +41,7 @@ data class GrammarRenderState(
 
     override fun getNoBorder(part: ItemPart, clipping: String?) = convertToNoBorder(
         state,
+        numberGenerator,
         colors,
         part,
         clipping,
