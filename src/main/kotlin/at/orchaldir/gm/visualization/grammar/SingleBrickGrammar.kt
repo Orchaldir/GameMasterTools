@@ -67,7 +67,7 @@ private fun visualizeBasketWeaveSingle(
             else -> null
         }?.let { offset ->
             visualizeVerticalBasketWeaveN(
-                state.addSeed(index++),
+                state,
                 grammar.brick,
                 gridStart,
                 blockSize,
@@ -76,7 +76,10 @@ private fun visualizeBasketWeaveSingle(
                 limits,
                 layer,
                 n,
+                index,
             )
+
+            index += n
         }
 
         when {
@@ -105,18 +108,46 @@ private fun visualizeBasketWeaveN(
     aabb: AABB,
     layer: Int,
     n: Int,
-) = visualizeSubSections(
-    grammar.size,
-    MapSize2d.square(n),
-    aabb,
-) { subSectionX, subSectionY, gridStart, blockSize, limits ->
-    val x = subSectionX * n
-    val y = subSectionY * n
+) {
+    var index = 0
 
-    if ((subSectionX + subSectionY) % 2 == 0) {
-        visualizeHorizontalBasketWeaveN(state, grammar.brick, gridStart, blockSize, x, y, limits, layer, n)
-    } else {
-        visualizeVerticalBasketWeaveN(state, grammar.brick, gridStart, blockSize, x, y, limits, layer, n)
+    visualizeSubSections(
+        grammar.size,
+        MapSize2d.square(n),
+        aabb,
+    ) { subSectionX, subSectionY, gridStart, blockSize, limits ->
+        val x = subSectionX * n
+        val y = subSectionY * n
+
+        if ((subSectionX + subSectionY) % 2 == 0) {
+            visualizeHorizontalBasketWeaveN(
+                state,
+                grammar.brick,
+                gridStart,
+                blockSize,
+                x,
+                y,
+                limits,
+                layer,
+                n,
+                index,
+            )
+        } else {
+            visualizeVerticalBasketWeaveN(
+                state,
+                grammar.brick,
+                gridStart,
+                blockSize,
+                x,
+                y,
+                limits,
+                layer,
+                n,
+                index,
+            )
+        }
+
+        index += n
     }
 }
 
@@ -130,15 +161,17 @@ private fun visualizeHorizontalBasketWeaveN(
     limits: MapSize2d,
     layer: Int,
     n: Int,
+    startIndex: Int,
 ) {
     val blocks = MapSize2d(n, 1)
+    var index = startIndex
 
     repeat(n) { offset ->
         val currentY = y + offset
 
         if (currentY < limits.height) {
             visualizeShapeGrammar(
-                state,
+                state.addSeed(index++),
                 grammar,
                 gridStart,
                 blockSize,
@@ -162,15 +195,17 @@ private fun visualizeVerticalBasketWeaveN(
     limits: MapSize2d,
     layer: Int,
     n: Int,
+    startIndex: Int,
 ) {
     val blocks = MapSize2d(1, n)
+    var index = startIndex
 
     repeat(n) { offset ->
         val currentX = x + offset
 
         if (currentX < limits.width) {
             visualizeShapeGrammar(
-                state,
+                state.addSeed(index++),
                 grammar,
                 gridStart,
                 blockSize,
