@@ -50,48 +50,52 @@ private fun visualizeBasketWeaveSingle(
     aabb: AABB,
     layer: Int,
     n: Int,
-) = visualizeSubSections(
-    grammar.size,
-    MapSize2d(n, n + 1),
-    aabb,
-) { subSectionX, subSectionY, gridStart, blockSize, limits ->
-    val startX = subSectionX * n
-    val startY = subSectionY * (n + 1)
+) {
+    var index = 0
 
-    when {
-        subSectionX % 2 == 0 -> 0
-        startY < limits.height - 1 -> 1
-        else -> null
-    }?.let { offset ->
-        visualizeVerticalBasketWeaveN(
-            state,
-            grammar.brick,
-            gridStart,
-            blockSize,
-            startX,
-            startY + offset,
-            limits,
-            layer,
-            n,
-        )
-    }
+    visualizeSubSections(
+        grammar.size,
+        MapSize2d(n, n + 1),
+        aabb,
+    ) { subSectionX, subSectionY, gridStart, blockSize, limits ->
+        val startX = subSectionX * n
+        val startY = subSectionY * (n + 1)
 
-    when {
-        subSectionX % 2 == 1 -> 0
-        startY < limits.height - 2 -> n
-        else -> null
-    }?.let { offset ->
-        visualizeShapeGrammar(
-            state,
-            grammar.brick,
-            gridStart,
-            blockSize,
-            startX,
-            startY + offset,
-            MapSize2d(n, 1),
-            limits,
-            layer,
-        )
+        when {
+            subSectionX % 2 == 0 -> 0
+            startY < limits.height - 1 -> 1
+            else -> null
+        }?.let { offset ->
+            visualizeVerticalBasketWeaveN(
+                state.addSeed(index++),
+                grammar.brick,
+                gridStart,
+                blockSize,
+                startX,
+                startY + offset,
+                limits,
+                layer,
+                n,
+            )
+        }
+
+        when {
+            subSectionX % 2 == 1 -> 0
+            startY < limits.height - 2 -> n
+            else -> null
+        }?.let { offset ->
+            visualizeShapeGrammar(
+                state.addSeed(index++),
+                grammar.brick,
+                gridStart,
+                blockSize,
+                startX,
+                startY + offset,
+                MapSize2d(n, 1),
+                limits,
+                layer,
+            )
+        }
     }
 }
 
