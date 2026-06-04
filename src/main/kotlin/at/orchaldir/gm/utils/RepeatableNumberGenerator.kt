@@ -1,9 +1,14 @@
 package at.orchaldir.gm.utils
 
 import kotlinx.serialization.Serializable
+import java.nio.ByteBuffer
 import java.time.Instant
+import java.security.MessageDigest
+import kotlin.collections.toByteArray
 
 const val COLOR_INDEX = 0
+
+private val MD = MessageDigest.getInstance("MD5")
 
 @Serializable
 sealed class RepeatableNumberGenerator {
@@ -39,7 +44,17 @@ data class HashNumberGenerator(val seeds: List<Int>) : RepeatableNumberGenerator
 
     }
 
-    override fun getInt(index: Int) = (seeds + index).hashCode()
+    override fun getInt(index: Int): Int {
+        val buffer = ByteBuffer.allocate(Int.SIZE_BYTES * (seeds.size + 1))
+
+        seeds.forEach { buffer.putInt(it) }
+
+        buffer.putInt(index)
+
+        val digest = MD.digest(buffer.array())
+
+        return ByteBuffer.wrap(digest).int
+    }
 
     override fun addSeed(seed: Int) = copy(seeds = seeds + seed)
 
