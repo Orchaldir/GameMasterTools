@@ -23,7 +23,11 @@ import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.visualization.character.appearance.PaddedSize
 
 fun main() {
-    val rock = Rock(OneOf(mapOf(Color.Gray to Rarity.Common, Color.LightGray to Rarity.Rare)))
+    val rock = Rock(OneOf(mapOf(
+        Color.Gray to Rarity.Common,
+        Color.LightGray to Rarity.Rare,
+        Color.DimGray to Rarity.VeryRare,
+    )))
     val material = Material(MaterialId(0), properties = MaterialProperties(rock))
     val state = State(Storage(material))
 
