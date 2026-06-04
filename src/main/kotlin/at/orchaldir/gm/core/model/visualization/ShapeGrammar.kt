@@ -77,7 +77,7 @@ sealed class ShapeGrammar {
 data class BrickPatternGrammar(
     val brick: ShapeGrammar = DoNothingShapeGrammar,
     val size: GridSize = SquareGrid(10),
-    val pattern: SingleBrickPattern = SingleBrickPattern.Running,
+    val pattern: BrickPattern = BrickPattern.Running,
     val length: Int = DEFAULT_BRICK_LENGTH,
 ) : ShapeGrammar()
 

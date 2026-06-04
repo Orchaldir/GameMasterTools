@@ -34,7 +34,7 @@ fun HtmlBlockTag.showShapeGrammar(
                 field("Pattern", grammar.pattern)
                 showShapeGrammar(call, state, grammar.brick, "Brick")
 
-                if (grammar.pattern != SingleBrickPattern.Grid) {
+                if (grammar.pattern != BrickPattern.Grid) {
                     field("Brick Length", grammar.length)
                 }
             }
@@ -81,7 +81,7 @@ fun HtmlBlockTag.editShapeGrammar(
                 selectValue(
                     "Pattern",
                     combine(param, PATTERN),
-                    SingleBrickPattern.entries,
+                    BrickPattern.entries,
                     grammar.pattern,
                 )
                 editShapeGrammar(
@@ -91,7 +91,7 @@ fun HtmlBlockTag.editShapeGrammar(
                     "Brick",
                 )
 
-                if (grammar.pattern != SingleBrickPattern.Grid) {
+                if (grammar.pattern != BrickPattern.Grid) {
                     selectInt(
                         "Brick Length",
                         grammar.length,
@@ -152,7 +152,7 @@ fun parseShapeGrammar(
             parse(
                 parameters,
                 combine(param, PATTERN),
-                SingleBrickPattern.Running,
+                BrickPattern.Running,
             ),
             parseInt(parameters, combine(param, LENGTH), DEFAULT_BRICK_LENGTH),
         )

@@ -15,7 +15,7 @@ import at.orchaldir.gm.core.model.util.render.LookupMaterial
 import at.orchaldir.gm.core.model.util.render.RandomColor
 import at.orchaldir.gm.core.model.visualization.BrickPatternGrammar
 import at.orchaldir.gm.core.model.visualization.RectangularShapeGrammar
-import at.orchaldir.gm.core.model.visualization.SingleBrickPattern
+import at.orchaldir.gm.core.model.visualization.BrickPattern
 import at.orchaldir.gm.core.model.visualization.SquareGrid
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.utils.Storage
@@ -44,12 +44,12 @@ fun main() {
             Pair("Material", LookupMaterial),
             Pair("Lookup", randomColors),
         ),
-        addNames(SingleBrickPattern.entries),
+        addNames(BrickPattern.entries),
         ::createGrammar,
     )
 }
 
-private fun createGrammar(pattern: SingleBrickPattern, lookup: ColorLookup) = Pair(
+private fun createGrammar(pattern: BrickPattern, lookup: ColorLookup) = Pair(
     BrickPatternGrammar(
         RectangularShapeGrammar(
             MadeFromStone(color = lookup),

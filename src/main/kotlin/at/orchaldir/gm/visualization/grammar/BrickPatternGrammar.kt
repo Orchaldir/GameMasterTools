@@ -3,7 +3,7 @@ package at.orchaldir.gm.visualization.grammar
 import at.orchaldir.gm.core.model.visualization.BrickPatternGrammar
 import at.orchaldir.gm.core.model.visualization.GridSize
 import at.orchaldir.gm.core.model.visualization.ShapeGrammar
-import at.orchaldir.gm.core.model.visualization.SingleBrickPattern
+import at.orchaldir.gm.core.model.visualization.BrickPattern
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Factor
@@ -18,11 +18,11 @@ fun visualizeBrickPatternGrammar(
     aabb: AABB,
     layer: Int,
 ) = when (grammar.pattern) {
-    SingleBrickPattern.BasketWeaveSingle -> visualizeBasketWeaveSingle(state, grammar, aabb, layer, grammar.length)
-    SingleBrickPattern.BasketWeave -> visualizeBasketWeaveN(state, grammar, aabb, layer, grammar.length)
-    SingleBrickPattern.Grid -> visualizeGrid(state, grammar, aabb, layer)
-    SingleBrickPattern.Herringbone -> visualizeHerringbone(state, grammar, aabb, layer, grammar.length)
-    SingleBrickPattern.Running -> visualizeRows(
+    BrickPattern.BasketWeaveSingle -> visualizeBasketWeaveSingle(state, grammar, aabb, layer, grammar.length)
+    BrickPattern.BasketWeave -> visualizeBasketWeaveN(state, grammar, aabb, layer, grammar.length)
+    BrickPattern.Grid -> visualizeGrid(state, grammar, aabb, layer)
+    BrickPattern.Herringbone -> visualizeHerringbone(state, grammar, aabb, layer, grammar.length)
+    BrickPattern.Running -> visualizeRows(
         state,
         grammar,
         aabb,
@@ -35,7 +35,7 @@ fun visualizeBrickPatternGrammar(
         }
     }
 
-    SingleBrickPattern.Stack -> visualizeRows(
+    BrickPattern.Stack -> visualizeRows(
         state,
         grammar,
         aabb,
