@@ -12,7 +12,7 @@ import at.orchaldir.gm.utils.math.Size2d
 import kotlin.math.ceil
 import kotlin.math.floor
 
-fun visualizeSingleBrickGrammar(
+fun visualizeBrickPatternGrammar(
     state: GrammarRenderState,
     grammar: BrickPatternGrammar,
     aabb: AABB,
