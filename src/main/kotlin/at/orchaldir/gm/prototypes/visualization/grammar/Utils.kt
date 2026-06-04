@@ -1,9 +1,11 @@
 package at.orchaldir.gm.prototypes.visualization.grammar
 
+import at.orchaldir.gm.core.generator.RarityGenerator
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.visualization.ShapeGrammar
 import at.orchaldir.gm.prototypes.visualization.renderTable
+import at.orchaldir.gm.utils.HashNumberGenerator
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.unit.Distance.Companion.fromMillimeters
 import at.orchaldir.gm.utils.renderer.model.LineOptions
