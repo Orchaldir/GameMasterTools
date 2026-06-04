@@ -60,7 +60,7 @@ fun visualizeShapeGrammar(
     }
     is ShrinkGrammar -> visualizeShapeGrammar(
         state,
-        grammar,
+        grammar.grammar,
         gridStart,
         blockSize,
         x,

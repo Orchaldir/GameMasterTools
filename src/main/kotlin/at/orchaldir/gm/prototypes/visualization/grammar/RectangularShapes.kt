@@ -8,7 +8,7 @@ import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.visualization.character.appearance.PaddedSize
-import at.orchaldir.gm.visualization.grammar.RectangularShape
+import at.orchaldir.gm.core.model.visualization.RectangularShape
 
 
 fun main() {

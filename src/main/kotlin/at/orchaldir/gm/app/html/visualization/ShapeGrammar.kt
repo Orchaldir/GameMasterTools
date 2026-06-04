@@ -12,7 +12,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.part.ItemPartType
 import at.orchaldir.gm.core.model.visualization.*
 import at.orchaldir.gm.utils.doNothing
-import at.orchaldir.gm.visualization.grammar.RectangularShape
+import at.orchaldir.gm.core.model.visualization.RectangularShape
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag

@@ -1,11 +1,12 @@
 package at.orchaldir.gm.visualization.grammar
 
+import at.orchaldir.gm.core.model.visualization.RectangularShape
 import at.orchaldir.gm.core.model.visualization.RectangularShapeGrammar
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Polygon2d
 import at.orchaldir.gm.utils.math.halfSegment
 import at.orchaldir.gm.utils.math.subdividePolygon
-import at.orchaldir.gm.visualization.grammar.RectangularShape.*
+import at.orchaldir.gm.core.model.visualization.RectangularShape.*
 
 fun visualizeRectangularShapeGrammar(
     state: GrammarRenderState,

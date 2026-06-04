@@ -1,4 +1,4 @@
-package at.orchaldir.gm.visualization.grammar
+package at.orchaldir.gm.core.model.visualization
 
 enum class RectangularShape {
     Ellipse,

@@ -12,7 +12,6 @@ import at.orchaldir.gm.utils.math.TEN_PERCENTS
 import at.orchaldir.gm.utils.math.THIRD
 import at.orchaldir.gm.utils.math.checkInt
 import at.orchaldir.gm.utils.math.validateFactor
-import at.orchaldir.gm.visualization.grammar.RectangularShape
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
