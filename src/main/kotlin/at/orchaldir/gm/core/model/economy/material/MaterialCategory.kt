@@ -146,7 +146,7 @@ data class Paper(
 @SerialName("Rock")
 data class Rock(
     val colors: OneOf<Color>,
-    val components: Set<MaterialId>,
+    val components: Set<MaterialId> = emptySet(),
     val type: RockType = RockType.Undefined,
 ) : MaterialCategory()
 
