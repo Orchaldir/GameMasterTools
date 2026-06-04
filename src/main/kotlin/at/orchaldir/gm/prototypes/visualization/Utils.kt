@@ -134,8 +134,8 @@ fun <C, R> renderTable(
     var startOfRow = Point2d()
     val textSize = renderSize.width / 10.0f
     val halfTextSize = textSize / 2.0f
-    val textOptions = RenderStringOptions(Color.Black.toRender(), textSize)
-    val verticalOptions = RenderStringOptions(Color.Black.toRender(), textSize, horizontalAlignment = End)
+    val textOptions = RenderStringOptions(Color.Black, textSize)
+    val verticalOptions = RenderStringOptions(Color.Black, textSize, horizontalAlignment = End)
     val columnTextOffset = Point2d(renderSize.width, halfTextSize)
     val columnOrientation = Orientation.zero()
     val rowOrientation = Orientation.fromDegrees(270)

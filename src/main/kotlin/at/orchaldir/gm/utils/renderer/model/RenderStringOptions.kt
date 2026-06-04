@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.HorizontalAlignment
 import at.orchaldir.gm.core.model.util.VerticalAlignment
 import at.orchaldir.gm.core.model.util.font.*
+import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.utils.math.unit.Distance
 
 data class RenderStringOptions(
@@ -21,6 +22,14 @@ data class RenderStringOptions(
         verticalAlignment: VerticalAlignment = VerticalAlignment.Center,
         horizontalAlignment: HorizontalAlignment = HorizontalAlignment.Center,
     ) : this(NoBorder(RenderSolid(color)), size, font, verticalAlignment, horizontalAlignment)
+
+    constructor(
+        color: Color,
+        size: Distance,
+        font: Font? = null,
+        verticalAlignment: VerticalAlignment = VerticalAlignment.Center,
+        horizontalAlignment: HorizontalAlignment = HorizontalAlignment.Center,
+    ) : this(color.toRender(), size, font, verticalAlignment, horizontalAlignment)
 }
 
 fun FontOption.convert(
