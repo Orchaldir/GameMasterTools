@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.util.ONE_OF_RARITIES
 import at.orchaldir.gm.core.model.util.Rarity
 import at.orchaldir.gm.core.model.util.RarityMap
 import at.orchaldir.gm.utils.NumberGenerator
+import at.orchaldir.gm.utils.RepeatableNumberGenerator
 
 data class RarityGenerator(val values: Map<Rarity, Int>) {
 
@@ -29,27 +30,25 @@ data class RarityGenerator(val values: Map<Rarity, Int>) {
             }
     }
 
-    fun <T> generate(map: RarityMap<T>, numberGenerator: NumberGenerator): T {
+    fun <T> generate(map: RarityMap<T>, numberGenerator: NumberGenerator) =
+        generate(map, numberGenerator.getInt())
+
+    fun <T> generate(map: RarityMap<T>, numberGenerator: RepeatableNumberGenerator, input: Int) =
+        generate(map, numberGenerator.getInt(input))
+
+    private fun <T> generate(map: RarityMap<T>, randomNumber: Int): T {
         val pair = calculateLookupMap(map)
         val threshold = pair.first
 
-        return select(threshold, pair.second, numberGenerator)
-    }
-
-    fun select(maps: List<RarityMap<*>>, numberGenerator: NumberGenerator): Int {
-        val thresholds = maps.map { calculateLookupMap(it) }
-            .mapIndexed { index, pair -> Pair(index, pair.first) }
-        val total = thresholds.sumOf { it.second }
-
-        return select(total, thresholds, numberGenerator)
+        return select(threshold, pair.second, randomNumber)
     }
 
     private fun <T> select(
         threshold: Int,
         lookup: List<Pair<Int, T>>,
-        numberGenerator: NumberGenerator,
+        randomNumber: Int,
     ): T {
-        val index = numberGenerator.getInt() % threshold
+        val index = randomNumber % threshold
 
         lookup.forEach {
             if (index < it.first) {
