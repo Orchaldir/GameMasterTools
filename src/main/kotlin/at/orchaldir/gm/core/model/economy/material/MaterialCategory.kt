@@ -79,7 +79,7 @@ sealed class MaterialCategory {
         is Metal -> color
         is Mineral -> rarityGenerator.generate(colors, numberGenerator, COLOR_INDEX)
         is Paper -> color
-        is Rock -> colors.getMostCommon()
+        is Rock -> rarityGenerator.generate(colors, numberGenerator, COLOR_INDEX)
         is Wood -> color
         UndefinedMaterialCategory -> null
     }
