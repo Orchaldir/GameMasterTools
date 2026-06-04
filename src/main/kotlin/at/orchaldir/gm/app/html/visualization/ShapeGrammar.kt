@@ -2,6 +2,9 @@ package at.orchaldir.gm.app.html.visualization
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.util.math.fieldFactor
+import at.orchaldir.gm.app.html.util.math.parseFactor
+import at.orchaldir.gm.app.html.util.math.selectFactor
 import at.orchaldir.gm.app.html.util.part.editItemPart
 import at.orchaldir.gm.app.html.util.part.parseItemPart
 import at.orchaldir.gm.app.html.util.part.showItemPart
@@ -26,12 +29,6 @@ fun HtmlBlockTag.showShapeGrammar(
         field("Type", grammar.getType())
 
         when (grammar) {
-            DoNothingShapeGrammar -> doNothing()
-            is RectangularShapeGrammar -> {
-                field("Shape", grammar.shape)
-                showItemPart(call, state, grammar.part)
-            }
-
             is BrickPatternGrammar -> {
                 showGridSize(grammar.size)
                 field("Pattern", grammar.pattern)
@@ -40,6 +37,18 @@ fun HtmlBlockTag.showShapeGrammar(
                 if (grammar.pattern != SingleBrickPattern.Grid) {
                     field("Brick Length", grammar.length)
                 }
+            }
+
+            DoNothingShapeGrammar -> doNothing()
+
+            is RectangularShapeGrammar -> {
+                field("Shape", grammar.shape)
+                showItemPart(call, state, grammar.part)
+            }
+
+            is ShrinkGrammar -> {
+                fieldFactor("Shrink Factor", grammar.factor)
+                showShapeGrammar(call, state, grammar.grammar, "Shrunken")
             }
         }
     }
@@ -62,7 +71,6 @@ fun HtmlBlockTag.editShapeGrammar(
         )
 
         when (grammar) {
-            DoNothingShapeGrammar -> doNothing()
             is BrickPatternGrammar -> {
                 editGridSize(
                     grammar.size,
@@ -95,6 +103,8 @@ fun HtmlBlockTag.editShapeGrammar(
                 }
             }
 
+            DoNothingShapeGrammar -> doNothing()
+
             is RectangularShapeGrammar -> {
                 selectValue(
                     "Shape",
@@ -106,6 +116,22 @@ fun HtmlBlockTag.editShapeGrammar(
                     state,
                     grammar.part,
                     combine(param, MATERIAL),
+                )
+            }
+
+            is ShrinkGrammar -> {
+                selectFactor(
+                    "Shrink Factor",
+                    combine(param, SHRINK),
+                    grammar.factor,
+                    MIN_SHRINK_FACTOR,
+                    MAX_SHRINK_FACTOR,
+                )
+                editShapeGrammar(
+                    state,
+                    grammar.grammar,
+                    combine(param, SUB),
+                    "Shrunken",
                 )
             }
         }
@@ -120,16 +146,6 @@ fun parseShapeGrammar(
     param: String = GRAMMAR,
 ): ShapeGrammar {
     return when (parse(parameters, param, ShapeGrammarType.RectangularShape)) {
-        ShapeGrammarType.RectangularShape -> RectangularShapeGrammar(
-            parseItemPart(
-                state,
-                parameters,
-                combine(param, MATERIAL),
-                ItemPartType.entries,
-            ),
-            parse(parameters, combine(param, SHAPE), RectangularShape.Rectangle),
-        )
-
         ShapeGrammarType.BrickPattern -> BrickPatternGrammar(
             parseShapeGrammar(state, parameters, combine(param, SUB)),
             parseGridSize(parameters, combine(param, SIZE)),
@@ -142,5 +158,18 @@ fun parseShapeGrammar(
         )
 
         ShapeGrammarType.DoNothing -> DoNothingShapeGrammar
+        ShapeGrammarType.RectangularShape -> RectangularShapeGrammar(
+            parseItemPart(
+                state,
+                parameters,
+                combine(param, MATERIAL),
+                ItemPartType.entries,
+            ),
+            parse(parameters, combine(param, SHAPE), RectangularShape.Rectangle),
+        )
+        ShapeGrammarType.Shrink -> ShrinkGrammar(
+            parseShapeGrammar(state, parameters, combine(param, SUB)),
+            parseFactor(parameters, combine(param, SHRINK), DEFAULT_SHRINK_FACTOR),
+        )
     }
 }

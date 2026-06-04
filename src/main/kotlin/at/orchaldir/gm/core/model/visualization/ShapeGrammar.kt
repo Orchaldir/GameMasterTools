@@ -6,7 +6,12 @@ import at.orchaldir.gm.core.model.util.part.ItemPart
 import at.orchaldir.gm.core.model.util.part.ItemPartType
 import at.orchaldir.gm.core.reducer.util.part.validateItemPart
 import at.orchaldir.gm.utils.doNothing
+import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.ONE_PERCENT
+import at.orchaldir.gm.utils.math.TEN_PERCENTS
+import at.orchaldir.gm.utils.math.THIRD
 import at.orchaldir.gm.utils.math.checkInt
+import at.orchaldir.gm.utils.math.validateFactor
 import at.orchaldir.gm.visualization.grammar.RectangularShape
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -16,11 +21,15 @@ var DEFAULT_BRICK_LENGTH = 2
 var MAX_BRICK_LENGTH = 5
 var MIN_GRID_SIZE = 2
 var MAX_GRID_SIZE = 1000
+var MIN_SHRINK_FACTOR = ONE_PERCENT
+var DEFAULT_SHRINK_FACTOR = TEN_PERCENTS
+var MAX_SHRINK_FACTOR = THIRD
 
 enum class ShapeGrammarType {
+    DoNothing,
     BrickPattern,
     RectangularShape,
-    DoNothing,
+    Shrink,
 }
 
 @Serializable
@@ -28,14 +37,16 @@ sealed class ShapeGrammar {
 
     fun getType() = when (this) {
         is BrickPatternGrammar -> ShapeGrammarType.BrickPattern
-        is RectangularShapeGrammar -> ShapeGrammarType.RectangularShape
         DoNothingShapeGrammar -> ShapeGrammarType.DoNothing
+        is RectangularShapeGrammar -> ShapeGrammarType.RectangularShape
+        is ShrinkGrammar -> ShapeGrammarType.Shrink
     }
 
     fun contains(material: MaterialId): Boolean = when (this) {
         is BrickPatternGrammar -> brick.contains(material)
-        is RectangularShapeGrammar -> part.contains(material)
         DoNothingShapeGrammar -> false
+        is RectangularShapeGrammar -> part.contains(material)
+        is ShrinkGrammar -> false
     }
 
     fun validate(state: State, label: String): Unit = when (this) {
@@ -45,11 +56,18 @@ sealed class ShapeGrammar {
             brick.validate(state, "$label's brick")
         }
 
+        DoNothingShapeGrammar -> doNothing()
+
         is RectangularShapeGrammar -> {
             validateItemPart(state, part, ItemPartType.entries)
         }
 
-        DoNothingShapeGrammar -> doNothing()
+        is ShrinkGrammar -> validateFactor(
+            factor,
+            "${label}'s shrink factor",
+            MIN_SHRINK_FACTOR,
+            MAX_SHRINK_FACTOR,
+        )
     }
 
 }
@@ -64,6 +82,10 @@ data class BrickPatternGrammar(
 ) : ShapeGrammar()
 
 @Serializable
+@SerialName("DoNothing")
+data object DoNothingShapeGrammar : ShapeGrammar()
+
+@Serializable
 @SerialName("RectangularShape")
 data class RectangularShapeGrammar(
     val part: ItemPart,
@@ -71,5 +93,8 @@ data class RectangularShapeGrammar(
 ) : ShapeGrammar()
 
 @Serializable
-@SerialName("DoNothing")
-data object DoNothingShapeGrammar : ShapeGrammar()
+@SerialName("Shrink")
+data class ShrinkGrammar(
+    val grammar: ShapeGrammar,
+    val factor: Factor = DEFAULT_SHRINK_FACTOR,
+) : ShapeGrammar()
