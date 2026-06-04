@@ -7,7 +7,7 @@ import at.orchaldir.gm.core.model.util.part.ItemPartType
 import at.orchaldir.gm.core.reducer.util.part.validateItemPart
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.checkInt
-import at.orchaldir.gm.utils.math.shape.RectangularShape
+import at.orchaldir.gm.visualization.grammar.RectangularShape
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
