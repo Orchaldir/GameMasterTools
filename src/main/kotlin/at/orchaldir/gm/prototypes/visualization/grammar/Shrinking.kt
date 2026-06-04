@@ -52,7 +52,7 @@ private fun createGrammar(shape: RectangularShape, factor: Factor) = Pair(
             ),
             factor,
         ),
-        SquareGrid(20),
+        SquareGrid(5),
         BrickPattern.Herringbone,
     ),
     PaddedSize(Size2d.square(Distance.fromMeters(1)), Distance.fromMeters(0.2f)),
