@@ -8,8 +8,8 @@
     "brick": {
      "#type": "RectangularShape",
      "part": {
-      "#type": "Wood",
-      "material": 10
+      "#type": "Stone",
+      "material": 22
      }
     },
     "size": {

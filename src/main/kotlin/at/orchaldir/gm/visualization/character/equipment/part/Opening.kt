@@ -9,7 +9,6 @@ import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.HALF
-import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.utils.SewingPatternConfig
 import at.orchaldir.gm.visualization.utils.visualizeSewingPattern
@@ -108,8 +107,7 @@ fun visualizeZipper(
     layer: Int,
 ) {
     val width = aabb.convertHeight(config.zipperWidth)
-    val color = zipper.main.getColor(state.state, state.colors)
-    val options = LineOptions(color.toRender(), width)
+    val options = state.lineOptions(zipper.main, width)
     val top = aabb.getPoint(x, topY)
     val bottom = aabb.getPoint(x, bottomY)
 

@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.model.util.render
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.MaterialId
+import at.orchaldir.gm.utils.RepeatableNumberGenerator
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.ONE_DM
@@ -28,35 +29,45 @@ sealed class FillLookup {
         is TilesLookup -> FillLookupType.Tiles
     }
 
-    fun lookup(state: State, colors: Colors, material: MaterialId): Fill = when (this) {
-        is SolidLookup -> Solid(color.lookup(state, colors, material))
+    fun lookup(
+        state: State,
+        numberGenerator: RepeatableNumberGenerator,
+        colors: Colors,
+        material: MaterialId,
+    ): Fill = when (this) {
+        is SolidLookup -> Solid(color.lookup(state, numberGenerator, colors, material))
         is TransparentLookup -> Transparent(
-            color.lookup(state, colors, material),
+            color.lookup(state, numberGenerator, colors, material),
             opacity,
         )
 
         is VerticalStripesLookup -> VerticalStripes(
-            color0.lookup(state, colors, material),
-            color1.lookup(state, colors, material),
+            color0.lookup(state, numberGenerator, colors, material),
+            color1.lookup(state, numberGenerator, colors, material),
             width,
         )
 
         is HorizontalStripesLookup -> HorizontalStripes(
-            color0.lookup(state, colors, material),
-            color1.lookup(state, colors, material),
+            color0.lookup(state, numberGenerator, colors, material),
+            color1.lookup(state, numberGenerator, colors, material),
             width,
         )
 
         is TilesLookup -> Tiles(
-            fill.lookup(state, colors, material),
-            background.lookup(state, colors, material),
+            fill.lookup(state, numberGenerator, colors, material),
+            background.lookup(state, numberGenerator, colors, material),
             width,
             borderPercentage
         )
     }
 
-    fun getColor(state: State, colors: Colors, material: MaterialId) = when (this) {
-        is SolidLookup -> color.lookup(state, colors, material)
+    fun getColor(
+        state: State,
+        numberGenerator: RepeatableNumberGenerator,
+        colors: Colors,
+        material: MaterialId,
+    ) = when (this) {
+        is SolidLookup -> color.lookup(state, numberGenerator, colors, material)
         else -> null
     }
 

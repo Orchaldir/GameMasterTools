@@ -1,6 +1,7 @@
 package at.orchaldir.gm.app.html.util.color
 
 import at.orchaldir.gm.app.COLOR
+import at.orchaldir.gm.app.MAP
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
@@ -24,6 +25,7 @@ fun HtmlBlockTag.showColorLookup(
     lookup: ColorLookup,
 ) = when (lookup) {
     is FixedColor -> showOptionalColor(lookup.color)
+    is RandomColor -> showInlineList(lookup.colors.getValidValues(), 3, ::showColor)
     LookupMaterial -> +"Color of Material"
     LookupSchema0 -> +"1.Color of Schema"
     LookupSchema1 -> +"2.Color of Schema"
@@ -48,6 +50,7 @@ fun HtmlBlockTag.editColorLookup(
         ) { type ->
             when (type) {
                 ColorLookupType.Fixed -> false
+                ColorLookupType.Random -> false
                 ColorLookupType.Material -> false
                 ColorLookupType.Schema0 -> state.getColorSchemeStorage().isEmpty()
                 ColorLookupType.Schema1 -> state.getColorSchemeStorage().isEmpty()
@@ -59,6 +62,13 @@ fun HtmlBlockTag.editColorLookup(
                 lookup.color,
                 combine(param, COLOR),
                 "Color",
+                colors,
+            )
+
+            is RandomColor -> selectColorRarityMap(
+                "Colors",
+                combine(param, COLOR, MAP),
+                lookup.colors,
                 colors,
             )
 
@@ -78,6 +88,14 @@ fun parseColorLookup(
 ) = when (parse(parameters, combine(param, TYPE), ColorLookupType.Material)) {
     ColorLookupType.Fixed -> FixedColor(
         parse(parameters, combine(param, COLOR), default),
+    )
+
+    ColorLookupType.Random -> RandomColor(
+        parseColorOneOf(
+            parameters,
+            combine(param, COLOR, MAP),
+            setOf(default),
+        )
     )
 
     ColorLookupType.Material -> LookupMaterial

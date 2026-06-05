@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.economy.material.LeatherGrade
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.util.render.*
 import at.orchaldir.gm.core.selector.economy.getMaterialColor
+import at.orchaldir.gm.utils.RepeatableNumberGenerator
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.HALF
 import kotlinx.serialization.SerialName
@@ -39,6 +40,7 @@ val PAGE_MATERIALS = listOf(
 )
 val SOLID_MATERIALS = listOf(
     ItemPartType.Metal,
+    ItemPartType.Stone,
     ItemPartType.Wood,
 )
 
@@ -50,12 +52,17 @@ enum class ItemPartType {
     Leather,
     Metal,
     Paper,
+    Stone,
     Wood;
 }
 
 interface HasColor {
 
-    fun getColor(state: State, colors: Colors): Color
+    fun getColor(
+        state: State,
+        numberGenerator: RepeatableNumberGenerator,
+        colors: Colors,
+    ): Color
 
 }
 
@@ -70,6 +77,7 @@ sealed class ItemPart : HasColor {
         is MadeFromLeather -> ItemPartType.Leather
         is MadeFromMetal -> ItemPartType.Metal
         is MadeFromPaper -> ItemPartType.Paper
+        is MadeFromStone -> ItemPartType.Stone
         is MadeFromWood -> ItemPartType.Wood
     }
 
@@ -77,14 +85,22 @@ sealed class ItemPart : HasColor {
 
     abstract fun material(): MaterialId
 
-    override fun getColor(state: State, colors: Colors): Color = error("Unsupported!")
+    override fun getColor(
+        state: State,
+        numberGenerator: RepeatableNumberGenerator,
+        colors: Colors,
+    ): Color = error("Unsupported!")
 
     open fun requiredSchemaColors() = 0
 }
 
 interface HasFill {
 
-    fun getFill(state: State, colors: Colors): Fill
+    fun getFill(
+        state: State,
+        numberGenerator: RepeatableNumberGenerator,
+        colors: Colors,
+    ): Fill
 
 }
 
@@ -97,7 +113,11 @@ data class MadeFromCord(
 
     constructor(color: Color) : this(MaterialId(0), color = FixedColor(color))
 
-    override fun getColor(state: State, colors: Colors) = color.lookup(state, colors, material)
+    override fun getColor(
+        state: State,
+        numberGenerator: RepeatableNumberGenerator,
+        colors: Colors,
+    ) = color.lookup(state, numberGenerator, colors, material)
 
     override fun contains(id: MaterialId) = material == id
     override fun material() = material
@@ -116,7 +136,11 @@ data class MadeFromFabric(
 
     constructor(color: Color) : this(MaterialId(0), fill = SolidLookup(color))
 
-    override fun getFill(state: State, colors: Colors) = fill.lookup(state, colors, material)
+    override fun getFill(
+        state: State,
+        numberGenerator: RepeatableNumberGenerator,
+        colors: Colors,
+    ) = fill.lookup(state, numberGenerator, colors, material)
 
     override fun contains(id: MaterialId) = material == id
     override fun material() = material
@@ -130,7 +154,11 @@ data class MadeFromGem(
     val material: MaterialId = MaterialId(0),
 ) : ItemPart(), HasColor {
 
-    override fun getColor(state: State, colors: Colors) = state.getMaterialColor(material)
+    override fun getColor(
+        state: State,
+        numberGenerator: RepeatableNumberGenerator,
+        colors: Colors,
+    ) = state.getMaterialColor(material)
 
     override fun contains(id: MaterialId) = material == id
     override fun material() = material
@@ -147,7 +175,11 @@ data class MadeFromGlass(
 
     constructor(color: Color) : this(MaterialId(0), color = FixedColor(color))
 
-    override fun getColor(state: State, colors: Colors) = color.lookup(state, colors, material)
+    override fun getColor(
+        state: State,
+        numberGenerator: RepeatableNumberGenerator,
+        colors: Colors,
+    ) = color.lookup(state, numberGenerator, colors, material)
 
     override fun contains(id: MaterialId) = material == id
     override fun material() = material
@@ -165,7 +197,11 @@ data class MadeFromLeather(
 
     constructor(color: Color) : this(MaterialId(0), color = FixedColor(color))
 
-    override fun getColor(state: State, colors: Colors) = color.lookup(state, colors, material)
+    override fun getColor(
+        state: State,
+        numberGenerator: RepeatableNumberGenerator,
+        colors: Colors,
+    ) = color.lookup(state, numberGenerator, colors, material)
 
     override fun contains(id: MaterialId) = material == id
     override fun material() = material
@@ -179,7 +215,11 @@ data class MadeFromMetal(
     val material: MaterialId = MaterialId(0),
 ) : ItemPart(), HasColor {
 
-    override fun getColor(state: State, colors: Colors) = state.getMaterialColor(material)
+    override fun getColor(
+        state: State,
+        numberGenerator: RepeatableNumberGenerator,
+        colors: Colors,
+    ) = state.getMaterialColor(material)
 
     override fun contains(id: MaterialId) = material == id
     override fun material() = material
@@ -195,7 +235,32 @@ data class MadeFromPaper(
 
     constructor(color: Color) : this(MaterialId(0), color = FixedColor(color))
 
-    override fun getColor(state: State, colors: Colors) = color.lookup(state, colors, material)
+    override fun getColor(
+        state: State,
+        numberGenerator: RepeatableNumberGenerator,
+        colors: Colors,
+    ) = color.lookup(state, numberGenerator, colors, material)
+
+    override fun contains(id: MaterialId) = material == id
+    override fun material() = material
+    override fun requiredSchemaColors() = color.requiredSchemaColors()
+
+}
+
+@Serializable
+@SerialName("Stone")
+data class MadeFromStone(
+    val material: MaterialId = MaterialId(0),
+    val color: ColorLookup = LookupMaterial,
+) : ItemPart(), HasColor {
+
+    constructor(color: Color) : this(MaterialId(0), color = FixedColor(color))
+
+    override fun getColor(
+        state: State,
+        numberGenerator: RepeatableNumberGenerator,
+        colors: Colors,
+    ) = color.lookup(state, numberGenerator, colors, material)
 
     override fun contains(id: MaterialId) = material == id
     override fun material() = material
@@ -213,10 +278,18 @@ data class MadeFromWood(
     constructor(material: MaterialId, color: Color) : this(material, fill = SolidLookup(color))
     constructor(color: Color) : this(MaterialId(0), color)
 
-    override fun getColor(state: State, colors: Colors) = fill.getColor(state, colors, material)
+    override fun getColor(
+        state: State,
+        numberGenerator: RepeatableNumberGenerator,
+        colors: Colors,
+    ) = fill.getColor(state, numberGenerator, colors, material)
         ?: error("Not supported by Fill!")
 
-    override fun getFill(state: State, colors: Colors) = fill.lookup(state, colors, material)
+    override fun getFill(
+        state: State,
+        numberGenerator: RepeatableNumberGenerator,
+        colors: Colors,
+    ) = fill.lookup(state, numberGenerator, colors, material)
 
     override fun contains(id: MaterialId) = material == id
     override fun material() = material

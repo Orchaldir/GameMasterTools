@@ -7,8 +7,11 @@ import at.orchaldir.gm.core.model.item.text.content.ContentStyle
 import at.orchaldir.gm.core.model.util.part.ItemPart
 import at.orchaldir.gm.core.model.util.render.UndefinedColors
 import at.orchaldir.gm.core.selector.item.getAuthorName
+import at.orchaldir.gm.utils.HashNumberGenerator
+import at.orchaldir.gm.utils.RepeatableNumberGenerator
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.renderer.MultiLayerRenderer
+import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.visualization.RenderState
 import at.orchaldir.gm.visualization.utils.convertToFillAndBorder
 import at.orchaldir.gm.visualization.utils.convertToNoBorder
@@ -27,15 +30,23 @@ data class TextRenderState(
     val config: TextRenderConfig,
     val renderer: MultiLayerRenderer,
     val data: ResolvedTextData = ResolvedTextData(),
+    val numberGenerator: RepeatableNumberGenerator = HashNumberGenerator.fromTime(),
 ) : RenderState {
 
     override fun state() = state
     override fun renderer() = renderer
     override fun lineOptions() = config.line
 
-    override fun getFillAndBorder(part: ItemPart, clipping: String?) = convertToFillAndBorder(
+    override fun getColor(part: ItemPart) = part.getColor(state, numberGenerator, UndefinedColors)
+
+    override fun getFillAndBorder(
+        part: ItemPart,
+        lineOptions: LineOptions,
+        clipping: String?,
+    ) = convertToFillAndBorder(
         UndefinedColors,
-        lineOptions(),
+        numberGenerator,
+        lineOptions,
         part,
         state,
         clipping,
@@ -43,6 +54,7 @@ data class TextRenderState(
 
     override fun getNoBorder(part: ItemPart, clipping: String?) = convertToNoBorder(
         state,
+        numberGenerator,
         UndefinedColors,
         part,
         clipping,

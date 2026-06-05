@@ -1,9 +1,6 @@
 package at.orchaldir.gm.core.reducer.visualization
 
-import at.orchaldir.gm.MATERIAL_ID_0
-import at.orchaldir.gm.UNKNOWN_MATERIAL_ID
-import at.orchaldir.gm.assertIllegalArgument
-import at.orchaldir.gm.assertInt
+import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.Material
 import at.orchaldir.gm.core.model.economy.material.MaterialProperties
@@ -80,6 +77,25 @@ class ShapeGrammarTest {
             val grammar = RectangularShapeGrammar(MadeFromMetal(MATERIAL_ID_0))
 
             success(grammar)
+        }
+    }
+
+    @Nested
+    inner class ShrinkGrammarTest {
+
+        @Test
+        fun `Test the shrink factor`() {
+            assertFactor(
+                "test's shrink factor",
+                MIN_SHRINK_FACTOR,
+                MAX_SHRINK_FACTOR,
+                { factor, message ->
+                    fail(ShrinkGrammar(DoNothingShapeGrammar, factor), message)
+                },
+                { factor ->
+                    success(ShrinkGrammar(DoNothingShapeGrammar, factor))
+                },
+            )
         }
     }
 

@@ -1,6 +1,6 @@
 package at.orchaldir.gm.core.model.visualization
 
-enum class SingleBrickPattern {
+enum class BrickPattern {
     BasketWeaveSingle,
     BasketWeave,
     Grid,

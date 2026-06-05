@@ -81,6 +81,14 @@ class AabbTest {
     }
 
     @Test
+    fun `Shrink by a factor relative to the smaller side`() {
+        assertEquals(
+            AABB.fromMeters(5.0f, 6.0f, 24.0f, 54.0f),
+            aabb.shrinkRelativeToSmallerSide(fromPercentage(10)),
+        )
+    }
+
+    @Test
     fun `Mirror a polygon horizontally`() {
         val polygon = Polygon2d(List(3) { Point2d.fromMeters(9.0f, 18.0f) })
         val mirrored = Polygon2d(List(3) { Point2d.fromMeters(9.0f, 48.0f) })

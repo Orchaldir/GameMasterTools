@@ -1,10 +1,13 @@
 package at.orchaldir.gm.core.model.economy.material
 
+import at.orchaldir.gm.core.generator.RarityGenerator
 import at.orchaldir.gm.core.model.race.appearance.HairColorOptions
 import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.util.PercentageDistribution
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.render.Color
+import at.orchaldir.gm.utils.COLOR_INDEX
+import at.orchaldir.gm.utils.RepeatableNumberGenerator
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -13,7 +16,8 @@ val CATEGORIES_FOR_ALLOY = setOf(MaterialCategoryType.Metal)
 val CATEGORIES_FOR_CLOTHING = setOf(MaterialCategoryType.Fiber, MaterialCategoryType.Leather)
 val CATEGORIES_FOR_GEM = setOf(MaterialCategoryType.Mineral)
 val CATEGORIES_FOR_ROCK = setOf(MaterialCategoryType.Mineral)
-val SOLDI_CATEGORIES = setOf(
+val CATEGORIES_FOR_STONE = setOf(MaterialCategoryType.Mineral, MaterialCategoryType.Rock)
+val SOLID_CATEGORIES = setOf(
     MaterialCategoryType.Alloy,
     MaterialCategoryType.Glass,
     MaterialCategoryType.Metal,
@@ -60,6 +64,24 @@ sealed class MaterialCategory {
         is Leather -> hide == material
         is Rock -> components.contains(material)
         else -> false
+    }
+
+    fun getColor(
+        rarityGenerator: RarityGenerator,
+        numberGenerator: RepeatableNumberGenerator,
+    ) = when (this) {
+        is Alloy -> color
+        is Fiber -> color
+        is Fur -> null
+        is Glass -> color
+        is Hide -> color
+        is Leather -> color
+        is Metal -> color
+        is Mineral -> rarityGenerator.generate(colors, numberGenerator, COLOR_INDEX)
+        is Paper -> color
+        is Rock -> rarityGenerator.generate(colors, numberGenerator, COLOR_INDEX)
+        is Wood -> color
+        UndefinedMaterialCategory -> null
     }
 
     fun getMostCommonColor() = when (this) {
@@ -145,7 +167,7 @@ data class Paper(
 @SerialName("Rock")
 data class Rock(
     val colors: OneOf<Color>,
-    val components: Set<MaterialId>,
+    val components: Set<MaterialId> = emptySet(),
     val type: RockType = RockType.Undefined,
 ) : MaterialCategory()
 

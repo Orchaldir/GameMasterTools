@@ -14,6 +14,7 @@ import at.orchaldir.gm.core.selector.race.getRaceAppearancesMadeOf
 import at.orchaldir.gm.core.selector.world.getMoonsContaining
 import at.orchaldir.gm.core.selector.world.getRegionsContaining
 import at.orchaldir.gm.core.selector.world.getStreetTemplatesMadeOf
+import at.orchaldir.gm.utils.RepeatableNumberGenerator
 import at.orchaldir.gm.utils.math.unit.Volume
 import at.orchaldir.gm.utils.math.unit.Weight
 
@@ -46,6 +47,8 @@ fun State.getFirstMaterial(categories: Set<MaterialCategoryType>) = getMaterialS
     .getAll()
     .first { categories.contains(it.properties.category.getType()) }
 
+fun State.getMaterials(category: MaterialCategoryType) = getMaterials(setOf(category))
+
 fun State.getMaterials(categories: Set<MaterialCategoryType>) = getMaterialStorage()
     .getAll()
     .filter { categories.contains(it.properties.category.getType()) }
@@ -62,3 +65,12 @@ fun State.getMaterialColor(id: MaterialId) = getMaterialStorage()
     .properties
     .category
     .getMostCommonColor() ?: Color.Pink
+
+fun State.getMaterialColor(
+    numberGenerator: RepeatableNumberGenerator,
+    id: MaterialId,
+) = getMaterialStorage()
+    .getOrThrow(id)
+    .properties
+    .category
+    .getColor(rarityGenerator, numberGenerator) ?: Color.Pink

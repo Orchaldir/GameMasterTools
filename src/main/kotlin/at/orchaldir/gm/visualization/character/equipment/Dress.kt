@@ -9,7 +9,7 @@ import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.THREE_QUARTER
 import at.orchaldir.gm.utils.math.unit.Volume
-import at.orchaldir.gm.utils.renderer.model.FillAndBorder
+import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.ICharacterConfig
 import at.orchaldir.gm.visualization.character.appearance.EQUIPMENT_LAYER
@@ -58,7 +58,7 @@ fun visualizeDress(
 
 private fun visualizeDressBody(
     state: CharacterRenderState<Body>,
-    options: FillAndBorder,
+    options: RenderOptions,
     dress: Dress,
 ) {
     val builder = createSkirt(state, dress.skirtStyle)

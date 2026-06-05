@@ -8,7 +8,7 @@ import at.orchaldir.gm.core.model.util.part.ItemPart
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.renderer.LayerRenderer
-import at.orchaldir.gm.utils.renderer.model.FillAndBorder
+import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.appearance.HAND_LAYER
 import at.orchaldir.gm.visualization.character.equipment.HelmetConfig
@@ -187,7 +187,7 @@ fun visualizeHelmWithEyeHoles(
     state: CharacterRenderState<Head>,
     renderer: LayerRenderer,
     config: HelmetConfig,
-    options: FillAndBorder,
+    options: RenderOptions,
     polygon: Polygon2d,
     eyeHoleShape: EyeHoleShape,
 ) {

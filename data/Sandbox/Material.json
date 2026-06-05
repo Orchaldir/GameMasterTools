@@ -301,6 +301,26 @@
      "color": "SaddleBrown"
     }
    }
+  },
+  "22": {
+   "id": 22,
+   "name": "Granite",
+   "properties": {
+    "category": {
+     "#type": "Rock",
+     "colors": {
+      "DimGray": "Rare",
+      "Gray": "Uncommon",
+      "LightGray": "Common",
+      "Silver": "Uncommon"
+     },
+     "components": [
+     ],
+     "type": "Igneous"
+    },
+    "density": 2600000000,
+    "hardness": 6.5
+   }
   }
  }
 }

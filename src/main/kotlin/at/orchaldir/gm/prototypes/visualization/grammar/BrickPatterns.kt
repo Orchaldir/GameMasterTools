@@ -3,9 +3,9 @@ package at.orchaldir.gm.prototypes.visualization.grammar
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.part.MadeFromWood
 import at.orchaldir.gm.core.model.util.render.Color
+import at.orchaldir.gm.core.model.visualization.BrickPattern
 import at.orchaldir.gm.core.model.visualization.BrickPatternGrammar
 import at.orchaldir.gm.core.model.visualization.RectangularShapeGrammar
-import at.orchaldir.gm.core.model.visualization.SingleBrickPattern
 import at.orchaldir.gm.core.model.visualization.SquareGrid
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.utils.math.Size2d
@@ -17,12 +17,12 @@ fun main() {
         State(),
         "grammar-single-brick-patterns.svg",
         addNames(listOf(2, 3, 4)),
-        addNames(SingleBrickPattern.entries),
+        addNames(BrickPattern.entries),
         ::createGrammar,
     )
 }
 
-private fun createGrammar(pattern: SingleBrickPattern, length: Int) = Pair(
+private fun createGrammar(pattern: BrickPattern, length: Int) = Pair(
     BrickPatternGrammar(
         RectangularShapeGrammar(
             MadeFromWood(color = Color.Gray),

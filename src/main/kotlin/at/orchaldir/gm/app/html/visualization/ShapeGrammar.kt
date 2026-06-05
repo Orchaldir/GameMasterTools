@@ -2,6 +2,9 @@ package at.orchaldir.gm.app.html.visualization
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.util.math.fieldFactor
+import at.orchaldir.gm.app.html.util.math.parseFactor
+import at.orchaldir.gm.app.html.util.math.selectFactor
 import at.orchaldir.gm.app.html.util.part.editItemPart
 import at.orchaldir.gm.app.html.util.part.parseItemPart
 import at.orchaldir.gm.app.html.util.part.showItemPart
@@ -9,7 +12,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.part.ItemPartType
 import at.orchaldir.gm.core.model.visualization.*
 import at.orchaldir.gm.utils.doNothing
-import at.orchaldir.gm.utils.math.shape.RectangularShape
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -26,20 +28,26 @@ fun HtmlBlockTag.showShapeGrammar(
         field("Type", grammar.getType())
 
         when (grammar) {
-            DoNothingShapeGrammar -> doNothing()
-            is RectangularShapeGrammar -> {
-                field("Shape", grammar.shape)
-                showItemPart(call, state, grammar.part)
-            }
-
             is BrickPatternGrammar -> {
                 showGridSize(grammar.size)
                 field("Pattern", grammar.pattern)
                 showShapeGrammar(call, state, grammar.brick, "Brick")
 
-                if (grammar.pattern != SingleBrickPattern.Grid) {
+                if (grammar.pattern != BrickPattern.Grid) {
                     field("Brick Length", grammar.length)
                 }
+            }
+
+            DoNothingShapeGrammar -> doNothing()
+
+            is RectangularShapeGrammar -> {
+                field("Shape", grammar.shape)
+                showItemPart(call, state, grammar.part)
+            }
+
+            is ShrinkGrammar -> {
+                fieldFactor("Shrink Factor", grammar.factor)
+                showShapeGrammar(call, state, grammar.grammar, "Shrunken")
             }
         }
     }
@@ -62,7 +70,6 @@ fun HtmlBlockTag.editShapeGrammar(
         )
 
         when (grammar) {
-            DoNothingShapeGrammar -> doNothing()
             is BrickPatternGrammar -> {
                 editGridSize(
                     grammar.size,
@@ -70,11 +77,10 @@ fun HtmlBlockTag.editShapeGrammar(
                     MIN_GRID_SIZE,
                     MAX_GRID_SIZE,
                 )
-                field("Pattern", grammar.pattern)
                 selectValue(
                     "Pattern",
                     combine(param, PATTERN),
-                    SingleBrickPattern.entries,
+                    BrickPattern.entries,
                     grammar.pattern,
                 )
                 editShapeGrammar(
@@ -84,7 +90,7 @@ fun HtmlBlockTag.editShapeGrammar(
                     "Brick",
                 )
 
-                if (grammar.pattern != SingleBrickPattern.Grid) {
+                if (grammar.pattern != BrickPattern.Grid) {
                     selectInt(
                         "Brick Length",
                         grammar.length,
@@ -95,6 +101,8 @@ fun HtmlBlockTag.editShapeGrammar(
                     )
                 }
             }
+
+            DoNothingShapeGrammar -> doNothing()
 
             is RectangularShapeGrammar -> {
                 selectValue(
@@ -109,6 +117,22 @@ fun HtmlBlockTag.editShapeGrammar(
                     combine(param, MATERIAL),
                 )
             }
+
+            is ShrinkGrammar -> {
+                selectFactor(
+                    "Shrink Factor",
+                    combine(param, SHRINK),
+                    grammar.factor,
+                    MIN_SHRINK_FACTOR,
+                    MAX_SHRINK_FACTOR,
+                )
+                editShapeGrammar(
+                    state,
+                    grammar.grammar,
+                    combine(param, SUB),
+                    "Shrunken",
+                )
+            }
         }
     }
 }
@@ -121,27 +145,31 @@ fun parseShapeGrammar(
     param: String = GRAMMAR,
 ): ShapeGrammar {
     return when (parse(parameters, param, ShapeGrammarType.RectangularShape)) {
-        ShapeGrammarType.RectangularShape -> RectangularShapeGrammar(
-            parseItemPart(
-                state,
-                parameters,
-                combine(param, MATERIAL),
-                ItemPartType.Wood,
-            ),
-            parse(parameters, combine(param, SHAPE), RectangularShape.Rectangle),
-        )
-
         ShapeGrammarType.BrickPattern -> BrickPatternGrammar(
             parseShapeGrammar(state, parameters, combine(param, SUB)),
             parseGridSize(parameters, combine(param, SIZE)),
             parse(
                 parameters,
                 combine(param, PATTERN),
-                SingleBrickPattern.Running,
+                BrickPattern.Running,
             ),
             parseInt(parameters, combine(param, LENGTH), DEFAULT_BRICK_LENGTH),
         )
 
         ShapeGrammarType.DoNothing -> DoNothingShapeGrammar
+        ShapeGrammarType.RectangularShape -> RectangularShapeGrammar(
+            parseItemPart(
+                state,
+                parameters,
+                combine(param, MATERIAL),
+                ItemPartType.entries,
+            ),
+            parse(parameters, combine(param, SHAPE), RectangularShape.Rectangle),
+        )
+
+        ShapeGrammarType.Shrink -> ShrinkGrammar(
+            parseShapeGrammar(state, parameters, combine(param, SUB)),
+            parseFactor(parameters, combine(param, SHRINK), DEFAULT_SHRINK_FACTOR),
+        )
     }
 }
