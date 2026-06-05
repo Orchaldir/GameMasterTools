@@ -43,6 +43,7 @@ fun convertToRenderFill(
         val color = part.getColor(state, numberGenerator, colors)
         RenderTransparent(color.toRender(), part.opacity)
     }
+
     is MadeFromLeather -> convert(state, numberGenerator, part, colors)
     is MadeFromMetal -> convert(state, numberGenerator, part, colors)
     is MadeFromPaper -> convert(state, numberGenerator, part, colors)

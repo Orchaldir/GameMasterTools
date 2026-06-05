@@ -2,9 +2,8 @@ package at.orchaldir.gm.utils
 
 import kotlinx.serialization.Serializable
 import java.nio.ByteBuffer
-import java.time.Instant
 import java.security.MessageDigest
-import kotlin.collections.toByteArray
+import java.time.Instant
 
 const val COLOR_INDEX = 0
 

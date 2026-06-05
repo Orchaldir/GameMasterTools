@@ -14,7 +14,6 @@ import at.orchaldir.gm.utils.RepeatableNumberGenerator
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Point2d
-import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.MultiLayerRenderer
 import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.visualization.RenderState

@@ -63,6 +63,7 @@ fun HtmlBlockTag.showItemPart(
                 fieldLink("Material", call, state, part.material)
                 fieldColorLookup("Color", part.color)
             }
+
             is MadeFromStone -> {
                 fieldLink("Material", call, state, part.material)
                 fieldColorLookup("Color", part.color)
@@ -177,6 +178,7 @@ fun HtmlBlockTag.editItemPart(
                 selectMaterial(state, materialParam, part.material, papers)
                 selectColor(state, param, part.color)
             }
+
             is MadeFromStone -> {
                 selectMaterial(state, materialParam, part.material, stones)
                 selectColor(state, param, part.color)

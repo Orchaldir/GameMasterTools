@@ -1,6 +1,5 @@
 package at.orchaldir.gm.core.selector.economy
 
-import at.orchaldir.gm.core.generator.RarityGenerator
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.Material

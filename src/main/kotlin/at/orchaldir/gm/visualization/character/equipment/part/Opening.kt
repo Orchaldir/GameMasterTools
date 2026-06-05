@@ -9,7 +9,6 @@ import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.HALF
-import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.utils.SewingPatternConfig
 import at.orchaldir.gm.visualization.utils.visualizeSewingPattern

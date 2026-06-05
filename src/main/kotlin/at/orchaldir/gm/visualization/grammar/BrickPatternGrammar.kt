@@ -1,9 +1,9 @@
 package at.orchaldir.gm.visualization.grammar
 
+import at.orchaldir.gm.core.model.visualization.BrickPattern
 import at.orchaldir.gm.core.model.visualization.BrickPatternGrammar
 import at.orchaldir.gm.core.model.visualization.GridSize
 import at.orchaldir.gm.core.model.visualization.ShapeGrammar
-import at.orchaldir.gm.core.model.visualization.BrickPattern
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Factor

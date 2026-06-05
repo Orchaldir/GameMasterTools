@@ -1,6 +1,5 @@
 package at.orchaldir.gm.core.model.util.render
 
-import at.orchaldir.gm.core.generator.RarityGenerator
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.util.OneOf

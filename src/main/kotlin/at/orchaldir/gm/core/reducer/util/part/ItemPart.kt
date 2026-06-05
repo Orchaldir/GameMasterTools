@@ -1,11 +1,7 @@
 package at.orchaldir.gm.core.reducer.util.part
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.economy.material.ALLOYS_OR_METALS
-import at.orchaldir.gm.core.model.economy.material.CATEGORIES_FOR_CLOTHING
-import at.orchaldir.gm.core.model.economy.material.CATEGORIES_FOR_GEM
-import at.orchaldir.gm.core.model.economy.material.CATEGORIES_FOR_STONE
-import at.orchaldir.gm.core.model.economy.material.MaterialCategoryType
+import at.orchaldir.gm.core.model.economy.material.*
 import at.orchaldir.gm.core.model.util.part.*
 import at.orchaldir.gm.core.selector.economy.getMaterialIds
 

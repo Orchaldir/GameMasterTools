@@ -1,6 +1,5 @@
 package at.orchaldir.gm.app.html.util.color
 
-import at.orchaldir.gm.app.CATEGORY
 import at.orchaldir.gm.app.COLOR
 import at.orchaldir.gm.app.MAP
 import at.orchaldir.gm.app.TYPE
@@ -65,6 +64,7 @@ fun HtmlBlockTag.editColorLookup(
                 "Color",
                 colors,
             )
+
             is RandomColor -> selectColorRarityMap(
                 "Colors",
                 combine(param, COLOR, MAP),
@@ -89,6 +89,7 @@ fun parseColorLookup(
     ColorLookupType.Fixed -> FixedColor(
         parse(parameters, combine(param, COLOR), default),
     )
+
     ColorLookupType.Random -> RandomColor(
         parseColorOneOf(
             parameters,

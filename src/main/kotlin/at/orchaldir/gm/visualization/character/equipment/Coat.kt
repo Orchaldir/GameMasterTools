@@ -7,7 +7,6 @@ import at.orchaldir.gm.core.model.item.equipment.style.NoNeckline
 import at.orchaldir.gm.core.model.item.equipment.style.OuterwearLength
 import at.orchaldir.gm.core.model.item.equipment.style.SleeveStyle
 import at.orchaldir.gm.utils.math.*
-import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.RenderOptions
 import at.orchaldir.gm.visualization.character.CharacterRenderState
 import at.orchaldir.gm.visualization.character.ICharacterConfig

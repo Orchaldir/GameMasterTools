@@ -22,6 +22,7 @@ interface RenderState {
 
     fun getFillAndBorder(part: ItemPart, clipping: String? = null) =
         getFillAndBorder(part, lineOptions(), clipping)
+
     fun getFillAndBorder(part: ItemPart, lineOptions: LineOptions, clipping: String? = null): RenderOptions
     fun getNoBorder(part: ItemPart, clipping: String? = null): RenderOptions
 
