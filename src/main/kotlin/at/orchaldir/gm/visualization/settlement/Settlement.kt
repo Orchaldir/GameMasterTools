@@ -116,7 +116,7 @@ data class SettlementRenderer(
             val grammar = colorLookup(street, index)
 
             svgBuilder.optionalLinkAndTooltip(linkLookup(street, index), tooltipLookup(street, index)) {
-                visualizeShapeGrammar(renderState, grammar, aabb)
+                visualizeShapeGrammar(renderState.addSeed(index), grammar, aabb)
             }
         }
     }
