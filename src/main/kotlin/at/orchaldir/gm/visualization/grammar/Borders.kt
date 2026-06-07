@@ -11,15 +11,22 @@ data class Borders(
     constructor(isBorder: Boolean): this(isBorder, isBorder, isBorder, isBorder)
 
     fun apply(size: MapSize2d) = MapSize2d(
-        if (left) {
-            size.width
-        } else {
-            Int.MAX_VALUE
-        },
-        if (bottom) {
-            size.height
-        } else {
-            Int.MAX_VALUE
-        },
+        getWidth(size),
+        getHeight(size),
     )
+
+    fun applyLeft(size: MapSize2d) = size.copy(width = getWidth(size))
+    fun applyBottom(size: MapSize2d) = size.copy(height = getHeight(size))
+
+    private fun getWidth(size: MapSize2d): Int = if (left) {
+        size.width
+    } else {
+        Int.MAX_VALUE
+    }
+
+    private fun getHeight(size: MapSize2d): Int = if (bottom) {
+        size.height
+    } else {
+        Int.MAX_VALUE
+    }
 }

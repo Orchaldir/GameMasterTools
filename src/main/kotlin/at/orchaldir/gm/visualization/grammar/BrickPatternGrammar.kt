@@ -78,7 +78,6 @@ private fun visualizeBasketWeaveSingle(
     ) { subSectionX, subSectionY, gridStart, blockSize, gridSize ->
         val startX = subSectionX * n
         val startY = subSectionY * (n + 1)
-        val limits = borders.apply(gridSize)
 
         when {
             subSectionX % 2 == 0 -> 0
@@ -92,7 +91,7 @@ private fun visualizeBasketWeaveSingle(
                 blockSize,
                 startX,
                 startY + offset,
-                limits,
+                borders.applyBottom(gridSize),
                 borders,
                 layer,
                 n,
@@ -115,7 +114,7 @@ private fun visualizeBasketWeaveSingle(
                 startX,
                 startY + offset,
                 MapSize2d(n, 1),
-                limits,
+                borders.applyLeft(gridSize),
                 borders,
                 layer,
             )
