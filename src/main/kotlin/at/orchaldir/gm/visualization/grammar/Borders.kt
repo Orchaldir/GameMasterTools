@@ -5,4 +5,6 @@ data class Borders(
     val left: Boolean = true,
     val right: Boolean = true,
     val top: Boolean = true,
-)
+) {
+    constructor(isBorder: Boolean): this(isBorder, isBorder, isBorder, isBorder)
+}
