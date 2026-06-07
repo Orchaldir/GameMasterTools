@@ -12,15 +12,17 @@ fun visualizeShapeGrammar(
     state: GrammarRenderState,
     grammar: ShapeGrammar,
     aabb: AABB,
+    borders: Borders = Borders(),
     layer: Int = 0,
 ): Unit = when (grammar) {
-    is BrickPatternGrammar -> visualizeBrickPatternGrammar(state, grammar, aabb, layer)
+    is BrickPatternGrammar -> visualizeBrickPatternGrammar(state, grammar, aabb, borders , layer)
     DoNothingShapeGrammar -> doNothing()
     is RectangularShapeGrammar -> visualizeRectangularShapeGrammar(state, grammar, aabb, layer)
     is ShrinkGrammar -> visualizeShapeGrammar(
         state,
         grammar.grammar,
         aabb.shrink(grammar.factor),
+        borders,
         layer,
     )
 }
@@ -34,6 +36,7 @@ fun visualizeShapeGrammar(
     y: Int,
     blocks: MapSize2d,
     limits: MapSize2d,
+    borders: Borders = Borders(),
     layer: Int = 0,
     shrinkFactor: Factor? = null,
 ): Unit = when (grammar) {
@@ -62,6 +65,7 @@ fun visualizeShapeGrammar(
         y,
         blocks,
         limits,
+        borders,
         layer,
         grammar.factor,
     )

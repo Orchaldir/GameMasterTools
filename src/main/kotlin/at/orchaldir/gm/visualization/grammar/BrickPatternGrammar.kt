@@ -16,16 +16,32 @@ fun visualizeBrickPatternGrammar(
     state: GrammarRenderState,
     grammar: BrickPatternGrammar,
     aabb: AABB,
+    borders: Borders,
     layer: Int,
 ) = when (grammar.pattern) {
-    BrickPattern.BasketWeaveSingle -> visualizeBasketWeaveSingle(state, grammar, aabb, layer, grammar.length)
-    BrickPattern.BasketWeave -> visualizeBasketWeaveN(state, grammar, aabb, layer, grammar.length)
-    BrickPattern.Grid -> visualizeGrid(state, grammar, aabb, layer)
-    BrickPattern.Herringbone -> visualizeHerringbone(state, grammar, aabb, layer, grammar.length)
+    BrickPattern.BasketWeaveSingle -> visualizeBasketWeaveSingle(
+        state,
+        grammar,
+        aabb,
+        borders,
+        layer,
+        grammar.length,
+    )
+    BrickPattern.BasketWeave -> visualizeBasketWeaveN(
+        state,
+        grammar,
+        aabb,
+        borders,
+        layer,
+        grammar.length,
+    )
+    BrickPattern.Grid -> visualizeGrid(state, grammar, aabb, borders, layer)
+    BrickPattern.Herringbone -> visualizeHerringbone(state, grammar, aabb, borders, layer, grammar.length)
     BrickPattern.Running -> visualizeRows(
         state,
         grammar,
         aabb,
+        borders,
         layer,
     ) { x, y ->
         if (x == 0 && y % 2 == 0) {
@@ -39,6 +55,7 @@ fun visualizeBrickPatternGrammar(
         state,
         grammar,
         aabb,
+        borders,
         layer,
         { _, _ -> grammar.length },
     )
@@ -48,6 +65,7 @@ private fun visualizeBasketWeaveSingle(
     state: GrammarRenderState,
     grammar: BrickPatternGrammar,
     aabb: AABB,
+    borders: Borders,
     layer: Int,
     n: Int,
 ) {
@@ -74,6 +92,7 @@ private fun visualizeBasketWeaveSingle(
                 startX,
                 startY + offset,
                 limits,
+                borders,
                 layer,
                 n,
                 index,
@@ -96,6 +115,7 @@ private fun visualizeBasketWeaveSingle(
                 startY + offset,
                 MapSize2d(n, 1),
                 limits,
+                borders,
                 layer,
             )
         }
@@ -106,6 +126,7 @@ private fun visualizeBasketWeaveN(
     state: GrammarRenderState,
     grammar: BrickPatternGrammar,
     aabb: AABB,
+    borders: Borders,
     layer: Int,
     n: Int,
 ) {
@@ -128,6 +149,7 @@ private fun visualizeBasketWeaveN(
                 x,
                 y,
                 limits,
+                borders,
                 layer,
                 n,
                 index,
@@ -141,6 +163,7 @@ private fun visualizeBasketWeaveN(
                 x,
                 y,
                 limits,
+                borders,
                 layer,
                 n,
                 index,
@@ -159,6 +182,7 @@ private fun visualizeHorizontalBasketWeaveN(
     x: Int,
     y: Int,
     limits: MapSize2d,
+    borders: Borders,
     layer: Int,
     n: Int,
     startIndex: Int,
@@ -179,6 +203,7 @@ private fun visualizeHorizontalBasketWeaveN(
                 currentY,
                 blocks,
                 limits,
+                borders,
                 layer,
             )
         }
@@ -193,6 +218,7 @@ private fun visualizeVerticalBasketWeaveN(
     x: Int,
     y: Int,
     limits: MapSize2d,
+    borders: Borders,
     layer: Int,
     n: Int,
     startIndex: Int,
@@ -213,6 +239,7 @@ private fun visualizeVerticalBasketWeaveN(
                 y,
                 blocks,
                 limits,
+                borders,
                 layer,
             )
         }
@@ -223,6 +250,7 @@ private fun visualizeGrid(
     state: GrammarRenderState,
     grammar: BrickPatternGrammar,
     aabb: AABB,
+    borders: Borders,
     layer: Int,
 ) = grammar.size.process(aabb) { start, gridSize, brickSize ->
     var startOfRow = start
@@ -236,6 +264,7 @@ private fun visualizeGrid(
                 state.addSeed(index),
                 grammar.brick,
                 AABB(currentBrick, brickSize),
+                borders,
                 layer,
             )
 
@@ -251,6 +280,7 @@ private fun visualizeHerringbone(
     state: GrammarRenderState,
     grammar: BrickPatternGrammar,
     aabb: AABB,
+    borders: Borders,
     layer: Int,
     length: Int,
 ) = grammar.size.process(aabb) { gridStart, gridSize, blockSize ->
@@ -278,6 +308,7 @@ private fun visualizeHerringbone(
                     y,
                     horizontalBlocks,
                     gridSize,
+                    borders,
                     layer,
                 )
             } else if (x > -length) {
@@ -290,6 +321,7 @@ private fun visualizeHerringbone(
                     y,
                     MapSize2d(length + x, 1),
                     gridSize,
+                    borders,
                     layer,
                 )
             }
@@ -307,6 +339,7 @@ private fun visualizeHerringbone(
                         0,
                         MapSize2d(1, 1 + i),
                         gridSize,
+                        borders,
                         layer,
                     )
 
@@ -328,6 +361,7 @@ private fun visualizeHerringbone(
                     y,
                     verticalBlocks,
                     gridSize,
+                    borders,
                     layer,
                 )
 
@@ -341,6 +375,7 @@ private fun visualizeRows(
     state: GrammarRenderState,
     grammar: BrickPatternGrammar,
     aabb: AABB,
+    borders: Borders,
     layer: Int,
     calculateLength: (Int, Int) -> Int,
 ) = grammar.size.process(aabb) { start, gridSize, blockSize ->
@@ -359,6 +394,7 @@ private fun visualizeRows(
                 state.addSeed(index),
                 grammar.brick,
                 AABB(currentBrick, brickSize),
+                borders,
                 layer,
             )
 
