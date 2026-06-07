@@ -75,13 +75,14 @@ private fun visualizeBasketWeaveSingle(
         grammar.size,
         MapSize2d(n, n + 1),
         aabb,
-    ) { subSectionX, subSectionY, gridStart, blockSize, limits ->
+    ) { subSectionX, subSectionY, gridStart, blockSize, gridSize ->
         val startX = subSectionX * n
         val startY = subSectionY * (n + 1)
+        val limits = borders.apply(gridSize)
 
         when {
             subSectionX % 2 == 0 -> 0
-            startY < limits.height - 1 -> 1
+            startY < gridSize.height - 1 -> 1
             else -> null
         }?.let { offset ->
             visualizeVerticalBasketWeaveN(
@@ -103,7 +104,7 @@ private fun visualizeBasketWeaveSingle(
 
         when {
             subSectionX % 2 == 1 -> 0
-            startY < limits.height - 2 -> n
+            startY < gridSize.height - 2 -> n
             else -> null
         }?.let { offset ->
             visualizeShapeGrammar(
@@ -288,18 +289,7 @@ private fun visualizeHerringbone(
     val horizontalBlocks = MapSize2d(length, 1)
     val verticalBlocks = MapSize2d(1, length)
     var index = 0
-    val limits = MapSize2d(
-        if (borders.left) {
-            gridSize.width
-        } else {
-            Int.MAX_VALUE
-        },
-        if (borders.bottom) {
-            gridSize.height
-        } else {
-            Int.MAX_VALUE
-        },
-    )
+    val limits = borders.apply(gridSize)
 
     repeat(gridSize.height) { y ->
         val modulo = y % doubleLength
