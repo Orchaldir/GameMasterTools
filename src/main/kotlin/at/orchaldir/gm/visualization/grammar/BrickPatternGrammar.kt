@@ -43,11 +43,11 @@ fun visualizeBrickPatternGrammar(
         aabb,
         borders,
         layer,
-    ) { x, y ->
-        if (x == 0 && y % 2 == 0) {
-            floor(grammar.length / 2.0).toInt()
+    ) { y ->
+        if (y % 2 == 0) {
+            -floor(grammar.length / 2.0).toInt()
         } else {
-            grammar.length
+            0
         }
     }
 
@@ -57,7 +57,7 @@ fun visualizeBrickPatternGrammar(
         aabb,
         borders,
         layer,
-        { _, _ -> grammar.length },
+        { _ -> 0 },
     )
 }
 
@@ -377,18 +377,34 @@ private fun visualizeRows(
     aabb: AABB,
     borders: Borders,
     layer: Int,
-    calculateLength: (Int, Int) -> Int,
+    calculateStartX: (Int) -> Int,
 ) = grammar.size.process(aabb) { start, gridSize, blockSize ->
     var startOfRow = start
     var index = 0
 
     repeat(gridSize.height) { y ->
         var currentBrick = startOfRow
-        var x = 0
+        var x = calculateStartX(y)
 
         while (x < gridSize.width) {
-            val length = calculateLength(x, y).coerceAtMost(gridSize.width - x)
-            val brickSize = blockSize.replaceWidth(Factor.fromNumber(length))
+            val length = if (x < 0) {
+                val remainingLength = grammar.length + x
+
+                if (borders.left) {
+                    x = 0
+
+                    remainingLength
+                } else {
+                    x += grammar.length
+                    currentBrick = currentBrick.addWidth(blockSize.width * remainingLength)
+
+                    grammar.length
+                }
+            } else {
+                grammar.length
+            }
+            val coercedLength = length.coerceAtMost(gridSize.width - x)
+            val brickSize = blockSize.replaceWidth(Factor.fromNumber(coercedLength))
 
             visualizeShapeGrammar(
                 state.addSeed(index),
@@ -399,7 +415,7 @@ private fun visualizeRows(
             )
 
             currentBrick = currentBrick.addWidth(brickSize.width)
-            x += length
+            x += coercedLength
             index++
         }
 
