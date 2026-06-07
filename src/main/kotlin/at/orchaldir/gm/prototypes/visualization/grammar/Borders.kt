@@ -29,8 +29,9 @@ private fun createGrammar(pattern: BrickPattern, isBorder: Boolean) = Pair(
             RectangularShapeGrammar(
                 MadeFromWood(color = Color.Gray),
             ),
-            SquareGrid(20),
+            SquareGrid(10),
             pattern,
+            3,
         ),
         Borders(isBorder),
     ),
