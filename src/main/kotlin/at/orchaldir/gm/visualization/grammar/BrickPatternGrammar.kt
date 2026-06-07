@@ -311,7 +311,7 @@ private fun visualizeHerringbone(
                     borders,
                     layer,
                 )
-            } else if (x > -length) {
+            } else if (x > -length && borders.left) {
                 visualizeShapeGrammar(
                     state.addSeed(index++),
                     grammar.brick,
@@ -326,7 +326,7 @@ private fun visualizeHerringbone(
                 )
             }
 
-            if (y == 0) {
+            if (y == 0 && borders.top) {
                 x += length
 
                 repeat(length.coerceAtMost(gridSize.width - x)) { i ->
