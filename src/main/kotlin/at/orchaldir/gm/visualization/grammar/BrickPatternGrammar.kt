@@ -288,6 +288,18 @@ private fun visualizeHerringbone(
     val horizontalBlocks = MapSize2d(length, 1)
     val verticalBlocks = MapSize2d(1, length)
     var index = 0
+    val limits = MapSize2d(
+        if (borders.left) {
+            gridSize.width
+        } else {
+            Int.MAX_VALUE
+        },
+        if (borders.bottom) {
+            gridSize.height
+        } else {
+            Int.MAX_VALUE
+        },
+    )
 
     repeat(gridSize.height) { y ->
         val modulo = y % doubleLength
@@ -307,7 +319,7 @@ private fun visualizeHerringbone(
                     x,
                     y,
                     horizontalBlocks,
-                    gridSize,
+                    limits,
                     borders,
                     layer,
                 )
@@ -320,7 +332,7 @@ private fun visualizeHerringbone(
                     0,
                     y,
                     MapSize2d(length + x, 1),
-                    gridSize,
+                    limits,
                     borders,
                     layer,
                 )
@@ -338,7 +350,7 @@ private fun visualizeHerringbone(
                         x,
                         0,
                         MapSize2d(1, 1 + i),
-                        gridSize,
+                        limits,
                         borders,
                         layer,
                     )
@@ -360,7 +372,7 @@ private fun visualizeHerringbone(
                     x,
                     y,
                     verticalBlocks,
-                    gridSize,
+                    limits,
                     borders,
                     layer,
                 )
