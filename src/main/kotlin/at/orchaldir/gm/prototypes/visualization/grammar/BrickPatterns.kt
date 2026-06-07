@@ -16,20 +16,18 @@ fun main() {
     renderGrammarTable(
         State(),
         "grammar-single-brick-patterns.svg",
+        GRAMMAR_SIZE,
         addNames(listOf(2, 3, 4)),
         addNames(BrickPattern.entries),
         ::createGrammar,
     )
 }
 
-private fun createGrammar(pattern: BrickPattern, length: Int) = Pair(
-    BrickPatternGrammar(
-        RectangularShapeGrammar(
-            MadeFromWood(color = Color.Gray),
-        ),
-        SquareGrid(20),
-        pattern,
-        length,
+private fun createGrammar(pattern: BrickPattern, length: Int) = BrickPatternGrammar(
+    RectangularShapeGrammar(
+        MadeFromWood(color = Color.Gray),
     ),
-    PaddedSize(Size2d.square(Distance.fromMeters(1)), Distance.fromMeters(0.2f)),
+    SquareGrid(20),
+    pattern,
+    length,
 )

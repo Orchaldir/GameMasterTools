@@ -14,6 +14,7 @@ fun main() {
     renderGrammarTable(
         State(),
         "grammar-shrinking.svg",
+        GRAMMAR_SIZE,
         listOf(
             Pair("Min", MIN_SHRINK_FACTOR),
             Pair("Default", DEFAULT_SHRINK_FACTOR),
@@ -24,17 +25,14 @@ fun main() {
     )
 }
 
-private fun createGrammar(shape: RectangularShape, factor: Factor) = Pair(
-    BrickPatternGrammar(
-        ShrinkGrammar(
-            RectangularShapeGrammar(
-                MadeFromStone(Color.Gray),
-                shape,
-            ),
-            factor,
+private fun createGrammar(shape: RectangularShape, factor: Factor) = BrickPatternGrammar(
+    ShrinkGrammar(
+        RectangularShapeGrammar(
+            MadeFromStone(Color.Gray),
+            shape,
         ),
-        SquareGrid(5),
-        BrickPattern.Herringbone,
+        factor,
     ),
-    PaddedSize(Size2d.square(Distance.fromMeters(1)), Distance.fromMeters(0.2f)),
+    SquareGrid(5),
+    BrickPattern.Herringbone,
 )
