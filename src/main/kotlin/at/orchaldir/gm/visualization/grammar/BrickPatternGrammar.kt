@@ -136,7 +136,7 @@ private fun visualizeBasketWeaveN(
         grammar.size,
         MapSize2d.square(n),
         aabb,
-    ) { subSectionX, subSectionY, gridStart, blockSize, limits ->
+    ) { subSectionX, subSectionY, gridStart, blockSize, gridSize ->
         val x = subSectionX * n
         val y = subSectionY * n
 
@@ -148,7 +148,7 @@ private fun visualizeBasketWeaveN(
                 blockSize,
                 x,
                 y,
-                limits,
+                borders.applyLeft(gridSize),
                 borders,
                 layer,
                 n,
@@ -162,7 +162,7 @@ private fun visualizeBasketWeaveN(
                 blockSize,
                 x,
                 y,
-                limits,
+                borders.applyBottom(gridSize),
                 borders,
                 layer,
                 n,
