@@ -1,5 +1,6 @@
 package at.orchaldir.gm.visualization.grammar
 
+import at.orchaldir.gm.core.logger
 import at.orchaldir.gm.core.model.visualization.BrickPattern
 import at.orchaldir.gm.core.model.visualization.BrickPatternGrammar
 import at.orchaldir.gm.core.model.visualization.GridSize
@@ -51,14 +52,21 @@ fun visualizeBrickPatternGrammar(
         }
     }
 
-    BrickPattern.Stack -> visualizeRows(
-        state,
-        grammar,
-        aabb,
-        borders,
-        layer,
-        { _ -> 0 },
-    )
+    BrickPattern.Stack -> {
+        val startBlockX = borders.x * grammar.size.width()
+        val numBricksX = ceil(startBlockX / grammar.length.toFloat()).toInt()
+        val offset = numBricksX * grammar.length - startBlockX
+        logger.info { "x=${borders.x} startBlockX=$startBlockX numBricksX=$numBricksX offset=$offset" }
+
+        visualizeRows(
+            state,
+            grammar,
+            aabb,
+            borders,
+            layer,
+            { _ -> offset },
+        )
+    }
 }
 
 private fun visualizeBasketWeaveSingle(
@@ -384,8 +392,8 @@ private fun visualizeRows(
     var index = 0
 
     repeat(gridSize.height) { y ->
-        var currentBrick = startOfRow
         var x = calculateStartX(y)
+        var currentBrick = startOfRow.addWidth(blockSize.width * x)
 
         while (x < gridSize.width) {
             val length = if (x < 0) {

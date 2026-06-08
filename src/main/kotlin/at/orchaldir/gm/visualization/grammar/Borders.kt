@@ -7,8 +7,9 @@ data class Borders(
     val left: Boolean = true,
     val right: Boolean = true,
     val top: Boolean = true,
+    val x: Int = 0,
 ) {
-    constructor(isBorder: Boolean): this(isBorder, isBorder, isBorder, isBorder)
+    constructor(isBorder: Boolean, x: Int = 0): this(isBorder, isBorder, isBorder, isBorder, x)
 
     fun apply(size: MapSize2d) = MapSize2d(
         getWidth(size),

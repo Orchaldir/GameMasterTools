@@ -21,6 +21,11 @@ sealed class GridSize {
         is RowsAndColumns -> GridSizeType.RowsAndColumns
     }
 
+    fun width() = when (this) {
+        is SquareGrid -> size
+        is RowsAndColumns -> size.width
+    }
+
     fun process(aabb: AABB, function: (Point2d, MapSize2d, Size2d) -> Unit) = when (this) {
         is SquareGrid -> processGrid(aabb, MapSize2d.square(size), function)
         is RowsAndColumns -> processGrid(aabb, size, function)

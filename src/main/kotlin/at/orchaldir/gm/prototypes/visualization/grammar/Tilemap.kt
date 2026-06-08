@@ -26,17 +26,17 @@ fun main() {
             MadeFromWood(color = Color.Gray),
         ),
         SquareGrid(10),
-        BrickPattern.Herringbone,
+        BrickPattern.Stack,
         3,
     )
-    val tileMap = TileMap2d(MapSize2d(3, 2), grammar)
+    val tileMap = TileMap2d(MapSize2d(4, 3), grammar)
     val tileMapRenderer = TileMap2dRenderer(Distance.fromMeters(1.0f), ZERO_DISTANCE)
     val svgBuilder = SvgBuilder(tileMapRenderer.calculateMapSize(tileMap))
 
     tileMapRenderer.render(tileMap) { index, x, y, aabb, grammar ->
         val renderState = GrammarRenderState(State(), svgBuilder, LINE_OPTIONS)
 
-        visualizeShapeGrammar(renderState, grammar, aabb, Borders(false))
+        visualizeShapeGrammar(renderState, grammar, aabb, Borders(false, x))
     }
 
     File("grammar-tilemap.svg").writeText(svgBuilder.finish().export())
