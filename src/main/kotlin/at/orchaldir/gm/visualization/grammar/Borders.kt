@@ -1,6 +1,9 @@
 package at.orchaldir.gm.visualization.grammar
 
+import at.orchaldir.gm.core.logger
+import at.orchaldir.gm.core.model.visualization.GridSize
 import at.orchaldir.gm.utils.map.MapSize2d
+import kotlin.math.ceil
 
 data class Borders(
     val bottom: Boolean = true,
@@ -29,5 +32,19 @@ data class Borders(
         size.height
     } else {
         Int.MAX_VALUE
+    }
+
+    fun calculateTileOffsetX(gridSize: GridSize, length: Int): Int {
+        if (left) {
+            return 0
+        }
+
+        val startBlockX = x * gridSize.width()
+        val numBricksX = ceil(startBlockX / length.toFloat()).toInt()
+        val offset = numBricksX * length - startBlockX
+
+        logger.info { "x=${x} startBlockX=$startBlockX numBricksX=$numBricksX offset=$offset" }
+
+        return offset
     }
 }

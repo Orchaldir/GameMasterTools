@@ -53,10 +53,7 @@ fun visualizeBrickPatternGrammar(
     }
 
     BrickPattern.Stack -> {
-        val startBlockX = borders.x * grammar.size.width()
-        val numBricksX = ceil(startBlockX / grammar.length.toFloat()).toInt()
-        val offset = numBricksX * grammar.length - startBlockX
-        logger.info { "x=${borders.x} startBlockX=$startBlockX numBricksX=$numBricksX offset=$offset" }
+        val offset = borders.calculateTileOffsetX(grammar.size, grammar.length)
 
         visualizeRows(
             state,
