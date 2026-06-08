@@ -10,6 +10,7 @@ import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Size2d
+import at.orchaldir.gm.utils.math.modulo
 import kotlin.math.ceil
 import kotlin.math.floor
 
@@ -38,17 +39,25 @@ fun visualizeBrickPatternGrammar(
     )
     BrickPattern.Grid -> visualizeGrid(state, grammar, aabb, borders, layer)
     BrickPattern.Herringbone -> visualizeHerringbone(state, grammar, aabb, borders, layer, grammar.length)
-    BrickPattern.Running -> visualizeRows(
-        state,
-        grammar,
-        aabb,
-        borders,
-        layer,
-    ) { y ->
-        if (y % 2 == 0) {
-            -floor(grammar.length / 2.0).toInt()
-        } else {
-            0
+    BrickPattern.Running -> {
+        val offset = borders.calculateTileOffsetX(grammar.size, grammar.length)
+        val halfBrick = floor(grammar.length / 2.0).toInt()
+        val runningOffset = (offset +  halfBrick).modulo(grammar.length)
+
+        logger.info { "halfBrick=$halfBrick runningOffset=$runningOffset" }
+
+        visualizeRows(
+            state,
+            grammar,
+            aabb,
+            borders,
+            layer,
+        ) { y ->
+            if (y % 2 == 0) {
+                runningOffset
+            } else {
+                offset
+            }
         }
     }
 
