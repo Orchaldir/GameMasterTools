@@ -304,23 +304,28 @@ private fun visualizeHerringbone(
     borders: Borders,
     layer: Int,
     length: Int,
-) = grammar.size.process(aabb) { gridStart, gridSize, blockSize ->
+) {
     val doubleLength = length * 2
+    val types = length + 1
     val horizontalBlocks = MapSize2d(length, 1)
     val verticalBlocks = MapSize2d(1, length)
+    val limits = borders.apply(grammar.size.size())
     var index = 0
-    val limits = borders.apply(gridSize)
 
-    repeat(gridSize.height) { y ->
-        val modulo = y % doubleLength
-        var x = if (modulo == 0) {
-            0
-        } else {
-            modulo - doubleLength
-        }
+    visualizeSubSections(
+        grammar.size,
+        MapSize2d.square(doubleLength),
+        aabb,
+        borders,
+    ) { subSectionX, subSectionY, gridStart, blockSize, gridSize ->
+        val startX = subSectionX * doubleLength
+        val startY = subSectionY * doubleLength
 
-        while (x < gridSize.width) {
-            if (x >= 0) {
+        repeat(doubleLength) { y ->
+            var x = 0
+            var type = (length - y) % length
+
+            while (x < doubleLength) {
                 visualizeShapeGrammar(
                     state.addSeed(index++),
                     grammar.brick,
@@ -328,66 +333,27 @@ private fun visualizeHerringbone(
                     blockSize,
                     x,
                     y,
-                    horizontalBlocks,
+                    if (type == 0) {
+                        horizontalBlocks
+                    }
+                    else if (type == 1) {
+                        x++
+                        type++
+                        continue
+                    }
+                    else {
+                        verticalBlocks
+                    },
                     limits,
                     borders,
                     layer,
                 )
-            } else if (x > -length && borders.left) {
-                visualizeShapeGrammar(
-                    state.addSeed(index++),
-                    grammar.brick,
-                    gridStart,
-                    blockSize,
-                    0,
-                    y,
-                    MapSize2d(length + x, 1),
-                    limits,
-                    borders,
-                    layer,
-                )
-            }
 
-            if (y == 0 && borders.top) {
-                x += length
-
-                repeat(length.coerceAtMost(gridSize.width - x)) { i ->
-                    visualizeShapeGrammar(
-                        state.addSeed(index++),
-                        grammar.brick,
-                        gridStart,
-                        blockSize,
-                        x,
-                        0,
-                        MapSize2d(1, 1 + i),
-                        limits,
-                        borders,
-                        layer,
-                    )
-
-                    x += 1
+                x += when (type) {
+                    0 -> length
+                    else -> 1
                 }
-            } else {
-                x += doubleLength - 1
-
-                if (x >= gridSize.width) {
-                    break
-                }
-
-                visualizeShapeGrammar(
-                    state.addSeed(index++),
-                    grammar.brick,
-                    gridStart,
-                    blockSize,
-                    x,
-                    y,
-                    verticalBlocks,
-                    limits,
-                    borders,
-                    layer,
-                )
-
-                x += 1
+                type = (type + 1) % length
             }
         }
     }
