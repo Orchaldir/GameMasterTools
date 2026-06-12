@@ -323,14 +323,20 @@ private fun visualizeHerringbone(
     ) { subSectionX, subSectionY, gridStart, blockSize, gridSize ->
         val startX = subSectionX * doubleLength
         val startY = subSectionY * doubleLength
+        val remainingWidth = gridSize.width - startX
+        val remainingHeight = gridSize.height - startY
+        val width = doubleLength.coerceAtMost(remainingWidth)
+        val height = doubleLength.coerceAtMost(remainingHeight)
 
-        repeat(doubleLength) { y ->
+        logger.info { "subSectionX=$subSectionX subSectionY=$subSectionY remainingWidth=$remainingWidth width=$width remainingHeight=$remainingHeight height=$height" }
+
+        repeat(height) { y ->
             var x = 0
             var type = (types - y) % types
 
             logger.info { "y=$y types=$types type=$type" }
 
-            while (x < doubleLength) {
+            while (x < width) {
                 logger.info { "x=$x type=$type" }
 
                 val brick = if (type <= 0) {
