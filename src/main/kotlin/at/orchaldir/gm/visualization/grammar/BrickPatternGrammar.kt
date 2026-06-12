@@ -325,8 +325,16 @@ private fun visualizeHerringbone(
         val startY = subSectionY * doubleLength
         val remainingWidth = gridSize.width - startX
         val remainingHeight = gridSize.height - startY
-        val width = doubleLength.coerceAtMost(remainingWidth)
-        val height = doubleLength.coerceAtMost(remainingHeight)
+        val width = if (subBorders.right) {
+            doubleLength.coerceAtMost(remainingWidth)
+        } else {
+            doubleLength
+        }
+        val height = if (subBorders.bottom) {
+            doubleLength.coerceAtMost(remainingHeight)
+        } else {
+            doubleLength
+        }
 
         logger.info { "subSectionX=$subSectionX subSectionY=$subSectionY remainingWidth=$remainingWidth width=$width remainingHeight=$remainingHeight height=$height" }
         logger.info { "subBorders=$subBorders" }
