@@ -31,10 +31,10 @@ fun main() {
     val tileMapRenderer = TileMap2dRenderer(Distance.fromMeters(1.0f), ZERO_DISTANCE)
     val svgBuilder = SvgBuilder(tileMapRenderer.calculateMapSize(tileMap))
 
-    tileMapRenderer.render(tileMap) { index, x, y, aabb, grammar ->
+    tileMapRenderer.render(tileMap) { index, x, y, aabb, borders, grammar ->
         val renderState = GrammarRenderState(State(), svgBuilder, LINE_OPTIONS)
 
-        visualizeShapeGrammar(renderState, grammar, aabb, Borders(false, x, y))
+        visualizeShapeGrammar(renderState, grammar, aabb, borders)
     }
 
     File("grammar-tilemap.svg").writeText(svgBuilder.finish().export())

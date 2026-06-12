@@ -10,6 +10,7 @@ import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.LineOptions
+import at.orchaldir.gm.visualization.grammar.Borders
 
 data class TileMap2dRenderer(
     val tileSize: Distance,
@@ -34,6 +35,27 @@ data class TileMap2dRenderer(
                 map.getTile(index)?.let { tile ->
                     val position = calculateTilePosition(x, y)
                     renderTile(index, x, y, AABB(position, tileSize), tile)
+                }
+
+                index++
+            }
+        }
+    }
+
+    fun <TILE> render(
+        map: TileMap2d<TILE>,
+        renderTile: (Int, Int, Int, AABB, Borders, TILE) -> Unit,
+    ) {
+        val size = map.size
+        val tileSize = Size2d.square(tileSize)
+        var index = 0
+
+        repeat(size.height) { y ->
+            repeat(size.width) { x ->
+                map.getTile(index)?.let { tile ->
+                    val position = calculateTilePosition(x, y)
+                    val borders = Borders(false, x, y)
+                    renderTile(index, x, y, AABB(position, tileSize), borders, tile)
                 }
 
                 index++
