@@ -99,7 +99,7 @@ private fun visualizeBasketWeaveSingle(
 
         when {
             isEven -> 0
-            startY < gridSize.height - 1 -> 1
+            !borders.right || startY < gridSize.height - 1 -> 1
             else -> null
         }?.let { offset ->
             visualizeVerticalBasketWeaveN(
@@ -121,7 +121,7 @@ private fun visualizeBasketWeaveSingle(
 
         when {
             !isEven -> 0
-            startY < gridSize.height - 2 -> n
+            !borders.bottom || startY < gridSize.height - 2 -> n
             else -> null
         }?.let { offset ->
             visualizeShapeGrammar(
@@ -132,7 +132,7 @@ private fun visualizeBasketWeaveSingle(
                 startX,
                 startY + offset,
                 MapSize2d(n, 1),
-                borders.applyRight(gridSize),
+                borders.applyBottomAndRight(gridSize),
                 borders,
                 layer,
             )
@@ -454,15 +454,12 @@ private fun visualizeSubSections(
     borders: Borders,
     visualizeSubSection: (Int, Int, Point2d, Size2d, MapSize2d) -> Unit,
 ) = gridSize.process(aabb) { start, gridSize, blockSize ->
-    val offsetX = borders.calculateTileOffsetX(gridSize, subSectionSize.width)
-    val startWithOffset = start.addWidth(blockSize.width * offsetX)
-    val gridSizeWithOffset = MapSize2d(
-        gridSize.width - offsetX,
-        gridSize.height,
-    )
+    val offset = borders.calculateTileOffset(gridSize, subSectionSize)
+    val startWithOffset = start + blockSize * offset
+    val gridSizeWithOffset = gridSize - offset
     val subSections = MapSize2d(
-        ceil((gridSizeWithOffset.width - offsetX) / subSectionSize.width.toDouble()).toInt(),
-        ceil(gridSizeWithOffset.height / subSectionSize.height.toDouble()).toInt(),
+        ceil((gridSizeWithOffset.width - offset.width) / subSectionSize.width.toDouble()).toInt(),
+        ceil((gridSizeWithOffset.height - offset.height) / subSectionSize.height.toDouble()).toInt(),
     )
 
     repeat(subSections.height) { y ->

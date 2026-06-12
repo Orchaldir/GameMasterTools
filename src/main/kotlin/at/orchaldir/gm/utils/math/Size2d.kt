@@ -11,8 +11,8 @@ import kotlin.math.sqrt
 data class Size2d(val width: Distance, val height: Distance) {
 
     init {
-        require(width.value() > 0) { "Width must be greater 0!" }
-        require(height.value() > 0) { "Height must be greater 0!" }
+        require(width.value() >= 0) { "Width must be greater 0!" }
+        require(height.value() >= 0) { "Height must be greater 0!" }
     }
 
     companion object {

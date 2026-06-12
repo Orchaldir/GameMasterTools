@@ -1,6 +1,8 @@
 package at.orchaldir.gm.utils.map
 
+import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.modulo
+import at.orchaldir.gm.utils.math.unit.Distance
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -69,5 +71,8 @@ data class MapSize2d(val width: Int, val height: Int) {
     fun toY(index: Int) = index / width
 
     fun format() = "$width x $height"
+
+    operator fun plus(other: MapSize2d) = MapSize2d(width + other.width, height + other.height)
+    operator fun minus(other: MapSize2d) = MapSize2d(width - other.width, height - other.height)
 
 }

@@ -11,8 +11,10 @@ data class Borders(
     val right: Boolean = true,
     val top: Boolean = true,
     val x: Int = 0,
+    val y: Int = 0,
 ) {
-    constructor(isBorder: Boolean, x: Int = 0): this(isBorder, isBorder, isBorder, isBorder, x)
+    constructor(isBorder: Boolean, x: Int = 0, y: Int = 0):
+            this(isBorder, isBorder, isBorder, isBorder, x, y)
 
     fun apply(size: MapSize2d) = MapSize2d(
         getWidth(size),
@@ -36,23 +38,39 @@ data class Borders(
         Int.MAX_VALUE
     }
 
+    fun calculateTileOffset(gridSize: MapSize2d, tile: MapSize2d) = MapSize2d(
+        calculateTileOffsetX(gridSize.width, tile.width),
+        calculateTileOffsetY(gridSize.height, tile.height),
+    )
+
     fun calculateTileOffsetX(gridSize: GridSize, length: Int) =
         calculateTileOffsetX(gridSize.width(), length)
 
     fun calculateTileOffsetX(gridSize: MapSize2d, length: Int) =
         calculateTileOffsetX(gridSize.width, length)
 
-    private fun calculateTileOffsetX(width: Int, length: Int): Int {
-        if (left) {
-            return 0
-        }
+    private fun calculateTileOffsetX(width: Int, length: Int) =
+        calculateTileOffsetY(left, x, width, length)
 
-        val startBlockX = x * width
-        val numBricksX = ceil(startBlockX / length.toFloat()).toInt()
-        val offset = numBricksX * length - startBlockX
+    private fun calculateTileOffsetY(height: Int, length: Int) =
+        calculateTileOffsetY(top, y, height, length)
+}
 
-        logger.info { "x=${x} startBlockX=$startBlockX numBricksX=$numBricksX offset=$offset" }
-
-        return offset
+fun calculateTileOffsetY(
+    border: Boolean,
+    position: Int,
+    gridSize: Int,
+    length: Int,
+): Int {
+    if (border) {
+        return 0
     }
+
+    val blockStart = position * gridSize
+    val numBricks = ceil(blockStart / length.toFloat()).toInt()
+    val offset = numBricks * length - blockStart
+
+    logger.info { "position=${position} blockStart=$blockStart numBricks=$numBricks offset=$offset" }
+
+    return offset
 }
