@@ -100,7 +100,7 @@ private fun visualizeBasketWeaveSingle(
 
         when {
             isEven -> 0
-            !borders.right || startY < gridSize.height - 1 -> 1
+            !borders.bottom || startY < gridSize.height - 1 -> 1
             else -> null
         }?.let { offset ->
             visualizeVerticalBasketWeaveN(
