@@ -60,7 +60,7 @@ data class TileMap2dRenderer(
                 val rightTile = map.getTile(x + 1, y)
                 val isRightBorder = currentTile != rightTile
 
-                logger.info { "x=$x y=$y isLeftBorder=$isLeftBorder isRightBorder=$isRightBorder" }
+                //logger.info { "x=$x y=$y isLeftBorder=$isLeftBorder isRightBorder=$isRightBorder" }
 
                 currentTile?.let { tile ->
                     val position = start + calculateTilePosition(x, y)

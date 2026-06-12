@@ -45,19 +45,20 @@ fun visualizeBrickPatternGrammar(
         val halfBrick = floor(grammar.length / 2.0).toInt()
         val runningOffset = (offset +  halfBrick).modulo(grammar.length)
 
-        logger.info { "halfBrick=$halfBrick runningOffset=$runningOffset" }
+        logger.info { "offset=$offset halfBrick=$halfBrick runningOffset=$runningOffset" }
 
         visualizeRows(
             state,
             grammar,
             aabb,
             borders,
+            offset,
             layer,
         ) { y ->
             if (y % 2 == 0) {
-                runningOffset
+                -halfBrick
             } else {
-                offset
+                0
             }
         }
     }
@@ -70,8 +71,9 @@ fun visualizeBrickPatternGrammar(
             grammar,
             aabb,
             borders,
+            offset,
             layer,
-            { _ -> offset },
+            { _ -> 0 },
         )
     }
 }
@@ -383,6 +385,7 @@ private fun visualizeRows(
     grammar: BrickPatternGrammar,
     aabb: AABB,
     borders: Borders,
+    offset: Int,
     layer: Int,
     calculateStartX: (Int) -> Int,
 ) = grammar.size.process(aabb) { start, gridSize, blockSize ->
@@ -391,7 +394,6 @@ private fun visualizeRows(
 
     repeat(gridSize.height) { y ->
         var x = calculateStartX(y)
-        var currentBrick = startOfRow.addWidth(blockSize.width * x)
 
         while (x < gridSize.width) {
             val length = if (x < 0) {
@@ -403,7 +405,6 @@ private fun visualizeRows(
                     remainingLength
                 } else {
                     x += grammar.length
-                    currentBrick = currentBrick.addWidth(blockSize.width * remainingLength)
 
                     grammar.length
                 }
@@ -418,14 +419,18 @@ private fun visualizeRows(
             val brickSize = blockSize.replaceWidth(Factor.fromNumber(coercedLength))
 
             visualizeShapeGrammar(
-                state.addSeed(index),
+                state.addSeed(index++),
                 grammar.brick,
-                AABB(currentBrick, brickSize),
+                start,
+                blockSize,
+                 x + offset,
+                y,
+                MapSize2d(length, 1),
+                borders.applyBottomAndRight(gridSize),
                 borders,
                 layer,
             )
 
-            currentBrick = currentBrick.addWidth(brickSize.width)
             x += coercedLength
             index++
         }
