@@ -323,7 +323,7 @@ private fun visualizeHerringbone(
 
         repeat(doubleLength) { y ->
             var x = 0
-            var type = (length - y) % length
+            var type = (types - y) % types
 
             while (x < doubleLength) {
                 visualizeShapeGrammar(
@@ -333,7 +333,12 @@ private fun visualizeHerringbone(
                     blockSize,
                     x,
                     y,
-                    if (type == 0) {
+                    if (type == 0 && x == 0 && y > 0) {
+                        x++
+                        type++
+                        continue
+                    }
+                    else if (type == 0) {
                         horizontalBlocks
                     }
                     else if (type == 1) {
@@ -353,7 +358,7 @@ private fun visualizeHerringbone(
                     0 -> length
                     else -> 1
                 }
-                type = (type + 1) % length
+                type = (type + 1) % types
             }
         }
     }
