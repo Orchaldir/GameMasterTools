@@ -394,8 +394,6 @@ private fun visualizeRows(
     repeat(gridSize.height) { y ->
         var x = calculateStartX(y)
 
-        logger.info { "y=$y x=$x" }
-
         while (x + offset < gridSize.width) {
             val length = if (x + offset < 0) {
                 val remainingLength = grammar.length + x
@@ -412,8 +410,6 @@ private fun visualizeRows(
             } else {
                 grammar.length
             }
-
-            logger.info { "x=$x length=$length" }
 
             visualizeShapeGrammar(
                 state.addSeed(index++),

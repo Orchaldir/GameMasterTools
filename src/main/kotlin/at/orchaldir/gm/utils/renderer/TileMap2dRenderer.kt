@@ -51,6 +51,7 @@ data class TileMap2dRenderer(
         val size = map.size
         val tileSize = Size2d.square(tileSize)
         var index = 0
+        val isTopBorders = MutableList(size.width) { true }
 
         repeat(size.height) { y ->
             var isLeftBorder = true
@@ -58,13 +59,24 @@ data class TileMap2dRenderer(
 
             repeat(size.width) { x ->
                 val rightTile = map.getTile(x + 1, y)
+                val bottomTile = map.getTile(x, y + 1)
                 val isRightBorder = currentTile != rightTile
+                val isBottomBorder = currentTile != bottomTile
+                val isTopBorder = isTopBorders[x]
 
                 //logger.info { "x=$x y=$y isLeftBorder=$isLeftBorder isRightBorder=$isRightBorder" }
+                logger.info { "x=$x y=$y isTopBorder=$isLeftBorder isBottomBorder=$isRightBorder" }
 
                 currentTile?.let { tile ->
                     val position = start + calculateTilePosition(x, y)
-                    val borders = Borders(false, isLeftBorder, isRightBorder, false, x, y)
+                    val borders = Borders(
+                        isBottomBorder,
+                        isLeftBorder,
+                        isRightBorder,
+                        isTopBorder,
+                        x,
+                        y,
+                    )
 
                     renderTile(AABB(position, tileSize), borders, tile)
                 }
@@ -72,6 +84,7 @@ data class TileMap2dRenderer(
                 index++
                 currentTile = rightTile
                 isLeftBorder = isRightBorder
+                isTopBorders[x] = isBottomBorder
             }
         }
     }
