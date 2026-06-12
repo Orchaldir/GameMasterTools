@@ -28,7 +28,7 @@ fun main() {
         ),
         SquareGrid(10),
         BrickPattern.BasketWeave,
-        3,
+        4,
     )
     val tileMap = TileMap2d(MapSize2d(4, 3), grammar)
     val tileSize = Distance.fromMeters(1.0f)
@@ -37,7 +37,7 @@ fun main() {
     val svgBuilder = SvgBuilder(tileMapSize.plus(tileSize * 2))
     val start = Point2d.square(tileSize)
 
-    tileMapRenderer.render(tileMap, start) { aabb, borders, grammar ->
+    tileMapRenderer.render(tileMap, start) { _, aabb, borders, grammar ->
         val renderState = GrammarRenderState(State(), svgBuilder, LINE_OPTIONS)
 
         visualizeShapeGrammar(renderState, grammar, aabb, borders)

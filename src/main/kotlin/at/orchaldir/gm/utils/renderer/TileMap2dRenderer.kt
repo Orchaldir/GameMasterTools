@@ -46,7 +46,7 @@ data class TileMap2dRenderer(
     fun <TILE> render(
         map: TileMap2d<TILE>,
         start: Point2d,
-        renderTile: (AABB, Borders, TILE) -> Unit,
+        renderTile: (Int, AABB, Borders, TILE) -> Unit,
     ) {
         val size = map.size
         val tileSize = Size2d.square(tileSize)
@@ -78,7 +78,7 @@ data class TileMap2dRenderer(
                         y,
                     )
 
-                    renderTile(AABB(position, tileSize), borders, tile)
+                    renderTile(index, AABB(position, tileSize), borders, tile)
                 }
 
                 index++
