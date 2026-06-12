@@ -75,9 +75,5 @@ fun calculateTileOffset(
 
     val blockStart = position * gridSize
     val numBricks = ceil(blockStart / length.toFloat()).toInt()
-    val offset = numBricks * length - blockStart
-
-    logger.info { "position=${position} blockStart=$blockStart numBricks=$numBricks offset=$offset" }
-
-    return offset
+    return numBricks * length - blockStart
 }

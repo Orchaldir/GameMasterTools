@@ -24,7 +24,7 @@ fun main() {
             MadeFromWood(color = Color.Gray),
         ),
         SquareGrid(10),
-        BrickPattern.Herringbone,
+        BrickPattern.Stack,
         2,
     )
     val tileMap = TileMap2d(MapSize2d(4, 3), grammar)
