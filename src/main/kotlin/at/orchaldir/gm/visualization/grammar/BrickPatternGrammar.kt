@@ -329,6 +329,7 @@ private fun visualizeHerringbone(
         val height = doubleLength.coerceAtMost(remainingHeight)
 
         logger.info { "subSectionX=$subSectionX subSectionY=$subSectionY remainingWidth=$remainingWidth width=$width remainingHeight=$remainingHeight height=$height" }
+        logger.info { "subBorders=$subBorders" }
 
         repeat(height) { y ->
             var x = 0
@@ -356,8 +357,6 @@ private fun visualizeHerringbone(
                     // vertical brick that started in a row above
 
                     if (subBorders.top && y == 0) {
-                        singleBlock
-                    } else if (subBorders.right && y + length >= doubleLength) {
                         singleBlock
                     } else {
                         x++
