@@ -11,6 +11,7 @@ import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.modulo
+import kotlin.math.absoluteValue
 import kotlin.math.ceil
 import kotlin.math.floor
 
@@ -326,16 +327,19 @@ private fun visualizeHerringbone(
             var x = 0
             var type = (types - y) % types
 
-            while (x < doubleLength) {
+            logger.info { "y=$y types=$types type=$type" }
 
-                val brick = if (type == 0) {
+            while (x < doubleLength) {
+                logger.info { "x=$x type=$type" }
+
+                val brick = if (type <= 0) {
                     val isBrickSharedLeft = x == 0 && y > 0
 
                     if (isBrickSharedLeft && borders.left) {
                         singleBlock
                     } else if (isBrickSharedLeft) {
-                        x++
-                        type++
+                        x += 1 + type.absoluteValue
+                        type = 1
                         continue
                     } else {
                         horizontalBlocks
