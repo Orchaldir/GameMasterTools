@@ -334,6 +334,7 @@ private fun visualizeHerringbone(
                 logger.info { "x=$x type=$type" }
 
                 val brick = if (type <= 0) {
+                    // horizontal brick
                     val isBrickSharedLeft = x == 0 && y > 0
 
                     if (isBrickSharedLeft && borders.left) {
@@ -346,6 +347,8 @@ private fun visualizeHerringbone(
                         horizontalBlocks
                     }
                 } else if (type < length) {
+                    // vertical brick that started in a row above
+
                     if (borders.top && y == 0) {
                         singleBlock
                     } else if (borders.right && y + length >= doubleLength) {
@@ -356,6 +359,7 @@ private fun visualizeHerringbone(
                         continue
                     }
                 } else {
+                    // vertical brick
                     verticalBlocks
                 }
 
