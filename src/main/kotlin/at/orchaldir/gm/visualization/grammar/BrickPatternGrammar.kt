@@ -376,7 +376,12 @@ private fun visualizeHerringbone(
                     }
                 } else {
                     // vertical brick
-                    verticalBlocks
+
+                    if (subBorders.bottom && y > length) {
+                        MapSize2d(1, doubleLength - y)
+                    } else {
+                        verticalBlocks
+                    }
                 }
 
                 visualizeShapeGrammar(
