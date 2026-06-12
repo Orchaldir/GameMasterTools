@@ -327,19 +327,20 @@ private fun visualizeHerringbone(
             var type = (types - y) % types
 
             while (x < doubleLength) {
-                val isBrickSharedLeft = type == 0 && x == 0 && y > 0
 
-                val brick = if (isBrickSharedLeft) {
-                    if (borders.left) {
+                val brick = if (type == 0) {
+                    val isBrickSharedLeft = x == 0 && y > 0
+
+                    if (isBrickSharedLeft && borders.left) {
                         singleBlock
-                    } else {
+                    } else if (isBrickSharedLeft) {
                         x++
                         type++
                         continue
+                    } else {
+                        horizontalBlocks
                     }
-                } else if (type == 0) {
-                    horizontalBlocks
-                } else if (type == 1) {
+                } else if (type < length) {
                     if (borders.top && y == 0) {
                         singleBlock
                     } else if (borders.right && y + length >= doubleLength) {
