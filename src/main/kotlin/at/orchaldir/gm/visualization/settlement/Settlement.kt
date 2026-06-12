@@ -22,6 +22,7 @@ import at.orchaldir.gm.utils.renderer.TileMap2dRenderer
 import at.orchaldir.gm.utils.renderer.model.NoBorder
 import at.orchaldir.gm.utils.renderer.svg.Svg
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
+import at.orchaldir.gm.visualization.grammar.Borders
 import at.orchaldir.gm.visualization.grammar.GrammarRenderState
 import at.orchaldir.gm.visualization.grammar.visualizeShapeGrammar
 
@@ -112,21 +113,21 @@ data class SettlementRenderer(
     ) {
         val renderState = GrammarRenderState(state, svgBuilder, LINE_OPTIONS)
 
-        renderStreets { aabb, street, index ->
+        renderStreets { aabb, borders, street, index ->
             val grammar = colorLookup(street, index)
 
             svgBuilder.optionalLinkAndTooltip(linkLookup(street, index), tooltipLookup(street, index)) {
-                visualizeShapeGrammar(renderState, grammar, aabb)
+                visualizeShapeGrammar(renderState.addSeed(index), grammar, aabb, borders)
             }
         }
     }
 
     fun renderStreets(
-        render: (AABB, StreetTile, Int) -> Unit,
+        render: (AABB, Borders, StreetTile, Int) -> Unit,
     ) {
-        tileRenderer.render(settlement.map) { index, x, y, aabb, tile ->
+        tileRenderer.render(settlement.map, Point2d()) { index, aabb, borders, tile ->
             if (tile.construction is StreetTile) {
-                render(aabb, tile.construction, index)
+                render(aabb, borders, tile.construction, index)
             }
         }
     }

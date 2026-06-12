@@ -10,13 +10,14 @@
      "part": {
       "#type": "Stone",
       "material": 22
-     }
+     },
+     "shape": "Ellipse"
     },
     "size": {
      "#type": "Square",
      "size": 12
     },
-    "length": 5
+    "pattern": "Herringbone"
    }
   }
  }

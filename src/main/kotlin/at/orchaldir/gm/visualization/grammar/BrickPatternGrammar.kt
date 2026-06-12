@@ -1,14 +1,15 @@
 package at.orchaldir.gm.visualization.grammar
 
+import at.orchaldir.gm.core.logger
 import at.orchaldir.gm.core.model.visualization.BrickPattern
 import at.orchaldir.gm.core.model.visualization.BrickPatternGrammar
 import at.orchaldir.gm.core.model.visualization.GridSize
 import at.orchaldir.gm.core.model.visualization.ShapeGrammar
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.math.AABB
-import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Size2d
+import kotlin.math.absoluteValue
 import kotlin.math.ceil
 import kotlin.math.floor
 
@@ -16,54 +17,90 @@ fun visualizeBrickPatternGrammar(
     state: GrammarRenderState,
     grammar: BrickPatternGrammar,
     aabb: AABB,
+    borders: Borders,
     layer: Int,
 ) = when (grammar.pattern) {
-    BrickPattern.BasketWeaveSingle -> visualizeBasketWeaveSingle(state, grammar, aabb, layer, grammar.length)
-    BrickPattern.BasketWeave -> visualizeBasketWeaveN(state, grammar, aabb, layer, grammar.length)
-    BrickPattern.Grid -> visualizeGrid(state, grammar, aabb, layer)
-    BrickPattern.Herringbone -> visualizeHerringbone(state, grammar, aabb, layer, grammar.length)
-    BrickPattern.Running -> visualizeRows(
+    BrickPattern.BasketWeaveSingle -> visualizeBasketWeaveSingle(
         state,
         grammar,
         aabb,
+        borders,
         layer,
-    ) { x, y ->
-        if (x == 0 && y % 2 == 0) {
-            floor(grammar.length / 2.0).toInt()
-        } else {
-            grammar.length
+        grammar.length,
+    )
+
+    BrickPattern.BasketWeave -> visualizeBasketWeaveN(
+        state,
+        grammar,
+        aabb,
+        borders,
+        layer,
+        grammar.length,
+    )
+
+    BrickPattern.Grid -> visualizeGrid(state, grammar, aabb, borders, layer)
+    BrickPattern.Herringbone -> visualizeHerringbone(state, grammar, aabb, borders, layer, grammar.length)
+    BrickPattern.Running -> {
+        val offset = borders.calculateTileOffsetX(grammar.size, grammar.length)
+        val halfBrick = floor(grammar.length / 2.0).toInt()
+
+        logger.info { "offset=$offset halfBrick=$halfBrick" }
+
+        visualizeRows(
+            state,
+            grammar,
+            aabb,
+            borders,
+            offset,
+            layer,
+        ) { y ->
+            if (y % 2 == 0) {
+                -halfBrick
+            } else {
+                0
+            }
         }
     }
 
-    BrickPattern.Stack -> visualizeRows(
-        state,
-        grammar,
-        aabb,
-        layer,
-        { _, _ -> grammar.length },
-    )
+    BrickPattern.Stack -> {
+        val offset = borders.calculateTileOffsetX(grammar.size, grammar.length)
+
+        visualizeRows(
+            state,
+            grammar,
+            aabb,
+            borders,
+            offset,
+            layer,
+            { _ -> 0 },
+        )
+    }
 }
 
 private fun visualizeBasketWeaveSingle(
     state: GrammarRenderState,
     grammar: BrickPatternGrammar,
     aabb: AABB,
+    borders: Borders,
     layer: Int,
     n: Int,
 ) {
     var index = 0
+    val evenOffset = borders.calculateEvenOffsetX(grammar.size, n)
 
     visualizeSubSections(
         grammar.size,
         MapSize2d(n, n + 1),
         aabb,
-    ) { subSectionX, subSectionY, gridStart, blockSize, limits ->
+        borders,
+    ) { subSectionX, subSectionY, gridStart, blockSize, gridSize, _ ->
         val startX = subSectionX * n
         val startY = subSectionY * (n + 1)
+        val isEven = (subSectionX + evenOffset) % 2 == 0
 
         when {
-            subSectionX % 2 == 0 -> 0
-            startY < limits.height - 1 -> 1
+            isEven -> 0
+            !borders.bottom || startY < gridSize.height - 1 -> 1
             else -> null
         }?.let { offset ->
             visualizeVerticalBasketWeaveN(
@@ -73,7 +110,8 @@ private fun visualizeBasketWeaveSingle(
                 blockSize,
                 startX,
                 startY + offset,
-                limits,
+                borders.apply(gridSize),
+                borders,
                 layer,
                 n,
                 index,
@@ -83,8 +121,8 @@ private fun visualizeBasketWeaveSingle(
         }
 
         when {
-            subSectionX % 2 == 1 -> 0
-            startY < limits.height - 2 -> n
+            !isEven -> 0
+            !borders.bottom || startY < gridSize.height - 2 -> n
             else -> null
         }?.let { offset ->
             visualizeShapeGrammar(
@@ -95,7 +133,8 @@ private fun visualizeBasketWeaveSingle(
                 startX,
                 startY + offset,
                 MapSize2d(n, 1),
-                limits,
+                borders.apply(gridSize),
+                borders,
                 layer,
             )
         }
@@ -106,20 +145,28 @@ private fun visualizeBasketWeaveN(
     state: GrammarRenderState,
     grammar: BrickPatternGrammar,
     aabb: AABB,
+    borders: Borders,
     layer: Int,
     n: Int,
 ) {
     var index = 0
+    val evenOffsetX = borders.calculateEvenOffsetX(grammar.size, n)
+    val evenOffsetY = borders.calculateEvenOffsetY(grammar.size, n)
 
     visualizeSubSections(
         grammar.size,
         MapSize2d.square(n),
         aabb,
-    ) { subSectionX, subSectionY, gridStart, blockSize, limits ->
+        borders,
+    ) { subSectionX, subSectionY, gridStart, blockSize, gridSize, subBorders ->
         val x = subSectionX * n
         val y = subSectionY * n
+        val isEven = (subSectionX + evenOffsetX + subSectionY + evenOffsetY) % 2
 
-        if ((subSectionX + subSectionY) % 2 == 0) {
+        logger.info { "subSectionX=$subSectionX subSectionY=$subSectionY x=$x y=$y isEven=$isEven" }
+        logger.info { "subBorders=$subBorders" }
+
+        if (isEven == 0) {
             visualizeHorizontalBasketWeaveN(
                 state,
                 grammar.brick,
@@ -127,7 +174,8 @@ private fun visualizeBasketWeaveN(
                 blockSize,
                 x,
                 y,
-                limits,
+                subBorders.apply(gridSize),
+                subBorders,
                 layer,
                 n,
                 index,
@@ -140,7 +188,8 @@ private fun visualizeBasketWeaveN(
                 blockSize,
                 x,
                 y,
-                limits,
+                subBorders.apply(gridSize),
+                subBorders,
                 layer,
                 n,
                 index,
@@ -159,6 +208,7 @@ private fun visualizeHorizontalBasketWeaveN(
     x: Int,
     y: Int,
     limits: MapSize2d,
+    borders: Borders,
     layer: Int,
     n: Int,
     startIndex: Int,
@@ -179,6 +229,7 @@ private fun visualizeHorizontalBasketWeaveN(
                 currentY,
                 blocks,
                 limits,
+                borders,
                 layer,
             )
         }
@@ -193,6 +244,7 @@ private fun visualizeVerticalBasketWeaveN(
     x: Int,
     y: Int,
     limits: MapSize2d,
+    borders: Borders,
     layer: Int,
     n: Int,
     startIndex: Int,
@@ -203,7 +255,9 @@ private fun visualizeVerticalBasketWeaveN(
     repeat(n) { offset ->
         val currentX = x + offset
 
-        if (currentX < limits.width) {
+        logger.info { "x=$x currentX=$currentX" }
+
+        if (!borders.right || currentX < limits.width) {
             visualizeShapeGrammar(
                 state.addSeed(index++),
                 grammar,
@@ -213,6 +267,7 @@ private fun visualizeVerticalBasketWeaveN(
                 y,
                 blocks,
                 limits,
+                borders,
                 layer,
             )
         }
@@ -223,6 +278,7 @@ private fun visualizeGrid(
     state: GrammarRenderState,
     grammar: BrickPatternGrammar,
     aabb: AABB,
+    borders: Borders,
     layer: Int,
 ) = grammar.size.process(aabb) { start, gridSize, brickSize ->
     var startOfRow = start
@@ -236,6 +292,7 @@ private fun visualizeGrid(
                 state.addSeed(index),
                 grammar.brick,
                 AABB(currentBrick, brickSize),
+                borders,
                 layer,
             )
 
@@ -251,87 +308,105 @@ private fun visualizeHerringbone(
     state: GrammarRenderState,
     grammar: BrickPatternGrammar,
     aabb: AABB,
+    borders: Borders,
     layer: Int,
     length: Int,
-) = grammar.size.process(aabb) { gridStart, gridSize, blockSize ->
+) {
     val doubleLength = length * 2
+    val types = length + 1
+    val singleBlock = MapSize2d.square(1)
     val horizontalBlocks = MapSize2d(length, 1)
     val verticalBlocks = MapSize2d(1, length)
+    val limits = borders.apply(grammar.size.size())
     var index = 0
 
-    repeat(gridSize.height) { y ->
-        val modulo = y % doubleLength
-        var x = if (modulo == 0) {
-            0
+    visualizeSubSections(
+        grammar.size,
+        MapSize2d.square(doubleLength),
+        aabb,
+        borders,
+    ) { subSectionX, subSectionY, gridStart, blockSize, gridSize, subBorders ->
+        val startX = subSectionX * doubleLength
+        val startY = subSectionY * doubleLength
+        val remainingWidth = gridSize.width - startX
+        val remainingHeight = gridSize.height - startY
+        val width = if (subBorders.right) {
+            doubleLength.coerceAtMost(remainingWidth)
         } else {
-            modulo - doubleLength
+            doubleLength
+        }
+        val height = if (subBorders.bottom) {
+            doubleLength.coerceAtMost(remainingHeight)
+        } else {
+            doubleLength
         }
 
-        while (x < gridSize.width) {
-            if (x >= 0) {
-                visualizeShapeGrammar(
-                    state.addSeed(index++),
-                    grammar.brick,
-                    gridStart,
-                    blockSize,
-                    x,
-                    y,
-                    horizontalBlocks,
-                    gridSize,
-                    layer,
-                )
-            } else if (x > -length) {
-                visualizeShapeGrammar(
-                    state.addSeed(index++),
-                    grammar.brick,
-                    gridStart,
-                    blockSize,
-                    0,
-                    y,
-                    MapSize2d(length + x, 1),
-                    gridSize,
-                    layer,
-                )
-            }
+        repeat(height) { y ->
+            var x = 0
+            var type = (types - y) % types
 
-            if (y == 0) {
-                x += length
+            logger.info { "y=$y types=$types type=$type" }
 
-                repeat(length.coerceAtMost(gridSize.width - x)) { i ->
-                    visualizeShapeGrammar(
-                        state.addSeed(index++),
-                        grammar.brick,
-                        gridStart,
-                        blockSize,
-                        x,
-                        0,
-                        MapSize2d(1, 1 + i),
-                        gridSize,
-                        layer,
-                    )
+            while (x < width) {
+                logger.info { "x=$x type=$type" }
 
-                    x += 1
-                }
-            } else {
-                x += doubleLength - 1
-
-                if (x >= gridSize.width) {
-                    break
+                if (borders.x == 1 && subSectionX == 0 && subSectionY == 0 && y == 1 && x == 1) {
+                    logger.info { "debug" }
                 }
 
+                val brick = if (type <= 0) {
+                    // horizontal brick
+                    val isBrickSharedLeft = x == 0 && y > 0
+                    val isBrickSharedRight = x == doubleLength - 1
+                    val oldType = type
+                    type = 0
+
+                    if (isBrickSharedLeft && subBorders.left) {
+                        MapSize2d(y - length, 1)
+                    } else if (isBrickSharedRight && subBorders.right) {
+                        singleBlock
+                    } else if (isBrickSharedLeft) {
+                        x += 1 + oldType.absoluteValue
+                        type = 1
+                        continue
+                    } else {
+                        horizontalBlocks
+                    }
+                } else if (type < length) {
+                    // vertical brick that started in a row above
+
+                    if (subBorders.top && y == 0) {
+                        MapSize2d(1, x - length + 1)
+                    } else {
+                        x++
+                        type++
+                        continue
+                    }
+                } else {
+                    // vertical brick
+
+                    if (subBorders.bottom && y > length) {
+                        MapSize2d(1, doubleLength - y)
+                    } else {
+                        verticalBlocks
+                    }
+                }
+
                 visualizeShapeGrammar(
                     state.addSeed(index++),
                     grammar.brick,
                     gridStart,
                     blockSize,
-                    x,
-                    y,
-                    verticalBlocks,
-                    gridSize,
+                    startX + x,
+                    startY + y,
+                    brick,
+                    borders.apply(gridSize),
+                    borders,
                     layer,
                 )
 
-                x += 1
+                x += brick.width
+                type = (type + 1) % types
             }
         }
     }
@@ -341,28 +416,47 @@ private fun visualizeRows(
     state: GrammarRenderState,
     grammar: BrickPatternGrammar,
     aabb: AABB,
+    borders: Borders,
+    offset: Int,
     layer: Int,
-    calculateLength: (Int, Int) -> Int,
+    calculateStartX: (Int) -> Int,
 ) = grammar.size.process(aabb) { start, gridSize, blockSize ->
     var startOfRow = start
     var index = 0
 
     repeat(gridSize.height) { y ->
-        var currentBrick = startOfRow
-        var x = 0
+        var x = calculateStartX(y)
 
-        while (x < gridSize.width) {
-            val length = calculateLength(x, y).coerceAtMost(gridSize.width - x)
-            val brickSize = blockSize.replaceWidth(Factor.fromNumber(length))
+        while (x + offset < gridSize.width) {
+            val length = if (x + offset < 0) {
+                val remainingLength = grammar.length + x
+
+                if (borders.left) {
+                    x = 0
+
+                    remainingLength
+                } else {
+                    x += grammar.length
+
+                    grammar.length
+                }
+            } else {
+                grammar.length
+            }
 
             visualizeShapeGrammar(
-                state.addSeed(index),
+                state.addSeed(index++),
                 grammar.brick,
-                AABB(currentBrick, brickSize),
+                start,
+                blockSize,
+                x + offset,
+                y,
+                MapSize2d(length, 1),
+                borders.apply(gridSize),
+                borders,
                 layer,
             )
 
-            currentBrick = currentBrick.addWidth(brickSize.width)
             x += length
             index++
         }
@@ -375,21 +469,50 @@ private fun visualizeSubSections(
     gridSize: GridSize,
     subSectionSize: MapSize2d,
     aabb: AABB,
-    visualizeSubSection: (Int, Int, Point2d, Size2d, MapSize2d) -> Unit,
+    borders: Borders,
+    visualizeSubSection: (Int, Int, Point2d, Size2d, MapSize2d, Borders) -> Unit,
 ) = gridSize.process(aabb) { start, gridSize, blockSize ->
+    val offset = borders.calculateTileOffset(gridSize, subSectionSize)
+    val startWithOffset = start + blockSize * offset
+    val gridSizeWithOffset = gridSize - offset
     val subSections = MapSize2d(
-        ceil(gridSize.width / subSectionSize.width.toDouble()).toInt(),
-        ceil(gridSize.height / subSectionSize.height.toDouble()).toInt(),
+        ceil((gridSize.width - offset.width) / subSectionSize.width.toDouble()).toInt(),
+        ceil((gridSize.height - offset.height) / subSectionSize.height.toDouble()).toInt(),
     )
 
     repeat(subSections.height) { y ->
         repeat(subSections.width) { x ->
+            val subBorders = Borders(
+                if (y < subSections.height - 1) {
+                    false
+                } else {
+                    borders.bottom
+                },
+                if (x == 0) {
+                    borders.left
+                } else {
+                    false
+                },
+                if (x < subSections.width - 1) {
+                    false
+                } else {
+                    borders.right
+                },
+                if (y == 0) {
+                    borders.top
+                } else {
+                    false
+                },
+                x,
+                y,
+            )
             visualizeSubSection(
                 x,
                 y,
-                start,
+                startWithOffset,
                 blockSize,
-                gridSize,
+                gridSizeWithOffset,
+                subBorders,
             )
         }
     }

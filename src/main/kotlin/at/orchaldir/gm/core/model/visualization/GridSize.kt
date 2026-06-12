@@ -21,19 +21,32 @@ sealed class GridSize {
         is RowsAndColumns -> GridSizeType.RowsAndColumns
     }
 
-    fun process(aabb: AABB, function: (Point2d, MapSize2d, Size2d) -> Unit) = when (this) {
-        is SquareGrid -> processGrid(aabb, MapSize2d.square(size), function)
-        is RowsAndColumns -> processGrid(aabb, size, function)
+    fun size() = when (this) {
+        is SquareGrid -> MapSize2d.square(size)
+        is RowsAndColumns -> size
     }
+
+    fun width() = when (this) {
+        is SquareGrid -> size
+        is RowsAndColumns -> size.width
+    }
+
+    fun height() = when (this) {
+        is SquareGrid -> size
+        is RowsAndColumns -> size.height
+    }
+
+    fun process(aabb: AABB, function: (Point2d, MapSize2d, Size2d) -> Unit) =
+        processGrid(aabb, size(), function)
 
     fun processGrid(
         aabb: AABB,
-        size: MapSize2d,
+        gridSize: MapSize2d,
         function: (Point2d, MapSize2d, Size2d) -> Unit,
     ) = function(
         aabb.start,
-        size,
-        aabb.size / size,
+        gridSize,
+        aabb.size / gridSize,
     )
 
     fun validate(label: String, minSize: Int, maxSize: Int) = when (this) {

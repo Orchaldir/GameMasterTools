@@ -15,9 +15,6 @@ import at.orchaldir.gm.core.model.visualization.RectangularShapeGrammar
 import at.orchaldir.gm.core.model.visualization.SquareGrid
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.utils.Storage
-import at.orchaldir.gm.utils.math.Size2d
-import at.orchaldir.gm.utils.math.unit.Distance
-import at.orchaldir.gm.visualization.character.appearance.PaddedSize
 
 fun main() {
     val rock = Rock(
@@ -43,6 +40,7 @@ fun main() {
     renderGrammarTable(
         state,
         "grammar-colors.svg",
+        GRAMMAR_SIZE,
         listOf(
             Pair("Fixed", FixedColor(Color.Gray)),
             Pair("Material", LookupMaterial),
@@ -53,13 +51,10 @@ fun main() {
     )
 }
 
-private fun createGrammar(pattern: BrickPattern, lookup: ColorLookup) = Pair(
-    BrickPatternGrammar(
-        RectangularShapeGrammar(
-            MadeFromStone(color = lookup),
-        ),
-        SquareGrid(20),
-        pattern,
+private fun createGrammar(pattern: BrickPattern, lookup: ColorLookup) = BrickPatternGrammar(
+    RectangularShapeGrammar(
+        MadeFromStone(color = lookup),
     ),
-    PaddedSize(Size2d.square(Distance.fromMeters(1)), Distance.fromMeters(0.2f)),
+    SquareGrid(20),
+    pattern,
 )

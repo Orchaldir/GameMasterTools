@@ -8,23 +8,29 @@ import at.orchaldir.gm.core.model.visualization.BrickPatternGrammar
 import at.orchaldir.gm.core.model.visualization.RectangularShapeGrammar
 import at.orchaldir.gm.core.model.visualization.SquareGrid
 import at.orchaldir.gm.prototypes.visualization.addNames
+import at.orchaldir.gm.visualization.grammar.Borders
 
 fun main() {
-    renderGrammarTable(
+    renderGrammarTableWithBorders(
         State(),
-        "grammar-single-brick-patterns.svg",
-        GRAMMAR_SIZE,
-        addNames(listOf(2, 3, 4)),
+        "grammar-borders.svg",
+        addNames(listOf(true, false)),
         addNames(BrickPattern.entries),
         ::createGrammar,
     )
 }
 
-private fun createGrammar(pattern: BrickPattern, length: Int) = BrickPatternGrammar(
-    RectangularShapeGrammar(
-        MadeFromWood(color = Color.Gray),
+private fun createGrammar(pattern: BrickPattern, isBorder: Boolean) = Pair(
+    Pair(
+        BrickPatternGrammar(
+            RectangularShapeGrammar(
+                MadeFromWood(color = Color.Gray),
+            ),
+            SquareGrid(10),
+            pattern,
+            3,
+        ),
+        Borders(isBorder),
     ),
-    SquareGrid(20),
-    pattern,
-    length,
+    GRAMMAR_SIZE,
 )

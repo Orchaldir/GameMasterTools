@@ -1,20 +1,16 @@
 package at.orchaldir.gm.app.routes.world.settlement
 
-import at.orchaldir.gm.app.*
+import at.orchaldir.gm.app.STORE
+import at.orchaldir.gm.app.TERRAIN
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.world.editTerrain
+import at.orchaldir.gm.app.html.world.parseTerrainResize
 import at.orchaldir.gm.app.html.world.parseTerrainType
-import at.orchaldir.gm.app.routes.world.RegionRoutes
-import at.orchaldir.gm.app.routes.world.RiverRoutes
 import at.orchaldir.gm.core.action.ResizeTerrain
 import at.orchaldir.gm.core.action.SetTerrainTile
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.world.settlement.SettlementMap
 import at.orchaldir.gm.core.model.world.settlement.TerrainType
-import at.orchaldir.gm.core.model.world.terrain.RegionDataType
-import at.orchaldir.gm.core.selector.world.*
-import at.orchaldir.gm.utils.Id
-import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.map.Resize
 import at.orchaldir.gm.visualization.settlement.showTerrainName
 import at.orchaldir.gm.visualization.settlement.visualizeSettlementMap
@@ -27,9 +23,6 @@ import io.ktor.server.resources.post
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.HTML
-import kotlinx.html.HtmlBlockTag
-import kotlinx.html.h2
-import kotlinx.html.p
 import mu.KotlinLogging
 
 private val logger = KotlinLogging.logger {}
@@ -43,7 +36,7 @@ fun Application.configureTerrainRouting() {
             val settlement = state.getSettlementMapStorage().getOrThrow(edit.id)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showTerrainEditor(call, state, settlement, TerrainType.Plain, 0)
+                showTerrainEditor(call, state, settlement)
             }
         }
         post<SettlementMapRoutes.TerrainRoutes.Preview> { preview ->
@@ -54,9 +47,10 @@ fun Application.configureTerrainRouting() {
             val params = call.receiveParameters()
             val terrainType = parseTerrainType(params)
             val terrainId: Int = parseInt(params, TERRAIN, 0)
+            val resize = parseTerrainResize(params)
 
             call.respondHtml(HttpStatusCode.OK) {
-                showTerrainEditor(call, state, settlementMap, terrainType, terrainId)
+                showTerrainEditor(call, state, settlementMap, terrainType, terrainId, resize)
             }
         }
         get<SettlementMapRoutes.TerrainRoutes.Update> { update ->
@@ -78,13 +72,7 @@ fun Application.configureTerrainRouting() {
             val params = call.receiveParameters()
             val terrainType = parseTerrainType(params)
             val terrainId: Int = parseInt(params, TERRAIN, 0)
-            val resize = Resize(
-                parseInt(params, combine(WIDTH, START), 0),
-                parseInt(params, combine(WIDTH, END), 0),
-                parseInt(params, combine(HEIGHT, START), 0),
-                parseInt(params, combine(HEIGHT, END), 0),
-            )
-
+            val resize = parseTerrainResize(params)
 
             STORE.dispatch(ResizeTerrain(update.id, resize, terrainType, terrainId))
 
@@ -99,8 +87,9 @@ private fun HTML.showTerrainEditor(
     call: ApplicationCall,
     state: State,
     settlementMap: SettlementMap,
-    terrainType: TerrainType,
-    terrainId: Int,
+    terrainType: TerrainType = TerrainType.Plain,
+    terrainId: Int = 0,
+    resize: Resize = Resize(),
 ) {
     val backLink = href(call, settlementMap.id)
     val previewLink = call.application.href(SettlementMapRoutes.TerrainRoutes.Preview(settlementMap.id))
@@ -109,7 +98,7 @@ private fun HTML.showTerrainEditor(
     simpleHtml("Edit Terrain of Settlement Map ${settlementMap.name(state)}") {
         split({
             formWithPreview(previewLink, resizeLink, backLink, "Resize") {
-                editTerrain(call, state, terrainType, terrainId, settlementMap)
+                editTerrain(call, state, terrainType, terrainId, resize, settlementMap)
             }
         }, {
             svg(
@@ -130,74 +119,5 @@ private fun HTML.showTerrainEditor(
                 ), 90
             )
         })
-    }
-}
-
-private fun HtmlBlockTag.editTerrain(
-    call: ApplicationCall,
-    state: State,
-    terrainType: TerrainType,
-    terrainId: Int,
-    settlementMap: SettlementMap,
-) {
-    val createMountainLink = call.application.href(RegionRoutes.New())
-    val createRiverLink = call.application.href(RiverRoutes.New())
-    val rivers = state.getRiverStorage().getAll()
-    val mountains = state.getRegions(RegionDataType.Mountain)
-
-    selectValue("Terrain", combine(TERRAIN, TYPE), TerrainType.entries, terrainType) { type ->
-        when (type) {
-            TerrainType.Hill, TerrainType.Mountain -> mountains.isEmpty()
-            TerrainType.Plain -> false
-            TerrainType.River -> rivers.isEmpty()
-        }
-    }
-    when (terrainType) {
-        TerrainType.Hill, TerrainType.Mountain -> selectTerrain(
-            "Mountain",
-            mountains,
-            terrainId,
-        )
-
-        TerrainType.Plain -> doNothing()
-        TerrainType.River -> selectTerrain(
-            "River",
-            rivers,
-            terrainId,
-        )
-    }
-    action(createMountainLink, "Create new Mountain")
-    action(createRiverLink, "Create new River")
-
-    h2 { +"Update Terrain of Tile" }
-
-    p { +"Click on a tile to change it's terrain to the type above." }
-
-    h2 { +"Resize" }
-
-    field("Size", settlementMap.map.size.format())
-    val maxDelta = 100
-    selectInt(
-        "Add/Remove Columns At Start",
-        0,
-        getMinWidthStart(settlementMap),
-        maxDelta,
-        1,
-        combine(WIDTH, START)
-    )
-    selectInt("Add/Remove Columns At End", 0, getMinWidthEnd(settlementMap), maxDelta, 1, combine(WIDTH, END))
-    selectInt("Add/Remove Rows At Start", 0, getMinHeightStart(settlementMap), maxDelta, 1, combine(HEIGHT, START))
-    selectInt("Add/Remove Rows At End", 0, getMinHeightEnd(settlementMap), maxDelta, 1, combine(HEIGHT, END))
-}
-
-private fun <ID : Id<ID>> HtmlBlockTag.selectTerrain(
-    text: String,
-    options: Collection<ElementWithSimpleName<ID>>,
-    id: Int,
-) {
-    selectValue(text, TERRAIN, options) { m ->
-        label = m.name()
-        value = m.id().value().toString()
-        selected = id == m.id().value()
     }
 }

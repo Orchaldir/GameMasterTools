@@ -1,5 +1,6 @@
 package at.orchaldir.gm.utils.renderer
 
+import at.orchaldir.gm.core.logger
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.util.render.Color.Black
 import at.orchaldir.gm.utils.map.MapSize2d
@@ -10,6 +11,7 @@ import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.LineOptions
+import at.orchaldir.gm.visualization.grammar.Borders
 
 data class TileMap2dRenderer(
     val tileSize: Distance,
@@ -37,6 +39,52 @@ data class TileMap2dRenderer(
                 }
 
                 index++
+            }
+        }
+    }
+
+    fun <TILE> render(
+        map: TileMap2d<TILE>,
+        start: Point2d,
+        renderTile: (Int, AABB, Borders, TILE) -> Unit,
+    ) {
+        val size = map.size
+        val tileSize = Size2d.square(tileSize)
+        var index = 0
+        val isTopBorders = MutableList(size.width) { true }
+
+        repeat(size.height) { y ->
+            var isLeftBorder = true
+            var currentTile = map.getTile(0, y)
+
+            repeat(size.width) { x ->
+                val rightTile = map.getTile(x + 1, y)
+                val bottomTile = map.getTile(x, y + 1)
+                val isRightBorder = currentTile != rightTile
+                val isTopBorder = isTopBorders[x]
+                val isBottomBorder = currentTile != bottomTile
+
+                logger.info { "x=$x y=$y isLeftBorder=$isLeftBorder isRightBorder=$isRightBorder" }
+                logger.info { "x=$x y=$y isTopBorder=$isTopBorder isBottomBorder=$isBottomBorder" }
+
+                currentTile?.let { tile ->
+                    val position = start + calculateTilePosition(x, y)
+                    val borders = Borders(
+                        isBottomBorder,
+                        isLeftBorder,
+                        isRightBorder,
+                        isTopBorder,
+                        x,
+                        y,
+                    )
+
+                    renderTile(index, AABB(position, tileSize), borders, tile)
+                }
+
+                index++
+                currentTile = rightTile
+                isLeftBorder = isRightBorder
+                isTopBorders[x] = isBottomBorder
             }
         }
     }
