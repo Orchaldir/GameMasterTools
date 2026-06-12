@@ -411,12 +411,6 @@ private fun visualizeRows(
             } else {
                 grammar.length
             }
-            val coercedLength = if (borders.right) {
-                length.coerceAtMost(gridSize.width - x)
-            } else {
-                length
-            }
-            val brickSize = blockSize.replaceWidth(Factor.fromNumber(coercedLength))
 
             visualizeShapeGrammar(
                 state.addSeed(index++),
@@ -431,7 +425,7 @@ private fun visualizeRows(
                 layer,
             )
 
-            x += coercedLength
+            x += length
             index++
         }
 
