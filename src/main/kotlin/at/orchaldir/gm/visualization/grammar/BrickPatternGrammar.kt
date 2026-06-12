@@ -84,8 +84,7 @@ private fun visualizeBasketWeaveSingle(
     n: Int,
 ) {
     var index = 0
-    // To ensure that isEven below alternates correctly across tiles
-    val evenOffset = ceil(grammar.size.width() * borders.x / n.toFloat()).toInt() % 2
+    val evenOffset = borders.calculateEvenOffsetX(grammar.size, n)
 
     visualizeSubSections(
         grammar.size,
@@ -149,6 +148,8 @@ private fun visualizeBasketWeaveN(
     n: Int,
 ) {
     var index = 0
+    val evenOffsetX = borders.calculateEvenOffsetX(grammar.size, n)
+    val evenOffsetY = borders.calculateEvenOffsetY(grammar.size, n)
 
     visualizeSubSections(
         grammar.size,
@@ -158,8 +159,9 @@ private fun visualizeBasketWeaveN(
     ) { subSectionX, subSectionY, gridStart, blockSize, gridSize ->
         val x = subSectionX * n
         val y = subSectionY * n
+        val isEven = (subSectionX + evenOffsetX + subSectionY + evenOffsetY) % 2
 
-        if ((subSectionX + subSectionY) % 2 == 0) {
+        if (isEven == 0) {
             visualizeHorizontalBasketWeaveN(
                 state,
                 grammar.brick,

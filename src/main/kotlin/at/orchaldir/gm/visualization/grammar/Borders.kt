@@ -38,6 +38,12 @@ data class Borders(
         Int.MAX_VALUE
     }
 
+    fun calculateEvenOffsetX(gridSize: GridSize, length: Int) =
+        ceil(gridSize.width() * x / length.toFloat()).toInt() % 2
+
+    fun calculateEvenOffsetY(gridSize: GridSize, length: Int) =
+        ceil(gridSize.height() * y / length.toFloat()).toInt() % 2
+
     fun calculateTileOffset(gridSize: MapSize2d, tile: MapSize2d) = MapSize2d(
         calculateTileOffsetX(gridSize.width, tile.width),
         calculateTileOffsetY(gridSize.height, tile.height),
