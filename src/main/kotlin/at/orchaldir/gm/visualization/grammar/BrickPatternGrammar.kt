@@ -351,8 +351,11 @@ private fun visualizeHerringbone(
                 val brick = if (type <= 0) {
                     // horizontal brick
                     val isBrickSharedLeft = x == 0 && y > 0
+                    val isBrickSharedRight = x == doubleLength - 1
 
                     if (isBrickSharedLeft && subBorders.left) {
+                        singleBlock
+                    } else if (isBrickSharedRight && subBorders.right) {
                         singleBlock
                     } else if (isBrickSharedLeft) {
                         x += 1 + type.absoluteValue
