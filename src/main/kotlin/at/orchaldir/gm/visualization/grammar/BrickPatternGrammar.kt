@@ -43,9 +43,8 @@ fun visualizeBrickPatternGrammar(
     BrickPattern.Running -> {
         val offset = borders.calculateTileOffsetX(grammar.size, grammar.length)
         val halfBrick = floor(grammar.length / 2.0).toInt()
-        val runningOffset = (offset +  halfBrick).modulo(grammar.length)
 
-        logger.info { "offset=$offset halfBrick=$halfBrick runningOffset=$runningOffset" }
+        logger.info { "offset=$offset halfBrick=$halfBrick" }
 
         visualizeRows(
             state,
@@ -395,8 +394,10 @@ private fun visualizeRows(
     repeat(gridSize.height) { y ->
         var x = calculateStartX(y)
 
+        logger.info { "y=$y x=$x" }
+
         while (x < gridSize.width) {
-            val length = if (x < 0) {
+            val length = if (x + offset < 0) {
                 val remainingLength = grammar.length + x
 
                 if (borders.left) {
@@ -411,6 +412,8 @@ private fun visualizeRows(
             } else {
                 grammar.length
             }
+
+            logger.info { "x=$x length=$length" }
 
             visualizeShapeGrammar(
                 state.addSeed(index++),
