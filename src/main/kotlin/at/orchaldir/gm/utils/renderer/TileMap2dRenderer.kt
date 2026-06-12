@@ -61,10 +61,10 @@ data class TileMap2dRenderer(
                 val rightTile = map.getTile(x + 1, y)
                 val bottomTile = map.getTile(x, y + 1)
                 val isRightBorder = currentTile != rightTile
-                val isBottomBorder = currentTile != bottomTile
                 val isTopBorder = isTopBorders[x]
+                val isBottomBorder = currentTile != bottomTile
 
-                //logger.info { "x=$x y=$y isLeftBorder=$isLeftBorder isRightBorder=$isRightBorder" }
+                logger.info { "x=$x y=$y isLeftBorder=$isLeftBorder isRightBorder=$isRightBorder" }
                 logger.info { "x=$x y=$y isTopBorder=$isLeftBorder isBottomBorder=$isRightBorder" }
 
                 currentTile?.let { tile ->

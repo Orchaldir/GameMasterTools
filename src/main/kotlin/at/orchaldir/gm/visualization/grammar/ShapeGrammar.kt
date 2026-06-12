@@ -1,5 +1,6 @@
 package at.orchaldir.gm.visualization.grammar
 
+import at.orchaldir.gm.core.logger
 import at.orchaldir.gm.core.model.visualization.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.map.MapSize2d
@@ -43,6 +44,7 @@ fun visualizeShapeGrammar(
     is BrickPatternGrammar -> doNothing()
     DoNothingShapeGrammar -> doNothing()
     is RectangularShapeGrammar -> {
+        logger.info { "x=$x y=$y limits=$limits blocks=$blocks" }
         val limitedBlocks = blocks.limit(x, y, limits)
         val aabbStart = Point2d.fromGrid(blockSize, gridStart, x, y)
         val aabbSize = blockSize * limitedBlocks

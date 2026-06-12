@@ -93,7 +93,7 @@ private fun visualizeBasketWeaveSingle(
         MapSize2d(n, n + 1),
         aabb,
         borders,
-    ) { subSectionX, subSectionY, gridStart, blockSize, gridSize ->
+    ) { subSectionX, subSectionY, gridStart, blockSize, gridSize, _ ->
         val startX = subSectionX * n
         val startY = subSectionY * (n + 1)
         val isEven = (subSectionX + evenOffset) % 2 == 0
@@ -158,7 +158,7 @@ private fun visualizeBasketWeaveN(
         MapSize2d.square(n),
         aabb,
         borders,
-    ) { subSectionX, subSectionY, gridStart, blockSize, gridSize ->
+    ) { subSectionX, subSectionY, gridStart, blockSize, gridSize, _ ->
         val x = subSectionX * n
         val y = subSectionY * n
         val isEven = (subSectionX + evenOffsetX + subSectionY + evenOffsetY) % 2
@@ -320,7 +320,7 @@ private fun visualizeHerringbone(
         MapSize2d.square(doubleLength),
         aabb,
         borders,
-    ) { subSectionX, subSectionY, gridStart, blockSize, gridSize ->
+    ) { subSectionX, subSectionY, gridStart, blockSize, gridSize, subBorders ->
         val startX = subSectionX * doubleLength
         val startY = subSectionY * doubleLength
         val remainingWidth = gridSize.width - startX
@@ -343,7 +343,7 @@ private fun visualizeHerringbone(
                     // horizontal brick
                     val isBrickSharedLeft = x == 0 && y > 0
 
-                    if (isBrickSharedLeft && borders.left) {
+                    if (isBrickSharedLeft && subBorders.left) {
                         singleBlock
                     } else if (isBrickSharedLeft) {
                         x += 1 + type.absoluteValue
@@ -355,9 +355,9 @@ private fun visualizeHerringbone(
                 } else if (type < length) {
                     // vertical brick that started in a row above
 
-                    if (borders.top && y == 0) {
+                    if (subBorders.top && y == 0) {
                         singleBlock
-                    } else if (borders.right && y + length >= doubleLength) {
+                    } else if (subBorders.right && y + length >= doubleLength) {
                         singleBlock
                     } else {
                         x++
@@ -447,7 +447,7 @@ private fun visualizeSubSections(
     subSectionSize: MapSize2d,
     aabb: AABB,
     borders: Borders,
-    visualizeSubSection: (Int, Int, Point2d, Size2d, MapSize2d) -> Unit,
+    visualizeSubSection: (Int, Int, Point2d, Size2d, MapSize2d, Borders) -> Unit,
 ) = gridSize.process(aabb) { start, gridSize, blockSize ->
     val offset = borders.calculateTileOffset(gridSize, subSectionSize)
     val startWithOffset = start + blockSize * offset
@@ -459,12 +459,37 @@ private fun visualizeSubSections(
 
     repeat(subSections.height) { y ->
         repeat(subSections.width) { x ->
+            val subBorders = Borders(
+                if (y < subSections.height - 1) {
+                    false
+                } else {
+                    borders.bottom
+                },
+                if (x  == 0) {
+                    borders.left
+                } else {
+                    false
+                },
+                if (x < subSections.width - 1) {
+                    false
+                } else {
+                    borders.right
+                },
+                if (y  == 0) {
+                    borders.top
+                } else {
+                    false
+                },
+                x,
+                y,
+            )
             visualizeSubSection(
                 x,
                 y,
                 startWithOffset,
                 blockSize,
                 gridSizeWithOffset,
+                subBorders,
             )
         }
     }
