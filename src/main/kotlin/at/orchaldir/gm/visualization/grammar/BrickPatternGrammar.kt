@@ -348,17 +348,23 @@ private fun visualizeHerringbone(
             while (x < width) {
                 logger.info { "x=$x type=$type" }
 
+                if (type == -1 && subSectionX == 0 && subSectionY == 0) {
+                    logger.info { "debug" }
+                }
+
                 val brick = if (type <= 0) {
                     // horizontal brick
                     val isBrickSharedLeft = x == 0 && y > 0
                     val isBrickSharedRight = x == doubleLength - 1
+                    val oldType = type
+                    type = 0
 
                     if (isBrickSharedLeft && subBorders.left) {
                         MapSize2d(y - length, 1)
                     } else if (isBrickSharedRight && subBorders.right) {
                         singleBlock
                     } else if (isBrickSharedLeft) {
-                        x += 1 + type.absoluteValue
+                        x += 1 + oldType.absoluteValue
                         type = 1
                         continue
                     } else {
