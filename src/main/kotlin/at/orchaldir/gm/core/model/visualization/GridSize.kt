@@ -33,12 +33,12 @@ sealed class GridSize {
 
     fun processGrid(
         aabb: AABB,
-        size: MapSize2d,
+        gridSize: MapSize2d,
         function: (Point2d, MapSize2d, Size2d) -> Unit,
     ) = function(
         aabb.start,
-        size,
-        aabb.size / size,
+        gridSize,
+        aabb.size / gridSize,
     )
 
     fun validate(label: String, minSize: Int, maxSize: Int) = when (this) {

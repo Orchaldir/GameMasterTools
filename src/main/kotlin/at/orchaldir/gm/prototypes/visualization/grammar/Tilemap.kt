@@ -24,8 +24,8 @@ fun main() {
             MadeFromWood(color = Color.Gray),
         ),
         SquareGrid(10),
-        BrickPattern.Running,
-        3,
+        BrickPattern.BasketWeaveSingle,
+        2,
     )
     val tileMap = TileMap2d(MapSize2d(4, 3), grammar)
     val tileMapRenderer = TileMap2dRenderer(Distance.fromMeters(1.0f), ZERO_DISTANCE)

@@ -84,6 +84,7 @@ private fun visualizeBasketWeaveSingle(
     n: Int,
 ) {
     var index = 0
+    val evenOffset = grammar.size.width() * borders.x / n % 2
 
     visualizeSubSections(
         grammar.size,
@@ -92,9 +93,10 @@ private fun visualizeBasketWeaveSingle(
     ) { subSectionX, subSectionY, gridStart, blockSize, gridSize ->
         val startX = subSectionX * n
         val startY = subSectionY * (n + 1)
+        val isEven = (subSectionX + evenOffset) % 2 == 0
 
         when {
-            subSectionX % 2 == 0 -> 0
+            isEven -> 0
             startY < gridSize.height - 1 -> 1
             else -> null
         }?.let { offset ->
@@ -116,7 +118,7 @@ private fun visualizeBasketWeaveSingle(
         }
 
         when {
-            subSectionX % 2 == 1 -> 0
+            !isEven -> 0
             startY < gridSize.height - 2 -> n
             else -> null
         }?.let { offset ->
