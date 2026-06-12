@@ -307,6 +307,7 @@ private fun visualizeHerringbone(
 ) {
     val doubleLength = length * 2
     val types = length + 1
+    val singleBlock = MapSize2d.square(1)
     val horizontalBlocks = MapSize2d(length, 1)
     val verticalBlocks = MapSize2d(1, length)
     val limits = borders.apply(grammar.size.size())
@@ -326,6 +327,32 @@ private fun visualizeHerringbone(
             var type = (types - y) % types
 
             while (x < doubleLength) {
+                val isBrickSharedLeft = type == 0 && x == 0 && y > 0
+
+                val brick = if (isBrickSharedLeft) {
+                    if (borders.left) {
+                        singleBlock
+                    } else {
+                        x++
+                        type++
+                        continue
+                    }
+                } else if (type == 0) {
+                    horizontalBlocks
+                } else if (type == 1) {
+                    if (borders.top && y == 0) {
+                        singleBlock
+                    } else if (borders.right && y + length >= doubleLength) {
+                        singleBlock
+                    } else {
+                        x++
+                        type++
+                        continue
+                    }
+                } else {
+                    verticalBlocks
+                }
+
                 visualizeShapeGrammar(
                     state.addSeed(index++),
                     grammar.brick,
@@ -333,31 +360,13 @@ private fun visualizeHerringbone(
                     blockSize,
                     x,
                     y,
-                    if (type == 0 && x == 0 && y > 0) {
-                        x++
-                        type++
-                        continue
-                    }
-                    else if (type == 0) {
-                        horizontalBlocks
-                    }
-                    else if (type == 1) {
-                        x++
-                        type++
-                        continue
-                    }
-                    else {
-                        verticalBlocks
-                    },
+                    brick,
                     limits,
                     borders,
                     layer,
                 )
 
-                x += when (type) {
-                    0 -> length
-                    else -> 1
-                }
+                x += brick.width
                 type = (type + 1) % types
             }
         }
