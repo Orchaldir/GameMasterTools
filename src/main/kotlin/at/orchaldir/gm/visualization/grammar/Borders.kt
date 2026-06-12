@@ -19,10 +19,12 @@ data class Borders(
         getHeight(size),
     )
 
-    fun applyLeft(size: MapSize2d) = size.copy(width = getWidth(size))
+    fun applyBottomAndRight(size: MapSize2d) = MapSize2d(getWidth(size), getHeight(size))
+
+    fun applyRight(size: MapSize2d) = size.copy(width = getWidth(size))
     fun applyBottom(size: MapSize2d) = size.copy(height = getHeight(size))
 
-    private fun getWidth(size: MapSize2d): Int = if (left) {
+    private fun getWidth(size: MapSize2d): Int = if (right) {
         size.width
     } else {
         Int.MAX_VALUE
@@ -34,12 +36,18 @@ data class Borders(
         Int.MAX_VALUE
     }
 
-    fun calculateTileOffsetX(gridSize: GridSize, length: Int): Int {
+    fun calculateTileOffsetX(gridSize: GridSize, length: Int) =
+        calculateTileOffsetX(gridSize.width(), length)
+
+    fun calculateTileOffsetX(gridSize: MapSize2d, length: Int) =
+        calculateTileOffsetX(gridSize.width, length)
+
+    private fun calculateTileOffsetX(width: Int, length: Int): Int {
         if (left) {
             return 0
         }
 
-        val startBlockX = x * gridSize.width()
+        val startBlockX = x * width
         val numBricksX = ceil(startBlockX / length.toFloat()).toInt()
         val offset = numBricksX * length - startBlockX
 

@@ -84,12 +84,14 @@ private fun visualizeBasketWeaveSingle(
     n: Int,
 ) {
     var index = 0
-    val evenOffset = grammar.size.width() * borders.x / n % 2
+    // To ensure that isEven below alternates correctly across tiles
+    val evenOffset = ceil(grammar.size.width() * borders.x / n.toFloat()).toInt() % 2
 
     visualizeSubSections(
         grammar.size,
         MapSize2d(n, n + 1),
         aabb,
+        borders,
     ) { subSectionX, subSectionY, gridStart, blockSize, gridSize ->
         val startX = subSectionX * n
         val startY = subSectionY * (n + 1)
@@ -107,7 +109,7 @@ private fun visualizeBasketWeaveSingle(
                 blockSize,
                 startX,
                 startY + offset,
-                borders.applyBottom(gridSize),
+                borders.applyBottomAndRight(gridSize),
                 borders,
                 layer,
                 n,
@@ -130,7 +132,7 @@ private fun visualizeBasketWeaveSingle(
                 startX,
                 startY + offset,
                 MapSize2d(n, 1),
-                borders.applyLeft(gridSize),
+                borders.applyRight(gridSize),
                 borders,
                 layer,
             )
@@ -152,6 +154,7 @@ private fun visualizeBasketWeaveN(
         grammar.size,
         MapSize2d.square(n),
         aabb,
+        borders,
     ) { subSectionX, subSectionY, gridStart, blockSize, gridSize ->
         val x = subSectionX * n
         val y = subSectionY * n
@@ -164,7 +167,7 @@ private fun visualizeBasketWeaveN(
                 blockSize,
                 x,
                 y,
-                borders.applyLeft(gridSize),
+                borders.applyRight(gridSize),
                 borders,
                 layer,
                 n,
@@ -245,7 +248,7 @@ private fun visualizeVerticalBasketWeaveN(
     repeat(n) { offset ->
         val currentX = x + offset
 
-        if (currentX < limits.width) {
+        if (!borders.right || currentX < limits.width) {
             visualizeShapeGrammar(
                 state.addSeed(index++),
                 grammar,
@@ -448,11 +451,18 @@ private fun visualizeSubSections(
     gridSize: GridSize,
     subSectionSize: MapSize2d,
     aabb: AABB,
+    borders: Borders,
     visualizeSubSection: (Int, Int, Point2d, Size2d, MapSize2d) -> Unit,
 ) = gridSize.process(aabb) { start, gridSize, blockSize ->
+    val offsetX = borders.calculateTileOffsetX(gridSize, subSectionSize.width)
+    val startWithOffset = start.addWidth(blockSize.width * offsetX)
+    val gridSizeWithOffset = MapSize2d(
+        gridSize.width - offsetX,
+        gridSize.height,
+    )
     val subSections = MapSize2d(
-        ceil(gridSize.width / subSectionSize.width.toDouble()).toInt(),
-        ceil(gridSize.height / subSectionSize.height.toDouble()).toInt(),
+        ceil(gridSizeWithOffset.width / subSectionSize.width.toDouble()).toInt() - offsetX,
+        ceil(gridSizeWithOffset.height / subSectionSize.height.toDouble()).toInt(),
     )
 
     repeat(subSections.height) { y ->
@@ -460,9 +470,9 @@ private fun visualizeSubSections(
             visualizeSubSection(
                 x,
                 y,
-                start,
+                startWithOffset,
                 blockSize,
-                gridSize,
+                gridSizeWithOffset,
             )
         }
     }
