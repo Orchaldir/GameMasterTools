@@ -348,7 +348,7 @@ private fun visualizeHerringbone(
             while (x < width) {
                 logger.info { "x=$x type=$type" }
 
-                if (type == -1 && subSectionX == 0 && subSectionY == 0) {
+                if (borders.x == 1 && subSectionX == 0 && subSectionY == 0 && y == 1 && x == 1) {
                     logger.info { "debug" }
                 }
 
@@ -398,7 +398,7 @@ private fun visualizeHerringbone(
                     startX + x,
                     startY + y,
                     brick,
-                    limits,
+                    borders.applyBottomAndRight(gridSize),
                     borders,
                     layer,
                 )
