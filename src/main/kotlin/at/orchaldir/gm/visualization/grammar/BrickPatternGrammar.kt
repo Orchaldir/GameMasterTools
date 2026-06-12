@@ -396,7 +396,7 @@ private fun visualizeRows(
 
         logger.info { "y=$y x=$x" }
 
-        while (x < gridSize.width) {
+        while (x + offset < gridSize.width) {
             val length = if (x + offset < 0) {
                 val remainingLength = grammar.length + x
 
