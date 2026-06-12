@@ -16,7 +16,6 @@ import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.HALF
 import at.orchaldir.gm.utils.math.Point2d
-import at.orchaldir.gm.utils.math.ZERO
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.renderer.LayerRenderer
 import at.orchaldir.gm.utils.renderer.TileMap2dRenderer

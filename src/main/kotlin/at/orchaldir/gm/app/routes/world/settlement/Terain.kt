@@ -1,6 +1,7 @@
 package at.orchaldir.gm.app.routes.world.settlement
 
-import at.orchaldir.gm.app.*
+import at.orchaldir.gm.app.STORE
+import at.orchaldir.gm.app.TERRAIN
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.world.editTerrain
 import at.orchaldir.gm.app.html.world.parseTerrainResize

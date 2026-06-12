@@ -7,10 +7,8 @@ import at.orchaldir.gm.core.model.visualization.GridSize
 import at.orchaldir.gm.core.model.visualization.ShapeGrammar
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.math.AABB
-import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Size2d
-import at.orchaldir.gm.utils.math.modulo
 import kotlin.math.absoluteValue
 import kotlin.math.ceil
 import kotlin.math.floor
@@ -30,6 +28,7 @@ fun visualizeBrickPatternGrammar(
         layer,
         grammar.length,
     )
+
     BrickPattern.BasketWeave -> visualizeBasketWeaveN(
         state,
         grammar,
@@ -38,6 +37,7 @@ fun visualizeBrickPatternGrammar(
         layer,
         grammar.length,
     )
+
     BrickPattern.Grid -> visualizeGrid(state, grammar, aabb, borders, layer)
     BrickPattern.Herringbone -> visualizeHerringbone(state, grammar, aabb, borders, layer, grammar.length)
     BrickPattern.Running -> {
@@ -449,7 +449,7 @@ private fun visualizeRows(
                 grammar.brick,
                 start,
                 blockSize,
-                 x + offset,
+                x + offset,
                 y,
                 MapSize2d(length, 1),
                 borders.apply(gridSize),
@@ -488,7 +488,7 @@ private fun visualizeSubSections(
                 } else {
                     borders.bottom
                 },
-                if (x  == 0) {
+                if (x == 0) {
                     borders.left
                 } else {
                     false
@@ -498,7 +498,7 @@ private fun visualizeSubSections(
                 } else {
                     borders.right
                 },
-                if (y  == 0) {
+                if (y == 0) {
                     borders.top
                 } else {
                     false

@@ -1,6 +1,5 @@
 package at.orchaldir.gm.visualization.grammar
 
-import at.orchaldir.gm.core.logger
 import at.orchaldir.gm.core.model.visualization.GridSize
 import at.orchaldir.gm.utils.map.MapSize2d
 import kotlin.math.ceil
@@ -13,7 +12,7 @@ data class Borders(
     val x: Int = 0,
     val y: Int = 0,
 ) {
-    constructor(isBorder: Boolean, x: Int = 0, y: Int = 0):
+    constructor(isBorder: Boolean, x: Int = 0, y: Int = 0) :
             this(isBorder, isBorder, isBorder, isBorder, x, y)
 
     fun apply(size: MapSize2d) = MapSize2d(

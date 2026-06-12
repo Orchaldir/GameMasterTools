@@ -39,7 +39,7 @@ fun <C, R> renderGrammarTable(
     rows: List<Pair<String, R>>,
     columns: List<Pair<String, C>>,
     process: (C, R) -> Pair<ShapeGrammar, PaddedSize>,
-)  = renderGrammarTableWithBorders(
+) = renderGrammarTableWithBorders(
     state,
     filename,
     rows,

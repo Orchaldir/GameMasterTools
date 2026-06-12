@@ -15,9 +15,6 @@ import at.orchaldir.gm.core.model.visualization.RectangularShapeGrammar
 import at.orchaldir.gm.core.model.visualization.SquareGrid
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.utils.Storage
-import at.orchaldir.gm.utils.math.Size2d
-import at.orchaldir.gm.utils.math.unit.Distance
-import at.orchaldir.gm.visualization.character.appearance.PaddedSize
 
 fun main() {
     val rock = Rock(

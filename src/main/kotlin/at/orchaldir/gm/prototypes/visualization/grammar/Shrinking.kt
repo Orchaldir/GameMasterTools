@@ -6,9 +6,6 @@ import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.visualization.*
 import at.orchaldir.gm.prototypes.visualization.addNames
 import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.math.Size2d
-import at.orchaldir.gm.utils.math.unit.Distance
-import at.orchaldir.gm.visualization.character.appearance.PaddedSize
 
 fun main() {
     renderGrammarTable(

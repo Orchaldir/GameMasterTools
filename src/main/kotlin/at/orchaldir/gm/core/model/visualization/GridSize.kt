@@ -22,7 +22,7 @@ sealed class GridSize {
     }
 
     fun size() = when (this) {
-        is SquareGrid ->MapSize2d.square(size)
+        is SquareGrid -> MapSize2d.square(size)
         is RowsAndColumns -> size
     }
 

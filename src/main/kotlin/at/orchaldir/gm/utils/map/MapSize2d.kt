@@ -1,8 +1,6 @@
 package at.orchaldir.gm.utils.map
 
-import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.modulo
-import at.orchaldir.gm.utils.math.unit.Distance
 import kotlinx.serialization.Serializable
 
 @Serializable

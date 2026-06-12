@@ -16,7 +16,6 @@ import at.orchaldir.gm.utils.math.unit.ZERO_DISTANCE
 import at.orchaldir.gm.utils.renderer.TileMap2dRenderer
 import at.orchaldir.gm.utils.renderer.model.BorderOnly
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
-import at.orchaldir.gm.visualization.grammar.Borders
 import at.orchaldir.gm.visualization.grammar.GrammarRenderState
 import at.orchaldir.gm.visualization.grammar.visualizeShapeGrammar
 import java.io.File
