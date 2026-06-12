@@ -110,7 +110,7 @@ private fun visualizeBasketWeaveSingle(
                 blockSize,
                 startX,
                 startY + offset,
-                borders.applyBottomAndRight(gridSize),
+                borders.apply(gridSize),
                 borders,
                 layer,
                 n,
@@ -133,7 +133,7 @@ private fun visualizeBasketWeaveSingle(
                 startX,
                 startY + offset,
                 MapSize2d(n, 1),
-                borders.applyBottomAndRight(gridSize),
+                borders.apply(gridSize),
                 borders,
                 layer,
             )
@@ -158,10 +158,13 @@ private fun visualizeBasketWeaveN(
         MapSize2d.square(n),
         aabb,
         borders,
-    ) { subSectionX, subSectionY, gridStart, blockSize, gridSize, _ ->
+    ) { subSectionX, subSectionY, gridStart, blockSize, gridSize, subBorders ->
         val x = subSectionX * n
         val y = subSectionY * n
         val isEven = (subSectionX + evenOffsetX + subSectionY + evenOffsetY) % 2
+
+        logger.info { "subSectionX=$subSectionX subSectionY=$subSectionY x=$x y=$y isEven=$isEven" }
+        logger.info { "subBorders=$subBorders" }
 
         if (isEven == 0) {
             visualizeHorizontalBasketWeaveN(
@@ -171,8 +174,8 @@ private fun visualizeBasketWeaveN(
                 blockSize,
                 x,
                 y,
-                borders.applyRight(gridSize),
-                borders,
+                subBorders.apply(gridSize),
+                subBorders,
                 layer,
                 n,
                 index,
@@ -185,8 +188,8 @@ private fun visualizeBasketWeaveN(
                 blockSize,
                 x,
                 y,
-                borders.applyBottom(gridSize),
-                borders,
+                subBorders.apply(gridSize),
+                subBorders,
                 layer,
                 n,
                 index,
@@ -251,6 +254,8 @@ private fun visualizeVerticalBasketWeaveN(
 
     repeat(n) { offset ->
         val currentX = x + offset
+
+        logger.info { "x=$x currentX=$currentX" }
 
         if (!borders.right || currentX < limits.width) {
             visualizeShapeGrammar(
@@ -336,9 +341,6 @@ private fun visualizeHerringbone(
             doubleLength
         }
 
-        logger.info { "subSectionX=$subSectionX subSectionY=$subSectionY remainingWidth=$remainingWidth width=$width remainingHeight=$remainingHeight height=$height" }
-        logger.info { "subBorders=$subBorders" }
-
         repeat(height) { y ->
             var x = 0
             var type = (types - y) % types
@@ -398,7 +400,7 @@ private fun visualizeHerringbone(
                     startX + x,
                     startY + y,
                     brick,
-                    borders.applyBottomAndRight(gridSize),
+                    borders.apply(gridSize),
                     borders,
                     layer,
                 )
@@ -450,7 +452,7 @@ private fun visualizeRows(
                  x + offset,
                 y,
                 MapSize2d(length, 1),
-                borders.applyBottomAndRight(gridSize),
+                borders.apply(gridSize),
                 borders,
                 layer,
             )

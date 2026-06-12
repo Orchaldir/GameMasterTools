@@ -21,8 +21,6 @@ data class Borders(
         getHeight(size),
     )
 
-    fun applyBottomAndRight(size: MapSize2d) = MapSize2d(getWidth(size), getHeight(size))
-
     fun applyRight(size: MapSize2d) = size.copy(width = getWidth(size))
     fun applyBottom(size: MapSize2d) = size.copy(height = getHeight(size))
 
