@@ -461,7 +461,7 @@ private fun visualizeSubSections(
         gridSize.height,
     )
     val subSections = MapSize2d(
-        ceil(gridSizeWithOffset.width / subSectionSize.width.toDouble()).toInt() - offsetX,
+        ceil((gridSizeWithOffset.width - offsetX) / subSectionSize.width.toDouble()).toInt(),
         ceil(gridSizeWithOffset.height / subSectionSize.height.toDouble()).toInt(),
     )
 
