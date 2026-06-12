@@ -15,6 +15,7 @@ import at.orchaldir.gm.visualization.grammar.visualizeShapeGrammar
 
 val GRAMMAR_SIZE = PaddedSize(Size2d.square(Distance.fromMeters(1)), Distance.fromMeters(0.2f))
 val LINE_OPTIONS = LineOptions(Color.Black.toRender(), fromMillimeters(5))
+val RED_LINE = LineOptions(Color.Red.toRender(), fromMillimeters(5))
 
 fun <C, R> renderGrammarTable(
     state: State,

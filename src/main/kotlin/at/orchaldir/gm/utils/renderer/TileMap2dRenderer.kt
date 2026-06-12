@@ -45,7 +45,8 @@ data class TileMap2dRenderer(
 
     fun <TILE> render(
         map: TileMap2d<TILE>,
-        renderTile: (Int, Int, Int, AABB, Borders, TILE) -> Unit,
+        start: Point2d,
+        renderTile: (AABB, Borders, TILE) -> Unit,
     ) {
         val size = map.size
         val tileSize = Size2d.square(tileSize)
@@ -62,10 +63,10 @@ data class TileMap2dRenderer(
                 logger.info { "x=$x y=$y isLeftBorder=$isLeftBorder isRightBorder=$isRightBorder" }
 
                 currentTile?.let { tile ->
-                    val position = calculateTilePosition(x, y)
+                    val position = start + calculateTilePosition(x, y)
                     val borders = Borders(false, isLeftBorder, isRightBorder, false, x, y)
 
-                    renderTile(index, x, y, AABB(position, tileSize), borders, tile)
+                    renderTile(AABB(position, tileSize), borders, tile)
                 }
 
                 index++

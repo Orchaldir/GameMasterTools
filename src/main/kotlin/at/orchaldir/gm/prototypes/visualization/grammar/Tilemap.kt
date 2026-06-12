@@ -9,9 +9,12 @@ import at.orchaldir.gm.core.model.visualization.RectangularShapeGrammar
 import at.orchaldir.gm.core.model.visualization.SquareGrid
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.map.TileMap2d
+import at.orchaldir.gm.utils.math.AABB
+import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.ZERO_DISTANCE
 import at.orchaldir.gm.utils.renderer.TileMap2dRenderer
+import at.orchaldir.gm.utils.renderer.model.BorderOnly
 import at.orchaldir.gm.utils.renderer.svg.SvgBuilder
 import at.orchaldir.gm.visualization.grammar.Borders
 import at.orchaldir.gm.visualization.grammar.GrammarRenderState
@@ -28,14 +31,19 @@ fun main() {
         2,
     )
     val tileMap = TileMap2d(MapSize2d(4, 3), grammar)
-    val tileMapRenderer = TileMap2dRenderer(Distance.fromMeters(1.0f), ZERO_DISTANCE)
-    val svgBuilder = SvgBuilder(tileMapRenderer.calculateMapSize(tileMap))
+    val tileSize = Distance.fromMeters(1.0f)
+    val tileMapRenderer = TileMap2dRenderer(tileSize, ZERO_DISTANCE)
+    val tileMapSize = tileMapRenderer.calculateMapSize(tileMap)
+    val svgBuilder = SvgBuilder(tileMapSize.plus(tileSize * 2))
+    val start = Point2d.square(tileSize)
 
-    tileMapRenderer.render(tileMap) { index, x, y, aabb, borders, grammar ->
+    tileMapRenderer.render(tileMap, start) { aabb, borders, grammar ->
         val renderState = GrammarRenderState(State(), svgBuilder, LINE_OPTIONS)
 
         visualizeShapeGrammar(renderState, grammar, aabb, borders)
     }
+
+    svgBuilder.getLayer().renderRectangle(AABB(start, tileMapSize), BorderOnly(RED_LINE))
 
     File("grammar-tilemap.svg").writeText(svgBuilder.finish().export())
 }
