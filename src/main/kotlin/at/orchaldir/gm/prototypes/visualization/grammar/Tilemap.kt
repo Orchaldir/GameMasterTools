@@ -28,7 +28,7 @@ fun main() {
         ),
         SquareGrid(10),
         BrickPattern.Herringbone,
-        2,
+        3,
     )
     val tileMap = TileMap2d(MapSize2d(4, 3), grammar)
     val tileSize = Distance.fromMeters(1.0f)

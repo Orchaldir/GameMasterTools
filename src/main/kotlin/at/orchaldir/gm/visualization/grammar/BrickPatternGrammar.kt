@@ -354,7 +354,7 @@ private fun visualizeHerringbone(
                     val isBrickSharedRight = x == doubleLength - 1
 
                     if (isBrickSharedLeft && subBorders.left) {
-                        singleBlock
+                        MapSize2d(y - length, 1)
                     } else if (isBrickSharedRight && subBorders.right) {
                         singleBlock
                     } else if (isBrickSharedLeft) {
@@ -368,7 +368,7 @@ private fun visualizeHerringbone(
                     // vertical brick that started in a row above
 
                     if (subBorders.top && y == 0) {
-                        singleBlock
+                        MapSize2d(1, x - length + 1)
                     } else {
                         x++
                         type++
