@@ -131,6 +131,11 @@ class BrickPatternCreationTest {
             testWithPartialBricks(0, true, false, line_3_2x2 + line_3_1x2)
         }
 
+        @Test
+        fun `A running pattern's even lines with bricks across the left border`() {
+            testWithPartialBricks(1, false, true, line_3_Ex2 + line_3_2x1)
+        }
+
         private fun testWithoutPartialBricks(tileX: Int) {
             val size = MapSize2d(4, 2)
             val pattern = BrickPatternGrammar(
