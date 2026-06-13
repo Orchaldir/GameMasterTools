@@ -73,6 +73,13 @@ class BrickPatternCreationTest {
             testWithLeftAndRight(0, true, false, expected)
         }
 
+        @Test
+        fun `Bricks across the bottom border`() {
+            val expected = line_6_W2xH2xH2xW2 + line_6_W2xExExW2 + line_6_H2xH2xW2xH2xH2
+
+            testWithTopAndBottom(0, true, false, expected)
+        }
+
         private fun testWithoutPartialBricks(tileX: Int) {
             val size = MapSize2d(6, 4)
             val pattern = BrickPatternGrammar(
@@ -88,10 +95,20 @@ class BrickPatternCreationTest {
         }
 
         private fun testWithLeftAndRight(tileX: Int, isLeft: Boolean, isRight: Boolean, expected: List<Brick?>) =
-            test(Borders(true, isLeft, isRight, true, tileX), expected)
+            test(
+                MapSize2d(5, 4),
+                Borders(true, isLeft, isRight, true, tileX),
+                expected,
+            )
 
-        private fun test(borders: Borders, expected: List<Brick?>) {
-            val size = MapSize2d(5, 4)
+        private fun testWithTopAndBottom(tileX: Int, isTop: Boolean, isBottom: Boolean, expected: List<Brick?>) =
+            test(
+                MapSize2d(6, 3),
+                Borders(isBottom, true, true, isTop, tileX),
+                expected,
+            )
+
+        private fun test(size: MapSize2d, borders: Borders, expected: List<Brick?>) {
             val pattern = BrickPatternGrammar(
                 brickGrammar,
                 RowsAndColumns(size),
