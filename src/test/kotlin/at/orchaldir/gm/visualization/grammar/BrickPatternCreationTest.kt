@@ -9,6 +9,7 @@ import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.map.assertTilemap
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import javax.swing.border.Border
 
 class BrickPatternCreationTest {
 
@@ -22,8 +23,12 @@ class BrickPatternCreationTest {
     private val line_3_ExW2 = listOf(null, brickW2, null)
     private val line_4_SxW2xS = listOf(singleBrick, brickW2, null, singleBrick)
     private val line_4_W2xW2 = listOf(brickW2, null, brickW2, null)
-    private val line_5_W2xH2xH2xS = listOf(brickW2, null, brickH2, brickH2, singleBrick)
-    private val line_5_W2xExExS = listOf(brickW2, null, null, null, singleBrick)
+    private val line_5_W2xH2xH2 = listOf(brickW2, null, brickH2, brickH2)
+    private val line_5_W2xH2xH2xS = line_5_W2xH2xH2 + singleBrick
+    private val line_5_W2xH2xH2xW2 = line_5_W2xH2xH2 + brickW2
+    private val line_5_W2xExE = listOf(brickW2, null, null, null)
+    private val line_5_W2xExExS = line_5_W2xExE + singleBrick
+    private val line_5_W2xExExW2 = line_5_W2xExE + brickW2
     private val line_5_H2xH2xW2xH2 = listOf(brickH2, brickH2, brickW2, null, brickH2)
     private val line_5_ExExW2xE = listOf(null, null, brickW2, null, null)
     private val line_5_ExW2xH2xH2 = listOf(null, brickH2, null, brickH2, brickH2)
@@ -51,14 +56,21 @@ class BrickPatternCreationTest {
         fun `Partial bricks on the right border`() {
             val expected = line_5_W2xH2xH2xS + line_5_W2xExExS + line_5_H2xH2xW2xH2 + line_5_ExExW2xE
 
-            testWithPartialBricks(0, true, true, expected)
+            testWithLeftAndRight(0, true, true, expected)
         }
 
         @Test
         fun `Partial bricks on the left border TODO`() {
             val expected = line_5_ExW2xH2xH2 + line_5_ExW2xExE + line_5_H2xW2xH2xH2 + line_5_ExW2xExE
 
-            testWithPartialBricks(1, true, true, expected)
+            testWithLeftAndRight(1, true, true, expected)
+        }
+
+        @Test
+        fun `Bricks across the right border`() {
+            val expected = line_5_W2xH2xH2xW2 + line_5_W2xExExW2 + line_5_H2xH2xW2xH2 + line_5_ExExW2xE
+
+            testWithLeftAndRight(0, true, false, expected)
         }
 
         private fun testWithoutPartialBricks(tileX: Int) {
@@ -75,7 +87,10 @@ class BrickPatternCreationTest {
             assertTilemap(result, size, line_6_W2xH2xH2xW2 + line_6_W2xExExW2 + line_6_H2xH2xW2xH2xH2 + line_6_ExExW2xExE)
         }
 
-        private fun testWithPartialBricks(tileX: Int, isLeft: Boolean, isRight: Boolean, expected: List<Brick?>) {
+        private fun testWithLeftAndRight(tileX: Int, isLeft: Boolean, isRight: Boolean, expected: List<Brick?>) =
+            test(Borders(true, isLeft, isRight, true, tileX), expected)
+
+        private fun test(borders: Borders, expected: List<Brick?>) {
             val size = MapSize2d(5, 4)
             val pattern = BrickPatternGrammar(
                 brickGrammar,
@@ -83,7 +98,6 @@ class BrickPatternCreationTest {
                 BrickPattern.BasketWeave,
                 2,
             )
-            val borders = Borders(true, isLeft, isRight, true, tileX)
 
             val result = createBrickPattern(pattern, borders)
 

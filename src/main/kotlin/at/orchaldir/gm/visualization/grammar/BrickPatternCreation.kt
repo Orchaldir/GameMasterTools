@@ -53,6 +53,10 @@ private fun createBasketWeavePattern(
         logger.info { "subSectionX=$subSectionX subSectionY=$subSectionY x=$x y=$y isEven=$isEven" }
         logger.info { "subBorders=$subBorders" }
 
+        if (subSectionX == 0 && subSectionY == 1) {
+            logger.info { "debug" }
+        }
+
         if (isEven == 0) {
             addHorizontalBasketWeaveN(
                 tiles,
@@ -61,7 +65,6 @@ private fun createBasketWeavePattern(
                 y,
                 gridSize,
                 subBorders.apply(gridSize),
-                subBorders,
                 n,
             )
         } else {
@@ -71,8 +74,6 @@ private fun createBasketWeavePattern(
                 x,
                 y,
                 gridSize,
-                subBorders.apply(gridSize),
-                subBorders,
                 n,
             )
         }
@@ -246,7 +247,6 @@ private fun addHorizontalBasketWeaveN(
     y: Int,
     gridSize: MapSize2d,
     limits: MapSize2d,
-    borders: Borders,
     n: Int,
 ) {
     val maxLength = limits.width - x
@@ -255,7 +255,7 @@ private fun addHorizontalBasketWeaveN(
     repeat(n) { offset ->
         val currentY = y + offset
 
-        if (!borders.bottom || currentY < limits.height) {
+        if (currentY < gridSize.height) {
             val tileIndex = gridSize.toIndexRisky(x, currentY)
 
             tiles[tileIndex] = Brick(brick, blocks)
@@ -269,8 +269,6 @@ private fun addVerticalBasketWeaveN(
     x: Int,
     y: Int,
     gridSize: MapSize2d,
-    limits: MapSize2d,
-    borders: Borders,
     n: Int,
 ) {
     val blocks = MapSize2d(1, n)
@@ -278,7 +276,7 @@ private fun addVerticalBasketWeaveN(
     repeat(n) { offset ->
         val currentX = x + offset
 
-        if (!borders.right || currentX < limits.width) {
+        if (currentX < gridSize.width) {
             val tileIndex = gridSize.toIndexRisky(currentX, y)
 
             tiles[tileIndex] = Brick(brick, blocks)
