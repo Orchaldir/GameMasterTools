@@ -192,7 +192,7 @@ private fun createSubSections(
 ): TileMap2d<Brick?> {
     val gridSize = grammarSize.size()
     val tiles = MutableList<Brick?>(gridSize.tiles()) { null }
-    val offset = borders.calculateTileOffset(gridSize, subSectionSize)
+    val offset = borders.calculateTileOffset2(gridSize, subSectionSize)
     val gridSizeWithOffset = gridSize - offset
     val subSections = MapSize2d(
         ceil((gridSize.width - offset.width) / subSectionSize.width.toDouble()).toInt(),

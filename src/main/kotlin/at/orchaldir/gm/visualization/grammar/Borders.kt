@@ -44,6 +44,11 @@ data class Borders(
         calculateTileOffsetY(gridSize.height, tile.height),
     )
 
+    fun calculateTileOffset2(gridSize: MapSize2d, tile: MapSize2d) = MapSize2d(
+        calculateTileOffsetX2(gridSize.width, tile.width),
+        calculateTileOffsetY(gridSize.height, tile.height),
+    )
+
     // TODO: remove old
     fun calculateTileOffsetX(gridSize: GridSize, length: Int) =
         calculateTileOffsetX(gridSize.width(), length)
