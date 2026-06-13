@@ -8,8 +8,6 @@ import at.orchaldir.gm.core.model.visualization.GridSize
 import at.orchaldir.gm.core.model.visualization.ShapeGrammar
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.map.TileMap2d
-import at.orchaldir.gm.utils.math.Point2d
-import at.orchaldir.gm.utils.math.Size2d
 import kotlin.math.ceil
 import kotlin.math.floor
 
@@ -44,7 +42,7 @@ private fun createBasketWeavePattern(
         grammar.size,
         MapSize2d.square(n),
         borders,
-    ) { tiles, subSectionX, subSectionY, gridSize, subBorders, offset ->
+    ) { tiles, subSectionX, subSectionY, gridSize, limited, subBorders, offset ->
         val x = subSectionX * n
         val y = subSectionY * n
 
@@ -60,6 +58,7 @@ private fun createBasketWeavePattern(
                 x,
                 y,
                 gridSize,
+                limited,
                 subBorders,
                 offset,
                 n,
@@ -71,6 +70,7 @@ private fun createBasketWeavePattern(
                 x,
                 y,
                 gridSize,
+                limited,
                 subBorders,
                 offset,
                 n,
@@ -188,12 +188,12 @@ private fun createSubSections(
     grammarSize: GridSize,
     subSectionSize: MapSize2d,
     borders: Borders,
-    addSubSection: (MutableList<Brick?>, Int, Int, MapSize2d, Borders, MapSize2d) -> Unit,
+    addSubSection: (MutableList<Brick?>, Int, Int, MapSize2d, MapSize2d, Borders, MapSize2d) -> Unit,
 ): TileMap2d<Brick?> {
     val gridSize = grammarSize.size()
     val tiles = MutableList<Brick?>(gridSize.tiles()) { null }
     val offset = borders.calculateTileOffset2(gridSize, subSectionSize)
-    val gridSizeWithOffset = gridSize - offset
+    val limited = gridSize - offset
     val subSections = MapSize2d(
         ceil((gridSize.width - offset.width) / subSectionSize.width.toDouble()).toInt(),
         ceil((gridSize.height - offset.height) / subSectionSize.height.toDouble()).toInt(),
@@ -230,7 +230,8 @@ private fun createSubSections(
                 tiles,
                 x,
                 y,
-                gridSizeWithOffset,
+                gridSize,
+                limited,
                 subBorders,
                 offset,
             )
@@ -246,17 +247,18 @@ private fun addHorizontalBasketWeaveN(
     x: Int,
     y: Int,
     gridSize: MapSize2d,
+    limited: MapSize2d,
     borders: Borders,
     offset: MapSize2d,
     n: Int,
 ) {
-    val length = borders.limitWidth(gridSize, x, n)
+    val length = borders.limitWidth(limited, x, n)
     val blocks = MapSize2d(length, 1)
 
     repeat(n) { i ->
         val currentY = y + i
 
-        if (currentY < gridSize.height) {
+        if (currentY < limited.height) {
             val tileIndex = gridSize.toIndexRisky(x + offset.width, currentY + offset.height)
 
             tiles[tileIndex] = Brick(brick, blocks)
@@ -270,17 +272,18 @@ private fun addVerticalBasketWeaveN(
     x: Int,
     y: Int,
     gridSize: MapSize2d,
+    limited: MapSize2d,
     borders: Borders,
     offset: MapSize2d,
     n: Int,
 ) {
-    val length = borders.limitHeight(gridSize, y, n)
+    val length = borders.limitHeight(limited, y, n)
     val blocks = MapSize2d(1, length)
 
     repeat(n) { i ->
         val currentX = x + i
 
-        if (currentX < gridSize.width) {
+        if (currentX < limited.width) {
             val tileIndex = gridSize.toIndexRisky(currentX + offset.width, y + offset.height)
 
             tiles[tileIndex] = Brick(brick, blocks)
