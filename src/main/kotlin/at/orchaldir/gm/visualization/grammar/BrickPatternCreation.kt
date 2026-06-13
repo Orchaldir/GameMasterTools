@@ -199,37 +199,14 @@ private fun createSubSections(
         ceil((gridSize.height - offset.height) / subSectionSize.height.toDouble()).toInt(),
     )
 
-    repeat(subSections.height) { y ->
-        repeat(subSections.width) { x ->
-            val subBorders = Borders(
-                if (y < subSections.height - 1) {
-                    false
-                } else {
-                    borders.bottom
-                },
-                if (x == 0) {
-                    borders.left
-                } else {
-                    false
-                },
-                if (x < subSections.width - 1) {
-                    false
-                } else {
-                    borders.right
-                },
-                if (y == 0) {
-                    borders.top
-                } else {
-                    false
-                },
-                x,
-                y,
-            )
+    repeat(subSections.height) { subSectionY ->
+        repeat(subSections.width) { subSectionX ->
+            val subBorders = calculateSubBorders(borders, subSections, subSectionX, subSectionY)
 
             addSubSection(
                 tiles,
-                x,
-                y,
+                subSectionX,
+                subSectionY,
                 gridSize,
                 limited,
                 subBorders,
@@ -240,6 +217,36 @@ private fun createSubSections(
 
     return TileMap2d(gridSize, tiles)
 }
+
+private fun calculateSubBorders(
+    borders: Borders,
+    subSections: MapSize2d,
+    subSectionX: Int,
+    subSectionY: Int,
+) = Borders(
+    if (subSectionY < subSections.height - 1) {
+        false
+    } else {
+        borders.bottom
+    },
+    if (subSectionX == 0) {
+        borders.left
+    } else {
+        false
+    },
+    if (subSectionX < subSections.width - 1) {
+        false
+    } else {
+        borders.right
+    },
+    if (subSectionY == 0) {
+        borders.top
+    } else {
+        false
+    },
+    subSectionX,
+    subSectionY,
+)
 
 private fun addHorizontalBasketWeaveN(
     tiles: MutableList<Brick?>,
