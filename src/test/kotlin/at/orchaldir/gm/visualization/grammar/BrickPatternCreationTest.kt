@@ -63,6 +63,11 @@ class BrickPatternCreationTest {
             testWithPartialBricks(0, false, listOf(brick2, null, brick2, brick2, null, brick2))
         }
 
+        @Test
+        fun `A stack pattern with bricks across the left border`() {
+            testWithPartialBricks(1, false, listOf(null, brick2, null, null, brick2, null))
+        }
+
         private fun testWithoutPartialBricks(tileX: Int) {
             val size = MapSize2d(4, 2)
             val pattern = BrickPatternGrammar(
