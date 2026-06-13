@@ -350,7 +350,7 @@ private fun visualizeHerringbone(
             while (x < width) {
                 logger.info { "x=$x type=$type" }
 
-                if (borders.x == 1 && subSectionX == 0 && subSectionY == 0 && y == 1 && x == 1) {
+                if (borders.tileX == 1 && subSectionX == 0 && subSectionY == 0 && y == 1 && x == 1) {
                     logger.info { "debug" }
                 }
 

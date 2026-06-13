@@ -9,11 +9,11 @@ data class Borders(
     val left: Boolean = true,
     val right: Boolean = true,
     val top: Boolean = true,
-    val x: Int = 0,
-    val y: Int = 0,
+    val tileX: Int = 0,
+    val tileY: Int = 0,
 ) {
-    constructor(isBorder: Boolean, x: Int = 0, y: Int = 0) :
-            this(isBorder, isBorder, isBorder, isBorder, x, y)
+    constructor(isBorder: Boolean, tileX: Int = 0, tileY: Int = 0) :
+            this(isBorder, isBorder, isBorder, isBorder, tileX, tileY)
 
     // TODO: remove old
     fun apply(size: MapSize2d) = MapSize2d(
@@ -45,9 +45,9 @@ data class Borders(
         height
     }
 
-    fun calculateEvenOffsetX(gridSize: GridSize, length: Int) = calculateEvenOffset(x, gridSize.width(), length)
+    fun calculateEvenOffsetX(gridSize: GridSize, length: Int) = calculateEvenOffset(tileX, gridSize.width(), length)
 
-    fun calculateEvenOffsetY(gridSize: GridSize, length: Int) = calculateEvenOffset(y, gridSize.height(), length)
+    fun calculateEvenOffsetY(gridSize: GridSize, length: Int) = calculateEvenOffset(tileY, gridSize.height(), length)
 
     fun calculateTileOffset(gridSize: MapSize2d, tile: MapSize2d) = MapSize2d(
         calculateTileOffsetX(gridSize.width, tile.width),
@@ -70,16 +70,16 @@ data class Borders(
         calculateTileOffsetX(gridSize.width, length)
 
     private fun calculateTileOffsetX(width: Int, length: Int) =
-        calculateTileOffset(left, x, width, length)
+        calculateTileOffset(left, tileX, width, length)
 
     private fun calculateTileOffsetX2(width: Int, length: Int) =
-        calculateTileOffset2(x, width, length)
+        calculateTileOffset2(tileX, width, length)
 
     private fun calculateTileOffsetY(height: Int, length: Int) =
-        calculateTileOffset(top, y, height, length)
+        calculateTileOffset(top, tileY, height, length)
 
     private fun calculateTileOffsetY2(height: Int, length: Int) =
-        calculateTileOffset2(y, height, length)
+        calculateTileOffset2(tileY, height, length)
 }
 
 fun calculateEvenOffset(position: Int, size: Int, length: Int) =
