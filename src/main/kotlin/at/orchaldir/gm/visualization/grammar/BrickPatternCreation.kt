@@ -16,7 +16,9 @@ import kotlin.math.floor
 data class Brick(
     val brick: ShapeGrammar = DoNothingShapeGrammar,
     val size: MapSize2d,
-)
+) {
+    override fun toString() = size.format()
+}
 
 fun createBrickPattern(
     grammar: BrickPatternGrammar,

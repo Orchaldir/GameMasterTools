@@ -23,7 +23,9 @@ class BrickPatternCreationTest {
     private val line_4_SxW2xS = listOf(singleBrick, brickW2, null, singleBrick)
     private val line_4_W2xW2 = listOf(brickW2, null, brickW2, null)
     private val line_6_W2xH2xH2xW2 = listOf(brickW2, null, brickH2, brickH2, brickW2, null)
+    private val line_6_W2xExExW2 = listOf(brickW2, null, null, null, brickW2, null)
     private val line_6_H2xH2xW2xH2xH2 = listOf(brickH2, brickH2, brickW2, null, brickH2, brickH2)
+    private val line_6_ExExW2xExE = listOf(null, null, brickW2, null, null, null)
 
     @Nested
     inner class CreateBasketWeavePatternTest {
@@ -49,7 +51,7 @@ class BrickPatternCreationTest {
 
             val result = createBrickPattern(pattern, Borders(true, tileX))
 
-            assertTilemap(result, size, line_6_W2xH2xH2xW2 + line_6_W2xH2xH2xW2 + line_6_H2xH2xW2xH2xH2 + line_6_H2xH2xW2xH2xH2)
+            assertTilemap(result, size, line_6_W2xH2xH2xW2 + line_6_W2xExExW2 + line_6_H2xH2xW2xH2xH2 + line_6_ExExW2xExE)
         }
     }
 
