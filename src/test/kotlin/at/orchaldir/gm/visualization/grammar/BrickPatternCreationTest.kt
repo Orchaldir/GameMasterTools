@@ -32,6 +32,8 @@ class BrickPatternCreationTest {
     private val line_5_ExExW2xE = listOf(null, null, brickW2, null, null)
     private val line_5_ExW2xH2xH2 = listOf(null, brickH2, null, brickH2, brickH2)
     private val line_5_ExW2xExE = listOf(null, brickH2, null, null, null)
+    private val line_5_ExH2xH2xW2 = listOf(null, brickH2, brickH2, brickW2, null)
+    private val line_5_ExExExW2 = listOf(null, null, null, brickW2, null)
     private val line_5_H2xW2xH2xH2 = listOf(brickH2, brickW2, null, brickH2, brickH2)
     private val line_6_W2xH2xH2xW2 = listOf(brickW2, null, brickH2, brickH2, brickW2, null)
     private val line_6_W2xExExW2 = listOf(brickW2, null, null, null, brickW2, null)
@@ -46,7 +48,7 @@ class BrickPatternCreationTest {
         inner class HorizontalAndVerticalRepetitionTest {
 
             @Test
-            fun `Origin`() {
+            fun `Test origin tile`() {
                 testPatterA(0, 0)
             }
 
@@ -98,7 +100,7 @@ class BrickPatternCreationTest {
 
         @Test
         fun `Bricks across the left border`() {
-            val expected = line_5_ExW2xH2xH2 + line_5_ExW2xExE + line_5_H2xW2xH2xH2 + line_5_ExW2xExE
+            val expected = line_5_ExH2xH2xW2 + line_5_ExExExW2 + line_5_H2xW2xH2xH2 + line_5_ExW2xExE
 
             testWithLeftAndRight(1, false, true, expected)
         }

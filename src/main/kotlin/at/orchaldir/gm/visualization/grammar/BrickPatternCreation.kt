@@ -45,17 +45,13 @@ private fun createBasketWeavePattern(
         MapSize2d.square(n),
         borders,
     ) { tiles, subSectionX, subSectionY, gridSize, subBorders, offset ->
-        val x = subSectionX * n + offset.width
-        val y = subSectionY * n + offset.height
+        val x = subSectionX * n
+        val y = subSectionY * n
 
         val isEven = (subSectionX + evenOffsetX + subSectionY + evenOffsetY) % 2
 
         logger.info { "subSectionX=$subSectionX subSectionY=$subSectionY x=$x y=$y isEven=$isEven" }
-        logger.info { "subBorders=$subBorders" }
-
-        if (subSectionX == 0 && subSectionY == 1) {
-            logger.info { "debug" }
-        }
+        logger.info { "subBorders=$subBorders offset=$offset" }
 
         if (isEven == 0) {
             addHorizontalBasketWeaveN(
@@ -65,6 +61,7 @@ private fun createBasketWeavePattern(
                 y,
                 gridSize,
                 subBorders,
+                offset,
                 n,
             )
         } else {
@@ -75,6 +72,7 @@ private fun createBasketWeavePattern(
                 y,
                 gridSize,
                 subBorders,
+                offset,
                 n,
             )
         }
@@ -249,16 +247,17 @@ private fun addHorizontalBasketWeaveN(
     y: Int,
     gridSize: MapSize2d,
     borders: Borders,
+    offset: MapSize2d,
     n: Int,
 ) {
     val length = borders.limitWidth(gridSize, x, n)
     val blocks = MapSize2d(length, 1)
 
-    repeat(n) { offset ->
-        val currentY = y + offset
+    repeat(n) { i ->
+        val currentY = y + i
 
         if (currentY < gridSize.height) {
-            val tileIndex = gridSize.toIndexRisky(x, currentY)
+            val tileIndex = gridSize.toIndexRisky(x + offset.width, currentY + offset.height)
 
             tiles[tileIndex] = Brick(brick, blocks)
         }
@@ -272,16 +271,17 @@ private fun addVerticalBasketWeaveN(
     y: Int,
     gridSize: MapSize2d,
     borders: Borders,
+    offset: MapSize2d,
     n: Int,
 ) {
     val length = borders.limitHeight(gridSize, y, n)
     val blocks = MapSize2d(1, length)
 
-    repeat(n) { offset ->
-        val currentX = x + offset
+    repeat(n) { i ->
+        val currentX = x + i
 
         if (currentX < gridSize.width) {
-            val tileIndex = gridSize.toIndexRisky(currentX, y)
+            val tileIndex = gridSize.toIndexRisky(currentX + offset.width, y + offset.height)
 
             tiles[tileIndex] = Brick(brick, blocks)
         }
