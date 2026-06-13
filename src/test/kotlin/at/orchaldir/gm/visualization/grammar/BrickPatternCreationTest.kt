@@ -9,7 +9,6 @@ import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.map.assertTilemap
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import javax.swing.border.Border
 
 class BrickPatternCreationTest {
 
@@ -43,14 +42,37 @@ class BrickPatternCreationTest {
     @Nested
     inner class CreateBasketWeavePatternTest {
 
-        @Test
-        fun `Without partial bricks`() {
-            testWithoutPartialBricks(0)
-        }
+        @Nested
+        inner class HorizontalAndVerticalRepetitionTest {
 
-        @Test
-        fun `Another tile with without partial bricks`() {
-            testWithoutPartialBricks(2)
+            @Test
+            fun `Origin`() {
+                testPatterA(0, 0)
+            }
+
+            @Test
+            fun `Alternate Pattern 1 tile to the right`() {
+                testPatterB(1, 0)
+            }
+
+            @Test
+            fun `Same Pattern 2 tiles to the right`() {
+                testPatterA(2, 0)
+            }
+
+            @Test
+            fun `Same Pattern 1 tile to the bottom`() {
+                testPatterA(0, 1)
+                testPatterB(1, 1)
+                testPatterA(2, 1)
+            }
+
+            @Test
+            fun `Same Pattern 2 tiles to the bottom`() {
+                testPatterA(0, 2)
+                testPatterB(1, 2)
+                testPatterA(2, 2)
+            }
         }
 
         @Test
@@ -95,7 +117,15 @@ class BrickPatternCreationTest {
             testWithTopAndBottom(0, true, false, expected)
         }
 
-        private fun testWithoutPartialBricks(tileX: Int) {
+        private fun testPatterA(tileX: Int, tileY: Int) = test(tileX, tileY,
+            line_6_W2xH2xH2xW2 + line_6_W2xExExW2 + line_6_H2xH2xW2xH2xH2 + line_6_ExExW2xExE,
+        )
+
+        private fun testPatterB(tileX: Int, tileY: Int) = test(tileX, tileY,
+             line_6_H2xH2xW2xH2xH2 + line_6_ExExW2xExE + line_6_W2xH2xH2xW2 + line_6_W2xExExW2,
+        )
+
+        private fun test(tileX: Int, tileY: Int, expected: List<Brick?>) {
             val size = MapSize2d(6, 4)
             val pattern = BrickPatternGrammar(
                 brickGrammar,
@@ -104,9 +134,9 @@ class BrickPatternCreationTest {
                 2,
             )
 
-            val result = createBrickPattern(pattern, Borders(true, tileX))
+            val result = createBrickPattern(pattern, Borders(true, tileX, tileY))
 
-            assertTilemap(result, size, line_6_W2xH2xH2xW2 + line_6_W2xExExW2 + line_6_H2xH2xW2xH2xH2 + line_6_ExExW2xExE)
+            assertTilemap(result, size, expected)
         }
 
         private fun testWithLeftAndRight(tileX: Int, isLeft: Boolean, isRight: Boolean, expected: List<Brick?>) =
