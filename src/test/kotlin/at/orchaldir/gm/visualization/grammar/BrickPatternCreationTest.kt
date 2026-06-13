@@ -111,6 +111,21 @@ class BrickPatternCreationTest {
             testWithoutPartialBricks(0)
         }
 
+        @Test
+        fun `Another tile with a running pattern's even lines with full bricks`() {
+            testWithoutPartialBricks(1)
+        }
+
+        @Test
+        fun `A running pattern's even lines with partial bricks on the right border`() {
+            testWithPartialBricks(0, true, line_3_2x1 + line_3_1x2)
+        }
+
+        @Test
+        fun `A running pattern's even lines with partial bricks on the left border`() {
+            testWithPartialBricks(1, true, line_3_1x2 + line_3_2x1)
+        }
+
         private fun testWithoutPartialBricks(tileX: Int) {
             val size = MapSize2d(4, 2)
             val pattern = BrickPatternGrammar(
@@ -123,6 +138,20 @@ class BrickPatternCreationTest {
             val result = createBrickPattern(pattern, Borders(true, tileX))
 
             assertTilemap(result, size, line_4_2x2 + line_4_1x2x1)
+        }
+
+        private fun testWithPartialBricks(tileX: Int, isBorder: Boolean, expected: List<Brick?>) {
+            val size = MapSize2d(3, 2)
+            val pattern = BrickPatternGrammar(
+                brickGrammar,
+                RowsAndColumns(size),
+                BrickPattern.Running,
+                2,
+            )
+
+            val result = createBrickPattern(pattern, Borders(isBorder, tileX))
+
+            assertTilemap(result, size, expected)
         }
     }
 
