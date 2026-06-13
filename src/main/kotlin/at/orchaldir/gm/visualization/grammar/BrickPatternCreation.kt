@@ -74,6 +74,7 @@ private fun createBasketWeavePattern(
                 x,
                 y,
                 gridSize,
+                subBorders.apply(gridSize),
                 n,
             )
         }
@@ -269,9 +270,11 @@ private fun addVerticalBasketWeaveN(
     x: Int,
     y: Int,
     gridSize: MapSize2d,
+    limits: MapSize2d,
     n: Int,
 ) {
-    val blocks = MapSize2d(1, n)
+    val maxLength = limits.height - y
+    val blocks = MapSize2d(1, n.coerceAtMost(maxLength))
 
     repeat(n) { offset ->
         val currentX = x + offset
