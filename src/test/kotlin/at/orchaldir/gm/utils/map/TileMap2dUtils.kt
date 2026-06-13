@@ -15,6 +15,7 @@ fun <TILE> assertTilemap(tilemap: TileMap2d<TILE>, size: MapSize2d, tile: TILE) 
 fun <TILE> assertTilemap(tilemap: TileMap2d<TILE>, size: MapSize2d, tiles: List<TILE>) {
     assertEquals(size, tilemap.size)
     assertEquals(size.tiles(), tilemap.tiles.size)
+    assertEquals(size.tiles(), tiles.size)
 
     assertEquals(tiles, tilemap.tiles)
 }
