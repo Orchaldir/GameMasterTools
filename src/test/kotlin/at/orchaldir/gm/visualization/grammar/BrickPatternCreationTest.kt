@@ -40,18 +40,12 @@ class BrickPatternCreationTest {
 
         @Test
         fun `A stack pattern without partial bricks`() {
-            val size = MapSize2d(4, 2)
-            val pattern = BrickPatternGrammar(
-                brickGrammar,
-                RowsAndColumns(size),
-                BrickPattern.Grid,
-                2,
-            )
+            testWithoutPartialBricks(0)
+        }
 
-            val result = createStackPattern(pattern, Borders(true))
-
-
-            assertTilemap(result, size, listOf(brick2, null, brick2, null, brick2, null, brick2, null))
+        @Test
+        fun `A stack pattern without partial bricks in another tile`() {
+            testWithoutPartialBricks(1)
         }
 
         @Test
@@ -70,6 +64,20 @@ class BrickPatternCreationTest {
             assertTilemap(result, size, listOf(brick2, null, brick1, brick2, null, brick1))
         }
 
+        private fun testWithoutPartialBricks(tileX: Int) {
+            val size = MapSize2d(4, 2)
+            val pattern = BrickPatternGrammar(
+                brickGrammar,
+                RowsAndColumns(size),
+                BrickPattern.Grid,
+                2,
+            )
+
+            val result = createStackPattern(pattern, Borders(true, tileX))
+
+
+            assertTilemap(result, size, listOf(brick2, null, brick2, null, brick2, null, brick2, null))
+        }
     }
 
 }
