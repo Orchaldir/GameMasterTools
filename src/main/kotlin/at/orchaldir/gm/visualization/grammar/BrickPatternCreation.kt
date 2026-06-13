@@ -3,9 +3,11 @@ package at.orchaldir.gm.visualization.grammar
 import at.orchaldir.gm.core.model.visualization.BrickPattern
 import at.orchaldir.gm.core.model.visualization.BrickPatternGrammar
 import at.orchaldir.gm.core.model.visualization.DoNothingShapeGrammar
+import at.orchaldir.gm.core.model.visualization.GridSize
 import at.orchaldir.gm.core.model.visualization.ShapeGrammar
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.map.TileMap2d
+import kotlin.math.ceil
 import kotlin.math.floor
 
 data class Brick(
@@ -17,10 +19,30 @@ fun createBrickPattern(
     grammar: BrickPatternGrammar,
     borders: Borders,
 ): TileMap2d<Brick?> = when (grammar.pattern) {
+    BrickPattern.BasketWeave -> createBasketWeavePattern(grammar, borders)
     BrickPattern.Grid -> createGridPattern(grammar)
     BrickPattern.Running -> createRunningPattern(grammar, borders)
     BrickPattern.Stack -> createStackPattern(grammar, borders)
     else -> error("Not supported!")
+}
+
+private fun createBasketWeavePattern(
+    grammar: BrickPatternGrammar,
+    borders: Borders,
+): TileMap2d<Brick?> {
+    var index = 0
+    val evenOffsetX = borders.calculateEvenOffsetX(grammar.size, grammar.length)
+    val evenOffsetY = borders.calculateEvenOffsetY(grammar.size, grammar.length)
+
+    return createSubSections(
+        grammar.size,
+        MapSize2d.square(grammar.length),
+        borders,
+    ) { tiles, subSectionX, subSectionY, gridSize, subBorders ->
+        val x = subSectionX * grammar.length
+        val y = subSectionY * grammar.length
+
+    }
 }
 
 private fun createGridPattern(grammar: BrickPatternGrammar): TileMap2d<Brick?> {
@@ -84,7 +106,7 @@ private fun createRowPattern(
         var x = calculateStartOfRow(y) + offset
 
         while (x < gridSize.width) {
-            val (length, brickX) = calculateRowBrick(grammar, gridSize, borders, x)
+            val (length, brickX) = createRowBrick(grammar, gridSize, borders, x)
             val tileIndex = gridSize.toIndexRisky(brickX, y)
 
             tiles[tileIndex] = Brick(grammar.brick, MapSize2d(length, 1))
@@ -96,7 +118,7 @@ private fun createRowPattern(
     return TileMap2d(gridSize, tiles)
 }
 
-private fun calculateRowBrick(
+private fun createRowBrick(
     grammar: BrickPatternGrammar,
     gridSize: MapSize2d,
     borders: Borders,
@@ -124,4 +146,59 @@ private fun calculateRowBrick(
     }
 
     return Pair(length, outputX)
+}
+
+private fun createSubSections(
+    grammarSize: GridSize,
+    subSectionSize: MapSize2d,
+    borders: Borders,
+    creaSubSection: (MutableList<Brick?>, Int, Int, MapSize2d, Borders) -> Unit,
+): TileMap2d<Brick?> {
+    val gridSize = grammarSize.size()
+    val tiles = MutableList<Brick?>(gridSize.tiles()) { null }
+    val offset = borders.calculateTileOffset(gridSize, subSectionSize)
+    val gridSizeWithOffset = gridSize - offset
+    val subSections = MapSize2d(
+        ceil((gridSize.width - offset.width) / subSectionSize.width.toDouble()).toInt(),
+        ceil((gridSize.height - offset.height) / subSectionSize.height.toDouble()).toInt(),
+    )
+
+    repeat(subSections.height) { y ->
+        repeat(subSections.width) { x ->
+            val subBorders = Borders(
+                if (y < subSections.height - 1) {
+                    false
+                } else {
+                    borders.bottom
+                },
+                if (x == 0) {
+                    borders.left
+                } else {
+                    false
+                },
+                if (x < subSections.width - 1) {
+                    false
+                } else {
+                    borders.right
+                },
+                if (y == 0) {
+                    borders.top
+                } else {
+                    false
+                },
+                x,
+                y,
+            )
+
+            creaSubSection(
+                tiles,
+                x,
+                y,
+                gridSizeWithOffset,
+                subBorders,
+            )
+        }
+    }
+
+    return TileMap2d(gridSize, tiles)
 }
