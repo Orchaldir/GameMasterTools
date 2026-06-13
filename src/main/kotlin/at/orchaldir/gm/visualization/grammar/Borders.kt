@@ -44,14 +44,21 @@ data class Borders(
         calculateTileOffsetY(gridSize.height, tile.height),
     )
 
+    // TODO: remove old
     fun calculateTileOffsetX(gridSize: GridSize, length: Int) =
         calculateTileOffsetX(gridSize.width(), length)
+
+    fun calculateTileOffsetX2(gridSize: GridSize, length: Int) =
+        calculateTileOffsetX2(gridSize.width(), length)
 
     fun calculateTileOffsetX(gridSize: MapSize2d, length: Int) =
         calculateTileOffsetX(gridSize.width, length)
 
     private fun calculateTileOffsetX(width: Int, length: Int) =
         calculateTileOffset(left, x, width, length)
+
+    private fun calculateTileOffsetX2(width: Int, length: Int) =
+        calculateTileOffset2(x, width, length)
 
     private fun calculateTileOffsetY(height: Int, length: Int) =
         calculateTileOffset(top, y, height, length)
@@ -73,4 +80,14 @@ fun calculateTileOffset(
     val blockStart = position * gridSize
     val numBricks = ceil(blockStart / length.toFloat()).toInt()
     return numBricks * length - blockStart
+}
+
+fun calculateTileOffset2(
+    position: Int,
+    gridSize: Int,
+    length: Int,
+): Int {
+    val blockStart = position * gridSize
+    val numBricks = ceil(blockStart / length.toFloat()).toInt()
+    return blockStart - numBricks * length
 }

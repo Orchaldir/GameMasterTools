@@ -29,7 +29,7 @@ fun createStackPattern(
     grammar: BrickPatternGrammar,
     borders: Borders,
 ): TileMap2d<Brick?> {
-    val offset = borders.calculateTileOffsetX(grammar.size, grammar.length)
+    val offset = borders.calculateTileOffsetX2(grammar.size, grammar.length)
 
     return createRowPattern(
         grammar,
