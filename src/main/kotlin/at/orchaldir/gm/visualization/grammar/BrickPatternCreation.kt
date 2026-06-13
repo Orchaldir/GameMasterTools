@@ -31,7 +31,7 @@ fun createStackPattern(
 ): TileMap2d<Brick?> {
     val offset = borders.calculateTileOffsetX(grammar.size, grammar.length)
 
-    return createRows(
+    return createRowPattern(
         grammar,
         borders,
         offset,
@@ -39,42 +39,53 @@ fun createStackPattern(
     )
 }
 
-private fun createRows(
+private fun createRowPattern(
     grammar: BrickPatternGrammar,
     borders: Borders,
     offset: Int,
-    calculateStartX: (Int) -> Int,
+    calculateStartOfRow: (Int) -> Int,
 ): TileMap2d<Brick?> {
     val gridSize = grammar.size.size()
     val tiles = MutableList<Brick?>(gridSize.tiles()) { null }
 
     repeat(gridSize.height) { y ->
-        var x = calculateStartX(y)
+        var x = calculateStartOfRow(y)
 
         while (x + offset < gridSize.width) {
-            val length = if (x + offset < 0) {
-                val remainingLength = grammar.length + x
-
-                if (borders.left) {
-                    x = 0
-
-                    remainingLength
-                } else {
-                    x += grammar.length
-
-                    grammar.length
-                }
-            } else {
-                grammar.length
-            }
-
-            val tileIndex = gridSize.toIndexRisky(x, y)
+            val (length, brickX) = calculateRowBrick(grammar, borders, x, offset)
+            val tileIndex = gridSize.toIndexRisky(brickX, y)
 
             tiles[tileIndex] = Brick(grammar.brick, MapSize2d(length, 1))
 
-            x += length
+            x = brickX + length
         }
     }
 
     return TileMap2d(gridSize, tiles)
+}
+
+private fun calculateRowBrick(
+    grammar: BrickPatternGrammar,
+    borders: Borders,
+    x: Int,
+    offset: Int,
+): Pair<Int, Int> {
+    var outputX = x
+    val length = if (x + offset < 0) {
+        val remainingLength = grammar.length + x
+
+        if (borders.left) {
+            outputX = 0
+
+            remainingLength
+        } else {
+            outputX += grammar.length
+
+            grammar.length
+        }
+    } else {
+        grammar.length
+    }
+
+    return Pair(length, outputX)
 }
