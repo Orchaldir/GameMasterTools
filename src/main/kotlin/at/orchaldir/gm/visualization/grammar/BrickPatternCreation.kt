@@ -249,7 +249,8 @@ private fun addHorizontalBasketWeaveN(
     borders: Borders,
     n: Int,
 ) {
-    val blocks = MapSize2d(n, 1)
+    val maxLength = limits.width - x
+    val blocks = MapSize2d(n.coerceAtMost(maxLength), 1)
 
     repeat(n) { offset ->
         val currentY = y + offset
