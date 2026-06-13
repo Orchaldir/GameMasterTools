@@ -13,7 +13,8 @@ import org.junit.jupiter.api.Test
 class BrickPatternCreationTest {
 
     private val brickGrammar = RectangularShapeGrammar(MadeFromStone())
-    private val singleBlock = MapSize2d.square(1)
+    private val brick1 = Brick(brickGrammar, MapSize2d(1, 1))
+    private val brick2 = Brick(brickGrammar, MapSize2d(2, 1))
 
     @Nested
     inner class CreateGridPatternTest {
@@ -29,7 +30,7 @@ class BrickPatternCreationTest {
 
             val tilemap = createGridPattern(pattern)
 
-            assertTilemap(tilemap, size, Brick(brickGrammar, singleBlock))
+            assertTilemap(tilemap, size, brick1)
         }
 
     }
@@ -38,9 +39,8 @@ class BrickPatternCreationTest {
     inner class CreateStackPatternTest {
 
         @Test
-        fun `Create a stack pattern without partial bricks`() {
+        fun `A stack pattern without partial bricks`() {
             val size = MapSize2d(4, 2)
-            val brick = Brick(brickGrammar, MapSize2d(2, 1))
             val pattern = BrickPatternGrammar(
                 brickGrammar,
                 RowsAndColumns(size),
@@ -51,7 +51,23 @@ class BrickPatternCreationTest {
             val tilemap = createStackPattern(pattern, Borders(true))
 
 
-            assertTilemap(tilemap, size, listOf(brick, null, brick, null, brick, null, brick, null))
+            assertTilemap(tilemap, size, listOf(brick2, null, brick2, null, brick2, null, brick2, null))
+        }
+
+        @Test
+        fun `A stack pattern with partial bricks on the right border`() {
+            val size = MapSize2d(3, 2)
+            val pattern = BrickPatternGrammar(
+                brickGrammar,
+                RowsAndColumns(size),
+                BrickPattern.Grid,
+                2,
+            )
+
+            val tilemap = createStackPattern(pattern, Borders(true))
+
+
+            assertTilemap(tilemap, size, listOf(brick2, null, brick1, brick2, null, brick1))
         }
 
     }

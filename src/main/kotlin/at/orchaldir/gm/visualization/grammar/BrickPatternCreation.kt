@@ -49,10 +49,10 @@ private fun createRowPattern(
     val tiles = MutableList<Brick?>(gridSize.tiles()) { null }
 
     repeat(gridSize.height) { y ->
-        var x = calculateStartOfRow(y)
+        var x = calculateStartOfRow(y) + offset
 
-        while (x + offset < gridSize.width) {
-            val (length, brickX) = calculateRowBrick(grammar, borders, x, offset)
+        while (x < gridSize.width) {
+            val (length, brickX) = calculateRowBrick(grammar, gridSize, borders, x)
             val tileIndex = gridSize.toIndexRisky(brickX, y)
 
             tiles[tileIndex] = Brick(grammar.brick, MapSize2d(length, 1))
@@ -66,12 +66,12 @@ private fun createRowPattern(
 
 private fun calculateRowBrick(
     grammar: BrickPatternGrammar,
+    gridSize: MapSize2d,
     borders: Borders,
     x: Int,
-    offset: Int,
 ): Pair<Int, Int> {
     var outputX = x
-    val length = if (x + offset < 0) {
+    val length = if (x < 0) {
         val remainingLength = grammar.length + x
 
         if (borders.left) {
@@ -83,6 +83,10 @@ private fun calculateRowBrick(
 
             grammar.length
         }
+    } else if (borders.right && x + grammar.length > gridSize.width) {
+        val maxLength = gridSize.width - x
+
+        grammar.length.coerceAtMost(maxLength)
     } else {
         grammar.length
     }
