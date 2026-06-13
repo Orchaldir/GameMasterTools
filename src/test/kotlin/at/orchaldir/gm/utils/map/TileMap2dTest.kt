@@ -14,12 +14,3 @@ class TileMap2dTest {
     }
 
 }
-
-fun <TILE> assertTilemap(tilemap: TileMap2d<TILE>, size: MapSize2d, tile: TILE) {
-    assertEquals(size, tilemap.size)
-    assertEquals(size.tiles(), tilemap.tiles.size)
-
-    tilemap.tiles.forEach {
-        assertEquals(tile, it)
-    }
-}
