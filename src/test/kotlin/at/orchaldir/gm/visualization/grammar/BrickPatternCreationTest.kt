@@ -28,9 +28,9 @@ class BrickPatternCreationTest {
                 BrickPattern.Grid,
             )
 
-            val tilemap = createGridPattern(pattern)
+            val result = createGridPattern(pattern)
 
-            assertTilemap(tilemap, size, brick1)
+            assertTilemap(result, size, brick1)
         }
 
     }
@@ -48,10 +48,10 @@ class BrickPatternCreationTest {
                 2,
             )
 
-            val tilemap = createStackPattern(pattern, Borders(true))
+            val result = createStackPattern(pattern, Borders(true))
 
 
-            assertTilemap(tilemap, size, listOf(brick2, null, brick2, null, brick2, null, brick2, null))
+            assertTilemap(result, size, listOf(brick2, null, brick2, null, brick2, null, brick2, null))
         }
 
         @Test
@@ -64,10 +64,10 @@ class BrickPatternCreationTest {
                 2,
             )
 
-            val tilemap = createStackPattern(pattern, Borders(true))
+            val result = createStackPattern(pattern, Borders(true))
 
 
-            assertTilemap(tilemap, size, listOf(brick2, null, brick1, brick2, null, brick1))
+            assertTilemap(result, size, listOf(brick2, null, brick1, brick2, null, brick1))
         }
 
     }
