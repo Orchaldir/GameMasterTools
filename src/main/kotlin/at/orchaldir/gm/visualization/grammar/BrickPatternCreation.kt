@@ -57,8 +57,8 @@ private fun createBasketWeavePattern(
                 grammar.brick,
                 x,
                 y,
-                subBorders.apply(gridSize),
                 gridSize,
+                subBorders.apply(gridSize),
                 subBorders,
                 n,
             )
@@ -253,7 +253,7 @@ private fun addHorizontalBasketWeaveN(
         val currentY = y + offset
 
         if (!borders.bottom || currentY < limits.height) {
-            val tileIndex = gridSize.toIndexRisky(x, y)
+            val tileIndex = gridSize.toIndexRisky(x, currentY)
 
             tiles[tileIndex] = Brick(brick, blocks)
         }
@@ -276,7 +276,7 @@ private fun addVerticalBasketWeaveN(
         val currentX = x + offset
 
         if (!borders.right || currentX < limits.width) {
-            val tileIndex = gridSize.toIndexRisky(x, y)
+            val tileIndex = gridSize.toIndexRisky(currentX, y)
 
             tiles[tileIndex] = Brick(brick, blocks)
         }
