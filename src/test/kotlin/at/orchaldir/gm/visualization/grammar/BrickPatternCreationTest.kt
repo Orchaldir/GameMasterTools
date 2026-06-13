@@ -44,40 +44,18 @@ class BrickPatternCreationTest {
         }
 
         @Test
-        fun `A stack pattern without partial bricks in another tile`() {
+        fun `Another tile with a stack pattern without partial bricks`() {
             testWithoutPartialBricks(1)
         }
 
         @Test
         fun `A stack pattern with partial bricks on the right border`() {
-            val size = MapSize2d(3, 2)
-            val pattern = BrickPatternGrammar(
-                brickGrammar,
-                RowsAndColumns(size),
-                BrickPattern.Grid,
-                2,
-            )
-
-            val result = createStackPattern(pattern, Borders(true))
-
-
-            assertTilemap(result, size, listOf(brick2, null, brick1, brick2, null, brick1))
+            testWithPartialBricks(0, listOf(brick2, null, brick1, brick2, null, brick1))
         }
 
         @Test
         fun `A stack pattern with partial bricks on the left border`() {
-            val size = MapSize2d(3, 2)
-            val pattern = BrickPatternGrammar(
-                brickGrammar,
-                RowsAndColumns(size),
-                BrickPattern.Grid,
-                2,
-            )
-
-            val result = createStackPattern(pattern, Borders(true, 1))
-
-
-            assertTilemap(result, size, listOf(brick1, brick2, null, brick1, brick2, null))
+            testWithPartialBricks(1, listOf(brick1, brick2, null, brick1, brick2, null))
         }
 
         private fun testWithoutPartialBricks(tileX: Int) {
@@ -93,6 +71,21 @@ class BrickPatternCreationTest {
 
 
             assertTilemap(result, size, listOf(brick2, null, brick2, null, brick2, null, brick2, null))
+        }
+
+        private fun testWithPartialBricks(tileX: Int, expected: List<Brick?>) {
+            val size = MapSize2d(3, 2)
+            val pattern = BrickPatternGrammar(
+                brickGrammar,
+                RowsAndColumns(size),
+                BrickPattern.Grid,
+                2,
+            )
+
+            val result = createStackPattern(pattern, Borders(true, tileX))
+
+
+            assertTilemap(result, size, expected)
         }
     }
 
