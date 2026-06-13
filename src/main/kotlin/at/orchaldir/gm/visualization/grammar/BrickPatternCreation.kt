@@ -50,9 +50,9 @@ private fun createRunningPattern(
         offset,
     ) { y ->
         if (y % 2 == 0) {
-            -halfBrick
-        } else {
             0
+        } else {
+            -halfBrick
         }
     }
 }

@@ -51,22 +51,22 @@ class BrickPatternCreationTest {
 
         @Test
         fun `A stack pattern with partial bricks on the right border`() {
-            testWithPartialBricks(0, true, listOf(brick2, null, brick1, brick2, null, brick1))
+            testWithPartialBricks(0, true, listOf(brick2, null, brick1) + listOf(brick2, null, brick1))
         }
 
         @Test
         fun `A stack pattern with partial bricks on the left border`() {
-            testWithPartialBricks(1, true, listOf(brick1, brick2, null, brick1, brick2, null))
+            testWithPartialBricks(1, true, listOf(brick1, brick2, null) + listOf(brick1, brick2, null))
         }
 
         @Test
         fun `A stack pattern with bricks across the right border`() {
-            testWithPartialBricks(0, false, listOf(brick2, null, brick2, brick2, null, brick2))
+            testWithPartialBricks(0, false, listOf(brick2, null, brick2) + listOf(brick2, null, brick2))
         }
 
         @Test
         fun `A stack pattern with bricks across the left border`() {
-            testWithPartialBricks(1, false, listOf(null, brick2, null, null, brick2, null))
+            testWithPartialBricks(1, false, listOf(null, brick2, null) + listOf(null, brick2, null))
         }
 
         private fun testWithoutPartialBricks(tileX: Int) {
@@ -80,7 +80,7 @@ class BrickPatternCreationTest {
 
             val result = createBrickPattern(pattern, Borders(true, tileX))
 
-            assertTilemap(result, size, listOf(brick2, null, brick2, null, brick2, null, brick2, null))
+            assertTilemap(result, size, listOf(brick2, null, brick2, null) + listOf(brick2, null, brick2, null))
         }
 
         private fun testWithPartialBricks(tileX: Int, isBorder: Boolean, expected: List<Brick?>) {
@@ -102,7 +102,7 @@ class BrickPatternCreationTest {
     inner class CreateRunningPatternTest {
 
         @Test
-        fun `A running pattern's even lines without partial bricks`() {
+        fun `A running pattern's even lines with full bricks`() {
             testWithoutPartialBricks(0)
         }
 
@@ -117,7 +117,7 @@ class BrickPatternCreationTest {
 
             val result = createBrickPattern(pattern, Borders(true, tileX))
 
-            assertTilemap(result, size, listOf(brick2, null, brick2, null, brick2, null, brick2, null))
+            assertTilemap(result, size, listOf(brick2, null, brick2, null) + listOf(brick1, brick2, null, brick1))
         }
     }
 
