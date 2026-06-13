@@ -50,7 +50,7 @@ class BrickPatternCreationTest {
 
         @Test
         fun `Another tile with without partial bricks`() {
-            testWithoutPartialBricks(1)
+            testWithoutPartialBricks(2)
         }
 
         @Test
@@ -72,6 +72,13 @@ class BrickPatternCreationTest {
             val expected = line_6_W2xH2xH2xW2 + line_6_W2xExExW2 + line_6_SxSxW2xSxS
 
             testWithTopAndBottom(0, true, true, expected)
+        }
+
+        @Test
+        fun `Bricks across the left border`() {
+            val expected = line_5_ExW2xH2xH2 + line_5_ExW2xExE + line_5_H2xW2xH2xH2 + line_5_ExW2xExE
+
+            testWithLeftAndRight(1, false, true, expected)
         }
 
         @Test

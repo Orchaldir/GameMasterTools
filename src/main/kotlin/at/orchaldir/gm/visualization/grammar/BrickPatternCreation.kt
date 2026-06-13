@@ -44,9 +44,9 @@ private fun createBasketWeavePattern(
         grammar.size,
         MapSize2d.square(n),
         borders,
-    ) { tiles, subSectionX, subSectionY, gridSize, subBorders ->
-        val x = subSectionX * n
-        val y = subSectionY * n
+    ) { tiles, subSectionX, subSectionY, gridSize, subBorders, offset ->
+        val x = subSectionX * n + offset.width
+        val y = subSectionY * n + offset.height
 
         val isEven = (subSectionX + evenOffsetX + subSectionY + evenOffsetY) % 2
 
@@ -101,7 +101,7 @@ private fun createRunningPattern(
     grammar: BrickPatternGrammar,
     borders: Borders,
 ): TileMap2d<Brick?> {
-    val offset = borders.calculateTileOffsetX2(grammar.size, grammar.length)
+    val offset = -borders.calculateTileOffsetX2(grammar.size, grammar.length)
     val halfBrick = floor(grammar.length / 2.0).toInt()
 
     return createRowPattern(
@@ -121,7 +121,7 @@ private fun createStackPattern(
     grammar: BrickPatternGrammar,
     borders: Borders,
 ): TileMap2d<Brick?> {
-    val offset = borders.calculateTileOffsetX2(grammar.size, grammar.length)
+    val offset = -borders.calculateTileOffsetX2(grammar.size, grammar.length)
 
     return createRowPattern(
         grammar,
@@ -190,7 +190,7 @@ private fun createSubSections(
     grammarSize: GridSize,
     subSectionSize: MapSize2d,
     borders: Borders,
-    addSubSection: (MutableList<Brick?>, Int, Int, MapSize2d, Borders) -> Unit,
+    addSubSection: (MutableList<Brick?>, Int, Int, MapSize2d, Borders, MapSize2d) -> Unit,
 ): TileMap2d<Brick?> {
     val gridSize = grammarSize.size()
     val tiles = MutableList<Brick?>(gridSize.tiles()) { null }
@@ -234,6 +234,7 @@ private fun createSubSections(
                 y,
                 gridSizeWithOffset,
                 subBorders,
+                offset,
             )
         }
     }

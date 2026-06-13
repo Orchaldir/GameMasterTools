@@ -45,9 +45,9 @@ data class Borders(
         height
     }
 
-    fun calculateEvenOffsetX(gridSize: GridSize, length: Int) = calculateEvenOffset(x, gridSize, length)
+    fun calculateEvenOffsetX(gridSize: GridSize, length: Int) = calculateEvenOffset(x, gridSize.width(), length)
 
-    fun calculateEvenOffsetY(gridSize: GridSize, length: Int) = calculateEvenOffset(y, gridSize, length)
+    fun calculateEvenOffsetY(gridSize: GridSize, length: Int) = calculateEvenOffset(y, gridSize.height(), length)
 
     fun calculateTileOffset(gridSize: MapSize2d, tile: MapSize2d) = MapSize2d(
         calculateTileOffsetX(gridSize.width, tile.width),
@@ -56,7 +56,7 @@ data class Borders(
 
     fun calculateTileOffset2(gridSize: MapSize2d, tile: MapSize2d) = MapSize2d(
         calculateTileOffsetX2(gridSize.width, tile.width),
-        calculateTileOffsetY(gridSize.height, tile.height),
+        calculateTileOffsetY2(gridSize.height, tile.height),
     )
 
     // TODO: remove old
@@ -77,10 +77,13 @@ data class Borders(
 
     private fun calculateTileOffsetY(height: Int, length: Int) =
         calculateTileOffset(top, y, height, length)
+
+    private fun calculateTileOffsetY2(height: Int, length: Int) =
+        calculateTileOffset2(y, height, length)
 }
 
-fun calculateEvenOffset(position: Int, gridSize: GridSize, length: Int) =
-    ceil(gridSize.height() * position / length.toFloat()).toInt() % 2
+fun calculateEvenOffset(position: Int, size: Int, length: Int) =
+    ceil(size * position / length.toFloat()).toInt() % 2
 
 fun calculateTileOffset(
     border: Boolean,
@@ -104,5 +107,5 @@ fun calculateTileOffset2(
 ): Int {
     val blockStart = position * gridSize
     val numBricks = ceil(blockStart / length.toFloat()).toInt()
-    return blockStart - numBricks * length
+    return numBricks * length - blockStart
 }
