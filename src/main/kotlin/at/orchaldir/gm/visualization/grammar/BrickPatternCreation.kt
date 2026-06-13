@@ -1,5 +1,6 @@
 package at.orchaldir.gm.visualization.grammar
 
+import at.orchaldir.gm.core.logger
 import at.orchaldir.gm.core.model.visualization.BrickPattern
 import at.orchaldir.gm.core.model.visualization.BrickPatternGrammar
 import at.orchaldir.gm.core.model.visualization.DoNothingShapeGrammar
@@ -7,6 +8,8 @@ import at.orchaldir.gm.core.model.visualization.GridSize
 import at.orchaldir.gm.core.model.visualization.ShapeGrammar
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.map.TileMap2d
+import at.orchaldir.gm.utils.math.Point2d
+import at.orchaldir.gm.utils.math.Size2d
 import kotlin.math.ceil
 import kotlin.math.floor
 
@@ -31,17 +34,48 @@ private fun createBasketWeavePattern(
     borders: Borders,
 ): TileMap2d<Brick?> {
     var index = 0
-    val evenOffsetX = borders.calculateEvenOffsetX(grammar.size, grammar.length)
-    val evenOffsetY = borders.calculateEvenOffsetY(grammar.size, grammar.length)
+    val n = grammar.length
+    val evenOffsetX = borders.calculateEvenOffsetX(grammar.size, n)
+    val evenOffsetY = borders.calculateEvenOffsetY(grammar.size, n)
 
     return createSubSections(
         grammar.size,
-        MapSize2d.square(grammar.length),
+        MapSize2d.square(n),
         borders,
     ) { tiles, subSectionX, subSectionY, gridSize, subBorders ->
-        val x = subSectionX * grammar.length
-        val y = subSectionY * grammar.length
+        val x = subSectionX * n
+        val y = subSectionY * n
 
+        val isEven = (subSectionX + evenOffsetX + subSectionY + evenOffsetY) % 2
+
+        logger.info { "subSectionX=$subSectionX subSectionY=$subSectionY x=$x y=$y isEven=$isEven" }
+        logger.info { "subBorders=$subBorders" }
+
+        if (isEven == 0) {
+            addHorizontalBasketWeaveN(
+                tiles,
+                grammar.brick,
+                x,
+                y,
+                subBorders.apply(gridSize),
+                gridSize,
+                subBorders,
+                n,
+            )
+        } else {
+            addVerticalBasketWeaveN(
+                tiles,
+                grammar.brick,
+                x,
+                y,
+                gridSize,
+                subBorders.apply(gridSize),
+                subBorders,
+                n,
+            )
+        }
+
+        index += n
     }
 }
 
@@ -152,7 +186,7 @@ private fun createSubSections(
     grammarSize: GridSize,
     subSectionSize: MapSize2d,
     borders: Borders,
-    creaSubSection: (MutableList<Brick?>, Int, Int, MapSize2d, Borders) -> Unit,
+    addSubSection: (MutableList<Brick?>, Int, Int, MapSize2d, Borders) -> Unit,
 ): TileMap2d<Brick?> {
     val gridSize = grammarSize.size()
     val tiles = MutableList<Brick?>(gridSize.tiles()) { null }
@@ -190,7 +224,7 @@ private fun createSubSections(
                 y,
             )
 
-            creaSubSection(
+            addSubSection(
                 tiles,
                 x,
                 y,
@@ -201,4 +235,50 @@ private fun createSubSections(
     }
 
     return TileMap2d(gridSize, tiles)
+}
+
+private fun addHorizontalBasketWeaveN(
+    tiles: MutableList<Brick?>,
+    brick: ShapeGrammar,
+    x: Int,
+    y: Int,
+    gridSize: MapSize2d,
+    limits: MapSize2d,
+    borders: Borders,
+    n: Int,
+) {
+    val blocks = MapSize2d(n, 1)
+
+    repeat(n) { offset ->
+        val currentY = y + offset
+
+        if (!borders.bottom || currentY < limits.height) {
+            val tileIndex = gridSize.toIndexRisky(x, y)
+
+            tiles[tileIndex] = Brick(brick, blocks)
+        }
+    }
+}
+
+private fun addVerticalBasketWeaveN(
+    tiles: MutableList<Brick?>,
+    brick: ShapeGrammar,
+    x: Int,
+    y: Int,
+    gridSize: MapSize2d,
+    limits: MapSize2d,
+    borders: Borders,
+    n: Int,
+) {
+    val blocks = MapSize2d(1, n)
+
+    repeat(n) { offset ->
+        val currentX = x + offset
+
+        if (!borders.right || currentX < limits.width) {
+            val tileIndex = gridSize.toIndexRisky(x, y)
+
+            tiles[tileIndex] = Brick(brick, blocks)
+        }
+    }
 }

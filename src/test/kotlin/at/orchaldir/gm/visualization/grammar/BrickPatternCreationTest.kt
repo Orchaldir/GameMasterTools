@@ -23,6 +23,34 @@ class BrickPatternCreationTest {
     private val line_4_2x2 = listOf(brick2, null, brick2, null)
 
     @Nested
+    inner class CreateBasketWeavePatternTest {
+
+        @Test
+        fun `A stack pattern without partial bricks`() {
+            testWithoutPartialBricks(0)
+        }
+
+        @Test
+        fun `Another tile with a stack pattern without partial bricks`() {
+            testWithoutPartialBricks(1)
+        }
+
+        private fun testWithoutPartialBricks(tileX: Int) {
+            val size = MapSize2d(6, 4)
+            val pattern = BrickPatternGrammar(
+                brickGrammar,
+                RowsAndColumns(size),
+                BrickPattern.BasketWeave,
+                2,
+            )
+
+            val result = createBrickPattern(pattern, Borders(true, tileX))
+
+            assertTilemap(result, size, line_4_2x2 + line_4_1x2x1)
+        }
+    }
+
+    @Nested
     inner class CreateGridPatternTest {
 
         @Test
