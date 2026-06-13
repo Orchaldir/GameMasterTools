@@ -9,6 +9,7 @@ import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.map.assertTilemap
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import javax.swing.border.Border
 
 class BrickPatternCreationTest {
 
@@ -28,7 +29,7 @@ class BrickPatternCreationTest {
                 BrickPattern.Grid,
             )
 
-            val result = createGridPattern(pattern)
+            val result = createBrickPattern(pattern, Borders())
 
             assertTilemap(result, size, brick1)
         }
@@ -73,12 +74,11 @@ class BrickPatternCreationTest {
             val pattern = BrickPatternGrammar(
                 brickGrammar,
                 RowsAndColumns(size),
-                BrickPattern.Grid,
+                BrickPattern.Stack,
                 2,
             )
 
-            val result = createStackPattern(pattern, Borders(true, tileX))
-
+            val result = createBrickPattern(pattern, Borders(true, tileX))
 
             assertTilemap(result, size, listOf(brick2, null, brick2, null, brick2, null, brick2, null))
         }
@@ -88,14 +88,36 @@ class BrickPatternCreationTest {
             val pattern = BrickPatternGrammar(
                 brickGrammar,
                 RowsAndColumns(size),
-                BrickPattern.Grid,
+                BrickPattern.Stack,
                 2,
             )
 
-            val result = createStackPattern(pattern, Borders(isBorder, tileX))
-
+            val result = createBrickPattern(pattern, Borders(isBorder, tileX))
 
             assertTilemap(result, size, expected)
+        }
+    }
+
+    @Nested
+    inner class CreateRunningPatternTest {
+
+        @Test
+        fun `A running pattern's even lines without partial bricks`() {
+            testWithoutPartialBricks(0)
+        }
+
+        private fun testWithoutPartialBricks(tileX: Int) {
+            val size = MapSize2d(4, 2)
+            val pattern = BrickPatternGrammar(
+                brickGrammar,
+                RowsAndColumns(size),
+                BrickPattern.Running,
+                2,
+            )
+
+            val result = createBrickPattern(pattern, Borders(true, tileX))
+
+            assertTilemap(result, size, listOf(brick2, null, brick2, null, brick2, null, brick2, null))
         }
     }
 
