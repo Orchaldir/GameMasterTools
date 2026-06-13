@@ -9,13 +9,18 @@ import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.map.assertTilemap
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import javax.swing.border.Border
 
 class BrickPatternCreationTest {
 
     private val brickGrammar = RectangularShapeGrammar(MadeFromStone())
     private val brick1 = Brick(brickGrammar, MapSize2d(1, 1))
     private val brick2 = Brick(brickGrammar, MapSize2d(2, 1))
+    private val line_3_1x2 = listOf(brick1, brick2, null)
+    private val line_3_2x1 = listOf(brick2, null, brick1)
+    private val line_3_2x2 = listOf(brick2, null, brick2)
+    private val line_3_Ex2 = listOf(null, brick2, null)
+    private val line_4_1x2x1 = listOf(brick1, brick2, null, brick1)
+    private val line_4_2x2 = listOf(brick2, null, brick2, null)
 
     @Nested
     inner class CreateGridPatternTest {
@@ -51,22 +56,22 @@ class BrickPatternCreationTest {
 
         @Test
         fun `A stack pattern with partial bricks on the right border`() {
-            testWithPartialBricks(0, true, listOf(brick2, null, brick1) + listOf(brick2, null, brick1))
+            testWithPartialBricks(0, true, line_3_2x1 + line_3_2x1)
         }
 
         @Test
         fun `A stack pattern with partial bricks on the left border`() {
-            testWithPartialBricks(1, true, listOf(brick1, brick2, null) + listOf(brick1, brick2, null))
+            testWithPartialBricks(1, true, line_3_1x2 + line_3_1x2)
         }
 
         @Test
         fun `A stack pattern with bricks across the right border`() {
-            testWithPartialBricks(0, false, listOf(brick2, null, brick2) + listOf(brick2, null, brick2))
+            testWithPartialBricks(0, false, line_3_2x2 + line_3_2x2)
         }
 
         @Test
         fun `A stack pattern with bricks across the left border`() {
-            testWithPartialBricks(1, false, listOf(null, brick2, null) + listOf(null, brick2, null))
+            testWithPartialBricks(1, false, line_3_Ex2 + line_3_Ex2)
         }
 
         private fun testWithoutPartialBricks(tileX: Int) {
@@ -80,7 +85,7 @@ class BrickPatternCreationTest {
 
             val result = createBrickPattern(pattern, Borders(true, tileX))
 
-            assertTilemap(result, size, listOf(brick2, null, brick2, null) + listOf(brick2, null, brick2, null))
+            assertTilemap(result, size, line_4_2x2 + line_4_2x2)
         }
 
         private fun testWithPartialBricks(tileX: Int, isBorder: Boolean, expected: List<Brick?>) {
@@ -117,7 +122,7 @@ class BrickPatternCreationTest {
 
             val result = createBrickPattern(pattern, Borders(true, tileX))
 
-            assertTilemap(result, size, listOf(brick2, null, brick2, null) + listOf(brick1, brick2, null, brick1))
+            assertTilemap(result, size, line_4_2x2 + line_4_1x2x1)
         }
     }
 
