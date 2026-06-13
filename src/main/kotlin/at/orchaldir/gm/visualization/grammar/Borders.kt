@@ -15,13 +15,11 @@ data class Borders(
     constructor(isBorder: Boolean, x: Int = 0, y: Int = 0) :
             this(isBorder, isBorder, isBorder, isBorder, x, y)
 
+    // TODO: remove old
     fun apply(size: MapSize2d) = MapSize2d(
         getWidth(size),
         getHeight(size),
     )
-
-    fun applyRight(size: MapSize2d) = size.copy(width = getWidth(size))
-    fun applyBottom(size: MapSize2d) = size.copy(height = getHeight(size))
 
     private fun getWidth(size: MapSize2d): Int = if (right) {
         size.width
@@ -33,6 +31,18 @@ data class Borders(
         size.height
     } else {
         Int.MAX_VALUE
+    }
+
+    fun limitWidth(size: MapSize2d, x: Int, width: Int): Int = if (right) {
+        width.coerceAtMost(size.width - x)
+    } else {
+        width
+    }
+
+    fun limitHeight(size: MapSize2d, y: Int, height: Int): Int = if (bottom) {
+        height.coerceAtMost(size.height - y)
+    } else {
+        height
     }
 
     fun calculateEvenOffsetX(gridSize: GridSize, length: Int) = calculateEvenOffset(x, gridSize, length)
