@@ -105,9 +105,9 @@ open class BrickMapBuilder(
             ceil((size().height - offset.y) / subSize.height.toDouble()).toInt(),
         )
 
-        // render subsections for the bottom border
+        // render subsections for the top border
         repeat(subSections.width) { subSectionX ->
-            val subBorders = Borders(left = borders.left, tileX = subSectionX, tileY =  -1)
+            val subBorders = Borders(top = borders.top, tileX = subSectionX, tileY =  -1)
             val subIndex = MapPoint2d(subSectionX, -1)
             val subStart = subIndex * subSize
             val limitedSubSize = limitSubSize(subStart, subSize)
