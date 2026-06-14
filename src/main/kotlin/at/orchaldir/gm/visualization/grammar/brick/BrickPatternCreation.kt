@@ -14,10 +14,12 @@ fun createBrickPattern(
     borders: Borders,
 ): TileMap2d<Brick?> {
     val gridSize = grammar.size.size()
-    val builder = BrickMapBuilder(gridSize)
+    val builder = BrickMapBuilder(gridSize, borders)
 
     when (grammar.pattern) {
         BrickPattern.Grid -> createGridPattern(builder, grammar.brick)
+        BrickPattern.Running -> createRunningPattern(builder, grammar)
+        BrickPattern.Stack -> createStackPattern(builder, grammar)
         else -> return createBrickPatternOld(grammar, borders)
     }
 
@@ -29,8 +31,6 @@ private fun createBrickPatternOld(
     borders: Borders,
 ): TileMap2d<Brick?> = when (grammar.pattern) {
     BrickPattern.BasketWeave -> createBasketWeavePattern(grammar, borders)
-    BrickPattern.Running -> createRunningPattern(grammar, borders)
-    BrickPattern.Stack -> createStackPattern(grammar, borders)
     else -> error("Not supported!")
 }
 
@@ -99,15 +99,16 @@ private fun createGridPattern(
 }
 
 private fun createRunningPattern(
+    builder: BrickMapBuilder,
     grammar: BrickPatternGrammar,
-    borders: Borders,
-): TileMap2d<Brick?> {
-    val offset = -borders.calculateTileOffsetX2(grammar.size, grammar.length)
+) {
+    val offset = -builder.borders().calculateTileOffsetX2(grammar.size, grammar.length)
     val halfBrick = floor(grammar.length / 2.0).toInt()
 
-    return createRowPattern(
-        grammar,
-        borders,
+    createRowPattern(
+        builder,
+        grammar.brick,
+        grammar.length,
         offset,
     ) { y ->
         if (y % 2 == 0) {
@@ -119,14 +120,15 @@ private fun createRunningPattern(
 }
 
 private fun createStackPattern(
+    builder: BrickMapBuilder,
     grammar: BrickPatternGrammar,
-    borders: Borders,
-): TileMap2d<Brick?> {
-    val offset = -borders.calculateTileOffsetX2(grammar.size, grammar.length)
+) {
+    val offset = -builder.borders().calculateTileOffsetX2(grammar.size, grammar.length)
 
-    return createRowPattern(
-        grammar,
-        borders,
+    createRowPattern(
+        builder,
+        grammar.brick,
+        grammar.length,
         offset,
         { _ -> 0 },
     )

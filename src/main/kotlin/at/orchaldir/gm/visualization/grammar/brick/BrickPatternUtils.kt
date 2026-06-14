@@ -10,58 +10,21 @@ import at.orchaldir.gm.visualization.grammar.Borders
 import kotlin.math.ceil
 
 fun createRowPattern(
-    grammar: BrickPatternGrammar,
-    borders: Borders,
+    builder: BrickMapBuilder,
+    brick: ShapeGrammar,
+    length: Int,
     offset: Int,
     calculateStartOfRow: (Int) -> Int,
-): TileMap2d<Brick?> {
-    val gridSize = grammar.size.size()
-    val tiles = MutableList<Brick?>(gridSize.tiles()) { null }
-
-    repeat(gridSize.height) { y ->
+) {
+    repeat(builder.size().height) { y ->
         var x = calculateStartOfRow(y) + offset
 
-        while (x < gridSize.width) {
-            val (length, brickX) = createRowBrick(grammar, gridSize, borders, x)
-            val tileIndex = gridSize.toIndexRisky(brickX, y)
+        while (x < builder.size().width) {
+            builder.addHorizontalBrick(x, y, brick, length)
 
-            tiles[tileIndex] = Brick(grammar.brick, MapSize2d(length, 1))
-
-            x = brickX + length
+            x += length
         }
     }
-
-    return TileMap2d(gridSize, tiles)
-}
-
-private fun createRowBrick(
-    grammar: BrickPatternGrammar,
-    gridSize: MapSize2d,
-    borders: Borders,
-    x: Int,
-): Pair<Int, Int> {
-    var outputX = x
-    val length = if (x < 0) {
-        val remainingLength = grammar.length + x
-
-        if (borders.left) {
-            outputX = 0
-
-            remainingLength
-        } else {
-            outputX += grammar.length
-
-            grammar.length
-        }
-    } else if (borders.right && x + grammar.length > gridSize.width) {
-        val maxLength = gridSize.width - x
-
-        grammar.length.coerceAtMost(maxLength)
-    } else {
-        grammar.length
-    }
-
-    return Pair(length, outputX)
 }
 
 fun createSubSections(
