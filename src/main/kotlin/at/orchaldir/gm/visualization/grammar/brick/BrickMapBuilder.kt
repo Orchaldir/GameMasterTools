@@ -2,9 +2,11 @@ package at.orchaldir.gm.visualization.grammar.brick
 
 import at.orchaldir.gm.core.model.visualization.DoNothingShapeGrammar
 import at.orchaldir.gm.core.model.visualization.ShapeGrammar
+import at.orchaldir.gm.utils.map.MapPoint2d
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.map.TileMap2d
 import at.orchaldir.gm.visualization.grammar.Borders
+import kotlin.math.ceil
 
 private val BLOCK_SIZE = MapSize2d.square(1)
 
@@ -54,10 +56,40 @@ open class BrickMapBuilder(
         addBrick(limitedX, y, Brick(grammar,  MapSize2d(limitedLength, 1)))
     }
 
-    protected fun addBrick(x: Int, y: Int, brick: Brick) {
+    protected open fun addBrick(x: Int, y: Int, brick: Brick) {
         val mapIndex = size.toIndexRisky(x, y)
 
         map[mapIndex] = brick
+    }
+
+    fun createSubSections(
+        subSize: MapSize2d,
+        addSubSection: (SubSectionBuilder) -> Unit,
+    ) {
+        val offset = borders.calculateTileOffset2(size(), subSize)
+        val limitedGridSize = subSize - offset
+        val subSections = MapSize2d(
+            ceil((size().width - offset.x) / subSize.width.toDouble()).toInt(),
+            ceil((size().height - offset.y) / subSize.height.toDouble()).toInt(),
+        )
+
+        repeat(subSections.height) { subSectionY ->
+            repeat(subSections.width) { subSectionX ->
+                val subIndex = MapPoint2d(subSectionX, subSectionY)
+                val subStart = subIndex * subSize + offset
+                val subBorders = calculateSubBorders(borders, subSections, subSectionX, subSectionY)
+                val subSection = SubSectionBuilder(
+                    size,
+                    subBorders,
+                    map,
+                    subIndex,
+                    limitedGridSize,
+                    subStart,
+                )
+
+                addSubSection(subSection)
+            }
+        }
     }
 
     fun finish() = TileMap2d(size, map)
@@ -67,8 +99,16 @@ class SubSectionBuilder(
     size: MapSize2d,
     borders: Borders,
     map: MutableList<Brick?>,
+    private val subSection: MapPoint2d,
     private val subSize: MapSize2d,
+    private val subStart: MapPoint2d,
 ): BrickMapBuilder(size, borders, map) {
 
     override fun size() = subSize
+
+    override fun addBrick(x: Int, y: Int, brick: Brick) {
+        val mapIndex = size.toIndexRisky(subStart.x + x, subStart.y + y)
+
+        map[mapIndex] = brick
+    }
 }

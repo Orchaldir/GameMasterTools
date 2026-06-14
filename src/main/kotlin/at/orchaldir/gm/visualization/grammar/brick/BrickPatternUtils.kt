@@ -81,7 +81,7 @@ fun createSubSections(
     return TileMap2d(gridSize, grid)
 }
 
-private fun calculateSubBorders(
+fun calculateSubBorders(
     borders: Borders,
     subSections: MapSize2d,
     subSectionX: Int,
