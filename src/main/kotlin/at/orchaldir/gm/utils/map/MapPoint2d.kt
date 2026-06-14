@@ -14,6 +14,7 @@ data class MapPoint2d(val x: Int = 0, val y: Int = 0) {
     operator fun times(number: Int) = MapPoint2d(x * number, y * number)
 
     operator fun plus(size: MapSize2d) = MapPoint2d(x + size.width, y + size.height)
+    operator fun minus(size: MapSize2d) = MapPoint2d(x - size.width, y - size.height)
     operator fun times(size: MapSize2d) = MapPoint2d(x * size.width, y * size.height)
 
 }

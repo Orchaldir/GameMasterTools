@@ -38,12 +38,15 @@ private fun createBasketWeavePattern(
     val evenOffsetX = builder.borders().calculateEvenOffsetX(grammar.size, n)
     val evenOffsetY = builder.borders().calculateEvenOffsetY(grammar.size, n)
 
-    builder.createSubSections(MapSize2d.square(n)) { sub ->
-        val start = MapPoint2d()
+    builder.createSubSections(MapSize2d.square(n)) { sub, start ->
         val indexForEven = (sub.subIndex.x + evenOffsetX + sub.subIndex.y + evenOffsetY) % 2
         val isEven = indexForEven == 0
 
         logger.info { "start=$start indexForEven=$indexForEven" }
+
+        if (sub.subIndex.x == -1) {
+            logger.info { "test" }
+        }
 
         if (isEven) {
             addHorizontalBasketWeaveN(
