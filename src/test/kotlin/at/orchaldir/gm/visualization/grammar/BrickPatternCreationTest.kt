@@ -33,8 +33,10 @@ class BrickPatternCreationTest {
     private val line_5_H2xH2xW2xH2 = listOf(brickH2, brickH2, brickW2, null, brickH2)
     private val line_5_ExExW2xE = listOf(null, null, brickW2, null, null)
     private val line_5_ExW2xH2xH2 = listOf(null, brickH2, null, brickH2, brickH2)
+    private val line_5_SxH2xH2xW2 = listOf(/*singleBrick*/null, brickH2, brickH2, brickW2, null)
     private val line_5_ExW2xExE = listOf(null, brickW2, null, null, null)
     private val line_5_ExH2xH2xW2 = listOf(null, brickH2, brickH2, brickW2, null)
+    private val line_5_SxExExW2 = listOf(/*singleBrick*/null, null, null, brickW2, null)
     private val line_5_ExExExW2 = listOf(null, null, null, brickW2, null)
     private val line_5_H2xW2xH2xH2 = listOf(null, brickW2, null, brickH2, brickH2) // TODO: render previous tile
     private val line_6_W2xH2xH2xW2 = listOf(brickW2, null, brickH2, brickH2, brickW2, null)
@@ -79,14 +81,12 @@ class BrickPatternCreationTest {
             }
         }
 
-        /*
         @Test
         fun `Partial bricks on the left border TODO`() {
-            val expected = line_5_ExW2xH2xH2 + line_5_ExW2xExE + line_5_H2xW2xH2xH2 + line_5_ExW2xExE
+            val expected = line_5_SxH2xH2xW2 + line_5_SxExExW2 + line_5_H2xW2xH2xH2 + line_5_ExW2xExE
 
             testWithLeftAndRight(1, true, true, expected)
         }
-        */
 
         @Test
         fun `Partial bricks on the right border`() {
