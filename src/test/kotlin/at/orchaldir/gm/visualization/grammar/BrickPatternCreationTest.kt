@@ -17,7 +17,9 @@ class BrickPatternCreationTest {
     private val brickGrammar = RectangularShapeGrammar(MadeFromStone())
     private val singleBrick = Brick(brickGrammar, MapSize2d(1, 1))
     private val brickW2 = Brick(brickGrammar, MapSize2d(2, 1))
+    private val brickW3 = Brick(brickGrammar, MapSize2d(3, 1))
     private val brickH2 = Brick(brickGrammar, MapSize2d(1, 2))
+    private val brickH3 = Brick(brickGrammar, MapSize2d(1, 3))
 
     private val line_3_ExW2 = listOf(null, brickW2, null)
     private val line_3_SxW2 = listOf(singleBrick, brickW2, null)
@@ -44,6 +46,17 @@ class BrickPatternCreationTest {
     private val line_6_SxSxW2xSxS = listOf(singleBrick, singleBrick, brickW2, null, singleBrick, singleBrick)
     private val line_6_W2xExExW2 = listOf(brickW2, null, null, null, brickW2, null)
     private val line_6_W2xH2xH2xW2 = listOf(brickW2, null, brickH2, brickH2, brickW2, null)
+    private val line_9_W3xH3xH3xH3xW3 = listOf(brickW3, null, null, brickH3, brickH3, brickH3, brickW3, null, null)
+    private val line_9_W3xExExExW3 = listOf(brickW3, null, null, null, null, null, brickW3, null, null)
+    private val line_9_H3xH3xH3xW3xH3xH3xH3 = listOf(brickH3, brickH3, brickH3, brickW3, null, null, brickH3, brickH3, brickH3)
+    private val line_9_ExExExW3xExExE = listOf(null, null, null, brickW3, null, null, null, null, null)
+
+    private val basketWeaves_H3_V3_H3 = line_9_W3xH3xH3xH3xW3 +
+            line_9_W3xExExExW3 +
+            line_9_W3xExExExW3
+    private val basketWeaves_V3_H3_V3 = line_9_H3xH3xH3xW3xH3xH3xH3 +
+            line_9_ExExExW3xExExE +
+            line_9_ExExExW3xExExE
 
     @Nested
     inner class CreateBasketWeavePatternWithLength2Test {
@@ -220,16 +233,16 @@ class BrickPatternCreationTest {
             }
 
             private fun testPatterA(tileX: Int, tileY: Int) = test(tileX, tileY,
-                line_6_W2xH2xH2xW2 + line_6_W2xExExW2 + line_6_H2xH2xW2xH2xH2 + line_6_ExExW2xExE,
+                basketWeaves_H3_V3_H3 + basketWeaves_V3_H3_V3,
             )
 
             private fun testPatterB(tileX: Int, tileY: Int) = test(tileX, tileY,
-                line_6_H2xH2xW2xH2xH2 + line_6_ExExW2xExE + line_6_W2xH2xH2xW2 + line_6_W2xExExW2,
+                basketWeaves_V3_H3_V3 + basketWeaves_H3_V3_H3,
             )
         }
 
         private fun test(tileX: Int, tileY: Int, expected: List<Brick?>) {
-            val size = MapSize2d(3, 2)
+            val size = MapSize2d(9, 6)
             val borders = Borders(true, tileX, tileY)
 
             test(size, borders, expected)
