@@ -105,6 +105,24 @@ open class BrickMapBuilder(
         )
 
         repeat(subSections.height) { subSectionY ->
+            if (borders.left) {
+                val subBorders = Borders(false, -1, subSectionY)
+                val subIndex = MapPoint2d(-1, subSectionY)
+                val subStart = subIndex * subSize + offset
+                val limitedSubSize = limitSubSize(subStart, subSize)
+
+                val subSection = SubSectionBuilder(
+                    size,
+                    subBorders,
+                    map,
+                    subIndex,
+                    limitedSubSize,
+                    subStart,
+                )
+
+                addSubSection(subSection)
+            }
+
             repeat(subSections.width) { subSectionX ->
                 val subIndex = MapPoint2d(subSectionX, subSectionY)
                 val subStart = subIndex * subSize + offset
@@ -156,8 +174,38 @@ class SubSectionBuilder(
     override fun size() = subSize
 
     override fun addBrick(x: Int, y: Int, brick: Brick) {
-        val mapIndex = size.toIndexRisky(offset.x + x, offset.y + y)
-
-        map[mapIndex] = brick
+        size.toIndex(offset.x + x, offset.y + y)?.let { mapIndex ->
+            map[mapIndex] = brick
+        }
     }
 }
+
+private fun calculateSubBorders(
+    borders: Borders,
+    subSections: MapSize2d,
+    subSectionX: Int,
+    subSectionY: Int,
+) = Borders(
+    if (subSectionY < subSections.height - 1) {
+        false
+    } else {
+        borders.bottom
+    },
+    if (subSectionX == 0) {
+        borders.left
+    } else {
+        false
+    },
+    if (subSectionX < subSections.width - 1) {
+        false
+    } else {
+        borders.right
+    },
+    if (subSectionY == 0) {
+        borders.top
+    } else {
+        false
+    },
+    subSectionX,
+    subSectionY,
+)
