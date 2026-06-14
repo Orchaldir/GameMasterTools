@@ -105,8 +105,9 @@ open class BrickMapBuilder(
             ceil((size().height - offset.y) / subSize.height.toDouble()).toInt(),
         )
 
+        // render subsections for the left border
         repeat(subSections.height) { subSectionY ->
-            val subBorders = Borders(left=borders.left, tileX = -1, tileY = subSectionY)
+            val subBorders = Borders(left = borders.left, tileX = -1, tileY = subSectionY)
             val subIndex = MapPoint2d(-1, subSectionY)
             val subStart = subIndex * subSize
             val limitedSubSize = limitSubSize(subStart, subSize)
@@ -126,7 +127,10 @@ open class BrickMapBuilder(
                     offset.y,
                 ),
             )
+        }
 
+        // render subsections
+        repeat(subSections.height) { subSectionY ->
             repeat(subSections.width) { subSectionX ->
                 val subIndex = MapPoint2d(subSectionX, subSectionY)
                 val subStart = subIndex * subSize
@@ -140,8 +144,6 @@ open class BrickMapBuilder(
                     limitedSubSize,
                     subStart + offset,
                 )
-
-                logger.info { "subSection=${subIndex} subBorders=$subBorders offset=$offset subStart=$subStart subSize=$limitedSubSize" }
 
                 addSubSection(subSection, MapPoint2d())
             }

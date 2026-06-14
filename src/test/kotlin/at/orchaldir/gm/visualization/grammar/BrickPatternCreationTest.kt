@@ -82,7 +82,7 @@ class BrickPatternCreationTest {
         }
 
         @Test
-        fun `Partial bricks on the left border TODO`() {
+        fun `Partial bricks on the left border`() {
             val expected = line_5_SxH2xH2xW2 + line_5_SxExExW2 + line_5_H2xW2xH2xH2 + line_5_ExW2xExE
 
             testWithLeftAndRight(1, true, true, expected)
@@ -100,6 +100,13 @@ class BrickPatternCreationTest {
             val expected = line_6_W2xH2xH2xW2 + line_6_W2xExExW2 + line_6_SxSxW2xSxS
 
             testWithTopAndBottom(0, true, true, expected)
+        }
+
+        @Test
+        fun `Partial bricks on the top border`() {
+            val expected = line_6_SxSxW2xSxS +line_6_W2xH2xH2xW2 + line_6_W2xExExW2
+
+            testWithTopAndBottom(1, true, true, expected)
         }
 
         @Test
@@ -152,10 +159,10 @@ class BrickPatternCreationTest {
                 expected,
             )
 
-        private fun testWithTopAndBottom(tileX: Int, isTop: Boolean, isBottom: Boolean, expected: List<Brick?>) =
+        private fun testWithTopAndBottom(tileY: Int, isTop: Boolean, isBottom: Boolean, expected: List<Brick?>) =
             test(
                 MapSize2d(6, 3),
-                Borders(isBottom, true, true, isTop, tileX),
+                Borders(isBottom, true, true, isTop, 0, tileY),
                 expected,
             )
 
