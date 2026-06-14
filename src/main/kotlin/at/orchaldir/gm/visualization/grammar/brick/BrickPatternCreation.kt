@@ -74,16 +74,15 @@ private fun createBasketWeavePattern(
 
 private fun createGridPattern(grammar: BrickPatternGrammar): TileMap2d<Brick?> {
     val gridSize = grammar.size.size()
-    val brickSize = MapSize2d.square(1)
-    val grid = mutableListOf<Brick?>()
+    val builder = BrickMapBuilder(gridSize)
 
     repeat(gridSize.height) { y ->
-        repeat(gridSize.width) {
-            grid.add(Brick(grammar.brick, brickSize))
+        repeat(gridSize.width) { x ->
+            builder.addSingleBlock(x, y, grammar.brick)
         }
     }
 
-    return TileMap2d(gridSize, grid)
+    return builder.finish()
 }
 
 private fun createRunningPattern(
