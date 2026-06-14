@@ -112,51 +112,23 @@ fun calculateSubBorders(
 )
 
 fun addHorizontalBasketWeaveN(
-    grid: MutableList<Brick?>,
+    builder: BrickMapBuilder,
     brick: ShapeGrammar,
-    x: Int,
-    y: Int,
-    gridSize: MapSize2d,
-    limitedGridSize: MapSize2d,
-    borders: Borders,
-    offset: MapPoint2d,
+    start: MapPoint2d,
     n: Int,
 ) {
-    val length = borders.limitWidth(limitedGridSize, x, n)
-    val blocks = MapSize2d(length, 1)
-
     repeat(n) { i ->
-        val currentY = y + i
-
-        if (currentY < limitedGridSize.height) {
-            val gridIndex = gridSize.toIndexRisky(x + offset.x, currentY + offset.y)
-
-            grid[gridIndex] = Brick(brick, blocks)
-        }
+        builder.addHorizontalBrick(start.x, start.y + i, brick, n)
     }
 }
 
 fun addVerticalBasketWeaveN(
-    grid: MutableList<Brick?>,
+    builder: BrickMapBuilder,
     brick: ShapeGrammar,
-    x: Int,
-    y: Int,
-    gridSize: MapSize2d,
-    limitedGridSize: MapSize2d,
-    borders: Borders,
-    offset: MapPoint2d,
+    start: MapPoint2d,
     n: Int,
 ) {
-    val length = borders.limitHeight(limitedGridSize, y, n)
-    val blocks = MapSize2d(1, length)
-
     repeat(n) { i ->
-        val currentX = x + i
-
-        if (currentX < limitedGridSize.width) {
-            val gridIndex = gridSize.toIndexRisky(currentX + offset.x, y + offset.y)
-
-            grid[gridIndex] = Brick(brick, blocks)
-        }
+        builder.addVerticalBrick(start.x + i, start.y, brick, n)
     }
 }

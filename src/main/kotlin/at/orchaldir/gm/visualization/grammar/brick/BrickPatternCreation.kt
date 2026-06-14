@@ -17,68 +17,44 @@ fun createBrickPattern(
     val builder = BrickMapBuilder(gridSize, borders)
 
     when (grammar.pattern) {
+        BrickPattern.BasketWeave -> createBasketWeavePattern(builder, grammar)
         BrickPattern.Grid -> createGridPattern(builder, grammar.brick)
         BrickPattern.Running -> createRunningPattern(builder, grammar)
         BrickPattern.Stack -> createStackPattern(builder, grammar)
-        else -> return createBrickPatternOld(grammar, borders)
+        else -> error("Not supported!")
     }
 
     return builder.finish()
 }
 
-private fun createBrickPatternOld(
-    grammar: BrickPatternGrammar,
-    borders: Borders,
-): TileMap2d<Brick?> = when (grammar.pattern) {
-    BrickPattern.BasketWeave -> createBasketWeavePattern(grammar, borders)
-    else -> error("Not supported!")
-}
-
 private fun createBasketWeavePattern(
+    builder: BrickMapBuilder,
     grammar: BrickPatternGrammar,
-    borders: Borders,
-): TileMap2d<Brick?> {
+) {
     var index = 0
     val n = grammar.length
-    val evenOffsetX = borders.calculateEvenOffsetX(grammar.size, n)
-    val evenOffsetY = borders.calculateEvenOffsetY(grammar.size, n)
+    val evenOffsetX = builder.borders().calculateEvenOffsetX(grammar.size, n)
+    val evenOffsetY = builder.borders().calculateEvenOffsetY(grammar.size, n)
 
-    return createSubSections(
-        grammar.size,
-        MapSize2d.square(n),
-        borders,
-    ) { grid, subSectionX, subSectionY, gridSize, limitedGridSize, subBorders, offset ->
-        val x = subSectionX * n
-        val y = subSectionY * n
-
-        val indexForEven = (subSectionX + evenOffsetX + subSectionY + evenOffsetY) % 2
+    builder.createSubSections(MapSize2d.square(n)) { sub ->
+        val start = sub.subIndex * n
+        val indexForEven = (sub.subIndex.x + evenOffsetX + sub.subIndex.y + evenOffsetY) % 2
         val isEven = indexForEven == 0
 
-        logger.info { "subSectionX=$subSectionX subSectionY=$subSectionY x=$x y=$y indexForEven=$indexForEven" }
-        logger.info { "subBorders=$subBorders offset=$offset" }
+        logger.info { "start=$start indexForEven=$indexForEven" }
 
         if (isEven) {
             addHorizontalBasketWeaveN(
-                grid,
+                builder,
                 grammar.brick,
-                x,
-                y,
-                gridSize,
-                limitedGridSize,
-                subBorders,
-                offset,
+                start,
                 n,
             )
         } else {
             addVerticalBasketWeaveN(
-                grid,
+                builder,
                 grammar.brick,
-                x,
-                y,
-                gridSize,
-                limitedGridSize,
-                subBorders,
-                offset,
+                start,
                 n,
             )
         }
