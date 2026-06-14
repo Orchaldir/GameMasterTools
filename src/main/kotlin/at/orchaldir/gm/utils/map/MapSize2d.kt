@@ -7,6 +7,7 @@ import kotlinx.serialization.Serializable
 data class MapSize2d(val width: Int, val height: Int) {
 
     init {
+        // TODO: can be > 0 again?
         require(width >= 0) { "Width must be greater or equal 0!" }
         require(height >= 0) { "Height must be greater or equal 0!" }
     }
@@ -72,5 +73,8 @@ data class MapSize2d(val width: Int, val height: Int) {
 
     operator fun plus(other: MapSize2d) = MapSize2d(width + other.width, height + other.height)
     operator fun minus(other: MapSize2d) = MapSize2d(width - other.width, height - other.height)
+
+    operator fun plus(point: MapPoint2d) = MapSize2d(width + point.x, height + point.y)
+    operator fun minus(point: MapPoint2d) = MapSize2d(width - point.x, height - point.y)
 
 }

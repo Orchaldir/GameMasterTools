@@ -1,6 +1,7 @@
 package at.orchaldir.gm.visualization.grammar
 
 import at.orchaldir.gm.core.model.visualization.GridSize
+import at.orchaldir.gm.utils.map.MapPoint2d
 import at.orchaldir.gm.utils.map.MapSize2d
 import kotlin.math.ceil
 
@@ -54,7 +55,7 @@ data class Borders(
         calculateTileOffsetY(gridSize.height, tile.height),
     )
 
-    fun calculateTileOffset2(gridSize: MapSize2d, tile: MapSize2d) = MapSize2d(
+    fun calculateTileOffset2(gridSize: MapSize2d, tile: MapSize2d) = MapPoint2d(
         calculateTileOffsetX2(gridSize.width, tile.width),
         calculateTileOffsetY2(gridSize.height, tile.height),
     )
