@@ -13,13 +13,6 @@ import at.orchaldir.gm.visualization.grammar.Borders
 import kotlin.math.ceil
 import kotlin.math.floor
 
-data class Brick(
-    val brick: ShapeGrammar = DoNothingShapeGrammar,
-    val size: MapSize2d,
-) {
-    override fun toString() = size.format()
-}
-
 fun createBrickPattern(
     grammar: BrickPatternGrammar,
     borders: Borders,
@@ -207,6 +200,7 @@ private fun createSubSections(
     )
 
     repeat(subSections.height) { subSectionY ->
+        /*
         if (borders.left) {
             val subBorders = Borders(false, -1, subSectionY)
 
@@ -220,6 +214,7 @@ private fun createSubSections(
                 offset,
             )
         }
+        */
 
         repeat(subSections.width) { subSectionX ->
             val subBorders = calculateSubBorders(borders, subSections, subSectionX, subSectionY)
@@ -282,10 +277,9 @@ private fun addHorizontalBasketWeaveN(
 ) {
     val length = borders.limitWidth(limitedGridSize, x, n)
     val blocks = MapSize2d(length, 1)
-    val startY = y.coerceAtLeast(0)
-    val lastY = y + n
 
-    for (currentY in startY..<lastY) {
+    repeat(n) { i ->
+        val currentY = y + i
 
         if (currentY < limitedGridSize.height) {
             val gridIndex = gridSize.toIndexRisky(x + offset.x, currentY + offset.y)
@@ -308,10 +302,10 @@ private fun addVerticalBasketWeaveN(
 ) {
     val length = borders.limitHeight(limitedGridSize, y, n)
     val blocks = MapSize2d(1, length)
-    val startX = x.coerceAtLeast(0)
-    val lastX = x + n
 
-    for (currentX in startX..<lastX) {
+    repeat(n) { i ->
+        val currentX = x + i
+
         if (currentX < limitedGridSize.width) {
             val gridIndex = gridSize.toIndexRisky(currentX + offset.x, y + offset.y)
 
