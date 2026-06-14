@@ -108,6 +108,7 @@ open class BrickMapBuilder(
             repeat(subSections.width) { subSectionX ->
                 val subIndex = MapPoint2d(subSectionX, subSectionY)
                 val subStart = subIndex * subSize + offset
+                val limitedSubSize = limitSubSize(subStart, subSize)
                 val subBorders = calculateSubBorders(borders, subSections, subSectionX, subSectionY)
                 val subSection = SubSectionBuilder(
                     size,
@@ -123,6 +124,21 @@ open class BrickMapBuilder(
                 addSubSection(subSection)
             }
         }
+    }
+
+    private fun limitSubSize(subStart: MapPoint2d, subSize: MapSize2d): MapSize2d {
+        val subEnd = subStart + subSize;
+
+        return MapSize2d(
+            limitSubSize(subEnd.x, subSize.width, size.width),
+            limitSubSize(subEnd.y, subSize.height, size.height),
+        )
+    }
+
+    private fun limitSubSize(subEnd: Int, subSize: Int, size: Int) =if (subEnd > size) {
+        subSize - (subEnd - size)
+    } else {
+        subSize
     }
 
     fun finish() = TileMap2d(size, map)
