@@ -107,71 +107,74 @@ open class BrickMapBuilder(
 
         // render subsections for the top border
         repeat(subSections.width) { subSectionX ->
-            val subBorders = Borders(top = borders.top, tileX = subSectionX, tileY =  -1)
-            val subIndex = MapPoint2d(subSectionX, -1)
-            val subStart = subIndex * subSize
-            val limitedSubSize = limitSubSize(subStart, subSize)
-            val subSection = SubSectionBuilder(
-                size,
-                subBorders,
-                map,
-                subIndex,
-                limitedSubSize,
-                MapPoint2d(subSize.width * subSectionX, 0),
-            )
-
             addSubSection(
-                subSection,
+                Borders(top = borders.top, tileX = subSectionX, tileY =  -1),
+                subSize,
+                subSectionX,
+                -1,
                 MapPoint2d(
                     offset.x,
                     offset.y - subSize.height,
                 ),
+                { _ -> MapPoint2d(subSize.width * subSectionX, 0) },
+                addSubSection,
             )
         }
 
         // render subsections for the left border
         repeat(subSections.height) { subSectionY ->
-            val subBorders = Borders(left = borders.left, tileX = -1, tileY = subSectionY)
-            val subIndex = MapPoint2d(-1, subSectionY)
-            val subStart = subIndex * subSize
-            val limitedSubSize = limitSubSize(subStart, subSize)
-            val subSection = SubSectionBuilder(
-                size,
-                subBorders,
-                map,
-                subIndex,
-                limitedSubSize,
-                MapPoint2d(0, subSize.height * subSectionY),
-            )
-
             addSubSection(
-                subSection,
+                Borders(left = borders.left, tileX = -1, tileY = subSectionY),
+                subSize,
+                -1,
+                subSectionY,
                 MapPoint2d(
                     offset.x - subSize.width,
                     offset.y,
                 ),
+                { _ -> MapPoint2d(0, subSize.height * subSectionY) },
+                addSubSection,
             )
         }
 
         // render subsections
         repeat(subSections.height) { subSectionY ->
             repeat(subSections.width) { subSectionX ->
-                val subIndex = MapPoint2d(subSectionX, subSectionY)
-                val subStart = subIndex * subSize
-                val limitedSubSize = limitSubSize(subStart, subSize)
-                val subBorders = calculateSubBorders(borders, subSections, subSectionX, subSectionY)
-                val subSection = SubSectionBuilder(
-                    size,
-                    subBorders,
-                    map,
-                    subIndex,
-                    limitedSubSize,
-                    subStart + offset,
+                addSubSection(
+                    calculateSubBorders(borders, subSections, subSectionX, subSectionY),
+                    subSize,
+                    subSectionX,
+                    subSectionY,
+                    MapPoint2d(),
+                    { subStart -> subStart + offset},
+                    addSubSection,
                 )
-
-                addSubSection(subSection, MapPoint2d())
             }
         }
+    }
+
+    private fun addSubSection(
+        subBorders: Borders,
+        subSize: MapSize2d,
+        subSectionX: Int,
+        subSectionY: Int,
+        addOffset: MapPoint2d,
+        calculateBuilderOffset: (MapPoint2d) -> MapPoint2d,
+        addSubSection: (SubSectionBuilder, MapPoint2d) -> Unit,
+    ) {
+        val subIndex = MapPoint2d(subSectionX, subSectionY)
+        val subStart = subIndex * subSize
+        val limitedSubSize = limitSubSize(subStart, subSize)
+        val subSection = SubSectionBuilder(
+            size,
+            subBorders,
+            map,
+            subIndex,
+            limitedSubSize,
+            calculateBuilderOffset(subStart),
+        )
+
+        addSubSection(subSection, addOffset)
     }
 
     private fun limitSubSize(subStart: MapPoint2d, subSize: MapSize2d): MapSize2d {
