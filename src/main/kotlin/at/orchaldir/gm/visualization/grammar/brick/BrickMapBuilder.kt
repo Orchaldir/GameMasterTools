@@ -36,6 +36,10 @@ open class BrickMapBuilder(
     }
 
     fun addHorizontalBrick(x: Int, y: Int, grammar: ShapeGrammar, length: Int) {
+        if (y < 0 || y >= size().height) {
+            return
+        }
+
         var limitedX = x
         var limitedLength = length
 
@@ -58,6 +62,10 @@ open class BrickMapBuilder(
     }
 
     fun addVerticalBrick(x: Int, y: Int, grammar: ShapeGrammar, length: Int) {
+        if (x < 0 || x >= size().width) {
+            return
+        }
+
         var limitedY = y
         var limitedLength = length
 
