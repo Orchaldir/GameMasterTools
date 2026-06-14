@@ -4,8 +4,10 @@ import at.orchaldir.gm.core.logger
 import at.orchaldir.gm.core.model.visualization.BrickPattern
 import at.orchaldir.gm.core.model.visualization.BrickPatternGrammar
 import at.orchaldir.gm.core.model.visualization.ShapeGrammar
+import at.orchaldir.gm.utils.map.MapPoint2d
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.map.TileMap2d
+import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.visualization.grammar.Borders
 import kotlin.math.floor
 
@@ -37,7 +39,7 @@ private fun createBasketWeavePattern(
     val evenOffsetY = builder.borders().calculateEvenOffsetY(grammar.size, n)
 
     builder.createSubSections(MapSize2d.square(n)) { sub ->
-        val start = sub.subIndex * n
+        val start = MapPoint2d()
         val indexForEven = (sub.subIndex.x + evenOffsetX + sub.subIndex.y + evenOffsetY) % 2
         val isEven = indexForEven == 0
 
@@ -45,14 +47,14 @@ private fun createBasketWeavePattern(
 
         if (isEven) {
             addHorizontalBasketWeaveN(
-                builder,
+                sub,
                 grammar.brick,
                 start,
                 n,
             )
         } else {
             addVerticalBasketWeaveN(
-                builder,
+                sub,
                 grammar.brick,
                 start,
                 n,

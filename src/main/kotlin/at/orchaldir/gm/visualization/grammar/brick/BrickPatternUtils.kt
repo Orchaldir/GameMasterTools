@@ -112,7 +112,7 @@ fun calculateSubBorders(
 )
 
 fun addHorizontalBasketWeaveN(
-    builder: BrickMapBuilder,
+    builder: SubSectionBuilder,
     brick: ShapeGrammar,
     start: MapPoint2d,
     n: Int,
@@ -123,7 +123,7 @@ fun addHorizontalBasketWeaveN(
 }
 
 fun addVerticalBasketWeaveN(
-    builder: BrickMapBuilder,
+    builder: SubSectionBuilder,
     brick: ShapeGrammar,
     start: MapPoint2d,
     n: Int,

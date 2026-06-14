@@ -3,7 +3,7 @@ package at.orchaldir.gm.utils.map
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class MapPoint2d(val x: Int, val y: Int) {
+data class MapPoint2d(val x: Int = 0, val y: Int = 0) {
 
 
     fun format() = "($x x $y)"
