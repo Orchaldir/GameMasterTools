@@ -15,15 +15,15 @@ data class Brick(
     override fun toString() = size.format()
 }
 
-data class BrickMapBuilder(
-    private val size: MapSize2d,
-    private val borders: Borders,
-    private val map: MutableList<Brick?>,
+open class BrickMapBuilder(
+    protected val size: MapSize2d,
+    protected val borders: Borders,
+    protected val map: MutableList<Brick?>,
 ) {
     constructor(size: MapSize2d, borders: Borders):
             this(size, borders, MutableList<Brick?>(size.tiles()) { null })
 
-    fun size() = size
+    open fun size() = size
     fun borders() = borders
 
     fun addSingleBlock(x: Int, y: Int, grammar: ShapeGrammar) {
@@ -45,16 +45,30 @@ data class BrickMapBuilder(
             } else {
                 return
             }
-        } else if (borders.right && x + length > size.width) {
-            val maxLength = size.width - x
+        } else if (borders.right && x + length > size().width) {
+            val maxLength = size().width - x
 
             limitedLength = length.coerceAtMost(maxLength)
         }
 
-        val mapIndex = size.toIndexRisky(limitedX, y)
+        addBrick(limitedX, y, Brick(grammar,  MapSize2d(limitedLength, 1)))
+    }
 
-        map[mapIndex] = Brick(grammar,  MapSize2d(limitedLength, 1))
+    protected fun addBrick(x: Int, y: Int, brick: Brick) {
+        val mapIndex = size.toIndexRisky(x, y)
+
+        map[mapIndex] = brick
     }
 
     fun finish() = TileMap2d(size, map)
+}
+
+class SubSectionBuilder(
+    size: MapSize2d,
+    borders: Borders,
+    map: MutableList<Brick?>,
+    private val subSize: MapSize2d,
+): BrickMapBuilder(size, borders, map) {
+
+    override fun size() = subSize
 }
