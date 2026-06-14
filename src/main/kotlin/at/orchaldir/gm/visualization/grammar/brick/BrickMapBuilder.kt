@@ -15,10 +15,12 @@ data class Brick(
 }
 
 data class BrickMapBuilder(
-    val size: MapSize2d,
-    val map: MutableList<Brick?>,
+    private val size: MapSize2d,
+    private val map: MutableList<Brick?>,
 ) {
     constructor(size: MapSize2d): this(size, MutableList<Brick?>(size.tiles()) { null })
+
+    fun size() = size
 
     fun addSingleBlock(x: Int, y: Int, grammar: ShapeGrammar) {
         val mapIndex = size.toIndexRisky(x, y)

@@ -3,6 +3,7 @@ package at.orchaldir.gm.visualization.grammar.brick
 import at.orchaldir.gm.core.logger
 import at.orchaldir.gm.core.model.visualization.BrickPattern
 import at.orchaldir.gm.core.model.visualization.BrickPatternGrammar
+import at.orchaldir.gm.core.model.visualization.ShapeGrammar
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.map.TileMap2d
 import at.orchaldir.gm.visualization.grammar.Borders
@@ -11,9 +12,23 @@ import kotlin.math.floor
 fun createBrickPattern(
     grammar: BrickPatternGrammar,
     borders: Borders,
+): TileMap2d<Brick?> {
+    val gridSize = grammar.size.size()
+    val builder = BrickMapBuilder(gridSize)
+
+    when (grammar.pattern) {
+        BrickPattern.Grid -> createGridPattern(builder, grammar.brick)
+        else -> return createBrickPatternOld(grammar, borders)
+    }
+
+    return builder.finish()
+}
+
+private fun createBrickPatternOld(
+    grammar: BrickPatternGrammar,
+    borders: Borders,
 ): TileMap2d<Brick?> = when (grammar.pattern) {
     BrickPattern.BasketWeave -> createBasketWeavePattern(grammar, borders)
-    BrickPattern.Grid -> createGridPattern(grammar)
     BrickPattern.Running -> createRunningPattern(grammar, borders)
     BrickPattern.Stack -> createStackPattern(grammar, borders)
     else -> error("Not supported!")
@@ -72,17 +87,15 @@ private fun createBasketWeavePattern(
     }
 }
 
-private fun createGridPattern(grammar: BrickPatternGrammar): TileMap2d<Brick?> {
-    val gridSize = grammar.size.size()
-    val builder = BrickMapBuilder(gridSize)
-
-    repeat(gridSize.height) { y ->
-        repeat(gridSize.width) { x ->
-            builder.addSingleBlock(x, y, grammar.brick)
+private fun createGridPattern(
+    builder: BrickMapBuilder,
+    brick: ShapeGrammar,
+) {
+    repeat(builder.size().height) { y ->
+        repeat(builder.size().width) { x ->
+            builder.addSingleBlock(x, y, brick)
         }
     }
-
-    return builder.finish()
 }
 
 private fun createRunningPattern(
