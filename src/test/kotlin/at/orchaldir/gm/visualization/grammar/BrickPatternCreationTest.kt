@@ -81,53 +81,67 @@ class BrickPatternCreationTest {
             }
         }
 
-        @Test
-        fun `Partial bricks on the left border`() {
-            val expected = line_5_SxH2xH2xW2 + line_5_SxExExW2 + line_5_H2xW2xH2xH2 + line_5_ExW2xExE
+        @Nested
+        inner class BorderCuttingOffBricksTest {
+            @Test
+            fun `Left border`() {
+                val expected = line_5_SxH2xH2xW2 + line_5_SxExExW2 + line_5_H2xW2xH2xH2 + line_5_ExW2xExE
 
-            testWithLeftAndRight(1, true, true, expected)
+                testWithLeftAndRight(1, true, true, expected)
+            }
+
+            @Test
+            fun `Right border`() {
+                val expected = line_5_W2xH2xH2xS + line_5_W2xExExS + line_5_H2xH2xW2xH2 + line_5_ExExW2xE
+
+                testWithLeftAndRight(0, true, true, expected)
+            }
+
+            @Test
+            fun `Bottom border`() {
+                val expected = line_6_W2xH2xH2xW2 + line_6_W2xExExW2 + line_6_SxSxW2xSxS
+
+                testWithTopAndBottom(0, true, true, expected)
+            }
+
+            @Test
+            fun `Top border`() {
+                val expected = line_6_SxSxW2xSxS + line_6_W2xH2xH2xW2 + line_6_W2xExExW2
+
+                testWithTopAndBottom(1, true, true, expected)
+            }
         }
 
-        @Test
-        fun `Partial bricks on the right border`() {
-            val expected = line_5_W2xH2xH2xS + line_5_W2xExExS + line_5_H2xH2xW2xH2 + line_5_ExExW2xE
+        @Nested
+        inner class BricksAcrossTheBorderTest {
 
-            testWithLeftAndRight(0, true, true, expected)
-        }
+            @Test
+            fun `Left border`() {
+                val expected = line_5_ExH2xH2xW2 + line_5_ExExExW2 + line_5_H2xW2xH2xH2 + line_5_ExW2xExE
 
-        @Test
-        fun `Partial bricks on the bottom border`() {
-            val expected = line_6_W2xH2xH2xW2 + line_6_W2xExExW2 + line_6_SxSxW2xSxS
+                testWithLeftAndRight(1, false, true, expected)
+            }
 
-            testWithTopAndBottom(0, true, true, expected)
-        }
+            @Test
+            fun `Right border`() {
+                val expected = line_5_W2xH2xH2xW2 + line_5_W2xExExW2 + line_5_H2xH2xW2xH2 + line_5_ExExW2xE
 
-        @Test
-        fun `Partial bricks on the top border`() {
-            val expected = line_6_SxSxW2xSxS +line_6_W2xH2xH2xW2 + line_6_W2xExExW2
+                testWithLeftAndRight(0, true, false, expected)
+            }
 
-            testWithTopAndBottom(1, true, true, expected)
-        }
+            @Test
+            fun `Bottom border`() {
+                val expected = line_6_W2xH2xH2xW2 + line_6_W2xExExW2 + line_6_H2xH2xW2xH2xH2
 
-        @Test
-        fun `Bricks across the left border`() {
-            val expected = line_5_ExH2xH2xW2 + line_5_ExExExW2 + line_5_H2xW2xH2xH2 + line_5_ExW2xExE
+                testWithTopAndBottom(0, true, false, expected)
+            }
 
-            testWithLeftAndRight(1, false, true, expected)
-        }
+            @Test
+            fun `Top border`() {
+                val expected = line_6_ExExW2xExE + line_6_W2xH2xH2xW2 + line_6_W2xExExW2
 
-        @Test
-        fun `Bricks across the right border`() {
-            val expected = line_5_W2xH2xH2xW2 + line_5_W2xExExW2 + line_5_H2xH2xW2xH2 + line_5_ExExW2xE
-
-            testWithLeftAndRight(0, true, false, expected)
-        }
-
-        @Test
-        fun `Bricks across the bottom border`() {
-            val expected = line_6_W2xH2xH2xW2 + line_6_W2xExExW2 + line_6_H2xH2xW2xH2xH2
-
-            testWithTopAndBottom(0, true, false, expected)
+                testWithTopAndBottom(1, false, true, expected)
+            }
         }
 
         private fun testPatterA(tileX: Int, tileY: Int) = test(tileX, tileY,
