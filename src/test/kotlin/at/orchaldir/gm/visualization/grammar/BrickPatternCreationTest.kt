@@ -7,6 +7,8 @@ import at.orchaldir.gm.core.model.visualization.RectangularShapeGrammar
 import at.orchaldir.gm.core.model.visualization.RowsAndColumns
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.map.assertTilemap
+import at.orchaldir.gm.visualization.grammar.brick.Brick
+import at.orchaldir.gm.visualization.grammar.brick.createBrickPattern
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 

@@ -1,4 +1,4 @@
-package at.orchaldir.gm.visualization.grammar
+package at.orchaldir.gm.visualization.grammar.brick
 
 import at.orchaldir.gm.core.logger
 import at.orchaldir.gm.core.model.visualization.BrickPattern
@@ -9,6 +9,9 @@ import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Size2d
+import at.orchaldir.gm.visualization.grammar.Borders
+import at.orchaldir.gm.visualization.grammar.GrammarRenderState
+import at.orchaldir.gm.visualization.grammar.visualizeShapeGrammar
 import kotlin.math.absoluteValue
 import kotlin.math.ceil
 import kotlin.math.floor

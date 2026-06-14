@@ -8,6 +8,7 @@ import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Size2d
+import at.orchaldir.gm.visualization.grammar.brick.visualizeBrickPatternGrammar
 
 fun visualizeShapeGrammar(
     state: GrammarRenderState,
