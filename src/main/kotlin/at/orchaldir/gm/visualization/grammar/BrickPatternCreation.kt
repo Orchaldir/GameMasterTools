@@ -47,12 +47,13 @@ private fun createBasketWeavePattern(
         val x = subSectionX * n
         val y = subSectionY * n
 
-        val isEven = (subSectionX + evenOffsetX + subSectionY + evenOffsetY) % 2
+        val indexForEven = (subSectionX + evenOffsetX + subSectionY + evenOffsetY) % 2
+        val isEven = indexForEven == 0
 
-        logger.info { "subSectionX=$subSectionX subSectionY=$subSectionY x=$x y=$y isEven=$isEven" }
+        logger.info { "subSectionX=$subSectionX subSectionY=$subSectionY x=$x y=$y indexForEven=$indexForEven" }
         logger.info { "subBorders=$subBorders offset=$offset" }
 
-        if (isEven == 0) {
+        if (isEven) {
             addHorizontalBasketWeaveN(
                 grid,
                 grammar.brick,
@@ -194,6 +195,10 @@ private fun createSubSections(
     val gridSize = grammarSize.size()
     val grid = MutableList<Brick?>(gridSize.tiles()) { null }
     val offset = borders.calculateTileOffset2(gridSize, subSectionSize)
+    val leftOffset = MapPoint2d(
+        offset.x - subSectionSize.width,
+        offset.y,
+    )
     val limitedGridSize = gridSize - offset
     val subSections = MapSize2d(
         ceil((gridSize.width - offset.x) / subSectionSize.width.toDouble()).toInt(),
@@ -201,6 +206,20 @@ private fun createSubSections(
     )
 
     repeat(subSections.height) { subSectionY ->
+        if (borders.left) {
+            val subBorders = Borders(false, -1, subSectionY)
+
+            addSubSection(
+                grid,
+                -1,
+                subSectionY,
+                gridSize,
+                limitedGridSize,
+                subBorders,
+                offset,
+            )
+        }
+
         repeat(subSections.width) { subSectionX ->
             val subBorders = calculateSubBorders(borders, subSections, subSectionX, subSectionY)
 
@@ -262,9 +281,10 @@ private fun addHorizontalBasketWeaveN(
 ) {
     val length = borders.limitWidth(limitedGridSize, x, n)
     val blocks = MapSize2d(length, 1)
+    val startY = y.coerceAtLeast(0)
+    val lastY = y + n
 
-    repeat(n) { i ->
-        val currentY = y + i
+    for (currentY in startY..<lastY) {
 
         if (currentY < limitedGridSize.height) {
             val gridIndex = gridSize.toIndexRisky(x + offset.x, currentY + offset.y)
@@ -287,10 +307,10 @@ private fun addVerticalBasketWeaveN(
 ) {
     val length = borders.limitHeight(limitedGridSize, y, n)
     val blocks = MapSize2d(1, length)
+    val startX = x.coerceAtLeast(0)
+    val lastX = x + n
 
-    repeat(n) { i ->
-        val currentX = x + i
-
+    for (currentX in startX..<lastX) {
         if (currentX < limitedGridSize.width) {
             val gridIndex = gridSize.toIndexRisky(currentX + offset.x, y + offset.y)
 
