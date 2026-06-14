@@ -1,12 +1,10 @@
 package at.orchaldir.gm.visualization.grammar.brick
 
-import at.orchaldir.gm.core.logger
 import at.orchaldir.gm.core.model.visualization.DoNothingShapeGrammar
 import at.orchaldir.gm.core.model.visualization.ShapeGrammar
 import at.orchaldir.gm.utils.map.MapPoint2d
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.map.TileMap2d
-import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.visualization.grammar.Borders
 import kotlin.math.ceil
 
@@ -110,8 +108,6 @@ open class BrickMapBuilder(
             addSubSection(
                 Borders(top = borders.top, tileX = subSectionX, tileY =  -1),
                 subSize,
-                subSectionX,
-                -1,
                 MapPoint2d(
                     offset.x,
                     offset.y - subSize.height,
@@ -126,8 +122,6 @@ open class BrickMapBuilder(
             addSubSection(
                 Borders(left = borders.left, tileX = -1, tileY = subSectionY),
                 subSize,
-                -1,
-                subSectionY,
                 MapPoint2d(
                     offset.x - subSize.width,
                     offset.y,
@@ -143,8 +137,6 @@ open class BrickMapBuilder(
                 addSubSection(
                     calculateSubBorders(borders, subSections, subSectionX, subSectionY),
                     subSize,
-                    subSectionX,
-                    subSectionY,
                     MapPoint2d(),
                     { subStart -> subStart + offset},
                     addSubSection,
@@ -156,13 +148,11 @@ open class BrickMapBuilder(
     private fun addSubSection(
         subBorders: Borders,
         subSize: MapSize2d,
-        subSectionX: Int,
-        subSectionY: Int,
         addOffset: MapPoint2d,
         calculateBuilderOffset: (MapPoint2d) -> MapPoint2d,
         addSubSection: (SubSectionBuilder, MapPoint2d) -> Unit,
     ) {
-        val subIndex = MapPoint2d(subSectionX, subSectionY)
+        val subIndex = MapPoint2d(subBorders.tileX, subBorders.tileY)
         val subStart = subIndex * subSize
         val limitedSubSize = limitSubSize(subStart, subSize)
         val subSection = SubSectionBuilder(
