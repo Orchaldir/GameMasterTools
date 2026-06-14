@@ -18,35 +18,35 @@ class BrickPatternCreationTest {
     private val singleBrick = Brick(brickGrammar, MapSize2d(1, 1))
     private val brickW2 = Brick(brickGrammar, MapSize2d(2, 1))
     private val brickH2 = Brick(brickGrammar, MapSize2d(1, 2))
+
+    private val line_3_ExW2 = listOf(null, brickW2, null)
     private val line_3_SxW2 = listOf(singleBrick, brickW2, null)
     private val line_3_W2xS = listOf(brickW2, null, singleBrick)
     private val line_3_W2xW2 = listOf(brickW2, null, brickW2)
-    private val line_3_ExW2 = listOf(null, brickW2, null)
     private val line_4_SxW2xS = listOf(singleBrick, brickW2, null, singleBrick)
     private val line_4_W2xW2 = listOf(brickW2, null, brickW2, null)
-    private val line_5_W2xH2xH2 = listOf(brickW2, null, brickH2, brickH2)
-    private val line_5_W2xH2xH2xS = line_5_W2xH2xH2 + singleBrick
-    private val line_5_W2xH2xH2xW2 = line_5_W2xH2xH2 + brickW2
+    private val line_5_ExExExW2 = listOf(null, null, null, brickW2, null)
+    private val line_5_ExExW2xE = listOf(null, null, brickW2, null, null)
+    private val line_5_ExH2xH2xW2 = listOf(null, brickH2, brickH2, brickW2, null)
+    private val line_5_ExW2xExE = listOf(null, brickW2, null, null, null)
+    private val line_5_H2xH2xW2xH2 = listOf(brickH2, brickH2, brickW2, null, brickH2)
+    private val line_5_H2xW2xH2xH2 = listOf(brickH2, brickW2, null, brickH2, brickH2)
+    private val line_5_SxExExW2 = listOf(singleBrick, null, null, brickW2, null)
+    private val line_5_SxH2xH2xW2 = listOf(singleBrick, brickH2, brickH2, brickW2, null)
     private val line_5_W2xExE = listOf(brickW2, null, null, null)
     private val line_5_W2xExExS = line_5_W2xExE + singleBrick
     private val line_5_W2xExExW2 = line_5_W2xExE + brickW2
-    private val line_5_H2xH2xW2xH2 = listOf(brickH2, brickH2, brickW2, null, brickH2)
-    private val line_5_ExExW2xE = listOf(null, null, brickW2, null, null)
-    private val line_5_ExW2xH2xH2 = listOf(null, brickH2, null, brickH2, brickH2)
-    private val line_5_SxH2xH2xW2 = listOf(singleBrick, brickH2, brickH2, brickW2, null)
-    private val line_5_ExW2xExE = listOf(null, brickW2, null, null, null)
-    private val line_5_ExH2xH2xW2 = listOf(null, brickH2, brickH2, brickW2, null)
-    private val line_5_SxExExW2 = listOf(singleBrick, null, null, brickW2, null)
-    private val line_5_ExExExW2 = listOf(null, null, null, brickW2, null)
-    private val line_5_H2xW2xH2xH2 = listOf(brickH2, brickW2, null, brickH2, brickH2)
-    private val line_6_W2xH2xH2xW2 = listOf(brickW2, null, brickH2, brickH2, brickW2, null)
-    private val line_6_W2xExExW2 = listOf(brickW2, null, null, null, brickW2, null)
+    private val line_5_W2xH2xH2 = listOf(brickW2, null, brickH2, brickH2)
+    private val line_5_W2xH2xH2xS = line_5_W2xH2xH2 + singleBrick
+    private val line_5_W2xH2xH2xW2 = line_5_W2xH2xH2 + brickW2
+    private val line_6_ExExW2xExE = listOf(null, null, brickW2, null, null, null)
     private val line_6_H2xH2xW2xH2xH2 = listOf(brickH2, brickH2, brickW2, null, brickH2, brickH2)
     private val line_6_SxSxW2xSxS = listOf(singleBrick, singleBrick, brickW2, null, singleBrick, singleBrick)
-    private val line_6_ExExW2xExE = listOf(null, null, brickW2, null, null, null)
+    private val line_6_W2xExExW2 = listOf(brickW2, null, null, null, brickW2, null)
+    private val line_6_W2xH2xH2xW2 = listOf(brickW2, null, brickH2, brickH2, brickW2, null)
 
     @Nested
-    inner class CreateBasketWeavePatternTest {
+    inner class CreateBasketWeavePatternWithLength2Test {
 
         @Nested
         inner class HorizontalAndVerticalRepetitionTest {
@@ -79,6 +79,14 @@ class BrickPatternCreationTest {
                 testPatterB(1, 2)
                 testPatterA(2, 2)
             }
+
+            private fun testPatterA(tileX: Int, tileY: Int) = test(tileX, tileY,
+                line_6_W2xH2xH2xW2 + line_6_W2xExExW2 + line_6_H2xH2xW2xH2xH2 + line_6_ExExW2xExE,
+            )
+
+            private fun testPatterB(tileX: Int, tileY: Int) = test(tileX, tileY,
+                line_6_H2xH2xW2xH2xH2 + line_6_ExExW2xExE + line_6_W2xH2xH2xW2 + line_6_W2xExExW2,
+            )
         }
 
         @Nested
@@ -144,14 +152,6 @@ class BrickPatternCreationTest {
             }
         }
 
-        private fun testPatterA(tileX: Int, tileY: Int) = test(tileX, tileY,
-            line_6_W2xH2xH2xW2 + line_6_W2xExExW2 + line_6_H2xH2xW2xH2xH2 + line_6_ExExW2xExE,
-        )
-
-        private fun testPatterB(tileX: Int, tileY: Int) = test(tileX, tileY,
-             line_6_H2xH2xW2xH2xH2 + line_6_ExExW2xExE + line_6_W2xH2xH2xW2 + line_6_W2xExExW2,
-        )
-
         private fun test(tileX: Int, tileY: Int, expected: List<Brick?>) {
             val size = MapSize2d(6, 4)
             val pattern = BrickPatternGrammar(
@@ -180,18 +180,63 @@ class BrickPatternCreationTest {
                 expected,
             )
 
-        private fun test(size: MapSize2d, borders: Borders, expected: List<Brick?>) {
-            val pattern = BrickPatternGrammar(
-                brickGrammar,
-                RowsAndColumns(size),
-                BrickPattern.BasketWeave,
-                2,
+        private fun test(size: MapSize2d, borders: Borders, expected: List<Brick?>) =
+            test(size, BrickPattern.BasketWeave, 2, borders, expected)
+    }
+
+    @Nested
+    inner class CreateBasketWeavePatternWithLength3Test {
+
+        @Nested
+        inner class HorizontalAndVerticalRepetitionTest {
+
+            @Test
+            fun `Test origin tile`() {
+                testPatterA(0, 0)
+            }
+
+            @Test
+            fun `Alternate Pattern 1 tile to the right`() {
+                testPatterB(1, 0)
+            }
+
+            @Test
+            fun `Same Pattern 2 tiles to the right`() {
+                testPatterA(2, 0)
+            }
+
+            @Test
+            fun `Same Pattern 1 tile to the bottom`() {
+                testPatterA(0, 1)
+                testPatterB(1, 1)
+                testPatterA(2, 1)
+            }
+
+            @Test
+            fun `Same Pattern 2 tiles to the bottom`() {
+                testPatterA(0, 2)
+                testPatterB(1, 2)
+                testPatterA(2, 2)
+            }
+
+            private fun testPatterA(tileX: Int, tileY: Int) = test(tileX, tileY,
+                line_6_W2xH2xH2xW2 + line_6_W2xExExW2 + line_6_H2xH2xW2xH2xH2 + line_6_ExExW2xExE,
             )
 
-            val result = createBrickPattern(pattern, borders)
-
-            assertTilemap(result, size, expected)
+            private fun testPatterB(tileX: Int, tileY: Int) = test(tileX, tileY,
+                line_6_H2xH2xW2xH2xH2 + line_6_ExExW2xExE + line_6_W2xH2xH2xW2 + line_6_W2xExExW2,
+            )
         }
+
+        private fun test(tileX: Int, tileY: Int, expected: List<Brick?>) {
+            val size = MapSize2d(3, 2)
+            val borders = Borders(true, tileX, tileY)
+
+            test(size, borders, expected)
+        }
+
+        private fun test(size: MapSize2d, borders: Borders, expected: List<Brick?>) =
+            test(size, BrickPattern.BasketWeave, 3, borders, expected)
     }
 
     @Nested
@@ -248,33 +293,20 @@ class BrickPatternCreationTest {
 
         private fun testWithoutPartialBricks(tileX: Int) {
             val size = MapSize2d(4, 2)
-            val pattern = BrickPatternGrammar(
-                brickGrammar,
-                RowsAndColumns(size),
-                BrickPattern.Running,
-                2,
-            )
             val borders = Borders(true, tileX)
 
-            val result = createBrickPattern(pattern, borders)
-
-            assertTilemap(result, size, line_4_W2xW2 + line_4_SxW2xS)
+            test(size, borders, line_4_W2xW2 + line_4_SxW2xS)
         }
 
         private fun testWithPartialBricks(tileX: Int, isLeft: Boolean, isRight: Boolean, expected: List<Brick?>) {
             val size = MapSize2d(3, 2)
-            val pattern = BrickPatternGrammar(
-                brickGrammar,
-                RowsAndColumns(size),
-                BrickPattern.Running,
-                2,
-            )
             val borders = Borders(true, isLeft, isRight, true, tileX)
 
-            val result = createBrickPattern(pattern, borders)
-
-            assertTilemap(result, size, expected)
+            test(size, borders, expected)
         }
+
+        private fun test(size: MapSize2d, borders: Borders, expected: List<Brick?>) =
+            test(size, BrickPattern.Running, 2, borders, expected)
     }
 
     @Nested
@@ -310,33 +342,32 @@ class BrickPatternCreationTest {
             testWithPartialBricks(1, false, line_3_ExW2 + line_3_ExW2)
         }
 
-        private fun testWithoutPartialBricks(tileX: Int) {
-            val size = MapSize2d(4, 2)
-            val pattern = BrickPatternGrammar(
-                brickGrammar,
-                RowsAndColumns(size),
-                BrickPattern.Stack,
-                2,
-            )
+        private fun testWithoutPartialBricks(tileX: Int) =
+            test(MapSize2d(4, 2), tileX, true, line_4_W2xW2 + line_4_W2xW2)
 
-            val result = createBrickPattern(pattern, Borders(true, tileX))
+        private fun testWithPartialBricks(tileX: Int, isBorder: Boolean, expected: List<Brick?>) =
+            test(MapSize2d(3, 2), tileX, isBorder, expected)
 
-            assertTilemap(result, size, line_4_W2xW2 + line_4_W2xW2)
-        }
-
-        private fun testWithPartialBricks(tileX: Int, isBorder: Boolean, expected: List<Brick?>) {
-            val size = MapSize2d(3, 2)
-            val pattern = BrickPatternGrammar(
-                brickGrammar,
-                RowsAndColumns(size),
-                BrickPattern.Stack,
-                2,
-            )
-
-            val result = createBrickPattern(pattern, Borders(isBorder, tileX))
-
-            assertTilemap(result, size, expected)
-        }
+        private fun test(size: MapSize2d, tileX: Int, isBorder: Boolean, expected: List<Brick?>) =
+            test(size, BrickPattern.Stack, 2, Borders(isBorder, tileX), expected)
     }
 
+    private fun test(
+        size: MapSize2d,
+        pattern: BrickPattern,
+        length: Int,
+        borders: Borders,
+        expected: List<Brick?>,
+    ) {
+        val grammar = BrickPatternGrammar(
+            brickGrammar,
+            RowsAndColumns(size),
+            pattern,
+            length,
+        )
+
+        val result = createBrickPattern(grammar, borders)
+
+        assertTilemap(result, size, expected)
+    }
 }
