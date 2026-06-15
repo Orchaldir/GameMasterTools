@@ -148,14 +148,15 @@ abstract class BrickMapBuilder(
     ) {
         val subIndex = MapPoint2d(subBorders.tileX, subBorders.tileY)
         val subStart = subIndex * subSize
-        val limitedSubSize = limitSubSize(subStart, subSize)
+        val bOffset = calculateBuilderOffset(subStart)
+        val limitedSubSize = limitSubSize(bOffset, subSize)
         val subSection = SubSectionBuilder(
             size,
             subBorders,
             map,
             subIndex,
             limitedSubSize,
-            calculateBuilderOffset(subStart),
+            bOffset,
         )
 
         addSubSection(subSection, addOffset)

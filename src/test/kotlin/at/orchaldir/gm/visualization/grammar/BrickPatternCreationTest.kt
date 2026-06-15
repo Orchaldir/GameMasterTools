@@ -27,9 +27,12 @@ class BrickPatternCreationTest {
     private val line_3_W2xW2 = listOf(brickW2, null, brickW2)
     private val line_4_SxW2xS = listOf(singleBrick, brickW2, null, singleBrick)
     private val line_4_W2xW2 = listOf(brickW2, null, brickW2, null)
+    private val line_4_W2xH3xH3 = listOf(brickW2, null, brickH3, brickH3)
     private val line_4_H3xH3xH3xS = listOf(brickH3, brickH3, brickH3, singleBrick)
+    private val line_4_H3xH3xExE = listOf(brickH3, brickH3, null, null)
     private val line_4_ExExExH3 = listOf(null, null, null, brickH3)
     private val line_4_ExExExE = listOf(null, null, null, null)
+    private val line_4_ExExW2 = listOf(null, null, brickW2, null)
     private val line_4_W3xE = listOf(brickW3, null, null, null)
     private val line_5_ExExExW2 = listOf(null, null, null, brickW2, null)
     private val line_5_ExExW2xE = listOf(null, null, brickW2, null, null)
@@ -305,14 +308,14 @@ class BrickPatternCreationTest {
 
         @Nested
         inner class BorderCuttingOffBricksTest {
-            /*
+
             @Test
             fun `Left border`() {
-                val expected = line_4_H3xH3xH3xS + line_4_ExExExH3 + line_4_ExExExE + line_4_W3xE
+                val expected = line_4_W2xH3xH3 + line_4_H3xH3xExE + line_4_ExExExE + line_4_ExExW2
 
                 testWithLeftAndRight(1, true, true, expected)
             }
-            */
+
             @Test
             fun `Right border`() {
                 val expected = line_4_H3xH3xH3xS + line_4_ExExExH3 + line_4_ExExExE + line_4_W3xE
