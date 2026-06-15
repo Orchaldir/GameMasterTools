@@ -14,7 +14,7 @@ fun createBrickPattern(
     borders: Borders,
 ): TileMap2d<Brick?> {
     val gridSize = grammar.size.size()
-    val builder = BrickMapBuilder(gridSize, borders)
+    val builder = SimpleBrickMapBuilder(gridSize, borders)
 
     when (grammar.pattern) {
         BrickPattern.BasketWeaveSingle -> createBasketWeaveSinglePattern(builder, grammar)
@@ -55,7 +55,7 @@ private fun createBasketWeaveSinglePattern(
             basketWeavePosition,
             n,
         )
-        builder.addHorizontalBrick(start.x, brickY, grammar.brick, n)
+        sub.addHorizontalBrick(start.x, brickY, grammar.brick, n)
     }
 }
 

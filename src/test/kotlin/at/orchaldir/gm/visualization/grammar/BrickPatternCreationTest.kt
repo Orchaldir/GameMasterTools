@@ -42,13 +42,14 @@ class BrickPatternCreationTest {
     private val line_5_W2xH2xH2xS = line_5_W2xH2xH2 + singleBrick
     private val line_5_W2xH2xH2xW2 = line_5_W2xH2xH2 + brickW2
     private val line_6_ExExExExExE = listOf(null, null, null, null, null, null)
+    private val line_6_ExExExH3xH3xH3 = listOf(null, null, null, brickH3, brickH3, brickH3)
     private val line_6_ExExW2xExE = listOf(null, null, brickW2, null, null, null)
     private val line_6_H2xH2xW2xH2xH2 = listOf(brickH2, brickH2, brickW2, null, brickH2, brickH2)
     private val line_6_H3xH3xH3xW3 = listOf(brickH3, brickH3, brickH3, brickW3, null, null)
     private val line_6_SxSxW2xSxS = listOf(singleBrick, singleBrick, brickW2, null, singleBrick, singleBrick)
     private val line_6_W2xExExW2 = listOf(brickW2, null, null, null, brickW2, null)
     private val line_6_W2xH2xH2xW2 = listOf(brickW2, null, brickH2, brickH2, brickW2, null)
-    private val line_6_W3xExExE = listOf(brickW2, null, brickH2, brickH2, brickW2, null)
+    private val line_6_W3xExExE = listOf(brickW3, null, null, null, null, null)
     private val line_9_W3xH3xH3xH3xW3 = listOf(brickW3, null, null, brickH3, brickH3, brickH3, brickW3, null, null)
     private val line_9_W3xExExExW3 = listOf(brickW3, null, null, null, null, null, brickW3, null, null)
     private val line_9_H3xH3xH3xW3xH3xH3xH3 = listOf(brickH3, brickH3, brickH3, brickW3, null, null, brickH3, brickH3, brickH3)
@@ -292,7 +293,7 @@ class BrickPatternCreationTest {
 
             private fun testDefault(tileX: Int, tileY: Int) = test(tileX, tileY,
                 line_6_H3xH3xH3xW3 +
-                        line_6_ExExExExExE+
+                        line_6_ExExExH3xH3xH3+
                         line_6_ExExExExExE+
                         line_6_W3xExExE,
             )
