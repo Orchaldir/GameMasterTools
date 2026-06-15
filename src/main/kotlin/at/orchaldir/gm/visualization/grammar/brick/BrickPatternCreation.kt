@@ -1,14 +1,12 @@
 package at.orchaldir.gm.visualization.grammar.brick
 
-import at.orchaldir.gm.core.logger
 import at.orchaldir.gm.core.model.visualization.BrickPattern
 import at.orchaldir.gm.core.model.visualization.BrickPatternGrammar
 import at.orchaldir.gm.core.model.visualization.ShapeGrammar
-import at.orchaldir.gm.utils.map.MapPoint2d
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.map.TileMap2d
-import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.visualization.grammar.Borders
+import at.orchaldir.gm.visualization.grammar.visualizeShapeGrammar
 import kotlin.math.floor
 
 fun createBrickPattern(
@@ -19,6 +17,7 @@ fun createBrickPattern(
     val builder = BrickMapBuilder(gridSize, borders)
 
     when (grammar.pattern) {
+        BrickPattern.BasketWeaveSingle -> createBasketWeaveSinglePattern(builder, grammar)
         BrickPattern.BasketWeave -> createBasketWeavePattern(builder, grammar)
         BrickPattern.Grid -> createGridPattern(builder, grammar.brick)
         BrickPattern.Running -> createRunningPattern(builder, grammar)
@@ -27,6 +26,37 @@ fun createBrickPattern(
     }
 
     return builder.finish()
+}
+
+private fun createBasketWeaveSinglePattern(
+    builder: BrickMapBuilder,
+    grammar: BrickPatternGrammar,
+) {
+    val n = grammar.length
+    val evenOffset = builder.borders().calculateEvenOffsetX(grammar.size, n)
+
+    builder.createSubSections(MapSize2d(n, n + 1)) { sub, start ->
+        val indexForEven = (sub.subIndex.x + evenOffset) % 2
+        val isEven = indexForEven == 0
+        val basketWeavePosition = if (isEven) {
+            start
+        } else {
+            start.modifyY(1)
+        }
+        val brickY = if (isEven) {
+            start.y + n
+        } else {
+            start.y
+        }
+
+        addVerticalBasketWeaveN(
+            sub,
+            grammar.brick,
+            basketWeavePosition,
+            n,
+        )
+        builder.addHorizontalBrick(start.x, brickY, grammar.brick, n)
+    }
 }
 
 private fun createBasketWeavePattern(
@@ -41,12 +71,6 @@ private fun createBasketWeavePattern(
     builder.createSubSections(MapSize2d.square(n)) { sub, start ->
         val indexForEven = (sub.subIndex.x + evenOffsetX + sub.subIndex.y + evenOffsetY) % 2
         val isEven = indexForEven == 0
-
-        logger.info { "start=$start indexForEven=$indexForEven" }
-
-        if (sub.subIndex.x == -1) {
-            logger.info { "test" }
-        }
 
         if (isEven) {
             addHorizontalBasketWeaveN(

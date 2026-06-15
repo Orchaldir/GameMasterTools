@@ -26,8 +26,8 @@ fun main() {
         RectangularShapeGrammar(
             MadeFromWood(color = Color.Gray),
         ),
-        RowsAndColumns(9, 6),
-        BrickPattern.BasketWeave,
+        RowsAndColumns(6, 4),
+        BrickPattern.BasketWeaveSingle,
         3,
     )
     val tileMap = TileMap2d(MapSize2d(1, 1), grammar)

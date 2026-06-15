@@ -5,8 +5,10 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class MapPoint2d(val x: Int = 0, val y: Int = 0) {
 
-
     fun format() = "($x x $y)"
+
+    fun modifyX(modifier: Int) = MapPoint2d(x + modifier, y)
+    fun modifyY(modifier: Int) = MapPoint2d(x, y + modifier)
 
     operator fun plus(other: MapPoint2d) = MapPoint2d(x + other.x, y + other.y)
     operator fun minus(other: MapPoint2d) = MapPoint2d(x - other.x, y - other.y)

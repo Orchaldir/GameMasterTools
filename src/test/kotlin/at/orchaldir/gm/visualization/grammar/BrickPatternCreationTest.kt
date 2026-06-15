@@ -41,11 +41,14 @@ class BrickPatternCreationTest {
     private val line_5_W2xH2xH2 = listOf(brickW2, null, brickH2, brickH2)
     private val line_5_W2xH2xH2xS = line_5_W2xH2xH2 + singleBrick
     private val line_5_W2xH2xH2xW2 = line_5_W2xH2xH2 + brickW2
+    private val line_6_ExExExExExE = listOf(null, null, null, null, null, null)
     private val line_6_ExExW2xExE = listOf(null, null, brickW2, null, null, null)
     private val line_6_H2xH2xW2xH2xH2 = listOf(brickH2, brickH2, brickW2, null, brickH2, brickH2)
+    private val line_6_H3xH3xH3xW3 = listOf(brickH3, brickH3, brickH3, brickW3, null, null)
     private val line_6_SxSxW2xSxS = listOf(singleBrick, singleBrick, brickW2, null, singleBrick, singleBrick)
     private val line_6_W2xExExW2 = listOf(brickW2, null, null, null, brickW2, null)
     private val line_6_W2xH2xH2xW2 = listOf(brickW2, null, brickH2, brickH2, brickW2, null)
+    private val line_6_W3xExExE = listOf(brickW2, null, brickH2, brickH2, brickW2, null)
     private val line_9_W3xH3xH3xH3xW3 = listOf(brickW3, null, null, brickH3, brickH3, brickH3, brickW3, null, null)
     private val line_9_W3xExExExW3 = listOf(brickW3, null, null, null, null, null, brickW3, null, null)
     private val line_9_H3xH3xH3xW3xH3xH3xH3 = listOf(brickH3, brickH3, brickH3, brickW3, null, null, brickH3, brickH3, brickH3)
@@ -59,7 +62,7 @@ class BrickPatternCreationTest {
             line_9_ExExExW3xExExE
 
     @Nested
-    inner class CreateBasketWeavePatternWithLength2Test {
+    inner class BasketWeavePatternWithLength2Test {
 
         @Nested
         inner class HorizontalAndVerticalRepetitionTest {
@@ -198,7 +201,7 @@ class BrickPatternCreationTest {
     }
 
     @Nested
-    inner class CreateBasketWeavePatternWithLength3Test {
+    inner class BasketWeavePatternWithLength3Test {
 
         @Nested
         inner class HorizontalAndVerticalRepetitionTest {
@@ -253,7 +256,61 @@ class BrickPatternCreationTest {
     }
 
     @Nested
-    inner class CreateGridPatternTest {
+    inner class BasketWeaveSinglePatternWithLength3Test {
+
+        @Nested
+        inner class HorizontalAndVerticalRepetitionTest {
+
+            @Test
+            fun `Test origin tile`() {
+                testDefault(0, 0)
+            }
+
+            @Test
+            fun `Alternate Pattern 1 tile to the right`() {
+                testDefault(1, 0)
+            }
+
+            @Test
+            fun `Same Pattern 2 tiles to the right`() {
+                testDefault(2, 0)
+            }
+
+            @Test
+            fun `Same Pattern 1 tile to the bottom`() {
+                testDefault(0, 1)
+                testDefault(1, 1)
+                testDefault(2, 1)
+            }
+
+            @Test
+            fun `Same Pattern 2 tiles to the bottom`() {
+                testDefault(0, 2)
+                testDefault(1, 2)
+                testDefault(2, 2)
+            }
+
+            private fun testDefault(tileX: Int, tileY: Int) = test(tileX, tileY,
+                line_6_H3xH3xH3xW3 +
+                        line_6_ExExExExExE+
+                        line_6_ExExExExExE+
+                        line_6_W3xExExE,
+            )
+        }
+
+        private fun test(tileX: Int, tileY: Int, expected: List<Brick?>) {
+            val size = MapSize2d(6, 4)
+            val borders = Borders(true, tileX, tileY)
+
+            test(size, borders, expected)
+        }
+
+        private fun test(size: MapSize2d, borders: Borders, expected: List<Brick?>) =
+            test(size, BrickPattern.BasketWeaveSingle, 3, borders, expected)
+    }
+
+    @Nested
+    inner class GridPatternTest {
 
         @Test
         fun `Test creating a grid`() {
@@ -272,7 +329,7 @@ class BrickPatternCreationTest {
     }
 
     @Nested
-    inner class CreateRunningPatternTest {
+    inner class RunningPatternTest {
 
         @Test
         fun `Even lines with full bricks`() {
@@ -323,7 +380,7 @@ class BrickPatternCreationTest {
     }
 
     @Nested
-    inner class CreateStackPatternTest {
+    inner class StackPatternTest {
 
         @Test
         fun `Without partial bricks`() {
