@@ -113,8 +113,8 @@ private fun createHerringbone(
     val doubleN = n * 2
     val types = n + 1
 
-    builder.createSubSections(MapSize2d.square(n)) { sub, start ->
-        repeat(n) { y ->
+    builder.createSubSections(MapSize2d.square(doubleN)) { sub, start ->
+        repeat(doubleN) { y ->
             var x = 0
             var type = (types - y) % types
 
@@ -124,16 +124,28 @@ private fun createHerringbone(
                 logger.info { "x=$x type=$type" }
 
                 if (type <= 0) {
+                    val isBrickSharedLeft = x == 0 && y > 0
+
+                    if (isBrickSharedLeft) {
+                        x += 1 + type.absoluteValue
+                        type = 1
+                        continue
+                    }
+
                     sub.addHorizontalBrick(x, y, grammar.brick, n)
 
+                    logger.info { "add Horizontal" }
+                    type = 0
                     x += n
                 } else if (type < n) {
                     // vertical brick that started in a row above
+                    logger.info { "skip Vertical" }
                     x++
                 } else {
                     // vertical brick
 
                     sub.addVerticalBrick(x, y, grammar.brick, n)
+                    logger.info { "add Vertical" }
 
                     x++
                 }
