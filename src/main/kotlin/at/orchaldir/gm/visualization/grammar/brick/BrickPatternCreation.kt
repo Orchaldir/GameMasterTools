@@ -1,5 +1,6 @@
 package at.orchaldir.gm.visualization.grammar.brick
 
+import at.orchaldir.gm.core.logger
 import at.orchaldir.gm.core.model.visualization.BrickPattern
 import at.orchaldir.gm.core.model.visualization.BrickPatternGrammar
 import at.orchaldir.gm.core.model.visualization.ShapeGrammar
@@ -7,6 +8,7 @@ import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.map.TileMap2d
 import at.orchaldir.gm.visualization.grammar.Borders
 import at.orchaldir.gm.visualization.grammar.visualizeShapeGrammar
+import kotlin.math.absoluteValue
 import kotlin.math.floor
 
 fun createBrickPattern(
@@ -20,9 +22,9 @@ fun createBrickPattern(
         BrickPattern.BasketWeaveSingle -> createBasketWeaveSinglePattern(builder, grammar)
         BrickPattern.BasketWeave -> createBasketWeavePattern(builder, grammar)
         BrickPattern.Grid -> createGridPattern(builder, grammar.brick)
+        BrickPattern.Herringbone -> createHerringbone(builder, grammar)
         BrickPattern.Running -> createRunningPattern(builder, grammar)
         BrickPattern.Stack -> createStackPattern(builder, grammar)
-        else -> error("Not supported!")
     }
 
     return builder.finish()
@@ -99,6 +101,45 @@ private fun createGridPattern(
     repeat(builder.size().height) { y ->
         repeat(builder.size().width) { x ->
             builder.addSingleBlock(x, y, brick)
+        }
+    }
+}
+
+private fun createHerringbone(
+    builder: BrickMapBuilder,
+    grammar: BrickPatternGrammar,
+) {
+    val n = grammar.length
+    val doubleN = n * 2
+    val types = n + 1
+
+    builder.createSubSections(MapSize2d.square(n)) { sub, start ->
+        repeat(n) { y ->
+            var x = 0
+            var type = (types - y) % types
+
+            logger.info { "y=$y types=$types type=$type" }
+
+            while (x < doubleN) {
+                logger.info { "x=$x type=$type" }
+
+                if (type <= 0) {
+                    sub.addHorizontalBrick(x, y, grammar.brick, n)
+
+                    x += n
+                } else if (type < n) {
+                    // vertical brick that started in a row above
+                    x++
+                } else {
+                    // vertical brick
+
+                    sub.addVerticalBrick(x, y, grammar.brick, n)
+
+                    x++
+                }
+
+                type = (type + 1) % types
+            }
         }
     }
 }

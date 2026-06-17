@@ -135,8 +135,8 @@ data class SettlementRenderer(
     fun renderStreetsWithConnections(
         render: (AABB, StreetTile, Int) -> Unit,
     ) {
-        val right = Point2d.xAxis(tileRenderer.tileSize / 2)
-        val down = Point2d.yAxis(tileRenderer.tileSize / 2)
+        val right = Point2d.xAxis(tileRenderer.tileSize.width / 2)
+        val down = Point2d.yAxis(tileRenderer.tileSize.height / 2)
 
         tileRenderer.render(settlement.map) { index, x, y, aabb, tile ->
             if (tile.construction is StreetTile) {
@@ -172,7 +172,7 @@ data class SettlementRenderer(
         color: Color,
     ) {
         val start = tileRenderer.calculateTilePosition(settlement.map, tileIndex)
-        val size = tileRenderer.calculateLotSize(size)
+        val size = tileRenderer.calculateAreaSize(size)
         val aabb = AABB(start, size).shrink(HALF)
         val style = NoBorder(color.toRender())
 
