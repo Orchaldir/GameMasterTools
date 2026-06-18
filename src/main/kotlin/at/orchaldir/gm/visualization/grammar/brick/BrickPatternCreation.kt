@@ -124,12 +124,19 @@ private fun createHerringbone(
                 val isBrickSharedLeft = x == 0 && y > 0
 
                 if (isBrickSharedLeft) {
-                    x += 1 + type.absoluteValue
+                    val remainingLength = 1 + type.absoluteValue
+
+                    if (builder.borders().left) {
+                        builder.addHorizontalBrick(0, y, grammar.brick, remainingLength)
+                    }
+
+                    x = remainingLength
                     type = 1
                     continue
                 }
-
-                builder.addHorizontalBrick(x, y, grammar.brick, n)
+                else {
+                    builder.addHorizontalBrick(x, y, grammar.brick, n)
+                }
 
                 logger.info { "add Horizontal" }
                 type = 0
