@@ -7,7 +7,6 @@ import at.orchaldir.gm.core.model.visualization.ShapeGrammar
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.map.TileMap2d
 import at.orchaldir.gm.visualization.grammar.Borders
-import at.orchaldir.gm.visualization.grammar.visualizeShapeGrammar
 import kotlin.math.absoluteValue
 import kotlin.math.floor
 
@@ -110,48 +109,45 @@ private fun createHerringbone(
     grammar: BrickPatternGrammar,
 ) {
     val n = grammar.length
-    val doubleN = n * 2
     val types = n + 1
 
-    builder.createSubSections(MapSize2d.square(doubleN)) { sub, start ->
-        repeat(doubleN) { y ->
-            var x = 0
-            var type = (types - y) % types
+    repeat(builder.size().height) { y ->
+        var x = 0
+        var type = (types - y) % types
 
-            logger.info { "y=$y types=$types type=$type" }
+        logger.info { "y=$y types=$types type=$type" }
 
-            while (x < doubleN) {
-                logger.info { "x=$x type=$type" }
+        while (x < builder.size().width) {
+            logger.info { "x=$x type=$type" }
 
-                if (type <= 0) {
-                    val isBrickSharedLeft = x == 0 && y > 0
+            if (type <= 0) {
+                val isBrickSharedLeft = x == 0 && y > 0
 
-                    if (isBrickSharedLeft) {
-                        x += 1 + type.absoluteValue
-                        type = 1
-                        continue
-                    }
-
-                    sub.addHorizontalBrick(x, y, grammar.brick, n)
-
-                    logger.info { "add Horizontal" }
-                    type = 0
-                    x += n
-                } else if (type < n) {
-                    // vertical brick that started in a row above
-                    logger.info { "skip Vertical" }
-                    x++
-                } else {
-                    // vertical brick
-
-                    sub.addVerticalBrick(x, y, grammar.brick, n)
-                    logger.info { "add Vertical" }
-
-                    x++
+                if (isBrickSharedLeft) {
+                    x += 1 + type.absoluteValue
+                    type = 1
+                    continue
                 }
 
-                type = (type + 1) % types
+                builder.addHorizontalBrick(x, y, grammar.brick, n)
+
+                logger.info { "add Horizontal" }
+                type = 0
+                x += n
+            } else if (type < n) {
+                // vertical brick that started in a row above
+                logger.info { "skip Vertical" }
+                x++
+            } else {
+                // vertical brick
+
+                builder.addVerticalBrick(x, y, grammar.brick, n)
+                logger.info { "add Vertical" }
+
+                x++
             }
+
+            type = (type + 1) % types
         }
     }
 }
