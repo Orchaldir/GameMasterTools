@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.visualization.RectangularShapeGrammar
 import at.orchaldir.gm.core.model.visualization.RowsAndColumns
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.map.assertTilemap
+import at.orchaldir.gm.utils.map.assertTilemap2
 import at.orchaldir.gm.visualization.grammar.brick.Brick
 import at.orchaldir.gm.visualization.grammar.brick.createBrickPattern
 import org.junit.jupiter.api.Nested
@@ -62,7 +63,7 @@ class BrickPatternCreationTest {
     private val line_6_H3xW3xExE = listOf(brickH3, brickW3, null, null, null, null)
     private val line_6_H2xH2xH2xW3 = listOf(brickH2, brickH2, brickH2, brickW3, null, null)
     private val line_6_SxSxW2xSxS = listOf(singleBrick, singleBrick, brickW2, null, singleBrick, singleBrick)
-    private val line_6_SxExExH3xW2 = listOf(singleBrick, null, null, brickH3, brickW2, null)
+    private val line_6_SxExExH2xW2 = listOf(singleBrick, null, null, brickH2, brickW2, null)
     private val line_6_W2xExExW2 = listOf(brickW2, null, null, null, brickW2, null)
     private val line_6_W2xH2xH2xW2 = listOf(brickW2, null, brickH2, brickH2, brickW2, null)
     private val line_6_W2xExExSxS = listOf(brickW2, null, null, null, singleBrick, singleBrick)
@@ -460,13 +461,14 @@ class BrickPatternCreationTest {
                 testDefault(2, 2)
             }
 
-            private fun testDefault(tileX: Int, tileY: Int) = test(tileX, tileY,
-                line_6_W3xSxH2xH3 +
-                        line_6_H3xW3xExE+
-                        line_6_ExH3xW3xE+
-                        line_6_ExExH3xW3+
-                        line_6_SxExExH3xW2+
+            private fun testDefault(tileX: Int, tileY: Int) = test(tileX, tileY, listOf(
+                line_6_W3xSxH2xH3,
+                        line_6_H3xW3xExE,
+                        line_6_ExH3xW3xE,
+                        line_6_ExExH3xW3,
+                        line_6_SxExExH2xW2,
                         line_6_W2xExExSxS,
+            )
             )
         }
 /*
@@ -535,29 +537,15 @@ class BrickPatternCreationTest {
         }
         */
 
-        private fun testWithLeftAndRight(tileX: Int, isLeft: Boolean, isRight: Boolean, expected: List<Brick?>) =
-            test(
-                MapSize2d(4, 4),
-                Borders(true, isLeft, isRight, true, tileX),
-                expected,
-            )
-
-        private fun testWithTopAndBottom(tileY: Int, isTop: Boolean, isBottom: Boolean, expected: List<Brick?>) =
-            test(
-                MapSize2d(6, 2),
-                Borders(isBottom, true, true, isTop, 0, tileY),
-                expected,
-            )
-
-        private fun test(tileX: Int, tileY: Int, expected: List<Brick?>) {
+        private fun test(tileX: Int, tileY: Int, expected: List<List<Brick?>>) {
             val size = MapSize2d.square(6)
             val borders = Borders(true, tileX, tileY)
 
             test(size, borders, expected)
         }
 
-        private fun test(size: MapSize2d, borders: Borders, expected: List<Brick?>) =
-            test(size, BrickPattern.Herringbone, 3, borders, expected)
+        private fun test(size: MapSize2d, borders: Borders, expected: List<List<Brick?>>) =
+            test2(size, BrickPattern.Herringbone, 3, borders, expected)
     }
 
     @Nested
@@ -671,5 +659,24 @@ class BrickPatternCreationTest {
         val result = createBrickPattern(grammar, borders)
 
         assertTilemap(result, size, expected)
+    }
+
+    private fun test2(
+        size: MapSize2d,
+        pattern: BrickPattern,
+        length: Int,
+        borders: Borders,
+        expected: List<List<Brick?>>,
+    ) {
+        val grammar = BrickPatternGrammar(
+            brickGrammar,
+            RowsAndColumns(size),
+            pattern,
+            length,
+        )
+
+        val result = createBrickPattern(grammar, borders)
+
+        assertTilemap2(result, size, expected)
     }
 }
