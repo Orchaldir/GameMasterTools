@@ -135,14 +135,19 @@ private fun createHerringbone(
                     continue
                 }
                 else {
+                    logger.info { "add Horizontal" }
                     builder.addHorizontalBrick(x, y, grammar.brick, n)
                 }
 
-                logger.info { "add Horizontal" }
                 type = 0
                 x += n
             } else if (type < n) {
                 // vertical brick that started in a row above
+
+                if (y == 0 && builder.borders().top) {
+                    builder.addVerticalBrick(x, y, grammar.brick, type)
+                }
+
                 logger.info { "skip Vertical" }
                 x++
             } else {
