@@ -60,17 +60,22 @@ class BrickPatternCreationTest {
     private val line_6_H2xH2xW2xH2xH2 = listOf(brickH2, brickH2, brickW2, null, brickH2, brickH2)
     private val line_6_H3xH3xH3xW3 = listOf(brickH3, brickH3, brickH3, brickW3, null, null)
     private val line_6_H3xW3xExE = listOf(brickH3, brickW3, null, null, null, null)
+    private val line_5_H3xW3xE = listOf(brickH3, brickW3, null, null, null,)
     private val line_6_H2xH2xH2xW3 = listOf(brickH2, brickH2, brickH2, brickW3, null, null)
     private val line_6_SxSxW2xSxS = listOf(singleBrick, singleBrick, brickW2, null, singleBrick, singleBrick)
     private val line_6_SxExExH2xW2 = listOf(singleBrick, null, null, brickH2, brickW2, null)
+    private val line_5_SxExExH2xW3 = listOf(singleBrick, null, null, brickH2, brickW3)
+    private val line_5_ExExExH2xW3 = listOf(singleBrick, null, null, brickH2, brickW3)
     private val line_6_W2xExExW2 = listOf(brickW2, null, null, null, brickW2, null)
     private val line_6_W2xH2xH2xW2 = listOf(brickW2, null, brickH2, brickH2, brickW2, null)
     private val line_6_W2xExExSxS = listOf(brickW2, null, null, null, singleBrick, singleBrick)
     private val line_6_W3xExExE = listOf(brickW3, null, null, null, null, null)
     private val line_6_W3xSxH2xH3 = listOf(brickW3, null, null, singleBrick, brickH2, brickH3)
+    private val line_5_W3xSxH2 = listOf(brickW3, null, null, singleBrick, brickH2)
     private val line_5_H3xW3xS = listOf(brickH3, brickW3, null, null, singleBrick)
     private val line_5_ExH3xW3 = listOf(null, brickH3, brickW3, null, null)
     private val line_5_ExExH3xW2 = listOf(null, null, brickH3, brickW2, null)
+    private val line_5_ExExH3xW3 = listOf(null, null, brickH3, brickW3, null)
     private val line_5_ExExExH3xS = listOf(null, null, null, brickH3, singleBrick)
     private val line_5_ExExExExH2 = listOf(null, null, null, null, brickH2)
     private val line_5_ExExExExE = listOf(null, null, null, null, null)
@@ -482,18 +487,32 @@ class BrickPatternCreationTest {
 
             @Test
             fun `Left border`() {
-                val expected = listOf(line_5_H3xW3xS, line_5_ExH3xW3, line_5_ExExH3xW2, line_5_ExExExH3xS, line_5_ExExExExH2, line_5_W3xExE)
+                val expected = listOf(
+                    line_5_H3xW3xS,
+                    line_5_ExH3xW3,
+                    line_5_ExExH3xW2,
+                    line_5_ExExExH3xS,
+                    line_5_ExExExExH2,
+                    line_5_W3xExE,
+                )
 
                 testWithLeftAndRight(1, false, true, expected)
             }
-
-            /*
             @Test
             fun `Right border`() {
-                val expected = listOf(line_4_H3xH3xH3xW3, line_4_ExExExH3, line_4_ExExExE, line_4_W3xE)
+                val expected = listOf(
+                    line_5_W3xSxH2,
+                    line_5_H3xW3xE,
+                    line_5_ExH3xW3,
+                    line_5_ExExH3xW3,
+                    line_5_SxExExH2xW3,
+                    line_5_W2xExExS,
+                )
 
                 testWithLeftAndRight(0, true, false, expected)
             }
+
+            /*
 
             @Test
             fun `Bottom border`() {
