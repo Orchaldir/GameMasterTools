@@ -61,7 +61,7 @@ data class Borders(
     fun calculateTileOffsetX(width: Int, length: Int) =
         calculateTileOffset(tileX, width, length)
 
-    private fun calculateTileOffsetY(height: Int, length: Int) =
+    fun calculateTileOffsetY(height: Int, length: Int) =
         calculateTileOffset(tileY, height, length)
 }
 

@@ -519,15 +519,18 @@ class BrickPatternCreationTest {
                 testWithTopAndBottom(0, true, false, expected)
             }
 
-            /*
-
             @Test
             fun `Top border`() {
-                val expected = listOf(line_6_ExExExExExE, line_6_W3xExExE)
+                val expected = listOf(
+                    line_6_W2xExExSxS,
+                    line_6_W3xSxH2xH3,
+                    line_6_H3xW3xExE,
+                    line_6_ExH3xW3xE,
+                    line_6_ExExH3xW3,
+                )
 
                 testWithTopAndBottom(1, false, true, expected)
             }
-            */
 
             private fun testAcrossLeftBorder(tileY: Int) {
                 val expected = listOf(
