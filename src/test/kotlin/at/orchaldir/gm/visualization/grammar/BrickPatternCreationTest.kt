@@ -482,7 +482,7 @@ class BrickPatternCreationTest {
 
             @Test
             fun `Left border`() {
-                val expected = listOf(line_5_H3xW3xS, line_5_ExH3xW3, line_5_ExExH3xW2, line_5_ExExExH3xS, line_5_ExExExExH2, line_5_ExExExExE)
+                val expected = listOf(line_5_H3xW3xS, line_5_ExH3xW3, line_5_ExExH3xW2, line_5_ExExExH3xS, line_5_ExExExExH2, line_5_W3xExE)
 
                 testWithLeftAndRight(1, false, true, expected)
             }

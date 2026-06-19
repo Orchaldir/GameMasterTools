@@ -113,7 +113,7 @@ private fun createHerringbone(
     val types = n + 1
 
     repeat(builder.size().height) { y ->
-        if (y == 2) {
+        if (y == 5) {
             logger.info { "debug" }
         }
 
@@ -131,7 +131,7 @@ private fun createHerringbone(
                 if (isBrickSharedLeft) {
                     val remainingLength = 1 + type.absoluteValue
 
-                    if (builder.borders().left) {
+                    if (builder.borders().left || remainingLength == n) {
                         builder.addHorizontalBrick(0, y, grammar.brick, remainingLength)
                     }
 
