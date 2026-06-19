@@ -33,11 +33,6 @@ abstract class BrickMapBuilder(
     }
 
     fun addHorizontalBrick(x: Int, y: Int, grammar: ShapeGrammar, length: Int) {
-
-        /*if (y < 0 || y >= size().height) {
-            return
-        }*/
-
         var limitedX = x
         var limitedLength = length
 
@@ -60,10 +55,6 @@ abstract class BrickMapBuilder(
     }
 
     fun addVerticalBrick(x: Int, y: Int, grammar: ShapeGrammar, length: Int) {
-        /*if (x < 0 || x >= size().width) {
-            return
-        }*/
-
         var limitedY = y
         var limitedLength = length
 
@@ -91,7 +82,7 @@ abstract class BrickMapBuilder(
         subSize: MapSize2d,
         addSubSection: (SubSectionBuilder, MapPoint2d) -> Unit,
     ) {
-        val offset = borders.calculateTileOffset2(size(), subSize)
+        val offset = borders.calculateTileOffset(size(), subSize)
         val subSections = MapSize2d(
             ceil((size().width - offset.x) / subSize.width.toDouble()).toInt(),
             ceil((size().height - offset.y) / subSize.height.toDouble()).toInt(),

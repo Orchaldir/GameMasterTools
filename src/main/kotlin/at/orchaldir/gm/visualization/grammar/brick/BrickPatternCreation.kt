@@ -168,7 +168,7 @@ private fun createRunningPattern(
     builder: BrickMapBuilder,
     grammar: BrickPatternGrammar,
 ) {
-    val offset = -builder.borders().calculateTileOffsetX2(grammar.size, grammar.length)
+    val offset = -builder.borders().calculateTileOffsetX(grammar.size, grammar.length)
     val halfBrick = floor(grammar.length / 2.0).toInt()
 
     createRowPattern(
@@ -189,7 +189,7 @@ private fun createStackPattern(
     builder: BrickMapBuilder,
     grammar: BrickPatternGrammar,
 ) {
-    val offset = -builder.borders().calculateTileOffsetX2(grammar.size, grammar.length)
+    val offset = -builder.borders().calculateTileOffsetX(grammar.size, grammar.length)
 
     createRowPattern(
         builder,

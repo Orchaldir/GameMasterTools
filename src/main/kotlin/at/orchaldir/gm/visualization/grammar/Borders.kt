@@ -50,58 +50,25 @@ data class Borders(
 
     fun calculateEvenOffsetY(gridSize: GridSize, length: Int) = calculateEvenOffset(tileY, gridSize.height(), length)
 
-    fun calculateTileOffset(gridSize: MapSize2d, tile: MapSize2d) = MapSize2d(
+    fun calculateTileOffset(gridSize: MapSize2d, tile: MapSize2d) = MapPoint2d(
         calculateTileOffsetX(gridSize.width, tile.width),
         calculateTileOffsetY(gridSize.height, tile.height),
     )
 
-    fun calculateTileOffset2(gridSize: MapSize2d, tile: MapSize2d) = MapPoint2d(
-        calculateTileOffsetX2(gridSize.width, tile.width),
-        calculateTileOffsetY2(gridSize.height, tile.height),
-    )
-
-    // TODO: remove old
     fun calculateTileOffsetX(gridSize: GridSize, length: Int) =
         calculateTileOffsetX(gridSize.width(), length)
 
-    fun calculateTileOffsetX2(gridSize: GridSize, length: Int) =
-        calculateTileOffsetX2(gridSize.width(), length)
-
-    fun calculateTileOffsetX(gridSize: MapSize2d, length: Int) =
-        calculateTileOffsetX(gridSize.width, length)
-
     private fun calculateTileOffsetX(width: Int, length: Int) =
-        calculateTileOffset(left, tileX, width, length)
-
-    private fun calculateTileOffsetX2(width: Int, length: Int) =
-        calculateTileOffset2(tileX, width, length)
+        calculateTileOffset(tileX, width, length)
 
     private fun calculateTileOffsetY(height: Int, length: Int) =
-        calculateTileOffset(top, tileY, height, length)
-
-    private fun calculateTileOffsetY2(height: Int, length: Int) =
-        calculateTileOffset2(tileY, height, length)
+        calculateTileOffset(tileY, height, length)
 }
 
 fun calculateEvenOffset(position: Int, size: Int, length: Int) =
     ceil(size * position / length.toFloat()).toInt() % 2
 
 fun calculateTileOffset(
-    border: Boolean,
-    position: Int,
-    gridSize: Int,
-    length: Int,
-): Int {
-    if (border) {
-        return 0
-    }
-
-    val blockStart = position * gridSize
-    val numBricks = ceil(blockStart / length.toFloat()).toInt()
-    return numBricks * length - blockStart
-}
-
-fun calculateTileOffset2(
     position: Int,
     gridSize: Int,
     length: Int,
