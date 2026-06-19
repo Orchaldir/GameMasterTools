@@ -68,6 +68,12 @@ class BrickPatternCreationTest {
     private val line_6_W2xExExSxS = listOf(brickW2, null, null, null, singleBrick, singleBrick)
     private val line_6_W3xExExE = listOf(brickW3, null, null, null, null, null)
     private val line_6_W3xSxH2xH3 = listOf(brickW3, null, null, singleBrick, brickH2, brickH3)
+    private val line_5_H3xW3xS = listOf(brickH3, brickW3, null, null, singleBrick)
+    private val line_5_ExH3xW3 = listOf(null, brickH3, brickW3, null, null)
+    private val line_5_ExExH3xW3 = listOf(null, null, brickH3, brickW3, null)
+    private val line_5_SxExExH2 = listOf(singleBrick, null, null, brickH3, brickW3)
+    private val line_5_W2xExExH2 = listOf(brickW2, null, null, null, brickH2)
+    private val line_5_W3xExE = listOf(brickW3, null, null, null, null)
     private val line_9_W3xH3xH3xH3xW3 = listOf(brickW3, null, null, brickH3, brickH3, brickH3, brickW3, null, null)
     private val line_9_W3xExExExW3 = listOf(brickW3, null, null, null, null, null, brickW3, null, null)
     private val line_9_H3xH3xH3xW3xH3xH3xH3 = listOf(brickH3, brickH3, brickH3, brickW3, null, null, brickH3, brickH3, brickH3)
@@ -469,71 +475,55 @@ class BrickPatternCreationTest {
             )
             )
         }
-/*
-        @Nested
-        inner class BorderCuttingOffBricksTest {
-
-            @Test
-            fun `Left border`() {
-                val expected = listOf(line_4_W2xH3xH3, line_4_H3xH3xExE, line_4_ExExExE, line_4_ExExW2
-
-                testWithLeftAndRight(1, true, true, expected)
-            }
-
-            @Test
-            fun `Right border`() {
-                val expected = listOf(line_4_H3xH3xH3xS, line_4_ExExExH3, line_4_ExExExE, line_4_W3xE
-
-                testWithLeftAndRight(0, true, true, expected)
-            }
-
-            @Test
-            fun `Bottom border`() {
-                val expected = listOf(line_6_H2xH2xH2xW3, line_6_ExExExSxSxS
-
-                testWithTopAndBottom(0, true, true, expected)
-            }
-
-            @Test
-            fun `Top border`() {
-                val expected = listOf(line_6_SxSxSxH2xH2xH2, line_6_W3xExExE
-
-                testWithTopAndBottom(1, true, true, expected)
-            }
-        }
 
         @Nested
         inner class BricksAcrossTheBorderTest {
 
             @Test
             fun `Left border`() {
-                val expected = listOf(line_4_ExExH3xH3, line_4_H3xH3xExE, line_4_ExExExE, line_4_ExExW2
+                val expected = listOf(line_5_H3xW3xS, line_5_ExH3xW3, line_5_ExExH3xW3, line_5_SxExExH2, line_5_W2xExExH2, line_5_W3xExE)
 
                 testWithLeftAndRight(1, false, true, expected)
             }
 
+            /*
             @Test
             fun `Right border`() {
-                val expected = listOf(line_4_H3xH3xH3xW3, line_4_ExExExH3, line_4_ExExExE, line_4_W3xE
+                val expected = listOf(line_4_H3xH3xH3xW3, line_4_ExExExH3, line_4_ExExExE, line_4_W3xE)
 
                 testWithLeftAndRight(0, true, false, expected)
             }
 
             @Test
             fun `Bottom border`() {
-                val expected = listOf(line_6_H3xH3xH3xW3, line_6_ExExExH3xH3xH3
+                val expected = listOf(line_6_H3xH3xH3xW3, line_6_ExExExH3xH3xH3)
 
                 testWithTopAndBottom(0, true, false, expected)
             }
 
             @Test
             fun `Top border`() {
-                val expected = listOf(line_6_ExExExExExE, line_6_W3xExExE
+                val expected = listOf(line_6_ExExExExExE, line_6_W3xExExE)
 
                 testWithTopAndBottom(1, false, true, expected)
             }
+            */
         }
-        */
+
+        private fun testWithLeftAndRight(tileX: Int, isLeft: Boolean, isRight: Boolean, expected: List<List<Brick?>>) =
+            test(
+                MapSize2d(5, 6),
+                Borders(true, isLeft, isRight, true, tileX),
+                expected,
+            )
+
+        private fun testWithTopAndBottom(tileY: Int, isTop: Boolean, isBottom: Boolean, expected: List<List<Brick?>>) =
+            test(
+                MapSize2d(6, 5),
+                Borders(isBottom, true, true, isTop, 0, tileY),
+                expected,
+            )
+
 
         private fun test(tileX: Int, tileY: Int, expected: List<List<Brick?>>) {
             val size = MapSize2d.square(6)
