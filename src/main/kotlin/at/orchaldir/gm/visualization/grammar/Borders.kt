@@ -58,7 +58,7 @@ data class Borders(
     fun calculateTileOffsetX(gridSize: GridSize, length: Int) =
         calculateTileOffsetX(gridSize.width(), length)
 
-    private fun calculateTileOffsetX(width: Int, length: Int) =
+    fun calculateTileOffsetX(width: Int, length: Int) =
         calculateTileOffset(tileX, width, length)
 
     private fun calculateTileOffsetY(height: Int, length: Int) =

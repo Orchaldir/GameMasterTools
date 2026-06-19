@@ -109,11 +109,16 @@ private fun createHerringbone(
     grammar: BrickPatternGrammar,
 ) {
     val n = grammar.length
+    val offset = builder.borders().calculateTileOffsetX(builder.size().width, n * 2)
     val types = n + 1
 
     repeat(builder.size().height) { y ->
+        if (y == 2) {
+            logger.info { "debug" }
+        }
+
         var x = 0
-        var type = (types - y) % types
+        var type = (types - y - offset) % types
 
         logger.info { "y=$y types=$types type=$type" }
 
