@@ -487,29 +487,22 @@ class BrickPatternCreationTest {
 
             @Test
             fun `Left border`() {
-                val expected = listOf(
-                    line_5_H3xW3xS,
-                    line_5_ExH3xW3,
-                    line_5_ExExH3xW2,
-                    line_5_ExExExH3xS,
-                    line_5_ExExExExH2,
-                    line_5_W3xExE,
-                )
-
-                testWithLeftAndRight(1, false, true, expected)
+                testAcrossLeftBorder(0)
             }
+
+            @Test
+            fun `Left border with y = 1`() {
+                testAcrossLeftBorder(1)
+            }
+
             @Test
             fun `Right border`() {
-                val expected = listOf(
-                    line_5_W3xSxH2,
-                    line_5_H3xW3xE,
-                    line_5_ExH3xW3,
-                    line_5_ExExH3xW3,
-                    line_5_SxExExH2xW3,
-                    line_5_W2xExExS,
-                )
+                testAcrossRightBorder(0)
+            }
 
-                testWithLeftAndRight(0, true, false, expected)
+            @Test
+            fun `Right border y = 1`() {
+                testAcrossRightBorder(1)
             }
 
             /*
@@ -528,12 +521,38 @@ class BrickPatternCreationTest {
                 testWithTopAndBottom(1, false, true, expected)
             }
             */
+
+            private fun testAcrossLeftBorder(tileY: Int) {
+                val expected = listOf(
+                    line_5_H3xW3xS,
+                    line_5_ExH3xW3,
+                    line_5_ExExH3xW2,
+                    line_5_ExExExH3xS,
+                    line_5_ExExExExH2,
+                    line_5_W3xExE,
+                )
+
+                testWithLeftAndRight(1, tileY, false, true, expected)
+            }
+
+            private fun testAcrossRightBorder(tileY: Int) {
+                val expected = listOf(
+                    line_5_W3xSxH2,
+                    line_5_H3xW3xE,
+                    line_5_ExH3xW3,
+                    line_5_ExExH3xW3,
+                    line_5_SxExExH2xW3,
+                    line_5_W2xExExS,
+                )
+
+                testWithLeftAndRight(0, tileY, true, false, expected)
+            }
         }
 
-        private fun testWithLeftAndRight(tileX: Int, isLeft: Boolean, isRight: Boolean, expected: List<List<Brick?>>) =
+        private fun testWithLeftAndRight(tileX: Int, tileY: Int, isLeft: Boolean, isRight: Boolean, expected: List<List<Brick?>>) =
             test(
                 MapSize2d(5, 6),
-                Borders(true, isLeft, isRight, true, tileX),
+                Borders(true, isLeft, isRight, true, tileX, tileY),
                 expected,
             )
 
