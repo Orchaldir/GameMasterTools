@@ -18,7 +18,7 @@ data class TileMap2dRenderer(
     val tileSize: Size2d,
     val borderSize: Distance = ZERO_DISTANCE,
 ) {
-    constructor(width: Distance, borderSize: Distance = ZERO_DISTANCE):
+    constructor(width: Distance, borderSize: Distance = ZERO_DISTANCE) :
             this(Size2d.square(width), borderSize)
 
     constructor(area: Size2d, tiles: MapSize2d, borderSize: Distance = ZERO_DISTANCE) :

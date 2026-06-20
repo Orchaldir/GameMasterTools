@@ -51,7 +51,7 @@ abstract class BrickMapBuilder(
             limitedLength = length.coerceAtMost(maxLength)
         }
 
-        addBrick(limitedX, y, Brick(grammar,  MapSize2d(limitedLength, 1)))
+        addBrick(limitedX, y, Brick(grammar, MapSize2d(limitedLength, 1)))
     }
 
     fun addVerticalBrick(x: Int, y: Int, grammar: ShapeGrammar, length: Int) {
@@ -73,7 +73,7 @@ abstract class BrickMapBuilder(
             limitedLength = length.coerceAtMost(maxLength)
         }
 
-        addBrick(x, limitedY, Brick(grammar,  MapSize2d(1, limitedLength)))
+        addBrick(x, limitedY, Brick(grammar, MapSize2d(1, limitedLength)))
     }
 
     abstract fun addBrick(x: Int, y: Int, brick: Brick)
@@ -91,7 +91,7 @@ abstract class BrickMapBuilder(
         // render subsections for the top border
         repeat(subSections.width) { subSectionX ->
             addSubSection(
-                Borders(top = borders.top, tileX = subSectionX, tileY =  -1),
+                Borders(top = borders.top, tileX = subSectionX, tileY = -1),
                 subSize,
                 MapPoint2d(
                     offset.x,
@@ -123,7 +123,7 @@ abstract class BrickMapBuilder(
                     calculateSubBorders(borders, subSections, subSectionX, subSectionY),
                     subSize,
                     MapPoint2d(),
-                    { subStart -> subStart + offset},
+                    { subStart -> subStart + offset },
                     addSubSection,
                 )
             }
@@ -162,7 +162,7 @@ abstract class BrickMapBuilder(
         )
     }
 
-    private fun limitSubSize(subEnd: Int, subSize: Int, size: Int) =if (subEnd > size) {
+    private fun limitSubSize(subEnd: Int, subSize: Int, size: Int) = if (subEnd > size) {
         subSize - (subEnd - size)
     } else {
         subSize
@@ -175,9 +175,9 @@ class SimpleBrickMapBuilder(
     size: MapSize2d,
     borders: Borders,
     map: MutableList<Brick?>,
-): BrickMapBuilder(size, borders, map) {
+) : BrickMapBuilder(size, borders, map) {
 
-    constructor(size: MapSize2d, borders: Borders):
+    constructor(size: MapSize2d, borders: Borders) :
             this(size, borders, MutableList<Brick?>(size.tiles()) { null })
 
     override fun size() = size
@@ -196,7 +196,7 @@ class SubSectionBuilder(
     val subIndex: MapPoint2d,
     private val subSize: MapSize2d,
     private val offset: MapPoint2d,
-): BrickMapBuilder(size, borders, map) {
+) : BrickMapBuilder(size, borders, map) {
 
     override fun size() = subSize
 

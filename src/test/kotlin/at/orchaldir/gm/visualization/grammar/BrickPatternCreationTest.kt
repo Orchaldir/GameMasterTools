@@ -62,7 +62,7 @@ class BrickPatternCreationTest {
     private val line_6_H2xH2xW2xH2xH2 = listOf(brickH2, brickH2, brickW2, null, brickH2, brickH2)
     private val line_6_H3xH3xH3xW3 = listOf(brickH3, brickH3, brickH3, brickW3, null, null)
     private val line_6_H3xW3xExE = listOf(brickH3, brickW3, null, null, null, null)
-    private val line_5_H3xW3xE = listOf(brickH3, brickW3, null, null, null,)
+    private val line_5_H3xW3xE = listOf(brickH3, brickW3, null, null, null)
     private val line_6_H2xH2xH2xW3 = listOf(brickH2, brickH2, brickH2, brickW3, null, null)
     private val line_6_SxSxW2xSxS = listOf(singleBrick, singleBrick, brickW2, null, singleBrick, singleBrick)
     private val line_6_SxExExH2xW2 = listOf(singleBrick, null, null, brickH2, brickW2, null)
@@ -87,11 +87,13 @@ class BrickPatternCreationTest {
     private val line_5_W3xExE = listOf(brickW3, null, null, null, null)
     private val line_9_W3xH3xH3xH3xW3 = listOf(brickW3, null, null, brickH3, brickH3, brickH3, brickW3, null, null)
     private val line_9_W3xExExExW3 = listOf(brickW3, null, null, null, null, null, brickW3, null, null)
-    private val line_9_H3xH3xH3xW3xH3xH3xH3 = listOf(brickH3, brickH3, brickH3, brickW3, null, null, brickH3, brickH3, brickH3)
+    private val line_9_H3xH3xH3xW3xH3xH3xH3 =
+        listOf(brickH3, brickH3, brickH3, brickW3, null, null, brickH3, brickH3, brickH3)
     private val line_9_ExExExW3xExExE = listOf(null, null, null, brickW3, null, null, null, null, null)
 
     private val basketWeaves_H3_V3_H3 = listOf(line_9_W3xH3xH3xH3xW3, line_9_W3xExExExW3, line_9_W3xExExExW3)
-    private val basketWeaves_V3_H3_V3 = listOf(line_9_H3xH3xH3xW3xH3xH3xH3, line_9_ExExExW3xExExE, line_9_ExExExW3xExExE)
+    private val basketWeaves_V3_H3_V3 =
+        listOf(line_9_H3xH3xH3xW3xH3xH3xH3, line_9_ExExExW3xExExE, line_9_ExExExW3xExExE)
 
     @Nested
     inner class BasketWeavePatternWithLength2Test {
@@ -271,11 +273,13 @@ class BrickPatternCreationTest {
                 testPatterA(2, 2)
             }
 
-            private fun testPatterA(tileX: Int, tileY: Int) = test(tileX, tileY,
+            private fun testPatterA(tileX: Int, tileY: Int) = test(
+                tileX, tileY,
                 basketWeaves_H3_V3_H3 + basketWeaves_V3_H3_V3,
             )
 
-            private fun testPatterB(tileX: Int, tileY: Int) = test(tileX, tileY,
+            private fun testPatterB(tileX: Int, tileY: Int) = test(
+                tileX, tileY,
                 basketWeaves_V3_H3_V3 + basketWeaves_H3_V3_H3,
             )
         }
@@ -329,7 +333,7 @@ class BrickPatternCreationTest {
             private fun testDefault(tileX: Int, tileY: Int) {
                 val expected = listOf(line_6_H3xH3xH3xW3, line_6_ExExExH3xH3xH3, line_6_ExExExExExE, line_6_W3xExExE)
 
-                test(tileX, tileY, expected,)
+                test(tileX, tileY, expected)
             }
         }
 
@@ -476,14 +480,15 @@ class BrickPatternCreationTest {
                 testDefault(2, 2)
             }
 
-            private fun testDefault(tileX: Int, tileY: Int) = test(tileX, tileY, listOf(
-                line_6_W3xSxH2xH3,
-                        line_6_H3xW3xExE,
-                        line_6_ExH3xW3xE,
-                        line_6_ExExH3xW3,
-                        line_6_SxExExH2xW2,
-                        line_6_W2xExExSxS,
-            )
+            private fun testDefault(tileX: Int, tileY: Int) = test(
+                tileX, tileY, listOf(
+                    line_6_W3xSxH2xH3,
+                    line_6_H3xW3xExE,
+                    line_6_ExH3xW3xE,
+                    line_6_ExExH3xW3,
+                    line_6_SxExExH2xW2,
+                    line_6_W2xExExSxS,
+                )
             )
         }
 
@@ -581,14 +586,26 @@ class BrickPatternCreationTest {
             }
         }
 
-        private fun testWithLeftAndRight(tileX: Int, tileY: Int, isLeft: Boolean, isRight: Boolean, expected: List<List<Brick?>>) =
+        private fun testWithLeftAndRight(
+            tileX: Int,
+            tileY: Int,
+            isLeft: Boolean,
+            isRight: Boolean,
+            expected: List<List<Brick?>>,
+        ) =
             test(
                 MapSize2d(5, 6),
                 Borders(true, isLeft, isRight, true, tileX, tileY),
                 expected,
             )
 
-        private fun testWithTopAndBottom(tileX: Int, tileY: Int, isTop: Boolean, isBottom: Boolean, expected: List<List<Brick?>>) =
+        private fun testWithTopAndBottom(
+            tileX: Int,
+            tileY: Int,
+            isTop: Boolean,
+            isBottom: Boolean,
+            expected: List<List<Brick?>>,
+        ) =
             test(
                 MapSize2d(6, 5),
                 Borders(isBottom, true, true, isTop, tileX, tileY),
@@ -623,28 +640,28 @@ class BrickPatternCreationTest {
         @Test
         fun `Even lines with partial bricks on the right border`() {
             val expected = listOf(line_3_W2xS, line_3_SxW2)
-            
+
             testWithPartialBricks(0, true, true, expected)
         }
 
         @Test
         fun `Even lines with partial bricks on the left border`() {
             val expected = listOf(line_3_SxW2, line_3_W2xS)
-            
+
             testWithPartialBricks(1, true, true, expected)
         }
 
         @Test
         fun `Even lines with bricks across the right border`() {
             val expected = listOf(line_3_W2xW2, line_3_SxW2)
-            
+
             testWithPartialBricks(0, true, false, expected)
         }
 
         @Test
         fun `Even lines with bricks across the left border`() {
             val expected = listOf(line_3_ExW2, line_3_W2xS)
-            
+
             testWithPartialBricks(1, false, true, expected)
         }
 

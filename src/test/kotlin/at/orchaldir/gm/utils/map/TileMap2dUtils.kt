@@ -1,7 +1,6 @@
 package at.orchaldir.gm.utils.map
 
-import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions.assertEquals
 
 fun <TILE> assertTilemap(tilemap: TileMap2d<TILE>, size: MapSize2d, tile: TILE) {
     assertEquals(size, tilemap.size)

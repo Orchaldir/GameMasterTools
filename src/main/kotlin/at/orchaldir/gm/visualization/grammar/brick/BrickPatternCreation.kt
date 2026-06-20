@@ -1,13 +1,11 @@
 package at.orchaldir.gm.visualization.grammar.brick
 
-import at.orchaldir.gm.core.logger
 import at.orchaldir.gm.core.model.visualization.BrickPattern
 import at.orchaldir.gm.core.model.visualization.BrickPatternGrammar
 import at.orchaldir.gm.core.model.visualization.ShapeGrammar
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.map.TileMap2d
 import at.orchaldir.gm.visualization.grammar.Borders
-import kotlin.math.absoluteValue
 import kotlin.math.floor
 
 fun createBrickPattern(
@@ -113,21 +111,11 @@ private fun createHerringbone(
     val offsetX = builder.borders().calculateTileOffsetX(builder.size().width, types)
     val offsetY = builder.borders().calculateTileOffsetY(builder.size().height, types)
 
-    logger.info { "types=$types offsetX=$offsetX offsetY=$offsetY" }
-
     repeat(builder.size().height) { y ->
         var x = 0
         var type = (types - y - offsetX + offsetY).mod(types)
 
-        logger.info { "y=$y type=$type" }
-
-        if (y == 5) {
-            logger.info { "de" }
-        }
-
         while (x < builder.size().width) {
-            logger.info { "x=$x type=$type" }
-
             when (type) {
                 in 0..<n -> {
                     // a horizontal brick
@@ -140,8 +128,7 @@ private fun createHerringbone(
                         }
 
                         x = remainingLength
-                    }
-                    else {
+                    } else {
                         builder.addHorizontalBrick(x, y, grammar.brick, n)
 
                         x += n
@@ -151,7 +138,8 @@ private fun createHerringbone(
 
                     continue
                 }
-                in n..<types-1  -> {
+
+                in n..<types - 1 -> {
                     // vertical brick that started in a row above
 
                     if (y == 0 && builder.borders().top) {
@@ -162,6 +150,7 @@ private fun createHerringbone(
 
                     x++
                 }
+
                 types - 1 -> {
                     // vertical brick
 
@@ -169,6 +158,7 @@ private fun createHerringbone(
 
                     x++
                 }
+
                 else -> error("Unsupported type $type!")
             }
 

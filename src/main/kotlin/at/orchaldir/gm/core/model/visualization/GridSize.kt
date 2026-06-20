@@ -7,7 +7,6 @@ import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.checkInt
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlin.Int
 
 enum class GridSizeType {
     Square,
@@ -72,6 +71,6 @@ data class RowsAndColumns(
     val size: MapSize2d,
 ) : GridSize() {
 
-    constructor(width: Int, height: Int): this(MapSize2d(width, height))
+    constructor(width: Int, height: Int) : this(MapSize2d(width, height))
 
 }
