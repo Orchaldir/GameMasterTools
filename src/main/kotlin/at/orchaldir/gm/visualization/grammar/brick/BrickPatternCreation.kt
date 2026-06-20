@@ -142,6 +142,10 @@ private fun createHerringbone(
 
                         x += n
                     }
+
+                    type = n
+
+                    continue
                 }
                 in n..<types-1  -> {
                     // vertical brick that started in a row above
