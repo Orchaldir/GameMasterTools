@@ -52,7 +52,9 @@ class BrickPatternCreationTest {
     private val line_5_W2xH2xH2xW2 = line_5_W2xH2xH2 + brickW2
     private val line_6_ExExExExExE = listOf(null, null, null, null, null, null)
     private val line_6_ExH3xW3xE = listOf(null, brickH3, brickW3, null, null, null)
+    private val line_6_ExH2xW3xE = listOf(null, brickH2, brickW3, null, null, null)
     private val line_6_ExExH3xW3 = listOf(null, null, brickH3, brickW3, null, null)
+    private val line_6_ExExSxW3 = listOf(null, null, singleBrick, brickW3, null, null)
     private val line_6_SxSxSxH2xH2xH2 = listOf(singleBrick, singleBrick, singleBrick, brickH2, brickH2, brickH2)
     private val line_6_ExExExH3xH3xH3 = listOf(null, null, null, brickH3, brickH3, brickH3)
     private val line_6_ExExExSxSxS = listOf(null, null, null, singleBrick, singleBrick, singleBrick)
@@ -527,8 +529,8 @@ class BrickPatternCreationTest {
                     line_6_W2xExExH3xS,
                     line_6_W3xExExH3,
                     line_6_H3xW3xExE,
-                    line_6_ExH3xW3xE,
-                    line_6_ExExH3xW3,
+                    line_6_ExH2xW3xE,
+                    line_6_ExExSxW3,
                 )
 
                 testWithTopAndBottom(1, false, true, expected)

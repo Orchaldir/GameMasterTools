@@ -130,7 +130,7 @@ private fun createHerringbone(
 
             when (type) {
                 in 0..<n -> {
-                    // a vertical brick
+                    // a horizontal brick
 
                     if (x == 0 && type > 0) {
                         val remainingLength = n - type
