@@ -121,6 +121,10 @@ private fun createHerringbone(
 
         logger.info { "y=$y type=$type" }
 
+        if (y == 5) {
+            logger.info { "de" }
+        }
+
         while (x < builder.size().width) {
             logger.info { "x=$x type=$type" }
 
@@ -128,7 +132,7 @@ private fun createHerringbone(
                 in 0..<n -> {
                     // a vertical brick
 
-                    if (x == 0) {
+                    if (x == 0 && type > 0) {
                         val remainingLength = n - type
 
                         if (builder.borders().left) {
