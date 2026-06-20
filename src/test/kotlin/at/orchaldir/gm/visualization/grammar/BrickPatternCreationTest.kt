@@ -512,6 +512,25 @@ class BrickPatternCreationTest {
 
             @Test
             fun `Bottom border`() {
+                testAcrossBottomBorder(0)
+            }
+
+            @Test
+            fun `Bottom border with x = 1`() {
+                testAcrossBottomBorder(1)
+            }
+
+            @Test
+            fun `Top border`() {
+                testAcrossTopBorder(0)
+            }
+
+            @Test
+            fun `Top border with x = 1`() {
+                testAcrossTopBorder(1)
+            }
+
+            private fun testAcrossBottomBorder(tileX: Int) {
                 val expected = listOf(
                     line_6_W3xSxH2xH3,
                     line_6_H3xW3xExE,
@@ -520,20 +539,7 @@ class BrickPatternCreationTest {
                     line_6_SxExExH3xW2,
                 )
 
-                testWithTopAndBottom(0, true, false, expected)
-            }
-
-            @Test
-            fun `Top border`() {
-                val expected = listOf(
-                    line_6_W2xExExH3xS,
-                    line_6_W3xExExH3,
-                    line_6_H3xW3xExE,
-                    line_6_ExH2xW3xE,
-                    line_6_ExExSxW3,
-                )
-
-                testWithTopAndBottom(1, false, true, expected)
+                testWithTopAndBottom(tileX, 0, true, false, expected)
             }
 
             private fun testAcrossLeftBorder(tileY: Int) {
@@ -561,6 +567,18 @@ class BrickPatternCreationTest {
 
                 testWithLeftAndRight(0, tileY, true, false, expected)
             }
+
+            private fun testAcrossTopBorder(tileX: Int) {
+                val expected = listOf(
+                    line_6_W2xExExH3xS,
+                    line_6_W3xExExH3,
+                    line_6_H3xW3xExE,
+                    line_6_ExH2xW3xE,
+                    line_6_ExExSxW3,
+                )
+
+                testWithTopAndBottom(tileX, 1, false, true, expected)
+            }
         }
 
         private fun testWithLeftAndRight(tileX: Int, tileY: Int, isLeft: Boolean, isRight: Boolean, expected: List<List<Brick?>>) =
@@ -570,10 +588,10 @@ class BrickPatternCreationTest {
                 expected,
             )
 
-        private fun testWithTopAndBottom(tileY: Int, isTop: Boolean, isBottom: Boolean, expected: List<List<Brick?>>) =
+        private fun testWithTopAndBottom(tileX: Int, tileY: Int, isTop: Boolean, isBottom: Boolean, expected: List<List<Brick?>>) =
             test(
                 MapSize2d(6, 5),
-                Borders(isBottom, true, true, isTop, 0, tileY),
+                Borders(isBottom, true, true, isTop, tileX, tileY),
                 expected,
             )
 
