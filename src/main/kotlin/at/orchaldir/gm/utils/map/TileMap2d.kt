@@ -16,6 +16,12 @@ data class TileMap2d<TILE>(
         require(size.tiles() == tiles.size) { "The number of tiles must match the map size" }
     }
 
+    fun getRow(y: Int): List<TILE> {
+        val start = size.toIndexRisky(0, y)
+
+        return tiles.subList(start, start + size.width)
+    }
+
     fun resize(
         resize: Resize,
         tile: TILE,

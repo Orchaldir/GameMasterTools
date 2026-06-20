@@ -9,26 +9,29 @@ import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Size2d
 import at.orchaldir.gm.utils.math.unit.Distance
+import at.orchaldir.gm.utils.math.unit.ZERO_DISTANCE
 import at.orchaldir.gm.utils.renderer.model.FillAndBorder
 import at.orchaldir.gm.utils.renderer.model.LineOptions
 import at.orchaldir.gm.visualization.grammar.Borders
 
 data class TileMap2dRenderer(
-    val tileSize: Distance,
-    val borderSize: Distance,
+    val tileSize: Size2d,
+    val borderSize: Distance = ZERO_DISTANCE,
 ) {
+    constructor(width: Distance, borderSize: Distance = ZERO_DISTANCE) :
+            this(Size2d.square(width), borderSize)
 
-    fun <TILE> calculateMapSize(map: TileMap2d<TILE>) = Size2d(
-        tileSize * map.size.width,
-        tileSize * map.size.height,
-    )
+    constructor(area: Size2d, tiles: MapSize2d, borderSize: Distance = ZERO_DISTANCE) :
+            this(area / tiles, borderSize)
+
+    fun calculateAreaSize(area: MapSize2d) = tileSize * area
+    fun <TILE> calculateMapSize(map: TileMap2d<TILE>) = calculateAreaSize(map.size)
 
     fun <TILE> render(
         map: TileMap2d<TILE>,
         renderTile: (Int, Int, Int, AABB, TILE) -> Unit,
     ) {
         val size = map.size
-        val tileSize = Size2d.square(tileSize)
         var index = 0
 
         repeat(size.height) { y ->
@@ -49,7 +52,6 @@ data class TileMap2dRenderer(
         renderTile: (Int, AABB, Borders, TILE) -> Unit,
     ) {
         val size = map.size
-        val tileSize = Size2d.square(tileSize)
         var index = 0
         val isTopBorders = MutableList(size.width) { true }
 
@@ -124,10 +126,8 @@ data class TileMap2dRenderer(
         }
     }
 
-    fun calculateLotSize(size: MapSize2d) = Size2d(tileSize * size.width, tileSize * size.height)
-
     fun <TILE> calculateTilePosition(map: TileMap2d<TILE>, index: Int) =
         calculateTilePosition(map.size.toX(index), map.size.toY(index))
 
-    fun calculateTilePosition(x: Int, y: Int) = Point2d(tileSize * x, tileSize * y)
+    fun calculateTilePosition(x: Int, y: Int) = Point2d(tileSize.width * x, tileSize.height * y)
 }

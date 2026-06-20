@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.visualization.BrickPattern
 import at.orchaldir.gm.core.model.visualization.BrickPatternGrammar
 import at.orchaldir.gm.core.model.visualization.RectangularShapeGrammar
-import at.orchaldir.gm.core.model.visualization.SquareGrid
+import at.orchaldir.gm.core.model.visualization.RowsAndColumns
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.map.TileMap2d
 import at.orchaldir.gm.utils.math.AABB
@@ -25,11 +25,11 @@ fun main() {
         RectangularShapeGrammar(
             MadeFromWood(color = Color.Gray),
         ),
-        SquareGrid(10),
-        BrickPattern.BasketWeave,
-        4,
+        RowsAndColumns(20, 20),
+        BrickPattern.Herringbone,
+        3,
     )
-    val tileMap = TileMap2d(MapSize2d(4, 3), grammar)
+    val tileMap = TileMap2d(MapSize2d(1, 1), grammar)
     val tileSize = Distance.fromMeters(1.0f)
     val tileMapRenderer = TileMap2dRenderer(tileSize, ZERO_DISTANCE)
     val tileMapSize = tileMapRenderer.calculateMapSize(tileMap)

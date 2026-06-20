@@ -73,4 +73,7 @@ data class MapSize2d(val width: Int, val height: Int) {
     operator fun plus(other: MapSize2d) = MapSize2d(width + other.width, height + other.height)
     operator fun minus(other: MapSize2d) = MapSize2d(width - other.width, height - other.height)
 
+    operator fun plus(point: MapPoint2d) = MapSize2d(width + point.x, height + point.y)
+    operator fun minus(point: MapPoint2d) = MapSize2d(width - point.x, height - point.y)
+
 }

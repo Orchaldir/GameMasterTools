@@ -69,4 +69,8 @@ data class SquareGrid(
 @SerialName("RowsAndColumns")
 data class RowsAndColumns(
     val size: MapSize2d,
-) : GridSize()
+) : GridSize() {
+
+    constructor(width: Int, height: Int) : this(MapSize2d(width, height))
+
+}
