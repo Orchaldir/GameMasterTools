@@ -109,59 +109,59 @@ private fun createHerringbone(
     grammar: BrickPatternGrammar,
 ) {
     val n = grammar.length
-    val offset = builder.borders().calculateTileOffsetX(builder.size().width, n * 2)
-    val types = n + 1
+    val types = n * 2
+    val offsetX = builder.borders().calculateTileOffsetX(builder.size().width, types)
+    val offsetY = builder.borders().calculateTileOffsetY(builder.size().height, types)
+
+    logger.info { "types=$types offsetX=$offsetX offsetY=$offsetY" }
 
     repeat(builder.size().height) { y ->
-        if (y == 5) {
-            logger.info { "debug" }
-        }
-
         var x = 0
-        var type = (types - y - offset) % types
+        var type = (types - y - offsetX).mod(types)
 
-        logger.info { "y=$y types=$types type=$type" }
+        logger.info { "y=$y type=$type" }
 
         while (x < builder.size().width) {
             logger.info { "x=$x type=$type" }
 
-            if (type <= 0) {
-                val isBrickSharedLeft = x == 0 && y > 0
+            when (type) {
+                in 0..<n -> {
+                    // a vertical brick
 
-                if (isBrickSharedLeft) {
-                    val remainingLength = 1 + type.absoluteValue
+                    if (x == 0) {
+                        val remainingLength = n - type
 
-                    if (builder.borders().left || remainingLength == n) {
-                        builder.addHorizontalBrick(0, y, grammar.brick, remainingLength)
+                        if (builder.borders().left) {
+                            builder.addHorizontalBrick(0, y, grammar.brick, remainingLength)
+                        }
+
+                        x = remainingLength
+                    }
+                    else {
+                        builder.addHorizontalBrick(x, y, grammar.brick, n)
+
+                        x += n
+                    }
+                }
+                in n..<types-1  -> {
+                    // vertical brick that started in a row above
+
+                    if (y == 0 && builder.borders().top) {
+                        val remainingLength = type - n + 1
+
+                        builder.addVerticalBrick(x, y, grammar.brick, remainingLength)
                     }
 
-                    x = remainingLength
-                    type = 1
-                    continue
+                    x++
                 }
-                else {
-                    logger.info { "add Horizontal" }
-                    builder.addHorizontalBrick(x, y, grammar.brick, n)
+                types - 1 -> {
+                    // vertical brick
+
+                    builder.addVerticalBrick(x, y, grammar.brick, n)
+
+                    x++
                 }
-
-                type = 0
-                x += n
-            } else if (type < n) {
-                // vertical brick that started in a row above
-
-                if (y == 0 && builder.borders().top) {
-                    builder.addVerticalBrick(x, y, grammar.brick, type)
-                }
-
-                logger.info { "skip Vertical" }
-                x++
-            } else {
-                // vertical brick
-
-                builder.addVerticalBrick(x, y, grammar.brick, n)
-                logger.info { "add Vertical" }
-
-                x++
+                else -> error("Unsupported type $type!")
             }
 
             type = (type + 1) % types

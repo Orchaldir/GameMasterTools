@@ -26,11 +26,11 @@ fun main() {
         RectangularShapeGrammar(
             MadeFromWood(color = Color.Gray),
         ),
-        RowsAndColumns(6, 6),
+        RowsAndColumns(20, 20),
         BrickPattern.Herringbone,
         3,
     )
-    val tileMap = TileMap2d(MapSize2d(3, 2), grammar)
+    val tileMap = TileMap2d(MapSize2d(1, 1), grammar)
     val tileSize = Distance.fromMeters(1.0f)
     val tileMapRenderer = TileMap2dRenderer(tileSize, ZERO_DISTANCE)
     val tileMapSize = tileMapRenderer.calculateMapSize(tileMap)
