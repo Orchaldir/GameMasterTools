@@ -117,7 +117,7 @@ private fun createHerringbone(
 
     repeat(builder.size().height) { y ->
         var x = 0
-        var type = (types - y - offsetX).mod(types)
+        var type = (types - y - offsetX + offsetY).mod(types)
 
         logger.info { "y=$y type=$type" }
 

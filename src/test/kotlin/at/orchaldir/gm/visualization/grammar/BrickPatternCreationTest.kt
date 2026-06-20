@@ -70,8 +70,10 @@ class BrickPatternCreationTest {
     private val line_6_W2xExExW2 = listOf(brickW2, null, null, null, brickW2, null)
     private val line_6_W2xH2xH2xW2 = listOf(brickW2, null, brickH2, brickH2, brickW2, null)
     private val line_6_W2xExExSxS = listOf(brickW2, null, null, null, singleBrick, singleBrick)
+    private val line_6_W2xExExH3xS = listOf(brickW2, null, null, null, brickH3, singleBrick)
     private val line_6_W3xExExE = listOf(brickW3, null, null, null, null, null)
     private val line_6_W3xSxH2xH3 = listOf(brickW3, null, null, singleBrick, brickH2, brickH3)
+    private val line_6_W3xExExH3 = listOf(brickW3, null, null, null, null, brickH3)
     private val line_5_W3xSxH2 = listOf(brickW3, null, null, singleBrick, brickH2)
     private val line_5_H3xW3xS = listOf(brickH3, brickW3, null, null, singleBrick)
     private val line_5_ExH3xW3 = listOf(null, brickH3, brickW3, null, null)
@@ -522,8 +524,8 @@ class BrickPatternCreationTest {
             @Test
             fun `Top border`() {
                 val expected = listOf(
-                    line_6_W2xExExSxS,
-                    line_6_W3xSxH2xH3,
+                    line_6_W2xExExH3xS,
+                    line_6_W3xExExH3,
                     line_6_H3xW3xExE,
                     line_6_ExH3xW3xE,
                     line_6_ExExH3xW3,
