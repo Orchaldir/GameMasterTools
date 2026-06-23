@@ -73,7 +73,16 @@ data class BrickPatternGrammar(
     val size: GridSize = SquareGrid(10),
     val pattern: BrickPattern = BrickPattern.Running,
     val length: Int = DEFAULT_BRICK_LENGTH,
-) : ShapeGrammar()
+) : ShapeGrammar() {
+
+    constructor(
+        brick: ShapeGrammar,
+        size: GridSize = SquareGrid(10),
+        pattern: BrickPattern = BrickPattern.Running,
+        length: Int = DEFAULT_BRICK_LENGTH,
+    ): this(UniformBricks(brick), size, pattern, length)
+
+}
 
 @Serializable
 @SerialName("DoNothing")

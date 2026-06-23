@@ -2,6 +2,7 @@ package at.orchaldir.gm.visualization.grammar.brick
 
 import at.orchaldir.gm.core.model.visualization.BrickPattern
 import at.orchaldir.gm.core.model.visualization.BrickPatternGrammar
+import at.orchaldir.gm.core.model.visualization.BrickSelection
 import at.orchaldir.gm.core.model.visualization.ShapeGrammar
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.map.TileMap2d
@@ -93,11 +94,11 @@ private fun createBasketWeavePattern(
 
 private fun createGridPattern(
     builder: BrickMapBuilder,
-    brick: ShapeGrammar,
+    bricks: BrickSelection,
 ) {
     repeat(builder.size().height) { y ->
         repeat(builder.size().width) { x ->
-            builder.addSingleBlock(x, y, brick)
+            builder.addSingleBlock(x, y, bricks)
         }
     }
 }

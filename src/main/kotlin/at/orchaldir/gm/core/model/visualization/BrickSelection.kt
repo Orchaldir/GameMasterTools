@@ -18,16 +18,25 @@ sealed class BrickSelection {
         is HorizontalAndVerticalBricks -> BrickSelectionType.HorizontalAndVertical
     }
 
-    fun contains(material: MaterialId): Boolean = when (this) {
+    fun contains(material: MaterialId) = when (this) {
         is UniformBricks -> brick.contains(material)
-        is HorizontalAndVerticalBricks -> vertical.contains(material) || horizontal.contains(material)
+        is HorizontalAndVerticalBricks -> horizontal.contains(material) ||  vertical.contains(material)
+    }
+
+    fun select(isHorizontal: Boolean) = when (this) {
+        is UniformBricks -> brick
+        is HorizontalAndVerticalBricks -> if (isHorizontal) {
+            horizontal
+        } else {
+            vertical
+        }
     }
 
     fun validate(state: State, label: String): Unit = when (this) {
         is UniformBricks -> brick.validate(state, "$label's brick")
         is HorizontalAndVerticalBricks -> {
-            vertical.validate(state, "$label's vertical brick")
             horizontal.validate(state, "$label's horizontal brick")
+            vertical.validate(state, "$label's vertical brick")
         }
     }
 }

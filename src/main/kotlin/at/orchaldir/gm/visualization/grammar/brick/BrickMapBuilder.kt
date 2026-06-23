@@ -1,5 +1,6 @@
 package at.orchaldir.gm.visualization.grammar.brick
 
+import at.orchaldir.gm.core.model.visualization.BrickSelection
 import at.orchaldir.gm.core.model.visualization.DoNothingShapeGrammar
 import at.orchaldir.gm.core.model.visualization.ShapeGrammar
 import at.orchaldir.gm.utils.map.MapPoint2d
@@ -26,13 +27,14 @@ abstract class BrickMapBuilder(
     abstract fun size(): MapSize2d
     fun borders() = borders
 
-    fun addSingleBlock(x: Int, y: Int, grammar: ShapeGrammar) {
+    fun addSingleBlock(x: Int, y: Int, bricks: BrickSelection) {
         val mapIndex = size.toIndexRisky(x, y)
+        val selected = bricks.select(true)
 
-        map[mapIndex] = Brick(grammar, BLOCK_SIZE)
+        map[mapIndex] = Brick(selected, BLOCK_SIZE)
     }
 
-    fun addHorizontalBrick(x: Int, y: Int, grammar: ShapeGrammar, length: Int) {
+    fun addHorizontalBrick(x: Int, y: Int, bricks: BrickSelection, length: Int) {
         var limitedX = x
         var limitedLength = length
 
@@ -51,10 +53,10 @@ abstract class BrickMapBuilder(
             limitedLength = length.coerceAtMost(maxLength)
         }
 
-        addBrick(limitedX, y, Brick(grammar, MapSize2d(limitedLength, 1)))
+        addBrick(limitedX, y, bricks, MapSize2d(limitedLength, 1), true)
     }
 
-    fun addVerticalBrick(x: Int, y: Int, grammar: ShapeGrammar, length: Int) {
+    fun addVerticalBrick(x: Int, y: Int, bricks: BrickSelection, length: Int) {
         var limitedY = y
         var limitedLength = length
 
@@ -73,10 +75,15 @@ abstract class BrickMapBuilder(
             limitedLength = length.coerceAtMost(maxLength)
         }
 
-        addBrick(x, limitedY, Brick(grammar, MapSize2d(1, limitedLength)))
+        addBrick(x, limitedY, bricks, MapSize2d(1, limitedLength), false)
     }
 
-    abstract fun addBrick(x: Int, y: Int, brick: Brick)
+    protected fun addBrick(x: Int, y: Int, bricks: BrickSelection, size: MapSize2d, isHorizontal: Boolean) {
+        val selected = bricks.select(isHorizontal)
+
+        addBrick(x, y, Brick(selected, size))
+    }
+    protected abstract fun addBrick(x: Int, y: Int, brick: Brick)
 
     fun createSubSections(
         subSize: MapSize2d,

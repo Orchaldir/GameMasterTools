@@ -1,11 +1,13 @@
 package at.orchaldir.gm.visualization.grammar.brick
 
+import at.orchaldir.gm.core.model.visualization.BrickSelection
 import at.orchaldir.gm.core.model.visualization.ShapeGrammar
+import at.orchaldir.gm.core.model.visualization.UniformBricks
 import at.orchaldir.gm.utils.map.MapPoint2d
 
 fun createRowPattern(
     builder: BrickMapBuilder,
-    brick: ShapeGrammar,
+    bricks: BrickSelection,
     length: Int,
     offset: Int,
     calculateStartOfRow: (Int) -> Int,
@@ -14,7 +16,7 @@ fun createRowPattern(
         var x = calculateStartOfRow(y) + offset
 
         while (x < builder.size().width) {
-            builder.addHorizontalBrick(x, y, brick, length)
+            builder.addHorizontalBrick(x, y, bricks, length)
 
             x += length
         }
@@ -23,22 +25,22 @@ fun createRowPattern(
 
 fun addHorizontalBasketWeaveN(
     builder: SubSectionBuilder,
-    brick: ShapeGrammar,
+    bricks: BrickSelection,
     start: MapPoint2d,
     n: Int,
 ) {
     repeat(n) { i ->
-        builder.addHorizontalBrick(start.x, start.y + i, brick, n)
+        builder.addHorizontalBrick(start.x, start.y + i, bricks, n)
     }
 }
 
 fun addVerticalBasketWeaveN(
     builder: SubSectionBuilder,
-    brick: ShapeGrammar,
+    bricks: BrickSelection,
     start: MapPoint2d,
     n: Int,
 ) {
     repeat(n) { i ->
-        builder.addVerticalBrick(start.x + i, start.y, brick, n)
+        builder.addVerticalBrick(start.x + i, start.y, bricks, n)
     }
 }
