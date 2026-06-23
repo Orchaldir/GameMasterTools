@@ -19,7 +19,7 @@ fun main() {
     val yellow  = RectangularShapeGrammar(Color.Yellow)
     val selections = listOf(
         Pair("Uniform", UniformBricks(grey)),
-        Pair("H & V", HorizontalAndVerticalBricks(blue, yellow)),
+        Pair("H and V", HorizontalAndVerticalBricks(blue, yellow)),
     )
     renderGrammarTable(
         State(),
