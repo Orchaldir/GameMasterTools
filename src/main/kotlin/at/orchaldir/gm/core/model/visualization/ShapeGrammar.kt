@@ -4,6 +4,8 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.util.part.ItemPart
 import at.orchaldir.gm.core.model.util.part.ItemPartType
+import at.orchaldir.gm.core.model.util.part.MadeFromStone
+import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.reducer.util.part.validateItemPart
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
@@ -93,7 +95,11 @@ data object DoNothingShapeGrammar : ShapeGrammar()
 data class RectangularShapeGrammar(
     val part: ItemPart,
     val shape: RectangularShape = RectangularShape.Rectangle,
-) : ShapeGrammar()
+) : ShapeGrammar() {
+
+    constructor(color: Color) : this(MadeFromStone(color))
+
+}
 
 @Serializable
 @SerialName("Shrink")
