@@ -35,45 +35,25 @@ abstract class BrickMapBuilder(
     }
 
     fun addHorizontalBrick(x: Int, y: Int, bricks: BrickSelection, length: Int) {
-        var limitedX = x
-        var limitedLength = length
-
-        if (x < 0) {
-            val remainingLength = length + x
-
-            if (borders.left && remainingLength > 0) {
-                limitedX = 0
-                limitedLength = remainingLength
-            } else {
-                return
-            }
-        } else if (borders.right && x + length > size().width) {
-            val maxLength = size().width - x
-
-            limitedLength = length.coerceAtMost(maxLength)
-        }
+        val (limitedX, limitedLength) = applyBorders(
+            borders.left,
+            borders.right,
+            size().width,
+            x,
+            length,
+        ) ?: return
 
         addBrick(limitedX, y, bricks, MapSize2d(limitedLength, 1), true)
     }
 
     fun addVerticalBrick(x: Int, y: Int, bricks: BrickSelection, length: Int) {
-        var limitedY = y
-        var limitedLength = length
-
-        if (y < 0) {
-            val remainingLength = length + y
-
-            if (borders.top && remainingLength > 0) {
-                limitedY = 0
-                limitedLength = remainingLength
-            } else {
-                return
-            }
-        } else if (borders.bottom && y + length > size().height) {
-            val maxLength = size().height - y
-
-            limitedLength = length.coerceAtMost(maxLength)
-        }
+        val (limitedY, limitedLength) = applyBorders(
+            borders.top,
+            borders.bottom,
+            size().height,
+            y,
+            length,
+        ) ?: return
 
         addBrick(x, limitedY, bricks, MapSize2d(1, limitedLength), false)
     }
@@ -243,3 +223,31 @@ private fun calculateSubBorders(
     subSectionX,
     subSectionY,
 )
+
+private fun applyBorders(
+    startBorder: Boolean,
+    endBorder: Boolean,
+    gridSize: Int,
+    position: Int,
+    length: Int,
+): Pair<Int, Int>? {
+    var limitedPosition = position
+    var limitedLength = length
+
+    if (position < 0) {
+        val remainingLength = length + position
+
+        if (startBorder && remainingLength > 0) {
+            limitedPosition = 0
+            limitedLength = remainingLength
+        } else {
+            return null
+        }
+    } else if (endBorder && position + length > gridSize) {
+        val maxLength = gridSize - position
+
+        limitedLength = length.coerceAtMost(maxLength)
+    }
+
+    return Pair(limitedPosition, limitedLength)
+}
