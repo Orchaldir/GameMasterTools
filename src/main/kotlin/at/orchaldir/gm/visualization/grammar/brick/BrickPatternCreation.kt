@@ -55,7 +55,7 @@ private fun createBasketWeaveSinglePattern(
             basketWeavePosition,
             n,
         )
-        sub.addHorizontalBrick(start.x, brickY, grammar.bricks, n)
+        sub.addHorizontalBrick(start.x, brickY, 0, grammar.bricks, n)
     }
 }
 
@@ -125,12 +125,12 @@ private fun createHerringbone(
                         val remainingLength = n - type
 
                         if (builder.borders().left) {
-                            builder.addHorizontalBrick(0, y, grammar.bricks, remainingLength)
+                            builder.addHorizontalBrick(0, y, y, grammar.bricks, remainingLength)
                         }
 
                         x = remainingLength
                     } else {
-                        builder.addHorizontalBrick(x, y, grammar.bricks, n)
+                        builder.addHorizontalBrick(x, y, y, grammar.bricks, n)
 
                         x += n
                     }
@@ -146,7 +146,7 @@ private fun createHerringbone(
                     if (y == 0 && builder.borders().top) {
                         val remainingLength = type - n + 1
 
-                        builder.addVerticalBrick(x, y, grammar.bricks, remainingLength)
+                        builder.addVerticalBrick(x, y, x, grammar.bricks, remainingLength)
                     }
 
                     x++
@@ -155,7 +155,7 @@ private fun createHerringbone(
                 types - 1 -> {
                     // vertical brick
 
-                    builder.addVerticalBrick(x, y, grammar.bricks, n)
+                    builder.addVerticalBrick(x, y, x, grammar.bricks, n)
 
                     x++
                 }

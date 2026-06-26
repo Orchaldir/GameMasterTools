@@ -29,12 +29,18 @@ abstract class BrickMapBuilder(
 
     fun addSingleBlock(x: Int, y: Int, bricks: BrickSelection) {
         val mapIndex = size.toIndexRisky(x, y)
-        val selected = bricks.select(true)
+        val selected = bricks.select(y, true)
 
         map[mapIndex] = Brick(selected, BLOCK_SIZE)
     }
 
-    fun addHorizontalBrick(x: Int, y: Int, bricks: BrickSelection, length: Int) {
+    fun addHorizontalBrick(
+        x: Int,
+        y: Int,
+        row: Int,
+        bricks: BrickSelection,
+        length: Int,
+    ) {
         val (limitedX, limitedLength) = applyBorders(
             borders.left,
             borders.right,
@@ -43,10 +49,16 @@ abstract class BrickMapBuilder(
             length,
         ) ?: return
 
-        addBrick(limitedX, y, bricks, MapSize2d(limitedLength, 1), true)
+        addBrick(limitedX, y, row, bricks, MapSize2d(limitedLength, 1), true)
     }
 
-    fun addVerticalBrick(x: Int, y: Int, bricks: BrickSelection, length: Int) {
+    fun addVerticalBrick(
+        x: Int,
+        y: Int,
+        row: Int,
+        bricks: BrickSelection,
+        length: Int,
+    ) {
         val (limitedY, limitedLength) = applyBorders(
             borders.top,
             borders.bottom,
@@ -55,11 +67,18 @@ abstract class BrickMapBuilder(
             length,
         ) ?: return
 
-        addBrick(x, limitedY, bricks, MapSize2d(1, limitedLength), false)
+        addBrick(x, limitedY, row, bricks, MapSize2d(1, limitedLength), false)
     }
 
-    protected fun addBrick(x: Int, y: Int, bricks: BrickSelection, size: MapSize2d, isHorizontal: Boolean) {
-        val selected = bricks.select(isHorizontal)
+    protected fun addBrick(
+        x: Int,
+        y: Int,
+        row: Int,
+        bricks: BrickSelection,
+        size: MapSize2d,
+        isHorizontal: Boolean,
+    ) {
+        val selected = bricks.select(row, isHorizontal)
 
         addBrick(x, y, Brick(selected, size))
     }

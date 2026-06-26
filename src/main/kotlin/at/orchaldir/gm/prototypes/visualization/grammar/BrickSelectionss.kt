@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.part.MadeFromStone
 import at.orchaldir.gm.core.model.util.part.MadeFromWood
 import at.orchaldir.gm.core.model.util.render.Color
+import at.orchaldir.gm.core.model.visualization.AlternateRows
 import at.orchaldir.gm.core.model.visualization.BrickPattern
 import at.orchaldir.gm.core.model.visualization.BrickPatternGrammar
 import at.orchaldir.gm.core.model.visualization.BrickSelection
@@ -20,6 +21,7 @@ fun main() {
     val selections = listOf(
         Pair("Uniform", UniformBricks(grey)),
         Pair("H and V", HorizontalAndVerticalBricks(blue, yellow)),
+        Pair("Rows", AlternateRows(listOf(grey, blue, yellow))),
     )
     renderGrammarTable(
         State(),

@@ -16,7 +16,7 @@ fun createRowPattern(
         var x = calculateStartOfRow(y) + offset
 
         while (x < builder.size().width) {
-            builder.addHorizontalBrick(x, y, bricks, length)
+            builder.addHorizontalBrick(x, y, y, bricks, length)
 
             x += length
         }
@@ -30,7 +30,8 @@ fun addHorizontalBasketWeaveN(
     n: Int,
 ) {
     repeat(n) { i ->
-        builder.addHorizontalBrick(start.x, start.y + i, bricks, n)
+        val row = start.y + i
+        builder.addHorizontalBrick(start.x, row, row, bricks, n)
     }
 }
 
@@ -41,6 +42,7 @@ fun addVerticalBasketWeaveN(
     n: Int,
 ) {
     repeat(n) { i ->
-        builder.addVerticalBrick(start.x + i, start.y, bricks, n)
+        val row = start.x + i
+        builder.addVerticalBrick(row, start.y, row, bricks, n)
     }
 }
