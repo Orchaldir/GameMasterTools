@@ -66,9 +66,6 @@ data class TileMap2dRenderer(
                 val isTopBorder = isTopBorders[x]
                 val isBottomBorder = currentTile != bottomTile
 
-                logger.info { "x=$x y=$y isLeftBorder=$isLeftBorder isRightBorder=$isRightBorder" }
-                logger.info { "x=$x y=$y isTopBorder=$isTopBorder isBottomBorder=$isBottomBorder" }
-
                 currentTile?.let { tile ->
                     val position = start + calculateTilePosition(x, y)
                     val borders = Borders(

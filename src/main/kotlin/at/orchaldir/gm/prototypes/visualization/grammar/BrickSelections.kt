@@ -1,9 +1,10 @@
 package at.orchaldir.gm.prototypes.visualization.grammar
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.util.OneOf
 import at.orchaldir.gm.core.model.util.part.MadeFromStone
-import at.orchaldir.gm.core.model.util.part.MadeFromWood
 import at.orchaldir.gm.core.model.util.render.Color
+import at.orchaldir.gm.core.model.util.render.RandomColor
 import at.orchaldir.gm.core.model.visualization.AlternateRows
 import at.orchaldir.gm.core.model.visualization.BrickPattern
 import at.orchaldir.gm.core.model.visualization.BrickPatternGrammar
@@ -15,11 +16,14 @@ import at.orchaldir.gm.core.model.visualization.UniformBricks
 import at.orchaldir.gm.prototypes.visualization.addNames
 
 fun main() {
+    val randomColors = MadeFromStone(color = RandomColor(OneOf(listOf(Color.Green, Color.Red))))
     val blue  = RectangularShapeGrammar(Color.Blue)
     val grey  = RectangularShapeGrammar(Color.Gray)
+    val random  = RectangularShapeGrammar(randomColors)
     val yellow  = RectangularShapeGrammar(Color.Yellow)
     val selections = listOf(
         Pair("Uniform", UniformBricks(grey)),
+        Pair("Random", UniformBricks(random)),
         Pair("H and V", HorizontalAndVerticalBricks(blue, yellow)),
         Pair("Rows", AlternateRows(listOf(grey, blue, yellow))),
     )
