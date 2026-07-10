@@ -154,6 +154,21 @@ class BrickSelectionTest {
         }
 
         @Test
+        fun `Test Herringbone`() {
+            val expected = createHerringbone(
+                blue,
+                yellow,
+                blue,
+                blue,
+                yellow,
+                yellow,
+                blue,
+            )
+
+            testHerringbone(selection, expected)
+        }
+
+        @Test
         fun `Test Running`() {
             val expected = createRunning(
                 blue,
@@ -236,6 +251,21 @@ class BrickSelectionTest {
         }
 
         @Test
+        fun `Test Herringbone`() {
+            val expected = createHerringbone(
+                blue,
+                blue,
+                blue,
+                yellow,
+                yellow,
+                yellow,
+                yellow,
+            )
+
+            testHerringbone(selection, expected)
+        }
+
+        @Test
         fun `Test Running`() {
             val expected = createRunning(
                 blue,
@@ -268,8 +298,9 @@ class BrickSelectionTest {
     private fun createH(grammar: ShapeGrammar, n: Int) = Brick(grammar, MapSize2d(n, 1))
     private fun createH2(grammar: ShapeGrammar) = createH(grammar, 2)
     private fun createH3(grammar: ShapeGrammar) = createH(grammar, 3)
-    private fun createV3(grammar: ShapeGrammar) = Brick(grammar, MapSize2d(1, 3))
-
+    private fun createV(grammar: ShapeGrammar, n: Int) = Brick(grammar, MapSize2d(1, n))
+    private fun createV2(grammar: ShapeGrammar) = createV(grammar, 2)
+    private fun createV3(grammar: ShapeGrammar) = createV(grammar, 3)
 
     private fun createBasketWeave(
         h0: ShapeGrammar,
@@ -317,6 +348,22 @@ class BrickSelectionTest {
         val line0 = listOf(Brick(b00), Brick(b01), Brick(b02))
         val line1 = listOf(Brick(b10), Brick(b11), Brick(b12))
         val line2 = listOf(Brick(b20), Brick(b21), Brick(b22))
+
+        return listOf(line0, line1, line2)
+    }
+
+    private fun createHerringbone(
+        h0: ShapeGrammar,
+        h1: ShapeGrammar,
+        h2: ShapeGrammar,
+        v0: ShapeGrammar,
+        v1: ShapeGrammar,
+        v2: ShapeGrammar,
+        v3: ShapeGrammar,
+    ): List<List<Brick?>> {
+        val line0 = listOf(createH3(h0), null, null, Brick(v2), createV2(v3))
+        val line1 = listOf(createV2(v0), createH3(h1), null, null, null)
+        val line2 = listOf(null, Brick(v1),createH3(h2), null, null)
 
         return listOf(line0, line1, line2)
     }
@@ -381,6 +428,17 @@ class BrickSelectionTest {
         MapSize2d(3, 3),
         BrickPattern.Grid,
         1,
+        selection,
+        expected,
+    )
+
+    private fun testHerringbone(
+        selection: BrickSelection,
+        expected: List<List<Brick?>>,
+    ) = test(
+        MapSize2d(5, 3),
+        BrickPattern.Herringbone,
+        3,
         selection,
         expected,
     )
