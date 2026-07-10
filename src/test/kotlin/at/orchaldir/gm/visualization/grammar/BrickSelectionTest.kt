@@ -107,6 +107,20 @@ class BrickSelectionTest {
         private val selection = AlternateRows(listOf(gray, blue, yellow))
 
         @Test
+        fun `Test BasketWeave`() {
+            val expected = createBasketWeave(
+                gray,
+                blue,
+                yellow,
+                gray,
+                blue,
+                yellow,
+            )
+
+            testBasketWeave(selection, expected)
+        }
+
+        @Test
         fun `Test BasketWeaveSingle`() {
             val expected = createBasketWeaveSingle(
                 gray,
@@ -129,6 +143,20 @@ class BrickSelectionTest {
         private val selection = HorizontalAndVerticalBricks(blue, yellow)
 
         @Test
+        fun `Test BasketWeave`() {
+            val expected = createBasketWeave(
+                blue,
+                blue,
+                blue,
+                yellow,
+                yellow,
+                yellow,
+            )
+
+            testBasketWeave(selection, expected)
+        }
+
+        @Test
         fun `Test BasketWeaveSingle`() {
             val expected = createBasketWeaveSingle(blue, blue, yellow, yellow, yellow, yellow, yellow, yellow)
 
@@ -138,6 +166,22 @@ class BrickSelectionTest {
 
     private fun createH3(grammar: ShapeGrammar) = Brick(grammar, MapSize2d(3, 1))
     private fun createV3(grammar: ShapeGrammar) = Brick(grammar, MapSize2d(1, 3))
+
+
+    private fun createBasketWeave(
+        h0: ShapeGrammar,
+        h1: ShapeGrammar,
+        h2: ShapeGrammar,
+        v0: ShapeGrammar,
+        v1: ShapeGrammar,
+        v2: ShapeGrammar,
+    ): List<List<Brick?>> {
+        val H3_V3_V3_v3 = listOf(createH3(h0), null, null, createV3(v0), createV3(v1), createV3(v2))
+        val line_1 = listOf(createH3(h1), null, null, null, null, null)
+        val line_2 = listOf(createH3(h2), null, null, null, null, null)
+
+        return listOf(H3_V3_V3_v3, line_1, line_2)
+    }
 
     private fun createBasketWeaveSingle(
         h0: ShapeGrammar,
@@ -155,6 +199,17 @@ class BrickSelectionTest {
 
         return listOf(line_6_H3xH3xH3xW3, line_6_ExExExH3xH3xH3, line_6_ExExExExExE, line_6_W3xExExE)
     }
+
+    private fun testBasketWeave(
+        selection: BrickSelection,
+        expected: List<List<Brick?>>,
+    ) = test(
+        MapSize2d(6, 3),
+        BrickPattern.BasketWeave,
+        3,
+        selection,
+        expected,
+    )
 
     private fun testBasketWeaveSingle(
         selection: BrickSelection,
