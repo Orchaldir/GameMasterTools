@@ -82,7 +82,7 @@ data class BrickPatternGrammar(
         size: GridSize = SquareGrid(10),
         pattern: BrickPattern = BrickPattern.Running,
         length: Int = DEFAULT_BRICK_LENGTH,
-    ): this(UniformBricks(brick), size, pattern, length)
+    ) : this(UniformBricks(brick), size, pattern, length)
 
 }
 

@@ -5,11 +5,7 @@ import at.orchaldir.gm.app.HORIZONTAL
 import at.orchaldir.gm.app.VERTICAL
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.visualization.AlternateRows
-import at.orchaldir.gm.core.model.visualization.BrickSelection
-import at.orchaldir.gm.core.model.visualization.BrickSelectionType
-import at.orchaldir.gm.core.model.visualization.HorizontalAndVerticalBricks
-import at.orchaldir.gm.core.model.visualization.UniformBricks
+import at.orchaldir.gm.core.model.visualization.*
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -27,12 +23,14 @@ fun HtmlBlockTag.showBrickSelection(
 
         when (selection) {
             is AlternateRows -> showListWithIndex(selection.rows) { index, row ->
-                showShapeGrammar(call, state, row, "${index+1}.Row")
+                showShapeGrammar(call, state, row, "${index + 1}.Row")
             }
+
             is HorizontalAndVerticalBricks -> {
                 showShapeGrammar(call, state, selection.horizontal, "Horizontal Brick")
                 showShapeGrammar(call, state, selection.vertical, "Vertical Brick")
             }
+
             is UniformBricks -> showShapeGrammar(call, state, selection.brick, "Brick")
         }
     }
@@ -62,9 +60,10 @@ fun HtmlBlockTag.editBrickSelection(
                     state,
                     row,
                     combine(selectionParam, index),
-                    "${index+1}.Row",
+                    "${index + 1}.Row",
                 )
             }
+
             is HorizontalAndVerticalBricks -> {
                 editShapeGrammar(
                     state,
@@ -79,6 +78,7 @@ fun HtmlBlockTag.editBrickSelection(
                     "Vertical Brick",
                 )
             }
+
             is UniformBricks -> editShapeGrammar(
                 state,
                 selection.brick,
@@ -103,11 +103,13 @@ fun parseBrickSelection(
             parseShapeGrammar(state, parameters, combine(selectionParam, HORIZONTAL)),
             parseShapeGrammar(state, parameters, combine(selectionParam, VERTICAL)),
         )
+
         BrickSelectionType.Rows -> AlternateRows(
             parseList(parameters, selectionParam, 2) { _, rowParam ->
                 parseShapeGrammar(state, parameters, rowParam)
             },
         )
+
         BrickSelectionType.Uniform -> UniformBricks(
             parseShapeGrammar(state, parameters, combine(selectionParam, HORIZONTAL)),
         )

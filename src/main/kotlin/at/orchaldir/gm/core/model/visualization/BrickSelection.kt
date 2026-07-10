@@ -22,7 +22,7 @@ sealed class BrickSelection {
 
     fun contains(material: MaterialId) = when (this) {
         is AlternateRows -> rows.any { it.contains(material) }
-        is HorizontalAndVerticalBricks -> horizontal.contains(material) ||  vertical.contains(material)
+        is HorizontalAndVerticalBricks -> horizontal.contains(material) || vertical.contains(material)
         is UniformBricks -> brick.contains(material)
     }
 
@@ -33,17 +33,20 @@ sealed class BrickSelection {
         } else {
             vertical
         }
+
         is UniformBricks -> brick
     }
 
     fun validate(state: State, label: String): Unit = when (this) {
         is AlternateRows -> rows.withIndex().forEach { (row, brick) ->
-            brick.validate(state, "$label's ${row+1} row")
+            brick.validate(state, "$label's ${row + 1} row")
         }
+
         is HorizontalAndVerticalBricks -> {
             horizontal.validate(state, "$label's horizontal brick")
             vertical.validate(state, "$label's vertical brick")
         }
+
         is UniformBricks -> brick.validate(state, "$label's brick")
     }
 }

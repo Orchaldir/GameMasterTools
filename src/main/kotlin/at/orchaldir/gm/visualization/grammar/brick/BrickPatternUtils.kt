@@ -1,8 +1,6 @@
 package at.orchaldir.gm.visualization.grammar.brick
 
 import at.orchaldir.gm.core.model.visualization.BrickSelection
-import at.orchaldir.gm.core.model.visualization.ShapeGrammar
-import at.orchaldir.gm.core.model.visualization.UniformBricks
 import at.orchaldir.gm.utils.map.MapPoint2d
 
 fun createRowPattern(

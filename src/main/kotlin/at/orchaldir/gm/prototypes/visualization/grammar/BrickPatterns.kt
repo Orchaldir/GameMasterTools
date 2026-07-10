@@ -1,7 +1,6 @@
 package at.orchaldir.gm.prototypes.visualization.grammar
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.util.part.MadeFromWood
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.visualization.BrickPattern
 import at.orchaldir.gm.core.model.visualization.BrickPatternGrammar

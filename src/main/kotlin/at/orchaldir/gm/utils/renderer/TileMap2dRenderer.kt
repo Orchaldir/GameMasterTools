@@ -1,6 +1,5 @@
 package at.orchaldir.gm.utils.renderer
 
-import at.orchaldir.gm.core.logger
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.util.render.Color.Black
 import at.orchaldir.gm.utils.map.MapSize2d

@@ -82,6 +82,7 @@ abstract class BrickMapBuilder(
 
         addBrick(x, y, Brick(selected, size))
     }
+
     protected abstract fun addBrick(x: Int, y: Int, brick: Brick)
 
     fun createSubSections(
@@ -160,7 +161,7 @@ abstract class BrickMapBuilder(
     }
 
     private fun limitSubSize(subStart: MapPoint2d, subSize: MapSize2d): MapSize2d {
-        val subEnd = subStart + subSize;
+        val subEnd = subStart + subSize
 
         return MapSize2d(
             limitSubSize(subEnd.x, subSize.width, size.width),

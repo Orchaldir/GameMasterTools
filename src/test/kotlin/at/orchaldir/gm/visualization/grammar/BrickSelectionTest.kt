@@ -1,14 +1,7 @@
 package at.orchaldir.gm.visualization.grammar
 
 import at.orchaldir.gm.core.model.util.render.Color
-import at.orchaldir.gm.core.model.visualization.AlternateRows
-import at.orchaldir.gm.core.model.visualization.BrickPattern
-import at.orchaldir.gm.core.model.visualization.BrickPatternGrammar
-import at.orchaldir.gm.core.model.visualization.BrickSelection
-import at.orchaldir.gm.core.model.visualization.HorizontalAndVerticalBricks
-import at.orchaldir.gm.core.model.visualization.RectangularShapeGrammar
-import at.orchaldir.gm.core.model.visualization.RowsAndColumns
-import at.orchaldir.gm.core.model.visualization.ShapeGrammar
+import at.orchaldir.gm.core.model.visualization.*
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.map.assertTilemap
 import at.orchaldir.gm.visualization.grammar.brick.Brick
@@ -284,7 +277,7 @@ class BrickSelectionTest {
     ): List<List<Brick?>> {
         val line0 = listOf(createH3(h0), null, null, Brick(v2), createV2(v3))
         val line1 = listOf(createV2(v0), createH3(h1), null, null, null)
-        val line2 = listOf(null, Brick(v1),createH3(h2), null, null)
+        val line2 = listOf(null, Brick(v1), createH3(h2), null, null)
 
         return listOf(line0, line1, line2)
     }
