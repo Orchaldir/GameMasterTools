@@ -1,6 +1,5 @@
 package at.orchaldir.gm.utils.renderer
 
-import at.orchaldir.gm.core.logger
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.util.render.Color.Black
 import at.orchaldir.gm.utils.map.MapSize2d
@@ -65,9 +64,6 @@ data class TileMap2dRenderer(
                 val isRightBorder = currentTile != rightTile
                 val isTopBorder = isTopBorders[x]
                 val isBottomBorder = currentTile != bottomTile
-
-                logger.info { "x=$x y=$y isLeftBorder=$isLeftBorder isRightBorder=$isRightBorder" }
-                logger.info { "x=$x y=$y isTopBorder=$isTopBorder isBottomBorder=$isBottomBorder" }
 
                 currentTile?.let { tile ->
                     val position = start + calculateTilePosition(x, y)

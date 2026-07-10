@@ -1,7 +1,6 @@
 package at.orchaldir.gm.prototypes.visualization.grammar
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.util.part.MadeFromWood
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.visualization.BrickPattern
 import at.orchaldir.gm.core.model.visualization.BrickPatternGrammar
@@ -21,9 +20,7 @@ fun main() {
 }
 
 private fun createGrammar(pattern: BrickPattern, length: Int) = BrickPatternGrammar(
-    RectangularShapeGrammar(
-        MadeFromWood(color = Color.Gray),
-    ),
+    RectangularShapeGrammar(Color.Gray),
     SquareGrid(20),
     pattern,
     length,

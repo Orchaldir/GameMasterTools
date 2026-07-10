@@ -17,12 +17,13 @@ fun visualizeBrickPatternGrammar(
     val gridmap = createBrickPattern(grammar, borders)
     val renderer = TileMap2dRenderer(aabb.size, grammar.size.size())
 
-    renderer.render(gridmap, aabb.start) { _, blockAabb, borders, brick ->
+    renderer.render(gridmap, aabb.start) { index, blockAabb, borders, brick ->
         if (brick != null) {
             val brickSize = blockAabb.size * brick.size
             val brickAabb = blockAabb.copy(size = brickSize)
+            val brickState = state.addSeed(index)
 
-            visualizeShapeGrammar(state, brick.grammar, brickAabb, borders, layer)
+            visualizeShapeGrammar(brickState, brick.grammar, brickAabb, borders, layer)
         }
     }
 }

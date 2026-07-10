@@ -4,6 +4,8 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.util.part.ItemPart
 import at.orchaldir.gm.core.model.util.part.ItemPartType
+import at.orchaldir.gm.core.model.util.part.MadeFromStone
+import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.reducer.util.part.validateItemPart
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.*
@@ -37,17 +39,17 @@ sealed class ShapeGrammar {
     }
 
     fun contains(material: MaterialId): Boolean = when (this) {
-        is BrickPatternGrammar -> brick.contains(material)
+        is BrickPatternGrammar -> bricks.contains(material)
         DoNothingShapeGrammar -> false
         is RectangularShapeGrammar -> part.contains(material)
-        is ShrinkGrammar -> false
+        is ShrinkGrammar -> grammar.contains(material)
     }
 
     fun validate(state: State, label: String): Unit = when (this) {
         is BrickPatternGrammar -> {
             size.validate(label, MIN_GRID_SIZE, MAX_GRID_SIZE)
             checkInt(length, "${label}'s brick length", MIN_BRICK_LENGTH, MAX_BRICK_LENGTH)
-            brick.validate(state, "$label's brick")
+            bricks.validate(state, label)
         }
 
         DoNothingShapeGrammar -> doNothing()
@@ -69,11 +71,20 @@ sealed class ShapeGrammar {
 @Serializable
 @SerialName("BrickPattern")
 data class BrickPatternGrammar(
-    val brick: ShapeGrammar = DoNothingShapeGrammar,
+    val bricks: BrickSelection = UniformBricks(),
     val size: GridSize = SquareGrid(10),
     val pattern: BrickPattern = BrickPattern.Running,
     val length: Int = DEFAULT_BRICK_LENGTH,
-) : ShapeGrammar()
+) : ShapeGrammar() {
+
+    constructor(
+        brick: ShapeGrammar,
+        size: GridSize = SquareGrid(10),
+        pattern: BrickPattern = BrickPattern.Running,
+        length: Int = DEFAULT_BRICK_LENGTH,
+    ) : this(UniformBricks(brick), size, pattern, length)
+
+}
 
 @Serializable
 @SerialName("DoNothing")
@@ -84,7 +95,11 @@ data object DoNothingShapeGrammar : ShapeGrammar()
 data class RectangularShapeGrammar(
     val part: ItemPart,
     val shape: RectangularShape = RectangularShape.Rectangle,
-) : ShapeGrammar()
+) : ShapeGrammar() {
+
+    constructor(color: Color) : this(MadeFromStone(color))
+
+}
 
 @Serializable
 @SerialName("Shrink")

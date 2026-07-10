@@ -2,7 +2,7 @@ package at.orchaldir.gm.visualization.grammar.brick
 
 import at.orchaldir.gm.core.model.visualization.BrickPattern
 import at.orchaldir.gm.core.model.visualization.BrickPatternGrammar
-import at.orchaldir.gm.core.model.visualization.ShapeGrammar
+import at.orchaldir.gm.core.model.visualization.BrickSelection
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.map.TileMap2d
 import at.orchaldir.gm.visualization.grammar.Borders
@@ -18,7 +18,7 @@ fun createBrickPattern(
     when (grammar.pattern) {
         BrickPattern.BasketWeaveSingle -> createBasketWeaveSinglePattern(builder, grammar)
         BrickPattern.BasketWeave -> createBasketWeavePattern(builder, grammar)
-        BrickPattern.Grid -> createGridPattern(builder, grammar.brick)
+        BrickPattern.Grid -> createGridPattern(builder, grammar.bricks)
         BrickPattern.Herringbone -> createHerringbone(builder, grammar)
         BrickPattern.Running -> createRunningPattern(builder, grammar)
         BrickPattern.Stack -> createStackPattern(builder, grammar)
@@ -50,11 +50,11 @@ private fun createBasketWeaveSinglePattern(
 
         addVerticalBasketWeaveN(
             sub,
-            grammar.brick,
+            grammar.bricks,
             basketWeavePosition,
             n,
         )
-        sub.addHorizontalBrick(start.x, brickY, grammar.brick, n)
+        sub.addHorizontalBrick(start.x, brickY, 0, grammar.bricks, n)
     }
 }
 
@@ -74,14 +74,14 @@ private fun createBasketWeavePattern(
         if (isEven) {
             addHorizontalBasketWeaveN(
                 sub,
-                grammar.brick,
+                grammar.bricks,
                 start,
                 n,
             )
         } else {
             addVerticalBasketWeaveN(
                 sub,
-                grammar.brick,
+                grammar.bricks,
                 start,
                 n,
             )
@@ -93,11 +93,11 @@ private fun createBasketWeavePattern(
 
 private fun createGridPattern(
     builder: BrickMapBuilder,
-    brick: ShapeGrammar,
+    bricks: BrickSelection,
 ) {
     repeat(builder.size().height) { y ->
         repeat(builder.size().width) { x ->
-            builder.addSingleBlock(x, y, brick)
+            builder.addSingleBlock(x, y, bricks)
         }
     }
 }
@@ -124,12 +124,12 @@ private fun createHerringbone(
                         val remainingLength = n - type
 
                         if (builder.borders().left) {
-                            builder.addHorizontalBrick(0, y, grammar.brick, remainingLength)
+                            builder.addHorizontalBrick(0, y, y, grammar.bricks, remainingLength)
                         }
 
                         x = remainingLength
                     } else {
-                        builder.addHorizontalBrick(x, y, grammar.brick, n)
+                        builder.addHorizontalBrick(x, y, y, grammar.bricks, n)
 
                         x += n
                     }
@@ -145,7 +145,7 @@ private fun createHerringbone(
                     if (y == 0 && builder.borders().top) {
                         val remainingLength = type - n + 1
 
-                        builder.addVerticalBrick(x, y, grammar.brick, remainingLength)
+                        builder.addVerticalBrick(x, y, x, grammar.bricks, remainingLength)
                     }
 
                     x++
@@ -154,7 +154,7 @@ private fun createHerringbone(
                 types - 1 -> {
                     // vertical brick
 
-                    builder.addVerticalBrick(x, y, grammar.brick, n)
+                    builder.addVerticalBrick(x, y, x, grammar.bricks, n)
 
                     x++
                 }
@@ -176,7 +176,7 @@ private fun createRunningPattern(
 
     createRowPattern(
         builder,
-        grammar.brick,
+        grammar.bricks,
         grammar.length,
         offset,
     ) { y ->
@@ -196,7 +196,7 @@ private fun createStackPattern(
 
     createRowPattern(
         builder,
-        grammar.brick,
+        grammar.bricks,
         grammar.length,
         offset,
         { _ -> 0 },

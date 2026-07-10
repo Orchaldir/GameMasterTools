@@ -1,5 +1,6 @@
 package at.orchaldir.gm.visualization.grammar.brick
 
+import at.orchaldir.gm.core.model.visualization.BrickSelection
 import at.orchaldir.gm.core.model.visualization.DoNothingShapeGrammar
 import at.orchaldir.gm.core.model.visualization.ShapeGrammar
 import at.orchaldir.gm.utils.map.MapPoint2d
@@ -12,7 +13,7 @@ private val BLOCK_SIZE = MapSize2d.square(1)
 
 data class Brick(
     val grammar: ShapeGrammar = DoNothingShapeGrammar,
-    val size: MapSize2d,
+    val size: MapSize2d = MapSize2d(1, 1),
 ) {
     override fun toString() = size.format()
 }
@@ -26,57 +27,63 @@ abstract class BrickMapBuilder(
     abstract fun size(): MapSize2d
     fun borders() = borders
 
-    fun addSingleBlock(x: Int, y: Int, grammar: ShapeGrammar) {
+    fun addSingleBlock(x: Int, y: Int, bricks: BrickSelection) {
         val mapIndex = size.toIndexRisky(x, y)
+        val selected = bricks.select(y, true)
 
-        map[mapIndex] = Brick(grammar, BLOCK_SIZE)
+        map[mapIndex] = Brick(selected, BLOCK_SIZE)
     }
 
-    fun addHorizontalBrick(x: Int, y: Int, grammar: ShapeGrammar, length: Int) {
-        var limitedX = x
-        var limitedLength = length
+    fun addHorizontalBrick(
+        x: Int,
+        y: Int,
+        row: Int,
+        bricks: BrickSelection,
+        length: Int,
+    ) {
+        val (limitedX, limitedLength) = applyBorders(
+            borders.left,
+            borders.right,
+            size().width,
+            x,
+            length,
+        ) ?: return
 
-        if (x < 0) {
-            val remainingLength = length + x
-
-            if (borders.left && remainingLength > 0) {
-                limitedX = 0
-                limitedLength = remainingLength
-            } else {
-                return
-            }
-        } else if (borders.right && x + length > size().width) {
-            val maxLength = size().width - x
-
-            limitedLength = length.coerceAtMost(maxLength)
-        }
-
-        addBrick(limitedX, y, Brick(grammar, MapSize2d(limitedLength, 1)))
+        addBrick(limitedX, y, row, bricks, MapSize2d(limitedLength, 1), true)
     }
 
-    fun addVerticalBrick(x: Int, y: Int, grammar: ShapeGrammar, length: Int) {
-        var limitedY = y
-        var limitedLength = length
+    fun addVerticalBrick(
+        x: Int,
+        y: Int,
+        row: Int,
+        bricks: BrickSelection,
+        length: Int,
+    ) {
+        val (limitedY, limitedLength) = applyBorders(
+            borders.top,
+            borders.bottom,
+            size().height,
+            y,
+            length,
+        ) ?: return
 
-        if (y < 0) {
-            val remainingLength = length + y
-
-            if (borders.top && remainingLength > 0) {
-                limitedY = 0
-                limitedLength = remainingLength
-            } else {
-                return
-            }
-        } else if (borders.bottom && y + length > size().height) {
-            val maxLength = size().height - y
-
-            limitedLength = length.coerceAtMost(maxLength)
-        }
-
-        addBrick(x, limitedY, Brick(grammar, MapSize2d(1, limitedLength)))
+        addBrick(x, limitedY, row, bricks, MapSize2d(1, limitedLength), false)
     }
 
-    abstract fun addBrick(x: Int, y: Int, brick: Brick)
+    protected fun addBrick(
+        x: Int,
+        y: Int,
+        row: Int,
+        bricks: BrickSelection,
+        size: MapSize2d,
+        isHorizontal: Boolean,
+    ) {
+        val selected = bricks.select(row, isHorizontal)
+
+        addBrick(x, y, Brick(selected, size))
+    }
+
+    protected abstract fun addBrick(x: Int, y: Int, brick: Brick)
 
     fun createSubSections(
         subSize: MapSize2d,
@@ -154,7 +161,7 @@ abstract class BrickMapBuilder(
     }
 
     private fun limitSubSize(subStart: MapPoint2d, subSize: MapSize2d): MapSize2d {
-        val subEnd = subStart + subSize;
+        val subEnd = subStart + subSize
 
         return MapSize2d(
             limitSubSize(subEnd.x, subSize.width, size.width),
@@ -236,3 +243,31 @@ private fun calculateSubBorders(
     subSectionX,
     subSectionY,
 )
+
+private fun applyBorders(
+    startBorder: Boolean,
+    endBorder: Boolean,
+    gridSize: Int,
+    position: Int,
+    length: Int,
+): Pair<Int, Int>? {
+    var limitedPosition = position
+    var limitedLength = length
+
+    if (position < 0) {
+        val remainingLength = length + position
+
+        if (startBorder && remainingLength > 0) {
+            limitedPosition = 0
+            limitedLength = remainingLength
+        } else {
+            return null
+        }
+    } else if (endBorder && position + length > gridSize) {
+        val maxLength = gridSize - position
+
+        limitedLength = length.coerceAtMost(maxLength)
+    }
+
+    return Pair(limitedPosition, limitedLength)
+}
