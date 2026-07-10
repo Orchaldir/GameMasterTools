@@ -154,6 +154,21 @@ class BrickSelectionTest {
         }
 
         @Test
+        fun `Test Running`() {
+            val expected = createRunning(
+                blue,
+                blue,
+                yellow,
+                yellow,
+                yellow,
+                blue,
+                blue,
+            )
+
+            testRunning(selection, expected)
+        }
+
+        @Test
         fun `Test Stack`() {
             val expected = createStack(
                 blue,
@@ -218,6 +233,21 @@ class BrickSelectionTest {
             )
 
             testGrid(selection, expected)
+        }
+
+        @Test
+        fun `Test Running`() {
+            val expected = createRunning(
+                blue,
+                blue,
+                blue,
+                blue,
+                blue,
+                blue,
+                blue,
+            )
+
+            testRunning(selection, expected)
         }
 
         @Test
@@ -291,6 +321,22 @@ class BrickSelectionTest {
         return listOf(line0, line1, line2)
     }
 
+    private fun createRunning(
+        b00: ShapeGrammar,
+        b01: ShapeGrammar,
+        b10: ShapeGrammar,
+        b11: ShapeGrammar,
+        b12: ShapeGrammar,
+        b20: ShapeGrammar,
+        b21: ShapeGrammar,
+    ): List<List<Brick?>> {
+        val line0 = listOf(createH2(b00), null, createH2(b01), null)
+        val line1 = listOf(Brick(b10), createH2(b11), null, Brick(b12))
+        val line2 = listOf(createH2(b20), null, createH2(b21), null)
+
+        return listOf(line0, line1, line2)
+    }
+
     private fun createStack(
         b00: ShapeGrammar,
         b01: ShapeGrammar,
@@ -335,6 +381,17 @@ class BrickSelectionTest {
         MapSize2d(3, 3),
         BrickPattern.Grid,
         1,
+        selection,
+        expected,
+    )
+
+    private fun testRunning(
+        selection: BrickSelection,
+        expected: List<List<Brick?>>,
+    ) = test(
+        MapSize2d(4, 3),
+        BrickPattern.Running,
+        2,
         selection,
         expected,
     )
