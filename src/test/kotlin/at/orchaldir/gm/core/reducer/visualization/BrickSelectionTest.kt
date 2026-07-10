@@ -19,6 +19,7 @@ import at.orchaldir.gm.core.model.visualization.HorizontalAndVerticalBricks
 import at.orchaldir.gm.core.model.visualization.RectangularShapeGrammar
 import at.orchaldir.gm.core.model.visualization.RowsAndColumns
 import at.orchaldir.gm.core.model.visualization.SquareGrid
+import at.orchaldir.gm.core.model.visualization.UniformBricks
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.map.MapSize2d
 import org.junit.jupiter.api.Nested
@@ -54,12 +55,12 @@ class BrickSelectionTest {
         }
 
         @Test
-        fun `Unknown material`() {
+        fun `A row has an invalid brick`() {
             fail(AlternateRows(listOf(brick0, invalidBrick)), "Requires unknown Material 99!")
         }
 
         @Test
-        fun `Multiple different rows`() {
+        fun `A valid selection`() {
             success(AlternateRows(listOf(brick0, brick1)))
         }
 
@@ -69,18 +70,33 @@ class BrickSelectionTest {
     inner class HorizontalAndVerticalBricksTest {
 
         @Test
-        fun `Horizontal has an unknown material`() {
+        fun `Horizontal has an invalid brick`() {
             fail(HorizontalAndVerticalBricks(invalidBrick, brick1), "Requires unknown Material 99!")
         }
 
         @Test
-        fun `Vertical has an unknown material`() {
+        fun `Vertical has an invalid brick`() {
             fail(HorizontalAndVerticalBricks(brick0, invalidBrick), "Requires unknown Material 99!")
         }
 
         @Test
-        fun `Test with 2 valid bricks`() {
+        fun `A valid selection`() {
             success(HorizontalAndVerticalBricks(brick0, brick1))
+        }
+
+    }
+
+    @Nested
+    inner class UniformBricksTest {
+
+        @Test
+        fun `Test with an invalid brick`() {
+            fail(UniformBricks( invalidBrick), "Requires unknown Material 99!")
+        }
+
+        @Test
+        fun `A valid selection`() {
+            success(UniformBricks(brick0))
         }
 
     }
