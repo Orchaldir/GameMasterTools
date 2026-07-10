@@ -38,8 +38,13 @@ sealed class BrickSelection {
     }
 
     fun validate(state: State, label: String): Unit = when (this) {
-        is AlternateRows -> rows.withIndex().forEach { (row, brick) ->
-            brick.validate(state, "$label's ${row + 1} row")
+        is AlternateRows -> {
+            require(rows.size > 1) {
+                "$label has too few rows!"
+            }
+            rows.withIndex().forEach { (row, brick) ->
+                brick.validate(state, "$label's ${row + 1} row")
+            }
         }
 
         is HorizontalAndVerticalBricks -> {
