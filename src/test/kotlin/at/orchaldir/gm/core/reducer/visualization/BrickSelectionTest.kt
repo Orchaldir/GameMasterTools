@@ -3,30 +3,16 @@ package at.orchaldir.gm.core.reducer.visualization
 import at.orchaldir.gm.MATERIAL_ID_0
 import at.orchaldir.gm.UNKNOWN_MATERIAL_ID
 import at.orchaldir.gm.assertIllegalArgument
-import at.orchaldir.gm.assertInt
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.Material
 import at.orchaldir.gm.core.model.economy.material.MaterialProperties
-import at.orchaldir.gm.core.model.economy.material.Metal
 import at.orchaldir.gm.core.model.economy.material.Rock
-import at.orchaldir.gm.core.model.util.part.MadeFromMetal
 import at.orchaldir.gm.core.model.util.part.MadeFromStone
 import at.orchaldir.gm.core.model.util.render.Color
-import at.orchaldir.gm.core.model.visualization.AlternateRows
-import at.orchaldir.gm.core.model.visualization.BrickSelection
-import at.orchaldir.gm.core.model.visualization.GridSize
-import at.orchaldir.gm.core.model.visualization.HorizontalAndVerticalBricks
-import at.orchaldir.gm.core.model.visualization.RectangularShapeGrammar
-import at.orchaldir.gm.core.model.visualization.RowsAndColumns
-import at.orchaldir.gm.core.model.visualization.SquareGrid
-import at.orchaldir.gm.core.model.visualization.UniformBricks
+import at.orchaldir.gm.core.model.visualization.*
 import at.orchaldir.gm.utils.Storage
-import at.orchaldir.gm.utils.map.MapSize2d
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-
-private const val MIN = 2
-private const val MAX = 4
 
 class BrickSelectionTest {
 
@@ -91,7 +77,7 @@ class BrickSelectionTest {
 
         @Test
         fun `Test with an invalid brick`() {
-            fail(UniformBricks( invalidBrick), "Requires unknown Material 99!")
+            fail(UniformBricks(invalidBrick), "Requires unknown Material 99!")
         }
 
         @Test
