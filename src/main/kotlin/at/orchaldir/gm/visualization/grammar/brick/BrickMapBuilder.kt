@@ -13,7 +13,7 @@ private val BLOCK_SIZE = MapSize2d.square(1)
 
 data class Brick(
     val grammar: ShapeGrammar = DoNothingShapeGrammar,
-    val size: MapSize2d,
+    val size: MapSize2d = MapSize2d(1, 1),
 ) {
     override fun toString() = size.format()
 }

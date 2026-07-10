@@ -104,17 +104,17 @@ class BrickSelectionTest {
     @Nested
     inner class AlternateRowsTest {
 
-        private val selection = AlternateRows(listOf(gray, blue, yellow))
+        private val selection = AlternateRows(listOf(blue, yellow))
 
         @Test
         fun `Test BasketWeave`() {
             val expected = createBasketWeave(
-                gray,
                 blue,
                 yellow,
-                gray,
+                blue,
                 blue,
                 yellow,
+                blue,
             )
 
             testBasketWeave(selection, expected)
@@ -123,17 +123,34 @@ class BrickSelectionTest {
         @Test
         fun `Test BasketWeaveSingle`() {
             val expected = createBasketWeaveSingle(
-                gray,
-                gray,
-                gray,
+                blue,
+                blue,
                 blue,
                 yellow,
-                gray,
+                blue,
                 blue,
                 yellow,
+                blue,
             )
 
             testBasketWeaveSingle(selection, expected)
+        }
+
+        @Test
+        fun `Test Grid`() {
+            val expected = createGrid(
+                blue,
+                blue,
+                blue,
+                yellow,
+                yellow,
+                yellow,
+                blue,
+                blue,
+                blue,
+            )
+
+            testGrid(selection, expected)
         }
     }
 
@@ -158,9 +175,35 @@ class BrickSelectionTest {
 
         @Test
         fun `Test BasketWeaveSingle`() {
-            val expected = createBasketWeaveSingle(blue, blue, yellow, yellow, yellow, yellow, yellow, yellow)
+            val expected = createBasketWeaveSingle(
+                blue,
+                blue,
+                yellow,
+                yellow,
+                yellow,
+                yellow,
+                yellow,
+                yellow,
+            )
 
             testBasketWeaveSingle(selection, expected)
+        }
+
+        @Test
+        fun `Test Grid`() {
+            val expected = createGrid(
+                blue,
+                blue,
+                blue,
+                blue,
+                blue,
+                blue,
+                blue,
+                blue,
+                blue,
+            )
+
+            testGrid(selection, expected)
         }
     }
 
@@ -200,6 +243,24 @@ class BrickSelectionTest {
         return listOf(line_6_H3xH3xH3xW3, line_6_ExExExH3xH3xH3, line_6_ExExExExExE, line_6_W3xExExE)
     }
 
+    private fun createGrid(
+        b00: ShapeGrammar,
+        b01: ShapeGrammar,
+        b02: ShapeGrammar,
+        b10: ShapeGrammar,
+        b11: ShapeGrammar,
+        b12: ShapeGrammar,
+        b20: ShapeGrammar,
+        b21: ShapeGrammar,
+        b22: ShapeGrammar,
+    ): List<List<Brick?>> {
+        val line0 = listOf(Brick(b00), Brick(b01), Brick(b02))
+        val line1 = listOf(Brick(b10), Brick(b11), Brick(b12))
+        val line2 = listOf(Brick(b20), Brick(b21), Brick(b22))
+
+        return listOf(line0, line1, line2)
+    }
+
     private fun testBasketWeave(
         selection: BrickSelection,
         expected: List<List<Brick?>>,
@@ -218,6 +279,17 @@ class BrickSelectionTest {
         MapSize2d(6, 4),
         BrickPattern.BasketWeaveSingle,
         3,
+        selection,
+        expected,
+    )
+
+    private fun testGrid(
+        selection: BrickSelection,
+        expected: List<List<Brick?>>,
+    ) = test(
+        MapSize2d(3, 3),
+        BrickPattern.Grid,
+        1,
         selection,
         expected,
     )
