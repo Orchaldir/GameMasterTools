@@ -1,7 +1,7 @@
 package at.orchaldir.gm.visualization.grammar
 
-import at.orchaldir.gm.core.model.util.part.MadeFromStone
 import at.orchaldir.gm.core.model.util.render.Color
+import at.orchaldir.gm.core.model.visualization.AlternateRows
 import at.orchaldir.gm.core.model.visualization.BrickPattern
 import at.orchaldir.gm.core.model.visualization.BrickPatternGrammar
 import at.orchaldir.gm.core.model.visualization.BrickSelection
@@ -18,14 +18,14 @@ import org.junit.jupiter.api.Test
 
 class BrickSelectionTest {
 
-    private val brickGrammar = RectangularShapeGrammar(MadeFromStone())
+    private val gray = RectangularShapeGrammar(Color.Gray)
     private val blue = RectangularShapeGrammar(Color.Blue)
     private val yellow = RectangularShapeGrammar(Color.Yellow)
-    private val singleBrick = Brick(brickGrammar, MapSize2d(1, 1))
-    private val brickW2 = Brick(brickGrammar, MapSize2d(2, 1))
-    private val brickW3 = Brick(brickGrammar, MapSize2d(3, 1))
-    private val brickH2 = Brick(brickGrammar, MapSize2d(1, 2))
-    private val brickH3 = Brick(brickGrammar, MapSize2d(1, 3))
+    private val singleBrick = Brick(gray, MapSize2d(1, 1))
+    private val brickW2 = Brick(gray, MapSize2d(2, 1))
+    private val brickW3 = Brick(gray, MapSize2d(3, 1))
+    private val brickH2 = Brick(gray, MapSize2d(1, 2))
+    private val brickH3 = Brick(gray, MapSize2d(1, 3))
 
     private val line_3_ExW2 = listOf(null, brickW2, null)
     private val line_3_SxW2 = listOf(singleBrick, brickW2, null)
@@ -100,6 +100,28 @@ class BrickSelectionTest {
     private val basketWeaves_H3_V3_H3 = listOf(line_9_W3xH3xH3xH3xW3, line_9_W3xExExExW3, line_9_W3xExExExW3)
     private val basketWeaves_V3_H3_V3 =
         listOf(line_9_H3xH3xH3xW3xH3xH3xH3, line_9_ExExExW3xExExE, line_9_ExExExW3xExExE)
+
+    @Nested
+    inner class AlternateRowsTest {
+
+        private val selection = AlternateRows(listOf(gray, blue, yellow))
+
+        @Test
+        fun `Test BasketWeaveSingle`() {
+            val expected = createBasketWeaveSingle(
+                gray,
+                gray,
+                gray,
+                blue,
+                yellow,
+                gray,
+                blue,
+                yellow,
+            )
+
+            testBasketWeaveSingle(selection, expected)
+        }
+    }
 
     @Nested
     inner class HorizontalAndVerticalBricksTest {
