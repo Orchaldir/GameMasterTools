@@ -152,6 +152,20 @@ class BrickSelectionTest {
 
             testGrid(selection, expected)
         }
+
+        @Test
+        fun `Test Stack`() {
+            val expected = createStack(
+                blue,
+                blue,
+                yellow,
+                yellow,
+                blue,
+                blue,
+            )
+
+            testStack(selection, expected)
+        }
     }
 
     @Nested
@@ -205,9 +219,25 @@ class BrickSelectionTest {
 
             testGrid(selection, expected)
         }
+
+        @Test
+        fun `Test Stack`() {
+            val expected = createStack(
+                blue,
+                blue,
+                blue,
+                blue,
+                blue,
+                blue,
+            )
+
+            testStack(selection, expected)
+        }
     }
 
-    private fun createH3(grammar: ShapeGrammar) = Brick(grammar, MapSize2d(3, 1))
+    private fun createH(grammar: ShapeGrammar, n: Int) = Brick(grammar, MapSize2d(n, 1))
+    private fun createH2(grammar: ShapeGrammar) = createH(grammar, 2)
+    private fun createH3(grammar: ShapeGrammar) = createH(grammar, 3)
     private fun createV3(grammar: ShapeGrammar) = Brick(grammar, MapSize2d(1, 3))
 
 
@@ -261,6 +291,21 @@ class BrickSelectionTest {
         return listOf(line0, line1, line2)
     }
 
+    private fun createStack(
+        b00: ShapeGrammar,
+        b01: ShapeGrammar,
+        b10: ShapeGrammar,
+        b11: ShapeGrammar,
+        b20: ShapeGrammar,
+        b21: ShapeGrammar,
+    ): List<List<Brick?>> {
+        val line0 = listOf(createH2(b00), null, createH2(b01), null)
+        val line1 = listOf(createH2(b10), null, createH2(b11), null)
+        val line2 = listOf(createH2(b20), null, createH2(b21), null)
+
+        return listOf(line0, line1, line2)
+    }
+
     private fun testBasketWeave(
         selection: BrickSelection,
         expected: List<List<Brick?>>,
@@ -290,6 +335,17 @@ class BrickSelectionTest {
         MapSize2d(3, 3),
         BrickPattern.Grid,
         1,
+        selection,
+        expected,
+    )
+
+    private fun testStack(
+        selection: BrickSelection,
+        expected: List<List<Brick?>>,
+    ) = test(
+        MapSize2d(4, 3),
+        BrickPattern.Stack,
+        2,
         selection,
         expected,
     )
