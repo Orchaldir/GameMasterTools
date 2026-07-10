@@ -15,6 +15,7 @@ import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.visualization.AlternateRows
 import at.orchaldir.gm.core.model.visualization.BrickSelection
 import at.orchaldir.gm.core.model.visualization.GridSize
+import at.orchaldir.gm.core.model.visualization.HorizontalAndVerticalBricks
 import at.orchaldir.gm.core.model.visualization.RectangularShapeGrammar
 import at.orchaldir.gm.core.model.visualization.RowsAndColumns
 import at.orchaldir.gm.core.model.visualization.SquareGrid
@@ -60,6 +61,26 @@ class BrickSelectionTest {
         @Test
         fun `Multiple different rows`() {
             success(AlternateRows(listOf(brick0, brick1)))
+        }
+
+    }
+
+    @Nested
+    inner class HorizontalAndVerticalBricksTest {
+
+        @Test
+        fun `Horizontal has an unknown material`() {
+            fail(HorizontalAndVerticalBricks(invalidBrick, brick1), "Requires unknown Material 99!")
+        }
+
+        @Test
+        fun `Vertical has an unknown material`() {
+            fail(HorizontalAndVerticalBricks(brick0, invalidBrick), "Requires unknown Material 99!")
+        }
+
+        @Test
+        fun `Test with 2 valid bricks`() {
+            success(HorizontalAndVerticalBricks(brick0, brick1))
         }
 
     }
