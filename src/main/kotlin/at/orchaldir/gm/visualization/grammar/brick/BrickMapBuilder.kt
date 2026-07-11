@@ -99,7 +99,6 @@ abstract class BrickMapBuilder(
             ceil((size().height - offset.y) / subSize.height.toDouble()).toInt(),
         )
 
-        /*
         // render subsections for the top border
         repeat(subSections.width) { subSectionX ->
             addSubSection(
@@ -127,7 +126,6 @@ abstract class BrickMapBuilder(
                 addSubSection,
             )
         }
-        */
 
         // render subsections
         repeat(subSections.height) { subSectionY ->

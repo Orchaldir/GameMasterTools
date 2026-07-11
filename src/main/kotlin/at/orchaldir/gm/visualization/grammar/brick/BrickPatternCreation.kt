@@ -216,6 +216,6 @@ private fun createPinwheelPattern(
         sub.addVerticalBrick(start.x + length, start.y + side, 0, grammar.bricks, length, side)
         sub.addHorizontalBrick(start.x, start.y + length, 1, grammar.bricks, length, side)
         sub.addVerticalBrick(start.x, start.y, 1, grammar.bricks, length, side)
-        sub.addSingleBlock(start.x + side, start.y + side, grammar.bricks)
+        sub.addHorizontalBrick(start.x + side, start.y + side, 0, grammar.bricks, 1, 1)
     }
 }
