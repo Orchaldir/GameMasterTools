@@ -22,6 +22,7 @@ fun createBrickPattern(
         BrickPattern.Herringbone -> createHerringbone(builder, grammar)
         BrickPattern.Running -> createRunningPattern(builder, grammar)
         BrickPattern.Stack -> createStackPattern(builder, grammar)
+        BrickPattern.Pinwheel -> createPinwheelPattern(builder, grammar)
     }
 
     return builder.finish()
@@ -201,4 +202,20 @@ private fun createStackPattern(
         offset,
         { _ -> 0 },
     )
+}
+
+private fun createPinwheelPattern(
+    builder: BrickMapBuilder,
+    grammar: BrickPatternGrammar,
+) {
+    val length = grammar.length
+    val side = grammar.length  - 1
+
+    builder.createSubSections(MapSize2d.square(2 * length - 1)) { sub, start ->
+        sub.addHorizontalBrick(start.x + side, start.y, 0, grammar.bricks, length, side)
+        sub.addVerticalBrick(start.x + length, start.y + side, 0, grammar.bricks, length, side)
+        sub.addHorizontalBrick(start.x, start.y + length, 1, grammar.bricks, length, side)
+        sub.addVerticalBrick(start.x, start.y, 1, grammar.bricks, length, side)
+        sub.addSingleBlock(start.x + side, start.y + side, grammar.bricks)
+    }
 }

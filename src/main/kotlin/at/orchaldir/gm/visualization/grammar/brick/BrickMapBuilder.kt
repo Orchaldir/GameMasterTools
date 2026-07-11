@@ -1,5 +1,6 @@
 package at.orchaldir.gm.visualization.grammar.brick
 
+import at.orchaldir.gm.core.logger
 import at.orchaldir.gm.core.model.visualization.BrickSelection
 import at.orchaldir.gm.core.model.visualization.DoNothingShapeGrammar
 import at.orchaldir.gm.core.model.visualization.ShapeGrammar
@@ -29,6 +30,7 @@ abstract class BrickMapBuilder(
 
     fun addSingleBlock(x: Int, y: Int, bricks: BrickSelection) {
         val mapIndex = size.toIndexRisky(x, y)
+        logger.info { "x=$x y=$y index=$mapIndex" }
         val selected = bricks.select(y, true)
 
         map[mapIndex] = Brick(selected, BLOCK_SIZE)
@@ -40,6 +42,7 @@ abstract class BrickMapBuilder(
         row: Int,
         bricks: BrickSelection,
         length: Int,
+        side: Int = 1,
     ) {
         val (limitedX, limitedLength) = applyBorders(
             borders.left,
@@ -49,7 +52,7 @@ abstract class BrickMapBuilder(
             length,
         ) ?: return
 
-        addBrick(limitedX, y, row, bricks, MapSize2d(limitedLength, 1), true)
+        addBrick(limitedX, y, row, bricks, MapSize2d(limitedLength, side), true)
     }
 
     fun addVerticalBrick(
@@ -58,6 +61,7 @@ abstract class BrickMapBuilder(
         row: Int,
         bricks: BrickSelection,
         length: Int,
+        side: Int = 1,
     ) {
         val (limitedY, limitedLength) = applyBorders(
             borders.top,
@@ -67,7 +71,7 @@ abstract class BrickMapBuilder(
             length,
         ) ?: return
 
-        addBrick(x, limitedY, row, bricks, MapSize2d(1, limitedLength), false)
+        addBrick(x, limitedY, row, bricks, MapSize2d(side, limitedLength), false)
     }
 
     protected fun addBrick(
@@ -95,6 +99,7 @@ abstract class BrickMapBuilder(
             ceil((size().height - offset.y) / subSize.height.toDouble()).toInt(),
         )
 
+        /*
         // render subsections for the top border
         repeat(subSections.width) { subSectionX ->
             addSubSection(
@@ -122,6 +127,7 @@ abstract class BrickMapBuilder(
                 addSubSection,
             )
         }
+        */
 
         // render subsections
         repeat(subSections.height) { subSectionY ->
