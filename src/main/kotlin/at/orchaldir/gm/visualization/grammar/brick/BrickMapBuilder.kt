@@ -28,6 +28,7 @@ abstract class BrickMapBuilder(
     abstract fun size(): MapSize2d
     fun borders() = borders
 
+    // doesn't work with createSubSections()
     fun addSingleBlock(x: Int, y: Int, bricks: BrickSelection) {
         val mapIndex = size.toIndexRisky(x, y)
         logger.info { "x=$x y=$y index=$mapIndex" }
@@ -72,6 +73,32 @@ abstract class BrickMapBuilder(
         ) ?: return
 
         addBrick(x, limitedY, row, bricks, MapSize2d(side, limitedLength), false)
+    }
+
+    fun addBigBrick(
+        x: Int,
+        y: Int,
+        row: Int,
+        bricks: BrickSelection,
+        width: Int,
+        height: Int,
+    ) {
+        val (limitedX, limitedWidth) = applyBorders(
+            borders.left,
+            borders.right,
+            size().width,
+            x,
+            width,
+        ) ?: return
+        val (limitedY, limitedHeight) = applyBorders(
+            borders.top,
+            borders.bottom,
+            size().height,
+            y,
+            height,
+        ) ?: return
+
+        addBrick(limitedX, limitedY, row, bricks, MapSize2d(limitedWidth, limitedHeight), width >= height)
     }
 
     protected fun addBrick(

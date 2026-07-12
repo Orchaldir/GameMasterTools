@@ -208,14 +208,14 @@ private fun createPinwheelPattern(
     builder: BrickMapBuilder,
     grammar: BrickPatternGrammar,
 ) {
-    val length = grammar.length
-    val side = grammar.length  - 1
+    val long = grammar.length
+    val short = grammar.length  - 1
 
-    builder.createSubSections(MapSize2d.square(2 * length - 1)) { sub, start ->
-        sub.addHorizontalBrick(start.x + side, start.y, 0, grammar.bricks, length, side)
-        sub.addVerticalBrick(start.x + length, start.y + side, 0, grammar.bricks, length, side)
-        sub.addHorizontalBrick(start.x, start.y + length, 1, grammar.bricks, length, side)
-        sub.addVerticalBrick(start.x, start.y, 1, grammar.bricks, length, side)
-        sub.addHorizontalBrick(start.x + side, start.y + side, 0, grammar.bricks, 1, 1)
+    builder.createSubSections(MapSize2d.square(2 * long - 1)) { sub, start ->
+        sub.addBigBrick(start.x + short, start.y, 0, grammar.bricks, long, short)
+        sub.addBigBrick(start.x + long, start.y + short, 0, grammar.bricks, short, long)
+        sub.addBigBrick(start.x, start.y + long, 1, grammar.bricks, long, short)
+        sub.addBigBrick(start.x, start.y, 1, grammar.bricks, short, long)
+        sub.addHorizontalBrick(start.x + short, start.y + short, 0, grammar.bricks, 1, 1)
     }
 }
