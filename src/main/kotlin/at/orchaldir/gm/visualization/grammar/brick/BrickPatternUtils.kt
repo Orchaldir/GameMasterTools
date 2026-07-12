@@ -27,10 +27,7 @@ fun addHorizontalBasketWeaveN(
     start: MapPoint2d,
     n: Int,
 ) {
-    repeat(n) { i ->
-        val row = start.y + i
-        builder.addHorizontalBrick(start.x, row, row, bricks, n)
-    }
+    builder.addHorizontalBricks(start.x, start.y, bricks, n, n)
 }
 
 fun addVerticalBasketWeaveN(
@@ -39,8 +36,5 @@ fun addVerticalBasketWeaveN(
     start: MapPoint2d,
     n: Int,
 ) {
-    repeat(n) { i ->
-        val row = start.x + i
-        builder.addVerticalBrick(row, start.y, row, bricks, n)
-    }
+    builder.addVerticalBricks(start.x, start.y, bricks, n, n)
 }

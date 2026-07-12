@@ -5,7 +5,8 @@ enum class BrickPattern {
     BasketWeave,
     Grid,
     Herringbone,
+    Pinwheel,
+    PinwheelSplit,
     Running,
     Stack,
-    Pinwheel,
 }

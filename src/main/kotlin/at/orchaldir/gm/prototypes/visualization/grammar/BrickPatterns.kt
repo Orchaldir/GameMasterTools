@@ -14,7 +14,7 @@ fun main() {
         "grammar-single-brick-patterns.svg",
         GRAMMAR_SIZE,
         addNames(listOf(2, 3, 4)),
-        addNames(BrickPattern.Pinwheel),
+        addNames(BrickPattern.entries),
         ::createGrammar,
     )
 }

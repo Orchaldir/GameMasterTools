@@ -20,9 +20,10 @@ fun createBrickPattern(
         BrickPattern.BasketWeave -> createBasketWeavePattern(builder, grammar)
         BrickPattern.Grid -> createGridPattern(builder, grammar.bricks)
         BrickPattern.Herringbone -> createHerringbone(builder, grammar)
+        BrickPattern.Pinwheel -> createPinwheelPattern(builder, grammar)
+        BrickPattern.PinwheelSplit -> createSplitPinwheelPattern(builder, grammar)
         BrickPattern.Running -> createRunningPattern(builder, grammar)
         BrickPattern.Stack -> createStackPattern(builder, grammar)
-        BrickPattern.Pinwheel -> createPinwheelPattern(builder, grammar)
     }
 
     return builder.finish()
@@ -216,6 +217,22 @@ private fun createPinwheelPattern(
         sub.addBigBrick(start.x + long, start.y + short, 0, grammar.bricks, short, long)
         sub.addBigBrick(start.x, start.y + long, 1, grammar.bricks, long, short)
         sub.addBigBrick(start.x, start.y, 1, grammar.bricks, short, long)
-        sub.addHorizontalBrick(start.x + short, start.y + short, 0, grammar.bricks, 1, 1)
+        sub.addHorizontalBrick(start.x + short, start.y + short, 0, grammar.bricks, 1)
+    }
+}
+
+private fun createSplitPinwheelPattern(
+    builder: BrickMapBuilder,
+    grammar: BrickPatternGrammar,
+) {
+    val length = grammar.length
+    val rows = grammar.length  - 1
+
+    builder.createSubSections(MapSize2d.square(2 * length - 1)) { sub, start ->
+        sub.addHorizontalBricks(start.x + rows, start.y, grammar.bricks, length, rows)
+        sub.addVerticalBricks(start.x + length, start.y + rows, grammar.bricks, length, rows)
+        sub.addHorizontalBricks(start.x, start.y + length, grammar.bricks, length, rows)
+        sub.addVerticalBricks(start.x, start.y, grammar.bricks, length, rows)
+        sub.addHorizontalBrick(start.x + rows, start.y + rows, 0, grammar.bricks, 1)
     }
 }
