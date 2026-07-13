@@ -7,6 +7,7 @@ enum class BrickPattern {
     Herringbone,
     Pinwheel,
     PinwheelSplit,
+    PinwheelWithBigCenter,
     Running,
     Stack,
 }
