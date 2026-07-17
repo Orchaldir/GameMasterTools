@@ -9,6 +9,7 @@ enum class BrickSelectionType {
     HorizontalAndVertical,
     Rows,
     Uniform,
+    WithCenter,
 }
 
 @Serializable
@@ -18,15 +19,17 @@ sealed class BrickSelection {
         is AlternateRows -> BrickSelectionType.Rows
         is HorizontalAndVerticalBricks -> BrickSelectionType.HorizontalAndVertical
         is UniformBricks -> BrickSelectionType.Uniform
+        is BrickSelectionWithCenter -> BrickSelectionType.WithCenter
     }
 
-    fun contains(material: MaterialId) = when (this) {
+    fun contains(material: MaterialId): Boolean = when (this) {
         is AlternateRows -> rows.any { it.contains(material) }
         is HorizontalAndVerticalBricks -> horizontal.contains(material) || vertical.contains(material)
         is UniformBricks -> brick.contains(material)
+        is BrickSelectionWithCenter -> center.contains(material) || border.contains(material)
     }
 
-    fun select(row: Int, isHorizontal: Boolean) = when (this) {
+    fun select(row: Int, isHorizontal: Boolean): ShapeGrammar = when (this) {
         is AlternateRows -> rows[row.mod(rows.size)]
         is HorizontalAndVerticalBricks -> if (isHorizontal) {
             horizontal
@@ -35,6 +38,7 @@ sealed class BrickSelection {
         }
 
         is UniformBricks -> brick
+        is BrickSelectionWithCenter -> border.select(row, isHorizontal)
     }
 
     fun validate(state: State, label: String): Unit = when (this) {
@@ -53,6 +57,10 @@ sealed class BrickSelection {
         }
 
         is UniformBricks -> brick.validate(state, "$label's brick")
+        is BrickSelectionWithCenter -> {
+            center.validate(state, "$label's center")
+            border.validate(state, "$label's border brick")
+        }
     }
 }
 
@@ -73,4 +81,11 @@ data class HorizontalAndVerticalBricks(
 @SerialName("Uniform")
 data class UniformBricks(
     val brick: ShapeGrammar = DoNothingShapeGrammar,
+) : BrickSelection()
+
+@Serializable
+@SerialName("WithCenter")
+data class BrickSelectionWithCenter(
+    val center: ShapeGrammar,
+    val border: BrickSelection,
 ) : BrickSelection()

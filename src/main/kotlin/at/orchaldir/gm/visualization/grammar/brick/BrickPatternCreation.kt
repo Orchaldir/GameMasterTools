@@ -3,6 +3,8 @@ package at.orchaldir.gm.visualization.grammar.brick
 import at.orchaldir.gm.core.model.visualization.BrickPattern
 import at.orchaldir.gm.core.model.visualization.BrickPatternGrammar
 import at.orchaldir.gm.core.model.visualization.BrickSelection
+import at.orchaldir.gm.core.model.visualization.BrickSelectionWithCenter
+import at.orchaldir.gm.core.model.visualization.UniformBricks
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.map.TileMap2d
 import at.orchaldir.gm.visualization.grammar.Borders
@@ -212,13 +214,17 @@ private fun createPinwheelPattern(
 ) {
     val long = grammar.length
     val short = grammar.length  - 1
+    val (center, border) = getCenterAndBorderBricks(grammar.bricks)
 
     builder.createSubSections(MapSize2d.square(2 * long - 1)) { sub, start ->
-        sub.addBigBrick(start.x + short, start.y, 0, grammar.bricks, long, short)
-        sub.addBigBrick(start.x + long, start.y + short, 0, grammar.bricks, short, long)
-        sub.addBigBrick(start.x, start.y + long, 1, grammar.bricks, long, short)
-        sub.addBigBrick(start.x, start.y, 1, grammar.bricks, short, long)
-        sub.addHorizontalBrick(start.x + short, start.y + short, 0, grammar.bricks, 1)
+        // border
+        sub.addBigBrick(start.x + short, start.y, 0, border, long, short)
+        sub.addBigBrick(start.x + long, start.y + short, 0, border, short, long)
+        sub.addBigBrick(start.x, start.y + long, 1, border, long, short)
+        sub.addBigBrick(start.x, start.y, 1, border, short, long)
+
+        // center
+        sub.addHorizontalBrick(start.x + short, start.y + short, 0, center, 1)
     }
 }
 
@@ -228,13 +234,17 @@ private fun createSplitPinwheelPattern(
 ) {
     val length = grammar.length
     val rows = grammar.length  - 1
+    val (center, border) = getCenterAndBorderBricks(grammar.bricks)
 
     builder.createSubSections(MapSize2d.square(2 * length - 1)) { sub, start ->
-        sub.addHorizontalBricks(start.x + rows, start.y, grammar.bricks, length, rows)
-        sub.addVerticalBricks(start.x + length, start.y + rows, grammar.bricks, length, rows)
-        sub.addHorizontalBricks(start.x, start.y + length, grammar.bricks, length, rows)
-        sub.addVerticalBricks(start.x, start.y, grammar.bricks, length, rows)
-        sub.addHorizontalBrick(start.x + rows, start.y + rows, 0, grammar.bricks, 1)
+        // border
+        sub.addHorizontalBricks(start.x + rows, start.y, border, length, rows)
+        sub.addVerticalBricks(start.x + length, start.y + rows, border, length, rows)
+        sub.addHorizontalBricks(start.x, start.y + length, border, length, rows)
+        sub.addVerticalBricks(start.x, start.y, border, length, rows)
+
+        // center
+        sub.addHorizontalBrick(start.x + rows, start.y + rows, 0, center, 1)
     }
 }
 
@@ -244,12 +254,22 @@ private fun createPinwheelWithBigCenterPattern(
 ) {
     val length = grammar.length
     val centerSize = grammar.length  - 1
+    val (center, border) = getCenterAndBorderBricks(grammar.bricks)
 
     builder.createSubSections(MapSize2d.square(length + 1)) { sub, start ->
-        sub.addHorizontalBrick(start.x + 1, start.y, 0, grammar.bricks, length)
-        sub.addVerticalBrick(start.x + length, start.y + 1, 1, grammar.bricks, length)
-        sub.addHorizontalBrick(start.x, start.y + length, 1, grammar.bricks, length)
-        sub.addVerticalBrick(start.x, start.y, 0, grammar.bricks, length)
-        sub.addBigBrick(start.x + 1, start.y + 1, 0, grammar.bricks, centerSize, centerSize)
+        // border
+        sub.addHorizontalBrick(start.x + 1, start.y, 0, border, length)
+        sub.addVerticalBrick(start.x + length, start.y + 1, 1, border, length)
+        sub.addHorizontalBrick(start.x, start.y + length, 1, border, length)
+        sub.addVerticalBrick(start.x, start.y, 0, border, length)
+
+        // center
+        sub.addBigBrick(start.x + 1, start.y + 1, 0, center, centerSize, centerSize)
     }
+}
+
+private fun getCenterAndBorderBricks(selection: BrickSelection) = if (selection is BrickSelectionWithCenter) {
+    Pair(UniformBricks(selection.center), selection.border)
+} else {
+    Pair(selection, selection)
 }

@@ -14,11 +14,13 @@ fun main() {
     val grey = RectangularShapeGrammar(Color.Gray)
     val random = RectangularShapeGrammar(randomColors)
     val yellow = RectangularShapeGrammar(Color.Yellow)
+    val horizontalAndVertical = HorizontalAndVerticalBricks(blue, yellow)
     val selections = listOf(
         Pair("Uniform", UniformBricks(grey)),
         Pair("Random", UniformBricks(random)),
-        Pair("H and V", HorizontalAndVerticalBricks(blue, yellow)),
+        Pair("H and V", horizontalAndVertical),
         Pair("Rows", AlternateRows(listOf(grey, blue, yellow))),
+        Pair("With Center", BrickSelectionWithCenter(grey, horizontalAndVertical)),
     )
     renderGrammarTable(
         State(),
