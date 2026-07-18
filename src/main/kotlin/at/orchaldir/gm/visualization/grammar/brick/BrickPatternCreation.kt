@@ -1,5 +1,6 @@
 package at.orchaldir.gm.visualization.grammar.brick
 
+import at.orchaldir.gm.core.logger
 import at.orchaldir.gm.core.model.visualization.BrickPattern
 import at.orchaldir.gm.core.model.visualization.BrickPatternGrammar
 import at.orchaldir.gm.core.model.visualization.BrickSelection
@@ -280,16 +281,19 @@ private fun createWindmillPattern(
     grammar: BrickPatternGrammar,
 ) {
     val n = grammar.length
-    val types = n * 2 + 1
+    val types = n * n + 1
     val (center, border) = getCenterAndBorderBricks(grammar.bricks)
     //val offsetX = builder.borders().calculateTileOffsetX(builder.size().width, types)
     //val offsetY = builder.borders().calculateTileOffsetY(builder.size().height, types)
+    logger.info { "n=$n types=$types" }
 
     repeat(builder.size().height) { y ->
         var x = 0
-        var type = (types + y * 2).mod(types)
+        var type = (types + y * n).mod(types)
+        logger.info { "y=$y type=$type" }
 
         while (x < builder.size().width) {
+            logger.info { "x=$x type=$type" }
             if (type == 0) {
                 // center
                 builder.addHorizontalBrick(x, y, y, center, 1)
