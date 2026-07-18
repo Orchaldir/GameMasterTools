@@ -292,7 +292,7 @@ private fun createWindmillPattern(
         while (x < builder.size().width) {
             if (type == 0) {
                 // center
-                builder.addHorizontalBrick(0, y, y, center, 1)
+                builder.addHorizontalBrick(x, y, y, center, 1)
 
                 x++
                 type++
