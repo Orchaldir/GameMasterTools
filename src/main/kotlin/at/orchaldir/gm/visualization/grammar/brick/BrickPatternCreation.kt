@@ -283,13 +283,13 @@ private fun createWindmillPattern(
     val n = grammar.length
     val types = n * n + 1
     val (center, border) = getCenterAndBorderBricks(grammar.bricks)
-    //val offsetX = builder.borders().calculateTileOffsetX(builder.size().width, types)
-    //val offsetY = builder.borders().calculateTileOffsetY(builder.size().height, types)
-    logger.info { "n=$n types=$types" }
+    val offsetX = builder.borders().calculateTileOffsetX(builder.size().width, types)
+    val offsetY = builder.borders().calculateTileOffsetY(builder.size().height, types)
+    logger.info { "n=$n types=$types offsetX=$offsetX offsetY=$offsetY" }
 
     repeat(builder.size().height) { y ->
         var x = 0
-        var type = (types + y * n).mod(types)
+        var type = (types + y * n - offsetX - offsetY * n).mod(types)
         logger.info { "y=$y type=$type" }
 
         while (x < builder.size().width) {
