@@ -306,18 +306,20 @@ private fun createWindmillPattern(
             for(i in 0..<n) {
                 val start = 1 + i * n
                 val end = (1 + i) * n
-                val width = end - type + 1
-                val height = n - i
-                logger.info { "i=$i start=$start end=$end width=$width height=$height" }
 
                 if (type in start..end) {
+                    val width = end - type + 1
+                    val height = n - i
                     val isLeftBorder = x == 0 && builder.borders().left && type > start && i == 0
                     val isTopBorder = y == 0 && builder.borders().top && type == start
                     val isFull = i == 0 && type == start
                     logger.info { "isFull=$isFull" }
 
-                    if (isFull || isLeftBorder || isTopBorder) {
-                        builder.addBigBrick(x, y, 0, border, width, height)
+                    if (isFull) {
+                        builder.addBigBrick(x, y, 0, border, n, n)
+                    }
+                    else if (isLeftBorder || isTopBorder) {
+                        builder.addBigBrick(x + width - n, y + height - n, 0, border, n, n)
                     }
 
                     x += width
