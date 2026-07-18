@@ -10,4 +10,5 @@ enum class BrickPattern {
     PinwheelWithBigCenter,
     Running,
     Stack,
+    Windmill,
 }

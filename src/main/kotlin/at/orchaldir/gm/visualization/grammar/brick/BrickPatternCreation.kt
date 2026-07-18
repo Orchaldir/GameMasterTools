@@ -27,6 +27,7 @@ fun createBrickPattern(
         BrickPattern.PinwheelWithBigCenter -> createPinwheelWithBigCenterPattern(builder, grammar)
         BrickPattern.Running -> createRunningPattern(builder, grammar)
         BrickPattern.Stack -> createStackPattern(builder, grammar)
+        BrickPattern.Windmill -> createWindmillPattern(builder, grammar)
     }
 
     return builder.finish()
@@ -272,4 +273,50 @@ private fun getCenterAndBorderBricks(selection: BrickSelection) = if (selection 
     Pair(UniformBricks(selection.center), selection.border)
 } else {
     Pair(selection, selection)
+}
+
+private fun createWindmillPattern(
+    builder: BrickMapBuilder,
+    grammar: BrickPatternGrammar,
+) {
+    val n = grammar.length
+    val types = n * 2 + 1
+    val (center, border) = getCenterAndBorderBricks(grammar.bricks)
+    //val offsetX = builder.borders().calculateTileOffsetX(builder.size().width, types)
+    //val offsetY = builder.borders().calculateTileOffsetY(builder.size().height, types)
+
+    repeat(builder.size().height) { y ->
+        var x = 0
+        var type = (types + y * 2).mod(types)
+
+        while (x < builder.size().width) {
+            if (type == 0) {
+                // center
+                builder.addHorizontalBrick(0, y, y, center, 1)
+
+                x++
+                type++
+                continue
+            }
+
+            for(i in 0..<n) {
+                val start = 1 + i * n
+                val end = (1 + i) * n
+                val width = end - type + 1
+                val height = n - i
+
+                if (type in start..end) {
+                    if (i == 0 || (y == 0 && builder.borders().top)) {
+                        builder.addBigBrick(x, y, 0, border, width, height)
+                    }
+
+                    x += width
+                    type += width
+                    break
+                }
+            }
+
+            type %= types
+        }
+    }
 }
