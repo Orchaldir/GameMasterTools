@@ -312,7 +312,7 @@ private fun createWindmillPattern(
 
                 if (type in start..end) {
                     val isLeftBorder = x == 0 && builder.borders().left && type > start && i == 0
-                    val isTopBorder = y == 0 && builder.borders().top
+                    val isTopBorder = y == 0 && builder.borders().top && type == start
                     val isFull = i == 0 && type == start
                     logger.info { "isFull=$isFull" }
 
