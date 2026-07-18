@@ -296,7 +296,7 @@ private fun createWindmillPattern(
             logger.info { "x=$x type=$type" }
             if (type == 0) {
                 // center
-                //builder.addHorizontalBrick(x, y, y, center, 1)
+                builder.addHorizontalBrick(x, y, y, center, 1)
 
                 x++
                 type++
@@ -316,7 +316,7 @@ private fun createWindmillPattern(
                     val isFull = i == 0 && type == start
                     logger.info { "isFull=$isFull" }
 
-                    if (isFull || isLeftBorder) {
+                    if (isFull || isLeftBorder || isTopBorder) {
                         builder.addBigBrick(x, y, 0, border, width, height)
                     }
 
