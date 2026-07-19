@@ -56,6 +56,7 @@ class BrickPatternCreationTest {
     private val line_5_SxExExW2 = listOf(singleBrick, null, null, brickW2, null)
     private val line_5_SxH2xH2xW2 = listOf(singleBrick, brickH2, brickH2, brickW2, null)
     private val line_5_Sx22xW2 = listOf(singleBrick, brick22, null, brickW2, null)
+    private val line_5_ExExExSxH2 = listOf(null, null, null, singleBrick, brickH2)
     private val line_5_H2xExExSxH2 = listOf(brickH2, null, null, singleBrick, brickH2)
     private val line_5_ExSx22xE = listOf(null, singleBrick, brick22, null, null)
     private val line_5_22xExExS = listOf(brick22, null, null, null, singleBrick)
@@ -835,18 +836,129 @@ class BrickPatternCreationTest {
             }
 
             private fun testDefault(tileX: Int, tileY: Int) {
-                val expected = listOf(line_5_Sx22xW2, line_5_H2xExExSxH2, line_5_ExSx22xE, line_5_22xExExS, line_5_ExExSxW2)
+                val expected = listOf(
+                    line_5_Sx22xW2,
+                    line_5_H2xExExSxH2,
+                    line_5_ExSx22xE,
+                    line_5_22xExExS,
+                    line_5_ExExSxW2,
+                )
 
                 test(tileX, tileY, expected)
             }
         }
 
-        private fun test(tileX: Int, tileY: Int, expected: List<List<Brick?>>) {
-            val size = MapSize2d(5, 5)
-            val borders = Borders(true, tileX, tileY)
+        @Nested
+        inner class BricksAcrossTheBorderTest {
 
-            test(size, borders, expected)
+            @Test
+            fun `Left border`() {
+                testAcrossLeftBorder(0)
+            }
+
+            @Test
+            fun `Left border with y = 1`() {
+                testAcrossLeftBorder(1)
+            }
+
+            @Test
+            fun `Right border`() {
+                testAcrossRightBorder(0)
+            }
+
+            @Test
+            fun `Right border y = 1`() {
+                testAcrossRightBorder(1)
+            }
+
+            @Test
+            fun `Bottom border`() {
+                testAcrossBottomBorder(0)
+            }
+
+            @Test
+            fun `Bottom border with x = 1`() {
+                testAcrossBottomBorder(1)
+            }
+
+            @Test
+            fun `Top border`() {
+                testAcrossTopBorder(0)
+            }
+
+            @Test
+            fun `Top border with x = 1`() {
+                testAcrossTopBorder(1)
+            }
+
+            private fun testAcrossBottomBorder(tileX: Int) {
+                val expected = listOf(
+                    line_6_W3xSxH2xH3,
+                    line_6_H3xW3xExE,
+                    line_6_ExH3xW3xE,
+                    line_6_ExExH3xW3,
+                    line_6_SxExExH3xW2,
+                )
+
+                test(tileX, 0, false, true, true, true, expected)
+            }
+
+            private fun testAcrossLeftBorder(tileY: Int) {
+                val expected = listOf(
+                    line_5_Sx22xW2,
+                    line_5_ExExExSxH2,
+                    line_5_ExSx22xE,
+                    line_5_22xExExS,
+                    line_5_ExExSxW2,
+                )
+
+                test(1, tileY, true, false, true, true, expected)
+            }
+
+            private fun testAcrossRightBorder(tileY: Int) {
+                val expected = listOf(
+                    line_5_W3xSxH2,
+                    line_5_H3xW3xE,
+                    line_5_ExH3xW3,
+                    line_5_ExExH3xW3,
+                    line_5_SxExExH2xW3,
+                    line_5_W2xExExS,
+                )
+
+                test(0, tileY, true, true, false, true, expected)
+            }
+
+            private fun testAcrossTopBorder(tileX: Int) {
+                val expected = listOf(
+                    line_6_W2xExExH3xS,
+                    line_6_W3xExExH3,
+                    line_6_H3xW3xExE,
+                    line_6_ExH2xW3xE,
+                    line_6_ExExSxW3,
+                )
+
+                test(tileX, 1, true, true, true, false, expected)
+            }
         }
+
+        private fun test(
+            tileX: Int,
+            tileY: Int,
+            isBottom: Boolean,
+            isLeft: Boolean,
+            isRight: Boolean,
+            isTop: Boolean,
+            expected: List<List<Brick?>>,
+        ) = test(
+            Borders(isBottom, isLeft, isRight, isTop, tileX, tileY),
+            expected,
+        )
+
+        private fun test(tileX: Int, tileY: Int, expected: List<List<Brick?>>) =
+            test(Borders(true, tileX, tileY), expected)
+
+        private fun test(borders: Borders, expected: List<List<Brick?>>) =
+            test(MapSize2d.square(5), borders, expected)
 
         private fun test(size: MapSize2d, borders: Borders, expected: List<List<Brick?>>) =
             test(size, BrickPattern.PythagoreanTiling, 2, borders, expected)
