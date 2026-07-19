@@ -106,6 +106,16 @@ abstract class BrickMapBuilder(
         bricks: BrickSelection,
         width: Int,
         height: Int,
+    ) = addBigBrick(x, y, row, bricks, width, height, width >= height)
+
+    fun addBigBrick(
+        x: Int,
+        y: Int,
+        row: Int,
+        bricks: BrickSelection,
+        width: Int,
+        height: Int,
+        isHorizontal: Boolean,
     ) {
         val (limitedX, limitedWidth) = applyBorders(
             borders.left,
@@ -122,7 +132,7 @@ abstract class BrickMapBuilder(
             height,
         ) ?: return
 
-        addBrick(limitedX, limitedY, row, bricks, MapSize2d(limitedWidth, limitedHeight), width >= height)
+        addBrick(limitedX, limitedY, row, bricks, MapSize2d(limitedWidth, limitedHeight), isHorizontal)
     }
 
     protected fun addBrick(

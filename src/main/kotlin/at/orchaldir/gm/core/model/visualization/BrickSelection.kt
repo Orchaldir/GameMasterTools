@@ -41,6 +41,12 @@ sealed class BrickSelection {
         is BrickSelectionWithCenter -> border.select(row, isHorizontal)
     }
 
+    fun getCenterAndBorderSelection() = if (this is BrickSelectionWithCenter) {
+        Pair(UniformBricks(center), border)
+    } else {
+        Pair(this, this)
+    }
+
     fun validate(state: State, label: String): Unit = when (this) {
         is AlternateRows -> {
             require(rows.size > 1) {

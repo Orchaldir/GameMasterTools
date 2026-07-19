@@ -26,9 +26,9 @@ fun createBrickPattern(
         BrickPattern.Pinwheel -> createPinwheelPattern(builder, grammar)
         BrickPattern.PinwheelSplit -> createSplitPinwheelPattern(builder, grammar)
         BrickPattern.PinwheelWithBigCenter -> createPinwheelWithBigCenterPattern(builder, grammar)
+        BrickPattern.PythagoreanTiling -> createPythagoreanTiling(builder, grammar)
         BrickPattern.Running -> createRunningPattern(builder, grammar)
         BrickPattern.Stack -> createStackPattern(builder, grammar)
-        BrickPattern.Windmill -> createWindmillPattern(builder, grammar)
     }
 
     return builder.finish()
@@ -216,7 +216,7 @@ private fun createPinwheelPattern(
 ) {
     val long = grammar.length
     val short = grammar.length  - 1
-    val (center, border) = getCenterAndBorderBricks(grammar.bricks)
+    val (center, border) = grammar.bricks.getCenterAndBorderSelection()
 
     builder.createSubSections(MapSize2d.square(2 * long - 1)) { sub, start ->
         // border
@@ -236,7 +236,7 @@ private fun createSplitPinwheelPattern(
 ) {
     val length = grammar.length
     val rows = grammar.length  - 1
-    val (center, border) = getCenterAndBorderBricks(grammar.bricks)
+    val (center, border) = grammar.bricks.getCenterAndBorderSelection()
 
     builder.createSubSections(MapSize2d.square(2 * length - 1)) { sub, start ->
         // border
@@ -256,7 +256,7 @@ private fun createPinwheelWithBigCenterPattern(
 ) {
     val length = grammar.length
     val centerSize = grammar.length  - 1
-    val (center, border) = getCenterAndBorderBricks(grammar.bricks)
+    val (center, border) = grammar.bricks.getCenterAndBorderSelection()
 
     builder.createSubSections(MapSize2d.square(length + 1)) { sub, start ->
         // border
@@ -270,19 +270,13 @@ private fun createPinwheelWithBigCenterPattern(
     }
 }
 
-private fun getCenterAndBorderBricks(selection: BrickSelection) = if (selection is BrickSelectionWithCenter) {
-    Pair(UniformBricks(selection.center), selection.border)
-} else {
-    Pair(selection, selection)
-}
-
-private fun createWindmillPattern(
+private fun createPythagoreanTiling(
     builder: BrickMapBuilder,
     grammar: BrickPatternGrammar,
 ) {
     val n = grammar.length
     val types = n * n + 1
-    val (center, border) = getCenterAndBorderBricks(grammar.bricks)
+    val (center, border) = grammar.bricks.getCenterAndBorderSelection()
     val offsetX = builder.borders().calculateTileOffsetX(builder.size().width, types)
     val offsetY = builder.borders().calculateTileOffsetY(builder.size().height, types)
     logger.info { "n=$n types=$types offsetX=$offsetX offsetY=$offsetY" }
