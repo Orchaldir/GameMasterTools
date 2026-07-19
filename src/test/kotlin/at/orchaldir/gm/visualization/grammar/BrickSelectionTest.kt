@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test
 class BrickSelectionTest {
 
     private val blue = RectangularShapeGrammar(Color.Blue)
+    private val red = RectangularShapeGrammar(Color.Red)
     private val yellow = RectangularShapeGrammar(Color.Yellow)
 
     @Nested
@@ -225,6 +226,41 @@ class BrickSelectionTest {
         private fun testPinwheel(pattern: BrickPattern) {
             val expected = createPinwheel(
                 blue,
+                blue,
+                yellow,
+                yellow,
+                blue,
+            )
+
+            testPinwheel(pattern, selection, expected)
+        }
+    }
+
+    @Nested
+    inner class BrickSelectionWithCenterTest {
+
+        private val selection = BrickSelectionWithCenter(red, HorizontalAndVerticalBricks(blue, yellow))
+
+
+        @Test
+        fun `Test Pinwheel`() {
+            testPinwheel(BrickPattern.Pinwheel)
+        }
+
+        @Test
+        fun `Test PinwheelSplit`() {
+            testPinwheel(BrickPattern.PinwheelSplit)
+        }
+
+        @Test
+        fun `Test PinwheelWithBigCenter`() {
+            testPinwheel(BrickPattern.PinwheelWithBigCenter)
+        }
+
+
+        private fun testPinwheel(pattern: BrickPattern) {
+            val expected = createPinwheel(
+                red,
                 blue,
                 yellow,
                 yellow,
