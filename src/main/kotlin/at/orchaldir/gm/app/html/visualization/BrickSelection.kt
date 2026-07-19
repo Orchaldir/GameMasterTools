@@ -92,6 +92,7 @@ fun HtmlBlockTag.editBrickSelection(
                 combine(selectionParam, HORIZONTAL),
                 "Brick",
             )
+
             is BrickSelectionWithCenter -> {
                 editShapeGrammar(
                     state,

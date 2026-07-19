@@ -215,7 +215,7 @@ private fun createPinwheelPattern(
     grammar: BrickPatternGrammar,
 ) {
     val long = grammar.length
-    val short = grammar.length  - 1
+    val short = grammar.length - 1
     val (center, border) = grammar.bricks.getCenterAndBorderSelection()
 
     builder.createSubSections(MapSize2d.square(2 * long - 1)) { sub, start ->
@@ -235,7 +235,7 @@ private fun createSplitPinwheelPattern(
     grammar: BrickPatternGrammar,
 ) {
     val length = grammar.length
-    val rows = grammar.length  - 1
+    val rows = grammar.length - 1
     val (center, border) = grammar.bricks.getCenterAndBorderSelection()
 
     builder.createSubSections(MapSize2d.square(2 * length - 1)) { sub, start ->
@@ -255,7 +255,7 @@ private fun createPinwheelWithBigCenterPattern(
     grammar: BrickPatternGrammar,
 ) {
     val length = grammar.length
-    val centerSize = grammar.length  - 1
+    val centerSize = grammar.length - 1
     val (center, border) = grammar.bricks.getCenterAndBorderSelection()
 
     builder.createSubSections(MapSize2d.square(length + 1)) { sub, start ->
@@ -297,7 +297,7 @@ private fun createPythagoreanTiling(
                 continue
             }
 
-            for(i in 0..<n) {
+            for (i in 0..<n) {
                 val start = 1 + i * n
                 val end = (1 + i) * n
 
@@ -311,8 +311,7 @@ private fun createPythagoreanTiling(
 
                     if (isFull) {
                         builder.addBigBrick(x, y, x, border, n, n)
-                    }
-                    else if (isLeftBorder || isTopBorder) {
+                    } else if (isLeftBorder || isTopBorder) {
                         val startX = x + width - n
                         builder.addBigBrick(startX, y + height - n, startX, border, n, n)
                     }
