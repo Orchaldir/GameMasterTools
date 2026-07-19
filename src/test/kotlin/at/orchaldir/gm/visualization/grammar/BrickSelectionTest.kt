@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test
 class BrickSelectionTest {
 
     private val blue = RectangularShapeGrammar(Color.Blue)
+    private val red = RectangularShapeGrammar(Color.Red)
     private val yellow = RectangularShapeGrammar(Color.Yellow)
 
     @Nested
@@ -179,6 +180,21 @@ class BrickSelectionTest {
         }
 
         @Test
+        fun `Test Pinwheel`() {
+            testPinwheel(BrickPattern.Pinwheel)
+        }
+
+        @Test
+        fun `Test PinwheelSplit`() {
+            testPinwheel(BrickPattern.PinwheelSplit)
+        }
+
+        @Test
+        fun `Test PinwheelWithBigCenter`() {
+            testPinwheel(BrickPattern.PinwheelWithBigCenter)
+        }
+
+        @Test
         fun `Test Running`() {
             val expected = createRunning(
                 blue,
@@ -205,6 +221,53 @@ class BrickSelectionTest {
             )
 
             testStack(selection, expected)
+        }
+
+        private fun testPinwheel(pattern: BrickPattern) {
+            val expected = createPinwheel(
+                blue,
+                blue,
+                yellow,
+                yellow,
+                blue,
+            )
+
+            testPinwheel(pattern, selection, expected)
+        }
+    }
+
+    @Nested
+    inner class BrickSelectionWithCenterTest {
+
+        private val selection = BrickSelectionWithCenter(red, HorizontalAndVerticalBricks(blue, yellow))
+
+
+        @Test
+        fun `Test Pinwheel`() {
+            testPinwheel(BrickPattern.Pinwheel)
+        }
+
+        @Test
+        fun `Test PinwheelSplit`() {
+            testPinwheel(BrickPattern.PinwheelSplit)
+        }
+
+        @Test
+        fun `Test PinwheelWithBigCenter`() {
+            testPinwheel(BrickPattern.PinwheelWithBigCenter)
+        }
+
+
+        private fun testPinwheel(pattern: BrickPattern) {
+            val expected = createPinwheel(
+                red,
+                blue,
+                yellow,
+                yellow,
+                blue,
+            )
+
+            testPinwheel(pattern, selection, expected)
         }
     }
 
@@ -282,6 +345,20 @@ class BrickSelectionTest {
         return listOf(line0, line1, line2)
     }
 
+    private fun createPinwheel(
+        center: ShapeGrammar,
+        bottom: ShapeGrammar,
+        left: ShapeGrammar,
+        right: ShapeGrammar,
+        top: ShapeGrammar,
+    ): List<List<Brick?>> {
+        val line0 = listOf(createV2(left), createH2(top), null)
+        val line1 = listOf(null, Brick(center), createV2(right))
+        val line2 = listOf(createH2(bottom), null, null)
+
+        return listOf(line0, line1, line2)
+    }
+
     private fun createRunning(
         b00: ShapeGrammar,
         b01: ShapeGrammar,
@@ -353,6 +430,18 @@ class BrickSelectionTest {
         MapSize2d(5, 3),
         BrickPattern.Herringbone,
         3,
+        selection,
+        expected,
+    )
+
+    private fun testPinwheel(
+        pattern: BrickPattern,
+        selection: BrickSelection,
+        expected: List<List<Brick?>>,
+    ) = test(
+        MapSize2d.square(3),
+        pattern,
+        2,
         selection,
         expected,
     )

@@ -1,5 +1,6 @@
 package at.orchaldir.gm.visualization.grammar.brick
 
+import at.orchaldir.gm.core.logger
 import at.orchaldir.gm.core.model.visualization.BrickSelection
 import at.orchaldir.gm.core.model.visualization.DoNothingShapeGrammar
 import at.orchaldir.gm.core.model.visualization.ShapeGrammar
@@ -27,8 +28,10 @@ abstract class BrickMapBuilder(
     abstract fun size(): MapSize2d
     fun borders() = borders
 
+    // doesn't work with createSubSections()
     fun addSingleBlock(x: Int, y: Int, bricks: BrickSelection) {
         val mapIndex = size.toIndexRisky(x, y)
+        logger.info { "x=$x y=$y index=$mapIndex" }
         val selected = bricks.select(y, true)
 
         map[mapIndex] = Brick(selected, BLOCK_SIZE)
@@ -52,6 +55,19 @@ abstract class BrickMapBuilder(
         addBrick(limitedX, y, row, bricks, MapSize2d(limitedLength, 1), true)
     }
 
+    fun addHorizontalBricks(
+        x: Int,
+        y: Int,
+        bricks: BrickSelection,
+        length: Int,
+        n: Int,
+    ) {
+        repeat(n) { i ->
+            val row = y + i
+            addHorizontalBrick(x, row, row, bricks, length)
+        }
+    }
+
     fun addVerticalBrick(
         x: Int,
         y: Int,
@@ -68,6 +84,55 @@ abstract class BrickMapBuilder(
         ) ?: return
 
         addBrick(x, limitedY, row, bricks, MapSize2d(1, limitedLength), false)
+    }
+
+    fun addVerticalBricks(
+        x: Int,
+        y: Int,
+        bricks: BrickSelection,
+        length: Int,
+        n: Int,
+    ) {
+        repeat(n) { i ->
+            val row = x + i
+            addVerticalBrick(row, y, row, bricks, length)
+        }
+    }
+
+    fun addBigBrick(
+        x: Int,
+        y: Int,
+        row: Int,
+        bricks: BrickSelection,
+        width: Int,
+        height: Int,
+    ) = addBigBrick(x, y, row, bricks, width, height, width >= height)
+
+    fun addBigBrick(
+        x: Int,
+        y: Int,
+        row: Int,
+        bricks: BrickSelection,
+        width: Int,
+        height: Int,
+        isHorizontal: Boolean,
+    ) {
+        val (limitedX, limitedWidth) = applyBorders(
+            borders.left,
+            borders.right,
+            size().width,
+            x,
+            width,
+        ) ?: return
+        val (limitedY, limitedHeight) = applyBorders(
+            borders.top,
+            borders.bottom,
+            size().height,
+            y,
+            height,
+        ) ?: return
+
+        addBrick(limitedX, limitedY, row, bricks, MapSize2d(limitedWidth, limitedHeight), isHorizontal)
     }
 
     protected fun addBrick(

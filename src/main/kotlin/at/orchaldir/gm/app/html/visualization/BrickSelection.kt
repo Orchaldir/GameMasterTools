@@ -1,6 +1,8 @@
 package at.orchaldir.gm.app.html.visualization
 
+import at.orchaldir.gm.app.BORDER
 import at.orchaldir.gm.app.BRICK
+import at.orchaldir.gm.app.CENTER
 import at.orchaldir.gm.app.HORIZONTAL
 import at.orchaldir.gm.app.VERTICAL
 import at.orchaldir.gm.app.html.*
@@ -32,6 +34,10 @@ fun HtmlBlockTag.showBrickSelection(
             }
 
             is UniformBricks -> showShapeGrammar(call, state, selection.brick, "Brick")
+            is BrickSelectionWithCenter -> {
+                showShapeGrammar(call, state, selection.center, "Center")
+                showBrickSelection(call, state, selection.border, "Border")
+            }
         }
     }
 }
@@ -43,6 +49,7 @@ fun HtmlBlockTag.editBrickSelection(
     selection: BrickSelection,
     param: String,
     label: String = "Bricks",
+    allowed: Collection<BrickSelectionType> = BrickSelectionType.entries,
 ) {
     val selectionParam = combine(param, BRICK)
 
@@ -50,7 +57,7 @@ fun HtmlBlockTag.editBrickSelection(
         selectValue(
             "Type",
             selectionParam,
-            BrickSelectionType.entries,
+            allowed,
             selection.getType(),
         )
 
@@ -85,6 +92,22 @@ fun HtmlBlockTag.editBrickSelection(
                 combine(selectionParam, HORIZONTAL),
                 "Brick",
             )
+
+            is BrickSelectionWithCenter -> {
+                editShapeGrammar(
+                    state,
+                    selection.center,
+                    combine(selectionParam, CENTER),
+                    "Center",
+                )
+                editBrickSelection(
+                    state,
+                    selection.border,
+                    combine(selectionParam, BORDER),
+                    "Border",
+                    allowed - BrickSelectionType.WithCenter,
+                )
+            }
         }
     }
 }
@@ -112,6 +135,11 @@ fun parseBrickSelection(
 
         BrickSelectionType.Uniform -> UniformBricks(
             parseShapeGrammar(state, parameters, combine(selectionParam, HORIZONTAL)),
+        )
+
+        BrickSelectionType.WithCenter -> BrickSelectionWithCenter(
+            parseShapeGrammar(state, parameters, combine(selectionParam, CENTER)),
+            parseBrickSelection(state, parameters, combine(selectionParam, BORDER)),
         )
     }
 }
