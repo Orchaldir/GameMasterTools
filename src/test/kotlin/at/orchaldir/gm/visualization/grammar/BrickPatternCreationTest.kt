@@ -42,6 +42,9 @@ class BrickPatternCreationTest {
     private val line_5_ExW2xExE = listOf(null, brickW2, null, null, null)
     private val line_5_H2xH2xW2xH2 = listOf(brickH2, brickH2, brickW2, null, brickH2)
     private val line_5_H2xW2xH2xH2 = listOf(brickH2, brickW2, null, brickH2, brickH2)
+    private val line_5_H3xH3xW3 = listOf(brickH3, brickH3, brickW3, null, null)
+    private val line_5_ExExW3 = listOf(null, null, brickW3, null, null)
+    private val line_5_ExExSxH3xH3 = listOf(null, null, singleBrick, brickH3, brickH3)
     private val line_5_SxExExW2 = listOf(singleBrick, null, null, brickW2, null)
     private val line_5_SxH2xH2xW2 = listOf(singleBrick, brickH2, brickH2, brickW2, null)
     private val line_5_W2xExE = listOf(brickW2, null, null, null)
@@ -622,6 +625,59 @@ class BrickPatternCreationTest {
 
         private fun test(size: MapSize2d, borders: Borders, expected: List<List<Brick?>>) =
             test(size, BrickPattern.Herringbone, 3, borders, expected)
+    }
+
+    @Nested
+    inner class PinwheelSplitPatternWithLength3Test {
+
+        @Nested
+        inner class HorizontalAndVerticalRepetitionTest {
+
+            @Test
+            fun `Test origin tile`() {
+                testDefault(0, 0)
+            }
+
+            @Test
+            fun `Alternate Pattern 1 tile to the right`() {
+                testDefault(1, 0)
+            }
+
+            @Test
+            fun `Same Pattern 2 tiles to the right`() {
+                testDefault(2, 0)
+            }
+
+            @Test
+            fun `Same Pattern 1 tile to the bottom`() {
+                testDefault(0, 1)
+                testDefault(1, 1)
+                testDefault(2, 1)
+            }
+
+            @Test
+            fun `Same Pattern 2 tiles to the bottom`() {
+                testDefault(0, 2)
+                testDefault(1, 2)
+                testDefault(2, 2)
+            }
+
+            private fun testDefault(tileX: Int, tileY: Int) {
+                val expected = listOf(line_5_H3xH3xW3, line_5_ExExW3, line_5_ExExSxH3xH3, line_5_W3xExE, line_5_W3xExE)
+
+                test(tileX, tileY, expected)
+            }
+        }
+
+        private fun test(tileX: Int, tileY: Int, expected: List<List<Brick?>>) {
+            val size = MapSize2d(5, 5)
+            val borders = Borders(true, tileX, tileY)
+
+            test(size, borders, expected)
+        }
+
+        private fun test(size: MapSize2d, borders: Borders, expected: List<List<Brick?>>) =
+            test(size, BrickPattern.PinwheelSplit, 3, borders, expected)
     }
 
     @Nested
