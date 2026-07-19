@@ -56,11 +56,14 @@ class BrickPatternCreationTest {
     private val line_5_SxExExW2 = listOf(singleBrick, null, null, brickW2, null)
     private val line_5_SxH2xH2xW2 = listOf(singleBrick, brickH2, brickH2, brickW2, null)
     private val line_5_Sx22xW2 = listOf(singleBrick, brick22, null, brickW2, null)
+    private val line_5_Sx22xExE = listOf(singleBrick, brick22, null, null, null)
     private val line_5_ExExExSxH2 = listOf(null, null, null, singleBrick, brickH2)
     private val line_5_H2xExExSxH2 = listOf(brickH2, null, null, singleBrick, brickH2)
+    private val line_5_H2xExExSx22 = listOf(brickH2, null, null, singleBrick, brick22)
     private val line_5_ExSx22xE = listOf(null, singleBrick, brick22, null, null)
     private val line_5_22xExExS = listOf(brick22, null, null, null, singleBrick)
     private val line_5_ExExSxW2 = listOf( null, null, singleBrick, brickW2, null)
+    private val line_5_ExExSx22 = listOf( null, null, singleBrick, brick22, null)
     private val line_5_W2xExE = listOf(brickW2, null, null, null)
     private val line_5_W2xExExS = line_5_W2xExE + singleBrick
     private val line_5_W2xExExW2 = line_5_W2xExE + brickW2
@@ -893,11 +896,11 @@ class BrickPatternCreationTest {
 
             private fun testAcrossBottomBorder(tileX: Int) {
                 val expected = listOf(
-                    line_6_W3xSxH2xH3,
-                    line_6_H3xW3xExE,
-                    line_6_ExH3xW3xE,
-                    line_6_ExExH3xW3,
-                    line_6_SxExExH3xW2,
+                    line_5_Sx22xW2,
+                    line_5_H2xExExSxH2,
+                    line_5_ExSx22xE,
+                    line_5_22xExExS,
+                    line_5_ExExSx22,
                 )
 
                 test(tileX, 0, false, true, true, true, expected)
@@ -917,12 +920,11 @@ class BrickPatternCreationTest {
 
             private fun testAcrossRightBorder(tileY: Int) {
                 val expected = listOf(
-                    line_5_W3xSxH2,
-                    line_5_H3xW3xE,
-                    line_5_ExH3xW3,
-                    line_5_ExExH3xW3,
-                    line_5_SxExExH2xW3,
-                    line_5_W2xExExS,
+                    line_5_Sx22xW2,
+                    line_5_H2xExExSx22,
+                    line_5_ExSx22xE,
+                    line_5_22xExExS,
+                    line_5_ExExSxW2,
                 )
 
                 test(0, tileY, true, true, false, true, expected)
@@ -930,11 +932,11 @@ class BrickPatternCreationTest {
 
             private fun testAcrossTopBorder(tileX: Int) {
                 val expected = listOf(
-                    line_6_W2xExExH3xS,
-                    line_6_W3xExExH3,
-                    line_6_H3xW3xExE,
-                    line_6_ExH2xW3xE,
-                    line_6_ExExSxW3,
+                    line_5_Sx22xExE,
+                    line_5_H2xExExSxH2,
+                    line_5_ExSx22xE,
+                    line_5_22xExExS,
+                    line_5_ExExSxW2,
                 )
 
                 test(tileX, 1, true, true, true, false, expected)
