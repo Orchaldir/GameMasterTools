@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test
 
 class BrickSelectionTest {
 
-    private val STATE = State(
+    private val state = State(
         listOf(
             Storage(Material(MATERIAL_ID_0, properties = MaterialProperties(Rock()))),
         )
@@ -87,11 +87,34 @@ class BrickSelectionTest {
 
     }
 
+    @Nested
+    inner class BrickSelectionWithCenterTest {
+
+        private val validSelection = UniformBricks(brick1)
+        private val invalidSelection = UniformBricks(invalidBrick)
+
+        @Test
+        fun `The center is invalid`() {
+            fail(BrickSelectionWithCenter(invalidBrick, validSelection), "Requires unknown Material 99!")
+        }
+
+        @Test
+        fun `The border is invalid`() {
+            fail(BrickSelectionWithCenter(brick0, invalidSelection), "Requires unknown Material 99!")
+        }
+
+        @Test
+        fun `A valid selection`() {
+            success(BrickSelectionWithCenter(brick0, validSelection))
+        }
+
+    }
+
     fun fail(selection: BrickSelection, message: String) {
         assertIllegalArgument(message) { success(selection) }
     }
 
     fun success(selection: BrickSelection) {
-        selection.validate(STATE, "test")
+        selection.validate(state, "test")
     }
 }
