@@ -1,11 +1,8 @@
 package at.orchaldir.gm.visualization.grammar.brick
 
-import at.orchaldir.gm.core.logger
 import at.orchaldir.gm.core.model.visualization.BrickPattern
 import at.orchaldir.gm.core.model.visualization.BrickPatternGrammar
 import at.orchaldir.gm.core.model.visualization.BrickSelection
-import at.orchaldir.gm.core.model.visualization.BrickSelectionWithCenter
-import at.orchaldir.gm.core.model.visualization.UniformBricks
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.map.TileMap2d
 import at.orchaldir.gm.visualization.grammar.Borders
@@ -279,15 +276,12 @@ private fun createPythagoreanTiling(
     val (center, border) = grammar.bricks.getCenterAndBorderSelection()
     val offsetX = builder.borders().calculateTileOffsetX(builder.size().width, types)
     val offsetY = builder.borders().calculateTileOffsetY(builder.size().height, types)
-    logger.info { "n=$n types=$types offsetX=$offsetX offsetY=$offsetY" }
 
     repeat(builder.size().height) { y ->
         var x = 0
         var type = (types + y * n - offsetX - offsetY * n).mod(types)
-        logger.info { "y=$y type=$type" }
 
         while (x < builder.size().width) {
-            logger.info { "x=$x type=$type" }
             if (type == 0) {
                 // center
                 builder.addHorizontalBrick(x, y, 0, center, 1)
@@ -307,7 +301,6 @@ private fun createPythagoreanTiling(
                     val isLeftBorder = x == 0 && builder.borders().left && type > start && i == 0
                     val isTopBorder = y == 0 && builder.borders().top && type == start
                     val isFull = i == 0 && type == start
-                    logger.info { "isFull=$isFull" }
 
                     if (isFull) {
                         builder.addBigBrick(x, y, x, border, n, n)
