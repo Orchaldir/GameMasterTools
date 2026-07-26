@@ -17,6 +17,7 @@ fun visualizeShapeGrammar(
     borders: Borders = Borders(),
     layer: Int = 0,
 ): Unit = when (grammar) {
+    is AshlarGrammar -> doNothing()
     is BrickPatternGrammar -> visualizeBrickPatternGrammar(state, grammar, aabb, borders, layer)
     DoNothingShapeGrammar -> doNothing()
     is RectangularShapeGrammar -> visualizeRectangularShapeGrammar(state, grammar, aabb, layer)
@@ -42,6 +43,7 @@ fun visualizeShapeGrammar(
     layer: Int = 0,
     shrinkFactor: Factor? = null,
 ): Unit = when (grammar) {
+    is AshlarGrammar -> doNothing()
     is BrickPatternGrammar -> doNothing()
     DoNothingShapeGrammar -> doNothing()
     is RectangularShapeGrammar -> {

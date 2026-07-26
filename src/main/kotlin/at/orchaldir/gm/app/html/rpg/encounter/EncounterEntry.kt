@@ -9,7 +9,7 @@ import at.orchaldir.gm.app.html.util.editLookupTable
 import at.orchaldir.gm.app.html.util.parseLookup
 import at.orchaldir.gm.app.html.util.showLookupTable
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.rpg.IntRange
+import at.orchaldir.gm.utils.math.IntRange
 import at.orchaldir.gm.core.model.rpg.dice.ModifiedDiceRange
 import at.orchaldir.gm.core.model.rpg.encounter.*
 import at.orchaldir.gm.core.selector.util.sortCharacterTemplates

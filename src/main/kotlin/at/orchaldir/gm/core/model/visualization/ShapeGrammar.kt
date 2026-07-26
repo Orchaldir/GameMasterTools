@@ -8,13 +8,20 @@ import at.orchaldir.gm.core.model.util.part.MadeFromStone
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.reducer.util.part.validateItemPart
 import at.orchaldir.gm.utils.doNothing
-import at.orchaldir.gm.utils.math.*
+import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.IntRange
+import at.orchaldir.gm.utils.math.ONE_PERCENT
+import at.orchaldir.gm.utils.math.TEN_PERCENTS
+import at.orchaldir.gm.utils.math.THIRD
+import at.orchaldir.gm.utils.math.checkInt
+import at.orchaldir.gm.utils.math.validateFactor
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 var MIN_BRICK_LENGTH = 2
 var DEFAULT_BRICK_LENGTH = 2
 var MAX_BRICK_LENGTH = 5
+var BRICK_SIZE_RANGE = IntRange(MIN_BRICK_LENGTH, MAX_BRICK_LENGTH)
 var MIN_GRID_SIZE = 2
 var MAX_GRID_SIZE = 1000
 var MIN_SHRINK_FACTOR = ONE_PERCENT
@@ -23,6 +30,7 @@ var MAX_SHRINK_FACTOR = THIRD
 
 enum class ShapeGrammarType {
     DoNothing,
+    Ashlar,
     BrickPattern,
     RectangularShape,
     Shrink,
@@ -32,6 +40,7 @@ enum class ShapeGrammarType {
 sealed class ShapeGrammar {
 
     fun getType() = when (this) {
+        is AshlarGrammar -> ShapeGrammarType.Ashlar
         is BrickPatternGrammar -> ShapeGrammarType.BrickPattern
         DoNothingShapeGrammar -> ShapeGrammarType.DoNothing
         is RectangularShapeGrammar -> ShapeGrammarType.RectangularShape
@@ -39,6 +48,7 @@ sealed class ShapeGrammar {
     }
 
     fun contains(material: MaterialId): Boolean = when (this) {
+        is AshlarGrammar -> brick.contains(material)
         is BrickPatternGrammar -> bricks.contains(material)
         DoNothingShapeGrammar -> false
         is RectangularShapeGrammar -> part.contains(material)
@@ -46,6 +56,13 @@ sealed class ShapeGrammar {
     }
 
     fun validate(state: State, label: String): Unit = when (this) {
+        is AshlarGrammar -> {
+            size.validate(label, MIN_GRID_SIZE, MAX_GRID_SIZE)
+            brick.validate(state, label)
+            brickWidth.validate(BRICK_SIZE_RANGE, "${label}'s brick width")
+            brickHeight.validate(BRICK_SIZE_RANGE, "${label}'s brick height")
+        }
+
         is BrickPatternGrammar -> {
             size.validate(label, MIN_GRID_SIZE, MAX_GRID_SIZE)
             checkInt(length, "${label}'s brick length", MIN_BRICK_LENGTH, MAX_BRICK_LENGTH)
@@ -67,6 +84,15 @@ sealed class ShapeGrammar {
     }
 
 }
+
+@Serializable
+@SerialName("Ashlar")
+data class AshlarGrammar(
+    val size: GridSize = SquareGrid(10),
+    val brick: ShapeGrammar = DoNothingShapeGrammar,
+    val brickWidth: IntRange = BRICK_SIZE_RANGE,
+    val brickHeight: IntRange = BRICK_SIZE_RANGE,
+) : ShapeGrammar()
 
 @Serializable
 @SerialName("BrickPattern")

@@ -6,9 +6,11 @@ import at.orchaldir.gm.app.html.combine
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.parseInt
 import at.orchaldir.gm.app.html.selectInt
-import at.orchaldir.gm.core.model.rpg.IntRange
+import at.orchaldir.gm.utils.math.IntRange
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag
+
+private val DEFAULT_INT_RANGE = IntRange(-100, 100)
 
 // show
 
@@ -31,22 +33,23 @@ fun HtmlBlockTag.showRange(
 
 fun HtmlBlockTag.editRange(
     label: String,
-    range: IntRange,
+    value: IntRange,
     param: String,
+    range: IntRange = DEFAULT_INT_RANGE,
 ) {
     selectInt(
         "Min $label",
+        value.min,
         range.min,
-        -100,
-        range.max - 1,
+        value.max - 1,
         1,
         combine(param, MIN),
     )
     selectInt(
         "Max $label",
+        value.max,
+        value.min + 1,
         range.max,
-        range.min + 1,
-        100,
         1,
         combine(param, MAX),
     )

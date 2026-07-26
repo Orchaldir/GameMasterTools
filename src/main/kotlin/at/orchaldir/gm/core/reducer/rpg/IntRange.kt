@@ -1,6 +1,6 @@
 package at.orchaldir.gm.core.reducer.rpg
 
-import at.orchaldir.gm.core.model.rpg.IntRange
+import at.orchaldir.gm.utils.math.IntRange
 
 fun validateIsInside(value: Int, text: String, range: IntRange) =
     validateIsInside(value, text, range.min, range.max)

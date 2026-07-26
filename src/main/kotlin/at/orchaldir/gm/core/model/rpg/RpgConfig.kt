@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.model.rpg
 
 import at.orchaldir.gm.core.model.rpg.dice.DieType
 import at.orchaldir.gm.core.model.rpg.dice.ModifiedDiceRange
+import at.orchaldir.gm.utils.math.IntRange
 import kotlinx.serialization.Serializable
 
 @Serializable

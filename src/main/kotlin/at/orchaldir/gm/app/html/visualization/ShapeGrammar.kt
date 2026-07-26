@@ -2,6 +2,9 @@ package at.orchaldir.gm.app.html.visualization
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.rpg.editRange
+import at.orchaldir.gm.app.html.rpg.parseRange
+import at.orchaldir.gm.app.html.rpg.showRange
 import at.orchaldir.gm.app.html.util.math.fieldFactor
 import at.orchaldir.gm.app.html.util.math.parseFactor
 import at.orchaldir.gm.app.html.util.math.selectFactor
@@ -28,6 +31,12 @@ fun HtmlBlockTag.showShapeGrammar(
         field("Type", grammar.getType())
 
         when (grammar) {
+            is AshlarGrammar -> {
+                showGridSize(grammar.size)
+                showShapeGrammar(call, state, grammar.brick, "Brick")
+                showRange("Brick Width", grammar.brickWidth)
+                showRange("Brick Height", grammar.brickHeight)
+            }
             is BrickPatternGrammar -> {
                 showGridSize(grammar.size)
                 field("Pattern", grammar.pattern)
@@ -70,6 +79,32 @@ fun HtmlBlockTag.editShapeGrammar(
         )
 
         when (grammar) {
+            is AshlarGrammar -> {
+                editGridSize(
+                    grammar.size,
+                    combine(param, SIZE),
+                    MIN_GRID_SIZE,
+                    MAX_GRID_SIZE,
+                )
+                editShapeGrammar(
+                    state,
+                    grammar.brick,
+                    combine(param, BRICK),
+                    "Brick",
+                )
+                editRange(
+                    "Brick Width",
+                    grammar.brickWidth,
+                    combine(param, WIDTH),
+                    BRICK_SIZE_RANGE,
+                )
+                editRange(
+                    "Brick Height",
+                    grammar.brickHeight,
+                    combine(param, HEIGHT),
+                    BRICK_SIZE_RANGE,
+                )
+            }
             is BrickPatternGrammar -> {
                 editGridSize(
                     grammar.size,
@@ -144,6 +179,12 @@ fun parseShapeGrammar(
     param: String = GRAMMAR,
 ): ShapeGrammar {
     return when (parse(parameters, param, ShapeGrammarType.RectangularShape)) {
+        ShapeGrammarType.Ashlar -> AshlarGrammar(
+            parseGridSize(parameters, combine(param, SIZE)),
+            parseShapeGrammar(state, parameters, combine(param, BRICK)),
+            parseRange(parameters, combine(param, WIDTH)),
+            parseRange(parameters, combine(param, HEIGHT)),
+        )
         ShapeGrammarType.BrickPattern -> BrickPatternGrammar(
             parseBrickSelection(state, parameters, param),
             parseGridSize(parameters, combine(param, SIZE)),
