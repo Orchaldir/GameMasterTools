@@ -9,7 +9,7 @@ import at.orchaldir.gm.app.html.util.editLookupTable
 import at.orchaldir.gm.app.html.util.parseLookup
 import at.orchaldir.gm.app.html.util.showLookupTable
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.utils.math.IntRange
+import at.orchaldir.gm.utils.math.RangeInt
 import at.orchaldir.gm.core.model.rpg.dice.ModifiedDiceRange
 import at.orchaldir.gm.core.model.rpg.encounter.*
 import at.orchaldir.gm.core.selector.util.sortCharacterTemplates
@@ -96,7 +96,7 @@ fun HtmlBlockTag.editEncounterEntryIntern(
     param: String,
     id: EncounterId?,
 ) {
-    val range = ModifiedDiceRange(IntRange(0, 10), IntRange(0, 10))
+    val range = ModifiedDiceRange(RangeInt(0, 10), RangeInt(0, 10))
     val encounters = state.sortEncounters()
         .filter { it.id != id }
     val templates = state.sortCharacterTemplates()

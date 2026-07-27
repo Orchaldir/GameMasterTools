@@ -1,4 +1,4 @@
-package at.orchaldir.gm.app.html.rpg
+package at.orchaldir.gm.app.html.util.math
 
 import at.orchaldir.gm.app.MAX
 import at.orchaldir.gm.app.MIN
@@ -6,24 +6,24 @@ import at.orchaldir.gm.app.html.combine
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.parseInt
 import at.orchaldir.gm.app.html.selectInt
-import at.orchaldir.gm.utils.math.IntRange
+import at.orchaldir.gm.utils.math.RangeInt
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag
 
-private val DEFAULT_INT_RANGE = IntRange(-100, 100)
+private val DEFAULT_INT_RANGE = RangeInt(-100, 100)
 
 // show
 
 fun HtmlBlockTag.fieldRange(
     label: String,
-    range: IntRange,
+    range: RangeInt,
 ) {
     field(label, "${range.min} to ${range.max}")
 }
 
 fun HtmlBlockTag.showRange(
     label: String,
-    range: IntRange,
+    range: RangeInt,
 ) {
     field("Min $label", range.min)
     field("Max $label", range.max)
@@ -33,9 +33,9 @@ fun HtmlBlockTag.showRange(
 
 fun HtmlBlockTag.editRange(
     label: String,
-    value: IntRange,
+    value: RangeInt,
     param: String,
-    range: IntRange = DEFAULT_INT_RANGE,
+    range: RangeInt = DEFAULT_INT_RANGE,
 ) {
     selectInt(
         "Min $label",
@@ -57,7 +57,7 @@ fun HtmlBlockTag.editRange(
 
 fun HtmlBlockTag.selectFromRange(
     label: String,
-    range: IntRange,
+    range: RangeInt,
     value: Int,
     param: String,
     stepNumber: Int = 1,
@@ -77,7 +77,7 @@ fun HtmlBlockTag.selectFromRange(
 fun parseRange(
     parameters: Parameters,
     param: String,
-) = IntRange(
+) = RangeInt(
     parseInt(parameters, combine(param, MIN)),
     parseInt(parameters, combine(param, MAX)),
 )

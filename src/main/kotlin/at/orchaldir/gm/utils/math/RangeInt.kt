@@ -3,7 +3,7 @@ package at.orchaldir.gm.utils.math
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class IntRange(
+data class RangeInt(
     val min: Int,
     val max: Int,
 ) {
@@ -13,7 +13,7 @@ data class IntRange(
         require(max >= min) { "$label's max must be greater or equal than its min!" }
     }
 
-    fun validate(range: IntRange, label: String) {
+    fun validate(range: RangeInt, label: String) {
         validate(label)
         range.validateInt(min, "$label's min")
         range.validateInt(max, "$label's max")

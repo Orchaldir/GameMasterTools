@@ -6,7 +6,6 @@ import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.core.model.rpg.dice.StandardDice
 import at.orchaldir.gm.core.model.rpg.statistic.BaseDamage
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
-import at.orchaldir.gm.utils.math.IntRange
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test

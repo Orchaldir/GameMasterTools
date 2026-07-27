@@ -2,17 +2,17 @@ package at.orchaldir.gm.core.model.rpg
 
 import at.orchaldir.gm.core.model.rpg.dice.ModifiedDiceRange
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
-import at.orchaldir.gm.utils.math.IntRange
+import at.orchaldir.gm.utils.math.RangeInt
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class EquipmentConfig(
-    val damageModifier: ModifiedDiceRange = ModifiedDiceRange(IntRange(-2, 2), IntRange(-6, 6)),
+    val damageModifier: ModifiedDiceRange = ModifiedDiceRange(RangeInt(-2, 2), RangeInt(-6, 6)),
     val maxDamageResistance: Int = 20,
-    val damageResistanceModifier: IntRange = IntRange(-5, 5),
+    val damageResistanceModifier: RangeInt = RangeInt(-5, 5),
     val maxDefenseBonus: Int = 10,
-    val defenseBonusModifier: IntRange = IntRange(-5, 5),
+    val defenseBonusModifier: RangeInt = RangeInt(-5, 5),
     val musclePoweredStatistic: StatisticId? = null,
-    val parryingModifier: IntRange = IntRange(-2, 2),
-    val skillModifier: IntRange = IntRange(-2, 2),
+    val parryingModifier: RangeInt = RangeInt(-2, 2),
+    val skillModifier: RangeInt = RangeInt(-2, 2),
 )

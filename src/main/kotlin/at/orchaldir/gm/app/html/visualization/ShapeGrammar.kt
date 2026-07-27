@@ -2,9 +2,9 @@ package at.orchaldir.gm.app.html.visualization
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.rpg.editRange
-import at.orchaldir.gm.app.html.rpg.parseRange
-import at.orchaldir.gm.app.html.rpg.showRange
+import at.orchaldir.gm.app.html.util.math.editRange
+import at.orchaldir.gm.app.html.util.math.parseRange
+import at.orchaldir.gm.app.html.util.math.showRange
 import at.orchaldir.gm.app.html.util.math.fieldFactor
 import at.orchaldir.gm.app.html.util.math.parseFactor
 import at.orchaldir.gm.app.html.util.math.selectFactor

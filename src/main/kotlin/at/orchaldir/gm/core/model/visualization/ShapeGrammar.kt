@@ -9,7 +9,7 @@ import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.reducer.util.part.validateItemPart
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.math.IntRange
+import at.orchaldir.gm.utils.math.RangeInt
 import at.orchaldir.gm.utils.math.ONE_PERCENT
 import at.orchaldir.gm.utils.math.TEN_PERCENTS
 import at.orchaldir.gm.utils.math.THIRD
@@ -21,7 +21,7 @@ import kotlinx.serialization.Serializable
 var MIN_BRICK_LENGTH = 2
 var DEFAULT_BRICK_LENGTH = 2
 var MAX_BRICK_LENGTH = 5
-var BRICK_SIZE_RANGE = IntRange(MIN_BRICK_LENGTH, MAX_BRICK_LENGTH)
+var BRICK_SIZE_RANGE = RangeInt(MIN_BRICK_LENGTH, MAX_BRICK_LENGTH)
 var MIN_GRID_SIZE = 2
 var MAX_GRID_SIZE = 1000
 var MIN_SHRINK_FACTOR = ONE_PERCENT
@@ -90,8 +90,8 @@ sealed class ShapeGrammar {
 data class AshlarGrammar(
     val size: GridSize = SquareGrid(10),
     val brick: ShapeGrammar = DoNothingShapeGrammar,
-    val brickWidth: IntRange = BRICK_SIZE_RANGE,
-    val brickHeight: IntRange = BRICK_SIZE_RANGE,
+    val brickWidth: RangeInt = BRICK_SIZE_RANGE,
+    val brickHeight: RangeInt = BRICK_SIZE_RANGE,
 ) : ShapeGrammar()
 
 @Serializable

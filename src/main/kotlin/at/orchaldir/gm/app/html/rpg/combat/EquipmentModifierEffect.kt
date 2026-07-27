@@ -4,7 +4,7 @@ import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.rpg.dice.editRandomNumber
 import at.orchaldir.gm.app.html.rpg.dice.parseRandomNumber
-import at.orchaldir.gm.app.html.rpg.selectFromRange
+import at.orchaldir.gm.app.html.util.math.selectFromRange
 import at.orchaldir.gm.app.html.util.math.parseFactor
 import at.orchaldir.gm.app.html.util.math.selectFactor
 import at.orchaldir.gm.core.model.State
