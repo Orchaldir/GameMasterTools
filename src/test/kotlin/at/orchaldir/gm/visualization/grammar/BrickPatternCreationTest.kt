@@ -105,13 +105,13 @@ class BrickPatternCreationTest {
     private val line_6_SxExExH3xW2 = listOf(singleBrick, occupied, occupied, brickH3, brickW2, occupied)
     private val line_6_SxSxSxH2xH2xH2 = listOf(singleBrick, singleBrick, singleBrick, brickH2, brickH2, brickH2)
     private val line_6_SxSxW2xSxS = listOf(singleBrick, singleBrick, brickW2, occupied, singleBrick, singleBrick)
-    private val line_6_W2xExExH3xS = listOf(brickW2, occupied, occupied, occupied, brickH3, singleBrick)
+    private val line_6_W2xExExH3xS = listOf(brickW2, occupied, empty, empty, brickH3, singleBrick)
     private val line_6_W2xExExSxS = listOf(brickW2, occupied, occupied, occupied, singleBrick, singleBrick)
     private val line_6_W2xExExW2 = listOf(brickW2, occupied, occupied, occupied, brickW2, occupied)
     private val line_6_W2xH2xH2xW2 = listOf(brickW2, occupied, brickH2, brickH2, brickW2, occupied)
     private val line_6_W3xExExE = listOf(brickW3, occupied, occupied, empty, empty, empty)
     private val line_6_W3xOxOxO = listOf(brickW3, occupied, occupied, occupied, occupied, occupied)
-    private val line_6_W3xExExH3 = listOf(brickW3, occupied, occupied, occupied, occupied, brickH3)
+    private val line_6_W3xExOxH3 = listOf(brickW3, occupied, occupied, empty, occupied, brickH3)
     private val line_6_W3xSxH2xH3 = listOf(brickW3, occupied, occupied, singleBrick, brickH2, brickH3)
     private val line_9_ExExExW3xExExE = listOf(occupied, occupied, occupied, brickW3, occupied, occupied, occupied, occupied, occupied)
     private val line_9_H3xH3xH3xW3xH3xH3xH3 = listOf(brickH3, brickH3, brickH3, brickW3, occupied, occupied, brickH3, brickH3, brickH3)
@@ -603,7 +603,7 @@ class BrickPatternCreationTest {
             private fun testAcrossTopBorder(tileX: Int) {
                 val expected = listOf(
                     line_6_W2xExExH3xS,
-                    line_6_W3xExExH3,
+                    line_6_W3xExOxH3,
                     line_6_H3xW3xExE,
                     line_6_ExH2xW3xE,
                     line_6_ExExSxW3,
