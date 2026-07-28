@@ -36,7 +36,7 @@ class BrickPatternCreationTest {
     private val line_4_Ex22xH3 = listOf(occupied, brick22, occupied, brickH3)
     private val line_4_ExExExE = listOf(occupied, occupied, occupied, occupied)
     private val line_4_ExExExH3 = listOf(occupied, occupied, occupied, brickH3)
-    private val line_4_ExExH3xH3 = listOf(occupied, occupied, brickH3, brickH3)
+    private val line_4_ExExH3xH3 = listOf(empty, empty, brickH3, brickH3)
     private val line_4_ExExW2 = listOf(occupied, occupied, brickW2, occupied)
     private val line_4_H3xH3xExE = listOf(brickH3, brickH3, occupied, occupied)
     private val line_4_H3xH3xH3xS = listOf(brickH3, brickH3, brickH3, singleBrick)
@@ -50,9 +50,9 @@ class BrickPatternCreationTest {
     private val line_5_23x32 = listOf(brick23, occupied, brick32, occupied, occupied)
     private val line_5_32 = listOf(brick32, occupied, occupied, occupied, occupied)
     private val line_5_ExExExExE = listOf(occupied, occupied, occupied, occupied, occupied)
-    private val line_5_ExExExExH2 = listOf(occupied, occupied, occupied, occupied, brickH2)
+    private val line_5_ExExOxOxH2 = listOf(empty, empty, occupied, occupied, brickH2)
     private val line_5_ExExExH2xW3 = listOf(singleBrick, occupied, occupied, brickH2, brickW3)
-    private val line_5_ExExExH3xS = listOf(occupied, occupied, occupied, brickH3, singleBrick)
+    private val line_5_ExOxOxH3xS = listOf(empty, occupied, occupied, brickH3, singleBrick)
     private val line_5_ExExExSxH2 = listOf(occupied, occupied, occupied, singleBrick, brickH2)
     private val line_5_ExExExW2 = listOf(empty, occupied, occupied, brickW2, occupied)
     private val line_5_ExExH3xW2 = listOf(occupied, occupied, brickH3, brickW2, occupied)
@@ -87,7 +87,8 @@ class BrickPatternCreationTest {
     private val line_5_W2xH2xH2xW2 = line_5_W2xH2xH2 + brickW2
     private val line_5_W3xExE = listOf(brickW3, occupied, occupied, occupied, occupied)
     private val line_5_W3xSxH2 = listOf(brickW3, occupied, occupied, singleBrick, brickH2)
-    private val line_6_ExExExExExE = listOf(occupied, occupied, occupied, occupied, occupied, occupied)
+    private val line_6_OxOxOxOxOxO = listOf(occupied, occupied, occupied, occupied, occupied, occupied)
+    private val line_6_ExExExExExE = listOf(empty, empty, empty, empty, empty, empty)
     private val line_6_ExExExH3xH3xH3 = listOf(occupied, occupied, occupied, brickH3, brickH3, brickH3)
     private val line_6_ExExExSxSxS = listOf(occupied, occupied, occupied, singleBrick, singleBrick, singleBrick)
     private val line_6_ExExH3xW3 = listOf(occupied, occupied, brickH3, brickW3, occupied, occupied)
@@ -108,7 +109,8 @@ class BrickPatternCreationTest {
     private val line_6_W2xExExSxS = listOf(brickW2, occupied, occupied, occupied, singleBrick, singleBrick)
     private val line_6_W2xExExW2 = listOf(brickW2, occupied, occupied, occupied, brickW2, occupied)
     private val line_6_W2xH2xH2xW2 = listOf(brickW2, occupied, brickH2, brickH2, brickW2, occupied)
-    private val line_6_W3xExExE = listOf(brickW3, occupied, occupied, occupied, occupied, occupied)
+    private val line_6_W3xExExE = listOf(brickW3, occupied, occupied, empty, empty, empty)
+    private val line_6_W3xOxOxO = listOf(brickW3, occupied, occupied, occupied, occupied, occupied)
     private val line_6_W3xExExH3 = listOf(brickW3, occupied, occupied, occupied, occupied, brickH3)
     private val line_6_W3xSxH2xH3 = listOf(brickW3, occupied, occupied, singleBrick, brickH2, brickH3)
     private val line_9_ExExExW3xExExE = listOf(occupied, occupied, occupied, brickW3, occupied, occupied, occupied, occupied, occupied)
@@ -356,7 +358,7 @@ class BrickPatternCreationTest {
             }
 
             private fun testDefault(tileX: Int, tileY: Int) {
-                val expected = listOf(line_6_H3xH3xH3xW3, line_6_ExExExH3xH3xH3, line_6_ExExExExExE, line_6_W3xExExE)
+                val expected = listOf(line_6_H3xH3xH3xW3, line_6_ExExExH3xH3xH3, line_6_OxOxOxOxOxO, line_6_W3xOxOxO)
 
                 test(tileX, tileY, expected)
             }
@@ -388,7 +390,7 @@ class BrickPatternCreationTest {
 
             @Test
             fun `Top border`() {
-                val expected = listOf(line_6_SxSxSxH2xH2xH2, line_6_W3xExExE)
+                val expected = listOf(line_6_SxSxSxH2xH2xH2, line_6_W3xOxOxO)
 
                 testWithTopAndBottom(1, true, true, expected)
             }
@@ -577,8 +579,8 @@ class BrickPatternCreationTest {
                     line_5_H3xW3xS,
                     line_5_ExH3xW3,
                     line_5_ExExH3xW2,
-                    line_5_ExExExH3xS,
-                    line_5_ExExExExH2,
+                    line_5_ExOxOxH3xS,
+                    line_5_ExExOxOxH2,
                     line_5_W3xExE,
                 )
 
