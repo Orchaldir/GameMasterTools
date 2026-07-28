@@ -18,7 +18,7 @@ fun visualizeBrickPatternGrammar(
     val renderer = TileMap2dRenderer(aabb.size, grammar.size.size())
 
     renderer.render(gridmap, aabb.start) { index, blockAabb, borders, brick ->
-        if (brick != null) {
+        if (brick is Brick) {
             val brickSize = blockAabb.size * brick.size
             val brickAabb = blockAabb.copy(size = brickSize)
             val brickState = state.addSeed(index)
