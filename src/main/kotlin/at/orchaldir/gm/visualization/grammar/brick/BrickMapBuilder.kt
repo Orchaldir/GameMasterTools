@@ -249,9 +249,9 @@ class SimpleBrickMapBuilder(
     override fun addBrick(startX: Int, startY: Int, brick: Brick) {
         for (y in startY..<(startY + brick.size.height)) {
             for (x in startX..<(startX + brick.size.width)) {
-                val mapIndex = size.toIndexRisky(x, y)
-
-                map[mapIndex] = OccupiedTile
+                size.toIndex(x, y)?.let { mapIndex ->
+                    map[mapIndex] = OccupiedTile
+                }
             }
         }
 
