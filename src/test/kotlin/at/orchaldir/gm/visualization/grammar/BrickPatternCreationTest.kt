@@ -51,77 +51,76 @@ class BrickPatternCreationTest {
     private val line_5_32 = listOf(brick32, occupied, occupied, occupied, occupied)
     private val line_5_OxOxOxOxO = listOf(occupied, occupied, occupied, occupied, occupied)
     private val line_5_ExExOxOxH2 = listOf(empty, empty, occupied, occupied, brickH2)
-    private val line_5_ExExExH2xW3 = listOf(singleBrick, occupied, occupied, brickH2, brickW3)
     private val line_5_ExOxOxH3xS = listOf(empty, occupied, occupied, brickH3, singleBrick)
     private val line_5_ExOxOxSxH2 = listOf(empty, occupied, occupied, singleBrick, brickH2)
-    private val line_5_ExExExW2 = listOf(empty, occupied, occupied, brickW2, occupied)
-    private val line_5_ExExH3xW2 = listOf(occupied, occupied, brickH3, brickW2, occupied)
-    private val line_5_ExExH3xW3 = listOf(occupied, occupied, brickH3, brickW3, occupied)
-    private val line_5_ExExSx22 = listOf( occupied, occupied, singleBrick, brick22, occupied)
-    private val line_5_ExExSx23 = listOf(occupied, occupied, singleBrick, brick23, occupied)
-    private val line_5_ExExSxH3xH3 = listOf(occupied, occupied, singleBrick, brickH3, brickH3)
-    private val line_5_ExExSxW2 = listOf( occupied, occupied, singleBrick, brickW2, occupied)
-    private val line_5_ExExW2xE = listOf(occupied, occupied, brickW2, occupied, occupied)
-    private val line_5_ExExW3 = listOf(occupied, occupied, brickW3, occupied, occupied)
+    private val line_5_ExOxOxW2 = listOf(empty, occupied, occupied, brickW2, occupied)
+    private val line_5_OxOxH3xW2 = listOf(occupied, occupied, brickH3, brickW2, occupied)
+    private val line_5_OxOxH3xW3 = listOf(occupied, occupied, brickH3, brickW3, occupied)
+    private val line_5_OxOxSx22 = listOf(occupied, occupied, singleBrick, brick22, occupied)
+    private val line_5_OxOxSx23 = listOf(occupied, occupied, singleBrick, brick23, occupied)
+    private val line_5_OxOxSxH3xH3 = listOf(occupied, occupied, singleBrick, brickH3, brickH3)
+    private val line_5_OxOxSxW2 = listOf(occupied, occupied, singleBrick, brickW2, occupied)
+    private val line_5_OxOxW2xE = listOf(occupied, occupied, brickW2, occupied, occupied)
+    private val line_5_OxOxW3 = listOf(occupied, occupied, brickW3, occupied, occupied)
     private val line_5_ExH2xH2xW2 = listOf(empty, brickH2, brickH2, brickW2, occupied)
-    private val line_5_ExH3xW3 = listOf(occupied, brickH3, brickW3, occupied, occupied)
+    private val line_5_OxH3xW3 = listOf(occupied, brickH3, brickW3, occupied, occupied)
     private val line_5_ExSx22xO = listOf(empty, singleBrick, brick22, occupied, occupied)
-    private val line_5_ExSx22xE = listOf(occupied, singleBrick, brick22, occupied, occupied)
-    private val line_5_ExW2xExE = listOf(occupied, brickW2, occupied, occupied, occupied)
-    private val line_5_H2xExExSx22 = listOf(brickH2, occupied, occupied, singleBrick, brick22)
-    private val line_5_H2xExExSxH2 = listOf(brickH2, occupied, occupied, singleBrick, brickH2)
+    private val line_5_OxSx22xE = listOf(occupied, singleBrick, brick22, occupied, occupied)
+    private val line_5_OxW2xExE = listOf(occupied, brickW2, occupied, occupied, occupied)
+    private val line_5_H2xOxOxSx22 = listOf(brickH2, occupied, occupied, singleBrick, brick22)
+    private val line_5_H2xOxOxSxH2 = listOf(brickH2, occupied, occupied, singleBrick, brickH2)
     private val line_5_H2xH2xW2xH2 = listOf(brickH2, brickH2, brickW2, occupied, brickH2)
     private val line_5_H2xW2xH2xH2 = listOf(brickH2, brickW2, occupied, brickH2, brickH2)
     private val line_5_H3xH3xW3 = listOf(brickH3, brickH3, brickW3, occupied, occupied)
-    private val line_5_H3xW3xE = listOf(brickH3, brickW3, occupied, occupied, occupied)
+    private val line_5_H3xW3xO = listOf(brickH3, brickW3, occupied, occupied, occupied)
     private val line_5_H3xW3xS = listOf(brickH3, brickW3, occupied, occupied, singleBrick)
     private val line_5_Sx22xExE = listOf(singleBrick, brick22, occupied, empty, empty)
     private val line_5_Sx22xW2 = listOf(singleBrick, brick22, occupied, brickW2, occupied)
-    private val line_5_SxExExH2xW3 = listOf(singleBrick, occupied, occupied, brickH2, brickW3)
-    private val line_5_SxExExW2 = listOf(singleBrick, occupied, occupied, brickW2, occupied)
+    private val line_5_SxOxOxH2xW3 = listOf(singleBrick, occupied, occupied, brickH2, brickW3)
+    private val line_5_SxOxOxW2 = listOf(singleBrick, occupied, occupied, brickW2, occupied)
     private val line_5_SxH2xH2xW2 = listOf(singleBrick, brickH2, brickH2, brickW2, occupied)
-    private val line_5_W2xExE = listOf(brickW2, occupied, occupied, occupied)
-    private val line_5_W2xExExS = line_5_W2xExE + singleBrick
-    private val line_5_W2xExExW2 = line_5_W2xExE + brickW2
+    private val line_5_W2xOxO = listOf(brickW2, occupied, occupied, occupied)
+    private val line_5_W2xOxOxS = line_5_W2xOxO + singleBrick
+    private val line_5_W2xOxOxW2 = line_5_W2xOxO + brickW2
     private val line_5_W2xH2xH2 = listOf(brickW2, occupied, brickH2, brickH2)
     private val line_5_W2xH2xH2xS = line_5_W2xH2xH2 + singleBrick
     private val line_5_W2xH2xH2xW2 = line_5_W2xH2xH2 + brickW2
-    private val line_5_W3xExE = listOf(brickW3, occupied, occupied, occupied, occupied)
+    private val line_5_W3xOxO = listOf(brickW3, occupied, occupied, occupied, occupied)
     private val line_5_W3xSxH2 = listOf(brickW3, occupied, occupied, singleBrick, brickH2)
     private val line_6_OxOxOxOxOxO = listOf(occupied, occupied, occupied, occupied, occupied, occupied)
     private val line_6_ExExExExExE = listOf(empty, empty, empty, empty, empty, empty)
-    private val line_6_ExExExH3xH3xH3 = listOf(occupied, occupied, occupied, brickH3, brickH3, brickH3)
+    private val line_6_OxOxOxH3xH3xH3 = listOf(occupied, occupied, occupied, brickH3, brickH3, brickH3)
     private val line_6_ExExExSxSxS = listOf(occupied, occupied, occupied, singleBrick, singleBrick, singleBrick)
-    private val line_6_ExExH3xW3 = listOf(occupied, occupied, brickH3, brickW3, occupied, occupied)
-    private val line_6_ExExSxW3 = listOf(occupied, occupied, singleBrick, brickW3, occupied, occupied)
+    private val line_6_OxOxH3xW3 = listOf(occupied, occupied, brickH3, brickW3, occupied, occupied)
+    private val line_6_OxOxSxW3 = listOf(occupied, occupied, singleBrick, brickW3, occupied, occupied)
     private val line_6_ExExW2xExE = listOf(empty, empty, brickW2, occupied, empty, empty)
     private val line_6_OxOxW2xOxO = listOf(occupied, occupied, brickW2, occupied, occupied, occupied)
-    private val line_6_ExH2xW3xE = listOf(occupied, brickH2, brickW3, occupied, occupied, occupied)
-    private val line_6_ExH3xW3xE = listOf(occupied, brickH3, brickW3, occupied, occupied, occupied)
+    private val line_6_OxH2xW3xO = listOf(occupied, brickH2, brickW3, occupied, occupied, occupied)
+    private val line_6_OxH3xW3xO = listOf(occupied, brickH3, brickW3, occupied, occupied, occupied)
     private val line_6_H2xH2xH2xW3 = listOf(brickH2, brickH2, brickH2, brickW3, occupied, occupied)
     private val line_6_H2xH2xW2xH2xH2 = listOf(brickH2, brickH2, brickW2, occupied, brickH2, brickH2)
     private val line_6_H3xH3xH3xW3 = listOf(brickH3, brickH3, brickH3, brickW3, occupied, occupied)
-    private val line_6_H3xW3xExE = listOf(brickH3, brickW3, occupied, occupied, occupied, occupied)
-    private val line_6_SxExExH2xW2 = listOf(singleBrick, occupied, occupied, brickH2, brickW2, occupied)
-    private val line_6_SxExExH3xW2 = listOf(singleBrick, occupied, occupied, brickH3, brickW2, occupied)
+    private val line_6_H3xW3xOxO = listOf(brickH3, brickW3, occupied, occupied, occupied, occupied)
+    private val line_6_SxOxOxH2xW2 = listOf(singleBrick, occupied, occupied, brickH2, brickW2, occupied)
+    private val line_6_SxOxOxH3xW2 = listOf(singleBrick, occupied, occupied, brickH3, brickW2, occupied)
     private val line_6_SxSxSxH2xH2xH2 = listOf(singleBrick, singleBrick, singleBrick, brickH2, brickH2, brickH2)
     private val line_6_SxSxW2xSxS = listOf(singleBrick, singleBrick, brickW2, occupied, singleBrick, singleBrick)
     private val line_6_W2xExExH3xS = listOf(brickW2, occupied, empty, empty, brickH3, singleBrick)
-    private val line_6_W2xExExSxS = listOf(brickW2, occupied, occupied, occupied, singleBrick, singleBrick)
-    private val line_6_W2xExExW2 = listOf(brickW2, occupied, occupied, occupied, brickW2, occupied)
+    private val line_6_W2xOxOxSxS = listOf(brickW2, occupied, occupied, occupied, singleBrick, singleBrick)
+    private val line_6_W2xOxOxW2 = listOf(brickW2, occupied, occupied, occupied, brickW2, occupied)
     private val line_6_W2xH2xH2xW2 = listOf(brickW2, occupied, brickH2, brickH2, brickW2, occupied)
     private val line_6_W3xExExE = listOf(brickW3, occupied, occupied, empty, empty, empty)
     private val line_6_W3xOxOxO = listOf(brickW3, occupied, occupied, occupied, occupied, occupied)
     private val line_6_W3xExOxH3 = listOf(brickW3, occupied, occupied, empty, occupied, brickH3)
     private val line_6_W3xSxH2xH3 = listOf(brickW3, occupied, occupied, singleBrick, brickH2, brickH3)
-    private val line_9_ExExExW3xExExE = listOf(occupied, occupied, occupied, brickW3, occupied, occupied, occupied, occupied, occupied)
+    private val line_9_OxPxOxW3xOxOxO = listOf(occupied, occupied, occupied, brickW3, occupied, occupied, occupied, occupied, occupied)
     private val line_9_H3xH3xH3xW3xH3xH3xH3 = listOf(brickH3, brickH3, brickH3, brickW3, occupied, occupied, brickH3, brickH3, brickH3)
-    private val line_9_W3xExExExW3 = listOf(brickW3, occupied, occupied, occupied, occupied, occupied, brickW3, occupied, occupied)
+    private val line_9_W3xOxOxOxW3 = listOf(brickW3, occupied, occupied, occupied, occupied, occupied, brickW3, occupied, occupied)
     private val line_9_W3xH3xH3xH3xW3 = listOf(brickW3, occupied, occupied, brickH3, brickH3, brickH3, brickW3, occupied, occupied)
 
-    private val basketWeaves_H3_V3_H3 = listOf(line_9_W3xH3xH3xH3xW3, line_9_W3xExExExW3, line_9_W3xExExExW3)
+    private val basketWeaves_H3_V3_H3 = listOf(line_9_W3xH3xH3xH3xW3, line_9_W3xOxOxOxW3, line_9_W3xOxOxOxW3)
     private val basketWeaves_V3_H3_V3 =
-        listOf(line_9_H3xH3xH3xW3xH3xH3xH3, line_9_ExExExW3xExExE, line_9_ExExExW3xExExE)
+        listOf(line_9_H3xH3xH3xW3xH3xH3xH3, line_9_OxPxOxW3xOxOxO, line_9_OxPxOxW3xOxOxO)
 
     @Nested
     inner class BasketWeavePatternWithLength2Test {
@@ -159,13 +158,13 @@ class BrickPatternCreationTest {
             }
 
             private fun testPatterA(tileX: Int, tileY: Int) {
-                val expected = listOf(line_6_W2xH2xH2xW2, line_6_W2xExExW2, line_6_H2xH2xW2xH2xH2, line_6_OxOxW2xOxO)
+                val expected = listOf(line_6_W2xH2xH2xW2, line_6_W2xOxOxW2, line_6_H2xH2xW2xH2xH2, line_6_OxOxW2xOxO)
 
                 test(tileX, tileY, expected)
             }
 
             private fun testPatterB(tileX: Int, tileY: Int) {
-                val expected = listOf(line_6_H2xH2xW2xH2xH2, line_6_OxOxW2xOxO, line_6_W2xH2xH2xW2, line_6_W2xExExW2)
+                val expected = listOf(line_6_H2xH2xW2xH2xH2, line_6_OxOxW2xOxO, line_6_W2xH2xH2xW2, line_6_W2xOxOxW2)
 
                 test(tileX, tileY, expected)
             }
@@ -175,28 +174,28 @@ class BrickPatternCreationTest {
         inner class BorderCuttingOffBricksTest {
             @Test
             fun `Left border`() {
-                val expected = listOf(line_5_SxH2xH2xW2, line_5_SxExExW2, line_5_H2xW2xH2xH2, line_5_ExW2xExE)
+                val expected = listOf(line_5_SxH2xH2xW2, line_5_SxOxOxW2, line_5_H2xW2xH2xH2, line_5_OxW2xExE)
 
                 testWithLeftAndRight(1, true, true, expected)
             }
 
             @Test
             fun `Right border`() {
-                val expected = listOf(line_5_W2xH2xH2xS, line_5_W2xExExS, line_5_H2xH2xW2xH2, line_5_ExExW2xE)
+                val expected = listOf(line_5_W2xH2xH2xS, line_5_W2xOxOxS, line_5_H2xH2xW2xH2, line_5_OxOxW2xE)
 
                 testWithLeftAndRight(0, true, true, expected)
             }
 
             @Test
             fun `Bottom border`() {
-                val expected = listOf(line_6_W2xH2xH2xW2, line_6_W2xExExW2, line_6_SxSxW2xSxS)
+                val expected = listOf(line_6_W2xH2xH2xW2, line_6_W2xOxOxW2, line_6_SxSxW2xSxS)
 
                 testWithTopAndBottom(0, true, true, expected)
             }
 
             @Test
             fun `Top border`() {
-                val expected = listOf(line_6_SxSxW2xSxS, line_6_W2xH2xH2xW2, line_6_W2xExExW2)
+                val expected = listOf(line_6_SxSxW2xSxS, line_6_W2xH2xH2xW2, line_6_W2xOxOxW2)
 
                 testWithTopAndBottom(1, true, true, expected)
             }
@@ -207,28 +206,28 @@ class BrickPatternCreationTest {
 
             @Test
             fun `Left border`() {
-                val expected = listOf(line_5_ExH2xH2xW2, line_5_ExExExW2, line_5_H2xW2xH2xH2, line_5_ExW2xExE)
+                val expected = listOf(line_5_ExH2xH2xW2, line_5_ExOxOxW2, line_5_H2xW2xH2xH2, line_5_OxW2xExE)
 
                 testWithLeftAndRight(1, false, true, expected)
             }
 
             @Test
             fun `Right border`() {
-                val expected = listOf(line_5_W2xH2xH2xW2, line_5_W2xExExW2, line_5_H2xH2xW2xH2, line_5_ExExW2xE)
+                val expected = listOf(line_5_W2xH2xH2xW2, line_5_W2xOxOxW2, line_5_H2xH2xW2xH2, line_5_OxOxW2xE)
 
                 testWithLeftAndRight(0, true, false, expected)
             }
 
             @Test
             fun `Bottom border`() {
-                val expected = listOf(line_6_W2xH2xH2xW2, line_6_W2xExExW2, line_6_H2xH2xW2xH2xH2)
+                val expected = listOf(line_6_W2xH2xH2xW2, line_6_W2xOxOxW2, line_6_H2xH2xW2xH2xH2)
 
                 testWithTopAndBottom(0, true, false, expected)
             }
 
             @Test
             fun `Top border`() {
-                val expected = listOf(line_6_ExExW2xExE, line_6_W2xH2xH2xW2, line_6_W2xExExW2)
+                val expected = listOf(line_6_ExExW2xExE, line_6_W2xH2xH2xW2, line_6_W2xOxOxW2)
 
                 testWithTopAndBottom(1, false, true, expected)
             }
@@ -359,7 +358,7 @@ class BrickPatternCreationTest {
             }
 
             private fun testDefault(tileX: Int, tileY: Int) {
-                val expected = listOf(line_6_H3xH3xH3xW3, line_6_ExExExH3xH3xH3, line_6_OxOxOxOxOxO, line_6_W3xOxOxO)
+                val expected = listOf(line_6_H3xH3xH3xW3, line_6_OxOxOxH3xH3xH3, line_6_OxOxOxOxOxO, line_6_W3xOxOxO)
 
                 test(tileX, tileY, expected)
             }
@@ -416,7 +415,7 @@ class BrickPatternCreationTest {
 
             @Test
             fun `Bottom border`() {
-                val expected = listOf(line_6_H3xH3xH3xW3, line_6_ExExExH3xH3xH3)
+                val expected = listOf(line_6_H3xH3xH3xW3, line_6_OxOxOxH3xH3xH3)
 
                 testWithTopAndBottom(0, true, false, expected)
             }
@@ -511,11 +510,11 @@ class BrickPatternCreationTest {
             private fun testDefault(tileX: Int, tileY: Int) = test(
                 tileX, tileY, listOf(
                     line_6_W3xSxH2xH3,
-                    line_6_H3xW3xExE,
-                    line_6_ExH3xW3xE,
-                    line_6_ExExH3xW3,
-                    line_6_SxExExH2xW2,
-                    line_6_W2xExExSxS,
+                    line_6_H3xW3xOxO,
+                    line_6_OxH3xW3xO,
+                    line_6_OxOxH3xW3,
+                    line_6_SxOxOxH2xW2,
+                    line_6_W2xOxOxSxS,
                 )
             )
         }
@@ -566,10 +565,10 @@ class BrickPatternCreationTest {
             private fun testAcrossBottomBorder(tileX: Int) {
                 val expected = listOf(
                     line_6_W3xSxH2xH3,
-                    line_6_H3xW3xExE,
-                    line_6_ExH3xW3xE,
-                    line_6_ExExH3xW3,
-                    line_6_SxExExH3xW2,
+                    line_6_H3xW3xOxO,
+                    line_6_OxH3xW3xO,
+                    line_6_OxOxH3xW3,
+                    line_6_SxOxOxH3xW2,
                 )
 
                 testWithTopAndBottom(tileX, 0, true, false, expected)
@@ -578,11 +577,11 @@ class BrickPatternCreationTest {
             private fun testAcrossLeftBorder(tileY: Int) {
                 val expected = listOf(
                     line_5_H3xW3xS,
-                    line_5_ExH3xW3,
-                    line_5_ExExH3xW2,
+                    line_5_OxH3xW3,
+                    line_5_OxOxH3xW2,
                     line_5_ExOxOxH3xS,
                     line_5_ExExOxOxH2,
-                    line_5_W3xExE,
+                    line_5_W3xOxO,
                 )
 
                 testWithLeftAndRight(1, tileY, false, true, expected)
@@ -591,11 +590,11 @@ class BrickPatternCreationTest {
             private fun testAcrossRightBorder(tileY: Int) {
                 val expected = listOf(
                     line_5_W3xSxH2,
-                    line_5_H3xW3xE,
-                    line_5_ExH3xW3,
-                    line_5_ExExH3xW3,
-                    line_5_SxExExH2xW3,
-                    line_5_W2xExExS,
+                    line_5_H3xW3xO,
+                    line_5_OxH3xW3,
+                    line_5_OxOxH3xW3,
+                    line_5_SxOxOxH2xW3,
+                    line_5_W2xOxOxS,
                 )
 
                 testWithLeftAndRight(0, tileY, true, false, expected)
@@ -605,9 +604,9 @@ class BrickPatternCreationTest {
                 val expected = listOf(
                     line_6_W2xExExH3xS,
                     line_6_W3xExOxH3,
-                    line_6_H3xW3xExE,
-                    line_6_ExH2xW3xE,
-                    line_6_ExExSxW3,
+                    line_6_H3xW3xOxO,
+                    line_6_OxH2xW3xO,
+                    line_6_OxOxSxW3,
                 )
 
                 testWithTopAndBottom(tileX, 1, false, true, expected)
@@ -688,7 +687,7 @@ class BrickPatternCreationTest {
             }
 
             private fun testDefault(tileX: Int, tileY: Int) {
-                val expected = listOf(line_5_23x32, line_5_OxOxOxOxO, line_5_ExExSx23, line_5_32, line_5_OxOxOxOxO)
+                val expected = listOf(line_5_23x32, line_5_OxOxOxOxO, line_5_OxOxSx23, line_5_32, line_5_OxOxOxOxO)
 
                 test(tileX, tileY, expected)
             }
@@ -741,7 +740,7 @@ class BrickPatternCreationTest {
             }
 
             private fun testDefault(tileX: Int, tileY: Int) {
-                val expected = listOf(line_5_H3xH3xW3, line_5_ExExW3, line_5_ExExSxH3xH3, line_5_W3xExE, line_5_W3xExE)
+                val expected = listOf(line_5_H3xH3xW3, line_5_OxOxW3, line_5_OxOxSxH3xH3, line_5_W3xOxO, line_5_W3xOxO)
 
                 test(tileX, tileY, expected)
             }
@@ -849,10 +848,10 @@ class BrickPatternCreationTest {
             private fun testDefault(tileX: Int, tileY: Int) {
                 val expected = listOf(
                     line_5_Sx22xW2,
-                    line_5_H2xExExSxH2,
-                    line_5_ExSx22xE,
+                    line_5_H2xOxOxSxH2,
+                    line_5_OxSx22xE,
                     line_5_22xOxOxS,
-                    line_5_ExExSxW2,
+                    line_5_OxOxSxW2,
                 )
 
                 test(tileX, tileY, expected)
@@ -905,10 +904,10 @@ class BrickPatternCreationTest {
             private fun testAcrossBottomBorder(tileX: Int) {
                 val expected = listOf(
                     line_5_Sx22xW2,
-                    line_5_H2xExExSxH2,
-                    line_5_ExSx22xE,
+                    line_5_H2xOxOxSxH2,
+                    line_5_OxSx22xE,
                     line_5_22xOxOxS,
-                    line_5_ExExSx22,
+                    line_5_OxOxSx22,
                 )
 
                 test(tileX, 0, false, true, true, true, expected)
@@ -920,7 +919,7 @@ class BrickPatternCreationTest {
                     line_5_ExOxOxSxH2,
                     line_5_ExSx22xO,
                     line_5_22xOxOxS,
-                    line_5_ExExSxW2,
+                    line_5_OxOxSxW2,
                 )
 
                 test(1, tileY, true, false, true, true, expected)
@@ -929,10 +928,10 @@ class BrickPatternCreationTest {
             private fun testAcrossRightBorder(tileY: Int) {
                 val expected = listOf(
                     line_5_Sx22xW2,
-                    line_5_H2xExExSx22,
-                    line_5_ExSx22xE,
+                    line_5_H2xOxOxSx22,
+                    line_5_OxSx22xE,
                     line_5_22xOxOxS,
-                    line_5_ExExSxW2,
+                    line_5_OxOxSxW2,
                 )
 
                 test(0, tileY, true, true, false, true, expected)
@@ -941,10 +940,10 @@ class BrickPatternCreationTest {
             private fun testAcrossTopBorder(tileX: Int) {
                 val expected = listOf(
                     line_5_Sx22xExE,
-                    line_5_H2xExExSxH2,
-                    line_5_ExSx22xE,
+                    line_5_H2xOxOxSxH2,
+                    line_5_OxSx22xE,
                     line_5_22xOxOxS,
-                    line_5_ExExSxW2,
+                    line_5_OxOxSxW2,
                 )
 
                 test(tileX, 1, true, true, true, false, expected)
