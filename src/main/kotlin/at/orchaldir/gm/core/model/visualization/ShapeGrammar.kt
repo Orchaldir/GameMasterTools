@@ -59,8 +59,8 @@ sealed class ShapeGrammar {
         is AshlarGrammar -> {
             size.validate(label, MIN_GRID_SIZE, MAX_GRID_SIZE)
             brick.validate(state, label)
-            brickWidth.validate(BRICK_SIZE_RANGE, "${label}'s brick width")
-            brickHeight.validate(BRICK_SIZE_RANGE, "${label}'s brick height")
+            BRICK_SIZE_RANGE.validateInt(brickWidth, "${label}'s brick width")
+            BRICK_SIZE_RANGE.validateInt(brickHeight, "${label}'s brick height")
         }
 
         is BrickPatternGrammar -> {
@@ -90,8 +90,8 @@ sealed class ShapeGrammar {
 data class AshlarGrammar(
     val size: GridSize = SquareGrid(10),
     val brick: ShapeGrammar = DoNothingShapeGrammar,
-    val brickWidth: RangeInt = BRICK_SIZE_RANGE,
-    val brickHeight: RangeInt = BRICK_SIZE_RANGE,
+    val brickWidth: Int = MAX_BRICK_LENGTH,
+    val brickHeight: Int = MAX_BRICK_LENGTH,
 ) : ShapeGrammar()
 
 @Serializable

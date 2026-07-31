@@ -2,9 +2,6 @@ package at.orchaldir.gm.app.html.visualization
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.util.math.editRange
-import at.orchaldir.gm.app.html.util.math.parseRange
-import at.orchaldir.gm.app.html.util.math.showRange
 import at.orchaldir.gm.app.html.util.math.fieldFactor
 import at.orchaldir.gm.app.html.util.math.parseFactor
 import at.orchaldir.gm.app.html.util.math.selectFactor
@@ -34,8 +31,8 @@ fun HtmlBlockTag.showShapeGrammar(
             is AshlarGrammar -> {
                 showGridSize(grammar.size)
                 showShapeGrammar(call, state, grammar.brick, "Brick")
-                showRange("Brick Width", grammar.brickWidth)
-                showRange("Brick Height", grammar.brickHeight)
+                field("Brick Width", grammar.brickWidth)
+                field("Brick Height", grammar.brickHeight)
             }
             is BrickPatternGrammar -> {
                 showGridSize(grammar.size)
@@ -92,17 +89,19 @@ fun HtmlBlockTag.editShapeGrammar(
                     combine(param, BRICK),
                     "Brick",
                 )
-                editRange(
+                selectInt(
                     "Brick Width",
                     grammar.brickWidth,
-                    combine(param, WIDTH),
                     BRICK_SIZE_RANGE,
+                    1,
+                    combine(param, WIDTH),
                 )
-                editRange(
+                selectInt(
                     "Brick Height",
                     grammar.brickHeight,
-                    combine(param, HEIGHT),
                     BRICK_SIZE_RANGE,
+                    1,
+                    combine(param, HEIGHT),
                 )
             }
             is BrickPatternGrammar -> {
@@ -182,8 +181,8 @@ fun parseShapeGrammar(
         ShapeGrammarType.Ashlar -> AshlarGrammar(
             parseGridSize(parameters, combine(param, SIZE)),
             parseShapeGrammar(state, parameters, combine(param, BRICK)),
-            parseRange(parameters, combine(param, WIDTH)),
-            parseRange(parameters, combine(param, HEIGHT)),
+            parseInt(parameters, combine(param, WIDTH)),
+            parseInt(parameters, combine(param, HEIGHT)),
         )
         ShapeGrammarType.BrickPattern -> BrickPatternGrammar(
             parseBrickSelection(state, parameters, param),
