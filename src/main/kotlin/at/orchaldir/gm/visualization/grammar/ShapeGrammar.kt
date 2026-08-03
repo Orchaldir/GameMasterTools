@@ -8,7 +8,8 @@ import at.orchaldir.gm.utils.math.AABB
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Point2d
 import at.orchaldir.gm.utils.math.Size2d
-import at.orchaldir.gm.visualization.grammar.brick.visualizeBrickPatternGrammar
+import at.orchaldir.gm.visualization.grammar.brick.visualizeAshlarPattern
+import at.orchaldir.gm.visualization.grammar.brick.visualizeBrickPattern
 
 fun visualizeShapeGrammar(
     state: GrammarRenderState,
@@ -17,8 +18,8 @@ fun visualizeShapeGrammar(
     borders: Borders = Borders(),
     layer: Int = 0,
 ): Unit = when (grammar) {
-    is AshlarGrammar -> doNothing()
-    is BrickPatternGrammar -> visualizeBrickPatternGrammar(state, grammar, aabb, borders, layer)
+    is AshlarGrammar -> visualizeAshlarPattern(state, grammar, aabb, borders, layer)
+    is BrickPatternGrammar -> visualizeBrickPattern(state, grammar, aabb, borders, layer)
     DoNothingShapeGrammar -> doNothing()
     is RectangularShapeGrammar -> visualizeRectangularShapeGrammar(state, grammar, aabb, layer)
     is ShrinkGrammar -> visualizeShapeGrammar(
