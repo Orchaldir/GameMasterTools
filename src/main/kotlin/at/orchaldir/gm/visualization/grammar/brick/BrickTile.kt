@@ -19,6 +19,9 @@ sealed class BrickTile {
         EmptyTile -> BrickTileType.Empty
         OccupiedTile -> BrickTileType.Occupied
     }
+
+    fun isFree() = this is EmptyTile
+    fun isFull() = this !is EmptyTile
 }
 
 data class Brick(

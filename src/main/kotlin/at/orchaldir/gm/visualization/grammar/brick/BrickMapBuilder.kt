@@ -2,6 +2,7 @@ package at.orchaldir.gm.visualization.grammar.brick
 
 import at.orchaldir.gm.core.logger
 import at.orchaldir.gm.core.model.visualization.BrickSelection
+import at.orchaldir.gm.core.model.visualization.ShapeGrammar
 import at.orchaldir.gm.utils.map.MapPoint2d
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.map.TileMap2d
@@ -125,6 +126,16 @@ abstract class BrickMapBuilder(
         ) ?: return
 
         addBrick(limitedX, limitedY, row, bricks, MapSize2d(limitedWidth, limitedHeight), isHorizontal)
+    }
+
+    fun addBigBrick(
+        x: Int,
+        y: Int,
+        brick: ShapeGrammar,
+        width: Int,
+        height: Int,
+    ) {
+        addBrick(x, y, Brick(brick, MapSize2d(width, height)))
     }
 
     protected fun addBrick(
@@ -259,6 +270,14 @@ class SimpleBrickMapBuilder(
 
         map[mapIndex] = brick
     }
+
+    fun getBrick(startX: Int, startY: Int): BrickTile {
+        val mapIndex = size.toIndex(startX, startY) ?: return OccupiedTile
+
+        return map[mapIndex]
+    }
+
+    fun map() = map
 }
 
 class SubSectionBuilder(
