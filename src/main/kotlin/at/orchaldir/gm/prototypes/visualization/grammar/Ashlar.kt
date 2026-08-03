@@ -4,8 +4,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.part.MadeFromWood
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.visualization.AshlarGrammar
-import at.orchaldir.gm.core.model.visualization.BrickPattern
-import at.orchaldir.gm.core.model.visualization.BrickPatternGrammar
 import at.orchaldir.gm.core.model.visualization.RectangularShapeGrammar
 import at.orchaldir.gm.core.model.visualization.RowsAndColumns
 import at.orchaldir.gm.utils.map.MapSize2d

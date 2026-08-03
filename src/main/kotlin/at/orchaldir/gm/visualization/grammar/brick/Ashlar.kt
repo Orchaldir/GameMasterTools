@@ -1,13 +1,13 @@
 package at.orchaldir.gm.visualization.grammar.brick
 
 import at.orchaldir.gm.core.model.visualization.AshlarGrammar
+import at.orchaldir.gm.utils.RepeatableNumberGenerator
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.map.TileMap2d
 import at.orchaldir.gm.visualization.grammar.Borders
-import at.orchaldir.gm.visualization.grammar.GrammarRenderState
 
 fun createAshlarPattern(
-    state: GrammarRenderState,
+    numberGenerator: RepeatableNumberGenerator,
     grammar: AshlarGrammar,
     borders: Borders,
 ): TileMap2d<BrickTile> {
@@ -18,7 +18,7 @@ fun createAshlarPattern(
     repeat(gridSize.height) { y ->
         repeat(gridSize.width) { x ->
             if(builder.map()[index].isFree()) {
-                addAshlar(state, grammar, gridSize, builder, x, y, index)
+                addAshlar(numberGenerator, grammar, gridSize, builder, x, y, index)
             }
 
             index++
@@ -29,7 +29,7 @@ fun createAshlarPattern(
 }
 
 private fun addAshlar(
-    state: GrammarRenderState,
+    numberGenerator: RepeatableNumberGenerator,
     grammar: AshlarGrammar,
     gridSize: MapSize2d,
     builder: SimpleBrickMapBuilder,
@@ -52,8 +52,8 @@ private fun addAshlar(
         }
     }
 
-    val heightIndex = state.numberGenerator.getInt(index, 0, maxWidthPerRow.size)
-    val widthIndex = state.numberGenerator.getInt(index+1, maxWidthPerRow[heightIndex])
+    val heightIndex = numberGenerator.getInt(index, 0, maxWidthPerRow.size)
+    val widthIndex = numberGenerator.getInt(index+1, maxWidthPerRow[heightIndex])
 
     builder.addBigBrick(x, y, grammar.brick, widthIndex + 1, heightIndex + 1)
 }

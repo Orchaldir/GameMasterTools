@@ -17,7 +17,7 @@ fun visualizeAshlarPattern(
     borders: Borders,
     layer: Int,
 ) {
-    val gridmap = createAshlarPattern(state, grammar, borders)
+    val gridmap = createAshlarPattern(state.numberGenerator, grammar, borders)
 
     visualizeBrickTilemap(state, gridmap, aabb, layer)
 }
