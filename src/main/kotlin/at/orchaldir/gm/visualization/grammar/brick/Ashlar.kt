@@ -1,6 +1,5 @@
 package at.orchaldir.gm.visualization.grammar.brick
 
-import at.orchaldir.gm.core.logger
 import at.orchaldir.gm.core.model.visualization.AshlarGrammar
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.map.TileMap2d
@@ -41,13 +40,9 @@ private fun addAshlar(
     var maxWidth = grammar.brickWidth.coerceAtMost(gridSize.width - x)
     val maxHeight = grammar.brickHeight.coerceAtMost(gridSize.height - y)
     val maxWidthPerRow = mutableListOf<Int>()
-    logger.info { "addAshlar(): x=$x y=$y index=$index" }
-    logger.info { "addAshlar(): maxWidth=$maxWidth maxHeight=$maxHeight" }
 
     for (offsetY in 0..<maxHeight) {
         val newMaxWidth = checkRow(maxWidth, builder, x, y, offsetY)
-
-        logger.info { "addAshlar(): offsetY=$offsetY maxWidth=$maxWidth newMaxWidth=$newMaxWidth" }
 
         maxWidthPerRow.add(newMaxWidth)
         maxWidth = maxWidth.coerceAtMost(newMaxWidth)
@@ -58,15 +53,7 @@ private fun addAshlar(
     }
 
     val heightIndex = state.numberGenerator.getInt(index, 0, maxWidthPerRow.size)
-
-    logger.info { "addAshlar(): heightIndex=$heightIndex" }
-
-    val until = maxWidthPerRow[heightIndex]
-
-    logger.info { "addAshlar(): heightIndex=$heightIndex until=$until" }
-    val widthIndex = state.numberGenerator.getInt(index+1, until)
-
-    logger.info { "addAshlar(): heightIndex=$heightIndex widthIndex=$widthIndex" }
+    val widthIndex = state.numberGenerator.getInt(index+1, maxWidthPerRow[heightIndex])
 
     builder.addBigBrick(x, y, grammar.brick, widthIndex + 1, heightIndex + 1)
 }

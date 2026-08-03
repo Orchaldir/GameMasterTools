@@ -27,20 +27,20 @@ fun main() {
         RectangularShapeGrammar(
             MadeFromWood(color = Color.Gray),
         ),
-        4,
-        4,
+        3,
+        3,
     )
     val tileMap = TileMap2d(MapSize2d(3, 2), grammar)
     val tileSize = Distance.fromMeters(1.0f)
     val tileMapRenderer = TileMap2dRenderer(tileSize, ZERO_DISTANCE)
     val tileMapSize = tileMapRenderer.calculateMapSize(tileMap)
     val svgBuilder = SvgBuilder(tileMapSize.plus(tileSize * 2))
+    val renderState = GrammarRenderState(State(), svgBuilder, LINE_OPTIONS)
     val start = Point2d.square(tileSize)
 
-    tileMapRenderer.render(tileMap, start) { _, aabb, borders, grammar ->
-        val renderState = GrammarRenderState(State(), svgBuilder, LINE_OPTIONS)
+    tileMapRenderer.render(tileMap, start) { index, aabb, borders, grammar ->
 
-        visualizeShapeGrammar(renderState, grammar, aabb, borders)
+        visualizeShapeGrammar(renderState.addSeed(index), grammar, aabb, borders)
     }
 
     svgBuilder.getLayer().renderRectangle(AABB(start, tileMapSize), BorderOnly(RED_LINE))
