@@ -11,7 +11,7 @@ import kotlin.math.floor
 fun createBrickPattern(
     grammar: BrickPatternGrammar,
     borders: Borders,
-): TileMap2d<Brick?> {
+): TileMap2d<BrickTile> {
     val gridSize = grammar.size.size()
     val builder = SimpleBrickMapBuilder(gridSize, borders)
 

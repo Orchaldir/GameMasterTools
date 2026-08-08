@@ -1,10 +1,6 @@
 package at.orchaldir.gm.app.html.visualization
 
-import at.orchaldir.gm.app.BORDER
-import at.orchaldir.gm.app.BRICK
-import at.orchaldir.gm.app.CENTER
-import at.orchaldir.gm.app.HORIZONTAL
-import at.orchaldir.gm.app.VERTICAL
+import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.visualization.*

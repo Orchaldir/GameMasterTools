@@ -15,6 +15,7 @@ import kotlinx.serialization.Serializable
 var MIN_BRICK_LENGTH = 2
 var DEFAULT_BRICK_LENGTH = 2
 var MAX_BRICK_LENGTH = 5
+var BRICK_SIZE_RANGE = RangeInt(MIN_BRICK_LENGTH, MAX_BRICK_LENGTH)
 var MIN_GRID_SIZE = 2
 var MAX_GRID_SIZE = 1000
 var MIN_SHRINK_FACTOR = ONE_PERCENT
@@ -23,6 +24,7 @@ var MAX_SHRINK_FACTOR = THIRD
 
 enum class ShapeGrammarType {
     DoNothing,
+    Ashlar,
     BrickPattern,
     RectangularShape,
     Shrink,
@@ -32,6 +34,7 @@ enum class ShapeGrammarType {
 sealed class ShapeGrammar {
 
     fun getType() = when (this) {
+        is AshlarGrammar -> ShapeGrammarType.Ashlar
         is BrickPatternGrammar -> ShapeGrammarType.BrickPattern
         DoNothingShapeGrammar -> ShapeGrammarType.DoNothing
         is RectangularShapeGrammar -> ShapeGrammarType.RectangularShape
@@ -39,6 +42,7 @@ sealed class ShapeGrammar {
     }
 
     fun contains(material: MaterialId): Boolean = when (this) {
+        is AshlarGrammar -> brick.contains(material)
         is BrickPatternGrammar -> bricks.contains(material)
         DoNothingShapeGrammar -> false
         is RectangularShapeGrammar -> part.contains(material)
@@ -46,6 +50,13 @@ sealed class ShapeGrammar {
     }
 
     fun validate(state: State, label: String): Unit = when (this) {
+        is AshlarGrammar -> {
+            size.validate(label, MIN_GRID_SIZE, MAX_GRID_SIZE)
+            brick.validate(state, label)
+            BRICK_SIZE_RANGE.validateInt(brickWidth, "${label}'s brick width")
+            BRICK_SIZE_RANGE.validateInt(brickHeight, "${label}'s brick height")
+        }
+
         is BrickPatternGrammar -> {
             size.validate(label, MIN_GRID_SIZE, MAX_GRID_SIZE)
             checkInt(length, "${label}'s brick length", MIN_BRICK_LENGTH, MAX_BRICK_LENGTH)
@@ -67,6 +78,15 @@ sealed class ShapeGrammar {
     }
 
 }
+
+@Serializable
+@SerialName("Ashlar")
+data class AshlarGrammar(
+    val size: GridSize = SquareGrid(10),
+    val brick: ShapeGrammar = DoNothingShapeGrammar,
+    val brickWidth: Int = MAX_BRICK_LENGTH,
+    val brickHeight: Int = MAX_BRICK_LENGTH,
+) : ShapeGrammar()
 
 @Serializable
 @SerialName("BrickPattern")

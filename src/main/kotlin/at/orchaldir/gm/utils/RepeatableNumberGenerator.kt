@@ -1,5 +1,6 @@
 package at.orchaldir.gm.utils
 
+import at.orchaldir.gm.utils.math.modulo
 import kotlinx.serialization.Serializable
 import java.nio.ByteBuffer
 import java.security.MessageDigest
@@ -14,7 +15,8 @@ sealed class RepeatableNumberGenerator {
 
     abstract fun getInt(index: Int): Int
 
-    fun getInt(index: Int, until: Int) = getInt(index) % until
+    fun getInt(index: Int, until: Int) = getInt(index)
+        .modulo(until)
 
     fun getInt(index: Int, from: Int, until: Int) = from + getInt(index, until - from)
 

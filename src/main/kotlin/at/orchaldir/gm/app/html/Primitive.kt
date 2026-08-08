@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.html
 import at.orchaldir.gm.app.NAME
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.name.NotEmptyString
+import at.orchaldir.gm.utils.math.RangeInt
 import io.ktor.http.*
 import io.ktor.server.util.*
 import kotlinx.html.*
@@ -140,6 +141,21 @@ fun HtmlBlockTag.selectOptionalInt(
         selectInt(it, minNumber, maxNumber, stepNumber, param)
     }
 }
+
+fun HtmlBlockTag.selectInt(
+    label: String,
+    number: Int,
+    range: RangeInt,
+    stepNumber: Int,
+    param: String,
+) = selectInt(
+    label,
+    number,
+    range.min,
+    range.max,
+    stepNumber,
+    param,
+)
 
 fun HtmlBlockTag.selectInt(
     label: String,

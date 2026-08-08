@@ -4,7 +4,7 @@ import at.orchaldir.gm.app.DIE
 import at.orchaldir.gm.app.MODIFIER
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.rpg.selectFromRange
+import at.orchaldir.gm.app.html.util.math.selectFromRange
 import at.orchaldir.gm.core.model.rpg.dice.*
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag

@@ -3,6 +3,9 @@ package at.orchaldir.gm.app.html.rpg
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.rpg.statistic.parseOptionalStatisticId
+import at.orchaldir.gm.app.html.util.math.editRange
+import at.orchaldir.gm.app.html.util.math.fieldRange
+import at.orchaldir.gm.app.html.util.math.parseRange
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.EquipmentConfig
 import at.orchaldir.gm.core.selector.util.sortStatistics

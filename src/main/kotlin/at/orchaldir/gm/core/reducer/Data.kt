@@ -57,7 +57,7 @@ private fun validateRpg(data: RpgConfig) {
 private fun validateEquipment(data: EquipmentConfig) {
     data.damageModifier.validate()
     require(data.maxDamageResistance > 0) { "Max Damage Resistance must be greater than 0!" }
-    data.damageResistanceModifier.validate()
+    data.damageResistanceModifier.validate("damage resistance")
     require(data.maxDefenseBonus > 0) { "Max Defense Bonus must be greater than 0!" }
-    data.defenseBonusModifier.validate()
+    data.defenseBonusModifier.validate("defense bonus")
 }

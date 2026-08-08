@@ -4,6 +4,9 @@ import at.orchaldir.gm.app.DIE
 import at.orchaldir.gm.app.NUMBER
 import at.orchaldir.gm.app.html.combine
 import at.orchaldir.gm.app.html.showDetails
+import at.orchaldir.gm.app.html.util.math.editRange
+import at.orchaldir.gm.app.html.util.math.fieldRange
+import at.orchaldir.gm.app.html.util.math.parseRange
 import at.orchaldir.gm.core.model.rpg.dice.ModifiedDiceRange
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag
