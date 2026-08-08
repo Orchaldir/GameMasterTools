@@ -7,11 +7,7 @@ import at.orchaldir.gm.core.model.visualization.RectangularShapeGrammar
 import at.orchaldir.gm.core.model.visualization.RowsAndColumns
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.map.assertTilemap
-import at.orchaldir.gm.visualization.grammar.brick.BrickStart
-import at.orchaldir.gm.visualization.grammar.brick.BrickTile
-import at.orchaldir.gm.visualization.grammar.brick.EmptyTile
-import at.orchaldir.gm.visualization.grammar.brick.OccupiedTile
-import at.orchaldir.gm.visualization.grammar.brick.createBrickPattern
+import at.orchaldir.gm.visualization.grammar.brick.*
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
@@ -113,10 +109,14 @@ class BrickPatternCreationTest {
     private val line_6_W3xExOxH3 = listOf(brickW3, occupied, occupied, empty, occupied, brickH3)
     private val line_6_W3xOxOxO = listOf(brickW3, occupied, occupied, occupied, occupied, occupied)
     private val line_6_W3xSxH2xH3 = listOf(brickW3, occupied, occupied, singleBrick, brickH2, brickH3)
-    private val line_9_H3xH3xH3xW3xH3xH3xH3 = listOf(brickH3, brickH3, brickH3, brickW3, occupied, occupied, brickH3, brickH3, brickH3)
-    private val line_9_OxPxOxW3xOxOxO = listOf(occupied, occupied, occupied, brickW3, occupied, occupied, occupied, occupied, occupied)
-    private val line_9_W3xH3xH3xH3xW3 = listOf(brickW3, occupied, occupied, brickH3, brickH3, brickH3, brickW3, occupied, occupied)
-    private val line_9_W3xOxOxOxW3 = listOf(brickW3, occupied, occupied, occupied, occupied, occupied, brickW3, occupied, occupied)
+    private val line_9_H3xH3xH3xW3xH3xH3xH3 =
+        listOf(brickH3, brickH3, brickH3, brickW3, occupied, occupied, brickH3, brickH3, brickH3)
+    private val line_9_OxPxOxW3xOxOxO =
+        listOf(occupied, occupied, occupied, brickW3, occupied, occupied, occupied, occupied, occupied)
+    private val line_9_W3xH3xH3xH3xW3 =
+        listOf(brickW3, occupied, occupied, brickH3, brickH3, brickH3, brickW3, occupied, occupied)
+    private val line_9_W3xOxOxOxW3 =
+        listOf(brickW3, occupied, occupied, occupied, occupied, occupied, brickW3, occupied, occupied)
 
     private val basketWeaves_H3_V3_H3 = listOf(line_9_W3xH3xH3xH3xW3, line_9_W3xOxOxOxW3, line_9_W3xOxOxOxW3)
     private val basketWeaves_V3_H3_V3 =
@@ -247,14 +247,24 @@ class BrickPatternCreationTest {
             assertTilemap(result, size, expected)
         }
 
-        private fun testWithLeftAndRight(tileX: Int, isLeft: Boolean, isRight: Boolean, expected: List<List<BrickTile>>) =
+        private fun testWithLeftAndRight(
+            tileX: Int,
+            isLeft: Boolean,
+            isRight: Boolean,
+            expected: List<List<BrickTile>>,
+        ) =
             test(
                 MapSize2d(5, 4),
                 Borders(true, isLeft, isRight, true, tileX),
                 expected,
             )
 
-        private fun testWithTopAndBottom(tileY: Int, isTop: Boolean, isBottom: Boolean, expected: List<List<BrickTile>>) =
+        private fun testWithTopAndBottom(
+            tileY: Int,
+            isTop: Boolean,
+            isBottom: Boolean,
+            expected: List<List<BrickTile>>,
+        ) =
             test(
                 MapSize2d(6, 3),
                 Borders(isBottom, true, true, isTop, 0, tileY),
@@ -428,14 +438,24 @@ class BrickPatternCreationTest {
             }
         }
 
-        private fun testWithLeftAndRight(tileX: Int, isLeft: Boolean, isRight: Boolean, expected: List<List<BrickTile>>) =
+        private fun testWithLeftAndRight(
+            tileX: Int,
+            isLeft: Boolean,
+            isRight: Boolean,
+            expected: List<List<BrickTile>>,
+        ) =
             test(
                 MapSize2d(4, 4),
                 Borders(true, isLeft, isRight, true, tileX),
                 expected,
             )
 
-        private fun testWithTopAndBottom(tileY: Int, isTop: Boolean, isBottom: Boolean, expected: List<List<BrickTile>>) =
+        private fun testWithTopAndBottom(
+            tileY: Int,
+            isTop: Boolean,
+            isBottom: Boolean,
+            expected: List<List<BrickTile>>,
+        ) =
             test(
                 MapSize2d(6, 2),
                 Borders(isBottom, true, true, isTop, 0, tileY),
@@ -1021,7 +1041,12 @@ class BrickPatternCreationTest {
             test(size, borders, listOf(line_4_W2xW2, line_4_SxW2xS))
         }
 
-        private fun testWithPartialBricks(tileX: Int, isLeft: Boolean, isRight: Boolean, expected: List<List<BrickTile>>) {
+        private fun testWithPartialBricks(
+            tileX: Int,
+            isLeft: Boolean,
+            isRight: Boolean,
+            expected: List<List<BrickTile>>,
+        ) {
             val size = MapSize2d(3, 2)
             val borders = Borders(true, isLeft, isRight, true, tileX)
 

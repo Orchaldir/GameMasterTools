@@ -8,13 +8,7 @@ import at.orchaldir.gm.core.model.util.part.MadeFromStone
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.reducer.util.part.validateItemPart
 import at.orchaldir.gm.utils.doNothing
-import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.math.RangeInt
-import at.orchaldir.gm.utils.math.ONE_PERCENT
-import at.orchaldir.gm.utils.math.TEN_PERCENTS
-import at.orchaldir.gm.utils.math.THIRD
-import at.orchaldir.gm.utils.math.checkInt
-import at.orchaldir.gm.utils.math.validateFactor
+import at.orchaldir.gm.utils.math.*
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

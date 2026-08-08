@@ -4,8 +4,8 @@ import at.orchaldir.gm.app.NUMBER
 import at.orchaldir.gm.app.STATISTIC
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.util.math.selectFromRange
 import at.orchaldir.gm.app.html.rpg.statistic.parseStatisticId
+import at.orchaldir.gm.app.html.util.math.selectFromRange
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId

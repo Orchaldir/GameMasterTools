@@ -17,7 +17,7 @@ fun createAshlarPattern(
 
     repeat(gridSize.height) { y ->
         repeat(gridSize.width) { x ->
-            if(builder.map()[index].isFree()) {
+            if (builder.map()[index].isFree()) {
                 addAshlar(numberGenerator, grammar, gridSize, builder, x, y, index)
             }
 
@@ -53,7 +53,7 @@ private fun addAshlar(
     }
 
     val heightIndex = numberGenerator.getInt(index, 0, maxWidthPerRow.size)
-    val widthIndex = numberGenerator.getInt(index+1, maxWidthPerRow[heightIndex])
+    val widthIndex = numberGenerator.getInt(index + 1, maxWidthPerRow[heightIndex])
 
     builder.addBigBrick(x, y, grammar.brick, widthIndex + 1, heightIndex + 1)
 }

@@ -34,6 +34,7 @@ fun HtmlBlockTag.showShapeGrammar(
                 field("Brick Width", grammar.brickWidth)
                 field("Brick Height", grammar.brickHeight)
             }
+
             is BrickPatternGrammar -> {
                 showGridSize(grammar.size)
                 field("Pattern", grammar.pattern)
@@ -104,6 +105,7 @@ fun HtmlBlockTag.editShapeGrammar(
                     combine(param, HEIGHT),
                 )
             }
+
             is BrickPatternGrammar -> {
                 editGridSize(
                     grammar.size,
@@ -184,6 +186,7 @@ fun parseShapeGrammar(
             parseInt(parameters, combine(param, WIDTH)),
             parseInt(parameters, combine(param, HEIGHT)),
         )
+
         ShapeGrammarType.BrickPattern -> BrickPatternGrammar(
             parseBrickSelection(state, parameters, param),
             parseGridSize(parameters, combine(param, SIZE)),

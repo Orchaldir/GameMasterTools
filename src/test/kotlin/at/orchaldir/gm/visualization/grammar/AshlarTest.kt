@@ -1,16 +1,14 @@
 package at.orchaldir.gm.visualization.grammar
 
 import at.orchaldir.gm.core.model.util.render.Color
-import at.orchaldir.gm.core.model.visualization.*
+import at.orchaldir.gm.core.model.visualization.AshlarGrammar
+import at.orchaldir.gm.core.model.visualization.RectangularShapeGrammar
+import at.orchaldir.gm.core.model.visualization.RowsAndColumns
 import at.orchaldir.gm.utils.HashNumberGenerator
 import at.orchaldir.gm.utils.RepeatableNumberGenerator
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.map.MapSize2d
-import at.orchaldir.gm.visualization.grammar.brick.BrickStart
-import at.orchaldir.gm.visualization.grammar.brick.BrickTile
-import at.orchaldir.gm.visualization.grammar.brick.EmptyTile
-import at.orchaldir.gm.visualization.grammar.brick.OccupiedTile
-import at.orchaldir.gm.visualization.grammar.brick.createAshlarPattern
+import at.orchaldir.gm.visualization.grammar.brick.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.fail
 import kotlin.test.assertEquals
