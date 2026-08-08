@@ -6,7 +6,7 @@ import at.orchaldir.gm.utils.HashNumberGenerator
 import at.orchaldir.gm.utils.RepeatableNumberGenerator
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.map.MapSize2d
-import at.orchaldir.gm.visualization.grammar.brick.Brick
+import at.orchaldir.gm.visualization.grammar.brick.BrickStart
 import at.orchaldir.gm.visualization.grammar.brick.BrickTile
 import at.orchaldir.gm.visualization.grammar.brick.EmptyTile
 import at.orchaldir.gm.visualization.grammar.brick.OccupiedTile
@@ -45,7 +45,7 @@ class AshlarTest {
         repeat(HEIGHT) { y ->
             repeat(WIDTH) { x ->
                 when (val tile = tiles[index]) {
-                    is Brick -> validateBrick(tile, x, y, index, tiles, result.size)
+                    is BrickStart -> validateBrick(tile, x, y, index, tiles, result.size)
                     EmptyTile -> doNothing()
                     OccupiedTile -> fail { "Found an occupied tile not belonging to a brick!" }
                 }
@@ -56,7 +56,7 @@ class AshlarTest {
     }
 
     private fun validateBrick(
-        tile: Brick,
+        tile: BrickStart,
         x: Int,
         y: Int,
         index: Int,

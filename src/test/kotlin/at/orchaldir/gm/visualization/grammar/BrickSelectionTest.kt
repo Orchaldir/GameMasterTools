@@ -4,7 +4,7 @@ import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.visualization.*
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.map.assertTilemap
-import at.orchaldir.gm.visualization.grammar.brick.Brick
+import at.orchaldir.gm.visualization.grammar.brick.BrickStart
 import at.orchaldir.gm.visualization.grammar.brick.BrickTile
 import at.orchaldir.gm.visualization.grammar.brick.OccupiedTile
 import at.orchaldir.gm.visualization.grammar.brick.createBrickPattern
@@ -274,10 +274,10 @@ class BrickSelectionTest {
         }
     }
 
-    private fun createH(grammar: ShapeGrammar, n: Int) = Brick(grammar, MapSize2d(n, 1))
+    private fun createH(grammar: ShapeGrammar, n: Int) = BrickStart(grammar, MapSize2d(n, 1))
     private fun createH2(grammar: ShapeGrammar) = createH(grammar, 2)
     private fun createH3(grammar: ShapeGrammar) = createH(grammar, 3)
-    private fun createV(grammar: ShapeGrammar, n: Int) = Brick(grammar, MapSize2d(1, n))
+    private fun createV(grammar: ShapeGrammar, n: Int) = BrickStart(grammar, MapSize2d(1, n))
     private fun createV2(grammar: ShapeGrammar) = createV(grammar, 2)
     private fun createV3(grammar: ShapeGrammar) = createV(grammar, 3)
 
@@ -325,9 +325,9 @@ class BrickSelectionTest {
         b21: ShapeGrammar,
         b22: ShapeGrammar,
     ): List<List<BrickTile>> {
-        val line0 = listOf(Brick(b00), Brick(b01), Brick(b02))
-        val line1 = listOf(Brick(b10), Brick(b11), Brick(b12))
-        val line2 = listOf(Brick(b20), Brick(b21), Brick(b22))
+        val line0 = listOf(BrickStart(b00), BrickStart(b01), BrickStart(b02))
+        val line1 = listOf(BrickStart(b10), BrickStart(b11), BrickStart(b12))
+        val line2 = listOf(BrickStart(b20), BrickStart(b21), BrickStart(b22))
 
         return listOf(line0, line1, line2)
     }
@@ -341,9 +341,9 @@ class BrickSelectionTest {
         v2: ShapeGrammar,
         v3: ShapeGrammar,
     ): List<List<BrickTile>> {
-        val line0 = listOf(createH3(h0), occupied, occupied, Brick(v2), createV2(v3))
+        val line0 = listOf(createH3(h0), occupied, occupied, BrickStart(v2), createV2(v3))
         val line1 = listOf(createV2(v0), createH3(h1), occupied, occupied, occupied)
-        val line2 = listOf(occupied, Brick(v1), createH3(h2), occupied, occupied)
+        val line2 = listOf(occupied, BrickStart(v1), createH3(h2), occupied, occupied)
 
         return listOf(line0, line1, line2)
     }
@@ -356,7 +356,7 @@ class BrickSelectionTest {
         top: ShapeGrammar,
     ): List<List<BrickTile>> {
         val line0 = listOf(createV2(left), createH2(top), occupied)
-        val line1 = listOf(occupied, Brick(center), createV2(right))
+        val line1 = listOf(occupied, BrickStart(center), createV2(right))
         val line2 = listOf(createH2(bottom), occupied, occupied)
 
         return listOf(line0, line1, line2)
@@ -372,7 +372,7 @@ class BrickSelectionTest {
         b21: ShapeGrammar,
     ): List<List<BrickTile>> {
         val line0 = listOf(createH2(b00), occupied, createH2(b01), occupied)
-        val line1 = listOf(Brick(b10), createH2(b11), occupied, Brick(b12))
+        val line1 = listOf(BrickStart(b10), createH2(b11), occupied, BrickStart(b12))
         val line2 = listOf(createH2(b20), occupied, createH2(b21), occupied)
 
         return listOf(line0, line1, line2)

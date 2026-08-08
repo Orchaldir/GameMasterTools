@@ -15,7 +15,7 @@ enum class BrickTileType {
 sealed class BrickTile {
 
     fun getType() = when (this) {
-        is Brick -> BrickTileType.Brick
+        is BrickStart -> BrickTileType.Brick
         EmptyTile -> BrickTileType.Empty
         OccupiedTile -> BrickTileType.Occupied
     }
@@ -24,7 +24,7 @@ sealed class BrickTile {
     fun isFull() = this !is EmptyTile
 }
 
-data class Brick(
+data class BrickStart(
     val grammar: ShapeGrammar = DoNothingShapeGrammar,
     val size: MapSize2d = MapSize2d(1, 1),
 ) : BrickTile() {

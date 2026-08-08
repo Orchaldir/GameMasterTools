@@ -7,7 +7,7 @@ import at.orchaldir.gm.core.model.visualization.RectangularShapeGrammar
 import at.orchaldir.gm.core.model.visualization.RowsAndColumns
 import at.orchaldir.gm.utils.map.MapSize2d
 import at.orchaldir.gm.utils.map.assertTilemap
-import at.orchaldir.gm.visualization.grammar.brick.Brick
+import at.orchaldir.gm.visualization.grammar.brick.BrickStart
 import at.orchaldir.gm.visualization.grammar.brick.BrickTile
 import at.orchaldir.gm.visualization.grammar.brick.EmptyTile
 import at.orchaldir.gm.visualization.grammar.brick.OccupiedTile
@@ -18,14 +18,14 @@ import org.junit.jupiter.api.Test
 class BrickPatternCreationTest {
 
     private val brickGrammar = RectangularShapeGrammar(MadeFromStone())
-    private val singleBrick = Brick(brickGrammar, MapSize2d(1, 1))
-    private val brickW2 = Brick(brickGrammar, MapSize2d(2, 1))
-    private val brickW3 = Brick(brickGrammar, MapSize2d(3, 1))
-    private val brickH2 = Brick(brickGrammar, MapSize2d(1, 2))
-    private val brickH3 = Brick(brickGrammar, MapSize2d(1, 3))
-    private val brick22 = Brick(brickGrammar, MapSize2d(2, 2))
-    private val brick23 = Brick(brickGrammar, MapSize2d(2, 3))
-    private val brick32 = Brick(brickGrammar, MapSize2d(3, 2))
+    private val singleBrick = BrickStart(brickGrammar, MapSize2d(1, 1))
+    private val brickW2 = BrickStart(brickGrammar, MapSize2d(2, 1))
+    private val brickW3 = BrickStart(brickGrammar, MapSize2d(3, 1))
+    private val brickH2 = BrickStart(brickGrammar, MapSize2d(1, 2))
+    private val brickH3 = BrickStart(brickGrammar, MapSize2d(1, 3))
+    private val brick22 = BrickStart(brickGrammar, MapSize2d(2, 2))
+    private val brick23 = BrickStart(brickGrammar, MapSize2d(2, 3))
+    private val brick32 = BrickStart(brickGrammar, MapSize2d(3, 2))
     private val empty = EmptyTile
     private val occupied = OccupiedTile
 

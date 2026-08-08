@@ -43,7 +43,7 @@ fun visualizeBrickTilemap(
     val renderer = TileMap2dRenderer(aabb.size, gridmap.size)
 
     renderer.render(gridmap, aabb.start) { index, blockAabb, borders, brick ->
-        if (brick is Brick) {
+        if (brick is BrickStart) {
             val brickSize = blockAabb.size * brick.size
             val brickAabb = blockAabb.copy(size = brickSize)
             val brickState = state.addSeed(index)

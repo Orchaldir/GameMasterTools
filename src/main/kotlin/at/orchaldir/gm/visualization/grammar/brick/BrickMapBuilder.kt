@@ -27,7 +27,7 @@ abstract class BrickMapBuilder(
         logger.info { "x=$x y=$y index=$mapIndex" }
         val selected = bricks.select(y, true)
 
-        map[mapIndex] = Brick(selected, BLOCK_SIZE)
+        map[mapIndex] = BrickStart(selected, BLOCK_SIZE)
     }
 
     fun addHorizontalBrick(
@@ -135,7 +135,7 @@ abstract class BrickMapBuilder(
         width: Int,
         height: Int,
     ) {
-        addBrick(x, y, Brick(brick, MapSize2d(width, height)))
+        addBrick(x, y, BrickStart(brick, MapSize2d(width, height)))
     }
 
     protected fun addBrick(
@@ -148,10 +148,10 @@ abstract class BrickMapBuilder(
     ) {
         val selected = bricks.select(row, isHorizontal)
 
-        addBrick(x, y, Brick(selected, size))
+        addBrick(x, y, BrickStart(selected, size))
     }
 
-    protected abstract fun addBrick(startX: Int, startY: Int, brick: Brick)
+    protected abstract fun addBrick(startX: Int, startY: Int, brick: BrickStart)
 
     fun createSubSections(
         subSize: MapSize2d,
@@ -257,7 +257,7 @@ class SimpleBrickMapBuilder(
 
     override fun size() = size
 
-    override fun addBrick(startX: Int, startY: Int, brick: Brick) {
+    override fun addBrick(startX: Int, startY: Int, brick: BrickStart) {
         for (y in startY..<(startY + brick.size.height)) {
             for (x in startX..<(startX + brick.size.width)) {
                 size.toIndex(x, y)?.let { mapIndex ->
@@ -291,7 +291,7 @@ class SubSectionBuilder(
 
     override fun size() = subSize
 
-    override fun addBrick(startX: Int, startY: Int, brick: Brick) {
+    override fun addBrick(startX: Int, startY: Int, brick: BrickStart) {
         for (y in startY..<(startY + brick.size.height)) {
             for (x in startX..<(startX + brick.size.width)) {
                 setTile(x, y, OccupiedTile)
