@@ -15,10 +15,8 @@ sealed class RepeatableNumberGenerator {
 
     abstract fun getInt(index: Int): Int
 
-    fun getInt(index: Int, until: Int): Int {
-        val int = getInt(index)
-        return int.modulo(until)
-    }
+    fun getInt(index: Int, until: Int) = getInt(index)
+        .modulo(until)
 
     fun getInt(index: Int, from: Int, until: Int) = from + getInt(index, until - from)
 
