@@ -5,8 +5,8 @@ import at.orchaldir.gm.core.model.ecology.Ecology
 import at.orchaldir.gm.core.model.ecology.HasEcology
 import at.orchaldir.gm.core.model.ecology.UndefinedEcology
 import at.orchaldir.gm.core.model.economy.material.MaterialId
-import at.orchaldir.gm.core.model.rpg.encounter.EncounterEntry
-import at.orchaldir.gm.core.model.rpg.encounter.NoEncounter
+import at.orchaldir.gm.core.model.gm.encounter.EncounterEntry
+import at.orchaldir.gm.core.model.gm.encounter.NoEncounter
 import at.orchaldir.gm.core.model.util.HasPosition
 import at.orchaldir.gm.core.model.util.Position
 import at.orchaldir.gm.core.model.util.PositionType

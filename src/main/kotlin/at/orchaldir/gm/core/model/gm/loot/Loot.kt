@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.model.rpg.loot
+package at.orchaldir.gm.core.model.gm.loot
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName

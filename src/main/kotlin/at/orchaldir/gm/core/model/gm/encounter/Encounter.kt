@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.model.rpg.encounter
+package at.orchaldir.gm.core.model.gm.encounter
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName

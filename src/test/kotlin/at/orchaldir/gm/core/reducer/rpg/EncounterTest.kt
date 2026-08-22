@@ -5,9 +5,9 @@ import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterTemplate
 import at.orchaldir.gm.core.model.race.UseRace
-import at.orchaldir.gm.core.model.rpg.encounter.CharacterTemplateEncounter
-import at.orchaldir.gm.core.model.rpg.encounter.Encounter
-import at.orchaldir.gm.core.model.rpg.encounter.EncounterLookup
+import at.orchaldir.gm.core.model.gm.encounter.CharacterTemplateEncounter
+import at.orchaldir.gm.core.model.gm.encounter.Encounter
+import at.orchaldir.gm.core.model.gm.encounter.EncounterLookup
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested

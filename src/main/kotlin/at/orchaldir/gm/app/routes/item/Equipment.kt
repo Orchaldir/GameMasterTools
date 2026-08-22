@@ -34,8 +34,8 @@ import at.orchaldir.gm.core.selector.item.equipment.VOLUME_CONFIG
 import at.orchaldir.gm.core.selector.item.equipment.calculatePrice
 import at.orchaldir.gm.core.selector.item.equipment.calculateWeight
 import at.orchaldir.gm.core.selector.item.getUniforms
-import at.orchaldir.gm.core.selector.rpg.getArmorType
-import at.orchaldir.gm.core.selector.rpg.getShieldType
+import at.orchaldir.gm.core.selector.rpg.combat.getArmorType
+import at.orchaldir.gm.core.selector.rpg.combat.getShieldType
 import at.orchaldir.gm.core.selector.util.getColors
 import at.orchaldir.gm.core.selector.util.sortEquipmentList
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG

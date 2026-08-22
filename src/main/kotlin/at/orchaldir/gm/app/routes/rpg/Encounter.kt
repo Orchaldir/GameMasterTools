@@ -9,8 +9,8 @@ import at.orchaldir.gm.app.html.rpg.encounter.showEncounter
 import at.orchaldir.gm.app.html.tdEnum
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.model.rpg.encounter.ENCOUNTER_TYPE
-import at.orchaldir.gm.core.model.rpg.encounter.EncounterId
+import at.orchaldir.gm.core.model.gm.encounter.ENCOUNTER_TYPE
+import at.orchaldir.gm.core.model.gm.encounter.EncounterId
 import at.orchaldir.gm.core.model.util.SortEncounter
 import at.orchaldir.gm.core.selector.util.sortEncounters
 import io.ktor.resources.*

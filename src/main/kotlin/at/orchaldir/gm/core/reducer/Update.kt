@@ -35,7 +35,7 @@ import at.orchaldir.gm.core.model.religion.Domain
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.religion.Pantheon
 import at.orchaldir.gm.core.model.rpg.combat.*
-import at.orchaldir.gm.core.model.rpg.encounter.Encounter
+import at.orchaldir.gm.core.model.gm.encounter.Encounter
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTrait
 import at.orchaldir.gm.core.model.time.calendar.Calendar

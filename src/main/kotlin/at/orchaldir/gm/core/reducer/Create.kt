@@ -48,10 +48,10 @@ import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.religion.*
 import at.orchaldir.gm.core.model.rpg.combat.*
-import at.orchaldir.gm.core.model.rpg.encounter.Encounter
-import at.orchaldir.gm.core.model.rpg.encounter.EncounterId
-import at.orchaldir.gm.core.model.rpg.loot.Loot
-import at.orchaldir.gm.core.model.rpg.loot.LootId
+import at.orchaldir.gm.core.model.gm.encounter.Encounter
+import at.orchaldir.gm.core.model.gm.encounter.EncounterId
+import at.orchaldir.gm.core.model.gm.loot.Loot
+import at.orchaldir.gm.core.model.gm.loot.LootId
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTrait

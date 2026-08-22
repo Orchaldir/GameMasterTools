@@ -15,6 +15,7 @@ import at.orchaldir.gm.core.model.rpg.combat.ArmorStats
 import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifier
 import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponStats
 import at.orchaldir.gm.core.model.rpg.combat.ShieldStats
+import at.orchaldir.gm.core.selector.rpg.combat.canDeleteEquipmentModifier
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested

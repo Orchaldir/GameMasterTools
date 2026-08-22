@@ -5,10 +5,10 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.combat.DamageType
 import at.orchaldir.gm.core.model.rpg.combat.DamageTypeId
-import at.orchaldir.gm.core.selector.rpg.getArmorTypes
-import at.orchaldir.gm.core.selector.rpg.getMeleeWeaponTypes
-import at.orchaldir.gm.core.selector.rpg.getRangedWeaponTypes
-import at.orchaldir.gm.core.selector.rpg.getShieldTypes
+import at.orchaldir.gm.core.selector.rpg.combat.getArmorTypes
+import at.orchaldir.gm.core.selector.rpg.combat.getMeleeWeaponTypes
+import at.orchaldir.gm.core.selector.rpg.combat.getRangedWeaponTypes
+import at.orchaldir.gm.core.selector.rpg.combat.getShieldTypes
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag

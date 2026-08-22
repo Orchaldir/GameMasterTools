@@ -66,8 +66,7 @@ import at.orchaldir.gm.core.model.religion.DomainId
 import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.religion.PantheonId
 import at.orchaldir.gm.core.model.rpg.combat.*
-import at.orchaldir.gm.core.model.rpg.encounter.EncounterId
-import at.orchaldir.gm.core.model.rpg.loot.LootId
+import at.orchaldir.gm.core.model.gm.encounter.EncounterId
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitId
 import at.orchaldir.gm.core.model.time.calendar.Calendar

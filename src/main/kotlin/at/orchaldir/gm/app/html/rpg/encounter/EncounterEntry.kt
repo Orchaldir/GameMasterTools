@@ -9,8 +9,15 @@ import at.orchaldir.gm.app.html.util.editLookupTable
 import at.orchaldir.gm.app.html.util.parseLookup
 import at.orchaldir.gm.app.html.util.showLookupTable
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.gm.encounter.CharacterTemplateEncounter
+import at.orchaldir.gm.core.model.gm.encounter.CombinedEncounter
+import at.orchaldir.gm.core.model.gm.encounter.EncounterEntry
+import at.orchaldir.gm.core.model.gm.encounter.EncounterEntryType
+import at.orchaldir.gm.core.model.gm.encounter.EncounterId
+import at.orchaldir.gm.core.model.gm.encounter.EncounterLookup
+import at.orchaldir.gm.core.model.gm.encounter.EncounterTable
+import at.orchaldir.gm.core.model.gm.encounter.NoEncounter
 import at.orchaldir.gm.core.model.rpg.dice.ModifiedDiceRange
-import at.orchaldir.gm.core.model.rpg.encounter.*
 import at.orchaldir.gm.core.selector.util.sortCharacterTemplates
 import at.orchaldir.gm.core.selector.util.sortEncounters
 import at.orchaldir.gm.utils.doNothing

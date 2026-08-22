@@ -1,9 +1,9 @@
-package at.orchaldir.gm.core.selector.rpg.encounter
+package at.orchaldir.gm.core.selector.gm.encounter
 
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterTemplateId
-import at.orchaldir.gm.core.model.rpg.encounter.EncounterId
+import at.orchaldir.gm.core.model.gm.encounter.EncounterId
 import at.orchaldir.gm.core.selector.world.getRegionsWithEncounter
 
 fun State.canDeleteEncounter(encounter: EncounterId) = DeleteResult(encounter)

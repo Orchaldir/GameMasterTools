@@ -5,10 +5,10 @@ import at.orchaldir.gm.ENCOUNTER_ID_1
 import at.orchaldir.gm.REGION_ID_0
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.rpg.encounter.Encounter
-import at.orchaldir.gm.core.model.rpg.encounter.EncounterLookup
+import at.orchaldir.gm.core.model.gm.encounter.Encounter
+import at.orchaldir.gm.core.model.gm.encounter.EncounterLookup
 import at.orchaldir.gm.core.model.world.terrain.Region
-import at.orchaldir.gm.core.selector.rpg.encounter.canDeleteEncounter
+import at.orchaldir.gm.core.selector.gm.encounter.canDeleteEncounter
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested

@@ -35,7 +35,7 @@ import at.orchaldir.gm.core.model.religion.Domain
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.religion.Pantheon
 import at.orchaldir.gm.core.model.rpg.combat.*
-import at.orchaldir.gm.core.model.rpg.encounter.Encounter
+import at.orchaldir.gm.core.model.gm.encounter.Encounter
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTrait
 import at.orchaldir.gm.core.model.time.calendar.Calendar
@@ -72,9 +72,9 @@ import at.orchaldir.gm.core.selector.item.countTexts
 import at.orchaldir.gm.core.selector.item.equipment.*
 import at.orchaldir.gm.core.selector.race.countRaceAppearancesMadeOf
 import at.orchaldir.gm.core.selector.realm.*
-import at.orchaldir.gm.core.selector.rpg.getEquipmentModifier
-import at.orchaldir.gm.core.selector.rpg.getMeleeWeaponTypes
-import at.orchaldir.gm.core.selector.rpg.getRangedWeaponTypes
+import at.orchaldir.gm.core.selector.rpg.combat.getEquipmentModifier
+import at.orchaldir.gm.core.selector.rpg.combat.getMeleeWeaponTypes
+import at.orchaldir.gm.core.selector.rpg.combat.getRangedWeaponTypes
 import at.orchaldir.gm.core.selector.time.date.createSorter
 import at.orchaldir.gm.core.selector.time.getDefaultCalendar
 import at.orchaldir.gm.core.selector.world.countBuildings

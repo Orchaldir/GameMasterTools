@@ -1,8 +1,8 @@
-package at.orchaldir.gm.core.selector.rpg.loot
+package at.orchaldir.gm.core.selector.gm.loot
 
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.rpg.loot.LootId
+import at.orchaldir.gm.core.model.gm.loot.LootId
 
 fun State.canDeleteLoot(encounter: LootId) = DeleteResult(encounter)
     .addElements(getLootWith(encounter))

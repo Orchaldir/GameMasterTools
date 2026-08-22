@@ -3,9 +3,9 @@ package at.orchaldir.gm.app.html.rpg.encounter
 import at.orchaldir.gm.app.ENCOUNTER
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.rpg.encounter.Encounter
-import at.orchaldir.gm.core.model.rpg.encounter.EncounterId
-import at.orchaldir.gm.core.selector.rpg.encounter.getEncountersWith
+import at.orchaldir.gm.core.model.gm.encounter.Encounter
+import at.orchaldir.gm.core.model.gm.encounter.EncounterId
+import at.orchaldir.gm.core.selector.gm.encounter.getEncountersWith
 import at.orchaldir.gm.core.selector.world.getRegionsWithEncounter
 import io.ktor.http.*
 import io.ktor.server.application.*
