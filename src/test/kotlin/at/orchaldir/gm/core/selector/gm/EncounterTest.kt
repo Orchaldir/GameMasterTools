@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.selector.rpg
+package at.orchaldir.gm.core.selector.gm
 
 import at.orchaldir.gm.ENCOUNTER_ID_0
 import at.orchaldir.gm.ENCOUNTER_ID_1

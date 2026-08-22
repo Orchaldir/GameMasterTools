@@ -10,6 +10,7 @@ import at.orchaldir.gm.app.routes.ecology.plant.configurePlantRouting
 import at.orchaldir.gm.app.routes.economy.*
 import at.orchaldir.gm.app.routes.economy.money.configureCurrencyRouting
 import at.orchaldir.gm.app.routes.economy.money.configureCurrencyUnitRouting
+import at.orchaldir.gm.app.routes.gm.configureEncounterRouting
 import at.orchaldir.gm.app.routes.health.configureDiseaseRouting
 import at.orchaldir.gm.app.routes.item.*
 import at.orchaldir.gm.app.routes.magic.configureMagicTraditionRouting

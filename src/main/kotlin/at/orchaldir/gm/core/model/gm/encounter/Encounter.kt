@@ -14,6 +14,7 @@ value class EncounterId(val value: Int) : Id<EncounterId> {
 
     override fun next() = EncounterId(value + 1)
     override fun type() = ENCOUNTER_TYPE
+    override fun plural() = ENCOUNTER_TYPE
     override fun value() = value
 
 }

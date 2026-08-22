@@ -1,4 +1,4 @@
-package at.orchaldir.gm.app.html.rpg.encounter
+package at.orchaldir.gm.app.html.gm.encounter
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*

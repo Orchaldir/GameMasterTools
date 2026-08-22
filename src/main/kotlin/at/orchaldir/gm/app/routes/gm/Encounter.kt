@@ -1,11 +1,11 @@
-package at.orchaldir.gm.app.routes.rpg
+package at.orchaldir.gm.app.routes.gm
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.Column
 import at.orchaldir.gm.app.html.createNameColumn
-import at.orchaldir.gm.app.html.rpg.encounter.editEncounter
-import at.orchaldir.gm.app.html.rpg.encounter.parseEncounter
-import at.orchaldir.gm.app.html.rpg.encounter.showEncounter
+import at.orchaldir.gm.app.html.gm.encounter.editEncounter
+import at.orchaldir.gm.app.html.gm.encounter.parseEncounter
+import at.orchaldir.gm.app.html.gm.encounter.showEncounter
 import at.orchaldir.gm.app.html.tdEnum
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
