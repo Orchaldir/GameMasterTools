@@ -50,6 +50,8 @@ import at.orchaldir.gm.core.model.religion.*
 import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.core.model.rpg.encounter.Encounter
 import at.orchaldir.gm.core.model.rpg.encounter.EncounterId
+import at.orchaldir.gm.core.model.rpg.loot.Loot
+import at.orchaldir.gm.core.model.rpg.loot.LootId
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTrait
@@ -132,6 +134,7 @@ fun reduceCreateElement(
     is JobId -> createElement(state, Job(id))
     is LanguageId -> createElement(state, Language(id))
     is LegalCodeId -> createElement(state, LegalCode(id))
+    is LootId -> createElement(state, Loot(id))
     is MagicTraditionId -> createElement(state, MagicTradition(id))
     is MaterialId -> createElement(state, Material(id))
     is MeleeWeaponTypeId -> createElement(state, MeleeWeaponType(id))

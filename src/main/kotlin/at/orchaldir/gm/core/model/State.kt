@@ -58,6 +58,9 @@ import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.core.model.rpg.encounter.ENCOUNTER_TYPE
 import at.orchaldir.gm.core.model.rpg.encounter.Encounter
 import at.orchaldir.gm.core.model.rpg.encounter.EncounterId
+import at.orchaldir.gm.core.model.rpg.loot.LOOT_TYPE
+import at.orchaldir.gm.core.model.rpg.loot.Loot
+import at.orchaldir.gm.core.model.rpg.loot.LootId
 import at.orchaldir.gm.core.model.rpg.statistic.STATISTIC_TYPE
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
@@ -146,6 +149,7 @@ val ELEMENTS =
         JOB_TYPE,
         LANGUAGE_TYPE,
         LEGAL_CODE_TYPE,
+        LOOT_TYPE,
         MAGIC_TRADITION_TYPE,
         MATERIAL_TYPE,
         MELEE_WEAPON_TYPE_TYPE,
@@ -236,6 +240,7 @@ data class State(
     fun getJobStorage() = getStorage<JobId, Job>(JOB_TYPE)
     fun getLanguageStorage() = getStorage<LanguageId, Language>(LANGUAGE_TYPE)
     fun getLegalCodeStorage() = getStorage<LegalCodeId, LegalCode>(LEGAL_CODE_TYPE)
+    fun getLootStorage() = getStorage<LootId, Loot>(LOOT_TYPE)
     fun getMagicTraditionStorage() = getStorage<MagicTraditionId, MagicTradition>(MAGIC_TRADITION_TYPE)
     fun getMaterialStorage() = getStorage<MaterialId, Material>(MATERIAL_TYPE)
     fun getMeleeWeaponTypeStorage() = getStorage<MeleeWeaponTypeId, MeleeWeaponType>(MELEE_WEAPON_TYPE_TYPE)
@@ -402,6 +407,7 @@ data class State(
         saveStorage(path, getJobStorage())
         saveStorage(path, getLanguageStorage())
         saveStorage(path, getLegalCodeStorage())
+        saveStorage(path, getLootStorage())
         saveStorage(path, getMagicTraditionStorage())
         saveStorage(path, getMaterialStorage())
         saveStorage(path, getMeleeWeaponTypeStorage())
@@ -474,6 +480,7 @@ fun createStorage(type: String) = when (type) {
     JOB_TYPE -> Storage(JobId(0))
     LANGUAGE_TYPE -> Storage(LanguageId(0))
     LEGAL_CODE_TYPE -> Storage(LegalCodeId(0))
+    LOOT_TYPE -> Storage(LootId(0))
     MAGIC_TRADITION_TYPE -> Storage(MagicTraditionId(0))
     MATERIAL_TYPE -> Storage(MaterialId(0))
     MELEE_WEAPON_TYPE_TYPE -> Storage(MeleeWeaponTypeId(0))
@@ -545,6 +552,7 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     JOB_TYPE -> loadStorage<JobId, Job>(path, JobId(0))
     LANGUAGE_TYPE -> loadStorage<LanguageId, Language>(path, LanguageId(0))
     LEGAL_CODE_TYPE -> loadStorage<LegalCodeId, LegalCode>(path, LegalCodeId(0))
+    LOOT_TYPE -> loadStorage<LootId, Loot>(path, LootId(0))
     MAGIC_TRADITION_TYPE -> loadStorage<MagicTraditionId, MagicTradition>(path, MagicTraditionId(0))
     MATERIAL_TYPE -> loadStorage<MaterialId, Material>(path, MaterialId(0))
     MELEE_WEAPON_TYPE_TYPE -> loadStorage<MeleeWeaponTypeId, MeleeWeaponType>(path, MeleeWeaponTypeId(0))

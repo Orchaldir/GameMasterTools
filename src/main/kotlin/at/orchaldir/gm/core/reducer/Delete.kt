@@ -37,6 +37,7 @@ import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.religion.PantheonId
 import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.core.model.rpg.encounter.EncounterId
+import at.orchaldir.gm.core.model.rpg.loot.LootId
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitId
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
@@ -91,6 +92,7 @@ import at.orchaldir.gm.core.selector.religion.canDeleteGod
 import at.orchaldir.gm.core.selector.religion.canDeletePantheon
 import at.orchaldir.gm.core.selector.rpg.*
 import at.orchaldir.gm.core.selector.rpg.encounter.canDeleteEncounter
+import at.orchaldir.gm.core.selector.rpg.loot.canDeleteLoot
 import at.orchaldir.gm.core.selector.time.canDeleteCalendar
 import at.orchaldir.gm.core.selector.time.canDeleteHoliday
 import at.orchaldir.gm.core.selector.util.*
@@ -135,6 +137,7 @@ fun reduceDeleteElement(
     is JobId -> deleteElement(state, id, State::canDeleteJob)
     is LanguageId -> deleteElement(state, id, State::canDeleteLanguage)
     is LegalCodeId -> deleteElement(state, id, State::canDeleteLegalCode)
+    is LootId -> deleteElement(state, id, State::canDeleteLoot)
     is MagicTraditionId -> deleteElement(state, id, State::canDeleteMagicTradition)
     is MaterialId -> deleteElement(state, id, State::canDeleteMaterial)
     is MoonId -> deleteElement(state, id, State::canDeleteMoon)
