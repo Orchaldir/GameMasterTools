@@ -37,7 +37,7 @@ import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.religion.PantheonId
 import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.core.model.gm.encounter.EncounterId
-import at.orchaldir.gm.core.model.gm.loot.LootId
+import at.orchaldir.gm.core.model.gm.treasure.TreasureParcelId
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitId
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
@@ -92,7 +92,7 @@ import at.orchaldir.gm.core.selector.religion.canDeleteGod
 import at.orchaldir.gm.core.selector.religion.canDeletePantheon
 import at.orchaldir.gm.core.selector.rpg.*
 import at.orchaldir.gm.core.selector.gm.encounter.canDeleteEncounter
-import at.orchaldir.gm.core.selector.gm.loot.canDeleteLoot
+import at.orchaldir.gm.core.selector.gm.treasure.canDeleteTreasureParcel
 import at.orchaldir.gm.core.selector.rpg.combat.canDeleteAmmunitionType
 import at.orchaldir.gm.core.selector.rpg.combat.canDeleteArmorType
 import at.orchaldir.gm.core.selector.rpg.combat.canDeleteDamageType
@@ -144,7 +144,6 @@ fun reduceDeleteElement(
     is JobId -> deleteElement(state, id, State::canDeleteJob)
     is LanguageId -> deleteElement(state, id, State::canDeleteLanguage)
     is LegalCodeId -> deleteElement(state, id, State::canDeleteLegalCode)
-    is LootId -> deleteElement(state, id, State::canDeleteLoot)
     is MagicTraditionId -> deleteElement(state, id, State::canDeleteMagicTradition)
     is MaterialId -> deleteElement(state, id, State::canDeleteMaterial)
     is MoonId -> deleteElement(state, id, State::canDeleteMoon)
@@ -176,6 +175,7 @@ fun reduceDeleteElement(
     is StreetTemplateId -> deleteElement(state, id, State::canDeleteStreetTemplate)
     is TextId -> deleteElement(state, id, State::canDeleteText)
     is TitleId -> deleteElement(state, id, State::canDeleteTitle)
+    is TreasureParcelId -> deleteElement(state, id, State::canDeleteTreasureParcel)
     is TreatyId -> deleteElement(state, id, State::canDeleteTreaty)
     is UniformId -> deleteElement(state, id, State::canDeleteUniform)
     is WarId -> deleteElement(state, id, State::canDeleteWar)

@@ -58,9 +58,9 @@ import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.core.model.gm.encounter.ENCOUNTER_TYPE
 import at.orchaldir.gm.core.model.gm.encounter.Encounter
 import at.orchaldir.gm.core.model.gm.encounter.EncounterId
-import at.orchaldir.gm.core.model.gm.loot.LOOT_TYPE
-import at.orchaldir.gm.core.model.gm.loot.Loot
-import at.orchaldir.gm.core.model.gm.loot.LootId
+import at.orchaldir.gm.core.model.gm.treasure.TREASURE_PARCEL_TYPE
+import at.orchaldir.gm.core.model.gm.treasure.TreasureParcel
+import at.orchaldir.gm.core.model.gm.treasure.TreasureParcelId
 import at.orchaldir.gm.core.model.rpg.statistic.STATISTIC_TYPE
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
@@ -149,7 +149,6 @@ val ELEMENTS =
         JOB_TYPE,
         LANGUAGE_TYPE,
         LEGAL_CODE_TYPE,
-        LOOT_TYPE,
         MAGIC_TRADITION_TYPE,
         MATERIAL_TYPE,
         MELEE_WEAPON_TYPE_TYPE,
@@ -180,6 +179,7 @@ val ELEMENTS =
         STREET_TEMPLATE_TYPE,
         TEXT_TYPE,
         TITLE_TYPE,
+        TREASURE_PARCEL_TYPE,
         TREATY_TYPE,
         UNIFORM_TYPE,
         WAR_TYPE,
@@ -240,7 +240,6 @@ data class State(
     fun getJobStorage() = getStorage<JobId, Job>(JOB_TYPE)
     fun getLanguageStorage() = getStorage<LanguageId, Language>(LANGUAGE_TYPE)
     fun getLegalCodeStorage() = getStorage<LegalCodeId, LegalCode>(LEGAL_CODE_TYPE)
-    fun getLootStorage() = getStorage<LootId, Loot>(LOOT_TYPE)
     fun getMagicTraditionStorage() = getStorage<MagicTraditionId, MagicTradition>(MAGIC_TRADITION_TYPE)
     fun getMaterialStorage() = getStorage<MaterialId, Material>(MATERIAL_TYPE)
     fun getMeleeWeaponTypeStorage() = getStorage<MeleeWeaponTypeId, MeleeWeaponType>(MELEE_WEAPON_TYPE_TYPE)
@@ -271,6 +270,7 @@ data class State(
     fun getStreetTemplateStorage() = getStorage<StreetTemplateId, StreetTemplate>(STREET_TEMPLATE_TYPE)
     fun getTextStorage() = getStorage<TextId, Text>(TEXT_TYPE)
     fun getTitleStorage() = getStorage<TitleId, Title>(TITLE_TYPE)
+    fun getTreasureParcelStorage() = getStorage<TreasureParcelId, TreasureParcel>(TREASURE_PARCEL_TYPE)
     fun getTreatyStorage() = getStorage<TreatyId, Treaty>(TREATY_TYPE)
     fun getUniformStorage() = getStorage<UniformId, Uniform>(UNIFORM_TYPE)
     fun getWarStorage() = getStorage<WarId, War>(WAR_TYPE)
@@ -407,7 +407,7 @@ data class State(
         saveStorage(path, getJobStorage())
         saveStorage(path, getLanguageStorage())
         saveStorage(path, getLegalCodeStorage())
-        saveStorage(path, getLootStorage())
+        saveStorage(path, getTreasureParcelStorage())
         saveStorage(path, getMagicTraditionStorage())
         saveStorage(path, getMaterialStorage())
         saveStorage(path, getMeleeWeaponTypeStorage())
@@ -480,7 +480,6 @@ fun createStorage(type: String) = when (type) {
     JOB_TYPE -> Storage(JobId(0))
     LANGUAGE_TYPE -> Storage(LanguageId(0))
     LEGAL_CODE_TYPE -> Storage(LegalCodeId(0))
-    LOOT_TYPE -> Storage(LootId(0))
     MAGIC_TRADITION_TYPE -> Storage(MagicTraditionId(0))
     MATERIAL_TYPE -> Storage(MaterialId(0))
     MELEE_WEAPON_TYPE_TYPE -> Storage(MeleeWeaponTypeId(0))
@@ -511,6 +510,7 @@ fun createStorage(type: String) = when (type) {
     STREET_TEMPLATE_TYPE -> Storage(StreetTemplateId(0))
     TEXT_TYPE -> Storage(TextId(0))
     TITLE_TYPE -> Storage(TitleId(0))
+    TREASURE_PARCEL_TYPE -> Storage(TreasureParcelId(0))
     TREATY_TYPE -> Storage(TreatyId(0))
     UNIFORM_TYPE -> Storage(UniformId(0))
     WAR_TYPE -> Storage(WarId(0))
@@ -552,7 +552,6 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     JOB_TYPE -> loadStorage<JobId, Job>(path, JobId(0))
     LANGUAGE_TYPE -> loadStorage<LanguageId, Language>(path, LanguageId(0))
     LEGAL_CODE_TYPE -> loadStorage<LegalCodeId, LegalCode>(path, LegalCodeId(0))
-    LOOT_TYPE -> loadStorage<LootId, Loot>(path, LootId(0))
     MAGIC_TRADITION_TYPE -> loadStorage<MagicTraditionId, MagicTradition>(path, MagicTraditionId(0))
     MATERIAL_TYPE -> loadStorage<MaterialId, Material>(path, MaterialId(0))
     MELEE_WEAPON_TYPE_TYPE -> loadStorage<MeleeWeaponTypeId, MeleeWeaponType>(path, MeleeWeaponTypeId(0))
@@ -583,6 +582,7 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     STREET_TEMPLATE_TYPE -> loadStorage<StreetTemplateId, StreetTemplate>(path, StreetTemplateId(0))
     TEXT_TYPE -> loadStorage<TextId, Text>(path, TextId(0))
     TITLE_TYPE -> loadStorage<TitleId, Title>(path, TitleId(0))
+    TREASURE_PARCEL_TYPE -> loadStorage<TreasureParcelId, TreasureParcel>(path, TreasureParcelId(0))
     TREATY_TYPE -> loadStorage<TreatyId, Treaty>(path, TreatyId(0))
     UNIFORM_TYPE -> loadStorage<UniformId, Uniform>(path, UniformId(0))
     WAR_TYPE -> loadStorage<WarId, War>(path, WarId(0))

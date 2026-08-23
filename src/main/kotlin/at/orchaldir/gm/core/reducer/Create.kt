@@ -50,8 +50,8 @@ import at.orchaldir.gm.core.model.religion.*
 import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.core.model.gm.encounter.Encounter
 import at.orchaldir.gm.core.model.gm.encounter.EncounterId
-import at.orchaldir.gm.core.model.gm.loot.Loot
-import at.orchaldir.gm.core.model.gm.loot.LootId
+import at.orchaldir.gm.core.model.gm.treasure.TreasureParcel
+import at.orchaldir.gm.core.model.gm.treasure.TreasureParcelId
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTrait
@@ -134,7 +134,6 @@ fun reduceCreateElement(
     is JobId -> createElement(state, Job(id))
     is LanguageId -> createElement(state, Language(id))
     is LegalCodeId -> createElement(state, LegalCode(id))
-    is LootId -> createElement(state, Loot(id))
     is MagicTraditionId -> createElement(state, MagicTradition(id))
     is MaterialId -> createElement(state, Material(id))
     is MeleeWeaponTypeId -> createElement(state, MeleeWeaponType(id))
@@ -166,6 +165,7 @@ fun reduceCreateElement(
     is StreetTemplateId -> createElement(state, StreetTemplate(id))
     is TextId -> createElement(state, Text(id))
     is TitleId -> createElement(state, Title(id))
+    is TreasureParcelId -> createElement(state, TreasureParcel(id))
     is TreatyId -> createElement(state, Treaty(id))
     is UniformId -> createElement(state, Uniform(id))
     is WarId -> createElement(state, War(id))
