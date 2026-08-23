@@ -36,6 +36,7 @@ import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.religion.Pantheon
 import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.core.model.gm.encounter.Encounter
+import at.orchaldir.gm.core.model.gm.treasure.TreasureParcel
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTrait
 import at.orchaldir.gm.core.model.time.calendar.Calendar
@@ -1172,6 +1173,20 @@ fun State.sortTitles(
             SortTitle.Characters -> compareByDescending { countCharacters(it.id) }
         }
     )
+
+// treasure parcel
+
+fun State.sortTreasureParcels(sort: SortTreasureParcel = SortTreasureParcel.Name) =
+    sortTreasureParcels(getTreasureParcelStorage().getAll(), sort)
+
+fun State.sortTreasureParcels(
+    encounters: Collection<TreasureParcel>,
+    sort: SortTreasureParcel = SortTreasureParcel.Name,
+) = encounters
+    .sortedWith(
+        when (sort) {
+            SortTreasureParcel.Name -> compareBy { it.name.text }
+        })
 
 // treaty
 

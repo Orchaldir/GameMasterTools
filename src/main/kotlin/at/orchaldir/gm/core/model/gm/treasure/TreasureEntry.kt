@@ -19,23 +19,23 @@ sealed class TreasureEntry {
 
     fun getType() = when (this) {
         NoTreasure -> TreasureEntryType.None
-        is TreasureLookup -> TreasureEntryType.Lookup
+        is TreasureParcelLookup -> TreasureEntryType.Lookup
         is CombinedTreasure -> TreasureEntryType.Combined
         is TreasureTable -> TreasureEntryType.Table
     }
 
     fun <ID : Id<ID>> contains(id: ID): Boolean = when (this) {
         NoTreasure -> false
-        is TreasureLookup -> loot == id
+        is TreasureParcelLookup -> parcel == id
         is CombinedTreasure -> list.any { it.contains(id) }
         is TreasureTable -> table.entries.any { it.value.contains(id) }
     }
 
     fun validate(state: State, id: TreasureParcelId?): Unit = when (this) {
         NoTreasure -> doNothing()
-        is TreasureLookup -> {
-            state.getTreasureParcelStorage().require(loot)
-            require(id != loot) { "Cannot be based on itself!" }
+        is TreasureParcelLookup -> {
+            state.getTreasureParcelStorage().require(parcel)
+            require(id != parcel) { "Cannot be based on itself!" }
         }
 
         is CombinedTreasure -> list.forEach { it.validate(state, id) }
@@ -49,8 +49,8 @@ data object NoTreasure : TreasureEntry()
 
 @Serializable
 @SerialName("Lookup")
-data class TreasureLookup(
-    val loot: TreasureParcelId,
+data class TreasureParcelLookup(
+    val parcel: TreasureParcelId,
 ) : TreasureEntry()
 
 @Serializable

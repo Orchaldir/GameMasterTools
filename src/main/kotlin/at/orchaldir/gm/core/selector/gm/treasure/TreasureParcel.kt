@@ -5,9 +5,9 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.gm.treasure.TreasureParcelId
 
 fun State.canDeleteTreasureParcel(encounter: TreasureParcelId) = DeleteResult(encounter)
-    .addElements(getTreasureParcelWith(encounter))
+    .addElements(getTreasureParcelsWith(encounter))
 
-fun State.getTreasureParcelWith(encounter: TreasureParcelId) = getTreasureParcelStorage()
+fun State.getTreasureParcelsWith(encounter: TreasureParcelId) = getTreasureParcelStorage()
     .getAll()
     .filter { it.entry.contains(encounter) }
 
