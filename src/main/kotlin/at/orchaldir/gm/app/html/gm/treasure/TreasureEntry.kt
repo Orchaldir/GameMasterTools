@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.html.gm.treasure
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.economy.money.parseCurrencyUnitId
+import at.orchaldir.gm.app.html.economy.money.parseOptionalCurrencyUnitId
 import at.orchaldir.gm.app.html.rpg.dice.editRandomNumber
 import at.orchaldir.gm.app.html.rpg.dice.parseRandomNumber
 import at.orchaldir.gm.app.html.util.editLookupTable
@@ -112,7 +113,7 @@ fun HtmlBlockTag.editTreasureEntryIntern(
     val range = ModifiedDiceRange(RangeInt(0, 10), RangeInt(0, 10))
     val entries = state.sortTreasureParcels()
         .filter { it.id != id }
-    val currencyUnits = state.sortCurrencyUnits()
+    var currencyUnits = state.sortCurrencyUnits(SortCurrencyUnit.Value)
     val allEmpty = entries.isEmpty() && currencyUnits.isEmpty()
 
     selectValue(
@@ -142,31 +143,27 @@ fun HtmlBlockTag.editTreasureEntryIntern(
             editTreasureEntryIntern(state, entry, entryParam, id)
         }
 
-        is MoneyParcel -> {
-            var units = state.sortCurrencyUnits(SortCurrencyUnit.Value)
+        is MoneyParcel -> editMap(
+            "Currency Units",
+            combine(param, CURRENCY),
+            entry.currencyUnits,
+            1,
+            currencyUnits.size,
+        ) { _, entryParam, currencyUnitId, amount ->
+            selectElement(
+                state,
+                combine(entryParam, TYPE),
+                currencyUnits,
+                currencyUnitId,
+            )
+            editRandomNumber(
+                range,
+                amount,
+                combine(entryParam, NUMBER),
+                "Amount",
+            )
 
-            editMap(
-                "Currency Units",
-                combine(param, CURRENCY),
-                entry.currencyUnits,
-                1,
-                currencyUnits.size,
-            ) { _, entryParam, currencyUnitId, amount ->
-                selectElement(
-                    state,
-                    combine(entryParam, TYPE),
-                    units,
-                    currencyUnitId,
-                )
-                editRandomNumber(
-                    range,
-                    amount,
-                    combine(entryParam, NUMBER),
-                    "Amount",
-                )
-
-                units = units.filter { it.id != currencyUnitId }
-            }
+            currencyUnits = currencyUnits.filter { it.id != currencyUnitId }
         }
 
         is TreasureParcelLookup -> {
@@ -215,7 +212,7 @@ fun parseTreasureEntry(
             parameters,
             combine(param, CURRENCY),
             state.getCurrencyUnitStorage().getIds(),
-            { _, keyParam -> parseCurrencyUnitId(parameters, combine(keyParam, TYPE)) },
+            { _, keyParam -> parseOptionalCurrencyUnitId(parameters, combine(keyParam, TYPE)) },
             { _, _, valueParam -> parseRandomNumber(parameters, combine(valueParam, NUMBER)) },
         )
     )

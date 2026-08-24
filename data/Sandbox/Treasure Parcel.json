@@ -10,6 +10,11 @@
       "#type": "Dice",
       "dice": 2,
       "modifier": 5
+     },
+     "1": {
+      "#type": "Standard",
+      "dice": 3,
+      "modifier": 1
      }
     }
    }
