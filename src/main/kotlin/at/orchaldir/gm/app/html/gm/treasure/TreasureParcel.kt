@@ -64,5 +64,5 @@ fun parseTreasureParcel(
 ) = TreasureParcel(
     id,
     parseName(parameters),
-    parseTreasureEntry(parameters, ENCOUNTER),
+    parseTreasureEntry(state, parameters, ENCOUNTER),
 )

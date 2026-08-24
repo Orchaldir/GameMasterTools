@@ -2,11 +2,15 @@ package at.orchaldir.gm.app.html.gm.treasure
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.economy.money.parseCurrencyUnitId
+import at.orchaldir.gm.app.html.rpg.dice.editRandomNumber
+import at.orchaldir.gm.app.html.rpg.dice.parseRandomNumber
 import at.orchaldir.gm.app.html.util.editLookupTable
 import at.orchaldir.gm.app.html.util.parseLookup
 import at.orchaldir.gm.app.html.util.showLookupTable
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.gm.treasure.CombinedTreasure
+import at.orchaldir.gm.core.model.gm.treasure.MoneyParcel
 import at.orchaldir.gm.core.model.gm.treasure.NoTreasure
 import at.orchaldir.gm.core.model.gm.treasure.TreasureEntry
 import at.orchaldir.gm.core.model.gm.treasure.TreasureEntryType
@@ -14,7 +18,8 @@ import at.orchaldir.gm.core.model.gm.treasure.TreasureParcelId
 import at.orchaldir.gm.core.model.gm.treasure.TreasureParcelLookup
 import at.orchaldir.gm.core.model.gm.treasure.TreasureTable
 import at.orchaldir.gm.core.model.rpg.dice.ModifiedDiceRange
-import at.orchaldir.gm.core.selector.util.sortCharacterTemplates
+import at.orchaldir.gm.core.model.util.SortCurrencyUnit
+import at.orchaldir.gm.core.selector.util.sortCurrencyUnits
 import at.orchaldir.gm.core.selector.util.sortTreasureParcels
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.RangeInt
@@ -31,12 +36,14 @@ fun HtmlBlockTag.showTreasureEntry(
 ) {
     when (entry) {
         NoTreasure -> field("Treasure", "None")
-        is TreasureParcelLookup -> fieldLink("Treasure", call, state, entry.parcel)
         is CombinedTreasure -> fieldList("Treasure", entry.list) { entry ->
             showTreasureEntryInternal(call, state, entry)
         }
-
-        is TreasureTable -> showTreasureTable(entry, call, state)
+        is MoneyParcel -> field("Treasure",) {
+            showMoneyParcel(call, state, entry)
+        }
+        is TreasureParcelLookup -> fieldLink("Treasure", call, state, entry.parcel)
+        is TreasureTable -> showTreasureTable(call, state, entry)
     }
 }
 
@@ -47,19 +54,37 @@ private fun HtmlBlockTag.showTreasureEntryInternal(
 ) {
     when (entry) {
         NoTreasure -> +"None"
-        is TreasureParcelLookup -> link(call, state, entry.parcel)
         is CombinedTreasure -> showList(entry.list) { entry ->
             showTreasureEntryInternal(call, state, entry)
         }
 
-        is TreasureTable -> showTreasureTable(entry, call, state)
+        is MoneyParcel -> showMoneyParcel(call, state, entry)
+        is TreasureParcelLookup -> link(call, state, entry.parcel)
+        is TreasureTable -> showTreasureTable(call, state, entry)
+    }
+}
+
+private fun HtmlBlockTag.showMoneyParcel(
+    call: ApplicationCall,
+    state: State,
+    entry: MoneyParcel,
+) {
+    val storage = state.getCurrencyUnitStorage()
+    val units = entry.currencyUnits.mapKeys {
+        storage.getOrThrow(it.key)
+    }
+
+    showList(units.entries) { (unit, number) ->
+        +number.display()
+        +" "
+        link(call, state, unit)
     }
 }
 
 private fun HtmlBlockTag.showTreasureTable(
-    entry: TreasureTable,
     call: ApplicationCall,
     state: State,
+    entry: TreasureTable,
 ) = showLookupTable(
     entry.table,
     Pair("Treasure") { entry ->
@@ -87,8 +112,8 @@ fun HtmlBlockTag.editTreasureEntryIntern(
     val range = ModifiedDiceRange(RangeInt(0, 10), RangeInt(0, 10))
     val entries = state.sortTreasureParcels()
         .filter { it.id != id }
-    val templates = state.sortCharacterTemplates()
-    val allEmpty = entries.isEmpty() && templates.isEmpty()
+    val currencyUnits = state.sortCurrencyUnits()
+    val allEmpty = entries.isEmpty() && currencyUnits.isEmpty()
 
     selectValue(
         "Type",
@@ -100,20 +125,13 @@ fun HtmlBlockTag.editTreasureEntryIntern(
             TreasureEntryType.None -> false
             TreasureEntryType.Lookup -> entries.isEmpty()
             TreasureEntryType.Combined -> allEmpty
+            TreasureEntryType.Money -> currencyUnits.isEmpty()
             TreasureEntryType.Table -> allEmpty
         }
     }
 
     when (entry) {
         NoTreasure -> doNothing()
-        is TreasureParcelLookup -> {
-            selectElement(
-                state,
-                combine(param, ENCOUNTER),
-                entries,
-                entry.parcel,
-            )
-        }
 
         is CombinedTreasure -> editList(
             combine(param, LIST),
@@ -122,6 +140,42 @@ fun HtmlBlockTag.editTreasureEntryIntern(
             100,
         ) { _, entryParam, entry ->
             editTreasureEntryIntern(state, entry, entryParam, id)
+        }
+
+        is MoneyParcel -> {
+            var units = state.sortCurrencyUnits(SortCurrencyUnit.Value)
+
+            editMap(
+                "Currency Units",
+                combine(param, CURRENCY),
+                entry.currencyUnits,
+                1,
+                currencyUnits.size,
+            ) { _, entryParam, currencyUnitId, amount ->
+                selectElement(
+                    state,
+                    combine(entryParam, TYPE),
+                    units,
+                    currencyUnitId,
+                )
+                editRandomNumber(
+                    range,
+                    amount,
+                    combine(entryParam, NUMBER),
+                    "Amount",
+                )
+
+                units = units.filter { it.id != currencyUnitId }
+            }
+        }
+
+        is TreasureParcelLookup -> {
+            selectElement(
+                state,
+                combine(param, ENCOUNTER),
+                entries,
+                entry.parcel,
+            )
         }
 
         is TreasureTable -> editLookupTable(
@@ -141,6 +195,7 @@ fun HtmlBlockTag.editTreasureEntryIntern(
 // parse
 
 fun parseTreasureEntry(
+    state: State,
     parameters: Parameters,
     param: String,
 ): TreasureEntry = when (parse(parameters, combine(param, TYPE), TreasureEntryType.None)) {
@@ -151,13 +206,23 @@ fun parseTreasureEntry(
 
     TreasureEntryType.Combined -> CombinedTreasure(
         parseList(parameters, combine(param, LIST), 2) { _, entryParam ->
-            parseTreasureEntry(parameters, entryParam)
+            parseTreasureEntry(state, parameters, entryParam)
         }
+    )
+
+    TreasureEntryType.Money -> MoneyParcel(
+        parseMap(
+            parameters,
+            combine(param, CURRENCY),
+            state.getCurrencyUnitStorage().getIds(),
+            { _, keyParam -> parseCurrencyUnitId(parameters, combine(keyParam, TYPE)) },
+            { _, _, valueParam -> parseRandomNumber(parameters, combine(valueParam, NUMBER)) },
+        )
     )
 
     TreasureEntryType.Table -> TreasureTable(
         parseLookup(parameters, combine(param, LOOKUP), 1) { entryParam ->
-            parseTreasureEntry(parameters, entryParam)
+            parseTreasureEntry(state, parameters, entryParam)
         }
     )
 }

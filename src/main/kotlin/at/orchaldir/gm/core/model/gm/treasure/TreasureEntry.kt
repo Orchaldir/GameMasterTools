@@ -1,6 +1,8 @@
 package at.orchaldir.gm.core.model.gm.treasure
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.economy.money.CurrencyUnitId
+import at.orchaldir.gm.core.model.rpg.dice.RandomNumber
 import at.orchaldir.gm.core.model.util.Lookup
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
@@ -11,6 +13,7 @@ enum class TreasureEntryType {
     None,
     Lookup,
     Combined,
+    Money,
     Table,
 }
 
@@ -19,26 +22,29 @@ sealed class TreasureEntry {
 
     fun getType() = when (this) {
         NoTreasure -> TreasureEntryType.None
-        is TreasureParcelLookup -> TreasureEntryType.Lookup
         is CombinedTreasure -> TreasureEntryType.Combined
+        is MoneyParcel -> TreasureEntryType.Money
+        is TreasureParcelLookup -> TreasureEntryType.Lookup
         is TreasureTable -> TreasureEntryType.Table
     }
 
     fun <ID : Id<ID>> contains(id: ID): Boolean = when (this) {
         NoTreasure -> false
-        is TreasureParcelLookup -> parcel == id
         is CombinedTreasure -> list.any { it.contains(id) }
+        is MoneyParcel -> currencyUnits.containsKey<Id<*>>(id)
+        is TreasureParcelLookup -> parcel == id
         is TreasureTable -> table.entries.any { it.value.contains(id) }
     }
 
     fun validate(state: State, id: TreasureParcelId?): Unit = when (this) {
         NoTreasure -> doNothing()
+        is CombinedTreasure -> list.forEach { it.validate(state, id) }
+        is MoneyParcel -> state.getCurrencyUnitStorage().require(currencyUnits.keys)
+
         is TreasureParcelLookup -> {
             state.getTreasureParcelStorage().require(parcel)
             require(id != parcel) { "Cannot be based on itself!" }
         }
-
-        is CombinedTreasure -> list.forEach { it.validate(state, id) }
         is TreasureTable -> table.entries.forEach { it.value.validate(state, id) }
     }
 }
@@ -48,15 +54,21 @@ sealed class TreasureEntry {
 data object NoTreasure : TreasureEntry()
 
 @Serializable
-@SerialName("Lookup")
-data class TreasureParcelLookup(
-    val parcel: TreasureParcelId,
-) : TreasureEntry()
-
-@Serializable
 @SerialName("Combined")
 data class CombinedTreasure(
     val list: List<TreasureEntry>,
+) : TreasureEntry()
+
+@Serializable
+@SerialName("Money")
+data class MoneyParcel(
+    val currencyUnits: Map<CurrencyUnitId, RandomNumber>,
+) : TreasureEntry()
+
+@Serializable
+@SerialName("Lookup")
+data class TreasureParcelLookup(
+    val parcel: TreasureParcelId,
 ) : TreasureEntry()
 
 @Serializable
