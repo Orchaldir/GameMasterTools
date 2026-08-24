@@ -1,5 +1,18 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "entry": {
+    "#type": "Money",
+    "currencyUnits": {
+     "0": {
+      "#type": "Dice",
+      "dice": 2,
+      "modifier": 5
+     }
+    }
+   }
+  }
  }
 }

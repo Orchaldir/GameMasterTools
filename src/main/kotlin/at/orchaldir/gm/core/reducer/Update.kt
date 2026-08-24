@@ -36,6 +36,7 @@ import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.religion.Pantheon
 import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.core.model.gm.encounter.Encounter
+import at.orchaldir.gm.core.model.gm.treasure.TreasureParcel
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTrait
 import at.orchaldir.gm.core.model.time.calendar.Calendar
@@ -131,6 +132,7 @@ fun reduceUpdateElement(
     is StreetTemplate -> updateElement(state, element)
     is Text -> updateElement(state, element)
     is Title -> updateElement(state, element)
+    is TreasureParcel -> updateElement(state, element)
     is Treaty -> updateElement(state, element)
     is Uniform -> updateElement(state, element)
     is War -> updateElement(state, element)

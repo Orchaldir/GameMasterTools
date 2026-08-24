@@ -12,6 +12,7 @@ import at.orchaldir.gm.app.routes.economy.*
 import at.orchaldir.gm.app.routes.economy.money.CurrencyRoutes
 import at.orchaldir.gm.app.routes.economy.money.CurrencyUnitRoutes
 import at.orchaldir.gm.app.routes.gm.EncounterRoutes
+import at.orchaldir.gm.app.routes.gm.TreasureParcelRoutes
 import at.orchaldir.gm.app.routes.health.DiseaseRoutes
 import at.orchaldir.gm.app.routes.item.*
 import at.orchaldir.gm.app.routes.magic.MagicTraditionRoutes
@@ -68,6 +69,7 @@ import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.religion.PantheonId
 import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.core.model.gm.encounter.EncounterId
+import at.orchaldir.gm.core.model.gm.treasure.TreasureParcelId
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitId
 import at.orchaldir.gm.core.model.time.calendar.Calendar
@@ -446,6 +448,7 @@ fun href(
     is StreetTemplateId -> call.application.href(StreetTemplateRoutes.Details(id))
     is TextId -> call.application.href(TextRoutes.Details(id))
     is TitleId -> call.application.href(TitleRoutes.Details(id))
+    is TreasureParcelId -> call.application.href(TreasureParcelRoutes.Details(id))
     is TreatyId -> call.application.href(TreatyRoutes.Details(id))
     is UniformId -> call.application.href(UniformRoutes.Details(id))
     is WarId -> call.application.href(WarRoutes.Details(id))

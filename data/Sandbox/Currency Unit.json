@@ -1,5 +1,29 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "Gold",
+   "denomination": 2,
+   "format": {
+    "#type": "Coin",
+    "material": 2,
+    "front": {
+     "#type": "Value"
+    }
+   }
+  },
+  "1": {
+   "id": 1,
+   "name": "Silver",
+   "denomination": 1,
+   "format": {
+    "#type": "Coin",
+    "material": 1,
+    "front": {
+     "#type": "Value"
+    }
+   }
+  }
  }
 }
