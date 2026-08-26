@@ -136,17 +136,23 @@ fun HtmlBlockTag.editTreasureEntryIntern(
 
         is CombinedTreasure -> {
             val allowed = (allowedTypes - TreasureEntryType.Combined - TreasureEntryType.Table).toMutableList()
+            val maxSize = if (parcels.isEmpty()) {
+                allowed -= TreasureEntryType.Lookup
+                allowed.size
+            } else {
+                allowed.size + parcels.size - 1
+            }
 
             editList(
                 combine(param, LIST),
                 entry.list,
                 2,
-                100,
-            ) { _, entryParam, entry ->
-                editTreasureEntryIntern(state, entry, entryParam, id, allowed)
+                maxSize,
+            ) { _, combinedParam, combinedEntry ->
+                editTreasureEntryIntern(state, combinedEntry, combinedParam, id, allowed)
 
-                if (entry.getType() != TreasureEntryType.Lookup) {
-                    allowed -= entry.getType()
+                if (combinedEntry.getType() != TreasureEntryType.Lookup) {
+                    allowed -= combinedEntry.getType()
                 }
             }
         }
