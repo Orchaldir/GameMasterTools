@@ -2,7 +2,6 @@ package at.orchaldir.gm.app.html.gm.treasure
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.economy.money.parseCurrencyUnitId
 import at.orchaldir.gm.app.html.economy.money.parseOptionalCurrencyUnitId
 import at.orchaldir.gm.app.html.rpg.dice.editRandomNumber
 import at.orchaldir.gm.app.html.rpg.dice.parseRandomNumber
@@ -109,22 +108,23 @@ fun HtmlBlockTag.editTreasureEntryIntern(
     entry: TreasureEntry,
     param: String,
     id: TreasureParcelId?,
+    allowedTypes: Collection<TreasureEntryType> = TreasureEntryType.entries,
 ) {
     val range = ModifiedDiceRange(RangeInt(0, 10), RangeInt(0, 10))
-    val entries = state.sortTreasureParcels()
+    val parcels = state.sortTreasureParcels()
         .filter { it.id != id }
     var currencyUnits = state.sortCurrencyUnits(SortCurrencyUnit.Value)
-    val allEmpty = entries.isEmpty() && currencyUnits.isEmpty()
+    val allEmpty = parcels.isEmpty() && currencyUnits.isEmpty()
 
     selectValue(
         "Type",
         combine(param, TYPE),
-        TreasureEntryType.entries,
+        allowedTypes,
         entry.getType(),
     ) {
         when (it) {
             TreasureEntryType.None -> false
-            TreasureEntryType.Lookup -> entries.isEmpty()
+            TreasureEntryType.Lookup -> parcels.isEmpty()
             TreasureEntryType.Combined -> allEmpty
             TreasureEntryType.Money -> currencyUnits.isEmpty()
             TreasureEntryType.Table -> allEmpty
@@ -134,13 +134,21 @@ fun HtmlBlockTag.editTreasureEntryIntern(
     when (entry) {
         NoTreasure -> doNothing()
 
-        is CombinedTreasure -> editList(
-            combine(param, LIST),
-            entry.list,
-            2,
-            100,
-        ) { _, entryParam, entry ->
-            editTreasureEntryIntern(state, entry, entryParam, id)
+        is CombinedTreasure -> {
+            val allowed = (allowedTypes - TreasureEntryType.Combined - TreasureEntryType.Table).toMutableList()
+
+            editList(
+                combine(param, LIST),
+                entry.list,
+                2,
+                100,
+            ) { _, entryParam, entry ->
+                editTreasureEntryIntern(state, entry, entryParam, id, allowed)
+
+                if (entry.getType() != TreasureEntryType.Lookup) {
+                    allowed -= entry.getType()
+                }
+            }
         }
 
         is MoneyParcel -> editMap(
@@ -170,7 +178,7 @@ fun HtmlBlockTag.editTreasureEntryIntern(
             selectElement(
                 state,
                 combine(param, ENCOUNTER),
-                entries,
+                parcels,
                 entry.parcel,
             )
         }
