@@ -228,6 +228,7 @@ fun parseTreasureEntry(
             state.getCurrencyUnitStorage().getIds(),
             { _, keyParam -> parseOptionalCurrencyUnitId(parameters, combine(keyParam, TYPE)) },
             { _, _, valueParam -> parseRandomNumber(parameters, combine(valueParam, NUMBER)) },
+            1,
         )
     )
 
