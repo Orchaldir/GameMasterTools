@@ -212,7 +212,7 @@ fun parseTreasureEntry(
     param: String,
     id: TreasureParcelId?,
     allowedTypes: Collection<TreasureEntryType> = TreasureEntryType.entries,
-): TreasureEntry = when (parse(parameters, combine(param, TYPE), allowedTypes.first())) {
+): TreasureEntry = when (parse(parameters, combine(param, TYPE), allowedTypes)) {
     TreasureEntryType.None -> NoTreasure
     TreasureEntryType.Lookup -> TreasureParcelLookup(
         parseTreasureParcelId(parameters, combine(param, ENCOUNTER)),
@@ -229,6 +229,7 @@ fun parseTreasureEntry(
             parseList(parameters, combine(param, LIST), 2) { _, entryParam ->
                 val entry = parseTreasureEntry(state, parameters, entryParam, id, allowed)
 
+                // count lookups or limit to 1 lookup?
                 if (entry.getType() != TreasureEntryType.Lookup) {
                     allowed -= entry.getType()
                 }
