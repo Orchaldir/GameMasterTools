@@ -105,7 +105,7 @@ fun parseRandomNumber(
     param: String,
 ) = when (parse(parameters, combine(param, TYPE), RandomNumberType.NotRandom)) {
     RandomNumberType.NotRandom -> NotRandomNumber(
-        parseDiceModifier(parameters, param),
+        parseDiceModifier(parameters, param, 1),
     )
 
     RandomNumberType.StandardDice -> parseStandardDice(parameters, param)
@@ -148,5 +148,5 @@ private fun parseOptionalDieType(
 private fun parseDice(parameters: Parameters, param: String) =
     parseInt(parameters, combine(param, DIE), 1)
 
-private fun parseDiceModifier(parameters: Parameters, param: String) =
-    parseInt(parameters, combine(param, MODIFIER), 0)
+private fun parseDiceModifier(parameters: Parameters, param: String, default: Int = 0) =
+    parseInt(parameters, combine(param, MODIFIER), default)
