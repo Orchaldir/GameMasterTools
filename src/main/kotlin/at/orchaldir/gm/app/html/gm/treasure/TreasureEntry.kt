@@ -135,7 +135,8 @@ fun HtmlBlockTag.editTreasureEntryIntern(
         NoTreasure -> doNothing()
 
         is CombinedTreasure -> {
-            val allowed = (allowedTypes - TreasureEntryType.Combined - TreasureEntryType.Table).toMutableList()
+            val allowed = (allowedTypes - TreasureEntryType.Combined - TreasureEntryType.Table - TreasureEntryType.None)
+                .toMutableList()
             val maxSize = if (parcels.isEmpty()) {
                 allowed -= TreasureEntryType.Lookup
                 allowed.size
@@ -209,17 +210,33 @@ fun parseTreasureEntry(
     state: State,
     parameters: Parameters,
     param: String,
-): TreasureEntry = when (parse(parameters, combine(param, TYPE), TreasureEntryType.None)) {
+    id: TreasureParcelId?,
+    allowedTypes: Collection<TreasureEntryType> = TreasureEntryType.entries,
+): TreasureEntry = when (parse(parameters, combine(param, TYPE), allowedTypes.first())) {
     TreasureEntryType.None -> NoTreasure
     TreasureEntryType.Lookup -> TreasureParcelLookup(
         parseTreasureParcelId(parameters, combine(param, ENCOUNTER)),
     )
 
-    TreasureEntryType.Combined -> CombinedTreasure(
-        parseList(parameters, combine(param, LIST), 2) { _, entryParam ->
-            parseTreasureEntry(state, parameters, entryParam)
+    TreasureEntryType.Combined -> {
+        val allowed = (allowedTypes - TreasureEntryType.Combined - TreasureEntryType.Table - TreasureEntryType.None)
+            .toMutableList()
+        if (state.getTreasureParcelStorage().isEmptyWithout(id)) {
+            allowed -= TreasureEntryType.Lookup
         }
-    )
+
+        CombinedTreasure(
+            parseList(parameters, combine(param, LIST), 2) { _, entryParam ->
+                val entry = parseTreasureEntry(state, parameters, entryParam, id, allowed)
+
+                if (entry.getType() != TreasureEntryType.Lookup) {
+                    allowed -= entry.getType()
+                }
+
+                entry
+            }
+        )
+    }
 
     TreasureEntryType.Money -> MoneyParcel(
         parseMap(
@@ -234,7 +251,7 @@ fun parseTreasureEntry(
 
     TreasureEntryType.Table -> TreasureTable(
         parseLookup(parameters, combine(param, LOOKUP), 1) { entryParam ->
-            parseTreasureEntry(state, parameters, entryParam)
+            parseTreasureEntry(state, parameters, entryParam, id)
         }
     )
 }
