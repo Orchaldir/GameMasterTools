@@ -5,8 +5,10 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.ammunition.AmmunitionId
 import at.orchaldir.gm.core.model.rpg.combat.AmmunitionTypeId
 import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifierId
+import at.orchaldir.gm.core.selector.gm.treasure.getTreasureParcelsWith
 
-fun State.canDeleteAmmunition(type: AmmunitionId) = DeleteResult(type)
+fun State.canDeleteAmmunition(ammunition: AmmunitionId) = DeleteResult(ammunition)
+    .addElements(getTreasureParcelsWith(ammunition))
 
 fun State.getAmmunition(type: AmmunitionTypeId) = getAmmunitionStorage()
     .getAll()
