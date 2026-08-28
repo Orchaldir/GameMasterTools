@@ -6,36 +6,18 @@ import at.orchaldir.gm.app.html.economy.money.parseOptionalCurrencyUnitId
 import at.orchaldir.gm.app.html.item.ammunition.parseOptionalAmmunitionId
 import at.orchaldir.gm.app.html.item.equipment.parseOptionalEquipmentId
 import at.orchaldir.gm.app.html.item.text.parseOptionalTextId
-import at.orchaldir.gm.app.html.util.quantity.editQuantity
-import at.orchaldir.gm.app.html.util.quantity.parseQuantity
 import at.orchaldir.gm.app.html.util.editLookupTable
 import at.orchaldir.gm.app.html.util.parseLookup
+import at.orchaldir.gm.app.html.util.quantity.editQuantityMap
+import at.orchaldir.gm.app.html.util.quantity.parseQuantityMap
+import at.orchaldir.gm.app.html.util.quantity.showQuantityMap
 import at.orchaldir.gm.app.html.util.showLookupTable
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnit
-import at.orchaldir.gm.core.model.gm.treasure.AmmunitionParcel
-import at.orchaldir.gm.core.model.gm.treasure.CombinedTreasure
-import at.orchaldir.gm.core.model.gm.treasure.EquipmentParcel
-import at.orchaldir.gm.core.model.gm.treasure.MoneyParcel
-import at.orchaldir.gm.core.model.gm.treasure.NoTreasure
-import at.orchaldir.gm.core.model.gm.treasure.TextParcel
-import at.orchaldir.gm.core.model.gm.treasure.TreasureEntry
-import at.orchaldir.gm.core.model.gm.treasure.TreasureEntryType
-import at.orchaldir.gm.core.model.gm.treasure.TreasureParcel
-import at.orchaldir.gm.core.model.gm.treasure.TreasureParcelId
-import at.orchaldir.gm.core.model.gm.treasure.TreasureParcelLookup
-import at.orchaldir.gm.core.model.gm.treasure.TreasureTable
-import at.orchaldir.gm.core.model.util.quantity.ModifiedDiceRange
-import at.orchaldir.gm.core.model.util.quantity.Quantity
+import at.orchaldir.gm.core.model.gm.treasure.*
 import at.orchaldir.gm.core.model.util.SortCurrencyUnit
-import at.orchaldir.gm.core.selector.util.sortAmmunition
-import at.orchaldir.gm.core.selector.util.sortCurrencyUnits
-import at.orchaldir.gm.core.selector.util.sortEquipmentList
-import at.orchaldir.gm.core.selector.util.sortTexts
-import at.orchaldir.gm.core.selector.util.sortTreasureParcels
-import at.orchaldir.gm.utils.Element
-import at.orchaldir.gm.utils.Id
-import at.orchaldir.gm.utils.Storage
+import at.orchaldir.gm.core.model.util.quantity.ModifiedDiceRange
+import at.orchaldir.gm.core.selector.util.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.RangeInt
 import io.ktor.http.*
@@ -64,33 +46,16 @@ private fun HtmlBlockTag.showTreasureEntryInternal(
 ) {
     when (entry) {
         NoTreasure -> +"None"
-        is AmmunitionParcel -> showTreasureMap(call, state, state.getAmmunitionStorage(), entry.map)
+        is AmmunitionParcel -> showQuantityMap(call, state, state.getAmmunitionStorage(), entry.map)
         is CombinedTreasure -> showList(entry.list) { entry ->
             showTreasureEntryInternal(call, state, entry)
         }
 
-        is EquipmentParcel -> showTreasureMap(call, state, state.getEquipmentStorage(), entry.map)
-        is MoneyParcel -> showTreasureMap(call, state, state.getCurrencyUnitStorage(), entry.map)
-        is TextParcel -> showTreasureMap(call, state, state.getTextStorage(), entry.map)
-        is TreasureParcelLookup -> showTreasureMap(call, state, state.getTreasureParcelStorage(), entry.map)
+        is EquipmentParcel -> showQuantityMap(call, state, state.getEquipmentStorage(), entry.map)
+        is MoneyParcel -> showQuantityMap(call, state, state.getCurrencyUnitStorage(), entry.map)
+        is TextParcel -> showQuantityMap(call, state, state.getTextStorage(), entry.map)
+        is TreasureParcelLookup -> showQuantityMap(call, state, state.getTreasureParcelStorage(), entry.map)
         is TreasureTable -> showTreasureTable(call, state, entry)
-    }
-}
-
-private fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.showTreasureMap(
-    call: ApplicationCall,
-    state: State,
-    storage: Storage<ID, ELEMENT>,
-    map: Map<ID, Quantity>,
-) {
-    val units = map.mapKeys {
-        storage.getOrThrow(it.key)
-    }
-
-    showInlineList(units.entries) { (unit, number) ->
-        +number.display()
-        +" "
-        link(call, state, unit)
     }
 }
 
@@ -152,7 +117,7 @@ fun HtmlBlockTag.editTreasureEntryIntern(
 
     when (entry) {
         NoTreasure -> doNothing()
-        is AmmunitionParcel -> editTreasureMap(
+        is AmmunitionParcel -> editQuantityMap(
             state,
             ammunitionList,
             range,
@@ -178,7 +143,7 @@ fun HtmlBlockTag.editTreasureEntryIntern(
             }
         }
 
-        is EquipmentParcel -> editTreasureMap(
+        is EquipmentParcel -> editQuantityMap(
             state,
             equipmentList,
             range,
@@ -187,7 +152,7 @@ fun HtmlBlockTag.editTreasureEntryIntern(
             "Equipment",
         )
 
-        is MoneyParcel -> editTreasureMap(
+        is MoneyParcel -> editQuantityMap(
             state,
             moneyList,
             range,
@@ -196,7 +161,7 @@ fun HtmlBlockTag.editTreasureEntryIntern(
             "Money",
         )
 
-        is TextParcel -> editTreasureMap(
+        is TextParcel -> editQuantityMap(
             state,
             texts,
             range,
@@ -205,7 +170,7 @@ fun HtmlBlockTag.editTreasureEntryIntern(
             "Texts",
         )
 
-        is TreasureParcelLookup -> editTreasureMap(
+        is TreasureParcelLookup -> editQuantityMap(
             state,
             parcels,
             range,
@@ -244,41 +209,6 @@ private fun caalculatedAllowedForCombined(
     return allowed
 }
 
-private fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.editTreasureMap(
-    state: State,
-    elements: List<ELEMENT>,
-    range: ModifiedDiceRange,
-    param: String,
-    map: Map<ID, Quantity>,
-    text: String,
-) {
-    val remaining = elements.toMutableList()
-
-    editMap(
-        text,
-        param,
-        map,
-        1,
-        remaining.size,
-    ) { _, entryParam, entryId, amount ->
-        selectElement(
-            state,
-            combine(entryParam, TYPE),
-            remaining,
-            entryId,
-        )
-        editQuantity(
-            range,
-            amount,
-            combine(entryParam, NUMBER),
-            "Amount",
-        )
-
-        remaining.removeIf { it.id() == entryId }
-    }
-}
-
-
 // parse
 
 fun parseTreasureEntry(
@@ -291,7 +221,7 @@ fun parseTreasureEntry(
     TreasureEntryType.None -> NoTreasure
 
     TreasureEntryType.Ammunition -> AmmunitionParcel(
-        parseTreasureMap(
+        parseQuantityMap(
             parameters,
             state.getAmmunitionStorage(),
             combine(param, AMMUNITION),
@@ -320,7 +250,7 @@ fun parseTreasureEntry(
     }
 
     TreasureEntryType.Money -> MoneyParcel(
-        parseTreasureMap(
+        parseQuantityMap(
             parameters,
             state.getCurrencyUnitStorage(),
             combine(param, CURRENCY),
@@ -329,7 +259,7 @@ fun parseTreasureEntry(
     )
 
     TreasureEntryType.Lookup -> TreasureParcelLookup(
-        parseTreasureMap(
+        parseQuantityMap(
             parameters,
             state.getTreasureParcelStorage(),
             combine(param, LOOKUP),
@@ -338,7 +268,7 @@ fun parseTreasureEntry(
     )
 
     TreasureEntryType.Equipment -> EquipmentParcel(
-        parseTreasureMap(
+        parseQuantityMap(
             parameters,
             state.getEquipmentStorage(),
             combine(param, EQUIPMENT),
@@ -353,7 +283,7 @@ fun parseTreasureEntry(
     )
 
     TreasureEntryType.Text -> TextParcel(
-        parseTreasureMap(
+        parseQuantityMap(
             parameters,
             state.getTextStorage(),
             combine(param, TEXT),
@@ -361,17 +291,3 @@ fun parseTreasureEntry(
         ),
     )
 }
-
-private fun <ID : Id<ID>, ELEMENT : Element<ID>> parseTreasureMap(
-    parameters: Parameters,
-    storage: Storage<ID, ELEMENT>,
-    param: String,
-    parseId: (Parameters, String) -> ID?,
-): Map<ID, Quantity> = parseMap(
-    parameters,
-    param,
-    storage.getIds(),
-    { _, keyParam -> parseId(parameters, combine(keyParam, TYPE)) },
-    { _, _, valueParam -> parseQuantity(parameters, combine(valueParam, NUMBER)) },
-    1,
-)
