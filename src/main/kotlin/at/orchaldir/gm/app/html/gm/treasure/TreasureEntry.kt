@@ -219,6 +219,7 @@ fun parseTreasureEntry(
     )
 
     TreasureEntryType.Combined -> {
+        // extract
         val allowed = (allowedTypes - TreasureEntryType.Combined - TreasureEntryType.Table - TreasureEntryType.None)
             .toMutableList()
         if (state.getTreasureParcelStorage().isEmptyWithout(id)) {
@@ -226,6 +227,7 @@ fun parseTreasureEntry(
         }
 
         CombinedTreasure(
+            // handle allowed
             parseList(parameters, combine(param, LIST), 2) { _, entryParam ->
                 val entry = parseTreasureEntry(state, parameters, entryParam, id, allowed)
 
@@ -251,7 +253,7 @@ fun parseTreasureEntry(
     )
 
     TreasureEntryType.Table -> TreasureTable(
-        parseLookup(parameters, combine(param, LOOKUP), 1) { entryParam ->
+        parseLookup(parameters, combine(param, LOOKUP), 1, 2) { entryParam ->
             parseTreasureEntry(state, parameters, entryParam, id)
         }
     )
