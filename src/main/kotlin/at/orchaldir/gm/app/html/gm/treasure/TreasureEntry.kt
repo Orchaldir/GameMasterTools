@@ -74,7 +74,7 @@ private fun HtmlBlockTag.showMoneyParcel(
         storage.getOrThrow(it.key)
     }
 
-    showList(units.entries) { (unit, number) ->
+    showInlineList(units.entries) { (unit, number) ->
         +number.display()
         +" "
         link(call, state, unit)
