@@ -11,11 +11,13 @@ import at.orchaldir.gm.core.model.util.UndefinedReference
 import at.orchaldir.gm.core.model.util.font.FontId
 import at.orchaldir.gm.core.model.util.origin.TranslatedElement
 import at.orchaldir.gm.core.model.util.quote.QuoteId
+import at.orchaldir.gm.core.selector.gm.treasure.getTreasureParcelsWith
 import at.orchaldir.gm.core.selector.util.getReferenceName
 import at.orchaldir.gm.utils.Id
 
 fun State.canDeleteText(text: TextId) = DeleteResult(text)
     .addElements(getTranslationsOf(text))
+    .addElements(getTreasureParcelsWith(text))
 
 fun State.countTexts(font: FontId) = getTextStorage()
     .getAll()

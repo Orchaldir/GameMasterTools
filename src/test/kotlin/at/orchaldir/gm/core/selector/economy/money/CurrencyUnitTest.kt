@@ -26,7 +26,7 @@ class CurrencyUnitTest {
         )
 
         @Test
-        fun `Cannot delete a currency used by a treasure parcel`() {
+        fun `Cannot delete a currency in a treasure parcel`() {
             val entry = MoneyParcel(mapOf(CURRENCY_UNIT_ID_0 to FixedNumber(1)))
             val parcel = TreasureParcel(TREASURE_PARCEL_ID_0, entry = entry)
             val newState = state.updateStorage(parcel)

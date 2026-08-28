@@ -27,7 +27,7 @@ class AmmunitionTest {
         )
 
         @Test
-        fun `Cannot delete a ammunition used by a treasure parcel`() {
+        fun `Cannot delete an ammunition in a treasure parcel`() {
             val entry = AmmunitionParcel(mapOf(AMMUNITION_ID_0 to FixedNumber(1)))
             val parcel = TreasureParcel(TREASURE_PARCEL_ID_0, entry = entry)
             val newState = state.updateStorage(parcel)

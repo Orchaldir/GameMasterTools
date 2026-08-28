@@ -54,7 +54,7 @@ class EquipmentTest {
         }
 
         @Test
-        fun `Cannot delete a equipment used by a treasure parcel`() {
+        fun `Cannot delete an equipment in a treasure parcel`() {
             val entry = EquipmentParcel(mapOf(EQUIPMENT_ID_0 to FixedNumber(1)))
             val parcel = TreasureParcel(TREASURE_PARCEL_ID_0, entry = entry)
             val newState = state.updateStorage(parcel)
