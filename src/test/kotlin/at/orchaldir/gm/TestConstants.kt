@@ -38,6 +38,7 @@ import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.religion.PantheonId
 import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.core.model.gm.encounter.EncounterId
+import at.orchaldir.gm.core.model.gm.treasure.TreasureParcelId
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitId
 import at.orchaldir.gm.core.model.time.calendar.Calendar
@@ -216,6 +217,8 @@ val TEXT_ID_1 = TextId(1)
 val UNKNOWN_TEXT_ID = TextId(99)
 val TITLE_ID_0 = TitleId(0)
 val UNKNOWN_TITLE_ID = TitleId(99)
+val TREASURE_PARCEL_ID_0 = TreasureParcelId(0)
+val UNKNOWN_TREASURE_PARCEL_ID = TreasureParcelId(99)
 val SETTLEMENT_ID_0 = SettlementId(0)
 val SETTLEMENT_ID_1 = SettlementId(1)
 val UNKNOWN_SETTLEMENT_ID = SettlementId(99)
