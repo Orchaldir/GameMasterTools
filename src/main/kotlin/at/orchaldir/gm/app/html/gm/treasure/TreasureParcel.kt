@@ -1,6 +1,7 @@
 package at.orchaldir.gm.app.html.gm.treasure
 
 import at.orchaldir.gm.app.ENCOUNTER
+import at.orchaldir.gm.app.TREASURE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.gm.treasure.TreasureParcel
@@ -47,7 +48,7 @@ fun HtmlBlockTag.editTreasureParcel(
     parcel: TreasureParcel,
 ) {
     selectName(parcel.name)
-    editTreasureEntry(state, parcel.entry, ENCOUNTER, parcel.id)
+    editTreasureEntry(state, parcel.entry, TREASURE, parcel.id)
 }
 
 // parse
@@ -64,5 +65,5 @@ fun parseTreasureParcel(
 ) = TreasureParcel(
     id,
     parseName(parameters),
-    parseTreasureEntry(state, parameters, ENCOUNTER, id),
+    parseTreasureEntry(state, parameters, TREASURE, id),
 )

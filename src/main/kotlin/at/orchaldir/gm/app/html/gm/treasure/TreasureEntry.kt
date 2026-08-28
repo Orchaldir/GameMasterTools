@@ -219,7 +219,7 @@ private fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.editTreasureMap(
             "Amount",
         )
 
-        remaining.removeIf { it.id() != entryId }
+        remaining.removeIf { it.id() == entryId }
     }
 }
 
