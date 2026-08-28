@@ -32,7 +32,7 @@ sealed class TreasureEntry {
         NoTreasure -> false
         is CombinedTreasure -> list.any { it.contains(id) }
         is MoneyParcel -> currencyUnits.containsKey<Id<*>>(id)
-        is TreasureParcelLookup -> parcel == id
+        is TreasureParcelLookup -> lookup.containsKey<Id<*>>(id)
         is TreasureTable -> table.entries.any { it.value.contains(id) }
     }
 
@@ -42,8 +42,8 @@ sealed class TreasureEntry {
         is MoneyParcel -> state.getCurrencyUnitStorage().require(currencyUnits.keys)
 
         is TreasureParcelLookup -> {
-            state.getTreasureParcelStorage().require(parcel)
-            require(id != parcel) { "Cannot be based on itself!" }
+            state.getTreasureParcelStorage().require(lookup.keys)
+            require(!lookup.contains(id)) { "Cannot be based on itself!" }
         }
         is TreasureTable -> table.entries.forEach { it.value.validate(state, id) }
     }
@@ -68,7 +68,7 @@ data class MoneyParcel(
 @Serializable
 @SerialName("Lookup")
 data class TreasureParcelLookup(
-    val parcel: TreasureParcelId,
+    val lookup: Map<TreasureParcelId, RandomNumber>,
 ) : TreasureEntry()
 
 @Serializable

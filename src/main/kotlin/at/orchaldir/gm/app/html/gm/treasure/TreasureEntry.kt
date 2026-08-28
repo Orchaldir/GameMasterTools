@@ -9,6 +9,7 @@ import at.orchaldir.gm.app.html.util.editLookupTable
 import at.orchaldir.gm.app.html.util.parseLookup
 import at.orchaldir.gm.app.html.util.showLookupTable
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.economy.money.CurrencyUnitId
 import at.orchaldir.gm.core.model.gm.treasure.CombinedTreasure
 import at.orchaldir.gm.core.model.gm.treasure.MoneyParcel
 import at.orchaldir.gm.core.model.gm.treasure.NoTreasure
@@ -18,9 +19,13 @@ import at.orchaldir.gm.core.model.gm.treasure.TreasureParcelId
 import at.orchaldir.gm.core.model.gm.treasure.TreasureParcelLookup
 import at.orchaldir.gm.core.model.gm.treasure.TreasureTable
 import at.orchaldir.gm.core.model.rpg.dice.ModifiedDiceRange
+import at.orchaldir.gm.core.model.rpg.dice.RandomNumber
 import at.orchaldir.gm.core.model.util.SortCurrencyUnit
 import at.orchaldir.gm.core.selector.util.sortCurrencyUnits
 import at.orchaldir.gm.core.selector.util.sortTreasureParcels
+import at.orchaldir.gm.utils.Element
+import at.orchaldir.gm.utils.Id
+import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.RangeInt
 import io.ktor.http.*
@@ -35,15 +40,10 @@ fun HtmlBlockTag.showTreasureEntry(
     entry: TreasureEntry,
 ) {
     when (entry) {
-        NoTreasure -> field("Treasure", "None")
-        is CombinedTreasure -> fieldList("Treasure", entry.list) { entry ->
+        is TreasureTable -> showTreasureTable(call, state, entry)
+        else ->  field("Treasure",) {
             showTreasureEntryInternal(call, state, entry)
         }
-        is MoneyParcel -> field("Treasure",) {
-            showMoneyParcel(call, state, entry)
-        }
-        is TreasureParcelLookup -> fieldLink("Treasure", call, state, entry.parcel)
-        is TreasureTable -> showTreasureTable(call, state, entry)
     }
 }
 
@@ -58,19 +58,19 @@ private fun HtmlBlockTag.showTreasureEntryInternal(
             showTreasureEntryInternal(call, state, entry)
         }
 
-        is MoneyParcel -> showMoneyParcel(call, state, entry)
-        is TreasureParcelLookup -> link(call, state, entry.parcel)
+        is MoneyParcel -> showTreasureMap(call, state, state.getCurrencyUnitStorage(), entry.currencyUnits)
+        is TreasureParcelLookup -> showTreasureMap(call, state, state.getTreasureParcelStorage(), entry.lookup)
         is TreasureTable -> showTreasureTable(call, state, entry)
     }
 }
 
-private fun HtmlBlockTag.showMoneyParcel(
+private fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.showTreasureMap(
     call: ApplicationCall,
     state: State,
-    entry: MoneyParcel,
+    storage: Storage<ID, ELEMENT>,
+    map: Map<ID, RandomNumber>,
 ) {
-    val storage = state.getCurrencyUnitStorage()
-    val units = entry.currencyUnits.mapKeys {
+    val units = map.mapKeys {
         storage.getOrThrow(it.key)
     }
 
@@ -158,40 +158,26 @@ fun HtmlBlockTag.editTreasureEntryIntern(
             }
         }
 
-        is MoneyParcel -> editMap(
-            "Currency Units",
+        is MoneyParcel -> editTreasureMap(
+            state,
+            currencyUnits,
+            range,
             combine(param, CURRENCY),
             entry.currencyUnits,
-            1,
-            currencyUnits.size,
-        ) { _, entryParam, currencyUnitId, amount ->
-            selectElement(
-                state,
-                combine(entryParam, TYPE),
-                currencyUnits,
-                currencyUnitId,
-            )
-            editRandomNumber(
-                range,
-                amount,
-                combine(entryParam, NUMBER),
-                "Amount",
-            )
+            "Money",
+        )
 
-            currencyUnits = currencyUnits.filter { it.id != currencyUnitId }
-        }
-
-        is TreasureParcelLookup -> {
-            selectElement(
-                state,
-                combine(param, ENCOUNTER),
-                parcels,
-                entry.parcel,
-            )
-        }
+        is TreasureParcelLookup -> editTreasureMap(
+            state,
+            parcels,
+            range,
+            combine(param, LOOKUP),
+            entry.lookup,
+            "Lookup",
+        )
 
         is TreasureTable -> editLookupTable(
-            combine(param, LOOKUP),
+            combine(param, RANDOM),
             entry.table,
             2,
             100,
@@ -200,6 +186,40 @@ fun HtmlBlockTag.editTreasureEntryIntern(
                 editTreasureEntryIntern(state, entry, entryParam, id)
             },
         )
+    }
+}
+
+private fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.editTreasureMap(
+    state: State,
+    elements: List<ELEMENT>,
+    range: ModifiedDiceRange,
+    param: String,
+    map: Map<ID, RandomNumber>,
+    text: String,
+) {
+    val remaining = elements.toMutableList()
+
+    editMap(
+        text,
+        param,
+        map,
+        1,
+        remaining.size,
+    ) { _, entryParam, entryId, amount ->
+        selectElement(
+            state,
+            combine(entryParam, TYPE),
+            remaining,
+            entryId,
+        )
+        editRandomNumber(
+            range,
+            amount,
+            combine(entryParam, NUMBER),
+            "Amount",
+        )
+
+        remaining.removeIf { it.id() != entryId }
     }
 }
 
@@ -214,9 +234,6 @@ fun parseTreasureEntry(
     allowedTypes: Collection<TreasureEntryType> = TreasureEntryType.entries,
 ): TreasureEntry = when (parse(parameters, combine(param, TYPE), allowedTypes)) {
     TreasureEntryType.None -> NoTreasure
-    TreasureEntryType.Lookup -> TreasureParcelLookup(
-        parseTreasureParcelId(parameters, combine(param, ENCOUNTER)),
-    )
 
     TreasureEntryType.Combined -> {
         // extract
@@ -241,20 +258,41 @@ fun parseTreasureEntry(
         )
     }
 
-    TreasureEntryType.Money -> MoneyParcel(
-        parseMap(
+    TreasureEntryType.Lookup -> TreasureParcelLookup(
+        parseTreasureMap(
             parameters,
+            state.getTreasureParcelStorage(),
+            combine(param, LOOKUP),
+            ::parseTreasureParcelId,
+        ),
+    )
+
+    TreasureEntryType.Money -> MoneyParcel(
+        parseTreasureMap(
+            parameters,
+            state.getCurrencyUnitStorage(),
             combine(param, CURRENCY),
-            state.getCurrencyUnitStorage().getIds(),
-            { _, keyParam -> parseOptionalCurrencyUnitId(parameters, combine(keyParam, TYPE)) },
-            { _, _, valueParam -> parseRandomNumber(parameters, combine(valueParam, NUMBER)) },
-            1,
-        )
+            ::parseOptionalCurrencyUnitId,
+        ),
     )
 
     TreasureEntryType.Table -> TreasureTable(
-        parseLookup(parameters, combine(param, LOOKUP), 1, 2) { entryParam ->
+        parseLookup(parameters, combine(param, RANDOM), 1, 2) { entryParam ->
             parseTreasureEntry(state, parameters, entryParam, id)
         }
     )
 }
+
+private fun <ID : Id<ID>, ELEMENT : Element<ID>> parseTreasureMap(
+    parameters: Parameters,
+    storage: Storage<ID, ELEMENT>,
+    param: String,
+    parseId: (Parameters, String) -> ID?,
+): Map<ID, RandomNumber> = parseMap(
+    parameters,
+    param,
+    storage.getIds(),
+    { _, keyParam -> parseId(parameters, combine(keyParam, TYPE)) },
+    { _, _, valueParam -> parseRandomNumber(parameters, combine(valueParam, NUMBER)) },
+    1,
+)
