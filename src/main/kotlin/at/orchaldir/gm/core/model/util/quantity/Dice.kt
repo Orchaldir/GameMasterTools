@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.model.rpg.dice
+package at.orchaldir.gm.core.model.util.quantity
 
 enum class DieType {
     D4,

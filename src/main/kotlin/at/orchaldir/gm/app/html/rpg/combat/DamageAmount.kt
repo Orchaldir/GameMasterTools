@@ -3,8 +3,8 @@ package at.orchaldir.gm.app.html.rpg.combat
 import at.orchaldir.gm.app.BASE
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.rpg.dice.editRandomNumber
-import at.orchaldir.gm.app.html.rpg.dice.parseRandomNumber
+import at.orchaldir.gm.app.html.util.quantity.editQuantity
+import at.orchaldir.gm.app.html.util.quantity.parseQuantity
 import at.orchaldir.gm.app.html.rpg.statistic.parseStatisticId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.combat.DamageAmount
@@ -59,11 +59,11 @@ fun HtmlBlockTag.editDamageAmount(
                     state.getBaseDamageValues(),
                     amount.base,
                 )
-                editRandomNumber(state.config.rpg.damage, amount.modifier, param)
+                editQuantity(state.config.rpg.damage, amount.modifier, param)
             }
 
             is SimpleRandomDamage -> {
-                editRandomNumber(state.config.rpg.damage, amount.amount, param)
+                editQuantity(state.config.rpg.damage, amount.amount, param)
             }
         }
     }
@@ -77,10 +77,10 @@ fun parseDamageAmount(
 ) = when (parse(parameters, combine(param, TYPE), DamageAmountType.SimpleRandom)) {
     DamageAmountType.StatisticBased -> StatisticBasedDamage(
         parseStatisticId(parameters, combine(param, BASE)),
-        parseRandomNumber(parameters, param),
+        parseQuantity(parameters, param),
     )
 
     DamageAmountType.SimpleRandom -> SimpleRandomDamage(
-        parseRandomNumber(parameters, param),
+        parseQuantity(parameters, param),
     )
 }

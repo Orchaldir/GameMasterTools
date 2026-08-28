@@ -7,7 +7,7 @@ import at.orchaldir.gm.app.html.showDetails
 import at.orchaldir.gm.app.html.util.math.editRange
 import at.orchaldir.gm.app.html.util.math.fieldRange
 import at.orchaldir.gm.app.html.util.math.parseRange
-import at.orchaldir.gm.core.model.rpg.dice.ModifiedDiceRange
+import at.orchaldir.gm.core.model.util.quantity.ModifiedDiceRange
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag
 

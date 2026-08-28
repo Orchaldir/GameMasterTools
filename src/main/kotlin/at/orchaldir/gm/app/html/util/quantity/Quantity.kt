@@ -1,11 +1,18 @@
-package at.orchaldir.gm.app.html.rpg.dice
+package at.orchaldir.gm.app.html.util.quantity
 
 import at.orchaldir.gm.app.DIE
 import at.orchaldir.gm.app.MODIFIER
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.math.selectFromRange
-import at.orchaldir.gm.core.model.rpg.dice.*
+import at.orchaldir.gm.core.model.util.quantity.Dice
+import at.orchaldir.gm.core.model.util.quantity.DieType
+import at.orchaldir.gm.core.model.util.quantity.FixedNumber
+import at.orchaldir.gm.core.model.util.quantity.MixedDice
+import at.orchaldir.gm.core.model.util.quantity.ModifiedDiceRange
+import at.orchaldir.gm.core.model.util.quantity.Quantity
+import at.orchaldir.gm.core.model.util.quantity.QuantityType
+import at.orchaldir.gm.core.model.util.quantity.StandardDice
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag
 
@@ -14,31 +21,31 @@ import kotlinx.html.HtmlBlockTag
 
 // edit
 
-fun HtmlBlockTag.editRandomNumber(
+fun HtmlBlockTag.editQuantity(
     range: ModifiedDiceRange,
-    number: RandomNumber,
+    number: Quantity,
     param: String,
     label: String,
 ) {
     showDetails(label, true) {
-        editRandomNumber(range, number, param)
+        editQuantity(range, number, param)
     }
 }
 
-fun HtmlBlockTag.editRandomNumber(
+fun HtmlBlockTag.editQuantity(
     range: ModifiedDiceRange,
-    number: RandomNumber,
+    number: Quantity,
     param: String,
 ) {
     selectValue(
         "Type",
         combine(param, TYPE),
-        RandomNumberType.entries,
+        QuantityType.entries,
         number.getType(),
     )
 
     when (number) {
-        is NotRandomNumber -> selectDiceModifier(range, param, number.number)
+        is FixedNumber -> selectDiceModifier(range, param, number.number)
         is StandardDice -> {
             selectDiceNumber(range, param, number.dice)
             selectDiceModifier(range, param, number.modifier)
@@ -100,22 +107,22 @@ fun HtmlBlockTag.selectDiceModifier(
 
 // parse
 
-fun parseRandomNumber(
+fun parseQuantity(
     parameters: Parameters,
     param: String,
-) = when (parse(parameters, combine(param, TYPE), RandomNumberType.NotRandom)) {
-    RandomNumberType.NotRandom -> NotRandomNumber(
+) = when (parse(parameters, combine(param, TYPE), QuantityType.Fixed)) {
+    QuantityType.Fixed -> FixedNumber(
         parseDiceModifier(parameters, param, 1),
     )
 
-    RandomNumberType.StandardDice -> parseStandardDice(parameters, param)
-    RandomNumberType.Dice -> Dice(
+    QuantityType.StandardDice -> parseStandardDice(parameters, param)
+    QuantityType.Dice -> Dice(
         parseDice(parameters, param),
         parseDieType(parameters, param),
         parseDiceModifier(parameters, param),
     )
 
-    RandomNumberType.MixedDice -> MixedDice(
+    QuantityType.MixedDice -> MixedDice(
         parseMap(
             parameters,
             param,

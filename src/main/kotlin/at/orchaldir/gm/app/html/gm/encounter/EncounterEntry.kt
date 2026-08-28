@@ -3,8 +3,8 @@ package at.orchaldir.gm.app.html.gm.encounter
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.character.parseCharacterTemplateId
-import at.orchaldir.gm.app.html.rpg.dice.editRandomNumber
-import at.orchaldir.gm.app.html.rpg.dice.parseRandomNumber
+import at.orchaldir.gm.app.html.util.quantity.editQuantity
+import at.orchaldir.gm.app.html.util.quantity.parseQuantity
 import at.orchaldir.gm.app.html.util.editLookupTable
 import at.orchaldir.gm.app.html.util.parseLookup
 import at.orchaldir.gm.app.html.util.showLookupTable
@@ -17,7 +17,7 @@ import at.orchaldir.gm.core.model.gm.encounter.EncounterId
 import at.orchaldir.gm.core.model.gm.encounter.EncounterLookup
 import at.orchaldir.gm.core.model.gm.encounter.EncounterTable
 import at.orchaldir.gm.core.model.gm.encounter.NoEncounter
-import at.orchaldir.gm.core.model.rpg.dice.ModifiedDiceRange
+import at.orchaldir.gm.core.model.util.quantity.ModifiedDiceRange
 import at.orchaldir.gm.core.selector.util.sortCharacterTemplates
 import at.orchaldir.gm.core.selector.util.sortEncounters
 import at.orchaldir.gm.utils.doNothing
@@ -70,7 +70,7 @@ private fun HtmlBlockTag.showCharacterTemplateEncounter(
     state: State,
     encounter: CharacterTemplateEncounter,
 ) {
-    +encounter.amount.display()
+    +encounter.quantity.display()
     +" "
     link(call, state, encounter.template)
 }
@@ -136,9 +136,9 @@ fun HtmlBlockTag.editEncounterEntryIntern(
         }
 
         is CharacterTemplateEncounter -> {
-            editRandomNumber(
+            editQuantity(
                 range,
-                encounter.amount,
+                encounter.quantity,
                 combine(param, NUMBER),
                 "Amount",
             )
@@ -185,7 +185,7 @@ fun parseEncounterEntry(
     )
 
     EncounterEntryType.CharacterTemplate -> CharacterTemplateEncounter(
-        parseRandomNumber(parameters, combine(param, NUMBER)),
+        parseQuantity(parameters, combine(param, NUMBER)),
         parseCharacterTemplateId(parameters, combine(param, TEMPLATE)),
     )
 

@@ -1,6 +1,6 @@
 package at.orchaldir.gm.core.model.rpg
 
-import at.orchaldir.gm.core.model.rpg.dice.ModifiedDiceRange
+import at.orchaldir.gm.core.model.util.quantity.ModifiedDiceRange
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.utils.math.RangeInt
 import kotlinx.serialization.Serializable

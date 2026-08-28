@@ -2,8 +2,8 @@ package at.orchaldir.gm.core.model.gm.encounter
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterTemplateId
-import at.orchaldir.gm.core.model.rpg.dice.NotRandomNumber
-import at.orchaldir.gm.core.model.rpg.dice.RandomNumber
+import at.orchaldir.gm.core.model.util.quantity.FixedNumber
+import at.orchaldir.gm.core.model.util.quantity.Quantity
 import at.orchaldir.gm.core.model.util.Lookup
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
@@ -57,11 +57,11 @@ data object NoEncounter : EncounterEntry()
 @Serializable
 @SerialName("Template")
 data class CharacterTemplateEncounter(
-    val amount: RandomNumber,
+    val quantity: Quantity,
     val template: CharacterTemplateId,
 ) : EncounterEntry() {
 
-    constructor(template: CharacterTemplateId) : this(NotRandomNumber(1), template)
+    constructor(template: CharacterTemplateId) : this(FixedNumber(1), template)
 
 }
 

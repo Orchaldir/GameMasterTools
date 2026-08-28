@@ -5,7 +5,7 @@ import at.orchaldir.gm.core.model.economy.money.CurrencyUnitId
 import at.orchaldir.gm.core.model.item.ammunition.AmmunitionId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.model.item.text.TextId
-import at.orchaldir.gm.core.model.rpg.dice.RandomNumber
+import at.orchaldir.gm.core.model.util.quantity.Quantity
 import at.orchaldir.gm.core.model.util.Lookup
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
@@ -71,7 +71,7 @@ data object NoTreasure : TreasureEntry()
 @Serializable
 @SerialName("Ammunition")
 data class AmmunitionParcel(
-    val map: Map<AmmunitionId, RandomNumber>,
+    val map: Map<AmmunitionId, Quantity>,
 ) : TreasureEntry()
 
 @Serializable
@@ -83,25 +83,25 @@ data class CombinedTreasure(
 @Serializable
 @SerialName("Equipment")
 data class EquipmentParcel(
-    val map: Map<EquipmentId, RandomNumber>,
+    val map: Map<EquipmentId, Quantity>,
 ) : TreasureEntry()
 
 @Serializable
 @SerialName("Money")
 data class MoneyParcel(
-    val map: Map<CurrencyUnitId, RandomNumber>,
+    val map: Map<CurrencyUnitId, Quantity>,
 ) : TreasureEntry()
 
 @Serializable
 @SerialName("Text")
 data class TextParcel(
-    val map: Map<TextId, RandomNumber>,
+    val map: Map<TextId, Quantity>,
 ) : TreasureEntry()
 
 @Serializable
 @SerialName("Lookup")
 data class TreasureParcelLookup(
-    val map: Map<TreasureParcelId, RandomNumber>,
+    val map: Map<TreasureParcelId, Quantity>,
 ) : TreasureEntry()
 
 @Serializable

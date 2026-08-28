@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.model.rpg.combat
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.rpg.dice.RandomNumber
+import at.orchaldir.gm.core.model.util.quantity.Quantity
 import at.orchaldir.gm.core.reducer.rpg.validateIsInside
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
@@ -56,7 +56,7 @@ sealed class EquipmentModifierEffect {
 @Serializable
 @SerialName("Damage")
 data class ModifyDamage(
-    val amount: RandomNumber,
+    val amount: Quantity,
 ) : EquipmentModifierEffect()
 
 @Serializable

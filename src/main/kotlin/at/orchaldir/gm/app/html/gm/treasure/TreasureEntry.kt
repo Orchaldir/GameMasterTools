@@ -6,8 +6,8 @@ import at.orchaldir.gm.app.html.economy.money.parseOptionalCurrencyUnitId
 import at.orchaldir.gm.app.html.item.ammunition.parseOptionalAmmunitionId
 import at.orchaldir.gm.app.html.item.equipment.parseOptionalEquipmentId
 import at.orchaldir.gm.app.html.item.text.parseOptionalTextId
-import at.orchaldir.gm.app.html.rpg.dice.editRandomNumber
-import at.orchaldir.gm.app.html.rpg.dice.parseRandomNumber
+import at.orchaldir.gm.app.html.util.quantity.editQuantity
+import at.orchaldir.gm.app.html.util.quantity.parseQuantity
 import at.orchaldir.gm.app.html.util.editLookupTable
 import at.orchaldir.gm.app.html.util.parseLookup
 import at.orchaldir.gm.app.html.util.showLookupTable
@@ -25,8 +25,8 @@ import at.orchaldir.gm.core.model.gm.treasure.TreasureParcel
 import at.orchaldir.gm.core.model.gm.treasure.TreasureParcelId
 import at.orchaldir.gm.core.model.gm.treasure.TreasureParcelLookup
 import at.orchaldir.gm.core.model.gm.treasure.TreasureTable
-import at.orchaldir.gm.core.model.rpg.dice.ModifiedDiceRange
-import at.orchaldir.gm.core.model.rpg.dice.RandomNumber
+import at.orchaldir.gm.core.model.util.quantity.ModifiedDiceRange
+import at.orchaldir.gm.core.model.util.quantity.Quantity
 import at.orchaldir.gm.core.model.util.SortCurrencyUnit
 import at.orchaldir.gm.core.selector.util.sortAmmunition
 import at.orchaldir.gm.core.selector.util.sortCurrencyUnits
@@ -81,7 +81,7 @@ private fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.showTreasureMap(
     call: ApplicationCall,
     state: State,
     storage: Storage<ID, ELEMENT>,
-    map: Map<ID, RandomNumber>,
+    map: Map<ID, Quantity>,
 ) {
     val units = map.mapKeys {
         storage.getOrThrow(it.key)
@@ -249,7 +249,7 @@ private fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.editTreasureMap(
     elements: List<ELEMENT>,
     range: ModifiedDiceRange,
     param: String,
-    map: Map<ID, RandomNumber>,
+    map: Map<ID, Quantity>,
     text: String,
 ) {
     val remaining = elements.toMutableList()
@@ -267,7 +267,7 @@ private fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.editTreasureMap(
             remaining,
             entryId,
         )
-        editRandomNumber(
+        editQuantity(
             range,
             amount,
             combine(entryParam, NUMBER),
@@ -367,11 +367,11 @@ private fun <ID : Id<ID>, ELEMENT : Element<ID>> parseTreasureMap(
     storage: Storage<ID, ELEMENT>,
     param: String,
     parseId: (Parameters, String) -> ID?,
-): Map<ID, RandomNumber> = parseMap(
+): Map<ID, Quantity> = parseMap(
     parameters,
     param,
     storage.getIds(),
     { _, keyParam -> parseId(parameters, combine(keyParam, TYPE)) },
-    { _, _, valueParam -> parseRandomNumber(parameters, combine(valueParam, NUMBER)) },
+    { _, _, valueParam -> parseQuantity(parameters, combine(valueParam, NUMBER)) },
     1,
 )

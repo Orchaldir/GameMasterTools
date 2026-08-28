@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.model.rpg.dice
+package at.orchaldir.gm.core.model.util.quantity
 
 import at.orchaldir.gm.utils.math.RangeInt
 import kotlinx.serialization.Serializable
