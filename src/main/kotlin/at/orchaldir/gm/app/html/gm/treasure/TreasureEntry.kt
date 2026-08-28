@@ -9,12 +9,14 @@ import at.orchaldir.gm.app.html.util.editLookupTable
 import at.orchaldir.gm.app.html.util.parseLookup
 import at.orchaldir.gm.app.html.util.showLookupTable
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.economy.money.CurrencyUnit
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnitId
 import at.orchaldir.gm.core.model.gm.treasure.CombinedTreasure
 import at.orchaldir.gm.core.model.gm.treasure.MoneyParcel
 import at.orchaldir.gm.core.model.gm.treasure.NoTreasure
 import at.orchaldir.gm.core.model.gm.treasure.TreasureEntry
 import at.orchaldir.gm.core.model.gm.treasure.TreasureEntryType
+import at.orchaldir.gm.core.model.gm.treasure.TreasureParcel
 import at.orchaldir.gm.core.model.gm.treasure.TreasureParcelId
 import at.orchaldir.gm.core.model.gm.treasure.TreasureParcelLookup
 import at.orchaldir.gm.core.model.gm.treasure.TreasureTable
@@ -113,7 +115,7 @@ fun HtmlBlockTag.editTreasureEntryIntern(
     val range = ModifiedDiceRange(RangeInt(0, 10), RangeInt(0, 10))
     val parcels = state.sortTreasureParcels()
         .filter { it.id != id }
-    var currencyUnits = state.sortCurrencyUnits(SortCurrencyUnit.Value)
+    val currencyUnits = state.sortCurrencyUnits(SortCurrencyUnit.Value)
     val allEmpty = parcels.isEmpty() && currencyUnits.isEmpty()
 
     selectValue(
@@ -135,24 +137,17 @@ fun HtmlBlockTag.editTreasureEntryIntern(
         NoTreasure -> doNothing()
 
         is CombinedTreasure -> {
-            val allowed = (allowedTypes - TreasureEntryType.Combined - TreasureEntryType.Table - TreasureEntryType.None)
-                .toMutableList()
-            val maxSize = if (parcels.isEmpty()) {
-                allowed -= TreasureEntryType.Lookup
-                allowed.size
-            } else {
-                allowed.size + parcels.size - 1
-            }
+            val allowed = caalculatedAllowedForCombined(allowedTypes, currencyUnits, parcels)
 
             editList(
                 combine(param, LIST),
                 entry.list,
                 2,
-                maxSize,
+                100,
             ) { _, combinedParam, combinedEntry ->
                 editTreasureEntryIntern(state, combinedEntry, combinedParam, id, allowed)
 
-                if (combinedEntry.getType() != TreasureEntryType.Lookup) {
+                if (combinedEntry.getType() != TreasureEntryType.Table) {
                     allowed -= combinedEntry.getType()
                 }
             }
@@ -187,6 +182,23 @@ fun HtmlBlockTag.editTreasureEntryIntern(
             },
         )
     }
+}
+
+private fun caalculatedAllowedForCombined(
+    allowedTypes: Collection<TreasureEntryType>,
+    currencyUnits: Collection<CurrencyUnit>,
+    parcels: Collection<TreasureParcel>,
+): MutableList<TreasureEntryType> {
+    val allowed = (allowedTypes - TreasureEntryType.Combined - TreasureEntryType.None)
+        .toMutableList()
+    if (currencyUnits.isEmpty()) {
+        allowed -= TreasureEntryType.Money
+    }
+    if (parcels.isEmpty()) {
+        allowed -= TreasureEntryType.Lookup
+    }
+
+    return allowed
 }
 
 private fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.editTreasureMap(
@@ -236,20 +248,17 @@ fun parseTreasureEntry(
     TreasureEntryType.None -> NoTreasure
 
     TreasureEntryType.Combined -> {
-        // extract
-        val allowed = (allowedTypes - TreasureEntryType.Combined - TreasureEntryType.Table - TreasureEntryType.None)
-            .toMutableList()
-        if (state.getTreasureParcelStorage().isEmptyWithout(id)) {
-            allowed -= TreasureEntryType.Lookup
-        }
+        val allowed = caalculatedAllowedForCombined(
+            allowedTypes,
+            state.getCurrencyUnitStorage().getAll(),
+            state.getTreasureParcelStorage().getAllExcept(id),
+        )
 
         CombinedTreasure(
-            // handle allowed
             parseList(parameters, combine(param, LIST), 2) { _, entryParam ->
                 val entry = parseTreasureEntry(state, parameters, entryParam, id, allowed)
 
-                // count lookups or limit to 1 lookup?
-                if (entry.getType() != TreasureEntryType.Lookup) {
+                if (entry.getType() != TreasureEntryType.Table) {
                     allowed -= entry.getType()
                 }
 
