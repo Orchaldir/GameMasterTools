@@ -3,6 +3,9 @@ package at.orchaldir.gm.app.html.gm.treasure
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.economy.money.parseOptionalCurrencyUnitId
+import at.orchaldir.gm.app.html.item.ammunition.parseOptionalAmmunitionId
+import at.orchaldir.gm.app.html.item.equipment.parseOptionalEquipmentId
+import at.orchaldir.gm.app.html.item.text.parseOptionalTextId
 import at.orchaldir.gm.app.html.rpg.dice.editRandomNumber
 import at.orchaldir.gm.app.html.rpg.dice.parseRandomNumber
 import at.orchaldir.gm.app.html.util.editLookupTable
@@ -10,10 +13,12 @@ import at.orchaldir.gm.app.html.util.parseLookup
 import at.orchaldir.gm.app.html.util.showLookupTable
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnit
-import at.orchaldir.gm.core.model.economy.money.CurrencyUnitId
+import at.orchaldir.gm.core.model.gm.treasure.AmmunitionParcel
 import at.orchaldir.gm.core.model.gm.treasure.CombinedTreasure
+import at.orchaldir.gm.core.model.gm.treasure.EquipmentParcel
 import at.orchaldir.gm.core.model.gm.treasure.MoneyParcel
 import at.orchaldir.gm.core.model.gm.treasure.NoTreasure
+import at.orchaldir.gm.core.model.gm.treasure.TextParcel
 import at.orchaldir.gm.core.model.gm.treasure.TreasureEntry
 import at.orchaldir.gm.core.model.gm.treasure.TreasureEntryType
 import at.orchaldir.gm.core.model.gm.treasure.TreasureParcel
@@ -23,7 +28,10 @@ import at.orchaldir.gm.core.model.gm.treasure.TreasureTable
 import at.orchaldir.gm.core.model.rpg.dice.ModifiedDiceRange
 import at.orchaldir.gm.core.model.rpg.dice.RandomNumber
 import at.orchaldir.gm.core.model.util.SortCurrencyUnit
+import at.orchaldir.gm.core.selector.util.sortAmmunition
 import at.orchaldir.gm.core.selector.util.sortCurrencyUnits
+import at.orchaldir.gm.core.selector.util.sortEquipmentList
+import at.orchaldir.gm.core.selector.util.sortTexts
 import at.orchaldir.gm.core.selector.util.sortTreasureParcels
 import at.orchaldir.gm.utils.Element
 import at.orchaldir.gm.utils.Id
@@ -56,12 +64,15 @@ private fun HtmlBlockTag.showTreasureEntryInternal(
 ) {
     when (entry) {
         NoTreasure -> +"None"
+        is AmmunitionParcel -> showTreasureMap(call, state, state.getAmmunitionStorage(), entry.map)
         is CombinedTreasure -> showList(entry.list) { entry ->
             showTreasureEntryInternal(call, state, entry)
         }
 
-        is MoneyParcel -> showTreasureMap(call, state, state.getCurrencyUnitStorage(), entry.currencyUnits)
-        is TreasureParcelLookup -> showTreasureMap(call, state, state.getTreasureParcelStorage(), entry.lookup)
+        is EquipmentParcel -> showTreasureMap(call, state, state.getEquipmentStorage(), entry.map)
+        is MoneyParcel -> showTreasureMap(call, state, state.getCurrencyUnitStorage(), entry.map)
+        is TextParcel -> showTreasureMap(call, state, state.getTextStorage(), entry.map)
+        is TreasureParcelLookup -> showTreasureMap(call, state, state.getTreasureParcelStorage(), entry.map)
         is TreasureTable -> showTreasureTable(call, state, entry)
     }
 }
@@ -113,10 +124,13 @@ fun HtmlBlockTag.editTreasureEntryIntern(
     allowedTypes: Collection<TreasureEntryType> = TreasureEntryType.entries,
 ) {
     val range = ModifiedDiceRange(RangeInt(0, 10), RangeInt(0, 10))
+    val ammunitionList = state.sortAmmunition()
+    val moneyList = state.sortCurrencyUnits(SortCurrencyUnit.Value)
+    val equipmentList = state.sortEquipmentList()
+    val texts = state.sortTexts()
     val parcels = state.sortTreasureParcels()
         .filter { it.id != id }
-    val currencyUnits = state.sortCurrencyUnits(SortCurrencyUnit.Value)
-    val allEmpty = parcels.isEmpty() && currencyUnits.isEmpty()
+    val allEmpty = ammunitionList.isEmpty() && equipmentList.isEmpty() && moneyList.isEmpty() && parcels.isEmpty() && texts.isEmpty()
 
     selectValue(
         "Type",
@@ -126,18 +140,29 @@ fun HtmlBlockTag.editTreasureEntryIntern(
     ) {
         when (it) {
             TreasureEntryType.None -> false
-            TreasureEntryType.Lookup -> parcels.isEmpty()
+            TreasureEntryType.Ammunition -> ammunitionList.isEmpty()
             TreasureEntryType.Combined -> allEmpty
-            TreasureEntryType.Money -> currencyUnits.isEmpty()
+            TreasureEntryType.Equipment -> equipmentList.isEmpty()
+            TreasureEntryType.Lookup -> parcels.isEmpty()
+            TreasureEntryType.Money -> moneyList.isEmpty()
+            TreasureEntryType.Text -> texts.isEmpty()
             TreasureEntryType.Table -> allEmpty
         }
     }
 
     when (entry) {
         NoTreasure -> doNothing()
+        is AmmunitionParcel -> editTreasureMap(
+            state,
+            ammunitionList,
+            range,
+            combine(param, AMMUNITION),
+            entry.map,
+            "Ammunition",
+        )
 
         is CombinedTreasure -> {
-            val allowed = caalculatedAllowedForCombined(allowedTypes, currencyUnits, parcels)
+            val allowed = caalculatedAllowedForCombined(allowedTypes, moneyList, parcels)
 
             editList(
                 combine(param, LIST),
@@ -153,13 +178,31 @@ fun HtmlBlockTag.editTreasureEntryIntern(
             }
         }
 
+        is EquipmentParcel -> editTreasureMap(
+            state,
+            equipmentList,
+            range,
+            combine(param, EQUIPMENT),
+            entry.map,
+            "Equipment",
+        )
+
         is MoneyParcel -> editTreasureMap(
             state,
-            currencyUnits,
+            moneyList,
             range,
             combine(param, CURRENCY),
-            entry.currencyUnits,
+            entry.map,
             "Money",
+        )
+
+        is TextParcel -> editTreasureMap(
+            state,
+            texts,
+            range,
+            combine(param, TEXT),
+            entry.map,
+            "Texts",
         )
 
         is TreasureParcelLookup -> editTreasureMap(
@@ -167,7 +210,7 @@ fun HtmlBlockTag.editTreasureEntryIntern(
             parcels,
             range,
             combine(param, LOOKUP),
-            entry.lookup,
+            entry.map,
             "Lookup",
         )
 
@@ -247,6 +290,15 @@ fun parseTreasureEntry(
 ): TreasureEntry = when (parse(parameters, combine(param, TYPE), allowedTypes)) {
     TreasureEntryType.None -> NoTreasure
 
+    TreasureEntryType.Ammunition -> AmmunitionParcel(
+        parseTreasureMap(
+            parameters,
+            state.getAmmunitionStorage(),
+            combine(param, AMMUNITION),
+            ::parseOptionalAmmunitionId,
+        ),
+    )
+
     TreasureEntryType.Combined -> {
         val allowed = caalculatedAllowedForCombined(
             allowedTypes,
@@ -267,15 +319,6 @@ fun parseTreasureEntry(
         )
     }
 
-    TreasureEntryType.Lookup -> TreasureParcelLookup(
-        parseTreasureMap(
-            parameters,
-            state.getTreasureParcelStorage(),
-            combine(param, LOOKUP),
-            ::parseTreasureParcelId,
-        ),
-    )
-
     TreasureEntryType.Money -> MoneyParcel(
         parseTreasureMap(
             parameters,
@@ -285,10 +328,37 @@ fun parseTreasureEntry(
         ),
     )
 
+    TreasureEntryType.Lookup -> TreasureParcelLookup(
+        parseTreasureMap(
+            parameters,
+            state.getTreasureParcelStorage(),
+            combine(param, LOOKUP),
+            ::parseTreasureParcelId,
+        ),
+    )
+
+    TreasureEntryType.Equipment -> EquipmentParcel(
+        parseTreasureMap(
+            parameters,
+            state.getEquipmentStorage(),
+            combine(param, EQUIPMENT),
+            ::parseOptionalEquipmentId,
+        ),
+    )
+
     TreasureEntryType.Table -> TreasureTable(
         parseLookup(parameters, combine(param, RANDOM), 1, 2) { entryParam ->
             parseTreasureEntry(state, parameters, entryParam, id)
         }
+    )
+
+    TreasureEntryType.Text -> TextParcel(
+        parseTreasureMap(
+            parameters,
+            state.getTextStorage(),
+            combine(param, TEXT),
+            ::parseOptionalTextId,
+        ),
     )
 }
 

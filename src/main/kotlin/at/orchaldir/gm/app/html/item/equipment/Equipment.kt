@@ -218,6 +218,9 @@ fun parseEquipmentId(value: String) = EquipmentId(value.toInt())
 
 fun parseEquipmentId(parameters: Parameters, param: String) = EquipmentId(parseInt(parameters, param))
 
+fun parseOptionalEquipmentId(parameters: Parameters, param: String) =
+    parseSimpleOptionalInt(parameters, param)?.let { EquipmentId(it) }
+
 fun parseEquipment(
     state: State,
     parameters: Parameters,

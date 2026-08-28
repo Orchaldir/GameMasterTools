@@ -11,6 +11,7 @@ import at.orchaldir.gm.app.html.util.source.editDataSources
 import at.orchaldir.gm.app.html.util.source.parseDataSources
 import at.orchaldir.gm.app.html.util.source.showDataSources
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.ammunition.AmmunitionId
 import at.orchaldir.gm.core.model.item.text.ALLOWED_TEXT_ORIGINS
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.item.text.TextId
@@ -73,6 +74,8 @@ fun HtmlBlockTag.editText(
 // parse
 
 fun parseTextId(parameters: Parameters, param: String) = TextId(parseInt(parameters, param))
+fun parseOptionalTextId(parameters: Parameters, param: String) =
+    parseSimpleOptionalInt(parameters, param)?.let { TextId(it) }
 
 fun parseText(
     state: State,
