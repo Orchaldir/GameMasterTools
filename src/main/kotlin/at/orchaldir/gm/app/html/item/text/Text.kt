@@ -11,16 +11,19 @@ import at.orchaldir.gm.app.html.util.source.editDataSources
 import at.orchaldir.gm.app.html.util.source.parseDataSources
 import at.orchaldir.gm.app.html.util.source.showDataSources
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.economy.money.CurrencyUnit
 import at.orchaldir.gm.core.model.item.ammunition.AmmunitionId
 import at.orchaldir.gm.core.model.item.text.ALLOWED_TEXT_ORIGINS
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.item.text.TextId
+import at.orchaldir.gm.core.selector.gm.treasure.getTreasureParcelsWith
 import at.orchaldir.gm.core.selector.item.getTranslationsOf
 import at.orchaldir.gm.core.selector.item.hasAuthor
 import at.orchaldir.gm.core.selector.util.getExistingElements
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
+import kotlinx.html.h2
 
 // show
 
@@ -41,6 +44,23 @@ fun HtmlBlockTag.showText(
     }
 
     showDataSources(call, state, text.sources)
+    showUsage(call, state, text.id)
+}
+
+private fun HtmlBlockTag.showUsage(
+    call: ApplicationCall,
+    state: State,
+    id: TextId,
+) {
+    val parcels = state.getTreasureParcelsWith(id)
+
+    if (parcels.isEmpty()) {
+        return
+    }
+
+    h2 { +"Usage" }
+
+    fieldElements(call, state, parcels)
 }
 
 // edit
