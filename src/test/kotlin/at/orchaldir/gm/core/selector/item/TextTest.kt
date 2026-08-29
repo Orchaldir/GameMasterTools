@@ -1,12 +1,10 @@
 package at.orchaldir.gm.core.selector.item
 
-import at.orchaldir.gm.AMMUNITION_ID_0
 import at.orchaldir.gm.TEXT_ID_0
 import at.orchaldir.gm.TEXT_ID_1
 import at.orchaldir.gm.TREASURE_PARCEL_ID_0
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.gm.treasure.AmmunitionParcel
 import at.orchaldir.gm.core.model.gm.treasure.TextParcel
 import at.orchaldir.gm.core.model.gm.treasure.TreasureParcel
 import at.orchaldir.gm.core.model.item.text.Text

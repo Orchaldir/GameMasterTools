@@ -2,9 +2,9 @@ package at.orchaldir.gm.core.model.gm.encounter
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterTemplateId
+import at.orchaldir.gm.core.model.util.Lookup
 import at.orchaldir.gm.core.model.util.quantity.FixedNumber
 import at.orchaldir.gm.core.model.util.quantity.Quantity
-import at.orchaldir.gm.core.model.util.Lookup
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
 import kotlinx.serialization.SerialName

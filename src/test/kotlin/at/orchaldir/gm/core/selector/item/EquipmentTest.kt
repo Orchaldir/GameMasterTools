@@ -9,7 +9,6 @@ import at.orchaldir.gm.core.model.character.UniqueEquipment
 import at.orchaldir.gm.core.model.culture.fashion.ClothingFashion
 import at.orchaldir.gm.core.model.culture.fashion.Fashion
 import at.orchaldir.gm.core.model.gm.treasure.EquipmentParcel
-import at.orchaldir.gm.core.model.gm.treasure.MoneyParcel
 import at.orchaldir.gm.core.model.gm.treasure.TreasureParcel
 import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.util.OneOrNone

@@ -2,11 +2,11 @@ package at.orchaldir.gm.app.html.rpg.combat
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.util.quantity.editQuantity
-import at.orchaldir.gm.app.html.util.quantity.parseQuantity
 import at.orchaldir.gm.app.html.util.math.parseFactor
 import at.orchaldir.gm.app.html.util.math.selectFactor
 import at.orchaldir.gm.app.html.util.math.selectFromRange
+import at.orchaldir.gm.app.html.util.quantity.editQuantity
+import at.orchaldir.gm.app.html.util.quantity.parseQuantity
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.combat.*
 import io.ktor.http.*

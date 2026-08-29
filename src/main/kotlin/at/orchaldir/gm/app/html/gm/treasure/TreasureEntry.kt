@@ -33,7 +33,7 @@ fun HtmlBlockTag.showTreasureEntry(
 ) {
     when (entry) {
         is TreasureTable -> showTreasureTable(call, state, entry)
-        else ->  field("Treasure",) {
+        else -> field("Treasure") {
             showTreasureEntryInternal(call, state, entry)
         }
     }
@@ -95,7 +95,8 @@ fun HtmlBlockTag.editTreasureEntryIntern(
     val texts = state.sortTexts()
     val parcels = state.sortTreasureParcels()
         .filter { it.id != id }
-    val allEmpty = ammunitionList.isEmpty() && equipmentList.isEmpty() && moneyList.isEmpty() && parcels.isEmpty() && texts.isEmpty()
+    val allEmpty =
+        ammunitionList.isEmpty() && equipmentList.isEmpty() && moneyList.isEmpty() && parcels.isEmpty() && texts.isEmpty()
 
     selectValue(
         "Type",

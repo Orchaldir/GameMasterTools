@@ -3,13 +3,7 @@ package at.orchaldir.gm.core.reducer.gm
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.gm.treasure.AmmunitionParcel
-import at.orchaldir.gm.core.model.gm.treasure.EquipmentParcel
-import at.orchaldir.gm.core.model.gm.treasure.MoneyParcel
-import at.orchaldir.gm.core.model.gm.treasure.TextParcel
-import at.orchaldir.gm.core.model.gm.treasure.TreasureEntry
-import at.orchaldir.gm.core.model.gm.treasure.TreasureParcel
-import at.orchaldir.gm.core.model.gm.treasure.TreasureParcelLookup
+import at.orchaldir.gm.core.model.gm.treasure.*
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage

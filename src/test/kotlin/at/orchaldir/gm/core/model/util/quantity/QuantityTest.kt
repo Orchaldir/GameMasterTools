@@ -3,11 +3,6 @@ package at.orchaldir.gm.core.model.util.quantity
 import at.orchaldir.gm.core.model.Config
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.RpgConfig
-import at.orchaldir.gm.core.model.util.quantity.Dice
-import at.orchaldir.gm.core.model.util.quantity.DieType
-import at.orchaldir.gm.core.model.util.quantity.FixedNumber
-import at.orchaldir.gm.core.model.util.quantity.MixedDice
-import at.orchaldir.gm.core.model.util.quantity.StandardDice
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test

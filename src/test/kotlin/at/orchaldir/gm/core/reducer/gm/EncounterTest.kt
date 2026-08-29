@@ -1,12 +1,6 @@
 package at.orchaldir.gm.core.reducer.gm
 
-import at.orchaldir.gm.CHARACTER_TEMPLATE_ID_0
-import at.orchaldir.gm.ENCOUNTER_ID_0
-import at.orchaldir.gm.ENCOUNTER_ID_1
-import at.orchaldir.gm.RACE_ID_0
-import at.orchaldir.gm.UNKNOWN_CHARACTER_TEMPLATE_ID
-import at.orchaldir.gm.UNKNOWN_ENCOUNTER_ID
-import at.orchaldir.gm.assertIllegalArgument
+import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterTemplate

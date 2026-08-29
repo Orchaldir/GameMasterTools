@@ -3,9 +3,9 @@ package at.orchaldir.gm.app.html.rpg.combat
 import at.orchaldir.gm.app.BASE
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.rpg.statistic.parseStatisticId
 import at.orchaldir.gm.app.html.util.quantity.editQuantity
 import at.orchaldir.gm.app.html.util.quantity.parseQuantity
-import at.orchaldir.gm.app.html.rpg.statistic.parseStatisticId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.combat.DamageAmount
 import at.orchaldir.gm.core.model.rpg.combat.DamageAmountType

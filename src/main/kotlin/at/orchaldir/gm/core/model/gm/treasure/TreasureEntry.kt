@@ -2,15 +2,12 @@ package at.orchaldir.gm.core.model.gm.treasure
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnitId
-import at.orchaldir.gm.core.model.gm.treasure.EquipmentParcel
-import at.orchaldir.gm.core.model.gm.treasure.TextParcel
-import at.orchaldir.gm.core.model.gm.treasure.TreasureParcelLookup
 import at.orchaldir.gm.core.model.item.ammunition.AmmunitionId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.model.item.text.TextId
-import at.orchaldir.gm.core.model.util.quantity.Quantity
 import at.orchaldir.gm.core.model.util.Lookup
 import at.orchaldir.gm.core.model.util.quantity.FixedNumber
+import at.orchaldir.gm.core.model.util.quantity.Quantity
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
 import kotlinx.serialization.SerialName
@@ -64,6 +61,7 @@ sealed class TreasureEntry {
             state.getTreasureParcelStorage().require(map.keys)
             require(!map.contains(id)) { "Cannot be based on itself!" }
         }
+
         is TreasureTable -> table.entries.forEach { it.value.validate(state, id) }
     }
 }
@@ -77,7 +75,7 @@ data object NoTreasure : TreasureEntry()
 data class AmmunitionParcel(
     val map: Map<AmmunitionId, Quantity>,
 ) : TreasureEntry() {
-    constructor(id: AmmunitionId): this(mapOf(id to FixedNumber(1)))
+    constructor(id: AmmunitionId) : this(mapOf(id to FixedNumber(1)))
 }
 
 @Serializable
@@ -91,7 +89,7 @@ data class CombinedTreasure(
 data class EquipmentParcel(
     val map: Map<EquipmentId, Quantity>,
 ) : TreasureEntry() {
-    constructor(id: EquipmentId): this(mapOf(id to FixedNumber(1)))
+    constructor(id: EquipmentId) : this(mapOf(id to FixedNumber(1)))
 }
 
 @Serializable
@@ -99,7 +97,7 @@ data class EquipmentParcel(
 data class MoneyParcel(
     val map: Map<CurrencyUnitId, Quantity>,
 ) : TreasureEntry() {
-    constructor(id: CurrencyUnitId): this(mapOf(id to FixedNumber(1)))
+    constructor(id: CurrencyUnitId) : this(mapOf(id to FixedNumber(1)))
 }
 
 @Serializable
@@ -107,7 +105,7 @@ data class MoneyParcel(
 data class TextParcel(
     val map: Map<TextId, Quantity>,
 ) : TreasureEntry() {
-    constructor(id: TextId): this(mapOf(id to FixedNumber(1)))
+    constructor(id: TextId) : this(mapOf(id to FixedNumber(1)))
 }
 
 @Serializable
@@ -115,7 +113,7 @@ data class TextParcel(
 data class TreasureParcelLookup(
     val map: Map<TreasureParcelId, Quantity>,
 ) : TreasureEntry() {
-    constructor(id: TreasureParcelId): this(mapOf(id to FixedNumber(1)))
+    constructor(id: TreasureParcelId) : this(mapOf(id to FixedNumber(1)))
 }
 
 @Serializable

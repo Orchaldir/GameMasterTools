@@ -1,6 +1,5 @@
 package at.orchaldir.gm.app.html.gm.treasure
 
-import at.orchaldir.gm.app.ENCOUNTER
 import at.orchaldir.gm.app.TREASURE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State

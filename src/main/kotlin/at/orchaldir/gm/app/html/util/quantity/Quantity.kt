@@ -5,14 +5,7 @@ import at.orchaldir.gm.app.MODIFIER
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.math.selectFromRange
-import at.orchaldir.gm.core.model.util.quantity.Dice
-import at.orchaldir.gm.core.model.util.quantity.DieType
-import at.orchaldir.gm.core.model.util.quantity.FixedNumber
-import at.orchaldir.gm.core.model.util.quantity.MixedDice
-import at.orchaldir.gm.core.model.util.quantity.ModifiedDiceRange
-import at.orchaldir.gm.core.model.util.quantity.Quantity
-import at.orchaldir.gm.core.model.util.quantity.QuantityType
-import at.orchaldir.gm.core.model.util.quantity.StandardDice
+import at.orchaldir.gm.core.model.util.quantity.*
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag
 

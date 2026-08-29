@@ -82,7 +82,12 @@ fun Application.configureTreasureParcelRouting() {
             handleEditElement(edit.id, TreasureParcelRoutes(), HtmlBlockTag::editTreasureParcel)
         }
         post<TreasureParcelRoutes.Preview> { preview ->
-            handlePreviewElement(preview.id, TreasureParcelRoutes(), ::parseTreasureParcel, HtmlBlockTag::editTreasureParcel)
+            handlePreviewElement(
+                preview.id,
+                TreasureParcelRoutes(),
+                ::parseTreasureParcel,
+                HtmlBlockTag::editTreasureParcel
+            )
         }
         post<TreasureParcelRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseTreasureParcel)
