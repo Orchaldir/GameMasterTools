@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.reducer.gm
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.gm.treasure.AmmunitionParcel
 import at.orchaldir.gm.core.model.gm.treasure.EquipmentParcel
 import at.orchaldir.gm.core.model.gm.treasure.TreasureParcel
 import at.orchaldir.gm.core.model.item.equipment.Equipment
@@ -24,7 +25,16 @@ class TreasureParcelTest {
     inner class UpdateTest {
 
         @Test
-        fun `Cannot be based on a unknown equipment`() {
+        fun `Cannot be based on an unknown ammunition`() {
+            val entry = AmmunitionParcel(UNKNOWN_AMMUNITION)
+            val parcel = TreasureParcel(TREASURE_PARCEL_ID_0, entry = entry)
+            val action = UpdateAction(parcel)
+
+            assertIllegalArgument("Requires unknown Ammunition 99!") { REDUCER.invoke(stat, action) }
+        }
+
+        @Test
+        fun `Cannot be based on an unknown equipment`() {
             val entry = EquipmentParcel(UNKNOWN_EQUIPMENT_ID)
             val parcel = TreasureParcel(TREASURE_PARCEL_ID_0, entry = entry)
             val action = UpdateAction(parcel)
