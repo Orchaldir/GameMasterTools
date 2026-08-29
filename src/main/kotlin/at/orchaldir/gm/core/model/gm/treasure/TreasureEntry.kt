@@ -2,6 +2,8 @@ package at.orchaldir.gm.core.model.gm.treasure
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnitId
+import at.orchaldir.gm.core.model.gm.treasure.EquipmentParcel
+import at.orchaldir.gm.core.model.gm.treasure.TreasureParcelLookup
 import at.orchaldir.gm.core.model.item.ammunition.AmmunitionId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.model.item.text.TextId
@@ -73,7 +75,9 @@ data object NoTreasure : TreasureEntry()
 @SerialName("Ammunition")
 data class AmmunitionParcel(
     val map: Map<AmmunitionId, Quantity>,
-) : TreasureEntry()
+) : TreasureEntry() {
+    constructor(id: AmmunitionId): this(mapOf(id to FixedNumber(1)))
+}
 
 @Serializable
 @SerialName("Combined")
@@ -85,7 +89,9 @@ data class CombinedTreasure(
 @SerialName("Equipment")
 data class EquipmentParcel(
     val map: Map<EquipmentId, Quantity>,
-) : TreasureEntry()
+) : TreasureEntry() {
+    constructor(id: EquipmentId): this(mapOf(id to FixedNumber(1)))
+}
 
 @Serializable
 @SerialName("Money")
@@ -97,7 +103,9 @@ data class MoneyParcel(
 @SerialName("Text")
 data class TextParcel(
     val map: Map<TextId, Quantity>,
-) : TreasureEntry()
+) : TreasureEntry() {
+    constructor(id: TextId): this(mapOf(id to FixedNumber(1)))
+}
 
 @Serializable
 @SerialName("Lookup")
