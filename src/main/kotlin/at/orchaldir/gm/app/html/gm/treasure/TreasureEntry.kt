@@ -128,7 +128,7 @@ fun HtmlBlockTag.editTreasureEntryIntern(
         )
 
         is CombinedTreasure -> {
-            val allowed = caalculatedAllowedForCombined(allowedTypes, moneyList, parcels)
+            val allowed = calculateAllowedForCombined(allowedTypes, moneyList, parcels)
 
             editList(
                 combine(param, LIST),
@@ -193,7 +193,7 @@ fun HtmlBlockTag.editTreasureEntryIntern(
     }
 }
 
-private fun caalculatedAllowedForCombined(
+private fun calculateAllowedForCombined(
     allowedTypes: Collection<TreasureEntryType>,
     currencyUnits: Collection<CurrencyUnit>,
     parcels: Collection<TreasureParcel>,
@@ -231,7 +231,7 @@ fun parseTreasureEntry(
     )
 
     TreasureEntryType.Combined -> {
-        val allowed = caalculatedAllowedForCombined(
+        val allowed = calculateAllowedForCombined(
             allowedTypes,
             state.getCurrencyUnitStorage().getAll(),
             state.getTreasureParcelStorage().getAllExcept(id),
