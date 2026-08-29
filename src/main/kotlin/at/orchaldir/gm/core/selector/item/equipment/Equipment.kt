@@ -11,11 +11,13 @@ import at.orchaldir.gm.core.model.util.render.ColorSchemeId
 import at.orchaldir.gm.core.selector.character.getCharacterTemplates
 import at.orchaldir.gm.core.selector.character.getCharactersWith
 import at.orchaldir.gm.core.selector.culture.getFashions
+import at.orchaldir.gm.core.selector.gm.treasure.getTreasureParcelsWith
 
 fun State.canDeleteEquipment(equipment: EquipmentId) = DeleteResult(equipment)
     .addElements(getCharactersWith(equipment))
     .addElements(getCharacterTemplates(equipment))
     .addElements(getFashions(equipment))
+    .addElements(getTreasureParcelsWith(equipment))
 
 // count
 

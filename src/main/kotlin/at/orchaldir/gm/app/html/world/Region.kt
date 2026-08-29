@@ -7,9 +7,9 @@ import at.orchaldir.gm.app.html.ecology.editEcology
 import at.orchaldir.gm.app.html.ecology.parseEcology
 import at.orchaldir.gm.app.html.ecology.showEcology
 import at.orchaldir.gm.app.html.economy.material.parseMaterialId
-import at.orchaldir.gm.app.html.rpg.encounter.editEncounterEntry
-import at.orchaldir.gm.app.html.rpg.encounter.parseEncounterEntry
-import at.orchaldir.gm.app.html.rpg.encounter.showEncounterEntry
+import at.orchaldir.gm.app.html.gm.encounter.editEncounterEntry
+import at.orchaldir.gm.app.html.gm.encounter.parseEncounterEntry
+import at.orchaldir.gm.app.html.gm.encounter.showEncounterEntry
 import at.orchaldir.gm.app.html.util.fieldPosition
 import at.orchaldir.gm.app.html.util.parsePosition
 import at.orchaldir.gm.app.html.util.selectPosition

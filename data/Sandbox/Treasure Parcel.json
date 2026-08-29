@@ -1,0 +1,64 @@
+{
+ "version": 1,
+ "elements": {
+  "0": {
+   "id": 0,
+   "entry": {
+    "#type": "Combined",
+    "list": [
+     {
+      "#type": "Equipment",
+      "map": {
+       "3": {
+        "#type": "Dice",
+        "dice": 2,
+        "modifier": 3
+       }
+      }
+     },
+     {
+      "#type": "Money",
+      "map": {
+       "0": {
+        "#type": "Not",
+        "number": 1
+       }
+      }
+     },
+     {
+      "#type": "Table",
+      "table": {
+       "entries": [
+        {
+         "value": {
+          "#type": "None"
+         },
+         "until": 1
+        },
+        {
+         "value": {
+          "#type": "None"
+         },
+         "until": 2
+        }
+       ]
+      }
+     }
+    ]
+   }
+  },
+  "1": {
+   "id": 1,
+   "entry": {
+    "#type": "Money",
+    "map": {
+     "0": {
+      "#type": "Dice",
+      "dice": 2,
+      "modifier": 1
+     }
+    }
+   }
+  }
+ }
+}

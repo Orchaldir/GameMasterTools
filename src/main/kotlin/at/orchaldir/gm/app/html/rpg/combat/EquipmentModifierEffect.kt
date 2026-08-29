@@ -2,11 +2,11 @@ package at.orchaldir.gm.app.html.rpg.combat
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.rpg.dice.editRandomNumber
-import at.orchaldir.gm.app.html.rpg.dice.parseRandomNumber
 import at.orchaldir.gm.app.html.util.math.parseFactor
 import at.orchaldir.gm.app.html.util.math.selectFactor
 import at.orchaldir.gm.app.html.util.math.selectFromRange
+import at.orchaldir.gm.app.html.util.quantity.editQuantity
+import at.orchaldir.gm.app.html.util.quantity.parseQuantity
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.combat.*
 import io.ktor.http.*
@@ -64,7 +64,7 @@ fun HtmlBlockTag.editEquipmentModifierEffect(
         )
 
         when (effect) {
-            is ModifyDamage -> editRandomNumber(data.damageModifier, effect.amount, param)
+            is ModifyDamage -> editQuantity(data.damageModifier, effect.amount, param)
 
             is ModifyDamageResistance -> selectFromRange(
                 "Damage Resistance",
@@ -112,7 +112,7 @@ fun parseEquipmentModifierEffect(
     param: String,
 ) = when (parse(parameters, combine(param, TYPE), EquipmentModifierEffectType.Damage)) {
     EquipmentModifierEffectType.Damage -> ModifyDamage(
-        parseRandomNumber(parameters, param),
+        parseQuantity(parameters, param),
     )
 
     EquipmentModifierEffectType.DamageResistance -> ModifyDamageResistance(

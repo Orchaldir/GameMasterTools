@@ -4,7 +4,7 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.ecology.EcologyWithSets
-import at.orchaldir.gm.core.model.rpg.encounter.EncounterLookup
+import at.orchaldir.gm.core.model.gm.encounter.EncounterLookup
 import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.model.world.terrain.Battlefield
 import at.orchaldir.gm.core.model.world.terrain.Region

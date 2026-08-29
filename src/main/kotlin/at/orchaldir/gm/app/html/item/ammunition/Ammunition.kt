@@ -19,6 +19,7 @@ import at.orchaldir.gm.core.model.item.equipment.MAX_EQUIPMENT_WEIGHT
 import at.orchaldir.gm.core.model.item.equipment.MIN_EQUIPMENT_PRICE
 import at.orchaldir.gm.core.model.item.equipment.MIN_EQUIPMENT_WEIGHT
 import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifierCategory
+import at.orchaldir.gm.core.selector.gm.treasure.getTreasureParcelsWith
 import at.orchaldir.gm.core.selector.util.sortAmmunitionTypes
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.math.Factor
@@ -26,6 +27,7 @@ import at.orchaldir.gm.utils.math.unit.VolumePerMaterial
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
+import kotlinx.html.h2
 
 // show
 
@@ -41,6 +43,24 @@ fun HtmlBlockTag.showAmmunition(
     fieldIds(call, state, "Modifiers", ammunition.modifiers)
     showWeightLookupDetails(call, state, ammunition.weight, vpm)
     showPriceLookupDetails(call, state, ammunition.price, vpm, costFactors)
+
+    showUsage(call, state, ammunition.id)
+}
+
+private fun HtmlBlockTag.showUsage(
+    call: ApplicationCall,
+    state: State,
+    id: AmmunitionId,
+) {
+    val parcels = state.getTreasureParcelsWith(id)
+
+    if (parcels.isEmpty()) {
+        return
+    }
+
+    h2 { +"Usage" }
+
+    fieldElements(call, state, parcels)
 }
 
 // edit
@@ -68,6 +88,9 @@ fun HtmlBlockTag.editAmmunition(
 fun parseAmmunitionId(value: String) = AmmunitionId(value.toInt())
 
 fun parseAmmunitionId(parameters: Parameters, param: String) = AmmunitionId(parseInt(parameters, param))
+
+fun parseOptionalAmmunitionId(parameters: Parameters, param: String) =
+    parseSimpleOptionalInt(parameters, param)?.let { AmmunitionId(it) }
 
 fun parseAmmunition(
     state: State,

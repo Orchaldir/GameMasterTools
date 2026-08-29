@@ -15,6 +15,8 @@ import at.orchaldir.gm.core.model.economy.material.Material
 import at.orchaldir.gm.core.model.economy.material.MaterialCategoryType
 import at.orchaldir.gm.core.model.economy.money.Currency
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnit
+import at.orchaldir.gm.core.model.gm.encounter.Encounter
+import at.orchaldir.gm.core.model.gm.treasure.TreasureParcel
 import at.orchaldir.gm.core.model.health.Disease
 import at.orchaldir.gm.core.model.item.Uniform
 import at.orchaldir.gm.core.model.item.ammunition.Ammunition
@@ -35,7 +37,6 @@ import at.orchaldir.gm.core.model.religion.Domain
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.religion.Pantheon
 import at.orchaldir.gm.core.model.rpg.combat.*
-import at.orchaldir.gm.core.model.rpg.encounter.Encounter
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTrait
 import at.orchaldir.gm.core.model.time.calendar.Calendar
@@ -72,9 +73,9 @@ import at.orchaldir.gm.core.selector.item.countTexts
 import at.orchaldir.gm.core.selector.item.equipment.*
 import at.orchaldir.gm.core.selector.race.countRaceAppearancesMadeOf
 import at.orchaldir.gm.core.selector.realm.*
-import at.orchaldir.gm.core.selector.rpg.getEquipmentModifier
-import at.orchaldir.gm.core.selector.rpg.getMeleeWeaponTypes
-import at.orchaldir.gm.core.selector.rpg.getRangedWeaponTypes
+import at.orchaldir.gm.core.selector.rpg.combat.getEquipmentModifier
+import at.orchaldir.gm.core.selector.rpg.combat.getMeleeWeaponTypes
+import at.orchaldir.gm.core.selector.rpg.combat.getRangedWeaponTypes
 import at.orchaldir.gm.core.selector.time.date.createSorter
 import at.orchaldir.gm.core.selector.time.getDefaultCalendar
 import at.orchaldir.gm.core.selector.world.countBuildings
@@ -1172,6 +1173,20 @@ fun State.sortTitles(
             SortTitle.Characters -> compareByDescending { countCharacters(it.id) }
         }
     )
+
+// treasure parcel
+
+fun State.sortTreasureParcels(sort: SortTreasureParcel = SortTreasureParcel.Name) =
+    sortTreasureParcels(getTreasureParcelStorage().getAll(), sort)
+
+fun State.sortTreasureParcels(
+    encounters: Collection<TreasureParcel>,
+    sort: SortTreasureParcel = SortTreasureParcel.Name,
+) = encounters
+    .sortedWith(
+        when (sort) {
+            SortTreasureParcel.Name -> compareBy { it.name.text }
+        })
 
 // treaty
 

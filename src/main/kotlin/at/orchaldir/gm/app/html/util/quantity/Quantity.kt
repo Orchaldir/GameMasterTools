@@ -1,0 +1,152 @@
+package at.orchaldir.gm.app.html.util.quantity
+
+import at.orchaldir.gm.app.DIE
+import at.orchaldir.gm.app.MODIFIER
+import at.orchaldir.gm.app.TYPE
+import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.util.math.selectFromRange
+import at.orchaldir.gm.core.model.util.quantity.*
+import io.ktor.http.*
+import kotlinx.html.HtmlBlockTag
+
+// show
+
+
+// edit
+
+fun HtmlBlockTag.editQuantity(
+    range: ModifiedDiceRange,
+    number: Quantity,
+    param: String,
+    label: String,
+) {
+    showDetails(label, true) {
+        editQuantity(range, number, param)
+    }
+}
+
+fun HtmlBlockTag.editQuantity(
+    range: ModifiedDiceRange,
+    number: Quantity,
+    param: String,
+) {
+    selectValue(
+        "Type",
+        combine(param, TYPE),
+        QuantityType.entries,
+        number.getType(),
+    )
+
+    when (number) {
+        is FixedNumber -> selectDiceModifier(range, param, number.number)
+        is StandardDice -> {
+            selectDiceNumber(range, param, number.dice)
+            selectDiceModifier(range, param, number.modifier)
+        }
+
+        is Dice -> {
+            selectDiceNumber(range, param, number.dice)
+            selectDieType(param, number.type)
+            selectDiceModifier(range, param, number.modifier)
+        }
+
+        is MixedDice -> {
+            editMap("Dice", param, number.dice, 1, DieType.entries.size) { _, diceParam, type, dice ->
+                selectDiceNumber(range, diceParam, dice)
+                selectDieType(diceParam, type)
+            }
+            selectDiceModifier(range, param, number.modifier)
+        }
+    }
+}
+
+private fun HtmlBlockTag.selectDieType(
+    param: String,
+    type: DieType,
+) {
+    selectValue(
+        "Die Type",
+        combine(param, DIE, TYPE),
+        DieType.entries,
+        type,
+    )
+}
+
+fun HtmlBlockTag.selectDiceNumber(
+    range: ModifiedDiceRange,
+    param: String,
+    dice: Int,
+) {
+    selectFromRange(
+        "Dice",
+        range.dice,
+        dice,
+        combine(param, DIE),
+    )
+}
+
+fun HtmlBlockTag.selectDiceModifier(
+    range: ModifiedDiceRange,
+    param: String,
+    modifier: Int,
+) {
+    selectFromRange(
+        "Modifier",
+        range.modifier,
+        modifier,
+        combine(param, MODIFIER),
+    )
+}
+
+// parse
+
+fun parseQuantity(
+    parameters: Parameters,
+    param: String,
+) = when (parse(parameters, combine(param, TYPE), QuantityType.Fixed)) {
+    QuantityType.Fixed -> FixedNumber(
+        parseDiceModifier(parameters, param, 1),
+    )
+
+    QuantityType.StandardDice -> parseStandardDice(parameters, param)
+    QuantityType.Dice -> Dice(
+        parseDice(parameters, param),
+        parseDieType(parameters, param),
+        parseDiceModifier(parameters, param),
+    )
+
+    QuantityType.MixedDice -> MixedDice(
+        parseMap(
+            parameters,
+            param,
+            DieType.entries,
+            { _, keyParam -> parseOptionalDieType(parameters, keyParam) },
+            { _, _, valueParam -> parseDice(parameters, valueParam) },
+        ),
+        parseDiceModifier(parameters, param),
+    )
+}
+
+fun parseStandardDice(
+    parameters: Parameters,
+    param: String,
+) = StandardDice(
+    parseDice(parameters, param),
+    parseDiceModifier(parameters, param),
+)
+
+private fun parseDieType(
+    parameters: Parameters,
+    param: String,
+) = parse(parameters, combine(param, DIE, TYPE), DieType.D6)
+
+private fun parseOptionalDieType(
+    parameters: Parameters,
+    param: String,
+) = parse<DieType>(parameters, combine(param, DIE, TYPE))
+
+private fun parseDice(parameters: Parameters, param: String) =
+    parseInt(parameters, combine(param, DIE), 1)
+
+private fun parseDiceModifier(parameters: Parameters, param: String, default: Int = 0) =
+    parseInt(parameters, combine(param, MODIFIER), default)

@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.item.equipment.Shield
 import at.orchaldir.gm.core.model.rpg.combat.ShieldStats
 import at.orchaldir.gm.core.model.rpg.combat.ShieldType
+import at.orchaldir.gm.core.selector.rpg.combat.canDeleteShieldType
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested

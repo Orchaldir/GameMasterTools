@@ -116,12 +116,13 @@ fun <T> parseLookup(
     parameters: Parameters,
     param: String,
     start: Int,
+    defaultSize: Int = 0,
     parseValue: (String) -> T,
 ): Lookup<T> {
     var minDate = start
 
     return Lookup(
-        parseList<LookupEntry<T>>(parameters, param, 0) { _, entryParam ->
+        parseList<LookupEntry<T>>(parameters, param, defaultSize) { _, entryParam ->
             val entry = parseLookupEntry(parameters, entryParam, minDate, parseValue)
 
             minDate = entry.until + 1

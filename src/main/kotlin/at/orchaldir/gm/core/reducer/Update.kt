@@ -15,6 +15,8 @@ import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.economy.material.Material
 import at.orchaldir.gm.core.model.economy.money.Currency
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnit
+import at.orchaldir.gm.core.model.gm.encounter.Encounter
+import at.orchaldir.gm.core.model.gm.treasure.TreasureParcel
 import at.orchaldir.gm.core.model.health.Disease
 import at.orchaldir.gm.core.model.item.Uniform
 import at.orchaldir.gm.core.model.item.ammunition.Ammunition
@@ -35,7 +37,6 @@ import at.orchaldir.gm.core.model.religion.Domain
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.religion.Pantheon
 import at.orchaldir.gm.core.model.rpg.combat.*
-import at.orchaldir.gm.core.model.rpg.encounter.Encounter
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTrait
 import at.orchaldir.gm.core.model.time.calendar.Calendar
@@ -131,6 +132,7 @@ fun reduceUpdateElement(
     is StreetTemplate -> updateElement(state, element)
     is Text -> updateElement(state, element)
     is Title -> updateElement(state, element)
+    is TreasureParcel -> updateElement(state, element)
     is Treaty -> updateElement(state, element)
     is Uniform -> updateElement(state, element)
     is War -> updateElement(state, element)

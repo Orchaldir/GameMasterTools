@@ -8,8 +8,11 @@ import at.orchaldir.gm.core.model.character.CharacterTemplate
 import at.orchaldir.gm.core.model.character.UniqueEquipment
 import at.orchaldir.gm.core.model.culture.fashion.ClothingFashion
 import at.orchaldir.gm.core.model.culture.fashion.Fashion
+import at.orchaldir.gm.core.model.gm.treasure.EquipmentParcel
+import at.orchaldir.gm.core.model.gm.treasure.TreasureParcel
 import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.util.OneOrNone
+import at.orchaldir.gm.core.model.util.quantity.FixedNumber
 import at.orchaldir.gm.core.selector.item.equipment.canDeleteEquipment
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
@@ -29,7 +32,7 @@ class EquipmentTest {
         )
 
         @Test
-        fun `Cannot delete a equipment that is equipped a characeter`() {
+        fun `Cannot delete a equipment that is equipped a character`() {
             val map = EquipmentMap
                 .from(BodySlot.Head, EQUIPMENT_ID_0, COLOR_SCHEME_ID_0)
             val character = Character(CHARACTER_ID_0, equipped = UniqueEquipment(map))
@@ -47,6 +50,15 @@ class EquipmentTest {
             val newState = state.updateStorage(template)
 
             failCanDelete(newState, CHARACTER_TEMPLATE_ID_0)
+        }
+
+        @Test
+        fun `Cannot delete an equipment in a treasure parcel`() {
+            val entry = EquipmentParcel(mapOf(EQUIPMENT_ID_0 to FixedNumber(1)))
+            val parcel = TreasureParcel(TREASURE_PARCEL_ID_0, entry = entry)
+            val newState = state.updateStorage(parcel)
+
+            failCanDelete(newState, TREASURE_PARCEL_ID_0)
         }
 
         @Test

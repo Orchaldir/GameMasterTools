@@ -2,11 +2,15 @@ package at.orchaldir.gm.core.selector.item
 
 import at.orchaldir.gm.TEXT_ID_0
 import at.orchaldir.gm.TEXT_ID_1
+import at.orchaldir.gm.TREASURE_PARCEL_ID_0
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.gm.treasure.TextParcel
+import at.orchaldir.gm.core.model.gm.treasure.TreasureParcel
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.util.UndefinedReference
 import at.orchaldir.gm.core.model.util.origin.TranslatedElement
+import at.orchaldir.gm.core.model.util.quantity.FixedNumber
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -31,6 +35,15 @@ class TextTest {
             val newState = state.updateStorage(Storage(listOf(text, text1)))
 
             failCanDelete(newState, TEXT_ID_1)
+        }
+
+        @Test
+        fun `Cannot delete a text in a treasure parcel`() {
+            val entry = TextParcel(mapOf(TEXT_ID_0 to FixedNumber(1)))
+            val parcel = TreasureParcel(TREASURE_PARCEL_ID_0, entry = entry)
+            val newState = state.updateStorage(parcel)
+
+            failCanDelete(newState, TREASURE_PARCEL_ID_0)
         }
 
         private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {

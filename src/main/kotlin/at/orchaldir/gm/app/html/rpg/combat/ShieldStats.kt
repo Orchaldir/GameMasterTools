@@ -7,7 +7,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifierCategory
 import at.orchaldir.gm.core.model.rpg.combat.ShieldStats
-import at.orchaldir.gm.core.selector.rpg.getEquipmentModifierEffects
+import at.orchaldir.gm.core.selector.rpg.combat.getEquipmentModifierEffects
 import at.orchaldir.gm.core.selector.rpg.statblock.resolveProtection
 import io.ktor.http.*
 import io.ktor.server.application.*

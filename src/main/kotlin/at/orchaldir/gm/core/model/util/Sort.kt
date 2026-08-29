@@ -371,6 +371,10 @@ enum class SortTitle {
     Characters,
 }
 
+enum class SortTreasureParcel {
+    Name,
+}
+
 enum class SortTreaty {
     Name,
     Date,

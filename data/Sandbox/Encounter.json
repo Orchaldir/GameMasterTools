@@ -11,7 +11,7 @@
       {
        "value": {
         "#type": "Template",
-        "amount": {
+        "quantity": {
          "#type": "Standard",
          "dice": 2
         },
@@ -31,7 +31,7 @@
         "list": [
          {
           "#type": "Template",
-          "amount": {
+          "quantity": {
            "#type": "Not",
            "number": 2
           },
@@ -39,7 +39,7 @@
          },
          {
           "#type": "Template",
-          "amount": {
+          "quantity": {
            "#type": "Dice",
            "dice": 2,
            "type": "D4"

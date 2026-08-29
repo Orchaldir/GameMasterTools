@@ -16,6 +16,8 @@ import at.orchaldir.gm.core.model.economy.job.JobId
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.economy.money.CurrencyId
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnitId
+import at.orchaldir.gm.core.model.gm.encounter.EncounterId
+import at.orchaldir.gm.core.model.gm.treasure.TreasureParcelId
 import at.orchaldir.gm.core.model.health.DiseaseId
 import at.orchaldir.gm.core.model.item.UniformId
 import at.orchaldir.gm.core.model.item.ammunition.AmmunitionId
@@ -36,7 +38,6 @@ import at.orchaldir.gm.core.model.religion.DomainId
 import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.religion.PantheonId
 import at.orchaldir.gm.core.model.rpg.combat.*
-import at.orchaldir.gm.core.model.rpg.encounter.EncounterId
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitId
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
@@ -70,6 +71,8 @@ import at.orchaldir.gm.core.selector.economy.canDeleteJob
 import at.orchaldir.gm.core.selector.economy.canDeleteMaterial
 import at.orchaldir.gm.core.selector.economy.money.canDeleteCurrency
 import at.orchaldir.gm.core.selector.economy.money.canDeleteCurrencyUnit
+import at.orchaldir.gm.core.selector.gm.encounter.canDeleteEncounter
+import at.orchaldir.gm.core.selector.gm.treasure.canDeleteTreasureParcel
 import at.orchaldir.gm.core.selector.health.canDeleteDisease
 import at.orchaldir.gm.core.selector.item.ammunition.canDeleteAmmunition
 import at.orchaldir.gm.core.selector.item.canDeleteText
@@ -89,8 +92,9 @@ import at.orchaldir.gm.core.selector.realm.*
 import at.orchaldir.gm.core.selector.religion.canDeleteDomain
 import at.orchaldir.gm.core.selector.religion.canDeleteGod
 import at.orchaldir.gm.core.selector.religion.canDeletePantheon
-import at.orchaldir.gm.core.selector.rpg.*
-import at.orchaldir.gm.core.selector.rpg.encounter.canDeleteEncounter
+import at.orchaldir.gm.core.selector.rpg.canDeleteCharacterTrait
+import at.orchaldir.gm.core.selector.rpg.canDeleteStatistic
+import at.orchaldir.gm.core.selector.rpg.combat.*
 import at.orchaldir.gm.core.selector.time.canDeleteCalendar
 import at.orchaldir.gm.core.selector.time.canDeleteHoliday
 import at.orchaldir.gm.core.selector.util.*
@@ -166,6 +170,7 @@ fun reduceDeleteElement(
     is StreetTemplateId -> deleteElement(state, id, State::canDeleteStreetTemplate)
     is TextId -> deleteElement(state, id, State::canDeleteText)
     is TitleId -> deleteElement(state, id, State::canDeleteTitle)
+    is TreasureParcelId -> deleteElement(state, id, State::canDeleteTreasureParcel)
     is TreatyId -> deleteElement(state, id, State::canDeleteTreaty)
     is UniformId -> deleteElement(state, id, State::canDeleteUniform)
     is WarId -> deleteElement(state, id, State::canDeleteWar)

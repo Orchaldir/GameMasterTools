@@ -286,8 +286,9 @@ fun <K, V> parseMap(
     keys: Collection<K>,
     parseKey: (Int, String) -> K?,
     parseValue: (K, Int, String) -> V,
+    defaultSize: Int = 0,
 ): Map<K, V> {
-    val count = parseInt(parameters, combine(param, NUMBER), 0)
+    val count = parseInt(parameters, combine(param, NUMBER), defaultSize)
     val map = mutableMapOf<K, V>()
     val remaining = keys.toMutableSet()
 

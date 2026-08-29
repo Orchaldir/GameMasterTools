@@ -12,6 +12,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.ALLOYS_OR_METALS
 import at.orchaldir.gm.core.model.economy.money.*
 import at.orchaldir.gm.core.selector.economy.money.calculateWeight
+import at.orchaldir.gm.core.selector.gm.treasure.getTreasureParcelsWith
 import at.orchaldir.gm.core.selector.util.sortMaterials
 import at.orchaldir.gm.prototypes.visualization.currency.CURRENCY_CONFIG
 import at.orchaldir.gm.utils.doNothing
@@ -28,6 +29,7 @@ import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.DETAILS
 import kotlinx.html.HtmlBlockTag
+import kotlinx.html.h2
 
 // show
 
@@ -51,6 +53,7 @@ fun HtmlBlockTag.showCurrencyUnit(
     }
     fieldWeight("Weight", state.calculateWeight(unit))
     showCurrencyFormat(call, state, unit.format)
+    showUsage(call, state, unit)
 }
 
 private fun HtmlBlockTag.fieldValue(
@@ -111,6 +114,22 @@ fun HtmlBlockTag.showCurrencyFormat(
             }
         }
     }
+}
+
+private fun HtmlBlockTag.showUsage(
+    call: ApplicationCall,
+    state: State,
+    unit: CurrencyUnit,
+) {
+    val parcels = state.getTreasureParcelsWith(unit.id)
+
+    if (parcels.isEmpty()) {
+        return
+    }
+
+    h2 { +"Usage" }
+
+    fieldElements(call, state, parcels)
 }
 
 // edit

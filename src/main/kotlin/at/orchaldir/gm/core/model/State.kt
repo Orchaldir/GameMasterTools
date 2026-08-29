@@ -28,6 +28,12 @@ import at.orchaldir.gm.core.model.economy.material.Material
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.economy.money.*
 import at.orchaldir.gm.core.model.economy.standard.StandardOfLivingId
+import at.orchaldir.gm.core.model.gm.encounter.ENCOUNTER_TYPE
+import at.orchaldir.gm.core.model.gm.encounter.Encounter
+import at.orchaldir.gm.core.model.gm.encounter.EncounterId
+import at.orchaldir.gm.core.model.gm.treasure.TREASURE_PARCEL_TYPE
+import at.orchaldir.gm.core.model.gm.treasure.TreasureParcel
+import at.orchaldir.gm.core.model.gm.treasure.TreasureParcelId
 import at.orchaldir.gm.core.model.health.DISEASE_TYPE
 import at.orchaldir.gm.core.model.health.Disease
 import at.orchaldir.gm.core.model.health.DiseaseId
@@ -55,9 +61,6 @@ import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.religion.*
 import at.orchaldir.gm.core.model.rpg.combat.*
-import at.orchaldir.gm.core.model.rpg.encounter.ENCOUNTER_TYPE
-import at.orchaldir.gm.core.model.rpg.encounter.Encounter
-import at.orchaldir.gm.core.model.rpg.encounter.EncounterId
 import at.orchaldir.gm.core.model.rpg.statistic.STATISTIC_TYPE
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
@@ -176,6 +179,7 @@ val ELEMENTS =
         STREET_TEMPLATE_TYPE,
         TEXT_TYPE,
         TITLE_TYPE,
+        TREASURE_PARCEL_TYPE,
         TREATY_TYPE,
         UNIFORM_TYPE,
         WAR_TYPE,
@@ -266,6 +270,7 @@ data class State(
     fun getStreetTemplateStorage() = getStorage<StreetTemplateId, StreetTemplate>(STREET_TEMPLATE_TYPE)
     fun getTextStorage() = getStorage<TextId, Text>(TEXT_TYPE)
     fun getTitleStorage() = getStorage<TitleId, Title>(TITLE_TYPE)
+    fun getTreasureParcelStorage() = getStorage<TreasureParcelId, TreasureParcel>(TREASURE_PARCEL_TYPE)
     fun getTreatyStorage() = getStorage<TreatyId, Treaty>(TREATY_TYPE)
     fun getUniformStorage() = getStorage<UniformId, Uniform>(UNIFORM_TYPE)
     fun getWarStorage() = getStorage<WarId, War>(WAR_TYPE)
@@ -402,6 +407,7 @@ data class State(
         saveStorage(path, getJobStorage())
         saveStorage(path, getLanguageStorage())
         saveStorage(path, getLegalCodeStorage())
+        saveStorage(path, getTreasureParcelStorage())
         saveStorage(path, getMagicTraditionStorage())
         saveStorage(path, getMaterialStorage())
         saveStorage(path, getMeleeWeaponTypeStorage())
@@ -504,6 +510,7 @@ fun createStorage(type: String) = when (type) {
     STREET_TEMPLATE_TYPE -> Storage(StreetTemplateId(0))
     TEXT_TYPE -> Storage(TextId(0))
     TITLE_TYPE -> Storage(TitleId(0))
+    TREASURE_PARCEL_TYPE -> Storage(TreasureParcelId(0))
     TREATY_TYPE -> Storage(TreatyId(0))
     UNIFORM_TYPE -> Storage(UniformId(0))
     WAR_TYPE -> Storage(WarId(0))
@@ -575,6 +582,7 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     STREET_TEMPLATE_TYPE -> loadStorage<StreetTemplateId, StreetTemplate>(path, StreetTemplateId(0))
     TEXT_TYPE -> loadStorage<TextId, Text>(path, TextId(0))
     TITLE_TYPE -> loadStorage<TitleId, Title>(path, TitleId(0))
+    TREASURE_PARCEL_TYPE -> loadStorage<TreasureParcelId, TreasureParcel>(path, TreasureParcelId(0))
     TREATY_TYPE -> loadStorage<TreatyId, Treaty>(path, TreatyId(0))
     UNIFORM_TYPE -> loadStorage<UniformId, Uniform>(path, UniformId(0))
     WAR_TYPE -> loadStorage<WarId, War>(path, WarId(0))

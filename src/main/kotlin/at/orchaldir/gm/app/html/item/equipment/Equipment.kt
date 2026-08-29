@@ -20,6 +20,7 @@ import at.orchaldir.gm.core.model.util.render.ColorSchemeId
 import at.orchaldir.gm.core.selector.character.getCharacterTemplates
 import at.orchaldir.gm.core.selector.character.getCharactersWith
 import at.orchaldir.gm.core.selector.culture.getFashions
+import at.orchaldir.gm.core.selector.gm.treasure.getTreasureParcelsWith
 import at.orchaldir.gm.core.selector.item.equipment.CalculateVolumeConfig
 import at.orchaldir.gm.core.selector.item.equipment.calculateCostFactors
 import at.orchaldir.gm.core.selector.item.equipment.calculateVolumePerMaterial
@@ -70,9 +71,10 @@ private fun HtmlBlockTag.showUsages(
     val characters = state.getCharactersWith(equipment)
     val characterTemplates = state.getCharacterTemplates(equipment)
     val fashions = state.getFashions(equipment)
+    val parcels = state.getTreasureParcelsWith(equipment)
     val uniforms = state.getUniforms(equipment)
 
-    if (characters.isEmpty() && characterTemplates.isEmpty() && fashions.isEmpty() && uniforms.isEmpty()) {
+    if (characters.isEmpty() && characterTemplates.isEmpty() && fashions.isEmpty() && parcels.isEmpty() && uniforms.isEmpty()) {
         return
     }
 
@@ -81,6 +83,7 @@ private fun HtmlBlockTag.showUsages(
     fieldElements(call, state, characters)
     fieldElements(call, state, characterTemplates)
     fieldElements(call, state, fashions)
+    fieldElements(call, state, parcels)
     fieldElements(call, state, uniforms)
 }
 
@@ -217,6 +220,9 @@ private fun HtmlBlockTag.editEquipmentData(
 fun parseEquipmentId(value: String) = EquipmentId(value.toInt())
 
 fun parseEquipmentId(parameters: Parameters, param: String) = EquipmentId(parseInt(parameters, param))
+
+fun parseOptionalEquipmentId(parameters: Parameters, param: String) =
+    parseSimpleOptionalInt(parameters, param)?.let { EquipmentId(it) }
 
 fun parseEquipment(
     state: State,

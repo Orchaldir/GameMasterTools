@@ -28,8 +28,8 @@ import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.selector.character.getCharacterTemplates
 import at.orchaldir.gm.core.selector.character.getCharactersUsing
 import at.orchaldir.gm.core.selector.culture.hasFashion
+import at.orchaldir.gm.core.selector.gm.encounter.getEncountersWith
 import at.orchaldir.gm.core.selector.item.equipment.getEquipmentIdMapForLookup
-import at.orchaldir.gm.core.selector.rpg.encounter.getEncountersWith
 import at.orchaldir.gm.core.selector.rpg.statblock.getStatblock
 import at.orchaldir.gm.core.selector.world.getRegionsWithEncounter
 import io.ktor.http.*

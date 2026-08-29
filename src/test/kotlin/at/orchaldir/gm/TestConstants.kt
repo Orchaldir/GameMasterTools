@@ -16,6 +16,8 @@ import at.orchaldir.gm.core.model.economy.money.CurrencyId
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnitId
 import at.orchaldir.gm.core.model.economy.money.Denomination
 import at.orchaldir.gm.core.model.economy.standard.StandardOfLivingId
+import at.orchaldir.gm.core.model.gm.encounter.EncounterId
+import at.orchaldir.gm.core.model.gm.treasure.TreasureParcelId
 import at.orchaldir.gm.core.model.health.DiseaseId
 import at.orchaldir.gm.core.model.item.UniformId
 import at.orchaldir.gm.core.model.item.ammunition.AmmunitionId
@@ -37,7 +39,6 @@ import at.orchaldir.gm.core.model.religion.DomainId
 import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.religion.PantheonId
 import at.orchaldir.gm.core.model.rpg.combat.*
-import at.orchaldir.gm.core.model.rpg.encounter.EncounterId
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitId
 import at.orchaldir.gm.core.model.time.calendar.Calendar
@@ -192,6 +193,14 @@ val REGION_ID_1 = RegionId(1)
 val UNKNOWN_REGION_ID = RegionId(99)
 val RIVER_ID_0 = RiverId(0)
 val UNKNOWN_RIVER_ID = RiverId(99)
+val SETTLEMENT_ID_0 = SettlementId(0)
+val SETTLEMENT_ID_1 = SettlementId(1)
+val UNKNOWN_SETTLEMENT_ID = SettlementId(99)
+val SETTLEMENT_MAP_ID_0 = SettlementMapId(0)
+val SETTLEMENT_MAP_ID_1 = SettlementMapId(1)
+val UNKNOWN_SETTLEMENT_MAP_ID = SettlementMapId(99)
+val SETTLEMENT_SIZE_ID_0 = SettlementSizeId(0)
+val UNKNOWN_SETTLEMENT_SIZE_ID = SettlementSizeId(99)
 val SHIELD_TYPE_ID_0 = ShieldTypeId(0)
 val UNKNOWN_SHIELD_TYPE = ShieldTypeId(99)
 val SPELL_ID_0 = SpellId(0)
@@ -216,14 +225,9 @@ val TEXT_ID_1 = TextId(1)
 val UNKNOWN_TEXT_ID = TextId(99)
 val TITLE_ID_0 = TitleId(0)
 val UNKNOWN_TITLE_ID = TitleId(99)
-val SETTLEMENT_ID_0 = SettlementId(0)
-val SETTLEMENT_ID_1 = SettlementId(1)
-val UNKNOWN_SETTLEMENT_ID = SettlementId(99)
-val SETTLEMENT_MAP_ID_0 = SettlementMapId(0)
-val SETTLEMENT_MAP_ID_1 = SettlementMapId(1)
-val UNKNOWN_SETTLEMENT_MAP_ID = SettlementMapId(99)
-val SETTLEMENT_SIZE_ID_0 = SettlementSizeId(0)
-val UNKNOWN_SETTLEMENT_SIZE_ID = SettlementSizeId(99)
+val TREASURE_PARCEL_ID_0 = TreasureParcelId(0)
+val TREASURE_PARCEL_ID_1 = TreasureParcelId(1)
+val UNKNOWN_TREASURE_PARCEL_ID = TreasureParcelId(99)
 val TREATY_ID_0 = TreatyId(0)
 val UNKNOWN_TREATY_ID = TreatyId(99)
 val UNIFORM_ID_0 = UniformId(0)
