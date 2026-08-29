@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.model.gm.treasure
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.CurrencyUnitId
 import at.orchaldir.gm.core.model.gm.treasure.EquipmentParcel
+import at.orchaldir.gm.core.model.gm.treasure.TextParcel
 import at.orchaldir.gm.core.model.gm.treasure.TreasureParcelLookup
 import at.orchaldir.gm.core.model.item.ammunition.AmmunitionId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
@@ -97,7 +98,9 @@ data class EquipmentParcel(
 @SerialName("Money")
 data class MoneyParcel(
     val map: Map<CurrencyUnitId, Quantity>,
-) : TreasureEntry()
+) : TreasureEntry() {
+    constructor(id: CurrencyUnitId): this(mapOf(id to FixedNumber(1)))
+}
 
 @Serializable
 @SerialName("Text")

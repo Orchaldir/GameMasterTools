@@ -5,7 +5,11 @@ import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.gm.treasure.AmmunitionParcel
 import at.orchaldir.gm.core.model.gm.treasure.EquipmentParcel
+import at.orchaldir.gm.core.model.gm.treasure.MoneyParcel
+import at.orchaldir.gm.core.model.gm.treasure.TextParcel
+import at.orchaldir.gm.core.model.gm.treasure.TreasureEntry
 import at.orchaldir.gm.core.model.gm.treasure.TreasureParcel
+import at.orchaldir.gm.core.model.gm.treasure.TreasureParcelLookup
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
@@ -25,21 +29,28 @@ class TreasureParcelTest {
     inner class UpdateTest {
 
         @Test
-        fun `Cannot be based on an unknown ammunition`() {
-            val entry = AmmunitionParcel(UNKNOWN_AMMUNITION)
-            val parcel = TreasureParcel(TREASURE_PARCEL_ID_0, entry = entry)
-            val action = UpdateAction(parcel)
-
-            assertIllegalArgument("Requires unknown Ammunition 99!") { REDUCER.invoke(stat, action) }
+        fun `Cannot contain an unknown ammunition`() {
+            failUpdate(AmmunitionParcel(UNKNOWN_AMMUNITION), "Requires unknown Ammunition 99!")
         }
 
         @Test
-        fun `Cannot be based on an unknown equipment`() {
-            val entry = EquipmentParcel(UNKNOWN_EQUIPMENT_ID)
-            val parcel = TreasureParcel(TREASURE_PARCEL_ID_0, entry = entry)
-            val action = UpdateAction(parcel)
+        fun `Cannot contain an unknown currency unit`() {
+            failUpdate(MoneyParcel(UNKNOWN_CURRENCY_UNIT_ID), "Requires unknown Currency Unit 99!")
+        }
 
-            assertIllegalArgument("Requires unknown Equipment 99!") { REDUCER.invoke(stat, action) }
+        @Test
+        fun `Cannot contain an unknown equipment`() {
+            failUpdate(EquipmentParcel(UNKNOWN_EQUIPMENT_ID), "Requires unknown Equipment 99!")
+        }
+
+        @Test
+        fun `Cannot contain an unknown text`() {
+            failUpdate(TextParcel(UNKNOWN_TEXT_ID), "Requires unknown Text 99!")
+        }
+
+        @Test
+        fun `Cannot contain an unknown treasure parcel`() {
+            failUpdate(TreasureParcelLookup(UNKNOWN_TREASURE_PARCEL_ID), "Requires unknown Treasure Parcel 99!")
         }
 
         @Test
@@ -49,6 +60,13 @@ class TreasureParcelTest {
             val action = UpdateAction(parcel)
 
             REDUCER.invoke(stat, action)
+        }
+
+        private fun failUpdate(entry: TreasureEntry, message: String) {
+            val parcel = TreasureParcel(TREASURE_PARCEL_ID_0, entry = entry)
+            val action = UpdateAction(parcel)
+
+            assertIllegalArgument(message) { REDUCER.invoke(stat, action) }
         }
     }
 
