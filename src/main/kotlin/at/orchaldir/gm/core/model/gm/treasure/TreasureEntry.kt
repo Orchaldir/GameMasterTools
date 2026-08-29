@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.model.item.text.TextId
 import at.orchaldir.gm.core.model.util.quantity.Quantity
 import at.orchaldir.gm.core.model.util.Lookup
+import at.orchaldir.gm.core.model.util.quantity.FixedNumber
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
 import kotlinx.serialization.SerialName
@@ -102,7 +103,9 @@ data class TextParcel(
 @SerialName("Lookup")
 data class TreasureParcelLookup(
     val map: Map<TreasureParcelId, Quantity>,
-) : TreasureEntry()
+) : TreasureEntry() {
+    constructor(id: TreasureParcelId): this(mapOf(id to FixedNumber(1)))
+}
 
 @Serializable
 @SerialName("Table")

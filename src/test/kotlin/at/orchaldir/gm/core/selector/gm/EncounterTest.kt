@@ -31,7 +31,7 @@ class EncounterTest {
         }
 
         @Test
-        fun `Cannot delete an encounter that is used by a regional encounter`() {
+        fun `Cannot delete an encounter that is used by a region`() {
             val element = Region(REGION_ID_0, encounter = EncounterLookup(ENCOUNTER_ID_0))
             val newState = state.updateStorage(element)
 
