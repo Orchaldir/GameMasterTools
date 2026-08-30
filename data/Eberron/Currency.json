@@ -3,7 +3,7 @@
  "elements": {
   "0": {
    "id": 0,
-   "name": "Default Currency",
+   "name": "Galifar",
    "subDenominations": [
     {
      "first": {
@@ -17,7 +17,11 @@
      },
      "second": 100
     }
-   ]
+   ],
+   "startDate": {
+    "#type": "Year",
+    "year": 0
+   }
   }
  }
 }
