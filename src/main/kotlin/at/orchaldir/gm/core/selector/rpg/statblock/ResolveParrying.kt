@@ -8,11 +8,14 @@ fun resolveParrying(
     modifier: ModifyParrying,
     parrying: Parrying,
 ) = when (parrying) {
+    is FencingParrying -> FencingParrying(
+        parrying.modifier + modifier.amount
+    )
+    NoParrying -> parrying
     is NormalParrying -> NormalParrying(
         parrying.modifier + modifier.amount
     )
 
-    NoParrying -> parrying
     is UnbalancedParrying -> NormalParrying(
         parrying.modifier + modifier.amount
     )

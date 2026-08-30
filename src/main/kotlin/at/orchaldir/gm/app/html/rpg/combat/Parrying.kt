@@ -24,6 +24,7 @@ fun HtmlBlockTag.displayParrying(
     parrying: Parrying,
 ) {
     when (parrying) {
+        is FencingParrying -> +"${parrying.modifier}F"
         NoParrying -> +"No"
         is NormalParrying -> +"${parrying.modifier}"
         is UnbalancedParrying -> +"${parrying.modifier}U"
@@ -48,6 +49,7 @@ fun HtmlBlockTag.editParrying(
         )
 
         when (parrying) {
+            is FencingParrying -> selectModifier(parryingParam, parrying.modifier)
             NoParrying -> doNothing()
             is NormalParrying -> selectModifier(parryingParam, parrying.modifier)
             is UnbalancedParrying -> selectModifier(parryingParam, parrying.modifier)
@@ -79,11 +81,14 @@ fun parseParrying(
     val parryingParam = combine(param, PARRYING)
 
     return when (parse(parameters, combine(parryingParam, TYPE), ParryingType.Undefined)) {
+        ParryingType.Fencing -> FencingParrying(
+            parseModifier(parameters, parryingParam),
+        )
+        ParryingType.None -> NoParrying
         ParryingType.Normal -> NormalParrying(
             parseModifier(parameters, parryingParam),
         )
 
-        ParryingType.None -> NoParrying
         ParryingType.Unbalanced -> UnbalancedParrying(
             parseModifier(parameters, parryingParam),
         )
