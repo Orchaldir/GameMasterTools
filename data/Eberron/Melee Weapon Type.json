@@ -30,6 +30,188 @@
      }
     }
    ]
+  },
+  "2": {
+   "id": 2,
+   "name": "Short Sword",
+   "attacks": [
+    {
+     "effect": {
+      "#type": "Damage",
+      "amount": {
+       "#type": "StatisticBased",
+       "base": 15,
+       "modifier": {
+        "#type": "Not",
+        "number": 0
+       }
+      },
+      "damageType": 4
+     },
+     "reach": {
+      "#type": "Simple"
+     },
+     "parrying": {
+      "#type": "Normal"
+     },
+     "skill": {
+      "#type": "Modified",
+      "skill": 6
+     }
+    }
+   ]
+  },
+  "3": {
+   "id": 3,
+   "name": "Longsword",
+   "attacks": [
+    {
+     "effect": {
+      "#type": "Damage",
+      "amount": {
+       "#type": "StatisticBased",
+       "base": 15,
+       "modifier": {
+        "#type": "Not",
+        "number": 1
+       }
+      },
+      "damageType": 4
+     },
+     "reach": {
+      "#type": "Simple"
+     },
+     "parrying": {
+      "#type": "Normal"
+     },
+     "skill": {
+      "#type": "Modified",
+      "skill": 0
+     }
+    }
+   ]
+  },
+  "4": {
+   "id": 4,
+   "name": "Greatsword",
+   "attacks": [
+    {
+     "effect": {
+      "#type": "Damage",
+      "amount": {
+       "#type": "StatisticBased",
+       "base": 15,
+       "modifier": {
+        "#type": "Not",
+        "number": 2
+       }
+      },
+      "damageType": 4
+     },
+     "reach": {
+      "#type": "Range"
+     },
+     "parrying": {
+      "#type": "Normal"
+     },
+     "skill": {
+      "#type": "Modified",
+      "skill": 6
+     }
+    }
+   ]
+  },
+  "5": {
+   "id": 5,
+   "name": "Great Axe",
+   "attacks": [
+    {
+     "effect": {
+      "#type": "Damage",
+      "amount": {
+       "#type": "StatisticBased",
+       "base": 15,
+       "modifier": {
+        "#type": "Not",
+        "number": 4
+       }
+      },
+      "damageType": 4
+     },
+     "reach": {
+      "#type": "Range"
+     },
+     "parrying": {
+      "#type": "Unbalanced"
+     },
+     "skill": {
+      "#type": "Modified",
+      "skill": 6
+     }
+    }
+   ]
+  },
+  "6": {
+   "id": 6,
+   "name": "Dagger",
+   "attacks": [
+    {
+     "effect": {
+      "#type": "Damage",
+      "amount": {
+       "#type": "StatisticBased",
+       "base": 14,
+       "modifier": {
+        "#type": "Not",
+        "number": -1
+       }
+      },
+      "damageType": 6
+     },
+     "reach": {
+      "#type": "Simple",
+      "distance": 0
+     },
+     "parrying": {
+      "#type": "Normal",
+      "modifier": -1
+     },
+     "skill": {
+      "#type": "Modified",
+      "skill": 6
+     }
+    }
+   ]
+  },
+  "7": {
+   "id": 7,
+   "name": "Rapier",
+   "attacks": [
+    {
+     "effect": {
+      "#type": "Damage",
+      "amount": {
+       "#type": "StatisticBased",
+       "base": 14,
+       "modifier": {
+        "#type": "Not",
+        "number": 1
+       }
+      },
+      "damageType": 6
+     },
+     "reach": {
+      "#type": "Range"
+     },
+     "parrying": {
+      "#type": "Normal"
+     },
+     "skill": {
+      "#type": "Modified",
+      "skill": 6
+     }
+    }
+   ]
   }
  }
 }
