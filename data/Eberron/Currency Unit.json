@@ -1,5 +1,20 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "Copper Crown",
+   "format": {
+    "#type": "Coin",
+    "material": 0,
+    "shape": {
+     "#type": "Circular",
+     "shape": "Octagon"
+    },
+    "front": {
+     "#type": "Value"
+    }
+   }
+  }
  }
 }
