@@ -22,6 +22,7 @@ import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
 import at.orchaldir.gm.core.model.character.appearance.mouth.NormalMouth
 import at.orchaldir.gm.core.model.item.equipment.*
+import at.orchaldir.gm.core.model.rpg.combat.MeleeAttack
 import at.orchaldir.gm.core.model.util.SortEquipment
 import at.orchaldir.gm.core.model.util.render.ColorSchemeId
 import at.orchaldir.gm.core.model.util.render.Colors
@@ -196,6 +197,7 @@ fun Application.configureEquipmentRouting() {
             val meleeWeapons = state.getEquipmentStorage()
                 .getAll()
                 .filter { it.data.getMeleeWeaponStats() != null }
+            val resolved = mutableMapOf<Equipment, List<MeleeAttack>>()
 
             handleShowAllElements(
                 routes,
@@ -211,13 +213,13 @@ fun Application.configureEquipmentRouting() {
                             it.data.getMeleeWeaponStats()?.modifiers ?: emptySet()
                         )
                     },
-                    createMeleeWeaponColumn(state, "Damage") {
+                    createMeleeWeaponColumn(state, "Damage", resolved) {
                         displayAttackEffect(call, state, it.effect)
                     },
-                    createMeleeWeaponColumn(state, "Reach") {
+                    createMeleeWeaponColumn(state, "Reach", resolved) {
                         displayReach(it.reach)
                     },
-                    createMeleeWeaponColumn(state, "Parrying") {
+                    createMeleeWeaponColumn(state, "Parrying", resolved) {
                         displayParrying(it.parrying)
                     },
                 ),

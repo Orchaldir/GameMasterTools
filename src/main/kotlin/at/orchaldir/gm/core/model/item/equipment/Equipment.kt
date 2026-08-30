@@ -25,6 +25,7 @@ value class EquipmentId(val value: Int) : Id<EquipmentId> {
 
     override fun next() = EquipmentId(value + 1)
     override fun type() = EQUIPMENT_TYPE
+    override fun plural() = EQUIPMENT_TYPE
     override fun value() = value
 
 }

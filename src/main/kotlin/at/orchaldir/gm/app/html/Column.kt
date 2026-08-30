@@ -16,7 +16,9 @@ import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.selector.character.countKilledCharacters
 import at.orchaldir.gm.core.selector.realm.countDestroyedRealms
 import at.orchaldir.gm.core.selector.realm.countDestroyedSettlements
+import at.orchaldir.gm.core.selector.rpg.combat.getEquipmentModifierEffects
 import at.orchaldir.gm.core.selector.rpg.combat.getMeleeWeaponType
+import at.orchaldir.gm.core.selector.rpg.statblock.resolveMeleeAttacks
 import at.orchaldir.gm.core.selector.time.getAgeInYears
 import at.orchaldir.gm.core.selector.util.calculatePopulationDensity
 import at.orchaldir.gm.utils.Element
@@ -29,6 +31,7 @@ import kotlinx.html.TD
 import kotlinx.html.TR
 import kotlinx.html.td
 import java.util.*
+import kotlin.collections.mutableMapOf
 
 data class Column<T>(
     val header: List<String>,
@@ -124,14 +127,21 @@ fun <ID0 : Id<ID0>, ID1 : Id<ID1>, ELEMENT : Element<ID0>> createIdColumn(
 fun createMeleeWeaponColumn(
     state: State,
     label: String,
+    resolved: MutableMap<Equipment, List<MeleeAttack>>,
     display: TD.(MeleeAttack) -> Unit,
 ): Column<Equipment> = tdColumn(label) {
-    state.getMeleeWeaponType(it)
-        ?.let { type ->
-            showMultiLine(type.attacks) { attack ->
-                this@tdColumn.display(attack)
-            }
-        }
+    val attacks = resolved.computeIfAbsent(it) { equipment ->
+        state.getMeleeWeaponType(equipment)?.let { type ->
+            val stats = equipment.data.getMeleeWeaponStats()!!
+            val effects = state.getEquipmentModifierEffects(stats.modifiers)
+
+            resolveMeleeAttacks(state, effects, type.attacks)
+        } ?: emptyList()
+    }
+
+    showMultiLine(attacks) { attack ->
+        this@tdColumn.display(attack)
+    }
 }
 
 fun <ID : Id<ID>, ELEMENT : Element<ID>> createNameColumn(

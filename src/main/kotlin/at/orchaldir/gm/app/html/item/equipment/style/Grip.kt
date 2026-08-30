@@ -65,7 +65,7 @@ fun HtmlBlockTag.editGrip(
                     "Rows",
                     grip.rows,
                     MIN_GRIP_ROWS,
-                    MIN_GRIP_ROWS,
+                    DEFAULT_GRIP_ROWS,
                     1,
                     combine(param, NUMBER),
                 )
