@@ -1,5 +1,60 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "Burning",
+   "short": "burn"
+  },
+  "2": {
+   "id": 2,
+   "name": "Corrosion",
+   "short": "cor"
+  },
+  "3": {
+   "id": 3,
+   "name": "Crushing",
+   "short": "cr"
+  },
+  "4": {
+   "id": 4,
+   "name": "Cutting",
+   "short": "cut"
+  },
+  "5": {
+   "id": 5,
+   "name": "Fatigue",
+   "short": "fat"
+  },
+  "6": {
+   "id": 6,
+   "name": "Impaling",
+   "short": "imp"
+  },
+  "7": {
+   "id": 7,
+   "name": "Small Piercing",
+   "short": "pi-"
+  },
+  "8": {
+   "id": 8,
+   "name": "Piercing",
+   "short": "pi"
+  },
+  "9": {
+   "id": 9,
+   "name": "Large Piercing",
+   "short": "pi+"
+  },
+  "10": {
+   "id": 10,
+   "name": "Huge Piercing",
+   "short": "pi++"
+  },
+  "11": {
+   "id": 11,
+   "name": "Toxic",
+   "short": "tox"
+  }
  }
 }
