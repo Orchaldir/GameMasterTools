@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.selector.item.equipment.getEquipment
 import at.orchaldir.gm.core.selector.item.equipment.getEquippedWith
 
 fun State.canDeleteColorScheme(id: ColorSchemeId) = DeleteResult(id)
+    .addElements(getColorSchemeGroups(id))
     .addElements(getEquipment(id))
     .addElements(getEquippedWith(id))
 
