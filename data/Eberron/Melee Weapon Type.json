@@ -348,7 +348,7 @@
         "number": 5
        }
       },
-      "damageType": 0
+      "damageType": 3
      },
      "reach": {
       "#type": "Range"

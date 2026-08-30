@@ -23,12 +23,26 @@ enum class DieType {
 }
 
 fun display(
+    number: Int,
+    showSign: Boolean,
+) = if (showSign && number > 0) {
+    "+$number"
+}
+else if (number != 0) {
+    number.toString()
+}
+else {
+    ""
+}
+
+fun display(
     dice: Int,
     modifier: Int,
     dieText: String = "d",
+    showSign: Boolean = false,
 ): String {
     var string = if (dice != 0) {
-        "$dice$dieText"
+        display(dice, showSign) + dieText
     } else {
         ""
     }

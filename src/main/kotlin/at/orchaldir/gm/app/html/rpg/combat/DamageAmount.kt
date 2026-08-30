@@ -28,7 +28,7 @@ fun HtmlBlockTag.displayDamageAmount(
             val base = state.getStatisticStorage().getOrThrow(amount.base)
 
             link(call, base, base.short())
-            +amount.modifier.display()
+            +amount.modifier.display(showSign = true)
         }
 
         is SimpleRandomDamage -> +amount.amount.display()
