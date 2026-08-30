@@ -84,6 +84,11 @@ enum class SortColorScheme {
     Equipment,
 }
 
+enum class SortColorSchemeGroup {
+    Name,
+    Schemes,
+}
+
 enum class SortCulture {
     Name,
     Population,
