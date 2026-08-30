@@ -262,7 +262,7 @@ fun Application.configureEquipmentRouting() {
                 state.sortEquipmentList(gallery.sort),
                 gallery.sort,
             ) { equipment ->
-                val equipped = EquipmentMap.from(equipment.data, state.getColors(equipment))
+                val equipped = EquipmentMap.from(equipment.data, state.getColors(equipment.colorSchemes))
                 val appearance = createAppearance(equipment, height)
 
                 visualizeCharacter(state, CHARACTER_CONFIG, appearance, equipped)
@@ -325,7 +325,7 @@ fun HtmlBlockTag.editEquipmentAndColorScheme(
     equipment: Equipment,
     optionalColorSchemeId: ColorSchemeId? = null,
 ) {
-    if (equipment.colorSchemes.isNotEmpty()) {
+    if (!equipment.colorSchemes.isEmpty()) {
         selectColorScheme(state, equipment.colorSchemes, optionalColorSchemeId)
     }
 
@@ -339,7 +339,9 @@ private fun HtmlBlockTag.showEquipmentWithColorScheme(
     colorSchemeId: ColorSchemeId? = null,
 ) {
     val previewLink = call.application.href(EquipmentRoutes.Scheme(equipment.id))
-    val colors = if (equipment.colorSchemes.isNotEmpty()) {
+    val colors = if (equipment.colorSchemes.isEmpty()) {
+        UndefinedColors
+    } else {
         form {
             id = "editor"
             action = previewLink
@@ -349,8 +351,6 @@ private fun HtmlBlockTag.showEquipmentWithColorScheme(
         }
 
         getColors(state, equipment, colorSchemeId)
-    } else {
-        UndefinedColors
     }
 
     visualizeEquipment(state, equipment, colors, 20)
@@ -363,10 +363,10 @@ private fun HtmlBlockTag.showEquipmentEditorRight(
     equipment: Equipment,
     colorSchemeId: ColorSchemeId? = null,
 ) {
-    val colors = if (equipment.colorSchemes.isNotEmpty()) {
-        getColors(state, equipment, colorSchemeId)
-    } else {
+    val colors = if (equipment.colorSchemes.isEmpty()) {
         UndefinedColors
+    } else {
+        getColors(state, equipment, colorSchemeId)
     }
 
     visualizeEquipment(state, equipment, colors, 60)
@@ -377,7 +377,7 @@ private fun getColors(
     equipment: Equipment,
     optionalColorSchemeId: ColorSchemeId?,
 ): Colors {
-    val colorSchemeId = optionalColorSchemeId ?: equipment.colorSchemes.first()
+    val colorSchemeId = optionalColorSchemeId ?: return state.getColors(equipment.colorSchemes)
     val colorScheme = state.getColorSchemeStorage().getOrThrow(colorSchemeId)
 
     return colorScheme.data

@@ -8,15 +8,9 @@ import at.orchaldir.gm.core.model.util.render.*
 import at.orchaldir.gm.core.selector.item.equipment.getEquipment
 import at.orchaldir.gm.core.selector.item.equipment.getEquippedWith
 
-private val DEFAULT_COLOR_SCHEME: Colors = TwoColors.init(Color.Navy, Color.Green)
-
 fun State.canDeleteColorScheme(id: ColorSchemeId) = DeleteResult(id)
     .addElements(getEquipment(id))
     .addElements(getEquippedWith(id))
-
-fun State.getColors(equipment: Equipment) = getColorSchemeStorage()
-    .getOptional(equipment.colorSchemes.firstOrNull())
-    ?.data ?: DEFAULT_COLOR_SCHEME
 
 fun State.getValidColorSchemes(data: EquipmentData) = getColorSchemeStorage()
     .getAll()

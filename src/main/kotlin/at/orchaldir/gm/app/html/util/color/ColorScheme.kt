@@ -7,6 +7,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.render.*
 import at.orchaldir.gm.core.selector.item.equipment.getEquipment
+import at.orchaldir.gm.core.selector.util.getColorSchemes
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -38,12 +39,12 @@ fun HtmlBlockTag.showColorScheme(
 
 fun HtmlBlockTag.selectColorScheme(
     state: State,
-    availableSchemes: Set<ColorSchemeId>,
+    options: ColorSchemeOption,
     currentSchemes: ColorSchemeId?,
     param: String = SCHEME,
 ) {
-    val colorSchemeId = currentSchemes ?: availableSchemes.first()
-    val colorSchemes = state.getColorSchemeStorage().get(availableSchemes)
+    val colorSchemes = state.getColorSchemes(options)
+    val colorSchemeId = currentSchemes ?: colorSchemes.first().id
 
     selectElement(
         state,
