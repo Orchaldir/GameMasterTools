@@ -1,5 +1,118 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "Cannith Longsword",
+   "data": {
+    "#type": "Sword1",
+    "blade": {
+     "#type": "Simple",
+     "length": 5000,
+     "main": {
+      "#type": "Metal",
+      "material": 5
+     }
+    },
+    "hilt": {
+     "#type": "Simple",
+     "guard": {
+      "#type": "Simple",
+      "part": {
+       "#type": "Metal",
+       "material": 5
+      }
+     },
+     "grip": {
+      "#type": "Bound",
+      "rows": 3,
+      "part": {
+       "#type": "Cord",
+       "material": 19,
+       "color": {
+        "#type": "0"
+       }
+      }
+     },
+     "pommel": {
+      "#type": "at.orchaldir.gm.core.model.item.equipment.style.PommelWithOrnament",
+      "ornament": {
+       "#type": "Simple",
+       "part": {
+        "#type": "Metal",
+        "material": 5
+       }
+      },
+      "size": "Small"
+     }
+    },
+    "stats": {
+     "type": 3
+    }
+   },
+   "colorSchemes": [
+    1,
+    2,
+    0
+   ]
+  },
+  "1": {
+   "id": 1,
+   "name": "Cannith Longsword Pro",
+   "data": {
+    "#type": "Sword1",
+    "blade": {
+     "#type": "Simple",
+     "length": 5000,
+     "main": {
+      "#type": "Metal",
+      "material": 5
+     }
+    },
+    "hilt": {
+     "#type": "Simple",
+     "guard": {
+      "#type": "Simple",
+      "part": {
+       "#type": "Metal",
+       "material": 5
+      }
+     },
+     "grip": {
+      "#type": "Bound",
+      "rows": 3,
+      "part": {
+       "#type": "Leather",
+       "material": 19,
+       "grade": "TopGrain",
+       "color": {
+        "#type": "0"
+       }
+      }
+     },
+     "pommel": {
+      "#type": "at.orchaldir.gm.core.model.item.equipment.style.PommelWithOrnament",
+      "ornament": {
+       "#type": "Simple",
+       "part": {
+        "#type": "Metal",
+        "material": 5
+       }
+      }
+     }
+    },
+    "stats": {
+     "type": 3,
+     "modifiers": [
+      1
+     ]
+    }
+   },
+   "colorSchemes": [
+    1,
+    2,
+    0
+   ]
+  }
  }
 }
