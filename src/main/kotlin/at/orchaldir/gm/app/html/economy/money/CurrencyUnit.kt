@@ -47,8 +47,6 @@ fun HtmlBlockTag.showCurrencyUnit(
     visualizeCurrencyUnit(state, unit)
     showDetails("Value", true) {
         fieldLink("Currency", call, state, unit.currency)
-        field("Number", unit.number)
-        field("Denomination", unit.denomination)
         fieldValue(state, unit)
     }
     fieldWeight("Weight", state.calculateWeight(unit))
@@ -156,14 +154,16 @@ fun HtmlBlockTag.editCurrencyUnit(
             1,
             NUMBER,
         )
-        selectInt(
+        selectValue(
             "Denomination",
-            unit.denomination,
-            0,
-            currency.countDenominations() - 1,
-            1,
             combine(DENOMINATION, NUMBER),
-        )
+            currency.getDenominations().withIndex().toList(),
+        ) {
+            indexed ->
+            label = indexed.value.text.text
+            value = indexed.index.toString()
+            selected = indexed.index == unit.denomination
+        }
         fieldValue(state, unit)
     }
     fieldWeight("Weight", state.calculateWeight(unit))
