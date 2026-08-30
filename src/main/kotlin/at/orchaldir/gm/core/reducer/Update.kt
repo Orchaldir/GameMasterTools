@@ -45,6 +45,7 @@ import at.orchaldir.gm.core.model.util.font.Font
 import at.orchaldir.gm.core.model.util.name.NameList
 import at.orchaldir.gm.core.model.util.quote.Quote
 import at.orchaldir.gm.core.model.util.render.ColorScheme
+import at.orchaldir.gm.core.model.util.render.ColorSchemeGroup
 import at.orchaldir.gm.core.model.util.source.DataSource
 import at.orchaldir.gm.core.model.world.World
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
@@ -82,6 +83,7 @@ fun reduceUpdateElement(
     is Catastrophe -> updateElement(state, element)
     is Character -> updateElement(state, element)
     is CharacterTemplate -> updateElement(state, element)
+    is ColorSchemeGroup -> updateElement(state, element)
     is ColorScheme -> updateElement(state, element)
     is Culture -> updateCulture(state, element)
     is Currency -> updateElement(state, element)

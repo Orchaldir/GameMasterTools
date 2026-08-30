@@ -152,7 +152,6 @@ fun Application.configureEquipmentRouting() {
                         }
                     },
                     Column("Materials") { tdInlineIds(call, state, it.data.materials()) },
-                    Column(listOf("Color", "Schemes")) { tdInlineIds(call, state, it.colorSchemes) },
                     Column(listOf("Required", "Colors")) { tdSkipZero(it.data.requiredSchemaColors()) },
                     countCollectionColumn("Characters") { state.getCharactersWith(it.id) },
                     Column(listOf("Character", "Templates")) { tdSkipZero(state.getCharacterTemplates(it.id)) },

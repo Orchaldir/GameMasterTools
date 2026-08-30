@@ -45,6 +45,7 @@ import at.orchaldir.gm.core.model.time.holiday.HolidayId
 import at.orchaldir.gm.core.model.util.font.FontId
 import at.orchaldir.gm.core.model.util.name.NameListId
 import at.orchaldir.gm.core.model.util.quote.QuoteId
+import at.orchaldir.gm.core.model.util.render.ColorSchemeGroupId
 import at.orchaldir.gm.core.model.util.render.ColorSchemeId
 import at.orchaldir.gm.core.model.util.source.DataSourceId
 import at.orchaldir.gm.core.model.world.WorldId
@@ -120,6 +121,7 @@ fun reduceDeleteElement(
     is CatastropheId -> deleteElement(state, id, State::canDeleteCatastrophe)
     is CharacterId -> deleteElement(state, id, State::canDeleteCharacter)
     is CharacterTemplateId -> deleteElement(state, id, State::canDeleteCharacterTemplate)
+    is ColorSchemeGroupId -> deleteElement(state, id, State::canDeleteColorSchemeGroup)
     is ColorSchemeId -> deleteElement(state, id, State::canDeleteColorScheme)
     is CultureId -> deleteElement(state, id, State::canDeleteCulture)
     is CurrencyId -> deleteElement(state, id, State::canDeleteCurrency)
