@@ -13,6 +13,7 @@ import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Weight
 import io.ktor.server.application.*
 import kotlinx.html.*
+import kotlinx.serialization.json.JsonNull.content
 
 // header cell
 
@@ -73,10 +74,17 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> TR.tdLinks(
     call: ApplicationCall,
     state: State,
     elements: Collection<ELEMENT>,
+) = tdList(elements) {
+    link(call, state, it)
+}
+
+fun <T> TR.tdList(
+    elements: Collection<T>,
+    content: LI.(T) -> Unit,
 ) {
     td {
         showList(elements) {
-            link(call, state, it)
+            content(it)
         }
     }
 }
