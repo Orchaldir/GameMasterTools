@@ -7,7 +7,6 @@ import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.model.rpg.combat.*
-import at.orchaldir.gm.core.model.util.render.ColorSchemeGroup
 import at.orchaldir.gm.core.model.util.render.ColorSchemeGroupId
 import at.orchaldir.gm.core.model.util.render.ColorSchemeId
 import at.orchaldir.gm.core.selector.character.getCharacterTemplates

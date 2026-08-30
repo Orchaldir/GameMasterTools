@@ -12,15 +12,12 @@ import at.orchaldir.gm.app.html.item.equipment.data.*
 import at.orchaldir.gm.app.html.rpg.combat.*
 import at.orchaldir.gm.app.html.util.color.editColorSchemeOption
 import at.orchaldir.gm.app.html.util.color.fieldColorSchemeOption
-import at.orchaldir.gm.app.html.util.color.parseColorSchemeId
 import at.orchaldir.gm.app.html.util.color.parseColorSchemeOption
-import at.orchaldir.gm.app.html.util.color.showColorSchemeOption
 import at.orchaldir.gm.app.html.util.math.parseWeightLookup
 import at.orchaldir.gm.app.html.util.math.selectWeightLookup
 import at.orchaldir.gm.app.html.util.math.showWeightLookupDetails
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.*
-import at.orchaldir.gm.core.model.util.render.ColorSchemeId
 import at.orchaldir.gm.core.selector.character.getCharacterTemplates
 import at.orchaldir.gm.core.selector.character.getCharactersWith
 import at.orchaldir.gm.core.selector.culture.getFashions
@@ -29,8 +26,6 @@ import at.orchaldir.gm.core.selector.item.equipment.CalculateVolumeConfig
 import at.orchaldir.gm.core.selector.item.equipment.calculateCostFactors
 import at.orchaldir.gm.core.selector.item.equipment.calculateVolumePerMaterial
 import at.orchaldir.gm.core.selector.item.getUniforms
-import at.orchaldir.gm.core.selector.util.filterValidColorSchemes
-import at.orchaldir.gm.core.selector.util.getValidColorSchemes
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import io.ktor.http.*
 import io.ktor.server.application.*

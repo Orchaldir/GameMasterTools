@@ -1,24 +1,18 @@
 package at.orchaldir.gm.core.reducer.util
 
-import at.orchaldir.gm.CALENDAR0
 import at.orchaldir.gm.COLOR_SCHEME_GROUP_ID_0
 import at.orchaldir.gm.COLOR_SCHEME_ID_0
-import at.orchaldir.gm.REALM_ID_0
 import at.orchaldir.gm.UNKNOWN_COLOR_SCHEME_ID
 import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.realm.Realm
-import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.util.render.ColorScheme
 import at.orchaldir.gm.core.model.util.render.ColorSchemeGroup
-import at.orchaldir.gm.core.model.util.render.OneColor
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
 
 class ColorSchemeGroupTest {
 

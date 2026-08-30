@@ -5,7 +5,6 @@ import at.orchaldir.gm.core.model.economy.money.CalculatedPrice
 import at.orchaldir.gm.core.model.economy.money.PriceLookup
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
-import at.orchaldir.gm.core.model.util.render.ColorSchemeId
 import at.orchaldir.gm.core.model.util.render.ColorSchemeOption
 import at.orchaldir.gm.core.model.util.render.NoColorSchemes
 import at.orchaldir.gm.core.reducer.item.validateEquipment

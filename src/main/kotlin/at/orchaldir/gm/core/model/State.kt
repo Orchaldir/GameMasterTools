@@ -82,12 +82,7 @@ import at.orchaldir.gm.core.model.util.name.NameListId
 import at.orchaldir.gm.core.model.util.quote.QUOTE_TYPE
 import at.orchaldir.gm.core.model.util.quote.Quote
 import at.orchaldir.gm.core.model.util.quote.QuoteId
-import at.orchaldir.gm.core.model.util.render.COLOR_SCHEME_GROUP_TYPE
-import at.orchaldir.gm.core.model.util.render.COLOR_SCHEME_TYPE
-import at.orchaldir.gm.core.model.util.render.ColorScheme
-import at.orchaldir.gm.core.model.util.render.ColorSchemeGroup
-import at.orchaldir.gm.core.model.util.render.ColorSchemeGroupId
-import at.orchaldir.gm.core.model.util.render.ColorSchemeId
+import at.orchaldir.gm.core.model.util.render.*
 import at.orchaldir.gm.core.model.util.source.DATA_SOURCE_TYPE
 import at.orchaldir.gm.core.model.util.source.DataSource
 import at.orchaldir.gm.core.model.util.source.DataSourceId

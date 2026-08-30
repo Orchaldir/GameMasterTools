@@ -27,11 +27,9 @@ fun display(
     showSign: Boolean,
 ) = if (showSign && number > 0) {
     "+$number"
-}
-else if (number != 0) {
+} else if (number != 0) {
     number.toString()
-}
-else {
+} else {
     ""
 }
 

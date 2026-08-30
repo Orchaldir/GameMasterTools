@@ -31,7 +31,6 @@ import kotlinx.html.TD
 import kotlinx.html.TR
 import kotlinx.html.td
 import java.util.*
-import kotlin.collections.mutableMapOf
 
 data class Column<T>(
     val header: List<String>,

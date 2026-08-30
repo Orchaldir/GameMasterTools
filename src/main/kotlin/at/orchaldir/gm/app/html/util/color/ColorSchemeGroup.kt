@@ -1,15 +1,12 @@
 package at.orchaldir.gm.app.html.util.color
 
-import at.orchaldir.gm.app.COLOR
 import at.orchaldir.gm.app.SCHEME
-import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.util.render.*
+import at.orchaldir.gm.core.model.util.render.ColorSchemeGroup
+import at.orchaldir.gm.core.model.util.render.ColorSchemeGroupId
 import at.orchaldir.gm.core.selector.item.equipment.getEquipment
-import at.orchaldir.gm.core.selector.util.getColorSchemeGroups
 import at.orchaldir.gm.core.selector.util.sortColorSchemes
-import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag

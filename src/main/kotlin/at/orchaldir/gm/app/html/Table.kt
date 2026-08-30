@@ -13,7 +13,6 @@ import at.orchaldir.gm.utils.math.unit.Distance
 import at.orchaldir.gm.utils.math.unit.Weight
 import io.ktor.server.application.*
 import kotlinx.html.*
-import kotlinx.serialization.json.JsonNull.content
 
 // header cell
 

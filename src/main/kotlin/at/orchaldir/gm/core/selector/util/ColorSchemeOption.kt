@@ -20,5 +20,6 @@ fun State.getColors(options: ColorSchemeOption): Colors = when (options) {
         val schemeId = getColorSchemeGroupStorage().get(options.group)?.schemes?.firstOrNull()
         getColorSchemeStorage().getOptional(schemeId)?.data
     }
+
     is UseColorSchemes -> getColorSchemeStorage().getOptional(options.schemes.firstOrNull())?.data
 } ?: DEFAULT_COLOR_SCHEME

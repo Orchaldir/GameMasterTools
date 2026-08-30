@@ -1,19 +1,12 @@
 package at.orchaldir.gm.core.selector.util
 
-import at.orchaldir.gm.CHARACTER_ID_0
 import at.orchaldir.gm.COLOR_SCHEME_GROUP_ID_0
-import at.orchaldir.gm.COLOR_SCHEME_ID_0
 import at.orchaldir.gm.EQUIPMENT_ID_0
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.character.UniqueEquipment
-import at.orchaldir.gm.core.model.item.equipment.BodySlot
 import at.orchaldir.gm.core.model.item.equipment.Equipment
-import at.orchaldir.gm.core.model.item.equipment.EquipmentMap
 import at.orchaldir.gm.core.model.util.render.ColorSchemeGroup
 import at.orchaldir.gm.core.model.util.render.UseColorSchemeGroup
-import at.orchaldir.gm.core.model.util.render.UseColorSchemes
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested

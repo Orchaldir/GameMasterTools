@@ -11,6 +11,7 @@ fun resolveParrying(
     is FencingParrying -> FencingParrying(
         parrying.modifier + modifier.amount
     )
+
     NoParrying -> parrying
     is NormalParrying -> NormalParrying(
         parrying.modifier + modifier.amount

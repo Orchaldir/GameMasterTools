@@ -5,10 +5,7 @@ import at.orchaldir.gm.app.SCHEME
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.util.render.*
-import at.orchaldir.gm.core.selector.character.getCharacterTemplates
-import at.orchaldir.gm.core.selector.character.getCharacters
 import at.orchaldir.gm.core.selector.item.equipment.getEquipment
 import at.orchaldir.gm.core.selector.util.getColorSchemeGroups
 import at.orchaldir.gm.core.selector.util.getColorSchemes
@@ -45,7 +42,7 @@ private fun HtmlBlockTag.showUsages(
     state: State,
     id: ColorSchemeId,
 ) {
-    val equipment =state.getEquipment(id)
+    val equipment = state.getEquipment(id)
     val groups = state.getColorSchemeGroups(id)
 
     if (equipment.isEmpty() && groups.isEmpty()) {

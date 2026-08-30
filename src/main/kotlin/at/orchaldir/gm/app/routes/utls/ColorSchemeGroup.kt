@@ -2,11 +2,8 @@ package at.orchaldir.gm.app.routes.utls
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.Column
-import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.createNameColumn
-import at.orchaldir.gm.app.html.showOptionalColor
 import at.orchaldir.gm.app.html.tdInlineIds
-import at.orchaldir.gm.app.html.tdSkipZero
 import at.orchaldir.gm.app.html.util.color.editColorSchemeGroup
 import at.orchaldir.gm.app.html.util.color.parseColorSchemeGroup
 import at.orchaldir.gm.app.html.util.color.showColorSchemeGroup
@@ -14,9 +11,7 @@ import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.util.SortColorSchemeGroup
 import at.orchaldir.gm.core.model.util.render.COLOR_SCHEME_GROUP_TYPE
-import at.orchaldir.gm.core.model.util.render.COLOR_SCHEME_TYPE
 import at.orchaldir.gm.core.model.util.render.ColorSchemeGroupId
-import at.orchaldir.gm.core.selector.item.equipment.countEquipment
 import at.orchaldir.gm.core.selector.util.sortColorSchemeGroups
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -87,7 +82,12 @@ fun Application.configureColorSchemeGroupRouting() {
             handleEditElement(edit.id, ColorSchemeGroupRoutes(), HtmlBlockTag::editColorSchemeGroup)
         }
         post<ColorSchemeGroupRoutes.Preview> { preview ->
-            handlePreviewElement(preview.id, ColorSchemeGroupRoutes(), ::parseColorSchemeGroup, HtmlBlockTag::editColorSchemeGroup)
+            handlePreviewElement(
+                preview.id,
+                ColorSchemeGroupRoutes(),
+                ::parseColorSchemeGroup,
+                HtmlBlockTag::editColorSchemeGroup
+            )
         }
         post<ColorSchemeGroupRoutes.Update> { update ->
             handleUpdateElement(update.id, ::parseColorSchemeGroup)

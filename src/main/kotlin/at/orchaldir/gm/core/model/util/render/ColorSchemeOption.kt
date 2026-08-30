@@ -34,7 +34,7 @@ sealed class ColorSchemeOption : MadeFromParts {
 data class UseColorSchemes(
     val schemes: Set<ColorSchemeId>,
 ) : ColorSchemeOption() {
-    constructor(id: ColorSchemeId): this(setOf(id))
+    constructor(id: ColorSchemeId) : this(setOf(id))
 }
 
 @Serializable

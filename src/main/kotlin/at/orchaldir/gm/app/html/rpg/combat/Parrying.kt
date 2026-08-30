@@ -84,6 +84,7 @@ fun parseParrying(
         ParryingType.Fencing -> FencingParrying(
             parseModifier(parameters, parryingParam),
         )
+
         ParryingType.None -> NoParrying
         ParryingType.Normal -> NormalParrying(
             parseModifier(parameters, parryingParam),

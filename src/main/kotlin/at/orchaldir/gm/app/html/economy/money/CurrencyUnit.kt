@@ -158,8 +158,7 @@ fun HtmlBlockTag.editCurrencyUnit(
             "Denomination",
             combine(DENOMINATION, NUMBER),
             currency.getDenominations().withIndex().toList(),
-        ) {
-            indexed ->
+        ) { indexed ->
             label = indexed.value.text.text
             value = indexed.index.toString()
             selected = indexed.index == unit.denomination

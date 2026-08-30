@@ -1,6 +1,5 @@
 package at.orchaldir.gm.app.html.util.color
 
-import at.orchaldir.gm.app.COLOR
 import at.orchaldir.gm.app.GROUP
 import at.orchaldir.gm.app.SCHEME
 import at.orchaldir.gm.app.TYPE
@@ -11,7 +10,7 @@ import at.orchaldir.gm.core.selector.util.sortColorSchemeGroups
 import at.orchaldir.gm.core.selector.util.sortColorSchemes
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
-import io.ktor.server.application.ApplicationCall
+import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -69,6 +68,7 @@ fun HtmlBlockTag.editColorSchemeOption(
                 groups,
                 option.group,
             )
+
             is UseColorSchemes -> selectElements(
                 state,
                 combine(param, SCHEME),
@@ -88,6 +88,7 @@ fun parseColorSchemeOption(
     ColorSchemeOptionType.Group -> UseColorSchemeGroup(
         parseColorSchemeGroupId(parameters, combine(param, GROUP)),
     )
+
     ColorSchemeOptionType.None -> NoColorSchemes
     ColorSchemeOptionType.Schemes -> UseColorSchemes(
         parseElements(parameters, combine(param, SCHEME), ::parseColorSchemeId),

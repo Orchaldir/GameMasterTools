@@ -13,7 +13,6 @@ import at.orchaldir.gm.core.model.util.RarityMap
 import at.orchaldir.gm.core.model.util.render.ColorSchemeId
 import at.orchaldir.gm.core.selector.culture.getFashion
 import at.orchaldir.gm.core.selector.util.getColorSchemeIds
-import at.orchaldir.gm.core.selector.util.getColorSchemes
 import at.orchaldir.gm.utils.NumberGenerator
 import at.orchaldir.gm.utils.RandomNumberGenerator
 import kotlin.random.Random
