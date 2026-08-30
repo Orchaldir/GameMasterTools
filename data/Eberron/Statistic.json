@@ -427,7 +427,7 @@
   "15": {
    "id": 15,
    "name": "Swinging Damage",
-   "short": "Swing",
+   "short": "Sw",
    "data": {
     "#type": "Damage",
     "base": {
