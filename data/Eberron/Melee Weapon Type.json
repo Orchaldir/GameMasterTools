@@ -334,7 +334,34 @@
    ]
   },
   "12": {
-   "id": 12
+   "id": 12,
+   "name": "Maul",
+   "attacks": [
+    {
+     "effect": {
+      "#type": "Damage",
+      "amount": {
+       "#type": "StatisticBased",
+       "base": 15,
+       "modifier": {
+        "#type": "Not",
+        "number": 5
+       }
+      },
+      "damageType": 0
+     },
+     "reach": {
+      "#type": "Range"
+     },
+     "parrying": {
+      "#type": "Unbalanced"
+     },
+     "skill": {
+      "#type": "Modified",
+      "skill": 6
+     }
+    }
+   ]
   }
  }
 }
