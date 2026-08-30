@@ -1,5 +1,35 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "Axe",
+   "attacks": [
+    {
+     "effect": {
+      "#type": "Damage",
+      "amount": {
+       "#type": "StatisticBased",
+       "base": 15,
+       "modifier": {
+        "#type": "Not",
+        "number": 2
+       }
+      },
+      "damageType": 4
+     },
+     "reach": {
+      "#type": "Simple"
+     },
+     "parrying": {
+      "#type": "Unbalanced"
+     },
+     "skill": {
+      "#type": "Modified",
+      "skill": 6
+     }
+    }
+   ]
+  }
  }
 }
