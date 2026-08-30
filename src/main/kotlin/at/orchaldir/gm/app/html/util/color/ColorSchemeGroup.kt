@@ -35,6 +35,7 @@ fun HtmlBlockTag.editColorSchemeGroup(
 
     selectElements(
         state,
+        "Schemes",
         SCHEME,
         state.sortColorSchemes(),
         group.schemes,

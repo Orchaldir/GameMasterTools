@@ -10,7 +10,10 @@ import at.orchaldir.gm.app.html.economy.money.selectPriceLookup
 import at.orchaldir.gm.app.html.economy.money.showPriceLookupDetails
 import at.orchaldir.gm.app.html.item.equipment.data.*
 import at.orchaldir.gm.app.html.rpg.combat.*
+import at.orchaldir.gm.app.html.util.color.editColorSchemeOption
 import at.orchaldir.gm.app.html.util.color.parseColorSchemeId
+import at.orchaldir.gm.app.html.util.color.parseColorSchemeOption
+import at.orchaldir.gm.app.html.util.color.showColorSchemeOption
 import at.orchaldir.gm.app.html.util.math.parseWeightLookup
 import at.orchaldir.gm.app.html.util.math.selectWeightLookup
 import at.orchaldir.gm.app.html.util.math.showWeightLookupDetails
@@ -45,7 +48,7 @@ fun HtmlBlockTag.showEquipment(
     val vpm = calculateVolumePerMaterial(CalculateVolumeConfig.from(CHARACTER_CONFIG), equipment.data)
 
     showEquipmentData(call, state, equipment.data)
-    fieldIds(call, state, equipment.colorSchemes)
+    showColorSchemeOption(call, state, equipment.colorSchemes)
     equipment.data.getArmorStats()?.let {
         showArmorStats(call, state, it, material)
     }
@@ -155,15 +158,10 @@ private fun HtmlBlockTag.selectColorSchemes(
     val requiredSchemaColors = equipment.data.requiredSchemaColors()
 
     if (requiredSchemaColors > 0) {
-        val colorSchemes = state.getValidColorSchemes(equipment.data)
-
-        field("Required Schema Colors", requiredSchemaColors)
-        selectElements(
+        editColorSchemeOption(
             state,
-            "Color Schemas",
-            combine(COLOR, SCHEME),
-            colorSchemes,
             equipment.colorSchemes,
+            combine(COLOR, SCHEME),
         )
     }
 }
@@ -237,22 +235,8 @@ fun parseEquipment(
         data,
         parseWeightLookup(parameters, MIN_EQUIPMENT_WEIGHT),
         parsePriceLookup(state, parameters),
-        parseColorSchemes(state, parameters, data),
+        parseColorSchemeOption(parameters, combine(COLOR, SCHEME)),
     )
-}
-
-private fun parseColorSchemes(
-    state: State,
-    parameters: Parameters,
-    data: EquipmentData,
-): Set<ColorSchemeId> {
-    val colorSchemeIds = parseElements(
-        parameters,
-        combine(COLOR, SCHEME),
-        ::parseColorSchemeId,
-    )
-
-    return state.filterValidColorSchemes(data, colorSchemeIds)
 }
 
 fun parseEquipmentData(
