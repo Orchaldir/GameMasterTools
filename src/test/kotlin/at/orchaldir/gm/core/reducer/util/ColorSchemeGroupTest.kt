@@ -1,13 +1,17 @@
 package at.orchaldir.gm.core.reducer.util
 
 import at.orchaldir.gm.CALENDAR0
+import at.orchaldir.gm.COLOR_SCHEME_GROUP_ID_0
 import at.orchaldir.gm.COLOR_SCHEME_ID_0
 import at.orchaldir.gm.REALM_ID_0
+import at.orchaldir.gm.UNKNOWN_COLOR_SCHEME_ID
+import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.Realm
 import at.orchaldir.gm.core.model.util.render.Color
 import at.orchaldir.gm.core.model.util.render.ColorScheme
+import at.orchaldir.gm.core.model.util.render.ColorSchemeGroup
 import at.orchaldir.gm.core.model.util.render.OneColor
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
@@ -16,11 +20,12 @@ import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
-class ColorSchemeTest {
+class ColorSchemeGroupTest {
 
     private val STATE = State(
         listOf(
             Storage(ColorScheme(COLOR_SCHEME_ID_0)),
+            Storage(ColorSchemeGroup(COLOR_SCHEME_GROUP_ID_0)),
         )
     )
 
@@ -28,19 +33,23 @@ class ColorSchemeTest {
     inner class UpdateTest {
 
         @Test
-        fun `Cannot update unknown id`() {
-            val action = UpdateAction(ColorScheme(COLOR_SCHEME_ID_0))
+        fun `Cannot use unknown scheme`() {
+            val group = ColorSchemeGroup(COLOR_SCHEME_GROUP_ID_0, schemes = setOf(UNKNOWN_COLOR_SCHEME_ID))
+            val action = UpdateAction(group)
 
-            assertFailsWith<IllegalArgumentException> { REDUCER.invoke(State(), action) }
+            assertIllegalArgument("Requires unknown Color Scheme 99!") { REDUCER.invoke(STATE, action) }
         }
 
 
         @Test
         fun `Update is valid`() {
-            val scheme = ColorScheme(COLOR_SCHEME_ID_0, OneColor(Color.Red))
-            val action = UpdateAction(scheme)
+            val group = ColorSchemeGroup(COLOR_SCHEME_GROUP_ID_0, schemes = setOf(COLOR_SCHEME_ID_0))
+            val action = UpdateAction(group)
 
-            assertEquals(scheme, REDUCER.invoke(STATE, action).first.getColorSchemeStorage().get(COLOR_SCHEME_ID_0))
+            assertEquals(
+                group,
+                REDUCER.invoke(STATE, action).first.getColorSchemeGroupStorage().get(COLOR_SCHEME_GROUP_ID_0),
+            )
         }
     }
 
