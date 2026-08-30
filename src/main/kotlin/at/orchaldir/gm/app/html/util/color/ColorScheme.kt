@@ -7,10 +7,13 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.render.*
 import at.orchaldir.gm.core.selector.item.equipment.getEquipment
+import at.orchaldir.gm.core.selector.util.getColorSchemeGroups
+import at.orchaldir.gm.core.selector.util.getColorSchemes
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
+import kotlinx.html.h2
 
 // show
 
@@ -31,19 +34,37 @@ fun HtmlBlockTag.showColorScheme(
         UndefinedColors -> doNothing()
     }
 
-    fieldElements(call, state, state.getEquipment(scheme.id))
+    showUsages(call, state, scheme.id)
+}
+
+private fun HtmlBlockTag.showUsages(
+    call: ApplicationCall,
+    state: State,
+    id: ColorSchemeId,
+) {
+    val equipment = state.getEquipment(id)
+    val groups = state.getColorSchemeGroups(id)
+
+    if (equipment.isEmpty() && groups.isEmpty()) {
+        return
+    }
+
+    h2 { +"Usage" }
+
+    fieldElements(call, state, equipment)
+    fieldElements(call, state, groups)
 }
 
 // edit
 
 fun HtmlBlockTag.selectColorScheme(
     state: State,
-    availableSchemes: Set<ColorSchemeId>,
+    options: ColorSchemeOption,
     currentSchemes: ColorSchemeId?,
     param: String = SCHEME,
 ) {
-    val colorSchemeId = currentSchemes ?: availableSchemes.first()
-    val colorSchemes = state.getColorSchemeStorage().get(availableSchemes)
+    val colorSchemes = state.getColorSchemes(options)
+    val colorSchemeId = currentSchemes ?: colorSchemes.first().id
 
     selectElement(
         state,

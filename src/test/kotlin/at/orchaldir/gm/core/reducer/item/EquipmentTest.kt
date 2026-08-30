@@ -102,6 +102,14 @@ class EquipmentTest {
             assertIllegalArgument("Requires unknown Color Scheme 99!") { REDUCER.invoke(STATE, action) }
         }
 
+        @Test
+        fun `Color scheme group must exist`() {
+            val item = createWithGroup(UNKNOWN_COLOR_SCHEME_GROUP_ID)
+            val action = UpdateAction(item)
+
+            assertIllegalArgument("Requires unknown Color Scheme Group 99!") { REDUCER.invoke(STATE, action) }
+        }
+
         @Nested
         inner class StatsTest {
 
@@ -265,7 +273,17 @@ class EquipmentTest {
             lookup: ColorLookup = LookupMaterial,
         ) = Equipment(
             EQUIPMENT_ID_0,
-            colorSchemes = setOf(scheme),
+            colorSchemes = UseColorSchemes(scheme),
+            data = Glasses(frame = MadeFromCord(material, lookup)),
+        )
+
+        private fun createWithGroup(
+            group: ColorSchemeGroupId = COLOR_SCHEME_GROUP_ID_0,
+            material: MaterialId = MATERIAL_ID_0,
+            lookup: ColorLookup = LookupMaterial,
+        ) = Equipment(
+            EQUIPMENT_ID_0,
+            colorSchemes = UseColorSchemeGroup(group),
             data = Glasses(frame = MadeFromCord(material, lookup)),
         )
     }

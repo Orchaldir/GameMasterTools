@@ -71,6 +71,7 @@ fun Application.configureRouting() {
                     action(dataLink, "Config")
                     h2 { +"Elements" }
                     fieldStorageLink(call, state.getColorSchemeStorage(), ColorSchemeRoutes())
+                    fieldStorageLink(call, state.getColorSchemeGroupStorage(), ColorSchemeGroupRoutes())
                     fieldStorageLink(call, state.getDataSourceStorage(), DataSourceRoutes())
                     fieldStorageLink(call, state.getFontStorage(), FontRoutes())
                     fieldStorageLink(call, state.getQuoteStorage(), QuoteRoutes())

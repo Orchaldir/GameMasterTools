@@ -1,0 +1,106 @@
+{
+ "version": 1,
+ "elements": {
+  "0": {
+   "id": 0,
+   "name": "Copper Crown",
+   "format": {
+    "#type": "Coin",
+    "material": 0,
+    "shape": {
+     "#type": "Circular",
+     "shape": "Octagon"
+    },
+    "front": {
+     "#type": "Value"
+    }
+   }
+  },
+  "1": {
+   "id": 1,
+   "name": "Silver Sovereigen",
+   "denomination": 1,
+   "format": {
+    "#type": "Coin",
+    "material": 1,
+    "shape": {
+     "#type": "Circular",
+     "shape": "Octagon"
+    },
+    "radius": 12000,
+    "front": {
+     "#type": "Value"
+    }
+   }
+  },
+  "2": {
+   "id": 2,
+   "name": "Gold Galifar",
+   "denomination": 2,
+   "format": {
+    "#type": "Coin",
+    "material": 2,
+    "shape": {
+     "#type": "Circular",
+     "shape": "Octagon"
+    },
+    "radius": 14000,
+    "front": {
+     "#type": "Value"
+    }
+   }
+  },
+  "3": {
+   "id": 3,
+   "name": "Platinum Dragon",
+   "denomination": 3,
+   "format": {
+    "#type": "Coin",
+    "material": 3,
+    "shape": {
+     "#type": "Circular",
+     "shape": "Octagon"
+    },
+    "radius": 16000,
+    "front": {
+     "#type": "Value"
+    }
+   }
+  },
+  "4": {
+   "id": 4,
+   "name": "Double Crown",
+   "number": 2,
+   "format": {
+    "#type": "Coin",
+    "material": 0,
+    "shape": {
+     "#type": "Circular",
+     "shape": "Octagon"
+    },
+    "radius": 14000,
+    "front": {
+     "#type": "Value"
+    }
+   }
+  },
+  "5": {
+   "id": 5,
+   "name": "Silver Throne",
+   "number": 5,
+   "denomination": 1,
+   "format": {
+    "#type": "Coin",
+    "material": 1,
+    "shape": {
+     "#type": "Circular",
+     "shape": "Octagon"
+    },
+    "radius": 16000,
+    "front": {
+     "#type": "Value"
+    }
+   }
+  }
+ }
+}

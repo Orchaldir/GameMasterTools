@@ -22,6 +22,7 @@ import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
 import at.orchaldir.gm.core.model.character.appearance.mouth.NormalMouth
 import at.orchaldir.gm.core.model.item.equipment.*
+import at.orchaldir.gm.core.model.rpg.combat.MeleeAttack
 import at.orchaldir.gm.core.model.util.SortEquipment
 import at.orchaldir.gm.core.model.util.render.ColorSchemeId
 import at.orchaldir.gm.core.model.util.render.Colors
@@ -151,7 +152,6 @@ fun Application.configureEquipmentRouting() {
                         }
                     },
                     Column("Materials") { tdInlineIds(call, state, it.data.materials()) },
-                    Column(listOf("Color", "Schemes")) { tdInlineIds(call, state, it.colorSchemes) },
                     Column(listOf("Required", "Colors")) { tdSkipZero(it.data.requiredSchemaColors()) },
                     countCollectionColumn("Characters") { state.getCharactersWith(it.id) },
                     Column(listOf("Character", "Templates")) { tdSkipZero(state.getCharacterTemplates(it.id)) },
@@ -196,6 +196,7 @@ fun Application.configureEquipmentRouting() {
             val meleeWeapons = state.getEquipmentStorage()
                 .getAll()
                 .filter { it.data.getMeleeWeaponStats() != null }
+            val resolved = mutableMapOf<Equipment, List<MeleeAttack>>()
 
             handleShowAllElements(
                 routes,
@@ -211,13 +212,13 @@ fun Application.configureEquipmentRouting() {
                             it.data.getMeleeWeaponStats()?.modifiers ?: emptySet()
                         )
                     },
-                    createMeleeWeaponColumn(state, "Damage") {
+                    createMeleeWeaponColumn(state, "Damage", resolved) {
                         displayAttackEffect(call, state, it.effect)
                     },
-                    createMeleeWeaponColumn(state, "Reach") {
+                    createMeleeWeaponColumn(state, "Reach", resolved) {
                         displayReach(it.reach)
                     },
-                    createMeleeWeaponColumn(state, "Parrying") {
+                    createMeleeWeaponColumn(state, "Parrying", resolved) {
                         displayParrying(it.parrying)
                     },
                 ),
@@ -261,7 +262,7 @@ fun Application.configureEquipmentRouting() {
                 state.sortEquipmentList(gallery.sort),
                 gallery.sort,
             ) { equipment ->
-                val equipped = EquipmentMap.from(equipment.data, state.getColors(equipment))
+                val equipped = EquipmentMap.from(equipment.data, state.getColors(equipment.colorSchemes))
                 val appearance = createAppearance(equipment, height)
 
                 visualizeCharacter(state, CHARACTER_CONFIG, appearance, equipped)
@@ -324,7 +325,7 @@ fun HtmlBlockTag.editEquipmentAndColorScheme(
     equipment: Equipment,
     optionalColorSchemeId: ColorSchemeId? = null,
 ) {
-    if (equipment.colorSchemes.isNotEmpty()) {
+    if (!equipment.colorSchemes.isEmpty()) {
         selectColorScheme(state, equipment.colorSchemes, optionalColorSchemeId)
     }
 
@@ -338,7 +339,9 @@ private fun HtmlBlockTag.showEquipmentWithColorScheme(
     colorSchemeId: ColorSchemeId? = null,
 ) {
     val previewLink = call.application.href(EquipmentRoutes.Scheme(equipment.id))
-    val colors = if (equipment.colorSchemes.isNotEmpty()) {
+    val colors = if (equipment.colorSchemes.isEmpty()) {
+        UndefinedColors
+    } else {
         form {
             id = "editor"
             action = previewLink
@@ -348,8 +351,6 @@ private fun HtmlBlockTag.showEquipmentWithColorScheme(
         }
 
         getColors(state, equipment, colorSchemeId)
-    } else {
-        UndefinedColors
     }
 
     visualizeEquipment(state, equipment, colors, 20)
@@ -362,10 +363,10 @@ private fun HtmlBlockTag.showEquipmentEditorRight(
     equipment: Equipment,
     colorSchemeId: ColorSchemeId? = null,
 ) {
-    val colors = if (equipment.colorSchemes.isNotEmpty()) {
-        getColors(state, equipment, colorSchemeId)
-    } else {
+    val colors = if (equipment.colorSchemes.isEmpty()) {
         UndefinedColors
+    } else {
+        getColors(state, equipment, colorSchemeId)
     }
 
     visualizeEquipment(state, equipment, colors, 60)
@@ -376,7 +377,7 @@ private fun getColors(
     equipment: Equipment,
     optionalColorSchemeId: ColorSchemeId?,
 ): Colors {
-    val colorSchemeId = optionalColorSchemeId ?: equipment.colorSchemes.first()
+    val colorSchemeId = optionalColorSchemeId ?: return state.getColors(equipment.colorSchemes)
     val colorScheme = state.getColorSchemeStorage().getOrThrow(colorSchemeId)
 
     return colorScheme.data

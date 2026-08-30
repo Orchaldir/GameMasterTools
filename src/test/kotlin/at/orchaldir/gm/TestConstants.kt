@@ -52,6 +52,7 @@ import at.orchaldir.gm.core.model.util.font.FontId
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.name.NameListId
 import at.orchaldir.gm.core.model.util.quote.QuoteId
+import at.orchaldir.gm.core.model.util.render.ColorSchemeGroupId
 import at.orchaldir.gm.core.model.util.render.ColorSchemeId
 import at.orchaldir.gm.core.model.world.WorldId
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyleId
@@ -99,6 +100,8 @@ val UNKNOWN_CHARACTER_TEMPLATE_ID = CharacterTemplateId(99)
 val CHARACTER_TRAIT_ID_0 = CharacterTraitId(0)
 val CHARACTER_TRAIT_ID_1 = CharacterTraitId(1)
 val UNKNOWN_CHARACTER_TRAIT_ID = CharacterTraitId(99)
+val COLOR_SCHEME_GROUP_ID_0 = ColorSchemeGroupId(0)
+val UNKNOWN_COLOR_SCHEME_GROUP_ID = ColorSchemeGroupId(99)
 val COLOR_SCHEME_ID_0 = ColorSchemeId(0)
 val COLOR_SCHEME_ID_1 = ColorSchemeId(1)
 val COLOR_SCHEME_ID_2 = ColorSchemeId(2)

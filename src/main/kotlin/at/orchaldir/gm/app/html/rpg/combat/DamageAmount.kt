@@ -28,7 +28,7 @@ fun HtmlBlockTag.displayDamageAmount(
             val base = state.getStatisticStorage().getOrThrow(amount.base)
 
             link(call, base, base.short())
-            +amount.modifier.display()
+            +amount.modifier.display(showSign = true)
         }
 
         is SimpleRandomDamage -> +amount.amount.display()
@@ -74,7 +74,7 @@ fun HtmlBlockTag.editDamageAmount(
 fun parseDamageAmount(
     parameters: Parameters,
     param: String,
-) = when (parse(parameters, combine(param, TYPE), DamageAmountType.SimpleRandom)) {
+) = when (parse(parameters, combine(param, TYPE), DamageAmountType.StatisticBased)) {
     DamageAmountType.StatisticBased -> StatisticBasedDamage(
         parseStatisticId(parameters, combine(param, BASE)),
         parseQuantity(parameters, param),

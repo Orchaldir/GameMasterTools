@@ -1,0 +1,32 @@
+{
+ "economy": {
+  "defaultIncomeType": "StandardOfLiving",
+  "standardsOfLiving": [
+   {
+    "id": 0,
+    "name": "Squalid",
+    "maxYearlyIncome": 100
+   },
+   {
+    "id": 1,
+    "name": "Poor",
+    "maxYearlyIncome": 1000
+   },
+   {
+    "id": 2,
+    "name": "Comfortable",
+    "maxYearlyIncome": 10000
+   },
+   {
+    "id": 3,
+    "name": "Wealthy",
+    "maxYearlyIncome": 100000
+   }
+  ]
+ },
+ "time": {
+  "currentDate": {
+   "day": 334992
+  }
+ }
+}

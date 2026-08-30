@@ -47,6 +47,7 @@ import at.orchaldir.gm.core.model.util.font.Font
 import at.orchaldir.gm.core.model.util.name.NameList
 import at.orchaldir.gm.core.model.util.quote.Quote
 import at.orchaldir.gm.core.model.util.render.ColorScheme
+import at.orchaldir.gm.core.model.util.render.ColorSchemeGroup
 import at.orchaldir.gm.core.model.util.source.DataSource
 import at.orchaldir.gm.core.model.world.World
 import at.orchaldir.gm.core.model.world.building.ArchitecturalStyle
@@ -360,13 +361,28 @@ fun State.sortColorSchemes(sort: SortColorScheme = SortColorScheme.Name) =
     sortColorSchemes(getColorSchemeStorage().getAll(), sort)
 
 fun State.sortColorSchemes(
-    battles: Collection<ColorScheme>,
+    schemes: Collection<ColorScheme>,
     sort: SortColorScheme = SortColorScheme.Name,
-) = battles
+) = schemes
     .sortedWith(
         when (sort) {
             SortColorScheme.Name -> compareBy { it.name() }
             SortColorScheme.Equipment -> compareByDescending { countEquipment(it.id) }
+        })
+
+// color scheme group
+
+fun State.sortColorSchemeGroups(sort: SortColorSchemeGroup = SortColorSchemeGroup.Name) =
+    sortColorSchemeGroups(getColorSchemeGroupStorage().getAll(), sort)
+
+fun State.sortColorSchemeGroups(
+    schemes: Collection<ColorSchemeGroup>,
+    sort: SortColorSchemeGroup = SortColorSchemeGroup.Name,
+) = schemes
+    .sortedWith(
+        when (sort) {
+            SortColorSchemeGroup.Name -> compareBy { it.name() }
+            SortColorSchemeGroup.Schemes -> compareByDescending { it.schemes.size }
         })
 
 // culture
@@ -1109,6 +1125,7 @@ fun State.sortStatistics(
     .sortedWith(
         when (sort) {
             SortStatistic.Name -> compareBy { it.name.text }
+            SortStatistic.Type -> compareBy { it.data.getType() }
         })
 
 // street

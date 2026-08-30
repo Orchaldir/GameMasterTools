@@ -5,7 +5,8 @@ import at.orchaldir.gm.core.model.economy.money.CalculatedPrice
 import at.orchaldir.gm.core.model.economy.money.PriceLookup
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
-import at.orchaldir.gm.core.model.util.render.ColorSchemeId
+import at.orchaldir.gm.core.model.util.render.ColorSchemeOption
+import at.orchaldir.gm.core.model.util.render.NoColorSchemes
 import at.orchaldir.gm.core.reducer.item.validateEquipment
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.math.unit.CalculatedWeight
@@ -25,6 +26,7 @@ value class EquipmentId(val value: Int) : Id<EquipmentId> {
 
     override fun next() = EquipmentId(value + 1)
     override fun type() = EQUIPMENT_TYPE
+    override fun plural() = EQUIPMENT_TYPE
     override fun value() = value
 
 }
@@ -36,7 +38,7 @@ data class Equipment(
     val data: EquipmentData = Belt(),
     val weight: WeightLookup = CalculatedWeight,
     val price: PriceLookup = CalculatedPrice,
-    val colorSchemes: Set<ColorSchemeId> = emptySet(),
+    val colorSchemes: ColorSchemeOption = NoColorSchemes,
 ) : ElementWithSimpleName<EquipmentId> {
 
     override fun id() = id
@@ -47,7 +49,4 @@ data class Equipment(
     fun slots() = data.slots()
 
     fun canEquip() = data.slots().isNotEmpty()
-
-    fun areColorSchemesValid() = data.requiredSchemaColors() == 0 || colorSchemes.isNotEmpty()
-
 }

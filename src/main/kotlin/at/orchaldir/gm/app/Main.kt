@@ -81,6 +81,7 @@ fun Application.module() {
     configureCharacterRouting()
     configureCharacterTemplateRouting()
     configureCharacterTraitRouting()
+    configureColorSchemeGroupRouting()
     configureColorSchemeRouting()
     configureCultureRouting()
     configureCurrencyRouting()

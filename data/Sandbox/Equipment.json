@@ -17,13 +17,16 @@
      }
     }
    },
-   "colorSchemes": [
-    3,
-    2,
-    1,
-    4,
-    0
-   ]
+   "colorSchemes": {
+    "#type": "Schemes",
+    "schemes": [
+     3,
+     2,
+     1,
+     4,
+     0
+    ]
+   }
   },
   "1": {
    "id": 1,
@@ -42,13 +45,16 @@
     },
     "length": "Knee"
    },
-   "colorSchemes": [
-    3,
-    2,
-    1,
-    4,
-    0
-   ]
+   "colorSchemes": {
+    "#type": "Schemes",
+    "schemes": [
+     3,
+     2,
+     1,
+     4,
+     0
+    ]
+   }
   },
   "2": {
    "id": 2,

@@ -1,0 +1,35 @@
+{
+ "version": 1,
+ "elements": {
+  "0": {
+   "id": 0,
+   "name": "Galifar",
+   "denomination": {
+    "text": "pp"
+   },
+   "subDenominations": [
+    {
+     "first": {
+      "text": "cp"
+     },
+     "second": 10
+    },
+    {
+     "first": {
+      "text": "sp"
+     },
+     "second": 100
+    },
+    {
+     "first": {
+     },
+     "second": 1000
+    }
+   ],
+   "startDate": {
+    "#type": "Year",
+    "year": 0
+   }
+  }
+ }
+}

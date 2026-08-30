@@ -84,6 +84,11 @@ enum class SortColorScheme {
     Equipment,
 }
 
+enum class SortColorSchemeGroup {
+    Name,
+    Schemes,
+}
+
 enum class SortCulture {
     Name,
     Population,
@@ -347,6 +352,7 @@ enum class SortSpellGroup {
 
 enum class SortStatistic {
     Name,
+    Type,
 }
 
 enum class SortStreet {

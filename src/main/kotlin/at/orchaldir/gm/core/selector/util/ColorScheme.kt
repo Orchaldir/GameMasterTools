@@ -2,21 +2,16 @@ package at.orchaldir.gm.core.selector.util
 
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.item.equipment.EquipmentData
-import at.orchaldir.gm.core.model.util.render.*
+import at.orchaldir.gm.core.model.util.render.ColorScheme
+import at.orchaldir.gm.core.model.util.render.ColorSchemeId
 import at.orchaldir.gm.core.selector.item.equipment.getEquipment
 import at.orchaldir.gm.core.selector.item.equipment.getEquippedWith
 
-private val DEFAULT_COLOR_SCHEME: Colors = TwoColors.init(Color.Navy, Color.Green)
-
 fun State.canDeleteColorScheme(id: ColorSchemeId) = DeleteResult(id)
+    .addElements(getColorSchemeGroups(id))
     .addElements(getEquipment(id))
     .addElements(getEquippedWith(id))
-
-fun State.getColors(equipment: Equipment) = getColorSchemeStorage()
-    .getOptional(equipment.colorSchemes.firstOrNull())
-    ?.data ?: DEFAULT_COLOR_SCHEME
 
 fun State.getValidColorSchemes(data: EquipmentData) = getColorSchemeStorage()
     .getAll()

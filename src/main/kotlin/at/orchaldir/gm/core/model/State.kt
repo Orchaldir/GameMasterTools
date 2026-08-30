@@ -82,9 +82,7 @@ import at.orchaldir.gm.core.model.util.name.NameListId
 import at.orchaldir.gm.core.model.util.quote.QUOTE_TYPE
 import at.orchaldir.gm.core.model.util.quote.Quote
 import at.orchaldir.gm.core.model.util.quote.QuoteId
-import at.orchaldir.gm.core.model.util.render.COLOR_SCHEME_TYPE
-import at.orchaldir.gm.core.model.util.render.ColorScheme
-import at.orchaldir.gm.core.model.util.render.ColorSchemeId
+import at.orchaldir.gm.core.model.util.render.*
 import at.orchaldir.gm.core.model.util.source.DATA_SOURCE_TYPE
 import at.orchaldir.gm.core.model.util.source.DataSource
 import at.orchaldir.gm.core.model.util.source.DataSourceId
@@ -130,6 +128,7 @@ val ELEMENTS =
         CHARACTER_TEMPLATE_TYPE,
         CHARACTER_TRAIT_TYPE,
         CHARACTER_TYPE,
+        COLOR_SCHEME_GROUP_TYPE,
         COLOR_SCHEME_TYPE,
         CULTURE_TYPE,
         CURRENCY_TYPE,
@@ -221,6 +220,7 @@ data class State(
     fun getCharacterTemplateStorage() = getStorage<CharacterTemplateId, CharacterTemplate>(CHARACTER_TEMPLATE_TYPE)
     fun getCharacterTraitStorage() = getStorage<CharacterTraitId, CharacterTrait>(CHARACTER_TRAIT_TYPE)
     fun getCharacterStorage() = getStorage<CharacterId, Character>(CHARACTER_TYPE)
+    fun getColorSchemeGroupStorage() = getStorage<ColorSchemeGroupId, ColorSchemeGroup>(COLOR_SCHEME_GROUP_TYPE)
     fun getColorSchemeStorage() = getStorage<ColorSchemeId, ColorScheme>(COLOR_SCHEME_TYPE)
     fun getCultureStorage() = getStorage<CultureId, Culture>(CULTURE_TYPE)
     fun getCurrencyStorage() = getStorage<CurrencyId, Currency>(CURRENCY_TYPE)
@@ -388,6 +388,7 @@ data class State(
         saveStorage(path, getCharacterStorage())
         saveStorage(path, getCharacterTemplateStorage())
         saveStorage(path, getCharacterTraitStorage())
+        saveStorage(path, getColorSchemeGroupStorage())
         saveStorage(path, getColorSchemeStorage())
         saveStorage(path, getCultureStorage())
         saveStorage(path, getCurrencyStorage())
@@ -461,6 +462,7 @@ fun createStorage(type: String) = when (type) {
     CHARACTER_TEMPLATE_TYPE -> Storage(CharacterTemplateId(0))
     CHARACTER_TRAIT_TYPE -> Storage(CharacterTraitId(0))
     CHARACTER_TYPE -> Storage(CharacterId(0))
+    COLOR_SCHEME_GROUP_TYPE -> Storage(ColorSchemeGroupId(0))
     COLOR_SCHEME_TYPE -> Storage(ColorSchemeId(0))
     CULTURE_TYPE -> Storage(CultureId(0))
     CURRENCY_TYPE -> Storage(CurrencyId(0))
@@ -533,6 +535,7 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     CHARACTER_TEMPLATE_TYPE -> loadStorage<CharacterTemplateId, CharacterTemplate>(path, CharacterTemplateId(0))
     CHARACTER_TRAIT_TYPE -> loadStorage<CharacterTraitId, CharacterTrait>(path, CharacterTraitId(0))
     CHARACTER_TYPE -> loadStorage<CharacterId, Character>(path, CharacterId(0))
+    COLOR_SCHEME_GROUP_TYPE -> loadStorage<ColorSchemeGroupId, ColorSchemeGroup>(path, ColorSchemeGroupId(0))
     COLOR_SCHEME_TYPE -> loadStorage<ColorSchemeId, ColorScheme>(path, ColorSchemeId(0))
     CULTURE_TYPE -> loadStorage<CultureId, Culture>(path, CultureId(0))
     CURRENCY_TYPE -> loadStorage<CurrencyId, Currency>(path, CurrencyId(0))

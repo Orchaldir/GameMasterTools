@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.routes.rpg
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.rpg.combat.displayEquipmentModifierEffect
 import at.orchaldir.gm.app.html.rpg.combat.editEquipmentModifier
 import at.orchaldir.gm.app.html.rpg.combat.parseEquipmentModifier
 import at.orchaldir.gm.app.html.rpg.combat.showEquipmentModifier
@@ -64,7 +65,12 @@ fun Application.configureEquipmentModifierRouting() {
                 state.sortEquipmentModifiers(all.sort),
                 listOf(
                     createNameColumn(call, state),
-                    Column("Name") { tdEnum(it.category) },
+                    Column("Category") { tdEnum(it.category) },
+                    Column("Effects") {
+                        tdList(it.effects) {
+                            displayEquipmentModifierEffect(call, state, it)
+                        }
+                    },
                     createCostFactorColumn { it.cost },
                     countCollectionColumn("Equipment") { state.getEquipment(it.id) },
                 ),

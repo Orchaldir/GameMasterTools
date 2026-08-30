@@ -67,6 +67,8 @@ import at.orchaldir.gm.core.model.util.name.NameListId
 import at.orchaldir.gm.core.model.util.quote.Quote
 import at.orchaldir.gm.core.model.util.quote.QuoteId
 import at.orchaldir.gm.core.model.util.render.ColorScheme
+import at.orchaldir.gm.core.model.util.render.ColorSchemeGroup
+import at.orchaldir.gm.core.model.util.render.ColorSchemeGroupId
 import at.orchaldir.gm.core.model.util.render.ColorSchemeId
 import at.orchaldir.gm.core.model.util.source.DataSource
 import at.orchaldir.gm.core.model.util.source.DataSourceId
@@ -115,6 +117,7 @@ fun reduceCreateElement(
         createElement(state, CharacterTemplate(id, race = UseRace(race)))
     }
 
+    is ColorSchemeGroupId -> createElement(state, ColorSchemeGroup(id))
     is ColorSchemeId -> createElement(state, ColorScheme(id))
     is CultureId -> createElement(state, Culture(id))
     is CurrencyId -> createElement(state, Currency(id))

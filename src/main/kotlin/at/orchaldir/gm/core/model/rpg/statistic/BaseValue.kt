@@ -22,9 +22,12 @@ sealed class BaseValue {
         is SumOfValues -> BaseValueType.Sum
     }
 
-    fun isBasedOn(statistic: StatisticId) = when (this) {
-        is BasedOnStatistic -> this.statistic == statistic
-        else -> false
+    fun isBasedOn(other: StatisticId): Boolean = when (this) {
+        is BasedOnStatistic -> statistic == other
+        is DivisionOfValues -> dividend.isBasedOn(other) || divisor.isBasedOn(other)
+        is FixedNumber -> false
+        is ProductOfValues -> values.any { it.isBasedOn(other) }
+        is SumOfValues -> values.any { it.isBasedOn(other) }
     }
 }
 

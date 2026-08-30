@@ -1,0 +1,117 @@
+{
+ "version": 1,
+ "elements": {
+  "0": {
+   "id": 0,
+   "name": "House Jorasco",
+   "date": {
+    "#type": "Year",
+    "year": -1000
+   }
+  },
+  "1": {
+   "id": 1,
+   "name": "House Orien",
+   "date": {
+    "#type": "Year",
+    "year": -1900
+   }
+  },
+  "2": {
+   "id": 2,
+   "name": "House Ghallanda",
+   "date": {
+    "#type": "Year",
+    "year": -1000
+   }
+  },
+  "3": {
+   "id": 3,
+   "name": "House Kundarak",
+   "date": {
+    "#type": "Year",
+    "year": 105
+   }
+  },
+  "4": {
+   "id": 4,
+   "name": "House Tharashk",
+   "date": {
+    "#type": "Year",
+    "year": 497
+   }
+  },
+  "5": {
+   "id": 5,
+   "name": "House Cannith",
+   "date": {
+    "#type": "Year",
+    "year": -2500
+   }
+  },
+  "6": {
+   "id": 6,
+   "name": "House Deneith",
+   "date": {
+    "#type": "Year",
+    "year": -2600
+   }
+  },
+  "7": {
+   "id": 7,
+   "name": "House Lyrandar",
+   "date": {
+    "#type": "Year",
+    "year": -2000
+   }
+  },
+  "8": {
+   "id": 8,
+   "name": "House Medani",
+   "date": {
+    "#type": "Year",
+    "year": -1500
+   }
+  },
+  "9": {
+   "id": 9,
+   "name": "House Phiarlan",
+   "date": {
+    "#type": "Year",
+    "year": -3200
+   }
+  },
+  "10": {
+   "id": 10,
+   "name": "House Tarkana",
+   "date": {
+    "#type": "Year",
+    "year": -493
+   }
+  },
+  "11": {
+   "id": 11,
+   "name": "House Thuranni",
+   "date": {
+    "#type": "Year",
+    "year": 971
+   }
+  },
+  "12": {
+   "id": 12,
+   "name": "House Vadalis",
+   "date": {
+    "#type": "Year",
+    "year": -1800
+   }
+  },
+  "13": {
+   "id": 13,
+   "name": "House Sivis",
+   "date": {
+    "#type": "Year",
+    "year": -2800
+   }
+  }
+ }
+}

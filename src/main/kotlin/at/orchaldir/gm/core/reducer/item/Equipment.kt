@@ -9,8 +9,10 @@ import at.orchaldir.gm.core.reducer.rpg.validateArmorStats
 import at.orchaldir.gm.core.reducer.rpg.validateMeleeWeaponStats
 import at.orchaldir.gm.core.reducer.rpg.validateRangedWeaponStats
 import at.orchaldir.gm.core.reducer.rpg.validateShieldStats
+import at.orchaldir.gm.core.reducer.util.color.validateColorSchemeOption
 import at.orchaldir.gm.core.reducer.util.part.validateItemPart
 import at.orchaldir.gm.core.selector.item.equipment.canDeleteEquipment
+import at.orchaldir.gm.core.selector.util.getColorSchemes
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.checkInt
@@ -36,15 +38,16 @@ fun validateEquipment(
     equipment: Equipment,
 ) {
     val requiredSchemaColors = equipment.data.requiredSchemaColors()
+    val colorSchemes = state.getColorSchemes(equipment.colorSchemes)
 
     state.getMaterialStorage().require(equipment.data.materials())
-    state.getColorSchemeStorage().require(equipment.colorSchemes)
+    validateColorSchemeOption(state, equipment.colorSchemes)
 
-    require(requiredSchemaColors == 0 || equipment.colorSchemes.isNotEmpty()) {
+    require(requiredSchemaColors == 0 || colorSchemes.isNotEmpty()) {
         "Requires at least 1 $COLOR_SCHEME_TYPE"
     }
 
-    state.getColorSchemeStorage().get(equipment.colorSchemes)
+    colorSchemes
         .forEach { scheme ->
             require(scheme.data.count() >= requiredSchemaColors) { "${scheme.id.print()} has too few colors!" }
         }

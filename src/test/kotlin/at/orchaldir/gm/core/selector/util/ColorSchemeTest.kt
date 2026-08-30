@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.selector.util
 
 import at.orchaldir.gm.CHARACTER_ID_0
+import at.orchaldir.gm.COLOR_SCHEME_GROUP_ID_0
 import at.orchaldir.gm.COLOR_SCHEME_ID_0
 import at.orchaldir.gm.EQUIPMENT_ID_0
 import at.orchaldir.gm.core.model.DeleteResult
@@ -11,6 +12,8 @@ import at.orchaldir.gm.core.model.item.equipment.BodySlot
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap
 import at.orchaldir.gm.core.model.util.render.ColorScheme
+import at.orchaldir.gm.core.model.util.render.ColorSchemeGroup
+import at.orchaldir.gm.core.model.util.render.UseColorSchemes
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -29,6 +32,14 @@ class ColorSchemeTest {
         )
 
         @Test
+        fun `Cannot delete a scheme used by a color scheme group`() {
+            val character = ColorSchemeGroup(COLOR_SCHEME_GROUP_ID_0, schemes = setOf(COLOR_SCHEME_ID_0))
+            val newState = state.updateStorage(character)
+
+            failCanDelete(newState, COLOR_SCHEME_GROUP_ID_0)
+        }
+
+        @Test
         fun `Cannot delete a scheme used by a character's equipment`() {
             val map = EquipmentMap.from(BodySlot.Top, EQUIPMENT_ID_0, COLOR_SCHEME_ID_0)
             val character = Character(CHARACTER_ID_0, equipped = UniqueEquipment(map))
@@ -39,7 +50,7 @@ class ColorSchemeTest {
 
         @Test
         fun `Cannot delete a scheme used by an equipment`() {
-            val equipment = Equipment(EQUIPMENT_ID_0, colorSchemes = setOf(COLOR_SCHEME_ID_0))
+            val equipment = Equipment(EQUIPMENT_ID_0, colorSchemes = UseColorSchemes(COLOR_SCHEME_ID_0))
             val newState = state.updateStorage(equipment)
 
             failCanDelete(newState, EQUIPMENT_ID_0)

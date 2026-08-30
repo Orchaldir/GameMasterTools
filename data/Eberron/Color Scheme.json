@@ -1,0 +1,26 @@
+{
+ "version": 1,
+ "elements": {
+  "0": {
+   "id": 0,
+   "data": {
+    "#type": "1",
+    "color": "Red"
+   }
+  },
+  "1": {
+   "id": 1,
+   "data": {
+    "#type": "1",
+    "color": "Blue"
+   }
+  },
+  "2": {
+   "id": 2,
+   "data": {
+    "#type": "1",
+    "color": "Green"
+   }
+  }
+ }
+}

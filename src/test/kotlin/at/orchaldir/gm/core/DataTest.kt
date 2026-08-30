@@ -6,6 +6,11 @@ import org.junit.jupiter.api.Test
 class DataTest {
 
     @Test
+    fun `Load Eberron`() {
+        test("data/Eberron")
+    }
+
+    @Test
     fun `Load Sandbox`() {
         test("data/Sandbox")
     }

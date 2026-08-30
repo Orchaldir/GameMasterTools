@@ -29,10 +29,10 @@ sealed class Quantity {
         is MixedDice -> QuantityType.MixedDice
     }
 
-    fun display(dieSymbol: String = "d"): String = when (this) {
-        is FixedNumber -> number.toString()
-        is StandardDice -> display(dice, modifier, dieSymbol)
-        is Dice -> display(dice, modifier, type.display(dieSymbol))
+    fun display(dieSymbol: String = "d", showSign: Boolean = false): String = when (this) {
+        is FixedNumber -> display(number, showSign)
+        is StandardDice -> display(dice, modifier, dieSymbol, showSign)
+        is Dice -> display(dice, modifier, type.display(dieSymbol), showSign)
         is MixedDice -> displayMixedDice(dieSymbol)
     }
 
@@ -150,9 +150,9 @@ data class MixedDice(
         )
     }
 
-    fun displayMixedDice(dieSymbol: String = "d"): String {
+    fun displayMixedDice(dieSymbol: String = "d", showSign: Boolean = false): String {
         var string = ""
-        var isFirst = true
+        var isFirst = !showSign
 
         dice.entries
             .sortedBy { it.key }

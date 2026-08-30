@@ -8,6 +8,8 @@ import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.util.OneOrNone
 import at.orchaldir.gm.core.model.util.render.ColorSchemeId
 import at.orchaldir.gm.core.selector.item.equipment.getEquipmentOf
+import at.orchaldir.gm.core.selector.util.getColorSchemeIds
+import at.orchaldir.gm.core.selector.util.getColorSchemes
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -101,7 +103,7 @@ private fun HtmlBlockTag.selectEquipment(
                         state,
                         "Color Scheme",
                         combine(COLOR, slotsParam),
-                        state.getColorSchemeStorage().get(optionalEquipment.colorSchemes),
+                        state.getColorSchemes(optionalEquipment.colorSchemes),
                         currentSchema,
                     )
                 }
@@ -145,8 +147,8 @@ private fun tryParse(
     require(filteredIds.size <= 1) { "Slots $slotsString has too many items!" }
     val id = EquipmentId(filteredIds.firstOrNull()?.toInt() ?: return)
     val equipment = state.getEquipmentStorage().getOrThrow(id)
-    val scheme = if (equipment.colorSchemes.isNotEmpty() && optionalScheme == null) {
-        equipment.colorSchemes.first()
+    val scheme = if (!equipment.colorSchemes.isEmpty() && optionalScheme == null) {
+        state.getColorSchemeIds(equipment.colorSchemes).first()
     } else {
         optionalScheme
     }

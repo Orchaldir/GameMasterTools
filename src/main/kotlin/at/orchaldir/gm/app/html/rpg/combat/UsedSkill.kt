@@ -9,6 +9,7 @@ import at.orchaldir.gm.app.html.util.math.selectFromRange
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
+import at.orchaldir.gm.core.selector.rpg.getSkills
 import at.orchaldir.gm.core.selector.util.sortStatistics
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
@@ -116,7 +117,7 @@ private fun DETAILS.selectUsedSkill(
     state,
     "Skill",
     combine(skillParam, STATISTIC),
-    state.sortStatistics(),
+    state.sortStatistics(state.getSkills()),
     skill,
 )
 
