@@ -265,7 +265,7 @@ class EquipmentTest {
             lookup: ColorLookup = LookupMaterial,
         ) = Equipment(
             EQUIPMENT_ID_0,
-            colorSchemes = setOf(scheme),
+            colorSchemes = UseColorSchemes(scheme),
             data = Glasses(frame = MadeFromCord(material, lookup)),
         )
     }

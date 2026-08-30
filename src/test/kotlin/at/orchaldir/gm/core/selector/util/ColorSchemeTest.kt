@@ -11,6 +11,7 @@ import at.orchaldir.gm.core.model.item.equipment.BodySlot
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap
 import at.orchaldir.gm.core.model.util.render.ColorScheme
+import at.orchaldir.gm.core.model.util.render.UseColorSchemes
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -39,7 +40,7 @@ class ColorSchemeTest {
 
         @Test
         fun `Cannot delete a scheme used by an equipment`() {
-            val equipment = Equipment(EQUIPMENT_ID_0, colorSchemes = setOf(COLOR_SCHEME_ID_0))
+            val equipment = Equipment(EQUIPMENT_ID_0, colorSchemes = UseColorSchemes(COLOR_SCHEME_ID_0))
             val newState = state.updateStorage(equipment)
 
             failCanDelete(newState, EQUIPMENT_ID_0)
