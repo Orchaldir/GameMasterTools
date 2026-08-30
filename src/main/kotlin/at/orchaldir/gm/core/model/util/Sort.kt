@@ -347,6 +347,7 @@ enum class SortSpellGroup {
 
 enum class SortStatistic {
     Name,
+    Type,
 }
 
 enum class SortStreet {

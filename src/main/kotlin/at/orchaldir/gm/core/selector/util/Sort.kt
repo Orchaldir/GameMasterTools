@@ -1109,6 +1109,7 @@ fun State.sortStatistics(
     .sortedWith(
         when (sort) {
             SortStatistic.Name -> compareBy { it.name.text }
+            SortStatistic.Type -> compareBy { it.data.getType() }
         })
 
 // street
