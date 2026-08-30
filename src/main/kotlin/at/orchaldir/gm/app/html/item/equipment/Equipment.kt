@@ -11,6 +11,7 @@ import at.orchaldir.gm.app.html.economy.money.showPriceLookupDetails
 import at.orchaldir.gm.app.html.item.equipment.data.*
 import at.orchaldir.gm.app.html.rpg.combat.*
 import at.orchaldir.gm.app.html.util.color.editColorSchemeOption
+import at.orchaldir.gm.app.html.util.color.fieldColorSchemeOption
 import at.orchaldir.gm.app.html.util.color.parseColorSchemeId
 import at.orchaldir.gm.app.html.util.color.parseColorSchemeOption
 import at.orchaldir.gm.app.html.util.color.showColorSchemeOption
@@ -48,7 +49,7 @@ fun HtmlBlockTag.showEquipment(
     val vpm = calculateVolumePerMaterial(CalculateVolumeConfig.from(CHARACTER_CONFIG), equipment.data)
 
     showEquipmentData(call, state, equipment.data)
-    showColorSchemeOption(call, state, equipment.colorSchemes)
+    fieldColorSchemeOption(call, state, equipment.colorSchemes)
     equipment.data.getArmorStats()?.let {
         showArmorStats(call, state, it, material)
     }

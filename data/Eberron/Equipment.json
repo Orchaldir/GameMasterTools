@@ -50,11 +50,10 @@
      "type": 3
     }
    },
-   "colorSchemes": [
-    1,
-    2,
-    0
-   ]
+   "colorSchemes": {
+    "#type": "Group",
+    "group": 0
+   }
   },
   "1": {
    "id": 1,
@@ -108,11 +107,10 @@
      ]
     }
    },
-   "colorSchemes": [
-    1,
-    2,
-    0
-   ]
+   "colorSchemes": {
+    "#type": "Group",
+    "group": 0
+   }
   }
  }
 }
