@@ -1,27 +1,5 @@
 {
  "version": 1,
  "elements": {
-  "0": {
-   "id": 0,
-   "grammar": {
-    "#type": "BrickPattern",
-    "bricks": {
-     "#type": "Uniform",
-     "brick": {
-      "#type": "RectangularShape",
-      "part": {
-       "#type": "Stone",
-       "material": 22
-      },
-      "shape": "Ellipse"
-     }
-    },
-    "size": {
-     "#type": "Square",
-     "size": 12
-    },
-    "pattern": "Herringbone"
-   }
-  }
  }
 }
