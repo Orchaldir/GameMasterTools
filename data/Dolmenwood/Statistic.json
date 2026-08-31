@@ -1,5 +1,55 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "Armour Class",
+   "short": "AC"
+  },
+  "1": {
+   "id": 1,
+   "name": "Hit Points",
+   "short": "HP"
+  },
+  "2": {
+   "id": 2,
+   "name": "Speed"
+  },
+  "3": {
+   "id": 3,
+   "name": "Level",
+   "data": {
+    "#type": "Attribute",
+    "base": {
+     "#type": "Fixed",
+     "default": 1
+    }
+   }
+  },
+  "4": {
+   "id": 4,
+   "name": "Doom",
+   "short": "D"
+  },
+  "5": {
+   "id": 5,
+   "name": "Ray",
+   "short": "R"
+  },
+  "6": {
+   "id": 6,
+   "name": "Hold",
+   "short": "H"
+  },
+  "7": {
+   "id": 7,
+   "name": "Blast",
+   "short": "B"
+  },
+  "8": {
+   "id": 8,
+   "name": "Spell",
+   "short": "S"
+  }
  }
 }

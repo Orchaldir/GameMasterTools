@@ -26,7 +26,13 @@
    "weight": 30000000,
    "lifeStages": {
     "#type": "Immortal",
-    "appearance": 1
+    "appearance": 1,
+    "maxAges": [
+     1,
+     3,
+     7,
+     10
+    ]
    }
   },
   "2": {

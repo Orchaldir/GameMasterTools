@@ -21,6 +21,15 @@
    "equipped": {
     "#type": "UseCulture"
    }
+  },
+  "2": {
+   "id": 2,
+   "name": "Grimalkin",
+   "race": {
+    "#type": "Race",
+    "race": 1
+   },
+   "culture": 3
   }
  }
 }
