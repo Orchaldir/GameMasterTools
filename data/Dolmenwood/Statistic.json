@@ -29,27 +29,42 @@
   "4": {
    "id": 4,
    "name": "Doom",
-   "short": "D"
+   "short": "D",
+   "data": {
+    "#type": "Save"
+   }
   },
   "5": {
    "id": 5,
    "name": "Ray",
-   "short": "R"
+   "short": "R",
+   "data": {
+    "#type": "Save"
+   }
   },
   "6": {
    "id": 6,
    "name": "Hold",
-   "short": "H"
+   "short": "H",
+   "data": {
+    "#type": "Save"
+   }
   },
   "7": {
    "id": 7,
    "name": "Blast",
-   "short": "B"
+   "short": "B",
+   "data": {
+    "#type": "Save"
+   }
   },
   "8": {
    "id": 8,
    "name": "Spell",
-   "short": "S"
+   "short": "S",
+   "data": {
+    "#type": "Save"
+   }
   },
   "9": {
    "id": 9,

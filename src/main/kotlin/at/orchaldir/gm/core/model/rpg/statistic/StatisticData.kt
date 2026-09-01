@@ -8,6 +8,7 @@ enum class StatisticDataType {
     Attribute,
     Damage,
     DerivedAttribute,
+    Save,
     Skill,
 }
 
@@ -18,6 +19,7 @@ sealed class StatisticData {
         is Attribute -> StatisticDataType.Attribute
         is BaseDamage -> StatisticDataType.Damage
         is DerivedAttribute -> StatisticDataType.DerivedAttribute
+        is SaveStatistic -> StatisticDataType.Save
         is Skill -> StatisticDataType.Skill
     }
 
@@ -27,6 +29,7 @@ sealed class StatisticData {
         is Attribute -> base
         is BaseDamage -> base
         is DerivedAttribute -> base
+        is SaveStatistic -> base
         is Skill -> base
     }
 
@@ -34,6 +37,7 @@ sealed class StatisticData {
         is Attribute -> cost
         is BaseDamage -> cost
         is DerivedAttribute -> cost
+        is SaveStatistic -> cost
         is Skill -> cost
     }
 
@@ -70,6 +74,13 @@ data class DerivedAttribute(
     val base: BaseValue = FixedNumber(0),
     val cost: StatisticCost = UndefinedStatisticCost,
     val unit: StatisticUnit = UnitlessStatistic,
+) : StatisticData()
+
+@Serializable
+@SerialName("Save")
+data class SaveStatistic(
+    val base: BaseValue = FixedNumber(0),
+    val cost: StatisticCost = UndefinedStatisticCost,
 ) : StatisticData()
 
 @Serializable
