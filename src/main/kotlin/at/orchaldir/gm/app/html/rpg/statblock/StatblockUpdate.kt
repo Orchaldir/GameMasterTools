@@ -161,8 +161,8 @@ private fun TABLE.editStatistics(
             td {
                 selectInt(
                     modifier,
-                    -10,
-                    +10,
+                    -100,
+                    +100,
                     1,
                     combine(STATISTIC, statistic.id.value),
                 )
