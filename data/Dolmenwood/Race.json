@@ -15,7 +15,10 @@
      "#type": "Exotic",
      "color": "LightGray"
     }
-   }
+   },
+   "sources": [
+    2
+   ]
   },
   "1": {
    "id": 1,
@@ -33,7 +36,10 @@
      7,
      10
     ]
-   }
+   },
+   "sources": [
+    2
+   ]
   },
   "2": {
    "id": 2,
@@ -41,7 +47,10 @@
    "lifeStages": {
     "#type": "Aging",
     "appearance": 2
-   }
+   },
+   "sources": [
+    2
+   ]
   }
  }
 }
