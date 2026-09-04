@@ -13,11 +13,7 @@ import at.orchaldir.gm.core.model.rpg.statblock.Statblock
 import at.orchaldir.gm.core.model.rpg.statblock.StatblockUpdate
 import at.orchaldir.gm.core.model.rpg.statblock.calculateUpdateCost
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
-import at.orchaldir.gm.core.selector.rpg.getAttributes
-import at.orchaldir.gm.core.selector.rpg.getBaseDamageValues
-import at.orchaldir.gm.core.selector.rpg.getDerivedAttributes
-import at.orchaldir.gm.core.selector.rpg.getSaves
-import at.orchaldir.gm.core.selector.rpg.getSkills
+import at.orchaldir.gm.core.selector.rpg.*
 import at.orchaldir.gm.core.selector.util.sortStatistics
 import io.ktor.http.*
 import io.ktor.server.application.*
