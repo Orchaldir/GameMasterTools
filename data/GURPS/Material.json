@@ -1,0 +1,92 @@
+{
+ "version": 1,
+ "elements": {
+  "0": {
+   "id": 0,
+   "name": "Copper",
+   "properties": {
+    "category": {
+     "#type": "Metal",
+     "color": "OrangeRed"
+    },
+    "density": 8940000000
+   }
+  },
+  "1": {
+   "id": 1,
+   "name": "Silver",
+   "properties": {
+    "category": {
+     "#type": "Metal",
+     "color": "Silver"
+    },
+    "density": 10500000000
+   }
+  },
+  "2": {
+   "id": 2,
+   "name": "Gold",
+   "properties": {
+    "category": {
+     "#type": "Metal",
+     "color": "Gold"
+    },
+    "density": 19320000000
+   }
+  },
+  "3": {
+   "id": 3,
+   "name": "Platinum",
+   "properties": {
+    "category": {
+     "#type": "Metal",
+     "color": "AliceBlue"
+    },
+    "density": 21450000000
+   }
+  },
+  "4": {
+   "id": 4,
+   "name": "Iron",
+   "properties": {
+    "category": {
+     "#type": "Metal",
+     "color": "DimGray"
+    },
+    "density": 7870000000
+   }
+  },
+  "5": {
+   "id": 5,
+   "name": "Steel",
+   "properties": {
+    "category": {
+     "#type": "Metal"
+    },
+    "density": 7850000000
+   }
+  },
+  "6": {
+   "id": 6,
+   "name": "Brass",
+   "properties": {
+    "category": {
+     "#type": "Metal",
+     "color": "Gold"
+    },
+    "density": 8600000000
+   }
+  },
+  "7": {
+   "id": 7,
+   "name": "Bronze",
+   "properties": {
+    "category": {
+     "#type": "Metal",
+     "color": "Orange"
+    },
+    "density": 8770000000
+   }
+  }
+ }
+}
