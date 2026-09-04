@@ -338,6 +338,7 @@ enum class SortSettlementSize {
 
 enum class SortShieldType {
     Name,
+    Protection,
     Equipment,
 }
 

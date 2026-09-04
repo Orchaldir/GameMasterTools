@@ -1081,6 +1081,8 @@ fun State.sortShieldTypes(
     .sortedWith(
         when (sort) {
             SortShieldType.Name -> compareBy { it.name.text }
+            SortShieldType.Protection -> compareBy<ShieldType> { it.protection.getType() }
+                .thenComparator { t1, t2 -> t1.protection.value().compareTo(t2.protection.value())  }
             SortShieldType.Equipment -> compareByDescending { getShields(it.id).size }
         })
 
