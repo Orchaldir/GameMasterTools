@@ -13,10 +13,7 @@ import at.orchaldir.gm.core.model.rpg.statblock.Statblock
 import at.orchaldir.gm.core.model.rpg.statblock.StatblockUpdate
 import at.orchaldir.gm.core.model.rpg.statblock.calculateUpdateCost
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
-import at.orchaldir.gm.core.selector.rpg.getAttributes
-import at.orchaldir.gm.core.selector.rpg.getBaseDamageValues
-import at.orchaldir.gm.core.selector.rpg.getDerivedAttributes
-import at.orchaldir.gm.core.selector.rpg.getSkills
+import at.orchaldir.gm.core.selector.rpg.*
 import at.orchaldir.gm.core.selector.util.sortStatistics
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -34,13 +31,15 @@ fun HtmlBlockTag.showStatblockUpdate(
     val attributes = state.sortStatistics(state.getAttributes())
     val derivedAttributes = state.sortStatistics(state.getDerivedAttributes())
     val damageValues = state.sortStatistics(state.getBaseDamageValues())
+    val saves = state.sortStatistics(state.getSaves())
     val skills = state.sortStatistics(state.getSkills())
 
-    showDetails("Statblock Update", true) {
+    showDetails("Statblock Update", false) {
         table {
             showStatistics(call, state, base, update, resolved, attributes, "Attribute")
             showStatistics(call, state, base, update, resolved, derivedAttributes, "Derived Attribute")
             showStatistics(call, state, base, update, resolved, damageValues, "Base Damage Value")
+            showStatistics(call, state, base, update, resolved, saves, "Saves")
             showStatistics(call, state, base, update, resolved, skills, "Skills")
         }
         showCharacterTraits(call, state, update.removedTraits, "Removed Traits")
@@ -101,6 +100,7 @@ fun HtmlBlockTag.editStatblockUpdate(
     val attributes = state.sortStatistics(state.getAttributes())
     val derivedAttributes = state.sortStatistics(state.getDerivedAttributes())
     val damageValues = state.sortStatistics(state.getBaseDamageValues())
+    val saves = state.sortStatistics(state.getSaves())
     val skills = state.sortStatistics(state.getSkills())
 
     showDetails("Statblock Update", true) {
@@ -108,6 +108,7 @@ fun HtmlBlockTag.editStatblockUpdate(
             editStatistics(call, state, base, update, resolved, attributes, "Attribute")
             editStatistics(call, state, base, update, resolved, derivedAttributes, "Derived Attribute")
             editStatistics(call, state, base, update, resolved, damageValues, "Base Damage Value")
+            editStatistics(call, state, base, update, resolved, saves, "Saves")
             editStatistics(call, state, base, update, resolved, skills, "Skills")
         }
         if (base.traits.isNotEmpty()) {
@@ -142,6 +143,10 @@ private fun TABLE.editStatistics(
     statistics: List<Statistic>,
     label: String,
 ) {
+    if (statistics.isEmpty()) {
+        return
+    }
+
     tr {
         th { +label }
         th { +"Base" }
@@ -161,8 +166,8 @@ private fun TABLE.editStatistics(
             td {
                 selectInt(
                     modifier,
-                    -10,
-                    +10,
+                    -100,
+                    +100,
                     1,
                     combine(STATISTIC, statistic.id.value),
                 )

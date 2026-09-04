@@ -37,6 +37,11 @@ fun HtmlBlockTag.showStatisticData(
             fieldStatisticUnit(data.unit)
         }
 
+        is SaveStatistic -> {
+            showBaseValue(call, state, data.base)
+            fieldStatisticCost(data.cost)
+        }
+
         is Skill -> {
             showBaseValue(call, state, data.base)
             fieldStatisticCost(data.cost)
@@ -76,6 +81,11 @@ fun HtmlBlockTag.editStatisticData(
             editStatisticUnit(data.unit)
         }
 
+        is SaveStatistic -> {
+            editBaseValue(state, statistic, data.base)
+            editStatisticCost(data.cost)
+        }
+
         is Skill -> {
             editBaseValue(state, statistic, data.base)
             editStatisticCost(data.cost)
@@ -103,6 +113,11 @@ fun parseStatisticData(
         parseBaseValue(parameters),
         parseStatisticCost(parameters),
         parseStatisticUnit(parameters),
+    )
+
+    StatisticDataType.Save -> SaveStatistic(
+        parseBaseValue(parameters),
+        parseStatisticCost(parameters),
     )
 
     StatisticDataType.Skill -> Skill(

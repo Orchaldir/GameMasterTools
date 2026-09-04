@@ -9,10 +9,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.statblock.Statblock
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
-import at.orchaldir.gm.core.selector.rpg.getAttributes
-import at.orchaldir.gm.core.selector.rpg.getBaseDamageValues
-import at.orchaldir.gm.core.selector.rpg.getDerivedAttributes
-import at.orchaldir.gm.core.selector.rpg.getSkills
+import at.orchaldir.gm.core.selector.rpg.*
 import at.orchaldir.gm.core.selector.util.sortStatistics
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -31,6 +28,8 @@ fun HtmlBlockTag.showStatblock(
     val derivedValues = statblock.resolve(state, derivedAttributes)
     val baseDamages = state.sortStatistics(state.getBaseDamageValues())
     val baseDamageValues = statblock.resolve(state, baseDamages)
+    val saves = state.sortStatistics(state.getSaves())
+    val saveValues = statblock.resolve(state, saves)
     val skills = state.sortStatistics(state.getSkills())
     val skillValues = statblock.resolve(state, skills)
 
@@ -38,6 +37,7 @@ fun HtmlBlockTag.showStatblock(
         showStatistics(call, state, attributeValues, "Attributes")
         showStatistics(call, state, derivedValues, "Derived Attributes")
         showStatistics(call, state, baseDamageValues, "Base Damage Values")
+        showStatistics(call, state, saveValues, "Saves")
         showStatistics(call, state, skillValues, "Skills")
         showCharacterTraits(call, state, statblock.traits)
         field("Cost", statblock.calculateCost(state))
@@ -67,6 +67,7 @@ fun HtmlBlockTag.editStatblock(
     val attributes = state.sortStatistics(state.getAttributes())
     val derivedAttributes = state.sortStatistics(state.getDerivedAttributes())
     val damageValues = state.sortStatistics(state.getBaseDamageValues())
+    val saves = state.sortStatistics(state.getSaves())
     val skills = state.sortStatistics(state.getSkills())
 
     showDetails("Stateblock", true) {
@@ -74,6 +75,7 @@ fun HtmlBlockTag.editStatblock(
             editStatistics(state, call, statblock, attributes, "Attribute")
             editStatistics(state, call, statblock, derivedAttributes, "Derived Attribute")
             editStatistics(state, call, statblock, damageValues, "Base Damage Value")
+            editStatistics(state, call, statblock, saves, "Saves")
             editStatistics(state, call, statblock, skills, "Skills")
         }
         editCharacterTraitGroups(call, state, statblock.traits, isOpen = true)
@@ -88,6 +90,10 @@ private fun TABLE.editStatistics(
     statistics: List<Statistic>,
     label: String,
 ) {
+    if (statistics.isEmpty()) {
+        return
+    }
+
     tr {
         th { +label }
         th { +"Offset" }

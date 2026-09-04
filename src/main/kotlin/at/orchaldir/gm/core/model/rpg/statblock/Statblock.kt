@@ -39,6 +39,7 @@ data class Statblock(
             is Attribute -> resolveAttribute(state, statistic.id, statistic.data.base)
             is BaseDamage -> resolveAttribute(state, statistic.id, statistic.data.base)
             is DerivedAttribute -> resolveAttribute(state, statistic.id, statistic.data.base)
+            is SaveStatistic -> resolveAttribute(state, statistic.id, statistic.data.base)
             is Skill -> resolveSkill(state, statistic.id, statistic.data.base, allowUntrainedSkill)
         }
     }

@@ -6,13 +6,13 @@ import org.junit.jupiter.api.Test
 class DataTest {
 
     @Test
-    fun `Load Eberron`() {
-        test("data/Eberron")
+    fun `Load Dolmenwood`() {
+        test("data/Dolmenwood")
     }
 
     @Test
-    fun `Load Sandbox`() {
-        test("data/Sandbox")
+    fun `Load Eberron`() {
+        test("data/Eberron")
     }
 
     private fun test(path: String) {

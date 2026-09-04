@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "elements": {
+  "0": {
+   "id": 0,
+   "name": "Dolmenwood Campaign Book",
+   "year": 2024
+  },
+  "1": {
+   "id": 1,
+   "name": "Dolmenwood Monster Book",
+   "year": 2024
+  },
+  "2": {
+   "id": 2,
+   "name": "Dolmenwood Player's Book",
+   "year": 2024
+  }
+ }
+}

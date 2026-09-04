@@ -43,6 +43,7 @@ data class Statistic(
             is Attribute -> validateBaseValue(state, id, data.base)
             is BaseDamage -> validateBaseValue(state, id, data.base)
             is DerivedAttribute -> validateBaseValue(state, id, data.base)
+            is SaveStatistic -> validateBaseValue(state, id, data.base)
             is Skill -> validateBaseValue(state, id, data.base)
         }
     }
