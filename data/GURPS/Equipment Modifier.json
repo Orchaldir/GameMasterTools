@@ -1,5 +1,41 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "Cheap",
+   "category": "MeleeWeapons",
+   "cost": -6000
+  },
+  "1": {
+   "id": 1,
+   "name": "Fine",
+   "category": "MeleeWeapons",
+   "effects": [
+    {
+     "#type": "Damage",
+     "amount": {
+      "#type": "Not",
+      "number": 1
+     }
+    }
+   ],
+   "cost": 30000
+  },
+  "2": {
+   "id": 2,
+   "name": "Very Fine",
+   "category": "MeleeWeapons",
+   "effects": [
+    {
+     "#type": "Damage",
+     "amount": {
+      "#type": "Not",
+      "number": 2
+     }
+    }
+   ],
+   "cost": 190000
+  }
  }
 }
