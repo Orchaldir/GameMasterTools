@@ -222,6 +222,7 @@ enum class SortMaterial {
 enum class SortMeleeWeaponType {
     Name,
     Equipment,
+    Reach,
 }
 
 enum class SortMoon {

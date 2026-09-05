@@ -760,6 +760,7 @@ fun State.sortMeleeWeaponTypes(
         when (sort) {
             SortMeleeWeaponType.Name -> compareBy { it.name.text }
             SortMeleeWeaponType.Equipment -> compareByDescending { getMeleeWeapons(it.id).size }
+            SortMeleeWeaponType.Reach -> compareByDescending { it.getMaxReach() }
         })
 
 // moon

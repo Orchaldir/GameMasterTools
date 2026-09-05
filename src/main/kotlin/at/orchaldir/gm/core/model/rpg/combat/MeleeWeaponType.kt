@@ -37,4 +37,6 @@ data class MeleeWeaponType(
     fun contains(type: DamageTypeId) = attacks.any { it.contains(type) }
     fun contains(statistic: StatisticId) = attacks.any { it.contains(statistic) }
 
+    fun getMaxReach() = attacks.maxOf { it.reach.getMaxReach() }
+
 }
