@@ -6,10 +6,8 @@ import at.orchaldir.gm.core.model.rpg.combat.MeleeAttack
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
-import at.orchaldir.gm.core.model.util.quantity.ModifiedDiceRange
 import at.orchaldir.gm.core.reducer.rpg.validateMeleeAttack
 import at.orchaldir.gm.utils.Id
-import at.orchaldir.gm.utils.math.RangeInt
 import kotlinx.serialization.Serializable
 
 const val MELEE_WEAPON_TYPE_TYPE = "Melee Weapon Type"
@@ -45,14 +43,3 @@ data class MeleeWeaponType(
 
 }
 
-@Serializable
-data class EquipmentConfig(
-    val damageModifier: ModifiedDiceRange = ModifiedDiceRange(RangeInt(-2, 2), RangeInt(-6, 6)),
-    val maxDamageResistance: Int = 20,
-    val damageResistanceModifier: RangeInt = RangeInt(-5, 5),
-    val maxDefenseBonus: Int = 10,
-    val defenseBonusModifier: RangeInt = RangeInt(-5, 5),
-    val musclePoweredStatistic: StatisticId? = null,
-    val parryingModifier: RangeInt = RangeInt(-2, 2),
-    val skillModifier: RangeInt = RangeInt(-2, 2),
-)
