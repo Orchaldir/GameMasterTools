@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.reducer.rpg
+package at.orchaldir.gm.core.reducer.rpg.equipment
 
 import at.orchaldir.gm.EQUIPMENT_MODIFIER_ID_0
 import at.orchaldir.gm.assertIllegalArgument
