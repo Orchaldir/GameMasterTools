@@ -20,6 +20,10 @@ fun HtmlBlockTag.showVolumePerMaterial(
     state: State,
     vpm: VolumePerMaterial,
 ) {
+    if (vpm.isEmpty()) {
+        return
+    }
+
     table {
         tr {
             th { +"Material" }

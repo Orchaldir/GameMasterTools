@@ -36,4 +36,5 @@ class VolumePerMaterial(
         .reduceOrNull { acc, weight -> acc + weight }
         ?: WEIGHTLESS
 
+    fun isEmpty() = map.isEmpty()
 }
