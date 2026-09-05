@@ -1,40 +1,42 @@
-package at.orchaldir.gm.app.html.rpg.combat
+package at.orchaldir.gm.app.html.rpg.equipment
 
-import at.orchaldir.gm.app.SHIELD
+import at.orchaldir.gm.app.ARMOR
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.rpg.combat.fieldProtection
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.MaterialId
+import at.orchaldir.gm.core.model.rpg.equipment.ArmorStats
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifierCategory
-import at.orchaldir.gm.core.model.rpg.equipment.ShieldStats
 import at.orchaldir.gm.core.selector.rpg.combat.getEquipmentModifierEffects
 import at.orchaldir.gm.core.selector.rpg.statblock.resolveProtection
 import io.ktor.http.*
 import io.ktor.server.application.*
+import kotlinx.html.DETAILS
 import kotlinx.html.HtmlBlockTag
 
 // show
 
-fun HtmlBlockTag.showShieldStats(
+fun HtmlBlockTag.showArmorStats(
     call: ApplicationCall,
     state: State,
-    stats: ShieldStats,
+    stats: ArmorStats,
     mainMaterial: MaterialId?,
 ) {
-    showDetails("Shield Stats", true) {
+    showDetails("Armor Stats", true) {
         optionalFieldLink("Type", call, state, stats.type)
         optionalFieldLink(call, state, mainMaterial)
         fieldIds(call, state, "Modifiers", stats.modifiers)
-        showUpdatedShieldStats(call, state, stats)
+        showUpdatedArmorStats(call, state, stats)
     }
 }
 
-private fun HtmlBlockTag.showUpdatedShieldStats(
+private fun DETAILS.showUpdatedArmorStats(
     call: ApplicationCall,
     state: State,
-    stats: ShieldStats,
+    stats: ArmorStats,
 ) {
-    state.getShieldTypeStorage().getOptional(stats.type)?.let { type ->
+    state.getArmorTypeStorage().getOptional(stats.type)?.let { type ->
         val effects = state.getEquipmentModifierEffects(stats.modifiers)
         val updatedProtection = resolveProtection(effects, type.protection)
 
@@ -44,29 +46,29 @@ private fun HtmlBlockTag.showUpdatedShieldStats(
 
 // edit
 
-fun HtmlBlockTag.editShieldStats(
+fun HtmlBlockTag.editArmorStats(
     call: ApplicationCall,
     state: State,
-    stats: ShieldStats,
+    stats: ArmorStats,
 ) {
-    showDetails("Shield Stats", true) {
+    showDetails("Armor Stats", true) {
         selectOptionalElement(
             state,
             "Type",
-            combine(SHIELD, TYPE),
-            state.getShieldTypeStorage().getAll(),
+            combine(ARMOR, TYPE),
+            state.getArmorTypeStorage().getAll(),
             stats.type,
         )
-        selectEquipmentModifier(state, EquipmentModifierCategory.Shields, stats.modifiers)
-        showUpdatedShieldStats(call, state, stats)
+        selectEquipmentModifier(state, EquipmentModifierCategory.Armor, stats.modifiers)
+        showUpdatedArmorStats(call, state, stats)
     }
 }
 
 // parse
 
-fun parseShieldStats(
+fun parseArmorStats(
     parameters: Parameters,
-) = ShieldStats(
-    parseOptionalShieldTypeId(parameters, combine(SHIELD, TYPE)),
+) = ArmorStats(
+    parseOptionalArmorTypeId(parameters, combine(ARMOR, TYPE)),
     parseEquipmentModifiers(parameters),
 )

@@ -6,9 +6,9 @@ import at.orchaldir.gm.app.html.countCollectionColumn
 import at.orchaldir.gm.app.html.createCostFactorColumn
 import at.orchaldir.gm.app.html.createNameColumn
 import at.orchaldir.gm.app.html.rpg.combat.displayProtection
-import at.orchaldir.gm.app.html.rpg.combat.editArmorType
-import at.orchaldir.gm.app.html.rpg.combat.parseArmorType
-import at.orchaldir.gm.app.html.rpg.combat.showArmorType
+import at.orchaldir.gm.app.html.rpg.equipment.editArmorType
+import at.orchaldir.gm.app.html.rpg.equipment.parseArmorType
+import at.orchaldir.gm.app.html.rpg.equipment.showArmorType
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.rpg.equipment.ARMOR_TYPE_TYPE

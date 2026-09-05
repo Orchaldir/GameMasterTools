@@ -8,7 +8,7 @@ import at.orchaldir.gm.app.html.item.equipment.style.editLineStyle
 import at.orchaldir.gm.app.html.item.equipment.style.parseLineStyle
 import at.orchaldir.gm.app.html.item.equipment.style.showLineStyle
 import at.orchaldir.gm.app.html.parse
-import at.orchaldir.gm.app.html.rpg.combat.parseRangedWeaponStats
+import at.orchaldir.gm.app.html.rpg.equipment.parseRangedWeaponStats
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.util.part.editItemPart
 import at.orchaldir.gm.app.html.util.part.parseItemPart

@@ -1,4 +1,4 @@
-package at.orchaldir.gm.app.html.rpg.combat
+package at.orchaldir.gm.app.html.rpg.equipment
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*

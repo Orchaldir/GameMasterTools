@@ -1,4 +1,4 @@
-package at.orchaldir.gm.app.html.rpg.combat
+package at.orchaldir.gm.app.html.rpg.equipment
 
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State

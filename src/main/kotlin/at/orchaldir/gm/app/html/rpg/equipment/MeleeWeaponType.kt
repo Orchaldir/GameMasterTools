@@ -1,7 +1,10 @@
-package at.orchaldir.gm.app.html.rpg.combat
+package at.orchaldir.gm.app.html.rpg.equipment
 
 import at.orchaldir.gm.app.ATTACK
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.rpg.combat.editMeleeAttack
+import at.orchaldir.gm.app.html.rpg.combat.parseMeleeAttack
+import at.orchaldir.gm.app.html.rpg.combat.showMeleeAttackTable
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.equipment.MeleeWeaponType
 import at.orchaldir.gm.core.model.rpg.equipment.MeleeWeaponTypeId

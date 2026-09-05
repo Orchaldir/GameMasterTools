@@ -2,10 +2,10 @@ package at.orchaldir.gm.app.routes.rpg
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.rpg.combat.displayEquipmentModifierEffect
-import at.orchaldir.gm.app.html.rpg.combat.editEquipmentModifier
-import at.orchaldir.gm.app.html.rpg.combat.parseEquipmentModifier
-import at.orchaldir.gm.app.html.rpg.combat.showEquipmentModifier
+import at.orchaldir.gm.app.html.rpg.equipment.displayEquipmentModifierEffect
+import at.orchaldir.gm.app.html.rpg.equipment.editEquipmentModifier
+import at.orchaldir.gm.app.html.rpg.equipment.parseEquipmentModifier
+import at.orchaldir.gm.app.html.rpg.equipment.showEquipmentModifier
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.rpg.equipment.EQUIPMENT_MODIFIER_TYPE

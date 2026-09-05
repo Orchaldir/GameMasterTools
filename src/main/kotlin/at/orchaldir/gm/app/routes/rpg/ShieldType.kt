@@ -5,9 +5,9 @@ import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.countCollectionColumn
 import at.orchaldir.gm.app.html.createNameColumn
 import at.orchaldir.gm.app.html.rpg.combat.displayProtection
-import at.orchaldir.gm.app.html.rpg.combat.editShieldType
-import at.orchaldir.gm.app.html.rpg.combat.parseShieldType
-import at.orchaldir.gm.app.html.rpg.combat.showShieldType
+import at.orchaldir.gm.app.html.rpg.equipment.editShieldType
+import at.orchaldir.gm.app.html.rpg.equipment.parseShieldType
+import at.orchaldir.gm.app.html.rpg.equipment.showShieldType
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.rpg.equipment.SHIELD_TYPE_TYPE

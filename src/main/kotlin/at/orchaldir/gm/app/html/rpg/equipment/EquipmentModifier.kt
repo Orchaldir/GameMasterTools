@@ -1,7 +1,9 @@
-package at.orchaldir.gm.app.html.rpg.combat
+package at.orchaldir.gm.app.html.rpg.equipment
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.rpg.combat.fieldCostFactor
+import at.orchaldir.gm.app.html.rpg.combat.selectCostFactor
 import at.orchaldir.gm.app.html.util.math.parseFactor
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.combat.*

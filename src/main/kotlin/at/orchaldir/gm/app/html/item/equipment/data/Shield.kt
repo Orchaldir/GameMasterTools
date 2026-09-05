@@ -10,7 +10,7 @@ import at.orchaldir.gm.app.html.math.parseComplexShape
 import at.orchaldir.gm.app.html.math.selectComplexShape
 import at.orchaldir.gm.app.html.math.showComplexShape
 import at.orchaldir.gm.app.html.parse
-import at.orchaldir.gm.app.html.rpg.combat.parseShieldStats
+import at.orchaldir.gm.app.html.rpg.equipment.parseShieldStats
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.util.part.editItemPart
 import at.orchaldir.gm.app.html.util.part.parseItemPart

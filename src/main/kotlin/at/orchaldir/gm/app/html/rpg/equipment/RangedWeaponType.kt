@@ -1,7 +1,10 @@
-package at.orchaldir.gm.app.html.rpg.combat
+package at.orchaldir.gm.app.html.rpg.equipment
 
 import at.orchaldir.gm.app.ATTACK
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.rpg.combat.editRangedAttack
+import at.orchaldir.gm.app.html.rpg.combat.parseRangedAttack
+import at.orchaldir.gm.app.html.rpg.combat.showRangedAttackTable
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.equipment.RangedWeaponType
 import at.orchaldir.gm.core.model.rpg.equipment.RangedWeaponTypeId

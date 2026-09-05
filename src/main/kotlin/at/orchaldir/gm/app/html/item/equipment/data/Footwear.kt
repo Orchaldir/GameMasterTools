@@ -3,7 +3,7 @@ package at.orchaldir.gm.app.html.item.equipment.data
 import at.orchaldir.gm.app.html.item.equipment.style.editFootwearStyle
 import at.orchaldir.gm.app.html.item.equipment.style.parseFootwearStyle
 import at.orchaldir.gm.app.html.item.equipment.style.showFootwearStyle
-import at.orchaldir.gm.app.html.rpg.combat.parseArmorStats
+import at.orchaldir.gm.app.html.rpg.equipment.parseArmorStats
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.Footwear
 import io.ktor.http.*

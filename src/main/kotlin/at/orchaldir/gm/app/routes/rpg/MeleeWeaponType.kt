@@ -5,6 +5,9 @@ import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.countCollectionColumn
 import at.orchaldir.gm.app.html.createNameColumn
 import at.orchaldir.gm.app.html.rpg.combat.*
+import at.orchaldir.gm.app.html.rpg.equipment.editMeleeWeaponType
+import at.orchaldir.gm.app.html.rpg.equipment.parseMeleeWeaponType
+import at.orchaldir.gm.app.html.rpg.equipment.showMeleeWeaponType
 import at.orchaldir.gm.app.html.showMultiLine
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement

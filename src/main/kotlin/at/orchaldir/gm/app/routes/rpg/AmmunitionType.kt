@@ -3,9 +3,9 @@ package at.orchaldir.gm.app.routes.rpg
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.countCollectionColumn
 import at.orchaldir.gm.app.html.createNameColumn
-import at.orchaldir.gm.app.html.rpg.combat.editAmmunitionType
-import at.orchaldir.gm.app.html.rpg.combat.parseAmmunitionType
-import at.orchaldir.gm.app.html.rpg.combat.showAmmunitionType
+import at.orchaldir.gm.app.html.rpg.equipment.editAmmunitionType
+import at.orchaldir.gm.app.html.rpg.equipment.parseAmmunitionType
+import at.orchaldir.gm.app.html.rpg.equipment.showAmmunitionType
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.rpg.equipment.AMMUNITION_TYPE_TYPE

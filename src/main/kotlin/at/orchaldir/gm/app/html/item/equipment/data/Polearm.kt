@@ -2,7 +2,7 @@ package at.orchaldir.gm.app.html.item.equipment.data
 
 import at.orchaldir.gm.app.TOP
 import at.orchaldir.gm.app.html.item.equipment.style.*
-import at.orchaldir.gm.app.html.rpg.combat.parseMeleeWeaponStats
+import at.orchaldir.gm.app.html.rpg.equipment.parseMeleeWeaponStats
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.Polearm
 import io.ktor.http.*

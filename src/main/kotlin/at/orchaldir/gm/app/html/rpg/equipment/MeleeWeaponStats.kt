@@ -1,14 +1,15 @@
-package at.orchaldir.gm.app.html.rpg.combat
+package at.orchaldir.gm.app.html.rpg.equipment
 
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.WEAPON
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.rpg.combat.showMeleeAttackTable
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifierCategory
-import at.orchaldir.gm.core.model.rpg.equipment.RangedWeaponStats
+import at.orchaldir.gm.core.model.rpg.equipment.MeleeWeaponStats
 import at.orchaldir.gm.core.selector.rpg.combat.getEquipmentModifierEffects
-import at.orchaldir.gm.core.selector.rpg.statblock.resolveRangedAttacks
+import at.orchaldir.gm.core.selector.rpg.statblock.resolveMeleeAttacks
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.DETAILS
@@ -16,58 +17,58 @@ import kotlinx.html.HtmlBlockTag
 
 // show
 
-fun HtmlBlockTag.showRangedWeaponStats(
+fun HtmlBlockTag.showMeleeWeaponStats(
     call: ApplicationCall,
     state: State,
-    stats: RangedWeaponStats,
+    stats: MeleeWeaponStats,
     mainMaterial: MaterialId?,
 ) {
-    showDetails("Ranged Weapon Stats", true) {
+    showDetails("Melee Weapon Stats", true) {
         optionalFieldLink("Type", call, state, stats.type)
         optionalFieldLink(call, state, mainMaterial)
         fieldIds(call, state, "Modifiers", stats.modifiers)
-        updatedRangedWeaponStats(call, state, stats)
+        updatedMeleeWeaponStats(call, state, stats)
     }
 }
 
-private fun DETAILS.updatedRangedWeaponStats(
+private fun DETAILS.updatedMeleeWeaponStats(
     call: ApplicationCall,
     state: State,
-    stats: RangedWeaponStats,
+    stats: MeleeWeaponStats,
 ) {
-    state.getRangedWeaponTypeStorage().getOptional(stats.type)?.let { type ->
+    state.getMeleeWeaponTypeStorage().getOptional(stats.type)?.let { type ->
         val effects = state.getEquipmentModifierEffects(stats.modifiers)
-        val updatedAttacks = resolveRangedAttacks(state, effects, type.attacks)
+        val updatedAttacks = resolveMeleeAttacks(state, effects, type.attacks)
 
-        showRangedAttackTable(call, state, updatedAttacks)
+        showMeleeAttackTable(call, state, updatedAttacks)
     }
 }
 
 // edit
 
-fun HtmlBlockTag.editRangedWeaponStats(
+fun HtmlBlockTag.editMeleeWeaponStats(
     call: ApplicationCall,
     state: State,
-    stats: RangedWeaponStats,
+    stats: MeleeWeaponStats,
 ) {
-    showDetails("Ranged Weapon Stats", true) {
+    showDetails("Melee Weapon Stats", true) {
         selectOptionalElement(
             state,
             "Type",
             combine(WEAPON, TYPE),
-            state.getRangedWeaponTypeStorage().getAll(),
+            state.getMeleeWeaponTypeStorage().getAll(),
             stats.type,
         )
-        selectEquipmentModifier(state, EquipmentModifierCategory.RangedWeapons, stats.modifiers)
-        updatedRangedWeaponStats(call, state, stats)
+        selectEquipmentModifier(state, EquipmentModifierCategory.MeleeWeapons, stats.modifiers)
+        updatedMeleeWeaponStats(call, state, stats)
     }
 }
 
 // parse
 
-fun parseRangedWeaponStats(
+fun parseMeleeWeaponStats(
     parameters: Parameters,
-) = RangedWeaponStats(
-    parseOptionalRangedWeaponTypeId(parameters, combine(WEAPON, TYPE)),
+) = MeleeWeaponStats(
+    parseOptionalMeleeWeaponTypeId(parameters, combine(WEAPON, TYPE)),
     parseEquipmentModifiers(parameters),
 )

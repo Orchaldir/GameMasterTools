@@ -5,9 +5,9 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.economy.money.parsePriceLookup
 import at.orchaldir.gm.app.html.economy.money.selectPriceLookup
 import at.orchaldir.gm.app.html.economy.money.showPriceLookupDetails
-import at.orchaldir.gm.app.html.rpg.combat.parseAmmunitionTypeId
-import at.orchaldir.gm.app.html.rpg.combat.parseEquipmentModifiers
-import at.orchaldir.gm.app.html.rpg.combat.selectEquipmentModifier
+import at.orchaldir.gm.app.html.rpg.equipment.parseAmmunitionTypeId
+import at.orchaldir.gm.app.html.rpg.equipment.parseEquipmentModifiers
+import at.orchaldir.gm.app.html.rpg.equipment.selectEquipmentModifier
 import at.orchaldir.gm.app.html.util.math.parseWeightLookup
 import at.orchaldir.gm.app.html.util.math.selectWeightLookup
 import at.orchaldir.gm.app.html.util.math.showWeightLookupDetails

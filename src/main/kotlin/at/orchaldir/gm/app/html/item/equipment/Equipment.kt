@@ -9,7 +9,14 @@ import at.orchaldir.gm.app.html.economy.money.parsePriceLookup
 import at.orchaldir.gm.app.html.economy.money.selectPriceLookup
 import at.orchaldir.gm.app.html.economy.money.showPriceLookupDetails
 import at.orchaldir.gm.app.html.item.equipment.data.*
-import at.orchaldir.gm.app.html.rpg.combat.*
+import at.orchaldir.gm.app.html.rpg.equipment.editArmorStats
+import at.orchaldir.gm.app.html.rpg.equipment.editMeleeWeaponStats
+import at.orchaldir.gm.app.html.rpg.equipment.editRangedWeaponStats
+import at.orchaldir.gm.app.html.rpg.equipment.editShieldStats
+import at.orchaldir.gm.app.html.rpg.equipment.showArmorStats
+import at.orchaldir.gm.app.html.rpg.equipment.showMeleeWeaponStats
+import at.orchaldir.gm.app.html.rpg.equipment.showRangedWeaponStats
+import at.orchaldir.gm.app.html.rpg.equipment.showShieldStats
 import at.orchaldir.gm.app.html.util.color.editColorSchemeOption
 import at.orchaldir.gm.app.html.util.color.fieldColorSchemeOption
 import at.orchaldir.gm.app.html.util.color.parseColorSchemeOption

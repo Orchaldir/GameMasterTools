@@ -1,6 +1,9 @@
-package at.orchaldir.gm.app.html.rpg.combat
+package at.orchaldir.gm.app.html.rpg.equipment
 
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.rpg.combat.editProtection
+import at.orchaldir.gm.app.html.rpg.combat.fieldProtection
+import at.orchaldir.gm.app.html.rpg.combat.parseProtection
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.equipment.ShieldType
 import at.orchaldir.gm.core.model.rpg.equipment.ShieldTypeId
