@@ -3,10 +3,137 @@
  "elements": {
   "0": {
    "id": 0,
+   "name": "Breggle",
+   "earShapes": {
+    "PointedSideways": "Common"
+   },
+   "eye": {
+    "eyeColors": {
+     "Chocolate": "Common",
+     "Maroon": "Common",
+     "Peru": "Common",
+     "SaddleBrown": "Common"
+    }
+   },
+   "hair": {
+    "beardTypes": {
+     "None": "Common"
+    },
+    "hairTypes": {
+     "None": "Common"
+    }
+   },
+   "horn": {
+    "layouts": {
+     "Two": "Common"
+    },
+    "simpleTypes": {
+     "Gemsbok": "Common"
+    }
+   },
+   "skin": {
+    "skinTypes": {
+     "Fur": "Common"
+    },
+    "fur": 19
+   }
+  },
+  "1": {
+   "id": 1,
+   "name": "Grimalkin",
+   "earShapes": {
+    "PointedUpwards": "Common"
+   },
+   "eye": {
+    "eyeShapes": {
+     "Almond": "Common"
+    },
+    "eyeColors": {
+     "Black": "Common"
+    },
+    "pupilShapes": {
+     "VerticalSlit": "Common"
+    },
+    "scleraColors": {
+     "Gold": "Common",
+     "Yellow": "Common"
+    }
+   },
+   "foot": {
+    "footTypes": {
+     "Clawed": "Common"
+    },
+    "clawNumber": 4,
+    "clawSizes": {
+     "Small": "Common"
+    }
+   },
+   "hair": {
+    "beardTypes": {
+     "None": "Common"
+    },
+    "hairTypes": {
+     "None": "Common"
+    }
+   },
+   "mouth": {
+    "mouthTypes": {
+     "Snout": "Common"
+    },
+    "snoutColors": {
+     "Black": "Common",
+     "Pink": "Uncommon"
+    },
+    "snoutShapes": {
+     "Cat": "Common"
+    }
+   },
+   "skin": {
+    "skinTypes": {
+     "Fur": "Common"
+    },
+    "fur": 18
+   },
+   "tail": {
+    "layouts": {
+     "Simple": "Common"
+    }
+   }
+  },
+  "2": {
+   "id": 2,
    "name": "Human",
-   "lifeStages": {
-    "#type": "Aging",
-    "appearance": 2
+   "eye": {
+    "eyeColors": {
+     "Blue": "Common",
+     "Green": "Common",
+     "SaddleBrown": "Common"
+    }
+   },
+   "hair": {
+    "colors": {
+     "normal": {
+      "LightestBlond": "VeryRare",
+      "VeryLightBlond": "Rare",
+      "LightBlond": "Uncommon",
+      "Blond": "Common",
+      "DarkBlond": "Common",
+      "LightBrown": "Common",
+      "MediumBrown": "Common",
+      "DarkBrown": "Uncommon",
+      "Black": "Uncommon",
+      "Orange": "Uncommon",
+      "Red": "Rare",
+      "Auburn": "Uncommon"
+     }
+    }
+   },
+   "skin": {
+    "normalColors": {
+     "Fair": "Uncommon",
+     "Light": "Uncommon",
+     "Medium": "Rare"
+    }
    }
   }
  }
