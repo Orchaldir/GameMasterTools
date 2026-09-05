@@ -4,6 +4,9 @@ import at.orchaldir.gm.app.DAMAGE
 import at.orchaldir.gm.app.DIE
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.parse
+import at.orchaldir.gm.app.html.rpg.equipment.editEquipmentConfig
+import at.orchaldir.gm.app.html.rpg.equipment.parseEquipmentConfig
+import at.orchaldir.gm.app.html.rpg.equipment.showEquipmentConfig
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.RpgConfig

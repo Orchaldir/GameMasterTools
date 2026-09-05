@@ -1,13 +1,16 @@
-package at.orchaldir.gm.app.html.rpg
+package at.orchaldir.gm.app.html.rpg.equipment
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.rpg.editSimpleModifiedDiceRange
+import at.orchaldir.gm.app.html.rpg.parseSimpleModifiedDiceRange
+import at.orchaldir.gm.app.html.rpg.showSimpleModifiedDiceRange
 import at.orchaldir.gm.app.html.rpg.statistic.parseOptionalStatisticId
 import at.orchaldir.gm.app.html.util.math.editRange
 import at.orchaldir.gm.app.html.util.math.fieldRange
 import at.orchaldir.gm.app.html.util.math.parseRange
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.rpg.EquipmentConfig
+import at.orchaldir.gm.core.model.rpg.equipment.EquipmentConfig
 import at.orchaldir.gm.core.selector.util.sortStatistics
 import io.ktor.http.*
 import io.ktor.server.application.*

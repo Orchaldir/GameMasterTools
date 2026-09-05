@@ -9,7 +9,7 @@ import at.orchaldir.gm.core.model.item.equipment.Bow
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.rpg.equipment.MeleeWeaponType
 import at.orchaldir.gm.core.model.rpg.equipment.RangedWeaponStats
-import at.orchaldir.gm.core.selector.rpg.combat.canDeleteRangedWeaponType
+import at.orchaldir.gm.core.selector.rpg.equipment.canDeleteRangedWeaponType
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested

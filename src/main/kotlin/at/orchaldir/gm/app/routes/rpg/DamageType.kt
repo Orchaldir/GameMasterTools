@@ -13,9 +13,9 @@ import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.rpg.combat.DAMAGE_TYPE_TYPE
 import at.orchaldir.gm.core.model.rpg.combat.DamageTypeId
 import at.orchaldir.gm.core.model.util.SortDamageType
-import at.orchaldir.gm.core.selector.rpg.combat.getArmorTypes
-import at.orchaldir.gm.core.selector.rpg.combat.getMeleeWeaponTypes
-import at.orchaldir.gm.core.selector.rpg.combat.getShieldTypes
+import at.orchaldir.gm.core.selector.rpg.equipment.getArmorTypes
+import at.orchaldir.gm.core.selector.rpg.equipment.getMeleeWeaponTypes
+import at.orchaldir.gm.core.selector.rpg.equipment.getShieldTypes
 import at.orchaldir.gm.core.selector.util.sortDamageTypes
 import io.ktor.resources.*
 import io.ktor.server.application.*

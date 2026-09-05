@@ -5,10 +5,10 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.render.COLOR_SCHEME_TYPE
-import at.orchaldir.gm.core.reducer.rpg.validateArmorStats
-import at.orchaldir.gm.core.reducer.rpg.validateMeleeWeaponStats
-import at.orchaldir.gm.core.reducer.rpg.validateRangedWeaponStats
-import at.orchaldir.gm.core.reducer.rpg.validateShieldStats
+import at.orchaldir.gm.core.reducer.rpg.equipment.validateArmorStats
+import at.orchaldir.gm.core.reducer.rpg.equipment.validateMeleeWeaponStats
+import at.orchaldir.gm.core.reducer.rpg.equipment.validateRangedWeaponStats
+import at.orchaldir.gm.core.reducer.rpg.equipment.validateShieldStats
 import at.orchaldir.gm.core.reducer.util.color.validateColorSchemeOption
 import at.orchaldir.gm.core.reducer.util.part.validateItemPart
 import at.orchaldir.gm.core.selector.item.equipment.canDeleteEquipment

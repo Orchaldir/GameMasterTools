@@ -10,7 +10,7 @@ import at.orchaldir.gm.core.model.rpg.equipment.AmmunitionType
 import at.orchaldir.gm.core.model.rpg.combat.RangedAttack
 import at.orchaldir.gm.core.model.rpg.equipment.RangedWeaponType
 import at.orchaldir.gm.core.model.rpg.combat.SingleShot
-import at.orchaldir.gm.core.selector.rpg.combat.canDeleteAmmunitionType
+import at.orchaldir.gm.core.selector.rpg.equipment.canDeleteAmmunitionType
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested

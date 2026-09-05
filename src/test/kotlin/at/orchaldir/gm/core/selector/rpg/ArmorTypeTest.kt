@@ -9,7 +9,7 @@ import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.item.equipment.style.ScaleArmour
 import at.orchaldir.gm.core.model.rpg.equipment.ArmorStats
 import at.orchaldir.gm.core.model.rpg.equipment.ArmorType
-import at.orchaldir.gm.core.selector.rpg.combat.canDeleteArmorType
+import at.orchaldir.gm.core.selector.rpg.equipment.canDeleteArmorType
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested

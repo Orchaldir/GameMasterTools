@@ -81,9 +81,9 @@ import at.orchaldir.gm.core.selector.item.countTexts
 import at.orchaldir.gm.core.selector.item.equipment.*
 import at.orchaldir.gm.core.selector.race.countRaceAppearancesMadeOf
 import at.orchaldir.gm.core.selector.realm.*
-import at.orchaldir.gm.core.selector.rpg.combat.getEquipmentModifier
-import at.orchaldir.gm.core.selector.rpg.combat.getMeleeWeaponTypes
-import at.orchaldir.gm.core.selector.rpg.combat.getRangedWeaponTypes
+import at.orchaldir.gm.core.selector.rpg.equipment.getEquipmentModifier
+import at.orchaldir.gm.core.selector.rpg.equipment.getMeleeWeaponTypes
+import at.orchaldir.gm.core.selector.rpg.equipment.getRangedWeaponTypes
 import at.orchaldir.gm.core.selector.time.date.createSorter
 import at.orchaldir.gm.core.selector.time.getDefaultCalendar
 import at.orchaldir.gm.core.selector.world.countBuildings

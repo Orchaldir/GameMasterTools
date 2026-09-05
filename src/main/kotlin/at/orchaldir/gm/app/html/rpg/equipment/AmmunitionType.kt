@@ -5,7 +5,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.equipment.AmmunitionType
 import at.orchaldir.gm.core.model.rpg.equipment.AmmunitionTypeId
 import at.orchaldir.gm.core.selector.item.ammunition.getAmmunition
-import at.orchaldir.gm.core.selector.rpg.combat.getRangedWeaponTypes
+import at.orchaldir.gm.core.selector.rpg.equipment.getRangedWeaponTypes
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag

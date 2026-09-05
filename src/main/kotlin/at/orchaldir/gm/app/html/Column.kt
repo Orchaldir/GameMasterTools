@@ -16,8 +16,8 @@ import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.selector.character.countKilledCharacters
 import at.orchaldir.gm.core.selector.realm.countDestroyedRealms
 import at.orchaldir.gm.core.selector.realm.countDestroyedSettlements
-import at.orchaldir.gm.core.selector.rpg.combat.getEquipmentModifierEffects
-import at.orchaldir.gm.core.selector.rpg.combat.getMeleeWeaponType
+import at.orchaldir.gm.core.selector.rpg.equipment.getEquipmentModifierEffects
+import at.orchaldir.gm.core.selector.rpg.equipment.getMeleeWeaponType
 import at.orchaldir.gm.core.selector.rpg.statblock.resolveMeleeAttacks
 import at.orchaldir.gm.core.selector.time.getAgeInYears
 import at.orchaldir.gm.core.selector.util.calculatePopulationDensity

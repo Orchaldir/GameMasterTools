@@ -10,8 +10,8 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.selector.economy.getJobs
-import at.orchaldir.gm.core.selector.rpg.combat.getMeleeWeaponTypes
-import at.orchaldir.gm.core.selector.rpg.combat.getRangedWeaponTypes
+import at.orchaldir.gm.core.selector.rpg.equipment.getMeleeWeaponTypes
+import at.orchaldir.gm.core.selector.rpg.equipment.getRangedWeaponTypes
 import at.orchaldir.gm.core.selector.rpg.getStatisticsBasedOn
 import at.orchaldir.gm.core.selector.rpg.statblock.getStatblocksWith
 import at.orchaldir.gm.utils.Id

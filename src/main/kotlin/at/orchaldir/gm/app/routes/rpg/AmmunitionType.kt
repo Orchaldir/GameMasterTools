@@ -12,7 +12,7 @@ import at.orchaldir.gm.core.model.rpg.equipment.AMMUNITION_TYPE_TYPE
 import at.orchaldir.gm.core.model.rpg.equipment.AmmunitionTypeId
 import at.orchaldir.gm.core.model.util.SortAmmunitionType
 import at.orchaldir.gm.core.selector.item.ammunition.getAmmunition
-import at.orchaldir.gm.core.selector.rpg.combat.getRangedWeaponTypes
+import at.orchaldir.gm.core.selector.rpg.equipment.getRangedWeaponTypes
 import at.orchaldir.gm.core.selector.util.sortAmmunitionTypes
 import io.ktor.resources.*
 import io.ktor.server.application.*

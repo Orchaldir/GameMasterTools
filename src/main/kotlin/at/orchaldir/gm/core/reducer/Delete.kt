@@ -102,6 +102,12 @@ import at.orchaldir.gm.core.selector.religion.canDeletePantheon
 import at.orchaldir.gm.core.selector.rpg.canDeleteCharacterTrait
 import at.orchaldir.gm.core.selector.rpg.canDeleteStatistic
 import at.orchaldir.gm.core.selector.rpg.combat.*
+import at.orchaldir.gm.core.selector.rpg.equipment.canDeleteAmmunitionType
+import at.orchaldir.gm.core.selector.rpg.equipment.canDeleteArmorType
+import at.orchaldir.gm.core.selector.rpg.equipment.canDeleteEquipmentModifier
+import at.orchaldir.gm.core.selector.rpg.equipment.canDeleteMeleeWeaponType
+import at.orchaldir.gm.core.selector.rpg.equipment.canDeleteRangedWeaponType
+import at.orchaldir.gm.core.selector.rpg.equipment.canDeleteShieldType
 import at.orchaldir.gm.core.selector.time.canDeleteCalendar
 import at.orchaldir.gm.core.selector.time.canDeleteHoliday
 import at.orchaldir.gm.core.selector.util.*
