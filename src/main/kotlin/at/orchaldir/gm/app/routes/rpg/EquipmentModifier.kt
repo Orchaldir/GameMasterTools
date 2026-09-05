@@ -8,8 +8,8 @@ import at.orchaldir.gm.app.html.rpg.combat.parseEquipmentModifier
 import at.orchaldir.gm.app.html.rpg.combat.showEquipmentModifier
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.model.rpg.combat.EQUIPMENT_MODIFIER_TYPE
-import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifierId
+import at.orchaldir.gm.core.model.rpg.equipment.EQUIPMENT_MODIFIER_TYPE
+import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifierId
 import at.orchaldir.gm.core.model.util.SortEquipmentModifier
 import at.orchaldir.gm.core.selector.item.equipment.getEquipment
 import at.orchaldir.gm.core.selector.util.sortEquipmentModifiers

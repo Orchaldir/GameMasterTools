@@ -8,6 +8,8 @@ import at.orchaldir.gm.core.model.character.CharacterTemplate
 import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.rpg.combat.*
+import at.orchaldir.gm.core.model.rpg.equipment.MeleeWeaponType
+import at.orchaldir.gm.core.model.rpg.equipment.RangedWeaponType
 import at.orchaldir.gm.core.model.rpg.statblock.StatblockUpdate
 import at.orchaldir.gm.core.model.rpg.statblock.UniqueStatblock
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic

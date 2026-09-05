@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.reducer.rpg
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.rpg.combat.RangedWeaponStats
+import at.orchaldir.gm.core.model.rpg.equipment.RangedWeaponStats
 
 fun validateRangedWeaponStats(
     state: State,

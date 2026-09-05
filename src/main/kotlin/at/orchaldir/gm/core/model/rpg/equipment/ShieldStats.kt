@@ -1,9 +1,9 @@
-package at.orchaldir.gm.core.model.rpg.combat
+package at.orchaldir.gm.core.model.rpg.equipment
 
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class RangedWeaponStats(
-    val type: RangedWeaponTypeId? = null,
+data class ShieldStats(
+    val type: ShieldTypeId? = null,
     val modifiers: Set<EquipmentModifierId> = emptySet(),
 )

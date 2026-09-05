@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.selector.rpg.statblock
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.combat.*
+import at.orchaldir.gm.core.model.rpg.equipment.ModifyDamage
 import at.orchaldir.gm.core.model.rpg.statblock.Statblock
 
 // resolve attack effect with statblock

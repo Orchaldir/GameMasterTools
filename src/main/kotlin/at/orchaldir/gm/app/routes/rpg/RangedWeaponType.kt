@@ -8,8 +8,8 @@ import at.orchaldir.gm.app.html.rpg.combat.*
 import at.orchaldir.gm.app.html.showMultiLine
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.model.rpg.combat.RANGED_WEAPON_TYPE_TYPE
-import at.orchaldir.gm.core.model.rpg.combat.RangedWeaponTypeId
+import at.orchaldir.gm.core.model.rpg.equipment.RANGED_WEAPON_TYPE_TYPE
+import at.orchaldir.gm.core.model.rpg.equipment.RangedWeaponTypeId
 import at.orchaldir.gm.core.model.util.SortRangedWeaponType
 import at.orchaldir.gm.core.selector.item.equipment.getRangedWeapons
 import at.orchaldir.gm.core.selector.util.sortRangedWeaponTypes

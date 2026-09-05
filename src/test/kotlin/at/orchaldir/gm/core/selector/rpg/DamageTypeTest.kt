@@ -7,6 +7,9 @@ import at.orchaldir.gm.RANGED_WEAPON_TYPE_ID_0
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.combat.*
+import at.orchaldir.gm.core.model.rpg.equipment.ArmorType
+import at.orchaldir.gm.core.model.rpg.equipment.MeleeWeaponType
+import at.orchaldir.gm.core.model.rpg.equipment.RangedWeaponType
 import at.orchaldir.gm.core.selector.rpg.combat.canDeleteDamageType
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage

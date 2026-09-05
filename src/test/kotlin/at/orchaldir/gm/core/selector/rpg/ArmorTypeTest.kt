@@ -7,8 +7,8 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.BodyArmour
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.item.equipment.style.ScaleArmour
-import at.orchaldir.gm.core.model.rpg.combat.ArmorStats
-import at.orchaldir.gm.core.model.rpg.combat.ArmorType
+import at.orchaldir.gm.core.model.rpg.equipment.ArmorStats
+import at.orchaldir.gm.core.model.rpg.equipment.ArmorType
 import at.orchaldir.gm.core.selector.rpg.combat.canDeleteArmorType
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage

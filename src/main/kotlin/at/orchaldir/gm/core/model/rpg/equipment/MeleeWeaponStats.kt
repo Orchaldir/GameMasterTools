@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.model.rpg.combat
+package at.orchaldir.gm.core.model.rpg.equipment
 
 import kotlinx.serialization.Serializable
 

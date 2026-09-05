@@ -11,10 +11,10 @@ import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.item.equipment.OneHandedAxe
 import at.orchaldir.gm.core.model.item.equipment.Shield
 import at.orchaldir.gm.core.model.item.equipment.style.ScaleArmour
-import at.orchaldir.gm.core.model.rpg.combat.ArmorStats
-import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifier
-import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponStats
-import at.orchaldir.gm.core.model.rpg.combat.ShieldStats
+import at.orchaldir.gm.core.model.rpg.equipment.ArmorStats
+import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifier
+import at.orchaldir.gm.core.model.rpg.equipment.MeleeWeaponStats
+import at.orchaldir.gm.core.model.rpg.equipment.ShieldStats
 import at.orchaldir.gm.core.selector.rpg.combat.canDeleteEquipmentModifier
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage

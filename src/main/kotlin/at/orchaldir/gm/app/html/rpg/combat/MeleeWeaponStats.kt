@@ -5,8 +5,8 @@ import at.orchaldir.gm.app.WEAPON
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.MaterialId
-import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifierCategory
-import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponStats
+import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifierCategory
+import at.orchaldir.gm.core.model.rpg.equipment.MeleeWeaponStats
 import at.orchaldir.gm.core.selector.rpg.combat.getEquipmentModifierEffects
 import at.orchaldir.gm.core.selector.rpg.statblock.resolveMeleeAttacks
 import io.ktor.http.*

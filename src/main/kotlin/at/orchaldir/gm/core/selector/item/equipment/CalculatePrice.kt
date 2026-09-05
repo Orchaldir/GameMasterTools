@@ -3,7 +3,7 @@ package at.orchaldir.gm.core.selector.item.equipment
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.Price
 import at.orchaldir.gm.core.model.item.equipment.EquipmentData
-import at.orchaldir.gm.core.model.rpg.combat.ArmorStats
+import at.orchaldir.gm.core.model.rpg.equipment.ArmorStats
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.unit.VolumePerMaterial

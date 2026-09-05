@@ -3,8 +3,8 @@ package at.orchaldir.gm.app.html.rpg.combat
 import at.orchaldir.gm.app.ATTACK
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.rpg.combat.RangedWeaponType
-import at.orchaldir.gm.core.model.rpg.combat.RangedWeaponTypeId
+import at.orchaldir.gm.core.model.rpg.equipment.RangedWeaponType
+import at.orchaldir.gm.core.model.rpg.equipment.RangedWeaponTypeId
 import at.orchaldir.gm.core.selector.item.equipment.getRangedWeapons
 import io.ktor.http.*
 import io.ktor.server.application.*

@@ -3,8 +3,8 @@ package at.orchaldir.gm.core.model.item.ammunition
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.CalculatedPrice
 import at.orchaldir.gm.core.model.economy.money.PriceLookup
-import at.orchaldir.gm.core.model.rpg.combat.AmmunitionTypeId
-import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifierId
+import at.orchaldir.gm.core.model.rpg.equipment.AmmunitionTypeId
+import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifierId
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.utils.Id

@@ -3,8 +3,8 @@ package at.orchaldir.gm.app.html.rpg.combat
 import at.orchaldir.gm.app.ATTACK
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponType
-import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponTypeId
+import at.orchaldir.gm.core.model.rpg.equipment.MeleeWeaponType
+import at.orchaldir.gm.core.model.rpg.equipment.MeleeWeaponTypeId
 import at.orchaldir.gm.core.selector.item.equipment.getMeleeWeapons
 import io.ktor.http.*
 import io.ktor.server.application.*

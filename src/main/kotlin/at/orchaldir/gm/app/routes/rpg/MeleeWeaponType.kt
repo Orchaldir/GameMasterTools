@@ -8,8 +8,8 @@ import at.orchaldir.gm.app.html.rpg.combat.*
 import at.orchaldir.gm.app.html.showMultiLine
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.model.rpg.combat.MELEE_WEAPON_TYPE_TYPE
-import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponTypeId
+import at.orchaldir.gm.core.model.rpg.equipment.MELEE_WEAPON_TYPE_TYPE
+import at.orchaldir.gm.core.model.rpg.equipment.MeleeWeaponTypeId
 import at.orchaldir.gm.core.model.util.SortMeleeWeaponType
 import at.orchaldir.gm.core.selector.item.equipment.getMeleeWeapons
 import at.orchaldir.gm.core.selector.util.sortMeleeWeaponTypes

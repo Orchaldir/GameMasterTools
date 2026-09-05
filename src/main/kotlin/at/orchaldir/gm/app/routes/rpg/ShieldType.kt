@@ -10,8 +10,8 @@ import at.orchaldir.gm.app.html.rpg.combat.parseShieldType
 import at.orchaldir.gm.app.html.rpg.combat.showShieldType
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.model.rpg.combat.SHIELD_TYPE_TYPE
-import at.orchaldir.gm.core.model.rpg.combat.ShieldTypeId
+import at.orchaldir.gm.core.model.rpg.equipment.SHIELD_TYPE_TYPE
+import at.orchaldir.gm.core.model.rpg.equipment.ShieldTypeId
 import at.orchaldir.gm.core.model.util.SortShieldType
 import at.orchaldir.gm.core.selector.item.equipment.getShields
 import at.orchaldir.gm.core.selector.util.sortShieldTypes

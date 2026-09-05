@@ -6,8 +6,8 @@ import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.item.equipment.Shield
-import at.orchaldir.gm.core.model.rpg.combat.ShieldStats
-import at.orchaldir.gm.core.model.rpg.combat.ShieldType
+import at.orchaldir.gm.core.model.rpg.equipment.ShieldStats
+import at.orchaldir.gm.core.model.rpg.equipment.ShieldType
 import at.orchaldir.gm.core.selector.rpg.combat.canDeleteShieldType
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage

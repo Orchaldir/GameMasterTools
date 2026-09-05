@@ -1,6 +1,10 @@
 package at.orchaldir.gm.core.model.rpg.combat
 
 import at.orchaldir.gm.DAMAGE_TYPE_ID_0
+import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifierEffect
+import at.orchaldir.gm.core.model.rpg.equipment.ModifyDamage
+import at.orchaldir.gm.core.model.rpg.equipment.ModifyDamageResistance
+import at.orchaldir.gm.core.model.rpg.equipment.ModifyDefenseBonus
 import at.orchaldir.gm.core.model.util.quantity.StandardDice
 import at.orchaldir.gm.core.selector.rpg.statblock.resolveProtection
 import org.junit.jupiter.api.Assertions.assertEquals

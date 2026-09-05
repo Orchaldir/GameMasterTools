@@ -3,6 +3,13 @@ package at.orchaldir.gm.core.selector.rpg.statblock
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.rpg.combat.*
+import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifierEffect
+import at.orchaldir.gm.core.model.rpg.equipment.ModifyDamage
+import at.orchaldir.gm.core.model.rpg.equipment.ModifyDamageResistance
+import at.orchaldir.gm.core.model.rpg.equipment.ModifyDefenseBonus
+import at.orchaldir.gm.core.model.rpg.equipment.ModifyParrying
+import at.orchaldir.gm.core.model.rpg.equipment.ModifyRange
+import at.orchaldir.gm.core.model.rpg.equipment.ModifySkill
 import at.orchaldir.gm.core.model.rpg.statblock.*
 
 // resolve melee attack with statblock

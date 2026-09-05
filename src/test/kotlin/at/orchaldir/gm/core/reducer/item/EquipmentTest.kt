@@ -11,10 +11,10 @@ import at.orchaldir.gm.core.model.economy.material.MaterialProperties
 import at.orchaldir.gm.core.model.economy.material.Metal
 import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.item.equipment.style.ScaleArmour
-import at.orchaldir.gm.core.model.rpg.combat.ArmorStats
-import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponStats
-import at.orchaldir.gm.core.model.rpg.combat.RangedWeaponStats
-import at.orchaldir.gm.core.model.rpg.combat.ShieldStats
+import at.orchaldir.gm.core.model.rpg.equipment.ArmorStats
+import at.orchaldir.gm.core.model.rpg.equipment.MeleeWeaponStats
+import at.orchaldir.gm.core.model.rpg.equipment.RangedWeaponStats
+import at.orchaldir.gm.core.model.rpg.equipment.ShieldStats
 import at.orchaldir.gm.core.model.util.part.MadeFromCord
 import at.orchaldir.gm.core.model.util.part.MadeFromFabric
 import at.orchaldir.gm.core.model.util.render.*

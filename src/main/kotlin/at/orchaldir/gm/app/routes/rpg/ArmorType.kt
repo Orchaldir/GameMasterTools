@@ -11,8 +11,8 @@ import at.orchaldir.gm.app.html.rpg.combat.parseArmorType
 import at.orchaldir.gm.app.html.rpg.combat.showArmorType
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.model.rpg.combat.ARMOR_TYPE_TYPE
-import at.orchaldir.gm.core.model.rpg.combat.ArmorTypeId
+import at.orchaldir.gm.core.model.rpg.equipment.ARMOR_TYPE_TYPE
+import at.orchaldir.gm.core.model.rpg.equipment.ArmorTypeId
 import at.orchaldir.gm.core.model.util.SortArmorType
 import at.orchaldir.gm.core.selector.item.equipment.getArmors
 import at.orchaldir.gm.core.selector.util.sortArmorTypes

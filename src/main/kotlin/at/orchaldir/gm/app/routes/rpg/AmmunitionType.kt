@@ -8,8 +8,8 @@ import at.orchaldir.gm.app.html.rpg.combat.parseAmmunitionType
 import at.orchaldir.gm.app.html.rpg.combat.showAmmunitionType
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.core.model.rpg.combat.AMMUNITION_TYPE_TYPE
-import at.orchaldir.gm.core.model.rpg.combat.AmmunitionTypeId
+import at.orchaldir.gm.core.model.rpg.equipment.AMMUNITION_TYPE_TYPE
+import at.orchaldir.gm.core.model.rpg.equipment.AmmunitionTypeId
 import at.orchaldir.gm.core.model.util.SortAmmunitionType
 import at.orchaldir.gm.core.selector.item.ammunition.getAmmunition
 import at.orchaldir.gm.core.selector.rpg.combat.getRangedWeaponTypes

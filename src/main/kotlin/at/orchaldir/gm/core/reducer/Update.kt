@@ -37,6 +37,12 @@ import at.orchaldir.gm.core.model.religion.Domain
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.religion.Pantheon
 import at.orchaldir.gm.core.model.rpg.combat.*
+import at.orchaldir.gm.core.model.rpg.equipment.AmmunitionType
+import at.orchaldir.gm.core.model.rpg.equipment.ArmorType
+import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifier
+import at.orchaldir.gm.core.model.rpg.equipment.MeleeWeaponType
+import at.orchaldir.gm.core.model.rpg.equipment.RangedWeaponType
+import at.orchaldir.gm.core.model.rpg.equipment.ShieldType
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTrait
 import at.orchaldir.gm.core.model.time.calendar.Calendar

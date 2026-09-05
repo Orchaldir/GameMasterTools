@@ -3,7 +3,7 @@ package at.orchaldir.gm.core.selector.rpg.combat
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.Equipment
-import at.orchaldir.gm.core.model.rpg.combat.ArmorTypeId
+import at.orchaldir.gm.core.model.rpg.equipment.ArmorTypeId
 import at.orchaldir.gm.core.model.rpg.combat.DamageTypeId
 import at.orchaldir.gm.core.selector.item.equipment.getArmors
 

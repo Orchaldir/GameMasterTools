@@ -1,7 +1,7 @@
 package at.orchaldir.gm.core.selector.rpg.combat
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifierId
+import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifierId
 
 fun State.getEquipmentModifierEffects(modifiers: Set<EquipmentModifierId>) = getEquipmentModifierStorage()
     .get(modifiers)

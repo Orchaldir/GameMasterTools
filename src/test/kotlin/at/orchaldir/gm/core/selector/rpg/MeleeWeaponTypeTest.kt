@@ -6,8 +6,8 @@ import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.item.equipment.OneHandedAxe
-import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponStats
-import at.orchaldir.gm.core.model.rpg.combat.MeleeWeaponType
+import at.orchaldir.gm.core.model.rpg.equipment.MeleeWeaponStats
+import at.orchaldir.gm.core.model.rpg.equipment.MeleeWeaponType
 import at.orchaldir.gm.core.selector.rpg.combat.canDeleteMeleeWeaponType
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage

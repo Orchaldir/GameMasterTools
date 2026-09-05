@@ -2,8 +2,8 @@ package at.orchaldir.gm.app.html.rpg.combat
 
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.rpg.combat.AmmunitionType
-import at.orchaldir.gm.core.model.rpg.combat.AmmunitionTypeId
+import at.orchaldir.gm.core.model.rpg.equipment.AmmunitionType
+import at.orchaldir.gm.core.model.rpg.equipment.AmmunitionTypeId
 import at.orchaldir.gm.core.selector.item.ammunition.getAmmunition
 import at.orchaldir.gm.core.selector.rpg.combat.getRangedWeaponTypes
 import io.ktor.http.*
