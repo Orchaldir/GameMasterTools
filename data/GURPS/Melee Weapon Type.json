@@ -362,6 +362,33 @@
      }
     }
    ]
+  },
+  "13": {
+   "id": 13,
+   "name": "Brass Knuckles",
+   "attacks": [
+    {
+     "effect": {
+      "#type": "Damage",
+      "amount": {
+       "#type": "StatisticBased",
+       "base": 14,
+       "modifier": {
+        "#type": "Not",
+        "number": 0
+       }
+      },
+      "damageType": 3
+     },
+     "reach": {
+      "#type": "Simple"
+     },
+     "skill": {
+      "#type": "Modified",
+      "skill": 6
+     }
+    }
+   ]
   }
  }
 }

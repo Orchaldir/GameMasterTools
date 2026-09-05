@@ -594,6 +594,21 @@
      "#type": "GurpsSkill"
     }
    }
+  },
+  "17": {
+   "id": 17,
+   "name": "Unarmed Fighting",
+   "data": {
+    "#type": "Skill",
+    "base": {
+     "#type": "Statistic",
+     "statistic": 1,
+     "offset": -2
+    },
+    "cost": {
+     "#type": "GurpsSkill"
+    }
+   }
   }
  }
 }
