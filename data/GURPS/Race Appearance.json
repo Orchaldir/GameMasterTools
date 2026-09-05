@@ -1,0 +1,41 @@
+{
+ "version": 1,
+ "elements": {
+  "0": {
+   "id": 0,
+   "name": "Human",
+   "eye": {
+    "eyeColors": {
+     "Blue": "Common",
+     "Green": "Common",
+     "SaddleBrown": "Common"
+    }
+   },
+   "hair": {
+    "colors": {
+     "normal": {
+      "LightestBlond": "VeryRare",
+      "VeryLightBlond": "Rare",
+      "LightBlond": "Uncommon",
+      "Blond": "Common",
+      "DarkBlond": "Common",
+      "LightBrown": "Common",
+      "MediumBrown": "Common",
+      "DarkBrown": "Uncommon",
+      "Black": "Uncommon",
+      "Orange": "Uncommon",
+      "Red": "Rare",
+      "Auburn": "Uncommon"
+     }
+    }
+   },
+   "skin": {
+    "normalColors": {
+     "Fair": "Uncommon",
+     "Light": "Uncommon",
+     "Medium": "Rare"
+    }
+   }
+  }
+ }
+}

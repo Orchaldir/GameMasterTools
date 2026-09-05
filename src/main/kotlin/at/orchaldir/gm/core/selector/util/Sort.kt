@@ -118,6 +118,9 @@ fun <T> State.getDateComparator(
 private fun <T, E : Enum<E>> compareByEnum(map: (T) -> E): Comparator<T> =
     compareBy { map(it).name }
 
+private fun <T> compareProtection(protection: (T) -> Protection) = compareBy<T> { protection(it).getType() }
+    .thenComparator { t1, t2 -> protection(t1).value().compareTo(protection(t2).value()) }
+
 // ammunition
 
 fun State.sortAmmunition(sort: SortAmmunition = SortAmmunition.Name) =
@@ -176,6 +179,7 @@ fun State.sortArmorTypes(
     .sortedWith(
         when (sort) {
             SortArmorType.Name -> compareBy { it.name.text }
+            SortArmorType.Protection -> compareProtection { it.protection }
             SortArmorType.Cost -> compareByDescending { it.cost.toPermyriad() }
             SortArmorType.Equipment -> compareByDescending { getArmors(it.id).size }
         })
@@ -756,6 +760,7 @@ fun State.sortMeleeWeaponTypes(
         when (sort) {
             SortMeleeWeaponType.Name -> compareBy { it.name.text }
             SortMeleeWeaponType.Equipment -> compareByDescending { getMeleeWeapons(it.id).size }
+            SortMeleeWeaponType.Reach -> compareByDescending { it.getMaxReach() }
         })
 
 // moon
@@ -1079,6 +1084,7 @@ fun State.sortShieldTypes(
     .sortedWith(
         when (sort) {
             SortShieldType.Name -> compareBy { it.name.text }
+            SortShieldType.Protection -> compareProtection { it.protection }
             SortShieldType.Equipment -> compareByDescending { getShields(it.id).size }
         })
 

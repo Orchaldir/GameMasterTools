@@ -1,0 +1,169 @@
+{
+ "version": 1,
+ "elements": {
+  "0": {
+   "id": 0,
+   "name": "Spear",
+   "data": {
+    "#type": "Polearm",
+    "head": {
+     "#type": "Spear",
+     "spear": {
+      "width": 20000,
+      "part": {
+       "#type": "Metal",
+       "material": 5
+      }
+     },
+     "fixation": {
+      "#type": "Bound",
+      "cord": {
+       "#type": "Cord",
+       "material": 19
+      }
+     }
+    },
+    "shaft": {
+     "#type": "Simple",
+     "part": {
+      "#type": "Wood",
+      "material": 10
+     }
+    },
+    "stats": {
+     "type": 9
+    }
+   }
+  },
+  "1": {
+   "id": 1,
+   "name": "Scale Armor",
+   "data": {
+    "#type": "Armour",
+    "style": {
+     "#type": "Scale",
+     "scale": {
+      "#type": "Metal",
+      "material": 5
+     },
+     "shape": {
+      "#type": "Circular"
+     }
+    },
+    "sleeveStyle": "Long",
+    "stats": {
+     "type": 2
+    }
+   }
+  },
+  "2": {
+   "id": 2,
+   "name": "Chain Mail",
+   "data": {
+    "#type": "Armour",
+    "style": {
+     "#type": "Chain",
+     "chain": {
+      "#type": "Metal",
+      "material": 5
+     }
+    },
+    "sleeveStyle": "Long",
+    "stats": {
+     "type": 3
+    }
+   }
+  },
+  "3": {
+   "id": 3,
+   "name": "Longsword",
+   "data": {
+    "#type": "Sword1",
+    "blade": {
+     "#type": "Simple",
+     "length": 5000,
+     "main": {
+      "#type": "Metal",
+      "material": 5
+     }
+    },
+    "hilt": {
+     "#type": "Simple",
+     "guard": {
+      "#type": "Simple",
+      "part": {
+       "#type": "Metal",
+       "material": 5
+      }
+     },
+     "grip": {
+      "#type": "Bound",
+      "part": {
+       "#type": "Cord",
+       "material": 19
+      }
+     },
+     "pommel": {
+      "#type": "None"
+     }
+    },
+    "stats": {
+     "type": 3
+    }
+   }
+  },
+  "4": {
+   "id": 4,
+   "name": "Laminated Armour",
+   "data": {
+    "#type": "Armour",
+    "style": {
+     "#type": "Segmented",
+     "segment": {
+      "#type": "Metal",
+      "material": 5
+     },
+     "rows": 8,
+     "breastplateRows": 3
+    },
+    "sleeveStyle": "Long",
+    "stats": {
+     "type": 5
+    }
+   }
+  },
+  "5": {
+   "id": 5,
+   "name": "Leather Boots",
+   "data": {
+    "#type": "Footwear",
+    "style": {
+     "#type": "Boot",
+     "shaft": {
+      "#type": "Leather",
+      "material": 19
+     },
+     "sole": {
+      "#type": "Leather",
+      "material": 19,
+      "color": {
+       "#type": "Fixed",
+       "color": "Black"
+      }
+     },
+     "opening": {
+      "#type": "Shoelace",
+      "pattern": {
+       "#type": "Repeated",
+       "cord": {
+        "#type": "Cord",
+        "material": 12
+       },
+       "count": 3
+      }
+     }
+    }
+   }
+  }
+ }
+}

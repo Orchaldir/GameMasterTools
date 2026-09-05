@@ -17,6 +17,12 @@ sealed class Reach {
         is ReachRange -> ReachType.Range
         is UndefinedReach -> ReachType.Undefined
     }
+
+    fun getMaxReach() = when (this) {
+        is SimpleReach -> distance
+        is ReachRange -> max
+        is UndefinedReach -> 0
+    }
 }
 
 @Serializable

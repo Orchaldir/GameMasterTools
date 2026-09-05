@@ -27,6 +27,13 @@ sealed class Protection {
         UndefinedProtection -> false
     }
 
+    fun value() = when (this) {
+        is DamageResistance -> amount
+        is DamageResistances -> amount
+        is DefenseBonus -> bonus
+        UndefinedProtection -> 0
+    }
+
 }
 
 @Serializable
