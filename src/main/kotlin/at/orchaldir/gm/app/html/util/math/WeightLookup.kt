@@ -9,9 +9,6 @@ import at.orchaldir.gm.utils.math.unit.*
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
-import kotlinx.html.table
-import kotlinx.html.th
-import kotlinx.html.tr
 
 // show
 
@@ -39,32 +36,6 @@ fun HtmlBlockTag.showWeightLookupDetails(
         when (lookup) {
             CalculatedWeight -> fieldWeight("Calculated Weight", vpm.getWeight(state))
             is UserDefinedWeight -> fieldWeight("User Defined Weight", lookup.weight)
-        }
-    }
-}
-
-fun HtmlBlockTag.showVolumePerMaterial(
-    call: ApplicationCall,
-    state: State,
-    vpm: VolumePerMaterial,
-) {
-    table {
-        tr {
-            th { +"Material" }
-            th { +"Volume" }
-            th { +"Density" }
-            th { +"Weight" }
-        }
-        vpm.getMap().forEach { (id, volume) ->
-            val material = state.getMaterialStorage().getOrThrow(id)
-            val weight = Weight.fromVolume(volume, material.properties.density)
-
-            tr {
-                tdLink(call, state, material)
-                tdString(volume.toString())
-                tdString(material.properties.density.toString())
-                tdString(weight.toString())
-            }
         }
     }
 }
