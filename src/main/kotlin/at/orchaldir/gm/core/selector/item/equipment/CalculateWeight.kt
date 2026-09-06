@@ -3,11 +3,14 @@ package at.orchaldir.gm.core.selector.item.equipment
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
+import at.orchaldir.gm.core.model.item.ammunition.Ammunition
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.item.equipment.EquipmentData
 import at.orchaldir.gm.core.model.item.equipment.EquipmentIdMap
 import at.orchaldir.gm.utils.math.unit.CalculatedWeight
 import at.orchaldir.gm.utils.math.unit.UserDefinedWeight
+import at.orchaldir.gm.utils.math.unit.WEIGHTLESS
+import at.orchaldir.gm.utils.math.unit.WeightBasedOnType
 
 fun calculateWeight(
     state: State,
@@ -17,7 +20,11 @@ fun calculateWeight(
 ) = when (equipment.weight) {
     CalculatedWeight -> calculateWeight(state, config, equipment.data, appearance)
     is UserDefinedWeight -> equipment.weight.weight
+    WeightBasedOnType -> calculateWeightBasedOnType(state, equipment)
 }
+
+fun calculateWeightBasedOnType(state: State, ammunition: Ammunition) = WEIGHTLESS
+fun calculateWeightBasedOnType(state: State, equipment: Equipment) = WEIGHTLESS
 
 fun calculateWeight(
     state: State,

@@ -12,21 +12,13 @@ import kotlinx.html.HtmlBlockTag
 
 // show
 
-fun HtmlBlockTag.displayWeightLookup(
-    lookup: WeightLookup,
-    calculate: () -> Weight,
-) {
-    when (lookup) {
-        CalculatedWeight -> +calculate().toString()
-        is UserDefinedWeight -> +lookup.weight.toString()
-    }
-}
 
 fun HtmlBlockTag.showWeightLookupDetails(
     call: ApplicationCall,
     state: State,
     lookup: WeightLookup,
     vpm: VolumePerMaterial,
+    getWeightFromType: () -> Weight,
 ) {
     showDetails("Weight", true) {
         field("Type", lookup.getType())
@@ -36,6 +28,7 @@ fun HtmlBlockTag.showWeightLookupDetails(
         when (lookup) {
             CalculatedWeight -> fieldWeight("Calculated Weight", vpm.getWeight(state))
             is UserDefinedWeight -> fieldWeight("User Defined Weight", lookup.weight)
+            WeightBasedOnType -> fieldWeight("Weight based on Type", getWeightFromType())
         }
     }
 }
@@ -62,6 +55,8 @@ fun HtmlBlockTag.selectWeightLookup(
                 maxWeight,
                 SiPrefix.Base,
             )
+
+            WeightBasedOnType -> doNothing()
         }
     }
 }
@@ -77,4 +72,6 @@ fun parseWeightLookup(
     WeightLookupType.UserDefined -> UserDefinedWeight(
         parseWeight(parameters, param, SiPrefix.Base, minWeight),
     )
+
+    WeightLookupType.Type -> WeightBasedOnType
 }

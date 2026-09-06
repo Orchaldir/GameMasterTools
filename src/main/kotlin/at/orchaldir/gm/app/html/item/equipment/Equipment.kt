@@ -32,6 +32,7 @@ import at.orchaldir.gm.core.selector.gm.treasure.getTreasureParcelsWith
 import at.orchaldir.gm.core.selector.item.equipment.CalculateVolumeConfig
 import at.orchaldir.gm.core.selector.item.equipment.calculateCostFactors
 import at.orchaldir.gm.core.selector.item.equipment.calculateVolumePerMaterial
+import at.orchaldir.gm.core.selector.item.equipment.calculateWeightBasedOnType
 import at.orchaldir.gm.core.selector.item.getUniforms
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import io.ktor.http.*
@@ -64,7 +65,14 @@ fun HtmlBlockTag.showEquipment(
     equipment.data.getShieldStats()?.let {
         showShieldStats(call, state, it, material)
     }
-    showWeightLookupDetails(call, state, equipment.weight, vpm)
+    showWeightLookupDetails(
+        call,
+        state,
+        equipment.weight,
+        vpm,
+    ) {
+        calculateWeightBasedOnType(state, equipment)
+    }
     showPriceLookupDetails(call, state, equipment.price, vpm, costFactors)
     showUsages(call, state, equipment.id)
 }

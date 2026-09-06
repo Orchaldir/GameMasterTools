@@ -14,7 +14,6 @@ import at.orchaldir.gm.app.html.rpg.combat.displayProtection
 import at.orchaldir.gm.app.html.rpg.combat.displayReach
 import at.orchaldir.gm.app.html.util.color.parseOptionalColorSchemeId
 import at.orchaldir.gm.app.html.util.color.selectColorScheme
-import at.orchaldir.gm.app.html.util.math.displayWeightLookup
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.State
@@ -134,13 +133,7 @@ fun Application.configureEquipmentRouting() {
                     createNameColumn(call, state),
                     Column("Type") { tdEnum(it.data.getType()) },
                     tdColumn("Weight") {
-                        displayWeightLookup(it.weight) {
-                            calculateWeight(
-                                state,
-                                VOLUME_CONFIG,
-                                it.data
-                            )
-                        }
+                        calculateWeight(state, VOLUME_CONFIG, it)
                     },
                     tdColumn("Price") {
                         displayPriceLookup(call, currency, it.price) {
