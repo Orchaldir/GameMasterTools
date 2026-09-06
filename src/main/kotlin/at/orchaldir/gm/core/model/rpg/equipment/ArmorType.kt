@@ -11,6 +11,8 @@ import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.reducer.rpg.validateProtection
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.unit.UndefinedWeight
+import at.orchaldir.gm.utils.math.unit.WeightLookup
 import kotlinx.serialization.Serializable
 
 const val ARMOR_TYPE_TYPE = "Armor Type"
@@ -31,6 +33,7 @@ data class ArmorType(
     val name: Name = Name.init(id),
     val protection: Protection = UndefinedProtection,
     val cost: Factor = DEFAULT_TYPE_COST_FACTOR,
+    val weight: WeightLookup = UndefinedWeight,
 ) : ElementWithSimpleName<ArmorTypeId> {
 
     override fun id() = id

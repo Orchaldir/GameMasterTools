@@ -8,6 +8,8 @@ import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.reducer.rpg.validateMeleeAttack
 import at.orchaldir.gm.utils.Id
+import at.orchaldir.gm.utils.math.unit.UndefinedWeight
+import at.orchaldir.gm.utils.math.unit.WeightLookup
 import kotlinx.serialization.Serializable
 
 const val MELEE_WEAPON_TYPE_TYPE = "Melee Weapon Type"
@@ -27,6 +29,7 @@ data class MeleeWeaponType(
     val id: MeleeWeaponTypeId,
     val name: Name = Name.init(id),
     val attacks: List<MeleeAttack> = emptyList(),
+    val weight: WeightLookup = UndefinedWeight,
 ) : ElementWithSimpleName<MeleeWeaponTypeId> {
 
     override fun id() = id

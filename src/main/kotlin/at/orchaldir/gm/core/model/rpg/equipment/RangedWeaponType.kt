@@ -8,6 +8,8 @@ import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.reducer.rpg.validateRangedAttack
 import at.orchaldir.gm.utils.Id
+import at.orchaldir.gm.utils.math.unit.UndefinedWeight
+import at.orchaldir.gm.utils.math.unit.WeightLookup
 import kotlinx.serialization.Serializable
 
 const val RANGED_WEAPON_TYPE_TYPE = "Ranged Weapon Type"
@@ -27,6 +29,7 @@ data class RangedWeaponType(
     val id: RangedWeaponTypeId,
     val name: Name = Name.init(id),
     val attacks: List<RangedAttack> = emptyList(),
+    val weight: WeightLookup = UndefinedWeight,
 ) : ElementWithSimpleName<RangedWeaponTypeId> {
 
     override fun id() = id

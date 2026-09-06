@@ -29,6 +29,7 @@ fun HtmlBlockTag.showWeightLookupDetails(
             CalculatedWeight -> fieldWeight("Calculated Weight", vpm.getWeight(state))
             is UserDefinedWeight -> fieldWeight("User Defined Weight", lookup.weight)
             WeightBasedOnType -> fieldWeight("Weight based on Type", getWeightFromType())
+            UndefinedWeight -> doNothing()
         }
     }
 }
@@ -57,6 +58,7 @@ fun HtmlBlockTag.selectWeightLookup(
             )
 
             WeightBasedOnType -> doNothing()
+            UndefinedWeight -> doNothing()
         }
     }
 }
@@ -74,4 +76,5 @@ fun parseWeightLookup(
     )
 
     WeightLookupType.Type -> WeightBasedOnType
+    WeightLookupType.Undefined -> UndefinedWeight
 }
