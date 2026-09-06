@@ -1,4 +1,4 @@
-package at.orchaldir.gm.app.routes.rpg
+package at.orchaldir.gm.app.routes.rpg.equipment
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.Column.Companion.tdColumn

@@ -54,6 +54,9 @@
     "stats": {
      "type": 2
     }
+   },
+   "weight": {
+    "#type": "Type"
    }
   },
   "2": {

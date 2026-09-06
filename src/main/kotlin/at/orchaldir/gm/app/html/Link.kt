@@ -27,6 +27,12 @@ import at.orchaldir.gm.app.routes.religion.DomainRoutes
 import at.orchaldir.gm.app.routes.religion.GodRoutes
 import at.orchaldir.gm.app.routes.religion.PantheonRoutes
 import at.orchaldir.gm.app.routes.rpg.*
+import at.orchaldir.gm.app.routes.rpg.equipment.AmmunitionTypeRoutes
+import at.orchaldir.gm.app.routes.rpg.equipment.ArmorTypeRoutes
+import at.orchaldir.gm.app.routes.rpg.equipment.EquipmentModifierRoutes
+import at.orchaldir.gm.app.routes.rpg.equipment.MeleeWeaponTypeRoutes
+import at.orchaldir.gm.app.routes.rpg.equipment.RangedWeaponTypeRoutes
+import at.orchaldir.gm.app.routes.rpg.equipment.ShieldTypeRoutes
 import at.orchaldir.gm.app.routes.time.CalendarRoutes
 import at.orchaldir.gm.app.routes.time.HolidayRoutes
 import at.orchaldir.gm.app.routes.time.TimeRoutes
