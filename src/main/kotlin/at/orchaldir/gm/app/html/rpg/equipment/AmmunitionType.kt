@@ -1,7 +1,13 @@
 package at.orchaldir.gm.app.html.rpg.equipment
 
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.util.math.parseWeightLookupForType
+import at.orchaldir.gm.app.html.util.math.selectWeightLookup
+import at.orchaldir.gm.app.html.util.math.selectWeightLookupForType
+import at.orchaldir.gm.app.html.util.math.showWeightLookupForType
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.equipment.MAX_EQUIPMENT_WEIGHT
+import at.orchaldir.gm.core.model.item.equipment.MIN_EQUIPMENT_WEIGHT
 import at.orchaldir.gm.core.model.rpg.equipment.AmmunitionType
 import at.orchaldir.gm.core.model.rpg.equipment.AmmunitionTypeId
 import at.orchaldir.gm.core.selector.item.ammunition.getAmmunition
@@ -18,6 +24,8 @@ fun HtmlBlockTag.showAmmunitionType(
     state: State,
     type: AmmunitionType,
 ) {
+    showWeightLookupForType(type.weight)
+
     showUsages(call, state, type.id)
 }
 
@@ -47,6 +55,7 @@ fun HtmlBlockTag.editAmmunitionType(
     type: AmmunitionType,
 ) {
     selectName(type.name)
+    selectWeightLookupForType(type.weight, MIN_EQUIPMENT_WEIGHT, MAX_EQUIPMENT_WEIGHT)
 }
 
 // parse
@@ -63,4 +72,5 @@ fun parseAmmunitionType(
 ) = AmmunitionType(
     id,
     parseName(parameters),
+    parseWeightLookupForType(parameters, MIN_EQUIPMENT_WEIGHT),
 )

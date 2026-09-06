@@ -3,10 +3,15 @@ package at.orchaldir.gm.utils.math.unit
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+val ALLOWED_WEIGHT_LOOKUP_TYPES_FOR_TYPES = listOf(
+    WeightLookupType.Undefined,
+    WeightLookupType.UserDefined,
+)
+
 enum class WeightLookupType {
+    Undefined,
     Calculated,
     Type,
-    Undefined,
     UserDefined,
 }
 

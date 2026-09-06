@@ -158,7 +158,7 @@ fun HtmlBlockTag.editEquipment(
     equipment.data.getMeleeWeaponStats()?.let { editMeleeWeaponStats(call, state, it) }
     equipment.data.getRangedWeaponStats()?.let { editRangedWeaponStats(call, state, it) }
     equipment.data.getShieldStats()?.let { editShieldStats(call, state, it) }
-    selectWeightLookup(state, equipment.weight, MIN_EQUIPMENT_WEIGHT, MAX_EQUIPMENT_WEIGHT)
+    selectWeightLookup(equipment.weight, MIN_EQUIPMENT_WEIGHT, MAX_EQUIPMENT_WEIGHT)
     selectPriceLookup(state, equipment.price, MIN_EQUIPMENT_PRICE, MAX_EQUIPMENT_PRICE)
 }
 

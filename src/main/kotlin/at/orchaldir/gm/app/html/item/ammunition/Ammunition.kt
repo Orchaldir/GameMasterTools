@@ -87,7 +87,7 @@ fun HtmlBlockTag.editAmmunition(
         ammunition.type,
     )
     selectEquipmentModifier(state, EquipmentModifierCategory.Ammunition, ammunition.modifiers)
-    selectWeightLookup(state, ammunition.weight, MIN_EQUIPMENT_WEIGHT, MAX_EQUIPMENT_WEIGHT)
+    selectWeightLookup(ammunition.weight, MIN_EQUIPMENT_WEIGHT, MAX_EQUIPMENT_WEIGHT)
     selectPriceLookup(state, ammunition.price, MIN_EQUIPMENT_PRICE, MAX_EQUIPMENT_PRICE)
 }
 

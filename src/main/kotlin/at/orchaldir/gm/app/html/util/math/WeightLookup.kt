@@ -12,6 +12,15 @@ import kotlinx.html.HtmlBlockTag
 
 // show
 
+fun HtmlBlockTag.showWeightLookupForType(
+    lookup: WeightLookup,
+) {
+    when (lookup) {
+        is UserDefinedWeight -> fieldWeight("Weight", lookup.weight)
+        UndefinedWeight -> doNothing()
+        else -> error("WeightLookup of type ${lookup.getType()} is not supported!")
+    }
+}
 
 fun HtmlBlockTag.showWeightLookupDetails(
     call: ApplicationCall,
@@ -36,15 +45,28 @@ fun HtmlBlockTag.showWeightLookupDetails(
 
 // edit
 
-fun HtmlBlockTag.selectWeightLookup(
-    state: State,
+fun HtmlBlockTag.selectWeightLookupForType(
     lookup: WeightLookup,
     minWeight: Long,
     maxWeight: Long,
     param: String = WEIGHT,
+) = selectWeightLookup(
+    lookup,
+    minWeight,
+    maxWeight,
+    param,
+    ALLOWED_WEIGHT_LOOKUP_TYPES_FOR_TYPES,
+)
+
+fun HtmlBlockTag.selectWeightLookup(
+    lookup: WeightLookup,
+    minWeight: Long,
+    maxWeight: Long,
+    param: String = WEIGHT,
+    allowedTypes: Collection<WeightLookupType> = WeightLookupType.entries,
 ) {
     showDetails("Weight", true) {
-        selectValue("Type", combine(param, TYPE), WeightLookupType.entries, lookup.getType())
+        selectValue("Type", combine(param, TYPE), allowedTypes, lookup.getType())
 
         when (lookup) {
             CalculatedWeight -> doNothing()
@@ -65,11 +87,23 @@ fun HtmlBlockTag.selectWeightLookup(
 
 // parse
 
+fun parseWeightLookupForType(
+    parameters: Parameters,
+    minWeight: Long,
+    param: String = WEIGHT,
+) = parseWeightLookup(
+    parameters,
+    minWeight,
+    param,
+    ALLOWED_WEIGHT_LOOKUP_TYPES_FOR_TYPES,
+)
+
 fun parseWeightLookup(
     parameters: Parameters,
     minWeight: Long,
     param: String = WEIGHT,
-) = when (parse(parameters, combine(param, TYPE), WeightLookupType.UserDefined)) {
+    allowedTypes: Collection<WeightLookupType> = WeightLookupType.entries,
+) = when (parse(parameters, combine(param, TYPE), allowedTypes)) {
     WeightLookupType.Calculated -> CalculatedWeight
     WeightLookupType.UserDefined -> UserDefinedWeight(
         parseWeight(parameters, param, SiPrefix.Base, minWeight),
