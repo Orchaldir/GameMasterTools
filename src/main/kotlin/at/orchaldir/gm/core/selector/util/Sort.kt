@@ -154,6 +154,7 @@ fun State.sortAmmunitionTypes(
     .sortedWith(
         when (sort) {
             SortAmmunitionType.Name -> compareBy { it.name.text }
+            SortAmmunitionType.Weight -> compareByDescending { getWeightOfType(it.weight).value() }
             SortAmmunitionType.Variants -> compareByDescending { getAmmunition(it.id).size }
             SortAmmunitionType.Weapons -> compareByDescending { getRangedWeaponTypes(it.id).size }
         })
@@ -187,6 +188,7 @@ fun State.sortArmorTypes(
         when (sort) {
             SortArmorType.Name -> compareBy { it.name.text }
             SortArmorType.Protection -> compareProtection { it.protection }
+            SortArmorType.Weight -> compareByDescending { getWeightOfType(it.weight).value() }
             SortArmorType.Cost -> compareByDescending { it.cost.toPermyriad() }
             SortArmorType.Equipment -> compareByDescending { getArmors(it.id).size }
         })
@@ -766,8 +768,9 @@ fun State.sortMeleeWeaponTypes(
     .sortedWith(
         when (sort) {
             SortMeleeWeaponType.Name -> compareBy { it.name.text }
-            SortMeleeWeaponType.Equipment -> compareByDescending { getMeleeWeapons(it.id).size }
             SortMeleeWeaponType.Reach -> compareByDescending { it.getMaxReach() }
+            SortMeleeWeaponType.Weight -> compareByDescending { getWeightOfType(it.weight).value() }
+            SortMeleeWeaponType.Equipment -> compareByDescending { getMeleeWeapons(it.id).size }
         })
 
 // moon
@@ -977,6 +980,7 @@ fun State.sortRangedWeaponTypes(
     .sortedWith(
         when (sort) {
             SortRangedWeaponType.Name -> compareBy { it.name.text }
+            SortRangedWeaponType.Weight -> compareByDescending { getWeightOfType(it.weight).value() }
             SortRangedWeaponType.Equipment -> compareByDescending { getRangedWeapons(it.id).size }
         })
 
@@ -1092,6 +1096,7 @@ fun State.sortShieldTypes(
         when (sort) {
             SortShieldType.Name -> compareBy { it.name.text }
             SortShieldType.Protection -> compareProtection { it.protection }
+            SortShieldType.Weight -> compareByDescending { getWeightOfType(it.weight).value() }
             SortShieldType.Equipment -> compareByDescending { getShields(it.id).size }
         })
 

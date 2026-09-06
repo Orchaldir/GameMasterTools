@@ -6,6 +6,7 @@ enum class SortAmmunition {
 
 enum class SortAmmunitionType {
     Name,
+    Weight,
     Variants,
     Weapons,
 }
@@ -19,6 +20,7 @@ enum class SortArchitecturalStyle {
 enum class SortArmorType {
     Name,
     Protection,
+    Weight,
     Cost,
     Equipment,
 }
@@ -221,8 +223,9 @@ enum class SortMaterial {
 
 enum class SortMeleeWeaponType {
     Name,
-    Equipment,
     Reach,
+    Weight,
+    Equipment,
 }
 
 enum class SortMoon {
@@ -296,6 +299,7 @@ enum class SortRaceGroup {
 
 enum class SortRangedWeaponType {
     Name,
+    Weight,
     Equipment,
 }
 
@@ -340,6 +344,7 @@ enum class SortSettlementSize {
 enum class SortShieldType {
     Name,
     Protection,
+    Weight,
     Equipment,
 }
 

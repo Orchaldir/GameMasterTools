@@ -75,6 +75,9 @@
     "stats": {
      "type": 3
     }
+   },
+   "weight": {
+    "#type": "Type"
    }
   },
   "3": {
