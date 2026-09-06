@@ -4,6 +4,7 @@ import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.countCollectionColumn
 import at.orchaldir.gm.app.html.createNameColumn
+import at.orchaldir.gm.app.html.createWeightColumn
 import at.orchaldir.gm.app.html.rpg.combat.displayProtection
 import at.orchaldir.gm.app.html.rpg.equipment.editShieldType
 import at.orchaldir.gm.app.html.rpg.equipment.parseShieldType
@@ -14,6 +15,7 @@ import at.orchaldir.gm.core.model.rpg.equipment.SHIELD_TYPE_TYPE
 import at.orchaldir.gm.core.model.rpg.equipment.ShieldTypeId
 import at.orchaldir.gm.core.model.util.SortShieldType
 import at.orchaldir.gm.core.selector.item.equipment.getShields
+import at.orchaldir.gm.core.selector.item.equipment.getWeightOfType
 import at.orchaldir.gm.core.selector.util.sortShieldTypes
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -68,6 +70,7 @@ fun Application.configureShieldTypeRouting() {
                 listOf(
                     createNameColumn(call, state),
                     tdColumn("Protection") { displayProtection(call, state, it.protection) },
+                    createWeightColumn { getWeightOfType(it.weight) },
                     countCollectionColumn("Equipment") { state.getShields(it.id) },
                 ),
             )

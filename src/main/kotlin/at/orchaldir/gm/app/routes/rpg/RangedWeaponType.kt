@@ -4,6 +4,7 @@ import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.countCollectionColumn
 import at.orchaldir.gm.app.html.createNameColumn
+import at.orchaldir.gm.app.html.createWeightColumn
 import at.orchaldir.gm.app.html.rpg.combat.*
 import at.orchaldir.gm.app.html.rpg.equipment.editRangedWeaponType
 import at.orchaldir.gm.app.html.rpg.equipment.parseRangedWeaponType
@@ -15,6 +16,7 @@ import at.orchaldir.gm.core.model.rpg.equipment.RANGED_WEAPON_TYPE_TYPE
 import at.orchaldir.gm.core.model.rpg.equipment.RangedWeaponTypeId
 import at.orchaldir.gm.core.model.util.SortRangedWeaponType
 import at.orchaldir.gm.core.selector.item.equipment.getRangedWeapons
+import at.orchaldir.gm.core.selector.item.equipment.getWeightOfType
 import at.orchaldir.gm.core.selector.util.sortRangedWeaponTypes
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -88,6 +90,7 @@ fun Application.configureRangedWeaponTypeRouting() {
                             displayShots(call, state, attack.shots)
                         }
                     },
+                    createWeightColumn { getWeightOfType(it.weight) },
                     countCollectionColumn("Equipment") { state.getRangedWeapons(it.id) },
                 ),
             )

@@ -9,7 +9,7 @@
    },
    "weight": {
     "#type": "User",
-    "weight": 12000000
+    "weight": 6000000
    }
   },
   "1": {
@@ -18,6 +18,10 @@
    "protection": {
     "#type": "DamageResistance",
     "amount": 2
+   },
+   "weight": {
+    "#type": "User",
+    "weight": 10000000
    }
   },
   "2": {
@@ -26,6 +30,10 @@
    "protection": {
     "#type": "DamageResistance",
     "amount": 3
+   },
+   "weight": {
+    "#type": "User",
+    "weight": 24500000
    }
   },
   "3": {
@@ -34,6 +42,10 @@
    "protection": {
     "#type": "DamageResistance",
     "amount": 4
+   },
+   "weight": {
+    "#type": "User",
+    "weight": 29000000
    }
   },
   "4": {
@@ -42,6 +54,10 @@
    "protection": {
     "#type": "DamageResistance",
     "amount": 6
+   },
+   "weight": {
+    "#type": "User",
+    "weight": 45000000
    }
   },
   "5": {
@@ -50,6 +66,10 @@
    "protection": {
     "#type": "DamageResistance",
     "amount": 5
+   },
+   "weight": {
+    "#type": "User",
+    "weight": 32000000
    }
   }
  }

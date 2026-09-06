@@ -4,6 +4,7 @@ import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.countCollectionColumn
 import at.orchaldir.gm.app.html.createNameColumn
+import at.orchaldir.gm.app.html.createWeightColumn
 import at.orchaldir.gm.app.html.rpg.combat.*
 import at.orchaldir.gm.app.html.rpg.equipment.editMeleeWeaponType
 import at.orchaldir.gm.app.html.rpg.equipment.parseMeleeWeaponType
@@ -15,6 +16,7 @@ import at.orchaldir.gm.core.model.rpg.equipment.MELEE_WEAPON_TYPE_TYPE
 import at.orchaldir.gm.core.model.rpg.equipment.MeleeWeaponTypeId
 import at.orchaldir.gm.core.model.util.SortMeleeWeaponType
 import at.orchaldir.gm.core.selector.item.equipment.getMeleeWeapons
+import at.orchaldir.gm.core.selector.item.equipment.getWeightOfType
 import at.orchaldir.gm.core.selector.util.sortMeleeWeaponTypes
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -83,6 +85,7 @@ fun Application.configureMeleeWeaponTypeRouting() {
                             displayParrying(attack.parrying)
                         }
                     },
+                    createWeightColumn { getWeightOfType(it.weight) },
                     countCollectionColumn("Equipment") { state.getMeleeWeapons(it.id) },
                 ),
             )
