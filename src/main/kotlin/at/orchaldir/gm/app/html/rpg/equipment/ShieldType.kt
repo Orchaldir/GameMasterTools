@@ -4,7 +4,12 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.rpg.combat.editProtection
 import at.orchaldir.gm.app.html.rpg.combat.fieldProtection
 import at.orchaldir.gm.app.html.rpg.combat.parseProtection
+import at.orchaldir.gm.app.html.util.math.parseWeightLookupForType
+import at.orchaldir.gm.app.html.util.math.selectWeightLookupForType
+import at.orchaldir.gm.app.html.util.math.showWeightLookupForType
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.equipment.MAX_EQUIPMENT_WEIGHT
+import at.orchaldir.gm.core.model.item.equipment.MIN_EQUIPMENT_WEIGHT
 import at.orchaldir.gm.core.model.rpg.equipment.ShieldType
 import at.orchaldir.gm.core.model.rpg.equipment.ShieldTypeId
 import at.orchaldir.gm.core.selector.item.equipment.getShields
@@ -21,6 +26,7 @@ fun HtmlBlockTag.showShieldType(
     type: ShieldType,
 ) {
     fieldProtection(call, state, type.protection)
+    showWeightLookupForType(type.weight)
 
     showUsages(call, state, type.id)
 }
@@ -50,6 +56,7 @@ fun HtmlBlockTag.editShieldType(
 ) {
     selectName(type.name)
     editProtection(call, state, type.protection)
+    selectWeightLookupForType(type.weight, MIN_EQUIPMENT_WEIGHT, MAX_EQUIPMENT_WEIGHT)
 }
 
 // parse
@@ -67,4 +74,5 @@ fun parseShieldType(
     id,
     parseName(parameters),
     parseProtection(state, parameters),
+    parseWeightLookupForType(parameters, MIN_EQUIPMENT_WEIGHT),
 )

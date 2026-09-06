@@ -5,7 +5,12 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.rpg.combat.editRangedAttack
 import at.orchaldir.gm.app.html.rpg.combat.parseRangedAttack
 import at.orchaldir.gm.app.html.rpg.combat.showRangedAttackTable
+import at.orchaldir.gm.app.html.util.math.parseWeightLookupForType
+import at.orchaldir.gm.app.html.util.math.selectWeightLookupForType
+import at.orchaldir.gm.app.html.util.math.showWeightLookupForType
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.equipment.MAX_EQUIPMENT_WEIGHT
+import at.orchaldir.gm.core.model.item.equipment.MIN_EQUIPMENT_WEIGHT
 import at.orchaldir.gm.core.model.rpg.equipment.RangedWeaponType
 import at.orchaldir.gm.core.model.rpg.equipment.RangedWeaponTypeId
 import at.orchaldir.gm.core.selector.item.equipment.getRangedWeapons
@@ -22,6 +27,8 @@ fun HtmlBlockTag.showRangedWeaponType(
     type: RangedWeaponType,
 ) {
     showRangedAttackTable(call, state, type.attacks)
+    showWeightLookupForType(type.weight)
+
     showUsages(call, state, type.id)
 }
 
@@ -52,6 +59,7 @@ fun HtmlBlockTag.editRangedWeaponType(
     editList("Attacks", ATTACK, type.attacks, 0, 2, 1) { index, param, attack ->
         editRangedAttack(state, attack, "${index + 1}.Attack", param)
     }
+    selectWeightLookupForType(type.weight, MIN_EQUIPMENT_WEIGHT, MAX_EQUIPMENT_WEIGHT)
 }
 
 // parse
@@ -70,5 +78,6 @@ fun parseRangedWeaponType(
     parseName(parameters),
     parseList(parameters, ATTACK, 0) { _, param ->
         parseRangedAttack(parameters, param)
-    }
+    },
+    parseWeightLookupForType(parameters, MIN_EQUIPMENT_WEIGHT),
 )

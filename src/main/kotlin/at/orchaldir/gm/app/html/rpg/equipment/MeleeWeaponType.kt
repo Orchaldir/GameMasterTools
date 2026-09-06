@@ -5,7 +5,12 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.rpg.combat.editMeleeAttack
 import at.orchaldir.gm.app.html.rpg.combat.parseMeleeAttack
 import at.orchaldir.gm.app.html.rpg.combat.showMeleeAttackTable
+import at.orchaldir.gm.app.html.util.math.parseWeightLookupForType
+import at.orchaldir.gm.app.html.util.math.selectWeightLookupForType
+import at.orchaldir.gm.app.html.util.math.showWeightLookupForType
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.equipment.MAX_EQUIPMENT_WEIGHT
+import at.orchaldir.gm.core.model.item.equipment.MIN_EQUIPMENT_WEIGHT
 import at.orchaldir.gm.core.model.rpg.equipment.MeleeWeaponType
 import at.orchaldir.gm.core.model.rpg.equipment.MeleeWeaponTypeId
 import at.orchaldir.gm.core.selector.item.equipment.getMeleeWeapons
@@ -22,6 +27,8 @@ fun HtmlBlockTag.showMeleeWeaponType(
     type: MeleeWeaponType,
 ) {
     showMeleeAttackTable(call, state, type.attacks)
+    showWeightLookupForType(type.weight)
+
     showUsages(call, state, type.id)
 }
 
@@ -52,6 +59,7 @@ fun HtmlBlockTag.editMeleeWeaponType(
     editList("Attacks", ATTACK, type.attacks, 0, 2, 1) { index, param, attack ->
         editMeleeAttack(state, attack, "${index + 1}.Attack", param)
     }
+    selectWeightLookupForType(type.weight, MIN_EQUIPMENT_WEIGHT, MAX_EQUIPMENT_WEIGHT)
 }
 
 // parse
@@ -70,5 +78,6 @@ fun parseMeleeWeaponType(
     parseName(parameters),
     parseList(parameters, ATTACK, 0) { _, param ->
         parseMeleeAttack(parameters, param)
-    }
+    },
+    parseWeightLookupForType(parameters, MIN_EQUIPMENT_WEIGHT),
 )

@@ -6,6 +6,10 @@
    "name": "Cloth Armor",
    "protection": {
     "#type": "DamageResistance"
+   },
+   "weight": {
+    "#type": "User",
+    "weight": 12000000
    }
   },
   "1": {
