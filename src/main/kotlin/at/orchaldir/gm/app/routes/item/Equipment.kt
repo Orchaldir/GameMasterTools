@@ -132,7 +132,7 @@ fun Application.configureEquipmentRouting() {
                 listOf(
                     createNameColumn(call, state),
                     Column("Type") { tdEnum(it.data.getType()) },
-                    tdColumn("Weight") {
+                    createWeightColumn {
                         calculateWeight(state, VOLUME_CONFIG, it)
                     },
                     tdColumn("Price") {

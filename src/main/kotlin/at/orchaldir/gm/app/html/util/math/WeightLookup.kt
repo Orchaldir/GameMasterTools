@@ -34,12 +34,14 @@ fun HtmlBlockTag.showWeightLookupDetails(
 
         showVolumePerMaterial(call, state, vpm)
 
-        when (lookup) {
-            CalculatedWeight -> fieldWeight("Calculated Weight", vpm.getWeight(state))
-            is UserDefinedWeight -> fieldWeight("User Defined Weight", lookup.weight)
-            WeightBasedOnType -> fieldWeight("Weight based on Type", getWeightFromType())
-            UndefinedWeight -> doNothing()
+        val weight = when (lookup) {
+            CalculatedWeight -> vpm.getWeight(state)
+            is UserDefinedWeight -> lookup.weight
+            WeightBasedOnType -> getWeightFromType()
+            UndefinedWeight -> return@showDetails
         }
+
+        fieldWeight("Weight", weight)
     }
 }
 
