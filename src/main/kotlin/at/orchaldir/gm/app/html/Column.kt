@@ -26,6 +26,8 @@ import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.unit.AreaUnit
 import at.orchaldir.gm.utils.math.unit.HasArea
+import at.orchaldir.gm.utils.math.unit.WEIGHTLESS
+import at.orchaldir.gm.utils.math.unit.Weight
 import io.ktor.server.application.*
 import kotlinx.html.TD
 import kotlinx.html.TR
@@ -207,6 +209,16 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> createReferenceColumn(
     label: String,
     get: (ELEMENT) -> Reference,
 ): Column<ELEMENT> = tdColumn(label) { showReference(call, state, get(it), false) }
+
+fun <T> createWeightColumn(
+    get: (T) -> Weight,
+): Column<T> = tdColumn("Weight") {
+    val weight = get(it)
+
+    if (weight > WEIGHTLESS) {
+        +weight.toString()
+    }
+}
 
 fun <ID : Id<ID>, ELEMENT : Element<ID>> countColumn(
     label: String,

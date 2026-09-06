@@ -5,6 +5,7 @@ import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.countCollectionColumn
 import at.orchaldir.gm.app.html.createCostFactorColumn
 import at.orchaldir.gm.app.html.createNameColumn
+import at.orchaldir.gm.app.html.createWeightColumn
 import at.orchaldir.gm.app.html.rpg.combat.displayProtection
 import at.orchaldir.gm.app.html.rpg.equipment.editArmorType
 import at.orchaldir.gm.app.html.rpg.equipment.parseArmorType
@@ -15,6 +16,7 @@ import at.orchaldir.gm.core.model.rpg.equipment.ARMOR_TYPE_TYPE
 import at.orchaldir.gm.core.model.rpg.equipment.ArmorTypeId
 import at.orchaldir.gm.core.model.util.SortArmorType
 import at.orchaldir.gm.core.selector.item.equipment.getArmors
+import at.orchaldir.gm.core.selector.item.equipment.getWeightOfType
 import at.orchaldir.gm.core.selector.util.sortArmorTypes
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -70,6 +72,7 @@ fun Application.configureArmorTypeRouting() {
                     createNameColumn(call, state),
                     tdColumn("Protection") { displayProtection(call, state, it.protection) },
                     createCostFactorColumn { it.cost },
+                    createWeightColumn { getWeightOfType(it.weight) },
                     countCollectionColumn("Equipment") { state.getArmors(it.id) },
                 ),
             )
