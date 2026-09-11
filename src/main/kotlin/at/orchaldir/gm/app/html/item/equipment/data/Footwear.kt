@@ -36,5 +36,4 @@ fun parseFootwear(
     parameters: Parameters,
 ) = Footwear(
     parseFootwearStyle(state, parameters),
-    parseEquipmentStats(parameters),
 )

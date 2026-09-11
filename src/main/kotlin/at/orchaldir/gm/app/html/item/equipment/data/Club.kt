@@ -6,7 +6,6 @@ import at.orchaldir.gm.app.SIZE
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.item.equipment.style.*
 import at.orchaldir.gm.app.html.parse
-import at.orchaldir.gm.app.html.rpg.equipment.parseMeleeWeaponStats
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.OneHandedClub
@@ -72,7 +71,6 @@ fun parseOneHandedClub(
     parse(parameters, SIZE, Size.Medium),
     parseHeadFixation(state, parameters, FIXATION),
     parseShaft(state, parameters),
-    parseMeleeWeaponStats(parameters),
 )
 
 fun parseTwoHandedClub(
@@ -83,5 +81,4 @@ fun parseTwoHandedClub(
     parse(parameters, SIZE, Size.Medium),
     parseHeadFixation(state, parameters, FIXATION),
     parseShaft(state, parameters),
-    parseMeleeWeaponStats(parameters),
 )

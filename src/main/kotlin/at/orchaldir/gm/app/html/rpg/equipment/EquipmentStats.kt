@@ -1,15 +1,19 @@
 package at.orchaldir.gm.app.html.rpg.equipment
 
-import at.orchaldir.gm.app.ARMOR
+import at.orchaldir.gm.app.EQUIPMENT
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.rpg.combat.fieldProtection
+import at.orchaldir.gm.app.html.rpg.combat.showMeleeAttackTable
+import at.orchaldir.gm.app.html.rpg.combat.showRangedAttackTable
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentStats
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifierCategory
 import at.orchaldir.gm.core.selector.rpg.equipment.getEquipmentModifierEffects
+import at.orchaldir.gm.core.selector.rpg.statblock.resolveMeleeAttacks
 import at.orchaldir.gm.core.selector.rpg.statblock.resolveProtection
+import at.orchaldir.gm.core.selector.rpg.statblock.resolveRangedAttacks
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.DETAILS
@@ -39,7 +43,11 @@ private fun DETAILS.showUpdatedEquipmentStats(
     state.getEquipmentTypeStorage().getOptional(stats.type)?.let { type ->
         val effects = state.getEquipmentModifierEffects(stats.modifiers)
         val updatedProtection = resolveProtection(effects, type.protection)
+        val updatedMeleeAttacks = resolveMeleeAttacks(state, effects, type.meleeAttacks)
+        val updatedRangedAttacks = resolveRangedAttacks(state, effects, type.rangedAttacks)
 
+        showMeleeAttackTable(call, state, updatedMeleeAttacks)
+        showRangedAttackTable(call, state, updatedRangedAttacks)
         fieldProtection(call, state, updatedProtection)
     }
 }
@@ -55,11 +63,11 @@ fun HtmlBlockTag.editEquipmentStats(
         selectOptionalElement(
             state,
             "Type",
-            combine(ARMOR, TYPE),
+            combine(EQUIPMENT, TYPE),
             state.getEquipmentTypeStorage().getAll(),
             stats.type,
         )
-        selectEquipmentModifier(state, EquipmentModifierCategory.Armor, stats.modifiers)
+        selectEquipmentModifier(state, EquipmentModifierCategory.All, stats.modifiers)
         showUpdatedEquipmentStats(call, state, stats)
     }
 }
@@ -69,6 +77,6 @@ fun HtmlBlockTag.editEquipmentStats(
 fun parseEquipmentStats(
     parameters: Parameters,
 ) = EquipmentStats(
-    parseOptionalEquipmentTypeId(parameters, combine(ARMOR, TYPE)),
+    parseOptionalEquipmentTypeId(parameters, combine(EQUIPMENT, TYPE)),
     parseEquipmentModifiers(parameters),
 )

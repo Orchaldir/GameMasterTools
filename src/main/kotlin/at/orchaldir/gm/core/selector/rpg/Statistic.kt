@@ -8,15 +8,13 @@ import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.selector.character.getCharacterTemplates
 import at.orchaldir.gm.core.selector.character.getCharacters
 import at.orchaldir.gm.core.selector.economy.getJobs
-import at.orchaldir.gm.core.selector.rpg.equipment.getMeleeWeaponTypes
-import at.orchaldir.gm.core.selector.rpg.equipment.getRangedWeaponTypes
+import at.orchaldir.gm.core.selector.rpg.equipment.getEquipmentTypes
 
 fun State.canDeleteStatistic(statistic: StatisticId) = DeleteResult(statistic)
     .addElements(getCharacters(statistic))
     .addElements(getCharacterTemplates(statistic))
+    .addElements(getEquipmentTypes(statistic))
     .addElements(getJobs(statistic))
-    .addElements(getMeleeWeaponTypes(statistic))
-    .addElements(getRangedWeaponTypes(statistic))
 
 fun State.getAttributes() = getStatistics(StatisticDataType.Attribute)
 fun State.getDerivedAttributes() = getStatistics(StatisticDataType.DerivedAttribute)

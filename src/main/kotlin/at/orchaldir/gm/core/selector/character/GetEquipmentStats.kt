@@ -7,35 +7,13 @@ import at.orchaldir.gm.core.model.item.equipment.EquipmentIdMap
 import at.orchaldir.gm.core.model.rpg.combat.MeleeAttack
 import at.orchaldir.gm.core.model.rpg.combat.Protection
 import at.orchaldir.gm.core.model.rpg.combat.RangedAttack
+import at.orchaldir.gm.core.model.rpg.combat.UndefinedProtection
 import at.orchaldir.gm.core.model.rpg.statblock.StatblockLookup
 import at.orchaldir.gm.core.selector.item.equipment.getEquipmentIdMap
 import at.orchaldir.gm.core.selector.rpg.equipment.getEquipmentModifierEffects
 import at.orchaldir.gm.core.selector.rpg.statblock.resolveMeleeAttacks
 import at.orchaldir.gm.core.selector.rpg.statblock.resolveProtection
 import at.orchaldir.gm.core.selector.rpg.statblock.resolveRangedAttacks
-
-// get armors
-
-fun getArmors(
-    state: State,
-    equipped: Equipped,
-    lookup: StatblockLookup,
-) = getArmors(state, state.getEquipmentIdMap(equipped, lookup))
-
-fun getArmors(state: State, map: EquipmentIdMap): Map<Equipment, Protection> {
-    val armorMap = mutableMapOf<Equipment, Protection>()
-
-    map.getAllEquipment().forEach { (id, _) ->
-        val equipment = state.getEquipmentStorage().getOrThrow(id)
-        val stats = equipment.data.getArmorStats() ?: return@forEach
-        val type = state.getEquipmentTypeStorage().getOptional(stats.type) ?: return@forEach
-        val effects = state.getEquipmentModifierEffects(stats.modifiers)
-
-        armorMap[equipment] = resolveProtection(effects, type.protection)
-    }
-
-    return armorMap
-}
 
 // get melee attacks
 
@@ -50,17 +28,50 @@ fun getMeleeAttacks(state: State, map: EquipmentIdMap): Map<Equipment, List<Mele
 
     map.getAllEquipment().forEach { (id, _) ->
         val equipment = state.getEquipmentStorage().getOrThrow(id)
-        val stats = equipment.data.getMeleeWeaponStats() ?: return@forEach
-        val type = state.getMeleeWeaponTypeStorage().getOptional(stats.type) ?: return@forEach
+        val stats = equipment.stats
+        val type = state.getEquipmentTypeStorage().getOptional(stats.type) ?: return@forEach
+
+        if (type.meleeAttacks.isEmpty()) {
+            return@forEach
+        }
+
         val effects = state.getEquipmentModifierEffects(stats.modifiers)
 
-        meleeAttackMap[equipment] = resolveMeleeAttacks(state, effects, type.attacks)
+        meleeAttackMap[equipment] = resolveMeleeAttacks(state, effects, type.meleeAttacks)
     }
 
     return meleeAttackMap
 }
 
-// get melee attacks
+// get protection
+
+fun getProtection(
+    state: State,
+    equipped: Equipped,
+    lookup: StatblockLookup,
+) = getProtection(state, state.getEquipmentIdMap(equipped, lookup))
+
+fun getProtection(state: State, map: EquipmentIdMap): Map<Equipment, Protection> {
+    val armorMap = mutableMapOf<Equipment, Protection>()
+
+    map.getAllEquipment().forEach { (id, _) ->
+        val equipment = state.getEquipmentStorage().getOrThrow(id)
+        val stats = equipment.stats
+        val type = state.getEquipmentTypeStorage().getOptional(stats.type) ?: return@forEach
+
+        if (type.protection !is UndefinedProtection) {
+            return@forEach
+        }
+
+        val effects = state.getEquipmentModifierEffects(stats.modifiers)
+
+        armorMap[equipment] = resolveProtection(effects, type.protection)
+    }
+
+    return armorMap
+}
+
+// get ranged attacks
 
 fun getRangedAttacks(
     state: State,
@@ -73,35 +84,17 @@ fun getRangedAttacks(state: State, map: EquipmentIdMap): Map<Equipment, List<Ran
 
     map.getAllEquipment().forEach { (id, _) ->
         val equipment = state.getEquipmentStorage().getOrThrow(id)
-        val stats = equipment.data.getRangedWeaponStats() ?: return@forEach
-        val type = state.getRangedWeaponTypeStorage().getOptional(stats.type) ?: return@forEach
+        val stats = equipment.stats
+        val type = state.getEquipmentTypeStorage().getOptional(stats.type) ?: return@forEach
+
+        if (type.rangedAttacks.isEmpty()) {
+            return@forEach
+        }
+
         val effects = state.getEquipmentModifierEffects(stats.modifiers)
 
-        meleeAttackMap[equipment] = resolveRangedAttacks(state, effects, type.attacks)
+        meleeAttackMap[equipment] = resolveRangedAttacks(state, effects, type.rangedAttacks)
     }
 
     return meleeAttackMap
-}
-
-// get shields
-
-fun getShields(
-    state: State,
-    equipped: Equipped,
-    lookup: StatblockLookup,
-) = getShields(state, state.getEquipmentIdMap(equipped, lookup))
-
-fun getShields(state: State, map: EquipmentIdMap): Map<Equipment, Protection> {
-    val armorMap = mutableMapOf<Equipment, Protection>()
-
-    map.getAllEquipment().forEach { (id, _) ->
-        val equipment = state.getEquipmentStorage().getOrThrow(id)
-        val stats = equipment.data.getShieldStats() ?: return@forEach
-        val type = state.getShieldTypeStorage().getOptional(stats.type) ?: return@forEach
-        val effects = state.getEquipmentModifierEffects(stats.modifiers)
-
-        armorMap[equipment] = resolveProtection(effects, type.protection)
-    }
-
-    return armorMap
 }

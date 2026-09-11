@@ -13,9 +13,8 @@ import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.rpg.combat.DAMAGE_TYPE_TYPE
 import at.orchaldir.gm.core.model.rpg.combat.DamageTypeId
 import at.orchaldir.gm.core.model.util.SortDamageType
-import at.orchaldir.gm.core.selector.rpg.equipment.getEquipmentTypes
-import at.orchaldir.gm.core.selector.rpg.equipment.getMeleeWeaponTypes
-import at.orchaldir.gm.core.selector.rpg.equipment.getShieldTypes
+import at.orchaldir.gm.core.selector.rpg.equipment.getEquipmentTypesDealing
+import at.orchaldir.gm.core.selector.rpg.equipment.getEquipmentTypesProtectingFrom
 import at.orchaldir.gm.core.selector.util.sortDamageTypes
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -70,9 +69,8 @@ fun Application.configureDamageTypeRouting() {
                 listOf(
                     createNameColumn(call, state),
                     Column("Short") { tdString(it.short) },
-                    countCollectionColumn("Armors") { state.getEquipmentTypes(it.id) },
-                    countCollectionColumn("Melee Weapons") { state.getMeleeWeaponTypes(it.id) },
-                    countCollectionColumn("Shields") { state.getShieldTypes(it.id) },
+                    countCollectionColumn("Melee Weapons") { state.getEquipmentTypesDealing(it.id) },
+                    countCollectionColumn("Protecting") { state.getEquipmentTypesProtectingFrom(it.id) },
                 ),
             )
         }

@@ -10,13 +10,8 @@ import at.orchaldir.gm.app.html.economy.money.selectPriceLookup
 import at.orchaldir.gm.app.html.economy.money.showPriceLookupDetails
 import at.orchaldir.gm.app.html.item.equipment.data.*
 import at.orchaldir.gm.app.html.rpg.equipment.editEquipmentStats
-import at.orchaldir.gm.app.html.rpg.equipment.editMeleeWeaponStats
-import at.orchaldir.gm.app.html.rpg.equipment.editRangedWeaponStats
-import at.orchaldir.gm.app.html.rpg.equipment.editShieldStats
+import at.orchaldir.gm.app.html.rpg.equipment.parseEquipmentStats
 import at.orchaldir.gm.app.html.rpg.equipment.showEquipmentStats
-import at.orchaldir.gm.app.html.rpg.equipment.showMeleeWeaponStats
-import at.orchaldir.gm.app.html.rpg.equipment.showRangedWeaponStats
-import at.orchaldir.gm.app.html.rpg.equipment.showShieldStats
 import at.orchaldir.gm.app.html.util.color.editColorSchemeOption
 import at.orchaldir.gm.app.html.util.color.fieldColorSchemeOption
 import at.orchaldir.gm.app.html.util.color.parseColorSchemeOption
@@ -48,23 +43,12 @@ fun HtmlBlockTag.showEquipment(
     equipment: Equipment,
 ) {
     val material = equipment.data.mainMaterial()
-    val costFactors = calculateCostFactors(state, equipment.data)
+    val costFactors = calculateCostFactors(state, equipment.stats)
     val vpm = calculateVolumePerMaterial(CalculateVolumeConfig.from(CHARACTER_CONFIG), equipment.data)
 
+    showEquipmentStats(call, state, equipment.stats, material)
     showEquipmentData(call, state, equipment.data)
     fieldColorSchemeOption(call, state, equipment.colorSchemes)
-    equipment.data.getArmorStats()?.let {
-        showEquipmentStats(call, state, it, material)
-    }
-    equipment.data.getMeleeWeaponStats()?.let {
-        showMeleeWeaponStats(call, state, it, material)
-    }
-    equipment.data.getRangedWeaponStats()?.let {
-        showRangedWeaponStats(call, state, it, material)
-    }
-    equipment.data.getShieldStats()?.let {
-        showShieldStats(call, state, it, material)
-    }
     showWeightLookupDetails(
         call,
         state,
@@ -152,12 +136,9 @@ fun HtmlBlockTag.editEquipment(
     equipment: Equipment,
 ) {
     selectName(equipment.name)
+    editEquipmentStats(call, state, equipment.stats)
     editEquipmentData(state, equipment.data)
     selectColorSchemes(state, equipment)
-    equipment.data.getArmorStats()?.let { editEquipmentStats(call, state, it) }
-    equipment.data.getMeleeWeaponStats()?.let { editMeleeWeaponStats(call, state, it) }
-    equipment.data.getRangedWeaponStats()?.let { editRangedWeaponStats(call, state, it) }
-    equipment.data.getShieldStats()?.let { editShieldStats(call, state, it) }
     selectWeightLookup(equipment.weight, MIN_EQUIPMENT_WEIGHT, MAX_EQUIPMENT_WEIGHT)
     selectPriceLookup(state, equipment.price, MIN_EQUIPMENT_PRICE, MAX_EQUIPMENT_PRICE)
 }
@@ -243,6 +224,7 @@ fun parseEquipment(
     return Equipment(
         id,
         parseName(parameters),
+        parseEquipmentStats(parameters),
         data,
         parseWeightLookup(parameters, MIN_EQUIPMENT_WEIGHT),
         parsePriceLookup(state, parameters),

@@ -2,7 +2,6 @@ package at.orchaldir.gm.app.html.rpg.equipment
 
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.math.parseWeightLookupForType
-import at.orchaldir.gm.app.html.util.math.selectWeightLookup
 import at.orchaldir.gm.app.html.util.math.selectWeightLookupForType
 import at.orchaldir.gm.app.html.util.math.showWeightLookupForType
 import at.orchaldir.gm.core.model.State
@@ -11,7 +10,7 @@ import at.orchaldir.gm.core.model.item.equipment.MIN_EQUIPMENT_WEIGHT
 import at.orchaldir.gm.core.model.rpg.equipment.AmmunitionType
 import at.orchaldir.gm.core.model.rpg.equipment.AmmunitionTypeId
 import at.orchaldir.gm.core.selector.item.ammunition.getAmmunition
-import at.orchaldir.gm.core.selector.rpg.equipment.getRangedWeaponTypes
+import at.orchaldir.gm.core.selector.rpg.equipment.getEquipmentTypes
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -35,16 +34,16 @@ private fun HtmlBlockTag.showUsages(
     type: AmmunitionTypeId,
 ) {
     val ammunition = state.getAmmunition(type)
-    val rangedWeaponTypes = state.getRangedWeaponTypes(type)
+    val equipmentTypes = state.getEquipmentTypes(type)
 
-    if (ammunition.isEmpty() && rangedWeaponTypes.isEmpty()) {
+    if (ammunition.isEmpty() && equipmentTypes.isEmpty()) {
         return
     }
 
     h2 { +"Usage" }
 
     fieldElements(call, state, ammunition)
-    fieldElements(call, state, rangedWeaponTypes)
+    fieldElements(call, state, equipmentTypes)
 }
 
 // edit

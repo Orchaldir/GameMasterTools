@@ -14,7 +14,7 @@ import at.orchaldir.gm.core.model.rpg.equipment.AmmunitionTypeId
 import at.orchaldir.gm.core.model.util.SortAmmunitionType
 import at.orchaldir.gm.core.selector.item.ammunition.getAmmunition
 import at.orchaldir.gm.core.selector.item.equipment.getWeightOfType
-import at.orchaldir.gm.core.selector.rpg.equipment.getRangedWeaponTypes
+import at.orchaldir.gm.core.selector.rpg.equipment.getEquipmentTypes
 import at.orchaldir.gm.core.selector.util.sortAmmunitionTypes
 import io.ktor.resources.*
 import io.ktor.server.application.*
@@ -70,7 +70,7 @@ fun Application.configureAmmunitionTypeRouting() {
                     createNameColumn(call, state),
                     createWeightColumn { getWeightOfType(it.weight) },
                     countCollectionColumn("Variants") { state.getAmmunition(it.id) },
-                    countCollectionColumn("Weapons") { state.getRangedWeaponTypes(it.id) },
+                    countCollectionColumn("Weapons") { state.getEquipmentTypes(it.id) },
                 ),
             )
         }

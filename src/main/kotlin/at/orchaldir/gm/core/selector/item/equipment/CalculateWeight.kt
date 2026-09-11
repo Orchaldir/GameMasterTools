@@ -7,9 +7,7 @@ import at.orchaldir.gm.core.model.item.ammunition.Ammunition
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.item.equipment.EquipmentData
 import at.orchaldir.gm.core.model.item.equipment.EquipmentIdMap
-import at.orchaldir.gm.core.selector.rpg.equipment.getArmorType
-import at.orchaldir.gm.core.selector.rpg.equipment.getMeleeWeaponType
-import at.orchaldir.gm.core.selector.rpg.equipment.getRangedWeaponType
+import at.orchaldir.gm.core.selector.rpg.equipment.getEquipmentType
 import at.orchaldir.gm.utils.math.unit.CalculatedWeight
 import at.orchaldir.gm.utils.math.unit.UndefinedWeight
 import at.orchaldir.gm.utils.math.unit.UserDefinedWeight
@@ -35,9 +33,7 @@ fun calculateWeightBasedOnType(state: State, ammunition: Ammunition) = getWeight
     .getOptional(ammunition.type)?.weight)
 
 fun calculateWeightBasedOnType(state: State, equipment: Equipment): Weight {
-    state.getArmorType(equipment)?.let { return getWeightOfType(it.weight) }
-    state.getMeleeWeaponType(equipment)?.let { return getWeightOfType(it.weight) }
-    state.getRangedWeaponType(equipment)?.let { return getWeightOfType(it.weight) }
+    state.getEquipmentType(equipment)?.let { return getWeightOfType(it.weight) }
 
     return WEIGHTLESS
 }

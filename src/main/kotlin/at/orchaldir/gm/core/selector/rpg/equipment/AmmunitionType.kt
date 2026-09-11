@@ -7,4 +7,4 @@ import at.orchaldir.gm.core.selector.item.ammunition.getAmmunition
 
 fun State.canDeleteAmmunitionType(type: AmmunitionTypeId) = DeleteResult(type)
     .addElements(getAmmunition(type))
-    .addElements(getRangedWeaponTypes(type))
+    .addElements(getEquipmentTypes(type))

@@ -83,7 +83,6 @@ fun parseHelmet(
     parameters: Parameters,
 ) = Helmet(
     parseHelmetStyle(state, parameters),
-    parseEquipmentStats(parameters),
 )
 
 fun parseHelmetStyle(

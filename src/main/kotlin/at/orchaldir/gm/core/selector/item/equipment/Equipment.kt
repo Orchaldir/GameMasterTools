@@ -8,15 +8,13 @@ import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentTypeId
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifierId
-import at.orchaldir.gm.core.model.rpg.equipment.MeleeWeaponTypeId
-import at.orchaldir.gm.core.model.rpg.equipment.RangedWeaponTypeId
-import at.orchaldir.gm.core.model.rpg.equipment.ShieldTypeId
 import at.orchaldir.gm.core.model.util.render.ColorSchemeGroupId
 import at.orchaldir.gm.core.model.util.render.ColorSchemeId
 import at.orchaldir.gm.core.selector.character.getCharacterTemplates
 import at.orchaldir.gm.core.selector.character.getCharactersWith
 import at.orchaldir.gm.core.selector.culture.getFashions
 import at.orchaldir.gm.core.selector.gm.treasure.getTreasureParcelsWith
+import at.orchaldir.gm.core.selector.rpg.equipment.getEquipmentType
 
 fun State.canDeleteEquipment(equipment: EquipmentId) = DeleteResult(equipment)
     .addElements(getCharactersWith(equipment))
@@ -71,22 +69,14 @@ fun State.getEquippedWith(scheme: ColorSchemeId) = getCharacterStorage()
 
 // stats
 
+fun State.getEquipmentWithMeleeAttacks() = getEquipmentStorage()
+    .getAll()
+    .filter { getEquipmentType(it)?.meleeAttacks?.isNotEmpty() ?: false }
+
 fun State.getEquipment(modifier: EquipmentModifierId) = getEquipmentStorage()
     .getAll()
-    .filter { it.data.contains(modifier) }
+    .filter { it.stats.modifiers.contains(modifier) }
 
-fun State.getArmors(type: EquipmentTypeId) = getEquipmentStorage()
+fun State.getEquipment(type: EquipmentTypeId) = getEquipmentStorage()
     .getAll()
-    .filter { it.data.getArmorStats()?.type == type }
-
-fun State.getMeleeWeapons(type: MeleeWeaponTypeId) = getEquipmentStorage()
-    .getAll()
-    .filter { it.data.getMeleeWeaponStats()?.type == type }
-
-fun State.getRangedWeapons(type: RangedWeaponTypeId) = getEquipmentStorage()
-    .getAll()
-    .filter { it.data.getRangedWeaponStats()?.type == type }
-
-fun State.getShields(type: ShieldTypeId) = getEquipmentStorage()
-    .getAll()
-    .filter { it.data.getShieldStats()?.type == type }
+    .filter { it.stats.type == type }

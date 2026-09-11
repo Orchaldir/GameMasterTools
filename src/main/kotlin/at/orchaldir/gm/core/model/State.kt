@@ -70,15 +70,6 @@ import at.orchaldir.gm.core.model.rpg.equipment.EquipmentTypeId
 import at.orchaldir.gm.core.model.rpg.equipment.EQUIPMENT_MODIFIER_TYPE
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifier
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifierId
-import at.orchaldir.gm.core.model.rpg.equipment.MELEE_WEAPON_TYPE_TYPE
-import at.orchaldir.gm.core.model.rpg.equipment.MeleeWeaponType
-import at.orchaldir.gm.core.model.rpg.equipment.MeleeWeaponTypeId
-import at.orchaldir.gm.core.model.rpg.equipment.RANGED_WEAPON_TYPE_TYPE
-import at.orchaldir.gm.core.model.rpg.equipment.RangedWeaponType
-import at.orchaldir.gm.core.model.rpg.equipment.RangedWeaponTypeId
-import at.orchaldir.gm.core.model.rpg.equipment.SHIELD_TYPE_TYPE
-import at.orchaldir.gm.core.model.rpg.equipment.ShieldType
-import at.orchaldir.gm.core.model.rpg.equipment.ShieldTypeId
 import at.orchaldir.gm.core.model.rpg.statistic.STATISTIC_TYPE
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
@@ -168,7 +159,6 @@ val ELEMENTS =
         LEGAL_CODE_TYPE,
         MAGIC_TRADITION_TYPE,
         MATERIAL_TYPE,
-        MELEE_WEAPON_TYPE_TYPE,
         MOON_TYPE,
         NAME_LIST_TYPE,
         ORGANIZATION_TYPE,
@@ -181,14 +171,12 @@ val ELEMENTS =
         RACE_TYPE,
         RACE_APPEARANCE_TYPE,
         RACE_GROUP_TYPE,
-        RANGED_WEAPON_TYPE_TYPE,
         REALM_TYPE,
         REGION_TYPE,
         RIVER_TYPE,
         SETTLEMENT_TYPE,
         SETTLEMENT_MAP_TYPE,
         SETTLEMENT_SIZE_TYPE,
-        SHIELD_TYPE_TYPE,
         SPELL_TYPE,
         SPELL_GROUP_TYPE,
         STATISTIC_TYPE,
@@ -260,7 +248,6 @@ data class State(
     fun getLegalCodeStorage() = getStorage<LegalCodeId, LegalCode>(LEGAL_CODE_TYPE)
     fun getMagicTraditionStorage() = getStorage<MagicTraditionId, MagicTradition>(MAGIC_TRADITION_TYPE)
     fun getMaterialStorage() = getStorage<MaterialId, Material>(MATERIAL_TYPE)
-    fun getMeleeWeaponTypeStorage() = getStorage<MeleeWeaponTypeId, MeleeWeaponType>(MELEE_WEAPON_TYPE_TYPE)
     fun getMoonStorage() = getStorage<MoonId, Moon>(MOON_TYPE)
     fun getNameListStorage() = getStorage<NameListId, NameList>(NAME_LIST_TYPE)
     fun getOrganizationStorage() = getStorage<OrganizationId, Organization>(ORGANIZATION_TYPE)
@@ -273,14 +260,12 @@ data class State(
     fun getRaceStorage() = getStorage<RaceId, Race>(RACE_TYPE)
     fun getRaceAppearanceStorage() = getStorage<RaceAppearanceId, RaceAppearance>(RACE_APPEARANCE_TYPE)
     fun getRaceGroupStorage() = getStorage<RaceGroupId, RaceGroup>(RACE_GROUP_TYPE)
-    fun getRangedWeaponTypeStorage() = getStorage<RangedWeaponTypeId, RangedWeaponType>(RANGED_WEAPON_TYPE_TYPE)
     fun getRealmStorage() = getStorage<RealmId, Realm>(REALM_TYPE)
     fun getRegionStorage() = getStorage<RegionId, Region>(REGION_TYPE)
     fun getRiverStorage() = getStorage<RiverId, River>(RIVER_TYPE)
     fun getSettlementStorage() = getStorage<SettlementId, Settlement>(SETTLEMENT_TYPE)
     fun getSettlementMapStorage() = getStorage<SettlementMapId, SettlementMap>(SETTLEMENT_MAP_TYPE)
     fun getSettlementSizeStorage() = getStorage<SettlementSizeId, SettlementSize>(SETTLEMENT_SIZE_TYPE)
-    fun getShieldTypeStorage() = getStorage<ShieldTypeId, ShieldType>(SHIELD_TYPE_TYPE)
     fun getSpellStorage() = getStorage<SpellId, Spell>(SPELL_TYPE)
     fun getSpellGroupStorage() = getStorage<SpellGroupId, SpellGroup>(SPELL_GROUP_TYPE)
     fun getStatisticStorage() = getStorage<StatisticId, Statistic>(STATISTIC_TYPE)
@@ -429,7 +414,6 @@ data class State(
         saveStorage(path, getTreasureParcelStorage())
         saveStorage(path, getMagicTraditionStorage())
         saveStorage(path, getMaterialStorage())
-        saveStorage(path, getMeleeWeaponTypeStorage())
         saveStorage(path, getMoonStorage())
         saveStorage(path, getNameListStorage())
         saveStorage(path, getOrganizationStorage())
@@ -442,14 +426,12 @@ data class State(
         saveStorage(path, getRaceStorage())
         saveStorage(path, getRaceAppearanceStorage())
         saveStorage(path, getRaceGroupStorage())
-        saveStorage(path, getRangedWeaponTypeStorage())
         saveStorage(path, getRealmStorage())
         saveStorage(path, getRegionStorage())
         saveStorage(path, getRiverStorage())
         saveStorage(path, getSettlementStorage())
         saveStorage(path, getSettlementMapStorage())
         saveStorage(path, getSettlementSizeStorage())
-        saveStorage(path, getShieldTypeStorage())
         saveStorage(path, getSpellStorage())
         saveStorage(path, getSpellGroupStorage())
         saveStorage(path, getStatisticStorage())
@@ -502,7 +484,6 @@ fun createStorage(type: String) = when (type) {
     LEGAL_CODE_TYPE -> Storage(LegalCodeId(0))
     MAGIC_TRADITION_TYPE -> Storage(MagicTraditionId(0))
     MATERIAL_TYPE -> Storage(MaterialId(0))
-    MELEE_WEAPON_TYPE_TYPE -> Storage(MeleeWeaponTypeId(0))
     MOON_TYPE -> Storage(MoonId(0))
     NAME_LIST_TYPE -> Storage(NameListId(0))
     ORGANIZATION_TYPE -> Storage(OrganizationId(0))
@@ -515,14 +496,12 @@ fun createStorage(type: String) = when (type) {
     RACE_TYPE -> Storage(RaceId(0))
     RACE_GROUP_TYPE -> Storage(RaceGroupId(0))
     RACE_APPEARANCE_TYPE -> Storage(RaceAppearanceId(0))
-    RANGED_WEAPON_TYPE_TYPE -> Storage(RangedWeaponTypeId(0))
     REALM_TYPE -> Storage(RealmId(0))
     REGION_TYPE -> Storage(RegionId(0))
     RIVER_TYPE -> Storage(RiverId(0))
     SETTLEMENT_TYPE -> Storage(SettlementId(0))
     SETTLEMENT_MAP_TYPE -> Storage(SettlementMapId(0))
     SETTLEMENT_SIZE_TYPE -> Storage(SettlementSizeId(0))
-    SHIELD_TYPE_TYPE -> Storage(ShieldTypeId(0))
     SPELL_TYPE -> Storage(SpellId(0))
     SPELL_GROUP_TYPE -> Storage(SpellGroupId(0))
     STATISTIC_TYPE -> Storage(StatisticId(0))
@@ -575,7 +554,6 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     LEGAL_CODE_TYPE -> loadStorage<LegalCodeId, LegalCode>(path, LegalCodeId(0))
     MAGIC_TRADITION_TYPE -> loadStorage<MagicTraditionId, MagicTradition>(path, MagicTraditionId(0))
     MATERIAL_TYPE -> loadStorage<MaterialId, Material>(path, MaterialId(0))
-    MELEE_WEAPON_TYPE_TYPE -> loadStorage<MeleeWeaponTypeId, MeleeWeaponType>(path, MeleeWeaponTypeId(0))
     MOON_TYPE -> loadStorage<MoonId, Moon>(path, MoonId(0))
     NAME_LIST_TYPE -> loadStorage<NameListId, NameList>(path, NameListId(0))
     ORGANIZATION_TYPE -> loadStorage<OrganizationId, Organization>(path, OrganizationId(0))
@@ -588,14 +566,12 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     RACE_TYPE -> loadStorage<RaceId, Race>(path, RaceId(0))
     RACE_APPEARANCE_TYPE -> loadStorage<RaceAppearanceId, RaceAppearance>(path, RaceAppearanceId(0))
     RACE_GROUP_TYPE -> loadStorage<RaceGroupId, RaceGroup>(path, RaceGroupId(0))
-    RANGED_WEAPON_TYPE_TYPE -> loadStorage<RangedWeaponTypeId, RangedWeaponType>(path, RangedWeaponTypeId(0))
     REALM_TYPE -> loadStorage<RealmId, Realm>(path, RealmId(0))
     REGION_TYPE -> loadStorage<RegionId, Region>(path, RegionId(0))
     RIVER_TYPE -> loadStorage<RiverId, River>(path, RiverId(0))
     SETTLEMENT_TYPE -> loadStorage<SettlementId, Settlement>(path, SettlementId(0))
     SETTLEMENT_MAP_TYPE -> loadStorage<SettlementMapId, SettlementMap>(path, SettlementMapId(0))
     SETTLEMENT_SIZE_TYPE -> loadStorage<SettlementSizeId, SettlementSize>(path, SettlementSizeId(0))
-    SHIELD_TYPE_TYPE -> loadStorage<ShieldTypeId, ShieldType>(path, ShieldTypeId(0))
     SPELL_TYPE -> loadStorage<SpellId, Spell>(path, SpellId(0))
     SPELL_GROUP_TYPE -> loadStorage<SpellGroupId, SpellGroup>(path, SpellGroupId(0))
     STATISTIC_TYPE -> loadStorage<StatisticId, Statistic>(path, StatisticId(0))

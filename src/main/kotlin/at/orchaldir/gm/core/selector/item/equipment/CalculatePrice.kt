@@ -17,11 +17,11 @@ import at.orchaldir.gm.utils.math.unit.VolumePerMaterial
 
 fun calculateCostFactors(
     state: State,
-    data: EquipmentData,
+    stats: EquipmentStats,
 ): Map<Id<*>, Factor> {
     val map = mutableMapOf<Id<*>, Factor>()
 
-    data.getArmorStats()?.let { calculateCostFactors(state, map, it) }
+    calculateCostFactors(state, map, stats)
 
     return map
 }

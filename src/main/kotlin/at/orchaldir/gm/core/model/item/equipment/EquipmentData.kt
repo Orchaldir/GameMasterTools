@@ -2,11 +2,6 @@ package at.orchaldir.gm.core.model.item.equipment
 
 import at.orchaldir.gm.core.model.item.equipment.EquipmentSlot.*
 import at.orchaldir.gm.core.model.item.equipment.style.*
-import at.orchaldir.gm.core.model.rpg.equipment.EquipmentStats
-import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifierId
-import at.orchaldir.gm.core.model.rpg.equipment.MeleeWeaponStats
-import at.orchaldir.gm.core.model.rpg.equipment.RangedWeaponStats
-import at.orchaldir.gm.core.model.rpg.equipment.ShieldStats
 import at.orchaldir.gm.core.model.util.Size
 import at.orchaldir.gm.core.model.util.part.*
 import at.orchaldir.gm.core.model.util.render.Color
@@ -147,39 +142,20 @@ sealed class EquipmentData : MadeFromParts {
         is Tunic -> EquipmentDataType.Tunic
     }
 
-    fun getArmorStats() = when (this) {
-        is BodyArmour -> stats
-        is Footwear -> stats
-        is Gloves -> stats
-        is Helmet -> stats
-        else -> null
+    fun isArmor() = when (this) {
+        is BodyArmour -> true
+        is Coat -> true
+        is Dress -> true
+        is Footwear -> true
+        is Gloves -> true
+        is Hat -> true
+        is Helmet -> true
+        is SuitJacket -> true
+        is Tunic -> true
+        else -> false
     }
 
-    fun getMeleeWeaponStats() = when (this) {
-        is OneHandedAxe -> stats
-        is TwoHandedAxe -> stats
-        is OneHandedClub -> stats
-        is TwoHandedClub -> stats
-        is Polearm -> stats
-        is OneHandedSword -> stats
-        is TwoHandedSword -> stats
-        else -> null
-    }
-
-    fun getRangedWeaponStats() = when (this) {
-        is Bow -> stats
-        is Sling -> stats
-        else -> null
-    }
-
-    fun getShieldStats() = when (this) {
-        is Shield -> stats
-        else -> null
-    }
-
-    fun contains(modifier: EquipmentModifierId) = getArmorStats()?.modifiers?.contains(modifier) ?: false ||
-            getMeleeWeaponStats()?.modifiers?.contains(modifier) ?: false ||
-            getShieldStats()?.modifiers?.contains(modifier) ?: false
+    fun isShield() = this is Shield
 
     fun isType(equipmentType: EquipmentDataType) = getType() == equipmentType
 
@@ -209,7 +185,6 @@ data class OneHandedAxe(
     val head: AxeHead = SingleBitAxeHead(),
     val fixation: HeadFixation = NoHeadFixation,
     val shaft: Shaft = SimpleShaft(),
-    val stats: MeleeWeaponStats = MeleeWeaponStats(),
 ) : EquipmentData() {
 
     override fun parts() = head.parts() + fixation.parts() + shaft.parts()
@@ -221,7 +196,6 @@ data class TwoHandedAxe(
     val head: AxeHead = DoubleBitAxeHead(),
     val fixation: HeadFixation = NoHeadFixation,
     val shaft: Shaft = SimpleShaft(),
-    val stats: MeleeWeaponStats = MeleeWeaponStats(),
 ) : EquipmentData() {
 
     override fun parts() = head.parts() + fixation.parts() + shaft.parts()
@@ -242,7 +216,6 @@ data class BodyArmour(
     val style: ArmourStyle,
     val legStyle: LegArmourStyle = SameLegArmour(),
     val sleeveStyle: SleeveStyle = SleeveStyle.Short,
-    val stats: EquipmentStats = EquipmentStats(),
 ) : EquipmentData() {
 
     override fun parts() = style.parts()
@@ -255,7 +228,6 @@ data class Bow(
     val height: Factor = HALF,
     val grip: BowGrip = NoBowGrip,
     val main: ItemPart = MadeFromWood(),
-    val stats: RangedWeaponStats = RangedWeaponStats(),
 ) : EquipmentData() {
 
     override fun parts() = grip.parts() + main
@@ -268,7 +240,6 @@ data class OneHandedClub(
     val size: Size = Size.Medium,
     val fixation: HeadFixation = NoHeadFixation,
     val shaft: Shaft = SimpleShaft(),
-    val stats: MeleeWeaponStats = MeleeWeaponStats(),
 ) : EquipmentData() {
 
     override fun parts() = head.parts() + fixation.parts() + shaft.parts()
@@ -281,7 +252,6 @@ data class TwoHandedClub(
     val size: Size = Size.Medium,
     val fixation: HeadFixation = NoHeadFixation,
     val shaft: Shaft = SimpleShaft(),
-    val stats: MeleeWeaponStats = MeleeWeaponStats(),
 ) : EquipmentData() {
 
     override fun parts() = head.parts() + fixation.parts() + shaft.parts()
@@ -336,7 +306,6 @@ data class EyePatch(
 @SerialName("Footwear")
 data class Footwear(
     val style: FootwearStyle = Shoe(),
-    val stats: EquipmentStats = EquipmentStats(),
 ) : EquipmentData() {
 
     override fun parts() = style.parts()
@@ -359,7 +328,6 @@ data class Glasses(
 data class Gloves(
     val style: GloveStyle = GloveStyle.Hand,
     val main: ItemPart = MadeFromFabric(Color.Red),
-    val stats: EquipmentStats = EquipmentStats(),
 ) : EquipmentData() {
 
     constructor(style: GloveStyle, color: Color) : this(style, MadeFromFabric(color))
@@ -383,7 +351,6 @@ data class Hat(
 @SerialName("Helmet")
 data class Helmet(
     val style: HelmetStyle = SkullCap(),
-    val stats: EquipmentStats = EquipmentStats(),
 ) : EquipmentData() {
 
     override fun hidesEars() = when (style) {
@@ -433,7 +400,6 @@ data class Pants(
 data class Polearm(
     val head: PolearmHead = NoPolearmHead,
     val shaft: Shaft = SimpleShaft(),
-    val stats: MeleeWeaponStats = MeleeWeaponStats(),
 ) : EquipmentData() {
 
     override fun parts() = head.parts() + shaft.parts()
@@ -448,7 +414,6 @@ data class Shield(
     val boss: ShieldBoss = NoShieldBoss,
     val front: ItemPart = MadeFromMetal(),
     val back: ItemPart = MadeFromWood(),
-    val stats: ShieldStats = ShieldStats(),
 ) : EquipmentData() {
 
     constructor(shape: CircularShape, size: Size, color: Color) :
@@ -489,7 +454,6 @@ data class Sling(
     val size: Size,
     val cord: LineStyle,
     val cradle: ItemPart = MadeFromLeather(),
-    val stats: RangedWeaponStats = RangedWeaponStats(),
 ) : EquipmentData() {
 
     override fun parts() = cord.parts() + cradle
@@ -523,7 +487,6 @@ data class SuitJacket(
 data class OneHandedSword(
     val blade: Blade = SimpleBlade(DEFAULT_1H_BLADE_LENGTH),
     val hilt: SwordHilt = SimpleSwordHilt(),
-    val stats: MeleeWeaponStats = MeleeWeaponStats(),
 ) : EquipmentData() {
 
     override fun parts() = blade.parts() + hilt.parts()
@@ -534,7 +497,6 @@ data class OneHandedSword(
 data class TwoHandedSword(
     val blade: Blade = SimpleBlade(DEFAULT_2H_BLADE_LENGTH),
     val hilt: SwordHilt = SimpleSwordHilt(),
-    val stats: MeleeWeaponStats = MeleeWeaponStats(),
 ) : EquipmentData() {
 
     override fun parts() = blade.parts() + hilt.parts()

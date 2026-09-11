@@ -10,8 +10,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.selector.economy.getJobs
-import at.orchaldir.gm.core.selector.rpg.equipment.getMeleeWeaponTypes
-import at.orchaldir.gm.core.selector.rpg.equipment.getRangedWeaponTypes
+import at.orchaldir.gm.core.selector.rpg.equipment.getEquipmentTypes
 import at.orchaldir.gm.core.selector.rpg.getStatisticsBasedOn
 import at.orchaldir.gm.core.selector.rpg.statblock.getStatblocksWith
 import at.orchaldir.gm.utils.Id
@@ -39,21 +38,19 @@ private fun HtmlBlockTag.showUsage(
     statistic: Statistic,
 ) {
     val jobs = state.getJobs(statistic.id)
-    val meleeWeapons = state.getMeleeWeaponTypes(statistic.id)
-    val rangedWeapons = state.getRangedWeaponTypes(statistic.id)
+    val equipmentTypes = state.getEquipmentTypes(statistic.id)
     val statblocks = state.getStatblocksWith(statistic.id)
     val statistics = state.getStatisticsBasedOn(statistic.id)
     val isMusclePowered = state.config.rpg.equipment.musclePoweredStatistic == statistic.id
 
-    if (jobs.isEmpty() && meleeWeapons.isEmpty() && rangedWeapons.isEmpty() && statblocks.isEmpty() && statistics.isEmpty() && !isMusclePowered) {
+    if (jobs.isEmpty() && equipmentTypes.isEmpty() && statblocks.isEmpty() && statistics.isEmpty() && !isMusclePowered) {
         return
     }
 
     h2 { +"Usage" }
 
     fieldElements(call, state, jobs)
-    fieldElements(call, state, meleeWeapons)
-    fieldElements(call, state, rangedWeapons)
+    fieldElements(call, state, equipmentTypes)
     fieldElements(call, state, statistics)
 
     if (isMusclePowered) {

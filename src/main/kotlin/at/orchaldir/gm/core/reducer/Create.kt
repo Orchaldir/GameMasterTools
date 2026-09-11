@@ -58,12 +58,6 @@ import at.orchaldir.gm.core.model.rpg.equipment.EquipmentType
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentTypeId
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifier
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifierId
-import at.orchaldir.gm.core.model.rpg.equipment.MeleeWeaponType
-import at.orchaldir.gm.core.model.rpg.equipment.MeleeWeaponTypeId
-import at.orchaldir.gm.core.model.rpg.equipment.RangedWeaponType
-import at.orchaldir.gm.core.model.rpg.equipment.RangedWeaponTypeId
-import at.orchaldir.gm.core.model.rpg.equipment.ShieldType
-import at.orchaldir.gm.core.model.rpg.equipment.ShieldTypeId
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTrait
@@ -151,7 +145,6 @@ fun reduceCreateElement(
     is LegalCodeId -> createElement(state, LegalCode(id))
     is MagicTraditionId -> createElement(state, MagicTradition(id))
     is MaterialId -> createElement(state, Material(id))
-    is MeleeWeaponTypeId -> createElement(state, MeleeWeaponType(id))
     is MoonId -> createElement(state, Moon(id))
     is NameListId -> createElement(state, NameList(id))
     is OrganizationId -> createElement(state, Organization(id))
@@ -165,14 +158,12 @@ fun reduceCreateElement(
     is RaceId -> createElement(state, Race(id))
     is RaceAppearanceId -> createElement(state, RaceAppearance(id))
     is RaceGroupId -> createElement(state, RaceGroup(id))
-    is RangedWeaponTypeId -> createElement(state, RangedWeaponType(id))
     is RealmId -> createElement(state, Realm(id))
     is RegionId -> createElement(state, Region(id))
     is RiverId -> createElement(state, River(id))
     is SettlementId -> createElement(state, Settlement(id))
     is SettlementMapId -> createElement(state, SettlementMap(id))
     is SettlementSizeId -> createElement(state, SettlementSize(id))
-    is ShieldTypeId -> createElement(state, ShieldType(id))
     is SpellId -> createElement(state, Spell(id))
     is SpellGroupId -> createElement(state, SpellGroup(id))
     is StatisticId -> createElement(state, Statistic(id))

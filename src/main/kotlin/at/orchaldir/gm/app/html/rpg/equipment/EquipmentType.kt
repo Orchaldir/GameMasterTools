@@ -24,7 +24,7 @@ import at.orchaldir.gm.core.model.item.equipment.MIN_EQUIPMENT_WEIGHT
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentType
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentTypeId
 import at.orchaldir.gm.core.model.rpg.equipment.DEFAULT_TYPE_COST_FACTOR
-import at.orchaldir.gm.core.selector.item.equipment.getArmors
+import at.orchaldir.gm.core.selector.item.equipment.getEquipment
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -51,7 +51,7 @@ private fun HtmlBlockTag.showUsages(
     state: State,
     type: EquipmentTypeId,
 ) {
-    val armors = state.getArmors(type)
+    val armors = state.getEquipment(type)
 
     if (armors.isEmpty()) {
         return

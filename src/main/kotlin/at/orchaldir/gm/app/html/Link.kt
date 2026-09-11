@@ -30,9 +30,6 @@ import at.orchaldir.gm.app.routes.rpg.*
 import at.orchaldir.gm.app.routes.rpg.equipment.AmmunitionTypeRoutes
 import at.orchaldir.gm.app.routes.rpg.equipment.EquipmentTypeRoutes
 import at.orchaldir.gm.app.routes.rpg.equipment.EquipmentModifierRoutes
-import at.orchaldir.gm.app.routes.rpg.equipment.MeleeWeaponTypeRoutes
-import at.orchaldir.gm.app.routes.rpg.equipment.RangedWeaponTypeRoutes
-import at.orchaldir.gm.app.routes.rpg.equipment.ShieldTypeRoutes
 import at.orchaldir.gm.app.routes.time.CalendarRoutes
 import at.orchaldir.gm.app.routes.time.HolidayRoutes
 import at.orchaldir.gm.app.routes.time.TimeRoutes
@@ -79,9 +76,6 @@ import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.core.model.rpg.equipment.AmmunitionTypeId
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentTypeId
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifierId
-import at.orchaldir.gm.core.model.rpg.equipment.MeleeWeaponTypeId
-import at.orchaldir.gm.core.model.rpg.equipment.RangedWeaponTypeId
-import at.orchaldir.gm.core.model.rpg.equipment.ShieldTypeId
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitId
 import at.orchaldir.gm.core.model.time.calendar.Calendar
@@ -432,7 +426,6 @@ fun href(
     is LegalCodeId -> call.application.href(LegalCodeRoutes.Details(id))
     is MagicTraditionId -> call.application.href(MagicTraditionRoutes.Details(id))
     is MaterialId -> call.application.href(MaterialRoutes.Details(id))
-    is MeleeWeaponTypeId -> call.application.href(MeleeWeaponTypeRoutes.Details(id))
     is MoonId -> call.application.href(MoonRoutes.Details(id))
     is RegionId -> call.application.href(RegionRoutes.Details(id))
     is NameListId -> call.application.href(NameListRoutes.Details(id))
@@ -447,13 +440,11 @@ fun href(
     is RaceId -> call.application.href(RaceRoutes.Details(id))
     is RaceAppearanceId -> call.application.href(RaceAppearanceRoutes.Details(id))
     is RaceGroupId -> call.application.href(RaceGroupRoutes.Details(id))
-    is RangedWeaponTypeId -> call.application.href(RangedWeaponTypeRoutes.Details(id))
     is RealmId -> call.application.href(RealmRoutes.Details(id))
     is RiverId -> call.application.href(RiverRoutes.Details(id))
     is SettlementId -> call.application.href(SettlementRoutes.Details(id))
     is SettlementMapId -> call.application.href(SettlementMapRoutes.Details(id))
     is SettlementSizeId -> call.application.href(SettlementSizeRoutes.Details(id))
-    is ShieldTypeId -> call.application.href(ShieldTypeRoutes.Details(id))
     is SpellId -> call.application.href(SpellRoutes.Details(id))
     is SpellGroupId -> call.application.href(SpellGroupRoutes.Details(id))
     is StandardOfLivingId -> call.application.href(StandardOfLivingRoutes.Details(id))

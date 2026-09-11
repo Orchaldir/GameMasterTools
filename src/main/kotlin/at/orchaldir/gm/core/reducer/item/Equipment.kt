@@ -6,9 +6,6 @@ import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.render.COLOR_SCHEME_TYPE
 import at.orchaldir.gm.core.reducer.rpg.equipment.validateEquipmentStats
-import at.orchaldir.gm.core.reducer.rpg.equipment.validateMeleeWeaponStats
-import at.orchaldir.gm.core.reducer.rpg.equipment.validateRangedWeaponStats
-import at.orchaldir.gm.core.reducer.rpg.equipment.validateShieldStats
 import at.orchaldir.gm.core.reducer.util.color.validateColorSchemeOption
 import at.orchaldir.gm.core.reducer.util.part.validateItemPart
 import at.orchaldir.gm.core.selector.item.equipment.canDeleteEquipment
@@ -52,6 +49,8 @@ fun validateEquipment(
             require(scheme.data.count() >= requiredSchemaColors) { "${scheme.id.print()} has too few colors!" }
         }
 
+    validateEquipmentStats(state, equipment.stats)
+
     when (equipment.data) {
         is BodyArmour -> checkBodyArmour(state, equipment.data)
         is Polearm -> checkPolearmHead(equipment.data.head)
@@ -59,11 +58,6 @@ fun validateEquipment(
         is TwoHandedSword -> checkTwoHandedSword(equipment.data)
         else -> doNothing()
     }
-
-    equipment.data.getArmorStats()?.let { validateEquipmentStats(state, it) }
-    equipment.data.getMeleeWeaponStats()?.let { validateMeleeWeaponStats(state, it) }
-    equipment.data.getRangedWeaponStats()?.let { validateRangedWeaponStats(state, it) }
-    equipment.data.getShieldStats()?.let { validateShieldStats(state, it) }
 }
 
 private fun checkBodyArmour(

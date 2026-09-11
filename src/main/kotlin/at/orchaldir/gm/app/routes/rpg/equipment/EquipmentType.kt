@@ -12,7 +12,7 @@ import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.core.model.rpg.equipment.EQUIPMENT_TYPE_TYPE
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentTypeId
 import at.orchaldir.gm.core.model.util.SortEquipmentType
-import at.orchaldir.gm.core.selector.item.equipment.getArmors
+import at.orchaldir.gm.core.selector.item.equipment.getEquipment
 import at.orchaldir.gm.core.selector.item.equipment.getWeightOfType
 import at.orchaldir.gm.core.selector.util.sortEquipmentTypes
 import io.ktor.resources.*
@@ -87,7 +87,7 @@ fun Application.configureEquipmentTypeRouting() {
                     tdColumn("Protection") { displayProtection(call, state, it.protection) },
                     createCostFactorColumn { it.cost },
                     createWeightColumn { getWeightOfType(it.weight) },
-                    countCollectionColumn("Equipment") { state.getArmors(it.id) },
+                    countCollectionColumn("Equipment") { state.getEquipment(it.id) },
                 ),
             ) {
                 action(routes.allMeleeAttacks(call, all.sort), "All Melee Attacks")

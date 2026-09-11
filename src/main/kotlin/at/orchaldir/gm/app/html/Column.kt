@@ -17,7 +17,7 @@ import at.orchaldir.gm.core.selector.character.countKilledCharacters
 import at.orchaldir.gm.core.selector.realm.countDestroyedRealms
 import at.orchaldir.gm.core.selector.realm.countDestroyedSettlements
 import at.orchaldir.gm.core.selector.rpg.equipment.getEquipmentModifierEffects
-import at.orchaldir.gm.core.selector.rpg.equipment.getMeleeWeaponType
+import at.orchaldir.gm.core.selector.rpg.equipment.getEquipmentType
 import at.orchaldir.gm.core.selector.rpg.statblock.resolveMeleeAttacks
 import at.orchaldir.gm.core.selector.time.getAgeInYears
 import at.orchaldir.gm.core.selector.util.calculatePopulationDensity
@@ -132,11 +132,11 @@ fun createMeleeWeaponColumn(
     display: TD.(MeleeAttack) -> Unit,
 ): Column<Equipment> = tdColumn(label) {
     val attacks = resolved.computeIfAbsent(it) { equipment ->
-        state.getMeleeWeaponType(equipment)?.let { type ->
-            val stats = equipment.data.getMeleeWeaponStats()!!
+        state.getEquipmentType(equipment)?.let { type ->
+            val stats = equipment.stats
             val effects = state.getEquipmentModifierEffects(stats.modifiers)
 
-            resolveMeleeAttacks(state, effects, type.attacks)
+            resolveMeleeAttacks(state, effects, type.meleeAttacks)
         } ?: emptyList()
     }
 

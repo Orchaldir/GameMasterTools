@@ -36,9 +36,6 @@ import at.orchaldir.gm.app.routes.rpg.*
 import at.orchaldir.gm.app.routes.rpg.equipment.AmmunitionTypeRoutes
 import at.orchaldir.gm.app.routes.rpg.equipment.EquipmentTypeRoutes
 import at.orchaldir.gm.app.routes.rpg.equipment.EquipmentModifierRoutes
-import at.orchaldir.gm.app.routes.rpg.equipment.MeleeWeaponTypeRoutes
-import at.orchaldir.gm.app.routes.rpg.equipment.RangedWeaponTypeRoutes
-import at.orchaldir.gm.app.routes.rpg.equipment.ShieldTypeRoutes
 import at.orchaldir.gm.app.routes.time.CalendarRoutes
 import at.orchaldir.gm.app.routes.time.HolidayRoutes
 import at.orchaldir.gm.app.routes.time.TimeRoutes
@@ -143,9 +140,6 @@ fun Application.configureRouting() {
                     fieldStorageLink(call, state.getAmmunitionTypeStorage(), AmmunitionTypeRoutes())
                     fieldStorageLink(call, state.getEquipmentModifierStorage(), EquipmentModifierRoutes())
                     fieldStorageLink(call, state.getEquipmentTypeStorage(), EquipmentTypeRoutes())
-                    fieldStorageLink(call, state.getMeleeWeaponTypeStorage(), MeleeWeaponTypeRoutes())
-                    fieldStorageLink(call, state.getRangedWeaponTypeStorage(), RangedWeaponTypeRoutes())
-                    fieldStorageLink(call, state.getShieldTypeStorage(), ShieldTypeRoutes())
                     h3 { +"Time" }
                     fieldStorageLink(call, state.getCalendarStorage(), CalendarRoutes())
                     fieldStorageLink(call, state.getHolidayStorage(), HolidayRoutes())

@@ -33,9 +33,9 @@ import at.orchaldir.gm.core.selector.getDefaultCurrency
 import at.orchaldir.gm.core.selector.item.equipment.VOLUME_CONFIG
 import at.orchaldir.gm.core.selector.item.equipment.calculatePrice
 import at.orchaldir.gm.core.selector.item.equipment.calculateWeight
+import at.orchaldir.gm.core.selector.item.equipment.getEquipmentWithMeleeAttacks
 import at.orchaldir.gm.core.selector.item.getUniforms
-import at.orchaldir.gm.core.selector.rpg.equipment.getArmorType
-import at.orchaldir.gm.core.selector.rpg.equipment.getShieldType
+import at.orchaldir.gm.core.selector.rpg.equipment.getEquipmentType
 import at.orchaldir.gm.core.selector.util.getColors
 import at.orchaldir.gm.core.selector.util.sortEquipmentList
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
@@ -67,7 +67,7 @@ class EquipmentRoutes : Routes<EquipmentId, SortEquipment> {
     )
 
     @Resource("melee")
-    class AllMeleeWeapons(
+    class AllMeleeAttacks(
         val sort: SortEquipment = SortEquipment.Name,
         val parent: EquipmentRoutes = EquipmentRoutes(),
     )
@@ -108,7 +108,7 @@ class EquipmentRoutes : Routes<EquipmentId, SortEquipment> {
     override fun all(call: ApplicationCall) = call.application.href(All())
     override fun all(call: ApplicationCall, sort: SortEquipment) = call.application.href(All(sort))
     fun allArmors(call: ApplicationCall, sort: SortEquipment) = call.application.href(AllArmors(sort))
-    fun allMeleeWeapons(call: ApplicationCall, sort: SortEquipment) = call.application.href(AllMeleeWeapons(sort))
+    fun allMeleeWeapons(call: ApplicationCall, sort: SortEquipment) = call.application.href(AllMeleeAttacks(sort))
     fun allShields(call: ApplicationCall, sort: SortEquipment) = call.application.href(AllShields(sort))
     override fun delete(call: ApplicationCall, id: EquipmentId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: EquipmentId) = call.application.href(Edit(id))
@@ -162,33 +162,31 @@ fun Application.configureEquipmentRouting() {
             val state = STORE.getState()
             val armors = state.getEquipmentStorage()
                 .getAll()
-                .filter { it.data.getArmorStats() != null }
+                .filter { it.data.isArmor() }
 
             handleShowAllElements(
                 routes,
                 state.sortEquipmentList(armors, all.sort),
                 listOf(
                     createNameColumn(call, state),
-                    createIdColumn(call, state, "Type") { it.data.getArmorStats()?.type },
+                    createIdColumn(call, state, "Type") { it.stats.type },
                     createIdColumn(call, state, "Material") { it.data.mainMaterial() },
                     tdColumn("Protection") {
-                        state.getArmorType(it)
+                        state.getEquipmentType(it)
                             ?.let { type ->
                                 displayProtection(call, state, type.protection)
                             }
                     },
-                    Column("Modifiers") { tdInlineIds(call, state, it.data.getArmorStats()?.modifiers ?: emptySet()) },
+                    Column("Modifiers") { tdInlineIds(call, state, it.stats.modifiers) },
                 ),
             ) {
                 action(routes.all(call, all.sort), "All")
             }
         }
-        get<EquipmentRoutes.AllMeleeWeapons> { all ->
+        get<EquipmentRoutes.AllMeleeAttacks> { all ->
             val routes = EquipmentRoutes()
             val state = STORE.getState()
-            val meleeWeapons = state.getEquipmentStorage()
-                .getAll()
-                .filter { it.data.getMeleeWeaponStats() != null }
+            val meleeWeapons = state.getEquipmentWithMeleeAttacks()
             val resolved = mutableMapOf<Equipment, List<MeleeAttack>>()
 
             handleShowAllElements(
@@ -196,14 +194,10 @@ fun Application.configureEquipmentRouting() {
                 state.sortEquipmentList(meleeWeapons, all.sort),
                 listOf(
                     createNameColumn(call, state),
-                    createIdColumn(call, state, "Type") { it.data.getMeleeWeaponStats()?.type },
+                    createIdColumn(call, state, "Type") { it.stats.type },
                     createIdColumn(call, state, "Material") { it.data.mainMaterial() },
                     Column("Modifiers") {
-                        tdInlineIds(
-                            call,
-                            state,
-                            it.data.getMeleeWeaponStats()?.modifiers ?: emptySet()
-                        )
+                        tdInlineIds(call, state, it.stats.modifiers)
                     },
                     createMeleeWeaponColumn(state, "Damage", resolved) {
                         displayAttackEffect(call, state, it.effect)
@@ -224,22 +218,22 @@ fun Application.configureEquipmentRouting() {
             val state = STORE.getState()
             val shields = state.getEquipmentStorage()
                 .getAll()
-                .filter { it.data.getShieldStats() != null }
+                .filter { it.data.isShield() }
 
             handleShowAllElements(
                 routes,
                 state.sortEquipmentList(shields, all.sort),
                 listOf(
                     createNameColumn(call, state),
-                    createIdColumn(call, state, "Type") { it.data.getShieldStats()?.type },
+                    createIdColumn(call, state, "Type") { it.stats.type },
                     createIdColumn(call, state, "Material") { it.data.mainMaterial() },
                     tdColumn("Protection") {
-                        state.getShieldType(it)
+                        state.getEquipmentType(it)
                             ?.let { type ->
                                 displayProtection(call, state, type.protection)
                             }
                     },
-                    Column("Modifiers") { tdInlineIds(call, state, it.data.getShieldStats()?.modifiers ?: emptySet()) },
+                    Column("Modifiers") { tdInlineIds(call, state, it.stats.modifiers) },
                 ),
             ) {
                 action(routes.all(call, all.sort), "All")

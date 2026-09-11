@@ -38,11 +38,8 @@ import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.religion.Pantheon
 import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.core.model.rpg.equipment.AmmunitionType
-import at.orchaldir.gm.core.model.rpg.equipment.EquipmentType
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifier
-import at.orchaldir.gm.core.model.rpg.equipment.MeleeWeaponType
-import at.orchaldir.gm.core.model.rpg.equipment.RangedWeaponType
-import at.orchaldir.gm.core.model.rpg.equipment.ShieldType
+import at.orchaldir.gm.core.model.rpg.equipment.EquipmentType
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTrait
 import at.orchaldir.gm.core.model.time.calendar.Calendar
@@ -102,6 +99,7 @@ fun reduceUpdateElement(
     is Encounter -> updateElement(state, element)
     is Equipment -> updateEquipment(state, element)
     is EquipmentModifier -> updateElement(state, element)
+    is EquipmentType -> updateElement(state, element)
     is Fashion -> updateFashion(state, element)
     is Font -> updateElement(state, element)
     is God -> updateElement(state, element)
@@ -111,7 +109,6 @@ fun reduceUpdateElement(
     is LegalCode -> updateElement(state, element)
     is MagicTradition -> updateElement(state, element)
     is Material -> updateElement(state, element)
-    is MeleeWeaponType -> updateElement(state, element)
     is Moon -> updateElement(state, element)
     is NameList -> updateNameList(state, element)
     is Organization -> updateElement(state, element)
@@ -124,14 +121,12 @@ fun reduceUpdateElement(
     is Race -> updateElement(state, element)
     is RaceAppearance -> updateElement(state, element)
     is RaceGroup -> updateElement(state, element)
-    is RangedWeaponType -> updateElement(state, element)
     is Realm -> updateElement(state, element)
     is Region -> updateElement(state, element)
     is River -> updateElement(state, element)
     is Settlement -> updateElement(state, element)
     is SettlementMap -> updateElement(state, element)
     is SettlementSize -> updateElement(state, element)
-    is ShieldType -> updateElement(state, element)
     is Spell -> updateElement(state, element)
     is SpellGroup -> updateElement(state, element)
     is Statistic -> updateElement(state, element)

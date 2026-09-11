@@ -29,9 +29,6 @@ import at.orchaldir.gm.app.routes.rpg.*
 import at.orchaldir.gm.app.routes.rpg.equipment.configureAmmunitionTypeRouting
 import at.orchaldir.gm.app.routes.rpg.equipment.configureEquipmentTypeRouting
 import at.orchaldir.gm.app.routes.rpg.equipment.configureEquipmentModifierRouting
-import at.orchaldir.gm.app.routes.rpg.equipment.configureMeleeWeaponTypeRouting
-import at.orchaldir.gm.app.routes.rpg.equipment.configureRangedWeaponTypeRouting
-import at.orchaldir.gm.app.routes.rpg.equipment.configureShieldTypeRouting
 import at.orchaldir.gm.app.routes.time.configureCalendarRouting
 import at.orchaldir.gm.app.routes.time.configureHolidayRouting
 import at.orchaldir.gm.app.routes.time.configureTimeRouting
@@ -74,7 +71,6 @@ fun Application.module() {
     configureAmmunitionRouting()
     configureAmmunitionTypeRouting()
     configureArchitecturalStyleRouting()
-    configureEquipmentTypeRouting()
     configureArticleRouting()
     configureBattleRouting()
     configureBuildingEditorRouting()
@@ -101,6 +97,7 @@ fun Application.module() {
     configureEquipmentModifierRouting()
     configureEquipmentRouting()
     configureEquipmentRouting()
+    configureEquipmentTypeRouting()
     configureFashionRouting()
     configureFontRouting()
     configureGodRouting()
@@ -110,7 +107,6 @@ fun Application.module() {
     configureLegalCodeRouting()
     configureMagicTraditionRouting()
     configureMaterialRouting()
-    configureMeleeWeaponTypeRouting()
     configureMoonRouting()
     configureNameListRouting()
     configureOrganizationRouting()
@@ -123,14 +119,12 @@ fun Application.module() {
     configureRaceAppearanceRouting()
     configureRaceGroupRouting()
     configureRaceRouting()
-    configureRangedWeaponTypeRouting()
     configureRealmRouting()
     configureRegionRouting()
     configureRiverRouting()
     configureSettlementRouting()
     configureSettlementMapRouting()
     configureSettlementSizeRouting()
-    configureShieldTypeRouting()
     configureSpellGroupRouting()
     configureSpellRouting()
     configureStandardOfLivingRouting()
