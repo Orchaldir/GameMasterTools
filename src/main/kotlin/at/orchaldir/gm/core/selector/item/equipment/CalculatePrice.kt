@@ -9,7 +9,7 @@ import at.orchaldir.gm.core.model.economy.money.UserDefinedPrice
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.item.equipment.EquipmentData
 import at.orchaldir.gm.core.model.item.equipment.EquipmentIdMap
-import at.orchaldir.gm.core.model.rpg.equipment.ArmorStats
+import at.orchaldir.gm.core.model.rpg.equipment.EquipmentStats
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.unit.VolumePerMaterial
@@ -29,15 +29,15 @@ fun calculateCostFactors(
 private fun calculateCostFactors(
     state: State,
     costFactors: MutableMap<Id<*>, Factor>,
-    armor: ArmorStats,
+    stats: EquipmentStats,
 ) {
     state.getEquipmentModifierStorage()
-        .get(armor.modifiers)
+        .get(stats.modifiers)
         .forEach { modifier ->
             costFactors[modifier.id] = modifier.cost
         }
 
-    state.getEquipmentTypeStorage().getOptional(armor.type)
+    state.getEquipmentTypeStorage().getOptional(stats.type)
         ?.let { costFactors[it.id] = it.cost }
 }
 

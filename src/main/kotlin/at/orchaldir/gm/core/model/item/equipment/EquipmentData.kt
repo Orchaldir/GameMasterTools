@@ -2,7 +2,7 @@ package at.orchaldir.gm.core.model.item.equipment
 
 import at.orchaldir.gm.core.model.item.equipment.EquipmentSlot.*
 import at.orchaldir.gm.core.model.item.equipment.style.*
-import at.orchaldir.gm.core.model.rpg.equipment.ArmorStats
+import at.orchaldir.gm.core.model.rpg.equipment.EquipmentStats
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifierId
 import at.orchaldir.gm.core.model.rpg.equipment.MeleeWeaponStats
 import at.orchaldir.gm.core.model.rpg.equipment.RangedWeaponStats
@@ -242,7 +242,7 @@ data class BodyArmour(
     val style: ArmourStyle,
     val legStyle: LegArmourStyle = SameLegArmour(),
     val sleeveStyle: SleeveStyle = SleeveStyle.Short,
-    val stats: ArmorStats = ArmorStats(),
+    val stats: EquipmentStats = EquipmentStats(),
 ) : EquipmentData() {
 
     override fun parts() = style.parts()
@@ -336,7 +336,7 @@ data class EyePatch(
 @SerialName("Footwear")
 data class Footwear(
     val style: FootwearStyle = Shoe(),
-    val stats: ArmorStats = ArmorStats(),
+    val stats: EquipmentStats = EquipmentStats(),
 ) : EquipmentData() {
 
     override fun parts() = style.parts()
@@ -359,7 +359,7 @@ data class Glasses(
 data class Gloves(
     val style: GloveStyle = GloveStyle.Hand,
     val main: ItemPart = MadeFromFabric(Color.Red),
-    val stats: ArmorStats = ArmorStats(),
+    val stats: EquipmentStats = EquipmentStats(),
 ) : EquipmentData() {
 
     constructor(style: GloveStyle, color: Color) : this(style, MadeFromFabric(color))
@@ -383,7 +383,7 @@ data class Hat(
 @SerialName("Helmet")
 data class Helmet(
     val style: HelmetStyle = SkullCap(),
-    val stats: ArmorStats = ArmorStats(),
+    val stats: EquipmentStats = EquipmentStats(),
 ) : EquipmentData() {
 
     override fun hidesEars() = when (style) {

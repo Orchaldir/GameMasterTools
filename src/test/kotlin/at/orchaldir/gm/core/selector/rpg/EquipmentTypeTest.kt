@@ -7,7 +7,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.BodyArmour
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.item.equipment.style.ScaleArmour
-import at.orchaldir.gm.core.model.rpg.equipment.ArmorStats
+import at.orchaldir.gm.core.model.rpg.equipment.EquipmentStats
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentType
 import at.orchaldir.gm.core.selector.rpg.equipment.canDeleteEquipmentType
 import at.orchaldir.gm.utils.Id
@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
-class ArmorTypeTest {
+class EquipmentTypeTest {
 
     @Nested
     inner class CanDeleteTest {
@@ -28,8 +28,8 @@ class ArmorTypeTest {
         )
 
         @Test
-        fun `Cannot delete an armor type used by an equipment`() {
-            val data = BodyArmour(ScaleArmour(), stats = ArmorStats(ARMOR_TYPE_ID_0))
+        fun `Cannot delete an equipment type used by an equipment`() {
+            val data = BodyArmour(ScaleArmour(), stats = EquipmentStats(ARMOR_TYPE_ID_0))
             val element = Equipment(EQUIPMENT_ID_0, data = data)
             val newState = state.updateStorage(element)
 

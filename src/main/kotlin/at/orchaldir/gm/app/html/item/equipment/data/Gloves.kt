@@ -4,7 +4,7 @@ import at.orchaldir.gm.app.GLOVES
 import at.orchaldir.gm.app.MAIN
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.parse
-import at.orchaldir.gm.app.html.rpg.equipment.parseArmorStats
+import at.orchaldir.gm.app.html.rpg.equipment.parseEquipmentStats
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.app.html.util.part.editItemPart
 import at.orchaldir.gm.app.html.util.part.parseItemPart
@@ -46,5 +46,5 @@ fun parseGloves(
 ): Gloves = Gloves(
     parse(parameters, GLOVES, GloveStyle.Hand),
     parseItemPart(state, parameters, MAIN, GLOVES_MATERIALS),
-    parseArmorStats(parameters),
+    parseEquipmentStats(parameters),
 )

@@ -6,7 +6,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.rpg.combat.fieldProtection
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.MaterialId
-import at.orchaldir.gm.core.model.rpg.equipment.ArmorStats
+import at.orchaldir.gm.core.model.rpg.equipment.EquipmentStats
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifierCategory
 import at.orchaldir.gm.core.selector.rpg.equipment.getEquipmentModifierEffects
 import at.orchaldir.gm.core.selector.rpg.statblock.resolveProtection
@@ -17,24 +17,24 @@ import kotlinx.html.HtmlBlockTag
 
 // show
 
-fun HtmlBlockTag.showArmorStats(
+fun HtmlBlockTag.showEquipmentStats(
     call: ApplicationCall,
     state: State,
-    stats: ArmorStats,
+    stats: EquipmentStats,
     mainMaterial: MaterialId?,
 ) {
-    showDetails("Armor Stats", true) {
+    showDetails("Equipment Stats", true) {
         optionalFieldLink("Type", call, state, stats.type)
         optionalFieldLink(call, state, mainMaterial)
         fieldIds(call, state, "Modifiers", stats.modifiers)
-        showUpdatedArmorStats(call, state, stats)
+        showUpdatedEquipmentStats(call, state, stats)
     }
 }
 
-private fun DETAILS.showUpdatedArmorStats(
+private fun DETAILS.showUpdatedEquipmentStats(
     call: ApplicationCall,
     state: State,
-    stats: ArmorStats,
+    stats: EquipmentStats,
 ) {
     state.getEquipmentTypeStorage().getOptional(stats.type)?.let { type ->
         val effects = state.getEquipmentModifierEffects(stats.modifiers)
@@ -46,12 +46,12 @@ private fun DETAILS.showUpdatedArmorStats(
 
 // edit
 
-fun HtmlBlockTag.editArmorStats(
+fun HtmlBlockTag.editEquipmentStats(
     call: ApplicationCall,
     state: State,
-    stats: ArmorStats,
+    stats: EquipmentStats,
 ) {
-    showDetails("Armor Stats", true) {
+    showDetails("Equipment Stats", true) {
         selectOptionalElement(
             state,
             "Type",
@@ -60,15 +60,15 @@ fun HtmlBlockTag.editArmorStats(
             stats.type,
         )
         selectEquipmentModifier(state, EquipmentModifierCategory.Armor, stats.modifiers)
-        showUpdatedArmorStats(call, state, stats)
+        showUpdatedEquipmentStats(call, state, stats)
     }
 }
 
 // parse
 
-fun parseArmorStats(
+fun parseEquipmentStats(
     parameters: Parameters,
-) = ArmorStats(
-    parseEquipmentTypeId(parameters, combine(ARMOR, TYPE)),
+) = EquipmentStats(
+    parseOptionalEquipmentTypeId(parameters, combine(ARMOR, TYPE)),
     parseEquipmentModifiers(parameters),
 )

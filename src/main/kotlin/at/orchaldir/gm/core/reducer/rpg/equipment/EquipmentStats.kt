@@ -1,11 +1,11 @@
 package at.orchaldir.gm.core.reducer.rpg.equipment
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.rpg.equipment.ArmorStats
+import at.orchaldir.gm.core.model.rpg.equipment.EquipmentStats
 
-fun validateArmorStats(
+fun validateEquipmentStats(
     state: State,
-    stats: ArmorStats,
+    stats: EquipmentStats,
 ) {
     state.getEquipmentModifierStorage().require(stats.modifiers)
     state.getEquipmentTypeStorage().requireOptional(stats.type)

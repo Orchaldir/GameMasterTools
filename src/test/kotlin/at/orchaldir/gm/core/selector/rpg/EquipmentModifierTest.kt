@@ -11,7 +11,7 @@ import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.item.equipment.OneHandedAxe
 import at.orchaldir.gm.core.model.item.equipment.Shield
 import at.orchaldir.gm.core.model.item.equipment.style.ScaleArmour
-import at.orchaldir.gm.core.model.rpg.equipment.ArmorStats
+import at.orchaldir.gm.core.model.rpg.equipment.EquipmentStats
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifier
 import at.orchaldir.gm.core.model.rpg.equipment.MeleeWeaponStats
 import at.orchaldir.gm.core.model.rpg.equipment.ShieldStats
@@ -43,7 +43,7 @@ class EquipmentModifierTest {
 
         @Test
         fun `Cannot delete an equipment modifier used by an armor`() {
-            val data = BodyArmour(ScaleArmour(), stats = ArmorStats(modifiers = setOf(EQUIPMENT_MODIFIER_ID_0)))
+            val data = BodyArmour(ScaleArmour(), stats = EquipmentStats(modifiers = setOf(EQUIPMENT_MODIFIER_ID_0)))
             val element = Equipment(EQUIPMENT_ID_0, data = data)
             val newState = state.updateStorage(element)
 

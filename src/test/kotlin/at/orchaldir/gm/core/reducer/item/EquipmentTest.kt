@@ -11,7 +11,7 @@ import at.orchaldir.gm.core.model.economy.material.MaterialProperties
 import at.orchaldir.gm.core.model.economy.material.Metal
 import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.item.equipment.style.ScaleArmour
-import at.orchaldir.gm.core.model.rpg.equipment.ArmorStats
+import at.orchaldir.gm.core.model.rpg.equipment.EquipmentStats
 import at.orchaldir.gm.core.model.rpg.equipment.MeleeWeaponStats
 import at.orchaldir.gm.core.model.rpg.equipment.RangedWeaponStats
 import at.orchaldir.gm.core.model.rpg.equipment.ShieldStats
@@ -115,7 +115,7 @@ class EquipmentTest {
 
             @Test
             fun `Armor stats must have valid modifiers`() {
-                val data = BodyArmour(ScaleArmour(), stats = ArmorStats(modifiers = setOf(UNKNOWN_EQUIPMENT_MODIFIER)))
+                val data = BodyArmour(ScaleArmour(), stats = EquipmentStats(modifiers = setOf(UNKNOWN_EQUIPMENT_MODIFIER)))
                 val item = Equipment(EQUIPMENT_ID_0, data = data)
                 val action = UpdateAction(item)
 
@@ -124,7 +124,7 @@ class EquipmentTest {
 
             @Test
             fun `Armor type must exist`() {
-                val data = BodyArmour(ScaleArmour(), stats = ArmorStats(UNKNOWN_ARMOR_TYPE))
+                val data = BodyArmour(ScaleArmour(), stats = EquipmentStats(UNKNOWN_ARMOR_TYPE))
                 val item = Equipment(EQUIPMENT_ID_0, data = data)
                 val action = UpdateAction(item)
 

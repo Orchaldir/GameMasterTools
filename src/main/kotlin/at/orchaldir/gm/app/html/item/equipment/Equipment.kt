@@ -9,11 +9,11 @@ import at.orchaldir.gm.app.html.economy.money.parsePriceLookup
 import at.orchaldir.gm.app.html.economy.money.selectPriceLookup
 import at.orchaldir.gm.app.html.economy.money.showPriceLookupDetails
 import at.orchaldir.gm.app.html.item.equipment.data.*
-import at.orchaldir.gm.app.html.rpg.equipment.editArmorStats
+import at.orchaldir.gm.app.html.rpg.equipment.editEquipmentStats
 import at.orchaldir.gm.app.html.rpg.equipment.editMeleeWeaponStats
 import at.orchaldir.gm.app.html.rpg.equipment.editRangedWeaponStats
 import at.orchaldir.gm.app.html.rpg.equipment.editShieldStats
-import at.orchaldir.gm.app.html.rpg.equipment.showArmorStats
+import at.orchaldir.gm.app.html.rpg.equipment.showEquipmentStats
 import at.orchaldir.gm.app.html.rpg.equipment.showMeleeWeaponStats
 import at.orchaldir.gm.app.html.rpg.equipment.showRangedWeaponStats
 import at.orchaldir.gm.app.html.rpg.equipment.showShieldStats
@@ -54,7 +54,7 @@ fun HtmlBlockTag.showEquipment(
     showEquipmentData(call, state, equipment.data)
     fieldColorSchemeOption(call, state, equipment.colorSchemes)
     equipment.data.getArmorStats()?.let {
-        showArmorStats(call, state, it, material)
+        showEquipmentStats(call, state, it, material)
     }
     equipment.data.getMeleeWeaponStats()?.let {
         showMeleeWeaponStats(call, state, it, material)
@@ -154,7 +154,7 @@ fun HtmlBlockTag.editEquipment(
     selectName(equipment.name)
     editEquipmentData(state, equipment.data)
     selectColorSchemes(state, equipment)
-    equipment.data.getArmorStats()?.let { editArmorStats(call, state, it) }
+    equipment.data.getArmorStats()?.let { editEquipmentStats(call, state, it) }
     equipment.data.getMeleeWeaponStats()?.let { editMeleeWeaponStats(call, state, it) }
     equipment.data.getRangedWeaponStats()?.let { editRangedWeaponStats(call, state, it) }
     equipment.data.getShieldStats()?.let { editShieldStats(call, state, it) }
