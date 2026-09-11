@@ -7,7 +7,7 @@ import at.orchaldir.gm.RANGED_WEAPON_TYPE_ID_0
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.combat.*
-import at.orchaldir.gm.core.model.rpg.equipment.ArmorType
+import at.orchaldir.gm.core.model.rpg.equipment.EquipmentType
 import at.orchaldir.gm.core.model.rpg.equipment.MeleeWeaponType
 import at.orchaldir.gm.core.model.rpg.equipment.RangedWeaponType
 import at.orchaldir.gm.core.selector.rpg.combat.canDeleteDamageType
@@ -31,7 +31,7 @@ class DamageTypeTest {
         @Test
         fun `Cannot delete a damage type used by an armor`() {
             val protection = DamageResistances(2, mapOf(DAMAGE_TYPE_ID_0 to 2))
-            val element = ArmorType(ARMOR_TYPE_ID_0, protection = protection)
+            val element = EquipmentType(ARMOR_TYPE_ID_0, protection = protection)
             val newState = state.updateStorage(element)
 
             failCanDelete(newState, ARMOR_TYPE_ID_0)

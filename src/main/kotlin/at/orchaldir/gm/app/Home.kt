@@ -34,7 +34,7 @@ import at.orchaldir.gm.app.routes.religion.GodRoutes
 import at.orchaldir.gm.app.routes.religion.PantheonRoutes
 import at.orchaldir.gm.app.routes.rpg.*
 import at.orchaldir.gm.app.routes.rpg.equipment.AmmunitionTypeRoutes
-import at.orchaldir.gm.app.routes.rpg.equipment.ArmorTypeRoutes
+import at.orchaldir.gm.app.routes.rpg.equipment.EquipmentTypeRoutes
 import at.orchaldir.gm.app.routes.rpg.equipment.EquipmentModifierRoutes
 import at.orchaldir.gm.app.routes.rpg.equipment.MeleeWeaponTypeRoutes
 import at.orchaldir.gm.app.routes.rpg.equipment.RangedWeaponTypeRoutes
@@ -137,14 +137,15 @@ fun Application.configureRouting() {
                     fieldStorageLink(call, state.getGodStorage(), GodRoutes())
                     fieldStorageLink(call, state.getPantheonStorage(), PantheonRoutes())
                     h3 { +"Rpg" }
-                    fieldStorageLink(call, state.getAmmunitionTypeStorage(), AmmunitionTypeRoutes())
-                    fieldStorageLink(call, state.getArmorTypeStorage(), ArmorTypeRoutes())
                     fieldStorageLink(call, state.getDamageTypeStorage(), DamageTypeRoutes())
+                    fieldStorageLink(call, state.getStatisticStorage(), StatisticRoutes())
+                    h4 { +"Equipment" }
+                    fieldStorageLink(call, state.getAmmunitionTypeStorage(), AmmunitionTypeRoutes())
                     fieldStorageLink(call, state.getEquipmentModifierStorage(), EquipmentModifierRoutes())
+                    fieldStorageLink(call, state.getEquipmentTypeStorage(), EquipmentTypeRoutes())
                     fieldStorageLink(call, state.getMeleeWeaponTypeStorage(), MeleeWeaponTypeRoutes())
                     fieldStorageLink(call, state.getRangedWeaponTypeStorage(), RangedWeaponTypeRoutes())
                     fieldStorageLink(call, state.getShieldTypeStorage(), ShieldTypeRoutes())
-                    fieldStorageLink(call, state.getStatisticStorage(), StatisticRoutes())
                     h3 { +"Time" }
                     fieldStorageLink(call, state.getCalendarStorage(), CalendarRoutes())
                     fieldStorageLink(call, state.getHolidayStorage(), HolidayRoutes())

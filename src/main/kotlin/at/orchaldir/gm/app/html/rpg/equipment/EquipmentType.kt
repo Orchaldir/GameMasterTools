@@ -14,8 +14,8 @@ import at.orchaldir.gm.app.html.util.math.showWeightLookupForType
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.MAX_EQUIPMENT_WEIGHT
 import at.orchaldir.gm.core.model.item.equipment.MIN_EQUIPMENT_WEIGHT
-import at.orchaldir.gm.core.model.rpg.equipment.ArmorType
-import at.orchaldir.gm.core.model.rpg.equipment.ArmorTypeId
+import at.orchaldir.gm.core.model.rpg.equipment.EquipmentType
+import at.orchaldir.gm.core.model.rpg.equipment.EquipmentTypeId
 import at.orchaldir.gm.core.model.rpg.equipment.DEFAULT_TYPE_COST_FACTOR
 import at.orchaldir.gm.core.selector.item.equipment.getArmors
 import io.ktor.http.*
@@ -25,10 +25,10 @@ import kotlinx.html.h2
 
 // show
 
-fun HtmlBlockTag.showArmorType(
+fun HtmlBlockTag.showEquipmentType(
     call: ApplicationCall,
     state: State,
-    type: ArmorType,
+    type: EquipmentType,
 ) {
     fieldProtection(call, state, type.protection)
     fieldCostFactor(type.cost)
@@ -40,7 +40,7 @@ fun HtmlBlockTag.showArmorType(
 private fun HtmlBlockTag.showUsages(
     call: ApplicationCall,
     state: State,
-    type: ArmorTypeId,
+    type: EquipmentTypeId,
 ) {
     val armors = state.getArmors(type)
 
@@ -55,10 +55,10 @@ private fun HtmlBlockTag.showUsages(
 
 // edit
 
-fun HtmlBlockTag.editArmorType(
+fun HtmlBlockTag.editEquipmentType(
     call: ApplicationCall,
     state: State,
-    type: ArmorType,
+    type: EquipmentType,
 ) {
     selectName(type.name)
     editProtection(call, state, type.protection)
@@ -68,16 +68,16 @@ fun HtmlBlockTag.editArmorType(
 
 // parse
 
-fun parseArmorTypeId(parameters: Parameters, param: String) = ArmorTypeId(parseInt(parameters, param))
-fun parseArmorTypeId(value: String) = ArmorTypeId(value.toInt())
-fun parseOptionalArmorTypeId(parameters: Parameters, param: String) =
-    parseSimpleOptionalInt(parameters, param)?.let { ArmorTypeId(it) }
+fun parseEquipmentTypeId(parameters: Parameters, param: String) = EquipmentTypeId(parseInt(parameters, param))
+fun parseEquipmentTypeId(value: String) = EquipmentTypeId(value.toInt())
+fun parseOptionalEquipmentTypeId(parameters: Parameters, param: String) =
+    parseSimpleOptionalInt(parameters, param)?.let { EquipmentTypeId(it) }
 
-fun parseArmorType(
+fun parseEquipmentType(
     state: State,
     parameters: Parameters,
-    id: ArmorTypeId,
-) = ArmorType(
+    id: EquipmentTypeId,
+) = EquipmentType(
     id,
     parseName(parameters),
     parseProtection(state, parameters),

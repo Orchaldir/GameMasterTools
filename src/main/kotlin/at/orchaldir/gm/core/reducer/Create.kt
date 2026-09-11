@@ -54,8 +54,8 @@ import at.orchaldir.gm.core.model.religion.*
 import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.core.model.rpg.equipment.AmmunitionType
 import at.orchaldir.gm.core.model.rpg.equipment.AmmunitionTypeId
-import at.orchaldir.gm.core.model.rpg.equipment.ArmorType
-import at.orchaldir.gm.core.model.rpg.equipment.ArmorTypeId
+import at.orchaldir.gm.core.model.rpg.equipment.EquipmentType
+import at.orchaldir.gm.core.model.rpg.equipment.EquipmentTypeId
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifier
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifierId
 import at.orchaldir.gm.core.model.rpg.equipment.MeleeWeaponType
@@ -115,7 +115,6 @@ fun reduceCreateElement(
     is AmmunitionId -> createElement(state, Ammunition(id))
     is AmmunitionTypeId -> createElement(state, AmmunitionType(id))
     is ArchitecturalStyleId -> createElement(state, ArchitecturalStyle(id))
-    is ArmorTypeId -> createElement(state, ArmorType(id))
     is ArticleId -> createElement(state, Article(id))
     is BattleId -> createElement(state, Battle(id))
     is BuildingId -> createElement(state, Building(id))
@@ -142,6 +141,7 @@ fun reduceCreateElement(
     is EncounterId -> createElement(state, Encounter(id))
     is EquipmentId -> createElement(state, Equipment(id))
     is EquipmentModifierId -> createElement(state, EquipmentModifier(id))
+    is EquipmentTypeId -> createElement(state, EquipmentType(id))
     is FashionId -> createElement(state, Fashion(id))
     is FontId -> createElement(state, Font(id))
     is GodId -> createElement(state, God(id))

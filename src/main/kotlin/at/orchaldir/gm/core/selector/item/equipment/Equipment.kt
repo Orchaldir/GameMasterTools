@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.model.culture.fashion.ClothingSet
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
-import at.orchaldir.gm.core.model.rpg.equipment.ArmorTypeId
+import at.orchaldir.gm.core.model.rpg.equipment.EquipmentTypeId
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifierId
 import at.orchaldir.gm.core.model.rpg.equipment.MeleeWeaponTypeId
 import at.orchaldir.gm.core.model.rpg.equipment.RangedWeaponTypeId
@@ -75,7 +75,7 @@ fun State.getEquipment(modifier: EquipmentModifierId) = getEquipmentStorage()
     .getAll()
     .filter { it.data.contains(modifier) }
 
-fun State.getArmors(type: ArmorTypeId) = getEquipmentStorage()
+fun State.getArmors(type: EquipmentTypeId) = getEquipmentStorage()
     .getAll()
     .filter { it.data.getArmorStats()?.type == type }
 

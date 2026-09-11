@@ -8,8 +8,8 @@ import at.orchaldir.gm.core.model.item.equipment.BodyArmour
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.item.equipment.style.ScaleArmour
 import at.orchaldir.gm.core.model.rpg.equipment.ArmorStats
-import at.orchaldir.gm.core.model.rpg.equipment.ArmorType
-import at.orchaldir.gm.core.selector.rpg.equipment.canDeleteArmorType
+import at.orchaldir.gm.core.model.rpg.equipment.EquipmentType
+import at.orchaldir.gm.core.selector.rpg.equipment.canDeleteEquipmentType
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -20,7 +20,7 @@ class ArmorTypeTest {
 
     @Nested
     inner class CanDeleteTest {
-        private val type = ArmorType(ARMOR_TYPE_ID_0)
+        private val type = EquipmentType(ARMOR_TYPE_ID_0)
         private val state = State(
             listOf(
                 Storage(type),
@@ -39,7 +39,7 @@ class ArmorTypeTest {
         private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {
             assertEquals(
                 DeleteResult(ARMOR_TYPE_ID_0).addId(blockingId),
-                state.canDeleteArmorType(ARMOR_TYPE_ID_0)
+                state.canDeleteEquipmentType(ARMOR_TYPE_ID_0)
             )
         }
     }

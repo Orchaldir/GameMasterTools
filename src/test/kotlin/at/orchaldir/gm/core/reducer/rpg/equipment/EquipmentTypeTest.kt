@@ -3,7 +3,7 @@ package at.orchaldir.gm.core.reducer.rpg.equipment
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.combat.*
-import at.orchaldir.gm.core.model.rpg.equipment.ArmorType
+import at.orchaldir.gm.core.model.rpg.equipment.EquipmentType
 import at.orchaldir.gm.core.model.rpg.equipment.MAX_COST_FACTOR
 import at.orchaldir.gm.core.model.rpg.equipment.MIN_COST_FACTOR
 import at.orchaldir.gm.core.model.rpg.statistic.BaseDamage
@@ -12,7 +12,7 @@ import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.ONE_PERCENT
 import org.junit.jupiter.api.Test
 
-class ArmorTypeTest {
+class EquipmentTypeTest {
 
     private val STATE = State(
         listOf(
@@ -24,27 +24,27 @@ class ArmorTypeTest {
     @Test
     fun `Test protection`() {
         val protection = DamageResistance(0)
-        val armorType = ArmorType(ARMOR_TYPE_ID_0, protection = protection)
+        val equipmentType = EquipmentType(ARMOR_TYPE_ID_0, protection = protection)
 
-        assertInvalidArmor(armorType, "Damage Resistance needs to be >= 1!")
+        assertInvalidArmor(equipmentType, "Damage Resistance needs to be >= 1!")
     }
 
     @Test
     fun `Cannot have a cost factor below the minimum`() {
-        val armorType = ArmorType(ARMOR_TYPE_ID_0, cost = MIN_COST_FACTOR - ONE_PERCENT)
+        val equipmentType = EquipmentType(ARMOR_TYPE_ID_0, cost = MIN_COST_FACTOR - ONE_PERCENT)
 
-        assertInvalidArmor(armorType, "Cost Factor -101% is below the minimum!")
+        assertInvalidArmor(equipmentType, "Cost Factor -101% is below the minimum!")
     }
 
     @Test
     fun `Cannot have a cost factor above the maximum`() {
-        val armorType = ArmorType(ARMOR_TYPE_ID_0, cost = MAX_COST_FACTOR + ONE_PERCENT)
+        val equipmentType = EquipmentType(ARMOR_TYPE_ID_0, cost = MAX_COST_FACTOR + ONE_PERCENT)
 
-        assertInvalidArmor(armorType, "Cost Factor 10001% is above the maximum!")
+        assertInvalidArmor(equipmentType, "Cost Factor 10001% is above the maximum!")
     }
 
-    private fun assertInvalidArmor(armorType: ArmorType, message: String) {
-        assertIllegalArgument(message) { armorType.validate(STATE) }
+    private fun assertInvalidArmor(equipmentType: EquipmentType, message: String) {
+        assertIllegalArgument(message) { equipmentType.validate(STATE) }
     }
 
 }

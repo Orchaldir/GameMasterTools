@@ -28,7 +28,7 @@ import at.orchaldir.gm.app.routes.religion.GodRoutes
 import at.orchaldir.gm.app.routes.religion.PantheonRoutes
 import at.orchaldir.gm.app.routes.rpg.*
 import at.orchaldir.gm.app.routes.rpg.equipment.AmmunitionTypeRoutes
-import at.orchaldir.gm.app.routes.rpg.equipment.ArmorTypeRoutes
+import at.orchaldir.gm.app.routes.rpg.equipment.EquipmentTypeRoutes
 import at.orchaldir.gm.app.routes.rpg.equipment.EquipmentModifierRoutes
 import at.orchaldir.gm.app.routes.rpg.equipment.MeleeWeaponTypeRoutes
 import at.orchaldir.gm.app.routes.rpg.equipment.RangedWeaponTypeRoutes
@@ -77,7 +77,7 @@ import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.religion.PantheonId
 import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.core.model.rpg.equipment.AmmunitionTypeId
-import at.orchaldir.gm.core.model.rpg.equipment.ArmorTypeId
+import at.orchaldir.gm.core.model.rpg.equipment.EquipmentTypeId
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifierId
 import at.orchaldir.gm.core.model.rpg.equipment.MeleeWeaponTypeId
 import at.orchaldir.gm.core.model.rpg.equipment.RangedWeaponTypeId
@@ -400,7 +400,6 @@ fun href(
     is AmmunitionId -> call.application.href(AmmunitionRoutes.Details(id))
     is AmmunitionTypeId -> call.application.href(AmmunitionTypeRoutes.Details(id))
     is ArchitecturalStyleId -> call.application.href(ArchitecturalStyleRoutes.Details(id))
-    is ArmorTypeId -> call.application.href(ArmorTypeRoutes.Details(id))
     is ArticleId -> call.application.href(ArticleRoutes.Details(id))
     is BattleId -> call.application.href(BattleRoutes.Details(id))
     is BuildingId -> call.application.href(BuildingRoutes.Details(id))
@@ -423,6 +422,7 @@ fun href(
     is EncounterId -> call.application.href(EncounterRoutes.Details(id))
     is EquipmentId -> call.application.href(EquipmentRoutes.Details(id))
     is EquipmentModifierId -> call.application.href(EquipmentModifierRoutes.Details(id))
+    is EquipmentTypeId -> call.application.href(EquipmentTypeRoutes.Details(id))
     is FashionId -> call.application.href(FashionRoutes.Details(id))
     is FontId -> call.application.href(FontRoutes.Details(id))
     is GodId -> call.application.href(GodRoutes.Details(id))

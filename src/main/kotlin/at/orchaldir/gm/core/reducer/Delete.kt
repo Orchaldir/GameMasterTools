@@ -39,7 +39,7 @@ import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.religion.PantheonId
 import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.core.model.rpg.equipment.AmmunitionTypeId
-import at.orchaldir.gm.core.model.rpg.equipment.ArmorTypeId
+import at.orchaldir.gm.core.model.rpg.equipment.EquipmentTypeId
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifierId
 import at.orchaldir.gm.core.model.rpg.equipment.MeleeWeaponTypeId
 import at.orchaldir.gm.core.model.rpg.equipment.RangedWeaponTypeId
@@ -103,7 +103,7 @@ import at.orchaldir.gm.core.selector.rpg.canDeleteCharacterTrait
 import at.orchaldir.gm.core.selector.rpg.canDeleteStatistic
 import at.orchaldir.gm.core.selector.rpg.combat.*
 import at.orchaldir.gm.core.selector.rpg.equipment.canDeleteAmmunitionType
-import at.orchaldir.gm.core.selector.rpg.equipment.canDeleteArmorType
+import at.orchaldir.gm.core.selector.rpg.equipment.canDeleteEquipmentType
 import at.orchaldir.gm.core.selector.rpg.equipment.canDeleteEquipmentModifier
 import at.orchaldir.gm.core.selector.rpg.equipment.canDeleteMeleeWeaponType
 import at.orchaldir.gm.core.selector.rpg.equipment.canDeleteRangedWeaponType
@@ -123,7 +123,6 @@ fun reduceDeleteElement(
     is AmmunitionId -> deleteElement(state, id, State::canDeleteAmmunition)
     is AmmunitionTypeId -> deleteElement(state, id, State::canDeleteAmmunitionType)
     is ArchitecturalStyleId -> deleteElement(state, id, State::canDeleteArchitecturalStyle)
-    is ArmorTypeId -> deleteElement(state, id, State::canDeleteArmorType)
     is ArticleId -> deleteElement(state, id, State::canDeleteArticle)
     is BattleId -> deleteElement(state, id, State::canDeleteBattle)
     is BuildingId -> deleteBuilding(state, id)
@@ -146,6 +145,7 @@ fun reduceDeleteElement(
     is EncounterId -> deleteElement(state, id, State::canDeleteEncounter)
     is EquipmentId -> deleteElement(state, id, State::canDeleteEquipment)
     is EquipmentModifierId -> deleteElement(state, id, State::canDeleteEquipmentModifier)
+    is EquipmentTypeId -> deleteElement(state, id, State::canDeleteEquipmentType)
     is FashionId -> deleteElement(state, id, State::canDeleteFashion)
     is FontId -> deleteElement(state, id, State::canDeleteFont)
     is GodId -> deleteElement(state, id, State::canDeleteGod)

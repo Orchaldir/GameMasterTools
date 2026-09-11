@@ -4,6 +4,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ArmorStats(
-    val type: ArmorTypeId? = null,
+    val type: EquipmentTypeId? = null,
     val modifiers: Set<EquipmentModifierId> = emptySet(),
 )

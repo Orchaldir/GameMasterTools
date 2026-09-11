@@ -62,11 +62,11 @@ import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.religion.*
 import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.core.model.rpg.equipment.AMMUNITION_TYPE_TYPE
-import at.orchaldir.gm.core.model.rpg.equipment.ARMOR_TYPE_TYPE
+import at.orchaldir.gm.core.model.rpg.equipment.EQUIPMENT_TYPE_TYPE
 import at.orchaldir.gm.core.model.rpg.equipment.AmmunitionType
 import at.orchaldir.gm.core.model.rpg.equipment.AmmunitionTypeId
-import at.orchaldir.gm.core.model.rpg.equipment.ArmorType
-import at.orchaldir.gm.core.model.rpg.equipment.ArmorTypeId
+import at.orchaldir.gm.core.model.rpg.equipment.EquipmentType
+import at.orchaldir.gm.core.model.rpg.equipment.EquipmentTypeId
 import at.orchaldir.gm.core.model.rpg.equipment.EQUIPMENT_MODIFIER_TYPE
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifier
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifierId
@@ -135,7 +135,6 @@ val ELEMENTS =
         AMMUNITION_TYPE,
         AMMUNITION_TYPE_TYPE,
         ARCHITECTURAL_STYLE_TYPE,
-        ARMOR_TYPE_TYPE,
         ARTICLE_TYPE,
         BATTLE_TYPE,
         BUILDING_TYPE,
@@ -159,6 +158,7 @@ val ELEMENTS =
         ENCOUNTER_TYPE,
         EQUIPMENT_TYPE,
         EQUIPMENT_MODIFIER_TYPE,
+        EQUIPMENT_TYPE_TYPE,
         FASHION_TYPE,
         FONT_TYPE,
         GOD_TYPE,
@@ -227,7 +227,6 @@ data class State(
     fun getAmmunitionStorage() = getStorage<AmmunitionId, Ammunition>(AMMUNITION_TYPE)
     fun getAmmunitionTypeStorage() = getStorage<AmmunitionTypeId, AmmunitionType>(AMMUNITION_TYPE_TYPE)
     fun getArchitecturalStyleStorage() = getStorage<ArchitecturalStyleId, ArchitecturalStyle>(ARCHITECTURAL_STYLE_TYPE)
-    fun getArmorTypeStorage() = getStorage<ArmorTypeId, ArmorType>(ARMOR_TYPE_TYPE)
     fun getArticleStorage() = getStorage<ArticleId, Article>(ARTICLE_TYPE)
     fun getBattleStorage() = getStorage<BattleId, Battle>(BATTLE_TYPE)
     fun getBuildingStorage() = getStorage<BuildingId, Building>(BUILDING_TYPE)
@@ -251,6 +250,7 @@ data class State(
     fun getEncounterStorage() = getStorage<EncounterId, Encounter>(ENCOUNTER_TYPE)
     fun getEquipmentStorage() = getStorage<EquipmentId, Equipment>(EQUIPMENT_TYPE)
     fun getEquipmentModifierStorage() = getStorage<EquipmentModifierId, EquipmentModifier>(EQUIPMENT_MODIFIER_TYPE)
+    fun getEquipmentTypeStorage() = getStorage<EquipmentTypeId, EquipmentType>(EQUIPMENT_TYPE_TYPE)
     fun getFashionStorage() = getStorage<FashionId, Fashion>(FASHION_TYPE)
     fun getFontStorage() = getStorage<FontId, Font>(FONT_TYPE)
     fun getGodStorage() = getStorage<GodId, God>(GOD_TYPE)
@@ -395,7 +395,6 @@ data class State(
         saveStorage(path, getAmmunitionStorage())
         saveStorage(path, getAmmunitionTypeStorage())
         saveStorage(path, getArchitecturalStyleStorage())
-        saveStorage(path, getArmorTypeStorage())
         saveStorage(path, getArticleStorage())
         saveStorage(path, getBattleStorage())
         saveStorage(path, getBuildingStorage())
@@ -419,6 +418,7 @@ data class State(
         saveStorage(path, getEncounterStorage())
         saveStorage(path, getEquipmentStorage())
         saveStorage(path, getEquipmentModifierStorage())
+        saveStorage(path, getEquipmentTypeStorage())
         saveStorage(path, getFashionStorage())
         saveStorage(path, getFontStorage())
         saveStorage(path, getGodStorage())
@@ -469,7 +469,6 @@ fun createStorage(type: String) = when (type) {
     AMMUNITION_TYPE -> Storage(AmmunitionId(0))
     AMMUNITION_TYPE_TYPE -> Storage(AmmunitionTypeId(0))
     ARCHITECTURAL_STYLE_TYPE -> Storage(ArchitecturalStyleId(0))
-    ARMOR_TYPE_TYPE -> Storage(ArmorTypeId(0))
     ARTICLE_TYPE -> Storage(ArticleId(0))
     BATTLE_TYPE -> Storage(BattleId(0))
     BUILDING_TYPE -> Storage(BuildingId(0))
@@ -493,6 +492,7 @@ fun createStorage(type: String) = when (type) {
     ENCOUNTER_TYPE -> Storage(EncounterId(0))
     EQUIPMENT_TYPE -> Storage(EquipmentId(0))
     EQUIPMENT_MODIFIER_TYPE -> Storage(EquipmentModifierId(0))
+    EQUIPMENT_TYPE_TYPE -> Storage(EquipmentTypeId(0))
     FASHION_TYPE -> Storage(FashionId(0))
     FONT_TYPE -> Storage(FontId(0))
     GOD_TYPE -> Storage(GodId(0))
@@ -542,7 +542,6 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     AMMUNITION_TYPE -> loadStorage<AmmunitionId, Ammunition>(path, AmmunitionId(0))
     AMMUNITION_TYPE_TYPE -> loadStorage<AmmunitionTypeId, AmmunitionType>(path, AmmunitionTypeId(0))
     ARCHITECTURAL_STYLE_TYPE -> loadStorage<ArchitecturalStyleId, ArchitecturalStyle>(path, ArchitecturalStyleId(0))
-    ARMOR_TYPE_TYPE -> loadStorage<ArmorTypeId, ArmorType>(path, ArmorTypeId(0))
     ARTICLE_TYPE -> loadStorage<ArticleId, Article>(path, ArticleId(0))
     BATTLE_TYPE -> loadStorage<BattleId, Battle>(path, BattleId(0))
     BUILDING_TYPE -> loadStorage<BuildingId, Building>(path, BuildingId(0))
@@ -566,6 +565,7 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     ENCOUNTER_TYPE -> loadStorage<EncounterId, Encounter>(path, EncounterId(0))
     EQUIPMENT_TYPE -> loadStorage<EquipmentId, Equipment>(path, EquipmentId(0))
     EQUIPMENT_MODIFIER_TYPE -> loadStorage<EquipmentModifierId, EquipmentModifier>(path, EquipmentModifierId(0))
+    EQUIPMENT_TYPE_TYPE -> loadStorage<EquipmentTypeId, EquipmentType>(path, EquipmentTypeId(0))
     FASHION_TYPE -> loadStorage<FashionId, Fashion>(path, FashionId(0))
     FONT_TYPE -> loadStorage<FontId, Font>(path, FontId(0))
     GOD_TYPE -> loadStorage<GodId, God>(path, GodId(0))

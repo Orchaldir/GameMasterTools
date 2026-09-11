@@ -38,7 +38,7 @@ import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.religion.Pantheon
 import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.core.model.rpg.equipment.AmmunitionType
-import at.orchaldir.gm.core.model.rpg.equipment.ArmorType
+import at.orchaldir.gm.core.model.rpg.equipment.EquipmentType
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifier
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifierCategory
 import at.orchaldir.gm.core.model.rpg.equipment.MeleeWeaponType
@@ -173,24 +173,6 @@ fun State.sortArchitecturalStyles(
             SortArchitecturalStyle.Name -> compareBy { it.name.text }
             SortArchitecturalStyle.Start -> getStartDateComparator()
             SortArchitecturalStyle.End -> getEndDateComparator()
-        })
-
-// armor types
-
-fun State.sortArmorTypes(sort: SortArmorType = SortArmorType.Name) =
-    sortArmorTypes(getArmorTypeStorage().getAll(), sort)
-
-fun State.sortArmorTypes(
-    weapons: Collection<ArmorType>,
-    sort: SortArmorType = SortArmorType.Name,
-) = weapons
-    .sortedWith(
-        when (sort) {
-            SortArmorType.Name -> compareBy { it.name.text }
-            SortArmorType.Protection -> compareProtection { it.protection }
-            SortArmorType.Weight -> compareByDescending { getWeightOfType(it.weight).value() }
-            SortArmorType.Cost -> compareByDescending { it.cost.toPermyriad() }
-            SortArmorType.Equipment -> compareByDescending { getArmors(it.id).size }
         })
 
 // article
@@ -592,6 +574,24 @@ fun State.sortEquipmentModifiers(
             SortEquipmentModifier.Cost -> compareByDescending { it.cost.toPermyriad() }
             SortEquipmentModifier.Weight -> compareByDescending { it.weight.toPermyriad() }
             SortEquipmentModifier.Equipment -> compareByDescending { getEquipment(it.id).size }
+        })
+
+// equipment types
+
+fun State.sortEquipmentTypes(sort: SortEquipmentType = SortEquipmentType.Name) =
+    sortEquipmentTypes(getEquipmentTypeStorage().getAll(), sort)
+
+fun State.sortEquipmentTypes(
+    types: Collection<EquipmentType>,
+    sort: SortEquipmentType = SortEquipmentType.Name,
+) = types
+    .sortedWith(
+        when (sort) {
+            SortEquipmentType.Name -> compareBy { it.name.text }
+            SortEquipmentType.Protection -> compareProtection { it.protection }
+            SortEquipmentType.Weight -> compareByDescending { getWeightOfType(it.weight).value() }
+            SortEquipmentType.Cost -> compareByDescending { it.cost.toPermyriad() }
+            SortEquipmentType.Equipment -> compareByDescending { getArmors(it.id).size }
         })
 
 // fashion

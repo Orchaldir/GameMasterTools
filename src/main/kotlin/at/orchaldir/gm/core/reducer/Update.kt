@@ -38,7 +38,7 @@ import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.religion.Pantheon
 import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.core.model.rpg.equipment.AmmunitionType
-import at.orchaldir.gm.core.model.rpg.equipment.ArmorType
+import at.orchaldir.gm.core.model.rpg.equipment.EquipmentType
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifier
 import at.orchaldir.gm.core.model.rpg.equipment.MeleeWeaponType
 import at.orchaldir.gm.core.model.rpg.equipment.RangedWeaponType
@@ -79,7 +79,6 @@ fun reduceUpdateElement(
     is Ammunition -> updateElement(state, element)
     is AmmunitionType -> updateElement(state, element)
     is ArchitecturalStyle -> updateElement(state, element)
-    is ArmorType -> updateElement(state, element)
     is Article -> updateElement(state, element)
     is Battle -> updateElement(state, element)
     is Building -> updateBuilding(state, element)
@@ -89,8 +88,9 @@ fun reduceUpdateElement(
     is Catastrophe -> updateElement(state, element)
     is Character -> updateElement(state, element)
     is CharacterTemplate -> updateElement(state, element)
-    is ColorSchemeGroup -> updateElement(state, element)
+    is CharacterTrait -> updateElement(state, element)
     is ColorScheme -> updateElement(state, element)
+    is ColorSchemeGroup -> updateElement(state, element)
     is Culture -> updateCulture(state, element)
     is Currency -> updateElement(state, element)
     is CurrencyUnit -> updateElement(state, element)
@@ -118,7 +118,6 @@ fun reduceUpdateElement(
     is Pantheon -> updateElement(state, element)
     is Periodical -> updateElement(state, element)
     is PeriodicalIssue -> updateElement(state, element)
-    is CharacterTrait -> updateElement(state, element)
     is Plane -> updateElement(state, element)
     is Plant -> updateElement(state, element)
     is Quote -> updateElement(state, element)

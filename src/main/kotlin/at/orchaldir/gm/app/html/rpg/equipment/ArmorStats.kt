@@ -36,7 +36,7 @@ private fun DETAILS.showUpdatedArmorStats(
     state: State,
     stats: ArmorStats,
 ) {
-    state.getArmorTypeStorage().getOptional(stats.type)?.let { type ->
+    state.getEquipmentTypeStorage().getOptional(stats.type)?.let { type ->
         val effects = state.getEquipmentModifierEffects(stats.modifiers)
         val updatedProtection = resolveProtection(effects, type.protection)
 
@@ -56,7 +56,7 @@ fun HtmlBlockTag.editArmorStats(
             state,
             "Type",
             combine(ARMOR, TYPE),
-            state.getArmorTypeStorage().getAll(),
+            state.getEquipmentTypeStorage().getAll(),
             stats.type,
         )
         selectEquipmentModifier(state, EquipmentModifierCategory.Armor, stats.modifiers)
@@ -69,6 +69,6 @@ fun HtmlBlockTag.editArmorStats(
 fun parseArmorStats(
     parameters: Parameters,
 ) = ArmorStats(
-    parseOptionalArmorTypeId(parameters, combine(ARMOR, TYPE)),
+    parseEquipmentTypeId(parameters, combine(ARMOR, TYPE)),
     parseEquipmentModifiers(parameters),
 )

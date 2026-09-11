@@ -37,7 +37,7 @@ private fun calculateCostFactors(
             costFactors[modifier.id] = modifier.cost
         }
 
-    state.getArmorTypeStorage().getOptional(armor.type)
+    state.getEquipmentTypeStorage().getOptional(armor.type)
         ?.let { costFactors[it.id] = it.cost }
 }
 

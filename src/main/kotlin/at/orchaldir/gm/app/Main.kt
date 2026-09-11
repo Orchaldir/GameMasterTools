@@ -27,7 +27,7 @@ import at.orchaldir.gm.app.routes.religion.configureGodRouting
 import at.orchaldir.gm.app.routes.religion.configurePantheonRouting
 import at.orchaldir.gm.app.routes.rpg.*
 import at.orchaldir.gm.app.routes.rpg.equipment.configureAmmunitionTypeRouting
-import at.orchaldir.gm.app.routes.rpg.equipment.configureArmorTypeRouting
+import at.orchaldir.gm.app.routes.rpg.equipment.configureEquipmentTypeRouting
 import at.orchaldir.gm.app.routes.rpg.equipment.configureEquipmentModifierRouting
 import at.orchaldir.gm.app.routes.rpg.equipment.configureMeleeWeaponTypeRouting
 import at.orchaldir.gm.app.routes.rpg.equipment.configureRangedWeaponTypeRouting
@@ -74,7 +74,7 @@ fun Application.module() {
     configureAmmunitionRouting()
     configureAmmunitionTypeRouting()
     configureArchitecturalStyleRouting()
-    configureArmorTypeRouting()
+    configureEquipmentTypeRouting()
     configureArticleRouting()
     configureBattleRouting()
     configureBuildingEditorRouting()

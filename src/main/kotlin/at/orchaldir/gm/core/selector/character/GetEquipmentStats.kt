@@ -28,7 +28,7 @@ fun getArmors(state: State, map: EquipmentIdMap): Map<Equipment, Protection> {
     map.getAllEquipment().forEach { (id, _) ->
         val equipment = state.getEquipmentStorage().getOrThrow(id)
         val stats = equipment.data.getArmorStats() ?: return@forEach
-        val type = state.getArmorTypeStorage().getOptional(stats.type) ?: return@forEach
+        val type = state.getEquipmentTypeStorage().getOptional(stats.type) ?: return@forEach
         val effects = state.getEquipmentModifierEffects(stats.modifiers)
 
         armorMap[equipment] = resolveProtection(effects, type.protection)

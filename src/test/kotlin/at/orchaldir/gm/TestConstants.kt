@@ -40,7 +40,7 @@ import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.religion.PantheonId
 import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.core.model.rpg.equipment.AmmunitionTypeId
-import at.orchaldir.gm.core.model.rpg.equipment.ArmorTypeId
+import at.orchaldir.gm.core.model.rpg.equipment.EquipmentTypeId
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifierId
 import at.orchaldir.gm.core.model.rpg.equipment.MeleeWeaponTypeId
 import at.orchaldir.gm.core.model.rpg.equipment.RangedWeaponTypeId
@@ -78,8 +78,8 @@ val UNKNOWN_AMMUNITION_TYPE = AmmunitionTypeId(99)
 val ARCHITECTURAL_ID_0 = ArchitecturalStyleId(0)
 val ARCHITECTURAL_ID_1 = ArchitecturalStyleId(1)
 val UNKNOWN_ARCHITECTURAL_ID = ArchitecturalStyleId(99)
-val ARMOR_TYPE_ID_0 = ArmorTypeId(0)
-val UNKNOWN_ARMOR_TYPE = ArmorTypeId(99)
+val ARMOR_TYPE_ID_0 = EquipmentTypeId(0)
+val UNKNOWN_ARMOR_TYPE = EquipmentTypeId(99)
 val ARTICLE_ID_0 = ArticleId(0)
 val UNKNOWN_ARTICLE_ID = ArticleId(99)
 val BATTLE_ID_0 = BattleId(0)

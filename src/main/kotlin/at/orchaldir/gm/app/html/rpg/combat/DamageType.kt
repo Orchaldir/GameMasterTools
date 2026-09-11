@@ -5,7 +5,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.combat.DamageType
 import at.orchaldir.gm.core.model.rpg.combat.DamageTypeId
-import at.orchaldir.gm.core.selector.rpg.equipment.getArmorTypes
+import at.orchaldir.gm.core.selector.rpg.equipment.getEquipmentTypes
 import at.orchaldir.gm.core.selector.rpg.equipment.getMeleeWeaponTypes
 import at.orchaldir.gm.core.selector.rpg.equipment.getRangedWeaponTypes
 import at.orchaldir.gm.core.selector.rpg.equipment.getShieldTypes
@@ -31,7 +31,7 @@ private fun HtmlBlockTag.showUsages(
     state: State,
     type: DamageTypeId,
 ) {
-    val armors = state.getArmorTypes(type)
+    val armors = state.getEquipmentTypes(type)
     val meleeWeapons = state.getMeleeWeaponTypes(type)
     val rangedWeapons = state.getRangedWeaponTypes(type)
     val shields = state.getShieldTypes(type)

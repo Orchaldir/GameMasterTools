@@ -14,26 +14,26 @@ import at.orchaldir.gm.utils.math.unit.WeightLookup
 import at.orchaldir.gm.utils.math.validateFactor
 import kotlinx.serialization.Serializable
 
-const val ARMOR_TYPE_TYPE = "Armor Type"
+const val EQUIPMENT_TYPE_TYPE = "Equipment Type"
 
 @JvmInline
 @Serializable
-value class ArmorTypeId(val value: Int) : Id<ArmorTypeId> {
+value class EquipmentTypeId(val value: Int) : Id<EquipmentTypeId> {
 
-    override fun next() = ArmorTypeId(value + 1)
-    override fun type() = ARMOR_TYPE_TYPE
+    override fun next() = EquipmentTypeId(value + 1)
+    override fun type() = EQUIPMENT_TYPE_TYPE
     override fun value() = value
 
 }
 
 @Serializable
-data class ArmorType(
-    val id: ArmorTypeId,
+data class EquipmentType(
+    val id: EquipmentTypeId,
     val name: Name = Name.init(id),
     val protection: Protection = UndefinedProtection,
     val cost: Factor = DEFAULT_TYPE_COST_FACTOR,
     val weight: WeightLookup = UndefinedWeight,
-) : ElementWithSimpleName<ArmorTypeId> {
+) : ElementWithSimpleName<EquipmentTypeId> {
 
     override fun id() = id
     override fun name() = name.text

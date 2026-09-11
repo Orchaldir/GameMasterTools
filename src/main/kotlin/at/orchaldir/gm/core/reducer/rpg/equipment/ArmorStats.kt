@@ -8,5 +8,5 @@ fun validateArmorStats(
     stats: ArmorStats,
 ) {
     state.getEquipmentModifierStorage().require(stats.modifiers)
-    state.getArmorTypeStorage().requireOptional(stats.type)
+    state.getEquipmentTypeStorage().requireOptional(stats.type)
 }
