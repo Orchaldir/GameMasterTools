@@ -1,12 +1,19 @@
 package at.orchaldir.gm.app.html.rpg.equipment
 
+import at.orchaldir.gm.app.ATTACK
 import at.orchaldir.gm.app.COST
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.rpg.combat.editMeleeAttack
 import at.orchaldir.gm.app.html.rpg.combat.editProtection
+import at.orchaldir.gm.app.html.rpg.combat.editRangedAttack
 import at.orchaldir.gm.app.html.rpg.combat.fieldCostFactor
 import at.orchaldir.gm.app.html.rpg.combat.fieldProtection
+import at.orchaldir.gm.app.html.rpg.combat.parseMeleeAttack
 import at.orchaldir.gm.app.html.rpg.combat.parseProtection
+import at.orchaldir.gm.app.html.rpg.combat.parseRangedAttack
 import at.orchaldir.gm.app.html.rpg.combat.selectCostFactor
+import at.orchaldir.gm.app.html.rpg.combat.showMeleeAttackTable
+import at.orchaldir.gm.app.html.rpg.combat.showRangedAttackTable
 import at.orchaldir.gm.app.html.util.math.parseFactor
 import at.orchaldir.gm.app.html.util.math.parseWeightLookupForType
 import at.orchaldir.gm.app.html.util.math.selectWeightLookupForType
@@ -30,6 +37,8 @@ fun HtmlBlockTag.showEquipmentType(
     state: State,
     type: EquipmentType,
 ) {
+    showMeleeAttackTable(call, state, type.meleeAttacks)
+    showRangedAttackTable(call, state, type.rangedAttacks)
     fieldProtection(call, state, type.protection)
     fieldCostFactor(type.cost)
     showWeightLookupForType(type.weight)
@@ -61,6 +70,12 @@ fun HtmlBlockTag.editEquipmentType(
     type: EquipmentType,
 ) {
     selectName(type.name)
+    editList("Melee Attacks", ATTACK, type.meleeAttacks, 0, 2, 1) { index, param, attack ->
+        editMeleeAttack(state, attack, "${index + 1}.Attack", param)
+    }
+    editList("Ranged Attacks", ATTACK, type.rangedAttacks, 0, 2, 1) { index, param, attack ->
+        editRangedAttack(state, attack, "${index + 1}.Attack", param)
+    }
     editProtection(call, state, type.protection)
     selectCostFactor(type.cost)
     selectWeightLookupForType(type.weight, MIN_EQUIPMENT_WEIGHT, MAX_EQUIPMENT_WEIGHT)
@@ -80,6 +95,12 @@ fun parseEquipmentType(
 ) = EquipmentType(
     id,
     parseName(parameters),
+    parseList(parameters, ATTACK, 0) { _, param ->
+        parseMeleeAttack(parameters, param)
+    },
+    parseList(parameters, ATTACK, 0) { _, param ->
+        parseRangedAttack(parameters, param)
+    },
     parseProtection(state, parameters),
     parseFactor(parameters, COST, DEFAULT_TYPE_COST_FACTOR),
     parseWeightLookupForType(parameters, MIN_EQUIPMENT_WEIGHT),
