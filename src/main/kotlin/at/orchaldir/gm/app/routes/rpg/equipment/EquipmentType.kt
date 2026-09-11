@@ -9,7 +9,6 @@ import at.orchaldir.gm.app.html.rpg.equipment.parseEquipmentType
 import at.orchaldir.gm.app.html.rpg.equipment.showEquipmentType
 import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.app.routes.handleUpdateElement
-import at.orchaldir.gm.app.routes.item.EquipmentRoutes
 import at.orchaldir.gm.core.model.rpg.equipment.EQUIPMENT_TYPE_TYPE
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentTypeId
 import at.orchaldir.gm.core.model.util.SortEquipmentType
@@ -34,13 +33,13 @@ class EquipmentTypeRoutes : Routes<EquipmentTypeId, SortEquipmentType> {
     @Resource("melee")
     class AllMeleeAttacks(
         val sort: SortEquipmentType = SortEquipmentType.Name,
-        val parent: EquipmentRoutes = EquipmentRoutes(),
+        val parent: EquipmentTypeRoutes = EquipmentTypeRoutes(),
     )
 
     @Resource("ranged")
     class AllRangedAttacks(
         val sort: SortEquipmentType = SortEquipmentType.Name,
-        val parent: EquipmentRoutes = EquipmentRoutes(),
+        val parent: EquipmentTypeRoutes = EquipmentTypeRoutes(),
     )
 
     @Resource("details")
