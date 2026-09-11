@@ -16,6 +16,10 @@ fun HtmlBlockTag.showMeleeAttackTable(
     state: State,
     attacks: List<MeleeAttack>,
 ) {
+    if (attacks.isEmpty()) {
+        return
+    }
+
     table {
         caption { +"Melee Attacks" }
         tr {

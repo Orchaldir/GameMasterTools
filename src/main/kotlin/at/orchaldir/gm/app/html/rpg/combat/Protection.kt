@@ -44,7 +44,12 @@ fun HtmlBlockTag.fieldProtection(
     call: ApplicationCall,
     state: State,
     protection: Protection,
+    showUndefined: Boolean = false,
 ) {
+    if (!showUndefined && protection is UndefinedProtection) {
+        return
+    }
+
     field("Protection") {
         displayProtection(call, state, protection, true)
     }
