@@ -4,7 +4,7 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.core.model.rpg.equipment.AmmunitionType
-import at.orchaldir.gm.core.model.rpg.equipment.RangedWeaponType
+import at.orchaldir.gm.core.model.rpg.equipment.EquipmentType
 import at.orchaldir.gm.core.model.rpg.statistic.BaseDamage
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.model.util.quantity.StandardDice
@@ -14,7 +14,7 @@ import at.orchaldir.gm.utils.math.ONE
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
-class RangedWeaponTypeTest {
+class RangedAttackTest {
 
     private val STATE = State(
         listOf(
@@ -29,7 +29,7 @@ class RangedWeaponTypeTest {
     fun `Check if damage is validated`() {
         val attack = RangedAttack(effect = Damage(validDamageAmount, UNKNOWN_DAMAGE_TYPE_ID))
 
-        assertInvalidWeapon(attack, "Requires unknown Damage Type 99!")
+        assertInvalid(attack, "Requires unknown Damage Type 99!")
     }
 
     @Test
@@ -37,7 +37,7 @@ class RangedWeaponTypeTest {
         val range = StatisticBasedHalfAndMaxRange(UNKNOWN_STATISTIC_ID, ONE, DOUBLE)
         val attack = RangedAttack(range = range)
 
-        assertInvalidWeapon(attack, "Requires unknown Statistic 99!")
+        assertInvalid(attack, "Requires unknown Statistic 99!")
     }
 
     @Test
@@ -45,7 +45,7 @@ class RangedWeaponTypeTest {
         val skill = ModifiedUsedSkill(UNKNOWN_STATISTIC_ID)
         val attack = RangedAttack(skill = skill)
 
-        assertInvalidWeapon(attack, "Requires unknown Statistic 99!")
+        assertInvalid(attack, "Requires unknown Statistic 99!")
     }
 
     @Nested
@@ -55,21 +55,21 @@ class RangedWeaponTypeTest {
         fun `Validate rounds of reload for Thrown`() {
             val attack = RangedAttack(shots = Thrown(-1))
 
-            assertInvalidWeapon(attack, "Rounds of reload must be >= 0!")
+            assertInvalid(attack, "Rounds of reload must be >= 0!")
         }
 
         @Test
         fun `Validate rounds of reload for SingleShot`() {
             val attack = RangedAttack(shots = SingleShot(AMMUNITION_TYPE_ID_0, -1))
 
-            assertInvalidWeapon(attack, "Rounds of reload must be >= 0!")
+            assertInvalid(attack, "Rounds of reload must be >= 0!")
         }
 
         @Test
         fun `Validate an unknown ammunition type`() {
             val attack = RangedAttack(shots = SingleShot(UNKNOWN_AMMUNITION_TYPE, 1))
 
-            assertInvalidWeapon(attack, "Requires unknown Ammunition Type 99!")
+            assertInvalid(attack, "Requires unknown Ammunition Type 99!")
         }
     }
 
@@ -82,19 +82,19 @@ class RangedWeaponTypeTest {
             SingleShot(AMMUNITION_TYPE_ID_0, 2),
         )
 
-        assertValidWeapon(attack)
+        assertValid(attack)
     }
 
-    private fun assertValidWeapon(attack: RangedAttack) {
-        val weapon = RangedWeaponType(RANGED_WEAPON_TYPE_ID_0, attacks = listOf(attack))
+    private fun assertValid(attack: RangedAttack) {
+        val type = EquipmentType(EQUIPMENT_TYPE_ID_0, rangedAttacks = listOf(attack))
 
-        weapon.validate(STATE)
+        type.validate(STATE)
     }
 
-    private fun assertInvalidWeapon(attack: RangedAttack, message: String) {
-        val weapon = RangedWeaponType(RANGED_WEAPON_TYPE_ID_0, attacks = listOf(attack))
-
-        assertIllegalArgument(message) { weapon.validate(STATE) }
+    private fun assertInvalid(attack: RangedAttack, message: String) {
+        assertIllegalArgument(message) {
+            assertValid(attack)
+        }
     }
 
 }

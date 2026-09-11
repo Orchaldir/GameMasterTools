@@ -10,11 +10,7 @@ import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.economy.material.MaterialProperties
 import at.orchaldir.gm.core.model.economy.material.Metal
 import at.orchaldir.gm.core.model.item.equipment.*
-import at.orchaldir.gm.core.model.item.equipment.style.ScaleArmour
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentStats
-import at.orchaldir.gm.core.model.rpg.equipment.MeleeWeaponStats
-import at.orchaldir.gm.core.model.rpg.equipment.RangedWeaponStats
-import at.orchaldir.gm.core.model.rpg.equipment.ShieldStats
 import at.orchaldir.gm.core.model.util.part.MadeFromCord
 import at.orchaldir.gm.core.model.util.part.MadeFromFabric
 import at.orchaldir.gm.core.model.util.render.*
@@ -114,75 +110,19 @@ class EquipmentTest {
         inner class StatsTest {
 
             @Test
-            fun `Armor stats must have valid modifiers`() {
-                val data = BodyArmour(ScaleArmour(), stats = EquipmentStats(modifiers = setOf(UNKNOWN_EQUIPMENT_MODIFIER)))
-                val item = Equipment(EQUIPMENT_ID_0, data = data)
+            fun `Equipment stats must have valid modifiers`() {
+                val item = Equipment(EQUIPMENT_ID_0, stats = EquipmentStats(modifiers = setOf(UNKNOWN_EQUIPMENT_MODIFIER)))
                 val action = UpdateAction(item)
 
                 assertIllegalArgument("Requires unknown Equipment Modifier 99!") { REDUCER.invoke(STATE, action) }
             }
 
             @Test
-            fun `Armor type must exist`() {
-                val data = BodyArmour(ScaleArmour(), stats = EquipmentStats(UNKNOWN_ARMOR_TYPE))
-                val item = Equipment(EQUIPMENT_ID_0, data = data)
+            fun `Equipment type must exist`() {
+                val item = Equipment(EQUIPMENT_ID_0, stats = EquipmentStats(UNKNOWN_EQUIPMENT_TYPE))
                 val action = UpdateAction(item)
 
-                assertIllegalArgument("Requires unknown Armor Type 99!") { REDUCER.invoke(STATE, action) }
-            }
-
-            @Test
-            fun `Melee weapon stats must have valid modifiers`() {
-                val data = OneHandedAxe(stats = MeleeWeaponStats(null, setOf(UNKNOWN_EQUIPMENT_MODIFIER)))
-                val item = Equipment(EQUIPMENT_ID_0, data = data)
-                val action = UpdateAction(item)
-
-                assertIllegalArgument("Requires unknown Equipment Modifier 99!") { REDUCER.invoke(STATE, action) }
-            }
-
-            @Test
-            fun `Melee weapon type must exist`() {
-                val data = OneHandedAxe(stats = MeleeWeaponStats(UNKNOWN_MELEE_WEAPON_TYPE))
-                val item = Equipment(EQUIPMENT_ID_0, data = data)
-                val action = UpdateAction(item)
-
-                assertIllegalArgument("Requires unknown Melee Weapon Type 99!") { REDUCER.invoke(STATE, action) }
-            }
-
-            @Test
-            fun `Ranged weapon stats must have valid modifiers`() {
-                val data = Bow(stats = RangedWeaponStats(null, setOf(UNKNOWN_EQUIPMENT_MODIFIER)))
-                val item = Equipment(EQUIPMENT_ID_0, data = data)
-                val action = UpdateAction(item)
-
-                assertIllegalArgument("Requires unknown Equipment Modifier 99!") { REDUCER.invoke(STATE, action) }
-            }
-
-            @Test
-            fun `Ranged weapon type must exist`() {
-                val data = Bow(stats = RangedWeaponStats(UNKNOWN_RANGED_WEAPON_TYPE))
-                val item = Equipment(EQUIPMENT_ID_0, data = data)
-                val action = UpdateAction(item)
-
-                assertIllegalArgument("Requires unknown Ranged Weapon Type 99!") { REDUCER.invoke(STATE, action) }
-            }
-
-            @Test
-            fun `Shield stats must have valid modifiers`() {
-                val data = Shield(stats = ShieldStats(null, setOf(UNKNOWN_EQUIPMENT_MODIFIER)))
-                val item = Equipment(EQUIPMENT_ID_0, data = data)
-                val action = UpdateAction(item)
-
-                assertIllegalArgument("Requires unknown Equipment Modifier 99!") { REDUCER.invoke(STATE, action) }
-            }
-
-            @Test
-            fun `Shield stats must have an valid shield type`() {
-                val data = Shield(stats = ShieldStats(UNKNOWN_SHIELD_TYPE))
-                val item = Equipment(EQUIPMENT_ID_0, data = data)
-                val action = UpdateAction(item)
-
-                assertIllegalArgument("Requires unknown Shield Type 99!") { REDUCER.invoke(STATE, action) }
+                assertIllegalArgument("Requires unknown Equipment Type 99!") { REDUCER.invoke(STATE, action) }
             }
         }
 

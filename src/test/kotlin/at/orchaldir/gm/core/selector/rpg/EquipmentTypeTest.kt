@@ -1,6 +1,6 @@
 package at.orchaldir.gm.core.selector.rpg
 
-import at.orchaldir.gm.ARMOR_TYPE_ID_0
+import at.orchaldir.gm.EQUIPMENT_TYPE_ID_0
 import at.orchaldir.gm.EQUIPMENT_ID_0
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
@@ -20,7 +20,7 @@ class EquipmentTypeTest {
 
     @Nested
     inner class CanDeleteTest {
-        private val type = EquipmentType(ARMOR_TYPE_ID_0)
+        private val type = EquipmentType(EQUIPMENT_TYPE_ID_0)
         private val state = State(
             listOf(
                 Storage(type),
@@ -29,8 +29,7 @@ class EquipmentTypeTest {
 
         @Test
         fun `Cannot delete an equipment type used by an equipment`() {
-            val data = BodyArmour(ScaleArmour(), stats = EquipmentStats(ARMOR_TYPE_ID_0))
-            val element = Equipment(EQUIPMENT_ID_0, data = data)
+            val element = Equipment(EQUIPMENT_ID_0, stats = EquipmentStats(EQUIPMENT_TYPE_ID_0))
             val newState = state.updateStorage(element)
 
             failCanDelete(newState, EQUIPMENT_ID_0)
@@ -38,8 +37,8 @@ class EquipmentTypeTest {
 
         private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {
             assertEquals(
-                DeleteResult(ARMOR_TYPE_ID_0).addId(blockingId),
-                state.canDeleteEquipmentType(ARMOR_TYPE_ID_0)
+                DeleteResult(EQUIPMENT_TYPE_ID_0).addId(blockingId),
+                state.canDeleteEquipmentType(EQUIPMENT_TYPE_ID_0)
             )
         }
     }

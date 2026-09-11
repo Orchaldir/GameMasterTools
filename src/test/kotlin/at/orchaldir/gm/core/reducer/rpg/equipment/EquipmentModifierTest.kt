@@ -40,14 +40,14 @@ class EquipmentModifierTest {
     fun `Cannot have a cost factor below the minimum`() {
         val modifier = EquipmentModifier(EQUIPMENT_MODIFIER_ID_0, cost = MIN_COST_FACTOR - ONE_PERCENT)
 
-        assertInvalidModifier(modifier, "Cost Factor -101% is below the minimum!")
+        assertInvalidModifier(modifier, "The Cost factor is too small!")
     }
 
     @Test
     fun `Cannot have a cost factor above the maximum`() {
         val modifier = EquipmentModifier(EQUIPMENT_MODIFIER_ID_0, cost = MAX_COST_FACTOR + ONE_PERCENT)
 
-        assertInvalidModifier(modifier, "Cost Factor 10001% is above the maximum!")
+        assertInvalidModifier(modifier, "The Cost factor is too large!")
     }
 
     private fun assertInvalidModifier(effects: List<EquipmentModifierEffect>) {

@@ -3,7 +3,7 @@ package at.orchaldir.gm.core.reducer.rpg.equipment
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.combat.*
-import at.orchaldir.gm.core.model.rpg.equipment.MeleeWeaponType
+import at.orchaldir.gm.core.model.rpg.equipment.EquipmentType
 import at.orchaldir.gm.core.model.rpg.statistic.BaseDamage
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.model.util.quantity.StandardDice
@@ -11,7 +11,7 @@ import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
-class MeleeWeaponTypeTest {
+class MeleeAttackTest {
 
     private val STATE = State(
         listOf(
@@ -28,14 +28,14 @@ class MeleeWeaponTypeTest {
         fun `Cannot use an unknown damage type`() {
             val attack = MeleeAttack(Damage(validDamageAmount, UNKNOWN_DAMAGE_TYPE_ID))
 
-            assertInvalidWeapon(attack, "Requires unknown Damage Type 99!")
+            assertInvalid(attack, "Requires unknown Damage Type 99!")
         }
 
         @Test
         fun `Cannot use an unknown statistic`() {
             val attack = MeleeAttack(Damage(StatisticBasedDamage(UNKNOWN_STATISTIC_ID), DAMAGE_TYPE_ID_0))
 
-            assertInvalidWeapon(attack, "Requires unknown Statistic 99!")
+            assertInvalid(attack, "Requires unknown Statistic 99!")
         }
 
         @Test
@@ -44,7 +44,7 @@ class MeleeWeaponTypeTest {
                 val amount = StatisticBasedDamage(STATISTIC_ID_0, StandardDice(it))
                 val attack = MeleeAttack(Damage(amount, DAMAGE_TYPE_ID_0))
 
-                assertValidWeapon(attack)
+                assertValid(attack)
             }
         }
 
@@ -54,7 +54,7 @@ class MeleeWeaponTypeTest {
             val amount = StatisticBasedDamage(STATISTIC_ID_0, modifiedDice)
             val attack = MeleeAttack(Damage(amount, DAMAGE_TYPE_ID_0))
 
-            assertInvalidWeapon(attack, "StatisticBasedDamage's dice needs to be <= 20!")
+            assertInvalid(attack, "StatisticBasedDamage's dice needs to be <= 20!")
         }
 
         @Test
@@ -63,7 +63,7 @@ class MeleeWeaponTypeTest {
             val amount = StatisticBasedDamage(STATISTIC_ID_0, modifiedDice)
             val attack = MeleeAttack(Damage(amount, DAMAGE_TYPE_ID_0))
 
-            assertInvalidWeapon(attack, "StatisticBasedDamage's dice needs to be >= 0!")
+            assertInvalid(attack, "StatisticBasedDamage's dice needs to be >= 0!")
         }
     }
 
@@ -74,21 +74,21 @@ class MeleeWeaponTypeTest {
         fun `Simple reach cannot be negative`() {
             val attack = MeleeAttack(reach = SimpleReach(-1))
 
-            assertInvalidWeapon(attack, "The simple reach reach must be >= 0!")
+            assertInvalid(attack, "The simple reach reach must be >= 0!")
         }
 
         @Test
         fun `The range's minimum cannot be negative`() {
             val attack = MeleeAttack(reach = ReachRange(-1, 2))
 
-            assertInvalidWeapon(attack, "The minimum reach must be >= 0!")
+            assertInvalid(attack, "The minimum reach must be >= 0!")
         }
 
         @Test
         fun `The range's minimum must be smaller than the maximum`() {
             val attack = MeleeAttack(reach = ReachRange(2, 2))
 
-            assertInvalidWeapon(attack, "The minimum reach must be < than its maximum!")
+            assertInvalid(attack, "The minimum reach must be < than its maximum!")
         }
     }
 
@@ -97,26 +97,26 @@ class MeleeWeaponTypeTest {
         val skill = ModifiedUsedSkill(UNKNOWN_STATISTIC_ID)
         val attack = MeleeAttack(skill = skill)
 
-        assertInvalidWeapon(attack, "Requires unknown Statistic 99!")
+        assertInvalid(attack, "Requires unknown Statistic 99!")
     }
 
     @Test
     fun `A valid melee weapon`() {
         val attack = MeleeAttack(Damage(validDamageAmount, DAMAGE_TYPE_ID_0), ReachRange(1, 2))
 
-        assertValidWeapon(attack)
+        assertValid(attack)
     }
 
-    private fun assertValidWeapon(attack: MeleeAttack) {
-        val weapon = MeleeWeaponType(MELEE_WEAPON_TYPE_ID_0, attacks = listOf(attack))
+    private fun assertValid(attack: MeleeAttack) {
+        val type = EquipmentType(EQUIPMENT_TYPE_ID_0, meleeAttacks = listOf(attack))
 
-        weapon.validate(STATE)
+        type.validate(STATE)
     }
 
-    private fun assertInvalidWeapon(attack: MeleeAttack, message: String) {
-        val weapon = MeleeWeaponType(MELEE_WEAPON_TYPE_ID_0, attacks = listOf(attack))
-
-        assertIllegalArgument(message) { weapon.validate(STATE) }
+    private fun assertInvalid(attack: MeleeAttack, message: String) {
+        assertIllegalArgument(message) {
+            assertValid(attack)
+        }
     }
 
 }
