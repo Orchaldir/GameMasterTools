@@ -589,6 +589,7 @@ fun State.sortEquipmentTypes(
         when (sort) {
             SortEquipmentType.Name -> compareBy { it.name.text }
             SortEquipmentType.Protection -> compareProtection { it.protection }
+            SortEquipmentType.Reach -> compareByDescending { it.getMaxReach() }
             SortEquipmentType.Weight -> compareByDescending { getWeightOfType(it.weight).value() }
             SortEquipmentType.Cost -> compareByDescending { it.cost.toPermyriad() }
             SortEquipmentType.Equipment -> compareByDescending { getArmors(it.id).size }

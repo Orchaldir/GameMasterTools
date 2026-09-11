@@ -154,6 +154,7 @@ enum class SortEquipmentModifier {
 enum class SortEquipmentType {
     Name,
     Protection,
+    Reach,
     Weight,
     Cost,
     Equipment,
