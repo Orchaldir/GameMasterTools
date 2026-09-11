@@ -83,7 +83,7 @@ fun Application.configureEquipmentTypeRouting() {
                 listOf(
                     createNameColumn(call, state),
                     countCollectionColumn("Melee Attacks") { it.meleeAttacks },
-                    countCollectionColumn("Ranged Attacks") { it.meleeAttacks },
+                    countCollectionColumn("Ranged Attacks") { it.rangedAttacks },
                     tdColumn("Protection") { displayProtection(call, state, it.protection) },
                     createCostFactorColumn { it.cost },
                     createWeightColumn { getWeightOfType(it.weight) },
@@ -100,7 +100,8 @@ fun Application.configureEquipmentTypeRouting() {
 
             handleShowAllElements(
                 EquipmentTypeRoutes(),
-                state.sortEquipmentTypes(all.sort),
+                state.sortEquipmentTypes(all.sort)
+                    .filter { it.meleeAttacks.isNotEmpty() },
                 listOf(
                     createNameColumn(call, state),
                     tdColumn("Damage") {
@@ -129,7 +130,8 @@ fun Application.configureEquipmentTypeRouting() {
 
             handleShowAllElements(
                 EquipmentTypeRoutes(),
-                state.sortEquipmentTypes(all.sort),
+                state.sortEquipmentTypes(all.sort)
+                    .filter { it.rangedAttacks.isNotEmpty() },
                 listOf(
                     createNameColumn(call, state),
                     tdColumn("Damage") {
