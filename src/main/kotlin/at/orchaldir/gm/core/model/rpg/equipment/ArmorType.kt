@@ -11,6 +11,7 @@ import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.unit.UndefinedWeight
 import at.orchaldir.gm.utils.math.unit.WeightLookup
+import at.orchaldir.gm.utils.math.validateFactor
 import kotlinx.serialization.Serializable
 
 const val ARMOR_TYPE_TYPE = "Armor Type"
@@ -39,7 +40,7 @@ data class ArmorType(
 
     override fun validate(state: State) {
         validateProtection(state, protection)
-        validateCost(cost)
+        validateFactor(cost, "Cost", MIN_COST_FACTOR, MAX_COST_FACTOR)
     }
 
     fun contains(type: DamageTypeId) = protection.contains(type)

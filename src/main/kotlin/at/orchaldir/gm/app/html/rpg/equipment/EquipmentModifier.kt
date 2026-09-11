@@ -4,13 +4,20 @@ import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.rpg.combat.fieldCostFactor
 import at.orchaldir.gm.app.html.rpg.combat.selectCostFactor
+import at.orchaldir.gm.app.html.util.math.fieldFactor
 import at.orchaldir.gm.app.html.util.math.parseFactor
+import at.orchaldir.gm.app.html.util.math.selectFactor
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.equipment.DEFAULT_MODIFIER_COST_FACTOR
+import at.orchaldir.gm.core.model.rpg.equipment.DEFAULT_WEIGHT_FACTOR
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifier
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifierCategory
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifierEffectType
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifierId
+import at.orchaldir.gm.core.model.rpg.equipment.MAX_COST_FACTOR
+import at.orchaldir.gm.core.model.rpg.equipment.MAX_WEIGHT_FACTOR
+import at.orchaldir.gm.core.model.rpg.equipment.MIN_COST_FACTOR
+import at.orchaldir.gm.core.model.rpg.equipment.MIN_WEIGHT_FACTOR
 import at.orchaldir.gm.core.selector.item.ammunition.getAmmunition
 import at.orchaldir.gm.core.selector.item.equipment.getEquipment
 import at.orchaldir.gm.core.selector.util.sortEquipmentModifiers
@@ -31,6 +38,7 @@ fun HtmlBlockTag.showEquipmentModifier(
         displayEquipmentModifierEffect(call, state, it)
     }
     fieldCostFactor(modifier.cost)
+    fieldFactor("Weight", modifier.weight)
     showUsages(call, state, modifier.id)
 }
 
@@ -85,6 +93,13 @@ fun HtmlBlockTag.editEquipmentModifier(
         editEquipmentModifierEffect(call, state, effect, param, allowedTypes + effect.getType())
     }
     selectCostFactor(modifier.cost)
+    selectFactor(
+        "Weight",
+        WEIGHT,
+        modifier.weight,
+        MIN_WEIGHT_FACTOR,
+        MAX_WEIGHT_FACTOR,
+    )
 }
 
 // parse
@@ -112,4 +127,5 @@ fun parseEquipmentModifier(
         parseEquipmentModifierEffect(parameters, effectParam)
     },
     parseFactor(parameters, COST, DEFAULT_MODIFIER_COST_FACTOR),
+    parseFactor(parameters, WEIGHT, DEFAULT_WEIGHT_FACTOR),
 )
