@@ -29,10 +29,10 @@
       "#type": "Wood",
       "material": 10
      }
-    },
-    "stats": {
-     "type": 9
     }
+   },
+   "stats": {
+    "type": 9
    }
   },
   "1": {
@@ -50,13 +50,13 @@
       "#type": "Circular"
      }
     },
-    "sleeveStyle": "Long",
-    "stats": {
-     "type": 2
-    }
+    "sleeveStyle": "Long"
    },
    "weight": {
     "#type": "Type"
+   },
+   "stats": {
+    "type": 2
    }
   },
   "2": {
@@ -71,13 +71,13 @@
       "material": 5
      }
     },
-    "sleeveStyle": "Long",
-    "stats": {
-     "type": 3
-    }
+    "sleeveStyle": "Long"
    },
    "weight": {
     "#type": "Type"
+   },
+   "stats": {
+    "type": 3
    }
   },
   "3": {
@@ -112,10 +112,10 @@
      "pommel": {
       "#type": "None"
      }
-    },
-    "stats": {
-     "type": 3
     }
+   },
+   "stats": {
+    "type": 3
    }
   },
   "4": {
@@ -132,10 +132,10 @@
      "rows": 8,
      "breastplateRows": 3
     },
-    "sleeveStyle": "Long",
-    "stats": {
-     "type": 5
-    }
+    "sleeveStyle": "Long"
+   },
+   "stats": {
+    "type": 5
    }
   },
   "5": {
