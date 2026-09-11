@@ -155,6 +155,7 @@ enum class SortEquipmentModifier {
     Name,
     Category,
     Cost,
+    Weight,
     Equipment,
 }
 

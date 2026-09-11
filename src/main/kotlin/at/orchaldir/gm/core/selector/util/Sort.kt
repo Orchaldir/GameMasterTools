@@ -590,6 +590,7 @@ fun State.sortEquipmentModifiers(
             SortEquipmentModifier.Name -> compareBy { it.name.text }
             SortEquipmentModifier.Category -> compareByEnum { it.category }
             SortEquipmentModifier.Cost -> compareByDescending { it.cost.toPermyriad() }
+            SortEquipmentModifier.Weight -> compareByDescending { it.weight.toPermyriad() }
             SortEquipmentModifier.Equipment -> compareByDescending { getEquipment(it.id).size }
         })
 
