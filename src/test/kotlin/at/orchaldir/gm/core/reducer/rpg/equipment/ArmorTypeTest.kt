@@ -4,6 +4,8 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.core.model.rpg.equipment.ArmorType
+import at.orchaldir.gm.core.model.rpg.equipment.MAX_COST_FACTOR
+import at.orchaldir.gm.core.model.rpg.equipment.MIN_COST_FACTOR
 import at.orchaldir.gm.core.model.rpg.statistic.BaseDamage
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.utils.Storage

@@ -6,7 +6,7 @@ import at.orchaldir.gm.app.html.rpg.combat.fieldCostFactor
 import at.orchaldir.gm.app.html.rpg.combat.selectCostFactor
 import at.orchaldir.gm.app.html.util.math.parseFactor
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.rpg.combat.*
+import at.orchaldir.gm.core.model.rpg.equipment.DEFAULT_MODIFIER_COST_FACTOR
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifier
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifierCategory
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifierEffectType

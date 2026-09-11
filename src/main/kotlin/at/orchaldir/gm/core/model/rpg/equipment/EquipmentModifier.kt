@@ -1,8 +1,6 @@
 package at.orchaldir.gm.core.model.rpg.equipment
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.rpg.combat.DEFAULT_MODIFIER_COST_FACTOR
-import at.orchaldir.gm.core.model.rpg.combat.validateCost
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.utils.Id

@@ -1,4 +1,4 @@
-package at.orchaldir.gm.core.model.rpg.combat
+package at.orchaldir.gm.core.model.rpg.equipment
 
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor

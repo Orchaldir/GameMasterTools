@@ -16,7 +16,7 @@ import at.orchaldir.gm.core.model.item.equipment.MAX_EQUIPMENT_WEIGHT
 import at.orchaldir.gm.core.model.item.equipment.MIN_EQUIPMENT_WEIGHT
 import at.orchaldir.gm.core.model.rpg.equipment.ArmorType
 import at.orchaldir.gm.core.model.rpg.equipment.ArmorTypeId
-import at.orchaldir.gm.core.model.rpg.combat.DEFAULT_TYPE_COST_FACTOR
+import at.orchaldir.gm.core.model.rpg.equipment.DEFAULT_TYPE_COST_FACTOR
 import at.orchaldir.gm.core.selector.item.equipment.getArmors
 import io.ktor.http.*
 import io.ktor.server.application.*
