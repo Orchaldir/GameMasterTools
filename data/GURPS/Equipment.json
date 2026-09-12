@@ -4,6 +4,9 @@
   "0": {
    "id": 0,
    "name": "Spear",
+   "stats": {
+    "type": 9
+   },
    "data": {
     "#type": "Polearm",
     "head": {
@@ -30,14 +33,14 @@
       "material": 10
      }
     }
-   },
-   "stats": {
-    "type": 9
    }
   },
   "1": {
    "id": 1,
    "name": "Scale Armor",
+   "stats": {
+    "type": 2
+   },
    "data": {
     "#type": "Armour",
     "style": {
@@ -54,14 +57,14 @@
    },
    "weight": {
     "#type": "Type"
-   },
-   "stats": {
-    "type": 2
    }
   },
   "2": {
    "id": 2,
    "name": "Chain Mail",
+   "stats": {
+    "type": 3
+   },
    "data": {
     "#type": "Armour",
     "style": {
@@ -75,14 +78,14 @@
    },
    "weight": {
     "#type": "Type"
-   },
-   "stats": {
-    "type": 3
    }
   },
   "3": {
    "id": 3,
    "name": "Longsword",
+   "stats": {
+    "type": 8
+   },
    "data": {
     "#type": "Sword1",
     "blade": {
@@ -113,14 +116,14 @@
       "#type": "None"
      }
     }
-   },
-   "stats": {
-    "type": 3
    }
   },
   "4": {
    "id": 4,
    "name": "Laminated Armour",
+   "stats": {
+    "type": 5
+   },
    "data": {
     "#type": "Armour",
     "style": {
@@ -133,9 +136,6 @@
      "breastplateRows": 3
     },
     "sleeveStyle": "Long"
-   },
-   "stats": {
-    "type": 5
    }
   },
   "5": {
