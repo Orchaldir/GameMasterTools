@@ -10,7 +10,6 @@ import at.orchaldir.gm.core.selector.getDefaultCurrency
 import at.orchaldir.gm.core.selector.item.equipment.calculatePrice
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
-import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.unit.VolumePerMaterial
 import at.orchaldir.gm.utils.math.unit.WEIGHTLESS

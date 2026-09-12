@@ -8,7 +8,6 @@ import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifierId
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.utils.Id
-import at.orchaldir.gm.utils.math.unit.CalculatedWeight
 import at.orchaldir.gm.utils.math.unit.UndefinedWeight
 import at.orchaldir.gm.utils.math.unit.WeightLookup
 import kotlinx.serialization.Serializable

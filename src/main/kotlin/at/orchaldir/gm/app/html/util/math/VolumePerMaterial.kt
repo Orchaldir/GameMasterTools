@@ -1,12 +1,10 @@
 package at.orchaldir.gm.app.html.util.math
 
-import at.orchaldir.gm.app.TYPE
-import at.orchaldir.gm.app.WEIGHT
-import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.tdLink
+import at.orchaldir.gm.app.html.tdString
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.utils.doNothing
-import at.orchaldir.gm.utils.math.unit.*
-import io.ktor.http.*
+import at.orchaldir.gm.utils.math.unit.VolumePerMaterial
+import at.orchaldir.gm.utils.math.unit.Weight
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
 import kotlinx.html.table

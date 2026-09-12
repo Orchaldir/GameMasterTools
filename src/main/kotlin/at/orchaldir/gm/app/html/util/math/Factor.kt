@@ -9,12 +9,8 @@ import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import io.ktor.http.*
-import io.ktor.server.application.ApplicationCall
-import kotlinx.html.HtmlBlockTag
-import kotlinx.html.br
-import kotlinx.html.table
-import kotlinx.html.th
-import kotlinx.html.tr
+import io.ktor.server.application.*
+import kotlinx.html.*
 
 // show
 

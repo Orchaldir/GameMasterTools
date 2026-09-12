@@ -1,7 +1,10 @@
 package at.orchaldir.gm.core.selector.rpg.statblock
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.rpg.combat.*
+import at.orchaldir.gm.core.model.rpg.combat.ModifiedUsedSkill
+import at.orchaldir.gm.core.model.rpg.combat.ResolvedUsedSkill
+import at.orchaldir.gm.core.model.rpg.combat.UndefinedUsedSkill
+import at.orchaldir.gm.core.model.rpg.combat.UsedSkill
 import at.orchaldir.gm.core.model.rpg.equipment.ModifySkill
 import at.orchaldir.gm.core.model.rpg.statblock.Statblock
 

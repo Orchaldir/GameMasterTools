@@ -63,7 +63,9 @@ class EquipmentTypeRoutes : Routes<EquipmentTypeId, SortEquipmentType> {
     override fun all(call: ApplicationCall) = call.application.href(All())
     override fun all(call: ApplicationCall, sort: SortEquipmentType) = call.application.href(All(sort))
     fun allMeleeAttacks(call: ApplicationCall, sort: SortEquipmentType) = call.application.href(AllMeleeAttacks(sort))
-    fun allAllRangedAttacks(call: ApplicationCall, sort: SortEquipmentType) = call.application.href(AllRangedAttacks(sort))
+    fun allAllRangedAttacks(call: ApplicationCall, sort: SortEquipmentType) =
+        call.application.href(AllRangedAttacks(sort))
+
     override fun delete(call: ApplicationCall, id: EquipmentTypeId) = call.application.href(Delete(id))
     override fun edit(call: ApplicationCall, id: EquipmentTypeId) = call.application.href(Edit(id))
     override fun new(call: ApplicationCall) = call.application.href(New())

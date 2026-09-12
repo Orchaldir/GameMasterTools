@@ -8,16 +8,7 @@ import at.orchaldir.gm.app.html.util.math.selectFromRange
 import at.orchaldir.gm.app.html.util.quantity.editQuantity
 import at.orchaldir.gm.app.html.util.quantity.parseQuantity
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifierEffect
-import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifierEffectType
-import at.orchaldir.gm.core.model.rpg.equipment.MAX_RANGE_MODIFIER
-import at.orchaldir.gm.core.model.rpg.equipment.MIN_RANGE_MODIFIER
-import at.orchaldir.gm.core.model.rpg.equipment.ModifyDamage
-import at.orchaldir.gm.core.model.rpg.equipment.ModifyDamageResistance
-import at.orchaldir.gm.core.model.rpg.equipment.ModifyDefenseBonus
-import at.orchaldir.gm.core.model.rpg.equipment.ModifyParrying
-import at.orchaldir.gm.core.model.rpg.equipment.ModifyRange
-import at.orchaldir.gm.core.model.rpg.equipment.ModifySkill
+import at.orchaldir.gm.core.model.rpg.equipment.*
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag

@@ -73,7 +73,10 @@ data class EquipmentGenerator(
         }
     }
 
-    private fun generateAccessory(result: MutableMap<EquipmentId, EquipmentAppearanceType>, type: EquipmentAppearanceType) {
+    private fun generateAccessory(
+        result: MutableMap<EquipmentId, EquipmentAppearanceType>,
+        type: EquipmentAppearanceType,
+    ) {
         if (requiresAccessory(type)) {
             generate(result, type)
         }

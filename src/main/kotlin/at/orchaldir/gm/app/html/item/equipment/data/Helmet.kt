@@ -6,7 +6,6 @@ import at.orchaldir.gm.app.SHAPE
 import at.orchaldir.gm.app.STYLE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.item.equipment.style.*
-import at.orchaldir.gm.app.html.rpg.equipment.parseEquipmentStats
 import at.orchaldir.gm.app.html.util.part.editItemPart
 import at.orchaldir.gm.app.html.util.part.parseItemPart
 import at.orchaldir.gm.app.html.util.part.showItemPart

@@ -12,13 +12,7 @@ import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.ZERO
-import at.orchaldir.gm.utils.math.unit.CalculatedWeight
-import at.orchaldir.gm.utils.math.unit.UndefinedWeight
-import at.orchaldir.gm.utils.math.unit.UserDefinedWeight
-import at.orchaldir.gm.utils.math.unit.WEIGHTLESS
-import at.orchaldir.gm.utils.math.unit.Weight
-import at.orchaldir.gm.utils.math.unit.WeightBasedOnType
-import at.orchaldir.gm.utils.math.unit.WeightLookup
+import at.orchaldir.gm.utils.math.unit.*
 
 fun calculateWeight(
     state: State,
@@ -32,9 +26,11 @@ fun calculateWeight(
     UndefinedWeight -> WEIGHTLESS
 }
 
-fun calculateWeightBasedOnType(state: State, ammunition: Ammunition) = getWeightOfType(state
-    .getAmmunitionTypeStorage()
-    .getOptional(ammunition.type)?.weight)
+fun calculateWeightBasedOnType(state: State, ammunition: Ammunition) = getWeightOfType(
+    state
+        .getAmmunitionTypeStorage()
+        .getOptional(ammunition.type)?.weight
+)
 
 fun calculateWeightBasedOnType(state: State, equipment: Equipment): Weight {
     state.getEquipmentType(equipment)?.let {

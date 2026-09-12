@@ -21,11 +21,7 @@ import at.orchaldir.gm.core.selector.character.getCharacterTemplates
 import at.orchaldir.gm.core.selector.character.getCharactersWith
 import at.orchaldir.gm.core.selector.culture.getFashions
 import at.orchaldir.gm.core.selector.gm.treasure.getTreasureParcelsWith
-import at.orchaldir.gm.core.selector.item.equipment.CalculateVolumeConfig
-import at.orchaldir.gm.core.selector.item.equipment.calculateCostFactors
-import at.orchaldir.gm.core.selector.item.equipment.calculateVolumePerMaterial
-import at.orchaldir.gm.core.selector.item.equipment.calculateWeightBasedOnType
-import at.orchaldir.gm.core.selector.item.equipment.calculateWeightFactors
+import at.orchaldir.gm.core.selector.item.equipment.*
 import at.orchaldir.gm.core.selector.item.getUniforms
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import io.ktor.http.*

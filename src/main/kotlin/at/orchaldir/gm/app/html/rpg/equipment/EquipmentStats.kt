@@ -8,8 +8,8 @@ import at.orchaldir.gm.app.html.rpg.combat.showMeleeAttackTable
 import at.orchaldir.gm.app.html.rpg.combat.showRangedAttackTable
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.MaterialId
-import at.orchaldir.gm.core.model.rpg.equipment.EquipmentStats
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentCategory
+import at.orchaldir.gm.core.model.rpg.equipment.EquipmentStats
 import at.orchaldir.gm.core.selector.rpg.equipment.getEquipmentModifierEffects
 import at.orchaldir.gm.core.selector.rpg.statblock.resolveMeleeAttacks
 import at.orchaldir.gm.core.selector.rpg.statblock.resolveProtection

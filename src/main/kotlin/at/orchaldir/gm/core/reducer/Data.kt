@@ -4,8 +4,8 @@ import at.orchaldir.gm.core.action.UpdateData
 import at.orchaldir.gm.core.model.Config
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.EconomyConfig
-import at.orchaldir.gm.core.model.rpg.equipment.EquipmentConfig
 import at.orchaldir.gm.core.model.rpg.RpgConfig
+import at.orchaldir.gm.core.model.rpg.equipment.EquipmentConfig
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.selector.economy.getRequiredStandards
 import at.orchaldir.gm.utils.redux.Reducer

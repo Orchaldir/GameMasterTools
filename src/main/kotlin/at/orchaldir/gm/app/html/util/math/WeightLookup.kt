@@ -41,12 +41,14 @@ fun HtmlBlockTag.showWeightLookupDetails(
 
                 vpm.getWeight(state)
             }
+
             is UserDefinedWeight -> lookup.weight
             WeightBasedOnType -> {
                 showFactorMap(call, state, weightFactors, "Weight Factor")
 
                 getWeightFromType()
             }
+
             UndefinedWeight -> return@showDetails
         }
 

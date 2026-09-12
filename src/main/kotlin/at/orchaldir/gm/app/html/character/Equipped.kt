@@ -17,8 +17,8 @@ import at.orchaldir.gm.core.model.item.equipment.EquipmentIdMap
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.rpg.statblock.Statblock
 import at.orchaldir.gm.core.model.rpg.statblock.StatblockLookup
-import at.orchaldir.gm.core.selector.character.getProtection
 import at.orchaldir.gm.core.selector.character.getMeleeAttacks
+import at.orchaldir.gm.core.selector.character.getProtection
 import at.orchaldir.gm.core.selector.character.getRangedAttacks
 import at.orchaldir.gm.core.selector.item.equipment.*
 import at.orchaldir.gm.core.selector.rpg.statblock.resolveMeleeAttackMap

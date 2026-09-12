@@ -8,14 +8,7 @@ import at.orchaldir.gm.app.html.util.math.fieldFactor
 import at.orchaldir.gm.app.html.util.math.parseFactor
 import at.orchaldir.gm.app.html.util.math.selectFactor
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.rpg.equipment.DEFAULT_MODIFIER_COST_FACTOR
-import at.orchaldir.gm.core.model.rpg.equipment.DEFAULT_WEIGHT_FACTOR
-import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifier
-import at.orchaldir.gm.core.model.rpg.equipment.EquipmentCategory
-import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifierEffectType
-import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifierId
-import at.orchaldir.gm.core.model.rpg.equipment.MAX_WEIGHT_FACTOR
-import at.orchaldir.gm.core.model.rpg.equipment.MIN_WEIGHT_FACTOR
+import at.orchaldir.gm.core.model.rpg.equipment.*
 import at.orchaldir.gm.core.selector.item.ammunition.getAmmunition
 import at.orchaldir.gm.core.selector.item.equipment.getEquipment
 import at.orchaldir.gm.core.selector.util.sortEquipmentModifiers

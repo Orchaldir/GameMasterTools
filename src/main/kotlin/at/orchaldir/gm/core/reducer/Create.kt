@@ -51,13 +51,9 @@ import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.religion.*
-import at.orchaldir.gm.core.model.rpg.combat.*
-import at.orchaldir.gm.core.model.rpg.equipment.AmmunitionType
-import at.orchaldir.gm.core.model.rpg.equipment.AmmunitionTypeId
-import at.orchaldir.gm.core.model.rpg.equipment.EquipmentType
-import at.orchaldir.gm.core.model.rpg.equipment.EquipmentTypeId
-import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifier
-import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifierId
+import at.orchaldir.gm.core.model.rpg.combat.DamageType
+import at.orchaldir.gm.core.model.rpg.combat.DamageTypeId
+import at.orchaldir.gm.core.model.rpg.equipment.*
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTrait

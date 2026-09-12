@@ -4,7 +4,6 @@ import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.createIdColumn
 import at.orchaldir.gm.app.html.createNameColumn
-import at.orchaldir.gm.app.html.createWeightColumn
 import at.orchaldir.gm.app.html.item.ammunition.editAmmunition
 import at.orchaldir.gm.app.html.item.ammunition.parseAmmunition
 import at.orchaldir.gm.app.html.item.ammunition.showAmmunition
@@ -13,8 +12,6 @@ import at.orchaldir.gm.app.routes.*
 import at.orchaldir.gm.core.model.item.ammunition.AMMUNITION_TYPE
 import at.orchaldir.gm.core.model.item.ammunition.AmmunitionId
 import at.orchaldir.gm.core.model.util.SortAmmunition
-import at.orchaldir.gm.core.selector.item.equipment.VOLUME_CONFIG
-import at.orchaldir.gm.core.selector.item.equipment.calculateWeight
 import at.orchaldir.gm.core.selector.util.sortAmmunition
 import io.ktor.resources.*
 import io.ktor.server.application.*

@@ -26,10 +26,12 @@ import at.orchaldir.gm.app.routes.realm.*
 import at.orchaldir.gm.app.routes.religion.DomainRoutes
 import at.orchaldir.gm.app.routes.religion.GodRoutes
 import at.orchaldir.gm.app.routes.religion.PantheonRoutes
-import at.orchaldir.gm.app.routes.rpg.*
+import at.orchaldir.gm.app.routes.rpg.CharacterTraitRoutes
+import at.orchaldir.gm.app.routes.rpg.DamageTypeRoutes
+import at.orchaldir.gm.app.routes.rpg.StatisticRoutes
 import at.orchaldir.gm.app.routes.rpg.equipment.AmmunitionTypeRoutes
-import at.orchaldir.gm.app.routes.rpg.equipment.EquipmentTypeRoutes
 import at.orchaldir.gm.app.routes.rpg.equipment.EquipmentModifierRoutes
+import at.orchaldir.gm.app.routes.rpg.equipment.EquipmentTypeRoutes
 import at.orchaldir.gm.app.routes.time.CalendarRoutes
 import at.orchaldir.gm.app.routes.time.HolidayRoutes
 import at.orchaldir.gm.app.routes.time.TimeRoutes
@@ -72,10 +74,10 @@ import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.religion.DomainId
 import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.religion.PantheonId
-import at.orchaldir.gm.core.model.rpg.combat.*
+import at.orchaldir.gm.core.model.rpg.combat.DamageTypeId
 import at.orchaldir.gm.core.model.rpg.equipment.AmmunitionTypeId
-import at.orchaldir.gm.core.model.rpg.equipment.EquipmentTypeId
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifierId
+import at.orchaldir.gm.core.model.rpg.equipment.EquipmentTypeId
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitId
 import at.orchaldir.gm.core.model.time.calendar.Calendar

@@ -1,11 +1,7 @@
 package at.orchaldir.gm.core.model.rpg.equipment
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.rpg.combat.DamageTypeId
-import at.orchaldir.gm.core.model.rpg.combat.MeleeAttack
-import at.orchaldir.gm.core.model.rpg.combat.Protection
-import at.orchaldir.gm.core.model.rpg.combat.RangedAttack
-import at.orchaldir.gm.core.model.rpg.combat.UndefinedProtection
+import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
@@ -54,8 +50,11 @@ data class EquipmentType(
     }
 
     fun contains(type: AmmunitionTypeId) = rangedAttacks.any { it.contains(type) }
-    fun contains(type: DamageTypeId) = protection.contains(type) || meleeAttacks.any { it.contains(type) } || rangedAttacks.any { it.contains(type) }
-    fun contains(statistic: StatisticId) = meleeAttacks.any { it.contains(statistic) } || rangedAttacks.any { it.contains(statistic) }
+    fun contains(type: DamageTypeId) =
+        protection.contains(type) || meleeAttacks.any { it.contains(type) } || rangedAttacks.any { it.contains(type) }
+
+    fun contains(statistic: StatisticId) =
+        meleeAttacks.any { it.contains(statistic) } || rangedAttacks.any { it.contains(statistic) }
 
     fun getMaxReach() = meleeAttacks.maxOfOrNull { it.reach.getMaxReach() } ?: 0
 }
