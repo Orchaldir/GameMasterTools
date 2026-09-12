@@ -14,33 +14,33 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 val ACCESSORIES = setOf(
-    EquipmentDataType.Belt,
-    EquipmentDataType.Earring,
-    EquipmentDataType.Footwear,
-    EquipmentDataType.Glasses,
-    EquipmentDataType.Gloves,
-    EquipmentDataType.Hat,
-    EquipmentDataType.Necklace,
-    EquipmentDataType.Socks,
-    EquipmentDataType.Tie,
+    EquipmentAppearanceType.Belt,
+    EquipmentAppearanceType.Earring,
+    EquipmentAppearanceType.Footwear,
+    EquipmentAppearanceType.Glasses,
+    EquipmentAppearanceType.Gloves,
+    EquipmentAppearanceType.Hat,
+    EquipmentAppearanceType.Necklace,
+    EquipmentAppearanceType.Socks,
+    EquipmentAppearanceType.Tie,
 )
 val COMBAT_GEAR = setOf(
-    EquipmentDataType.OneHandedAxe,
-    EquipmentDataType.TwoHandedAxe,
-    EquipmentDataType.BodyArmour,
-    EquipmentDataType.Bow,
-    EquipmentDataType.OneHandedClub,
-    EquipmentDataType.TwoHandedClub,
-    EquipmentDataType.Helmet,
-    EquipmentDataType.Polearm,
-    EquipmentDataType.Shield,
-    EquipmentDataType.Sling,
-    EquipmentDataType.OneHandedSword,
-    EquipmentDataType.TwoHandedSword,
+    EquipmentAppearanceType.OneHandedAxe,
+    EquipmentAppearanceType.TwoHandedAxe,
+    EquipmentAppearanceType.BodyArmour,
+    EquipmentAppearanceType.Bow,
+    EquipmentAppearanceType.OneHandedClub,
+    EquipmentAppearanceType.TwoHandedClub,
+    EquipmentAppearanceType.Helmet,
+    EquipmentAppearanceType.Polearm,
+    EquipmentAppearanceType.Shield,
+    EquipmentAppearanceType.Sling,
+    EquipmentAppearanceType.OneHandedSword,
+    EquipmentAppearanceType.TwoHandedSword,
 )
-val MAIN_EQUIPMENT = EquipmentDataType.entries - ACCESSORIES - COMBAT_GEAR - EquipmentDataType.EyePatch
+val MAIN_EQUIPMENT = EquipmentAppearanceType.entries - ACCESSORIES - COMBAT_GEAR - EquipmentAppearanceType.EyePatch
 
-enum class EquipmentDataType {
+enum class EquipmentAppearanceType {
     OneHandedAxe,
     TwoHandedAxe,
     Belt,
@@ -107,39 +107,39 @@ enum class EquipmentDataType {
 }
 
 @Serializable
-sealed class EquipmentData : MadeFromParts {
+sealed class EquipmentAppearance : MadeFromParts {
 
     fun getType() = when (this) {
-        is OneHandedAxe -> EquipmentDataType.OneHandedAxe
-        is TwoHandedAxe -> EquipmentDataType.TwoHandedAxe
-        is Belt -> EquipmentDataType.Belt
-        is BodyArmour -> EquipmentDataType.BodyArmour
-        is Bow -> EquipmentDataType.Bow
-        is OneHandedClub -> EquipmentDataType.OneHandedClub
-        is TwoHandedClub -> EquipmentDataType.TwoHandedClub
-        is Coat -> EquipmentDataType.Coat
-        is Dress -> EquipmentDataType.Dress
-        is Earring -> EquipmentDataType.Earring
-        is EyePatch -> EquipmentDataType.EyePatch
-        is Footwear -> EquipmentDataType.Footwear
-        is Glasses -> EquipmentDataType.Glasses
-        is Gloves -> EquipmentDataType.Gloves
-        is Hat -> EquipmentDataType.Hat
-        is Helmet -> EquipmentDataType.Helmet
-        is IounStone -> EquipmentDataType.IounStone
-        is Necklace -> EquipmentDataType.Necklace
-        is Pants -> EquipmentDataType.Pants
-        is Polearm -> EquipmentDataType.Polearm
-        is Shield -> EquipmentDataType.Shield
-        is Shirt -> EquipmentDataType.Shirt
-        is Skirt -> EquipmentDataType.Skirt
-        is Sling -> EquipmentDataType.Sling
-        is Socks -> EquipmentDataType.Socks
-        is SuitJacket -> EquipmentDataType.SuitJacket
-        is OneHandedSword -> EquipmentDataType.OneHandedSword
-        is TwoHandedSword -> EquipmentDataType.TwoHandedSword
-        is Tie -> EquipmentDataType.Tie
-        is Tunic -> EquipmentDataType.Tunic
+        is OneHandedAxe -> EquipmentAppearanceType.OneHandedAxe
+        is TwoHandedAxe -> EquipmentAppearanceType.TwoHandedAxe
+        is Belt -> EquipmentAppearanceType.Belt
+        is BodyArmour -> EquipmentAppearanceType.BodyArmour
+        is Bow -> EquipmentAppearanceType.Bow
+        is OneHandedClub -> EquipmentAppearanceType.OneHandedClub
+        is TwoHandedClub -> EquipmentAppearanceType.TwoHandedClub
+        is Coat -> EquipmentAppearanceType.Coat
+        is Dress -> EquipmentAppearanceType.Dress
+        is Earring -> EquipmentAppearanceType.Earring
+        is EyePatch -> EquipmentAppearanceType.EyePatch
+        is Footwear -> EquipmentAppearanceType.Footwear
+        is Glasses -> EquipmentAppearanceType.Glasses
+        is Gloves -> EquipmentAppearanceType.Gloves
+        is Hat -> EquipmentAppearanceType.Hat
+        is Helmet -> EquipmentAppearanceType.Helmet
+        is IounStone -> EquipmentAppearanceType.IounStone
+        is Necklace -> EquipmentAppearanceType.Necklace
+        is Pants -> EquipmentAppearanceType.Pants
+        is Polearm -> EquipmentAppearanceType.Polearm
+        is Shield -> EquipmentAppearanceType.Shield
+        is Shirt -> EquipmentAppearanceType.Shirt
+        is Skirt -> EquipmentAppearanceType.Skirt
+        is Sling -> EquipmentAppearanceType.Sling
+        is Socks -> EquipmentAppearanceType.Socks
+        is SuitJacket -> EquipmentAppearanceType.SuitJacket
+        is OneHandedSword -> EquipmentAppearanceType.OneHandedSword
+        is TwoHandedSword -> EquipmentAppearanceType.TwoHandedSword
+        is Tie -> EquipmentAppearanceType.Tie
+        is Tunic -> EquipmentAppearanceType.Tunic
     }
 
     fun isArmor() = when (this) {
@@ -157,7 +157,7 @@ sealed class EquipmentData : MadeFromParts {
 
     fun isShield() = this is Shield
 
-    fun isType(equipmentType: EquipmentDataType) = getType() == equipmentType
+    fun isType(type: EquipmentAppearanceType) = getType() == type
 
     fun slots() = getType().slots()
 
@@ -185,7 +185,7 @@ data class OneHandedAxe(
     val head: AxeHead = SingleBitAxeHead(),
     val fixation: HeadFixation = NoHeadFixation,
     val shaft: Shaft = SimpleShaft(),
-) : EquipmentData() {
+) : EquipmentAppearance() {
 
     override fun parts() = head.parts() + fixation.parts() + shaft.parts()
 }
@@ -196,7 +196,7 @@ data class TwoHandedAxe(
     val head: AxeHead = DoubleBitAxeHead(),
     val fixation: HeadFixation = NoHeadFixation,
     val shaft: Shaft = SimpleShaft(),
-) : EquipmentData() {
+) : EquipmentAppearance() {
 
     override fun parts() = head.parts() + fixation.parts() + shaft.parts()
 }
@@ -205,7 +205,7 @@ data class TwoHandedAxe(
 @SerialName("Belt")
 data class Belt(
     val style: BeltStyle = BuckleAndStrap(),
-) : EquipmentData() {
+) : EquipmentAppearance() {
 
     override fun parts() = style.parts()
 }
@@ -216,7 +216,7 @@ data class BodyArmour(
     val style: ArmourStyle,
     val legStyle: LegArmourStyle = SameLegArmour(),
     val sleeveStyle: SleeveStyle = SleeveStyle.Short,
-) : EquipmentData() {
+) : EquipmentAppearance() {
 
     override fun parts() = style.parts()
 }
@@ -228,7 +228,7 @@ data class Bow(
     val height: Factor = HALF,
     val grip: BowGrip = NoBowGrip,
     val main: ItemPart = MadeFromWood(),
-) : EquipmentData() {
+) : EquipmentAppearance() {
 
     override fun parts() = grip.parts() + main
 }
@@ -240,7 +240,7 @@ data class OneHandedClub(
     val size: Size = Size.Medium,
     val fixation: HeadFixation = NoHeadFixation,
     val shaft: Shaft = SimpleShaft(),
-) : EquipmentData() {
+) : EquipmentAppearance() {
 
     override fun parts() = head.parts() + fixation.parts() + shaft.parts()
 }
@@ -252,7 +252,7 @@ data class TwoHandedClub(
     val size: Size = Size.Medium,
     val fixation: HeadFixation = NoHeadFixation,
     val shaft: Shaft = SimpleShaft(),
-) : EquipmentData() {
+) : EquipmentAppearance() {
 
     override fun parts() = head.parts() + fixation.parts() + shaft.parts()
 }
@@ -266,7 +266,7 @@ data class Coat(
     val sleeveStyle: SleeveStyle = SleeveStyle.Long,
     val opening: Opening = SingleBreasted(),
     val pocketStyle: PocketStyle = PocketStyle.None,
-) : EquipmentData() {
+) : EquipmentAppearance() {
 
     override fun parts() = opening.parts() + main
 }
@@ -278,7 +278,7 @@ data class Dress(
     val skirtStyle: SkirtStyle = SkirtStyle.Sheath,
     val sleeveStyle: SleeveStyle = SleeveStyle.Long,
     val main: ItemPart = MadeFromFabric(Color.Red),
-) : EquipmentData() {
+) : EquipmentAppearance() {
 
     override fun parts() = listOf(main)
 }
@@ -287,7 +287,7 @@ data class Dress(
 @SerialName("Earring")
 data class Earring(
     val style: EarringStyle = StudEarring(),
-) : EquipmentData() {
+) : EquipmentAppearance() {
 
     override fun parts() = style.parts()
 }
@@ -297,7 +297,7 @@ data class Earring(
 data class EyePatch(
     val style: EyePatchStyle = SimpleEyePatch(),
     val fixation: EyePatchFixation = NoFixation,
-) : EquipmentData() {
+) : EquipmentAppearance() {
 
     override fun parts() = style.parts() + fixation.parts()
 }
@@ -306,7 +306,7 @@ data class EyePatch(
 @SerialName("Footwear")
 data class Footwear(
     val style: FootwearStyle = Shoe(),
-) : EquipmentData() {
+) : EquipmentAppearance() {
 
     override fun parts() = style.parts()
 }
@@ -318,7 +318,7 @@ data class Glasses(
     val frameType: FrameType = FrameType.FullRimmed,
     val lens: ItemPart = MadeFromGlass(),
     val frame: ItemPart = MadeFromWood(Color.Navy),
-) : EquipmentData() {
+) : EquipmentAppearance() {
 
     override fun parts() = listOf(lens, frame)
 }
@@ -328,7 +328,7 @@ data class Glasses(
 data class Gloves(
     val style: GloveStyle = GloveStyle.Hand,
     val main: ItemPart = MadeFromFabric(Color.Red),
-) : EquipmentData() {
+) : EquipmentAppearance() {
 
     constructor(style: GloveStyle, color: Color) : this(style, MadeFromFabric(color))
 
@@ -340,7 +340,7 @@ data class Gloves(
 data class Hat(
     val style: HatStyle = HatStyle.TopHat,
     val main: ItemPart = MadeFromFabric(Color.SaddleBrown),
-) : EquipmentData() {
+) : EquipmentAppearance() {
 
     constructor(style: HatStyle, color: Color) : this(style, MadeFromFabric(color))
 
@@ -351,7 +351,7 @@ data class Hat(
 @SerialName("Helmet")
 data class Helmet(
     val style: HelmetStyle = SkullCap(),
-) : EquipmentData() {
+) : EquipmentAppearance() {
 
     override fun hidesEars() = when (style) {
         is GreatHelm -> true
@@ -368,7 +368,7 @@ data class IounStone(
     val shape: ComplexShape = UsingCircularShape(),
     val size: Size = Size.Medium,
     val main: ItemPart = MadeFromGem(),
-) : EquipmentData() {
+) : EquipmentAppearance() {
 
     override fun parts() = listOf(main)
 }
@@ -378,7 +378,7 @@ data class IounStone(
 data class Necklace(
     val style: NecklaceStyle,
     val length: NecklaceLength = NecklaceLength.Princess,
-) : EquipmentData() {
+) : EquipmentAppearance() {
 
     override fun parts() = style.parts()
 }
@@ -388,7 +388,7 @@ data class Necklace(
 data class Pants(
     val style: PantsStyle = PantsStyle.Regular,
     val main: ItemPart = MadeFromFabric(Color.Navy),
-) : EquipmentData() {
+) : EquipmentAppearance() {
 
     constructor(style: PantsStyle, color: Color) : this(style, MadeFromFabric(color))
 
@@ -400,7 +400,7 @@ data class Pants(
 data class Polearm(
     val head: PolearmHead = NoPolearmHead,
     val shaft: Shaft = SimpleShaft(),
-) : EquipmentData() {
+) : EquipmentAppearance() {
 
     override fun parts() = head.parts() + shaft.parts()
 }
@@ -414,7 +414,7 @@ data class Shield(
     val boss: ShieldBoss = NoShieldBoss,
     val front: ItemPart = MadeFromMetal(),
     val back: ItemPart = MadeFromWood(),
-) : EquipmentData() {
+) : EquipmentAppearance() {
 
     constructor(shape: CircularShape, size: Size, color: Color) :
             this(UsingCircularShape(shape), size, front = MadeFromWood(color))
@@ -428,7 +428,7 @@ data class Shirt(
     val neckline: Neckline = NoNeckline,
     val sleeveStyle: SleeveStyle = SleeveStyle.Long,
     val main: ItemPart = MadeFromFabric(Color.White),
-) : EquipmentData() {
+) : EquipmentAppearance() {
 
     constructor(neckline: Neckline, sleeve: SleeveStyle, color: Color) :
             this(neckline, sleeve, MadeFromFabric(color))
@@ -441,7 +441,7 @@ data class Shirt(
 data class Skirt(
     val style: SkirtStyle = SkirtStyle.Sheath,
     val main: ItemPart = MadeFromFabric(Color.SaddleBrown),
-) : EquipmentData() {
+) : EquipmentAppearance() {
 
     constructor(style: SkirtStyle, color: Color) : this(style, MadeFromFabric(color))
 
@@ -454,7 +454,7 @@ data class Sling(
     val size: Size,
     val cord: LineStyle,
     val cradle: ItemPart = MadeFromLeather(),
-) : EquipmentData() {
+) : EquipmentAppearance() {
 
     override fun parts() = cord.parts() + cradle
 }
@@ -464,7 +464,7 @@ data class Sling(
 data class Socks(
     val style: SocksStyle = SocksStyle.Quarter,
     val main: ItemPart = MadeFromFabric(Color.White),
-) : EquipmentData() {
+) : EquipmentAppearance() {
 
     constructor(style: SocksStyle, color: Color) : this(style, MadeFromFabric(color))
 }
@@ -477,7 +477,7 @@ data class SuitJacket(
     val opening: Opening = SingleBreasted(),
     val pocketStyle: PocketStyle = PocketStyle.None,
     val main: ItemPart = MadeFromFabric(Color.LightGray),
-) : EquipmentData() {
+) : EquipmentAppearance() {
 
     override fun parts() = opening.parts() + main
 }
@@ -487,7 +487,7 @@ data class SuitJacket(
 data class OneHandedSword(
     val blade: Blade = SimpleBlade(DEFAULT_1H_BLADE_LENGTH),
     val hilt: SwordHilt = SimpleSwordHilt(),
-) : EquipmentData() {
+) : EquipmentAppearance() {
 
     override fun parts() = blade.parts() + hilt.parts()
 }
@@ -497,7 +497,7 @@ data class OneHandedSword(
 data class TwoHandedSword(
     val blade: Blade = SimpleBlade(DEFAULT_2H_BLADE_LENGTH),
     val hilt: SwordHilt = SimpleSwordHilt(),
-) : EquipmentData() {
+) : EquipmentAppearance() {
 
     override fun parts() = blade.parts() + hilt.parts()
 }
@@ -509,7 +509,7 @@ data class Tie(
     val size: Size = Size.Medium,
     val main: ItemPart = MadeFromFabric(Color.Navy),
     val knot: ItemPart = MadeFromFabric(Color.Navy),
-) : EquipmentData() {
+) : EquipmentAppearance() {
 
     constructor(style: TieStyle, size: Size, tie: Color, knot: Color) :
             this(style, size, MadeFromFabric(tie), MadeFromFabric(knot))
@@ -524,7 +524,7 @@ data class Tunic(
     val length: OuterwearLength = OuterwearLength.Hip,
     val neckline: Neckline = NoNeckline,
     val sleeveStyle: SleeveStyle = SleeveStyle.Long,
-) : EquipmentData() {
+) : EquipmentAppearance() {
 
     override fun parts() = listOf(main)
 }

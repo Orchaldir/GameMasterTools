@@ -8,7 +8,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.fashion.ClothingFashion
 import at.orchaldir.gm.core.model.culture.fashion.ClothingSet
 import at.orchaldir.gm.core.model.item.equipment.ACCESSORIES
-import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
+import at.orchaldir.gm.core.model.item.equipment.EquipmentAppearanceType
 import at.orchaldir.gm.core.model.item.equipment.MAIN_EQUIPMENT
 import at.orchaldir.gm.core.selector.item.equipment.getEquipmentId
 import at.orchaldir.gm.core.selector.item.equipment.isAvailable
@@ -28,7 +28,7 @@ fun HtmlBlockTag.showClothingFashion(
 
     showRarityMap("Clothing Sets", fashion.clothingSets)
     showRarityMap("Accessories", fashion.accessories, ACCESSORIES)
-    EquipmentDataType.entries.forEach { type ->
+    EquipmentAppearanceType.entries.forEach { type ->
         if (MAIN_EQUIPMENT.contains(type) || fashion.accessories.isAvailable(type)) {
             val options = fashion.getOptions(type)
 
@@ -60,7 +60,7 @@ fun HtmlBlockTag.editClothingFashion(
     selectRarityMap("Clothing Sets", CLOTHING_SETS, fashion.clothingSets, availableSets)
     selectRarityMap("Accessories", ACCESSORY_RARITY, fashion.accessories, availableAccessories)
 
-    EquipmentDataType.entries.forEach { type ->
+    EquipmentAppearanceType.entries.forEach { type ->
         if (MAIN_EQUIPMENT.contains(type) || fashion.accessories.isAvailable(type)) {
             selectEquipmentType(state, fashion, type)
         }
@@ -70,7 +70,7 @@ fun HtmlBlockTag.editClothingFashion(
 private fun HtmlBlockTag.selectEquipmentType(
     state: State,
     style: ClothingFashion,
-    type: EquipmentDataType,
+    type: EquipmentAppearanceType,
 ) {
     val items = state.getEquipmentId(type)
 
@@ -89,17 +89,17 @@ private fun HtmlBlockTag.selectEquipmentType(
 // parse
 
 fun parseClothingFashion(parameters: Parameters): ClothingFashion {
-    val accessories = parseSomeOf(parameters, ACCESSORY_RARITY, EquipmentDataType::valueOf)
+    val accessories = parseSomeOf(parameters, ACCESSORY_RARITY, EquipmentAppearanceType::valueOf)
 
     return ClothingFashion(
         parseOneOf(parameters, CLOTHING_SETS, ClothingSet::valueOf),
         accessories,
-        EquipmentDataType.entries
+        EquipmentAppearanceType.entries
             .filter { type -> MAIN_EQUIPMENT.contains(type) || accessories.isAvailable(type) }
             .associateWith { parseEquipmentMap(parameters, it) },
     )
 }
 
-private fun parseEquipmentMap(parameters: Parameters, type: EquipmentDataType) =
+private fun parseEquipmentMap(parameters: Parameters, type: EquipmentAppearanceType) =
     parseOneOrNone(parameters, type.name, ::parseEquipmentId)
 

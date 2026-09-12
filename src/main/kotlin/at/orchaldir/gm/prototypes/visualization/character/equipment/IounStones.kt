@@ -6,7 +6,7 @@ import at.orchaldir.gm.core.model.character.appearance.HeadOnly
 import at.orchaldir.gm.core.model.character.appearance.NormalEars
 import at.orchaldir.gm.core.model.character.appearance.eye.TwoEyes
 import at.orchaldir.gm.core.model.item.equipment.BodySlot
-import at.orchaldir.gm.core.model.item.equipment.EquipmentData
+import at.orchaldir.gm.core.model.item.equipment.EquipmentAppearance
 import at.orchaldir.gm.core.model.item.equipment.EquipmentMap.Companion.fromSlotAsKeyMap
 import at.orchaldir.gm.core.model.item.equipment.IounStone
 import at.orchaldir.gm.core.model.util.Size
@@ -37,7 +37,7 @@ fun main() {
         addNames(Size.entries),
         config,
     ) { distance, stones, size ->
-        val map: MutableMap<BodySlot, EquipmentData> = mutableMapOf()
+        val map: MutableMap<BodySlot, EquipmentAppearance> = mutableMapOf()
 
         stones.withIndex().forEach { (index, stone) ->
             map[BodySlot.getIounStoneSlot(index)] = IounStone(stone, size)

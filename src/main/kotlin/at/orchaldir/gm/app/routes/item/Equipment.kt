@@ -131,7 +131,8 @@ fun Application.configureEquipmentRouting() {
                 state.sortEquipmentList(all.sort),
                 listOf(
                     createNameColumn(call, state),
-                    Column("Type") { tdEnum(it.data.getType()) },
+                    Column("Appearance") { tdEnum(it.appearance.getType()) },
+                    createIdColumn(call, state, "Type") { it.stats.type },
                     createWeightColumn {
                         calculateWeight(state, VOLUME_CONFIG, it)
                     },
@@ -140,12 +141,12 @@ fun Application.configureEquipmentRouting() {
                             calculatePrice(
                                 state,
                                 VOLUME_CONFIG,
-                                it.data
+                                it.appearance
                             )
                         }
                     },
-                    Column("Materials") { tdInlineIds(call, state, it.data.materials()) },
-                    Column(listOf("Required", "Colors")) { tdSkipZero(it.data.requiredSchemaColors()) },
+                    Column("Materials") { tdInlineIds(call, state, it.appearance.materials()) },
+                    Column(listOf("Required", "Colors")) { tdSkipZero(it.appearance.requiredSchemaColors()) },
                     countCollectionColumn("Characters") { state.getCharactersWith(it.id) },
                     Column(listOf("Character", "Templates")) { tdSkipZero(state.getCharacterTemplates(it.id)) },
                     countCollectionColumn("Fashions") { state.getFashions(it.id) },
@@ -162,7 +163,7 @@ fun Application.configureEquipmentRouting() {
             val state = STORE.getState()
             val armors = state.getEquipmentStorage()
                 .getAll()
-                .filter { it.data.isArmor() }
+                .filter { it.appearance.isArmor() }
 
             handleShowAllElements(
                 routes,
@@ -170,7 +171,7 @@ fun Application.configureEquipmentRouting() {
                 listOf(
                     createNameColumn(call, state),
                     createIdColumn(call, state, "Type") { it.stats.type },
-                    createIdColumn(call, state, "Material") { it.data.mainMaterial() },
+                    createIdColumn(call, state, "Material") { it.appearance.mainMaterial() },
                     tdColumn("Protection") {
                         state.getEquipmentType(it)
                             ?.let { type ->
@@ -195,7 +196,7 @@ fun Application.configureEquipmentRouting() {
                 listOf(
                     createNameColumn(call, state),
                     createIdColumn(call, state, "Type") { it.stats.type },
-                    createIdColumn(call, state, "Material") { it.data.mainMaterial() },
+                    createIdColumn(call, state, "Material") { it.appearance.mainMaterial() },
                     Column("Modifiers") {
                         tdInlineIds(call, state, it.stats.modifiers)
                     },
@@ -218,7 +219,7 @@ fun Application.configureEquipmentRouting() {
             val state = STORE.getState()
             val shields = state.getEquipmentStorage()
                 .getAll()
-                .filter { it.data.isShield() }
+                .filter { it.appearance.isShield() }
 
             handleShowAllElements(
                 routes,
@@ -226,7 +227,7 @@ fun Application.configureEquipmentRouting() {
                 listOf(
                     createNameColumn(call, state),
                     createIdColumn(call, state, "Type") { it.stats.type },
-                    createIdColumn(call, state, "Material") { it.data.mainMaterial() },
+                    createIdColumn(call, state, "Material") { it.appearance.mainMaterial() },
                     tdColumn("Protection") {
                         state.getEquipmentType(it)
                             ?.let { type ->
@@ -249,7 +250,7 @@ fun Application.configureEquipmentRouting() {
                 state.sortEquipmentList(gallery.sort),
                 gallery.sort,
             ) { equipment ->
-                val equipped = EquipmentMap.from(equipment.data, state.getColors(equipment.colorSchemes))
+                val equipped = EquipmentMap.from(equipment.appearance, state.getColors(equipment.colorSchemes))
                 val appearance = createAppearance(equipment, height)
 
                 visualizeCharacter(state, CHARACTER_CONFIG, appearance, equipped)
@@ -376,7 +377,7 @@ private fun HtmlBlockTag.visualizeEquipment(
     colors: Colors,
     width: Int,
 ) {
-    val equipped = EquipmentMap.from(equipment.data, colors)
+    val equipped = EquipmentMap.from(equipment.appearance, colors)
     val appearance = createAppearance(equipment, height)
     val frontSvg = visualizeCharacter(state, CHARACTER_CONFIG, appearance, equipped)
     val backSvg = visualizeCharacter(state, CHARACTER_CONFIG, appearance, equipped, false)
@@ -395,10 +396,10 @@ private fun createAppearance(equipment: Equipment, height: Distance): Appearance
     return appearance
 }
 
-private fun requiresBody(template: Equipment) = when (template.data.getType()) {
-    EquipmentDataType.Earring -> false
-    EquipmentDataType.EyePatch -> false
-    EquipmentDataType.Glasses -> false
-    EquipmentDataType.Hat -> false
+private fun requiresBody(template: Equipment) = when (template.appearance.getType()) {
+    EquipmentAppearanceType.Earring -> false
+    EquipmentAppearanceType.EyePatch -> false
+    EquipmentAppearanceType.Glasses -> false
+    EquipmentAppearanceType.Hat -> false
     else -> true
 }

@@ -10,7 +10,6 @@ import at.orchaldir.gm.core.model.util.render.ColorSchemeOption
 import at.orchaldir.gm.core.model.util.render.NoColorSchemes
 import at.orchaldir.gm.core.reducer.item.validateEquipment
 import at.orchaldir.gm.utils.Id
-import at.orchaldir.gm.utils.math.unit.CalculatedWeight
 import at.orchaldir.gm.utils.math.unit.UndefinedWeight
 import at.orchaldir.gm.utils.math.unit.WeightLookup
 import kotlinx.serialization.Serializable
@@ -38,7 +37,7 @@ data class Equipment(
     val id: EquipmentId,
     val name: Name = Name.init(id),
     val stats: EquipmentStats = EquipmentStats(),
-    val data: EquipmentData = Belt(),
+    val appearance: EquipmentAppearance = Belt(),
     val weight: WeightLookup = UndefinedWeight,
     val price: PriceLookup = CalculatedPrice,
     val colorSchemes: ColorSchemeOption = NoColorSchemes,
@@ -49,7 +48,7 @@ data class Equipment(
 
     override fun validate(state: State) = validateEquipment(state, this)
 
-    fun slots() = data.slots()
+    fun slots() = appearance.slots()
 
-    fun canEquip() = data.slots().isNotEmpty()
+    fun canEquip() = appearance.slots().isNotEmpty()
 }

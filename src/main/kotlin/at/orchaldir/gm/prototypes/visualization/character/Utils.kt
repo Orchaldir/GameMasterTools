@@ -49,7 +49,7 @@ fun renderEquipmentDataTable(
     filename: String,
     config: CharacterRenderConfig,
     appearance: Appearance,
-    equipmentTable: List<List<EquipmentData>>,
+    equipmentTable: List<List<EquipmentAppearance>>,
 ) = renderCharacterTableWithoutColorScheme(
     state,
     filename,

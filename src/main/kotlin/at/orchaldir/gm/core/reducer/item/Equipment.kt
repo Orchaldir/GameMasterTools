@@ -21,7 +21,7 @@ fun updateEquipment(state: State, equipment: Equipment): Pair<State, List<Action
 
     validateEquipment(state, equipment)
 
-    if (equipment.data.javaClass != oldEquipment.data.javaClass) {
+    if (equipment.appearance.javaClass != oldEquipment.appearance.javaClass) {
         require(state.canDeleteEquipment(equipment.id).canDelete()) {
             "Cannot change equipment ${equipment.id.value} while it is equipped"
         }
@@ -34,10 +34,10 @@ fun validateEquipment(
     state: State,
     equipment: Equipment,
 ) {
-    val requiredSchemaColors = equipment.data.requiredSchemaColors()
+    val requiredSchemaColors = equipment.appearance.requiredSchemaColors()
     val colorSchemes = state.getColorSchemes(equipment.colorSchemes)
 
-    state.getMaterialStorage().require(equipment.data.materials())
+    state.getMaterialStorage().require(equipment.appearance.materials())
     validateColorSchemeOption(state, equipment.colorSchemes)
 
     require(requiredSchemaColors == 0 || colorSchemes.isNotEmpty()) {
@@ -51,11 +51,11 @@ fun validateEquipment(
 
     validateEquipmentStats(state, equipment.stats)
 
-    when (equipment.data) {
-        is BodyArmour -> checkBodyArmour(state, equipment.data)
-        is Polearm -> checkPolearmHead(equipment.data.head)
-        is OneHandedSword -> checkOneHandedSword(equipment.data)
-        is TwoHandedSword -> checkTwoHandedSword(equipment.data)
+    when (equipment.appearance) {
+        is BodyArmour -> checkBodyArmour(state, equipment.appearance)
+        is Polearm -> checkPolearmHead(equipment.appearance.head)
+        is OneHandedSword -> checkOneHandedSword(equipment.appearance)
+        is TwoHandedSword -> checkTwoHandedSword(equipment.appearance)
         else -> doNothing()
     }
 }

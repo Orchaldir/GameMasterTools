@@ -52,8 +52,8 @@ class EquipmentTest {
 
         @Test
         fun `Cannot change equipment type while equipped`() {
-            val oldItem = Equipment(EQUIPMENT_ID_0, data = Pants(main = MadeFromFabric(MATERIAL_ID_0)))
-            val newItem = Equipment(EQUIPMENT_ID_0, data = Shirt(main = MadeFromFabric(MATERIAL_ID_0)))
+            val oldItem = Equipment(EQUIPMENT_ID_0, appearance = Pants(main = MadeFromFabric(MATERIAL_ID_0)))
+            val newItem = Equipment(EQUIPMENT_ID_0, appearance = Shirt(main = MadeFromFabric(MATERIAL_ID_0)))
             val state = State(
                 listOf(
                     Storage(oldItem),
@@ -68,8 +68,8 @@ class EquipmentTest {
 
         @Test
         fun `Can change equipment details while equipped`() {
-            val oldItem = Equipment(EQUIPMENT_ID_0, data = Shirt(main = MadeFromFabric(MATERIAL_ID_0)))
-            val newItem = Equipment(EQUIPMENT_ID_0, data = Shirt(main = MadeFromFabric(MATERIAL_ID_1)))
+            val oldItem = Equipment(EQUIPMENT_ID_0, appearance = Shirt(main = MadeFromFabric(MATERIAL_ID_0)))
+            val newItem = Equipment(EQUIPMENT_ID_0, appearance = Shirt(main = MadeFromFabric(MATERIAL_ID_1)))
             val state = State(
                 listOf(
                     Storage(oldItem),
@@ -214,7 +214,7 @@ class EquipmentTest {
         ) = Equipment(
             EQUIPMENT_ID_0,
             colorSchemes = UseColorSchemes(scheme),
-            data = Glasses(frame = MadeFromCord(material, lookup)),
+            appearance = Glasses(frame = MadeFromCord(material, lookup)),
         )
 
         private fun createWithGroup(
@@ -224,7 +224,7 @@ class EquipmentTest {
         ) = Equipment(
             EQUIPMENT_ID_0,
             colorSchemes = UseColorSchemeGroup(group),
-            data = Glasses(frame = MadeFromCord(material, lookup)),
+            appearance = Glasses(frame = MadeFromCord(material, lookup)),
         )
     }
 

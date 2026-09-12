@@ -39,12 +39,12 @@ fun HtmlBlockTag.showEquipment(
     state: State,
     equipment: Equipment,
 ) {
-    val material = equipment.data.mainMaterial()
+    val material = equipment.appearance.mainMaterial()
     val costFactors = calculateCostFactors(state, equipment.stats)
-    val vpm = calculateVolumePerMaterial(CalculateVolumeConfig.from(CHARACTER_CONFIG), equipment.data)
+    val vpm = calculateVolumePerMaterial(CalculateVolumeConfig.from(CHARACTER_CONFIG), equipment.appearance)
 
     showEquipmentStats(call, state, equipment.stats, material)
-    showEquipmentData(call, state, equipment.data)
+    showEquipmentAppearance(call, state, equipment.appearance)
     fieldColorSchemeOption(call, state, equipment.colorSchemes)
     showWeightLookupDetails(
         call,
@@ -91,7 +91,7 @@ fun HtmlBlockTag.editEquipment(
 ) {
     selectName(equipment.name)
     editEquipmentStats(call, state, equipment.stats)
-    editEquipmentData(state, equipment.data)
+    editEquipmentAppearance(state, equipment.appearance)
     selectColorSchemes(state, equipment)
     selectWeightLookup(equipment.weight, MIN_EQUIPMENT_WEIGHT, MAX_EQUIPMENT_WEIGHT)
     selectPriceLookup(state, equipment.price, MIN_EQUIPMENT_PRICE, MAX_EQUIPMENT_PRICE)
@@ -101,7 +101,7 @@ private fun HtmlBlockTag.selectColorSchemes(
     state: State,
     equipment: Equipment,
 ) {
-    val requiredSchemaColors = equipment.data.requiredSchemaColors()
+    val requiredSchemaColors = equipment.appearance.requiredSchemaColors()
 
     if (requiredSchemaColors > 0) {
         editColorSchemeOption(
@@ -126,7 +126,7 @@ fun parseEquipment(
     parameters: Parameters,
     id: EquipmentId,
 ): Equipment {
-    val data = parseEquipmentData(state, parameters)
+    val data = parseEquipmentAppearance(state, parameters)
 
     return Equipment(
         id,

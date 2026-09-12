@@ -5,9 +5,9 @@
    "id": 0,
    "name": "Spear",
    "stats": {
-    "type": 9
+    "type": 14
    },
-   "data": {
+   "appearance": {
     "#type": "Polearm",
     "head": {
      "#type": "Spear",
@@ -41,7 +41,7 @@
    "stats": {
     "type": 2
    },
-   "data": {
+   "appearance": {
     "#type": "Armour",
     "style": {
      "#type": "Scale",
@@ -65,7 +65,7 @@
    "stats": {
     "type": 3
    },
-   "data": {
+   "appearance": {
     "#type": "Armour",
     "style": {
      "#type": "Chain",
@@ -86,7 +86,7 @@
    "stats": {
     "type": 8
    },
-   "data": {
+   "appearance": {
     "#type": "Sword1",
     "blade": {
      "#type": "Simple",
@@ -124,7 +124,7 @@
    "stats": {
     "type": 5
    },
-   "data": {
+   "appearance": {
     "#type": "Armour",
     "style": {
      "#type": "Segmented",
@@ -141,7 +141,7 @@
   "5": {
    "id": 5,
    "name": "Leather Boots",
-   "data": {
+   "appearance": {
     "#type": "Footwear",
     "style": {
      "#type": "Boot",

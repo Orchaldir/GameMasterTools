@@ -5,7 +5,7 @@ import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
 import at.orchaldir.gm.core.model.item.ammunition.Ammunition
 import at.orchaldir.gm.core.model.item.equipment.Equipment
-import at.orchaldir.gm.core.model.item.equipment.EquipmentData
+import at.orchaldir.gm.core.model.item.equipment.EquipmentAppearance
 import at.orchaldir.gm.core.model.item.equipment.EquipmentIdMap
 import at.orchaldir.gm.core.selector.rpg.equipment.getEquipmentType
 import at.orchaldir.gm.utils.math.unit.CalculatedWeight
@@ -22,7 +22,7 @@ fun calculateWeight(
     equipment: Equipment,
     appearance: Appearance = HumanoidBody(),
 ) = when (equipment.weight) {
-    CalculatedWeight -> calculateWeight(state, config, equipment.data, appearance)
+    CalculatedWeight -> calculateWeight(state, config, equipment.appearance, appearance)
     is UserDefinedWeight -> equipment.weight.weight
     WeightBasedOnType -> calculateWeightBasedOnType(state, equipment)
     UndefinedWeight -> WEIGHTLESS
@@ -49,7 +49,7 @@ fun getWeightOfType(lookup: WeightLookup?) = when (lookup) {
 fun calculateWeight(
     state: State,
     config: CalculateVolumeConfig<Appearance>,
-    data: EquipmentData,
+    data: EquipmentAppearance,
     appearance: Appearance = HumanoidBody(),
 ) = calculateVolumePerMaterial(config, data, appearance)
     .getWeight(state)

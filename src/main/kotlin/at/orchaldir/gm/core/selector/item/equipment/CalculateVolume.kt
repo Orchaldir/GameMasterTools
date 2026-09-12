@@ -89,7 +89,7 @@ fun CalculateVolumeConfig<Appearance>.convert(appearance: Head) = CalculateVolum
 
 fun calculateVolumePerMaterial(
     config: CalculateVolumeConfig<Appearance>,
-    data: EquipmentData,
+    data: EquipmentAppearance,
     appearance: Appearance = HumanoidBody(),
 ): VolumePerMaterial {
     val vpm = VolumePerMaterial()
@@ -122,7 +122,7 @@ fun calculateVolumePerMaterial(
 
 private fun calculateVolumePerMaterialForBody(
     config: CalculateVolumeConfig<Body>,
-    data: EquipmentData,
+    data: EquipmentAppearance,
     vpm: VolumePerMaterial,
 ) {
     when (data) {
@@ -252,7 +252,7 @@ private fun calculateVolumePerMaterialForBody(
 
 private fun calculateVolumePerMaterialForHead(
     config: CalculateVolumeConfig<Head>,
-    data: EquipmentData,
+    data: EquipmentAppearance,
     vpm: VolumePerMaterial,
 ) {
     when (data) {

@@ -4,7 +4,7 @@ import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.fashion.ClothingSet
 import at.orchaldir.gm.core.model.economy.material.MaterialId
-import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
+import at.orchaldir.gm.core.model.item.equipment.EquipmentAppearanceType
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentTypeId
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifierId
@@ -26,7 +26,7 @@ fun State.canDeleteEquipment(equipment: EquipmentId) = DeleteResult(equipment)
 
 fun State.countEquipment(material: MaterialId) = getEquipmentStorage()
     .getAll()
-    .count { it.data.contains(material) }
+    .count { it.appearance.contains(material) }
 
 fun State.countEquipment(scheme: ColorSchemeId) = getEquipmentStorage()
     .getAll()
@@ -37,14 +37,14 @@ fun State.countEquipment(scheme: ColorSchemeId) = getEquipmentStorage()
 fun State.isAvailable(set: ClothingSet) = set.getTypes()
     .all { isAvailable(it) }
 
-fun State.isAvailable(type: EquipmentDataType) = getEquipmentStorage()
+fun State.isAvailable(type: EquipmentAppearanceType) = getEquipmentStorage()
     .getAll()
-    .any { it.data.isType(type) }
+    .any { it.appearance.isType(type) }
 
 // get
 
-fun State.getEquipmentOf(type: EquipmentDataType) = getEquipmentStorage().getAll()
-    .filter { it.data.isType(type) }
+fun State.getEquipmentOf(type: EquipmentAppearanceType) = getEquipmentStorage().getAll()
+    .filter { it.appearance.isType(type) }
 
 fun State.getEquipment(scheme: ColorSchemeId) = getEquipmentStorage()
     .getAll()
@@ -55,9 +55,9 @@ fun State.getEquipment(group: ColorSchemeGroupId) = getEquipmentStorage()
     .filter { it.colorSchemes.contains(group) }
 
 fun State.getEquipmentMadeOf(material: MaterialId) = getEquipmentStorage().getAll()
-    .filter { it.data.contains(material) }
+    .filter { it.appearance.contains(material) }
 
-fun State.getEquipmentId(type: EquipmentDataType) = getEquipmentOf(type)
+fun State.getEquipmentId(type: EquipmentAppearanceType) = getEquipmentOf(type)
     .map { it.id() }
     .toSet()
 

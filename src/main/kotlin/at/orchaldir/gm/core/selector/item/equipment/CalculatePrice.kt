@@ -7,7 +7,7 @@ import at.orchaldir.gm.core.model.economy.money.CalculatedPrice
 import at.orchaldir.gm.core.model.economy.money.Price
 import at.orchaldir.gm.core.model.economy.money.UserDefinedPrice
 import at.orchaldir.gm.core.model.item.equipment.Equipment
-import at.orchaldir.gm.core.model.item.equipment.EquipmentData
+import at.orchaldir.gm.core.model.item.equipment.EquipmentAppearance
 import at.orchaldir.gm.core.model.item.equipment.EquipmentIdMap
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentStats
 import at.orchaldir.gm.utils.Id
@@ -65,14 +65,14 @@ fun calculatePrice(
     equipment: Equipment,
     appearance: Appearance = HumanoidBody(),
 ) = when (equipment.price) {
-    CalculatedPrice -> calculatePrice(state, config, equipment.data, appearance)
+    CalculatedPrice -> calculatePrice(state, config, equipment.appearance, appearance)
     is UserDefinedPrice -> equipment.price.price
 }
 
 fun calculatePrice(
     state: State,
     config: CalculateVolumeConfig<Appearance>,
-    data: EquipmentData,
+    data: EquipmentAppearance,
     appearance: Appearance = HumanoidBody(),
 ) = calculateVolumePerMaterial(config, data, appearance)
     .getPrice(state)
