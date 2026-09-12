@@ -111,7 +111,8 @@ class EquipmentTest {
 
             @Test
             fun `Equipment stats must have valid modifiers`() {
-                val item = Equipment(EQUIPMENT_ID_0, stats = EquipmentStats(modifiers = setOf(UNKNOWN_EQUIPMENT_MODIFIER)))
+                val item =
+                    Equipment(EQUIPMENT_ID_0, stats = EquipmentStats(modifiers = setOf(UNKNOWN_EQUIPMENT_MODIFIER)))
                 val action = UpdateAction(item)
 
                 assertIllegalArgument("Requires unknown Equipment Modifier 99!") { REDUCER.invoke(STATE, action) }

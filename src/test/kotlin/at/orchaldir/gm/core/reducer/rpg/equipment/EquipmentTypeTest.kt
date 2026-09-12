@@ -2,7 +2,8 @@ package at.orchaldir.gm.core.reducer.rpg.equipment
 
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.rpg.combat.*
+import at.orchaldir.gm.core.model.rpg.combat.DamageResistance
+import at.orchaldir.gm.core.model.rpg.combat.DamageType
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentType
 import at.orchaldir.gm.core.model.rpg.equipment.MAX_COST_FACTOR
 import at.orchaldir.gm.core.model.rpg.equipment.MIN_COST_FACTOR

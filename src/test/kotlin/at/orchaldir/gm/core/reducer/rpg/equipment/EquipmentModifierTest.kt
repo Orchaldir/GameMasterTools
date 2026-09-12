@@ -3,13 +3,7 @@ package at.orchaldir.gm.core.reducer.rpg.equipment
 import at.orchaldir.gm.EQUIPMENT_MODIFIER_ID_0
 import at.orchaldir.gm.assertIllegalArgument
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifier
-import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifierEffect
-import at.orchaldir.gm.core.model.rpg.equipment.MAX_COST_FACTOR
-import at.orchaldir.gm.core.model.rpg.equipment.MIN_COST_FACTOR
-import at.orchaldir.gm.core.model.rpg.equipment.ModifyDamage
-import at.orchaldir.gm.core.model.rpg.equipment.ModifyDamageResistance
-import at.orchaldir.gm.core.model.rpg.equipment.ModifyDefenseBonus
+import at.orchaldir.gm.core.model.rpg.equipment.*
 import at.orchaldir.gm.core.model.util.quantity.StandardDice
 import at.orchaldir.gm.utils.math.ONE_PERCENT
 import org.junit.jupiter.api.Test

@@ -18,7 +18,12 @@ class EquippedTest {
             Storage(Character(CHARACTER_ID_0)),
             Storage(CharacterTemplate(CHARACTER_TEMPLATE_ID_0, race = RACE_LOOKUP_0)),
             Storage(ColorScheme(COLOR_SCHEME_ID_0)),
-            Storage(listOf(Equipment(EQUIPMENT_ID_0, appearance = Hat()), Equipment(EQUIPMENT_ID_1, appearance = Footwear()))),
+            Storage(
+                listOf(
+                    Equipment(EQUIPMENT_ID_0, appearance = Hat()),
+                    Equipment(EQUIPMENT_ID_1, appearance = Footwear())
+                )
+            ),
             Storage(Uniform(UNIFORM_ID_0)),
         )
     )

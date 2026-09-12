@@ -6,13 +6,9 @@ import at.orchaldir.gm.EQUIPMENT_MODIFIER_ID_0
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.ammunition.Ammunition
-import at.orchaldir.gm.core.model.item.equipment.BodyArmour
 import at.orchaldir.gm.core.model.item.equipment.Equipment
-import at.orchaldir.gm.core.model.item.equipment.OneHandedAxe
-import at.orchaldir.gm.core.model.item.equipment.Shield
-import at.orchaldir.gm.core.model.item.equipment.style.ScaleArmour
-import at.orchaldir.gm.core.model.rpg.equipment.EquipmentStats
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifier
+import at.orchaldir.gm.core.model.rpg.equipment.EquipmentStats
 import at.orchaldir.gm.core.selector.rpg.equipment.canDeleteEquipmentModifier
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage

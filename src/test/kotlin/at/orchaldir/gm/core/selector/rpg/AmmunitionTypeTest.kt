@@ -6,9 +6,9 @@ import at.orchaldir.gm.EQUIPMENT_TYPE_ID_0
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.ammunition.Ammunition
-import at.orchaldir.gm.core.model.rpg.equipment.AmmunitionType
 import at.orchaldir.gm.core.model.rpg.combat.RangedAttack
 import at.orchaldir.gm.core.model.rpg.combat.SingleShot
+import at.orchaldir.gm.core.model.rpg.equipment.AmmunitionType
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentType
 import at.orchaldir.gm.core.selector.rpg.equipment.canDeleteAmmunitionType
 import at.orchaldir.gm.utils.Id
