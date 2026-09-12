@@ -169,7 +169,7 @@ fun Application.configureEquipmentRouting() {
                 routes,
                 state.sortEquipmentList(armors, all.sort),
                 listOf(
-                    createNameColumn(call, state),
+                    createNameColumn(call, state, "Armor"),
                     createIdColumn(call, state, "Type") { it.stats.type },
                     createIdColumn(call, state, "Material") { it.appearance.mainMaterial() },
                     tdColumn("Protection") {
@@ -194,7 +194,7 @@ fun Application.configureEquipmentRouting() {
                 routes,
                 state.sortEquipmentList(meleeWeapons, all.sort),
                 listOf(
-                    createNameColumn(call, state),
+                    createNameColumn(call, state, "Melee Weapons"),
                     createIdColumn(call, state, "Type") { it.stats.type },
                     createIdColumn(call, state, "Material") { it.appearance.mainMaterial() },
                     Column("Modifiers") {
@@ -225,7 +225,7 @@ fun Application.configureEquipmentRouting() {
                 routes,
                 state.sortEquipmentList(shields, all.sort),
                 listOf(
-                    createNameColumn(call, state),
+                    createNameColumn(call, state, "Ranged Weapons"),
                     createIdColumn(call, state, "Type") { it.stats.type },
                     createIdColumn(call, state, "Material") { it.appearance.mainMaterial() },
                     tdColumn("Protection") {

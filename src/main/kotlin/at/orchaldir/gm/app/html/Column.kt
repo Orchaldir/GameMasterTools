@@ -148,7 +148,8 @@ fun createMeleeWeaponColumn(
 fun <ID : Id<ID>, ELEMENT : Element<ID>> createNameColumn(
     call: ApplicationCall,
     state: State,
-): Column<ELEMENT> = Column("Name") { tdLink(call, state, it) }
+    header: String = "Name",
+): Column<ELEMENT> = Column(header) { tdLink(call, state, it) }
 
 fun <ID : Id<ID>, ELEMENT : HasOrigin> createOriginColumn(
     call: ApplicationCall,
