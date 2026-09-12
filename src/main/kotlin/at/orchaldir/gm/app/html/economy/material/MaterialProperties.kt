@@ -64,8 +64,8 @@ fun HtmlBlockTag.editMaterialProperties(
         "Density",
         DENSITY,
         properties.density,
-        1,
-        25000,
+        MIN_MATERIAL_DENSITY,
+        MAX_MATERIAL_DENSITY,
         SiPrefix.Kilo,
     )
     selectFloat(

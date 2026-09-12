@@ -31,6 +31,8 @@ const val RACE_TYPE = "Race"
 val DEFAULT_GENDERS = Gender.entries - Gender.Genderless
 val MIN_RACE_HEIGHT = Distance.fromCentimeters(10)
 val MAX_RACE_HEIGHT = Distance.fromCentimeters(500)
+val MIN_RACE_WEIGHT = Weight.fromKilograms(1)
+val MAX_RACE_WEIGHT = Weight.fromKilograms(1000)
 val ALLOWED_RACE_ORIGINS = listOf(
     OriginType.Combined,
     OriginType.Created,

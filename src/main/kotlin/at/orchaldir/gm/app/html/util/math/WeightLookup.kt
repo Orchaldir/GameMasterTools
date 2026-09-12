@@ -60,8 +60,8 @@ fun HtmlBlockTag.showWeightLookupDetails(
 
 fun HtmlBlockTag.selectWeightLookupForType(
     lookup: WeightLookup,
-    minWeight: Long,
-    maxWeight: Long,
+    minWeight: Weight,
+    maxWeight: Weight,
     param: String = WEIGHT,
 ) = selectWeightLookup(
     lookup,
@@ -73,8 +73,8 @@ fun HtmlBlockTag.selectWeightLookupForType(
 
 fun HtmlBlockTag.selectWeightLookup(
     lookup: WeightLookup,
-    minWeight: Long,
-    maxWeight: Long,
+    minWeight: Weight,
+    maxWeight: Weight,
     param: String = WEIGHT,
     allowedTypes: Collection<WeightLookupType> = WeightLookupType.entries,
 ) {
@@ -102,7 +102,7 @@ fun HtmlBlockTag.selectWeightLookup(
 
 fun parseWeightLookupForType(
     parameters: Parameters,
-    minWeight: Long,
+    minWeight: Weight,
     param: String = WEIGHT,
 ) = parseWeightLookup(
     parameters,
@@ -113,7 +113,7 @@ fun parseWeightLookupForType(
 
 fun parseWeightLookup(
     parameters: Parameters,
-    minWeight: Long,
+    minWeight: Weight,
     param: String = WEIGHT,
     allowedTypes: Collection<WeightLookupType> = WeightLookupType.entries,
 ) = when (parse(parameters, combine(param, TYPE), allowedTypes)) {

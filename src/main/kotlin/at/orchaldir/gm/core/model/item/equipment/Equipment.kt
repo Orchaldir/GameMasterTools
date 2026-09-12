@@ -11,12 +11,13 @@ import at.orchaldir.gm.core.model.util.render.NoColorSchemes
 import at.orchaldir.gm.core.reducer.item.validateEquipment
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.math.unit.UndefinedWeight
+import at.orchaldir.gm.utils.math.unit.Weight
 import at.orchaldir.gm.utils.math.unit.WeightLookup
 import kotlinx.serialization.Serializable
 
 const val EQUIPMENT_TYPE = "Equipment"
-const val MIN_EQUIPMENT_WEIGHT = 10L
-const val MAX_EQUIPMENT_WEIGHT = 1_000_000L
+val MIN_EQUIPMENT_WEIGHT = Weight.fromGrams(1)
+val MAX_EQUIPMENT_WEIGHT = Weight.fromKilograms(1000)
 
 const val MIN_EQUIPMENT_PRICE = 0
 const val MAX_EQUIPMENT_PRICE = 1_000_000_000

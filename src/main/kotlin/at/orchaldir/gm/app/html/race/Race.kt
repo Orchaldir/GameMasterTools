@@ -81,7 +81,14 @@ fun HtmlBlockTag.editRace(
         MAX_RACE_HEIGHT,
         heightPrefix,
     )
-    selectWeight("Weight", WEIGHT, race.weight, 1, 1000, weightPrefix)
+    selectWeight(
+        "Weight",
+        WEIGHT,
+        race.weight,
+        MIN_RACE_WEIGHT,
+        MAX_RACE_WEIGHT,
+        weightPrefix,
+    )
     selectOptionalDate(state, "Date", race.date, DATE)
     editOrigin(state, race.id, race.origin, race.date, ALLOWED_RACE_ORIGINS, ::RaceId)
     editLifeStages(call, state, race.lifeStages)

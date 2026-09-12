@@ -47,6 +47,7 @@ data class EquipmentType(
         rangedAttacks.forEach { validateRangedAttack(state, it) }
         validateProtection(state, protection)
         validateFactor(cost, "Cost", MIN_COST_FACTOR, MAX_COST_FACTOR)
+        validateWei(cost, "Cost", MIN_COST_FACTOR, MAX_COST_FACTOR)
     }
 
     fun contains(type: AmmunitionTypeId) = rangedAttacks.any { it.contains(type) }
