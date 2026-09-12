@@ -6,17 +6,17 @@ enum class EquipmentCategory {
     Generic,
     Ammunition,
     Armor,
-    MeleeWeapons,
-    RangedWeapons,
-    Shields,
-    Weapons;
+    MeleeWeapon,
+    RangedWeapon,
+    Shield,
+    Weapon;
 
     fun contains(other: EquipmentCategory) = when (this) {
         Generic -> true
-        Weapons -> when (other) {
-            MeleeWeapons -> true
-            RangedWeapons -> true
-            Weapons -> true
+        Weapon -> when (other) {
+            MeleeWeapon -> true
+            RangedWeapon -> true
+            Weapon -> true
             else -> false
         }
 

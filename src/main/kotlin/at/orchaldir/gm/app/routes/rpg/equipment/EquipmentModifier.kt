@@ -66,7 +66,7 @@ fun Application.configureEquipmentModifierRouting() {
                 state.sortEquipmentModifiers(all.sort),
                 listOf(
                     createNameColumn(call, state),
-                    Column("Category") { tdEnum(it.category) },
+                    createEnumColumn("Category") { it.category },
                     Column("Effects") {
                         tdList(it.effects) {
                             displayEquipmentModifierEffect(call, state, it)

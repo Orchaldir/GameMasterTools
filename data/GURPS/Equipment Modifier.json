@@ -4,13 +4,13 @@
   "0": {
    "id": 0,
    "name": "Cheap",
-   "category": "MeleeWeapons",
+   "category": "MeleeWeapon",
    "cost": -6000
   },
   "1": {
    "id": 1,
    "name": "Fine",
-   "category": "MeleeWeapons",
+   "category": "MeleeWeapon",
    "effects": [
     {
      "#type": "Damage",
@@ -25,7 +25,7 @@
   "2": {
    "id": 2,
    "name": "Very Fine",
-   "category": "MeleeWeapons",
+   "category": "MeleeWeapon",
    "effects": [
     {
      "#type": "Damage",

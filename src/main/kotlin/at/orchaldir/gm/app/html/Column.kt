@@ -125,6 +125,11 @@ fun <ID0 : Id<ID0>, ID1 : Id<ID1>, ELEMENT : Element<ID0>> createIdColumn(
     convert: (ELEMENT) -> ID1?,
 ): Column<ELEMENT> = tdColumn(label) { optionalLink(call, state, convert(it)) }
 
+fun <ID : Id<ID>, ELEMENT : Element<ID>, T : Enum<T>> createEnumColumn(
+    label: String,
+    get: (ELEMENT) -> T,
+): Column<ELEMENT> = Column(label) { tdEnum(get(it)) }
+
 fun createMeleeWeaponColumn(
     state: State,
     label: String,

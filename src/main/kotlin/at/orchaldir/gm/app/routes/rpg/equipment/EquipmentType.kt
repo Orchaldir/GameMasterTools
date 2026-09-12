@@ -82,6 +82,7 @@ fun Application.configureEquipmentTypeRouting() {
                 state.sortEquipmentTypes(all.sort),
                 listOf(
                     createNameColumn(call, state),
+                    createEnumColumn("Category") { it.category },
                     countCollectionColumn("Melee Attacks") { it.meleeAttacks },
                     countCollectionColumn("Ranged Attacks") { it.rangedAttacks },
                     tdColumn("Protection") { displayProtection(call, state, it.protection) },
