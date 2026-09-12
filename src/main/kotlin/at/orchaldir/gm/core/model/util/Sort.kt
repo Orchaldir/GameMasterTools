@@ -153,6 +153,7 @@ enum class SortEquipmentModifier {
 
 enum class SortEquipmentType {
     Name,
+    Category,
     Protection,
     Reach,
     Weight,

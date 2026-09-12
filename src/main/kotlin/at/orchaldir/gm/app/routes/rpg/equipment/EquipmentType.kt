@@ -105,6 +105,7 @@ fun Application.configureEquipmentTypeRouting() {
                     .filter { it.meleeAttacks.isNotEmpty() },
                 listOf(
                     createNameColumn(call, state),
+                    createEnumColumn("Category") { it.category },
                     tdColumn("Damage") {
                         showMultiLine(it.meleeAttacks) { attack ->
                             displayAttackEffect(call, state, attack.effect)
@@ -135,6 +136,7 @@ fun Application.configureEquipmentTypeRouting() {
                     .filter { it.rangedAttacks.isNotEmpty() },
                 listOf(
                     createNameColumn(call, state),
+                    createEnumColumn("Category") { it.category },
                     tdColumn("Damage") {
                         showMultiLine(it.rangedAttacks) { attack ->
                             displayAttackEffect(call, state, attack.effect)

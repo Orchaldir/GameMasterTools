@@ -141,6 +141,9 @@
   "5": {
    "id": 5,
    "name": "Leather Boots",
+   "stats": {
+    "type": 1
+   },
    "appearance": {
     "#type": "Footwear",
     "style": {

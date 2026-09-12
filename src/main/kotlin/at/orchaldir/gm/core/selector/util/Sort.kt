@@ -585,6 +585,7 @@ fun State.sortEquipmentTypes(
     .sortedWith(
         when (sort) {
             SortEquipmentType.Name -> compareBy { it.name.text }
+            SortEquipmentType.Category -> compareByEnum { it.category }
             SortEquipmentType.Protection -> compareProtection { it.protection }
             SortEquipmentType.Reach -> compareByDescending { it.getMaxReach() }
             SortEquipmentType.Weight -> compareByDescending { getWeightOfType(it.weight).value() }

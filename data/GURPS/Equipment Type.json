@@ -41,7 +41,7 @@
   },
   "3": {
    "id": 3,
-   "name": "Mail",
+   "name": "Chainmail",
    "category": "Armor",
    "protection": {
     "#type": "DamageResistance",
@@ -67,7 +67,7 @@
   },
   "5": {
    "id": 5,
-   "name": "Laminated",
+   "name": "Laminated Armor",
    "category": "Armor",
    "protection": {
     "#type": "DamageResistance",
