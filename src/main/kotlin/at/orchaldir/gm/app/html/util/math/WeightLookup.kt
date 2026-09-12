@@ -35,13 +35,18 @@ fun HtmlBlockTag.showWeightLookupDetails(
     showDetails("Weight", true) {
         field("Type", lookup.getType())
 
-        showVolumePerMaterial(call, state, vpm)
-        showFactorMap(call, state, weightFactors, "Weight Factor")
-
         val weight = when (lookup) {
-            CalculatedWeight -> vpm.getWeight(state)
+            CalculatedWeight -> {
+                showVolumePerMaterial(call, state, vpm)
+
+                vpm.getWeight(state)
+            }
             is UserDefinedWeight -> lookup.weight
-            WeightBasedOnType -> getWeightFromType()
+            WeightBasedOnType -> {
+                showFactorMap(call, state, weightFactors, "Weight Factor")
+
+                getWeightFromType()
+            }
             UndefinedWeight -> return@showDetails
         }
 

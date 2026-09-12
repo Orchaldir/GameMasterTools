@@ -30,6 +30,10 @@ fun HtmlBlockTag.showFactorMap(
 ) {
     var totalFactor = FULL
 
+    if (factors.isEmpty()) {
+        return
+    }
+
     br { }
     table {
         tr {
