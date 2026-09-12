@@ -35,6 +35,7 @@ value class EquipmentTypeId(val value: Int) : Id<EquipmentTypeId> {
 data class EquipmentType(
     val id: EquipmentTypeId,
     val name: Name = Name.init(id),
+    val category: EquipmentCategory = EquipmentCategory.Generic,
     val meleeAttacks: List<MeleeAttack> = emptyList(),
     val rangedAttacks: List<RangedAttack> = emptyList(),
     val protection: Protection = UndefinedProtection,

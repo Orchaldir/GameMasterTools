@@ -11,12 +11,10 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.equipment.DEFAULT_MODIFIER_COST_FACTOR
 import at.orchaldir.gm.core.model.rpg.equipment.DEFAULT_WEIGHT_FACTOR
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifier
-import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifierCategory
+import at.orchaldir.gm.core.model.rpg.equipment.EquipmentCategory
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifierEffectType
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifierId
-import at.orchaldir.gm.core.model.rpg.equipment.MAX_COST_FACTOR
 import at.orchaldir.gm.core.model.rpg.equipment.MAX_WEIGHT_FACTOR
-import at.orchaldir.gm.core.model.rpg.equipment.MIN_COST_FACTOR
 import at.orchaldir.gm.core.model.rpg.equipment.MIN_WEIGHT_FACTOR
 import at.orchaldir.gm.core.selector.item.ammunition.getAmmunition
 import at.orchaldir.gm.core.selector.item.equipment.getEquipment
@@ -64,7 +62,7 @@ private fun HtmlBlockTag.showUsages(
 
 fun HtmlBlockTag.selectEquipmentModifier(
     state: State,
-    category: EquipmentModifierCategory,
+    category: EquipmentCategory,
     modifiers: Set<EquipmentModifierId>,
 ) = selectElements(
     state,
@@ -83,7 +81,7 @@ fun HtmlBlockTag.editEquipmentModifier(
     selectValue(
         "category",
         TYPE,
-        EquipmentModifierCategory.entries,
+        EquipmentCategory.entries,
         modifier.category,
     )
 
@@ -122,7 +120,7 @@ fun parseEquipmentModifier(
 ) = EquipmentModifier(
     id,
     parseName(parameters),
-    parse(parameters, TYPE, EquipmentModifierCategory.All),
+    parse(parameters, TYPE, EquipmentCategory.Generic),
     parseList(parameters, EFFECT, 0) { _, effectParam ->
         parseEquipmentModifierEffect(parameters, effectParam)
     },

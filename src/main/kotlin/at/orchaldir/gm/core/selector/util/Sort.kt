@@ -40,7 +40,7 @@ import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.core.model.rpg.equipment.AmmunitionType
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentType
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifier
-import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifierCategory
+import at.orchaldir.gm.core.model.rpg.equipment.EquipmentCategory
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTrait
 import at.orchaldir.gm.core.model.time.calendar.Calendar
@@ -555,7 +555,7 @@ fun State.sortEquipmentModifiers(sort: SortEquipmentModifier = SortEquipmentModi
     sortEquipmentModifiers(getEquipmentModifierStorage().getAll(), sort)
 
 fun State.sortEquipmentModifiers(
-    category: EquipmentModifierCategory,
+    category: EquipmentCategory,
     sort: SortEquipmentModifier = SortEquipmentModifier.Name,
 ) =
     sortEquipmentModifiers(getEquipmentModifier(category), sort)

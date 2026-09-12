@@ -75,6 +75,7 @@
   "6": {
    "id": 6,
    "name": "Axe",
+   "category": "MeleeWeapons",
    "meleeAttacks": [
     {
      "effect": {
@@ -94,6 +95,26 @@
      },
      "parrying": {
       "#type": "Unbalanced"
+     },
+     "skill": {
+      "#type": "Modified",
+      "skill": 6
+     }
+    }
+   ],
+   "rangedAttacks": [
+    {
+     "effect": {
+      "#type": "Damage",
+      "amount": {
+       "#type": "StatisticBased",
+       "base": 15,
+       "modifier": {
+        "#type": "Not",
+        "number": 2
+       }
+      },
+      "damageType": 4
      },
      "skill": {
       "#type": "Modified",

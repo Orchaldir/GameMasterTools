@@ -2,7 +2,7 @@ package at.orchaldir.gm.core.selector.rpg.equipment
 
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifierCategory
+import at.orchaldir.gm.core.model.rpg.equipment.EquipmentCategory
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifierId
 import at.orchaldir.gm.core.selector.item.ammunition.getAmmunition
 import at.orchaldir.gm.core.selector.item.equipment.getEquipment
@@ -11,6 +11,6 @@ fun State.canDeleteEquipmentModifier(modifier: EquipmentModifierId) = DeleteResu
     .addElements(getAmmunition(modifier))
     .addElements(getEquipment(modifier))
 
-fun State.getEquipmentModifier(category: EquipmentModifierCategory) = getEquipmentModifierStorage()
+fun State.getEquipmentModifier(category: EquipmentCategory) = getEquipmentModifierStorage()
     .getAll()
     .filter { it.category.contains(category) }

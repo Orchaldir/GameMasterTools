@@ -9,7 +9,7 @@ import at.orchaldir.gm.app.html.rpg.combat.showRangedAttackTable
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentStats
-import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifierCategory
+import at.orchaldir.gm.core.model.rpg.equipment.EquipmentCategory
 import at.orchaldir.gm.core.selector.rpg.equipment.getEquipmentModifierEffects
 import at.orchaldir.gm.core.selector.rpg.statblock.resolveMeleeAttacks
 import at.orchaldir.gm.core.selector.rpg.statblock.resolveProtection
@@ -67,7 +67,7 @@ fun HtmlBlockTag.editEquipmentStats(
             state.getEquipmentTypeStorage().getAll(),
             stats.type,
         )
-        selectEquipmentModifier(state, EquipmentModifierCategory.All, stats.modifiers)
+        selectEquipmentModifier(state, EquipmentCategory.Generic, stats.modifiers)
         showUpdatedEquipmentStats(call, state, stats)
     }
 }

@@ -18,7 +18,7 @@ import at.orchaldir.gm.core.model.item.equipment.MAX_EQUIPMENT_PRICE
 import at.orchaldir.gm.core.model.item.equipment.MAX_EQUIPMENT_WEIGHT
 import at.orchaldir.gm.core.model.item.equipment.MIN_EQUIPMENT_PRICE
 import at.orchaldir.gm.core.model.item.equipment.MIN_EQUIPMENT_WEIGHT
-import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifierCategory
+import at.orchaldir.gm.core.model.rpg.equipment.EquipmentCategory
 import at.orchaldir.gm.core.selector.gm.treasure.getTreasureParcelsWith
 import at.orchaldir.gm.core.selector.item.equipment.calculateWeightBasedOnType
 import at.orchaldir.gm.core.selector.util.sortAmmunitionTypes
@@ -86,7 +86,7 @@ fun HtmlBlockTag.editAmmunition(
         state.sortAmmunitionTypes(),
         ammunition.type,
     )
-    selectEquipmentModifier(state, EquipmentModifierCategory.Ammunition, ammunition.modifiers)
+    selectEquipmentModifier(state, EquipmentCategory.Ammunition, ammunition.modifiers)
     selectWeightLookup(ammunition.weight, MIN_EQUIPMENT_WEIGHT, MAX_EQUIPMENT_WEIGHT)
     selectPriceLookup(state, ammunition.price, MIN_EQUIPMENT_PRICE, MAX_EQUIPMENT_PRICE)
 }

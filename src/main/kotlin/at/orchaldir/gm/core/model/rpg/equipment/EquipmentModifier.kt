@@ -4,7 +4,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.utils.Id
-import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.ZERO
 import at.orchaldir.gm.utils.math.validateFactor
@@ -30,7 +29,7 @@ value class EquipmentModifierId(val value: Int) : Id<EquipmentModifierId> {
 data class EquipmentModifier(
     val id: EquipmentModifierId,
     val name: Name = Name.init(id),
-    val category: EquipmentModifierCategory = EquipmentModifierCategory.All,
+    val category: EquipmentCategory = EquipmentCategory.Generic,
     val effects: List<EquipmentModifierEffect> = emptyList(),
     val cost: Factor = DEFAULT_MODIFIER_COST_FACTOR,
     val weight: Factor = DEFAULT_WEIGHT_FACTOR,

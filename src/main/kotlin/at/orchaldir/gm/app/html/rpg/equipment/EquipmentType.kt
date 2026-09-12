@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.html.rpg.equipment
 
 import at.orchaldir.gm.app.ATTACK
 import at.orchaldir.gm.app.COST
+import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.rpg.combat.editMeleeAttack
 import at.orchaldir.gm.app.html.rpg.combat.editProtection
@@ -24,6 +25,8 @@ import at.orchaldir.gm.core.model.item.equipment.MIN_EQUIPMENT_WEIGHT
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentType
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentTypeId
 import at.orchaldir.gm.core.model.rpg.equipment.DEFAULT_TYPE_COST_FACTOR
+import at.orchaldir.gm.core.model.rpg.equipment.EQUIPMENT_TYPE_CATEGORIES
+import at.orchaldir.gm.core.model.rpg.equipment.EquipmentCategory
 import at.orchaldir.gm.core.selector.item.equipment.getEquipment
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -37,6 +40,7 @@ fun HtmlBlockTag.showEquipmentType(
     state: State,
     type: EquipmentType,
 ) {
+    field("Category", type.category)
     showMeleeAttackTable(call, state, type.meleeAttacks)
     showRangedAttackTable(call, state, type.rangedAttacks)
     fieldProtection(call, state, type.protection)
@@ -70,6 +74,12 @@ fun HtmlBlockTag.editEquipmentType(
     type: EquipmentType,
 ) {
     selectName(type.name)
+    selectValue(
+        "category",
+        TYPE,
+        EQUIPMENT_TYPE_CATEGORIES,
+        type.category,
+    )
     editList("Melee Attacks", ATTACK, type.meleeAttacks, 0, 2, 1) { index, param, attack ->
         editMeleeAttack(state, attack, "${index + 1}.Attack", param)
     }
@@ -95,6 +105,7 @@ fun parseEquipmentType(
 ) = EquipmentType(
     id,
     parseName(parameters),
+    parse(parameters, TYPE, EQUIPMENT_TYPE_CATEGORIES),
     parseList(parameters, ATTACK, 0) { _, param ->
         parseMeleeAttack(parameters, param)
     },
