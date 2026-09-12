@@ -33,6 +33,9 @@
       "material": 10
      }
     }
+   },
+   "weight": {
+    "#type": "Type"
    }
   },
   "1": {
@@ -116,6 +119,9 @@
       "#type": "None"
      }
     }
+   },
+   "weight": {
+    "#type": "Type"
    }
   },
   "4": {
@@ -136,6 +142,9 @@
      "breastplateRows": 3
     },
     "sleeveStyle": "Long"
+   },
+   "weight": {
+    "#type": "Type"
    }
   },
   "5": {
