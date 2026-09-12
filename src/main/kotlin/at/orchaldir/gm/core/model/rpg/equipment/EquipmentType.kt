@@ -57,5 +57,5 @@ data class EquipmentType(
     fun contains(type: DamageTypeId) = protection.contains(type) || meleeAttacks.any { it.contains(type) } || rangedAttacks.any { it.contains(type) }
     fun contains(statistic: StatisticId) = meleeAttacks.any { it.contains(statistic) } || rangedAttacks.any { it.contains(statistic) }
 
-    fun getMaxReach() = meleeAttacks.maxOf { it.reach.getMaxReach() }
+    fun getMaxReach() = meleeAttacks.maxOfOrNull { it.reach.getMaxReach() } ?: 0
 }
