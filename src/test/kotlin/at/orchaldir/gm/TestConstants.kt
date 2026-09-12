@@ -38,7 +38,10 @@ import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.religion.DomainId
 import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.religion.PantheonId
-import at.orchaldir.gm.core.model.rpg.combat.*
+import at.orchaldir.gm.core.model.rpg.combat.DamageTypeId
+import at.orchaldir.gm.core.model.rpg.equipment.AmmunitionTypeId
+import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifierId
+import at.orchaldir.gm.core.model.rpg.equipment.EquipmentTypeId
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitId
 import at.orchaldir.gm.core.model.time.calendar.Calendar
@@ -72,8 +75,6 @@ val UNKNOWN_AMMUNITION_TYPE = AmmunitionTypeId(99)
 val ARCHITECTURAL_ID_0 = ArchitecturalStyleId(0)
 val ARCHITECTURAL_ID_1 = ArchitecturalStyleId(1)
 val UNKNOWN_ARCHITECTURAL_ID = ArchitecturalStyleId(99)
-val ARMOR_TYPE_ID_0 = ArmorTypeId(0)
-val UNKNOWN_ARMOR_TYPE = ArmorTypeId(99)
 val ARTICLE_ID_0 = ArticleId(0)
 val UNKNOWN_ARTICLE_ID = ArticleId(99)
 val BATTLE_ID_0 = BattleId(0)
@@ -131,6 +132,8 @@ val EQUIPMENT_ID_1 = EquipmentId(1)
 val UNKNOWN_EQUIPMENT_ID = EquipmentId(99)
 val EQUIPMENT_MODIFIER_ID_0 = EquipmentModifierId(0)
 val UNKNOWN_EQUIPMENT_MODIFIER = EquipmentModifierId(99)
+val EQUIPMENT_TYPE_ID_0 = EquipmentTypeId(0)
+val UNKNOWN_EQUIPMENT_TYPE = EquipmentTypeId(99)
 val FASHION_ID_0 = FashionId(0)
 val FONT_ID_0 = FontId(0)
 val UNKNOWN_FONT_ID = FontId(99)
@@ -153,8 +156,6 @@ val UNKNOWN_MAGIC_TRADITION_ID = MagicTraditionId(99)
 val MATERIAL_ID_0 = MaterialId(0)
 val MATERIAL_ID_1 = MaterialId(1)
 val UNKNOWN_MATERIAL_ID = MaterialId(99)
-val MELEE_WEAPON_TYPE_ID_0 = MeleeWeaponTypeId(0)
-val UNKNOWN_MELEE_WEAPON_TYPE = MeleeWeaponTypeId(99)
 val MOON_ID_0 = MoonId(0)
 val UNKNOWN_MOON_ID = MoonId(99)
 val NAME_LIST_ID0 = NameListId(0)
@@ -186,8 +187,6 @@ val UNKNOWN_RACE_LOOKUP = UseRace(UNKNOWN_RACE_ID)
 val RACE_APPEARANCE_ID_0 = RaceAppearanceId(0)
 val RACE_GROUP_ID_0 = RaceGroupId(0)
 val UNKNOWN_RACE_GROUP_ID = RaceGroupId(99)
-val RANGED_WEAPON_TYPE_ID_0 = RangedWeaponTypeId(0)
-val UNKNOWN_RANGED_WEAPON_TYPE = RangedWeaponTypeId(99)
 val REALM_ID_0 = RealmId(0)
 val REALM_ID_1 = RealmId(1)
 val UNKNOWN_REALM_ID = RealmId(99)
@@ -204,8 +203,6 @@ val SETTLEMENT_MAP_ID_1 = SettlementMapId(1)
 val UNKNOWN_SETTLEMENT_MAP_ID = SettlementMapId(99)
 val SETTLEMENT_SIZE_ID_0 = SettlementSizeId(0)
 val UNKNOWN_SETTLEMENT_SIZE_ID = SettlementSizeId(99)
-val SHIELD_TYPE_ID_0 = ShieldTypeId(0)
-val UNKNOWN_SHIELD_TYPE = ShieldTypeId(99)
 val SPELL_ID_0 = SpellId(0)
 val SPELL_ID_1 = SpellId(1)
 val UNKNOWN_SPELL_ID = SpellId(99)

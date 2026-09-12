@@ -5,9 +5,9 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.economy.money.parsePriceLookup
 import at.orchaldir.gm.app.html.economy.money.selectPriceLookup
 import at.orchaldir.gm.app.html.economy.money.showPriceLookupDetails
-import at.orchaldir.gm.app.html.rpg.combat.parseAmmunitionTypeId
-import at.orchaldir.gm.app.html.rpg.combat.parseEquipmentModifiers
-import at.orchaldir.gm.app.html.rpg.combat.selectEquipmentModifier
+import at.orchaldir.gm.app.html.rpg.equipment.parseAmmunitionTypeId
+import at.orchaldir.gm.app.html.rpg.equipment.parseEquipmentModifiers
+import at.orchaldir.gm.app.html.rpg.equipment.selectEquipmentModifier
 import at.orchaldir.gm.app.html.util.math.parseWeightLookup
 import at.orchaldir.gm.app.html.util.math.selectWeightLookup
 import at.orchaldir.gm.app.html.util.math.showWeightLookupDetails
@@ -18,8 +18,9 @@ import at.orchaldir.gm.core.model.item.equipment.MAX_EQUIPMENT_PRICE
 import at.orchaldir.gm.core.model.item.equipment.MAX_EQUIPMENT_WEIGHT
 import at.orchaldir.gm.core.model.item.equipment.MIN_EQUIPMENT_PRICE
 import at.orchaldir.gm.core.model.item.equipment.MIN_EQUIPMENT_WEIGHT
-import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifierCategory
+import at.orchaldir.gm.core.model.rpg.equipment.EquipmentCategory
 import at.orchaldir.gm.core.selector.gm.treasure.getTreasureParcelsWith
+import at.orchaldir.gm.core.selector.item.equipment.calculateWeightBasedOnType
 import at.orchaldir.gm.core.selector.util.sortAmmunitionTypes
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.math.Factor
@@ -41,7 +42,14 @@ fun HtmlBlockTag.showAmmunition(
 
     fieldLink("Type", call, state, ammunition.type)
     fieldIds(call, state, "Modifiers", ammunition.modifiers)
-    showWeightLookupDetails(call, state, ammunition.weight, vpm)
+    showWeightLookupDetails(
+        call,
+        state,
+        ammunition.weight,
+        vpm,
+    ) {
+        calculateWeightBasedOnType(state, ammunition)
+    }
     showPriceLookupDetails(call, state, ammunition.price, vpm, costFactors)
 
     showUsage(call, state, ammunition.id)
@@ -78,8 +86,8 @@ fun HtmlBlockTag.editAmmunition(
         state.sortAmmunitionTypes(),
         ammunition.type,
     )
-    selectEquipmentModifier(state, EquipmentModifierCategory.Ammunition, ammunition.modifiers)
-    selectWeightLookup(state, ammunition.weight, MIN_EQUIPMENT_WEIGHT, MAX_EQUIPMENT_WEIGHT)
+    selectEquipmentModifier(state, EquipmentCategory.Ammunition, ammunition.modifiers)
+    selectWeightLookup(ammunition.weight, MIN_EQUIPMENT_WEIGHT, MAX_EQUIPMENT_WEIGHT)
     selectPriceLookup(state, ammunition.price, MIN_EQUIPMENT_PRICE, MAX_EQUIPMENT_PRICE)
 }
 

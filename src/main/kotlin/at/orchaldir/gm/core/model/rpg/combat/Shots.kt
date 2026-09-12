@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.rpg.combat
 
+import at.orchaldir.gm.core.model.rpg.equipment.AmmunitionTypeId
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.character.CharacterTemplate
 import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.rpg.combat.*
+import at.orchaldir.gm.core.model.rpg.equipment.EquipmentType
 import at.orchaldir.gm.core.model.rpg.statblock.StatblockUpdate
 import at.orchaldir.gm.core.model.rpg.statblock.UniqueStatblock
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
@@ -60,48 +61,48 @@ class StatisticTest {
         fun `Cannot delete a statistic used by a melee weapon's damage`() {
             val amount = StatisticBasedDamage(STATISTIC_ID_0)
             val attack = MeleeAttack(Damage(amount, DAMAGE_TYPE_ID_0))
-            val element = MeleeWeaponType(MELEE_WEAPON_TYPE_ID_0, attacks = listOf(attack))
+            val element = EquipmentType(EQUIPMENT_TYPE_ID_0, meleeAttacks = listOf(attack))
             val newState = state.updateStorage(element)
 
-            failCanDelete(newState, MELEE_WEAPON_TYPE_ID_0)
+            failCanDelete(newState, EQUIPMENT_TYPE_ID_0)
         }
 
         @Test
         fun `Cannot delete a statistic used by a melee weapon's used skill`() {
             val attack = MeleeAttack(skill = ModifiedUsedSkill(STATISTIC_ID_0))
-            val element = MeleeWeaponType(MELEE_WEAPON_TYPE_ID_0, attacks = listOf(attack))
+            val element = EquipmentType(EQUIPMENT_TYPE_ID_0, meleeAttacks = listOf(attack))
             val newState = state.updateStorage(element)
 
-            failCanDelete(newState, MELEE_WEAPON_TYPE_ID_0)
+            failCanDelete(newState, EQUIPMENT_TYPE_ID_0)
         }
 
         @Test
         fun `Cannot delete a statistic used by a ranged weapon's damage`() {
             val amount = StatisticBasedDamage(STATISTIC_ID_0)
             val attack = RangedAttack(effect = Damage(amount, DAMAGE_TYPE_ID_0))
-            val element = RangedWeaponType(RANGED_WEAPON_TYPE_ID_0, attacks = listOf(attack))
+            val element = EquipmentType(EQUIPMENT_TYPE_ID_0, rangedAttacks = listOf(attack))
             val newState = state.updateStorage(element)
 
-            failCanDelete(newState, RANGED_WEAPON_TYPE_ID_0)
+            failCanDelete(newState, EQUIPMENT_TYPE_ID_0)
         }
 
         @Test
         fun `Cannot delete a statistic used by a ranged weapon's range`() {
             val range = StatisticBasedHalfAndMaxRange(STATISTIC_ID_0, ONE, DOUBLE)
             val attack = RangedAttack(range = range)
-            val element = RangedWeaponType(RANGED_WEAPON_TYPE_ID_0, attacks = listOf(attack))
+            val element = EquipmentType(EQUIPMENT_TYPE_ID_0, rangedAttacks = listOf(attack))
             val newState = state.updateStorage(element)
 
-            failCanDelete(newState, RANGED_WEAPON_TYPE_ID_0)
+            failCanDelete(newState, EQUIPMENT_TYPE_ID_0)
         }
 
         @Test
         fun `Cannot delete a statistic used by a ranged weapon's used skill`() {
             val attack = RangedAttack(skill = ModifiedUsedSkill(STATISTIC_ID_0))
-            val element = RangedWeaponType(RANGED_WEAPON_TYPE_ID_0, attacks = listOf(attack))
+            val element = EquipmentType(EQUIPMENT_TYPE_ID_0, rangedAttacks = listOf(attack))
             val newState = state.updateStorage(element)
 
-            failCanDelete(newState, RANGED_WEAPON_TYPE_ID_0)
+            failCanDelete(newState, EQUIPMENT_TYPE_ID_0)
         }
 
         private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {

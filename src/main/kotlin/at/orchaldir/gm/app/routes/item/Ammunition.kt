@@ -68,7 +68,7 @@ fun Application.configureAmmunitionRouting() {
                     createIdColumn(call, state, "Type") { it.type },
                     tdColumn("Modifiers") {
                         showInlineIds(call, state, it.modifiers)
-                    }
+                    },
                 ),
             )
         }

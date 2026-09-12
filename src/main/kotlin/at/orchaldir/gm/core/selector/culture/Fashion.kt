@@ -18,7 +18,7 @@ fun State.getFashions(id: EquipmentId): List<Fashion> {
     val equipment = getEquipmentStorage().getOrThrow(id)
 
     return getFashionStorage().getAll()
-        .filter { it.clothing.getOptions(equipment.data.getType()).isAvailable(id) }
+        .filter { it.clothing.getOptions(equipment.appearance.getType()).isAvailable(id) }
 }
 
 fun State.hasFashion(character: Character) = getFashion(character) != null

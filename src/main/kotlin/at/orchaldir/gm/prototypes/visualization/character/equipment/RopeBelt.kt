@@ -27,7 +27,7 @@ fun main() {
 private fun createBelt(
     thickness: Size,
     length: Size,
-): EquipmentMap<EquipmentData> {
+): EquipmentMap<EquipmentAppearance> {
     val style = RopeBelt(MadeFromCord(Color.Green), thickness, length)
 
     return EquipmentMap.fromSlotAsKeyMap(

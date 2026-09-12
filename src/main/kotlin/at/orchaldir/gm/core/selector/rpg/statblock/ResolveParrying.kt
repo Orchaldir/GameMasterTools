@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.selector.rpg.statblock
 
 import at.orchaldir.gm.core.model.rpg.combat.*
+import at.orchaldir.gm.core.model.rpg.equipment.ModifyParrying
 
 // resolve parrying with modifier effects
 

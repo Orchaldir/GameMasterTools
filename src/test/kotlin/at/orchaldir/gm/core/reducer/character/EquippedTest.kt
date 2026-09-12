@@ -18,7 +18,12 @@ class EquippedTest {
             Storage(Character(CHARACTER_ID_0)),
             Storage(CharacterTemplate(CHARACTER_TEMPLATE_ID_0, race = RACE_LOOKUP_0)),
             Storage(ColorScheme(COLOR_SCHEME_ID_0)),
-            Storage(listOf(Equipment(EQUIPMENT_ID_0, data = Hat()), Equipment(EQUIPMENT_ID_1, data = Footwear()))),
+            Storage(
+                listOf(
+                    Equipment(EQUIPMENT_ID_0, appearance = Hat()),
+                    Equipment(EQUIPMENT_ID_1, appearance = Footwear())
+                )
+            ),
             Storage(Uniform(UNIFORM_ID_0)),
         )
     )
@@ -63,7 +68,7 @@ class EquippedTest {
 
         @Test
         fun `Cannot use equipment with wrong slots`() {
-            val state = state.updateStorage(Equipment(EQUIPMENT_ID_0, data = Dress()))
+            val state = state.updateStorage(Equipment(EQUIPMENT_ID_0, appearance = Dress()))
 
             assertIllegalArgument("Equipment 0 uses wrong slots!") {
                 validateEquipped(
@@ -79,8 +84,8 @@ class EquippedTest {
             val state = state.updateStorage(
                 Storage(
                     listOf(
-                        Equipment(EQUIPMENT_ID_0, data = Dress()),
-                        Equipment(EQUIPMENT_ID_1, data = Shirt())
+                        Equipment(EQUIPMENT_ID_0, appearance = Dress()),
+                        Equipment(EQUIPMENT_ID_1, appearance = Shirt())
                     )
                 )
             )

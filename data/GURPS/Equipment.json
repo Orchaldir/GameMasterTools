@@ -4,7 +4,10 @@
   "0": {
    "id": 0,
    "name": "Spear",
-   "data": {
+   "stats": {
+    "type": 14
+   },
+   "appearance": {
     "#type": "Polearm",
     "head": {
      "#type": "Spear",
@@ -29,16 +32,19 @@
       "#type": "Wood",
       "material": 10
      }
-    },
-    "stats": {
-     "type": 9
     }
+   },
+   "weight": {
+    "#type": "Type"
    }
   },
   "1": {
    "id": 1,
    "name": "Scale Armor",
-   "data": {
+   "stats": {
+    "type": 2
+   },
+   "appearance": {
     "#type": "Armour",
     "style": {
      "#type": "Scale",
@@ -50,16 +56,19 @@
       "#type": "Circular"
      }
     },
-    "sleeveStyle": "Long",
-    "stats": {
-     "type": 2
-    }
+    "sleeveStyle": "Long"
+   },
+   "weight": {
+    "#type": "Type"
    }
   },
   "2": {
    "id": 2,
    "name": "Chain Mail",
-   "data": {
+   "stats": {
+    "type": 3
+   },
+   "appearance": {
     "#type": "Armour",
     "style": {
      "#type": "Chain",
@@ -68,16 +77,19 @@
       "material": 5
      }
     },
-    "sleeveStyle": "Long",
-    "stats": {
-     "type": 3
-    }
+    "sleeveStyle": "Long"
+   },
+   "weight": {
+    "#type": "Type"
    }
   },
   "3": {
    "id": 3,
    "name": "Longsword",
-   "data": {
+   "stats": {
+    "type": 8
+   },
+   "appearance": {
     "#type": "Sword1",
     "blade": {
      "#type": "Simple",
@@ -106,16 +118,22 @@
      "pommel": {
       "#type": "None"
      }
-    },
-    "stats": {
-     "type": 3
     }
+   },
+   "weight": {
+    "#type": "Type"
    }
   },
   "4": {
    "id": 4,
    "name": "Laminated Armour",
-   "data": {
+   "stats": {
+    "type": 5,
+    "modifiers": [
+     3
+    ]
+   },
+   "appearance": {
     "#type": "Armour",
     "style": {
      "#type": "Segmented",
@@ -126,16 +144,19 @@
      "rows": 8,
      "breastplateRows": 3
     },
-    "sleeveStyle": "Long",
-    "stats": {
-     "type": 5
-    }
+    "sleeveStyle": "Long"
+   },
+   "weight": {
+    "#type": "Type"
    }
   },
   "5": {
    "id": 5,
    "name": "Leather Boots",
-   "data": {
+   "stats": {
+    "type": 1
+   },
+   "appearance": {
     "#type": "Footwear",
     "style": {
      "#type": "Boot",

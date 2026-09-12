@@ -60,7 +60,10 @@ import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.religion.*
-import at.orchaldir.gm.core.model.rpg.combat.*
+import at.orchaldir.gm.core.model.rpg.combat.DAMAGE_TYPE_TYPE
+import at.orchaldir.gm.core.model.rpg.combat.DamageType
+import at.orchaldir.gm.core.model.rpg.combat.DamageTypeId
+import at.orchaldir.gm.core.model.rpg.equipment.*
 import at.orchaldir.gm.core.model.rpg.statistic.STATISTIC_TYPE
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
@@ -117,7 +120,6 @@ val ELEMENTS =
         AMMUNITION_TYPE,
         AMMUNITION_TYPE_TYPE,
         ARCHITECTURAL_STYLE_TYPE,
-        ARMOR_TYPE_TYPE,
         ARTICLE_TYPE,
         BATTLE_TYPE,
         BUILDING_TYPE,
@@ -141,6 +143,7 @@ val ELEMENTS =
         ENCOUNTER_TYPE,
         EQUIPMENT_TYPE,
         EQUIPMENT_MODIFIER_TYPE,
+        EQUIPMENT_TYPE_TYPE,
         FASHION_TYPE,
         FONT_TYPE,
         GOD_TYPE,
@@ -150,7 +153,6 @@ val ELEMENTS =
         LEGAL_CODE_TYPE,
         MAGIC_TRADITION_TYPE,
         MATERIAL_TYPE,
-        MELEE_WEAPON_TYPE_TYPE,
         MOON_TYPE,
         NAME_LIST_TYPE,
         ORGANIZATION_TYPE,
@@ -163,14 +165,12 @@ val ELEMENTS =
         RACE_TYPE,
         RACE_APPEARANCE_TYPE,
         RACE_GROUP_TYPE,
-        RANGED_WEAPON_TYPE_TYPE,
         REALM_TYPE,
         REGION_TYPE,
         RIVER_TYPE,
         SETTLEMENT_TYPE,
         SETTLEMENT_MAP_TYPE,
         SETTLEMENT_SIZE_TYPE,
-        SHIELD_TYPE_TYPE,
         SPELL_TYPE,
         SPELL_GROUP_TYPE,
         STATISTIC_TYPE,
@@ -209,7 +209,6 @@ data class State(
     fun getAmmunitionStorage() = getStorage<AmmunitionId, Ammunition>(AMMUNITION_TYPE)
     fun getAmmunitionTypeStorage() = getStorage<AmmunitionTypeId, AmmunitionType>(AMMUNITION_TYPE_TYPE)
     fun getArchitecturalStyleStorage() = getStorage<ArchitecturalStyleId, ArchitecturalStyle>(ARCHITECTURAL_STYLE_TYPE)
-    fun getArmorTypeStorage() = getStorage<ArmorTypeId, ArmorType>(ARMOR_TYPE_TYPE)
     fun getArticleStorage() = getStorage<ArticleId, Article>(ARTICLE_TYPE)
     fun getBattleStorage() = getStorage<BattleId, Battle>(BATTLE_TYPE)
     fun getBuildingStorage() = getStorage<BuildingId, Building>(BUILDING_TYPE)
@@ -233,6 +232,7 @@ data class State(
     fun getEncounterStorage() = getStorage<EncounterId, Encounter>(ENCOUNTER_TYPE)
     fun getEquipmentStorage() = getStorage<EquipmentId, Equipment>(EQUIPMENT_TYPE)
     fun getEquipmentModifierStorage() = getStorage<EquipmentModifierId, EquipmentModifier>(EQUIPMENT_MODIFIER_TYPE)
+    fun getEquipmentTypeStorage() = getStorage<EquipmentTypeId, EquipmentType>(EQUIPMENT_TYPE_TYPE)
     fun getFashionStorage() = getStorage<FashionId, Fashion>(FASHION_TYPE)
     fun getFontStorage() = getStorage<FontId, Font>(FONT_TYPE)
     fun getGodStorage() = getStorage<GodId, God>(GOD_TYPE)
@@ -242,7 +242,6 @@ data class State(
     fun getLegalCodeStorage() = getStorage<LegalCodeId, LegalCode>(LEGAL_CODE_TYPE)
     fun getMagicTraditionStorage() = getStorage<MagicTraditionId, MagicTradition>(MAGIC_TRADITION_TYPE)
     fun getMaterialStorage() = getStorage<MaterialId, Material>(MATERIAL_TYPE)
-    fun getMeleeWeaponTypeStorage() = getStorage<MeleeWeaponTypeId, MeleeWeaponType>(MELEE_WEAPON_TYPE_TYPE)
     fun getMoonStorage() = getStorage<MoonId, Moon>(MOON_TYPE)
     fun getNameListStorage() = getStorage<NameListId, NameList>(NAME_LIST_TYPE)
     fun getOrganizationStorage() = getStorage<OrganizationId, Organization>(ORGANIZATION_TYPE)
@@ -255,14 +254,12 @@ data class State(
     fun getRaceStorage() = getStorage<RaceId, Race>(RACE_TYPE)
     fun getRaceAppearanceStorage() = getStorage<RaceAppearanceId, RaceAppearance>(RACE_APPEARANCE_TYPE)
     fun getRaceGroupStorage() = getStorage<RaceGroupId, RaceGroup>(RACE_GROUP_TYPE)
-    fun getRangedWeaponTypeStorage() = getStorage<RangedWeaponTypeId, RangedWeaponType>(RANGED_WEAPON_TYPE_TYPE)
     fun getRealmStorage() = getStorage<RealmId, Realm>(REALM_TYPE)
     fun getRegionStorage() = getStorage<RegionId, Region>(REGION_TYPE)
     fun getRiverStorage() = getStorage<RiverId, River>(RIVER_TYPE)
     fun getSettlementStorage() = getStorage<SettlementId, Settlement>(SETTLEMENT_TYPE)
     fun getSettlementMapStorage() = getStorage<SettlementMapId, SettlementMap>(SETTLEMENT_MAP_TYPE)
     fun getSettlementSizeStorage() = getStorage<SettlementSizeId, SettlementSize>(SETTLEMENT_SIZE_TYPE)
-    fun getShieldTypeStorage() = getStorage<ShieldTypeId, ShieldType>(SHIELD_TYPE_TYPE)
     fun getSpellStorage() = getStorage<SpellId, Spell>(SPELL_TYPE)
     fun getSpellGroupStorage() = getStorage<SpellGroupId, SpellGroup>(SPELL_GROUP_TYPE)
     fun getStatisticStorage() = getStorage<StatisticId, Statistic>(STATISTIC_TYPE)
@@ -377,7 +374,6 @@ data class State(
         saveStorage(path, getAmmunitionStorage())
         saveStorage(path, getAmmunitionTypeStorage())
         saveStorage(path, getArchitecturalStyleStorage())
-        saveStorage(path, getArmorTypeStorage())
         saveStorage(path, getArticleStorage())
         saveStorage(path, getBattleStorage())
         saveStorage(path, getBuildingStorage())
@@ -401,6 +397,7 @@ data class State(
         saveStorage(path, getEncounterStorage())
         saveStorage(path, getEquipmentStorage())
         saveStorage(path, getEquipmentModifierStorage())
+        saveStorage(path, getEquipmentTypeStorage())
         saveStorage(path, getFashionStorage())
         saveStorage(path, getFontStorage())
         saveStorage(path, getGodStorage())
@@ -411,7 +408,6 @@ data class State(
         saveStorage(path, getTreasureParcelStorage())
         saveStorage(path, getMagicTraditionStorage())
         saveStorage(path, getMaterialStorage())
-        saveStorage(path, getMeleeWeaponTypeStorage())
         saveStorage(path, getMoonStorage())
         saveStorage(path, getNameListStorage())
         saveStorage(path, getOrganizationStorage())
@@ -424,14 +420,12 @@ data class State(
         saveStorage(path, getRaceStorage())
         saveStorage(path, getRaceAppearanceStorage())
         saveStorage(path, getRaceGroupStorage())
-        saveStorage(path, getRangedWeaponTypeStorage())
         saveStorage(path, getRealmStorage())
         saveStorage(path, getRegionStorage())
         saveStorage(path, getRiverStorage())
         saveStorage(path, getSettlementStorage())
         saveStorage(path, getSettlementMapStorage())
         saveStorage(path, getSettlementSizeStorage())
-        saveStorage(path, getShieldTypeStorage())
         saveStorage(path, getSpellStorage())
         saveStorage(path, getSpellGroupStorage())
         saveStorage(path, getStatisticStorage())
@@ -451,7 +445,6 @@ fun createStorage(type: String) = when (type) {
     AMMUNITION_TYPE -> Storage(AmmunitionId(0))
     AMMUNITION_TYPE_TYPE -> Storage(AmmunitionTypeId(0))
     ARCHITECTURAL_STYLE_TYPE -> Storage(ArchitecturalStyleId(0))
-    ARMOR_TYPE_TYPE -> Storage(ArmorTypeId(0))
     ARTICLE_TYPE -> Storage(ArticleId(0))
     BATTLE_TYPE -> Storage(BattleId(0))
     BUILDING_TYPE -> Storage(BuildingId(0))
@@ -475,6 +468,7 @@ fun createStorage(type: String) = when (type) {
     ENCOUNTER_TYPE -> Storage(EncounterId(0))
     EQUIPMENT_TYPE -> Storage(EquipmentId(0))
     EQUIPMENT_MODIFIER_TYPE -> Storage(EquipmentModifierId(0))
+    EQUIPMENT_TYPE_TYPE -> Storage(EquipmentTypeId(0))
     FASHION_TYPE -> Storage(FashionId(0))
     FONT_TYPE -> Storage(FontId(0))
     GOD_TYPE -> Storage(GodId(0))
@@ -484,7 +478,6 @@ fun createStorage(type: String) = when (type) {
     LEGAL_CODE_TYPE -> Storage(LegalCodeId(0))
     MAGIC_TRADITION_TYPE -> Storage(MagicTraditionId(0))
     MATERIAL_TYPE -> Storage(MaterialId(0))
-    MELEE_WEAPON_TYPE_TYPE -> Storage(MeleeWeaponTypeId(0))
     MOON_TYPE -> Storage(MoonId(0))
     NAME_LIST_TYPE -> Storage(NameListId(0))
     ORGANIZATION_TYPE -> Storage(OrganizationId(0))
@@ -497,14 +490,12 @@ fun createStorage(type: String) = when (type) {
     RACE_TYPE -> Storage(RaceId(0))
     RACE_GROUP_TYPE -> Storage(RaceGroupId(0))
     RACE_APPEARANCE_TYPE -> Storage(RaceAppearanceId(0))
-    RANGED_WEAPON_TYPE_TYPE -> Storage(RangedWeaponTypeId(0))
     REALM_TYPE -> Storage(RealmId(0))
     REGION_TYPE -> Storage(RegionId(0))
     RIVER_TYPE -> Storage(RiverId(0))
     SETTLEMENT_TYPE -> Storage(SettlementId(0))
     SETTLEMENT_MAP_TYPE -> Storage(SettlementMapId(0))
     SETTLEMENT_SIZE_TYPE -> Storage(SettlementSizeId(0))
-    SHIELD_TYPE_TYPE -> Storage(ShieldTypeId(0))
     SPELL_TYPE -> Storage(SpellId(0))
     SPELL_GROUP_TYPE -> Storage(SpellGroupId(0))
     STATISTIC_TYPE -> Storage(StatisticId(0))
@@ -524,7 +515,6 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     AMMUNITION_TYPE -> loadStorage<AmmunitionId, Ammunition>(path, AmmunitionId(0))
     AMMUNITION_TYPE_TYPE -> loadStorage<AmmunitionTypeId, AmmunitionType>(path, AmmunitionTypeId(0))
     ARCHITECTURAL_STYLE_TYPE -> loadStorage<ArchitecturalStyleId, ArchitecturalStyle>(path, ArchitecturalStyleId(0))
-    ARMOR_TYPE_TYPE -> loadStorage<ArmorTypeId, ArmorType>(path, ArmorTypeId(0))
     ARTICLE_TYPE -> loadStorage<ArticleId, Article>(path, ArticleId(0))
     BATTLE_TYPE -> loadStorage<BattleId, Battle>(path, BattleId(0))
     BUILDING_TYPE -> loadStorage<BuildingId, Building>(path, BuildingId(0))
@@ -548,6 +538,7 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     ENCOUNTER_TYPE -> loadStorage<EncounterId, Encounter>(path, EncounterId(0))
     EQUIPMENT_TYPE -> loadStorage<EquipmentId, Equipment>(path, EquipmentId(0))
     EQUIPMENT_MODIFIER_TYPE -> loadStorage<EquipmentModifierId, EquipmentModifier>(path, EquipmentModifierId(0))
+    EQUIPMENT_TYPE_TYPE -> loadStorage<EquipmentTypeId, EquipmentType>(path, EquipmentTypeId(0))
     FASHION_TYPE -> loadStorage<FashionId, Fashion>(path, FashionId(0))
     FONT_TYPE -> loadStorage<FontId, Font>(path, FontId(0))
     GOD_TYPE -> loadStorage<GodId, God>(path, GodId(0))
@@ -557,7 +548,6 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     LEGAL_CODE_TYPE -> loadStorage<LegalCodeId, LegalCode>(path, LegalCodeId(0))
     MAGIC_TRADITION_TYPE -> loadStorage<MagicTraditionId, MagicTradition>(path, MagicTraditionId(0))
     MATERIAL_TYPE -> loadStorage<MaterialId, Material>(path, MaterialId(0))
-    MELEE_WEAPON_TYPE_TYPE -> loadStorage<MeleeWeaponTypeId, MeleeWeaponType>(path, MeleeWeaponTypeId(0))
     MOON_TYPE -> loadStorage<MoonId, Moon>(path, MoonId(0))
     NAME_LIST_TYPE -> loadStorage<NameListId, NameList>(path, NameListId(0))
     ORGANIZATION_TYPE -> loadStorage<OrganizationId, Organization>(path, OrganizationId(0))
@@ -570,14 +560,12 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     RACE_TYPE -> loadStorage<RaceId, Race>(path, RaceId(0))
     RACE_APPEARANCE_TYPE -> loadStorage<RaceAppearanceId, RaceAppearance>(path, RaceAppearanceId(0))
     RACE_GROUP_TYPE -> loadStorage<RaceGroupId, RaceGroup>(path, RaceGroupId(0))
-    RANGED_WEAPON_TYPE_TYPE -> loadStorage<RangedWeaponTypeId, RangedWeaponType>(path, RangedWeaponTypeId(0))
     REALM_TYPE -> loadStorage<RealmId, Realm>(path, RealmId(0))
     REGION_TYPE -> loadStorage<RegionId, Region>(path, RegionId(0))
     RIVER_TYPE -> loadStorage<RiverId, River>(path, RiverId(0))
     SETTLEMENT_TYPE -> loadStorage<SettlementId, Settlement>(path, SettlementId(0))
     SETTLEMENT_MAP_TYPE -> loadStorage<SettlementMapId, SettlementMap>(path, SettlementMapId(0))
     SETTLEMENT_SIZE_TYPE -> loadStorage<SettlementSizeId, SettlementSize>(path, SettlementSizeId(0))
-    SHIELD_TYPE_TYPE -> loadStorage<ShieldTypeId, ShieldType>(path, ShieldTypeId(0))
     SPELL_TYPE -> loadStorage<SpellId, Spell>(path, SpellId(0))
     SPELL_GROUP_TYPE -> loadStorage<SpellGroupId, SpellGroup>(path, SpellGroupId(0))
     STATISTIC_TYPE -> loadStorage<StatisticId, Statistic>(path, StatisticId(0))

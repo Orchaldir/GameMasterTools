@@ -4,24 +4,23 @@ import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.WEIGHT
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
+import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.unit.*
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
-import kotlinx.html.table
-import kotlinx.html.th
-import kotlinx.html.tr
 
 // show
 
-fun HtmlBlockTag.displayWeightLookup(
+fun HtmlBlockTag.showWeightLookupForType(
     lookup: WeightLookup,
-    calculate: () -> Weight,
 ) {
     when (lookup) {
-        CalculatedWeight -> +calculate().toString()
-        is UserDefinedWeight -> +lookup.weight.toString()
+        is UserDefinedWeight -> fieldWeight("Weight", lookup.weight)
+        UndefinedWeight -> doNothing()
+        else -> error("WeightLookup of type ${lookup.getType()} is not supported!")
     }
 }
 
@@ -30,56 +29,57 @@ fun HtmlBlockTag.showWeightLookupDetails(
     state: State,
     lookup: WeightLookup,
     vpm: VolumePerMaterial,
+    weightFactors: Map<Id<*>, Factor> = emptyMap(),
+    getWeightFromType: () -> Weight,
 ) {
     showDetails("Weight", true) {
         field("Type", lookup.getType())
 
-        showVolumePerMaterial(call, state, vpm)
+        val weight = when (lookup) {
+            CalculatedWeight -> {
+                showVolumePerMaterial(call, state, vpm)
 
-        when (lookup) {
-            CalculatedWeight -> fieldWeight("Calculated Weight", vpm.getWeight(state))
-            is UserDefinedWeight -> fieldWeight("User Defined Weight", lookup.weight)
-        }
-    }
-}
-
-fun HtmlBlockTag.showVolumePerMaterial(
-    call: ApplicationCall,
-    state: State,
-    vpm: VolumePerMaterial,
-) {
-    table {
-        tr {
-            th { +"Material" }
-            th { +"Volume" }
-            th { +"Density" }
-            th { +"Weight" }
-        }
-        vpm.getMap().forEach { (id, volume) ->
-            val material = state.getMaterialStorage().getOrThrow(id)
-            val weight = Weight.fromVolume(volume, material.properties.density)
-
-            tr {
-                tdLink(call, state, material)
-                tdString(volume.toString())
-                tdString(material.properties.density.toString())
-                tdString(weight.toString())
+                vpm.getWeight(state)
             }
+
+            is UserDefinedWeight -> lookup.weight
+            WeightBasedOnType -> {
+                showFactorMap(call, state, weightFactors, "Weight Factor")
+
+                getWeightFromType()
+            }
+
+            UndefinedWeight -> return@showDetails
         }
+
+        fieldWeight("Weight", weight)
     }
 }
 
 // edit
 
-fun HtmlBlockTag.selectWeightLookup(
-    state: State,
+fun HtmlBlockTag.selectWeightLookupForType(
     lookup: WeightLookup,
     minWeight: Long,
     maxWeight: Long,
     param: String = WEIGHT,
+) = selectWeightLookup(
+    lookup,
+    minWeight,
+    maxWeight,
+    param,
+    ALLOWED_WEIGHT_LOOKUP_TYPES_FOR_TYPES,
+)
+
+fun HtmlBlockTag.selectWeightLookup(
+    lookup: WeightLookup,
+    minWeight: Long,
+    maxWeight: Long,
+    param: String = WEIGHT,
+    allowedTypes: Collection<WeightLookupType> = WeightLookupType.entries,
 ) {
     showDetails("Weight", true) {
-        selectValue("Type", combine(param, TYPE), WeightLookupType.entries, lookup.getType())
+        selectValue("Type", combine(param, TYPE), allowedTypes, lookup.getType())
 
         when (lookup) {
             CalculatedWeight -> doNothing()
@@ -91,19 +91,37 @@ fun HtmlBlockTag.selectWeightLookup(
                 maxWeight,
                 SiPrefix.Base,
             )
+
+            WeightBasedOnType -> doNothing()
+            UndefinedWeight -> doNothing()
         }
     }
 }
 
 // parse
 
+fun parseWeightLookupForType(
+    parameters: Parameters,
+    minWeight: Long,
+    param: String = WEIGHT,
+) = parseWeightLookup(
+    parameters,
+    minWeight,
+    param,
+    ALLOWED_WEIGHT_LOOKUP_TYPES_FOR_TYPES,
+)
+
 fun parseWeightLookup(
     parameters: Parameters,
     minWeight: Long,
     param: String = WEIGHT,
-) = when (parse(parameters, combine(param, TYPE), WeightLookupType.UserDefined)) {
+    allowedTypes: Collection<WeightLookupType> = WeightLookupType.entries,
+) = when (parse(parameters, combine(param, TYPE), allowedTypes)) {
     WeightLookupType.Calculated -> CalculatedWeight
     WeightLookupType.UserDefined -> UserDefinedWeight(
         parseWeight(parameters, param, SiPrefix.Base, minWeight),
     )
+
+    WeightLookupType.Type -> WeightBasedOnType
+    WeightLookupType.Undefined -> UndefinedWeight
 }

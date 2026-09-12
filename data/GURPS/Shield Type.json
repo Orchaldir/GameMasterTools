@@ -6,6 +6,10 @@
    "name": "Small Shield",
    "protection": {
     "#type": "DefenseBonus"
+   },
+   "weight": {
+    "#type": "User",
+    "weight": 4000000
    }
   },
   "1": {
@@ -14,6 +18,10 @@
    "protection": {
     "#type": "DefenseBonus",
     "bonus": 2
+   },
+   "weight": {
+    "#type": "User",
+    "weight": 7500000
    }
   },
   "2": {
@@ -22,6 +30,10 @@
    "protection": {
     "#type": "DefenseBonus",
     "bonus": 3
+   },
+   "weight": {
+    "#type": "User",
+    "weight": 12500000
    }
   }
  }

@@ -2,7 +2,11 @@ package at.orchaldir.gm.core.selector.rpg.statblock
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.Equipment
-import at.orchaldir.gm.core.model.rpg.combat.*
+import at.orchaldir.gm.core.model.rpg.combat.DamageResistance
+import at.orchaldir.gm.core.model.rpg.combat.DamageResistances
+import at.orchaldir.gm.core.model.rpg.combat.DefenseBonus
+import at.orchaldir.gm.core.model.rpg.combat.Protection
+import at.orchaldir.gm.core.model.rpg.equipment.*
 import at.orchaldir.gm.core.model.rpg.statblock.StatblockLookup
 
 // resolve protection map with statblock

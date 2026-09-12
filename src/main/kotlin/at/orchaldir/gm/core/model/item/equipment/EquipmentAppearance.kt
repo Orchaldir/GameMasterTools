@@ -1,0 +1,531 @@
+package at.orchaldir.gm.core.model.item.equipment
+
+import at.orchaldir.gm.core.model.item.equipment.EquipmentSlot.*
+import at.orchaldir.gm.core.model.item.equipment.style.*
+import at.orchaldir.gm.core.model.util.Size
+import at.orchaldir.gm.core.model.util.part.*
+import at.orchaldir.gm.core.model.util.render.Color
+import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.HALF
+import at.orchaldir.gm.utils.math.shape.CircularShape
+import at.orchaldir.gm.utils.math.shape.ComplexShape
+import at.orchaldir.gm.utils.math.shape.UsingCircularShape
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+
+val ACCESSORIES = setOf(
+    EquipmentAppearanceType.Belt,
+    EquipmentAppearanceType.Earring,
+    EquipmentAppearanceType.Footwear,
+    EquipmentAppearanceType.Glasses,
+    EquipmentAppearanceType.Gloves,
+    EquipmentAppearanceType.Hat,
+    EquipmentAppearanceType.Necklace,
+    EquipmentAppearanceType.Socks,
+    EquipmentAppearanceType.Tie,
+)
+val COMBAT_GEAR = setOf(
+    EquipmentAppearanceType.OneHandedAxe,
+    EquipmentAppearanceType.TwoHandedAxe,
+    EquipmentAppearanceType.BodyArmour,
+    EquipmentAppearanceType.Bow,
+    EquipmentAppearanceType.OneHandedClub,
+    EquipmentAppearanceType.TwoHandedClub,
+    EquipmentAppearanceType.Helmet,
+    EquipmentAppearanceType.Polearm,
+    EquipmentAppearanceType.Shield,
+    EquipmentAppearanceType.Sling,
+    EquipmentAppearanceType.OneHandedSword,
+    EquipmentAppearanceType.TwoHandedSword,
+)
+val MAIN_EQUIPMENT = EquipmentAppearanceType.entries - ACCESSORIES - COMBAT_GEAR - EquipmentAppearanceType.EyePatch
+
+enum class EquipmentAppearanceType {
+    OneHandedAxe,
+    TwoHandedAxe,
+    Belt,
+    BodyArmour,
+    Bow,
+    OneHandedClub,
+    TwoHandedClub,
+    Coat,
+    Dress,
+    Earring,
+    EyePatch,
+    Footwear,
+    Glasses,
+    Gloves,
+    Hat,
+    Helmet,
+    IounStone,
+    Necklace,
+    Pants,
+    Polearm,
+    Shield,
+    Shirt,
+    Skirt,
+    Sling,
+    Socks,
+    SuitJacket,
+    OneHandedSword,
+    TwoHandedSword,
+    Tie,
+    Tunic;
+
+    fun slots(): Set<EquipmentSlot> = when (this) {
+        OneHandedAxe -> setOf(HeldInOneHandSlot)
+        TwoHandedAxe -> setOf(HeldInTwoHandsSlot)
+        Belt -> setOf(BeltSlot)
+        BodyArmour -> setOf(TopSlot)
+        Bow -> setOf(HeldInTwoHandsSlot)
+        OneHandedClub -> setOf(HeldInOneHandSlot)
+        TwoHandedClub -> setOf(HeldInTwoHandsSlot)
+        Coat -> setOf(OuterSlot)
+        Dress -> setOf(BottomSlot, InnerTopSlot)
+        Earring -> setOf(EarSlot)
+        EyePatch -> setOf(EyeSlot)
+        Footwear -> setOf(FootSlot)
+        Glasses -> setOf(EyesSlot)
+        Gloves -> setOf(HandSlot)
+        Hat -> setOf(HeadSlot)
+        Helmet -> setOf(HeadSlot)
+        Necklace -> setOf(NeckSlot)
+        IounStone -> setOf(EquipmentSlot.IounStone)
+        Pants -> setOf(BottomSlot)
+        Polearm -> setOf(HeldInOneOrTwoHandsSlot)
+        Shield -> setOf(HeldInOneHandSlot)
+        Shirt -> setOf(InnerTopSlot)
+        Skirt -> setOf(BottomSlot)
+        Sling -> setOf(HeldInOneHandSlot)
+        Socks -> setOf(FootUnderwearSlot)
+        SuitJacket -> setOf(TopSlot)
+        OneHandedSword -> setOf(HeldInOneHandSlot)
+        TwoHandedSword -> setOf(HeldInTwoHandsSlot)
+        Tie -> setOf(NeckSlot)
+        Tunic -> setOf(TopSlot)
+    }
+}
+
+@Serializable
+sealed class EquipmentAppearance : MadeFromParts {
+
+    fun getType() = when (this) {
+        is OneHandedAxe -> EquipmentAppearanceType.OneHandedAxe
+        is TwoHandedAxe -> EquipmentAppearanceType.TwoHandedAxe
+        is Belt -> EquipmentAppearanceType.Belt
+        is BodyArmour -> EquipmentAppearanceType.BodyArmour
+        is Bow -> EquipmentAppearanceType.Bow
+        is OneHandedClub -> EquipmentAppearanceType.OneHandedClub
+        is TwoHandedClub -> EquipmentAppearanceType.TwoHandedClub
+        is Coat -> EquipmentAppearanceType.Coat
+        is Dress -> EquipmentAppearanceType.Dress
+        is Earring -> EquipmentAppearanceType.Earring
+        is EyePatch -> EquipmentAppearanceType.EyePatch
+        is Footwear -> EquipmentAppearanceType.Footwear
+        is Glasses -> EquipmentAppearanceType.Glasses
+        is Gloves -> EquipmentAppearanceType.Gloves
+        is Hat -> EquipmentAppearanceType.Hat
+        is Helmet -> EquipmentAppearanceType.Helmet
+        is IounStone -> EquipmentAppearanceType.IounStone
+        is Necklace -> EquipmentAppearanceType.Necklace
+        is Pants -> EquipmentAppearanceType.Pants
+        is Polearm -> EquipmentAppearanceType.Polearm
+        is Shield -> EquipmentAppearanceType.Shield
+        is Shirt -> EquipmentAppearanceType.Shirt
+        is Skirt -> EquipmentAppearanceType.Skirt
+        is Sling -> EquipmentAppearanceType.Sling
+        is Socks -> EquipmentAppearanceType.Socks
+        is SuitJacket -> EquipmentAppearanceType.SuitJacket
+        is OneHandedSword -> EquipmentAppearanceType.OneHandedSword
+        is TwoHandedSword -> EquipmentAppearanceType.TwoHandedSword
+        is Tie -> EquipmentAppearanceType.Tie
+        is Tunic -> EquipmentAppearanceType.Tunic
+    }
+
+    fun isArmor() = when (this) {
+        is BodyArmour -> true
+        is Coat -> true
+        is Dress -> true
+        is Footwear -> true
+        is Gloves -> true
+        is Hat -> true
+        is Helmet -> true
+        is SuitJacket -> true
+        is Tunic -> true
+        else -> false
+    }
+
+    fun isShield() = this is Shield
+
+    fun isType(type: EquipmentAppearanceType) = getType() == type
+
+    fun slots() = getType().slots()
+
+    open fun hidesEars() = false
+
+    override fun mainMaterial() = when (this) {
+        is OneHandedAxe -> head.mainMaterial()
+        is TwoHandedAxe -> head.mainMaterial()
+        is BodyArmour -> style.mainMaterial()
+        is OneHandedClub -> head.mainMaterial()
+        is TwoHandedClub -> head.mainMaterial()
+        is Footwear -> style.mainMaterial()
+        is Gloves -> main.material()
+        is Helmet -> style.mainMaterial()
+        is Polearm -> head.mainMaterial() ?: shaft.mainMaterial()
+        is OneHandedSword -> blade.mainMaterial()
+        is TwoHandedSword -> blade.mainMaterial()
+        else -> null
+    }
+}
+
+@Serializable
+@SerialName("Axe1")
+data class OneHandedAxe(
+    val head: AxeHead = SingleBitAxeHead(),
+    val fixation: HeadFixation = NoHeadFixation,
+    val shaft: Shaft = SimpleShaft(),
+) : EquipmentAppearance() {
+
+    override fun parts() = head.parts() + fixation.parts() + shaft.parts()
+}
+
+@Serializable
+@SerialName("Axe2")
+data class TwoHandedAxe(
+    val head: AxeHead = DoubleBitAxeHead(),
+    val fixation: HeadFixation = NoHeadFixation,
+    val shaft: Shaft = SimpleShaft(),
+) : EquipmentAppearance() {
+
+    override fun parts() = head.parts() + fixation.parts() + shaft.parts()
+}
+
+@Serializable
+@SerialName("Belt")
+data class Belt(
+    val style: BeltStyle = BuckleAndStrap(),
+) : EquipmentAppearance() {
+
+    override fun parts() = style.parts()
+}
+
+@Serializable
+@SerialName("Armour")
+data class BodyArmour(
+    val style: ArmourStyle,
+    val legStyle: LegArmourStyle = SameLegArmour(),
+    val sleeveStyle: SleeveStyle = SleeveStyle.Short,
+) : EquipmentAppearance() {
+
+    override fun parts() = style.parts()
+}
+
+@Serializable
+@SerialName("Bow")
+data class Bow(
+    val shape: BowShape = BowShape.Straight,
+    val height: Factor = HALF,
+    val grip: BowGrip = NoBowGrip,
+    val main: ItemPart = MadeFromWood(),
+) : EquipmentAppearance() {
+
+    override fun parts() = grip.parts() + main
+}
+
+@Serializable
+@SerialName("Club1")
+data class OneHandedClub(
+    val head: ClubHead = NoClubHead,
+    val size: Size = Size.Medium,
+    val fixation: HeadFixation = NoHeadFixation,
+    val shaft: Shaft = SimpleShaft(),
+) : EquipmentAppearance() {
+
+    override fun parts() = head.parts() + fixation.parts() + shaft.parts()
+}
+
+@Serializable
+@SerialName("Club2")
+data class TwoHandedClub(
+    val head: ClubHead = NoClubHead,
+    val size: Size = Size.Medium,
+    val fixation: HeadFixation = NoHeadFixation,
+    val shaft: Shaft = SimpleShaft(),
+) : EquipmentAppearance() {
+
+    override fun parts() = head.parts() + fixation.parts() + shaft.parts()
+}
+
+@Serializable
+@SerialName("Coat")
+data class Coat(
+    val main: ItemPart = MadeFromFabric(Color.SaddleBrown),
+    val length: OuterwearLength = OuterwearLength.Hip,
+    val neckline: Neckline = NoNeckline,
+    val sleeveStyle: SleeveStyle = SleeveStyle.Long,
+    val opening: Opening = SingleBreasted(),
+    val pocketStyle: PocketStyle = PocketStyle.None,
+) : EquipmentAppearance() {
+
+    override fun parts() = opening.parts() + main
+}
+
+@Serializable
+@SerialName("Dress")
+data class Dress(
+    val neckline: Neckline = NoNeckline,
+    val skirtStyle: SkirtStyle = SkirtStyle.Sheath,
+    val sleeveStyle: SleeveStyle = SleeveStyle.Long,
+    val main: ItemPart = MadeFromFabric(Color.Red),
+) : EquipmentAppearance() {
+
+    override fun parts() = listOf(main)
+}
+
+@Serializable
+@SerialName("Earring")
+data class Earring(
+    val style: EarringStyle = StudEarring(),
+) : EquipmentAppearance() {
+
+    override fun parts() = style.parts()
+}
+
+@Serializable
+@SerialName("EyePatch")
+data class EyePatch(
+    val style: EyePatchStyle = SimpleEyePatch(),
+    val fixation: EyePatchFixation = NoFixation,
+) : EquipmentAppearance() {
+
+    override fun parts() = style.parts() + fixation.parts()
+}
+
+@Serializable
+@SerialName("Footwear")
+data class Footwear(
+    val style: FootwearStyle = Shoe(),
+) : EquipmentAppearance() {
+
+    override fun parts() = style.parts()
+}
+
+@Serializable
+@SerialName("Glasses")
+data class Glasses(
+    val lensShape: LensShape = LensShape.RoundedRectangle,
+    val frameType: FrameType = FrameType.FullRimmed,
+    val lens: ItemPart = MadeFromGlass(),
+    val frame: ItemPart = MadeFromWood(Color.Navy),
+) : EquipmentAppearance() {
+
+    override fun parts() = listOf(lens, frame)
+}
+
+@Serializable
+@SerialName("Gloves")
+data class Gloves(
+    val style: GloveStyle = GloveStyle.Hand,
+    val main: ItemPart = MadeFromFabric(Color.Red),
+) : EquipmentAppearance() {
+
+    constructor(style: GloveStyle, color: Color) : this(style, MadeFromFabric(color))
+
+    override fun parts() = listOf(main)
+}
+
+@Serializable
+@SerialName("Hat")
+data class Hat(
+    val style: HatStyle = HatStyle.TopHat,
+    val main: ItemPart = MadeFromFabric(Color.SaddleBrown),
+) : EquipmentAppearance() {
+
+    constructor(style: HatStyle, color: Color) : this(style, MadeFromFabric(color))
+
+    override fun parts() = listOf(main)
+}
+
+@Serializable
+@SerialName("Helmet")
+data class Helmet(
+    val style: HelmetStyle = SkullCap(),
+) : EquipmentAppearance() {
+
+    override fun hidesEars() = when (style) {
+        is GreatHelm -> true
+        is ChainmailHood -> true
+        is SkullCap -> false
+    }
+
+    override fun parts() = style.parts()
+}
+
+@Serializable
+@SerialName("IounStone")
+data class IounStone(
+    val shape: ComplexShape = UsingCircularShape(),
+    val size: Size = Size.Medium,
+    val main: ItemPart = MadeFromGem(),
+) : EquipmentAppearance() {
+
+    override fun parts() = listOf(main)
+}
+
+@Serializable
+@SerialName("Necklace")
+data class Necklace(
+    val style: NecklaceStyle,
+    val length: NecklaceLength = NecklaceLength.Princess,
+) : EquipmentAppearance() {
+
+    override fun parts() = style.parts()
+}
+
+@Serializable
+@SerialName("Pants")
+data class Pants(
+    val style: PantsStyle = PantsStyle.Regular,
+    val main: ItemPart = MadeFromFabric(Color.Navy),
+) : EquipmentAppearance() {
+
+    constructor(style: PantsStyle, color: Color) : this(style, MadeFromFabric(color))
+
+    override fun parts() = listOf(main)
+}
+
+@Serializable
+@SerialName("Polearm")
+data class Polearm(
+    val head: PolearmHead = NoPolearmHead,
+    val shaft: Shaft = SimpleShaft(),
+) : EquipmentAppearance() {
+
+    override fun parts() = head.parts() + shaft.parts()
+}
+
+@Serializable
+@SerialName("Shield")
+data class Shield(
+    val shape: ComplexShape = UsingCircularShape(),
+    val size: Size = Size.Medium,
+    val border: ShieldBorder = NoShieldBorder,
+    val boss: ShieldBoss = NoShieldBoss,
+    val front: ItemPart = MadeFromMetal(),
+    val back: ItemPart = MadeFromWood(),
+) : EquipmentAppearance() {
+
+    constructor(shape: CircularShape, size: Size, color: Color) :
+            this(UsingCircularShape(shape), size, front = MadeFromWood(color))
+
+    override fun parts() = listOf(front, back) + border.parts() + boss.parts()
+}
+
+@Serializable
+@SerialName("Shirt")
+data class Shirt(
+    val neckline: Neckline = NoNeckline,
+    val sleeveStyle: SleeveStyle = SleeveStyle.Long,
+    val main: ItemPart = MadeFromFabric(Color.White),
+) : EquipmentAppearance() {
+
+    constructor(neckline: Neckline, sleeve: SleeveStyle, color: Color) :
+            this(neckline, sleeve, MadeFromFabric(color))
+
+    override fun parts() = listOf(main)
+}
+
+@Serializable
+@SerialName("Skirt")
+data class Skirt(
+    val style: SkirtStyle = SkirtStyle.Sheath,
+    val main: ItemPart = MadeFromFabric(Color.SaddleBrown),
+) : EquipmentAppearance() {
+
+    constructor(style: SkirtStyle, color: Color) : this(style, MadeFromFabric(color))
+
+    override fun parts() = listOf(main)
+}
+
+@Serializable
+@SerialName("Sling")
+data class Sling(
+    val size: Size,
+    val cord: LineStyle,
+    val cradle: ItemPart = MadeFromLeather(),
+) : EquipmentAppearance() {
+
+    override fun parts() = cord.parts() + cradle
+}
+
+@Serializable
+@SerialName("Socks")
+data class Socks(
+    val style: SocksStyle = SocksStyle.Quarter,
+    val main: ItemPart = MadeFromFabric(Color.White),
+) : EquipmentAppearance() {
+
+    constructor(style: SocksStyle, color: Color) : this(style, MadeFromFabric(color))
+}
+
+@Serializable
+@SerialName("SuitJacket")
+data class SuitJacket(
+    val neckline: Neckline = NoNeckline,
+    val sleeveStyle: SleeveStyle = SleeveStyle.Long,
+    val opening: Opening = SingleBreasted(),
+    val pocketStyle: PocketStyle = PocketStyle.None,
+    val main: ItemPart = MadeFromFabric(Color.LightGray),
+) : EquipmentAppearance() {
+
+    override fun parts() = opening.parts() + main
+}
+
+@Serializable
+@SerialName("Sword1")
+data class OneHandedSword(
+    val blade: Blade = SimpleBlade(DEFAULT_1H_BLADE_LENGTH),
+    val hilt: SwordHilt = SimpleSwordHilt(),
+) : EquipmentAppearance() {
+
+    override fun parts() = blade.parts() + hilt.parts()
+}
+
+@Serializable
+@SerialName("Sword2")
+data class TwoHandedSword(
+    val blade: Blade = SimpleBlade(DEFAULT_2H_BLADE_LENGTH),
+    val hilt: SwordHilt = SimpleSwordHilt(),
+) : EquipmentAppearance() {
+
+    override fun parts() = blade.parts() + hilt.parts()
+}
+
+@Serializable
+@SerialName("Tie")
+data class Tie(
+    val style: TieStyle = TieStyle.Tie,
+    val size: Size = Size.Medium,
+    val main: ItemPart = MadeFromFabric(Color.Navy),
+    val knot: ItemPart = MadeFromFabric(Color.Navy),
+) : EquipmentAppearance() {
+
+    constructor(style: TieStyle, size: Size, tie: Color, knot: Color) :
+            this(style, size, MadeFromFabric(tie), MadeFromFabric(knot))
+
+    override fun parts() = listOf(main, knot)
+}
+
+@Serializable
+@SerialName("Tunic")
+data class Tunic(
+    val main: ItemPart = MadeFromFabric(Color.SaddleBrown),
+    val length: OuterwearLength = OuterwearLength.Hip,
+    val neckline: Neckline = NoNeckline,
+    val sleeveStyle: SleeveStyle = SleeveStyle.Long,
+) : EquipmentAppearance() {
+
+    override fun parts() = listOf(main)
+}
+

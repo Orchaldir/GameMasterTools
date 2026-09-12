@@ -16,8 +16,8 @@ import at.orchaldir.gm.core.model.util.*
 import at.orchaldir.gm.core.selector.character.countKilledCharacters
 import at.orchaldir.gm.core.selector.realm.countDestroyedRealms
 import at.orchaldir.gm.core.selector.realm.countDestroyedSettlements
-import at.orchaldir.gm.core.selector.rpg.combat.getEquipmentModifierEffects
-import at.orchaldir.gm.core.selector.rpg.combat.getMeleeWeaponType
+import at.orchaldir.gm.core.selector.rpg.equipment.getEquipmentModifierEffects
+import at.orchaldir.gm.core.selector.rpg.equipment.getEquipmentType
 import at.orchaldir.gm.core.selector.rpg.statblock.resolveMeleeAttacks
 import at.orchaldir.gm.core.selector.time.getAgeInYears
 import at.orchaldir.gm.core.selector.util.calculatePopulationDensity
@@ -26,6 +26,8 @@ import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.unit.AreaUnit
 import at.orchaldir.gm.utils.math.unit.HasArea
+import at.orchaldir.gm.utils.math.unit.WEIGHTLESS
+import at.orchaldir.gm.utils.math.unit.Weight
 import io.ktor.server.application.*
 import kotlinx.html.TD
 import kotlinx.html.TR
@@ -123,6 +125,11 @@ fun <ID0 : Id<ID0>, ID1 : Id<ID1>, ELEMENT : Element<ID0>> createIdColumn(
     convert: (ELEMENT) -> ID1?,
 ): Column<ELEMENT> = tdColumn(label) { optionalLink(call, state, convert(it)) }
 
+fun <ID : Id<ID>, ELEMENT : Element<ID>, T : Enum<T>> createEnumColumn(
+    label: String,
+    get: (ELEMENT) -> T,
+): Column<ELEMENT> = Column(label) { tdEnum(get(it)) }
+
 fun createMeleeWeaponColumn(
     state: State,
     label: String,
@@ -130,11 +137,11 @@ fun createMeleeWeaponColumn(
     display: TD.(MeleeAttack) -> Unit,
 ): Column<Equipment> = tdColumn(label) {
     val attacks = resolved.computeIfAbsent(it) { equipment ->
-        state.getMeleeWeaponType(equipment)?.let { type ->
-            val stats = equipment.data.getMeleeWeaponStats()!!
+        state.getEquipmentType(equipment)?.let { type ->
+            val stats = equipment.stats
             val effects = state.getEquipmentModifierEffects(stats.modifiers)
 
-            resolveMeleeAttacks(state, effects, type.attacks)
+            resolveMeleeAttacks(state, effects, type.meleeAttacks)
         } ?: emptyList()
     }
 
@@ -146,7 +153,8 @@ fun createMeleeWeaponColumn(
 fun <ID : Id<ID>, ELEMENT : Element<ID>> createNameColumn(
     call: ApplicationCall,
     state: State,
-): Column<ELEMENT> = Column("Name") { tdLink(call, state, it) }
+    header: String = "Name",
+): Column<ELEMENT> = Column(header) { tdLink(call, state, it) }
 
 fun <ID : Id<ID>, ELEMENT : HasOrigin> createOriginColumn(
     call: ApplicationCall,
@@ -207,6 +215,16 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> createReferenceColumn(
     label: String,
     get: (ELEMENT) -> Reference,
 ): Column<ELEMENT> = tdColumn(label) { showReference(call, state, get(it), false) }
+
+fun <T> createWeightColumn(
+    get: (T) -> Weight,
+): Column<T> = tdColumn("Weight") {
+    val weight = get(it)
+
+    if (weight > WEIGHTLESS) {
+        +weight.toString()
+    }
+}
 
 fun <ID : Id<ID>, ELEMENT : Element<ID>> countColumn(
     label: String,

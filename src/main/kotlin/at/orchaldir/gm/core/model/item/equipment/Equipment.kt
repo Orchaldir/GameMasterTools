@@ -3,13 +3,14 @@ package at.orchaldir.gm.core.model.item.equipment
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.CalculatedPrice
 import at.orchaldir.gm.core.model.economy.money.PriceLookup
+import at.orchaldir.gm.core.model.rpg.equipment.EquipmentStats
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.render.ColorSchemeOption
 import at.orchaldir.gm.core.model.util.render.NoColorSchemes
 import at.orchaldir.gm.core.reducer.item.validateEquipment
 import at.orchaldir.gm.utils.Id
-import at.orchaldir.gm.utils.math.unit.CalculatedWeight
+import at.orchaldir.gm.utils.math.unit.UndefinedWeight
 import at.orchaldir.gm.utils.math.unit.WeightLookup
 import kotlinx.serialization.Serializable
 
@@ -35,8 +36,9 @@ value class EquipmentId(val value: Int) : Id<EquipmentId> {
 data class Equipment(
     val id: EquipmentId,
     val name: Name = Name.init(id),
-    val data: EquipmentData = Belt(),
-    val weight: WeightLookup = CalculatedWeight,
+    val stats: EquipmentStats = EquipmentStats(),
+    val appearance: EquipmentAppearance = Belt(),
+    val weight: WeightLookup = UndefinedWeight,
     val price: PriceLookup = CalculatedPrice,
     val colorSchemes: ColorSchemeOption = NoColorSchemes,
 ) : ElementWithSimpleName<EquipmentId> {
@@ -46,7 +48,7 @@ data class Equipment(
 
     override fun validate(state: State) = validateEquipment(state, this)
 
-    fun slots() = data.slots()
+    fun slots() = appearance.slots()
 
-    fun canEquip() = data.slots().isNotEmpty()
+    fun canEquip() = appearance.slots().isNotEmpty()
 }

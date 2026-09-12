@@ -1,12 +1,11 @@
 package at.orchaldir.gm.core.selector.rpg
 
-import at.orchaldir.gm.ARMOR_TYPE_ID_0
 import at.orchaldir.gm.DAMAGE_TYPE_ID_0
-import at.orchaldir.gm.MELEE_WEAPON_TYPE_ID_0
-import at.orchaldir.gm.RANGED_WEAPON_TYPE_ID_0
+import at.orchaldir.gm.EQUIPMENT_TYPE_ID_0
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.combat.*
+import at.orchaldir.gm.core.model.rpg.equipment.EquipmentType
 import at.orchaldir.gm.core.selector.rpg.combat.canDeleteDamageType
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
@@ -28,28 +27,28 @@ class DamageTypeTest {
         @Test
         fun `Cannot delete a damage type used by an armor`() {
             val protection = DamageResistances(2, mapOf(DAMAGE_TYPE_ID_0 to 2))
-            val element = ArmorType(ARMOR_TYPE_ID_0, protection = protection)
+            val element = EquipmentType(EQUIPMENT_TYPE_ID_0, protection = protection)
             val newState = state.updateStorage(element)
 
-            failCanDelete(newState, ARMOR_TYPE_ID_0)
+            failCanDelete(newState, EQUIPMENT_TYPE_ID_0)
         }
 
         @Test
-        fun `Cannot delete a damage type used by a melee weapon`() {
+        fun `Cannot delete a damage type used by a melee attack`() {
             val attack = MeleeAttack(Damage(SimpleRandomDamage(), DAMAGE_TYPE_ID_0))
-            val element = MeleeWeaponType(MELEE_WEAPON_TYPE_ID_0, attacks = listOf(attack))
+            val element = EquipmentType(EQUIPMENT_TYPE_ID_0, meleeAttacks = listOf(attack))
             val newState = state.updateStorage(element)
 
-            failCanDelete(newState, MELEE_WEAPON_TYPE_ID_0)
+            failCanDelete(newState, EQUIPMENT_TYPE_ID_0)
         }
 
         @Test
         fun `Cannot delete a damage type used by a ranged weapon`() {
             val attack = RangedAttack(effect = Damage(SimpleRandomDamage(), DAMAGE_TYPE_ID_0))
-            val element = RangedWeaponType(RANGED_WEAPON_TYPE_ID_0, attacks = listOf(attack))
+            val element = EquipmentType(EQUIPMENT_TYPE_ID_0, rangedAttacks = listOf(attack))
             val newState = state.updateStorage(element)
 
-            failCanDelete(newState, RANGED_WEAPON_TYPE_ID_0)
+            failCanDelete(newState, EQUIPMENT_TYPE_ID_0)
         }
 
         private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {

@@ -25,7 +25,7 @@ class UniformTest {
         listOf(
             Storage(CALENDAR0),
             Storage(ColorScheme(COLOR_SCHEME_ID_0)),
-            Storage(Equipment(EQUIPMENT_ID_0, data = Helmet())),
+            Storage(Equipment(EQUIPMENT_ID_0, appearance = Helmet())),
             Storage(Uniform(UNIFORM_ID_0)),
             Storage(Spell(SPELL_ID_0)),
         ),

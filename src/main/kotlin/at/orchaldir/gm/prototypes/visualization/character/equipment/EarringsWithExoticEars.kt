@@ -28,7 +28,8 @@ fun main() {
         addNames(EarShape.entries),
     ) { distance, earShape, (earSize, earringSize) ->
         val earring = Earring(StudEarring(size = earringSize))
-        val entry = EquipmentMapEntry<EquipmentData>(earring, setOf(setOf(BodySlot.LeftEar), setOf(BodySlot.RightEar)))
+        val entry =
+            EquipmentMapEntry<EquipmentAppearance>(earring, setOf(setOf(BodySlot.LeftEar), setOf(BodySlot.RightEar)))
 
         Pair(
             createAppearance(distance, earShape, earSize),

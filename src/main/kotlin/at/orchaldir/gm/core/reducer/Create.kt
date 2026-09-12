@@ -51,7 +51,9 @@ import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.religion.*
-import at.orchaldir.gm.core.model.rpg.combat.*
+import at.orchaldir.gm.core.model.rpg.combat.DamageType
+import at.orchaldir.gm.core.model.rpg.combat.DamageTypeId
+import at.orchaldir.gm.core.model.rpg.equipment.*
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTrait
@@ -103,7 +105,6 @@ fun reduceCreateElement(
     is AmmunitionId -> createElement(state, Ammunition(id))
     is AmmunitionTypeId -> createElement(state, AmmunitionType(id))
     is ArchitecturalStyleId -> createElement(state, ArchitecturalStyle(id))
-    is ArmorTypeId -> createElement(state, ArmorType(id))
     is ArticleId -> createElement(state, Article(id))
     is BattleId -> createElement(state, Battle(id))
     is BuildingId -> createElement(state, Building(id))
@@ -130,6 +131,7 @@ fun reduceCreateElement(
     is EncounterId -> createElement(state, Encounter(id))
     is EquipmentId -> createElement(state, Equipment(id))
     is EquipmentModifierId -> createElement(state, EquipmentModifier(id))
+    is EquipmentTypeId -> createElement(state, EquipmentType(id))
     is FashionId -> createElement(state, Fashion(id))
     is FontId -> createElement(state, Font(id))
     is GodId -> createElement(state, God(id))
@@ -139,7 +141,6 @@ fun reduceCreateElement(
     is LegalCodeId -> createElement(state, LegalCode(id))
     is MagicTraditionId -> createElement(state, MagicTradition(id))
     is MaterialId -> createElement(state, Material(id))
-    is MeleeWeaponTypeId -> createElement(state, MeleeWeaponType(id))
     is MoonId -> createElement(state, Moon(id))
     is NameListId -> createElement(state, NameList(id))
     is OrganizationId -> createElement(state, Organization(id))
@@ -153,14 +154,12 @@ fun reduceCreateElement(
     is RaceId -> createElement(state, Race(id))
     is RaceAppearanceId -> createElement(state, RaceAppearance(id))
     is RaceGroupId -> createElement(state, RaceGroup(id))
-    is RangedWeaponTypeId -> createElement(state, RangedWeaponType(id))
     is RealmId -> createElement(state, Realm(id))
     is RegionId -> createElement(state, Region(id))
     is RiverId -> createElement(state, River(id))
     is SettlementId -> createElement(state, Settlement(id))
     is SettlementMapId -> createElement(state, SettlementMap(id))
     is SettlementSizeId -> createElement(state, SettlementSize(id))
-    is ShieldTypeId -> createElement(state, ShieldType(id))
     is SpellId -> createElement(state, Spell(id))
     is SpellGroupId -> createElement(state, SpellGroup(id))
     is StatisticId -> createElement(state, Statistic(id))

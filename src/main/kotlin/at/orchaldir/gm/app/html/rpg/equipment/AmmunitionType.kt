@@ -1,0 +1,75 @@
+package at.orchaldir.gm.app.html.rpg.equipment
+
+import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.util.math.parseWeightLookupForType
+import at.orchaldir.gm.app.html.util.math.selectWeightLookupForType
+import at.orchaldir.gm.app.html.util.math.showWeightLookupForType
+import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.equipment.MAX_EQUIPMENT_WEIGHT
+import at.orchaldir.gm.core.model.item.equipment.MIN_EQUIPMENT_WEIGHT
+import at.orchaldir.gm.core.model.rpg.equipment.AmmunitionType
+import at.orchaldir.gm.core.model.rpg.equipment.AmmunitionTypeId
+import at.orchaldir.gm.core.selector.item.ammunition.getAmmunition
+import at.orchaldir.gm.core.selector.rpg.equipment.getEquipmentTypes
+import io.ktor.http.*
+import io.ktor.server.application.*
+import kotlinx.html.HtmlBlockTag
+import kotlinx.html.h2
+
+// show
+
+fun HtmlBlockTag.showAmmunitionType(
+    call: ApplicationCall,
+    state: State,
+    type: AmmunitionType,
+) {
+    showWeightLookupForType(type.weight)
+
+    showUsages(call, state, type.id)
+}
+
+private fun HtmlBlockTag.showUsages(
+    call: ApplicationCall,
+    state: State,
+    type: AmmunitionTypeId,
+) {
+    val ammunition = state.getAmmunition(type)
+    val equipmentTypes = state.getEquipmentTypes(type)
+
+    if (ammunition.isEmpty() && equipmentTypes.isEmpty()) {
+        return
+    }
+
+    h2 { +"Usage" }
+
+    fieldElements(call, state, ammunition)
+    fieldElements(call, state, equipmentTypes)
+}
+
+// edit
+
+fun HtmlBlockTag.editAmmunitionType(
+    call: ApplicationCall,
+    state: State,
+    type: AmmunitionType,
+) {
+    selectName(type.name)
+    selectWeightLookupForType(type.weight, MIN_EQUIPMENT_WEIGHT, MAX_EQUIPMENT_WEIGHT)
+}
+
+// parse
+
+fun parseAmmunitionTypeId(parameters: Parameters, param: String) = AmmunitionTypeId(parseInt(parameters, param))
+fun parseAmmunitionTypeId(value: String) = AmmunitionTypeId(value.toInt())
+fun parseOptionalAmmunitionTypeId(parameters: Parameters, param: String) =
+    parseSimpleOptionalInt(parameters, param)?.let { AmmunitionTypeId(it) }
+
+fun parseAmmunitionType(
+    state: State,
+    parameters: Parameters,
+    id: AmmunitionTypeId,
+) = AmmunitionType(
+    id,
+    parseName(parameters),
+    parseWeightLookupForType(parameters, MIN_EQUIPMENT_WEIGHT),
+)

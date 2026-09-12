@@ -3,8 +3,8 @@ package at.orchaldir.gm.core.reducer.item
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.ammunition.Ammunition
-import at.orchaldir.gm.core.model.rpg.combat.AmmunitionType
-import at.orchaldir.gm.core.model.rpg.combat.EquipmentModifier
+import at.orchaldir.gm.core.model.rpg.equipment.AmmunitionType
+import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifier
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Test
 

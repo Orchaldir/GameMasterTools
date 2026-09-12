@@ -1,0 +1,834 @@
+{
+ "version": 1,
+ "elements": {
+  "0": {
+   "id": 0,
+   "name": "Cloth Armor",
+   "category": "Armor",
+   "protection": {
+    "#type": "DamageResistance"
+   },
+   "weight": {
+    "#type": "User",
+    "weight": 6000000
+   }
+  },
+  "1": {
+   "id": 1,
+   "name": "Leather Armor",
+   "category": "Armor",
+   "protection": {
+    "#type": "DamageResistance",
+    "amount": 2
+   },
+   "weight": {
+    "#type": "User",
+    "weight": 10000000
+   }
+  },
+  "2": {
+   "id": 2,
+   "name": "Scale Armor",
+   "category": "Armor",
+   "protection": {
+    "#type": "DamageResistance",
+    "amount": 3
+   },
+   "weight": {
+    "#type": "User",
+    "weight": 24500000
+   }
+  },
+  "3": {
+   "id": 3,
+   "name": "Chainmail",
+   "category": "Armor",
+   "protection": {
+    "#type": "DamageResistance",
+    "amount": 4
+   },
+   "weight": {
+    "#type": "User",
+    "weight": 29000000
+   }
+  },
+  "4": {
+   "id": 4,
+   "name": "Plate Armor",
+   "category": "Armor",
+   "protection": {
+    "#type": "DamageResistance",
+    "amount": 6
+   },
+   "weight": {
+    "#type": "User",
+    "weight": 45000000
+   }
+  },
+  "5": {
+   "id": 5,
+   "name": "Laminated Armor",
+   "category": "Armor",
+   "protection": {
+    "#type": "DamageResistance",
+    "amount": 5
+   },
+   "weight": {
+    "#type": "User",
+    "weight": 32000000
+   }
+  },
+  "6": {
+   "id": 6,
+   "name": "Axe",
+   "category": "MeleeWeapon",
+   "meleeAttacks": [
+    {
+     "effect": {
+      "#type": "Damage",
+      "amount": {
+       "#type": "StatisticBased",
+       "base": 15,
+       "modifier": {
+        "#type": "Not",
+        "number": 2
+       }
+      },
+      "damageType": 4
+     },
+     "reach": {
+      "#type": "Simple"
+     },
+     "parrying": {
+      "#type": "Unbalanced"
+     },
+     "skill": {
+      "#type": "Modified",
+      "skill": 6
+     }
+    }
+   ],
+   "rangedAttacks": [
+    {
+     "effect": {
+      "#type": "Damage",
+      "amount": {
+       "#type": "StatisticBased",
+       "base": 15,
+       "modifier": {
+        "#type": "Not",
+        "number": 2
+       }
+      },
+      "damageType": 4
+     },
+     "skill": {
+      "#type": "Modified",
+      "skill": 6
+     }
+    }
+   ],
+   "weight": {
+    "#type": "User",
+    "weight": 2000000
+   }
+  },
+  "7": {
+   "id": 7,
+   "name": "Short Sword",
+   "category": "MeleeWeapon",
+   "meleeAttacks": [
+    {
+     "effect": {
+      "#type": "Damage",
+      "amount": {
+       "#type": "StatisticBased",
+       "base": 15,
+       "modifier": {
+        "#type": "Not",
+        "number": 0
+       }
+      },
+      "damageType": 4
+     },
+     "reach": {
+      "#type": "Simple"
+     },
+     "parrying": {
+      "#type": "Normal"
+     },
+     "skill": {
+      "#type": "Modified",
+      "skill": 6
+     }
+    }
+   ],
+   "rangedAttacks": [
+    {
+     "effect": {
+      "#type": "Damage",
+      "amount": {
+       "#type": "StatisticBased",
+       "base": 15,
+       "modifier": {
+        "#type": "Not",
+        "number": 0
+       }
+      },
+      "damageType": 4
+     },
+     "skill": {
+      "#type": "Modified",
+      "skill": 6
+     }
+    }
+   ],
+   "weight": {
+    "#type": "User",
+    "weight": 1000000
+   }
+  },
+  "8": {
+   "id": 8,
+   "name": "Longsword",
+   "category": "MeleeWeapon",
+   "meleeAttacks": [
+    {
+     "effect": {
+      "#type": "Damage",
+      "amount": {
+       "#type": "StatisticBased",
+       "base": 15,
+       "modifier": {
+        "#type": "Not",
+        "number": 1
+       }
+      },
+      "damageType": 4
+     },
+     "reach": {
+      "#type": "Simple"
+     },
+     "parrying": {
+      "#type": "Normal"
+     },
+     "skill": {
+      "#type": "Modified",
+      "skill": 6
+     }
+    }
+   ],
+   "rangedAttacks": [
+    {
+     "effect": {
+      "#type": "Damage",
+      "amount": {
+       "#type": "StatisticBased",
+       "base": 15,
+       "modifier": {
+        "#type": "Not",
+        "number": 1
+       }
+      },
+      "damageType": 4
+     },
+     "skill": {
+      "#type": "Modified",
+      "skill": 6
+     }
+    }
+   ],
+   "weight": {
+    "#type": "User",
+    "weight": 2000000
+   }
+  },
+  "9": {
+   "id": 9,
+   "name": "Greatsword",
+   "category": "MeleeWeapon",
+   "meleeAttacks": [
+    {
+     "effect": {
+      "#type": "Damage",
+      "amount": {
+       "#type": "StatisticBased",
+       "base": 15,
+       "modifier": {
+        "#type": "Not",
+        "number": 2
+       }
+      },
+      "damageType": 4
+     },
+     "reach": {
+      "#type": "Range"
+     },
+     "parrying": {
+      "#type": "Normal"
+     },
+     "skill": {
+      "#type": "Modified",
+      "skill": 6
+     }
+    }
+   ],
+   "rangedAttacks": [
+    {
+     "effect": {
+      "#type": "Damage",
+      "amount": {
+       "#type": "StatisticBased",
+       "base": 15,
+       "modifier": {
+        "#type": "Not",
+        "number": 2
+       }
+      },
+      "damageType": 4
+     },
+     "skill": {
+      "#type": "Modified",
+      "skill": 6
+     }
+    }
+   ],
+   "weight": {
+    "#type": "User",
+    "weight": 3500000
+   }
+  },
+  "10": {
+   "id": 10,
+   "name": "Great Axe",
+   "category": "MeleeWeapon",
+   "meleeAttacks": [
+    {
+     "effect": {
+      "#type": "Damage",
+      "amount": {
+       "#type": "StatisticBased",
+       "base": 15,
+       "modifier": {
+        "#type": "Not",
+        "number": 4
+       }
+      },
+      "damageType": 4
+     },
+     "reach": {
+      "#type": "Range"
+     },
+     "parrying": {
+      "#type": "Unbalanced"
+     },
+     "skill": {
+      "#type": "Modified",
+      "skill": 6
+     }
+    }
+   ],
+   "rangedAttacks": [
+    {
+     "effect": {
+      "#type": "Damage",
+      "amount": {
+       "#type": "StatisticBased",
+       "base": 15,
+       "modifier": {
+        "#type": "Not",
+        "number": 4
+       }
+      },
+      "damageType": 4
+     },
+     "skill": {
+      "#type": "Modified",
+      "skill": 6
+     }
+    }
+   ],
+   "weight": {
+    "#type": "User",
+    "weight": 4000000
+   }
+  },
+  "11": {
+   "id": 11,
+   "name": "Dagger",
+   "category": "MeleeWeapon",
+   "meleeAttacks": [
+    {
+     "effect": {
+      "#type": "Damage",
+      "amount": {
+       "#type": "StatisticBased",
+       "base": 14,
+       "modifier": {
+        "#type": "Not",
+        "number": -1
+       }
+      },
+      "damageType": 6
+     },
+     "reach": {
+      "#type": "Simple",
+      "distance": 0
+     },
+     "parrying": {
+      "#type": "Normal",
+      "modifier": -1
+     },
+     "skill": {
+      "#type": "Modified",
+      "skill": 6
+     }
+    }
+   ],
+   "rangedAttacks": [
+    {
+     "effect": {
+      "#type": "Damage",
+      "amount": {
+       "#type": "StatisticBased",
+       "base": 14,
+       "modifier": {
+        "#type": "Not",
+        "number": -1
+       }
+      },
+      "damageType": 6
+     },
+     "skill": {
+      "#type": "Modified",
+      "skill": 6
+     }
+    }
+   ],
+   "weight": {
+    "#type": "User",
+    "weight": 125000
+   }
+  },
+  "12": {
+   "id": 12,
+   "name": "Rapier",
+   "category": "MeleeWeapon",
+   "meleeAttacks": [
+    {
+     "effect": {
+      "#type": "Damage",
+      "amount": {
+       "#type": "StatisticBased",
+       "base": 14,
+       "modifier": {
+        "#type": "Not",
+        "number": 1
+       }
+      },
+      "damageType": 6
+     },
+     "reach": {
+      "#type": "Range"
+     },
+     "parrying": {
+      "#type": "Fencing"
+     },
+     "skill": {
+      "#type": "Modified",
+      "skill": 6
+     }
+    }
+   ],
+   "rangedAttacks": [
+    {
+     "effect": {
+      "#type": "Damage",
+      "amount": {
+       "#type": "StatisticBased",
+       "base": 14,
+       "modifier": {
+        "#type": "Not",
+        "number": 1
+       }
+      },
+      "damageType": 6
+     },
+     "skill": {
+      "#type": "Modified",
+      "skill": 6
+     }
+    }
+   ],
+   "weight": {
+    "#type": "User",
+    "weight": 1350000
+   }
+  },
+  "13": {
+   "id": 13,
+   "name": "Quarterstaff",
+   "category": "MeleeWeapon",
+   "meleeAttacks": [
+    {
+     "effect": {
+      "#type": "Damage",
+      "amount": {
+       "#type": "StatisticBased",
+       "base": 15,
+       "modifier": {
+        "#type": "Not",
+        "number": 2
+       }
+      },
+      "damageType": 3
+     },
+     "reach": {
+      "#type": "Range"
+     },
+     "parrying": {
+      "#type": "Normal"
+     },
+     "skill": {
+      "#type": "Modified",
+      "skill": 6
+     }
+    }
+   ],
+   "rangedAttacks": [
+    {
+     "effect": {
+      "#type": "Damage",
+      "amount": {
+       "#type": "StatisticBased",
+       "base": 15,
+       "modifier": {
+        "#type": "Not",
+        "number": 2
+       }
+      },
+      "damageType": 3
+     },
+     "skill": {
+      "#type": "Modified",
+      "skill": 6
+     }
+    }
+   ],
+   "weight": {
+    "#type": "User",
+    "weight": 2000000
+   }
+  },
+  "14": {
+   "id": 14,
+   "name": "Spear",
+   "category": "MeleeWeapon",
+   "meleeAttacks": [
+    {
+     "effect": {
+      "#type": "Damage",
+      "amount": {
+       "#type": "StatisticBased",
+       "base": 14,
+       "modifier": {
+        "#type": "Not",
+        "number": 2
+       }
+      },
+      "damageType": 6
+     },
+     "reach": {
+      "#type": "Simple"
+     },
+     "parrying": {
+      "#type": "Normal"
+     },
+     "skill": {
+      "#type": "Modified",
+      "skill": 6
+     }
+    }
+   ],
+   "rangedAttacks": [
+    {
+     "effect": {
+      "#type": "Damage",
+      "amount": {
+       "#type": "StatisticBased",
+       "base": 14,
+       "modifier": {
+        "#type": "Not",
+        "number": 2
+       }
+      },
+      "damageType": 6
+     },
+     "skill": {
+      "#type": "Modified",
+      "skill": 6
+     }
+    }
+   ],
+   "weight": {
+    "#type": "User",
+    "weight": 2000000
+   }
+  },
+  "15": {
+   "id": 15,
+   "name": "Morningstar",
+   "category": "MeleeWeapon",
+   "meleeAttacks": [
+    {
+     "effect": {
+      "#type": "Damage",
+      "amount": {
+       "#type": "StatisticBased",
+       "base": 15,
+       "modifier": {
+        "#type": "Not",
+        "number": 3
+       }
+      },
+      "damageType": 3
+     },
+     "reach": {
+      "#type": "Simple"
+     },
+     "parrying": {
+      "#type": "Unbalanced"
+     },
+     "skill": {
+      "#type": "Modified",
+      "skill": 6
+     }
+    }
+   ],
+   "rangedAttacks": [
+    {
+     "effect": {
+      "#type": "Damage",
+      "amount": {
+       "#type": "StatisticBased",
+       "base": 15,
+       "modifier": {
+        "#type": "Not",
+        "number": 3
+       }
+      },
+      "damageType": 3
+     },
+     "skill": {
+      "#type": "Modified",
+      "skill": 6
+     }
+    }
+   ],
+   "weight": {
+    "#type": "User",
+    "weight": 3000000
+   }
+  },
+  "16": {
+   "id": 16,
+   "name": "Mace",
+   "category": "MeleeWeapon",
+   "meleeAttacks": [
+    {
+     "effect": {
+      "#type": "Damage",
+      "amount": {
+       "#type": "StatisticBased",
+       "base": 15,
+       "modifier": {
+        "#type": "Not",
+        "number": 3
+       }
+      },
+      "damageType": 3
+     },
+     "reach": {
+      "#type": "Simple"
+     },
+     "parrying": {
+      "#type": "Unbalanced"
+     },
+     "skill": {
+      "#type": "Modified",
+      "skill": 6
+     }
+    }
+   ],
+   "rangedAttacks": [
+    {
+     "effect": {
+      "#type": "Damage",
+      "amount": {
+       "#type": "StatisticBased",
+       "base": 15,
+       "modifier": {
+        "#type": "Not",
+        "number": 3
+       }
+      },
+      "damageType": 3
+     },
+     "skill": {
+      "#type": "Modified",
+      "skill": 6
+     }
+    }
+   ],
+   "weight": {
+    "#type": "User",
+    "weight": 2500000
+   }
+  },
+  "17": {
+   "id": 17,
+   "name": "Maul",
+   "category": "MeleeWeapon",
+   "meleeAttacks": [
+    {
+     "effect": {
+      "#type": "Damage",
+      "amount": {
+       "#type": "StatisticBased",
+       "base": 15,
+       "modifier": {
+        "#type": "Not",
+        "number": 5
+       }
+      },
+      "damageType": 3
+     },
+     "reach": {
+      "#type": "Range"
+     },
+     "parrying": {
+      "#type": "Unbalanced"
+     },
+     "skill": {
+      "#type": "Modified",
+      "skill": 6
+     }
+    }
+   ],
+   "rangedAttacks": [
+    {
+     "effect": {
+      "#type": "Damage",
+      "amount": {
+       "#type": "StatisticBased",
+       "base": 15,
+       "modifier": {
+        "#type": "Not",
+        "number": 5
+       }
+      },
+      "damageType": 3
+     },
+     "skill": {
+      "#type": "Modified",
+      "skill": 6
+     }
+    }
+   ],
+   "weight": {
+    "#type": "User",
+    "weight": 6000000
+   }
+  },
+  "18": {
+   "id": 18,
+   "name": "Brass Knuckles",
+   "category": "MeleeWeapon",
+   "meleeAttacks": [
+    {
+     "effect": {
+      "#type": "Damage",
+      "amount": {
+       "#type": "StatisticBased",
+       "base": 14,
+       "modifier": {
+        "#type": "Not",
+        "number": 0
+       }
+      },
+      "damageType": 3
+     },
+     "reach": {
+      "#type": "Simple"
+     },
+     "skill": {
+      "#type": "Modified",
+      "skill": 17
+     }
+    }
+   ],
+   "rangedAttacks": [
+    {
+     "effect": {
+      "#type": "Damage",
+      "amount": {
+       "#type": "StatisticBased",
+       "base": 14,
+       "modifier": {
+        "#type": "Not",
+        "number": 0
+       }
+      },
+      "damageType": 3
+     },
+     "skill": {
+      "#type": "Modified",
+      "skill": 17
+     }
+    }
+   ],
+   "weight": {
+    "#type": "User",
+    "weight": 125000
+   }
+  },
+  "19": {
+   "id": 19,
+   "name": "Small Shield",
+   "category": "Shield",
+   "protection": {
+    "#type": "DefenseBonus"
+   },
+   "weight": {
+    "#type": "User",
+    "weight": 4000000
+   }
+  },
+  "20": {
+   "id": 20,
+   "name": "Medium Shield",
+   "category": "Shield",
+   "protection": {
+    "#type": "DefenseBonus",
+    "bonus": 2
+   },
+   "weight": {
+    "#type": "User",
+    "weight": 7500000
+   }
+  },
+  "21": {
+   "id": 21,
+   "name": "Large Shield",
+   "category": "Shield",
+   "protection": {
+    "#type": "DefenseBonus",
+    "bonus": 3
+   },
+   "weight": {
+    "#type": "User",
+    "weight": 12500000
+   }
+  }
+ }
+}
