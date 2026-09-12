@@ -7,13 +7,10 @@ import at.orchaldir.gm.core.model.item.ammunition.Ammunition
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.item.equipment.EquipmentAppearance
 import at.orchaldir.gm.core.model.item.equipment.EquipmentIdMap
-import at.orchaldir.gm.core.model.rpg.equipment.EquipmentStats
-import at.orchaldir.gm.core.model.rpg.equipment.EquipmentType
 import at.orchaldir.gm.core.selector.rpg.equipment.getEquipmentType
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.math.ONE
 import at.orchaldir.gm.utils.math.ZERO
 import at.orchaldir.gm.utils.math.unit.CalculatedWeight
 import at.orchaldir.gm.utils.math.unit.UndefinedWeight
@@ -41,25 +38,47 @@ fun calculateWeightBasedOnType(state: State, ammunition: Ammunition) = getWeight
 
 fun calculateWeightBasedOnType(state: State, equipment: Equipment): Weight {
     state.getEquipmentType(equipment)?.let {
-        return getWeightOfType(it.weight) * getWeightFactors(state, equipment)
+        return getWeightOfType(it.weight) * calculateWeightFactor(state, equipment)
     }
 
     return WEIGHTLESS
 }
 
-private fun getWeightFactors(
+private fun calculateWeightFactor(
     state: State,
     equipment: Equipment,
 ): Factor {
     var factor = FULL
 
-    state.getEquipmentModifierStorage()
-        .get(equipment.stats.modifiers)
+    calculateWeightFactors(state, equipment)
         .forEach { modifier ->
-            factor += modifier.cost
+            factor += modifier.value
         }
 
     return factor.max(ZERO)
+}
+
+fun calculateWeightFactors(
+    state: State,
+    equipment: Equipment,
+): Map<Id<*>, Factor> {
+    val map = mutableMapOf<Id<*>, Factor>()
+
+    calculateWeightFactors(state, map, equipment)
+
+    return map
+}
+
+private fun calculateWeightFactors(
+    state: State,
+    costFactors: MutableMap<Id<*>, Factor>,
+    equipment: Equipment,
+) {
+    state.getEquipmentModifierStorage()
+        .get(equipment.stats.modifiers)
+        .forEach { modifier ->
+            costFactors[modifier.id] = modifier.cost
+        }
 }
 
 fun getWeightOfType(lookup: WeightLookup?) = when (lookup) {

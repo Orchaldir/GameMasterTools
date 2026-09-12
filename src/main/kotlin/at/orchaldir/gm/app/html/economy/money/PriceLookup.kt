@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.html.economy.money
 import at.orchaldir.gm.app.PRICE
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.util.math.showFactorMap
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.*
 import at.orchaldir.gm.core.selector.getDefaultCurrency
@@ -46,7 +47,7 @@ fun HtmlBlockTag.showPriceLookupDetails(
         field("Type", lookup.getType())
 
         showPricePerMaterial(call, state, vpm)
-        showCostFactors(call, state, costFactors)
+        showFactorMap(call, state, costFactors, "Cost Factor")
 
         when (lookup) {
             CalculatedPrice -> {
@@ -110,41 +111,6 @@ fun HtmlBlockTag.showPricePerMaterial(
     }
 }
 
-fun HtmlBlockTag.showCostFactors(
-    call: ApplicationCall,
-    state: State,
-    costFactors: Map<Id<*>, Factor>,
-) {
-    var totalFactor = FULL
-
-    br { }
-    table {
-        tr {
-            th { +"Cost Factor" }
-            th { +"Value" }
-        }
-        tr {
-            tdString("Base")
-            tdString(FULL.toString())
-        }
-        costFactors.entries
-            .sortedByDescending { it.value.toPermyriad() }
-            .forEach { (id, factor) ->
-
-                tr {
-                    tdLink(call, state, id)
-                    tdString(factor.toString())
-                }
-
-                totalFactor += factor
-            }
-
-        tr {
-            tdString("Total")
-            tdString(totalFactor.toString())
-        }
-    }
-}
 
 // edit
 

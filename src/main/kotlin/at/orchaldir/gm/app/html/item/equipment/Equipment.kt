@@ -25,6 +25,7 @@ import at.orchaldir.gm.core.selector.item.equipment.CalculateVolumeConfig
 import at.orchaldir.gm.core.selector.item.equipment.calculateCostFactors
 import at.orchaldir.gm.core.selector.item.equipment.calculateVolumePerMaterial
 import at.orchaldir.gm.core.selector.item.equipment.calculateWeightBasedOnType
+import at.orchaldir.gm.core.selector.item.equipment.calculateWeightFactors
 import at.orchaldir.gm.core.selector.item.getUniforms
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import io.ktor.http.*
@@ -41,6 +42,7 @@ fun HtmlBlockTag.showEquipment(
 ) {
     val material = equipment.appearance.mainMaterial()
     val costFactors = calculateCostFactors(state, equipment.stats)
+    val weightFactors = calculateWeightFactors(state, equipment)
     val vpm = calculateVolumePerMaterial(CalculateVolumeConfig.from(CHARACTER_CONFIG), equipment.appearance)
 
     showEquipmentStats(call, state, equipment.stats, material)
@@ -51,6 +53,7 @@ fun HtmlBlockTag.showEquipment(
         state,
         equipment.weight,
         vpm,
+        weightFactors,
     ) {
         calculateWeightBasedOnType(state, equipment)
     }

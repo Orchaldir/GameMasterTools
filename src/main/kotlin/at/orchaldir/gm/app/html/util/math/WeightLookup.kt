@@ -4,7 +4,9 @@ import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.WEIGHT
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
+import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.unit.*
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -27,12 +29,14 @@ fun HtmlBlockTag.showWeightLookupDetails(
     state: State,
     lookup: WeightLookup,
     vpm: VolumePerMaterial,
+    weightFactors: Map<Id<*>, Factor> = emptyMap(),
     getWeightFromType: () -> Weight,
 ) {
     showDetails("Weight", true) {
         field("Type", lookup.getType())
 
         showVolumePerMaterial(call, state, vpm)
+        showFactorMap(call, state, weightFactors, "Weight Factor")
 
         val weight = when (lookup) {
             CalculatedWeight -> vpm.getWeight(state)
