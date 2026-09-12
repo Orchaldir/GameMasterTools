@@ -7,7 +7,14 @@ import at.orchaldir.gm.core.model.item.ammunition.Ammunition
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.item.equipment.EquipmentAppearance
 import at.orchaldir.gm.core.model.item.equipment.EquipmentIdMap
+import at.orchaldir.gm.core.model.rpg.equipment.EquipmentStats
+import at.orchaldir.gm.core.model.rpg.equipment.EquipmentType
 import at.orchaldir.gm.core.selector.rpg.equipment.getEquipmentType
+import at.orchaldir.gm.utils.Id
+import at.orchaldir.gm.utils.math.FULL
+import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.ONE
+import at.orchaldir.gm.utils.math.ZERO
 import at.orchaldir.gm.utils.math.unit.CalculatedWeight
 import at.orchaldir.gm.utils.math.unit.UndefinedWeight
 import at.orchaldir.gm.utils.math.unit.UserDefinedWeight
@@ -33,9 +40,26 @@ fun calculateWeightBasedOnType(state: State, ammunition: Ammunition) = getWeight
     .getOptional(ammunition.type)?.weight)
 
 fun calculateWeightBasedOnType(state: State, equipment: Equipment): Weight {
-    state.getEquipmentType(equipment)?.let { return getWeightOfType(it.weight) }
+    state.getEquipmentType(equipment)?.let {
+        return getWeightOfType(it.weight) * getWeightFactors(state, equipment)
+    }
 
     return WEIGHTLESS
+}
+
+private fun getWeightFactors(
+    state: State,
+    equipment: Equipment,
+): Factor {
+    var factor = FULL
+
+    state.getEquipmentModifierStorage()
+        .get(equipment.stats.modifiers)
+        .forEach { modifier ->
+            factor += modifier.cost
+        }
+
+    return factor.max(ZERO)
 }
 
 fun getWeightOfType(lookup: WeightLookup?) = when (lookup) {

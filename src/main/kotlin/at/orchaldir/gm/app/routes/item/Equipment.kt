@@ -132,6 +132,9 @@ fun Application.configureEquipmentRouting() {
                 listOf(
                     createNameColumn(call, state),
                     createIdColumn(call, state, "Type") { it.stats.type },
+                    Column("Modifiers") {
+                        tdInlineIds(call, state, it.stats.modifiers)
+                    },
                     Column("Appearance") { tdEnum(it.appearance.getType()) },
                     createWeightColumn {
                         calculateWeight(state, VOLUME_CONFIG, it)

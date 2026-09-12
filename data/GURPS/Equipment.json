@@ -128,7 +128,10 @@
    "id": 4,
    "name": "Laminated Armour",
    "stats": {
-    "type": 5
+    "type": 5,
+    "modifiers": [
+     3
+    ]
    },
    "appearance": {
     "#type": "Armour",
