@@ -7,7 +7,7 @@ import at.orchaldir.gm.app.html.util.math.showFactorMap
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.*
 import at.orchaldir.gm.core.selector.getDefaultCurrency
-import at.orchaldir.gm.core.selector.item.equipment.calculatePrice
+import at.orchaldir.gm.core.selector.item.equipment.calculatePriceBasedOnMaterials
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Factor
@@ -48,7 +48,7 @@ fun HtmlBlockTag.showPriceLookupDetails(
                 showPricePerMaterial(call, state, vpm)
                 showFactorMap(call, state, priceFactors, "Cost Factor")
 
-                calculatePrice(state, vpm, priceFactors)
+                calculatePriceBasedOnMaterials(state, vpm, priceFactors)
             }
 
             is UserDefinedPrice -> lookup.price

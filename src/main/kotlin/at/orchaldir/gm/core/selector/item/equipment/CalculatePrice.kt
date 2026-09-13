@@ -61,7 +61,7 @@ private fun calculatePriceFactor(
     equipment: Equipment,
 ) = calculatePriceFactor(calculatePriceFactors(state, equipment.stats))
 
-fun calculatePrice(
+fun calculatePriceBasedOnMaterials(
     state: State,
     vpm: VolumePerMaterial,
     priceFactors: Map<Id<*>, Factor> = emptyMap(),
