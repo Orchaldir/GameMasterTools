@@ -1,7 +1,6 @@
 package at.orchaldir.gm.app.html.util.math
 
 import at.orchaldir.gm.app.html.field
-import at.orchaldir.gm.app.html.parseLong
 import at.orchaldir.gm.app.html.parseOptionalLong
 import at.orchaldir.gm.app.html.selectLong
 import at.orchaldir.gm.utils.math.unit.SiPrefix
@@ -61,4 +60,4 @@ fun parseWeight(
     prefix: SiPrefix,
     default: Weight = WEIGHTLESS,
 ) = parseOptionalLong(parameters, param)
-    ?.let{ Weight.from(prefix, it) } ?: default
+    ?.let { Weight.from(prefix, it) } ?: default

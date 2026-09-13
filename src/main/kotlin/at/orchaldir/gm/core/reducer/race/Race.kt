@@ -1,11 +1,7 @@
 package at.orchaldir.gm.core.reducer.race
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.race.MAX_RACE_HEIGHT
-import at.orchaldir.gm.core.model.race.MAX_RACE_WEIGHT
-import at.orchaldir.gm.core.model.race.MIN_RACE_HEIGHT
-import at.orchaldir.gm.core.model.race.MIN_RACE_WEIGHT
-import at.orchaldir.gm.core.model.race.Race
+import at.orchaldir.gm.core.model.race.*
 import at.orchaldir.gm.core.model.race.aging.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.unit.checkDistance
