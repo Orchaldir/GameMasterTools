@@ -20,7 +20,7 @@ fun calculateWeight(
     equipment: Equipment,
     appearance: Appearance = HumanoidBody(),
 ) = when (equipment.weight) {
-    CalculatedWeight -> calculateWeight(state, config, equipment.appearance, appearance)
+    WeightBasedOnAppearance -> calculateWeightBasedOnAppearance(state, config, equipment.appearance, appearance)
     is UserDefinedWeight -> equipment.weight.weight
     WeightBasedOnType -> calculateWeightBasedOnType(state, equipment)
     UndefinedWeight -> WEIGHTLESS
@@ -78,14 +78,14 @@ private fun calculateWeightFactors(
 }
 
 fun getWeightOfType(lookup: WeightLookup?) = when (lookup) {
-    CalculatedWeight -> error("Type doesn't support calculating the weight!")
+    WeightBasedOnAppearance -> error("Type doesn't support calculating the weight!")
     UndefinedWeight -> WEIGHTLESS
     is UserDefinedWeight -> lookup.weight
     WeightBasedOnType -> error("Type doesn't support WeightBasedOnType!")
     null -> WEIGHTLESS
 }
 
-fun calculateWeight(
+fun calculateWeightBasedOnAppearance(
     state: State,
     config: CalculateVolumeConfig<Appearance>,
     data: EquipmentAppearance,
