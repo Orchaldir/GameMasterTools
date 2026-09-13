@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.html.rpg.equipment
 
 import at.orchaldir.gm.app.ATTACK
 import at.orchaldir.gm.app.COST
+import at.orchaldir.gm.app.PRICE
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.economy.money.parsePriceLookup
@@ -107,6 +108,6 @@ fun parseEquipmentType(
         parseRangedAttack(parameters, param)
     },
     parseProtection(state, parameters),
-    parsePriceLookup(state, parameters, COST),
+    parsePriceLookup(state, parameters, PRICE),
     parseWeightLookupForType(parameters, MIN_EQUIPMENT_WEIGHT),
 )

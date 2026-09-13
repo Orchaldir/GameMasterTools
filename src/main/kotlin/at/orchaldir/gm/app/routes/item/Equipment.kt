@@ -139,7 +139,7 @@ fun Application.configureEquipmentRouting() {
                     createWeightColumn {
                         calculateWeight(state, VOLUME_CONFIG, it)
                     },
-                    createPriceColumn {
+                    createPriceColumn(call, state) {
                         calculatePrice(state, VOLUME_CONFIG, it)
                     },
                     Column("Materials") { tdInlineIds(call, state, it.appearance.materials()) },

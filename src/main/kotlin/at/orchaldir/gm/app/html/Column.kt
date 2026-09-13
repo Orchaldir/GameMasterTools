@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.html
 
 import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.economy.displayIncome
+import at.orchaldir.gm.app.html.economy.money.displayPrice
 import at.orchaldir.gm.app.html.realm.population.displayPopulation
 import at.orchaldir.gm.app.html.realm.population.showCulturesOfPopulation
 import at.orchaldir.gm.app.html.realm.population.showRacesOfPopulation
@@ -213,13 +214,11 @@ fun <ELEMENT : HasPosition> createPositionColumn(
 ) = tdColumn<ELEMENT>(label) { showPosition(call, state, it.position(), false) }
 
 fun <T> createPriceColumn(
+    call: ApplicationCall,
+    state: State,
     get: (T) -> Price,
 ): Column<T> = tdColumn("Price") {
-    val price = get(it)
-
-    if (price > FREE) {
-        +price.toString()
-    }
+    displayPrice(call, state, get(it))
 }
 
 fun <ID : Id<ID>, ELEMENT : Element<ID>> createReferenceColumn(

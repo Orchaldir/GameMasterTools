@@ -128,6 +128,10 @@
      }
     }
    ],
+   "price": {
+    "#type": "User",
+    "price": 50
+   },
    "weight": {
     "#type": "User",
     "weight": 2000000
@@ -787,6 +791,10 @@
      }
     }
    ],
+   "price": {
+    "#type": "User",
+    "price": 10
+   },
    "weight": {
     "#type": "User",
     "weight": 125000

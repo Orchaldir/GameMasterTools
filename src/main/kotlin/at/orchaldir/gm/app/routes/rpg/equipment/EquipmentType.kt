@@ -89,7 +89,7 @@ fun Application.configureEquipmentTypeRouting() {
                     countCollectionColumn("Melee Attacks") { it.meleeAttacks },
                     countCollectionColumn("Ranged Attacks") { it.rangedAttacks },
                     tdColumn("Protection") { displayProtection(call, state, it.protection) },
-                    createPriceColumn { getPriceOfType(it.price) },
+                    createPriceColumn(call, state) { getPriceOfType(it.price) },
                     createWeightColumn { getWeightOfType(it.weight) },
                     countCollectionColumn("Equipment") { state.getEquipment(it.id) },
                 ),
