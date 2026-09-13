@@ -49,7 +49,7 @@ class EquipmentTypeTest {
     }
 
     @Test
-    fun `Cannot have a weight factor below the minimum`() {
+    fun `Cannot have a weight below the minimum`() {
         val weight = UserDefinedWeight(MIN_EQUIPMENT_WEIGHT - ONE_GRAM)
         val equipmentType = EquipmentType(EQUIPMENT_TYPE_ID_0, weight = weight)
 
@@ -57,7 +57,7 @@ class EquipmentTypeTest {
     }
 
     @Test
-    fun `Cannot have a weight factor above the maximum`() {
+    fun `Cannot have a weight above the maximum`() {
         val weight = UserDefinedWeight(MAX_EQUIPMENT_WEIGHT + ONE_GRAM)
         val equipmentType = EquipmentType(EQUIPMENT_TYPE_ID_0, weight = weight)
 

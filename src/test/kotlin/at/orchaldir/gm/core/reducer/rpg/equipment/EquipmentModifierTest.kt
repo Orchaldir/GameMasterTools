@@ -44,6 +44,20 @@ class EquipmentModifierTest {
         assertInvalidModifier(modifier, "The Cost factor is too large!")
     }
 
+    @Test
+    fun `Cannot have a weight factor below the minimum`() {
+        val modifier = EquipmentModifier(EQUIPMENT_MODIFIER_ID_0, weight = MIN_WEIGHT_FACTOR - ONE_PERCENT)
+
+        assertInvalidModifier(modifier, "The Weight factor is too small!")
+    }
+
+    @Test
+    fun `Cannot have a weight factor above the maximum`() {
+        val modifier = EquipmentModifier(EQUIPMENT_MODIFIER_ID_0, weight = MAX_WEIGHT_FACTOR + ONE_PERCENT)
+
+        assertInvalidModifier(modifier, "The Weight factor is too large!")
+    }
+
     private fun assertInvalidModifier(effects: List<EquipmentModifierEffect>) {
         val modifier = EquipmentModifier(EQUIPMENT_MODIFIER_ID_0, effects = effects)
 
