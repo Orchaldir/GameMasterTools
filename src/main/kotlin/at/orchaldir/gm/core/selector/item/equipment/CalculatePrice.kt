@@ -50,7 +50,7 @@ private fun calculateCostFactors(
     state.getEquipmentModifierStorage()
         .get(stats.modifiers)
         .forEach { modifier ->
-            costFactors[modifier.id] = modifier.cost
+            costFactors[modifier.id] = modifier.price
         }
 }
 

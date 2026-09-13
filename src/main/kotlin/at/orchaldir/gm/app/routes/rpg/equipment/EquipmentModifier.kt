@@ -72,7 +72,7 @@ fun Application.configureEquipmentModifierRouting() {
                             displayEquipmentModifierEffect(call, state, it)
                         }
                     },
-                    createFactorColumn("Cost") { it.cost },
+                    createFactorColumn("Price") { it.price },
                     createFactorColumn("Weight") { it.weight },
                     countCollectionColumn("Equipment") { state.getEquipment(it.id) },
                 ),

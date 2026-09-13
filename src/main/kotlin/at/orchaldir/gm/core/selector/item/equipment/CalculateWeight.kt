@@ -73,7 +73,7 @@ private fun calculateWeightFactors(
     state.getEquipmentModifierStorage()
         .get(equipment.stats.modifiers)
         .forEach { modifier ->
-            costFactors[modifier.id] = modifier.cost
+            costFactors[modifier.id] = modifier.weight
         }
 }
 
