@@ -13,6 +13,7 @@ import at.orchaldir.gm.core.model.rpg.equipment.EQUIPMENT_TYPE_TYPE
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentTypeId
 import at.orchaldir.gm.core.model.util.SortEquipmentType
 import at.orchaldir.gm.core.selector.item.equipment.getEquipment
+import at.orchaldir.gm.core.selector.item.equipment.getPriceOfType
 import at.orchaldir.gm.core.selector.item.equipment.getWeightOfType
 import at.orchaldir.gm.core.selector.util.sortEquipmentTypes
 import io.ktor.resources.*
@@ -88,7 +89,7 @@ fun Application.configureEquipmentTypeRouting() {
                     countCollectionColumn("Melee Attacks") { it.meleeAttacks },
                     countCollectionColumn("Ranged Attacks") { it.rangedAttacks },
                     tdColumn("Protection") { displayProtection(call, state, it.protection) },
-                    createCostFactorColumn { it.cost },
+                    createPriceColumn { getPriceOfType(it.price) },
                     createWeightColumn { getWeightOfType(it.weight) },
                     countCollectionColumn("Equipment") { state.getEquipment(it.id) },
                 ),

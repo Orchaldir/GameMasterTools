@@ -4,14 +4,18 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 enum class PriceLookupType {
+    Undefined,
     Calculated,
+    Type,
     UserDefined,
 }
 
 @Serializable
 sealed class PriceLookup {
     fun getType() = when (this) {
-        is CalculatedPrice -> PriceLookupType.Calculated
+        CalculatedPrice -> PriceLookupType.Calculated
+        PriceBasedOnType -> PriceLookupType.Type
+        UndefinedPrice -> PriceLookupType.Undefined
         is UserDefinedPrice -> PriceLookupType.UserDefined
     }
 }
@@ -19,6 +23,14 @@ sealed class PriceLookup {
 @Serializable
 @SerialName("Calculated")
 data object CalculatedPrice : PriceLookup()
+
+@Serializable
+@SerialName("Type")
+data object PriceBasedOnType : PriceLookup()
+
+@Serializable
+@SerialName("Undefined")
+data object UndefinedPrice : PriceLookup()
 
 @Serializable
 @SerialName("User")

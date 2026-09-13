@@ -72,8 +72,8 @@ fun Application.configureEquipmentModifierRouting() {
                             displayEquipmentModifierEffect(call, state, it)
                         }
                     },
-                    createCostFactorColumn { it.cost },
-                    tdColumn("Weight") { +it.weight.toString() },
+                    createFactorColumn("Cost") { it.cost },
+                    createFactorColumn("Weight") { it.weight },
                     countCollectionColumn("Equipment") { state.getEquipment(it.id) },
                 ),
             )

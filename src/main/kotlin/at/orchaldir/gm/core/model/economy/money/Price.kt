@@ -30,4 +30,6 @@ value class Price(val value: Int) {
     operator fun times(factor: Int) = Price(value * factor)
     operator fun div(factor: Float) = Price(value / factor)
     operator fun div(factor: Int) = Price(value / factor)
+
+    operator fun compareTo(other: Price) = value.compareTo(other.value)
 }

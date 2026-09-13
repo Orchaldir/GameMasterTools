@@ -29,6 +29,8 @@ fun HtmlBlockTag.displayPriceLookup(
 ) {
     val price = when (lookup) {
         CalculatedPrice -> calculate()
+        PriceBasedOnType -> TODO()
+        UndefinedPrice -> return
         is UserDefinedPrice -> lookup.price
     }
 
@@ -41,22 +43,29 @@ fun HtmlBlockTag.showPriceLookupDetails(
     lookup: PriceLookup,
     vpm: VolumePerMaterial,
     costFactors: Map<Id<*>, Factor> = emptyMap(),
+    getPriceFromType: () -> Price,
 ) {
     showDetails("Price", true) {
         field("Type", lookup.getType())
 
-        showPricePerMaterial(call, state, vpm)
-        showFactorMap(call, state, costFactors, "Cost Factor")
-
-        when (lookup) {
+        val price = when (lookup) {
             CalculatedPrice -> {
-                val price = calculatePrice(state, vpm, costFactors)
+                showPricePerMaterial(call, state, vpm)
+                showFactorMap(call, state, costFactors, "Cost Factor")
 
-                fieldPrice(call, state, "Calculated Price", price)
+                calculatePrice(state, vpm, costFactors)
             }
 
-            is UserDefinedPrice -> fieldPrice(call, state, "User Defined Price", lookup.price)
+            is UserDefinedPrice -> lookup.price
+            PriceBasedOnType -> {
+                showFactorMap(call, state, costFactors, "Cost Factor")
+
+                getPriceFromType()
+            }
+            UndefinedPrice -> return@showDetails
         }
+
+        fieldPrice(call, state, "Price", price)
     }
 }
 
@@ -133,6 +142,9 @@ fun HtmlBlockTag.selectPriceLookup(
                 minPrice,
                 maxPrice,
             )
+
+            PriceBasedOnType -> doNothing()
+            UndefinedPrice -> doNothing()
         }
     }
 }
@@ -145,6 +157,8 @@ fun parsePriceLookup(
     param: String = PRICE,
 ) = when (parse(parameters, combine(param, TYPE), PriceLookupType.UserDefined)) {
     PriceLookupType.Calculated -> CalculatedPrice
+    PriceLookupType.Type -> PriceBasedOnType
+    PriceLookupType.Undefined -> UndefinedPrice
     PriceLookupType.UserDefined -> UserDefinedPrice(
         parsePrice(state, parameters, param),
     )

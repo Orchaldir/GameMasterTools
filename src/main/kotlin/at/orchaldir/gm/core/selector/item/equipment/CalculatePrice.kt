@@ -4,15 +4,28 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
 import at.orchaldir.gm.core.model.economy.money.CalculatedPrice
+import at.orchaldir.gm.core.model.economy.money.FREE
 import at.orchaldir.gm.core.model.economy.money.Price
+import at.orchaldir.gm.core.model.economy.money.PriceBasedOnType
+import at.orchaldir.gm.core.model.economy.money.PriceLookup
+import at.orchaldir.gm.core.model.economy.money.UndefinedPrice
 import at.orchaldir.gm.core.model.economy.money.UserDefinedPrice
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.item.equipment.EquipmentAppearance
 import at.orchaldir.gm.core.model.item.equipment.EquipmentIdMap
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentStats
+import at.orchaldir.gm.core.selector.rpg.equipment.getEquipmentType
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.unit.CalculatedWeight
+import at.orchaldir.gm.utils.math.unit.UndefinedWeight
+import at.orchaldir.gm.utils.math.unit.UserDefinedWeight
 import at.orchaldir.gm.utils.math.unit.VolumePerMaterial
+import at.orchaldir.gm.utils.math.unit.WEIGHTLESS
+import at.orchaldir.gm.utils.math.unit.Weight
+import at.orchaldir.gm.utils.math.unit.WeightBasedOnType
+import at.orchaldir.gm.utils.math.unit.WeightLookup
+import io.ktor.websocket.Frame
 
 
 fun calculateCostFactors(
@@ -36,9 +49,6 @@ private fun calculateCostFactors(
         .forEach { modifier ->
             costFactors[modifier.id] = modifier.cost
         }
-
-    state.getEquipmentTypeStorage().getOptional(stats.type)
-        ?.let { costFactors[it.id] = it.cost }
 }
 
 fun calculatePrice(
@@ -66,6 +76,8 @@ fun calculatePrice(
     appearance: Appearance = HumanoidBody(),
 ) = when (equipment.price) {
     CalculatedPrice -> calculatePrice(state, config, equipment.appearance, appearance)
+    PriceBasedOnType -> calculatePriceBasedOnType(state, equipment)
+    UndefinedPrice -> FREE
     is UserDefinedPrice -> equipment.price.price
 }
 
@@ -86,3 +98,19 @@ fun calculatePrice(
     .map { (id, _) -> state.getEquipmentStorage().getOrThrow(id) }
     .map { equipment -> calculatePrice(state, config, equipment, appearance) }
     .reduceOrNull { total, price -> total + price }
+
+fun calculatePriceBasedOnType(state: State, equipment: Equipment): Price {
+    state.getEquipmentType(equipment)?.let {
+        return getPriceOfType(it.price)
+    }
+
+    return FREE
+}
+
+fun getPriceOfType(lookup: PriceLookup?) = when (lookup) {
+    CalculatedPrice -> error("Type doesn't support CalculatedPrice!")
+    PriceBasedOnType -> error("Type doesn't support PriceBasedOnType!")
+    UndefinedPrice -> FREE
+    is UserDefinedPrice -> lookup.price
+    null -> FREE
+}
