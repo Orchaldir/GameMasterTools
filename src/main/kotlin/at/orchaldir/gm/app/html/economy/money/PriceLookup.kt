@@ -18,6 +18,7 @@ import at.orchaldir.gm.utils.math.unit.VolumePerMaterial
 import at.orchaldir.gm.utils.math.unit.WEIGHTLESS
 import at.orchaldir.gm.utils.math.unit.Weight
 import at.orchaldir.gm.utils.math.unit.WeightLookup
+import at.orchaldir.gm.utils.math.unit.WeightLookupType
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.*
@@ -121,15 +122,31 @@ fun HtmlBlockTag.showPricePerMaterial(
 
 // edit
 
+fun HtmlBlockTag.selectPriceLookupForType(
+    state: State,
+    lookup: PriceLookup,
+    minPrice: Price,
+    maxPrice: Price,
+    param: String = PRICE,
+) = selectPriceLookup(
+    state,
+    lookup,
+    minPrice,
+    maxPrice,
+    param,
+    ALLOWED_PRICE_LOOKUP_TYPES_FOR_TYPES,
+)
+
 fun HtmlBlockTag.selectPriceLookup(
     state: State,
     lookup: PriceLookup,
     minPrice: Price,
     maxPrice: Price,
     param: String = PRICE,
+    allowedTypes: Collection<PriceLookupType> = PriceLookupType.entries,
 ) {
     showDetails("Price", true) {
-        selectValue("Type", combine(param, TYPE), PriceLookupType.entries, lookup.getType())
+        selectValue("Type", combine(param, TYPE), allowedTypes, lookup.getType())
 
         when (lookup) {
             CalculatedPrice -> doNothing()

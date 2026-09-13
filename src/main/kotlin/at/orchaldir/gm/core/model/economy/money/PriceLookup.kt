@@ -1,7 +1,13 @@
 package at.orchaldir.gm.core.model.economy.money
 
+import at.orchaldir.gm.utils.math.unit.WeightLookupType
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+
+val ALLOWED_PRICE_LOOKUP_TYPES_FOR_TYPES = listOf(
+    PriceLookupType.Undefined,
+    PriceLookupType.UserDefined,
+)
 
 enum class PriceLookupType {
     Undefined,

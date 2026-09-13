@@ -7,6 +7,7 @@ import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.economy.money.parsePriceLookup
 import at.orchaldir.gm.app.html.economy.money.selectPriceLookup
+import at.orchaldir.gm.app.html.economy.money.selectPriceLookupForType
 import at.orchaldir.gm.app.html.economy.money.showPriceLookupForType
 import at.orchaldir.gm.app.html.rpg.combat.*
 import at.orchaldir.gm.app.html.util.math.parseFactor
@@ -82,7 +83,7 @@ fun HtmlBlockTag.editEquipmentType(
         editRangedAttack(state, attack, "${index + 1}.Attack", param)
     }
     editProtection(call, state, type.protection)
-    selectPriceLookup(state, type.price, MIN_EQUIPMENT_PRICE, MAX_EQUIPMENT_PRICE)
+    selectPriceLookupForType(state, type.price, MIN_EQUIPMENT_PRICE, MAX_EQUIPMENT_PRICE)
     selectWeightLookupForType(type.weight, MIN_EQUIPMENT_WEIGHT, MAX_EQUIPMENT_WEIGHT)
 }
 
