@@ -9,6 +9,7 @@ import at.orchaldir.gm.app.html.economy.money.parseCurrencyId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.EconomyConfig
 import at.orchaldir.gm.core.model.economy.job.IncomeType
+import at.orchaldir.gm.core.model.economy.standard.MIN_STANDARD
 import at.orchaldir.gm.core.model.economy.standard.StandardOfLivingId
 import at.orchaldir.gm.core.selector.economy.countJobs
 import at.orchaldir.gm.core.selector.economy.money.print
@@ -79,7 +80,7 @@ fun HtmlBlockTag.editEconomyConfig(
         config.defaultIncomeType,
     )
 
-    var minIncome = 0
+    var minIncome = MIN_STANDARD
 
     editList(
         "Standards of Living",
@@ -90,7 +91,7 @@ fun HtmlBlockTag.editEconomyConfig(
         1,
     ) { index, param, standard ->
         editStandardOfLiving(state, standard, param, minIncome)
-        minIncome = standard.maxYearlyIncome.value
+        minIncome = standard.maxYearlyIncome
     }
 }
 

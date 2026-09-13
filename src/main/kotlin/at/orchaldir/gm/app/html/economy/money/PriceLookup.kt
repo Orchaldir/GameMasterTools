@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.html.economy.money
 import at.orchaldir.gm.app.PRICE
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.util.math.fieldWeight
 import at.orchaldir.gm.app.html.util.math.showFactorMap
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.*
@@ -11,30 +12,28 @@ import at.orchaldir.gm.core.selector.item.equipment.calculatePrice
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.unit.UndefinedWeight
+import at.orchaldir.gm.utils.math.unit.UserDefinedWeight
 import at.orchaldir.gm.utils.math.unit.VolumePerMaterial
 import at.orchaldir.gm.utils.math.unit.WEIGHTLESS
 import at.orchaldir.gm.utils.math.unit.Weight
+import at.orchaldir.gm.utils.math.unit.WeightLookup
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.*
 
 // show
 
-fun HtmlBlockTag.displayPriceLookup(
+fun HtmlBlockTag.showPriceLookupForType(
     call: ApplicationCall,
-    currency: Currency,
+    state: State,
     lookup: PriceLookup,
-    showZero: Boolean = false,
-    calculate: () -> Price,
 ) {
-    val price = when (lookup) {
-        CalculatedPrice -> calculate()
-        PriceBasedOnType -> TODO()
-        UndefinedPrice -> return
-        is UserDefinedPrice -> lookup.price
+    when (lookup) {
+        is UserDefinedPrice -> fieldPrice(call, state, "Price", lookup.price)
+        UndefinedPrice -> doNothing()
+        else -> error("PriceLookup of type ${lookup.getType()} is not supported!")
     }
-
-    displayPrice(call, currency, price, showZero)
 }
 
 fun HtmlBlockTag.showPriceLookupDetails(
@@ -125,8 +124,8 @@ fun HtmlBlockTag.showPricePerMaterial(
 fun HtmlBlockTag.selectPriceLookup(
     state: State,
     lookup: PriceLookup,
-    minPrice: Int,
-    maxPrice: Int,
+    minPrice: Price,
+    maxPrice: Price,
     param: String = PRICE,
 ) {
     showDetails("Price", true) {

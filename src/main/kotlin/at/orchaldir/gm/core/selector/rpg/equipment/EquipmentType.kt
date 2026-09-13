@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.selector.rpg.equipment
 
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.ammunition.Ammunition
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.rpg.combat.DamageTypeId
 import at.orchaldir.gm.core.model.rpg.equipment.AmmunitionTypeId

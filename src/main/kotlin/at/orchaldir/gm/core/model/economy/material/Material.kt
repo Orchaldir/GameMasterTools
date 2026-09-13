@@ -10,6 +10,9 @@ import kotlinx.serialization.Serializable
 
 const val MATERIAL_TYPE = "Material"
 
+val MIN_MATERIAL_PRICE = FREE
+val MAX_MATERIAL_PRICE = Price(1_000_000)
+
 @JvmInline
 @Serializable
 value class MaterialId(val value: Int) : Id<MaterialId> {
@@ -25,7 +28,7 @@ data class Material(
     val id: MaterialId,
     val name: Name = Name.init(id),
     val properties: MaterialProperties = MaterialProperties(),
-    val pricePerKilogram: Price = FREE,
+    val pricePerKilogram: Price = MIN_MATERIAL_PRICE,
 ) : ElementWithSimpleName<MaterialId> {
 
     override fun id() = id

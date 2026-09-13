@@ -10,10 +10,13 @@ import at.orchaldir.gm.core.model.economy.money.PriceBasedOnType
 import at.orchaldir.gm.core.model.economy.money.PriceLookup
 import at.orchaldir.gm.core.model.economy.money.UndefinedPrice
 import at.orchaldir.gm.core.model.economy.money.UserDefinedPrice
+import at.orchaldir.gm.core.model.item.ammunition.Ammunition
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.item.equipment.EquipmentAppearance
 import at.orchaldir.gm.core.model.item.equipment.EquipmentIdMap
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentStats
+import at.orchaldir.gm.core.model.rpg.equipment.EquipmentType
+import at.orchaldir.gm.core.selector.rpg.equipment.getAmmunitionType
 import at.orchaldir.gm.core.selector.rpg.equipment.getEquipmentType
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.math.Factor
@@ -98,6 +101,10 @@ fun calculatePrice(
     .map { (id, _) -> state.getEquipmentStorage().getOrThrow(id) }
     .map { equipment -> calculatePrice(state, config, equipment, appearance) }
     .reduceOrNull { total, price -> total + price }
+
+fun calculatePriceBasedOnType(state: State, ammunition: Ammunition): Price {
+    return FREE
+}
 
 fun calculatePriceBasedOnType(state: State, equipment: Equipment): Price {
     state.getEquipmentType(equipment)?.let {

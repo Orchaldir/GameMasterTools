@@ -20,6 +20,7 @@ import at.orchaldir.gm.core.model.item.equipment.MIN_EQUIPMENT_PRICE
 import at.orchaldir.gm.core.model.item.equipment.MIN_EQUIPMENT_WEIGHT
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentCategory
 import at.orchaldir.gm.core.selector.gm.treasure.getTreasureParcelsWith
+import at.orchaldir.gm.core.selector.item.equipment.calculatePriceBasedOnType
 import at.orchaldir.gm.core.selector.item.equipment.calculateWeightBasedOnType
 import at.orchaldir.gm.core.selector.util.sortAmmunitionTypes
 import at.orchaldir.gm.utils.Id
@@ -50,7 +51,9 @@ fun HtmlBlockTag.showAmmunition(
     ) {
         calculateWeightBasedOnType(state, ammunition)
     }
-    showPriceLookupDetails(call, state, ammunition.price, vpm, costFactors)
+    showPriceLookupDetails(call, state, ammunition.price, vpm, costFactors) {
+        calculatePriceBasedOnType(state, ammunition)
+    }
 
     showUsage(call, state, ammunition.id)
 }

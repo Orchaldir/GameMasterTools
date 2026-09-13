@@ -7,6 +7,8 @@ import at.orchaldir.gm.app.html.economy.money.fieldPrice
 import at.orchaldir.gm.app.html.economy.money.parsePrice
 import at.orchaldir.gm.app.html.economy.money.selectPrice
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.economy.money.Price
+import at.orchaldir.gm.core.model.economy.standard.MAX_STANDARD
 import at.orchaldir.gm.core.model.economy.standard.StandardOfLiving
 import at.orchaldir.gm.core.model.economy.standard.StandardOfLivingId
 import at.orchaldir.gm.core.selector.economy.getJobs
@@ -35,7 +37,7 @@ fun HtmlBlockTag.editStandardOfLiving(
     state: State,
     standard: StandardOfLiving,
     param: String,
-    minIncome: Int,
+    minIncome: Price,
 ) {
     selectName(standard.name, combine(param, NAME))
     selectPrice(
@@ -44,7 +46,7 @@ fun HtmlBlockTag.editStandardOfLiving(
         standard.maxYearlyIncome,
         combine(param, PRICE),
         minIncome,
-        10000000,
+        MAX_STANDARD,
     )
 }
 

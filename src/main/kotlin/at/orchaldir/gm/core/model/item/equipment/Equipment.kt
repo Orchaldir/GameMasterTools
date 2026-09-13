@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.model.item.equipment
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.CalculatedPrice
+import at.orchaldir.gm.core.model.economy.money.Price
 import at.orchaldir.gm.core.model.economy.money.PriceLookup
 import at.orchaldir.gm.core.model.economy.money.UndefinedPrice
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentStats
@@ -20,8 +21,8 @@ const val EQUIPMENT_TYPE = "Equipment"
 val MIN_EQUIPMENT_WEIGHT = Weight.fromGrams(1)
 val MAX_EQUIPMENT_WEIGHT = Weight.fromKilograms(1000)
 
-const val MIN_EQUIPMENT_PRICE = 0
-const val MAX_EQUIPMENT_PRICE = 1_000_000_000
+val MIN_EQUIPMENT_PRICE = Price(0)
+val MAX_EQUIPMENT_PRICE = Price(1_000_000_000)
 
 @JvmInline
 @Serializable

@@ -4,6 +4,7 @@ import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.ZERO
 
+// TODO
 val MIN_COST_FACTOR = Factor.fromPercentage(-100)
 val DEFAULT_TYPE_COST_FACTOR = FULL
 val DEFAULT_MODIFIER_COST_FACTOR = ZERO

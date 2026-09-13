@@ -10,6 +10,8 @@ import at.orchaldir.gm.app.html.economy.properties.editMaterialProperties
 import at.orchaldir.gm.app.html.economy.properties.parseMaterialProperties
 import at.orchaldir.gm.app.html.economy.properties.showMaterialProperties
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.economy.material.MAX_MATERIAL_PRICE
+import at.orchaldir.gm.core.model.economy.material.MIN_MATERIAL_PRICE
 import at.orchaldir.gm.core.model.economy.material.Material
 import at.orchaldir.gm.core.model.economy.material.MaterialCategoryType
 import at.orchaldir.gm.core.model.economy.material.MaterialId
@@ -91,8 +93,8 @@ fun HtmlBlockTag.editMaterial(
         "Price Per Kilogram",
         material.pricePerKilogram,
         PRICE,
-        0,
-        Int.MAX_VALUE,
+        MIN_MATERIAL_PRICE,
+        MAX_MATERIAL_PRICE,
     )
 }
 

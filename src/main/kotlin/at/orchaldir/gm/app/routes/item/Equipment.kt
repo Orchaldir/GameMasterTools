@@ -4,7 +4,6 @@ import at.orchaldir.gm.app.SCHEME
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.Column.Companion.tdColumn
-import at.orchaldir.gm.app.html.economy.money.displayPriceLookup
 import at.orchaldir.gm.app.html.item.equipment.editEquipment
 import at.orchaldir.gm.app.html.item.equipment.parseEquipment
 import at.orchaldir.gm.app.html.item.equipment.showEquipment

@@ -79,8 +79,8 @@ fun HtmlBlockTag.editIncome(
             "Average Yearly Salary",
             income.yearlySalary,
             combine(param, PRICE),
-            1,
-            100000,
+            MIN_INCOME,
+            MAX_INCOME,
         )
     }
 }

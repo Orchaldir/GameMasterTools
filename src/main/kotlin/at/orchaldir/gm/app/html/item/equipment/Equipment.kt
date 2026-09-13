@@ -53,7 +53,9 @@ fun HtmlBlockTag.showEquipment(
     ) {
         calculateWeightBasedOnType(state, equipment)
     }
-    showPriceLookupDetails(call, state, equipment.price, vpm, costFactors)
+    showPriceLookupDetails(call, state, equipment.price, vpm, costFactors) {
+        calculatePriceBasedOnType(state, equipment)
+    }
     showUsages(call, state, equipment.id)
 }
 

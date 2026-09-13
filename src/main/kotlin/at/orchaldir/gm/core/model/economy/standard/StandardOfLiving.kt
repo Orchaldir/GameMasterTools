@@ -12,6 +12,9 @@ import kotlinx.serialization.Serializable
 
 const val STANDARD_TYPE = "Standard Of Living"
 
+val MIN_STANDARD = Price(1)
+val MAX_STANDARD = Price(1_000_000)
+
 @JvmInline
 @Serializable
 value class StandardOfLivingId(val value: Int) : Id<StandardOfLivingId> {
