@@ -5,7 +5,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.beard.BeardStyleType
 import at.orchaldir.gm.core.model.character.appearance.hair.HairStyle
 import at.orchaldir.gm.core.model.culture.fashion.*
-import at.orchaldir.gm.core.model.item.equipment.EquipmentDataType
+import at.orchaldir.gm.core.model.item.equipment.EquipmentAppearanceType
 import at.orchaldir.gm.core.model.util.OneOrNone
 import at.orchaldir.gm.utils.redux.noFollowUps
 
@@ -78,14 +78,14 @@ private fun validateCorrectType(
     style: ClothingFashion,
     state: State,
 ) {
-    EquipmentDataType.entries.forEach { type ->
+    EquipmentAppearanceType.entries.forEach { type ->
         style.getOptions(type).getValidValues().forEach { id ->
             val equipment = state.getEquipmentStorage().getOrThrow(id)
-            require(equipment.data.isType(type)) { "Type $type has item ${id.value} of wrong type!" }
+            require(equipment.appearance.isType(type)) { "Type $type has item ${id.value} of wrong type!" }
         }
     }
 }
 
-private fun validate(style: ClothingFashion, set: ClothingSet, type: EquipmentDataType) {
+private fun validate(style: ClothingFashion, set: ClothingSet, type: EquipmentAppearanceType) {
     require(style.getOptions(type).isNotEmpty()) { "Clothing set $set requires at least one $type!" }
 }

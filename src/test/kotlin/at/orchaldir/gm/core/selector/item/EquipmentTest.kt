@@ -24,7 +24,7 @@ class EquipmentTest {
 
     @Nested
     inner class CanDeleteTest {
-        private val equipment = Equipment(EQUIPMENT_ID_0, data = Pants())
+        private val equipment = Equipment(EQUIPMENT_ID_0, appearance = Pants())
         private val state = State(
             listOf(
                 Storage(equipment),
@@ -63,7 +63,7 @@ class EquipmentTest {
 
         @Test
         fun `Cannot delete a equipment that is part of a fashion`() {
-            val map = mapOf(EquipmentDataType.Pants to OneOrNone(EQUIPMENT_ID_0))
+            val map = mapOf(EquipmentAppearanceType.Pants to OneOrNone(EQUIPMENT_ID_0))
             val fashion = Fashion(FASHION_ID_0, clothing = ClothingFashion(equipmentRarityMap = map))
             val newState = state.updateStorage(fashion)
 

@@ -63,7 +63,7 @@ class MaterialTest {
 
         @Test
         fun `Cannot delete a material used by an equipment`() {
-            val equipment = Equipment(EQUIPMENT_ID_0, data = Shirt(main = MadeFromFabric(MATERIAL_ID_0)))
+            val equipment = Equipment(EQUIPMENT_ID_0, appearance = Shirt(main = MadeFromFabric(MATERIAL_ID_0)))
             val newState = state.updateStorage(equipment)
 
             failCanDelete(newState, EQUIPMENT_ID_0)
@@ -139,8 +139,8 @@ class MaterialTest {
 
     @Test
     fun `Get all item templates using a material`() {
-        val template0 = Equipment(EQUIPMENT_ID_0, data = Shirt(main = MadeFromFabric(MATERIAL_ID_0)))
-        val template1 = Equipment(EQUIPMENT_ID_1, data = Shirt(main = MadeFromFabric(MATERIAL_ID_0)))
+        val template0 = Equipment(EQUIPMENT_ID_0, appearance = Shirt(main = MadeFromFabric(MATERIAL_ID_0)))
+        val template1 = Equipment(EQUIPMENT_ID_1, appearance = Shirt(main = MadeFromFabric(MATERIAL_ID_0)))
         val state = State(
             listOf(
                 Storage(listOf(template0, template1)),

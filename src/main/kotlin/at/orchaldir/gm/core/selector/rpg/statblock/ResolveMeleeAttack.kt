@@ -2,7 +2,8 @@ package at.orchaldir.gm.core.selector.rpg.statblock
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.Equipment
-import at.orchaldir.gm.core.model.rpg.combat.*
+import at.orchaldir.gm.core.model.rpg.combat.MeleeAttack
+import at.orchaldir.gm.core.model.rpg.equipment.*
 import at.orchaldir.gm.core.model.rpg.statblock.*
 
 // resolve melee attack with statblock

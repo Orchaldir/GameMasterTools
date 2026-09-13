@@ -45,13 +45,13 @@ fun HtmlBlockTag.editEquipmentMap(
     equipmentMap: EquipmentIdMap,
     param: String,
 ) {
-    EquipmentDataType.entries.forEach { selectEquipment(state, equipmentMap, it, param) }
+    EquipmentAppearanceType.entries.forEach { selectEquipment(state, equipmentMap, it, param) }
 }
 
 private fun HtmlBlockTag.selectEquipment(
     state: State,
     equipmentMap: EquipmentIdMap,
-    type: EquipmentDataType,
+    type: EquipmentAppearanceType,
     param: String,
 ) {
     // ignore fashion for testing
@@ -67,9 +67,9 @@ private fun HtmlBlockTag.selectEquipment(
             val currentPair = equipmentMap.getEquipment(bodySlots)
             val currentId = currentPair?.first
             val optionalEquipment = state.getEquipmentStorage().getOptional(currentId)
-            val isOccupyingSlot = optionalEquipment?.data?.isType(type) ?: false
+            val isOccupyingSlot = optionalEquipment?.appearance?.isType(type) ?: false
             val isIounStoneSlotForbidden = when (type) {
-                EquipmentDataType.IounStone -> {
+                EquipmentAppearanceType.IounStone -> {
                     val bodySlot = bodySlots.first()
                     val bodySlotIndex = bodySlot.getIounStoneIndex()
                     equipmentMap.getMaxIounStoneSlot()?.let { maxSlot ->

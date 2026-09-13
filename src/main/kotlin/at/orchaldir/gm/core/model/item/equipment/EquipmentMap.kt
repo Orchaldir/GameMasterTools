@@ -11,13 +11,13 @@ data class EquipmentMap<T>(private val list: List<EquipmentMapEntry<T>>) {
     constructor(entry: EquipmentMapEntry<T>) : this(listOf(entry))
 
     companion object {
-        fun from(data: EquipmentData) =
+        fun from(data: EquipmentAppearance) =
             EquipmentMap(EquipmentMapEntry.from(data, data))
 
-        fun <T> from(data: EquipmentData, second: T) =
+        fun <T> from(data: EquipmentAppearance, second: T) =
             EquipmentMap(EquipmentMapEntry.from(Pair(data, second), data))
 
-        fun from(list: List<EquipmentData>) =
+        fun from(list: List<EquipmentAppearance>) =
             EquipmentMap(list.map { EquipmentMapEntry.from(it, it) })
 
         fun from(slot: BodySlot, equipment: EquipmentId, scheme: ColorSchemeId? = null) =
@@ -70,9 +70,9 @@ data class EquipmentMap<T>(private val list: List<EquipmentMapEntry<T>>) {
 
 typealias EquipmentIdPair = Pair<EquipmentId, ColorSchemeId?>
 typealias EquipmentIdMap = EquipmentMap<EquipmentIdPair>
-typealias EquipmentDataPair = Pair<EquipmentData, Colors>
+typealias EquipmentDataPair = Pair<EquipmentAppearance, Colors>
 typealias EquipmentElementMap = EquipmentMap<EquipmentDataPair>
-typealias EquipmentDataMap = EquipmentMap<EquipmentData>
+typealias EquipmentDataMap = EquipmentMap<EquipmentAppearance>
 
 fun EquipmentIdMap.containsId(equipment: EquipmentId) = getAllEquipment().any { it.first == equipment }
 fun EquipmentIdMap.containsScheme(scheme: ColorSchemeId) = getAllEquipment().any { it.second == scheme }
@@ -80,6 +80,6 @@ fun EquipmentIdMap.convert(function: (EquipmentIdPair) -> EquipmentDataPair) = E
     getEquipmentWithSlotSets().map { it.convert(function) }
 )
 
-fun EquipmentDataMap.addColors(function: (EquipmentData) -> EquipmentDataPair) = EquipmentElementMap(
+fun EquipmentDataMap.addColors(function: (EquipmentAppearance) -> EquipmentDataPair) = EquipmentElementMap(
     getEquipmentWithSlotSets().map { it.convert(function) }
 )

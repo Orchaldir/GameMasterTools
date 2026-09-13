@@ -20,6 +20,10 @@ fun HtmlBlockTag.fieldColorSchemeOption(
     state: State,
     option: ColorSchemeOption,
 ) {
+    if (option.isEmpty()) {
+        return
+    }
+
     field("Color Schemes") {
         showColorSchemeOption(call, state, option)
     }

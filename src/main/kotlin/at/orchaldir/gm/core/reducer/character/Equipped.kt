@@ -57,7 +57,7 @@ fun validateEquipmentMap(
 
     equipmentMap.getEquipmentWithSlotSets().forEach { (pair, slotSets) ->
         val equipment = state.getEquipmentStorage().getOrThrow(pair.first)
-        val allowedSlotSets = equipment.data.slots().getAllBodySlotCombinations()
+        val allowedSlotSets = equipment.appearance.slots().getAllBodySlotCombinations()
 
         state.getColorSchemeStorage().requireOptional(pair.second)
 

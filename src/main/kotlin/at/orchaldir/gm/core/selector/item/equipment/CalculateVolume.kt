@@ -1,16 +1,11 @@
 package at.orchaldir.gm.core.selector.item.equipment
 
-import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.*
-import at.orchaldir.gm.core.model.economy.money.CalculatedPrice
-import at.orchaldir.gm.core.model.economy.money.UserDefinedPrice
 import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.AABB
-import at.orchaldir.gm.utils.math.unit.CalculatedWeight
-import at.orchaldir.gm.utils.math.unit.UserDefinedWeight
 import at.orchaldir.gm.utils.math.unit.VolumePerMaterial
 import at.orchaldir.gm.visualization.character.CharacterRenderConfig
 import at.orchaldir.gm.visualization.character.ICharacterConfig
@@ -92,65 +87,9 @@ fun CalculateVolumeConfig<Appearance>.convert(appearance: Head) = CalculateVolum
     head,
 )
 
-fun calculatePrice(
-    state: State,
-    config: CalculateVolumeConfig<Appearance>,
-    equipment: Equipment,
-    appearance: Appearance = HumanoidBody(),
-) = when (equipment.price) {
-    CalculatedPrice -> calculatePrice(state, config, equipment.data, appearance)
-    is UserDefinedPrice -> equipment.price.price
-}
-
-fun calculatePrice(
-    state: State,
-    config: CalculateVolumeConfig<Appearance>,
-    data: EquipmentData,
-    appearance: Appearance = HumanoidBody(),
-) = calculateVolumePerMaterial(config, data, appearance)
-    .getPrice(state)
-
-fun calculatePrice(
-    state: State,
-    config: CalculateVolumeConfig<Appearance>,
-    map: EquipmentIdMap,
-    appearance: Appearance = HumanoidBody(),
-) = map.getAllEquipment()
-    .map { (id, _) -> state.getEquipmentStorage().getOrThrow(id) }
-    .map { equipment -> calculatePrice(state, config, equipment, appearance) }
-    .reduceOrNull { total, price -> total + price }
-
-fun calculateWeight(
-    state: State,
-    config: CalculateVolumeConfig<Appearance>,
-    equipment: Equipment,
-    appearance: Appearance = HumanoidBody(),
-) = when (equipment.weight) {
-    CalculatedWeight -> calculateWeight(state, config, equipment.data, appearance)
-    is UserDefinedWeight -> equipment.weight.weight
-}
-
-fun calculateWeight(
-    state: State,
-    config: CalculateVolumeConfig<Appearance>,
-    data: EquipmentData,
-    appearance: Appearance = HumanoidBody(),
-) = calculateVolumePerMaterial(config, data, appearance)
-    .getWeight(state)
-
-fun calculateWeight(
-    state: State,
-    config: CalculateVolumeConfig<Appearance>,
-    map: EquipmentIdMap,
-    appearance: Appearance = HumanoidBody(),
-) = map.getAllEquipment()
-    .map { (id, _) -> state.getEquipmentStorage().getOrThrow(id) }
-    .map { equipment -> calculateWeight(state, config, equipment, appearance) }
-    .reduceOrNull { total, weight -> total + weight }
-
 fun calculateVolumePerMaterial(
     config: CalculateVolumeConfig<Appearance>,
-    data: EquipmentData,
+    data: EquipmentAppearance,
     appearance: Appearance = HumanoidBody(),
 ): VolumePerMaterial {
     val vpm = VolumePerMaterial()
@@ -183,7 +122,7 @@ fun calculateVolumePerMaterial(
 
 private fun calculateVolumePerMaterialForBody(
     config: CalculateVolumeConfig<Body>,
-    data: EquipmentData,
+    data: EquipmentAppearance,
     vpm: VolumePerMaterial,
 ) {
     when (data) {
@@ -313,7 +252,7 @@ private fun calculateVolumePerMaterialForBody(
 
 private fun calculateVolumePerMaterialForHead(
     config: CalculateVolumeConfig<Head>,
-    data: EquipmentData,
+    data: EquipmentAppearance,
     vpm: VolumePerMaterial,
 ) {
     when (data) {

@@ -6,7 +6,6 @@ import at.orchaldir.gm.app.html.combine
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.item.equipment.style.*
 import at.orchaldir.gm.app.html.parse
-import at.orchaldir.gm.app.html.rpg.combat.parseArmorStats
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.BodyArmour
 import at.orchaldir.gm.core.model.item.equipment.style.SleeveStyle
@@ -46,5 +45,4 @@ fun parseBodyArmour(
     parseArmourStyle(state, parameters),
     parseLegArmourStyle(state, parameters),
     parse(parameters, combine(SLEEVE, STYLE), SleeveStyle.Long),
-    parseArmorStats(parameters),
 )

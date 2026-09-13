@@ -26,7 +26,12 @@ import at.orchaldir.gm.app.routes.realm.*
 import at.orchaldir.gm.app.routes.religion.DomainRoutes
 import at.orchaldir.gm.app.routes.religion.GodRoutes
 import at.orchaldir.gm.app.routes.religion.PantheonRoutes
-import at.orchaldir.gm.app.routes.rpg.*
+import at.orchaldir.gm.app.routes.rpg.CharacterTraitRoutes
+import at.orchaldir.gm.app.routes.rpg.DamageTypeRoutes
+import at.orchaldir.gm.app.routes.rpg.StatisticRoutes
+import at.orchaldir.gm.app.routes.rpg.equipment.AmmunitionTypeRoutes
+import at.orchaldir.gm.app.routes.rpg.equipment.EquipmentModifierRoutes
+import at.orchaldir.gm.app.routes.rpg.equipment.EquipmentTypeRoutes
 import at.orchaldir.gm.app.routes.time.CalendarRoutes
 import at.orchaldir.gm.app.routes.time.HolidayRoutes
 import at.orchaldir.gm.app.routes.time.TimeRoutes
@@ -69,7 +74,10 @@ import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.religion.DomainId
 import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.religion.PantheonId
-import at.orchaldir.gm.core.model.rpg.combat.*
+import at.orchaldir.gm.core.model.rpg.combat.DamageTypeId
+import at.orchaldir.gm.core.model.rpg.equipment.AmmunitionTypeId
+import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifierId
+import at.orchaldir.gm.core.model.rpg.equipment.EquipmentTypeId
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitId
 import at.orchaldir.gm.core.model.time.calendar.Calendar
@@ -388,7 +396,6 @@ fun href(
     is AmmunitionId -> call.application.href(AmmunitionRoutes.Details(id))
     is AmmunitionTypeId -> call.application.href(AmmunitionTypeRoutes.Details(id))
     is ArchitecturalStyleId -> call.application.href(ArchitecturalStyleRoutes.Details(id))
-    is ArmorTypeId -> call.application.href(ArmorTypeRoutes.Details(id))
     is ArticleId -> call.application.href(ArticleRoutes.Details(id))
     is BattleId -> call.application.href(BattleRoutes.Details(id))
     is BuildingId -> call.application.href(BuildingRoutes.Details(id))
@@ -411,6 +418,7 @@ fun href(
     is EncounterId -> call.application.href(EncounterRoutes.Details(id))
     is EquipmentId -> call.application.href(EquipmentRoutes.Details(id))
     is EquipmentModifierId -> call.application.href(EquipmentModifierRoutes.Details(id))
+    is EquipmentTypeId -> call.application.href(EquipmentTypeRoutes.Details(id))
     is FashionId -> call.application.href(FashionRoutes.Details(id))
     is FontId -> call.application.href(FontRoutes.Details(id))
     is GodId -> call.application.href(GodRoutes.Details(id))
@@ -420,7 +428,6 @@ fun href(
     is LegalCodeId -> call.application.href(LegalCodeRoutes.Details(id))
     is MagicTraditionId -> call.application.href(MagicTraditionRoutes.Details(id))
     is MaterialId -> call.application.href(MaterialRoutes.Details(id))
-    is MeleeWeaponTypeId -> call.application.href(MeleeWeaponTypeRoutes.Details(id))
     is MoonId -> call.application.href(MoonRoutes.Details(id))
     is RegionId -> call.application.href(RegionRoutes.Details(id))
     is NameListId -> call.application.href(NameListRoutes.Details(id))
@@ -435,13 +442,11 @@ fun href(
     is RaceId -> call.application.href(RaceRoutes.Details(id))
     is RaceAppearanceId -> call.application.href(RaceAppearanceRoutes.Details(id))
     is RaceGroupId -> call.application.href(RaceGroupRoutes.Details(id))
-    is RangedWeaponTypeId -> call.application.href(RangedWeaponTypeRoutes.Details(id))
     is RealmId -> call.application.href(RealmRoutes.Details(id))
     is RiverId -> call.application.href(RiverRoutes.Details(id))
     is SettlementId -> call.application.href(SettlementRoutes.Details(id))
     is SettlementMapId -> call.application.href(SettlementMapRoutes.Details(id))
     is SettlementSizeId -> call.application.href(SettlementSizeRoutes.Details(id))
-    is ShieldTypeId -> call.application.href(ShieldTypeRoutes.Details(id))
     is SpellId -> call.application.href(SpellRoutes.Details(id))
     is SpellGroupId -> call.application.href(SpellGroupRoutes.Details(id))
     is StandardOfLivingId -> call.application.href(StandardOfLivingRoutes.Details(id))

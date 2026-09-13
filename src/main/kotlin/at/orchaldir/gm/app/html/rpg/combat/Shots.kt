@@ -5,6 +5,7 @@ import at.orchaldir.gm.app.NUMBER
 import at.orchaldir.gm.app.SHOTS
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.rpg.equipment.parseAmmunitionTypeId
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.core.selector.util.sortAmmunitionTypes

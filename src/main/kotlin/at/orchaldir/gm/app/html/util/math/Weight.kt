@@ -1,9 +1,10 @@
 package at.orchaldir.gm.app.html.util.math
 
 import at.orchaldir.gm.app.html.field
-import at.orchaldir.gm.app.html.parseLong
+import at.orchaldir.gm.app.html.parseOptionalLong
 import at.orchaldir.gm.app.html.selectLong
 import at.orchaldir.gm.utils.math.unit.SiPrefix
+import at.orchaldir.gm.utils.math.unit.WEIGHTLESS
 import at.orchaldir.gm.utils.math.unit.Weight
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag
@@ -22,8 +23,8 @@ fun HtmlBlockTag.selectWeight(
     label: String,
     param: String,
     current: Weight,
-    minValue: Long,
-    maxValue: Long,
+    minValue: Weight,
+    maxValue: Weight,
     prefix: SiPrefix,
 ) {
     field(label) {
@@ -34,14 +35,20 @@ fun HtmlBlockTag.selectWeight(
 fun HtmlBlockTag.selectWeight(
     param: String,
     current: Weight,
-    minValue: Long,
-    maxValue: Long,
+    minValue: Weight,
+    maxValue: Weight,
     prefix: SiPrefix,
 ) {
     val unit = Weight.resolveUnit(prefix)
     val text = current.toString()
-    val currentValue = current.convertToLong(prefix)
-    selectLong(currentValue, minValue, maxValue, 1, param)
+
+    selectLong(
+        current.convertToLong(prefix),
+        minValue.convertToLong(prefix),
+        maxValue.convertToLong(prefix),
+        1,
+        param,
+    )
     +"$unit ($text)"
 }
 
@@ -51,5 +58,6 @@ fun parseWeight(
     parameters: Parameters,
     param: String,
     prefix: SiPrefix,
-    default: Long = 0,
-) = Weight.from(prefix, parseLong(parameters, param, default))
+    default: Weight = WEIGHTLESS,
+) = parseOptionalLong(parameters, param)
+    ?.let { Weight.from(prefix, it) } ?: default

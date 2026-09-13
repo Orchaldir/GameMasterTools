@@ -2,15 +2,15 @@ package at.orchaldir.gm.core.selector.rpg
 
 import at.orchaldir.gm.AMMUNITION_ID_0
 import at.orchaldir.gm.AMMUNITION_TYPE_ID_0
-import at.orchaldir.gm.RANGED_WEAPON_TYPE_ID_0
+import at.orchaldir.gm.EQUIPMENT_TYPE_ID_0
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.ammunition.Ammunition
-import at.orchaldir.gm.core.model.rpg.combat.AmmunitionType
 import at.orchaldir.gm.core.model.rpg.combat.RangedAttack
-import at.orchaldir.gm.core.model.rpg.combat.RangedWeaponType
 import at.orchaldir.gm.core.model.rpg.combat.SingleShot
-import at.orchaldir.gm.core.selector.rpg.combat.canDeleteAmmunitionType
+import at.orchaldir.gm.core.model.rpg.equipment.AmmunitionType
+import at.orchaldir.gm.core.model.rpg.equipment.EquipmentType
+import at.orchaldir.gm.core.selector.rpg.equipment.canDeleteAmmunitionType
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
 import org.junit.jupiter.api.Nested
@@ -39,10 +39,10 @@ class AmmunitionTypeTest {
         @Test
         fun `Cannot delete an ammunition type used by a ranged weapon`() {
             val attack = RangedAttack(shots = SingleShot(AMMUNITION_TYPE_ID_0))
-            val element = RangedWeaponType(RANGED_WEAPON_TYPE_ID_0, attacks = listOf(attack))
+            val element = EquipmentType(EQUIPMENT_TYPE_ID_0, rangedAttacks = listOf(attack))
             val newState = state.updateStorage(element)
 
-            failCanDelete(newState, RANGED_WEAPON_TYPE_ID_0)
+            failCanDelete(newState, EQUIPMENT_TYPE_ID_0)
         }
 
         private fun <ID : Id<ID>> failCanDelete(state: State, blockingId: ID) {

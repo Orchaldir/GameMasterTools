@@ -37,7 +37,10 @@ import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.religion.DomainId
 import at.orchaldir.gm.core.model.religion.GodId
 import at.orchaldir.gm.core.model.religion.PantheonId
-import at.orchaldir.gm.core.model.rpg.combat.*
+import at.orchaldir.gm.core.model.rpg.combat.DamageTypeId
+import at.orchaldir.gm.core.model.rpg.equipment.AmmunitionTypeId
+import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifierId
+import at.orchaldir.gm.core.model.rpg.equipment.EquipmentTypeId
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitId
 import at.orchaldir.gm.core.model.time.calendar.CalendarId
@@ -95,7 +98,10 @@ import at.orchaldir.gm.core.selector.religion.canDeleteGod
 import at.orchaldir.gm.core.selector.religion.canDeletePantheon
 import at.orchaldir.gm.core.selector.rpg.canDeleteCharacterTrait
 import at.orchaldir.gm.core.selector.rpg.canDeleteStatistic
-import at.orchaldir.gm.core.selector.rpg.combat.*
+import at.orchaldir.gm.core.selector.rpg.combat.canDeleteDamageType
+import at.orchaldir.gm.core.selector.rpg.equipment.canDeleteAmmunitionType
+import at.orchaldir.gm.core.selector.rpg.equipment.canDeleteEquipmentModifier
+import at.orchaldir.gm.core.selector.rpg.equipment.canDeleteEquipmentType
 import at.orchaldir.gm.core.selector.time.canDeleteCalendar
 import at.orchaldir.gm.core.selector.time.canDeleteHoliday
 import at.orchaldir.gm.core.selector.util.*
@@ -111,7 +117,6 @@ fun reduceDeleteElement(
     is AmmunitionId -> deleteElement(state, id, State::canDeleteAmmunition)
     is AmmunitionTypeId -> deleteElement(state, id, State::canDeleteAmmunitionType)
     is ArchitecturalStyleId -> deleteElement(state, id, State::canDeleteArchitecturalStyle)
-    is ArmorTypeId -> deleteElement(state, id, State::canDeleteArmorType)
     is ArticleId -> deleteElement(state, id, State::canDeleteArticle)
     is BattleId -> deleteElement(state, id, State::canDeleteBattle)
     is BuildingId -> deleteBuilding(state, id)
@@ -134,6 +139,7 @@ fun reduceDeleteElement(
     is EncounterId -> deleteElement(state, id, State::canDeleteEncounter)
     is EquipmentId -> deleteElement(state, id, State::canDeleteEquipment)
     is EquipmentModifierId -> deleteElement(state, id, State::canDeleteEquipmentModifier)
+    is EquipmentTypeId -> deleteElement(state, id, State::canDeleteEquipmentType)
     is FashionId -> deleteElement(state, id, State::canDeleteFashion)
     is FontId -> deleteElement(state, id, State::canDeleteFont)
     is GodId -> deleteElement(state, id, State::canDeleteGod)
@@ -144,7 +150,6 @@ fun reduceDeleteElement(
     is MagicTraditionId -> deleteElement(state, id, State::canDeleteMagicTradition)
     is MaterialId -> deleteElement(state, id, State::canDeleteMaterial)
     is MoonId -> deleteElement(state, id, State::canDeleteMoon)
-    is MeleeWeaponTypeId -> deleteElement(state, id, State::canDeleteMeleeWeaponType)
     is NameListId -> deleteElement(state, id, State::canDeleteNameList)
     is OrganizationId -> deleteElement(state, id, State::canDeleteOrganization)
     is PantheonId -> deleteElement(state, id, State::canDeletePantheon)
@@ -157,14 +162,12 @@ fun reduceDeleteElement(
     is RaceId -> deleteElement(state, id, State::canDeleteRace)
     is RaceAppearanceId -> deleteElement(state, id, State::canDeleteRaceAppearance)
     is RaceGroupId -> deleteElement(state, id, State::canDeleteRaceGroup)
-    is RangedWeaponTypeId -> deleteElement(state, id, State::canDeleteRangedWeaponType)
     is RealmId -> deleteElement(state, id, State::canDeleteRealm)
     is RegionId -> deleteElement(state, id, State::canDeleteRegion)
     is RiverId -> deleteElement(state, id, State::canDeleteRiver)
     is SettlementId -> deleteElement(state, id, State::canDeleteSettlement)
     is SettlementMapId -> deleteElement(state, id, State::canDeleteSettlementMap)
     is SettlementSizeId -> deleteElement(state, id, State::canDeleteSettlementSize)
-    is ShieldTypeId -> deleteElement(state, id, State::canDeleteShieldType)
     is SpellId -> deleteElement(state, id, State::canDeleteSpell)
     is SpellGroupId -> deleteElement(state, id, State::canDeleteSpellGroup)
     is StatisticId -> deleteElement(state, id, State::canDeleteStatistic)

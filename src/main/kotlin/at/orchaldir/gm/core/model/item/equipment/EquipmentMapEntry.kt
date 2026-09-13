@@ -9,7 +9,9 @@ data class EquipmentMapEntry<T>(val data: T, val sets: Set<Set<BodySlot>>) {
 
     companion object {
         fun <T> from(value: T, slots: Set<BodySlot>) = EquipmentMapEntry(value, setOf(slots))
-        fun <T> from(value: T, data: EquipmentData) = from(value, data.slots().getAllBodySlotCombinations().first())
+        fun <T> from(value: T, data: EquipmentAppearance) =
+            from(value, data.slots().getAllBodySlotCombinations().first())
+
         fun fromId(equipment: EquipmentId, scheme: ColorSchemeId?, slot: BodySlot) =
             EquipmentMapEntry(EquipmentIdPair(equipment, scheme), slot)
     }

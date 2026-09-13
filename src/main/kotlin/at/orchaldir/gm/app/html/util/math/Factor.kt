@@ -2,15 +2,61 @@ package at.orchaldir.gm.app.html.util.math
 
 import at.orchaldir.gm.app.html.field
 import at.orchaldir.gm.app.html.selectValue
+import at.orchaldir.gm.app.html.tdLink
+import at.orchaldir.gm.app.html.tdString
+import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.math.*
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import io.ktor.http.*
-import kotlinx.html.HtmlBlockTag
+import io.ktor.server.application.*
+import kotlinx.html.*
 
 // show
 
 fun HtmlBlockTag.fieldFactor(label: String, factor: Factor) {
     field(label, factor.toString())
+}
+
+fun HtmlBlockTag.showFactorMap(
+    call: ApplicationCall,
+    state: State,
+    factors: Map<Id<*>, Factor>,
+    label: String,
+) {
+    var totalFactor = FULL
+
+    if (factors.isEmpty()) {
+        return
+    }
+
+    br { }
+    table {
+        tr {
+            th { +label }
+            th { +"Value" }
+        }
+        tr {
+            tdString("Base")
+            tdString(FULL.toString())
+        }
+        factors.entries
+            .sortedByDescending { it.value.toPermyriad() }
+            .forEach { (id, factor) ->
+
+                tr {
+                    tdLink(call, state, id)
+                    tdString(factor.toString())
+                }
+
+                totalFactor += factor
+            }
+
+        tr {
+            tdString("Total")
+            tdString(totalFactor.toString())
+        }
+    }
 }
 
 // edit

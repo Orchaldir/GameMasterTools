@@ -36,7 +36,12 @@ import at.orchaldir.gm.core.model.realm.*
 import at.orchaldir.gm.core.model.religion.Domain
 import at.orchaldir.gm.core.model.religion.God
 import at.orchaldir.gm.core.model.religion.Pantheon
-import at.orchaldir.gm.core.model.rpg.combat.*
+import at.orchaldir.gm.core.model.rpg.combat.DamageType
+import at.orchaldir.gm.core.model.rpg.combat.Protection
+import at.orchaldir.gm.core.model.rpg.equipment.AmmunitionType
+import at.orchaldir.gm.core.model.rpg.equipment.EquipmentCategory
+import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifier
+import at.orchaldir.gm.core.model.rpg.equipment.EquipmentType
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTrait
 import at.orchaldir.gm.core.model.time.calendar.Calendar
@@ -74,9 +79,9 @@ import at.orchaldir.gm.core.selector.item.countTexts
 import at.orchaldir.gm.core.selector.item.equipment.*
 import at.orchaldir.gm.core.selector.race.countRaceAppearancesMadeOf
 import at.orchaldir.gm.core.selector.realm.*
-import at.orchaldir.gm.core.selector.rpg.combat.getEquipmentModifier
-import at.orchaldir.gm.core.selector.rpg.combat.getMeleeWeaponTypes
-import at.orchaldir.gm.core.selector.rpg.combat.getRangedWeaponTypes
+import at.orchaldir.gm.core.selector.rpg.equipment.getEquipmentModifier
+import at.orchaldir.gm.core.selector.rpg.equipment.getEquipmentTypes
+import at.orchaldir.gm.core.selector.rpg.equipment.getEquipmentTypesDealing
 import at.orchaldir.gm.core.selector.time.date.createSorter
 import at.orchaldir.gm.core.selector.time.getDefaultCalendar
 import at.orchaldir.gm.core.selector.world.countBuildings
@@ -147,8 +152,9 @@ fun State.sortAmmunitionTypes(
     .sortedWith(
         when (sort) {
             SortAmmunitionType.Name -> compareBy { it.name.text }
+            SortAmmunitionType.Weight -> compareByDescending { getWeightOfType(it.weight).value() }
             SortAmmunitionType.Variants -> compareByDescending { getAmmunition(it.id).size }
-            SortAmmunitionType.Weapons -> compareByDescending { getRangedWeaponTypes(it.id).size }
+            SortAmmunitionType.Weapons -> compareByDescending { getEquipmentTypes(it.id).size }
         })
 
 // architectural style
@@ -165,23 +171,6 @@ fun State.sortArchitecturalStyles(
             SortArchitecturalStyle.Name -> compareBy { it.name.text }
             SortArchitecturalStyle.Start -> getStartDateComparator()
             SortArchitecturalStyle.End -> getEndDateComparator()
-        })
-
-// armor types
-
-fun State.sortArmorTypes(sort: SortArmorType = SortArmorType.Name) =
-    sortArmorTypes(getArmorTypeStorage().getAll(), sort)
-
-fun State.sortArmorTypes(
-    weapons: Collection<ArmorType>,
-    sort: SortArmorType = SortArmorType.Name,
-) = weapons
-    .sortedWith(
-        when (sort) {
-            SortArmorType.Name -> compareBy { it.name.text }
-            SortArmorType.Protection -> compareProtection { it.protection }
-            SortArmorType.Cost -> compareByDescending { it.cost.toPermyriad() }
-            SortArmorType.Equipment -> compareByDescending { getArmors(it.id).size }
         })
 
 // article
@@ -453,7 +442,7 @@ fun State.sortDamageTypes(
         when (sort) {
             SortDamageType.Name -> compareBy { it.name.text }
             SortDamageType.Short -> compareBy { it.short?.text }
-            SortDamageType.MeleeWeapons -> compareByDescending { getMeleeWeaponTypes(it.id).size }
+            SortDamageType.MeleeWeapons -> compareByDescending { getEquipmentTypesDealing(it.id).size }
         })
 
 // data source
@@ -567,7 +556,7 @@ fun State.sortEquipmentModifiers(sort: SortEquipmentModifier = SortEquipmentModi
     sortEquipmentModifiers(getEquipmentModifierStorage().getAll(), sort)
 
 fun State.sortEquipmentModifiers(
-    category: EquipmentModifierCategory,
+    category: EquipmentCategory,
     sort: SortEquipmentModifier = SortEquipmentModifier.Name,
 ) =
     sortEquipmentModifiers(getEquipmentModifier(category), sort)
@@ -581,7 +570,28 @@ fun State.sortEquipmentModifiers(
             SortEquipmentModifier.Name -> compareBy { it.name.text }
             SortEquipmentModifier.Category -> compareByEnum { it.category }
             SortEquipmentModifier.Cost -> compareByDescending { it.cost.toPermyriad() }
+            SortEquipmentModifier.Weight -> compareByDescending { it.weight.toPermyriad() }
             SortEquipmentModifier.Equipment -> compareByDescending { getEquipment(it.id).size }
+        })
+
+// equipment types
+
+fun State.sortEquipmentTypes(sort: SortEquipmentType = SortEquipmentType.Name) =
+    sortEquipmentTypes(getEquipmentTypeStorage().getAll(), sort)
+
+fun State.sortEquipmentTypes(
+    types: Collection<EquipmentType>,
+    sort: SortEquipmentType = SortEquipmentType.Name,
+) = types
+    .sortedWith(
+        when (sort) {
+            SortEquipmentType.Name -> compareBy { it.name.text }
+            SortEquipmentType.Category -> compareByEnum { it.category }
+            SortEquipmentType.Protection -> compareProtection { it.protection }
+            SortEquipmentType.Reach -> compareByDescending { it.getMaxReach() }
+            SortEquipmentType.Weight -> compareByDescending { getWeightOfType(it.weight).value() }
+            SortEquipmentType.Cost -> compareByDescending { it.cost.toPermyriad() }
+            SortEquipmentType.Equipment -> compareByDescending { getEquipment(it.id).size }
         })
 
 // fashion
@@ -746,22 +756,6 @@ fun State.sortMaterials(
             SortMaterial.Texts -> compareByDescending { countTexts(it.id) }
         }
     )
-
-// melee weapon types
-
-fun State.sortMeleeWeaponTypes(sort: SortMeleeWeaponType = SortMeleeWeaponType.Name) =
-    sortMeleeWeaponTypes(getMeleeWeaponTypeStorage().getAll(), sort)
-
-fun State.sortMeleeWeaponTypes(
-    weapons: Collection<MeleeWeaponType>,
-    sort: SortMeleeWeaponType = SortMeleeWeaponType.Name,
-) = weapons
-    .sortedWith(
-        when (sort) {
-            SortMeleeWeaponType.Name -> compareBy { it.name.text }
-            SortMeleeWeaponType.Equipment -> compareByDescending { getMeleeWeapons(it.id).size }
-            SortMeleeWeaponType.Reach -> compareByDescending { it.getMaxReach() }
-        })
 
 // moon
 
@@ -958,21 +952,6 @@ fun State.sortRaceGroups(
             SortRaceGroup.Races -> compareByDescending { it.races.size }
         })
 
-// ranged weapon types
-
-fun State.sortRangedWeaponTypes(sort: SortRangedWeaponType = SortRangedWeaponType.Name) =
-    sortRangedWeaponTypes(getRangedWeaponTypeStorage().getAll(), sort)
-
-fun State.sortRangedWeaponTypes(
-    weapons: Collection<RangedWeaponType>,
-    sort: SortRangedWeaponType = SortRangedWeaponType.Name,
-) = weapons
-    .sortedWith(
-        when (sort) {
-            SortRangedWeaponType.Name -> compareBy { it.name.text }
-            SortRangedWeaponType.Equipment -> compareByDescending { getRangedWeapons(it.id).size }
-        })
-
 // realm
 
 fun State.sortRealms(sort: SortRealm = SortRealm.Name) =
@@ -1071,23 +1050,6 @@ fun State.sortSettlementSizes(
             SortSettlementSize.MaxPopulation -> compareByDescending { it.maxPopulation }
             SortSettlementSize.Settlements -> compareByDescending { getSettlements(it.id).size }
         })
-
-// shield types
-
-fun State.sortShieldTypes(sort: SortShieldType = SortShieldType.Name) =
-    sortShieldTypes(getShieldTypeStorage().getAll(), sort)
-
-fun State.sortShieldTypes(
-    weapons: Collection<ShieldType>,
-    sort: SortShieldType = SortShieldType.Name,
-) = weapons
-    .sortedWith(
-        when (sort) {
-            SortShieldType.Name -> compareBy { it.name.text }
-            SortShieldType.Protection -> compareProtection { it.protection }
-            SortShieldType.Equipment -> compareByDescending { getShields(it.id).size }
-        })
-
 
 // spell
 

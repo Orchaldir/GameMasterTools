@@ -6,6 +6,8 @@ import kotlinx.serialization.Serializable
 
 const val MIN_HARDNESS = 0.0f
 const val MAX_HARDNESS = 20.0f
+val MIN_MATERIAL_DENSITY = Weight.fromKilograms(1)
+val MAX_MATERIAL_DENSITY = Weight.fromKilograms(25000)
 
 @Serializable
 data class MaterialProperties(

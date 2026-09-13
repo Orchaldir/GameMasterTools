@@ -69,7 +69,7 @@ fun State.getEquipmentIdMap(uniform: Uniform) =
 
 fun State.resolveEquipmentMap(idMap: EquipmentIdMap) = idMap.convert { pair ->
     Pair(
-        getEquipmentStorage().getOrThrow(pair.first).data,
+        getEquipmentStorage().getOrThrow(pair.first).appearance,
         getColorSchemeStorage().getOptional(pair.second)?.data ?: UndefinedColors,
     )
 }

@@ -4,7 +4,7 @@
   "0": {
    "id": 0,
    "name": "Cannith Longsword",
-   "data": {
+   "appearance": {
     "#type": "Sword1",
     "blade": {
      "#type": "Simple",
@@ -58,7 +58,7 @@
   "1": {
    "id": 1,
    "name": "Cannith Longsword Pro",
-   "data": {
+   "appearance": {
     "#type": "Sword1",
     "blade": {
      "#type": "Simple",

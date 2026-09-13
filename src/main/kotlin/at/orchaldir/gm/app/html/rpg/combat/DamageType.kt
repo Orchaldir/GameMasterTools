@@ -5,10 +5,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.combat.DamageType
 import at.orchaldir.gm.core.model.rpg.combat.DamageTypeId
-import at.orchaldir.gm.core.selector.rpg.combat.getArmorTypes
-import at.orchaldir.gm.core.selector.rpg.combat.getMeleeWeaponTypes
-import at.orchaldir.gm.core.selector.rpg.combat.getRangedWeaponTypes
-import at.orchaldir.gm.core.selector.rpg.combat.getShieldTypes
+import at.orchaldir.gm.core.selector.rpg.equipment.getEquipmentTypes
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -31,21 +28,15 @@ private fun HtmlBlockTag.showUsages(
     state: State,
     type: DamageTypeId,
 ) {
-    val armors = state.getArmorTypes(type)
-    val meleeWeapons = state.getMeleeWeaponTypes(type)
-    val rangedWeapons = state.getRangedWeaponTypes(type)
-    val shields = state.getShieldTypes(type)
+    val equipmentTypes = state.getEquipmentTypes(type)
 
-    if (armors.isEmpty() && meleeWeapons.isEmpty() && rangedWeapons.isEmpty() && shields.isEmpty()) {
+    if (equipmentTypes.isEmpty()) {
         return
     }
 
     h2 { +"Usage" }
 
-    fieldElements(call, state, armors)
-    fieldElements(call, state, meleeWeapons)
-    fieldElements(call, state, rangedWeapons)
-    fieldElements(call, state, shields)
+    fieldElements(call, state, equipmentTypes)
 }
 
 // edit

@@ -18,6 +18,7 @@ import at.orchaldir.gm.core.model.util.source.DataSourceId
 import at.orchaldir.gm.core.model.util.source.HasDataSources
 import at.orchaldir.gm.core.reducer.race.validateHeight
 import at.orchaldir.gm.core.reducer.race.validateLifeStages
+import at.orchaldir.gm.core.reducer.race.validateWeight
 import at.orchaldir.gm.core.reducer.util.validateDate
 import at.orchaldir.gm.core.reducer.util.validateOrigin
 import at.orchaldir.gm.utils.Id
@@ -31,6 +32,8 @@ const val RACE_TYPE = "Race"
 val DEFAULT_GENDERS = Gender.entries - Gender.Genderless
 val MIN_RACE_HEIGHT = Distance.fromCentimeters(10)
 val MAX_RACE_HEIGHT = Distance.fromCentimeters(500)
+val MIN_RACE_WEIGHT = Weight.fromKilograms(1)
+val MAX_RACE_WEIGHT = Weight.fromKilograms(1000)
 val ALLOWED_RACE_ORIGINS = listOf(
     OriginType.Combined,
     OriginType.Created,
@@ -83,6 +86,7 @@ data class Race(
     override fun validate(state: State) {
         validateDate(state, date, "Race")
         validateHeight(this)
+        validateWeight(this)
         validateLifeStages(state, lifeStages)
         validateOrigin(state, id, origin, date, ::RaceId)
         state.getDataSourceStorage().require(sources)

@@ -17,10 +17,9 @@ import at.orchaldir.gm.core.model.item.equipment.EquipmentIdMap
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.rpg.statblock.Statblock
 import at.orchaldir.gm.core.model.rpg.statblock.StatblockLookup
-import at.orchaldir.gm.core.selector.character.getArmors
 import at.orchaldir.gm.core.selector.character.getMeleeAttacks
+import at.orchaldir.gm.core.selector.character.getProtection
 import at.orchaldir.gm.core.selector.character.getRangedAttacks
-import at.orchaldir.gm.core.selector.character.getShields
 import at.orchaldir.gm.core.selector.item.equipment.*
 import at.orchaldir.gm.core.selector.rpg.statblock.resolveMeleeAttackMap
 import at.orchaldir.gm.core.selector.rpg.statblock.resolveProtectionMap
@@ -124,14 +123,13 @@ fun HtmlBlockTag.showEquippedDetails(
         fieldPrice(call, state, "Total Price", calculatePrice(state, VOLUME_CONFIG, equipmentMap))
         fieldWeight("Total Weight", calculateWeight(state, VOLUME_CONFIG, equipmentMap))
 
-        val amorMap = getArmors(state, equipped, lookup)
         val meleeAttackMap = getMeleeAttacks(state, equipped, lookup)
+        val protectionMap = getProtection(state, equipped, lookup)
         val rangedAttackMap = getRangedAttacks(state, equipped, lookup)
-        val shieldMap = getShields(state, equipped, lookup)
 
         val resolvedMeleeAttackMap = resolveMeleeAttackMap(state, base, lookup, meleeAttackMap)
         val resolvedRangedAttackMap = resolveRangedAttackMap(state, base, lookup, rangedAttackMap)
-        val resolvedProtectionMap = resolveProtectionMap(state, lookup, amorMap + shieldMap)
+        val resolvedProtectionMap = resolveProtectionMap(state, lookup, protectionMap)
 
         showMeleeAttackTable(call, state, resolvedMeleeAttackMap)
         br { }

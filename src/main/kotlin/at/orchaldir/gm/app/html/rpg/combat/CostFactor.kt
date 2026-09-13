@@ -4,8 +4,8 @@ import at.orchaldir.gm.app.COST
 import at.orchaldir.gm.app.html.util.math.fieldFactor
 import at.orchaldir.gm.app.html.util.math.parseFactor
 import at.orchaldir.gm.app.html.util.math.selectFactor
-import at.orchaldir.gm.core.model.rpg.combat.MAX_COST_FACTOR
-import at.orchaldir.gm.core.model.rpg.combat.MIN_COST_FACTOR
+import at.orchaldir.gm.core.model.rpg.equipment.MAX_COST_FACTOR
+import at.orchaldir.gm.core.model.rpg.equipment.MIN_COST_FACTOR
 import at.orchaldir.gm.utils.math.Factor
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag

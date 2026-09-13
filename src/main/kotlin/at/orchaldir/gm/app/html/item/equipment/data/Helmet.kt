@@ -6,7 +6,6 @@ import at.orchaldir.gm.app.SHAPE
 import at.orchaldir.gm.app.STYLE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.item.equipment.style.*
-import at.orchaldir.gm.app.html.rpg.combat.parseArmorStats
 import at.orchaldir.gm.app.html.util.part.editItemPart
 import at.orchaldir.gm.app.html.util.part.parseItemPart
 import at.orchaldir.gm.app.html.util.part.showItemPart
@@ -83,7 +82,6 @@ fun parseHelmet(
     parameters: Parameters,
 ) = Helmet(
     parseHelmetStyle(state, parameters),
-    parseArmorStats(parameters),
 )
 
 fun parseHelmetStyle(

@@ -5,6 +5,7 @@ import kotlinx.serialization.Serializable
 import java.util.*
 
 val WEIGHTLESS = Weight.fromKilograms(0)
+val ONE_GRAM = Weight.fromGrams(1)
 
 @JvmInline
 @Serializable

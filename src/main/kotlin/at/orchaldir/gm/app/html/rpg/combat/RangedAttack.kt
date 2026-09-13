@@ -16,6 +16,10 @@ fun HtmlBlockTag.showRangedAttackTable(
     state: State,
     attacks: List<RangedAttack>,
 ) {
+    if (attacks.isEmpty()) {
+        return
+    }
+
     table {
         caption { +"Ranged Attacks" }
         tr {

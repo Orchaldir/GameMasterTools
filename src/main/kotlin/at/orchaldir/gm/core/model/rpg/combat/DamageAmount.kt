@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.rpg.combat
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.rpg.equipment.ModifyDamage
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.model.util.quantity.Quantity
 import at.orchaldir.gm.core.model.util.quantity.StandardDice
