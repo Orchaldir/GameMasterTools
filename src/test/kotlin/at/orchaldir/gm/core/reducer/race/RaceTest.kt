@@ -6,6 +6,10 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.item.equipment.MAX_EQUIPMENT_WEIGHT
 import at.orchaldir.gm.core.model.item.equipment.MIN_EQUIPMENT_WEIGHT
+import at.orchaldir.gm.core.model.race.MAX_RACE_HEIGHT
+import at.orchaldir.gm.core.model.race.MAX_RACE_WEIGHT
+import at.orchaldir.gm.core.model.race.MIN_RACE_HEIGHT
+import at.orchaldir.gm.core.model.race.MIN_RACE_WEIGHT
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.aging.CustomAging
 import at.orchaldir.gm.core.model.race.aging.LifeStage
@@ -20,7 +24,9 @@ import at.orchaldir.gm.core.model.util.origin.CreatedElement
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.ONE_PERCENT
+import at.orchaldir.gm.utils.math.unit.Distribution
 import at.orchaldir.gm.utils.math.unit.ONE_GRAM
+import at.orchaldir.gm.utils.math.unit.ONE_MM
 import at.orchaldir.gm.utils.math.unit.UserDefinedWeight
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -100,15 +106,29 @@ class RaceTest {
         }
 
         @Test
+        fun `Cannot have a height below the minimum`() {
+            val race = Race(RACE_ID_0, height = Distribution(MIN_RACE_HEIGHT - ONE_MM))
+
+            assertInvalid(race, "The Height is too small!")
+        }
+
+        @Test
+        fun `Cannot have a height above the maximum`() {
+            val race = Race(RACE_ID_0, height = Distribution(MAX_RACE_HEIGHT + ONE_MM))
+
+            assertInvalid(race, "The Height is too large!")
+        }
+
+        @Test
         fun `Cannot have a weight below the minimum`() {
-            val race = Race(RACE_ID_0, weight = MIN_EQUIPMENT_WEIGHT - ONE_GRAM)
+            val race = Race(RACE_ID_0, weight = MIN_RACE_WEIGHT - ONE_GRAM)
 
             assertInvalid(race, "The Weight is too small!")
         }
 
         @Test
         fun `Cannot have a weight above the maximum`() {
-            val race = Race(RACE_ID_0, weight = MAX_EQUIPMENT_WEIGHT + ONE_GRAM)
+            val race = Race(RACE_ID_0, weight = MAX_RACE_WEIGHT + ONE_GRAM)
 
             assertInvalid(race, "The Weight is too large!")
         }

@@ -30,7 +30,7 @@ fun validateLifeStages(state: State, lifeStages: LifeStages) {
 }
 
 fun validateHeight(race: Race) {
-    checkDistance(race.height.center, "height", MIN_RACE_HEIGHT, MAX_RACE_HEIGHT)
+    checkDistance(race.height.center, "Height", MIN_RACE_HEIGHT, MAX_RACE_HEIGHT)
 }
 
 fun validateWeight(race: Race) {
