@@ -33,7 +33,6 @@ import at.orchaldir.gm.core.selector.item.equipment.VOLUME_CONFIG
 import at.orchaldir.gm.core.selector.item.equipment.calculatePrice
 import at.orchaldir.gm.core.selector.item.equipment.calculateWeight
 import at.orchaldir.gm.core.selector.item.equipment.getEquipmentWithMeleeAttacks
-import at.orchaldir.gm.core.selector.item.equipment.getPriceOfType
 import at.orchaldir.gm.core.selector.item.getUniforms
 import at.orchaldir.gm.core.selector.rpg.equipment.getEquipmentType
 import at.orchaldir.gm.core.selector.util.getColors

@@ -3,7 +3,6 @@ package at.orchaldir.gm.app.html.economy.money
 import at.orchaldir.gm.app.PRICE
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.util.math.fieldWeight
 import at.orchaldir.gm.app.html.util.math.showFactorMap
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.*
@@ -12,13 +11,9 @@ import at.orchaldir.gm.core.selector.item.equipment.calculatePrice
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.math.unit.UndefinedWeight
-import at.orchaldir.gm.utils.math.unit.UserDefinedWeight
 import at.orchaldir.gm.utils.math.unit.VolumePerMaterial
 import at.orchaldir.gm.utils.math.unit.WEIGHTLESS
 import at.orchaldir.gm.utils.math.unit.Weight
-import at.orchaldir.gm.utils.math.unit.WeightLookup
-import at.orchaldir.gm.utils.math.unit.WeightLookupType
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.*
@@ -42,7 +37,7 @@ fun HtmlBlockTag.showPriceLookupDetails(
     state: State,
     lookup: PriceLookup,
     vpm: VolumePerMaterial,
-    costFactors: Map<Id<*>, Factor> = emptyMap(),
+    priceFactors: Map<Id<*>, Factor> = emptyMap(),
     getPriceFromType: () -> Price,
 ) {
     showDetails("Price", true) {
@@ -51,14 +46,14 @@ fun HtmlBlockTag.showPriceLookupDetails(
         val price = when (lookup) {
             CalculatedPrice -> {
                 showPricePerMaterial(call, state, vpm)
-                showFactorMap(call, state, costFactors, "Cost Factor")
+                showFactorMap(call, state, priceFactors, "Cost Factor")
 
-                calculatePrice(state, vpm, costFactors)
+                calculatePrice(state, vpm, priceFactors)
             }
 
             is UserDefinedPrice -> lookup.price
             PriceBasedOnType -> {
-                showFactorMap(call, state, costFactors, "Cost Factor")
+                showFactorMap(call, state, priceFactors, "Cost Factor")
 
                 getPriceFromType()
             }

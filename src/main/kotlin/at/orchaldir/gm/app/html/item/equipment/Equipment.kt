@@ -37,7 +37,7 @@ fun HtmlBlockTag.showEquipment(
     equipment: Equipment,
 ) {
     val material = equipment.appearance.mainMaterial()
-    val costFactors = calculateCostFactors(state, equipment.stats)
+    val costFactors = calculatePriceFactors(state, equipment.stats)
     val weightFactors = calculateWeightFactors(state, equipment)
     val vpm = calculateVolumePerMaterial(CalculateVolumeConfig.from(CHARACTER_CONFIG), equipment.appearance)
 

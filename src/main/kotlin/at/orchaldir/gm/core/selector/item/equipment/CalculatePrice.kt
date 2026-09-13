@@ -15,34 +15,26 @@ import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.item.equipment.EquipmentAppearance
 import at.orchaldir.gm.core.model.item.equipment.EquipmentIdMap
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentStats
-import at.orchaldir.gm.core.model.rpg.equipment.EquipmentType
-import at.orchaldir.gm.core.selector.rpg.equipment.getAmmunitionType
 import at.orchaldir.gm.core.selector.rpg.equipment.getEquipmentType
 import at.orchaldir.gm.utils.Id
+import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
-import at.orchaldir.gm.utils.math.unit.CalculatedWeight
-import at.orchaldir.gm.utils.math.unit.UndefinedWeight
-import at.orchaldir.gm.utils.math.unit.UserDefinedWeight
+import at.orchaldir.gm.utils.math.ZERO
 import at.orchaldir.gm.utils.math.unit.VolumePerMaterial
-import at.orchaldir.gm.utils.math.unit.WEIGHTLESS
-import at.orchaldir.gm.utils.math.unit.Weight
-import at.orchaldir.gm.utils.math.unit.WeightBasedOnType
-import at.orchaldir.gm.utils.math.unit.WeightLookup
-import io.ktor.websocket.Frame
 
 
-fun calculateCostFactors(
+fun calculatePriceFactors(
     state: State,
     stats: EquipmentStats,
 ): Map<Id<*>, Factor> {
     val map = mutableMapOf<Id<*>, Factor>()
 
-    calculateCostFactors(state, map, stats)
+    calculatePriceFactors(state, map, stats)
 
     return map
 }
 
-private fun calculateCostFactors(
+private fun calculatePriceFactors(
     state: State,
     costFactors: MutableMap<Id<*>, Factor>,
     stats: EquipmentStats,
@@ -54,22 +46,36 @@ private fun calculateCostFactors(
         }
 }
 
+private fun calculatePriceFactor(
+    state: State,
+    equipment: Equipment,
+): Factor {
+    var factor = FULL
+
+    calculatePriceFactors(state, equipment.stats)
+        .forEach { modifier ->
+            factor += modifier.value
+        }
+
+    return factor.max(ZERO)
+}
+
 fun calculatePrice(
     state: State,
     vpm: VolumePerMaterial,
-    costFactors: Map<Id<*>, Factor> = emptyMap(),
+    priceFactors: Map<Id<*>, Factor> = emptyMap(),
 ): Price {
     val materialCost = vpm.getPrice(state)
 
-    if (costFactors.entries.isEmpty()) {
+    if (priceFactors.entries.isEmpty()) {
         return materialCost
     }
 
-    val totalCostFactor = costFactors.entries
+    val priceFactor = priceFactors.entries
         .map { it.value }
         .reduce { total, factor -> total + factor }
 
-    return materialCost * totalCostFactor
+    return materialCost * priceFactor
 }
 
 fun calculatePrice(
@@ -78,13 +84,13 @@ fun calculatePrice(
     equipment: Equipment,
     appearance: Appearance = HumanoidBody(),
 ) = when (equipment.price) {
-    CalculatedPrice -> calculatePrice(state, config, equipment.appearance, appearance)
+    CalculatedPrice -> calculatePriceBasedOnAppearance(state, config, equipment.appearance, appearance)
     PriceBasedOnType -> calculatePriceBasedOnType(state, equipment)
     UndefinedPrice -> FREE
     is UserDefinedPrice -> equipment.price.price
 }
 
-fun calculatePrice(
+fun calculatePriceBasedOnAppearance(
     state: State,
     config: CalculateVolumeConfig<Appearance>,
     data: EquipmentAppearance,
@@ -108,7 +114,7 @@ fun calculatePriceBasedOnType(state: State, ammunition: Ammunition): Price {
 
 fun calculatePriceBasedOnType(state: State, equipment: Equipment): Price {
     state.getEquipmentType(equipment)?.let {
-        return getPriceOfType(it.price)
+        return getPriceOfType(it.price) * calculatePriceFactor(state, equipment)
     }
 
     return FREE

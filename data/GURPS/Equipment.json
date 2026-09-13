@@ -148,6 +148,9 @@
    },
    "weight": {
     "#type": "Type"
+   },
+   "price": {
+    "#type": "Type"
    }
   },
   "5": {
