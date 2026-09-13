@@ -1,6 +1,8 @@
 package at.orchaldir.gm.core.model.rpg.equipment
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.equipment.MAX_EQUIPMENT_WEIGHT
+import at.orchaldir.gm.core.model.item.equipment.MIN_EQUIPMENT_WEIGHT
 import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
@@ -47,7 +49,7 @@ data class EquipmentType(
         rangedAttacks.forEach { validateRangedAttack(state, it) }
         validateProtection(state, protection)
         validateFactor(cost, "Cost", MIN_COST_FACTOR, MAX_COST_FACTOR)
-        validateWei(cost, "Cost", MIN_COST_FACTOR, MAX_COST_FACTOR)
+        weight.validate("Weight", MIN_EQUIPMENT_WEIGHT, MAX_EQUIPMENT_WEIGHT)
     }
 
     fun contains(type: AmmunitionTypeId) = rangedAttacks.any { it.contains(type) }

@@ -53,7 +53,7 @@ class EquipmentTypeTest {
         val weight = UserDefinedWeight(MIN_EQUIPMENT_WEIGHT - ONE_GRAM)
         val equipmentType = EquipmentType(EQUIPMENT_TYPE_ID_0, weight = weight)
 
-        assertInvalidArmor(equipmentType, "The Weight factor is too small!")
+        assertInvalidArmor(equipmentType, "The Weight is too small!")
     }
 
     @Test
@@ -61,7 +61,7 @@ class EquipmentTypeTest {
         val weight = UserDefinedWeight(MAX_EQUIPMENT_WEIGHT + ONE_GRAM)
         val equipmentType = EquipmentType(EQUIPMENT_TYPE_ID_0, weight = weight)
 
-        assertInvalidArmor(equipmentType, "The Weight factor is too large!")
+        assertInvalidArmor(equipmentType, "The Weight is too large!")
     }
 
     private fun assertInvalidArmor(equipmentType: EquipmentType, message: String) {
