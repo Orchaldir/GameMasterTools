@@ -4,17 +4,24 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.action.UpdateAction
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
+import at.orchaldir.gm.core.model.item.equipment.MAX_EQUIPMENT_WEIGHT
+import at.orchaldir.gm.core.model.item.equipment.MIN_EQUIPMENT_WEIGHT
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.aging.CustomAging
 import at.orchaldir.gm.core.model.race.aging.LifeStage
 import at.orchaldir.gm.core.model.race.aging.LifeStages
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifier
+import at.orchaldir.gm.core.model.rpg.equipment.EquipmentType
+import at.orchaldir.gm.core.model.rpg.equipment.MAX_COST_FACTOR
 import at.orchaldir.gm.core.model.util.CharacterReference
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.origin.CreatedElement
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
+import at.orchaldir.gm.utils.math.ONE_PERCENT
+import at.orchaldir.gm.utils.math.unit.ONE_GRAM
+import at.orchaldir.gm.utils.math.unit.UserDefinedWeight
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
@@ -90,6 +97,20 @@ class RaceTest {
             val race = Race(RACE_ID_0, date = FUTURE_DAY_0, origin = origin)
 
             assertInvalid(race, "Date (Race) is in the future!", newState)
+        }
+
+        @Test
+        fun `Cannot have a weight below the minimum`() {
+            val race = Race(RACE_ID_0, weight = MIN_EQUIPMENT_WEIGHT - ONE_GRAM)
+
+            assertInvalid(race, "The Weight is too small!")
+        }
+
+        @Test
+        fun `Cannot have a weight above the maximum`() {
+            val race = Race(RACE_ID_0, weight = MAX_EQUIPMENT_WEIGHT + ONE_GRAM)
+
+            assertInvalid(race, "The Weight is too large!")
         }
 
         private fun createSimpleLifeStage(name: String, maxAge: Int) = LifeStage(Name.init(name), maxAge)
