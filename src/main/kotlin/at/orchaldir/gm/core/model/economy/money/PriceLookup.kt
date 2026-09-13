@@ -1,6 +1,5 @@
 package at.orchaldir.gm.core.model.economy.money
 
-import at.orchaldir.gm.utils.math.unit.WeightLookupType
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -11,7 +10,7 @@ val ALLOWED_PRICE_LOOKUP_TYPES_FOR_TYPES = listOf(
 
 enum class PriceLookupType {
     Undefined,
-    Calculated,
+    Appearance,
     Type,
     UserDefined,
 }
@@ -19,7 +18,7 @@ enum class PriceLookupType {
 @Serializable
 sealed class PriceLookup {
     fun getType() = when (this) {
-        CalculatedPrice -> PriceLookupType.Calculated
+        PriceBasedOnAppearance -> PriceLookupType.Appearance
         PriceBasedOnType -> PriceLookupType.Type
         UndefinedPrice -> PriceLookupType.Undefined
         is UserDefinedPrice -> PriceLookupType.UserDefined
@@ -27,8 +26,8 @@ sealed class PriceLookup {
 }
 
 @Serializable
-@SerialName("Calculated")
-data object CalculatedPrice : PriceLookup()
+@SerialName("Appearance")
+data object PriceBasedOnAppearance : PriceLookup()
 
 @Serializable
 @SerialName("Type")

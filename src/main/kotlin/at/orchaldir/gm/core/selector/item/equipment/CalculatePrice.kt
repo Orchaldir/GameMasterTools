@@ -3,7 +3,7 @@ package at.orchaldir.gm.core.selector.item.equipment
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
-import at.orchaldir.gm.core.model.economy.money.CalculatedPrice
+import at.orchaldir.gm.core.model.economy.money.PriceBasedOnAppearance
 import at.orchaldir.gm.core.model.economy.money.FREE
 import at.orchaldir.gm.core.model.economy.money.Price
 import at.orchaldir.gm.core.model.economy.money.PriceBasedOnType
@@ -85,7 +85,7 @@ fun calculatePrice(
     equipment: Equipment,
     appearance: Appearance = HumanoidBody(),
 ) = when (equipment.price) {
-    CalculatedPrice -> calculatePriceBasedOnAppearance(state, config, equipment.appearance, appearance)
+    PriceBasedOnAppearance -> calculatePriceBasedOnAppearance(state, config, equipment.appearance, appearance)
     PriceBasedOnType -> calculatePriceBasedOnType(state, equipment)
     UndefinedPrice -> FREE
     is UserDefinedPrice -> equipment.price.price
@@ -122,7 +122,7 @@ fun calculatePriceBasedOnType(state: State, equipment: Equipment): Price {
 }
 
 fun getPriceOfType(lookup: PriceLookup?) = when (lookup) {
-    CalculatedPrice -> error("Type doesn't support CalculatedPrice!")
+    PriceBasedOnAppearance -> error("Type doesn't support CalculatedPrice!")
     PriceBasedOnType -> error("Type doesn't support PriceBasedOnType!")
     UndefinedPrice -> FREE
     is UserDefinedPrice -> lookup.price

@@ -44,7 +44,7 @@ fun HtmlBlockTag.showPriceLookupDetails(
         field("Type", lookup.getType())
 
         val price = when (lookup) {
-            CalculatedPrice -> {
+            PriceBasedOnAppearance -> {
                 showPricePerMaterial(call, state, vpm)
                 showFactorMap(call, state, priceFactors, "Cost Factor")
 
@@ -144,7 +144,7 @@ fun HtmlBlockTag.selectPriceLookup(
         selectValue("Type", combine(param, TYPE), allowedTypes, lookup.getType())
 
         when (lookup) {
-            CalculatedPrice -> doNothing()
+            PriceBasedOnAppearance -> doNothing()
             is UserDefinedPrice -> selectPrice(
                 state,
                 "Price",
@@ -167,7 +167,7 @@ fun parsePriceLookup(
     parameters: Parameters,
     param: String = PRICE,
 ) = when (parse(parameters, combine(param, TYPE), PriceLookupType.UserDefined)) {
-    PriceLookupType.Calculated -> CalculatedPrice
+    PriceLookupType.Appearance -> PriceBasedOnAppearance
     PriceLookupType.Type -> PriceBasedOnType
     PriceLookupType.Undefined -> UndefinedPrice
     PriceLookupType.UserDefined -> UserDefinedPrice(

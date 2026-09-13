@@ -1,7 +1,6 @@
 package at.orchaldir.gm.core.model.item.ammunition
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.economy.money.CalculatedPrice
 import at.orchaldir.gm.core.model.economy.money.PriceLookup
 import at.orchaldir.gm.core.model.economy.money.UndefinedPrice
 import at.orchaldir.gm.core.model.rpg.equipment.AmmunitionTypeId
