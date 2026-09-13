@@ -9,6 +9,7 @@ import at.orchaldir.gm.core.model.race.aging.CustomAging
 import at.orchaldir.gm.core.model.race.aging.LifeStage
 import at.orchaldir.gm.core.model.race.aging.LifeStages
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
+import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifier
 import at.orchaldir.gm.core.model.util.CharacterReference
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.origin.CreatedElement
@@ -22,29 +23,29 @@ import kotlin.test.assertFailsWith
 
 class RaceTest {
 
+    private val race0 = Race(RACE_ID_0)
+    private val race1 = Race(RACE_ID_1)
     private val state = State(
         listOf(
             Storage(CALENDAR0),
-            Storage(listOf(Race(RACE_ID_0), Race(RACE_ID_1))),
+            Storage(race0),
             Storage(RaceAppearance(RACE_APPEARANCE_ID_0)),
         )
     )
 
     @Nested
     inner class UpdateTest {
-        val action = UpdateAction(Race(RACE_ID_0))
 
         @Test
         fun `Cannot update unknown id`() {
-
-            assertIllegalArgument("Requires unknown Race 0!") { REDUCER.invoke(State(), action) }
+            assertInvalid(race1, "Requires unknown Race 1!")
         }
 
         @Test
         fun `Race appearance must exist`() {
             val newState = state.removeStorage(RACE_APPEARANCE_ID_0)
 
-            assertIllegalArgument("Requires unknown Race Appearance 0!") { REDUCER.invoke(newState, action) }
+            assertInvalid(race0, "Requires unknown Race Appearance 0!", newState)
         }
 
         @Test
@@ -77,18 +78,18 @@ class RaceTest {
         @Test
         fun `Creator must exist`() {
             val origin = CreatedElement(CharacterReference(CHARACTER_ID_0))
-            val action = UpdateAction(Race(RACE_ID_0, date = DAY0, origin = origin))
+            val race = Race(RACE_ID_0, date = DAY0, origin = origin)
 
-            assertIllegalArgument("Requires unknown Creator (Character 0)!") { REDUCER.invoke(state, action) }
+            assertInvalid(race, "Requires unknown Creator (Character 0)!")
         }
 
         @Test
         fun `Date is in the future`() {
             val origin = CreatedElement(CharacterReference(CHARACTER_ID_0))
-            val action = UpdateAction(Race(RACE_ID_0, date = FUTURE_DAY_0, origin = origin))
             val newState = state.updateStorage(Character(CHARACTER_ID_0))
+            val race = Race(RACE_ID_0, date = FUTURE_DAY_0, origin = origin)
 
-            assertIllegalArgument("Date (Race) is in the future!") { REDUCER.invoke(newState, action) }
+            assertInvalid(race, "Date (Race) is in the future!", newState)
         }
 
         private fun createSimpleLifeStage(name: String, maxAge: Int) = LifeStage(Name.init(name), maxAge)
@@ -106,6 +107,12 @@ class RaceTest {
             val action = UpdateAction(race)
 
             assertEquals(race, REDUCER.invoke(state, action).first.getRaceStorage().get(RACE_ID_0))
+        }
+
+        private fun assertInvalid(race: Race, message: String, s: State= state) {
+            val action = UpdateAction(race)
+
+            assertIllegalArgument(message) { REDUCER.invoke(s, action) }
         }
     }
 
