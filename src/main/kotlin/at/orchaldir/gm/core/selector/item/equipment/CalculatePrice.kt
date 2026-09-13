@@ -36,29 +36,30 @@ fun calculatePriceFactors(
 
 private fun calculatePriceFactors(
     state: State,
-    costFactors: MutableMap<Id<*>, Factor>,
+    priceFactors: MutableMap<Id<*>, Factor>,
     stats: EquipmentStats,
 ) {
     state.getEquipmentModifierStorage()
         .get(stats.modifiers)
         .forEach { modifier ->
-            costFactors[modifier.id] = modifier.price
+            priceFactors[modifier.id] = modifier.price
         }
+}
+
+private fun calculatePriceFactor(priceFactors: Map<Id<*>, Factor>): Factor {
+    var factor = FULL
+
+    priceFactors.forEach { modifier ->
+        factor += modifier.value
+    }
+
+    return factor.max(ZERO)
 }
 
 private fun calculatePriceFactor(
     state: State,
     equipment: Equipment,
-): Factor {
-    var factor = FULL
-
-    calculatePriceFactors(state, equipment.stats)
-        .forEach { modifier ->
-            factor += modifier.value
-        }
-
-    return factor.max(ZERO)
-}
+) = calculatePriceFactor(calculatePriceFactors(state, equipment.stats))
 
 fun calculatePrice(
     state: State,
