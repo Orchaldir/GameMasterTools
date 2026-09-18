@@ -16,11 +16,9 @@ import at.orchaldir.gm.core.reducer.rpg.validateMeleeAttack
 import at.orchaldir.gm.core.reducer.rpg.validateProtection
 import at.orchaldir.gm.core.reducer.rpg.validateRangedAttack
 import at.orchaldir.gm.utils.Id
-import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.unit.ALLOWED_WEIGHT_LOOKUP_TYPES_FOR_TYPES
 import at.orchaldir.gm.utils.math.unit.UndefinedWeight
 import at.orchaldir.gm.utils.math.unit.WeightLookup
-import at.orchaldir.gm.utils.math.validateFactor
 import kotlinx.serialization.Serializable
 
 const val EQUIPMENT_TYPE_TYPE = "Equipment Type"

@@ -2,7 +2,6 @@ package at.orchaldir.gm.core.reducer.item
 
 import at.orchaldir.gm.core.action.Action
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.economy.money.ALLOWED_PRICE_LOOKUP_TYPES_FOR_TYPES
 import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.item.equipment.style.*
 import at.orchaldir.gm.core.model.util.render.COLOR_SCHEME_TYPE
@@ -14,7 +13,6 @@ import at.orchaldir.gm.core.selector.util.getColorSchemes
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.checkInt
-import at.orchaldir.gm.utils.math.unit.ALLOWED_WEIGHT_LOOKUP_TYPES_FOR_TYPES
 import at.orchaldir.gm.utils.math.validateFactor
 import at.orchaldir.gm.utils.redux.noFollowUps
 

@@ -9,7 +9,6 @@ import at.orchaldir.gm.app.html.realm.population.showRacesOfPopulation
 import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.HasEconomy
-import at.orchaldir.gm.core.model.economy.money.FREE
 import at.orchaldir.gm.core.model.economy.money.Price
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.realm.population.HasPopulation

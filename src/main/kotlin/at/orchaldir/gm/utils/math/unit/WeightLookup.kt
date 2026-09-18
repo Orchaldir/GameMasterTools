@@ -1,6 +1,5 @@
 package at.orchaldir.gm.utils.math.unit
 
-import at.orchaldir.gm.core.model.economy.money.ALLOWED_PRICE_LOOKUP_TYPES_FOR_TYPES
 import at.orchaldir.gm.utils.doNothing
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

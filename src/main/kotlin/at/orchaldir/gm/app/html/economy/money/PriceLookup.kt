@@ -57,6 +57,7 @@ fun HtmlBlockTag.showPriceLookupDetails(
 
                 getPriceFromType()
             }
+
             UndefinedPrice -> return@showDetails
         }
 

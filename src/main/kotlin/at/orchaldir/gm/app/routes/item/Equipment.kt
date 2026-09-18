@@ -123,7 +123,7 @@ fun Application.configureEquipmentRouting() {
         get<EquipmentRoutes.All> { all ->
             val state = STORE.getState()
             val routes = EquipmentRoutes()
-            val currency = state.getDefaultCurrency()
+            state.getDefaultCurrency()
 
             handleShowAllElements(
                 routes,
