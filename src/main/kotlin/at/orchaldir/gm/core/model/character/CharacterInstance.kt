@@ -1,23 +1,13 @@
 package at.orchaldir.gm.core.model.character
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.culture.CultureId
-import at.orchaldir.gm.core.model.culture.language.ComprehensionLevel
-import at.orchaldir.gm.core.model.culture.language.LanguageId
-import at.orchaldir.gm.core.model.race.RaceLookup
-import at.orchaldir.gm.core.model.rpg.statblock.StatblockLookup
-import at.orchaldir.gm.core.model.rpg.statblock.UndefinedStatblockLookup
-import at.orchaldir.gm.core.model.util.BeliefStatus
-import at.orchaldir.gm.core.model.util.UndefinedBeliefStatus
+import at.orchaldir.gm.core.model.item.equipment.EquipmentIdMap
+import at.orchaldir.gm.core.model.race.RaceId
+import at.orchaldir.gm.core.model.rpg.statblock.Statblock
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
-import at.orchaldir.gm.core.model.util.source.DataSourceId
-import at.orchaldir.gm.core.reducer.character.validateEquipped
-import at.orchaldir.gm.core.reducer.race.validateRaceLookup
-import at.orchaldir.gm.core.reducer.rpg.validateStatblockLookup
-import at.orchaldir.gm.core.reducer.util.checkBeliefStatus
-import at.orchaldir.gm.core.selector.rpg.statblock.getStatblock
 import at.orchaldir.gm.utils.Id
+import at.orchaldir.gm.utils.doNothing
 import kotlinx.serialization.Serializable
 
 const val CHARACTER_INSTANCE_TYPE = "Character Instance"
@@ -36,29 +26,14 @@ value class CharacterInstanceId(val value: Int) : Id<CharacterInstanceId> {
 data class CharacterInstance(
     val id: CharacterInstanceId,
     val name: Name = Name.init(id),
-    val race: RaceLookup,
-    val gender: Gender? = null,
-    val culture: CultureId? = null,
-    val languages: Map<LanguageId, ComprehensionLevel> = emptyMap(),
-    val belief: BeliefStatus = UndefinedBeliefStatus,
-    val statblock: StatblockLookup = UndefinedStatblockLookup,
-    val equipped: Equipped = UndefinedEquipped,
-    val sources: Set<DataSourceId> = emptySet(),
+    val race: RaceId = RaceId(0),
+    val gender: Gender = Gender.Genderless,
+    val statblock: Statblock = Statblock(),
+    val equipped: EquipmentIdMap = EquipmentIdMap(),
 ) : ElementWithSimpleName<CharacterInstanceId> {
 
     override fun id() = id
     override fun name() = name.text
 
-    override fun clone(cloneId: CharacterInstanceId) =
-        copy(id = cloneId, name = Name.init("Clone ${cloneId.value}"))
-
-    override fun validate(state: State) {
-        state.getCultureStorage().requireOptional(culture)
-        state.getDataSourceStorage().require(sources)
-        state.getLanguageStorage().require(languages.keys)
-        validateRaceLookup(state, race)
-        validateEquipped(state, equipped, statblock)
-        validateStatblockLookup(state, state.getStatblock(race), statblock)
-        checkBeliefStatus(state, belief)
-    }
+    override fun validate(state: State) = doNothing()
 }
