@@ -81,7 +81,7 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> createFactorColumn(
 fun <ID : Id<ID>, ELEMENT : Element<ID>> createModifierColumn(
     label: String,
     get: (ELEMENT) -> Factor,
-): Column<ELEMENT> = tdColumn(label) { +get(it).toStringAsModifier() }
+): Column<ELEMENT> = tdColumn(label) { +get(it).toStringAsModifier(false) }
 
 fun <ELEMENT : Creation> createCreatorColumn(
     call: ApplicationCall,
