@@ -1,6 +1,7 @@
-package at.orchaldir.gm.core.model.character
+package at.orchaldir.gm.core.model.character.instance
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.item.equipment.EquipmentIdMap
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.rpg.statblock.Statblock
@@ -26,7 +27,8 @@ value class CharacterInstanceId(val value: Int) : Id<CharacterInstanceId> {
 data class CharacterInstance(
     val id: CharacterInstanceId,
     val name: Name = Name.init(id),
-    val race: RaceId = RaceId(0),
+    val base: BaseOfInstance,
+    val race: RaceId,
     val gender: Gender = Gender.Genderless,
     val statblock: Statblock = Statblock(),
     val equipped: EquipmentIdMap = EquipmentIdMap(),
