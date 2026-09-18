@@ -1,10 +1,6 @@
 package at.orchaldir.gm.core.selector.item.equipment
 
-import at.orchaldir.gm.EQUIPMENT_ID_0
-import at.orchaldir.gm.EQUIPMENT_MODIFIER_ID_0
-import at.orchaldir.gm.EQUIPMENT_MODIFIER_ID_1
-import at.orchaldir.gm.EQUIPMENT_TYPE_ID_0
-import at.orchaldir.gm.EQUIPMENT_TYPE_ID_1
+import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifier
@@ -16,7 +12,7 @@ import at.orchaldir.gm.utils.math.unit.UserDefinedWeight
 import at.orchaldir.gm.utils.math.unit.WEIGHTLESS
 import at.orchaldir.gm.utils.math.unit.Weight
 import at.orchaldir.gm.utils.math.unit.WeightBasedOnType
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 class CalculateWeightTest {

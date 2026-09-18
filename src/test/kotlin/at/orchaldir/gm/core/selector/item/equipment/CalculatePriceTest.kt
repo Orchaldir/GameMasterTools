@@ -1,10 +1,6 @@
 package at.orchaldir.gm.core.selector.item.equipment
 
-import at.orchaldir.gm.EQUIPMENT_ID_0
-import at.orchaldir.gm.EQUIPMENT_MODIFIER_ID_0
-import at.orchaldir.gm.EQUIPMENT_MODIFIER_ID_1
-import at.orchaldir.gm.EQUIPMENT_TYPE_ID_0
-import at.orchaldir.gm.EQUIPMENT_TYPE_ID_1
+import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.FREE
 import at.orchaldir.gm.core.model.economy.money.Price
@@ -16,7 +12,7 @@ import at.orchaldir.gm.core.model.rpg.equipment.EquipmentStats
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentType
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.Factor
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 class CalculatePriceTest {
