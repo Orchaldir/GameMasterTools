@@ -3,7 +3,9 @@ package at.orchaldir.gm.core.model.rpg.equipment
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.PriceLookup
 import at.orchaldir.gm.core.model.economy.money.UndefinedPrice
+import at.orchaldir.gm.core.model.item.equipment.MAX_EQUIPMENT_PRICE
 import at.orchaldir.gm.core.model.item.equipment.MAX_EQUIPMENT_WEIGHT
+import at.orchaldir.gm.core.model.item.equipment.MIN_EQUIPMENT_PRICE
 import at.orchaldir.gm.core.model.item.equipment.MIN_EQUIPMENT_WEIGHT
 import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
@@ -50,7 +52,7 @@ data class EquipmentType(
         meleeAttacks.forEach { validateMeleeAttack(state, it) }
         rangedAttacks.forEach { validateRangedAttack(state, it) }
         validateProtection(state, protection)
-        //TODO: validateFactor(cost, "Cost", MIN_COST_FACTOR, MAX_COST_FACTOR)
+        price.validate("Price", MIN_EQUIPMENT_PRICE, MAX_EQUIPMENT_PRICE)
         weight.validate("Weight", MIN_EQUIPMENT_WEIGHT, MAX_EQUIPMENT_WEIGHT)
     }
 

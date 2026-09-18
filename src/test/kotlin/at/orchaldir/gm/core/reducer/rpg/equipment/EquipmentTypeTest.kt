@@ -2,13 +2,15 @@ package at.orchaldir.gm.core.reducer.rpg.equipment
 
 import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.economy.money.MIN_PRICE
+import at.orchaldir.gm.core.model.economy.money.UserDefinedPrice
+import at.orchaldir.gm.core.model.item.equipment.MAX_EQUIPMENT_PRICE
 import at.orchaldir.gm.core.model.item.equipment.MAX_EQUIPMENT_WEIGHT
+import at.orchaldir.gm.core.model.item.equipment.MIN_EQUIPMENT_PRICE
 import at.orchaldir.gm.core.model.item.equipment.MIN_EQUIPMENT_WEIGHT
 import at.orchaldir.gm.core.model.rpg.combat.DamageResistance
 import at.orchaldir.gm.core.model.rpg.combat.DamageType
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentType
-import at.orchaldir.gm.core.model.rpg.equipment.MAX_COST_FACTOR
-import at.orchaldir.gm.core.model.rpg.equipment.MIN_COST_FACTOR
 import at.orchaldir.gm.core.model.rpg.statistic.BaseDamage
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.utils.Storage
@@ -35,17 +37,11 @@ class EquipmentTypeTest {
     }
 
     @Test
-    fun `Cannot have a cost factor below the minimum`() {
-        val equipmentType = EquipmentType(EQUIPMENT_TYPE_ID_0, cost = MIN_COST_FACTOR - ONE_PERCENT)
-
-        assertInvalidArmor(equipmentType, "The Cost factor is too small!")
-    }
-
-    @Test
     fun `Cannot have a cost factor above the maximum`() {
-        val equipmentType = EquipmentType(EQUIPMENT_TYPE_ID_0, cost = MAX_COST_FACTOR + ONE_PERCENT)
+        val lookup = UserDefinedPrice(MAX_EQUIPMENT_PRICE + MIN_PRICE)
+        val equipmentType = EquipmentType(EQUIPMENT_TYPE_ID_0, price = lookup)
 
-        assertInvalidArmor(equipmentType, "The Cost factor is too large!")
+        assertInvalidArmor(equipmentType, "The Price is too large!")
     }
 
     @Test

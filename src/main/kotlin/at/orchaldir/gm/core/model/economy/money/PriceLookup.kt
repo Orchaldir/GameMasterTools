@@ -1,5 +1,11 @@
 package at.orchaldir.gm.core.model.economy.money
 
+import at.orchaldir.gm.utils.doNothing
+import at.orchaldir.gm.utils.math.unit.UndefinedWeight
+import at.orchaldir.gm.utils.math.unit.UserDefinedWeight
+import at.orchaldir.gm.utils.math.unit.Weight
+import at.orchaldir.gm.utils.math.unit.WeightBasedOnAppearance
+import at.orchaldir.gm.utils.math.unit.WeightBasedOnType
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -22,6 +28,19 @@ sealed class PriceLookup {
         PriceBasedOnType -> PriceLookupType.Type
         UndefinedPrice -> PriceLookupType.Undefined
         is UserDefinedPrice -> PriceLookupType.UserDefined
+    }
+
+    fun validate(
+        label: String,
+        min: Price,
+        max: Price,
+    ) {
+        when (this) {
+            PriceBasedOnAppearance -> doNothing()
+            PriceBasedOnType -> doNothing()
+            UndefinedPrice -> doNothing()
+            is UserDefinedPrice -> price.validate(label, min, max)
+        }
     }
 }
 
