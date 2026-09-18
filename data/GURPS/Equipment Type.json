@@ -3,10 +3,14 @@
  "elements": {
   "0": {
    "id": 0,
-   "name": "Cloth Armor",
+   "name": "Clothing",
    "category": "Armor",
    "protection": {
     "#type": "DamageResistance"
+   },
+   "price": {
+    "#type": "User",
+    "price": 150
    },
    "weight": {
     "#type": "User",
@@ -21,6 +25,10 @@
     "#type": "DamageResistance",
     "amount": 2
    },
+   "price": {
+    "#type": "User",
+    "price": 450
+   },
    "weight": {
     "#type": "User",
     "weight": 10000000
@@ -33,6 +41,10 @@
    "protection": {
     "#type": "DamageResistance",
     "amount": 3
+   },
+   "price": {
+    "#type": "User",
+    "price": 1650
    },
    "weight": {
     "#type": "User",
@@ -47,6 +59,10 @@
     "#type": "DamageResistance",
     "amount": 4
    },
+   "price": {
+    "#type": "User",
+    "price": 2700
+   },
    "weight": {
     "#type": "User",
     "weight": 29000000
@@ -60,6 +76,10 @@
     "#type": "DamageResistance",
     "amount": 6
    },
+   "price": {
+    "#type": "User",
+    "price": 7500
+   },
    "weight": {
     "#type": "User",
     "weight": 45000000
@@ -69,9 +89,9 @@
    "id": 5,
    "name": "Laminated Armor",
    "category": "Armor",
-   "protection": {
-    "#type": "DamageResistance",
-    "amount": 5
+   "price": {
+    "#type": "User",
+    "price": 5400
    },
    "weight": {
     "#type": "User",
@@ -128,6 +148,10 @@
      }
     }
    ],
+   "price": {
+    "#type": "User",
+    "price": 50
+   },
    "weight": {
     "#type": "User",
     "weight": 2000000
@@ -183,6 +207,10 @@
      }
     }
    ],
+   "price": {
+    "#type": "User",
+    "price": 400
+   },
    "weight": {
     "#type": "User",
     "weight": 1000000
@@ -238,6 +266,10 @@
      }
     }
    ],
+   "price": {
+    "#type": "User",
+    "price": 700
+   },
    "weight": {
     "#type": "User",
     "weight": 2000000
@@ -293,6 +325,10 @@
      }
     }
    ],
+   "price": {
+    "#type": "User",
+    "price": 900
+   },
    "weight": {
     "#type": "User",
     "weight": 3500000
@@ -348,6 +384,10 @@
      }
     }
    ],
+   "price": {
+    "#type": "User",
+    "price": 100
+   },
    "weight": {
     "#type": "User",
     "weight": 4000000
@@ -405,6 +445,10 @@
      }
     }
    ],
+   "price": {
+    "#type": "User",
+    "price": 20
+   },
    "weight": {
     "#type": "User",
     "weight": 125000
@@ -460,6 +504,10 @@
      }
     }
    ],
+   "price": {
+    "#type": "User",
+    "price": 500
+   },
    "weight": {
     "#type": "User",
     "weight": 1350000
@@ -515,6 +563,10 @@
      }
     }
    ],
+   "price": {
+    "#type": "User",
+    "price": 10
+   },
    "weight": {
     "#type": "User",
     "weight": 2000000
@@ -570,6 +622,10 @@
      }
     }
    ],
+   "price": {
+    "#type": "User",
+    "price": 40
+   },
    "weight": {
     "#type": "User",
     "weight": 2000000
@@ -625,6 +681,10 @@
      }
     }
    ],
+   "price": {
+    "#type": "User",
+    "price": 80
+   },
    "weight": {
     "#type": "User",
     "weight": 3000000
@@ -680,6 +740,10 @@
      }
     }
    ],
+   "price": {
+    "#type": "User",
+    "price": 50
+   },
    "weight": {
     "#type": "User",
     "weight": 2500000
@@ -735,6 +799,10 @@
      }
     }
    ],
+   "price": {
+    "#type": "User",
+    "price": 80
+   },
    "weight": {
     "#type": "User",
     "weight": 6000000
@@ -787,6 +855,10 @@
      }
     }
    ],
+   "price": {
+    "#type": "User",
+    "price": 10
+   },
    "weight": {
     "#type": "User",
     "weight": 125000
@@ -798,6 +870,10 @@
    "category": "Shield",
    "protection": {
     "#type": "DefenseBonus"
+   },
+   "price": {
+    "#type": "User",
+    "price": 40
    },
    "weight": {
     "#type": "User",
@@ -812,6 +888,10 @@
     "#type": "DefenseBonus",
     "bonus": 2
    },
+   "price": {
+    "#type": "User",
+    "price": 60
+   },
    "weight": {
     "#type": "User",
     "weight": 7500000
@@ -824,6 +904,10 @@
    "protection": {
     "#type": "DefenseBonus",
     "bonus": 3
+   },
+   "price": {
+    "#type": "User",
+    "price": 90
    },
    "weight": {
     "#type": "User",

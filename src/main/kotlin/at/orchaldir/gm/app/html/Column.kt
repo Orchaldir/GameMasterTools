@@ -2,12 +2,14 @@ package at.orchaldir.gm.app.html
 
 import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.economy.displayIncome
+import at.orchaldir.gm.app.html.economy.money.displayPrice
 import at.orchaldir.gm.app.html.realm.population.displayPopulation
 import at.orchaldir.gm.app.html.realm.population.showCulturesOfPopulation
 import at.orchaldir.gm.app.html.realm.population.showRacesOfPopulation
 import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.HasEconomy
+import at.orchaldir.gm.core.model.economy.money.Price
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.realm.population.HasPopulation
 import at.orchaldir.gm.core.model.rpg.combat.MeleeAttack
@@ -70,9 +72,15 @@ fun <ELEMENT : HasBelief> createBeliefColumn(
 ): Column<ELEMENT> =
     tdColumn("Belief") { showBeliefStatus(call, state, it.belief().current, false) }
 
-fun <ID : Id<ID>, ELEMENT : Element<ID>> createCostFactorColumn(
+fun <ID : Id<ID>, ELEMENT : Element<ID>> createFactorColumn(
+    label: String,
     get: (ELEMENT) -> Factor,
-): Column<ELEMENT> = tdColumn("Cost") { +get(it).toString() }
+): Column<ELEMENT> = tdColumn(label) { +get(it).toString() }
+
+fun <ID : Id<ID>, ELEMENT : Element<ID>> createModifierColumn(
+    label: String,
+    get: (ELEMENT) -> Factor,
+): Column<ELEMENT> = tdColumn(label) { +get(it).toStringAsModifier(false) }
 
 fun <ELEMENT : Creation> createCreatorColumn(
     call: ApplicationCall,
@@ -208,6 +216,14 @@ fun <ELEMENT : HasPosition> createPositionColumn(
     state: State,
     label: String = "Position",
 ) = tdColumn<ELEMENT>(label) { showPosition(call, state, it.position(), false) }
+
+fun <T> createPriceColumn(
+    call: ApplicationCall,
+    state: State,
+    get: (T) -> Price,
+): Column<T> = tdColumn("Price") {
+    displayPrice(call, state, get(it))
+}
 
 fun <ID : Id<ID>, ELEMENT : Element<ID>> createReferenceColumn(
     call: ApplicationCall,

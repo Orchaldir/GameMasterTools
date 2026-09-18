@@ -51,6 +51,18 @@ fun validateEquipment(
 
     validateEquipmentStats(state, equipment.stats)
 
+    equipment.price.validate(
+        "Price",
+        MIN_EQUIPMENT_PRICE,
+        MAX_EQUIPMENT_PRICE,
+    )
+
+    equipment.weight.validate(
+        "Weight",
+        MIN_EQUIPMENT_WEIGHT,
+        MAX_EQUIPMENT_WEIGHT,
+    )
+
     when (equipment.appearance) {
         is BodyArmour -> checkBodyArmour(state, equipment.appearance)
         is Polearm -> checkPolearmHead(equipment.appearance.head)

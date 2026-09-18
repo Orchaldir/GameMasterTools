@@ -7,7 +7,7 @@ import at.orchaldir.gm.app.html.util.math.showFactorMap
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.*
 import at.orchaldir.gm.core.selector.getDefaultCurrency
-import at.orchaldir.gm.core.selector.item.equipment.calculatePrice
+import at.orchaldir.gm.core.selector.item.equipment.calculatePriceBasedOnMaterials
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Factor
@@ -20,19 +20,16 @@ import kotlinx.html.*
 
 // show
 
-fun HtmlBlockTag.displayPriceLookup(
+fun HtmlBlockTag.showPriceLookupForType(
     call: ApplicationCall,
-    currency: Currency,
+    state: State,
     lookup: PriceLookup,
-    showZero: Boolean = false,
-    calculate: () -> Price,
 ) {
-    val price = when (lookup) {
-        CalculatedPrice -> calculate()
-        is UserDefinedPrice -> lookup.price
+    when (lookup) {
+        is UserDefinedPrice -> fieldPrice(call, state, "Price", lookup.price)
+        UndefinedPrice -> doNothing()
+        else -> error("PriceLookup of type ${lookup.getType()} is not supported!")
     }
-
-    displayPrice(call, currency, price, showZero)
 }
 
 fun HtmlBlockTag.showPriceLookupDetails(
@@ -40,23 +37,31 @@ fun HtmlBlockTag.showPriceLookupDetails(
     state: State,
     lookup: PriceLookup,
     vpm: VolumePerMaterial,
-    costFactors: Map<Id<*>, Factor> = emptyMap(),
+    priceFactors: Map<Id<*>, Factor> = emptyMap(),
+    getPriceFromType: () -> Price,
 ) {
     showDetails("Price", true) {
         field("Type", lookup.getType())
 
-        showPricePerMaterial(call, state, vpm)
-        showFactorMap(call, state, costFactors, "Cost Factor")
+        val price = when (lookup) {
+            PriceBasedOnAppearance -> {
+                showPricePerMaterial(call, state, vpm)
+                showFactorMap(call, state, priceFactors, "Cost Factor")
 
-        when (lookup) {
-            CalculatedPrice -> {
-                val price = calculatePrice(state, vpm, costFactors)
-
-                fieldPrice(call, state, "Calculated Price", price)
+                calculatePriceBasedOnMaterials(state, vpm, priceFactors)
             }
 
-            is UserDefinedPrice -> fieldPrice(call, state, "User Defined Price", lookup.price)
+            is UserDefinedPrice -> lookup.price
+            PriceBasedOnType -> {
+                showFactorMap(call, state, priceFactors, "Cost Factor")
+
+                getPriceFromType()
+            }
+
+            UndefinedPrice -> return@showDetails
         }
+
+        fieldPrice(call, state, "Price", price)
     }
 }
 
@@ -113,18 +118,34 @@ fun HtmlBlockTag.showPricePerMaterial(
 
 // edit
 
+fun HtmlBlockTag.selectPriceLookupForType(
+    state: State,
+    lookup: PriceLookup,
+    minPrice: Price,
+    maxPrice: Price,
+    param: String = PRICE,
+) = selectPriceLookup(
+    state,
+    lookup,
+    minPrice,
+    maxPrice,
+    param,
+    ALLOWED_PRICE_LOOKUP_TYPES_FOR_TYPES,
+)
+
 fun HtmlBlockTag.selectPriceLookup(
     state: State,
     lookup: PriceLookup,
-    minPrice: Int,
-    maxPrice: Int,
+    minPrice: Price,
+    maxPrice: Price,
     param: String = PRICE,
+    allowedTypes: Collection<PriceLookupType> = PriceLookupType.entries,
 ) {
     showDetails("Price", true) {
-        selectValue("Type", combine(param, TYPE), PriceLookupType.entries, lookup.getType())
+        selectValue("Type", combine(param, TYPE), allowedTypes, lookup.getType())
 
         when (lookup) {
-            CalculatedPrice -> doNothing()
+            PriceBasedOnAppearance -> doNothing()
             is UserDefinedPrice -> selectPrice(
                 state,
                 "Price",
@@ -133,6 +154,9 @@ fun HtmlBlockTag.selectPriceLookup(
                 minPrice,
                 maxPrice,
             )
+
+            PriceBasedOnType -> doNothing()
+            UndefinedPrice -> doNothing()
         }
     }
 }
@@ -144,7 +168,9 @@ fun parsePriceLookup(
     parameters: Parameters,
     param: String = PRICE,
 ) = when (parse(parameters, combine(param, TYPE), PriceLookupType.UserDefined)) {
-    PriceLookupType.Calculated -> CalculatedPrice
+    PriceLookupType.Appearance -> PriceBasedOnAppearance
+    PriceLookupType.Type -> PriceBasedOnType
+    PriceLookupType.Undefined -> UndefinedPrice
     PriceLookupType.UserDefined -> UserDefinedPrice(
         parsePrice(state, parameters, param),
     )

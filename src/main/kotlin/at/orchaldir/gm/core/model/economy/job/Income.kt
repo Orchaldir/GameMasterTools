@@ -6,6 +6,9 @@ import at.orchaldir.gm.core.model.economy.standard.StandardOfLivingId
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+val MIN_INCOME = Price(1)
+val MAX_INCOME = Price(1_000_000)
+
 enum class IncomeType {
     Undefined,
     Salary,

@@ -1,7 +1,12 @@
 package at.orchaldir.gm.core.model.rpg.equipment
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.economy.money.ALLOWED_PRICE_LOOKUP_TYPES_FOR_TYPES
+import at.orchaldir.gm.core.model.economy.money.PriceLookup
+import at.orchaldir.gm.core.model.economy.money.UndefinedPrice
+import at.orchaldir.gm.core.model.item.equipment.MAX_EQUIPMENT_PRICE
 import at.orchaldir.gm.core.model.item.equipment.MAX_EQUIPMENT_WEIGHT
+import at.orchaldir.gm.core.model.item.equipment.MIN_EQUIPMENT_PRICE
 import at.orchaldir.gm.core.model.item.equipment.MIN_EQUIPMENT_WEIGHT
 import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
@@ -11,10 +16,9 @@ import at.orchaldir.gm.core.reducer.rpg.validateMeleeAttack
 import at.orchaldir.gm.core.reducer.rpg.validateProtection
 import at.orchaldir.gm.core.reducer.rpg.validateRangedAttack
 import at.orchaldir.gm.utils.Id
-import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.unit.ALLOWED_WEIGHT_LOOKUP_TYPES_FOR_TYPES
 import at.orchaldir.gm.utils.math.unit.UndefinedWeight
 import at.orchaldir.gm.utils.math.unit.WeightLookup
-import at.orchaldir.gm.utils.math.validateFactor
 import kotlinx.serialization.Serializable
 
 const val EQUIPMENT_TYPE_TYPE = "Equipment Type"
@@ -37,7 +41,7 @@ data class EquipmentType(
     val meleeAttacks: List<MeleeAttack> = emptyList(),
     val rangedAttacks: List<RangedAttack> = emptyList(),
     val protection: Protection = UndefinedProtection,
-    val cost: Factor = DEFAULT_TYPE_COST_FACTOR,
+    val price: PriceLookup = UndefinedPrice,
     val weight: WeightLookup = UndefinedWeight,
 ) : ElementWithSimpleName<EquipmentTypeId> {
 
@@ -48,8 +52,20 @@ data class EquipmentType(
         meleeAttacks.forEach { validateMeleeAttack(state, it) }
         rangedAttacks.forEach { validateRangedAttack(state, it) }
         validateProtection(state, protection)
-        validateFactor(cost, "Cost", MIN_COST_FACTOR, MAX_COST_FACTOR)
-        weight.validate("Weight", MIN_EQUIPMENT_WEIGHT, MAX_EQUIPMENT_WEIGHT)
+
+        price.validate(
+            "Price",
+            MIN_EQUIPMENT_PRICE,
+            MAX_EQUIPMENT_PRICE,
+            ALLOWED_PRICE_LOOKUP_TYPES_FOR_TYPES,
+        )
+
+        weight.validate(
+            "Weight",
+            MIN_EQUIPMENT_WEIGHT,
+            MAX_EQUIPMENT_WEIGHT,
+            ALLOWED_WEIGHT_LOOKUP_TYPES_FOR_TYPES,
+        )
     }
 
     fun contains(type: AmmunitionTypeId) = rangedAttacks.any { it.contains(type) }

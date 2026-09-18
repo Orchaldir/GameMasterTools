@@ -11,7 +11,7 @@ val ALLOWED_WEIGHT_LOOKUP_TYPES_FOR_TYPES = listOf(
 
 enum class WeightLookupType {
     Undefined,
-    Calculated,
+    Appearance,
     Type,
     UserDefined,
 }
@@ -19,7 +19,7 @@ enum class WeightLookupType {
 @Serializable
 sealed class WeightLookup {
     fun getType() = when (this) {
-        CalculatedWeight -> WeightLookupType.Calculated
+        WeightBasedOnAppearance -> WeightLookupType.Appearance
         is UserDefinedWeight -> WeightLookupType.UserDefined
         UndefinedWeight -> WeightLookupType.Undefined
         WeightBasedOnType -> WeightLookupType.Type
@@ -29,9 +29,14 @@ sealed class WeightLookup {
         label: String,
         min: Weight,
         max: Weight,
+        allowedTypes: Collection<WeightLookupType> = WeightLookupType.entries,
     ) {
+        require(allowedTypes.contains(getType())) {
+            "Invalid type ${getType()} for weight lookup!"
+        }
+
         when (this) {
-            CalculatedWeight -> doNothing()
+            WeightBasedOnAppearance -> doNothing()
             is UserDefinedWeight -> weight.validate(label, min, max)
             UndefinedWeight -> doNothing()
             WeightBasedOnType -> doNothing()
@@ -40,8 +45,8 @@ sealed class WeightLookup {
 }
 
 @Serializable
-@SerialName("Calculated")
-data object CalculatedWeight : WeightLookup()
+@SerialName("Appearance")
+data object WeightBasedOnAppearance : WeightLookup()
 
 @Serializable
 @SerialName("Type")

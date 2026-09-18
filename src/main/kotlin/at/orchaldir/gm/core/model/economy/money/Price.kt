@@ -5,6 +5,7 @@ import at.orchaldir.gm.utils.math.unit.Weight
 import kotlinx.serialization.Serializable
 
 val FREE = Price(0)
+val MIN_PRICE = Price(1)
 
 @JvmInline
 @Serializable
@@ -30,4 +31,15 @@ value class Price(val value: Int) {
     operator fun times(factor: Int) = Price(value * factor)
     operator fun div(factor: Float) = Price(value / factor)
     operator fun div(factor: Int) = Price(value / factor)
+
+    operator fun compareTo(other: Price) = value.compareTo(other.value)
+
+    fun validate(
+        label: String,
+        min: Price,
+        max: Price,
+    ) {
+        require(this >= min) { "The $label is too small!" }
+        require(this <= max) { "The $label is too large!" }
+    }
 }

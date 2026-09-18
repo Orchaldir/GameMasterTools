@@ -1,8 +1,8 @@
 package at.orchaldir.gm.core.model.item.ammunition
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.economy.money.CalculatedPrice
 import at.orchaldir.gm.core.model.economy.money.PriceLookup
+import at.orchaldir.gm.core.model.economy.money.UndefinedPrice
 import at.orchaldir.gm.core.model.rpg.equipment.AmmunitionTypeId
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifierId
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
@@ -31,7 +31,7 @@ data class Ammunition(
     val type: AmmunitionTypeId = AmmunitionTypeId(0),
     val modifiers: Set<EquipmentModifierId> = emptySet(),
     val weight: WeightLookup = UndefinedWeight,
-    val price: PriceLookup = CalculatedPrice,
+    val price: PriceLookup = UndefinedPrice,
 ) : ElementWithSimpleName<AmmunitionId> {
 
     override fun id() = id

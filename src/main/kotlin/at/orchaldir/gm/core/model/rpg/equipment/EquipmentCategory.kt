@@ -1,6 +1,6 @@
 package at.orchaldir.gm.core.model.rpg.equipment
 
-val EQUIPMENT_TYPE_CATEGORIES = EquipmentCategory.entries.toSet() - EquipmentCategory.Ammunition;
+val EQUIPMENT_TYPE_CATEGORIES = EquipmentCategory.entries.toSet() - EquipmentCategory.Ammunition
 
 enum class EquipmentCategory {
     Generic,

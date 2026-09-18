@@ -9,6 +9,8 @@ import at.orchaldir.gm.core.model.economy.material.Material
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.economy.material.MaterialProperties
 import at.orchaldir.gm.core.model.economy.material.Metal
+import at.orchaldir.gm.core.model.economy.money.MIN_PRICE
+import at.orchaldir.gm.core.model.economy.money.UserDefinedPrice
 import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentStats
 import at.orchaldir.gm.core.model.util.part.MadeFromCord
@@ -16,6 +18,8 @@ import at.orchaldir.gm.core.model.util.part.MadeFromFabric
 import at.orchaldir.gm.core.model.util.render.*
 import at.orchaldir.gm.core.reducer.REDUCER
 import at.orchaldir.gm.utils.Storage
+import at.orchaldir.gm.utils.math.unit.ONE_GRAM
+import at.orchaldir.gm.utils.math.unit.UserDefinedWeight
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
@@ -61,9 +65,8 @@ class EquipmentTest {
                     Storage(Material(MATERIAL_ID_0)),
                 )
             )
-            val action = UpdateAction(newItem)
 
-            assertIllegalArgument("Cannot change equipment 0 while it is equipped") { REDUCER.invoke(state, action) }
+            assertInvalid(newItem, "Cannot change equipment 0 while it is equipped", state)
         }
 
         @Test
@@ -77,33 +80,29 @@ class EquipmentTest {
                     Storage(listOf(Material(MATERIAL_ID_0), Material(MATERIAL_ID_1))),
                 )
             )
-            val action = UpdateAction(newItem)
 
-            assertEquals(newItem, REDUCER.invoke(state, action).first.getEquipmentStorage().get(EQUIPMENT_ID_0))
+            success(newItem, state)
         }
 
         @Test
         fun `Material must exist`() {
             val item = createItem(material = UNKNOWN_MATERIAL_ID)
-            val action = UpdateAction(item)
 
-            assertIllegalArgument("Requires unknown Material 99!") { REDUCER.invoke(STATE, action) }
+            assertInvalid(item, "Requires unknown Material 99!")
         }
 
         @Test
         fun `Color scheme must exist`() {
             val item = createItem(UNKNOWN_COLOR_SCHEME_ID)
-            val action = UpdateAction(item)
 
-            assertIllegalArgument("Requires unknown Color Scheme 99!") { REDUCER.invoke(STATE, action) }
+            assertInvalid(item, "Requires unknown Color Scheme 99!")
         }
 
         @Test
         fun `Color scheme group must exist`() {
             val item = createWithGroup(UNKNOWN_COLOR_SCHEME_GROUP_ID)
-            val action = UpdateAction(item)
 
-            assertIllegalArgument("Requires unknown Color Scheme Group 99!") { REDUCER.invoke(STATE, action) }
+            assertInvalid(item, "Requires unknown Color Scheme Group 99!")
         }
 
         @Nested
@@ -111,19 +110,17 @@ class EquipmentTest {
 
             @Test
             fun `Equipment stats must have valid modifiers`() {
-                val item =
-                    Equipment(EQUIPMENT_ID_0, stats = EquipmentStats(modifiers = setOf(UNKNOWN_EQUIPMENT_MODIFIER)))
-                val action = UpdateAction(item)
+                val stats = EquipmentStats(modifiers = setOf(UNKNOWN_EQUIPMENT_MODIFIER))
+                val item = Equipment(EQUIPMENT_ID_0, stats = stats)
 
-                assertIllegalArgument("Requires unknown Equipment Modifier 99!") { REDUCER.invoke(STATE, action) }
+                assertInvalid(item, "Requires unknown Equipment Modifier 99!")
             }
 
             @Test
             fun `Equipment type must exist`() {
                 val item = Equipment(EQUIPMENT_ID_0, stats = EquipmentStats(UNKNOWN_EQUIPMENT_TYPE))
-                val action = UpdateAction(item)
 
-                assertIllegalArgument("Requires unknown Equipment Type 99!") { REDUCER.invoke(STATE, action) }
+                assertInvalid(item, "Requires unknown Equipment Type 99!")
             }
         }
 
@@ -175,18 +172,45 @@ class EquipmentTest {
                 success(COLOR_SCHEME_ID_2, LookupSchema1)
             }
 
-            private fun success(scheme: ColorSchemeId, lookup: ColorLookup) {
-                val item = createItem(scheme, lookup = lookup)
-                val action = UpdateAction(item)
-
-                REDUCER.invoke(STATE, action)
-            }
+            private fun success(scheme: ColorSchemeId, lookup: ColorLookup) =
+                success(createItem(scheme, lookup = lookup))
 
             private fun fail(scheme: ColorSchemeId, lookup: ColorLookup) {
                 val item = createItem(scheme, lookup = lookup)
-                val action = UpdateAction(item)
 
-                assertIllegalArgument("${scheme.print()} has too few colors!") { REDUCER.invoke(STATE, action) }
+                assertInvalid(item, "${scheme.print()} has too few colors!")
+            }
+        }
+
+        @Nested
+        inner class PriceTest {
+
+            @Test
+            fun `Cannot have a price above the maximum`() {
+                val price = UserDefinedPrice(MAX_EQUIPMENT_PRICE + MIN_PRICE)
+                val equipment = Equipment(EQUIPMENT_ID_0, price = price)
+
+                assertInvalid(equipment, "The Price is too large!")
+            }
+        }
+
+        @Nested
+        inner class WeightTest {
+
+            @Test
+            fun `Cannot have a weight below the minimum`() {
+                val weight = UserDefinedWeight(MIN_EQUIPMENT_WEIGHT - ONE_GRAM)
+                val equipment = Equipment(EQUIPMENT_ID_0, weight = weight)
+
+                assertInvalid(equipment, "The Weight is too small!")
+            }
+
+            @Test
+            fun `Cannot have a weight above the maximum`() {
+                val weight = UserDefinedWeight(MAX_EQUIPMENT_WEIGHT + ONE_GRAM)
+                val equipment = Equipment(EQUIPMENT_ID_0, weight = weight)
+
+                assertInvalid(equipment, "The Weight is too large!")
             }
         }
 
@@ -202,10 +226,7 @@ class EquipmentTest {
 
         @Test
         fun `Update template with material`() {
-            val item = createItem(lookup = LookupSchema0)
-            val action = UpdateAction(item)
-
-            assertEquals(item, REDUCER.invoke(STATE, action).first.getEquipmentStorage().get(EQUIPMENT_ID_0))
+            success(createItem(lookup = LookupSchema0))
         }
 
         private fun createItem(
@@ -227,6 +248,18 @@ class EquipmentTest {
             colorSchemes = UseColorSchemeGroup(group),
             appearance = Glasses(frame = MadeFromCord(material, lookup)),
         )
+
+        private fun success(equipment: Equipment, state: State = STATE) {
+            val action = UpdateAction(equipment)
+
+            assertEquals(equipment, REDUCER.invoke(state, action).first.getEquipmentStorage().get(EQUIPMENT_ID_0))
+        }
+
+        private fun assertInvalid(equipment: Equipment, message: String, state: State = STATE) {
+            val action = UpdateAction(equipment)
+
+            assertIllegalArgument(message) { REDUCER.invoke(state, action) }
+        }
     }
 
 }

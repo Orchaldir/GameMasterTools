@@ -9,6 +9,10 @@ import at.orchaldir.gm.utils.math.ZERO
 import at.orchaldir.gm.utils.math.validateFactor
 import kotlinx.serialization.Serializable
 
+val MIN_PRICE_FACTOR = Factor.fromPercentage(-100)
+val DEFAULT_PRICE_FACTOR = ZERO
+val MAX_PRICE_FACTOR = Factor.fromNumber(100)
+
 val MIN_WEIGHT_FACTOR = Factor.fromPercentage(-100)
 val DEFAULT_WEIGHT_FACTOR = ZERO
 val MAX_WEIGHT_FACTOR = Factor.fromNumber(100)
@@ -31,7 +35,7 @@ data class EquipmentModifier(
     val name: Name = Name.init(id),
     val category: EquipmentCategory = EquipmentCategory.Generic,
     val effects: List<EquipmentModifierEffect> = emptyList(),
-    val cost: Factor = DEFAULT_MODIFIER_COST_FACTOR,
+    val price: Factor = DEFAULT_PRICE_FACTOR,
     val weight: Factor = DEFAULT_WEIGHT_FACTOR,
 ) : ElementWithSimpleName<EquipmentModifierId> {
 
@@ -41,7 +45,7 @@ data class EquipmentModifier(
     override fun validate(state: State) {
         val effectTypes = effects.map { it.getType() }
         require(effectTypes.size == effectTypes.toSet().size) { "Contains a type of effects more than once!" }
-        validateFactor(cost, "Cost", MIN_COST_FACTOR, MAX_COST_FACTOR)
+        validateFactor(price, "Price", MIN_PRICE_FACTOR, MAX_PRICE_FACTOR)
         validateFactor(weight, "Weight", MIN_WEIGHT_FACTOR, MAX_WEIGHT_FACTOR)
     }
 }

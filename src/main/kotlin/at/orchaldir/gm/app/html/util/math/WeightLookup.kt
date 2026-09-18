@@ -36,7 +36,7 @@ fun HtmlBlockTag.showWeightLookupDetails(
         field("Type", lookup.getType())
 
         val weight = when (lookup) {
-            CalculatedWeight -> {
+            WeightBasedOnAppearance -> {
                 showVolumePerMaterial(call, state, vpm)
 
                 vpm.getWeight(state)
@@ -82,7 +82,7 @@ fun HtmlBlockTag.selectWeightLookup(
         selectValue("Type", combine(param, TYPE), allowedTypes, lookup.getType())
 
         when (lookup) {
-            CalculatedWeight -> doNothing()
+            WeightBasedOnAppearance -> doNothing()
             is UserDefinedWeight -> selectWeight(
                 "User Defined Weight",
                 param,
@@ -117,7 +117,7 @@ fun parseWeightLookup(
     param: String = WEIGHT,
     allowedTypes: Collection<WeightLookupType> = WeightLookupType.entries,
 ) = when (parse(parameters, combine(param, TYPE), allowedTypes)) {
-    WeightLookupType.Calculated -> CalculatedWeight
+    WeightLookupType.Appearance -> WeightBasedOnAppearance
     WeightLookupType.UserDefined -> UserDefinedWeight(
         parseWeight(parameters, param, SiPrefix.Base, minWeight),
     )

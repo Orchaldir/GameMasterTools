@@ -4,7 +4,6 @@ import at.orchaldir.gm.app.SCHEME
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.Column.Companion.tdColumn
-import at.orchaldir.gm.app.html.economy.money.displayPriceLookup
 import at.orchaldir.gm.app.html.item.equipment.editEquipment
 import at.orchaldir.gm.app.html.item.equipment.parseEquipment
 import at.orchaldir.gm.app.html.item.equipment.showEquipment
@@ -124,7 +123,7 @@ fun Application.configureEquipmentRouting() {
         get<EquipmentRoutes.All> { all ->
             val state = STORE.getState()
             val routes = EquipmentRoutes()
-            val currency = state.getDefaultCurrency()
+            state.getDefaultCurrency()
 
             handleShowAllElements(
                 routes,
@@ -139,14 +138,8 @@ fun Application.configureEquipmentRouting() {
                     createWeightColumn {
                         calculateWeight(state, VOLUME_CONFIG, it)
                     },
-                    tdColumn("Price") {
-                        displayPriceLookup(call, currency, it.price) {
-                            calculatePrice(
-                                state,
-                                VOLUME_CONFIG,
-                                it.appearance
-                            )
-                        }
+                    createPriceColumn(call, state) {
+                        calculatePrice(state, VOLUME_CONFIG, it)
                     },
                     Column("Materials") { tdInlineIds(call, state, it.appearance.materials()) },
                     Column(listOf("Required", "Colors")) { tdSkipZero(it.appearance.requiredSchemaColors()) },

@@ -55,9 +55,10 @@ fun HtmlBlockTag.selectPrice(
     label: String,
     price: Price,
     param: String,
-    min: Int,
-    max: Int,
+    min: Price,
+    max: Price,
 ) {
+    // TODO
     val currency = state.getDefaultCurrency()
     var isHighestAvailable = true
 

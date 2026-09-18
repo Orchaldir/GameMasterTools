@@ -569,7 +569,7 @@ fun State.sortEquipmentModifiers(
         when (sort) {
             SortEquipmentModifier.Name -> compareBy { it.name.text }
             SortEquipmentModifier.Category -> compareByEnum { it.category }
-            SortEquipmentModifier.Cost -> compareByDescending { it.cost.toPermyriad() }
+            SortEquipmentModifier.Cost -> compareByDescending { it.price.toPermyriad() }
             SortEquipmentModifier.Weight -> compareByDescending { it.weight.toPermyriad() }
             SortEquipmentModifier.Equipment -> compareByDescending { getEquipment(it.id).size }
         })
@@ -590,7 +590,7 @@ fun State.sortEquipmentTypes(
             SortEquipmentType.Protection -> compareProtection { it.protection }
             SortEquipmentType.Reach -> compareByDescending { it.getMaxReach() }
             SortEquipmentType.Weight -> compareByDescending { getWeightOfType(it.weight).value() }
-            SortEquipmentType.Cost -> compareByDescending { it.cost.toPermyriad() }
+            SortEquipmentType.Cost -> compareByDescending { getPriceOfType(it.price).value }
             SortEquipmentType.Equipment -> compareByDescending { getEquipment(it.id).size }
         })
 

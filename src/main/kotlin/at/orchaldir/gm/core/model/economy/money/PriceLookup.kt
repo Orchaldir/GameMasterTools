@@ -1,24 +1,60 @@
 package at.orchaldir.gm.core.model.economy.money
 
+import at.orchaldir.gm.utils.doNothing
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+val ALLOWED_PRICE_LOOKUP_TYPES_FOR_TYPES = listOf(
+    PriceLookupType.Undefined,
+    PriceLookupType.UserDefined,
+)
+
 enum class PriceLookupType {
-    Calculated,
+    Undefined,
+    Appearance,
+    Type,
     UserDefined,
 }
 
 @Serializable
 sealed class PriceLookup {
     fun getType() = when (this) {
-        is CalculatedPrice -> PriceLookupType.Calculated
+        PriceBasedOnAppearance -> PriceLookupType.Appearance
+        PriceBasedOnType -> PriceLookupType.Type
+        UndefinedPrice -> PriceLookupType.Undefined
         is UserDefinedPrice -> PriceLookupType.UserDefined
+    }
+
+    fun validate(
+        label: String,
+        min: Price,
+        max: Price,
+        allowedTypes: Collection<PriceLookupType> = PriceLookupType.entries,
+    ) {
+        require(allowedTypes.contains(getType())) {
+            "Invalid type ${getType()} for price lookup!"
+        }
+
+        when (this) {
+            PriceBasedOnAppearance -> doNothing()
+            PriceBasedOnType -> doNothing()
+            UndefinedPrice -> doNothing()
+            is UserDefinedPrice -> price.validate(label, min, max)
+        }
     }
 }
 
 @Serializable
-@SerialName("Calculated")
-data object CalculatedPrice : PriceLookup()
+@SerialName("Appearance")
+data object PriceBasedOnAppearance : PriceLookup()
+
+@Serializable
+@SerialName("Type")
+data object PriceBasedOnType : PriceLookup()
+
+@Serializable
+@SerialName("Undefined")
+data object UndefinedPrice : PriceLookup()
 
 @Serializable
 @SerialName("User")

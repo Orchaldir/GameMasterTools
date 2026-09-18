@@ -1,18 +1,21 @@
 package at.orchaldir.gm.app.html.rpg.equipment
 
 import at.orchaldir.gm.app.ATTACK
-import at.orchaldir.gm.app.COST
+import at.orchaldir.gm.app.PRICE
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.economy.money.parsePriceLookup
+import at.orchaldir.gm.app.html.economy.money.selectPriceLookupForType
+import at.orchaldir.gm.app.html.economy.money.showPriceLookupForType
 import at.orchaldir.gm.app.html.rpg.combat.*
-import at.orchaldir.gm.app.html.util.math.parseFactor
 import at.orchaldir.gm.app.html.util.math.parseWeightLookupForType
 import at.orchaldir.gm.app.html.util.math.selectWeightLookupForType
 import at.orchaldir.gm.app.html.util.math.showWeightLookupForType
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.equipment.MAX_EQUIPMENT_PRICE
 import at.orchaldir.gm.core.model.item.equipment.MAX_EQUIPMENT_WEIGHT
+import at.orchaldir.gm.core.model.item.equipment.MIN_EQUIPMENT_PRICE
 import at.orchaldir.gm.core.model.item.equipment.MIN_EQUIPMENT_WEIGHT
-import at.orchaldir.gm.core.model.rpg.equipment.DEFAULT_TYPE_COST_FACTOR
 import at.orchaldir.gm.core.model.rpg.equipment.EQUIPMENT_TYPE_CATEGORIES
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentType
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentTypeId
@@ -33,7 +36,7 @@ fun HtmlBlockTag.showEquipmentType(
     showMeleeAttackTable(call, state, type.meleeAttacks)
     showRangedAttackTable(call, state, type.rangedAttacks)
     fieldProtection(call, state, type.protection)
-    fieldCostFactor(type.cost)
+    showPriceLookupForType(call, state, type.price)
     showWeightLookupForType(type.weight)
 
     showUsages(call, state, type.id)
@@ -76,7 +79,7 @@ fun HtmlBlockTag.editEquipmentType(
         editRangedAttack(state, attack, "${index + 1}.Attack", param)
     }
     editProtection(call, state, type.protection)
-    selectCostFactor(type.cost)
+    selectPriceLookupForType(state, type.price, MIN_EQUIPMENT_PRICE, MAX_EQUIPMENT_PRICE)
     selectWeightLookupForType(type.weight, MIN_EQUIPMENT_WEIGHT, MAX_EQUIPMENT_WEIGHT)
 }
 
@@ -102,6 +105,6 @@ fun parseEquipmentType(
         parseRangedAttack(parameters, param)
     },
     parseProtection(state, parameters),
-    parseFactor(parameters, COST, DEFAULT_TYPE_COST_FACTOR),
+    parsePriceLookup(state, parameters, PRICE),
     parseWeightLookupForType(parameters, MIN_EQUIPMENT_WEIGHT),
 )

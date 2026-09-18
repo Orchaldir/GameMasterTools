@@ -3,60 +3,74 @@ package at.orchaldir.gm.core.selector.item.equipment
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.appearance.Appearance
 import at.orchaldir.gm.core.model.character.appearance.HumanoidBody
-import at.orchaldir.gm.core.model.economy.money.CalculatedPrice
-import at.orchaldir.gm.core.model.economy.money.Price
-import at.orchaldir.gm.core.model.economy.money.UserDefinedPrice
+import at.orchaldir.gm.core.model.economy.money.*
+import at.orchaldir.gm.core.model.item.ammunition.Ammunition
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.item.equipment.EquipmentAppearance
 import at.orchaldir.gm.core.model.item.equipment.EquipmentIdMap
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentStats
+import at.orchaldir.gm.core.selector.rpg.equipment.getEquipmentType
 import at.orchaldir.gm.utils.Id
+import at.orchaldir.gm.utils.math.FULL
 import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.ZERO
 import at.orchaldir.gm.utils.math.unit.VolumePerMaterial
 
 
-fun calculateCostFactors(
+fun calculatePriceFactors(
     state: State,
     stats: EquipmentStats,
 ): Map<Id<*>, Factor> {
     val map = mutableMapOf<Id<*>, Factor>()
 
-    calculateCostFactors(state, map, stats)
+    calculatePriceFactors(state, map, stats)
 
     return map
 }
 
-private fun calculateCostFactors(
+private fun calculatePriceFactors(
     state: State,
-    costFactors: MutableMap<Id<*>, Factor>,
+    priceFactors: MutableMap<Id<*>, Factor>,
     stats: EquipmentStats,
 ) {
     state.getEquipmentModifierStorage()
         .get(stats.modifiers)
         .forEach { modifier ->
-            costFactors[modifier.id] = modifier.cost
+            priceFactors[modifier.id] = modifier.price
         }
-
-    state.getEquipmentTypeStorage().getOptional(stats.type)
-        ?.let { costFactors[it.id] = it.cost }
 }
 
-fun calculatePrice(
+private fun calculatePriceFactor(priceFactors: Map<Id<*>, Factor>): Factor {
+    var factor = FULL
+
+    priceFactors.forEach { modifier ->
+        factor += modifier.value
+    }
+
+    return factor.max(ZERO)
+}
+
+private fun calculatePriceFactor(
+    state: State,
+    equipment: Equipment,
+) = calculatePriceFactor(calculatePriceFactors(state, equipment.stats))
+
+fun calculatePriceBasedOnMaterials(
     state: State,
     vpm: VolumePerMaterial,
-    costFactors: Map<Id<*>, Factor> = emptyMap(),
+    priceFactors: Map<Id<*>, Factor> = emptyMap(),
 ): Price {
     val materialCost = vpm.getPrice(state)
 
-    if (costFactors.entries.isEmpty()) {
+    if (priceFactors.entries.isEmpty()) {
         return materialCost
     }
 
-    val totalCostFactor = costFactors.entries
+    val priceFactor = priceFactors.entries
         .map { it.value }
         .reduce { total, factor -> total + factor }
 
-    return materialCost * totalCostFactor
+    return materialCost * priceFactor
 }
 
 fun calculatePrice(
@@ -65,11 +79,13 @@ fun calculatePrice(
     equipment: Equipment,
     appearance: Appearance = HumanoidBody(),
 ) = when (equipment.price) {
-    CalculatedPrice -> calculatePrice(state, config, equipment.appearance, appearance)
+    PriceBasedOnAppearance -> calculatePriceBasedOnAppearance(state, config, equipment.appearance, appearance)
+    PriceBasedOnType -> calculatePriceBasedOnType(state, equipment)
+    UndefinedPrice -> FREE
     is UserDefinedPrice -> equipment.price.price
 }
 
-fun calculatePrice(
+fun calculatePriceBasedOnAppearance(
     state: State,
     config: CalculateVolumeConfig<Appearance>,
     data: EquipmentAppearance,
@@ -86,3 +102,23 @@ fun calculatePrice(
     .map { (id, _) -> state.getEquipmentStorage().getOrThrow(id) }
     .map { equipment -> calculatePrice(state, config, equipment, appearance) }
     .reduceOrNull { total, price -> total + price }
+
+fun calculatePriceBasedOnType(state: State, ammunition: Ammunition): Price {
+    return FREE
+}
+
+fun calculatePriceBasedOnType(state: State, equipment: Equipment): Price {
+    state.getEquipmentType(equipment)?.let {
+        return getPriceOfType(it.price) * calculatePriceFactor(state, equipment)
+    }
+
+    return FREE
+}
+
+fun getPriceOfType(lookup: PriceLookup?) = when (lookup) {
+    PriceBasedOnAppearance -> error("Type doesn't support CalculatedPrice!")
+    PriceBasedOnType -> error("Type doesn't support PriceBasedOnType!")
+    UndefinedPrice -> FREE
+    is UserDefinedPrice -> lookup.price
+    null -> FREE
+}

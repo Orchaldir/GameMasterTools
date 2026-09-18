@@ -2,7 +2,6 @@ package at.orchaldir.gm.app.routes.rpg.equipment
 
 import at.orchaldir.gm.app.STORE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.Column.Companion.tdColumn
 import at.orchaldir.gm.app.html.rpg.equipment.displayEquipmentModifierEffect
 import at.orchaldir.gm.app.html.rpg.equipment.editEquipmentModifier
 import at.orchaldir.gm.app.html.rpg.equipment.parseEquipmentModifier
@@ -72,8 +71,8 @@ fun Application.configureEquipmentModifierRouting() {
                             displayEquipmentModifierEffect(call, state, it)
                         }
                     },
-                    createCostFactorColumn { it.cost },
-                    tdColumn("Weight") { +it.weight.toString() },
+                    createModifierColumn("Price") { it.price },
+                    createModifierColumn("Weight") { it.weight },
                     countCollectionColumn("Equipment") { state.getEquipment(it.id) },
                 ),
             )

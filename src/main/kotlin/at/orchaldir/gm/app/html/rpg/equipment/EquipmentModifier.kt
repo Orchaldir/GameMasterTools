@@ -2,9 +2,7 @@ package at.orchaldir.gm.app.html.rpg.equipment
 
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.rpg.combat.fieldCostFactor
-import at.orchaldir.gm.app.html.rpg.combat.selectCostFactor
-import at.orchaldir.gm.app.html.util.math.fieldFactor
+import at.orchaldir.gm.app.html.util.math.fieldModifier
 import at.orchaldir.gm.app.html.util.math.parseFactor
 import at.orchaldir.gm.app.html.util.math.selectFactor
 import at.orchaldir.gm.core.model.State
@@ -28,8 +26,8 @@ fun HtmlBlockTag.showEquipmentModifier(
     fieldList("Effects", modifier.effects) {
         displayEquipmentModifierEffect(call, state, it)
     }
-    fieldCostFactor(modifier.cost)
-    fieldFactor("Weight", modifier.weight)
+    fieldModifier("Price", modifier.price)
+    fieldModifier("Weight", modifier.weight)
     showUsages(call, state, modifier.id)
 }
 
@@ -83,7 +81,13 @@ fun HtmlBlockTag.editEquipmentModifier(
     editList("Effects", EFFECT, modifier.effects, 0, EquipmentModifierEffectType.entries.size) { _, param, effect ->
         editEquipmentModifierEffect(call, state, effect, param, allowedTypes + effect.getType())
     }
-    selectCostFactor(modifier.cost)
+    selectFactor(
+        "Price",
+        PRICE,
+        modifier.price,
+        MIN_PRICE_FACTOR,
+        MAX_PRICE_FACTOR,
+    )
     selectFactor(
         "Weight",
         WEIGHT,
@@ -117,6 +121,6 @@ fun parseEquipmentModifier(
     parseList(parameters, EFFECT, 0) { _, effectParam ->
         parseEquipmentModifierEffect(parameters, effectParam)
     },
-    parseFactor(parameters, COST, DEFAULT_MODIFIER_COST_FACTOR),
+    parseFactor(parameters, PRICE, DEFAULT_PRICE_FACTOR),
     parseFactor(parameters, WEIGHT, DEFAULT_WEIGHT_FACTOR),
 )
