@@ -5,32 +5,32 @@ import at.orchaldir.gm.EQUIPMENT_MODIFIER_ID_0
 import at.orchaldir.gm.EQUIPMENT_MODIFIER_ID_1
 import at.orchaldir.gm.EQUIPMENT_TYPE_ID_0
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.economy.money.FREE
-import at.orchaldir.gm.core.model.economy.money.Price
-import at.orchaldir.gm.core.model.economy.money.PriceBasedOnType
-import at.orchaldir.gm.core.model.economy.money.UserDefinedPrice
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifier
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentStats
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentType
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.unit.UserDefinedWeight
+import at.orchaldir.gm.utils.math.unit.WEIGHTLESS
+import at.orchaldir.gm.utils.math.unit.Weight
+import at.orchaldir.gm.utils.math.unit.WeightBasedOnType
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
-class CalculatePriceTest {
+class CalculateWeightTest {
 
     private val type = EquipmentType(
         EQUIPMENT_TYPE_ID_0,
-        price = UserDefinedPrice(Price(100))
+        weight = UserDefinedWeight(Weight.fromGrams(1000))
     )
     private val modifier0 = EquipmentModifier(
         EQUIPMENT_MODIFIER_ID_0,
-        price = Factor.fromPercentage(20)
+        weight = Factor.fromPercentage(20)
     )
     private val modifier1 = EquipmentModifier(
         EQUIPMENT_MODIFIER_ID_1,
-        price = Factor.fromPercentage(30)
+        weight = Factor.fromPercentage(30)
     )
     private val state = State(
         listOf(
@@ -40,38 +40,38 @@ class CalculatePriceTest {
     )
 
     @Test
-    fun `Calculate the price based on the type`() {
+    fun `Calculate the weight based on the type`() {
         val stats = EquipmentStats(EQUIPMENT_TYPE_ID_0)
-        val equipment = Equipment(EQUIPMENT_ID_0, stats = stats, price = PriceBasedOnType)
+        val equipment = Equipment(EQUIPMENT_ID_0, stats = stats, weight = WeightBasedOnType)
 
-        assertPrice(equipment, Price(100))
+        assertWeight(equipment, Weight.fromGrams(1000))
     }
 
     @Test
-    fun `Calculate the price based on the type & modifiers`() {
+    fun `Calculate the weight based on the type & modifiers`() {
         val stats = EquipmentStats(EQUIPMENT_TYPE_ID_0, setOf(EQUIPMENT_MODIFIER_ID_0, EQUIPMENT_MODIFIER_ID_1))
-        val equipment = Equipment(EQUIPMENT_ID_0, stats = stats, price = PriceBasedOnType)
+        val equipment = Equipment(EQUIPMENT_ID_0, stats = stats, weight = WeightBasedOnType)
 
-        assertPrice(equipment, Price(150))
+        assertWeight(equipment, Weight.fromGrams(1500))
     }
 
     @Test
-    fun `User defined price`() {
-        val price = Price(200)
-        val equipment = Equipment(EQUIPMENT_ID_0, price = UserDefinedPrice(price))
+    fun `User defined weight`() {
+        val weight = Weight.fromGrams(2000)
+        val equipment = Equipment(EQUIPMENT_ID_0, weight = UserDefinedWeight(weight))
 
-        assertPrice(equipment, price)
+        assertWeight(equipment, weight)
     }
 
     @Test
-    fun `Undefined price`() {
+    fun `Undefined weight`() {
         val equipment = Equipment(EQUIPMENT_ID_0)
 
-        assertPrice(equipment, FREE)
+        assertWeight(equipment, WEIGHTLESS)
     }
 
-    private fun assertPrice(equipment: Equipment, price: Price) {
+    private fun assertWeight(equipment: Equipment, weight: Weight) {
 
-        assertEquals(price, calculatePrice(state, VOLUME_CONFIG, equipment))
+        assertEquals(weight, calculateWeight(state, VOLUME_CONFIG, equipment))
     }
 }
