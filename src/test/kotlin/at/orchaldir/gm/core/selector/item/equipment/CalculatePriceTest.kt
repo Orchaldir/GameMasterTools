@@ -4,6 +4,7 @@ import at.orchaldir.gm.EQUIPMENT_ID_0
 import at.orchaldir.gm.EQUIPMENT_MODIFIER_ID_0
 import at.orchaldir.gm.EQUIPMENT_MODIFIER_ID_1
 import at.orchaldir.gm.EQUIPMENT_TYPE_ID_0
+import at.orchaldir.gm.EQUIPMENT_TYPE_ID_1
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.money.FREE
 import at.orchaldir.gm.core.model.economy.money.Price
@@ -20,10 +21,11 @@ import org.junit.jupiter.api.Test
 
 class CalculatePriceTest {
 
-    private val type = EquipmentType(
+    private val type0 = EquipmentType(
         EQUIPMENT_TYPE_ID_0,
         price = UserDefinedPrice(Price(100))
     )
+    private val type1 = EquipmentType(EQUIPMENT_TYPE_ID_1)
     private val modifier0 = EquipmentModifier(
         EQUIPMENT_MODIFIER_ID_0,
         price = Factor.fromPercentage(20)
@@ -34,7 +36,7 @@ class CalculatePriceTest {
     )
     private val state = State(
         listOf(
-            Storage(type),
+            Storage(listOf(type0, type1)),
             Storage(listOf(modifier0, modifier1)),
         )
     )
@@ -45,6 +47,21 @@ class CalculatePriceTest {
         val equipment = Equipment(EQUIPMENT_ID_0, stats = stats, price = PriceBasedOnType)
 
         assertPrice(equipment, Price(100))
+    }
+
+    @Test
+    fun `Calculate the price based on an unknown type`() {
+        val equipment = Equipment(EQUIPMENT_ID_0, price = PriceBasedOnType)
+
+        assertPrice(equipment, FREE)
+    }
+
+    @Test
+    fun `Calculate the price based on a type with undefined price`() {
+        val stats = EquipmentStats(EQUIPMENT_TYPE_ID_1)
+        val equipment = Equipment(EQUIPMENT_ID_0, stats = stats, price = PriceBasedOnType)
+
+        assertPrice(equipment, FREE)
     }
 
     @Test
