@@ -9,9 +9,10 @@ import at.orchaldir.gm.core.model.economy.material.Material
 import at.orchaldir.gm.core.model.economy.material.MaterialId
 import at.orchaldir.gm.core.model.economy.material.MaterialProperties
 import at.orchaldir.gm.core.model.economy.material.Metal
+import at.orchaldir.gm.core.model.economy.money.MIN_PRICE
+import at.orchaldir.gm.core.model.economy.money.UserDefinedPrice
 import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentStats
-import at.orchaldir.gm.core.model.rpg.equipment.EquipmentType
 import at.orchaldir.gm.core.model.util.part.MadeFromCord
 import at.orchaldir.gm.core.model.util.part.MadeFromFabric
 import at.orchaldir.gm.core.model.util.render.*
@@ -178,6 +179,18 @@ class EquipmentTest {
                 val item = createItem(scheme, lookup = lookup)
 
                 assertInvalid(item, "${scheme.print()} has too few colors!")
+            }
+        }
+
+        @Nested
+        inner class PriceTest {
+
+            @Test
+            fun `Cannot have a price above the maximum`() {
+                val price = UserDefinedPrice(MAX_EQUIPMENT_PRICE + MIN_PRICE)
+                val equipment = Equipment(EQUIPMENT_ID_0, price = price)
+
+                assertInvalid(equipment, "The Price is too large!")
             }
         }
 
