@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.html.rpg.equipment
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.math.fieldFactor
+import at.orchaldir.gm.app.html.util.math.fieldModifier
 import at.orchaldir.gm.app.html.util.math.parseFactor
 import at.orchaldir.gm.app.html.util.math.selectFactor
 import at.orchaldir.gm.core.model.State
@@ -26,8 +27,8 @@ fun HtmlBlockTag.showEquipmentModifier(
     fieldList("Effects", modifier.effects) {
         displayEquipmentModifierEffect(call, state, it)
     }
-    fieldFactor("Price", modifier.price)
-    fieldFactor("Weight", modifier.weight)
+    fieldModifier("Price", modifier.price)
+    fieldModifier("Weight", modifier.weight)
     showUsages(call, state, modifier.id)
 }
 

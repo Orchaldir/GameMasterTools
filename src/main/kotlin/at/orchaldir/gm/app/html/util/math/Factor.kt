@@ -18,6 +18,10 @@ fun HtmlBlockTag.fieldFactor(label: String, factor: Factor) {
     field(label, factor.toString())
 }
 
+fun HtmlBlockTag.fieldModifier(label: String, factor: Factor) {
+    field(label, factor.toStringAsModifier())
+}
+
 fun HtmlBlockTag.showFactorMap(
     call: ApplicationCall,
     state: State,

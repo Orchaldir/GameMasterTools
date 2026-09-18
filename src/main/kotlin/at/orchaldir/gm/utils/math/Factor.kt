@@ -55,6 +55,7 @@ value class Factor private constructor(private val permyriad: Int) {
     fun apply(value: Int) = (value * toNumber()).toInt()
 
     override fun toString() = formatAsFactor(permyriad)
+    fun toStringAsModifier() = formatAsModifier(permyriad)
     fun toStringAsNumber() = formatAsNumber(permyriad)
 
     operator fun unaryMinus() = Factor(-permyriad)
@@ -110,6 +111,23 @@ fun formatAsFactor(permyriad: Int): String {
     } else {
         String.format("%d.%01d%%", percentageOnly, permilleOnly)
     }
+}
+
+fun formatAsModifier(permyriad: Int): String {
+    val percentageOnly = percentageOnly(permyriad)
+    val permilleOnly = permilleOnly(permyriad)
+    val first = if (permyriad > 0) {
+        "+$percentageOnly"
+    } else {
+        percentageOnly.toString()
+    }
+    val second = if (permilleOnly == 0) {
+        "%"
+    } else {
+        String.format(".%01d%%", permilleOnly)
+    }
+
+    return first + second
 }
 
 fun formatAsNumber(permyriad: Int): String {
