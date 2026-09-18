@@ -4,6 +4,7 @@ import at.orchaldir.gm.EQUIPMENT_ID_0
 import at.orchaldir.gm.EQUIPMENT_MODIFIER_ID_0
 import at.orchaldir.gm.EQUIPMENT_MODIFIER_ID_1
 import at.orchaldir.gm.EQUIPMENT_TYPE_ID_0
+import at.orchaldir.gm.EQUIPMENT_TYPE_ID_1
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifier
@@ -20,10 +21,11 @@ import org.junit.jupiter.api.Test
 
 class CalculateWeightTest {
 
-    private val type = EquipmentType(
+    private val type0 = EquipmentType(
         EQUIPMENT_TYPE_ID_0,
         weight = UserDefinedWeight(Weight.fromGrams(1000))
     )
+    private val type1 = EquipmentType(EQUIPMENT_TYPE_ID_1)
     private val modifier0 = EquipmentModifier(
         EQUIPMENT_MODIFIER_ID_0,
         weight = Factor.fromPercentage(20)
@@ -34,7 +36,7 @@ class CalculateWeightTest {
     )
     private val state = State(
         listOf(
-            Storage(type),
+            Storage(listOf(type0, type1)),
             Storage(listOf(modifier0, modifier1)),
         )
     )
@@ -45,6 +47,21 @@ class CalculateWeightTest {
         val equipment = Equipment(EQUIPMENT_ID_0, stats = stats, weight = WeightBasedOnType)
 
         assertWeight(equipment, Weight.fromGrams(1000))
+    }
+
+    @Test
+    fun `Calculate the weight based on an unknown type`() {
+        val equipment = Equipment(EQUIPMENT_ID_0, weight = WeightBasedOnType)
+
+        assertWeight(equipment, WEIGHTLESS)
+    }
+
+    @Test
+    fun `Calculate the weight based on a type with undefined weight`() {
+        val stats = EquipmentStats(EQUIPMENT_TYPE_ID_1)
+        val equipment = Equipment(EQUIPMENT_ID_0, stats = stats, weight = WeightBasedOnType)
+
+        assertWeight(equipment, WEIGHTLESS)
     }
 
     @Test
