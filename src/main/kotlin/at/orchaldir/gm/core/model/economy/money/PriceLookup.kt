@@ -6,6 +6,7 @@ import at.orchaldir.gm.utils.math.unit.UserDefinedWeight
 import at.orchaldir.gm.utils.math.unit.Weight
 import at.orchaldir.gm.utils.math.unit.WeightBasedOnAppearance
 import at.orchaldir.gm.utils.math.unit.WeightBasedOnType
+import at.orchaldir.gm.utils.math.unit.WeightLookupType
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -34,7 +35,12 @@ sealed class PriceLookup {
         label: String,
         min: Price,
         max: Price,
+        allowedTypes: Collection<PriceLookupType> = PriceLookupType.entries,
     ) {
+        require(allowedTypes.contains(getType())) {
+            "Invalid type ${getType()} for price lookup!"
+        }
+
         when (this) {
             PriceBasedOnAppearance -> doNothing()
             PriceBasedOnType -> doNothing()

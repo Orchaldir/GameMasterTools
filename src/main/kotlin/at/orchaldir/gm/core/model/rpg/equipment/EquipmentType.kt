@@ -17,6 +17,7 @@ import at.orchaldir.gm.core.reducer.rpg.validateProtection
 import at.orchaldir.gm.core.reducer.rpg.validateRangedAttack
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.math.Factor
+import at.orchaldir.gm.utils.math.unit.ALLOWED_WEIGHT_LOOKUP_TYPES_FOR_TYPES
 import at.orchaldir.gm.utils.math.unit.UndefinedWeight
 import at.orchaldir.gm.utils.math.unit.WeightLookup
 import at.orchaldir.gm.utils.math.validateFactor
@@ -53,11 +54,20 @@ data class EquipmentType(
         meleeAttacks.forEach { validateMeleeAttack(state, it) }
         rangedAttacks.forEach { validateRangedAttack(state, it) }
         validateProtection(state, protection)
-        require(ALLOWED_PRICE_LOOKUP_TYPES_FOR_TYPES.contains(price.getType())) {
-            "Invalid type ${price.getType()} for price lookup!"
-        }
-        price.validate("Price", MIN_EQUIPMENT_PRICE, MAX_EQUIPMENT_PRICE)
-        weight.validate("Weight", MIN_EQUIPMENT_WEIGHT, MAX_EQUIPMENT_WEIGHT)
+
+        price.validate(
+            "Price",
+            MIN_EQUIPMENT_PRICE,
+            MAX_EQUIPMENT_PRICE,
+            ALLOWED_PRICE_LOOKUP_TYPES_FOR_TYPES,
+        )
+
+        weight.validate(
+            "Weight",
+            MIN_EQUIPMENT_WEIGHT,
+            MAX_EQUIPMENT_WEIGHT,
+            ALLOWED_WEIGHT_LOOKUP_TYPES_FOR_TYPES,
+        )
     }
 
     fun contains(type: AmmunitionTypeId) = rangedAttacks.any { it.contains(type) }

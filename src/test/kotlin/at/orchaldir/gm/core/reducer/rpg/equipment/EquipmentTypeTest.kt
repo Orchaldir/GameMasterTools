@@ -17,6 +17,8 @@ import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.utils.Storage
 import at.orchaldir.gm.utils.math.unit.ONE_GRAM
 import at.orchaldir.gm.utils.math.unit.UserDefinedWeight
+import at.orchaldir.gm.utils.math.unit.WeightBasedOnAppearance
+import at.orchaldir.gm.utils.math.unit.WeightBasedOnType
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
@@ -63,20 +65,39 @@ class EquipmentTypeTest {
         }
     }
 
-    @Test
-    fun `Cannot have a weight below the minimum`() {
-        val weight = UserDefinedWeight(MIN_EQUIPMENT_WEIGHT - ONE_GRAM)
-        val equipmentType = EquipmentType(EQUIPMENT_TYPE_ID_0, weight = weight)
 
-        assertInvalid(equipmentType, "The Weight is too small!")
-    }
+    @Nested
+    inner class WeightTest {
 
-    @Test
-    fun `Cannot have a weight above the maximum`() {
-        val weight = UserDefinedWeight(MAX_EQUIPMENT_WEIGHT + ONE_GRAM)
-        val equipmentType = EquipmentType(EQUIPMENT_TYPE_ID_0, weight = weight)
+        @Test
+        fun `Cannot use WeightBasedOnAppearance`() {
+            val equipmentType = EquipmentType(EQUIPMENT_TYPE_ID_0, weight = WeightBasedOnAppearance)
 
-        assertInvalid(equipmentType, "The Weight is too large!")
+            assertInvalid(equipmentType, "Invalid type Appearance for weight lookup!")
+        }
+
+        @Test
+        fun `Cannot use WeightBasedOnType`() {
+            val equipmentType = EquipmentType(EQUIPMENT_TYPE_ID_0, weight = WeightBasedOnType)
+
+            assertInvalid(equipmentType, "Invalid type Type for weight lookup!")
+        }
+
+        @Test
+        fun `Cannot have a weight below the minimum`() {
+            val weight = UserDefinedWeight(MIN_EQUIPMENT_WEIGHT - ONE_GRAM)
+            val equipmentType = EquipmentType(EQUIPMENT_TYPE_ID_0, weight = weight)
+
+            assertInvalid(equipmentType, "The Weight is too small!")
+        }
+
+        @Test
+        fun `Cannot have a weight above the maximum`() {
+            val weight = UserDefinedWeight(MAX_EQUIPMENT_WEIGHT + ONE_GRAM)
+            val equipmentType = EquipmentType(EQUIPMENT_TYPE_ID_0, weight = weight)
+
+            assertInvalid(equipmentType, "The Weight is too large!")
+        }
     }
 
     private fun assertInvalid(equipmentType: EquipmentType, message: String) {
