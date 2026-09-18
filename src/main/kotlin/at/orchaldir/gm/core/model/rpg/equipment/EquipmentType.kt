@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.rpg.equipment
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.economy.money.ALLOWED_PRICE_LOOKUP_TYPES_FOR_TYPES
 import at.orchaldir.gm.core.model.economy.money.PriceLookup
 import at.orchaldir.gm.core.model.economy.money.UndefinedPrice
 import at.orchaldir.gm.core.model.item.equipment.MAX_EQUIPMENT_PRICE
@@ -52,6 +53,9 @@ data class EquipmentType(
         meleeAttacks.forEach { validateMeleeAttack(state, it) }
         rangedAttacks.forEach { validateRangedAttack(state, it) }
         validateProtection(state, protection)
+        require(ALLOWED_PRICE_LOOKUP_TYPES_FOR_TYPES.contains(price.getType())) {
+            "Invalid type ${price.getType()} for price lookup!"
+        }
         price.validate("Price", MIN_EQUIPMENT_PRICE, MAX_EQUIPMENT_PRICE)
         weight.validate("Weight", MIN_EQUIPMENT_WEIGHT, MAX_EQUIPMENT_WEIGHT)
     }
