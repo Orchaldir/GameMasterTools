@@ -13,6 +13,7 @@ import at.orchaldir.gm.core.selector.util.getColorSchemes
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.checkInt
+import at.orchaldir.gm.utils.math.unit.ALLOWED_WEIGHT_LOOKUP_TYPES_FOR_TYPES
 import at.orchaldir.gm.utils.math.validateFactor
 import at.orchaldir.gm.utils.redux.noFollowUps
 
@@ -50,6 +51,12 @@ fun validateEquipment(
         }
 
     validateEquipmentStats(state, equipment.stats)
+
+    equipment.weight.validate(
+        "Weight",
+        MIN_EQUIPMENT_WEIGHT,
+        MAX_EQUIPMENT_WEIGHT,
+    )
 
     when (equipment.appearance) {
         is BodyArmour -> checkBodyArmour(state, equipment.appearance)
