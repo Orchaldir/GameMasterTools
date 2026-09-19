@@ -14,13 +14,14 @@ interface Value<T> {
 
     operator fun compareTo(other: T): Int
 
-    fun validate(
-        label: String,
-        min: T,
-        max: T,
-    ) {
-        require(this >= min) { "The $label is too small!" }
-        require(this <= max) { "The $label is too large!" }
-    }
+}
 
+fun <T> validate(
+    value: Value<T>,
+    label: String,
+    min: T,
+    max: T,
+) {
+    require(value >= min) { "The $label is too small!" }
+    require(value <= max) { "The $label is too large!" }
 }

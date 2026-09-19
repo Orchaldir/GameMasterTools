@@ -5,6 +5,7 @@ import at.orchaldir.gm.core.model.race.*
 import at.orchaldir.gm.core.model.race.aging.*
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.unit.checkDistance
+import at.orchaldir.gm.utils.math.validate
 
 fun validateLifeStages(state: State, lifeStages: LifeStages) {
     state.getRaceAppearanceStorage().require(lifeStages.getRaceAppearance())
@@ -30,7 +31,7 @@ fun validateHeight(race: Race) {
 }
 
 fun validateWeight(race: Race) {
-    race.weight.validate("Weight", MIN_RACE_WEIGHT, MAX_RACE_WEIGHT)
+    validate(race.weight, "Weight", MIN_RACE_WEIGHT, MAX_RACE_WEIGHT)
 }
 
 private fun validateMaxAge(lifeStages: List<LifeStage>) {
