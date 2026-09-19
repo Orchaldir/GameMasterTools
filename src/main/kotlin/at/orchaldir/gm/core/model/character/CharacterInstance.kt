@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
 import at.orchaldir.gm.core.model.item.equipment.EquipmentIdMap
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.rpg.statblock.Statblock
+import at.orchaldir.gm.core.model.util.NoReference
 import at.orchaldir.gm.core.model.util.Reference
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
@@ -29,7 +30,7 @@ value class CharacterInstanceId(val value: Int) : Id<CharacterInstanceId> {
 data class CharacterInstance(
     val id: CharacterInstanceId,
     val name: Name = Name.init(id),
-    val basedOn: Reference,
+    val basedOn: Reference = NoReference,
     val race: RaceId,
     val gender: Gender = Gender.Genderless,
     val appearance: Appearance = UndefinedAppearance,

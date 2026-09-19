@@ -40,6 +40,7 @@ import at.orchaldir.gm.app.routes.world.*
 import at.orchaldir.gm.app.routes.world.settlement.SettlementMapRoutes
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterId
+import at.orchaldir.gm.core.model.character.CharacterInstanceId
 import at.orchaldir.gm.core.model.character.CharacterTemplateId
 import at.orchaldir.gm.core.model.character.title.TitleId
 import at.orchaldir.gm.core.model.culture.CultureId

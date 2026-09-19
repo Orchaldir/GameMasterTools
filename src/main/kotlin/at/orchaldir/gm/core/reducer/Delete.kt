@@ -4,6 +4,7 @@ import at.orchaldir.gm.core.action.Action
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterId
+import at.orchaldir.gm.core.model.character.CharacterInstanceId
 import at.orchaldir.gm.core.model.character.CharacterTemplateId
 import at.orchaldir.gm.core.model.character.title.TitleId
 import at.orchaldir.gm.core.model.culture.CultureId
@@ -63,6 +64,7 @@ import at.orchaldir.gm.core.model.world.terrain.RegionId
 import at.orchaldir.gm.core.model.world.terrain.RiverId
 import at.orchaldir.gm.core.reducer.world.deleteBuilding
 import at.orchaldir.gm.core.selector.character.canDeleteCharacter
+import at.orchaldir.gm.core.selector.character.canDeleteCharacterInstance
 import at.orchaldir.gm.core.selector.character.canDeleteCharacterTemplate
 import at.orchaldir.gm.core.selector.character.canDeleteTitle
 import at.orchaldir.gm.core.selector.culture.canDeleteCulture
@@ -125,6 +127,7 @@ fun reduceDeleteElement(
     is CalendarId -> deleteElement(state, id, State::canDeleteCalendar)
     is CatastropheId -> deleteElement(state, id, State::canDeleteCatastrophe)
     is CharacterId -> deleteElement(state, id, State::canDeleteCharacter)
+    is CharacterInstanceId -> deleteElement(state, id, State::canDeleteCharacterInstance)
     is CharacterTemplateId -> deleteElement(state, id, State::canDeleteCharacterTemplate)
     is ColorSchemeGroupId -> deleteElement(state, id, State::canDeleteColorSchemeGroup)
     is ColorSchemeId -> deleteElement(state, id, State::canDeleteColorScheme)
