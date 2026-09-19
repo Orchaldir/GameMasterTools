@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.html.util
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.character.parseCharacterId
+import at.orchaldir.gm.app.html.character.parseCharacterTemplateId
 import at.orchaldir.gm.app.html.culture.parseCultureId
 import at.orchaldir.gm.app.html.economy.parseBusinessId
 import at.orchaldir.gm.app.html.organization.parseOrganizationId
@@ -45,6 +46,7 @@ fun HtmlBlockTag.showReference(
     when (reference) {
         is BusinessReference -> link(call, state, reference.business)
         is CharacterReference -> link(call, state, reference.character)
+        is CharacterTemplateReference -> link(call, state, reference.template)
         is CultureReference -> link(call, state, reference.culture)
         is GodReference -> link(call, state, reference.god)
         is OrganizationReference -> link(call, state, reference.organization)
@@ -73,6 +75,8 @@ fun HtmlBlockTag.selectReference(
         .filter { filter(it) }
     val characters = state.getLiving(date)
         .filter { filter(it) }
+    val characterTemplates = state.getCharacterTemplateStorage().getAll()
+        .filter { filter(it) }
     val cultures = state.getCultureStorage()
         .getAll()
         .filter { filter(it) }
@@ -91,6 +95,7 @@ fun HtmlBlockTag.selectReference(
             ReferenceType.None, ReferenceType.Undefined -> false
             ReferenceType.Business -> businesses.isEmpty()
             ReferenceType.Character -> characters.isEmpty()
+            ReferenceType.CharacterTemplate -> characterTemplates.isEmpty()
             ReferenceType.Culture -> cultures.isEmpty()
             ReferenceType.God -> gods.isEmpty()
             ReferenceType.Organization -> organizations.isEmpty()
@@ -114,6 +119,14 @@ fun HtmlBlockTag.selectReference(
             combine(param, CHARACTER),
             characters,
             reference.character,
+        )
+
+        is CharacterTemplateReference -> selectElement(
+            state,
+            label,
+            combine(param, CHARACTER, TEMPLATE),
+            characterTemplates,
+            reference.template,
         )
 
         is CultureReference -> selectElement(
@@ -175,6 +188,10 @@ fun parseReference(
 
         ReferenceType.Character -> CharacterReference(
             parseCharacterId(parameters, combine(param, CHARACTER)),
+        )
+
+        ReferenceType.CharacterTemplate -> CharacterTemplateReference(
+            parseCharacterTemplateId(parameters, combine(param, CHARACTER, TEMPLATE)),
         )
 
         ReferenceType.Culture -> CultureReference(
