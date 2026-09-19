@@ -1,6 +1,7 @@
 package at.orchaldir.gm.app.html.character
 
 import at.orchaldir.gm.app.COLOR
+import at.orchaldir.gm.app.EQUIPMENT
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.color.parseOptionalColorSchemeId
 import at.orchaldir.gm.core.model.State
@@ -43,7 +44,7 @@ fun HtmlBlockTag.showEquipmentMap(
 fun HtmlBlockTag.editEquipmentMap(
     state: State,
     equipmentMap: EquipmentIdMap,
-    param: String,
+    param: String = EQUIPMENT,
 ) {
     EquipmentAppearanceType.entries.forEach { selectEquipment(state, equipmentMap, it, param) }
 }
@@ -121,7 +122,7 @@ private fun HtmlBlockTag.selectEquipment(
 fun parseEquipmentMap(
     state: State,
     parameters: Parameters,
-    param: String,
+    param: String = EQUIPMENT,
 ): EquipmentIdMap {
     val map = mutableMapOf<EquipmentIdPair, MutableSet<Set<BodySlot>>>()
 
