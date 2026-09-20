@@ -1,13 +1,11 @@
 package at.orchaldir.gm.app.html.character
 
 import at.orchaldir.gm.app.EQUIPMENT
+import at.orchaldir.gm.app.EQUIPPED
 import at.orchaldir.gm.app.UNIFORM
 import at.orchaldir.gm.app.UPDATE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.item.parseUniformId
-import at.orchaldir.gm.app.html.rpg.combat.showMeleeAttackTable
-import at.orchaldir.gm.app.html.rpg.combat.showProtectionTable
-import at.orchaldir.gm.app.html.rpg.combat.showRangedAttackTable
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.item.UniformId
@@ -15,21 +13,14 @@ import at.orchaldir.gm.core.model.item.equipment.EquipmentIdMap
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.rpg.statblock.Statblock
 import at.orchaldir.gm.core.model.rpg.statblock.StatblockLookup
-import at.orchaldir.gm.core.selector.character.getMeleeAttacks
-import at.orchaldir.gm.core.selector.character.getProtection
-import at.orchaldir.gm.core.selector.character.getRangedAttacks
 import at.orchaldir.gm.core.selector.item.equipment.*
 import at.orchaldir.gm.core.selector.rpg.statblock.getStatblock
-import at.orchaldir.gm.core.selector.rpg.statblock.resolveMeleeAttackMap
-import at.orchaldir.gm.core.selector.rpg.statblock.resolveProtectionMap
-import at.orchaldir.gm.core.selector.rpg.statblock.resolveRangedAttackMap
 import at.orchaldir.gm.core.selector.util.sortUniforms
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.DETAILS
 import kotlinx.html.HtmlBlockTag
-import kotlinx.html.br
 
 // show
 
@@ -129,12 +120,12 @@ fun HtmlBlockTag.showEquippedDetails(
 fun HtmlBlockTag.editEquipped(
     call: ApplicationCall,
     state: State,
-    param: String,
     equipped: Equipped,
     base: Statblock,
     lookup: StatblockLookup,
     hasFashion: Boolean,
     elementId: UniformId? = null,
+    param: String = EQUIPPED,
 ) {
     val allowedTypes = EquippedType.entries.toMutableList()
 

@@ -68,7 +68,7 @@ fun HtmlBlockTag.editUniform(
     uniform: Uniform,
 ) {
     selectName(uniform.name)
-    editEquipped(call, state, UNIFORM, uniform.equipped, Statblock(), UndefinedStatblockLookup, false, uniform.id)
+    editEquipped(call, state, uniform.equipped, Statblock(), UndefinedStatblockLookup, false, uniform.id, UNIFORM)
 }
 
 // parse

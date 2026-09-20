@@ -89,7 +89,7 @@ fun HtmlBlockTag.editCharacterTemplate(
 ) {
     val raceId = template.race.defaultRace()
     val race = state.getRaceStorage().getOrThrow(raceId)
-    val statblock = race.lifeStages.statblock()
+    val baseStatblock = race.lifeStages.statblock()
 
     selectName(template.name)
     editRaceLookup(state, template.race)
@@ -97,13 +97,12 @@ fun HtmlBlockTag.editCharacterTemplate(
     editOptionalElement(state, CULTURE, state.getCultureStorage().getAll(), template.culture)
     editKnownLanguages(state, template.languages)
     selectBeliefStatus(state, BELIEVE, template.belief)
-    editStatblockLookup(call, state, statblock, template.statblock, setOf(template.id))
+    editStatblockLookup(call, state, baseStatblock, template.statblock, setOf(template.id))
     editEquipped(
         call,
         state,
-        EQUIPPED,
         template.equipped,
-        statblock,
+        baseStatblock,
         template.statblock,
         state.hasFashion(template),
     )

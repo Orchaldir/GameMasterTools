@@ -10,32 +10,6 @@ import at.orchaldir.gm.core.model.rpg.statblock.*
 
 fun resolveRangedAttackMap(
     state: State,
-    base: Statblock,
-    lookup: StatblockLookup,
-    attackMap: Map<Equipment, List<RangedAttack>>,
-) = when (lookup) {
-    UndefinedStatblockLookup -> attackMap
-    is UniqueStatblock -> {
-        val statblock = lookup.statblock.applyTo(base)
-        resolveRangedAttackMap(state, statblock, attackMap)
-    }
-
-    is UseStatblockOfTemplate -> {
-        val statblock = state.getStatblock(base, lookup.template)
-
-        resolveRangedAttackMap(state, statblock, attackMap)
-    }
-
-    is ModifyStatblockOfTemplate -> {
-        val statblock = state.getStatblock(base, lookup.template)
-        val resolvedStatblock = lookup.update.applyTo(statblock)
-
-        resolveRangedAttackMap(state, resolvedStatblock, attackMap)
-    }
-}
-
-fun resolveRangedAttackMap(
-    state: State,
     statblock: Statblock,
     attackMap: Map<Equipment, List<RangedAttack>>,
 ) = attackMap.mapValues { (_, attacks) ->

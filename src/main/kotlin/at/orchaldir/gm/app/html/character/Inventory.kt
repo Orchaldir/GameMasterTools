@@ -28,11 +28,11 @@ fun HtmlBlockTag.editInventory(
     editEquipped(
         call,
         state,
-        EQUIPPED,
         character.equipped,
         statblock,
         character.statblock,
         state.hasFashion(character),
+        param = EQUIPPED,
     )
 }
 
