@@ -7,6 +7,7 @@ import at.orchaldir.gm.core.model.rpg.combat.DamageResistances
 import at.orchaldir.gm.core.model.rpg.combat.DefenseBonus
 import at.orchaldir.gm.core.model.rpg.combat.Protection
 import at.orchaldir.gm.core.model.rpg.equipment.*
+import at.orchaldir.gm.core.model.rpg.statblock.Statblock
 import at.orchaldir.gm.core.model.rpg.statblock.StatblockLookup
 
 // resolve protection map with statblock
@@ -14,6 +15,12 @@ import at.orchaldir.gm.core.model.rpg.statblock.StatblockLookup
 fun resolveProtectionMap(
     state: State,
     statblock: StatblockLookup,
+    protectionMap: Map<Equipment, Protection>,
+) = protectionMap
+
+fun resolveProtectionMap(
+    state: State,
+    statblock: Statblock,
     protectionMap: Map<Equipment, Protection>,
 ) = protectionMap
 

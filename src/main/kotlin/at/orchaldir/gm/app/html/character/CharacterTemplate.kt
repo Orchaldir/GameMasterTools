@@ -98,7 +98,15 @@ fun HtmlBlockTag.editCharacterTemplate(
     editKnownLanguages(state, template.languages)
     selectBeliefStatus(state, BELIEVE, template.belief)
     editStatblockLookup(call, state, statblock, template.statblock, setOf(template.id))
-    editEquipped(call, state, EQUIPPED, template.equipped, template.statblock, state.hasFashion(template))
+    editEquipped(
+        call,
+        state,
+        EQUIPPED,
+        template.equipped,
+        statblock,
+        template.statblock,
+        state.hasFashion(template),
+    )
     editDataSources(state, template.sources)
 }
 

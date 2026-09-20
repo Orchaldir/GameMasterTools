@@ -19,6 +19,7 @@ import at.orchaldir.gm.core.selector.character.getMeleeAttacks
 import at.orchaldir.gm.core.selector.character.getProtection
 import at.orchaldir.gm.core.selector.character.getRangedAttacks
 import at.orchaldir.gm.core.selector.item.equipment.*
+import at.orchaldir.gm.core.selector.rpg.statblock.getStatblock
 import at.orchaldir.gm.core.selector.rpg.statblock.resolveMeleeAttackMap
 import at.orchaldir.gm.core.selector.rpg.statblock.resolveProtectionMap
 import at.orchaldir.gm.core.selector.rpg.statblock.resolveRangedAttackMap
@@ -88,6 +89,7 @@ fun HtmlBlockTag.showEquippedDetails(
     lookup: StatblockLookup,
 ) {
     val equipmentMap = state.getEquipmentIdMap(equipped, lookup)
+    val statblock = state.getStatblock(base, lookup)
 
     showDetails("Equipped", true) {
         field("Type", equipped.getType())
@@ -118,21 +120,7 @@ fun HtmlBlockTag.showEquippedDetails(
             UndefinedEquipped -> doNothing()
         }
 
-        showEquipmentMapData(call, state, equipmentMap)
-
-        val meleeAttackMap = getMeleeAttacks(state, equipmentMap)
-        val protectionMap = getProtection(state, equipmentMap)
-        val rangedAttackMap = getRangedAttacks(state, equipmentMap)
-
-        val resolvedMeleeAttackMap = resolveMeleeAttackMap(state, base, lookup, meleeAttackMap)
-        val resolvedRangedAttackMap = resolveRangedAttackMap(state, base, lookup, rangedAttackMap)
-        val resolvedProtectionMap = resolveProtectionMap(state, lookup, protectionMap)
-
-        showMeleeAttackTable(call, state, resolvedMeleeAttackMap)
-        br { }
-        showRangedAttackTable(call, state, resolvedRangedAttackMap)
-        br { }
-        showProtectionTable(call, state, resolvedProtectionMap)
+        showEquipmentMapData(call, state, statblock, equipmentMap)
     }
 }
 
@@ -143,6 +131,7 @@ fun HtmlBlockTag.editEquipped(
     state: State,
     param: String,
     equipped: Equipped,
+    base: Statblock,
     lookup: StatblockLookup,
     hasFashion: Boolean,
     elementId: UniformId? = null,
@@ -159,6 +148,7 @@ fun HtmlBlockTag.editEquipped(
     }
 
     val equipmentMap = state.getEquipmentIdMap(equipped, lookup)
+    val statblock = state.getStatblock(base, lookup)
 
     showDetails("Equipped", true) {
         selectValue("Type", param, allowedTypes, equipped.getType()) { type ->
@@ -203,7 +193,7 @@ fun HtmlBlockTag.editEquipped(
             UndefinedEquipped -> doNothing()
         }
 
-        showEquipmentMapData(call, state, equipmentMap)
+        showEquipmentMapData(call, state, statblock, equipmentMap)
     }
 }
 

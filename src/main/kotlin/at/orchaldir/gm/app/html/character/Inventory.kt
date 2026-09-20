@@ -20,10 +20,20 @@ fun HtmlBlockTag.editInventory(
     state: State,
     character: Character,
 ) {
+    val race = state.getRaceStorage().getOrThrow(character.race)
+    val statblock = race.lifeStages.statblock()
     val generateLink = call.application.href(CharacterRoutes.Inventory.Generate(character.id))
 
     button("Random", generateLink)
-    editEquipped(call, state, EQUIPPED, character.equipped, character.statblock, state.hasFashion(character))
+    editEquipped(
+        call,
+        state,
+        EQUIPPED,
+        character.equipped,
+        statblock,
+        character.statblock,
+        state.hasFashion(character),
+    )
 }
 
 // parse
