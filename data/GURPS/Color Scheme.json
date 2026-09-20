@@ -1,5 +1,61 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "data": {
+    "#type": "1",
+    "color": "Green"
+   }
+  },
+  "1": {
+   "id": 1,
+   "data": {
+    "#type": "1",
+    "color": "Navy"
+   }
+  },
+  "2": {
+   "id": 2,
+   "data": {
+    "#type": "1",
+    "color": "Blue"
+   }
+  },
+  "3": {
+   "id": 3,
+   "data": {
+    "#type": "1",
+    "color": "SaddleBrown"
+   }
+  },
+  "4": {
+   "id": 4,
+   "data": {
+    "#type": "1",
+    "color": "Red"
+   }
+  },
+  "5": {
+   "id": 5,
+   "data": {
+    "#type": "1",
+    "color": "Gray"
+   }
+  },
+  "6": {
+   "id": 6,
+   "data": {
+    "#type": "1",
+    "color": "Indigo"
+   }
+  },
+  "7": {
+   "id": 7,
+   "data": {
+    "#type": "1",
+    "color": "Olive"
+   }
+  }
  }
 }

@@ -1,5 +1,75 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": "Man-at-arms",
+   "race": {
+    "#type": "Race",
+    "race": 0
+   },
+   "gender": "Male",
+   "culture": 0,
+   "statblock": {
+    "#type": "Unique",
+    "statblock": {
+     "statistics": {
+      "0": 2,
+      "6": 4
+     }
+    }
+   },
+   "equipped": {
+    "#type": "Unique",
+    "map": {
+     "list": [
+      {
+       "data": {
+        "first": 1,
+        "second": null
+       },
+       "sets": [
+        [
+         "Top"
+        ]
+       ]
+      },
+      {
+       "data": {
+        "first": 5,
+        "second": null
+       },
+       "sets": [
+        [
+         "Foot"
+        ]
+       ]
+      },
+      {
+       "data": {
+        "first": 6,
+        "second": 2
+       },
+       "sets": [
+        [
+         "Bottom"
+        ]
+       ]
+      },
+      {
+       "data": {
+        "first": 0,
+        "second": null
+       },
+       "sets": [
+        [
+         "HeldInRightHand"
+        ]
+       ]
+      }
+     ]
+    }
+   }
+  }
  }
 }

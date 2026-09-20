@@ -188,6 +188,27 @@
      }
     }
    }
+  },
+  "6": {
+   "id": 6,
+   "name": "Pants",
+   "appearance": {
+    "#type": "Pants",
+    "main": {
+     "#type": "Fabric",
+     "material": 18,
+     "fill": {
+      "#type": "Solid",
+      "color": {
+       "#type": "0"
+      }
+     }
+    }
+   },
+   "colorSchemes": {
+    "#type": "Group",
+    "group": 0
+   }
   }
  }
 }
