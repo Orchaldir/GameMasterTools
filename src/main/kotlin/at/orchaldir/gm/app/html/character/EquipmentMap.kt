@@ -3,16 +3,22 @@ package at.orchaldir.gm.app.html.character
 import at.orchaldir.gm.app.COLOR
 import at.orchaldir.gm.app.EQUIPMENT
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.economy.money.fieldPrice
 import at.orchaldir.gm.app.html.util.color.parseOptionalColorSchemeId
+import at.orchaldir.gm.app.html.util.math.fieldWeight
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.*
 import at.orchaldir.gm.core.model.util.OneOrNone
 import at.orchaldir.gm.core.model.util.render.ColorSchemeId
+import at.orchaldir.gm.core.selector.item.equipment.VOLUME_CONFIG
+import at.orchaldir.gm.core.selector.item.equipment.calculatePrice
+import at.orchaldir.gm.core.selector.item.equipment.calculateWeight
 import at.orchaldir.gm.core.selector.item.equipment.getEquipmentOf
 import at.orchaldir.gm.core.selector.util.getColorSchemeIds
 import at.orchaldir.gm.core.selector.util.getColorSchemes
 import io.ktor.http.*
 import io.ktor.server.application.*
+import kotlinx.html.DETAILS
 import kotlinx.html.HtmlBlockTag
 
 // show
@@ -39,9 +45,32 @@ fun HtmlBlockTag.showEquipmentMap(
     }
 }
 
+fun DETAILS.showEquipmentMapData(
+    call: ApplicationCall,
+    state: State,
+    equipmentMap: EquipmentIdMap,
+) {
+    fieldPrice(call, state, "Total Price", calculatePrice(state, VOLUME_CONFIG, equipmentMap))
+    fieldWeight("Total Weight", calculateWeight(state, VOLUME_CONFIG, equipmentMap))
+}
+
 // edit
 
 fun HtmlBlockTag.editEquipmentMap(
+    call: ApplicationCall,
+    state: State,
+    equipmentMap: EquipmentIdMap,
+    param: String = EQUIPMENT,
+    label: String = "Equipment"
+) {
+    showDetails(label, true) {
+        EquipmentAppearanceType.entries.forEach { selectEquipment(state, equipmentMap, it, param) }
+
+        showEquipmentMapData(call, state, equipmentMap)
+    }
+}
+
+fun HtmlBlockTag.editEquipmentMapInternal(
     state: State,
     equipmentMap: EquipmentIdMap,
     param: String = EQUIPMENT,

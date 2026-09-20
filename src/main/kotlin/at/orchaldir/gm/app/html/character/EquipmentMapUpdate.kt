@@ -40,7 +40,7 @@ fun HtmlBlockTag.editEquipmentMapUpdate(
 ) {
     val updated = update.applyTo(base)
 
-    editEquipmentMap(
+    editEquipmentMapInternal(
         state,
         updated,
         combine(param, EQUIPMENT),

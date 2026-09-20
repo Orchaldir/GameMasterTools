@@ -1,7 +1,6 @@
 package at.orchaldir.gm.app.html.character
 
 import at.orchaldir.gm.app.GENDER
-import at.orchaldir.gm.app.MATERIAL
 import at.orchaldir.gm.app.RACE
 import at.orchaldir.gm.app.REFERENCE
 import at.orchaldir.gm.app.html.*
@@ -17,21 +16,13 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.ALLOWED_BASED_ON_TYPES
 import at.orchaldir.gm.core.model.character.CharacterInstance
 import at.orchaldir.gm.core.model.character.CharacterInstanceId
-import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.UseRace
 import at.orchaldir.gm.core.model.race.UseRaceRarityMap
-import at.orchaldir.gm.core.model.util.BusinessReference
 import at.orchaldir.gm.core.model.util.CharacterReference
 import at.orchaldir.gm.core.model.util.CharacterTemplateReference
-import at.orchaldir.gm.core.model.util.CultureReference
-import at.orchaldir.gm.core.model.util.GodReference
 import at.orchaldir.gm.core.model.util.NoReference
-import at.orchaldir.gm.core.model.util.OrganizationReference
-import at.orchaldir.gm.core.model.util.RealmReference
-import at.orchaldir.gm.core.model.util.SettlementReference
-import at.orchaldir.gm.core.model.util.UndefinedReference
 import at.orchaldir.gm.core.selector.item.equipment.getEquipmentIdMap
 import at.orchaldir.gm.core.selector.rpg.statblock.getStatblock
 import at.orchaldir.gm.utils.doNothing
@@ -97,7 +88,7 @@ fun HtmlBlockTag.editCharacterInstance(
             selectElement(state, RACE, races, instance.race)
             selectGender(race, instance)
             editStatblock(call, state, instance.statblock)
-            editEquipmentMap(state, instance.equipped)
+            editEquipmentMap(call, state, instance.equipped)
         }
         else -> error("Unsupported type for base of instance!")
     }

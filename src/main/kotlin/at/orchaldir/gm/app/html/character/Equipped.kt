@@ -174,7 +174,7 @@ fun HtmlBlockTag.editEquipped(
         }
 
         when (equipped) {
-            is UniqueEquipment -> editEquipmentMap(
+            is UniqueEquipment -> editEquipmentMapInternal(
                 state,
                 equipped.map,
                 combine(param, EQUIPMENT),
@@ -206,8 +206,7 @@ fun HtmlBlockTag.editEquipped(
             UndefinedEquipped -> doNothing()
         }
 
-        fieldPrice(call, state, "Total Price", calculatePrice(state, VOLUME_CONFIG, equipmentMap))
-        fieldWeight("Total Weight", calculateWeight(state, VOLUME_CONFIG, equipmentMap))
+        showEquipmentMapData(call, state, equipmentMap)
     }
 }
 
