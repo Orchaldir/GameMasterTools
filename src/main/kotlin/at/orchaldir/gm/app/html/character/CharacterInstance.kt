@@ -1,6 +1,7 @@
 package at.orchaldir.gm.app.html.character
 
 import at.orchaldir.gm.app.GENDER
+import at.orchaldir.gm.app.MATERIAL
 import at.orchaldir.gm.app.RACE
 import at.orchaldir.gm.app.REFERENCE
 import at.orchaldir.gm.app.html.*
@@ -8,6 +9,7 @@ import at.orchaldir.gm.app.html.race.parseRaceId
 import at.orchaldir.gm.app.html.rpg.statblock.editStatblock
 import at.orchaldir.gm.app.html.rpg.statblock.parseStatblock
 import at.orchaldir.gm.app.html.rpg.statblock.showStatblock
+import at.orchaldir.gm.app.html.selectFromOneOf
 import at.orchaldir.gm.app.html.util.fieldReference
 import at.orchaldir.gm.app.html.util.parseReference
 import at.orchaldir.gm.app.html.util.selectReference
@@ -18,11 +20,21 @@ import at.orchaldir.gm.core.model.character.CharacterInstanceId
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
 import at.orchaldir.gm.core.model.race.Race
+import at.orchaldir.gm.core.model.race.UseRace
+import at.orchaldir.gm.core.model.race.UseRaceRarityMap
+import at.orchaldir.gm.core.model.util.BusinessReference
 import at.orchaldir.gm.core.model.util.CharacterReference
 import at.orchaldir.gm.core.model.util.CharacterTemplateReference
+import at.orchaldir.gm.core.model.util.CultureReference
+import at.orchaldir.gm.core.model.util.GodReference
 import at.orchaldir.gm.core.model.util.NoReference
+import at.orchaldir.gm.core.model.util.OrganizationReference
+import at.orchaldir.gm.core.model.util.RealmReference
+import at.orchaldir.gm.core.model.util.SettlementReference
+import at.orchaldir.gm.core.model.util.UndefinedReference
 import at.orchaldir.gm.core.selector.item.equipment.getEquipmentIdMap
 import at.orchaldir.gm.core.selector.rpg.statblock.getStatblock
+import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -60,10 +72,43 @@ fun HtmlBlockTag.editCharacterInstance(
         REFERENCE,
         ALLOWED_BASED_ON_TYPES,
     )
-    selectElement(state, RACE, races, instance.race)
+
+    when (instance.basedOn) {
+        is CharacterReference -> doNothing()
+        is CharacterTemplateReference -> {
+            val template = state.getCharacterTemplateStorage().getOrThrow(instance.basedOn.template)
+            val race = state.getRaceStorage().getOrThrow(instance.race)
+
+            when (template.race) {
+                is UseRace -> doNothing()
+                is UseRaceRarityMap -> selectFromOneOf(
+                    RACE,
+                    state.getRaceStorage(),
+                    template.race.map,
+                    instance.race,
+                )
+            }
+
+            if (template.gender == null) {
+                selectGender(race, instance)
+            }
+        }
+        NoReference -> {
+            selectElement(state, RACE, races, instance.race)
+            selectGender(race, instance)
+            editStatblock(call, state, instance.statblock)
+            editEquipmentMap(state, instance.equipped)
+        }
+        else -> error("Unsupported type for base of instance!")
+    }
+
+}
+
+private fun HtmlBlockTag.selectGender(
+    race: Race,
+    instance: CharacterInstance,
+) {
     selectFromOneOf("Gender", GENDER, race.genders, instance.gender)
-    editStatblock(call, state, instance.statblock)
-    editEquipmentMap(state, instance.equipped)
 }
 
 // parse
@@ -94,7 +139,10 @@ fun parseCharacterInstance(
         }
         is CharacterTemplateReference -> {
             val template = state.getCharacterTemplateStorage().getOrThrow(basedOn.template)
-            val raceId = template.race.defaultRace()
+            val raceId = when (template.race) {
+                is UseRace -> template.race.race
+                is UseRaceRarityMap -> parseRaceId(parameters, RACE)
+            }
             val race = state.getRaceStorage().getOrThrow(raceId)
 
             CharacterInstance(
