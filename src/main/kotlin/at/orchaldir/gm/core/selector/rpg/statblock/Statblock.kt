@@ -1,7 +1,9 @@
 package at.orchaldir.gm.core.selector.rpg.statblock
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.character.CharacterTemplateId
+import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.RaceLookup
 import at.orchaldir.gm.core.model.rpg.statblock.*
@@ -20,6 +22,19 @@ fun State.getStatblock(
 fun State.getStatblock(
     race: RaceId,
 ) = getRaceStorage().getOrThrow(race).lifeStages.statblock()
+
+fun State.getStatblock(
+    race: Race,
+) = race.lifeStages.statblock()
+
+fun State.getStatblock(
+    character: Character,
+) = getStatblock(getStatblock(character.race), character.statblock)
+
+fun State.getStatblock(
+    race: Race,
+    statblock: StatblockLookup,
+) = getStatblock(getStatblock(race), statblock)
 
 fun State.getStatblock(base: Statblock, lookup: StatblockLookup): Statblock = when (lookup) {
     is UniqueStatblock -> lookup.statblock.applyTo(base)

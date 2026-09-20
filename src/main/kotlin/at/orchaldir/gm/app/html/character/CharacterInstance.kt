@@ -15,7 +15,14 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.ALLOWED_BASED_ON_TYPES
 import at.orchaldir.gm.core.model.character.CharacterInstance
 import at.orchaldir.gm.core.model.character.CharacterInstanceId
+import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
+import at.orchaldir.gm.core.model.race.Race
+import at.orchaldir.gm.core.model.util.CharacterReference
+import at.orchaldir.gm.core.model.util.CharacterTemplateReference
+import at.orchaldir.gm.core.model.util.NoReference
+import at.orchaldir.gm.core.selector.item.equipment.getEquipmentIdMap
+import at.orchaldir.gm.core.selector.rpg.statblock.getStatblock
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -68,17 +75,59 @@ fun parseCharacterInstance(
     parameters: Parameters,
     id: CharacterInstanceId,
 ): CharacterInstance {
-    val raceId = parseRaceId(parameters, RACE)
-    val race = state.getRaceStorage().getOrThrow(raceId)
+    val basedOn = parseReference(parameters, REFERENCE, ALLOWED_BASED_ON_TYPES)
 
-    return CharacterInstance(
-        id,
-        parseName(parameters),
-        parseReference(parameters, REFERENCE, ALLOWED_BASED_ON_TYPES),
-        raceId,
-        parse(parameters, GENDER, race.genders.getValidValues()),
-        UndefinedAppearance,
-        parseStatblock(state, parameters),
-        parseEquipmentMap(state, parameters),
-    )
+    return when (basedOn) {
+        is CharacterReference -> {
+            val character = state.getCharacterStorage().getOrThrow(basedOn.character)
+
+            CharacterInstance(
+                id,
+                parseName(parameters),
+                basedOn,
+                character.race,
+                character.gender,
+                character.appearance,
+                state.getStatblock(character),
+                state.getEquipmentIdMap(character),
+            )
+        }
+        is CharacterTemplateReference -> {
+            val template = state.getCharacterTemplateStorage().getOrThrow(basedOn.template)
+            val raceId = template.race.defaultRace()
+            val race = state.getRaceStorage().getOrThrow(raceId)
+
+            CharacterInstance(
+                id,
+                parseName(parameters),
+                basedOn,
+                raceId,
+                template.gender ?: parseGender(parameters, race),
+                UndefinedAppearance,
+                state.getStatblock(race, template.statblock),
+                state.getEquipmentIdMap(template),
+            )
+        }
+        NoReference -> {
+            val raceId = parseRaceId(parameters, RACE)
+            val race = state.getRaceStorage().getOrThrow(raceId)
+
+            CharacterInstance(
+                id,
+                parseName(parameters),
+                basedOn,
+                raceId,
+                parseGender(parameters, race),
+                UndefinedAppearance,
+                parseStatblock(state, parameters),
+                parseEquipmentMap(state, parameters),
+            )
+        }
+        else -> error("Unsupported type for base of instance!")
+    }
 }
+
+private fun parseGender(
+    parameters: Parameters,
+    race: Race,
+) = parse(parameters, GENDER, race.genders.getValidValues())
