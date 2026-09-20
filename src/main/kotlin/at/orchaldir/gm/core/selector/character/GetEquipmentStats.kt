@@ -59,7 +59,7 @@ fun getProtection(state: State, map: EquipmentIdMap): Map<Equipment, Protection>
         val stats = equipment.stats
         val type = state.getEquipmentTypeStorage().getOptional(stats.type) ?: return@forEach
 
-        if (type.protection !is UndefinedProtection) {
+        if (type.protection is UndefinedProtection) {
             return@forEach
         }
 
