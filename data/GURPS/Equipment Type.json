@@ -89,6 +89,10 @@
    "id": 5,
    "name": "Laminated Armor",
    "category": "Armor",
+   "protection": {
+    "#type": "DamageResistance",
+    "amount": 5
+   },
    "price": {
     "#type": "User",
     "price": 5400
