@@ -23,6 +23,19 @@ import kotlinx.html.HtmlBlockTag
 
 // show
 
+fun HtmlBlockTag.showEquipped(
+    call: ApplicationCall,
+    state: State,
+    equipmentMap: EquipmentIdMap,
+    label: String = "Equipped"
+) {
+    showDetails(label, true) {
+        showEquipmentMap(call, state, label, equipmentMap)
+
+        showEquipmentMapData(call, state, equipmentMap)
+    }
+}
+
 fun HtmlBlockTag.showEquipmentMap(
     call: ApplicationCall,
     state: State,
@@ -56,7 +69,7 @@ fun DETAILS.showEquipmentMapData(
 
 // edit
 
-fun HtmlBlockTag.editEquipmentMap(
+fun HtmlBlockTag.editEquipped(
     call: ApplicationCall,
     state: State,
     equipmentMap: EquipmentIdMap,
@@ -70,7 +83,7 @@ fun HtmlBlockTag.editEquipmentMap(
     }
 }
 
-fun HtmlBlockTag.editEquipmentMapInternal(
+fun HtmlBlockTag.editEquipmentMap(
     state: State,
     equipmentMap: EquipmentIdMap,
     param: String = EQUIPMENT,

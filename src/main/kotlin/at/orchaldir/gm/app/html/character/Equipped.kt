@@ -4,12 +4,10 @@ import at.orchaldir.gm.app.EQUIPMENT
 import at.orchaldir.gm.app.UNIFORM
 import at.orchaldir.gm.app.UPDATE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.economy.money.fieldPrice
 import at.orchaldir.gm.app.html.item.parseUniformId
 import at.orchaldir.gm.app.html.rpg.combat.showMeleeAttackTable
 import at.orchaldir.gm.app.html.rpg.combat.showProtectionTable
 import at.orchaldir.gm.app.html.rpg.combat.showRangedAttackTable
-import at.orchaldir.gm.app.html.util.math.fieldWeight
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.item.UniformId
@@ -173,7 +171,7 @@ fun HtmlBlockTag.editEquipped(
         }
 
         when (equipped) {
-            is UniqueEquipment -> editEquipmentMapInternal(
+            is UniqueEquipment -> editEquipmentMap(
                 state,
                 equipped.map,
                 combine(param, EQUIPMENT),

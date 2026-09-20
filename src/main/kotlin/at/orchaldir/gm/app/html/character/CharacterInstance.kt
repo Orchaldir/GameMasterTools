@@ -41,7 +41,7 @@ fun HtmlBlockTag.showCharacterInstance(
     fieldLink(call, state, instance.race)
     field("Gender", instance.gender)
     showStatblock(call, state, instance.statblock)
-    showEquipmentMap(call, state, "Equipment", instance.equipped)
+    showEquipped(call, state, instance.equipped)
 }
 
 // edit
@@ -88,7 +88,7 @@ fun HtmlBlockTag.editCharacterInstance(
             selectElement(state, RACE, races, instance.race)
             selectGender(race, instance)
             editStatblock(call, state, instance.statblock)
-            editEquipmentMap(call, state, instance.equipped)
+            editEquipped(call, state, instance.equipped)
         }
         else -> error("Unsupported type for base of instance!")
     }
