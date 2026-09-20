@@ -121,6 +121,20 @@ fun HtmlBlockTag.showEquippedDetails(
         }
 
         showEquipmentMapData(call, state, equipmentMap)
+
+        val meleeAttackMap = getMeleeAttacks(state, equipped, lookup)
+        val protectionMap = getProtection(state, equipped, lookup)
+        val rangedAttackMap = getRangedAttacks(state, equipped, lookup)
+
+        val resolvedMeleeAttackMap = resolveMeleeAttackMap(state, base, lookup, meleeAttackMap)
+        val resolvedRangedAttackMap = resolveRangedAttackMap(state, base, lookup, rangedAttackMap)
+        val resolvedProtectionMap = resolveProtectionMap(state, lookup, protectionMap)
+
+        showMeleeAttackTable(call, state, resolvedMeleeAttackMap)
+        br { }
+        showRangedAttackTable(call, state, resolvedRangedAttackMap)
+        br { }
+        showProtectionTable(call, state, resolvedProtectionMap)
     }
 }
 
