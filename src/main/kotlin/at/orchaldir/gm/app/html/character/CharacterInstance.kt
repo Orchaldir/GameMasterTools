@@ -12,6 +12,7 @@ import at.orchaldir.gm.app.html.selectFromOneOf
 import at.orchaldir.gm.app.html.util.fieldReference
 import at.orchaldir.gm.app.html.util.parseReference
 import at.orchaldir.gm.app.html.util.selectReference
+import at.orchaldir.gm.app.routes.race.generateAppearance
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.ALLOWED_BASED_ON_TYPES
 import at.orchaldir.gm.core.model.character.CharacterInstance
@@ -23,6 +24,7 @@ import at.orchaldir.gm.core.model.race.UseRaceRarityMap
 import at.orchaldir.gm.core.model.util.CharacterReference
 import at.orchaldir.gm.core.model.util.CharacterTemplateReference
 import at.orchaldir.gm.core.model.util.NoReference
+import at.orchaldir.gm.core.selector.culture.getAppearanceFashion
 import at.orchaldir.gm.core.selector.item.equipment.getEquipmentIdMap
 import at.orchaldir.gm.core.selector.rpg.statblock.getStatblock
 import at.orchaldir.gm.utils.doNothing
@@ -135,14 +137,21 @@ fun parseCharacterInstance(
                 is UseRaceRarityMap -> parseRaceId(parameters, RACE)
             }
             val race = state.getRaceStorage().getOrThrow(raceId)
+            val gender = template.gender ?: parseGender(parameters, race)
+            val appearance = generateAppearance(
+                state,
+                race,
+                gender,
+                state.getAppearanceFashion(gender, template.culture),
+            )
 
             CharacterInstance(
                 id,
                 parseName(parameters),
                 basedOn,
                 raceId,
-                template.gender ?: parseGender(parameters, race),
-                UndefinedAppearance,
+                gender,
+                appearance,
                 state.getStatblock(race, template.statblock),
                 state.getEquipmentIdMap(template),
             )

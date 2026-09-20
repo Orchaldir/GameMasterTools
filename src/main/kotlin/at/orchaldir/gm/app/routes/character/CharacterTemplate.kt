@@ -133,7 +133,6 @@ private fun HtmlBlockTag.showCharacterTemplateRight(
     state: State,
     template: CharacterTemplate,
 ) {
-    val gender = template.gender ?: Gender.Male
     val races = template.race.races()
     val width = if (races.size > 1) {
         40
@@ -142,9 +141,11 @@ private fun HtmlBlockTag.showCharacterTemplateRight(
     }
 
     races.forEach {
+        val race = state.getRaceStorage().getOrThrow(it)
+        val gender = template.gender ?: race.genders.getMostCommon()
         val appearance = generateAppearance(
             state,
-            state.getRaceStorage().getOrThrow(it),
+            race,
             gender,
             state.getAppearanceFashion(gender, template.culture),
         )

@@ -9,6 +9,52 @@
    },
    "race": 0,
    "gender": "Male",
+   "appearance": {
+    "#type": "Humanoid",
+    "body": {
+     "bodyShape": "Muscular",
+     "width": "Large"
+    },
+    "head": {
+     "ears": {
+      "#type": "Normal",
+      "size": "Small"
+     },
+     "eyes": {
+      "#type": "Two"
+     },
+     "hair": {
+      "#type": "Normal",
+      "cut": {
+       "#type": "Bun",
+       "style": "Low"
+      },
+      "color": {
+       "#type": "Normal",
+       "color": "Auburn"
+      }
+     },
+     "mouth": {
+      "#type": "Normal",
+      "beard": {
+       "#type": "Normal",
+       "style": {
+        "#type": "Full",
+        "style": "Forked",
+        "length": "Classic"
+       },
+       "color": {
+        "#type": "Normal",
+        "color": "Auburn"
+       }
+      }
+     }
+    },
+    "skin": {
+     "#type": "Normal",
+     "color": "Light"
+    }
+   },
    "statblock": {
     "statistics": {
      "0": 2,
