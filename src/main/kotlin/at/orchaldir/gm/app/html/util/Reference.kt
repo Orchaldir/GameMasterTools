@@ -178,8 +178,9 @@ fun HtmlBlockTag.selectReference(
 fun parseReference(
     parameters: Parameters,
     param: String,
+    allowedTypes: Collection<ReferenceType> = ReferenceType.entries,
 ): Reference {
-    return when (parse(parameters, param, ReferenceType.Undefined)) {
+    return when (parse(parameters, param, allowedTypes)) {
         ReferenceType.None -> NoReference
         ReferenceType.Undefined -> UndefinedReference
         ReferenceType.Business -> BusinessReference(

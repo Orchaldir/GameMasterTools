@@ -13,8 +13,8 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 enum class ReferenceType {
-    None,
     Undefined,
+    None,
     Business,
     Character,
     CharacterTemplate,

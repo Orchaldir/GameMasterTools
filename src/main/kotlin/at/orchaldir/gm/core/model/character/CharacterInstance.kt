@@ -8,6 +8,7 @@ import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.rpg.statblock.Statblock
 import at.orchaldir.gm.core.model.util.NoReference
 import at.orchaldir.gm.core.model.util.Reference
+import at.orchaldir.gm.core.model.util.ReferenceType
 import at.orchaldir.gm.core.model.util.name.ElementWithSimpleName
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.utils.Id
@@ -15,6 +16,12 @@ import at.orchaldir.gm.utils.doNothing
 import kotlinx.serialization.Serializable
 
 const val CHARACTER_INSTANCE_TYPE = "Character Instance"
+
+val ALLOWED_BASED_ON_TYPES = listOf(
+    ReferenceType.None,
+    ReferenceType.Character,
+    ReferenceType.CharacterTemplate,
+)
 
 @JvmInline
 @Serializable
