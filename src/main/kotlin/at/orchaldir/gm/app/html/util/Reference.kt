@@ -90,86 +90,80 @@ fun HtmlBlockTag.selectReference(
     val settlements = state.getExistingSettlements(date)
         .filter { filter(it) }
 
-    selectValue("$label Type", param, allowedTypes, reference.getType()) { type ->
-        when (type) {
-            ReferenceType.None, ReferenceType.Undefined -> false
-            ReferenceType.Business -> businesses.isEmpty()
-            ReferenceType.Character -> characters.isEmpty()
-            ReferenceType.CharacterTemplate -> characterTemplates.isEmpty()
-            ReferenceType.Culture -> cultures.isEmpty()
-            ReferenceType.God -> gods.isEmpty()
-            ReferenceType.Organization -> organizations.isEmpty()
-            ReferenceType.Realm -> realms.isEmpty()
-            ReferenceType.Settlement -> settlements.isEmpty()
+    showDetails(label, true) {
+        selectValue("Type", param, allowedTypes, reference.getType()) { type ->
+            when (type) {
+                ReferenceType.None, ReferenceType.Undefined -> false
+                ReferenceType.Business -> businesses.isEmpty()
+                ReferenceType.Character -> characters.isEmpty()
+                ReferenceType.CharacterTemplate -> characterTemplates.isEmpty()
+                ReferenceType.Culture -> cultures.isEmpty()
+                ReferenceType.God -> gods.isEmpty()
+                ReferenceType.Organization -> organizations.isEmpty()
+                ReferenceType.Realm -> realms.isEmpty()
+                ReferenceType.Settlement -> settlements.isEmpty()
+            }
         }
-    }
 
-    when (reference) {
-        is BusinessReference -> selectElement(
-            state,
-            label,
-            combine(param, BUSINESS),
-            businesses,
-            reference.business,
-        )
+        when (reference) {
+            is BusinessReference -> selectElement(
+                state,
+                combine(param, BUSINESS),
+                businesses,
+                reference.business,
+            )
 
-        is CharacterReference -> selectElement(
-            state,
-            label,
-            combine(param, CHARACTER),
-            characters,
-            reference.character,
-        )
+            is CharacterReference -> selectElement(
+                state,
+                combine(param, CHARACTER),
+                characters,
+                reference.character,
+            )
 
-        is CharacterTemplateReference -> selectElement(
-            state,
-            label,
-            combine(param, CHARACTER, TEMPLATE),
-            characterTemplates,
-            reference.template,
-        )
+            is CharacterTemplateReference -> selectElement(
+                state,
+                combine(param, CHARACTER, TEMPLATE),
+                characterTemplates,
+                reference.template,
+            )
 
-        is CultureReference -> selectElement(
-            state,
-            label,
-            combine(param, CULTURE),
-            cultures,
-            reference.culture,
-        )
+            is CultureReference -> selectElement(
+                state,
+                combine(param, CULTURE),
+                cultures,
+                reference.culture,
+            )
 
-        is GodReference -> selectElement(
-            state,
-            label,
-            combine(param, GOD),
-            gods,
-            reference.god,
-        )
+            is GodReference -> selectElement(
+                state,
+                combine(param, GOD),
+                gods,
+                reference.god,
+            )
 
-        is OrganizationReference -> selectElement(
-            state,
-            label,
-            combine(param, ORGANIZATION),
-            organizations,
-            reference.organization,
-        )
+            is OrganizationReference -> selectElement(
+                state,
+                combine(param, ORGANIZATION),
+                organizations,
+                reference.organization,
+            )
 
-        is RealmReference -> selectElement(
-            state,
-            label,
-            combine(param, REALM),
-            realms,
-            reference.realm,
-        )
+            is RealmReference -> selectElement(
+                state,
+                combine(param, REALM),
+                realms,
+                reference.realm,
+            )
 
-        is SettlementReference -> selectElement(
-            state,
-            label,
-            combine(param, SETTLEMENT),
-            settlements,
-            reference.settlement,
-        )
+            is SettlementReference -> selectElement(
+                state,
+                combine(param, SETTLEMENT),
+                settlements,
+                reference.settlement,
+            )
 
-        NoReference, UndefinedReference -> doNothing()
+            NoReference, UndefinedReference -> doNothing()
+        }
     }
 }
 
