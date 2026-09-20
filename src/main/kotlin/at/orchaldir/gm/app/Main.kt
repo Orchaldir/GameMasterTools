@@ -83,6 +83,7 @@ fun Application.module() {
     configureCatastropheRouting()
     configureCharacterRelationshipRouting()
     configureCharacterRouting()
+    configureCharacterInstanceRouting()
     configureCharacterTemplateRouting()
     configureCharacterTraitRouting()
     configureColorSchemeGroupRouting()

@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.selector.util
 
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
+import at.orchaldir.gm.core.model.character.CharacterInstance
 import at.orchaldir.gm.core.model.character.CharacterTemplate
 import at.orchaldir.gm.core.model.character.title.Title
 import at.orchaldir.gm.core.model.culture.Culture
@@ -315,6 +316,20 @@ fun State.sortCharacters(
             }
         })
     .map { it.first }
+
+// character instance
+
+fun State.sortCharacterInstances(sort: SortCharacterInstance = SortCharacterInstance.Name) =
+    sortCharacterInstances(getCharacterInstanceStorage().getAll(), sort)
+
+fun State.sortCharacterInstances(
+    templates: Collection<CharacterInstance>,
+    sort: SortCharacterInstance = SortCharacterInstance.Name,
+) = templates
+    .sortedWith(
+        when (sort) {
+            SortCharacterInstance.Name -> compareBy { it.name.text }
+        })
 
 // character template
 

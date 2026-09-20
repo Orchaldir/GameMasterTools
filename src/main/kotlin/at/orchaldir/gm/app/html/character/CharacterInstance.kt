@@ -15,6 +15,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.ALLOWED_BASED_ON_TYPES
 import at.orchaldir.gm.core.model.character.CharacterInstance
 import at.orchaldir.gm.core.model.character.CharacterInstanceId
+import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -65,17 +66,18 @@ fun parseCharacterInstanceId(parameters: Parameters, param: String) = CharacterI
 fun parseCharacterInstance(
     state: State,
     parameters: Parameters,
-    instance: CharacterInstance,
+    id: CharacterInstanceId,
 ): CharacterInstance {
-    val race = state.getRaceStorage().getOrThrow(instance.race)
+    val raceId = parseRaceId(parameters, RACE)
+    val race = state.getRaceStorage().getOrThrow(raceId)
 
     return CharacterInstance(
-        instance.id,
+        id,
         parseName(parameters),
         parseReference(parameters, REFERENCE, ALLOWED_BASED_ON_TYPES),
-        parseRaceId(parameters, RACE),
+        raceId,
         parse(parameters, GENDER, race.genders.getValidValues()),
-        instance.appearance,
+        UndefinedAppearance,
         parseStatblock(state, parameters),
         parseEquipmentMap(state, parameters),
     )

@@ -64,6 +64,10 @@ enum class SortCharacter {
     Cost,
 }
 
+enum class SortCharacterInstance {
+    Name,
+}
+
 enum class SortCharacterTemplate {
     Name,
     Cost,

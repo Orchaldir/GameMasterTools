@@ -1,6 +1,7 @@
 package at.orchaldir.gm.app.html
 
 import at.orchaldir.gm.app.routes.Routes
+import at.orchaldir.gm.app.routes.character.CharacterInstanceRoutes
 import at.orchaldir.gm.app.routes.character.CharacterRoutes
 import at.orchaldir.gm.app.routes.character.CharacterTemplateRoutes
 import at.orchaldir.gm.app.routes.character.title.TitleRoutes
@@ -405,6 +406,7 @@ fun href(
     is CalendarId -> call.application.href(CalendarRoutes.Details(id))
     is CatastropheId -> call.application.href(CatastropheRoutes.Details(id))
     is CharacterId -> call.application.href(CharacterRoutes.Details(id))
+    is CharacterInstanceId -> call.application.href(CharacterInstanceRoutes.Details(id))
     is CharacterTemplateId -> call.application.href(CharacterTemplateRoutes.Details(id))
     is ColorSchemeGroupId -> call.application.href(ColorSchemeGroupRoutes.Details(id))
     is ColorSchemeId -> call.application.href(ColorSchemeRoutes.Details(id))
