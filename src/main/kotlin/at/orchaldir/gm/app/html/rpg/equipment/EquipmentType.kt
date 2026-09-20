@@ -1,7 +1,9 @@
 package at.orchaldir.gm.app.html.rpg.equipment
 
 import at.orchaldir.gm.app.ATTACK
+import at.orchaldir.gm.app.MELEE
 import at.orchaldir.gm.app.PRICE
+import at.orchaldir.gm.app.RANGED
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.economy.money.parsePriceLookup
@@ -72,10 +74,22 @@ fun HtmlBlockTag.editEquipmentType(
         EQUIPMENT_TYPE_CATEGORIES,
         type.category,
     )
-    editList("Melee Attacks", ATTACK, type.meleeAttacks, 0, 2, 1) { index, param, attack ->
+    editList(
+        "Melee Attacks",
+        combine(MELEE, ATTACK),
+        type.meleeAttacks,
+        0,
+        2,
+    ) { index, param, attack ->
         editMeleeAttack(state, attack, "${index + 1}.Attack", param)
     }
-    editList("Ranged Attacks", ATTACK, type.rangedAttacks, 0, 2, 1) { index, param, attack ->
+    editList(
+        "Ranged Attacks",
+        combine(RANGED, ATTACK),
+        type.rangedAttacks,
+        0,
+        2,
+    ) { index, param, attack ->
         editRangedAttack(state, attack, "${index + 1}.Attack", param)
     }
     editProtection(call, state, type.protection)
@@ -98,10 +112,10 @@ fun parseEquipmentType(
     id,
     parseName(parameters),
     parse(parameters, TYPE, EQUIPMENT_TYPE_CATEGORIES),
-    parseList(parameters, ATTACK, 0) { _, param ->
+    parseList(parameters, combine(MELEE, ATTACK), 0) { _, param ->
         parseMeleeAttack(parameters, param)
     },
-    parseList(parameters, ATTACK, 0) { _, param ->
+    parseList(parameters, combine(RANGED, ATTACK), 0) { _, param ->
         parseRangedAttack(parameters, param)
     },
     parseProtection(state, parameters),
