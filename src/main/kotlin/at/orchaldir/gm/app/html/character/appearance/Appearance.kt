@@ -8,6 +8,7 @@ import at.orchaldir.gm.app.html.util.math.selectDistance
 import at.orchaldir.gm.core.generator.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
+import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.character.appearance.*
 import at.orchaldir.gm.core.model.character.appearance.tail.NoTails
 import at.orchaldir.gm.core.model.character.appearance.tail.SimpleTail
@@ -57,7 +58,7 @@ fun HtmlBlockTag.editAppearance(
 
         is HumanoidBody -> {
             editHeight(state, character, appearance.height)
-            editBody(raceAppearance, character, appearance.body)
+            editBody(raceAppearance, character.gender, appearance.body)
             editHead(state, raceAppearance, fashion, appearance.head)
             editSkin(state, raceAppearance.skin, appearance.skin)
             editTails(state, raceAppearance, appearance.tails)
@@ -80,11 +81,11 @@ private fun HtmlBlockTag.editHeight(
 
 private fun HtmlBlockTag.editBody(
     raceAppearance: RaceAppearance,
-    character: Character,
+    gender: Gender,
     body: Body,
 ) {
     h2 { +"Body" }
-    selectValue("Shape", BODY_SHAPE, getAvailableBodyShapes(character.gender), body.bodyShape)
+    selectValue("Shape", BODY_SHAPE, getAvailableBodyShapes(gender), body.bodyShape)
     selectValue("Width", BODY_WIDTH, Size.entries, body.width)
     editFoot(raceAppearance.foot, body.foot)
 }
