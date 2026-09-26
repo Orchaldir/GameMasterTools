@@ -81,7 +81,7 @@ private fun HtmlBlockTag.showStatblocks(
     br {}
     table {
         tr {
-            th { +statblocks.first().first.plural() }
+            th { +"Statblocks" }
             th { +"Type" }
             th { +"Value" }
         }

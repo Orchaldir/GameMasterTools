@@ -14,6 +14,7 @@ import at.orchaldir.gm.app.html.util.source.showDataSources
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.race.*
+import at.orchaldir.gm.core.selector.character.getCharacterInstances
 import at.orchaldir.gm.core.selector.character.getCharacterTemplates
 import at.orchaldir.gm.core.selector.character.getCharacters
 import at.orchaldir.gm.core.selector.race.getRaceGroups
@@ -53,8 +54,9 @@ private fun HtmlBlockTag.showUsages(
 ) {
     val characters = state.getCharacters(race)
     val templates = state.getCharacterTemplates(race)
+    val instances = state.getCharacterInstances(race)
 
-    if (characters.isEmpty() && templates.isEmpty()) {
+    if (characters.isEmpty() && templates.isEmpty() && instances.isEmpty()) {
         return
     }
 
@@ -62,6 +64,7 @@ private fun HtmlBlockTag.showUsages(
 
     fieldElements(call, state, characters)
     fieldElements(call, state, templates)
+    fieldElements(call, state, instances)
 }
 
 // edit
