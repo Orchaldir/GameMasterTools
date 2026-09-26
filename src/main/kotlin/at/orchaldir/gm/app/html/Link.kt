@@ -373,6 +373,14 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.link(
     link(call, element.id(), element.name(state))
 }
 
+fun <ELEMENT : Element<out Id<*>>> HtmlBlockTag.linkWithStar(
+    call: ApplicationCall,
+    state: State,
+    element: ELEMENT,
+) {
+    link(call, element.id(), element.name(state))
+}
+
 fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.link(
     call: ApplicationCall,
     element: ELEMENT,

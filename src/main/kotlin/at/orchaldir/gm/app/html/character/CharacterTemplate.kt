@@ -18,6 +18,7 @@ import at.orchaldir.gm.app.html.rpg.statblock.showStatblockLookupDetails
 import at.orchaldir.gm.app.html.util.fieldBeliefStatus
 import at.orchaldir.gm.app.html.util.parseBeliefStatus
 import at.orchaldir.gm.app.html.util.selectBeliefStatus
+import at.orchaldir.gm.app.html.util.showGenericUsage
 import at.orchaldir.gm.app.html.util.source.editDataSources
 import at.orchaldir.gm.app.html.util.source.parseDataSources
 import at.orchaldir.gm.app.html.util.source.showDataSources
@@ -64,23 +65,17 @@ private fun HtmlBlockTag.showUsage(
     state: State,
     template: CharacterTemplate,
 ) {
-    val characters = state.getCharactersUsing(template.id)
-    val encounters = state.getEncountersWith(template.id)
-    val regions = state.getRegionsWithEncounter(template.id)
-    val instances = state.getCharacterInstances(template.id)
-    val templates = state.getCharacterTemplates(template.id)
-
-    if (characters.isEmpty() && encounters.isEmpty() && instances.isEmpty() && regions.isEmpty() && templates.isEmpty()) {
-        return
-    }
-
-    h2 { +"Usage" }
-
-    fieldElements(call, state, characters)
-    fieldElements(call, state, instances)
-    fieldElements(call, state, templates)
-    fieldElements(call, state, encounters)
-    fieldElements(call, state, regions)
+    showGenericUsage(
+        call,
+        state,
+        listOf(
+            state.getCharactersUsing(template.id),
+            state.getEncountersWith(template.id),
+            state.getRegionsWithEncounter(template.id),
+            state.getCharacterInstances(template.id),
+            state.getCharacterTemplates(template.id),
+        ),
+    )
 }
 
 // edit

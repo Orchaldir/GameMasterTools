@@ -95,6 +95,9 @@ import at.orchaldir.gm.utils.Id
 fun <ID : Id<ID>, ELEMENT : Element<ID>> State.sortElements(elements: Collection<ELEMENT>) = elements
     .sortedWith(compareBy { it.toSortString(this) })
 
+fun <ELEMENT : Element<out Id<*>>> State.sortElementsWithStar(elements: Collection<ELEMENT>) = elements
+    .sortedWith(compareBy { it.toSortString(this) })
+
 fun <Element : HasStartDate> State.getStartDateComparator(valueForNull: Int = Int.MAX_VALUE) =
     getDateComparator<Element>(valueForNull) { it.startDate(this) }
 
