@@ -18,6 +18,7 @@ import at.orchaldir.gm.core.selector.culture.getKnownLanguages
 import at.orchaldir.gm.core.selector.item.getTexts
 import at.orchaldir.gm.core.selector.item.periodical.getPeriodicals
 import at.orchaldir.gm.core.selector.magic.getSpells
+import at.orchaldir.gm.core.selector.rpg.equipment.getEquipmentTypes
 import at.orchaldir.gm.core.selector.world.getPlanes
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -65,29 +66,19 @@ private fun HtmlBlockTag.showLanguageUsage(
     call: ApplicationCall,
     state: State,
     language: LanguageId,
-) {
-    val characters = state.getCharacters(language)
-    val templates = state.getCharacterTemplates(language)
-    val cultures = state.getCultures(language)
-    val periodicals = state.getPeriodicals(language)
-    val planes = state.getPlanes(language)
-    val spells = state.getSpells(language)
-    val texts = state.getTexts(language)
-
-    if (characters.isEmpty() && templates.isEmpty() && cultures.isEmpty() && periodicals.isEmpty() && planes.isEmpty() && spells.isEmpty() && texts.isEmpty()) {
-        return
-    }
-
-    h2 { +"Usage" }
-
-    fieldElements(call, state, characters)
-    fieldElements(call, state, templates)
-    fieldElements(call, state, cultures)
-    fieldElements(call, state, periodicals)
-    fieldElements(call, state, planes)
-    fieldElements(call, state, spells)
-    fieldElements(call, state, texts)
-}
+) = showGenericUsage(
+    call,
+    state,
+    listOf(
+        state.getCharacters(language),
+        state.getCharacterTemplates(language),
+        state.getCultures(language),
+        state.getPeriodicals(language),
+        state.getPlanes(language),
+        state.getSpells(language),
+        state.getTexts(language),
+    ),
+)
 
 // edit
 

@@ -4,11 +4,19 @@ import at.orchaldir.gm.app.COLOR
 import at.orchaldir.gm.app.SCHEME
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.util.showGenericUsage
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.render.*
+import at.orchaldir.gm.core.selector.character.getCharacterTemplates
+import at.orchaldir.gm.core.selector.character.getCharacters
+import at.orchaldir.gm.core.selector.culture.getCultures
 import at.orchaldir.gm.core.selector.item.equipment.getEquipment
+import at.orchaldir.gm.core.selector.item.getTexts
+import at.orchaldir.gm.core.selector.item.periodical.getPeriodicals
+import at.orchaldir.gm.core.selector.magic.getSpells
 import at.orchaldir.gm.core.selector.util.getColorSchemeGroups
 import at.orchaldir.gm.core.selector.util.getColorSchemes
+import at.orchaldir.gm.core.selector.world.getPlanes
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -41,19 +49,14 @@ private fun HtmlBlockTag.showUsages(
     call: ApplicationCall,
     state: State,
     id: ColorSchemeId,
-) {
-    val equipment = state.getEquipment(id)
-    val groups = state.getColorSchemeGroups(id)
-
-    if (equipment.isEmpty() && groups.isEmpty()) {
-        return
-    }
-
-    h2 { +"Usage" }
-
-    fieldElements(call, state, equipment)
-    fieldElements(call, state, groups)
-}
+) = showGenericUsage(
+    call,
+    state,
+    listOf(
+        state.getEquipment(id),
+        state.getColorSchemeGroups(id),
+    ),
+)
 
 // edit
 

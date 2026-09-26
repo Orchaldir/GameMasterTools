@@ -8,11 +8,14 @@ import at.orchaldir.gm.app.html.math.parseComplexShape
 import at.orchaldir.gm.app.html.math.selectComplexShape
 import at.orchaldir.gm.app.html.math.showComplexShape
 import at.orchaldir.gm.app.html.util.math.*
+import at.orchaldir.gm.app.html.util.showGenericUsage
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.ALLOYS_OR_METALS
 import at.orchaldir.gm.core.model.economy.money.*
 import at.orchaldir.gm.core.selector.economy.money.calculateWeight
+import at.orchaldir.gm.core.selector.economy.money.getCurrencyUnits
 import at.orchaldir.gm.core.selector.gm.treasure.getTreasureParcelsWith
+import at.orchaldir.gm.core.selector.item.getTexts
 import at.orchaldir.gm.core.selector.util.sortMaterials
 import at.orchaldir.gm.prototypes.visualization.currency.CURRENCY_CONFIG
 import at.orchaldir.gm.utils.doNothing
@@ -118,17 +121,13 @@ private fun HtmlBlockTag.showUsage(
     call: ApplicationCall,
     state: State,
     unit: CurrencyUnit,
-) {
-    val parcels = state.getTreasureParcelsWith(unit.id)
-
-    if (parcels.isEmpty()) {
-        return
-    }
-
-    h2 { +"Usage" }
-
-    fieldElements(call, state, parcels)
-}
+) = showGenericUsage(
+    call,
+    state,
+    listOf(
+        state.getTreasureParcelsWith(unit.id),
+    ),
+)
 
 // edit
 

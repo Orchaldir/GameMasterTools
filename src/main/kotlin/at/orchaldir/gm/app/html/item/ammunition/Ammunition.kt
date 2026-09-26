@@ -11,6 +11,7 @@ import at.orchaldir.gm.app.html.rpg.equipment.selectEquipmentModifier
 import at.orchaldir.gm.app.html.util.math.parseWeightLookup
 import at.orchaldir.gm.app.html.util.math.selectWeightLookup
 import at.orchaldir.gm.app.html.util.math.showWeightLookupDetails
+import at.orchaldir.gm.app.html.util.showGenericUsage
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.ammunition.Ammunition
 import at.orchaldir.gm.core.model.item.ammunition.AmmunitionId
@@ -62,17 +63,13 @@ private fun HtmlBlockTag.showUsage(
     call: ApplicationCall,
     state: State,
     id: AmmunitionId,
-) {
-    val parcels = state.getTreasureParcelsWith(id)
-
-    if (parcels.isEmpty()) {
-        return
-    }
-
-    h2 { +"Usage" }
-
-    fieldElements(call, state, parcels)
-}
+) = showGenericUsage(
+    call,
+    state,
+    listOf(
+        state.getTreasureParcelsWith(id),
+    ),
+)
 
 // edit
 

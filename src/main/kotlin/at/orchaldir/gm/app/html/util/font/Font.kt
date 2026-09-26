@@ -5,11 +5,20 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.optionalField
 import at.orchaldir.gm.app.html.util.parseOptionalDate
 import at.orchaldir.gm.app.html.util.selectOptionalDate
+import at.orchaldir.gm.app.html.util.showGenericUsage
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.font.Font
 import at.orchaldir.gm.core.model.util.font.FontId
+import at.orchaldir.gm.core.selector.ecology.plant.getPlantsMadeOf
+import at.orchaldir.gm.core.selector.economy.getMaterialsMadeOf
 import at.orchaldir.gm.core.selector.economy.money.getCurrencyUnits
+import at.orchaldir.gm.core.selector.item.equipment.getEquipmentMadeOf
 import at.orchaldir.gm.core.selector.item.getTexts
+import at.orchaldir.gm.core.selector.item.getTextsMadeOf
+import at.orchaldir.gm.core.selector.race.getRaceAppearancesMadeOf
+import at.orchaldir.gm.core.selector.world.getMoonsContaining
+import at.orchaldir.gm.core.selector.world.getRegionsContaining
+import at.orchaldir.gm.core.selector.world.getStreetTemplatesMadeOf
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -30,11 +39,21 @@ fun HtmlBlockTag.showFont(
             +font.base64
         }
     }
-    h2 { +"Usage" }
-
-    fieldElements(call, state, state.getCurrencyUnits(font.id))
-    fieldElements(call, state, state.getTexts(font.id))
+    showUsage(call, state, font)
 }
+
+private fun HtmlBlockTag.showUsage(
+    call: ApplicationCall,
+    state: State,
+    font: Font,
+) = showGenericUsage(
+    call,
+    state,
+    listOf(
+        state.getCurrencyUnits(font.id),
+        state.getTexts(font.id),
+    ),
+)
 
 // edit
 

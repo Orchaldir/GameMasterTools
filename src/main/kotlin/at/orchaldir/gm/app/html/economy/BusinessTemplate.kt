@@ -4,6 +4,7 @@ import at.orchaldir.gm.app.html.fieldElements
 import at.orchaldir.gm.app.html.parseName
 import at.orchaldir.gm.app.html.parseSimpleOptionalInt
 import at.orchaldir.gm.app.html.selectName
+import at.orchaldir.gm.app.html.util.showGenericUsage
 import at.orchaldir.gm.app.html.util.source.editDataSources
 import at.orchaldir.gm.app.html.util.source.parseDataSources
 import at.orchaldir.gm.app.html.util.source.showDataSources
@@ -11,6 +12,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.business.BusinessTemplate
 import at.orchaldir.gm.core.model.economy.business.BusinessTemplateId
 import at.orchaldir.gm.core.selector.economy.getBusinesses
+import at.orchaldir.gm.core.selector.gm.treasure.getTreasureParcelsWith
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -33,17 +35,13 @@ private fun HtmlBlockTag.showUsage(
     call: ApplicationCall,
     state: State,
     template: BusinessTemplate,
-) {
-    val businesses = state.getBusinesses(template.id)
-
-    if (businesses.isEmpty()) {
-        return
-    }
-
-    h2 { +"Usage" }
-
-    fieldElements(call, state, businesses)
-}
+) = showGenericUsage(
+    call,
+    state,
+    listOf(
+        state.getBusinesses(template.id),
+    ),
+)
 
 // edit
 

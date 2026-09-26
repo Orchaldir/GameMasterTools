@@ -2,9 +2,11 @@ package at.orchaldir.gm.app.html.gm.encounter
 
 import at.orchaldir.gm.app.ENCOUNTER
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.util.showGenericUsage
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.gm.encounter.Encounter
 import at.orchaldir.gm.core.model.gm.encounter.EncounterId
+import at.orchaldir.gm.core.selector.economy.getBusinesses
 import at.orchaldir.gm.core.selector.gm.encounter.getEncountersWith
 import at.orchaldir.gm.core.selector.world.getRegionsWithEncounter
 import io.ktor.http.*
@@ -28,19 +30,14 @@ private fun HtmlBlockTag.showUsage(
     call: ApplicationCall,
     state: State,
     encounter: Encounter,
-) {
-    val encounters = state.getEncountersWith(encounter.id)
-    val regions = state.getRegionsWithEncounter(encounter.id)
-
-    if (encounters.isEmpty() && regions.isEmpty()) {
-        return
-    }
-
-    h2 { +"Usage" }
-
-    fieldElements(call, state, encounters)
-    fieldElements(call, state, regions)
-}
+) = showGenericUsage(
+    call,
+    state,
+    listOf(
+        state.getEncountersWith(encounter.id),
+        state.getRegionsWithEncounter(encounter.id),
+    ),
+)
 
 // edit
 

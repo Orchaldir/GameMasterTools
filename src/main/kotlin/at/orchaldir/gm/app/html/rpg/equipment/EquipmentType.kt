@@ -13,6 +13,7 @@ import at.orchaldir.gm.app.html.rpg.combat.*
 import at.orchaldir.gm.app.html.util.math.parseWeightLookupForType
 import at.orchaldir.gm.app.html.util.math.selectWeightLookupForType
 import at.orchaldir.gm.app.html.util.math.showWeightLookupForType
+import at.orchaldir.gm.app.html.util.showGenericUsage
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.MAX_EQUIPMENT_PRICE
 import at.orchaldir.gm.core.model.item.equipment.MAX_EQUIPMENT_WEIGHT
@@ -21,6 +22,7 @@ import at.orchaldir.gm.core.model.item.equipment.MIN_EQUIPMENT_WEIGHT
 import at.orchaldir.gm.core.model.rpg.equipment.EQUIPMENT_TYPE_CATEGORIES
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentType
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentTypeId
+import at.orchaldir.gm.core.selector.item.ammunition.getAmmunition
 import at.orchaldir.gm.core.selector.item.equipment.getEquipment
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -48,17 +50,13 @@ private fun HtmlBlockTag.showUsages(
     call: ApplicationCall,
     state: State,
     type: EquipmentTypeId,
-) {
-    val armors = state.getEquipment(type)
-
-    if (armors.isEmpty()) {
-        return
-    }
-
-    h2 { +"Usage" }
-
-    fieldElements(call, state, armors)
-}
+) = showGenericUsage(
+    call,
+    state,
+    listOf(
+        state.getEquipment(type),
+    ),
+)
 
 // edit
 
