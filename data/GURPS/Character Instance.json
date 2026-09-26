@@ -118,13 +118,110 @@
   },
   "2": {
    "id": 2,
+   "basedOn": {
+    "#type": "CharacterTemplate",
+    "template": 0
+   },
    "race": 0,
-   "gender": "Female",
+   "gender": "Male",
+   "appearance": {
+    "#type": "Humanoid",
+    "body": {
+     "bodyShape": "Muscular"
+    },
+    "head": {
+     "ears": {
+      "#type": "Normal"
+     },
+     "eyes": {
+      "#type": "Two"
+     },
+     "hair": {
+      "#type": "Normal",
+      "cut": {
+       "#type": "Ponytail",
+       "style": "Braid",
+       "position": "Top",
+       "length": "Knee"
+      },
+      "color": {
+       "#type": "Normal",
+       "color": "Red"
+      }
+     },
+     "mouth": {
+      "#type": "Normal",
+      "beard": {
+       "#type": "Normal",
+       "style": {
+        "#type": "Moustache",
+        "moustacheStyle": "Toothbrush"
+       },
+       "color": {
+        "#type": "Normal",
+        "color": "Red"
+       }
+      }
+     }
+    },
+    "skin": {
+     "#type": "Normal",
+     "color": "Fair"
+    }
+   },
    "statblock": {
     "statistics": {
-     "1": 1,
-     "2": 3
+     "0": 2,
+     "6": 4
     }
+   },
+   "equipped": {
+    "list": [
+     {
+      "data": {
+       "first": 1,
+       "second": null
+      },
+      "sets": [
+       [
+        "Top"
+       ]
+      ]
+     },
+     {
+      "data": {
+       "first": 5,
+       "second": null
+      },
+      "sets": [
+       [
+        "Foot"
+       ]
+      ]
+     },
+     {
+      "data": {
+       "first": 6,
+       "second": 2
+      },
+      "sets": [
+       [
+        "Bottom"
+       ]
+      ]
+     },
+     {
+      "data": {
+       "first": 0,
+       "second": null
+      },
+      "sets": [
+       [
+        "HeldInRightHand"
+       ]
+      ]
+     }
+    ]
    }
   }
  }

@@ -25,6 +25,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterTemplate
 import at.orchaldir.gm.core.model.character.CharacterTemplateId
 import at.orchaldir.gm.core.model.character.Gender
+import at.orchaldir.gm.core.selector.character.getCharacterInstances
 import at.orchaldir.gm.core.selector.character.getCharacterTemplates
 import at.orchaldir.gm.core.selector.character.getCharactersUsing
 import at.orchaldir.gm.core.selector.culture.hasFashion
@@ -66,18 +67,20 @@ private fun HtmlBlockTag.showUsage(
     val characters = state.getCharactersUsing(template.id)
     val encounters = state.getEncountersWith(template.id)
     val regions = state.getRegionsWithEncounter(template.id)
+    val instances = state.getCharacterInstances(template.id)
     val templates = state.getCharacterTemplates(template.id)
 
-    if (characters.isEmpty() && encounters.isEmpty() && regions.isEmpty() && templates.isEmpty()) {
+    if (characters.isEmpty() && encounters.isEmpty() && instances.isEmpty() && regions.isEmpty() && templates.isEmpty()) {
         return
     }
 
     h2 { +"Usage" }
 
     fieldElements(call, state, characters)
+    fieldElements(call, state, instances)
+    fieldElements(call, state, templates)
     fieldElements(call, state, encounters)
     fieldElements(call, state, regions)
-    fieldElements(call, state, templates)
 }
 
 // edit
