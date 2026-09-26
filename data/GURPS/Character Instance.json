@@ -4,34 +4,36 @@
   "1": {
    "id": 1,
    "basedOn": {
-    "#type": "CharacterTemplate",
-    "template": 0
+    "#type": "Character",
+    "character": 0
    },
    "race": 0,
    "gender": "Male",
    "appearance": {
     "#type": "Humanoid",
     "body": {
-     "bodyShape": "Muscular",
-     "width": "Large"
+     "bodyShape": "Muscular"
     },
     "head": {
      "ears": {
-      "#type": "Normal",
-      "size": "Small"
+      "#type": "Normal"
      },
      "eyes": {
-      "#type": "Two"
+      "#type": "Two",
+      "eye": {
+       "#type": "Normal",
+       "pupilColor": "Blue"
+      }
      },
      "hair": {
       "#type": "Normal",
       "cut": {
-       "#type": "Bun",
-       "style": "Low"
+       "#type": "Short",
+       "style": "SidePartLeft"
       },
       "color": {
        "#type": "Normal",
-       "color": "Auburn"
+       "color": "Blond"
       }
      },
      "mouth": {
@@ -39,33 +41,36 @@
       "beard": {
        "#type": "Normal",
        "style": {
-        "#type": "Full",
-        "style": "Forked",
-        "length": "Classic"
+        "#type": "Shaved"
        },
        "color": {
         "#type": "Normal",
-        "color": "Auburn"
+        "color": "Blond"
        }
       }
      }
     },
     "skin": {
      "#type": "Normal",
-     "color": "Light"
+     "color": "Fair"
     }
    },
    "statblock": {
     "statistics": {
-     "0": 2,
-     "6": 4
+     "0": 4,
+     "1": 2,
+     "2": 2,
+     "3": 2,
+     "4": 2,
+     "5": 2,
+     "6": 6
     }
    },
    "equipped": {
     "list": [
      {
       "data": {
-       "first": 1,
+       "first": 4,
        "second": null
       },
       "sets": [
@@ -98,7 +103,7 @@
      },
      {
       "data": {
-       "first": 0,
+       "first": 3,
        "second": null
       },
       "sets": [
