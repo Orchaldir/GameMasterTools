@@ -8,6 +8,9 @@ import at.orchaldir.gm.core.model.time.calendar.*
 import at.orchaldir.gm.core.model.time.date.DisplayYear
 import at.orchaldir.gm.core.model.time.holiday.Holiday
 import at.orchaldir.gm.core.model.util.name.Name
+import at.orchaldir.gm.core.selector.character.getCharacterInstances
+import at.orchaldir.gm.core.selector.character.getCharacterTemplates
+import at.orchaldir.gm.core.selector.character.getCharacters
 import at.orchaldir.gm.core.selector.culture.getCultures
 import at.orchaldir.gm.core.selector.item.periodical.getPeriodicals
 import at.orchaldir.gm.core.selector.time.*
@@ -25,9 +28,6 @@ fun HtmlBlockTag.showCalendar(
     state: State,
     calendar: Calendar,
 ) {
-    val cultures = state.getCultures(calendar.id)
-    val holidays = state.getHolidays(calendar.id)
-    val periodicals = state.getPeriodicals(calendar.id)
 
     optionalField(call, state, "Date", calendar.date)
     showOrigin(call, state, calendar)
@@ -36,15 +36,31 @@ fun HtmlBlockTag.showCalendar(
     showEras(call, state, calendar)
     showDateFormat(calendar.defaultFormat)
 
-    h2 { +"Usage" }
+    showUsage(state, calendar, call)
+}
 
-    fieldElements(call, state, cultures)
+private fun HtmlBlockTag.showUsage(
+    state: State,
+    calendar: Calendar,
+    call: ApplicationCall,
+) {
+    val holidays = state.getHolidays(calendar.id)
+
+    showGenericUsage(
+        call,
+        state,
+        listOf(
+            state.getCultures(calendar.id),
+            state.getPeriodicals(calendar.id),
+        ),
+        holidays.isNotEmpty(),
+    )
+
     fieldList("Holidays", holidays) { holiday ->
         link(call, holiday)
         +": "
         +holiday.relativeDate.display(calendar)
     }
-    fieldElements(call, state, periodicals)
 }
 
 private fun HtmlBlockTag.showOrigin(

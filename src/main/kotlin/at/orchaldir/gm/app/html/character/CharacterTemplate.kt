@@ -64,19 +64,17 @@ private fun HtmlBlockTag.showUsage(
     call: ApplicationCall,
     state: State,
     template: CharacterTemplate,
-) {
-    showGenericUsage(
-        call,
-        state,
-        listOf(
-            state.getCharactersUsing(template.id),
-            state.getEncountersWith(template.id),
-            state.getRegionsWithEncounter(template.id),
-            state.getCharacterInstances(template.id),
-            state.getCharacterTemplates(template.id),
-        ),
-    )
-}
+) = showGenericUsage(
+    call,
+    state,
+    listOf(
+        state.getCharactersUsing(template.id),
+        state.getEncountersWith(template.id),
+        state.getRegionsWithEncounter(template.id),
+        state.getCharacterInstances(template.id),
+        state.getCharacterTemplates(template.id),
+    ),
+)
 
 // edit
 

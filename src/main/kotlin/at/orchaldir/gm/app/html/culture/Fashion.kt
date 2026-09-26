@@ -4,9 +4,12 @@ import at.orchaldir.gm.app.html.fieldElements
 import at.orchaldir.gm.app.html.parseName
 import at.orchaldir.gm.app.html.parseSimpleOptionalInt
 import at.orchaldir.gm.app.html.selectName
+import at.orchaldir.gm.app.html.util.showGenericUsage
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.culture.fashion.Fashion
 import at.orchaldir.gm.core.model.culture.fashion.FashionId
+import at.orchaldir.gm.core.selector.character.getCharacterTemplates
+import at.orchaldir.gm.core.selector.character.getCharacters
 import at.orchaldir.gm.core.selector.culture.getCultures
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -22,11 +25,20 @@ fun HtmlBlockTag.showFashion(
 ) {
     showAppearanceFashion(fashion.appearance)
     showClothingFashion(call, state, fashion.clothing)
-
-    h2 { +"Usage" }
-
-    fieldElements(call, state, state.getCultures(fashion.id))
+    showUsage(call, state, fashion)
 }
+
+private fun HtmlBlockTag.showUsage(
+    call: ApplicationCall,
+    state: State,
+    fashion: Fashion,
+) = showGenericUsage(
+    call,
+    state,
+    listOf(
+        state.getCultures(fashion.id),
+    ),
+)
 
 // edit
 

@@ -8,15 +8,20 @@ import at.orchaldir.gm.app.html.fieldElements
 import at.orchaldir.gm.app.html.parseName
 import at.orchaldir.gm.app.html.parseSimpleOptionalInt
 import at.orchaldir.gm.app.html.selectName
+import at.orchaldir.gm.app.html.util.showGenericUsage
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.Uniform
 import at.orchaldir.gm.core.model.item.UniformId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentIdMap
 import at.orchaldir.gm.core.model.rpg.statblock.Statblock
 import at.orchaldir.gm.core.model.rpg.statblock.UndefinedStatblockLookup
+import at.orchaldir.gm.core.selector.character.getCharacterInstances
 import at.orchaldir.gm.core.selector.character.getCharacterTemplates
+import at.orchaldir.gm.core.selector.character.getCharactersUsing
 import at.orchaldir.gm.core.selector.character.getCharactersWith
 import at.orchaldir.gm.core.selector.economy.getJobs
+import at.orchaldir.gm.core.selector.gm.encounter.getEncountersWith
+import at.orchaldir.gm.core.selector.world.getRegionsWithEncounter
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
@@ -44,21 +49,15 @@ private fun HtmlBlockTag.showUsages(
     call: ApplicationCall,
     state: State,
     uniform: UniformId,
-) {
-    val characters = state.getCharactersWith(uniform)
-    val characterTemplates = state.getCharacterTemplates(uniform)
-    val jobs = state.getJobs(uniform)
-
-    if (characters.isEmpty() && characterTemplates.isEmpty() && jobs.isEmpty()) {
-        return
-    }
-
-    h2 { +"Usage" }
-
-    fieldElements(call, state, characters)
-    fieldElements(call, state, characterTemplates)
-    fieldElements(call, state, jobs)
-}
+) = showGenericUsage(
+    call,
+    state,
+    listOf(
+        state.getCharactersWith(uniform),
+        state.getCharacterTemplates(uniform),
+        state.getJobs(uniform),
+    ),
+)
 
 // edit
 

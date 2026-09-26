@@ -14,6 +14,9 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.text.ALLOWED_TEXT_ORIGINS
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.item.text.TextId
+import at.orchaldir.gm.core.selector.character.getCharacterTemplates
+import at.orchaldir.gm.core.selector.character.getCharactersWith
+import at.orchaldir.gm.core.selector.economy.getJobs
 import at.orchaldir.gm.core.selector.gm.treasure.getTreasureParcelsWith
 import at.orchaldir.gm.core.selector.item.getTranslationsOf
 import at.orchaldir.gm.core.selector.item.hasAuthor
@@ -49,17 +52,13 @@ private fun HtmlBlockTag.showUsage(
     call: ApplicationCall,
     state: State,
     id: TextId,
-) {
-    val parcels = state.getTreasureParcelsWith(id)
-
-    if (parcels.isEmpty()) {
-        return
-    }
-
-    h2 { +"Usage" }
-
-    fieldElements(call, state, parcels)
-}
+) = showGenericUsage(
+    call,
+    state,
+    listOf(
+        state.getTreasureParcelsWith(id),
+    ),
+)
 
 // edit
 

@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.html.rpg.statistic
 
 import at.orchaldir.gm.app.SHORT
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.util.showGenericUsage
 import at.orchaldir.gm.app.html.util.source.editDataSources
 import at.orchaldir.gm.app.html.util.source.parseDataSources
 import at.orchaldir.gm.app.html.util.source.showDataSources
@@ -9,10 +10,17 @@ import at.orchaldir.gm.app.routes.ConfigRoutes
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
+import at.orchaldir.gm.core.selector.character.getCharacterInstances
+import at.orchaldir.gm.core.selector.character.getCharacterTemplates
+import at.orchaldir.gm.core.selector.character.getCharacters
+import at.orchaldir.gm.core.selector.character.getCharactersUsing
 import at.orchaldir.gm.core.selector.economy.getJobs
+import at.orchaldir.gm.core.selector.gm.encounter.getEncountersWith
+import at.orchaldir.gm.core.selector.religion.getGodsWith
 import at.orchaldir.gm.core.selector.rpg.equipment.getEquipmentTypes
 import at.orchaldir.gm.core.selector.rpg.getStatisticsBasedOn
 import at.orchaldir.gm.core.selector.rpg.statblock.getValuesFor
+import at.orchaldir.gm.core.selector.world.getRegionsWithEncounter
 import at.orchaldir.gm.utils.Id
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -37,21 +45,19 @@ private fun HtmlBlockTag.showUsage(
     state: State,
     statistic: Statistic,
 ) {
-    val jobs = state.getJobs(statistic.id)
-    val equipmentTypes = state.getEquipmentTypes(statistic.id)
     val statblocks = state.getValuesFor(statistic.id)
-    val statistics = state.getStatisticsBasedOn(statistic.id)
     val isMusclePowered = state.config.rpg.equipment.musclePoweredStatistic == statistic.id
 
-    if (jobs.isEmpty() && equipmentTypes.isEmpty() && statblocks.isEmpty() && statistics.isEmpty() && !isMusclePowered) {
-        return
-    }
-
-    h2 { +"Usage" }
-
-    fieldElements(call, state, jobs)
-    fieldElements(call, state, equipmentTypes)
-    fieldElements(call, state, statistics)
+    showGenericUsage(
+        call,
+        state,
+        listOf(
+            state.getJobs(statistic.id),
+            state.getEquipmentTypes(statistic.id),
+            state.getStatisticsBasedOn(statistic.id),
+        ),
+        statblocks.isNotEmpty() || isMusclePowered,
+    )
 
     if (isMusclePowered) {
         val dataLink = call.application.href(ConfigRoutes())

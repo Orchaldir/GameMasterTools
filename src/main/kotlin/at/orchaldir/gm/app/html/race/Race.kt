@@ -17,6 +17,10 @@ import at.orchaldir.gm.core.model.race.*
 import at.orchaldir.gm.core.selector.character.getCharacterInstances
 import at.orchaldir.gm.core.selector.character.getCharacterTemplates
 import at.orchaldir.gm.core.selector.character.getCharacters
+import at.orchaldir.gm.core.selector.character.getCharactersWith
+import at.orchaldir.gm.core.selector.culture.getFashions
+import at.orchaldir.gm.core.selector.gm.treasure.getTreasureParcelsWith
+import at.orchaldir.gm.core.selector.item.getUniforms
 import at.orchaldir.gm.core.selector.race.getRaceGroups
 import at.orchaldir.gm.utils.math.unit.SiPrefix
 import io.ktor.http.*
@@ -51,21 +55,15 @@ private fun HtmlBlockTag.showUsages(
     call: ApplicationCall,
     state: State,
     race: RaceId,
-) {
-    val characters = state.getCharacters(race)
-    val templates = state.getCharacterTemplates(race)
-    val instances = state.getCharacterInstances(race)
-
-    if (characters.isEmpty() && templates.isEmpty() && instances.isEmpty()) {
-        return
-    }
-
-    h2 { +"Usage" }
-
-    fieldElements(call, state, characters)
-    fieldElements(call, state, templates)
-    fieldElements(call, state, instances)
-}
+) = showGenericUsage(
+    call,
+    state,
+    listOf(
+        state.getCharacters(race),
+        state.getCharacterTemplates(race),
+        state.getCharacterInstances(race),
+    ),
+)
 
 // edit
 
