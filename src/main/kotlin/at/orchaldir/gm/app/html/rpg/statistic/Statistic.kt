@@ -12,9 +12,7 @@ import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.selector.economy.getJobs
 import at.orchaldir.gm.core.selector.rpg.equipment.getEquipmentTypes
 import at.orchaldir.gm.core.selector.rpg.getStatisticsBasedOn
-import at.orchaldir.gm.core.selector.rpg.statblock.getValueForCharacterInstances
-import at.orchaldir.gm.core.selector.rpg.statblock.getValueForCharacterTemplates
-import at.orchaldir.gm.core.selector.rpg.statblock.getValueForCharacters
+import at.orchaldir.gm.core.selector.rpg.statblock.getValuesFor
 import at.orchaldir.gm.utils.Id
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -41,13 +39,11 @@ private fun HtmlBlockTag.showUsage(
 ) {
     val jobs = state.getJobs(statistic.id)
     val equipmentTypes = state.getEquipmentTypes(statistic.id)
-    val characters = state.getValueForCharacters(statistic.id)
-    val characterTemplates = state.getValueForCharacterTemplates(statistic.id)
-    val characterInstances = state.getValueForCharacterInstances(statistic.id)
+    val statblocks = state.getValuesFor(statistic.id)
     val statistics = state.getStatisticsBasedOn(statistic.id)
     val isMusclePowered = state.config.rpg.equipment.musclePoweredStatistic == statistic.id
 
-    if (jobs.isEmpty() && equipmentTypes.isEmpty() && characters.isEmpty() && characterTemplates.isEmpty() && characterInstances.isEmpty() && statistics.isEmpty() && !isMusclePowered) {
+    if (jobs.isEmpty() && equipmentTypes.isEmpty() && statblocks.isEmpty() && statistics.isEmpty() && !isMusclePowered) {
         return
     }
 
@@ -69,9 +65,7 @@ private fun HtmlBlockTag.showUsage(
         }
     }
 
-    showStatblocks(call, state, statistic, characters)
-    showStatblocks(call, state, statistic, characterTemplates)
-    showStatblocks(call, state, statistic, characterInstances)
+    showStatblocks(call, state, statistic, statblocks)
 }
 
 private fun HtmlBlockTag.showStatblocks(
@@ -88,6 +82,7 @@ private fun HtmlBlockTag.showStatblocks(
     table {
         tr {
             th { +statblocks.first().first.plural() }
+            th { +"Type" }
             th { +"Value" }
         }
         statblocks
@@ -95,6 +90,7 @@ private fun HtmlBlockTag.showStatblocks(
             .forEach { (statblockId, value) ->
                 tr {
                     tdLink(call, state, statblockId)
+                    tdString(statblockId.type())
                     tdString(statistic.data.display(value))
                 }
             }

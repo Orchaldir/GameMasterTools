@@ -57,7 +57,7 @@ fun State.getStatblock(raceId: RaceId, lookup: StatblockLookup): Statblock {
     return getStatblock(race.lifeStages.statblock(), lookup)
 }
 
-fun State.getValueForCharacters(statistic: StatisticId): List<Pair<Id<*>, Int>> {
+fun State.getValuesFor(statistic: StatisticId): List<Pair<Id<*>, Int>> {
     val statblocks = mutableListOf<Pair<Id<*>, Int>>()
 
     getCharacterStorage().getAll()
@@ -67,22 +67,10 @@ fun State.getValueForCharacters(statistic: StatisticId): List<Pair<Id<*>, Int>> 
             addStatblock(statblocks, statistic, statblock, character.id)
         }
 
-    return statblocks
-}
-
-fun State.getValueForCharacterInstances(statistic: StatisticId): List<Pair<Id<*>, Int>> {
-    val statblocks = mutableListOf<Pair<Id<*>, Int>>()
-
     getCharacterInstanceStorage().getAll()
         .forEach { instance ->
             addStatblock(statblocks, statistic, instance.statblock, instance.id)
         }
-
-    return statblocks
-}
-
-fun State.getValueForCharacterTemplates(statistic: StatisticId): List<Pair<Id<*>, Int>> {
-    val statblocks = mutableListOf<Pair<Id<*>, Int>>()
 
     getCharacterTemplateStorage().getAll()
         .forEach { template ->
