@@ -1,6 +1,7 @@
 package at.orchaldir.gm.utils.math.unit
 
 import at.orchaldir.gm.utils.doNothing
+import at.orchaldir.gm.utils.math.validate
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -37,7 +38,7 @@ sealed class WeightLookup {
 
         when (this) {
             WeightBasedOnAppearance -> doNothing()
-            is UserDefinedWeight -> weight.validate(label, min, max)
+            is UserDefinedWeight -> validate(weight, label, min, max)
             UndefinedWeight -> doNothing()
             WeightBasedOnType -> doNothing()
         }

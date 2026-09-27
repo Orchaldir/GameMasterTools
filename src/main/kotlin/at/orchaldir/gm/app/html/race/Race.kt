@@ -14,6 +14,7 @@ import at.orchaldir.gm.app.html.util.source.showDataSources
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Gender
 import at.orchaldir.gm.core.model.race.*
+import at.orchaldir.gm.core.selector.character.getCharacterInstances
 import at.orchaldir.gm.core.selector.character.getCharacterTemplates
 import at.orchaldir.gm.core.selector.character.getCharacters
 import at.orchaldir.gm.core.selector.race.getRaceGroups
@@ -21,7 +22,6 @@ import at.orchaldir.gm.utils.math.unit.SiPrefix
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
-import kotlinx.html.h2
 
 val heightPrefix = SiPrefix.Centi
 val weightPrefix = SiPrefix.Kilo
@@ -50,19 +50,15 @@ private fun HtmlBlockTag.showUsages(
     call: ApplicationCall,
     state: State,
     race: RaceId,
-) {
-    val characters = state.getCharacters(race)
-    val templates = state.getCharacterTemplates(race)
-
-    if (characters.isEmpty() && templates.isEmpty()) {
-        return
-    }
-
-    h2 { +"Usage" }
-
-    fieldElements(call, state, characters)
-    fieldElements(call, state, templates)
-}
+) = showGenericUsage(
+    call,
+    state,
+    listOf(
+        state.getCharacters(race),
+        state.getCharacterTemplates(race),
+        state.getCharacterInstances(race),
+    ),
+)
 
 // edit
 

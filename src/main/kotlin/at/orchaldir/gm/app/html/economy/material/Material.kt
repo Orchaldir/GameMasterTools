@@ -9,6 +9,7 @@ import at.orchaldir.gm.app.html.economy.money.selectPrice
 import at.orchaldir.gm.app.html.economy.properties.editMaterialProperties
 import at.orchaldir.gm.app.html.economy.properties.parseMaterialProperties
 import at.orchaldir.gm.app.html.economy.properties.showMaterialProperties
+import at.orchaldir.gm.app.html.util.showGenericUsage
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.*
 import at.orchaldir.gm.core.selector.ecology.plant.getPlantsMadeOf
@@ -25,7 +26,6 @@ import at.orchaldir.gm.core.selector.world.getStreetTemplatesMadeOf
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
-import kotlinx.html.h2
 
 // show
 
@@ -45,35 +45,21 @@ private fun HtmlBlockTag.showUsage(
     call: ApplicationCall,
     state: State,
     material: Material,
-) {
-    val currencyUnits = state.getCurrencyUnits(material.id)
-    val equipmentList = state.getEquipmentMadeOf(material.id)
-    val materials = state.getMaterialsMadeOf(material.id)
-    val moons = state.getMoonsContaining(material.id)
-    val plants = state.getPlantsMadeOf(material.id)
-    val regions = state.getRegionsContaining(material.id)
-    val raceAppearances = state.getRaceAppearancesMadeOf(material.id)
-    val streetTemplates = state.getStreetTemplatesMadeOf(material.id)
-    val texts = state.getTextsMadeOf(material.id)
-
-    if (currencyUnits.isEmpty() && equipmentList.isEmpty() && materials.isEmpty() && moons.isEmpty() && plants.isEmpty() && regions.isEmpty() && raceAppearances.isEmpty() && streetTemplates.isEmpty() && texts.isEmpty()) {
-        return
-    }
-
-    h2 { +"Usage" }
-
-    fieldElements(call, state, currencyUnits)
-    fieldElements(call, state, equipmentList)
-    fieldElements(call, state, materials)
-    fieldElements(call, state, moons)
-    fieldElements(call, state, plants)
-    fieldElements(call, state, regions)
-    fieldElements(call, state, raceAppearances)
-    fieldElements(call, state, streetTemplates)
-    fieldList("Texts", texts) { text ->
-        link(call, text, text.getNameWithDate(state))
-    }
-}
+) = showGenericUsage(
+    call,
+    state,
+    listOf(
+        state.getCurrencyUnits(material.id),
+        state.getEquipmentMadeOf(material.id),
+        state.getMaterialsMadeOf(material.id),
+        state.getMoonsContaining(material.id),
+        state.getPlantsMadeOf(material.id),
+        state.getRegionsContaining(material.id),
+        state.getRaceAppearancesMadeOf(material.id),
+        state.getStreetTemplatesMadeOf(material.id),
+        state.getTextsMadeOf(material.id),
+    ),
+)
 
 // edit
 

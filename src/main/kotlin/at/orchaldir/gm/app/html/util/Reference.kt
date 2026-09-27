@@ -3,6 +3,7 @@ package at.orchaldir.gm.app.html.util
 import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.character.parseCharacterId
+import at.orchaldir.gm.app.html.character.parseCharacterTemplateId
 import at.orchaldir.gm.app.html.culture.parseCultureId
 import at.orchaldir.gm.app.html.economy.parseBusinessId
 import at.orchaldir.gm.app.html.organization.parseOrganizationId
@@ -45,6 +46,7 @@ fun HtmlBlockTag.showReference(
     when (reference) {
         is BusinessReference -> link(call, state, reference.business)
         is CharacterReference -> link(call, state, reference.character)
+        is CharacterTemplateReference -> link(call, state, reference.template)
         is CultureReference -> link(call, state, reference.culture)
         is GodReference -> link(call, state, reference.god)
         is OrganizationReference -> link(call, state, reference.organization)
@@ -73,6 +75,8 @@ fun HtmlBlockTag.selectReference(
         .filter { filter(it) }
     val characters = state.getLiving(date)
         .filter { filter(it) }
+    val characterTemplates = state.getCharacterTemplateStorage().getAll()
+        .filter { filter(it) }
     val cultures = state.getCultureStorage()
         .getAll()
         .filter { filter(it) }
@@ -86,77 +90,80 @@ fun HtmlBlockTag.selectReference(
     val settlements = state.getExistingSettlements(date)
         .filter { filter(it) }
 
-    selectValue("$label Type", param, allowedTypes, reference.getType()) { type ->
-        when (type) {
-            ReferenceType.None, ReferenceType.Undefined -> false
-            ReferenceType.Business -> businesses.isEmpty()
-            ReferenceType.Character -> characters.isEmpty()
-            ReferenceType.Culture -> cultures.isEmpty()
-            ReferenceType.God -> gods.isEmpty()
-            ReferenceType.Organization -> organizations.isEmpty()
-            ReferenceType.Realm -> realms.isEmpty()
-            ReferenceType.Settlement -> settlements.isEmpty()
+    showDetails(label, true) {
+        selectValue("Type", param, allowedTypes, reference.getType()) { type ->
+            when (type) {
+                ReferenceType.None, ReferenceType.Undefined -> false
+                ReferenceType.Business -> businesses.isEmpty()
+                ReferenceType.Character -> characters.isEmpty()
+                ReferenceType.CharacterTemplate -> characterTemplates.isEmpty()
+                ReferenceType.Culture -> cultures.isEmpty()
+                ReferenceType.God -> gods.isEmpty()
+                ReferenceType.Organization -> organizations.isEmpty()
+                ReferenceType.Realm -> realms.isEmpty()
+                ReferenceType.Settlement -> settlements.isEmpty()
+            }
         }
-    }
 
-    when (reference) {
-        is BusinessReference -> selectElement(
-            state,
-            label,
-            combine(param, BUSINESS),
-            businesses,
-            reference.business,
-        )
+        when (reference) {
+            is BusinessReference -> selectElement(
+                state,
+                combine(param, BUSINESS),
+                businesses,
+                reference.business,
+            )
 
-        is CharacterReference -> selectElement(
-            state,
-            label,
-            combine(param, CHARACTER),
-            characters,
-            reference.character,
-        )
+            is CharacterReference -> selectElement(
+                state,
+                combine(param, CHARACTER),
+                characters,
+                reference.character,
+            )
 
-        is CultureReference -> selectElement(
-            state,
-            label,
-            combine(param, CULTURE),
-            cultures,
-            reference.culture,
-        )
+            is CharacterTemplateReference -> selectElement(
+                state,
+                combine(param, CHARACTER, TEMPLATE),
+                characterTemplates,
+                reference.template,
+            )
 
-        is GodReference -> selectElement(
-            state,
-            label,
-            combine(param, GOD),
-            gods,
-            reference.god,
-        )
+            is CultureReference -> selectElement(
+                state,
+                combine(param, CULTURE),
+                cultures,
+                reference.culture,
+            )
 
-        is OrganizationReference -> selectElement(
-            state,
-            label,
-            combine(param, ORGANIZATION),
-            organizations,
-            reference.organization,
-        )
+            is GodReference -> selectElement(
+                state,
+                combine(param, GOD),
+                gods,
+                reference.god,
+            )
 
-        is RealmReference -> selectElement(
-            state,
-            label,
-            combine(param, REALM),
-            realms,
-            reference.realm,
-        )
+            is OrganizationReference -> selectElement(
+                state,
+                combine(param, ORGANIZATION),
+                organizations,
+                reference.organization,
+            )
 
-        is SettlementReference -> selectElement(
-            state,
-            label,
-            combine(param, SETTLEMENT),
-            settlements,
-            reference.settlement,
-        )
+            is RealmReference -> selectElement(
+                state,
+                combine(param, REALM),
+                realms,
+                reference.realm,
+            )
 
-        NoReference, UndefinedReference -> doNothing()
+            is SettlementReference -> selectElement(
+                state,
+                combine(param, SETTLEMENT),
+                settlements,
+                reference.settlement,
+            )
+
+            NoReference, UndefinedReference -> doNothing()
+        }
     }
 }
 
@@ -165,8 +172,9 @@ fun HtmlBlockTag.selectReference(
 fun parseReference(
     parameters: Parameters,
     param: String,
+    allowedTypes: Collection<ReferenceType> = ReferenceType.entries,
 ): Reference {
-    return when (parse(parameters, param, ReferenceType.Undefined)) {
+    return when (parse(parameters, param, allowedTypes)) {
         ReferenceType.None -> NoReference
         ReferenceType.Undefined -> UndefinedReference
         ReferenceType.Business -> BusinessReference(
@@ -175,6 +183,10 @@ fun parseReference(
 
         ReferenceType.Character -> CharacterReference(
             parseCharacterId(parameters, combine(param, CHARACTER)),
+        )
+
+        ReferenceType.CharacterTemplate -> CharacterTemplateReference(
+            parseCharacterTemplateId(parameters, combine(param, CHARACTER, TEMPLATE)),
         )
 
         ReferenceType.Culture -> CultureReference(

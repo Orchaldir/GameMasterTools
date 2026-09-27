@@ -4,35 +4,9 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.rpg.combat.RangedAttack
 import at.orchaldir.gm.core.model.rpg.equipment.*
-import at.orchaldir.gm.core.model.rpg.statblock.*
+import at.orchaldir.gm.core.model.rpg.statblock.Statblock
 
 // resolve ranged attack with statblock
-
-fun resolveRangedAttackMap(
-    state: State,
-    base: Statblock,
-    lookup: StatblockLookup,
-    attackMap: Map<Equipment, List<RangedAttack>>,
-) = when (lookup) {
-    UndefinedStatblockLookup -> attackMap
-    is UniqueStatblock -> {
-        val statblock = lookup.statblock.applyTo(base)
-        resolveRangedAttackMap(state, statblock, attackMap)
-    }
-
-    is UseStatblockOfTemplate -> {
-        val statblock = state.getStatblock(base, lookup.template)
-
-        resolveRangedAttackMap(state, statblock, attackMap)
-    }
-
-    is ModifyStatblockOfTemplate -> {
-        val statblock = state.getStatblock(base, lookup.template)
-        val resolvedStatblock = lookup.update.applyTo(statblock)
-
-        resolveRangedAttackMap(state, resolvedStatblock, attackMap)
-    }
-}
 
 fun resolveRangedAttackMap(
     state: State,

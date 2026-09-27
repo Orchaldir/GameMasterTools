@@ -127,6 +127,7 @@ val ELEMENTS =
         BUSINESS_TEMPLATE_TYPE,
         CALENDAR_TYPE,
         CATASTROPHE_TYPE,
+        CHARACTER_INSTANCE_TYPE,
         CHARACTER_TEMPLATE_TYPE,
         CHARACTER_TRAIT_TYPE,
         CHARACTER_TYPE,
@@ -216,6 +217,7 @@ data class State(
     fun getBusinessTemplateStorage() = getStorage<BusinessTemplateId, BusinessTemplate>(BUSINESS_TEMPLATE_TYPE)
     fun getCalendarStorage() = getStorage<CalendarId, Calendar>(CALENDAR_TYPE)
     fun getCatastropheStorage() = getStorage<CatastropheId, Catastrophe>(CATASTROPHE_TYPE)
+    fun getCharacterInstanceStorage() = getStorage<CharacterInstanceId, CharacterInstance>(CHARACTER_INSTANCE_TYPE)
     fun getCharacterTemplateStorage() = getStorage<CharacterTemplateId, CharacterTemplate>(CHARACTER_TEMPLATE_TYPE)
     fun getCharacterTraitStorage() = getStorage<CharacterTraitId, CharacterTrait>(CHARACTER_TRAIT_TYPE)
     fun getCharacterStorage() = getStorage<CharacterId, Character>(CHARACTER_TYPE)
@@ -382,6 +384,7 @@ data class State(
         saveStorage(path, getCalendarStorage())
         saveStorage(path, getCatastropheStorage())
         saveStorage(path, getCharacterStorage())
+        saveStorage(path, getCharacterInstanceStorage())
         saveStorage(path, getCharacterTemplateStorage())
         saveStorage(path, getCharacterTraitStorage())
         saveStorage(path, getColorSchemeGroupStorage())
@@ -452,6 +455,7 @@ fun createStorage(type: String) = when (type) {
     BUSINESS_TEMPLATE_TYPE -> Storage(BusinessTemplateId(0))
     CALENDAR_TYPE -> Storage(CalendarId(0))
     CATASTROPHE_TYPE -> Storage(CatastropheId(0))
+    CHARACTER_INSTANCE_TYPE -> Storage(CharacterInstanceId(0))
     CHARACTER_TEMPLATE_TYPE -> Storage(CharacterTemplateId(0))
     CHARACTER_TRAIT_TYPE -> Storage(CharacterTraitId(0))
     CHARACTER_TYPE -> Storage(CharacterId(0))
@@ -522,6 +526,7 @@ fun loadStorageForType(path: String, type: String): Storage<*, *> = when (type) 
     BUSINESS_TEMPLATE_TYPE -> loadStorage<BusinessTemplateId, BusinessTemplate>(path, BusinessTemplateId(0))
     CALENDAR_TYPE -> loadStorage<CalendarId, Calendar>(path, CalendarId(0))
     CATASTROPHE_TYPE -> loadStorage<CatastropheId, Catastrophe>(path, CatastropheId(0))
+    CHARACTER_INSTANCE_TYPE -> loadStorage<CharacterInstanceId, CharacterInstance>(path, CharacterInstanceId(0))
     CHARACTER_TEMPLATE_TYPE -> loadStorage<CharacterTemplateId, CharacterTemplate>(path, CharacterTemplateId(0))
     CHARACTER_TRAIT_TYPE -> loadStorage<CharacterTraitId, CharacterTrait>(path, CharacterTraitId(0))
     CHARACTER_TYPE -> loadStorage<CharacterId, Character>(path, CharacterId(0))

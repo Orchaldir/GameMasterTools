@@ -25,7 +25,7 @@ data class Variance<T : Value<T>>(
         maxCenter: T,
         maxOffset: T,
     ) {
-        center.validate("$label's center", minCenter, maxCenter)
-        offset.validate("$label's offset", maxOffset.zero(), maxOffset)
+        validate(center, "$label's center", minCenter, maxCenter)
+        validate(offset, "$label's offset", maxOffset.zero(), maxOffset)
     }
 }

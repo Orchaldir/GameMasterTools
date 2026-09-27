@@ -5,6 +5,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.math.fieldModifier
 import at.orchaldir.gm.app.html.util.math.parseFactor
 import at.orchaldir.gm.app.html.util.math.selectFactor
+import at.orchaldir.gm.app.html.util.showGenericUsage
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.equipment.*
 import at.orchaldir.gm.core.selector.item.ammunition.getAmmunition
@@ -13,7 +14,6 @@ import at.orchaldir.gm.core.selector.util.sortEquipmentModifiers
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
-import kotlinx.html.h2
 
 // show
 
@@ -35,19 +35,14 @@ private fun HtmlBlockTag.showUsages(
     call: ApplicationCall,
     state: State,
     modifier: EquipmentModifierId,
-) {
-    val ammunition = state.getAmmunition(modifier)
-    val equipment = state.getEquipment(modifier)
-
-    if (ammunition.isEmpty() && equipment.isEmpty()) {
-        return
-    }
-
-    h2 { +"Usage" }
-
-    fieldElements(call, state, ammunition)
-    fieldElements(call, state, equipment)
-}
+) = showGenericUsage(
+    call,
+    state,
+    listOf(
+        state.getAmmunition(modifier),
+        state.getEquipment(modifier),
+    ),
+)
 
 // edit
 

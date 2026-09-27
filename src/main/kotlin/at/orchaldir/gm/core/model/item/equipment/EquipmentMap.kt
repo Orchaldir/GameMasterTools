@@ -9,6 +9,7 @@ data class EquipmentMap<T>(private val list: List<EquipmentMapEntry<T>>) {
 
     constructor() : this(emptyList())
     constructor(entry: EquipmentMapEntry<T>) : this(listOf(entry))
+    constructor(value: T, slot: BodySlot) : this(EquipmentMapEntry(value, slot))
 
     companion object {
         fun from(data: EquipmentAppearance) =

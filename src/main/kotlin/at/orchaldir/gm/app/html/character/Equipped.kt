@@ -1,15 +1,11 @@
 package at.orchaldir.gm.app.html.character
 
 import at.orchaldir.gm.app.EQUIPMENT
+import at.orchaldir.gm.app.EQUIPPED
 import at.orchaldir.gm.app.UNIFORM
 import at.orchaldir.gm.app.UPDATE
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.economy.money.fieldPrice
 import at.orchaldir.gm.app.html.item.parseUniformId
-import at.orchaldir.gm.app.html.rpg.combat.showMeleeAttackTable
-import at.orchaldir.gm.app.html.rpg.combat.showProtectionTable
-import at.orchaldir.gm.app.html.rpg.combat.showRangedAttackTable
-import at.orchaldir.gm.app.html.util.math.fieldWeight
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.item.UniformId
@@ -17,20 +13,15 @@ import at.orchaldir.gm.core.model.item.equipment.EquipmentIdMap
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.rpg.statblock.Statblock
 import at.orchaldir.gm.core.model.rpg.statblock.StatblockLookup
-import at.orchaldir.gm.core.selector.character.getMeleeAttacks
-import at.orchaldir.gm.core.selector.character.getProtection
-import at.orchaldir.gm.core.selector.character.getRangedAttacks
-import at.orchaldir.gm.core.selector.item.equipment.*
-import at.orchaldir.gm.core.selector.rpg.statblock.resolveMeleeAttackMap
-import at.orchaldir.gm.core.selector.rpg.statblock.resolveProtectionMap
-import at.orchaldir.gm.core.selector.rpg.statblock.resolveRangedAttackMap
+import at.orchaldir.gm.core.selector.item.equipment.getEquipmentIdMap
+import at.orchaldir.gm.core.selector.item.equipment.getEquipmentIdMapForLookup
+import at.orchaldir.gm.core.selector.rpg.statblock.getStatblock
 import at.orchaldir.gm.core.selector.util.sortUniforms
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.DETAILS
 import kotlinx.html.HtmlBlockTag
-import kotlinx.html.br
 
 // show
 
@@ -90,6 +81,7 @@ fun HtmlBlockTag.showEquippedDetails(
     lookup: StatblockLookup,
 ) {
     val equipmentMap = state.getEquipmentIdMap(equipped, lookup)
+    val statblock = state.getStatblock(base, lookup)
 
     showDetails("Equipped", true) {
         field("Type", equipped.getType())
@@ -120,22 +112,7 @@ fun HtmlBlockTag.showEquippedDetails(
             UndefinedEquipped -> doNothing()
         }
 
-        fieldPrice(call, state, "Total Price", calculatePrice(state, VOLUME_CONFIG, equipmentMap))
-        fieldWeight("Total Weight", calculateWeight(state, VOLUME_CONFIG, equipmentMap))
-
-        val meleeAttackMap = getMeleeAttacks(state, equipped, lookup)
-        val protectionMap = getProtection(state, equipped, lookup)
-        val rangedAttackMap = getRangedAttacks(state, equipped, lookup)
-
-        val resolvedMeleeAttackMap = resolveMeleeAttackMap(state, base, lookup, meleeAttackMap)
-        val resolvedRangedAttackMap = resolveRangedAttackMap(state, base, lookup, rangedAttackMap)
-        val resolvedProtectionMap = resolveProtectionMap(state, lookup, protectionMap)
-
-        showMeleeAttackTable(call, state, resolvedMeleeAttackMap)
-        br { }
-        showRangedAttackTable(call, state, resolvedRangedAttackMap)
-        br { }
-        showProtectionTable(call, state, resolvedProtectionMap)
+        showEquipmentMapData(call, state, statblock, equipmentMap)
     }
 }
 
@@ -144,11 +121,12 @@ fun HtmlBlockTag.showEquippedDetails(
 fun HtmlBlockTag.editEquipped(
     call: ApplicationCall,
     state: State,
-    param: String,
     equipped: Equipped,
+    base: Statblock,
     lookup: StatblockLookup,
     hasFashion: Boolean,
     elementId: UniformId? = null,
+    param: String = EQUIPPED,
 ) {
     val allowedTypes = EquippedType.entries.toMutableList()
 
@@ -162,6 +140,7 @@ fun HtmlBlockTag.editEquipped(
     }
 
     val equipmentMap = state.getEquipmentIdMap(equipped, lookup)
+    val statblock = state.getStatblock(base, lookup)
 
     showDetails("Equipped", true) {
         selectValue("Type", param, allowedTypes, equipped.getType()) { type ->
@@ -206,8 +185,7 @@ fun HtmlBlockTag.editEquipped(
             UndefinedEquipped -> doNothing()
         }
 
-        fieldPrice(call, state, "Total Price", calculatePrice(state, VOLUME_CONFIG, equipmentMap))
-        fieldWeight("Total Weight", calculateWeight(state, VOLUME_CONFIG, equipmentMap))
+        showEquipmentMapData(call, state, statblock, equipmentMap)
     }
 }
 

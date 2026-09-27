@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.reducer
 import at.orchaldir.gm.core.action.Action
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
+import at.orchaldir.gm.core.model.character.CharacterInstance
 import at.orchaldir.gm.core.model.character.CharacterTemplate
 import at.orchaldir.gm.core.model.character.title.Title
 import at.orchaldir.gm.core.model.culture.Culture
@@ -84,6 +85,7 @@ fun reduceUpdateElement(
     is Calendar -> updateElement(state, element)
     is Catastrophe -> updateElement(state, element)
     is Character -> updateElement(state, element)
+    is CharacterInstance -> updateElement(state, element)
     is CharacterTemplate -> updateElement(state, element)
     is CharacterTrait -> updateElement(state, element)
     is ColorScheme -> updateElement(state, element)

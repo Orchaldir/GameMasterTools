@@ -1,7 +1,11 @@
 package at.orchaldir.gm.app.html.gm.treasure
 
 import at.orchaldir.gm.app.TREASURE
-import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.parseInt
+import at.orchaldir.gm.app.html.parseName
+import at.orchaldir.gm.app.html.parseSimpleOptionalInt
+import at.orchaldir.gm.app.html.selectName
+import at.orchaldir.gm.app.html.util.showGenericUsage
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.gm.treasure.TreasureParcel
 import at.orchaldir.gm.core.model.gm.treasure.TreasureParcelId
@@ -9,7 +13,6 @@ import at.orchaldir.gm.core.selector.gm.treasure.getTreasureParcelsWith
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
-import kotlinx.html.h2
 
 // show
 
@@ -27,17 +30,13 @@ private fun HtmlBlockTag.showUsage(
     call: ApplicationCall,
     state: State,
     parcel: TreasureParcel,
-) {
-    val parcels = state.getTreasureParcelsWith(parcel.id)
-
-    if (parcels.isEmpty()) {
-        return
-    }
-
-    h2 { +"Usage" }
-
-    fieldElements(call, state, parcels)
-}
+) = showGenericUsage(
+    call,
+    state,
+    listOf(
+        state.getTreasureParcelsWith(parcel.id),
+    ),
+)
 
 // edit
 

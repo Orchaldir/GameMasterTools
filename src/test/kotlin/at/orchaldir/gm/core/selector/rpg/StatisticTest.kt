@@ -4,11 +4,13 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
+import at.orchaldir.gm.core.model.character.CharacterInstance
 import at.orchaldir.gm.core.model.character.CharacterTemplate
 import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.rpg.combat.*
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentType
+import at.orchaldir.gm.core.model.rpg.statblock.Statblock
 import at.orchaldir.gm.core.model.rpg.statblock.StatblockUpdate
 import at.orchaldir.gm.core.model.rpg.statblock.UniqueStatblock
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
@@ -47,6 +49,18 @@ class StatisticTest {
             val newState = state.updateStorage(element)
 
             failCanDelete(newState, CHARACTER_ID_0)
+        }
+
+        @Test
+        fun `Cannot delete a statistic used a character instance`() {
+            val instance = CharacterInstance(
+                CHARACTER_INSTANCE_ID_0,
+                race = RACE_ID_0,
+                statblock = Statblock(STATISTIC_ID_0, 3),
+            )
+            val newState = state.updateStorage(instance)
+
+            failCanDelete(newState, CHARACTER_INSTANCE_ID_0)
         }
 
         @Test

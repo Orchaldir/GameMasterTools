@@ -14,7 +14,10 @@ import at.orchaldir.gm.app.routes.handleUpdateElement
 import at.orchaldir.gm.app.routes.race.generateAppearance
 import at.orchaldir.gm.core.generator.EquipmentGenerator
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.*
+import at.orchaldir.gm.core.model.character.CHARACTER_TEMPLATE_TYPE
+import at.orchaldir.gm.core.model.character.CharacterTemplate
+import at.orchaldir.gm.core.model.character.CharacterTemplateId
+import at.orchaldir.gm.core.model.character.UseFashionFromCulture
 import at.orchaldir.gm.core.model.item.equipment.EquipmentIdMap
 import at.orchaldir.gm.core.model.util.SortCharacterTemplate
 import at.orchaldir.gm.core.selector.culture.getAppearanceFashion
@@ -133,7 +136,6 @@ private fun HtmlBlockTag.showCharacterTemplateRight(
     state: State,
     template: CharacterTemplate,
 ) {
-    val gender = template.gender ?: Gender.Male
     val races = template.race.races()
     val width = if (races.size > 1) {
         40
@@ -142,9 +144,11 @@ private fun HtmlBlockTag.showCharacterTemplateRight(
     }
 
     races.forEach {
+        val race = state.getRaceStorage().getOrThrow(it)
+        val gender = template.gender ?: race.genders.getMostCommon()
         val appearance = generateAppearance(
             state,
-            state.getRaceStorage().getOrThrow(it),
+            race,
             gender,
             state.getAppearanceFashion(gender, template.culture),
         )

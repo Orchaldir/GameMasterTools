@@ -9,13 +9,10 @@ import at.orchaldir.gm.app.html.time.editHolidays
 import at.orchaldir.gm.app.html.time.parseCalendarId
 import at.orchaldir.gm.app.html.time.parseHolidays
 import at.orchaldir.gm.app.html.time.showHolidays
+import at.orchaldir.gm.app.html.util.*
 import at.orchaldir.gm.app.html.util.name.editNamingConvention
 import at.orchaldir.gm.app.html.util.name.parseNamingConvention
 import at.orchaldir.gm.app.html.util.name.showNamingConvention
-import at.orchaldir.gm.app.html.util.parseGenderMap
-import at.orchaldir.gm.app.html.util.selectGenderMap
-import at.orchaldir.gm.app.html.util.showCreated
-import at.orchaldir.gm.app.html.util.showGenderMap
 import at.orchaldir.gm.app.html.util.source.editDataSources
 import at.orchaldir.gm.app.html.util.source.parseDataSources
 import at.orchaldir.gm.app.html.util.source.showDataSources
@@ -57,19 +54,14 @@ private fun HtmlBlockTag.showUsages(
     call: ApplicationCall,
     state: State,
     culture: CultureId,
-) {
-    val characters = state.getCharacters(culture)
-    val templates = state.getCharacterTemplates(culture)
-
-    if (characters.isEmpty() && templates.isEmpty()) {
-        return
-    }
-
-    h2 { +"Usage" }
-
-    fieldElements(call, state, characters)
-    fieldElements(call, state, templates)
-}
+) = showGenericUsage(
+    call,
+    state,
+    listOf(
+        state.getCharacters(culture),
+        state.getCharacterTemplates(culture),
+    ),
+)
 
 private fun HtmlBlockTag.showClothingOptions(
     call: ApplicationCall,

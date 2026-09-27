@@ -4,10 +4,10 @@ import at.orchaldir.gm.app.UNIFORM
 import at.orchaldir.gm.app.html.character.editEquipped
 import at.orchaldir.gm.app.html.character.parseEquipped
 import at.orchaldir.gm.app.html.character.showEquippedDetails
-import at.orchaldir.gm.app.html.fieldElements
 import at.orchaldir.gm.app.html.parseName
 import at.orchaldir.gm.app.html.parseSimpleOptionalInt
 import at.orchaldir.gm.app.html.selectName
+import at.orchaldir.gm.app.html.util.showGenericUsage
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.Uniform
 import at.orchaldir.gm.core.model.item.UniformId
@@ -20,7 +20,6 @@ import at.orchaldir.gm.core.selector.economy.getJobs
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
-import kotlinx.html.h2
 
 // show
 
@@ -44,21 +43,15 @@ private fun HtmlBlockTag.showUsages(
     call: ApplicationCall,
     state: State,
     uniform: UniformId,
-) {
-    val characters = state.getCharactersWith(uniform)
-    val characterTemplates = state.getCharacterTemplates(uniform)
-    val jobs = state.getJobs(uniform)
-
-    if (characters.isEmpty() && characterTemplates.isEmpty() && jobs.isEmpty()) {
-        return
-    }
-
-    h2 { +"Usage" }
-
-    fieldElements(call, state, characters)
-    fieldElements(call, state, characterTemplates)
-    fieldElements(call, state, jobs)
-}
+) = showGenericUsage(
+    call,
+    state,
+    listOf(
+        state.getCharactersWith(uniform),
+        state.getCharacterTemplates(uniform),
+        state.getJobs(uniform),
+    ),
+)
 
 // edit
 
@@ -68,7 +61,7 @@ fun HtmlBlockTag.editUniform(
     uniform: Uniform,
 ) {
     selectName(uniform.name)
-    editEquipped(call, state, UNIFORM, uniform.equipped, UndefinedStatblockLookup, false, uniform.id)
+    editEquipped(call, state, uniform.equipped, Statblock(), UndefinedStatblockLookup, false, uniform.id, UNIFORM)
 }
 
 // parse

@@ -10,6 +10,8 @@ data class Statblock(
     val statistics: Map<StatisticId, Int> = emptyMap(),
     val traits: Set<CharacterTraitId> = emptySet(),
 ) {
+    constructor(statistic: StatisticId, value: Int) : this(mapOf(statistic to value))
+
     fun calculateCost(state: State) = calculateStatisticCost(state, statistics) + calculateTraitCost(state, traits)
 
     fun resolve(

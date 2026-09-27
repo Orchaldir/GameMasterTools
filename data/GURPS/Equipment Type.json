@@ -89,6 +89,10 @@
    "id": 5,
    "name": "Laminated Armor",
    "category": "Armor",
+   "protection": {
+    "#type": "DamageResistance",
+    "amount": 5
+   },
    "price": {
     "#type": "User",
     "price": 5400
@@ -121,26 +125,6 @@
      },
      "parrying": {
       "#type": "Unbalanced"
-     },
-     "skill": {
-      "#type": "Modified",
-      "skill": 6
-     }
-    }
-   ],
-   "rangedAttacks": [
-    {
-     "effect": {
-      "#type": "Damage",
-      "amount": {
-       "#type": "StatisticBased",
-       "base": 15,
-       "modifier": {
-        "#type": "Not",
-        "number": 2
-       }
-      },
-      "damageType": 4
      },
      "skill": {
       "#type": "Modified",
@@ -187,26 +171,6 @@
      }
     }
    ],
-   "rangedAttacks": [
-    {
-     "effect": {
-      "#type": "Damage",
-      "amount": {
-       "#type": "StatisticBased",
-       "base": 15,
-       "modifier": {
-        "#type": "Not",
-        "number": 0
-       }
-      },
-      "damageType": 4
-     },
-     "skill": {
-      "#type": "Modified",
-      "skill": 6
-     }
-    }
-   ],
    "price": {
     "#type": "User",
     "price": 400
@@ -239,26 +203,6 @@
      },
      "parrying": {
       "#type": "Normal"
-     },
-     "skill": {
-      "#type": "Modified",
-      "skill": 6
-     }
-    }
-   ],
-   "rangedAttacks": [
-    {
-     "effect": {
-      "#type": "Damage",
-      "amount": {
-       "#type": "StatisticBased",
-       "base": 15,
-       "modifier": {
-        "#type": "Not",
-        "number": 1
-       }
-      },
-      "damageType": 4
      },
      "skill": {
       "#type": "Modified",
@@ -305,26 +249,6 @@
      }
     }
    ],
-   "rangedAttacks": [
-    {
-     "effect": {
-      "#type": "Damage",
-      "amount": {
-       "#type": "StatisticBased",
-       "base": 15,
-       "modifier": {
-        "#type": "Not",
-        "number": 2
-       }
-      },
-      "damageType": 4
-     },
-     "skill": {
-      "#type": "Modified",
-      "skill": 6
-     }
-    }
-   ],
    "price": {
     "#type": "User",
     "price": 900
@@ -357,26 +281,6 @@
      },
      "parrying": {
       "#type": "Unbalanced"
-     },
-     "skill": {
-      "#type": "Modified",
-      "skill": 6
-     }
-    }
-   ],
-   "rangedAttacks": [
-    {
-     "effect": {
-      "#type": "Damage",
-      "amount": {
-       "#type": "StatisticBased",
-       "base": 15,
-       "modifier": {
-        "#type": "Not",
-        "number": 4
-       }
-      },
-      "damageType": 4
      },
      "skill": {
       "#type": "Modified",
@@ -425,26 +329,6 @@
      }
     }
    ],
-   "rangedAttacks": [
-    {
-     "effect": {
-      "#type": "Damage",
-      "amount": {
-       "#type": "StatisticBased",
-       "base": 14,
-       "modifier": {
-        "#type": "Not",
-        "number": -1
-       }
-      },
-      "damageType": 6
-     },
-     "skill": {
-      "#type": "Modified",
-      "skill": 6
-     }
-    }
-   ],
    "price": {
     "#type": "User",
     "price": 20
@@ -477,26 +361,6 @@
      },
      "parrying": {
       "#type": "Fencing"
-     },
-     "skill": {
-      "#type": "Modified",
-      "skill": 6
-     }
-    }
-   ],
-   "rangedAttacks": [
-    {
-     "effect": {
-      "#type": "Damage",
-      "amount": {
-       "#type": "StatisticBased",
-       "base": 14,
-       "modifier": {
-        "#type": "Not",
-        "number": 1
-       }
-      },
-      "damageType": 6
      },
      "skill": {
       "#type": "Modified",
@@ -543,26 +407,6 @@
      }
     }
    ],
-   "rangedAttacks": [
-    {
-     "effect": {
-      "#type": "Damage",
-      "amount": {
-       "#type": "StatisticBased",
-       "base": 15,
-       "modifier": {
-        "#type": "Not",
-        "number": 2
-       }
-      },
-      "damageType": 3
-     },
-     "skill": {
-      "#type": "Modified",
-      "skill": 6
-     }
-    }
-   ],
    "price": {
     "#type": "User",
     "price": 10
@@ -595,26 +439,6 @@
      },
      "parrying": {
       "#type": "Normal"
-     },
-     "skill": {
-      "#type": "Modified",
-      "skill": 6
-     }
-    }
-   ],
-   "rangedAttacks": [
-    {
-     "effect": {
-      "#type": "Damage",
-      "amount": {
-       "#type": "StatisticBased",
-       "base": 14,
-       "modifier": {
-        "#type": "Not",
-        "number": 2
-       }
-      },
-      "damageType": 6
      },
      "skill": {
       "#type": "Modified",
@@ -661,26 +485,6 @@
      }
     }
    ],
-   "rangedAttacks": [
-    {
-     "effect": {
-      "#type": "Damage",
-      "amount": {
-       "#type": "StatisticBased",
-       "base": 15,
-       "modifier": {
-        "#type": "Not",
-        "number": 3
-       }
-      },
-      "damageType": 3
-     },
-     "skill": {
-      "#type": "Modified",
-      "skill": 6
-     }
-    }
-   ],
    "price": {
     "#type": "User",
     "price": 80
@@ -713,26 +517,6 @@
      },
      "parrying": {
       "#type": "Unbalanced"
-     },
-     "skill": {
-      "#type": "Modified",
-      "skill": 6
-     }
-    }
-   ],
-   "rangedAttacks": [
-    {
-     "effect": {
-      "#type": "Damage",
-      "amount": {
-       "#type": "StatisticBased",
-       "base": 15,
-       "modifier": {
-        "#type": "Not",
-        "number": 3
-       }
-      },
-      "damageType": 3
      },
      "skill": {
       "#type": "Modified",
@@ -779,26 +563,6 @@
      }
     }
    ],
-   "rangedAttacks": [
-    {
-     "effect": {
-      "#type": "Damage",
-      "amount": {
-       "#type": "StatisticBased",
-       "base": 15,
-       "modifier": {
-        "#type": "Not",
-        "number": 5
-       }
-      },
-      "damageType": 3
-     },
-     "skill": {
-      "#type": "Modified",
-      "skill": 6
-     }
-    }
-   ],
    "price": {
     "#type": "User",
     "price": 80
@@ -828,26 +592,6 @@
      },
      "reach": {
       "#type": "Simple"
-     },
-     "skill": {
-      "#type": "Modified",
-      "skill": 17
-     }
-    }
-   ],
-   "rangedAttacks": [
-    {
-     "effect": {
-      "#type": "Damage",
-      "amount": {
-       "#type": "StatisticBased",
-       "base": 14,
-       "modifier": {
-        "#type": "Not",
-        "number": 0
-       }
-      },
-      "damageType": 3
      },
      "skill": {
       "#type": "Modified",

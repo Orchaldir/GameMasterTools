@@ -2,10 +2,7 @@ package at.orchaldir.gm.core.reducer
 
 import at.orchaldir.gm.core.action.Action
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.character.Character
-import at.orchaldir.gm.core.model.character.CharacterId
-import at.orchaldir.gm.core.model.character.CharacterTemplate
-import at.orchaldir.gm.core.model.character.CharacterTemplateId
+import at.orchaldir.gm.core.model.character.*
 import at.orchaldir.gm.core.model.character.title.Title
 import at.orchaldir.gm.core.model.character.title.TitleId
 import at.orchaldir.gm.core.model.culture.Culture
@@ -113,8 +110,20 @@ fun reduceCreateElement(
     is CalendarId -> createElement(state, Calendar(id))
     is CatastropheId -> createElement(state, Catastrophe(id))
     is CharacterId -> createElement(state, Character(id))
+    is CharacterInstanceId -> {
+        val race = state.getRaceStorage().getAll().first()
+        val instance = CharacterInstance(
+            id,
+            race = race.id,
+            gender = race.genders.getMostCommon(),
+        )
+
+        createElement(state, instance)
+    }
+
     is CharacterTemplateId -> {
         val race = state.getRaceStorage().getIds().first()
+
         createElement(state, CharacterTemplate(id, race = UseRace(race)))
     }
 

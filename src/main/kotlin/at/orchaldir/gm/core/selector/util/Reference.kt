@@ -8,6 +8,7 @@ fun State.getReferenceName(
 ) = when (creator) {
     is BusinessReference -> getElementName(creator.business)
     is CharacterReference -> getElementName(creator.character)
+    is CharacterTemplateReference -> getElementName(creator.template)
     is CultureReference -> getElementName(creator.culture)
     is GodReference -> getElementName(creator.god)
     is OrganizationReference -> getElementName(creator.organization)

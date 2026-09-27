@@ -72,12 +72,11 @@ private fun HtmlBlockTag.editSkinInternal(
         }
 
         is MaterialSkin -> selectFromOneOf(
-            "Material",
             combine(param, MATERIAL),
             state.getMaterialStorage(),
             options.materials,
             skin.material,
-        ) { material -> material.name.text }
+        )
 
         is NormalSkin -> selectFromOneOf(
             "Color",

@@ -4,6 +4,7 @@ import at.orchaldir.gm.app.MAX
 import at.orchaldir.gm.app.NAME
 import at.orchaldir.gm.app.POPULATION
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.util.showGenericUsage
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.SettlementSize
 import at.orchaldir.gm.core.model.realm.SettlementSizeId
@@ -12,7 +13,6 @@ import at.orchaldir.gm.core.selector.realm.getSettlements
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
-import kotlinx.html.h2
 
 // show
 
@@ -30,17 +30,13 @@ private fun HtmlBlockTag.showUsages(
     call: ApplicationCall,
     state: State,
     size: SettlementSize,
-) {
-    val settlements = state.getSettlements(size)
-
-    if (settlements.isEmpty()) {
-        return
-    }
-
-    h2 { +"Usage" }
-
-    fieldElements(call, state, settlements)
-}
+) = showGenericUsage(
+    call,
+    state,
+    listOf(
+        state.getSettlements(size),
+    ),
+)
 
 // edit
 

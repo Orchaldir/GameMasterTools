@@ -4,6 +4,7 @@ import at.orchaldir.gm.app.COLOR
 import at.orchaldir.gm.app.SCHEME
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.util.showGenericUsage
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.render.*
 import at.orchaldir.gm.core.selector.item.equipment.getEquipment
@@ -13,7 +14,6 @@ import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
-import kotlinx.html.h2
 
 // show
 
@@ -41,19 +41,14 @@ private fun HtmlBlockTag.showUsages(
     call: ApplicationCall,
     state: State,
     id: ColorSchemeId,
-) {
-    val equipment = state.getEquipment(id)
-    val groups = state.getColorSchemeGroups(id)
-
-    if (equipment.isEmpty() && groups.isEmpty()) {
-        return
-    }
-
-    h2 { +"Usage" }
-
-    fieldElements(call, state, equipment)
-    fieldElements(call, state, groups)
-}
+) = showGenericUsage(
+    call,
+    state,
+    listOf(
+        state.getEquipment(id),
+        state.getColorSchemeGroups(id),
+    ),
+)
 
 // edit
 

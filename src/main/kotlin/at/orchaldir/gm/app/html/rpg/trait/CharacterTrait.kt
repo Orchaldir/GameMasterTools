@@ -5,6 +5,7 @@ import at.orchaldir.gm.app.COST
 import at.orchaldir.gm.app.GROUP
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.util.showGenericUsage
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.trait.*
 import at.orchaldir.gm.core.selector.character.getCharacterTemplates
@@ -14,7 +15,10 @@ import at.orchaldir.gm.core.selector.rpg.getCharacterTraitGroups
 import at.orchaldir.gm.core.selector.rpg.getCharacterTraits
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.*
+import kotlinx.html.HtmlBlockTag
+import kotlinx.html.id
+import kotlinx.html.option
+import kotlinx.html.select
 
 // show
 
@@ -42,21 +46,15 @@ private fun HtmlBlockTag.showUsage(
     call: ApplicationCall,
     state: State,
     trait: CharacterTraitId,
-) {
-    val characters = state.getCharacters(trait)
-    val characterTemplates = state.getCharacterTemplates(trait)
-    val gods = state.getGodsWith(trait)
-
-    if (characters.isEmpty() && characterTemplates.isEmpty() && gods.isEmpty()) {
-        return
-    }
-
-    h2 { +"Usage" }
-
-    fieldElements(call, state, characters)
-    fieldElements(call, state, characterTemplates)
-    fieldElements(call, state, gods)
-}
+) = showGenericUsage(
+    call,
+    state,
+    listOf(
+        state.getCharacters(trait),
+        state.getCharacterTemplates(trait),
+        state.getGodsWith(trait),
+    ),
+)
 
 // edit
 

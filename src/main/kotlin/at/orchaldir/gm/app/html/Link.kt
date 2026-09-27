@@ -1,6 +1,7 @@
 package at.orchaldir.gm.app.html
 
 import at.orchaldir.gm.app.routes.Routes
+import at.orchaldir.gm.app.routes.character.CharacterInstanceRoutes
 import at.orchaldir.gm.app.routes.character.CharacterRoutes
 import at.orchaldir.gm.app.routes.character.CharacterTemplateRoutes
 import at.orchaldir.gm.app.routes.character.title.TitleRoutes
@@ -40,6 +41,7 @@ import at.orchaldir.gm.app.routes.world.*
 import at.orchaldir.gm.app.routes.world.settlement.SettlementMapRoutes
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterId
+import at.orchaldir.gm.core.model.character.CharacterInstanceId
 import at.orchaldir.gm.core.model.character.CharacterTemplateId
 import at.orchaldir.gm.core.model.character.title.TitleId
 import at.orchaldir.gm.core.model.culture.CultureId
@@ -371,6 +373,14 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.link(
     link(call, element.id(), element.name(state))
 }
 
+fun <ELEMENT : Element<out Id<*>>> HtmlBlockTag.linkWithStar(
+    call: ApplicationCall,
+    state: State,
+    element: ELEMENT,
+) {
+    link(call, element.id(), element.name(state))
+}
+
 fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.link(
     call: ApplicationCall,
     element: ELEMENT,
@@ -404,6 +414,7 @@ fun href(
     is CalendarId -> call.application.href(CalendarRoutes.Details(id))
     is CatastropheId -> call.application.href(CatastropheRoutes.Details(id))
     is CharacterId -> call.application.href(CharacterRoutes.Details(id))
+    is CharacterInstanceId -> call.application.href(CharacterInstanceRoutes.Details(id))
     is CharacterTemplateId -> call.application.href(CharacterTemplateRoutes.Details(id))
     is ColorSchemeGroupId -> call.application.href(ColorSchemeGroupRoutes.Details(id))
     is ColorSchemeId -> call.application.href(ColorSchemeRoutes.Details(id))

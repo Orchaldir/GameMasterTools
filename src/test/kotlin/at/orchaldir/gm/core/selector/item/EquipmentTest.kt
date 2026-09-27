@@ -4,6 +4,7 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
+import at.orchaldir.gm.core.model.character.CharacterInstance
 import at.orchaldir.gm.core.model.character.CharacterTemplate
 import at.orchaldir.gm.core.model.character.UniqueEquipment
 import at.orchaldir.gm.core.model.culture.fashion.ClothingFashion
@@ -39,6 +40,20 @@ class EquipmentTest {
             val newState = state.updateStorage(character)
 
             failCanDelete(newState, CHARACTER_ID_0)
+        }
+
+        @Test
+        fun `Cannot delete a equipment that is equipped by a character instance`() {
+            val map = EquipmentMap
+                .from(BodySlot.Head, EQUIPMENT_ID_0, COLOR_SCHEME_ID_0)
+            val instance = CharacterInstance(
+                CHARACTER_INSTANCE_ID_0,
+                race = RACE_ID_0,
+                equipped = map,
+            )
+            val newState = state.updateStorage(instance)
+
+            failCanDelete(newState, CHARACTER_INSTANCE_ID_0)
         }
 
         @Test

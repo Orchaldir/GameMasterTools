@@ -21,7 +21,6 @@ import at.orchaldir.gm.core.selector.util.getExistingElements
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
-import kotlinx.html.h2
 
 // show
 
@@ -49,17 +48,13 @@ private fun HtmlBlockTag.showUsage(
     call: ApplicationCall,
     state: State,
     id: TextId,
-) {
-    val parcels = state.getTreasureParcelsWith(id)
-
-    if (parcels.isEmpty()) {
-        return
-    }
-
-    h2 { +"Usage" }
-
-    fieldElements(call, state, parcels)
-}
+) = showGenericUsage(
+    call,
+    state,
+    listOf(
+        state.getTreasureParcelsWith(id),
+    ),
+)
 
 // edit
 

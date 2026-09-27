@@ -122,17 +122,29 @@ fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectOptionalFromOneOf(
     }
 }
 
-fun <ID : Id<ID>, ELEMENT : Element<ID>> HtmlBlockTag.selectFromOneOf(
+fun <ID : Id<ID>, ELEMENT : ElementWithSimpleName<ID>> HtmlBlockTag.selectFromOneOf(
+    selectId: String,
+    storage: Storage<ID, ELEMENT>,
+    values: RarityMap<ID>,
+    current: ID,
+) = selectFromOneOf(
+    current.type(),
+    selectId,
+    storage,
+    values,
+    current,
+)
+
+fun <ID : Id<ID>, ELEMENT : ElementWithSimpleName<ID>> HtmlBlockTag.selectFromOneOf(
     text: String,
     selectId: String,
     storage: Storage<ID, ELEMENT>,
     values: RarityMap<ID>,
     current: ID,
-    getName: (ELEMENT) -> String,
 ) {
     selectFromOneOf(text, selectId, values, current) { id ->
         val element = storage.getOrThrow(id)
-        label = getName(element)
+        label = element.name()
         value = id.value().toString()
     }
 }

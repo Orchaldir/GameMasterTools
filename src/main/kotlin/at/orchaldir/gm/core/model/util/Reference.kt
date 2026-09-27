@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.util
 
 import at.orchaldir.gm.core.model.character.CharacterId
+import at.orchaldir.gm.core.model.character.CharacterTemplateId
 import at.orchaldir.gm.core.model.culture.CultureId
 import at.orchaldir.gm.core.model.economy.business.BusinessId
 import at.orchaldir.gm.core.model.organization.OrganizationId
@@ -12,10 +13,11 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 enum class ReferenceType {
-    None,
     Undefined,
+    None,
     Business,
     Character,
+    CharacterTemplate,
     Culture,
     God,
     Organization,
@@ -31,6 +33,7 @@ sealed class Reference {
         is UndefinedReference -> ReferenceType.Undefined
         is BusinessReference -> ReferenceType.Business
         is CharacterReference -> ReferenceType.Character
+        is CharacterTemplateReference -> ReferenceType.CharacterTemplate
         is CultureReference -> ReferenceType.Culture
         is GodReference -> ReferenceType.God
         is OrganizationReference -> ReferenceType.Organization
@@ -42,6 +45,7 @@ sealed class Reference {
         NoReference, UndefinedReference -> false
         is BusinessReference -> business == id
         is CharacterReference -> character == id
+        is CharacterTemplateReference -> template == id
         is CultureReference -> culture == id
         is GodReference -> god == id
         is OrganizationReference -> organization == id
@@ -66,6 +70,10 @@ data class BusinessReference(val business: BusinessId) : Reference()
 @Serializable
 @SerialName("Character")
 data class CharacterReference(val character: CharacterId) : Reference()
+
+@Serializable
+@SerialName("CharacterTemplate")
+data class CharacterTemplateReference(val template: CharacterTemplateId) : Reference()
 
 @Serializable
 @SerialName("Culture")

@@ -8,6 +8,7 @@ import at.orchaldir.gm.app.html.math.parseComplexShape
 import at.orchaldir.gm.app.html.math.selectComplexShape
 import at.orchaldir.gm.app.html.math.showComplexShape
 import at.orchaldir.gm.app.html.util.math.*
+import at.orchaldir.gm.app.html.util.showGenericUsage
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.economy.material.ALLOYS_OR_METALS
 import at.orchaldir.gm.core.model.economy.money.*
@@ -29,7 +30,6 @@ import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.DETAILS
 import kotlinx.html.HtmlBlockTag
-import kotlinx.html.h2
 
 // show
 
@@ -118,17 +118,13 @@ private fun HtmlBlockTag.showUsage(
     call: ApplicationCall,
     state: State,
     unit: CurrencyUnit,
-) {
-    val parcels = state.getTreasureParcelsWith(unit.id)
-
-    if (parcels.isEmpty()) {
-        return
-    }
-
-    h2 { +"Usage" }
-
-    fieldElements(call, state, parcels)
-}
+) = showGenericUsage(
+    call,
+    state,
+    listOf(
+        state.getTreasureParcelsWith(unit.id),
+    ),
+)
 
 // edit
 

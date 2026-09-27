@@ -44,6 +44,7 @@ import at.orchaldir.gm.utils.math.unit.Distance
 
 fun State.canDeleteCharacter(character: CharacterId) = DeleteResult(character)
     .addElements(getBattlesLedBy(character))
+    .addElements(getCharacterInstancesBasedOn(character))
     .addElements(getChildren(character))
     .addElements(getOrganizations(character))
     .addElements(getSecretIdentitiesOf(character))

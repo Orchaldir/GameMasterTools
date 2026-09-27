@@ -1,9 +1,13 @@
 package at.orchaldir.gm.app.html.rpg.equipment
 
-import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.parseInt
+import at.orchaldir.gm.app.html.parseName
+import at.orchaldir.gm.app.html.parseSimpleOptionalInt
+import at.orchaldir.gm.app.html.selectName
 import at.orchaldir.gm.app.html.util.math.parseWeightLookupForType
 import at.orchaldir.gm.app.html.util.math.selectWeightLookupForType
 import at.orchaldir.gm.app.html.util.math.showWeightLookupForType
+import at.orchaldir.gm.app.html.util.showGenericUsage
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.MAX_EQUIPMENT_WEIGHT
 import at.orchaldir.gm.core.model.item.equipment.MIN_EQUIPMENT_WEIGHT
@@ -14,7 +18,6 @@ import at.orchaldir.gm.core.selector.rpg.equipment.getEquipmentTypes
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
-import kotlinx.html.h2
 
 // show
 
@@ -32,19 +35,14 @@ private fun HtmlBlockTag.showUsages(
     call: ApplicationCall,
     state: State,
     type: AmmunitionTypeId,
-) {
-    val ammunition = state.getAmmunition(type)
-    val equipmentTypes = state.getEquipmentTypes(type)
-
-    if (ammunition.isEmpty() && equipmentTypes.isEmpty()) {
-        return
-    }
-
-    h2 { +"Usage" }
-
-    fieldElements(call, state, ammunition)
-    fieldElements(call, state, equipmentTypes)
-}
+) = showGenericUsage(
+    call,
+    state,
+    listOf(
+        state.getAmmunition(type),
+        state.getEquipmentTypes(type),
+    ),
+)
 
 // edit
 

@@ -5,6 +5,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.optionalField
 import at.orchaldir.gm.app.html.util.parseOptionalDate
 import at.orchaldir.gm.app.html.util.selectOptionalDate
+import at.orchaldir.gm.app.html.util.showGenericUsage
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.font.Font
 import at.orchaldir.gm.core.model.util.font.FontId
@@ -14,7 +15,6 @@ import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
 import kotlinx.html.TextAreaWrap
-import kotlinx.html.h2
 import kotlinx.html.textArea
 
 // show
@@ -30,11 +30,21 @@ fun HtmlBlockTag.showFont(
             +font.base64
         }
     }
-    h2 { +"Usage" }
-
-    fieldElements(call, state, state.getCurrencyUnits(font.id))
-    fieldElements(call, state, state.getTexts(font.id))
+    showUsage(call, state, font)
 }
+
+private fun HtmlBlockTag.showUsage(
+    call: ApplicationCall,
+    state: State,
+    font: Font,
+) = showGenericUsage(
+    call,
+    state,
+    listOf(
+        state.getCurrencyUnits(font.id),
+        state.getTexts(font.id),
+    ),
+)
 
 // edit
 

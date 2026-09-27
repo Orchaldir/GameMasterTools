@@ -4,35 +4,9 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.Equipment
 import at.orchaldir.gm.core.model.rpg.combat.MeleeAttack
 import at.orchaldir.gm.core.model.rpg.equipment.*
-import at.orchaldir.gm.core.model.rpg.statblock.*
+import at.orchaldir.gm.core.model.rpg.statblock.Statblock
 
 // resolve melee attack with statblock
-
-fun resolveMeleeAttackMap(
-    state: State,
-    base: Statblock,
-    lookup: StatblockLookup,
-    attackMap: Map<Equipment, List<MeleeAttack>>,
-) = when (lookup) {
-    UndefinedStatblockLookup -> attackMap
-    is UniqueStatblock -> {
-        val statblock = lookup.statblock.applyTo(base)
-        resolveMeleeAttackMap(state, statblock, attackMap)
-    }
-
-    is UseStatblockOfTemplate -> {
-        val statblock = state.getStatblock(base, lookup.template)
-
-        resolveMeleeAttackMap(state, statblock, attackMap)
-    }
-
-    is ModifyStatblockOfTemplate -> {
-        val statblock = state.getStatblock(base, lookup.template)
-        val resolvedStatblock = lookup.update.applyTo(statblock)
-
-        resolveMeleeAttackMap(state, resolvedStatblock, attackMap)
-    }
-}
 
 fun resolveMeleeAttackMap(
     state: State,

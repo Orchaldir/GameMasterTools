@@ -15,8 +15,10 @@ import at.orchaldir.gm.app.html.util.color.parseColorSchemeOption
 import at.orchaldir.gm.app.html.util.math.parseWeightLookup
 import at.orchaldir.gm.app.html.util.math.selectWeightLookup
 import at.orchaldir.gm.app.html.util.math.showWeightLookupDetails
+import at.orchaldir.gm.app.html.util.showGenericUsage
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.*
+import at.orchaldir.gm.core.selector.character.getCharacterInstances
 import at.orchaldir.gm.core.selector.character.getCharacterTemplates
 import at.orchaldir.gm.core.selector.character.getCharactersWith
 import at.orchaldir.gm.core.selector.culture.getFashions
@@ -27,7 +29,6 @@ import at.orchaldir.gm.prototypes.visualization.character.CHARACTER_CONFIG
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
-import kotlinx.html.h2
 
 // show
 
@@ -63,25 +64,18 @@ private fun HtmlBlockTag.showUsages(
     call: ApplicationCall,
     state: State,
     equipment: EquipmentId,
-) {
-    val characters = state.getCharactersWith(equipment)
-    val characterTemplates = state.getCharacterTemplates(equipment)
-    val fashions = state.getFashions(equipment)
-    val parcels = state.getTreasureParcelsWith(equipment)
-    val uniforms = state.getUniforms(equipment)
-
-    if (characters.isEmpty() && characterTemplates.isEmpty() && fashions.isEmpty() && parcels.isEmpty() && uniforms.isEmpty()) {
-        return
-    }
-
-    h2 { +"Usage" }
-
-    fieldElements(call, state, characters)
-    fieldElements(call, state, characterTemplates)
-    fieldElements(call, state, fashions)
-    fieldElements(call, state, parcels)
-    fieldElements(call, state, uniforms)
-}
+) = showGenericUsage(
+    call,
+    state,
+    listOf(
+        state.getCharactersWith(equipment),
+        state.getCharacterInstances(equipment),
+        state.getCharacterTemplates(equipment),
+        state.getFashions(equipment),
+        state.getTreasureParcelsWith(equipment),
+        state.getUniforms(equipment),
+    ),
+)
 
 // edit
 

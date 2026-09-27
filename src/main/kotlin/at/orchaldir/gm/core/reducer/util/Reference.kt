@@ -21,6 +21,12 @@ fun validateReference(
     when (reference) {
         is BusinessReference -> validateReference(state, reference.business, validateId, noun, date)
         is CharacterReference -> validateReference(state, reference.character, validateId, noun, date)
+        is CharacterTemplateReference -> {
+            state.getCharacterTemplateStorage().require(reference.template) {
+                "Requires unknown $noun (${reference.template.print()})!"
+            }
+            validateId(reference.template)
+        }
         is CultureReference -> validateReference(state, reference.culture, validateId, noun, date)
         is GodReference -> validateReference(state, reference.god, validateId, noun, date)
         is OrganizationReference -> validateReference(state, reference.organization, validateId, noun, date)

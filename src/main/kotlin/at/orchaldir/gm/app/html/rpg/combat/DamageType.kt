@@ -2,6 +2,7 @@ package at.orchaldir.gm.app.html.rpg.combat
 
 import at.orchaldir.gm.app.SHORT
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.util.showGenericUsage
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.combat.DamageType
 import at.orchaldir.gm.core.model.rpg.combat.DamageTypeId
@@ -9,7 +10,6 @@ import at.orchaldir.gm.core.selector.rpg.equipment.getEquipmentTypes
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
-import kotlinx.html.h2
 
 // show
 
@@ -27,17 +27,13 @@ private fun HtmlBlockTag.showUsages(
     call: ApplicationCall,
     state: State,
     type: DamageTypeId,
-) {
-    val equipmentTypes = state.getEquipmentTypes(type)
-
-    if (equipmentTypes.isEmpty()) {
-        return
-    }
-
-    h2 { +"Usage" }
-
-    fieldElements(call, state, equipmentTypes)
-}
+) = showGenericUsage(
+    call,
+    state,
+    listOf(
+        state.getEquipmentTypes(type),
+    ),
+)
 
 // edit
 

@@ -59,7 +59,7 @@ fun getProtection(state: State, map: EquipmentIdMap): Map<Equipment, Protection>
         val stats = equipment.stats
         val type = state.getEquipmentTypeStorage().getOptional(stats.type) ?: return@forEach
 
-        if (type.protection !is UndefinedProtection) {
+        if (type.protection is UndefinedProtection) {
             return@forEach
         }
 
@@ -80,7 +80,7 @@ fun getRangedAttacks(
 ) = getRangedAttacks(state, state.getEquipmentIdMap(equipped, lookup))
 
 fun getRangedAttacks(state: State, map: EquipmentIdMap): Map<Equipment, List<RangedAttack>> {
-    val meleeAttackMap = mutableMapOf<Equipment, List<RangedAttack>>()
+    val rangedAttackMap = mutableMapOf<Equipment, List<RangedAttack>>()
 
     map.getAllEquipment().forEach { (id, _) ->
         val equipment = state.getEquipmentStorage().getOrThrow(id)
@@ -93,8 +93,8 @@ fun getRangedAttacks(state: State, map: EquipmentIdMap): Map<Equipment, List<Ran
 
         val effects = state.getEquipmentModifierEffects(stats.modifiers)
 
-        meleeAttackMap[equipment] = resolveRangedAttacks(state, effects, type.rangedAttacks)
+        rangedAttackMap[equipment] = resolveRangedAttacks(state, effects, type.rangedAttacks)
     }
 
-    return meleeAttackMap
+    return rangedAttackMap
 }

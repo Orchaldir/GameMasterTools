@@ -1,8 +1,6 @@
 package at.orchaldir.gm.app.html.rpg.equipment
 
-import at.orchaldir.gm.app.ATTACK
-import at.orchaldir.gm.app.PRICE
-import at.orchaldir.gm.app.TYPE
+import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.economy.money.parsePriceLookup
 import at.orchaldir.gm.app.html.economy.money.selectPriceLookupForType
@@ -11,6 +9,7 @@ import at.orchaldir.gm.app.html.rpg.combat.*
 import at.orchaldir.gm.app.html.util.math.parseWeightLookupForType
 import at.orchaldir.gm.app.html.util.math.selectWeightLookupForType
 import at.orchaldir.gm.app.html.util.math.showWeightLookupForType
+import at.orchaldir.gm.app.html.util.showGenericUsage
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.MAX_EQUIPMENT_PRICE
 import at.orchaldir.gm.core.model.item.equipment.MAX_EQUIPMENT_WEIGHT
@@ -23,7 +22,6 @@ import at.orchaldir.gm.core.selector.item.equipment.getEquipment
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
-import kotlinx.html.h2
 
 // show
 
@@ -46,17 +44,13 @@ private fun HtmlBlockTag.showUsages(
     call: ApplicationCall,
     state: State,
     type: EquipmentTypeId,
-) {
-    val armors = state.getEquipment(type)
-
-    if (armors.isEmpty()) {
-        return
-    }
-
-    h2 { +"Usage" }
-
-    fieldElements(call, state, armors)
-}
+) = showGenericUsage(
+    call,
+    state,
+    listOf(
+        state.getEquipment(type),
+    ),
+)
 
 // edit
 
@@ -72,10 +66,22 @@ fun HtmlBlockTag.editEquipmentType(
         EQUIPMENT_TYPE_CATEGORIES,
         type.category,
     )
-    editList("Melee Attacks", ATTACK, type.meleeAttacks, 0, 2, 1) { index, param, attack ->
+    editList(
+        "Melee Attacks",
+        combine(MELEE, ATTACK),
+        type.meleeAttacks,
+        0,
+        2,
+    ) { index, param, attack ->
         editMeleeAttack(state, attack, "${index + 1}.Attack", param)
     }
-    editList("Ranged Attacks", ATTACK, type.rangedAttacks, 0, 2, 1) { index, param, attack ->
+    editList(
+        "Ranged Attacks",
+        combine(RANGED, ATTACK),
+        type.rangedAttacks,
+        0,
+        2,
+    ) { index, param, attack ->
         editRangedAttack(state, attack, "${index + 1}.Attack", param)
     }
     editProtection(call, state, type.protection)
@@ -98,10 +104,10 @@ fun parseEquipmentType(
     id,
     parseName(parameters),
     parse(parameters, TYPE, EQUIPMENT_TYPE_CATEGORIES),
-    parseList(parameters, ATTACK, 0) { _, param ->
+    parseList(parameters, combine(MELEE, ATTACK), 0) { _, param ->
         parseMeleeAttack(parameters, param)
     },
-    parseList(parameters, ATTACK, 0) { _, param ->
+    parseList(parameters, combine(RANGED, ATTACK), 0) { _, param ->
         parseRangedAttack(parameters, param)
     },
     parseProtection(state, parameters),

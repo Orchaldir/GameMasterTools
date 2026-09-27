@@ -1,5 +1,125 @@
 {
  "version": 1,
  "elements": {
+  "0": {
+   "id": 0,
+   "name": {
+    "#type": "Family",
+    "given": "Arthur",
+    "middle": null,
+    "family": "Pendragon"
+   },
+   "appearance": {
+    "#type": "Humanoid",
+    "body": {
+     "bodyShape": "Muscular"
+    },
+    "head": {
+     "ears": {
+      "#type": "Normal"
+     },
+     "eyes": {
+      "#type": "Two",
+      "eye": {
+       "#type": "Normal",
+       "pupilColor": "Blue"
+      }
+     },
+     "hair": {
+      "#type": "Normal",
+      "cut": {
+       "#type": "Short",
+       "style": "SidePartLeft"
+      },
+      "color": {
+       "#type": "Normal",
+       "color": "Blond"
+      }
+     },
+     "mouth": {
+      "#type": "Normal",
+      "beard": {
+       "#type": "Normal",
+       "style": {
+        "#type": "Shaved"
+       },
+       "color": {
+        "#type": "Normal",
+        "color": "Blond"
+       }
+      }
+     }
+    },
+    "skin": {
+     "#type": "Normal",
+     "color": "Fair"
+    }
+   },
+   "equipped": {
+    "#type": "Unique",
+    "map": {
+     "list": [
+      {
+       "data": {
+        "first": 4,
+        "second": null
+       },
+       "sets": [
+        [
+         "Top"
+        ]
+       ]
+      },
+      {
+       "data": {
+        "first": 5,
+        "second": null
+       },
+       "sets": [
+        [
+         "Foot"
+        ]
+       ]
+      },
+      {
+       "data": {
+        "first": 6,
+        "second": 2
+       },
+       "sets": [
+        [
+         "Bottom"
+        ]
+       ]
+      },
+      {
+       "data": {
+        "first": 3,
+        "second": null
+       },
+       "sets": [
+        [
+         "HeldInRightHand"
+        ]
+       ]
+      }
+     ]
+    }
+   },
+   "statblock": {
+    "#type": "Unique",
+    "statblock": {
+     "statistics": {
+      "0": 4,
+      "1": 2,
+      "2": 2,
+      "3": 2,
+      "4": 2,
+      "5": 2,
+      "6": 6
+     }
+    }
+   }
+  }
  }
 }

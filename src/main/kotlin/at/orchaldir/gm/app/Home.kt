@@ -4,6 +4,7 @@ import at.orchaldir.gm.app.html.action
 import at.orchaldir.gm.app.html.fieldStorageLink
 import at.orchaldir.gm.app.html.simpleHtml
 import at.orchaldir.gm.app.routes.ConfigRoutes
+import at.orchaldir.gm.app.routes.character.CharacterInstanceRoutes
 import at.orchaldir.gm.app.routes.character.CharacterRoutes
 import at.orchaldir.gm.app.routes.character.CharacterTemplateRoutes
 import at.orchaldir.gm.app.routes.character.title.TitleRoutes
@@ -82,6 +83,7 @@ fun Application.configureRouting() {
                     fieldStorageLink(call, state.getQuoteStorage(), QuoteRoutes())
                     h3 { +"Characters" }
                     fieldStorageLink(call, state.getCharacterStorage(), CharacterRoutes())
+                    fieldStorageLink(call, state.getCharacterInstanceStorage(), CharacterInstanceRoutes())
                     fieldStorageLink(call, state.getCharacterTemplateStorage(), CharacterTemplateRoutes())
                     fieldStorageLink(call, state.getCharacterTraitStorage(), CharacterTraitRoutes())
                     fieldStorageLink(call, state.getRaceStorage(), RaceRoutes())
