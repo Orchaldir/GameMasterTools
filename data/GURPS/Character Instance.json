@@ -223,6 +223,31 @@
      }
     ]
    }
+  },
+  "3": {
+   "id": 3,
+   "race": 0,
+   "gender": "Female",
+   "statblock": {
+    "statistics": {
+     "4": 3
+    }
+   },
+   "equipped": {
+    "list": [
+     {
+      "data": {
+       "first": 1,
+       "second": null
+      },
+      "sets": [
+       [
+        "Top"
+       ]
+      ]
+     }
+    ]
+   }
   }
  }
 }

@@ -18,6 +18,7 @@ import at.orchaldir.gm.app.html.util.math.showWeightLookupDetails
 import at.orchaldir.gm.app.html.util.showGenericUsage
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.equipment.*
+import at.orchaldir.gm.core.selector.character.getCharacterInstances
 import at.orchaldir.gm.core.selector.character.getCharacterTemplates
 import at.orchaldir.gm.core.selector.character.getCharactersWith
 import at.orchaldir.gm.core.selector.culture.getFashions
@@ -69,6 +70,7 @@ private fun HtmlBlockTag.showUsages(
     state,
     listOf(
         state.getCharactersWith(equipment),
+        state.getCharacterInstances(equipment),
         state.getCharacterTemplates(equipment),
         state.getFashions(equipment),
         state.getTreasureParcelsWith(equipment),
