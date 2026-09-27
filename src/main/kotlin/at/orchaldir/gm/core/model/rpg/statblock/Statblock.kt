@@ -1,6 +1,7 @@
 package at.orchaldir.gm.core.model.rpg.statblock
 
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.item.equipment.EquipmentMap
 import at.orchaldir.gm.core.model.rpg.statistic.*
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitId
 import kotlinx.serialization.Serializable
@@ -10,6 +11,8 @@ data class Statblock(
     val statistics: Map<StatisticId, Int> = emptyMap(),
     val traits: Set<CharacterTraitId> = emptySet(),
 ) {
+    constructor(statistic: StatisticId, value: Int) : this(mapOf(statistic to value))
+
     fun calculateCost(state: State) = calculateStatisticCost(state, statistics) + calculateTraitCost(state, traits)
 
     fun resolve(

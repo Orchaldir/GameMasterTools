@@ -8,6 +8,8 @@ import at.orchaldir.gm.core.model.character.CharacterTemplateId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
 import at.orchaldir.gm.core.model.item.equipment.containsId
 import at.orchaldir.gm.core.model.race.RaceId
+import at.orchaldir.gm.core.model.rpg.statistic.Statistic
+import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.selector.item.equipment.getEquipmentIdMap
 
 fun State.canDeleteCharacterInstance(instance: CharacterInstanceId) = DeleteResult(instance)
@@ -23,6 +25,11 @@ fun State.getCharacterInstances(equipment: EquipmentId) = getCharacterInstanceSt
 fun State.getCharacterInstances(race: RaceId) = getCharacterInstanceStorage()
     .getAll()
     .filter { it.race == race }
+
+fun State.getCharacterInstancesWith(statistic: StatisticId) = getCharacterInstanceStorage()
+    .getAll()
+    .filter { it.statblock.statistics.containsKey(statistic) }
+
 
 fun State.getCharacterInstances(template: CharacterTemplateId) = getCharacterInstanceStorage()
     .getAll()

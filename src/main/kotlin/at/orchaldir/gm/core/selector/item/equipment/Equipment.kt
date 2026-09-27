@@ -10,6 +10,7 @@ import at.orchaldir.gm.core.model.rpg.equipment.EquipmentModifierId
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentTypeId
 import at.orchaldir.gm.core.model.util.render.ColorSchemeGroupId
 import at.orchaldir.gm.core.model.util.render.ColorSchemeId
+import at.orchaldir.gm.core.selector.character.getCharacterInstances
 import at.orchaldir.gm.core.selector.character.getCharacterTemplates
 import at.orchaldir.gm.core.selector.character.getCharactersWith
 import at.orchaldir.gm.core.selector.culture.getFashions
@@ -18,6 +19,7 @@ import at.orchaldir.gm.core.selector.rpg.equipment.getEquipmentType
 
 fun State.canDeleteEquipment(equipment: EquipmentId) = DeleteResult(equipment)
     .addElements(getCharactersWith(equipment))
+    .addElements(getCharacterInstances(equipment))
     .addElements(getCharacterTemplates(equipment))
     .addElements(getFashions(equipment))
     .addElements(getTreasureParcelsWith(equipment))
