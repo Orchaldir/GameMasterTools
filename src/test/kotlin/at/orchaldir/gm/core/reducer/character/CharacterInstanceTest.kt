@@ -75,7 +75,7 @@ class CharacterInstanceTest {
 
         @Test
         fun `Using an gender not supported by the race`() {
-            fail(oldInstance.copy(gender = Gender.Genderless), "Requires unknown Race 99!")
+            fail(oldInstance.copy(gender = Gender.Genderless), "Gender Genderless not allowed by Race 0!")
         }
 
         @Test

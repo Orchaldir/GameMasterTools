@@ -59,7 +59,8 @@ data class CharacterInstance(
 
     override fun validate(state: State) {
         validateReference(state, basedOn, null, "Base", ALLOWED_BASED_ON_TYPES)
-        state.getRaceStorage().requireOptional(race)
+        val race = state.getRaceStorage().getOrThrow(race)
+        require(race.genders.contains(gender)) { "Gender $gender not allowed by ${this.race.print()}!" }
         validateEquipmentMap(state, equipped)
         validateStatblock(state, statblock)
     }
