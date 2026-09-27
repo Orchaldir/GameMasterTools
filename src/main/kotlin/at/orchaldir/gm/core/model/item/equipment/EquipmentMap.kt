@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.item.equipment
 
+import at.orchaldir.gm.core.model.item.equipment.EquipmentMapEntry
 import at.orchaldir.gm.core.model.util.render.ColorSchemeId
 import at.orchaldir.gm.core.model.util.render.Colors
 import kotlinx.serialization.Serializable
@@ -9,6 +10,7 @@ data class EquipmentMap<T>(private val list: List<EquipmentMapEntry<T>>) {
 
     constructor() : this(emptyList())
     constructor(entry: EquipmentMapEntry<T>) : this(listOf(entry))
+    constructor(value: T, slot: BodySlot) : this(EquipmentMapEntry(value, slot))
 
     companion object {
         fun from(data: EquipmentAppearance) =
