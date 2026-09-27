@@ -17,16 +17,11 @@ import at.orchaldir.gm.core.model.race.*
 import at.orchaldir.gm.core.selector.character.getCharacterInstances
 import at.orchaldir.gm.core.selector.character.getCharacterTemplates
 import at.orchaldir.gm.core.selector.character.getCharacters
-import at.orchaldir.gm.core.selector.character.getCharactersWith
-import at.orchaldir.gm.core.selector.culture.getFashions
-import at.orchaldir.gm.core.selector.gm.treasure.getTreasureParcelsWith
-import at.orchaldir.gm.core.selector.item.getUniforms
 import at.orchaldir.gm.core.selector.race.getRaceGroups
 import at.orchaldir.gm.utils.math.unit.SiPrefix
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
-import kotlinx.html.h2
 
 val heightPrefix = SiPrefix.Centi
 val weightPrefix = SiPrefix.Kilo

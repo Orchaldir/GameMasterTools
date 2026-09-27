@@ -8,9 +8,6 @@ import at.orchaldir.gm.core.model.time.calendar.*
 import at.orchaldir.gm.core.model.time.date.DisplayYear
 import at.orchaldir.gm.core.model.time.holiday.Holiday
 import at.orchaldir.gm.core.model.util.name.Name
-import at.orchaldir.gm.core.selector.character.getCharacterInstances
-import at.orchaldir.gm.core.selector.character.getCharacterTemplates
-import at.orchaldir.gm.core.selector.character.getCharacters
 import at.orchaldir.gm.core.selector.culture.getCultures
 import at.orchaldir.gm.core.selector.item.periodical.getPeriodicals
 import at.orchaldir.gm.core.selector.time.*

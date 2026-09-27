@@ -8,7 +8,6 @@ import at.orchaldir.gm.app.html.race.parseRaceId
 import at.orchaldir.gm.app.html.rpg.statblock.editStatblock
 import at.orchaldir.gm.app.html.rpg.statblock.parseStatblock
 import at.orchaldir.gm.app.html.rpg.statblock.showStatblock
-import at.orchaldir.gm.app.html.selectFromOneOf
 import at.orchaldir.gm.app.html.util.fieldReference
 import at.orchaldir.gm.app.html.util.parseReference
 import at.orchaldir.gm.app.html.util.selectReference
@@ -86,12 +85,14 @@ fun HtmlBlockTag.editCharacterInstance(
                 selectGender(race, instance)
             }
         }
+
         NoReference -> {
             selectElement(state, RACE, races, instance.race)
             selectGender(race, instance)
             editStatblock(call, state, instance.statblock)
             editEquipped(call, state, instance.statblock, instance.equipped)
         }
+
         else -> error("Unsupported type for base of instance!")
     }
 
@@ -113,9 +114,7 @@ fun parseCharacterInstance(
     parameters: Parameters,
     id: CharacterInstanceId,
 ): CharacterInstance {
-    val basedOn = parseReference(parameters, REFERENCE, ALLOWED_BASED_ON_TYPES)
-
-    return when (basedOn) {
+    return when (val basedOn = parseReference(parameters, REFERENCE, ALLOWED_BASED_ON_TYPES)) {
         is CharacterReference -> {
             val character = state.getCharacterStorage().getOrThrow(basedOn.character)
 
@@ -130,6 +129,7 @@ fun parseCharacterInstance(
                 state.getEquipmentIdMap(character),
             )
         }
+
         is CharacterTemplateReference -> {
             val template = state.getCharacterTemplateStorage().getOrThrow(basedOn.template)
             val raceId = when (template.race) {
@@ -156,6 +156,7 @@ fun parseCharacterInstance(
                 state.getEquipmentIdMap(template),
             )
         }
+
         NoReference -> {
             val raceId = parseRaceId(parameters, RACE)
             val race = state.getRaceStorage().getOrThrow(raceId)
@@ -171,6 +172,7 @@ fun parseCharacterInstance(
                 parseEquipmentMap(state, parameters),
             )
         }
+
         else -> error("Unsupported type for base of instance!")
     }
 }

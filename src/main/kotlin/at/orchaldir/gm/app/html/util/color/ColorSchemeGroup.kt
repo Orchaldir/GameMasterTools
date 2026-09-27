@@ -11,7 +11,6 @@ import at.orchaldir.gm.core.selector.util.sortColorSchemes
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
-import kotlinx.html.h2
 
 // show
 

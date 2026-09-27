@@ -10,12 +10,10 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.equipment.*
 import at.orchaldir.gm.core.selector.item.ammunition.getAmmunition
 import at.orchaldir.gm.core.selector.item.equipment.getEquipment
-import at.orchaldir.gm.core.selector.rpg.equipment.getEquipmentTypes
 import at.orchaldir.gm.core.selector.util.sortEquipmentModifiers
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
-import kotlinx.html.h2
 
 // show
 

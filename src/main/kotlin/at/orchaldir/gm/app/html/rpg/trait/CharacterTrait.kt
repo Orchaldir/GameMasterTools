@@ -8,18 +8,17 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.showGenericUsage
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.trait.*
-import at.orchaldir.gm.core.selector.character.getCharacterInstances
 import at.orchaldir.gm.core.selector.character.getCharacterTemplates
 import at.orchaldir.gm.core.selector.character.getCharacters
-import at.orchaldir.gm.core.selector.character.getCharactersUsing
-import at.orchaldir.gm.core.selector.gm.encounter.getEncountersWith
 import at.orchaldir.gm.core.selector.religion.getGodsWith
 import at.orchaldir.gm.core.selector.rpg.getCharacterTraitGroups
 import at.orchaldir.gm.core.selector.rpg.getCharacterTraits
-import at.orchaldir.gm.core.selector.world.getRegionsWithEncounter
 import io.ktor.http.*
 import io.ktor.server.application.*
-import kotlinx.html.*
+import kotlinx.html.HtmlBlockTag
+import kotlinx.html.id
+import kotlinx.html.option
+import kotlinx.html.select
 
 // show
 

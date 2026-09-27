@@ -8,7 +8,6 @@ import at.orchaldir.gm.core.model.rpg.combat.DefenseBonus
 import at.orchaldir.gm.core.model.rpg.combat.Protection
 import at.orchaldir.gm.core.model.rpg.equipment.*
 import at.orchaldir.gm.core.model.rpg.statblock.Statblock
-import at.orchaldir.gm.core.model.rpg.statblock.StatblockLookup
 
 // resolve protection map with statblock
 

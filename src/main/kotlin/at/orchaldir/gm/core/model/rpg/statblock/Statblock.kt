@@ -1,7 +1,6 @@
 package at.orchaldir.gm.core.model.rpg.statblock
 
 import at.orchaldir.gm.core.model.State
-import at.orchaldir.gm.core.model.item.equipment.EquipmentMap
 import at.orchaldir.gm.core.model.rpg.statistic.*
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitId
 import kotlinx.serialization.Serializable

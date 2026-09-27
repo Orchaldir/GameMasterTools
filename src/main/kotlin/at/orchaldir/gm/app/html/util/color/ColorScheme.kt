@@ -7,21 +7,13 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.showGenericUsage
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.util.render.*
-import at.orchaldir.gm.core.selector.character.getCharacterTemplates
-import at.orchaldir.gm.core.selector.character.getCharacters
-import at.orchaldir.gm.core.selector.culture.getCultures
 import at.orchaldir.gm.core.selector.item.equipment.getEquipment
-import at.orchaldir.gm.core.selector.item.getTexts
-import at.orchaldir.gm.core.selector.item.periodical.getPeriodicals
-import at.orchaldir.gm.core.selector.magic.getSpells
 import at.orchaldir.gm.core.selector.util.getColorSchemeGroups
 import at.orchaldir.gm.core.selector.util.getColorSchemes
-import at.orchaldir.gm.core.selector.world.getPlanes
 import at.orchaldir.gm.utils.doNothing
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
-import kotlinx.html.h2
 
 // show
 

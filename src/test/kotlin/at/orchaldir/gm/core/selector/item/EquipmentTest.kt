@@ -12,7 +12,6 @@ import at.orchaldir.gm.core.model.culture.fashion.Fashion
 import at.orchaldir.gm.core.model.gm.treasure.EquipmentParcel
 import at.orchaldir.gm.core.model.gm.treasure.TreasureParcel
 import at.orchaldir.gm.core.model.item.equipment.*
-import at.orchaldir.gm.core.model.rpg.statblock.Statblock
 import at.orchaldir.gm.core.model.util.OneOrNone
 import at.orchaldir.gm.core.model.util.quantity.FixedNumber
 import at.orchaldir.gm.core.selector.item.equipment.canDeleteEquipment

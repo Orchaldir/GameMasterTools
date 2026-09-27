@@ -39,7 +39,7 @@ fun HtmlBlockTag.showEquipped(
     state: State,
     statblock: Statblock,
     equipmentMap: EquipmentIdMap,
-    label: String = "Equipped"
+    label: String = "Equipped",
 ) {
     showDetails(label, true) {
         showEquipmentMap(call, state, label, equipmentMap)
@@ -102,7 +102,7 @@ fun HtmlBlockTag.editEquipped(
     statblock: Statblock,
     equipmentMap: EquipmentIdMap,
     param: String = EQUIPMENT,
-    label: String = "Equipment"
+    label: String = "Equipment",
 ) {
     showDetails(label, true) {
         EquipmentAppearanceType.entries.forEach { selectEquipment(state, equipmentMap, it, param) }

@@ -1,18 +1,19 @@
 package at.orchaldir.gm.app.html.gm.encounter
 
 import at.orchaldir.gm.app.ENCOUNTER
-import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.parseInt
+import at.orchaldir.gm.app.html.parseName
+import at.orchaldir.gm.app.html.parseSimpleOptionalInt
+import at.orchaldir.gm.app.html.selectName
 import at.orchaldir.gm.app.html.util.showGenericUsage
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.gm.encounter.Encounter
 import at.orchaldir.gm.core.model.gm.encounter.EncounterId
-import at.orchaldir.gm.core.selector.economy.getBusinesses
 import at.orchaldir.gm.core.selector.gm.encounter.getEncountersWith
 import at.orchaldir.gm.core.selector.world.getRegionsWithEncounter
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
-import kotlinx.html.h2
 
 // show
 

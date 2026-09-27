@@ -128,7 +128,7 @@ private fun HtmlBlockTag.showCharacterInstanceRight(
 ) {
     val equipment = state.getEquipmentElementMap(instance)
     val frontSvg = visualizeCharacter(state, CHARACTER_CONFIG, instance.appearance, equipment)
-    val backSvg = visualizeCharacter(state, CHARACTER_CONFIG,instance.appearance, equipment, false)
+    val backSvg = visualizeCharacter(state, CHARACTER_CONFIG, instance.appearance, equipment, false)
 
     svg(frontSvg, 40)
     svg(backSvg, 40)

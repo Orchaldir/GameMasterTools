@@ -10,17 +10,10 @@ import at.orchaldir.gm.app.routes.ConfigRoutes
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
-import at.orchaldir.gm.core.selector.character.getCharacterInstances
-import at.orchaldir.gm.core.selector.character.getCharacterTemplates
-import at.orchaldir.gm.core.selector.character.getCharacters
-import at.orchaldir.gm.core.selector.character.getCharactersUsing
 import at.orchaldir.gm.core.selector.economy.getJobs
-import at.orchaldir.gm.core.selector.gm.encounter.getEncountersWith
-import at.orchaldir.gm.core.selector.religion.getGodsWith
 import at.orchaldir.gm.core.selector.rpg.equipment.getEquipmentTypes
 import at.orchaldir.gm.core.selector.rpg.getStatisticsBasedOn
 import at.orchaldir.gm.core.selector.rpg.statblock.getValuesFor
-import at.orchaldir.gm.core.selector.world.getRegionsWithEncounter
 import at.orchaldir.gm.utils.Id
 import io.ktor.http.*
 import io.ktor.server.application.*

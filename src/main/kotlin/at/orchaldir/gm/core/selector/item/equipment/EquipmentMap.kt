@@ -17,6 +17,7 @@ fun State.getEquipmentElementMap(character: CharacterId) =
 fun State.getEquipmentElementMap(character: Character) = getEquipmentElementMap(character.equipped, character.statblock)
 fun State.getEquipmentElementMap(instance: CharacterInstance) =
     resolveEquipmentMap(instance.equipped)
+
 fun State.getEquipmentElementMap(template: CharacterTemplate) =
     getEquipmentElementMap(template.equipped, template.statblock)
 

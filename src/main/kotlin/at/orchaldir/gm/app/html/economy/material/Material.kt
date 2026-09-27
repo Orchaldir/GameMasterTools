@@ -16,11 +16,9 @@ import at.orchaldir.gm.core.selector.ecology.plant.getPlantsMadeOf
 import at.orchaldir.gm.core.selector.economy.getFirstMaterial
 import at.orchaldir.gm.core.selector.economy.getMaterialsMadeOf
 import at.orchaldir.gm.core.selector.economy.money.getCurrencyUnits
-import at.orchaldir.gm.core.selector.item.equipment.getEquipment
 import at.orchaldir.gm.core.selector.item.equipment.getEquipmentMadeOf
 import at.orchaldir.gm.core.selector.item.getTextsMadeOf
 import at.orchaldir.gm.core.selector.race.getRaceAppearancesMadeOf
-import at.orchaldir.gm.core.selector.util.getColorSchemeGroups
 import at.orchaldir.gm.core.selector.util.sortMaterials
 import at.orchaldir.gm.core.selector.world.getMoonsContaining
 import at.orchaldir.gm.core.selector.world.getRegionsContaining
@@ -28,7 +26,6 @@ import at.orchaldir.gm.core.selector.world.getStreetTemplatesMadeOf
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
-import kotlinx.html.h2
 
 // show
 

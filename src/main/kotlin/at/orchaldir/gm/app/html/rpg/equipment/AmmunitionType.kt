@@ -1,6 +1,9 @@
 package at.orchaldir.gm.app.html.rpg.equipment
 
-import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.parseInt
+import at.orchaldir.gm.app.html.parseName
+import at.orchaldir.gm.app.html.parseSimpleOptionalInt
+import at.orchaldir.gm.app.html.selectName
 import at.orchaldir.gm.app.html.util.math.parseWeightLookupForType
 import at.orchaldir.gm.app.html.util.math.selectWeightLookupForType
 import at.orchaldir.gm.app.html.util.math.showWeightLookupForType
@@ -11,12 +14,10 @@ import at.orchaldir.gm.core.model.item.equipment.MIN_EQUIPMENT_WEIGHT
 import at.orchaldir.gm.core.model.rpg.equipment.AmmunitionType
 import at.orchaldir.gm.core.model.rpg.equipment.AmmunitionTypeId
 import at.orchaldir.gm.core.selector.item.ammunition.getAmmunition
-import at.orchaldir.gm.core.selector.realm.getSettlements
 import at.orchaldir.gm.core.selector.rpg.equipment.getEquipmentTypes
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
-import kotlinx.html.h2
 
 // show
 

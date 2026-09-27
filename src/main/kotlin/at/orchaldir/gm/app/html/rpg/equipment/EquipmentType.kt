@@ -1,10 +1,6 @@
 package at.orchaldir.gm.app.html.rpg.equipment
 
-import at.orchaldir.gm.app.ATTACK
-import at.orchaldir.gm.app.MELEE
-import at.orchaldir.gm.app.PRICE
-import at.orchaldir.gm.app.RANGED
-import at.orchaldir.gm.app.TYPE
+import at.orchaldir.gm.app.*
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.economy.money.parsePriceLookup
 import at.orchaldir.gm.app.html.economy.money.selectPriceLookupForType
@@ -22,12 +18,10 @@ import at.orchaldir.gm.core.model.item.equipment.MIN_EQUIPMENT_WEIGHT
 import at.orchaldir.gm.core.model.rpg.equipment.EQUIPMENT_TYPE_CATEGORIES
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentType
 import at.orchaldir.gm.core.model.rpg.equipment.EquipmentTypeId
-import at.orchaldir.gm.core.selector.item.ammunition.getAmmunition
 import at.orchaldir.gm.core.selector.item.equipment.getEquipment
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
-import kotlinx.html.h2
 
 // show
 

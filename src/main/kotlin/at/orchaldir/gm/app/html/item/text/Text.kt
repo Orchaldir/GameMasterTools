@@ -14,9 +14,6 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.item.text.ALLOWED_TEXT_ORIGINS
 import at.orchaldir.gm.core.model.item.text.Text
 import at.orchaldir.gm.core.model.item.text.TextId
-import at.orchaldir.gm.core.selector.character.getCharacterTemplates
-import at.orchaldir.gm.core.selector.character.getCharactersWith
-import at.orchaldir.gm.core.selector.economy.getJobs
 import at.orchaldir.gm.core.selector.gm.treasure.getTreasureParcelsWith
 import at.orchaldir.gm.core.selector.item.getTranslationsOf
 import at.orchaldir.gm.core.selector.item.hasAuthor
@@ -24,7 +21,6 @@ import at.orchaldir.gm.core.selector.util.getExistingElements
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
-import kotlinx.html.h2
 
 // show
 

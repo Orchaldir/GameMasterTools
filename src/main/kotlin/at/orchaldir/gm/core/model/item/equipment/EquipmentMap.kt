@@ -1,6 +1,5 @@
 package at.orchaldir.gm.core.model.item.equipment
 
-import at.orchaldir.gm.core.model.item.equipment.EquipmentMapEntry
 import at.orchaldir.gm.core.model.util.render.ColorSchemeId
 import at.orchaldir.gm.core.model.util.render.Colors
 import kotlinx.serialization.Serializable

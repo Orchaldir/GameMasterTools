@@ -17,7 +17,7 @@ fun HtmlBlockTag.showGenericUsage(
     call: ApplicationCall,
     state: State,
     lists: List<List<Element<out Id<*>>>>,
-    otherUsages: Boolean = false
+    otherUsages: Boolean = false,
 ) {
     val filtered = lists
         .filter { it.isNotEmpty() }

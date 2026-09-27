@@ -9,12 +9,10 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.realm.SettlementSize
 import at.orchaldir.gm.core.model.realm.SettlementSizeId
 import at.orchaldir.gm.core.model.util.name.Name
-import at.orchaldir.gm.core.selector.gm.treasure.getTreasureParcelsWith
 import at.orchaldir.gm.core.selector.realm.getSettlements
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.HtmlBlockTag
-import kotlinx.html.h2
 
 // show
 
