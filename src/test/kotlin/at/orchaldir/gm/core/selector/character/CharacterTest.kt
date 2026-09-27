@@ -4,6 +4,7 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
+import at.orchaldir.gm.core.model.character.CharacterInstance
 import at.orchaldir.gm.core.model.organization.Organization
 import at.orchaldir.gm.core.model.realm.Battle
 import at.orchaldir.gm.core.model.realm.BattleParticipant
@@ -31,6 +32,18 @@ class CharacterTest {
                 Storage(character),
             )
         )
+
+        @Test
+        fun `Cannot delete a character used by an instance as base`() {
+            val instance = CharacterInstance(
+                CHARACTER_INSTANCE_ID_0,
+                basedOn = CharacterReference(CHARACTER_ID_0),
+                race = RACE_ID_0,
+            )
+            val newState = state.updateStorage(instance)
+
+            failCanDelete(newState, CHARACTER_INSTANCE_ID_0)
+        }
 
         @Test
         fun `Cannot delete a character that created another element`() {

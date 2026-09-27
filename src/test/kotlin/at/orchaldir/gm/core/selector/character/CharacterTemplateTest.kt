@@ -4,10 +4,13 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
+import at.orchaldir.gm.core.model.character.CharacterInstance
 import at.orchaldir.gm.core.model.character.CharacterTemplate
 import at.orchaldir.gm.core.model.gm.encounter.CharacterTemplateEncounter
 import at.orchaldir.gm.core.model.gm.encounter.Encounter
 import at.orchaldir.gm.core.model.rpg.statblock.UseStatblockOfTemplate
+import at.orchaldir.gm.core.model.util.CharacterReference
+import at.orchaldir.gm.core.model.util.CharacterTemplateReference
 import at.orchaldir.gm.core.model.world.terrain.Region
 import at.orchaldir.gm.utils.Id
 import at.orchaldir.gm.utils.Storage
@@ -25,6 +28,18 @@ class CharacterTemplateTest {
                 Storage(template),
             )
         )
+
+        @Test
+        fun `Cannot delete a template used by an instance as base`() {
+            val instance = CharacterInstance(
+                CHARACTER_INSTANCE_ID_0,
+                basedOn = CharacterTemplateReference(CHARACTER_TEMPLATE_ID_0),
+                race = RACE_ID_0,
+            )
+            val newState = state.updateStorage(instance)
+
+            failCanDelete(newState, CHARACTER_INSTANCE_ID_0)
+        }
 
         @Test
         fun `Cannot delete a template that is used by a character as statblock`() {

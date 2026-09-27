@@ -2,6 +2,7 @@ package at.orchaldir.gm.core.selector.character
 
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
+import at.orchaldir.gm.core.model.character.CharacterId
 import at.orchaldir.gm.core.model.character.CharacterInstanceId
 import at.orchaldir.gm.core.model.character.CharacterTemplateId
 import at.orchaldir.gm.core.model.item.equipment.EquipmentId
@@ -10,6 +11,10 @@ import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.selector.item.equipment.getEquipmentIdMap
 
 fun State.canDeleteCharacterInstance(instance: CharacterInstanceId) = DeleteResult(instance)
+
+fun State.getCharacterInstancesBasedOn(character: CharacterId) = getCharacterInstanceStorage()
+    .getAll()
+    .filter { it.basedOn.isId(character) }
 
 fun State.getCharacterInstances(equipment: EquipmentId) = getCharacterInstanceStorage()
     .getAll()

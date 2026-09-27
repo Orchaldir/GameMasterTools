@@ -18,6 +18,7 @@ import at.orchaldir.gm.core.selector.world.getRegionsWithEncounter
 
 fun State.canDeleteCharacterTemplate(template: CharacterTemplateId) = DeleteResult(template)
     .addElements(getCharactersUsing(template))
+    .addElements(getCharacterInstances(template))
     .addElements(getCharacterTemplates(template))
     .addElements(getEncountersWith(template))
     .addElements(getRegionsWithEncounter(template))
