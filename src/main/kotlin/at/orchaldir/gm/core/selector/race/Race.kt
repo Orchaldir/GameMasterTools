@@ -6,6 +6,7 @@ import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearanceId
 import at.orchaldir.gm.core.model.time.date.Date
+import at.orchaldir.gm.core.selector.character.getCharacterInstances
 import at.orchaldir.gm.core.selector.character.getCharacterTemplates
 import at.orchaldir.gm.core.selector.character.getCharacters
 import at.orchaldir.gm.core.selector.realm.canDeletePopulationOf
@@ -13,6 +14,7 @@ import at.orchaldir.gm.core.selector.util.getExistingElements
 
 fun State.canDeleteRace(race: RaceId) = DeleteResult(race)
     .addElements(getCharacters(race))
+    .addElements(getCharacterInstances(race))
     .addElements(getCharacterTemplates(race))
     .addElements(getRaceGroups(race))
     .apply { canDeletePopulationOf(race, it) }

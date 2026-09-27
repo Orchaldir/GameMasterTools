@@ -4,6 +4,7 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.DeleteResult
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
+import at.orchaldir.gm.core.model.character.CharacterInstance
 import at.orchaldir.gm.core.model.character.CharacterTemplate
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.RaceGroup
@@ -43,6 +44,14 @@ class RaceTest {
             val newState = state.updateStorage(character)
 
             failCanDelete(newState, CHARACTER_ID_0)
+        }
+
+        @Test
+        fun `Cannot delete a race used by a character instance`() {
+            val instance = CharacterInstance(CHARACTER_INSTANCE_ID_0, race = RACE_ID_0)
+            val newState = state.updateStorage(instance)
+
+            failCanDelete(newState, CHARACTER_INSTANCE_ID_0)
         }
 
         @Test
