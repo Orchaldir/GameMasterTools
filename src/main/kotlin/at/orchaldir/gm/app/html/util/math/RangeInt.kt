@@ -18,7 +18,13 @@ fun HtmlBlockTag.fieldRange(
     label: String,
     range: RangeInt,
 ) {
-    field(label, "${range.min} to ${range.max}")
+    field(label) {
+        displayRange(range)
+    }
+}
+
+fun HtmlBlockTag.displayRange(range: RangeInt) {
+    +"${range.min} to ${range.max}"
 }
 
 fun HtmlBlockTag.showRange(
@@ -36,9 +42,35 @@ fun HtmlBlockTag.editRange(
     value: RangeInt,
     param: String,
     range: RangeInt = DEFAULT_INT_RANGE,
+) = editRange(
+    "Min $label",
+    "Max $label",
+    value,
+    param,
+    range,
+)
+
+fun HtmlBlockTag.editRange(
+    value: RangeInt,
+    param: String,
+    range: RangeInt = DEFAULT_INT_RANGE,
+) = editRange(
+    "Min",
+    "Max",
+    value,
+    param,
+    range,
+)
+
+fun HtmlBlockTag.editRange(
+    minLabel: String,
+    maxLabel: String,
+    value: RangeInt,
+    param: String,
+    range: RangeInt = DEFAULT_INT_RANGE,
 ) {
     selectInt(
-        "Min $label",
+        minLabel,
         value.min,
         range.min,
         value.max - 1,
@@ -46,7 +78,7 @@ fun HtmlBlockTag.editRange(
         combine(param, MIN),
     )
     selectInt(
-        "Max $label",
+        maxLabel,
         value.max,
         value.min + 1,
         range.max,
