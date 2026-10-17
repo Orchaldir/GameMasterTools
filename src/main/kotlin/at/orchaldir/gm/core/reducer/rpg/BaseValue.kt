@@ -33,5 +33,5 @@ private fun validateBaseValues(
     values: List<BaseValue>,
 ) {
     require(values.size > 1) { "Requires at least 2 values!" }
-    values.map { validateBaseValue(state, statistic, it) }
+    values.forEach { validateBaseValue(state, statistic, it) }
 }
