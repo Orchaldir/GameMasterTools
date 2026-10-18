@@ -13,8 +13,8 @@ import kotlinx.html.HtmlBlockTag
 // show
 
 fun HtmlBlockTag.fieldStatisticLimit(
-    limit: StatisticLimit,
     label: String,
+    limit: StatisticLimit,
 ) {
     field(label) {
         when (limit) {
@@ -27,6 +27,17 @@ fun HtmlBlockTag.fieldStatisticLimit(
 }
 
 // edit
+
+fun HtmlBlockTag.editStatisticLimit(
+    label: String,
+    limit: StatisticLimit,
+    type: StatisticDataType,
+    param: String,
+) = editStatisticLimit(
+    label,
+    limit,
+    combine(param, type),
+)
 
 fun HtmlBlockTag.editStatisticLimit(
     label: String,
@@ -50,6 +61,15 @@ fun HtmlBlockTag.editStatisticLimit(
 }
 
 // parse
+
+fun parseStatisticLimit(
+    parameters: Parameters,
+    type: StatisticDataType,
+    param: String,
+) = parseStatisticLimit(
+    parameters,
+    combine(param, type),
+)
 
 fun parseStatisticLimit(
     parameters: Parameters,
