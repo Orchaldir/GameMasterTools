@@ -7,6 +7,9 @@ import at.orchaldir.gm.app.html.parse
 import at.orchaldir.gm.app.html.rpg.equipment.editEquipmentConfig
 import at.orchaldir.gm.app.html.rpg.equipment.parseEquipmentConfig
 import at.orchaldir.gm.app.html.rpg.equipment.showEquipmentConfig
+import at.orchaldir.gm.app.html.rpg.statistic.editStatisticConfig
+import at.orchaldir.gm.app.html.rpg.statistic.parseStatisticConfig
+import at.orchaldir.gm.app.html.rpg.statistic.showStatisticConfig
 import at.orchaldir.gm.app.html.selectValue
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.RpgConfig
@@ -28,6 +31,7 @@ fun HtmlBlockTag.showRpgConfig(
     field("Default Die Type", config.defaultDieType)
     showSimpleModifiedDiceRange("Damage", config.damage)
 
+    showStatisticConfig(config.statistic)
     showEquipmentConfig(call, state, config.equipment)
 }
 
@@ -43,6 +47,7 @@ fun HtmlBlockTag.editRpgConfig(
     selectValue("Default Die Type", DIE, DieType.entries, config.defaultDieType)
     editSimpleModifiedDiceRange("Damage", config.damage, DAMAGE)
 
+    editStatisticConfig(config.statistic)
     editEquipmentConfig(state, config.equipment)
 }
 
@@ -54,4 +59,5 @@ fun parseRpgConfig(
     parseEquipmentConfig(parameters),
     parse(parameters, DIE, DieType.D6),
     parseSimpleModifiedDiceRange(parameters, DAMAGE),
+    parseStatisticConfig(parameters),
 )
