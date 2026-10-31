@@ -113,11 +113,7 @@ private fun TABLE.editStatistics(
         val offset = statblock.statistics[statistic.id] ?: 0
         val value = statblock.resolve(state, statistic)
         val base = (value ?: 0) - offset
-        val range = when (limit) {
-            is AbsoluteStatisticLimit -> limit.range - base
-            is RelativeStatisticLimit -> limit.range
-            UndefinedStatisticLimit -> RangeInt(-10, +10)
-        }
+        val range = limit.getRelativeRange(base, 10)
 
         tr {
             tdLink(call, state, statistic)

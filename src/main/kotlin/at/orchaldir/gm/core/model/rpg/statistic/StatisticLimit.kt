@@ -18,6 +18,12 @@ sealed class StatisticLimit {
         is RelativeStatisticLimit -> StatisticLimitType.Relative
         UndefinedStatisticLimit -> StatisticLimitType.Undefined
     }
+
+    fun getRelativeRange(base: Int, default: Int) = when (this) {
+        is AbsoluteStatisticLimit -> range - base
+        is RelativeStatisticLimit -> range
+        UndefinedStatisticLimit -> RangeInt(-default, +default)
+    }
 }
 
 @Serializable
