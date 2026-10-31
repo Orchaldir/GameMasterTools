@@ -22,4 +22,6 @@ data class RangeInt(
     fun validateInt(value: Int, label: String) {
         checkInt(value, label, min, max)
     }
+
+    operator fun minus(value: Int) = RangeInt(min - value, max - value)
 }

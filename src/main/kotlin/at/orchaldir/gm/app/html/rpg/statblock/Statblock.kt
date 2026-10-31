@@ -7,10 +7,15 @@ import at.orchaldir.gm.app.html.rpg.trait.parseCharacterTraits
 import at.orchaldir.gm.app.html.rpg.trait.showCharacterTraits
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.statblock.Statblock
+import at.orchaldir.gm.core.model.rpg.statistic.AbsoluteStatisticLimit
+import at.orchaldir.gm.core.model.rpg.statistic.RelativeStatisticLimit
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
+import at.orchaldir.gm.core.model.rpg.statistic.StatisticLimits
+import at.orchaldir.gm.core.model.rpg.statistic.UndefinedStatisticLimit
 import at.orchaldir.gm.core.selector.rpg.*
 import at.orchaldir.gm.core.selector.util.sortStatistics
+import at.orchaldir.gm.utils.math.RangeInt
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.*
@@ -62,6 +67,7 @@ private fun DETAILS.showStatistics(
 fun HtmlBlockTag.editStatblock(
     call: ApplicationCall,
     state: State,
+    limits: StatisticLimits,
     statblock: Statblock,
 ) {
     val attributes = state.sortStatistics(state.getAttributes())
@@ -72,11 +78,11 @@ fun HtmlBlockTag.editStatblock(
 
     showDetails("Stateblock", true) {
         table {
-            editStatistics(state, call, statblock, attributes, "Attribute")
-            editStatistics(state, call, statblock, derivedAttributes, "Derived Attribute")
-            editStatistics(state, call, statblock, damageValues, "Base Damage Value")
-            editStatistics(state, call, statblock, saves, "Saves")
-            editStatistics(state, call, statblock, skills, "Skills")
+            editStatistics(state, call, limits, statblock, attributes, "Attribute")
+            editStatistics(state, call, limits, statblock, derivedAttributes, "Derived Attribute")
+            editStatistics(state, call, limits, statblock, damageValues, "Base Damage Value")
+            editStatistics(state, call, limits, statblock, saves, "Saves")
+            editStatistics(state, call, limits, statblock, skills, "Skills")
         }
         editCharacterTraitGroups(call, state, statblock.traits, isOpen = true)
         field("Cost", statblock.calculateCost(state))
@@ -86,6 +92,7 @@ fun HtmlBlockTag.editStatblock(
 private fun TABLE.editStatistics(
     state: State,
     call: ApplicationCall,
+    limits: StatisticLimits,
     statblock: Statblock,
     statistics: List<Statistic>,
     label: String,
@@ -93,6 +100,8 @@ private fun TABLE.editStatistics(
     if (statistics.isEmpty()) {
         return
     }
+
+    val limit = limits.getLimit(statistics[0])
 
     tr {
         th { +label }
@@ -103,14 +112,19 @@ private fun TABLE.editStatistics(
     statistics.forEach { statistic ->
         val offset = statblock.statistics[statistic.id] ?: 0
         val value = statblock.resolve(state, statistic)
+        val base = (value ?: 0) - offset
+        val range = when (limit) {
+            is AbsoluteStatisticLimit -> limit.range - base
+            is RelativeStatisticLimit -> limit.range
+            UndefinedStatisticLimit -> RangeInt(-10, +10)
+        }
 
         tr {
             tdLink(call, state, statistic)
             td {
                 selectInt(
                     offset,
-                    -10,
-                    +10,
+                    range,
                     1,
                     combine(STATISTIC, statistic.id.value),
                 )

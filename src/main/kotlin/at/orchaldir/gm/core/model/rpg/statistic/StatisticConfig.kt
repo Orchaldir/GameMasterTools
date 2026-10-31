@@ -9,4 +9,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class StatisticConfig(
     val raceLimits: StatisticLimits = StatisticLimits(),
+    val characterLimits: StatisticLimits = StatisticLimits(),
 )

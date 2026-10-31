@@ -125,6 +125,7 @@ fun HtmlBlockTag.editLifeStages(
 ) {
     val raceAppearance = state.getRaceAppearanceStorage().getOrThrow(lifeStages.getRaceAppearance())
     val canHaveBeard = raceAppearance.hair.beardTypes.isAvailable(BeardType.Normal)
+    val limits = state.config.rpg.statistic.raceLimits
 
     h2 { +"Life Stages" }
 
@@ -133,7 +134,7 @@ fun HtmlBlockTag.editLifeStages(
     when (lifeStages) {
         is ImmutableLifeStage -> {
             selectAppearance(state, lifeStages.appearance, 0)
-            editStatblock(call, state, lifeStages.statblock)
+            editStatblock(call, state, limits, lifeStages.statblock)
         }
 
         is DefaultAging -> {
@@ -141,7 +142,7 @@ fun HtmlBlockTag.editLifeStages(
             selectMaxAges(lifeStages.getAllLifeStages(), lifeStages.maxAges)
             selectHairColor("Old Age Hair Color", 6, lifeStages.oldAgeHairColor)
             selectHairColor("Venerable Hair Color", 7, lifeStages.venerableAgeHairColor)
-            editStatblock(call, state, lifeStages.statblock)
+            editStatblock(call, state, limits, lifeStages.statblock)
         }
 
         is CustomAging -> {
@@ -172,13 +173,13 @@ fun HtmlBlockTag.editLifeStages(
                 }
                 minMaxAge = stage.maxAge + 1
             }
-            editStatblock(call, state, lifeStages.statblock)
+            editStatblock(call, state, limits, lifeStages.statblock)
         }
 
         is DefaultImmortal -> {
             selectAppearance(state, lifeStages.appearance, 0)
             selectMaxAges(lifeStages.getAllLifeStages().dropLast(1), lifeStages.maxAges)
-            editStatblock(call, state, lifeStages.statblock)
+            editStatblock(call, state, limits, lifeStages.statblock)
         }
     }
 }

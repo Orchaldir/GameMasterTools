@@ -9,4 +9,16 @@ data class StatisticLimits(
     val derivedAttributes: StatisticLimit = UndefinedStatisticLimit,
     val saves: StatisticLimit = UndefinedStatisticLimit,
     val skills: StatisticLimit = UndefinedStatisticLimit,
-)
+) {
+
+    fun getLimit(type: StatisticDataType) = when (type) {
+        StatisticDataType.Attribute -> attributes
+        StatisticDataType.Damage -> UndefinedStatisticLimit
+        StatisticDataType.DerivedAttribute -> derivedAttributes
+        StatisticDataType.Save -> saves
+        StatisticDataType.Skill -> skills
+    }
+
+    fun getLimit(statistic: Statistic) = getLimit(statistic.data.getType())
+
+}
