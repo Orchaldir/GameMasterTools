@@ -27,6 +27,7 @@ fun HtmlBlockTag.fieldStatisticLimit(
                 +" (Relative)"
             }
             UndefinedStatisticLimit ->  +"None"
+            UnmodifiableStatistic -> +"Unmodifiable"
         }
     }
 
@@ -61,7 +62,7 @@ fun HtmlBlockTag.editStatisticLimit(
         when (limit) {
             is AbsoluteStatisticLimit -> editRange(limit.range, param)
             is RelativeStatisticLimit -> editRange(limit.range, param,)
-            UndefinedStatisticLimit -> doNothing()
+            UndefinedStatisticLimit, UnmodifiableStatistic -> doNothing()
         }
     }
 }
@@ -88,4 +89,5 @@ fun parseStatisticLimit(
         parseRange(parameters, param),
     )
     StatisticLimitType.Undefined -> UndefinedStatisticLimit
+    StatisticLimitType.Unmodifiable -> UnmodifiableStatistic
 }
