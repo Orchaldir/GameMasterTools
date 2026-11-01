@@ -6,6 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class StatisticLimits(
     val attributes: StatisticLimit = UndefinedStatisticLimit,
+    val damage: StatisticLimit = UndefinedStatisticLimit,
     val derivedAttributes: StatisticLimit = UndefinedStatisticLimit,
     val saves: StatisticLimit = UndefinedStatisticLimit,
     val skills: StatisticLimit = UndefinedStatisticLimit,
@@ -13,7 +14,7 @@ data class StatisticLimits(
 
     fun getLimit(type: StatisticDataType) = when (type) {
         StatisticDataType.Attribute -> attributes
-        StatisticDataType.Damage -> UndefinedStatisticLimit
+        StatisticDataType.Damage -> damage
         StatisticDataType.DerivedAttribute -> derivedAttributes
         StatisticDataType.Save -> saves
         StatisticDataType.Skill -> skills

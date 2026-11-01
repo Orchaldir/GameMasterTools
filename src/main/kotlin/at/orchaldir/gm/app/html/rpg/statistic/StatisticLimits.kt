@@ -14,6 +14,7 @@ fun HtmlBlockTag.showStatisticLimits(
 ) {
     showDetails(label, true) {
         fieldStatisticLimit("Attributes", limits.attributes)
+        fieldStatisticLimit("Damage Attributes", limits.damage)
         fieldStatisticLimit("Derived Attributes", limits.derivedAttributes)
         fieldStatisticLimit("Saves", limits.saves)
         fieldStatisticLimit("Skills", limits.skills)
@@ -29,6 +30,7 @@ fun HtmlBlockTag.editStatisticLimits(
 ) {
     showDetails(label, true) {
         editStatisticLimit("Attributes", limits.attributes, StatisticDataType.Attribute, param)
+        editStatisticLimit("Damage Attributes", limits.damage, StatisticDataType.Damage, param)
         editStatisticLimit("Derived Attributes", limits.derivedAttributes, StatisticDataType.DerivedAttribute, param)
         editStatisticLimit("Saves", limits.saves, StatisticDataType.Save, param)
         editStatisticLimit("Skills", limits.skills, StatisticDataType.Skill, param)
@@ -42,6 +44,7 @@ fun parseStatisticLimits(
     param: String,
 ) = StatisticLimits(
     parseStatisticLimit(parameters, StatisticDataType.Attribute, param),
+    parseStatisticLimit(parameters, StatisticDataType.Damage, param),
     parseStatisticLimit(parameters, StatisticDataType.DerivedAttribute, param),
     parseStatisticLimit(parameters, StatisticDataType.Save, param),
     parseStatisticLimit(parameters, StatisticDataType.Skill, param),
