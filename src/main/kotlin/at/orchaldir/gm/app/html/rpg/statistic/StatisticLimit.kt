@@ -1,7 +1,10 @@
 package at.orchaldir.gm.app.html.rpg.statistic
 
+import at.orchaldir.gm.app.MAX
+import at.orchaldir.gm.app.MIN
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.util.math.DEFAULT_INT_RANGE
 import at.orchaldir.gm.app.html.util.math.displayRange
 import at.orchaldir.gm.app.html.util.math.editRange
 import at.orchaldir.gm.app.html.util.math.parseRange
@@ -26,6 +29,7 @@ fun HtmlBlockTag.fieldStatisticLimit(
                 displayRange(limit.range)
                 +" (Relative)"
             }
+            is RelativeLowerAndAbsoluteUpperLimit -> +"${limit.lower} (Relative) to ${limit.upper} (Absolute)"
             UndefinedStatisticLimit ->  +"None"
             UnmodifiableStatistic -> +"Unmodifiable"
         }
@@ -62,6 +66,22 @@ fun HtmlBlockTag.editStatisticLimit(
         when (limit) {
             is AbsoluteStatisticLimit -> editRange(limit.range, param)
             is RelativeStatisticLimit -> editRange(limit.range, param,)
+            is RelativeLowerAndAbsoluteUpperLimit -> {
+                selectInt(
+                    "Relative Lower Limit",
+                    limit.lower,
+                    DEFAULT_INT_RANGE,
+                    1,
+                    combine(param, MIN),
+                )
+                selectInt(
+                    "Absolute Upper Limit",
+                    limit.upper,
+                    DEFAULT_INT_RANGE,
+                    1,
+                    combine(param, MAX),
+                )
+            }
             UndefinedStatisticLimit, UnmodifiableStatistic -> doNothing()
         }
     }
@@ -87,6 +107,10 @@ fun parseStatisticLimit(
     )
     StatisticLimitType.Relative -> RelativeStatisticLimit(
         parseRange(parameters, param),
+    )
+    StatisticLimitType.RelativeLowerAndAbsoluteUpper -> RelativeLowerAndAbsoluteUpperLimit(
+        parseInt(parameters, combine(param, MIN)),
+        parseInt(parameters, combine(param, MAX)),
     )
     StatisticLimitType.Undefined -> UndefinedStatisticLimit
     StatisticLimitType.Unmodifiable -> UnmodifiableStatistic

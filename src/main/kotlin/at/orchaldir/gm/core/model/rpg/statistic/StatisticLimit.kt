@@ -7,6 +7,7 @@ import kotlinx.serialization.Serializable
 enum class StatisticLimitType {
     Absolute,
     Relative,
+    RelativeLowerAndAbsoluteUpper,
     Unmodifiable,
     Undefined,
 }
@@ -17,6 +18,7 @@ sealed class StatisticLimit {
     fun getType() = when (this) {
         is AbsoluteStatisticLimit -> StatisticLimitType.Absolute
         is RelativeStatisticLimit -> StatisticLimitType.Relative
+        is RelativeLowerAndAbsoluteUpperLimit -> StatisticLimitType.RelativeLowerAndAbsoluteUpper
         UnmodifiableStatistic -> StatisticLimitType.Unmodifiable
         UndefinedStatisticLimit -> StatisticLimitType.Undefined
     }
@@ -24,6 +26,7 @@ sealed class StatisticLimit {
     fun getRelativeRange(base: Int, default: Int) = when (this) {
         is AbsoluteStatisticLimit -> range - base
         is RelativeStatisticLimit -> range
+        is RelativeLowerAndAbsoluteUpperLimit -> RangeInt(lower, upper - base)
         UnmodifiableStatistic -> RangeInt(0, 0)
         UndefinedStatisticLimit -> RangeInt(-default, +default)
     }
@@ -39,6 +42,13 @@ data class AbsoluteStatisticLimit(
 @SerialName("Relative")
 data class RelativeStatisticLimit(
     val range: RangeInt,
+) : StatisticLimit()
+
+@Serializable
+@SerialName("RelativeAndAbsolute")
+data class RelativeLowerAndAbsoluteUpperLimit(
+    val lower: Int,
+    val upper: Int,
 ) : StatisticLimit()
 
 @Serializable

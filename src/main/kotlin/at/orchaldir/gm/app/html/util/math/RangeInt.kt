@@ -10,7 +10,7 @@ import at.orchaldir.gm.utils.math.RangeInt
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag
 
-private val DEFAULT_INT_RANGE = RangeInt(-100, 100)
+val DEFAULT_INT_RANGE = RangeInt(-100, 100)
 
 // show
 

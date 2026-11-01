@@ -78,6 +78,16 @@
      "#type": "Fixed",
      "cost": 5
     }
+   },
+   "raceLimit": {
+    "#type": "RelativeAndAbsolute",
+    "lower": -4,
+    "upper": 20
+   },
+   "characterLimit": {
+    "#type": "RelativeAndAbsolute",
+    "lower": -4,
+    "upper": 20
    }
   },
   "5": {
@@ -94,6 +104,16 @@
      "#type": "Fixed",
      "cost": 5
     }
+   },
+   "raceLimit": {
+    "#type": "RelativeAndAbsolute",
+    "lower": -4,
+    "upper": 20
+   },
+   "characterLimit": {
+    "#type": "RelativeAndAbsolute",
+    "lower": -4,
+    "upper": 20
    }
   },
   "6": {
