@@ -20,21 +20,29 @@ fun HtmlBlockTag.fieldStatisticLimit(
     limit: StatisticLimit,
 ) {
     field(label) {
-        when (limit) {
-            is AbsoluteStatisticLimit -> {
-                displayRange(limit.range)
-                +" (Absolute)"
-            }
-            is RelativeStatisticLimit -> {
-                displayRange(limit.range)
-                +" (Relative)"
-            }
-            is RelativeLowerAndAbsoluteUpperLimit -> +"${limit.lower} (Relative) to ${limit.upper} (Absolute)"
-            UndefinedStatisticLimit ->  +"None"
-            UnmodifiableStatistic -> +"Unmodifiable"
-        }
+        displayStatisticLimit(limit)
     }
+}
 
+fun HtmlBlockTag.displayStatisticLimit(
+    limit: StatisticLimit,
+    showUndefined: Boolean = true,
+) {
+    when (limit) {
+        is AbsoluteStatisticLimit -> {
+            displayRange(limit.range)
+            +" (Absolute)"
+        }
+        is RelativeStatisticLimit -> {
+            displayRange(limit.range)
+            +" (Relative)"
+        }
+        is RelativeLowerAndAbsoluteUpperLimit -> +"${limit.lower} (Relative) to ${limit.upper} (Absolute)"
+        UndefinedStatisticLimit -> if(showUndefined) {
+            +"Undefined"
+        }
+        UnmodifiableStatistic -> +"Unmodifiable"
+    }
 }
 
 // edit

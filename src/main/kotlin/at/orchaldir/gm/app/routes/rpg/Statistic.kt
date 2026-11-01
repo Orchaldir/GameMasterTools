@@ -70,6 +70,8 @@ fun Application.configureStatisticRouting() {
                     tdColumn("Base Value") { displayBaseValue(call, state, it.data.baseValue()) },
                     tdColumn("Cost") { displayStatisticCost(it.data.cost(), false) },
                     tdColumn("Unit") { displayStatisticUnit(it.data, false) },
+                    tdColumn(listOf("Race", "Limits")) { displayStatisticLimit(it.raceLimit, false) },
+                    tdColumn(listOf("Character", "Limits")) { displayStatisticLimit(it.characterLimit, false) },
                 ),
             )
         }
