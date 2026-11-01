@@ -1,8 +1,11 @@
 package at.orchaldir.gm.core.model.rpg.statistic
 
+import at.orchaldir.gm.utils.math.Factor
 import at.orchaldir.gm.utils.math.RangeInt
+import at.orchaldir.gm.utils.math.RoundingType
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlin.math.absoluteValue
 
 enum class StatisticLimitLayer {
     Race,
@@ -13,6 +16,7 @@ enum class StatisticLimitType {
     Absolute,
     Relative,
     RelativeLowerAndAbsoluteUpper,
+    RelativeWithFactor,
     Unmodifiable,
     Undefined,
 }
@@ -24,6 +28,7 @@ sealed class StatisticLimit {
         is AbsoluteStatisticLimit -> StatisticLimitType.Absolute
         is RelativeStatisticLimit -> StatisticLimitType.Relative
         is RelativeLowerAndAbsoluteUpperLimit -> StatisticLimitType.RelativeLowerAndAbsoluteUpper
+        is RelativeWithFactorStatisticLimit -> StatisticLimitType.RelativeWithFactor
         UnmodifiableStatistic -> StatisticLimitType.Unmodifiable
         UndefinedStatisticLimit -> StatisticLimitType.Undefined
     }
@@ -32,6 +37,11 @@ sealed class StatisticLimit {
         is AbsoluteStatisticLimit -> range - base
         is RelativeStatisticLimit -> range
         is RelativeLowerAndAbsoluteUpperLimit -> RangeInt(lower, upper - base)
+        is RelativeWithFactorStatisticLimit -> {
+            val offset = factor.apply(base.absoluteValue, rounding)
+
+            RangeInt(-offset, offset)
+        }
         UnmodifiableStatistic -> RangeInt(0, 0)
         UndefinedStatisticLimit -> RangeInt(-default, +default)
     }
@@ -54,6 +64,13 @@ data class RelativeStatisticLimit(
 data class RelativeLowerAndAbsoluteUpperLimit(
     val lower: Int,
     val upper: Int,
+) : StatisticLimit()
+
+@Serializable
+@SerialName("RelativeWithFactor")
+data class RelativeWithFactorStatisticLimit(
+    val factor: Factor,
+    val rounding: RoundingType = RoundingType.RoundUp,
 ) : StatisticLimit()
 
 @Serializable

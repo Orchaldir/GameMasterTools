@@ -192,6 +192,10 @@
      "#type": "Fixed",
      "cost": 2
     }
+   },
+   "characterLimit": {
+    "#type": "RelativeWithFactor",
+    "factor": 3300
    }
   },
   "10": {
@@ -208,6 +212,10 @@
      "#type": "Fixed",
      "cost": 3
     }
+   },
+   "characterLimit": {
+    "#type": "RelativeWithFactor",
+    "factor": 3300
    }
   },
   "11": {

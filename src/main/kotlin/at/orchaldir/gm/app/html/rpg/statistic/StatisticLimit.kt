@@ -2,14 +2,19 @@ package at.orchaldir.gm.app.html.rpg.statistic
 
 import at.orchaldir.gm.app.MAX
 import at.orchaldir.gm.app.MIN
+import at.orchaldir.gm.app.NUMBER
+import at.orchaldir.gm.app.ROUND
 import at.orchaldir.gm.app.TYPE
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.math.DEFAULT_INT_RANGE
 import at.orchaldir.gm.app.html.util.math.displayRange
 import at.orchaldir.gm.app.html.util.math.editRange
+import at.orchaldir.gm.app.html.util.math.parseFactor
 import at.orchaldir.gm.app.html.util.math.parseRange
+import at.orchaldir.gm.app.html.util.math.selectFactor
 import at.orchaldir.gm.core.model.rpg.statistic.*
 import at.orchaldir.gm.utils.doNothing
+import at.orchaldir.gm.utils.math.RoundingType
 import io.ktor.http.*
 import kotlinx.html.HtmlBlockTag
 
@@ -38,6 +43,7 @@ fun HtmlBlockTag.displayStatisticLimit(
             +" (Relative)"
         }
         is RelativeLowerAndAbsoluteUpperLimit -> +"${limit.lower} (Relative) to ${limit.upper} (Absolute)"
+        is RelativeWithFactorStatisticLimit -> +"${limit.factor} of base"
         UndefinedStatisticLimit -> if(showUndefined) {
             +"Undefined"
         }
@@ -90,6 +96,19 @@ fun HtmlBlockTag.editStatisticLimit(
                     combine(param, MAX),
                 )
             }
+            is RelativeWithFactorStatisticLimit -> {
+                selectFactor(
+                    "Factor",
+                    combine(param, NUMBER),
+                    limit.factor,
+                )
+                selectValue(
+                    "Rounding",
+                    combine(param, ROUND),
+                    RoundingType.entries,
+                    limit.rounding,
+                )
+            }
             UndefinedStatisticLimit, UnmodifiableStatistic -> doNothing()
         }
     }
@@ -119,6 +138,10 @@ fun parseStatisticLimit(
     StatisticLimitType.RelativeLowerAndAbsoluteUpper -> RelativeLowerAndAbsoluteUpperLimit(
         parseInt(parameters, combine(param, MIN)),
         parseInt(parameters, combine(param, MAX)),
+    )
+    StatisticLimitType.RelativeWithFactor -> RelativeWithFactorStatisticLimit(
+        parseFactor(parameters, combine(param, NUMBER)),
+        parse(parameters, combine(param, ROUND), RoundingType.RoundUp),
     )
     StatisticLimitType.Undefined -> UndefinedStatisticLimit
     StatisticLimitType.Unmodifiable -> UnmodifiableStatistic
