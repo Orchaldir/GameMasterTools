@@ -4,6 +4,11 @@ import at.orchaldir.gm.utils.math.RangeInt
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+enum class StatisticLimitLayer {
+    Race,
+    Character,
+}
+
 enum class StatisticLimitType {
     Absolute,
     Relative,

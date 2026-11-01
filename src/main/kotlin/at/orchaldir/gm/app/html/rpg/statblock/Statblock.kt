@@ -11,6 +11,7 @@ import at.orchaldir.gm.core.model.rpg.statistic.AbsoluteStatisticLimit
 import at.orchaldir.gm.core.model.rpg.statistic.RelativeStatisticLimit
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
+import at.orchaldir.gm.core.model.rpg.statistic.StatisticLimitLayer
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticLimits
 import at.orchaldir.gm.core.model.rpg.statistic.UndefinedStatisticLimit
 import at.orchaldir.gm.core.selector.rpg.*
@@ -67,7 +68,7 @@ private fun DETAILS.showStatistics(
 fun HtmlBlockTag.editStatblock(
     call: ApplicationCall,
     state: State,
-    limits: StatisticLimits,
+    layer: StatisticLimitLayer,
     statblock: Statblock,
 ) {
     val attributes = state.sortStatistics(state.getAttributes())
@@ -78,11 +79,11 @@ fun HtmlBlockTag.editStatblock(
 
     showDetails("Stateblock", true) {
         table {
-            editStatistics(state, call, limits, statblock, attributes, "Attribute")
-            editStatistics(state, call, limits, statblock, derivedAttributes, "Derived Attribute")
-            editStatistics(state, call, limits, statblock, damageValues, "Base Damage Value")
-            editStatistics(state, call, limits, statblock, saves, "Saves")
-            editStatistics(state, call, limits, statblock, skills, "Skills")
+            editStatistics(state, call, layer, statblock, attributes, "Attribute")
+            editStatistics(state, call, layer, statblock, derivedAttributes, "Derived Attribute")
+            editStatistics(state, call, layer, statblock, damageValues, "Base Damage Value")
+            editStatistics(state, call, layer, statblock, saves, "Saves")
+            editStatistics(state, call, layer, statblock, skills, "Skills")
         }
         editCharacterTraitGroups(call, state, statblock.traits, isOpen = true)
         field("Cost", statblock.calculateCost(state))
@@ -92,7 +93,7 @@ fun HtmlBlockTag.editStatblock(
 private fun TABLE.editStatistics(
     state: State,
     call: ApplicationCall,
-    limits: StatisticLimits,
+    layer: StatisticLimitLayer,
     statblock: Statblock,
     statistics: List<Statistic>,
     label: String,
@@ -100,8 +101,6 @@ private fun TABLE.editStatistics(
     if (statistics.isEmpty()) {
         return
     }
-
-    val limit = limits.getLimit(statistics[0])
 
     tr {
         th { +label }
@@ -113,6 +112,7 @@ private fun TABLE.editStatistics(
         val offset = statblock.statistics[statistic.id] ?: 0
         val value = statblock.resolve(state, statistic)
         val base = (value ?: 0) - offset
+        val limit = statistic.getLimit(state, layer)
         val range = limit.getRelativeRange(base, 10)
 
         tr {

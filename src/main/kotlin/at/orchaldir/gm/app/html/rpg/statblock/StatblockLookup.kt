@@ -8,7 +8,7 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterTemplateId
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.rpg.statblock.*
-import at.orchaldir.gm.core.model.rpg.statistic.StatisticLimits
+import at.orchaldir.gm.core.model.rpg.statistic.StatisticLimitLayer
 import at.orchaldir.gm.core.selector.rpg.statblock.getStatblock
 import at.orchaldir.gm.core.selector.util.sortCharacterTemplates
 import at.orchaldir.gm.utils.doNothing
@@ -116,7 +116,7 @@ fun HtmlBlockTag.editStatblockLookup(
     lookup: StatblockLookup,
     ignoredTemplates: Set<CharacterTemplateId> = emptySet(),
 ) {
-    val limits = state.config.rpg.statistic.characterLimits
+    val layer = StatisticLimitLayer.Character
 
     showDetails("Statblock Lookup", true) {
         selectValue(
@@ -131,7 +131,7 @@ fun HtmlBlockTag.editStatblockLookup(
             is UniqueStatblock -> {
                 val resolved = lookup.statblock.applyTo(base)
 
-                editStatblockUpdate(call, state, limits, base, lookup.statblock, resolved)
+                editStatblockUpdate(call, state, layer, base, lookup.statblock, resolved)
             }
 
             is UseStatblockOfTemplate -> selectCharacterTemplate(state, ignoredTemplates, lookup.template)
@@ -141,7 +141,7 @@ fun HtmlBlockTag.editStatblockLookup(
 
                 selectCharacterTemplate(state, ignoredTemplates, lookup.template)
                 field("Template Cost", statblock.calculateCost(state))
-                editStatblockUpdate(call, state, limits, statblock, lookup.update, resolved)
+                editStatblockUpdate(call, state, layer, statblock, lookup.update, resolved)
                 field("Cost", resolved.calculateCost(state))
             }
         }

@@ -20,6 +20,7 @@ import at.orchaldir.gm.core.model.character.appearance.UndefinedAppearance
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.UseRace
 import at.orchaldir.gm.core.model.race.UseRaceRarityMap
+import at.orchaldir.gm.core.model.rpg.statistic.StatisticLimitLayer
 import at.orchaldir.gm.core.model.rpg.statistic.UndefinedStatisticLimit
 import at.orchaldir.gm.core.model.util.CharacterReference
 import at.orchaldir.gm.core.model.util.CharacterTemplateReference
@@ -90,7 +91,7 @@ fun HtmlBlockTag.editCharacterInstance(
         NoReference -> {
             selectElement(state, RACE, races, instance.race)
             selectGender(race, instance)
-            editStatblock(call, state, state.config.rpg.statistic.characterLimits, instance.statblock)
+            editStatblock(call, state, StatisticLimitLayer.Character, instance.statblock)
             editEquipped(call, state, instance.statblock, instance.equipped)
         }
 

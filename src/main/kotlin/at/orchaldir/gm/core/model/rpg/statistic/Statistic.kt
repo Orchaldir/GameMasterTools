@@ -49,4 +49,17 @@ data class Statistic(
             is Skill -> validateBaseValue(state, id, data.base)
         }
     }
+
+    fun getLimit(state: State, layer: StatisticLimitLayer): StatisticLimit {
+        val limit = when (layer) {
+            StatisticLimitLayer.Race -> raceLimit
+            StatisticLimitLayer.Character -> characterLimit
+        }
+
+        return if (limit is UndefinedStatisticLimit) {
+            state.config.rpg.statistic.getLimit(layer).getLimit(this)
+        } else {
+            limit
+        }
+    }
 }
