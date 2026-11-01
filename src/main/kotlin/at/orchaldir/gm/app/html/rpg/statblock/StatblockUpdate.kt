@@ -107,11 +107,11 @@ fun HtmlBlockTag.editStatblockUpdate(
 
     showDetails("Statblock Update", true) {
         table {
-            editStatistics(call, state, layer, base, update, resolved, attributes, "Attribute")
-            editStatistics(call, state, layer, base, update, resolved, derivedAttributes, "Derived Attribute")
-            editStatistics(call, state, layer, base, update, resolved, damageValues, "Base Damage Value")
-            editStatistics(call, state, layer, base, update, resolved, saves, "Saves")
-            editStatistics(call, state, layer, base, update, resolved, skills, "Skills")
+            editStatistics(call, state, layer, update, resolved, attributes, "Attribute")
+            editStatistics(call, state, layer, update, resolved, derivedAttributes, "Derived Attribute")
+            editStatistics(call, state, layer, update, resolved, damageValues, "Base Damage Value")
+            editStatistics(call, state, layer, update, resolved, saves, "Saves")
+            editStatistics(call, state, layer, update, resolved, skills, "Skills")
         }
         if (base.traits.isNotEmpty()) {
             br { }
@@ -140,7 +140,6 @@ private fun TABLE.editStatistics(
     call: ApplicationCall,
     state: State,
     layer: StatisticLimitLayer,
-    statblock: Statblock,
     update: StatblockUpdate,
     resolved: Statblock,
     statistics: List<Statistic>,
