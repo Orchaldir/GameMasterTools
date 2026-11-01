@@ -212,6 +212,20 @@
      "#type": "Fixed",
      "cost": 5
     }
+   },
+   "raceLimit": {
+    "#type": "Relative",
+    "range": {
+     "min": -8,
+     "max": 8
+    }
+   },
+   "characterLimit": {
+    "#type": "Relative",
+    "range": {
+     "min": -8,
+     "max": 8
+    }
    }
   },
   "12": {
@@ -264,6 +278,20 @@
     "unit": {
      "#type": "Suffix",
      "suffix": "m/s"
+    }
+   },
+   "raceLimit": {
+    "#type": "Relative",
+    "range": {
+     "min": -3,
+     "max": 3
+    }
+   },
+   "characterLimit": {
+    "#type": "Relative",
+    "range": {
+     "min": -3,
+     "max": 3
     }
    }
   },

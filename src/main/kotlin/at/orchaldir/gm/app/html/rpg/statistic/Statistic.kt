@@ -1,6 +1,9 @@
 package at.orchaldir.gm.app.html.rpg.statistic
 
+import at.orchaldir.gm.app.CHARACTER
+import at.orchaldir.gm.app.RACE
 import at.orchaldir.gm.app.SHORT
+import at.orchaldir.gm.app.STATISTIC
 import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.util.showGenericUsage
 import at.orchaldir.gm.app.html.util.source.editDataSources
@@ -9,6 +12,7 @@ import at.orchaldir.gm.app.html.util.source.showDataSources
 import at.orchaldir.gm.app.routes.ConfigRoutes
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
+import at.orchaldir.gm.core.model.rpg.statistic.StatisticDataType
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.selector.economy.getJobs
 import at.orchaldir.gm.core.selector.rpg.equipment.getEquipmentTypes
@@ -29,6 +33,8 @@ fun HtmlBlockTag.showStatistic(
 ) {
     optionalFieldName("Short", statistic.short)
     showStatisticData(call, state, statistic.data)
+    fieldStatisticLimit("Race Limit", statistic.raceLimit)
+    fieldStatisticLimit("Character Limit", statistic.characterLimit)
     showDataSources(call, state, statistic.sources)
     showUsage(call, state, statistic)
 }
@@ -106,6 +112,8 @@ fun HtmlBlockTag.editStatistic(
     selectName(statistic.name)
     selectOptionalName("Short", statistic.short, SHORT)
     editStatisticData(state, statistic.id, statistic.data)
+    editStatisticLimit("Race Limit", statistic.raceLimit, combine(STATISTIC,RACE))
+    editStatisticLimit("Character Limit", statistic.characterLimit, combine(STATISTIC, CHARACTER))
     editDataSources(state, statistic.sources)
 }
 
@@ -125,5 +133,7 @@ fun parseStatistic(
     parseName(parameters),
     parseOptionalName(parameters, SHORT),
     parseStatisticData(parameters),
+    parseStatisticLimit(parameters, combine(STATISTIC,RACE)),
+    parseStatisticLimit(parameters, combine(STATISTIC,CHARACTER)),
     parseDataSources(parameters),
 )

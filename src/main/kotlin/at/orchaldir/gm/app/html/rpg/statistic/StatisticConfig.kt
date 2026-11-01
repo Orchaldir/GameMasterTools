@@ -14,7 +14,7 @@ import kotlinx.html.h3
 fun HtmlBlockTag.showStatisticConfig(
     config: StatisticConfig,
 ) {
-    h3 { +"Statists" }
+    h3 { +"Statistics" }
 
     showStatisticLimits(config.raceLimits, "Race Limits")
     showStatisticLimits(config.characterLimits, "Character Limits")
@@ -25,7 +25,7 @@ fun HtmlBlockTag.showStatisticConfig(
 fun HtmlBlockTag.editStatisticConfig(
     config: StatisticConfig,
 ) {
-    h3 { +"Statists" }
+    h3 { +"Statistics" }
 
     editStatisticLimits("Race Limits", config.raceLimits, combine(STATISTIC,RACE))
     editStatisticLimits("Character Limits", config.characterLimits, combine(STATISTIC, CHARACTER))

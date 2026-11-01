@@ -27,6 +27,8 @@ data class Statistic(
     val name: Name = Name.init(id),
     val short: Name? = null,
     val data: StatisticData = Attribute(),
+    val raceLimit: StatisticLimit = UndefinedStatisticLimit,
+    val characterLimit: StatisticLimit = UndefinedStatisticLimit,
     val sources: Set<DataSourceId> = emptySet(),
 ) : ElementWithSimpleName<StatisticId>, HasDataSources {
 
