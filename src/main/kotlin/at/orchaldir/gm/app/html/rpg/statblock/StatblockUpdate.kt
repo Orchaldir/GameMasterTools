@@ -13,6 +13,7 @@ import at.orchaldir.gm.core.model.rpg.statblock.Statblock
 import at.orchaldir.gm.core.model.rpg.statblock.StatblockUpdate
 import at.orchaldir.gm.core.model.rpg.statblock.calculateUpdateCost
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
+import at.orchaldir.gm.core.model.rpg.statistic.StatisticLimits
 import at.orchaldir.gm.core.selector.rpg.*
 import at.orchaldir.gm.core.selector.util.sortStatistics
 import io.ktor.http.*
@@ -93,6 +94,7 @@ private fun TABLE.showStatistics(
 fun HtmlBlockTag.editStatblockUpdate(
     call: ApplicationCall,
     state: State,
+    limits: StatisticLimits,
     base: Statblock,
     update: StatblockUpdate,
     resolved: Statblock,
@@ -105,11 +107,11 @@ fun HtmlBlockTag.editStatblockUpdate(
 
     showDetails("Statblock Update", true) {
         table {
-            editStatistics(call, state, base, update, resolved, attributes, "Attribute")
-            editStatistics(call, state, base, update, resolved, derivedAttributes, "Derived Attribute")
-            editStatistics(call, state, base, update, resolved, damageValues, "Base Damage Value")
-            editStatistics(call, state, base, update, resolved, saves, "Saves")
-            editStatistics(call, state, base, update, resolved, skills, "Skills")
+            editStatistics(call, state, limits, base, update, resolved, attributes, "Attribute")
+            editStatistics(call, state, limits, base, update, resolved, derivedAttributes, "Derived Attribute")
+            editStatistics(call, state, limits, base, update, resolved, damageValues, "Base Damage Value")
+            editStatistics(call, state, limits, base, update, resolved, saves, "Saves")
+            editStatistics(call, state, limits, base, update, resolved, skills, "Skills")
         }
         if (base.traits.isNotEmpty()) {
             br { }
@@ -137,6 +139,7 @@ fun HtmlBlockTag.editStatblockUpdate(
 private fun TABLE.editStatistics(
     call: ApplicationCall,
     state: State,
+    limits: StatisticLimits,
     statblock: Statblock,
     update: StatblockUpdate,
     resolved: Statblock,
@@ -146,6 +149,8 @@ private fun TABLE.editStatistics(
     if (statistics.isEmpty()) {
         return
     }
+
+    val limit = limits.getLimit(statistics[0])
 
     tr {
         th { +label }
@@ -159,6 +164,7 @@ private fun TABLE.editStatistics(
         val base = statblock.resolve(state, statistic)
         val modifier = update.statistics[statistic.id] ?: 0
         val result = resolved.resolve(state, statistic)
+        val range = limit.getRelativeRange(base ?: 0, 100)
 
         tr {
             tdLink(call, state, statistic)
@@ -166,8 +172,7 @@ private fun TABLE.editStatistics(
             td {
                 selectInt(
                     modifier,
-                    -100,
-                    +100,
+                    range,
                     1,
                     combine(STATISTIC, statistic.id.value),
                 )
