@@ -5,6 +5,7 @@ import at.orchaldir.gm.app.html.*
 import at.orchaldir.gm.app.html.rpg.trait.editCharacterTraitGroups
 import at.orchaldir.gm.app.html.rpg.trait.parseCharacterTraits
 import at.orchaldir.gm.app.html.rpg.trait.showCharacterTraits
+import at.orchaldir.gm.app.html.util.math.displayRange
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.statblock.Statblock
 import at.orchaldir.gm.core.model.rpg.statistic.AbsoluteStatisticLimit
@@ -105,6 +106,7 @@ private fun TABLE.editStatistics(
     tr {
         th { +label }
         th { +"Offset" }
+        th { +"Limits" }
         th { +"Result" }
         th { +"Cost" }
     }
@@ -124,6 +126,11 @@ private fun TABLE.editStatistics(
                     1,
                     combine(STATISTIC, statistic.id.value),
                 )
+            }
+            td {
+                if (range > 0) {
+                    displayRange(range)
+                }
             }
             tdSkipZero(value)
             tdInt(statistic.data.cost().calculate(offset))

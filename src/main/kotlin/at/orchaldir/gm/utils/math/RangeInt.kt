@@ -1,5 +1,6 @@
 package at.orchaldir.gm.utils.math
 
+import at.orchaldir.gm.core.model.time.date.Month
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -22,6 +23,8 @@ data class RangeInt(
     fun validateInt(value: Int, label: String) {
         checkInt(value, label, min, max)
     }
+
+    operator fun compareTo(size: Int) = (max - min).compareTo(size)
 
     operator fun minus(value: Int) = RangeInt(min - value, max - value)
 }

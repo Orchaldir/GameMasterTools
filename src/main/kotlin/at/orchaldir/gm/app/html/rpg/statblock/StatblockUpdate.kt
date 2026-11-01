@@ -4,10 +4,12 @@ import at.orchaldir.gm.app.CHARACTER_TRAIT
 import at.orchaldir.gm.app.REMOVE
 import at.orchaldir.gm.app.STATISTIC
 import at.orchaldir.gm.app.html.*
+import at.orchaldir.gm.app.html.rpg.statistic.displayStatisticLimit
 import at.orchaldir.gm.app.html.rpg.trait.editCharacterTraitGroups
 import at.orchaldir.gm.app.html.rpg.trait.parseCharacterTraitId
 import at.orchaldir.gm.app.html.rpg.trait.parseCharacterTraits
 import at.orchaldir.gm.app.html.rpg.trait.showCharacterTraits
+import at.orchaldir.gm.app.html.util.math.displayRange
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.statblock.Statblock
 import at.orchaldir.gm.core.model.rpg.statblock.StatblockUpdate
@@ -153,6 +155,7 @@ private fun TABLE.editStatistics(
         th { +label }
         th { +"Base" }
         th { +"Modifier" }
+        th { +"Limits" }
         th { +"Result" }
         th { +"Cost" }
     }
@@ -174,6 +177,11 @@ private fun TABLE.editStatistics(
                     1,
                     combine(STATISTIC, statistic.id.value),
                 )
+            }
+            td {
+                if (range > 0) {
+                    displayRange(range)
+                }
             }
             tdSkipZero(result)
             tdInt(statistic.data.cost().calculate(modifier))
