@@ -1,5 +1,6 @@
 package at.orchaldir.gm.core.model.rpg.statblock
 
+import at.orchaldir.gm.core.logger
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.statistic.*
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitId
@@ -45,6 +46,11 @@ data class Statblock(
             is Skill -> resolveSkill(state, statistic.id, statistic.data.base, allowUntrainedSkill)
         }
     }
+
+    fun resolveBase(
+        state: State,
+        statistic: Statistic,
+    ) = resolve(state, statistic.data.baseValue())
 
     private fun Statblock.resolveAttribute(
         state: State,

@@ -159,7 +159,7 @@ private fun TABLE.editStatistics(
     }
 
     statistics.forEach { statistic ->
-        val base = statblock.resolve(state, statistic)
+        val base = resolved.resolveBase(state, statistic)
         val modifier = update.statistics[statistic.id] ?: 0
         val result = resolved.resolve(state, statistic)
         val limit = statistic.getLimit(state, layer)
