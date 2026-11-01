@@ -18,8 +18,14 @@ fun HtmlBlockTag.fieldStatisticLimit(
 ) {
     field(label) {
         when (limit) {
-            is AbsoluteStatisticLimit -> displayRange(limit.range)
-            is RelativeStatisticLimit -> displayRange(limit.range)
+            is AbsoluteStatisticLimit -> {
+                displayRange(limit.range)
+                +" (Absolute)"
+            }
+            is RelativeStatisticLimit -> {
+                displayRange(limit.range)
+                +" (Relative)"
+            }
             UndefinedStatisticLimit ->  +"None"
         }
     }
