@@ -36,7 +36,12 @@ sealed class StatisticLimit {
     fun getRelativeRange(base: Int, default: Int) = when (this) {
         is AbsoluteStatisticLimit -> range - base
         is RelativeStatisticLimit -> range
-        is RelativeLowerAndAbsoluteUpperLimit -> RangeInt(lower, upper - base)
+        is RelativeLowerAndAbsoluteUpperLimit -> if (base > upper) {
+            val relativeMax = upper - base
+            RangeInt(relativeMax + lower, relativeMax)
+        } else {
+            RangeInt(lower, upper - base)
+        }
         is RelativeWithFactorStatisticLimit -> {
             val offset = factor.apply(base.absoluteValue, rounding)
 
