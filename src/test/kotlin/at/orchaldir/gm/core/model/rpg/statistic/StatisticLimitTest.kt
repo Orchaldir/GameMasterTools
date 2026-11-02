@@ -11,11 +11,25 @@ class StatisticLimitTest {
     inner class GetRelativeRangeTest {
 
         @Test
-        fun `Test an absolute limit`() {
+        fun `Test with the base inside the absolute limit`() {
             val limit = AbsoluteStatisticLimit(RangeInt(1, 20))
 
             assertEquals(RangeInt(-9, 10), limit.getRelativeRange(10, 100))
             assertEquals(RangeInt(-10, 9), limit.getRelativeRange(11, 100))
+        }
+
+        @Test
+        fun `Test with the base above the absolute limit`() {
+            val limit = AbsoluteStatisticLimit(RangeInt(1, 20))
+
+            assertEquals(RangeInt(-21, -2), limit.getRelativeRange(22, 100))
+        }
+
+        @Test
+        fun `Test with the base below the absolute limit`() {
+            val limit = AbsoluteStatisticLimit(RangeInt(1, 20))
+
+            assertEquals(RangeInt(3, 22), limit.getRelativeRange(-2, 100))
         }
 
         @Test
