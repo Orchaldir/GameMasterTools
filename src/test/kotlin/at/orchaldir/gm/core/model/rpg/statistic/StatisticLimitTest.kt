@@ -1,6 +1,8 @@
 package at.orchaldir.gm.core.model.rpg.statistic
 
 import at.orchaldir.gm.utils.math.RangeInt
+import at.orchaldir.gm.utils.math.RoundingType
+import at.orchaldir.gm.utils.math.THIRD
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -55,6 +57,42 @@ class StatisticLimitTest {
                 assertEquals(RangeInt(-6, -2), limit.getRelativeRange(22, 100))
                 assertEquals(RangeInt(-16, -12), limit.getRelativeRange(32, 100))
             }
+        }
+
+        @Nested
+        inner class RelativeWithFactorStatisticLimitTest {
+
+            @Test
+            fun `Test with rounded down`() {
+                val limit = RelativeWithFactorStatisticLimit(THIRD, RoundingType.RoundDown)
+
+                assertEquals(RangeInt(-3, 3), limit.getRelativeRange(10, 100))
+                assertEquals(RangeInt(-9, 9), limit.getRelativeRange(30, 100))
+            }
+
+            @Test
+            fun `Test with rounded up`() {
+                val limit = RelativeWithFactorStatisticLimit(THIRD, RoundingType.RoundUp)
+
+                assertEquals(RangeInt(-4, 4), limit.getRelativeRange(10, 100))
+                assertEquals(RangeInt(-10, 10), limit.getRelativeRange(30, 100))
+            }
+        }
+
+        @Test
+        fun `Test an unmodifiable statistic`() {
+            val result = RangeInt(0, 0)
+
+            assertEquals(result, UnmodifiableStatistic.getRelativeRange(10, 100))
+            assertEquals(result, UnmodifiableStatistic.getRelativeRange(30, 100))
+        }
+
+        @Test
+        fun `Test an undefined limit`() {
+            val result = RangeInt(-100, 100)
+
+            assertEquals(result, UndefinedStatisticLimit.getRelativeRange(10, 100))
+            assertEquals(result, UndefinedStatisticLimit.getRelativeRange(30, 100))
         }
     }
 
