@@ -4,17 +4,27 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterTemplate
 import at.orchaldir.gm.core.model.rpg.statblock.*
+import at.orchaldir.gm.core.model.rpg.statistic.RelativeStatisticLimit
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTrait
 import at.orchaldir.gm.utils.Storage
+import at.orchaldir.gm.utils.math.RangeInt
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 class StatblockTest {
 
     private val validStatblock = Statblock(mapOf(STATISTIC_ID_0 to 4), setOf(CHARACTER_TRAIT_ID_0))
-    private val validUpdate =
-        StatblockUpdate(mapOf(STATISTIC_ID_0 to 4), setOf(CHARACTER_TRAIT_ID_1), setOf(CHARACTER_TRAIT_ID_0))
+    private val validUpdate = StatblockUpdate(
+        mapOf(STATISTIC_ID_0 to 1),
+        setOf(CHARACTER_TRAIT_ID_1),
+        setOf(CHARACTER_TRAIT_ID_0),
+    )
+    val statistic = Statistic(
+        STATISTIC_ID_0,
+        raceLimit = RelativeStatisticLimit(RangeInt(-2, 2)),
+        characterLimit = RelativeStatisticLimit(RangeInt(-1, 1)),
+    )
     private val state = State(
         listOf(
             Storage(
@@ -25,7 +35,7 @@ class StatblockTest {
                 )
             ),
             Storage(listOf(CharacterTrait(CHARACTER_TRAIT_ID_0), CharacterTrait(CHARACTER_TRAIT_ID_1))),
-            Storage(Statistic(STATISTIC_ID_0)),
+            Storage(statistic),
         )
     )
 
@@ -102,11 +112,22 @@ class StatblockTest {
         }
 
         @Test
-        fun `Test a valid update`() {
-            val update =
-                StatblockUpdate(mapOf(STATISTIC_ID_0 to 4), setOf(CHARACTER_TRAIT_ID_1), setOf(CHARACTER_TRAIT_ID_0))
+        fun `Using a too high value for a statistic`() {
+            val update = StatblockUpdate(mapOf(STATISTIC_ID_0 to 2))
 
-            validate(update)
+            assertIllegalArgument("The value (2) for Statistic 0 is too large!") { validate(update) }
+        }
+
+        @Test
+        fun `Using a too low value for a statistic`() {
+            val update = StatblockUpdate(mapOf(STATISTIC_ID_0 to -2))
+
+            assertIllegalArgument("The value (-2) for Statistic 0 is too small!") { validate(update) }
+        }
+
+        @Test
+        fun `Test a valid update`() {
+            validate(validUpdate)
         }
 
         private fun validate(update: StatblockUpdate) {

@@ -3,6 +3,7 @@ package at.orchaldir.gm.core.reducer.rpg
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.rpg.statblock.*
+import at.orchaldir.gm.core.model.rpg.statistic.StatisticLimitLayer
 import at.orchaldir.gm.core.selector.rpg.statblock.getStatblock
 import at.orchaldir.gm.utils.doNothing
 
@@ -47,7 +48,6 @@ fun validateStatblockUpdate(
 ) {
     state.getCharacterTraitStorage().require(update.addedTraits)
     state.getCharacterTraitStorage().require(update.removedTraits)
-    state.getStatisticStorage().require(update.statistics.keys)
 
     update.addedTraits.forEach {
         require(!update.removedTraits.contains(it)) {
@@ -63,5 +63,14 @@ fun validateStatblockUpdate(
         require(statblock.traits.contains(it)) {
             "Cannot remove ${it.print()}, because it is not in the statblock!"
         }
+    }
+
+    update.statistics.forEach { (statisticId, value) ->
+        val statistic = state.getStatisticStorage().getOrThrow(statisticId)
+        val limit = statistic.getLimit(state, StatisticLimitLayer.Character)
+        val base = statblock.resolveBase(state, statistic)
+        val range = limit.getRelativeRange(base ?: 0, Int.MAX_VALUE)
+
+        range.validateInt(value, "value ($value) for ${statisticId.print()}")
     }
 }
