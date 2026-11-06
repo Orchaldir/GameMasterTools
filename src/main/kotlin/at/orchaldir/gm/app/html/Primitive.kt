@@ -172,6 +172,19 @@ fun HtmlBlockTag.selectInt(
 
 fun HtmlBlockTag.selectInt(
     number: Int,
+    range: RangeInt,
+    stepNumber: Int,
+    param: String,
+) = selectInt(
+    number,
+    range.min,
+    range.max,
+    stepNumber,
+    param,
+)
+
+fun HtmlBlockTag.selectInt(
+    number: Int,
     minNumber: Int,
     maxNumber: Int,
     stepNumber: Int,

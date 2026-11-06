@@ -46,6 +46,11 @@ data class Statblock(
         }
     }
 
+    fun resolveBase(
+        state: State,
+        statistic: Statistic,
+    ) = resolve(state, statistic.data.baseValue())
+
     private fun Statblock.resolveAttribute(
         state: State,
         statistic: StatisticId,

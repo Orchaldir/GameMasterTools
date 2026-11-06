@@ -1,2 +1,64 @@
 {
+ "economy": {
+  "standardsOfLiving": [
+   {
+    "id": 0,
+    "name": "Standard 0"
+   }
+  ]
+ },
+ "rpg": {
+  "statistic": {
+   "raceLimits": {
+    "attributes": {
+     "#type": "Absolute",
+     "range": {
+      "min": 1,
+      "max": 20
+     }
+    },
+    "damage": {
+     "#type": "Unchanging"
+    },
+    "derivedAttributes": {
+     "#type": "Unchanging"
+    },
+    "saves": {
+     "#type": "Unchanging"
+    },
+    "skills": {
+     "#type": "Relative",
+     "range": {
+      "min": 0,
+      "max": 20
+     }
+    }
+   },
+   "characterLimits": {
+    "attributes": {
+     "#type": "Relative",
+     "range": {
+      "min": -2,
+      "max": 10
+     }
+    },
+    "damage": {
+     "#type": "Unchanging"
+    },
+    "derivedAttributes": {
+     "#type": "Unchanging"
+    },
+    "saves": {
+     "#type": "Unchanging"
+    },
+    "skills": {
+     "#type": "Relative",
+     "range": {
+      "min": 0,
+      "max": 20
+     }
+    }
+   }
+  }
+ }
 }

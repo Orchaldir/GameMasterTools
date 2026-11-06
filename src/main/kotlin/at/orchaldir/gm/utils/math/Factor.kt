@@ -4,6 +4,8 @@ import at.orchaldir.gm.utils.math.Factor.Companion.fromPercentage
 import at.orchaldir.gm.utils.math.Factor.Companion.fromPermille
 import kotlinx.serialization.Serializable
 import kotlin.math.PI
+import kotlin.math.ceil
+import kotlin.math.floor
 
 val START = fromPercentage(0)
 val ZERO = fromPercentage(0)
@@ -53,6 +55,15 @@ value class Factor private constructor(private val permyriad: Int) {
     fun toPermyriad() = permyriad
 
     fun apply(value: Int) = (value * toNumber()).toInt()
+
+    fun apply(value: Int, rounding: RoundingType): Int {
+        val float = value * toNumber()
+
+        return when (rounding) {
+            RoundingType.RoundUp -> ceil(float).toInt()
+            RoundingType.RoundDown -> floor(float).toInt()
+        }
+    }
 
     override fun toString() = formatAsFactor(permyriad)
     fun toStringAsModifier(showZero: Boolean = true) = formatAsModifier(permyriad, showZero)

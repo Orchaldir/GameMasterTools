@@ -27,6 +27,8 @@ data class Statistic(
     val name: Name = Name.init(id),
     val short: Name? = null,
     val data: StatisticData = Attribute(),
+    val raceLimit: StatisticLimit = UndefinedStatisticLimit,
+    val characterLimit: StatisticLimit = UndefinedStatisticLimit,
     val sources: Set<DataSourceId> = emptySet(),
 ) : ElementWithSimpleName<StatisticId>, HasDataSources {
 
@@ -45,6 +47,19 @@ data class Statistic(
             is DerivedAttribute -> validateBaseValue(state, id, data.base)
             is SaveStatistic -> validateBaseValue(state, id, data.base)
             is Skill -> validateBaseValue(state, id, data.base)
+        }
+    }
+
+    fun getLimit(state: State, layer: StatisticLimitLayer): StatisticLimit {
+        val limit = when (layer) {
+            StatisticLimitLayer.Race -> raceLimit
+            StatisticLimitLayer.Character -> characterLimit
+        }
+
+        return if (limit is UndefinedStatisticLimit) {
+            state.config.rpg.statistic.getLimit(layer).getLimit(this)
+        } else {
+            limit
         }
     }
 }

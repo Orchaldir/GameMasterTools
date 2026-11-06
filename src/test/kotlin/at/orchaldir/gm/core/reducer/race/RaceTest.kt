@@ -6,9 +6,11 @@ import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.Character
 import at.orchaldir.gm.core.model.race.*
 import at.orchaldir.gm.core.model.race.aging.CustomAging
+import at.orchaldir.gm.core.model.race.aging.ImmutableLifeStage
 import at.orchaldir.gm.core.model.race.aging.LifeStage
 import at.orchaldir.gm.core.model.race.aging.LifeStages
 import at.orchaldir.gm.core.model.race.appearance.RaceAppearance
+import at.orchaldir.gm.core.model.rpg.statblock.Statblock
 import at.orchaldir.gm.core.model.util.CharacterReference
 import at.orchaldir.gm.core.model.util.name.Name
 import at.orchaldir.gm.core.model.util.origin.CreatedElement
@@ -75,6 +77,14 @@ class RaceTest {
         @Test
         fun `Simple aging is valid`() {
             testIsValid(::createSimpleLifeStage, ::createSimpleAging)
+        }
+
+        @Test
+        fun `The statblock must be valid`() {
+            val statblock = Statblock(traits = setOf(UNKNOWN_CHARACTER_TRAIT_ID))
+            val race = Race(RACE_ID_0, lifeStages = ImmutableLifeStage(statblock = statblock))
+
+            assertInvalid(race, "Requires unknown Character Trait 99!")
         }
 
         @Test

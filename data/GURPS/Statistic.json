@@ -78,6 +78,16 @@
      "#type": "Fixed",
      "cost": 5
     }
+   },
+   "raceLimit": {
+    "#type": "RelativeAndAbsolute",
+    "lower": -4,
+    "upper": 20
+   },
+   "characterLimit": {
+    "#type": "RelativeAndAbsolute",
+    "lower": -4,
+    "upper": 20
    }
   },
   "5": {
@@ -94,6 +104,16 @@
      "#type": "Fixed",
      "cost": 5
     }
+   },
+   "raceLimit": {
+    "#type": "RelativeAndAbsolute",
+    "lower": -4,
+    "upper": 20
+   },
+   "characterLimit": {
+    "#type": "RelativeAndAbsolute",
+    "lower": -4,
+    "upper": 20
    }
   },
   "6": {
@@ -172,6 +192,10 @@
      "#type": "Fixed",
      "cost": 2
     }
+   },
+   "characterLimit": {
+    "#type": "RelativeWithFactor",
+    "factor": 3300
    }
   },
   "10": {
@@ -188,6 +212,10 @@
      "#type": "Fixed",
      "cost": 3
     }
+   },
+   "characterLimit": {
+    "#type": "RelativeWithFactor",
+    "factor": 3300
    }
   },
   "11": {
@@ -211,6 +239,20 @@
     "cost": {
      "#type": "Fixed",
      "cost": 5
+    }
+   },
+   "raceLimit": {
+    "#type": "Relative",
+    "range": {
+     "min": -8,
+     "max": 8
+    }
+   },
+   "characterLimit": {
+    "#type": "Relative",
+    "range": {
+     "min": -8,
+     "max": 8
     }
    }
   },
@@ -264,6 +306,20 @@
     "unit": {
      "#type": "Suffix",
      "suffix": "m/s"
+    }
+   },
+   "raceLimit": {
+    "#type": "Relative",
+    "range": {
+     "min": -3,
+     "max": 3
+    }
+   },
+   "characterLimit": {
+    "#type": "Relative",
+    "range": {
+     "min": -3,
+     "max": 3
     }
    }
   },

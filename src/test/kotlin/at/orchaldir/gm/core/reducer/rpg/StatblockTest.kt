@@ -4,17 +4,28 @@ import at.orchaldir.gm.*
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.character.CharacterTemplate
 import at.orchaldir.gm.core.model.rpg.statblock.*
+import at.orchaldir.gm.core.model.rpg.statistic.RelativeStatisticLimit
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
+import at.orchaldir.gm.core.model.rpg.statistic.StatisticLimitLayer
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTrait
 import at.orchaldir.gm.utils.Storage
+import at.orchaldir.gm.utils.math.RangeInt
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 class StatblockTest {
 
-    private val validStatblock = Statblock(mapOf(STATISTIC_ID_0 to 4), setOf(CHARACTER_TRAIT_ID_0))
-    private val validUpdate =
-        StatblockUpdate(mapOf(STATISTIC_ID_0 to 4), setOf(CHARACTER_TRAIT_ID_1), setOf(CHARACTER_TRAIT_ID_0))
+    private val validStatblock = Statblock(mapOf(STATISTIC_ID_0 to 2), setOf(CHARACTER_TRAIT_ID_0))
+    private val validUpdate = StatblockUpdate(
+        mapOf(STATISTIC_ID_0 to 1),
+        setOf(CHARACTER_TRAIT_ID_1),
+        setOf(CHARACTER_TRAIT_ID_0),
+    )
+    val statistic = Statistic(
+        STATISTIC_ID_0,
+        raceLimit = RelativeStatisticLimit(RangeInt(-2, 2)),
+        characterLimit = RelativeStatisticLimit(RangeInt(-1, 1)),
+    )
     private val state = State(
         listOf(
             Storage(
@@ -25,7 +36,7 @@ class StatblockTest {
                 )
             ),
             Storage(listOf(CharacterTrait(CHARACTER_TRAIT_ID_0), CharacterTrait(CHARACTER_TRAIT_ID_1))),
-            Storage(Statistic(STATISTIC_ID_0)),
+            Storage(statistic),
         )
     )
 
@@ -36,19 +47,47 @@ class StatblockTest {
         fun `Using an unknown character trait`() {
             val statblock = Statblock(traits = setOf(UNKNOWN_CHARACTER_TRAIT_ID))
 
-            assertIllegalArgument("Requires unknown Character Trait 99!") { validateStatblock(state, statblock) }
+            assertIllegalArgument("Requires unknown Character Trait 99!") { validate(statblock) }
         }
 
         @Test
         fun `Using an unknown statistic`() {
             val statblock = Statblock(mapOf(UNKNOWN_STATISTIC_ID to 4))
 
-            assertIllegalArgument("Requires unknown Statistic 99!") { validateStatblock(state, statblock) }
+            assertIllegalArgument("Requires unknown Statistic 99!") { validate(statblock) }
+        }
+
+        @Test
+        fun `Using a too high value for a statistic`() {
+            val statblock = Statblock(mapOf(STATISTIC_ID_0 to 3))
+
+            assertIllegalArgument("The value (3) for Statistic 0 is too large!") { validate(statblock) }
+        }
+
+        @Test
+        fun `Using a too low value for a statistic`() {
+            val statblock = Statblock(mapOf(STATISTIC_ID_0 to -3))
+
+            assertIllegalArgument("The value (-3) for Statistic 0 is too small!") { validate(statblock) }
         }
 
         @Test
         fun `Test a valid statblock`() {
-            validateStatblock(state, validStatblock)
+            validate(-2)
+            validate(-1)
+            validate(0)
+            validate(+1)
+            validate(+2)
+        }
+
+        private fun validate(value: Int) {
+            val statblock = Statblock(mapOf(STATISTIC_ID_0 to value))
+
+            validate(statblock)
+        }
+
+        private fun validate(statblock: Statblock) {
+            validateStatblock(state, statblock, StatisticLimitLayer.Race)
         }
     }
 
@@ -102,9 +141,28 @@ class StatblockTest {
         }
 
         @Test
+        fun `Using a too high value for a statistic`() {
+            val update = StatblockUpdate(mapOf(STATISTIC_ID_0 to 2))
+
+            assertIllegalArgument("The value (2) for Statistic 0 is too large!") { validate(update) }
+        }
+
+        @Test
+        fun `Using a too low value for a statistic`() {
+            val update = StatblockUpdate(mapOf(STATISTIC_ID_0 to -2))
+
+            assertIllegalArgument("The value (-2) for Statistic 0 is too small!") { validate(update) }
+        }
+
+        @Test
         fun `Test a valid update`() {
-            val update =
-                StatblockUpdate(mapOf(STATISTIC_ID_0 to 4), setOf(CHARACTER_TRAIT_ID_1), setOf(CHARACTER_TRAIT_ID_0))
+            validate(-1)
+            validate(0)
+            validate(+1)
+        }
+
+        private fun validate(value: Int) {
+            val update = StatblockUpdate(mapOf(STATISTIC_ID_0 to value))
 
             validate(update)
         }
