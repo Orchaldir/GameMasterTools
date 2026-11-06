@@ -3,6 +3,8 @@ package at.orchaldir.gm.core.reducer.race
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.race.*
 import at.orchaldir.gm.core.model.race.aging.*
+import at.orchaldir.gm.core.model.rpg.statistic.StatisticLimitLayer
+import at.orchaldir.gm.core.reducer.rpg.validateStatblock
 import at.orchaldir.gm.utils.doNothing
 import at.orchaldir.gm.utils.math.unit.checkDistance
 import at.orchaldir.gm.utils.math.validate
@@ -24,6 +26,8 @@ fun validateLifeStages(state: State, lifeStages: LifeStages) {
 
         is ImmutableLifeStage -> doNothing()
     }
+
+    validateStatblock(state, lifeStages.statblock(), StatisticLimitLayer.Race)
 }
 
 fun validateHeight(race: Race) {

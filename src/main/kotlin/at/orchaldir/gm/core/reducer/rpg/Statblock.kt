@@ -3,9 +3,12 @@ package at.orchaldir.gm.core.reducer.rpg
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.race.RaceId
 import at.orchaldir.gm.core.model.rpg.statblock.*
+import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticLimitLayer
 import at.orchaldir.gm.core.selector.rpg.statblock.getStatblock
 import at.orchaldir.gm.utils.doNothing
+import kotlin.collections.component1
+import kotlin.collections.component2
 
 fun validateStatblockLookup(
     state: State,
@@ -41,6 +44,18 @@ fun validateStatblock(
     state.getStatisticStorage().require(statblock.statistics.keys)
 }
 
+fun validateStatblock(
+    state: State,
+    statblock: Statblock,
+    layer: StatisticLimitLayer,
+) {
+    validateStatblock(state, statblock)
+
+    statblock.statistics.forEach { (statisticId, value) ->
+        validateStatisticLimit(state, layer, statisticId, value)
+    }
+}
+
 fun validateStatblockUpdate(
     state: State,
     statblock: Statblock,
@@ -67,10 +82,22 @@ fun validateStatblockUpdate(
 
     update.statistics.forEach { (statisticId, value) ->
         val statistic = state.getStatisticStorage().getOrThrow(statisticId)
-        val limit = statistic.getLimit(state, StatisticLimitLayer.Character)
         val base = statblock.resolveBase(state, statistic)
-        val range = limit.getRelativeRange(base ?: 0, Int.MAX_VALUE)
 
-        range.validateInt(value, "value ($value) for ${statisticId.print()}")
+        validateStatisticLimit(state, StatisticLimitLayer.Character, statisticId, value, base)
     }
+}
+
+fun validateStatisticLimit(
+    state: State,
+    layer: StatisticLimitLayer,
+    statisticId: StatisticId,
+    value: Int,
+    base: Int? = null,
+) {
+    val statistic = state.getStatisticStorage().getOrThrow(statisticId)
+    val limit = statistic.getLimit(state, layer)
+    val range = limit.getRelativeRange(base ?: 0, Int.MAX_VALUE)
+
+    range.validateInt(value, "value ($value) for ${statisticId.print()}")
 }
