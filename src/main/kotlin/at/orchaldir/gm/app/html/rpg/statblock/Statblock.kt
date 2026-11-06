@@ -8,16 +8,11 @@ import at.orchaldir.gm.app.html.rpg.trait.showCharacterTraits
 import at.orchaldir.gm.app.html.util.math.displayRange
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.statblock.Statblock
-import at.orchaldir.gm.core.model.rpg.statistic.AbsoluteStatisticLimit
-import at.orchaldir.gm.core.model.rpg.statistic.RelativeStatisticLimit
 import at.orchaldir.gm.core.model.rpg.statistic.Statistic
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticLimitLayer
-import at.orchaldir.gm.core.model.rpg.statistic.StatisticLimits
-import at.orchaldir.gm.core.model.rpg.statistic.UndefinedStatisticLimit
 import at.orchaldir.gm.core.selector.rpg.*
 import at.orchaldir.gm.core.selector.util.sortStatistics
-import at.orchaldir.gm.utils.math.RangeInt
 import io.ktor.http.*
 import io.ktor.server.application.*
 import kotlinx.html.*

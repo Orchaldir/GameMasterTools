@@ -1,6 +1,5 @@
 package at.orchaldir.gm.utils.math
 
-import at.orchaldir.gm.core.model.time.date.Month
 import kotlinx.serialization.Serializable
 
 @Serializable

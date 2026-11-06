@@ -7,8 +7,6 @@ import at.orchaldir.gm.core.model.rpg.statistic.StatisticId
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticLimitLayer
 import at.orchaldir.gm.core.selector.rpg.statblock.getStatblock
 import at.orchaldir.gm.utils.doNothing
-import kotlin.collections.component1
-import kotlin.collections.component2
 
 fun validateStatblockLookup(
     state: State,

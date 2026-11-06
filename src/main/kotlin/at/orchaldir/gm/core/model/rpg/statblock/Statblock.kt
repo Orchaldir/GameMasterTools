@@ -1,6 +1,5 @@
 package at.orchaldir.gm.core.model.rpg.statblock
 
-import at.orchaldir.gm.core.logger
 import at.orchaldir.gm.core.model.State
 import at.orchaldir.gm.core.model.rpg.statistic.*
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTraitId

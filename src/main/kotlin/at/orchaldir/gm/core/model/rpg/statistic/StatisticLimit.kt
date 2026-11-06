@@ -42,11 +42,13 @@ sealed class StatisticLimit {
         } else {
             RangeInt(lower, upper - base)
         }
+
         is RelativeWithFactorStatisticLimit -> {
             val offset = factor.apply(base.absoluteValue, rounding)
 
             RangeInt(-offset, offset)
         }
+
         UnmodifiableStatistic -> RangeInt(0, 0)
         UndefinedStatisticLimit -> RangeInt(-default, +default)
     }

@@ -21,7 +21,6 @@ import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.UseRace
 import at.orchaldir.gm.core.model.race.UseRaceRarityMap
 import at.orchaldir.gm.core.model.rpg.statistic.StatisticLimitLayer
-import at.orchaldir.gm.core.model.rpg.statistic.UndefinedStatisticLimit
 import at.orchaldir.gm.core.model.util.CharacterReference
 import at.orchaldir.gm.core.model.util.CharacterTemplateReference
 import at.orchaldir.gm.core.model.util.NoReference

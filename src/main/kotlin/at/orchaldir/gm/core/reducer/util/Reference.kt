@@ -27,6 +27,7 @@ fun validateReference(
             }
             validateId(reference.template)
         }
+
         is CultureReference -> validateReference(state, reference.culture, validateId, noun, date)
         is GodReference -> validateReference(state, reference.god, validateId, noun, date)
         is OrganizationReference -> validateReference(state, reference.organization, validateId, noun, date)

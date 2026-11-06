@@ -4,7 +4,6 @@ import at.orchaldir.gm.app.CHARACTER_TRAIT
 import at.orchaldir.gm.app.REMOVE
 import at.orchaldir.gm.app.STATISTIC
 import at.orchaldir.gm.app.html.*
-import at.orchaldir.gm.app.html.rpg.statistic.displayStatisticLimit
 import at.orchaldir.gm.app.html.rpg.trait.editCharacterTraitGroups
 import at.orchaldir.gm.app.html.rpg.trait.parseCharacterTraitId
 import at.orchaldir.gm.app.html.rpg.trait.parseCharacterTraits

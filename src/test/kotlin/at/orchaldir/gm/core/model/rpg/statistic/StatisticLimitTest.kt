@@ -3,7 +3,7 @@ package at.orchaldir.gm.core.model.rpg.statistic
 import at.orchaldir.gm.utils.math.RangeInt
 import at.orchaldir.gm.utils.math.RoundingType
 import at.orchaldir.gm.utils.math.THIRD
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 

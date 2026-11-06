@@ -198,7 +198,7 @@ class CharacterTest {
 
             @Test
             fun `Cannot use unknown building as home`() {
-                val character =Character(CHARACTER_ID_0, housingStatus = History(InHome(BUILDING_ID_0)))
+                val character = Character(CHARACTER_ID_0, housingStatus = History(InHome(BUILDING_ID_0)))
 
                 assertInvalid(character, "Requires unknown home!")
             }

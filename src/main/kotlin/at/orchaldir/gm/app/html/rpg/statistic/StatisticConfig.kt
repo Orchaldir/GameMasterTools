@@ -27,7 +27,7 @@ fun HtmlBlockTag.editStatisticConfig(
 ) {
     h3 { +"Statistics" }
 
-    editStatisticLimits("Race Limits", config.raceLimits, combine(STATISTIC,RACE))
+    editStatisticLimits("Race Limits", config.raceLimits, combine(STATISTIC, RACE))
     editStatisticLimits("Character Limits", config.characterLimits, combine(STATISTIC, CHARACTER))
 }
 
@@ -36,6 +36,6 @@ fun HtmlBlockTag.editStatisticConfig(
 fun parseStatisticConfig(
     parameters: Parameters,
 ) = StatisticConfig(
-    parseStatisticLimits(parameters, combine(STATISTIC,RACE)),
-    parseStatisticLimits(parameters, combine(STATISTIC,CHARACTER)),
+    parseStatisticLimits(parameters, combine(STATISTIC, RACE)),
+    parseStatisticLimits(parameters, combine(STATISTIC, CHARACTER)),
 )
