@@ -12,6 +12,8 @@ import at.orchaldir.gm.core.model.economy.job.Job
 import at.orchaldir.gm.core.model.race.Race
 import at.orchaldir.gm.core.model.race.aging.ImmutableLifeStage
 import at.orchaldir.gm.core.model.race.aging.LifeStageId
+import at.orchaldir.gm.core.model.rpg.statblock.StatblockUpdate
+import at.orchaldir.gm.core.model.rpg.statblock.UniqueStatblock
 import at.orchaldir.gm.core.model.rpg.statblock.UseStatblockOfTemplate
 import at.orchaldir.gm.core.model.rpg.trait.CharacterTrait
 import at.orchaldir.gm.core.model.time.date.Day
@@ -263,6 +265,15 @@ class CharacterTest {
             val action = UpdateAction(Character(CHARACTER_ID_0, race = RACE_ID_0))
 
             assertIllegalArgument("Requires unknown Race 0!") { REDUCER.invoke(state, action) }
+        }
+
+        @Test
+        fun `Using an unknown statistic`() {
+            val statblock = UniqueStatblock(StatblockUpdate(mapOf(UNKNOWN_STATISTIC_ID to 4)))
+            val template = Character(CHARACTER_ID_0, statblock = statblock)
+            val action = UpdateAction(template)
+
+            assertIllegalArgument("Requires unknown Statistic 99!") { REDUCER.invoke(STATE, action) }
         }
     }
 
